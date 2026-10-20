@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calcolatore tiri</title></head>
+<body style="background:#0E1113;color:#8C959C;font:15px sans-serif;padding:24px">
+Caricamento…
+<script>
+function loader(){
+  var NEW = {'pro-league': {label:'Pro League (Belgio)', strength:0.85}};
+  fetch('data.json?v=' + Date.now()).then(function(r){ return r.json(); }).then(function(j){
+    var D = window.LEAGUE_DATA;
+    var when = new Date(j.updated_at).toLocaleDateString('it-IT',
+      {day:'numeric', month:'short', year:'numeric'}) + ' (PitchAPI)';
+    Object.keys(j.leagues).forEach(function(k){
+      var src = j.leagues[k];
+      var old = D[k] || NEW[k] || {label: src.name};
+      var teams = {};
+      Object.keys(src.teams).forEach(function(n){
+        var t = src.teams[n];
+        teams[n] = {totalFor:t.totalFor, totalAgainst:t.totalAgainst,
+                    sotFor:t.sotFor, sotAgainst:t.sotAgainst};
+      });
+      var e = {label: old.label, updated: when, teams: teams};
+      if(old.strength) e.strength = old.strength;
+      if(old.cup) e.cup = true;
+      D[k] = e;
+    });
+    if(j.leagues['pro-league']){
+      ['oppLeague','playerLeague','teamForLeague','teamOppLeague'].forEach(function(id){
+        var s = document.getElementById(id);
+        if(!s || s.querySelector('option[value="pro-league"]')) return;
+        var o = document.createElement('option');
+        o.value = 'pro-league'; o.textContent = 'Pro League (Belgio)';
+        s.insertBefore(o, s.querySelector('option[value="champions-league"]'));
+      });
+    }
+  }).catch(function(){});
+}
+(async function(){
+  try{
+    var r = await fetch('app.html?v=' + Date.now());
+    if(!r.ok) throw new Error('app.html non trovato');
+    var html = await r.text();
+    if(html.indexOf('const LEAGUE_DATA = {') < 0) throw new Error('struttura dell\'app cambiata');
+    html = html.replace('const LEAGUE_DATA = {', 'const LEAGUE_DATA = window.LEAGUE_DATA = {');
+    html = html.replace('</body>', '<script>(' + loader.toString() + ')();<\/script></body>');
+    document.open(); document.write(html); document.close();
+  }catch(e){ document.body.textContent = 'Errore: ' + e.message; }
+})();
+</script>
+</body></html>
