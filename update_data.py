@@ -10,17 +10,22 @@ SEASON_START = os.environ.get("SEASON_START", "2026")   # stagione 2026/2027
 PAUSE = float(os.environ.get("PAUSE", "0.25"))
 CACHE_FILE, OUT_FILE = "cache.json", "data.json"
 
-# chiave app, paese, nome (regex)
+# chiave app, paese (None = senza filtro paese), nome (regex), esclusioni (regex)
 WANTED = [
-    ("serie-a", "ITA", r"^serie a$"),
-    ("premier-league", "ENG", r"premier league"),
-    ("bundesliga", "GER", r"^bundesliga$"),
-    ("la-liga", "ESP", r"laliga|la liga"),
-    ("ligue-1", "FRA", r"^ligue 1$"),
-    ("eredivisie", "NED", r"eredivisie"),
-    ("liga-portugal", "POR", r"liga portugal|primeira"),
-    ("super-lig", "TUR", r"s[uü]per lig"),
-    ("pro-league", "BEL", r"pro league|jupiler"),
+    ("serie-a", "ITA", r"^serie a$", None),
+    ("premier-league", "ENG", r"premier league", r"u21|u18|women|2"),
+    ("bundesliga", "GER", r"^bundesliga$", None),
+    ("la-liga", "ESP", r"laliga|la liga", r"2|hypermotion|segunda|women"),
+    ("ligue-1", "FRA", r"^ligue 1$", None),
+    ("eredivisie", "NED", r"eredivisie", r"women|vrouwen"),
+    ("liga-portugal", "POR", r"liga portugal|primeira", r"2|segunda|women"),
+    ("super-lig", "TUR", r"s[uü]per lig", r"women|2"),
+    ("pro-league", "BEL", r"pro league|jupiler|first division a",
+     r"challenger|u23|futures|cup|super|women|youth|first division b"),
+    ("champions-league", None, r"champions league",
+     r"afc|caf|concacaf|conmebol|women|qualif|youth|asia|africa|oceania|libertadores"),
+    ("europa-league", None, r"europa league",
+     r"conference|women|qualif|youth|afc|caf"),
 ]
 
 def api(path):
@@ -61,6 +66,19 @@ def parse_stats(s):
     vals = [num(tot["home"]), num(tot["away"]), num(sot["home"]), num(sot["away"])]
     return (None if None in vals else vals), items
 
+def find_league(leagues, cc, rx, ex):
+    out = []
+    for l in leagues:
+        name = l.get("name", "")
+        if cc is not None and l.get("country_code") != cc:
+            continue
+        if not re.search(rx, name, re.I):
+            continue
+        if ex and re.search(ex, name, re.I):
+            continue
+        out.append(l)
+    return out
+
 def main():
     if not KEY:
         sys.exit("Manca la variabile PITCHAPI_KEY (segreto del repository).")
@@ -69,10 +87,17 @@ def main():
     print(f"Campionati nel catalogo: {len(leagues)}")
     out = {"updated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"), "season_start": SEASON_START, "leagues": {}}
     printed_titles = False
-    for key, cc, rx in WANTED:
-        cand = [l for l in leagues if l.get("country_code") == cc and re.search(rx, l.get("name", ""), re.I)]
+    for key, cc, rx, ex in WANTED:
+        cand = find_league(leagues, cc, rx, ex)
         if not cand:
-            print(f"✘ {key}: NON trovato nel catalogo"); continue
+            print(f"✘ {key}: NON trovato nel catalogo")
+            if cc is None:
+                names = [f"{l.get('name')} [{l.get('country_code')}]" for l in leagues
+                         if re.search(r"uefa|champions|europa", l.get("name", ""), re.I)]
+                print("   nomi simili nel catalogo:", names)
+            continue
+        if len(cand) > 1:
+            print(f"   candidati per {key}:", [(l.get("name"), l.get("country_code")) for l in cand])
         lg = cand[0]
         season = next((s for s in lg.get("seasons", []) if str(s).startswith(SEASON_START)), None)
         if not season:
