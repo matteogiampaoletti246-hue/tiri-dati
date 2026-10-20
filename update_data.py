@@ -25,7 +25,7 @@ WANTED = [
 
 def api(path):
     for attempt in range(6):
-        req = urllib.request.Request(BASE + path, headers={"X-API-KEY": KEY})
+        req = urllib.request.Request(BASE + path, headers={"X-API-KEY": KEY, "User-Agent": "tiri-dati/1.0"})
         try:
             with urllib.request.urlopen(req, timeout=40) as r:
                 j = json.loads(r.read().decode())
@@ -40,6 +40,7 @@ def api(path):
                 return None
             if e.code >= 500:
                 time.sleep(3 * (attempt + 1)); continue
+            print("ERRORE API", e.code, path, e.read().decode()[:300])
             raise
         except (urllib.error.URLError, TimeoutError):
             time.sleep(3 * (attempt + 1))
