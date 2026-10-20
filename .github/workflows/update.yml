@@ -1,6 +1,7 @@
 name: Aggiorna dati
 on:
   schedule:
+    - cron: "0 23 * * *"
     - cron: "0 5 * * *"
   workflow_dispatch:
 permissions:
