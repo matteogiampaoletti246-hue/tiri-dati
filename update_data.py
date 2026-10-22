@@ -143,7 +143,7 @@ def main():
         h = handicap(key, lg.get("country_code")) if key not in CUPS else None
         print(f"✔ {key}: {lg['name']} [{lg.get('country_code')}] - {len(matches)} partite" +
               (f" (solo squadre europee), handicap x{h}" if restricted else "") + ("" if restricted else (f", handicap x{h}" if h else "")))
-        teams, ids, missing = {}, {}, 0
+        teams, ids, imgs, missing = {}, {}, {}, 0
         for m in matches:
             mid = m["id"]
             rec = cache.get(mid)
@@ -161,6 +161,9 @@ def main():
                 if vals is not None:
                     cache[mid] = rec          # le partite senza statistiche si riprovano al giro dopo
             ids[m["home_team"]["name"]] = tid(m["home_team"]); ids[m["away_team"]["name"]] = tid(m["away_team"])
+            for side in ("home_team", "away_team"):
+                if m[side].get("image_url"):
+                    imgs[m[side]["name"]] = m[side]["image_url"]
             if rec["vals"] is None:
                 missing += 1; continue
             tf_h, tf_a, sf_h, sf_a = rec["vals"]
@@ -176,9 +179,29 @@ def main():
         n = len(res)
         if not n:
             return
+        # stemmi delle squadre: dall'elenco partite se c'e', altrimenti /v1/teams/{id} (una volta sola, poi in cache)
+        logos = {}
+        for name in res:
+            url, t_id = imgs.get(name), ids.get(name)
+            if not url and t_id:
+                c = cache.get("logo:" + str(t_id))
+                if c:
+                    url = c.get("logo")
+                else:
+                    try:
+                        d = api(f"/v1/teams/{t_id}") or {}
+                        time.sleep(PAUSE)
+                        url = d.get("image_url")
+                        if url:
+                            cache["logo:" + str(t_id)] = {"logo": url}
+                    except Exception as ex:
+                        print("stemma non letto per", name, ex)
+            if url:
+                logos[name] = url
         avg = {k: round(sum(v[k] for v in res.values()) / n, 3) for k in ("totalFor", "totalAgainst", "sotFor", "sotAgainst")}
         out["leagues"][key] = {"name": lg["name"], "label": label, "country": lg.get("country_code"), "season": season_of(lg),
                                "matches": len(matches), "matches_without_stats": missing, "restricted": restricted,
+                               "logo": lg.get("image_url"), "logos": logos,
                                "size": n, "league_avg": avg, "teams": res}
         if h:
             out["leagues"][key]["handicap"] = h
