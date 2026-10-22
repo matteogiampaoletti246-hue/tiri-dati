@@ -7,11 +7,22 @@ from datetime import datetime, timezone, timedelta
 from update_data import api, num, find_league, WANTED, SEASON_START, PAUSE, KEY
 
 CACHE_FILE, OUT_FILE = "cache_angoli.json", "angoli.json"
-NLAST = int(os.environ.get("NLAST", "10"))      # ultime partite per squadra e sede
-MIN_G = int(os.environ.get("MIN_G", "2"))       # partite minime per sede per entrare in classifica
+NLAST = int(os.environ.get("NLAST", "0"))       # 0 = tutte le partite della stagione in corso; N = solo le ultime N per sede
+MIN_G = int(os.environ.get("MIN_G", "1"))       # partite minime per sede per entrare in classifica
 DAYS = int(os.environ.get("DAYS_AHEAD", "8"))   # giorni in avanti da mostrare
 TOP = int(os.environ.get("TOP", "5"))           # massimo partite per categoria e per giorno
 CUPS = {"champions-league", "europa-league"}
+TOP5 = {"serie-a", "premier-league", "bundesliga", "la-liga", "ligue-1"}   # tutte le squadre; gli altri campionati: solo squadre europee
+
+# campionati in piu' rispetto a quelli dei tiri: (chiave, paese, nome regex, esclusioni regex)
+EXTRA = [
+    ("scottish-premiership", "SCO", r"scottish premiership|^premiership$", r"women|u\d\d|cup|2"),
+    ("ekstraklasa", "POL", r"ekstraklasa|pko", r"women|u\d\d|cup"),
+    ("czech-first-league", "CZE", r"czech|first league|chance liga|fortuna", r"women|u\d\d|cup|2"),
+]
+# campionati scoperti da soli (quelli delle squadre di coppa): si saltano coppe, femminili, giovanili
+SKIP = re.compile(r"women|femin|\bu-?\d\d\b|youth|junior|reserve|cup|copa|coppa|pokal|ta[cç]a|beker|supercup|super cup"
+                  r"|qualif|conference|champions|europa|nations|world|friendl|afc|caf|concacaf|conmebol|play-?off", re.I)
 
 CORNERS = ({"corners", "corner kicks"}, {"corners"})
 YELLOW = ({"yellow cards", "yellow card"}, {"yellow_cards", "yellowcards"})
@@ -67,6 +78,10 @@ def tid_of(t):
     return t.get("id") or t["name"]
 
 
+def season_of(lg):
+    return next((s for s in lg.get("seasons", []) if str(s).startswith(SEASON_START)), None)
+
+
 def main():
     if not KEY:
         sys.exit("Manca la variabile PITCHAPI_KEY (segreto del repository).")
@@ -74,55 +89,99 @@ def main():
     leagues = (api("/v1/leagues") or {}).get("leagues", [])
     today = datetime.now(timezone.utc).date()
     limit = today + timedelta(days=DAYS)
-    recs, upcoming, seen, printed = {}, {}, set(), False
-    names = {}
+    recs, upcoming, seen, names = {}, {}, set(), {}
+    cup_ids, done = set(), set()
+    state = {"printed": False}
 
-    for key, cc, rx, ex in WANTED:
+    logos = {}
+
+    def reg(t):
+        names[tid_of(t)] = t["name"]
+        if t.get("image_url"):
+            logos[tid_of(t)] = t["image_url"]
+
+    def read(m, comp):
+        mid = m["id"]
+        rec = cache.get(mid)
+        if rec is None:
+            s = api(f"/v1/matches/{mid}/stats")
+            time.sleep(PAUSE)
+            if not s:
+                return
+            if not state["printed"]:
+                state["printed"] = True
+                debug(s)
+            parsed = parse(s)
+            if parsed is None:
+                return          # senza angoli/cartellini: si riprova al giro dopo
+            rec = dict(parsed, d=str(m.get("date", ""))[:10], comp=comp,
+                       h=tid_of(m["home_team"]), a=tid_of(m["away_team"]))
+            cache[mid] = rec
+        recs[mid] = rec
+        reg(m["home_team"]); reg(m["away_team"])
+
+    todo = [(k, cc, rx, ex, False) for k, cc, rx, ex in WANTED] + [(k, cc, rx, ex, True) for k, cc, rx, ex in EXTRA]
+    todo.sort(key=lambda t: t[0] not in CUPS)   # prima le coppe: servono per sapere quali sono le squadre europee
+    for key, cc, rx, ex, fallback in todo:
         cand = find_league(leagues, cc, rx, ex)
+        if not cand and fallback:
+            cand = find_league(leagues, None, rx, ex)
         if not cand:
             print(f"✘ {key}: NON trovato nel catalogo"); continue
         lg = cand[0]
-        season = next((s for s in lg.get("seasons", []) if str(s).startswith(SEASON_START)), None)
+        season = season_of(lg)
         if not season:
             print(f"✘ {key}: senza stagione {SEASON_START}"); continue
+        done.add(lg["id"])
         q = urllib.parse.quote(season, safe="")
         played = (api(f"/v1/leagues/{lg['id']}/matches?season={q}") or {}).get("matches", [])
         future = (api(f"/v1/leagues/{lg['id']}/matches?season={q}&status=upcoming") or {}).get("matches", [])
-        print(f"✔ {key}: {len(played)} giocate, {len(future)} future")
-
+        print(f"✔ {key}: {lg['name']} - {len(played)} giocate, {len(future)} future")
+        if key in CUPS:
+            for m in played + future:
+                cup_ids.add(tid_of(m["home_team"])); cup_ids.add(tid_of(m["away_team"]))
+        restricted = key not in TOP5 and key not in CUPS
+        if restricted:   # campionati sotto i top 5: solo le partite delle squadre di coppa europea
+            played = [m for m in played if tid_of(m["home_team"]) in cup_ids or tid_of(m["away_team"]) in cup_ids]
+            print(f"   {key}: uso {len(played)} partite di squadre europee")
         for m in played:
-            mid = m["id"]
-            rec = cache.get(mid)
-            if rec is None:
-                s = api(f"/v1/matches/{mid}/stats")
-                time.sleep(PAUSE)
-                if not s:
-                    continue
-                if not printed:
-                    printed = True
-                    debug(s)
-                parsed = parse(s)
-                if parsed is None:
-                    continue          # senza angoli/cartellini: si riprova al giro dopo
-                rec = dict(parsed, d=str(m.get("date", ""))[:10], comp=key,
-                           h=tid_of(m["home_team"]), a=tid_of(m["away_team"]))
-                cache[mid] = rec
-            recs[mid] = rec
-            names[tid_of(m["home_team"])] = m["home_team"]["name"]
-            names[tid_of(m["away_team"])] = m["away_team"]["name"]
-
+            read(m, key)
         for m in future:
             d = str(m.get("date", ""))[:10]
             if m["id"] in seen or not (str(today) <= d <= str(limit)):
                 continue
+            if restricted and not (tid_of(m["home_team"]) in cup_ids and tid_of(m["away_team"]) in cup_ids):
+                continue   # media dell'avversario non europeo non disponibile
             seen.add(m["id"])
             upcoming[m["id"]] = {"id": m["id"], "date": d, "time": m.get("date"), "league": lg["name"],
                                  "h": tid_of(m["home_team"]), "a": tid_of(m["away_team"])}
-            names[tid_of(m["home_team"])] = m["home_team"]["name"]
-            names[tid_of(m["away_team"])] = m["away_team"]["name"]
+            reg(m["home_team"]); reg(m["away_team"])
         json.dump(cache, open(CACHE_FILE, "w"), ensure_ascii=False)
 
-    # storico per squadra e sede (h = in casa, a = in trasferta)
+    # tutti gli altri campionati delle squadre di coppa: solo le partite in cui gioca una squadra di coppa
+    print(f"Squadre di Champions/Europa League trovate: {len(cup_ids)}")
+    for lg in leagues:
+        if lg["id"] in done or SKIP.search(lg.get("name", "")):
+            continue
+        season = season_of(lg)
+        if not season:
+            continue
+        q = urllib.parse.quote(season, safe="")
+        played = (api(f"/v1/leagues/{lg['id']}/matches?season={q}") or {}).get("matches", [])
+        mine = [m for m in played if tid_of(m["home_team"]) in cup_ids or tid_of(m["away_team"]) in cup_ids]
+        if not mine:
+            continue
+        print(f"+ {lg['name']} [{lg.get('country_code')}]: {len(mine)} partite di squadre di coppa")
+        for m in mine:
+            read(m, "campionato")
+        json.dump(cache, open(CACHE_FILE, "w"), ensure_ascii=False)
+
+    # la cache tiene solo la stagione in corso
+    cutoff = f"{SEASON_START}-07-01"   # via le partite delle stagioni passate
+    cache = {k: v for k, v in cache.items() if not v.get("d") or v["d"] >= cutoff}
+    json.dump(cache, open(CACHE_FILE, "w"), ensure_ascii=False)
+
+    # storico per squadra e sede (h = in casa, a = in trasferta); coppa e campionato nello stesso mucchio
     hist, covered = {}, set()
     for r in recs.values():
         for side, i in (("h", 0), ("a", 1)):
@@ -133,7 +192,9 @@ def main():
                 covered.add(tid)
 
     def avg(tid, side):
-        rows = sorted(hist.get((tid, side), []), reverse=True)[:NLAST]
+        rows = sorted(hist.get((tid, side), []), reverse=True)
+        if NLAST > 0:
+            rows = rows[:NLAST]
         if not rows:
             return None
         n = len(rows)
@@ -149,7 +210,7 @@ def main():
         if not h or not a or min(h["n"], a["n"]) < MIN_G:
             continue
         eh, ea = (h["cf"] + a["ca"]) / 2, (a["cf"] + h["ca"]) / 2
-        e = {"date": u["date"], "time": u["time"], "league": u["league"],
+        e = {"id": u["id"], "hid": u["h"], "aid": u["a"], "date": u["date"], "time": u["time"], "league": u["league"],
              "home": names[u["h"]], "away": names[u["a"]],
              "corners_home": round(eh, 1), "corners_away": round(ea, 1), "gap": round(abs(eh - ea), 1),
              "cards": round(h["k"] + a["k"], 1),
@@ -168,7 +229,28 @@ def main():
             "cartellini": sorted(ms, key=lambda x: x["cards"])[:TOP],
             "cartellini_1t": sorted([x for x in ms if x["cards_1t"] is not None],
                                     key=lambda x: x["cards_1t"])[:TOP]}
+    # stemmi: se l'elenco partite non li contiene, si chiede il dettaglio solo delle partite mostrate
+    shown = {}
+    for d in out["days"].values():
+        for k in ("corner", "cartellini", "cartellini_1t"):
+            for m in d[k]:
+                shown[m["id"]] = m
+    for mid, m in shown.items():
+        if m["hid"] in logos and m["aid"] in logos:
+            continue
+        try:
+            det = api(f"/v1/matches/{mid}") or {}
+            time.sleep(PAUSE)
+            for t in (det.get("home_team") or {}, det.get("away_team") or {}):
+                if t.get("image_url"):
+                    logos[tid_of(t)] = t["image_url"]
+        except Exception as ex:
+            print("stemma non letto per", mid, ex)
+    for m in shown.values():
+        m["home_logo"] = logos.get(m.pop("hid"))
+        m["away_logo"] = logos.get(m.pop("aid"))
     json.dump(out, open(OUT_FILE, "w"), ensure_ascii=False, indent=1)
+    print("Stemmi trovati per", sum(1 for m in shown.values() if m["home_logo"] or m["away_logo"]), "partite su", len(shown))
     print("Scritto", OUT_FILE, "- giorni:", len(out["days"]))
 
 
