@@ -230,11 +230,20 @@ function loader(){
     var a = document.querySelector('#shotTypeSeg button.active');
     return a && a.dataset.val === 'sot' ? 1 : 0;     // 0 = tiri totali, 1 = tiri in porta
   }
+  function lastRows(p){
+    var h = p.h || [];
+    return h.length >= 5 ? {r: h, fb: false, n: h.length} : {r: p.r || [], fb: true, n: h.length};   // senza 5 partite da 50' si usano le ultime 5 giocate
+  }
+  function l5Note(p){
+    var e = document.getElementById('slbL5Note'); if(!e) return;
+    var x = p ? lastRows(p) : null;
+    e.textContent = x && x.fb ? 'Meno di 5 partite da almeno 50 minuti (' + x.n + '): uso le ultime 5 partite giocate.' : '';
+  }
   function fillHit(){
     var p = PSEL; if(!p) return;
     var k = statIdx(), line = parseFloat((document.getElementById('lineValue') || {}).value);
     var a = document.querySelector('#lineTypeSeg button.active'), over = !a || a.dataset.val !== 'under';
-    var r = p.h || [];     // ultime 5 partite da titolare
+    var r = lastRows(p).r;
     if(r.length < 5 || !isFinite(line) || line <= 0){ setVal('hitRate5', '', 'change'); return; }
     var n = 0;
     r.slice(0, 5).forEach(function(x){ if(over ? x[k] > line : x[k] < line) n++; });
@@ -251,7 +260,8 @@ function loader(){
       setVal('minutes' + c[0], mi == null ? '' : Math.round(mi).toString());
     });
     setVal('shotsNL', ''); setVal('minutesNL', ''); setVal('shotsWCQ', ''); setVal('minutesWCQ', '');
-    var r = p.r || [];
+    var r = lastRows(p).r;
+    l5Note(p);
     setVal('l5Shots', r.map(function(x){ return x[k]; }).join('-'));
     setVal('l5Mins', r.map(function(x){ return x[2]; }).join('-'));
     var info = document.getElementById('slbPInfo');
@@ -265,6 +275,12 @@ function loader(){
     inp.parentNode.insertBefore(wrap, inp); wrap.appendChild(inp);
     var panel = document.createElement('div'); panel.className = 'cdd-panel'; panel.hidden = true; wrap.appendChild(panel);
     var info = document.createElement('span'); info.className = 'hint'; info.id = 'slbPInfo'; wrap.appendChild(info);
+    var hr = document.getElementById('hitRate5');
+    if(hr){
+      var note = document.createElement('div'); note.id = 'slbL5Note';
+      note.style.cssText = 'color:#C98300;font-size:12.5px;margin-top:6px;';
+      hr.parentNode.appendChild(note);
+    }
     function show(){
       var q = norm(inp.value.trim());
       panel.innerHTML = '';
@@ -295,7 +311,7 @@ function loader(){
     }
     inp.addEventListener('focus', function(){ loadPlayers().then(show); });
     inp.addEventListener('input', function(){
-      if(PSEL && inp.value !== PSEL.n){ PSEL = null; info.textContent = ''; }
+      if(PSEL && inp.value !== PSEL.n){ PSEL = null; info.textContent = ''; l5Note(null); }
       loadPlayers().then(show); show();
     });
     document.addEventListener('click', function(e){ if(!wrap.contains(e.target)) panel.hidden = true; });
