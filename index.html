@@ -6,34 +6,48 @@
 Caricamento…
 <script>
 function loader(){
-  var NEW = {'pro-league': {label:'Pro League (Belgio)', strength:0.85}};
   fetch('data.json?v=' + Date.now()).then(function(r){ return r.json(); }).then(function(j){
     var D = window.LEAGUE_DATA;
     var when = new Date(j.updated_at).toLocaleDateString('it-IT',
       {day:'numeric', month:'short', year:'numeric'}) + ' (PitchAPI)';
+    var fmt = function(x){ return String(x).replace('.', ','); };
+    var added = [];
     Object.keys(j.leagues).forEach(function(k){
       var src = j.leagues[k];
-      var old = D[k] || NEW[k] || {label: src.name};
+      var old = D[k] || {};
+      var h = src.handicap;               // 0,85 / 0,80 ...: tiri fatti x h, tiri subiti / h
       var teams = {};
       Object.keys(src.teams).forEach(function(n){
         var t = src.teams[n];
-        teams[n] = {totalFor:t.totalFor, totalAgainst:t.totalAgainst,
-                    sotFor:t.sotFor, sotAgainst:t.sotAgainst};
+        teams[n] = h ? {totalFor:t.totalFor*h, totalAgainst:t.totalAgainst/h,
+                        sotFor:t.sotFor*h, sotAgainst:t.sotAgainst/h}
+                     : {totalFor:t.totalFor, totalAgainst:t.totalAgainst,
+                        sotFor:t.sotFor, sotAgainst:t.sotAgainst};
       });
-      var e = {label: old.label, updated: when, teams: teams};
-      if(old.strength) e.strength = old.strength;
+      var label = old.label || src.label || src.name;
+      if(k === 'pro-league') label = 'Pro League (Belgio)';
+      var e = {label: label, updated: when + (h ? ' · handicap campionato ×' + fmt(h) + ' (tiri fatti ×' + fmt(h) + ', subiti ÷' + fmt(h) + ')' : ''),
+               teams: teams};
+      if(h){ e.avg = src.league_avg; }    // la media di riferimento resta quella reale, senza handicap
+      else if(old.strength){ e.strength = old.strength; }
       if(old.cup) e.cup = true;
+      if(!D[k]) added.push(k);
       D[k] = e;
     });
-    if(j.leagues['pro-league']){
-      ['oppLeague','playerLeague','teamForLeague','teamOppLeague'].forEach(function(id){
-        var s = document.getElementById(id);
-        if(!s || s.querySelector('option[value="pro-league"]')) return;
+    // i campionati nuovi compaiono nei quattro menu, in ordine alfabetico, prima delle coppe
+    var ids = ['oppLeague','playerLeague','teamForLeague','teamOppLeague'];
+    added.sort(function(a, b){ return D[a].label.localeCompare(D[b].label); });
+    ids.forEach(function(id){
+      var s = document.getElementById(id);
+      if(!s) return;
+      var anchor = s.querySelector('option[value="champions-league"]');
+      added.forEach(function(k){
+        if(s.querySelector('option[value="' + k + '"]')) return;
         var o = document.createElement('option');
-        o.value = 'pro-league'; o.textContent = 'Pro League (Belgio)';
-        s.insertBefore(o, s.querySelector('option[value="champions-league"]'));
+        o.value = k; o.textContent = D[k].label;
+        s.insertBefore(o, anchor);
       });
-    }
+    });
   }).catch(function(){});
 }
 (async function(){
