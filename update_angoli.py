@@ -202,6 +202,16 @@ def main():
         return {"n": n, "cf": sum(x[1] for x in rows) / n, "ca": sum(x[2] for x in rows) / n,
                 "k": sum(x[3] for x in rows) / n, "k1": sum(r1) / len(r1) if r1 else None}
 
+    def avg_k(tid):
+        # cartellini: tutte le partite della squadra, casa e trasferta insieme
+        rows = hist.get((tid, "h"), []) + hist.get((tid, "a"), [])
+        if NLAST > 0:
+            rows = sorted(rows, reverse=True)[:NLAST]
+        if not rows:
+            return None
+        r1 = [x[4] for x in rows if x[4] is not None]
+        return {"n": len(rows), "k": sum(x[3] for x in rows) / len(rows), "k1": sum(r1) / len(r1) if r1 else None}
+
     days = {}
     for u in upcoming.values():
         h, a = avg(u["h"], "h"), avg(u["a"], "a")
@@ -210,11 +220,13 @@ def main():
         if not h or not a or min(h["n"], a["n"]) < MIN_G:
             continue
         eh, ea = (h["cf"] + a["ca"]) / 2, (a["cf"] + h["ca"]) / 2
+        kh, ka = avg_k(u["h"]), avg_k(u["a"])
         e = {"id": u["id"], "hid": u["h"], "aid": u["a"], "date": u["date"], "time": u["time"], "league": u["league"],
              "home": names[u["h"]], "away": names[u["a"]],
              "corners_home": round(eh, 1), "corners_away": round(ea, 1), "gap": round(abs(eh - ea), 1),
-             "cards": round(h["k"] + a["k"], 1),
-             "cards_1t": round(h["k1"] + a["k1"], 1) if h["k1"] is not None and a["k1"] is not None else None,
+             "cards": round(kh["k"] + ka["k"], 1),
+             "cards_1t": round(kh["k1"] + ka["k1"], 1) if kh["k1"] is not None and ka["k1"] is not None else None,
+             "games_k": [kh["n"], ka["n"]],
              "games": [h["n"], a["n"]],
              "non_coperto": [names[t] for t in (u["h"], u["a"]) if t not in covered]}
         day["matches"].append(e)
