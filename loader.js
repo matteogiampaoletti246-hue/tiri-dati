@@ -377,6 +377,7 @@ function loader(){
     html = html.replace('const LEAGUE_DATA = {', 'const LEAGUE_DATA = window.LEAGUE_DATA = {');
     var SWAP = [['Nessun effetto', 'Campo Neutro'], ['Valore linea (tiri)', 'Linea Tiri'],
                 ['Giocatore \u2014 medie per competizione', 'Medie Tiri Giocatore'],
+                ["m.games[0] + ' / ' + m.games[1]", "(document.body.dataset.angMode === 'cartellini' && m.games_k ? m.games_k : m.games)[0] + ' / ' + (document.body.dataset.angMode === 'cartellini' && m.games_k ? m.games_k : m.games)[1]"],
                 ['Facoltativo: scrivi i valori partita per partita separati da trattini. Il calcolatore fa la media e la unisce alla media stagionale.', '']];
     SWAP.forEach(function(p){ html = html.split(p[0]).join(p[1]); });
     html = html.replace(/(<input[^>]*?) placeholder="[^"]*"/g, '$1');
