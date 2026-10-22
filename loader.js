@@ -8,16 +8,34 @@ function loader(){
     player: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7.5" r="3.6"/><path d="M4.5 20.5c.6-4.2 3.6-6.5 7.5-6.5s6.9 2.3 7.5 6.5"/></svg>',
     team: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 19.5c.5-3.5 3-5.4 6-5.4s5.5 1.9 6 5.4"/><circle cx="17.2" cy="9" r="2.5"/><path d="M16.6 14.2c2.6.1 4.3 1.7 4.7 4.6"/></svg>',
     flag: '<svg viewBox="0 0 24 24" fill="none" stroke="#E5322D" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 21.5V3"/><path d="M6 4.5h11.5l-3 4 3 4H6" fill="#E5322D" fill-opacity=".2"/></svg>',
+    versus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h14M14 4l4 4-4 4"/><path d="M20 16H6M10 12l-4 4 4 4"/></svg>',
+    shots: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="12" cy="12" r="1" fill="currentColor"/></svg>',
+    fouls: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="14.5" r="5"/><path d="M13 11.5l7-1.5v4l-6 .8"/><path d="M9 3.5V7M5.5 5l1.5 2M12.5 5L11 7"/></svg>',
+    offs: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V3"/><path d="M4 5h9l-2 3 2 3H4" /><path d="M16 21v-9M20 21v-5" stroke-dasharray="1 3"/></svg>',
     guide: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5C4 4.7 4.7 4 5.5 4H11v15H5.5C4.7 19 4 18.3 4 17.5z"/><path d="M20 5.5c0-.8-.7-1.5-1.5-1.5H13v15h5.5c.8 0 1.5-.7 1.5-1.5z"/></svg>',
     card: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="8.6" y="1.6" width="7.2" height="10" rx="1.5" fill="#F5C518" transform="rotate(-9 12 7)"/><path d="M3.5 15.6l2.6-1.2c.9-.4 1.9-.2 2.6.5l.9.9h4.6c1 0 1.8.8 1.8 1.8 0 .5-.2 1-.6 1.3l-1.4 1.1c-.4.3-.8.5-1.3.5H8.6c-.7 0-1.3-.2-1.8-.7L3.5 18.2"/><path d="M14 13.6l4.8-1.6c.8-.3 1.7.2 1.9 1 .2.7-.2 1.4-.9 1.7l-5 1.9"/></svg>'
   };
   var VIEWS = [
-    {id:'players', label:'Giocatori',     ic:'player', val:'player', mode:''},
-    {id:'teams',   label:'Tiri Squadre',  ic:'team',   val:'team',   mode:''},
-    {id:'corners', label:'Angoli',        ic:'flag',   val:'angoli', mode:'angoli'},
-    {id:'cards',   label:'Cartellini',    ic:'card',   val:'angoli', mode:'cartellini'},
-    {id:'guide',   label:'Linee guida',   ic:'guide',  val:'player', mode:'', guide:true}
+    {id:'players', label:'Giocatori',     ic:'player', val:'player'},
+    {id:'teams',   label:'Tiri Squadre',  ic:'team',   val:'team'},
+    {id:'corners', label:'Angoli',        ic:'flag',   match:'corners', sub:true},
+    {id:'cards',   label:'Cartellini',    ic:'card',   match:'cards',   sub:true},
+    {id:'shots',   label:'Tiri',          ic:'shots',  match:'shots',   sub:true},
+    {id:'fouls',   label:'Falli',         ic:'fouls',  match:'fouls',   sub:true},
+    {id:'offs',    label:'Fuorigiochi',   ic:'offs',   match:'offs',    sub:true},
+    {id:'guide',   label:'Linee guida',   ic:'guide',  val:'player', guide:true}
   ];
+
+  // categorie dei matchup: sezioni, liste dentro angoli.json e campi
+  var CATS = {
+    corners: [{t:'Maggiore divario angoli', list:'corner', f:['corners_home','corners_away','gap'], lab:'Angoli attesi', g:'games'}],
+    cards:   [{t:'Meno cartellini (totali)', list:'cartellini', kind:'cards'},
+              {t:'Meno cartellini nel primo tempo', list:'cartellini_1t', kind:'cards1'}],
+    shots:   [{t:'Maggiore divario tiri totali', list:'tiri', f:['tiri_home','tiri_away','tiri_gap'], lab:'Tiri attesi', g:'tiri_games'},
+              {t:'Maggiore divario tiri in porta', list:'tiri_sot', f:['sot_home','sot_away','sot_gap'], lab:'Tiri in porta attesi', g:'sot_games'}],
+    fouls:   [{t:'Maggiore divario falli', list:'falli', f:['falli_home','falli_away','falli_gap'], lab:'Falli attesi', g:'falli_games'}],
+    offs:    [{t:'Maggiore divario fuorigiochi', list:'fuorigiochi', f:['off_home','off_away','off_gap'], lab:'Fuorigiochi attesi', g:'off_games'}]
+  };
 
   function shell(){
     var lk = document.createElement('link');
@@ -56,15 +74,16 @@ function loader(){
       '.slb-item svg{width:24px;height:24px;color:#1F63E0;flex:0 0 auto;}' +
       '.slb-item.on{background:#E6F0FF;color:#1F63E0;}' +
       '.slb-item:active{background:#EEF3FC;}' +
-      'body[data-ang-mode="angoli"] #angBody [data-sec="1"],body[data-ang-mode="angoli"] #angBody [data-sec="2"]{display:none;}' +
-      'body[data-ang-mode="cartellini"] #angBody [data-sec="0"]{display:none;}' +
-      '#angoliView .panel > h2{display:none;}' +
       '.slb-item.sep{margin-top:10px;border-top:1px solid var(--line);border-radius:0 0 14px 14px;padding-top:18px;}' +
       '.hint:empty{display:none;}#hitRate5 ~ .hint{display:none !important;}' +
       '#playerTeamSub,#oppSub,#teamForSub,#teamOppSub,#compHint{display:none !important;}' +
       '#homeAwaySeg button,#teamSedeSeg button{white-space:nowrap;font-size:14px;padding-left:4px;padding-right:4px;}' +
-      '#slbGuide{display:none;}body[data-guide="1"] #slbGuide{display:block;}' +
-      'body[data-guide="1"] #playerView,body[data-guide="1"] #teamView,body[data-guide="1"] #angoliView{display:none !important;}' +
+      '#slbGuide,#slbMatch{display:none;}body.slb-guide #slbGuide,body.slb-match #slbMatch{display:block;}' +
+      'body.slb-alt #playerView,body.slb-alt #teamView,body.slb-alt #angoliView{display:none !important;}' +
+      '.slb-item .chev{margin-left:auto;width:18px;height:18px;transition:transform .2s;color:#5C6F94;}.slb-item.openp .chev{transform:rotate(180deg);}' +
+      '.slb-sub{display:none;flex-direction:column;gap:2px;margin:0 0 4px 10px;padding-left:8px;border-left:2px solid var(--line);}.slb-sub.open{display:flex;}' +
+      '.slb-item.subitem{padding:11px 12px;font-size:15px;}.slb-item.subitem svg{width:21px;height:21px;}' +
+      '#slbMatch .play-card .who{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}#slbMatch .who img{width:20px;height:20px;object-fit:contain;}' +
       '#slbGuide details.panel{margin-bottom:14px;}' +
       '#slbSplash{position:fixed;inset:0;background:#fff;z-index:9999;}' +
       '#slbSplash .sl{position:absolute;left:0;top:0;transform-origin:0 0;}' +
@@ -89,11 +108,17 @@ function loader(){
     var scrim = document.createElement('div'); scrim.id = 'slbScrim';
     var menu = document.createElement('div'); menu.id = 'slbMenu';
     menu.innerHTML = '<div class="mh"><span>Menu</span><button type="button" id="slbClose" aria-label="Chiudi">&times;</button></div>';
+    var sub = document.createElement('div'); sub.className = 'slb-sub';
+    var mm = document.createElement('button'); mm.type = 'button'; mm.className = 'slb-item'; mm.id = 'slbMM';
+    mm.innerHTML = IC.versus + '<span>Migliori Matchup</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>';
+    mm.addEventListener('click', function(){ var o = !sub.classList.contains('open'); sub.classList.toggle('open', o); mm.classList.toggle('openp', o); });
+    var added = false;
     VIEWS.forEach(function(v){
-      var b = document.createElement('button'); b.type = 'button'; b.className = 'slb-item'; b.dataset.id = v.id;
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'slb-item' + (v.sub ? ' subitem' : ''); b.dataset.id = v.id;
       b.innerHTML = IC[v.ic] + '<span>' + v.label + '</span>'; if(v.guide) b.classList.add('sep');
       b.addEventListener('click', function(){ go(v.id); });
-      menu.appendChild(b);
+      if(v.sub){ if(!added){ menu.appendChild(mm); menu.appendChild(sub); added = true; } sub.appendChild(b); }
+      else menu.appendChild(b);
     });
     document.body.appendChild(scrim); document.body.appendChild(menu);
     function openMenu(o){ document.body.classList.toggle('slb-open', o); }
@@ -103,34 +128,85 @@ function loader(){
 
     function go(id){
       var v = VIEWS.filter(function(x){ return x.id === id; })[0]; if(!v) return;
-      document.body.dataset.angMode = v.mode; document.body.dataset.guide = v.guide ? '1' : '';
-      var btn = document.querySelector('#viewSeg button[data-val="' + v.val + '"]');
+      var cl = document.body.classList;
+      cl.toggle('slb-guide', !!v.guide); cl.toggle('slb-match', !!v.match); cl.toggle('slb-alt', !!(v.guide || v.match));
+      var btn = document.querySelector('#viewSeg button[data-val="' + (v.val || 'player') + '"]');
       if(btn) btn.click();
       title.innerHTML = IC[v.ic] + '<span>' + v.label + '</span>';
       Array.prototype.forEach.call(menu.querySelectorAll('.slb-item'), function(b){ b.classList.toggle('on', b.dataset.id === id); });
+      if(v.match){ sub.classList.add('open'); mm.classList.add('openp'); renderMatch(v.match); }
       openMenu(false);
       window.scrollTo(0, 0);
     }
     go('players');
 
-    // angoli / cartellini: ogni sezione della schermata viene numerata, poi si mostra solo quella della voce scelta
-    var ab = document.getElementById('angBody');
-    if(ab){
-      var tag = function(){
-        var n = -1;
-        Array.prototype.forEach.call(ab.children, function(c){
-          if(c.classList && c.classList.contains('ang-h')) n++;
-          c.dataset.sec = String(Math.max(n, 0));
-        });
-      };
-      new MutationObserver(tag).observe(ab, {childList:true});
-      tag();
-    }
     cleanup();
     splash();
   }
 
   // pulizia dell'interfaccia: via descrizioni inutili, "Come viene calcolato" nelle Linee guida, data aggiornamento
+  var MDATA = null, MSEL = null, MCAT = 'corners';
+  function el(tag, cls, txt){ var e = document.createElement(tag); if(cls) e.className = cls; if(txt != null) e.textContent = txt; return e; }
+  function f1(x){ return x == null ? '\u2013' : String(x).replace('.', ','); }
+  function dayLabel(d){
+    try{ return new Date(d + 'T12:00:00').toLocaleDateString('it-IT', {weekday:'short', day:'numeric', month:'short'}); }catch(e){ return d; }
+  }
+  function hhmm(t){
+    if(!t || String(t).length < 11) return '';
+    var x = new Date(t); return isNaN(x) ? '' : ('0' + x.getHours()).slice(-2) + ':' + ('0' + x.getMinutes()).slice(-2);
+  }
+  function mcard(m, sec){
+    var c = el('div', 'play-card'), top = el('div', 'play-top'), who = el('div', 'who');
+    if(m.home_logo){ var i1 = el('img'); i1.src = m.home_logo; i1.alt = ''; i1.onerror = function(){ i1.remove(); }; who.appendChild(i1); }
+    who.appendChild(el('span', '', m.home));
+    who.appendChild(el('span', '', '\u2013'));
+    if(m.away_logo){ var i2 = el('img'); i2.src = m.away_logo; i2.alt = ''; i2.onerror = function(){ i2.remove(); }; who.appendChild(i2); }
+    who.appendChild(el('span', '', m.away));
+    top.appendChild(who); top.appendChild(el('div', 'when', hhmm(m.time)));
+    c.appendChild(top); c.appendChild(el('div', 'play-mkt', m.league));
+    var chips = el('div', 'chips'), g = m.games;
+    if(sec.f){
+      chips.appendChild(el('span', 'chip gold', 'Divario ' + f1(m[sec.f[2]])));
+      chips.appendChild(el('span', 'chip', sec.lab + ' ' + f1(m[sec.f[0]]) + ' \u2013 ' + f1(m[sec.f[1]])));
+      g = m[sec.g];
+    } else if(sec.kind === 'cards'){
+      chips.appendChild(el('span', 'chip gold', 'Cartellini totali ' + f1(m.cards))); chips.appendChild(el('span', 'chip', '1T ' + f1(m.cards_1t))); g = m.games_k;
+    } else {
+      chips.appendChild(el('span', 'chip gold', 'Cartellini 1T ' + f1(m.cards_1t))); chips.appendChild(el('span', 'chip', 'Totali ' + f1(m.cards))); g = m.games_k;
+    }
+    if(g) chips.appendChild(el('span', 'chip', 'Partite usate: ' + g[0] + ' / ' + g[1]));
+    c.appendChild(chips);
+    if(m.non_coperto && m.non_coperto.length) c.appendChild(el('span', 'chip ang-warn', 'Campionato non coperto: ' + m.non_coperto.join(', ')));
+    return c;
+  }
+  function drawMatch(){
+    var root = document.getElementById('slbMatch'); if(!root) return;
+    var days = root.querySelector('.ang-days'), body = root.querySelector('.mbody'), note = root.querySelector('.mnote');
+    days.innerHTML = ''; body.innerHTML = '';
+    if(!MDATA){ note.textContent = 'Dati non disponibili: lancia l\'Action "Aggiorna dati" da GitHub.'; return; }
+    var keys = Object.keys(MDATA.days || {}).sort();
+    note.textContent = 'Aggiornato: ' + new Date(MDATA.updated_at).toLocaleString('it-IT');
+    if(!keys.length){ body.appendChild(el('div', 'empty-hist', 'Nessuna partita nei prossimi giorni.')); return; }
+    if(!MSEL || keys.indexOf(MSEL) < 0) MSEL = keys[0];
+    keys.forEach(function(k){
+      var b = el('button', 'ang-day' + (k === MSEL ? ' active' : ''), dayLabel(k)); b.type = 'button';
+      b.addEventListener('click', function(){ MSEL = k; drawMatch(); });
+      days.appendChild(b);
+    });
+    var d = MDATA.days[MSEL];
+    CATS[MCAT].forEach(function(sec){
+      body.appendChild(el('div', 'ang-h', sec.t));
+      var list = d[sec.list];
+      if(!list){ body.appendChild(el('div', 'hist-note', 'Dati non ancora disponibili: lancia l\'Action "Aggiorna dati".')); return; }
+      if(!list.length){ body.appendChild(el('div', 'hist-note', 'Nessuna partita con dati sufficienti.')); return; }
+      list.forEach(function(m){ body.appendChild(mcard(m, sec)); });
+    });
+  }
+  function renderMatch(cat){
+    MCAT = cat; drawMatch();
+    fetch('angoli.json?t=' + Date.now()).then(function(r){ return r.ok ? r.json() : null; })
+      .catch(function(){ return null; }).then(function(j){ MDATA = j; drawMatch(); });
+  }
   var LAST = null;
   var INFO_IDS = ['datasetInfo','playerTeamDatasetInfo','teamForDatasetInfo','teamOppDatasetInfo'];
   function fixInfo(el){
@@ -167,6 +243,9 @@ function loader(){
     // piè di pagina "Bozza di lavoro"
     Array.prototype.forEach.call(document.querySelectorAll('footer'), function(f){ f.remove(); });
     // "Come viene calcolato" -> Linee guida
+    var mv = document.createElement('div'); mv.id = 'slbMatch';
+    mv.innerHTML = '<div class="mnote hist-note" style="margin:0 0 10px;"></div><div class="ang-days"></div><div class="mbody"></div>';
+    document.querySelector('.wrap').appendChild(mv);
     var guide = document.createElement('div'); guide.id = 'slbGuide';
     document.querySelector('.wrap').appendChild(guide);
     var names = ['Calcolo giocatori', 'Calcolo tiri squadre'], n = 0;
@@ -377,7 +456,6 @@ function loader(){
     html = html.replace('const LEAGUE_DATA = {', 'const LEAGUE_DATA = window.LEAGUE_DATA = {');
     var SWAP = [['Nessun effetto', 'Campo Neutro'], ['Valore linea (tiri)', 'Linea Tiri'],
                 ['Giocatore \u2014 medie per competizione', 'Medie Tiri Giocatore'],
-                ["m.games[0] + ' / ' + m.games[1]", "(document.body.dataset.angMode === 'cartellini' && m.games_k ? m.games_k : m.games)[0] + ' / ' + (document.body.dataset.angMode === 'cartellini' && m.games_k ? m.games_k : m.games)[1]"],
                 ['Facoltativo: scrivi i valori partita per partita separati da trattini. Il calcolatore fa la media e la unisce alla media stagionale.', '']];
     SWAP.forEach(function(p){ html = html.split(p[0]).join(p[1]); });
     html = html.replace(/(<input[^>]*?) placeholder="[^"]*"/g, '$1');
