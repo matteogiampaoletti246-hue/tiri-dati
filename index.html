@@ -17,14 +17,16 @@ function loader(){
   var IC = {
     player: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7.5" r="3.6"/><path d="M4.5 20.5c.6-4.2 3.6-6.5 7.5-6.5s6.9 2.3 7.5 6.5"/></svg>',
     team: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 19.5c.5-3.5 3-5.4 6-5.4s5.5 1.9 6 5.4"/><circle cx="17.2" cy="9" r="2.5"/><path d="M16.6 14.2c2.6.1 4.3 1.7 4.7 4.6"/></svg>',
-    flag: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 21.5V3"/><path d="M6 4.5h11.5l-3 4 3 4H6" fill="currentColor" fill-opacity=".18"/></svg>',
+    flag: '<svg viewBox="0 0 24 24" fill="none" stroke="#E5322D" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 21.5V3"/><path d="M6 4.5h11.5l-3 4 3 4H6" fill="#E5322D" fill-opacity=".2"/></svg>',
+    guide: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5C4 4.7 4.7 4 5.5 4H11v15H5.5C4.7 19 4 18.3 4 17.5z"/><path d="M20 5.5c0-.8-.7-1.5-1.5-1.5H13v15h5.5c.8 0 1.5-.7 1.5-1.5z"/></svg>',
     card: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="8.6" y="1.6" width="7.2" height="10" rx="1.5" fill="#F5C518" transform="rotate(-9 12 7)"/><path d="M3.5 15.6l2.6-1.2c.9-.4 1.9-.2 2.6.5l.9.9h4.6c1 0 1.8.8 1.8 1.8 0 .5-.2 1-.6 1.3l-1.4 1.1c-.4.3-.8.5-1.3.5H8.6c-.7 0-1.3-.2-1.8-.7L3.5 18.2"/><path d="M14 13.6l4.8-1.6c.8-.3 1.7.2 1.9 1 .2.7-.2 1.4-.9 1.7l-5 1.9"/></svg>'
   };
   var VIEWS = [
     {id:'players', label:'Giocatori',     ic:'player', val:'player', mode:''},
     {id:'teams',   label:'Tiri Squadre',  ic:'team',   val:'team',   mode:''},
     {id:'corners', label:'Angoli',        ic:'flag',   val:'angoli', mode:'angoli'},
-    {id:'cards',   label:'Cartellini',    ic:'card',   val:'angoli', mode:'cartellini'}
+    {id:'cards',   label:'Cartellini',    ic:'card',   val:'angoli', mode:'cartellini'},
+    {id:'guide',   label:'Linee guida',   ic:'guide',  val:'player', mode:'', guide:true}
   ];
 
   function shell(){
@@ -67,6 +69,13 @@ function loader(){
       'body[data-ang-mode="angoli"] #angBody [data-sec="1"],body[data-ang-mode="angoli"] #angBody [data-sec="2"]{display:none;}' +
       'body[data-ang-mode="cartellini"] #angBody [data-sec="0"]{display:none;}' +
       '#angoliView .panel > h2{display:none;}' +
+      '.slb-item.sep{margin-top:10px;border-top:1px solid var(--line);border-radius:0 0 14px 14px;padding-top:18px;}' +
+      '.hint:empty{display:none;}#hitRate5 ~ .hint{display:none !important;}' +
+      '#playerTeamSub,#oppSub,#teamForSub,#teamOppSub,#compHint{display:none !important;}' +
+      '#homeAwaySeg button,#teamSedeSeg button{white-space:nowrap;font-size:14px;padding-left:4px;padding-right:4px;}' +
+      '#slbGuide{display:none;}body[data-guide="1"] #slbGuide{display:block;}' +
+      'body[data-guide="1"] #playerView,body[data-guide="1"] #teamView,body[data-guide="1"] #angoliView{display:none !important;}' +
+      '#slbGuide details.panel{margin-bottom:14px;}' +
       '#slbSplash{position:fixed;inset:0;background:#fff;z-index:9999;}' +
       '#slbSplash .sl{position:absolute;left:0;top:0;transform-origin:0 0;}' +
       '#slbSplash .sl svg{display:block;width:100%;height:100%;}' +
@@ -92,7 +101,7 @@ function loader(){
     menu.innerHTML = '<div class="mh"><span>Menu</span><button type="button" id="slbClose" aria-label="Chiudi">&times;</button></div>';
     VIEWS.forEach(function(v){
       var b = document.createElement('button'); b.type = 'button'; b.className = 'slb-item'; b.dataset.id = v.id;
-      b.innerHTML = IC[v.ic] + '<span>' + v.label + '</span>';
+      b.innerHTML = IC[v.ic] + '<span>' + v.label + '</span>'; if(v.guide) b.classList.add('sep');
       b.addEventListener('click', function(){ go(v.id); });
       menu.appendChild(b);
     });
@@ -104,7 +113,7 @@ function loader(){
 
     function go(id){
       var v = VIEWS.filter(function(x){ return x.id === id; })[0]; if(!v) return;
-      document.body.dataset.angMode = v.mode;
+      document.body.dataset.angMode = v.mode; document.body.dataset.guide = v.guide ? '1' : '';
       var btn = document.querySelector('#viewSeg button[data-val="' + v.val + '"]');
       if(btn) btn.click();
       title.innerHTML = IC[v.ic] + '<span>' + v.label + '</span>';
@@ -127,7 +136,61 @@ function loader(){
       new MutationObserver(tag).observe(ab, {childList:true});
       tag();
     }
+    cleanup();
     splash();
+  }
+
+  // pulizia dell'interfaccia: via descrizioni inutili, "Come viene calcolato" nelle Linee guida, data aggiornamento
+  var LAST = null;
+  var INFO_IDS = ['datasetInfo','playerTeamDatasetInfo','teamForDatasetInfo','teamOppDatasetInfo'];
+  function fixInfo(el){
+    if(!LAST || !el) return;
+    var t = el.textContent;
+    if(t.indexOf('Non ho ancora') === 0) return;
+    var want = 'Ultimo aggiornamento: ' + LAST;
+    if(t !== want) el.textContent = want;
+  }
+  function cleanup(){
+    // descrizioni sotto i titoli
+    Array.prototype.forEach.call(document.querySelectorAll('.panel > .sub'), function(p){
+      if(/^(Il giocatore, la linea|Inserisci media tiri|Affidabilit\u00e0 = P|Seleziona campionato)/.test(p.textContent.trim())) p.style.display = 'none';
+    });
+    // etichetta "Sede" tolta
+    ['homeAwaySeg','teamSedeSeg'].forEach(function(id){
+      var seg = document.getElementById(id);
+      var lb = seg && seg.parentNode.querySelector('label');
+      if(lb) lb.style.display = 'none';
+    });
+    // etichette linea: Linea Tiri / Linea Tiri in Porta
+    function lineLabels(){
+      [['shotTypeSeg','lineValue'],['teamShotTypeSeg','teamLineValue']].forEach(function(p){
+        var seg = document.getElementById(p[0]), lb = document.querySelector('label[for="' + p[1] + '"]');
+        if(!seg || !lb) return;
+        var a = seg.querySelector('button.active');
+        var txt = a && a.dataset.val === 'sot' ? 'Linea Tiri in Porta' : 'Linea Tiri';
+        if(lb.textContent !== txt) lb.textContent = txt;
+      });
+    }
+    lineLabels();
+    document.addEventListener('click', function(){ setTimeout(lineLabels, 0); });
+    setInterval(lineLabels, 800);
+    // piè di pagina "Bozza di lavoro"
+    Array.prototype.forEach.call(document.querySelectorAll('footer'), function(f){ f.remove(); });
+    // "Come viene calcolato" -> Linee guida
+    var guide = document.createElement('div'); guide.id = 'slbGuide';
+    document.querySelector('.wrap').appendChild(guide);
+    var names = ['Calcolo giocatori', 'Calcolo tiri squadre'], n = 0;
+    Array.prototype.slice.call(document.querySelectorAll('details.panel')).forEach(function(d){
+      var h = d.querySelector('summary h2');
+      if(!h || h.textContent.trim() !== 'Come viene calcolato') return;
+      h.textContent = names[n++] || 'Calcolo';
+      guide.appendChild(d);
+    });
+    // data ultimo aggiornamento
+    INFO_IDS.forEach(function(id){
+      var el = document.getElementById(id);
+      if(el) new MutationObserver(function(){ fixInfo(el); }).observe(el, {childList:true, characterData:true, subtree:true});
+    });
   }
 
   // animazione di apertura: il logo cade, si aggancia, va in alto a sinistra e il nome esce da dietro
@@ -177,8 +240,9 @@ function loader(){
   function data(){
     fetch('data.json?v=' + Date.now()).then(function(r){ return r.json(); }).then(function(j){
       var D = window.LEAGUE_DATA;
-      var when = new Date(j.updated_at).toLocaleDateString('it-IT',
-        {day:'numeric', month:'short', year:'numeric'}) + ' (PitchAPI)';
+      var dd = new Date(j.updated_at);
+      var when = dd.getDate() + ' ' + (function(m){ return m.charAt(0).toUpperCase() + m.slice(1); })(dd.toLocaleDateString('it-IT', {month:'long'}));
+      LAST = when;
       var fmt = function(x){ return String(x).replace('.', ','); };
       Object.keys(j.leagues).forEach(function(k){
         var src = j.leagues[k];
@@ -193,7 +257,7 @@ function loader(){
                           sotFor:t.sotFor, sotAgainst:t.sotAgainst};
         });
         var label = old.label || src.label || src.name;
-        var e = {label: label, updated: when + (h ? ' · handicap campionato ×' + fmt(h) + ' (tiri fatti ×' + fmt(h) + ', subiti ÷' + fmt(h) + ')' : ''),
+        var e = {label: label, updated: when,
                  teams: teams};
         if(h){ e.avg = src.league_avg; }    // la media di riferimento resta quella reale, senza handicap
         else if(old.strength){ e.strength = old.strength; }
@@ -202,6 +266,7 @@ function loader(){
         if(src.logo) LEAGUE_LOGOS[k] = src.logo;
         Object.keys(src.logos || {}).forEach(function(n){ TEAM_LOGOS[n] = src.logos[n]; });
       });
+      INFO_IDS.forEach(function(id){ fixInfo(document.getElementById(id)); });
       dropdowns();
     }).catch(function(){ dropdowns(); });
   }
@@ -320,6 +385,11 @@ function loader(){
     var html = await r.text();
     if(html.indexOf('const LEAGUE_DATA = {') < 0) throw new Error('struttura dell\'app cambiata');
     html = html.replace('const LEAGUE_DATA = {', 'const LEAGUE_DATA = window.LEAGUE_DATA = {');
+    var SWAP = [['Nessun effetto', 'Campo Neutro'], ['Valore linea (tiri)', 'Linea Tiri'],
+                ['Giocatore \u2014 medie per competizione', 'Medie Tiri Giocatore'],
+                ['Facoltativo: scrivi i valori partita per partita separati da trattini. Il calcolatore fa la media e la unisce alla media stagionale.', '']];
+    SWAP.forEach(function(p){ html = html.split(p[0]).join(p[1]); });
+    html = html.replace(/(<input[^>]*?) placeholder="[^"]*"/g, '$1');
     html = html.replace(/<title>[^<]*<\/title>/, '<title>ScalperLab</title>');
     html = html.replace('</head>', function(){ return '<meta name="theme-color" content="#ffffff"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="ScalperLab"><link rel="apple-touch-icon" href="' + ICON + '"><link rel="icon" href="' + ICON + '" type="image/png"></head>'; });
     html = html.replace('</body>', function(){ return '<script>(' + loader.toString() + ')();<\/script></body>'; });
