@@ -9,6 +9,7 @@ from update_angoli import TOP5, CUPS, EXTRA, SKIP, tid_of, season_of
 CACHE_FILE, OUT_FILE = "cache_giocatori.json", "giocatori.json"
 MAX_MIN = float(os.environ.get("MAX_MIN", "35"))   # dopo tot minuti si ferma e salva: le partite mancanti si leggono al giro dopo
 VER = 1
+DIAG = os.environ.get("DIAG", "Celtic").lower()    # squadra di cui stampare tutte le partite trovate (controllo)
 T0 = time.time()
 
 
@@ -96,6 +97,7 @@ def main():
     leagues = (api("/v1/leagues") or {}).get("leagues", [])
     cup_ids, done, recs = set(), set(), {}
     state = {"first": True, "stop": False, "new": 0}
+    skipped = []
 
     def reg(t):
         tnames[tid_of(t)] = t["name"]
@@ -111,6 +113,7 @@ def main():
             rows, names = read_match(mid, state["first"])
             state["first"] = False
             if rows is None:
+                skipped.append(f"{m.get('date','')[:10]} {m['home_team']['name']} - {m['away_team']['name']} [{comp}] (nessun dato giocatori)")
                 return
             for pid, (n, _) in names.items():
                 if n:
@@ -140,6 +143,9 @@ def main():
         q = urllib.parse.quote(season, safe="")
         played = (api(f"/v1/leagues/{lg['id']}/matches?season={q}") or {}).get("matches", [])
         future = (api(f"/v1/leagues/{lg['id']}/matches?season={q}&status=upcoming") or {}).get("matches", [])
+        for m in played + future:
+            if DIAG and DIAG in (m["home_team"]["name"] + " " + m["away_team"]["name"]).lower():
+                print(f"   [{DIAG}] {key}: {str(m.get('date',''))[:10]} {m['home_team']['name']} - {m['away_team']['name']} stato={m.get('status')}")
         if key in CUPS:
             for m in played + future:
                 cup_ids.add(tid_of(m["home_team"])); cup_ids.add(tid_of(m["away_team"]))
@@ -173,6 +179,9 @@ def main():
                 break
         json.dump(cache, open(CACHE_FILE, "w"), ensure_ascii=False)
 
+    print(f"Partite senza dati giocatori: {len(skipped)}")
+    for x in skipped[:80]:
+        print("   ", x)
     if state["stop"]:
         print(f"⏱ Fermo dopo {MAX_MIN:.0f} minuti: le partite rimaste si leggono al prossimo giro.")
     cutoff = f"{SEASON_START}-07-01"
