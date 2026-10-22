@@ -692,10 +692,10 @@
    "country": "INT-2",
    "label": "Europa League",
    "league_avg": {
-    "sotAgainst": 4.819,
-    "sotFor": 4.819,
-    "totalAgainst": 14.083,
-    "totalFor": 14.083
+    "sotAgainst": 5.106,
+    "sotFor": 5.088,
+    "totalAgainst": 14.338,
+    "totalFor": 14.352
    },
    "logo": "https://cdn.pitchapi.dev/images/leagues/5c963df5db3d9955740bd5937b02e523393941ef3a1ab205667d80f6eb1c2817.webp",
    "logos": {
@@ -736,7 +736,7 @@
     "Union St.Gilloise": "https://cdn.pitchapi.dev/images/teams/cc9e82f36cf9b8918eec77a1ca09fa19a35f1907a32b1ea9c3abcf1526761123.webp",
     "Viktoria Plzeň": "https://cdn.pitchapi.dev/images/teams/786d8290c958c4b312b4c64ad9293e7e29ef4a0b2b0a97fa3f33efbeb8f9c80d.webp"
    },
-   "matches": 36,
+   "matches": 44,
    "matches_without_stats": 0,
    "name": "Europa League",
    "restricted": false,
@@ -751,11 +751,11 @@
      "totalFor": 17.5
     },
     "AZ Alkmaar": {
-     "games": 2,
-     "sotAgainst": 4.5,
-     "sotFor": 4.5,
-     "totalAgainst": 13.0,
-     "totalFor": 13.0
+     "games": 3,
+     "sotAgainst": 4.333,
+     "sotFor": 6.0,
+     "totalAgainst": 11.667,
+     "totalFor": 14.333
     },
     "Anderlecht": {
      "games": 2,
@@ -765,18 +765,18 @@
      "totalFor": 12.0
     },
     "Ararat Armenia": {
-     "games": 2,
-     "sotAgainst": 6.5,
-     "sotFor": 3.0,
-     "totalAgainst": 18.0,
-     "totalFor": 14.0
+     "games": 3,
+     "sotAgainst": 7.333,
+     "sotFor": 3.333,
+     "totalAgainst": 17.667,
+     "totalFor": 12.333
     },
     "Bayer Leverkusen": {
-     "games": 2,
-     "sotAgainst": 3.0,
-     "sotFor": 9.0,
-     "totalAgainst": 7.5,
-     "totalFor": 19.5
+     "games": 3,
+     "sotAgainst": 2.667,
+     "sotFor": 11.0,
+     "totalAgainst": 7.0,
+     "totalFor": 24.0
     },
     "Benfica": {
      "games": 2,
@@ -814,25 +814,25 @@
      "totalFor": 14.0
     },
     "Dinamo Zagreb": {
-     "games": 2,
-     "sotAgainst": 4.0,
-     "sotFor": 2.0,
-     "totalAgainst": 12.5,
-     "totalFor": 10.0
+     "games": 3,
+     "sotAgainst": 4.333,
+     "sotFor": 4.667,
+     "totalAgainst": 13.333,
+     "totalFor": 12.0
     },
     "Ferencváros": {
-     "games": 2,
-     "sotAgainst": 5.5,
-     "sotFor": 6.0,
-     "totalAgainst": 17.0,
-     "totalFor": 13.0
+     "games": 3,
+     "sotAgainst": 5.0,
+     "sotFor": 5.667,
+     "totalAgainst": 14.0,
+     "totalFor": 13.333
     },
     "Hapoel Beer Sheva": {
-     "games": 2,
-     "sotAgainst": 4.0,
-     "sotFor": 3.0,
-     "totalAgainst": 11.0,
-     "totalFor": 10.5
+     "games": 3,
+     "sotAgainst": 7.667,
+     "sotFor": 3.333,
+     "totalAgainst": 17.0,
+     "totalFor": 9.0
     },
     "Hoffenheim": {
      "games": 2,
@@ -849,18 +849,18 @@
      "totalFor": 8.5
     },
     "Juventus": {
-     "games": 2,
-     "sotAgainst": 2.5,
-     "sotFor": 6.5,
-     "totalAgainst": 10.0,
-     "totalFor": 16.5
+     "games": 3,
+     "sotAgainst": 3.333,
+     "sotFor": 5.667,
+     "totalAgainst": 12.0,
+     "totalFor": 15.667
     },
     "Lech Poznań": {
-     "games": 2,
-     "sotAgainst": 8.0,
-     "sotFor": 4.5,
-     "totalAgainst": 19.0,
-     "totalFor": 13.5
+     "games": 3,
+     "sotAgainst": 9.0,
+     "sotFor": 5.0,
+     "totalAgainst": 21.0,
+     "totalFor": 14.333
     },
     "Levski Sofia": {
      "games": 2,
@@ -884,11 +884,11 @@
      "totalFor": 12.0
     },
     "Marseille": {
-     "games": 2,
-     "sotAgainst": 5.5,
-     "sotFor": 4.0,
-     "totalAgainst": 13.5,
-     "totalFor": 12.5
+     "games": 3,
+     "sotAgainst": 5.333,
+     "sotFor": 3.0,
+     "totalAgainst": 13.333,
+     "totalFor": 13.0
     },
     "Milan": {
      "games": 2,
@@ -898,11 +898,11 @@
      "totalFor": 16.0
     },
     "NEC Nijmegen": {
-     "games": 2,
-     "sotAgainst": 4.5,
-     "sotFor": 6.0,
-     "totalAgainst": 9.5,
-     "totalFor": 14.5
+     "games": 3,
+     "sotAgainst": 6.333,
+     "sotFor": 5.667,
+     "totalAgainst": 11.667,
+     "totalFor": 14.667
     },
     "NK Celje": {
      "games": 2,
@@ -912,11 +912,11 @@
      "totalFor": 8.5
     },
     "OFI Crete": {
-     "games": 2,
-     "sotAgainst": 7.0,
+     "games": 3,
+     "sotAgainst": 9.667,
      "sotFor": 2.0,
-     "totalAgainst": 23.0,
-     "totalFor": 5.5
+     "totalAgainst": 26.333,
+     "totalFor": 5.667
     },
     "Olympiacos": {
      "games": 2,
@@ -940,11 +940,11 @@
      "totalFor": 10.5
     },
     "Rennes": {
-     "games": 2,
-     "sotAgainst": 2.5,
-     "sotFor": 7.0,
-     "totalAgainst": 6.5,
-     "totalFor": 24.0
+     "games": 3,
+     "sotAgainst": 3.0,
+     "sotFor": 6.333,
+     "totalAgainst": 9.0,
+     "totalFor": 21.333
     },
     "Salzburg": {
      "games": 2,
@@ -961,32 +961,32 @@
      "totalFor": 19.0
     },
     "Sturm Graz": {
-     "games": 2,
-     "sotAgainst": 6.5,
-     "sotFor": 2.5,
-     "totalAgainst": 23.5,
-     "totalFor": 8.5
+     "games": 3,
+     "sotAgainst": 4.667,
+     "sotFor": 3.333,
+     "totalAgainst": 20.333,
+     "totalFor": 10.0
     },
     "Sunderland": {
-     "games": 2,
-     "sotAgainst": 1.5,
-     "sotFor": 5.0,
-     "totalAgainst": 7.0,
-     "totalFor": 21.0
+     "games": 3,
+     "sotAgainst": 3.0,
+     "sotFor": 7.0,
+     "totalAgainst": 10.0,
+     "totalFor": 22.333
     },
     "Torreense": {
-     "games": 2,
-     "sotAgainst": 5.5,
-     "sotFor": 2.0,
-     "totalAgainst": 23.0,
-     "totalFor": 7.0
+     "games": 3,
+     "sotAgainst": 5.333,
+     "sotFor": 2.667,
+     "totalAgainst": 20.0,
+     "totalFor": 7.333
     },
     "Union St.Gilloise": {
-     "games": 2,
-     "sotAgainst": 3.0,
-     "sotFor": 9.0,
-     "totalAgainst": 9.5,
-     "totalFor": 19.0
+     "games": 3,
+     "sotAgainst": 3.333,
+     "sotFor": 11.0,
+     "totalAgainst": 8.333,
+     "totalFor": 22.333
     },
     "Viktoria Plzeň": {
      "games": 2,
@@ -2027,5 +2027,5 @@
   }
  },
  "season_start": "2026",
- "updated_at": "2026-10-22T18:42:29+00:00"
+ "updated_at": "2026-10-22T19:08:49+00:00"
 }

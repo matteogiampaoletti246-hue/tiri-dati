@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-22T18:43:38+00:00",
+ "updated_at": "2026-10-22T19:10:06+00:00",
  "window": {
   "nlast": 0,
   "min_games": 1,
@@ -7,118 +7,9 @@
  },
  "days": {
   "2026-10-22": {
-   "analizzate": 18,
-   "con_dati": 18,
+   "analizzate": 10,
+   "con_dati": 10,
    "corner": [
-    {
-     "id": "m_2bk3p4",
-     "date": "2026-10-22",
-     "time": "2026-10-22",
-     "league": "Europa League",
-     "home": "Ararat Armenia",
-     "away": "AZ Alkmaar",
-     "non_coperto": [
-      "Ararat Armenia"
-     ],
-     "corners_home": 3.5,
-     "corners_away": 10.2,
-     "gap": 6.7,
-     "games": [
-      1,
-      6
-     ],
-     "tiri_home": 13.6,
-     "tiri_away": 18.2,
-     "tiri_gap": 4.7,
-     "tiri_games": [
-      1,
-      6
-     ],
-     "sot_home": 3.4,
-     "sot_away": 6.5,
-     "sot_gap": 3.2,
-     "sot_games": [
-      1,
-      6
-     ],
-     "falli_home": 13.6,
-     "falli_away": 16.3,
-     "falli_gap": 2.7,
-     "falli_games": [
-      2,
-      11
-     ],
-     "off_home": 1.0,
-     "off_away": 2.7,
-     "off_gap": 1.6,
-     "off_games": [
-      2,
-      11
-     ],
-     "cards": 4.0,
-     "cards_1t": 1.0,
-     "games_k": [
-      2,
-      11
-     ],
-     "home_logo": "https://cdn.pitchapi.dev/images/teams/9f05812eddf90e7874f3305d37355581945c250e356da9aa7ef2bca57c95fe83.webp",
-     "away_logo": "https://cdn.pitchapi.dev/images/teams/21e903699663138a2f89734d1bda1f699b3d3fed0912268feb4dc6495d52feaa.webp"
-    },
-    {
-     "id": "m_2eFxOa",
-     "date": "2026-10-22",
-     "time": "2026-10-22",
-     "league": "Europa League",
-     "home": "Ferencváros",
-     "away": "Torreense",
-     "non_coperto": [
-      "Ferencváros",
-      "Torreense"
-     ],
-     "corners_home": 9.0,
-     "corners_away": 2.5,
-     "gap": 6.5,
-     "games": [
-      1,
-      1
-     ],
-     "tiri_home": 18.0,
-     "tiri_away": 14.5,
-     "tiri_gap": 3.5,
-     "tiri_games": [
-      1,
-      1
-     ],
-     "sot_home": 6.0,
-     "sot_away": 5.0,
-     "sot_gap": 1.0,
-     "sot_games": [
-      1,
-      1
-     ],
-     "falli_home": 14.5,
-     "falli_away": 15.0,
-     "falli_gap": 0.5,
-     "falli_games": [
-      2,
-      2
-     ],
-     "off_home": 1.0,
-     "off_away": 0.8,
-     "off_gap": 0.2,
-     "off_games": [
-      2,
-      2
-     ],
-     "cards": 5.0,
-     "cards_1t": 1.0,
-     "games_k": [
-      2,
-      2
-     ],
-     "home_logo": "https://cdn.pitchapi.dev/images/teams/59420ba8e450d38b679d11b8baa1940f1621651942e7261f1fdabc60e2b413b4.webp",
-     "away_logo": "https://cdn.pitchapi.dev/images/teams/7559e62651890143226b38b86d4dff8ceb7a720efcae919f505d668b74488110.webp"
-    },
     {
      "id": "m_3OUrqj",
      "date": "2026-10-22",
@@ -228,6 +119,58 @@
      "away_logo": "https://cdn.pitchapi.dev/images/teams/f400d9a5aa24f6f0c3094f0d1598c0f56ce2b003b8282a45481dd551d75a7a20.webp"
     },
     {
+     "id": "m_45EQn7",
+     "date": "2026-10-22",
+     "time": "2026-10-22",
+     "league": "Europa League",
+     "home": "Celtic",
+     "away": "Celta Vigo",
+     "non_coperto": [],
+     "corners_home": 6.9,
+     "corners_away": 4.0,
+     "gap": 2.9,
+     "games": [
+      5,
+      5
+     ],
+     "tiri_home": 11.2,
+     "tiri_away": 15.3,
+     "tiri_gap": 4.1,
+     "tiri_games": [
+      5,
+      5
+     ],
+     "sot_home": 3.8,
+     "sot_away": 4.7,
+     "sot_gap": 0.9,
+     "sot_games": [
+      5,
+      5
+     ],
+     "falli_home": 12.6,
+     "falli_away": 11.5,
+     "falli_gap": 1.1,
+     "falli_games": [
+      10,
+      11
+     ],
+     "off_home": 1.3,
+     "off_away": 1.9,
+     "off_gap": 0.6,
+     "off_games": [
+      10,
+      11
+     ],
+     "cards": 2.9,
+     "cards_1t": 0.8,
+     "games_k": [
+      10,
+      11
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/962c70903cb3c720b0baedc22bee5480b8d41fce1ba696b043ae311d3103de14.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/dac7a8cb1fba7c48ce0e6ed3e17439cc771e33f2aca093d2dc5eb23cb10e1533.webp"
+    },
+    {
      "id": "m_1dlAX1",
      "date": "2026-10-22",
      "time": "2026-10-22",
@@ -278,165 +221,63 @@
      ],
      "home_logo": "https://cdn.pitchapi.dev/images/teams/46c610bfe967813c00a9f4b16d3bacd3936eb0290217e06e054a2e4112a6e720.webp",
      "away_logo": "https://cdn.pitchapi.dev/images/teams/e300f3d515e70adaadfc6e0de7b5e5bd91fe1818b38054d6a8a363c64d0286ae.webp"
+    },
+    {
+     "id": "m_1Y8u7K",
+     "date": "2026-10-22",
+     "time": "2026-10-22",
+     "league": "Europa League",
+     "home": "NK Celje",
+     "away": "Salzburg",
+     "non_coperto": [
+      "NK Celje"
+     ],
+     "corners_home": 3.5,
+     "corners_away": 5.7,
+     "gap": 2.2,
+     "games": [
+      1,
+      5
+     ],
+     "tiri_home": 16.5,
+     "tiri_away": 12.7,
+     "tiri_gap": 3.7,
+     "tiri_games": [
+      1,
+      5
+     ],
+     "sot_home": 2.8,
+     "sot_away": 5.5,
+     "sot_gap": 2.7,
+     "sot_games": [
+      1,
+      5
+     ],
+     "falli_home": 10.3,
+     "falli_away": 10.6,
+     "falli_gap": 0.3,
+     "falli_games": [
+      2,
+      11
+     ],
+     "off_home": 1.3,
+     "off_away": 1.5,
+     "off_gap": 0.1,
+     "off_games": [
+      2,
+      11
+     ],
+     "cards": 3.2,
+     "cards_1t": 1.4,
+     "games_k": [
+      2,
+      11
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/efaeab98cc7e0456c9c194589f1e92357e3afacaee079af6fd7632b4e0348eaf.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/4005f060b534d25f4c041f7cfb9bd85860fcfac123d6db20ec4161fe6bacd761.webp"
     }
    ],
    "tiri": [
-    {
-     "id": "m_30rVM5",
-     "date": "2026-10-22",
-     "time": "2026-10-22",
-     "league": "Europa League",
-     "home": "OFI Crete",
-     "away": "Bayer Leverkusen",
-     "non_coperto": [],
-     "corners_home": 3.6,
-     "corners_away": 5.8,
-     "gap": 2.1,
-     "games": [
-      4,
-      4
-     ],
-     "tiri_home": 10.5,
-     "tiri_away": 19.6,
-     "tiri_gap": 9.1,
-     "tiri_games": [
-      4,
-      4
-     ],
-     "sot_home": 3.8,
-     "sot_away": 5.1,
-     "sot_gap": 1.3,
-     "sot_games": [
-      4,
-      4
-     ],
-     "falli_home": 10.4,
-     "falli_away": 14.8,
-     "falli_gap": 4.5,
-     "falli_games": [
-      9,
-      8
-     ],
-     "off_home": 1.3,
-     "off_away": 2.1,
-     "off_gap": 0.8,
-     "off_games": [
-      9,
-      8
-     ],
-     "cards": 3.0,
-     "cards_1t": 0.6,
-     "games_k": [
-      9,
-      8
-     ],
-     "home_logo": "https://cdn.pitchapi.dev/images/teams/aa9039a0708e4abc0ffb051bd797d785c097ca5cb2fab9218058f9eb34def5bf.webp",
-     "away_logo": "https://cdn.pitchapi.dev/images/teams/2e47f0a718e58090d287870e5eef626c90b236d75fff1e901cd6b35235adb0c7.webp"
-    },
-    {
-     "id": "m_29D8nT",
-     "date": "2026-10-22",
-     "time": "2026-10-22",
-     "league": "Europa League",
-     "home": "Union St.Gilloise",
-     "away": "Hapoel Beer Sheva",
-     "non_coperto": [],
-     "corners_home": 5.2,
-     "corners_away": 4.2,
-     "gap": 1.0,
-     "games": [
-      5,
-      4
-     ],
-     "tiri_home": 17.8,
-     "tiri_away": 9.9,
-     "tiri_gap": 7.8,
-     "tiri_games": [
-      5,
-      4
-     ],
-     "sot_home": 6.3,
-     "sot_away": 2.9,
-     "sot_gap": 3.4,
-     "sot_games": [
-      5,
-      4
-     ],
-     "falli_home": 12.2,
-     "falli_away": 13.3,
-     "falli_gap": 1.1,
-     "falli_games": [
-      10,
-      9
-     ],
-     "off_home": 2.0,
-     "off_away": 1.2,
-     "off_gap": 0.8,
-     "off_games": [
-      10,
-      9
-     ],
-     "cards": 4.6,
-     "cards_1t": 2.2,
-     "games_k": [
-      10,
-      9
-     ],
-     "home_logo": "https://cdn.pitchapi.dev/images/teams/cc9e82f36cf9b8918eec77a1ca09fa19a35f1907a32b1ea9c3abcf1526761123.webp",
-     "away_logo": "https://cdn.pitchapi.dev/images/teams/3e8114be84981b01f4e320a55ce9b4b5053987ad0615116534d05a06b7d7bfef.webp"
-    },
-    {
-     "id": "m_09sEEq",
-     "date": "2026-10-22",
-     "time": "2026-10-22",
-     "league": "Europa League",
-     "home": "Sturm Graz",
-     "away": "Marseille",
-     "non_coperto": [],
-     "corners_home": 5.6,
-     "corners_away": 5.1,
-     "gap": 0.5,
-     "games": [
-      5,
-      5
-     ],
-     "tiri_home": 12.6,
-     "tiri_away": 19.8,
-     "tiri_gap": 7.3,
-     "tiri_games": [
-      5,
-      5
-     ],
-     "sot_home": 4.3,
-     "sot_away": 5.4,
-     "sot_gap": 1.1,
-     "sot_games": [
-      5,
-      5
-     ],
-     "falli_home": 11.4,
-     "falli_away": 10.5,
-     "falli_gap": 0.9,
-     "falli_games": [
-      11,
-      9
-     ],
-     "off_home": 2.2,
-     "off_away": 1.2,
-     "off_gap": 1.0,
-     "off_games": [
-      11,
-      9
-     ],
-     "cards": 3.8,
-     "cards_1t": 1.2,
-     "games_k": [
-      11,
-      9
-     ],
-     "home_logo": "https://cdn.pitchapi.dev/images/teams/b8c2144240c8ec6c3c13421724548b48d5c33ad8ac69fe0d444c73e4541267af.webp",
-     "away_logo": "https://cdn.pitchapi.dev/images/teams/10ec6fe14a73f5994c3b2570231e34cd8884232163027b8a423fe45957045ffd.webp"
-    },
     {
      "id": "m_1qSOni",
      "date": "2026-10-22",
@@ -490,167 +331,217 @@
      "away_logo": "https://cdn.pitchapi.dev/images/teams/83110e344a5a5bfa92691b7abc038174e25dc66146f033631a31c9ff9a4b6d7b.webp"
     },
     {
-     "id": "m_2bk3p4",
+     "id": "m_15vUm9",
      "date": "2026-10-22",
      "time": "2026-10-22",
      "league": "Europa League",
-     "home": "Ararat Armenia",
-     "away": "AZ Alkmaar",
-     "non_coperto": [
-      "Ararat Armenia"
-     ],
-     "corners_home": 3.5,
-     "corners_away": 10.2,
-     "gap": 6.7,
-     "games": [
-      1,
-      6
-     ],
-     "tiri_home": 13.6,
-     "tiri_away": 18.2,
-     "tiri_gap": 4.7,
-     "tiri_games": [
-      1,
-      6
-     ],
-     "sot_home": 3.4,
-     "sot_away": 6.5,
-     "sot_gap": 3.2,
-     "sot_games": [
-      1,
-      6
-     ],
-     "falli_home": 13.6,
-     "falli_away": 16.3,
-     "falli_gap": 2.7,
-     "falli_games": [
-      2,
-      11
-     ],
-     "off_home": 1.0,
-     "off_away": 2.7,
-     "off_gap": 1.6,
-     "off_games": [
-      2,
-      11
-     ],
-     "cards": 4.0,
-     "cards_1t": 1.0,
-     "games_k": [
-      2,
-      11
-     ],
-     "home_logo": "https://cdn.pitchapi.dev/images/teams/9f05812eddf90e7874f3305d37355581945c250e356da9aa7ef2bca57c95fe83.webp",
-     "away_logo": "https://cdn.pitchapi.dev/images/teams/21e903699663138a2f89734d1bda1f699b3d3fed0912268feb4dc6495d52feaa.webp"
-    }
-   ],
-   "tiri_sot": [
-    {
-     "id": "m_29D8nT",
-     "date": "2026-10-22",
-     "time": "2026-10-22",
-     "league": "Europa League",
-     "home": "Union St.Gilloise",
-     "away": "Hapoel Beer Sheva",
+     "home": "AFC Bournemouth",
+     "away": "Milan",
      "non_coperto": [],
-     "corners_home": 5.2,
-     "corners_away": 4.2,
+     "corners_home": 4.4,
+     "corners_away": 3.4,
      "gap": 1.0,
      "games": [
       5,
-      4
+      5
      ],
-     "tiri_home": 17.8,
-     "tiri_away": 9.9,
-     "tiri_gap": 7.8,
+     "tiri_home": 15.3,
+     "tiri_away": 10.6,
+     "tiri_gap": 4.7,
      "tiri_games": [
       5,
-      4
+      5
      ],
-     "sot_home": 6.3,
-     "sot_away": 2.9,
-     "sot_gap": 3.4,
+     "sot_home": 4.9,
+     "sot_away": 4.1,
+     "sot_gap": 0.8,
      "sot_games": [
       5,
-      4
+      5
      ],
-     "falli_home": 12.2,
-     "falli_away": 13.3,
-     "falli_gap": 1.1,
+     "falli_home": 12.4,
+     "falli_away": 11.5,
+     "falli_gap": 0.9,
      "falli_games": [
-      10,
+      9,
       9
      ],
-     "off_home": 2.0,
-     "off_away": 1.2,
-     "off_gap": 0.8,
+     "off_home": 1.9,
+     "off_away": 1.3,
+     "off_gap": 0.7,
      "off_games": [
-      10,
+      9,
       9
      ],
-     "cards": 4.6,
-     "cards_1t": 2.2,
+     "cards": 4.8,
+     "cards_1t": 1.7,
      "games_k": [
-      10,
+      9,
       9
      ],
-     "home_logo": "https://cdn.pitchapi.dev/images/teams/cc9e82f36cf9b8918eec77a1ca09fa19a35f1907a32b1ea9c3abcf1526761123.webp",
-     "away_logo": "https://cdn.pitchapi.dev/images/teams/3e8114be84981b01f4e320a55ce9b4b5053987ad0615116534d05a06b7d7bfef.webp"
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/40e4779117edc3d821c9ca142e60fe85ed9bae6e44750df5173a4f39c0cf9fe8.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/084d6673fc303d26d77ffa8d8763966663b002403d5bbdf17916de163f389018.webp"
     },
     {
-     "id": "m_2bk3p4",
+     "id": "m_1dlAX1",
      "date": "2026-10-22",
      "time": "2026-10-22",
      "league": "Europa League",
-     "home": "Ararat Armenia",
-     "away": "AZ Alkmaar",
+     "home": "Beşiktaş",
+     "away": "Crystal Palace",
+     "non_coperto": [],
+     "corners_home": 6.1,
+     "corners_away": 3.2,
+     "gap": 2.9,
+     "games": [
+      5,
+      5
+     ],
+     "tiri_home": 15.6,
+     "tiri_away": 11.0,
+     "tiri_gap": 4.6,
+     "tiri_games": [
+      5,
+      5
+     ],
+     "sot_home": 5.1,
+     "sot_away": 3.4,
+     "sot_gap": 1.7,
+     "sot_games": [
+      5,
+      5
+     ],
+     "falli_home": 10.9,
+     "falli_away": 12.3,
+     "falli_gap": 1.4,
+     "falli_games": [
+      10,
+      9
+     ],
+     "off_home": 1.9,
+     "off_away": 1.9,
+     "off_gap": 0.0,
+     "off_games": [
+      10,
+      9
+     ],
+     "cards": 3.7,
+     "cards_1t": 1.1,
+     "games_k": [
+      10,
+      9
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/46c610bfe967813c00a9f4b16d3bacd3936eb0290217e06e054a2e4112a6e720.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/e300f3d515e70adaadfc6e0de7b5e5bd91fe1818b38054d6a8a363c64d0286ae.webp"
+    },
+    {
+     "id": "m_3qJtjY",
+     "date": "2026-10-22",
+     "time": "2026-10-22",
+     "league": "Europa League",
+     "home": "Omonia Nicosia",
+     "away": "Benfica",
      "non_coperto": [
-      "Ararat Armenia"
+      "Omonia Nicosia"
      ],
      "corners_home": 3.5,
-     "corners_away": 10.2,
-     "gap": 6.7,
+     "corners_away": 6.9,
+     "gap": 3.4,
      "games": [
       1,
-      6
+      5
      ],
-     "tiri_home": 13.6,
-     "tiri_away": 18.2,
-     "tiri_gap": 4.7,
+     "tiri_home": 11.4,
+     "tiri_away": 15.9,
+     "tiri_gap": 4.5,
      "tiri_games": [
       1,
-      6
+      5
      ],
-     "sot_home": 3.4,
-     "sot_away": 6.5,
-     "sot_gap": 3.2,
+     "sot_home": 3.5,
+     "sot_away": 5.0,
+     "sot_gap": 1.5,
      "sot_games": [
       1,
-      6
+      5
      ],
-     "falli_home": 13.6,
-     "falli_away": 16.3,
-     "falli_gap": 2.7,
+     "falli_home": 11.1,
+     "falli_away": 11.8,
+     "falli_gap": 0.7,
      "falli_games": [
       2,
-      11
+      9
      ],
-     "off_home": 1.0,
-     "off_away": 2.7,
-     "off_gap": 1.6,
+     "off_home": 0.9,
+     "off_away": 1.9,
+     "off_gap": 1.0,
      "off_games": [
       2,
-      11
+      9
      ],
-     "cards": 4.0,
-     "cards_1t": 1.0,
+     "cards": 3.3,
+     "cards_1t": 0.8,
      "games_k": [
       2,
+      9
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/6156ee5f8d0003d019abbe68ef358b3fee95687fe71a36e97345dfce3650bab7.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/f400d9a5aa24f6f0c3094f0d1598c0f56ce2b003b8282a45481dd551d75a7a20.webp"
+    },
+    {
+     "id": "m_45EQn7",
+     "date": "2026-10-22",
+     "time": "2026-10-22",
+     "league": "Europa League",
+     "home": "Celtic",
+     "away": "Celta Vigo",
+     "non_coperto": [],
+     "corners_home": 6.9,
+     "corners_away": 4.0,
+     "gap": 2.9,
+     "games": [
+      5,
+      5
+     ],
+     "tiri_home": 11.2,
+     "tiri_away": 15.3,
+     "tiri_gap": 4.1,
+     "tiri_games": [
+      5,
+      5
+     ],
+     "sot_home": 3.8,
+     "sot_away": 4.7,
+     "sot_gap": 0.9,
+     "sot_games": [
+      5,
+      5
+     ],
+     "falli_home": 12.6,
+     "falli_away": 11.5,
+     "falli_gap": 1.1,
+     "falli_games": [
+      10,
       11
      ],
-     "home_logo": "https://cdn.pitchapi.dev/images/teams/9f05812eddf90e7874f3305d37355581945c250e356da9aa7ef2bca57c95fe83.webp",
-     "away_logo": "https://cdn.pitchapi.dev/images/teams/21e903699663138a2f89734d1bda1f699b3d3fed0912268feb4dc6495d52feaa.webp"
-    },
+     "off_home": 1.3,
+     "off_away": 1.9,
+     "off_gap": 0.6,
+     "off_games": [
+      10,
+      11
+     ],
+     "cards": 2.9,
+     "cards_1t": 0.8,
+     "games_k": [
+      10,
+      11
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/962c70903cb3c720b0baedc22bee5480b8d41fce1ba696b043ae311d3103de14.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/dac7a8cb1fba7c48ce0e6ed3e17439cc771e33f2aca093d2dc5eb23cb10e1533.webp"
+    }
+   ],
+   "tiri_sot": [
     {
      "id": "m_1Y8u7K",
      "date": "2026-10-22",
@@ -706,58 +597,6 @@
      "away_logo": "https://cdn.pitchapi.dev/images/teams/4005f060b534d25f4c041f7cfb9bd85860fcfac123d6db20ec4161fe6bacd761.webp"
     },
     {
-     "id": "m_02xRNQ",
-     "date": "2026-10-22",
-     "time": "2026-10-22",
-     "league": "Europa League",
-     "home": "Juventus",
-     "away": "Rennes",
-     "non_coperto": [],
-     "corners_home": 5.5,
-     "corners_away": 4.3,
-     "gap": 1.1,
-     "games": [
-      5,
-      4
-     ],
-     "tiri_home": 14.9,
-     "tiri_away": 11.9,
-     "tiri_gap": 3.0,
-     "tiri_games": [
-      5,
-      4
-     ],
-     "sot_home": 5.6,
-     "sot_away": 3.8,
-     "sot_gap": 1.8,
-     "sot_games": [
-      5,
-      4
-     ],
-     "falli_home": 12.3,
-     "falli_away": 11.9,
-     "falli_gap": 0.4,
-     "falli_games": [
-      9,
-      9
-     ],
-     "off_home": 2.4,
-     "off_away": 1.4,
-     "off_gap": 0.9,
-     "off_games": [
-      9,
-      9
-     ],
-     "cards": 3.4,
-     "cards_1t": 1.2,
-     "games_k": [
-      9,
-      9
-     ],
-     "home_logo": "https://cdn.pitchapi.dev/images/teams/7eaf5f4fe543152082fc53d035dc7f0663b4a090cab3ab701fc5f4df3a711784.webp",
-     "away_logo": "https://cdn.pitchapi.dev/images/teams/87e4093af8a42182c2394abd11392cfe7a9b5988266f8161a20e126a66a8238b.webp"
-    },
-    {
      "id": "m_1dlAX1",
      "date": "2026-10-22",
      "time": "2026-10-22",
@@ -808,61 +647,169 @@
      ],
      "home_logo": "https://cdn.pitchapi.dev/images/teams/46c610bfe967813c00a9f4b16d3bacd3936eb0290217e06e054a2e4112a6e720.webp",
      "away_logo": "https://cdn.pitchapi.dev/images/teams/e300f3d515e70adaadfc6e0de7b5e5bd91fe1818b38054d6a8a363c64d0286ae.webp"
-    }
-   ],
-   "falli": [
+    },
     {
-     "id": "m_30rVM5",
+     "id": "m_3qJtjY",
      "date": "2026-10-22",
      "time": "2026-10-22",
      "league": "Europa League",
-     "home": "OFI Crete",
-     "away": "Bayer Leverkusen",
+     "home": "Omonia Nicosia",
+     "away": "Benfica",
+     "non_coperto": [
+      "Omonia Nicosia"
+     ],
+     "corners_home": 3.5,
+     "corners_away": 6.9,
+     "gap": 3.4,
+     "games": [
+      1,
+      5
+     ],
+     "tiri_home": 11.4,
+     "tiri_away": 15.9,
+     "tiri_gap": 4.5,
+     "tiri_games": [
+      1,
+      5
+     ],
+     "sot_home": 3.5,
+     "sot_away": 5.0,
+     "sot_gap": 1.5,
+     "sot_games": [
+      1,
+      5
+     ],
+     "falli_home": 11.1,
+     "falli_away": 11.8,
+     "falli_gap": 0.7,
+     "falli_games": [
+      2,
+      9
+     ],
+     "off_home": 0.9,
+     "off_away": 1.9,
+     "off_gap": 1.0,
+     "off_games": [
+      2,
+      9
+     ],
+     "cards": 3.3,
+     "cards_1t": 0.8,
+     "games_k": [
+      2,
+      9
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/6156ee5f8d0003d019abbe68ef358b3fee95687fe71a36e97345dfce3650bab7.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/f400d9a5aa24f6f0c3094f0d1598c0f56ce2b003b8282a45481dd551d75a7a20.webp"
+    },
+    {
+     "id": "m_3OUrqj",
+     "date": "2026-10-22",
+     "time": "2026-10-22",
+     "league": "Europa League",
+     "home": "Viktoria Plzeň",
+     "away": "Levski Sofia",
+     "non_coperto": [
+      "Levski Sofia"
+     ],
+     "corners_home": 6.2,
+     "corners_away": 2.5,
+     "gap": 3.7,
+     "games": [
+      7,
+      1
+     ],
+     "tiri_home": 14.5,
+     "tiri_away": 12.8,
+     "tiri_gap": 1.8,
+     "tiri_games": [
+      7,
+      1
+     ],
+     "sot_home": 6.0,
+     "sot_away": 4.9,
+     "sot_gap": 1.1,
+     "sot_games": [
+      7,
+      1
+     ],
+     "falli_home": 14.7,
+     "falli_away": 11.9,
+     "falli_gap": 2.8,
+     "falli_games": [
+      13,
+      2
+     ],
+     "off_home": 1.1,
+     "off_away": 0.9,
+     "off_gap": 0.2,
+     "off_games": [
+      13,
+      2
+     ],
+     "cards": 2.7,
+     "cards_1t": 0.8,
+     "games_k": [
+      13,
+      2
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/786d8290c958c4b312b4c64ad9293e7e29ef4a0b2b0a97fa3f33efbeb8f9c80d.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/7fa49c9d1b9256476d670fdc56e0900717361bfb5a1ac9586d1f148d17235ea3.webp"
+    },
+    {
+     "id": "m_1qSOni",
+     "date": "2026-10-22",
+     "time": "2026-10-22",
+     "league": "Europa League",
+     "home": "Olympiacos",
+     "away": "Sparta Prague",
      "non_coperto": [],
-     "corners_home": 3.6,
-     "corners_away": 5.8,
-     "gap": 2.1,
+     "corners_home": 6.7,
+     "corners_away": 5.0,
+     "gap": 1.7,
      "games": [
       4,
-      4
+      7
      ],
-     "tiri_home": 10.5,
-     "tiri_away": 19.6,
-     "tiri_gap": 9.1,
+     "tiri_home": 16.5,
+     "tiri_away": 11.3,
+     "tiri_gap": 5.2,
      "tiri_games": [
       4,
-      4
+      7
      ],
-     "sot_home": 3.8,
-     "sot_away": 5.1,
-     "sot_gap": 1.3,
+     "sot_home": 4.5,
+     "sot_away": 3.6,
+     "sot_gap": 0.9,
      "sot_games": [
       4,
-      4
+      7
      ],
-     "falli_home": 10.4,
-     "falli_away": 14.8,
-     "falli_gap": 4.5,
+     "falli_home": 14.3,
+     "falli_away": 13.3,
+     "falli_gap": 1.1,
      "falli_games": [
       9,
-      8
+      13
      ],
-     "off_home": 1.3,
-     "off_away": 2.1,
-     "off_gap": 0.8,
+     "off_home": 1.6,
+     "off_away": 2.0,
+     "off_gap": 0.4,
      "off_games": [
       9,
-      8
+      13
      ],
-     "cards": 3.0,
-     "cards_1t": 0.6,
+     "cards": 4.1,
+     "cards_1t": 1.6,
      "games_k": [
       9,
-      8
+      13
      ],
-     "home_logo": "https://cdn.pitchapi.dev/images/teams/aa9039a0708e4abc0ffb051bd797d785c097ca5cb2fab9218058f9eb34def5bf.webp",
-     "away_logo": "https://cdn.pitchapi.dev/images/teams/2e47f0a718e58090d287870e5eef626c90b236d75fff1e901cd6b35235adb0c7.webp"
-    },
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/ea1fefc2563aefd76618df1445958002c0e5a43626a3e4a9054d99ade2d224df.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/83110e344a5a5bfa92691b7abc038174e25dc66146f033631a31c9ff9a4b6d7b.webp"
+    }
+   ],
+   "falli": [
     {
      "id": "m_3BS3ZY",
      "date": "2026-10-22",
@@ -970,60 +917,6 @@
      "away_logo": "https://cdn.pitchapi.dev/images/teams/7fa49c9d1b9256476d670fdc56e0900717361bfb5a1ac9586d1f148d17235ea3.webp"
     },
     {
-     "id": "m_2bk3p4",
-     "date": "2026-10-22",
-     "time": "2026-10-22",
-     "league": "Europa League",
-     "home": "Ararat Armenia",
-     "away": "AZ Alkmaar",
-     "non_coperto": [
-      "Ararat Armenia"
-     ],
-     "corners_home": 3.5,
-     "corners_away": 10.2,
-     "gap": 6.7,
-     "games": [
-      1,
-      6
-     ],
-     "tiri_home": 13.6,
-     "tiri_away": 18.2,
-     "tiri_gap": 4.7,
-     "tiri_games": [
-      1,
-      6
-     ],
-     "sot_home": 3.4,
-     "sot_away": 6.5,
-     "sot_gap": 3.2,
-     "sot_games": [
-      1,
-      6
-     ],
-     "falli_home": 13.6,
-     "falli_away": 16.3,
-     "falli_gap": 2.7,
-     "falli_games": [
-      2,
-      11
-     ],
-     "off_home": 1.0,
-     "off_away": 2.7,
-     "off_gap": 1.6,
-     "off_games": [
-      2,
-      11
-     ],
-     "cards": 4.0,
-     "cards_1t": 1.0,
-     "games_k": [
-      2,
-      11
-     ],
-     "home_logo": "https://cdn.pitchapi.dev/images/teams/9f05812eddf90e7874f3305d37355581945c250e356da9aa7ef2bca57c95fe83.webp",
-     "away_logo": "https://cdn.pitchapi.dev/images/teams/21e903699663138a2f89734d1bda1f699b3d3fed0912268feb4dc6495d52feaa.webp"
-    },
-    {
      "id": "m_465zDH",
      "date": "2026-10-22",
      "time": "2026-10-22",
@@ -1074,6 +967,110 @@
      ],
      "home_logo": "https://cdn.pitchapi.dev/images/teams/b581a614bcdfacf0fd8ab791f9056d9bd7f7cb538a7900175970c7d46bb1f123.webp",
      "away_logo": "https://cdn.pitchapi.dev/images/teams/ef917e418f18783f60198c20a1fa9ec4983b40bdddba6f23b1eaefa1a4110fc0.webp"
+    },
+    {
+     "id": "m_1dlAX1",
+     "date": "2026-10-22",
+     "time": "2026-10-22",
+     "league": "Europa League",
+     "home": "Beşiktaş",
+     "away": "Crystal Palace",
+     "non_coperto": [],
+     "corners_home": 6.1,
+     "corners_away": 3.2,
+     "gap": 2.9,
+     "games": [
+      5,
+      5
+     ],
+     "tiri_home": 15.6,
+     "tiri_away": 11.0,
+     "tiri_gap": 4.6,
+     "tiri_games": [
+      5,
+      5
+     ],
+     "sot_home": 5.1,
+     "sot_away": 3.4,
+     "sot_gap": 1.7,
+     "sot_games": [
+      5,
+      5
+     ],
+     "falli_home": 10.9,
+     "falli_away": 12.3,
+     "falli_gap": 1.4,
+     "falli_games": [
+      10,
+      9
+     ],
+     "off_home": 1.9,
+     "off_away": 1.9,
+     "off_gap": 0.0,
+     "off_games": [
+      10,
+      9
+     ],
+     "cards": 3.7,
+     "cards_1t": 1.1,
+     "games_k": [
+      10,
+      9
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/46c610bfe967813c00a9f4b16d3bacd3936eb0290217e06e054a2e4112a6e720.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/e300f3d515e70adaadfc6e0de7b5e5bd91fe1818b38054d6a8a363c64d0286ae.webp"
+    },
+    {
+     "id": "m_47jbOi",
+     "date": "2026-10-22",
+     "time": "2026-10-22",
+     "league": "Europa League",
+     "home": "Jagiellonia Białystok",
+     "away": "Anderlecht",
+     "non_coperto": [],
+     "corners_home": 4.7,
+     "corners_away": 5.0,
+     "gap": 0.3,
+     "games": [
+      6,
+      5
+     ],
+     "tiri_home": 13.2,
+     "tiri_away": 14.2,
+     "tiri_gap": 1.0,
+     "tiri_games": [
+      6,
+      5
+     ],
+     "sot_home": 4.4,
+     "sot_away": 4.8,
+     "sot_gap": 0.4,
+     "sot_games": [
+      6,
+      5
+     ],
+     "falli_home": 13.5,
+     "falli_away": 12.2,
+     "falli_gap": 1.3,
+     "falli_games": [
+      12,
+      10
+     ],
+     "off_home": 2.8,
+     "off_away": 0.8,
+     "off_gap": 1.9,
+     "off_games": [
+      12,
+      10
+     ],
+     "cards": 3.6,
+     "cards_1t": 1.0,
+     "games_k": [
+      12,
+      10
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/47e1867f61861e48792173502c2a38955d41403b5a2e2e9297259602d2a93ec2.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/c15c2bcf549e0a436011be5c585115ce2ac295d75bd774e19c56fd8dde1618cd.webp"
     }
    ],
    "fuorigiochi": [
@@ -1130,164 +1127,6 @@
      "away_logo": "https://cdn.pitchapi.dev/images/teams/c15c2bcf549e0a436011be5c585115ce2ac295d75bd774e19c56fd8dde1618cd.webp"
     },
     {
-     "id": "m_2bk3p4",
-     "date": "2026-10-22",
-     "time": "2026-10-22",
-     "league": "Europa League",
-     "home": "Ararat Armenia",
-     "away": "AZ Alkmaar",
-     "non_coperto": [
-      "Ararat Armenia"
-     ],
-     "corners_home": 3.5,
-     "corners_away": 10.2,
-     "gap": 6.7,
-     "games": [
-      1,
-      6
-     ],
-     "tiri_home": 13.6,
-     "tiri_away": 18.2,
-     "tiri_gap": 4.7,
-     "tiri_games": [
-      1,
-      6
-     ],
-     "sot_home": 3.4,
-     "sot_away": 6.5,
-     "sot_gap": 3.2,
-     "sot_games": [
-      1,
-      6
-     ],
-     "falli_home": 13.6,
-     "falli_away": 16.3,
-     "falli_gap": 2.7,
-     "falli_games": [
-      2,
-      11
-     ],
-     "off_home": 1.0,
-     "off_away": 2.7,
-     "off_gap": 1.6,
-     "off_games": [
-      2,
-      11
-     ],
-     "cards": 4.0,
-     "cards_1t": 1.0,
-     "games_k": [
-      2,
-      11
-     ],
-     "home_logo": "https://cdn.pitchapi.dev/images/teams/9f05812eddf90e7874f3305d37355581945c250e356da9aa7ef2bca57c95fe83.webp",
-     "away_logo": "https://cdn.pitchapi.dev/images/teams/21e903699663138a2f89734d1bda1f699b3d3fed0912268feb4dc6495d52feaa.webp"
-    },
-    {
-     "id": "m_4AJq5E",
-     "date": "2026-10-22",
-     "time": "2026-10-22",
-     "league": "Europa League",
-     "home": "Lech Poznań",
-     "away": "Sunderland",
-     "non_coperto": [],
-     "corners_home": 5.4,
-     "corners_away": 4.7,
-     "gap": 0.6,
-     "games": [
-      7,
-      5
-     ],
-     "tiri_home": 14.4,
-     "tiri_away": 14.5,
-     "tiri_gap": 0.0,
-     "tiri_games": [
-      7,
-      5
-     ],
-     "sot_home": 4.3,
-     "sot_away": 4.7,
-     "sot_gap": 0.4,
-     "sot_games": [
-      7,
-      5
-     ],
-     "falli_home": 12.4,
-     "falli_away": 12.9,
-     "falli_gap": 0.4,
-     "falli_games": [
-      12,
-      9
-     ],
-     "off_home": 1.0,
-     "off_away": 2.1,
-     "off_gap": 1.2,
-     "off_games": [
-      12,
-      9
-     ],
-     "cards": 3.9,
-     "cards_1t": 1.8,
-     "games_k": [
-      12,
-      9
-     ],
-     "home_logo": "https://cdn.pitchapi.dev/images/teams/fd3bdf85190407a7f7bb4182d58a1240186a2b105c4af98b4278d48aadd119ff.webp",
-     "away_logo": "https://cdn.pitchapi.dev/images/teams/c7480c6686f3054f22a90d172989397e9e1716ac05bd71149b2853a7fb86c28c.webp"
-    },
-    {
-     "id": "m_09sEEq",
-     "date": "2026-10-22",
-     "time": "2026-10-22",
-     "league": "Europa League",
-     "home": "Sturm Graz",
-     "away": "Marseille",
-     "non_coperto": [],
-     "corners_home": 5.6,
-     "corners_away": 5.1,
-     "gap": 0.5,
-     "games": [
-      5,
-      5
-     ],
-     "tiri_home": 12.6,
-     "tiri_away": 19.8,
-     "tiri_gap": 7.3,
-     "tiri_games": [
-      5,
-      5
-     ],
-     "sot_home": 4.3,
-     "sot_away": 5.4,
-     "sot_gap": 1.1,
-     "sot_games": [
-      5,
-      5
-     ],
-     "falli_home": 11.4,
-     "falli_away": 10.5,
-     "falli_gap": 0.9,
-     "falli_games": [
-      11,
-      9
-     ],
-     "off_home": 2.2,
-     "off_away": 1.2,
-     "off_gap": 1.0,
-     "off_games": [
-      11,
-      9
-     ],
-     "cards": 3.8,
-     "cards_1t": 1.2,
-     "games_k": [
-      11,
-      9
-     ],
-     "home_logo": "https://cdn.pitchapi.dev/images/teams/b8c2144240c8ec6c3c13421724548b48d5c33ad8ac69fe0d444c73e4541267af.webp",
-     "away_logo": "https://cdn.pitchapi.dev/images/teams/10ec6fe14a73f5994c3b2570231e34cd8884232163027b8a423fe45957045ffd.webp"
-    },
-    {
      "id": "m_3qJtjY",
      "date": "2026-10-22",
      "time": "2026-10-22",
@@ -1340,6 +1179,162 @@
      ],
      "home_logo": "https://cdn.pitchapi.dev/images/teams/6156ee5f8d0003d019abbe68ef358b3fee95687fe71a36e97345dfce3650bab7.webp",
      "away_logo": "https://cdn.pitchapi.dev/images/teams/f400d9a5aa24f6f0c3094f0d1598c0f56ce2b003b8282a45481dd551d75a7a20.webp"
+    },
+    {
+     "id": "m_15vUm9",
+     "date": "2026-10-22",
+     "time": "2026-10-22",
+     "league": "Europa League",
+     "home": "AFC Bournemouth",
+     "away": "Milan",
+     "non_coperto": [],
+     "corners_home": 4.4,
+     "corners_away": 3.4,
+     "gap": 1.0,
+     "games": [
+      5,
+      5
+     ],
+     "tiri_home": 15.3,
+     "tiri_away": 10.6,
+     "tiri_gap": 4.7,
+     "tiri_games": [
+      5,
+      5
+     ],
+     "sot_home": 4.9,
+     "sot_away": 4.1,
+     "sot_gap": 0.8,
+     "sot_games": [
+      5,
+      5
+     ],
+     "falli_home": 12.4,
+     "falli_away": 11.5,
+     "falli_gap": 0.9,
+     "falli_games": [
+      9,
+      9
+     ],
+     "off_home": 1.9,
+     "off_away": 1.3,
+     "off_gap": 0.7,
+     "off_games": [
+      9,
+      9
+     ],
+     "cards": 4.8,
+     "cards_1t": 1.7,
+     "games_k": [
+      9,
+      9
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/40e4779117edc3d821c9ca142e60fe85ed9bae6e44750df5173a4f39c0cf9fe8.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/084d6673fc303d26d77ffa8d8763966663b002403d5bbdf17916de163f389018.webp"
+    },
+    {
+     "id": "m_45EQn7",
+     "date": "2026-10-22",
+     "time": "2026-10-22",
+     "league": "Europa League",
+     "home": "Celtic",
+     "away": "Celta Vigo",
+     "non_coperto": [],
+     "corners_home": 6.9,
+     "corners_away": 4.0,
+     "gap": 2.9,
+     "games": [
+      5,
+      5
+     ],
+     "tiri_home": 11.2,
+     "tiri_away": 15.3,
+     "tiri_gap": 4.1,
+     "tiri_games": [
+      5,
+      5
+     ],
+     "sot_home": 3.8,
+     "sot_away": 4.7,
+     "sot_gap": 0.9,
+     "sot_games": [
+      5,
+      5
+     ],
+     "falli_home": 12.6,
+     "falli_away": 11.5,
+     "falli_gap": 1.1,
+     "falli_games": [
+      10,
+      11
+     ],
+     "off_home": 1.3,
+     "off_away": 1.9,
+     "off_gap": 0.6,
+     "off_games": [
+      10,
+      11
+     ],
+     "cards": 2.9,
+     "cards_1t": 0.8,
+     "games_k": [
+      10,
+      11
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/962c70903cb3c720b0baedc22bee5480b8d41fce1ba696b043ae311d3103de14.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/dac7a8cb1fba7c48ce0e6ed3e17439cc771e33f2aca093d2dc5eb23cb10e1533.webp"
+    },
+    {
+     "id": "m_1qSOni",
+     "date": "2026-10-22",
+     "time": "2026-10-22",
+     "league": "Europa League",
+     "home": "Olympiacos",
+     "away": "Sparta Prague",
+     "non_coperto": [],
+     "corners_home": 6.7,
+     "corners_away": 5.0,
+     "gap": 1.7,
+     "games": [
+      4,
+      7
+     ],
+     "tiri_home": 16.5,
+     "tiri_away": 11.3,
+     "tiri_gap": 5.2,
+     "tiri_games": [
+      4,
+      7
+     ],
+     "sot_home": 4.5,
+     "sot_away": 3.6,
+     "sot_gap": 0.9,
+     "sot_games": [
+      4,
+      7
+     ],
+     "falli_home": 14.3,
+     "falli_away": 13.3,
+     "falli_gap": 1.1,
+     "falli_games": [
+      9,
+      13
+     ],
+     "off_home": 1.6,
+     "off_away": 2.0,
+     "off_gap": 0.4,
+     "off_games": [
+      9,
+      13
+     ],
+     "cards": 4.1,
+     "cards_1t": 1.6,
+     "games_k": [
+      9,
+      13
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/ea1fefc2563aefd76618df1445958002c0e5a43626a3e4a9054d99ade2d224df.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/83110e344a5a5bfa92691b7abc038174e25dc66146f033631a31c9ff9a4b6d7b.webp"
     }
    ],
    "cartellini": [
@@ -1450,110 +1445,6 @@
      "away_logo": "https://cdn.pitchapi.dev/images/teams/dac7a8cb1fba7c48ce0e6ed3e17439cc771e33f2aca093d2dc5eb23cb10e1533.webp"
     },
     {
-     "id": "m_30rVM5",
-     "date": "2026-10-22",
-     "time": "2026-10-22",
-     "league": "Europa League",
-     "home": "OFI Crete",
-     "away": "Bayer Leverkusen",
-     "non_coperto": [],
-     "corners_home": 3.6,
-     "corners_away": 5.8,
-     "gap": 2.1,
-     "games": [
-      4,
-      4
-     ],
-     "tiri_home": 10.5,
-     "tiri_away": 19.6,
-     "tiri_gap": 9.1,
-     "tiri_games": [
-      4,
-      4
-     ],
-     "sot_home": 3.8,
-     "sot_away": 5.1,
-     "sot_gap": 1.3,
-     "sot_games": [
-      4,
-      4
-     ],
-     "falli_home": 10.4,
-     "falli_away": 14.8,
-     "falli_gap": 4.5,
-     "falli_games": [
-      9,
-      8
-     ],
-     "off_home": 1.3,
-     "off_away": 2.1,
-     "off_gap": 0.8,
-     "off_games": [
-      9,
-      8
-     ],
-     "cards": 3.0,
-     "cards_1t": 0.6,
-     "games_k": [
-      9,
-      8
-     ],
-     "home_logo": "https://cdn.pitchapi.dev/images/teams/aa9039a0708e4abc0ffb051bd797d785c097ca5cb2fab9218058f9eb34def5bf.webp",
-     "away_logo": "https://cdn.pitchapi.dev/images/teams/2e47f0a718e58090d287870e5eef626c90b236d75fff1e901cd6b35235adb0c7.webp"
-    },
-    {
-     "id": "m_4P9a80",
-     "date": "2026-10-22",
-     "time": "2026-10-22",
-     "league": "Europa League",
-     "home": "Dinamo Zagreb",
-     "away": "NEC Nijmegen",
-     "non_coperto": [],
-     "corners_home": 5.3,
-     "corners_away": 3.1,
-     "gap": 2.3,
-     "games": [
-      6,
-      5
-     ],
-     "tiri_home": 14.0,
-     "tiri_away": 11.7,
-     "tiri_gap": 2.3,
-     "tiri_games": [
-      6,
-      5
-     ],
-     "sot_home": 5.4,
-     "sot_away": 4.0,
-     "sot_gap": 1.4,
-     "sot_games": [
-      6,
-      5
-     ],
-     "falli_home": 13.8,
-     "falli_away": 12.0,
-     "falli_gap": 1.8,
-     "falli_games": [
-      11,
-      11
-     ],
-     "off_home": 1.1,
-     "off_away": 1.5,
-     "off_gap": 0.5,
-     "off_games": [
-      11,
-      11
-     ],
-     "cards": 3.0,
-     "cards_1t": 1.1,
-     "games_k": [
-      11,
-      11
-     ],
-     "home_logo": "https://cdn.pitchapi.dev/images/teams/156d34e6aa49318bc7cca25f3d06df36a7d09c4651d715fc5dd4dfca4a81ff65.webp",
-     "away_logo": "https://cdn.pitchapi.dev/images/teams/f613e43094de4e468b9b1708d16725a8789e407c4f73c9989cf4b1b551f446fd.webp"
-    },
-    {
      "id": "m_1Y8u7K",
      "date": "2026-10-22",
      "time": "2026-10-22",
@@ -1606,115 +1497,115 @@
      ],
      "home_logo": "https://cdn.pitchapi.dev/images/teams/efaeab98cc7e0456c9c194589f1e92357e3afacaee079af6fd7632b4e0348eaf.webp",
      "away_logo": "https://cdn.pitchapi.dev/images/teams/4005f060b534d25f4c041f7cfb9bd85860fcfac123d6db20ec4161fe6bacd761.webp"
+    },
+    {
+     "id": "m_3qJtjY",
+     "date": "2026-10-22",
+     "time": "2026-10-22",
+     "league": "Europa League",
+     "home": "Omonia Nicosia",
+     "away": "Benfica",
+     "non_coperto": [
+      "Omonia Nicosia"
+     ],
+     "corners_home": 3.5,
+     "corners_away": 6.9,
+     "gap": 3.4,
+     "games": [
+      1,
+      5
+     ],
+     "tiri_home": 11.4,
+     "tiri_away": 15.9,
+     "tiri_gap": 4.5,
+     "tiri_games": [
+      1,
+      5
+     ],
+     "sot_home": 3.5,
+     "sot_away": 5.0,
+     "sot_gap": 1.5,
+     "sot_games": [
+      1,
+      5
+     ],
+     "falli_home": 11.1,
+     "falli_away": 11.8,
+     "falli_gap": 0.7,
+     "falli_games": [
+      2,
+      9
+     ],
+     "off_home": 0.9,
+     "off_away": 1.9,
+     "off_gap": 1.0,
+     "off_games": [
+      2,
+      9
+     ],
+     "cards": 3.3,
+     "cards_1t": 0.8,
+     "games_k": [
+      2,
+      9
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/6156ee5f8d0003d019abbe68ef358b3fee95687fe71a36e97345dfce3650bab7.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/f400d9a5aa24f6f0c3094f0d1598c0f56ce2b003b8282a45481dd551d75a7a20.webp"
+    },
+    {
+     "id": "m_47jbOi",
+     "date": "2026-10-22",
+     "time": "2026-10-22",
+     "league": "Europa League",
+     "home": "Jagiellonia Białystok",
+     "away": "Anderlecht",
+     "non_coperto": [],
+     "corners_home": 4.7,
+     "corners_away": 5.0,
+     "gap": 0.3,
+     "games": [
+      6,
+      5
+     ],
+     "tiri_home": 13.2,
+     "tiri_away": 14.2,
+     "tiri_gap": 1.0,
+     "tiri_games": [
+      6,
+      5
+     ],
+     "sot_home": 4.4,
+     "sot_away": 4.8,
+     "sot_gap": 0.4,
+     "sot_games": [
+      6,
+      5
+     ],
+     "falli_home": 13.5,
+     "falli_away": 12.2,
+     "falli_gap": 1.3,
+     "falli_games": [
+      12,
+      10
+     ],
+     "off_home": 2.8,
+     "off_away": 0.8,
+     "off_gap": 1.9,
+     "off_games": [
+      12,
+      10
+     ],
+     "cards": 3.6,
+     "cards_1t": 1.0,
+     "games_k": [
+      12,
+      10
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/47e1867f61861e48792173502c2a38955d41403b5a2e2e9297259602d2a93ec2.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/c15c2bcf549e0a436011be5c585115ce2ac295d75bd774e19c56fd8dde1618cd.webp"
     }
    ],
    "cartellini_1t": [
-    {
-     "id": "m_30rVM5",
-     "date": "2026-10-22",
-     "time": "2026-10-22",
-     "league": "Europa League",
-     "home": "OFI Crete",
-     "away": "Bayer Leverkusen",
-     "non_coperto": [],
-     "corners_home": 3.6,
-     "corners_away": 5.8,
-     "gap": 2.1,
-     "games": [
-      4,
-      4
-     ],
-     "tiri_home": 10.5,
-     "tiri_away": 19.6,
-     "tiri_gap": 9.1,
-     "tiri_games": [
-      4,
-      4
-     ],
-     "sot_home": 3.8,
-     "sot_away": 5.1,
-     "sot_gap": 1.3,
-     "sot_games": [
-      4,
-      4
-     ],
-     "falli_home": 10.4,
-     "falli_away": 14.8,
-     "falli_gap": 4.5,
-     "falli_games": [
-      9,
-      8
-     ],
-     "off_home": 1.3,
-     "off_away": 2.1,
-     "off_gap": 0.8,
-     "off_games": [
-      9,
-      8
-     ],
-     "cards": 3.0,
-     "cards_1t": 0.6,
-     "games_k": [
-      9,
-      8
-     ],
-     "home_logo": "https://cdn.pitchapi.dev/images/teams/aa9039a0708e4abc0ffb051bd797d785c097ca5cb2fab9218058f9eb34def5bf.webp",
-     "away_logo": "https://cdn.pitchapi.dev/images/teams/2e47f0a718e58090d287870e5eef626c90b236d75fff1e901cd6b35235adb0c7.webp"
-    },
-    {
-     "id": "m_3OUrqj",
-     "date": "2026-10-22",
-     "time": "2026-10-22",
-     "league": "Europa League",
-     "home": "Viktoria Plzeň",
-     "away": "Levski Sofia",
-     "non_coperto": [
-      "Levski Sofia"
-     ],
-     "corners_home": 6.2,
-     "corners_away": 2.5,
-     "gap": 3.7,
-     "games": [
-      7,
-      1
-     ],
-     "tiri_home": 14.5,
-     "tiri_away": 12.8,
-     "tiri_gap": 1.8,
-     "tiri_games": [
-      7,
-      1
-     ],
-     "sot_home": 6.0,
-     "sot_away": 4.9,
-     "sot_gap": 1.1,
-     "sot_games": [
-      7,
-      1
-     ],
-     "falli_home": 14.7,
-     "falli_away": 11.9,
-     "falli_gap": 2.8,
-     "falli_games": [
-      13,
-      2
-     ],
-     "off_home": 1.1,
-     "off_away": 0.9,
-     "off_gap": 0.2,
-     "off_games": [
-      13,
-      2
-     ],
-     "cards": 2.7,
-     "cards_1t": 0.8,
-     "games_k": [
-      13,
-      2
-     ],
-     "home_logo": "https://cdn.pitchapi.dev/images/teams/786d8290c958c4b312b4c64ad9293e7e29ef4a0b2b0a97fa3f33efbeb8f9c80d.webp",
-     "away_logo": "https://cdn.pitchapi.dev/images/teams/7fa49c9d1b9256476d670fdc56e0900717361bfb5a1ac9586d1f148d17235ea3.webp"
-    },
     {
      "id": "m_3qJtjY",
      "date": "2026-10-22",
@@ -1822,58 +1713,162 @@
      "away_logo": "https://cdn.pitchapi.dev/images/teams/dac7a8cb1fba7c48ce0e6ed3e17439cc771e33f2aca093d2dc5eb23cb10e1533.webp"
     },
     {
-     "id": "m_2bk3p4",
+     "id": "m_3OUrqj",
      "date": "2026-10-22",
      "time": "2026-10-22",
      "league": "Europa League",
-     "home": "Ararat Armenia",
-     "away": "AZ Alkmaar",
+     "home": "Viktoria Plzeň",
+     "away": "Levski Sofia",
      "non_coperto": [
-      "Ararat Armenia"
+      "Levski Sofia"
      ],
-     "corners_home": 3.5,
-     "corners_away": 10.2,
-     "gap": 6.7,
+     "corners_home": 6.2,
+     "corners_away": 2.5,
+     "gap": 3.7,
      "games": [
-      1,
-      6
+      7,
+      1
      ],
-     "tiri_home": 13.6,
-     "tiri_away": 18.2,
-     "tiri_gap": 4.7,
+     "tiri_home": 14.5,
+     "tiri_away": 12.8,
+     "tiri_gap": 1.8,
      "tiri_games": [
-      1,
-      6
+      7,
+      1
      ],
-     "sot_home": 3.4,
-     "sot_away": 6.5,
-     "sot_gap": 3.2,
+     "sot_home": 6.0,
+     "sot_away": 4.9,
+     "sot_gap": 1.1,
      "sot_games": [
-      1,
-      6
+      7,
+      1
      ],
-     "falli_home": 13.6,
-     "falli_away": 16.3,
-     "falli_gap": 2.7,
+     "falli_home": 14.7,
+     "falli_away": 11.9,
+     "falli_gap": 2.8,
      "falli_games": [
-      2,
-      11
+      13,
+      2
      ],
-     "off_home": 1.0,
-     "off_away": 2.7,
-     "off_gap": 1.6,
+     "off_home": 1.1,
+     "off_away": 0.9,
+     "off_gap": 0.2,
      "off_games": [
-      2,
-      11
+      13,
+      2
      ],
-     "cards": 4.0,
+     "cards": 2.7,
+     "cards_1t": 0.8,
+     "games_k": [
+      13,
+      2
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/786d8290c958c4b312b4c64ad9293e7e29ef4a0b2b0a97fa3f33efbeb8f9c80d.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/7fa49c9d1b9256476d670fdc56e0900717361bfb5a1ac9586d1f148d17235ea3.webp"
+    },
+    {
+     "id": "m_47jbOi",
+     "date": "2026-10-22",
+     "time": "2026-10-22",
+     "league": "Europa League",
+     "home": "Jagiellonia Białystok",
+     "away": "Anderlecht",
+     "non_coperto": [],
+     "corners_home": 4.7,
+     "corners_away": 5.0,
+     "gap": 0.3,
+     "games": [
+      6,
+      5
+     ],
+     "tiri_home": 13.2,
+     "tiri_away": 14.2,
+     "tiri_gap": 1.0,
+     "tiri_games": [
+      6,
+      5
+     ],
+     "sot_home": 4.4,
+     "sot_away": 4.8,
+     "sot_gap": 0.4,
+     "sot_games": [
+      6,
+      5
+     ],
+     "falli_home": 13.5,
+     "falli_away": 12.2,
+     "falli_gap": 1.3,
+     "falli_games": [
+      12,
+      10
+     ],
+     "off_home": 2.8,
+     "off_away": 0.8,
+     "off_gap": 1.9,
+     "off_games": [
+      12,
+      10
+     ],
+     "cards": 3.6,
      "cards_1t": 1.0,
      "games_k": [
-      2,
-      11
+      12,
+      10
      ],
-     "home_logo": "https://cdn.pitchapi.dev/images/teams/9f05812eddf90e7874f3305d37355581945c250e356da9aa7ef2bca57c95fe83.webp",
-     "away_logo": "https://cdn.pitchapi.dev/images/teams/21e903699663138a2f89734d1bda1f699b3d3fed0912268feb4dc6495d52feaa.webp"
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/47e1867f61861e48792173502c2a38955d41403b5a2e2e9297259602d2a93ec2.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/c15c2bcf549e0a436011be5c585115ce2ac295d75bd774e19c56fd8dde1618cd.webp"
+    },
+    {
+     "id": "m_1dlAX1",
+     "date": "2026-10-22",
+     "time": "2026-10-22",
+     "league": "Europa League",
+     "home": "Beşiktaş",
+     "away": "Crystal Palace",
+     "non_coperto": [],
+     "corners_home": 6.1,
+     "corners_away": 3.2,
+     "gap": 2.9,
+     "games": [
+      5,
+      5
+     ],
+     "tiri_home": 15.6,
+     "tiri_away": 11.0,
+     "tiri_gap": 4.6,
+     "tiri_games": [
+      5,
+      5
+     ],
+     "sot_home": 5.1,
+     "sot_away": 3.4,
+     "sot_gap": 1.7,
+     "sot_games": [
+      5,
+      5
+     ],
+     "falli_home": 10.9,
+     "falli_away": 12.3,
+     "falli_gap": 1.4,
+     "falli_games": [
+      10,
+      9
+     ],
+     "off_home": 1.9,
+     "off_away": 1.9,
+     "off_gap": 0.0,
+     "off_games": [
+      10,
+      9
+     ],
+     "cards": 3.7,
+     "cards_1t": 1.1,
+     "games_k": [
+      10,
+      9
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/46c610bfe967813c00a9f4b16d3bacd3936eb0290217e06e054a2e4112a6e720.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/e300f3d515e70adaadfc6e0de7b5e5bd91fe1818b38054d6a8a363c64d0286ae.webp"
     }
    ]
   },
@@ -5639,24 +5634,24 @@
       4
      ],
      "falli_home": 12.1,
-     "falli_away": 11.1,
-     "falli_gap": 1.0,
+     "falli_away": 11.2,
+     "falli_gap": 0.9,
      "falli_games": [
       7,
-      9
+      10
      ],
      "off_home": 1.5,
-     "off_away": 3.4,
-     "off_gap": 1.9,
+     "off_away": 3.5,
+     "off_gap": 2.0,
      "off_games": [
       7,
-      9
+      10
      ],
      "cards": 3.2,
-     "cards_1t": 1.3,
+     "cards_1t": 1.4,
      "games_k": [
       7,
-      9
+      10
      ],
      "home_logo": "https://cdn.pitchapi.dev/images/teams/fd12bd6e2b68f30eee08cea1fb48d9fb43ce61b3e152f980732e2835fb8be9fd.webp",
      "away_logo": "https://cdn.pitchapi.dev/images/teams/7eaf5f4fe543152082fc53d035dc7f0663b4a090cab3ab701fc5f4df3a711784.webp"
@@ -5794,24 +5789,24 @@
       5,
       4
      ],
-     "falli_home": 10.5,
-     "falli_away": 11.4,
-     "falli_gap": 0.9,
+     "falli_home": 10.4,
+     "falli_away": 11.5,
+     "falli_gap": 1.2,
      "falli_games": [
-      9,
+      10,
       7
      ],
-     "off_home": 1.9,
-     "off_away": 1.7,
-     "off_gap": 0.2,
+     "off_home": 1.8,
+     "off_away": 1.8,
+     "off_gap": 0.1,
      "off_games": [
-      9,
+      10,
       7
      ],
-     "cards": 3.8,
-     "cards_1t": 1.1,
+     "cards": 3.7,
+     "cards_1t": 1.0,
      "games_k": [
-      9,
+      10,
       7
      ],
      "home_logo": "https://cdn.pitchapi.dev/images/teams/87e4093af8a42182c2394abd11392cfe7a9b5988266f8161a20e126a66a8238b.webp",
@@ -5953,24 +5948,24 @@
       4
      ],
      "falli_home": 12.1,
-     "falli_away": 11.1,
-     "falli_gap": 1.0,
+     "falli_away": 11.2,
+     "falli_gap": 0.9,
      "falli_games": [
       7,
-      9
+      10
      ],
      "off_home": 1.5,
-     "off_away": 3.4,
-     "off_gap": 1.9,
+     "off_away": 3.5,
+     "off_gap": 2.0,
      "off_games": [
       7,
-      9
+      10
      ],
      "cards": 3.2,
-     "cards_1t": 1.3,
+     "cards_1t": 1.4,
      "games_k": [
       7,
-      9
+      10
      ],
      "home_logo": "https://cdn.pitchapi.dev/images/teams/fd12bd6e2b68f30eee08cea1fb48d9fb43ce61b3e152f980732e2835fb8be9fd.webp",
      "away_logo": "https://cdn.pitchapi.dev/images/teams/7eaf5f4fe543152082fc53d035dc7f0663b4a090cab3ab701fc5f4df3a711784.webp"
@@ -6004,24 +5999,24 @@
       5,
       4
      ],
-     "falli_home": 10.5,
-     "falli_away": 11.4,
-     "falli_gap": 0.9,
+     "falli_home": 10.4,
+     "falli_away": 11.5,
+     "falli_gap": 1.2,
      "falli_games": [
-      9,
+      10,
       7
      ],
-     "off_home": 1.9,
-     "off_away": 1.7,
-     "off_gap": 0.2,
+     "off_home": 1.8,
+     "off_away": 1.8,
+     "off_gap": 0.1,
      "off_games": [
-      9,
+      10,
       7
      ],
-     "cards": 3.8,
-     "cards_1t": 1.1,
+     "cards": 3.7,
+     "cards_1t": 1.0,
      "games_k": [
-      9,
+      10,
       7
      ],
      "home_logo": "https://cdn.pitchapi.dev/images/teams/87e4093af8a42182c2394abd11392cfe7a9b5988266f8161a20e126a66a8238b.webp",
@@ -6111,24 +6106,24 @@
       4
      ],
      "falli_home": 12.1,
-     "falli_away": 11.1,
-     "falli_gap": 1.0,
+     "falli_away": 11.2,
+     "falli_gap": 0.9,
      "falli_games": [
       7,
-      9
+      10
      ],
      "off_home": 1.5,
-     "off_away": 3.4,
-     "off_gap": 1.9,
+     "off_away": 3.5,
+     "off_gap": 2.0,
      "off_games": [
       7,
-      9
+      10
      ],
      "cards": 3.2,
-     "cards_1t": 1.3,
+     "cards_1t": 1.4,
      "games_k": [
       7,
-      9
+      10
      ],
      "home_logo": "https://cdn.pitchapi.dev/images/teams/fd12bd6e2b68f30eee08cea1fb48d9fb43ce61b3e152f980732e2835fb8be9fd.webp",
      "away_logo": "https://cdn.pitchapi.dev/images/teams/7eaf5f4fe543152082fc53d035dc7f0663b4a090cab3ab701fc5f4df3a711784.webp"
@@ -6318,24 +6313,24 @@
       5,
       4
      ],
-     "falli_home": 10.5,
-     "falli_away": 11.4,
-     "falli_gap": 0.9,
+     "falli_home": 10.4,
+     "falli_away": 11.5,
+     "falli_gap": 1.2,
      "falli_games": [
-      9,
+      10,
       7
      ],
-     "off_home": 1.9,
-     "off_away": 1.7,
-     "off_gap": 0.2,
+     "off_home": 1.8,
+     "off_away": 1.8,
+     "off_gap": 0.1,
      "off_games": [
-      9,
+      10,
       7
      ],
-     "cards": 3.8,
-     "cards_1t": 1.1,
+     "cards": 3.7,
+     "cards_1t": 1.0,
      "games_k": [
-      9,
+      10,
       7
      ],
      "home_logo": "https://cdn.pitchapi.dev/images/teams/87e4093af8a42182c2394abd11392cfe7a9b5988266f8161a20e126a66a8238b.webp",
@@ -6635,24 +6630,24 @@
       4
      ],
      "falli_home": 12.1,
-     "falli_away": 11.1,
-     "falli_gap": 1.0,
+     "falli_away": 11.2,
+     "falli_gap": 0.9,
      "falli_games": [
       7,
-      9
+      10
      ],
      "off_home": 1.5,
-     "off_away": 3.4,
-     "off_gap": 1.9,
+     "off_away": 3.5,
+     "off_gap": 2.0,
      "off_games": [
       7,
-      9
+      10
      ],
      "cards": 3.2,
-     "cards_1t": 1.3,
+     "cards_1t": 1.4,
      "games_k": [
       7,
-      9
+      10
      ],
      "home_logo": "https://cdn.pitchapi.dev/images/teams/fd12bd6e2b68f30eee08cea1fb48d9fb43ce61b3e152f980732e2835fb8be9fd.webp",
      "away_logo": "https://cdn.pitchapi.dev/images/teams/7eaf5f4fe543152082fc53d035dc7f0663b4a090cab3ab701fc5f4df3a711784.webp"
@@ -6843,23 +6838,23 @@
       3
      ],
      "falli_home": 12.2,
-     "falli_away": 13.3,
-     "falli_gap": 1.1,
+     "falli_away": 13.0,
+     "falli_gap": 0.7,
      "falli_games": [
-      9,
+      10,
       7
      ],
      "off_home": 2.6,
      "off_away": 1.6,
      "off_gap": 1.0,
      "off_games": [
-      9,
+      10,
       7
      ],
-     "cards": 4.1,
+     "cards": 4.0,
      "cards_1t": 2.0,
      "games_k": [
-      9,
+      10,
       7
      ],
      "home_logo": "https://cdn.pitchapi.dev/images/teams/c7480c6686f3054f22a90d172989397e9e1716ac05bd71149b2853a7fb86c28c.webp",
@@ -7234,58 +7229,6 @@
      "away_logo": "https://cdn.pitchapi.dev/images/teams/1e2afd379a7d354c930f790c1f9ab0c2b50654cf4d47f20ffb269b8cfe309bca.webp"
     },
     {
-     "id": "m_3YgM7X",
-     "date": "2026-10-25",
-     "time": "2026-10-25",
-     "league": "Bundesliga",
-     "home": "Hoffenheim",
-     "away": "Bayer Leverkusen",
-     "non_coperto": [],
-     "corners_home": 5.4,
-     "corners_away": 5.4,
-     "gap": 0.0,
-     "games": [
-      4,
-      4
-     ],
-     "tiri_home": 15.0,
-     "tiri_away": 18.8,
-     "tiri_gap": 3.8,
-     "tiri_games": [
-      4,
-      4
-     ],
-     "sot_home": 5.0,
-     "sot_away": 5.5,
-     "sot_gap": 0.5,
-     "sot_games": [
-      4,
-      4
-     ],
-     "falli_home": 12.2,
-     "falli_away": 11.4,
-     "falli_gap": 0.8,
-     "falli_games": [
-      8,
-      8
-     ],
-     "off_home": 1.3,
-     "off_away": 1.5,
-     "off_gap": 0.2,
-     "off_games": [
-      8,
-      8
-     ],
-     "cards": 3.6,
-     "cards_1t": 0.8,
-     "games_k": [
-      8,
-      8
-     ],
-     "home_logo": "https://cdn.pitchapi.dev/images/teams/b5ac3a3e493c752b9eb37367f9d58d704dbccf83b0b325090c5b89c327f212fd.webp",
-     "away_logo": "https://cdn.pitchapi.dev/images/teams/2e47f0a718e58090d287870e5eef626c90b236d75fff1e901cd6b35235adb0c7.webp"
-    },
-    {
      "id": "m_1Nmiaa",
      "date": "2026-10-25",
      "time": "2026-10-25",
@@ -7388,6 +7331,58 @@
      ],
      "home_logo": "https://cdn.pitchapi.dev/images/teams/79197b8594269f02679ffd055d230e2095d99bde56994d5bc4d6b6a01a1ada13.webp",
      "away_logo": "https://cdn.pitchapi.dev/images/teams/c310928ed40f0513c11bd6ad30e631df2bd6256cd828fa906288cde82806ad33.webp"
+    },
+    {
+     "id": "m_3YgM7X",
+     "date": "2026-10-25",
+     "time": "2026-10-25",
+     "league": "Bundesliga",
+     "home": "Hoffenheim",
+     "away": "Bayer Leverkusen",
+     "non_coperto": [],
+     "corners_home": 5.5,
+     "corners_away": 5.8,
+     "gap": 0.2,
+     "games": [
+      4,
+      5
+     ],
+     "tiri_home": 14.3,
+     "tiri_away": 19.8,
+     "tiri_gap": 5.5,
+     "tiri_games": [
+      4,
+      5
+     ],
+     "sot_home": 4.7,
+     "sot_away": 6.3,
+     "sot_gap": 1.6,
+     "sot_games": [
+      4,
+      5
+     ],
+     "falli_home": 12.0,
+     "falli_away": 11.9,
+     "falli_gap": 0.1,
+     "falli_games": [
+      8,
+      9
+     ],
+     "off_home": 1.3,
+     "off_away": 1.5,
+     "off_gap": 0.2,
+     "off_games": [
+      8,
+      9
+     ],
+     "cards": 3.8,
+     "cards_1t": 0.9,
+     "games_k": [
+      8,
+      9
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/b5ac3a3e493c752b9eb37367f9d58d704dbccf83b0b325090c5b89c327f212fd.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/2e47f0a718e58090d287870e5eef626c90b236d75fff1e901cd6b35235adb0c7.webp"
     }
    ]
   },
@@ -9280,25 +9275,25 @@
       4,
       4
      ],
-     "falli_home": 10.5,
+     "falli_home": 10.4,
      "falli_away": 12.4,
-     "falli_gap": 1.9,
+     "falli_gap": 2.0,
      "falli_games": [
       7,
-      9
+      10
      ],
-     "off_home": 1.8,
+     "off_home": 1.7,
      "off_away": 2.3,
-     "off_gap": 0.5,
+     "off_gap": 0.6,
      "off_games": [
       7,
-      9
+      10
      ],
      "cards": 4.0,
-     "cards_1t": 1.0,
+     "cards_1t": 1.1,
      "games_k": [
       7,
-      9
+      10
      ],
      "home_logo": "https://cdn.pitchapi.dev/images/teams/c303d188af518260d4e49f3708493f3324c501752d19c0fb26d49214af885f4d.webp",
      "away_logo": "https://cdn.pitchapi.dev/images/teams/7eaf5f4fe543152082fc53d035dc7f0663b4a090cab3ab701fc5f4df3a711784.webp"
@@ -9542,25 +9537,25 @@
       4,
       4
      ],
-     "falli_home": 10.5,
+     "falli_home": 10.4,
      "falli_away": 12.4,
-     "falli_gap": 1.9,
+     "falli_gap": 2.0,
      "falli_games": [
       7,
-      9
+      10
      ],
-     "off_home": 1.8,
+     "off_home": 1.7,
      "off_away": 2.3,
-     "off_gap": 0.5,
+     "off_gap": 0.6,
      "off_games": [
       7,
-      9
+      10
      ],
      "cards": 4.0,
-     "cards_1t": 1.0,
+     "cards_1t": 1.1,
      "games_k": [
       7,
-      9
+      10
      ],
      "home_logo": "https://cdn.pitchapi.dev/images/teams/c303d188af518260d4e49f3708493f3324c501752d19c0fb26d49214af885f4d.webp",
      "away_logo": "https://cdn.pitchapi.dev/images/teams/7eaf5f4fe543152082fc53d035dc7f0663b4a090cab3ab701fc5f4df3a711784.webp"
@@ -9804,25 +9799,25 @@
       4,
       4
      ],
-     "falli_home": 10.5,
+     "falli_home": 10.4,
      "falli_away": 12.4,
-     "falli_gap": 1.9,
+     "falli_gap": 2.0,
      "falli_games": [
       7,
-      9
+      10
      ],
-     "off_home": 1.8,
+     "off_home": 1.7,
      "off_away": 2.3,
-     "off_gap": 0.5,
+     "off_gap": 0.6,
      "off_games": [
       7,
-      9
+      10
      ],
      "cards": 4.0,
-     "cards_1t": 1.0,
+     "cards_1t": 1.1,
      "games_k": [
       7,
-      9
+      10
      ],
      "home_logo": "https://cdn.pitchapi.dev/images/teams/c303d188af518260d4e49f3708493f3324c501752d19c0fb26d49214af885f4d.webp",
      "away_logo": "https://cdn.pitchapi.dev/images/teams/7eaf5f4fe543152082fc53d035dc7f0663b4a090cab3ab701fc5f4df3a711784.webp"
@@ -10118,25 +10113,25 @@
       4,
       4
      ],
-     "falli_home": 10.5,
+     "falli_home": 10.4,
      "falli_away": 12.4,
-     "falli_gap": 1.9,
+     "falli_gap": 2.0,
      "falli_games": [
       7,
-      9
+      10
      ],
-     "off_home": 1.8,
+     "off_home": 1.7,
      "off_away": 2.3,
-     "off_gap": 0.5,
+     "off_gap": 0.6,
      "off_games": [
       7,
-      9
+      10
      ],
      "cards": 4.0,
-     "cards_1t": 1.0,
+     "cards_1t": 1.1,
      "games_k": [
       7,
-      9
+      10
      ],
      "home_logo": "https://cdn.pitchapi.dev/images/teams/c303d188af518260d4e49f3708493f3324c501752d19c0fb26d49214af885f4d.webp",
      "away_logo": "https://cdn.pitchapi.dev/images/teams/7eaf5f4fe543152082fc53d035dc7f0663b4a090cab3ab701fc5f4df3a711784.webp"
@@ -10484,25 +10479,25 @@
       4,
       4
      ],
-     "falli_home": 10.5,
+     "falli_home": 10.4,
      "falli_away": 12.4,
-     "falli_gap": 1.9,
+     "falli_gap": 2.0,
      "falli_games": [
       7,
-      9
+      10
      ],
-     "off_home": 1.8,
+     "off_home": 1.7,
      "off_away": 2.3,
-     "off_gap": 0.5,
+     "off_gap": 0.6,
      "off_games": [
       7,
-      9
+      10
      ],
      "cards": 4.0,
-     "cards_1t": 1.0,
+     "cards_1t": 1.1,
      "games_k": [
       7,
-      9
+      10
      ],
      "home_logo": "https://cdn.pitchapi.dev/images/teams/c303d188af518260d4e49f3708493f3324c501752d19c0fb26d49214af885f4d.webp",
      "away_logo": "https://cdn.pitchapi.dev/images/teams/7eaf5f4fe543152082fc53d035dc7f0663b4a090cab3ab701fc5f4df3a711784.webp"
@@ -10746,25 +10741,25 @@
       4,
       4
      ],
-     "falli_home": 10.5,
+     "falli_home": 10.4,
      "falli_away": 12.4,
-     "falli_gap": 1.9,
+     "falli_gap": 2.0,
      "falli_games": [
       7,
-      9
+      10
      ],
-     "off_home": 1.8,
+     "off_home": 1.7,
      "off_away": 2.3,
-     "off_gap": 0.5,
+     "off_gap": 0.6,
      "off_games": [
       7,
-      9
+      10
      ],
      "cards": 4.0,
-     "cards_1t": 1.0,
+     "cards_1t": 1.1,
      "games_k": [
       7,
-      9
+      10
      ],
      "home_logo": "https://cdn.pitchapi.dev/images/teams/c303d188af518260d4e49f3708493f3324c501752d19c0fb26d49214af885f4d.webp",
      "away_logo": "https://cdn.pitchapi.dev/images/teams/7eaf5f4fe543152082fc53d035dc7f0663b4a090cab3ab701fc5f4df3a711784.webp"
@@ -10904,25 +10899,25 @@
       4,
       4
      ],
-     "falli_home": 10.5,
+     "falli_home": 10.4,
      "falli_away": 12.4,
-     "falli_gap": 1.9,
+     "falli_gap": 2.0,
      "falli_games": [
       7,
-      9
+      10
      ],
-     "off_home": 1.8,
+     "off_home": 1.7,
      "off_away": 2.3,
-     "off_gap": 0.5,
+     "off_gap": 0.6,
      "off_games": [
       7,
-      9
+      10
      ],
      "cards": 4.0,
-     "cards_1t": 1.0,
+     "cards_1t": 1.1,
      "games_k": [
       7,
-      9
+      10
      ],
      "home_logo": "https://cdn.pitchapi.dev/images/teams/c303d188af518260d4e49f3708493f3324c501752d19c0fb26d49214af885f4d.webp",
      "away_logo": "https://cdn.pitchapi.dev/images/teams/7eaf5f4fe543152082fc53d035dc7f0663b4a090cab3ab701fc5f4df3a711784.webp"
