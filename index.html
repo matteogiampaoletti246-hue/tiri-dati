@@ -6,16 +6,19 @@
 Caricamento…
 <script>
 function loader(){
+  var KEEP = ['', 'serie-a', 'premier-league', 'bundesliga', 'la-liga', 'ligue-1',
+              'champions-league', 'europa-league', 'nazionali'];
+  var LEAGUE_LOGOS = {}, TEAM_LOGOS = {};
+
   fetch('data.json?v=' + Date.now()).then(function(r){ return r.json(); }).then(function(j){
     var D = window.LEAGUE_DATA;
     var when = new Date(j.updated_at).toLocaleDateString('it-IT',
       {day:'numeric', month:'short', year:'numeric'}) + ' (PitchAPI)';
     var fmt = function(x){ return String(x).replace('.', ','); };
-    var added = [];
     Object.keys(j.leagues).forEach(function(k){
       var src = j.leagues[k];
       var old = D[k] || {};
-      var h = src.handicap;               // 0,85 / 0,80 ...: tiri fatti x h, tiri subiti / h
+      var h = src.handicap;
       var teams = {};
       Object.keys(src.teams).forEach(function(n){
         var t = src.teams[n];
@@ -25,29 +28,118 @@ function loader(){
                         sotFor:t.sotFor, sotAgainst:t.sotAgainst};
       });
       var label = old.label || src.label || src.name;
-      if(k === 'pro-league') label = 'Pro League (Belgio)';
       var e = {label: label, updated: when + (h ? ' · handicap campionato ×' + fmt(h) + ' (tiri fatti ×' + fmt(h) + ', subiti ÷' + fmt(h) + ')' : ''),
                teams: teams};
-      if(h){ e.avg = src.league_avg; }    // la media di riferimento resta quella reale, senza handicap
+      if(h){ e.avg = src.league_avg; }
       else if(old.strength){ e.strength = old.strength; }
       if(old.cup) e.cup = true;
-      if(!D[k]) added.push(k);
       D[k] = e;
+      if(src.logo) LEAGUE_LOGOS[k] = src.logo;
+      Object.keys(src.logos || {}).forEach(function(n){ TEAM_LOGOS[n] = src.logos[n]; });
     });
-    // i campionati nuovi compaiono nei quattro menu, in ordine alfabetico, prima delle coppe
-    var ids = ['oppLeague','playerLeague','teamForLeague','teamOppLeague'];
-    added.sort(function(a, b){ return D[a].label.localeCompare(D[b].label); });
-    ids.forEach(function(id){
+
+    var leagueIds = ['oppLeague','playerLeague','teamForLeague','teamOppLeague'];
+    var teamIds = ['oppTeam','playerTeam','teamForTeam','teamOppTeam'];
+    leagueIds.forEach(function(id){
       var s = document.getElementById(id);
       if(!s) return;
-      var anchor = s.querySelector('option[value="champions-league"]');
-      added.forEach(function(k){
-        if(s.querySelector('option[value="' + k + '"]')) return;
-        var o = document.createElement('option');
-        o.value = k; o.textContent = D[k].label;
-        s.insertBefore(o, anchor);
+      Array.prototype.slice.call(s.options).forEach(function(o){
+        if(KEEP.indexOf(o.value) < 0) o.remove();
       });
     });
+
+    var st = document.createElement('style');
+    st.textContent =
+      '.cdd{position:relative;}' +
+      '.cdd-btn{width:100%;display:flex;align-items:center;gap:10px;text-align:left;cursor:pointer;' +
+        'background:var(--panel-2,#1E2327);color:var(--text,#E6EAED);border:1px solid var(--line,#2A3136);' +
+        'border-radius:10px;padding:12px 14px;font:inherit;}' +
+      '.cdd-btn .cdd-arrow{margin-left:auto;opacity:.6;font-size:12px;}' +
+      '.cdd-panel{position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:60;max-height:55vh;overflow:auto;' +
+        'background:var(--panel-2,#1E2327);border:1px solid var(--line,#2A3136);border-radius:10px;' +
+        'box-shadow:0 10px 30px rgba(0,0,0,.5);-webkit-overflow-scrolling:touch;}' +
+      '.cdd-item{display:flex;align-items:center;gap:10px;padding:11px 14px;cursor:pointer;color:var(--text,#E6EAED);}' +
+      '.cdd-item:hover,.cdd-item:active{background:rgba(255,255,255,.07);}' +
+      '.cdd-item.dim{color:var(--text-dim,#8C959C);}' +
+      '.cdd-item.sel{background:rgba(120,200,160,.12);}' +
+      '.cdd-search{width:100%;box-sizing:border-box;padding:11px 14px;border:0;border-bottom:1px solid var(--line,#2A3136);' +
+        'background:transparent;color:var(--text,#E6EAED);font:inherit;outline:none;position:sticky;top:0;}' +
+      '.cdd img{width:22px;height:22px;object-fit:contain;flex:0 0 auto;}';
+    document.head.appendChild(st);
+
+    var openPanel = null;
+    document.addEventListener('click', function(e){
+      if(openPanel && !openPanel.parentNode.contains(e.target)){ openPanel.hidden = true; openPanel = null; }
+    });
+
+    function logoOf(kind, value){ return kind === 'league' ? LEAGUE_LOGOS[value] : TEAM_LOGOS[value]; }
+    function row(kind, opt, cls){
+      var d = document.createElement('div');
+      d.className = 'cdd-item' + (cls ? ' ' + cls : '');
+      var u = opt.value ? logoOf(kind, opt.value) : null;
+      if(u){
+        var im = document.createElement('img'); im.src = u; im.alt = ''; im.loading = 'lazy';
+        im.onerror = function(){ im.remove(); };
+        d.appendChild(im);
+      }
+      var sp = document.createElement('span'); sp.textContent = opt.textContent; d.appendChild(sp);
+      return d;
+    }
+    function enhance(sel, kind){
+      if(!sel || sel.dataset.enh) return;
+      sel.dataset.enh = '1';
+      var wrap = document.createElement('div'); wrap.className = 'cdd';
+      var btn = document.createElement('button'); btn.type = 'button'; btn.className = 'cdd-btn';
+      var panel = document.createElement('div'); panel.className = 'cdd-panel'; panel.hidden = true;
+      var search = null;
+      if(kind === 'team'){
+        search = document.createElement('input'); search.type = 'search';
+        search.placeholder = 'Cerca squadra…'; search.className = 'cdd-search';
+        panel.appendChild(search);
+      }
+      var list = document.createElement('div'); panel.appendChild(list);
+      sel.parentNode.insertBefore(wrap, sel);
+      wrap.appendChild(btn); wrap.appendChild(panel);
+      sel.style.display = 'none';
+      var last = null;
+      function refresh(){
+        var q = search ? search.value.trim().toLowerCase() : '';
+        list.innerHTML = '';
+        Array.prototype.slice.call(sel.options).forEach(function(o){
+          if(q && o.value && o.textContent.toLowerCase().indexOf(q) < 0) return;
+          if(q && !o.value) return;
+          var r = row(kind, o, (o.value ? '' : 'dim') + (o.value === sel.value && o.value ? ' sel' : ''));
+          r.addEventListener('click', function(){
+            sel.value = o.value;
+            sel.dispatchEvent(new Event('change', {bubbles:true}));
+            panel.hidden = true; openPanel = null; if(search) search.value = '';
+            refresh();
+          });
+          list.appendChild(r);
+        });
+        var cur = sel.options[sel.selectedIndex];
+        btn.innerHTML = '';
+        if(cur){
+          var u = cur.value ? logoOf(kind, cur.value) : null;
+          if(u){ var im = document.createElement('img'); im.src = u; im.alt = ''; im.onerror = function(){ im.remove(); }; btn.appendChild(im); }
+          var sp = document.createElement('span'); sp.textContent = cur.textContent; btn.appendChild(sp);
+        }
+        var ar = document.createElement('span'); ar.className = 'cdd-arrow'; ar.textContent = '▾'; btn.appendChild(ar);
+        last = sel.value + '|' + sel.options.length;
+      }
+      btn.addEventListener('click', function(){
+        if(panel.hidden){
+          if(openPanel) openPanel.hidden = true;
+          refresh(); panel.hidden = false; openPanel = panel;
+        } else { panel.hidden = true; openPanel = null; }
+      });
+      if(search) search.addEventListener('input', refresh);
+      new MutationObserver(refresh).observe(sel, {childList:true});
+      setInterval(function(){ if(last !== sel.value + '|' + sel.options.length) refresh(); }, 500);
+      refresh();
+    }
+    leagueIds.forEach(function(id){ enhance(document.getElementById(id), 'league'); });
+    teamIds.forEach(function(id){ enhance(document.getElementById(id), 'team'); });
   }).catch(function(){});
 }
 (async function(){
