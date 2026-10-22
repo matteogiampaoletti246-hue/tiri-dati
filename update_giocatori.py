@@ -99,6 +99,15 @@ def main():
     cup_ids, done, recs = set(), set(), {}
     state = {"first": True, "stop": False, "new": 0}
     skipped = []
+    fix = {}        # prossime partite per squadra: nome -> [[data, avversario, 1 se in casa, competizione], ...]
+
+    def add_fix(m, comp):
+        h, a = m["home_team"]["name"], m["away_team"]["name"]
+        d = str(m.get("date", ""))
+        if not d:
+            return
+        fix.setdefault(h, []).append([d, a, 1, comp])
+        fix.setdefault(a, []).append([d, h, 0, comp])
 
     def reg(t):
         tnames[tid_of(t)] = t["name"]
@@ -152,6 +161,9 @@ def main():
                 cup_ids.add(tid_of(m["home_team"])); cup_ids.add(tid_of(m["away_team"]))
         elif key not in TOP5:
             played = [m for m in played if tid_of(m["home_team"]) in cup_ids or tid_of(m["away_team"]) in cup_ids]
+        for m in future:
+            if key in TOP5 or key in CUPS or tid_of(m["home_team"]) in cup_ids or tid_of(m["away_team"]) in cup_ids:
+                add_fix(m, key)
         print(f"✔ {key}: {len(played)} partite da leggere")
         for m in played:
             read(m, key)
@@ -173,6 +185,10 @@ def main():
         mine = [m for m in played if tid_of(m["home_team"]) in cup_ids or tid_of(m["away_team"]) in cup_ids]
         if not mine:
             continue
+        fut = (api(f"/v1/leagues/{lg['id']}/matches?season={q}&status=upcoming") or {}).get("matches", [])
+        for m in fut:
+            if tid_of(m["home_team"]) in cup_ids or tid_of(m["away_team"]) in cup_ids:
+                add_fix(m, "campionato")
         print(f"+ {lg['name']}: {len(mine)} partite di squadre di coppa")
         for m in mine:
             read(m, "campionato")
@@ -223,7 +239,9 @@ def main():
                         "r": [[int(x[4]), int(x[5]), int(x[3])] for x in rows[:5]],
                         "h": [[int(x[4]), int(x[5]), int(x[3])] for x in [y for y in rows if y[6]][:5]]})
     players.sort(key=lambda p: p["n"])
-    json.dump({"updated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"), "players": players},
+    for k in fix:
+        fix[k] = sorted(fix[k])[:4]
+    json.dump({"updated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"), "players": players, "fix": fix},
               open(OUT_FILE, "w"), ensure_ascii=False, separators=(",", ":"))
     print("Scritto", OUT_FILE, "- giocatori:", len(players), "- partite in memoria:", len(cm), "- nuove:", state["new"])
 
