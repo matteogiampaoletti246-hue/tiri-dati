@@ -2235,5 +2235,113 @@
   })();
 })();
 </script>
+<script>
+(function(){
+  // 1) stile: nasconde "Gioca!" (lo storico non serve più) e stila la schermata nuova
+  const st = document.createElement('style');
+  st.textContent = ".play-btn,.play-hint{display:none !important;}"
+    + ".ang-days{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;margin-bottom:6px;}"
+    + ".ang-day{flex:0 0 auto;background:var(--panel-2);color:var(--text-dim);border:1px solid var(--line);border-radius:8px;padding:8px 12px;font-family:'Inter',sans-serif;font-size:13px;cursor:pointer;}"
+    + ".ang-day.active{background:var(--accent-dim);color:var(--accent);font-weight:600;}"
+    + ".ang-h{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600;margin:20px 0 10px;}"
+    + ".chip.ang-warn{color:var(--amber);border-color:var(--amber);margin-top:8px;display:inline-block;}";
+  document.head.appendChild(st);
+
+  // 2) schermata nuova, messa prima di quella dello storico
+  const view = document.createElement('div');
+  view.id = 'angoliView';
+  view.style.display = 'none';
+  view.innerHTML = '<div class="panel"><h2>Angoli e cartellini</h2><p class="sub" id="angInfo">Caricamento…</p>'
+    + '<div class="ang-days" id="angDays"></div><div class="hist-note" id="angCount"></div><div id="angBody"></div></div>';
+  const hv = document.getElementById('historyView');
+  hv.parentNode.insertBefore(view, hv);
+
+  // 3) tab nuovo al posto di "Storico" (che resta nascosto)
+  const seg = document.getElementById('viewSeg');
+  const old = document.getElementById('histTab');
+  if(old) old.hidden = true;
+  const tab = document.createElement('button');
+  tab.type = 'button'; tab.dataset.val = 'angoli'; tab.textContent = 'Angoli e cartellini';
+  seg.appendChild(tab);
+  seg.addEventListener('click', e => {
+    const b = e.target.closest('button'); if(!b) return;
+    const on = b.dataset.val === 'angoli';
+    view.style.display = on ? '' : 'none';
+    if(on) window.loadAngoli();
+  });
+
+  // 4) dati e disegno
+  const URLS = ['https://matteogiampaoletti246-hue.github.io/tiri-dati/angoli.json', 'angoli.json'];
+  let data = null, sel = null;
+  const f = x => x==null ? '–' : String(x).replace('.', ',');
+  function el(tag, cls, txt){ const e = document.createElement(tag); if(cls) e.className = cls; if(txt!=null) e.textContent = txt; return e; }
+  async function fetchData(){
+    for(const u of URLS){
+      try{ const r = await fetch(u + '?t=' + Date.now()); if(r.ok) return await r.json(); }catch(e){}
+    }
+    return null;
+  }
+  function dayLabel(d){
+    try{ return new Date(d + 'T12:00:00').toLocaleDateString('it-IT', {weekday:'short', day:'numeric', month:'short'}); }
+    catch(e){ return d; }
+  }
+  function hhmm(t){
+    if(!t || String(t).length < 11) return '';
+    const x = new Date(t);
+    return isNaN(x) ? '' : String(x.getHours()).padStart(2,'0') + ':' + String(x.getMinutes()).padStart(2,'0');
+  }
+  function card(m, kind){
+    const c = el('div', 'play-card');
+    const top = el('div', 'play-top');
+    top.append(el('div', 'who', m.home + ' – ' + m.away), el('div', 'when', hhmm(m.time)));
+    c.append(top, el('div', 'play-mkt', m.league));
+    const chips = el('div', 'chips');
+    if(kind === 'corner'){
+      chips.append(el('span', 'chip gold', 'Divario ' + f(m.gap)),
+                   el('span', 'chip', 'Angoli attesi ' + f(m.corners_home) + ' – ' + f(m.corners_away)));
+    } else if(kind === 'cards'){
+      chips.append(el('span', 'chip gold', 'Cartellini totali ' + f(m.cards)), el('span', 'chip', '1T ' + f(m.cards_1t)));
+    } else {
+      chips.append(el('span', 'chip gold', 'Cartellini 1T ' + f(m.cards_1t)), el('span', 'chip', 'Totali ' + f(m.cards)));
+    }
+    chips.append(el('span', 'chip', 'Partite usate: ' + m.games[0] + ' / ' + m.games[1]));
+    c.append(chips);
+    if(m.non_coperto && m.non_coperto.length){
+      c.append(el('span', 'chip ang-warn', 'Campionato non coperto: ' + m.non_coperto.join(', ')));
+    }
+    return c;
+  }
+  function section(body, title, list, kind){
+    body.append(el('div', 'ang-h', title));
+    if(!list.length){ body.append(el('div', 'hist-note', 'Nessuna partita con dati sufficienti.')); return; }
+    list.forEach(m => body.append(card(m, kind)));
+  }
+  function render(){
+    const days = document.getElementById('angDays'), body = document.getElementById('angBody');
+    const info = document.getElementById('angInfo'), count = document.getElementById('angCount');
+    days.innerHTML = ''; body.innerHTML = ''; count.textContent = '';
+    if(!data){ info.textContent = 'Dati non disponibili: angoli.json non trovato. Lancia il workflow "Aggiorna dati" da GitHub.'; return; }
+    const keys = Object.keys(data.days || {}).sort();
+    info.textContent = 'Aggiornato: ' + new Date(data.updated_at).toLocaleString('it-IT') + ' · medie sulle ultime ' + data.window.nlast + ' partite, separate per casa e trasferta.';
+    if(!keys.length){ body.append(el('div', 'empty-hist', 'Nessuna partita nei prossimi giorni.')); return; }
+    if(!sel || !keys.includes(sel)) sel = keys[0];
+    keys.forEach(k => {
+      const b = el('button', 'ang-day' + (k === sel ? ' active' : ''), dayLabel(k));
+      b.type = 'button';
+      b.addEventListener('click', () => { sel = k; render(); });
+      days.append(b);
+    });
+    const d = data.days[sel];
+    count.textContent = 'Partite del giorno: ' + d.analizzate + ' · con dati sufficienti: ' + d.con_dati + '.';
+    section(body, 'Maggiore divario angoli', d.corner, 'corner');
+    section(body, 'Meno cartellini (totali)', d.cartellini, 'cards');
+    section(body, 'Meno cartellini nel primo tempo', d.cartellini_1t, 'cards1');
+  }
+  window.loadAngoli = async function(){
+    data = await fetchData();
+    render();
+  };
+})();
+</script>
 
 </body></html>
