@@ -2322,7 +2322,7 @@
     days.innerHTML = ''; body.innerHTML = ''; count.textContent = '';
     if(!data){ info.textContent = 'Dati non disponibili: angoli.json non trovato. Lancia il workflow "Aggiorna dati" da GitHub.'; return; }
     const keys = Object.keys(data.days || {}).sort();
-    info.textContent = 'Aggiornato: ' + new Date(data.updated_at).toLocaleString('it-IT') + ' · medie sulle ultime ' + data.window.nlast + ' partite, separate per casa e trasferta.';
+    info.textContent = 'Aggiornato: ' + new Date(data.updated_at).toLocaleString('it-IT') + ' · medie su tutte le partite del campionato in corso, separate per casa e trasferta.';
     if(!keys.length){ body.append(el('div', 'empty-hist', 'Nessuna partita nei prossimi giorni.')); return; }
     if(!sel || !keys.includes(sel)) sel = keys[0];
     keys.forEach(k => {
