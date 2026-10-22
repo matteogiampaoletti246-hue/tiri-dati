@@ -2293,7 +2293,11 @@
   function card(m, kind){
     const c = el('div', 'play-card');
     const top = el('div', 'play-top');
-    top.append(el('div', 'who', m.home + ' – ' + m.away), el('div', 'when', hhmm(m.time)));
+    const who = el('div', 'who'); who.style.cssText = 'display:flex;align-items:center;gap:6px;flex-wrap:wrap;';
+const crest = u => { if(!u) return null; const i = document.createElement('img'); i.src = u; i.alt = ''; i.loading = 'lazy'; i.style.cssText = 'width:22px;height:22px;object-fit:contain;'; i.onerror = () => i.remove(); return i; };
+[crest(m.home_logo), el('span', null, m.home), el('span', null, '–'), crest(m.away_logo), el('span', null, m.away)].forEach(x => { if(x) who.append(x); });
+top.append(who, el('div', 'when', hhmm(m.time)));
+
     c.append(top, el('div', 'play-mkt', m.league));
     const chips = el('div', 'chips');
     if(kind === 'corner'){
@@ -2322,7 +2326,7 @@
     days.innerHTML = ''; body.innerHTML = ''; count.textContent = '';
     if(!data){ info.textContent = 'Dati non disponibili: angoli.json non trovato. Lancia il workflow "Aggiorna dati" da GitHub.'; return; }
     const keys = Object.keys(data.days || {}).sort();
-    info.textContent = 'Aggiornato: ' + new Date(data.updated_at).toLocaleString('it-IT') + ' · medie su tutte le partite del campionato in corso, separate per casa e trasferta.';
+    info.textContent = 'Aggiornato: ' + new Date(data.updated_at).toLocaleString('it-IT');
     if(!keys.length){ body.append(el('div', 'empty-hist', 'Nessuna partita nei prossimi giorni.')); return; }
     if(!sel || !keys.includes(sel)) sel = keys[0];
     keys.forEach(k => {
