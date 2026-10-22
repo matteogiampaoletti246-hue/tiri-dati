@@ -9,6 +9,7 @@ permissions:
 jobs:
   update:
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -17,10 +18,16 @@ jobs:
       - run: python update_data.py
         env:
           PITCHAPI_KEY: ${{ secrets.PITCHAPI_KEY }}
+      - name: Angoli e cartellini
+        continue-on-error: true
+        run: python update_angoli.py
+        env:
+          PITCHAPI_KEY: ${{ secrets.PITCHAPI_KEY }}
       - name: Salva i risultati
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
           git add data.json cache.json
+          git add angoli.json cache_angoli.json 2>/dev/null || true
           git diff --staged --quiet || git commit -m "Aggiorna dati"
           git push
