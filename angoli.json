@@ -1,0 +1,2089 @@
+{
+ "updated_at": "2026-10-22T12:00:14+00:00",
+ "window": {
+  "nlast": 10,
+  "min_games": 2,
+  "days_ahead": 8
+ },
+ "days": {
+  "2026-10-22": {
+   "analizzate": 18,
+   "con_dati": 4,
+   "corner": [
+    {
+     "date": "2026-10-22",
+     "time": "2026-10-22",
+     "league": "Europa League",
+     "home": "Beşiktaş",
+     "away": "Crystal Palace",
+     "corners_home": 6.1,
+     "corners_away": 3.2,
+     "gap": 2.9,
+     "cards": 3.6,
+     "cards_1t": 1.2,
+     "games": [
+      5,
+      5
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-22",
+     "time": "2026-10-22",
+     "league": "Europa League",
+     "home": "Hoffenheim",
+     "away": "Lyon",
+     "corners_home": 6.5,
+     "corners_away": 4.2,
+     "gap": 2.2,
+     "cards": 4.2,
+     "cards_1t": 1.8,
+     "games": [
+      4,
+      4
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-22",
+     "time": "2026-10-22",
+     "league": "Europa League",
+     "home": "Juventus",
+     "away": "Rennes",
+     "corners_home": 5.5,
+     "corners_away": 4.3,
+     "gap": 1.1,
+     "cards": 2.8,
+     "cards_1t": 1.6,
+     "games": [
+      5,
+      4
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-22",
+     "time": "2026-10-22",
+     "league": "Europa League",
+     "home": "AFC Bournemouth",
+     "away": "Milan",
+     "corners_home": 4.4,
+     "corners_away": 3.4,
+     "gap": 1.0,
+     "cards": 5.6,
+     "cards_1t": 1.8,
+     "games": [
+      5,
+      5
+     ],
+     "non_coperto": []
+    }
+   ],
+   "cartellini": [
+    {
+     "date": "2026-10-22",
+     "time": "2026-10-22",
+     "league": "Europa League",
+     "home": "Juventus",
+     "away": "Rennes",
+     "corners_home": 5.5,
+     "corners_away": 4.3,
+     "gap": 1.1,
+     "cards": 2.8,
+     "cards_1t": 1.6,
+     "games": [
+      5,
+      4
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-22",
+     "time": "2026-10-22",
+     "league": "Europa League",
+     "home": "Beşiktaş",
+     "away": "Crystal Palace",
+     "corners_home": 6.1,
+     "corners_away": 3.2,
+     "gap": 2.9,
+     "cards": 3.6,
+     "cards_1t": 1.2,
+     "games": [
+      5,
+      5
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-22",
+     "time": "2026-10-22",
+     "league": "Europa League",
+     "home": "Hoffenheim",
+     "away": "Lyon",
+     "corners_home": 6.5,
+     "corners_away": 4.2,
+     "gap": 2.2,
+     "cards": 4.2,
+     "cards_1t": 1.8,
+     "games": [
+      4,
+      4
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-22",
+     "time": "2026-10-22",
+     "league": "Europa League",
+     "home": "AFC Bournemouth",
+     "away": "Milan",
+     "corners_home": 4.4,
+     "corners_away": 3.4,
+     "gap": 1.0,
+     "cards": 5.6,
+     "cards_1t": 1.8,
+     "games": [
+      5,
+      5
+     ],
+     "non_coperto": []
+    }
+   ],
+   "cartellini_1t": [
+    {
+     "date": "2026-10-22",
+     "time": "2026-10-22",
+     "league": "Europa League",
+     "home": "Beşiktaş",
+     "away": "Crystal Palace",
+     "corners_home": 6.1,
+     "corners_away": 3.2,
+     "gap": 2.9,
+     "cards": 3.6,
+     "cards_1t": 1.2,
+     "games": [
+      5,
+      5
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-22",
+     "time": "2026-10-22",
+     "league": "Europa League",
+     "home": "Juventus",
+     "away": "Rennes",
+     "corners_home": 5.5,
+     "corners_away": 4.3,
+     "gap": 1.1,
+     "cards": 2.8,
+     "cards_1t": 1.6,
+     "games": [
+      5,
+      4
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-22",
+     "time": "2026-10-22",
+     "league": "Europa League",
+     "home": "AFC Bournemouth",
+     "away": "Milan",
+     "corners_home": 4.4,
+     "corners_away": 3.4,
+     "gap": 1.0,
+     "cards": 5.6,
+     "cards_1t": 1.8,
+     "games": [
+      5,
+      5
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-22",
+     "time": "2026-10-22",
+     "league": "Europa League",
+     "home": "Hoffenheim",
+     "away": "Lyon",
+     "corners_home": 6.5,
+     "corners_away": 4.2,
+     "gap": 2.2,
+     "cards": 4.2,
+     "cards_1t": 1.8,
+     "games": [
+      4,
+      4
+     ],
+     "non_coperto": []
+    }
+   ]
+  },
+  "2026-10-23": {
+   "analizzate": 9,
+   "con_dati": 9,
+   "corner": [
+    {
+     "date": "2026-10-23",
+     "time": "2026-10-23",
+     "league": "Eredivisie",
+     "home": "Go Ahead Eagles",
+     "away": "Telstar",
+     "corners_home": 8.0,
+     "corners_away": 3.0,
+     "gap": 5.0,
+     "cards": 2.5,
+     "cards_1t": 1.0,
+     "games": [
+      4,
+      4
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-23",
+     "time": "2026-10-23",
+     "league": "Liga Portugal",
+     "home": "Vitória de Guimarães",
+     "away": "Marítimo",
+     "corners_home": 5.8,
+     "corners_away": 2.7,
+     "gap": 3.1,
+     "cards": 3.1,
+     "cards_1t": 1.4,
+     "games": [
+      3,
+      4
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-23",
+     "time": "2026-10-23",
+     "league": "Super Lig",
+     "home": "Alanyaspor",
+     "away": "Kocaelispor",
+     "corners_home": 7.1,
+     "corners_away": 4.2,
+     "gap": 3.0,
+     "cards": 3.7,
+     "cards_1t": 1.5,
+     "games": [
+      3,
+      4
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-23",
+     "time": "2026-10-23",
+     "league": "Bundesliga",
+     "home": "VfB Stuttgart",
+     "away": "Borussia Mönchengladbach",
+     "corners_home": 6.7,
+     "corners_away": 4.7,
+     "gap": 2.0,
+     "cards": 3.0,
+     "cards_1t": 1.8,
+     "games": [
+      4,
+      3
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-23",
+     "time": "2026-10-23",
+     "league": "Ligue 1",
+     "home": "Brest",
+     "away": "Nice",
+     "corners_home": 3.3,
+     "corners_away": 5.0,
+     "gap": 1.7,
+     "cards": 3.3,
+     "cards_1t": 2.0,
+     "games": [
+      3,
+      3
+     ],
+     "non_coperto": []
+    }
+   ],
+   "cartellini": [
+    {
+     "date": "2026-10-23",
+     "time": "2026-10-23",
+     "league": "Serie A",
+     "home": "Torino",
+     "away": "Monza",
+     "corners_home": 3.7,
+     "corners_away": 4.8,
+     "gap": 1.1,
+     "cards": 1.5,
+     "cards_1t": 0.8,
+     "games": [
+      3,
+      4
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-23",
+     "time": "2026-10-23",
+     "league": "Eredivisie",
+     "home": "Go Ahead Eagles",
+     "away": "Telstar",
+     "corners_home": 8.0,
+     "corners_away": 3.0,
+     "gap": 5.0,
+     "cards": 2.5,
+     "cards_1t": 1.0,
+     "games": [
+      4,
+      4
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-23",
+     "time": "2026-10-23",
+     "league": "Bundesliga",
+     "home": "VfB Stuttgart",
+     "away": "Borussia Mönchengladbach",
+     "corners_home": 6.7,
+     "corners_away": 4.7,
+     "gap": 2.0,
+     "cards": 3.0,
+     "cards_1t": 1.8,
+     "games": [
+      4,
+      3
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-23",
+     "time": "2026-10-23",
+     "league": "Liga Portugal",
+     "home": "Vitória de Guimarães",
+     "away": "Marítimo",
+     "corners_home": 5.8,
+     "corners_away": 2.7,
+     "gap": 3.1,
+     "cards": 3.1,
+     "cards_1t": 1.4,
+     "games": [
+      3,
+      4
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-23",
+     "time": "2026-10-23",
+     "league": "Ligue 1",
+     "home": "Brest",
+     "away": "Nice",
+     "corners_home": 3.3,
+     "corners_away": 5.0,
+     "gap": 1.7,
+     "cards": 3.3,
+     "cards_1t": 2.0,
+     "games": [
+      3,
+      3
+     ],
+     "non_coperto": []
+    }
+   ],
+   "cartellini_1t": [
+    {
+     "date": "2026-10-23",
+     "time": "2026-10-23",
+     "league": "Serie A",
+     "home": "Torino",
+     "away": "Monza",
+     "corners_home": 3.7,
+     "corners_away": 4.8,
+     "gap": 1.1,
+     "cards": 1.5,
+     "cards_1t": 0.8,
+     "games": [
+      3,
+      4
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-23",
+     "time": "2026-10-23",
+     "league": "First Division A",
+     "home": "Kortrijk",
+     "away": "KV Mechelen",
+     "corners_home": 3.8,
+     "corners_away": 5.0,
+     "gap": 1.2,
+     "cards": 4.2,
+     "cards_1t": 0.8,
+     "games": [
+      4,
+      4
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-23",
+     "time": "2026-10-23",
+     "league": "Eredivisie",
+     "home": "Go Ahead Eagles",
+     "away": "Telstar",
+     "corners_home": 8.0,
+     "corners_away": 3.0,
+     "gap": 5.0,
+     "cards": 2.5,
+     "cards_1t": 1.0,
+     "games": [
+      4,
+      4
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-23",
+     "time": "2026-10-23",
+     "league": "LaLiga",
+     "home": "Deportivo Alavés",
+     "away": "Málaga",
+     "corners_home": 4.2,
+     "corners_away": 5.4,
+     "gap": 1.2,
+     "cards": 4.0,
+     "cards_1t": 1.4,
+     "games": [
+      5,
+      4
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-23",
+     "time": "2026-10-23",
+     "league": "Liga Portugal",
+     "home": "Vitória de Guimarães",
+     "away": "Marítimo",
+     "corners_home": 5.8,
+     "corners_away": 2.7,
+     "gap": 3.1,
+     "cards": 3.1,
+     "cards_1t": 1.4,
+     "games": [
+      3,
+      4
+     ],
+     "non_coperto": []
+    }
+   ]
+  },
+  "2026-10-24": {
+   "analizzate": 32,
+   "con_dati": 32,
+   "corner": [
+    {
+     "date": "2026-10-24",
+     "time": "2026-10-24",
+     "league": "Liga Portugal",
+     "home": "Alverca",
+     "away": "Arouca",
+     "corners_home": 6.8,
+     "corners_away": 2.1,
+     "gap": 4.6,
+     "cards": 3.8,
+     "cards_1t": 1.4,
+     "games": [
+      4,
+      3
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-24",
+     "time": "2026-10-24",
+     "league": "Bundesliga",
+     "home": "Mainz 05",
+     "away": "Werder Bremen",
+     "corners_home": 7.0,
+     "corners_away": 3.8,
+     "gap": 3.2,
+     "cards": 2.3,
+     "cards_1t": 0.7,
+     "games": [
+      3,
+      3
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-24",
+     "time": "2026-10-24",
+     "league": "Bundesliga",
+     "home": "Augsburg",
+     "away": "Union Berlin",
+     "corners_home": 8.0,
+     "corners_away": 5.1,
+     "gap": 2.9,
+     "cards": 4.2,
+     "cards_1t": 2.8,
+     "games": [
+      3,
+      2
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-24",
+     "time": "2026-10-24",
+     "league": "First Division A",
+     "home": "Westerlo",
+     "away": "SK Beveren",
+     "corners_home": 2.8,
+     "corners_away": 5.6,
+     "gap": 2.9,
+     "cards": 3.5,
+     "cards_1t": 2.0,
+     "games": [
+      4,
+      4
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-24",
+     "time": "2026-10-24",
+     "league": "Serie A",
+     "home": "Lazio",
+     "away": "Parma",
+     "corners_home": 6.2,
+     "corners_away": 3.3,
+     "gap": 2.8,
+     "cards": 3.0,
+     "cards_1t": 0.3,
+     "games": [
+      3,
+      3
+     ],
+     "non_coperto": []
+    }
+   ],
+   "cartellini": [
+    {
+     "date": "2026-10-24",
+     "time": "2026-10-24",
+     "league": "Liga Portugal",
+     "home": "Gil Vicente",
+     "away": "FC Porto",
+     "corners_home": 4.2,
+     "corners_away": 3.7,
+     "gap": 0.5,
+     "cards": 1.9,
+     "cards_1t": 0.4,
+     "games": [
+      3,
+      5
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-24",
+     "time": "2026-10-24",
+     "league": "Bundesliga",
+     "home": "1. FC Köln",
+     "away": "Schalke 04",
+     "corners_home": 7.0,
+     "corners_away": 4.7,
+     "gap": 2.3,
+     "cards": 2.0,
+     "cards_1t": 0.3,
+     "games": [
+      3,
+      3
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-24",
+     "time": "2026-10-24",
+     "league": "Serie A",
+     "home": "Como",
+     "away": "Sassuolo",
+     "corners_home": 5.6,
+     "corners_away": 4.4,
+     "gap": 1.2,
+     "cards": 2.2,
+     "cards_1t": 0.2,
+     "games": [
+      4,
+      4
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-24",
+     "time": "2026-10-24",
+     "league": "Eredivisie",
+     "home": "ADO Den Haag",
+     "away": "SC Heerenveen",
+     "corners_home": 4.9,
+     "corners_away": 3.5,
+     "gap": 1.4,
+     "cards": 2.2,
+     "cards_1t": 0.5,
+     "games": [
+      4,
+      4
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-24",
+     "time": "2026-10-24",
+     "league": "Bundesliga",
+     "home": "Paderborn",
+     "away": "Hamburger SV",
+     "corners_home": 5.8,
+     "corners_away": 4.2,
+     "gap": 1.7,
+     "cards": 2.3,
+     "cards_1t": 1.3,
+     "games": [
+      3,
+      3
+     ],
+     "non_coperto": []
+    }
+   ],
+   "cartellini_1t": [
+    {
+     "date": "2026-10-24",
+     "time": "2026-10-24",
+     "league": "Serie A",
+     "home": "Como",
+     "away": "Sassuolo",
+     "corners_home": 5.6,
+     "corners_away": 4.4,
+     "gap": 1.2,
+     "cards": 2.2,
+     "cards_1t": 0.2,
+     "games": [
+      4,
+      4
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-24",
+     "time": "2026-10-24",
+     "league": "Ligue 1",
+     "home": "Lens",
+     "away": "Paris FC",
+     "corners_home": 5.5,
+     "corners_away": 4.2,
+     "gap": 1.2,
+     "cards": 4.7,
+     "cards_1t": 0.2,
+     "games": [
+      4,
+      3
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-24",
+     "time": "2026-10-24",
+     "league": "Serie A",
+     "home": "Lazio",
+     "away": "Parma",
+     "corners_home": 6.2,
+     "corners_away": 3.3,
+     "gap": 2.8,
+     "cards": 3.0,
+     "cards_1t": 0.3,
+     "games": [
+      3,
+      3
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-24",
+     "time": "2026-10-24",
+     "league": "Bundesliga",
+     "home": "1. FC Köln",
+     "away": "Schalke 04",
+     "corners_home": 7.0,
+     "corners_away": 4.7,
+     "gap": 2.3,
+     "cards": 2.0,
+     "cards_1t": 0.3,
+     "games": [
+      3,
+      3
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-24",
+     "time": "2026-10-24",
+     "league": "Liga Portugal",
+     "home": "Gil Vicente",
+     "away": "FC Porto",
+     "corners_home": 4.2,
+     "corners_away": 3.7,
+     "gap": 0.5,
+     "cards": 1.9,
+     "cards_1t": 0.4,
+     "games": [
+      3,
+      5
+     ],
+     "non_coperto": []
+    }
+   ]
+  },
+  "2026-10-25": {
+   "analizzate": 38,
+   "con_dati": 38,
+   "corner": [
+    {
+     "date": "2026-10-25",
+     "time": "2026-10-25",
+     "league": "Liga Portugal",
+     "home": "Estoril",
+     "away": "Moreirense",
+     "corners_home": 6.2,
+     "corners_away": 2.1,
+     "gap": 4.1,
+     "cards": 5.2,
+     "cards_1t": 1.8,
+     "games": [
+      3,
+      4
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-25",
+     "time": "2026-10-25",
+     "league": "Eredivisie",
+     "home": "NEC Nijmegen",
+     "away": "FC Groningen",
+     "corners_home": 6.6,
+     "corners_away": 2.8,
+     "gap": 3.8,
+     "cards": 1.8,
+     "cards_1t": 1.0,
+     "games": [
+      6,
+      4
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-25",
+     "time": "2026-10-25",
+     "league": "Super Lig",
+     "home": "Göztepe",
+     "away": "Çorum FK",
+     "corners_home": 7.3,
+     "corners_away": 3.6,
+     "gap": 3.7,
+     "cards": 5.8,
+     "cards_1t": 2.0,
+     "games": [
+      3,
+      4
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-25",
+     "time": "2026-10-25",
+     "league": "LaLiga",
+     "home": "Real Sociedad",
+     "away": "Levante",
+     "corners_home": 6.9,
+     "corners_away": 3.7,
+     "gap": 3.2,
+     "cards": 3.4,
+     "cards_1t": 1.6,
+     "games": [
+      5,
+      5
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-25",
+     "time": "2026-10-25",
+     "league": "Liga Portugal",
+     "home": "Sporting CP",
+     "away": "Académico Viseu",
+     "corners_home": 5.3,
+     "corners_away": 2.6,
+     "gap": 2.8,
+     "cards": 6.2,
+     "cards_1t": 1.7,
+     "games": [
+      6,
+      3
+     ],
+     "non_coperto": []
+    }
+   ],
+   "cartellini": [
+    {
+     "date": "2026-10-25",
+     "time": "2026-10-25",
+     "league": "Ligue 1",
+     "home": "Paris Saint-Germain",
+     "away": "Lyon",
+     "corners_home": 5.2,
+     "corners_away": 3.1,
+     "gap": 2.1,
+     "cards": 1.8,
+     "cards_1t": 1.0,
+     "games": [
+      4,
+      4
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-25",
+     "time": "2026-10-25",
+     "league": "Eredivisie",
+     "home": "NEC Nijmegen",
+     "away": "FC Groningen",
+     "corners_home": 6.6,
+     "corners_away": 2.8,
+     "gap": 3.8,
+     "cards": 1.8,
+     "cards_1t": 1.0,
+     "games": [
+      6,
+      4
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-25",
+     "time": "2026-10-25",
+     "league": "Eredivisie",
+     "home": "Fortuna Sittard",
+     "away": "Excelsior",
+     "corners_home": 4.6,
+     "corners_away": 6.9,
+     "gap": 2.3,
+     "cards": 1.9,
+     "cards_1t": 0.9,
+     "games": [
+      4,
+      5
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-25",
+     "time": "2026-10-25",
+     "league": "Eredivisie",
+     "home": "AZ Alkmaar",
+     "away": "FC Twente",
+     "corners_home": 6.2,
+     "corners_away": 4.8,
+     "gap": 1.3,
+     "cards": 2.0,
+     "cards_1t": 0.7,
+     "games": [
+      5,
+      4
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-25",
+     "time": "2026-10-25",
+     "league": "Serie A",
+     "home": "Atalanta",
+     "away": "Frosinone",
+     "corners_home": 5.7,
+     "corners_away": 4.9,
+     "gap": 0.8,
+     "cards": 2.2,
+     "cards_1t": 1.3,
+     "games": [
+      4,
+      3
+     ],
+     "non_coperto": []
+    }
+   ],
+   "cartellini_1t": [
+    {
+     "date": "2026-10-25",
+     "time": "2026-10-25",
+     "league": "Bundesliga",
+     "home": "Freiburg",
+     "away": "Bayern München",
+     "corners_home": 5.0,
+     "corners_away": 7.0,
+     "gap": 2.0,
+     "cards": 2.6,
+     "cards_1t": 0.2,
+     "games": [
+      3,
+      4
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-25",
+     "time": "2026-10-25",
+     "league": "Ligue 1",
+     "home": "Auxerre",
+     "away": "Le Mans",
+     "corners_home": 5.8,
+     "corners_away": 5.5,
+     "gap": 0.3,
+     "cards": 5.0,
+     "cards_1t": 0.3,
+     "games": [
+      3,
+      3
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-25",
+     "time": "2026-10-25",
+     "league": "Liga Portugal",
+     "home": "Rio Ave",
+     "away": "Famalicão",
+     "corners_home": 4.7,
+     "corners_away": 5.6,
+     "gap": 0.9,
+     "cards": 4.2,
+     "cards_1t": 0.6,
+     "games": [
+      4,
+      3
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-25",
+     "time": "2026-10-25",
+     "league": "Premier League",
+     "home": "Liverpool",
+     "away": "Brighton & Hove Albion",
+     "corners_home": 5.4,
+     "corners_away": 5.1,
+     "gap": 0.3,
+     "cards": 3.3,
+     "cards_1t": 0.7,
+     "games": [
+      5,
+      3
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-25",
+     "time": "2026-10-25",
+     "league": "Ligue 1",
+     "home": "Monaco",
+     "away": "Lille",
+     "corners_home": 4.8,
+     "corners_away": 4.7,
+     "gap": 0.2,
+     "cards": 3.3,
+     "cards_1t": 0.7,
+     "games": [
+      3,
+      4
+     ],
+     "non_coperto": []
+    }
+   ]
+  },
+  "2026-10-26": {
+   "analizzate": 5,
+   "con_dati": 5,
+   "corner": [
+    {
+     "date": "2026-10-26",
+     "time": "2026-10-26",
+     "league": "LaLiga",
+     "home": "Sevilla",
+     "away": "Osasuna",
+     "corners_home": 4.6,
+     "corners_away": 2.4,
+     "gap": 2.2,
+     "cards": 4.8,
+     "cards_1t": 1.0,
+     "games": [
+      4,
+      4
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-26",
+     "time": "2026-10-26",
+     "league": "Super Lig",
+     "home": "Beşiktaş",
+     "away": "Başakşehir",
+     "corners_home": 5.0,
+     "corners_away": 3.5,
+     "gap": 1.5,
+     "cards": 4.0,
+     "cards_1t": 1.8,
+     "games": [
+      5,
+      3
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-26",
+     "time": "2026-10-26",
+     "league": "Super Lig",
+     "home": "Galatasaray",
+     "away": "Fenerbahçe",
+     "corners_home": 5.8,
+     "corners_away": 4.9,
+     "gap": 0.9,
+     "cards": 3.6,
+     "cards_1t": 0.8,
+     "games": [
+      5,
+      5
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-26",
+     "time": "2026-10-26",
+     "league": "Liga Portugal",
+     "home": "Santa Clara",
+     "away": "Benfica",
+     "corners_home": 4.2,
+     "corners_away": 4.4,
+     "gap": 0.2,
+     "cards": 4.8,
+     "cards_1t": 2.0,
+     "games": [
+      4,
+      5
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-26",
+     "time": "2026-10-26",
+     "league": "Super Lig",
+     "home": "Rizespor",
+     "away": "Trabzonspor",
+     "corners_home": 5.5,
+     "corners_away": 5.5,
+     "gap": 0.1,
+     "cards": 2.4,
+     "cards_1t": 1.1,
+     "games": [
+      3,
+      4
+     ],
+     "non_coperto": []
+    }
+   ],
+   "cartellini": [
+    {
+     "date": "2026-10-26",
+     "time": "2026-10-26",
+     "league": "Super Lig",
+     "home": "Rizespor",
+     "away": "Trabzonspor",
+     "corners_home": 5.5,
+     "corners_away": 5.5,
+     "gap": 0.1,
+     "cards": 2.4,
+     "cards_1t": 1.1,
+     "games": [
+      3,
+      4
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-26",
+     "time": "2026-10-26",
+     "league": "Super Lig",
+     "home": "Galatasaray",
+     "away": "Fenerbahçe",
+     "corners_home": 5.8,
+     "corners_away": 4.9,
+     "gap": 0.9,
+     "cards": 3.6,
+     "cards_1t": 0.8,
+     "games": [
+      5,
+      5
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-26",
+     "time": "2026-10-26",
+     "league": "Super Lig",
+     "home": "Beşiktaş",
+     "away": "Başakşehir",
+     "corners_home": 5.0,
+     "corners_away": 3.5,
+     "gap": 1.5,
+     "cards": 4.0,
+     "cards_1t": 1.8,
+     "games": [
+      5,
+      3
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-26",
+     "time": "2026-10-26",
+     "league": "LaLiga",
+     "home": "Sevilla",
+     "away": "Osasuna",
+     "corners_home": 4.6,
+     "corners_away": 2.4,
+     "gap": 2.2,
+     "cards": 4.8,
+     "cards_1t": 1.0,
+     "games": [
+      4,
+      4
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-26",
+     "time": "2026-10-26",
+     "league": "Liga Portugal",
+     "home": "Santa Clara",
+     "away": "Benfica",
+     "corners_home": 4.2,
+     "corners_away": 4.4,
+     "gap": 0.2,
+     "cards": 4.8,
+     "cards_1t": 2.0,
+     "games": [
+      4,
+      5
+     ],
+     "non_coperto": []
+    }
+   ],
+   "cartellini_1t": [
+    {
+     "date": "2026-10-26",
+     "time": "2026-10-26",
+     "league": "Super Lig",
+     "home": "Galatasaray",
+     "away": "Fenerbahçe",
+     "corners_home": 5.8,
+     "corners_away": 4.9,
+     "gap": 0.9,
+     "cards": 3.6,
+     "cards_1t": 0.8,
+     "games": [
+      5,
+      5
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-26",
+     "time": "2026-10-26",
+     "league": "LaLiga",
+     "home": "Sevilla",
+     "away": "Osasuna",
+     "corners_home": 4.6,
+     "corners_away": 2.4,
+     "gap": 2.2,
+     "cards": 4.8,
+     "cards_1t": 1.0,
+     "games": [
+      4,
+      4
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-26",
+     "time": "2026-10-26",
+     "league": "Super Lig",
+     "home": "Rizespor",
+     "away": "Trabzonspor",
+     "corners_home": 5.5,
+     "corners_away": 5.5,
+     "gap": 0.1,
+     "cards": 2.4,
+     "cards_1t": 1.1,
+     "games": [
+      3,
+      4
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-26",
+     "time": "2026-10-26",
+     "league": "Super Lig",
+     "home": "Beşiktaş",
+     "away": "Başakşehir",
+     "corners_home": 5.0,
+     "corners_away": 3.5,
+     "gap": 1.5,
+     "cards": 4.0,
+     "cards_1t": 1.8,
+     "games": [
+      5,
+      3
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-26",
+     "time": "2026-10-26",
+     "league": "Liga Portugal",
+     "home": "Santa Clara",
+     "away": "Benfica",
+     "corners_home": 4.2,
+     "corners_away": 4.4,
+     "gap": 0.2,
+     "cards": 4.8,
+     "cards_1t": 2.0,
+     "games": [
+      4,
+      5
+     ],
+     "non_coperto": []
+    }
+   ]
+  },
+  "2026-10-27": {
+   "analizzate": 3,
+   "con_dati": 3,
+   "corner": [
+    {
+     "date": "2026-10-27",
+     "time": "2026-10-27",
+     "league": "Serie A",
+     "home": "Roma",
+     "away": "Cagliari",
+     "corners_home": 6.2,
+     "corners_away": 3.1,
+     "gap": 3.1,
+     "cards": 2.7,
+     "cards_1t": 0.6,
+     "games": [
+      6,
+      4
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-27",
+     "time": "2026-10-27",
+     "league": "Serie A",
+     "home": "Torino",
+     "away": "Como",
+     "corners_home": 3.6,
+     "corners_away": 5.4,
+     "gap": 1.8,
+     "cards": 1.5,
+     "cards_1t": 0.7,
+     "games": [
+      3,
+      6
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-27",
+     "time": "2026-10-27",
+     "league": "Serie A",
+     "home": "Sassuolo",
+     "away": "Lazio",
+     "corners_home": 4.4,
+     "corners_away": 5.7,
+     "gap": 1.3,
+     "cards": 3.8,
+     "cards_1t": 1.6,
+     "games": [
+      3,
+      4
+     ],
+     "non_coperto": []
+    }
+   ],
+   "cartellini": [
+    {
+     "date": "2026-10-27",
+     "time": "2026-10-27",
+     "league": "Serie A",
+     "home": "Torino",
+     "away": "Como",
+     "corners_home": 3.6,
+     "corners_away": 5.4,
+     "gap": 1.8,
+     "cards": 1.5,
+     "cards_1t": 0.7,
+     "games": [
+      3,
+      6
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-27",
+     "time": "2026-10-27",
+     "league": "Serie A",
+     "home": "Roma",
+     "away": "Cagliari",
+     "corners_home": 6.2,
+     "corners_away": 3.1,
+     "gap": 3.1,
+     "cards": 2.7,
+     "cards_1t": 0.6,
+     "games": [
+      6,
+      4
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-27",
+     "time": "2026-10-27",
+     "league": "Serie A",
+     "home": "Sassuolo",
+     "away": "Lazio",
+     "corners_home": 4.4,
+     "corners_away": 5.7,
+     "gap": 1.3,
+     "cards": 3.8,
+     "cards_1t": 1.6,
+     "games": [
+      3,
+      4
+     ],
+     "non_coperto": []
+    }
+   ],
+   "cartellini_1t": [
+    {
+     "date": "2026-10-27",
+     "time": "2026-10-27",
+     "league": "Serie A",
+     "home": "Roma",
+     "away": "Cagliari",
+     "corners_home": 6.2,
+     "corners_away": 3.1,
+     "gap": 3.1,
+     "cards": 2.7,
+     "cards_1t": 0.6,
+     "games": [
+      6,
+      4
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-27",
+     "time": "2026-10-27",
+     "league": "Serie A",
+     "home": "Torino",
+     "away": "Como",
+     "corners_home": 3.6,
+     "corners_away": 5.4,
+     "gap": 1.8,
+     "cards": 1.5,
+     "cards_1t": 0.7,
+     "games": [
+      3,
+      6
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-27",
+     "time": "2026-10-27",
+     "league": "Serie A",
+     "home": "Sassuolo",
+     "away": "Lazio",
+     "corners_home": 4.4,
+     "corners_away": 5.7,
+     "gap": 1.3,
+     "cards": 3.8,
+     "cards_1t": 1.6,
+     "games": [
+      3,
+      4
+     ],
+     "non_coperto": []
+    }
+   ]
+  },
+  "2026-10-28": {
+   "analizzate": 5,
+   "con_dati": 5,
+   "corner": [
+    {
+     "date": "2026-10-28",
+     "time": "2026-10-28",
+     "league": "Serie A",
+     "home": "Genoa",
+     "away": "Juventus",
+     "corners_home": 3.8,
+     "corners_away": 7.4,
+     "gap": 3.6,
+     "cards": 4.5,
+     "cards_1t": 0.8,
+     "games": [
+      4,
+      4
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-28",
+     "time": "2026-10-28",
+     "league": "Serie A",
+     "home": "Milan",
+     "away": "Bologna",
+     "corners_home": 5.5,
+     "corners_away": 2.0,
+     "gap": 3.5,
+     "cards": 1.8,
+     "cards_1t": 1.2,
+     "games": [
+      4,
+      3
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-28",
+     "time": "2026-10-28",
+     "league": "Serie A",
+     "home": "Parma",
+     "away": "Udinese",
+     "corners_home": 5.0,
+     "corners_away": 2.7,
+     "gap": 2.3,
+     "cards": 2.7,
+     "cards_1t": 0.8,
+     "games": [
+      4,
+      3
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-28",
+     "time": "2026-10-28",
+     "league": "Serie A",
+     "home": "Venezia",
+     "away": "Inter",
+     "corners_home": 4.0,
+     "corners_away": 5.8,
+     "gap": 1.8,
+     "cards": 5.2,
+     "cards_1t": 1.8,
+     "games": [
+      4,
+      4
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-28",
+     "time": "2026-10-28",
+     "league": "Serie A",
+     "home": "Monza",
+     "away": "Napoli",
+     "corners_home": 4.3,
+     "corners_away": 5.6,
+     "gap": 1.3,
+     "cards": 3.2,
+     "cards_1t": 0.5,
+     "games": [
+      3,
+      5
+     ],
+     "non_coperto": []
+    }
+   ],
+   "cartellini": [
+    {
+     "date": "2026-10-28",
+     "time": "2026-10-28",
+     "league": "Serie A",
+     "home": "Milan",
+     "away": "Bologna",
+     "corners_home": 5.5,
+     "corners_away": 2.0,
+     "gap": 3.5,
+     "cards": 1.8,
+     "cards_1t": 1.2,
+     "games": [
+      4,
+      3
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-28",
+     "time": "2026-10-28",
+     "league": "Serie A",
+     "home": "Parma",
+     "away": "Udinese",
+     "corners_home": 5.0,
+     "corners_away": 2.7,
+     "gap": 2.3,
+     "cards": 2.7,
+     "cards_1t": 0.8,
+     "games": [
+      4,
+      3
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-28",
+     "time": "2026-10-28",
+     "league": "Serie A",
+     "home": "Monza",
+     "away": "Napoli",
+     "corners_home": 4.3,
+     "corners_away": 5.6,
+     "gap": 1.3,
+     "cards": 3.2,
+     "cards_1t": 0.5,
+     "games": [
+      3,
+      5
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-28",
+     "time": "2026-10-28",
+     "league": "Serie A",
+     "home": "Genoa",
+     "away": "Juventus",
+     "corners_home": 3.8,
+     "corners_away": 7.4,
+     "gap": 3.6,
+     "cards": 4.5,
+     "cards_1t": 0.8,
+     "games": [
+      4,
+      4
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-28",
+     "time": "2026-10-28",
+     "league": "Serie A",
+     "home": "Venezia",
+     "away": "Inter",
+     "corners_home": 4.0,
+     "corners_away": 5.8,
+     "gap": 1.8,
+     "cards": 5.2,
+     "cards_1t": 1.8,
+     "games": [
+      4,
+      4
+     ],
+     "non_coperto": []
+    }
+   ],
+   "cartellini_1t": [
+    {
+     "date": "2026-10-28",
+     "time": "2026-10-28",
+     "league": "Serie A",
+     "home": "Monza",
+     "away": "Napoli",
+     "corners_home": 4.3,
+     "corners_away": 5.6,
+     "gap": 1.3,
+     "cards": 3.2,
+     "cards_1t": 0.5,
+     "games": [
+      3,
+      5
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-28",
+     "time": "2026-10-28",
+     "league": "Serie A",
+     "home": "Parma",
+     "away": "Udinese",
+     "corners_home": 5.0,
+     "corners_away": 2.7,
+     "gap": 2.3,
+     "cards": 2.7,
+     "cards_1t": 0.8,
+     "games": [
+      4,
+      3
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-28",
+     "time": "2026-10-28",
+     "league": "Serie A",
+     "home": "Genoa",
+     "away": "Juventus",
+     "corners_home": 3.8,
+     "corners_away": 7.4,
+     "gap": 3.6,
+     "cards": 4.5,
+     "cards_1t": 0.8,
+     "games": [
+      4,
+      4
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-28",
+     "time": "2026-10-28",
+     "league": "Serie A",
+     "home": "Milan",
+     "away": "Bologna",
+     "corners_home": 5.5,
+     "corners_away": 2.0,
+     "gap": 3.5,
+     "cards": 1.8,
+     "cards_1t": 1.2,
+     "games": [
+      4,
+      3
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-28",
+     "time": "2026-10-28",
+     "league": "Serie A",
+     "home": "Venezia",
+     "away": "Inter",
+     "corners_home": 4.0,
+     "corners_away": 5.8,
+     "gap": 1.8,
+     "cards": 5.2,
+     "cards_1t": 1.8,
+     "games": [
+      4,
+      4
+     ],
+     "non_coperto": []
+    }
+   ]
+  },
+  "2026-10-29": {
+   "analizzate": 2,
+   "con_dati": 2,
+   "corner": [
+    {
+     "date": "2026-10-29",
+     "time": "2026-10-29",
+     "league": "Serie A",
+     "home": "Fiorentina",
+     "away": "Atalanta",
+     "corners_home": 6.5,
+     "corners_away": 3.8,
+     "gap": 2.6,
+     "cards": 4.0,
+     "cards_1t": 1.2,
+     "games": [
+      4,
+      3
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-29",
+     "time": "2026-10-29",
+     "league": "Serie A",
+     "home": "Frosinone",
+     "away": "Lecce",
+     "corners_home": 4.4,
+     "corners_away": 5.1,
+     "gap": 0.8,
+     "cards": 3.5,
+     "cards_1t": 1.2,
+     "games": [
+      4,
+      4
+     ],
+     "non_coperto": []
+    }
+   ],
+   "cartellini": [
+    {
+     "date": "2026-10-29",
+     "time": "2026-10-29",
+     "league": "Serie A",
+     "home": "Frosinone",
+     "away": "Lecce",
+     "corners_home": 4.4,
+     "corners_away": 5.1,
+     "gap": 0.8,
+     "cards": 3.5,
+     "cards_1t": 1.2,
+     "games": [
+      4,
+      4
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-29",
+     "time": "2026-10-29",
+     "league": "Serie A",
+     "home": "Fiorentina",
+     "away": "Atalanta",
+     "corners_home": 6.5,
+     "corners_away": 3.8,
+     "gap": 2.6,
+     "cards": 4.0,
+     "cards_1t": 1.2,
+     "games": [
+      4,
+      3
+     ],
+     "non_coperto": []
+    }
+   ],
+   "cartellini_1t": [
+    {
+     "date": "2026-10-29",
+     "time": "2026-10-29",
+     "league": "Serie A",
+     "home": "Frosinone",
+     "away": "Lecce",
+     "corners_home": 4.4,
+     "corners_away": 5.1,
+     "gap": 0.8,
+     "cards": 3.5,
+     "cards_1t": 1.2,
+     "games": [
+      4,
+      4
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-29",
+     "time": "2026-10-29",
+     "league": "Serie A",
+     "home": "Fiorentina",
+     "away": "Atalanta",
+     "corners_home": 6.5,
+     "corners_away": 3.8,
+     "gap": 2.6,
+     "cards": 4.0,
+     "cards_1t": 1.2,
+     "games": [
+      4,
+      3
+     ],
+     "non_coperto": []
+    }
+   ]
+  },
+  "2026-10-30": {
+   "analizzate": 7,
+   "con_dati": 7,
+   "corner": [
+    {
+     "date": "2026-10-30",
+     "time": "2026-10-30",
+     "league": "LaLiga",
+     "home": "Villarreal",
+     "away": "Espanyol",
+     "corners_home": 6.1,
+     "corners_away": 3.2,
+     "gap": 2.9,
+     "cards": 5.1,
+     "cards_1t": 1.4,
+     "games": [
+      5,
+      4
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-30",
+     "time": "2026-10-30",
+     "league": "Super Lig",
+     "home": "Konyaspor",
+     "away": "Galatasaray",
+     "corners_home": 2.8,
+     "corners_away": 5.3,
+     "gap": 2.5,
+     "cards": 3.2,
+     "cards_1t": 0.2,
+     "games": [
+      4,
+      6
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-30",
+     "time": "2026-10-30",
+     "league": "Ligue 1",
+     "home": "Lille",
+     "away": "Lens",
+     "corners_home": 3.3,
+     "corners_away": 5.5,
+     "gap": 2.2,
+     "cards": 3.7,
+     "cards_1t": 0.7,
+     "games": [
+      6,
+      6
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-30",
+     "time": "2026-10-30",
+     "league": "Bundesliga",
+     "home": "Elversberg",
+     "away": "Mainz 05",
+     "corners_home": 4.2,
+     "corners_away": 5.7,
+     "gap": 1.5,
+     "cards": 6.3,
+     "cards_1t": 2.0,
+     "games": [
+      3,
+      3
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-30",
+     "time": "2026-10-30",
+     "league": "First Division A",
+     "home": "Zulte Waregem",
+     "away": "Club Brugge",
+     "corners_home": 4.2,
+     "corners_away": 5.7,
+     "gap": 1.5,
+     "cards": 3.0,
+     "cards_1t": 0.6,
+     "games": [
+      4,
+      5
+     ],
+     "non_coperto": []
+    }
+   ],
+   "cartellini": [
+    {
+     "date": "2026-10-30",
+     "time": "2026-10-30",
+     "league": "Ligue 1",
+     "home": "Le Havre",
+     "away": "Paris Saint-Germain",
+     "corners_home": 4.5,
+     "corners_away": 5.0,
+     "gap": 0.5,
+     "cards": 2.9,
+     "cards_1t": 1.6,
+     "games": [
+      4,
+      6
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-30",
+     "time": "2026-10-30",
+     "league": "First Division A",
+     "home": "Zulte Waregem",
+     "away": "Club Brugge",
+     "corners_home": 4.2,
+     "corners_away": 5.7,
+     "gap": 1.5,
+     "cards": 3.0,
+     "cards_1t": 0.6,
+     "games": [
+      4,
+      5
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-30",
+     "time": "2026-10-30",
+     "league": "Super Lig",
+     "home": "Konyaspor",
+     "away": "Galatasaray",
+     "corners_home": 2.8,
+     "corners_away": 5.3,
+     "gap": 2.5,
+     "cards": 3.2,
+     "cards_1t": 0.2,
+     "games": [
+      4,
+      6
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-30",
+     "time": "2026-10-30",
+     "league": "Ligue 1",
+     "home": "Lille",
+     "away": "Lens",
+     "corners_home": 3.3,
+     "corners_away": 5.5,
+     "gap": 2.2,
+     "cards": 3.7,
+     "cards_1t": 0.7,
+     "games": [
+      6,
+      6
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-30",
+     "time": "2026-10-30",
+     "league": "Liga Portugal",
+     "home": "Casa Pia AC",
+     "away": "Sporting CP",
+     "corners_home": 3.9,
+     "corners_away": 4.1,
+     "gap": 0.2,
+     "cards": 4.2,
+     "cards_1t": 0.0,
+     "games": [
+      4,
+      4
+     ],
+     "non_coperto": []
+    }
+   ],
+   "cartellini_1t": [
+    {
+     "date": "2026-10-30",
+     "time": "2026-10-30",
+     "league": "Liga Portugal",
+     "home": "Casa Pia AC",
+     "away": "Sporting CP",
+     "corners_home": 3.9,
+     "corners_away": 4.1,
+     "gap": 0.2,
+     "cards": 4.2,
+     "cards_1t": 0.0,
+     "games": [
+      4,
+      4
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-30",
+     "time": "2026-10-30",
+     "league": "Super Lig",
+     "home": "Konyaspor",
+     "away": "Galatasaray",
+     "corners_home": 2.8,
+     "corners_away": 5.3,
+     "gap": 2.5,
+     "cards": 3.2,
+     "cards_1t": 0.2,
+     "games": [
+      4,
+      6
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-30",
+     "time": "2026-10-30",
+     "league": "First Division A",
+     "home": "Zulte Waregem",
+     "away": "Club Brugge",
+     "corners_home": 4.2,
+     "corners_away": 5.7,
+     "gap": 1.5,
+     "cards": 3.0,
+     "cards_1t": 0.6,
+     "games": [
+      4,
+      5
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-30",
+     "time": "2026-10-30",
+     "league": "Ligue 1",
+     "home": "Lille",
+     "away": "Lens",
+     "corners_home": 3.3,
+     "corners_away": 5.5,
+     "gap": 2.2,
+     "cards": 3.7,
+     "cards_1t": 0.7,
+     "games": [
+      6,
+      6
+     ],
+     "non_coperto": []
+    },
+    {
+     "date": "2026-10-30",
+     "time": "2026-10-30",
+     "league": "LaLiga",
+     "home": "Villarreal",
+     "away": "Espanyol",
+     "corners_home": 6.1,
+     "corners_away": 3.2,
+     "gap": 2.9,
+     "cards": 5.1,
+     "cards_1t": 1.4,
+     "games": [
+      5,
+      4
+     ],
+     "non_coperto": []
+    }
+   ]
+  }
+ }
+}
