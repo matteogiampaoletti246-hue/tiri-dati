@@ -179,6 +179,19 @@ def main():
                 break
         json.dump(cache, open(CACHE_FILE, "w"), ensure_ascii=False)
 
+    # controllo: cosa restituisce il calendario per giorno (partite che il calendario del campionato non contiene)
+    for dd in os.environ.get("DIAG_DATES", "2026-08-03").split(","):
+        dd = dd.strip()
+        if not dd:
+            continue
+        res = safe(f"/v1/date/{dd}")
+        lst = as_list(res, "matches", "data")
+        print(f"[date {dd}] tipo={type(res).__name__} partite={len(lst)}")
+        if lst:
+            print("   campi della prima partita:", sorted(lst[0].keys()) if isinstance(lst[0], dict) else lst[0])
+        for m in lst:
+            if isinstance(m, dict) and DIAG and DIAG in json.dumps(m, ensure_ascii=False).lower():
+                print("   ", json.dumps(m, ensure_ascii=False)[:400])
     print(f"Partite senza dati giocatori: {len(skipped)}")
     for x in skipped[:80]:
         print("   ", x)
