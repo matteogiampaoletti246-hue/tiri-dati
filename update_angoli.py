@@ -4,7 +4,7 @@ e migliori partite dei prossimi giorni. Scrive angoli.json.
 Va nella stessa cartella di update_data.py, di cui riusa le funzioni."""
 import json, os, re, sys, time, urllib.parse
 from datetime import datetime, timezone, timedelta
-from update_data import api, num, find_league, WANTED, SEASON_START, PAUSE, KEY
+from update_data import api, num, find_league, WANTED, SEASON_START, PAUSE, KEY, handicap
 
 CACHE_FILE, OUT_FILE = "cache_angoli.json", "angoli.json"
 NLAST = int(os.environ.get("NLAST", "0"))       # 0 = tutte le partite della stagione in corso; N = solo le ultime N per sede
@@ -27,16 +27,22 @@ SKIP = re.compile(r"women|femin|\bu-?\d\d\b|youth|junior|reserve|cup|copa|coppa|
 CORNERS = ({"corners", "corner kicks"}, {"corners"})
 YELLOW = ({"yellow cards", "yellow card"}, {"yellow_cards", "yellowcards"})
 RED = ({"red cards", "red card"}, {"red_cards", "redcards"})
+SHOTS = ({"total shots"}, {"total_shots"})
+SOT = ({"shots on target"}, {"shots_on_target"})
+FOULS = ({"fouls", "fouls committed", "total fouls"}, {"fouls", "fouls_committed", "total_fouls"})
+OFFS = ({"offsides", "offside"}, {"offsides", "offside"})
+VER = 2     # versione dei dati in cache: se cambia, le partite vengono riscaricate una volta
 
 
 def items_of(period):
     return [i for g in (period or {}).get("groups", []) for i in g.get("items", [])]
 
 
-def pick(items, spec):
+def pick(items, spec, rx=None, bad=None):
     titles, keys = spec
     for i in items:
-        if i.get("title", "").strip().lower() in titles or i.get("key", "") in keys:
+        t = i.get("title", "").strip().lower()
+        if t in titles or i.get("key", "") in keys or (rx and re.search(rx, t) and not (bad and re.search(bad, t))):
             h, a = num(i.get("home")), num(i.get("away"))
             if h is not None and a is not None:
                 return h, a
@@ -62,7 +68,10 @@ def parse(s):
         if y1:
             r1 = pick(it1, RED) or (0.0, 0.0)
             k1 = (y1[0] + r1[0], y1[1] + r1[1])
-    return {"c": c, "k": k, "k1": k1}
+    return {"c": c, "k": k, "k1": k1,
+            "s": pick(it, SHOTS), "t": pick(it, SOT, r"shots on target", r"xg|expected"),
+            "f": pick(it, FOULS, r"\bfouls?\b", r"drawn|won|suffer|against"),
+            "o": pick(it, OFFS, r"offside", r"trap|against")}
 
 
 def debug(s):
@@ -70,7 +79,7 @@ def debug(s):
     print("Periodi trovati nella prima partita letta:", [p.get("period") for p in periods])
     for p in periods:
         for i in items_of(p):
-            if re.search(r"corner|card", i.get("title", "") + i.get("key", ""), re.I):
+            if re.search(r"corner|card|shot|foul|offside", i.get("title", "") + i.get("key", ""), re.I):
                 print("   ", p.get("period"), "|", i.get("title"), f"[{i.get('key')}]", i.get("home"), "-", i.get("away"))
 
 
@@ -100,21 +109,30 @@ def main():
         if t.get("image_url"):
             logos[tid_of(t)] = t["image_url"]
 
-    def read(m, comp):
+    team_h = {}     # handicap tiri del campionato di ogni squadra (1 = nessuno)
+
+    def read(m, comp, hv=None):
         mid = m["id"]
         rec = cache.get(mid)
-        if rec is None:
+        if hv is not None:
+            for t in (m["home_team"], m["away_team"]):
+                team_h[tid_of(t)] = max(team_h.get(tid_of(t), 0), hv)
+        if rec is None or rec.get("v") != VER:
             s = api(f"/v1/matches/{mid}/stats")
             time.sleep(PAUSE)
             if not s:
+                if rec is not None:
+                    recs[mid] = rec; reg(m["home_team"]); reg(m["away_team"])
                 return
             if not state["printed"]:
                 state["printed"] = True
                 debug(s)
             parsed = parse(s)
             if parsed is None:
+                if rec is not None:
+                    recs[mid] = rec; reg(m["home_team"]); reg(m["away_team"])
                 return          # senza angoli/cartellini: si riprova al giro dopo
-            rec = dict(parsed, d=str(m.get("date", ""))[:10], comp=comp,
+            rec = dict(parsed, v=VER, d=str(m.get("date", ""))[:10], comp=comp,
                        h=tid_of(m["home_team"]), a=tid_of(m["away_team"]))
             cache[mid] = rec
         recs[mid] = rec
@@ -144,8 +162,9 @@ def main():
         if restricted:   # campionati sotto i top 5: solo le partite delle squadre di coppa europea
             played = [m for m in played if tid_of(m["home_team"]) in cup_ids or tid_of(m["away_team"]) in cup_ids]
             print(f"   {key}: uso {len(played)} partite di squadre europee")
+        hv = None if key in CUPS else (handicap(key, lg.get("country_code")) or 1.0)
         for m in played:
-            read(m, key)
+            read(m, key, hv)
         for m in future:
             d = str(m.get("date", ""))[:10]
             if m["id"] in seen or not (str(today) <= d <= str(limit)):
@@ -172,8 +191,9 @@ def main():
         if not mine:
             continue
         print(f"+ {lg['name']} [{lg.get('country_code')}]: {len(mine)} partite di squadre di coppa")
+        hv = handicap("campionato", lg.get("country_code")) or 1.0
         for m in mine:
-            read(m, "campionato")
+            read(m, "campionato", hv)
         json.dump(cache, open(CACHE_FILE, "w"), ensure_ascii=False)
 
     # la cache tiene solo la stagione in corso
@@ -183,68 +203,87 @@ def main():
 
     # storico per squadra e sede (h = in casa, a = in trasferta); coppa e campionato nello stesso mucchio
     hist, covered = {}, set()
+
+    def sd(r, key, i):
+        return r[key][i] if r.get(key) else None
+
     for r in recs.values():
         for side, i in (("h", 0), ("a", 1)):
+            j = 1 - i
             tid = r[side]
-            k1 = None if r["k1"] is None else r["k1"][i]
-            hist.setdefault((tid, side), []).append((r["d"], r["c"][i], r["c"][1 - i], r["k"][i], k1))
+            hist.setdefault((tid, side), []).append({
+                "d": r["d"], "cf": r["c"][i], "ca": r["c"][j], "k": r["k"][i],
+                "k1": None if r["k1"] is None else r["k1"][i],
+                "sf": sd(r, "s", i), "sa": sd(r, "s", j), "tf": sd(r, "t", i), "ta": sd(r, "t", j),
+                "ff": sd(r, "f", i), "fa": sd(r, "f", j), "of": sd(r, "o", i), "oa": sd(r, "o", j)})
             if r["comp"] not in CUPS:
                 covered.add(tid)
 
-    def avg(tid, side):
-        rows = sorted(hist.get((tid, side), []), reverse=True)
-        if NLAST > 0:
-            rows = rows[:NLAST]
-        if not rows:
-            return None
-        n = len(rows)
-        r1 = [x[4] for x in rows if x[4] is not None]
-        return {"n": n, "cf": sum(x[1] for x in rows) / n, "ca": sum(x[2] for x in rows) / n,
-                "k": sum(x[3] for x in rows) / n, "k1": sum(r1) / len(r1) if r1 else None}
+    def rows_of(tid, side=None):
+        rs = hist.get((tid, "h"), []) + hist.get((tid, "a"), []) if side is None else hist.get((tid, side), [])
+        rs = sorted(rs, key=lambda x: x["d"], reverse=True)
+        return rs[:NLAST] if NLAST > 0 else rs
 
-    def avg_k(tid):
-        # cartellini: tutte le partite della squadra, casa e trasferta insieme
-        rows = hist.get((tid, "h"), []) + hist.get((tid, "a"), [])
-        if NLAST > 0:
-            rows = sorted(rows, reverse=True)[:NLAST]
-        if not rows:
+    def mean(rows, key):
+        v = [x[key] for x in rows if x[key] is not None]
+        return (sum(v) / len(v), len(v)) if v else (None, 0)
+
+    def expect(u, kf, ka, split, use_h=False):
+        """Attesi (casa, trasferta) = media tra cio' che la squadra fa e cio' che l'altra concede.
+        split=True: la casa con le partite in casa, l'ospite con quelle in trasferta; False: tutte le partite."""
+        hr = rows_of(u["h"], "h" if split else None)
+        ar = rows_of(u["a"], "a" if split else None)
+        hf, n1 = mean(hr, kf); ha, _ = mean(hr, ka)
+        af, n2 = mean(ar, kf); aa, _ = mean(ar, ka)
+        if None in (hf, ha, af, aa) or min(n1, n2) < MIN_G:
             return None
-        r1 = [x[4] for x in rows if x[4] is not None]
-        return {"n": len(rows), "k": sum(x[3] for x in rows) / len(rows), "k1": sum(r1) / len(r1) if r1 else None}
+        sh = team_h.get(u["h"], 1.0) if use_h else 1.0     # handicap: fatti x s, subiti / s
+        sa = team_h.get(u["a"], 1.0) if use_h else 1.0
+        return (hf * sh + aa / sa) / 2, (af * sa + ha / sh) / 2, n1, n2
 
     days = {}
     for u in upcoming.values():
-        h, a = avg(u["h"], "h"), avg(u["a"], "a")
         day = days.setdefault(u["date"], {"matches": [], "analizzate": 0})
         day["analizzate"] += 1
-        if not h or not a or min(h["n"], a["n"]) < MIN_G:
-            continue
-        eh, ea = (h["cf"] + a["ca"]) / 2, (a["cf"] + h["ca"]) / 2
-        kh, ka = avg_k(u["h"]), avg_k(u["a"])
         e = {"id": u["id"], "hid": u["h"], "aid": u["a"], "date": u["date"], "time": u["time"], "league": u["league"],
              "home": names[u["h"]], "away": names[u["a"]],
-             "corners_home": round(eh, 1), "corners_away": round(ea, 1), "gap": round(abs(eh - ea), 1),
-             "cards": round(kh["k"] + ka["k"], 1),
-             "cards_1t": round(kh["k1"] + ka["k1"], 1) if kh["k1"] is not None and ka["k1"] is not None else None,
-             "games_k": [kh["n"], ka["n"]],
-             "games": [h["n"], a["n"]],
              "non_coperto": [names[t] for t in (u["h"], u["a"]) if t not in covered]}
-        day["matches"].append(e)
+        r = expect(u, "cf", "ca", True)                      # angoli: casa / trasferta
+        if r:
+            e.update(corners_home=round(r[0], 1), corners_away=round(r[1], 1), gap=round(abs(r[0] - r[1]), 1), games=[r[2], r[3]])
+        for tag, kf, ka in (("tiri", "sf", "sa"), ("sot", "tf", "ta")):    # tiri: casa / trasferta + handicap
+            r = expect(u, kf, ka, True, True)
+            if r:
+                e.update({tag + "_home": round(r[0], 1), tag + "_away": round(r[1], 1),
+                          tag + "_gap": round(abs(r[0] - r[1]), 1), tag + "_games": [r[2], r[3]]})
+        for tag, kf, ka in (("falli", "ff", "fa"), ("off", "of", "oa")):   # falli e fuorigiochi: tutte le partite
+            r = expect(u, kf, ka, False)
+            if r:
+                e.update({tag + "_home": round(r[0], 1), tag + "_away": round(r[1], 1),
+                          tag + "_gap": round(abs(r[0] - r[1]), 1), tag + "_games": [r[2], r[3]]})
+        hk, hn = mean(rows_of(u["h"]), "k"); ak, an = mean(rows_of(u["a"]), "k")      # cartellini: tutte le partite
+        if hk is not None and ak is not None and min(hn, an) >= MIN_G:
+            h1, _ = mean(rows_of(u["h"]), "k1"); a1, _ = mean(rows_of(u["a"]), "k1")
+            e.update(cards=round(hk + ak, 1), cards_1t=round(h1 + a1, 1) if h1 is not None and a1 is not None else None,
+                     games_k=[hn, an])
+        if any(k in e for k in ("gap", "cards", "tiri_gap", "sot_gap", "falli_gap", "off_gap")):
+            day["matches"].append(e)
 
     out = {"updated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
            "window": {"nlast": NLAST, "min_games": MIN_G, "days_ahead": DAYS}, "days": {}}
+    LISTS = {"corner": ("gap", True), "tiri": ("tiri_gap", True), "tiri_sot": ("sot_gap", True),
+             "falli": ("falli_gap", True), "fuorigiochi": ("off_gap", True),
+             "cartellini": ("cards", False), "cartellini_1t": ("cards_1t", False)}
     for d in sorted(days):
         ms = days[d]["matches"]
-        out["days"][d] = {
-            "analizzate": days[d]["analizzate"], "con_dati": len(ms),
-            "corner": sorted(ms, key=lambda x: -x["gap"])[:TOP],
-            "cartellini": sorted(ms, key=lambda x: x["cards"])[:TOP],
-            "cartellini_1t": sorted([x for x in ms if x["cards_1t"] is not None],
-                                    key=lambda x: x["cards_1t"])[:TOP]}
+        o = {"analizzate": days[d]["analizzate"], "con_dati": len(ms)}
+        for name, (k, desc) in LISTS.items():
+            o[name] = sorted([x for x in ms if x.get(k) is not None], key=lambda x: -x[k] if desc else x[k])[:TOP]
+        out["days"][d] = o
     # stemmi: se l'elenco partite non li contiene, si chiede il dettaglio solo delle partite mostrate
     shown = {}
     for d in out["days"].values():
-        for k in ("corner", "cartellini", "cartellini_1t"):
+        for k in LISTS:
             for m in d[k]:
                 shown[m["id"]] = m
     for mid, m in shown.items():
