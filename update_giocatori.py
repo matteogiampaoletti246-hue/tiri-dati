@@ -9,7 +9,8 @@ from update_angoli import TOP5, CUPS, EXTRA, SKIP, tid_of, season_of
 CACHE_FILE, OUT_FILE = "cache_giocatori.json", "giocatori.json"
 MAX_MIN = float(os.environ.get("MAX_MIN", "35"))   # dopo tot minuti si ferma e salva: le partite mancanti si leggono al giro dopo
 VER = 1
-DIAG = os.environ.get("DIAG", "Celtic").lower()    # squadra di cui stampare tutte le partite trovate (controllo)
+MIN_HIT = 50     # minuti minimi (50 compreso) perche' una partita conti per l'hit rate
+DIAG = os.environ.get("DIAG", "").lower()    # squadra di cui stampare tutte le partite trovate (controllo)
 T0 = time.time()
 
 
@@ -180,7 +181,7 @@ def main():
         json.dump(cache, open(CACHE_FILE, "w"), ensure_ascii=False)
 
     # controllo: cosa restituisce il calendario per giorno (partite che il calendario del campionato non contiene)
-    for dd in os.environ.get("DIAG_DATES", "2026-08-03").split(","):
+    for dd in os.environ.get("DIAG_DATES", "").split(","):
         dd = dd.strip()
         if not dd:
             continue
@@ -208,17 +209,19 @@ def main():
         for pid, tid, mins, tot, sot in r["p"]:
             if not mins or mins <= 0:
                 continue
-            per.setdefault(pid, []).append((r["d"], r["comp"] in CUPS, tid, mins, tot, sot))
+            starter = mins >= MIN_HIT      # hit rate: solo partite con almeno 50 minuti giocati
+            per.setdefault(pid, []).append((r["d"], r["comp"] in CUPS, tid, mins, tot, sot, starter))
     players = []
     for pid, rows in per.items():
         rows.sort(reverse=True)
         lg_, cup_ = [0, 0, 0, 0], [0, 0, 0, 0]
-        for d, is_cup, tid, mins, tot, sot in rows:
+        for d, is_cup, tid, mins, tot, sot, starter in rows:
             a = cup_ if is_cup else lg_
             a[0] += 1; a[1] += tot; a[2] += sot; a[3] += mins
         players.append({"i": pid, "n": pnames.get(pid, "?"), "t": tnames.get(rows[0][2], ""),
                         "l": [round(x, 1) for x in lg_], "c": [round(x, 1) for x in cup_],
-                        "r": [[int(x[4]), int(x[5]), int(x[3])] for x in rows[:5]]})
+                        "r": [[int(x[4]), int(x[5]), int(x[3])] for x in rows[:5]],
+                        "h": [[int(x[4]), int(x[5]), int(x[3])] for x in [y for y in rows if y[6]][:5]]})
     players.sort(key=lambda p: p["n"])
     json.dump({"updated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"), "players": players},
               open(OUT_FILE, "w"), ensure_ascii=False, separators=(",", ":"))
