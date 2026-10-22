@@ -234,7 +234,7 @@ function loader(){
     var p = PSEL; if(!p) return;
     var k = statIdx(), line = parseFloat((document.getElementById('lineValue') || {}).value);
     var a = document.querySelector('#lineTypeSeg button.active'), over = !a || a.dataset.val !== 'under';
-    var r = p.r || [];
+    var r = p.h || [];     // ultime 5 partite da titolare
     if(r.length < 5 || !isFinite(line) || line <= 0){ setVal('hitRate5', '', 'change'); return; }
     var n = 0;
     r.slice(0, 5).forEach(function(x){ if(over ? x[k] > line : x[k] < line) n++; });
