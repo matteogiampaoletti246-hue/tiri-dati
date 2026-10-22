@@ -211,11 +211,12 @@ function loader(){
   var LAST = null;
 
   // --- giocatori: ricerca nome e compilazione automatica di medie, minuti, ultime 5 e hit rate ---
-  var PDATA = null, PSEL = null, PLOAD = null;
+  var PDATA = null, PSEL = null, PLOAD = null, PFIX = {};
   function norm(x){ return String(x || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
   function loadPlayers(){
     if(!PLOAD) PLOAD = fetch('giocatori.json?t=' + Date.now()).then(function(r){ return r.ok ? r.json() : null; })
       .catch(function(){ return null; }).then(function(j){
+        PFIX = (j && j.fix) || {};
         PDATA = j && j.players ? j.players.map(function(p){ p._k = norm(p.n); p._t = norm(p.t); return p; }) : [];
         return PDATA;
       });
@@ -268,6 +269,50 @@ function loader(){
     if(info) info.textContent = p.t + ' \u00b7 stagione: ' + (p.l[0] + p.c[0]) + ' partite (' + p.l[0] + ' campionato, ' + p.c[0] + ' coppe)';
     fillHit();
   }
+  // --- prossima partita: squadra del giocatore e avversaria si compilano da sole ---
+  function romeDay(d){ return d.toLocaleDateString('sv-SE', {timeZone:'Europe/Rome'}); }
+  function pickKey(name, prefer){
+    var D = window.LEAGUE_DATA || {}, order = [];
+    if(prefer) order.push(prefer);
+    KEEP.forEach(function(k){ if(k && order.indexOf(k) < 0 && !(D[k] && D[k].cup)) order.push(k); });
+    KEEP.forEach(function(k){ if(k && order.indexOf(k) < 0) order.push(k); });
+    for(var i = 0; i < order.length; i++){
+      var k = order[i], sel = document.getElementById('oppLeague');
+      var inList = sel && Array.prototype.some.call(sel.options, function(o){ return o.value === k; });
+      if(inList && D[k] && D[k].teams && D[k].teams[name]) return k;
+    }
+    return null;
+  }
+  function pick(leagueId, teamId, key, name){
+    var ls = document.getElementById(leagueId), ts = document.getElementById(teamId);
+    if(!ls || !ts || !key) return false;
+    ls.value = key; ls.dispatchEvent(new Event('change', {bubbles:true}));
+    ts.value = name; ts.dispatchEvent(new Event('change', {bubbles:true}));
+    return ts.value === name;
+  }
+  function setNote(t){
+    var e = document.getElementById('slbMNote'); if(e) e.textContent = t || '';
+  }
+  function fillTeams(p){
+    setNote('');
+    var list = PFIX[p.t] || [], today = romeDay(new Date()), f = null;
+    for(var i = 0; i < list.length; i++){ if(romeDay(new Date(list[i][0])) >= today){ f = list[i]; break; } }
+    if(!f){ setNote('Prossima partita di ' + p.t + ' non trovata: scegli le squadre a mano.'); return; }
+    var opp = f[1], home = f[2] === 1, comp = f[3];
+    var D = window.LEAGUE_DATA || {}, isCup = !!(D[comp] && D[comp].cup);
+    if(!isCup){
+      var cb = document.querySelector('#compSeg button[data-val="league"]'); if(cb) cb.click();   // azzera eventuali coppe rimaste
+    }
+    var pk = isCup ? pickKey(p.t, comp) : pickKey(p.t, null);
+    var ok1 = pick('playerLeague', 'playerTeam', pk, p.t);
+    var ok = isCup ? pick('oppLeague', 'oppTeam', pickKey(opp, comp), opp) : pick('oppLeague', 'oppTeam', pickKey(opp, comp), opp);
+    var hb = document.querySelector('#homeAwaySeg button[data-val="' + (home ? 'home' : 'away') + '"]'); if(hb) hb.click();
+    var when = new Date(f[0]).toLocaleDateString('it-IT', {timeZone:'Europe/Rome', weekday:'short', day:'numeric', month:'short'});
+    var txt = 'Prossima partita: ' + (home ? p.t + ' \u2013 ' + opp : opp + ' \u2013 ' + p.t) + ' \u00b7 ' + when + (isCup ? ' \u00b7 coppa europea' : '');
+    if(!ok1) txt += ' \u00b7 squadra del giocatore non presente nel database';
+    if(!ok) txt += ' \u00b7 avversaria non presente nel database';
+    setNote(txt);
+  }
   function players(){
     var inp = document.getElementById('playerName'); if(!inp) return;
     inp.setAttribute('autocomplete', 'off'); inp.setAttribute('autocapitalize', 'off'); inp.setAttribute('spellcheck', 'false');
@@ -275,6 +320,8 @@ function loader(){
     inp.parentNode.insertBefore(wrap, inp); wrap.appendChild(inp);
     var panel = document.createElement('div'); panel.className = 'cdd-panel'; panel.hidden = true; wrap.appendChild(panel);
     var info = document.createElement('span'); info.className = 'hint'; info.id = 'slbPInfo'; wrap.appendChild(info);
+    var mn = document.createElement('div'); mn.id = 'slbMNote';
+    mn.style.cssText = 'color:#1F63E0;font-size:12.5px;margin-top:6px;font-weight:600;'; wrap.appendChild(mn);
     var hr = document.getElementById('hitRate5');
     if(hr){
       var note = document.createElement('div'); note.id = 'slbL5Note';
@@ -303,7 +350,7 @@ function loader(){
         var tm = el('span', '', '\u00b7 ' + p.t); tm.style.cssText = 'color:var(--text-dim);font-size:13px;margin-left:auto;text-align:right;'; d.appendChild(tm);
         d.addEventListener('click', function(){
           PSEL = p; inp.value = p.n; panel.hidden = true; inp.blur();
-          fillAvg();
+          fillAvg(); fillTeams(p);
         });
         panel.appendChild(d);
       });
@@ -311,7 +358,7 @@ function loader(){
     }
     inp.addEventListener('focus', function(){ loadPlayers().then(show); });
     inp.addEventListener('input', function(){
-      if(PSEL && inp.value !== PSEL.n){ PSEL = null; info.textContent = ''; l5Note(null); }
+      if(PSEL && inp.value !== PSEL.n){ PSEL = null; info.textContent = ''; l5Note(null); setNote(''); }
       loadPlayers().then(show); show();
     });
     document.addEventListener('click', function(e){ if(!wrap.contains(e.target)) panel.hidden = true; });
