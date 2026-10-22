@@ -141,6 +141,7 @@ function loader(){
     go('players');
 
     cleanup();
+    players();
     splash();
   }
 
@@ -208,6 +209,102 @@ function loader(){
       .catch(function(){ return null; }).then(function(j){ MDATA = j; drawMatch(); });
   }
   var LAST = null;
+
+  // --- giocatori: ricerca nome e compilazione automatica di medie, minuti, ultime 5 e hit rate ---
+  var PDATA = null, PSEL = null, PLOAD = null;
+  function norm(x){ return String(x || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
+  function loadPlayers(){
+    if(!PLOAD) PLOAD = fetch('giocatori.json?t=' + Date.now()).then(function(r){ return r.ok ? r.json() : null; })
+      .catch(function(){ return null; }).then(function(j){
+        PDATA = j && j.players ? j.players.map(function(p){ p._k = norm(p.n); p._t = norm(p.t); return p; }) : [];
+        return PDATA;
+      });
+    return PLOAD;
+  }
+  function setVal(id, v, ev){
+    var e = document.getElementById(id); if(!e) return;
+    e.value = v;
+    e.dispatchEvent(new Event(ev || 'input', {bubbles:true}));
+  }
+  function statIdx(){
+    var a = document.querySelector('#shotTypeSeg button.active');
+    return a && a.dataset.val === 'sot' ? 1 : 0;     // 0 = tiri totali, 1 = tiri in porta
+  }
+  function fillHit(){
+    var p = PSEL; if(!p) return;
+    var k = statIdx(), line = parseFloat((document.getElementById('lineValue') || {}).value);
+    var a = document.querySelector('#lineTypeSeg button.active'), over = !a || a.dataset.val !== 'under';
+    var r = p.r || [];
+    if(r.length < 5 || !isFinite(line) || line <= 0){ setVal('hitRate5', '', 'change'); return; }
+    var n = 0;
+    r.slice(0, 5).forEach(function(x){ if(over ? x[k] > line : x[k] < line) n++; });
+    setVal('hitRate5', ['0', '0.2', '0.4', '0.6', '0.8', '1'][n], 'change');
+  }
+  function fillAvg(){
+    var p = PSEL; if(!p) return;
+    var k = statIdx();
+    function avg(a, i){ return a && a[0] > 0 ? a[i] / a[0] : null; }
+    var comps = [['League', p.l], ['Cup', p.c]];
+    comps.forEach(function(c){
+      var sh = avg(c[1], 1 + k), mi = avg(c[1], 3);
+      setVal('shots' + c[0], sh == null ? '' : (Math.round(sh * 100) / 100).toString());
+      setVal('minutes' + c[0], mi == null ? '' : Math.round(mi).toString());
+    });
+    setVal('shotsNL', ''); setVal('minutesNL', ''); setVal('shotsWCQ', ''); setVal('minutesWCQ', '');
+    var r = p.r || [];
+    setVal('l5Shots', r.map(function(x){ return x[k]; }).join('-'));
+    setVal('l5Mins', r.map(function(x){ return x[2]; }).join('-'));
+    var info = document.getElementById('slbPInfo');
+    if(info) info.textContent = p.t + ' \u00b7 stagione: ' + (p.l[0] + p.c[0]) + ' partite (' + p.l[0] + ' campionato, ' + p.c[0] + ' coppe)';
+    fillHit();
+  }
+  function players(){
+    var inp = document.getElementById('playerName'); if(!inp) return;
+    inp.setAttribute('autocomplete', 'off'); inp.setAttribute('autocapitalize', 'off'); inp.setAttribute('spellcheck', 'false');
+    var wrap = document.createElement('div'); wrap.className = 'cdd';
+    inp.parentNode.insertBefore(wrap, inp); wrap.appendChild(inp);
+    var panel = document.createElement('div'); panel.className = 'cdd-panel'; panel.hidden = true; wrap.appendChild(panel);
+    var info = document.createElement('span'); info.className = 'hint'; info.id = 'slbPInfo'; wrap.appendChild(info);
+    function show(){
+      var q = norm(inp.value.trim());
+      panel.innerHTML = '';
+      if(q.length < 2){ panel.hidden = true; return; }
+      if(!PDATA){ panel.appendChild(el('div', 'cdd-item dim', 'Caricamento giocatori\u2026')); panel.hidden = false; return; }
+      if(!PDATA.length){ panel.appendChild(el('div', 'cdd-item dim', 'Database giocatori non ancora disponibile')); panel.hidden = false; return; }
+      var toks = q.split(/\s+/), out = [];
+      for(var i = 0; i < PDATA.length && out.length < 60; i++){
+        var p = PDATA[i], ok = true;
+        for(var j = 0; j < toks.length; j++){ if(p._k.indexOf(toks[j]) < 0 && p._t.indexOf(toks[j]) < 0){ ok = false; break; } }
+        if(ok) out.push(p);
+      }
+      out.sort(function(a, b){ return (a._k.indexOf(q) === 0 ? 0 : 1) - (b._k.indexOf(q) === 0 ? 0 : 1); });
+      if(!out.length){ panel.appendChild(el('div', 'cdd-item dim', 'Nessun giocatore trovato')); panel.hidden = false; return; }
+      out.slice(0, 40).forEach(function(p){
+        var d = el('div', 'cdd-item');
+        var u = TEAM_LOGOS[p.t];
+        if(u){ var im = el('img'); im.src = u; im.alt = ''; im.onerror = function(){ im.remove(); }; d.appendChild(im); }
+        var t = el('span', '', p.n); d.appendChild(t);
+        var tm = el('span', '', '\u00b7 ' + p.t); tm.style.cssText = 'color:var(--text-dim);font-size:13px;margin-left:auto;text-align:right;'; d.appendChild(tm);
+        d.addEventListener('click', function(){
+          PSEL = p; inp.value = p.n; panel.hidden = true; inp.blur();
+          fillAvg();
+        });
+        panel.appendChild(d);
+      });
+      panel.hidden = false;
+    }
+    inp.addEventListener('focus', function(){ loadPlayers().then(show); });
+    inp.addEventListener('input', function(){
+      if(PSEL && inp.value !== PSEL.n){ PSEL = null; info.textContent = ''; }
+      loadPlayers().then(show); show();
+    });
+    document.addEventListener('click', function(e){ if(!wrap.contains(e.target)) panel.hidden = true; });
+    document.addEventListener('click', function(e){
+      if(e.target.closest && e.target.closest('#shotTypeSeg')) setTimeout(fillAvg, 0);
+      else if(e.target.closest && e.target.closest('#lineTypeSeg')) setTimeout(fillHit, 0);
+    });
+    var lv = document.getElementById('lineValue'); if(lv) lv.addEventListener('input', fillHit);
+  }
   var INFO_IDS = ['datasetInfo','playerTeamDatasetInfo','teamForDatasetInfo','teamOppDatasetInfo'];
   function fixInfo(el){
     if(!LAST || !el) return;
