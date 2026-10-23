@@ -93,7 +93,15 @@ def read_roles(mid, cache):
             k = 0 if px <= 0.15 else 1 if px < 0.45 else 2 if px < 0.8 else 3
             v = cache["role"].setdefault(pid, [0, 0, 0, 0])
             v[k] += 1
-    cache["lu"][mid] = 1
+        # panchinari: ruolo dal position_id della distinta (peso minore, conta solo se non c'e' altro)
+        for x in ((j or {}).get(side) or {}).get("subs", []) or []:
+            pid, pi = x.get("player_id"), x.get("position_id")
+            if not pid or pi is None:
+                continue
+            k = 0 if pi < 20 else 1 if pi < 60 else 2 if pi < 90 else 3
+            v = cache["role2"].setdefault(pid, [0, 0, 0, 0])
+            v[k] += 1
+    cache["lu"][mid] = 2
 
 
 def probe_diag(mids, tid):
@@ -125,7 +133,7 @@ def main():
         sys.exit("Manca la variabile PITCHAPI_KEY (segreto del repository).")
     cache = json.load(open(CACHE_FILE)) if os.path.exists(CACHE_FILE) else {}
     cm = cache.setdefault("m", {})
-    for k in ("pn", "ph", "pos", "tn", "role", "lu"):
+    for k in ("pn", "ph", "pos", "tn", "role", "role2", "lu"):
         cache.setdefault(k, {})
     leagues = (api("/v1/leagues") or {}).get("leagues", [])
     new, skipped, stop, probed = 0, 0, False, False
@@ -152,7 +160,7 @@ def main():
                 stop = True
                 break
             if rec is not None and rec.get("v") == VER:
-                if mid not in cache["lu"]:
+                if cache["lu"].get(mid) != 2:
                     read_roles(mid, cache)
                 continue
             res = read_match(mid)
@@ -197,6 +205,12 @@ def main():
         tid = lst[0][2][1]
         rv = cache["role"].get(pid)
         posd = "PDCA"[rv.index(max(rv))] if rv and max(rv) > 0 else None
+        if posd is None:
+            r2 = cache["role2"].get(pid)
+            posd = "PDCA"[r2.index(max(r2))] if r2 and max(r2) > 0 else None
+        if posd is None:      # nessun dato di ruolo: profilo dai numeri (mai "Altri")
+            mn = max(1, tot[0])
+            posd = "A" if tot[3] / mn * 90 >= 1.6 or tot[1] > 0 else "C" if tot[5] / mn * 90 < 1.6 else "D"
         players.append([pid, cache["pn"].get(pid, "?"), cache["tn"].get(tid, ""), lst[0][1], len(lst),
                         int(tot[0]), int(tot[1]), int(tot[2]), int(tot[3]), int(tot[4]), int(tot[5]), int(tot[6]),
                         int(tot[7]), int(tot[8]), int(tot[9])] + [int(x) for x in l5[:8]] + [posd] + [int(x) for x in l5[8:]])
