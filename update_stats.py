@@ -191,21 +191,21 @@ def main():
         for d, lg_, row in lst:
             for i in range(2, 12):
                 tot[i - 2] += row[i]
-        l5 = [0.0] * 8       # partite, min, tiri, in porta, falli, subiti, fuorigioco, gol
+        l5 = [0.0] * 11      # partite, min, tiri, in porta, falli, subiti, fuorigioco, gol, assist, gialli, rossi
         for d, lg_, row in lst[:5]:
-            l5[0] += 1; l5[1] += row[2]; l5[2] += row[5]; l5[3] += row[6]; l5[4] += row[7]; l5[5] += row[8]; l5[6] += row[9]; l5[7] += row[3]
+            l5[0] += 1; l5[1] += row[2]; l5[2] += row[5]; l5[3] += row[6]; l5[4] += row[7]; l5[5] += row[8]; l5[6] += row[9]; l5[7] += row[3]; l5[8] += row[4]; l5[9] += row[10]; l5[10] += row[11]
         tid = lst[0][2][1]
         rv = cache["role"].get(pid)
         posd = "PDCA"[rv.index(max(rv))] if rv and max(rv) > 0 else None
         players.append([pid, cache["pn"].get(pid, "?"), cache["tn"].get(tid, ""), lst[0][1], len(lst),
                         int(tot[0]), int(tot[1]), int(tot[2]), int(tot[3]), int(tot[4]), int(tot[5]), int(tot[6]),
-                        int(tot[7]), int(tot[8]), int(tot[9])] + [int(x) for x in l5] + [posd])
+                        int(tot[7]), int(tot[8]), int(tot[9])] + [int(x) for x in l5[:8]] + [posd] + [int(x) for x in l5[8:]])
         if pid in cache["ph"]:
             photos[pid] = cache["ph"][pid]
     players.sort(key=lambda p: p[1])
     json.dump({"updated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
                "cols": ["id", "n", "t", "lg", "g", "min", "go", "as", "sh", "st", "fo", "fs", "of", "y", "r",
-                        "l5g", "l5min", "l5sh", "l5st", "l5fo", "l5fs", "l5of", "l5go", "pos"],
+                        "l5g", "l5min", "l5sh", "l5st", "l5fo", "l5fs", "l5of", "l5go", "pos", "l5as", "l5y", "l5r"],
                "players": players, "ph": photos}, open(OUT_FILE, "w"), ensure_ascii=False, separators=(",", ":"))
     print("Scritto", OUT_FILE, "- giocatori:", len(players), "- partite in memoria:", len(cm), "- nuove:", new, "- senza dati:", skipped)
 
