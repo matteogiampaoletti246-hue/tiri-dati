@@ -10,10 +10,10 @@ from zoneinfo import ZoneInfo
 TOKEN = os.environ.get("APIFY_TOKEN", "")
 ACTOR = "zen-studio~bet365-player-props"
 MAX_PLAYERS = int(os.environ.get("MAX_PLAYERS", "30"))      # massimo giocatori per giorno
-MIN_VOTO = float(os.environ.get("MIN_VOTO", "8.0"))        # voto minimo per chiedere le quote
+MIN_VOTO = float(os.environ.get("MIN_VOTO", "7.75"))        # voto minimo per chiedere le quote
 MIN_MIN = float(os.environ.get("MIN_MIN", "35"))            # minuti medi minimi nelle ultime 5 partite
 REF_LINE = float(os.environ.get("REF_LINE", "1.5"))       # linea usata per scegliere i giocatori di cui chiedere le quote        # tiri attesi che valgono voto 10
-HORIZON = int(os.environ.get("HORIZON", "6"))                # oggi + 5 giorni: i giorni gia' cercati non si rifanno
+HORIZON = int(os.environ.get("HORIZON", "4"))                # oggi + 3 giorni: i giorni gia' cercati non si rifanno
 LEAGUES = ["Serie A", "Premier League", "La Liga", "Bundesliga", "Ligue 1", "Champions League", "Europa League"]
 CUPS = {"champions-league", "europa-league"}
 ROME = ZoneInfo("Europe/Rome")
@@ -212,7 +212,7 @@ def main():
             if it.get("book") != "bet365" or it.get("is_live") or it.get("suspended"):
                 continue
             mk = it.get("market_name")
-            if mk not in ("Shots", "Shots On Target") or it.get("line") is None or not it.get("decimal_odds"):
+            if mk != "Shots" or it.get("line") not in (0.5, 1.5, 2.5) or not it.get("decimal_odds"):
                 continue
             pid = match(it.get("player_name"), it.get("player_team"))
             if not pid:
