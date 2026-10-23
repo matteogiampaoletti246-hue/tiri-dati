@@ -81,6 +81,21 @@ def read_match(mid):
     return list(rows.values()), names, photos, pos
 
 
+def read_roles(mid, cache):
+    """ruolo di ogni titolare dalla posizione in campo (pitch_x): portiere, difensore, centrocampista, attaccante."""
+    j = safe(f"/v1/matches/{mid}/lineups")
+    time.sleep(PAUSE)
+    for side in ("home", "away"):
+        for x in ((j or {}).get(side) or {}).get("starters", []) or []:
+            pid, px = x.get("player_id"), x.get("pitch_x")
+            if not pid or px is None:
+                continue
+            k = 0 if px <= 0.15 else 1 if px < 0.45 else 2 if px < 0.8 else 3
+            v = cache["role"].setdefault(pid, [0, 0, 0, 0])
+            v[k] += 1
+    cache["lu"][mid] = 1
+
+
 def probe_diag(mids, tid):
     """Una volta sola: scrive diag2.json con le risposte degli endpoint squadra/rosa (per la scheda Squadra)."""
     if os.path.exists("diag2.json"):
@@ -110,7 +125,7 @@ def main():
         sys.exit("Manca la variabile PITCHAPI_KEY (segreto del repository).")
     cache = json.load(open(CACHE_FILE)) if os.path.exists(CACHE_FILE) else {}
     cm = cache.setdefault("m", {})
-    for k in ("pn", "ph", "pos", "tn"):
+    for k in ("pn", "ph", "pos", "tn", "role", "lu"):
         cache.setdefault(k, {})
     leagues = (api("/v1/leagues") or {}).get("leagues", [])
     new, skipped, stop, probed = 0, 0, False, False
@@ -133,11 +148,13 @@ def main():
             for t in (m["home_team"], m["away_team"]):
                 cache["tn"][tid_of(t)] = t["name"]
             rec = cm.get(mid)
-            if rec is not None and rec.get("v") == VER:
-                continue
             if (time.time() - T0) / 60 > MAX_MIN:
                 stop = True
                 break
+            if rec is not None and rec.get("v") == VER:
+                if mid not in cache["lu"]:
+                    read_roles(mid, cache)
+                continue
             res = read_match(mid)
             if res is None:
                 skipped += 1
@@ -149,6 +166,7 @@ def main():
             cache["ph"].update(photos)
             cache["pos"].update({k: v for k, v in pos.items()})
             cm[mid] = {"v": VER, "d": str(m.get("date", ""))[:10], "lg": key, "p": rows}
+            read_roles(mid, cache)
             new += 1
             if not probed:
                 probed = True
@@ -177,7 +195,8 @@ def main():
         for d, lg_, row in lst[:5]:
             l5[0] += 1; l5[1] += row[2]; l5[2] += row[5]; l5[3] += row[6]; l5[4] += row[7]; l5[5] += row[8]; l5[6] += row[9]; l5[7] += row[3]
         tid = lst[0][2][1]
-        posd = cache["pos"].get(pid)
+        rv = cache["role"].get(pid)
+        posd = "PDCA"[rv.index(max(rv))] if rv and max(rv) > 0 else None
         players.append([pid, cache["pn"].get(pid, "?"), cache["tn"].get(tid, ""), lst[0][1], len(lst),
                         int(tot[0]), int(tot[1]), int(tot[2]), int(tot[3]), int(tot[4]), int(tot[5]), int(tot[6]),
                         int(tot[7]), int(tot[8]), int(tot[9])] + [int(x) for x in l5] + [posd])
