@@ -287,7 +287,10 @@ html:not([data-theme="night"]) .hpill.on{color:#fff;}
 .hsw button.on{border-color:var(--accent);background:var(--hl);color:var(--ink);}
 .hpitch{position:relative;width:100%;aspect-ratio:68/100;border-radius:16px;overflow:hidden;background:repeating-linear-gradient(180deg,var(--pitch) 0,var(--pitch) 10%,var(--pitch2) 10%,var(--pitch2) 20%);margin-bottom:12px;}
 .hpitch svg.ln{position:absolute;inset:0;width:100%;height:100%;}
-.hp{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;width:74px;border:0;background:transparent;padding:0;cursor:pointer;color:#fff;}
+.hp{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;width:84px;border:0;background:transparent;padding:0;cursor:pointer;color:#fff;}
+.hp .fc{position:relative;width:44px;height:44px;border-radius:50%;overflow:hidden;background:#fff;color:#0B2A6B;font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,.3);}.hp .fc img{width:100%;height:100%;object-fit:cover;object-position:50% 15%;}
+.hp .cp2{position:absolute;left:8px;top:-3px;width:15px;height:15px;border-radius:50%;background:#F2C230;color:#241800;font-size:9px;font-weight:800;display:flex;align-items:center;justify-content:center;z-index:2;}
+.hp .vb{margin-top:3px;min-width:34px;padding:1px 6px;border-radius:6px;font-size:11px;font-weight:800;color:#fff;line-height:1.35;box-shadow:0 1px 3px rgba(0,0,0,.3);}
 .hp .nb{position:relative;width:36px;height:36px;border-radius:50%;background:#fff;color:#0B2A6B;font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,.3);}
 .hp .nb .hv{position:absolute;right:-9px;bottom:-5px;min-width:22px;height:17px;border-radius:9px;background:#3C527F;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;padding:0 4px;border:1.5px solid #fff;}
 .hp .nb .hv.g{background:#E5A800;color:#241800;}
@@ -540,9 +543,16 @@ html:not([data-theme="night"]) .hpill.on{color:#fff;}
     pos.forEach(function(o){
       var pl = o.p, dbp = findPlayer(pl[0], team);
       var b = el('button', 'hp'); b.type = 'button'; b.style.left = o.x + '%'; b.style.top = o.y + '%';
-      var nb = el('span', 'nb', pl[1] != null ? String(pl[1]) : ''); 
-      if(pl[4]) nb.appendChild(el('span', 'cp', 'C'));
-      b.appendChild(nb); b.appendChild(el('span', 'pn', shortName(pl[0])));
+      var fc = el('span', 'fc'), fu = pl[5] && FOTO[pl[5]] && FOTO[pl[5]].u;
+      if(fu){ var im = el('img'); im.src = fu; im.alt = ''; im.loading = 'lazy'; im.decoding = 'async'; im.onerror = function(){ im.remove(); fc.textContent = inits(pl[0]); }; fc.appendChild(im); } else fc.textContent = inits(pl[0]);
+      b.appendChild(fc);
+      if(pl[4]) b.appendChild(el('span', 'cp2', 'C'));
+      b.appendChild(el('span', 'pn', (pl[1] != null ? pl[1] + ' ' : '') + shortName(pl[0])));
+      var vt = dbp ? votoOf(dbp, HSEL, 1.5) : null;
+      if(vt){ var vv = vt.v, vb = el('span', 'vb', f1(vv.toFixed(1)));
+        vb.style.background = vv < 5 ? '#D93A3A' : vv < 6 ? '#E8731C' : vv < 7 ? '#E5B400' : vv < 8 ? '#7BC043' : vv < 9 ? '#1E8E3E' : '#1CA3E6';
+        if(vv >= 6 && vv < 7) vb.style.color = '#241800';
+        b.appendChild(vb); }
       if(dbp) b.addEventListener('click', function(){ openPlayer(dbp); }); else b.style.cursor = 'default';
       pitch.appendChild(b);
     });
