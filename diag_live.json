@@ -1,0 +1,344 @@
+{
+ "adesso_utc": "2026-10-23T15:59:50.092886+00:00",
+ "intestazioni_quota": {
+  "status": 200,
+  "headers": {
+   "Date": "Fri, 23 Oct 2026 15:59:50 GMT",
+   "access-control-max-age": "300",
+   "cf-cache-status": "DYNAMIC"
+  }
+ },
+ "endpoint_live": {
+  "/v1/matches/live": {
+   "status": 400,
+   "inizio": "{\"error\":{\"code\":\"INVALID_PARAMETER\",\"message\":\"invalid match ID\"}}\n"
+  },
+  "/v1/live": {
+   "status": 404,
+   "inizio": "404 page not found\n"
+  },
+  "/v1/livescores": {
+   "status": 404,
+   "inizio": "404 page not found\n"
+  },
+  "/v1/matches?status=live": {
+   "status": 404,
+   "inizio": "404 page not found\n"
+  },
+  "/v1/matches/today": {
+   "status": 400,
+   "inizio": "{\"error\":{\"code\":\"INVALID_PARAMETER\",\"message\":\"invalid match ID\"}}\n"
+  },
+  "/v1/live/matches": {
+   "status": 404,
+   "inizio": "404 page not found\n"
+  }
+ },
+ "conteggio_stati": {
+  "finished": 743
+ },
+ "in_corso": [],
+ "ultima_finita": {
+  "lega": "europa-league",
+  "id": "m_465zDH",
+  "match": "Lillestrøm - Real Sociedad",
+  "status": "finished",
+  "inizio": "2026-10-22T19:00:00+00:00",
+  "score": [
+   0,
+   6
+  ],
+  "campi": [
+   "away_team",
+   "date",
+   "home_team",
+   "id",
+   "score_away",
+   "score_home",
+   "status",
+   "time_utc"
+  ]
+ },
+ "analisi": [
+  {
+   "match": "Lillestrøm - Real Sociedad",
+   "status": "finished",
+   "tipo": "FINITA (nessuna live ora)",
+   "partita": {
+    "struttura": {
+     "id": "m_465zDH",
+     "league": {
+      "id": "l_38d9HA",
+      "name": "Europa League",
+      "image_url": "https://cdn.pitchapi.dev/images/leagues/5c963df5db3d9955740b"
+     },
+     "season": "2026/2027",
+     "home_team": {
+      "id": "t_1wU4wq",
+      "name": "Lillestrøm",
+      "image_url": "https://cdn.pitchapi.dev/images/teams/b581a614bcdfacf0fd8ab7"
+     },
+     "away_team": {
+      "id": "t_1hKtUw",
+      "name": "Real Sociedad",
+      "image_url": "https://cdn.pitchapi.dev/images/teams/ef917e418f18783f60198c"
+     },
+     "date": "2026-10-22",
+     "time_utc": "2026-10-22T19:00:00Z",
+     "status": "finished",
+     "score_home": 0,
+     "score_away": 6,
+     "round_name": "3",
+     "has_playoff": false,
+     "referee": "Mohammed Al Emara",
+     "stadium": "Åråsen Stadion"
+    },
+    "completo": {
+     "id": "m_465zDH",
+     "league": {
+      "id": "l_38d9HA",
+      "name": "Europa League",
+      "image_url": "https://cdn.pitchapi.dev/images/leagues/5c963df5db3d9955740bd5937b02e523393941ef3a1ab205667d80f6eb1c2817.webp"
+     },
+     "season": "2026/2027",
+     "home_team": {
+      "id": "t_1wU4wq",
+      "name": "Lillestrøm",
+      "image_url": "https://cdn.pitchapi.dev/images/teams/b581a614bcdfacf0fd8ab791f9056d9bd7f7cb538a7900175970c7d46bb1f123.webp"
+     },
+     "away_team": {
+      "id": "t_1hKtUw",
+      "name": "Real Sociedad",
+      "image_url": "https://cdn.pitchapi.dev/images/teams/ef917e418f18783f60198c20a1fa9ec4983b40bdddba6f23b1eaefa1a4110fc0.webp"
+     },
+     "date": "2026-10-22",
+     "time_utc": "2026-10-22T19:00:00Z",
+     "status": "finished",
+     "score_home": 0,
+     "score_away": 6,
+     "round_name": "3",
+     "has_playoff": false,
+     "referee": "Mohammed Al Emara",
+     "stadium": "Åråsen Stadion"
+    }
+   },
+   "eventi": {
+    "struttura": {
+     "match_id": "m_465zDH",
+     "events": [
+      19,
+      {
+       "event_type": "str",
+       "minute": "int",
+       "minute_added": "int",
+       "period": "str",
+       "team_id": "str",
+       "player": "dict",
+       "score_home": "int",
+       "score_away": "int",
+       "is_own_goal": "bool",
+       "is_penalty": "bool"
+      }
+     ]
+    },
+    "numero": 19,
+    "esempi": [
+     {
+      "event_type": "goal",
+      "minute": 25,
+      "minute_added": 0,
+      "period": "FirstHalf",
+      "team_id": "t_1hKtUw",
+      "player": {
+       "id": "p_4VLeP8",
+       "name": "Sergio Gómez",
+       "position_id": null,
+       "image_url": "https://cdn.pitchapi.dev/images/players/27c9d6cab517ecb075a200f50e49fd00f9289a032d2e6f032c9ef176825ee9cd.webp"
+      },
+      "score_home": 0,
+      "score_away": 0,
+      "is_own_goal": false,
+      "is_penalty": false
+     },
+     {
+      "event_type": "goal",
+      "minute": 27,
+      "minute_added": 0,
+      "period": "FirstHalf",
+      "team_id": "t_1hKtUw",
+      "player": {
+       "id": "p_4VLeP8",
+       "name": "Sergio Gómez",
+       "position_id": null,
+       "image_url": "https://cdn.pitchapi.dev/images/players/27c9d6cab517ecb075a200f50e49fd00f9289a032d2e6f032c9ef176825ee9cd.webp"
+      },
+      "score_home": 0,
+      "score_away": 1,
+      "is_own_goal": false,
+      "is_penalty": false
+     },
+     {
+      "event_type": "yellowcard",
+      "minute": 30,
+      "minute_added": 0,
+      "period": "FirstHalf",
+      "team_id": "t_1hKtUw",
+      "player": {
+       "id": "p_1YUsYU",
+       "name": "Mamadou Sarr",
+       "position_id": null,
+       "image_url": "https://cdn.pitchapi.dev/images/players/ca6ef9d960a04d7fef300498a1dd7296efbb9f1808473c6574da15de384c34f9.webp"
+      },
+      "is_own_goal": false,
+      "is_penalty": false
+     },
+     {
+      "event_type": "goal",
+      "minute": 33,
+      "minute_added": 0,
+      "period": "FirstHalf",
+      "team_id": "t_1hKtUw",
+      "player": {
+       "id": "p_3qk3tO",
+       "name": "Luka Sučić",
+       "position_id": null,
+       "image_url": "https://cdn.pitchapi.dev/images/players/6239f0563b082c3c4d14ec4a58be03d94a0919a49fc71beb270789e737370fe0.webp"
+      },
+      "score_home": 0,
+      "score_away": 2,
+      "is_own_goal": false,
+      "is_penalty": false
+     }
+    ],
+    "tipi": [
+     "goal",
+     "substitution",
+     "yellowcard"
+    ]
+   },
+   "stats": {
+    "struttura": {
+     "match_id": "m_465zDH",
+     "home_team": {
+      "id": "t_1wU4wq",
+      "name": "Lillestrøm",
+      "image_url": "https://cdn.pitchapi.dev/images/teams/b581a614bcdfacf0fd8ab7"
+     },
+     "away_team": {
+      "id": "t_1hKtUw",
+      "name": "Real Sociedad",
+      "image_url": "https://cdn.pitchapi.dev/images/teams/ef917e418f18783f60198c"
+     },
+     "periods": [
+      3,
+      {
+       "period": "str",
+       "groups": "list"
+      }
+     ]
+    }
+   },
+   "formazioni": {
+    "struttura": {
+     "match_id": "m_465zDH",
+     "home_team": {
+      "id": "t_1wU4wq",
+      "name": "Lillestrøm",
+      "image_url": "https://cdn.pitchapi.dev/images/teams/b581a614bcdfacf0fd8ab7"
+     },
+     "away_team": {
+      "id": "t_1hKtUw",
+      "name": "Real Sociedad",
+      "image_url": "https://cdn.pitchapi.dev/images/teams/ef917e418f18783f60198c"
+     },
+     "home": {
+      "formation": "4-3-3",
+      "confirmed": true,
+      "lineup_type": "standard",
+      "coach": {
+       "name": "str"
+      },
+      "starters": [
+       11,
+       {
+        "player_id": "str",
+        "name": "str",
+        "shirt_number": "str",
+        "position_id": "int",
+        "is_captain": "bool",
+        "pitch_x": "float",
+        "pitch_y": "float"
+       }
+      ],
+      "subs": [
+       11,
+       {
+        "player_id": "str",
+        "name": "str",
+        "shirt_number": "str",
+        "position_id": "int",
+        "is_captain": "bool",
+        "pitch_x": "int",
+        "pitch_y": "int"
+       }
+      ]
+     },
+     "away": {
+      "formation": "4-4-2",
+      "confirmed": true,
+      "lineup_type": "standard",
+      "coach": {
+       "name": "str"
+      },
+      "starters": [
+       11,
+       {
+        "player_id": "str",
+        "name": "str",
+        "shirt_number": "str",
+        "position_id": "int",
+        "is_captain": "bool",
+        "pitch_x": "float",
+        "pitch_y": "float"
+       }
+      ],
+      "subs": [
+       12,
+       {
+        "player_id": "str",
+        "name": "str",
+        "shirt_number": "str",
+        "position_id": "int",
+        "is_captain": "bool",
+        "pitch_x": "int",
+        "pitch_y": "int"
+       }
+      ]
+     }
+    }
+   },
+   "giocatori": {
+    "struttura": [
+     45,
+     {
+      "player": {
+       "id": "str",
+       "name": "str",
+       "position_id": "NoneType",
+       "image_url": "str"
+      },
+      "team_id": "t_1wU4wq",
+      "stats": [
+       4,
+       {
+        "key": "str",
+        "stats": "dict",
+        "title": "str"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ ]
+}
