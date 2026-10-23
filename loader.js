@@ -206,7 +206,7 @@ function loader(){
     });
   }
   // --- migliori giocatori: voto = probabilita' del modello (come il calcolatore, senza hit rate) di Over 1,5 tiri; sotto le linee con le quote ---
-  var BIDX = null, BCACHE = {}, BSTAT = 0, BDAY = null, BLINE = [1.5, 0.5], BMIN = 8, BMAX = 30;
+  var BIDX = null, BCACHE = {}, BSTAT = 0, BDAY = null, BLINE = [1.5, 0.5], BMIN = 7.75, BMAX = 30, QMIN = 1.25;
   function pois(k, l){ var s = 0, t = Math.exp(-l); for(var i = 0; i <= k; i++){ s += t; t = t * l / (i + 1); } return s; }
   function lgAvg(D, k, field){
     if(D[k].avg) return D[k].avg[field];
@@ -252,6 +252,7 @@ function loader(){
       out.push({p: p, f: f, t: t, voto: v});
     });
     out.sort(function(a, b){ return b.voto - a.voto || b.t.lam - a.t.lam; });
+    if(QDATA) out = out.filter(function(r){ var q = qOdd(r.p, 0, 1.5, day); return !q || q.v >= QMIN; });
     return BCACHE[ck] = out.slice(0, BMAX);
   }
   function drawBest(days, body, note){
@@ -271,13 +272,7 @@ function loader(){
       var b = el('button', 'ang-day' + (k === BDAY ? ' active' : ''), dayLabel(k)); b.type = 'button';
       b.addEventListener('click', function(){ BDAY = k; drawMatch(); }); days.appendChild(b);
     });
-    var tg = el('div', 'ang-days');
-    [['Tiri totali', 0], ['Tiri in porta', 1]].forEach(function(o){
-      var b = el('button', 'ang-day' + (BSTAT === o[1] ? ' active' : ''), o[0]); b.type = 'button';
-      b.addEventListener('click', function(){ BSTAT = o[1]; drawMatch(); }); tg.appendChild(b);
-    });
-    body.appendChild(tg);
-    var idx = BSTAT, lines = idx ? [0.5, 1.5, 2.5] : [0.5, 1.5, 2.5, 3.5], line = BLINE[idx];
+    var idx = 0, lines = [0.5, 1.5, 2.5], line = BLINE[0];
     var lg = el('div', 'ang-days');
     lines.forEach(function(l){
       var b = el('button', 'ang-day' + (l === line ? ' active' : ''), 'Over ' + f1(l)); b.type = 'button';
@@ -286,8 +281,8 @@ function loader(){
     body.appendChild(lg);
     var list = bList(BDAY, idx, line);
     body.appendChild(el('div', 'ang-h', 'Migliori giocatori per affidabilità'));
-    body.appendChild(el('div', 'hist-note', 'Giocatori con voto 8,00 o più su Over ' + f1(line) + ' (massimo ' + BMAX + ' al giorno).' + (QDATA ? ' Le quote Bet365 compaiono man mano che il book le pubblica.' : '')));
-    if(!list.length){ body.appendChild(el('div', 'hist-note', 'Nessun giocatore con voto 8,00 o più per questo giorno.')); return; }
+    body.appendChild(el('div', 'hist-note', 'Giocatori con voto 7,75 o più su Over ' + f1(line) + ' (massimo ' + BMAX + ' al giorno); esclusi quelli con quota Over 1,5 sotto 1,25.' + (QDATA ? ' Le quote Bet365 compaiono man mano che il book le pubblica.' : '')));
+    if(!list.length){ body.appendChild(el('div', 'hist-note', 'Nessun giocatore con voto 7,75 o più per questo giorno.')); return; }
     list.forEach(function(r, i){
       var c = el('div', 'play-card'), top = el('div', 'play-top'), who = el('div', 'who');
       who.appendChild(el('span', '', (i + 1) + '. ' + r.p.n));
