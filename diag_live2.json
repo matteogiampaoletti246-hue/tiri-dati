@@ -1,13 +1,13 @@
 {
- "adesso_utc": "2026-10-23T19:29:15.126411+00:00",
+ "adesso_utc": "2026-10-23T19:40:20.248595+00:00",
  "leghe": {
   "ita.1": [
    {
     "id": "401874957",
     "nome": "Monza at Torino",
     "stato": "in",
-    "descr": "First Half",
-    "clock": "43'"
+    "descr": "Halftime",
+    "clock": "45'+3'"
    }
   ],
   "eng.1": [
@@ -16,7 +16,7 @@
     "nome": "Nottingham Forest at Ipswich Town",
     "stato": "in",
     "descr": "First Half",
-    "clock": "28'"
+    "clock": "39'"
    }
   ],
   "esp.1": [
@@ -25,7 +25,7 @@
     "nome": "Málaga at Alavés",
     "stato": "in",
     "descr": "First Half",
-    "clock": "29'"
+    "clock": "40'"
    }
   ],
   "ger.1": [
@@ -33,8 +33,8 @@
     "id": "401884761",
     "nome": "Borussia Mönchengladbach at VfB Stuttgart",
     "stato": "in",
-    "descr": "Halftime",
-    "clock": "45'+6'"
+    "descr": "Second Half",
+    "clock": "49'"
    }
   ],
   "fra.1": [
@@ -42,8 +42,8 @@
     "id": "401876428",
     "nome": "Nice at Brest",
     "stato": "in",
-    "descr": "First Half",
-    "clock": "44'"
+    "descr": "Halftime",
+    "clock": "45'+1'"
    }
   ],
   "uefa.champions": [
@@ -292,10 +292,10 @@
     "standings"
    ],
    "gameInfo": "{\"venue\": {\"id\": \"10716\", \"fullName\": \"Stadio Olimpico Grande Torino\", \"shortName\": \"Stadio Olimpico Grande Torino\", \"address\": {\"city\": \"Torino\", \"country\": \"Italy\"}, \"images\": []}}",
-   "header_stato": "{\"displayClock\": \"43'\", \"period\": 1, \"type\": {\"id\": \"25\", \"name\": \"STATUS_FIRST_HALF\", \"state\": \"in\", \"completed\": false, \"description\": \"First Half\", \"detail\": \"43'\", \"shortDetail\": \"43'\", \"statusPrimary\": \"43'\"}, \"displayPeriod\": \"1st\"}",
-   "keyEvents_n": 7,
+   "header_stato": "{\"displayClock\": \"45'+3'\", \"period\": 1, \"type\": {\"id\": \"23\", \"name\": \"STATUS_HALFTIME\", \"state\": \"in\", \"completed\": false, \"description\": \"Halftime\", \"detail\": \"HT\", \"shortDetail\": \"HT\", \"statusPrimary\": \"HT\"}, \"displayPeriod\": \"1st\"}",
+   "keyEvents_n": 10,
    "keyEvents_esempio": "[{\"id\": \"54095141\", \"type\": {\"id\": \"80\", \"text\": \"Kickoff\", \"type\": \"kickoff\"}, \"period\": {\"number\": 1}, \"clock\": {\"value\": 0.0, \"displayValue\": \"\"}, \"scoringPlay\": false, \"source\": {\"id\": \"38\", \"description\": \"SA.ENVOY\"}, \"wallclock\": \"2026-10-23T18:46:39Z\", \"shootout\": false}, {\"id\": \"54097106\", \"type\": {\"id\": \"129\", \"text\": \"Start Delay\", \"type\": \"start-delay\"}, \"period\": {\"number\": 1}, \"clock\": {\"value\": 1500.0, \"displayValue\": \"25'\"}, \"scoringPlay\": false, \"team\": {\"id\": \"4007\", \"displayName\": \"Monza\"}, \"source\": {\"id\": \"38\", \"description\": \"SA.ENVOY\"}, \"wallclock\": \"2026-10-23T19:11:40Z\", \"shootout\": false}, {\"id\": \"54097257\", \"type\": {\"id\": \"129\", \"text\": \"Start Delay\", \"type\": \"start-delay\"}, \"text\": \"Delay in match because of an injury Rolando Mandragora (Torino).\", \"period\": {\"number\": 1}, \"clock\": {\"value\": 1500.0, \"displayValue\": \"25'\"}, \"scoringPlay\": false, \"team\": {\"id\": \"239\", \"displayName\": \"Torino\"}, \"source\": {\"id\": \"38\", \"description\": \"SA.ENVOY\"}, \"wallclock\": \"2026-10-23T19:11:40Z\", \"shootout\": false}, {\"id\": \"54097258\", \"type\": {\"id\": \"130\", \"text\": \"End Delay\", \"type\": \"end-delay\"}, \"text\": \"Delay over. They are ready to continue.\", \"period\": {\"number\": 1}, \"clock\": {\"value\": 1594.0, \"displayValue\": \"27'\"}, \"scoringPlay\": false, \"team\": {\"id\": \"239\", \"displayName\": \"Torino\"}, \"source\": {\"id\": \"38\", \"description\": \"SA.ENVOY\"}, \"wallclock\": \"2026-10-23T19:13:14Z\", \"shootout\": false}]",
-   "commentary_n": 34,
+   "commentary_n": 36,
    "team_stats": [
     [
      "foulsCommitted",
@@ -323,7 +323,7 @@
     ],
     [
      "possessionPct",
-     "52.4"
+     "49.2"
     ],
     [
      "totalShots",
@@ -347,11 +347,11 @@
     ],
     [
      "accuratePasses",
-     "165"
+     "177"
     ],
     [
      "totalPasses",
-     "213"
+     "228"
     ],
     [
      "passPct",
@@ -371,11 +371,11 @@
     ],
     [
      "totalLongBalls",
-     "21"
+     "26"
     ],
     [
      "accurateLongBalls",
-     "8"
+     "11"
     ],
     [
      "longballPct",
@@ -399,15 +399,15 @@
     ],
     [
      "interceptions",
-     "5"
+     "6"
     ],
     [
      "effectiveClearance",
-     "9"
+     "13"
     ],
     [
      "totalClearance",
-     "9"
+     "13"
     ],
     [
      "foulsCommitted",
@@ -435,7 +435,7 @@
     ],
     [
      "possessionPct",
-     "47.6"
+     "50.8"
     ],
     [
      "totalShots",
@@ -459,11 +459,11 @@
     ],
     [
      "accuratePasses",
-     "160"
+     "196"
     ],
     [
      "totalPasses",
-     "191"
+     "233"
     ],
     [
      "passPct",
@@ -483,11 +483,11 @@
     ],
     [
      "totalLongBalls",
-     "22"
+     "25"
     ],
     [
      "accurateLongBalls",
-     "6"
+     "7"
     ],
     [
      "longballPct",
@@ -499,11 +499,11 @@
     ],
     [
      "effectiveTackles",
-     "1"
+     "2"
     ],
     [
      "totalTackles",
-     "2"
+     "4"
     ],
     [
      "tacklePct",
@@ -879,7 +879,8 @@
     "start-delay": "{\"id\": \"54097106\", \"type\": {\"id\": \"129\", \"text\": \"Start Delay\", \"type\": \"start-delay\"}, \"period\": {\"number\": 1}, \"clock\": {\"value\": 1500.0, \"displayValue\": \"25'\"}, \"scoringPlay\": false, \"team\": {\"id\": \"4007\", \"displayName\": \"Monza\"}, \"source\": {\"id\": \"38\", \"description\": \"SA.ENVOY\"}, \"wallclock\": \"2026-10-23T19:11:40Z\", \"shootout\": false}",
     "end-delay": "{\"id\": \"54097258\", \"type\": {\"id\": \"130\", \"text\": \"End Delay\", \"type\": \"end-delay\"}, \"text\": \"Delay over. They are ready to continue.\", \"period\": {\"number\": 1}, \"clock\": {\"value\": 1594.0, \"displayValue\": \"27'\"}, \"scoringPlay\": false, \"team\": {\"id\": \"239\", \"displayName\": \"Torino\"}, \"source\": {\"id\": \"38\", \"description\": \"SA.ENVOY\"}, \"wallclock\": \"2026-10-23T19:13:14Z\", \"shootout\": false}",
     "yellow-card": "{\"id\": \"54098163\", \"type\": {\"id\": \"94\", \"text\": \"Yellow Card\", \"type\": \"yellow-card\"}, \"text\": \"Ardian Ismajli (Torino) is shown the yellow card for a bad foul.\", \"shortText\": \"Adrian Ismajli Yellow Card\", \"period\": {\"number\": 1}, \"clock\": {\"value\": 2030.0, \"displayValue\": \"34'\"}, \"scoringPlay\": false, \"team\": {\"id\": \"239\", \"displayName\": \"Torino\"}, \"participants\": [{\"athlete\": {\"id\": \"239120\", \"displayName\": \"Adrian Ismajli\"}}], \"source\": {\"id\": \"38\", \"description\": \"SA.ENVOY\"}, \"wallclock\": \"2026-10-23T19:20:30Z\", \"shootout\": false}",
-    "goal": "{\"id\": \"54098550\", \"type\": {\"id\": \"70\", \"text\": \"Goal\", \"type\": \"goal\"}, \"text\": \"Goal! Torino 1, Monza 0. Kian Fitz-Jim (Torino) left footed shot from the centre of the box to the top right corner. Assisted by Giovanni Simeone.\", \"shortText\": \"Kian Fitz-Jim Goal\", \"period\": {\"number\": 1}, \"clock\": {\"value\": 2325.0, \"displayValue\": \"39'\"}, \"scoringPlay\": true, \"team\": {\"id\": \"239\", \"displayName\": \"Torino\"}, \"participants\": [{\"athlete\": {\"id\": \"305589\", \"displayName\": \"Kian Fitz-Jim\"}}, {\"athlete\": {\"id\": \"189974\", \"displayName\": \"Giovanni Simeone\"}}], \"source\": {\"id\": \"38\", \"description\": \"SA.ENVOY\"}, \"wallclock\": \"2026-10-23T19:25:25Z\", \"shootout\": false, \"goalPositionY\": 47.8, \"fieldPositionX\": 89.8, \"fieldPositionY\": 54.0, \"fieldPosition2X\": 100.0, \"fieldPosition2Y\": 47.8}"
+    "goal": "{\"id\": \"54098550\", \"type\": {\"id\": \"70\", \"text\": \"Goal\", \"type\": \"goal\"}, \"text\": \"Goal! Torino 1, Monza 0. Kian Fitz-Jim (Torino) left footed shot from the centre of the box to the top right corner. Assisted by Giovanni Simeone.\", \"shortText\": \"Kian Fitz-Jim Goal\", \"period\": {\"number\": 1}, \"clock\": {\"value\": 2325.0, \"displayValue\": \"39'\"}, \"scoringPlay\": true, \"team\": {\"id\": \"239\", \"displayName\": \"Torino\"}, \"participants\": [{\"athlete\": {\"id\": \"305589\", \"displayName\": \"Kian Fitz-Jim\"}}, {\"athlete\": {\"id\": \"189974\", \"displayName\": \"Giovanni Simeone\"}}], \"source\": {\"id\": \"38\", \"description\": \"SA.ENVOY\"}, \"wallclock\": \"2026-10-23T19:25:25Z\", \"shootout\": false, \"goalPositionY\": 47.8, \"fieldPositionX\": 89.8, \"fieldPositionY\": 54.0, \"fieldPosition2X\": 100.0, \"fieldPosition2Y\": 47.8}",
+    "halftime": "{\"id\": \"54099374\", \"type\": {\"id\": \"81\", \"text\": \"Halftime\", \"type\": \"halftime\"}, \"period\": {\"number\": 1}, \"clock\": {\"value\": 2700.0, \"displayValue\": \"45'+3'\"}, \"scoringPlay\": false, \"source\": {\"id\": \"38\", \"description\": \"SA.ENVOY\"}, \"wallclock\": \"2026-10-23T19:34:11Z\", \"shootout\": false}"
    },
    "commentary_esempio": "[{\"sequence\": 0, \"time\": {\"value\": 0.0, \"displayValue\": \"\"}, \"text\": \"Lineups are announced and players are warming up.\"}, {\"sequence\": 1, \"time\": {\"value\": 0.0, \"displayValue\": \"\"}, \"text\": \"First Half begins.\"}, {\"sequence\": 2, \"time\": {\"value\": 25.0, \"displayValue\": \"1'\"}, \"text\": \"Corner, Monza. Conceded by Rolando Mandragora.\", \"play\": {\"id\": \"54095191\", \"type\": {\"id\": \"95\", \"text\": \"Corner Awarded\", \"type\": \"corner-awarded\"}, \"text\": \"Corner, Monza. Conceded by Rolando Mandragora.\", \"period\": {\"number\": 1}, \"clock\": {\"value\": 25.0, \"displayValue\": \"1'\"}, \"team\": {\"displayName\": \"Monza\"}, \"source\": {\"id\": \"38\", \"description\": \"SA.ENVOY\"}, \"wallclock\": \"2026-10-23T18:47:04Z\", \"fieldPositionX\": 89.6, \"fieldPositionY\": 27.4}}]",
    "momentum_o_win_prob": "null",
@@ -888,8 +889,8 @@
     "standings": "{\"fullViewLink\": {\"text\": \"Full Table\", \"href\": \"https://www.espn.com/soccer/table/_/league/ita.1\"}, \"header\": \"Italian Serie A Standings\", \"groups\": [{\"standings\": {\"entries\": [{\"team\": \"Internaziona"
    },
    "dopo_30s": {
-    "keyEvents_n": 7,
-    "stato": "{\"displayClock\": \"43'\", \"period\": 1, \"type\": {\"id\": \"25\", \"name\": \"STATUS_FIRST_HALF\", \"state\": \"in\", \"completed\": false, \"description\": \"First Half\", \"detail\": \"43'\", \"shortDetail\": \"43'\", \"statusPrimary\": \"43'\"}, \"displayPeriod\": \"1st\"}"
+    "keyEvents_n": 10,
+    "stato": "{\"displayClock\": \"45'+3'\", \"period\": 1, \"type\": {\"id\": \"23\", \"name\": \"STATUS_HALFTIME\", \"state\": \"in\", \"completed\": false, \"description\": \"Halftime\", \"detail\": \"HT\", \"shortDetail\": \"HT\", \"statusPrimary\": \"HT\"}, \"displayPeriod\": \"1st\"}"
    }
   },
   {
@@ -904,11 +905,11 @@
     "pickcenter",
     "odds",
     "hasOdds",
+    "news",
     "rosters",
     "videos",
-    "news",
-    "header",
     "seasonseries",
+    "header",
     "keyEvents",
     "commentary",
     "wallclockAvailable",
@@ -916,10 +917,10 @@
     "standings"
    ],
    "gameInfo": "{\"venue\": {\"id\": \"257\", \"guid\": \"cafa022e-6a65-3aac-9763-c28ad39c72cc\", \"fullName\": \"Portman Road\", \"address\": {\"city\": \"Ipswich\", \"country\": \"England\"}, \"images\": []}}",
-   "header_stato": "{\"displayClock\": \"29'\", \"period\": 1, \"type\": {\"id\": \"25\", \"name\": \"STATUS_FIRST_HALF\", \"state\": \"in\", \"completed\": false, \"description\": \"First Half\", \"detail\": \"29'\", \"shortDetail\": \"29'\", \"statusPrimary\": \"29'\"}, \"displayPeriod\": \"1st\"}",
+   "header_stato": "{\"displayClock\": \"40'\", \"period\": 1, \"type\": {\"id\": \"25\", \"name\": \"STATUS_FIRST_HALF\", \"state\": \"in\", \"completed\": false, \"description\": \"First Half\", \"detail\": \"40'\", \"shortDetail\": \"40'\", \"statusPrimary\": \"40'\"}, \"displayPeriod\": \"1st\"}",
    "keyEvents_n": 2,
    "keyEvents_esempio": "[{\"id\": \"54095893\", \"type\": {\"id\": \"80\", \"text\": \"Kickoff\", \"type\": \"kickoff\"}, \"period\": {\"number\": 1}, \"clock\": {\"value\": 0.0, \"displayValue\": \"\"}, \"scoringPlay\": false, \"source\": {\"id\": \"38\", \"description\": \"SA.ENVOY\"}, \"wallclock\": \"2026-10-23T19:01:11Z\", \"shootout\": false}, {\"id\": \"54097337\", \"type\": {\"id\": \"173\", \"text\": \"Goal - Volley\", \"type\": \"goal---volley\"}, \"text\": \"Goal! Ipswich Town 0, Nottingham Forest 1. Neco Williams (Nottingham Forest) right footed shot from the centre of the box to the centre of the goal. Assisted by Daniel Muñoz with a cross.\", \"shortText\": \"Neco Williams Goal - Volley\", \"period\": {\"number\": 1}, \"clock\": {\"value\": 731.0, \"displayValue\": \"13'\"}, \"scoringPlay\": true, \"team\": {\"id\": \"393\", \"displayName\": \"Nottingham Forest\"}, \"participants\": [{\"athlete\": {\"id\": \"291638\", \"displayName\": \"Neco Williams\"}}, {\"athlete\": {\"id\": \"146679\", \"displayName\": \"Daniel Muñoz\"}}], \"source\": {\"id\": \"38\", \"description\": \"SA.ENVOY\"}, \"wallclock\": \"2026-10-23T19:13:23Z\", \"shootout\": false, \"goalPositionY\": 48.7, \"fieldPositionX\": 93.1, \"fieldPositionY\": 52.6, \"fieldPosition2X\": 100.0, \"fieldPosition2Y\": 48.7}]",
-   "commentary_n": 14,
+   "commentary_n": 27,
    "team_stats": [
     [
      "foulsCommitted",
@@ -947,19 +948,19 @@
     ],
     [
      "possessionPct",
-     "52"
+     "58"
     ],
     [
      "totalShots",
-     "4"
+     "5"
     ],
     [
      "shotsOnTarget",
-     "1"
+     "2"
     ],
     [
      "shotPct",
-     "0.3"
+     "0.4"
     ],
     [
      "penaltyKickGoals",
@@ -971,15 +972,15 @@
     ],
     [
      "accuratePasses",
-     "140"
+     "215"
     ],
     [
      "totalPasses",
-     "165"
+     "249"
     ],
     [
      "passPct",
-     "0.8"
+     "0.9"
     ],
     [
      "accurateCrosses",
@@ -995,11 +996,11 @@
     ],
     [
      "totalLongBalls",
-     "15"
+     "17"
     ],
     [
      "accurateLongBalls",
-     "6"
+     "7"
     ],
     [
      "longballPct",
@@ -1015,7 +1016,7 @@
     ],
     [
      "totalTackles",
-     "6"
+     "7"
     ],
     [
      "tacklePct",
@@ -1023,19 +1024,19 @@
     ],
     [
      "interceptions",
-     "3"
+     "4"
     ],
     [
      "effectiveClearance",
-     "3"
+     "5"
     ],
     [
      "totalClearance",
-     "3"
+     "5"
     ],
     [
      "foulsCommitted",
-     "1"
+     "5"
     ],
     [
      "yellowCards",
@@ -1051,7 +1052,7 @@
     ],
     [
      "wonCorners",
-     "0"
+     "2"
     ],
     [
      "saves",
@@ -1059,15 +1060,15 @@
     ],
     [
      "possessionPct",
-     "48"
+     "42"
     ],
     [
      "totalShots",
-     "4"
+     "6"
     ],
     [
      "shotsOnTarget",
-     "2"
+     "3"
     ],
     [
      "shotPct",
@@ -1083,11 +1084,11 @@
     ],
     [
      "accuratePasses",
-     "124"
+     "142"
     ],
     [
      "totalPasses",
-     "148"
+     "173"
     ],
     [
      "passPct",
@@ -1095,23 +1096,23 @@
     ],
     [
      "accurateCrosses",
-     "2"
+     "4"
     ],
     [
      "totalCrosses",
-     "6"
+     "9"
     ],
     [
      "crossPct",
-     "0.3"
+     "0.4"
     ],
     [
      "totalLongBalls",
-     "21"
+     "26"
     ],
     [
      "accurateLongBalls",
-     "9"
+     "11"
     ],
     [
      "longballPct",
@@ -1123,27 +1124,27 @@
     ],
     [
      "effectiveTackles",
-     "3"
+     "6"
     ],
     [
      "totalTackles",
-     "7"
+     "10"
     ],
     [
      "tacklePct",
-     "0.4"
+     "0.6"
     ],
     [
      "interceptions",
-     "3"
+     "5"
     ],
     [
      "effectiveClearance",
-     "2"
+     "3"
     ],
     [
      "totalClearance",
-     "2"
+     "3"
     ]
    ],
    "rosters_n": 2,
@@ -1510,7 +1511,7 @@
    },
    "dopo_30s": {
     "keyEvents_n": 2,
-    "stato": "{\"displayClock\": \"29'\", \"period\": 1, \"type\": {\"id\": \"25\", \"name\": \"STATUS_FIRST_HALF\", \"state\": \"in\", \"completed\": false, \"description\": \"First Half\", \"detail\": \"29'\", \"shortDetail\": \"29'\", \"statusPrimary\": \"29'\"}, \"displayPeriod\": \"1st\"}"
+    "stato": "{\"displayClock\": \"40'\", \"period\": 1, \"type\": {\"id\": \"25\", \"name\": \"STATUS_FIRST_HALF\", \"state\": \"in\", \"completed\": false, \"description\": \"First Half\", \"detail\": \"40'\", \"shortDetail\": \"40'\", \"statusPrimary\": \"40'\"}, \"displayPeriod\": \"1st\"}"
    }
   }
  ],
