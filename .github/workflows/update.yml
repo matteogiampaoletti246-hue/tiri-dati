@@ -44,5 +44,4 @@ jobs:
           git add giocatori.json cache_giocatori.json 2>/dev/null || true
           git add squadre.json stats.json cache_stats.json diag2.json 2>/dev/null || true
           git diff --staged --quiet || git commit -m "Aggiorna dati"
-          git pull --rebase
-          git push
+          for i in 1 2 3 4 5; do git pull --rebase && git push && break; sleep $((i*4)); done
