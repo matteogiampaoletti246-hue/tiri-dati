@@ -9,7 +9,7 @@ permissions:
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -29,6 +29,12 @@ jobs:
         run: python update_giocatori.py
         env:
           PITCHAPI_KEY: ${{ secrets.PITCHAPI_KEY }}
+      - name: Statistiche giocatori
+        continue-on-error: true
+        timeout-minutes: 45
+        run: python update_stats.py
+        env:
+          PITCHAPI_KEY: ${{ secrets.PITCHAPI_KEY }}
       - name: Salva i risultati
         run: |
           git config user.name "github-actions"
@@ -36,6 +42,7 @@ jobs:
           git add data.json cache.json
           git add angoli.json cache_angoli.json 2>/dev/null || true
           git add giocatori.json cache_giocatori.json 2>/dev/null || true
+          git add squadre.json stats.json cache_stats.json diag2.json 2>/dev/null || true
           git diff --staged --quiet || git commit -m "Aggiorna dati"
           git pull --rebase
           git push
