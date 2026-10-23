@@ -227,10 +227,10 @@ function loader(){
     return {v: (adjStr(dv, da, lgStr(D, dk)) + t[field]) / 2, avg: (da + avg) / 2, str: 1};
   }
   function bScore(p, f, idx, line){
-    var g = p.l[0] + p.c[0], mi = p.l[3] + p.c[3]; if(g < 5 || mi <= 0) return null;
-    var lr = lastRows(p).r.slice(0, 5); if(lr.length < 5) return null;
-    var sh = 0, mn = 0, hit = 0; lr.forEach(function(x){ sh += x[idx]; mn += x[2]; if(x[idx] > line) hit++; });
-    if(mn / 5 < 55) return null;                                         // solo chi gioca davvero
+    var g = p.l[0] + p.c[0], mi = p.l[3] + p.c[3]; if(g < 3 || mi <= 0) return null;
+    var lr = lastRows(p).r.slice(0, 5); if(lr.length < 3) return null;
+    var sh = 0, mn = 0, hit = 0, nl = lr.length; lr.forEach(function(x){ sh += x[idx]; mn += x[2]; if(x[idx] > line) hit++; });
+    if(mn / nl < 25) return null;                                        // solo subentrati di pochi minuti: il tasso a 90' non e' attendibile
     var season = (p.l[1 + idx] + p.c[1 + idx]) / mi * 90, l5 = sh / mn * 90, rate = (season + l5) / 2;
     var comp = f[3], D = window.LEAGUE_DATA || {}, cup = !!(D[comp] && D[comp].cup);
     var fo = idx ? 'sotFor' : 'totalFor', ag = idx ? 'sotAgainst' : 'totalAgainst';
@@ -243,7 +243,7 @@ function loader(){
     var pm = Math.max(0, Math.min(1, 1 - pois(Math.floor(line), lam))), pf = pm;                                   // senza hit rate: la linea dei bookmaker non e' nota
     var el_ = 0.5, bd = 9; /*                                              // linea probabile dei bookmaker: quella piu' vicina al 50%
     for(var q = 0.5; q < 9; q += 1){ var dd = Math.abs(1 - pois(Math.floor(q), lam) - 0.5); if(dd < bd){ bd = dd; el_ = q; } } */
-    return {sea: season, l5: l5, voto: pf * 10, lam: lam, pm: pm, hit: hit, mn: mn / 5};
+    return {sea: season, l5: l5, voto: pf * 10, lam: lam, pm: pm, hit: hit, mn: mn / nl};
   }
   function drawBest(days, body, note){
     note.textContent = '';
@@ -293,12 +293,13 @@ function loader(){
       ch.appendChild(el('span', 'chip gold', 'Voto ' + f1((Math.round(r.voto * 100) / 100).toFixed(2))));
       ch.appendChild(el('span', 'chip', 'Media attesa ' + f1(r.lam.toFixed(2))));
       ch.appendChild(el('span', 'chip', 'Modello ' + Math.round(r.pm * 100) + '%'));
+      ch.appendChild(el('span', 'chip', Math.round(r.mn) + '\' medi'));
       ch.appendChild(el('span', 'chip', 'Ultime 5: ' + f1(r.l5.toFixed(1)) + ' \u00b7 stagione ' + f1(r.sea.toFixed(1)) + ' /90\''));
       c.appendChild(ch); return c;
     }
     body.appendChild(el('div', 'ang-h', 'Migliori giocatori per affidabilità'));
     if(!all.length) body.appendChild(el('div', 'hist-note', 'Nessun giocatore con dati sufficienti.'));
-    all.slice(0, 20).forEach(function(r, i){ body.appendChild(card(r, i)); });
+    all.slice(0, 30).forEach(function(r, i){ body.appendChild(card(r, i)); });
   }
   function renderMatch(cat){
     MCAT = cat; drawMatch();
