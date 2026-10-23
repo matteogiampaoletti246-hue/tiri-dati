@@ -31,7 +31,7 @@ SHOTS = ({"total shots"}, {"total_shots"})
 SOT = ({"shots on target"}, {"shots_on_target"})
 FOULS = ({"fouls", "fouls committed", "total fouls"}, {"fouls", "fouls_committed", "total_fouls"})
 OFFS = ({"offsides", "offside"}, {"offsides", "offside"})
-VER = 2     # versione dei dati in cache: se cambia, le partite vengono riscaricate una volta
+VER = 3     # versione dei dati in cache: se cambia, le partite vengono riscaricate una volta
 
 
 def items_of(period):
@@ -68,7 +68,7 @@ def parse(s):
         if y1:
             r1 = pick(it1, RED) or (0.0, 0.0)
             k1 = (y1[0] + r1[0], y1[1] + r1[1])
-    return {"c": c, "k": k, "k1": k1,
+    return {"c": c, "k": k, "k1": k1, "y": y, "r": r,
             "s": pick(it, SHOTS), "t": pick(it, SOT, r"shots on target", r"xg|expected"),
             "f": pick(it, FOULS, r"\bfouls?\b", r"drawn|won|suffer|against"),
             "o": pick(it, OFFS, r"offside", r"trap|against")}
@@ -215,7 +215,9 @@ def main():
                 "d": r["d"], "cf": r["c"][i], "ca": r["c"][j], "k": r["k"][i],
                 "k1": None if r["k1"] is None else r["k1"][i],
                 "sf": sd(r, "s", i), "sa": sd(r, "s", j), "tf": sd(r, "t", i), "ta": sd(r, "t", j),
-                "ff": sd(r, "f", i), "fa": sd(r, "f", j), "of": sd(r, "o", i), "oa": sd(r, "o", j)})
+                "ff": sd(r, "f", i), "fa": sd(r, "f", j), "of": sd(r, "o", i), "oa": sd(r, "o", j),
+                "comp": r["comp"], "pf": (r["y"][i] + 2 * r["r"][i]) if r.get("y") and r.get("r") else None,
+                "pa": (r["y"][j] + 2 * r["r"][j]) if r.get("y") and r.get("r") else None})
             if r["comp"] not in CUPS:
                 covered.add(tid)
 
@@ -240,6 +242,30 @@ def main():
         sh = team_h.get(u["h"], 1.0) if use_h else 1.0     # handicap: fatti x s, subiti / s
         sa = team_h.get(u["a"], 1.0) if use_h else 1.0
         return (hf * sh + aa / sa) / 2, (af * sa + ha / sh) / 2, n1, n2
+
+    # classifiche di squadra (top 5 campionati): medie fatti / subiti, totali, in casa e in trasferta -> squadre.json
+    METR = {"sh": ("sf", "sa"), "st": ("tf", "ta"), "fo": ("ff", "fa"), "co": ("cf", "ca"), "pt": ("pf", "pa"), "of": ("of", "oa")}
+    sq = {}
+    for (tid_, side), rows in hist.items():
+        for x in rows:
+            if x["comp"] not in TOP5:
+                continue
+            e = sq.setdefault(x["comp"], {}).setdefault(tid_, {"n": names.get(tid_, "?"), "l": logos.get(tid_), "r": {}})
+            e["r"].setdefault(side, []).append(x)
+    def avg(rows, k):
+        v = [r_[k] for r_ in rows if r_.get(k) is not None]
+        return [round(sum(v) / len(v), 2), len(v)] if v else None
+    sq_out = {}
+    for comp, teams_ in sq.items():
+        for tid_, e in teams_.items():
+            rh, ra = e["r"].get("h", []), e["r"].get("a", [])
+            o = {"l": e["l"], "g": [len(rh) + len(ra), len(rh), len(ra)]}
+            for m_, (kf, ka) in METR.items():
+                o[m_] = [[avg(rs, kf) for rs in (rh + ra, rh, ra)], [avg(rs, ka) for rs in (rh + ra, rh, ra)]]
+            sq_out.setdefault(comp, {})[e["n"]] = o
+    json.dump({"updated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"), "lg": sq_out},
+              open("squadre.json", "w"), ensure_ascii=False, separators=(",", ":"))
+    print("Scritto squadre.json - campionati:", len(sq_out), "- squadre:", sum(len(v) for v in sq_out.values()))
 
     days = {}
     for u in upcoming.values():
