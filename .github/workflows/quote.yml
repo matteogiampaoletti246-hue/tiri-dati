@@ -1,0 +1,28 @@
+name: Quote Bet365
+on:
+  schedule:
+    - cron: "0 10 * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  quote:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Quote Bet365
+        run: python update_quote.py
+        env:
+          APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
+      - name: Salva le quote
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add quote.json 2>/dev/null || true
+          git diff --staged --quiet || git commit -m "Aggiorna quote"
+          git pull --rebase
+          git push
