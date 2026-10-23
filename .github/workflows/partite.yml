@@ -1,0 +1,28 @@
+name: Aggiorna partite
+on:
+  schedule:
+    - cron: "10 7,10,13,16,19 * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  partite:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Partite, classifiche e formazioni
+        run: python update_partite.py
+        env:
+          PITCHAPI_KEY: ${{ secrets.PITCHAPI_KEY }}
+      - name: Salva
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add partite.json 2>/dev/null || true
+          git diff --staged --quiet || git commit -m "Aggiorna partite"
+          git pull --rebase
+          git push
