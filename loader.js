@@ -662,9 +662,13 @@ html:not([data-theme="night"]) .hpill.on{color:#fff;}
     var rows = ST && ST.players.filter(function(r){ return r[SC.t] === name; });
     if(!rows || !rows.length){ hc.appendChild(el('div', 'hempty', 'Rosa non ancora disponibile')); return; }
     rows.sort(function(a, b){ return b[SC.min] - a[SC.min]; });
-    var c = el('div', 'hcard');
-    rows.forEach(function(r){ c.appendChild(playerLine(r, r[SC.g] + ' partite · ' + Math.round(r[SC.min] / Math.max(1, r[SC.g])) + '’ a partita', null)); });
-    hc.appendChild(c);
+    [['P', 'Portieri'], ['D', 'Difensori'], ['C', 'Centrocampisti'], ['A', 'Attaccanti'], [null, 'Altri']].forEach(function(g){
+      var list = rows.filter(function(r){ return (r[SC.pos] || null) === g[0]; });
+      if(!list.length) return;
+      var c = el('div', 'hcard'); c.appendChild(el('div', 'hsec', g[1]));
+      list.forEach(function(r){ c.appendChild(playerLine(r, r[SC.g] + ' partite \u00B7 ' + Math.round(r[SC.min] / Math.max(1, r[SC.g])) + '\u2019 a partita', null)); });
+      hc.appendChild(c);
+    });
   }
   function avatar(url, name, size){
     var pf = el('span', 'pfc'); pf.style.width = pf.style.height = size + 'px';
