@@ -8,7 +8,7 @@ from update_data import api, find_league, WANTED, SEASON_START, PAUSE, KEY
 from update_angoli import TOP5, tid_of, season_of
 
 MAX_MIN = float(os.environ.get("MAX_MIN", "35"))
-VER = 2
+VER = 3
 T0 = time.time()
 os.makedirs("match", exist_ok=True)
 
@@ -79,7 +79,7 @@ def read_one(m, key, probe):
         pl = x.get("player") or {}
         events.append([str(x.get("event_type", "")).lower(), x.get("minute"), x.get("minute_added"), x.get("period"),
                        "h" if x.get("team_id") == hid else "a", pl.get("name"), x.get("score_home"), x.get("score_away"),
-                       1 if x.get("is_own_goal") else 0, 1 if x.get("is_penalty") else 0])
+                       1 if x.get("is_own_goal") else 0, 1 if x.get("is_penalty") else 0, (x.get("sub_in_player") or {}).get("name")])
     rec = {"v": VER, "id": mid, "lg": key, "d": str(m.get("date", ""))[:10], "h": m["home_team"]["name"], "a": m["away_team"]["name"],
            "sh": m.get("score_home"), "sa": m.get("score_away"), "ref": nm(det.get("referee") or m.get("referee")),
            "stad": nm(det.get("stadium") or m.get("stadium")), "round": m.get("round_name"),
@@ -215,4 +215,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
