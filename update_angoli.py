@@ -279,6 +279,7 @@ def main():
         o = {"analizzate": days[d]["analizzate"], "con_dati": len(ms)}
         for name, (k, desc) in LISTS.items():
             o[name] = sorted([x for x in ms if x.get(k) is not None], key=lambda x: -x[k] if desc else x[k])[:TOP]
+        o["tutte"] = [{k: v for k, v in x.items() if k not in ("non_coperto", "hid", "aid")} for x in ms]      # tutte le partite del giorno con tutte le statistiche (servono alla scheda partita)
         out["days"][d] = o
     # stemmi: se l'elenco partite non li contiene, si chiede il dettaglio solo delle partite mostrate
     shown = {}
