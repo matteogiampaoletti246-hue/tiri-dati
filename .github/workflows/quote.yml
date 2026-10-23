@@ -1,12 +1,12 @@
 name: Quote Bet365
 on:
   schedule:
-    - cron: "0 10 * * *"
+    - cron: "0 8,16 * * *"
   workflow_dispatch:
     inputs:
       riprova:
-        description: "1 = riprova i giocatori senza quota anche nei giorni gia' cercati"
-        default: "0"
+        description: "1 = riprova i giocatori senza quota (0 = no)"
+        default: "1"
 permissions:
   contents: write
 jobs:
