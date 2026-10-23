@@ -424,10 +424,13 @@ function loader(){
 
   // animazione di apertura: il logo cade, si aggancia, va in alto a sinistra e il nome esce da dietro
   function splash(){
+    var cov = function(){ var c = document.getElementById('slbCover'); if(c) c.remove(); };
+    setTimeout(cov, 6000);
     var logoEl = document.getElementById('slbLogo'), nameEl = document.getElementById('slbName');
     var done = function(){
       logoEl.classList.remove('slb-hide'); nameEl.classList.remove('slb-hide');
       var s = document.getElementById('slbSplash'); if(s) s.remove();
+      cov();
     };
     if(!logoEl.animate || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)){ done(); return; }
     var lr = logoEl.getBoundingClientRect(), nr = nameEl.getBoundingClientRect();
@@ -443,7 +446,7 @@ function loader(){
       var sp = document.createElement('span'); sp.textContent = word.charAt(k);
       sp.style.color = k >= 7 ? '#2F8DFF' : '#0B2A6B'; sp.style.opacity = '0'; nm.appendChild(sp);
     }
-    ov.appendChild(nm); ov.appendChild(sl); document.body.appendChild(ov);
+    ov.appendChild(nm); ov.appendChild(sl); document.body.appendChild(ov); cov();
     var EASE = 'cubic-bezier(.65,0,.2,1)';
     var A = function(el, kf, o){ return el.animate(kf, Object.assign({fill:'both'}, o)); };
     A(sl, [{opacity:0, transform:'translate(' + cx + 'px,' + (cy - 260) + 'px)'},
@@ -620,7 +623,8 @@ function loader(){
     SWAP.forEach(function(p){ html = html.split(p[0]).join(p[1]); });
     html = html.replace(/(<input[^>]*?) placeholder="[^"]*"/g, '$1');
     html = html.replace(/<title>[^<]*<\/title>/, '<title>ScalperLab</title>');
-    html = html.replace('</head>', function(){ return '<meta name="theme-color" content="#ffffff"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="ScalperLab"><link rel="apple-touch-icon" href="' + ICON + '"><link rel="icon" href="' + ICON + '" type="image/png"></head>'; });
+    html = html.replace('</head>', function(){ return '<style>html,body{background:#fff !important}#slbCover{position:fixed;inset:0;background:#fff;z-index:99999}</style><meta name="theme-color" content="#ffffff"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="ScalperLab"><link rel="apple-touch-icon" href="' + ICON + '"><link rel="icon" href="' + ICON + '" type="image/png"></head>'; });
+    html = html.replace(/<body[^>]*>/i, function(m){ return m + '<div id="slbCover"></div>'; });
     html = html.replace('</body>', function(){ return '<script>(' + loader.toString() + ')();<\/script></body>'; });
     document.open(); document.write(html); document.close();
   }catch(e){ document.body.textContent = 'Errore: ' + e.message; }
