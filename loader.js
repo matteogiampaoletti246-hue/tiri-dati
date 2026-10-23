@@ -365,7 +365,7 @@ html[data-theme="night"] #slbSearchBtn,html[data-theme="night"] #slbBurger{color
 .hhero.hlt>*{position:relative;}.hhero.hlt .hlbg{position:absolute;}
 .mbody{overflow:visible !important;}html,body{overflow-x:clip;}
 .hyc{display:inline-block;width:11px;height:15px;background:#F2C230;vertical-align:-2px;}.hyc.rd{background:#D93A3A;}.hyc.big{width:22px;height:30px;}
-.hev{display:flex;align-items:center;gap:10px;padding:9px 14px;border-top:1px solid var(--line);}.hev.r{flex-direction:row;justify-content:flex-end;text-align:right;}.hev .mn{width:38px;color:var(--text-dim);font-size:13px;font-weight:700;}.hev.r .mn{text-align:right;}.hev .ic{width:20px;text-align:center;font-size:15px;}.hev .ic.sb{color:var(--accent);font-weight:800;}.hev .nm2{display:flex;flex-direction:column;min-width:0;}.hev .nm2 b{font-size:14px;}.hev .nm2 small{color:var(--text-dim);font-size:11.5px;}
+.hev{display:flex;align-items:center;gap:10px;padding:9px 14px;border-top:1px solid var(--line);}.hev.r{flex-direction:row;justify-content:flex-end;text-align:right;}.hev .mn{width:38px;color:var(--text-dim);font-size:13px;font-weight:700;}.hev.r .mn{text-align:right;}.hev .ic{width:20px;text-align:center;font-size:15px;}.hev .ic.sb{color:var(--accent);font-weight:800;}.hev .ic.so{color:#D93A3A;font-size:11px;}.hev .ic.si{color:#1E8E3E;font-size:11px;}.hev .nm2{display:flex;flex-direction:column;min-width:0;}.hev .nm2 b{font-size:14px;}.hev .nm2 small{color:var(--text-dim);font-size:11.5px;}
 .hevs{text-align:center;padding:7px;font-weight:800;font-size:12px;letter-spacing:.06em;background:var(--panel-2);color:var(--text-dim);border-top:1px solid var(--line);}
 .hband{padding:14px 16px;background:linear-gradient(180deg,var(--panel-2),var(--panel));}.hband small{display:block;color:var(--text-dim);font-size:11px;letter-spacing:.05em;}.hband .sn{display:block;font-size:19px;margin-bottom:4px;}.hbr{display:flex;gap:22px;margin-top:10px;}.hbr b{font-size:15px;}
 .href{width:100%;text-align:left;cursor:pointer;color:var(--text);}.href .hsec{display:flex;align-items:center;gap:6px;}.href .hsec .chev2{margin-left:auto;}.hrg{display:flex;text-align:center;padding:2px 6px 14px;}.hrg>div{flex:1;}.hrg b{font-size:20px;display:block;}.hrg small{color:var(--text-dim);font-size:10.5px;}
@@ -1234,7 +1234,10 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
       var mn = el('span', 'mn', minTxt(e)), ic = el('span', 'ic');
       var nm = el('span', 'nm2');
       if(e[0] === 'goal'){ ic.textContent = '⚽'; nm.appendChild(el('b', '', e[5] || '')); var sub = (e[8] ? 'autogol' : e[9] ? 'rigore' : '') + (e[6] != null ? (e[8] || e[9] ? ' · ' : '') + e[6] + ' - ' + e[7] : ''); if(sub) nm.appendChild(el('small', '', sub)); }
-      else if(e[0] === 'substitution'){ ic.textContent = '⇄'; ic.className = 'ic sb'; nm.appendChild(el('b', '', e[5] || '')); nm.appendChild(el('small', '', 'Cambio')); }
+      else if(e[0] === 'substitution'){
+        var sd = rec.lu && rec.lu[e[4]], isOut = sd ? (sd.st || []).some(function(q){ return q[0] === e[5]; }) : null;
+        ic.textContent = isOut === null ? '\u21C4' : isOut ? '\u25BC' : '\u25B2'; ic.className = 'ic sb' + (isOut === null ? '' : isOut ? ' so' : ' si');
+        nm.appendChild(el('b', '', e[5] || '')); nm.appendChild(el('small', '', isOut === null ? 'Cambio' : isOut ? 'Esce' : 'Entra')); }
       else { ic.appendChild(yc()); if(e[0] !== 'yellowcard') ic.firstChild.className += ' rd'; nm.appendChild(el('b', '', e[5] || '')); }
       if(e[4] === 'h'){ r.appendChild(mn); r.appendChild(ic); r.appendChild(nm); } else { r.appendChild(nm); r.appendChild(ic); r.appendChild(mn); }
       c.appendChild(r);
@@ -1339,7 +1342,7 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
     var m = HSEL, rec = matchRec(m);
     if(!rec){ box.appendChild(el('div', 'hempty', 'Statistiche non ancora disponibili')); return; }
     var per = rec.st || {};
-    segmented(box, [['all', 'Totali'], ['p1', '1° Tempo'], ['p2', '2° Tempo']], HSP, function(v){ HSP = v; drawMatch(); });
+    segmented(box, [['all', 'Totali'], ['FirstHalf', '1° Tempo'], ['SecondHalf', '2° Tempo']], HSP, function(v){ HSP = v; drawMatch(); });
     var gs = per[HSP] || [];
     if(!gs.length){ box.appendChild(el('div', 'hempty', 'Statistiche non disponibili')); return; }
     gs.forEach(function(g){
