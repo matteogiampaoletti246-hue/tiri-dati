@@ -13,6 +13,7 @@ MAX_PLAYERS = int(os.environ.get("MAX_PLAYERS", "30"))      # massimo giocatori 
 MIN_VOTO = float(os.environ.get("MIN_VOTO", "7.75"))        # voto minimo per chiedere le quote
 MIN_MIN = float(os.environ.get("MIN_MIN", "35"))            # minuti medi minimi nelle ultime 5 partite
 REF_LINE = float(os.environ.get("REF_LINE", "1.5"))       # linea usata per scegliere i giocatori di cui chiedere le quote        # tiri attesi che valgono voto 10
+FORCE_MISSING = os.environ.get("FORCE_MISSING", "") == "1"      # 1 = riprova anche nei giorni gia' fatti, ma solo per i giocatori senza quota
 HORIZON = int(os.environ.get("HORIZON", "4"))                # oggi + 3 giorni: i giorni gia' cercati non si rifanno
 LEAGUES = ["Serie A", "Premier League", "La Liga", "Bundesliga", "Ligue 1", "Champions League", "Europa League"]
 CUPS = {"champions-league", "europa-league"}
@@ -171,9 +172,10 @@ def main():
             qall[pid] = keep
     new_days = [d for d in window if d not in done]
     print("Giorni gia' cercati:", sorted(done), "- da cercare:", new_days)
+    search_days = new_days + ([d for d in window if d in done] if FORCE_MISSING else [])
 
     pool = {}                                                                         # pid -> giorni da cercare
-    for day in new_days:
+    for day in search_days:
         cand = []
         for p in players:
             fl = [x for x in fix.get(p["t"], []) if rome_day(x[0]) == day]
@@ -183,12 +185,14 @@ def main():
             if lam is not None and voto_of(lam) >= MIN_VOTO:
                 cand.append((lam, p["i"]))
         for lam, pid in sorted(cand, reverse=True)[:MAX_PLAYERS]:
+            if day in done and day in (qall.get(pid) or {}):
+                continue                                                              # ha gia' la quota: non si ripaga
             pool.setdefault(pid, []).append(day)
     byid = {p["i"]: p for p in players}
-    pairs = {d: sum(1 for v in pool.values() if d in v) for d in new_days}
+    pairs = {d: sum(1 for v in pool.values() if d in v) for d in search_days}
     print("Giocatori da cercare:", len(pool), "- per giorno:", pairs)
 
-    found = {d: 0 for d in new_days}
+    found = {d: 0 for d in search_days}
     if pool:
         names = [byid[i]["n"] for i in pool]
         items = run_actor(names, round(0.03 + 0.0075 * len(pool), 2))
@@ -197,16 +201,40 @@ def main():
         for pid in pool:
             idx.setdefault(norm(byid[pid]["n"]), []).append(pid)
 
+        GEN = {"fc", "cf", "sv", "ac", "as", "us", "fk", "sc", "ssc", "afc", "club", "de", "the", "1", "04", "05", "09", "1899", "cd", "ud", "rc", "rcd", "real"}
+
+        def ttok(t):
+            return {w for w in norm(t).split() if w not in GEN and len(w) >= 3}
+
+        def same_team(a, b):
+            ta, tb = ttok(a), ttok(b)
+            if ta & tb:
+                return True
+            na, nb = norm(a).replace(" ", ""), norm(b).replace(" ", "")
+            return bool(na and nb and (na in nb or nb in na or na[:4] == nb[:4]))
+
         def match(name, team):
             n = norm(name)
-            if n in idx:
-                return idx[n][0]
+            ids = idx.get(n)
+            if ids:
+                return next((x for x in ids if same_team(byid[x]["t"], team)), ids[0])
             tk = set(n.split())
+            best = None
             for k, ids in idx.items():
                 kt = set(k.split())
-                if (tk <= kt or kt <= tk) and tk & kt and any(x for x in ids if norm(byid[x]["t"])[:4] == norm(team)[:4]):
-                    return ids[0]
-            return None
+                if not tk or not kt:
+                    continue
+                ok = (tk <= kt or kt <= tk) or (n.split()[-1] == k.split()[-1] and n[0] == k[0])
+                if not ok:
+                    continue
+                for x in ids:
+                    if same_team(byid[x]["t"], team):
+                        return x
+                if best is None and len(tk & kt) >= 2:
+                    best = x
+            return best
+
+        unmatched = set()
 
         for it in items:
             if it.get("book") != "bet365" or it.get("is_live") or it.get("suspended"):
@@ -216,6 +244,7 @@ def main():
                 continue
             pid = match(it.get("player_name"), it.get("player_team"))
             if not pid:
+                unmatched.add((str(it.get("player_name")), str(it.get("player_team"))))
                 continue
             day = rome_day(it["game_start"])
             if day not in pool[pid]:
@@ -226,13 +255,17 @@ def main():
             for d in dd:
                 if d in found and pid in pool and d in pool[pid]:
                     found[d] += 1
+    if pool:
+        got = {pid for pid in pool if any(d in (qall.get(pid) or {}) for d in pool[pid])}
+        print("SENZA QUOTA (cercati e non trovati):", [(byid[i]["n"], byid[i]["t"]) for i in pool if i not in got])
+        print("NOMI RICEVUTI DA BET365 NON COLLEGATI:", sorted(unmatched))
     now = datetime.now(timezone.utc).isoformat(timespec="seconds")
     for d in new_days:
         # un giorno e' "fatto" se non c'erano giocatori, o se le quote sono state trovate per almeno meta' di loro;
         # altrimenti (quote non ancora pubblicate da Bet365) si riprova alla prossima esecuzione
         if pairs[d] == 0 or found[d] >= 0.5 * pairs[d]:
             done[d] = now
-    print("Giorni completati ora:", [d for d in new_days if d in done], "- trovati/cercati:", {d: (found[d], pairs[d]) for d in new_days})
+    print("Giorni completati ora:", [d for d in new_days if d in done], "- trovati/cercati:", {d: (found[d], pairs[d]) for d in search_days})
     json.dump({"updated_at": now, "book": "bet365", "days": done, "q": qall},
               open("quote.json", "w"), ensure_ascii=False, separators=(",", ":"))
     print("Scritto quote.json - giocatori con quote:", len(qall))
