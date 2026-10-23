@@ -302,7 +302,10 @@ html:not([data-theme="night"]) .hpill.on{color:#fff;}
 .hsw button.on{border-color:var(--accent);background:var(--hl);color:var(--ink);}
 html[data-theme="night"] img[data-tone="dark"]{filter:brightness(0) invert(1);}
 html:not([data-theme="night"]) img[data-tone="light"]{filter:brightness(0);}
-.hlgo{background:none !important;padding:0 !important;border-radius:0 !important;width:54px !important;height:54px !important;filter:brightness(0) invert(1) !important;}
+.hlgo{background:none !important;padding:0 !important;border-radius:0 !important;width:56px !important;height:56px !important;filter:none !important;}
+.hhero.hlt{background:var(--hlt) !important;color:var(--hltx) !important;}
+.hhero.hlt .hback{background:rgba(0,0,0,.08);color:var(--hltx);}
+.hhero.hlt .htabs button{color:var(--hltx);opacity:.6;}.hhero.hlt .htabs button.on{opacity:1;border-color:var(--hltx);}
 .hlg,.hcard,.hpc,.hpitch,.htr,.hgrid div,.hbtn,.hbench button,.hsw button,#slbMatch .ang-day,#slbMatch .play-card{border-radius:0 !important;}
 
 .hpitch{position:relative;width:100%;aspect-ratio:68/100;border-radius:16px;overflow:hidden;background:repeating-linear-gradient(180deg,var(--pitch) 0,var(--pitch) 10%,var(--pitch2) 10%,var(--pitch2) 20%);margin-bottom:12px;}
@@ -825,8 +828,10 @@ html:not([data-theme="night"]) img[data-tone="light"]{filter:brightness(0);}
   function drawLeaguePage(body){
     var lg = HLV;
     var root = document.getElementById('slbMatch'); themeVars(root, null);
-    if(LGHERO[lg]){ root.style.setProperty('--hero', 'linear-gradient(180deg,' + LGHERO[lg][0] + ',' + LGHERO[lg][1] + ')'); root.style.setProperty('--accent', LGHERO[lg][1]); root.style.setProperty('--hl', 'rgba(' + hexRgb(LGHERO[lg][1]).join(',') + ',.14)'); if(themeNow() !== 'night') root.style.setProperty('--ink', LGHERO[lg][0]); }
-    var hero = el('div', 'hhero'); hero.appendChild(backBtn());
+    if(LGHERO[lg]){ }
+    var hero = el('div', 'hhero hlt'); hero.appendChild(backBtn());
+    var bc = (LGHERO[lg] || ['#0B2A6B', '#1F63E0'])[1];
+    hero.style.setProperty('--hlt', 'linear-gradient(180deg,' + shade(bc, .5) + ',' + shade(bc, .88) + ')'); hero.style.setProperty('--hltx', shade(bc, -.55));
     var tt = el('div', 'htm');
     if(LEAGUE_LOGOS[lg]){ var im = el('img', 'hlgo'); im.src = LEAGUE_LOGOS[lg]; im.alt = ''; tt.appendChild(im); }
     tt.appendChild(el('div', 'htn', lgLabel(lg))); hero.appendChild(tt);
