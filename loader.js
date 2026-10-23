@@ -18,6 +18,7 @@ function loader(){
   var VIEWS = [
     {id:'players', label:'Giocatori',     ic:'player', val:'player'},
     {id:'teams',   label:'Tiri Squadre',  ic:'team',   val:'team'},
+    {id:'best',    label:'Migliori Giocatori', ic:'player', match:'best'},
     {id:'corners', label:'Angoli',        ic:'flag',   match:'corners', sub:true},
     {id:'cards',   label:'Cartellini',    ic:'card',   match:'cards',   sub:true},
     {id:'shots',   label:'Tiri',          ic:'shots',  match:'shots',   sub:true},
@@ -134,7 +135,7 @@ function loader(){
       if(btn) btn.click();
       title.innerHTML = IC[v.ic] + '<span>' + v.label + '</span>';
       Array.prototype.forEach.call(menu.querySelectorAll('.slb-item'), function(b){ b.classList.toggle('on', b.dataset.id === id); });
-      if(v.match){ sub.classList.add('open'); mm.classList.add('openp'); renderMatch(v.match); }
+      if(v.match){ if(v.sub){ sub.classList.add('open'); mm.classList.add('openp'); } renderMatch(v.match); }
       openMenu(false);
       window.scrollTo(0, 0);
     }
@@ -184,6 +185,7 @@ function loader(){
     var root = document.getElementById('slbMatch'); if(!root) return;
     var days = root.querySelector('.ang-days'), body = root.querySelector('.mbody'), note = root.querySelector('.mnote');
     days.innerHTML = ''; body.innerHTML = '';
+    if(MCAT === 'best'){ drawBest(days, body, note); return; }
     if(!MDATA){ note.textContent = 'Dati non disponibili: lancia l\'Action "Aggiorna dati" da GitHub.'; return; }
     var keys = Object.keys(MDATA.days || {}).sort();
     note.textContent = 'Aggiornato: ' + new Date(MDATA.updated_at).toLocaleString('it-IT');
@@ -203,8 +205,98 @@ function loader(){
       list.forEach(function(m){ body.appendChild(mcard(m, sec)); });
     });
   }
+  // --- migliori giocatori: stessa formula del calcolatore giocatore (Poisson + ultime 5 + hit rate 60/40), per una linea scelta ---
+  var BSTAT = 0, BLINE = {0: 1.5, 1: 0.5}, BDAY = null;
+  function pois(k, l){ var s = 0, t = Math.exp(-l); for(var i = 0; i <= k; i++){ s += t; t = t * l / (i + 1); } return s; }
+  // copia delle funzioni di app.html (non sono accessibili dall'esterno)
+  function lgAvg(D, k, field){
+    if(D[k].avg) return D[k].avg[field];
+    var v = Object.keys(D[k].teams).map(function(n){ return D[k].teams[n][field]; });
+    return v.length ? v.reduce(function(a, b){ return a + b; }, 0) / v.length : null;
+  }
+  function lgStr(D, k){ return D[k] && D[k].strength ? D[k].strength : 1; }
+  function adjStr(v, avg, s){ return (s < 1 && avg > 0) ? avg + (v - avg) * s : v; }
+  function bTeam(key, name, field){
+    var D = window.LEAGUE_DATA || {}, L = D[key]; if(!L || !L.teams || !L.teams[name]) return null;
+    var t = L.teams[name], avg = lgAvg(D, key, field);
+    if(!L.cup) return {v: t[field], avg: avg, str: lgStr(D, key)};
+    var dk = null;
+    Object.keys(D).some(function(k){ if(k !== 'nazionali' && !D[k].cup && D[k].teams && D[k].teams[name]){ dk = k; return true; } return false; });
+    if(!dk) return {v: t[field], avg: avg, str: 1};
+    var dv = D[dk].teams[name][field], da = lgAvg(D, dk, field);
+    return {v: (adjStr(dv, da, lgStr(D, dk)) + t[field]) / 2, avg: (da + avg) / 2, str: 1};
+  }
+  function bScore(p, f, idx, line){
+    var g = p.l[0] + p.c[0], mi = p.l[3] + p.c[3]; if(g < 5 || mi <= 0) return null;
+    var lr = lastRows(p).r.slice(0, 5); if(lr.length < 5) return null;
+    var sh = 0, mn = 0, hit = 0; lr.forEach(function(x){ sh += x[idx]; mn += x[2]; if(x[idx] > line) hit++; });
+    if(mn / 5 < 55) return null;                                         // solo chi gioca davvero
+    var season = (p.l[1 + idx] + p.c[1 + idx]) / mi * 90, l5 = sh / mn * 90, rate = (season + l5) / 2;
+    var comp = f[3], D = window.LEAGUE_DATA || {}, cup = !!(D[comp] && D[comp].cup);
+    var fo = idx ? 'sotFor' : 'totalFor', ag = idx ? 'sotAgainst' : 'totalAgainst';
+    var own = bTeam(pickKey(p.t, cup ? comp : null), p.t, fo), opp = bTeam(pickKey(f[1], cup ? comp : null), f[1], ag);
+    if(!own || !opp) return null;
+    var ro = opp.v > 0 && opp.avg > 0 ? opp.v / opp.avg : 1; if(opp.str > 0 && opp.str < 1) ro = 1 + (ro - 1) * opp.str;
+    var rc = own.v > 0 && own.avg > 0 ? own.v / own.avg : 1; if(own.str > 0 && own.str < 1) rc = 1 + (rc - 1) * own.str;
+    var lam = rate * Math.pow(ro, 0.85) * Math.pow(rc, 0.35) * (f[2] === 1 ? 1.06 : 0.94);
+    if(!(lam > 0)) return null;
+    var pm = Math.max(0, Math.min(1, 1 - pois(Math.floor(line), lam))), pf = pm;                                   // senza hit rate: la linea dei bookmaker non e' nota
+    var el_ = 0.5, bd = 9; /*                                              // linea probabile dei bookmaker: quella piu' vicina al 50%
+    for(var q = 0.5; q < 9; q += 1){ var dd = Math.abs(1 - pois(Math.floor(q), lam) - 0.5); if(dd < bd){ bd = dd; el_ = q; } } */
+    return {sea: season, l5: l5, voto: pf * 10, lam: lam, pm: pm, hit: hit, mn: mn / 5};
+  }
+  function drawBest(days, body, note){
+    note.textContent = '';
+    if(!PDATA){ note.textContent = 'Carico i giocatori…'; return; }
+    var today = romeDay(new Date()), set = {}, lim = romeDay(new Date(Date.now() + 7 * 864e5));
+    Object.keys(PFIX).forEach(function(t){ PFIX[t].forEach(function(f){ var d = romeDay(new Date(f[0])); if(d >= today && d <= lim) set[d] = 1; }); });
+    var keys = Object.keys(set).sort();
+    if(!keys.length){ body.appendChild(el('div', 'empty-hist', 'Nessuna partita nei prossimi giorni.')); return; }
+    if(!BDAY || keys.indexOf(BDAY) < 0) BDAY = keys[0];
+    keys.forEach(function(k){
+      var b = el('button', 'ang-day' + (k === BDAY ? ' active' : ''), dayLabel(k)); b.type = 'button';
+      b.addEventListener('click', function(){ BDAY = k; drawMatch(); }); days.appendChild(b);
+    });
+    var tg = el('div', 'ang-days');
+    [['Tiri totali', 0], ['Tiri in porta', 1]].forEach(function(o){
+      var b = el('button', 'ang-day' + (BSTAT === o[1] ? ' active' : ''), o[0]); b.type = 'button';
+      b.addEventListener('click', function(){ BSTAT = o[1]; drawMatch(); }); tg.appendChild(b);
+    });
+    body.appendChild(tg);
+    var lg = el('div', 'ang-days'), idx = BSTAT, line = BLINE[idx];
+    (idx ? [0.5, 1.5] : [0.5, 1.5, 2.5]).forEach(function(l){
+      var b = el('button', 'ang-day' + (l === line ? ' active' : ''), 'Over ' + String(l).replace('.', ',')); b.type = 'button';
+      b.addEventListener('click', function(){ BLINE[idx] = l; drawMatch(); }); lg.appendChild(b);
+    });
+    body.appendChild(lg);
+    var all = [];
+    PDATA.forEach(function(p){
+      var f = null, list = PFIX[p.t] || [];
+      for(var i = 0; i < list.length; i++){ if(romeDay(new Date(list[i][0])) === BDAY){ f = list[i]; break; } }
+      if(!f) return;
+      var r = bScore(p, f, idx, line); if(r){ r.p = p; r.f = f; all.push(r); }
+    });
+    all.sort(function(a, b){ return b.voto - a.voto; });
+    function card(r, i){
+      var c = el('div', 'play-card'), top = el('div', 'play-top'), who = el('div', 'who');
+      who.appendChild(el('span', '', (i + 1) + '. ' + r.p.n));
+      top.appendChild(who); top.appendChild(el('div', 'when', hhmm(r.f[0])));
+      c.appendChild(top);
+      c.appendChild(el('div', 'play-mkt', r.p.t + (r.f[2] === 1 ? ' – ' : ' @ ') + r.f[1]));
+      var ch = el('div', 'chips');
+      ch.appendChild(el('span', 'chip gold', 'Voto ' + f1((Math.round(r.voto * 100) / 100).toFixed(2))));
+      ch.appendChild(el('span', 'chip', 'Media attesa ' + f1(r.lam.toFixed(2))));
+      ch.appendChild(el('span', 'chip', 'Modello ' + Math.round(r.pm * 100) + '%'));
+      ch.appendChild(el('span', 'chip', 'Ultime 5: ' + f1(r.l5.toFixed(1)) + ' \u00b7 stagione ' + f1(r.sea.toFixed(1)) + ' /90\''));
+      c.appendChild(ch); return c;
+    }
+    body.appendChild(el('div', 'ang-h', 'Migliori giocatori per affidabilità'));
+    if(!all.length) body.appendChild(el('div', 'hist-note', 'Nessun giocatore con dati sufficienti.'));
+    all.slice(0, 20).forEach(function(r, i){ body.appendChild(card(r, i)); });
+  }
   function renderMatch(cat){
     MCAT = cat; drawMatch();
+    if(cat === 'best'){ loadPlayers().then(drawMatch); return; }
     fetch('angoli.json?t=' + Date.now()).then(function(r){ return r.ok ? r.json() : null; })
       .catch(function(){ return null; }).then(function(j){ MDATA = j; drawMatch(); });
   }
