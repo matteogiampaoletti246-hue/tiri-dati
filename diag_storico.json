@@ -1,0 +1,42 @@
+{
+ "momentum": [
+  "match_id",
+  "points"
+ ],
+ "shotmap": null,
+ "shots": [
+  "match_id",
+  "periods"
+ ],
+ "commentary": null,
+ "incidents": null,
+ "graph": null,
+ "highlights": null,
+ "odds": null,
+ "weather": null,
+ "lineups": [
+  "match_id",
+  "home_team",
+  "away_team",
+  "home",
+  "away"
+ ],
+ "match_keys": [
+  "away_team",
+  "date",
+  "has_playoff",
+  "home_team",
+  "id",
+  "league",
+  "referee",
+  "round_name",
+  "score_away",
+  "score_home",
+  "season",
+  "stadium",
+  "status",
+  "time_utc"
+ ],
+ "referee_raw": "Livio Marinelli",
+ "stadium_raw": "Stadio Giuseppe Meazza"
+}
