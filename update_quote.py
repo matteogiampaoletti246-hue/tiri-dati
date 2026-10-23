@@ -9,12 +9,11 @@ from zoneinfo import ZoneInfo
 
 TOKEN = os.environ.get("APIFY_TOKEN", "")
 ACTOR = "zen-studio~bet365-player-props"
-MAX_CHARGE = os.environ.get("MAX_CHARGE", "0.18")         # tetto di spesa per esecuzione (dollari)
 MAX_PLAYERS = int(os.environ.get("MAX_PLAYERS", "30"))      # massimo giocatori per giorno
 MIN_VOTO = float(os.environ.get("MIN_VOTO", "8.0"))        # voto minimo per chiedere le quote
 MIN_MIN = float(os.environ.get("MIN_MIN", "35"))            # minuti medi minimi nelle ultime 5 partite
 REF_LINE = float(os.environ.get("REF_LINE", "1.5"))       # linea usata per scegliere i giocatori di cui chiedere le quote        # tiri attesi che valgono voto 10
-DAYS = int(os.environ.get("DAYS", "1"))                    # 1 = solo oggi
+HORIZON = int(os.environ.get("HORIZON", "6"))                # oggi + 5 giorni: i giorni gia' cercati non si rifanno
 LEAGUES = ["Serie A", "Premier League", "La Liga", "Bundesliga", "Ligue 1", "Champions League", "Europa League"]
 CUPS = {"champions-league", "europa-league"}
 ROME = ZoneInfo("Europe/Rome")
@@ -136,9 +135,9 @@ def http(method, url, body=None):
         return json.loads(r.read().decode())
 
 
-def run_actor(names):
+def run_actor(names, cap):
     inp = {"leagues": LEAGUES, "statTypes": "Shots", "includeAlternateLines": True, "playerNames": ", ".join(names)}
-    j = http("POST", f"https://api.apify.com/v2/acts/{ACTOR}/runs?maxTotalChargeUsd={MAX_CHARGE}", inp)["data"]
+    j = http("POST", f"https://api.apify.com/v2/acts/{ACTOR}/runs?maxTotalChargeUsd={cap}", inp)["data"]
     rid, t0 = j["id"], time.time()
     print("Run Apify avviata:", rid)
     while time.time() - t0 < 25 * 60:
@@ -158,9 +157,23 @@ def main():
     g = json.load(open("giocatori.json"))
     players, fix = g["players"], g["fix"]
     today = datetime.now(ROME).date()
-    days = [(today + timedelta(days=i)).strftime("%Y-%m-%d") for i in range(DAYS)]
-    pool = {}
-    for day in days:
+    t0 = today.strftime("%Y-%m-%d")
+    window = [(today + timedelta(days=i)).strftime("%Y-%m-%d") for i in range(HORIZON)]
+    try:
+        prev = json.load(open("quote.json"))
+    except Exception:
+        prev = {}
+    done = {d: v for d, v in (prev.get("days") or {}).items() if d >= t0}          # giorni gia' cercati
+    qall = {}                                                                         # quote gia' trovate: pid -> giorno -> dati
+    for pid, dd in (prev.get("q") or {}).items():
+        keep = {d: v for d, v in dd.items() if d >= t0} if isinstance(next(iter(dd.values()), None), dict) else {}
+        if keep:
+            qall[pid] = keep
+    new_days = [d for d in window if d not in done]
+    print("Giorni gia' cercati:", sorted(done), "- da cercare:", new_days)
+
+    pool = {}                                                                         # pid -> giorni da cercare
+    for day in new_days:
         cand = []
         for p in players:
             fl = [x for x in fix.get(p["t"], []) if rome_day(x[0]) == day]
@@ -170,45 +183,59 @@ def main():
             if lam is not None and voto_of(lam) >= MIN_VOTO:
                 cand.append((lam, p["i"]))
         for lam, pid in sorted(cand, reverse=True)[:MAX_PLAYERS]:
-            pool.setdefault(pid, day)
+            pool.setdefault(pid, []).append(day)
     byid = {p["i"]: p for p in players}
-    print("Giocatori scelti:", len(pool), [byid[i]["n"] for i in pool])
-    if not pool:
-        print("Nessun giocatore: niente richiesta a Apify.")
-        return
-    items = run_actor([byid[i]["n"] for i in pool])
-    print("Quote ricevute:", len(items))
+    pairs = {d: sum(1 for v in pool.values() if d in v) for d in new_days}
+    print("Giocatori da cercare:", len(pool), "- per giorno:", pairs)
 
-    idx = {}
-    for pid in pool:
-        idx.setdefault(norm(byid[pid]["n"]), []).append(pid)
+    found = {d: 0 for d in new_days}
+    if pool:
+        names = [byid[i]["n"] for i in pool]
+        items = run_actor(names, round(0.03 + 0.0075 * len(pool), 2))
+        print("Quote ricevute:", len(items))
+        idx = {}
+        for pid in pool:
+            idx.setdefault(norm(byid[pid]["n"]), []).append(pid)
 
-    def match(name, team):
-        n = norm(name)
-        if n in idx:
-            return idx[n][0]
-        tk = set(n.split())
-        for k, ids in idx.items():
-            kt = set(k.split())
-            if (tk <= kt or kt <= tk) and tk & kt and any(x for x in ids if norm(byid[x]["t"])[:4] == norm(team)[:4]):
-                return ids[0]
-        return None
+        def match(name, team):
+            n = norm(name)
+            if n in idx:
+                return idx[n][0]
+            tk = set(n.split())
+            for k, ids in idx.items():
+                kt = set(k.split())
+                if (tk <= kt or kt <= tk) and tk & kt and any(x for x in ids if norm(byid[x]["t"])[:4] == norm(team)[:4]):
+                    return ids[0]
+            return None
 
-    out = {}
-    for it in items:
-        if it.get("book") != "bet365" or it.get("is_live") or it.get("suspended"):
-            continue
-        mk = it.get("market_name")
-        if mk not in ("Shots", "Shots On Target") or it.get("line") is None or not it.get("decimal_odds"):
-            continue
-        pid = match(it.get("player_name"), it.get("player_team"))
-        if not pid or rome_day(it["game_start"]) != pool[pid]:
-            continue
-        e = out.setdefault(pid, {"d": pool[pid], "s": {}, "o": {}, "u": it.get("updated_at")})
-        e["s" if mk == "Shots" else "o"][str(it["line"])] = round(float(it["decimal_odds"]), 3)
-    json.dump({"updated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"), "book": "bet365", "q": out},
+        for it in items:
+            if it.get("book") != "bet365" or it.get("is_live") or it.get("suspended"):
+                continue
+            mk = it.get("market_name")
+            if mk not in ("Shots", "Shots On Target") or it.get("line") is None or not it.get("decimal_odds"):
+                continue
+            pid = match(it.get("player_name"), it.get("player_team"))
+            if not pid:
+                continue
+            day = rome_day(it["game_start"])
+            if day not in pool[pid]:
+                continue
+            e = qall.setdefault(pid, {}).setdefault(day, {"s": {}, "o": {}, "u": it.get("updated_at")})
+            e["s" if mk == "Shots" else "o"][str(it["line"])] = round(float(it["decimal_odds"]), 3)
+        for pid, dd in qall.items():
+            for d in dd:
+                if d in found and pid in pool and d in pool[pid]:
+                    found[d] += 1
+    now = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    for d in new_days:
+        # un giorno e' "fatto" se non c'erano giocatori, o se le quote sono state trovate per almeno meta' di loro;
+        # altrimenti (quote non ancora pubblicate da Bet365) si riprova alla prossima esecuzione
+        if pairs[d] == 0 or found[d] >= 0.5 * pairs[d]:
+            done[d] = now
+    print("Giorni completati ora:", [d for d in new_days if d in done], "- trovati/cercati:", {d: (found[d], pairs[d]) for d in new_days})
+    json.dump({"updated_at": now, "book": "bet365", "days": done, "q": qall},
               open("quote.json", "w"), ensure_ascii=False, separators=(",", ":"))
-    print("Scritto quote.json - giocatori con quote:", len(out), "su", len(pool))
+    print("Scritto quote.json - giocatori con quote:", len(qall))
 
 
 if __name__ == "__main__":
