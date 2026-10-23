@@ -1,7 +1,9 @@
 // ScalperLab - ponte Live (Cloudflare Worker). Legge ESPN e lo restituisce al sito con una cache di pochi secondi.
 const ORIGIN = "https://matteogiampaoletti246-hue.github.io";
 const BASE = "https://site.api.espn.com/apis/site/v2/sports/soccer";
-const LEGHE = ["ita.1", "eng.1", "esp.1", "ger.1", "fra.1", "uefa.champions", "uefa.europa", "uefa.europa.conf"];
+const DOM = ["ita.1", "eng.1", "esp.1", "ger.1", "fra.1"];
+const CUPS = ["uefa.champions", "uefa.europa", "uefa.europa.conf", "uefa.nations", "fifa.friendly"];
+const LEGHE = DOM.concat(CUPS);
 const TTL = 15;
 
 function cors(req, extra) {
@@ -11,8 +13,8 @@ function cors(req, extra) {
   return h;
 }
 
-async function espn(path) {
-  const r = await fetch(BASE + path, { headers: { "User-Agent": "Mozilla/5.0" }, cf: { cacheTtl: TTL, cacheEverything: true } });
+async function espn(path, ttl) {
+  const r = await fetch(BASE + path, { headers: { "User-Agent": "Mozilla/5.0" }, cf: { cacheTtl: ttl || TTL, cacheEverything: true } });
   if (!r.ok) throw new Error("ESPN " + r.status);
   return r.json();
 }
@@ -23,6 +25,7 @@ function scoreboard(j, lg) {
     const cp = (c.competitors || []).reduce((a, x) => { a[x.homeAway] = x; return a; }, {});
     return {
       lg, id: e.id, d: e.date, st: t.state, nm: t.name, det: t.shortDetail, clk: e.status && e.status.displayClock,
+      hl: cp.home && cp.home.team && cp.home.team.logo, al: cp.away && cp.away.team && cp.away.team.logo,
       h: cp.home && cp.home.team && cp.home.team.displayName, a: cp.away && cp.away.team && cp.away.team.displayName,
       sh: cp.home && cp.home.score, sa: cp.away && cp.away.score,
     };
@@ -33,7 +36,7 @@ function compactRoster(r) {
   return {
     side: r.homeAway, formation: r.formation,
     players: (r.roster || []).map((p) => ({
-      n: p.athlete && p.athlete.displayName, id: p.athlete && p.athlete.id, j: p.jersey, st: p.starter, in: p.subbedIn, out: p.subbedOut,
+      n: p.athlete && p.athlete.displayName, id: p.athlete && p.athlete.id, img: p.athlete && p.athlete.headshot && p.athlete.headshot.href, j: p.jersey, st: p.starter, in: p.subbedIn, out: p.subbedOut,
       pos: p.position && p.position.abbreviation, fp: p.formationPlace,
       s: (p.stats || []).reduce((a, x) => { a[x.name] = x.value; return a; }, {}),
     })),
@@ -68,6 +71,13 @@ export default {
       if (u.pathname === "/s") {
         const all = await Promise.all(LEGHE.map((lg) => espn("/" + lg + "/scoreboard").then((j) => scoreboard(j, lg)).catch(() => [])));
         return new Response(JSON.stringify({ t: Date.now(), ev: all.flat() }), { headers: cors(req) });
+      }
+      if (u.pathname === "/d") {
+        const dt = u.searchParams.get("date");
+        if (!/^\d{8}$/.test(dt || "")) return new Response("{}", { status: 400, headers: cors(req) });
+        const old = dt < new Date(Date.now() - 2 * 86400000).toISOString().slice(0, 10).replace(/-/g, "");
+        const all = await Promise.all(CUPS.map((lg) => espn("/" + lg + "/scoreboard?dates=" + dt, old ? 3600 : 60).then((j) => scoreboard(j, lg)).catch(() => [])));
+        return new Response(JSON.stringify({ t: Date.now(), ev: all.flat() }), { headers: cors(req, { "Cache-Control": "public, max-age=" + (old ? 3600 : 60) }) });
       }
       if (u.pathname === "/m") {
         const lg = u.searchParams.get("lg"), id = u.searchParams.get("id");
