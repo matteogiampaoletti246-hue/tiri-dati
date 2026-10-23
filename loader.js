@@ -244,11 +244,13 @@ html[data-theme="night"] body.slb-open #slbMenu{box-shadow:-12px 0 40px rgba(0,0
 #slbTheme button svg{width:17px;height:17px;}
 #slbTheme button.on{background:var(--panel);color:var(--accent);box-shadow:0 1px 4px rgba(11,42,107,.15);}
 html[data-theme="night"] #slbTheme button.on{background:var(--accent-dim);color:#fff;box-shadow:none;}
-.hcr{display:inline-flex;align-items:center;justify-content:center;border-radius:50%;flex:none;overflow:hidden;font-weight:800;color:var(--accent);background:var(--panel-2);border:1px solid var(--line);}
+.hcr{display:inline-flex;align-items:center;justify-content:center;flex:none;overflow:hidden;font-weight:800;color:var(--accent);}
 .hcr img{width:100%;height:100%;object-fit:contain;}
 .hlg{background:var(--panel);border:1px solid var(--line);border-radius:16px;margin-bottom:12px;overflow:hidden;}
 .hlgh{display:flex;align-items:center;gap:8px;padding:12px 16px 8px;font-family:Poppins,sans-serif;font-weight:700;font-size:14px;color:var(--ink);}
-.hlgh i{width:3px;height:14px;border-radius:2px;background:var(--accent);}
+.hlgh img{width:20px;height:20px;object-fit:contain;}
+.hpf{display:block;margin:0 auto 6px;width:96px;height:96px;overflow:hidden;}.hpf img{width:100%;height:100%;object-fit:cover;object-position:50% 12%;}
+.hpn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;}.hhero .tn .hpn .hcr{margin:0;}.hpf{border-radius:18px;}.hhero .hcr{color:#fff;}
 .hrow{display:flex;align-items:center;width:100%;text-align:left;border:0;border-top:1px solid var(--line);background:transparent;color:var(--text);padding:10px 16px;cursor:pointer;font:inherit;}
 .hrow:active{background:var(--panel-2);}
 .hrow .tm{width:50px;font-size:13px;color:var(--text-dim);font-weight:600;font-variant-numeric:tabular-nums;}
@@ -259,7 +261,7 @@ html[data-theme="night"] #slbTheme button.on{background:var(--accent-dim);color:
 .hback{border:0;background:rgba(255,255,255,.16);color:#fff;width:34px;height:34px;border-radius:50%;font-size:20px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;}
 .hhero .tt{display:flex;justify-content:space-between;align-items:center;text-align:center;padding:4px 4px 0;}
 .hhero .tn{width:34%;font-weight:700;font-size:14px;line-height:1.2;}
-.hhero .tn .hcr{margin:0 auto 8px;display:flex;background:rgba(255,255,255,.95);border-color:rgba(255,255,255,.4);}
+.hhero .tn .hcr{margin:0 auto 8px;display:flex;filter:drop-shadow(0 2px 4px rgba(0,0,0,.35));}
 .hhero .ko{font-family:Poppins,sans-serif;font-weight:800;font-size:26px;}
 .hhero .sm{font-size:12px;opacity:.78;margin-top:2px;}
 .htabs{display:flex;margin-top:14px;gap:0;}
@@ -337,10 +339,18 @@ html:not([data-theme="night"]) .hpill.on{color:#fff;}
   var HD = null, HOK = false, HDAY = null, HSEL = null, HTAB = 'stat', HTT = 'tot', HSIDE = 'h', HPL = null, HLINE = 1.5, HLOAD = null;
   var GOFN = null, PICKFN = null;
   var HLG = [['serie-a', 'Serie A'], ['premier-league', 'Premier League'], ['la-liga', 'LaLiga'], ['bundesliga', 'Bundesliga'], ['ligue-1', 'Ligue 1']];
+  var FOTO = {};
+  function photoOf(p){
+    if(!HSEL || !HD || !HD.lin) return null;
+    var L = HD.lin[HSEL.id]; if(!L) return null;
+    var team = p.t, res = null;
+    ['h','a'].forEach(function(s){ var S = L[s]; if(!S) return; (S.s || []).concat(S.b || []).forEach(function(x){ if(res) return; var id = x.length > 3 ? x[5] : x[2]; if(id && FOTO[id] && FOTO[id].u && findPlayer(x[0], team) === p) res = FOTO[id].u; }); });
+    return res;
+  }
   function loadHome(){
     if(!HLOAD){
       var g = function(u){ return fetch(u + '?t=' + Date.now()).then(function(r){ return r.ok ? r.json() : null; }).catch(function(){ return null; }); };
-      HLOAD = Promise.all([g('partite.json'), g('angoli.json'), loadPlayers()]).then(function(a){ HD = a[0]; HOK = true; if(a[1]) MDATA = a[1]; return a; });
+      HLOAD = Promise.all([g('partite.json'), g('angoli.json'), loadPlayers(), g('foto.json'), g('data.json')]).then(function(a){ HD = a[0]; HOK = true; if(a[1]) MDATA = a[1]; FOTO = a[3] || {}; if(a[4] && a[4].leagues) Object.keys(a[4].leagues).forEach(function(k){ if(a[4].leagues[k].logo) LEAGUE_LOGOS[k] = a[4].leagues[k].logo; }); return a; });
     }
     return HLOAD;
   }
@@ -395,7 +405,7 @@ html:not([data-theme="night"]) .hpill.on{color:#fff;}
     HLG.forEach(function(L){
       var ms = HD.matches.filter(function(m){ return m.d === HDAY && m.lg === L[0]; });
       if(!ms.length) return; any = true;
-      var box = el('div', 'hlg'), h = el('div', 'hlgh'); h.appendChild(el('i')); h.appendChild(el('span', '', L[1])); box.appendChild(h);
+      var box = el('div', 'hlg'), h = el('div', 'hlgh'); if(LEAGUE_LOGOS[L[0]]){ var lg = el('img'); lg.src = LEAGUE_LOGOS[L[0]]; lg.alt = ''; lg.onerror = function(){ lg.remove(); }; h.appendChild(lg); } h.appendChild(el('span', '', L[1])); box.appendChild(h);
       ms.forEach(function(m){
         var r = el('button', 'hrow'); r.type = 'button';
         r.appendChild(el('span', 'tm', timeOf(m.t)));
@@ -517,36 +527,21 @@ html:not([data-theme="night"]) .hpill.on{color:#fff;}
     box.appendChild(sw);
     var S = L[HSIDE], team = HSIDE === 'h' ? HSEL.h : HSEL.a;
     if(!S || !S.s || !S.s.length){ box.appendChild(el('div', 'hempty', 'Formazione non ancora disponibile')); return; }
-    var top = el('div', 'hsec', (S.f ? S.f : ''));
-    top.style.padding = '0 2px 8px'; top.appendChild(el('span', 'htag', S.c ? 'Ufficiale' : 'Probabile'));
-    box.appendChild(top);
-    // righe: portiere + numeri della formazione (es. 4-3-3)
-    var st = S.s.slice(), cnt = (S.f || '').split('-').map(function(x){ return parseInt(x, 10); }).filter(function(x){ return x > 0; });
-    var rowsN = [1].concat(cnt), sum = rowsN.reduce(function(a, b){ return a + b; }, 0), pos = [];
-    if(sum === st.length){
-      var desc = (st[0][3] != null && st[0][3] > 0.5);
-      var srt = st.slice().sort(function(a, b){ return desc ? (b[3] - a[3]) : (a[3] - b[3]); });
-      if(st[0][3] == null) srt = st;
-      var k = 0;
-      rowsN.forEach(function(n, ri){
-        var grp = srt.slice(k, k + n); k += n;
-        grp.sort(function(a, b){ return (a[2] == null ? 0 : a[2]) - (b[2] == null ? 0 : b[2]); });
-        var y = 90 - ri * (78 / Math.max(1, rowsN.length - 1));
-        grp.forEach(function(pl, j){ pos.push({p: pl, x: (j + 1) / (grp.length + 1) * 100, y: y}); });
-      });
-    } else {
-      st.forEach(function(pl){ pos.push({p: pl, x: (pl[2] == null ? .5 : pl[2]) * 100, y: 90 - (pl[3] == null ? .5 : pl[3]) * 78}); });
-    }
+    var top = el('div', 'hsec', (S.c ? 'Formazione ufficiale' : 'Formazione probabile') + (S.f ? ' · ' + S.f : ''));
+    top.style.padding = '0 2px 8px'; box.appendChild(top);
+    var pos = S.s.map(function(pl){
+      var x = pl[2] == null ? .5 : pl[2], y = pl[3] == null ? .5 : pl[3];
+      return {p: pl, x: (HSIDE === 'h' ? (1 - y) : y) * 100, y: 88 - (x - 0.1) * 101};
+    });
     var pitch = el('div', 'hpitch');
     pitch.innerHTML = '<svg class="ln" viewBox="0 0 68 100" preserveAspectRatio="none" fill="none" stroke="rgba(255,255,255,.55)" stroke-width=".45">'
       + '<rect x="1.5" y="1.5" width="65" height="97"/><path d="M1.5 50h65"/><circle cx="34" cy="50" r="8"/>'
       + '<rect x="14" y="1.5" width="40" height="15"/><rect x="25" y="1.5" width="18" height="6"/><rect x="14" y="83.5" width="40" height="15"/><rect x="25" y="92.5" width="18" height="6"/></svg>';
     pos.forEach(function(o){
-      var pl = o.p, dbp = findPlayer(pl[0], team), vt = dbp ? votoOf(dbp, HSEL, HLINE) : null;
+      var pl = o.p, dbp = findPlayer(pl[0], team);
       var b = el('button', 'hp'); b.type = 'button'; b.style.left = o.x + '%'; b.style.top = o.y + '%';
       var nb = el('span', 'nb', pl[1] != null ? String(pl[1]) : ''); 
       if(pl[4]) nb.appendChild(el('span', 'cp', 'C'));
-      if(vt) nb.appendChild(el('span', 'hv' + (vt.v >= BMIN ? ' g' : ''), f1(vt.v.toFixed(1))));
       b.appendChild(nb); b.appendChild(el('span', 'pn', shortName(pl[0])));
       if(dbp) b.addEventListener('click', function(){ openPlayer(dbp); }); else b.style.cursor = 'default';
       pitch.appendChild(b);
@@ -597,7 +592,10 @@ html:not([data-theme="night"]) .hpill.on{color:#fff;}
     var p = HPL, m = HSEL, box = body;
     var hero = el('div', 'hhero'); hero.appendChild(backBtn());
     var tt = el('div', 'tt'), tn = el('div', 'tn');
-    tn.style.width = '100%'; tn.appendChild(crestEl(p.t === m.h ? m.hl : m.al, p.t, 48)); tn.appendChild(el('div', '', p.n));
+    tn.style.width = '100%';
+    var ph = photoOf(p);
+    if(ph){ var pf = el('div', 'hpf'), im = el('img'); im.src = ph; im.alt = ''; im.onerror = function(){ pf.remove(); }; pf.appendChild(im); tn.appendChild(pf); }
+    var pn = el('div', 'hpn'); pn.appendChild(crestEl(p.t === m.h ? m.hl : m.al, p.t, 22)); pn.appendChild(el('span', '', p.n)); tn.appendChild(pn);
     var sub = el('div', 'sm', p.t + (p.t === m.h ? ' – ' : ' @ ') + (p.t === m.h ? m.a : m.h) + ' · ' + timeOf(m.t));
     tt.appendChild(tn); hero.appendChild(tt); hero.appendChild(sub); sub.style.cssText += ';text-align:center;padding-bottom:14px;';
     box.appendChild(hero);
