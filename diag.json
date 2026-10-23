@@ -1,0 +1,797 @@
+{
+ "lega": "Serie A",
+ "partite": [
+  {
+   "id": "m_08dbQS",
+   "match": "Juventus - Lazio",
+   "n_giocatori": 47,
+   "chiavi_giocatore": {
+    "long_balls_accurate": {
+     "titolo": null,
+     "valore": 1
+    },
+    "accurate_passes": {
+     "titolo": null,
+     "valore": 14
+    },
+    "keeper_sweeper": {
+     "titolo": null,
+     "valore": 0
+    },
+    "aerials_won": {
+     "titolo": null,
+     "valore": 1
+    },
+    "clearances": {
+     "titolo": null,
+     "valore": 2
+    },
+    "defensive_actions": {
+     "titolo": null,
+     "valore": 2
+    },
+    "keeper_diving_save": {
+     "titolo": null,
+     "valore": 0
+    },
+    "duel_won": {
+     "titolo": null,
+     "valore": 1
+    },
+    "fouls": {
+     "titolo": null,
+     "valore": 0
+    },
+    "goals_conceded": {
+     "titolo": null,
+     "valore": 3
+    },
+    "goals_prevented": {
+     "titolo": null,
+     "valore": -1.75
+    },
+    "keeper_high_claim": {
+     "titolo": null,
+     "valore": 0
+    },
+    "interceptions": {
+     "titolo": null,
+     "valore": 0
+    },
+    "minutes_played": {
+     "titolo": null,
+     "valore": 90
+    },
+    "passes_into_final_third": {
+     "titolo": null,
+     "valore": 4
+    },
+    "punches": {
+     "titolo": null,
+     "valore": 0
+    },
+    "rating_title": {
+     "titolo": null,
+     "valore": 4.64
+    },
+    "recoveries": {
+     "titolo": null,
+     "valore": 11
+    },
+    "saves": {
+     "titolo": null,
+     "valore": 0
+    },
+    "saves_inside_box": {
+     "titolo": null,
+     "valore": 0
+    },
+    "Shotmap": {
+     "titolo": null,
+     "valore": 1
+    },
+    "matchstats.headers.tackles": {
+     "titolo": null,
+     "valore": 0
+    },
+    "player_throws": {
+     "titolo": null,
+     "valore": 9
+    },
+    "touches": {
+     "titolo": null,
+     "valore": 40
+    },
+    "was_fouled": {
+     "titolo": null,
+     "valore": null
+    },
+    "expected_goals_on_target_faced": {
+     "titolo": null,
+     "valore": 1.25
+    },
+    "goals": {
+     "titolo": null,
+     "valore": 0
+    },
+    "assists": {
+     "titolo": null,
+     "valore": 1
+    },
+    "xg_and_xa": {
+     "titolo": null,
+     "valore": 0.22
+    },
+    "chances_created": {
+     "titolo": null,
+     "valore": 2
+    },
+    "big_chance_created_team_title": {
+     "titolo": null,
+     "valore": 1
+    },
+    "expected_assists": {
+     "titolo": null,
+     "valore": 0.22
+    },
+    "corners": {
+     "titolo": null,
+     "valore": 3
+    },
+    "dispossessed": {
+     "titolo": null,
+     "valore": 1
+    },
+    "accurate_crosses": {
+     "titolo": null,
+     "valore": 1
+    },
+    "dribbles_succeeded": {
+     "titolo": null,
+     "valore": 0
+    },
+    "touches_opp_box": {
+     "titolo": null,
+     "valore": 3
+    },
+    "shot_blocks": {
+     "titolo": null,
+     "valore": 0
+    },
+    "dribbled_past": {
+     "titolo": null,
+     "valore": 0
+    },
+    "headed_clearance": {
+     "titolo": null,
+     "valore": 1
+    },
+    "duel_lost": {
+     "titolo": null,
+     "valore": 4
+    },
+    "ground_duels_won": {
+     "titolo": null,
+     "valore": 0
+    },
+    "expected_goals": {
+     "titolo": null,
+     "valore": 0.04
+    },
+    "expected_goals_on_target_variant": {
+     "titolo": null,
+     "valore": null
+    },
+    "shot_accuracy": {
+     "titolo": null,
+     "valore": 0
+    },
+    "ShotsOffTarget": {
+     "titolo": null,
+     "valore": 1
+    },
+    "ShotsOnTarget": {
+     "titolo": null,
+     "valore": 0
+    },
+    "total_shots": {
+     "titolo": null,
+     "valore": 1
+    },
+    "expected_goals_non_penalty": {
+     "titolo": null,
+     "valore": 0.04
+    },
+    "blocked_shots": {
+     "titolo": null,
+     "valore": 1
+    },
+    "Offsides": {
+     "titolo": null,
+     "valore": 4
+    }
+   },
+   "campi_giocatore": [
+    "player",
+    "stats",
+    "team_id"
+   ],
+   "halves_campi": [
+    "periods",
+    "player",
+    "team_id"
+   ],
+   "chiavi_squadra": {
+    "clearances": "Clearances",
+    "interceptions": "Interceptions",
+    "keeper_saves": "Keeper saves",
+    "matchstats.headers.tackles": "Tackles",
+    "shot_blocks": "Blocks",
+    "fouls": "Fouls committed",
+    "red_cards": "Red cards",
+    "yellow_cards": "Yellow cards",
+    "aerials_won": "Aerial duels won",
+    "dribbles_succeeded": "Successful dribbles",
+    "duel_won": "Duels won",
+    "ground_duels_won": "Ground duels won",
+    "expected_goals": "Expected goals (xG)",
+    "expected_goals_non_penalty": "xG non-penalty",
+    "expected_goals_on_target": "xG on target (xGOT)",
+    "expected_goals_open_play": "xG open play",
+    "expected_goals_set_play": "xG set play",
+    "Offsides": "Offsides",
+    "accurate_crosses": "Accurate crosses",
+    "accurate_passes": "Accurate passes",
+    "long_balls_accurate": "Accurate long balls",
+    "opposition_half_passes": "Opposition half",
+    "own_half_passes": "Own half",
+    "passes": "Passes",
+    "player_throws": "Throws",
+    "touches_opp_box": "Touches in opposition box",
+    "ShotsOffTarget": "Shots off target",
+    "ShotsOnTarget": "Shots on target",
+    "blocked_shots": "Blocked shots",
+    "shots_inside_box": "Shots inside box",
+    "shots_outside_box": "Shots outside box",
+    "shots_woodwork": "Hit woodwork",
+    "total_shots": "Total shots",
+    "BallPossesion": "Ball possession",
+    "big_chance": "Big chances",
+    "big_chance_missed_title": "Big chances missed",
+    "corners": "Corners"
+   }
+  },
+  {
+   "id": "m_1VpC1F",
+   "match": "Monza - Cagliari",
+   "n_giocatori": 48,
+   "chiavi_giocatore": {
+    "accurate_passes": {
+     "titolo": null,
+     "valore": 5
+    },
+    "assists": {
+     "titolo": null,
+     "valore": 0
+    },
+    "big_chance_created_team_title": {
+     "titolo": null,
+     "valore": 1
+    },
+    "chances_created": {
+     "titolo": null,
+     "valore": 2
+    },
+    "defensive_actions": {
+     "titolo": null,
+     "valore": 1
+    },
+    "expected_assists": {
+     "titolo": null,
+     "valore": 0.61
+    },
+    "expected_goals": {
+     "titolo": null,
+     "valore": 0.02
+    },
+    "expected_goals_on_target_variant": {
+     "titolo": null,
+     "valore": null
+    },
+    "goals": {
+     "titolo": null,
+     "valore": 0
+    },
+    "minutes_played": {
+     "titolo": null,
+     "valore": 9
+    },
+    "shot_accuracy": {
+     "titolo": null,
+     "valore": 0
+    },
+    "Shotmap": {
+     "titolo": null,
+     "valore": 1
+    },
+    "ShotsOffTarget": {
+     "titolo": null,
+     "valore": 1
+    },
+    "ShotsOnTarget": {
+     "titolo": null,
+     "valore": 0
+    },
+    "total_shots": {
+     "titolo": null,
+     "valore": 1
+    },
+    "xg_and_xa": {
+     "titolo": null,
+     "valore": 0.63
+    },
+    "accurate_crosses": {
+     "titolo": null,
+     "valore": 1
+    },
+    "dispossessed": {
+     "titolo": null,
+     "valore": 0
+    },
+    "touches": {
+     "titolo": null,
+     "valore": 9
+    },
+    "touches_opp_box": {
+     "titolo": null,
+     "valore": 0
+    },
+    "expected_goals_non_penalty": {
+     "titolo": null,
+     "valore": 0.02
+    },
+    "shot_blocks": {
+     "titolo": null,
+     "valore": 0
+    },
+    "clearances": {
+     "titolo": null,
+     "valore": 1
+    },
+    "dribbled_past": {
+     "titolo": null,
+     "valore": 1
+    },
+    "interceptions": {
+     "titolo": null,
+     "valore": 0
+    },
+    "recoveries": {
+     "titolo": null,
+     "valore": 1
+    },
+    "matchstats.headers.tackles": {
+     "titolo": null,
+     "valore": 0
+    },
+    "aerials_won": {
+     "titolo": null,
+     "valore": 0
+    },
+    "duel_lost": {
+     "titolo": null,
+     "valore": 1
+    },
+    "fouls": {
+     "titolo": null,
+     "valore": 0
+    },
+    "ground_duels_won": {
+     "titolo": null,
+     "valore": 0
+    },
+    "was_fouled": {
+     "titolo": null,
+     "valore": null
+    },
+    "rating_title": {
+     "titolo": null,
+     "valore": 6.5
+    },
+    "long_balls_accurate": {
+     "titolo": null,
+     "valore": 0
+    },
+    "big_chance_missed_title": {
+     "titolo": null,
+     "valore": 1
+    },
+    "passes_into_final_third": {
+     "titolo": null,
+     "valore": 7
+    },
+    "headed_clearance": {
+     "titolo": null,
+     "valore": 2
+    },
+    "duel_won": {
+     "titolo": null,
+     "valore": 8
+    },
+    "blocked_shots": {
+     "titolo": null,
+     "valore": 1
+    },
+    "dribbles_succeeded": {
+     "titolo": null,
+     "valore": 1
+    },
+    "Offsides": {
+     "titolo": null,
+     "valore": 1
+    },
+    "errors_led_to_goal": {
+     "titolo": null,
+     "valore": 1
+    },
+    "shots_woodwork": {
+     "titolo": null,
+     "valore": 1
+    },
+    "keeper_sweeper": {
+     "titolo": null,
+     "valore": 0
+    },
+    "keeper_diving_save": {
+     "titolo": null,
+     "valore": 2
+    },
+    "goals_conceded": {
+     "titolo": null,
+     "valore": 4
+    },
+    "goals_prevented": {
+     "titolo": null,
+     "valore": -1.64
+    },
+    "keeper_high_claim": {
+     "titolo": null,
+     "valore": 0
+    },
+    "punches": {
+     "titolo": null,
+     "valore": 0
+    },
+    "saves": {
+     "titolo": null,
+     "valore": 2
+    },
+    "saves_inside_box": {
+     "titolo": null,
+     "valore": 2
+    },
+    "player_throws": {
+     "titolo": null,
+     "valore": 3
+    },
+    "expected_goals_on_target_faced": {
+     "titolo": null,
+     "valore": 2.36
+    },
+    "corners": {
+     "titolo": null,
+     "valore": 5
+    }
+   },
+   "campi_giocatore": [
+    "player",
+    "stats",
+    "team_id"
+   ],
+   "halves_campi": [
+    "periods",
+    "player",
+    "team_id"
+   ],
+   "chiavi_squadra": {
+    "clearances": "Clearances",
+    "interceptions": "Interceptions",
+    "keeper_saves": "Keeper saves",
+    "matchstats.headers.tackles": "Tackles",
+    "shot_blocks": "Blocks",
+    "fouls": "Fouls committed",
+    "red_cards": "Red cards",
+    "yellow_cards": "Yellow cards",
+    "aerials_won": "Aerial duels won",
+    "dribbles_succeeded": "Successful dribbles",
+    "duel_won": "Duels won",
+    "ground_duels_won": "Ground duels won",
+    "expected_goals": "Expected goals (xG)",
+    "expected_goals_non_penalty": "xG non-penalty",
+    "expected_goals_on_target": "xG on target (xGOT)",
+    "expected_goals_open_play": "xG open play",
+    "expected_goals_set_play": "xG set play",
+    "Offsides": "Offsides",
+    "accurate_crosses": "Accurate crosses",
+    "accurate_passes": "Accurate passes",
+    "long_balls_accurate": "Accurate long balls",
+    "opposition_half_passes": "Opposition half",
+    "own_half_passes": "Own half",
+    "passes": "Passes",
+    "player_throws": "Throws",
+    "touches_opp_box": "Touches in opposition box",
+    "ShotsOffTarget": "Shots off target",
+    "ShotsOnTarget": "Shots on target",
+    "blocked_shots": "Blocked shots",
+    "shots_inside_box": "Shots inside box",
+    "shots_outside_box": "Shots outside box",
+    "shots_woodwork": "Hit woodwork",
+    "total_shots": "Total shots",
+    "BallPossesion": "Ball possession",
+    "big_chance": "Big chances",
+    "big_chance_missed_title": "Big chances missed",
+    "corners": "Corners"
+   }
+  },
+  {
+   "id": "m_1exn1L",
+   "match": "Parma - Torino",
+   "n_giocatori": 49,
+   "chiavi_giocatore": {
+    "goals": {
+     "titolo": null,
+     "valore": 0
+    },
+    "assists": {
+     "titolo": null,
+     "valore": 0
+    },
+    "Shotmap": {
+     "titolo": null,
+     "valore": 0
+    },
+    "minutes_played": {
+     "titolo": null,
+     "valore": 7
+    },
+    "accurate_passes": {
+     "titolo": null,
+     "valore": 0
+    },
+    "chances_created": {
+     "titolo": null,
+     "valore": 0
+    },
+    "defensive_actions": {
+     "titolo": null,
+     "valore": 0
+    },
+    "touches": {
+     "titolo": null,
+     "valore": 4
+    },
+    "dispossessed": {
+     "titolo": null,
+     "valore": 0
+    },
+    "touches_opp_box": {
+     "titolo": null,
+     "valore": 0
+    },
+    "shot_blocks": {
+     "titolo": null,
+     "valore": 0
+    },
+    "matchstats.headers.tackles": {
+     "titolo": null,
+     "valore": 0
+    },
+    "clearances": {
+     "titolo": null,
+     "valore": 0
+    },
+    "recoveries": {
+     "titolo": null,
+     "valore": 1
+    },
+    "dribbled_past": {
+     "titolo": null,
+     "valore": 0
+    },
+    "interceptions": {
+     "titolo": null,
+     "valore": 0
+    },
+    "duel_won": {
+     "titolo": null,
+     "valore": 1
+    },
+    "duel_lost": {
+     "titolo": null,
+     "valore": 1
+    },
+    "was_fouled": {
+     "titolo": null,
+     "valore": 1
+    },
+    "fouls": {
+     "titolo": null,
+     "valore": 0
+    },
+    "aerials_won": {
+     "titolo": null,
+     "valore": 0
+    },
+    "ground_duels_won": {
+     "titolo": null,
+     "valore": 1
+    },
+    "blocked_shots": {
+     "titolo": null,
+     "valore": 1
+    },
+    "expected_assists": {
+     "titolo": null,
+     "valore": 0.01
+    },
+    "expected_goals": {
+     "titolo": null,
+     "valore": 0.41
+    },
+    "expected_goals_on_target_variant": {
+     "titolo": null,
+     "valore": 1.16
+    },
+    "rating_title": {
+     "titolo": null,
+     "valore": 8.92
+    },
+    "shot_accuracy": {
+     "titolo": null,
+     "valore": 2
+    },
+    "ShotsOffTarget": {
+     "titolo": null,
+     "valore": 0
+    },
+    "ShotsOnTarget": {
+     "titolo": null,
+     "valore": 2
+    },
+    "total_shots": {
+     "titolo": null,
+     "valore": 3
+    },
+    "xg_and_xa": {
+     "titolo": null,
+     "valore": 0.42
+    },
+    "Offsides": {
+     "titolo": null,
+     "valore": 1
+    },
+    "passes_into_final_third": {
+     "titolo": null,
+     "valore": 1
+    },
+    "dribbles_succeeded": {
+     "titolo": null,
+     "valore": 1
+    },
+    "expected_goals_non_penalty": {
+     "titolo": null,
+     "valore": 0.41
+    },
+    "accurate_crosses": {
+     "titolo": null,
+     "valore": 0
+    },
+    "long_balls_accurate": {
+     "titolo": null,
+     "valore": 1
+    },
+    "headed_clearance": {
+     "titolo": null,
+     "valore": 1
+    },
+    "corners": {
+     "titolo": null,
+     "valore": 1
+    },
+    "keeper_sweeper": {
+     "titolo": null,
+     "valore": 0
+    },
+    "keeper_diving_save": {
+     "titolo": null,
+     "valore": 3
+    },
+    "goals_conceded": {
+     "titolo": null,
+     "valore": 0
+    },
+    "goals_prevented": {
+     "titolo": null,
+     "valore": 1.18
+    },
+    "keeper_high_claim": {
+     "titolo": null,
+     "valore": 1
+    },
+    "punches": {
+     "titolo": null,
+     "valore": 3
+    },
+    "saves": {
+     "titolo": null,
+     "valore": 8
+    },
+    "saves_inside_box": {
+     "titolo": null,
+     "valore": 5
+    },
+    "player_throws": {
+     "titolo": null,
+     "valore": 8
+    },
+    "expected_goals_on_target_faced": {
+     "titolo": null,
+     "valore": 1.18
+    },
+    "big_chance_created_team_title": {
+     "titolo": null,
+     "valore": 1
+    }
+   },
+   "campi_giocatore": [
+    "player",
+    "stats",
+    "team_id"
+   ],
+   "halves_campi": [
+    "periods",
+    "player",
+    "team_id"
+   ],
+   "chiavi_squadra": {
+    "clearances": "Clearances",
+    "interceptions": "Interceptions",
+    "keeper_saves": "Keeper saves",
+    "matchstats.headers.tackles": "Tackles",
+    "shot_blocks": "Blocks",
+    "fouls": "Fouls committed",
+    "red_cards": "Red cards",
+    "yellow_cards": "Yellow cards",
+    "aerials_won": "Aerial duels won",
+    "dribbles_succeeded": "Successful dribbles",
+    "duel_won": "Duels won",
+    "ground_duels_won": "Ground duels won",
+    "expected_goals": "Expected goals (xG)",
+    "expected_goals_non_penalty": "xG non-penalty",
+    "expected_goals_on_target": "xG on target (xGOT)",
+    "expected_goals_open_play": "xG open play",
+    "expected_goals_set_play": "xG set play",
+    "Offsides": "Offsides",
+    "accurate_crosses": "Accurate crosses",
+    "accurate_passes": "Accurate passes",
+    "long_balls_accurate": "Accurate long balls",
+    "opposition_half_passes": "Opposition half",
+    "own_half_passes": "Own half",
+    "passes": "Passes",
+    "player_throws": "Throws",
+    "touches_opp_box": "Touches in opposition box",
+    "ShotsOffTarget": "Shots off target",
+    "ShotsOnTarget": "Shots on target",
+    "blocked_shots": "Blocked shots",
+    "shots_inside_box": "Shots inside box",
+    "shots_outside_box": "Shots outside box",
+    "shots_woodwork": "Hit woodwork",
+    "total_shots": "Total shots",
+    "BallPossesion": "Ball possession",
+    "big_chance": "Big chances",
+    "big_chance_missed_title": "Big chances missed",
+    "corners": "Corners"
+   }
+  }
+ ]
+}
