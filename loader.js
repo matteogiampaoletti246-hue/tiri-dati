@@ -205,10 +205,9 @@ function loader(){
       list.forEach(function(m){ body.appendChild(mcard(m, sec)); });
     });
   }
-  // --- migliori giocatori: stessa formula del calcolatore giocatore (Poisson + ultime 5 + hit rate 60/40), per una linea scelta ---
-  var BIDX = null, BCACHE = {}, BSTAT = 0, BLINE = {0: 1.5, 1: 0.5}, BDAY = null;
+  // --- migliori giocatori: voto = probabilita' del modello (come il calcolatore, senza hit rate) di Over 1,5 tiri; sotto le linee con le quote ---
+  var BIDX = null, BCACHE = {}, BSTAT = 0, BDAY = null, BLINE = [1.5, 0.5], BMIN = 8, BMAX = 30;
   function pois(k, l){ var s = 0, t = Math.exp(-l); for(var i = 0; i <= k; i++){ s += t; t = t * l / (i + 1); } return s; }
-  // copia delle funzioni di app.html (non sono accessibili dall'esterno)
   function lgAvg(D, k, field){
     if(D[k].avg) return D[k].avg[field];
     var v = Object.keys(D[k].teams).map(function(n){ return D[k].teams[n][field]; });
@@ -226,11 +225,12 @@ function loader(){
     var dv = D[dk].teams[name][field], da = lgAvg(D, dk, field);
     return {v: (adjStr(dv, da, lgStr(D, dk)) + t[field]) / 2, avg: (da + avg) / 2, str: 1};
   }
-  function bScore(p, f, idx, line){
+  // media di tiri attesa (lambda) del giocatore in quella partita; idx 0 = tiri totali, 1 = tiri in porta
+  function bLam(p, f, idx){
     var g = p.l[0] + p.c[0], mi = p.l[3] + p.c[3]; if(g < 3 || mi <= 0) return null;
     var lr = lastRows(p).r.slice(0, 5); if(lr.length < 3) return null;
-    var sh = 0, mn = 0, hit = 0, nl = lr.length; lr.forEach(function(x){ sh += x[idx]; mn += x[2]; if(x[idx] > line) hit++; });
-    if(mn / nl < 25) return null;                                        // solo subentrati di pochi minuti: il tasso a 90' non e' attendibile
+    var sh = 0, mn = 0, nl = lr.length; lr.forEach(function(x){ sh += x[idx]; mn += x[2]; });
+    if(mn / nl < 35 || mn <= 0) return null;                              // minuti medi minimi nelle ultime 5 partite
     var season = (p.l[1 + idx] + p.c[1 + idx]) / mi * 90, l5 = sh / mn * 90, rate = (season + l5) / 2;
     var comp = f[3], D = window.LEAGUE_DATA || {}, cup = !!(D[comp] && D[comp].cup);
     var fo = idx ? 'sotFor' : 'totalFor', ag = idx ? 'sotAgainst' : 'totalAgainst';
@@ -238,12 +238,21 @@ function loader(){
     if(!own || !opp) return null;
     var ro = opp.v > 0 && opp.avg > 0 ? opp.v / opp.avg : 1; if(opp.str > 0 && opp.str < 1) ro = 1 + (ro - 1) * opp.str;
     var rc = own.v > 0 && own.avg > 0 ? own.v / own.avg : 1; if(own.str > 0 && own.str < 1) rc = 1 + (rc - 1) * own.str;
-    var lam = rate * Math.pow(ro, 0.85) * Math.pow(rc, 0.35) * (f[2] === 1 ? 1.06 : 0.94) * Math.min(1, mn / nl / 90);   // minuti attesi: chi gioca poco non fa 90'
-    if(!(lam > 0)) return null;
-    var pm = Math.max(0, Math.min(1, 1 - pois(Math.floor(line), lam))), pf = pm;                                   // senza hit rate: la linea dei bookmaker non e' nota
-    var el_ = 0.5, bd = 9; /*                                              // linea probabile dei bookmaker: quella piu' vicina al 50%
-    for(var q = 0.5; q < 9; q += 1){ var dd = Math.abs(1 - pois(Math.floor(q), lam) - 0.5); if(dd < bd){ bd = dd; el_ = q; } } */
-    return {sea: season, l5: l5, voto: pf * 10, lam: lam, pm: pm, hit: hit, mn: mn / nl};
+    var lam = rate * Math.pow(ro, 0.85) * Math.pow(rc, 0.35) * (f[2] === 1 ? 1.06 : 0.94);
+    return lam > 0 ? {lam: lam, sea: season, l5: l5, mn: mn / nl} : null;
+  }
+  function bProb(lam, line){ return Math.max(0, Math.min(1, 1 - pois(Math.floor(line), lam))); }
+  function bList(day, idx, line){
+    var ck = day + '|' + idx + '|' + line; if(BCACHE[ck]) return BCACHE[ck];
+    var out = [], bd = BIDX.byDay[day] || {};
+    PDATA.forEach(function(p){
+      var f = bd[p.t]; if(!f) return;
+      var t = bLam(p, f, idx); if(!t) return;
+      var v = bProb(t.lam, line) * 10; if(v < BMIN) return;
+      out.push({p: p, f: f, t: t, voto: v});
+    });
+    out.sort(function(a, b){ return b.voto - a.voto || b.t.lam - a.t.lam; });
+    return BCACHE[ck] = out.slice(0, BMAX);
   }
   function drawBest(days, body, note){
     note.textContent = '';
@@ -268,46 +277,42 @@ function loader(){
       b.addEventListener('click', function(){ BSTAT = o[1]; drawMatch(); }); tg.appendChild(b);
     });
     body.appendChild(tg);
-    var lg = el('div', 'ang-days'), idx = BSTAT, line = BLINE[idx];
-    (idx ? [0.5, 1.5] : [0.5, 1.5, 2.5, 3.5]).forEach(function(l){
-      var b = el('button', 'ang-day' + (l === line ? ' active' : ''), 'Over ' + String(l).replace('.', ',')); b.type = 'button';
+    var idx = BSTAT, lines = idx ? [0.5, 1.5, 2.5] : [0.5, 1.5, 2.5, 3.5], line = BLINE[idx];
+    var lg = el('div', 'ang-days');
+    lines.forEach(function(l){
+      var b = el('button', 'ang-day' + (l === line ? ' active' : ''), 'Over ' + f1(l)); b.type = 'button';
       b.addEventListener('click', function(){ BLINE[idx] = l; drawMatch(); }); lg.appendChild(b);
     });
     body.appendChild(lg);
-    var ck = BDAY + '|' + idx + '|' + line, all = BCACHE[ck];
-    if(!all){
-      all = []; var bd = BIDX.byDay[BDAY] || {};
-      PDATA.forEach(function(p){
-        var f = bd[p.t]; if(!f) return;
-        var r = bScore(p, f, idx, line); if(r){ r.p = p; r.f = f; all.push(r); }
-      });
-      all.sort(function(a, b){ return b.voto - a.voto; }); BCACHE[ck] = all;
-    }
-    function card(r, i){
+    var list = bList(BDAY, idx, line);
+    body.appendChild(el('div', 'ang-h', 'Migliori giocatori per affidabilità'));
+    body.appendChild(el('div', 'hist-note', 'Giocatori con voto 8,00 o più su Over ' + f1(line) + ' (massimo ' + BMAX + ' al giorno).' + (QDATA && hmQ() ? ' Quote Bet365 aggiornate alle ' + hmQ() + '.' : '')));
+    if(!list.length){ body.appendChild(el('div', 'hist-note', 'Nessun giocatore con voto 8,00 o più per questo giorno.')); return; }
+    list.forEach(function(r, i){
       var c = el('div', 'play-card'), top = el('div', 'play-top'), who = el('div', 'who');
       who.appendChild(el('span', '', (i + 1) + '. ' + r.p.n));
       top.appendChild(who); top.appendChild(el('div', 'when', hhmm(r.f[0])));
       c.appendChild(top);
       c.appendChild(el('div', 'play-mkt', r.p.t + (r.f[2] === 1 ? ' – ' : ' @ ') + r.f[1]));
       var ch = el('div', 'chips');
+      var tt = r.t;
       ch.appendChild(el('span', 'chip gold', 'Voto ' + f1((Math.round(r.voto * 100) / 100).toFixed(2))));
-      if(r.q){ var qc = el('span', 'chip'); qc.appendChild(b365()); qc.appendChild(document.createTextNode(f1((Math.round(r.q.v * 100) / 100).toFixed(2)))); qc.style.fontWeight = '700'; ch.appendChild(qc); }
-      ch.appendChild(el('span', 'chip', 'Media attesa ' + f1(r.lam.toFixed(2))));
-      ch.appendChild(el('span', 'chip', 'Modello ' + Math.round(r.pm * 100) + '%'));
-      ch.appendChild(el('span', 'chip', Math.round(r.mn) + '\' medi'));
-      ch.appendChild(el('span', 'chip', 'Ultime 5: ' + f1(r.l5.toFixed(1)) + ' \u00b7 stagione ' + f1(r.sea.toFixed(1)) + ' /90\''));
-      c.appendChild(ch); return c;
-    }
-    body.appendChild(el('div', 'ang-h', 'Migliori giocatori per affidabilità'));
-    var list = all;
-    if(QDATA){
-      list = [];
-      all.forEach(function(r){ var q = qOdd(r.p, idx, line); if(q && q.d === BDAY && q.v >= 1.44){ r.q = q; list.push(r); } });
-      list = list.slice(0, 10);
-      body.appendChild(el('div', 'hist-note', 'Solo giocatori con quota Bet365 almeno 1,44' + (hmQ() ? ' \u00b7 quote aggiornate alle ' + hmQ() : '') + '.'));
-      if(!list.length) body.appendChild(el('div', 'hist-note', 'Nessun giocatore con quota disponibile per questa linea e questo giorno.'));
-    } else if(!all.length) body.appendChild(el('div', 'hist-note', 'Nessun giocatore con dati sufficienti.'));
-    list.slice(0, 30).forEach(function(r, i){ body.appendChild(card(r, i)); });
+      if(tt) ch.appendChild(el('span', 'chip', 'Media attesa ' + f1(tt.lam.toFixed(2))));
+      ch.appendChild(el('span', 'chip', Math.round(r.t.mn) + '\' medi'));
+      if(tt) ch.appendChild(el('span', 'chip', 'Ultime 5: ' + f1(tt.l5.toFixed(1)) + ' \u00b7 stagione ' + f1(tt.sea.toFixed(1)) + ' /90\''));
+      c.appendChild(ch);
+      var qs = [];
+      lines.forEach(function(l){ var q = QDATA ? qOdd(r.p, idx, l) : null; if(q && q.d === BDAY) qs.push([l, q.v]); });
+      var row = el('div', 'chips'); row.style.marginTop = '8px';
+      if(qs.length){
+        row.appendChild(b365());
+        qs.forEach(function(x){ var qc = el('span', 'chip', 'Over ' + f1(x[0]) + ' \u00b7 ' + f1((Math.round(x[1] * 100) / 100).toFixed(2))); qc.style.fontWeight = '700'; row.appendChild(qc); });
+      } else {
+        row = el('div', 'hist-note', 'Quote Bet365 non disponibili.');
+      }
+      c.appendChild(row);
+      body.appendChild(c);
+    });
   }
   function renderMatch(cat){
     MCAT = cat; drawMatch();
