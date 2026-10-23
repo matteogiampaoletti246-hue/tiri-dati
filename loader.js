@@ -322,6 +322,7 @@ html:not([data-theme="night"]) img[data-tone="light"]{filter:brightness(0);}
 .hp .nb .hv.g{background:#E5A800;color:#241800;}
 .hp .nb .cp{position:absolute;left:-6px;top:-4px;width:15px;height:15px;border-radius:50%;background:#F2C230;color:#241800;font-size:9px;font-weight:800;display:flex;align-items:center;justify-content:center;}
 .hp .pn{margin-top:12px;font-size:11.5px;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,.65);white-space:nowrap;max-width:80px;overflow:hidden;text-overflow:ellipsis;}
+.hbg{display:grid;grid-template-columns:1fr 1fr;gap:0 10px;padding:0 14px 12px;}.hbp{display:flex;align-items:center;gap:8px;background:none;border:0;border-bottom:1px solid var(--line);padding:7px 0;color:var(--text);font:inherit;text-align:left;cursor:pointer;min-width:0;}.hbp .pfc{width:30px;height:30px;font-size:10px;flex:0 0 auto;}.hbp .bn{color:var(--text-dim);font-weight:700;font-size:13px;width:22px;}.hbp .bm{font-weight:600;font-size:13.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .hbench{display:flex;flex-wrap:wrap;gap:6px;padding:6px 14px 12px;}
 .hbench button{border:1px solid var(--line);background:var(--panel-2);color:var(--text);border-radius:9px;padding:6px 10px;font-size:12.5px;cursor:pointer;font-family:inherit;}
 .hbench button b{color:var(--text-dim);margin-right:6px;font-variant-numeric:tabular-nums;}
@@ -335,9 +336,9 @@ html:not([data-theme="night"]) img[data-tone="light"]{filter:brightness(0);}
 .hgrid b{display:block;font-family:Poppins,sans-serif;font-size:17px;color:var(--ink);font-variant-numeric:tabular-nums;}.hgrid small{color:var(--text-dim);font-size:11.5px;}
 .hbtn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;border:0;background:var(--accent);color:#fff;border-radius:14px;padding:14px;font-family:Poppins,sans-serif;font-weight:700;font-size:15px;cursor:pointer;margin:4px 0 14px;}
 .hbtn svg{width:22px;height:22px;}
-.hstory{padding-bottom:16px;cursor:pointer;user-select:none;-webkit-user-select:none;}
+.hstory{overflow:hidden !important;padding-bottom:16px;cursor:pointer;user-select:none;-webkit-user-select:none;}
 .hsbars{display:flex;gap:4px;padding:2px 14px 12px;}.hsbars i{flex:1;height:3px;background:var(--line);overflow:hidden;display:block;}.hsbars u{display:block;height:100%;width:0;background:var(--accent);}
-.hsbody{text-align:left;padding:6px 18px 4px;position:relative;min-height:190px;}.hsbg{position:absolute !important;right:-80px;top:-10px;opacity:.2;pointer-events:none;filter:none;}.hsbody>*{position:relative;}.hsbody>.hsbg{position:absolute;}.hst{font-weight:800;font-size:17px;}
+.hsbody{text-align:left;padding:6px 18px 4px;position:relative;min-height:190px;}.hsbg{position:absolute !important;right:-24px;top:14px;opacity:.2;pointer-events:none;filter:none;}.hsbody>*{position:relative;}.hsbody>.hsbg{position:absolute;}.hst{font-weight:800;font-size:17px;}
 .hsv{font-size:52px;font-weight:800;line-height:1.1;margin-top:10px;color:var(--text);}.hsl{color:var(--text-dim);font-size:14px;margin-top:2px;}
 .hsr{display:inline-block;margin-top:12px;padding:6px 14px;font-weight:800;font-size:14px;color:#fff;}.hsr.u{background:#1E8E3E;}.hsr.d{background:#D93A3A;}
 .hr2.t2 b{width:auto;}
@@ -1029,10 +1030,14 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
     box.appendChild(pitch);
     if(S.b && S.b.length){
       var c = el('div', 'hcard'); c.appendChild(el('div', 'hsec', 'Panchina'));
-      var bn = el('div', 'hbench');
+      var bn = el('div', 'hbg');
       S.b.forEach(function(x){
-        var b = el('button'); b.type = 'button'; b.appendChild(el('b', '', x[1] != null ? String(x[1]) : '')); b.appendChild(document.createTextNode(shortName(x[0])));
-        var dbp = findPlayer(x[0], team); if(dbp) b.addEventListener('click', function(){ openPlayer(dbp); });
+        var b = el('button', 'hbp'); b.type = 'button';
+        var id = x.length > 3 ? x[5] : x[2], pu = id && FOTO[id] && FOTO[id].u, dbp = findPlayer(x[0], team), pf = el('span', 'pfc');
+        if(!pu && dbp) pu = photoFor(dbp);
+        if(pu){ var im = el('img'); im.src = pu; im.alt = ''; im.loading = 'lazy'; im.onerror = function(){ im.remove(); pf.textContent = inits(x[0]); }; pf.appendChild(im); } else pf.textContent = inits(x[0]);
+        b.appendChild(pf); b.appendChild(el('span', 'bn', x[1] != null ? String(x[1]) : '')); b.appendChild(el('span', 'bm', shortName(x[0])));
+        if(dbp) b.addEventListener('click', function(){ openPlayer(dbp); });
         bn.appendChild(b);
       });
       c.appendChild(bn); box.appendChild(c);
@@ -1195,7 +1200,7 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
       cur = (i + L.length) % L.length; clearTimeout(tm);
       fills.forEach(function(u, k){ u.style.transition = 'none'; u.style.width = k < cur ? '100%' : '0'; });
       var x = L[cur]; body.innerHTML = '';
-      var bgc = crestEl(x.t === m.h ? m.hl : m.al, x.t, 230); bgc.className += ' hsbg'; body.appendChild(bgc); body.appendChild(el('div', 'hst', x.t));
+      var bgc = crestEl(x.t === m.h ? m.hl : m.al, x.t, 150); bgc.className += ' hsbg'; body.appendChild(bgc); body.appendChild(el('div', 'hst', x.t));
       body.appendChild(el('div', 'hsv', f1(x.v.toFixed(1))));
       body.appendChild(el('div', 'hsl', x.lbl + ' a partita'));
       body.appendChild(el('span', 'hsr ' + (x.good ? 'u' : 'd'), x.pos + 'ª su ' + x.n));
@@ -1314,8 +1319,10 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
     if(PDATA){
       var lists = [m.h, m.a].map(function(tn){
         var L = [];
-        PDATA.forEach(function(p){ if(p.t !== tn) return; var v = votoOf(p, m, HLINE); if(v && v.v >= BMIN) L.push({p: p, v: v}); });
-        L.sort(function(a, b){ return b.v.v - a.v.v; }); return L.slice(0, 3);
+        var all = [];
+        PDATA.forEach(function(p){ if(p.t !== tn) return; var v = votoOf(p, m, HLINE); if(v){ all.push({p: p, v: v}); if(v.v >= BMIN) L.push({p: p, v: v}); } });
+        all.sort(function(a, b){ return b.v.v - a.v.v; }); L.sort(function(a, b){ return b.v.v - a.v.v; });
+        return L.length ? L.slice(0, 3) : all.slice(0, 1);
       });
       if(lists[0].length || lists[1].length){
         var cmp = el('div', 'hcard'), hd = el('div', 'hcmp hh');
