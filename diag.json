@@ -259,6 +259,42 @@
     "big_chance": "Big chances",
     "big_chance_missed_title": "Big chances missed",
     "corners": "Corners"
+   },
+   "sonde": {
+    "/": {
+     "tipo": "dict",
+     "campi": [
+      "away_team",
+      "date",
+      "has_playoff",
+      "home_team",
+      "id",
+      "league",
+      "referee",
+      "round_name",
+      "score_away",
+      "score_home",
+      "season",
+      "stadium",
+      "status",
+      "time_utc"
+     ],
+     "lunghezza": 779,
+     "intorno_a_yellow": null
+    },
+    "/events": {
+     "tipo": "dict",
+     "campi": [
+      "events",
+      "match_id"
+     ],
+     "lunghezza": 7026,
+     "intorno_a_yellow": "/cdn.pitchapi.dev/images/players/1da3bb6f158c3102f8820c7c09964ba80e35c9fed602d6d389c033e85c678148.webp\"}, \"score_home\": 0, \"score_away\": 0, \"is_own_goal\": false, \"is_penalty\": false}, {\"event_type\": \"yellowcard\", \"minute\": 41, \"minute_added\": 0, \"period\": \"FirstHalf\", \"team_id\": \"t_0KBH0z\", \"player\": {\"id\": \"p_0LE4uj\", \"name\": \"Kenneth Taylor\", \"position_id\": null, \"image_url\": \"https://cdn.pitchapi.dev/images/players/fd1e7cd79a0c4304368fb30bde674c8db445fb5cd8046d70ad74cf01822a8fc1.webp\"}, \"is_o"
+    },
+    "/timeline": "non esiste",
+    "/incidents": "non esiste",
+    "/cards": "non esiste",
+    "/summary": "non esiste"
    }
   },
   {
@@ -531,6 +567,42 @@
     "big_chance": "Big chances",
     "big_chance_missed_title": "Big chances missed",
     "corners": "Corners"
+   },
+   "sonde": {
+    "/": {
+     "tipo": "dict",
+     "campi": [
+      "away_team",
+      "date",
+      "has_playoff",
+      "home_team",
+      "id",
+      "league",
+      "referee",
+      "round_name",
+      "score_away",
+      "score_home",
+      "season",
+      "stadium",
+      "status",
+      "time_utc"
+     ],
+     "lunghezza": 783,
+     "intorno_a_yellow": null
+    },
+    "/events": {
+     "tipo": "dict",
+     "campi": [
+      "events",
+      "match_id"
+     ],
+     "lunghezza": 8305,
+     "intorno_a_yellow": "n_id\": null, \"image_url\": \"https://cdn.pitchapi.dev/images/players/1fe1259833edb30c1919f5abc112bc9814b8249dbb5e7a82807102c3ece9faa7.webp\"}, \"is_own_goal\": false, \"is_penalty\": false}, {\"event_type\": \"yellowcard\", \"minute\": 76, \"minute_added\": 0, \"period\": \"SecondHalf\", \"team_id\": \"t_3V0mmv\", \"player\": {\"id\": \"p_1ocf7Y\", \"name\": \"Harry Winks\", \"position_id\": null, \"image_url\": \"https://cdn.pitchapi.dev/images/players/72970b261001f1bc0b755e46a87d336291b9676ff49ca74a086326965a2488f0.webp\"}, \"is_own"
+    },
+    "/timeline": "non esiste",
+    "/incidents": "non esiste",
+    "/cards": "non esiste",
+    "/summary": "non esiste"
    }
   },
   {
@@ -791,6 +863,42 @@
     "big_chance": "Big chances",
     "big_chance_missed_title": "Big chances missed",
     "corners": "Corners"
+   },
+   "sonde": {
+    "/": {
+     "tipo": "dict",
+     "campi": [
+      "away_team",
+      "date",
+      "has_playoff",
+      "home_team",
+      "id",
+      "league",
+      "referee",
+      "round_name",
+      "score_away",
+      "score_home",
+      "season",
+      "stadium",
+      "status",
+      "time_utc"
+     ],
+     "lunghezza": 786,
+     "intorno_a_yellow": null
+    },
+    "/events": {
+     "tipo": "dict",
+     "campi": [
+      "events",
+      "match_id"
+     ],
+     "lunghezza": 8544,
+     "intorno_a_yellow": "/cdn.pitchapi.dev/images/players/0909dde1d1d1664035645d38d1fd6c768c74fec71d0705290a64fadb51341061.webp\"}, \"score_home\": 0, \"score_away\": 1, \"is_own_goal\": false, \"is_penalty\": false}, {\"event_type\": \"yellowcard\", \"minute\": 28, \"minute_added\": 0, \"period\": \"FirstHalf\", \"team_id\": \"t_2QjZae\", \"player\": {\"id\": \"p_3gOlCx\", \"name\": \"Diego Carlos\", \"position_id\": null, \"image_url\": \"https://cdn.pitchapi.dev/images/players/c33f85251c6f0791857085e03a0be19b7db9622e4bed67816454fc254a1ad70f.webp\"}, \"is_own"
+    },
+    "/timeline": "non esiste",
+    "/incidents": "non esiste",
+    "/cards": "non esiste",
+    "/summary": "non esiste"
    }
   }
  ]
