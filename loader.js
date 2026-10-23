@@ -286,7 +286,7 @@ function loader(){
     body.appendChild(lg);
     var list = bList(BDAY, idx, line);
     body.appendChild(el('div', 'ang-h', 'Migliori giocatori per affidabilità'));
-    body.appendChild(el('div', 'hist-note', 'Giocatori con voto 8,00 o più su Over ' + f1(line) + ' (massimo ' + BMAX + ' al giorno).' + (QDATA && hmQ() ? ' Quote Bet365 aggiornate alle ' + hmQ() + '.' : '')));
+    body.appendChild(el('div', 'hist-note', 'Giocatori con voto 8,00 o più su Over ' + f1(line) + ' (massimo ' + BMAX + ' al giorno).' + (QDATA ? ' Le quote Bet365 compaiono man mano che il book le pubblica.' : '')));
     if(!list.length){ body.appendChild(el('div', 'hist-note', 'Nessun giocatore con voto 8,00 o più per questo giorno.')); return; }
     list.forEach(function(r, i){
       var c = el('div', 'play-card'), top = el('div', 'play-top'), who = el('div', 'who');
@@ -302,7 +302,7 @@ function loader(){
       if(tt) ch.appendChild(el('span', 'chip', 'Ultime 5: ' + f1(tt.l5.toFixed(1)) + ' \u00b7 stagione ' + f1(tt.sea.toFixed(1)) + ' /90\''));
       c.appendChild(ch);
       var qs = [];
-      lines.forEach(function(l){ var q = QDATA ? qOdd(r.p, idx, l) : null; if(q && q.d === BDAY) qs.push([l, q.v]); });
+      lines.forEach(function(l){ var q = QDATA ? qOdd(r.p, idx, l, BDAY) : null; if(q) qs.push([l, q.v]); });
       var row = el('div', 'chips'); row.style.marginTop = '8px';
       if(qs.length){
         row.appendChild(b365());
@@ -338,17 +338,18 @@ function loader(){
     }
     return PLOAD;
   }
-  function qOdd(p, idx, line){
-    var e = QDATA && QDATA[p.i]; if(!e) return null;
+  function qOdd(p, idx, line, day){
+    var dd = QDATA && QDATA[p.i]; if(!dd) return null;
+    var k = day || Object.keys(dd).sort()[0]; var e = k && dd[k]; if(!e) return null;
     var v = (idx ? e.o : e.s) || {}; v = v[String(line)];
-    return v ? {v: v, d: e.d, u: e.u} : null;
+    return v ? {v: v, d: k, u: e.u} : null;
   }
   function b365(){
     var s = el('span', '', 'bet365'); s.title = 'Quota Bet365';
     s.style.cssText = 'display:inline-block;background:#027B5B;color:#FFDF1B;font-weight:800;font-size:11px;letter-spacing:-.2px;padding:2px 6px;border-radius:5px;line-height:1.3;margin-right:5px;vertical-align:1px;';
     return s;
   }
-  function hmQ(){ if(!QUPD) return ''; var d = new Date(QUPD); return isNaN(d) ? '' : d.toLocaleTimeString('it-IT', {hour:'2-digit', minute:'2-digit', timeZone:'Europe/Rome'}); }
+  function hmQ(t){ t = t || QUPD; if(!t) return ''; var d = new Date(t); return isNaN(d) ? '' : d.toLocaleTimeString('it-IT', {hour:'2-digit', minute:'2-digit', timeZone:'Europe/Rome'}); }
   var AUTOODD = false;
   function fillOdds(){
     var inp = document.getElementById('odds'), nt = document.getElementById('slbQNote');
@@ -360,7 +361,7 @@ function loader(){
     nt.innerHTML = '';
     if(q){
       setVal('odds', (Math.round(q.v * 100) / 100).toString()); AUTOODD = true;
-      nt.appendChild(b365()); nt.appendChild(document.createTextNode('Quota ' + f1((Math.round(q.v * 100) / 100).toFixed(2)) + (hmQ() ? ' \u00b7 aggiornata alle ' + hmQ() : '')));
+      nt.appendChild(b365()); nt.appendChild(document.createTextNode('Quota ' + f1((Math.round(q.v * 100) / 100).toFixed(2)) + (hmQ(q.u) ? ' \u00b7 aggiornata alle ' + hmQ(q.u) : '')));
     } else if(AUTOODD){ setVal('odds', ''); AUTOODD = false; }
   }
   function setVal(id, v, ev){
