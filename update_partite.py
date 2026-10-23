@@ -32,7 +32,61 @@ def tid(t):
     return t.get("id") or t["name"]
 
 
-def table(matches, mode):
+def is_done(m):
+    return m.get("score_home") is not None and m.get("score_away") is not None and m.get("status") in (None, "finished", "ft", "ended", "completed")
+
+
+def forms(matches):
+    """ultime 5 partite per squadra: stringa V/P/S dalla piu' vecchia alla piu' recente."""
+    seq = {}
+    for m in sorted([x for x in matches if is_done(x)], key=lambda x: str(x.get("date", ""))):
+        sh, sa = m["score_home"], m["score_away"]
+        for side, gf, ga in (("home_team", sh, sa), ("away_team", sa, sh)):
+            seq.setdefault(m[side]["name"], []).append("V" if gf > ga else ("P" if gf == ga else "S"))
+    return {k: "".join(v[-5:]) for k, v in seq.items()}
+
+
+def team_results(matches):
+    """tutte le partite della stagione per squadra: [data, avversario, 1 se in casa, gol fatti, gol subiti (None se da giocare)]."""
+    out = {}
+    for m in sorted(matches, key=lambda x: str(x.get("date", ""))):
+        done = is_done(m)
+        d = str(m.get("date", ""))[:10]
+        for side, opp, home in (("home_team", "away_team", 1), ("away_team", "home_team", 0)):
+            sh, sa = m.get("score_home"), m.get("score_away")
+            gf, ga = (sh, sa) if home else (sa, sh)
+            out.setdefault(m[side]["name"], []).append([d, m[opp]["name"], home, gf if done else None, ga if done else None])
+    return out
+
+
+def dominant_color(url):
+    """colore principale dello stemma (hex) oppure None."""
+    try:
+        import io, urllib.request
+        from PIL import Image
+        raw = urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": "tiri-dati/1.0"}), timeout=30).read()
+        im = Image.open(io.BytesIO(raw)).convert("RGBA").resize((48, 48))
+    except Exception as ex:
+        print("   colore non letto:", str(ex)[:80])
+        return None
+    cnt = {}
+    for r, g, b, a in im.getdata():
+        if a < 140 or max(r, g, b) < 40 or min(r, g, b) > 225 or max(r, g, b) - min(r, g, b) < 45:
+            continue
+        k = (r >> 4, g >> 4, b >> 4)
+        cnt[k] = cnt.get(k, 0) + 1
+    if not cnt:
+        return None
+    r, g, b = max(cnt, key=cnt.get)
+    r, g, b = r * 16 + 8, g * 16 + 8, b * 16 + 8
+    lum = (0.299 * r + 0.587 * g + 0.114 * b) / 255
+    if lum > 0.55:
+        f = 0.55 / lum
+        r, g, b = int(r * f), int(g * f), int(b * f)
+    return "#%02x%02x%02x" % (r, g, b)
+
+
+def table(matches, mode, fm=None):
     rows = {}
     for m in matches:
         sh, sa = m.get("score_home"), m.get("score_away")
@@ -46,7 +100,7 @@ def table(matches, mode):
             r["g"] += 1; r["gd"] += gf - ga; r["gf"] += gf
             r["p"] += 3 if gf > ga else (1 if gf == ga else 0)
     out = sorted(rows.values(), key=lambda r: (-r["p"], -r["gd"], -r["gf"], r["n"]))
-    return [[r["n"], r["l"], r["g"], r["gd"], r["p"]] for r in out]
+    return [[r["n"], r["l"], r["g"], r["gd"], r["p"], (fm or {}).get(r["n"], "")] for r in out]
 
 
 def side_lineup(s):
@@ -165,6 +219,7 @@ def main():
     last = today + timedelta(days=DAYS)
     out = {"updated_at": now.isoformat(timespec="seconds"), "matches": [], "tab": {}, "lin": {}}
     shown = False
+    res_all, logo_of = {}, {}
     for key, cc, rx, ex in WANTED:
         if key not in TOP5:
             continue
@@ -182,7 +237,13 @@ def main():
             shown = True
             print("Esempio partita giocata (campi):", {k: played[0].get(k) for k in ("date", "time_utc", "status", "score_home", "score_away")})
         allm = {m["id"]: m for m in played + future}.values()
-        out["tab"][key] = {mode: table(list(allm), mode) for mode in ("tot", "casa", "trasf")}
+        fm = forms(list(allm))
+        out["tab"][key] = {mode: table(list(allm), mode, fm) for mode in ("tot", "casa", "trasf")}
+        res_all[key] = team_results(list(allm))
+        for m_ in allm:
+            for s_ in ("home_team", "away_team"):
+                if m_[s_].get("image_url"):
+                    logo_of[m_[s_]["name"]] = m_[s_]["image_url"]
         n = 0
         for m in future:
             iso = m.get("time_utc") or m.get("date")
@@ -212,6 +273,15 @@ def main():
     foto = load(FOTO_FILE, {})
     update_photos(out["lin"], foto)
     json.dump(foto, open(FOTO_FILE, "w"), ensure_ascii=False, separators=(",", ":"))
+    # squadre: risultati e calendario di stagione + colore principale dello stemma
+    col = load("teams.json", {}).get("col", {})
+    for name, url in logo_of.items():
+        if name not in col:
+            c = dominant_color(url)
+            if c:
+                col[name] = c
+    json.dump({"updated_at": out["updated_at"], "res": res_all, "col": col}, open("teams.json", "w"), ensure_ascii=False, separators=(",", ":"))
+    print(f"Scritto teams.json - squadre con colore: {len(col)}/{len(logo_of)}")
     out["matches"].sort(key=lambda x: (x["d"], x["t"] or ""))
     json.dump(out, open(OUT_FILE, "w"), ensure_ascii=False, separators=(",", ":"))
     print(f"Scritto partite.json - partite: {len(out['matches'])}, formazioni: {got}")
