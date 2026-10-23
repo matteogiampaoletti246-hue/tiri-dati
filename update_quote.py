@@ -13,9 +13,9 @@ MAX_PLAYERS = int(os.environ.get("MAX_PLAYERS", "30"))      # massimo giocatori 
 MIN_VOTO = float(os.environ.get("MIN_VOTO", "7.75"))        # voto minimo per chiedere le quote
 MIN_MIN = float(os.environ.get("MIN_MIN", "35"))            # minuti medi minimi nelle ultime 5 partite
 REF_LINE = float(os.environ.get("REF_LINE", "1.5"))       # linea usata per scegliere i giocatori di cui chiedere le quote        # tiri attesi che valgono voto 10
-FORCE_MISSING = os.environ.get("FORCE_MISSING", "") == "1"      # 1 = riprova anche nei giorni gia' fatti, ma solo per i giocatori senza quota
+FORCE_MISSING = os.environ.get("FORCE_MISSING", "1") != "0"      # di default riprova anche i giorni gia' fatti, ma solo per i giocatori senza quota (si paga solo per le righe trovate)
 HORIZON = int(os.environ.get("HORIZON", "4"))                # oggi + 3 giorni: i giorni gia' cercati non si rifanno
-LEAGUES = ["Serie A", "Premier League", "La Liga", "Bundesliga", "Ligue 1", "Champions League", "Europa League"]
+LEAGUES = ["Serie A", "Premier League", "La Liga", "Bundesliga", "Ligue 1"]       # solo i top 5 campionati
 CUPS = {"champions-league", "europa-league"}
 ROME = ZoneInfo("Europe/Rome")
 
@@ -181,6 +181,8 @@ def main():
             fl = [x for x in fix.get(p["t"], []) if rome_day(x[0]) == day]
             if not fl:
                 continue
+            if fl[-1][3] not in TOP:
+                continue                                                              # solo top 5 campionati
             lam = lam_of(p, fl[-1])
             if lam is not None and voto_of(lam) >= MIN_VOTO:
                 cand.append((lam, p["i"]))
