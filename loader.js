@@ -206,7 +206,7 @@ function loader(){
     });
   }
   // --- migliori giocatori: stessa formula del calcolatore giocatore (Poisson + ultime 5 + hit rate 60/40), per una linea scelta ---
-  var BSTAT = 0, BLINE = {0: 1.5, 1: 0.5}, BDAY = null;
+  var BIDX = null, BCACHE = {}, BSTAT = 0, BLINE = {0: 1.5, 1: 0.5}, BDAY = null;
   function pois(k, l){ var s = 0, t = Math.exp(-l); for(var i = 0; i <= k; i++){ s += t; t = t * l / (i + 1); } return s; }
   // copia delle funzioni di app.html (non sono accessibili dall'esterno)
   function lgAvg(D, k, field){
@@ -248,9 +248,14 @@ function loader(){
   function drawBest(days, body, note){
     note.textContent = '';
     if(!PDATA){ note.textContent = 'Carico i giocatori…'; return; }
-    var today = romeDay(new Date()), set = {}, lim = romeDay(new Date(Date.now() + 7 * 864e5));
-    Object.keys(PFIX).forEach(function(t){ PFIX[t].forEach(function(f){ var d = romeDay(new Date(f[0])); if(d >= today && d <= lim) set[d] = 1; }); });
-    var keys = Object.keys(set).sort();
+    if(!BIDX){
+      var today = romeDay(new Date()), lim = romeDay(new Date(Date.now() + 7 * 864e5)), set = {}, byDay = {};
+      Object.keys(PFIX).forEach(function(t){ PFIX[t].forEach(function(f){
+        var d = romeDay(new Date(f[0])); if(d < today || d > lim) return;
+        set[d] = 1; (byDay[d] = byDay[d] || {})[t] = f; }); });
+      BIDX = {keys: Object.keys(set).sort(), byDay: byDay};
+    }
+    var keys = BIDX.keys;
     if(!keys.length){ body.appendChild(el('div', 'empty-hist', 'Nessuna partita nei prossimi giorni.')); return; }
     if(!BDAY || keys.indexOf(BDAY) < 0) BDAY = keys[0];
     keys.forEach(function(k){
@@ -269,14 +274,15 @@ function loader(){
       b.addEventListener('click', function(){ BLINE[idx] = l; drawMatch(); }); lg.appendChild(b);
     });
     body.appendChild(lg);
-    var all = [];
-    PDATA.forEach(function(p){
-      var f = null, list = PFIX[p.t] || [];
-      for(var i = 0; i < list.length; i++){ if(romeDay(new Date(list[i][0])) === BDAY){ f = list[i]; break; } }
-      if(!f) return;
-      var r = bScore(p, f, idx, line); if(r){ r.p = p; r.f = f; all.push(r); }
-    });
-    all.sort(function(a, b){ return b.voto - a.voto; });
+    var ck = BDAY + '|' + idx + '|' + line, all = BCACHE[ck];
+    if(!all){
+      all = []; var bd = BIDX.byDay[BDAY] || {};
+      PDATA.forEach(function(p){
+        var f = bd[p.t]; if(!f) return;
+        var r = bScore(p, f, idx, line); if(r){ r.p = p; r.f = f; all.push(r); }
+      });
+      all.sort(function(a, b){ return b.voto - a.voto; }); BCACHE[ck] = all;
+    }
     function card(r, i){
       var c = el('div', 'play-card'), top = el('div', 'play-top'), who = el('div', 'who');
       who.appendChild(el('span', '', (i + 1) + '. ' + r.p.n));
@@ -308,7 +314,7 @@ function loader(){
   function loadPlayers(){
     if(!PLOAD) PLOAD = fetch('giocatori.json?t=' + Date.now()).then(function(r){ return r.ok ? r.json() : null; })
       .catch(function(){ return null; }).then(function(j){
-        PFIX = (j && j.fix) || {};
+        PFIX = (j && j.fix) || {}; BIDX = null; BCACHE = {};
         PDATA = j && j.players ? j.players.map(function(p){ p._k = norm(p.n); p._t = norm(p.t); return p; }) : [];
         return PDATA;
       });
@@ -362,8 +368,11 @@ function loader(){
     fillHit();
   }
   // --- prossima partita: squadra del giocatore e avversaria si compilano da sole ---
-  function romeDay(d){ return d.toLocaleDateString('sv-SE', {timeZone:'Europe/Rome'}); }
-  function pickKey(name, prefer){
+  var RDC = {};
+  function romeDay(d){ var k = d.getTime(); return RDC[k] || (RDC[k] = d.toLocaleDateString('sv-SE', {timeZone:'Europe/Rome'})); }
+  var PKC = {};
+  function pickKey(name, prefer){ var ck = name + '|' + prefer; if(!(ck in PKC)) PKC[ck] = pickKey0(name, prefer); return PKC[ck]; }
+  function pickKey0(name, prefer){
     var D = window.LEAGUE_DATA || {}, order = [];
     if(prefer) order.push(prefer);
     KEEP.forEach(function(k){ if(k && order.indexOf(k) < 0 && !(D[k] && D[k].cup)) order.push(k); });
