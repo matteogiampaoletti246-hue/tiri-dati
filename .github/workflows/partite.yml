@@ -5,6 +5,9 @@ on:
   workflow_dispatch:
 permissions:
   contents: write
+concurrency:
+  group: partite-json
+  cancel-in-progress: false
 jobs:
   partite:
     runs-on: ubuntu-latest
@@ -22,7 +25,7 @@ jobs:
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
-          git add partite.json 2>/dev/null || true
+          git add partite.json foto.json 2>/dev/null || true
           git diff --staged --quiet || git commit -m "Aggiorna partite"
           git pull --rebase
           git push
