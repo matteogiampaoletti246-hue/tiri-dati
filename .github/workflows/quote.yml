@@ -3,6 +3,10 @@ on:
   schedule:
     - cron: "0 10 * * *"
   workflow_dispatch:
+    inputs:
+      riprova:
+        description: "1 = riprova i giocatori senza quota anche nei giorni gia' cercati"
+        default: "0"
 permissions:
   contents: write
 jobs:
@@ -18,6 +22,7 @@ jobs:
         run: python update_quote.py
         env:
           APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
+          FORCE_MISSING: ${{ github.event.inputs.riprova }}
       - name: Salva le quote
         run: |
           git config user.name "github-actions"
