@@ -46,6 +46,19 @@ def main():
                     for i in g.get("items", []):
                         it[i.get("key")] = i.get("title")
         e["chiavi_squadra"] = it
+        sond = {}
+        for path in ("", "/events", "/timeline", "/incidents", "/cards", "/summary"):
+            try:
+                r = api(f"/v1/matches/{mid}{path}"); time.sleep(PAUSE)
+            except Exception as ex:
+                sond[path or "/"] = "errore " + str(ex)[:80]; continue
+            if r is None:
+                sond[path or "/"] = "non esiste"; continue
+            txt = json.dumps(r, ensure_ascii=False)
+            i = txt.lower().find("yellow")
+            sond[path or "/"] = {"tipo": type(r).__name__, "campi": sorted(r.keys()) if isinstance(r, dict) else None,
+                                 "lunghezza": len(txt), "intorno_a_yellow": txt[max(0, i - 200):i + 300] if i >= 0 else None}
+        e["sonde"] = sond
         d["partite"].append(e)
     json.dump(d, open("diag.json", "w"), ensure_ascii=False, indent=1)
     print("Scritto diag.json:", {p["match"]: len(p["chiavi_giocatore"]) for p in d["partite"]})
