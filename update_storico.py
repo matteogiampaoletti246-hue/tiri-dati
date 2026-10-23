@@ -8,7 +8,7 @@ from update_data import api, find_league, WANTED, SEASON_START, PAUSE, KEY
 from update_angoli import TOP5, tid_of, season_of
 
 MAX_MIN = float(os.environ.get("MAX_MIN", "35"))
-VER = 1
+VER = 2
 T0 = time.time()
 os.makedirs("match", exist_ok=True)
 
@@ -34,7 +34,8 @@ def items(period):
         for i in g.get("items", []) or []:
             its.append([i.get("title") or i.get("key"), i.get("home"), i.get("away"), i.get("key")])
         if its:
-            out.append({"t": g.get("title"), "i": its})
+            gt = next((g.get(k) for k in ("title", "name", "label", "header", "group", "key", "id") if isinstance(g.get(k), str) and g.get(k)), None)
+            out.append({"t": gt, "i": its})
     return out
 
 
@@ -42,7 +43,7 @@ def compact_stats(s):
     out = {}
     for p in (s or {}).get("periods") or []:
         k = str(p.get("period"))
-        k = {"All": "all", "1st": "p1", "2nd": "p2"}.get(k, k)
+        k = {"All": "all"}.get(k, k)
         out[k] = items(p)
     return out
 
@@ -63,6 +64,15 @@ def read_one(m, key, probe):
     st = safe(f"/v1/matches/{mid}/stats")
     time.sleep(PAUSE)
     ev = ev.get("events", []) if isinstance(ev, dict) else (ev or [])
+    lu = safe(f"/v1/matches/{mid}/lineups")
+    time.sleep(PAUSE)
+    mo = safe(f"/v1/matches/{mid}/momentum")
+    time.sleep(PAUSE)
+    lus = {}
+    for side, k in (("home", "h"), ("away", "a")):
+        o = (lu or {}).get(side) or {}
+        pk = lambda x: [x.get("name"), x.get("shirt_number"), x.get("position_id"), x.get("pitch_x"), x.get("pitch_y"), 1 if x.get("is_captain") else 0]
+        lus[k] = {"f": o.get("formation"), "co": nm(o.get("coach")), "st": [pk(x) for x in o.get("starters", []) or []], "su": [pk(x) for x in o.get("subs", []) or []]}
     hid = tid_of(m["home_team"])
     events = []
     for x in ev:
@@ -73,7 +83,7 @@ def read_one(m, key, probe):
     rec = {"v": VER, "id": mid, "lg": key, "d": str(m.get("date", ""))[:10], "h": m["home_team"]["name"], "a": m["away_team"]["name"],
            "sh": m.get("score_home"), "sa": m.get("score_away"), "ref": nm(det.get("referee") or m.get("referee")),
            "stad": nm(det.get("stadium") or m.get("stadium")), "round": m.get("round_name"),
-           "ev": events, "st": compact_stats(st)}
+           "ev": events, "st": compact_stats(st), "lu": lus, "mo": (mo or {}).get("points") if isinstance(mo, dict) else None}
     if probe is not None and not probe:
         for ep in ("momentum", "shotmap", "shots", "commentary", "incidents", "graph", "highlights", "odds", "weather", "lineups"):
             r = safe(f"/v1/matches/{mid}/{ep}")
@@ -205,3 +215,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
