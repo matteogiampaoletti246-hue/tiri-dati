@@ -238,7 +238,7 @@ function loader(){
     if(!own || !opp) return null;
     var ro = opp.v > 0 && opp.avg > 0 ? opp.v / opp.avg : 1; if(opp.str > 0 && opp.str < 1) ro = 1 + (ro - 1) * opp.str;
     var rc = own.v > 0 && own.avg > 0 ? own.v / own.avg : 1; if(own.str > 0 && own.str < 1) rc = 1 + (rc - 1) * own.str;
-    var lam = rate * Math.pow(ro, 0.85) * Math.pow(rc, 0.35) * (f[2] === 1 ? 1.06 : 0.94);
+    var lam = rate * Math.pow(ro, 0.85) * Math.pow(rc, 0.35) * (f[2] === 1 ? 1.06 : 0.94) * Math.min(1, mn / nl / 90);   // minuti attesi: chi gioca poco non fa 90'
     if(!(lam > 0)) return null;
     var pm = Math.max(0, Math.min(1, 1 - pois(Math.floor(line), lam))), pf = pm;                                   // senza hit rate: la linea dei bookmaker non e' nota
     var el_ = 0.5, bd = 9; /*                                              // linea probabile dei bookmaker: quella piu' vicina al 50%
@@ -269,7 +269,7 @@ function loader(){
     });
     body.appendChild(tg);
     var lg = el('div', 'ang-days'), idx = BSTAT, line = BLINE[idx];
-    (idx ? [0.5, 1.5] : [0.5, 1.5, 2.5]).forEach(function(l){
+    (idx ? [0.5, 1.5] : [0.5, 1.5, 2.5, 3.5]).forEach(function(l){
       var b = el('button', 'ang-day' + (l === line ? ' active' : ''), 'Over ' + String(l).replace('.', ',')); b.type = 'button';
       b.addEventListener('click', function(){ BLINE[idx] = l; drawMatch(); }); lg.appendChild(b);
     });
@@ -291,6 +291,7 @@ function loader(){
       c.appendChild(el('div', 'play-mkt', r.p.t + (r.f[2] === 1 ? ' – ' : ' @ ') + r.f[1]));
       var ch = el('div', 'chips');
       ch.appendChild(el('span', 'chip gold', 'Voto ' + f1((Math.round(r.voto * 100) / 100).toFixed(2))));
+      if(r.q){ var qc = el('span', 'chip'); qc.appendChild(b365()); qc.appendChild(document.createTextNode(f1((Math.round(r.q.v * 100) / 100).toFixed(2)))); qc.style.fontWeight = '700'; ch.appendChild(qc); }
       ch.appendChild(el('span', 'chip', 'Media attesa ' + f1(r.lam.toFixed(2))));
       ch.appendChild(el('span', 'chip', 'Modello ' + Math.round(r.pm * 100) + '%'));
       ch.appendChild(el('span', 'chip', Math.round(r.mn) + '\' medi'));
@@ -298,8 +299,15 @@ function loader(){
       c.appendChild(ch); return c;
     }
     body.appendChild(el('div', 'ang-h', 'Migliori giocatori per affidabilità'));
-    if(!all.length) body.appendChild(el('div', 'hist-note', 'Nessun giocatore con dati sufficienti.'));
-    all.slice(0, 30).forEach(function(r, i){ body.appendChild(card(r, i)); });
+    var list = all;
+    if(QDATA){
+      list = [];
+      all.forEach(function(r){ var q = qOdd(r.p, idx, line); if(q && q.d === BDAY && q.v >= 1.44){ r.q = q; list.push(r); } });
+      list = list.slice(0, 10);
+      body.appendChild(el('div', 'hist-note', 'Solo giocatori con quota Bet365 almeno 1,44' + (hmQ() ? ' \u00b7 quote aggiornate alle ' + hmQ() : '') + '.'));
+      if(!list.length) body.appendChild(el('div', 'hist-note', 'Nessun giocatore con quota disponibile per questa linea e questo giorno.'));
+    } else if(!all.length) body.appendChild(el('div', 'hist-note', 'Nessun giocatore con dati sufficienti.'));
+    list.slice(0, 30).forEach(function(r, i){ body.appendChild(card(r, i)); });
   }
   function renderMatch(cat){
     MCAT = cat; drawMatch();
@@ -312,14 +320,43 @@ function loader(){
   // --- giocatori: ricerca nome e compilazione automatica di medie, minuti, ultime 5 e hit rate ---
   var PDATA = null, PSEL = null, PLOAD = null, PFIX = {};
   function norm(x){ return String(x || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
+  var QDATA = null, QUPD = null;
   function loadPlayers(){
-    if(!PLOAD) PLOAD = fetch('giocatori.json?t=' + Date.now()).then(function(r){ return r.ok ? r.json() : null; })
-      .catch(function(){ return null; }).then(function(j){
-        PFIX = (j && j.fix) || {}; BIDX = null; BCACHE = {};
-        PDATA = j && j.players ? j.players.map(function(p){ p._k = norm(p.n); p._t = norm(p.t); return p; }) : [];
-        return PDATA;
-      });
+    if(!PLOAD){
+      var qp = fetch('quote.json?t=' + Date.now()).then(function(r){ return r.ok ? r.json() : null; }).catch(function(){ return null; });
+      PLOAD = fetch('giocatori.json?t=' + Date.now()).then(function(r){ return r.ok ? r.json() : null; })
+        .catch(function(){ return null; }).then(function(j){
+          PFIX = (j && j.fix) || {}; BIDX = null; BCACHE = {};
+          PDATA = j && j.players ? j.players.map(function(p){ p._k = norm(p.n); p._t = norm(p.t); return p; }) : [];
+          return qp;
+        }).then(function(q){ QDATA = q && q.q ? q.q : null; QUPD = q && q.updated_at ? q.updated_at : null; BCACHE = {}; return PDATA; });
+    }
     return PLOAD;
+  }
+  function qOdd(p, idx, line){
+    var e = QDATA && QDATA[p.i]; if(!e) return null;
+    var v = (idx ? e.o : e.s) || {}; v = v[String(line)];
+    return v ? {v: v, d: e.d, u: e.u} : null;
+  }
+  function b365(){
+    var s = el('span', '', 'bet365'); s.title = 'Quota Bet365';
+    s.style.cssText = 'display:inline-block;background:#027B5B;color:#FFDF1B;font-weight:800;font-size:11px;letter-spacing:-.2px;padding:2px 6px;border-radius:5px;line-height:1.3;margin-right:5px;vertical-align:1px;';
+    return s;
+  }
+  function hmQ(){ if(!QUPD) return ''; var d = new Date(QUPD); return isNaN(d) ? '' : d.toLocaleTimeString('it-IT', {hour:'2-digit', minute:'2-digit', timeZone:'Europe/Rome'}); }
+  var AUTOODD = false;
+  function fillOdds(){
+    var inp = document.getElementById('odds'), nt = document.getElementById('slbQNote');
+    if(!inp) return;
+    if(!nt){ nt = el('div'); nt.id = 'slbQNote'; nt.style.cssText = 'font-size:12.5px;margin-top:6px;color:#027B5B;font-weight:600;'; inp.parentNode.appendChild(nt); }
+    var p = PSEL, ln = parseFloat((document.getElementById('lineValue') || {}).value);
+    var a = document.querySelector('#lineTypeSeg button.active'), over = !a || a.dataset.val !== 'under';
+    var q = p && over && isFinite(ln) ? qOdd(p, statIdx(), ln) : null;
+    nt.innerHTML = '';
+    if(q){
+      setVal('odds', (Math.round(q.v * 100) / 100).toString()); AUTOODD = true;
+      nt.appendChild(b365()); nt.appendChild(document.createTextNode('Quota ' + f1((Math.round(q.v * 100) / 100).toFixed(2)) + (hmQ() ? ' \u00b7 aggiornata alle ' + hmQ() : '')));
+    } else if(AUTOODD){ setVal('odds', ''); AUTOODD = false; }
   }
   function setVal(id, v, ev){
     var e = document.getElementById(id); if(!e) return;
@@ -415,7 +452,16 @@ function loader(){
     if(!ok) txt += ' \u00b7 avversaria non presente nel database';
     setNote(txt);
   }
+  function lineSelect(){
+    var inp = document.getElementById('lineValue'); if(!inp || document.getElementById('slbLineSel')) return;
+    var sel = document.createElement('select'); sel.id = 'slbLineSel'; sel.className = inp.className;
+    sel.innerHTML = '<option value="">\u2013 scegli \u2013</option>' + ['0.5', '1.5', '2.5', '3.5'].map(function(v){ return '<option value="' + v + '">' + v.replace('.', ',') + '</option>'; }).join('');
+    sel.value = ['0.5', '1.5', '2.5', '3.5'].indexOf(inp.value) >= 0 ? inp.value : '';
+    sel.addEventListener('change', function(){ inp.value = sel.value; inp.dispatchEvent(new Event('input', {bubbles:true})); });
+    inp.style.display = 'none'; inp.parentNode.insertBefore(sel, inp);
+  }
   function players(){
+    lineSelect();
     var inp = document.getElementById('playerName'); if(!inp) return;
     inp.setAttribute('autocomplete', 'off'); inp.setAttribute('autocapitalize', 'off'); inp.setAttribute('spellcheck', 'false');
     var wrap = document.createElement('div'); wrap.className = 'cdd';
@@ -452,7 +498,7 @@ function loader(){
         var tm = el('span', '', '\u00b7 ' + p.t); tm.style.cssText = 'color:var(--text-dim);font-size:13px;margin-left:auto;text-align:right;'; d.appendChild(tm);
         d.addEventListener('click', function(){
           PSEL = p; inp.value = p.n; panel.hidden = true; inp.blur();
-          fillAvg(); fillTeams(p);
+          fillAvg(); fillTeams(p); fillOdds();
         });
         panel.appendChild(d);
       });
@@ -465,10 +511,10 @@ function loader(){
     });
     document.addEventListener('click', function(e){ if(!wrap.contains(e.target)) panel.hidden = true; });
     document.addEventListener('click', function(e){
-      if(e.target.closest && e.target.closest('#shotTypeSeg')) setTimeout(fillAvg, 0);
-      else if(e.target.closest && e.target.closest('#lineTypeSeg')) setTimeout(fillHit, 0);
+      if(e.target.closest && e.target.closest('#shotTypeSeg')) setTimeout(function(){ fillAvg(); fillOdds(); }, 0);
+      else if(e.target.closest && e.target.closest('#lineTypeSeg')) setTimeout(function(){ fillHit(); fillOdds(); }, 0);
     });
-    var lv = document.getElementById('lineValue'); if(lv) lv.addEventListener('input', fillHit);
+    var lv = document.getElementById('lineValue'); if(lv) lv.addEventListener('input', function(){ fillHit(); fillOdds(); });
   }
   var INFO_IDS = ['datasetInfo','playerTeamDatasetInfo','teamForDatasetInfo','teamOppDatasetInfo'];
   function fixInfo(el){
