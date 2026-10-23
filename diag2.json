@@ -1,0 +1,147 @@
+{
+ "/v1/teams/t_3CPHHF": {
+  "campi": [
+   "id",
+   "image_url",
+   "name"
+  ],
+  "esempio": "{\"id\": \"t_3CPHHF\", \"name\": \"Inter\", \"image_url\": \"https://cdn.pitchapi.dev/images/teams/66c6a85491df0b8111e1c35695ef712af120a2bf0aa9b03a877377889516611e.webp\"}"
+ },
+ "/v1/teams/t_3CPHHF/players": "non esiste",
+ "/v1/teams/t_3CPHHF/squad": "non esiste",
+ "/v1/teams/t_3CPHHF/roster": "non esiste",
+ "lineup_posizioni": [
+  [
+   "Josep Martínez",
+   11,
+   0.1,
+   0.5
+  ],
+  [
+   "Yann Aurel Bisseck",
+   33,
+   0.36,
+   0.79
+  ],
+  [
+   "Manuel Akanji",
+   35,
+   0.36,
+   0.5
+  ],
+  [
+   "Alessandro Bastoni",
+   37,
+   0.36,
+   0.21
+  ],
+  [
+   "Andy Diouf",
+   71,
+   0.61,
+   0.89
+  ],
+  [
+   "Nicolò Barella",
+   73,
+   0.61,
+   0.7
+  ],
+  [
+   "Hakan Çalhanoglu",
+   75,
+   0.61,
+   0.5
+  ],
+  [
+   "Piotr Zielinski",
+   77,
+   0.61,
+   0.31
+  ],
+  [
+   "Federico Dimarco",
+   79,
+   0.61,
+   0.11
+  ],
+  [
+   "Francesco Pio Esposito",
+   104,
+   0.87,
+   0.7
+  ],
+  [
+   "Lautaro Martínez",
+   106,
+   0.87,
+   0.3
+  ],
+  [
+   "Semuel Pizzignacco",
+   11,
+   0.1,
+   0.5
+  ],
+  [
+   "Eddy Kouadio",
+   33,
+   0.29,
+   0.79
+  ],
+  [
+   "Lorenzo Lucchesi",
+   35,
+   0.29,
+   0.5
+  ],
+  [
+   "Andrea Carboni",
+   37,
+   0.29,
+   0.21
+  ],
+  [
+   "Adam Bakoune",
+   62,
+   0.49,
+   0.88
+  ],
+  [
+   "Foe Ondoa",
+   64,
+   0.49,
+   0.63
+  ],
+  [
+   "Mathis Mout",
+   66,
+   0.49,
+   0.38
+  ],
+  [
+   "Samuele Birindelli",
+   68,
+   0.49,
+   0.13
+  ],
+  [
+   "Andrea Colpani",
+   84,
+   0.68,
+   0.7
+  ],
+  [
+   "Ricardo Mangas",
+   86,
+   0.68,
+   0.3
+  ],
+  [
+   "Gustavo Varela",
+   105,
+   0.87,
+   0.5
+  ]
+ ]
+}
