@@ -1,5 +1,5 @@
 {
- "adesso_utc": "2026-10-23T19:13:24.318829+00:00",
+ "adesso_utc": "2026-10-23T19:29:15.126411+00:00",
  "leghe": {
   "ita.1": [
    {
@@ -7,7 +7,7 @@
     "nome": "Monza at Torino",
     "stato": "in",
     "descr": "First Half",
-    "clock": "27'"
+    "clock": "43'"
    }
   ],
   "eng.1": [
@@ -15,8 +15,8 @@
     "id": "401879253",
     "nome": "Nottingham Forest at Ipswich Town",
     "stato": "in",
-    "descr": "In Progress",
-    "clock": "13'"
+    "descr": "First Half",
+    "clock": "28'"
    }
   ],
   "esp.1": [
@@ -25,7 +25,7 @@
     "nome": "Málaga at Alavés",
     "stato": "in",
     "descr": "First Half",
-    "clock": "13'"
+    "clock": "29'"
    }
   ],
   "ger.1": [
@@ -33,8 +33,8 @@
     "id": "401884761",
     "nome": "Borussia Mönchengladbach at VfB Stuttgart",
     "stato": "in",
-    "descr": "First Half",
-    "clock": "43'"
+    "descr": "Halftime",
+    "clock": "45'+6'"
    }
   ],
   "fra.1": [
@@ -43,7 +43,7 @@
     "nome": "Nice at Brest",
     "stato": "in",
     "descr": "First Half",
-    "clock": "28'"
+    "clock": "44'"
    }
   ],
   "uefa.champions": [
@@ -292,18 +292,18 @@
     "standings"
    ],
    "gameInfo": "{\"venue\": {\"id\": \"10716\", \"fullName\": \"Stadio Olimpico Grande Torino\", \"shortName\": \"Stadio Olimpico Grande Torino\", \"address\": {\"city\": \"Torino\", \"country\": \"Italy\"}, \"images\": []}}",
-   "header_stato": "{\"displayClock\": \"27'\", \"period\": 1, \"type\": {\"id\": \"25\", \"name\": \"STATUS_FIRST_HALF\", \"state\": \"in\", \"completed\": false, \"description\": \"First Half\", \"detail\": \"27'\", \"shortDetail\": \"27'\", \"statusPrimary\": \"27'\"}, \"displayPeriod\": \"1st\"}",
-   "keyEvents_n": 2,
-   "keyEvents_esempio": "[{\"id\": \"54095141\", \"type\": {\"id\": \"80\", \"text\": \"Kickoff\", \"type\": \"kickoff\"}, \"period\": {\"number\": 1}, \"clock\": {\"value\": 0.0, \"displayValue\": \"\"}, \"scoringPlay\": false, \"source\": {\"id\": \"38\", \"description\": \"SA.ENVOY\"}, \"wallclock\": \"2026-10-23T18:46:39Z\", \"shootout\": false}, {\"id\": \"54097106\", \"type\": {\"id\": \"129\", \"text\": \"Start Delay\", \"type\": \"start-delay\"}, \"period\": {\"number\": 1}, \"clock\": {\"value\": 1511.0, \"displayValue\": \"26'\"}, \"scoringPlay\": false, \"team\": {\"id\": \"4007\", \"displayName\": \"Monza\"}, \"source\": {\"id\": \"38\", \"description\": \"SA.ENVOY\"}, \"wallclock\": \"2026-10-23T19:11:51Z\", \"shootout\": false}]",
-   "commentary_n": 18,
+   "header_stato": "{\"displayClock\": \"43'\", \"period\": 1, \"type\": {\"id\": \"25\", \"name\": \"STATUS_FIRST_HALF\", \"state\": \"in\", \"completed\": false, \"description\": \"First Half\", \"detail\": \"43'\", \"shortDetail\": \"43'\", \"statusPrimary\": \"43'\"}, \"displayPeriod\": \"1st\"}",
+   "keyEvents_n": 7,
+   "keyEvents_esempio": "[{\"id\": \"54095141\", \"type\": {\"id\": \"80\", \"text\": \"Kickoff\", \"type\": \"kickoff\"}, \"period\": {\"number\": 1}, \"clock\": {\"value\": 0.0, \"displayValue\": \"\"}, \"scoringPlay\": false, \"source\": {\"id\": \"38\", \"description\": \"SA.ENVOY\"}, \"wallclock\": \"2026-10-23T18:46:39Z\", \"shootout\": false}, {\"id\": \"54097106\", \"type\": {\"id\": \"129\", \"text\": \"Start Delay\", \"type\": \"start-delay\"}, \"period\": {\"number\": 1}, \"clock\": {\"value\": 1500.0, \"displayValue\": \"25'\"}, \"scoringPlay\": false, \"team\": {\"id\": \"4007\", \"displayName\": \"Monza\"}, \"source\": {\"id\": \"38\", \"description\": \"SA.ENVOY\"}, \"wallclock\": \"2026-10-23T19:11:40Z\", \"shootout\": false}, {\"id\": \"54097257\", \"type\": {\"id\": \"129\", \"text\": \"Start Delay\", \"type\": \"start-delay\"}, \"text\": \"Delay in match because of an injury Rolando Mandragora (Torino).\", \"period\": {\"number\": 1}, \"clock\": {\"value\": 1500.0, \"displayValue\": \"25'\"}, \"scoringPlay\": false, \"team\": {\"id\": \"239\", \"displayName\": \"Torino\"}, \"source\": {\"id\": \"38\", \"description\": \"SA.ENVOY\"}, \"wallclock\": \"2026-10-23T19:11:40Z\", \"shootout\": false}, {\"id\": \"54097258\", \"type\": {\"id\": \"130\", \"text\": \"End Delay\", \"type\": \"end-delay\"}, \"text\": \"Delay over. They are ready to continue.\", \"period\": {\"number\": 1}, \"clock\": {\"value\": 1594.0, \"displayValue\": \"27'\"}, \"scoringPlay\": false, \"team\": {\"id\": \"239\", \"displayName\": \"Torino\"}, \"source\": {\"id\": \"38\", \"description\": \"SA.ENVOY\"}, \"wallclock\": \"2026-10-23T19:13:14Z\", \"shootout\": false}]",
+   "commentary_n": 34,
    "team_stats": [
     [
      "foulsCommitted",
-     "3"
+     "6"
     ],
     [
      "yellowCards",
-     "0"
+     "1"
     ],
     [
      "redCards",
@@ -323,19 +323,19 @@
     ],
     [
      "possessionPct",
-     "55.9"
+     "52.4"
     ],
     [
      "totalShots",
-     "3"
+     "5"
     ],
     [
      "shotsOnTarget",
-     "0"
+     "1"
     ],
     [
      "shotPct",
-     "0.0"
+     "0.2"
     ],
     [
      "penaltyKickGoals",
@@ -347,11 +347,11 @@
     ],
     [
      "accuratePasses",
-     "127"
+     "165"
     ],
     [
      "totalPasses",
-     "161"
+     "213"
     ],
     [
      "passPct",
@@ -363,19 +363,19 @@
     ],
     [
      "totalCrosses",
-     "3"
+     "4"
     ],
     [
      "crossPct",
-     "0.7"
+     "0.5"
     ],
     [
      "totalLongBalls",
-     "13"
+     "21"
     ],
     [
      "accurateLongBalls",
-     "5"
+     "8"
     ],
     [
      "longballPct",
@@ -383,15 +383,15 @@
     ],
     [
      "blockedShots",
-     "1"
+     "2"
     ],
     [
      "effectiveTackles",
-     "5"
+     "6"
     ],
     [
      "totalTackles",
-     "5"
+     "6"
     ],
     [
      "tacklePct",
@@ -399,19 +399,19 @@
     ],
     [
      "interceptions",
-     "3"
+     "5"
     ],
     [
      "effectiveClearance",
-     "2"
+     "9"
     ],
     [
      "totalClearance",
-     "2"
+     "9"
     ],
     [
      "foulsCommitted",
-     "1"
+     "2"
     ],
     [
      "yellowCards",
@@ -427,7 +427,7 @@
     ],
     [
      "wonCorners",
-     "2"
+     "4"
     ],
     [
      "saves",
@@ -435,11 +435,11 @@
     ],
     [
      "possessionPct",
-     "44.1"
+     "47.6"
     ],
     [
      "totalShots",
-     "1"
+     "2"
     ],
     [
      "shotsOnTarget",
@@ -459,15 +459,15 @@
     ],
     [
      "accuratePasses",
-     "110"
+     "160"
     ],
     [
      "totalPasses",
-     "128"
+     "191"
     ],
     [
      "passPct",
-     "0.9"
+     "0.8"
     ],
     [
      "accurateCrosses",
@@ -475,19 +475,19 @@
     ],
     [
      "totalCrosses",
-     "2"
+     "8"
     ],
     [
      "crossPct",
-     "0.5"
+     "0.1"
     ],
     [
      "totalLongBalls",
-     "15"
+     "22"
     ],
     [
      "accurateLongBalls",
-     "5"
+     "6"
     ],
     [
      "longballPct",
@@ -495,7 +495,7 @@
     ],
     [
      "blockedShots",
-     "0"
+     "1"
     ],
     [
      "effectiveTackles",
@@ -511,15 +511,15 @@
     ],
     [
      "interceptions",
-     "5"
+     "8"
     ],
     [
      "effectiveClearance",
-     "5"
+     "7"
     ],
     [
      "totalClearance",
-     "5"
+     "7"
     ]
    ],
    "rosters_n": 2,
@@ -531,17 +531,365 @@
     "uniform",
     "formation"
    ],
-   "formazione": "3-4-2-1",
+   "formazione": "3-1-4-2",
    "roster_n": 24,
-   "giocatore_esempio": "{\"active\": true, \"starter\": true, \"jersey\": \"20\", \"athlete\": {\"id\": \"252406\", \"uid\": \"s:600~a:252406\", \"guid\": \"5c7d1164-4a73-adf1-d51e-26f7b1670e34\", \"lastName\": \"Perri\", \"fullName\": \"Lucas Perri\", \"displayName\": \"Lucas Perri\", \"shortName\": \"L. Perri\", \"links\": [{\"language\": \"en-US\", \"rel\": [\"playercard\", \"desktop\", \"athlete\"], \"href\": \"https://www.espn.com/soccer/player/_/id/252406/lucas-perri\", \"text\": \"Player Card\", \"shortText\": \"Player Card\", \"isExternal\": false, \"isPremium\": false}], \"jerseyImages\": [{\"href\": \"https://stitcher.espn.com/sports/soccer/leagues/ita.1/events/401874957/athletes/252406/jersey.png?darkMode=false\", \"rel\": [\"full\", \"default\"], \"width\": 1440, \"height\": 1440}, {\"href\": \"https://stitcher.espn.com/sports/soccer/leagues/ita.1/events/401874957/athletes/252406/jersey.png?darkMode=true\", \"rel\": [\"full\", \"dark\"], \"width\": 1440, \"height\": 1440}]}, \"position\": {\"name\": \"Goalkeeper\", \"displayName\": \"Goalkeeper\", \"abbreviation\": \"G\"}, \"subbedIn\": false, \"subbedOut\": false, \"formationPlace\": \"1\", \"media\": {}, \"stats\": [{\"name\": \"appearances\", \"displayName\": \"Appearances\", \"shortDisplayName\": \"APP\", \"description\": \"The number of times a player has made an appearance in a match.\", \"abbreviation\": \"APP\", \"value\": 1.0, \"displayValue\": \"1\"}, {\"name\": \"foulsCommitted\", \"displayName\": \"Fouls Committed\", \"shortDisplayName\": \"FC\", \"description\": \"The number of fouls comitted by a player or team.\", \"abbreviation\": \"FC\", \"value\": 0.0, \"displayValue\": \"0\"}, {\"name\": \"foulsSuffered\", \"displayName\": \"Fouls Suffered\", \"shortDisplayName\": \"FA\", \"description\": \"The number of fouls suffered by a player or team.\", \"abbreviation\": \"FA\", \"value\": 0.0, \"displayValue\": \"0\"}, {\"name\": \"ownGoals\", \"displayName\": \"Own Goals\", \"shortDisplayName\": \"OG\", \"description\": \"The number o",
+   "giocatore_esempio": "{\"active\": true, \"starter\": false, \"jersey\": \"21\", \"athlete\": {\"id\": \"290592\", \"uid\": \"s:600~a:290592\", \"guid\": \"d06282fb-3416-63c4-873f-ebf2adbf9431\", \"lastName\": \"Bragança\", \"fullName\": \"Daniel Bragança\", \"displayName\": \"Daniel Bragança\", \"shortName\": \"D. Bragança\", \"links\": [{\"language\": \"en-US\", \"rel\": [\"playercard\", \"desktop\", \"athlete\"], \"href\": \"https://www.espn.com/soccer/player/_/id/290592/daniel-braganca\", \"text\": \"Player Card\", \"shortText\": \"Player Card\", \"isExternal\": false, \"isPremium\": false}], \"jerseyImages\": [{\"href\": \"https://stitcher.espn.com/sports/soccer/leagues/ita.1/events/401874957/athletes/290592/jersey.png?darkMode=false\", \"rel\": [\"full\", \"default\"], \"width\": 1440, \"height\": 1440}, {\"href\": \"https://stitcher.espn.com/sports/soccer/leagues/ita.1/events/401874957/athletes/290592/jersey.png?darkMode=true\", \"rel\": [\"full\", \"dark\"], \"width\": 1440, \"height\": 1440}]}, \"subbedIn\": false, \"subbedOut\": false, \"formationPlace\": \"0\", \"media\": {}, \"stats\": [{\"name\": \"appearances\", \"displayName\": \"Appearances\", \"shortDisplayName\": \"APP\", \"description\": \"The number of times a player has made an appearance in a match.\", \"abbreviation\": \"APP\", \"value\": 0.0, \"displayValue\": \"0\"}, {\"name\": \"foulsCommitted\", \"displayName\": \"Fouls Committed\", \"shortDisplayName\": \"FC\", \"description\": \"The number of fouls comitted by a player or team.\", \"abbreviation\": \"FC\", \"value\": 0.0, \"displayValue\": \"0\"}, {\"name\": \"foulsSuffered\", \"displayName\": \"Fouls Suffered\", \"shortDisplayName\": \"FA\", \"description\": \"The number of fouls suffered by a player or team.\", \"abbreviation\": \"FA\", \"value\": 0.0, \"displayValue\": \"0\"}, {\"name\": \"ownGoals\", \"displayName\": \"Own Goals\", \"shortDisplayName\": \"OG\", \"description\": \"The number of own goals conceded.\", \"abbreviation\": \"OG\", \"value\": 0.0, \"displa",
+   "gameInfo_completo": "{\"venue\": {\"id\": \"10716\", \"fullName\": \"Stadio Olimpico Grande Torino\", \"shortName\": \"Stadio Olimpico Grande Torino\", \"address\": {\"city\": \"Torino\", \"country\": \"Italy\"}, \"images\": []}}",
+   "player_stat_nomi": [
+    "appearances",
+    "foulsCommitted",
+    "foulsSuffered",
+    "goalAssists",
+    "goalsConceded",
+    "offsides",
+    "ownGoals",
+    "redCards",
+    "saves",
+    "shotsFaced",
+    "shotsOnTarget",
+    "subIns",
+    "totalGoals",
+    "totalShots",
+    "yellowCards"
+   ],
+   "roster_flag_esempio": [
+    [
+     "Daniel Bragança",
+     false,
+     false,
+     false,
+     null,
+     "0"
+    ],
+    [
+     "Cristiano Biraghi",
+     false,
+     false,
+     false,
+     null,
+     "0"
+    ],
+    [
+     "Lapo Siviero",
+     false,
+     false,
+     false,
+     null,
+     "0"
+    ],
+    [
+     "Nathan Patterson",
+     false,
+     false,
+     false,
+     null,
+     "0"
+    ],
+    [
+     "Cesare Casadei",
+     false,
+     false,
+     false,
+     null,
+     "0"
+    ],
+    [
+     "Gaetano Oristanio",
+     false,
+     false,
+     false,
+     null,
+     "0"
+    ],
+    [
+     "Duván Zapata",
+     false,
+     false,
+     false,
+     null,
+     "0"
+    ],
+    [
+     "Gvidas Gineitis",
+     false,
+     false,
+     false,
+     null,
+     "0"
+    ],
+    [
+     "Sandro Kulenovic",
+     false,
+     false,
+     false,
+     null,
+     "0"
+    ],
+    [
+     "Zakaria Aboukhlal",
+     false,
+     false,
+     false,
+     null,
+     "0"
+    ],
+    [
+     "Pietro Pellegri",
+     false,
+     false,
+     false,
+     null,
+     "0"
+    ],
+    [
+     "Diego Mascardi",
+     false,
+     false,
+     false,
+     null,
+     "0"
+    ],
+    [
+     "Eray Cömert",
+     false,
+     false,
+     false,
+     null,
+     "0"
+    ],
+    [
+     "Lucas Perri",
+     true,
+     false,
+     false,
+     "G",
+     "1"
+    ],
+    [
+     "Adrian Ismajli",
+     true,
+     false,
+     false,
+     "CD",
+     "4"
+    ],
+    [
+     "Pietro Comuzzo",
+     true,
+     false,
+     false,
+     "CD-L",
+     "6"
+    ],
+    [
+     "Saúl Coco",
+     true,
+     false,
+     false,
+     "CD-R",
+     "5"
+    ],
+    [
+     "Rolando Mandragora",
+     true,
+     false,
+     false,
+     "SW",
+     "8"
+    ],
+    [
+     "Kian Fitz-Jim",
+     true,
+     false,
+     false,
+     "CM-L",
+     "11"
+    ],
+    [
+     "Nikola Vlasic",
+     true,
+     false,
+     false,
+     "CM-R",
+     "7"
+    ],
+    [
+     "Alessio Cacciamani",
+     true,
+     false,
+     false,
+     "LM",
+     "3"
+    ],
+    [
+     "Rafik Belghali",
+     true,
+     false,
+     false,
+     "RM",
+     "2"
+    ],
+    [
+     "Ché Adams",
+     true,
+     false,
+     false,
+     "CF-L",
+     "10"
+    ],
+    [
+     "Giovanni Simeone",
+     true,
+     false,
+     false,
+     "CF-R",
+     "9"
+    ],
+    [
+     "Noel Törnqvist",
+     true,
+     false,
+     false,
+     "G",
+     "1"
+    ],
+    [
+     "Lorenzo Lucchesi",
+     true,
+     false,
+     false,
+     "CD",
+     "5"
+    ],
+    [
+     "Andrea Carboni",
+     true,
+     false,
+     false,
+     "CD-L",
+     "4"
+    ],
+    [
+     "Saba Goglichidze",
+     true,
+     false,
+     false,
+     "CD-R",
+     "6"
+    ],
+    [
+     "Ebenezer Akinsanmiro",
+     true,
+     false,
+     false,
+     "CM-L",
+     "8"
+    ],
+    [
+     "Manga Foe Ondoa",
+     true,
+     false,
+     false,
+     "CM-R",
+     "7"
+    ],
+    [
+     "Ricardo Mangas",
+     true,
+     false,
+     false,
+     "LM",
+     "3"
+    ],
+    [
+     "Samuele Birindelli",
+     true,
+     false,
+     false,
+     "RM",
+     "2"
+    ],
+    [
+     "Gustavo Varela",
+     true,
+     false,
+     false,
+     "F",
+     "9"
+    ],
+    [
+     "Jay Robinson",
+     true,
+     false,
+     false,
+     "CF-L",
+     "11"
+    ],
+    [
+     "Dany Mota",
+     true,
+     false,
+     false,
+     "CF-R",
+     "10"
+    ],
+    [
+     "Demba Thiam",
+     false,
+     false,
+     false,
+     "SUB",
+     "0"
+    ],
+    [
+     "Eddy Kouadio",
+     false,
+     false,
+     false,
+     "SUB",
+     "0"
+    ],
+    [
+     "Patrick Cutrone",
+     false,
+     false,
+     false,
+     "SUB",
+     "0"
+    ],
+    [
+     "Aljaz Strajnar",
+     false,
+     false,
+     false,
+     "SUB",
+     "0"
+    ],
+    [
+     "Leonardo Colombo",
+     false,
+     false,
+     false,
+     "SUB",
+     "0"
+    ]
+   ],
+   "keyEvents_tipi": {
+    "kickoff": "{\"id\": \"54095141\", \"type\": {\"id\": \"80\", \"text\": \"Kickoff\", \"type\": \"kickoff\"}, \"period\": {\"number\": 1}, \"clock\": {\"value\": 0.0, \"displayValue\": \"\"}, \"scoringPlay\": false, \"source\": {\"id\": \"38\", \"description\": \"SA.ENVOY\"}, \"wallclock\": \"2026-10-23T18:46:39Z\", \"shootout\": false}",
+    "start-delay": "{\"id\": \"54097106\", \"type\": {\"id\": \"129\", \"text\": \"Start Delay\", \"type\": \"start-delay\"}, \"period\": {\"number\": 1}, \"clock\": {\"value\": 1500.0, \"displayValue\": \"25'\"}, \"scoringPlay\": false, \"team\": {\"id\": \"4007\", \"displayName\": \"Monza\"}, \"source\": {\"id\": \"38\", \"description\": \"SA.ENVOY\"}, \"wallclock\": \"2026-10-23T19:11:40Z\", \"shootout\": false}",
+    "end-delay": "{\"id\": \"54097258\", \"type\": {\"id\": \"130\", \"text\": \"End Delay\", \"type\": \"end-delay\"}, \"text\": \"Delay over. They are ready to continue.\", \"period\": {\"number\": 1}, \"clock\": {\"value\": 1594.0, \"displayValue\": \"27'\"}, \"scoringPlay\": false, \"team\": {\"id\": \"239\", \"displayName\": \"Torino\"}, \"source\": {\"id\": \"38\", \"description\": \"SA.ENVOY\"}, \"wallclock\": \"2026-10-23T19:13:14Z\", \"shootout\": false}",
+    "yellow-card": "{\"id\": \"54098163\", \"type\": {\"id\": \"94\", \"text\": \"Yellow Card\", \"type\": \"yellow-card\"}, \"text\": \"Ardian Ismajli (Torino) is shown the yellow card for a bad foul.\", \"shortText\": \"Adrian Ismajli Yellow Card\", \"period\": {\"number\": 1}, \"clock\": {\"value\": 2030.0, \"displayValue\": \"34'\"}, \"scoringPlay\": false, \"team\": {\"id\": \"239\", \"displayName\": \"Torino\"}, \"participants\": [{\"athlete\": {\"id\": \"239120\", \"displayName\": \"Adrian Ismajli\"}}], \"source\": {\"id\": \"38\", \"description\": \"SA.ENVOY\"}, \"wallclock\": \"2026-10-23T19:20:30Z\", \"shootout\": false}",
+    "goal": "{\"id\": \"54098550\", \"type\": {\"id\": \"70\", \"text\": \"Goal\", \"type\": \"goal\"}, \"text\": \"Goal! Torino 1, Monza 0. Kian Fitz-Jim (Torino) left footed shot from the centre of the box to the top right corner. Assisted by Giovanni Simeone.\", \"shortText\": \"Kian Fitz-Jim Goal\", \"period\": {\"number\": 1}, \"clock\": {\"value\": 2325.0, \"displayValue\": \"39'\"}, \"scoringPlay\": true, \"team\": {\"id\": \"239\", \"displayName\": \"Torino\"}, \"participants\": [{\"athlete\": {\"id\": \"305589\", \"displayName\": \"Kian Fitz-Jim\"}}, {\"athlete\": {\"id\": \"189974\", \"displayName\": \"Giovanni Simeone\"}}], \"source\": {\"id\": \"38\", \"description\": \"SA.ENVOY\"}, \"wallclock\": \"2026-10-23T19:25:25Z\", \"shootout\": false, \"goalPositionY\": 47.8, \"fieldPositionX\": 89.8, \"fieldPositionY\": 54.0, \"fieldPosition2X\": 100.0, \"fieldPosition2Y\": 47.8}"
+   },
+   "commentary_esempio": "[{\"sequence\": 0, \"time\": {\"value\": 0.0, \"displayValue\": \"\"}, \"text\": \"Lineups are announced and players are warming up.\"}, {\"sequence\": 1, \"time\": {\"value\": 0.0, \"displayValue\": \"\"}, \"text\": \"First Half begins.\"}, {\"sequence\": 2, \"time\": {\"value\": 25.0, \"displayValue\": \"1'\"}, \"text\": \"Corner, Monza. Conceded by Rolando Mandragora.\", \"play\": {\"id\": \"54095191\", \"type\": {\"id\": \"95\", \"text\": \"Corner Awarded\", \"type\": \"corner-awarded\"}, \"text\": \"Corner, Monza. Conceded by Rolando Mandragora.\", \"period\": {\"number\": 1}, \"clock\": {\"value\": 25.0, \"displayValue\": \"1'\"}, \"team\": {\"displayName\": \"Monza\"}, \"source\": {\"id\": \"38\", \"description\": \"SA.ENVOY\"}, \"wallclock\": \"2026-10-23T18:47:04Z\", \"fieldPositionX\": 89.6, \"fieldPositionY\": 27.4}}]",
    "momentum_o_win_prob": "null",
    "altre_chiavi_utili": {
     "odds": "[{\"provider\": {\"id\": \"100\", \"name\": \"DraftKings\", \"priority\": 1, \"logos\": [{\"href\": \"https://a.espncdn.com/i/betting/Draftkings_Light.svg\", \"rel\": [\"light\"]}, {\"href\": \"https://a.espncdn.com/i/betting",
     "standings": "{\"fullViewLink\": {\"text\": \"Full Table\", \"href\": \"https://www.espn.com/soccer/table/_/league/ita.1\"}, \"header\": \"Italian Serie A Standings\", \"groups\": [{\"standings\": {\"entries\": [{\"team\": \"Internaziona"
    },
    "dopo_30s": {
-    "keyEvents_n": 2,
-    "stato": "{\"displayClock\": \"27'\", \"period\": 1, \"type\": {\"id\": \"25\", \"name\": \"STATUS_FIRST_HALF\", \"state\": \"in\", \"completed\": false, \"description\": \"First Half\", \"detail\": \"27'\", \"shortDetail\": \"27'\", \"statusPrimary\": \"27'\"}, \"displayPeriod\": \"1st\"}"
+    "keyEvents_n": 7,
+    "stato": "{\"displayClock\": \"43'\", \"period\": 1, \"type\": {\"id\": \"25\", \"name\": \"STATUS_FIRST_HALF\", \"state\": \"in\", \"completed\": false, \"description\": \"First Half\", \"detail\": \"43'\", \"shortDetail\": \"43'\", \"statusPrimary\": \"43'\"}, \"displayPeriod\": \"1st\"}"
    }
   },
   {
@@ -568,10 +916,10 @@
     "standings"
    ],
    "gameInfo": "{\"venue\": {\"id\": \"257\", \"guid\": \"cafa022e-6a65-3aac-9763-c28ad39c72cc\", \"fullName\": \"Portman Road\", \"address\": {\"city\": \"Ipswich\", \"country\": \"England\"}, \"images\": []}}",
-   "header_stato": "{\"displayClock\": \"13'\", \"period\": 1, \"type\": {\"id\": \"25\", \"name\": \"STATUS_FIRST_HALF\", \"state\": \"in\", \"completed\": false, \"description\": \"First Half\", \"detail\": \"13'\", \"shortDetail\": \"13'\", \"statusPrimary\": \"13'\"}, \"displayPeriod\": \"1st\"}",
-   "keyEvents_n": 1,
-   "keyEvents_esempio": "[{\"id\": \"54095893\", \"type\": {\"id\": \"80\", \"text\": \"Kickoff\", \"type\": \"kickoff\"}, \"period\": {\"number\": 1}, \"clock\": {\"value\": 0.0, \"displayValue\": \"\"}, \"scoringPlay\": false, \"source\": {\"id\": \"38\", \"description\": \"SA.ENVOY\"}, \"wallclock\": \"2026-10-23T19:01:11Z\", \"shootout\": false}]",
-   "commentary_n": 8,
+   "header_stato": "{\"displayClock\": \"29'\", \"period\": 1, \"type\": {\"id\": \"25\", \"name\": \"STATUS_FIRST_HALF\", \"state\": \"in\", \"completed\": false, \"description\": \"First Half\", \"detail\": \"29'\", \"shortDetail\": \"29'\", \"statusPrimary\": \"29'\"}, \"displayPeriod\": \"1st\"}",
+   "keyEvents_n": 2,
+   "keyEvents_esempio": "[{\"id\": \"54095893\", \"type\": {\"id\": \"80\", \"text\": \"Kickoff\", \"type\": \"kickoff\"}, \"period\": {\"number\": 1}, \"clock\": {\"value\": 0.0, \"displayValue\": \"\"}, \"scoringPlay\": false, \"source\": {\"id\": \"38\", \"description\": \"SA.ENVOY\"}, \"wallclock\": \"2026-10-23T19:01:11Z\", \"shootout\": false}, {\"id\": \"54097337\", \"type\": {\"id\": \"173\", \"text\": \"Goal - Volley\", \"type\": \"goal---volley\"}, \"text\": \"Goal! Ipswich Town 0, Nottingham Forest 1. Neco Williams (Nottingham Forest) right footed shot from the centre of the box to the centre of the goal. Assisted by Daniel Muñoz with a cross.\", \"shortText\": \"Neco Williams Goal - Volley\", \"period\": {\"number\": 1}, \"clock\": {\"value\": 731.0, \"displayValue\": \"13'\"}, \"scoringPlay\": true, \"team\": {\"id\": \"393\", \"displayName\": \"Nottingham Forest\"}, \"participants\": [{\"athlete\": {\"id\": \"291638\", \"displayName\": \"Neco Williams\"}}, {\"athlete\": {\"id\": \"146679\", \"displayName\": \"Daniel Muñoz\"}}], \"source\": {\"id\": \"38\", \"description\": \"SA.ENVOY\"}, \"wallclock\": \"2026-10-23T19:13:23Z\", \"shootout\": false, \"goalPositionY\": 48.7, \"fieldPositionX\": 93.1, \"fieldPositionY\": 52.6, \"fieldPosition2X\": 100.0, \"fieldPosition2Y\": 48.7}]",
+   "commentary_n": 14,
    "team_stats": [
     [
      "foulsCommitted",
@@ -599,19 +947,19 @@
     ],
     [
      "possessionPct",
-     "29.9"
+     "52"
     ],
     [
      "totalShots",
-     "2"
+     "4"
     ],
     [
      "shotsOnTarget",
-     "0"
+     "1"
     ],
     [
      "shotPct",
-     "0.0"
+     "0.3"
     ],
     [
      "penaltyKickGoals",
@@ -623,35 +971,35 @@
     ],
     [
      "accuratePasses",
-     "27"
+     "140"
     ],
     [
      "totalPasses",
-     "40"
+     "165"
     ],
     [
      "passPct",
-     "0.7"
+     "0.8"
     ],
     [
      "accurateCrosses",
-     "0"
+     "1"
     ],
     [
      "totalCrosses",
-     "0"
+     "1"
     ],
     [
      "crossPct",
-     "0.0"
+     "1.0"
     ],
     [
      "totalLongBalls",
-     "7"
+     "15"
     ],
     [
      "accurateLongBalls",
-     "3"
+     "6"
     ],
     [
      "longballPct",
@@ -667,27 +1015,27 @@
     ],
     [
      "totalTackles",
-     "3"
+     "6"
     ],
     [
      "tacklePct",
-     "0.7"
+     "0.3"
     ],
     [
      "interceptions",
-     "2"
+     "3"
     ],
     [
      "effectiveClearance",
-     "2"
+     "3"
     ],
     [
      "totalClearance",
-     "2"
+     "3"
     ],
     [
      "foulsCommitted",
-     "0"
+     "1"
     ],
     [
      "yellowCards",
@@ -707,19 +1055,19 @@
     ],
     [
      "saves",
-     "0"
-    ],
-    [
-     "possessionPct",
-     "70.1"
-    ],
-    [
-     "totalShots",
      "2"
     ],
     [
+     "possessionPct",
+     "48"
+    ],
+    [
+     "totalShots",
+     "4"
+    ],
+    [
      "shotsOnTarget",
-     "1"
+     "2"
     ],
     [
      "shotPct",
@@ -735,23 +1083,23 @@
     ],
     [
      "accuratePasses",
-     "79"
+     "124"
     ],
     [
      "totalPasses",
-     "91"
+     "148"
     ],
     [
      "passPct",
-     "0.9"
+     "0.8"
     ],
     [
      "accurateCrosses",
-     "1"
+     "2"
     ],
     [
      "totalCrosses",
-     "3"
+     "6"
     ],
     [
      "crossPct",
@@ -759,15 +1107,15 @@
     ],
     [
      "totalLongBalls",
-     "9"
+     "21"
     ],
     [
      "accurateLongBalls",
-     "5"
+     "9"
     ],
     [
      "longballPct",
-     "0.6"
+     "0.4"
     ],
     [
      "blockedShots",
@@ -775,15 +1123,15 @@
     ],
     [
      "effectiveTackles",
-     "0"
+     "3"
     ],
     [
      "totalTackles",
-     "1"
+     "7"
     ],
     [
      "tacklePct",
-     "0.0"
+     "0.4"
     ],
     [
      "interceptions",
@@ -791,11 +1139,11 @@
     ],
     [
      "effectiveClearance",
-     "0"
+     "2"
     ],
     [
      "totalClearance",
-     "0"
+     "2"
     ]
    ],
    "rosters_n": 2,
@@ -810,15 +1158,365 @@
    "formazione": "4-2-3-1",
    "roster_n": 20,
    "giocatore_esempio": "{\"active\": true, \"starter\": true, \"jersey\": \"28\", \"athlete\": {\"id\": \"168746\", \"uid\": \"s:600~a:168746\", \"guid\": \"2d376a21-a7df-ef70-4704-ea0c36b8cee2\", \"lastName\": \"Walton\", \"fullName\": \"Christian Walton\", \"displayName\": \"Christian Walton\", \"shortName\": \"C. Walton\", \"links\": [{\"language\": \"en-US\", \"rel\": [\"playercard\", \"desktop\", \"athlete\"], \"href\": \"https://www.espn.com/soccer/player/_/id/168746/christian-walton\", \"text\": \"Player Card\", \"shortText\": \"Player Card\", \"isExternal\": false, \"isPremium\": false}], \"jerseyImages\": [{\"href\": \"https://stitcher.espn.com/sports/soccer/leagues/eng.1/events/401879253/athletes/168746/jersey.png?darkMode=false\", \"rel\": [\"full\", \"default\"], \"width\": 1440, \"height\": 1440}, {\"href\": \"https://stitcher.espn.com/sports/soccer/leagues/eng.1/events/401879253/athletes/168746/jersey.png?darkMode=true\", \"rel\": [\"full\", \"dark\"], \"width\": 1440, \"height\": 1440}]}, \"position\": {\"name\": \"Goalkeeper\", \"displayName\": \"Goalkeeper\", \"abbreviation\": \"G\"}, \"subbedIn\": false, \"subbedOut\": false, \"formationPlace\": \"1\", \"media\": {}, \"stats\": [{\"name\": \"appearances\", \"displayName\": \"Appearances\", \"shortDisplayName\": \"APP\", \"description\": \"The number of times a player has made an appearance in a match.\", \"abbreviation\": \"APP\", \"value\": 1.0, \"displayValue\": \"1\"}, {\"name\": \"foulsCommitted\", \"displayName\": \"Fouls Committed\", \"shortDisplayName\": \"FC\", \"description\": \"The number of fouls comitted by a player or team.\", \"abbreviation\": \"FC\", \"value\": 0.0, \"displayValue\": \"0\"}, {\"name\": \"foulsSuffered\", \"displayName\": \"Fouls Suffered\", \"shortDisplayName\": \"FA\", \"description\": \"The number of fouls suffered by a player or team.\", \"abbreviation\": \"FA\", \"value\": 0.0, \"displayValue\": \"0\"}, {\"name\": \"ownGoals\", \"displayName\": \"Own Goals\", \"shortDisplayName\": \"OG\", \"descriptio",
+   "gameInfo_completo": "{\"venue\": {\"id\": \"257\", \"guid\": \"cafa022e-6a65-3aac-9763-c28ad39c72cc\", \"fullName\": \"Portman Road\", \"address\": {\"city\": \"Ipswich\", \"country\": \"England\"}, \"images\": []}}",
+   "player_stat_nomi": [
+    "appearances",
+    "foulsCommitted",
+    "foulsSuffered",
+    "goalAssists",
+    "goalsConceded",
+    "offsides",
+    "ownGoals",
+    "redCards",
+    "saves",
+    "shotsFaced",
+    "shotsOnTarget",
+    "subIns",
+    "totalGoals",
+    "totalShots",
+    "yellowCards"
+   ],
+   "roster_flag_esempio": [
+    [
+     "Christian Walton",
+     true,
+     false,
+     false,
+     "G",
+     "1"
+    ],
+    [
+     "Dara O'Shea",
+     true,
+     false,
+     false,
+     "CD-L",
+     "6"
+    ],
+    [
+     "Issa Diop",
+     true,
+     false,
+     false,
+     "CD-R",
+     "5"
+    ],
+    [
+     "Leif Davis",
+     true,
+     false,
+     false,
+     "LB",
+     "3"
+    ],
+    [
+     "Abdoul Ouattara",
+     true,
+     false,
+     false,
+     "RB",
+     "2"
+    ],
+    [
+     "Julio Enciso",
+     true,
+     false,
+     false,
+     "AM",
+     "10"
+    ],
+    [
+     "Florentino",
+     true,
+     false,
+     false,
+     "LM",
+     "4"
+    ],
+    [
+     "Exequiel Palacios",
+     true,
+     false,
+     false,
+     "RM",
+     "8"
+    ],
+    [
+     "Emersonn",
+     true,
+     false,
+     false,
+     "F",
+     "9"
+    ],
+    [
+     "Jaden Philogene",
+     true,
+     false,
+     false,
+     "AM-L",
+     "11"
+    ],
+    [
+     "Fatawu Issahaku",
+     true,
+     false,
+     false,
+     "AM-R",
+     "7"
+    ],
+    [
+     "Chuba Akpom",
+     false,
+     false,
+     false,
+     "SUB",
+     "0"
+    ],
+    [
+     "Jacob Greaves",
+     false,
+     false,
+     false,
+     "SUB",
+     "0"
+    ],
+    [
+     "Jack Clarke",
+     false,
+     false,
+     false,
+     "SUB",
+     "0"
+    ],
+    [
+     "Kjell Scherpen",
+     false,
+     false,
+     false,
+     "SUB",
+     "0"
+    ],
+    [
+     "Zian Flemming",
+     false,
+     false,
+     false,
+     "SUB",
+     "0"
+    ],
+    [
+     "Azor Matusiwa",
+     false,
+     false,
+     false,
+     "SUB",
+     "0"
+    ],
+    [
+     "Marcelino Núñez",
+     false,
+     false,
+     false,
+     "SUB",
+     "0"
+    ],
+    [
+     "Daizen Maeda",
+     false,
+     false,
+     false,
+     "SUB",
+     "0"
+    ],
+    [
+     "Darnell Furlong",
+     false,
+     false,
+     false,
+     "SUB",
+     "0"
+    ],
+    [
+     "Matz Sels",
+     true,
+     false,
+     false,
+     "G",
+     "1"
+    ],
+    [
+     "Nikola Milenkovic",
+     true,
+     false,
+     false,
+     "CD",
+     "5"
+    ],
+    [
+     "Murillo",
+     true,
+     false,
+     false,
+     "CD-L",
+     "4"
+    ],
+    [
+     "Jair Paula",
+     true,
+     false,
+     false,
+     "CD-R",
+     "6"
+    ],
+    [
+     "Xaver Schlager",
+     true,
+     false,
+     false,
+     "CM-L",
+     "8"
+    ],
+    [
+     "James McAtee",
+     true,
+     false,
+     false,
+     "CM-R",
+     "7"
+    ],
+    [
+     "Neco Williams",
+     true,
+     false,
+     false,
+     "LM",
+     "3"
+    ],
+    [
+     "Daniel Muñoz",
+     true,
+     false,
+     false,
+     "RM",
+     "2"
+    ],
+    [
+     "Liam Delap",
+     true,
+     false,
+     false,
+     "F",
+     "9"
+    ],
+    [
+     "Dan Ndoye",
+     true,
+     false,
+     false,
+     "CF-L",
+     "11"
+    ],
+    [
+     "Morgan Gibbs-White",
+     true,
+     false,
+     false,
+     "CF-R",
+     "10"
+    ],
+    [
+     "Ousmane Diomande",
+     false,
+     false,
+     false,
+     "SUB",
+     "0"
+    ],
+    [
+     "Ola Aina",
+     false,
+     false,
+     false,
+     "SUB",
+     "0"
+    ],
+    [
+     "Chris Wood",
+     false,
+     false,
+     false,
+     "SUB",
+     "0"
+    ],
+    [
+     "Ibrahim Sangaré",
+     false,
+     false,
+     false,
+     "SUB",
+     "0"
+    ],
+    [
+     "Arnaud Kalimuendo",
+     false,
+     false,
+     false,
+     "SUB",
+     "0"
+    ],
+    [
+     "Ryan Yates",
+     false,
+     false,
+     false,
+     "SUB",
+     "0"
+    ],
+    [
+     "John Victor",
+     false,
+     false,
+     false,
+     "SUB",
+     "0"
+    ],
+    [
+     "Luca Netz",
+     false,
+     false,
+     false,
+     "SUB",
+     "0"
+    ],
+    [
+     "Callum Hudson-Odoi",
+     false,
+     false,
+     false,
+     "SUB",
+     "0"
+    ]
+   ],
+   "keyEvents_tipi": {
+    "kickoff": "{\"id\": \"54095893\", \"type\": {\"id\": \"80\", \"text\": \"Kickoff\", \"type\": \"kickoff\"}, \"period\": {\"number\": 1}, \"clock\": {\"value\": 0.0, \"displayValue\": \"\"}, \"scoringPlay\": false, \"source\": {\"id\": \"38\", \"description\": \"SA.ENVOY\"}, \"wallclock\": \"2026-10-23T19:01:11Z\", \"shootout\": false}",
+    "goal---volley": "{\"id\": \"54097337\", \"type\": {\"id\": \"173\", \"text\": \"Goal - Volley\", \"type\": \"goal---volley\"}, \"text\": \"Goal! Ipswich Town 0, Nottingham Forest 1. Neco Williams (Nottingham Forest) right footed shot from the centre of the box to the centre of the goal. Assisted by Daniel Muñoz with a cross.\", \"shortText\": \"Neco Williams Goal - Volley\", \"period\": {\"number\": 1}, \"clock\": {\"value\": 731.0, \"displayValue\": \"13'\"}, \"scoringPlay\": true, \"team\": {\"id\": \"393\", \"displayName\": \"Nottingham Forest\"}, \"participants\": [{\"athlete\": {\"id\": \"291638\", \"displayName\": \"Neco Williams\"}}, {\"athlete\": {\"id\": \"146679\", \"displayName\": \"Daniel Muñoz\"}}], \"source\": {\"id\": \"38\", \"description\": \"SA.ENVOY\"}, \"wallclock\": \"2026-10-23T19:13:23Z\", \"shootout\": false, \"goalPositionY\": 48.7, \"fieldPositionX\": 93.1, \"fieldPositionY\": 52.6, \"fieldPosition2X\": 100.0, \"fieldPosition2Y\": 48.7}"
+   },
+   "commentary_esempio": "[{\"sequence\": 0, \"time\": {\"value\": 0.0, \"displayValue\": \"\"}, \"text\": \"Lineups are announced and players are warming up.\"}, {\"sequence\": 1, \"time\": {\"value\": 0.0, \"displayValue\": \"\"}, \"text\": \"First Half begins.\"}, {\"sequence\": 2, \"time\": {\"value\": 263.0, \"displayValue\": \"5'\"}, \"text\": \"Attempt missed. Julio Enciso (Ipswich Town) right footed shot from outside the box is high and wide to the right.\", \"play\": {\"id\": \"54096358\", \"type\": {\"id\": \"117\", \"text\": \"Shot Off Target\", \"type\": \"shot-off-target\"}, \"text\": \"Attempt missed. Julio Enciso (Ipswich Town) right footed shot from outside the box is high and wide to the right.\", \"shortText\": \"Julio Enciso Shot Off Target\", \"period\": {\"number\": 1}, \"clock\": {\"value\": 263.0, \"displayValue\": \"5'\"}, \"team\": {\"displayName\": \"Ipswich Town\"}, \"participants\": [{\"athlete\": {\"displayName\": \"Julio Enciso\"}}], \"source\": {\"id\": \"38\", \"description\": \"SA.ENVOY\"}, \"wallclock\": \"2026-10-23T19:05:35Z\", \"goalPositionY\": 39.8, \"fieldPositionX\": 75.5, \"fieldPositionY\": 54.8, \"fieldPosition2X\": 100.0, \"fieldPosition2Y\": 39.8}}]",
    "momentum_o_win_prob": "null",
    "altre_chiavi_utili": {
     "odds": "[{\"provider\": {\"id\": \"100\", \"name\": \"DraftKings\", \"priority\": 1, \"logos\": [{\"href\": \"https://a.espncdn.com/i/betting/Draftkings_Light.svg\", \"rel\": [\"light\"]}, {\"href\": \"https://a.espncdn.com/i/betting",
     "standings": "{\"fullViewLink\": {\"text\": \"Full Table\", \"href\": \"https://www.espn.com/soccer/table/_/league/eng.1\"}, \"header\": \"English Premier League Standings\", \"groups\": [{\"standings\": {\"entries\": [{\"team\": \"Manch"
    },
    "dopo_30s": {
-    "keyEvents_n": 1,
-    "stato": "{\"displayClock\": \"13'\", \"period\": 1, \"type\": {\"id\": \"25\", \"name\": \"STATUS_FIRST_HALF\", \"state\": \"in\", \"completed\": false, \"description\": \"First Half\", \"detail\": \"13'\", \"shortDetail\": \"13'\", \"statusPrimary\": \"13'\"}, \"displayPeriod\": \"1st\"}"
+    "keyEvents_n": 2,
+    "stato": "{\"displayClock\": \"29'\", \"period\": 1, \"type\": {\"id\": \"25\", \"name\": \"STATUS_FIRST_HALF\", \"state\": \"in\", \"completed\": false, \"description\": \"First Half\", \"detail\": \"29'\", \"shortDetail\": \"29'\", \"statusPrimary\": \"29'\"}, \"displayPeriod\": \"1st\"}"
    }
   }
- ]
+ ],
+ "sofascore": {
+  "live_status": 403,
+  "live_n": 0,
+  "errore": "{\"_errore\": \"HTTP Error 403: Forbidden\"}"
+ }
 }
