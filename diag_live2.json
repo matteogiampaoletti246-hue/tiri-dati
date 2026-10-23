@@ -1,0 +1,663 @@
+{
+ "adesso_utc": "2026-10-23T18:58:12.740845+00:00",
+ "prove_status": {
+  "live": "errore HTTP Error 400: Bad Request",
+  "inprogress": "errore HTTP Error 400: Bad Request",
+  "in_progress": "errore HTTP Error 400: Bad Request",
+  "ongoing": "errore HTTP Error 400: Bad Request",
+  "started": "errore HTTP Error 400: Bad Request"
+ },
+ "stati_upcoming": {
+  "not_started": 2513
+ },
+ "partite_gia_iniziate": [
+  {
+   "lega": "serie-a",
+   "id": "m_0pSK27",
+   "match": "Torino - Monza",
+   "status": "not_started",
+   "inizio": "2026-10-23T18:45:00+00:00",
+   "oggetto": {
+    "id": "m_0pSK27",
+    "date": "2026-10-23",
+    "time_utc": "2026-10-23T18:45:00Z",
+    "status": "not_started",
+    "home_team": {
+     "id": "t_1fXtzU",
+     "name": "Torino",
+     "image_url": "https://cdn.pitchapi.dev/images/teams/9228f7a3cf4ea300f3381a9a39828e08ec959a59ccfa86d1918809dcb520a4f2.webp"
+    },
+    "away_team": {
+     "id": "t_1pp2Qa",
+     "name": "Monza",
+     "image_url": "https://cdn.pitchapi.dev/images/teams/a5a467d0b57c46c33fa2b4b156dcadebe20de96e848a4a09fad642ad6d6bb7de.webp"
+    },
+    "score_home": null,
+    "score_away": null
+   }
+  },
+  {
+   "lega": "premier-league",
+   "id": "m_0CikU4",
+   "match": "Ipswich Town - Nottingham Forest",
+   "status": "not_started",
+   "inizio": "2026-10-23T19:00:00+00:00",
+   "oggetto": {
+    "id": "m_0CikU4",
+    "date": "2026-10-23",
+    "time_utc": "2026-10-23T19:00:00Z",
+    "status": "not_started",
+    "home_team": {
+     "id": "t_2C9laO",
+     "name": "Ipswich Town",
+     "image_url": "https://cdn.pitchapi.dev/images/teams/e07902d88b9a52a19170e00b0fadc79829ee9e3bff2d3dc3f71f63f997816209.webp"
+    },
+    "away_team": {
+     "id": "t_0msSwp",
+     "name": "Nottingham Forest",
+     "image_url": "https://cdn.pitchapi.dev/images/teams/9a75c18cb269334abe4d7ac16a6f454eb48cf25bb2c0ec2679fdd0dd33070d0d.webp"
+    },
+    "score_home": null,
+    "score_away": null
+   }
+  },
+  {
+   "lega": "bundesliga",
+   "id": "m_00TkE1",
+   "match": "VfB Stuttgart - Borussia Mönchengladbach",
+   "status": "not_started",
+   "inizio": "2026-10-23T18:30:00+00:00",
+   "oggetto": {
+    "id": "m_00TkE1",
+    "date": "2026-10-23",
+    "time_utc": "2026-10-23T18:30:00Z",
+    "status": "not_started",
+    "home_team": {
+     "id": "t_0iJNOA",
+     "name": "VfB Stuttgart",
+     "image_url": "https://cdn.pitchapi.dev/images/teams/3e4064e2cf85702db11b273fb3d69d3bad241733eba932255961f48a2a08b452.webp"
+    },
+    "away_team": {
+     "id": "t_2g37DO",
+     "name": "Borussia Mönchengladbach",
+     "image_url": "https://cdn.pitchapi.dev/images/teams/900d05c66e5abaad118cad096fa73364f6c70c74faf9619f86eab52f3c700aff.webp"
+    },
+    "score_home": null,
+    "score_away": null
+   }
+  },
+  {
+   "lega": "la-liga",
+   "id": "m_23U7CS",
+   "match": "Deportivo Alavés - Málaga",
+   "status": "not_started",
+   "inizio": "2026-10-23T19:00:00+00:00",
+   "oggetto": {
+    "id": "m_23U7CS",
+    "date": "2026-10-23",
+    "time_utc": "2026-10-23T19:00:00Z",
+    "status": "not_started",
+    "home_team": {
+     "id": "t_1cpTpB",
+     "name": "Deportivo Alavés",
+     "image_url": "https://cdn.pitchapi.dev/images/teams/e9f08977249bc4545a47dee37f4730f023cab2f5f4a76a34ce20c185665d2d56.webp"
+    },
+    "away_team": {
+     "id": "t_2DcXQn",
+     "name": "Málaga",
+     "image_url": "https://cdn.pitchapi.dev/images/teams/3da2b557c37768939a618508757dbf4923370ed95b9b79a02645e0396dae068b.webp"
+    },
+    "score_home": null,
+    "score_away": null
+   }
+  },
+  {
+   "lega": "ligue-1",
+   "id": "m_1rlN1U",
+   "match": "Brest - Nice",
+   "status": "not_started",
+   "inizio": "2026-10-23T18:45:00+00:00",
+   "oggetto": {
+    "id": "m_1rlN1U",
+    "date": "2026-10-23",
+    "time_utc": "2026-10-23T18:45:00Z",
+    "status": "not_started",
+    "home_team": {
+     "id": "t_0EMLtg",
+     "name": "Brest",
+     "image_url": "https://cdn.pitchapi.dev/images/teams/dd9ed059b3f4a132cfd8357431d608d7280fbd23b4014ea8552a7a411164d901.webp"
+    },
+    "away_team": {
+     "id": "t_0QUJ2Y",
+     "name": "Nice",
+     "image_url": "https://cdn.pitchapi.dev/images/teams/18fbda11f9f4ba7f44d95b49f876fe429a374840433354d9fb1d7b1aee03f666.webp"
+    },
+    "score_home": null,
+    "score_away": null
+   }
+  },
+  {
+   "lega": "eredivisie",
+   "id": "m_2nnFhb",
+   "match": "Go Ahead Eagles - Telstar",
+   "status": "not_started",
+   "inizio": "2026-10-23T18:00:00+00:00",
+   "oggetto": {
+    "id": "m_2nnFhb",
+    "date": "2026-10-23",
+    "time_utc": "2026-10-23T18:00:00Z",
+    "status": "not_started",
+    "home_team": {
+     "id": "t_0maIeN",
+     "name": "Go Ahead Eagles",
+     "image_url": "https://cdn.pitchapi.dev/images/teams/e284154f71a6831992719c0ad0f18a9c6a0d1a94821f00520f9632a37b4215b8.webp"
+    },
+    "away_team": {
+     "id": "t_0OrDTY",
+     "name": "Telstar",
+     "image_url": "https://cdn.pitchapi.dev/images/teams/71d71abea991d1a60ea80b49497c3517cdfa00120ab32670225fe4839c4693a4.webp"
+    },
+    "score_home": null,
+    "score_away": null
+   }
+  },
+  {
+   "lega": "super-lig",
+   "id": "m_0YbCcI",
+   "match": "Alanyaspor - Kocaelispor",
+   "status": "not_started",
+   "inizio": "2026-10-23T17:00:00+00:00",
+   "oggetto": {
+    "id": "m_0YbCcI",
+    "date": "2026-10-23",
+    "time_utc": "2026-10-23T17:00:00Z",
+    "status": "not_started",
+    "home_team": {
+     "id": "t_0UHTp8",
+     "name": "Alanyaspor",
+     "image_url": "https://cdn.pitchapi.dev/images/teams/7e3ff44c0b8db0e8b1fe62f71f5a5ff3955bdc909a29efdc118a11e50f16a77e.webp"
+    },
+    "away_team": {
+     "id": "t_1rIGha",
+     "name": "Kocaelispor",
+     "image_url": "https://cdn.pitchapi.dev/images/teams/3177b36a4a6c7620f2ce5a37fd87f8ecfe801890d0f54c60cac19574b3968260.webp"
+    },
+    "score_home": null,
+    "score_away": null
+   }
+  },
+  {
+   "lega": "pro-league",
+   "id": "m_4JyHOG",
+   "match": "Kortrijk - KV Mechelen",
+   "status": "not_started",
+   "inizio": "2026-10-23T18:45:00+00:00",
+   "oggetto": {
+    "id": "m_4JyHOG",
+    "date": "2026-10-23",
+    "time_utc": "2026-10-23T18:45:00Z",
+    "status": "not_started",
+    "home_team": {
+     "id": "t_3F5Qx8",
+     "name": "Kortrijk",
+     "image_url": "https://cdn.pitchapi.dev/images/teams/345036497c5b926f4fd74f2ccefca995172c2fb423543ad84ac3a5b7613aefaf.webp"
+    },
+    "away_team": {
+     "id": "t_3HWU9N",
+     "name": "KV Mechelen",
+     "image_url": "https://cdn.pitchapi.dev/images/teams/b6f4c59f1e96b13b8603adc8e33658b254499007300b50e34c930e645bae822e.webp"
+    },
+    "score_home": null,
+    "score_away": null
+   }
+  }
+ ],
+ "ultima_finita": {
+  "id": "m_15vUm9",
+  "match": "AFC Bournemouth - Milan"
+ },
+ "arbitro_future": [
+  {
+   "match": "Torino - Monza",
+   "inizio": "2026-10-23T18:45:00Z",
+   "referee": null,
+   "stadium": null
+  },
+  {
+   "match": "Cagliari - Bologna",
+   "inizio": "2026-10-24T13:00:00Z",
+   "referee": null,
+   "stadium": null
+  },
+  {
+   "match": "Como - Sassuolo",
+   "inizio": "2026-10-24T13:00:00Z",
+   "referee": null,
+   "stadium": null
+  },
+  {
+   "match": "Napoli - Roma",
+   "inizio": "2026-10-24T16:00:00Z",
+   "referee": null,
+   "stadium": null
+  },
+  {
+   "match": "Lazio - Parma",
+   "inizio": "2026-10-24T18:45:00Z",
+   "referee": null,
+   "stadium": null
+  },
+  {
+   "match": "Inter - Fiorentina",
+   "inizio": "2026-10-25T11:30:00Z",
+   "referee": null,
+   "stadium": null
+  },
+  {
+   "match": "Atalanta - Frosinone",
+   "inizio": "2026-10-25T14:00:00Z",
+   "referee": null,
+   "stadium": null
+  },
+  {
+   "match": "Genoa - Venezia",
+   "inizio": "2026-10-25T14:00:00Z",
+   "referee": null,
+   "stadium": null
+  },
+  {
+   "match": "Lecce - Juventus",
+   "inizio": "2026-10-25T17:00:00Z",
+   "referee": null,
+   "stadium": null
+  },
+  {
+   "match": "Udinese - Milan",
+   "inizio": "2026-10-25T19:45:00Z",
+   "referee": null,
+   "stadium": null
+  }
+ ],
+ "analisi_live": [
+  {
+   "match": "Torino - Monza",
+   "partita": {
+    "id": "m_0pSK27",
+    "league": {
+     "id": "l_0ALvwF",
+     "name": "Serie A",
+     "image_url": "https://cdn.pitchapi.dev/images/leagues/1e6b2d0d7b14ef10ae27b51a6a7f536b32fdceea229d84c475be346978232f22.webp"
+    },
+    "season": "2026/2027",
+    "home_team": {
+     "id": "t_1fXtzU",
+     "name": "Torino",
+     "image_url": "https://cdn.pitchapi.dev/images/teams/9228f7a3cf4ea300f3381a9a39828e08ec959a59ccfa86d1918809dcb520a4f2.webp"
+    },
+    "away_team": {
+     "id": "t_1pp2Qa",
+     "name": "Monza",
+     "image_url": "https://cdn.pitchapi.dev/images/teams/a5a467d0b57c46c33fa2b4b156dcadebe20de96e848a4a09fad642ad6d6bb7de.webp"
+    },
+    "date": "2026-10-23",
+    "time_utc": "2026-10-23T18:45:00Z",
+    "status": "not_started",
+    "score_home": null,
+    "score_away": null,
+    "round_name": "8",
+    "has_playoff": false,
+    "referee": null,
+    "stadium": null
+   },
+   "eventi_n": 0,
+   "eventi_ultimi": [],
+   "stats": {},
+   "formazioni_confermate": {
+    "home": true,
+    "away": true
+   },
+   "giocatori_n": 0,
+   "dopo_30s": {
+    "partita": {
+     "id": "m_0pSK27",
+     "league": {
+      "id": "l_0ALvwF",
+      "name": "Serie A",
+      "image_url": "https://cdn.pitchapi.dev/images/leagues/1e6b2d0d7b14ef10ae27b51a6a7f536b32fdceea229d84c475be346978232f22.webp"
+     },
+     "season": "2026/2027",
+     "home_team": {
+      "id": "t_1fXtzU",
+      "name": "Torino",
+      "image_url": "https://cdn.pitchapi.dev/images/teams/9228f7a3cf4ea300f3381a9a39828e08ec959a59ccfa86d1918809dcb520a4f2.webp"
+     },
+     "away_team": {
+      "id": "t_1pp2Qa",
+      "name": "Monza",
+      "image_url": "https://cdn.pitchapi.dev/images/teams/a5a467d0b57c46c33fa2b4b156dcadebe20de96e848a4a09fad642ad6d6bb7de.webp"
+     },
+     "date": "2026-10-23",
+     "time_utc": "2026-10-23T18:45:00Z",
+     "status": "not_started",
+     "score_home": null,
+     "score_away": null,
+     "round_name": "8",
+     "has_playoff": false,
+     "referee": null,
+     "stadium": null
+    },
+    "stats": {}
+   },
+   "momentum": {
+    "match_id": "m_0pSK27",
+    "points": []
+   },
+   "shots_chiavi": [
+    "match_id",
+    "periods"
+   ],
+   "shots_esempio": "{\"match_id\": \"m_0pSK27\", \"periods\": null}"
+  },
+  {
+   "match": "Ipswich Town - Nottingham Forest",
+   "partita": {
+    "id": "m_0CikU4",
+    "league": {
+     "id": "l_4WFCIZ",
+     "name": "Premier League",
+     "image_url": "https://cdn.pitchapi.dev/images/leagues/91b2d9475023f0a6197af3d0d9295809f8a2ba871e9a8dc538da6a3d5604bb3e.webp"
+    },
+    "season": "2026/2027",
+    "home_team": {
+     "id": "t_2C9laO",
+     "name": "Ipswich Town",
+     "image_url": "https://cdn.pitchapi.dev/images/teams/e07902d88b9a52a19170e00b0fadc79829ee9e3bff2d3dc3f71f63f997816209.webp"
+    },
+    "away_team": {
+     "id": "t_0msSwp",
+     "name": "Nottingham Forest",
+     "image_url": "https://cdn.pitchapi.dev/images/teams/9a75c18cb269334abe4d7ac16a6f454eb48cf25bb2c0ec2679fdd0dd33070d0d.webp"
+    },
+    "date": "2026-10-23",
+    "time_utc": "2026-10-23T19:00:00Z",
+    "status": "not_started",
+    "score_home": null,
+    "score_away": null,
+    "round_name": "8",
+    "has_playoff": false,
+    "referee": null,
+    "stadium": null
+   },
+   "eventi_n": 0,
+   "eventi_ultimi": [],
+   "stats": {},
+   "formazioni_confermate": {
+    "home": true,
+    "away": true
+   },
+   "giocatori_n": 0,
+   "dopo_30s": {
+    "partita": {
+     "id": "m_0CikU4",
+     "league": {
+      "id": "l_4WFCIZ",
+      "name": "Premier League",
+      "image_url": "https://cdn.pitchapi.dev/images/leagues/91b2d9475023f0a6197af3d0d9295809f8a2ba871e9a8dc538da6a3d5604bb3e.webp"
+     },
+     "season": "2026/2027",
+     "home_team": {
+      "id": "t_2C9laO",
+      "name": "Ipswich Town",
+      "image_url": "https://cdn.pitchapi.dev/images/teams/e07902d88b9a52a19170e00b0fadc79829ee9e3bff2d3dc3f71f63f997816209.webp"
+     },
+     "away_team": {
+      "id": "t_0msSwp",
+      "name": "Nottingham Forest",
+      "image_url": "https://cdn.pitchapi.dev/images/teams/9a75c18cb269334abe4d7ac16a6f454eb48cf25bb2c0ec2679fdd0dd33070d0d.webp"
+     },
+     "date": "2026-10-23",
+     "time_utc": "2026-10-23T19:00:00Z",
+     "status": "not_started",
+     "score_home": null,
+     "score_away": null,
+     "round_name": "8",
+     "has_playoff": false,
+     "referee": null,
+     "stadium": null
+    },
+    "stats": {}
+   },
+   "momentum": {
+    "match_id": "m_0CikU4",
+    "points": []
+   },
+   "shots_chiavi": [
+    "match_id",
+    "periods"
+   ],
+   "shots_esempio": "{\"match_id\": \"m_0CikU4\", \"periods\": null}"
+  }
+ ],
+ "chiavi_stats_finita": {
+  "All": [
+   "? | clearances | Clearances | 15 - 30",
+   "? | interceptions | Interceptions | 7 - 8",
+   "? | keeper_saves | Keeper saves | 0 - 4",
+   "? | matchstats.headers.tackles | Tackles | 20 - 16",
+   "? | shot_blocks | Blocks | 0 - 4",
+   "? | fouls | Fouls committed | 18 - 15",
+   "? | red_cards | Red cards | 0 - 1",
+   "? | yellow_cards | Yellow cards | 2 - 3",
+   "? | aerials_won | Aerial duels won | 9 (43%) - 12 (57%)",
+   "? | dribbles_succeeded | Successful dribbles | 10 (56%) - 7 (50%)",
+   "? | duel_won | Duels won | 53 - 51",
+   "? | ground_duels_won | Ground duels won | 44 (53%) - 39 (46%)",
+   "? | expected_goals | Expected goals (xG) | 3.11 - 0.11",
+   "? | expected_goals_non_penalty | xG non-penalty | 1.53 - 0.11",
+   "? | expected_goals_on_target | xG on target (xGOT) | 2.96 - 0.00",
+   "? | expected_goals_open_play | xG open play | 1.08 - 0.02",
+   "? | expected_goals_set_play | xG set play | 0.44 - 0.09",
+   "? | Offsides | Offsides | 2 - 1",
+   "? | accurate_crosses | Accurate crosses | 4 (19%) - 1 (9%)",
+   "? | accurate_passes | Accurate passes | 452 (89%) - 228 (79%)",
+   "? | long_balls_accurate | Accurate long balls | 22 (63%) - 22 (46%)",
+   "? | opposition_half_passes | Opposition half | 269 - 72",
+   "? | own_half_passes | Own half | 183 - 156",
+   "? | passes | Passes | 507 - 288",
+   "? | player_throws | Throws | 29 - 17",
+   "? | touches_opp_box | Touches in opposition box | 33 - 8",
+   "? | ShotsOffTarget | Shots off target | 9 - 2",
+   "? | ShotsOnTarget | Shots on target | 7 - 0",
+   "? | blocked_shots | Blocked shots | 4 - 1",
+   "? | shots_inside_box | Shots inside box | 11 - 2",
+   "? | shots_outside_box | Shots outside box | 9 - 1",
+   "? | shots_woodwork | Hit woodwork | 0 - 0",
+   "? | total_shots | Total shots | 20 - 3",
+   "? | BallPossesion | Ball possession | 64 - 36",
+   "? | ShotsOnTarget | Shots on target | 7 - 0",
+   "? | accurate_passes | Accurate passes | 452 (89%) - 228 (79%)",
+   "? | big_chance | Big chances | 4 - 0",
+   "? | big_chance_missed_title | Big chances missed | 2 - 0",
+   "? | corners | Corners | 6 - 4",
+   "? | expected_goals | Expected goals (xG) | 3.11 - 0.11",
+   "? | total_shots | Total shots | 20 - 3",
+   "? | touches_opp_box | Touches in opposition box | 33 - 8",
+   "? | yellow_cards | Yellow cards | 2 - 3"
+  ],
+  "FirstHalf": [
+   "? | clearances | Clearances | 7 - 11",
+   "? | interceptions | Interceptions | 5 - 3",
+   "? | keeper_saves | Keeper saves | 0 - 3",
+   "? | matchstats.headers.tackles | Tackles | 16 - 8",
+   "? | shot_blocks | Blocks | 0 - 2",
+   "? | fouls | Fouls committed | 11 - 8",
+   "? | red_cards | Red cards | 0 - 1",
+   "? | yellow_cards | Yellow cards | 2 - 1",
+   "? | aerials_won | Aerial duels won | 4 (44%) - 5 (56%)",
+   "? | dribbles_succeeded | Successful dribbles | 3 (43%) - 3 (30%)",
+   "? | duel_won | Duels won | 30 - 26",
+   "? | ground_duels_won | Ground duels won | 26 (55%) - 21 (45%)",
+   "? | expected_goals | Expected goals (xG) | 2.57 - 0.02",
+   "? | expected_goals_non_penalty | xG non-penalty | 0.99 - 0.02",
+   "? | expected_goals_on_target | xG on target (xGOT) | 2.05 - 0.00",
+   "? | expected_goals_open_play | xG open play | 0.84 - 0.02",
+   "? | expected_goals_set_play | xG set play | 0.16 - 0.00",
+   "? | Offsides | Offsides | 1 - 1",
+   "? | accurate_crosses | Accurate crosses | 3 (38%) - 0 (0%)",
+   "? | accurate_passes | Accurate passes | 186 (85%) - 149 (83%)",
+   "? | long_balls_accurate | Accurate long balls | 9 (47%) - 10 (48%)",
+   "? | opposition_half_passes | Opposition half | 93 - 41",
+   "? | own_half_passes | Own half | 93 - 108",
+   "? | passes | Passes | 218 - 179",
+   "? | player_throws | Throws | 14 - 14",
+   "? | touches_opp_box | Touches in opposition box | 17 - 5",
+   "? | ShotsOffTarget | Shots off target | 3 - 0",
+   "? | ShotsOnTarget | Shots on target | 5 - 0",
+   "? | blocked_shots | Blocked shots | 2 - 1",
+   "? | shots_inside_box | Shots inside box | 6 - 0",
+   "? | shots_outside_box | Shots outside box | 4 - 1",
+   "? | shots_woodwork | Hit woodwork | 0 - 0",
+   "? | total_shots | Total shots | 10 - 1",
+   "? | BallPossesion | Ball possession | 55 - 45",
+   "? | ShotsOnTarget | Shots on target | 5 - 0",
+   "? | accurate_passes | Accurate passes | 186 (85%) - 149 (83%)",
+   "? | big_chance | Big chances | 3 - 0",
+   "? | big_chance_missed_title | Big chances missed | 1 - 0",
+   "? | corners | Corners | 2 - 2",
+   "? | expected_goals | Expected goals (xG) | 2.57 - 0.02",
+   "? | total_shots | Total shots | 10 - 1",
+   "? | touches_opp_box | Touches in opposition box | 17 - 5",
+   "? | yellow_cards | Yellow cards | 2 - 1"
+  ],
+  "SecondHalf": [
+   "? | clearances | Clearances | 8 - 19",
+   "? | interceptions | Interceptions | 2 - 5",
+   "? | keeper_saves | Keeper saves | 0 - 1",
+   "? | matchstats.headers.tackles | Tackles | 4 - 8",
+   "? | shot_blocks | Blocks | 0 - 2",
+   "? | fouls | Fouls committed | 7 - 7",
+   "? | red_cards | Red cards | 0 - 0",
+   "? | yellow_cards | Yellow cards | 0 - 2",
+   "? | aerials_won | Aerial duels won | 5 (42%) - 7 (58%)",
+   "? | dribbles_succeeded | Successful dribbles | 7 (64%) - 4 (100%)",
+   "? | duel_won | Duels won | 23 - 25",
+   "? | ground_duels_won | Ground duels won | 18 (50%) - 18 (49%)",
+   "? | expected_goals | Expected goals (xG) | 0.53 - 0.09",
+   "? | expected_goals_non_penalty | xG non-penalty | 0.53 - 0.09",
+   "? | expected_goals_on_target | xG on target (xGOT) | 0.91 - 0.00",
+   "? | expected_goals_open_play | xG open play | 0.25 - 0.00",
+   "? | expected_goals_set_play | xG set play | 0.29 - 0.09",
+   "? | Offsides | Offsides | 1 - 0",
+   "? | accurate_crosses | Accurate crosses | 1 (8%) - 1 (17%)",
+   "? | accurate_passes | Accurate passes | 266 (92%) - 79 (72%)",
+   "? | long_balls_accurate | Accurate long balls | 13 (81%) - 12 (44%)",
+   "? | opposition_half_passes | Opposition half | 176 - 31",
+   "? | own_half_passes | Own half | 90 - 48",
+   "? | passes | Passes | 289 - 109",
+   "? | player_throws | Throws | 15 - 3",
+   "? | touches_opp_box | Touches in opposition box | 16 - 3",
+   "? | ShotsOffTarget | Shots off target | 6 - 2",
+   "? | ShotsOnTarget | Shots on target | 2 - 0",
+   "? | blocked_shots | Blocked shots | 2 - 0",
+   "? | shots_inside_box | Shots inside box | 5 - 2",
+   "? | shots_outside_box | Shots outside box | 5 - 0",
+   "? | shots_woodwork | Hit woodwork | 0 - 0",
+   "? | total_shots | Total shots | 10 - 2",
+   "? | BallPossesion | Ball possession | 72 - 28",
+   "? | ShotsOnTarget | Shots on target | 2 - 0",
+   "? | accurate_passes | Accurate passes | 266 (92%) - 79 (72%)",
+   "? | big_chance | Big chances | 1 - 0",
+   "? | big_chance_missed_title | Big chances missed | 1 - 0",
+   "? | corners | Corners | 4 - 2",
+   "? | expected_goals | Expected goals (xG) | 0.53 - 0.09",
+   "? | total_shots | Total shots | 10 - 2",
+   "? | touches_opp_box | Touches in opposition box | 16 - 3",
+   "? | yellow_cards | Yellow cards | 0 - 2"
+  ]
+ },
+ "chiavi_giocatore_finita": {
+  "goals": null,
+  "rating_title": null,
+  "assists": null,
+  "Shotmap": null,
+  "minutes_played": null,
+  "accurate_passes": null,
+  "chances_created": null,
+  "defensive_actions": null,
+  "touches": null,
+  "dispossessed": null,
+  "passes_into_final_third": null,
+  "touches_opp_box": null,
+  "shot_blocks": null,
+  "matchstats.headers.tackles": null,
+  "clearances": null,
+  "recoveries": null,
+  "dribbled_past": null,
+  "interceptions": null,
+  "headed_clearance": null,
+  "duel_won": null,
+  "duel_lost": null,
+  "was_fouled": null,
+  "fouls": null,
+  "aerials_won": null,
+  "ground_duels_won": null,
+  "expected_assists": null,
+  "expected_goals": null,
+  "expected_goals_on_target_variant": null,
+  "shot_accuracy": null,
+  "ShotsOffTarget": null,
+  "ShotsOnTarget": null,
+  "total_shots": null,
+  "xg_and_xa": null,
+  "accurate_crosses": null,
+  "long_balls_accurate": null,
+  "dribbles_succeeded": null,
+  "expected_goals_non_penalty": null,
+  "keeper_sweeper": null,
+  "conceded_penalties": null,
+  "keeper_diving_save": null,
+  "goals_conceded": null,
+  "goals_prevented": null,
+  "keeper_high_claim": null,
+  "punches": null,
+  "saves": null,
+  "saves_inside_box": null,
+  "player_throws": null,
+  "expected_goals_on_target_faced": null,
+  "penalties_won": null,
+  "corners": null,
+  "big_chance_missed_title": null,
+  "big_chance_created_team_title": null,
+  "blocked_shots": null,
+  "Offsides": null,
+  "last_man_tackle": null
+ },
+ "tipi_evento": [
+  "goal",
+  "redcard",
+  "substitution",
+  "yellowcard"
+ ],
+ "esempio_sostituzione": {
+  "event_type": "substitution",
+  "minute": 32,
+  "minute_added": 0,
+  "period": "FirstHalf",
+  "team_id": "t_1DYf1D",
+  "player": {
+   "id": "p_1NFLRa",
+   "name": "Omari Hutchinson",
+   "position_id": null,
+   "image_url": "https://cdn.pitchapi.dev/images/players/737fae143976e15f1d3fd9a88f107db2c682599cabd9495c78b75fea32fe1db0.webp"
+  },
+  "sub_in_player": {
+   "id": "p_3qxxzQ",
+   "name": "Lorenzo Torriani",
+   "position_id": null,
+   "image_url": "https://cdn.pitchapi.dev/images/players/89b8c7b6b832c318bd7f4ee97ec169df9056c5657b3109c10dfcdff2795d46c1.webp"
+  },
+  "is_own_goal": false,
+  "is_penalty": false
+ },
+ "halves_esiste": true
+}
