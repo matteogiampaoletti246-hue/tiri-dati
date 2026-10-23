@@ -247,6 +247,7 @@ function loader(){
     var out = [], bd = BIDX.byDay[day] || {};
     PDATA.forEach(function(p){
       var f = bd[p.t]; if(!f) return;
+      if(['serie-a','premier-league','la-liga','bundesliga','ligue-1'].indexOf(f[3]) < 0) return;
       var t = bLam(p, f, idx); if(!t) return;
       var v = bProb(t.lam, line) * 10; if(v < BMIN) return;
       out.push({p: p, f: f, t: t, voto: v});
