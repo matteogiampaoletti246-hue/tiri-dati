@@ -1786,16 +1786,17 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
     }, {passive: true});
     document.addEventListener('touchmove', function(e){
       if(!OK) return; var t = e.touches[0], dx = t.clientX - X0, dy = t.clientY - Y0;
-      if(!MODE && (Math.abs(dx) > 8 || Math.abs(dy) > 8)){ MODE = Math.abs(dx) > Math.abs(dy) * 1.4 ? 1 : 2; if(MODE === 1){ EL = swEl(); if(EL){ EL.style.willChange = 'transform'; EL.style.transition = 'none'; } } }
+      if(!MODE && (Math.abs(dx) > 4 || Math.abs(dy) > 4)){ MODE = Math.abs(dx) > Math.abs(dy) ? 1 : 2; if(MODE === 1){ EL = swEl(); if(EL){ EL.style.willChange = 'transform'; EL.style.transition = 'none'; } } }
+      if(MODE === 1 && e.cancelable) e.preventDefault();
       if(MODE === 1 && EL){ DX = dx; EL.style.transform = 'translate3d(' + (dx * .9) + 'px,0,0)'; }
-    }, {passive: true});
+    }, {passive: false});
     document.addEventListener('touchcancel', function(){ OK = false; snap(); }, {passive: true});
     document.addEventListener('touchend', function(e){
       if(!OK){ return; } OK = false;
       var t = e.changedTouches[0], dx = t.clientX - X0, dy = t.clientY - Y0, el0 = EL; EL = null;
       var back = function(){ if(el0){ el0.style.transition = 'transform .2s cubic-bezier(.2,.8,.2,1)'; el0.style.transform = 'translate3d(0,0,0)'; setTimeout(function(){ el0.style.transition = ''; el0.style.transform = ''; el0.style.willChange = ''; }, 230); } };
       if(MODE === 0) el0 = swEl(); DX = DX || dx;
-      if(MODE === 2 || Math.abs(dx) < 56 || Math.abs(dy) > Math.abs(dx) * 0.55 || Date.now() - T0 > 900){ back(); return; }
+      if(MODE === 2 || Math.abs(dx) < 56 || Date.now() - T0 > 900){ back(); return; }
       var root = document.getElementById('slbMatch'); if(!root || !el0){ back(); return; }
       var next = dx < 0;
       var tabs = root.querySelector('.hhero .htabs') || root.querySelector('.htabs');
