@@ -54,6 +54,7 @@ function summary(j) {
     status: comp.status, sh: cp.home && cp.home.score, sa: cp.away && cp.away.score,
     hid: cp.home && cp.home.team && cp.home.team.id, aid: cp.away && cp.away.team && cp.away.team.id,
     venue: (j.gameInfo || {}).venue, officials: (j.gameInfo || {}).officials, attendance: (j.gameInfo || {}).attendance,
+    form: ((j.boxscore || {}).form || []).map((f) => ({ id: f.team && f.team.id, r: (f.events || []).map((x) => x.gameResult || "").join("") })),
     teams, rosters: (j.rosters || []).map(compactRoster),
     events: (j.keyEvents || []).map((e) => ({
       id: e.id, t: e.type && e.type.type, tx: e.text, min: e.clock && e.clock.displayValue, sec: e.clock && e.clock.value, p: e.period && e.period.number,
@@ -84,6 +85,23 @@ export default {
         if (!LEGHE.includes(lg) || !/^\d{5,12}$/.test(id || "")) return new Response("{}", { status: 400, headers: cors(req) });
         const j = await espn("/" + lg + "/summary?event=" + id);
         return new Response(JSON.stringify({ t: Date.now(), ...summary(j) }), { headers: cors(req) });
+      }
+      if (u.pathname === "/t") {
+        const lg = u.searchParams.get("lg");
+        if (!CUPS.includes(lg)) return new Response("{}", { status: 400, headers: cors(req) });
+        const r = await fetch("https://site.api.espn.com/apis/v2/sports/soccer/" + lg + "/standings", { headers: { "User-Agent": "Mozilla/5.0" }, cf: { cacheTtl: 600, cacheEverything: true } });
+        if (!r.ok) throw new Error("ESPN " + r.status);
+        const j = await r.json();
+        const st = (e, n) => { const x = (e.stats || []).find((q) => q.name === n); return x ? x.value : null; };
+        const groups = (j.children && j.children.length ? j.children : [j]).map((c) => ({
+          n: c.name || c.abbreviation || "",
+          rows: (((c.standings || {}).entries) || []).map((e) => ({
+            t: e.team && (e.team.displayName || e.team.name), id: e.team && e.team.id, l: e.team && e.team.logos && e.team.logos[0] && e.team.logos[0].href,
+            rk: st(e, "rank"), p: st(e, "gamesPlayed"), w: st(e, "wins"), d: st(e, "ties"), s: st(e, "losses"),
+            gf: st(e, "pointsFor"), ga: st(e, "pointsAgainst"), gd: st(e, "pointDifferential"), pt: st(e, "points"),
+          })).sort((a, b) => (a.rk || 99) - (b.rk || 99)),
+        }));
+        return new Response(JSON.stringify({ t: Date.now(), groups }), { headers: cors(req, { "Cache-Control": "public, max-age=600" }) });
       }
       return new Response("{}", { status: 404, headers: cors(req) });
     } catch (e) {
