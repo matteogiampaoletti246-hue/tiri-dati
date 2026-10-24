@@ -4,7 +4,7 @@ const BASE = "https://site.api.espn.com/apis/site/v2/sports/soccer";
 const DOM = ["ita.1", "eng.1", "esp.1", "ger.1", "fra.1"];
 const CUPS = ["uefa.champions", "uefa.europa", "uefa.europa.conf", "uefa.nations", "fifa.friendly"];
 const LEGHE = DOM.concat(CUPS);
-const TTL = 15;
+const TTL = 8;
 const FMH = { "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 Mobile Safari/604.1", "Accept": "application/json,*/*", "Accept-Language": "en-US,en;q=0.9" };
 
 function cors(req, extra) {
@@ -111,13 +111,13 @@ export default {
       if (u.pathname === "/fx") {
         const id = u.searchParams.get("id");
         if (!/^\d{5,10}$/.test(id || "")) return new Response("{}", { status: 400, headers: cors(req) });
-        const r = await fetch("https://www.fotmob.com/api/data/matchDetails?matchId=" + id, { headers: FMH, cf: { cacheTtl: 10, cacheEverything: true } });
+        const r = await fetch("https://www.fotmob.com/api/data/matchDetails?matchId=" + id, { headers: FMH, cf: { cacheTtl: 5, cacheEverything: true } });
         if (!r.ok) throw new Error("FotMob " + r.status);
         const j = await r.json(), c = j.content || {}, lu = c.lineup || {}, rf = c.matchFacts && c.matchFacts.infoBox && c.matchFacts.infoBox.Referee;
         const ph = (pid) => pid ? "https://images.fotmob.com/image_resources/playerimages/" + pid + ".png" : null;
         const team = (t) => {
           if (!t || !(t.starters || []).length) return null;
-          const mp = (p) => [p.name, p.shirtNumber != null ? +p.shirtNumber || p.shirtNumber : null, p.horizontalLayout ? p.horizontalLayout.x : null, p.horizontalLayout ? p.horizontalLayout.y : null, !!p.isCaptain, ph(p.id), p.performance && p.performance.rating ? p.performance.rating : null];
+          const mp = (p) => [p.name, p.shirtNumber != null ? +p.shirtNumber || p.shirtNumber : null, p.horizontalLayout ? p.horizontalLayout.x : null, p.horizontalLayout ? p.horizontalLayout.y : null, !!p.isCaptain, ph(p.id), p.performance && p.performance.rating ? p.performance.rating : null, p.id];
           const cc = t.coach;
           return { f: t.formation, s: t.starters.map(mp), b: (t.subs || []).map(mp), co: cc ? { id: cc.id, n: cc.name, cc: cc.countryCode } : null };
         };
@@ -127,8 +127,47 @@ export default {
           const y = g("yellowCards"), fo = g("fouls"), mt = g("matches"), rd = g("redCards"), pe = g("penalties");
           ref = { n: rf.text, cc: rf.countryCode, y: y ? y.value : null, ya: y ? y.average : null, fo: fo ? fo.value : null, foa: fo ? fo.average : null, mt: mt ? mt.value : null, r: rd ? rd.value : null, pen: pe ? pe.value : null };
         }
-        const g2 = j.general || {};
-        return new Response(JSON.stringify({ t: Date.now(), ty: lu.lineupType || null, started: !!g2.started, fin: !!g2.finished, h: team(lu.homeTeam), a: team(lu.awayTeam), ref }), { headers: cors(req, { "Cache-Control": "public, max-age=10" }) });
+        const g2 = j.general || {}, hd = j.header || {}, stt = hd.status || {}, tm = hd.teams || [];
+        const lt = stt.liveTime || {}, hf = stt.halfs || {};
+        const clean = (x) => String(x == null ? "" : x).replace(/[\u200e\u200f]/g, "");
+        const live = !!(stt.started && !stt.finished && !stt.cancelled);
+        const ht = live && !!hf.firstHalfEnded && !hf.secondHalfStarted;
+        const mf = (c.matchFacts && c.matchFacts.events && c.matchFacts.events.events) || [];
+        const nm = (x) => (x && x.name) || "";
+        let ev = mf.filter((e) => ["Goal", "Card", "Substitution"].includes(e.type)).map((e) => {
+          const add = e.overloadTime || 0;
+          const o = { ty: e.type, t: e.time, a: add, h: !!e.isHome, ts: e.time * 100 + add };
+          if (e.type === "Goal") { Object.assign(o, { n: e.player && e.player.name || e.nameStr, id: e.player && e.player.id || e.playerId, as: e.assistInput || null, aid: e.assistPlayerId || null, og: !!e.ownGoal, pen: /pen/i.test(e.goalDescription || "") || /pen/i.test(e.goalDescriptionKey || ""), sc: e.newScore || null }); }
+          else if (e.type === "Card") { Object.assign(o, { n: e.player && e.player.name || e.nameStr, id: e.player && e.player.id || e.playerId, cd: e.card }); }
+          else { const sw = e.swap || []; Object.assign(o, { n: nm(sw[0]), id: sw[0] && +sw[0].id || null, o: nm(sw[1]), oid: sw[1] && +sw[1].id || null }); }
+          return o;
+        });
+        ev.sort((x, y) => x.ts - y.ts);
+        const per = (P) => {
+          if (!P || !P.stats) return null;
+          const seen = {}, out = [];
+          P.stats.forEach((grp) => {
+            const rows = [];
+            (grp.stats || []).forEach((s2) => {
+              if (!s2 || s2.type === "title" || !s2.rawStats || s2.rawStats.length < 2) return;
+              if (seen[s2.key]) return; seen[s2.key] = 1;
+              const a = s2.rawStats[0] || {}, b = s2.rawStats[1] || {};
+              rows.push([s2.key, s2.title, a.value, b.value, a.total, b.total, s2.format || null]);
+            });
+            if (rows.length) out.push([grp.key || grp.title, grp.title, rows]);
+          });
+          return out;
+        };
+        const sp = (c.stats && c.stats.Periods) || {};
+        const stats = { All: per(sp.All), FirstHalf: per(sp.FirstHalf), SecondHalf: per(sp.SecondHalf) };
+        const arr = (x) => (Array.isArray(x) ? x : x && typeof x === "object" ? Object.values(x) : []);
+        const pl = {};
+        arr(c.playerStats).forEach((q) => {
+          if (!q || !q.id) return;
+          const groups = arr(q.stats).map((grp) => [grp.key || grp.title || "", grp.title || "", Object.entries(grp.stats || {}).map(([lab, e]) => { const st2 = (e && e.stat) || {}; return [e && e.key, lab, st2.value, st2.total, st2.type]; }).filter((x) => x[0] && x[2] != null)]).filter((g3) => g3[2].length);
+          pl[q.id] = [q.name, q.teamId, q.isGoalkeeper ? 1 : 0, groups];
+        });
+        return new Response(JSON.stringify({ t: Date.now(), ty: lu.lineupType || null, started: !!g2.started, fin: !!g2.finished, st: live, sc: tm.length > 1 ? [tm[0].score, tm[1].score] : null, clk: clean(lt.short), ht, ev, stats, pl, h: team(lu.homeTeam), a: team(lu.awayTeam), ref }), { headers: cors(req, { "Cache-Control": "public, max-age=5" }) });
       }
       if (u.pathname === "/m") {
         const lg = u.searchParams.get("lg"), id = u.searchParams.get("id");
@@ -139,12 +178,12 @@ export default {
       if (u.pathname === "/f") {
         const dt = u.searchParams.get("date");
         if (!/^\d{8}$/.test(dt || "")) return new Response("{}", { status: 400, headers: cors(req) });
-        const r = await fetch("https://www.fotmob.com/api/data/matches?date=" + dt + "&timezone=Europe%2FRome&ccode3=ITA", { headers: FMH, cf: { cacheTtl: 60, cacheEverything: true } });
+        const r = await fetch("https://www.fotmob.com/api/data/matches?date=" + dt + "&timezone=Europe%2FRome&ccode3=ITA", { headers: FMH, cf: { cacheTtl: 8, cacheEverything: true } });
         if (!r.ok) throw new Error("FotMob " + r.status);
         const j = await r.json(), OK = [47, 54, 87, 53, 55, 42, 73, 10216];
         const m = [];
-        (j.leagues || []).forEach((l) => { if (!OK.includes(l.primaryId || l.id)) return; (l.matches || []).forEach((x) => m.push({ id: x.id, l: l.primaryId || l.id, h: x.home && x.home.name, a: x.away && x.away.name, hi: x.home && x.home.id, ai: x.away && x.away.id, t: x.status && x.status.utcTime, f: !!(x.status && x.status.finished), s: !!(x.status && x.status.started) })); });
-        return new Response(JSON.stringify({ t: Date.now(), m }), { headers: cors(req, { "Cache-Control": "public, max-age=60" }) });
+        (j.leagues || []).forEach((l) => { if (!OK.includes(l.primaryId || l.id)) return; (l.matches || []).forEach((x) => m.push({ id: x.id, l: l.primaryId || l.id, h: x.home && x.home.name, a: x.away && x.away.name, hi: x.home && x.home.id, ai: x.away && x.away.id, t: x.status && x.status.utcTime, f: !!(x.status && x.status.finished), s: !!(x.status && x.status.started), sc: x.status && x.status.scoreStr || null, lt: x.status && x.status.liveTime ? String(x.status.liveTime.short || "").replace(/[\u200e\u200f]/g, "") : null })); });
+        return new Response(JSON.stringify({ t: Date.now(), m }), { headers: cors(req, { "Cache-Control": "public, max-age=8" }) });
       }
       if (u.pathname === "/fs") {
         const id = u.searchParams.get("id");
