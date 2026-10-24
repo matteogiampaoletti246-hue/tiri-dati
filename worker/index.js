@@ -86,6 +86,29 @@ export default {
         const j = await espn("/" + lg + "/summary?event=" + id);
         return new Response(JSON.stringify({ t: Date.now(), ...summary(j) }), { headers: cors(req) });
       }
+      if (u.pathname === "/diag") {
+        const out = {};
+        const H = { "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15", "Accept": "application/json,text/plain,*/*" };
+        const tryf = async (k, url, hd) => {
+          try {
+            const r = await fetch(url, { headers: { ...H, ...(hd || {}) } });
+            const x = await r.text();
+            out[k] = { status: r.status, bytes: x.length, head: x.slice(0, 260), coord: /fieldPosition|coordinate|shotmap|"x":\s*\d/i.test(x), sample: (x.match(/.{60}(fieldPosition|shotmap|expectedGoals).{120}/i) || [""])[0] };
+            return x;
+          } catch (e) { out[k] = { errore: String(e).slice(0, 100) }; return ""; }
+        };
+        const d = new Date().toISOString().slice(0, 10);
+        const sb = await tryf("sofa_oggi", "https://api.sofascore.com/api/v1/sport/football/scheduled-events/" + d);
+        let sid = null; try { const e = (JSON.parse(sb).events || []).find((q) => q.status && q.status.type === "finished") || (JSON.parse(sb).events || [])[0]; sid = e && e.id; out.sofa_evento = e && (e.homeTeam.name + " - " + e.awayTeam.name); } catch (e) {}
+        if (sid) { await tryf("sofa_shotmap", "https://api.sofascore.com/api/v1/event/" + sid + "/shotmap"); }
+        await tryf("fotmob_giorno", "https://www.fotmob.com/api/matches?date=" + d.replace(/-/g, ""));
+        let eid = null, elg = "ita.1";
+        for (const lg of ["ita.1", "eng.1", "esp.1", "ger.1", "fra.1", "uefa.champions"]) {
+          try { const j = await espn("/" + lg + "/scoreboard"); const e = (j.events || []).find((q) => q.status.type.state !== "pre"); if (e) { eid = e.id; elg = lg; break; } } catch (e) {}
+        }
+        if (eid) { out.espn_evento = elg + " " + eid; await tryf("espn_summary", BASE + "/" + elg + "/summary?event=" + eid); await tryf("espn_plays", "https://site.api.espn.com/apis/site/v2/sports/soccer/" + elg + "/summary?event=" + eid + "&enable=plays"); await tryf("espn_core_plays", "https://sports.core.api.espn.com/v2/sports/soccer/leagues/" + elg + "/events/" + eid + "/competitions/" + eid + "/plays?limit=300"); }
+        return new Response(JSON.stringify(out, null, 1), { headers: { "Content-Type": "application/json; charset=utf-8", "Cache-Control": "no-store" } });
+      }
       if (u.pathname === "/t") {
         const lg = u.searchParams.get("lg");
         if (!CUPS.includes(lg)) return new Response("{}", { status: 400, headers: cors(req) });
