@@ -407,6 +407,14 @@ html[data-theme="night"] #slbSearchBtn,html[data-theme="night"] #slbBurger{color
 .hcoach .cf .fl{position:absolute;right:-4px;bottom:-4px;width:22px;height:22px;border-radius:50%;background:var(--panel);border:2px solid var(--panel);display:flex;align-items:center;justify-content:center;font-size:14px;line-height:1;box-shadow:0 0 0 1px var(--line);}
 .hcoach .cn{min-width:0;}.hcoach .cn small{display:block;color:var(--text-dim);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;}.hcoach .cn b{display:block;font-size:16px;}
 
+
+.shw{margin:0 0 12px;}.shw svg{display:block;width:100%;height:auto;}
+.shlg{display:flex;gap:14px;flex-wrap:wrap;padding:8px 2px 0;font-size:12px;color:var(--text-dim);align-items:center;}.shlg span{display:flex;align-items:center;gap:5px;}.shlg svg{width:14px;height:14px;}
+.hscr{overflow-x:auto;flex-wrap:nowrap;-webkit-overflow-scrolling:touch;scrollbar-width:none;}.hscr::-webkit-scrollbar{display:none;}.hscr .hpill{flex:none;}
+.shdt{display:flex;gap:12px;align-items:flex-start;padding:12px 14px 4px;}.shdt .gl{flex:none;width:52%;}.shdt .gl svg{display:block;width:100%;height:auto;}.shdt .nm{flex:1;min-width:0;}.shdt .nm b{display:block;font-size:15px;}.shdt .nm small{color:var(--text-dim);}
+.shx{display:flex;gap:16px;margin-top:8px;}.shx div small{display:block;color:var(--text-dim);font-size:12px;}.shx div b{font-size:18px;}
+.shr{display:flex;justify-content:space-between;padding:10px 14px;border-top:1px solid var(--line);}.shr small{color:var(--text-dim);}.shr b{font-weight:700;}
+
 .lvx{position:absolute;right:12px;top:6px;width:36px;height:36px;border:0;background:transparent;color:var(--text-dim);font-size:28px;line-height:1;cursor:pointer;}
 .htabs.stk{position:sticky;z-index:40;background:var(--bg);margin:0 -16px 10px;padding:0 10px;border-bottom:1px solid var(--line);}.htabs.stk button{color:var(--text-dim);opacity:1;}.htabs.stk button.on{color:var(--text);border-bottom-color:var(--accent);}
 .hbest .hsec.ctr{text-align:center;padding:12px 0 4px;}.bth{display:flex;padding:2px 14px 8px;font-weight:800;font-size:13px;color:var(--text-dim);}.bth span{flex:1;text-align:center;}
@@ -645,7 +653,7 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
   }
   // ===== squadre, campionati, statistiche =====
   var HTEAM = null, HTLG = null, HTTAB = 'par', HLV = null, HLTAB = 'par', HFORM = false, HSTV = 'sq', HSTK = null, HSTS = 0, HSTW = 0, HLDAY = null;
-  var STI = null, ARB = null, STD = null, HREF = null, HRK = 'y', HSP = 'all', HLSC = null, MF = {};
+  var STI = null, ARB = null, STD = null, HREF = null, HRK = 'y', HSP = 'all', HLSC = null, MF = {}, HSM = 'd', HSFLT = 'all', HSPL = null, HSHOT = null;
   var ST = null, SQ = null, TM = null, XLOAD = null, XDONE = false, SC = {}, SIDX = {}, SNAME = {}, PIDX = null, LOGOS = null;
   var NAV = [];
   var VCOL = {V: '#1E8E3E', P: '#8E98AB', S: '#D93A3A'};
@@ -1467,6 +1475,8 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
     if(!s){ box.appendChild(el('div', 'hempty', 'Carico…')); lvFetchM(e).then(function(){ lvRedraw(); }); return; }
     var H = null, A = null; (s.teams || []).forEach(function(t){ if(t.side === 'home') H = t.s; else A = t.s; });
     if(!H || !A){ box.appendChild(el('div', 'hempty', 'Statistiche non ancora disponibili')); return; }
+    segmented(box, [['d', 'Dati'], ['t', 'Mappa tiri']], HSM, function(v){ HSM = v; HSHOT = null; drawMatch(); });
+    if(HSM === 't'){ shotsView(box, m, null); return; }
     var c = el('div', 'hcard'); c.appendChild(el('div', 'hsec', 'Statistiche'));
     LVST.forEach(function(d){
       var a = parseFloat(H[d[0]]), b = parseFloat(A[d[0]]); if(isNaN(a) && isNaN(b)) return;
@@ -1838,10 +1848,132 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
       + '<div class="mmax"><span>0’</span><span>45’</span><span>' + (n >= 88 ? '90' : n) + '’</span></div>';
     c.appendChild(sv); box.appendChild(c);
   }
+
+  // === MAPPA TIRI: PitchAPI per le partite vecchie, FotMob per oggi e live ===
+  var FMD = {}, FMS = {}, FMT = null;
+  function fmDay(d, cb){
+    var k = d.replace(/-/g, ''), e = FMD[k];
+    if(e && e.j && Date.now() - e.t < 60000){ cb(e.j); return; }
+    if(e && e.p){ e.p.push(cb); return; }
+    FMD[k] = {p: [cb], j: e && e.j, t: e ? e.t : 0};
+    fetch(LVURL + '/f?date=' + k).then(function(r){ return r.json(); }).then(function(j){ var q = FMD[k].p; FMD[k] = {j: j && j.m ? j : {m: []}, t: Date.now()}; q.forEach(function(f){ f(FMD[k].j); }); }).catch(function(){ var q = FMD[k].p; FMD[k] = {j: {m: []}, t: Date.now()}; q.forEach(function(f){ f(FMD[k].j); }); });
+  }
+  var FMP = {}, FMTMR = 0;
+  function fmFind(m){
+    var e = FMD[m.d.replace(/-/g, '')]; if(!e || !e.j) return undefined;
+    var f = null; (e.j.m || []).forEach(function(x){ if(!f && lvSame(x.h, m.h) && lvSame(x.a, m.a)) f = x; });
+    return f;
+  }
+  function fmFetch(f, cb){
+    if(FMP[f.id]) return; FMP[f.id] = 1;
+    fetch(LVURL + '/fs?id=' + f.id).then(function(r){ return r.json(); }).then(function(s){
+      FMP[f.id] = 0;
+      if(s && s.sh){ var sig = JSON.stringify(s.sh), c = FMS[f.id]; FMS[f.id] = {sh: s.sh, hi: s.hi, ai: s.ai, t: Date.now(), live: !!(s.st && !s.fin), sig: sig}; cb(!c || c.sig !== sig); }
+      else { FMS[f.id] = {sh: [], hi: 0, ai: 0, t: Date.now(), live: false, sig: ''}; cb(true); }
+    }).catch(function(){ FMP[f.id] = 0; FMS[f.id] = FMS[f.id] || {sh: [], hi: 0, ai: 0, t: Date.now(), live: false, sig: ''}; cb(false); });
+  }
+  function shNorm(rec, fm){
+    var out = [];
+    if(fm){
+      fm.sh.forEach(function(s){
+        var ev = s[7] ? 'block' : s[6] === 'Goal' ? 'goal' : s[6] === 'Post' ? 'post' : s[8] || s[6] === 'AttemptSaved' ? 'saved' : 'miss';
+        out.push({min: s[0], add: s[1], side: s[2] === fm.hi ? 'h' : 'a', n: s[3] || '', x: s[4], y: s[5], ev: ev, bx: s[9], by: s[10], gy: s[11], gz: s[12], xg: s[13], xgot: s[14], ty: s[15], si: s[16], og: s[17]});
+      });
+    } else if(rec && rec.tr){
+      rec.tr.forEach(function(s){
+        var ev = s[11] === 'Goal' ? 'goal' : s[11] === 'Post' ? 'post' : s[11] === 'AttemptSaved' ? 'saved' : 'miss';
+        out.push({min: s[0], side: s[1], n: s[2], x: s[3], y: s[4], xg: s[5], xgot: s[6], gy: s[8], gz: s[9], ty: s[10], ev: ev, si: s[12]});
+      });
+    }
+    return out.filter(function(s){ return s.x != null && s.y != null; });
+  }
+  var SHEV = {goal: 'Gol', saved: 'Parato', post: 'Palo', miss: 'Fuori', block: 'Bloccato'};
+  var SHSI = {RegularPlay: 'Azione', FromCorner: 'Da corner', SetPiece: 'Palla inattiva', FreeKick: 'Punizione', Penalty: 'Rigore', ThrowInSetPiece: 'Rimessa laterale', FastBreak: 'Contropiede', Assisted: 'Assistito', IndividualPlay: 'Azione personale', ThrowIn: 'Rimessa laterale'};
+  var SHTY = {RightFoot: 'Piede destro', LeftFoot: 'Piede sinistro', Header: 'Colpo di testa', OtherBodyPart: 'Altra parte del corpo', Head: 'Colpo di testa'};
+  function shPitch(list, sel, m){
+    var c = {h: '#2F8DFF', a: '#E5484D'};
+    var s = '<svg viewBox="0 -3 68 47" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="-3" width="68" height="47" fill="#2E6B3E"/><g fill="none" stroke="rgba(255,255,255,.55)" stroke-width=".35">'
+      + '<path d="M.2 43.5V0H67.8V43.5"/><rect x="13.84" y="0" width="40.32" height="16.5"/><rect x="24.84" y="0" width="18.32" height="5.5"/><path d="M26.69 16.5A9.15 9.15 0 0 0 41.31 16.5"/><path d="M30.34 0V-1.8H37.66V0" stroke="#fff" stroke-width=".5"/></g><circle cx="34" cy="11" r=".4" fill="rgba(255,255,255,.7)"/>';
+    function pos(q){ return [q.y, Math.max(0.6, Math.min(42.4, 105 - q.x))]; }
+    if(sel != null && list[sel]){
+      var q = list[sel], p = pos(q), ex, ey;
+      if(q.ev === 'block' && q.bx != null){ ex = q.by; ey = 105 - q.bx; } else { ex = Math.max(0, Math.min(68, q.gy == null ? 34 : q.gy)); ey = 0; }
+      s += '<line x1="' + p[0].toFixed(2) + '" y1="' + p[1].toFixed(2) + '" x2="' + ex.toFixed(2) + '" y2="' + ey.toFixed(2) + '" stroke="' + c[q.side] + '" stroke-width=".4" stroke-dasharray=".9 .8"/>';
+    }
+    list.forEach(function(q, i){
+      var p = pos(q), col = c[q.side], x = p[0].toFixed(2), y = p[1].toFixed(2), on = i === sel;
+      if(on) s += '<circle cx="' + x + '" cy="' + y + '" r="2.1" fill="none" stroke="#fff" stroke-width=".3"/>';
+      if(q.ev === 'goal') s += '<circle cx="' + x + '" cy="' + y + '" r="1.35" fill="#fff" stroke="' + col + '" stroke-width=".35"/><text x="' + x + '" y="' + (p[1] + .65).toFixed(2) + '" font-size="1.7" text-anchor="middle">⚽</text>';
+      else if(q.ev === 'saved') s += '<circle cx="' + x + '" cy="' + y + '" r=".85" fill="' + col + '" opacity=".95"/>';
+      else if(q.ev === 'post') s += '<circle cx="' + x + '" cy="' + y + '" r=".85" fill="' + col + '" stroke="#fff" stroke-width=".25"/>';
+      else if(q.ev === 'block') s += '<path d="M' + (p[0] - .8).toFixed(2) + ' ' + (p[1] - .8).toFixed(2) + 'l1.6 1.6m0 -1.6l-1.6 1.6" stroke="' + col + '" stroke-width=".4"/>';
+      else s += '<circle cx="' + x + '" cy="' + y + '" r=".8" fill="none" stroke="' + col + '" stroke-width=".35"/>';
+      s += '<circle class="shh" data-i="' + i + '" cx="' + x + '" cy="' + y + '" r="2" fill="transparent"/>';
+    });
+    return s + '</svg>';
+  }
+  function shGoal(q){
+    var gy = q.gy, gz = q.gz;
+    var s = '<svg viewBox="0 0 200 64"><line x1="0" y1="58" x2="200" y2="58" stroke="currentColor" stroke-opacity=".35"/><rect x="63.4" y="33.6" width="73.2" height="24.4" fill="rgba(255,255,255,.07)" stroke="currentColor" stroke-opacity=".7" stroke-width="2"/>';
+    if(gy != null && gz != null){
+      var sx = Math.max(5, Math.min(195, (gy - 24) / 20 * 200)), sy = Math.max(5, Math.min(56, 58 - gz * 10));
+      s += '<circle cx="' + sx.toFixed(1) + '" cy="' + sy.toFixed(1) + '" r="4.2" fill="' + (q.ev === 'goal' ? '#2DBE60' : q.ev === 'miss' ? 'none' : '#fff') + '" stroke="' + (q.ev === 'miss' ? '#fff' : 'none') + '" stroke-width="1.6"/>';
+    }
+    return s + '</svg>';
+  }
+  function shotsView(box, m, rec){
+    var today = romeDay(new Date()), old = false, fm = null, pending = false;
+    var again = function(ch){ if(ch !== false && HSEL && HSEL.d === m.d && HSEL.h === m.h && HSM === 't' && lvVisible()) drawMatch(); };
+    clearTimeout(FMTMR);
+    if(!old){
+      var f = fmFind(m);
+      if(f === undefined){ pending = true; fmDay(m.d, function(){ again(true); }); }
+      else if(f){
+        var c = FMS[f.id];
+        if(c){ fm = c.sh.length || !rec ? c : null; if(c.live || !c.sh.length){ if(Date.now() - c.t > 12000) fmFetch(f, again); else FMTMR = setTimeout(function(){ fmFetch(f, again); }, 20000); } }
+        else { pending = true; fmFetch(f, again); }
+      }
+    }
+    var all = shNorm(rec, fm);
+    if(!all.length && pending){ box.appendChild(el('div', 'hempty', 'Carico…')); return; }
+    if(!all.length){ box.appendChild(el('div', 'hempty', 'Tiri non disponibili')); return; }
+    segmented(box, [['all', 'Tutti'], ['h', m.h], ['a', m.a]], HSFLT, function(v){ HSFLT = v; HSPL = null; HSHOT = null; drawMatch(); });
+    var base = all.filter(function(q){ return HSFLT === 'all' || q.side === HSFLT; });
+    if(HSFLT !== 'all'){
+      var cnt = {}; base.forEach(function(q){ cnt[q.n] = (cnt[q.n] || 0) + 1; });
+      var ns = Object.keys(cnt).sort(function(a, b){ return cnt[b] - cnt[a]; });
+      var row = el('div', 'hpills hscr'), bt = el('button', 'hpill' + (HSPL == null ? ' on' : ''), 'Tutti'); bt.type = 'button'; bt.addEventListener('click', function(){ HSPL = null; HSHOT = null; drawMatch(); }); row.appendChild(bt);
+      ns.forEach(function(n){ var b = el('button', 'hpill' + (HSPL === n ? ' on' : ''), shortName(n) + ' ' + cnt[n]); b.type = 'button'; b.addEventListener('click', function(){ HSPL = n; HSHOT = null; drawMatch(); }); row.appendChild(b); });
+      box.appendChild(row);
+    }
+    var list = base.filter(function(q){ return HSPL == null || q.n === HSPL; });
+    var sel = HSHOT != null && HSHOT < list.length ? HSHOT : null;
+    var cd = el('div', 'hcard shw');
+    cd.innerHTML = shPitch(list, sel, m);
+    var lg = el('div', 'shlg');
+    lg.innerHTML = '<span><svg viewBox="0 0 10 10"><circle cx="5" cy="5" r="3" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>Fuori</span><span><svg viewBox="0 0 10 10"><circle cx="5" cy="5" r="3" fill="currentColor"/></svg>Parato</span><span><svg viewBox="0 0 10 10"><path d="M2 2l6 6m0-6l-6 6" stroke="currentColor" stroke-width="1.2"/></svg>Bloccato</span><span>⚽ Gol</span>';
+    cd.appendChild(lg); box.appendChild(cd);
+    Array.prototype.forEach.call(cd.querySelectorAll('.shh'), function(h){ h.addEventListener('click', function(){ var i = +h.getAttribute('data-i'); HSHOT = HSHOT === i ? null : i; drawMatch(); }); });
+    if(sel != null){
+      var q = list[sel], dc = el('div', 'hcard');
+      var top = el('div', 'shdt'), gl = el('div', 'gl'), nm = el('div', 'nm');
+      if(q.ev !== 'block') gl.innerHTML = shGoal(q);
+      nm.appendChild(el('b', '', q.n)); nm.appendChild(el('small', '', (q.min != null ? q.min + (q.add ? '+' + q.add : '') + '’' : '')));
+      var xs = el('div', 'shx'), a1 = el('div'), a2 = el('div');
+      a1.appendChild(el('small', '', 'xG')); a1.appendChild(el('b', '', q.xg == null ? '–' : Number(q.xg).toFixed(2)));
+      a2.appendChild(el('small', '', 'xGOT')); a2.appendChild(el('b', '', q.xgot == null ? '–' : Number(q.xgot).toFixed(2)));
+      xs.appendChild(a1); xs.appendChild(a2); nm.appendChild(xs);
+      if(q.ev !== 'block') top.appendChild(gl); top.appendChild(nm); dc.appendChild(top);
+      [['Esito', SHEV[q.ev] || ''], ['Situazione', SHSI[q.si] || q.si || ''], ['Tipo di tiro', SHTY[q.ty] || q.ty || '']].forEach(function(r){ if(!r[1]) return; var x = el('div', 'shr'); x.appendChild(el('small', '', r[0])); x.appendChild(el('b', '', r[1])); dc.appendChild(x); });
+      box.appendChild(dc);
+    }
+  }
   function tabStatsPast(box){
     var m = HSEL, rec = matchRec(m);
     if(!rec){ box.appendChild(el('div', 'hempty', 'Statistiche non ancora disponibili')); return; }
     var per = rec.st || {};
+    segmented(box, [['d', 'Dati'], ['t', 'Mappa tiri']], HSM, function(v){ HSM = v; HSHOT = null; drawMatch(); });
+    if(HSM === 't'){ shotsView(box, m, rec); return; }
     segmented(box, [['all', 'Totali'], ['FirstHalf', '1° Tempo'], ['SecondHalf', '2° Tempo']], HSP, function(v){ HSP = v; drawMatch(); });
     var gs = per[HSP] || [];
     if(!gs.length){ box.appendChild(el('div', 'hempty', 'Statistiche non disponibili')); return; }
