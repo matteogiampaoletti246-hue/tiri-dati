@@ -259,7 +259,7 @@ html[data-theme="night"] #slbTheme button.on{background:var(--accent-dim);color:
 .htab.hfr,.htr.hfr{grid-template-columns:28px 1fr auto;}
 .hrs{display:flex;align-items:center;gap:10px;padding:10px 16px;border-top:1px solid var(--line);font-size:14px;}.hrs.tap{cursor:pointer;}.hrs .dt{width:42px;color:var(--text-dim);font-size:12.5px;font-weight:600;font-variant-numeric:tabular-nums;}.hrs .op{flex:1;min-width:0;display:flex;align-items:center;gap:9px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}.hrs .sc2{font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink);}
 .vps{width:24px;height:24px;border-radius:7px;color:#fff;font-style:normal;font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center;}
-.hrs.hlr{background:var(--hl);}
+.hrs.hlr{background:var(--hl);}.hrs .lvr{color:#E5322D;font-weight:800;}.hrs .dt.lvr{font-size:11.5px;}
 .hhd{display:flex;padding:2px 18px 4px;font-size:11.5px;color:var(--text-dim);font-weight:600;}.hhd span{width:78px;text-align:right;}.hhd span:first-child{flex:1;width:auto;}
 .hr2{display:flex;align-items:center;padding:11px 18px;border-top:1px solid var(--line);font-size:14.5px;}.hr2 .l{flex:1;color:var(--text-dim);}.hr2 b{width:78px;text-align:right;font-variant-numeric:tabular-nums;color:var(--ink);}.hr2 b.g{color:var(--text-dim);font-weight:600;}
 .hhd.t4 span{width:84px;text-align:center;}.hhd.t4 span:first-child{flex:1;width:auto;text-align:left;}.hr2.t4 b{display:block;width:84px;text-align:center;}.hr2.t4{padding:12px 18px;}.hr2.t4 .l{align-self:center;}.hr2.t4 b .tv{display:block;font-size:16px;font-weight:800;font-variant-numeric:tabular-nums;}.hr2.t4 b small{display:block;margin-top:3px;color:var(--text-dim);font-weight:700;font-size:11px;}.tbar{display:block;height:4px;border-radius:2px;background:var(--line);margin:6px 10px 0;overflow:hidden;}.tbar u{display:block;height:100%;border-radius:2px;text-decoration:none;}
@@ -604,9 +604,19 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
         list = list.concat(po);
       }
     }
+    if(!LVON && HDAY < today){
+      lvCups(HDAY);
+      var dv = LVD[HDAY] && LVD[HDAY].l || [];
+      dv.forEach(function(e){
+        var lgk = LVMAP[e.lg]; if(!lgk || e.st !== 'post') return;
+        var hit = null; list.some(function(m){ if(m.lg === lgk && lvSame(m.h, e.h) && lvSame(m.a, e.a)){ hit = m; return true; } return false; });
+        if(hit){ if(!hit.t) hit.t = e.d; if(!stiId(hit)) hit.es = e; }
+        else list.push(lvDomM(e));
+      });
+    }
     var any = false;
     HLG.forEach(function(L){
-      var ms = list.filter(function(m){ return m.lg === L[0]; });
+      var ms = list.filter(function(m){ return m.lg === L[0]; }).sort(function(a, b){ return lvTs(a) - lvTs(b); });
       if(!ms.length) return; any = true;
       var box = el('div', 'hlg' + (HFI ? ' fi' : '')), h = el('div', 'hlgh'); var lg = lgImg(L[0]); if(lg){ lg.onerror = function(){ lg.remove(); }; h.appendChild(lg); } h.appendChild(el('span', '', L[1])); h.appendChild(el('span', 'chev2', '\u203A')); h.style.cursor = 'pointer'; h.addEventListener('click', function(){ openLeague(L[0]); }); box.appendChild(h);
       ms.forEach(function(m){ box.appendChild(matchRow(m)); });
@@ -984,19 +994,31 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
   function teamMatches(hc, name, lg){
     var res = TM && TM.res && TM.res[lg] && TM.res[lg][name];
     if(!res || !res.length){ hc.appendChild(el('div', 'hempty', 'Partite non ancora disponibili')); return; }
-    var next = res.filter(function(x){ return x[3] == null; }), past = res.filter(function(x){ return x[3] != null; }).reverse();
+    var next = [], past = res.filter(function(x){ return x[3] != null; }).reverse(), liv = [];
+    res.forEach(function(x){
+      if(x[3] != null) return;
+      var pr = {d: x[0], lg: lg, h: x[2] ? name : x[1], a: x[2] ? x[1] : name}, le = LV.ev.length ? lvOf(pr) : null;
+      if(le && le.st === 'post' && le.sh != null){ var gf = x[2] ? +le.sh : +le.sa, ga = x[2] ? +le.sa : +le.sh; past.unshift([x[0], x[1], x[2], gf, ga]); return; }
+      if(le && le.st === 'in'){ liv.push([x, le, pr]); next.push(x); return; }
+      next.push(x);
+    });
+    past.sort(function(p, q){ return p[0] < q[0] ? 1 : p[0] > q[0] ? -1 : 0; });
+    function liveOf(x){ for(var i = 0; i < liv.length; i++){ if(liv[i][0] === x) return liv[i]; } return null; }
     function card(title, list, isPast){
       if(!list.length) return;
       var c = el('div', 'hcard'); c.appendChild(el('div', 'hsec', title));
       list.forEach(function(x){
         var ms = (HD.matches || []).filter(function(m){ return m.d === x[0] && ((x[2] && m.h === name && m.a === x[1]) || (!x[2] && m.a === name && m.h === x[1])); })[0];
+        var lvx = !isPast && liveOf(x), lve = lvx && lvx[1];
+        if(lvx && !ms){ ms = {d: x[0], lg: lg, h: lvx[2].h, a: lvx[2].a, hl: tLogo(lvx[2].h), al: tLogo(lvx[2].a), t: lve.d}; }
         var r = el('div', 'hrs' + (ms ? ' tap' : ''));
-        r.appendChild(el('span', 'dt', dmy(x[0])));
+        r.appendChild(el('span', 'dt' + (lve ? ' lvr' : ''), lve ? (lvMin(lve) || 'LIVE') : dmy(x[0])));
         var o = el('span', 'op'); o.appendChild(crestEl(tLogo(x[1]), x[1], 22)); o.appendChild(el('span', '', x[1] + (x[2] ? '' : ' (T)'))); r.appendChild(o);
         if(isPast){
           var res_ = x[3] > x[4] ? 'V' : x[3] === x[4] ? 'P' : 'S', sc = el('span', 'sc2', x[3] + ' - ' + x[4]), bd = el('i', 'vps', res_); bd.style.background = VCOL[res_];
           r.appendChild(sc); r.appendChild(bd);
-        } else { var tt0 = ms && ms.t ? timeOf(ms.t) : ''; r.appendChild(el('span', 'sc2' + (tt0 ? '' : ' tbd'), tt0 || 'Da definire')); }
+        } else if(lve){ r.appendChild(el('span', 'sc2 lvr', lve.sh + ' - ' + lve.sa)); }
+        else { var tt0 = ms && ms.t ? timeOf(ms.t) : ''; r.appendChild(el('span', 'sc2' + (tt0 ? '' : ' tbd'), tt0 || 'Da definire')); }
         if(ms) r.addEventListener('click', function(){ openMatch(ms); });
         c.appendChild(r);
       });
@@ -1916,6 +1938,8 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
   var CUPS = [['uefa.champions', 'Champions League'], ['uefa.europa', 'Europa League'], ['uefa.europa.conf', 'Conference League'], ['uefa.nations', 'Nations League'], ['fifa.friendly', 'Amichevoli']], LVD = {};
   function cupLabel(k){ for(var i = 0; i < CUPS.length; i++){ if(CUPS[i][0] === k) return CUPS[i][1]; } return null; }
   function lvCupM(e){ var o = {d: romeDay(new Date(e.d)), lg: e.lg, h: e.h, a: e.a, hl: e.hl, al: e.al, t: e.d, es: e, cup: true, id: 'es' + e.id}; if(e.fm && e.st === 'post' && e.sh != null){ o.sh = +e.sh; o.sa = +e.sa; } return o; }
+  function lvDomM(e){ var o = {d: romeDay(new Date(e.d)), lg: LVMAP[e.lg], h: e.h, a: e.a, hl: e.hl, al: e.al, t: e.d, es: e, id: 'es' + e.id}; if(e.st === 'post' && e.sh != null){ o.sh = +e.sh; o.sa = +e.sa; } return o; }
+  function lvTs(m){ var x = m && m.t ? new Date(m.t).getTime() : NaN; return isNaN(x) ? 9e15 : x; }
   function lvCups(day){
     var out = {}, v = LVD[day], now = Date.now();
     LV.ev.forEach(function(e){ if(cupLabel(e.lg) && romeDay(new Date(e.d)) === day) out[e.id] = e; });
@@ -1924,7 +1948,7 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
     if(!v || (day >= today && now - v.ts > 300000)){
       if(!(v && v.busy)){
         LVD[day] = {l: v ? v.l : [], ts: v ? v.ts : 0, busy: true};
-        fetch(LVURL + '/d?date=' + day.replace(/-/g, '')).then(function(r){ return r.json(); }).then(function(j){ LVD[day] = {l: (j && j.ev) || [], ts: Date.now()}; lvRedraw(); }).catch(function(){ LVD[day] = {l: [], ts: Date.now()}; });
+        fetch(LVURL + '/d?date=' + day.replace(/-/g, '') + (day < today ? '&dom=1' : '')).then(function(r){ return r.json(); }).then(function(j){ LVD[day] = {l: (j && j.ev) || [], ts: Date.now()}; lvRedraw(); }).catch(function(){ LVD[day] = {l: [], ts: Date.now()}; });
       }
     }
     return Object.keys(out).map(function(k){ return lvCupM(out[k]); }).sort(function(a, b){ return a.t < b.t ? -1 : 1; });
@@ -2375,6 +2399,7 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
     return r;
   }
   function pastScore(m){
+    if(m.es && !m.cup && !stiId(m)) return null;
     if(m.sh != null) return [m.sh, m.sa];
     var R = resIdx(), x = R && R[m.d + '|' + m.h + '|' + m.a]; if(x) return [x[0], x[1]];
     if(stiId(m)){ var rr = matchRec(m); if(rr && rr.sh != null) return [rr.sh, rr.sa]; }
