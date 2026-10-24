@@ -1,0 +1,646 @@
+{
+"serie-a": {
+"1": [
+"Champions League",
+"#81D6AC"
+],
+"2": [
+"Champions League",
+"#81D6AC"
+],
+"3": [
+"Champions League",
+"#81D6AC"
+],
+"4": [
+"Champions League",
+"#81D6AC"
+],
+"5": [
+"Europa League",
+"#B2BFD0"
+],
+"6": [
+"Europa League",
+"#B2BFD0"
+],
+"7": [
+"Conference League qualifying",
+"#B2BFD0"
+],
+"18": [
+"Relegated",
+"#FF7F84"
+],
+"19": [
+"Relegated",
+"#FF7F84"
+],
+"20": [
+"Relegated",
+"#FF7F84"
+]
+},
+"premier-league": {
+"1": [
+"Champions League",
+"#81D6AC"
+],
+"2": [
+"Champions League",
+"#81D6AC"
+],
+"3": [
+"Champions League",
+"#81D6AC"
+],
+"4": [
+"Champions League",
+"#81D6AC"
+],
+"5": [
+"Europa League",
+"##B5E7CE"
+],
+"18": [
+"Relegation",
+"#FF7F84"
+],
+"19": [
+"Relegation",
+"#FF7F84"
+],
+"20": [
+"Relegation",
+"#FF7F84"
+]
+},
+"la-liga": {
+"1": [
+"Champions League",
+"#81D6AC"
+],
+"2": [
+"Champions League",
+"#81D6AC"
+],
+"3": [
+"Champions League",
+"#81D6AC"
+],
+"4": [
+"Champions League",
+"#81D6AC"
+],
+"5": [
+"Champions League",
+"#81D6AC"
+],
+"6": [
+"Europa League",
+"#c6d1e0"
+],
+"7": [
+"Conference League qualifying",
+"#B2BFD0"
+],
+"10": [
+"Europa League",
+"##c6d1e0"
+],
+"18": [
+"Relegation",
+"#FF7F84"
+],
+"19": [
+"Relegation",
+"#FF7F84"
+],
+"20": [
+"Relegation",
+"#FF7F84"
+]
+},
+"bundesliga": {
+"1": [
+"Champions League",
+"#81D6AC"
+],
+"2": [
+"Champions League",
+"#81D6AC"
+],
+"3": [
+"Champions League",
+"#81D6AC"
+],
+"4": [
+"Champions League",
+"#81D6AC"
+],
+"5": [
+"Europa League",
+"#B2BFD0"
+],
+"6": [
+"Europa League",
+"#B2BFD0"
+],
+"7": [
+"Conference League qualifying",
+"#B2BFD0"
+],
+"16": [
+"Relegation playoff",
+"#FEB4B5"
+],
+"17": [
+"Relegation",
+"#FF7F84"
+],
+"18": [
+"Relegation",
+"#FF7F84"
+]
+},
+"ligue-1": {
+"1": [
+"Champions League",
+"#81D6AC"
+],
+"2": [
+"Champions League",
+"#81D6AC"
+],
+"3": [
+"Champions League",
+"#81D6AC"
+],
+"4": [
+"Champions League qualifying",
+"#B5E7CE"
+],
+"5": [
+"Europa League",
+"#B2BFD0"
+],
+"6": [
+"Europa League",
+"#B2BFD0"
+],
+"7": [
+"Conference League qualifying",
+"#B2BFD0"
+],
+"16": [
+"Relegation playoff",
+"#FEB4B5"
+],
+"17": [
+"Relegation",
+"#FF7F84"
+],
+"18": [
+"Relegation",
+"#FF7F84"
+]
+},
+"uefa.champions": {
+"1": [
+"Qualifies for round of 16",
+"#81D6AC"
+],
+"2": [
+"Qualifies for round of 16",
+"#81D6AC"
+],
+"3": [
+"Qualifies for round of 16",
+"#81D6AC"
+],
+"4": [
+"Qualifies for round of 16",
+"#81D6AC"
+],
+"5": [
+"Qualifies for round of 16",
+"#81D6AC"
+],
+"6": [
+"Qualifies for round of 16",
+"#81D6AC"
+],
+"7": [
+"Qualifies for round of 16",
+"#81D6AC"
+],
+"8": [
+"Qualifies for round of 16",
+"#81D6AC"
+],
+"9": [
+"Knockout phase playoffs - seeded",
+"#B5E7CE"
+],
+"10": [
+"Knockout phase playoffs - seeded",
+"#B5E7CE"
+],
+"11": [
+"Knockout phase playoffs - seeded",
+"#B5E7CE"
+],
+"12": [
+"Knockout phase playoffs - seeded",
+"#B5E7CE"
+],
+"13": [
+"Knockout phase playoffs - seeded",
+"#B5E7CE"
+],
+"14": [
+"Knockout phase playoffs - seeded",
+"#B5E7CE"
+],
+"15": [
+"Knockout phase playoffs - seeded",
+"#B5E7CE"
+],
+"16": [
+"Knockout phase playoffs - seeded",
+"#B5E7CE"
+],
+"17": [
+"Knockout phase playoffs - unseeded",
+"#B2BFD0"
+],
+"18": [
+"Knockout phase playoffs - unseeded",
+"#B2BFD0"
+],
+"19": [
+"Knockout phase playoffs - unseeded",
+"#B2BFD0"
+],
+"20": [
+"Knockout phase playoffs - unseeded",
+"#B2BFD0"
+],
+"21": [
+"Knockout phase playoffs - unseeded",
+"#B2BFD0"
+],
+"22": [
+"Knockout phase playoffs - unseeded",
+"#B2BFD0"
+],
+"23": [
+"Knockout phase playoffs - unseeded",
+"#B2BFD0"
+],
+"24": [
+"Knockout phase playoffs - unseeded",
+"#B2BFD0"
+],
+"25": [
+"Eliminated",
+"#FF7F84"
+],
+"26": [
+"Eliminated",
+"#FF7F84"
+],
+"27": [
+"Eliminated",
+"#FF7F84"
+],
+"28": [
+"Eliminated",
+"#FF7F84"
+],
+"29": [
+"Eliminated",
+"#FF7F84"
+],
+"30": [
+"Eliminated",
+"#FF7F84"
+],
+"31": [
+"Eliminated",
+"#FF7F84"
+],
+"32": [
+"Eliminated",
+"#FF7F84"
+],
+"33": [
+"Eliminated",
+"#FF7F84"
+],
+"34": [
+"Eliminated",
+"#FF7F84"
+],
+"35": [
+"Eliminated",
+"#FF7F84"
+],
+"36": [
+"Eliminated",
+"#FF7F84"
+]
+},
+"uefa.europa": {
+"1": [
+"Qualifies for round of 16",
+"#81D6AC"
+],
+"2": [
+"Qualifies for round of 16",
+"#81D6AC"
+],
+"3": [
+"Qualifies for round of 16",
+"#81D6AC"
+],
+"4": [
+"Qualifies for round of 16",
+"#81D6AC"
+],
+"5": [
+"Qualifies for round of 16",
+"#81D6AC"
+],
+"6": [
+"Qualifies for round of 16",
+"#81D6AC"
+],
+"7": [
+"Qualifies for round of 16",
+"#81D6AC"
+],
+"8": [
+"Qualifies for round of 16",
+"#81D6AC"
+],
+"9": [
+"Knockout phase playoffs - seeded",
+"#B5E7CE"
+],
+"10": [
+"Knockout phase playoffs - seeded",
+"#B5E7CE"
+],
+"11": [
+"Knockout phase playoffs - seeded",
+"#B5E7CE"
+],
+"12": [
+"Knockout phase playoffs - seeded",
+"#B5E7CE"
+],
+"13": [
+"Knockout phase playoffs - seeded",
+"#B5E7CE"
+],
+"14": [
+"Knockout phase playoffs - seeded",
+"#B5E7CE"
+],
+"15": [
+"Knockout phase playoffs - seeded",
+"#B5E7CE"
+],
+"16": [
+"Knockout phase playoffs - seeded",
+"#B5E7CE"
+],
+"17": [
+"Knockout phase playoffs - unseeded",
+"#B2BFD0"
+],
+"18": [
+"Knockout phase playoffs - unseeded",
+"#B2BFD0"
+],
+"19": [
+"Knockout phase playoffs - unseeded",
+"#B2BFD0"
+],
+"20": [
+"Knockout phase playoffs - unseeded",
+"#B2BFD0"
+],
+"21": [
+"Knockout phase playoffs - unseeded",
+"#B2BFD0"
+],
+"22": [
+"Knockout phase playoffs - unseeded",
+"#B2BFD0"
+],
+"23": [
+"Knockout phase playoffs - unseeded",
+"#B2BFD0"
+],
+"24": [
+"Knockout phase playoffs - unseeded",
+"#B2BFD0"
+],
+"25": [
+"Eliminated",
+"#FF7F84"
+],
+"26": [
+"Eliminated",
+"#FF7F84"
+],
+"27": [
+"Eliminated",
+"#FF7F84"
+],
+"28": [
+"Eliminated",
+"#FF7F84"
+],
+"29": [
+"Eliminated",
+"#FF7F84"
+],
+"30": [
+"Eliminated",
+"#FF7F84"
+],
+"31": [
+"Eliminated",
+"#FF7F84"
+],
+"32": [
+"Eliminated",
+"#FF7F84"
+],
+"33": [
+"Eliminated",
+"#FF7F84"
+],
+"34": [
+"Eliminated",
+"#FF7F84"
+],
+"35": [
+"Eliminated",
+"#FF7F84"
+],
+"36": [
+"Eliminated",
+"#FF7F84"
+]
+},
+"uefa.europa.conf": {
+"1": [
+"Qualifies for round of 16",
+"#81D6AC"
+],
+"2": [
+"Qualifies for round of 16",
+"#81D6AC"
+],
+"3": [
+"Qualifies for round of 16",
+"#81D6AC"
+],
+"4": [
+"Qualifies for round of 16",
+"#81D6AC"
+],
+"5": [
+"Qualifies for round of 16",
+"#81D6AC"
+],
+"6": [
+"Qualifies for round of 16",
+"#81D6AC"
+],
+"7": [
+"Qualifies for round of 16",
+"#81D6AC"
+],
+"8": [
+"Qualifies for round of 16",
+"#81D6AC"
+],
+"9": [
+"Knockout phase playoffs - seeded",
+"#B5E7CE"
+],
+"10": [
+"Knockout phase playoffs - seeded",
+"#B5E7CE"
+],
+"11": [
+"Knockout phase playoffs - seeded",
+"#B5E7CE"
+],
+"12": [
+"Knockout phase playoffs - seeded",
+"#B5E7CE"
+],
+"13": [
+"Knockout phase playoffs - seeded",
+"#B5E7CE"
+],
+"14": [
+"Knockout phase playoffs - seeded",
+"#B5E7CE"
+],
+"15": [
+"Knockout phase playoffs - seeded",
+"#B5E7CE"
+],
+"16": [
+"Knockout phase playoffs - seeded",
+"#B5E7CE"
+],
+"17": [
+"Knockout phase playoffs - unseeded",
+"#B2BFD0"
+],
+"18": [
+"Knockout phase playoffs - unseeded",
+"#B2BFD0"
+],
+"19": [
+"Knockout phase playoffs - unseeded",
+"#B2BFD0"
+],
+"20": [
+"Knockout phase playoffs - unseeded",
+"#B2BFD0"
+],
+"21": [
+"Knockout phase playoffs - unseeded",
+"#B2BFD0"
+],
+"22": [
+"Knockout phase playoffs - unseeded",
+"#B2BFD0"
+],
+"23": [
+"Knockout phase playoffs - unseeded",
+"#B2BFD0"
+],
+"24": [
+"Knockout phase playoffs - unseeded",
+"#B2BFD0"
+],
+"25": [
+"Eliminated",
+"#FF7F84"
+],
+"26": [
+"Eliminated",
+"#FF7F84"
+],
+"27": [
+"Eliminated",
+"#FF7F84"
+],
+"28": [
+"Eliminated",
+"#FF7F84"
+],
+"29": [
+"Eliminated",
+"#FF7F84"
+],
+"30": [
+"Eliminated",
+"#FF7F84"
+],
+"31": [
+"Eliminated",
+"#FF7F84"
+],
+"32": [
+"Eliminated",
+"#FF7F84"
+],
+"33": [
+"Eliminated",
+"#FF7F84"
+],
+"34": [
+"Eliminated",
+"#FF7F84"
+],
+"35": [
+"Eliminated",
+"#FF7F84"
+],
+"36": [
+"Eliminated",
+"#FF7F84"
+]
+}
+}
