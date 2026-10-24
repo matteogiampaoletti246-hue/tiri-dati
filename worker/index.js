@@ -111,7 +111,7 @@ export default {
       if (u.pathname === "/fx") {
         const id = u.searchParams.get("id");
         if (!/^\d{5,10}$/.test(id || "")) return new Response("{}", { status: 400, headers: cors(req) });
-        const r = await fetch("https://www.fotmob.com/api/data/matchDetails?matchId=" + id, { headers: FMH, cf: { cacheTtl: 20, cacheEverything: true } });
+        const r = await fetch("https://www.fotmob.com/api/data/matchDetails?matchId=" + id, { headers: FMH, cf: { cacheTtl: 10, cacheEverything: true } });
         if (!r.ok) throw new Error("FotMob " + r.status);
         const j = await r.json(), c = j.content || {}, lu = c.lineup || {}, rf = c.matchFacts && c.matchFacts.infoBox && c.matchFacts.infoBox.Referee;
         const ph = (pid) => pid ? "https://images.fotmob.com/image_resources/playerimages/" + pid + ".png" : null;
@@ -128,7 +128,7 @@ export default {
           ref = { n: rf.text, cc: rf.countryCode, y: y ? y.value : null, ya: y ? y.average : null, fo: fo ? fo.value : null, foa: fo ? fo.average : null, mt: mt ? mt.value : null, r: rd ? rd.value : null, pen: pe ? pe.value : null };
         }
         const g2 = j.general || {};
-        return new Response(JSON.stringify({ t: Date.now(), ty: lu.lineupType || null, started: !!g2.started, fin: !!g2.finished, h: team(lu.homeTeam), a: team(lu.awayTeam), ref }), { headers: cors(req, { "Cache-Control": "public, max-age=20" }) });
+        return new Response(JSON.stringify({ t: Date.now(), ty: lu.lineupType || null, started: !!g2.started, fin: !!g2.finished, h: team(lu.homeTeam), a: team(lu.awayTeam), ref }), { headers: cors(req, { "Cache-Control": "public, max-age=10" }) });
       }
       if (u.pathname === "/m") {
         const lg = u.searchParams.get("lg"), id = u.searchParams.get("id");
