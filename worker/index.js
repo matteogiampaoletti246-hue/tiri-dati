@@ -86,6 +86,32 @@ export default {
         const j = await espn("/" + lg + "/summary?event=" + id);
         return new Response(JSON.stringify({ t: Date.now(), ...summary(j) }), { headers: cors(req) });
       }
+      if (u.pathname === "/diag4") {
+        const out = {};
+        const H = { "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 Mobile Safari/604.1", "Accept": "application/json,*/*", "Accept-Language": "en-US,en;q=0.9" };
+        const d = u.searchParams.get("date") || new Date().toISOString().slice(0, 10).replace(/-/g, "");
+        try {
+          const r = await fetch("https://www.fotmob.com/api/data/matches?date=" + d + "&timezone=Europe%2FRome&ccode3=ITA", { headers: H });
+          const j = await r.json();
+          const L = (j.leagues || []).filter((l) => [47, 55, 87, 54, 53, 42, 73, 77].includes(l.primaryId || l.id));
+          out.leghe = (j.leagues || []).length; out.top = L.map((l) => l.name + ":" + (l.matches || []).length);
+          let all = []; (L.length ? L : j.leagues || []).forEach((l) => (l.matches || []).forEach((m) => all.push({ l: l.name, m })));
+          const fin = all.filter((x) => x.m.status && x.m.status.finished), live = all.filter((x) => x.m.status && x.m.status.started && !x.m.status.finished);
+          out.n_finite = fin.length; out.n_live = live.length;
+          const pick = (live[0] || fin[0] || all[0]);
+          if (pick) {
+            out.partita = pick.l + " " + (pick.m.home && pick.m.home.name) + " - " + (pick.m.away && pick.m.away.name) + " id " + pick.m.id + (live[0] ? " LIVE" : "");
+            for (const [k, url] of [["det_data", "https://www.fotmob.com/api/data/matchDetails?matchId="], ["det_api", "https://www.fotmob.com/api/matchDetails?matchId="]]) {
+              try {
+                const r2 = await fetch(url + pick.m.id, { headers: H }); const x = await r2.text();
+                out[k] = { status: r2.status, bytes: x.length, shotmap: x.indexOf('"shotmap"') >= 0, head: x.slice(0, 120) };
+                const i = x.indexOf('"shotmap"'); if (i >= 0) out[k].sample = x.slice(i, i + 1100);
+              } catch (e) { out[k] = { errore: String(e).slice(0, 100) }; }
+            }
+          }
+        } catch (e) { out.errore = String(e).slice(0, 150); }
+        return new Response(JSON.stringify(out, null, 1), { headers: { "Content-Type": "application/json; charset=utf-8", "Cache-Control": "no-store" } });
+      }
       if (u.pathname === "/diag3") {
         const out = {};
         const H = { "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 Mobile Safari/604.1", "Accept": "text/html,application/json,*/*", "Accept-Language": "en-US,en;q=0.9" };
