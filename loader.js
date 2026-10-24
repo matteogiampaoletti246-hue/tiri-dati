@@ -451,7 +451,7 @@ html[data-theme="night"] #slbSearchBtn,html[data-theme="night"] #slbBurger{color
 .rfg{display:flex;border-top:1px solid var(--line);}.rfc{flex:1;padding:12px 16px 14px;}.rfc+.rfc{border-left:1px solid var(--line);}.rfc small{display:block;color:var(--text-dim);font-size:12.5px;font-weight:600;}.rfv{margin:6px 0 10px;}.rfv b{font:800 22px Poppins,sans-serif;}.rfv span{color:var(--text-dim);font-size:12.5px;}.rft{font-size:12.5px;font-weight:700;margin-top:8px;}
 .abar{position:relative;height:4px;background:var(--panel-2);border-radius:2px;margin:20px 0 8px;}.abar s{position:absolute;top:-19px;transform:translateX(-50%);font-size:10.5px;font-weight:700;color:var(--text-dim);text-decoration:none;white-space:nowrap;line-height:1;}.abar i{display:block;height:100%;border-radius:2px;position:relative;}.abar i::after{content:'';position:absolute;right:-5px;top:50%;width:10px;height:10px;margin-top:-5px;border-radius:50%;background:inherit;}.abar u{position:absolute;left:50%;top:-5px;width:2px;height:14px;margin-left:-1px;background:var(--text-dim);border-radius:1px;}
 .hbar2{display:flex;gap:3px;height:4px;margin-top:7px;}.hbar2>div{flex:1;background:var(--panel-2);display:flex;border-radius:2px;overflow:hidden;}.hbar2 .l{justify-content:flex-end;}.hbar2 i{display:block;height:100%;border-radius:2px;}
-.hrw{padding-bottom:10px;}.hrw .hr2{padding-top:9px;padding-bottom:8px;}.hrw .abar{margin:15px 16px 0;}
+html{touch-action:pan-x pan-y;}.htabs,.hdates{position:relative;}.swp button.on{border-bottom-color:transparent !important;border-color:transparent !important;}.hp .cp2{left:auto !important;right:-5px;top:20px !important;}.hrw{padding-bottom:10px;}.hrw .hr2{padding-top:9px;padding-bottom:8px;}.hrw .abar{margin:15px 16px 0;}
 .hrs .sc2.tbd{font-size:12px;font-weight:600;color:var(--text-dim);white-space:nowrap;}.hrow .tm{white-space:nowrap;}
 .trk .op .hyc{flex:none;}.trk .op>span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .hsec.hsc2{padding:8px 18px 10px;}
@@ -876,7 +876,7 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
     items.forEach(function(o){
       var t = el('button', cur === o[0] ? 'on' : '', o[1]); t.type = 'button';
       t.setAttribute('data-k', o[0]);
-      t.addEventListener('click', function(){ if(cur === o[0]) return; HANIM = {t: 'tab', d: ids.indexOf(o[0]) > ids.indexOf(cur) ? 1 : -1}; pick(o[0]); drawMatch(); window.scrollTo(0, 0); });
+      t.addEventListener('click', function(){ var ob = tabs.querySelector('button.on'), ck = ob ? ob.getAttribute('data-k') : cur; if(ck === o[0]) return; HANIM = {t: 'tab', d: ids.indexOf(o[0]) > ids.indexOf(ck) ? 1 : -1}; pick(o[0]); drawMatch(); window.scrollTo(0, 0); });
       tabs.appendChild(t);
     });
     return tabs;
@@ -1806,7 +1806,7 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
   }
 
 
-  // === gesti iPhone: la pagina segue il dito e quella accanto compare gia' di lato; l'indietro e' identico alla freccia ===
+  // === gesti iPhone: la pagina segue il dito, quella accanto compare gia' di lato (gia' disegnata, poi viene adottata senza ridisegnare); l'indietro e' identico alla freccia ===
   var NOANIM = false;
   (function(){
     var X0 = 0, Y0 = 0, T0 = 0, OK = false, MODE = 0, PK = null, GAP = 14;
@@ -1817,7 +1817,7 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
       var tabs = r.querySelector('.hhero .htabs') || r.querySelector('.htabs');
       if(tabs && (HSEL || HTEAM || HLV)){
         var on = tabs.querySelector('button.on'), tg = on && (next ? on.nextElementSibling : on.previousElementSibling);
-        if(tg && tg.getAttribute('data-k')){ var hc0 = r.querySelector('.hc'); if(hc0) return {kind: 'tab', dir: dir, tg: tg, key: tg.getAttribute('data-k'), el: hc0}; }
+        if(tg && tg.getAttribute('data-k')){ var hc0 = r.querySelector('.hc'); if(hc0) return {kind: 'tab', dir: dir, tg: tg, on: on, bar: tabs, key: tg.getAttribute('data-k'), el: hc0}; }
         if(!next && r.querySelector('.hback')) return {kind: 'back', dir: dir};
         return null;
       }
@@ -1827,7 +1827,7 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
       var ix = -1; bs.forEach(function(b, i){ if(b.classList.contains('on')) ix = i; });
       var tg2 = bs[ix + (next ? 1 : -1)]; var mb = r.querySelector('.mbody');
       if(ix < 0 || !tg2 || !mb || !tg2.getAttribute('data-k')) return null;
-      return {kind: 'day', dir: dir, tg: tg2, key: tg2.getAttribute('data-k'), el: mb};
+      return {kind: 'day', dir: dir, tg: tg2, on: bs[ix], bar: ds, key: tg2.getAttribute('data-k'), el: mb};
     }
     function build(p){
       var sv = {a: HTAB, b: HTTAB, c: HLTAB, d: HSTV, e: HDAY}, h = null;
@@ -1839,26 +1839,56 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
           else if(HTEAM){ HTTAB = p.key; teamTabInto(h, HTEAM, HTLG); }
           else if(HLV){ HLTAB = p.key; leagueTabInto(h, HLV, !!CUPK[HLV], null); }
         }
+        p.st = {a: HTAB, b: HTTAB, c: HLTAB, d: HSTV, e: HDAY};
       }catch(e){ h = null; }
       HTAB = sv.a; HTTAB = sv.b; HLTAB = sv.c; HSTV = sv.d; HDAY = sv.e;
       return h;
     }
+    function tr(x){ return 'translate3d(' + x + 'px,0,0)'; }
     function mount(p){
       var h = build(p); if(!h) return false;
       var host = p.el.parentNode, cs = getComputedStyle(host), pcs = getComputedStyle(p.el);
       if(cs.position === 'static'){ host.style.position = 'relative'; p.undo = true; }
       p.W = p.el.offsetWidth;
-      h.style.cssText += ';position:absolute;left:0;top:' + p.el.offsetTop + 'px;width:' + p.W + 'px;box-sizing:border-box;padding:' + pcs.padding + ';pointer-events:none;will-change:transform;transform:translate3d(' + (-p.dir * (p.W + GAP)) + 'px,0,0)';
+      h.style.cssText += ';position:absolute;left:0;top:' + p.el.offsetTop + 'px;width:' + p.W + 'px;box-sizing:border-box;padding:' + pcs.padding + ';pointer-events:none;will-change:transform;transform:' + tr(-p.dir * (p.W + GAP));
       host.appendChild(h); p.h = h; p.host = host;
       p.el.style.willChange = 'transform'; p.el.style.transition = 'none';
+      // linea sotto le schede / giorni: segue il dito
+      var bar = p.bar, on = p.on, tg = p.tg;
+      p.L0 = on.offsetLeft; p.W0 = on.offsetWidth; p.L1 = tg.offsetLeft; p.W1 = tg.offsetWidth; p.s0 = bar.scrollLeft;
+      p.s1 = Math.max(0, Math.min(bar.scrollWidth - bar.clientWidth, tg.offsetLeft - (bar.clientWidth - tg.offsetWidth) / 2));
+      var ind = document.createElement('i'); ind.className = 'tind'; ind.style.cssText = 'position:absolute;left:0;bottom:0;height:3px;pointer-events:none;will-change:transform,width;background:' + getComputedStyle(on).borderBottomColor + ';width:' + p.W0 + 'px;transform:' + tr(p.L0);
+      bar.classList.add('swp'); bar.appendChild(ind); p.ind = ind;
       return true;
     }
-    function tr(x){ return 'translate3d(' + x + 'px,0,0)'; }
+    function prog(p, f){
+      f = Math.max(0, Math.min(1, f));
+      p.ind.style.width = (p.W0 + (p.W1 - p.W0) * f) + 'px'; p.ind.style.transform = tr(p.L0 + (p.L1 - p.L0) * f);
+      p.bar.scrollLeft = p.s0 + (p.s1 - p.s0) * f;
+    }
     function drop(p){
       if(!p) return;
       try{ if(p.el){ p.el.getAnimations().forEach(function(x){ x.cancel(); }); p.el.style.transform = ''; p.el.style.willChange = ''; p.el.style.transition = ''; } }catch(e){}
       if(p.h && p.h.parentNode) p.h.parentNode.removeChild(p.h);
+      if(p.ind && p.ind.parentNode) p.ind.parentNode.removeChild(p.ind);
+      if(p.bar) p.bar.classList.remove('swp');
       if(p.undo && p.host) p.host.style.position = '';
+    }
+    // la pagina gia' disegnata prende il posto di quella vecchia: nessun ridisegno, nessun lampeggio di icone
+    function adopt(p){
+      var st = p.st; HTAB = st.a; HTTAB = st.b; HLTAB = st.c; HSTV = st.d; HDAY = st.e;
+      try{ p.on.classList.remove('on'); p.tg.classList.add('on'); }catch(e){}
+      if(p.kind === 'day'){
+        HCAL = false;
+        var mb = p.el; mb.style.transform = ''; mb.style.willChange = ''; mb.style.transition = '';
+        while(mb.firstChild) mb.removeChild(mb.firstChild);
+        while(p.h.firstChild) mb.appendChild(p.h.firstChild);
+        try{ var ci = p.bar.querySelector('input[type=date]'); if(ci) ci.value = p.key; }catch(e){}
+      } else {
+        HSTK = null;
+        var nh = p.h; nh.style.position = nh.style.left = nh.style.top = nh.style.width = nh.style.boxSizing = nh.style.padding = nh.style.pointerEvents = nh.style.willChange = nh.style.transform = '';
+        p.el.parentNode.replaceChild(nh, p.el); p.h = null;
+      }
     }
     document.addEventListener('touchstart', function(e){
       var t = e.touches[0]; X0 = t.clientX; Y0 = t.clientY; T0 = Date.now(); MODE = 0; if(PK){ drop(PK); PK = null; }
@@ -1878,7 +1908,7 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
         if(!mount(p)){ PK = {kind: 'none', dir: dir}; return; }
         PK = p;
       }
-      if(PK.kind === 'tab' || PK.kind === 'day'){ PK.el.style.transform = tr(dx); PK.h.style.transform = tr(dx - PK.dir * (PK.W + GAP)); }
+      if(PK.kind === 'tab' || PK.kind === 'day'){ PK.el.style.transform = tr(dx); PK.h.style.transform = tr(dx - PK.dir * (PK.W + GAP)); prog(PK, Math.abs(dx) / (PK.W + GAP)); }
     }, {passive: false});
     document.addEventListener('touchcancel', function(){ OK = false; if(PK){ drop(PK); PK = null; } }, {passive: true});
     document.addEventListener('touchend', function(e){
@@ -1887,17 +1917,28 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
       if(MODE !== 1 || !p || p.kind === 'none'){ drop(p); return; }
       var dt = Date.now() - T0, dir = dx > 0 ? 1 : -1, go = p.dir === dir && (Math.abs(dx) >= 56 || (Math.abs(dx) >= 30 && dt < 260)) && dt < 1200;
       if(p.kind === 'back'){ if(go){ if(history.state && history.state.slb) history.back(); else navBack(); } return; }
-      var W = p.W, el0 = p.el, h = p.h, done = false, ease = {duration: 170, easing: 'cubic-bezier(.25,.8,.3,1)', fill: 'forwards'};
+      var W = p.W, el0 = p.el, h = p.h, done = false, D = 180, ease = {duration: D, easing: 'cubic-bezier(.25,.8,.3,1)', fill: 'forwards'};
+      var f0 = Math.min(1, Math.abs(dx) / (W + GAP)), f1 = go ? 1 : 0, t0 = performance.now();
       var fin = function(){
         if(done) return; done = true;
-        drop(p);
-        if(go){ SWST = Date.now() + 900; NOANIM = true; try{ p.tg.click(); }finally{ NOANIM = false; HANIM = null; } }
+        if(go){
+          try{ var keep = p.h, kel = p.el; p.el.getAnimations().forEach(function(x){ x.cancel(); }); if(keep) keep.getAnimations().forEach(function(x){ x.cancel(); }); }catch(e){}
+          if(p.ind && p.ind.parentNode) p.ind.parentNode.removeChild(p.ind); p.bar.classList.remove('swp'); p.bar.scrollLeft = p.s1;
+          try{ adopt(p); }catch(err){ drop(p); NOANIM = true; try{ p.tg.click(); }finally{ NOANIM = false; HANIM = null; } }
+          if(p.undo && p.host) p.host.style.position = '';
+        } else drop(p);
       };
       if(!el0.animate || !h.animate){ fin(); return; }
       var a = el0.animate([{transform: tr(dx)}, {transform: tr(go ? p.dir * (W + GAP) : 0)}], ease);
       h.animate([{transform: tr(dx - p.dir * (W + GAP))}, {transform: tr(go ? 0 : -p.dir * (W + GAP))}], ease);
-      a.onfinish = fin; setTimeout(fin, 320);
+      var tick = function(now){ if(done) return; var k = Math.min(1, (now - t0) / D), e2 = 1 - Math.pow(1 - k, 3); prog(p, f0 + (f1 - f0) * e2); if(k < 1) requestAnimationFrame(tick); };
+      requestAnimationFrame(tick);
+      a.onfinish = fin; setTimeout(fin, D + 160);
     }, {passive: true});
+    // niente zoom a due dita / doppio tocco
+    document.addEventListener('gesturestart', function(e){ e.preventDefault(); }, {passive: false});
+    document.addEventListener('gesturechange', function(e){ e.preventDefault(); }, {passive: false});
+    document.addEventListener('touchmove', function(e){ if(e.touches.length > 1 && e.cancelable) e.preventDefault(); }, {passive: false});
   })();
   // --- ricerca (lente) ---
   function searchSetup(bar){
