@@ -82,11 +82,53 @@ export default {
         return new Response(JSON.stringify({ t: Date.now(), ev: all.flat() }), { headers: cors(req, { "Cache-Control": "public, max-age=" + (old ? 3600 : 60) }) });
       }
       if (u.pathname === "/cs") {
-        const lg = u.searchParams.get("lg");
+        const lg = u.searchParams.get("lg"), dbg = u.searchParams.get("dbg");
         if (!CUPS.includes(lg)) return new Response("{}", { status: 400, headers: cors(req) });
         const n = new Date(), y0 = n.getUTCMonth() + 1 >= 8 ? n.getUTCFullYear() : n.getUTCFullYear() - 1;
-        const j = await espn("/" + lg + "/scoreboard?dates=" + y0 + "0901-" + (y0 + 1) + "0630&limit=400", 300);
-        return new Response(JSON.stringify({ t: Date.now(), ev: scoreboard(j, lg) }), { headers: cors(req, { "Cache-Control": "public, max-age=300" }) });
+        let ev = [], src = "espn", err = null;
+        try {
+          const j = await espn("/" + lg + "/scoreboard?dates=" + y0 + "0901-" + (y0 + 1) + "0630&limit=400", 300);
+          ev = scoreboard(j, lg);
+        } catch (e) { err = String(e); }
+        const FID = { "uefa.champions": 42, "uefa.europa": 73, "uefa.europa.conf": 10216 };
+        if (!ev.length && FID[lg]) {
+          try {
+            const r = await fetch("https://www.fotmob.com/api/data/leagues?id=" + FID[lg] + "&ccode3=ITA&timezone=Europe%2FRome", { headers: FMH, cf: { cacheTtl: 300, cacheEverything: true } });
+            if (!r.ok) throw new Error("FotMob " + r.status);
+            const j = await r.json(), fx = (j.fixtures && j.fixtures.allMatches) || [];
+            const logo = (id) => id ? "https://images.fotmob.com/image_resources/logo/teamlogo/" + id + ".png" : null;
+            ev = fx.filter((x) => x.status && x.status.utcTime && !(x.status.cancelled)).map((x) => {
+              const st = x.status, fin = !!st.finished, ini = !!st.started, sc = String(st.scoreStr || "").match(/(\d+)\s*-\s*(\d+)/);
+              return { lg, id: "fm" + x.id, fm: x.id, d: st.utcTime, st: fin ? "post" : ini ? "in" : "pre", nm: fin ? "STATUS_FULL_TIME" : ini ? "STATUS_IN_PROGRESS" : "STATUS_SCHEDULED", det: fin ? "FT" : "",
+                hl: logo(x.home && x.home.id), al: logo(x.away && x.away.id), h: x.home && (x.home.name || x.home.shortName), a: x.away && (x.away.name || x.away.shortName),
+                sh: sc ? sc[1] : null, sa: sc ? sc[2] : null };
+            });
+            src = "fotmob";
+          } catch (e) { err = (err ? err + " | " : "") + String(e); }
+        }
+        return new Response(JSON.stringify({ t: Date.now(), ev, src, ...(dbg ? { err, n: ev.length } : {}) }), { headers: cors(req, { "Cache-Control": "public, max-age=300" }) });
+      }
+      if (u.pathname === "/fx") {
+        const id = u.searchParams.get("id");
+        if (!/^\d{5,10}$/.test(id || "")) return new Response("{}", { status: 400, headers: cors(req) });
+        const r = await fetch("https://www.fotmob.com/api/data/matchDetails?matchId=" + id, { headers: FMH, cf: { cacheTtl: 20, cacheEverything: true } });
+        if (!r.ok) throw new Error("FotMob " + r.status);
+        const j = await r.json(), c = j.content || {}, lu = c.lineup || {}, rf = c.matchFacts && c.matchFacts.infoBox && c.matchFacts.infoBox.Referee;
+        const ph = (pid) => pid ? "https://images.fotmob.com/image_resources/playerimages/" + pid + ".png" : null;
+        const team = (t) => {
+          if (!t || !(t.starters || []).length) return null;
+          const mp = (p) => [p.name, p.shirtNumber != null ? +p.shirtNumber || p.shirtNumber : null, p.horizontalLayout ? p.horizontalLayout.x : null, p.horizontalLayout ? p.horizontalLayout.y : null, !!p.isCaptain, ph(p.id), p.performance && p.performance.rating ? p.performance.rating : null];
+          const cc = t.coach;
+          return { f: t.formation, s: t.starters.map(mp), b: (t.subs || []).map(mp), co: cc ? { id: cc.id, n: cc.name, cc: cc.countryCode } : null };
+        };
+        let ref = null;
+        if (rf && rf.text) {
+          const g = (k) => { const x = (rf.stats || []).find((q) => q.type === k); return x || null; };
+          const y = g("yellowCards"), fo = g("fouls"), mt = g("matches"), rd = g("redCards"), pe = g("penalties");
+          ref = { n: rf.text, cc: rf.countryCode, y: y ? y.value : null, ya: y ? y.average : null, fo: fo ? fo.value : null, foa: fo ? fo.average : null, mt: mt ? mt.value : null, r: rd ? rd.value : null, pen: pe ? pe.value : null };
+        }
+        const g2 = j.general || {};
+        return new Response(JSON.stringify({ t: Date.now(), ty: lu.lineupType || null, started: !!g2.started, fin: !!g2.finished, h: team(lu.homeTeam), a: team(lu.awayTeam), ref }), { headers: cors(req, { "Cache-Control": "public, max-age=20" }) });
       }
       if (u.pathname === "/m") {
         const lg = u.searchParams.get("lg"), id = u.searchParams.get("id");
