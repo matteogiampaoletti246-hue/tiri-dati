@@ -5,6 +5,7 @@ const DOM = ["ita.1", "eng.1", "esp.1", "ger.1", "fra.1"];
 const CUPS = ["uefa.champions", "uefa.europa", "uefa.europa.conf", "uefa.nations", "fifa.friendly"];
 const LEGHE = DOM.concat(CUPS);
 const TTL = 15;
+const FMH = { "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 Mobile Safari/604.1", "Accept": "application/json,*/*", "Accept-Language": "en-US,en;q=0.9" };
 
 function cors(req, extra) {
   const o = req.headers.get("Origin");
@@ -85,6 +86,25 @@ export default {
         if (!LEGHE.includes(lg) || !/^\d{5,12}$/.test(id || "")) return new Response("{}", { status: 400, headers: cors(req) });
         const j = await espn("/" + lg + "/summary?event=" + id);
         return new Response(JSON.stringify({ t: Date.now(), ...summary(j) }), { headers: cors(req) });
+      }
+      if (u.pathname === "/f") {
+        const dt = u.searchParams.get("date");
+        if (!/^\d{8}$/.test(dt || "")) return new Response("{}", { status: 400, headers: cors(req) });
+        const r = await fetch("https://www.fotmob.com/api/data/matches?date=" + dt + "&timezone=Europe%2FRome&ccode3=ITA", { headers: FMH, cf: { cacheTtl: 60, cacheEverything: true } });
+        if (!r.ok) throw new Error("FotMob " + r.status);
+        const j = await r.json(), OK = [47, 54, 87, 53, 55, 42, 73, 10216];
+        const m = [];
+        (j.leagues || []).forEach((l) => { if (!OK.includes(l.primaryId || l.id)) return; (l.matches || []).forEach((x) => m.push({ id: x.id, l: l.primaryId || l.id, h: x.home && x.home.name, a: x.away && x.away.name, hi: x.home && x.home.id, ai: x.away && x.away.id, t: x.status && x.status.utcTime, f: !!(x.status && x.status.finished), s: !!(x.status && x.status.started) })); });
+        return new Response(JSON.stringify({ t: Date.now(), m }), { headers: cors(req, { "Cache-Control": "public, max-age=60" }) });
+      }
+      if (u.pathname === "/fs") {
+        const id = u.searchParams.get("id");
+        if (!/^\d{5,10}$/.test(id || "")) return new Response("{}", { status: 400, headers: cors(req) });
+        const r = await fetch("https://www.fotmob.com/api/data/matchDetails?matchId=" + id, { headers: FMH, cf: { cacheTtl: 15, cacheEverything: true } });
+        if (!r.ok) throw new Error("FotMob " + r.status);
+        const j = await r.json(), g = j.general || {}, sm = ((j.content || {}).shotmap) || {};
+        const sh = (sm.shots || []).map((s) => [s.min, s.minAdded, s.teamId, s.playerName, s.x, s.y, s.eventType, s.isBlocked ? 1 : 0, s.isOnTarget ? 1 : 0, s.blockedX, s.blockedY, s.goalCrossedY, s.goalCrossedZ, s.expectedGoals, s.expectedGoalsOnTarget, s.shotType, s.situation, s.isOwnGoal ? 1 : 0, s.period]);
+        return new Response(JSON.stringify({ t: Date.now(), hi: g.homeTeam && g.homeTeam.id, ai: g.awayTeam && g.awayTeam.id, fin: !!g.finished, st: !!g.started, sh }), { headers: cors(req) });
       }
       if (u.pathname === "/diag4") {
         const out = {};
