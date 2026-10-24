@@ -1,0 +1,98 @@
+{
+ "status": {
+  "get": "status",
+  "parameters": [],
+  "errors": [],
+  "results": 0,
+  "paging": {
+   "current": 1,
+   "total": 1
+  },
+  "response": {
+   "account": {
+    "firstname": "Matteo",
+    "lastname": "Giampaoletti",
+    "email": "matteogiampaoletti246@gmail.com"
+   },
+   "subscription": {
+    "plan": "Free",
+    "end": "2027-10-24T00:00:00+00:00",
+    "active": true
+   },
+   "requests": {
+    "current": 0,
+    "limit_day": 100
+   }
+  }
+ },
+ "serie-a_2026": {
+  "errori": {
+   "plan": "Free plans do not have access to this season, try from 2022 to 2024."
+  },
+  "n": 0,
+  "partite": []
+ },
+ "serie-a_2025": {
+  "errori": {
+   "plan": "Free plans do not have access to this season, try from 2022 to 2024."
+  },
+  "n": 0,
+  "partite": []
+ },
+ "premier-league_2026": {
+  "errori": {
+   "plan": "Free plans do not have access to this season, try from 2022 to 2024."
+  },
+  "n": 0,
+  "partite": []
+ },
+ "premier-league_2025": {
+  "errori": {
+   "plan": "Free plans do not have access to this season, try from 2022 to 2024."
+  },
+  "n": 0,
+  "partite": []
+ },
+ "la-liga_2026": {
+  "errori": {
+   "plan": "Free plans do not have access to this season, try from 2022 to 2024."
+  },
+  "n": 0,
+  "partite": []
+ },
+ "la-liga_2025": {
+  "errori": {
+   "plan": "Free plans do not have access to this season, try from 2022 to 2024."
+  },
+  "n": 0,
+  "partite": []
+ },
+ "bundesliga_2026": {
+  "errori": {
+   "plan": "Free plans do not have access to this season, try from 2022 to 2024."
+  },
+  "n": 0,
+  "partite": []
+ },
+ "bundesliga_2025": {
+  "errori": {
+   "plan": "Free plans do not have access to this season, try from 2022 to 2024."
+  },
+  "n": 0,
+  "partite": []
+ },
+ "ligue-1_2026": {
+  "errori": {
+   "plan": "Free plans do not have access to this season, try from 2022 to 2024."
+  },
+  "n": 0,
+  "partite": []
+ },
+ "ligue-1_2025": {
+  "errori": {
+   "plan": "Free plans do not have access to this season, try from 2022 to 2024."
+  },
+  "n": 0,
+  "partite": []
+ }
+}
