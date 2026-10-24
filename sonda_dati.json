@@ -1,0 +1,1953 @@
+{
+ "matches_status": 200,
+ "n_finished_ieri": 5,
+ "n_upcoming_domani": 22,
+ "finita": {
+  "match": "Ipswich Town - Nottingham Forest",
+  "status": 200,
+  "general_keys": [
+   "matchId",
+   "matchName",
+   "matchRound",
+   "teamColors",
+   "leagueId",
+   "leagueName",
+   "leagueRoundName",
+   "parentLeagueId",
+   "countryCode",
+   "homeTeam",
+   "awayTeam",
+   "coverageLevel",
+   "matchTimeUTC",
+   "matchTimeUTCDate",
+   "started",
+   "finished",
+   "gender"
+  ],
+  "content_keys": [
+   "matchFacts",
+   "liveticker",
+   "superlive",
+   "buzz",
+   "stats",
+   "playerStats",
+   "shotmap",
+   "weather",
+   "lineup",
+   "hasPlayoff",
+   "table",
+   "h2h",
+   "momentum",
+   "attackingZones",
+   "highlightStories",
+   "heatmapUrl"
+  ],
+  "n_shots": 24,
+  "shots_sample": [
+   {
+    "id": 2986119137,
+    "eventType": "Miss",
+    "teamId": 9902,
+    "playerId": 1073742,
+    "playerName": "Julio Enciso",
+    "x": 80.23252427279999,
+    "y": 37.66,
+    "min": 5,
+    "minAdded": null,
+    "isBlocked": false,
+    "isOnTarget": false,
+    "blockedX": null,
+    "blockedY": null,
+    "goalCrossedY": 26.574375,
+    "goalCrossedZ": 3.6201379344000006,
+    "expectedGoals": 0.027268461883068085,
+    "expectedGoalsOnTarget": 0,
+    "shotType": "RightFoot",
+    "situation": "RegularPlay",
+    "period": "FirstHalf",
+    "isOwnGoal": false,
+    "onGoalShot": {
+     "x": 2,
+     "y": 0.48751962755997,
+     "zoomRatio": 0.5090480599276158
+    },
+    "isSavedOffLine": false,
+    "isFromInsideBox": false,
+    "keeperId": null,
+    "firstName": "Julio",
+    "lastName": "Enciso",
+    "fullName": "Julio Enciso",
+    "teamColor": "#0333A0"
+   },
+   {
+    "id": 2986121785,
+    "eventType": "AttemptSaved",
+    "teamId": 10203,
+    "playerId": 1391209,
+    "playerName": "Jair Cunha",
+    "x": 94.9649122793,
+    "y": 36.135000000000005,
+    "min": 6,
+    "minAdded": null,
+    "isBlocked": false,
+    "isOnTarget": true,
+    "blockedX": 103.8620689656,
+    "blockedY": 34.305,
+    "goalCrossedY": 35.220000000000006,
+    "goalCrossedZ": 1.0979999946,
+    "expectedGoals": 0.12549647688865662,
+    "expectedGoalsOnTarget": 0.19311070442199707,
+    "shotType": "LeftFoot",
+    "situation": "SetPiece",
+    "period": "FirstHalf",
+    "isOwnGoal": false,
+    "onGoalShot": {
+     "x": 0.6772486772486757,
+     "y": 0.29047618904761907,
+     "zoomRatio": 1
+    },
+    "isSavedOffLine": false,
+    "isFromInsideBox": true,
+    "keeperId": 512013,
+    "firstName": "Jair",
+    "lastName": "Cunha",
+    "fullName": "Jair Cunha",
+    "teamColor": "#C8102E"
+   },
+   {
+    "id": 2986132537,
+    "eventType": "Goal",
+    "teamId": 10203,
+    "playerId": 1078788,
+    "playerName": "Neco Williams",
+    "x": 98.4385964909,
+    "y": 35.9825,
+    "min": 13,
+    "minAdded": null,
+    "isBlocked": false,
+    "isOnTarget": true,
+    "blockedX": null,
+    "blockedY": null,
+    "goalCrossedY": 33.00875,
+    "goalCrossedZ": 0.6099999970000001,
+    "expectedGoals": 0.26932185888290405,
+    "expectedGoalsOnTarget": 0.5810130834579468,
+    "shotType": "RightFoot",
+    "situation": "RegularPlay",
+    "period": "FirstHalf",
+    "isOwnGoal": false,
+    "onGoalShot": {
+     "x": 1.26223544973545,
+     "y": 0.16137566058201058,
+     "zoomRatio": 1
+    },
+    "isSavedOffLine": false,
+    "isFromInsideBox": true,
+    "keeperId": 512013,
+    "firstName": "Neco",
+    "lastName": "Williams",
+    "fullName": "Neco Williams",
+    "teamColor": "#C8102E"
+   },
+   {
+    "id": 2986207277,
+    "eventType": "AttemptSaved",
+    "teamId": 10203,
+    "playerId": 1078788,
+    "playerName": "Neco Williams",
+    "x": 89.9,
+    "y": 44.91159235240001,
+    "min": 60,
+    "minAdded": null,
+    "isBlocked": true,
+    "isOnTarget": true,
+    "blockedX": 98.535087719,
+    "blockedY": 38.200238096999996,
+    "goalCrossedY": 33.2375,
+    "goalCrossedZ": 1.2199999940000001,
+    "expectedGoals": 0.03196980431675911,
+    "expectedGoalsOnTarget": 0,
+    "shotType": "RightFoot",
+    "situation": "FromCorner",
+    "period": "SecondHalf",
+    "isOwnGoal": false,
+    "onGoalShot": {
+     "x": 1.2017195767195774,
+     "y": 0.32275132116402117,
+     "zoomRatio": 1
+    },
+    "isSavedOffLine": false,
+    "isFromInsideBox": true,
+    "keeperId": null,
+    "firstName": "Neco",
+    "lastName": "Williams",
+    "fullName": "Neco Williams",
+    "teamColor": "#C8102E"
+   }
+  ],
+  "lineup_keys": [
+   "matchId",
+   "lineupType",
+   "source",
+   "availableFilters",
+   "homeTeam",
+   "awayTeam"
+  ],
+  "lineup_homeTeam": {
+   "keys": [
+    "id",
+    "name",
+    "rating",
+    "formation",
+    "starters",
+    "coach",
+    "subs",
+    "unavailable",
+    "averageStarterAge",
+    "totalStarterMarketValue"
+   ],
+   "coach": {
+    "id": 24393,
+    "age": 43,
+    "name": "Gary O'Neil",
+    "countryName": "England",
+    "countryCode": "ENG",
+    "firstName": "Gary",
+    "lastName": "O'Neil",
+    "nationalTeamId": 8491,
+    "primaryTeamId": 9902,
+    "primaryTeamName": "Ipswich Town",
+    "usualPlayingPositionId": null,
+    "isCoach": true
+   },
+   "starter0": {
+    "id": 512013,
+    "age": 30,
+    "name": "Christian Walton",
+    "positionId": 11,
+    "usualPlayingPositionId": 0,
+    "shirtNumber": "28",
+    "countryName": "England",
+    "countryCode": "ENG",
+    "horizontalLayout": {
+     "x": 0.1,
+     "y": 0.5,
+     "height": 0.25,
+     "width": 0.192
+    },
+    "verticalLayout": {
+     "x": 0.5,
+     "y": 0.1,
+     "height": 0.192,
+     "width": 1
+    },
+    "marketValue": 1670091,
+    "performance": {
+     "rating": 6.8,
+     "fantasyScore": "3",
+     "seasonRating": 6.63,
+     "totalDistanceCovered": 6567,
+     "topSpeed": 23.600000381469727
+    },
+    "firstName": "Christian",
+    "lastName": "Walton",
+    "nationalTeamId": 8491,
+    "rankings": {
+     "totalDistanceCovered": {
+      "rank": 21,
+      "totalPlayers": 30
+     },
+     "topSpeed": {
+      "rank": 29,
+      "totalPlayers": 30
+     }
+    }
+   }
+  },
+  "lineup_awayTeam": {
+   "keys": [
+    "id",
+    "name",
+    "rating",
+    "formation",
+    "starters",
+    "coach",
+    "subs",
+    "unavailable",
+    "averageStarterAge",
+    "totalStarterMarketValue"
+   ],
+   "coach": {
+    "id": 43009,
+    "age": 52,
+    "name": "Oliver Glasner",
+    "countryName": "Austria",
+    "countryCode": "AUT",
+    "firstName": "Oliver",
+    "lastName": "Glasner",
+    "nationalTeamId": 8255,
+    "primaryTeamId": 10203,
+    "primaryTeamName": "Nottingham Forest",
+    "usualPlayingPositionId": null,
+    "isCoach": true
+   },
+   "starter0": {
+    "id": 181069,
+    "age": 34,
+    "name": "Matz Sels",
+    "positionId": 11,
+    "usualPlayingPositionId": 0,
+    "shirtNumber": "26",
+    "countryName": "Belgium",
+    "countryCode": "BEL",
+    "horizontalLayout": {
+     "x": 0.1,
+     "y": 0.5,
+     "height": 0.25,
+     "width": 0.192
+    },
+    "verticalLayout": {
+     "x": 0.5,
+     "y": 0.1,
+     "height": 0.192,
+     "width": 1
+    },
+    "marketValue": 4543727,
+    "performance": {
+     "rating": 6.9,
+     "fantasyScore": "2",
+     "seasonRating": 6.52,
+     "totalDistanceCovered": 5256,
+     "topSpeed": 23.200000762939453
+    },
+    "firstName": "Matz",
+    "lastName": "Sels",
+    "nationalTeamId": 8263,
+    "rankings": {
+     "totalDistanceCovered": {
+      "rank": 22,
+      "totalPlayers": 30
+     },
+     "topSpeed": {
+      "rank": 30,
+      "totalPlayers": 30
+     }
+    }
+   }
+  },
+  "n_playerStats": 40,
+  "playerStats_sample": [
+   {
+    "name": "Chris Wood",
+    "id": 169719,
+    "optaId": "60689",
+    "teamId": 10203,
+    "teamName": "Nottingham Forest",
+    "isGoalkeeper": false,
+    "stats": [
+     {
+      "title": "Top stats",
+      "key": "top_stats",
+      "stats": {
+       "Minutes played": {
+        "key": "minutes_played",
+        "stat": {
+         "value": 1,
+         "type": "integer"
+        }
+       },
+       "Goals": {
+        "key": "goals",
+        "stat": {
+         "value": 0,
+         "type": "integer"
+        }
+       },
+       "Assists": {
+        "key": "assists",
+        "stat": {
+         "value": 0,
+         "type": "integer"
+        }
+       },
+       "Top speed": {
+        "key": "physical_metrics_topspeed",
+        "stat": {
+         "value": 24.600000381469727,
+         "type": "speed"
+        }
+       },
+       "Distance covered": {
+        "key": "physical_metrics_distance_covered",
+        "stat": {
+         "value": 554,
+         "type": "distance"
+        }
+       },
+       "Accurate passes": {
+        "key": "accurate_passes",
+        "stat": {
+         "value": 0,
+         "total": 0,
+         "type": "fractionWithPercentage"
+        }
+       },
+       "Chances created": {
+        "key": "chances_created",
+        "stat": {
+         "value": 0,
+         "type": "integer"
+        }
+       },
+       "Shotmap": {
+        "key": null,
+        "stat": {
+         "value": 0,
+         "type": "boolean"
+        }
+       },
+       "Fantasy points": {
+        "key": "fantasy_points",
+        "stat": {
+         "value": 1,
+         "type": "fantasyPoints"
+        }
+       },
+       "Defensive actions": {
+        "key": "defensive_actions",
+        "stat": {
+         "value": 0,
+         "type": "integer"
+        }
+       }
+      }
+     },
+     {
+      "title": "Attack",
+      "key": "attack",
+      "stats": {
+       "Touches": {
+        "key": "touches",
+        "stat": {
+         "value": 0,
+         "type": "integer"
+        }
+       },
+       "Touches in opposition box": {
+        "key": "touches_opp_box",
+        "stat": {
+         "value": 0,
+         "type": "integer"
+        }
+       },
+       "Dispossessed": {
+        "key": "dispossessed",
+        "stat": {
+         "value": 0,
+         "type": "integer"
+        }
+       }
+      }
+     },
+     {
+      "title": "Defense",
+      "key": "defense",
+      "stats": {
+       "Defensive actions": {
+        "key": "defensive_actions",
+        "stat": {
+         "value": 0,
+         "type": "integer"
+        }
+       },
+       "Tackles": {
+        "key": "matchstats.headers.tackles",
+        "stat": {
+         "value": 0,
+         "type": "integer"
+        }
+       },
+       "Blocks": {
+        "key": "shot_blocks",
+        "stat": {
+         "value": 0,
+         "type": "integer"
+        }
+       },
+       "Clearances": {
+        "key": "clearances",
+        "stat": {
+         "value": 0,
+         "type": "integer"
+        }
+       },
+       "Interceptions": {
+        "key": "interceptions",
+        "stat": {
+         "value": 0,
+         "type": "integer"
+        }
+       },
+       "Recoveries": {
+        "key": "recoveries",
+        "stat": {
+         "value": 0,
+         "type": "integer"
+        }
+       },
+       "Dribbled past": {
+        "key": "dribbled_past",
+        "stat": {
+         "value": 0,
+         "type": "integer"
+        }
+       }
+      }
+     },
+     {
+      "title": "Duels",
+      "key": "duels",
+      "stats": {
+       "Aerial duels won": {
+        "key": "aerials_won",
+        "stat": {
+         "value": 0,
+         "total": 1,
+         "type": "fractionWithPercentage"
+        }
+       },
+       "Was fouled": {
+        "key": "was_fouled",
+        "stat": {
+         "type": "integer"
+        }
+       },
+       "Fouls committed": {
+        "key": "fouls",
+        "stat": {
+         "value": 0,
+         "type": "integer"
+        }
+       },
+       "Duels lost": {
+        "key": "duel_lost",
+        "stat": {
+         "value": 1,
+         "type": "integer"
+        },
+        "hideInPopupCard": true
+       }
+      }
+     },
+     {
+      "title": "Physical metrics",
+      "key": "physical_metrics",
+      "stats": {
+       "Top speed": {
+        "key": "physical_metrics_topspeed",
+        "stat": {
+         "value": 24.600000381469727,
+         "type": "speed"
+        }
+       },
+       "Distance covered": {
+        "key": "physical_metrics_distance_covered",
+        "stat": {
+         "value": 554,
+         "type": "distance"
+        }
+       },
+       "Running": {
+        "key": "physical_metrics_running",
+        "stat": {
+         "value": 155,
+         "total": 554,
+         "type": "distanceWithPercentage"
+        }
+       }
+      }
+     }
+    ],
+    "shotmap": [],
+    "shirtNumber": "9",
+    "usualPosition": 3
+   },
+   {
+    "name": "Matz Sels",
+    "id": 181069,
+    "optaId": "85633",
+    "teamId": 10203,
+    "teamName": "Nottingham Forest",
+    "isGoalkeeper": true,
+    "stats": [
+     {
+      "title": "Top stats",
+      "key": "top_stats",
+      "stats": {
+       "FotMob rating": {
+        "key": "rating_title",
+        "stat": {
+         "value": 6.85,
+         "type": "double"
+        }
+       },
+       "Minutes played": {
+        "key": "minutes_played",
+        "stat": {
+         "value": 90,
+         "type": "integer"
+        }
+       },
+       "Saves": {
+        "key": "saves",
+        "stat": {
+         "value": 2,
+         "type": "integer"
+        }
+       },
+       "Goals conceded": {
+        "key": "goals_conceded",
+        "stat": {
+         "value": 1,
+         "type": "integer"
+        }
+       },
+       "xGOT faced": {
+        "key": "expected_goals_on_target_faced",
+        "stat": {
+         "value": 1.04,
+         "type": "double"
+        }
+       },
+       "Goals prevented": {
+        "key": "goals_prevented",
+        "stat": {
+         "value": 0.04,
+         "type": "double"
+        }
+       },
+       "Shotmap": {
+        "key": null,
+        "stat": {
+         "value": 1,
+         "type": "boolean"
+        }
+       },
+       "Accurate passes": {
+        "key": "accurate_passes",
+        "stat": {
+         "value": 19,
+         "total": 35,
+         "type": "fractionWithPercentage"
+        }
+       },
+       "Accurate long balls": {
+        "key": "long_balls_accurate",
+        "stat": {
+         "value": 7,
+         "total": 23,
+         "type": "fractionWithPercentage"
+        }
+       },
+       "Diving save": {
+        "key": "keeper_diving_save",
+        "stat": {
+         "value": 1,
+         "type": "integer"
+        }
+       },
+       "Saves inside box": {
+        "key": "saves_inside_box",
+        "stat": {
+         "value": 1,
+         "type": "integer"
+        }
+       },
+       "Acted as sweeper": {
+        "key": "keeper_sweeper",
+        "stat": {
+         "value": 2,
+         "type": "integer"
+        }
+       },
+       "Punches": {
+        "key": "punches",
+        "stat": {
+         "value": 1,
+         "type": "integer"
+        }
+       },
+       "Throws": {
+        "key": "player_throws",
+        "stat": {
+         "value": 5,
+         "type": "integer"
+        }
+       },
+       "High claim": {
+        "key": "keeper_high_claim",
+        "stat": {
+         "value": 0,
+         "type": "integer"
+        }
+       },
+       "Recoveries": {
+        "key": "recoveries",
+        "stat": {
+         "value": 10,
+         "type": "integer"
+        }
+       },
+       "Clearances": {
+        "key": "clearances",
+        "stat": {
+         "value": 2,
+         "type": "integer"
+        }
+       },
+       "Touches": {
+        "key": "touches",
+        "stat": {
+         "value": 44,
+         "type": "integer"
+        }
+       },
+       "Fantasy points": {
+        "key": "fantasy_points",
+        "stat": {
+         "value": 2,
+         "type": "fantasyPoints"
+        }
+       },
+       "Defensive actions": {
+        "key": "defensive_actions",
+        "stat": {
+         "value": 2,
+         "type": "integer"
+        },
+        "hideInPopupCard": true
+       },
+       "Was fouled": {
+        "key": "was_fouled",
+        "stat": {
+         "type": "integer"
+        },
+        "hideInPopupCard": true
+       },
+       "Fouls committed": {
+        "key": "fouls",
+        "stat": {
+         "value": 0,
+         "type": "integer"
+        },
+        "hideInPopupCard": true
+       },
+       "Tackles": {
+        "key": "matchstats.headers.tackles",
+        "stat": {
+         "value": 0,
+         "type": "integer"
+        },
+        "hideInPopupCard": true
+       },
+       "Passes into final third": {
+        "key": "passes_into_final_third",
+        "stat": {
+         "value": 7,
+         "type": "integer"
+        },
+        "hideInPopupCard": true
+       },
+       "Line breaking passes": {
+        "key": "line_breaking_passes",
+        "stat": {
+         "value": 8,
+         "type": "integer"
+        },
+        "hideInPopupCard": true
+       },
+       "Interceptions": {
+        "key": "interceptions",
+        "stat": {
+         "value": 0,
+         "type": "integer"
+        },
+        "hideInPopupCard": true
+       }
+      }
+     },
+     {
+      "title": "Physical metrics",
+      "key": "physical_metrics",
+      "stats": {
+       "Top speed": {
+        "key": "physical_metrics_topspeed",
+        "stat": {
+         "value": 23.200000762939453,
+         "type": "speed"
+        }
+       },
+       "Distance covered": {
+        "key": "physical_metrics_distance_covered",
+        "stat": {
+         "value": 5256,
+         "type": "distance"
+        }
+       },
+       "Running": {
+        "key": "physical_metrics_running",
+        "stat": {
+         "value": 138,
+         "total": 5256,
+         "type": "distanceWithPercentage"
+        }
+       }
+      }
+     }
+    ],
+    "shotmap": [],
+    "shirtNumber": "26",
+    "positionId": 11,
+    "usualPosition": 0
+   }
+  ],
+  "matchFacts_keys": [
+   "matchId",
+   "highlights",
+   "playerOfTheMatch",
+   "events",
+   "infoBox",
+   "teamForm",
+   "poll",
+   "topPlayers",
+   "insights",
+   "topScorers",
+   "momentum",
+   "countryCode",
+   "postReview",
+   "preReview",
+   "QAData",
+   "matchInsightsConfig"
+  ],
+  "infoBox": {
+   "legInfo": null,
+   "Match Date": {
+    "utcTime": "2026-10-23T19:00:00.000Z",
+    "isDateCorrect": true
+   },
+   "Tournament": {
+    "id": 47,
+    "parentLeagueId": 47,
+    "link": "/leagues/47/overview/premier-league",
+    "leagueName": "Premier League",
+    "roundName": "8",
+    "round": "8"
+   },
+   "Stadium": {
+    "name": "Portman Road",
+    "city": "Ipswich, Suffolk",
+    "country": "England",
+    "lat": 52.054949657,
+    "long": 1.145263016,
+    "capacity": 30056,
+    "surface": "grass"
+   },
+   "Referee": {
+    "imgUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/eng.png",
+    "text": "Thomas Bramall",
+    "countryCode": "ENG",
+    "country": "England",
+    "id": 1001077894,
+    "leagueId": 47,
+    "leagueName": "Premier League",
+    "stats": [
+     {
+      "type": "matches",
+      "value": 37,
+      "valueType": "total"
+     },
+     {
+      "type": "yellowCards",
+      "value": 3.73,
+      "valueType": "perMatch",
+      "average": 3.89,
+      "total": 138,
+      "averageType": "average",
+      "fillPercentage": 39.35,
+      "averagePercentage": 50
+     },
+     {
+      "type": "redCards",
+      "value": 5,
+      "valueType": "total"
+     },
+     {
+      "type": "unknown",
+      "value": 2,
+      "valueType": "total"
+     },
+     {
+      "type": "penalties",
+      "value": 11,
+      "valueType": "total"
+     },
+     {
+      "type": "fouls",
+      "value": 21.32,
+      "valueType": "perMatch",
+      "average": 21.88,
+      "total": 789,
+      "averageType": "below",
+      "fillPercentage": 43.64,
+      "averagePercentage": 50
+     }
+    ]
+   },
+   "Attendance": 29198
+  },
+  "general_sample": {
+   "matchId": "5795491",
+   "matchName": "Ipswich Town-vs-Nottingham Forest_Fri, Oct 23, 2026, 19:00 UTC",
+   "matchRound": "8",
+   "teamColors": {
+    "darkMode": {
+     "home": "#004fc2",
+     "away": "#C8102E"
+    },
+    "lightMode": {
+     "home": "#0333A0",
+     "away": "#C8102E"
+    },
+    "fontDarkMode": {
+     "home": "rgba(255, 255, 255, 1.0)",
+     "away": "rgba(255, 255, 255, 1.0)"
+    },
+    "fontLightMode": {
+     "home": "rgba(255, 255, 255, 1.0)",
+     "away": "rgba(255, 255, 255, 1.0)"
+    }
+   },
+   "leagueId": 47,
+   "leagueName": "Premier League",
+   "leagueRoundName": "8",
+   "parentLeagueId": 47,
+   "countryCode": "ENG",
+   "homeTeam": {
+    "name": "Ipswich Town",
+    "id": 9902
+   },
+   "awayTeam": {
+    "name": "Nottingham Forest",
+    "id": 10203
+   },
+   "coverageLevel": "xG",
+   "matchTimeUTC": "Fri, Oct 23, 2026, 19:00 UTC",
+   "matchTimeUTCDate": "2026-10-23T19:00:00.000Z",
+   "started": true,
+   "finished": true,
+   "gender": "male"
+  }
+ },
+ "futura": {
+  "match": "Crystal Palace - Newcastle United",
+  "status": 200,
+  "content_keys": [
+   "matchFacts",
+   "liveticker",
+   "superlive",
+   "buzz",
+   "stats",
+   "playerStats",
+   "shotmap",
+   "weather",
+   "lineup",
+   "hasPlayoff",
+   "table",
+   "h2h",
+   "momentum"
+  ],
+  "matchFacts_keys": [
+   "matchId",
+   "highlights",
+   "playerOfTheMatch",
+   "events",
+   "infoBox",
+   "teamForm",
+   "poll",
+   "topPlayers",
+   "insights",
+   "topScorers",
+   "countryCode",
+   "preReview",
+   "QAData",
+   "matchInsightsConfig"
+  ],
+  "infoBox": {
+   "legInfo": null,
+   "Match Date": {
+    "utcTime": "2026-10-25T14:00:00.000Z",
+    "isDateCorrect": true
+   },
+   "Tournament": {
+    "id": 47,
+    "parentLeagueId": 47,
+    "link": "/leagues/47/overview/premier-league",
+    "leagueName": "Premier League",
+    "roundName": "8",
+    "round": "8"
+   },
+   "Stadium": {
+    "name": "Selhurst Park",
+    "city": "London",
+    "country": "England",
+    "lat": 51.398278578,
+    "long": -0.085503459,
+    "capacity": 25486,
+    "surface": "grass"
+   },
+   "Referee": {
+    "imgUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/eng.png",
+    "text": "Paul Tierney",
+    "countryCode": "ENG",
+    "country": "England",
+    "id": 1001077399,
+    "leagueId": 47,
+    "leagueName": "Premier League",
+    "stats": [
+     {
+      "type": "matches",
+      "value": 16,
+      "valueType": "total"
+     },
+     {
+      "type": "yellowCards",
+      "value": 3.5,
+      "valueType": "perMatch",
+      "average": 3.89,
+      "total": 56,
+      "averageType": "below",
+      "fillPercentage": 24.48,
+      "averagePercentage": 50
+     },
+     {
+      "type": "redCards",
+      "value": 2,
+      "valueType": "total"
+     },
+     {
+      "type": "unknown",
+      "value": 0,
+      "valueType": "total"
+     },
+     {
+      "type": "penalties",
+      "value": 1,
+      "valueType": "total"
+     },
+     {
+      "type": "fouls",
+      "value": 21.31,
+      "valueType": "perMatch",
+      "average": 21.88,
+      "total": 341,
+      "averageType": "below",
+      "fillPercentage": 43.53,
+      "averagePercentage": 50
+     }
+    ]
+   },
+   "Attendance": null
+  },
+  "lineup": {
+   "matchId": 5795489,
+   "lineupType": "predicted",
+   "source": "enetpulse",
+   "availableFilters": [
+    "season"
+   ],
+   "homeTeam": {
+    "id": 9826,
+    "name": "Crystal Palace",
+    "formation": "3-4-2-1",
+    "starters": [
+     {
+      "id": 448897,
+      "age": 33,
+      "name": "Walter Benítez",
+      "positionId": 11,
+      "usualPlayingPositionId": 0,
+      "shirtNumber": "44",
+      "countryName": "Argentina",
+      "countryCode": "ARG",
+      "horizontalLayout": {
+       "x": 0.1,
+       "y": 0.5,
+       "height": 0.25,
+       "width": 0.192
+      },
+      "verticalLayout": {
+       "x": 0.5,
+       "y": 0.1,
+       "height": 0.192,
+       "width": 1
+      },
+      "marketValue": 2422453,
+      "performance": {
+       "seasonRating": 7.08
+      },
+      "firstName": "Walter",
+      "lastName": "Benítez",
+      "nationalTeamId": 6706,
+      "rankings": null
+     }
+    ],
+    "coach": {
+     "id": 1586853,
+     "age": 47,
+     "name": "Pierre Sage",
+     "countryName": "France",
+     "countryCode": "FRA",
+     "firstName": "Pierre",
+     "lastName": "Sage",
+     "nationalTeamId": 6723,
+     "primaryTeamId": 9826,
+     "primaryTeamName": "Crystal Palace",
+     "usualPlayingPositionId": null,
+     "isCoach": true
+    },
+    "unavailable": [
+     {
+      "id": 719330,
+      "age": 29,
+      "name": "Dean Henderson",
+      "countryName": "England",
+      "countryCode": "ENG",
+      "marketValue": 34320034,
+      "unavailability": {
+       "injuryId": 21,
+       "type": "injury",
+       "expectedReturn": "Doubtful"
+      },
+      "performance": {
+       "seasonRating": 6.39
+      },
+      "firstName": "Dean",
+      "lastName": "Henderson",
+      "nationalTeamId": 8491
+     }
+    ],
+    "averageStarterAge": 26.3,
+    "totalStarterMarketValue": 298080309
+   },
+   "awayTeam": {
+    "id": 10261,
+    "name": "Newcastle United",
+    "formation": "4-2-3-1",
+    "starters": [
+     {
+      "id": 1186978,
+      "age": 24,
+      "name": "Lukás Hornícek",
+      "positionId": 11,
+      "usualPlayingPositionId": 0,
+      "shirtNumber": "21",
+      "countryName": "Czechia",
+      "countryCode": "CZE",
+      "horizontalLayout": {
+       "x": 0.1,
+       "y": 0.5,
+       "height": 0.25,
+       "width": 0.192
+      },
+      "verticalLayout": {
+       "x": 0.5,
+       "y": 0.1,
+       "height": 0.192,
+       "width": 1
+      },
+      "marketValue": 18001728,
+      "performance": {
+       "seasonRating": 6.94
+      },
+      "firstName": "Lukás",
+      "lastName": "Hornícek",
+      "nationalTeamId": 8496,
+      "rankings": null
+     }
+    ],
+    "coach": {
+     "id": 59582,
+     "age": 38,
+     "name": "Matthias Jaissle",
+     "countryName": "Germany",
+     "countryCode": "GER",
+     "firstName": "Matthias",
+     "lastName": "Jaissle",
+     "nationalTeamId": 8570,
+     "primaryTeamId": 10261,
+     "primaryTeamName": "Newcastle United",
+     "usualPlayingPositionId": null,
+     "isCoach": true
+    },
+    "unavailable": [
+     {
+      "id": 1050166,
+      "age": 24,
+      "name": "Anthony Elanga",
+      "countryName": "Sweden",
+      "countryCode": "SWE",
+      "marketValue": 41658677,
+      "unavailability": {
+       "injuryId": 130,
+       "type": "injury",
+       "expectedReturn": "Doubtful"
+      },
+      "performance": {
+       "seasonGoals": 2,
+       "seasonRating": 7.51
+      },
+      "firstName": "Anthony",
+      "lastName": "Elanga",
+      "nationalTeamId": 8520
+     }
+    ],
+    "averageStarterAge": 26.5,
+    "totalStarterMarketValue": 336886413
+   }
+  }
+ },
+ "coppa_-2": [
+  [
+   73,
+   "Ararat Armenia",
+   "AZ Alkmaar",
+   6112382
+  ],
+  [
+   73,
+   "Dinamo Zagreb",
+   "NEC Nijmegen",
+   6112293
+  ],
+  [
+   73,
+   "Ferencváros",
+   "Torreense",
+   6112281
+  ],
+  [
+   73,
+   "Juventus",
+   "Rennes",
+   6112251
+  ],
+  [
+   73,
+   "Lech Poznań",
+   "Sunderland",
+   6112320
+  ],
+  [
+   73,
+   "OFI Crete",
+   "Bayer Leverkusen",
+   6112370
+  ]
+ ],
+ "lega_42": {
+  "status": 200,
+  "keys": [
+   "tabs",
+   "allAvailableSeasons",
+   "details",
+   "seostr",
+   "QAData",
+   "table",
+   "transfers",
+   "overview",
+   "stats",
+   "fixtures",
+   "playoff",
+   "seasons"
+  ],
+  "stats": {
+   "players": [
+    {
+     "header": "Top scorer",
+     "participant": {
+      "id": 737066,
+      "name": "Erling Haaland",
+      "rank": 1,
+      "ccode": "NOR",
+      "teamId": 8456,
+      "teamName": "Manchester City",
+      "value": 4,
+      "stat": {
+       "name": "goals",
+       "value": 4,
+       "format": "number",
+       "fractions": 0
+      }
+     },
+     "fetchAllUrl": "https://data.fotmob.com/stats/42/season/47760/goals.json",
+     "topThree": [
+      {
+       "id": 737066,
+       "name": "Erling Haaland",
+       "rank": 1,
+       "ccode": "NOR",
+       "teamId": 8456,
+       "teamName": "Manchester City",
+       "value": 4,
+       "stat": {
+        "name": "goals",
+        "value": 4,
+        "format": "number",
+        "fractions": 0
+       },
+       "teamColors": {
+        "darkMode": "#76b4e5",
+        "lightMode": "#69A8D8",
+        "fontDarkMode": "rgba(29, 29, 29, 1.0)",
+        "fontLightMode": "rgba(255, 255, 255, 1.0)"
+       }
+      },
+      {
+       "id": 840241,
+       "name": "Ermedin Demirović",
+       "rank": 1,
+       "ccode": "BIH",
+       "teamId": 10269,
+       "teamName": "VfB Stuttgart",
+       "value": 4,
+       "stat": {
+        "name": "goals",
+        "value": 4,
+        "format": "number",
+        "fractions": 0
+       },
+       "teamColors": {
+        "darkMode": "#ffffff",
+        "lightMode": "#D30029",
+        "fontDarkMode": "rgba(29, 29, 29, 1.0)",
+        "fontLightMode": "rgba(255, 255, 255, 1.0)"
+       }
+      },
+      {
+       "id": 448540,
+       "name": "Serhou Guirassy",
+       "rank": 3,
+       "ccode": "GUI",
+       "teamId": 9789,
+       "teamName": "Borussia Dortmund",
+       "value": 4,
+       "stat": {
+        "name": "goals",
+        "value": 4,
+        "format": "number",
+        "fractions": 0
+       },
+       "teamColors": {
+        "darkMode": "#FFD900",
+        "lightMode": "#d8a000",
+        "fontDarkMode": "rgba(29, 29, 29, 1.0)",
+        "fontLightMode": "rgba(255, 255, 255, 1.0)"
+       }
+      }
+     ],
+     "order": 1,
+     "name": "goals",
+     "localizedTitleId": "goals_title",
+     "category": "Top Stat"
+    },
+    {
+     "header": "Assists",
+     "participant": {
+      "id": 1467236,
+      "name": "Lamine Yamal",
+      "rank": 1,
+      "ccode": "ESP",
+      "teamId": 8634,
+      "teamName": "Barcelona",
+      "value": 4,
+      "stat": {
+       "name": "goal_assist",
+       "value": 4,
+       "format": "number",
+       "fractions": 0
+      }
+     },
+     "fetchAllUrl": "https://data.fotmob.com/stats/42/season/47760/goal_assist.json",
+     "topThree": [
+      {
+       "id": 1467236,
+       "name": "Lamine Yamal",
+       "rank": 1,
+       "ccode": "ESP",
+       "teamId": 8634,
+       "teamName": "Barcelona",
+       "value": 4,
+       "stat": {
+        "name": "goal_assist",
+        "value": 4,
+        "format": "number",
+        "fractions": 0
+       },
+       "teamColors": {
+        "darkMode": "#ab2151",
+        "lightMode": "#971e48",
+        "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+        "fontLightMode": "rgba(255, 255, 255, 1.0)"
+       }
+      },
+      {
+       "id": 671529,
+       "name": "Konstantinos Tsimikas",
+       "rank": 2,
+       "ccode": "GRE",
+       "teamId": 8650,
+       "teamName": "Liverpool",
+       "value": 3,
+       "stat": {
+        "name": "goal_assist",
+        "value": 3,
+        "format": "number",
+        "fractions": 0
+       },
+       "teamColors": {
+        "darkMode": "#911712",
+        "lightMode": "#911712",
+        "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+        "fontLightMode": "rgba(255, 255, 255, 1.0)"
+       }
+      },
+      {
+       "id": 1347574,
+       "name": "Nico Paz",
+       "rank": 2,
+       "ccode": "ARG",
+       "teamId": 10171,
+       "teamName": "Como",
+       "value": 3,
+       "stat": {
+        "name": "goal_assist",
+        "value": 3,
+        "format": "number",
+        "fractions": 0
+       },
+       "teamColors": {
+        "darkMode": "#005ea9",
+        "lightMode": "#005ea9",
+        "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+        "fontLightMode": "rgba(255, 255, 255, 1.0)"
+       }
+      }
+     ],
+     "order": 2,
+     "name": "goal_assist",
+     "localizedTitleId": "goal_assist_title",
+     "category": "Top Stat"
+    },
+    {
+     "header": "Goals + Assists",
+     "participant": {
+      "id": 194165,
+      "name": "Harry Kane",
+      "rank": 1,
+      "ccode": "ENG",
+      "teamId": 9823,
+      "teamName": "Bayern München",
+      "value": 6,
+      "stat": {
+       "name": "_goals_and_goal_assist",
+       "value": 6,
+       "format": "number",
+       "fractions": 0
+      }
+     },
+     "fetchAllUrl": "https://data.fotmob.com/stats/42/season/47760/_goals_and_goal_assist.json",
+     "topThree": [
+      {
+       "id": 194165,
+       "name": "Harry Kane",
+       "rank": 1,
+       "ccode": "ENG",
+       "teamId": 9823,
+       "teamName": "Bayern München",
+       "value": 6,
+       "stat": {
+        "name": "_goals_and_goal_assist",
+        "value": 6,
+        "format": "number",
+        "fractions": 0
+       },
+       "teamColors": {
+        "darkMode": "#DC052D",
+        "lightMode": "#C60428",
+        "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+        "fontLightMode": "rgba(255, 255, 255, 1.0)"
+       }
+      },
+      {
+       "id": 692984,
+       "name": "Ousmane Dembélé",
+       "rank": 2,
+       "ccode": "FRA",
+       "teamId": 9847,
+       "teamName": "Paris Saint-Germain",
+       "value": 6,
+       "stat": {
+        "name": "_goals_and_goal_assist",
+        "value": 6,
+        "format": "number",
+        "fractions": 0
+       },
+       "teamColors": {
+        "darkMode": "#245593",
+        "lightMode": "#273F6D",
+        "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+        "fontLightMode": "rgba(255, 255, 255, 1.0)"
+       }
+      },
+      {
+       "id": 1467236,
+       "name": "Lamine Yamal",
+       "rank": 3,
+       "ccode": "ESP",
+       "teamId": 8634,
+       "teamName": "Barcelona",
+       "value": 6,
+       "stat": {
+        "name": "_goals_and_goal_assist",
+        "value": 6,
+        "format": "number",
+        "fractions": 0
+       },
+       "teamColors": {
+        "darkMode": "#ab2151",
+        "lightMode": "#971e48",
+        "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+        "fontLightMode": "rgba(255, 255, 255, 1.0)"
+       }
+      }
+     ],
+     "order": 3,
+     "name": "_goals_and_goal_assist",
+     "localizedTitleId": "goals_and_assists",
+     "category": "Top Stat"
+    }
+   ],
+   "teams": [
+    {
+     "header": "FotMob rating",
+     "participant": {
+      "id": 0,
+      "name": "Aston Villa",
+      "rank": 1,
+      "ccode": "ENG",
+      "teamId": 10252,
+      "value": 7.46,
+      "stat": {
+       "name": "rating_team",
+       "value": 7.46,
+       "format": "fraction",
+       "fractions": 2
+      }
+     },
+     "fetchAllUrl": "https://data.fotmob.com/stats/42/season/47760/rating_team.json",
+     "topThree": [
+      {
+       "id": 0,
+       "name": "Aston Villa",
+       "rank": 1,
+       "ccode": "ENG",
+       "teamId": 10252,
+       "value": 7.46,
+       "stat": {
+        "name": "rating_team",
+        "value": 7.46,
+        "format": "fraction",
+        "fractions": 2
+       },
+       "teamColors": {
+        "darkMode": "#9d2358",
+        "lightMode": "#7D1142",
+        "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+        "fontLightMode": "rgba(255, 255, 255, 1.0)"
+       }
+      },
+      {
+       "id": 0,
+       "name": "Liverpool",
+       "rank": 2,
+       "ccode": "ENG",
+       "teamId": 8650,
+       "value": 7.37,
+       "stat": {
+        "name": "rating_team",
+        "value": 7.37,
+        "format": "fraction",
+        "fractions": 2
+       },
+       "teamColors": {
+        "darkMode": "#911712",
+        "lightMode": "#911712",
+        "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+        "fontLightMode": "rgba(255, 255, 255, 1.0)"
+       }
+      },
+      {
+       "id": 0,
+       "name": "Paris Saint-Germain",
+       "rank": 3,
+       "ccode": "FRA",
+       "teamId": 9847,
+       "value": 7.36,
+       "stat": {
+        "name": "rating_team",
+        "value": 7.36,
+        "format": "fraction",
+        "fractions": 2
+       },
+       "teamColors": {
+        "darkMode": "#245593",
+        "lightMode": "#273F6D",
+        "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+        "fontLightMode": "rgba(255, 255, 255, 1.0)"
+       }
+      }
+     ],
+     "order": 47,
+     "name": "rating_team",
+     "localizedTitleId": "rating_team_title",
+     "category": "Top Stat"
+    },
+    {
+     "header": "Goals per match",
+     "participant": {
+      "id": 0,
+      "name": "Paris Saint-Germain",
+      "rank": 1,
+      "ccode": "FRA",
+      "teamId": 9847,
+      "value": 4.7,
+      "stat": {
+       "name": "goals_team_match",
+       "value": 4.7,
+       "format": "fraction",
+       "fractions": 1
+      }
+     },
+     "fetchAllUrl": "https://data.fotmob.com/stats/42/season/47760/goals_team_match.json",
+     "topThree": [
+      {
+       "id": 0,
+       "name": "Paris Saint-Germain",
+       "rank": 1,
+       "ccode": "FRA",
+       "teamId": 9847,
+       "value": 4.7,
+       "stat": {
+        "name": "goals_team_match",
+        "value": 4.7,
+        "format": "fraction",
+        "fractions": 1
+       },
+       "teamColors": {
+        "darkMode": "#245593",
+        "lightMode": "#273F6D",
+        "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+        "fontLightMode": "rgba(255, 255, 255, 1.0)"
+       }
+      },
+      {
+       "id": 0,
+       "name": "Aston Villa",
+       "rank": 2,
+       "ccode": "ENG",
+       "teamId": 10252,
+       "value": 4,
+       "stat": {
+        "name": "goals_team_match",
+        "value": 4,
+        "format": "fraction",
+        "fractions": 1
+       },
+       "teamColors": {
+        "darkMode": "#9d2358",
+        "lightMode": "#7D1142",
+        "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+        "fontLightMode": "rgba(255, 255, 255, 1.0)"
+       }
+      },
+      {
+       "id": 0,
+       "name": "Liverpool",
+       "rank": 2,
+       "ccode": "ENG",
+       "teamId": 8650,
+       "value": 4,
+       "stat": {
+        "name": "goals_team_match",
+        "value": 4,
+        "format": "fraction",
+        "fractions": 1
+       },
+       "teamColors": {
+        "darkMode": "#911712",
+        "lightMode": "#911712",
+        "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+        "fontLightMode": "rgba(255, 255, 255, 1.0)"
+       }
+      }
+     ],
+     "order": 48,
+     "name": "goals_team_match",
+     "localizedTitleId": "goals_team_match_title",
+     "category": "Top Stat"
+    },
+    {
+     "header": "Goals conceded per match",
+     "participant": {
+      "id": 0,
+      "name": "VfB Stuttgart",
+      "rank": 1,
+      "ccode": "GER",
+      "teamId": 10269,
+      "value": 0.7,
+      "stat": {
+       "name": "goals_conceded_team_match",
+       "value": 0.7,
+       "format": "fraction",
+       "fractions": 1
+      }
+     },
+     "fetchAllUrl": "https://data.fotmob.com/stats/42/season/47760/goals_conceded_team_match.json",
+     "topThree": [
+      {
+       "id": 0,
+       "name": "VfB Stuttgart",
+       "rank": 1,
+       "ccode": "GER",
+       "teamId": 10269,
+       "value": 0.7,
+       "stat": {
+        "name": "goals_conceded_team_match",
+        "value": 0.7,
+        "format": "fraction",
+        "fractions": 1
+       },
+       "teamColors": {
+        "darkMode": "#ffffff",
+        "lightMode": "#D30029",
+        "fontDarkMode": "rgba(29, 29, 29, 1.0)",
+        "fontLightMode": "rgba(255, 255, 255, 1.0)"
+       }
+      },
+      {
+       "id": 0,
+       "name": "PSV Eindhoven",
+       "rank": 1,
+       "ccode": "NED",
+       "teamId": 8640,
+       "value": 0.7,
+       "stat": {
+        "name": "goals_conceded_team_match",
+        "value": 0.7,
+        "format": "fraction",
+        "fractions": 1
+       },
+       "teamColors": {
+        "darkMode": "#E00000",
+        "lightMode": "#E00000",
+        "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+        "fontLightMode": "rgba(255, 255, 255, 1.0)"
+       }
+      },
+      {
+       "id": 0,
+       "name": "Arsenal",
+       "rank": 1,
+       "ccode": "ENG",
+       "teamId": 9825,
+       "value": 0.7,
+       "stat": {
+        "name": "goals_conceded_team_match",
+        "value": 0.7,
+        "format": "fraction",
+        "fractions": 1
+       },
+       "teamColors": {
+        "darkMode": "#bd0510",
+        "lightMode": "#bd0510",
+        "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+        "fontLightMode": "rgba(255, 255, 255, 1.0)"
+       }
+      }
+     ],
+     "order": 49,
+     "name": "goals_conceded_team_match",
+     "localizedTitleId": "goals_conceded_team_match_title",
+     "category": "Top Stat"
+    }
+   ],
+   "seasonStatLinks": [
+    {
+     "Name": "2026/2027",
+     "CountryCode": "INT",
+     "RelativePath": "stats/42/season/47760/topstats.json",
+     "League": "Champions League",
+     "StageId": 0,
+     "TemplateId": 42,
+     "TournamentId": 47760
+    },
+    {
+     "Name": "2025/2026",
+     "CountryCode": "INT",
+     "RelativePath": "stats/42/season/28184/topstats.json",
+     "League": "Champions League",
+     "StageId": 0,
+     "TemplateId": 42,
+     "TournamentId": 28184
+    },
+    {
+     "Name": "2024/2025",
+     "CountryCode": "INT",
+     "RelativePath": "stats/42/season/24110/topstats.json",
+     "League": "Champions League",
+     "StageId": 0,
+     "TemplateId": 42,
+     "TournamentId": 24110
+    }
+   ],
+   "seasonsWithLinks": [
+    "2026/2027",
+    "2025/2026",
+    "2024/2025"
+   ]
+  },
+  "tabs": [
+   "overview",
+   "table",
+   "playoff",
+   "fixtures",
+   "stats",
+   "seasons"
+  ]
+ },
+ "rosa": {
+  "status": 200,
+  "keys": [
+   "tabs",
+   "allAvailableSeasons",
+   "details",
+   "seostr",
+   "QAData",
+   "table",
+   "transfers",
+   "overview",
+   "stats",
+   "fixtures",
+   "squad",
+   "history"
+  ],
+  "squad": {
+   "squad": [
+    {
+     "title": "coach",
+     "members": [
+      {
+       "id": 24393,
+       "height": 173,
+       "age": 43,
+       "dateOfBirth": "1983-05-18",
+       "name": "Gary O'Neil",
+       "ccode": "ENG",
+       "nationalTeamId": 8491,
+       "cname": "England",
+       "role": {
+        "key": "coach",
+        "fallback": "Coach"
+       },
+       "excludeFromRanking": true
+      }
+     ]
+    },
+    {
+     "title": "keepers",
+     "members": [
+      {
+       "id": 643228,
+       "name": "Alex Palmer",
+       "shirtNumber": 1,
+       "ccode": "ENG",
+       "nationalTeamId": 8491,
+       "cname": "England",
+       "role": {
+        "key": "keeper_long",
+        "fallback": "Keeper"
+       },
+       "positionId": 0,
+       "injury": null,
+       "rating": null,
+       "goals": 0,
+       "penalties": 0,
+       "assists": 0,
+       "rcards": 0,
+       "ycards": 0,
+       "excludeFromRanking": true,
+       "positionIds": "11",
+       "positionIdsDesc": "GK",
+       "height": 183,
+       "age": 30,
+       "dateOfBirth": "1996-08-10",
+       "transferValue": 1433056
+      },
+      {
+       "id": 111027,
+       "name": "David Button",
+       "shirtNumber": 27,
+       "ccode": "ENG",
+       "nationalTeamId": 8491,
+       "cname": "England",
+       "role": {
+        "key": "keeper_long",
+        "fallback": "Keeper"
+       },
+       "positionId": 0,
+       "injury": null,
+       "rating": null,
+       "goals": 0,
+       "penalties": 0,
+       "assists": 0,
+       "rcards": 0,
+       "ycards": 0,
+       "excludeFromRanking": true,
+       "positionIds": "11",
+       "positionIdsDesc": "GK",
+       "height": 191,
+       "age": 37,
+       "dateOfBirth": "1989-02-27",
+       "transferValue": 570902
+      }
+     ]
+    }
+   ],
+   "isNationalTeam": false
+  }
+ },
+ "espn_ita.1": {
+  "match": "Fiorentina at Internazionale",
+  "officials": null,
+  "gameInfo_keys": [
+   "venue"
+  ]
+ },
+ "espn_eng.1": {
+  "match": "Newcastle United at Crystal Palace",
+  "officials": null,
+  "gameInfo_keys": [
+   "venue"
+  ]
+ }
+}
