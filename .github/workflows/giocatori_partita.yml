@@ -18,11 +18,13 @@ jobs:
         run: python update_players.py
         env:
           PITCHAPI_KEY: ${{ secrets.PITCHAPI_KEY }}
+      - name: Statistiche estese di giocatori e squadre
+        run: python update_stats_ex.py
       - name: Salva i risultati
         if: always()
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
-          git add match 2>/dev/null || true
+          git add match player_keys.json stats_ex.json squadre_ex.json ruoli.json 2>/dev/null || true
           git diff --staged --quiet || git commit -m "Aggiorna voti giocatori"
           for i in 1 2 3 4 5; do git pull --rebase && git push && break; sleep $((i*4)); done
