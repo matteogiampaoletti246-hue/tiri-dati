@@ -139,7 +139,7 @@ def players_out(P, cols, meta, st, su):
                         vals[i] += (v[0] if isinstance(v, list) else v) * (mn if (meta.get(kk) or ["", "", ""])[2].lower().find("percent") >= 0 and not isinstance(v, list) else 1)
             for i, k in enumerate(order):
                 kk = k[:-2] if k.endswith("|t") else k
-                if (meta.get(kk) or ["", "", ""])[2].lower().find("percent") >= 0 and not k.endswith("|t") and mins > 0:
+                if (meta.get(kk) or ["", "", ""])[2].lower().find("percent") >= 0 and not k.endswith("|t") and (k + "|t") not in order and mins > 0:
                     vals[i] = vals[i] / mins
             return [round(v, 2) if v % 1 else int(v) for v in vals], int(mins), len(sub), yc, rc, round(rs / rw, 2) if rw else None
 
