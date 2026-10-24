@@ -1,0 +1,13 @@
+{
+ "partita_finita": "{\"id\": \"m_0pSK27\", \"date\": \"2026-10-23\", \"time_utc\": \"2026-10-23T18:45:00Z\", \"status\": \"finished\", \"home_team\": {\"id\": \"t_1fXtzU\", \"name\": \"Torino\", \"image_url\": \"https://cdn.pitchapi.dev/images/teams/9228f7a3cf4ea300f3381a9a39828e08ec959a59ccfa86d1918809dcb520a4f2.webp\"}, \"away_team\": {\"id\": \"t_1pp2Qa\", \"name\": \"Monza\", \"image_url\": \"https://cdn.pitchapi.dev/images/teams/a5a467d0b57c46c33fa2b4b156dcadebe20de96e848a4a09fad642ad6d6bb7de.webp\"}, \"score_home\": 3, \"score_away\": 2}",
+ "coach_raw": "{\"home\": {\"name\": \"Ignazio Abate\"}, \"away\": {\"name\": \"Ivan Jurić\"}}",
+ "starter_raw": "[{\"player_id\": \"p_1GAW6v\", \"name\": \"Lucas Perri\", \"shirt_number\": \"20\", \"position_id\": 11, \"is_captain\": false, \"pitch_x\": 0.1, \"pitch_y\": 0.5}]",
+ "player_raw": "{\"id\": \"p_48yttg\", \"name\": \"Duván Zapata\", \"position_id\": null, \"image_url\": \"https://cdn.pitchapi.dev/images/players/b78629a8d3b01d0e1dbb3c14058f918da21bf6f8257dd108ad393aa5399dba3a.webp\"}",
+ "sonda/shots": "{\"match_id\": \"m_0pSK27\", \"periods\": [{\"period\": \"FirstHalf\", \"shots\": [{\"id\": \"s_258JX5\", \"player\": {\"id\": \"p_3gTPk6\", \"name\": \"Dany Mota\", \"position_id\": null, \"image_url\": \"https://cdn.pitchapi.dev/images/players/1b12f8b6592f9000656a601009d6858b6d7d38d7be8208fb41dd50ff45340009.webp\"}, \"team_id\": \"t_1pp2Qa\", \"x\": 97.38, \"y\": 37.2, \"expected_goals\": 0.07, \"expected_goals_on_target\": 0, \"is_on_target\": false, \"goal_crossed_y\": 24.84, \"goal_crossed_z\": 0.36, \"is_inside_box\": true, \"shot_type\": \"Header\", \"situation\": \"FromCorner\", \"minute\": 1, \"event_type\": \"Miss\"}, {\"id\": \"s_16aRRM\", \"player\": {\"id\": \"p_0JrjIL\", \"name\": \"Rolando Mandragora\", \"position_id\": null, \"image_url\": \"https://cdn.pitch",
+ "sonda/shotmap": "non esiste",
+ "sonda/shot-map": "non esiste",
+ "sonda/xg": "non esiste",
+ "sonda/shots/map": "errore HTTP Error 400: Bad Request",
+ "sonda/heatmap": "non esiste",
+ "future_arbitri": []
+}
