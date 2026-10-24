@@ -596,9 +596,13 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
     var LVON = HLVON && HDAY === today;
     if(HDAY === today && (HLVON || lvList().length)) body.appendChild(lvSwitch());
     var list = LVON ? lvList() : HD.matches.filter(function(m){ return m.d === HDAY; });
-    if(!list.length && !LVON){
-      if(needExtra()){ body.appendChild(el('div', 'hempty', 'Carico\u2026')); return; }
-      list = pastOf(HDAY);
+    if(!LVON && (!list.length || HDAY < today)){
+      if(needExtra()){ if(!list.length){ body.appendChild(el('div', 'hempty', 'Carico\u2026')); return; } }
+      else {
+        var have = {}; list.forEach(function(m){ have[m.lg + '|' + norm(m.h) + '|' + norm(m.a)] = 1; });
+        var po = pastOf(HDAY).filter(function(m){ return !have[m.lg + '|' + norm(m.h) + '|' + norm(m.a)]; });
+        list = list.concat(po);
+      }
     }
     var any = false;
     HLG.forEach(function(L){
@@ -1768,11 +1772,11 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
         try{ el0.getAnimations().forEach(function(x){ x.cancel(); }); }catch(e){}
         el0.style.transition = ''; el0.style.transform = ''; el0.style.willChange = '';
         SWST = Date.now() + 900; NOANIM = true; try{ act(); }finally{ NOANIM = false; HANIM = null; }
-        var ne = swEl(); if(ne && ne.animate){ ne.animate([{transform: 'translate3d(' + (-out * W * .22) + 'px,0,0)', opacity: 0}, {transform: 'translate3d(0,0,0)', opacity: 1}], {duration: 210, easing: 'cubic-bezier(.2,.8,.2,1)'}); }
+        var ne = swEl(); if(ne && ne.animate){ ne.animate([{transform: 'translate3d(' + (-out * W) + 'px,0,0)'}, {transform: 'translate3d(0,0,0)'}], {duration: 200, easing: 'cubic-bezier(.2,.8,.2,1)'}); }
       };
       if(!el0.animate){ fin(); return; }
       el0.style.willChange = 'transform';
-      var an = el0.animate([{transform: 'translate3d(' + from + 'px,0,0)', opacity: 1}, {transform: 'translate3d(' + (out * W * .6) + 'px,0,0)', opacity: 0}], {duration: 150, easing: 'cubic-bezier(.3,.1,.7,1)', fill: 'forwards'});
+      var an = el0.animate([{transform: 'translate3d(' + from + 'px,0,0)'}, {transform: 'translate3d(' + (out * W) + 'px,0,0)'}], {duration: 140, easing: 'cubic-bezier(.4,0,1,1)', fill: 'forwards'});
       an.onfinish = fin; setTimeout(fin, 260);
     }
     function swBack(){ navBack(); try{ if(history.state && history.state.slb) history.back(); }catch(e){} }
