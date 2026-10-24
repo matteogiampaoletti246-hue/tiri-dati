@@ -81,6 +81,13 @@ export default {
         const all = await Promise.all(CUPS.map((lg) => espn("/" + lg + "/scoreboard?dates=" + dt, old ? 3600 : 60).then((j) => scoreboard(j, lg)).catch(() => [])));
         return new Response(JSON.stringify({ t: Date.now(), ev: all.flat() }), { headers: cors(req, { "Cache-Control": "public, max-age=" + (old ? 3600 : 60) }) });
       }
+      if (u.pathname === "/cs") {
+        const lg = u.searchParams.get("lg");
+        if (!CUPS.includes(lg)) return new Response("{}", { status: 400, headers: cors(req) });
+        const n = new Date(), y0 = n.getUTCMonth() + 1 >= 8 ? n.getUTCFullYear() : n.getUTCFullYear() - 1;
+        const j = await espn("/" + lg + "/scoreboard?dates=" + y0 + "0901-" + (y0 + 1) + "0630&limit=400", 300);
+        return new Response(JSON.stringify({ t: Date.now(), ev: scoreboard(j, lg) }), { headers: cors(req, { "Cache-Control": "public, max-age=300" }) });
+      }
       if (u.pathname === "/m") {
         const lg = u.searchParams.get("lg"), id = u.searchParams.get("id");
         if (!LEGHE.includes(lg) || !/^\d{5,12}$/.test(id || "")) return new Response("{}", { status: 400, headers: cors(req) });
@@ -104,7 +111,22 @@ export default {
         if (!r.ok) throw new Error("FotMob " + r.status);
         const j = await r.json(), g = j.general || {}, sm = ((j.content || {}).shotmap) || {};
         const sh = (sm.shots || []).map((s) => [s.min, s.minAdded, s.teamId, s.playerName, s.x, s.y, s.eventType, s.isBlocked ? 1 : 0, s.isOnTarget ? 1 : 0, s.blockedX, s.blockedY, s.goalCrossedY, s.goalCrossedZ, s.expectedGoals, s.expectedGoalsOnTarget, s.shotType, s.situation, s.isOwnGoal ? 1 : 0, s.period]);
-        return new Response(JSON.stringify({ t: Date.now(), hi: g.homeTeam && g.homeTeam.id, ai: g.awayTeam && g.awayTeam.id, fin: !!g.finished, st: !!g.started, sh }), { headers: cors(req) });
+        const lu = ((j.content || {}).lineup) || {};
+        const coach = (t) => { const c = t && t.coach; if (!c) return null; return { id: c.id, n: c.name || c.fullName || null, cc: c.countryCode || c.ccode || c.country || null }; };
+        return new Response(JSON.stringify({ t: Date.now(), hi: g.homeTeam && g.homeTeam.id, ai: g.awayTeam && g.awayTeam.id, fin: !!g.finished, st: !!g.started, sh, co: [coach(lu.homeTeam), coach(lu.awayTeam)] }), { headers: cors(req) });
+      }
+      if (u.pathname === "/fp") {
+        const id = u.searchParams.get("id");
+        if (!/^\d{5,10}$/.test(id || "")) return new Response("{}", { status: 400, headers: cors(req) });
+        const r = await fetch("https://www.fotmob.com/api/data/matchDetails?matchId=" + id, { headers: FMH, cf: { cacheTtl: 15, cacheEverything: true } });
+        if (!r.ok) throw new Error("FotMob " + r.status);
+        const j = await r.json(), g = j.general || {}, ps = ((j.content || {}).playerStats) || {};
+        const arr = (x) => (Array.isArray(x) ? x : x && typeof x === "object" ? Object.values(x) : []);
+        const p = arr(ps).map((q) => ({
+          i: q.id, n: q.name, t: q.teamId, gk: !!q.isGoalkeeper,
+          g: arr(q.stats).map((grp) => [grp.title || grp.key || "", Object.entries(grp.stats || {}).map(([lab, e]) => { const st = (e && e.stat) || {}; return [lab, e && e.key, st.value, st.total, st.type]; })]),
+        }));
+        return new Response(JSON.stringify({ t: Date.now(), hi: g.homeTeam && g.homeTeam.id, ai: g.awayTeam && g.awayTeam.id, fin: !!g.finished, p }), { headers: cors(req) });
       }
       if (u.pathname === "/diag4") {
         const out = {};
