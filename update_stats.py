@@ -6,6 +6,7 @@ import json, os, sys, time, urllib.parse
 from datetime import datetime, timezone
 from update_data import api, find_league, WANTED, SEASON_START, PAUSE, KEY
 from update_angoli import TOP5, tid_of, season_of
+from update_stats_ex import load_matches, role_map, pos_of, nk
 
 CACHE_FILE, OUT_FILE = "cache_stats.json", "stats.json"
 MAX_MIN = float(os.environ.get("MAX_MIN", "35"))
@@ -98,7 +99,7 @@ def read_roles(mid, cache):
             pid, pi = x.get("player_id"), x.get("position_id")
             if not pid or pi is None:
                 continue
-            k = 0 if pi < 20 else 1 if pi < 60 else 2 if pi < 90 else 3
+            k = pi if 0 <= pi <= 3 else (0 if pi < 20 else 1 if pi < 60 else 2 if pi < 90 else 3)
             v = cache["role2"].setdefault(pid, [0, 0, 0, 0])
             v[k] += 1
     cache["lu"][mid] = 2
@@ -192,6 +193,8 @@ def main():
     for r in cm.values():
         for row in r["p"]:
             per.setdefault(row[0], []).append((r["d"], r["lg"], row))
+    lst_m = load_matches()
+    st_roles, su_roles = role_map(lst_m)
     players, photos = [], {}
     for pid, lst in per.items():
         lst.sort(key=lambda x: x[0], reverse=True)
@@ -203,8 +206,10 @@ def main():
         for d, lg_, row in lst[:5]:
             l5[0] += 1; l5[1] += row[2]; l5[2] += row[5]; l5[3] += row[6]; l5[4] += row[7]; l5[5] += row[8]; l5[6] += row[9]; l5[7] += row[3]; l5[8] += row[4]; l5[9] += row[10]; l5[10] += row[11]
         tid = lst[0][2][1]
+        posd = pos_of((nk(cache["pn"].get(pid, "")), cache["tn"].get(tid, "")), st_roles, su_roles)   # ruolo dalle formazioni vere
         rv = cache["role"].get(pid)
-        posd = "PDCA"[rv.index(max(rv))] if rv and max(rv) > 0 else None
+        if posd is None:
+            posd = "PDCA"[rv.index(max(rv))] if rv and max(rv) > 0 else None
         if posd is None:
             r2 = cache["role2"].get(pid)
             posd = "PDCA"[r2.index(max(r2))] if r2 and max(r2) > 0 else None
