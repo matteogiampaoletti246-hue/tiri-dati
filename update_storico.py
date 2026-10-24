@@ -5,7 +5,7 @@ Si ferma dopo MAX_MIN minuti e riprende da dove era arrivato."""
 import json, os, sys, time, urllib.parse
 from datetime import datetime, timezone
 from update_data import api, find_league, WANTED, SEASON_START, PAUSE, KEY
-from update_angoli import TOP5, tid_of, season_of
+from update_angoli import TOP5, CUPS, tid_of, season_of
 
 MAX_MIN = float(os.environ.get("MAX_MIN", "35"))
 VER = 3
@@ -72,7 +72,7 @@ def read_one(m, key, probe):
     for side, k in (("home", "h"), ("away", "a")):
         o = (lu or {}).get(side) or {}
         pk = lambda x: [x.get("name"), x.get("shirt_number"), x.get("position_id"), x.get("pitch_x"), x.get("pitch_y"), 1 if x.get("is_captain") else 0]
-        lus[k] = {"f": o.get("formation"), "co": nm(o.get("coach")), "st": [pk(x) for x in o.get("starters", []) or []], "su": [pk(x) for x in o.get("subs", []) or []]}
+        lus[k] = {"f": o.get("formation"), "co": nm(o.get("coach")), "cr": o.get("coach") if isinstance(o.get("coach"), dict) else None, "st": [pk(x) for x in o.get("starters", []) or []], "su": [pk(x) for x in o.get("subs", []) or []]}
     hid = tid_of(m["home_team"])
     events = []
     for x in ev:
@@ -96,6 +96,7 @@ def read_one(m, key, probe):
 
 
 def build_referees():
+    """arbitri.json: per ogni arbitro le medie sul campionato (o sulla coppa dove ha arbitrato di piu') e, in 'by', le medie di ogni competizione."""
     ref = {}
     for fn in os.listdir("match"):
         try:
@@ -104,9 +105,8 @@ def build_referees():
             continue
         if not r.get("ref"):
             continue
-        o = ref.setdefault(r["ref"], {"n": 0, "lg": {}, "y": 0, "r": 0, "pen": 0, "fo": 0, "nfo": 0, "m": []})
+        o = ref.setdefault(r["ref"], {}).setdefault(r["lg"], {"n": 0, "y": 0, "r": 0, "pen": 0, "fo": 0, "nfo": 0, "m": []})
         o["n"] += 1
-        o["lg"][r["lg"]] = o["lg"].get(r["lg"], 0) + 1
         for e in r["ev"]:
             if e[0] == "yellowcard":
                 o["y"] += 1
@@ -121,12 +121,19 @@ def build_referees():
                     if hv is not None and av is not None:
                         o["fo"] += hv + av; o["nfo"] += 1
         o["m"].append([r["d"], r["h"], r["a"], r["sh"], r["sa"], r["id"]])
-    out = {}
-    for name, o in ref.items():
+
+    def fin(o):
         n = o["n"]
-        out[name] = {"n": n, "lg": max(o["lg"], key=o["lg"].get), "y": round(o["y"] / n, 2), "r": round(o["r"] / n, 2),
-                     "pen": round(o["pen"] / n, 2), "fo": round(o["fo"] / o["nfo"], 1) if o["nfo"] else None,
-                     "m": sorted(o["m"], reverse=True)[:8]}
+        return {"n": n, "y": round(o["y"] / n, 2), "r": round(o["r"] / n, 2), "pen": round(o["pen"] / n, 2),
+                "fo": round(o["fo"] / o["nfo"], 1) if o["nfo"] else None, "m": sorted(o["m"], reverse=True)[:8]}
+
+    out = {}
+    for name, bylg in ref.items():
+        dom = {k: v for k, v in bylg.items() if k not in CUPS} or bylg
+        main_lg = max(dom, key=lambda k: dom[k]["n"])
+        e = fin(dom[main_lg]); e["lg"] = main_lg
+        e["by"] = {k: fin(v) for k, v in bylg.items()}
+        out[name] = e
     return out
 
 
@@ -175,7 +182,7 @@ def main():
     leagues = (api("/v1/leagues") or {}).get("leagues", [])
     new, stop, probe = 0, False, {}
     for key, cc, rx, ex in WANTED:
-        if key not in TOP5 or stop:
+        if (key not in TOP5 and key not in CUPS) or stop:
             continue
         cand = find_league(leagues, cc, rx, ex)
         if not cand:
