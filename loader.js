@@ -388,7 +388,7 @@ html[data-theme="night"] #slbSearchBtn,html[data-theme="night"] #slbBurger{color
 .lvtop{display:flex;align-items:center;gap:14px;}.lvf{width:64px;height:64px;border-radius:50%;overflow:hidden;background:var(--panel-2);display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--accent);flex:none;}.lvf img{width:100%;height:100%;object-fit:cover;}
 .lvnm b{display:block;font:700 19px Poppins,sans-serif;}.lvnm small{color:var(--text-dim);font-size:12.5px;}
 .lvbd{padding:0 16px 28px;}.lvgp{border-top:1px solid var(--line);padding:6px 0 4px;}.lvgt{font:700 12px Poppins,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:var(--text-dim);padding:8px 0 4px;}
-.lvrw{display:flex;justify-content:space-between;padding:8px 0;font-size:14.5px;}.lvrw span{color:var(--text-dim);}.lvrw b{font-weight:800;}
+.lvrt{margin-left:auto;min-width:46px;height:34px;padding:0 10px;border-radius:17px;color:#fff;font-weight:800;font-size:16px;display:flex;align-items:center;justify-content:center;flex:none;}.lvrw{display:flex;justify-content:space-between;padding:8px 0;font-size:14.5px;}.lvrw span{color:var(--text-dim);}.lvrw b{font-weight:800;}
 
 .lgstk{position:sticky;z-index:41;background:var(--bg);margin-bottom:10px;}
 .lgstk .hhero{display:flex !important;align-items:center;gap:10px;margin-bottom:0 !important;padding:8px 14px !important;}
@@ -1202,7 +1202,9 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
     }
     if(needExtra()){ hc.appendChild(el('div', 'hempty', 'Carico…')); return; }
     if(HLTAB === 'sq' || HLTAB === 'gi' || HLTAB === 'ar') HSTV = HLTAB;
-    if(HSTV === 'sq') teamStatsLeague(hc, lg); else if(HSTV === 'ar') refsLeague(hc, lg); else playersStats(hc, null, lg);
+    var n0 = hc.childNodes.length;
+    try{ if(HSTV === 'sq') teamStatsLeague(hc, lg); else if(HSTV === 'ar') refsLeague(hc, lg); else playersStats(hc, null, lg); }catch(e){}
+    if(hc.childNodes.length === n0) hc.appendChild(el('div', 'hempty', 'Statistiche non ancora disponibili'));
   }
   var CSF = {};
   function cupFixtures(hc, lg, wrp){
@@ -1267,6 +1269,42 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
     if(/^[A-Za-z]{2}$/.test(x)){ return String.fromCodePoint.apply(null, x.toUpperCase().split('').map(function(c){ return 0x1F1E6 + c.charCodeAt(0) - 65; })); }
     return /[\u{1F1E6}-\u{1F1FF}]/u.test(x) ? x : '';
   }
+  // === FotMob: formazioni ufficiali e arbitro (controllo ogni minuto vicino al calcio d'inizio) ===
+  var FXC = {};
+  function fxRedraw(m){ if(HSEL && HSEL.d === m.d && HSEL.h === m.h && HSEL.a === m.a && lvVisible() && !LVSH && !HPL && !HTEAM && !HREF && /pano|form/.test(HTAB)) drawMatch(); }
+  function fxGet(m){
+    if(!m || pastScore(m)) return null;
+    var f = fmFind(m);
+    if(f === undefined){ fmDay(m.d, function(){ fxRedraw(m); }); return undefined; }
+    if(!f) return null;
+    var c = FXC[f.id], now = Date.now(), ko = m.t ? new Date(m.t).getTime() : 0, near = ko && now > ko - 3 * 3600000 && now < ko + 4 * 3600000;
+    var conf = c && c.j && c.j.ty && c.j.ty !== 'predicted', ttl = near ? (conf ? 300000 : 60000) : 1800000;
+    if(!c || (!c.busy && now - c.t > ttl)){
+      FXC[f.id] = {j: c ? c.j : null, t: c ? c.t : 0, busy: true};
+      fetch(LVURL + '/fx?id=' + f.id).then(function(r){ return r.json(); }).then(function(j){
+        var old = FXC[f.id] && FXC[f.id].j, sg = JSON.stringify([j && j.ty, j && j.h && j.h.s, j && j.a && j.a.s, j && j.ref]), og = old ? JSON.stringify([old.ty, old.h && old.h.s, old.a && old.a.s, old.ref]) : null;
+        FXC[f.id] = {j: j && !j.error ? j : old, t: Date.now(), busy: false};
+        if(sg !== og) fxRedraw(m);
+        if(near) { clearTimeout(FXC.tm); FXC.tm = setTimeout(function(){ fxRedraw(m); }, (conf ? 300000 : 60000) + 500); }
+      }).catch(function(){ FXC[f.id] = {j: c ? c.j : null, t: Date.now(), busy: false}; });
+    }
+    return FXC[f.id] ? FXC[f.id].j : (c ? c.j : undefined);
+  }
+  function refCardFx(box, r){
+    var c = el('div', 'hcard href');
+    var h = el('div', 'rfh'), nm = el('div', 'rfn'); nm.appendChild(el('b', '', r.n)); nm.appendChild(el('small', '', (r.mt != null ? r.mt + ' partite · ' : '') + 'Arbitro'));
+    var ic = el('span', 'rfi'); ic.appendChild(yc()); h.appendChild(ic); h.appendChild(nm); c.appendChild(h);
+    var g = el('div', 'rfg');
+    [['Ammonizioni', r.y, r.ya], ['Falli', r.fo, r.foa]].forEach(function(x){
+      if(x[1] == null) return;
+      var d = el('div', 'rfc'); d.appendChild(el('small', '', x[0]));
+      var v = el('div', 'rfv'); v.appendChild(el('b', '', f1(String(Math.round(x[1] * 10) / 10)))); v.appendChild(el('span', '', ' / partita')); d.appendChild(v);
+      if(x[2] > 0){ var br = barEl(x[1], x[2], false); d.appendChild(br); var t = el('div', 'rft', barTxt(br)); t.style.color = br.getAttribute('data-c'); d.appendChild(t); }
+      g.appendChild(d);
+    });
+    c.appendChild(g); box.appendChild(c);
+  }
+  function fxPhoto(u){ return typeof u === 'string' && /^https?:/.test(u) ? u : null; }
   function tabLineup(box){
     var PL = null, L;
     if(pastScore(HSEL)){
@@ -1275,7 +1313,19 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
       if(!rc || !rc.lu){ box.appendChild(el('div', 'hempty', 'Formazioni non disponibili')); return; }
       var rt = {}; (rc.pl || []).forEach(function(x){ rt[norm(x[0])] = x[2]; }); PL = rt; L = {};
       ['h', 'a'].forEach(function(k){ var o = rc.lu[k]; if(!o) return; L[k] = {f: o.f, c: true, co: o.co, cn: o.cn, cp: o.cp, s: (o.st || []).map(function(x){ return [x[0], x[1], x[3], x[4], x[5], null, rt[norm(x[0])]]; }), b: (o.su || []).map(function(x){ return [x[0], x[1], null]; }) }; });
-    } else L = HD.lin && HD.lin[HSEL.id];
+    } else {
+      L = HD.lin && HD.lin[HSEL.id];
+      var fxj = fxGet(HSEL);
+      if(fxj && (fxj.h || fxj.a)){
+        L = L ? {h: L.h, a: L.a} : {};
+        var fconf = fxj.ty && fxj.ty !== 'predicted';
+        ['h', 'a'].forEach(function(k){
+          var o = fxj[k]; if(!o) return; var cur = L[k];
+          if(!cur || !cur.s || !cur.s.length || !cur.c || fconf) L[k] = {f: o.f, c: !!fconf, co: o.co && o.co.n, cn: o.co && o.co.cc, s: o.s, b: o.b};
+        });
+      }
+      if((!L || (!L.h && !L.a)) && fxj === undefined){ box.appendChild(el('div', 'hempty', 'Carico…')); return; }
+    }
     if(!L || (!L.h && !L.a)){ box.appendChild(el('div', 'hempty', 'Formazioni non ancora disponibili')); return; }
     var sw = el('div', 'hsw');
     [['h', HSEL.h, HSEL.hl], ['a', HSEL.a, HSEL.al]].forEach(function(o){
@@ -1299,7 +1349,7 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
     pos.forEach(function(o){
       var pl = o.p, dbp = findPlayer(pl[0], team);
       var b = el('button', 'hp'); b.type = 'button'; b.style.left = o.x + '%'; b.style.top = o.y + '%';
-      var fc = el('span', 'fc'), fu = (pl[5] && ((FOTO[pl[5]] && FOTO[pl[5]].u) || (ST && ST.ph && ST.ph[pl[5]]))) || (PL ? lvPhoto({n: pl[0]}, team) : null);
+      var fc = el('span', 'fc'), fu = (pl[5] && (fxPhoto(pl[5]) || (FOTO[pl[5]] && FOTO[pl[5]].u) || (ST && ST.ph && ST.ph[pl[5]]))) || (PL ? lvPhoto({n: pl[0]}, team) : null);
       if(fu){ var im = el('img'); im.src = fu; im.alt = ''; im.decoding = 'async'; im.onerror = function(){ im.remove(); fc.textContent = inits(pl[0]); }; fc.appendChild(im); } else fc.textContent = inits(pl[0]);
       b.appendChild(fc);
       if(pl[4]) b.appendChild(el('span', 'cp2', 'C'));
@@ -1326,7 +1376,7 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
       var bn = el('div', 'hbg');
       S.b.forEach(function(x){
         var b = el('button', 'hbp'); b.type = 'button';
-        var id = x.length > 3 ? x[5] : x[2], pu = id && FOTO[id] && FOTO[id].u, dbp = findPlayer(x[0], team), pf = el('span', 'pfc');
+        var id = x.length > 3 ? x[5] : x[2], pu = fxPhoto(id) || (id && FOTO[id] && FOTO[id].u), dbp = findPlayer(x[0], team), pf = el('span', 'pfc');
         if(!pu && dbp) pu = photoFor(dbp);
         if(!pu) pu = lvPhoto({n: x[0]}, team);
         if(pu){ var im = el('img'); im.src = pu; im.alt = ''; im.decoding = 'async'; im.onerror = function(){ im.remove(); pf.textContent = inits(x[0]); }; pf.appendChild(im); } else pf.textContent = inits(x[0]);
@@ -1361,7 +1411,7 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
       var c = el('button', 'hpc'); c.type = 'button';
       c.appendChild(el('span', 'rk', String(i + 1)));
       var pu = photoFor(r.p), pf = el('span', 'pfc');
-      if(pu){ var pim = el('img'); pim.src = pu; pim.alt = ''; ppim.decoding = 'async'; pim.onerror = function(){ pim.remove(); pf.textContent = inits(r.p.n); }; pf.appendChild(pim); } else pf.textContent = inits(r.p.n);
+      if(pu){ var pim = el('img'); pim.src = pu; pim.alt = ''; pim.decoding = 'async'; pim.onerror = function(){ pim.remove(); pf.textContent = inits(r.p.n); }; pf.appendChild(pim); } else pf.textContent = inits(r.p.n);
       c.appendChild(pf);
       var mid = el('span', 'mid'), nb2 = el('b', ''); nb2.appendChild(crestEl(r.p.t === HSEL.h ? HSEL.hl : HSEL.al, r.p.t, 15)); nb2.appendChild(document.createTextNode(' ' + r.p.n)); mid.appendChild(nb2);
       mid.appendChild(el('small', '', 'Media attesa ' + f1(r.v.t.lam.toFixed(2)) + ' · ' + Math.round(r.v.t.mn) + '’ medi')); c.appendChild(mid);
@@ -1380,15 +1430,26 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
     var hd = el('div', 'hhd'); hd.appendChild(el('span')); hd.appendChild(el('span', '', 'Stagione')); hd.appendChild(el('span', '', 'Ultime 5')); c.appendChild(hd);
     rows.forEach(function(r){
       var d = el('div', 'hr2'); d.appendChild(el('span', 'l', r[0])); d.appendChild(el('b', '', r[1])); d.appendChild(el('b', 'g', r[2]));
-      if(r[3]){ var w = el('div', 'hrw'); w.appendChild(d); w.appendChild(barEl(r[3].v, r[3].a, r[3].inv)); c.appendChild(w); } else c.appendChild(d);
+      if(r[3]){ var w = el('div', 'hrw'); w.appendChild(d); w.appendChild(barP(r[3].v, r[3].a, r[3].mx, r[3].inv)); c.appendChild(w); } else c.appendChild(d);
     });
     box.appendChild(c);
   }
   var PAV = {};
   function playerAvg(p, key){
-    var s = statOf(p); if(!s || !ST) return null; var pos = s[SC.pos] || '', k = pos + '|' + key; if(k in PAV) return PAV[k];
-    var sum = 0, n = 0; ST.players.forEach(function(r){ if((r[SC.pos] || '') === pos && r[SC.min] >= 450 && !CUPK[r[SC.lg]]){ sum += r[SC[key]] / r[SC.min] * 90; n++; } });
-    return PAV[k] = n > 15 ? sum / n : null;
+    var s = statOf(p); if(!s || !ST) return null; var pos = s[SC.pos] || '', lgk = s[SC.lg], k = pos + '|' + lgk + '|' + key; if(k in PAV) return PAV[k];
+    var vals = [];
+    ST.players.forEach(function(r){ if((r[SC.pos] || '') === pos && r[SC.lg] === lgk && r[SC.min] >= 450 && !CUPK[r[SC.lg]]) vals.push(r[SC[key]] / r[SC.min] * 90); });
+    if(vals.length < 12){ vals = []; ST.players.forEach(function(r){ if((r[SC.pos] || '') === pos && r[SC.min] >= 450 && !CUPK[r[SC.lg]]) vals.push(r[SC[key]] / r[SC.min] * 90); }); }
+    if(vals.length < 12) return PAV[k] = null;
+    var sum = 0; vals.forEach(function(x){ sum += x; }); vals.sort(function(a, b){ return a - b; });
+    var a = sum / vals.length, p95 = vals[Math.min(vals.length - 1, Math.floor(vals.length * 0.95))];
+    return PAV[k] = a > 0 ? {a: a, mx: Math.max(p95, a * 1.6)} : null;
+  }
+  function barP(v, avg, mx, inv){
+    var top = Math.max(mx, v, avg * 1.2), w = Math.max(2, Math.min(100, v / top * 100)), lp = avg / top * 100;
+    var r = avg > 0 ? v / avg : 1, up = r > 1, near = Math.abs(r - 1) <= 0.1, col = near ? '#E5B400' : ((up !== !!inv) ? '#1E8E3E' : '#D93A3A');
+    var b = el('div', 'abar'), f = el('i'), u = el('u'); f.style.width = w + '%'; f.style.background = col; u.style.left = lp + '%'; b.appendChild(f); b.appendChild(u);
+    b.setAttribute('data-c', col); return b;
   }
   function n1(x, d){ return x == null || isNaN(x) ? '–' : f1(x.toFixed(d == null ? 1 : d)); }
   var PAX = {};
@@ -1409,7 +1470,7 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
       var sv = sxv(x, k), lv = sxv(x, k, true);
       if(!sv && !lv) return;
       var a = pc ? sv : sv / mn * 90, b = pc ? lv : (l5m > 0 ? lv / l5m * 90 : 0);
-      var avg = paxAvg(s[SC.pos] || '', k, pc), lab = PIT[k] || mt[0] || k;
+      var avg = null, lab = PIT[k] || mt[0] || k;
       var row = [lab + (pc ? '' : ' ogni 90\u2019'), n1(a) + (pc ? '%' : ''), n1(b) + (pc ? '%' : ''), avg ? {v: a, a: avg, inv: !!PINV[k]} : null];
       if(!gm[g]){ gm[g] = []; groups.push(g); }
       gm[g].push(row);
@@ -1436,7 +1497,7 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
     if(needExtra() && !ST){ box.appendChild(el('div', 'hempty', 'Carico…')); return; }
     if(s){
       var C = SC, per = function(k){ return s[C[k]] > 0 || s[C.min] > 0 ? p90(s, k) : null; };
-      var bar = function(k, inv){ var v = per(k), a = playerAvg(p, k); return (v != null && a) ? {v: v, a: a, inv: inv} : null; };
+      var bar = function(k, inv){ var v = per(k), a = playerAvg(p, k); return (v != null && a) ? {v: v, a: a.a, mx: a.mx, inv: inv} : null; };
       var l5 = function(k){ return s[C.l5min] > 0 ? s[C[k]] / s[C.l5min] * 90 : 0; }, iv = function(k){ return s[C[k]] == null ? '–' : String(s[C[k]]); };
       aCard(box, 'Generale', [['Partite giocate', String(s[C.g]), iv('l5g')], ['Gol', String(s[C.go]), iv('l5go')], ['Assist', String(s[C.as]), iv('l5as')],
         ['Minuti a partita', s[C.g] ? Math.round(s[C.min] / s[C.g]) + '’' : '–', s[C.l5g] ? Math.round(s[C.l5min] / s[C.l5g]) + '’' : '0’']]);
@@ -1465,6 +1526,34 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
   }
 
 
+  // === gesti iPhone: scorri per cambiare scheda / giorno / uscire ===
+  (function(){
+    var X0 = 0, Y0 = 0, T0 = 0, OK = false;
+    function skip(t){ while(t && t !== document){ if(t.classList && (t.classList.contains('hscr') || t.classList.contains('sc') || t.classList.contains('lvov') || t.classList.contains('hmom') || t.tagName === 'INPUT')) return true; if(t.scrollWidth > t.clientWidth + 4 && t.clientWidth > 0 && /(auto|scroll)/.test(getComputedStyle(t).overflowX)) return true; t = t.parentNode; } return false; }
+    document.addEventListener('touchstart', function(e){
+      var t = e.touches[0]; X0 = t.clientX; Y0 = t.clientY; T0 = Date.now();
+      OK = e.touches.length === 1 && X0 > 24 && X0 < window.innerWidth - 12 && typeof MCAT !== 'undefined' && MCAT === 'home' && lvVisible() && !LVSH && !skip(e.target);
+    }, {passive: true});
+    document.addEventListener('touchend', function(e){
+      if(!OK) return; OK = false;
+      var t = e.changedTouches[0], dx = t.clientX - X0, dy = t.clientY - Y0;
+      if(Date.now() - T0 > 700 || Math.abs(dx) < 70 || Math.abs(dy) > Math.abs(dx) * 0.55) return;
+      var root = document.getElementById('slbMatch'); if(!root) return;
+      var next = dx < 0;
+      var tabs = root.querySelector('.hhero .htabs') || root.querySelector('.htabs');
+      if(tabs && (HSEL || HTEAM || HLV)){
+        var on = tabs.querySelector('button.on'), tg = on && (next ? on.nextElementSibling : on.previousElementSibling);
+        if(tg){ tg.click(); return; }
+        if(!next){ var bk = root.querySelector('.hback'); if(bk) bk.click(); }
+        return;
+      }
+      if(HSEL || HPL || HTEAM || HLV || HREF || HSTK){ if(!next){ var bk2 = root.querySelector('.hback'); if(bk2) bk2.click(); } return; }
+      var ds = root.querySelector('.hdates'); if(!ds) return;
+      var bs = [].slice.call(ds.querySelectorAll('button')).filter(function(b){ return !/hcal|lvb/.test(b.className); });
+      var ix = -1; bs.forEach(function(b, i){ if(b.classList.contains('on')) ix = i; });
+      var tg2 = bs[ix + (next ? 1 : -1)]; if(ix >= 0 && tg2) tg2.click();
+    }, {passive: true});
+  })();
   // --- ricerca (lente) ---
   function searchSetup(bar){
     var btn = document.createElement('button'); btn.type = 'button'; btn.id = 'slbSearchBtn'; btn.setAttribute('aria-label', 'Cerca');
@@ -1567,7 +1656,7 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
   }
   var CUPS = [['uefa.champions', 'Champions League'], ['uefa.europa', 'Europa League'], ['uefa.europa.conf', 'Conference League'], ['uefa.nations', 'Nations League'], ['fifa.friendly', 'Amichevoli']], LVD = {};
   function cupLabel(k){ for(var i = 0; i < CUPS.length; i++){ if(CUPS[i][0] === k) return CUPS[i][1]; } return null; }
-  function lvCupM(e){ return {d: romeDay(new Date(e.d)), lg: e.lg, h: e.h, a: e.a, hl: e.hl, al: e.al, t: e.d, es: e, cup: true, id: 'es' + e.id}; }
+  function lvCupM(e){ var o = {d: romeDay(new Date(e.d)), lg: e.lg, h: e.h, a: e.a, hl: e.hl, al: e.al, t: e.d, es: e, cup: true, id: 'es' + e.id}; if(e.fm && e.st === 'post' && e.sh != null){ o.sh = +e.sh; o.sa = +e.sa; } return o; }
   function lvCups(day){
     var out = {}, v = LVD[day], now = Date.now();
     LV.ev.forEach(function(e){ if(cupLabel(e.lg) && romeDay(new Date(e.d)) === day) out[e.id] = e; });
@@ -1688,7 +1777,9 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
       box.appendChild(fc2);
     }
     var of = (s.officials || [])[0], ref = of && (of.fullName || of.displayName);
-    infoBand(box, m, s.venue && s.venue.fullName, ref || null);
+    var fxr = fxGet(m), fref = fxr && fxr.ref;
+    infoBand(box, m, s.venue && s.venue.fullName, ref || (fref && fref.n) || null);
+    if(!ref && fref) refCardFx(box, fref);
   }
   var LVST = [['possessionPct', 'Possesso palla', 0], ['totalShots', 'Tiri totali'], ['shotsOnTarget', 'Tiri in porta'], ['blockedShots', 'Tiri bloccati'], ['totalPasses', 'Passaggi'], ['passPct', 'Precisione passaggi %', 0, 100], ['wonCorners', 'Corner'], ['foulsCommitted', 'Falli'], ['yellowCards', 'Gialli'], ['redCards', 'Rossi'], ['offsides', 'Fuorigiochi'], ['saves', 'Parate'], ['totalCrosses', 'Cross'], ['totalTackles', 'Contrasti'], ['interceptions', 'Intercetti'], ['totalClearance', 'Rinvii']];
   function lvStat(box, m, e){
@@ -1836,11 +1927,11 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
       var ps = psRow(rec, name, side), pl = plRow(rec, name, side);
       var lu = rec.lu && rec.lu[side], pos = null;
       ['st', 'su'].forEach(function(k){ ((lu && lu[k]) || []).forEach(function(x){ if(nk(x[0]) === nk(name)){ if(shirt == null) shirt = x[1]; if(k === 'st' && x[3] != null) pos = x[3] <= .15 ? 'P' : x[3] < .45 ? 'D' : x[3] < .8 ? 'C' : 'A'; else if(k === 'su' && typeof x[2] === 'number' && x[2] >= 0 && x[2] <= 3) pos = 'PDCA'.charAt(x[2]); } }); });
-      var p = {n: name, j: shirt, pos: pos, id: null};
+      var p = {n: name, j: shirt, pos: pos, id: null, rt: (pl && pl[2] != null && pl[2] > 0) ? Number(pl[2]) : null};
       var db = findPlayer(name, team, true);
       lvSheet(p, team, m, null, function(block, body){
         var rt = pl && pl[2] != null && pl[2] > 0 ? Number(pl[2]) : null, mn = ps && ps[2].minutes_played != null ? (ps[2].minutes_played instanceof Array ? ps[2].minutes_played[0] : ps[2].minutes_played) : (pl && pl[3]);
-        var gen = [['Voto', rt == null ? '–' : f1(rt.toFixed(1))], ['Minuti', mn == null ? '–' : Math.round(mn) + '’']];
+        var gen = [['Voto', rt == null ? '–' : f1(rt.toFixed(1)), rt == null ? null : ratCol(rt)], ['Minuti', mn == null ? '–' : Math.round(mn) + '’']];
         if(pos) gen.push(['Ruolo', pos]);
         block('Generale', gen);
         if(ps){
@@ -1859,6 +1950,9 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
           KS.forEach(function(k, i){ if(k === 'rating_title' || k === 'minutes_played') return; var v = pl[2 + i]; if(v == null || v === 0) return; rows.push([PIT[k] || k, fmtPV(v, '')]); });
           if(rows.length) block('Statistiche', rows); else body.appendChild(el('div', 'hempty', 'Statistiche dettagliate non disponibili'));
         } else body.appendChild(el('div', 'hempty', 'Statistiche dettagliate non disponibili'));
+        var mk = el('button', 'lvlink', 'Mappa tiri ›'); mk.type = 'button';
+        mk.addEventListener('click', function(){ lvSheetClose(); HTAB = 'stat'; HSM = 't'; HSFLT = side; HSPL = name; HSHOT = null; HANIM = null; drawMatch(); window.scrollTo(0, 0); });
+        body.appendChild(mk);
         if(db){
           var lk = el('button', 'lvlink', 'Scheda giocatore ›'); lk.type = 'button';
           lk.addEventListener('click', function(){ lvSheetClose(); openPlayer(db); }); body.appendChild(lk);
@@ -1882,11 +1976,13 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
     top.appendChild(pf);
     var nb = el('div', 'lvnm'); nb.appendChild(el('b', '', p.n || ''));
     nb.appendChild(el('small', '', (p.j != null ? '#' + p.j : '') + (p.pos ? ' · ' + p.pos : '') + ' · ' + team));
-    top.appendChild(nb); hd.appendChild(top); pn.appendChild(hd);
+    top.appendChild(nb);
+    if(p.rt){ var rtb = el('span', 'lvrt', f1(p.rt.toFixed(1))); rtb.style.background = ratCol(p.rt); if(p.rt >= 6 && p.rt < 7) rtb.style.color = '#241800'; top.appendChild(rtb); }
+    hd.appendChild(top); pn.appendChild(hd);
     var mn = custom ? null : lvMinutes(p, s), d = p.s || {}, body = el('div', 'lvbd');
     function block(title, rows){
       var c = el('div', 'lvgp'); c.appendChild(el('div', 'lvgt', title));
-      rows.forEach(function(r){ var x = el('div', 'lvrw'); x.appendChild(el('span', '', r[0])); x.appendChild(el('b', '', r[1])); c.appendChild(x); });
+      rows.forEach(function(r){ var x = el('div', 'lvrw'), bb = el('b', '', r[1]); if(r[2]) bb.style.color = r[2]; x.appendChild(el('span', '', r[0])); x.appendChild(bb); c.appendChild(x); });
       body.appendChild(c);
     }
     if(custom) custom(block, body);
@@ -1929,7 +2025,11 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
     box.appendChild(sw);
     var R = null; (s.rosters || []).forEach(function(r){ if((r.side === 'home') === (HSIDE === 'h')) R = r; });
     var team = HSIDE === 'h' ? m.h : m.a;
-    if(!R || !(R.players || []).length){ box.appendChild(el('div', 'hempty', 'Formazione non ancora disponibile')); return; }
+    if(!R || !(R.players || []).length){
+      var fxl = fxGet(m);
+      if(fxl && fxl[HSIDE]){ box.removeChild(sw); tabLineup(box); return; }
+      box.appendChild(el('div', 'hempty', fxl === undefined ? 'Carico…' : 'Formazione non ancora disponibile')); return;
+    }
     var st = R.players.filter(function(p){ return p.st; }).sort(function(a, b){ return (+a.fp || 0) - (+b.fp || 0); });
     var bn = R.players.filter(function(p){ return !p.st; });
     var top = el('div', 'hsec', 'Formazione' + (R.formation ? ' · ' + R.formation : '')); top.style.padding = '0 2px 8px'; box.appendChild(top);
@@ -2182,7 +2282,9 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
       var lists = al.map(function(L){ return L.slice(0, nn).map(function(r){ return {n: r.p.n, team: r.p.t, p: r.p, v: r.v.v, txt: f1(r.v.v.toFixed(2))}; }); });
       bestCmp(box, m, lists, 'Giocatori migliori');
     }
-    infoBand(box, m, null, null);
+    var fxr = fxGet(m), fref = fxr && fxr.ref;
+    infoBand(box, m, null, fref ? fref.n : null);
+    if(fref) refCardFx(box, fref);
   }
   function momentumBox(box, rec, m){
     var mo = rec.mo; if(!mo || mo.length < 6) return;
@@ -2333,6 +2435,10 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
     var q = list[sel]; if(q && q.side === side && q.gy != null && q.gz != null) s += shMark(X(q.gy), Y(q.gz), 4.6, q, true, sel);
     return s + '</svg>';
   }
+  function shSame(a, b){
+    if(!a || !b) return false; var x = nk(a), y = nk(b); if(x === y) return true;
+    var xt = x.split(' '), yt = y.split(' '); return xt[xt.length - 1] === yt[yt.length - 1] && xt[0].charAt(0) === yt[0].charAt(0);
+  }
   function shotsView(box, m, rec){
     var today = romeDay(new Date()), old = false, fm = null, pending = false;
     var again = function(ch){ if(ch !== false && HSEL && HSEL.d === m.d && HSEL.h === m.h && HSM === 't' && lvVisible()) drawMatch(); };
@@ -2353,12 +2459,13 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
     var base = all.filter(function(q){ return HSFLT === 'all' || q.side === HSFLT; });
     if(HSFLT !== 'all'){
       var cnt = {}; base.forEach(function(q){ cnt[q.n] = (cnt[q.n] || 0) + 1; });
+      if(HSPL != null && !cnt[HSPL]){ var hq = Object.keys(cnt).filter(function(n){ return shSame(n, HSPL); })[0]; HSPL = hq || null; }
       var ns = Object.keys(cnt).sort(function(a, b){ return cnt[b] - cnt[a]; });
       var row = el('div', 'hpills hscr'), bt = el('button', 'hpill' + (HSPL == null ? ' on' : ''), 'Tutti'); bt.type = 'button'; bt.addEventListener('click', function(){ HSPL = null; HSHOT = null; drawMatch(); }); row.appendChild(bt);
       ns.forEach(function(n){ var b = el('button', 'hpill' + (HSPL === n ? ' on' : ''), shortName(n) + ' ' + cnt[n]); b.type = 'button'; b.addEventListener('click', function(){ HSPL = n; HSHOT = null; drawMatch(); }); row.appendChild(b); });
       box.appendChild(row);
     }
-    var list = base.filter(function(q){ return HSPL == null || q.n === HSPL; }).sort(function(p, q){ return ((p.min || 0) + (p.add || 0) / 100) - ((q.min || 0) + (q.add || 0) / 100); });
+    var list = base.filter(function(q){ return HSPL == null || q.n === HSPL || shSame(q.n, HSPL); }).sort(function(p, q){ return ((p.min || 0) + (p.add || 0) / 100) - ((q.min || 0) + (q.add || 0) / 100); });
     if(!list.length){ box.appendChild(el('div', 'hempty', 'Nessun tiro')); return; }
     var sel = HSHOT != null && HSHOT < list.length && HSHOT >= 0 ? HSHOT : 0;
     var cd = el('div', 'hcard shw');
@@ -2389,10 +2496,11 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
   }
   function tabStatsPast(box){
     var m = HSEL, rec = matchRec(m);
-    if(!rec){ box.appendChild(el('div', 'hempty', 'Statistiche non ancora disponibili')); return; }
-    var per = rec.st || {};
+    if(rec === 0){ box.appendChild(el('div', 'hempty', 'Carico…')); return; }
+    var per = (rec && rec.st) || {};
     segmented(box, [['d', 'Dati'], ['t', 'Mappa tiri']], HSM, function(v){ HSM = v; HSHOT = null; drawMatch(); });
-    if(HSM === 't'){ shotsView(box, m, rec); return; }
+    if(HSM === 't'){ shotsView(box, m, rec || null); return; }
+    if(!rec){ box.appendChild(el('div', 'hempty', 'Statistiche non ancora disponibili')); return; }
     segmented(box, [['all', 'Totali'], ['FirstHalf', '1° Tempo'], ['SecondHalf', '2° Tempo']], HSP, function(v){ HSP = v; drawMatch(); });
     var gs = per[HSP] || [];
     if(!gs.length){ box.appendChild(el('div', 'hempty', 'Statistiche non disponibili')); return; }
