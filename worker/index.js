@@ -86,6 +86,20 @@ export default {
         const j = await espn("/" + lg + "/summary?event=" + id);
         return new Response(JSON.stringify({ t: Date.now(), ...summary(j) }), { headers: cors(req) });
       }
+      if (u.pathname === "/diag3") {
+        const out = {};
+        const H = { "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 Mobile Safari/604.1", "Accept": "text/html,application/json,*/*", "Accept-Language": "en-US,en;q=0.9" };
+        const d = u.searchParams.get("date") || new Date().toISOString().slice(0, 10).replace(/-/g, "");
+        const get = async (k, url) => { try { const r = await fetch(url, { headers: H }); const x = await r.text(); out[k] = { status: r.status, bytes: x.length, head: x.slice(0, 160) }; return x; } catch (e) { out[k] = { errore: String(e).slice(0, 100) }; return ""; } };
+        const page = await get("home", "https://www.fotmob.com/?date=" + d);
+        const nd = page.match(/<script id="__NEXT_DATA__"[^>]*>([\s\S]*?)<\/script>/);
+        if (nd) { try { const j = JSON.parse(nd[1]); out.next_keys = Object.keys(j.props.pageProps || {}); out.fallback_keys = Object.keys((j.props.pageProps || {}).fallback || {}).slice(0, 12); out.buildId = j.buildId; } catch (e) { out.next_errore = String(e).slice(0, 80); } }
+        out.cont_matchId = (page.match(/matchId/g) || []).length; out.cont_pageUrl = (page.match(/pageUrl/g) || []).length;
+        const ix = page.indexOf("matchId"); out.snip_matchId = ix >= 0 ? page.slice(Math.max(0, ix - 200), ix + 400) : null;
+        await get("api_data_matches", "https://www.fotmob.com/api/data/matches?date=" + d + "&timezone=Europe%2FRome&ccode3=ITA");
+        await get("api_matches", "https://www.fotmob.com/api/matches?date=" + d + "&timezone=Europe%2FRome&ccode3=ITA");
+        return new Response(JSON.stringify(out, null, 1), { headers: { "Content-Type": "application/json; charset=utf-8", "Cache-Control": "no-store" } });
+      }
       if (u.pathname === "/diag2") {
         const out = {};
         const H = { "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 Mobile Safari/604.1", "Accept": "text/html,application/json,*/*", "Accept-Language": "en-US,en;q=0.9" };
