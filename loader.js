@@ -2664,9 +2664,9 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
       [0, 1].forEach(function(k){
         var r = lists[k][i], cell = el('div', 'bc' + (k ? ' r' : ''));
         if(r){
-          var nb = el('b', '', shortName(r.n)), w = el('span', 'bnm'), cr = crestEl(k ? m.al : m.hl, k ? m.a : m.h, 14);
+          var nb = el('b', '', shortName(r.n)), w = el('span', 'bnm');
           if(r.go) nb.addEventListener('click', r.go); else if(r.p) nb.addEventListener('click', function(){ openPlayer(r.p); });
-          if(k === 0){ w.appendChild(cr); w.appendChild(nb); } else { w.appendChild(nb); w.appendChild(cr); }
+          w.appendChild(nb);
           var vv = el('span', 'bv', r.txt), fc = bfaceN(r);
           if(k === 0){ cell.appendChild(fc); cell.appendChild(w); cell.appendChild(vv); } else { cell.appendChild(vv); cell.appendChild(w); cell.appendChild(fc); }
           var u = el('i'); u.style.width = Math.max(4, Math.min(100, r.v * 10)) + '%'; (k ? br : bl).appendChild(u);
