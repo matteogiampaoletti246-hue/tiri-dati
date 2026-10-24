@@ -800,7 +800,7 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
     fn(); drawMatch(); window.scrollTo(0, 0);
   }
   function navBack(){
-    var s = NAV.pop(); HANIM = {t: 'back'};
+    LASTNB = Date.now(); var s = NAV.pop(); HANIM = {t: 'back'};
     if(s) restore(s); else { HSEL = HPL = HTEAM = HLV = HSTK = null; }
     drawMatch(); window.scrollTo(0, s ? s.y : 0);
   }
@@ -810,7 +810,8 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
   function openTeam(n, lg){ navTo(function(){ HREF = null; HTEAM = n; HTLG = lg || teamLg(n); HTTAB = 'par'; HPL = null; HLV = null; HSTK = null; HSTV = 'sq'; HSTS = 0; HSTW = 0; }); }
   function openLeague(k){ navTo(function(){ HREF = null; HLSC = null; HLV = k; HLTAB = 'par'; HTEAM = null; HPL = null; HSEL = null; HSTK = null; HSTV = 'sq'; HSTS = 0; HSTW = 0; HLDAY = null; }); }
   function openStat(k){ navTo(function(){ HSTK = k; }); }
-  window.addEventListener('popstate', function(){ if(MCAT !== 'home') return; navBack(); });
+  var LASTNB = 0;
+  window.addEventListener('popstate', function(){ if(MCAT !== 'home') return; if(Date.now() - LASTNB < 700 || !(HSEL || HPL || HTEAM || HLV || HREF || HSTK)) return; navBack(); });
   function backBtn(){
     var b = el('button', 'hback', '‹'); b.type = 'button'; b.setAttribute('aria-label', 'Indietro');
     b.addEventListener('click', function(){ if(history.state && history.state.slb) history.back(); else navBack(); });
