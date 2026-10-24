@@ -63,6 +63,8 @@ def main():
             continue
         if "pl" not in d or "tr" not in d or d.get("psv") != PSV:
             todo.append((f, d))
+    CUPS = ("champions-league", "europa-league", "conference-league")
+    todo.sort(key=lambda t: 0 if t[1].get("lg") in CUPS else 1)
     print(len(todo), "partite da completare")
     n = 0
     for f, d in todo:
