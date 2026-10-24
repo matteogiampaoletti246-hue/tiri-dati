@@ -167,7 +167,8 @@ export default {
           const groups = arr(q.stats).map((grp) => [grp.key || grp.title || "", grp.title || "", Object.entries(grp.stats || {}).map(([lab, e]) => { const st2 = (e && e.stat) || {}; return [e && e.key, lab, st2.value, st2.total, st2.type]; }).filter((x) => x[0] && x[2] != null)]).filter((g3) => g3[2].length);
           pl[q.id] = [q.name, q.teamId, q.isGoalkeeper ? 1 : 0, groups];
         });
-        return new Response(JSON.stringify({ t: Date.now(), ty: lu.lineupType || null, started: !!g2.started, fin: !!g2.finished, st: live, sc: tm.length > 1 ? [tm[0].score, tm[1].score] : null, clk: clean(lt.short), ht, ev, stats, pl, h: team(lu.homeTeam), a: team(lu.awayTeam), ref }), { headers: cors(req, { "Cache-Control": "public, max-age=5" }) });
+        const shs = ((c.shotmap || {}).shots || []).map((x) => [x.min, x.minAdded, x.teamId, x.playerName, x.x, x.y, x.eventType, x.isBlocked ? 1 : 0, x.isOnTarget ? 1 : 0, x.blockedX, x.blockedY, x.goalCrossedY, x.goalCrossedZ, x.expectedGoals, x.expectedGoalsOnTarget, x.shotType, x.situation, x.isOwnGoal ? 1 : 0, x.period]);
+        return new Response(JSON.stringify({ t: Date.now(), hi: g2.homeTeam && g2.homeTeam.id, ai: g2.awayTeam && g2.awayTeam.id, sh: shs, ty: lu.lineupType || null, started: !!g2.started, fin: !!g2.finished, st: live, sc: tm.length > 1 ? [tm[0].score, tm[1].score] : null, clk: clean(lt.short), ht, ev, stats, pl, h: team(lu.homeTeam), a: team(lu.awayTeam), ref }), { headers: cors(req, { "Cache-Control": "public, max-age=5" }) });
       }
       if (u.pathname === "/m") {
         const lg = u.searchParams.get("lg"), id = u.searchParams.get("id");

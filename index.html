@@ -14,7 +14,7 @@ var m=document.querySelector('meta[name=theme-color]');if(m)m.content=c;})();
 </script></head>
 <body>
 <script>
-fetch('loader.js?v=' + Date.now()).then(function(r){
+fetch('loader.js', {cache: 'no-cache'}).then(function(r){
   if(!r.ok) throw new Error('loader.js non trovato');
   return r.text();
 }).then(function(t){
