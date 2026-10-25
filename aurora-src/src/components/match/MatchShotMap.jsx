@@ -87,7 +87,7 @@ export default function MatchShotMap({ shots = [], home, away }) {
         {gl.map((s) => {
           const i = list.indexOf(s);
           const cx = x0 + 4 + (s.gy - 30.34) * W * 0.9;
-          const cy = 32 - Math.max(0, Math.min(s.gz, 3.2)) * W * 0.9;
+          const cy = 32 - Math.max(0, Math.min(s.gz, 2.8)) * W * 0.9;
           return <Dot key={i} s={s} cx={Math.max(3, Math.min(97, cx))} cy={cy} r={mode === 'xg' ? radius(s) * 0.9 : 2.3} active={i === sel} onClick={() => setSel(i)} />;
         })}
       </svg>
