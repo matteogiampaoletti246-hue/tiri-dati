@@ -29,6 +29,7 @@ export default function Crest({ team, size = 34, className = '' }) {
           width={size}
           height={size}
           loading="lazy"
+          decoding="async"
           onError={() => setFailed(true)}
           className="h-full w-full object-contain"
         />
