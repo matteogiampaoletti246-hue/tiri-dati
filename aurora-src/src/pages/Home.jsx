@@ -28,21 +28,84 @@ export default function Home() {
   const shown = filter === 'live' ? liveMatches : dayMatches;
   const groups = LEAGUES.map((league) => ({
     league,
-    matches: shown.filter((m) => m.leagueId === league.id),
+    matches: shown.filter((m) => m.leagueId === league.id).sort((a, b) => a.ts - b.ts),
   })).filter((g) => g.matches.length);
 
+  const listRef = useRef(null);
+  const busy = useRef(false);
+  const moved = useRef(false);
+
+  // Scorrimento del contenuto: esce da un lato, il nuovo giorno entra dal lato opposto.
+  const slide = (apply, exitDir, from = 0) => {
+    const el = listRef.current;
+    if (!el || busy.current) {
+      apply();
+      return;
+    }
+    busy.current = true;
+    el.style.transition = 'transform .17s ease-in, opacity .17s ease-in';
+    el.style.transform = `translate3d(${exitDir * 55}%,0,0)`;
+    el.style.opacity = '0';
+    setTimeout(() => {
+      apply();
+      el.style.transition = 'none';
+      el.style.transform = `translate3d(${-exitDir * 55}%,0,0)`;
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        el.style.transition = 'transform .3s cubic-bezier(.22,.8,.24,1), opacity .3s ease';
+        el.style.transform = 'translate3d(0,0,0)';
+        el.style.opacity = '1';
+        setTimeout(() => { busy.current = false; }, 300);
+      }));
+    }, 170);
+  };
+
+  const goDay = (i) => {
+    if (i === dayIdx && !custom) return;
+    const dir = i > (custom ? -1 : dayIdx) ? -1 : 1;
+    slide(() => { setCustom(null); setDayIdx(i); }, dir);
+  };
+
   const onPointerDown = (e) => {
-    drag.current = { x: e.clientX, y: e.clientY };
+    if (busy.current) return;
+    drag.current = { x: e.clientX, y: e.clientY, t: Date.now(), on: false };
+    moved.current = false;
+  };
+
+  const onPointerMove = (e) => {
+    const d = drag.current;
+    if (!d) return;
+    const dx = e.clientX - d.x;
+    const dy = e.clientY - d.y;
+    if (!d.on) {
+      if (Math.abs(dx) < 10 || Math.abs(dx) < Math.abs(dy) * 1.2) return;
+      d.on = true;
+      moved.current = true;
+    }
+    const el = listRef.current;
+    if (el) {
+      el.style.transition = 'none';
+      el.style.transform = `translate3d(${dx * 0.8}px,0,0)`;
+      el.style.opacity = String(Math.max(0.45, 1 - Math.abs(dx) / 500));
+    }
   };
 
   const onPointerUp = (e) => {
-    const start = drag.current;
+    const d = drag.current;
     drag.current = null;
-    if (!start) return;
-    const dx = e.clientX - start.x;
-    const dy = e.clientY - start.y;
-    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.2) {
-      setDayIdx((i) => Math.min(DATES.length - 1, Math.max(0, i + (dx < 0 ? 1 : -1))));
+    if (!d || !d.on) return;
+    const dx = e.clientX - d.x;
+    const v = Math.abs(dx) / Math.max(80, Date.now() - d.t);
+    const el = listRef.current;
+    // scorrere verso destra porta ai giorni successivi, verso sinistra ai precedenti
+    const next = dayIdx + (dx > 0 ? 1 : -1);
+    if ((Math.abs(dx) > 70 || v > 0.5) && next >= 0 && next <= DATES.length - 1) {
+      const dir = dx > 0 ? 1 : -1;
+      busy.current = false;
+      slide(() => { setCustom(null); setDayIdx(next); }, dir);
+    } else if (el) {
+      el.style.transition = 'transform .25s cubic-bezier(.22,.8,.24,1), opacity .25s ease';
+      el.style.transform = 'translate3d(0,0,0)';
+      el.style.opacity = '1';
     }
   };
 
@@ -51,10 +114,7 @@ export default function Home() {
       <HomeHeader onSearch={() => setSearchOpen(true)} />
 
       <DayStrip dates={DATES} todayIndex={TODAY_INDEX} value={custom ? -1 : dayIdx}
-        onChange={(i) => {
-          setCustom(null);
-          setDayIdx(i);
-        }}
+        onChange={goDay}
       />
 
       <div className="flex items-center px-5 pb-1 pt-1">
@@ -94,7 +154,15 @@ export default function Home() {
         </label>
       </div>
 
-      <div onPointerDown={onPointerDown} onPointerUp={onPointerUp}>
+      <div
+        ref={listRef}
+        style={{ touchAction: 'pan-y' }}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        onPointerCancel={onPointerUp}
+        onClickCapture={(e) => { if (moved.current) { e.preventDefault(); e.stopPropagation(); moved.current = false; } }}
+      >
         {loading ? (
           <>
             {[0, 1].map((i) => (

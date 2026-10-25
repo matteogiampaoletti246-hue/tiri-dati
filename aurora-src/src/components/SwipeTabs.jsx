@@ -25,13 +25,8 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
   }, []);
 
   useEffect(() => {
-    setMounted((prev) => {
-      const next = new Set(prev);
-      [index - 1, index, index + 1].forEach((i) => {
-        if (i >= 0 && i < tabs.length) next.add(i);
-      });
-      return Array.from(next);
-    });
+    // solo la scheda corrente e le due vicine restano in memoria
+    setMounted([index - 1, index, index + 1].filter((i) => i >= 0 && i < tabs.length));
   }, [index, tabs.length]);
 
   useEffect(() => {
@@ -143,7 +138,7 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
         </div>
       </div>
 
-      <div ref={wrapRef} className="relative overflow-hidden" style={{ touchAction: 'pan-y', height: h || undefined, transition: 'height .25s ease' }} onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onUp}>
+      <div ref={wrapRef} className="relative overflow-hidden" style={{ touchAction: 'pan-y', height: h || undefined }} onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onUp}>
         <div ref={trackRef} className="flex items-start">
           {panels.map((panel, i) => (
             <div key={tabs[i].key} ref={(el) => { panelRefs.current[i] = el; }} style={{ width: width || '100%', marginRight: gap, flex: '0 0 auto' }}>
