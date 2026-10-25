@@ -1,49 +1,19 @@
-// Dati MOCK aggiuntivi derivati in modo deterministico (precedenti, calendario squadra).
-import { DAY_MS, MATCHES, TODAY, isoDate, STRENGTH } from './matches';
-import { metricOf, rankOf, teamRow } from './standings';
+// Dati derivati: precedenti, calendario squadra, numeri chiave della partita.
+import { loadDetail } from './load';
+import { MATCHES, MATCH_BY_ID } from './matches';
+import { metricOf, rankOf, hasMetrics } from './standings';
 import { leagueById } from './leagues';
-import { refereeById } from './referees';
+import { findRefereeByName, refereeById } from './referees';
+import { teamById } from './teams';
+import { playerById } from './players';
 
-function seedOf(s) {
-  let h = 2166136261;
-  for (let i = 0; i < s.length; i++) {
-    h ^= s.charCodeAt(i);
-    h = Math.imul(h, 16777619);
-  }
-  return h >>> 0;
-}
-
-function rng(seed) {
-  let a = seed >>> 0;
-  return () => {
-    a = (a + 0x6d2b79f5) >>> 0;
-    let t = Math.imul(a ^ (a >>> 15), 1 | a);
-    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
-
-const H2H = {};
+const finished = (m) => m.status === 'finished' && m.score;
+const involves = (teamId) => (m) => m.homeId === teamId || m.awayId === teamId;
 
 export function headToHead(aId, bId, n = 5) {
-  const key = [aId, bId].sort().join('|');
-  if (!H2H[key]) {
-    const r = rng(seedOf(`h2h-${key}`));
-    const sa = STRENGTH[aId] || 0.5;
-    const sb = STRENGTH[bId] || 0.5;
-    const list = [];
-    for (let i = 0; i < 6; i++) {
-      const swap = r() < 0.5;
-      const homeId = swap ? bId : aId;
-      const awayId = swap ? aId : bId;
-      const hs = Math.min(6, Math.floor(r() * (0.6 + (swap ? sb : sa) * 1.9)));
-      const as = Math.min(6, Math.floor(r() * (0.5 + (swap ? sa : sb) * 1.7)));
-      const daysAgo = (i + 1) * 24 + Math.floor(r() * 40);
-      list.push({ id: `h2h-${key}-${i}`, homeId, awayId, score: [hs, as], date: isoDate(new Date(TODAY.getTime() - daysAgo * DAY_MS)) });
-    }
-    H2H[key] = list;
-  }
-  return H2H[key].slice(0, n);
+  return MATCHES.filter((m) => finished(m) && ((m.homeId === aId && m.awayId === bId) || (m.homeId === bId && m.awayId === aId)))
+    .sort((a, b) => b.ts - a.ts)
+    .slice(0, n);
 }
 
 export function h2hSummary(aId, bId) {
@@ -59,36 +29,71 @@ export function h2hSummary(aId, bId) {
   return { a, b, d, total: list.length };
 }
 
-export const recentMatches = (teamId, n = 5) =>
-  MATCHES.filter((m) => m.status === 'finished' && (m.homeId === teamId || m.awayId === teamId))
-    .sort((a, b) => b.ts - a.ts)
-    .slice(0, n);
+export const recentMatches = (teamId, n = 5) => MATCHES.filter((m) => finished(m) && involves(teamId)(m)).sort((a, b) => b.ts - a.ts).slice(0, n);
 
-export const upcomingMatches = (teamId, n = 5) =>
-  MATCHES.filter((m) => m.status !== 'finished' && (m.homeId === teamId || m.awayId === teamId))
-    .sort((a, b) => a.ts - b.ts)
-    .slice(0, n);
+export const upcomingMatches = (teamId, n = 5) => MATCHES.filter((m) => m.status !== 'finished' && involves(teamId)(m)).sort((a, b) => a.ts - b.ts).slice(0, n);
 
-export const allTeamMatches = (teamId) => MATCHES.filter((m) => m.homeId === teamId || m.awayId === teamId).sort((a, b) => a.ts - b.ts);
+export const allTeamMatches = (teamId) => MATCHES.filter(involves(teamId)).sort((a, b) => a.ts - b.ts);
 
-export const matchesByReferee = (refereeId) => MATCHES.filter((m) => m.refereeId === refereeId).sort((a, b) => b.ts - a.ts);
+export function matchesByReferee(refereeId) {
+  const r = refereeById(refereeId);
+  if (!r) return [];
+  const out = [];
+  const seen = new Set();
+  r.matches.forEach((rm) => {
+    const m = rm.id && MATCH_BY_ID[rm.id];
+    if (m && !seen.has(m.id)) {
+      seen.add(m.id);
+      out.push(m);
+    }
+  });
+  MATCHES.forEach((m) => {
+    if (m.refereeId === refereeId && !seen.has(m.id)) {
+      seen.add(m.id);
+      out.push(m);
+    }
+  });
+  return out.sort((a, b) => b.ts - a.ts);
+}
 
-export function playerShots(playerId, n = 14) {
-  const list = [];
-  MATCHES.filter((m) => m.status !== 'scheduled')
-    .sort((a, b) => b.ts - a.ts)
-    .forEach((m) => {
-      m.shots.forEach((s) => {
-        if (s.playerId === playerId) list.push(s);
+// Tiri di un giocatore nelle sue ultime partite (scarica i dettagli delle partite recenti).
+const shotsCache = {};
+export function playerShots(playerId) {
+  return shotsCache[playerId] || [];
+}
+export async function loadPlayerShots(playerId, n = 14) {
+  const p = playerById(playerId);
+  if (!p) return [];
+  if (shotsCache[playerId]) return shotsCache[playerId];
+  const ids = p.recent.slice(0, 5).map((r) => r.matchId).filter(Boolean);
+  const out = [];
+  await Promise.all(
+    ids.map(async (id) => {
+      const d = await loadDetail(id);
+      if (!d) return;
+      (d.tr || []).forEach((t) => {
+        if (t[2] !== p.name) return;
+        out.push({
+          side: 'home',
+          outcome: { Goal: 'Gol', AttemptSaved: 'Parato', Miss: 'Fuori', Post: 'Fuori' }[t[11]] || 'Fuori',
+          playerName: t[2],
+          minute: t[0],
+          body: { RightFoot: 'Destro', LeftFoot: 'Sinistro', Header: 'Testa', OtherBodyParts: 'Altro' }[t[10]] || 'Altro',
+          xg: t[5] || 0,
+          x: Math.max(0, Math.min(1, t[3] / 105)),
+          y: Math.max(0, Math.min(0.6, (t[4] / 68) * 0.6)),
+          date: d.d,
+        });
       });
-    });
-  return list.slice(0, n);
+    }),
+  );
+  out.sort((a, b) => (a.date < b.date ? 1 : -1));
+  shotsCache[playerId] = out.slice(0, n);
+  return shotsCache[playerId];
 }
 
 /* ── Serie recente per campo ── */
-export function teamFinished(teamId) {
-  return MATCHES.filter((m) => m.status === 'finished' && (m.homeId === teamId || m.awayId === teamId)).sort((a, b) => b.ts - a.ts);
-}
+export const teamFinished = (teamId) => MATCHES.filter((m) => finished(m) && involves(teamId)(m)).sort((a, b) => b.ts - a.ts);
 
 export function venueRecord(teamId, venue, n = 5) {
   const list = teamFinished(teamId)
@@ -116,31 +121,35 @@ export function overRate(teamId, line = 2.5, n = 10) {
 
 /* ── Numeri chiave della partita (card stile storie) ── */
 export function matchKeyNumbers(match) {
-  const lid = match.leagueId;
-  const league = leagueById(lid);
+  const lid = teamById(match.homeId)?.leagueId || match.leagueId;
+  const league = leagueById(lid) || leagueById(match.leagueId);
   const name = league ? league.name : '';
-
-  const perGame = (teamId, key) => {
-    const row = teamRow(lid, teamId);
-    const played = row ? row.played : 0;
-    return played ? metricOf(teamId, key) / played : 0;
-  };
-
   const rankNote = (teamId, key) => {
-    const rank = rankOf(lid, key, teamId).rank;
-    return rank ? `${rank}° in ${name}` : name;
+    const t = teamById(teamId);
+    const rank = rankOf(t ? t.leagueId : lid, key, teamId).rank;
+    return rank ? `${rank}° in ${leagueById(t ? t.leagueId : lid)?.name || name}` : name;
   };
-
-  const ref = refereeById(match.refereeId);
+  const cards = [];
+  if (hasMetrics(match.homeId)) {
+    cards.push({ side: 'home', value: metricOf(match.homeId, 'tiriInPorta'), digits: 1, unit: '', label: 'tiri in porta a partita', note: rankNote(match.homeId, 'tiriInPorta') });
+  }
   const record = venueRecord(match.awayId, 'away', 5);
+  if (record.played) {
+    cards.push({ side: 'away', value: record.wins, digits: 0, unit: '', label: `${record.wins === 1 ? 'vittoria' : 'vittorie'} fuori casa su ${record.played}`, note: 'Fuori casa' });
+  }
   const over = overRate(match.homeId, 2.5, 10);
-
-  return [
-    { side: 'home', value: perGame(match.homeId, 'tiriInPorta'), digits: 1, unit: '', label: 'tiri in porta a partita', note: rankNote(match.homeId, 'tiriInPorta') },
-    { side: 'away', value: record.wins, digits: 0, unit: '', label: `${record.wins === 1 ? 'vittoria' : 'vittorie'} fuori casa su ${record.played}`, note: 'Fuori casa' },
-    { side: 'home', value: over.pct, digits: 0, unit: '%', label: 'Over 2,5', note: `nelle ultime ${over.played} partite` },
-    { side: 'away', value: perGame(match.awayId, 'xg'), digits: 1, unit: '', label: 'xG a partita', note: rankNote(match.awayId, 'xg') },
-    { side: 'home', value: perGame(match.homeId, 'corner'), digits: 1, unit: '', label: 'corner a partita', note: rankNote(match.homeId, 'corner') },
-    { side: 'ref', value: ref && ref.games ? ref.yellows / ref.games : 0, digits: 1, unit: '', label: 'cartellini a partita', note: ref ? `Arbitro · ${ref.name}` : 'Arbitro' },
-  ];
+  if (over.played) {
+    cards.push({ side: 'home', value: over.pct, digits: 0, unit: '%', label: 'Over 2,5', note: `nelle ultime ${over.played} partite` });
+  }
+  if (hasMetrics(match.awayId)) {
+    cards.push({ side: 'away', value: metricOf(match.awayId, 'xg'), digits: 1, unit: '', label: 'xG a partita', note: rankNote(match.awayId, 'xg') });
+  }
+  if (hasMetrics(match.homeId)) {
+    cards.push({ side: 'home', value: metricOf(match.homeId, 'corner'), digits: 1, unit: '', label: 'corner a partita', note: rankNote(match.homeId, 'corner') });
+  }
+  const ref = refereeById(match.refereeId) || findRefereeByName(match.refereeName);
+  if (ref && ref.games) {
+    cards.push({ side: 'ref', value: ref.yellowsAvg, digits: 1, unit: '', label: 'cartellini gialli a partita', note: `Arbitro · ${ref.name}` });
+  }
+  return cards;
 }

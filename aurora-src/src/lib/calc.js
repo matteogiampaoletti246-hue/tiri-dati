@@ -67,10 +67,15 @@ export const seasonRate90 = (entries = []) => {
 };
 
 export const last5Rate90 = (shots = [], minutes = []) => {
-  if (!shots.length || shots.length !== minutes.length) return null;
-  const total = minutes.reduce((a, b) => a + b, 0);
-  if (total <= 0) return null;
-  return (shots.reduce((a, b) => a + b, 0) / total) * 90;
+  // come nell'app originale: massimo 5 partite; senza minuti si contano 90 a partita
+  let sh = shots.slice(0, 5);
+  let mi = minutes.slice(0, 5);
+  if (!sh.length) return null;
+  if (!mi.length) mi = sh.map(() => 90);
+  if (mi.length !== sh.length) return null;
+  const total = mi.reduce((a, b) => a + b, 0);
+  if (!(total > 0)) return null;
+  return (sh.reduce((a, b) => a + b, 0) / total) * 90;
 };
 
 export const mixRate90 = (season, last5) => {
@@ -285,7 +290,12 @@ export function computePlayerResult({
 }
 
 /* ── Risultato completo: media tiri squadra ────────────────────────── */
-export function computeTeamResult({ teamFor = null, teamOpp = null, sede = 'neutro', line = null, lineType = 'over', odds = null } = {}) {
+// Valore squadra corretto per la forza del campionato (campionati minori pesano meno).
+const adjForStrength = (v, avg, st) => (v > 0 && st !== null && st !== undefined && st < 1 && avg > 0 ? avg + (v - avg) * st : v);
+
+export function computeTeamResult({ teamFor: rawFor = null, teamOpp: rawOpp = null, forAvg = null, forStrength = null, oppAvg = null, oppStrength = null, sede = 'neutro', line = null, lineType = 'over', odds = null } = {}) {
+  const teamFor = rawFor === null ? null : adjForStrength(rawFor, forAvg, forStrength);
+  const teamOpp = rawOpp === null ? null : adjForStrength(rawOpp, oppAvg, oppStrength);
   const lambda = teamLambda(teamFor, teamOpp, sede);
   const prob = probModel(lambda, line, lineType);
   const score = prob === null ? null : prob * 10;

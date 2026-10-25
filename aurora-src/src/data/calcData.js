@@ -1,102 +1,171 @@
-// Dati MOCK per il Calcolatore di Affidabilità: medie tiri per squadra e per campionato.
-// Separati dalla UI: qui si innesteranno i dati reali.
+// Dati del Calcolatore di Affidabilità: medie tiri per squadra e per campionato (data.json),
+// con le stesse regole dell'app originale (handicap dei campionati minori, coppe = media
+// tra campionato e coppa) e riquadri casa / trasferta da squadre.json.
+import { RAW } from './load';
 import { comma } from '@/lib/format';
-import { TEAMS } from './teams';
-import { LEAGUES, leagueById } from './leagues';
+import { teamById } from './teams';
+import { romeDay } from './util';
 
-const hash = (seed) => {
-  let h = 7;
-  for (let i = 0; i < seed.length; i++) h = (h * 33 + seed.charCodeAt(i)) % 100003;
-  return h;
+// Campionati disponibili nel calcolatore, nell'ordine in cui compaiono nei menu.
+export const CALC_KEYS = ['serie-a', 'premier-league', 'bundesliga', 'la-liga', 'ligue-1', 'champions-league', 'europa-league'];
+export const CUPS = ['champions-league', 'europa-league'];
+const LABELS = { 'serie-a': 'Serie A', 'premier-league': 'Premier League', bundesliga: 'Bundesliga', 'la-liga': 'LaLiga', 'ligue-1': 'Ligue 1', 'champions-league': 'Champions League', 'europa-league': 'Europa League' };
+
+const LD = {};
+export const calcLeagues = () => CALC_KEYS.filter((k) => LD[k]).map((k) => ({ id: k, name: LABELS[k] || LD[k].label, cup: CUPS.includes(k) }));
+export const leagueName = (leagueId) => (LD[leagueId] ? LABELS[leagueId] || LD[leagueId].label : LABELS[leagueId] || '');
+export const calcTeamsOf = (leagueId) => (LD[leagueId] ? Object.keys(LD[leagueId].teams) : []);
+
+export function buildCalcData() {
+  Object.keys(LD).forEach((k) => delete LD[k]);
+  const L = (RAW.data && RAW.data.leagues) || {};
+  Object.entries(L).forEach(([k, src]) => {
+    const h = src.handicap;
+    const teams = {};
+    Object.entries(src.teams || {}).forEach(([n, t]) => {
+      teams[n] = h
+        ? { totalFor: t.totalFor * h, totalAgainst: t.totalAgainst / h, sotFor: t.sotFor * h, sotAgainst: t.sotAgainst / h }
+        : { totalFor: t.totalFor, totalAgainst: t.totalAgainst, sotFor: t.sotFor, sotAgainst: t.sotAgainst };
+    });
+    LD[k] = { label: src.label || src.name || k, teams, avg: h ? src.league_avg : null, strength: h ? 1 : 1, cup: CUPS.includes(k) };
+  });
+}
+
+const lgAvg = (k, field) => {
+  const L = LD[k];
+  if (!L) return null;
+  if (L.avg) return L.avg[field];
+  const v = Object.values(L.teams).map((t) => t[field]);
+  return v.length ? v.reduce((a, b) => a + b, 0) / v.length : null;
+};
+const adj = (v, avg, s) => (s < 1 && avg > 0 ? avg + (v - avg) * s : v);
+
+// campionato nazionale della squadra (tra quelli del menu, esclusa la coppa)
+const domesticKey = (name) => CALC_KEYS.find((k) => !CUPS.includes(k) && LD[k] && LD[k].teams[name]) || null;
+
+// valore squadra per un campo: in coppa è la media tra campionato (corretto per la forza del
+// campionato) e coppa, come nell'app originale.
+function blend(key, name, field) {
+  const L = LD[key];
+  if (!L || !L.teams[name]) return null;
+  const t = L.teams[name];
+  const avg = lgAvg(key, field);
+  if (!L.cup) return { v: t[field], avg, str: L.strength || 1, cup: false };
+  const dk = domesticKey(name);
+  if (!dk) return { v: t[field], avg, str: 1, cup: true, domKey: null, cupVal: t[field] };
+  const dv = LD[dk].teams[name][field];
+  const da = lgAvg(dk, field);
+  const domAdj = adj(dv, da, LD[dk].strength || 1);
+  return { v: (domAdj + t[field]) / 2, avg: (da + avg) / 2, str: 1, cup: true, domKey: dk, domVal: dv, cupVal: t[field] };
+}
+
+const dec = (v) => Math.round(v * 100) / 100;
+
+const ranks = (key, field) => {
+  const entries = Object.entries(LD[key].teams).map(([name, t]) => ({ name, val: t[field] }));
+  entries.sort((a, b) => b.val - a.val);
+  const out = {};
+  let rank = 0;
+  let prev = null;
+  entries.forEach((e, i) => {
+    if (e.val !== prev) {
+      rank = i + 1;
+      prev = e.val;
+    }
+    out[e.name] = rank;
+  });
+  return out;
 };
 
-const rnd = (seed) => (hash(seed) % 1000) / 1000;
-const dec = (v) => Math.round(v * 10) / 10;
+// split casa / trasferta dalla pagina squadre (squadre.json): [[totale,partite],[casa],[trasferta]]
+const split = (team, leagueKey, field, side) => {
+  const e = RAW.squadre && RAW.squadre.lg && RAW.squadre.lg[leagueKey] && RAW.squadre.lg[leagueKey][team] && RAW.squadre.lg[leagueKey][team][field];
+  if (!e || !e[side]) return null;
+  return { casa: e[side][1] ? e[side][1][0] : null, trasferta: e[side][2] ? e[side][2][0] : null };
+};
 
-const splitOf = (seed, totali, inPorta) => {
-  const last5 = 0.85 + rnd(`${seed}-l5`) * 0.3;
+// Statistiche di una squadra per il calcolo, nel campionato scelto.
+export function teamShots(teamId, leagueId) {
+  const team = teamById(teamId);
+  if (!team || !leagueId || !LD[leagueId]) return null;
+  const name = team.name;
+  const fTot = blend(leagueId, name, 'totalFor');
+  if (!fTot) return null;
+  const fSot = blend(leagueId, name, 'sotFor');
+  const aTot = blend(leagueId, name, 'totalAgainst');
+  const aSot = blend(leagueId, name, 'sotAgainst');
+  const dom = domesticKey(name);
+  const own = LD[leagueId].cup ? dom : leagueId;
+  const sTot = own ? split(name, own, 'sh', 0) : null;
+  const sSot = own ? split(name, own, 'st', 0) : null;
+  const aSplitTot = own ? split(name, own, 'sh', 1) : null;
+  const aSplitSot = own ? split(name, own, 'st', 1) : null;
+  const cup = LD[leagueId].cup;
+  const size = Object.keys(LD[leagueId].teams).length;
+
   return {
-    casa: { totali: dec(totali * 1.12), inPorta: dec(inPorta * 1.12) },
-    trasferta: { totali: dec(totali * 0.88), inPorta: dec(inPorta * 0.88) },
-    last5: { totali: dec(totali * last5), inPorta: dec(inPorta * last5) },
+    leagueId,
+    cup,
+    strength: fTot.str,
+    size,
+    for: { totali: fTot.v, inPorta: fSot.v, casa: { totali: sTot && sTot.casa, inPorta: sSot && sSot.casa }, trasferta: { totali: sTot && sTot.trasferta, inPorta: sSot && sSot.trasferta } },
+    against: { totali: aTot.v, inPorta: aSot.v, casa: { totali: aSplitTot && aSplitTot.casa, inPorta: aSplitSot && aSplitSot.casa }, trasferta: { totali: aSplitTot && aSplitTot.trasferta, inPorta: aSplitSot && aSplitSot.trasferta } },
+    avg: { for: { totali: fTot.avg, inPorta: fSot.avg }, against: { totali: aTot.avg, inPorta: aSot.avg } },
+    rankFor: cup ? null : ranks(leagueId, 'totalFor')[name],
+    rankAgainst: cup ? null : ranks(leagueId, 'totalAgainst')[name],
+    breakdown: cup ? { for: fTot, against: aTot } : null,
+    raw: { for: LD[leagueId].teams[name], against: LD[leagueId].teams[name] },
   };
-};
-
-export const TEAM_SHOTS = {};
-
-TEAMS.forEach((team) => {
-  const forTot = dec(9.5 + rnd(`${team.id}-for`) * 8);
-  const forIn = dec(forTot * (0.34 + rnd(`${team.id}-forr`) * 0.12));
-  const agTot = dec(9 + rnd(`${team.id}-ag`) * 8);
-  const agIn = dec(agTot * (0.34 + rnd(`${team.id}-agr`) * 0.12));
-
-  TEAM_SHOTS[team.id] = {
-    leagueId: team.leagueId,
-    strength: Math.round((0.85 + rnd(`${team.id}-st`) * 0.3) * 100) / 100,
-    for: { totali: forTot, inPorta: forIn, ...splitOf(`${team.id}-f`, forTot, forIn) },
-    against: { totali: agTot, inPorta: agIn, ...splitOf(`${team.id}-a`, agTot, agIn) },
-    rankFor: 0,
-    rankAgainst: 0,
-  };
-});
-
-export const LEAGUE_AVG = {};
-
-LEAGUES.forEach((league) => {
-  const list = TEAMS.filter((t) => t.leagueId === league.id).map((t) => ({ id: t.id, s: TEAM_SHOTS[t.id] }));
-  if (!list.length) return;
-  const mean = (pick) => dec(list.reduce((acc, item) => acc + pick(item.s), 0) / list.length);
-  LEAGUE_AVG[league.id] = {
-    for: { totali: mean((s) => s.for.totali), inPorta: mean((s) => s.for.inPorta) },
-    against: { totali: mean((s) => s.against.totali), inPorta: mean((s) => s.against.inPorta) },
-    size: list.length,
-  };
-  [...list]
-    .sort((a, b) => b.s.for.totali - a.s.for.totali)
-    .forEach((item, i) => {
-      TEAM_SHOTS[item.id].rankFor = i + 1;
-    });
-  [...list]
-    .sort((a, b) => b.s.against.totali - a.s.against.totali)
-    .forEach((item, i) => {
-      TEAM_SHOTS[item.id].rankAgainst = i + 1;
-    });
-});
-
-export const teamShots = (teamId) => (teamId ? TEAM_SHOTS[teamId] || null : null);
-
-export const leagueAverage = (leagueId, mode, family) => {
-  const avg = LEAGUE_AVG[leagueId];
-  if (!avg || !avg[mode]) return null;
-  return avg[mode][family] ?? null;
-};
-
-export const leagueName = (leagueId) => leagueById(leagueId)?.name ?? '';
+}
 
 export const rankNote = (stats, mode) => {
   if (!stats) return '';
+  if (stats.cup) {
+    const b = stats.breakdown[mode];
+    if (!b.domKey) return `Campionato non presente nel database: uso la sola media di coppa (${comma(b.cupVal, 2)})`;
+    return `Media tra campionato (${comma(b.domVal, 2)}) e coppa (${comma(b.cupVal, 2)})`;
+  }
   const rank = mode === 'against' ? stats.rankAgainst : stats.rankFor;
-  const size = LEAGUE_AVG[stats.leagueId]?.size ?? 0;
-  const metric = mode === 'against' ? 'tiri concessi' : 'tiri fatti';
-  return `${rank}° su ${size} in ${leagueName(stats.leagueId)} per ${metric} a partita`;
+  const metric = mode === 'against' ? 'tiri subiti' : 'tiri fatti';
+  return `${rank}° su ${stats.size} in ${leagueName(stats.leagueId)} per ${metric} a partita`;
 };
 
 export const prefillShots = (stats, mode) =>
-  stats ? { totali: comma(stats[mode].totali, 1), inPorta: comma(stats[mode].inPorta, 1) } : { totali: '', inPorta: '' };
+  stats ? { totali: comma(dec(stats[mode].totali), 2), inPorta: comma(dec(stats[mode].inPorta), 2) } : { totali: '', inPorta: '' };
 
 export const splitBoxes = (stats, mode, family) => {
   if (!stats) return [];
   const s = stats[mode];
-  return [
-    { label: 'Casa', value: comma(s.casa[family], 1) },
-    { label: 'Trasferta', value: comma(s.trasferta[family], 1) },
-    { label: 'Ultime 5', value: comma(s.last5[family], 1) },
-  ];
+  const out = [];
+  if (s.casa[family] !== null && s.casa[family] !== undefined) out.push({ label: 'Casa', value: comma(s.casa[family], 1) });
+  if (s.trasferta[family] !== null && s.trasferta[family] !== undefined) out.push({ label: 'Trasferta', value: comma(s.trasferta[family], 1) });
+  return out;
 };
 
-// Minuti delle ultime 5 partite (mock) usati come precompilazione.
-export const playerLast5Minutes = (player) => {
-  if (!player) return [];
-  const base = player.minutiMedi || 75;
-  return [0, 1, 2, 3, 4].map((i) => Math.max(45, Math.min(90, Math.round(base + (rnd(`${player.id}-m${i}`) - 0.5) * 22))));
-};
+// valore corretto per la forza del campionato (campionati minori pesano meno)
+export const adjustedValue = (value, avg, strength) => (value > 0 && strength < 1 && avg > 0 ? adj(value, avg, strength) : value);
+
+// campionato in cui cercare una squadra (prima quello indicato, poi i nazionali, poi le coppe)
+export function pickLeagueKey(name, prefer) {
+  const order = [];
+  if (prefer) order.push(prefer);
+  CALC_KEYS.forEach((k) => {
+    if (!order.includes(k) && !CUPS.includes(k)) order.push(k);
+  });
+  CALC_KEYS.forEach((k) => {
+    if (!order.includes(k)) order.push(k);
+  });
+  return order.find((k) => LD[k] && LD[k].teams[name]) || null;
+}
+
+// prossima partita di una squadra (da giocatori.json → fix): [data ISO, avversario, 1 se in casa, competizione]
+export function nextFixture(teamName) {
+  const list = (RAW.giocatori && RAW.giocatori.fix && RAW.giocatori.fix[teamName]) || [];
+  const today = romeDay(Date.now());
+  const f = list.find((x) => romeDay(new Date(x[0]).getTime()) >= today);
+  if (!f) return null;
+  return { ts: new Date(f[0]).getTime(), opp: f[1], home: f[2] === 1, comp: f[3], cup: CUPS.includes(f[3]) };
+}
+
+// per le liste di giocatori (stessa logica dell'app originale)
+export { lgAvg as leagueAvgOf, domesticKey, blend as blendTeam, LD as CALC_DATA };

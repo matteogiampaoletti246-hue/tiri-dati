@@ -4,7 +4,7 @@ import Logo from '@/components/Logo';
 const CLOSE_AT = 1800;
 const GONE_AT = 2500;
 
-export default function LaunchScreen() {
+export default function LaunchScreen({ ready = true }) {
   const [visible, setVisible] = useState(() => {
     try {
       return !sessionStorage.getItem('sl-launched');
@@ -12,24 +12,29 @@ export default function LaunchScreen() {
       return true;
     }
   });
+  const [minDone, setMinDone] = useState(false);
   const [closing, setClosing] = useState(false);
 
+  // la schermata resta almeno CLOSE_AT ms e finché i dati non sono pronti
   useEffect(() => {
     if (!visible) return undefined;
-    const t1 = setTimeout(() => setClosing(true), CLOSE_AT);
-    const t2 = setTimeout(() => {
+    const t = setTimeout(() => setMinDone(true), CLOSE_AT);
+    return () => clearTimeout(t);
+  }, [visible]);
+
+  useEffect(() => {
+    if (!visible || !minDone || !ready) return undefined;
+    setClosing(true);
+    const t = setTimeout(() => {
       try {
         sessionStorage.setItem('sl-launched', '1');
       } catch (e) {
         /* ignora */
       }
       setVisible(false);
-    }, GONE_AT);
-    return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
-    };
-  }, [visible]);
+    }, GONE_AT - CLOSE_AT);
+    return () => clearTimeout(t);
+  }, [visible, minDone, ready]);
 
   if (!visible) return null;
 

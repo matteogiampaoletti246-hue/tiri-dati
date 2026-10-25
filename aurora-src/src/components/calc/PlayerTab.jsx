@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import PanelTitle from '@/components/PanelTitle';
 import { playerById } from '@/data/players';
 import { teamById } from '@/data/teams';
-import { leagueAverage, playerLast5Minutes, prefillShots, teamShots } from '@/data/calcData';
+import { nextFixture, pickLeagueKey, prefillShots, teamShots } from '@/data/calcData';
+import { teamByName } from '@/data/teams';
 import {
   COMPETITION_OPTIONS,
   HIT_OPTIONS,
@@ -62,8 +63,8 @@ export default function PlayerTab({ onSave }) {
   const player = playerById(form.playerId);
   const team = teamById(form.team.id);
   const opp = teamById(form.opp.id);
-  const teamStats = teamShots(form.team.id);
-  const oppStats = teamShots(form.opp.id);
+  const teamStats = teamShots(form.team.id, form.team.leagueId);
+  const oppStats = teamShots(form.opp.id, form.opp.leagueId);
   const family = form.tipoTiri;
 
   const line = parseNum(form.line);
@@ -84,25 +85,73 @@ export default function PlayerTab({ onSave }) {
     hitRate,
     hitLabel,
     teamShots: parseNum(form.team[family]),
-    teamAvgFor: leagueAverage(teamStats?.leagueId, 'for', family),
+    teamAvgFor: teamStats ? teamStats.avg.for[family] : null,
     teamStrength: teamStats?.strength ?? null,
     oppConceded: parseNum(form.opp[family]),
-    oppAvg: leagueAverage(oppStats?.leagueId, 'against', family),
+    oppAvg: oppStats ? oppStats.avg.against[family] : null,
     oppStrength: oppStats?.strength ?? null,
   });
+
+  // precompila i campi dal giocatore reale (media stagionale, ultime 5, squadre, prossima partita)
+  const fillFrom = (f, p, fam, fx) => {
+    const k = fam === 'inPorta' ? 1 : 0;
+    const rows = ((p.h && p.h.length >= 5 ? p.h : p.r) || []).slice(0, 5);
+    const lineV = parseNum(f.line) ?? 0;
+    const hit = rows.filter((x) => (f.lineType === 'under' ? (x[k] || 0) < lineV : (x[k] || 0) > lineV)).length;
+    const season = { ...f.season, campionato: { tiri: '', minuti: '' }, coppa: { tiri: '', minuti: '' } };
+    [['campionato', p.l], ['coppa', p.c]].forEach(([key, a]) => {
+      if (a && a[0] > 0 && a[3] > 0) season[key] = { tiri: String(Math.round((a[1 + k] / a[0]) * 100) / 100), minuti: String(Math.round(a[3] / a[0])) };
+    });
+    const own = teamByName(p.teamName);
+    const ownKey = pickLeagueKey(p.teamName, fx && fx.cup ? fx.comp : null);
+    const team = { leagueId: ownKey || 'serie-a', id: own ? own.id : null, totali: '', inPorta: '' };
+    if (own && ownKey) Object.assign(team, prefillShots(teamShots(own.id, ownKey), 'for'));
+    let opp = f.opp;
+    let sede = f.sede;
+    let competizione = f.competizione;
+    if (fx) {
+      const o = teamByName(fx.opp);
+      const oKey = pickLeagueKey(fx.opp, fx.cup ? fx.comp : null);
+      opp = { leagueId: oKey || 'serie-a', id: o ? o.id : null, totali: '', inPorta: '' };
+      if (o && oKey) Object.assign(opp, prefillShots(teamShots(o.id, oKey), 'against'));
+      sede = fx.home ? 'casa' : 'trasferta';
+      competizione = fx.cup ? 'coppa' : 'campionato';
+    }
+    const fixed = rows.length >= 3 ? String(hit === 0 ? '0' : [0, 0.2, 0.4, 0.6, 0.8, 1][Math.min(5, Math.round((hit / rows.length) * 5))]) : '';
+    return {
+      ...f,
+      playerId: p.id,
+      tipoTiri: fam,
+      shots5: rows.map((x) => x[k] || 0).join('-'),
+      minutes5: rows.map((x) => x[2] || 0).join('-'),
+      hitRate: fixed,
+      season,
+      team,
+      opp,
+      sede,
+      competizione,
+    };
+  };
 
   const selectPlayer = (id) => {
     const p = playerById(id);
     if (!p) return;
-    setForm((f) => ({
-      ...f,
-      playerId: id,
-      shots5: (p.shots5 || []).join('-'),
-      minutes5: playerLast5Minutes(p).join('-'),
-      season: { ...f.season, campionato: { tiri: String(p.shots), minuti: String(p.minutes) } },
-      team: { ...f.team, leagueId: p.leagueId, id: p.teamId, ...prefillShots(teamShots(p.teamId), 'for') },
-    }));
+    setForm((f) => fillFrom(f, p, f.tipoTiri, nextFixture(p.teamName)));
   };
+
+  // cambio famiglia (totali / in porta) o linea: ricalcola i dati del giocatore scelto
+  useEffect(() => {
+    if (!form.playerId) return;
+    const p = playerById(form.playerId);
+    if (!p) return;
+    setForm((f) => {
+      const g = fillFrom(f, p, f.tipoTiri, null);
+      return { ...f, shots5: g.shots5, minutes5: g.minutes5, hitRate: g.hitRate, season: g.season,
+        team: { ...f.team, ...prefillShots(teamShots(f.team.id, f.team.leagueId), 'for') },
+        opp: { ...f.opp, ...prefillShots(teamShots(f.opp.id, f.opp.leagueId), 'against') } };
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [form.tipoTiri, form.line, form.lineType]);
 
   const addDash = () =>
     setForm((f) => {

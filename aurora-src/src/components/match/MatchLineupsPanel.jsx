@@ -9,7 +9,7 @@ import { comma } from '@/lib/format';
 
 export default function MatchLineupsPanel({ view, home, away }) {
   const [side, setSide] = useState('home');
-  const lineup = view.lineup[side];
+  const lineup = view.lineup ? view.lineup[side] : null;
   const team = side === 'home' ? home : away;
 
   return (
@@ -25,19 +25,28 @@ export default function MatchLineupsPanel({ view, home, away }) {
         />
       </div>
 
+      {!lineup || !lineup.xi || !lineup.xi.length ? (
+        <p className="px-5 py-12 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>
+          Formazioni non ancora disponibili
+        </p>
+      ) : null}
+
+      {lineup && lineup.xi && lineup.xi.length ? (
       <div className="px-5">
         <div className="mb-3 flex items-center gap-3">
           <TeamLink team={team} className="flex flex-none items-center transition-opacity active:opacity-60">
             <Crest team={team} size={24} />
           </TeamLink>
           <span className="truncate text-[13px]" style={{ color: 'var(--ink-2)' }}>
-            {coachOf(team.id)}
+            {lineup.coach || coachOf(team.id)}
           </span>
-          <span className="label-sm ml-auto">{lineup.formation.label}</span>
+          <span className="label-sm ml-auto">{lineup.formation ? lineup.formation.label : ''}</span>
         </div>
         <Pitch lineup={lineup} team={team} />
       </div>
+      ) : null}
 
+      {lineup && lineup.bench ? (
       <section className="px-5">
         <PanelTitle right={<span className="tnum text-[11px]" style={{ color: 'var(--ink-3)' }}>{lineup.bench.length}</span>}>
           Panchina
@@ -52,7 +61,7 @@ export default function MatchLineupsPanel({ view, home, away }) {
                 style={{ borderTop: i ? '1px solid var(--hair-2)' : 'none' }}
               >
                 <span className="tnum w-[20px] text-[11px]" style={{ color: 'var(--ink-3)' }}>
-                  {p.number}
+                  {p.number ?? ''}
                 </span>
                 <span className="min-w-0 flex-1 truncate text-[13px]" style={{ color: 'var(--ink)' }}>
                   {p.name}
@@ -70,6 +79,7 @@ export default function MatchLineupsPanel({ view, home, away }) {
           })}
         </div>
       </section>
+      ) : null}
     </div>
   );
 }

@@ -1,30 +1,45 @@
-// Arbitri — dati MOCK
-export const REFEREES = [
-  { id: 'ref-ita-1', name: 'Daniele Orsato', country: 'Italia', leagueId: 'serie-a', games: 5, yellows: 21, reds: 1, fouls: 132, penalties: 3 },
-  { id: 'ref-ita-2', name: 'Marco Guida', country: 'Italia', leagueId: 'serie-a', games: 5, yellows: 24, reds: 2, fouls: 145, penalties: 2 },
-  { id: 'ref-ita-3', name: 'Maurizio Mariani', country: 'Italia', leagueId: 'serie-a', games: 4, yellows: 15, reds: 0, fouls: 106, penalties: 1 },
-  { id: 'ref-ita-4', name: 'Davide Massa', country: 'Italia', leagueId: 'serie-a', games: 5, yellows: 27, reds: 1, fouls: 151, penalties: 4 },
-  { id: 'ref-eng-1', name: 'Michael Oliver', country: 'Inghilterra', leagueId: 'premier-league', games: 5, yellows: 18, reds: 1, fouls: 121, penalties: 2 },
-  { id: 'ref-eng-2', name: 'Anthony Taylor', country: 'Inghilterra', leagueId: 'premier-league', games: 5, yellows: 26, reds: 2, fouls: 148, penalties: 3 },
-  { id: 'ref-eng-3', name: 'Craig Pawson', country: 'Inghilterra', leagueId: 'premier-league', games: 4, yellows: 20, reds: 1, fouls: 118, penalties: 2 },
-  { id: 'ref-eng-4', name: 'Paul Tierney', country: 'Inghilterra', leagueId: 'premier-league', games: 5, yellows: 22, reds: 0, fouls: 129, penalties: 1 },
-  { id: 'ref-esp-1', name: 'Jesús Gil Manzano', country: 'Spagna', leagueId: 'laliga', games: 5, yellows: 31, reds: 3, fouls: 162, penalties: 4 },
-  { id: 'ref-esp-2', name: 'Ricardo de Burgos', country: 'Spagna', leagueId: 'laliga', games: 5, yellows: 28, reds: 2, fouls: 154, penalties: 3 },
-  { id: 'ref-esp-3', name: 'Alejandro Hernández', country: 'Spagna', leagueId: 'laliga', games: 4, yellows: 19, reds: 1, fouls: 111, penalties: 2 },
-  { id: 'ref-esp-4', name: 'Juan Martínez Munuera', country: 'Spagna', leagueId: 'laliga', games: 5, yellows: 25, reds: 2, fouls: 143, penalties: 5 },
-  { id: 'ref-ger-1', name: 'Felix Zwayer', country: 'Germania', leagueId: 'bundesliga', games: 5, yellows: 23, reds: 1, fouls: 137, penalties: 3 },
-  { id: 'ref-ger-2', name: 'Deniz Aytekin', country: 'Germania', leagueId: 'bundesliga', games: 5, yellows: 20, reds: 2, fouls: 126, penalties: 2 },
-  { id: 'ref-ger-3', name: 'Daniel Siebert', country: 'Germania', leagueId: 'bundesliga', games: 4, yellows: 17, reds: 0, fouls: 102, penalties: 1 },
-  { id: 'ref-ger-4', name: 'Tobias Stieler', country: 'Germania', leagueId: 'bundesliga', games: 5, yellows: 29, reds: 3, fouls: 158, penalties: 4 },
-  { id: 'ref-fra-1', name: 'Clément Turpin', country: 'Francia', leagueId: 'ligue-1', games: 5, yellows: 22, reds: 1, fouls: 134, penalties: 2 },
-  { id: 'ref-fra-2', name: 'Benoît Bastien', country: 'Francia', leagueId: 'ligue-1', games: 5, yellows: 26, reds: 2, fouls: 147, penalties: 3 },
-  { id: 'ref-fra-3', name: 'François Letexier', country: 'Francia', leagueId: 'ligue-1', games: 4, yellows: 18, reds: 0, fouls: 109, penalties: 1 },
-  { id: 'ref-fra-4', name: 'Jérôme Brisard', country: 'Francia', leagueId: 'ligue-1', games: 5, yellows: 24, reds: 1, fouls: 139, penalties: 4 },
-  { id: 'ref-eu-1', name: 'Szymon Marciniak', country: 'Polonia', leagueId: 'champions-league', games: 5, yellows: 19, reds: 1, fouls: 122, penalties: 2 },
-  { id: 'ref-eu-2', name: 'Slavko Vinčić', country: 'Slovenia', leagueId: 'champions-league', games: 4, yellows: 16, reds: 0, fouls: 98, penalties: 1 },
-  { id: 'ref-eu-3', name: 'Danny Makkelie', country: 'Olanda', leagueId: 'champions-league', games: 5, yellows: 21, reds: 2, fouls: 131, penalties: 3 },
-  { id: 'ref-eu-4', name: 'István Kovács', country: 'Romania', leagueId: 'champions-league', games: 5, yellows: 25, reds: 1, fouls: 144, penalties: 2 },
-];
+// Arbitri da arbitri.json (medie a partita) con foto (refphoto.json) e nazionalità (refcc.json).
+import { RAW } from './load';
+import { norm, slug } from './util';
 
-export const refereeById = (id) => REFEREES.find((r) => r.id === id) || null;
-export const refereesOf = (leagueId) => REFEREES.filter((r) => r.leagueId === leagueId);
+export const REFEREES = [];
+const BY_ID = {};
+
+export const refereeById = (id) => BY_ID[id] || null;
+export const refereesOf = (leagueId) => REFEREES.filter((r) => r.leagueId === leagueId || (r.by && r.by[leagueId]));
+
+const COUNTRY = { ITA: 'Italia', ENG: 'Inghilterra', ESP: 'Spagna', GER: 'Germania', FRA: 'Francia', POR: 'Portogallo', NED: 'Olanda', POL: 'Polonia', SRB: 'Serbia', ROU: 'Romania', SLO: 'Slovenia', SVN: 'Slovenia', TUR: 'Turchia', BEL: 'Belgio', SUI: 'Svizzera', UKR: 'Ucraina', NOR: 'Norvegia', SWE: 'Svezia', SCO: 'Scozia', AUT: 'Austria', CRO: 'Croazia', CZE: 'Rep. Ceca', GRE: 'Grecia', HUN: 'Ungheria', DEN: 'Danimarca', ISR: 'Israele', BUL: 'Bulgaria' };
+
+export function buildReferees() {
+  REFEREES.length = 0;
+  Object.keys(BY_ID).forEach((k) => delete BY_ID[k]);
+  const ref = (RAW.arbitri && RAW.arbitri.ref) || {};
+  const photos = (RAW.refphoto && RAW.refphoto.p) || {};
+  const cc = (RAW.refcc && RAW.refcc.r) || {};
+  Object.entries(ref).forEach(([name, r]) => {
+    const games = r.n || 0;
+    const item = {
+      id: slug(name),
+      name,
+      photo: photos[name] || null,
+      country: COUNTRY[cc[name]] || cc[name] || '',
+      leagueId: r.lg || null,
+      games,
+      yellows: Math.round((r.y || 0) * games),
+      reds: Math.round((r.r || 0) * games),
+      fouls: Math.round((r.fo || 0) * games),
+      penalties: Math.round((r.pen || 0) * games),
+      yellowsAvg: r.y || 0,
+      redsAvg: r.r || 0,
+      foulsAvg: r.fo || 0,
+      penaltiesAvg: r.pen || 0,
+      matches: (r.m || []).map((m) => ({ date: m[0], home: m[1], away: m[2], sh: m[3], sa: m[4], id: m[5] })),
+      by: r.by || {},
+    };
+    REFEREES.push(item);
+    BY_ID[item.id] = item;
+  });
+  REFEREES.sort((a, b) => b.games - a.games || a.name.localeCompare(b.name));
+}
+
+export const findRefereeByName = (name) => (name ? BY_ID[slug(name)] || REFEREES.find((r) => norm(r.name) === norm(name)) || null : null);

@@ -12,10 +12,10 @@ import MatchStatsPanel from '@/components/match/MatchStatsPanel';
 import MatchLineupsPanel from '@/components/match/MatchLineupsPanel';
 import MatchShotsPanel from '@/components/match/MatchShotsPanel';
 import MatchStandingsPanel from '@/components/match/MatchStandingsPanel';
-import MatchReliabilityPanel from '@/components/match/MatchReliabilityPanel';
 import useInitialLoad from '@/hooks/useInitialLoad';
 import useTicker from '@/hooks/useTicker';
-import { matchById, viewMatch } from '@/data/matches';
+import { matchById, viewMatch, ensureDetail } from '@/data/matches';
+import { playerLookup } from '@/data/players';
 import { teamById } from '@/data/teams';
 import { leagueById } from '@/data/leagues';
 
@@ -24,7 +24,6 @@ const PRE_TABS = [
   { key: 'stats', label: 'Statistiche' },
   { key: 'lineups', label: 'Formazioni' },
   { key: 'standings', label: 'Classifica' },
-  { key: 'reliability', label: 'Affidabilità' },
 ];
 
 const PLAYED_TABS = [
@@ -41,6 +40,15 @@ export default function Match() {
   const loading = useInitialLoad(280);
   useTicker(30000);
   const raw = matchById(id);
+  const [, bump] = useState(0);
+
+  useEffect(() => {
+    let on = true;
+    ensureDetail(id, playerLookup).then(() => on && bump((n) => n + 1)).catch(() => {});
+    return () => {
+      on = false;
+    };
+  }, [id]);
 
   useEffect(() => {
     setTab(0);
@@ -70,7 +78,6 @@ export default function Match() {
         <MatchStatsPanel key="stats" match={raw} view={view} home={home} away={away} pre />,
         <MatchLineupsPanel key="lineups" view={view} home={home} away={away} />,
         <MatchStandingsPanel key="standings" match={raw} />,
-        <MatchReliabilityPanel key="reliability" match={raw} home={home} away={away} />,
       ]
     : [
         <MatchSummaryPanel key="summary" view={view} home={home} away={away} />,

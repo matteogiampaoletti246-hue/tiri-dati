@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import PanelTitle from '@/components/PanelTitle';
 import TextFilter from '@/components/TextFilter';
+import { teamShots } from '@/data/calcData';
 import { teamById } from '@/data/teams';
 import { LINE_OPTIONS, SEDE_OPTIONS, SHOTS_OPTIONS, computeTeamResult, fmtLine, lineHintText, parseNum } from '@/lib/calc';
 import FieldRow from './FieldRow';
@@ -39,9 +40,16 @@ export default function TeamTab({ onSave }) {
   const line = parseNum(form.line);
   const odds = parseNum(form.odds);
 
+  const forStats = teamShots(form.team.id, form.team.leagueId);
+  const oppStats = teamShots(form.opp.id, form.opp.leagueId);
+
   const result = computeTeamResult({
     teamFor: parseNum(form.team[family]),
     teamOpp: parseNum(form.opp[family]),
+    forAvg: forStats ? forStats.avg.for[family] : null,
+    forStrength: forStats ? forStats.strength : null,
+    oppAvg: oppStats ? oppStats.avg.against[family] : null,
+    oppStrength: oppStats ? oppStats.strength : null,
     sede: form.sede,
     line,
     lineType: form.lineType,

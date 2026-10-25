@@ -1,6 +1,5 @@
 import Crest from '@/components/Crest';
 import FormDots from '@/components/FormDots';
-import PollCard from '@/components/PollCard';
 import InfoBand from '@/components/InfoBand';
 import ResultRow from '@/components/ResultRow';
 import PanelTitle from '@/components/PanelTitle';
@@ -49,9 +48,13 @@ export default function MatchOverviewPanel({ match, home, away }) {
           </span>
         </div>
         <div className="panel-solid px-4 py-1">
-          {h2h.map((m, i) => (
-            <ResultRow key={m.id} match={m} teamId={match.homeId} divider={i > 0} />
-          ))}
+          {h2h.length ? (
+            h2h.map((m, i) => <ResultRow key={m.id} match={m} teamId={match.homeId} divider={i > 0} />)
+          ) : (
+            <p className="py-4 text-center text-[12px]" style={{ color: 'var(--ink-3)' }}>
+              Nessun precedente disponibile in questa stagione
+            </p>
+          )}
         </div>
       </section>
 
@@ -73,10 +76,6 @@ export default function MatchOverviewPanel({ match, home, away }) {
       <MatchKeyNumbers match={match} />
 
       <InfoBand match={match} />
-
-      <div className="px-5">
-        <PollCard match={match} home={home} away={away} />
-      </div>
     </div>
   );
 }

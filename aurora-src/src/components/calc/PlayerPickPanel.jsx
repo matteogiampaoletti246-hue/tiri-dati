@@ -19,7 +19,7 @@ export default function PlayerPickPanel({ form, set, player, hint, onSelectPlaye
     () =>
       [...PLAYERS].sort((a, b) => a.name.localeCompare(b.name)).map((p) => {
         const t = teamById(p.teamId);
-        return { value: p.id, label: p.name, sub: t ? `${t.name} · ${p.position}` : p.position };
+        return { value: p.id, label: p.name, sub: t ? `${t.name}${p.position ? ' · ' + p.position : ''}` : p.position || '' };
       }),
     [],
   );

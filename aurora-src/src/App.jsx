@@ -1,4 +1,6 @@
+import { useEffect, useState } from 'react';
 import { HashRouter, Route, Routes } from 'react-router-dom';
+import { bootData } from '@/data';
 import LaunchScreen from '@/components/LaunchScreen';
 import ScrollToTop from '@/components/ScrollToTop';
 import { applyTheme, getTheme } from '@/lib/theme';
@@ -22,10 +24,16 @@ applyTheme(getTheme());
 // HashRouter: l'app vive in una sottocartella di GitHub Pages (/tiri-dati/aurora/)
 // e così i link diretti funzionano senza configurare il server.
 export default function App() {
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    bootData().finally(() => setReady(true));
+  }, []);
+
   return (
     <HashRouter>
-      <LaunchScreen />
+      <LaunchScreen ready={ready} />
       <ScrollToTop />
+      {ready ? (
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/menu" element={<Menu />} />
@@ -42,6 +50,7 @@ export default function App() {
         <Route path="/arbitro/:id" element={<Referee />} />
         <Route path="*" element={<Home />} />
       </Routes>
+      ) : null}
     </HashRouter>
   );
 }
