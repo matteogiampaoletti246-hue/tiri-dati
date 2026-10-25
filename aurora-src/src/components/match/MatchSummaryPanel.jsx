@@ -17,8 +17,8 @@ const Card = ({ title, concept, children, noPad }) => (
 );
 
 export default function MatchSummaryPanel({ match, view, home, away }) {
-  const [cr, setCr] = useConcept('riassunto');
-  const [cm, setCm] = useConcept('momentum');
+  const cr = 'a';
+  const [cm, setCm] = useConcept('momentum2');
   const events = view.events || [];
   const empty = !events.length && !(view.momentum && view.momentum.length);
 
@@ -30,7 +30,7 @@ export default function MatchSummaryPanel({ match, view, home, away }) {
         </p>
       ) : (
         <>
-          <Card title="Riassunto" noPad concept={<ConceptSwitch value={cr} onChange={setCr} />}>
+          <Card title="Riassunto" noPad>
             {events.length ? <Riassunto events={events} finished={match.status === 'finished'} concept={cr} /> : <p className="py-6 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Nessun evento</p>}
           </Card>
           <Card title="Momentum" concept={<ConceptSwitch value={cm} onChange={setCm} />}>

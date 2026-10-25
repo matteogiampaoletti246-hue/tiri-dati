@@ -3,7 +3,6 @@ import TextFilter from '@/components/TextFilter';
 import Crest from '@/components/Crest';
 import { Image } from '@/components/ui/image';
 import { SubIcon } from './EventIcons';
-import { ConceptSwitch, useConcept } from '@/lib/concept';
 import { playerById } from '@/data/players';
 import { playerReliability } from '@/data/topPlayers';
 import { flagOf } from '@/data/referees';
@@ -99,7 +98,7 @@ function PitchNode({ p, team, val, light }) {
 
 export default function MatchLineupsPanel({ match, view, home, away, pre }) {
   const [side, setSide] = useState('home');
-  const [concept, setConcept] = useConcept('formazioni');
+  const concept = 'a';
   const lineup = view.lineup ? view.lineup[side] : null;
   const team = side === 'home' ? home : away;
   const valOf = (p) => {
@@ -116,7 +115,6 @@ export default function MatchLineupsPanel({ match, view, home, away, pre }) {
     <div className="flex flex-col gap-5 pb-6 pt-3">
       <div className="flex items-center gap-3 px-4">
         <TextFilter options={[{ value: 'home', label: home ? home.short || home.name : 'Casa' }, { value: 'away', label: away ? away.short || away.name : 'Trasferta' }]} value={side} onChange={setSide} />
-        <div className="ml-auto"><ConceptSwitch value={concept} onChange={setConcept} /></div>
       </div>
 
       {!lineup || !lineup.xi || !lineup.xi.length ? <p className="px-5 py-12 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Formazioni non ancora disponibili</p> : null}

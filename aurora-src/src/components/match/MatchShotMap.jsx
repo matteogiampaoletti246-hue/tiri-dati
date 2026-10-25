@@ -1,0 +1,159 @@
+import { useState } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import TextFilter from '@/components/TextFilter';
+import { comma } from '@/lib/format';
+
+// Mappa tiri stile "campo verde": casa attacca a sinistra, trasferta a destra.
+// Sotto il campo: le due porte viste da davanti. Toccando un tiro compare la scheda con i dettagli.
+const HC = 'var(--accent)';
+const AC = 'var(--live)';
+const PITCH = 'rgba(42,98,62,.92)';
+const LINE = 'rgba(255,255,255,.55)';
+
+const arc = (cx, cy, r, from, to, n = 30) => {
+  const pts = [];
+  for (let i = 0; i <= n; i++) {
+    const a = ((from + ((to - from) * i) / n) * Math.PI) / 180;
+    pts.push(`${(cx + r * Math.cos(a)).toFixed(2)},${(cy + r * Math.sin(a)).toFixed(2)}`);
+  }
+  return pts.join(' ');
+};
+const mir = (pts) => pts.map(([x, y]) => [105 - x, y]);
+const pl = (pts) => pts.map((p) => p.join(',')).join(' ');
+const RIGHT = [
+  [[105, 13.84], [88.5, 13.84], [88.5, 54.16], [105, 54.16]],
+  [[105, 24.84], [99.5, 24.84], [99.5, 43.16], [105, 43.16]],
+];
+
+const SITUATION = {
+  RegularPlay: 'Azione', FastBreak: 'Contropiede', SetPiece: 'Palla inattiva', FromCorner: 'Da calcio d\'angolo',
+  FreeKick: 'Calcio di punizione', Penalty: 'Rigore', ThrowInSetPiece: 'Rimessa laterale', IndirectFreekick: 'Punizione indiretta',
+  Assisted: 'Assistito', IndividualPlay: 'Azione personale', Corner: 'Da calcio d\'angolo',
+};
+const situationOf = (s) => SITUATION[s] || (s ? String(s).replace(/([a-z])([A-Z])/g, '$1 $2') : '—');
+
+const zoneOf = (s) => {
+  if (s.gy == null || s.gz == null) return '—';
+  const y = s.gy - 34;
+  const col = Math.abs(y) < 1.2 ? 'al centro' : y < 0 ? 'a sinistra' : 'a destra';
+  const row = s.gz > 1.6 ? 'In alto' : s.gz > 0.8 ? 'A metà' : 'In basso';
+  if (s.gy < 30.34 - 0.2 || s.gy > 37.66 + 0.2 || s.gz > 2.44 + 0.1) return 'Fuori dallo specchio';
+  return `${row} ${col}`;
+};
+const outcomeOf = (s) => (s.outcome === 'Fuori' && s.onTarget ? 'Palo / traversa' : s.outcome);
+
+const FILTERS = [
+  { value: 'all', label: 'Tutti' },
+  { value: 'target', label: 'Tiri in porta' },
+  { value: 'xg', label: 'xG, xGOT' },
+];
+
+export default function MatchShotMap({ shots = [], home, away }) {
+  const [mode, setMode] = useState('all');
+  const [sel, setSel] = useState(null);
+  const list = shots.filter((s) => s.px != null && (mode !== 'target' || s.onTarget));
+  const cur = sel != null && list[sel] ? list[sel] : null;
+  const color = (s) => (s.side === 'home' ? HC : AC);
+  const pos = (s) => (s.side === 'home' ? [105 - s.px, 68 - s.py] : [s.px, s.py]);
+  const radius = (s) => (mode === 'xg' ? 1 + Math.min(4.4, s.xg * 9) : 1.9);
+  const step = (d) => setSel((i) => (list.length ? (((i == null ? -1 : i) + d + list.length) % list.length) : null));
+
+  const Dot = ({ s, cx, cy, r, active, onClick }) => (
+    <g transform={`translate(${cx} ${cy})`} onClick={onClick} style={{ cursor: 'pointer' }}>
+      {active ? <circle r={r + 1.6} fill="none" stroke="#fff" strokeWidth="0.6" /> : null}
+      {s.outcome === 'Gol' ? (
+        <>
+          <circle r={r + 0.6} fill={color(s)} stroke="#fff" strokeWidth="0.5" />
+          <path d="M0 -1.4l1.4 1-.55 1.7h-1.7l-.55-1.7z" fill="#fff" />
+        </>
+      ) : (
+        <>
+          <circle r={r} fill={s.onTarget ? color(s) : 'rgba(255,255,255,.28)'} fillOpacity={s.onTarget ? 0.9 : 1} stroke={color(s)} strokeWidth="0.6" />
+          {s.onTarget && mode !== 'xg' ? <circle r="0.55" fill="#fff" /> : null}
+        </>
+      )}
+    </g>
+  );
+
+  // porta vista da davanti: 7,32 m × 2,44 m
+  const Goal = ({ side }) => {
+    const W = 11.5;
+    const gl = list.filter((s) => s.side === side && s.gy != null && s.gz != null);
+    const x0 = 10;
+    return (
+      <svg viewBox="0 0 100 40" className="w-full">
+        <line x1="2" x2="98" y1="32" y2="32" stroke={LINE} strokeWidth="0.5" />
+        <rect x={x0 + 4} y={32 - 2.44 * W * 0.9} width={7.32 * W * 0.9} height={2.44 * W * 0.9} fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.75)" strokeWidth="1.2" />
+        {gl.map((s) => {
+          const i = list.indexOf(s);
+          const cx = x0 + 4 + (s.gy - 30.34) * W * 0.9;
+          const cy = 32 - Math.max(0, Math.min(s.gz, 3.2)) * W * 0.9;
+          return <Dot key={i} s={s} cx={Math.max(3, Math.min(97, cx))} cy={cy} r={mode === 'xg' ? radius(s) * 0.9 : 2.3} active={i === sel} onClick={() => setSel(i)} />;
+        })}
+      </svg>
+    );
+  };
+
+  const team = cur ? (cur.side === 'home' ? home : away) : null;
+  const goalPt = cur && cur.gy != null ? { x: cur.side === 'home' ? 0 : 105, y: cur.gy } : null;
+
+  return (
+    <div className="flex flex-col gap-3">
+      <TextFilter options={FILTERS} value={mode} onChange={(v) => { setMode(v); setSel(null); }} />
+
+      <svg viewBox="-1 -1 107 70" className="w-full overflow-hidden rounded-[10px]" style={{ background: PITCH }}>
+        <rect x="0" y="0" width="105" height="68" fill="none" stroke={LINE} strokeWidth="0.5" />
+        <line x1="52.5" x2="52.5" y1="0" y2="68" stroke={LINE} strokeWidth="0.5" />
+        <circle cx="52.5" cy="34" r="9.15" fill="none" stroke={LINE} strokeWidth="0.5" />
+        <circle cx="52.5" cy="34" r="0.6" fill={LINE} />
+        {RIGHT.map((l, i) => <polyline key={`r${i}`} points={pl(l)} fill="none" stroke={LINE} strokeWidth="0.5" />)}
+        {RIGHT.map((l, i) => <polyline key={`l${i}`} points={pl(mir(l))} fill="none" stroke={LINE} strokeWidth="0.5" />)}
+        <polyline points={arc(94, 34, 9.15, 127, 233)} fill="none" stroke={LINE} strokeWidth="0.5" />
+        <polyline points={arc(11, 34, 9.15, -53, 53)} fill="none" stroke={LINE} strokeWidth="0.5" />
+        {cur && goalPt ? (
+          <line x1={pos(cur)[0]} y1={pos(cur)[1]} x2={goalPt.x} y2={goalPt.y} stroke="#fff" strokeWidth="0.45" strokeDasharray="1.4 1.2" />
+        ) : null}
+        {list.map((s, i) => {
+          const [cx, cy] = pos(s);
+          return <Dot key={i} s={s} cx={cx} cy={cy} r={radius(s)} active={i === sel} onClick={() => setSel(i === sel ? null : i)} />;
+        })}
+      </svg>
+
+      <div className="grid grid-cols-2 gap-2">
+        <div><p className="mb-0.5 text-[10.5px] font-bold" style={{ color: HC }}>{home ? home.short || home.name : 'Casa'}</p><Goal side="home" /></div>
+        <div><p className="mb-0.5 text-right text-[10.5px] font-bold" style={{ color: AC }}>{away ? away.short || away.name : 'Trasferta'}</p><Goal side="away" /></div>
+      </div>
+
+      {cur ? (
+        <div className="rounded-[18px] p-3.5" style={{ background: 'var(--hair-2)' }}>
+          <div className="flex items-center gap-2">
+            <button type="button" className="press p-1" onClick={() => step(-1)} aria-label="Tiro precedente"><ChevronLeft size={20} style={{ color: 'var(--accent)' }} /></button>
+            <div className="min-w-0 flex-1 text-center">
+              <p className="truncate text-[14px] font-extrabold" style={{ color: color(cur) }}>{cur.playerName}</p>
+              <p className="text-[11.5px]" style={{ color: 'var(--ink-3)' }}>{team ? team.name : ''} · {cur.minute}&apos;</p>
+            </div>
+            <button type="button" className="press p-1" onClick={() => step(1)} aria-label="Tiro successivo"><ChevronRight size={20} style={{ color: 'var(--accent)' }} /></button>
+          </div>
+          <div className="mt-3 grid grid-cols-3 gap-y-3 text-center">
+            {[
+              ['xG', comma(cur.xg, 2)],
+              ['xGOT', cur.onTarget || cur.outcome === 'Gol' ? comma(cur.xgot, 2) : '—'],
+              ['Esito', outcomeOf(cur)],
+              ['Situazione', situationOf(cur.situation)],
+              ['Tipo di tiro', cur.body === 'Testa' ? 'Colpo di testa' : cur.body === 'Destro' ? 'Piede destro' : cur.body === 'Sinistro' ? 'Piede sinistro' : 'Altro'],
+              ['Zona gol', zoneOf(cur)],
+            ].map(([k, v]) => (
+              <div key={k}>
+                <p className="text-[10.5px]" style={{ color: 'var(--ink-3)' }}>{k}</p>
+                <p className="text-[12.5px] font-bold leading-tight">{v}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : (
+        <p className="text-center text-[11.5px]" style={{ color: 'var(--ink-3)' }}>Tocca un tiro per vedere i dettagli</p>
+      )}
+      {!list.length ? <p className="py-4 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Nessun tiro</p> : null}
+    </div>
+  );
+}

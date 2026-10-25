@@ -20,36 +20,7 @@ export default function Momentum({ values = [], events = [], home, away, concept
     </div>
   );
 
-  if (concept === 'c') {
-    const per = [];
-    const size = Math.ceil(n / 6);
-    for (let i = 0; i < 6; i++) {
-      const seg = values.slice(i * size, (i + 1) * size);
-      if (!seg.length) continue;
-      const h = seg.filter((v) => v > 0).reduce((a, v) => a + v, 0);
-      const a = seg.filter((v) => v < 0).reduce((s, v) => s - v, 0);
-      per.push({ label: `${i * 15}-${(i + 1) * 15}'`, h: h / ((h + a) || 1) });
-    }
-    return (
-      <div>
-        {legend}
-        <div className="flex flex-col gap-3">
-          {per.map((p) => (
-            <div key={p.label} className="flex items-center gap-3">
-              <span className="tnum w-[44px] text-[10.5px]" style={{ color: 'var(--ink-3)' }}>{p.label}</span>
-              <div className="flex h-[10px] flex-1 overflow-hidden rounded-full" style={{ background: 'var(--hair-2)' }}>
-                <span style={{ width: `${p.h * 100}%`, background: HC, opacity: p.h >= 0.5 ? 1 : 0.4, transition: 'width .6s' }} />
-                <span style={{ flex: 1, background: AC, opacity: p.h < 0.5 ? 1 : 0.4 }} />
-              </div>
-              <span className="tnum w-[30px] text-right text-[10.5px] font-bold">{Math.round(p.h * 100)}%</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  if (concept === 'b') {
+  if (concept === 'a' || !concept) {
     const W = 300;
     const H = 110;
     const mid = H / 2;
@@ -77,24 +48,55 @@ export default function Momentum({ values = [], events = [], home, away, concept
     );
   }
 
+  const W = 300;
+  const H = 120;
+  const mid = H / 2;
+  const pts = values.map((v, i) => [(i / (n - 1 || 1)) * W, mid - (v / max) * (mid - 10)]);
+  // curva morbida (Catmull-Rom)
+  const smooth = pts.map((p, i) => {
+    if (!i) return `M${p[0].toFixed(1)} ${p[1].toFixed(1)}`;
+    const p0 = pts[i - 2] || pts[i - 1];
+    const p1 = pts[i - 1];
+    const p2 = p;
+    const p3 = pts[i + 1] || p;
+    const c1 = [p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6];
+    const c2 = [p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6];
+    return `C${c1[0].toFixed(1)} ${c1[1].toFixed(1)} ${c2[0].toFixed(1)} ${c2[1].toFixed(1)} ${p2[0].toFixed(1)} ${p2[1].toFixed(1)}`;
+  }).join(' ');
+  const yAt = (minute) => {
+    const k = Math.min(n - 1, Math.max(0, Math.round((parseInt(String(minute), 10) / (n * 3)) * (n - 1))));
+    return pts[k][1];
+  };
+  const glow = concept === 'c';
   return (
     <div>
       {legend}
-      <div className="relative flex h-[124px] items-stretch gap-[2px]">
-        <span className="pointer-events-none absolute left-0 top-1/2 h-px w-full" style={{ background: 'var(--hair)' }} />
-        {values.map((v, i) => {
-          const h = (Math.abs(v) / max) * 100;
-          return (
-            <div key={i} className="flex flex-1 flex-col">
-              <div className="flex h-1/2 items-end">{v > 0 ? <span className="w-full rounded-t-[3px]" style={{ height: `${h}%`, background: HC, opacity: 0.4 + 0.6 * (h / 100) }} /> : null}</div>
-              <div className="flex h-1/2 items-start">{v < 0 ? <span className="w-full rounded-b-[3px]" style={{ height: `${h}%`, background: AC, opacity: 0.4 + 0.6 * (h / 100) }} /> : null}</div>
-            </div>
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full overflow-visible" preserveAspectRatio="none" style={{ height: 140 }}>
+        <defs>
+          <linearGradient id="mg-up" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stopColor={HC} stopOpacity=".75" /><stop offset="100%" stopColor={HC} stopOpacity="0" /></linearGradient>
+          <linearGradient id="mg-dn" x1="0" x2="0" y1="1" y2="0"><stop offset="0%" stopColor={AC} stopOpacity=".75" /><stop offset="100%" stopColor={AC} stopOpacity="0" /></linearGradient>
+          <clipPath id="mc-up"><rect x="0" y="0" width={W} height={mid} /></clipPath>
+          <clipPath id="mc-dn"><rect x="0" y={mid} width={W} height={mid} /></clipPath>
+        </defs>
+        <path d={`${smooth} L${W} ${mid} L0 ${mid} Z`} fill="url(#mg-up)" clipPath="url(#mc-up)" />
+        <path d={`${smooth} L${W} ${mid} L0 ${mid} Z`} fill="url(#mg-dn)" clipPath="url(#mc-dn)" />
+        <line x1="0" x2={W} y1={mid} y2={mid} stroke="var(--hair)" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+        <line x1={W / 2} x2={W / 2} y1="0" y2={H} stroke="var(--hair-2)" strokeDasharray="3 3" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+        <path d={smooth} fill="none" clipPath="url(#mc-up)" stroke={HC} strokeWidth={glow ? 2.6 : 1.6} vectorEffect="non-scaling-stroke" strokeLinecap="round" style={glow ? { filter: `drop-shadow(0 0 4px ${HC})` } : undefined} />
+        <path d={smooth} fill="none" clipPath="url(#mc-dn)" stroke={AC} strokeWidth={glow ? 2.6 : 1.6} vectorEffect="non-scaling-stroke" strokeLinecap="round" style={glow ? { filter: `drop-shadow(0 0 4px ${AC})` } : undefined} />
+        {goals.map((g, i) => {
+          const cx = (x(g.minute) / 100) * W;
+          const c = g.team === 'home' ? HC : AC;
+          return glow ? (
+            <g key={i}>
+              <line x1={cx} x2={cx} y1={yAt(g.minute)} y2={g.team === 'home' ? 8 : H - 8} stroke={c} strokeWidth="1" strokeDasharray="2 2" vectorEffect="non-scaling-stroke" />
+              <circle cx={cx} cy={g.team === 'home' ? 8 : H - 8} r="4.6" fill={c} stroke="var(--ink)" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+            </g>
+          ) : (
+            <circle key={i} cx={cx} cy={yAt(g.minute)} r="3.4" fill="var(--ink)" stroke={c} strokeWidth="2" vectorEffect="non-scaling-stroke" />
           );
         })}
-        {goals.map((g, i) => (
-          <span key={i} className="absolute h-[9px] w-[9px] -translate-x-1/2 rounded-full" style={{ left: `${x(g.minute)}%`, top: g.team === 'home' ? -4 : undefined, bottom: g.team === 'home' ? undefined : -4, background: g.team === 'home' ? HC : AC, border: '1.5px solid var(--ink)' }} />
-        ))}
-      </div>
+      </svg>
       {axis}
     </div>
   );

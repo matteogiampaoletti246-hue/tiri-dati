@@ -4,8 +4,7 @@ import CompareBars from '@/components/CompareBars';
 import Crest from '@/components/Crest';
 import TeamLink from '@/components/TeamLink';
 import TextFilter from '@/components/TextFilter';
-import ShotMap from '@/components/ShotMap';
-import { ConceptSwitch, useConcept } from '@/lib/concept';
+import MatchShotMap from './MatchShotMap';
 import { CATEGORY_DEFS, metricOf } from '@/data/standings';
 import { comma, num } from '@/lib/format';
 
@@ -24,9 +23,7 @@ const LIVE_STATS = [
 
 export default function MatchStatsPanel({ match, view, home, away, pre }) {
   const [period, setPeriod] = useState('all');
-  const [side, setSide] = useState('all');
-  const [cs, setCs] = useConcept('statistiche');
-  const [cmap, setCmap] = useConcept('mappa');
+  const cs = 'a';
 
   if (pre) {
     return (
@@ -55,7 +52,7 @@ export default function MatchStatsPanel({ match, view, home, away, pre }) {
   const groups = periods ? periods[period] || periods.all : null;
   const per = { all: null, first: 'FirstHalf', second: 'SecondHalf' }[period];
   const shots = (view.shots || [])
-    .filter((s) => (side === 'all' || s.side === side) && (!per || s.period === per))
+    .filter((s) => (!per || s.period === per))
     .sort((a, b) => a.min - b.min);
 
   const stats = view.stats || {};
@@ -69,7 +66,6 @@ export default function MatchStatsPanel({ match, view, home, away, pre }) {
     <div className="flex flex-col gap-5 pb-4 pt-3">
       <div className="flex items-center gap-3 px-4">
         <TextFilter options={[{ value: 'all', label: 'Totale' }, { value: 'first', label: '1° tempo' }, { value: 'second', label: '2° tempo' }]} value={period} onChange={setPeriod} />
-        <div className="ml-auto"><ConceptSwitch value={cs} onChange={setCs} /></div>
       </div>
 
       <div className="flex items-center gap-2 px-5">
@@ -90,11 +86,8 @@ export default function MatchStatsPanel({ match, view, home, away, pre }) {
 
       {(view.shots || []).length ? (
         <section className="glass mx-4 rounded-[24px] px-4 py-4">
-          <PanelTitle right={<ConceptSwitch value={cmap} onChange={setCmap} />}>Mappa tiri</PanelTitle>
-          <div className="mb-3">
-            <TextFilter options={[{ value: 'all', label: 'Tutte' }, { value: 'home', label: home ? home.short || home.name : 'Casa' }, { value: 'away', label: away ? away.short || away.name : 'Trasferta' }]} value={side} onChange={setSide} />
-          </div>
-          <ShotMap shots={shots} home={home} away={away} concept={cmap} />
+          <PanelTitle>Mappa tiri</PanelTitle>
+          <MatchShotMap shots={shots} home={home} away={away} />
         </section>
       ) : null}
 
