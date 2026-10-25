@@ -33,7 +33,7 @@ export default function EntityBanner({ name, subtitle, meta, colors = ['#1E4BD8'
   const c1 = colors[1] || c0;
   const full = concept !== 'b';
   const bg = concept === 'b'
-    ? `radial-gradient(120% 140% at 0% 0%, ${c0}88 0%, transparent 62%), linear-gradient(180deg, var(--sky-2), var(--sky-2))`
+    ? `radial-gradient(120% 140% at 0% 0%, ${c0}88 0%, transparent 62%)`
     : concept === 'c'
       ? `linear-gradient(135deg, ${c0} 0%, ${c0}cc 55%, ${c1}aa 100%)`
       : `linear-gradient(110deg, ${c0} 0%, ${c0}d9 45%, ${c1}99 100%)`;
@@ -45,7 +45,7 @@ export default function EntityBanner({ name, subtitle, meta, colors = ['#1E4BD8'
     <header
       ref={ref}
       className="fixed inset-x-0 top-0 z-40 mx-auto w-full max-w-[430px] overflow-hidden"
-      style={{ background: bg, borderBottom: concept === 'b' ? `2px solid ${c0}` : '1px solid rgba(255,255,255,.12)' }}
+      style={{ backgroundColor: 'var(--sky-2)', backgroundImage: bg, borderBottom: concept === 'b' ? `2px solid ${c0}` : '1px solid rgba(255,255,255,.12)' }}
     >
       {logoUrl ? (
         <span
