@@ -120,7 +120,7 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
 
   return (
     <div className={className}>
-      <div className="hide-sb glass-head sticky z-20 overflow-x-auto px-5 pt-2.5" style={{ top: stickyTop }}>
+      <div className="hide-sb glass-head sticky z-20 overflow-x-auto px-5 pt-2.5" style={{ top: stickyTop, background: 'color-mix(in srgb, hsl(var(--background)) 94%, transparent)' }}>
         <div className="relative flex items-center gap-6" style={{ width: 'max-content' }}>
           {tabs.map((tab, i) => (
             <button

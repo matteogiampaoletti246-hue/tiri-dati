@@ -52,11 +52,11 @@ export default function Team() {
     <div className="flex min-w-0 items-center gap-3">
       <FormDots form={teamForm(team.id)} size={14} />
       {row ? (
-        <span className="tnum text-[11.5px]" style={{ color: 'rgba(255,255,255,.84)' }}>
+        <span className="tnum text-[11.5px]" style={{ color: 'var(--ink-2)' }}>
           {row.rank}° · {row.points} pt
         </span>
       ) : null}
-      <span className="min-w-0 truncate text-[11px]" style={{ color: 'rgba(255,255,255,.72)' }}>
+      <span className="min-w-0 truncate text-[11px]" style={{ color: 'var(--ink-3)' }}>
         {coachOf(team.id)}
       </span>
     </div>

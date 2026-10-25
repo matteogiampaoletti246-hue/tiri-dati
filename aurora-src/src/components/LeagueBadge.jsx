@@ -10,6 +10,8 @@ const luminance = (hex) => {
   return 0.2126 * r + 0.7152 * g + 0.0722 * b;
 };
 
+const MONO_DARK = new Set(['premier-league', 'champions-league', 'ligue-1', 'conference-league']);
+
 // Campionato: stesso trattamento degli stemmi, nessuna cornice.
 export default function LeagueBadge({ league, size = 26, className = '' }) {
   const dark = useDark();
@@ -23,7 +25,7 @@ export default function LeagueBadge({ league, size = 26, className = '' }) {
   return (
     <span className={`crest ${className}`} style={{ width: size, height: size, color: `color-mix(in srgb, ${base} 74%, var(--ink))` }}>
       {logo && !failed ? (
-        <img src={logo} alt={league.name} width={size} height={size} loading="lazy" onError={() => setFailed(true)} className="h-full w-full object-contain" />
+        <img src={logo} alt={league.name} width={size} height={size} loading="lazy" onError={() => setFailed(true)} className="h-full w-full object-contain" style={dark && !league.logoDark && MONO_DARK.has(league.id) ? { filter: 'brightness(0) invert(1)' } : undefined} />
       ) : (
         <span className="tnum" style={{ fontSize: Math.max(10, Math.round(size * 0.44)) }}>
           {league.name.split(' ').map((w) => w[0]).join('').slice(0, 2).toUpperCase()}

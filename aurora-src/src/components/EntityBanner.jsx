@@ -4,7 +4,7 @@ import { ChevronLeft } from 'lucide-react';
 import { Image } from '@/components/ui/image';
 
 // Banner fisso in alto (campionato / squadra): resta sempre visibile mentre si scorre.
-export default function EntityBanner({ name, subtitle, meta, colors = ['#1E4BD8', '#7FB6E8'], logoUrl = null, initials = '', liveCount = 0 }) {
+export default function EntityBanner({ name, subtitle, meta, colors = ['#1E4BD8', '#7FB6E8'], logoUrl = null, initials = '', liveCount = 0, logoFilter }) {
   const navigate = useNavigate();
   const ref = useRef(null);
 
@@ -19,7 +19,7 @@ export default function EntityBanner({ name, subtitle, meta, colors = ['#1E4BD8'
   }, []);
 
   return (
-    <header ref={ref} className="sticky top-0 z-30 overflow-hidden" style={{ background: 'var(--glass-bg-strong)', backdropFilter: 'blur(24px) saturate(170%)', WebkitBackdropFilter: 'blur(24px) saturate(170%)' }}>
+    <header ref={ref} className="sticky top-0 z-30 overflow-hidden" style={{ background: 'color-mix(in srgb, hsl(var(--background)) 94%, transparent)', backdropFilter: 'blur(24px) saturate(170%)', WebkitBackdropFilter: 'blur(24px) saturate(170%)' }}>
       <span aria-hidden="true" className="absolute inset-0" style={{ background: `linear-gradient(120deg, ${colors[0]}55 0%, ${colors[1]}22 70%, transparent 100%)` }} />
       <div className="safe-top relative px-4 pb-3">
         <div className="flex items-center gap-3">
@@ -27,7 +27,7 @@ export default function EntityBanner({ name, subtitle, meta, colors = ['#1E4BD8'
             <ChevronLeft size={19} />
           </button>
           {logoUrl ? (
-            <Image src={logoUrl} alt={name} className="h-[40px] w-[40px] shrink-0" fittingType="fit" />
+            <Image src={logoUrl} alt={name} className="h-[40px] w-[40px] shrink-0" fittingType="fit" style={{ objectFit: 'contain', filter: logoFilter }} />
           ) : (
             <span className="tnum flex h-[40px] w-[40px] shrink-0 items-center justify-center text-[14px] font-extrabold">{initials}</span>
           )}

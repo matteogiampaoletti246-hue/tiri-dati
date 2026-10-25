@@ -10,6 +10,7 @@ import LeagueStandingsPanel from '@/components/league/LeagueStandingsPanel';
 import LeagueTeamsPanel from '@/components/league/LeagueTeamsPanel';
 import LeaguePlayersPanel from '@/components/league/LeaguePlayersPanel';
 import LeagueRefereesPanel from '@/components/league/LeagueRefereesPanel';
+import useDark from '@/hooks/useDark';
 import useInitialLoad from '@/hooks/useInitialLoad';
 import { leagueById, initialsOf } from '@/data/leagues';
 import { teamsOf } from '@/data/teams';
@@ -27,6 +28,7 @@ export default function League() {
   const { id } = useParams();
   const [tab, setTab] = useState(0);
   const loading = useInitialLoad(280);
+  const dark = useDark();
   const league = leagueById(id);
 
   useEffect(() => {
@@ -63,12 +65,13 @@ export default function League() {
         name={league.name}
         subtitle={`${league.country} · ${league.season}`}
         meta={
-          <span className="tnum text-[11.5px]" style={{ color: 'rgba(255,255,255,.82)' }}>
+          <span className="tnum text-[11.5px]" style={{ color: 'var(--ink-2)' }}>
             {leagueMatches.length} gare · {teamCount} squadre
           </span>
         }
         colors={league.colors}
-        logoUrl={league.logo}
+        logoUrl={dark && league.logoDark ? league.logoDark : league.logo}
+        logoFilter={dark && !league.logoDark && ['premier-league', 'champions-league', 'ligue-1'].includes(league.id) ? 'brightness(0) invert(1)' : undefined}
         initials={initials}
         liveCount={liveCount}
       />
