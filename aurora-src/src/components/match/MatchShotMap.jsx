@@ -45,7 +45,6 @@ const outcomeOf = (s) => (s.outcome === 'Fuori' && s.onTarget ? 'Palo / traversa
 const FILTERS = [
   { value: 'all', label: 'Tutti' },
   { value: 'target', label: 'Tiri in porta' },
-  { value: 'xg', label: 'xG, xGOT' },
 ];
 
 export default function MatchShotMap({ shots = [], home, away }) {
@@ -55,7 +54,7 @@ export default function MatchShotMap({ shots = [], home, away }) {
   const cur = sel != null && list[sel] ? list[sel] : null;
   const color = (s) => (s.side === 'home' ? HC : AC);
   const pos = (s) => (s.side === 'home' ? [105 - s.px, 68 - s.py] : [s.px, s.py]);
-  const radius = (s) => (mode === 'xg' ? 1 + Math.min(4.4, s.xg * 9) : 1.9);
+  const radius = (s) => (1.9);
   const step = (d) => setSel((i) => (list.length ? (((i == null ? -1 : i) + d + list.length) % list.length) : null));
 
   const Dot = ({ s, cx, cy, r, active, onClick }) => (
@@ -63,13 +62,16 @@ export default function MatchShotMap({ shots = [], home, away }) {
       {active ? <circle r={r + 1.6} fill="none" stroke="#fff" strokeWidth="0.6" /> : null}
       {s.outcome === 'Gol' ? (
         <>
-          <circle r={r + 0.6} fill={color(s)} stroke="#fff" strokeWidth="0.5" />
-          <path d="M0 -1.4l1.4 1-.55 1.7h-1.7l-.55-1.7z" fill="#fff" />
+          <circle r={r + 0.9} fill="#fff" stroke={color(s)} strokeWidth="0.7" />
+          <polygon points="0,-1.15 1.1,-0.35 0.7,0.95 -0.7,0.95 -1.1,-0.35" fill="#111" />
+          {[[0, -1.15, 0, -2.3], [1.1, -0.35, 2.2, -0.75], [0.7, 0.95, 1.4, 1.9], [-0.7, 0.95, -1.4, 1.9], [-1.1, -0.35, -2.2, -0.75]].map((l, i) => (
+            <line key={i} x1={l[0]} y1={l[1]} x2={l[2]} y2={l[3]} stroke="#111" strokeWidth="0.35" />
+          ))}
         </>
       ) : (
         <>
           <circle r={r} fill={s.onTarget ? color(s) : 'rgba(255,255,255,.28)'} fillOpacity={s.onTarget ? 0.9 : 1} stroke={color(s)} strokeWidth="0.6" />
-          {s.onTarget && mode !== 'xg' ? <circle r="0.55" fill="#fff" /> : null}
+          {s.onTarget ? <circle r="0.55" fill="#fff" /> : null}
         </>
       )}
     </g>
@@ -81,14 +83,14 @@ export default function MatchShotMap({ shots = [], home, away }) {
     const gl = list.filter((s) => s.side === side && s.gy != null && s.gz != null);
     const x0 = 10;
     return (
-      <svg viewBox="0 0 100 40" className="w-full">
-        <line x1="2" x2="98" y1="32" y2="32" stroke={LINE} strokeWidth="0.5" />
-        <rect x={x0 + 4} y={32 - 2.44 * W * 0.9} width={7.32 * W * 0.9} height={2.44 * W * 0.9} fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.75)" strokeWidth="1.2" />
+      <svg viewBox="0 0 100 52" className="w-full">
+        <line x1="2" x2="98" y1="44" y2="44" stroke={LINE} strokeWidth="0.5" />
+        <rect x={x0 + 4} y={44 - 2.44 * W * 0.9} width={7.32 * W * 0.9} height={2.44 * W * 0.9} fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.75)" strokeWidth="1.2" />
         {gl.map((s) => {
           const i = list.indexOf(s);
           const cx = x0 + 4 + (s.gy - 30.34) * W * 0.9;
-          const cy = 32 - Math.max(0, Math.min(s.gz, 2.8)) * W * 0.9;
-          return <Dot key={i} s={s} cx={Math.max(3, Math.min(97, cx))} cy={cy} r={mode === 'xg' ? radius(s) * 0.9 : 2.3} active={i === sel} onClick={() => setSel(i)} />;
+          const cy = 44 - Math.max(0, Math.min(s.gz, 3.4)) * W * 0.9;
+          return <Dot key={i} s={s} cx={Math.max(3, Math.min(97, cx))} cy={cy} r={2.3} active={i === sel} onClick={() => setSel(i)} />;
         })}
       </svg>
     );

@@ -4,7 +4,6 @@ import Riassunto from './Riassunto';
 import Momentum from './Momentum';
 import RefereeCard from './RefereeCard';
 import FormCard from './FormCard';
-import { ConceptSwitch, useConcept } from '@/lib/concept';
 
 const Card = ({ title, concept, children, noPad }) => (
   <section className="glass mx-4 overflow-hidden rounded-[24px]">
@@ -18,7 +17,7 @@ const Card = ({ title, concept, children, noPad }) => (
 
 export default function MatchSummaryPanel({ match, view, home, away }) {
   const cr = 'a';
-  const [cm, setCm] = useConcept('momentum2');
+  const cm = 'c';
   const events = view.events || [];
   const empty = !events.length && !(view.momentum && view.momentum.length);
 
@@ -33,7 +32,7 @@ export default function MatchSummaryPanel({ match, view, home, away }) {
           <Card title="Riassunto" noPad>
             {events.length ? <Riassunto events={events} finished={match.status === 'finished'} concept={cr} /> : <p className="py-6 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Nessun evento</p>}
           </Card>
-          <Card title="Momentum" concept={<ConceptSwitch value={cm} onChange={setCm} />}>
+          <Card title="Momentum">
             <Momentum values={view.momentum} events={events} home={home} away={away} concept={cm} />
           </Card>
         </>
