@@ -5,22 +5,22 @@ import MatchRow from './MatchRow';
 
 export default function LeagueGroup({ league, matches }) {
   return (
-    <section className="rise">
-      <div className="flex items-center gap-1 px-5 pb-1 pt-4">
-        <LeagueLink league={league} className="flex items-center gap-2.5 transition-opacity active:opacity-60">
-          <LeagueBadge league={league} size={22} />
-          <span className="text-[13.5px] font-medium tracking-[-.01em]" style={{ color: 'var(--ink)' }}>
-            {league.name}
-          </span>
-          <ChevronRight size={14} strokeWidth={1.3} style={{ color: 'var(--ink-3)' }} />
-        </LeagueLink>
-        <span className="tnum ml-auto text-[11.5px]" style={{ color: 'var(--ink-3)' }}>
+    <section className="rise mx-4 mt-4 overflow-hidden rounded-[26px] glass">
+      <LeagueLink league={league} className="press flex items-center gap-3 px-4 pb-3 pt-3.5">
+        <LeagueBadge league={league} size={22} />
+        <span className="flex-1 truncate text-[12.5px] font-extrabold uppercase tracking-wider" style={{ color: 'var(--ink)' }}>
+          {league.name}
+        </span>
+        <span className="tnum text-[11px] font-medium" style={{ color: 'var(--ink-3)' }}>
           {matches.length}
         </span>
-      </div>
-      <div>
-        {matches.map((m) => (
-          <MatchRow key={m.id} match={m} />
+        <ChevronRight size={16} strokeWidth={1.8} style={{ color: 'var(--ink-3)' }} />
+      </LeagueLink>
+      <div className="border-t" style={{ borderColor: 'var(--hair-2)' }}>
+        {matches.map((m, i) => (
+          <div key={m.id} style={{ borderTop: i ? '1px solid var(--hair-2)' : 'none' }}>
+            <MatchRow match={m} />
+          </div>
         ))}
       </div>
     </section>

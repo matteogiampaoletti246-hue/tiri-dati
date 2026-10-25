@@ -11,7 +11,20 @@ const launched = () => {
   }
 };
 
-// Intestazione della Home: il marchio arriva qui dall'animazione di avvio.
+function IconButton({ onClick, label, to, children }) {
+  const cls = 'glass press flex h-9 w-9 items-center justify-center rounded-full';
+  return to ? (
+    <Link to={to} aria-label={label} className={cls}>
+      {children}
+    </Link>
+  ) : (
+    <button type="button" onClick={onClick} aria-label={label} className={cls}>
+      {children}
+    </button>
+  );
+}
+
+// Intestazione: il logo con la scritta arriva qui dall'animazione di avvio.
 export default function HomeHeader({ onSearch }) {
   const [ready, setReady] = useState(launched);
 
@@ -23,24 +36,26 @@ export default function HomeHeader({ onSearch }) {
 
   return (
     <header className="glass-head sticky top-0 z-30">
-      <div className="flex items-center gap-2.5 px-5 py-3.5">
+      <div className="flex items-center justify-between gap-3 px-5 py-3">
         <Link
           to="/"
-          className={`flex items-center gap-2.5 transition-opacity duration-500 ${ready ? 'opacity-100' : 'opacity-0'}`}
+          id="sl-brand"
+          className={`flex items-center transition-opacity duration-300 ${ready ? 'opacity-100' : 'opacity-0'}`}
+          style={{ gap: 5, color: 'var(--ink)' }}
           aria-label="ScalperLab"
         >
-          <Logo size={23} />
-          <span className="title-lg text-[18px] tracking-[-.04em]" style={{ color: 'var(--ink)' }}>
+          <Logo size={28} />
+          <span className="title-lg" style={{ fontSize: 15, letterSpacing: '-.04em' }}>
             ScalperLab
           </span>
         </Link>
-        <div className="ml-auto flex items-center gap-4">
-          <button type="button" className="icon-btn" aria-label="Cerca" onClick={onSearch}>
-            <Search size={19} strokeWidth={1.3} />
-          </button>
-          <Link to="/menu" className="icon-btn" aria-label="Menu">
-            <MenuIcon size={19} strokeWidth={1.3} />
-          </Link>
+        <div className="flex items-center gap-2">
+          <IconButton onClick={onSearch} label="Cerca">
+            <Search size={16} strokeWidth={2} />
+          </IconButton>
+          <IconButton to="/menu" label="Menu">
+            <MenuIcon size={16} strokeWidth={2} />
+          </IconButton>
         </div>
       </div>
     </header>

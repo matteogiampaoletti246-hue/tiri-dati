@@ -1,31 +1,37 @@
-// Marchio ScalperLab: tratto disegnato, nessun cerchio intorno.
-export default function Logo({ size = 28, className = '', animated = false }) {
+import { motion } from 'framer-motion';
+
+// Marchio ScalperLab: una "S" a tratto unico con una pallina. Nero (giorno) o bianco (notte).
+export default function Logo({ size = 32, draw = false, className = '' }) {
   return (
     <svg
       width={size}
       height={size}
-      viewBox="0 0 48 48"
-      fill="none"
-      role="img"
-      aria-label="ScalperLab"
-      className={`${animated ? 'mark-draw' : ''} ${className}`}
+      viewBox="0 0 100 100"
+      className={className}
+      aria-hidden="true"
+      style={{ overflow: 'visible', color: 'var(--ink)' }}
     >
-      <path
-        className="mark-s"
-        d="M30.4 14.8C28.2 11.6 17.3 11.4 16.7 16.7C16.1 21.9 21.3 22.5 24.2 23.7C27.8 25.1 31.8 25.9 30.4 31C29 35.9 18.2 35.9 16.2 32.4"
-        stroke="var(--accent)"
-        strokeWidth="3.3"
+      <motion.path
+        d="M66 30c-4-9-19-14-30-9-11 5-13 18-3 24 8 5 22 6 28 12 6 6 3 18-8 22-11 4-26-1-30-10"
+        stroke="currentColor"
+        strokeWidth={9}
         strokeLinecap="round"
+        strokeLinejoin="round"
+        fill="none"
+        initial={draw ? { pathLength: 0 } : false}
+        animate={draw ? { pathLength: 1 } : undefined}
+        transition={draw ? { duration: 1.05, ease: 'easeInOut' } : undefined}
       />
-      <path
-        className="mark-arc mark-fade"
-        d="M31.2 15.4C34.2 15.4 36.5 13.9 37.6 11.9"
-        stroke="var(--accent)"
-        strokeWidth="1.4"
-        strokeLinecap="round"
-        strokeDasharray="1 3"
+      <motion.circle
+        cx={23}
+        cy={69}
+        r={7}
+        fill="currentColor"
+        initial={draw ? { scale: 0, opacity: 0 } : false}
+        animate={draw ? { scale: 1, opacity: 1 } : undefined}
+        transition={draw ? { delay: 0.92, duration: 0.34, type: 'spring', stiffness: 300, damping: 14 } : undefined}
+        style={{ transformOrigin: '23px 69px' }}
       />
-      <circle className="mark-ball mark-fade" cx="38.8" cy="10.8" r="2.6" fill="var(--accent)" />
     </svg>
   );
 }

@@ -7,8 +7,6 @@ import LeagueGroup from '@/components/LeagueGroup';
 import LiveStrip from '@/components/LiveStrip';
 import MatchRowSkeleton from '@/components/MatchRowSkeleton';
 import Skeleton from '@/components/Skeleton';
-import SponsorBanner from '@/components/SponsorBanner';
-import SlimAdSlot from '@/components/SlimAdSlot';
 import SearchOverlay from '@/components/SearchOverlay';
 import useInitialLoad from '@/hooks/useInitialLoad';
 import useTicker from '@/hooks/useTicker';
@@ -99,11 +97,6 @@ export default function Home() {
             Nessuna partita
           </p>
         )}
-      </div>
-
-      <div className="mt-7 space-y-3">
-        <SponsorBanner />
-        <SlimAdSlot />
       </div>
 
       <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />

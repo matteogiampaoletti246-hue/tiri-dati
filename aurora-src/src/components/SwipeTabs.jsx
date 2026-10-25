@@ -125,7 +125,7 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
           ))}
           <span
             ref={barRef}
-            className="absolute bottom-0 left-0 h-px rounded-full"
+            className="absolute bottom-0 left-0 h-[2.5px] rounded-full"
             style={{ background: 'var(--accent)', transform: 'translate3d(0,0,0)' }}
           />
         </div>

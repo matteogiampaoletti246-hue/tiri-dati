@@ -1,15 +1,12 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { motion } from 'framer-motion';
 import Logo from '@/components/Logo';
 
-// Tempi dell'animazione di avvio (ms)
-const LAND_MIN = 1250; // il marchio resta al centro almeno fin qui, poi sale in alto a sinistra
-const FADE_AFTER = 1000; // dopo l'atterraggio si dissolve sopra al logo dell'intestazione
-const GONE_AFTER = 550;
-
-const START_SIZE = 104;
-const END_SIZE = 23;
-const END_LEFT = 20;
-const END_TOP = 14;
+// Avvio: il logo si disegna al centro, la scritta ScalperLab esce da dietro il logo,
+// poi logo e scritta insieme volano in alto a sinistra, dove restano come intestazione.
+const LOGO = 64;
+const GAP = 11;
+const TEXT = 34;
 
 const alreadyLaunched = () => {
   try {
@@ -21,93 +18,108 @@ const alreadyLaunched = () => {
 
 export default function LaunchScreen({ ready = true }) {
   const [visible, setVisible] = useState(() => !alreadyLaunched());
-  const [landed, setLanded] = useState(false);
-  const [fading, setFading] = useState(false);
+  const [reveal, setReveal] = useState(false);
+  const [fly, setFly] = useState(false);
+  const [fade, setFade] = useState(false);
+  const [textW, setTextW] = useState(0);
+  const [delta, setDelta] = useState({ x: 0, y: 0, s: 0.43 });
   const t0 = useRef(Date.now());
-  const [box, setBox] = useState(() => ({
-    w: typeof window === 'undefined' ? 390 : Math.min(window.innerWidth, 430),
-    h: typeof window === 'undefined' ? 780 : window.innerHeight,
-  }));
+  const measure = useRef(null);
+  const pair = useRef(null);
 
-  useEffect(() => {
-    const read = () => setBox({ w: Math.min(window.innerWidth, 430), h: window.innerHeight });
-    read();
-    window.addEventListener('resize', read);
-    return () => window.removeEventListener('resize', read);
-  }, []);
+  useLayoutEffect(() => {
+    if (measure.current) setTextW(Math.ceil(measure.current.getBoundingClientRect().width));
+  }, [visible]);
 
-  // parte solo quando i dati sono pronti (e dopo almeno LAND_MIN ms)
+  // 1) il logo si disegna, 2) esce la scritta
   useEffect(() => {
-    if (!visible || !ready || landed) return undefined;
-    const wait = Math.max(0, LAND_MIN - (Date.now() - t0.current));
-    const t = setTimeout(() => setLanded(true), wait);
+    if (!visible) return undefined;
+    const t = setTimeout(() => setReveal(true), 1150);
     return () => clearTimeout(t);
-  }, [visible, ready, landed]);
+  }, [visible]);
+
+  // 3) dopo la scritta (e a dati pronti) parte il volo verso l'intestazione
+  useEffect(() => {
+    if (!visible || !reveal || !ready || fly) return undefined;
+    const wait = Math.max(0, 2250 - (Date.now() - t0.current));
+    const t = setTimeout(() => {
+      const from = pair.current && pair.current.getBoundingClientRect();
+      const brand = document.getElementById('sl-brand');
+      const to = brand ? brand.getBoundingClientRect() : { left: 20, top: 14, width: from ? from.width * 0.43 : 100 };
+      if (from) {
+        const s = to.width / from.width;
+        setDelta({ x: to.left - from.left, y: to.top - from.top, s });
+      }
+      setFly(true);
+    }, wait);
+    return () => clearTimeout(t);
+  }, [visible, reveal, ready, fly]);
 
   useEffect(() => {
-    if (!landed) return undefined;
-    const timers = [
-      setTimeout(() => {
-        setFading(true);
-        window.dispatchEvent(new Event('sl-launch-done'));
-      }, FADE_AFTER),
-      setTimeout(() => {
-        try {
-          sessionStorage.setItem('sl-launched', '1');
-        } catch {
-          /* ignora */
-        }
-        setVisible(false);
-      }, FADE_AFTER + GONE_AFTER),
-    ];
-    return () => timers.forEach(clearTimeout);
-  }, [landed]);
+    if (!fly) return undefined;
+    const t1 = setTimeout(() => {
+      window.dispatchEvent(new Event('sl-launch-done'));
+      setFade(true);
+    }, 760);
+    const t2 = setTimeout(() => {
+      try {
+        sessionStorage.setItem('sl-launched', '1');
+      } catch {
+        /* ignora */
+      }
+      setVisible(false);
+    }, 1200);
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
+  }, [fly]);
 
   if (!visible) return null;
 
-  const side = landed ? END_SIZE : START_SIZE;
-  const left = landed ? END_LEFT : Math.round((box.w - START_SIZE) / 2);
-  const top = landed ? END_TOP : Math.round((box.h - START_SIZE) / 2);
-  const ease = 'cubic-bezier(.65,0,.2,1)';
-
   return (
     <div
-      className="fixed inset-0 z-[70] overflow-hidden transition-opacity duration-500"
-      style={{ opacity: fading ? 0 : 1, background: 'var(--sky-2)', pointerEvents: 'none' }}
+      className="fixed inset-0 z-[70] flex items-center justify-center overflow-hidden"
+      style={{ pointerEvents: 'none', opacity: fade ? 0 : 1, transition: 'opacity .4s ease' }}
       aria-hidden="true"
     >
-      <div className="aurora-bg" />
-      <div className="grain" />
+      <div className="aurora-bg" style={{ opacity: fly ? 0 : 1, transition: 'opacity .55s ease .15s', zIndex: -1 }} />
 
-      <div className="relative mx-auto h-full w-full max-w-[430px]">
-        <div
-          className="absolute flex items-center justify-center"
-          style={{
-            left,
-            top,
-            width: side,
-            height: side,
-            transition: landed ? `left .9s ${ease}, top .9s ${ease}, width .9s ${ease}, height .9s ${ease}` : 'none',
-          }}
-        >
-          <Logo size="100%" animated />
+      <span
+        ref={measure}
+        className="title-lg absolute whitespace-nowrap opacity-0"
+        style={{ fontSize: TEXT, letterSpacing: '-.04em' }}
+      >
+        ScalperLab
+      </span>
+
+      <motion.div
+        ref={pair}
+        className="flex items-center"
+        style={{ transformOrigin: 'left top', color: 'var(--ink)' }}
+        animate={fly ? { x: delta.x, y: delta.y, scale: delta.s } : { x: 0, y: 0, scale: 1 }}
+        transition={{ duration: 0.72, ease: [0.65, 0, 0.35, 1] }}
+      >
+        <div className="relative z-10 shrink-0" style={{ width: LOGO, height: LOGO }}>
+          <Logo size={LOGO} draw />
         </div>
-
-        <span
-          className="launch-word title-lg absolute text-[24px] tracking-[-.045em]"
-          style={{
-            left: 0,
-            right: 0,
-            top: box.h / 2 + START_SIZE / 2 + 18,
-            textAlign: 'center',
-            color: 'var(--ink)',
-            opacity: landed ? 0 : 1,
-            transition: 'opacity .35s ease',
-          }}
+        <motion.div
+          className="overflow-hidden"
+          initial={{ width: 0 }}
+          animate={{ width: reveal ? textW + GAP : 0 }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
-          ScalperLab
-        </span>
-      </div>
+          <motion.span
+            className="title-lg block whitespace-nowrap"
+            style={{ fontSize: TEXT, letterSpacing: '-.04em', paddingLeft: GAP }}
+            initial={{ x: -(textW + GAP) }}
+            animate={{ x: reveal ? 0 : -(textW + GAP) }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          >
+            ScalperLab
+          </motion.span>
+        </motion.div>
+      </motion.div>
     </div>
   );
 }
