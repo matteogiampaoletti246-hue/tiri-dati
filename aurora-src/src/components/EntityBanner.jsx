@@ -1,49 +1,100 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft } from 'lucide-react';
 import { Image } from '@/components/ui/image';
+import { useConcept } from '@/lib/concept';
 
-// Banner fisso in alto (campionato / squadra): resta sempre visibile mentre si scorre.
+// Banner di campionato / squadra: fisso in alto, sempre visibile, con il colore della squadra o del campionato.
+// A = colore pieno, B = base scura con alone colorato, C = colore pieno più alto con logo grande in filigrana.
 export default function EntityBanner({ name, subtitle, meta, colors = ['#1E4BD8', '#7FB6E8'], logoUrl = null, initials = '', liveCount = 0, logoFilter }) {
   const navigate = useNavigate();
   const ref = useRef(null);
+  const [h, setH] = useState(120);
+  const [concept] = useConcept('banner');
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return undefined;
-    const set = () => document.documentElement.style.setProperty('--ent-h', `${el.offsetHeight}px`);
+    const set = () => {
+      setH(el.offsetHeight);
+      document.documentElement.style.setProperty('--ent-h', `${el.offsetHeight}px`);
+    };
     set();
     const ro = new ResizeObserver(set);
     ro.observe(el);
-    return () => ro.disconnect();
+    return () => {
+      ro.disconnect();
+      document.documentElement.style.setProperty('--ent-h', '0px');
+    };
   }, []);
 
-  return (
-    <header ref={ref} className="sticky top-0 z-30 overflow-hidden" style={{ background: 'color-mix(in srgb, hsl(var(--background)) 94%, transparent)', backdropFilter: 'blur(24px) saturate(170%)', WebkitBackdropFilter: 'blur(24px) saturate(170%)' }}>
-      <span aria-hidden="true" className="absolute inset-0" style={{ background: `linear-gradient(120deg, ${colors[0]}55 0%, ${colors[1]}22 70%, transparent 100%)` }} />
-      <div className="safe-top relative px-4 pb-3">
+  const c0 = colors[0] || '#1E4BD8';
+  const c1 = colors[1] || c0;
+  const full = concept !== 'b';
+  const bg = concept === 'b'
+    ? `radial-gradient(120% 140% at 0% 0%, ${c0}88 0%, transparent 62%), linear-gradient(180deg, var(--sky-2), var(--sky-2))`
+    : concept === 'c'
+      ? `linear-gradient(135deg, ${c0} 0%, ${c0}cc 55%, ${c1}aa 100%)`
+      : `linear-gradient(110deg, ${c0} 0%, ${c0}d9 45%, ${c1}99 100%)`;
+  const fg = full ? '#fff' : 'var(--ink)';
+  const sub = full ? 'rgba(255,255,255,.78)' : 'var(--ink-3)';
+  const big = concept === 'c' ? 200 : 150;
+
+  const bar = (
+    <header
+      ref={ref}
+      className="fixed inset-x-0 top-0 z-40 mx-auto w-full max-w-[430px] overflow-hidden"
+      style={{ background: bg, borderBottom: concept === 'b' ? `2px solid ${c0}` : '1px solid rgba(255,255,255,.12)' }}
+    >
+      {logoUrl ? (
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute"
+          style={{
+            right: -big * 0.18,
+            top: '50%',
+            width: big,
+            height: big,
+            transform: 'translateY(-50%)',
+            opacity: concept === 'b' ? 0.2 : 0.24,
+            WebkitMaskImage: 'linear-gradient(to left, #000 35%, transparent 100%)',
+            maskImage: 'linear-gradient(to left, #000 35%, transparent 100%)',
+          }}
+        >
+          <img src={logoUrl} alt="" decoding="async" style={{ width: '100%', height: '100%', objectFit: 'contain', filter: full ? 'brightness(0) invert(1)' : logoFilter }} />
+        </span>
+      ) : null}
+      <div className="safe-top relative px-4 pb-4 pt-3">
         <div className="flex items-center gap-3">
-          <button type="button" className="glass press flex h-9 w-9 shrink-0 items-center justify-center rounded-full" aria-label="Indietro" onClick={() => navigate(-1)}>
+          <button type="button" className="press flex h-9 w-9 shrink-0 items-center justify-center rounded-full" style={{ background: 'rgba(0,0,0,.28)', color: '#fff' }} aria-label="Indietro" onClick={() => navigate(-1)}>
             <ChevronLeft size={19} />
           </button>
           {logoUrl ? (
-            <Image src={logoUrl} alt={name} className="h-[40px] w-[40px] shrink-0" fittingType="fit" style={{ objectFit: 'contain', filter: logoFilter }} />
+            <Image src={logoUrl} alt={name} className="h-[54px] w-[54px] shrink-0" fittingType="fit" style={{ objectFit: 'contain', filter: logoFilter }} />
           ) : (
-            <span className="tnum flex h-[40px] w-[40px] shrink-0 items-center justify-center text-[14px] font-extrabold">{initials}</span>
+            <span className="tnum flex h-[54px] w-[54px] shrink-0 items-center justify-center text-[16px] font-extrabold" style={{ color: fg }}>{initials}</span>
           )}
           <div className="min-w-0 flex-1">
-            <h1 className="title-lg truncate text-[19px]" style={{ color: 'var(--ink)', letterSpacing: '-.03em' }}>{name}</h1>
-            {subtitle ? <p className="truncate text-[11.5px]" style={{ color: 'var(--ink-3)' }}>{subtitle}</p> : null}
+            <h1 className="title-lg truncate text-[22px]" style={{ color: fg, letterSpacing: '-.03em' }}>{name}</h1>
+            {subtitle ? <p className="truncate text-[12px]" style={{ color: sub }}>{subtitle}</p> : null}
+            {meta ? <div className="mt-1" style={{ color: sub }}>{meta}</div> : null}
           </div>
           {liveCount > 0 ? (
-            <span className="flex shrink-0 items-center gap-1.5 text-[11px] font-bold" style={{ color: 'var(--live)' }}>
+            <span className="relative flex shrink-0 items-center gap-1.5 text-[11px] font-bold" style={{ color: '#fff' }}>
               <span className="live-dot" />
               {liveCount} LIVE
             </span>
           ) : null}
         </div>
-        {meta ? <div className="relative mt-2.5 pl-12">{meta}</div> : null}
       </div>
     </header>
+  );
+
+  return (
+    <>
+      <div aria-hidden="true" style={{ height: h }} />
+      {createPortal(bar, document.body)}
+    </>
   );
 }

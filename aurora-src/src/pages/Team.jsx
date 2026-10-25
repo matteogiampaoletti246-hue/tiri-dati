@@ -93,7 +93,7 @@ export default function Team() {
           </div>
         </div>
       ) : (
-        <SwipeTabs tabs={TABS} panels={panels} index={tab} onChange={setTab} className="pt-0" />
+        <SwipeTabs fixedBar tabs={TABS} panels={panels} index={tab} onChange={setTab} className="pt-0" />
       )}
     </PageShell>
   );

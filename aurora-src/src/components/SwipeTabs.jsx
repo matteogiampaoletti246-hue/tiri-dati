@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 
 const EASE = 'transform .42s cubic-bezier(.22,.8,.24,1)';
 
-export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, className = '', stickyTop = 'var(--ent-h, 0px)' }) {
+export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, className = '', stickyTop = 'var(--ent-h, 0px)', fixedBar = false }) {
   const wrapRef = useRef(null);
   const trackRef = useRef(null);
   const barRef = useRef(null);
@@ -13,6 +14,18 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
   const [mounted, setMounted] = useState([0, 1]);
   const [h, setH] = useState(null);
   const panelRefs = useRef([]);
+  const headRef = useRef(null);
+  const [headH, setHeadH] = useState(44);
+
+  useEffect(() => {
+    const el = headRef.current;
+    if (!el || !fixedBar) return undefined;
+    const set = () => setHeadH(el.offsetHeight);
+    set();
+    const ro = new ResizeObserver(set);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [fixedBar]);
 
   useEffect(() => {
     const el = wrapRef.current;
@@ -113,9 +126,8 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
     if (next !== index) onChange(next);
   };
 
-  return (
-    <div className={className}>
-      <div className="hide-sb glass-head sticky z-20 overflow-x-auto px-5 pt-2.5" style={{ top: stickyTop, background: 'color-mix(in srgb, hsl(var(--background)) 94%, transparent)' }}>
+  const HEAD = (
+<div ref={headRef} className={fixedBar ? 'hide-sb fixed inset-x-0 z-30 mx-auto w-full max-w-[430px] overflow-x-auto px-5 pt-2.5' : 'hide-sb glass-head sticky z-20 overflow-x-auto px-5 pt-2.5'} style={{ top: stickyTop, background: fixedBar ? 'var(--sky-2)' : 'color-mix(in srgb, hsl(var(--background)) 94%, transparent)' }}>
         <div className="relative flex items-center gap-6" style={{ width: 'max-content' }}>
           {tabs.map((tab, i) => (
             <button
@@ -138,6 +150,12 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
         </div>
       </div>
 
+  );
+
+  return (
+    <div className={className}>
+      {fixedBar ? <div aria-hidden="true" style={{ height: headH }} /> : null}
+      {fixedBar ? createPortal(HEAD, document.body) : HEAD}
       <div ref={wrapRef} className="relative overflow-hidden" style={{ touchAction: 'pan-y', height: h || undefined }} onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onUp}>
         <div ref={trackRef} className="flex items-start">
           {panels.map((panel, i) => (
