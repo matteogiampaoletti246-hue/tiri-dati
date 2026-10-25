@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import PageShell from '@/components/PageShell';
 import TopBar from '@/components/TopBar';
@@ -11,12 +12,20 @@ import PlayerPer90Panel from '@/components/player/PlayerPer90Panel';
 import useInitialLoad from '@/hooks/useInitialLoad';
 import { playerById } from '@/data/players';
 import { teamById } from '@/data/teams';
-import { playerShots } from '@/data/extras';
+import { playerShots, loadPlayerShots } from '@/data/extras';
 
 export default function Player() {
   const { id } = useParams();
   const loading = useInitialLoad(280);
   const player = playerById(id);
+  const [, bump] = useState(0);
+  useEffect(() => {
+    let on = true;
+    loadPlayerShots(id).then(() => on && bump((n) => n + 1));
+    return () => {
+      on = false;
+    };
+  }, [id]);
 
   if (!player) {
     return (

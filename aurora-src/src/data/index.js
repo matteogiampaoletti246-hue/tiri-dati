@@ -7,6 +7,7 @@ import { buildPlayers } from './players';
 import { buildReferees } from './referees';
 import { buildCalcData } from './calcData';
 import { resetStandingsCache } from './standings';
+import { startLive } from './live';
 
 let booted = null;
 
@@ -20,6 +21,7 @@ export function bootData() {
       buildMatches();
       buildPlayers();
       resetStandingsCache();
+      startLive();
       return RAW;
     });
   }

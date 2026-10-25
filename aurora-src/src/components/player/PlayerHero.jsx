@@ -68,16 +68,18 @@ export default function PlayerHero({ player, team }) {
               {player.name}
             </h1>
             <p className="mt-1 truncate text-[11.5px]" style={{ color: 'var(--ink-3)' }}>
-              {POS[player.position] || player.position} · {player.number}
+              {[POS[player.position] || player.position, player.number].filter(Boolean).join(' · ')}
             </p>
             <div className="mt-3 flex items-center gap-3">
               <span className="tnum text-[14px] font-medium" style={{ color: 'var(--ink)' }}>
                 {comma(player.rating, 2)}
               </span>
               <span className="label-sm">voto stagione</span>
-              <span className="tnum ml-auto text-[11.5px]" style={{ color: 'var(--ink-2)' }}>
-                {comma(player.ultime5, 1)} ultime 5
-              </span>
+              {player.ratings5 && player.ratings5.length ? (
+                <span className="tnum ml-auto text-[11.5px]" style={{ color: 'var(--ink-2)' }}>
+                  {comma(player.ratings5.reduce((a, b) => a + b, 0) / player.ratings5.length, 2)} ultime {player.ratings5.length}
+                </span>
+              ) : null}
             </div>
           </div>
         </div>

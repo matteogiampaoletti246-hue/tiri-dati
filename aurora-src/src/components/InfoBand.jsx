@@ -1,4 +1,6 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { loadWeather } from '@/data/weather';
 import { Sun, Cloud, CloudRain, Wind } from 'lucide-react';
 import { StadiumIcon, WhistleIcon } from '@/components/LineIcons';
 import { refereeById } from '@/data/referees';
@@ -14,6 +16,14 @@ const CELL = 'flex flex-1 flex-col items-center gap-2 px-2 text-center';
 const ICON = { color: 'var(--ink-3)' };
 
 export default function InfoBand({ match }) {
+  const [, bump] = useState(0);
+  useEffect(() => {
+    let on = true;
+    loadWeather(match).then((w) => w && on && bump((n) => n + 1));
+    return () => {
+      on = false;
+    };
+  }, [match.id]);
   const w = WEATHER[match.weather && match.weather.icon] || WEATHER.sun;
   const WeatherIcon = w.icon;
   const ref = match.refereeId ? refereeById(match.refereeId) : null;

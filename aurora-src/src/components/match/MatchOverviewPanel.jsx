@@ -1,6 +1,5 @@
 import Crest from '@/components/Crest';
 import FormDots from '@/components/FormDots';
-import InfoBand from '@/components/InfoBand';
 import ResultRow from '@/components/ResultRow';
 import PanelTitle from '@/components/PanelTitle';
 import TeamLink from '@/components/TeamLink';

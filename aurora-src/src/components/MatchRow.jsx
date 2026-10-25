@@ -23,7 +23,7 @@ export default function MatchRow({ match }) {
         {live ? (
           <span className="tnum flex items-center gap-1.5 text-[12.5px] font-semibold" style={{ color: 'var(--live)' }}>
             <span className="live-dot" />
-            {m.minute}&apos;
+            {m.liveHalf ? 'Int.' : <>{m.minute}&apos;</>}
           </span>
         ) : (
           <span className="tnum text-[12.5px] font-normal" style={{ color: finished ? 'var(--ink-3)' : 'var(--ink-2)' }}>

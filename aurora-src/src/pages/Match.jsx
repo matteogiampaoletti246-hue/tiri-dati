@@ -90,7 +90,7 @@ export default function Match() {
   return (
     <PageShell swipeBack={false}>
       <MatchHero match={raw} view={view} league={league} home={home} away={away} />
-      {!pre ? <InfoBand match={raw} /> : null}
+      <InfoBand match={raw} />
 
       {loading ? (
         <div className="px-5 pt-8">

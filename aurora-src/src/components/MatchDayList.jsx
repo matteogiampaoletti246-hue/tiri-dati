@@ -14,7 +14,7 @@ export default function MatchDayList({ matches, focusToday = true }) {
   }, [matches.length, focusToday]);
 
   const groups = [];
-  matches.forEach((m) => {
+  [...matches].sort((a, b) => a.ts - b.ts).forEach((m) => {
     const last = groups[groups.length - 1];
     if (last && last.date === m.date) last.matches.push(m);
     else groups.push({ date: m.date, matches: [m] });
@@ -29,7 +29,7 @@ export default function MatchDayList({ matches, focusToday = true }) {
           <section key={g.date} data-focus={g.matches.some((x) => x.id === firstId) ? '1' : '0'}>
             <div className="flex items-baseline gap-3 px-5 pb-1 pt-5">
               <span className="text-[13px] font-medium" style={{ color: 'var(--ink)' }}>
-                {date ? dayLabel(date, TODAY_INDEX, idx) : g.date}
+                {date ? dayLabel(date, TODAY_INDEX, idx) : longDate(new Date(`${g.date}T12:00:00`))}
               </span>
               {date ? (
                 <span className="text-[10.5px]" style={{ color: 'var(--ink-3)' }}>

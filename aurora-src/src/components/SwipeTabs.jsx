@@ -52,6 +52,11 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
       track.style.transform = `translate3d(${-(index * (width + gap))}px,0,0)`;
     }
     posBar(index, index, 0, true);
+    const cur = tabRefs.current[index];
+    if (cur && cur.parentElement) {
+      const box = cur.parentElement;
+      box.scrollTo({ left: Math.max(0, cur.offsetLeft - 20), behavior: 'smooth' });
+    }
   }, [index, width, gap]);
 
   const onDown = (e) => {

@@ -95,7 +95,7 @@ export default function MatchHero({ match, view, league, home, away }) {
             {live ? (
               <span className="mt-1.5 flex items-center gap-1.5 text-[11.5px] font-medium" style={{ color: 'var(--live)' }}>
                 <span className="live-dot" />
-                {view.minute}&apos;
+                {view.liveHalf ? 'Int.' : <>{view.minute}&apos;</>}
               </span>
             ) : (
               <span className="mt-1.5 text-center text-[11px]" style={{ color: 'var(--ink-3)' }}>
