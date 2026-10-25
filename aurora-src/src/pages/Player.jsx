@@ -2,22 +2,36 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import PageShell from '@/components/PageShell';
 import TopBar from '@/components/TopBar';
-import PanelTitle from '@/components/PanelTitle';
-import ShotMap from '@/components/ShotMap';
+import SwipeTabs from '@/components/SwipeTabs';
 import Skeleton from '@/components/Skeleton';
-import PlayerHero from '@/components/player/PlayerHero';
-import PlayerSeasonGrid from '@/components/player/PlayerSeasonGrid';
-import PlayerRecentPanel from '@/components/player/PlayerRecentPanel';
-import PlayerPer90Panel from '@/components/player/PlayerPer90Panel';
+import EntityBanner from '@/components/EntityBanner';
 import useInitialLoad from '@/hooks/useInitialLoad';
+import { useConcept } from '@/lib/concept';
 import { playerById } from '@/data/players';
 import { teamById } from '@/data/teams';
-import { playerShots, loadPlayerShots } from '@/data/extras';
+import { loadPlayerShots } from '@/data/extras';
+import { POS_IT } from '@/components/player/playerCalc';
+import { ProfiloPanel, PartitePanel, StatistichePanel, CarrieraPanel } from '@/components/player/PlayerTabs';
+
+const TABS = [
+  { key: 'profilo', label: 'Profilo' },
+  { key: 'partite', label: 'Partite' },
+  { key: 'stat', label: 'Statistiche' },
+  { key: 'carriera', label: 'Carriera' },
+];
 
 export default function Player() {
   const { id } = useParams();
   const loading = useInitialLoad(280);
   const player = playerById(id);
+  const [tab, setTab] = useState(() => {
+    try {
+      return Number(sessionStorage.getItem('sl-ptab-' + id)) || 0;
+    } catch {
+      return 0;
+    }
+  });
+  const [concept] = useConcept('player');
   const [, bump] = useState(0);
   useEffect(() => {
     let on = true;
@@ -26,6 +40,14 @@ export default function Player() {
       on = false;
     };
   }, [id]);
+  const change = (i) => {
+    setTab(i);
+    try {
+      sessionStorage.setItem('sl-ptab-' + id, String(i));
+    } catch {
+      /* ignora */
+    }
+  };
 
   if (!player) {
     return (
@@ -39,33 +61,28 @@ export default function Player() {
   }
 
   const team = teamById(player.teamId);
-  const shots = playerShots(player.id, 14);
+  const panels = [
+    <ProfiloPanel key="p" player={player} team={team} concept={concept} />,
+    <PartitePanel key="m" player={player} concept={concept} />,
+    <StatistichePanel key="s" player={player} concept={concept} />,
+    <CarrieraPanel key="c" player={player} team={team} concept={concept} />,
+  ];
 
   return (
     <PageShell swipeBack={false}>
-      <PlayerHero player={player} team={team} />
-
+      <EntityBanner
+        name={player.name}
+        subtitle={[team ? team.name : player.teamName, POS_IT[player.position]].filter(Boolean).join(' · ')}
+        colors={team ? team.colors : undefined}
+        logoUrl={player.photo}
+        initials={player.initials}
+      />
       {loading ? (
-        <div className="space-y-4 px-5 pt-6">
-          {[0, 1, 2, 3].map((i) => (
-            <Skeleton key={i} className="h-[92px] w-full" />
-          ))}
+        <div className="px-5 pt-8 space-y-4">
+          {[0, 1, 2, 3].map((i) => <Skeleton key={i} className="h-[80px] w-full" />)}
         </div>
       ) : (
-        <div className="mt-6 flex flex-col gap-7">
-          <PlayerSeasonGrid player={player} />
-
-          <PlayerRecentPanel teamId={player.teamId} />
-
-          <section className="px-5">
-            <PanelTitle right={<span className="tnum text-[11px]" style={{ color: 'var(--ink-3)' }}>{shots.length}</span>}>
-              Mappa tiri
-            </PanelTitle>
-            <ShotMap shots={shots} showList={false} />
-          </section>
-
-          <PlayerPer90Panel player={player} />
-        </div>
+        <SwipeTabs fixedBar tabs={TABS} panels={panels} index={tab} onChange={change} className="pt-0" />
       )}
     </PageShell>
   );
