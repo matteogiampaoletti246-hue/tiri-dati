@@ -31,9 +31,9 @@ export default function MatchRow({ match }) {
         ) : finished ? (
           <span className="text-[12px] font-semibold" style={{ color: 'var(--ink-3)' }}>Finita</span>
         ) : (
-          <span className="tnum text-[13.5px] font-semibold" style={{ color: 'var(--ink-3)' }}>{m.kickoff}</span>
+          <span className="tnum text-[13.5px] font-semibold" style={{ color: 'var(--ink-3)' }}>{m.timeKnown === false ? '—' : m.kickoff}</span>
         )}
-        {finished ? <span className="tnum mt-[2px] block text-[10.5px]" style={{ color: 'var(--ink-3)' }}>{m.kickoff}</span> : null}
+        {finished && m.timeKnown !== false ? <span className="tnum mt-[2px] block text-[10.5px]" style={{ color: 'var(--ink-3)' }}>{m.kickoff}</span> : null}
         {live ? (
           <span className="mt-[3px] flex items-center justify-center gap-1">
             <span className="live-dot" style={{ width: 5, height: 5 }} />

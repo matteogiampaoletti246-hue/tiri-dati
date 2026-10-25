@@ -42,7 +42,7 @@ export default function ResultRow({ match, teamId, divider = true }) {
         </>
       ) : (
         <span className="tnum text-[12px]" style={{ color: 'var(--ink-2)' }}>
-          {match.kickoff}
+          {match.timeKnown === false ? '—' : match.kickoff}
         </span>
       )}
     </div>

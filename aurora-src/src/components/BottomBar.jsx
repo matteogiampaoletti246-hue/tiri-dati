@@ -1,7 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Home as HomeIcon, Calculator, Users, Swords } from 'lucide-react';
-import useHideOnScroll from '@/hooks/useHideOnScroll';
 
 const ITEMS = [
   { to: '/', label: 'Home', icon: HomeIcon, exact: true },
@@ -12,7 +11,6 @@ const ITEMS = [
 
 // Barra in basso: vetro, l'indicatore scivola da una voce all'altra.
 export default function BottomBar() {
-  const hidden = useHideOnScroll();
   const { pathname } = useLocation();
   const isActive = (item) => (item.exact ? pathname === item.to : pathname.startsWith(item.to));
 
@@ -20,12 +18,11 @@ export default function BottomBar() {
     <nav
       className="safe-bottom fixed inset-x-0 bottom-0 z-40"
       style={{
-        transform: hidden ? 'translateY(150%)' : 'translateY(0)',
-        transition: 'transform .45s cubic-bezier(.22,.8,.24,1)',
+        background: 'linear-gradient(to top, hsl(var(--background)) 62%, transparent)',
       }}
     >
       <div className="mx-auto w-full max-w-[430px] px-4 pt-2">
-        <div className="glass-strong flex rounded-[26px] p-1.5">
+        <div className="flex rounded-[26px] p-1.5" style={{ background: 'var(--sky-2)', border: '1px solid var(--glass-border)', boxShadow: 'var(--glass-shadow)' }}>
           {ITEMS.map(({ to, label, icon: Icon, exact }) => {
             const active = isActive({ to, exact });
             return (

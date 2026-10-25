@@ -78,6 +78,7 @@ export function buildMatches() {
       awayId: away.id,
       date: d,
       ts: midday(d).getTime(),
+      timeKnown: false,
       status: 'finished',
       minute: 90,
       score: [sh, sa],
@@ -98,7 +99,7 @@ export function buildMatches() {
     const away = ensureTeam(p.a, p.lg, p.al);
     const ts = new Date(p.t).getTime();
     const d = romeDay(ts);
-    const m = baseMatch({ id: p.id, leagueId: p.lg, homeId: home.id, awayId: away.id, date: d, ts, status: 'scheduled' });
+    const m = baseMatch({ id: p.id, leagueId: p.lg, homeId: home.id, awayId: away.id, date: d, ts, timeKnown: true, status: 'scheduled' });
     const lin = RAW.partite.lin && RAW.partite.lin[p.id];
     if (lin) m.lineupRaw = lin;
     MATCHES.push(m);
@@ -125,6 +126,7 @@ export function buildMatches() {
           awayId: away.id,
           date: d,
           ts: midday(d).getTime() + 3600000,
+          timeKnown: false,
           status: played ? 'finished' : 'scheduled',
           minute: played ? 90 : null,
           score: played ? [gf, ga] : null,

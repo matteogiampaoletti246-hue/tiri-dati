@@ -1,7 +1,8 @@
 // Dettaglio partita in diretta da FotMob (tramite il Worker): cronologia, statistiche per tempo,
 // mappa tiri, momentum e formazioni. Vale per partite live, di oggi e anche per quelle passate.
 import { WORKER } from './load';
-import { buildLineup } from './matches';
+import { buildLineup, MATCHES } from './matches';
+import { romeTime } from './util';
 import { teamById } from './teams';
 import { same } from './live';
 import { slug } from './util';
@@ -236,4 +237,36 @@ export async function loadFm(m, playerLookup, force = false) {
     /* dettaglio non raggiungibile: si resta con i dati già presenti */
   }
   return m;
+}
+
+// Orari reali (ora italiana) delle partite di un giorno, da FotMob.
+const synced = {};
+export async function syncDayTimes(iso, force = false) {
+  if (!force && synced[iso] && Date.now() - synced[iso] < 120000) return 0;
+  let list;
+  try {
+    list = await fmDay(iso);
+  } catch {
+    return 0;
+  }
+  synced[iso] = Date.now();
+  let changed = 0;
+  MATCHES.forEach((m) => {
+    if (m.date !== iso) return;
+    const home = teamById(m.homeId);
+    const away = teamById(m.awayId);
+    if (!home || !away) return;
+    const hit = list.find((x) => same(home.name, x.h) && same(away.name, x.a));
+    if (!hit || !hit.t) return;
+    const ts = new Date(hit.t).getTime();
+    if (!Number.isFinite(ts)) return;
+    m.fmId = hit.id;
+    if (m.ts !== ts || m.timeKnown === false) {
+      m.ts = ts;
+      m.kickoff = romeTime(ts);
+      m.timeKnown = true;
+      changed += 1;
+    }
+  });
+  return changed;
 }

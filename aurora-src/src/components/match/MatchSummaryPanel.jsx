@@ -29,11 +29,11 @@ export default function MatchSummaryPanel({ match, view, home, away }) {
         </p>
       ) : (
         <>
-          <Card title="Riassunto" noPad>
-            {events.length ? <Riassunto events={events} finished={match.status === 'finished'} concept={cr} /> : <p className="py-6 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Nessun evento</p>}
-          </Card>
           <Card title="Momentum">
             <Momentum values={view.momentum} events={events} home={home} away={away} concept={cm} />
+          </Card>
+          <Card title="Riassunto" noPad>
+            {events.length ? <Riassunto events={events} finished={match.status === 'finished'} concept={cr} /> : <p className="py-6 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Nessun evento</p>}
           </Card>
         </>
       )}

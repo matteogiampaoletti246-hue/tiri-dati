@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { CalendarDays } from 'lucide-react';
 import PageShell from '@/components/PageShell';
 import HomeHeader from '@/components/HomeHeader';
@@ -10,6 +10,7 @@ import Skeleton from '@/components/Skeleton';
 import SearchOverlay from '@/components/SearchOverlay';
 import useInitialLoad from '@/hooks/useInitialLoad';
 import useTicker from '@/hooks/useTicker';
+import { syncDayTimes } from '@/data/fotmob';
 import { DATES, TODAY_INDEX, isoDate, matchesByDate } from '@/data/matches';
 import { LEAGUES } from '@/data/leagues';
 
@@ -23,6 +24,25 @@ export default function Home() {
   const drag = useRef(null);
 
   const date = DATES[dayIdx];
+  const [, bump] = useState(0);
+  // orari reali: prima il giorno aperto, poi gli altri in sottofondo
+  useEffect(() => {
+    let on = true;
+    const iso = custom || isoDate(DATES[dayIdx]);
+    syncDayTimes(iso).then((n) => on && n && bump((x) => x + 1));
+    return () => { on = false; };
+  }, [dayIdx, custom]);
+  useEffect(() => {
+    let on = true;
+    (async () => {
+      for (const d of DATES) {
+        if (!on) return;
+        const n = await syncDayTimes(isoDate(d));
+        if (n && on) bump((x) => x + 1);
+      }
+    })();
+    return () => { on = false; };
+  }, []);
   const dayMatches = matchesByDate(custom || isoDate(date));
   const liveMatches = dayMatches.filter((m) => m.status === 'live');
   const shown = filter === 'live' ? liveMatches : dayMatches;
@@ -96,8 +116,8 @@ export default function Home() {
     const dx = e.clientX - d.x;
     const v = Math.abs(dx) / Math.max(80, Date.now() - d.t);
     const el = listRef.current;
-    // scorrere verso destra porta ai giorni successivi, verso sinistra ai precedenti
-    const next = dayIdx + (dx > 0 ? 1 : -1);
+    // il contenuto segue il dito: verso destra si torna ai giorni precedenti, verso sinistra si va avanti
+    const next = dayIdx + (dx > 0 ? -1 : 1);
     if ((Math.abs(dx) > 70 || v > 0.5) && next >= 0 && next <= DATES.length - 1) {
       const dir = dx > 0 ? 1 : -1;
       busy.current = false;
