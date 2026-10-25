@@ -1,0 +1,6 @@
+{
+  "name": "ScalperLab - Statistiche Calcio & Modelli Quote",
+  "description": "Piattaforma mobile di analisi statistica calcistica avanzata: quote di valore, modello di Poisson per linee tiri, probabilità attese e monitoraggio matchup.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

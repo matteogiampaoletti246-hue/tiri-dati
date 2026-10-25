@@ -1,0 +1,2351 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Calcolatore affidabilità tiri</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0E1113;
+    --panel:#171B1E;
+    --panel-2:#1E2327;
+    --line:#2A3136;
+    --text:#E7EAEC;
+    --text-dim:#8C959C;
+    --accent:#3ED598;
+    --accent-dim:#245A45;
+    --red:#E1553E;
+    --amber:#E0A93B;
+    --green:#3ED598;
+    --gold:#F2C230;
+    --gold-dim:rgba(242,194,48,.10);
+    color-scheme:dark;
+    --radius:10px;
+    font-family:'Inter',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--text);}
+  body{padding-block:32px 80px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));min-height:100vh;}
+  [hidden]{display:none !important;}
+  .wrap{max-width:1100px;margin:0 auto;}
+
+  header{margin-bottom:28px;}
+  .eyebrow{color:var(--accent);font-size:13px;letter-spacing:.02em;margin:0 0 6px;font-weight:600;}
+  h1{
+    font-family:'Space Grotesk',sans-serif;font-weight:600;
+    font-size:clamp(24px,3.2vw,32px);margin:0 0 10px;letter-spacing:-0.01em;
+  }
+  header p{color:var(--text-dim);max-width:64ch;line-height:1.55;margin:0;font-size:15px;}
+
+  .layout{display:grid;grid-template-columns:1fr 360px;gap:20px;align-items:start;}
+  @media (max-width:920px){
+    .layout{grid-template-columns:1fr;}
+    .result-card{position:static !important;}
+  }
+
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:22px;margin-bottom:18px;}
+  .panel h2{font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:600;margin:0 0 4px;}
+  .panel .sub{color:var(--text-dim);font-size:13px;margin:0 0 18px;line-height:1.5;}
+
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .grid.cols-3{grid-template-columns:1fr 1fr 1fr;}
+  @media (max-width:560px){.grid,.grid.cols-3{grid-template-columns:1fr;}}
+
+  .field{display:flex;flex-direction:column;gap:6px;}
+  .field label{font-size:13px;color:var(--text-dim);}
+  .field .hint{font-size:11.5px;color:#6B747B;margin-top:-2px;}
+  .field .rank-note{font-size:12px;color:var(--accent);margin-top:-2px;min-height:15px;font-weight:600;}
+
+  input[type=text],input[type=number],select{
+    background:var(--panel-2);border:1px solid var(--line);color:var(--text);border-radius:7px;
+    padding:9px 10px;font-size:14.5px;font-family:'Inter',sans-serif;font-variant-numeric:tabular-nums;width:100%;
+  }
+  input:focus,select:focus{outline:2px solid var(--accent);outline-offset:1px;}
+  .sep-btn{align-self:flex-start;background:var(--panel-2);color:var(--text);border:1px solid var(--line);border-radius:7px;padding:9px 16px;font-size:14px;font-family:'Inter',sans-serif;cursor:pointer;touch-action:manipulation;}
+  .sep-btn:active{background:var(--accent-dim);color:var(--accent);}
+
+  .seg{display:flex;border:1px solid var(--line);border-radius:7px;overflow:hidden;}
+  .seg button{flex:1;background:var(--panel-2);color:var(--text-dim);border:none;padding:9px 0;font-size:14px;font-family:'Inter',sans-serif;cursor:pointer;}
+  .seg button.active{background:var(--accent-dim);color:var(--accent);font-weight:600;}
+  .seg button:not(:last-child){border-right:1px solid var(--line);}
+
+  .derived{
+    margin-top:14px;padding:12px 14px;background:var(--panel-2);border:1px solid var(--line);border-radius:8px;
+    font-size:13px;color:var(--text-dim);display:flex;justify-content:space-between;align-items:center;
+  }
+  .derived b{color:var(--text);font-variant-numeric:tabular-nums;font-size:15px;}
+
+  details.panel summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;}
+  details.panel summary::-webkit-details-marker{display:none;}
+  details.panel summary .car{color:var(--text-dim);font-size:13px;transition:transform .15s;}
+  details.panel[open] summary .car{transform:rotate(180deg);}
+  .formula{
+    background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:14px 16px;
+    font-family:'Space Grotesk',sans-serif;font-size:14px;line-height:1.7;color:var(--text);margin-top:14px;
+  }
+  .formula .muted{color:var(--text-dim);font-family:'Inter',sans-serif;font-size:12.5px;display:block;margin-top:8px;}
+
+  .result-card{position:sticky;top:24px;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:24px;}
+  .result-card h2{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600;margin:0 0 18px;color:var(--text-dim);}
+  .score-big{font-family:'Space Grotesk',sans-serif;font-size:58px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums;}
+  .score-scale{color:var(--text-dim);font-size:15px;margin-left:4px;}
+  .score-label{margin-top:8px;font-size:14px;font-weight:600;}
+
+  .gauge{height:8px;border-radius:5px;background:var(--panel-2);margin:16px 0 22px;overflow:hidden;}
+  .gauge-fill{height:100%;border-radius:5px;transition:width .25s ease;}
+
+  .stat-line{display:flex;justify-content:space-between;font-size:13px;padding:8px 0;border-bottom:1px solid var(--line);}
+  .stat-line:last-child{border-bottom:none;}
+  .stat-line .k{color:var(--text-dim);}
+  .stat-line .v{font-variant-numeric:tabular-nums;font-weight:600;}
+
+  .value-note{border-top:1px solid var(--line);padding-top:16px;margin-top:16px;font-size:13px;line-height:1.55;}
+  .value-note .vtitle{font-weight:600;margin-bottom:4px;}
+  .value-note.pos .vtitle{color:var(--green);}
+  .value-note.neg .vtitle{color:var(--red);}
+  .value-note .vsub{color:var(--text-dim);}
+
+  .breakdown{margin-top:14px;padding:12px 14px;background:var(--panel-2);border:1px solid var(--line);border-radius:8px;}
+  .breakdown .bk-title{font-size:12px;font-weight:600;color:var(--accent);margin:12px 0 2px;letter-spacing:.01em;}
+  .breakdown .bk-title:first-child{margin-top:0;}
+  .breakdown .stat-line:last-child{border-bottom:none;}
+  .breakdown .v.hi{color:var(--accent);}
+
+  .seg button{line-height:1.2;padding:10px 6px;}
+
+  /* Stake consigliato */
+  .stake-box{border:1.5px solid var(--gold);background:var(--gold-dim);border-radius:9px;padding:11px 13px;margin:0 0 18px;}
+  .stake-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;}
+  .stake-label{font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--gold);}
+  .stake-val{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;line-height:1.1;color:var(--gold);font-variant-numeric:tabular-nums;}
+  .stake-val.small{font-size:16px;color:var(--red);}
+  .stake-val.dim{color:var(--text-dim);}
+  .stake-why{font-size:12.5px;color:var(--text-dim);margin-top:4px;line-height:1.45;}
+  .stake-det{margin-top:6px;font-size:12px;color:var(--text-dim);}
+  .stake-det summary{cursor:pointer;color:var(--gold);font-size:12px;list-style:none;}
+  .stake-det summary::-webkit-details-marker{display:none;}
+  .stake-det .st-lines{margin-top:6px;line-height:1.6;}
+  .stake-det .st-lines b{color:var(--text);font-weight:600;font-variant-numeric:tabular-nums;}
+
+  .play-btn{width:100%;margin-top:18px;background:var(--gold);color:#17130A;border:none;border-radius:9px;padding:13px 16px;font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:700;cursor:pointer;}
+  .play-btn:disabled{background:var(--panel-2);color:var(--text-dim);cursor:not-allowed;border:1px solid var(--line);}
+  .play-btn:focus-visible{outline:2px solid var(--gold);outline-offset:2px;}
+  .play-hint{font-size:12px;color:var(--text-dim);margin-top:8px;text-align:center;min-height:15px;}
+
+  /* Storico */
+  .hist-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:6px;}
+  @media (max-width:560px){.hist-stats{grid-template-columns:1fr 1fr;}}
+  .hs{background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:10px 12px;min-width:0;}
+  .hs .k{font-size:11.5px;color:var(--text-dim);}
+  .hs .v{font-family:'Space Grotesk',sans-serif;font-size:21px;font-weight:700;margin-top:3px;font-variant-numeric:tabular-nums;}
+  .hs .v.pos{color:var(--green);} .hs .v.neg{color:var(--red);}
+  .hist-note{font-size:12.5px;color:var(--text-dim);line-height:1.6;margin-top:12px;}
+  .hist-note b{color:var(--text);font-weight:600;font-variant-numeric:tabular-nums;}
+  .band-table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:10px;font-variant-numeric:tabular-nums;}
+  .band-table td,.band-table th{padding:6px 4px;border-bottom:1px solid var(--line);text-align:left;font-weight:500;}
+  .band-table th{color:var(--text-dim);font-size:11.5px;}
+  .play-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;margin-bottom:12px;}
+  .play-top{display:flex;justify-content:space-between;gap:10px;align-items:baseline;}
+  .play-top .who{font-weight:600;font-size:15px;min-width:0;overflow-wrap:anywhere;}
+  .play-top .when{font-size:11.5px;color:var(--text-dim);white-space:nowrap;}
+  .play-mkt{font-size:13px;color:var(--text-dim);margin-top:3px;overflow-wrap:anywhere;}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+  .chip{font-size:12px;background:var(--panel-2);border:1px solid var(--line);border-radius:6px;padding:3px 8px;font-variant-numeric:tabular-nums;}
+  .chip.gold{border-color:var(--gold);color:var(--gold);}
+  .play-out{display:flex;gap:8px;align-items:center;margin-top:12px;flex-wrap:wrap;}
+  .play-out .seg{flex:1 1 220px;}
+  .play-out .seg button{padding:8px 4px;font-size:13px;}
+  .play-out .seg button.win.active{background:rgba(62,213,152,.2);color:var(--green);}
+  .play-out .seg button.lose.active{background:rgba(225,85,62,.2);color:var(--red);}
+  .play-pl{font-size:13px;font-weight:600;font-variant-numeric:tabular-nums;min-width:56px;text-align:right;}
+  .play-pl.pos{color:var(--green);} .play-pl.neg{color:var(--red);}
+  .link-btn{background:none;border:none;color:var(--text-dim);font-size:12px;cursor:pointer;padding:6px 0;text-decoration:underline;font-family:'Inter',sans-serif;}
+  .link-btn.danger{color:var(--red);}
+  .ghost-btn{background:var(--panel-2);color:var(--text);border:1px solid var(--line);border-radius:7px;padding:9px 14px;font-size:13.5px;cursor:pointer;font-family:'Inter',sans-serif;}
+  .ghost-btn:focus-visible,.link-btn:focus-visible,.seg button:focus-visible{outline:2px solid var(--gold);outline-offset:2px;}
+  textarea.bk{width:100%;min-height:90px;background:var(--panel-2);border:1px solid var(--line);color:var(--text);border-radius:7px;padding:9px 10px;font-size:12.5px;font-family:ui-monospace,Menlo,monospace;margin-top:10px;}
+  .empty-hist{border:1px dashed var(--line);border-radius:var(--radius);padding:22px;text-align:center;color:var(--text-dim);font-size:13.5px;line-height:1.6;margin-bottom:18px;}
+  .toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--gold);color:#17130A;font-weight:600;font-size:14px;padding:11px 18px;border-radius:9px;z-index:20;box-shadow:0 6px 24px rgba(0,0,0,.5);max-width:calc(100% - 32px);text-align:center;}
+
+  footer{color:#5C656C;font-size:12px;margin-top:24px;line-height:1.6;max-width:74ch;}
+</style>
+
+
+<div class="wrap">
+
+  <header>
+    <p class="eyebrow">Bozza v8 — modello Poisson + stake</p>
+    <h1>Calcolatore di affidabilità linee tiri</h1>
+    <p>Solo statistiche stagionali. Il tasso di tiri del giocatore è sempre normalizzato a 90 minuti, l'affidabilità è una probabilità reale calcolata con un modello di Poisson — non una media di pesi decisi a occhio.</p>
+  </header>
+
+  <div class="seg" id="viewSeg" style="max-width:620px;margin-bottom:22px;">
+    <button type="button" data-val="player" class="active">Affidabilità giocatore</button>
+    <button type="button" data-val="team">Media tiri squadra</button>
+    <button type="button" data-val="history" id="histTab">Storico</button>
+  </div>
+
+  <div id="playerView">
+  <div class="layout">
+    <div>
+
+      <div class="panel">
+        <h2>La giocata</h2>
+        <p class="sub">Il giocatore, la linea, la quota e il tipo di partita.</p>
+        <div class="grid cols-3">
+          <div class="field">
+            <label for="playerName">Giocatore</label>
+            <input type="text" id="playerName" placeholder="es. Messi">
+          </div>
+          <div class="field">
+            <label>Tipo tiri</label>
+            <div class="seg" id="shotTypeSeg">
+              <button type="button" data-val="total" class="active">Totali</button>
+              <button type="button" data-val="sot">In porta</button>
+            </div>
+          </div>
+          <div class="field">
+            <label>Tipo linea</label>
+            <div class="seg" id="lineTypeSeg">
+              <button type="button" data-val="over" class="active">Over</button>
+              <button type="button" data-val="under">Under</button>
+            </div>
+          </div>
+          <div class="field">
+            <label for="lineValue">Valore linea (tiri)</label>
+            <input type="number" id="lineValue" step="0.5">
+            <span class="hint" id="lineDifficultyHint"></span>
+          </div>
+          <div class="field">
+            <label for="odds">Quota</label>
+            <input type="number" id="odds" step="0.01">
+          </div>
+          <div class="field">
+            <label>Sede</label>
+            <div class="seg" id="homeAwaySeg">
+              <button type="button" data-val="home" class="active">Casa</button>
+              <button type="button" data-val="neutral">Nessun effetto</button>
+              <button type="button" data-val="away">Trasferta</button>
+            </div>
+          </div>
+          <div class="field">
+            <label>Competizione</label>
+            <div class="seg" id="compSeg">
+              <button type="button" data-val="league" class="active">Campionato</button>
+              <button type="button" data-val="cup">Coppa europea</button>
+            </div>
+            <span class="hint" id="compHint">Inserisci sotto le statistiche di campionato del giocatore e dell'avversario.</span>
+          </div>
+          <div class="field">
+            <label for="hitRate5">Hit rate ultime 5 partite</label>
+            <select id="hitRate5">
+              <option value="">— non inserito —</option>
+              <option value="0">0/5 (0%)</option>
+              <option value="0.2">1/5 (20%)</option>
+              <option value="0.4">2/5 (40%)</option>
+              <option value="0.6">3/5 (60%)</option>
+              <option value="0.8">4/5 (80%)</option>
+              <option value="0.9">4/5+ (90%) – una partita mancata per 1 solo tiro</option>
+              <option value="1">5/5 (100%)</option>
+            </select>
+            <span class="hint">Quante delle ultime 5 partite il giocatore ha rispettato questa stessa linea (dato reale, lo cerchi tu). Scegli 4/5+ quando la partita mancata è fallita per un solo tiro: vale 90%, a metà tra 4/5 (80%) e 5/5 (100%).</span>
+          </div>
+          <div class="field">
+            <label for="l5Shots" id="l5ShotsLabel">Tiri nelle ultime 5 partite</label>
+            <input type="text" id="l5Shots" inputmode="numeric" pattern="[0-9\-]*" enterkeyhint="next" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="es. 3-4-6-2-1">
+            <button type="button" class="sep-btn" data-target="l5Shots">Inserisci trattino ( - )</button>
+          </div>
+          <div class="field">
+            <label for="l5Mins">Minuti nelle ultime 5 partite</label>
+            <input type="text" id="l5Mins" inputmode="numeric" pattern="[0-9\-]*" enterkeyhint="done" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="es. 87-67-81-90-90">
+            <button type="button" class="sep-btn" data-target="l5Mins">Inserisci trattino ( - )</button>
+            <span class="hint" id="l5Info">Facoltativo: scrivi i valori partita per partita separati da trattini. Il calcolatore fa la media e la unisce alla media stagionale.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>Giocatore — medie per competizione</h2>
+        <p class="sub">Inserisci media tiri e media minuti a partita per ogni competizione in cui hai dati (es. 2,3 tiri in 42 minuti). Anche una sola competizione va bene — le altre restano vuote e il calcolatore combina solo quelle compilate, sommando tiri e minuti prima di normalizzare a 90'.</p>
+        <div class="grid" style="margin-bottom:14px;">
+          <div class="field">
+            <label for="shotsLeague" id="shotsLeagueLabel">Campionato — media tiri a partita</label>
+            <input type="number" id="shotsLeague" step="0.1">
+          </div>
+          <div class="field">
+            <label for="minutesLeague">Campionato — media minuti a partita</label>
+            <input type="number" id="minutesLeague" step="1" value="90">
+          </div>
+        </div>
+        <div class="grid" style="margin-bottom:14px;">
+          <div class="field">
+            <label for="shotsCup" id="shotsCupLabel">Coppa europea — media tiri a partita</label>
+            <input type="number" id="shotsCup" step="0.1" placeholder="opzionale">
+          </div>
+          <div class="field">
+            <label for="minutesCup">Coppa europea — media minuti a partita</label>
+            <input type="number" id="minutesCup" step="1" placeholder="opzionale">
+          </div>
+        </div>
+        <div class="grid" style="margin-bottom:14px;">
+          <div class="field">
+            <label for="shotsNL" id="shotsNLLabel">Nations League — media tiri a partita</label>
+            <input type="number" id="shotsNL" step="0.1" placeholder="opzionale, se convocato">
+          </div>
+          <div class="field">
+            <label for="minutesNL">Nations League — media minuti a partita</label>
+            <input type="number" id="minutesNL" step="1" placeholder="opzionale">
+          </div>
+        </div>
+        <div class="grid">
+          <div class="field">
+            <label for="shotsWCQ" id="shotsWCQLabel">Qualificazioni Mondiali — media tiri a partita</label>
+            <input type="number" id="shotsWCQ" step="0.1" placeholder="opzionale, se convocato">
+          </div>
+          <div class="field">
+            <label for="minutesWCQ">Qualificazioni Mondiali — media minuti a partita</label>
+            <input type="number" id="minutesWCQ" step="1" placeholder="opzionale">
+          </div>
+        </div>
+        <div class="derived">
+          <span id="rate90Label">Tasso di tiri normalizzato a 90' (combinato)</span>
+          <b id="rate90">–</b>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>Squadra del giocatore</h2>
+        <p class="sub" id="playerTeamSub">Seleziona campionato e squadra del giocatore: la media tiri fatti (quanto la squadra crea, per farlo tirare) arriva dallo stesso database dell'avversario. È il fattore più leggero: pesa su λ meno del tuo tasso individuale e meno del fattore avversario.</p>
+        <div class="grid">
+          <div class="field">
+            <label for="playerLeague">Campionato</label>
+            <select id="playerLeague">
+              <option value="">— seleziona —</option>
+              <option value="serie-a">Serie A</option>
+              <option value="premier-league">Premier League</option>
+              <option value="bundesliga">Bundesliga</option>
+              <option value="la-liga">La Liga</option>
+              <option value="ligue-1">Ligue 1</option>
+              <option value="eredivisie">Eredivisie (Olanda)</option>
+              <option value="super-lig">Süper Lig (Turchia)</option>
+              <option value="liga-portugal">Liga Portugal</option>
+              <option value="champions-league">Champions League</option>
+              <option value="europa-league">Europa League</option>
+              <option value="nazionali">Nazionali</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="playerTeam">Squadra del giocatore</label>
+            <select id="playerTeam">
+              <option value="">— prima scegli il campionato —</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid" style="margin-top:14px;">
+          <div class="field">
+            <label for="playerTeamShots" id="playerTeamShotsLabel">Tiri fatti a partita dalla squadra — campionato</label>
+            <input type="number" id="playerTeamShots" step="0.1">
+            <span class="rank-note" id="playerTeamRankInfo"></span>
+          </div>
+        </div>
+        <div class="breakdown" id="playerBreakdown" style="display:none;"></div>
+        <input type="hidden" id="playerStrength" value="1">
+        <input type="hidden" id="playerLeagueAvgFor" value="14.0">
+        <p class="hint" id="playerTeamDatasetInfo" style="margin-top:10px;"></p>
+      </div>
+
+      <div class="panel">
+        <h2>Squadra avversaria</h2>
+        <p class="sub" id="oppSub">Seleziona campionato e squadra: tiri totali e tiri in porta concessi arrivano dal database salvato in questo tool (da ValueStats, tab Attack → Total Shots / Shots on Target). Restano modificabili a mano dopo.</p>
+        <div class="grid">
+          <div class="field">
+            <label for="oppLeague">Campionato</label>
+            <select id="oppLeague">
+              <option value="">— seleziona —</option>
+              <option value="serie-a">Serie A</option>
+              <option value="premier-league">Premier League</option>
+              <option value="bundesliga">Bundesliga</option>
+              <option value="la-liga">La Liga</option>
+              <option value="ligue-1">Ligue 1</option>
+              <option value="eredivisie">Eredivisie (Olanda)</option>
+              <option value="super-lig">Süper Lig (Turchia)</option>
+              <option value="liga-portugal">Liga Portugal</option>
+              <option value="champions-league">Champions League</option>
+              <option value="europa-league">Europa League</option>
+              <option value="nazionali">Nazionali</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="oppTeam">Squadra avversaria</label>
+            <select id="oppTeam">
+              <option value="">— prima scegli il campionato —</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid" style="margin-top:14px;">
+          <div class="field">
+            <label for="oppConceded" id="oppConcededLabel">Tiri totali concessi a partita — campionato</label>
+            <input type="number" id="oppConceded" step="0.1">
+            <span class="rank-note" id="oppRankInfo"></span>
+            <span class="hint" id="oppConcededActiveTag"></span>
+          </div>
+          <div class="field">
+            <label for="oppConcededSOT" id="oppConcededSOTLabel">Tiri in porta concessi a partita — campionato</label>
+            <input type="number" id="oppConcededSOT" step="0.1">
+            <span class="rank-note" id="oppRankInfoSOT"></span>
+            <span class="hint" id="oppConcededSOTActiveTag"></span>
+          </div>
+        </div>
+        <div class="breakdown" id="oppBreakdown" style="display:none;"></div>
+        <input type="hidden" id="oppStrength" value="1">
+        <input type="hidden" id="leagueAvg" value="13.5">
+        <input type="hidden" id="leagueAvgSOT" value="4.5">
+        <p class="hint" id="datasetInfo" style="margin-top:10px;"></p>
+      </div>
+
+      <details class="panel" id="howPanel">
+        <summary><h2>Come viene calcolato</h2><span class="car">▾</span></summary>
+        <p class="sub">Nessun peso arbitrario: un modello moltiplicativo più una distribuzione di probabilità.</p>
+        <div class="formula">
+          λ = tasso_90' × fattore_avversario<sup>0,85</sup> × fattore_squadra<sup>0,35</sup> × fattore sede
+          <span class="muted">λ è il numero atteso di tiri (o tiri in porta, secondo la modalità scelta) in questa partita. Il tasso individuale del giocatore è combinato da tutte le competizioni compilate (campionato, coppa europea, Nations League, Qualificazioni Mondiali): si sommano tiri e minuti delle sole competizioni riempite, poi si normalizza a 90' — non è una media delle medie, così una competizione con più minuti pesa di più, e una competizione lasciata vuota (es. giocatore non convocato in nazionale) viene semplicemente ignorata. Gli esponenti sul resto della formula riflettono una gerarchia di peso decisa a mano: il tasso individuale resta il moltiplicatore pieno, il fattore avversario (tiri concessi ÷ media della competizione) è quasi pieno — 0,85 — perché conta quasi quanto il giocatore, e il fattore squadra (tiri fatti dalla squadra del giocatore ÷ media del suo campionato) è il più leggero — 0,35 — perché una parte del suo effetto è già dentro il tasso individuale. Se scegli Champions League o Europa League come campionato, i tiri di quella squadra sono la media tra la sua media di campionato e la sua media di coppa (il riferimento è la media delle due competizioni); sotto la squadra vedi le tre cifre separate. Per Eredivisie, Süper Lig e Liga Portugal (campionati meno prestigiosi) la media di campionato della squadra pesa un po' meno — lo scarto dalla media dell'intero campionato viene ridotto del 15% — anche quando la squadra è scelta tramite Champions o Europa League; la media di coppa resta quella reale. Le posizioni in classifica sono quelle reali su 18 squadre. Il fattore sede è ±6%, disattivabile con "Nessun effetto".</span>
+        </div>
+        <div class="formula">
+          Stake base: 1% a voto 8,00, 1,25% a voto 9,00, 2% a voto 10
+          <span class="muted">Sotto il 9 sale piano (+0,25% per ogni punto di voto), sopra il 9 sale più in fretta man mano che il voto si avvicina a 10. Non di valore sotto 8,00. Quota sotto 1,60: lo stake si moltiplica per quota ÷ 1,60 (la giocata va affiancata a un'altra) e sotto voto 8,20 non è di valore. Quota sopra 2,45: parte da 0,75% a voto 7,70 e arriva allo stake base a voto 8,70. Mai sotto 0,75%.</span>
+        </div>
+        <div class="formula">
+          Affidabilità = P(esito della linea | λ) × 10
+          <span class="muted">I tiri (o i tiri in porta) in una partita vengono trattati come un processo di Poisson con media λ. Da qui si calcola la probabilità del modello. Se inserisci l'hit rate delle ultime 5 partite, la probabilità finale usata per il voto diventa probabilità_modello × 0,6 + hit_rate × 0,4 — un peso importante ma non dominante, perché l'hit rate è un dato reale ma su un campione piccolo (5 partite). Senza hit rate inserito, il voto resta puro Poisson. La "fascia quota" mostrata nel riquadro dei risultati è calcolata a parte, solo per classificare la quota stessa (non entra in λ né nella probabilità, per non farla "comprimere" verso ciò che pensa il bookmaker). Il "valore complessivo" è affidabilità × 0,7 + fascia quota × 0,3: l'affidabilità resta il driver principale, la quota è un modificatore che non deve affossare una giocata solida solo perché la quota è bassa.</span>
+        </div>
+      </details>
+
+    </div>
+
+    <div class="result-card">
+      <h2>Affidabilità stimata</h2>
+      <div><span class="score-big" id="scoreBig">–</span><span class="score-scale">/ 10</span></div>
+      <div class="score-label" id="scoreLabel"></div>
+      <div class="gauge"><div class="gauge-fill" id="gaugeFill" style="width:0%;"></div></div>
+
+      <div class="stake-box" id="pStakeBox">
+        <div class="stake-head"><span class="stake-label">Stake consigliato</span><span class="stake-val dim" id="pStakeVal">–</span></div>
+        <div class="stake-why" id="pStakeWhy">Inserisci quota e dati per calcolarlo.</div>
+        <details class="stake-det" id="pStakeDetBox" hidden><summary>Come è calcolato</summary><div class="st-lines" id="pStakeDet"></div></details>
+      </div>
+
+      <div class="stat-line"><span class="k">Tiri attesi (λ)</span><span class="v" id="lambdaVal">–</span></div>
+      <div class="stat-line"><span class="k">Linea richiesta</span><span class="v" id="lineVal">–</span></div>
+      <div class="stat-line"><span class="k">Probabilità modello (Poisson)</span><span class="v" id="probModelVal">–</span></div>
+      <div class="stat-line"><span class="k">Hit rate ultime 5</span><span class="v" id="hitRateVal">–</span></div>
+      <div class="stat-line"><span class="k">Probabilità finale</span><span class="v" id="probVal">–</span></div>
+      <div class="stat-line"><span class="k">Probabilità implicita quota</span><span class="v" id="impliedVal">–</span></div>
+      <div class="stat-line"><span class="k">Fascia quota</span><span class="v" id="quotaTierVal">–</span></div>
+
+      <div class="derived" id="comboBox" style="flex-direction:column;align-items:flex-start;gap:6px;">
+        <span>Valore complessivo (affidabilità + quota)</span>
+        <div style="display:flex;align-items:baseline;gap:8px;">
+          <b id="comboScoreBig" style="font-size:24px;">–</b>
+          <span style="font-size:12px;color:var(--text-dim);">/ 10</span>
+          <span id="comboLabel" style="font-size:12.5px;font-weight:600;"></span>
+        </div>
+      </div>
+
+      <div class="value-note" id="valueNote">
+        <div class="vtitle" id="valueTitle"></div>
+        <div class="vsub" id="valueSub"></div>
+      </div>
+
+      <button type="button" class="play-btn" id="pPlayBtn" disabled>Gioca!</button>
+      <div class="play-hint" id="pPlayHint">Disponibile per le giocate di valore.</div>
+    </div>
+  </div>
+  </div>
+
+  <div id="teamView" style="display:none;">
+  <div class="layout">
+    <div>
+
+      <div class="panel">
+        <h2>La giocata (squadra)</h2>
+        <p class="sub">Affidabilità = P(esito della linea | media tiri prevista), esattamente come nella vista giocatore, ma usando la media tiri prevista della squadra al posto del tasso individuale.</p>
+        <div class="grid cols-3">
+          <div class="field">
+            <label>Tipo tiri</label>
+            <div class="seg" id="teamShotTypeSeg">
+              <button type="button" data-val="total" class="active">Totali</button>
+              <button type="button" data-val="sot">In porta</button>
+            </div>
+          </div>
+          <div class="field">
+            <label>Sede della squadra da valutare</label>
+            <div class="seg" id="teamSedeSeg">
+              <button type="button" data-val="home" class="active">Casa</button>
+              <button type="button" data-val="neutral">Nessun effetto</button>
+              <button type="button" data-val="away">Trasferta</button>
+            </div>
+          </div>
+          <div class="field">
+            <label>Tipo linea</label>
+            <div class="seg" id="teamLineTypeSeg">
+              <button type="button" data-val="over" class="active">Over</button>
+              <button type="button" data-val="under">Under</button>
+            </div>
+          </div>
+          <div class="field">
+            <label for="teamLineValue">Valore linea (tiri)</label>
+            <input type="number" id="teamLineValue" step="0.5">
+          </div>
+          <div class="field">
+            <label for="teamOdds">Quota</label>
+            <input type="number" id="teamOdds" step="0.01">
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>Squadra da valutare</h2>
+        <p class="sub" id="teamForSub">Seleziona campionato e squadra: la media tiri fatti arriva dal database salvato in questo tool.</p>
+        <div class="grid">
+          <div class="field">
+            <label for="teamForLeague">Campionato</label>
+            <select id="teamForLeague">
+              <option value="">— seleziona —</option>
+              <option value="serie-a">Serie A</option>
+              <option value="premier-league">Premier League</option>
+              <option value="bundesliga">Bundesliga</option>
+              <option value="la-liga">La Liga</option>
+              <option value="ligue-1">Ligue 1</option>
+              <option value="eredivisie">Eredivisie (Olanda)</option>
+              <option value="super-lig">Süper Lig (Turchia)</option>
+              <option value="liga-portugal">Liga Portugal</option>
+              <option value="champions-league">Champions League</option>
+              <option value="europa-league">Europa League</option>
+              <option value="nazionali">Nazionali</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="teamForTeam">Squadra</label>
+            <select id="teamForTeam">
+              <option value="">— prima scegli il campionato —</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid" style="margin-top:14px;">
+          <div class="field">
+            <label for="teamForShots" id="teamForShotsLabel">Tiri fatti a partita — campionato</label>
+            <input type="number" id="teamForShots" step="0.1">
+            <span class="rank-note" id="teamForRankInfo"></span>
+          </div>
+        </div>
+        <div class="breakdown" id="teamForBreakdown" style="display:none;"></div>
+        <p class="hint" id="teamForDatasetInfo" style="margin-top:10px;"></p>
+      </div>
+
+      <div class="panel">
+        <h2>Squadra avversaria (ospite)</h2>
+        <p class="sub" id="teamOppSub">Seleziona campionato e squadra: la media tiri subiti arriva dallo stesso database.</p>
+        <div class="grid">
+          <div class="field">
+            <label for="teamOppLeague">Campionato</label>
+            <select id="teamOppLeague">
+              <option value="">— seleziona —</option>
+              <option value="serie-a">Serie A</option>
+              <option value="premier-league">Premier League</option>
+              <option value="bundesliga">Bundesliga</option>
+              <option value="la-liga">La Liga</option>
+              <option value="ligue-1">Ligue 1</option>
+              <option value="eredivisie">Eredivisie (Olanda)</option>
+              <option value="super-lig">Süper Lig (Turchia)</option>
+              <option value="liga-portugal">Liga Portugal</option>
+              <option value="champions-league">Champions League</option>
+              <option value="europa-league">Europa League</option>
+              <option value="nazionali">Nazionali</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="teamOppTeam">Squadra</label>
+            <select id="teamOppTeam">
+              <option value="">— prima scegli il campionato —</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid" style="margin-top:14px;">
+          <div class="field">
+            <label for="teamOppShots" id="teamOppShotsLabel">Tiri subiti a partita — campionato</label>
+            <input type="number" id="teamOppShots" step="0.1">
+            <span class="rank-note" id="teamOppRankInfo"></span>
+          </div>
+        </div>
+        <div class="breakdown" id="teamOppBreakdown" style="display:none;"></div>
+        <p class="hint" id="teamOppDatasetInfo" style="margin-top:10px;"></p>
+      </div>
+
+      <details class="panel">
+        <summary><h2>Come viene calcolato</h2><span class="car">▾</span></summary>
+        <div class="formula">
+          media_grezza = (tiri fatti dalla squadra + tiri subiti dall'ospite) ÷ 2
+          <span class="muted">È la media classica tra "quanto crea questa squadra" e "quanto concede l'avversario" — lo stesso principio di base dei modelli di expected goals più semplici.</span>
+        </div>
+        <div class="formula">
+          media prevista = media_grezza × fattore_sede
+          <span class="muted">Il fattore sede qui pesa ±12% (Casa ×1,12, Trasferta ×0,88) — di più rispetto al ±6% del calcolatore di affidabilità giocatore, perché qui rappresenta l'intero effetto ambientale sulla squadra, non solo il contributo di un singolo giocatore.</span>
+        </div>
+      </details>
+
+    </div>
+
+    <div class="result-card">
+      <h2>Affidabilità stimata (tiri squadra)</h2>
+      <div><span class="score-big" id="teamScoreBig">–</span><span class="score-scale">/ 10</span></div>
+      <div class="score-label" id="teamScoreLabel"></div>
+      <div class="gauge"><div class="gauge-fill" id="teamGaugeFill" style="width:0%;"></div></div>
+
+      <div class="stake-box" id="tStakeBox">
+        <div class="stake-head"><span class="stake-label">Stake consigliato</span><span class="stake-val dim" id="tStakeVal">–</span></div>
+        <div class="stake-why" id="tStakeWhy">Inserisci quota e dati per calcolarlo.</div>
+        <details class="stake-det" id="tStakeDetBox" hidden><summary>Come è calcolato</summary><div class="st-lines" id="tStakeDet"></div></details>
+      </div>
+
+      <div class="stat-line"><span class="k">Media tiri prevista (λ)</span><span class="v" id="teamForecastBig">–</span></div>
+      <div class="stat-line"><span class="k">Linea richiesta</span><span class="v" id="teamLineVal">–</span></div>
+      <div class="stat-line"><span class="k">Probabilità stimata</span><span class="v" id="teamProbVal">–</span></div>
+      <div class="stat-line"><span class="k">Probabilità implicita quota</span><span class="v" id="teamImpliedVal">–</span></div>
+      <div class="stat-line"><span class="k">Fascia quota</span><span class="v" id="teamQuotaTierVal">–</span></div>
+
+      <div class="derived" id="teamComboBox" style="flex-direction:column;align-items:flex-start;gap:6px;">
+        <span>Valore complessivo (affidabilità + quota)</span>
+        <div style="display:flex;align-items:baseline;gap:8px;">
+          <b id="teamComboScoreBig" style="font-size:24px;">–</b>
+          <span style="font-size:12px;color:var(--text-dim);">/ 10</span>
+          <span id="teamComboLabel" style="font-size:12.5px;font-weight:600;"></span>
+        </div>
+      </div>
+
+      <div class="value-note" id="teamValueNote">
+        <div class="vtitle" id="teamValueTitle"></div>
+        <div class="vsub" id="teamValueSub"></div>
+      </div>
+
+      <div class="value-note">
+        <div class="vtitle" style="font-size:12.5px;">Come è nata la media tiri prevista</div>
+        <div class="vsub" style="font-size:12px;line-height:1.7;">
+          <div class="stat-line"><span class="k">Tiri fatti dalla squadra</span><span class="v" id="teamForVal">–</span></div>
+          <div class="stat-line"><span class="k">Tiri subiti dall'ospite</span><span class="v" id="teamOppVal">–</span></div>
+          <div class="stat-line"><span class="k">Media grezza</span><span class="v" id="teamRawVal">–</span></div>
+          <div class="stat-line"><span class="k">Fattore sede</span><span class="v" id="teamSedeVal">–</span></div>
+        </div>
+      </div>
+
+      <button type="button" class="play-btn" id="tPlayBtn" disabled>Gioca!</button>
+      <div class="play-hint" id="tPlayHint">Disponibile per le giocate di valore.</div>
+    </div>
+  </div>
+  </div>
+
+
+  <div id="historyView" style="display:none;">
+    <div class="panel">
+      <h2>Storico giocate</h2>
+      <p class="sub">Le giocate che salvi con il tasto Gioca!. Segna tu se sono vinte o perse: qui vedi se il sistema funziona.</p>
+      <div class="hist-stats" id="histStats"></div>
+      <div class="hist-note" id="histCalib"></div>
+      <div id="histBands"></div>
+    </div>
+    <div id="histList"></div>
+    <div class="panel">
+      <h2>Backup</h2>
+      <p class="sub">Lo storico è salvato su questo telefono. Con "Copia backup" ottieni un testo da conservare (per esempio nelle Note) e puoi rimetterlo qui con "Importa".</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button type="button" class="ghost-btn" id="bkCopy">Copia backup</button>
+        <button type="button" class="ghost-btn" id="bkShowImport">Importa</button>
+      </div>
+      <div id="bkImportBox" hidden>
+        <textarea class="bk" id="bkText" placeholder="Incolla qui il backup"></textarea>
+        <div style="margin-top:10px;"><button type="button" class="ghost-btn" id="bkImportGo">Aggiungi allo storico</button></div>
+      </div>
+      <div class="hist-note" id="bkMsg"></div>
+    </div>
+  </div>
+
+  <footer>
+    Bozza di lavoro. λ assume che il tasso di tiri del giocatore e la capacità difensiva dell'avversario si combinino in modo moltiplicativo, e che i tiri in una partita seguano approssimativamente una distribuzione di Poisson — è la stessa logica usata nei modelli di expected goals. Non tiene conto di infortuni dell'ultimo minuto, cambi tattici imprevisti o notizie di formazione: resta un'indicazione statistica, non un consiglio di scommessa.
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  // Database salvato: tiri totali (Total Shots) fatti/subiti a partita, da ValueStats (tab Attack -> Total Shots).
+  // Per aggiornare un campionato: manda il link "team-stats" di ValueStats per quel campionato.
+  const LEAGUE_DATA = {
+    "la-liga": {
+      label: "La Liga",
+      updated: "14 ott 2026",
+      teams: {
+        "FC Barcelona": {totalFor:21.6, totalAgainst:6.9, sotFor:8.3, sotAgainst:2.9},
+        "Real Madrid": {totalFor:17.9, totalAgainst:13.0, sotFor:7.1, sotAgainst:4.4},
+        "Atlético Madrid": {totalFor:17.6, totalAgainst:9.5, sotFor:6.5, sotAgainst:3.3},
+        "Alavés": {totalFor:11.9, totalAgainst:13.4, sotFor:4.3, sotAgainst:4.5},
+        "Racing Santander": {totalFor:11.5, totalAgainst:15.9, sotFor:4.9, sotAgainst:6.6},
+        "Rayo Vallecano": {totalFor:13.4, totalAgainst:16.4, sotFor:4.6, sotAgainst:5.6},
+        "Villarreal": {totalFor:15.9, totalAgainst:12.6, sotFor:6.3, sotAgainst:3.8},
+        "Deportivo A Coruña": {totalFor:11.5, totalAgainst:12.8, sotFor:4.3, sotAgainst:4.4},
+        "Espanyol": {totalFor:13.0, totalAgainst:12.5, sotFor:3.9, sotAgainst:5.0},
+        "Sevilla": {totalFor:11.9, totalAgainst:12.4, sotFor:4.3, sotAgainst:4.6},
+        "Levante": {totalFor:12.0, totalAgainst:15.6, sotFor:4.3, sotAgainst:5.7},
+        "Athletic Bilbao": {totalFor:15.7, totalAgainst:9.5, sotFor:4.7, sotAgainst:3.7},
+        "Real Betis": {totalFor:17.8, totalAgainst:15.1, sotFor:6.5, sotAgainst:5.8},
+        "Elche": {totalFor:11.5, totalAgainst:14.3, sotFor:4.6, sotAgainst:4.1},
+        "Real Sociedad": {totalFor:13.4, totalAgainst:16.5, sotFor:5.0, sotAgainst:6.3},
+        "Osasuna": {totalFor:9.5, totalAgainst:13.8, sotFor:4.0, sotAgainst:4.3},
+        "Celta de Vigo": {totalFor:9.9, totalAgainst:12.5, sotFor:3.3, sotAgainst:3.8},
+        "Getafe": {totalFor:10.8, totalAgainst:14.5, sotFor:2.5, sotAgainst:4.9},
+        "Málaga": {totalFor:10.6, totalAgainst:14.1, sotFor:2.6, sotAgainst:5.5},
+        "Valencia": {totalFor:10.5, totalAgainst:15.9, sotFor:2.6, sotAgainst:5.5}
+      }
+    },
+    "premier-league": {
+      label: "Premier League",
+      updated: "20 ott 2026 (football-data.co.uk, 6 giornate)",
+      teams: {
+        "Brighton": {totalFor:18.0, totalAgainst:11.7, sotFor:5.5, sotAgainst:3.7},
+        "Chelsea": {totalFor:13.7, totalAgainst:13.5, sotFor:5.3, sotAgainst:6.0},
+        "Manchester City": {totalFor:13.8, totalAgainst:12.0, sotFor:5.2, sotAgainst:4.3},
+        "Arsenal": {totalFor:13.0, totalAgainst:10.7, sotFor:5.0, sotAgainst:3.2},
+        "Manchester United": {totalFor:20.8, totalAgainst:10.8, sotFor:5.3, sotAgainst:4.3},
+        "Newcastle": {totalFor:11.7, totalAgainst:17.8, sotFor:4.0, sotAgainst:5.7},
+        "Leeds United": {totalFor:12.0, totalAgainst:14.3, sotFor:3.8, sotAgainst:4.5},
+        "Ipswich Town": {totalFor:11.5, totalAgainst:16.5, sotFor:4.7, sotAgainst:5.5},
+        "Brentford": {totalFor:15.8, totalAgainst:14.5, sotFor:4.5, sotAgainst:5.0},
+        "Liverpool": {totalFor:14.8, totalAgainst:12.2, sotFor:5.0, sotAgainst:3.7},
+        "Crystal Palace": {totalFor:11.0, totalAgainst:18.0, sotFor:4.2, sotAgainst:5.7},
+        "Bournemouth": {totalFor:12.8, totalAgainst:10.7, sotFor:5.0, sotAgainst:4.3},
+        "Everton": {totalFor:15.8, totalAgainst:13.0, sotFor:5.0, sotAgainst:3.8},
+        "Hull City": {totalFor:11.7, totalAgainst:14.0, sotFor:4.0, sotAgainst:4.7},
+        "Fulham": {totalFor:14.2, totalAgainst:15.7, sotFor:4.5, sotAgainst:4.8},
+        "Nottingham Forest": {totalFor:17.7, totalAgainst:10.8, sotFor:3.8, sotAgainst:3.7},
+        "Sunderland": {totalFor:13.0, totalAgainst:12.2, sotFor:4.7, sotAgainst:3.3},
+        "Aston Villa": {totalFor:11.3, totalAgainst:15.8, sotFor:3.2, sotAgainst:5.0},
+        "Tottenham": {totalFor:13.8, totalAgainst:14.7, sotFor:3.7, sotAgainst:4.2},
+        "Coventry City": {totalFor:10.0, totalAgainst:17.7, sotFor:3.7, sotAgainst:4.7}
+      }
+    },
+    "bundesliga": {
+      label: "Bundesliga",
+      updated: "14 ott 2026",
+      teams: {
+        "SC Freiburg": {totalFor:17.2, totalAgainst:8.6, sotFor:6.0, sotAgainst:2.0},
+        "FC Augsburg": {totalFor:13.6, totalAgainst:22.4, sotFor:6.8, sotAgainst:7.8},
+        "RB Leipzig": {totalFor:19.0, totalAgainst:14.6, sotFor:7.0, sotAgainst:6.0},
+        "Dortmund": {totalFor:15.8, totalAgainst:11.8, sotFor:6.0, sotAgainst:3.6},
+        "Bayer 04 Leverkusen": {totalFor:21.2, totalAgainst:11.8, sotFor:6.4, sotAgainst:3.8},
+        "Elversberg": {totalFor:9.6, totalAgainst:21.2, sotFor:4.0, sotAgainst:4.8},
+        "Eintracht Frankfurt": {totalFor:14.6, totalAgainst:19.2, sotFor:5.6, sotAgainst:7.8},
+        "Bayern Munich": {totalFor:23.2, totalAgainst:7.0, sotFor:9.0, sotAgainst:2.6},
+        "FSV Mainz 05": {totalFor:19.2, totalAgainst:13.2, sotFor:6.0, sotAgainst:4.0},
+        "TSG Hoffenheim": {totalFor:18.6, totalAgainst:14.6, sotFor:4.8, sotAgainst:4.8},
+        "Stuttgart": {totalFor:15.8, totalAgainst:18.8, sotFor:6.0, sotAgainst:5.4},
+        "Werder Bremen": {totalFor:13.2, totalAgainst:16.2, sotFor:6.0, sotAgainst:5.8},
+        "Köln": {totalFor:17.4, totalAgainst:15.8, sotFor:5.4, sotAgainst:6.2},
+        "FC Union Berlin": {totalFor:13.4, totalAgainst:16.4, sotFor:5.4, sotAgainst:8.0},
+        "Schalke 04": {totalFor:10.4, totalAgainst:16.2, sotFor:3.6, sotAgainst:6.2},
+        "Borussia Mönchengladbach": {totalFor:16.4, totalAgainst:18.8, sotFor:4.8, sotAgainst:9.0},
+        "Paderborn": {totalFor:14.0, totalAgainst:18.4, sotFor:2.6, sotAgainst:5.4},
+        "Hamburg": {totalFor:10.6, totalAgainst:18.2, sotFor:3.8, sotAgainst:6.0}
+      }
+    },
+    "serie-a": {
+      label: "Serie A",
+      updated: "20 ott 2026 (football-data.co.uk, 6 giornate)",
+      teams: {
+        "Inter": {totalFor:22.5, totalAgainst:11.0, sotFor:7.2, sotAgainst:3.5},
+        "Roma": {totalFor:18.7, totalAgainst:10.8, sotFor:6.2, sotAgainst:3.5},
+        "Como": {totalFor:22.7, totalAgainst:14.0, sotFor:6.7, sotAgainst:3.2},
+        "Udinese": {totalFor:14.3, totalAgainst:16.3, sotFor:4.2, sotAgainst:5.8},
+        "Sassuolo": {totalFor:16.0, totalAgainst:15.0, sotFor:6.5, sotAgainst:6.0},
+        "AC Milan": {totalFor:12.5, totalAgainst:9.2, sotFor:4.5, sotAgainst:3.5},
+        "Frosinone": {totalFor:16.8, totalAgainst:20.5, sotFor:4.8, sotAgainst:5.7},
+        "Lazio": {totalFor:13.5, totalAgainst:13.2, sotFor:4.3, sotAgainst:5.2},
+        "Napoli": {totalFor:14.7, totalAgainst:16.7, sotFor:4.8, sotAgainst:3.8},
+        "Juventus": {totalFor:18.3, totalAgainst:7.2, sotFor:6.5, sotAgainst:2.7},
+        "Monza": {totalFor:14.3, totalAgainst:12.7, sotFor:6.0, sotAgainst:5.2},
+        "Fiorentina": {totalFor:16.2, totalAgainst:11.5, sotFor:5.2, sotAgainst:5.0},
+        "Atalanta": {totalFor:13.5, totalAgainst:19.2, sotFor:4.7, sotAgainst:5.8},
+        "Lecce": {totalFor:10.2, totalAgainst:15.3, sotFor:3.7, sotAgainst:7.3},
+        "Venezia": {totalFor:14.8, totalAgainst:15.7, sotFor:4.3, sotAgainst:6.8},
+        "Cagliari": {totalFor:9.7, totalAgainst:20.7, sotFor:3.8, sotAgainst:5.2},
+        "Torino": {totalFor:9.8, totalAgainst:15.3, sotFor:3.2, sotAgainst:4.0},
+        "Genoa": {totalFor:11.5, totalAgainst:15.3, sotFor:3.2, sotAgainst:4.3},
+        "Parma": {totalFor:8.3, totalAgainst:18.5, sotFor:2.7, sotAgainst:5.7},
+        "Bologna": {totalFor:12.7, totalAgainst:13.0, sotFor:3.5, sotAgainst:3.7}
+      }
+    },
+    "ligue-1": {
+      label: "Ligue 1",
+      updated: "20 ott 2026 (football-data.co.uk, 6 giornate)",
+      teams: {
+        "Le Mans": {totalFor:10.5, totalAgainst:17.2, sotFor:4.7, sotAgainst:5.5},
+        "Strasbourg": {totalFor:11.5, totalAgainst:16.3, sotFor:4.5, sotAgainst:6.2},
+        "Lille": {totalFor:11.5, totalAgainst:16.2, sotFor:5.5, sotAgainst:3.8},
+        "Angers SCO": {totalFor:14.0, totalAgainst:16.8, sotFor:3.0, sotAgainst:6.3},
+        "Rennes": {totalFor:17.0, totalAgainst:15.0, sotFor:6.2, sotAgainst:5.3},
+        "Monaco": {totalFor:11.2, totalAgainst:14.0, sotFor:4.5, sotAgainst:4.3},
+        "Auxerre": {totalFor:12.0, totalAgainst:14.8, sotFor:5.0, sotAgainst:6.3},
+        "Toulouse": {totalFor:13.7, totalAgainst:15.2, sotFor:4.5, sotAgainst:5.0},
+        "Le Havre": {totalFor:15.8, totalAgainst:13.0, sotFor:4.5, sotAgainst:4.7},
+        "Troyes": {totalFor:14.8, totalAgainst:12.3, sotFor:2.8, sotAgainst:5.0},
+        "Lorient": {totalFor:10.0, totalAgainst:13.8, sotFor:3.5, sotAgainst:3.8},
+        "Marseille": {totalFor:11.8, totalAgainst:16.7, sotFor:4.3, sotAgainst:5.7},
+        "Lens": {totalFor:14.8, totalAgainst:11.5, sotFor:6.5, sotAgainst:5.0},
+        "Brest": {totalFor:19.0, totalAgainst:11.2, sotFor:6.3, sotAgainst:4.2},
+        "Nice": {totalFor:11.7, totalAgainst:12.7, sotFor:3.5, sotAgainst:4.5},
+        "Lyon": {totalFor:13.5, totalAgainst:11.8, sotFor:5.0, sotAgainst:4.0},
+        "Paris FC": {totalFor:13.8, totalAgainst:9.3, sotFor:4.3, sotAgainst:3.0},
+        "PSG": {totalFor:21.3, totalAgainst:10.2, sotFor:7.3, sotAgainst:3.3}
+      }
+    },
+    "eredivisie": {
+      label: "Eredivisie (Olanda)",
+      updated: "19 ott 2026",
+      strength: 0.85,
+      size: 18,
+      avg: {totalFor:15.006, totalAgainst:15.067, sotFor:5.256, sotAgainst:5.283},
+      ranks: {
+        totalFor: {"AZ Alkmaar":5, "Feyenoord":2, "NEC Nijmegen":7, "PSV Eindhoven":4},
+        totalAgainst: {"AZ Alkmaar":18, "Feyenoord":14, "NEC Nijmegen":13, "PSV Eindhoven":16},
+        sotFor: {"AZ Alkmaar":5, "Feyenoord":1, "NEC Nijmegen":13, "PSV Eindhoven":3},
+        sotAgainst: {"AZ Alkmaar":18, "Feyenoord":17, "NEC Nijmegen":13, "PSV Eindhoven":12}
+      },
+      teams: {
+        "AZ Alkmaar": {totalFor:17.3, totalAgainst:9.2, sotFor:6.6, sotAgainst:2.9},
+        "Feyenoord": {totalFor:21.4, totalAgainst:11.2, sotFor:8.3, sotAgainst:3.4},
+        "NEC Nijmegen": {totalFor:15.3, totalAgainst:11.6, sotFor:4.2, sotAgainst:4.2},
+        "PSV Eindhoven": {totalFor:19.7, totalAgainst:11.0, sotFor:7.2, sotAgainst:4.4}
+      }
+    },
+    "super-lig": {
+      label: "Süper Lig (Turchia)",
+      updated: "19 ott 2026",
+      strength: 0.85,
+      size: 18,
+      avg: {totalFor:14.050, totalAgainst:13.972, sotFor:4.683, sotAgainst:4.644},
+      ranks: {
+        totalFor: {"Beşiktaş":3, "Fenerbahçe":2, "Galatasaray":1},
+        totalAgainst: {"Beşiktaş":18, "Fenerbahçe":13, "Galatasaray":16},
+        sotFor: {"Beşiktaş":4, "Fenerbahçe":2, "Galatasaray":1},
+        sotAgainst: {"Beşiktaş":18, "Fenerbahçe":12, "Galatasaray":17}
+      },
+      teams: {
+        "Beşiktaş": {totalFor:17.6, totalAgainst:8.9, sotFor:6.3, sotAgainst:3.3},
+        "Fenerbahçe": {totalFor:18.4, totalAgainst:13.4, sotFor:7.3, sotAgainst:4.1},
+        "Galatasaray": {totalFor:22.4, totalAgainst:11.0, sotFor:7.6, sotAgainst:3.5}
+      }
+    },
+    "liga-portugal": {
+      label: "Liga Portugal",
+      updated: "20 ott 2026 (football-data.co.uk, 8 giornate)",
+      strength: 0.85,
+      size: 18,
+      avg: {totalFor:12.276, totalAgainst:12.221, sotFor:4.076, sotAgainst:4.054},
+      ranks: {
+        totalFor: {"Benfica":1, "FC Porto":3, "Sporting CP":7},
+        totalAgainst: {"Benfica":18, "FC Porto":12, "Sporting CP":14},
+        sotFor: {"Benfica":1, "FC Porto":2, "Sporting CP":3},
+        sotAgainst: {"Benfica":18, "FC Porto":14, "Sporting CP":13}
+      },
+      teams: {
+        "Benfica": {totalFor:19.6, totalAgainst:7.6, sotFor:6.9, sotAgainst:2.1},
+        "FC Porto": {totalFor:16.4, totalAgainst:10.2, sotFor:6.6, sotAgainst:2.8},
+        "Sporting CP": {totalFor:12.9, totalAgainst:9.4, sotFor:5.5, sotAgainst:2.9}
+      }
+    },
+    "champions-league": {
+      label: "Champions League",
+      cup: true,
+      updated: "18 ott 2026 (dopo la 2ª giornata, 2 partite a squadra)",
+      teams: {
+        "AEK Athens": {totalFor:14.5, totalAgainst:11.5, sotFor:3.0, sotAgainst:3.5},
+        "Arsenal": {totalFor:21.0, totalAgainst:4.5, sotFor:7.5, sotAgainst:1.5},
+        "Aston Villa": {totalFor:20.5, totalAgainst:14.5, sotFor:10.0, sotAgainst:6.0},
+        "Atlético Madrid": {totalFor:10.0, totalAgainst:11.5, sotFor:4.5, sotAgainst:4.0},
+        "Bayern Munich": {totalFor:25.5, totalAgainst:5.5, sotFor:10.0, sotAgainst:2.5},
+        "Bodø/Glimt": {totalFor:6.5, totalAgainst:17.0, sotFor:1.5, sotAgainst:8.0},
+        "Club Brugge": {totalFor:16.0, totalAgainst:25.5, sotFor:7.5, sotAgainst:10.5},
+        "Como": {totalFor:11.5, totalAgainst:13.5, sotFor:5.5, sotAgainst:4.5},
+        "Dortmund": {totalFor:13.5, totalAgainst:12.0, sotFor:5.0, sotAgainst:5.0},
+        "FC Barcelona": {totalFor:22.0, totalAgainst:4.5, sotFor:9.5, sotAgainst:3.0},
+        "FC Porto": {totalFor:8.0, totalAgainst:18.5, sotFor:2.5, sotAgainst:8.5},
+        "Fenerbahçe": {totalFor:13.0, totalAgainst:14.0, sotFor:5.5, sotAgainst:7.0},
+        "Feyenoord": {totalFor:8.5, totalAgainst:17.5, sotFor:3.5, sotAgainst:7.0},
+        "Galatasaray": {totalFor:7.5, totalAgainst:15.0, sotFor:3.5, sotAgainst:7.5},
+        "Inter": {totalFor:24.5, totalAgainst:17.0, sotFor:9.5, sotAgainst:8.0},
+        "LASK": {totalFor:11.5, totalAgainst:22.0, sotFor:3.5, sotAgainst:5.5},
+        "Lens": {totalFor:23.5, totalAgainst:14.0, sotFor:6.5, sotAgainst:5.0},
+        "Lille": {totalFor:5.0, totalAgainst:18.0, sotFor:1.0, sotAgainst:6.0},
+        "Liverpool": {totalFor:20.0, totalAgainst:10.5, sotFor:6.5, sotAgainst:4.0},
+        "Manchester City": {totalFor:22.5, totalAgainst:10.0, sotFor:9.0, sotAgainst:4.5},
+        "Manchester United": {totalFor:14.5, totalAgainst:11.0, sotFor:6.5, sotAgainst:2.5},
+        "Napoli": {totalFor:8.0, totalAgainst:21.0, sotFor:3.0, sotAgainst:5.5},
+        "PSG": {totalFor:25.0, totalAgainst:18.0, sotFor:11.5, sotAgainst:6.0},
+        "PSV Eindhoven": {totalFor:10.0, totalAgainst:13.5, sotFor:3.5, sotAgainst:5.0},
+        "RB Leipzig": {totalFor:16.0, totalAgainst:12.5, sotFor:6.0, sotAgainst:5.5},
+        "Real Betis": {totalFor:18.5, totalAgainst:8.5, sotFor:6.0, sotAgainst:3.5},
+        "Real Madrid": {totalFor:16.0, totalAgainst:17.5, sotFor:8.0, sotAgainst:7.0},
+        "Roma": {totalFor:11.0, totalAgainst:13.5, sotFor:5.0, sotAgainst:7.0},
+        "Sabah FK": {totalFor:12.0, totalAgainst:19.5, sotFor:3.0, sotAgainst:7.5},
+        "Shakhtar Donetsk": {totalFor:9.0, totalAgainst:11.5, sotFor:3.0, sotAgainst:2.5},
+        "Slavia Prague": {totalFor:17.0, totalAgainst:19.5, sotFor:5.0, sotAgainst:7.0},
+        "Slovan Bratislava": {totalFor:12.0, totalAgainst:25.5, sotFor:2.5, sotAgainst:11.0},
+        "Sporting CP": {totalFor:9.0, totalAgainst:15.5, sotFor:5.0, sotAgainst:4.0},
+        "Stuttgart": {totalFor:16.5, totalAgainst:12.0, sotFor:5.5, sotAgainst:2.0},
+        "Viking": {totalFor:9.0, totalAgainst:21.0, sotFor:4.0, sotAgainst:5.5},
+        "Villarreal": {totalFor:15.0, totalAgainst:14.5, sotFor:5.0, sotAgainst:4.5}
+      }
+    },
+    "europa-league": {
+      label: "Europa League",
+      cup: true,
+      updated: "18 ott 2026 (dopo la 2ª giornata, 2 partite a squadra)",
+      teams: {
+        "AC Milan": {totalFor:16.0, totalAgainst:12.5, sotFor:7.0, sotAgainst:3.0},
+        "Anderlecht": {totalFor:12.0, totalAgainst:13.0, sotFor:5.5, sotAgainst:6.5},
+        "Ararat-Armenia": {totalFor:14.0, totalAgainst:18.0, sotFor:3.0, sotAgainst:6.5},
+        "AZ Alkmaar": {totalFor:13.0, totalAgainst:13.0, sotFor:4.5, sotAgainst:4.5},
+        "Bayer 04 Leverkusen": {totalFor:19.5, totalAgainst:7.5, sotFor:9.0, sotAgainst:3.0},
+        "Benfica": {totalFor:18.5, totalAgainst:15.5, sotFor:5.5, sotAgainst:5.5},
+        "Beşiktaş": {totalFor:18.5, totalAgainst:13.5, sotFor:6.0, sotAgainst:3.0},
+        "Bournemouth": {totalFor:17.0, totalAgainst:11.0, sotFor:5.0, sotAgainst:3.0},
+        "Celje": {totalFor:8.5, totalAgainst:15.5, sotFor:2.5, sotAgainst:7.0},
+        "Celta de Vigo": {totalFor:14.0, totalAgainst:16.0, sotFor:3.5, sotAgainst:5.0},
+        "Celtic": {totalFor:15.0, totalAgainst:20.0, sotFor:5.5, sotAgainst:6.5},
+        "Crystal Palace": {totalFor:14.0, totalAgainst:14.0, sotFor:5.0, sotAgainst:5.0},
+        "Dinamo Zagreb": {totalFor:10.0, totalAgainst:12.5, sotFor:2.0, sotAgainst:4.0},
+        "Ferencváros": {totalFor:13.0, totalAgainst:17.0, sotFor:6.0, sotAgainst:5.5},
+        "Hapoel Beer-Sheva": {totalFor:10.5, totalAgainst:11.0, sotFor:3.0, sotAgainst:4.0},
+        "Jagiellonia": {totalFor:8.5, totalAgainst:20.5, sotFor:4.0, sotAgainst:5.0},
+        "Juventus": {totalFor:16.5, totalAgainst:10.0, sotFor:6.5, sotAgainst:2.5},
+        "Lech Poznań": {totalFor:13.5, totalAgainst:19.0, sotFor:4.5, sotAgainst:8.0},
+        "Levski Sofia": {totalFor:11.0, totalAgainst:15.0, sotFor:1.0, sotAgainst:8.0},
+        "Lillestrøm": {totalFor:15.5, totalAgainst:13.0, sotFor:4.0, sotAgainst:5.5},
+        "Lyon": {totalFor:12.0, totalAgainst:13.0, sotFor:7.0, sotAgainst:4.5},
+        "Marseille": {totalFor:12.5, totalAgainst:13.5, sotFor:4.0, sotAgainst:5.5},
+        "NEC Nijmegen": {totalFor:14.5, totalAgainst:9.5, sotFor:6.0, sotAgainst:4.5},
+        "OFI Crete": {totalFor:5.5, totalAgainst:23.0, sotFor:2.0, sotAgainst:7.0},
+        "Olympiacos": {totalFor:17.5, totalAgainst:7.5, sotFor:5.0, sotAgainst:4.0},
+        "Omonia": {totalFor:12.0, totalAgainst:15.5, sotFor:5.0, sotAgainst:3.5},
+        "Real Sociedad": {totalFor:11.0, totalAgainst:13.5, sotFor:3.0, sotAgainst:4.0},
+        "Rennes": {totalFor:24.0, totalAgainst:6.5, sotFor:7.0, sotAgainst:2.5},
+        "Salzburg": {totalFor:13.0, totalAgainst:14.5, sotFor:4.5, sotAgainst:5.0},
+        "Sparta Praha": {totalFor:19.0, totalAgainst:9.5, sotFor:8.0, sotAgainst:2.0},
+        "Sturm Graz": {totalFor:8.5, totalAgainst:23.0, sotFor:2.5, sotAgainst:6.0},
+        "Sunderland": {totalFor:21.0, totalAgainst:7.0, sotFor:5.0, sotAgainst:1.5},
+        "Torreense": {totalFor:7.0, totalAgainst:23.5, sotFor:2.0, sotAgainst:5.5},
+        "TSG Hoffenheim": {totalFor:17.0, totalAgainst:14.0, sotFor:4.0, sotAgainst:4.0},
+        "Union SG": {totalFor:19.0, totalAgainst:10.0, sotFor:9.0, sotAgainst:3.0},
+        "Viktoria Plzeň": {totalFor:16.0, totalAgainst:17.0, sotFor:6.0, sotAgainst:9.5}
+      }
+    },
+    "nazionali": {
+      label: "Nazionali",
+      updated: "media Nations League + Qualificazioni Mondiali, 23 set 2026",
+      teams: {
+        "Sweden": {totalFor:17.4, totalAgainst:9.6, sotFor:6.7, sotAgainst:4.3},
+        "Spain": {totalFor:20.6, totalAgainst:8.8, sotFor:8.5, sotAgainst:2.9},
+        "Austria": {totalFor:15.9, totalAgainst:8.7, sotFor:6.4, sotAgainst:2.1},
+        "France": {totalFor:19.9, totalAgainst:7.1, sotFor:7.1, sotAgainst:2.7},
+        "Türkiye": {totalFor:15.6, totalAgainst:11.4, sotFor:5.1, sotAgainst:3.9},
+        "Germany": {totalFor:16.9, totalAgainst:8.4, sotFor:6.2, sotAgainst:3.1},
+        "Romania": {totalFor:14.8, totalAgainst:9.6, sotFor:6.0, sotAgainst:3.5},
+        "Norway": {totalFor:17.7, totalAgainst:8.4, sotFor:6.9, sotAgainst:2.9},
+        "England": {totalFor:17.5, totalAgainst:5.8, sotFor:7.1, sotAgainst:1.5},
+        "Slovakia": {totalFor:13.2, totalAgainst:11.5, sotFor:4.4, sotAgainst:4.4},
+        "Portugal": {totalFor:20.2, totalAgainst:10.3, sotFor:6.9, sotAgainst:3.9},
+        "Armenia": {totalFor:11.2, totalAgainst:13.4, sotFor:3.9, sotAgainst:5.5},
+        "Netherlands": {totalFor:16.1, totalAgainst:9.5, sotFor:6.0, sotAgainst:3.4},
+        "Belgium": {totalFor:18.4, totalAgainst:9.0, sotFor:6.6, sotAgainst:3.4},
+        "Greece": {totalFor:15.1, totalAgainst:9.7, sotFor:5.1, sotAgainst:3.7},
+        "Kosovo": {totalFor:11.9, totalAgainst:11.1, sotFor:4.5, sotAgainst:4.2},
+        "Georgia": {totalFor:12.5, totalAgainst:9.9, sotFor:3.9, sotAgainst:3.9},
+        "Croatia": {totalFor:17.8, totalAgainst:10.5, sotFor:6.8, sotAgainst:3.6},
+        "Czech Republic": {totalFor:14.8, totalAgainst:10.8, sotFor:5.6, sotAgainst:3.8},
+        "Switzerland": {totalFor:12.1, totalAgainst:9.2, sotFor:4.6, sotAgainst:3.9},
+        "North Macedonia": {totalFor:11.7, totalAgainst:12.8, sotFor:4.3, sotAgainst:3.8},
+        "Poland": {totalFor:15.0, totalAgainst:13.1, sotFor:5.3, sotAgainst:4.8},
+        "Ukraine": {totalFor:11.8, totalAgainst:12.7, sotFor:4.3, sotAgainst:4.5},
+        "Montenegro": {totalFor:13.7, totalAgainst:14.8, sotFor:4.3, sotAgainst:5.6},
+        "Hungary": {totalFor:12.4, totalAgainst:13.8, sotFor:4.2, sotAgainst:5.1},
+        "Moldova": {totalFor:10.9, totalAgainst:15.5, sotFor:3.3, sotAgainst:5.6},
+        "Denmark": {totalFor:16.0, totalAgainst:10.9, sotFor:6.0, sotAgainst:3.4},
+        "San Marino": {totalFor:8.0, totalAgainst:15.6, sotFor:2.3, sotAgainst:6.2},
+        "Italy": {totalFor:15.8, totalAgainst:10.5, sotFor:5.9, sotAgainst:4.0},
+        "Northern Ireland": {totalFor:10.2, totalAgainst:9.1, sotFor:3.8, sotAgainst:2.6},
+        "Iceland": {totalFor:10.7, totalAgainst:14.3, sotFor:4.2, sotAgainst:6.3},
+        "Wales": {totalFor:13.3, totalAgainst:12.3, sotFor:5.5, sotAgainst:2.9},
+        "Azerbaijan": {totalFor:7.4, totalAgainst:18.4, sotFor:2.6, sotAgainst:6.5},
+        "Cyprus": {totalFor:12.4, totalAgainst:12.9, sotFor:4.2, sotAgainst:5.3},
+        "Slovenia": {totalFor:9.7, totalAgainst:12.4, sotFor:3.0, sotAgainst:4.3},
+        "Latvia": {totalFor:8.7, totalAgainst:14.2, sotFor:2.5, sotAgainst:4.4},
+        "Lithuania": {totalFor:9.2, totalAgainst:12.7, sotFor:3.2, sotAgainst:4.7},
+        "Republic of Ireland": {totalFor:10.8, totalAgainst:14.7, sotFor:3.8, sotAgainst:5.1},
+        "Luxembourg": {totalFor:8.6, totalAgainst:12.3, sotFor:2.5, sotAgainst:4.6},
+        "Serbia": {totalFor:11.8, totalAgainst:13.5, sotFor:3.5, sotAgainst:4.8},
+        "Albania": {totalFor:9.4, totalAgainst:12.1, sotFor:2.8, sotAgainst:3.7},
+        "Malta": {totalFor:9.3, totalAgainst:14.2, sotFor:3.1, sotAgainst:4.9},
+        "Faroe Islands": {totalFor:9.1, totalAgainst:15.8, sotFor:3.4, sotAgainst:4.6},
+        "Scotland": {totalFor:10.1, totalAgainst:16.4, sotFor:4.0, sotAgainst:4.3},
+        "Bulgaria": {totalFor:6.5, totalAgainst:15.7, sotFor:2.5, sotAgainst:5.3},
+        "Belarus": {totalFor:9.0, totalAgainst:16.7, sotFor:2.9, sotAgainst:6.8},
+        "Finland": {totalFor:9.1, totalAgainst:14.7, sotFor:3.2, sotAgainst:5.8},
+        "Liechtenstein": {totalFor:5.1, totalAgainst:15.9, sotFor:1.5, sotAgainst:6.1},
+        "Andorra": {totalFor:5.8, totalAgainst:11.9, sotFor:1.7, sotAgainst:4.3},
+        "Bosnia": {totalFor:11.9, totalAgainst:14.4, sotFor:3.9, sotAgainst:4.6},
+        "Gibraltar": {totalFor:5.4, totalAgainst:17.0, sotFor:1.6, sotAgainst:6.3},
+        "Kazakhstan": {totalFor:9.8, totalAgainst:17.3, sotFor:2.6, sotAgainst:6.5},
+        "Estonia": {totalFor:6.7, totalAgainst:22.2, sotFor:2.4, sotAgainst:7.7},
+        "Israel": {totalFor:10.4, totalAgainst:15.2, sotFor:4.3, sotAgainst:5.8}
+      }
+    }
+  };
+
+  function leagueSize(leagueKey){ const L = LEAGUE_DATA[leagueKey]; return L.size || Object.keys(L.teams).length; }
+  function leagueStrength(leagueKey){ const L = LEAGUE_DATA[leagueKey]; return (L && L.strength) ? L.strength : 1; }
+  function leagueAverage(leagueKey, field){
+    if(LEAGUE_DATA[leagueKey].avg) return LEAGUE_DATA[leagueKey].avg[field];
+    const teams = LEAGUE_DATA[leagueKey].teams;
+    const vals = Object.values(teams).map(t=>t[field]);
+    if(vals.length===0) return null;
+    return vals.reduce((a,b)=>a+b,0)/vals.length;
+  }
+
+  // Competition ranking: stessa cifra = stessa posizione, la successiva salta di conseguenza.
+  function computeRanks(leagueKey, field){
+    if(LEAGUE_DATA[leagueKey].ranks) return LEAGUE_DATA[leagueKey].ranks[field];
+    const teams = LEAGUE_DATA[leagueKey].teams;
+    const entries = Object.entries(teams).map(([name,t])=>({name, val:t[field]}));
+    entries.sort((a,b)=>b.val-a.val);
+    const ranks = {};
+    let rank = 0, prevVal = null, count = 0;
+    entries.forEach(e=>{
+      count++;
+      if(e.val !== prevVal){ rank = count; prevVal = e.val; }
+      ranks[e.name] = rank;
+    });
+    return ranks;
+  }
+
+  // --- Coppe europee: media tra campionato di provenienza e coppa ---
+  function isCup(key){ return !!(key && LEAGUE_DATA[key] && LEAGUE_DATA[key].cup); }
+  function domesticLeagueOf(teamName){
+    for(const k of Object.keys(LEAGUE_DATA)){
+      if(k==='nazionali' || isCup(k)) continue;
+      if(LEAGUE_DATA[k].teams[teamName]) return k;
+    }
+    return null;
+  }
+  function r2(x){ return Math.round(x*100)/100; }
+  function fmtN(x){
+    let t = r2(x).toFixed(2).replace(/(\.\d)0$/,'$1');
+    return t.replace('.',',');
+  }
+  // Se la lega è una coppa: valore di coppa + valore del campionato della squadra (se presente nel database) e la loro media.
+  function blendInfo(leagueKey, teamName, field){
+    const L = LEAGUE_DATA[leagueKey];
+    if(!L || !L.teams[teamName]) return null;
+    const t = L.teams[teamName];
+    const avg = leagueAverage(leagueKey, field);
+    if(!L.cup) return {cup:false, combined:t[field], refAvg:avg};
+    const dk = domesticLeagueOf(teamName);
+    if(!dk) return {cup:true, domKey:null, cupVal:t[field], cupAvg:avg, combined:t[field], refAvg:avg};
+    const domVal = LEAGUE_DATA[dk].teams[teamName][field];
+    const domAvg = leagueAverage(dk, field);
+    // Campionato meno prestigioso: la media di campionato viene "peggiorata" (peso ×0,85 sullo scarto dalla media del campionato)
+    // anche quando la squadra è scelta tramite la coppa europea. La media di coppa resta quella vera.
+    const domStr = leagueStrength(dk);
+    const domAdj = adjustForStrength(domVal, domAvg, domStr);
+    return {cup:true, domKey:dk, domVal, domAdj, domStr, domAvg, cupVal:t[field], cupAvg:avg,
+            combined:(domAdj+t[field])/2, refAvg:(domAvg+avg)/2};
+  }
+  function renderBreakdown(el, leagueKey, teamName, items){
+    const L = LEAGUE_DATA[leagueKey];
+    let html = '';
+    const line = (k,v,hi)=>`<div class="stat-line"><span class="k">${k}</span><span class="v${hi?' hi':''}">${v}</span></div>`;
+    items.forEach(it=>{
+      const b = blendInfo(leagueKey, teamName, it.field);
+      if(!b || !b.cup) return;
+      html += `<div class="bk-title">${it.title}</div>`;
+      if(b.domKey){
+        if(b.domStr<1){
+          html += line(`${LEAGUE_DATA[b.domKey].label} — media campionato (reale)`, fmtN(b.domVal));
+          html += line(`${LEAGUE_DATA[b.domKey].label} — media campionato (peso ×${String(b.domStr).replace('.',',')})`, fmtN(b.domAdj));
+        } else {
+          html += line(`${LEAGUE_DATA[b.domKey].label} — media campionato`, fmtN(b.domVal));
+        }
+        html += line(`${L.label} — media coppa (reale)`, fmtN(b.cupVal));
+        html += line('Media delle due competizioni', fmtN(b.combined), true);
+      } else {
+        html += line('Campionato — squadra non presente nel database', '–');
+        html += line(`${L.label} — media coppa`, fmtN(b.cupVal));
+        html += line('Valore usato (solo coppa)', fmtN(b.combined), true);
+      }
+    });
+    el.innerHTML = html;
+    el.style.display = html ? '' : 'none';
+  }
+  // Campionati meno prestigiosi: la media della squadra vale un po' meno nel calcolo (solo nel campionato, non in coppa).
+  function adjustForStrength(v, avg, s){ return (s<1 && avg>0) ? avg + (v-avg)*s : v; }
+  function renderStrengthNote(el, leagueKey, teamName, items){
+    const s = leagueStrength(leagueKey);
+    const L = LEAGUE_DATA[leagueKey];
+    if(!L || !L.teams[teamName] || s>=1){ el.style.display='none'; el.innerHTML=''; return; }
+    const line = (k,v,hi)=>`<div class="stat-line"><span class="k">${k}</span><span class="v${hi?' hi':''}">${v}</span></div>`;
+    let html = `<div class="bk-title">Campionato meno prestigioso — peso ridotto (×${String(s).replace('.',',')} sullo scarto dalla media)</div>`;
+    items.forEach(it=>{
+      const raw = L.teams[teamName][it.field], avg = leagueAverage(leagueKey, it.field);
+      html += line(`${it.title} — valore reale`, fmtN(raw));
+      html += line(`${it.title} — valore usato nel calcolo`, fmtN(adjustForStrength(raw, avg, s)), true);
+    });
+    el.innerHTML = html; el.style.display = '';
+  }
+  const OPP_ITEMS = [{title:'Tiri totali subiti', field:'totalAgainst'},{title:'Tiri in porta subiti', field:'sotAgainst'}];
+  const FOR_ITEMS = [{title:'Tiri totali fatti', field:'totalFor'},{title:'Tiri in porta fatti', field:'sotFor'}];
+
+  const oppLeagueSel = document.getElementById('oppLeague');
+  const oppTeamSel = document.getElementById('oppTeam');
+  const datasetInfo = document.getElementById('datasetInfo');
+  const oppConcededInput = document.getElementById('oppConceded');
+  const oppConcededSOTInput = document.getElementById('oppConcededSOT');
+  const oppRankInfo = document.getElementById('oppRankInfo');
+  const oppRankInfoSOT = document.getElementById('oppRankInfoSOT');
+
+  function updateOppRankDisplay(){
+    const leagueKey = oppLeagueSel.value;
+    const teamName = oppTeamSel.value;
+    if(!leagueKey || !teamName || !LEAGUE_DATA[leagueKey].teams[teamName] || isCup(leagueKey)){
+      oppRankInfo.textContent = '';
+      oppRankInfoSOT.textContent = '';
+      return;
+    }
+    const team = LEAGUE_DATA[leagueKey].teams[teamName];
+    const total = leagueSize(leagueKey);
+
+    // Se un valore è stato modificato a mano rispetto al dato salvato, quella posizione non è più affidabile.
+    const currentTotal = parseFloat(oppConcededInput.value);
+    if(!isNaN(currentTotal) && Math.abs(currentTotal - team.totalAgainst) <= 0.05){
+      const ranksTotal = computeRanks(leagueKey, 'totalAgainst');
+      oppRankInfo.textContent = `${ranksTotal[teamName]}° su ${total} per tiri totali concessi in ${LEAGUE_DATA[leagueKey].label}`;
+    } else {
+      oppRankInfo.textContent = '';
+    }
+
+    const currentSOT = parseFloat(oppConcededSOTInput.value);
+    if(!isNaN(currentSOT) && Math.abs(currentSOT - team.sotAgainst) <= 0.05){
+      const ranksSOT = computeRanks(leagueKey, 'sotAgainst');
+      oppRankInfoSOT.textContent = `${ranksSOT[teamName]}° su ${total} per tiri in porta concessi in ${LEAGUE_DATA[leagueKey].label}`;
+    } else {
+      oppRankInfoSOT.textContent = '';
+    }
+  }
+
+  oppLeagueSel.addEventListener('change', ()=>{
+    const key = oppLeagueSel.value;
+    oppTeamSel.innerHTML = '';
+    oppRankInfo.textContent = '';
+    oppRankInfoSOT.textContent = '';
+    if(!key){
+      oppTeamSel.innerHTML = '<option value="">— prima scegli il campionato —</option>';
+      datasetInfo.textContent = '';
+      return;
+    }
+    const data = LEAGUE_DATA[key];
+    const teamNames = Object.keys(data.teams).sort((a,b)=>a.localeCompare(b));
+    if(teamNames.length===0){
+      oppTeamSel.innerHTML = '<option value="">— dati non ancora caricati —</option>';
+      datasetInfo.textContent = `Non ho ancora il database per ${data.label}. Mandami il link ValueStats "team-stats" di questo campionato e lo aggiungo.`;
+      return;
+    }
+    oppTeamSel.innerHTML = '<option value="">— seleziona —</option>' +
+      teamNames.map(n=>`<option value="${n}">${n}</option>`).join('');
+    datasetInfo.textContent = `Dati Total Shots e Shots on Target di ${data.label} aggiornati al ${data.updated}.`;
+  });
+
+  oppTeamSel.addEventListener('change', ()=>{
+    const leagueKey = oppLeagueSel.value;
+    const teamName = oppTeamSel.value;
+    if(!leagueKey || !teamName){ oppRankInfo.textContent=''; oppRankInfoSOT.textContent=''; return; }
+    const oppBreakdownEl = document.getElementById('oppBreakdown');
+    if(isCup(leagueKey)){
+      const bt = blendInfo(leagueKey, teamName, 'totalAgainst');
+      const bs = blendInfo(leagueKey, teamName, 'sotAgainst');
+      oppConcededInput.value = r2(bt.combined);
+      oppConcededSOTInput.value = r2(bs.combined);
+      document.getElementById('leagueAvg').value = bt.refAvg.toFixed(2);
+      document.getElementById('leagueAvgSOT').value = bs.refAvg.toFixed(2);
+      renderBreakdown(oppBreakdownEl, leagueKey, teamName, OPP_ITEMS);
+      document.getElementById('oppStrength').value = 1;
+      updateOppRankDisplay();
+      compute();
+      return;
+    }
+    document.getElementById('oppStrength').value = leagueStrength(leagueKey);
+    renderStrengthNote(oppBreakdownEl, leagueKey, teamName, OPP_ITEMS);
+    const team = LEAGUE_DATA[leagueKey].teams[teamName];
+    oppConcededInput.value = team.totalAgainst;
+    oppConcededSOTInput.value = team.sotAgainst;
+    document.getElementById('leagueAvg').value = leagueAverage(leagueKey, 'totalAgainst').toFixed(2);
+    document.getElementById('leagueAvgSOT').value = leagueAverage(leagueKey, 'sotAgainst').toFixed(2);
+    updateOppRankDisplay();
+    compute();
+  });
+
+  oppConcededInput.addEventListener('input', updateOppRankDisplay);
+  oppConcededSOTInput.addEventListener('input', updateOppRankDisplay);
+
+  // --- Squadra del giocatore (tiri fatti, non subiti) ---
+  const playerLeagueSel = document.getElementById('playerLeague');
+  const playerTeamSel = document.getElementById('playerTeam');
+  const playerTeamDatasetInfo = document.getElementById('playerTeamDatasetInfo');
+  const playerTeamShotsInput = document.getElementById('playerTeamShots');
+  const playerTeamRankInfo = document.getElementById('playerTeamRankInfo');
+  const playerLeagueAvgForInput = document.getElementById('playerLeagueAvgFor');
+
+  function updatePlayerTeamRankDisplay(){
+    const leagueKey = playerLeagueSel.value;
+    const teamName = playerTeamSel.value;
+    if(!leagueKey || !teamName || !LEAGUE_DATA[leagueKey].teams[teamName] || isCup(leagueKey)){
+      playerTeamRankInfo.textContent = '';
+      return;
+    }
+    const team = LEAGUE_DATA[leagueKey].teams[teamName];
+    const total = leagueSize(leagueKey);
+    const field = shotMode==='sot' ? 'sotFor' : 'totalFor';
+    const label = shotMode==='sot' ? 'tiri in porta fatti' : 'tiri fatti';
+    const currentVal = parseFloat(playerTeamShotsInput.value);
+    if(!isNaN(currentVal) && Math.abs(currentVal - team[field]) <= 0.05){
+      const ranks = computeRanks(leagueKey, field);
+      playerTeamRankInfo.textContent = `${ranks[teamName]}° su ${total} per ${label} in ${LEAGUE_DATA[leagueKey].label}`;
+    } else {
+      playerTeamRankInfo.textContent = '';
+    }
+  }
+
+  playerLeagueSel.addEventListener('change', ()=>{
+    const key = playerLeagueSel.value;
+    playerTeamSel.innerHTML = '';
+    playerTeamRankInfo.textContent = '';
+    if(!key){
+      playerTeamSel.innerHTML = '<option value="">— prima scegli il campionato —</option>';
+      playerTeamDatasetInfo.textContent = '';
+      return;
+    }
+    const data = LEAGUE_DATA[key];
+    const teamNames = Object.keys(data.teams).sort((a,b)=>a.localeCompare(b));
+    if(teamNames.length===0){
+      playerTeamSel.innerHTML = '<option value="">— dati non ancora caricati —</option>';
+      playerTeamDatasetInfo.textContent = `Non ho ancora il database per ${data.label}.`;
+      return;
+    }
+    playerTeamSel.innerHTML = '<option value="">— seleziona —</option>' +
+      teamNames.map(n=>`<option value="${n}">${n}</option>`).join('');
+    playerTeamDatasetInfo.textContent = `Dati Total Shots di ${data.label} aggiornati al ${data.updated}.`;
+  });
+
+  function applyPlayerTeamFields(){
+    const leagueKey = playerLeagueSel.value;
+    const teamName = playerTeamSel.value;
+    if(!leagueKey || !teamName || !LEAGUE_DATA[leagueKey] || !LEAGUE_DATA[leagueKey].teams[teamName]) return;
+    const team = LEAGUE_DATA[leagueKey].teams[teamName];
+    const field = shotMode==='sot' ? 'sotFor' : 'totalFor';
+    const playerBreakdownEl = document.getElementById('playerBreakdown');
+    if(isCup(leagueKey)){
+      const b = blendInfo(leagueKey, teamName, field);
+      playerTeamShotsInput.value = r2(b.combined);
+      playerLeagueAvgForInput.value = b.refAvg.toFixed(2);
+      renderBreakdown(playerBreakdownEl, leagueKey, teamName, FOR_ITEMS);
+      document.getElementById('playerStrength').value = 1;
+      updatePlayerTeamRankDisplay();
+      return;
+    }
+    document.getElementById('playerStrength').value = leagueStrength(leagueKey);
+    renderStrengthNote(playerBreakdownEl, leagueKey, teamName, FOR_ITEMS);
+    playerTeamShotsInput.value = team[field];
+    playerLeagueAvgForInput.value = leagueAverage(leagueKey, field).toFixed(2);
+    updatePlayerTeamRankDisplay();
+  }
+
+  playerTeamSel.addEventListener('change', ()=>{
+    const leagueKey = playerLeagueSel.value;
+    const teamName = playerTeamSel.value;
+    if(!leagueKey || !teamName){ playerTeamRankInfo.textContent=''; return; }
+    applyPlayerTeamFields();
+    compute();
+  });
+
+  playerTeamShotsInput.addEventListener('input', updatePlayerTeamRankDisplay);
+
+  let shotMode = 'total';
+  function updateActiveOppTags(){
+    const totalTag = document.getElementById('oppConcededActiveTag');
+    const sotTag = document.getElementById('oppConcededSOTActiveTag');
+    if(shotMode==='sot'){ totalTag.textContent=''; sotTag.textContent='Usata nel calcolo'; }
+    else { totalTag.textContent='Usata nel calcolo'; sotTag.textContent=''; }
+  }
+  function updateLineDifficultyHint(){
+    const line = num('lineValue');
+    const hint = document.getElementById('lineDifficultyHint');
+    let label;
+    if(shotMode==='sot'){
+      if(line<=0.5) label='Normale';
+      else if(line<=1.5) label='Alta';
+      else if(line<=2.5) label='Molto alta';
+      else label='Fuori scala per i tiri in porta';
+    } else {
+      if(line<=1.5) label='Bassa';
+      else if(line<=2.5) label='Media';
+      else if(line<=3.5) label='Alta';
+      else label='Molto alta';
+    }
+    hint.textContent = `Difficoltà linea: ${label}`;
+  }
+  function updateModeLabels(){
+    const isSOT = shotMode==='sot';
+    document.getElementById('shotsLeagueLabel').textContent = `Campionato — media ${isSOT?'tiri in porta':'tiri'} a partita`;
+    document.getElementById('shotsCupLabel').textContent = `Coppa europea — media ${isSOT?'tiri in porta':'tiri'} a partita`;
+    document.getElementById('shotsNLLabel').textContent = `Nations League — media ${isSOT?'tiri in porta':'tiri'} a partita`;
+    document.getElementById('shotsWCQLabel').textContent = `Qualificazioni Mondiali — media ${isSOT?'tiri in porta':'tiri'} a partita`;
+    document.getElementById('rate90Label').textContent = isSOT ? "Tasso di tiri in porta normalizzato a 90' (combinato)" : "Tasso di tiri normalizzato a 90' (combinato)";
+    const pCup = isCup(playerLeagueSel.value);
+    const pSuffix = pCup ? 'media campionato + coppa' : 'campionato';
+    document.getElementById('playerTeamShotsLabel').textContent = (isSOT ? 'Tiri in porta fatti a partita dalla squadra — ' : 'Tiri fatti a partita dalla squadra — ') + pSuffix;
+    updateLineDifficultyHint();
+    updateActiveOppTags();
+  }
+  document.getElementById('shotTypeSeg').addEventListener('click', e=>{
+    const btn = e.target.closest('button'); if(!btn) return;
+    [...e.currentTarget.children].forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    shotMode = btn.dataset.val;
+    updateModeLabels();
+    applyPlayerTeamFields();
+    updateOppRankDisplay();
+    compute();
+  });
+  updateModeLabels();
+
+  function clamp(v,min,max){return Math.max(min,Math.min(max,v));}
+  function num(id){return parseFloat(document.getElementById(id).value)||0;}
+
+  let lineType = 'over';
+  document.getElementById('lineTypeSeg').addEventListener('click', e=>{
+    const btn = e.target.closest('button'); if(!btn) return;
+    [...e.currentTarget.children].forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active'); lineType = btn.dataset.val; compute();
+  });
+
+  let sede = 'home';
+  document.getElementById('homeAwaySeg').addEventListener('click', e=>{
+    const btn = e.target.closest('button'); if(!btn) return;
+    [...e.currentTarget.children].forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active'); sede = btn.dataset.val; compute();
+  });
+
+  let competition = 'league';
+  function setCompetition(c){
+    competition = c;
+    [...document.getElementById('compSeg').children].forEach(b=>b.classList.toggle('active', b.dataset.val===c));
+    document.getElementById('compHint').textContent = c==='league'
+      ? "Inserisci sotto le statistiche di campionato del giocatore."
+      : "Partita di coppa: scegli Champions League o Europa League nei menu campionato delle squadre — i tiri sono la media tra campionato e coppa.";
+    document.getElementById('oppSub').textContent = c==='league'
+      ? "Tiri totali concessi in media a partita in campionato, e la media campionato come riferimento."
+      : "Partita di coppa: scegli Champions League o Europa League come campionato; sotto la squadra vedi media campionato, media coppa e la media delle due.";
+  }
+  function setOppLabels(){
+    const cup = isCup(oppLeagueSel.value);
+    const suffix = cup ? 'media campionato + coppa' : 'campionato';
+    document.getElementById('oppConcededLabel').textContent = 'Tiri totali concessi a partita — ' + suffix;
+    document.getElementById('oppConcededSOTLabel').textContent = 'Tiri in porta concessi a partita — ' + suffix;
+  }
+  function syncCompetitionFromSelections(){
+    if(isCup(oppLeagueSel.value) || isCup(playerLeagueSel.value)) setCompetition('cup');
+  }
+  document.getElementById('compSeg').addEventListener('click', e=>{
+    const btn = e.target.closest('button'); if(!btn) return;
+    const c = btn.dataset.val;
+    if(c==='league'){
+      // modalità campionato: se un menu era su una coppa, lo azzero
+      [oppLeagueSel, playerLeagueSel].forEach(sel=>{
+        if(isCup(sel.value)){ sel.value = ''; sel.dispatchEvent(new Event('change')); }
+      });
+    }
+    setCompetition(c);
+    compute();
+  });
+  oppLeagueSel.addEventListener('change', ()=>{
+    document.getElementById('oppBreakdown').style.display = 'none';
+    document.getElementById('oppStrength').value = 1;
+    setOppLabels();
+    syncCompetitionFromSelections();
+  });
+  playerLeagueSel.addEventListener('change', ()=>{
+    document.getElementById('playerBreakdown').style.display = 'none';
+    document.getElementById('playerStrength').value = 1;
+    updateModeLabels();
+    syncCompetitionFromSelections();
+  });
+
+  document.querySelectorAll('input').forEach(el=>{
+    el.addEventListener('input', compute);
+  });
+  document.getElementById('hitRate5').addEventListener('change', compute);
+
+  // Campi "ultime 5": solo cifre e trattini; il trattino si inserisce col tasto sotto al campo,
+  // così resta il tastierino numerico (su iPhone non ha il trattino).
+  ['l5Shots','l5Mins'].forEach(id=>{
+    const el = document.getElementById(id);
+    el.addEventListener('input', ()=>{
+      const clean = el.value.replace(/[^0-9-]/g,'').replace(/-{2,}/g,'-');
+      if(clean!==el.value){
+        const pos = Math.max(0, (el.selectionStart||clean.length) - (el.value.length-clean.length));
+        el.value = clean;
+        try{ el.setSelectionRange(pos,pos); }catch(e){}
+        compute();
+      }
+    });
+  });
+  document.querySelectorAll('.sep-btn').forEach(btn=>{
+    const el = document.getElementById(btn.dataset.target);
+    // non togliere il focus al campo: la tastiera resta aperta
+    btn.addEventListener('mousedown', e=>e.preventDefault());
+    btn.addEventListener('pointerdown', e=>e.preventDefault());
+    const add = ()=>{
+      const v = el.value;
+      const s = el.selectionStart==null ? v.length : el.selectionStart;
+      const e2 = el.selectionEnd==null ? v.length : el.selectionEnd;
+      if(s===0 || v.charAt(s-1)==='-') { el.focus(); return; }
+      el.value = v.slice(0,s)+'-'+v.slice(e2);
+      try{ el.setSelectionRange(s+1,s+1); }catch(e){}
+      el.focus();
+      compute();
+    };
+    btn.addEventListener('click', add);
+  });
+
+  function factorial(n){let r=1;for(let i=2;i<=n;i++) r*=i; return r;}
+  function poissonPMF(k, lambda){ return Math.exp(-lambda) * Math.pow(lambda,k) / factorial(k); }
+  function poissonCDF(k, lambda){ let s=0; for(let i=0;i<=k;i++) s+=poissonPMF(i,lambda); return s; }
+
+  // Fascia quota: puramente informativa, non entra nel calcolo di λ o della probabilità.
+  // Interpolazione lineare a tratti tra le soglie indicate, cosi' il punteggio cresce con continuità
+  // (1.69 > 1.67 > 1.60) invece di restare piatto dentro la stessa fascia.
+  const QUOTA_ANCHORS = [
+    {odds:1.01, val:1.0,  label:'Molto bassa'},
+    {odds:1.59, val:4.4,  label:'Molto bassa'},
+    {odds:1.60, val:4.5,  label:'Bassa'},
+    {odds:1.69, val:5.9,  label:'Bassa'},
+    {odds:1.70, val:6.0,  label:'Media'},
+    {odds:1.85, val:7.5,  label:'Media'},
+    {odds:1.86, val:7.6,  label:'Alta'},
+    {odds:1.95, val:8.9,  label:'Alta'},
+    {odds:1.96, val:9.0,  label:'Molto alta'},
+    {odds:2.50, val:10.0, label:'Molto alta'}
+  ];
+  function quotaTier(odds){
+    if(odds<=0) return null;
+    let label;
+    if(odds<1.60) label='Molto bassa';
+    else if(odds<1.70) label='Bassa';
+    else if(odds<1.86) label='Media';
+    else if(odds<1.96) label='Alta';
+    else label='Molto alta';
+
+    const o = clamp(odds, QUOTA_ANCHORS[0].odds, QUOTA_ANCHORS[QUOTA_ANCHORS.length-1].odds);
+    let val = QUOTA_ANCHORS[QUOTA_ANCHORS.length-1].val;
+    for(let i=0;i<QUOTA_ANCHORS.length-1;i++){
+      const a = QUOTA_ANCHORS[i], b = QUOTA_ANCHORS[i+1];
+      if(o>=a.odds && o<=b.odds){
+        const t = (o-a.odds)/(b.odds-a.odds);
+        val = a.val + t*(b.val-a.val);
+        break;
+      }
+    }
+    return {label, val};
+  }
+
+
+  // ================= STAKE =================
+  const stakeState = {p:null, t:null};
+  function fmtPct(x){ return x.toFixed(2).replace('.',',')+'%'; }
+  function fmtNum(x,d){ return x.toFixed(d).replace('.',','); }
+  function stakeCalc(vRaw, q){
+    const v = Math.round(vRaw*100)/100;
+    if(!(q>1)) return {ok:false, status:'noodds'};
+    const base = vv => { const x = Math.max(vv,8)-8; return x<=1 ? 1+0.25*x : Math.min(2, 1.25+0.5*(x-1)+0.25*Math.pow(x-1,2)); };
+    if(q>2.45){
+      if(v<=7.70) return {ok:false, status:'novalue', why:'Quota sopra 2,45 con voto fino a 7,70'};
+      const t = clamp((v-7.70)/1.00, 0, 1);
+      const b = base(v);
+      return {ok:true, kind:'high', v, q, base:b, t, stake:Math.max(0.75, 0.75 + (b-0.75)*t)};
+    }
+    if(v<8.00) return {ok:false, status:'novalue', why:'Voto sotto 8,00'};
+    if(q<1.60 && v<8.20) return {ok:false, status:'novalue', why:'Quota sotto 1,60 con voto sotto 8,20'};
+    const b = base(v);
+    if(q<1.60){ const f = q/1.60; return {ok:true, kind:'low', v, q, base:b, f, stake:Math.max(0.75, b*f)}; }
+    return {ok:true, kind:'normal', v, q, base:b, stake:b};
+  }
+  function setStakeUI(prefix, hasData, score, odds){
+    const val = document.getElementById(prefix+'StakeVal');
+    const why = document.getElementById(prefix+'StakeWhy');
+    const det = document.getElementById(prefix+'StakeDet');
+    const detBox = document.getElementById(prefix+'StakeDetBox');
+    const btn = document.getElementById(prefix+'PlayBtn');
+    const hint = document.getElementById(prefix+'PlayHint');
+    let res = null;
+    val.className = 'stake-val dim'; detBox.hidden = true; det.innerHTML = '';
+    if(!hasData){
+      val.textContent = '–'; why.textContent = 'Inserisci quota e dati per calcolarlo.';
+      btn.disabled = true; hint.textContent = 'Disponibile per le giocate di valore.';
+      stakeState[prefix] = null; return;
+    }
+    res = stakeCalc(score, odds);
+    if(!res.ok && res.status==='noodds'){
+      val.textContent = '–'; why.textContent = 'Inserisci la quota per calcolare lo stake.';
+      btn.disabled = true; hint.textContent = 'Inserisci la quota.';
+      stakeState[prefix] = null; return;
+    }
+    if(!res.ok){
+      val.textContent = 'Non di valore'; val.className = 'stake-val small';
+      why.textContent = res.why + '.';
+      btn.disabled = true; hint.textContent = 'Gioca! è disattivato: giocata non di valore.';
+      stakeState[prefix] = null; return;
+    }
+    val.textContent = fmtPct(res.stake); val.className = 'stake-val';
+    const L = (k,v)=>`${k} <b>${v}</b><br>`;
+    let lines = '';
+    if(res.kind==='normal'){
+      why.textContent = `Voto ${fmtNum(res.v,2)} · quota ${fmtNum(res.q,2)}`;
+      lines = L(res.v<9 ? 'Stake base (sotto 9 scende piano, da 1,25% a 1%):' : 'Stake base (sopra 9 sale più in fretta):', fmtPct(res.base)) + 'Quota tra 1,60 e 2,45: nessuna correzione.';
+    } else if(res.kind==='low'){
+      why.textContent = `Quota sotto 1,60: stake ridotto ×${fmtNum(res.f,2)}`;
+      lines = L('Stake base con voto '+fmtNum(res.v,2)+':', fmtPct(res.base)) + L('Correzione quota: '+fmtNum(res.q,2)+' ÷ 1,60 =', '×'+fmtNum(res.f,2)) + 'La giocata va affiancata a un\'altra per arrivare a 1,60: lo stake scende in proporzione (minimo 0,75%).';
+    } else {
+      why.textContent = `Quota sopra 2,45: parte da 0,75% e sale col voto`;
+      lines = L('Stake base con voto '+fmtNum(res.v,2)+':', fmtPct(res.base)) + L('Percorso da 7,70 a 8,70:', Math.round(res.t*100)+'%') + 'Da 0,75% (voto 7,70) arriva allo stake base a voto 8,70.';
+    }
+    det.innerHTML = lines; detBox.hidden = false;
+    btn.disabled = false; hint.textContent = '';
+    stakeState[prefix] = {stake:res.stake, score:Math.round(score*100)/100, odds};
+  }
+
+  // Ultime 5 partite: "3-4-6-2-1" e "87-67-81-90-90"
+  function splitList(str){
+    return String(str||'').split(/[\s,;\/\-–—+]+/).filter(x=>x!=='');
+  }
+  function parseLast5(){
+    const rawS = document.getElementById('l5Shots').value, rawM = document.getElementById('l5Mins').value;
+    if(!rawS.trim()) return {ok:false};
+    let sh = splitList(rawS).map(Number), mi = splitList(rawM).map(Number);
+    if(sh.some(x=>!isFinite(x)||x<0) || mi.some(x=>!isFinite(x)||x<0)) return {ok:false, msg:'Controlla i numeri: uso solo cifre separate da trattini.'};
+    let cut = false;
+    if(sh.length>5){ sh = sh.slice(0,5); cut = true; }
+    if(mi.length>5){ mi = mi.slice(0,5); cut = true; }
+    let assumed90 = false;
+    if(mi.length===0){ mi = sh.map(()=>90); assumed90 = true; }
+    if(mi.length!==sh.length) return {ok:false, msg:'Servono tanti minuti quanti sono i tiri: ora hai '+sh.length+' tiri e '+mi.length+' minuti.'};
+    const sumS = sh.reduce((a,b)=>a+b,0), sumM = mi.reduce((a,b)=>a+b,0);
+    if(!(sumM>0)) return {ok:false, msg:'I minuti devono essere maggiori di zero.'};
+    return {ok:true, n:sh.length, avgShots:sumS/sh.length, avgMins:sumM/mi.length, rate90:sumS/sumM*90, assumed90, cut};
+  }
+
+  function compute(){
+    updateLineDifficultyHint();
+
+    // Combina le competizioni compilate: somma tiri e minuti (non media delle medie),
+    // poi normalizza a 90' — così una competizione con più minuti pesa di più, ed è
+    // possibile lasciare vuote le competizioni non giocate (es. giocatore non convocato in nazionale).
+    const compRows = [
+      {shots: num('shotsLeague'), minutes: num('minutesLeague')},
+      {shots: num('shotsCup'), minutes: num('minutesCup')},
+      {shots: num('shotsNL'), minutes: num('minutesNL')},
+      {shots: num('shotsWCQ'), minutes: num('minutesWCQ')}
+    ];
+    let totalShots = 0, totalMinutes = 0;
+    compRows.forEach(r=>{ if(r.minutes>0){ totalShots += r.shots; totalMinutes += r.minutes; } });
+    const seasonRate90 = totalMinutes>0 ? (totalShots/totalMinutes)*90 : 0;
+    // Ultime 5 partite: tasso a 90' dalle partite inserite, unito (media semplice) a quello stagionale.
+    const l5 = parseLast5();
+    let rate90 = seasonRate90;
+    if(l5.ok) rate90 = seasonRate90>0 ? (seasonRate90 + l5.rate90)/2 : l5.rate90;
+    const baseLbl = shotMode==='sot' ? "Tasso di tiri in porta normalizzato a 90' (combinato)" : "Tasso di tiri normalizzato a 90' (combinato)";
+    document.getElementById('rate90Label').textContent = baseLbl.replace('(combinato)', l5.ok ? '(con ultime 5)' : '(combinato)');
+    document.getElementById('l5ShotsLabel').textContent = shotMode==='sot' ? 'Tiri in porta nelle ultime 5 partite' : 'Tiri nelle ultime 5 partite';
+    const l5Info = document.getElementById('l5Info');
+    if(l5.ok){
+      l5Info.textContent = 'Ultime '+l5.n+': '+fmtNum(l5.avgShots,1)+' tiri in '+fmtNum(l5.avgMins,0)+' minuti a partita = '+fmtNum(l5.rate90,2)+' / 90\'.'
+        + (seasonRate90>0 ? ' Media con la stagione ('+fmtNum(seasonRate90,2)+'): '+fmtNum(rate90,2)+' / 90\'.' : '')
+        + (l5.assumed90 ? ' Minuti non inseriti: conto 90 a partita.' : '') + (l5.cut ? ' Uso solo le prime 5 partite.' : '');
+    } else {
+      l5Info.textContent = l5.msg || 'Facoltativo: scrivi i valori partita per partita separati da trattini. Il calcolatore fa la media e la unisce alla media stagionale.';
+    }
+    document.getElementById('rate90').textContent = rate90>0 ? rate90.toFixed(2)+' tiri / 90\'' : '–';
+
+    const oppConceded = shotMode==='sot' ? num('oppConcededSOT') : num('oppConceded');
+    const leagueAvg = (shotMode==='sot' ? num('leagueAvgSOT') : num('leagueAvg')) || 1;
+    let leagueRatio = oppConceded>0 && leagueAvg>0 ? (oppConceded/leagueAvg) : 1;
+    const oppStr = parseFloat(document.getElementById('oppStrength').value);
+    if(oppStr>0 && oppStr<1) leagueRatio = 1 + (leagueRatio-1)*oppStr;
+
+    const oppFactorRaw = leagueRatio;
+    // Gerarchia dei pesi: 1) tasso individuale del giocatore (pieno, è la base di λ);
+    // 2) tiri subiti dalla squadra avversaria (esponente 0,85 — molto pesato, ma un filo sotto il giocatore);
+    // 3) tiri fatti dalla squadra del giocatore (esponente 0,35 — il più leggero, perché in parte
+    //    ridondante col tasso individuale: un giocatore può fare da solo metà dei tiri della squadra).
+    const oppFactor = Math.pow(oppFactorRaw, 0.85);
+
+    const playerTeamShots = num('playerTeamShots');
+    const playerLeagueAvgFor = num('playerLeagueAvgFor') || 1;
+    let teamCreationRatio = playerTeamShots>0 && playerLeagueAvgFor>0 ? (playerTeamShots/playerLeagueAvgFor) : 1;
+    const plStr = parseFloat(document.getElementById('playerStrength').value);
+    if(plStr>0 && plStr<1) teamCreationRatio = 1 + (teamCreationRatio-1)*plStr;
+    const teamCreationFactor = Math.pow(teamCreationRatio, 0.35);
+
+    let sedeFactor = 1;
+    if(sede==='home') sedeFactor = 1.06;
+    else if(sede==='away') sedeFactor = 0.94;
+
+    const lambda = rate90 * oppFactor * teamCreationFactor * sedeFactor;
+    const line = num('lineValue');
+    const threshold = Math.floor(line);
+
+    let prob;
+    if(lambda<=0){
+      prob = 0;
+    } else if(lineType==='over'){
+      prob = 1 - poissonCDF(threshold, lambda);
+    } else {
+      prob = poissonCDF(threshold, lambda);
+    }
+    prob = clamp(prob,0,1);
+    const probModel = prob;
+
+    // Hit rate ultime 5 partite (dato reale inserito a mano): pesa 40% sulla probabilità finale,
+    // il modello Poisson resta al 60% — un peso importante ma non dominante, perché il campione
+    // di 5 partite è piccolo. Se non è stato inserito, il voto resta puro Poisson.
+    const hitRateRaw = document.getElementById('hitRate5').value;
+    const hitRate = hitRateRaw==='' ? null : parseFloat(hitRateRaw);
+    let probFinal = probModel;
+    if(hitRate!==null){
+      probFinal = probModel*0.6 + hitRate*0.4;
+    }
+    probFinal = clamp(probFinal,0,1);
+    const score = probFinal*10;
+
+    const hasData = lambda>0;
+    document.getElementById('scoreBig').textContent = hasData ? score.toFixed(2).replace('.',',') : '–';
+    document.getElementById('gaugeFill').style.width = (score*10)+'%';
+    document.getElementById('lambdaVal').textContent = lambda>0 ? lambda.toFixed(2) : '–';
+    document.getElementById('lineVal').textContent = (lineType==='over'?'Over ':'Under ') + line.toFixed(1);
+    document.getElementById('probModelVal').textContent = hasData ? (probModel*100).toFixed(1)+'%' : '–';
+    document.getElementById('hitRateVal').textContent = hitRate!==null ? (hitRate===0.9 ? '4/5+ (90%)' : (hitRate*100).toFixed(0)+'%') : 'Non inserito';
+    document.getElementById('probVal').textContent = hasData ? (probFinal*100).toFixed(1)+'%' : '–';
+
+    let label, color;
+    if(score>=8){label='Affidabilità molto alta';color='var(--green)';}
+    else if(score>=6.5){label='Affidabilità alta';color='var(--accent)';}
+    else if(score>=5){label='Affidabilità media';color='var(--amber)';}
+    else if(score>=3){label='Affidabilità bassa';color='var(--amber)';}
+    else {label='Affidabilità molto bassa';color='var(--red)';}
+    const lbl = document.getElementById('scoreLabel');
+    lbl.textContent = hasData ? label : ''; lbl.style.color = color;
+    if(!hasData){ document.getElementById('gaugeFill').style.width = '0%'; }
+    document.getElementById('gaugeFill').style.background = color;
+
+    const odds = num('odds');
+    const impliedProb = odds>0 ? (1/odds) : 0;
+    document.getElementById('impliedVal').textContent = odds>0 ? (impliedProb*100).toFixed(1)+'%' : '–';
+
+    const tier = quotaTier(odds);
+    document.getElementById('quotaTierVal').textContent = tier ? `${tier.label} (${tier.val.toFixed(1)}/10)` : '–';
+
+    const comboBig = document.getElementById('comboScoreBig');
+    const comboLbl = document.getElementById('comboLabel');
+    if(tier && hasData){
+      // La media semplice penalizzava troppo le quote basse: un'affidabilità alta con quota 1.66
+      // (fascia bassa, ma tutt'altro che rara) finiva sotto 6. L'affidabilità resta il driver
+      // principale (70%), la fascia quota è solo un modificatore (30%) — così una quota bassa
+      // abbassa il voto ma non lo affossa, e una quota alta con affidabilità alta (combinazione
+      // rara) resta il modo per avvicinarsi al 9-10.
+      const comboScore = score*0.7 + tier.val*0.3;
+      comboBig.textContent = comboScore.toFixed(2).replace('.',',');
+      let comboText, comboColor;
+      if(comboScore>=8){comboText='Molto alto';comboColor='var(--green)';}
+      else if(comboScore>=6.5){comboText='Alto';comboColor='var(--accent)';}
+      else if(comboScore>=5){comboText='Medio';comboColor='var(--amber)';}
+      else if(comboScore>=3){comboText='Basso';comboColor='var(--amber)';}
+      else {comboText='Molto basso';comboColor='var(--red)';}
+      comboLbl.textContent = comboText;
+      comboLbl.style.color = comboColor;
+    } else {
+      comboBig.textContent = '–';
+      comboLbl.textContent = '';
+    }
+
+    setStakeUI('p', hasData, score, odds);
+    const note = document.getElementById('valueNote');
+    const title = document.getElementById('valueTitle');
+    const sub = document.getElementById('valueSub');
+    if(odds>0 && lambda>0){
+      const diff = (probFinal - impliedProb)*100;
+      if(diff > 3){
+        note.className = 'value-note pos';
+        title.textContent = 'La quota sembra generosa';
+        sub.textContent = `Probabilità stimata dal modello ${(probFinal*100).toFixed(1)}%, implicita dalla quota ${(impliedProb*100).toFixed(1)}%. Il divario è a favore della giocata.`;
+      } else if(diff < -3){
+        note.className = 'value-note neg';
+        title.textContent = 'La quota sembra bassa per il rischio stimato';
+        sub.textContent = `Probabilità stimata dal modello ${(probFinal*100).toFixed(1)}%, implicita dalla quota ${(impliedProb*100).toFixed(1)}%. Il divario è contro la giocata.`;
+      } else {
+        note.className = 'value-note';
+        title.textContent = "Quota in linea con l'affidabilità stimata";
+        sub.textContent = `Nessun divario significativo tra probabilità stimata e implicita.`;
+      }
+    } else {
+      note.className = 'value-note';
+      title.textContent = 'Inserisci quota e statistiche';
+      sub.textContent = 'Servono per calcolare λ e confrontare la probabilità con la quota.';
+    }
+  }
+
+  compute();
+
+  // --- Vista: Media tiri squadra ---
+  document.getElementById('viewSeg').addEventListener('click', e=>{
+    const btn = e.target.closest('button'); if(!btn) return;
+    [...e.currentTarget.children].forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const view = btn.dataset.val;
+    document.getElementById('playerView').style.display = view==='player' ? '' : 'none';
+    document.getElementById('teamView').style.display = view==='team' ? '' : 'none';
+    document.getElementById('historyView').style.display = view==='history' ? '' : 'none';
+    if(view==='history') renderHistory();
+  });
+
+  let teamShotMode = 'total';
+  document.getElementById('teamShotTypeSeg').addEventListener('click', e=>{
+    const btn = e.target.closest('button'); if(!btn) return;
+    [...e.currentTarget.children].forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    teamShotMode = btn.dataset.val;
+    updateTeamModeLabels();
+    applyTeamForFields();
+    applyTeamOppFields();
+    computeTeamForecast();
+  });
+
+  let teamSede = 'home';
+  document.getElementById('teamSedeSeg').addEventListener('click', e=>{
+    const btn = e.target.closest('button'); if(!btn) return;
+    [...e.currentTarget.children].forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    teamSede = btn.dataset.val;
+    computeTeamForecast();
+  });
+
+  function updateTeamModeLabels(){
+    const isSOT = teamShotMode==='sot';
+    const fSuffix = isCup(teamForLeagueSel.value) ? 'media campionato + coppa' : 'campionato';
+    const oSuffix = isCup(teamOppLeagueSel.value) ? 'media campionato + coppa' : 'campionato';
+    document.getElementById('teamForShotsLabel').textContent = (isSOT ? 'Tiri in porta fatti a partita — ' : 'Tiri fatti a partita — ') + fSuffix;
+    document.getElementById('teamOppShotsLabel').textContent = (isSOT ? 'Tiri in porta subiti a partita — ' : 'Tiri subiti a partita — ') + oSuffix;
+  }
+
+  let teamLineType = 'over';
+  document.getElementById('teamLineTypeSeg').addEventListener('click', e=>{
+    const btn = e.target.closest('button'); if(!btn) return;
+    [...e.currentTarget.children].forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    teamLineType = btn.dataset.val;
+    computeTeamForecast();
+  });
+  document.getElementById('teamLineValue').addEventListener('input', computeTeamForecast);
+  document.getElementById('teamOdds').addEventListener('input', computeTeamForecast);
+
+  const teamForLeagueSel = document.getElementById('teamForLeague');
+  const teamForTeamSel = document.getElementById('teamForTeam');
+  const teamForShotsInput = document.getElementById('teamForShots');
+  const teamForRankInfo = document.getElementById('teamForRankInfo');
+  const teamForDatasetInfo = document.getElementById('teamForDatasetInfo');
+
+  const teamOppLeagueSel = document.getElementById('teamOppLeague');
+  const teamOppTeamSel = document.getElementById('teamOppTeam');
+  const teamOppShotsInput = document.getElementById('teamOppShots');
+  const teamOppRankInfo = document.getElementById('teamOppRankInfo');
+  const teamOppDatasetInfo = document.getElementById('teamOppDatasetInfo');
+  const teamForBreakdown = document.getElementById('teamForBreakdown');
+  const teamOppBreakdown = document.getElementById('teamOppBreakdown');
+
+  function populateTeamSelect(leagueSel, teamSel, datasetInfoEl, statsNote){
+    const key = leagueSel.value;
+    teamSel.innerHTML = '';
+    if(!key){
+      teamSel.innerHTML = '<option value="">— prima scegli il campionato —</option>';
+      datasetInfoEl.textContent = '';
+      return;
+    }
+    const data = LEAGUE_DATA[key];
+    const teamNames = Object.keys(data.teams).sort((a,b)=>a.localeCompare(b));
+    if(teamNames.length===0){
+      teamSel.innerHTML = '<option value="">— dati non ancora caricati —</option>';
+      datasetInfoEl.textContent = `Non ho ancora il database per ${data.label}.`;
+      return;
+    }
+    teamSel.innerHTML = '<option value="">— seleziona —</option>' +
+      teamNames.map(n=>`<option value="${n}">${n}</option>`).join('');
+    datasetInfoEl.textContent = `Dati ${statsNote} di ${data.label} aggiornati al ${data.updated}.`;
+  }
+  function updateTeamLabelsForCup(){
+    const isSOT = teamShotMode==='sot';
+    const fSuffix = isCup(teamForLeagueSel.value) ? 'media campionato + coppa' : 'campionato';
+    const oSuffix = isCup(teamOppLeagueSel.value) ? 'media campionato + coppa' : 'campionato';
+    document.getElementById('teamForShotsLabel').textContent = (isSOT ? 'Tiri in porta fatti a partita — ' : 'Tiri fatti a partita — ') + fSuffix;
+    document.getElementById('teamOppShotsLabel').textContent = (isSOT ? 'Tiri in porta subiti a partita — ' : 'Tiri subiti a partita — ') + oSuffix;
+  }
+
+  function applyTeamForFields(){
+    const leagueKey = teamForLeagueSel.value;
+    const teamName = teamForTeamSel.value;
+    if(!leagueKey || !teamName || !LEAGUE_DATA[leagueKey] || !LEAGUE_DATA[leagueKey].teams[teamName]){ teamForRankInfo.textContent=''; return; }
+    const team = LEAGUE_DATA[leagueKey].teams[teamName];
+    const field = teamShotMode==='sot' ? 'sotFor' : 'totalFor';
+    if(isCup(leagueKey)){
+      teamForShotsInput.value = r2(blendInfo(leagueKey, teamName, field).combined);
+      teamForRankInfo.textContent = '';
+      renderBreakdown(teamForBreakdown, leagueKey, teamName, FOR_ITEMS);
+      teamForShotsInput.dataset.strength = 1;
+      return;
+    }
+    teamForShotsInput.dataset.strength = leagueStrength(leagueKey);
+    teamForShotsInput.dataset.avg = leagueAverage(leagueKey, field);
+    renderStrengthNote(teamForBreakdown, leagueKey, teamName, [{title: teamShotMode==='sot'?'Tiri in porta fatti':'Tiri fatti', field}]);
+    teamForShotsInput.value = team[field];
+    updateTeamRankDisplay(teamForLeagueSel, teamForTeamSel, teamForShotsInput, teamForRankInfo, field, teamShotMode==='sot' ? 'tiri in porta fatti' : 'tiri fatti');
+  }
+
+  function applyTeamOppFields(){
+    const leagueKey = teamOppLeagueSel.value;
+    const teamName = teamOppTeamSel.value;
+    if(!leagueKey || !teamName || !LEAGUE_DATA[leagueKey] || !LEAGUE_DATA[leagueKey].teams[teamName]){ teamOppRankInfo.textContent=''; return; }
+    const team = LEAGUE_DATA[leagueKey].teams[teamName];
+    const field = teamShotMode==='sot' ? 'sotAgainst' : 'totalAgainst';
+    if(isCup(leagueKey)){
+      teamOppShotsInput.value = r2(blendInfo(leagueKey, teamName, field).combined);
+      teamOppRankInfo.textContent = '';
+      renderBreakdown(teamOppBreakdown, leagueKey, teamName, OPP_ITEMS);
+      teamOppShotsInput.dataset.strength = 1;
+      return;
+    }
+    teamOppShotsInput.dataset.strength = leagueStrength(leagueKey);
+    teamOppShotsInput.dataset.avg = leagueAverage(leagueKey, field);
+    renderStrengthNote(teamOppBreakdown, leagueKey, teamName, [{title: teamShotMode==='sot'?'Tiri in porta subiti':'Tiri subiti', field}]);
+    teamOppShotsInput.value = team[field];
+    updateTeamRankDisplay(teamOppLeagueSel, teamOppTeamSel, teamOppShotsInput, teamOppRankInfo, field, teamShotMode==='sot' ? 'tiri in porta subiti' : 'tiri subiti');
+  }
+
+  function updateTeamRankDisplay(leagueSel, teamSel, input, rankEl, field, label){
+    const leagueKey = leagueSel.value;
+    const teamName = teamSel.value;
+    if(!leagueKey || !teamName || !LEAGUE_DATA[leagueKey].teams[teamName] || isCup(leagueKey)){ rankEl.textContent=''; return; }
+    const team = LEAGUE_DATA[leagueKey].teams[teamName];
+    const total = leagueSize(leagueKey);
+    const currentVal = parseFloat(input.value);
+    if(!isNaN(currentVal) && Math.abs(currentVal - team[field]) <= 0.05){
+      const ranks = computeRanks(leagueKey, field);
+      rankEl.textContent = `${ranks[teamName]}° su ${total} per ${label} in ${LEAGUE_DATA[leagueKey].label}`;
+    } else {
+      rankEl.textContent = '';
+    }
+  }
+
+  teamForLeagueSel.addEventListener('change', ()=>{
+    populateTeamSelect(teamForLeagueSel, teamForTeamSel, teamForDatasetInfo, 'Total Shots e Shots on Target');
+    teamForRankInfo.textContent = '';
+    teamForBreakdown.style.display = 'none';
+    teamForShotsInput.dataset.strength = 1;
+    updateTeamLabelsForCup();
+  });
+  teamForTeamSel.addEventListener('change', ()=>{ applyTeamForFields(); computeTeamForecast(); });
+  teamForShotsInput.addEventListener('input', ()=>{
+    updateTeamRankDisplay(teamForLeagueSel, teamForTeamSel, teamForShotsInput, teamForRankInfo, teamShotMode==='sot'?'sotFor':'totalFor', teamShotMode==='sot'?'tiri in porta fatti':'tiri fatti');
+    computeTeamForecast();
+  });
+
+  teamOppLeagueSel.addEventListener('change', ()=>{
+    populateTeamSelect(teamOppLeagueSel, teamOppTeamSel, teamOppDatasetInfo, 'Total Shots e Shots on Target');
+    teamOppRankInfo.textContent = '';
+    teamOppBreakdown.style.display = 'none';
+    teamOppShotsInput.dataset.strength = 1;
+    updateTeamLabelsForCup();
+  });
+  teamOppTeamSel.addEventListener('change', ()=>{ applyTeamOppFields(); computeTeamForecast(); });
+  teamOppShotsInput.addEventListener('input', ()=>{
+    updateTeamRankDisplay(teamOppLeagueSel, teamOppTeamSel, teamOppShotsInput, teamOppRankInfo, teamShotMode==='sot'?'sotAgainst':'totalAgainst', teamShotMode==='sot'?'tiri in porta subiti':'tiri subiti');
+    computeTeamForecast();
+  });
+
+  function computeTeamForecast(){
+    const adj = inp => {
+      const v = parseFloat(inp.value)||0, st = parseFloat(inp.dataset.strength||1), a = parseFloat(inp.dataset.avg);
+      return (v>0 && st<1 && a>0) ? adjustForStrength(v, a, st) : v;
+    };
+    const teamFor = adj(teamForShotsInput);
+    const teamOpp = adj(teamOppShotsInput);
+    const raw = (teamFor + teamOpp) / 2;
+
+    let sedeFactor = 1;
+    if(teamSede==='home') sedeFactor = 1.12;
+    else if(teamSede==='away') sedeFactor = 0.88;
+
+    const lambda = raw * sedeFactor;
+
+    document.getElementById('teamForecastBig').textContent = lambda>0 ? lambda.toFixed(2) : '–';
+    document.getElementById('teamForVal').textContent = teamFor>0 ? teamFor.toFixed(2) : '–';
+    document.getElementById('teamOppVal').textContent = teamOpp>0 ? teamOpp.toFixed(2) : '–';
+    document.getElementById('teamRawVal').textContent = raw>0 ? raw.toFixed(2) : '–';
+    document.getElementById('teamSedeVal').textContent = (teamSede==='home'?'Casa ×1,12':teamSede==='away'?'Trasferta ×0,88':'Nessun effetto ×1,00');
+
+    // Affidabilità: stessa logica Poisson della vista giocatore, ma con λ = media tiri prevista della squadra.
+    const line = parseFloat(document.getElementById('teamLineValue').value)||0;
+    const threshold = Math.floor(line);
+    let prob;
+    if(lambda<=0){
+      prob = 0;
+    } else if(teamLineType==='over'){
+      prob = 1 - poissonCDF(threshold, lambda);
+    } else {
+      prob = poissonCDF(threshold, lambda);
+    }
+    prob = clamp(prob,0,1);
+    const score = prob*10;
+
+    const teamHasData = lambda>0;
+    document.getElementById('teamScoreBig').textContent = teamHasData ? score.toFixed(2).replace('.',',') : '–';
+    document.getElementById('teamGaugeFill').style.width = (score*10)+'%';
+    document.getElementById('teamLineVal').textContent = (teamLineType==='over'?'Over ':'Under ') + line.toFixed(1);
+    document.getElementById('teamProbVal').textContent = teamHasData ? (prob*100).toFixed(1)+'%' : '–';
+
+    let label, color;
+    if(score>=8){label='Affidabilità molto alta';color='var(--green)';}
+    else if(score>=6.5){label='Affidabilità alta';color='var(--accent)';}
+    else if(score>=5){label='Affidabilità media';color='var(--amber)';}
+    else if(score>=3){label='Affidabilità bassa';color='var(--amber)';}
+    else {label='Affidabilità molto bassa';color='var(--red)';}
+    const teamLbl = document.getElementById('teamScoreLabel');
+    teamLbl.textContent = teamHasData ? label : ''; teamLbl.style.color = color;
+    if(!teamHasData){ document.getElementById('teamGaugeFill').style.width = '0%'; }
+    document.getElementById('teamGaugeFill').style.background = color;
+
+    const odds = parseFloat(document.getElementById('teamOdds').value)||0;
+    const impliedProb = odds>0 ? (1/odds) : 0;
+    document.getElementById('teamImpliedVal').textContent = odds>0 ? (impliedProb*100).toFixed(1)+'%' : '–';
+
+    const tier = quotaTier(odds);
+    document.getElementById('teamQuotaTierVal').textContent = tier ? `${tier.label} (${tier.val.toFixed(1)}/10)` : '–';
+
+    const comboBig = document.getElementById('teamComboScoreBig');
+    const comboLbl = document.getElementById('teamComboLabel');
+    if(tier && teamHasData){
+      const comboScore = score*0.7 + tier.val*0.3;
+      comboBig.textContent = comboScore.toFixed(2).replace('.',',');
+      let comboText, comboColor;
+      if(comboScore>=8){comboText='Molto alto';comboColor='var(--green)';}
+      else if(comboScore>=6.5){comboText='Alto';comboColor='var(--accent)';}
+      else if(comboScore>=5){comboText='Medio';comboColor='var(--amber)';}
+      else if(comboScore>=3){comboText='Basso';comboColor='var(--amber)';}
+      else {comboText='Molto basso';comboColor='var(--red)';}
+      comboLbl.textContent = comboText;
+      comboLbl.style.color = comboColor;
+    } else {
+      comboBig.textContent = '–';
+      comboLbl.textContent = '';
+    }
+
+    setStakeUI('t', teamHasData, score, odds);
+    const note = document.getElementById('teamValueNote');
+    const title = document.getElementById('teamValueTitle');
+    const sub = document.getElementById('teamValueSub');
+    if(odds>0 && lambda>0){
+      const diff = (prob - impliedProb)*100;
+      if(diff > 3){
+        note.className = 'value-note pos';
+        title.textContent = 'La quota sembra generosa';
+        sub.textContent = `Probabilità stimata dal modello ${(prob*100).toFixed(1)}%, implicita dalla quota ${(impliedProb*100).toFixed(1)}%. Il divario è a favore della giocata.`;
+      } else if(diff < -3){
+        note.className = 'value-note neg';
+        title.textContent = 'La quota sembra bassa per il rischio stimato';
+        sub.textContent = `Probabilità stimata dal modello ${(prob*100).toFixed(1)}%, implicita dalla quota ${(impliedProb*100).toFixed(1)}%. Il divario è contro la giocata.`;
+      } else {
+        note.className = 'value-note';
+        title.textContent = "Quota in linea con l'affidabilità stimata";
+        sub.textContent = `Nessun divario significativo tra probabilità stimata e implicita.`;
+      }
+    } else {
+      note.className = 'value-note';
+      title.textContent = 'Inserisci quota e statistiche';
+      sub.textContent = 'Servono per confrontare la probabilità con la quota.';
+    }
+  }
+
+
+  updateTeamModeLabels();
+  computeTeamForecast();
+
+  // ================= STORICO =================
+  const STORE_KEY = 'tiri_storico_v1';
+  let plays = [];
+  let dbCol = null;
+  function cleanPlay(x){
+    if(!x || typeof x.id!=='string') return null;
+    const o=+x.odds, s=+x.stake, sc=+x.score;
+    if(!isFinite(o) || !isFinite(s) || !isFinite(sc)) return null;
+    return Object.assign({}, x, {stake:s, odds:o, score:sc, prob:(+x.prob)||0, ts:+x.ts||Date.now(), upd:+x.upd||0,
+      outcome:['win','lose','pending'].includes(x.outcome)?x.outcome:'pending',
+      label:String(x.label||'Giocata'), market:String(x.market||''), opp:String(x.opp||'')});
+  }
+  function readLocal(){ try{ const a = JSON.parse(localStorage.getItem(STORE_KEY)||'[]'); return Array.isArray(a)?a.map(cleanPlay).filter(Boolean):[]; }catch(e){ return []; } }
+  function writeLocal(){ try{ localStorage.setItem(STORE_KEY, JSON.stringify(plays)); }catch(e){} }
+  const dbChain = new Map();
+  function persistPlay(p){
+    writeLocal();
+    if(!dbCol) return;
+    const prev = dbChain.get(p.id) || Promise.resolve();
+    const next = prev.then(()=>{ const cur = plays.find(x=>x.id===p.id); return cur ? dbCol.doc(p.id).set(JSON.parse(JSON.stringify(cur))) : null; }).catch(()=>{});
+    dbChain.set(p.id, next);
+  }
+  function removePlayStore(id){ writeLocal(); if(dbCol){ try{ dbCol.doc(id).delete().catch(()=>{}); }catch(e){} } }
+  function newId(){ return 'p'+Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
+  function fmtDate(ts){
+    const d = new Date(ts);
+    const mesi = ['gen','feb','mar','apr','mag','giu','lug','ago','set','ott','nov','dic'];
+    return d.getDate()+' '+mesi[d.getMonth()]+' · '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
+  }
+  function plOf(p){
+    if(p.outcome==='win') return p.stake*(p.odds-1);
+    if(p.outcome==='lose') return -p.stake;
+    return null;
+  }
+  function signed(x){ return (x>0?'+':x<0?'−':'')+fmtNum(Math.abs(x),2)+'%'; }
+
+  function renderStats(){
+    const closed = plays.filter(p=>p.outcome==='win'||p.outcome==='lose');
+    const wins = closed.filter(p=>p.outcome==='win').length;
+    const losses = closed.length-wins;
+    const profit = closed.reduce((a,p)=>a+plOf(p),0);
+    const staked = closed.reduce((a,p)=>a+p.stake,0);
+    const open = plays.length-closed.length;
+    const tab = document.getElementById('histTab');
+    tab.textContent = plays.length ? 'Storico ('+plays.length+')' : 'Storico';
+    const stats = document.getElementById('histStats');
+    const cell = (k,v,cls)=>`<div class="hs"><div class="k">${k}</div><div class="v${cls?' '+cls:''}">${v}</div></div>`;
+    stats.innerHTML =
+      cell('Chiuse (vinte / perse)', closed.length ? wins+' / '+losses : '–') +
+      cell('Percentuale vinte', closed.length ? fmtNum(wins/closed.length*100,0)+'%' : '–') +
+      cell('Profitto (% del capitale)', closed.length ? signed(profit) : '–', closed.length ? (profit>0?'pos':profit<0?'neg':'') : '') +
+      cell('Rendimento sulle puntate', closed.length && staked>0 ? signed(profit/staked*100) : '–', closed.length&&staked>0 ? (profit>0?'pos':profit<0?'neg':'') : '');
+    const calib = document.getElementById('histCalib');
+    const bands = document.getElementById('histBands');
+    if(closed.length){
+      const avgP = closed.reduce((a,p)=>a+(p.prob||0),0)/closed.length*100;
+      calib.innerHTML = `Probabilità media prevista dal modello: <b>${fmtNum(avgP,1)}%</b> · vinte davvero: <b>${fmtNum(wins/closed.length*100,1)}%</b>`+(open?` · ancora in attesa: <b>${open}</b>`:'')+'.';
+      const defs = [['sotto 8,00 (quote alte)',0,8],['8,00 – 8,99',8,9],['9,00 – 9,49',9,9.5],['9,50 e oltre',9.5,11]];
+      let rows = '';
+      defs.forEach(([name,lo,hi])=>{
+        const g = closed.filter(p=>p.score>=lo && p.score<hi);
+        if(!g.length) return;
+        const w = g.filter(p=>p.outcome==='win').length;
+        const pr = g.reduce((a,p)=>a+plOf(p),0);
+        rows += `<tr><td>${name}</td><td>${w}/${g.length}</td><td>${fmtNum(w/g.length*100,0)}%</td><td>${signed(pr)}</td></tr>`;
+      });
+      bands.innerHTML = rows ? `<table class="band-table"><thead><tr><th>Voto</th><th>Vinte</th><th>%</th><th>Profitto</th></tr></thead><tbody>${rows}</tbody></table>` : '';
+    } else {
+      calib.textContent = plays.length ? 'Segna l\'esito delle giocate per vedere le statistiche.' : '';
+      bands.innerHTML = '';
+    }
+  }
+  function renderHistory(){
+    renderStats();
+    const list = document.getElementById('histList');
+    const sorted = plays.slice().sort((a,b)=>b.ts-a.ts);
+    if(!sorted.length){
+      list.innerHTML = '<div class="empty-hist">Nessuna giocata salvata.<br>Quando una giocata è di valore compare il tasto Gioca! sotto il risultato: toccalo per salvarla qui.</div>';
+      return;
+    }
+    list.innerHTML = '';
+    sorted.forEach(p=>{ try{
+      const card = document.createElement('div'); card.className = 'play-card';
+      const pl = plOf(p);
+      const top = document.createElement('div'); top.className = 'play-top';
+      const who = document.createElement('div'); who.className = 'who'; who.textContent = p.label;
+      const when = document.createElement('div'); when.className = 'when'; when.textContent = fmtDate(p.ts);
+      top.append(who, when);
+      const mkt = document.createElement('div'); mkt.className = 'play-mkt'; mkt.textContent = p.market + (p.opp ? ' · vs ' + p.opp : '');
+      const chips = document.createElement('div'); chips.className = 'chips';
+      [['Voto '+fmtNum(p.score,2)],['Quota '+fmtNum(p.odds,2)],['Stake '+fmtPct(p.stake),'gold']].forEach(([t,c])=>{
+        const ch = document.createElement('span'); ch.className = 'chip'+(c?' '+c:''); ch.textContent = t; chips.append(ch);
+      });
+      const out = document.createElement('div'); out.className = 'play-out';
+      const seg = document.createElement('div'); seg.className = 'seg';
+      const plEl = document.createElement('div');
+      [['pending','In attesa',''],['win','Vinta','win'],['lose','Persa','lose']].forEach(([val,txt,cls])=>{
+        const b = document.createElement('button'); b.type = 'button'; b.textContent = txt;
+        if(cls) b.classList.add(cls);
+        if(p.outcome===val) b.classList.add('active');
+        b.addEventListener('click', ()=>{
+          p.outcome = val; p.upd = Date.now();
+          seg.querySelectorAll('button').forEach(x=>x.classList.toggle('active', x===b));
+          const v = plOf(p);
+          plEl.className = 'play-pl'+(v>0?' pos':v<0?' neg':'');
+          plEl.textContent = v===null ? '' : signed(v);
+          renderStats();
+          try{ persistPlay(p); }catch(e){}
+        });
+        seg.append(b);
+      });
+      plEl.className = 'play-pl'+(pl>0?' pos':pl<0?' neg':'');
+      plEl.textContent = pl===null ? '' : signed(pl);
+      out.append(seg, plEl);
+      const del = document.createElement('button'); del.type = 'button'; del.className = 'link-btn'; del.textContent = 'Elimina';
+      let armed = null;
+      del.addEventListener('click', ()=>{
+        if(!armed){
+          del.textContent = 'Tocca ancora per eliminare'; del.classList.add('danger');
+          armed = setTimeout(()=>{ armed = null; del.textContent = 'Elimina'; del.classList.remove('danger'); }, 3000);
+          return;
+        }
+        clearTimeout(armed);
+        plays = plays.filter(x=>x.id!==p.id); removePlayStore(p.id); renderHistory();
+      });
+      card.append(top, mkt, chips, out, del);
+      list.append(card);
+    }catch(e){} });
+  }
+
+  let toastTimer = null;
+  function toast(msg){
+    let t = document.getElementById('toast');
+    if(!t){ t = document.createElement('div'); t.id = 'toast'; t.className = 'toast'; t.setAttribute('role','status'); document.body.append(t); }
+    t.textContent = msg; t.hidden = false;
+    clearTimeout(toastTimer); toastTimer = setTimeout(()=>{ t.hidden = true; }, 2200);
+  }
+  function selText(id){ const el = document.getElementById(id); return el && el.value ? el.value : ''; }
+  function playBase(prefix){
+    const st = stakeState[prefix];
+    if(!st) return null;
+    const p = {id:newId(), ts:Date.now(), upd:Date.now(), outcome:'pending', stake:st.stake, score:st.score, odds:st.odds, prob:0};
+    return p;
+  }
+  function savePlay(p, btn){
+    plays.push(p); persistPlay(p); renderHistory();
+    toast('Giocata salvata nello storico');
+    const old = btn.textContent; btn.disabled = true; btn.textContent = 'Salvata ✓';
+    setTimeout(()=>{ btn.textContent = old; compute(); computeTeamForecast(); }, 1400);
+  }
+  document.getElementById('pPlayBtn').addEventListener('click', ()=>{
+    const p = playBase('p'); if(!p) return;
+    const line = num('lineValue');
+    p.kind = 'giocatore';
+    p.label = (document.getElementById('playerName').value||'').trim() || 'Giocatore';
+    p.market = (lineType==='over'?'Over ':'Under ') + fmtNum(line,1) + (shotMode==='sot' ? ' tiri in porta' : ' tiri');
+    p.opp = selText('oppTeam');
+    p.prob = parseFloat(document.getElementById('probVal').textContent.replace(',','.'))/100 || p.score/10;
+    savePlay(p, document.getElementById('pPlayBtn'));
+  });
+  document.getElementById('tPlayBtn').addEventListener('click', ()=>{
+    const p = playBase('t'); if(!p) return;
+    const line = parseFloat(document.getElementById('teamLineValue').value)||0;
+    p.kind = 'squadra';
+    p.label = selText('teamForTeam') || 'Squadra';
+    p.market = (teamLineType==='over'?'Over ':'Under ') + fmtNum(line,1) + (teamShotMode==='sot' ? ' tiri in porta squadra' : ' tiri squadra');
+    p.opp = selText('teamOppTeam');
+    p.prob = parseFloat(document.getElementById('teamProbVal').textContent.replace(',','.'))/100 || p.score/10;
+    savePlay(p, document.getElementById('tPlayBtn'));
+  });
+
+  // backup
+  const bkMsg = document.getElementById('bkMsg');
+  document.getElementById('bkCopy').addEventListener('click', async ()=>{
+    const txt = JSON.stringify({v:1, plays});
+    try{ await navigator.clipboard.writeText(txt); bkMsg.textContent = 'Backup copiato. Incollalo in un posto sicuro, per esempio nelle Note.'; }
+    catch(e){
+      document.getElementById('bkImportBox').hidden = false;
+      const ta = document.getElementById('bkText'); ta.value = txt; ta.focus(); ta.select();
+      bkMsg.textContent = 'Non riesco a copiare in automatico: il testo è nel riquadro, selezionalo e copialo a mano.';
+    }
+  });
+  document.getElementById('bkShowImport').addEventListener('click', ()=>{
+    const b = document.getElementById('bkImportBox'); b.hidden = !b.hidden;
+  });
+  document.getElementById('bkImportGo').addEventListener('click', ()=>{
+    try{
+      const data = JSON.parse(document.getElementById('bkText').value);
+      const arr = Array.isArray(data) ? data : (data && data.plays);
+      if(!Array.isArray(arr)) throw new Error('formato');
+      let added = 0;
+      arr.forEach(x=>{
+        if(!x || typeof x.id!=='string' || !/^[A-Za-z0-9_-]{1,60}$/.test(x.id) || !isFinite(x.odds) || !isFinite(x.stake) || !isFinite(x.score)) return;
+        if(plays.some(p=>p.id===x.id)) return;
+        const rec = {id:x.id, ts:+x.ts||Date.now(), upd:+x.upd||Date.now(), outcome:['win','lose','pending'].includes(x.outcome)?x.outcome:'pending',
+          stake:+x.stake, score:+x.score, odds:+x.odds, prob:+x.prob||0, kind:String(x.kind||''), label:String(x.label||'Giocata').slice(0,80),
+          market:String(x.market||'').slice(0,120), opp:String(x.opp||'').slice(0,80)};
+        plays.push(rec); persistPlay(rec); added++;
+      });
+      renderHistory();
+      bkMsg.textContent = added ? `Importate ${added} giocate.` : 'Nessuna giocata nuova da importare.';
+      document.getElementById('bkText').value = '';
+    }catch(e){ bkMsg.textContent = 'Il testo incollato non è un backup valido.'; }
+  });
+
+  // caricamento: prima il salvataggio del telefono, poi (se disponibile) quello della pagina
+  plays = readLocal();
+  renderHistory();
+  (async ()=>{
+    try{
+      const c = window.claude;
+      if(!c || typeof c.use!=='function') return;
+      const [db, user] = await Promise.all([c.use('db'), c.use('user')]);
+      if(!db || !user) return;
+      const uid = await user.id();
+      if(!uid) return;
+      dbCol = db.collection('data/users/'+uid);
+      const snap = await dbCol.get();
+      const byId = new Map(plays.map(p=>[p.id,p]));
+      const toPush = [];
+      let changed = false;
+      snap.docs.forEach(d=>{
+        const x = cleanPlay(d.data()); if(!x) return;
+        const mine = byId.get(x.id);
+        if(!mine){ byId.set(x.id, x); changed = true; }
+        else if((x.upd||0) > (mine.upd||0)){ byId.set(x.id, x); changed = true; }
+        else if((x.upd||0) < (mine.upd||0)){ toPush.push(mine); }
+      });
+      const remoteIds = new Set(snap.docs.map(d=>d.id));
+      plays.forEach(p=>{ if(!remoteIds.has(p.id)) toPush.push(p); });
+      if(changed){ plays = [...byId.values()]; writeLocal(); renderHistory(); }
+      for(const p of toPush){ try{ await dbCol.doc(p.id).set(p); }catch(e){} }
+    }catch(e){}
+  })();
+})();
+</script>
+<script>
+(function(){
+  // 1) stile: nasconde "Gioca!" (lo storico non serve più) e stila la schermata nuova
+  const st = document.createElement('style');
+  st.textContent = ".play-btn,.play-hint{display:none !important;}"
+    + ".ang-days{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;margin-bottom:6px;}"
+    + ".ang-day{flex:0 0 auto;background:var(--panel-2);color:var(--text-dim);border:1px solid var(--line);border-radius:8px;padding:8px 12px;font-family:'Inter',sans-serif;font-size:13px;cursor:pointer;}"
+    + ".ang-day.active{background:var(--accent-dim);color:var(--accent);font-weight:600;}"
+    + ".ang-h{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600;margin:20px 0 10px;}"
+    + ".chip.ang-warn{color:var(--amber);border-color:var(--amber);margin-top:8px;display:inline-block;}";
+  document.head.appendChild(st);
+
+  // 2) schermata nuova, messa prima di quella dello storico
+  const view = document.createElement('div');
+  view.id = 'angoliView';
+  view.style.display = 'none';
+  view.innerHTML = '<div class="panel"><h2>Angoli e cartellini</h2><p class="sub" id="angInfo">Caricamento…</p>'
+    + '<div class="ang-days" id="angDays"></div><div class="hist-note" id="angCount"></div><div id="angBody"></div></div>';
+  const hv = document.getElementById('historyView');
+  hv.parentNode.insertBefore(view, hv);
+
+  // 3) tab nuovo al posto di "Storico" (che resta nascosto)
+  const seg = document.getElementById('viewSeg');
+  const old = document.getElementById('histTab');
+  if(old) old.hidden = true;
+  const tab = document.createElement('button');
+  tab.type = 'button'; tab.dataset.val = 'angoli'; tab.textContent = 'Angoli e cartellini';
+  seg.appendChild(tab);
+  seg.addEventListener('click', e => {
+    const b = e.target.closest('button'); if(!b) return;
+    const on = b.dataset.val === 'angoli';
+    view.style.display = on ? '' : 'none';
+    if(on) window.loadAngoli();
+  });
+
+  // 4) dati e disegno
+  const URLS = ['https://matteogiampaoletti246-hue.github.io/tiri-dati/angoli.json', 'angoli.json'];
+  let data = null, sel = null;
+  const f = x => x==null ? '–' : String(x).replace('.', ',');
+  function el(tag, cls, txt){ const e = document.createElement(tag); if(cls) e.className = cls; if(txt!=null) e.textContent = txt; return e; }
+  async function fetchData(){
+    for(const u of URLS){
+      try{ const r = await fetch(u + '?t=' + Date.now()); if(r.ok) return await r.json(); }catch(e){}
+    }
+    return null;
+  }
+  function dayLabel(d){
+    try{ return new Date(d + 'T12:00:00').toLocaleDateString('it-IT', {weekday:'short', day:'numeric', month:'short'}); }
+    catch(e){ return d; }
+  }
+  function hhmm(t){
+    if(!t || String(t).length < 11) return '';
+    const x = new Date(t);
+    return isNaN(x) ? '' : String(x.getHours()).padStart(2,'0') + ':' + String(x.getMinutes()).padStart(2,'0');
+  }
+  function card(m, kind){
+    const c = el('div', 'play-card');
+    const top = el('div', 'play-top');
+    const who = el('div', 'who'); who.style.cssText = 'display:flex;align-items:center;gap:6px;flex-wrap:wrap;';
+const crest = u => { if(!u) return null; const i = document.createElement('img'); i.src = u; i.alt = ''; i.loading = 'lazy'; i.style.cssText = 'width:22px;height:22px;object-fit:contain;'; i.onerror = () => i.remove(); return i; };
+[crest(m.home_logo), el('span', null, m.home), el('span', null, '–'), crest(m.away_logo), el('span', null, m.away)].forEach(x => { if(x) who.append(x); });
+top.append(who, el('div', 'when', hhmm(m.time)));
+
+    c.append(top, el('div', 'play-mkt', m.league));
+    const chips = el('div', 'chips');
+    if(kind === 'corner'){
+      chips.append(el('span', 'chip gold', 'Divario ' + f(m.gap)),
+                   el('span', 'chip', 'Angoli attesi ' + f(m.corners_home) + ' – ' + f(m.corners_away)));
+    } else if(kind === 'cards'){
+      chips.append(el('span', 'chip gold', 'Cartellini totali ' + f(m.cards)), el('span', 'chip', '1T ' + f(m.cards_1t)));
+    } else {
+      chips.append(el('span', 'chip gold', 'Cartellini 1T ' + f(m.cards_1t)), el('span', 'chip', 'Totali ' + f(m.cards)));
+    }
+    chips.append(el('span', 'chip', 'Partite usate: ' + m.games[0] + ' / ' + m.games[1]));
+    c.append(chips);
+    if(m.non_coperto && m.non_coperto.length){
+      c.append(el('span', 'chip ang-warn', 'Campionato non coperto: ' + m.non_coperto.join(', ')));
+    }
+    return c;
+  }
+  function section(body, title, list, kind){
+    body.append(el('div', 'ang-h', title));
+    if(!list.length){ body.append(el('div', 'hist-note', 'Nessuna partita con dati sufficienti.')); return; }
+    list.forEach(m => body.append(card(m, kind)));
+  }
+  function render(){
+    const days = document.getElementById('angDays'), body = document.getElementById('angBody');
+    const info = document.getElementById('angInfo'), count = document.getElementById('angCount');
+    days.innerHTML = ''; body.innerHTML = ''; count.textContent = '';
+    if(!data){ info.textContent = 'Dati non disponibili: angoli.json non trovato. Lancia il workflow "Aggiorna dati" da GitHub.'; return; }
+    const keys = Object.keys(data.days || {}).sort();
+    info.textContent = 'Aggiornato: ' + new Date(data.updated_at).toLocaleString('it-IT');
+    if(!keys.length){ body.append(el('div', 'empty-hist', 'Nessuna partita nei prossimi giorni.')); return; }
+    if(!sel || !keys.includes(sel)) sel = keys[0];
+    keys.forEach(k => {
+      const b = el('button', 'ang-day' + (k === sel ? ' active' : ''), dayLabel(k));
+      b.type = 'button';
+      b.addEventListener('click', () => { sel = k; render(); });
+      days.append(b);
+    });
+    const d = data.days[sel];
+    count.textContent = 'Partite del giorno: ' + d.analizzate + ' · con dati sufficienti: ' + d.con_dati + '.';
+    section(body, 'Maggiore divario angoli', d.corner, 'corner');
+    section(body, 'Meno cartellini (totali)', d.cartellini, 'cards');
+    section(body, 'Meno cartellini nel primo tempo', d.cartellini_1t, 'cards1');
+  }
+  window.loadAngoli = async function(){
+    data = await fetchData();
+    render();
+  };
+})();
+</script>
+
+</body></html>
