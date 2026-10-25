@@ -53,7 +53,7 @@ export default function MatchOverviewPanel({ match, home, away }) {
   return (
     <div className="flex flex-col gap-4 pb-6 pt-3">
       <FormCard match={match} home={home} away={away} />
-      <Card title="Numeri da tenere d'occhio" noPad><MatchKeyNumbers match={match} /></Card>
+      <section><h3 className="px-5 pb-2 text-[12.5px] font-extrabold uppercase tracking-wider">Numeri da tenere d&apos;occhio</h3><MatchKeyNumbers match={match} /></section>
       <Card title="Giocatori migliori"><Best match={match} home={home} away={away} /></Card>
       <Card title="Precedenti" noPad>
         <div className="tnum flex items-center gap-4 px-4 py-2 text-[12px]" style={{ color: 'var(--ink-2)' }}>

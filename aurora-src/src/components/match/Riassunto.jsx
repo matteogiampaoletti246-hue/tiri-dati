@@ -29,14 +29,14 @@ const Mark = ({ text }) => (
 
 const Lines = ({ e, align }) => (
   <span className={`min-w-0 ${align === 'right' ? 'text-right' : 'text-left'}`}>
-    <span className="block truncate text-[13.5px] font-bold">
+    <span className="block break-words text-[13px] font-bold leading-tight">
       {e.type === 'sub' ? e.inName : e.name}
       {e.pen ? ' (rig.)' : ''}
       {e.og ? ' (aut.)' : ''}
     </span>
-    {e.type === 'sub' ? <span className="block truncate text-[11.5px]" style={{ color: 'var(--ink-3)' }}>{e.name}</span> : null}
+    {e.type === 'sub' ? <span className="block break-words text-[11px] leading-tight" style={{ color: 'var(--ink-3)' }}>{e.name}</span> : null}
     {e.type === 'goal' ? (
-      <span className="block truncate text-[11.5px]" style={{ color: 'var(--ink-3)' }}>
+      <span className="block break-words text-[11px] leading-tight" style={{ color: 'var(--ink-3)' }}>
         {e.assist ? `assist ${e.assist} · ` : ''}
         {e.score ? `${e.score[0]} – ${e.score[1]}` : ''}
       </span>
@@ -63,10 +63,10 @@ export default function Riassunto({ events = [], finished, concept }) {
           );
         }
         return (
-          <div key={i} className="grid items-center gap-2 px-4 py-2.5" style={{ gridTemplateColumns: '1fr 52px 1fr' }}>
-            <div className="flex items-center justify-end gap-2.5 overflow-hidden">{home ? <><Lines e={r} align="right" /><EventIcon e={r} /></> : null}</div>
+          <div key={i} className="grid items-center gap-2 px-4 py-2.5" style={{ gridTemplateColumns: '1fr 46px 1fr' }}>
+            <div className="flex items-center justify-end gap-2.5 ">{home ? <><Lines e={r} align="right" /><EventIcon e={r} /></> : null}</div>
             <span className="tnum text-center text-[12px] font-extrabold" style={{ color: 'var(--ink-2)' }}>{r.minute}&apos;</span>
-            <div className="flex items-center gap-2.5 overflow-hidden">{!home ? <><EventIcon e={r} /><Lines e={r} align="left" /></> : null}</div>
+            <div className="flex items-center gap-2.5 ">{!home ? <><EventIcon e={r} /><Lines e={r} align="left" /></> : null}</div>
           </div>
         );
       })}
