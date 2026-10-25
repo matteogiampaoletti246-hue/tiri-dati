@@ -3,7 +3,6 @@ import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft } from 'lucide-react';
 import { Image } from '@/components/ui/image';
-import { useConcept } from '@/lib/concept';
 
 // Banner di campionato / squadra: fisso in alto, sempre visibile, con il colore della squadra o del campionato.
 // A = colore pieno, B = base scura con alone colorato, C = colore pieno più alto con logo grande in filigrana.
@@ -11,7 +10,7 @@ export default function EntityBanner({ name, subtitle, meta, colors = ['#1E4BD8'
   const navigate = useNavigate();
   const ref = useRef(null);
   const [h, setH] = useState(120);
-  const [concept] = useConcept('banner');
+  const concept = 'b';
 
   useEffect(() => {
     const el = ref.current;
