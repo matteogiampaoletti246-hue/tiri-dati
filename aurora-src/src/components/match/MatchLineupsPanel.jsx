@@ -2,6 +2,7 @@ import { useState } from 'react';
 import TextFilter from '@/components/TextFilter';
 import Crest from '@/components/Crest';
 import { Image } from '@/components/ui/image';
+import PlayerLink from './PlayerLink';
 import { SubIcon } from './EventIcons';
 import { playerById } from '@/data/players';
 import { playerReliability } from '@/data/topPlayers';
@@ -29,16 +30,16 @@ function Badge({ v }) {
   return <span className="tnum absolute -bottom-1 -right-2 rounded-full px-[5px] py-[1px] text-[10px] font-extrabold text-white" style={{ background: tone(v), border: '1.5px solid hsl(var(--background))' }}>{comma(v, 1)}</span>;
 }
 
-function Node({ p, team, val, size }) {
+function Node({ p, team, val, size, match }) {
   return (
-    <div className="flex w-[70px] flex-col items-center gap-1">
+    <PlayerLink match={match} name={p.name} fmId={p.fmId} className="flex w-[70px] flex-col items-center gap-1">
       <span className="relative"><Face p={p} team={team} size={size} /><Badge v={val} /></span>
       <span className="mt-1 w-full truncate text-center text-[10.5px] font-bold leading-tight" style={{ color: 'var(--ink)' }}><span className="tnum" style={{ color: 'var(--ink-3)' }}>{p.number} </span>{last(p.name)}</span>
-    </div>
+    </PlayerLink>
   );
 }
 
-function PitchView({ lineup, team, valOf, concept }) {
+function PitchView({ lineup, team, valOf, concept, match }) {
   const xi = lineup.xi;
   const rows = [[xi[0]]];
   let idx = 1;
@@ -56,7 +57,7 @@ function PitchView({ lineup, team, valOf, concept }) {
         {order.map((row, ri) => (
           <div key={ri} className="glass-flat rounded-[20px] px-3 py-3">
             <p className="mb-2 text-[10px] font-extrabold uppercase tracking-wider" style={{ color: 'var(--ink-3)' }}>{ri === 0 ? names[3] : ri === order.length - 1 ? names[0] : order.length === 4 ? names[order.length - 1 - ri] : `Linea ${order.length - ri - 1}`}</p>
-            <div className="flex flex-wrap justify-around gap-y-3">{row.map((p) => <Node key={p.playerId} p={p} team={team} val={valOf(p)} size={46} />)}</div>
+            <div className="flex flex-wrap justify-around gap-y-3">{row.map((p) => <Node key={p.playerId} match={match} p={p} team={team} val={valOf(p)} size={46} />)}</div>
           </div>
         ))}
       </div>
@@ -79,7 +80,7 @@ function PitchView({ lineup, team, valOf, concept }) {
       <div className="relative flex flex-col gap-7">
         {display.map((row, ri) => (
           <div key={ri} className="flex items-start justify-around gap-1">
-            {row.map((p) => <PitchNode key={p.playerId} p={p} team={team} val={valOf(p)} light={green} />)}
+            {row.map((p) => <PitchNode key={p.playerId} match={match} p={p} team={team} val={valOf(p)} light={green} />)}
           </div>
         ))}
       </div>
@@ -87,12 +88,12 @@ function PitchView({ lineup, team, valOf, concept }) {
   );
 }
 
-function PitchNode({ p, team, val, light }) {
+function PitchNode({ p, team, val, light, match }) {
   return (
-    <div className="flex w-[70px] flex-col items-center gap-1">
+    <PlayerLink match={match} name={p.name} fmId={p.fmId} className="flex w-[70px] flex-col items-center gap-1">
       <span className="relative"><Face p={p} team={team} size={46} /><Badge v={val} /></span>
       <span className="mt-1 w-full truncate text-center text-[10.5px] font-bold leading-tight" style={{ color: light ? '#fff' : 'var(--ink)', textShadow: light ? '0 1px 3px rgba(0,0,0,.55)' : 'none' }}>{p.number} {last(p.name)}</span>
-    </div>
+    </PlayerLink>
   );
 }
 
@@ -126,7 +127,7 @@ export default function MatchLineupsPanel({ match, view, home, away, pre }) {
             <span className="text-[13px] font-extrabold">{pre ? (official ? 'Formazione ufficiale' : 'Formazione probabile') : 'Formazione'}</span>
             <span className="ml-auto text-[13px] font-extrabold" style={{ color: 'var(--ink-2)' }}>{lineup.formation ? lineup.formation.label : ''}</span>
           </div>
-          <PitchView lineup={lineup} team={team} valOf={valOf} concept={concept} />
+          <PitchView lineup={lineup} team={team} valOf={valOf} concept={concept} match={match} />
           <p className="mt-2 text-center text-[10.5px]" style={{ color: 'var(--ink-3)' }}>{pre ? 'Voto = affidabilità tiri (over 0,5)' : 'Voto = prestazione in partita'}</p>
         </div>
       ) : null}
@@ -148,14 +149,14 @@ export default function MatchLineupsPanel({ match, view, home, away, pre }) {
             {lineup.bench.map((p, i) => {
               const v = valOf(p);
               return (
-                <div key={p.playerId + i} className="flex items-center gap-2.5 py-2" style={{ borderTop: i > 1 ? '1px solid var(--hair-2)' : 'none' }}>
+                <PlayerLink key={p.playerId + i} match={match} name={p.name} fmId={p.fmId} className="flex items-center gap-2.5 py-2" style={{ borderTop: i > 1 ? '1px solid var(--hair-2)' : 'none', width: '100%' }}>
                   <span className="relative"><Face p={p} team={team} size={34} /></span>
                   <span className="min-w-0 flex-1">
                     <span className="block truncate text-[12.5px] font-bold"><span className="tnum" style={{ color: 'var(--ink-3)' }}>{p.number} </span>{last(p.name)}</span>
                     {p.subIn ? <span className="flex items-center gap-1 text-[10.5px]" style={{ color: 'var(--good)' }}><SubIcon size={11} />{p.subIn}&apos;</span> : null}
                   </span>
                   {v != null ? <span className="tnum rounded-full px-1.5 py-[1px] text-[10px] font-extrabold text-white" style={{ background: tone(v) }}>{comma(v, 1)}</span> : null}
-                </div>
+                </PlayerLink>
               );
             })}
           </div>

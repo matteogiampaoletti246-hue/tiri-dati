@@ -169,6 +169,7 @@ export function applyFm(m, d, playerLookup) {
     y: Math.max(0, Math.min(1, s[5] / 68)),
   }));
   m.shotsFm = true;
+  if (d.pl) m.playerStats = d.pl;
 
   // formazioni
   if ((d.h && d.h.s && d.h.s.length) || (d.a && d.a.s && d.a.s.length)) {

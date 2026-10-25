@@ -25,7 +25,6 @@ const FILES = {
   stadi: 'stadi.json',
   angoli: 'angoli.json',
   foto: 'foto.json',
-  refphoto: 'refphoto.json',
   refcc: 'refcc.json',
   zone: 'zone.json',
 };

@@ -3,6 +3,7 @@ import { HashRouter, Route, Routes } from 'react-router-dom';
 import { bootData } from '@/data';
 import LaunchScreen from '@/components/LaunchScreen';
 import ScrollToTop from '@/components/ScrollToTop';
+import PlayerSheetHost from '@/components/match/PlayerSheet';
 import { applyTheme, getTheme } from '@/lib/theme';
 import Guidelines from '@/pages/Guidelines';
 import Home from '@/pages/Home';
@@ -34,6 +35,7 @@ export default function App() {
     <HashRouter>
       <LaunchScreen ready={ready} />
       <ScrollToTop />
+      <PlayerSheetHost />
       {ready ? (
       <Routes>
         <Route path="/" element={<Home />} />

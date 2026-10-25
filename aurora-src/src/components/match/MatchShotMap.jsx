@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import TextFilter from '@/components/TextFilter';
 import { comma } from '@/lib/format';
+import PlayerLink from './PlayerLink';
+import { findInMatch } from '@/data/playerSheet';
 
 // Mappa tiri stile "campo verde": casa attacca a sinistra, trasferta a destra.
 // Sotto il campo: le due porte viste da davanti. Toccando un tiro compare la scheda con i dettagli.
@@ -47,7 +49,7 @@ const FILTERS = [
   { value: 'target', label: 'Tiri in porta' },
 ];
 
-export default function MatchShotMap({ shots = [], home, away }) {
+export default function MatchShotMap({ shots = [], home, away, match = null, linkNames = true }) {
   const [mode, setMode] = useState('all');
   const [sel, setSel] = useState(null);
   const list = shots.filter((s) => s.px != null && (mode !== 'target' || s.onTarget));
@@ -55,6 +57,8 @@ export default function MatchShotMap({ shots = [], home, away }) {
   const color = (s) => (s.side === 'home' ? HC : AC);
   const pos = (s) => (s.side === 'home' ? [105 - s.px, 68 - s.py] : [s.px, s.py]);
   const radius = (s) => (1.9);
+  const found = cur && match ? findInMatch(match, cur.playerName) : null;
+  const photo = found ? found.entry.photo : null;
   const step = (d) => setSel((i) => (list.length ? (((i == null ? -1 : i) + d + list.length) % list.length) : null));
 
   const Dot = ({ s, cx, cy, r, active, onClick }) => (
@@ -131,7 +135,14 @@ export default function MatchShotMap({ shots = [], home, away }) {
           <div className="flex items-center gap-2">
             <button type="button" className="press p-1" onClick={() => step(-1)} aria-label="Tiro precedente"><ChevronLeft size={20} style={{ color: 'var(--accent)' }} /></button>
             <div className="min-w-0 flex-1 text-center">
-              <p className="truncate text-[14px] font-extrabold" style={{ color: color(cur) }}>{cur.playerName}</p>
+              <div className="flex items-center justify-center gap-2">
+                {photo ? <img src={photo} alt="" decoding="async" className="h-[34px] w-[34px] shrink-0 rounded-full object-cover" style={{ background: 'var(--hair)' }} /> : null}
+                {linkNames && match ? (
+                  <PlayerLink match={match} name={cur.playerName} fmId={found && found.fmId} className="truncate text-[14px] font-extrabold" style={{ color: color(cur) }}>{cur.playerName}</PlayerLink>
+                ) : (
+                  <p className="truncate text-[14px] font-extrabold" style={{ color: color(cur) }}>{cur.playerName}</p>
+                )}
+              </div>
               <p className="text-[11.5px]" style={{ color: 'var(--ink-3)' }}>{team ? team.name : ''} · {cur.minute}&apos;</p>
             </div>
             <button type="button" className="press p-1" onClick={() => step(1)} aria-label="Tiro successivo"><ChevronRight size={20} style={{ color: 'var(--accent)' }} /></button>

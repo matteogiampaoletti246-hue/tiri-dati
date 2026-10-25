@@ -27,7 +27,7 @@ export function buildReferees() {
     const item = {
       id: slug(name),
       name,
-      photo: photos[name] || null,
+      photo: null,
       country: COUNTRY[cc[name]] || cc[name] || '',
       flag: flagOf(cc[name]),
       leagueId: r.lg || null,

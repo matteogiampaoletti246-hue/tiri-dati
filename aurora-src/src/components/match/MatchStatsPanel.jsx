@@ -87,7 +87,7 @@ export default function MatchStatsPanel({ match, view, home, away, pre }) {
       {(view.shots || []).length ? (
         <section className="glass mx-4 rounded-[24px] px-4 py-4">
           <PanelTitle>Mappa tiri</PanelTitle>
-          <MatchShotMap shots={shots} home={home} away={away} />
+          <MatchShotMap shots={shots} home={home} away={away} match={match} />
         </section>
       ) : null}
 
