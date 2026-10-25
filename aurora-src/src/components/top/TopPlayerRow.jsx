@@ -37,10 +37,10 @@ export default function TopPlayerRow({ row, rank, divider = true }) {
         </span>
       </div>
 
-      <div className="mt-1.5 flex items-center gap-2 pl-[48px]">
-        <TeamLink team={team} className="flex min-w-0 items-center gap-2 transition-opacity active:opacity-60">
+      <div className="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 pl-[48px]">
+        <TeamLink team={team} className="flex flex-none items-center gap-2 transition-opacity active:opacity-60">
           <Crest team={team} size={16} />
-          <span className="truncate text-[11.5px]" style={{ color: 'var(--ink-2)' }}>
+          <span className="text-[11.5px]" style={{ color: 'var(--ink-2)' }}>
             {team ? team.name : '—'}
           </span>
         </TeamLink>
@@ -49,7 +49,7 @@ export default function TopPlayerRow({ row, rank, divider = true }) {
             – {opp.name}
           </span>
         ) : null}
-        <span className="tnum ml-auto flex-none text-[11px]" style={{ color: 'var(--ink-3)' }}>
+        <span className="tnum basis-full text-[11px]" style={{ color: 'var(--ink-3)' }}>
           Media attesa {comma(row.mediaAttesa, 2)} · 90&apos; medi {row.minutiMedi}
         </span>
       </div>

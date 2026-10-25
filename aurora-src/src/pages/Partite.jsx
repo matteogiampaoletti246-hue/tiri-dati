@@ -53,7 +53,7 @@ export default function Partite() {
           ))}
         </div>
       ) : shown.length ? (
-        <MatchDayList matches={shown} />
+        <MatchDayList matches={shown} focusToday={false} />
       ) : (
         <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>
           Nessuna partita

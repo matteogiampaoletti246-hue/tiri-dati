@@ -13,7 +13,7 @@ export const SHOT_COLUMNS = [
 
 const COLS = '22px 1fr 32px 32px 30px 36px';
 
-const fmt = (key, value) => (key === 'xg' ? comma(value, 2) : String(value));
+const fmt = (key, value) => (value === null || value === undefined ? '—' : key === 'xg' ? comma(value, 2) : comma(value, Number.isInteger(value) ? 0 : 1));
 
 export default function TeamShotsTable({ leagueId, sortKey }) {
   const rows = metricRows(leagueId, sortKey);

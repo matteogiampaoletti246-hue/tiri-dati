@@ -8,7 +8,7 @@ import Skeleton from '@/components/Skeleton';
 import MatchupRow from '@/components/top/MatchupRow';
 import useInitialLoad from '@/hooks/useInitialLoad';
 import { matchupRows, MATCHUP_TYPES } from '@/data/matchups';
-import { DATES, TODAY_INDEX, isoDate, matchesByDate } from '@/data/matches';
+import { DATES, TODAY_INDEX, isoDate } from '@/data/matches';
 
 export default function TopMatchups() {
   const [dayIdx, setDayIdx] = useState(TODAY_INDEX);
@@ -16,7 +16,7 @@ export default function TopMatchups() {
   const [searchOpen, setSearchOpen] = useState(false);
   const loading = useInitialLoad();
 
-  const rows = matchupRows(matchesByDate(isoDate(DATES[dayIdx])), typeKey);
+  const rows = matchupRows(isoDate(DATES[dayIdx]), typeKey);
 
   return (
     <PageShell>
@@ -40,7 +40,7 @@ export default function TopMatchups() {
       ) : rows.length ? (
         <div>
           {rows.map((row, i) => (
-            <MatchupRow key={row.match.id} row={row} divider={i > 0} />
+            <MatchupRow key={row.id} row={row} divider={i > 0} />
           ))}
         </div>
       ) : (
