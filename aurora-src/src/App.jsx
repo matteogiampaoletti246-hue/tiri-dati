@@ -10,6 +10,7 @@ import League from '@/pages/League';
 import Match from '@/pages/Match';
 import Menu from '@/pages/Menu';
 import Partite from '@/pages/Partite';
+import ProveLogo from '@/pages/ProveLogo';
 import Player from '@/pages/Player';
 import Referee from '@/pages/Referee';
 import ReliabilityCalculator from '@/pages/ReliabilityCalculator';
@@ -36,6 +37,7 @@ export default function App() {
       {ready ? (
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/prove-logo" element={<ProveLogo />} />
         <Route path="/menu" element={<Menu />} />
         <Route path="/calcolatore" element={<ReliabilityCalculator />} />
         <Route path="/partite" element={<Partite />} />

@@ -13,6 +13,7 @@ const ITEMS = [
   { label: 'Tiri Squadre', to: '/tiri-squadre' },
   { label: 'Migliori Giocatori', to: '/migliori-giocatori' },
   { label: 'Migliori Matchup', to: '/migliori-matchup' },
+  { label: 'Prove logo', to: '/prove-logo' },
   { label: 'Linee guida', to: '/linee-guida' },
 ];
 

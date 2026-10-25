@@ -1,10 +1,10 @@
 import { useRef, useState } from 'react';
+import { CalendarDays } from 'lucide-react';
 import PageShell from '@/components/PageShell';
 import HomeHeader from '@/components/HomeHeader';
 import DayStrip from '@/components/DayStrip';
 import TextFilter from '@/components/TextFilter';
 import LeagueGroup from '@/components/LeagueGroup';
-import LiveStrip from '@/components/LiveStrip';
 import MatchRowSkeleton from '@/components/MatchRowSkeleton';
 import Skeleton from '@/components/Skeleton';
 import SearchOverlay from '@/components/SearchOverlay';
@@ -16,13 +16,14 @@ import { LEAGUES } from '@/data/leagues';
 export default function Home() {
   const [dayIdx, setDayIdx] = useState(TODAY_INDEX);
   const [filter, setFilter] = useState('all');
+  const [custom, setCustom] = useState(null);
   const [searchOpen, setSearchOpen] = useState(false);
   const loading = useInitialLoad();
   useTicker(30000);
   const drag = useRef(null);
 
   const date = DATES[dayIdx];
-  const dayMatches = matchesByDate(isoDate(date));
+  const dayMatches = matchesByDate(custom || isoDate(date));
   const liveMatches = dayMatches.filter((m) => m.status === 'live');
   const shown = filter === 'live' ? liveMatches : dayMatches;
   const groups = LEAGUES.map((league) => ({
@@ -49,7 +50,12 @@ export default function Home() {
     <PageShell>
       <HomeHeader onSearch={() => setSearchOpen(true)} />
 
-      <DayStrip dates={DATES} todayIndex={TODAY_INDEX} value={dayIdx} onChange={setDayIdx} />
+      <DayStrip dates={DATES} todayIndex={TODAY_INDEX} value={custom ? -1 : dayIdx}
+        onChange={(i) => {
+          setCustom(null);
+          setDayIdx(i);
+        }}
+      />
 
       <div className="flex items-center px-5 pb-1 pt-1">
         <TextFilter
@@ -68,12 +74,25 @@ export default function Home() {
           value={filter}
           onChange={setFilter}
         />
-        <span className="tnum ml-auto pl-4 text-[11.5px]" style={{ color: filter === 'live' ? 'var(--live)' : 'var(--ink-3)' }}>
-          {liveMatches.length}
-        </span>
+        <label className="glass press relative ml-auto flex h-9 w-9 items-center justify-center rounded-full" aria-label="Calendario">
+          <CalendarDays size={16} strokeWidth={1.9} style={{ color: custom ? 'var(--accent)' : 'var(--ink)' }} />
+          <input
+            type="date"
+            className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+            value={custom || isoDate(date)}
+            onChange={(e) => {
+              const v = e.target.value;
+              if (!v) return;
+              const idx = DATES.findIndex((d) => isoDate(d) === v);
+              if (idx >= 0) {
+                setCustom(null);
+                setDayIdx(idx);
+              } else setCustom(v);
+            }}
+            aria-label="Scegli data"
+          />
+        </label>
       </div>
-
-      {liveMatches.length && filter === 'all' ? <LiveStrip match={liveMatches[0]} /> : null}
 
       <div onPointerDown={onPointerDown} onPointerUp={onPointerUp}>
         {loading ? (

@@ -1,20 +1,17 @@
 import { useEffect, useRef } from 'react';
-import { CalendarDays } from 'lucide-react';
 import { dayLabel, MONTHS } from '@/lib/format';
 
-// Giorni come semplice testo da premere: nessun riquadro. Il giorno attivo è più chiaro e in grassetto.
+// Giorni come semplice testo da premere, con il giorno scelto sempre al centro.
 export default function DayStrip({ dates, todayIndex, value, onChange }) {
   const box = useRef(null);
+  const first = useRef(true);
   useEffect(() => {
-    const el = box.current && box.current.querySelector('[data-active="1"]');
-    if (el && box.current) box.current.scrollTo({ left: Math.max(0, el.offsetLeft - 24), behavior: 'smooth' });
+    const b = box.current;
+    const el = b && b.querySelector('[data-active="1"]');
+    if (!el) return;
+    b.scrollTo({ left: Math.max(0, el.offsetLeft - (b.clientWidth - el.offsetWidth) / 2), behavior: first.current ? 'auto' : 'smooth' });
+    first.current = false;
   }, [value]);
-
-  const pickDate = (e) => {
-    const d = new Date(`${e.target.value}T00:00:00`);
-    const idx = dates.findIndex((x) => x.toDateString() === d.toDateString());
-    if (idx >= 0) onChange(idx);
-  };
 
   return (
     <div ref={box} className="hide-sb flex items-center gap-6 overflow-x-auto px-5 py-2">
@@ -34,10 +31,6 @@ export default function DayStrip({ dates, todayIndex, value, onChange }) {
           </button>
         );
       })}
-      <label className="icon-btn relative shrink-0" aria-label="Calendario">
-        <CalendarDays size={16} strokeWidth={1.6} />
-        <input type="date" className="absolute inset-0 h-full w-full cursor-pointer opacity-0" onChange={pickDate} aria-label="Scegli data" />
-      </label>
     </div>
   );
 }

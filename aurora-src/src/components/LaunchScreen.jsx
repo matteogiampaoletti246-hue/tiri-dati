@@ -28,7 +28,9 @@ export default function LaunchScreen({ ready = true }) {
   const pair = useRef(null);
 
   useLayoutEffect(() => {
-    if (measure.current) setTextW(Math.ceil(measure.current.getBoundingClientRect().width));
+    const m = () => measure.current && setTextW(Math.ceil(measure.current.getBoundingClientRect().width) + 10);
+    m();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(m);
   }, [visible]);
 
   // 1) il logo si disegna, 2) esce la scritta
@@ -105,6 +107,7 @@ export default function LaunchScreen({ ready = true }) {
         </div>
         <motion.div
           className="overflow-hidden"
+          style={{ paddingBottom: 6, marginBottom: -6 }}
           initial={{ width: 0 }}
           animate={{ width: reveal ? textW + GAP : 0 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
