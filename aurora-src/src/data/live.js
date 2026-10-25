@@ -52,7 +52,7 @@ export async function pullLive() {
         const mm = parseInt(String(e.clk || e.det), 10);
         m.liveMinute = e.det === 'HT' ? 45 : Number.isFinite(mm) ? mm : m.liveMinute || null;
         m.liveHalf = e.det === 'HT';
-      } else if (e.st === 'post' && m.status !== 'finished') {
+      } else if (e.st === 'post' && (m.status !== 'finished' || !m.score)) {
         m.status = 'finished';
         m.score = [sh, sa];
         m.minute = 90;
