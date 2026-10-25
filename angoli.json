@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-24T23:21:32+00:00",
+ "updated_at": "2026-10-25T05:26:06+00:00",
  "window": {
   "nlast": 0,
   "min_games": 1,
@@ -15730,6 +15730,1678 @@
      "games_k": [
       10,
       7
+     ]
+    }
+   ]
+  },
+  "2026-11-02": {
+   "analizzate": 4,
+   "con_dati": 4,
+   "corner": [
+    {
+     "id": "m_4Z0Hkz",
+     "date": "2026-11-02",
+     "time": "2026-11-02",
+     "league": "Serie A",
+     "home": "Atalanta",
+     "away": "Parma",
+     "non_coperto": [],
+     "corners_home": 6.0,
+     "corners_away": 3.1,
+     "gap": 2.9,
+     "games": [
+      4,
+      4
+     ],
+     "tiri_home": 19.1,
+     "tiri_away": 12.1,
+     "tiri_gap": 7.0,
+     "tiri_games": [
+      4,
+      4
+     ],
+     "sot_home": 6.0,
+     "sot_away": 4.1,
+     "sot_gap": 1.9,
+     "sot_games": [
+      4,
+      4
+     ],
+     "falli_home": 12.3,
+     "falli_away": 9.4,
+     "falli_gap": 2.9,
+     "falli_games": [
+      7,
+      8
+     ],
+     "off_home": 1.7,
+     "off_away": 2.4,
+     "off_gap": 0.6,
+     "off_games": [
+      7,
+      8
+     ],
+     "cards": 2.6,
+     "cards_1t": 0.7,
+     "games_k": [
+      7,
+      8
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/108eb0aab69689251ffd6d722eff62fd754c93e39c20909a373b26464bbb38be.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/2bc9e6c9d46925f545749ecd287f49bb9ab6671e48084d1ad6093334b4df069d.webp"
+    },
+    {
+     "id": "m_2P8d0o",
+     "date": "2026-11-02",
+     "time": "2026-11-02",
+     "league": "LaLiga",
+     "home": "Deportivo A Coruña",
+     "away": "Osasuna",
+     "non_coperto": [],
+     "corners_home": 5.6,
+     "corners_away": 3.5,
+     "gap": 2.1,
+     "games": [
+      5,
+      4
+     ],
+     "tiri_home": 13.9,
+     "tiri_away": 9.8,
+     "tiri_gap": 4.0,
+     "tiri_games": [
+      5,
+      4
+     ],
+     "sot_home": 5.6,
+     "sot_away": 4.4,
+     "sot_gap": 1.2,
+     "sot_games": [
+      5,
+      4
+     ],
+     "falli_home": 12.3,
+     "falli_away": 13.3,
+     "falli_gap": 1.0,
+     "falli_games": [
+      10,
+      9
+     ],
+     "off_home": 1.3,
+     "off_away": 1.8,
+     "off_gap": 0.5,
+     "off_games": [
+      10,
+      9
+     ],
+     "cards": 4.7,
+     "cards_1t": 1.6,
+     "games_k": [
+      10,
+      9
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/01b9619ac91f721d102537bda56f4850b484d5552ed33a329b1de3fec6a78067.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/e88a92bcdd0c1c32989fcffab9239e4a411961c9f8de71a0afe80f09b4b7d89b.webp"
+    },
+    {
+     "id": "m_32m5m0",
+     "date": "2026-11-02",
+     "time": "2026-11-02",
+     "league": "Serie A",
+     "home": "Sassuolo",
+     "away": "Fiorentina",
+     "non_coperto": [],
+     "corners_home": 2.8,
+     "corners_away": 4.7,
+     "gap": 1.8,
+     "games": [
+      3,
+      3
+     ],
+     "tiri_home": 12.7,
+     "tiri_away": 13.3,
+     "tiri_gap": 0.7,
+     "tiri_games": [
+      3,
+      3
+     ],
+     "sot_home": 5.3,
+     "sot_away": 5.8,
+     "sot_gap": 0.5,
+     "sot_games": [
+      3,
+      3
+     ],
+     "falli_home": 11.1,
+     "falli_away": 11.5,
+     "falli_gap": 0.4,
+     "falli_games": [
+      8,
+      7
+     ],
+     "off_home": 1.8,
+     "off_away": 1.2,
+     "off_gap": 0.6,
+     "off_games": [
+      8,
+      7
+     ],
+     "cards": 3.4,
+     "cards_1t": 0.8,
+     "games_k": [
+      8,
+      7
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/6d1458229c36991186c0335b8d5656e50422806805f2bf064712147162e428c8.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/52f92c4c2ae57c14bc3d2ead58a2f899ab2fa12bebb91e6f627af2b99608dfce.webp"
+    },
+    {
+     "id": "m_0eAA1g",
+     "date": "2026-11-02",
+     "time": "2026-11-02",
+     "league": "Premier League",
+     "home": "Newcastle United",
+     "away": "Everton",
+     "non_coperto": [],
+     "corners_home": 6.0,
+     "corners_away": 5.4,
+     "gap": 0.6,
+     "games": [
+      4,
+      4
+     ],
+     "tiri_home": 13.6,
+     "tiri_away": 16.1,
+     "tiri_gap": 2.5,
+     "tiri_games": [
+      4,
+      4
+     ],
+     "sot_home": 3.5,
+     "sot_away": 4.9,
+     "sot_gap": 1.4,
+     "sot_games": [
+      4,
+      4
+     ],
+     "falli_home": 12.6,
+     "falli_away": 9.7,
+     "falli_gap": 2.9,
+     "falli_games": [
+      7,
+      8
+     ],
+     "off_home": 1.7,
+     "off_away": 1.7,
+     "off_gap": 0.0,
+     "off_games": [
+      7,
+      8
+     ],
+     "cards": 4.6,
+     "cards_1t": 1.8,
+     "games_k": [
+      7,
+      8
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/82b69b660b3a0448aa8ba25919df9f33e19c4116716f2f707b02fb9f6c333dc1.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/a755328b0286a79ef4e19406b2c63417922769a93ca17365b7333d4173cb9a2b.webp"
+    }
+   ],
+   "tiri": [
+    {
+     "id": "m_4Z0Hkz",
+     "date": "2026-11-02",
+     "time": "2026-11-02",
+     "league": "Serie A",
+     "home": "Atalanta",
+     "away": "Parma",
+     "non_coperto": [],
+     "corners_home": 6.0,
+     "corners_away": 3.1,
+     "gap": 2.9,
+     "games": [
+      4,
+      4
+     ],
+     "tiri_home": 19.1,
+     "tiri_away": 12.1,
+     "tiri_gap": 7.0,
+     "tiri_games": [
+      4,
+      4
+     ],
+     "sot_home": 6.0,
+     "sot_away": 4.1,
+     "sot_gap": 1.9,
+     "sot_games": [
+      4,
+      4
+     ],
+     "falli_home": 12.3,
+     "falli_away": 9.4,
+     "falli_gap": 2.9,
+     "falli_games": [
+      7,
+      8
+     ],
+     "off_home": 1.7,
+     "off_away": 2.4,
+     "off_gap": 0.6,
+     "off_games": [
+      7,
+      8
+     ],
+     "cards": 2.6,
+     "cards_1t": 0.7,
+     "games_k": [
+      7,
+      8
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/108eb0aab69689251ffd6d722eff62fd754c93e39c20909a373b26464bbb38be.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/2bc9e6c9d46925f545749ecd287f49bb9ab6671e48084d1ad6093334b4df069d.webp"
+    },
+    {
+     "id": "m_2P8d0o",
+     "date": "2026-11-02",
+     "time": "2026-11-02",
+     "league": "LaLiga",
+     "home": "Deportivo A Coruña",
+     "away": "Osasuna",
+     "non_coperto": [],
+     "corners_home": 5.6,
+     "corners_away": 3.5,
+     "gap": 2.1,
+     "games": [
+      5,
+      4
+     ],
+     "tiri_home": 13.9,
+     "tiri_away": 9.8,
+     "tiri_gap": 4.0,
+     "tiri_games": [
+      5,
+      4
+     ],
+     "sot_home": 5.6,
+     "sot_away": 4.4,
+     "sot_gap": 1.2,
+     "sot_games": [
+      5,
+      4
+     ],
+     "falli_home": 12.3,
+     "falli_away": 13.3,
+     "falli_gap": 1.0,
+     "falli_games": [
+      10,
+      9
+     ],
+     "off_home": 1.3,
+     "off_away": 1.8,
+     "off_gap": 0.5,
+     "off_games": [
+      10,
+      9
+     ],
+     "cards": 4.7,
+     "cards_1t": 1.6,
+     "games_k": [
+      10,
+      9
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/01b9619ac91f721d102537bda56f4850b484d5552ed33a329b1de3fec6a78067.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/e88a92bcdd0c1c32989fcffab9239e4a411961c9f8de71a0afe80f09b4b7d89b.webp"
+    },
+    {
+     "id": "m_0eAA1g",
+     "date": "2026-11-02",
+     "time": "2026-11-02",
+     "league": "Premier League",
+     "home": "Newcastle United",
+     "away": "Everton",
+     "non_coperto": [],
+     "corners_home": 6.0,
+     "corners_away": 5.4,
+     "gap": 0.6,
+     "games": [
+      4,
+      4
+     ],
+     "tiri_home": 13.6,
+     "tiri_away": 16.1,
+     "tiri_gap": 2.5,
+     "tiri_games": [
+      4,
+      4
+     ],
+     "sot_home": 3.5,
+     "sot_away": 4.9,
+     "sot_gap": 1.4,
+     "sot_games": [
+      4,
+      4
+     ],
+     "falli_home": 12.6,
+     "falli_away": 9.7,
+     "falli_gap": 2.9,
+     "falli_games": [
+      7,
+      8
+     ],
+     "off_home": 1.7,
+     "off_away": 1.7,
+     "off_gap": 0.0,
+     "off_games": [
+      7,
+      8
+     ],
+     "cards": 4.6,
+     "cards_1t": 1.8,
+     "games_k": [
+      7,
+      8
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/82b69b660b3a0448aa8ba25919df9f33e19c4116716f2f707b02fb9f6c333dc1.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/a755328b0286a79ef4e19406b2c63417922769a93ca17365b7333d4173cb9a2b.webp"
+    },
+    {
+     "id": "m_32m5m0",
+     "date": "2026-11-02",
+     "time": "2026-11-02",
+     "league": "Serie A",
+     "home": "Sassuolo",
+     "away": "Fiorentina",
+     "non_coperto": [],
+     "corners_home": 2.8,
+     "corners_away": 4.7,
+     "gap": 1.8,
+     "games": [
+      3,
+      3
+     ],
+     "tiri_home": 12.7,
+     "tiri_away": 13.3,
+     "tiri_gap": 0.7,
+     "tiri_games": [
+      3,
+      3
+     ],
+     "sot_home": 5.3,
+     "sot_away": 5.8,
+     "sot_gap": 0.5,
+     "sot_games": [
+      3,
+      3
+     ],
+     "falli_home": 11.1,
+     "falli_away": 11.5,
+     "falli_gap": 0.4,
+     "falli_games": [
+      8,
+      7
+     ],
+     "off_home": 1.8,
+     "off_away": 1.2,
+     "off_gap": 0.6,
+     "off_games": [
+      8,
+      7
+     ],
+     "cards": 3.4,
+     "cards_1t": 0.8,
+     "games_k": [
+      8,
+      7
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/6d1458229c36991186c0335b8d5656e50422806805f2bf064712147162e428c8.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/52f92c4c2ae57c14bc3d2ead58a2f899ab2fa12bebb91e6f627af2b99608dfce.webp"
+    }
+   ],
+   "tiri_sot": [
+    {
+     "id": "m_4Z0Hkz",
+     "date": "2026-11-02",
+     "time": "2026-11-02",
+     "league": "Serie A",
+     "home": "Atalanta",
+     "away": "Parma",
+     "non_coperto": [],
+     "corners_home": 6.0,
+     "corners_away": 3.1,
+     "gap": 2.9,
+     "games": [
+      4,
+      4
+     ],
+     "tiri_home": 19.1,
+     "tiri_away": 12.1,
+     "tiri_gap": 7.0,
+     "tiri_games": [
+      4,
+      4
+     ],
+     "sot_home": 6.0,
+     "sot_away": 4.1,
+     "sot_gap": 1.9,
+     "sot_games": [
+      4,
+      4
+     ],
+     "falli_home": 12.3,
+     "falli_away": 9.4,
+     "falli_gap": 2.9,
+     "falli_games": [
+      7,
+      8
+     ],
+     "off_home": 1.7,
+     "off_away": 2.4,
+     "off_gap": 0.6,
+     "off_games": [
+      7,
+      8
+     ],
+     "cards": 2.6,
+     "cards_1t": 0.7,
+     "games_k": [
+      7,
+      8
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/108eb0aab69689251ffd6d722eff62fd754c93e39c20909a373b26464bbb38be.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/2bc9e6c9d46925f545749ecd287f49bb9ab6671e48084d1ad6093334b4df069d.webp"
+    },
+    {
+     "id": "m_0eAA1g",
+     "date": "2026-11-02",
+     "time": "2026-11-02",
+     "league": "Premier League",
+     "home": "Newcastle United",
+     "away": "Everton",
+     "non_coperto": [],
+     "corners_home": 6.0,
+     "corners_away": 5.4,
+     "gap": 0.6,
+     "games": [
+      4,
+      4
+     ],
+     "tiri_home": 13.6,
+     "tiri_away": 16.1,
+     "tiri_gap": 2.5,
+     "tiri_games": [
+      4,
+      4
+     ],
+     "sot_home": 3.5,
+     "sot_away": 4.9,
+     "sot_gap": 1.4,
+     "sot_games": [
+      4,
+      4
+     ],
+     "falli_home": 12.6,
+     "falli_away": 9.7,
+     "falli_gap": 2.9,
+     "falli_games": [
+      7,
+      8
+     ],
+     "off_home": 1.7,
+     "off_away": 1.7,
+     "off_gap": 0.0,
+     "off_games": [
+      7,
+      8
+     ],
+     "cards": 4.6,
+     "cards_1t": 1.8,
+     "games_k": [
+      7,
+      8
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/82b69b660b3a0448aa8ba25919df9f33e19c4116716f2f707b02fb9f6c333dc1.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/a755328b0286a79ef4e19406b2c63417922769a93ca17365b7333d4173cb9a2b.webp"
+    },
+    {
+     "id": "m_2P8d0o",
+     "date": "2026-11-02",
+     "time": "2026-11-02",
+     "league": "LaLiga",
+     "home": "Deportivo A Coruña",
+     "away": "Osasuna",
+     "non_coperto": [],
+     "corners_home": 5.6,
+     "corners_away": 3.5,
+     "gap": 2.1,
+     "games": [
+      5,
+      4
+     ],
+     "tiri_home": 13.9,
+     "tiri_away": 9.8,
+     "tiri_gap": 4.0,
+     "tiri_games": [
+      5,
+      4
+     ],
+     "sot_home": 5.6,
+     "sot_away": 4.4,
+     "sot_gap": 1.2,
+     "sot_games": [
+      5,
+      4
+     ],
+     "falli_home": 12.3,
+     "falli_away": 13.3,
+     "falli_gap": 1.0,
+     "falli_games": [
+      10,
+      9
+     ],
+     "off_home": 1.3,
+     "off_away": 1.8,
+     "off_gap": 0.5,
+     "off_games": [
+      10,
+      9
+     ],
+     "cards": 4.7,
+     "cards_1t": 1.6,
+     "games_k": [
+      10,
+      9
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/01b9619ac91f721d102537bda56f4850b484d5552ed33a329b1de3fec6a78067.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/e88a92bcdd0c1c32989fcffab9239e4a411961c9f8de71a0afe80f09b4b7d89b.webp"
+    },
+    {
+     "id": "m_32m5m0",
+     "date": "2026-11-02",
+     "time": "2026-11-02",
+     "league": "Serie A",
+     "home": "Sassuolo",
+     "away": "Fiorentina",
+     "non_coperto": [],
+     "corners_home": 2.8,
+     "corners_away": 4.7,
+     "gap": 1.8,
+     "games": [
+      3,
+      3
+     ],
+     "tiri_home": 12.7,
+     "tiri_away": 13.3,
+     "tiri_gap": 0.7,
+     "tiri_games": [
+      3,
+      3
+     ],
+     "sot_home": 5.3,
+     "sot_away": 5.8,
+     "sot_gap": 0.5,
+     "sot_games": [
+      3,
+      3
+     ],
+     "falli_home": 11.1,
+     "falli_away": 11.5,
+     "falli_gap": 0.4,
+     "falli_games": [
+      8,
+      7
+     ],
+     "off_home": 1.8,
+     "off_away": 1.2,
+     "off_gap": 0.6,
+     "off_games": [
+      8,
+      7
+     ],
+     "cards": 3.4,
+     "cards_1t": 0.8,
+     "games_k": [
+      8,
+      7
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/6d1458229c36991186c0335b8d5656e50422806805f2bf064712147162e428c8.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/52f92c4c2ae57c14bc3d2ead58a2f899ab2fa12bebb91e6f627af2b99608dfce.webp"
+    }
+   ],
+   "falli": [
+    {
+     "id": "m_4Z0Hkz",
+     "date": "2026-11-02",
+     "time": "2026-11-02",
+     "league": "Serie A",
+     "home": "Atalanta",
+     "away": "Parma",
+     "non_coperto": [],
+     "corners_home": 6.0,
+     "corners_away": 3.1,
+     "gap": 2.9,
+     "games": [
+      4,
+      4
+     ],
+     "tiri_home": 19.1,
+     "tiri_away": 12.1,
+     "tiri_gap": 7.0,
+     "tiri_games": [
+      4,
+      4
+     ],
+     "sot_home": 6.0,
+     "sot_away": 4.1,
+     "sot_gap": 1.9,
+     "sot_games": [
+      4,
+      4
+     ],
+     "falli_home": 12.3,
+     "falli_away": 9.4,
+     "falli_gap": 2.9,
+     "falli_games": [
+      7,
+      8
+     ],
+     "off_home": 1.7,
+     "off_away": 2.4,
+     "off_gap": 0.6,
+     "off_games": [
+      7,
+      8
+     ],
+     "cards": 2.6,
+     "cards_1t": 0.7,
+     "games_k": [
+      7,
+      8
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/108eb0aab69689251ffd6d722eff62fd754c93e39c20909a373b26464bbb38be.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/2bc9e6c9d46925f545749ecd287f49bb9ab6671e48084d1ad6093334b4df069d.webp"
+    },
+    {
+     "id": "m_0eAA1g",
+     "date": "2026-11-02",
+     "time": "2026-11-02",
+     "league": "Premier League",
+     "home": "Newcastle United",
+     "away": "Everton",
+     "non_coperto": [],
+     "corners_home": 6.0,
+     "corners_away": 5.4,
+     "gap": 0.6,
+     "games": [
+      4,
+      4
+     ],
+     "tiri_home": 13.6,
+     "tiri_away": 16.1,
+     "tiri_gap": 2.5,
+     "tiri_games": [
+      4,
+      4
+     ],
+     "sot_home": 3.5,
+     "sot_away": 4.9,
+     "sot_gap": 1.4,
+     "sot_games": [
+      4,
+      4
+     ],
+     "falli_home": 12.6,
+     "falli_away": 9.7,
+     "falli_gap": 2.9,
+     "falli_games": [
+      7,
+      8
+     ],
+     "off_home": 1.7,
+     "off_away": 1.7,
+     "off_gap": 0.0,
+     "off_games": [
+      7,
+      8
+     ],
+     "cards": 4.6,
+     "cards_1t": 1.8,
+     "games_k": [
+      7,
+      8
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/82b69b660b3a0448aa8ba25919df9f33e19c4116716f2f707b02fb9f6c333dc1.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/a755328b0286a79ef4e19406b2c63417922769a93ca17365b7333d4173cb9a2b.webp"
+    },
+    {
+     "id": "m_2P8d0o",
+     "date": "2026-11-02",
+     "time": "2026-11-02",
+     "league": "LaLiga",
+     "home": "Deportivo A Coruña",
+     "away": "Osasuna",
+     "non_coperto": [],
+     "corners_home": 5.6,
+     "corners_away": 3.5,
+     "gap": 2.1,
+     "games": [
+      5,
+      4
+     ],
+     "tiri_home": 13.9,
+     "tiri_away": 9.8,
+     "tiri_gap": 4.0,
+     "tiri_games": [
+      5,
+      4
+     ],
+     "sot_home": 5.6,
+     "sot_away": 4.4,
+     "sot_gap": 1.2,
+     "sot_games": [
+      5,
+      4
+     ],
+     "falli_home": 12.3,
+     "falli_away": 13.3,
+     "falli_gap": 1.0,
+     "falli_games": [
+      10,
+      9
+     ],
+     "off_home": 1.3,
+     "off_away": 1.8,
+     "off_gap": 0.5,
+     "off_games": [
+      10,
+      9
+     ],
+     "cards": 4.7,
+     "cards_1t": 1.6,
+     "games_k": [
+      10,
+      9
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/01b9619ac91f721d102537bda56f4850b484d5552ed33a329b1de3fec6a78067.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/e88a92bcdd0c1c32989fcffab9239e4a411961c9f8de71a0afe80f09b4b7d89b.webp"
+    },
+    {
+     "id": "m_32m5m0",
+     "date": "2026-11-02",
+     "time": "2026-11-02",
+     "league": "Serie A",
+     "home": "Sassuolo",
+     "away": "Fiorentina",
+     "non_coperto": [],
+     "corners_home": 2.8,
+     "corners_away": 4.7,
+     "gap": 1.8,
+     "games": [
+      3,
+      3
+     ],
+     "tiri_home": 12.7,
+     "tiri_away": 13.3,
+     "tiri_gap": 0.7,
+     "tiri_games": [
+      3,
+      3
+     ],
+     "sot_home": 5.3,
+     "sot_away": 5.8,
+     "sot_gap": 0.5,
+     "sot_games": [
+      3,
+      3
+     ],
+     "falli_home": 11.1,
+     "falli_away": 11.5,
+     "falli_gap": 0.4,
+     "falli_games": [
+      8,
+      7
+     ],
+     "off_home": 1.8,
+     "off_away": 1.2,
+     "off_gap": 0.6,
+     "off_games": [
+      8,
+      7
+     ],
+     "cards": 3.4,
+     "cards_1t": 0.8,
+     "games_k": [
+      8,
+      7
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/6d1458229c36991186c0335b8d5656e50422806805f2bf064712147162e428c8.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/52f92c4c2ae57c14bc3d2ead58a2f899ab2fa12bebb91e6f627af2b99608dfce.webp"
+    }
+   ],
+   "fuorigiochi": [
+    {
+     "id": "m_32m5m0",
+     "date": "2026-11-02",
+     "time": "2026-11-02",
+     "league": "Serie A",
+     "home": "Sassuolo",
+     "away": "Fiorentina",
+     "non_coperto": [],
+     "corners_home": 2.8,
+     "corners_away": 4.7,
+     "gap": 1.8,
+     "games": [
+      3,
+      3
+     ],
+     "tiri_home": 12.7,
+     "tiri_away": 13.3,
+     "tiri_gap": 0.7,
+     "tiri_games": [
+      3,
+      3
+     ],
+     "sot_home": 5.3,
+     "sot_away": 5.8,
+     "sot_gap": 0.5,
+     "sot_games": [
+      3,
+      3
+     ],
+     "falli_home": 11.1,
+     "falli_away": 11.5,
+     "falli_gap": 0.4,
+     "falli_games": [
+      8,
+      7
+     ],
+     "off_home": 1.8,
+     "off_away": 1.2,
+     "off_gap": 0.6,
+     "off_games": [
+      8,
+      7
+     ],
+     "cards": 3.4,
+     "cards_1t": 0.8,
+     "games_k": [
+      8,
+      7
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/6d1458229c36991186c0335b8d5656e50422806805f2bf064712147162e428c8.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/52f92c4c2ae57c14bc3d2ead58a2f899ab2fa12bebb91e6f627af2b99608dfce.webp"
+    },
+    {
+     "id": "m_4Z0Hkz",
+     "date": "2026-11-02",
+     "time": "2026-11-02",
+     "league": "Serie A",
+     "home": "Atalanta",
+     "away": "Parma",
+     "non_coperto": [],
+     "corners_home": 6.0,
+     "corners_away": 3.1,
+     "gap": 2.9,
+     "games": [
+      4,
+      4
+     ],
+     "tiri_home": 19.1,
+     "tiri_away": 12.1,
+     "tiri_gap": 7.0,
+     "tiri_games": [
+      4,
+      4
+     ],
+     "sot_home": 6.0,
+     "sot_away": 4.1,
+     "sot_gap": 1.9,
+     "sot_games": [
+      4,
+      4
+     ],
+     "falli_home": 12.3,
+     "falli_away": 9.4,
+     "falli_gap": 2.9,
+     "falli_games": [
+      7,
+      8
+     ],
+     "off_home": 1.7,
+     "off_away": 2.4,
+     "off_gap": 0.6,
+     "off_games": [
+      7,
+      8
+     ],
+     "cards": 2.6,
+     "cards_1t": 0.7,
+     "games_k": [
+      7,
+      8
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/108eb0aab69689251ffd6d722eff62fd754c93e39c20909a373b26464bbb38be.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/2bc9e6c9d46925f545749ecd287f49bb9ab6671e48084d1ad6093334b4df069d.webp"
+    },
+    {
+     "id": "m_2P8d0o",
+     "date": "2026-11-02",
+     "time": "2026-11-02",
+     "league": "LaLiga",
+     "home": "Deportivo A Coruña",
+     "away": "Osasuna",
+     "non_coperto": [],
+     "corners_home": 5.6,
+     "corners_away": 3.5,
+     "gap": 2.1,
+     "games": [
+      5,
+      4
+     ],
+     "tiri_home": 13.9,
+     "tiri_away": 9.8,
+     "tiri_gap": 4.0,
+     "tiri_games": [
+      5,
+      4
+     ],
+     "sot_home": 5.6,
+     "sot_away": 4.4,
+     "sot_gap": 1.2,
+     "sot_games": [
+      5,
+      4
+     ],
+     "falli_home": 12.3,
+     "falli_away": 13.3,
+     "falli_gap": 1.0,
+     "falli_games": [
+      10,
+      9
+     ],
+     "off_home": 1.3,
+     "off_away": 1.8,
+     "off_gap": 0.5,
+     "off_games": [
+      10,
+      9
+     ],
+     "cards": 4.7,
+     "cards_1t": 1.6,
+     "games_k": [
+      10,
+      9
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/01b9619ac91f721d102537bda56f4850b484d5552ed33a329b1de3fec6a78067.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/e88a92bcdd0c1c32989fcffab9239e4a411961c9f8de71a0afe80f09b4b7d89b.webp"
+    },
+    {
+     "id": "m_0eAA1g",
+     "date": "2026-11-02",
+     "time": "2026-11-02",
+     "league": "Premier League",
+     "home": "Newcastle United",
+     "away": "Everton",
+     "non_coperto": [],
+     "corners_home": 6.0,
+     "corners_away": 5.4,
+     "gap": 0.6,
+     "games": [
+      4,
+      4
+     ],
+     "tiri_home": 13.6,
+     "tiri_away": 16.1,
+     "tiri_gap": 2.5,
+     "tiri_games": [
+      4,
+      4
+     ],
+     "sot_home": 3.5,
+     "sot_away": 4.9,
+     "sot_gap": 1.4,
+     "sot_games": [
+      4,
+      4
+     ],
+     "falli_home": 12.6,
+     "falli_away": 9.7,
+     "falli_gap": 2.9,
+     "falli_games": [
+      7,
+      8
+     ],
+     "off_home": 1.7,
+     "off_away": 1.7,
+     "off_gap": 0.0,
+     "off_games": [
+      7,
+      8
+     ],
+     "cards": 4.6,
+     "cards_1t": 1.8,
+     "games_k": [
+      7,
+      8
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/82b69b660b3a0448aa8ba25919df9f33e19c4116716f2f707b02fb9f6c333dc1.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/a755328b0286a79ef4e19406b2c63417922769a93ca17365b7333d4173cb9a2b.webp"
+    }
+   ],
+   "cartellini": [
+    {
+     "id": "m_4Z0Hkz",
+     "date": "2026-11-02",
+     "time": "2026-11-02",
+     "league": "Serie A",
+     "home": "Atalanta",
+     "away": "Parma",
+     "non_coperto": [],
+     "corners_home": 6.0,
+     "corners_away": 3.1,
+     "gap": 2.9,
+     "games": [
+      4,
+      4
+     ],
+     "tiri_home": 19.1,
+     "tiri_away": 12.1,
+     "tiri_gap": 7.0,
+     "tiri_games": [
+      4,
+      4
+     ],
+     "sot_home": 6.0,
+     "sot_away": 4.1,
+     "sot_gap": 1.9,
+     "sot_games": [
+      4,
+      4
+     ],
+     "falli_home": 12.3,
+     "falli_away": 9.4,
+     "falli_gap": 2.9,
+     "falli_games": [
+      7,
+      8
+     ],
+     "off_home": 1.7,
+     "off_away": 2.4,
+     "off_gap": 0.6,
+     "off_games": [
+      7,
+      8
+     ],
+     "cards": 2.6,
+     "cards_1t": 0.7,
+     "games_k": [
+      7,
+      8
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/108eb0aab69689251ffd6d722eff62fd754c93e39c20909a373b26464bbb38be.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/2bc9e6c9d46925f545749ecd287f49bb9ab6671e48084d1ad6093334b4df069d.webp"
+    },
+    {
+     "id": "m_32m5m0",
+     "date": "2026-11-02",
+     "time": "2026-11-02",
+     "league": "Serie A",
+     "home": "Sassuolo",
+     "away": "Fiorentina",
+     "non_coperto": [],
+     "corners_home": 2.8,
+     "corners_away": 4.7,
+     "gap": 1.8,
+     "games": [
+      3,
+      3
+     ],
+     "tiri_home": 12.7,
+     "tiri_away": 13.3,
+     "tiri_gap": 0.7,
+     "tiri_games": [
+      3,
+      3
+     ],
+     "sot_home": 5.3,
+     "sot_away": 5.8,
+     "sot_gap": 0.5,
+     "sot_games": [
+      3,
+      3
+     ],
+     "falli_home": 11.1,
+     "falli_away": 11.5,
+     "falli_gap": 0.4,
+     "falli_games": [
+      8,
+      7
+     ],
+     "off_home": 1.8,
+     "off_away": 1.2,
+     "off_gap": 0.6,
+     "off_games": [
+      8,
+      7
+     ],
+     "cards": 3.4,
+     "cards_1t": 0.8,
+     "games_k": [
+      8,
+      7
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/6d1458229c36991186c0335b8d5656e50422806805f2bf064712147162e428c8.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/52f92c4c2ae57c14bc3d2ead58a2f899ab2fa12bebb91e6f627af2b99608dfce.webp"
+    },
+    {
+     "id": "m_0eAA1g",
+     "date": "2026-11-02",
+     "time": "2026-11-02",
+     "league": "Premier League",
+     "home": "Newcastle United",
+     "away": "Everton",
+     "non_coperto": [],
+     "corners_home": 6.0,
+     "corners_away": 5.4,
+     "gap": 0.6,
+     "games": [
+      4,
+      4
+     ],
+     "tiri_home": 13.6,
+     "tiri_away": 16.1,
+     "tiri_gap": 2.5,
+     "tiri_games": [
+      4,
+      4
+     ],
+     "sot_home": 3.5,
+     "sot_away": 4.9,
+     "sot_gap": 1.4,
+     "sot_games": [
+      4,
+      4
+     ],
+     "falli_home": 12.6,
+     "falli_away": 9.7,
+     "falli_gap": 2.9,
+     "falli_games": [
+      7,
+      8
+     ],
+     "off_home": 1.7,
+     "off_away": 1.7,
+     "off_gap": 0.0,
+     "off_games": [
+      7,
+      8
+     ],
+     "cards": 4.6,
+     "cards_1t": 1.8,
+     "games_k": [
+      7,
+      8
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/82b69b660b3a0448aa8ba25919df9f33e19c4116716f2f707b02fb9f6c333dc1.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/a755328b0286a79ef4e19406b2c63417922769a93ca17365b7333d4173cb9a2b.webp"
+    },
+    {
+     "id": "m_2P8d0o",
+     "date": "2026-11-02",
+     "time": "2026-11-02",
+     "league": "LaLiga",
+     "home": "Deportivo A Coruña",
+     "away": "Osasuna",
+     "non_coperto": [],
+     "corners_home": 5.6,
+     "corners_away": 3.5,
+     "gap": 2.1,
+     "games": [
+      5,
+      4
+     ],
+     "tiri_home": 13.9,
+     "tiri_away": 9.8,
+     "tiri_gap": 4.0,
+     "tiri_games": [
+      5,
+      4
+     ],
+     "sot_home": 5.6,
+     "sot_away": 4.4,
+     "sot_gap": 1.2,
+     "sot_games": [
+      5,
+      4
+     ],
+     "falli_home": 12.3,
+     "falli_away": 13.3,
+     "falli_gap": 1.0,
+     "falli_games": [
+      10,
+      9
+     ],
+     "off_home": 1.3,
+     "off_away": 1.8,
+     "off_gap": 0.5,
+     "off_games": [
+      10,
+      9
+     ],
+     "cards": 4.7,
+     "cards_1t": 1.6,
+     "games_k": [
+      10,
+      9
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/01b9619ac91f721d102537bda56f4850b484d5552ed33a329b1de3fec6a78067.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/e88a92bcdd0c1c32989fcffab9239e4a411961c9f8de71a0afe80f09b4b7d89b.webp"
+    }
+   ],
+   "cartellini_1t": [
+    {
+     "id": "m_4Z0Hkz",
+     "date": "2026-11-02",
+     "time": "2026-11-02",
+     "league": "Serie A",
+     "home": "Atalanta",
+     "away": "Parma",
+     "non_coperto": [],
+     "corners_home": 6.0,
+     "corners_away": 3.1,
+     "gap": 2.9,
+     "games": [
+      4,
+      4
+     ],
+     "tiri_home": 19.1,
+     "tiri_away": 12.1,
+     "tiri_gap": 7.0,
+     "tiri_games": [
+      4,
+      4
+     ],
+     "sot_home": 6.0,
+     "sot_away": 4.1,
+     "sot_gap": 1.9,
+     "sot_games": [
+      4,
+      4
+     ],
+     "falli_home": 12.3,
+     "falli_away": 9.4,
+     "falli_gap": 2.9,
+     "falli_games": [
+      7,
+      8
+     ],
+     "off_home": 1.7,
+     "off_away": 2.4,
+     "off_gap": 0.6,
+     "off_games": [
+      7,
+      8
+     ],
+     "cards": 2.6,
+     "cards_1t": 0.7,
+     "games_k": [
+      7,
+      8
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/108eb0aab69689251ffd6d722eff62fd754c93e39c20909a373b26464bbb38be.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/2bc9e6c9d46925f545749ecd287f49bb9ab6671e48084d1ad6093334b4df069d.webp"
+    },
+    {
+     "id": "m_32m5m0",
+     "date": "2026-11-02",
+     "time": "2026-11-02",
+     "league": "Serie A",
+     "home": "Sassuolo",
+     "away": "Fiorentina",
+     "non_coperto": [],
+     "corners_home": 2.8,
+     "corners_away": 4.7,
+     "gap": 1.8,
+     "games": [
+      3,
+      3
+     ],
+     "tiri_home": 12.7,
+     "tiri_away": 13.3,
+     "tiri_gap": 0.7,
+     "tiri_games": [
+      3,
+      3
+     ],
+     "sot_home": 5.3,
+     "sot_away": 5.8,
+     "sot_gap": 0.5,
+     "sot_games": [
+      3,
+      3
+     ],
+     "falli_home": 11.1,
+     "falli_away": 11.5,
+     "falli_gap": 0.4,
+     "falli_games": [
+      8,
+      7
+     ],
+     "off_home": 1.8,
+     "off_away": 1.2,
+     "off_gap": 0.6,
+     "off_games": [
+      8,
+      7
+     ],
+     "cards": 3.4,
+     "cards_1t": 0.8,
+     "games_k": [
+      8,
+      7
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/6d1458229c36991186c0335b8d5656e50422806805f2bf064712147162e428c8.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/52f92c4c2ae57c14bc3d2ead58a2f899ab2fa12bebb91e6f627af2b99608dfce.webp"
+    },
+    {
+     "id": "m_2P8d0o",
+     "date": "2026-11-02",
+     "time": "2026-11-02",
+     "league": "LaLiga",
+     "home": "Deportivo A Coruña",
+     "away": "Osasuna",
+     "non_coperto": [],
+     "corners_home": 5.6,
+     "corners_away": 3.5,
+     "gap": 2.1,
+     "games": [
+      5,
+      4
+     ],
+     "tiri_home": 13.9,
+     "tiri_away": 9.8,
+     "tiri_gap": 4.0,
+     "tiri_games": [
+      5,
+      4
+     ],
+     "sot_home": 5.6,
+     "sot_away": 4.4,
+     "sot_gap": 1.2,
+     "sot_games": [
+      5,
+      4
+     ],
+     "falli_home": 12.3,
+     "falli_away": 13.3,
+     "falli_gap": 1.0,
+     "falli_games": [
+      10,
+      9
+     ],
+     "off_home": 1.3,
+     "off_away": 1.8,
+     "off_gap": 0.5,
+     "off_games": [
+      10,
+      9
+     ],
+     "cards": 4.7,
+     "cards_1t": 1.6,
+     "games_k": [
+      10,
+      9
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/01b9619ac91f721d102537bda56f4850b484d5552ed33a329b1de3fec6a78067.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/e88a92bcdd0c1c32989fcffab9239e4a411961c9f8de71a0afe80f09b4b7d89b.webp"
+    },
+    {
+     "id": "m_0eAA1g",
+     "date": "2026-11-02",
+     "time": "2026-11-02",
+     "league": "Premier League",
+     "home": "Newcastle United",
+     "away": "Everton",
+     "non_coperto": [],
+     "corners_home": 6.0,
+     "corners_away": 5.4,
+     "gap": 0.6,
+     "games": [
+      4,
+      4
+     ],
+     "tiri_home": 13.6,
+     "tiri_away": 16.1,
+     "tiri_gap": 2.5,
+     "tiri_games": [
+      4,
+      4
+     ],
+     "sot_home": 3.5,
+     "sot_away": 4.9,
+     "sot_gap": 1.4,
+     "sot_games": [
+      4,
+      4
+     ],
+     "falli_home": 12.6,
+     "falli_away": 9.7,
+     "falli_gap": 2.9,
+     "falli_games": [
+      7,
+      8
+     ],
+     "off_home": 1.7,
+     "off_away": 1.7,
+     "off_gap": 0.0,
+     "off_games": [
+      7,
+      8
+     ],
+     "cards": 4.6,
+     "cards_1t": 1.8,
+     "games_k": [
+      7,
+      8
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/82b69b660b3a0448aa8ba25919df9f33e19c4116716f2f707b02fb9f6c333dc1.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/a755328b0286a79ef4e19406b2c63417922769a93ca17365b7333d4173cb9a2b.webp"
+    }
+   ],
+   "tutte": [
+    {
+     "id": "m_32m5m0",
+     "date": "2026-11-02",
+     "time": "2026-11-02",
+     "league": "Serie A",
+     "home": "Sassuolo",
+     "away": "Fiorentina",
+     "corners_home": 2.8,
+     "corners_away": 4.7,
+     "gap": 1.8,
+     "games": [
+      3,
+      3
+     ],
+     "tiri_home": 12.7,
+     "tiri_away": 13.3,
+     "tiri_gap": 0.7,
+     "tiri_games": [
+      3,
+      3
+     ],
+     "sot_home": 5.3,
+     "sot_away": 5.8,
+     "sot_gap": 0.5,
+     "sot_games": [
+      3,
+      3
+     ],
+     "falli_home": 11.1,
+     "falli_away": 11.5,
+     "falli_gap": 0.4,
+     "falli_games": [
+      8,
+      7
+     ],
+     "off_home": 1.8,
+     "off_away": 1.2,
+     "off_gap": 0.6,
+     "off_games": [
+      8,
+      7
+     ],
+     "cards": 3.4,
+     "cards_1t": 0.8,
+     "games_k": [
+      8,
+      7
+     ]
+    },
+    {
+     "id": "m_4Z0Hkz",
+     "date": "2026-11-02",
+     "time": "2026-11-02",
+     "league": "Serie A",
+     "home": "Atalanta",
+     "away": "Parma",
+     "corners_home": 6.0,
+     "corners_away": 3.1,
+     "gap": 2.9,
+     "games": [
+      4,
+      4
+     ],
+     "tiri_home": 19.1,
+     "tiri_away": 12.1,
+     "tiri_gap": 7.0,
+     "tiri_games": [
+      4,
+      4
+     ],
+     "sot_home": 6.0,
+     "sot_away": 4.1,
+     "sot_gap": 1.9,
+     "sot_games": [
+      4,
+      4
+     ],
+     "falli_home": 12.3,
+     "falli_away": 9.4,
+     "falli_gap": 2.9,
+     "falli_games": [
+      7,
+      8
+     ],
+     "off_home": 1.7,
+     "off_away": 2.4,
+     "off_gap": 0.6,
+     "off_games": [
+      7,
+      8
+     ],
+     "cards": 2.6,
+     "cards_1t": 0.7,
+     "games_k": [
+      7,
+      8
+     ]
+    },
+    {
+     "id": "m_0eAA1g",
+     "date": "2026-11-02",
+     "time": "2026-11-02",
+     "league": "Premier League",
+     "home": "Newcastle United",
+     "away": "Everton",
+     "corners_home": 6.0,
+     "corners_away": 5.4,
+     "gap": 0.6,
+     "games": [
+      4,
+      4
+     ],
+     "tiri_home": 13.6,
+     "tiri_away": 16.1,
+     "tiri_gap": 2.5,
+     "tiri_games": [
+      4,
+      4
+     ],
+     "sot_home": 3.5,
+     "sot_away": 4.9,
+     "sot_gap": 1.4,
+     "sot_games": [
+      4,
+      4
+     ],
+     "falli_home": 12.6,
+     "falli_away": 9.7,
+     "falli_gap": 2.9,
+     "falli_games": [
+      7,
+      8
+     ],
+     "off_home": 1.7,
+     "off_away": 1.7,
+     "off_gap": 0.0,
+     "off_games": [
+      7,
+      8
+     ],
+     "cards": 4.6,
+     "cards_1t": 1.8,
+     "games_k": [
+      7,
+      8
+     ]
+    },
+    {
+     "id": "m_2P8d0o",
+     "date": "2026-11-02",
+     "time": "2026-11-02",
+     "league": "LaLiga",
+     "home": "Deportivo A Coruña",
+     "away": "Osasuna",
+     "corners_home": 5.6,
+     "corners_away": 3.5,
+     "gap": 2.1,
+     "games": [
+      5,
+      4
+     ],
+     "tiri_home": 13.9,
+     "tiri_away": 9.8,
+     "tiri_gap": 4.0,
+     "tiri_games": [
+      5,
+      4
+     ],
+     "sot_home": 5.6,
+     "sot_away": 4.4,
+     "sot_gap": 1.2,
+     "sot_games": [
+      5,
+      4
+     ],
+     "falli_home": 12.3,
+     "falli_away": 13.3,
+     "falli_gap": 1.0,
+     "falli_games": [
+      10,
+      9
+     ],
+     "off_home": 1.3,
+     "off_away": 1.8,
+     "off_gap": 0.5,
+     "off_games": [
+      10,
+      9
+     ],
+     "cards": 4.7,
+     "cards_1t": 1.6,
+     "games_k": [
+      10,
+      9
      ]
     }
    ]
