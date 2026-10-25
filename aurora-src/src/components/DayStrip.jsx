@@ -16,7 +16,7 @@ export default function DayStrip({ dates, todayIndex, value, onChange }) {
   };
 
   return (
-    <div ref={box} className="hide-sb flex items-center gap-6 overflow-x-auto px-5 py-2">
+    <div ref={box} className="hide-sb flex items-center gap-5 overflow-x-auto px-5 py-2.5">
       {dates.map((d, i) => {
         const active = i === value;
         return (
@@ -25,14 +25,10 @@ export default function DayStrip({ dates, todayIndex, value, onChange }) {
             type="button"
             data-active={active ? '1' : '0'}
             onClick={() => onChange(i)}
-            className="relative shrink-0 pb-1.5 text-[14px] transition-colors duration-300"
+            className="shrink-0 text-[14px] transition-colors duration-300"
             style={{ color: active ? 'var(--ink)' : 'var(--ink-3)', fontWeight: active ? 600 : 400 }}
           >
             {dayLabel(d, todayIndex, i)}
-            <span
-              className="absolute inset-x-0 -bottom-0.5 mx-auto h-px rounded-full transition-all duration-300"
-              style={{ background: active ? 'var(--accent)' : 'transparent', width: active ? '70%' : '0%' }}
-            />
           </button>
         );
       })}

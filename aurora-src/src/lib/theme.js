@@ -2,9 +2,9 @@ const KEY = 'scalperlab-theme';
 
 export function getTheme() {
   try {
-    return localStorage.getItem(KEY) || 'auto';
+    return localStorage.getItem(KEY) || 'dark';
   } catch (e) {
-    return 'auto';
+    return 'dark';
   }
 }
 
