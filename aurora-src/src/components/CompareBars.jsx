@@ -16,13 +16,13 @@ export default function CompareBars({
           <div key={row.label}>
             <div className="flex items-baseline gap-2">
               <span className="tnum text-[14.5px] font-medium" style={{ color: 'var(--ink)' }}>
-                {fmt(row.home)}
+                {row.homeText ?? fmt(row.home)}
               </span>
               <span className="mx-auto truncate text-center text-[12px]" style={{ color: 'var(--ink-3)' }}>
                 {row.label}
               </span>
               <span className="tnum text-[14.5px] font-medium" style={{ color: 'var(--ink)' }}>
-                {fmt(row.away)}
+                {row.awayText ?? fmt(row.away)}
               </span>
             </div>
             <div className="mt-2 flex h-[5px] w-full overflow-hidden rounded-full" style={{ background: 'var(--hair-2)' }}>

@@ -4,10 +4,9 @@ import StandingsTable from '@/components/StandingsTable';
 
 export default function LeagueStandingsPanel({ leagueId }) {
   const [mode, setMode] = useState('total');
-
   return (
-    <div className="pt-2">
-      <div className="px-5">
+    <div className="pt-3">
+      <div className="px-4">
         <TextFilter
           options={[
             { value: 'total', label: 'Totale' },

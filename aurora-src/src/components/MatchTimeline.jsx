@@ -31,7 +31,7 @@ export default function MatchTimeline({ events = [], home, away }) {
           <div
             key={`${e.minute}-${e.type}-${i}`}
             className="grid items-start gap-3 px-5 py-2.5"
-            style={{ borderTop: i === 0 ? 'none' : '1px solid var(--hair-2)', gridTemplateColumns: '30px 18px 1fr' }}
+            style={{ borderTop: i === 0 ? 'none' : '1px solid var(--hair-2)', gridTemplateColumns: '38px 18px 1fr' }}
           >
             <span className="tnum text-[11.5px]" style={{ color: 'var(--ink-3)' }}>
               {e.minute}&apos;
@@ -44,6 +44,8 @@ export default function MatchTimeline({ events = [], home, away }) {
                 </TeamLink>
                 <p className="truncate text-[13.5px]" style={{ color: 'var(--ink)' }}>
                   {e.name}
+                  {e.pen ? ' (rig.)' : ''}
+                  {e.og ? ' (aut.)' : ''}
                 </p>
                 {e.type === 'goal' && e.score ? (
                   <span className="tnum ml-auto pl-2 text-[12.5px] font-medium" style={{ color: 'var(--ink-2)' }}>
@@ -51,6 +53,11 @@ export default function MatchTimeline({ events = [], home, away }) {
                   </span>
                 ) : null}
               </div>
+              {e.type === 'goal' && e.assist ? (
+                <p className="mt-0.5 pl-[24px] text-[11.5px]" style={{ color: 'var(--ink-3)' }}>
+                  Assist: {e.assist}
+                </p>
+              ) : null}
               {e.type === 'sub' && e.inName ? (
                 <p className="mt-0.5 pl-[24px] text-[11.5px]" style={{ color: 'var(--good)' }}>
                   {e.inName}

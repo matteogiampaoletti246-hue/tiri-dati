@@ -33,6 +33,7 @@ export default function ReliabilityCalculator() {
       <SwipeTabs
         tabs={TABS}
         index={index}
+        stickyTop="54px"
         onChange={setIndex}
         panels={[
           <PlayerTab key="player" onSave={add} />,

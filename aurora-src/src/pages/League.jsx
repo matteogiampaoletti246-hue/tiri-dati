@@ -18,7 +18,7 @@ import { matchesForLeague } from '@/data/matches';
 const TABS = [
   { key: 'matches', label: 'Partite' },
   { key: 'standings', label: 'Classifica' },
-  { key: 'teams', label: 'Squadre' },
+  { key: 'teams', label: 'Stat. squadre' },
   { key: 'players', label: 'Giocatori' },
   { key: 'referees', label: 'Arbitri' },
 ];
@@ -69,9 +69,7 @@ export default function League() {
         }
         colors={league.colors}
         logoUrl={league.logo}
-        photoUrl={league.banner}
         initials={initials}
-        bigText={initials}
         liveCount={liveCount}
       />
 
@@ -85,7 +83,7 @@ export default function League() {
           </div>
         </div>
       ) : (
-        <SwipeTabs tabs={TABS} panels={panels} index={tab} onChange={setTab} className="pt-5" />
+        <SwipeTabs tabs={TABS} panels={panels} index={tab} onChange={setTab} className="pt-0" />
       )}
     </PageShell>
   );

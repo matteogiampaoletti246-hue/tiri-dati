@@ -1,154 +1,49 @@
+import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft } from 'lucide-react';
 import { Image } from '@/components/ui/image';
-import useCollapse from '@/hooks/useCollapse';
 
-// Banner a tutta larghezza (campionato / squadra): gradiente del colore principale,
-// tassello logo + nome + sottotitolo, logo gigante sfumato a destra, texture diagonale
-// e dissolvenza verso lo sfondo in basso. Slot pronti per logoUrl e photoUrl.
-export default function EntityBanner({
-  name,
-  subtitle,
-  meta,
-  colors = ['#1E4BD8', '#7FB6E8'],
-  logoUrl = null,
-  photoUrl = null,
-  initials = '',
-  bigText = '',
-  liveCount = 0,
-  collapse = 160,
-}) {
+// Banner fisso in alto (campionato / squadra): resta sempre visibile mentre si scorre.
+export default function EntityBanner({ name, subtitle, meta, colors = ['#1E4BD8', '#7FB6E8'], logoUrl = null, initials = '', liveCount = 0 }) {
   const navigate = useNavigate();
-  const p = useCollapse(collapse);
-  const gradient = `linear-gradient(150deg, ${colors[0]} 0%, ${colors[1]} 100%)`;
+  const ref = useRef(null);
 
-  const Tile = ({ size }) => (
-    <span
-      className="flex flex-none items-center justify-center overflow-hidden"
-      style={{
-        width: size,
-        height: size,
-        borderRadius: Math.round(size * 0.3),
-        background: 'rgba(255,255,255,.20)',
-        border: '1px solid rgba(255,255,255,.38)',
-        backdropFilter: 'blur(10px)',
-        WebkitBackdropFilter: 'blur(10px)',
-      }}
-    >
-      {logoUrl ? (
-        <Image src={logoUrl} alt={name} className="h-full w-full" fittingType="fit" />
-      ) : (
-        <span className="tnum font-semibold" style={{ fontSize: Math.max(10, Math.round(size * 0.3)), color: '#fff' }}>
-          {initials}
-        </span>
-      )}
-    </span>
-  );
-
-  const Live = ({ tone }) =>
-    liveCount > 0 ? (
-      <span
-        className="ml-auto flex items-center gap-1.5 text-[11.5px] font-semibold tracking-[.02em]"
-        style={{ color: tone === 'light' ? '#fff' : 'var(--live)' }}
-      >
-        <span className="live-dot" />
-        {liveCount} LIVE
-      </span>
-    ) : null;
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return undefined;
+    const set = () => document.documentElement.style.setProperty('--ent-h', `${el.offsetHeight}px`);
+    set();
+    const ro = new ResizeObserver(set);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   return (
-    <>
-      <header className="fixed inset-x-0 top-0 z-30" style={{ opacity: p, pointerEvents: p > 0.7 ? 'auto' : 'none' }}>
-        <div
-          className="mx-auto flex max-w-[430px] items-center gap-3 px-5 py-2.5"
-          style={{
-            background: 'color-mix(in srgb, var(--sky-2) 78%, transparent)',
-            backdropFilter: 'blur(20px) saturate(160%)',
-            WebkitBackdropFilter: 'blur(20px) saturate(160%)',
-          }}
-        >
-          <button type="button" className="icon-btn -ml-1" aria-label="Indietro" onClick={() => navigate(-1)}>
-            <ChevronLeft size={22} strokeWidth={1.25} />
+    <header ref={ref} className="sticky top-0 z-30 overflow-hidden" style={{ background: 'var(--glass-bg-strong)', backdropFilter: 'blur(24px) saturate(170%)', WebkitBackdropFilter: 'blur(24px) saturate(170%)' }}>
+      <span aria-hidden="true" className="absolute inset-0" style={{ background: `linear-gradient(120deg, ${colors[0]}55 0%, ${colors[1]}22 70%, transparent 100%)` }} />
+      <div className="safe-top relative px-4 pb-3">
+        <div className="flex items-center gap-3">
+          <button type="button" className="glass press flex h-9 w-9 shrink-0 items-center justify-center rounded-full" aria-label="Indietro" onClick={() => navigate(-1)}>
+            <ChevronLeft size={19} />
           </button>
-          <Tile size={24} />
-          <span className="truncate text-[13.5px]" style={{ color: 'var(--ink)' }}>
-            {name}
-          </span>
-          <Live tone="dark" />
-        </div>
-      </header>
-
-      <section
-        className="relative w-full overflow-hidden"
-        style={{
-          background: gradient,
-          transform: `scale(${1 - p * 0.05})`,
-          transformOrigin: 'top center',
-          opacity: Math.max(0, 1 - p * 1.15),
-        }}
-      >
-        {photoUrl ? (
-          <Image src={photoUrl} alt="" className="absolute inset-0 h-full w-full" fittingType="fill" />
-        ) : null}
-        {photoUrl ? <span className="absolute inset-0" style={{ background: gradient, opacity: 0.72 }} /> : null}
-
-        <span
-          className="absolute inset-0"
-          style={{ background: 'linear-gradient(150deg, rgba(8,14,28,.34) 0%, rgba(8,14,28,.10) 58%, rgba(8,14,28,0) 100%)' }}
-        />
-        <span className="banner-lines absolute inset-0" aria-hidden="true" />
-
-        <span
-          className="pointer-events-none absolute"
-          style={{ right: '-5%', bottom: '-18%', opacity: 0.15 }}
-          aria-hidden="true"
-        >
           {logoUrl ? (
-            <Image src={logoUrl} alt="" className="h-[170px] w-[170px]" fittingType="fill" />
+            <Image src={logoUrl} alt={name} className="h-[40px] w-[40px] shrink-0" fittingType="fit" />
           ) : (
-            <span className="title-xl" style={{ fontSize: 148, color: '#fff', letterSpacing: '-.05em' }}>
-              {bigText || initials}
-            </span>
+            <span className="tnum flex h-[40px] w-[40px] shrink-0 items-center justify-center text-[14px] font-extrabold">{initials}</span>
           )}
-        </span>
-
-        <span
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-14"
-          style={{ background: 'linear-gradient(to bottom, transparent 0%, var(--sky-2) 100%)' }}
-          aria-hidden="true"
-        />
-
-        <div className="relative px-5 pb-5" style={{ paddingTop: 52 }}>
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              className="icon-btn -ml-1"
-              aria-label="Indietro"
-              onClick={() => navigate(-1)}
-              style={{ color: 'rgba(255,255,255,.92)' }}
-            >
-              <ChevronLeft size={22} strokeWidth={1.4} />
-            </button>
-            <Live tone="light" />
+          <div className="min-w-0 flex-1">
+            <h1 className="title-lg truncate text-[19px]" style={{ color: 'var(--ink)', letterSpacing: '-.03em' }}>{name}</h1>
+            {subtitle ? <p className="truncate text-[11.5px]" style={{ color: 'var(--ink-3)' }}>{subtitle}</p> : null}
           </div>
-
-          <div className="mt-4 flex items-center gap-3.5">
-            <Tile size={44} />
-            <div className="min-w-0">
-              <h1 className="title-xl truncate text-[27px]" style={{ color: '#fff', textShadow: '0 2px 18px rgba(10,17,32,.28)' }}>
-                {name}
-              </h1>
-              {subtitle ? (
-                <p className="mt-1 truncate text-[11.5px]" style={{ color: 'rgba(255,255,255,.82)' }}>
-                  {subtitle}
-                </p>
-              ) : null}
-            </div>
-          </div>
-
-          {meta ? <div className="mt-3.5">{meta}</div> : null}
+          {liveCount > 0 ? (
+            <span className="flex shrink-0 items-center gap-1.5 text-[11px] font-bold" style={{ color: 'var(--live)' }}>
+              <span className="live-dot" />
+              {liveCount} LIVE
+            </span>
+          ) : null}
         </div>
-      </section>
-    </>
+        {meta ? <div className="relative mt-2.5 pl-12">{meta}</div> : null}
+      </div>
+    </header>
   );
 }

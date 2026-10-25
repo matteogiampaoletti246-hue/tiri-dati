@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 
 const EASE = 'transform .42s cubic-bezier(.22,.8,.24,1)';
 
-export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, className = '' }) {
+export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, className = '', stickyTop = 'var(--ent-h, 0px)' }) {
   const wrapRef = useRef(null);
   const trackRef = useRef(null);
   const barRef = useRef(null);
@@ -11,6 +11,8 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
   const dragging = useRef(false);
   const [width, setWidth] = useState(0);
   const [mounted, setMounted] = useState([0, 1]);
+  const [h, setH] = useState(null);
+  const panelRefs = useRef([]);
 
   useEffect(() => {
     const el = wrapRef.current;
@@ -31,6 +33,16 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
       return Array.from(next);
     });
   }, [index, tabs.length]);
+
+  useEffect(() => {
+    const el = panelRefs.current[index];
+    if (!el) return undefined;
+    const set = () => setH(el.offsetHeight);
+    set();
+    const ro = new ResizeObserver(set);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [index, mounted, width]);
 
   const posBar = (from, to, t, animate) => {
     const a = tabRefs.current[from];
@@ -108,7 +120,7 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
 
   return (
     <div className={className}>
-      <div className="hide-sb relative overflow-x-auto px-5">
+      <div className="hide-sb glass-head sticky z-20 overflow-x-auto px-5 pt-2.5" style={{ top: stickyTop }}>
         <div className="relative flex items-center gap-6" style={{ width: 'max-content' }}>
           {tabs.map((tab, i) => (
             <button
@@ -131,10 +143,10 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
         </div>
       </div>
 
-      <div ref={wrapRef} className="relative overflow-hidden" style={{ touchAction: 'pan-y' }} onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onUp}>
+      <div ref={wrapRef} className="relative overflow-hidden" style={{ touchAction: 'pan-y', height: h || undefined, transition: 'height .25s ease' }} onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onUp}>
         <div ref={trackRef} className="flex items-start">
           {panels.map((panel, i) => (
-            <div key={tabs[i].key} style={{ width: width || '100%', marginRight: gap, flex: '0 0 auto' }}>
+            <div key={tabs[i].key} ref={(el) => { panelRefs.current[i] = el; }} style={{ width: width || '100%', marginRight: gap, flex: '0 0 auto' }}>
               {mounted.includes(i) ? panel : null}
             </div>
           ))}

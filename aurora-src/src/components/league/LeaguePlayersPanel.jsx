@@ -1,47 +1,64 @@
 import { useState } from 'react';
 import TextFilter from '@/components/TextFilter';
-import PlayerRow from '@/components/PlayerRow';
+import StatLists from '@/components/stats/StatLists';
+import { Image } from '@/components/ui/image';
 import { PLAYERS } from '@/data/players';
 import { teamsOf } from '@/data/teams';
 import { comma } from '@/lib/format';
 
-const fmt = (v) => (Number.isInteger(v) ? String(v) : comma(v, 2));
-
 const METRICS = [
-  { key: 'goals', label: 'Gol', value: (p) => p.goals },
-  { key: 'assists', label: 'Assist', value: (p) => p.assists },
-  { key: 'rating', label: 'Voto', value: (p) => p.ultime5 },
-  { key: 'xg', label: 'xG', value: (p) => p.xg },
-  { key: 'shots', label: 'Tiri', value: (p) => p.shots },
+  { key: 'goals', label: 'Gol', group: 'Attacco', f: (p) => p.goals, p90: true },
+  { key: 'assists', label: 'Assist', group: 'Attacco', f: (p) => p.assists, p90: true },
+  { key: 'xg', label: 'xG', group: 'Attacco', f: (p) => p.xg, p90: true },
+  { key: 'shots', label: 'Tiri', group: 'Attacco', f: (p) => p.shots, p90: true },
+  { key: 'sot', label: 'Tiri in porta', group: 'Attacco', f: (p) => p.shotsOnTarget, p90: true },
+  { key: 'rating', label: 'Voto medio', group: 'Rendimento', f: (p) => p.rating, avg: true },
+  { key: 'apps', label: 'Presenze', group: 'Rendimento', f: (p) => p.appearances },
+  { key: 'min', label: 'Minuti', group: 'Rendimento', f: (p) => p.minutes },
+  { key: 'foulsC', label: 'Falli commessi', group: 'Disciplina', f: (p) => p.foulsCommitted, p90: true },
+  { key: 'foulsD', label: 'Falli subiti', group: 'Disciplina', f: (p) => p.foulsDrawn, p90: true },
+  { key: 'yel', label: 'Gialli', group: 'Disciplina', f: (p) => p.yellows },
+  { key: 'red', label: 'Rossi', group: 'Disciplina', f: (p) => p.reds },
+  { key: 'off', label: 'Fuorigioco', group: 'Disciplina', f: (p) => p.offsides, p90: true },
 ];
 
-export default function LeaguePlayersPanel({ leagueId }) {
-  const [metricKey, setMetricKey] = useState('goals');
-  const metric = METRICS.find((m) => m.key === metricKey) || METRICS[0];
-  const ids = new Set(teamsOf(leagueId).map((t) => t.id));
-  const list = PLAYERS.filter((p) => ids.has(p.teamId))
-    .map((p) => ({ player: p, value: metric.value(p) || 0 }))
-    .sort((a, b) => b.value - a.value)
-    .slice(0, 25);
+const fmt = (v) => (Number.isInteger(v) ? String(v) : comma(v, 2));
 
+export default function LeaguePlayersPanel({ leagueId }) {
+  const [mode, setMode] = useState('tot');
+  const ids = new Set(teamsOf(leagueId).map((t) => t.id));
+  const pool = PLAYERS.filter((p) => ids.has(p.teamId) && p.hasStats);
+  const sections = [];
+  METRICS.forEach((m) => {
+    if (mode === 'p90' && !m.p90) return;
+    const rows = pool
+      .filter((p) => (mode === 'p90' ? p.minutes >= 450 : true))
+      .map((p) => {
+        const raw = m.f(p);
+        const v = raw == null ? null : mode === 'p90' ? (raw * 90) / p.minutes : raw;
+        return { p, v };
+      })
+      .filter((x) => x.v !== null && x.v > 0)
+      .sort((a, b) => b.v - a.v)
+      .slice(0, 50)
+      .map(({ p, v }) => ({
+        id: p.id,
+        to: `/giocatore/${p.id}`,
+        left: (
+          <span className="avatar h-[30px] w-[30px] text-[10px]">
+            {p.photo ? <Image src={p.photo} alt={p.name} className="h-full w-full" fittingType="fill" /> : p.initials}
+          </span>
+        ),
+        name: p.name,
+        sub: p.teamName,
+        value: fmt(v),
+      }));
+    if (rows.length) sections.push({ id: m.key, group: m.group, title: mode === 'p90' ? `${m.label} / 90'` : m.label, rows });
+  });
   return (
-    <div className="pt-2">
-      <div className="px-5">
-        <TextFilter options={METRICS.map((m) => ({ value: m.key, label: m.label }))} value={metricKey} onChange={setMetricKey} />
-      </div>
-      <div className="mt-3">
-        {list.map((row, i) => (
-          <PlayerRow
-            key={row.player.id}
-            player={row.player}
-            rank={i + 1}
-            value={fmt(row.value)}
-            valueLabel={metric.label}
-            divider={i > 0}
-            link
-          />
-        ))}
-      </div>
-    </div>
+    <StatLists
+      sections={sections}
+      controls={<TextFilter options={[{ value: 'tot', label: 'Totale' }, { value: 'p90', label: "Ogni 90'" }]} value={mode} onChange={setMode} />}
+    />
   );
 }

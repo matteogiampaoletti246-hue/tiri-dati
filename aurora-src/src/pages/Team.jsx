@@ -76,9 +76,7 @@ export default function Team() {
         meta={meta}
         colors={team.colors}
         logoUrl={team.crest}
-        photoUrl={team.photo}
         initials={team.initials}
-        bigText={team.initials}
         liveCount={liveCount}
       />
 
@@ -92,7 +90,7 @@ export default function Team() {
           </div>
         </div>
       ) : (
-        <SwipeTabs tabs={TABS} panels={panels} index={tab} onChange={setTab} className="pt-5" />
+        <SwipeTabs tabs={TABS} panels={panels} index={tab} onChange={setTab} className="pt-0" />
       )}
     </PageShell>
   );

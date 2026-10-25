@@ -16,7 +16,7 @@ const clean = (s) => {
     .filter((t) => t && !STOP.has(t))
     .join(' ');
 };
-const same = (a, b) => {
+export const same = (a, b) => {
   const x = clean(a);
   const y = clean(b);
   if (!x || !y) return false;

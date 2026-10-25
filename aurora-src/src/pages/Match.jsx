@@ -10,11 +10,11 @@ import MatchOverviewPanel from '@/components/match/MatchOverviewPanel';
 import MatchSummaryPanel from '@/components/match/MatchSummaryPanel';
 import MatchStatsPanel from '@/components/match/MatchStatsPanel';
 import MatchLineupsPanel from '@/components/match/MatchLineupsPanel';
-import MatchShotsPanel from '@/components/match/MatchShotsPanel';
 import MatchStandingsPanel from '@/components/match/MatchStandingsPanel';
 import useInitialLoad from '@/hooks/useInitialLoad';
 import useTicker from '@/hooks/useTicker';
 import { matchById, viewMatch, ensureDetail } from '@/data/matches';
+import { loadFm } from '@/data/fotmob';
 import { playerLookup } from '@/data/players';
 import { teamById } from '@/data/teams';
 import { leagueById } from '@/data/leagues';
@@ -30,7 +30,6 @@ const PLAYED_TABS = [
   { key: 'summary', label: 'Riepilogo' },
   { key: 'stats', label: 'Statistiche' },
   { key: 'lineups', label: 'Formazioni' },
-  { key: 'shots', label: 'Mappa tiri' },
   { key: 'standings', label: 'Classifica' },
 ];
 
@@ -44,9 +43,19 @@ export default function Match() {
 
   useEffect(() => {
     let on = true;
-    ensureDetail(id, playerLookup).then(() => on && bump((n) => n + 1)).catch(() => {});
+    const run = (force) =>
+      ensureDetail(id, playerLookup)
+        .then(() => loadFm(matchById(id), playerLookup, force))
+        .then(() => on && bump((n) => n + 1))
+        .catch(() => {});
+    run(false);
+    const t = setInterval(() => {
+      const m = matchById(id);
+      if (m && m.status === 'live') run(true);
+    }, 20000);
     return () => {
       on = false;
+      clearInterval(t);
     };
   }, [id]);
 
@@ -83,7 +92,6 @@ export default function Match() {
         <MatchSummaryPanel key="summary" view={view} home={home} away={away} />,
         <MatchStatsPanel key="stats" match={raw} view={view} home={home} away={away} />,
         <MatchLineupsPanel key="lineups" view={view} home={home} away={away} />,
-        <MatchShotsPanel key="shots" view={view} home={home} away={away} />,
         <MatchStandingsPanel key="standings" match={raw} />,
       ];
 
@@ -102,7 +110,7 @@ export default function Match() {
           </div>
         </div>
       ) : (
-        <SwipeTabs tabs={tabs} panels={panels} index={tab} onChange={setTab} className="pt-6" />
+        <SwipeTabs tabs={tabs} panels={panels} index={tab} onChange={setTab} className="pt-2" stickyTop="0px" />
       )}
     </PageShell>
   );

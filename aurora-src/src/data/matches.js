@@ -204,7 +204,7 @@ const initials = (name) =>
     .toUpperCase();
 
 // Righe del campo: i giocatori con la stessa "profondità" (x) formano una fila.
-function buildLineup(side, raw, detail, team, playerLookup) {
+export function buildLineup(side, raw, detail, team, playerLookup) {
   if (!raw) return null;
   const starters = raw.st || raw.s || [];
   const bench = raw.su || raw.b || [];
