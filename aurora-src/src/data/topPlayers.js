@@ -117,3 +117,24 @@ export function bestPlayers(day, threshold) {
 }
 
 export { domesticKey };
+
+// Affidabilità di un giocatore in una partita (tiri totali, soglia over): voto 0–10 e media attesa.
+export function playerReliability(p, dateIso, line = 0.5) {
+  if (!p) return null;
+  const list = ((RAW.giocatori && RAW.giocatori.fix) || {})[p.teamName] || [];
+  const f = list.find((x) => romeDay(new Date(x[0]).getTime()) === dateIso);
+  if (!f) return null;
+  const t = lambdaOf(p, f, 0);
+  if (!t) return null;
+  return { voto: Math.max(0, Math.min(1, 1 - pois(Math.floor(line), t.lam))) * 10, lam: t.lam, minuti: t.mn };
+}
+
+export function matchReliability(match, line = 0.5) {
+  const out = [];
+  PLAYERS.forEach((p) => {
+    if (p.teamId !== match.homeId && p.teamId !== match.awayId) return;
+    const r = playerReliability(p, match.date, line);
+    if (r) out.push({ player: p, side: p.teamId === match.homeId ? 'home' : 'away', ...r });
+  });
+  return out.sort((a, b) => b.voto - a.voto);
+}

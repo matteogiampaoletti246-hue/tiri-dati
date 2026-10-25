@@ -1,34 +1,46 @@
 import PanelTitle from '@/components/PanelTitle';
-import MomentumChart from '@/components/MomentumChart';
-import MatchTimeline from '@/components/MatchTimeline';
+import InfoBand from '@/components/InfoBand';
+import Riassunto from './Riassunto';
+import Momentum from './Momentum';
+import RefereeCard from './RefereeCard';
+import FormCard from './FormCard';
+import { ConceptSwitch, useConcept } from '@/lib/concept';
 
-export default function MatchSummaryPanel({ view, home, away }) {
-  if (!view.events.length && !(view.momentum && view.momentum.length)) {
-    return (
-      <p className="px-5 py-16 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>
-        {view.live ? 'Partita in corso: cronologia e statistiche live in arrivo' : 'Dettagli non disponibili per questa partita'}
-      </p>
-    );
-  }
+const Card = ({ title, concept, children, noPad }) => (
+  <section className="glass mx-4 overflow-hidden rounded-[24px]">
+    <div className="flex items-center px-4 pb-1 pt-3.5">
+      <h3 className="text-[12.5px] font-extrabold uppercase tracking-wider">{title}</h3>
+      {concept ? <div className="ml-auto">{concept}</div> : null}
+    </div>
+    <div className={noPad ? '' : 'px-4 pb-4 pt-2'}>{children}</div>
+  </section>
+);
+
+export default function MatchSummaryPanel({ match, view, home, away }) {
+  const [cr, setCr] = useConcept('riassunto');
+  const [cm, setCm] = useConcept('momentum');
+  const events = view.events || [];
+  const empty = !events.length && !(view.momentum && view.momentum.length);
+
   return (
-    <div className="flex flex-col gap-7 pt-2">
-      <section className="px-5">
-        <div className="panel px-5 py-5">
-          <PanelTitle right={<span className="tnum text-[11px]" style={{ color: 'var(--ink-3)' }}>{view.minute}&apos;</span>}>
-            Momento
-          </PanelTitle>
-          <MomentumChart values={view.momentum} home={home} away={away} />
-        </div>
-      </section>
-
-      <section>
-        <div className="px-5">
-          <PanelTitle right={<span className="tnum text-[11px]" style={{ color: 'var(--ink-3)' }}>{view.events.length}</span>}>
-            Cronologia
-          </PanelTitle>
-        </div>
-        <MatchTimeline events={view.events} home={home} away={away} />
-      </section>
+    <div className="flex flex-col gap-4 pb-6 pt-3">
+      {empty ? (
+        <p className="px-5 py-10 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>
+          {view.live ? 'Partita in corso: cronologia e statistiche live in arrivo' : 'Dettagli non disponibili per questa partita'}
+        </p>
+      ) : (
+        <>
+          <Card title="Riassunto" noPad concept={<ConceptSwitch value={cr} onChange={setCr} />}>
+            {events.length ? <Riassunto events={events} finished={match.status === 'finished'} concept={cr} /> : <p className="py-6 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Nessun evento</p>}
+          </Card>
+          <Card title="Momentum" concept={<ConceptSwitch value={cm} onChange={setCm} />}>
+            <Momentum values={view.momentum} events={events} home={home} away={away} concept={cm} />
+          </Card>
+        </>
+      )}
+      <InfoBand match={match} />
+      <RefereeCard match={match} />
+      <FormCard match={match} home={home} away={away} />
     </div>
   );
 }

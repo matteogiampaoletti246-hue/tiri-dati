@@ -5,6 +5,7 @@ import Crest from '@/components/Crest';
 import TeamLink from '@/components/TeamLink';
 import TextFilter from '@/components/TextFilter';
 import ShotMap from '@/components/ShotMap';
+import { ConceptSwitch, useConcept } from '@/lib/concept';
 import { CATEGORY_DEFS, metricOf } from '@/data/standings';
 import { comma, num } from '@/lib/format';
 
@@ -24,6 +25,8 @@ const LIVE_STATS = [
 export default function MatchStatsPanel({ match, view, home, away, pre }) {
   const [period, setPeriod] = useState('all');
   const [side, setSide] = useState('all');
+  const [cs, setCs] = useConcept('statistiche');
+  const [cmap, setCmap] = useConcept('mappa');
 
   if (pre) {
     return (
@@ -64,8 +67,9 @@ export default function MatchStatsPanel({ match, view, home, away, pre }) {
 
   return (
     <div className="flex flex-col gap-5 pb-4 pt-3">
-      <div className="px-4">
+      <div className="flex items-center gap-3 px-4">
         <TextFilter options={[{ value: 'all', label: 'Totale' }, { value: 'first', label: '1° tempo' }, { value: 'second', label: '2° tempo' }]} value={period} onChange={setPeriod} />
+        <div className="ml-auto"><ConceptSwitch value={cs} onChange={setCs} /></div>
       </div>
 
       <div className="flex items-center gap-2 px-5">
@@ -74,25 +78,34 @@ export default function MatchStatsPanel({ match, view, home, away, pre }) {
       </div>
 
       {groups ? (
-        groups.map((g) => (
+        groups.slice(0, 1).map((g) => (
           <section key={g.key} className="glass mx-4 rounded-[24px] px-4 py-4">
             <PanelTitle>{g.title}</PanelTitle>
-            <CompareBars rows={g.rows.map((r) => ({ label: r.label, home: r.home, away: r.away, homeText: r.homeText, awayText: r.awayText }))} />
+            <CompareBars variant={cs} rows={g.rows.map((r) => ({ label: r.label, home: r.home, away: r.away, homeText: r.homeText, awayText: r.awayText }))} />
           </section>
         ))
       ) : fallback.length ? (
-        <section className="glass mx-4 rounded-[24px] px-4 py-4"><CompareBars rows={fallback} /></section>
+        <section className="glass mx-4 rounded-[24px] px-4 py-4"><CompareBars variant={cs} rows={fallback} /></section>
       ) : null}
 
       {(view.shots || []).length ? (
         <section className="glass mx-4 rounded-[24px] px-4 py-4">
-          <PanelTitle>Mappa tiri</PanelTitle>
+          <PanelTitle right={<ConceptSwitch value={cmap} onChange={setCmap} />}>Mappa tiri</PanelTitle>
           <div className="mb-3">
             <TextFilter options={[{ value: 'all', label: 'Tutte' }, { value: 'home', label: home ? home.short || home.name : 'Casa' }, { value: 'away', label: away ? away.short || away.name : 'Trasferta' }]} value={side} onChange={setSide} />
           </div>
-          <ShotMap shots={shots} home={home} away={away} />
+          <ShotMap shots={shots} home={home} away={away} concept={cmap} />
         </section>
       ) : null}
+
+      {groups
+        ? groups.slice(1).map((g) => (
+            <section key={g.key} className="glass mx-4 rounded-[24px] px-4 py-4">
+              <PanelTitle>{g.title}</PanelTitle>
+              <CompareBars variant={cs} rows={g.rows.map((r) => ({ label: r.label, home: r.home, away: r.away, homeText: r.homeText, awayText: r.awayText }))} />
+            </section>
+          ))
+        : null}
     </div>
   );
 }

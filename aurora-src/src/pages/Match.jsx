@@ -3,13 +3,13 @@ import { useParams } from 'react-router-dom';
 import PageShell from '@/components/PageShell';
 import TopBar from '@/components/TopBar';
 import MatchHero from '@/components/MatchHero';
-import InfoBand from '@/components/InfoBand';
 import SwipeTabs from '@/components/SwipeTabs';
 import Skeleton from '@/components/Skeleton';
 import MatchOverviewPanel from '@/components/match/MatchOverviewPanel';
 import MatchSummaryPanel from '@/components/match/MatchSummaryPanel';
 import MatchStatsPanel from '@/components/match/MatchStatsPanel';
 import MatchLineupsPanel from '@/components/match/MatchLineupsPanel';
+import MatchReliabilityList from '@/components/match/MatchReliabilityList';
 import MatchStandingsPanel from '@/components/match/MatchStandingsPanel';
 import useInitialLoad from '@/hooks/useInitialLoad';
 import useTicker from '@/hooks/useTicker';
@@ -23,6 +23,7 @@ const PRE_TABS = [
   { key: 'overview', label: 'Panoramica' },
   { key: 'stats', label: 'Statistiche' },
   { key: 'lineups', label: 'Formazioni' },
+  { key: 'rel', label: 'Affidabilità' },
   { key: 'standings', label: 'Classifica' },
 ];
 
@@ -51,8 +52,8 @@ export default function Match() {
     run(false);
     const t = setInterval(() => {
       const m = matchById(id);
-      if (m && m.status === 'live') run(true);
-    }, 20000);
+      if (m && (m.status === 'live' || (m.status === 'scheduled' && m.ts - Date.now() < 3 * 3600000))) run(true);
+    }, 25000);
     return () => {
       on = false;
       clearInterval(t);
@@ -85,20 +86,20 @@ export default function Match() {
     ? [
         <MatchOverviewPanel key="overview" match={raw} home={home} away={away} />,
         <MatchStatsPanel key="stats" match={raw} view={view} home={home} away={away} pre />,
-        <MatchLineupsPanel key="lineups" view={view} home={home} away={away} />,
+        <MatchLineupsPanel key="lineups" match={raw} view={view} home={home} away={away} pre />,
+        <MatchReliabilityList key="rel" match={raw} home={home} away={away} />,
         <MatchStandingsPanel key="standings" match={raw} />,
       ]
     : [
-        <MatchSummaryPanel key="summary" view={view} home={home} away={away} />,
+        <MatchSummaryPanel key="summary" match={raw} view={view} home={home} away={away} />,
         <MatchStatsPanel key="stats" match={raw} view={view} home={home} away={away} />,
-        <MatchLineupsPanel key="lineups" view={view} home={home} away={away} />,
+        <MatchLineupsPanel key="lineups" match={raw} view={view} home={home} away={away} />,
         <MatchStandingsPanel key="standings" match={raw} />,
       ];
 
   return (
     <PageShell swipeBack={false}>
       <MatchHero match={raw} view={view} league={league} home={home} away={away} />
-      <InfoBand match={raw} />
 
       {loading ? (
         <div className="px-5 pt-8">

@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 export default function TextFilter({ options, value, onChange, className = '' }) {
   const uid = useId();
   return (
-    <div className={`glass-flat hide-sb flex max-w-full items-center gap-0.5 overflow-x-auto rounded-full p-1 ${className}`}>
+    <div className={`glass-flat hide-sb flex w-fit max-w-full items-center gap-0.5 overflow-x-auto rounded-full p-1 ${className}`}>
       {options.map((opt) => {
         const val = typeof opt === 'string' ? opt : opt.value;
         const label = typeof opt === 'string' ? opt : opt.label;

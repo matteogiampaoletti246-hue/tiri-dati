@@ -10,6 +10,12 @@ export const refereesOf = (leagueId) => REFEREES.filter((r) => r.leagueId === le
 
 const COUNTRY = { ITA: 'Italia', ENG: 'Inghilterra', ESP: 'Spagna', GER: 'Germania', FRA: 'Francia', POR: 'Portogallo', NED: 'Olanda', POL: 'Polonia', SRB: 'Serbia', ROU: 'Romania', SLO: 'Slovenia', SVN: 'Slovenia', TUR: 'Turchia', BEL: 'Belgio', SUI: 'Svizzera', UKR: 'Ucraina', NOR: 'Norvegia', SWE: 'Svezia', SCO: 'Scozia', AUT: 'Austria', CRO: 'Croazia', CZE: 'Rep. Ceca', GRE: 'Grecia', HUN: 'Ungheria', DEN: 'Danimarca', ISR: 'Israele', BUL: 'Bulgaria' };
 
+const ISO2 = { ITA: 'IT', ENG: 'GB', ESP: 'ES', GER: 'DE', FRA: 'FR', POR: 'PT', NED: 'NL', POL: 'PL', SRB: 'RS', ROU: 'RO', SLO: 'SI', SVN: 'SI', TUR: 'TR', BEL: 'BE', SUI: 'CH', UKR: 'UA', NOR: 'NO', SWE: 'SE', SCO: 'GB', AUT: 'AT', CRO: 'HR', CZE: 'CZ', GRE: 'GR', HUN: 'HU', DEN: 'DK', ISR: 'IL', BUL: 'BG', IRL: 'IE', ARM: 'AM', AZE: 'AZ', BIH: 'BA', CYP: 'CY', FIN: 'FI', ISL: 'IS', KAZ: 'KZ', LTU: 'LT', LUX: 'LU', MDA: 'MD', MKD: 'MK', MNE: 'ME', SVK: 'SK', LVA: 'LV', EST: 'EE', ALB: 'AL', GEO: 'GE', MLT: 'MT', KOS: 'XK', BLR: 'BY', FRO: 'FO' };
+export const flagOf = (c) => {
+  const x = ISO2[c] || (c && c.length === 2 ? c : null);
+  return x ? String.fromCodePoint(...x.toUpperCase().split('').map((ch) => 127397 + ch.charCodeAt(0))) : '';
+};
+
 export function buildReferees() {
   REFEREES.length = 0;
   Object.keys(BY_ID).forEach((k) => delete BY_ID[k]);
@@ -23,6 +29,7 @@ export function buildReferees() {
       name,
       photo: photos[name] || null,
       country: COUNTRY[cc[name]] || cc[name] || '',
+      flag: flagOf(cc[name]),
       leagueId: r.lg || null,
       games,
       yellows: Math.round((r.y || 0) * games),

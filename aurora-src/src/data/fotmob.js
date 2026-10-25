@@ -162,6 +162,8 @@ export function applyFm(m, d, playerLookup) {
     own: !!s[17],
     px: s[4],
     py: s[5],
+    gy: s[11],
+    gz: s[12],
     x: Math.max(0, Math.min(1, s[4] / 105)),
     y: Math.max(0, Math.min(1, s[5] / 68)),
   }));
@@ -180,7 +182,7 @@ export function applyFm(m, d, playerLookup) {
       const pl = [];
       [...raw.s, ...(raw.b || [])].forEach((p) => pl.push([p[0], side, p[6] == null ? null : Math.round(p[6] * 10) / 10]));
       const pseudo = { ev: evRows, pl };
-      const lu = buildLineup(side, { f: raw.f, s: raw.s.map((p) => [p[0], p[1], p[2], p[3], p[4], null]), b: (raw.b || []).map((p) => [p[0], p[1], 0, 0, false, null]), co: raw.co && raw.co.n }, pseudo, team, playerLookup);
+      const lu = buildLineup(side, { f: raw.f, s: raw.s.map((p) => [p[0], p[1], p[2], p[3], p[4], null]), b: (raw.b || []).map((p) => [p[0], p[1], 0, 0, false, null]), co: raw.co && raw.co.n, c: !/pred|prob|expect/i.test(String(d.ty || '')) }, pseudo, team, playerLookup);
       const byName = {};
       [...raw.s, ...(raw.b || [])].forEach((p) => { byName[p[0]] = p; });
       const fix = (e) => {
@@ -192,6 +194,11 @@ export function applyFm(m, d, playerLookup) {
         }
         return e;
       };
+      if (raw.co) {
+        lu.coach = raw.co.n;
+        lu.coachId = raw.co.id;
+        lu.coachCc = raw.co.cc;
+      }
       lu.xi = lu.xi.map(fix);
       lu.bench = lu.bench.map(fix);
       return lu;
@@ -203,6 +210,7 @@ export function applyFm(m, d, playerLookup) {
     m.refereeName = d.ref.n;
     m.refereeId = slug(d.ref.n);
   }
+  m.lineupType = d.ty || null;
   m.detail = true;
   m.fm = true;
   m.fmAt = Date.now();
@@ -211,8 +219,8 @@ export function applyFm(m, d, playerLookup) {
 
 export async function loadFm(m, playerLookup, force = false) {
   if (!m || m.placeholder && !m.date) return m;
-  if (m.status === 'scheduled' && m.ts - Date.now() > 2 * 3600000) return m;
-  if (!force && m.fm && m.status !== 'live' && Date.now() - (m.fmAt || 0) < 300000) return m;
+  if (m.status === 'scheduled' && m.ts - Date.now() > 36 * 3600000) return m;
+  if (!force && m.fm && m.status !== 'live' && m.status !== 'scheduled' && Date.now() - (m.fmAt || 0) < 300000) return m;
   try {
     const id = await findFmId(m);
     if (!id) return m;

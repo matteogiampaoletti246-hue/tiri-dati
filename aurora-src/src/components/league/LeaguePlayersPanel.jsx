@@ -24,15 +24,15 @@ const METRICS = [
 
 const fmt = (v) => (Number.isInteger(v) ? String(v) : comma(v, 2));
 
-export default function LeaguePlayersPanel({ leagueId }) {
+export default function LeaguePlayersPanel({ leagueId, teamId }) {
   const [mode, setMode] = useState('tot');
   const ids = new Set(teamsOf(leagueId).map((t) => t.id));
-  const pool = PLAYERS.filter((p) => ids.has(p.teamId) && p.hasStats);
+  const pool = PLAYERS.filter((p) => (teamId ? p.teamId === teamId : ids.has(p.teamId)) && p.hasStats);
   const sections = [];
   METRICS.forEach((m) => {
     if (mode === 'p90' && !m.p90) return;
     const rows = pool
-      .filter((p) => (mode === 'p90' ? p.minutes >= 450 : true))
+      .filter((p) => (mode === 'p90' ? p.minutes >= (teamId ? 180 : 450) : true))
       .map((p) => {
         const raw = m.f(p);
         const v = raw == null ? null : mode === 'p90' ? (raw * 90) / p.minutes : raw;

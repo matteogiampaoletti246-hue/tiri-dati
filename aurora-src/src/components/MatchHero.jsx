@@ -71,7 +71,7 @@ export default function MatchHero({ match, view, league, home, away }) {
               <Crest team={home} size={54} />
               <span className="text-center text-[13px] font-semibold leading-tight">{home ? home.name : '—'}</span>
             </TeamLink>
-            <FormDots form={teamForm(match.homeId)} size={13} />
+            {!live && !finished ? <FormDots form={teamForm(match.homeId)} size={13} /> : null}
           </div>
 
           <div className="flex w-[104px] flex-none flex-col items-center pt-3">
@@ -95,7 +95,7 @@ export default function MatchHero({ match, view, league, home, away }) {
               <Crest team={away} size={54} />
               <span className="text-center text-[13px] font-semibold leading-tight">{away ? away.name : '—'}</span>
             </TeamLink>
-            <FormDots form={teamForm(match.awayId)} size={13} />
+            {!live && !finished ? <FormDots form={teamForm(match.awayId)} size={13} /> : null}
           </div>
         </div>
 
