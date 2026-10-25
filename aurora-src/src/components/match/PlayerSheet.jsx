@@ -8,7 +8,6 @@ import TextFilter from '@/components/TextFilter';
 import MatchShotMap from './MatchShotMap';
 import { CardIcon, SubIcon, BallIcon } from './EventIcons';
 import { closePlayer, findInMatch, matchOf, ourPlayerId, usePlayerSheet } from '@/data/playerSheet';
-import { useConcept } from '@/lib/concept';
 import { comma } from '@/lib/format';
 import { norm } from '@/data/util';
 
@@ -197,7 +196,8 @@ function Header({ c, concept }) {
 export default function PlayerSheetHost() {
   const sheet = usePlayerSheet();
   const c = useCard(sheet);
-  const [concept] = useConcept('playersheet');
+  // versione in uso: 'c'. La 'a' resta nel codice: per sostituirla basta cambiare questa riga.
+  const concept = 'c';
   const controls = useDragControls();
   const navigate = useNavigate();
 
