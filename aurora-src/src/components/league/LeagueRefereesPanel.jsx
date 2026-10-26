@@ -13,7 +13,7 @@ const METRICS = [
   { key: 'p', label: 'Rigori', tot: 'penalties', avg: 'penaltiesAvg', d: 2 },
   { key: 'g', label: 'Partite', tot: 'games', avg: 'games', d: 0 },
 ];
-const cptOf = () => { try { return localStorage.getItem('sl-concept-refrank') || 'a'; } catch { return 'a'; } };
+const cptOf = () => { try { return 'a'; } catch { return 'a'; } };
 
 // Classifica arbitri: si sceglie la statistica, la lista si ordina e la sua colonna e' evidenziata.
 export default function LeagueRefereesPanel({ leagueId, concept = cptOf() }) {
