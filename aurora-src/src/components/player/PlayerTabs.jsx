@@ -191,8 +191,7 @@ export function ProfiloPanel({ player, team, concept }) {
               <p className="tnum text-[22px] font-light" style={{ color: 'var(--ink)' }}>{v}</p>
               <p style={L}>{k}</p>
             </div>
-            );
-          })}
+          ))}
         </div>
       </section>
       <section>
