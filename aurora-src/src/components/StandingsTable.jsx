@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Crest from './Crest';
 import FormDots from './FormDots';
@@ -7,18 +6,8 @@ import { standings, zoneOf } from '@/data/standings';
 
 const COLS = { table: '18px 1fr 22px 20px 20px 20px 36px 28px', forma: '18px 1fr 92px 30px' };
 
-const cptOf = () => { try { return localStorage.getItem('sl-concept-sort') || 'a'; } catch { return 'a'; } };
-const SORTS = { 'PG': (r) => r.played, V: (r) => r.won, N: (r) => r.drawn, P: (r) => r.lost, 'GF:GS': (r) => r.gf - r.ga, Pt: (r) => r.points };
-
-export default function StandingsTable({ leagueId, mode = 'total', highlight = [], concept = cptOf(), init = null }) {
-  const base = standings(leagueId, mode);
-  // ordinamento: di default dal migliore al peggiore; si inverte toccando un'intestazione gia' presente
-  const [sort, setSort] = useState(init || { k: '#', dir: 1 });
-  const rows = (() => {
-    const f = SORTS[sort.k];
-    if (sort.k === '#' || !f || mode === 'forma') return sort.dir === 1 ? base : [...base].reverse();
-    return [...base].sort((a, b) => (f(b) - f(a)) * sort.dir || a.rank - b.rank);
-  })();
+export default function StandingsTable({ leagueId, mode = 'total', highlight = [] }) {
+  const rows = standings(leagueId, mode);
   if (!rows.length) return null;
   const forma = mode === 'forma';
   const cols = forma ? COLS.forma : COLS.table;
@@ -34,25 +23,9 @@ export default function StandingsTable({ leagueId, mode = 'total', highlight = [
   return (
     <div>
       <div className="grid items-center gap-2 px-4 pb-2 text-[9.5px] font-bold uppercase tracking-[.1em]" style={{ gridTemplateColumns: cols, color: 'var(--ink-3)' }}>
-        {head.map((h, i) => {
-          const key = h === 'Squadra' || h === 'Ultime 5' ? null : concept !== 'c' && h === 'Pt' ? '#' : h;
-          const can = key && (concept === 'c' ? true : concept === 'a' ? h === '#' : h === 'Pt');
-          const on = can && sort.k === key;
-          const arrow = on ? (sort.dir === 1 ? '↓' : '↑') : '';
-          return can ? (
-            <button
-              key={h}
-              type="button"
-              onClick={() => setSort((s0) => (s0.k === key ? { k: key, dir: -s0.dir } : { k: key, dir: 1 }))}
-              className="press text-right font-bold uppercase"
-              style={{ color: on ? 'var(--accent)' : 'inherit', letterSpacing: 'inherit', fontSize: 'inherit', padding: 0 }}
-            >
-              {h}{arrow ? <span className="text-[9px]">{arrow}</span> : null}
-            </button>
-          ) : (
-            <span key={h} className={i === 1 ? '' : 'text-right'}>{h}</span>
-          );
-        })}
+        {head.map((h, i) => (
+          <span key={h} className={i === 1 ? '' : 'text-right'}>{h}</span>
+        ))}
       </div>
 
       {rows.map((row) => {

@@ -6,7 +6,7 @@ import { hasMetrics, metricOf } from '@/data/standings';
 import { bandColor } from '@/components/player/playerCalc';
 import { comma } from '@/lib/format';
 
-const cptOf = () => { try { return localStorage.getItem('sl-concept-prestats') || 'a'; } catch { return 'a'; } };
+const cptOf = () => { try { return 'a'; } catch { return 'a'; } };
 // [statistica fatta, stessa statistica subita dall'avversaria, etichetta]
 const PAIRS = [
   ['gol', 'golSubiti', 'Gol'],
@@ -49,14 +49,14 @@ function TeamTable({ me, op, concept, side }) {
       <Crest team={me} size={26} />
       <div className="min-w-0 flex-1">
         <TeamLink team={me} className="block truncate text-[14.5px] font-extrabold">{me.name}</TeamLink>
-        <p className="truncate text-[10.5px]" style={{ color: 'var(--ink-3)' }}>{side} · confronto con ciò che subisce {op.short || op.name}</p>
+        <p className="truncate text-[10.5px]" style={{ color: 'var(--ink-3)' }}>{side} · {me.short || me.name} fatti vs {op.short || op.name} subiti</p>
       </div>
       <Crest team={op} size={20} />
     </div>
   );
   const colHead = (
     <div className="grid items-center gap-2 px-4 pb-1 text-[9.5px] font-bold uppercase tracking-[.08em]" style={{ gridTemplateColumns: '1fr 74px 74px', color: 'var(--ink-3)' }}>
-      <span>Statistica</span><span className="text-right">{me.short || me.name} fa</span><span className="text-right">{op.short || op.name} subisce</span>
+      <span>Statistica</span><span className="text-right">{me.short || me.name} fatti</span><span className="text-right">{op.short || op.name} subiti</span>
     </div>
   );
 

@@ -8,6 +8,8 @@ import { ChevronDown, ListTree, X } from 'lucide-react';
 export default function StatLists({ sections, controls = null, limit = 8 }) {
   const [sheet, setSheet] = useState(false);
   const [open, setOpen] = useState({});
+  const [rev, setRev] = useState({});
+  const concept = (() => { try { return localStorage.getItem('sl-concept-sort') || 'a'; } catch { return 'a'; } })();
   const groups = [];
   sections.forEach((s) => {
     let g = groups.find((x) => x.name === s.group);
@@ -42,17 +44,29 @@ export default function StatLists({ sections, controls = null, limit = 8 }) {
 
       {sections.map((s) => {
         const all = !!open[s.id];
-        const rows = all ? s.rows : s.rows.slice(0, limit);
+        const r0 = !!rev[s.id];
+        const flip = () => setRev({ ...rev, [s.id]: !r0 });
+        const ordered = r0 ? [...s.rows].reverse() : s.rows;
+        const rows = all ? ordered : ordered.slice(0, limit);
+        const arrow = r0 ? '↑' : '↓';
         return (
           <section key={s.id} id={`st-${s.id}`} className="glass mx-4 mt-4 overflow-hidden rounded-[24px]" style={{ scrollMarginTop: 150 }}>
             <div className="flex items-baseline justify-between px-4 pb-2 pt-3.5">
-              <h3 className="text-[12.5px] font-extrabold uppercase tracking-wider">{s.title}</h3>
-              <span className="text-[10.5px]" style={{ color: 'var(--ink-3)' }}>{s.group}</span>
+              {concept === 'a' ? (
+                <button type="button" onClick={flip} className="press text-left text-[12.5px] font-extrabold uppercase tracking-wider"><h3 className="inline">{s.title}</h3> <span style={{ color: 'var(--accent)' }}>{arrow}</span></button>
+              ) : <h3 className="text-[12.5px] font-extrabold uppercase tracking-wider">{s.title}</h3>}
+              {concept === 'b' ? (
+                <button type="button" onClick={flip} className="press text-[10.5px] font-bold" style={{ color: 'var(--accent)' }}>{s.group} · {r0 ? 'dal peggiore' : 'dal migliore'} {arrow}</button>
+              ) : <span className="text-[10.5px]" style={{ color: 'var(--ink-3)' }}>{s.group}</span>}
             </div>
             {rows.map((r, i) => {
               const inner = (
                 <>
-                  <span className="tnum w-[22px] shrink-0 text-[11.5px]" style={{ color: 'var(--ink-3)' }}>{i + 1}</span>
+                  <span
+                    className="tnum w-[22px] shrink-0 text-[11.5px]"
+                    style={{ color: concept === 'c' ? 'var(--accent)' : 'var(--ink-3)' }}
+                    onClick={concept === 'c' ? (e) => { e.preventDefault(); e.stopPropagation(); flip(); } : undefined}
+                  >{r0 ? s.rows.length - i : i + 1}{concept === 'c' && i === 0 ? <span className="text-[8px]">{arrow}</span> : null}</span>
                   {r.left}
                   <span className="min-w-0 flex-1">
                     <span className="block truncate text-[13.5px] font-semibold">{r.name}</span>

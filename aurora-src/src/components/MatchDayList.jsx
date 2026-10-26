@@ -4,7 +4,7 @@ import MatchRow from './MatchRow';
 import { DATES, TODAY_INDEX, isoDate } from '@/data/matches';
 import { dayLabel, longDate } from '@/lib/format';
 
-const cptOf = () => { try { return localStorage.getItem('sl-concept-gg') || 'a'; } catch { return 'a'; } };
+const cptOf = () => { try { return 'c'; } catch { return 'a'; } };
 const dayHead = (iso) => {
   const idx = DATES.findIndex((d) => isoDate(d) === iso);
   return idx >= 0 ? dayLabel(DATES[idx], TODAY_INDEX, idx) : longDate(new Date(`${iso}T12:00:00`));
