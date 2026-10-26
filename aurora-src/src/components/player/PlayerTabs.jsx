@@ -320,8 +320,8 @@ export function CarrieraPanel({ player }) {
             <div key={i} className="flex items-center gap-3 rounded-2xl px-3.5 py-3" style={{ background: 'rgba(127,160,200,.08)' }}>
               <Crest team={t || { name: r[0], initials: String(r[0] || '').slice(0, 2).toUpperCase(), colors: ['#37507a', '#5a7bb0'] }} size={30} />
               <div className="min-w-0 flex-1">
-                <p className="truncate text-[14px]" style={{ color: 'var(--ink)' }}>
-                  {r[0]}{r[6] ? <span className="ml-1.5 text-[10.5px]" style={{ color: 'var(--ink-3)' }}>prestito</span> : null}
+                <p className="flex items-center gap-1.5 text-[14px]" style={{ color: 'var(--ink)' }}>
+                  <span className="truncate">{r[0]}</span>{r[6] ? <span className="shrink-0 rounded-full px-1.5 text-[9.5px]" style={{ color: 'var(--ink-3)', border: '1px solid var(--hair-2)' }}>PRESTITO</span> : null}
                 </p>
                 <p className="mt-0.5 text-[11px]" style={{ color: 'var(--ink-3)' }}>
                   {monthIt(r[1])} – {r[7] ? 'oggi' : monthIt(r[2]) || '—'}
