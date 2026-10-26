@@ -39,3 +39,24 @@ if (/[?&]debug=1/.test(location.search)) {
   on('pointercancel', () => { c.pc++; draw(); });
   draw();
 }
+
+// Aggiornamento automatico: se sul server c'è una versione più nuova (utile per l'icona nella schermata Home), ricarica.
+(() => {
+  const mine = ((document.querySelector('script[src*="index-"]') || {}).src || '').match(/index-[^./]+\.js/);
+  if (!mine) return;
+  const check = async () => {
+    try {
+      const r = await fetch(`${location.pathname}?v=${Date.now()}`, { cache: 'no-store' });
+      const t = await r.text();
+      const m = t.match(/index-[^./"]+\.js/);
+      if (m && m[0] !== mine[0]) {
+        const k = `sl-reload-${m[0]}`;
+        if (sessionStorage.getItem(k)) return;
+        sessionStorage.setItem(k, '1');
+        location.reload();
+      }
+    } catch { /* offline */ }
+  };
+  check();
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') check(); });
+})();
