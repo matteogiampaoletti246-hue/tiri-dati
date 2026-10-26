@@ -83,5 +83,7 @@ def run():
         idx[lid] = e
         dump("arch/index.json", idx)
     dump("arch/index.json", idx)
+    ok = all(idx.get(str(L["id"]), {}).get("done") for L in leghe)
+    open("arch/.complete", "w").write("1") if ok else (os.path.exists("arch/.complete") and os.remove("arch/.complete"))
 run()
 # v2
