@@ -42,9 +42,9 @@ if (/[?&]debug=1/.test(location.search)) {
 }
 
 // Ritorno nell'app: dopo meno di 5 minuti si riprende esattamente da dove si era, senza ricaricare nulla.
-// Dopo 5 minuti o piu' l'app riparte da capo (nuova versione se disponibile) e rifa' l'animazione iniziale.
+// Dopo 10 minuti o piu' l'app riparte da capo (nuova versione se disponibile) e rifa' l'animazione iniziale.
 (() => {
-  const AWAY = 5 * 60 * 1000;
+  const AWAY = 10 * 60 * 1000;
   let hiddenAt = 0;
   // pagina ricaricata dal sistema mentre l'app era in background: l'intro riparte solo dopo 5 minuti
   try {

@@ -30,7 +30,7 @@ export default function Home() {
   KEEP.filter = filter;
   const [searchOpen, setSearchOpen] = useState(false);
   const loading = useInitialLoad();
-  useTicker(30000);
+  useTicker(10000);
   const drag = useRef(null);
 
   const date = DATES[dayIdx];

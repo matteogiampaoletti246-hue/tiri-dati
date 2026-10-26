@@ -37,7 +37,7 @@ const EASE = 'cubic-bezier(.22,.8,.24,1)';
 // dx = spostamento attuale (px) del contenuto trascinato; dir = +1 il nuovo arriva da destra, -1 da sinistra.
 export function carousel(el, dx, dir, apply, done, ms = 300, host = null) {
   if (!el) { apply(); if (done) done(); return; }
-  const w = Math.min(window.innerWidth, 430);
+  const w = Math.min(window.innerWidth, (typeof el !== "undefined" && el.offsetWidth) || 430);
   el.style.transition = 'none';
   el.style.transform = '';
   el.style.opacity = '';
@@ -65,7 +65,7 @@ export function carousel(el, dx, dir, apply, done, ms = 300, host = null) {
 // Ritorno indietro: la pagina corrente scivola via a destra e sotto c'e' gia' quella precedente.
 export function pageBack(shell, dx, navigate) {
   if (!shell) { navigate(-1); return; }
-  const w = Math.min(window.innerWidth, 430);
+  const w = Math.min(window.innerWidth, shell.offsetWidth || 430);
   shell.style.transition = 'none';
   shell.style.transform = '';
   shell.style.opacity = '';

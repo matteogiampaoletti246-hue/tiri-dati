@@ -51,10 +51,16 @@ export default function Match() {
         .then(() => on && bump((n) => n + 1))
         .catch(() => {});
     run(false);
+    // ogni 10 secondi: partita live o vicina; formazioni probabili piu' lontane ogni minuto
+    let n = 0;
     const t = setInterval(() => {
+      n += 1;
       const m = matchById(id);
-      if (m && (m.status === 'live' || (m.status === 'scheduled' && m.ts - Date.now() < 3 * 3600000))) run(true);
-    }, 25000);
+      if (!m) return;
+      const to = m.ts - Date.now();
+      if (m.status === 'live' || (m.status === 'scheduled' && to < 3 * 3600000)) run(true);
+      else if (m.status === 'scheduled' && to < 96 * 3600000 && n % 6 === 0) run(true);
+    }, 10000);
     return () => {
       on = false;
       clearInterval(t);

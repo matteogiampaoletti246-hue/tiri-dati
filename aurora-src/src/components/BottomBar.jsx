@@ -21,7 +21,7 @@ export default function BottomBar() {
         background: 'linear-gradient(to top, hsl(var(--background)) 62%, transparent)',
       }}
     >
-      <div className="mx-auto w-full max-w-[430px] px-4 pt-2">
+      <div className="mx-auto w-full max-w-[var(--app-w)] px-4 pt-2">
         <div className="flex rounded-[26px] p-1.5" style={{ background: 'var(--sky-2)', border: '1px solid var(--glass-border)', boxShadow: 'var(--glass-shadow)' }}>
           {ITEMS.map(({ to, label, icon: Icon, exact }) => {
             const active = isActive({ to, exact });

@@ -70,6 +70,6 @@ export async function pullLive() {
 export function startLive() {
   if (timer) return;
   pullLive();
-  timer = setInterval(pullLive, 20000);
+  timer = setInterval(pullLive, 10000);
 }
 export const lastLive = () => LAST;

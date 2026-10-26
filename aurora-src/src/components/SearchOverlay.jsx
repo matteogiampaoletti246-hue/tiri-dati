@@ -68,7 +68,7 @@ export default function SearchOverlay({ open, onClose }) {
 
   return (
     <div className="fixed inset-0 z-50 fade-in" style={{ background: 'color-mix(in srgb, var(--sky-2) 92%, transparent)', backdropFilter: 'blur(24px)' }}>
-      <div className="mx-auto min-h-screen w-full max-w-[430px]">
+      <div className="mx-auto min-h-screen w-full max-w-[var(--app-w)]">
         <div className="flex items-center gap-3 px-5 py-4">
           <Search size={18} strokeWidth={1.25} style={{ color: 'var(--ink-3)' }} />
           <input

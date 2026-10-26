@@ -34,7 +34,7 @@ export default function PickerSheet({ open, title, options = [], placeholder = '
 
   return (
     <div className="fade-in fixed inset-0 z-[60]" style={{ background: 'color-mix(in srgb, var(--sky-2) 94%, transparent)', backdropFilter: 'blur(24px)' }}>
-      <div className="mx-auto flex min-h-screen w-full max-w-[430px] flex-col">
+      <div className="mx-auto flex min-h-screen w-full max-w-[var(--sheet-w)] flex-col">
         <div className="flex items-center gap-3 px-5 py-4">
           <Search size={18} strokeWidth={1.25} style={{ color: 'var(--ink-3)' }} />
           <input

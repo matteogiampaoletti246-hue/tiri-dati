@@ -105,7 +105,7 @@ export default function StatLists({ sections, controls = null, limit = 8 }) {
 
       {sheet ? createPortal(
         <div className="fixed inset-0 z-[90] flex items-end justify-center" onClick={() => setSheet(false)} onTouchMove={(e) => { if (e.target === e.currentTarget && e.cancelable) e.preventDefault(); }} style={{ background: 'rgba(0,0,0,.5)', touchAction: 'none' }}>
-          <div className="max-h-[72vh] w-full max-w-[430px] overflow-y-auto overscroll-contain rounded-t-[28px] p-5 pb-[max(20px,env(safe-area-inset-bottom))]" style={{ background: 'var(--sky-2)', border: '1px solid var(--glass-border)', touchAction: 'pan-y', animation: 'slup .3s cubic-bezier(.22,.8,.24,1)' }} onClick={(e) => e.stopPropagation()}>
+          <div className="max-h-[72vh] w-full max-w-[var(--sheet-w)] overflow-y-auto overscroll-contain rounded-t-[28px] p-5 pb-[max(20px,env(safe-area-inset-bottom))]" style={{ background: 'var(--sky-2)', border: '1px solid var(--glass-border)', touchAction: 'pan-y', animation: 'slup .3s cubic-bezier(.22,.8,.24,1)' }} onClick={(e) => e.stopPropagation()}>
             <div className="mb-3 flex items-center justify-between">
               <span className="text-[15px] font-extrabold">Vai a</span>
               <button type="button" onClick={() => setSheet(false)} className="press" aria-label="Chiudi"><X size={18} /></button>

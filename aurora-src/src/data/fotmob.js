@@ -221,14 +221,14 @@ export function applyFm(m, d, playerLookup) {
 
 export async function loadFm(m, playerLookup, force = false) {
   if (!m || m.placeholder && !m.date) return m;
-  if (m.status === 'scheduled' && m.ts - Date.now() > 36 * 3600000) return m;
+  if (m.status === 'scheduled' && m.ts - Date.now() > 96 * 3600000) return m;
   if (!force && m.fm && m.status !== 'live' && m.status !== 'scheduled' && Date.now() - (m.fmAt || 0) < 300000) return m;
   try {
     const id = await findFmId(m);
     if (!id) return m;
     const c = fxCache[id];
     let d;
-    if (c && Date.now() - c.at < 15000) d = c.d;
+    if (c && Date.now() - c.at < 8000) d = c.d;
     else {
       d = await jget(`${WORKER}/fx?id=${id}`);
       fxCache[id] = { at: Date.now(), d };

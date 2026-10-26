@@ -375,7 +375,7 @@ export default function PlayerSheetHost() {
         <div ref={backdropRef} aria-hidden="true" className="absolute inset-0" style={{ background: 'rgba(0,0,0,.55)', animation: 'slfade .25s ease' }} onClick={close} onTouchMove={(e) => { if (e.cancelable) e.preventDefault(); }} />
         <div
           ref={sheetRef}
-          className="absolute inset-x-0 bottom-0 mx-auto flex w-full max-w-[430px] flex-col overflow-hidden rounded-t-[28px]"
+          className="absolute inset-x-0 bottom-0 mx-auto flex w-full max-w-[var(--sheet-w)] flex-col overflow-hidden rounded-t-[28px]"
           style={{ height: '92dvh', background: 'var(--sky-2)', border: '1px solid var(--glass-border)', boxShadow: '0 -20px 60px rgba(0,0,0,.5)', animation: 'slup .34s cubic-bezier(.22,.8,.24,1)', touchAction: 'pan-y' }}
         >
           <div className="shrink-0 pb-1 pt-2.5">
