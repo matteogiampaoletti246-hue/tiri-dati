@@ -7,6 +7,9 @@ import { TEAMS } from '@/data/teams';
 import { LEAGUES } from '@/data/leagues';
 import { PLAYERS } from '@/data/players';
 import { REFEREES } from '@/data/referees';
+import { teamById } from '@/data/teams';
+import { leagueById } from '@/data/leagues';
+import { conceptOf } from '@/components/match/FormCard';
 
 const norm = (s) =>
   String(s)
@@ -14,7 +17,26 @@ const norm = (s) =>
     .normalize('NFD')
     .replace(/[̀-ͯ]/g, '');
 
+const ring = (t) => (t && t.colors && t.colors[0]) || 'var(--hair)';
+
+function PlayerFace({ p, size, concept }) {
+  const t = teamById(p.teamId);
+  return (
+    <span className="relative shrink-0" style={{ width: size, height: size }}>
+      <span className="block h-full w-full overflow-hidden rounded-full" style={{ background: t ? `linear-gradient(150deg, ${t.colors[0]}, ${t.colors[1]})` : 'var(--hair)', boxShadow: concept === 'b' ? `0 0 0 2px ${ring(t)}` : 'none' }}>
+        {p.photo ? <img src={p.photo} alt="" loading="lazy" decoding="async" className="h-full w-full object-cover" /> : <span className="flex h-full w-full items-center justify-center text-[13px] font-bold text-white">{p.initials}</span>}
+      </span>
+    </span>
+  );
+}
+
+const countryOf = (t) => {
+  const l = leagueById(t.leagueId);
+  return l ? l.country : '';
+};
+
 export default function SearchOverlay({ open, onClose }) {
+  const concept = conceptOf('search');
   const [q, setQ] = useState('');
   const navigate = useNavigate();
   const inputRef = useRef(null);
@@ -101,26 +123,69 @@ export default function SearchOverlay({ open, onClose }) {
               ) : null}
               {teams.length ? (
                 <Section title="Squadre">
-                  {teams.map((t) => (
-                    <Row key={t.id} onClick={() => go(`/squadra/${t.id}`)}>
-                      <Crest team={t} size={26} />
-                      <span className="text-[14.5px]" style={{ color: 'var(--ink)' }}>
-                        {t.name}
+                  {teams.map((t) => {
+                    const l = leagueById(t.leagueId);
+                    const sub = (
+                      <span className="mt-0.5 flex items-center gap-1.5 text-[12px]" style={{ color: 'var(--ink-3)' }}>
+                        {l ? <LeagueBadge league={l} size={14} /> : null}
+                        <span className="truncate">{countryOf(t)}{countryOf(t) && l ? ' · ' : ''}{l ? l.name : ''}</span>
                       </span>
-                    </Row>
-                  ))}
+                    );
+                    if (concept === 'b') {
+                      return (
+                        <div key={t.id} className="px-4 py-1">
+                          <button type="button" onClick={() => go(`/squadra/${t.id}`)} className="glass press flex w-full items-center gap-3.5 rounded-[20px] px-4 py-3 text-left">
+                            <Crest team={t} size={52} />
+                            <span className="min-w-0"><span className="block truncate text-[16px] font-extrabold" style={{ color: 'var(--ink)' }}>{t.name}</span>{sub}</span>
+                          </button>
+                        </div>
+                      );
+                    }
+                    if (concept === 'c') {
+                      return (
+                        <Row key={t.id} onClick={() => go(`/squadra/${t.id}`)}>
+                          <span className="flex h-[58px] w-[58px] shrink-0 items-center justify-center rounded-[18px]" style={{ background: `linear-gradient(150deg, ${t.colors[0]}55, ${t.colors[1]}22)`, border: '1px solid var(--glass-border)' }}><Crest team={t} size={40} /></span>
+                          <span className="min-w-0"><span className="block truncate text-[16px] font-bold" style={{ color: 'var(--ink)' }}>{t.name}</span>{sub}</span>
+                        </Row>
+                      );
+                    }
+                    return (
+                      <Row key={t.id} onClick={() => go(`/squadra/${t.id}`)}>
+                        <Crest team={t} size={46} />
+                        <span className="min-w-0"><span className="block truncate text-[16px] font-bold" style={{ color: 'var(--ink)' }}>{t.name}</span>{sub}</span>
+                      </Row>
+                    );
+                  })}
                 </Section>
               ) : null}
               {players.length ? (
                 <Section title="Giocatori">
-                  {players.map((p) => (
-                    <Row key={p.id} onClick={() => go(`/giocatore/${p.id}`)}>
-                      <span className="avatar h-[26px] w-[26px] text-[10px]">{p.initials}</span>
-                      <span className="text-[14.5px]" style={{ color: 'var(--ink)' }}>
-                        {p.name}
+                  {players.map((p) => {
+                    const t = teamById(p.teamId);
+                    const sub = (
+                      <span className="mt-0.5 flex items-center gap-1.5 text-[12px]" style={{ color: 'var(--ink-3)' }}>
+                        {t ? <Crest team={t} size={14} /> : null}
+                        <span className="truncate">{t ? t.name : p.teamName}</span>
                       </span>
-                    </Row>
-                  ))}
+                    );
+                    if (concept === 'b') {
+                      return (
+                        <div key={p.id} className="px-4 py-1">
+                          <button type="button" onClick={() => go(`/giocatore/${p.id}`)} className="glass press flex w-full items-center gap-3.5 rounded-[20px] px-4 py-3 text-left">
+                            <PlayerFace p={p} size={52} concept="b" />
+                            <span className="min-w-0"><span className="block truncate text-[16px] font-extrabold" style={{ color: 'var(--ink)' }}>{p.name}</span>{sub}</span>
+                          </button>
+                        </div>
+                      );
+                    }
+                    return (
+                      <Row key={p.id} onClick={() => go(`/giocatore/${p.id}`)}>
+                        <PlayerFace p={p} size={concept === 'c' ? 58 : 46} concept={concept} />
+                        <span className="min-w-0 flex-1"><span className="block truncate text-[16px] font-bold" style={{ color: 'var(--ink)' }}>{p.name}</span>{sub}</span>
+                        {concept === 'c' && p.position ? <span className="glass-flat shrink-0 rounded-full px-2.5 py-1 text-[10.5px] font-bold" style={{ color: 'var(--ink-2)' }}>{({ GK: 'POR', DEF: 'DIF', MID: 'CEN', WNG: 'ALA', ATT: 'ATT' })[p.position] || p.position}</span> : null}
+                      </Row>
+                    );
+                  })}
                 </Section>
               ) : null}
               {referees.length ? (
