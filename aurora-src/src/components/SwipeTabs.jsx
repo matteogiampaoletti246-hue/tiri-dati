@@ -114,13 +114,22 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
       const edgeL = i === 0 && dx > 0;
       const edge = edgeL || (i === n - 1 && dx < 0);
       const off = edgeL && back ? dx * 0.9 : edge ? dx * 0.25 : dx;
+      if (edgeL && back) {
+        // torna indietro: si muove tutta la pagina, i riquadri restano fermi al loro posto
+        const sh = document.getElementById('sl-shell');
+        if (sh) {
+          sh.style.transition = 'none';
+          sh.style.transform = `translate3d(${Math.max(0, dx)}px,0,0)`;
+          sh.style.opacity = String(Math.max(0.7, 1 - dx / 900));
+        }
+        return;
+      }
       const el = contentRef.current;
       if (el) {
         el.style.transition = 'none';
         el.style.willChange = 'transform';
         el.style.transform = `translate3d(${off}px,0,0)`;
       }
-      if (edgeL && back) return;
       const p = Math.max(0, Math.min(n - 1, i - off / st.w));
       const from = Math.floor(p);
       const to = Math.min(n - 1, from + 1);
@@ -140,15 +149,29 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
       const el = contentRef.current;
       if (i === 0 && dx > 0 && live.current.back && (dx > d.w * 0.3 || v > 0.55)) {
         busy = true;
-        if (el) {
-          el.style.transition = 'transform .2s ease-in';
-          el.style.transform = 'translate3d(100%,0,0)';
+        const sh = document.getElementById('sl-shell');
+        if (sh) {
+          sh.style.transition = 'transform .24s cubic-bezier(.22,.8,.24,1), opacity .24s ease';
+          sh.style.transform = 'translate3d(100%,0,0)';
+          sh.style.opacity = '0';
         }
         setTimeout(() => {
-          if (el) { el.style.transition = 'none'; el.style.transform = ''; el.style.willChange = ''; }
           busy = false;
           live.current.navigate(-1);
-        }, 190);
+          setTimeout(() => {
+            if (sh && sh.isConnected) { sh.style.transition = 'none'; sh.style.transform = ''; sh.style.opacity = ''; }
+          }, 500);
+        }, 250);
+        return;
+      }
+      if (i === 0 && dx > 0 && live.current.back) {
+        const sh = document.getElementById('sl-shell');
+        if (sh) {
+          sh.style.transition = 'transform .25s cubic-bezier(.22,.8,.24,1), opacity .25s ease';
+          sh.style.transform = 'translate3d(0,0,0)';
+          sh.style.opacity = '1';
+          setTimeout(() => { sh.style.transition = ''; sh.style.transform = ''; sh.style.opacity = ''; }, 280);
+        }
         return;
       }
       if ((Math.abs(dx) > d.w * 0.2 || v > 0.45) && next >= 0 && next < n) {
@@ -211,7 +234,7 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
     <div className={className}>
       {fixedBar ? <div aria-hidden="true" style={{ height: headH }} /> : null}
       {fixedBar ? createPortal(HEAD, document.body) : HEAD}
-      <div ref={wrapRef} className="relative" style={{ touchAction: 'pan-y', minHeight: '60vh' }}>
+      <div ref={wrapRef} data-tabs-back={edgeBack && loc.key !== 'default' ? '1' : undefined} className="relative" style={{ touchAction: 'pan-y', minHeight: '60vh' }}>
         <div ref={contentRef}>{panels[index]}</div>
       </div>
     </div>
