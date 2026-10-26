@@ -357,7 +357,7 @@ export function StatistichePanel({ player, team }) {
           <div className="overflow-hidden rounded-2xl" style={CARD}>
             <div className="px-4 pb-1 pt-3.5">
               <span className="text-[14px] font-semibold" style={{ color: 'var(--ink)' }}>Classifica per ruolo</span>
-              <p className="mt-0.5 text-[10.5px]" style={{ color: 'var(--ink-3)' }}>Posizione tra i {POS_IT[p.position] ? POS_IT[p.position].toLowerCase() + 'i' : 'giocatori'} dei 5 campionati (valori ogni 90&apos;, almeno 270&apos;)</p>
+              <p className="mt-0.5 text-[10.5px]" style={{ color: 'var(--ink-3)' }}>Posizione tra i {{ GK: 'portieri', DEF: 'difensori', MID: 'centrocampisti', ATT: 'attaccanti' }[p.position] || 'giocatori'} dei 5 campionati (valori ogni 90&apos;, almeno 270&apos;)</p>
             </div>
             {rk.map((x, i) => (
               <div key={x.k} className="flex items-center justify-between px-4 py-2.5" style={{ borderTop: '1px solid var(--hair-2)' }}>
