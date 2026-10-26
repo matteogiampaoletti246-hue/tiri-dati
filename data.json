@@ -1048,16 +1048,16 @@
    "handicap": 0.55,
    "label": "Ligat ha'Al (ISR)",
    "league_avg": {
-    "sotAgainst": 4.429,
-    "sotFor": 4.714,
-    "totalAgainst": 10.143,
-    "totalFor": 14.714
+    "sotAgainst": 4.625,
+    "sotFor": 4.875,
+    "totalAgainst": 10.625,
+    "totalFor": 14.25
    },
    "logo": "https://cdn.pitchapi.dev/images/leagues/16df8edb8db92cd890e3959a3352a6ba60b7b01a4bb67f547de99a7745dd5030.webp",
    "logos": {
     "Hapoel Beer Sheva": "https://cdn.pitchapi.dev/images/teams/3e8114be84981b01f4e320a55ce9b4b5053987ad0615116534d05a06b7d7bfef.webp"
    },
-   "matches": 7,
+   "matches": 8,
    "matches_without_stats": 0,
    "name": "Ligat ha'Al",
    "restricted": true,
@@ -1065,11 +1065,11 @@
    "size": 1,
    "teams": {
     "Hapoel Beer Sheva": {
-     "games": 7,
-     "sotAgainst": 4.429,
-     "sotFor": 4.714,
-     "totalAgainst": 10.143,
-     "totalFor": 14.714
+     "games": 8,
+     "sotAgainst": 4.625,
+     "sotFor": 4.875,
+     "totalAgainst": 10.625,
+     "totalFor": 14.25
     }
    }
   },
@@ -1078,9 +1078,9 @@
    "label": "LaLiga",
    "league_avg": {
     "sotAgainst": 4.712,
-    "sotFor": 4.708,
-    "totalAgainst": 13.516,
-    "totalFor": 13.517
+    "sotFor": 4.709,
+    "totalAgainst": 13.521,
+    "totalFor": 13.539
    },
    "logo": "https://cdn.pitchapi.dev/images/leagues/4a840c09a3b5d1b2150eeba66e2c31d83d23503c0df04b3ddd04341f9c7b2b48.webp",
    "logos": {
@@ -1105,7 +1105,7 @@
     "Valencia": "https://cdn.pitchapi.dev/images/teams/798571c3b79c5fbf5e97ebefe2a17884f1e74c3c6d5186e04736f6c482a3c12d.webp",
     "Villarreal": "https://cdn.pitchapi.dev/images/teams/9cd74c38ef6d75a878041878ed6f18da3fb9e6cf81baae23d266a64821a63a71.webp"
    },
-   "matches": 98,
+   "matches": 99,
    "matches_without_stats": 0,
    "name": "LaLiga",
    "restricted": false,
@@ -1190,11 +1190,11 @@
      "totalFor": 10.9
     },
     "Osasuna": {
-     "games": 9,
-     "sotAgainst": 3.889,
-     "sotFor": 4.333,
-     "totalAgainst": 13.222,
-     "totalFor": 10.778
+     "games": 10,
+     "sotAgainst": 4.2,
+     "sotFor": 4.1,
+     "totalAgainst": 13.6,
+     "totalFor": 10.7
     },
     "Racing Santander": {
      "games": 10,
@@ -1232,11 +1232,11 @@
      "totalFor": 14.4
     },
     "Sevilla": {
-     "games": 9,
-     "sotAgainst": 5.0,
-     "sotFor": 4.333,
-     "totalAgainst": 12.667,
-     "totalFor": 11.889
+     "games": 10,
+     "sotAgainst": 4.7,
+     "sotFor": 4.6,
+     "totalAgainst": 12.4,
+     "totalFor": 12.4
     },
     "Valencia": {
      "games": 10,
@@ -1259,10 +1259,10 @@
    "handicap": 0.85,
    "label": "Liga Portugal",
    "league_avg": {
-    "sotAgainst": 2.327,
-    "sotFor": 5.97,
-    "totalAgainst": 8.857,
-    "totalFor": 16.56
+    "sotAgainst": 2.5,
+    "sotFor": 5.833,
+    "totalAgainst": 9.083,
+    "totalFor": 16.458
    },
    "logo": "https://cdn.pitchapi.dev/images/leagues/77c078948ff67bf4bf3b7f156f4dbbd4c46d6eb043a3563098a11b432aa39117.webp",
    "logos": {
@@ -1270,7 +1270,7 @@
     "FC Porto": "https://cdn.pitchapi.dev/images/teams/32b58b1949ae598ee4f05086017e0bf309cbc15846c63a60955beccf41726790.webp",
     "Sporting CP": "https://cdn.pitchapi.dev/images/teams/5817bbd34cd3f72b924b6fe60740c7176bc383aa030a4d10832bffab27318dd9.webp"
    },
-   "matches": 22,
+   "matches": 23,
    "matches_without_stats": 0,
    "name": "Liga Portugal",
    "restricted": true,
@@ -1278,11 +1278,11 @@
    "size": 3,
    "teams": {
     "Benfica": {
-     "games": 7,
-     "sotAgainst": 1.857,
-     "sotFor": 6.286,
-     "totalAgainst": 7.571,
-     "totalFor": 18.429
+     "games": 8,
+     "sotAgainst": 2.375,
+     "sotFor": 5.875,
+     "totalAgainst": 8.25,
+     "totalFor": 18.125
     },
     "FC Porto": {
      "games": 8,
@@ -1304,10 +1304,10 @@
    "country": "FRA",
    "label": "Ligue 1",
    "league_avg": {
-    "sotAgainst": 4.689,
-    "sotFor": 4.716,
-    "totalAgainst": 13.395,
-    "totalFor": 13.468
+    "sotAgainst": 4.736,
+    "sotFor": 4.736,
+    "totalAgainst": 13.41,
+    "totalFor": 13.41
    },
    "logo": "https://cdn.pitchapi.dev/images/leagues/60132b94cec9376428f59561ef11650b8a69b097d492642f9b737dc76f45cf94.webp",
    "logos": {
@@ -1330,7 +1330,7 @@
     "Toulouse": "https://cdn.pitchapi.dev/images/teams/1f5139af48bf869cbecf3c4444a0761f443e5feaf6ff3b8a559c6d0bc1631d8f.webp",
     "Troyes": "https://cdn.pitchapi.dev/images/teams/a805183b27f376ca106faf014559528f32f291be0a93b621357697efc173aeeb.webp"
    },
-   "matches": 71,
+   "matches": 72,
    "matches_without_stats": 0,
    "name": "Ligue 1",
    "restricted": false,
@@ -1394,11 +1394,11 @@
      "totalFor": 9.875
     },
     "Lyon": {
-     "games": 7,
-     "sotAgainst": 4.143,
-     "sotFor": 4.857,
-     "totalAgainst": 11.857,
-     "totalFor": 12.571
+     "games": 8,
+     "sotAgainst": 4.875,
+     "sotFor": 4.875,
+     "totalAgainst": 12.5,
+     "totalFor": 12.0
     },
     "Marseille": {
      "games": 8,
@@ -1429,11 +1429,11 @@
      "totalFor": 13.125
     },
     "Paris Saint-Germain": {
-     "games": 7,
-     "sotAgainst": 4.143,
-     "sotFor": 7.286,
-     "totalAgainst": 11.0,
-     "totalFor": 20.857
+     "games": 8,
+     "sotAgainst": 4.25,
+     "sotFor": 7.625,
+     "totalAgainst": 10.625,
+     "totalFor": 20.375
     },
     "Rennes": {
      "games": 8,
@@ -1954,10 +1954,10 @@
    "handicap": 0.8,
    "label": "Super Lig",
    "league_avg": {
-    "sotAgainst": 3.833,
-    "sotFor": 7.083,
-    "totalAgainst": 11.25,
-    "totalFor": 19.5
+    "sotAgainst": 3.963,
+    "sotFor": 6.926,
+    "totalAgainst": 11.333,
+    "totalFor": 18.963
    },
    "logo": "https://cdn.pitchapi.dev/images/leagues/d5970027bace5c4d9d323de8cb7d4d10359bfeccc0f38cb85c353c3373a79325.webp",
    "logos": {
@@ -1965,7 +1965,7 @@
     "Fenerbahçe": "https://cdn.pitchapi.dev/images/teams/c3f91e2fb35d5962a65d5ee8e24dccba47d82e950e152a39e28c1a3e733b8397.webp",
     "Galatasaray": "https://cdn.pitchapi.dev/images/teams/b2f762b5bacdd581c3d182ca109615814151ee90e37749cb276d5a9bda88b13a.webp"
    },
-   "matches": 23,
+   "matches": 25,
    "matches_without_stats": 0,
    "name": "Super Lig",
    "restricted": true,
@@ -1973,25 +1973,25 @@
    "size": 3,
    "teams": {
     "Beşiktaş": {
-     "games": 8,
-     "sotAgainst": 3.875,
-     "sotFor": 6.375,
-     "totalAgainst": 9.375,
-     "totalFor": 17.75
+     "games": 9,
+     "sotAgainst": 3.889,
+     "sotFor": 6.333,
+     "totalAgainst": 9.333,
+     "totalFor": 17.667
     },
     "Fenerbahçe": {
-     "games": 8,
-     "sotAgainst": 4.125,
-     "sotFor": 7.25,
-     "totalAgainst": 13.375,
-     "totalFor": 18.375
+     "games": 9,
+     "sotAgainst": 4.556,
+     "sotFor": 6.778,
+     "totalAgainst": 14.444,
+     "totalFor": 16.778
     },
     "Galatasaray": {
-     "games": 8,
-     "sotAgainst": 3.5,
-     "sotFor": 7.625,
-     "totalAgainst": 11.0,
-     "totalFor": 22.375
+     "games": 9,
+     "sotAgainst": 3.444,
+     "sotFor": 7.667,
+     "totalAgainst": 10.222,
+     "totalFor": 22.444
     }
    }
   },
@@ -2027,5 +2027,5 @@
   }
  },
  "season_start": "2026",
- "updated_at": "2026-10-26T05:29:22+00:00"
+ "updated_at": "2026-10-26T23:26:19+00:00"
 }
