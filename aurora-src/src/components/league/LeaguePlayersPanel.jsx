@@ -22,12 +22,24 @@ const METRICS = [
   { key: 'off', label: 'Fuorigioco', group: 'Disciplina', f: (p) => p.offsides, p90: true },
 ];
 
+const NEGK = ['foulsC', 'yel', 'red', 'off'];
 const fmt = (v) => (Number.isInteger(v) ? String(v) : comma(v, 2));
 
 export default function LeaguePlayersPanel({ leagueId, teamId }) {
   const [mode, setMode] = useState('tot');
   const ids = new Set(teamsOf(leagueId).map((t) => t.id));
   const pool = PLAYERS.filter((p) => (teamId ? p.teamId === teamId : ids.has(p.teamId)) && p.hasStats);
+  const lgPool = PLAYERS.filter((p) => ids.has(p.teamId) && p.hasStats && p.minutes >= 270);
+  // voto 0..1 del giocatore rispetto a tutto il campionato (valori ogni 90', o totale se non ha senso)
+  const gradeOf = (m, p) => {
+    const val = (q) => { const r = m.f(q); return r == null ? null : m.p90 || m.avg ? (m.avg ? r : (r * 90) / q.minutes) : r; };
+    const mine = val(p);
+    if (mine == null) return null;
+    const all = lgPool.map(val).filter((v) => v != null);
+    if (all.length < 5) return null;
+    const below = all.filter((v) => (NEGK.includes(m.key) ? v >= mine : v <= mine)).length;
+    return Math.max(0, Math.min(1, (below - 1) / (all.length - 1)));
+  };
   const sections = [];
   METRICS.forEach((m) => {
     if (mode === 'p90' && !m.p90) return;
@@ -52,6 +64,7 @@ export default function LeaguePlayersPanel({ leagueId, teamId }) {
         name: p.name,
         sub: p.teamName,
         value: fmt(v),
+        frac: m.key === 'min' || m.key === 'apps' ? null : gradeOf(m, p),
       }));
     if (rows.length) sections.push({ id: m.key, group: m.group, title: mode === 'p90' ? `${m.label} / 90'` : m.label, rows });
   });

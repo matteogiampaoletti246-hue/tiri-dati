@@ -3,7 +3,7 @@ import MatchRow from './MatchRow';
 import { DATES, TODAY_INDEX, isoDate } from '@/data/matches';
 import { dayLabel, longDate } from '@/lib/format';
 
-export default function MatchDayList({ matches, focusToday = true }) {
+export default function MatchDayList({ matches, focusToday = true, teamId = null }) {
   const ref = useRef(null);
   const todayIso = isoDate(DATES[TODAY_INDEX]);
   const firstId = (matches.find((m) => m.date >= todayIso) || {}).id;
@@ -41,7 +41,7 @@ export default function MatchDayList({ matches, focusToday = true }) {
               </span>
             </div>
             {g.matches.map((m) => (
-              <MatchRow key={m.id} match={m} />
+              <MatchRow key={m.id} match={m} teamId={teamId} />
             ))}
           </section>
         );

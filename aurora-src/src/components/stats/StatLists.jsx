@@ -3,6 +3,9 @@ import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import { ChevronDown, ListTree, X } from 'lucide-react';
 
+import { bandColor } from '@/components/player/playerCalc';
+const gradeConcept = () => { try { return localStorage.getItem('sl-concept-plgrade') || 'a'; } catch { return 'a'; } };
+
 // Classifiche impilate (una per statistica) con il tasto "Vai a" per saltare a quella che serve.
 // sections: [{ id, group, title, rows: [{ id, to, left, name, sub, value }] }]
 export default function StatLists({ sections, controls = null, limit = 8 }) {
@@ -58,7 +61,24 @@ export default function StatLists({ sections, controls = null, limit = 8 }) {
                     <span className="block truncate text-[13.5px] font-semibold">{r.name}</span>
                     {r.sub ? <span className="block truncate text-[10.5px]" style={{ color: 'var(--ink-3)' }}>{r.sub}</span> : null}
                   </span>
-                  <span className="tnum text-[14.5px] font-extrabold">{r.value}</span>
+                  {(() => {
+                    const g = gradeConcept();
+                    const c = r.frac == null ? null : bandColor(r.frac);
+                    if (!c) return <span className="tnum text-[14.5px] font-extrabold">{r.value}</span>;
+                    if (g === 'b') return <span className="tnum rounded-full text-[14px] font-extrabold" style={{ color: c, background: `${c}26`, padding: '2px 10px' }}>{r.value}</span>;
+                    if (g === 'c') return (
+                      <span className="flex items-center gap-2">
+                        <span className="tnum text-[14.5px] font-extrabold">{r.value}</span>
+                        <span className="tnum flex h-[22px] w-[30px] items-center justify-center rounded-[8px] text-[11px] font-extrabold text-white" style={{ background: c }}>{(Math.round(r.frac * 90) / 10 + 1).toFixed(1).replace('.', ',')}</span>
+                      </span>
+                    );
+                    return (
+                      <span className="flex flex-col items-end gap-[3px]">
+                        <span className="tnum text-[14.5px] font-extrabold">{r.value}</span>
+                        <span className="h-[3px] w-full min-w-[26px] rounded-full" style={{ background: c }} />
+                      </span>
+                    );
+                  })()}
                 </>
               );
               const cls = 'press flex items-center gap-3 px-4 py-2.5';

@@ -27,7 +27,7 @@ export default function TeamMatchesPanel({ teamId }) {
         />
       </div>
       {shown.length ? (
-        <MatchDayList matches={shown} />
+        <MatchDayList matches={shown} teamId={teamId} />
       ) : (
         <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>
           Nessuna partita
