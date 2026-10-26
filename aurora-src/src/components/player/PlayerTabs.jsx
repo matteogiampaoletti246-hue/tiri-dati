@@ -14,7 +14,7 @@ import CompSelect from '@/components/CompSelect';
 import { teamCompetitions } from '@/data/competitions';
 import { MATCHES } from '@/data/matches';
 import { useState } from 'react';
-import { carriereOf, countryIt, FOOT, dateLong, ageOf, money, monthIt } from '@/data/carriere';
+import { carriereOf, countryIt, flagOf, FOOT, dateLong, ageOf, money, monthIt } from '@/data/carriere';
 
 const L = { fontSize: 9.5, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--ink-3)' };
 
@@ -50,7 +50,7 @@ function BioCard({ player, team }) {
   const c = carriereOf(player.id) || {};
   const age = ageOf(c.b);
   const cells = [
-    ['Nazionalità', c.c ? countryIt(c.c) : '—'],
+    ['Nazionalità', c.c ? `${flagOf(c.c)} ${countryIt(c.c)}`.trim() : '—'],
     ['Nato il', c.b ? `${dateLong(c.b)}${age ? ` · ${age} anni` : ''}` : '—'],
     ['Altezza', c.h ? `${c.h} cm` : '—'],
     ['Piede', FOOT[c.f] || '—'],

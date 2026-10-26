@@ -33,6 +33,16 @@ const IT = {
   Venezuela: 'Venezuela', Wales: 'Galles', Zambia: 'Zambia',
 };
 export const countryIt = (c) => IT[c] || c || '—';
+
+// Bandierina (emoji) dal nome inglese della nazione
+const ISO2 = {"Albania": "AL", "Algeria": "DZ", "Angola": "AO", "Argentina": "AR", "Armenia": "AM", "Australia": "AU", "Austria": "AT", "Belgium": "BE", "Benin": "BJ", "Bosnia and Herzegovina": "BA", "Brazil": "BR", "Bulgaria": "BG", "Burkina Faso": "BF", "Burundi": "BI", "Cameroon": "CM", "Canada": "CA", "Cape Verde": "CV", "Central African Rep.": "CF", "Chile": "CL", "Colombia": "CO", "Comoros": "KM", "Congo": "CG", "Costa Rica": "CR", "Croatia": "HR", "Czechia": "CZ", "DR Congo": "CD", "Denmark": "DK", "Dominican Republic": "DO", "Ecuador": "EC", "Egypt": "EG", "Equatorial Guinea": "GQ", "Estonia": "EE", "Finland": "FI", "France": "FR", "Gabon": "GA", "Georgia": "GE", "Germany": "DE", "Ghana": "GH", "Greece": "GR", "Guadeloupe": "GP", "Guinea": "GN", "Guinea-Bissau": "GW", "Haiti": "HT", "Hungary": "HU", "Iceland": "IS", "Indonesia": "ID", "Ireland": "IE", "Israel": "IL", "Italy": "IT", "Ivory Coast": "CI", "Jamaica": "JM", "Japan": "JP", "Jordan": "JO", "Kenya": "KE", "Kosovo": "XK", "Lithuania": "LT", "Luxembourg": "LU", "Mali": "ML", "Mauritania": "MR", "Mexico": "MX", "Montenegro": "ME", "Morocco": "MA", "Mozambique": "MZ", "Netherlands": "NL", "New Zealand": "NZ", "Niger": "NE", "Nigeria": "NG", "North Macedonia": "MK", "Norway": "NO", "Paraguay": "PY", "Peru": "PE", "Philippines": "PH", "Poland": "PL", "Portugal": "PT", "Romania": "RO", "Russia": "RU", "Saudi Arabia": "SA", "Senegal": "SN", "Serbia": "RS", "Sierra Leone": "SL", "Slovakia": "SK", "Slovenia": "SI", "South Korea": "KR", "Spain": "ES", "Suriname": "SR", "Sweden": "SE", "Switzerland": "CH", "Tanzania": "TZ", "Thailand": "TH", "The Gambia": "GM", "Togo": "TG", "Tunisia": "TN", "Turkiye": "TR", "USA": "US", "Ukraine": "UA", "Uruguay": "UY", "Uzbekistan": "UZ", "Venezuela": "VE", "Zambia": "ZM"};
+const SPECIAL = {"England": "\u{1F3F4}\u{E0067}\u{E0062}\u{E0065}\u{E006E}\u{E0067}\u{E007F}","Scotland": "\u{1F3F4}\u{E0067}\u{E0062}\u{E0073}\u{E0063}\u{E0074}\u{E007F}","Wales": "\u{1F3F4}\u{E0067}\u{E0062}\u{E0077}\u{E006C}\u{E0073}\u{E007F}","Northern Ireland": "\u{1F1EC}\u{1F1E7}"};
+export const flagOf = (c) => {
+  if (!c) return '';
+  if (SPECIAL[c]) return SPECIAL[c];
+  const k = ISO2[c];
+  return k ? String.fromCodePoint(...[...k].map((ch) => 127397 + ch.charCodeAt(0))) : '';
+};
 export const FOOT = { right: 'Destro', left: 'Sinistro', both: 'Ambidestro' };
 const MESI = ['gen', 'feb', 'mar', 'apr', 'mag', 'giu', 'lug', 'ago', 'set', 'ott', 'nov', 'dic'];
 export const monthIt = (ym) => (ym && ym.length >= 7 ? `${MESI[Number(ym.slice(5, 7)) - 1]} ${ym.slice(0, 4)}` : '');

@@ -42,14 +42,33 @@ export default function PlayerPickPanel({ form, set, player, hint, onSelectPlaye
     <section>
       <PanelTitle>Giocatore</PanelTitle>
       <div className="panel relative z-10">
-        <SelectRow
-          first
-          label="Giocatore"
-          value={player ? player.name : null}
-          sub={team ? team.name : null}
-          placeholder="Cerca e seleziona"
-          onClick={() => setPicker('player')}
-        />
+        {player ? (
+          <button
+            type="button"
+            onClick={() => setPicker('player')}
+            className="press flex w-full items-center gap-3 px-4 py-3.5 text-left"
+            style={{ background: team ? `linear-gradient(110deg, ${team.colors[0]}8c, ${team.colors[1]}40 70%, transparent)` : undefined, borderRadius: 'inherit', borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }}
+          >
+            <PlayerFace p={player} size={56} />
+            <span className="min-w-0 flex-1">
+              <span className="block truncate text-[17px] font-extrabold">{player.name}</span>
+              <span className="mt-0.5 flex items-center gap-1.5 text-[12.5px]" style={{ color: 'var(--ink-3)' }}>
+                {team ? <Crest team={team} size={15} /> : null}
+                <span className="truncate">{team ? team.name : player.teamName}</span>
+              </span>
+            </span>
+            <span className="text-[12px] font-bold" style={{ color: 'var(--accent)' }}>Cambia</span>
+          </button>
+        ) : (
+          <SelectRow
+            first
+            label="Giocatore"
+            value={null}
+            sub={null}
+            placeholder="Cerca e seleziona"
+            onClick={() => setPicker('player')}
+          />
+        )}
         <FieldRow label="Tipo tiri" noSwipe>
           <TextFilter options={SHOTS_OPTIONS} value={form.tipoTiri} onChange={(v) => set('tipoTiri', v)} />
         </FieldRow>

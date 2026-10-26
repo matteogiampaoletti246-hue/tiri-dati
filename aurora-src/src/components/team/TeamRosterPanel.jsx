@@ -1,8 +1,8 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { loadCarriere, carriereOf, countryIt, flagOf, ageOf } from '@/data/carriere';
 import { Image } from '@/components/ui/image';
 import { playersByTeam } from '@/data/players';
-import { ratingColor } from '@/components/player/playerCalc';
-import { comma } from '@/lib/format';
 
 const GROUPS = [
   { key: 'GK', title: 'Portieri', color: '#E8B923', pos: ['GK'] },
@@ -13,6 +13,12 @@ const GROUPS = [
 
 // Rosa della squadra divisa per ruolo.
 export default function TeamRosterPanel({ teamId }) {
+  const [, bump] = useState(0);
+  useEffect(() => {
+    let on = true;
+    loadCarriere().then(() => on && bump((n) => n + 1));
+    return () => { on = false; };
+  }, []);
   const all = playersByTeam(teamId);
   const grouped = GROUPS.map((g) => ({ ...g, list: all.filter((p) => g.pos.includes(p.position)).sort((a, b) => (b.minutes || 0) - (a.minutes || 0)) }));
   const other = all.filter((p) => !GROUPS.some((g) => g.pos.includes(p.position)));
@@ -33,10 +39,14 @@ export default function TeamRosterPanel({ teamId }) {
                 {p.photo ? <Image src={p.photo} alt={p.name} className="h-full w-full" fittingType="fill" /> : p.initials}
               </span>
               <span className="min-w-0 flex-1">
-                <span className="block truncate text-[14px] font-bold">{p.name}</span>
-                <span className="text-[11px]" style={{ color: 'var(--ink-3)' }}>{p.appearances || 0} pres · {p.goals || 0} gol · {p.assists || 0} assist</span>
+                <span className="block truncate text-[14px] font-bold">{(() => { const n = (carriereOf(p.id) || {}).n; return n ? <span style={{ color: 'var(--accent)' }}>{n} </span> : null; })()}{p.name}</span>
+                {(() => {
+                  const c = carriereOf(p.id) || {};
+                  const age = ageOf(c.b);
+                  const bits = [c.c ? `${flagOf(c.c)} ${countryIt(c.c)}`.trim() : null, c.h ? `${c.h} cm` : null, age ? `${age} anni` : null].filter(Boolean);
+                  return bits.length ? <span className="block truncate text-[11px]" style={{ color: 'var(--ink-3)' }}>{bits.join(' · ')}</span> : null;
+                })()}
               </span>
-              {p.rating ? <span className="tnum text-[13.5px] font-extrabold" style={{ color: ratingColor(p.rating) }}>{comma(p.rating, 2)}</span> : null}
             </Link>
           ))}
         </section>
