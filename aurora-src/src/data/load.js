@@ -28,6 +28,7 @@ const FILES = {
   refcc: 'refcc.json',
   zone: 'zone.json',
   ali: 'ali.json',
+  ruoli: 'ruoli.json',
 };
 
 export async function loadRaw() {

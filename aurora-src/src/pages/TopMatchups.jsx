@@ -1,3 +1,4 @@
+import { primeKeyboard } from '@/lib/keyboard';
 import { useState } from 'react';
 import PageShell from '@/components/PageShell';
 import ListHeader from '@/components/ListHeader';
@@ -20,7 +21,7 @@ export default function TopMatchups() {
 
   return (
     <PageShell>
-      <ListHeader title="Migliori Matchup" subtitle="Divario atteso tra le squadre" onSearch={() => setSearchOpen(true)} />
+      <ListHeader title="Migliori Matchup" subtitle="Divario atteso tra le squadre" onSearch={() => { primeKeyboard(); setSearchOpen(true); }} />
 
       <DayStrip dates={DATES} todayIndex={TODAY_INDEX} value={dayIdx} onChange={setDayIdx} />
 

@@ -117,7 +117,7 @@ export const HIT_OPTIONS = [
   { value: '0.4', label: '2/5' },
   { value: '0.6', label: '3/5' },
   { value: '0.8', label: '4/5' },
-  { value: '0.9', label: '4/5+ (90%)' },
+  { value: '0.9', label: '4/5+' },
   { value: '1', label: '5/5' },
 ];
 

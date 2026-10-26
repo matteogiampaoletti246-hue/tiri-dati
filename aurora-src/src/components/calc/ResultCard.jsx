@@ -35,9 +35,6 @@ export default function ResultCard({ result, kind = 'player' }) {
         <p className="mt-3 text-center text-[14px]" style={{ color: 'var(--ink-2)' }}>
           {result.reliability.label}
         </p>
-        <p className="mt-2 text-center text-[11.5px] leading-snug" style={{ color: NOTE_TONES[result.note.tone] }}>
-          {result.note.text}
-        </p>
       </div>
 
       <Metric label="Lambda" value={comma(result.lambda, 2)} />

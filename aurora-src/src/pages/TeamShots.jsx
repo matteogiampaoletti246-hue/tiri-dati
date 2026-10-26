@@ -1,3 +1,4 @@
+import { primeKeyboard } from '@/lib/keyboard';
 import { useState } from 'react';
 import PageShell from '@/components/PageShell';
 import ListHeader from '@/components/ListHeader';
@@ -25,7 +26,7 @@ export default function TeamShots() {
 
   return (
     <PageShell>
-      <ListHeader title="Tiri Squadre" subtitle="Tiri e xG per campionato" onSearch={() => setSearchOpen(true)} />
+      <ListHeader title="Tiri Squadre" subtitle="Tiri e xG per campionato" onSearch={() => { primeKeyboard(); setSearchOpen(true); }} />
 
       <div className="px-5 pt-2">
         <TextFilter options={LEAGUES.map((l) => ({ value: l.id, label: l.name }))} value={leagueId} onChange={setLeagueId} />

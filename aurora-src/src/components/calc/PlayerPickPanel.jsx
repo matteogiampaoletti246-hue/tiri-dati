@@ -1,3 +1,4 @@
+import { primeKeyboard } from '@/lib/keyboard';
 import { useMemo, useState } from 'react';
 import PanelTitle from '@/components/PanelTitle';
 import TextFilter from '@/components/TextFilter';
@@ -45,7 +46,7 @@ export default function PlayerPickPanel({ form, set, player, hint, onSelectPlaye
         {player ? (
           <button
             type="button"
-            onClick={() => setPicker('player')}
+            onClick={() => { primeKeyboard(); setPicker('player'); }}
             className="press flex w-full items-center gap-3 px-4 py-3.5 text-left"
             style={{ background: team ? `linear-gradient(110deg, ${team.colors[0]}8c, ${team.colors[1]}40 70%, transparent)` : undefined, borderRadius: 'inherit', borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }}
           >
@@ -66,7 +67,7 @@ export default function PlayerPickPanel({ form, set, player, hint, onSelectPlaye
             value={null}
             sub={null}
             placeholder="Cerca e seleziona"
-            onClick={() => setPicker('player')}
+            onClick={() => { primeKeyboard(); setPicker('player'); }}
           />
         )}
         <FieldRow label="Tipo tiri" noSwipe>

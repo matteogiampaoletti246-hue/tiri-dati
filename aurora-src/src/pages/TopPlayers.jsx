@@ -1,3 +1,4 @@
+import { primeKeyboard } from '@/lib/keyboard';
 import { useDeferredValue, useState } from 'react';
 import PageShell from '@/components/PageShell';
 import ListHeader from '@/components/ListHeader';
@@ -21,7 +22,7 @@ export default function TopPlayers() {
 
   return (
     <PageShell>
-      <ListHeader title="Migliori Giocatori" subtitle="Voti attesi per data" onSearch={() => setSearchOpen(true)} />
+      <ListHeader title="Migliori Giocatori" subtitle="Voti attesi per data" onSearch={() => { primeKeyboard(); setSearchOpen(true); }} />
 
       <DayStrip dates={DATES} todayIndex={TODAY_INDEX} value={dayIdx} onChange={setDayIdx} />
 

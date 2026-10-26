@@ -52,7 +52,13 @@ export function fillFrom(f, p, fam, fx) {
     sede = fx.home ? 'casa' : 'trasferta';
     competizione = fx.cup ? 'coppa' : 'campionato';
   }
-  const fixed = rows.length >= 3 ? String(hit === 0 ? '0' : [0, 0.2, 0.4, 0.6, 0.8, 1][Math.min(5, Math.round((hit / rows.length) * 5))]) : '';
+  let fixed = rows.length >= 3 ? String(hit === 0 ? '0' : [0, 0.2, 0.4, 0.6, 0.8, 1][Math.min(5, Math.round((hit / rows.length) * 5))]) : '';
+  // 4/5 con l'unica partita mancata per un solo tiro dalla linea → 4/5+ (90%)
+  if (rows.length === 5 && hit === 4) {
+    const need = Math.floor(lineV) + 1;
+    const miss = rows.find((x) => (f.lineType === 'under' ? (x[k] || 0) >= lineV : (x[k] || 0) <= lineV));
+    if (miss && Math.abs((miss[k] || 0) - (f.lineType === 'under' ? need : need - 1)) === 0) fixed = '0.9';
+  }
   return {
     ...f,
     playerId: p.id,

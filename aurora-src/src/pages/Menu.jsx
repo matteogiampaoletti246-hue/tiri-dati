@@ -1,3 +1,4 @@
+import { primeKeyboard } from '@/lib/keyboard';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronRight, Search } from 'lucide-react';
@@ -25,7 +26,7 @@ export default function Menu() {
         title="Menu"
         back={false}
         right={
-          <button type="button" className="icon-btn" aria-label="Cerca" onClick={() => setSearchOpen(true)}>
+          <button type="button" className="icon-btn" aria-label="Cerca" onClick={() => { primeKeyboard(); setSearchOpen(true); }}>
             <Search size={19} strokeWidth={1.25} />
           </button>
         }

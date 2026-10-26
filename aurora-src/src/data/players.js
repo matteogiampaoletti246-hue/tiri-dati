@@ -32,6 +32,7 @@ export const playerLookup = {
   byName: (name, team) => (team ? BY_KEY[`${norm(name)}|${team.id}`] || null : null),
 };
 
+const nk = (x) => norm(x).replace(/[-.']/g, ' ').split(' ').filter(Boolean).join(' ');
 const keyOf = (name, teamName) => `${norm(name)}|${slug(teamName)}`;
 
 export function buildPlayers() {
@@ -132,6 +133,13 @@ export function buildPlayers() {
   source.forEach((g) => make(g, ST[g.i] || null));
   STAT_ROWS.forEach((s) => {
     if (!seen.has(s[ix.id])) make(null, s);
+  });
+
+  // Ruolo reale dalle formazioni: un "centrocampista" che gioca davanti (punta/seconda punta) diventa attaccante
+  const RUOLI = RAW.ruoli || {};
+  PLAYERS.forEach((p) => {
+    if (p.position !== 'MID') return;
+    if (RUOLI[`${nk(p.name)}|${nk(p.teamName)}`] === 'A') p.position = 'ATT';
   });
 
   // Ali: centrocampisti/attaccanti che partono titolari larghi e avanzati (ali del 4-3-3, esterni alti del 4-2-3-1, ali del 3-4-3)

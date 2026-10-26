@@ -240,7 +240,7 @@ export function PartitePanel({ player, concept }) {
             ? { background: 'var(--panel-solid, rgba(255,255,255,.04))', borderRadius: 16, padding: '12px 14px' }
             : { borderTop: i ? '1px solid var(--hair-2)' : 'none' };
           return m.matchId ? (
-            <Link key={i} to={`/match/${m.matchId}`} className={cls} style={st}>{body}</Link>
+            <Link key={i} to={`/match/${m.matchId}`} state={{ openPlayer: { name: player.name } }} onClick={() => { try { sessionStorage.setItem(`sl-tab-match-${m.matchId}`, '2'); } catch (e) { /* ignore */ } }} className={cls} style={st}>{body}</Link>
           ) : (
             <div key={i} className={cls} style={st}>{body}</div>
           );

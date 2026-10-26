@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import usePageTab from '@/hooks/usePageTab';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
+import { openPlayer } from '@/data/playerSheet';
 import PageShell from '@/components/PageShell';
 import TopBar from '@/components/TopBar';
 import MatchHero from '@/components/MatchHero';
@@ -42,13 +43,23 @@ export default function Match() {
   useTicker(30000);
   const raw = matchById(id);
   const [, bump] = useState(0);
+  const loc = useLocation();
+  const wantPlayer = loc.state && loc.state.openPlayer;
+  const opened = useRef('');
 
   useEffect(() => {
     let on = true;
     const run = (force) =>
       ensureDetail(id, playerLookup)
         .then(() => loadFm(matchById(id), playerLookup, force))
-        .then(() => on && bump((n) => n + 1))
+        .then(() => {
+          if (!on) return;
+          bump((n) => n + 1);
+          if (wantPlayer && opened.current !== id && matchById(id) && matchById(id).lineup) {
+            opened.current = id;
+            setTimeout(() => openPlayer({ matchId: id, name: wantPlayer.name }), 250);
+          }
+        })
         .catch(() => {});
     run(false);
     // ogni 10 secondi: partita live o vicina; formazioni probabili piu' lontane ogni minuto
