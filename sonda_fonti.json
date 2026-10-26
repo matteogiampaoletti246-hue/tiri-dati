@@ -1,0 +1,353 @@
+{
+ "fotmob_allLeagues": {
+  "errore": "HTTP Error 404: Not Found",
+  "sec": 0.2
+ },
+ "fotmob_league_2425": {
+  "status": 200,
+  "bytes": 882788,
+  "ctype": "application/json; charset=utf-8",
+  "sec": 0.6,
+  "head": "{\"tabs\":[\"overview\",\"table\",\"fixtures\",\"stats\",\"seasons\"],\"allAvailableSeasons\":[\"2026/2027\",\"2025/2026\",\"2024/2025\",\"2023/2024\",\"2022/2023\",\"2021/2022\",\"2020/2021\",\"2019/2020\",\"2018/2019\",\"2017/2018\",\"2016/2017\",\"2015/2016\",\"2014/2015\",\"2013/2014\",\"2012/2013\",\"2011/2012\",\"2010/2011\"],\"details\":{\"id\":47,\"type\":\"league\",\"name\":\"Premier League\",\"selectedSeason\":\"2024/2025\",\"latestSeason\":\"2026/2027\"",
+  "info": {
+   "chiavi": [
+    "tabs",
+    "allAvailableSeasons",
+    "details",
+    "seostr",
+    "QAData",
+    "table",
+    "transfers",
+    "overview",
+    "stats",
+    "fixtures",
+    "playoff",
+    "seasons"
+   ],
+   "nome": "Premier League",
+   "stagione_sel": "2024/2025",
+   "stagioni": [
+    "2026/2027",
+    "2025/2026",
+    "2024/2025",
+    "2023/2024",
+    "2022/2023",
+    "2021/2022",
+    "2020/2021",
+    "2019/2020",
+    "2018/2019",
+    "2017/2018",
+    "2016/2017",
+    "2015/2016",
+    "2014/2015",
+    "2013/2014",
+    "2012/2013",
+    "2011/2012",
+    "2010/2011"
+   ],
+   "partite": 380,
+   "stats_chiavi": [
+    "players",
+    "teams",
+    "seasonStatLinks",
+    "seasonsWithLinks"
+   ]
+  }
+ },
+ "fotmob_league_brasileirao": {
+  "status": 200,
+  "bytes": 903612,
+  "ctype": "application/json; charset=utf-8",
+  "sec": 0.8,
+  "head": "{\"tabs\":[\"overview\",\"table\",\"fixtures\",\"stats\",\"transfers\",\"seasons\"],\"allAvailableSeasons\":[\"2026\",\"2025\",\"2024\",\"2023\",\"2022\",\"2021\",\"2020\",\"2019\",\"2018\",\"2017\",\"2016\",\"2015\",\"2014\",\"2013\",\"2012\",\"2011\",\"2010\"],\"details\":{\"id\":268,\"type\":\"league\",\"name\":\"Série A\",\"selectedSeason\":\"2026\",\"latestSeason\":\"2026\",\"shortName\":\"Série A\",\"country\":\"BRA\",\"gender\":\"male\",\"nationalTeamId\":8256,\"faqJSONLD",
+  "info": {
+   "chiavi": [
+    "tabs",
+    "allAvailableSeasons",
+    "details",
+    "seostr",
+    "QAData",
+    "table",
+    "transfers",
+    "overview",
+    "stats",
+    "fixtures",
+    "playoff",
+    "seasons"
+   ],
+   "nome": "Série A",
+   "stagione_sel": "2026",
+   "stagioni": [
+    "2026",
+    "2025",
+    "2024",
+    "2023",
+    "2022",
+    "2021",
+    "2020",
+    "2019",
+    "2018",
+    "2017",
+    "2016",
+    "2015",
+    "2014",
+    "2013",
+    "2012",
+    "2011",
+    "2010"
+   ],
+   "partite": 380,
+   "stats_chiavi": [
+    "players",
+    "teams",
+    "seasonStatLinks",
+    "seasonsWithLinks"
+   ]
+  }
+ },
+ "fotmob_league_mls": {
+  "status": 200,
+  "bytes": 1311095,
+  "ctype": "application/json; charset=utf-8",
+  "sec": 0.8,
+  "head": "{\"tabs\":[\"overview\",\"table\",\"fixtures\",\"stats\",\"transfers\",\"seasons\"],\"allAvailableSeasons\":[\"2026\",\"2025\",\"2024\",\"2023\",\"2022\",\"2021\",\"2020\",\"2019\",\"2018\",\"2017\",\"2016\",\"2015\",\"2014\",\"2013\",\"2012\",\"2011\",\"2010\"],\"details\":{\"id\":130,\"type\":\"league\",\"name\":\"MLS\",\"selectedSeason\":\"2026\",\"latestSeason\":\"2026\",\"shortName\":\"MLS\",\"country\":\"USA\",\"gender\":\"male\",\"nationalTeamId\":6713,\"faqJSONLD\":null,\"br",
+  "info": {
+   "chiavi": [
+    "tabs",
+    "allAvailableSeasons",
+    "details",
+    "seostr",
+    "QAData",
+    "table",
+    "transfers",
+    "overview",
+    "stats",
+    "fixtures",
+    "playoff",
+    "seasons"
+   ],
+   "nome": "MLS",
+   "stagione_sel": "2026",
+   "stagioni": [
+    "2026",
+    "2025",
+    "2024",
+    "2023",
+    "2022",
+    "2021",
+    "2020",
+    "2019",
+    "2018",
+    "2017",
+    "2016",
+    "2015",
+    "2014",
+    "2013",
+    "2012",
+    "2011",
+    "2010"
+   ],
+   "partite": 510,
+   "stats_chiavi": [
+    "players",
+    "teams",
+    "seasonStatLinks",
+    "seasonsWithLinks"
+   ]
+  }
+ },
+ "fotmob_league_wc": {
+  "status": 200,
+  "bytes": 685949,
+  "ctype": "application/json; charset=utf-8",
+  "sec": 0.7,
+  "head": "{\"tabs\":[\"overview\",\"table\",\"playoff\",\"fixtures\",\"stats\",\"seasons\"],\"allAvailableSeasons\":[\"2026\",\"2022\",\"2018\",\"2014\",\"2010\",\"2006\",\"2002\",\"1998\",\"1994\",\"1990\",\"1986\",\"1982\",\"1978\",\"1974\",\"1970\",\"1966\",\"1962\",\"1958\",\"1954\",\"1950\",\"1938\",\"1934\",\"1930\"],\"details\":{\"id\":77,\"type\":\"league\",\"name\":\"World Cup\",\"selectedSeason\":\"2026\",\"latestSeason\":\"2026\",\"shortName\":\"World Cup\",\"country\":\"INT\",\"gender",
+  "info": {
+   "chiavi": [
+    "tabs",
+    "allAvailableSeasons",
+    "details",
+    "seostr",
+    "QAData",
+    "table",
+    "transfers",
+    "overview",
+    "stats",
+    "fixtures",
+    "playoff",
+    "seasons"
+   ],
+   "nome": "World Cup",
+   "stagione_sel": "2026",
+   "stagioni": [
+    "2026",
+    "2022",
+    "2018",
+    "2014",
+    "2010",
+    "2006",
+    "2002",
+    "1998",
+    "1994",
+    "1990",
+    "1986",
+    "1982",
+    "1978",
+    "1974",
+    "1970",
+    "1966",
+    "1962",
+    "1958",
+    "1954",
+    "1950",
+    "1938",
+    "1934",
+    "1930"
+   ],
+   "partite": 104,
+   "stats_chiavi": [
+    "players",
+    "teams",
+    "seasonStatLinks",
+    "seasonsWithLinks"
+   ]
+  }
+ },
+ "fotmob_matchDetails": {
+  "status": 200,
+  "bytes": 280018,
+  "ctype": "application/json; charset=utf-8",
+  "sec": 0.7,
+  "head": "{\"general\":{\"matchId\":\"4506555\",\"matchName\":\"Brighton & Hove Albion-vs-West Ham United_Sat, Apr 26, 2025, 14:00 UTC\",\"matchRound\":\"34\",\"teamColors\":{\"darkMode\":{\"home\":\"#095bb6\",\"away\":\"#8B3249\"},\"lightMode\":{\"home\":\"#0850A0\",\"away\":\"#7B2B3A\"},\"fontDarkMode\":{\"home\":\"rgba(255, 255, 255, 1.0)\",\"away\":\"rgba(255, 255, 255, 1.0)\"},\"fontLightMode\":{\"home\":\"rgba(255, 255, 255, 1.0)\",\"away\":\"rgba(255, 25"
+ },
+ "fotmob_stats_team_season": {
+  "status": 200,
+  "bytes": 1006,
+  "ctype": "application/json",
+  "sec": 0.2,
+  "head": "\u001f�\b\u0000\u0000\u0000\u0000\u0000\u0000\n�YMo�8\u0010�\u0017� ���\u0002�\u0014E���Q����\r6��X\u0014�4��J�AQ�z�����:�Sw�*��\\\u001c�#~�'��\u001b~y��\u0010ofVӼv�wJ�n\u001f\u0010�e�C�w紻�%x�ăW�:�>.�.�\u000et�<E�rWta\u0017��H\u0017�\u0013q���6�݋��Iu��\u0007Y������\u000e\u0005o{��7�Ӯ]�������j��4_��i���\u0001�ʘ⹫�P]�n8��:\u0003]v�e$\u000e4%�0���7�X̂\u0017}�S�������x����\u0002\"��\b�y�8�o\u000b��\u0003s��.]�4s���\u0013�T�@�����\u0012v�#�\u0017�:1��\u0013�y�=�~=�\t��u��Ձ%I��=9\bE�q\u0010��<�\b\u0007��\u0003��8\u0018��`\u0000\u000e�%\u00145���\u000b\f{\u001a�s%^�}\u0014��=\u001f\u0000�\u001bxLu�\n U���\u001f\t�\u0006\u0011�X`!\u000b\u0019�X\u0010~�� Gb!\u001c���"
+ },
+ "football_data_co_uk_E0": {
+  "status": 200,
+  "bytes": 197110,
+  "ctype": "text/csv",
+  "sec": 2.0,
+  "head": "﻿Div,Date,Time,HomeTeam,AwayTeam,FTHG,FTAG,FTR,HTHG,HTAG,HTR,Referee,HS,AS,HST,AST,HF,AF,HC,AC,HY,AY,HR,AR,B365H,B365D,B365A,BWH,BWD,BWA,BFH,BFD,BFA",
+  "info": {
+   "righe": 381,
+   "colonne": "ï»¿Div,Date,Time,HomeTeam,AwayTeam,FTHG,FTAG,FTR,HTHG,HTAG,HTR,Referee,HS,AS,HST,AST,HF,AF,HC,AC,HY,AY,HR,AR,B365H,B365D,B365A,BWH,BWD,BWA,BFH,BFD,BFA,PSH,PSD,PSA,WHH,WHD,WHA,1XBH,1XBD,1XBA,MaxH,MaxD,MaxA,AvgH,AvgD,AvgA,BFEH,BFED,BFEA,B365>2.5,B365<2.5,P>2.5,P<2.5,Max>2.5,Max<2.5,Avg>2.5,Avg<2.5,BFE>2.5,BFE<2.5,AHh,B365AHH,B365AHA,PAHH,PAHA,MaxAHH,MaxAHA,AvgAHH,AvgAHA,BFEAHH,BFEAHA,B365CH,B365CD,B"
+  }
+ },
+ "football_data_co_uk_BRA": {
+  "status": 200,
+  "bytes": 646941,
+  "ctype": "text/csv",
+  "sec": 2.1,
+  "head": "﻿Country,League,Season,Date,Time,Home,Away,HG,AG,Res,PSCH,PSCD,PSCA,MaxCH,MaxCD,MaxCA,AvgCH,AvgCD,AvgCA,BFECH,BFECD,BFECA,B365CH,B365CD,B365CA\r\nBraz",
+  "info": {
+   "righe": 5630,
+   "colonne": "ï»¿Country,League,Season,Date,Time,Home,Away,HG,AG,Res,PSCH,PSCD,PSCA,MaxCH,MaxCD,MaxCA,AvgCH,AvgCD,AvgCA,BFECH,BFECD,BFECA,B365CH,B365CD,B365CA"
+  }
+ },
+ "football_data_co_uk_USA": {
+  "status": 200,
+  "bytes": 744346,
+  "ctype": "text/csv",
+  "sec": 2.1,
+  "head": "﻿Country,League,Season,Date,Time,Home,Away,HG,AG,Res,PSCH,PSCD,PSCA,MaxCH,MaxCD,MaxCA,AvgCH,AvgCD,AvgCA,BFECH,BFECD,BFECA,B365CH,B365CD,B365CA\r\nUSA,",
+  "info": {
+   "righe": 6268,
+   "colonne": "ï»¿Country,League,Season,Date,Time,Home,Away,HG,AG,Res,PSCH,PSCD,PSCA,MaxCH,MaxCD,MaxCA,AvgCH,AvgCD,AvgCA,BFECH,BFECD,BFECA,B365CH,B365CD,B365CA"
+  }
+ },
+ "football_data_co_uk_E1_9394": {
+  "status": 200,
+  "bytes": 26382,
+  "ctype": "text/csv",
+  "sec": 1.3,
+  "head": "Div,Date,HomeTeam,AwayTeam,FTHG,FTAG,FTR,,,,,,,,,,,,,,,,,,,,,\r\nE0,14/08/93,Arsenal,Coventry,0,3,A,,,,,,,,,,,,,,,,,,,,,\r\nE0,14/08/93,Aston Villa,QPR,4,",
+  "info": {
+   "righe": 553,
+   "colonne": "Div,Date,HomeTeam,AwayTeam,FTHG,FTAG,FTR,,,,,,,,,,,,,,,,,,,,,"
+  }
+ },
+ "espn_leagues": {
+  "status": 200,
+  "bytes": 22118,
+  "ctype": "application/json;charset=utf-8",
+  "sec": 0.1,
+  "head": "{\"count\":220,\"pageIndex\":1,\"pageSize\":400,\"pageCount\":1,\"items\":[{\"$ref\":\"http://sports.core.api.espn.com/v2/sports/soccer/leagues/fifa.world?lang=en&region=us\"},{\"$ref\":\"http://sports.core.api.espn.com/v2/sports/soccer/leagues/fifa.wwc?lang=en&region=us\"},{\"$ref\":\"http://sports.core.api.espn.com/v2"
+ },
+ "espn_scoreboard_arg": {
+  "status": 200,
+  "bytes": 28326,
+  "ctype": "application/json;charset=UTF-8",
+  "sec": 0.0,
+  "head": "{\"leagues\":[{\"id\":\"745\",\"uid\":\"s:600~l:745\",\"name\":\"Argentine Liga Profesional de Fútbol\",\"abbreviation\":\"Argentine LPF\",\"midsizeName\":\"ARG.1\",\"slug\":\"arg.1\",\"season\":{\"year\":2026,\"startDate\":\"2026-01-01T05:00Z\",\"endDate\":\"2026-12-31T05:00Z\",\"displayName\":\"2026 Argentine Liga Profesional de Fútbol"
+ },
+ "espn_standings_mls": {
+  "status": 200,
+  "bytes": 134667,
+  "ctype": "application/json;charset=UTF-8",
+  "sec": 0.1,
+  "head": "{\"uid\":\"s:600~l:770\",\"id\":\"8675309\",\"name\":\"MLS\",\"abbreviation\":\"MLS\",\"children\":[{\"uid\":\"s:600~l:770~g:1\",\"id\":\"1\",\"name\":\"Eastern Conference\",\"abbreviation\":\"East\",\"standings\":{\"id\":\"0\",\"name\":\"overall\",\"displayName\":\"Standings\",\"links\":[{\"language\":\"en-US\",\"rel\":[\"standings\",\"desktop\"],\"href\":\"ht"
+ },
+ "espn_scoreboard_2425": {
+  "status": 200,
+  "bytes": 60136,
+  "ctype": "application/json;charset=UTF-8",
+  "sec": 0.1,
+  "head": "{\"leagues\":[{\"id\":\"700\",\"uid\":\"s:600~l:700\",\"name\":\"English Premier League\",\"abbreviation\":\"Premier League\",\"midsizeName\":\"ENG.1\",\"slug\":\"eng.1\",\"season\":{\"year\":2024,\"startDate\":\"2024-06-01T04:00Z\",\"endDate\":\"2025-06-01T03:59Z\",\"displayName\":\"2024-25 English Premier League\",\"type\":{\"id\":\"1\",\"type\":"
+ },
+ "sofascore_tournaments": {
+  "errore": "HTTP Error 403: Forbidden",
+  "sec": 0.0
+ },
+ "sofascore_app": {
+  "errore": "HTTP Error 403: Forbidden",
+  "sec": 0.0
+ },
+ "onefootball": {
+  "status": 200,
+  "bytes": 168507,
+  "ctype": "text/html; charset=utf-8",
+  "sec": 0.9,
+  "head": "<!DOCTYPE html><html dir=\"ltr\" lang=\"en\"><head><meta charSet=\"utf-8\" data-next-head=\"\"/><meta name=\"viewport\" content=\"width=device-width\" data-next-head=\"\"/><link rel=\"icon\" href=\"/next-assets/favicon.png\" data-next-head=\"\"/><link rel=\"manifest\" href=\"/next-assets/manifest.json\" data-next-head=\"\"/><title data-next-head=\"\">Premier League Table 2026/27: Full EPL Standings and Points</title><meta co"
+ },
+ "livescore": {
+  "status": 200,
+  "bytes": 82939,
+  "ctype": "application/json",
+  "sec": 0.3,
+  "head": "{\"Ts\":1793042935,\"Stages\":[{\"Sid\":\"25695\",\"Snm\":\"LaLiga\",\"Scd\":\"laliga\",\"Cnm\":\"Spain\",\"CnmT\":\"spain\",\"Csnm\":\"Spain\",\"Ccd\":\"spain\",\"CompId\":\"75\",\"CompN\":\"LaLiga\",\"CompUrlName\":\"laliga\",\"CompD\":\"Spain\",\"CompST\":\"Spain\",\"Scu\":0,\"badgeUrl\":\"2023-spain-laliga.png\",\"firstColor\":\"8B0D11\",\"Feed\":{\"Id\":\"cp:75\",\"Items\":[\"cp:75-a:4190803\",\"cp:75-a:4190744\",\"cp:75-a:4190587\",\"cp:75-a:4192340\",\"cp:75-a:4192300"
+ },
+ "understat": {
+  "status": 200,
+  "bytes": 94638,
+  "ctype": "text/javascript;charset=UTF-8",
+  "sec": 1.3,
+  "head": "\u001f�\b\u0000\u0000\u0000\u0000\u0000\u0000\u0003��ksf��.\n�\u0015FM�|r1p�x>I�m�����g�\u0013\u001d�To��b�:d���\u001d��O�\u0000\t \u0001,.�{��;ik1\t$��|����������ͯ��\u001b/���{����/������+��/�?>>������\u0005������>�����������_��\u001e�����7�\u0016�Z\u0006'$��/��Z�\u001a!b�՛��J+�{j��w\u0017�'_>~|�k���޼��\u0007���Ym�~�����.��4n�\u0019e�\u000f���O�/��\u0018~����'���Wo>�=?o��~����c����\u000f�\u0007��ϟ����\u001d�N�.\u001f��WBٷ\"���F�_k�k!������������3�+���\u001f����m�\u0007l��o�����\u0015Ai\u001f�ϯv�]�Ϣw���3��3�g�5�l�\u0017>�jw��L��gTH.����b}&w��?>8�@\\v"
+ },
+ "fbref": {
+  "errore": "HTTP Error 403: Forbidden",
+  "sec": 0.1
+ },
+ "transfermarkt": {
+  "status": 202,
+  "bytes": 2411,
+  "ctype": "text/html; charset=UTF-8",
+  "sec": 0.0,
+  "head": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n    <title></title>\n    <style>\n        body {\n            font-family: \"Arial\";\n        }\n    </style>\n    <script type=\"text/javascript\">\n    window.awsWafCookieDomainList = [];\n    window.gokuProps = {\n\"key\":\"AQIDAHjcYu/GjX+QlghicBgQ/7bFaQZ+m5FKCMDnO+vTbNg9"
+ },
+ "openfootball": {
+  "status": 200,
+  "bytes": 110141,
+  "ctype": "text/plain; charset=utf-8",
+  "sec": 0.1,
+  "head": "{\n  \"name\": \"English Premier League 2024/25\",\n  \"matches\": [\n    {\n      \"round\": \"Matchday 1\",\n      \"date\": \"2024-08-16\",\n      \"time\": \"20:00\",\n   "
+ },
+ "thesportsdb": {
+  "errore": "HTTP Error 403: Forbidden",
+  "sec": 0.1
+ }
+}
