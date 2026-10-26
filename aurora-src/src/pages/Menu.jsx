@@ -9,9 +9,8 @@ import ThemeSelector from '@/components/ThemeSelector';
 import SearchOverlay from '@/components/SearchOverlay';
 
 const ITEMS = [
-  { label: 'Partite', to: '/partite' },
+  { label: 'Home', to: '/' },
   { label: 'Calcolatore di Affidabilità', to: '/calcolatore' },
-  { label: 'Tiri Squadre', to: '/tiri-squadre' },
   { label: 'Migliori Giocatori', to: '/migliori-giocatori' },
   { label: 'Migliori Matchup', to: '/migliori-matchup' },
   { label: 'Linee guida', to: '/linee-guida' },
