@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { carousel, pageBack } from '@/lib/carousel';
 
 
 export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, className = '', stickyTop = 'var(--ent-h, 0px)', fixedBar = false, edgeBack = true }) {
@@ -55,6 +56,7 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
   live.current = { index, onChange, n: tabs.length, back: edgeBack && loc.key !== 'default', navigate };
   const prevIdx = useRef(index);
   const contentRef = useRef(null);
+  const skipEntry = useRef(false);
 
   // la barra segue la scheda attiva; la nuova scheda entra con una breve animazione
   useLayoutEffect(() => {
@@ -67,6 +69,7 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
     const el = contentRef.current;
     const dir = index > prevIdx.current ? 1 : index < prevIdx.current ? -1 : 0;
     prevIdx.current = index;
+    if (skipEntry.current) { skipEntry.current = false; return undefined; }
     if (!el || !dir) return undefined;
     el.style.transition = 'none';
     el.style.transform = `translate3d(${dir * 70}px,0,0)`;
@@ -149,19 +152,8 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
       const el = contentRef.current;
       if (i === 0 && dx > 0 && live.current.back && (dx > d.w * 0.3 || v > 0.55)) {
         busy = true;
-        const sh = document.getElementById('sl-shell');
-        if (sh) {
-          sh.style.transition = 'transform .24s cubic-bezier(.22,.8,.24,1), opacity .24s ease';
-          sh.style.transform = 'translate3d(100%,0,0)';
-          sh.style.opacity = '0';
-        }
-        setTimeout(() => {
-          busy = false;
-          live.current.navigate(-1);
-          setTimeout(() => {
-            if (sh && sh.isConnected) { sh.style.transition = 'none'; sh.style.transform = ''; sh.style.opacity = ''; }
-          }, 500);
-        }, 250);
+        pageBack(document.getElementById('sl-shell'), Math.max(0, dx), live.current.navigate);
+        setTimeout(() => { busy = false; }, 450);
         return;
       }
       if (i === 0 && dx > 0 && live.current.back) {
@@ -176,12 +168,8 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
       }
       if ((Math.abs(dx) > d.w * 0.2 || v > 0.45) && next >= 0 && next < n) {
         busy = true;
-        if (el) {
-          el.style.transition = 'transform .15s ease-in, opacity .15s ease-in';
-          el.style.transform = `translate3d(${dx < 0 ? -80 : 80}px,0,0)`;
-          el.style.opacity = '0';
-        }
-        setTimeout(() => { oc(next); busy = false; }, 150);
+        const off = (i === 0 && dx > 0) || (i === n - 1 && dx < 0) ? dx * 0.25 : dx;
+        carousel(el, off, dx < 0 ? 1 : -1, () => { skipEntry.current = true; oc(next); }, () => { busy = false; });
       } else {
         if (el) {
           el.style.transition = 'transform .25s cubic-bezier(.22,.8,.24,1), opacity .25s ease';

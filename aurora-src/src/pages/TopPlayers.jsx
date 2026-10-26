@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useDeferredValue, useState } from 'react';
 import PageShell from '@/components/PageShell';
 import ListHeader from '@/components/ListHeader';
 import DayStrip from '@/components/DayStrip';
@@ -16,7 +16,8 @@ export default function TopPlayers() {
   const [searchOpen, setSearchOpen] = useState(false);
   const loading = useInitialLoad();
 
-  const rows = bestPlayers(isoDate(DATES[dayIdx]), threshold);
+  const dThr = useDeferredValue(threshold);
+  const rows = bestPlayers(isoDate(DATES[dayIdx]), dThr);
 
   return (
     <PageShell>

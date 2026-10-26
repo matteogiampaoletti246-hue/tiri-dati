@@ -7,6 +7,12 @@ const TABS = [
   ['Dribbling', ['dribbles_succeeded', 'was_fouled', 'dispossessed']],
   ['Difesa', ['Offsides', 'yellow', 'red', 'fouls', 'defensive_actions', 'matchstats.headers.tackles', 'shot_blocks', 'clearances', 'headed_clearance', 'interceptions', 'recoveries', 'dribbled_past', 'duel_won', 'duel_lost', 'ground_duels_won', 'aerials_won']],
 ];
+const DEF = {
+  goals: 'Gol', total_shots: 'Tiri totali', ShotsOnTarget: 'Tiri in porta', ShotsOffTarget: 'Tiri fuori', blocked_shots: 'Tiri murati', shot_accuracy: 'Precisione di tiro',
+  expected_goals: 'Gol attesi (xG)', expected_goals_on_target_variant: 'xG in porta (xGOT)', big_chance_missed_title: 'Grandi occasioni mancate', shots_woodwork: 'Pali e traverse',
+  dribbles_succeeded: 'Dribbling riusciti', was_fouled: 'Falli subiti', dispossessed: 'Palle perse',
+};
+const FULL = new Set(['Tiri', 'Dribbling']);
 const SKIP = new Set(['rating_title', 'minutes_played']);
 
 export function tabRows(c) {
@@ -14,7 +20,7 @@ export function tabRows(c) {
   const y = c.evs.filter((e) => e.type === 'yellow' && norm(e.name) === norm(c.name)).length;
   const r = c.evs.filter((e) => e.type === 'red' && norm(e.name) === norm(c.name)).length;
   const virt = { yellow: { k: 'yellow', label: 'Gialli', text: String(y) }, red: { k: 'red', label: 'Rossi', text: String(r) } };
-  const out = TABS.map(([title, keys]) => ({ title, rows: keys.map((k) => { used.add(k); return virt[k] || c.flat[k]; }).filter(Boolean) }));
+  const out = TABS.map(([title, keys]) => ({ title, rows: keys.map((k) => { used.add(k); return virt[k] || c.flat[k] || (FULL.has(title) && DEF[k] ? { k, label: DEF[k], text: k === 'shot_accuracy' ? '0%' : '0' } : null); }).filter(Boolean) }));
   const rest = [];
   c.groups.forEach((g) => g.rows.forEach((x) => { if (!used.has(x.k) && !SKIP.has(x.k)) { used.add(x.k); rest.push(x); } }));
   out[3].rows.push(...rest);

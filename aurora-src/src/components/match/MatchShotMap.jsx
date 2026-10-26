@@ -88,8 +88,8 @@ export default function MatchShotMap({ shots = [], home, away, match = null, lin
     const x0 = 10;
     return (
       <svg viewBox="0 0 100 52" className="w-full">
-        <line x1="2" x2="98" y1="44" y2="44" stroke={LINE} strokeWidth="0.5" />
-        <rect x={x0 + 4} y={44 - 2.44 * W * 0.9} width={7.32 * W * 0.9} height={2.44 * W * 0.9} fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.75)" strokeWidth="1.2" />
+        <line x1="2" x2="98" y1="44" y2="44" strokeWidth="0.5" style={{ stroke: 'var(--ink-3)' }} />
+        <rect x={x0 + 4} y={44 - 2.44 * W * 0.9} width={7.32 * W * 0.9} height={2.44 * W * 0.9} strokeWidth="1.2" style={{ fill: 'var(--hair-2)', stroke: 'var(--ink)' }} />
         {gl.map((s) => {
           const i = list.indexOf(s);
           const cx = x0 + 4 + (s.gy - 30.34) * W * 0.9;

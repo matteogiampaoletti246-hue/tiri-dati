@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
-import { X } from 'lucide-react';
+import { X, ChevronRight } from 'lucide-react';
 import Crest from '@/components/Crest';
 import TextFilter from '@/components/TextFilter';
 import ShotExplorer from './ShotExplorer';
@@ -9,6 +9,7 @@ import StatTabs from './StatTabs';
 import { CardIcon, SubIcon, BallIcon } from './EventIcons';
 import { closePlayer, openPlayer, findInMatch, matchOf, ourPlayerId, usePlayerSheet } from '@/data/playerSheet';
 import { comma } from '@/lib/format';
+import { shortName } from './Riassunto';
 import { norm } from '@/data/util';
 
 const IT = {
@@ -88,9 +89,30 @@ function Badges({ c }) {
   const ass = c.evs.filter((e) => e.type === 'goal' && e.assist && norm(e.assist) === norm(c.name));
   if (ass.length) items.push(<span key="a" className="flex items-center gap-1">Assist {ass.map((g) => `${g.minute}'`).join(' ')}</span>);
   c.evs.filter((e) => (e.type === 'yellow' || e.type === 'red') && norm(e.name) === norm(c.name)).forEach((e, i) => items.push(<span key={`c${i}`} className="flex items-center gap-1"><CardIcon red={e.type === 'red'} size={15} />{e.minute}&apos;</span>));
-  c.evs.filter((e) => e.type === 'sub').forEach((e, i) => items.push(<span key={`s${i}`} className="flex items-center gap-1"><SubIcon size={15} />{norm(e.inName) === norm(c.name) ? 'Entra' : 'Esce'} {e.minute}&apos;</span>));
-  if (!items.length) return null;
-  return <div className="flex flex-wrap gap-2">{items.map((it, i) => <span key={i} className="glass-flat rounded-full px-3 py-1.5 text-[12px] font-bold">{it}</span>)}</div>;
+  const subs = c.evs.filter((e) => e.type === 'sub');
+  subs.filter((e) => norm(e.inName) === norm(c.name)).forEach((e, i) => items.push(<span key={`s${i}`} className="flex items-center gap-1"><SubIcon size={15} />Entra {e.minute}&apos;</span>));
+  const outs = subs.filter((e) => norm(e.inName) !== norm(c.name));
+  if (!items.length && !outs.length) return null;
+  return (
+    <div className="flex flex-wrap gap-2">
+      {items.map((it, i) => <span key={i} className="glass-flat rounded-full px-3 py-1.5 text-[12px] font-bold">{it}</span>)}
+      {outs.map((e, i) => {
+        const f = findInMatch(c.match, e.inName, null);
+        const fm = f && f.fmId;
+        const photo = (f && f.entry && f.entry.photo) || (fm ? `https://images.fotmob.com/image_resources/playerimages/${fm}.png` : null);
+        return (
+          <button key={`o${i}`} type="button" data-no-swipe onClick={() => openPlayer({ matchId: c.match.id, name: e.inName, fmId: fm || undefined })} className="glass-flat press flex min-w-0 basis-full items-center gap-2 rounded-full py-1.5 pl-3 pr-2 text-left text-[12px] font-bold">
+            <SubIcon size={15} />
+            <span className="shrink-0">Esce {e.minute}&apos;</span>
+            <span className="mx-0.5 h-4 w-px shrink-0" style={{ background: 'var(--hair)' }} />
+            <span className="h-[26px] w-[26px] shrink-0 overflow-hidden rounded-full" style={{ background: 'var(--hair)' }}>{photo ? <img src={photo} alt="" className="h-full w-full object-cover" decoding="async" /> : null}</span>
+            <span className="min-w-0 flex-1 truncate">{shortName(e.inName)}</span>
+            <ChevronRight size={15} className="shrink-0" style={{ color: 'var(--ink-3)' }} />
+          </button>
+        );
+      })}
+    </div>
+  );
 }
 
 const Row = ({ r }) => (
@@ -155,7 +177,7 @@ const Rows = ({ rows }) => rows.map((r, i) => (
 ));
 
 const MapBlock = ({ c }) => (c.shots.length ? <MiniShotMap shots={c.shots} /> : (
-  <p className="rounded-[16px] py-5 text-center text-[12.5px]" style={{ background: 'var(--hair-2)', color: 'var(--ink-3)' }}>Nessun tiro in questa partita</p>
+  <p className="rounded-[16px] py-5 text-center text-[12.5px]" style={{ background: 'var(--hair-2)', color: 'var(--ink-3)' }}>Nessun tiro del giocatore</p>
 ));
 
 function Body({ c, concept }) {

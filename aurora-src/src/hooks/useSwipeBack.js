@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { pageBack } from '@/lib/carousel';
 
 // Swipe-back dal bordo sinistro con animazione di slittamento.
 export default function useSwipeBack(enabled = true) {
@@ -46,22 +47,7 @@ export default function useSwipeBack(enabled = true) {
       const dx = e.clientX - s.x;
       const el = shell();
       if (dx > 92) {
-        if (el) {
-          el.style.transition = 'transform .3s cubic-bezier(.22,.8,.24,1), opacity .3s ease';
-          el.style.transform = 'translate3d(100%,0,0)';
-          el.style.opacity = '0';
-        }
-        // naviga a schermo nascosto: il vecchio schermo non ricompare
-        setTimeout(() => {
-          navigate(-1);
-          setTimeout(() => {
-            if (el && el.isConnected) {
-              el.style.transition = 'none';
-              el.style.transform = 'translate3d(0,0,0)';
-              el.style.opacity = '1';
-            }
-          }, 500);
-        }, 250);
+        pageBack(el, dx, navigate);
       } else if (el) {
         el.style.transition = 'transform .3s cubic-bezier(.22,.8,.24,1), opacity .3s ease';
         el.style.transform = 'translate3d(0,0,0)';

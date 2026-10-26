@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { CalendarDays } from 'lucide-react';
 import { useNavigationType } from 'react-router-dom';
+import { carousel } from '@/lib/carousel';
 import PageShell from '@/components/PageShell';
 import HomeHeader from '@/components/HomeHeader';
 import DayStrip from '@/components/DayStrip';
@@ -137,8 +138,8 @@ export default function Home() {
       // dito verso destra → giorno precedente (Ieri); dito verso sinistra → giorno successivo (Domani)
       const next = cur + (dx > 0 ? -1 : 1);
       if ((Math.abs(dx) > 60 || v > 0.45) && next >= 0 && next <= DATES.length - 1) {
-        busy.current = false;
-        sl(() => { setCustom(null); setDayIdx(next); }, dx > 0 ? 1 : -1);
+        busy.current = true;
+        carousel(el, dx * 0.8, dx > 0 ? -1 : 1, () => { setCustom(null); setDayIdx(next); }, () => { busy.current = false; });
       } else if (el) {
         el.style.transition = 'transform .25s cubic-bezier(.22,.8,.24,1), opacity .25s ease';
         el.style.transform = 'translate3d(0,0,0)';

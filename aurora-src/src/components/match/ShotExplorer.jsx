@@ -15,8 +15,8 @@ function Goal({ list, sel, onSel, dim = true, h = 150, frame = 'rgba(255,255,255
   const x0 = 14;
   return (
     <svg viewBox="0 0 100 52" className="w-full" style={{ maxHeight: h }}>
-      <line x1="2" x2="98" y1="44" y2="44" stroke={LINE} strokeWidth="0.5" />
-      <rect x={x0} y={44 - 2.44 * W} width={7.32 * W} height={2.44 * W} fill="rgba(255,255,255,.05)" stroke={frame} strokeWidth="1.2" />
+      <line x1="2" x2="98" y1="44" y2="44" strokeWidth="0.5" style={{ stroke: 'var(--ink-3)' }} />
+      <rect x={x0} y={44 - 2.44 * W} width={7.32 * W} height={2.44 * W} strokeWidth="1.2" style={{ fill: 'var(--hair-2)', stroke: 'var(--ink)' }} />
       {list.map((s, i) => {
         if (s.gy == null || s.gz == null) return null;
         const cx = x0 + (s.gy - 30.34) * W;
@@ -125,7 +125,7 @@ export default function ShotExplorer({ shots, concept }) {
     </div>
   );
   if (!list.length) {
-    return <p className="rounded-[16px] py-5 text-center text-[12.5px]" style={{ background: 'var(--hair-2)', color: 'var(--ink-3)' }}>Nessun tiro in questa partita</p>;
+    return <p className="rounded-[16px] py-5 text-center text-[12.5px]" style={{ background: 'var(--hair-2)', color: 'var(--ink-3)' }}>Nessun tiro del giocatore</p>;
   }
 
   if (concept === 'b') {
