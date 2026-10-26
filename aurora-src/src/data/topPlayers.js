@@ -137,6 +137,7 @@ export function matchReliability(match, line = 0.5) {
   const out = [];
   PLAYERS.forEach((p) => {
     if (p.teamId !== match.homeId && p.teamId !== match.awayId) return;
+    if ((p.l ? p.l[0] : 0) + (p.c ? p.c[0] : 0) < 3) return; // almeno 3 presenze
     const r = playerReliability(p, match.date, line);
     if (r) out.push({ player: p, side: p.teamId === match.homeId ? 'home' : 'away', ...r });
   });
