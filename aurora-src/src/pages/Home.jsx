@@ -87,12 +87,12 @@ export default function Home() {
 
   // Swipe laterale tra i giorni: eventi touch nativi su tutta la pagina (affidabili su iPhone).
   const live = useRef({});
-  live.current = { dayIdx, slide };
+  live.current = { dayIdx, slide, search: searchOpen };
   useEffect(() => {
     let st = null;
-    const blocked = (t) => t.closest && t.closest('[data-no-swipe], input, select, textarea, [role="dialog"], .fixed');
+    const blocked = (t) => t.closest && t.closest('[data-no-swipe], input, select, textarea, [role="dialog"]');
     const onStart = (e) => {
-      if (e.touches.length !== 1 || busy.current || blocked(e.target)) { st = null; return; }
+      if (e.touches.length !== 1 || busy.current || live.current.search || blocked(e.target)) { st = null; return; }
       const t = e.touches[0];
       st = { x: t.clientX, y: t.clientY, t: Date.now(), on: false };
       moved.current = false;
