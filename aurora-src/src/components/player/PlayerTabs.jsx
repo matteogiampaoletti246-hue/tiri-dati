@@ -5,6 +5,7 @@ import Radar from './Radar';
 import { comma } from '@/lib/format';
 import { POS_IT, percentiles, ratingColor, dateIt } from './playerCalc';
 import { teamByName } from '@/data/teams';
+import { carriereOf, countryIt, FOOT, dateLong, ageOf, money, monthIt } from '@/data/carriere';
 
 const L = { fontSize: 9.5, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--ink-3)' };
 
@@ -35,6 +36,47 @@ function Bars({ values, color }) {
 }
 
 const avg = (a) => (a.length ? a.reduce((x, y) => x + y, 0) / a.length : null);
+
+function BioCard({ player, team }) {
+  const c = carriereOf(player.id) || {};
+  const age = ageOf(c.b);
+  const cells = [
+    ['Nazionalità', c.c ? countryIt(c.c) : '—'],
+    ['Nato il', c.b ? `${dateLong(c.b)}${age ? ` · ${age} anni` : ''}` : '—'],
+    ['Altezza', c.h ? `${c.h} cm` : '—'],
+    ['Piede', FOOT[c.f] || '—'],
+    ['Ruolo', POS_IT[player.position] || '—'],
+    ['Maglia', c.n || player.number || '—'],
+  ];
+  return (
+    <section>
+      <PanelTitle>Informazioni</PanelTitle>
+      <div className="panel-solid rounded-3xl px-4 py-4">
+        <div className="mb-4 flex items-center gap-3">
+          <Crest team={team} size={30} />
+          <div className="min-w-0">
+            <p className="truncate text-[14.5px]" style={{ color: 'var(--ink)' }}>{team ? team.name : player.teamName}</p>
+            <p className="text-[11.5px]" style={{ color: 'var(--ink-3)' }}>{c.ce ? `Contratto fino al ${dateLong(c.ce)}` : ' '}</p>
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-x-4 gap-y-4">
+          {cells.map(([k, v]) => (
+            <div key={k}>
+              <p style={L}>{k}</p>
+              <p className="mt-1 text-[14px]" style={{ color: 'var(--ink)' }}>{v}</p>
+            </div>
+          ))}
+        </div>
+        {c.mv ? (
+          <div className="mt-4 flex items-center justify-between rounded-2xl px-4 py-3" style={{ background: 'rgba(127,160,200,.1)' }}>
+            <span style={L}>Valore di mercato</span>
+            <span className="tnum text-[17px] font-medium" style={{ color: '#e0a528' }}>{money(c.mv)}</span>
+          </div>
+        ) : null}
+      </div>
+    </section>
+  );
+}
 
 /* ---------- PROFILO ---------- */
 export function ProfiloPanel({ player, team, concept }) {
@@ -117,19 +159,10 @@ export function ProfiloPanel({ player, team, concept }) {
             ))}
           </div>
         </div>
+        <BioCard player={player} team={team} />
         <section>
           <PanelTitle>Profilo di gioco</PanelTitle>
           <div className="panel-solid rounded-3xl px-2 py-4"><Radar items={pc} color={colors[0]} /></div>
-        </section>
-        <section>
-          <PanelTitle>Informazioni</PanelTitle>
-          <div className="flex flex-wrap gap-2">
-            {facts.map(([k, v]) => (
-              <span key={k} className="glass-pill rounded-full px-3 py-1.5 text-[12px]" style={{ color: 'var(--ink)' }}>
-                <span style={{ color: 'var(--ink-3)' }}>{k} </span>{v}
-              </span>
-            ))}
-          </div>
         </section>
       </div>
     );
@@ -272,35 +305,40 @@ export function StatistichePanel({ player, concept }) {
 }
 
 /* ---------- CARRIERA ---------- */
-export function CarrieraPanel({ player, team, concept }) {
-  const rows = [];
-  const lg = player.l || [0, 0, 0, 0];
-  const cup = player.c || [0, 0, 0, 0];
-  if (lg[0] || player.appearances) rows.push({ comp: 'Campionato', a: lg[0] || player.appearances, g: player.goals, s: lg[1], m: lg[3] || player.minutes });
-  if (cup[0]) rows.push({ comp: 'Coppe', a: cup[0], g: null, s: cup[1], m: Math.round(cup[3]) });
+export function CarrieraPanel({ player }) {
+  const c = carriereOf(player.id);
+  const rows = (c && c.car) || [];
+  if (!rows.length) {
+    return <p className="px-5 py-16 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Carriera non disponibile per questo giocatore</p>;
+  }
   return (
-    <div className="flex flex-col gap-5 px-5 pb-8 pt-5">
-      <div className="panel-solid rounded-2xl px-4 py-3">
-        <div className="mb-2 flex items-center gap-2">
-          <Crest team={team} size={22} />
-          <span className="text-[14px]" style={{ color: 'var(--ink)' }}>{team ? team.name : player.teamName}</span>
-          <span className="tnum ml-auto text-[12px]" style={{ color: 'var(--ink-3)' }}>2025/26</span>
-        </div>
-        <div className="grid grid-cols-5 gap-1 pb-1 text-[9.5px] uppercase tracking-[.1em]" style={{ color: 'var(--ink-3)' }}>
-          <span className="col-span-2">Competizione</span><span className="text-right">Pres.</span><span className="text-right">Tiri</span><span className="text-right">Min.</span>
-        </div>
-        {rows.map((r, i) => (
-          <div key={r.comp} className="grid grid-cols-5 gap-1 py-2.5" style={{ borderTop: '1px solid var(--hair-2)' }}>
-            <span className="col-span-2 text-[13px]" style={{ color: 'var(--ink)' }}>{r.comp}</span>
-            <span className="tnum text-right text-[13px]">{r.a}</span>
-            <span className="tnum text-right text-[13px]">{r.s}</span>
-            <span className="tnum text-right text-[13px]">{r.m}</span>
-          </div>
-        ))}
+    <div className="px-5 pb-8 pt-5">
+      <div className="flex flex-col gap-2.5">
+        {rows.map((r, i) => {
+          const t = teamByName(r[0]);
+          return (
+            <div key={i} className="flex items-center gap-3 rounded-2xl px-3.5 py-3" style={{ background: 'rgba(127,160,200,.08)' }}>
+              <Crest team={t || { name: r[0], initials: String(r[0] || '').slice(0, 2).toUpperCase(), colors: ['#37507a', '#5a7bb0'] }} size={30} />
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-[14px]" style={{ color: 'var(--ink)' }}>
+                  {r[0]}{r[6] ? <span className="ml-1.5 text-[10.5px]" style={{ color: 'var(--ink-3)' }}>prestito</span> : null}
+                </p>
+                <p className="mt-0.5 text-[11px]" style={{ color: 'var(--ink-3)' }}>
+                  {monthIt(r[1])} – {r[7] ? 'oggi' : monthIt(r[2]) || '—'}
+                </p>
+              </div>
+              <div className="grid grid-cols-3 gap-3 text-center">
+                {[['Pres.', r[3]], ['Gol', r[4]], ['Ass.', r[5]]].map(([k, v]) => (
+                  <div key={k} className="w-8">
+                    <p className="tnum text-[14px]" style={{ color: 'var(--ink)' }}>{v || '0'}</p>
+                    <p style={{ ...L, fontSize: 8 }}>{k}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          );
+        })}
       </div>
-      <p className="px-1 text-center text-[11.5px] leading-relaxed" style={{ color: 'var(--ink-3)' }}>
-        Lo storico delle stagioni passate e dei trasferimenti non è ancora disponibile: i dati attuali coprono solo la stagione in corso.
-      </p>
     </div>
   );
 }

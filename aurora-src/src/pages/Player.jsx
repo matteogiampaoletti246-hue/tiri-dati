@@ -6,10 +6,10 @@ import SwipeTabs from '@/components/SwipeTabs';
 import Skeleton from '@/components/Skeleton';
 import EntityBanner from '@/components/EntityBanner';
 import useInitialLoad from '@/hooks/useInitialLoad';
-import { useConcept } from '@/lib/concept';
 import { playerById } from '@/data/players';
 import { teamById } from '@/data/teams';
 import { loadPlayerShots } from '@/data/extras';
+import { loadCarriere } from '@/data/carriere';
 import { POS_IT } from '@/components/player/playerCalc';
 import { ProfiloPanel, PartitePanel, StatistichePanel, CarrieraPanel } from '@/components/player/PlayerTabs';
 
@@ -31,11 +31,11 @@ export default function Player() {
       return 0;
     }
   });
-  const [concept] = useConcept('player');
   const [, bump] = useState(0);
   useEffect(() => {
     let on = true;
     loadPlayerShots(id).then(() => on && bump((n) => n + 1));
+    loadCarriere().then(() => on && bump((n) => n + 1));
     return () => {
       on = false;
     };
@@ -62,10 +62,10 @@ export default function Player() {
 
   const team = teamById(player.teamId);
   const panels = [
-    <ProfiloPanel key="p" player={player} team={team} concept={concept} />,
-    <PartitePanel key="m" player={player} concept={concept} />,
-    <StatistichePanel key="s" player={player} concept={concept} />,
-    <CarrieraPanel key="c" player={player} team={team} concept={concept} />,
+    <ProfiloPanel key="p" player={player} team={team} concept="c" />,
+    <PartitePanel key="m" player={player} concept="b" />,
+    <StatistichePanel key="s" player={player} concept="b" />,
+    <CarrieraPanel key="c" player={player} team={team} concept="b" />,
   ];
 
   return (
