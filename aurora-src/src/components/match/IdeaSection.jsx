@@ -21,7 +21,7 @@ function Radar({ home, away }) {
     return [C + r * Math.cos(a), C + r * Math.sin(a)];
   };
   const poly = (t) => AXES.map(([k], i) => pt(i, fracOf(t, k) ?? 0).join(',')).join(' ');
-  const hc = home.colors[0]; const ac = away.colors[0] === hc ? '#E8C23A' : away.colors[0];
+  const hc = '#E0443A'; const ac = '#3B9DFF';
   return (
     <svg viewBox={`0 0 ${S} ${S}`} className="mx-auto block w-full max-w-[300px]">
       {[0.25, 0.5, 0.75, 1].map((g) => <polygon key={g} points={AXES.map((_, i) => pt(i, g).join(',')).join(' ')} fill="none" stroke="var(--hair-2)" strokeWidth="1" />)}
@@ -119,8 +119,8 @@ export default function IdeaSection({ match, home, away, concept = conceptOf('id
       <h3 className="text-[12.5px] font-extrabold uppercase tracking-wider">Duello in numeri</h3>
       {ok ? <div className="mt-2"><Radar home={home} away={away} /></div> : <p className="py-6 text-center text-[12px]" style={{ color: 'var(--ink-3)' }}>Dati non disponibili</p>}
       <div className="mt-1 flex items-center justify-center gap-5 text-[11.5px] font-bold">
-        <span className="flex items-center gap-1.5"><Crest team={home} size={16} />{home ? home.short : ''}</span>
-        <span className="flex items-center gap-1.5"><Crest team={away} size={16} />{away ? away.short : ''}</span>
+        <span className="flex items-center gap-1.5"><i className="h-[9px] w-[9px] rounded-full" style={{ background: "#E0443A" }} /><Crest team={home} size={16} />{home ? home.short : ""}</span>
+        <span className="flex items-center gap-1.5"><i className="h-[9px] w-[9px] rounded-full" style={{ background: "#3B9DFF" }} /><Crest team={away} size={16} />{away ? away.short : ""}</span>
       </div>
       <p className="mt-1 text-center text-[10px]" style={{ color: 'var(--ink-3)' }}>Più il vertice è lontano dal centro, meglio si piazza la squadra in campionato su quella voce.</p>
     </section>
