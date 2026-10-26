@@ -29,7 +29,7 @@ const VS = {
   corner: { opp: 'cornerConcessi', mode: 'att', t: 'concede' },
   falli: { opp: 'fallisubiti', mode: 'foul', t: 'subisce' },
   gialli: { opp: 'gialli', mode: 'cmp', t: 'ne ha' },
-  fuorigioco: { opp: 'fuorigioco', mode: 'cmp', t: 'ne ha' },
+  fuorigioco: { opp: 'fuorigioco', mode: 'cmp', more: true, t: 'ne ha' },
 };
 const AZ = '#3B9DFF';
 const badge = (r, t, frac) => bandColor(frac !== undefined ? frac : t > 1 ? (t - r) / (t - 1) : 1);
@@ -62,7 +62,8 @@ export default function TeamStatsPanel({ team }) {
       fav = q >= 1.08 ? 0 : q <= 0.92 ? 2 : 1;
     } else {
       const q = vo > 0 ? vm / vo : 1; // meno di lei = favorevole
-      fav = q <= 0.9 ? 2 : q >= 1.1 ? 0 : 1;
+      // di norma meno di lei = favorevole; per i fuorigioco vale il contrario (conta chi ne fa di piu')
+      fav = cfg.more ? (q >= 1.1 ? 2 : q <= 0.9 ? 0 : 1) : (q <= 0.9 ? 2 : q >= 1.1 ? 0 : 1);
     }
     return { v: vo, mine: vm, rank: ro.rank, total: ro.total, fav, cfg };
   };

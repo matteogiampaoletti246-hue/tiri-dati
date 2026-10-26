@@ -61,7 +61,7 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
   // la barra segue la scheda attiva; la nuova scheda entra con una breve animazione
   useLayoutEffect(() => {
     posBar(index, index, 0, prevIdx.current !== index);
-    if (prevIdx.current !== index) window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    if (prevIdx.current !== index && !skipEntry.current) window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
     const cur = tabRefs.current[index];
     if (cur && headRef.current) {
       headRef.current.scrollTo({ left: scrollTargetOf(index), behavior: 'smooth' });

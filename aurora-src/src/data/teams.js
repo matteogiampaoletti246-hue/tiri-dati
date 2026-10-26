@@ -34,12 +34,30 @@ const shortOf = (name) => {
     .toUpperCase();
 };
 
+// colori troppo scuri non si vedono sul fondo nero: li schiarisco mantenendo il tono
+const lum = (hex) => {
+  const n = parseInt(String(hex).replace('#', '').slice(0, 6), 16) || 0;
+  return (0.2126 * ((n >> 16) & 255) + 0.7152 * ((n >> 8) & 255) + 0.0722 * (n & 255)) / 255;
+};
+const lift = (hex) => {
+  let h = hex;
+  for (let i = 0; i < 4 && lum(h) < 0.2; i++) {
+    const n = parseInt(h.replace('#', '').slice(0, 6), 16);
+    const mix = (c) => Math.round(c + (255 - c) * 0.18);
+    h = `#${((1 << 24) | (mix((n >> 16) & 255) << 16) | (mix((n >> 8) & 255) << 8) | mix(n & 255)).toString(16).slice(1)}`;
+  }
+  return h;
+};
+// colori sociali scelti a mano dove quello automatico non rende bene
+const TEAM_COL = { genoa: '#D4202F' };
+
 export function ensureTeam(name, leagueId, crest) {
   if (!name) return null;
   const id = slug(name);
   let t = INDEX[id];
   if (!t) {
-    const base = (RAW.teams && RAW.teams.col && RAW.teams.col[name]) || null;
+    const base0 = TEAM_COL[id] || (RAW.teams && RAW.teams.col && RAW.teams.col[name]) || null;
+    const base = base0 ? lift(base0) : null;
     const short = shortOf(name);
     t = { id, name, short, initials: short.slice(0, 3), leagueId: leagueId || null, crest: crest || null, photo: null, colors: [base || '#2C3E66', shade(base || '#2C3E66', 0.55)] };
     INDEX[id] = t;
