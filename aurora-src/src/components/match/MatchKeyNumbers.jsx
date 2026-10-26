@@ -34,7 +34,7 @@ export default function MatchKeyNumbers({ match }) {
     let acc = 0;
     let raf = 0;
     const tick = (now) => {
-      const dt = Math.min(100, now - last);
+      const dt = Math.min(1000, now - last);
       last = now;
       if (!heldRef.current && !document.hidden) acc += dt;
       if (acc >= DUR) {
