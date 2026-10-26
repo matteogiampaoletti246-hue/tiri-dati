@@ -9,7 +9,6 @@ import ShotExplorer from './ShotExplorer';
 import StatTabs from './StatTabs';
 import { CardIcon, SubIcon, BallIcon } from './EventIcons';
 import { closePlayer, openPlayer, findInMatch, matchOf, ourPlayerId, usePlayerSheet } from '@/data/playerSheet';
-import { useConcept } from '@/lib/concept';
 import { comma } from '@/lib/format';
 import { norm } from '@/data/util';
 
@@ -213,7 +212,7 @@ function Header({ c, concept }) {
 export default function PlayerSheetHost() {
   const sheet = usePlayerSheet();
   const c = useCard(sheet);
-  const [concept] = useConcept('sheet2');
+  const concept = 'a'; // scelto: mappa tiri A + statistiche A
   const controls = useDragControls();
   const slide = useAnimationControls();
   const scroller = useRef(null);
