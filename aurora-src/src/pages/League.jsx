@@ -74,6 +74,7 @@ export default function League() {
         logoFilter={dark && !league.logoDark && ['premier-league', 'champions-league', 'ligue-1'].includes(league.id) ? 'brightness(0) invert(1)' : undefined}
         initials={initials}
         liveCount={liveCount}
+        tall
       />
 
       {loading ? (

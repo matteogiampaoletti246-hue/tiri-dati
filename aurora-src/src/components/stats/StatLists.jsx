@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import { ChevronDown, ListTree, X } from 'lucide-react';
 
@@ -13,6 +14,13 @@ export default function StatLists({ sections, controls = null, limit = 8 }) {
     if (!g) groups.push((g = { name: s.group, items: [] }));
     g.items.push(s);
   });
+
+  useEffect(() => {
+    if (!sheet) return undefined;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = prev; };
+  }, [sheet]);
 
   const go = (id) => {
     setSheet(false);
@@ -76,9 +84,9 @@ export default function StatLists({ sections, controls = null, limit = 8 }) {
         );
       })}
 
-      {sheet ? (
-        <div className="fixed inset-0 z-[60] flex items-end justify-center" onClick={() => setSheet(false)} style={{ background: 'rgba(0,0,0,.45)' }}>
-          <div className="glass-strong max-h-[72vh] w-full max-w-[430px] overflow-y-auto rounded-t-[28px] p-5" onClick={(e) => e.stopPropagation()}>
+      {sheet ? createPortal(
+        <div className="fixed inset-0 z-[90] flex items-end justify-center" onClick={() => setSheet(false)} onTouchMove={(e) => { if (e.target === e.currentTarget && e.cancelable) e.preventDefault(); }} style={{ background: 'rgba(0,0,0,.5)', touchAction: 'none' }}>
+          <div className="max-h-[72vh] w-full max-w-[430px] overflow-y-auto overscroll-contain rounded-t-[28px] p-5 pb-[max(20px,env(safe-area-inset-bottom))]" style={{ background: 'var(--sky-2)', border: '1px solid var(--glass-border)', touchAction: 'pan-y', animation: 'slup .3s cubic-bezier(.22,.8,.24,1)' }} onClick={(e) => e.stopPropagation()}>
             <div className="mb-3 flex items-center justify-between">
               <span className="text-[15px] font-extrabold">Vai a</span>
               <button type="button" onClick={() => setSheet(false)} className="press" aria-label="Chiudi"><X size={18} /></button>
@@ -96,7 +104,8 @@ export default function StatLists({ sections, controls = null, limit = 8 }) {
               </div>
             ))}
           </div>
-        </div>
+        </div>,
+        document.body,
       ) : null}
     </div>
   );

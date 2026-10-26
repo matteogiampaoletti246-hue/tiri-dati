@@ -31,6 +31,24 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
     bar.style.width = `${w}px`;
   };
 
+  // posizione di scorrimento della riga di schede per mostrare la scheda k
+  const scrollTargetOf = (k) => {
+    const el = tabRefs.current[k];
+    const box = el && el.parentElement;
+    if (!box) return 0;
+    const max = Math.max(0, box.scrollWidth - box.clientWidth);
+    return Math.max(0, Math.min(max, el.offsetLeft - 20));
+  };
+  // durante lo swipe la riga scorre seguendo il dito, cosi' si vede la scheda che sta arrivando
+  const followBar = (from, to, t) => {
+    const a = tabRefs.current[from];
+    const box = a && a.parentElement;
+    if (!box) return;
+    const sa = scrollTargetOf(from);
+    const sb = scrollTargetOf(to);
+    box.scrollLeft = sa + (sb - sa) * t;
+  };
+
   const live = useRef({});
   live.current = { index, onChange, n: tabs.length };
   const prevIdx = useRef(index);
@@ -39,6 +57,7 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
   // la barra segue la scheda attiva; la nuova scheda entra con una breve animazione
   useLayoutEffect(() => {
     posBar(index, index, 0, prevIdx.current !== index);
+    if (prevIdx.current !== index) window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
     const cur = tabRefs.current[index];
     if (cur && cur.parentElement) {
       cur.parentElement.scrollTo({ left: Math.max(0, cur.offsetLeft - 20), behavior: 'smooth' });
@@ -94,6 +113,7 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
       const p = Math.max(0, Math.min(n - 1, i - off / st.w));
       const from = Math.floor(p);
       posBar(from, Math.min(n - 1, from + 1), p - from, false);
+      followBar(from, Math.min(n - 1, from + 1), p - from);
     };
     const onEnd = (e) => {
       const d = st;

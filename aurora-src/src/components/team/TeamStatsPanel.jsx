@@ -7,12 +7,14 @@ import { hasMetrics } from '@/data/standings';
 import { comma } from '@/lib/format';
 import { bandColor } from '@/components/player/playerCalc';
 
+// statistiche negative: meno ce ne sono, meglio e' (subiti/concessi e fuorigioco)
+export const NEG = ['golSubiti', 'xgSubiti', 'tiriConcessi', 'tiriInPortaConcessi', 'occasioniConcesse', 'cornerConcessi', 'fuorigioco'];
 const rankIn = (team, key, part) => {
-  const rows = teamsOf(team.leagueId).filter((t) => hasMetrics(t.id)).map((t) => ({ id: t.id, v: metricOf(t.id, key, part) })).sort((a, b) => b.v - a.v);
+  const rows = teamsOf(team.leagueId).filter((t) => hasMetrics(t.id)).map((t) => ({ id: t.id, v: metricOf(t.id, key, part) })).sort((a, b) => (NEG.includes(key) ? a.v - b.v : b.v - a.v));
   const i = rows.findIndex((r) => r.id === team.id);
   const total = rows.length;
   const avg = total ? rows.reduce((a, r) => a + r.v, 0) / total : 0;
-  const max = rows.length ? rows[0].v : 0;
+  const max = rows.reduce((m, r) => Math.max(m, r.v), 0);
   return { rank: i + 1, total, avg, max, frac: total > 1 ? (total - (i + 1)) / (total - 1) : 1 };
 };
 const badge = (r, t, frac) => bandColor(frac !== undefined ? frac : t > 1 ? (t - r) / (t - 1) : 1);

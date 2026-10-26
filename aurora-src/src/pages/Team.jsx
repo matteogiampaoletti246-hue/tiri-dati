@@ -81,6 +81,7 @@ export default function Team() {
         logoUrl={team.crest}
         initials={team.initials}
         liveCount={liveCount}
+        tall
       />
 
       {loading ? (

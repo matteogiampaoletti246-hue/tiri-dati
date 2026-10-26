@@ -4,6 +4,7 @@ import TeamLink from '@/components/TeamLink';
 import { teamForm } from '@/data/matches';
 import { recentMatches } from '@/data/extras';
 import { teamById } from '@/data/teams';
+import { Link } from 'react-router-dom';
 
 const COL = { V: '#1FA45B', S: '#8A93A6', P: '#E0443A' };
 const PTS = { V: 3, S: 1, P: 0 };
@@ -53,21 +54,25 @@ export default function FormCard({ match, home, away, concept = 'c' }) {
   if (concept === 'c') {
     return (
       <div className="glass mx-4 overflow-hidden rounded-[24px] px-4 py-3.5">
-        <p className="mb-2 text-[11px] font-extrabold uppercase tracking-wider" style={{ color: 'var(--ink-3)' }}>Forma recente</p>
+        <div className="mb-2 flex items-baseline justify-between"><p className="text-[11px] font-extrabold uppercase tracking-wider" style={{ color: 'var(--ink-3)' }}>Forma recente</p><p className="text-[9.5px]" style={{ color: 'var(--ink-3)' }}>← meno recente · più recente → (cerchiata)</p></div>
         {sides.map(({ team, id }, i) => {
           const list = recentMatches(id, 5).slice().reverse();
           return (
             <div key={i} className="py-2" style={{ borderTop: i ? '1px solid var(--hair-2)' : 'none' }}>
               <TeamLink team={team} className="mb-2 flex items-center gap-2"><Crest team={team} size={20} /><span className="text-[13px] font-bold">{team ? team.name : '—'}</span></TeamLink>
               <div className="grid grid-cols-5 gap-1.5">
-                {list.map((m) => {
+                {list.map((m, k) => {
                   const x = resOf(m, id);
                   if (!x) return null;
+                  const [yy, mm, dd] = String(m.date).split('-').map(Number);
+                  const lab = new Date(yy, mm - 1, dd).toLocaleDateString('it-IT', { day: 'numeric', month: 'short' }).replace('.', '');
+                  const last = k === list.length - 1;
                   return (
-                    <div key={m.id} className="flex flex-col items-center gap-1 rounded-[12px] py-1.5" style={{ background: `${COL[x.r]}1F`, boxShadow: `inset 0 -2px 0 ${COL[x.r]}` }}>
+                    <Link key={m.id} to={`/match/${m.id}`} className="press relative flex flex-col items-center gap-1 rounded-[12px] py-1.5" style={{ background: `${COL[x.r]}1F`, boxShadow: last ? `inset 0 -2px 0 ${COL[x.r]}, 0 0 0 1.5px ${COL[x.r]}` : `inset 0 -2px 0 ${COL[x.r]}` }}>
                       <Crest team={x.opp} size={17} />
                       <span className="tnum text-[11.5px] font-bold">{x.gf}–{x.ga}</span>
-                    </div>
+                      <span className="text-[8.5px] uppercase tracking-wide" style={{ color: 'var(--ink-3)' }}>{lab}</span>
+                    </Link>
                   );
                 })}
               </div>
