@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { CalendarDays } from 'lucide-react';
 import { useNavigationType } from 'react-router-dom';
-import { carousel } from '@/lib/carousel';
+import { carousel, finishCarousel } from '@/lib/carousel';
 import PageShell from '@/components/PageShell';
 import HomeHeader from '@/components/HomeHeader';
 import DayStrip from '@/components/DayStrip';
@@ -66,27 +66,12 @@ export default function Home() {
   const moved = useRef(false);
 
   // Scorrimento del contenuto: esce da un lato, il nuovo giorno entra dal lato opposto.
-  const slide = (apply, exitDir, from = 0) => {
+  const slide = (apply, exitDir) => {
     const el = listRef.current;
-    if (!el || busy.current) {
-      apply();
-      return;
-    }
+    if (!el) { apply(); return; }
+    finishCarousel();
     busy.current = true;
-    el.style.transition = 'transform .17s ease-in, opacity .17s ease-in';
-    el.style.transform = `translate3d(${exitDir * 55}%,0,0)`;
-    el.style.opacity = '0';
-    setTimeout(() => {
-      apply();
-      el.style.transition = 'none';
-      el.style.transform = `translate3d(${-exitDir * 55}%,0,0)`;
-      requestAnimationFrame(() => requestAnimationFrame(() => {
-        el.style.transition = 'transform .3s cubic-bezier(.22,.8,.24,1), opacity .3s ease';
-        el.style.transform = 'translate3d(0,0,0)';
-        el.style.opacity = '1';
-        setTimeout(() => { busy.current = false; }, 300);
-      }));
-    }, 170);
+    carousel(el, 0, -exitDir, apply, () => { busy.current = false; });
   };
 
   const goDay = (i) => {
@@ -102,6 +87,7 @@ export default function Home() {
     let st = null;
     const blocked = (t) => t.closest && t.closest('[data-no-swipe], input, select, textarea, [role="dialog"]');
     const onStart = (e) => {
+      finishCarousel();
       if (e.touches.length !== 1 || busy.current || live.current.search || blocked(e.target)) { st = null; return; }
       const t = e.touches[0];
       st = { x: t.clientX, y: t.clientY, t: Date.now(), on: false };
@@ -193,6 +179,7 @@ export default function Home() {
             onChange={(e) => {
               const v = e.target.value;
               if (!v) return;
+              e.target.blur();
               const idx = DATES.findIndex((d) => isoDate(d) === v);
               if (idx >= 0) {
                 setCustom(null);

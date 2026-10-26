@@ -91,6 +91,7 @@ export default function PlayerPickPanel({ form, set, player, hint, onSelectPlaye
         title="Giocatore"
         placeholder="Cerca giocatore o squadra"
         cards
+        requireQuery
         hint="Cerca per nome o per squadra, poi tocca per selezionare."
         options={playerOptions}
         onSelect={(o) => onSelectPlayer(o.value)}

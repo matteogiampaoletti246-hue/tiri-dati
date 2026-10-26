@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { carousel, pageBack } from '@/lib/carousel';
+import { carousel, pageBack, finishCarousel } from '@/lib/carousel';
 
 
 export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, className = '', stickyTop = 'var(--ent-h, 0px)', fixedBar = false, edgeBack = true, hideBar = false }) {
@@ -97,6 +97,7 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
     let st = null;
     let busy = false;
     const onStart = (e) => {
+      finishCarousel();
       if (busy || e.touches.length !== 1) { st = null; return; }
       const t = e.target;
       if (t.closest && t.closest('input, select, textarea, [data-no-swipe]')) { st = null; return; }
@@ -214,6 +215,7 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
               {tab.label}
             </button>
           ))}
+          <span aria-hidden="true" style={{ width: 24, height: 1, flex: '0 0 24px', marginLeft: -12 }} />
           <span
             ref={barRef}
             className="absolute bottom-0 left-0 h-[2.5px] rounded-full"

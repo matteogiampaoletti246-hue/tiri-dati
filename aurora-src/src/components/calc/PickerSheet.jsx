@@ -8,7 +8,7 @@ const norm = (s) =>
     .replace(/[̀-ͯ]/g, '');
 
 // Elenco a tutto schermo con ricerca: usato per giocatori, squadre e campionati.
-export default function PickerSheet({ open, title, options = [], placeholder = 'Cerca', hint, emptyLabel = 'Nessun risultato', cards = false, onSelect, onClose }) {
+export default function PickerSheet({ open, title, options = [], placeholder = 'Cerca', hint, emptyLabel = 'Nessun risultato', cards = false, requireQuery = false, onSelect, onClose }) {
   const [q, setQ] = useState('');
   const inputRef = useRef(null);
 
@@ -31,7 +31,7 @@ export default function PickerSheet({ open, title, options = [], placeholder = '
 
   const needle = norm(q);
   const rk = (n) => { const x = norm(n); return x.startsWith(needle) ? 0 : x.split(' ').some((w) => w.startsWith(needle)) ? 1 : 2; };
-  const list = (needle ? options.filter((o) => norm(o.label).includes(needle) || norm(o.sub).includes(needle)).sort((a, b) => rk(a.label) - rk(b.label)) : options).slice(0, 60);
+  const list = (needle ? options.filter((o) => norm(o.label).includes(needle) || norm(o.sub).includes(needle)).sort((a, b) => rk(a.label) - rk(b.label)) : (requireQuery ? [] : options)).slice(0, 60);
 
   return (
     <div className="fade-in fixed inset-0 z-[60]" style={{ background: 'color-mix(in srgb, var(--sky-2) 94%, transparent)', backdropFilter: 'blur(24px)' }}>

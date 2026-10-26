@@ -2,7 +2,7 @@
 // da squadre.json + squadre_ex.json).
 import { RAW } from './load';
 import { MATCHES, teamForm } from './matches';
-import { teamById, teamsOf } from './teams';
+import { teamById, teamsOf, teamByName } from './teams';
 import { r2 } from './util';
 
 /* ───────────── classifica ───────────── */
@@ -66,7 +66,21 @@ const ZONE_STYLE = [
   [/europa/i, 'Europa League', '#FF8A1F'],
   [/champions league/i, 'Champions League', '#2E7BFF'],
 ];
+const ZONE_KEY = { 'champions-league': 'uefa.champions', 'europa-league': 'uefa.europa' };
+const CUP_ZONE = [
+  [/round of 16/i, 'Ottavi di finale', '#1FA45B'],
+  [/seeded/i, 'Spareggi', '#2E7BFF'],
+  [/eliminated/i, 'Eliminata', '#E5332A'],
+];
 export const zoneOf = (leagueId, rank) => {
+  if (ZONE_KEY[leagueId]) {
+    const cz = RAW.zone && RAW.zone[ZONE_KEY[leagueId]];
+    const e = cz && cz[String(rank)];
+    if (!e) return null;
+    const lab = /unseeded/i.test(e[0]) ? 'Spareggi' : null;
+    const h = CUP_ZONE.find(([re]) => re.test(e[0]));
+    return h ? { label: lab || h[1], color: /unseeded/i.test(e[0]) ? '#2E7BFF' : h[2] } : null;
+  }
   const z = RAW.zone && RAW.zone[leagueId];
   if (!z || !z[String(rank)]) return null;
   const [label, color] = z[String(rank)];
@@ -186,22 +200,28 @@ export const TILE_METRICS = [
 ];
 
 // valore a partita; part: 0 totale, 1 casa, 2 trasferta
-const raw = (teamId, key, part = 0) => {
+const raw = (teamId, key, part = 0, comp = null) => {
   const t = teamById(teamId);
   const src = SRC[key];
   if (!t || !src || !RAW.squadreEx) return null;
   const [, field, side] = src;
-  const lgData = RAW.squadreEx.lg && RAW.squadreEx.lg[t.leagueId];
+  const lgData = RAW.squadreEx.lg && RAW.squadreEx.lg[comp || t.leagueId];
   const e = lgData && lgData[t.name] && lgData[t.name][field];
   const cell = e && e[side] && e[side][part];
   return cell ? cell[0] : null;
 };
 
-export const metricOf = (teamId, key, part = 0) => {
-  const v = raw(teamId, key, part);
+export const metricOf = (teamId, key, part = 0, comp = null) => {
+  const v = raw(teamId, key, part, comp);
   return v === null || v === undefined ? 0 : r2(v);
 };
-export const hasMetrics = (teamId) => raw(teamId, 'tiri') !== null;
+export const hasMetrics = (teamId, comp = null) => raw(teamId, 'tiri', 0, comp) !== null;
+// squadre con statistiche in una competizione (campionato o coppa)
+export const teamsInComp = (comp) => {
+  const lg = RAW.squadreEx && RAW.squadreEx.lg && RAW.squadreEx.lg[comp];
+  if (!lg) return teamsOf(comp);
+  return Object.keys(lg).map((n) => teamByName(n)).filter(Boolean);
+};
 
 const metricRowsCache = {};
 export function metricRows(leagueId, metricKey) {

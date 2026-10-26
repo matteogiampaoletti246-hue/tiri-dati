@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import TextFilter from '@/components/TextFilter';
 import PanelTitle from '@/components/PanelTitle';
-import { CATEGORY_DEFS, TILE_METRICS, metricOf } from '@/data/standings';
-import { teamsOf, teamById } from '@/data/teams';
+import { CATEGORY_DEFS, TILE_METRICS, metricOf as metricOf0, teamsInComp, hasMetrics as hasMetrics0 } from '@/data/standings';
+import { teamById } from '@/data/teams';
 import { upcomingMatches } from '@/data/extras';
 import Crest from '@/components/Crest';
 import { Link } from 'react-router-dom';
-import { hasMetrics } from '@/data/standings';
 import { comma } from '@/lib/format';
 import { bandColor, ratioColor } from '@/components/player/playerCalc';
 import CompSelect from '@/components/CompSelect';
@@ -17,8 +16,8 @@ import { teamByName } from '@/data/teams';
 
 // statistiche negative: meno ce ne sono, meglio e' (subiti/concessi e fuorigioco)
 export const NEG = ['golSubiti', 'xgSubiti', 'tiriConcessi', 'tiriInPortaConcessi', 'occasioniConcesse', 'cornerConcessi', 'fuorigioco'];
-const rankIn = (team, key, part) => {
-  const rows = teamsOf(team.leagueId).filter((t) => hasMetrics(t.id)).map((t) => ({ id: t.id, v: metricOf(t.id, key, part) })).sort((a, b) => (NEG.includes(key) ? a.v - b.v : b.v - a.v));
+const rankInC = (comp, team, key, part) => {
+  const rows = teamsInComp(comp).filter((t) => hasMetrics0(t.id, comp)).map((t) => ({ id: t.id, v: metricOf0(t.id, key, part, comp) })).sort((a, b) => (NEG.includes(key) ? a.v - b.v : b.v - a.v));
   const i = rows.findIndex((r) => r.id === team.id);
   const total = rows.length;
   const avg = total ? rows.reduce((a, r) => a + r.v, 0) / total : 0;
@@ -40,16 +39,19 @@ const AZ = '#3B9DFF';
 const badge = (r, t, frac) => bandColor(frac !== undefined ? frac : t > 1 ? (t - r) / (t - 1) : 1);
 
 // Statistiche della squadra (medie a partita) con posizione in campionato.
-function DomesticStats({ team }) {
+function DomesticStats({ team, comp }) {
+  const metricOf = (id, k, p = 0) => metricOf0(id, k, p, comp);
+  const hasMetrics = (id) => hasMetrics0(id, comp);
+  const rankIn = (t, k, p) => rankInC(comp, t, k, p);
   const [part, setPart] = useState(0);
   const [cat, setCat] = useState('all');
   const cats = CATEGORY_DEFS.filter((c) => cat === 'all' || c.key === cat);
   const concept = 'c';
   const [vsOn, setVsOn] = useState(() => { try { return localStorage.getItem('sl-vs-on') !== '0'; } catch { return true; } });
-  const next = upcomingMatches(team.id, 1)[0];
+  const next = upcomingMatches(team.id, 60).find((m) => m.leagueId === comp);
   const opp = next ? teamById(next.homeId === team.id ? next.awayId : next.homeId) : null;
   const isHome = next ? next.homeId === team.id : true;
-  const oppOk = opp && hasMetrics(opp.id) && opp.leagueId === team.leagueId;
+  const oppOk = opp && hasMetrics(opp.id) && hasMetrics(team.id);
   // confronto con la prossima avversaria solo su alcune statistiche, con un criterio di favorevole / sfavorevole
   const vsOf = (key) => {
     const cfg = VS[key];
@@ -146,50 +148,6 @@ function DomesticStats({ team }) {
   );
 }
 
-// Statistiche in una coppa: medie tiri della competizione e confronto con la prossima avversaria.
-function CompStats({ team, comp }) {
-  const next = MATCHES.filter((m) => m.status !== 'finished' && m.leagueId === comp && (m.homeId === team.id || m.awayId === team.id)).sort((a, b) => a.ts - b.ts)[0];
-  const opp = next ? teamById(next.homeId === team.id ? next.awayId : next.homeId) : null;
-  const mine = teamShots(team.id, comp);
-  const theirs = opp ? teamShots(opp.id, comp) : null;
-  const rows = [
-    ['Tiri fatti', 'for', 'totali', false], ['Tiri fatti in porta', 'for', 'inPorta', false],
-    ['Tiri subiti', 'against', 'totali', true], ['Tiri subiti in porta', 'against', 'inPorta', true],
-  ];
-  if (!mine) return <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Statistiche non ancora disponibili per questa competizione</p>;
-  return (
-    <div className="flex flex-col gap-4 pb-6 pt-1">
-      {opp ? (
-        <Link to={`/match/${next.id}`} className="glass press mx-4 flex items-center gap-3 rounded-[20px] px-4 py-3">
-          <Crest team={team} size={22} />
-          <span className="text-[12.5px] font-extrabold uppercase tracking-wider" style={{ color: 'var(--ink-3)' }}>Prossima</span>
-          <span className="ml-auto flex items-center gap-2 text-[13.5px] font-extrabold">VS <Crest team={opp} size={22} />{opp.name}</span>
-        </Link>
-      ) : <p className="px-5 text-[12.5px]" style={{ color: 'var(--ink-3)' }}>Nessuna partita in programma in questa competizione</p>}
-      <section className="glass mx-4 overflow-hidden rounded-[24px]">
-        <div className="flex items-center gap-2 px-4 pb-1 pt-3.5">
-          <h3 className="text-[12.5px] font-extrabold uppercase tracking-wider">Tiri a partita</h3>
-          {opp ? <span className="ml-auto flex items-center gap-1.5 text-[10.5px]" style={{ color: 'var(--ink-3)' }}><Crest team={team} size={14} />/<Crest team={opp} size={14} /></span> : null}
-        </div>
-        {rows.map(([label, side, fam, neg]) => {
-          const v = mine[side][fam];
-          const avg = mine.avg[side][fam];
-          const col = ratioColor(avg > 0 ? v / avg : 1, neg);
-          const ov = theirs ? theirs[side === 'for' ? 'against' : 'for'][fam] : null;
-          return (
-            <div key={label} className="flex items-center gap-3 px-4 py-2.5" style={{ borderTop: '1px solid var(--hair-2)' }}>
-              <span className="min-w-0 flex-1 truncate text-[13.5px]">{label}</span>
-              <span className="tnum rounded-full text-[14px] font-extrabold" style={{ color: col, background: `${col}26`, padding: '1px 9px' }}>{comma(v, 2)}</span>
-              {ov !== null && ov !== undefined ? <span className="tnum w-[52px] text-right text-[12px]" style={{ color: 'var(--ink-3)' }}>{comma(ov, 2)}</span> : null}
-            </div>
-          );
-        })}
-        {opp ? <p className="px-4 pb-3 pt-1 text-[10.5px]" style={{ color: 'var(--ink-3)' }}>A destra i valori di {side(opp)} nella stessa competizione</p> : null}
-      </section>
-    </div>
-  );
-}
-const side = (o) => (o ? o.short || o.name : '');
 
 export default function TeamStatsPanel({ team }) {
   const [comp, setComp] = useState(team.leagueId);
@@ -198,7 +156,7 @@ export default function TeamStatsPanel({ team }) {
     <div>
       <CompSelect options={comps} value={comp} onChange={setComp} />
       <div key={comp} className="comp-in">
-        {comp === team.leagueId ? <DomesticStats team={team} /> : <CompStats team={team} comp={comp} />}
+        <DomesticStats team={team} comp={comp} />
       </div>
     </div>
   );

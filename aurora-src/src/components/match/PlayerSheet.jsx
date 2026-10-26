@@ -10,7 +10,7 @@ import { CardIcon, SubIcon, BallIcon } from './EventIcons';
 import { closePlayer, openPlayer, findInMatch, matchOf, ourPlayerId, usePlayerSheet } from '@/data/playerSheet';
 import { comma } from '@/lib/format';
 import { shortName } from './Riassunto';
-import { carousel } from '@/lib/carousel';
+import { carousel, finishCarousel } from '@/lib/carousel';
 import { norm } from '@/data/util';
 
 const IT = {
@@ -223,7 +223,7 @@ function Header({ c, concept }) {
     );
   }
   return (
-    <div className="relative px-5 pb-3 pt-2 text-center" style={{ background: concept === 'c' ? 'transparent' : `linear-gradient(180deg, ${col}88, transparent)` }}>
+    <div className="relative px-5 pb-3 pt-2 text-center" >
       <div className="flex justify-center"><Face c={c} size={concept === 'c' ? 64 : 78} /></div>
       <p className="mt-3 text-[19px] font-extrabold">{c.name}</p>
       <p className="mt-0.5 flex items-center justify-center gap-1.5 text-[12.5px]" style={{ color: 'var(--ink-3)' }}>{t ? <Crest team={t} size={16} /> : null}{t ? t.name : ''}{c.f && c.f.entry.number ? ` · n. ${c.f.entry.number}` : ''}{pos ? ` · ${pos}` : ''}</p>
@@ -290,6 +290,7 @@ export default function PlayerSheetHost() {
     if (!root || !sheet) return undefined;
     let st = null;
     const onStart = (e) => {
+      finishCarousel();
       if (busy.current || e.touches.length !== 1) { st = null; return; }
       const tgt = e.target;
       const inScroller = scroller.current && scroller.current.contains(tgt);
@@ -376,7 +377,7 @@ export default function PlayerSheetHost() {
         <div
           ref={sheetRef}
           className="absolute inset-x-0 bottom-0 mx-auto flex w-full max-w-[var(--sheet-w)] flex-col overflow-hidden rounded-t-[28px]"
-          style={{ height: '92dvh', background: 'var(--sky-2)', border: '1px solid var(--glass-border)', boxShadow: '0 -20px 60px rgba(0,0,0,.5)', animation: 'slup .34s cubic-bezier(.22,.8,.24,1)', touchAction: 'pan-y' }}
+          style={{ height: '92dvh', background: `linear-gradient(180deg, ${c.team ? c.team.colors[0] : '#2a3a66'}88, transparent 230px), var(--sky-2)`, border: '1px solid var(--glass-border)', boxShadow: '0 -20px 60px rgba(0,0,0,.5)', animation: 'slup .34s cubic-bezier(.22,.8,.24,1)', touchAction: 'pan-y' }}
         >
           <div className="shrink-0 pb-1 pt-2.5">
             <span className="mx-auto block h-[5px] w-10 rounded-full" style={{ background: 'var(--hair)' }} />

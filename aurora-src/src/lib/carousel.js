@@ -35,13 +35,34 @@ const EASE = 'cubic-bezier(.22,.8,.24,1)';
 
 // Cambio contenuto a scorrimento: il vecchio esce da un lato mentre il nuovo entra dall'altro, senza schermo vuoto in mezzo.
 // dx = spostamento attuale (px) del contenuto trascinato; dir = +1 il nuovo arriva da destra, -1 da sinistra.
-export function carousel(el, dx, dir, apply, done, ms = 300, host = null) {
+let ACTIVE = null;
+// termina subito l'animazione in corso (serve per poter scorrere di nuovo senza aspettare)
+export function finishCarousel() {
+  if (ACTIVE) { const f = ACTIVE; ACTIVE = null; f(); }
+}
+
+export function carousel(el, dx, dir, apply, done, ms = 240, host = null) {
+  finishCarousel();
   if (!el) { apply(); if (done) done(); return; }
   const w = Math.min(window.innerWidth, (typeof el !== "undefined" && el.offsetWidth) || 430);
   el.style.transition = 'none';
   el.style.transform = '';
   el.style.opacity = '';
   const snap = snapshot(el, host ? 5 : 35, host);
+  let tm = 0;
+  let ended = false;
+  const end = () => {
+    if (ended) return;
+    ended = true;
+    clearTimeout(tm);
+    if (ACTIVE === end) ACTIVE = null;
+    snap.box.remove();
+    el.style.transition = '';
+    el.style.transform = '';
+    el.style.willChange = '';
+    if (done) done();
+  };
+  ACTIVE = end;
   snap.box.style.transform = `translate3d(${dx}px,0,0)`;
   flushSync(apply);
   el.style.transform = `translate3d(${dir * w + dx}px,0,0)`;
@@ -52,13 +73,7 @@ export function carousel(el, dx, dir, apply, done, ms = 300, host = null) {
     el.style.transition = t;
     snap.box.style.transform = `translate3d(${-dir * w}px,0,0)`;
     el.style.transform = 'translate3d(0,0,0)';
-    setTimeout(() => {
-      snap.box.remove();
-      el.style.transition = '';
-      el.style.transform = '';
-      el.style.willChange = '';
-      if (done) done();
-    }, ms + 30);
+    tm = setTimeout(end, ms + 30);
   });
 }
 
