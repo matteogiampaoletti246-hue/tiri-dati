@@ -47,6 +47,29 @@ def find_members(o, out):
             find_members(v, out)
 
 
+def slim(j, fid):
+    r = {"ok": 1, "fm": fid}
+    bd = (j.get("birthDate") or {}).get("utcTime")
+    if bd: r["b"] = bd[:10]
+    for i in j.get("playerInformation") or []:
+        k = i.get("translationKey"); v = i.get("value") or {}
+        if k == "height_sentencecase": r["h"] = v.get("numberValue")
+        elif k == "shirt": r["n"] = v.get("numberValue")
+        elif k == "preferred_foot": r["f"] = v.get("key")
+        elif k == "country_sentencecase": r["c"] = v.get("fallback"); r["cc"] = i.get("countryCode")
+        elif k == "transfer_value": r["mv"] = v.get("numberValue")
+        elif k == "contract_end": r["ce"] = v.get("dateValue")
+    ps = (((j.get("positionDescription") or {}).get("positions")) or [])
+    if ps: r["ps"] = (ps[0].get("strPosShort") or {}).get("label")
+    pt = j.get("primaryTeam") or {}
+    if pt.get("onLoan"): r["loan"] = 1
+    car = []
+    for e in (((j.get("careerHistory") or {}).get("careerItems") or {}).get("senior") or {}).get("teamEntries") or []:
+        car.append([e.get("team"), (e.get("startDate") or "")[:7], (e.get("endDate") or "")[:7], e.get("appearances"), e.get("goals"), e.get("assists"), 1 if e.get("transferType") else 0, 1 if e.get("active") else 0, e.get("teamId")])
+    r["car"] = car
+    return r
+
+
 def main():
     res = json.load(open(OUT)) if os.path.exists(OUT) else {}
     st = json.load(open("stats.json"))
@@ -96,17 +119,7 @@ def main():
         if not isinstance(j, dict):
             continue
         ch = ((j.get("careerHistory") or {}).get("careerItems") or {})
-        res[pid] = {
-            "ok": True, "fm": fid, "name": j.get("name"),
-            "birth": (j.get("birthDate") or {}).get("utcTime"),
-            "info": j.get("playerInformation"),
-            "team": (j.get("primaryTeam") or {}),
-            "pos": j.get("positionDescription"),
-            "career": ch.get("senior"),
-            "nat": ch.get("national") or j.get("careerHistory", {}).get("careerItems", {}).get("national"),
-            "contract": (j.get("contractEnd") or {}).get("utcTime") if isinstance(j.get("contractEnd"), dict) else None,
-            "keys": list(j.keys())[:40],
-        }
+        res[pid] = slim(j, fid)
         new += 1
         if new % 50 == 0:
             json.dump(res, open(OUT, "w"), ensure_ascii=False, separators=(",", ":"))
