@@ -90,7 +90,7 @@ function Path({ teamId }) {
   );
 }
 
-export default function IdeaSection({ match, home, away, concept = conceptOf('idea') }) {
+export default function IdeaSection({ match, home, away, concept = 'a' }) {
   const ok = home && away && hasMetrics(match.homeId) && hasMetrics(match.awayId);
   if (concept === 'b') {
     return (
