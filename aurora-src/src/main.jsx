@@ -40,23 +40,56 @@ if (/[?&]debug=1/.test(location.search)) {
   draw();
 }
 
-// Aggiornamento automatico: se sul server c'è una versione più nuova (utile per l'icona nella schermata Home), ricarica.
+// Ritorno nell'app: dopo meno di 5 minuti si riprende esattamente da dove si era, senza ricaricare nulla.
+// Dopo 5 minuti o piu' l'app riparte da capo (nuova versione se disponibile) e rifa' l'animazione iniziale.
 (() => {
+  const AWAY = 5 * 60 * 1000;
+  let hiddenAt = 0;
+  // pagina ricaricata dal sistema mentre l'app era in background: l'intro riparte solo dopo 5 minuti
+  try {
+    const last = Number(sessionStorage.getItem('sl-hidden-at') || 0);
+    if (last && Date.now() - last >= AWAY) {
+      sessionStorage.removeItem('sl-launched');
+      sessionStorage.removeItem('sl-scroll');
+      if (location.hash) location.hash = '#/';
+    }
+    sessionStorage.removeItem('sl-hidden-at');
+  } catch { /* ignora */ }
   const mine = ((document.querySelector('script[src*="index-"]') || {}).src || '').match(/index-[^./]+\.js/);
-  if (!mine) return;
-  const check = async () => {
-    try {
-      const r = await fetch(`${location.pathname}?v=${Date.now()}`, { cache: 'no-store' });
-      const t = await r.text();
-      const m = t.match(/index-[^./"]+\.js/);
-      if (m && m[0] !== mine[0]) {
-        const k = `sl-reload-${m[0]}`;
-        if (sessionStorage.getItem(k)) return;
-        sessionStorage.setItem(k, '1');
-        location.reload();
-      }
-    } catch { /* offline */ }
-  };
-  check();
-  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') check(); });
+  // all'avvio: se sul server c'e' una versione piu' nuova la prende (una sola volta per versione)
+  if (mine) {
+    fetch(`${location.pathname}?v=${Date.now()}`, { cache: 'no-store' })
+      .then((r) => r.text())
+      .then((t) => {
+        const m = t.match(/index-[^./"]+\.js/);
+        if (m && m[0] !== mine[0]) {
+          const k = `sl-reload-${m[0]}`;
+          if (sessionStorage.getItem(k)) return;
+          sessionStorage.setItem(k, '1');
+          location.reload();
+        }
+      })
+      .catch(() => {});
+  }
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') {
+      hiddenAt = Date.now();
+      try { sessionStorage.setItem('sl-hidden-at', String(hiddenAt)); } catch { /* ignora */ }
+      return;
+    }
+    if (hiddenAt && Date.now() - hiddenAt >= AWAY) {
+      try {
+        sessionStorage.removeItem('sl-launched');
+        sessionStorage.removeItem('sl-scroll');
+      } catch { /* ignora */ }
+      location.replace(`${location.pathname}#/`);
+      location.reload();
+    }
+    hiddenAt = 0;
+    try { sessionStorage.removeItem('sl-hidden-at'); } catch { /* ignora */ }
+  });
+  // pagina ripristinata dalla cache del browser dopo una lunga assenza
+  window.addEventListener('pageshow', (e) => {
+    if (e.persisted && hiddenAt && Date.now() - hiddenAt >= AWAY) location.reload();
+  });
 })();

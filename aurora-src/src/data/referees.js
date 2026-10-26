@@ -18,6 +18,62 @@ export const flagOf = (c) => {
 
 const LEAGUE_CC = { 'serie-a': 'ITA', 'premier-league': 'ENG', 'la-liga': 'ESP', 'bundesliga': 'GER', 'ligue-1': 'FRA' };
 
+// stesso arbitro scritto con/senza accenti o maiuscole: unisce i dati (medie pesate sulle partite)
+const wavg = (a, na, b, nb) => ((a || 0) * na + (b || 0) * nb) / ((na + nb) || 1);
+function mergeDuplicates() {
+  const groups = {};
+  REFEREES.forEach((r) => {
+    (groups[norm(r.name)] = groups[norm(r.name)] || []).push(r);
+  });
+  const out = [];
+  Object.values(groups).forEach((g) => {
+    if (g.length === 1) {
+      out.push(g[0]);
+      return;
+    }
+    g.sort((a, b) => b.games - a.games);
+    const base = { ...g[0], by: {}, matches: [] };
+    const seen = new Set();
+    let n = 0;
+    ['yellowsAvg', 'redsAvg', 'foulsAvg', 'penaltiesAvg'].forEach((k) => (base[k] = 0));
+    g.forEach((r) => {
+      ['yellowsAvg', 'redsAvg', 'foulsAvg', 'penaltiesAvg'].forEach((k) => (base[k] = wavg(base[k], n, r[k], r.games)));
+      n += r.games;
+      r.matches.forEach((m) => {
+        if (!seen.has(m.id)) {
+          seen.add(m.id);
+          base.matches.push(m);
+        }
+      });
+      Object.entries(r.by || {}).forEach(([lg, b]) => {
+        const c = base.by[lg];
+        base.by[lg] = c
+          ? { ...c, n: c.n + (b.n || 0), y: wavg(c.y, c.n, b.y, b.n), r: wavg(c.r, c.n, b.r, b.n), fo: wavg(c.fo, c.n, b.fo, b.n), pen: wavg(c.pen, c.n, b.pen, b.n) }
+          : { ...b };
+      });
+    });
+    base.games = n;
+    base.yellows = Math.round(base.yellowsAvg * n);
+    base.reds = Math.round(base.redsAvg * n);
+    base.fouls = Math.round(base.foulsAvg * n);
+    base.penalties = Math.round(base.penaltiesAvg * n);
+    base.matches.sort((a, b) => String(b.date).localeCompare(String(a.date)));
+    out.push(base);
+  });
+  REFEREES.length = 0;
+  out.forEach((r) => {
+    REFEREES.push(r);
+    BY_ID[r.id] = r;
+  });
+  g_ids_fix();
+}
+function g_ids_fix() {
+  Object.keys(BY_ID).forEach((k) => delete BY_ID[k]);
+  REFEREES.forEach((r) => {
+    BY_ID[r.id] = r;
+  });
+}
+
 export function buildReferees() {
   REFEREES.length = 0;
   Object.keys(BY_ID).forEach((k) => delete BY_ID[k]);
@@ -48,6 +104,7 @@ export function buildReferees() {
     REFEREES.push(item);
     BY_ID[item.id] = item;
   });
+  mergeDuplicates();
   REFEREES.sort((a, b) => b.games - a.games || a.name.localeCompare(b.name));
 }
 
