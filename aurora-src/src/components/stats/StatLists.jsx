@@ -56,7 +56,7 @@ export default function StatLists({ sections, controls = null, limit = 8 }) {
                 <button type="button" onClick={flip} className="press text-left text-[12.5px] font-extrabold uppercase tracking-wider"><h3 className="inline">{s.title}</h3> <span style={{ color: 'var(--accent)' }}>{arrow}</span></button>
               ) : <h3 className="text-[12.5px] font-extrabold uppercase tracking-wider">{s.title}</h3>}
               {concept === 'b' ? (
-                <button type="button" onClick={flip} className="press text-[10.5px] font-bold" style={{ color: 'var(--accent)' }}>{s.group} · {r0 ? 'dal peggiore' : 'dal migliore'} {arrow}</button>
+                <button type="button" onClick={flip} className="press text-[10.5px] font-bold" style={{ color: 'var(--accent)' }}>{r0 ? 'Dal peggiore' : 'Dal migliore'} {arrow}</button>
               ) : <span className="text-[10.5px]" style={{ color: 'var(--ink-3)' }}>{s.group}</span>}
             </div>
             {rows.map((r, i) => {
