@@ -1,19 +1,11 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-const EASE = 'transform .42s cubic-bezier(.22,.8,.24,1)';
 
 export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, className = '', stickyTop = 'var(--ent-h, 0px)', fixedBar = false }) {
   const wrapRef = useRef(null);
-  const trackRef = useRef(null);
   const barRef = useRef(null);
   const tabRefs = useRef([]);
-  const drag = useRef(null);
-  const dragging = useRef(false);
-  const [width, setWidth] = useState(0);
-  const [mounted, setMounted] = useState([0, 1]);
-  const [h, setH] = useState(null);
-  const panelRefs = useRef([]);
   const headRef = useRef(null);
   const [headH, setHeadH] = useState(44);
 
@@ -27,31 +19,6 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
     return () => ro.disconnect();
   }, [fixedBar]);
 
-  useEffect(() => {
-    const el = wrapRef.current;
-    if (!el) return;
-    const measure = () => setWidth(el.clientWidth);
-    measure();
-    const ro = new ResizeObserver(measure);
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, []);
-
-  useEffect(() => {
-    // solo la scheda corrente e le due vicine restano in memoria
-    setMounted([index - 1, index, index + 1].filter((i) => i >= 0 && i < tabs.length));
-  }, [index, tabs.length]);
-
-  useEffect(() => {
-    const el = panelRefs.current[index];
-    if (!el) return undefined;
-    const set = () => setH(el.offsetHeight);
-    set();
-    const ro = new ResizeObserver(set);
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, [index, mounted, width]);
-
   const posBar = (from, to, t, animate) => {
     const a = tabRefs.current[from];
     const b = tabRefs.current[to] || a;
@@ -64,67 +31,109 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
     bar.style.width = `${w}px`;
   };
 
-  useEffect(() => {
-    if (dragging.current) return;
-    const track = trackRef.current;
-    if (track && width) {
-      track.style.transition = EASE;
-      track.style.transform = `translate3d(${-(index * (width + gap))}px,0,0)`;
-    }
-    posBar(index, index, 0, true);
+  const live = useRef({});
+  live.current = { index, onChange, n: tabs.length };
+  const prevIdx = useRef(index);
+  const contentRef = useRef(null);
+
+  // la barra segue la scheda attiva; la nuova scheda entra con una breve animazione
+  useLayoutEffect(() => {
+    posBar(index, index, 0, prevIdx.current !== index);
     const cur = tabRefs.current[index];
     if (cur && cur.parentElement) {
-      const box = cur.parentElement;
-      box.scrollTo({ left: Math.max(0, cur.offsetLeft - 20), behavior: 'smooth' });
+      cur.parentElement.scrollTo({ left: Math.max(0, cur.offsetLeft - 20), behavior: 'smooth' });
     }
-  }, [index, width, gap]);
+    const el = contentRef.current;
+    const dir = index > prevIdx.current ? 1 : index < prevIdx.current ? -1 : 0;
+    prevIdx.current = index;
+    if (!el || !dir) return undefined;
+    el.style.transition = 'none';
+    el.style.transform = `translate3d(${dir * 70}px,0,0)`;
+    el.style.opacity = '0';
+    let t1;
+    const r = requestAnimationFrame(() => requestAnimationFrame(() => {
+      el.style.transition = 'transform .28s cubic-bezier(.22,.8,.24,1), opacity .28s ease';
+      el.style.transform = 'translate3d(0,0,0)';
+      el.style.opacity = '1';
+      t1 = setTimeout(() => { el.style.transition = ''; el.style.transform = ''; el.style.opacity = ''; }, 320);
+    }));
+    return () => { cancelAnimationFrame(r); clearTimeout(t1); };
+  }, [index]);
 
-  const onDown = (e) => {
-    if (e.pointerType === 'mouse' && e.button !== 0) return;
-    if (e.target.closest && e.target.closest('input, select, textarea, [data-no-swipe]')) return;
-    drag.current = { x: e.clientX, y: e.clientY, t: Date.now() };
-  };
-
-  const onMove = (e) => {
-    const d = drag.current;
-    if (!d || !width) return;
-    const dx = e.clientX - d.x;
-    const dy = e.clientY - d.y;
-    if (!dragging.current) {
-      if (Math.abs(dx) < 8 || Math.abs(dx) < Math.abs(dy)) return;
-      dragging.current = true;
-    }
-    const w = width + gap;
-    let off = dx;
-    if ((index === 0 && dx > 0) || (index === tabs.length - 1 && dx < 0)) off = dx * 0.3;
-    if (trackRef.current) {
-      trackRef.current.style.transition = 'none';
-      trackRef.current.style.transform = `translate3d(${-(index * w) + off}px,0,0)`;
-    }
-    const p = Math.max(0, Math.min(tabs.length - 1, index - off / w));
-    const from = Math.floor(p);
-    posBar(from, Math.min(tabs.length - 1, from + 1), p - from, false);
-  };
-
-  const onUp = (e) => {
-    const d = drag.current;
-    drag.current = null;
-    if (!d || !dragging.current) return;
-    dragging.current = false;
-    const dx = e.clientX - d.x;
-    const dt = Math.max(120, Date.now() - d.t);
-    const v = dx / dt;
-    const w = width + gap;
-    let next = index;
-    if (Math.abs(dx) > w * 0.22 || Math.abs(v) > 0.45) next = dx < 0 ? index + 1 : index - 1;
-    next = Math.max(0, Math.min(tabs.length - 1, next));
-    if (trackRef.current) {
-      trackRef.current.style.transition = EASE;
-      trackRef.current.style.transform = `translate3d(${-(next * w)}px,0,0)`;
-    }
-    posBar(next, next, 0, true);
-    if (next !== index) onChange(next);
-  };
+  // swipe laterale con eventi touch nativi (affidabili su iPhone); si muove solo il contenuto della scheda attiva
+  useEffect(() => {
+    const wrap = wrapRef.current;
+    if (!wrap) return undefined;
+    let st = null;
+    let busy = false;
+    const onStart = (e) => {
+      if (busy || e.touches.length !== 1) { st = null; return; }
+      const t = e.target;
+      if (t.closest && t.closest('input, select, textarea, [data-no-swipe]')) { st = null; return; }
+      st = { x: e.touches[0].clientX, y: e.touches[0].clientY, t: Date.now(), on: false, w: wrap.clientWidth || 360 };
+    };
+    const onMove = (e) => {
+      if (!st) return;
+      const dx = e.touches[0].clientX - st.x;
+      const dy = e.touches[0].clientY - st.y;
+      if (!st.on) {
+        if (Math.abs(dy) > 12 && Math.abs(dy) > Math.abs(dx)) { st = null; return; }
+        if (Math.abs(dx) < 10 || Math.abs(dx) < Math.abs(dy) * 1.2) return;
+        st.on = true;
+      }
+      if (e.cancelable) e.preventDefault();
+      const { index: i, n } = live.current;
+      const edge = (i === 0 && dx > 0) || (i === n - 1 && dx < 0);
+      const off = edge ? dx * 0.25 : dx;
+      const el = contentRef.current;
+      if (el) {
+        el.style.transition = 'none';
+        el.style.transform = `translate3d(${off}px,0,0)`;
+        el.style.opacity = String(Math.max(0.5, 1 - Math.abs(off) / 600));
+      }
+      const p = Math.max(0, Math.min(n - 1, i - off / st.w));
+      const from = Math.floor(p);
+      posBar(from, Math.min(n - 1, from + 1), p - from, false);
+    };
+    const onEnd = (e) => {
+      const d = st;
+      st = null;
+      if (!d || !d.on) return;
+      const x = (e.changedTouches && e.changedTouches[0] ? e.changedTouches[0].clientX : d.x);
+      const dx = x - d.x;
+      const v = Math.abs(dx) / Math.max(80, Date.now() - d.t);
+      const { index: i, n, onChange: oc } = live.current;
+      const next = dx < 0 ? i + 1 : i - 1;
+      const el = contentRef.current;
+      if ((Math.abs(dx) > d.w * 0.2 || v > 0.45) && next >= 0 && next < n) {
+        busy = true;
+        if (el) {
+          el.style.transition = 'transform .15s ease-in, opacity .15s ease-in';
+          el.style.transform = `translate3d(${dx < 0 ? -80 : 80}px,0,0)`;
+          el.style.opacity = '0';
+        }
+        setTimeout(() => { oc(next); busy = false; }, 150);
+      } else {
+        if (el) {
+          el.style.transition = 'transform .25s cubic-bezier(.22,.8,.24,1), opacity .25s ease';
+          el.style.transform = 'translate3d(0,0,0)';
+          el.style.opacity = '1';
+          setTimeout(() => { el.style.transition = ''; el.style.transform = ''; el.style.opacity = ''; }, 280);
+        }
+        posBar(i, i, 0, true);
+      }
+    };
+    wrap.addEventListener('touchstart', onStart, { passive: true });
+    wrap.addEventListener('touchmove', onMove, { passive: false });
+    wrap.addEventListener('touchend', onEnd, { passive: true });
+    wrap.addEventListener('touchcancel', onEnd, { passive: true });
+    return () => {
+      wrap.removeEventListener('touchstart', onStart);
+      wrap.removeEventListener('touchmove', onMove);
+      wrap.removeEventListener('touchend', onEnd);
+      wrap.removeEventListener('touchcancel', onEnd);
+    };
+  }, []);
 
   const HEAD = (
 <div ref={headRef} className={fixedBar ? 'hide-sb fixed inset-x-0 z-30 mx-auto w-full max-w-[430px] overflow-x-auto px-5 pt-2.5' : 'hide-sb glass-head sticky z-20 overflow-x-auto px-5 pt-2.5'} style={{ top: stickyTop, background: fixedBar ? 'var(--sky-2)' : 'color-mix(in srgb, hsl(var(--background)) 94%, transparent)' }}>
@@ -156,14 +165,8 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
     <div className={className}>
       {fixedBar ? <div aria-hidden="true" style={{ height: headH }} /> : null}
       {fixedBar ? createPortal(HEAD, document.body) : HEAD}
-      <div ref={wrapRef} className="relative overflow-hidden" style={{ touchAction: 'pan-y', height: h || undefined }} onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onUp}>
-        <div ref={trackRef} className="flex items-start">
-          {panels.map((panel, i) => (
-            <div key={tabs[i].key} ref={(el) => { panelRefs.current[i] = el; }} style={{ width: width || '100%', marginRight: gap, flex: '0 0 auto' }}>
-              {mounted.includes(i) ? panel : null}
-            </div>
-          ))}
-        </div>
+      <div ref={wrapRef} className="relative" style={{ touchAction: 'pan-y', minHeight: '60vh' }}>
+        <div ref={contentRef}>{panels[index]}</div>
       </div>
     </div>
   );

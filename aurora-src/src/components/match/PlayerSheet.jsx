@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
-import { AnimatePresence, motion, useAnimationControls, useDragControls } from 'framer-motion';
 import { X } from 'lucide-react';
 import Crest from '@/components/Crest';
 import TextFilter from '@/components/TextFilter';
@@ -213,11 +212,14 @@ export default function PlayerSheetHost() {
   const sheet = usePlayerSheet();
   const c = useCard(sheet);
   const concept = 'a'; // scelto: mappa tiri A + statistiche A
-  const controls = useDragControls();
-  const slide = useAnimationControls();
-  const scroller = useRef(null);
-  const busy = useRef(false);
   const navigate = useNavigate();
+  const sheetRef = useRef(null);
+  const slideRef = useRef(null);
+  const scroller = useRef(null);
+  const backdropRef = useRef(null);
+  const busy = useRef(false);
+  const live = useRef({});
+  live.current = { c, sheet };
 
   useEffect(() => {
     if (!sheet) return undefined;
@@ -226,70 +228,159 @@ export default function PlayerSheetHost() {
     return () => { document.body.style.overflow = prev; };
   }, [sheet]);
 
-  const go = async (d) => {
-    if (!c || busy.current) return false;
-    const to = c.roster[c.idx + d];
-    if (c.idx < 0 || !to) return false;
+  const close = () => {
+    const el = sheetRef.current;
+    const bd = backdropRef.current;
+    if (!el || busy.current) { closePlayer(); return; }
     busy.current = true;
-    await slide.start({ x: d > 0 ? -420 : 420, opacity: 0, transition: { duration: 0.16, ease: 'easeIn' } });
-    openPlayer({ matchId: sheet.matchId, name: to.name, fmId: to.fmId });
-    if (scroller.current) scroller.current.scrollTop = 0;
-    slide.set({ x: d > 0 ? 420 : -420, opacity: 0 });
-    await slide.start({ x: 0, opacity: 1, transition: { duration: 0.24, ease: [0.22, 0.8, 0.24, 1] } });
-    busy.current = false;
+    el.style.transition = 'transform .3s cubic-bezier(.4,0,.6,1)';
+    el.style.transform = 'translate3d(0,105%,0)';
+    if (bd) { bd.style.transition = 'opacity .3s ease'; bd.style.opacity = '0'; }
+    setTimeout(() => { busy.current = false; closePlayer(); }, 300);
+  };
+  live.current.close = close;
+
+  const go = (d) => {
+    const { c: cc, sheet: sh } = live.current;
+    if (!cc || cc.idx < 0) return false;
+    const to = cc.roster[cc.idx + d];
+    if (!to) return false;
+    const el = slideRef.current;
+    busy.current = true;
+    if (el) {
+      el.style.transition = 'transform .15s ease-in, opacity .15s ease-in';
+      el.style.transform = `translate3d(${d > 0 ? -90 : 90}px,0,0)`;
+      el.style.opacity = '0';
+    }
+    setTimeout(() => {
+      openPlayer({ matchId: sh.matchId, name: to.name, fmId: to.fmId });
+      if (scroller.current) scroller.current.scrollTop = 0;
+      if (el) {
+        el.style.transition = 'none';
+        el.style.transform = `translate3d(${d > 0 ? 90 : -90}px,0,0)`;
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          el.style.transition = 'transform .26s cubic-bezier(.22,.8,.24,1), opacity .26s ease';
+          el.style.transform = 'translate3d(0,0,0)';
+          el.style.opacity = '1';
+          setTimeout(() => { el.style.transition = ''; el.style.transform = ''; busy.current = false; }, 280);
+        }));
+      } else busy.current = false;
+    }, 150);
     return true;
   };
 
-  const onSwipeEnd = async (e, info) => {
-    const dx = info.offset.x;
-    const v = info.velocity.x;
-    if (Math.abs(dx) > 70 || Math.abs(v) > 500) {
-      const ok = await go(dx < 0 ? 1 : -1);
-      if (ok) return;
-    }
-    slide.start({ x: 0, opacity: 1, transition: { type: 'spring', stiffness: 420, damping: 34 } });
-  };
+  // gesti con eventi touch nativi: swipe laterale tra compagni, trascinamento verso il basso per chiudere
+  useEffect(() => {
+    const root = sheetRef.current;
+    if (!root || !sheet) return undefined;
+    let st = null;
+    const onStart = (e) => {
+      if (busy.current || e.touches.length !== 1) { st = null; return; }
+      const tgt = e.target;
+      const inScroller = scroller.current && scroller.current.contains(tgt);
+      st = {
+        x: e.touches[0].clientX,
+        y: e.touches[0].clientY,
+        t: Date.now(),
+        axis: null,
+        noH: !!(tgt.closest && tgt.closest('[data-no-swipe]')),
+        top: !inScroller || scroller.current.scrollTop <= 0,
+      };
+    };
+    const onMove = (e) => {
+      if (!st) return;
+      const dx = e.touches[0].clientX - st.x;
+      const dy = e.touches[0].clientY - st.y;
+      if (!st.axis) {
+        if (Math.abs(dx) < 9 && Math.abs(dy) < 9) return;
+        if (Math.abs(dx) > Math.abs(dy) * 1.2) st.axis = st.noH ? 'none' : 'x';
+        else if (dy > 0 && st.top) st.axis = 'y';
+        else st.axis = 'none';
+      }
+      if (st.axis === 'none') return;
+      if (e.cancelable) e.preventDefault();
+      if (st.axis === 'x') {
+        const el = slideRef.current;
+        const cc = live.current.c;
+        const edge = !cc || cc.idx < 0 || (dx > 0 && cc.idx === 0) || (dx < 0 && cc.idx === cc.roster.length - 1);
+        if (el) {
+          el.style.transition = 'none';
+          el.style.transform = `translate3d(${edge ? dx * 0.25 : dx}px,0,0)`;
+          el.style.opacity = String(Math.max(0.5, 1 - Math.abs(dx) / 600));
+        }
+      } else {
+        root.style.transition = 'none';
+        root.style.transform = `translate3d(0,${Math.max(0, dy) * 0.95}px,0)`;
+        if (backdropRef.current) backdropRef.current.style.opacity = String(Math.max(0.3, 1 - dy / 500));
+      }
+    };
+    const onEnd = (e) => {
+      const d = st;
+      st = null;
+      if (!d || !d.axis || d.axis === 'none') return;
+      const t = (e.changedTouches && e.changedTouches[0]) || { clientX: d.x, clientY: d.y };
+      const dx = t.clientX - d.x;
+      const dy = t.clientY - d.y;
+      const v = Math.max(80, Date.now() - d.t);
+      if (d.axis === 'x') {
+        const el = slideRef.current;
+        if ((Math.abs(dx) > 70 || Math.abs(dx) / v > 0.45) && go(dx < 0 ? 1 : -1)) return;
+        if (el) {
+          el.style.transition = 'transform .25s cubic-bezier(.22,.8,.24,1), opacity .25s ease';
+          el.style.transform = 'translate3d(0,0,0)';
+          el.style.opacity = '1';
+          setTimeout(() => { el.style.transition = ''; el.style.transform = ''; }, 270);
+        }
+      } else if (dy > 110 || dy / v > 0.6) {
+        live.current.close();
+      } else {
+        root.style.transition = 'transform .28s cubic-bezier(.22,.8,.24,1)';
+        root.style.transform = 'translate3d(0,0,0)';
+        if (backdropRef.current) backdropRef.current.style.opacity = '1';
+        setTimeout(() => { root.style.transition = ''; root.style.transform = ''; }, 300);
+      }
+    };
+    root.addEventListener('touchstart', onStart, { passive: true });
+    root.addEventListener('touchmove', onMove, { passive: false });
+    root.addEventListener('touchend', onEnd, { passive: true });
+    root.addEventListener('touchcancel', onEnd, { passive: true });
+    return () => {
+      root.removeEventListener('touchstart', onStart);
+      root.removeEventListener('touchmove', onMove);
+      root.removeEventListener('touchend', onEnd);
+      root.removeEventListener('touchcancel', onEnd);
+    };
+  }, [!!sheet && !!c]);
 
   return createPortal(
-    <AnimatePresence>
-      {sheet && c ? (
-        <motion.div key="ps" className="fixed inset-0 z-[80]" initial={{ opacity: 1 }} animate={{ opacity: 1 }} exit={{ opacity: 1 }}>
-          <motion.button type="button" aria-label="Chiudi" className="absolute inset-0" style={{ background: 'rgba(0,0,0,.55)' }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={closePlayer} />
-          <motion.div
-            className="absolute inset-x-0 bottom-0 mx-auto flex w-full max-w-[430px] flex-col overflow-hidden rounded-t-[28px]"
-            style={{ height: '92dvh', background: 'var(--sky-2)', border: '1px solid var(--glass-border)', boxShadow: '0 -20px 60px rgba(0,0,0,.5)' }}
-            initial={{ y: '100%' }}
-            animate={{ y: 0 }}
-            exit={{ y: '100%' }}
-            transition={{ type: 'spring', stiffness: 380, damping: 38 }}
-            drag="y"
-            dragControls={controls}
-            dragListener={false}
-            dragConstraints={{ top: 0, bottom: 0 }}
-            dragElastic={{ top: 0, bottom: 0.5 }}
-            onDragEnd={(e, info) => { if (info.offset.y > 110 || info.velocity.y > 700) closePlayer(); }}
-          >
-            <div className="shrink-0 cursor-grab touch-none pb-1 pt-2.5" style={{ touchAction: 'none' }} onPointerDown={(e) => controls.start(e)}>
-              <span className="mx-auto block h-[5px] w-10 rounded-full" style={{ background: 'var(--hair)' }} />
+    sheet && c ? (
+      <div className="fixed inset-0 z-[80]" style={{ touchAction: 'none' }}>
+        <div ref={backdropRef} aria-hidden="true" className="absolute inset-0" style={{ background: 'rgba(0,0,0,.55)', animation: 'slfade .25s ease' }} onClick={close} onTouchMove={(e) => { if (e.cancelable) e.preventDefault(); }} />
+        <div
+          ref={sheetRef}
+          className="absolute inset-x-0 bottom-0 mx-auto flex w-full max-w-[430px] flex-col overflow-hidden rounded-t-[28px]"
+          style={{ height: '92dvh', background: 'var(--sky-2)', border: '1px solid var(--glass-border)', boxShadow: '0 -20px 60px rgba(0,0,0,.5)', animation: 'slup .34s cubic-bezier(.22,.8,.24,1)', touchAction: 'pan-y' }}
+        >
+          <div className="shrink-0 pb-1 pt-2.5">
+            <span className="mx-auto block h-[5px] w-10 rounded-full" style={{ background: 'var(--hair)' }} />
+          </div>
+          <div ref={slideRef} className="flex min-h-0 flex-1 flex-col">
+            <div className="shrink-0"><Header c={c} concept={concept} /></div>
+            <div ref={scroller} className="min-h-0 flex-1 overflow-y-auto overscroll-contain" style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-y', overscrollBehavior: 'contain' }}>
+              <Body c={c} concept={concept} />
+              <div style={{ height: 84 }} />
             </div>
-            <motion.div className="flex min-h-0 flex-1 flex-col" animate={slide} drag="x" dragDirectionLock dragConstraints={{ left: 0, right: 0 }} dragElastic={0.35} onDragEnd={onSwipeEnd} style={{ touchAction: 'pan-y' }}>
-              <div className="shrink-0"><Header c={c} concept={concept} /></div>
-              <div ref={scroller} className="min-h-0 flex-1 overflow-y-auto overscroll-contain" style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-y' }}>
-                <Body c={c} concept={concept} />
-                <div style={{ height: 84 }} />
-              </div>
-            </motion.div>
-            <div className="absolute inset-x-0 bottom-0 flex items-center gap-3 px-5 pb-[max(14px,env(safe-area-inset-bottom))] pt-3" style={{ background: 'linear-gradient(to top, var(--sky-2) 70%, transparent)' }}>
-              <button type="button" onClick={closePlayer} aria-label="Chiudi" className="press flex h-12 w-12 items-center justify-center rounded-full" style={{ background: 'var(--pill-bg)', border: '1px solid var(--glass-border)' }}><X size={20} /></button>
-              <span className="flex-1" />
-              {c.ourId ? (
-                <button type="button" className="press rounded-full px-6 py-3 text-[14px] font-extrabold" style={{ background: 'var(--accent)', color: '#fff' }} onClick={() => { closePlayer(); navigate(`/giocatore/${c.ourId}`); }}>Profilo</button>
-              ) : null}
-            </div>
-          </motion.div>
-        </motion.div>
-      ) : null}
-    </AnimatePresence>,
+          </div>
+          <div className="absolute inset-x-0 bottom-0 flex items-center gap-3 px-5 pb-[max(14px,env(safe-area-inset-bottom))] pt-3" style={{ background: 'linear-gradient(to top, var(--sky-2) 70%, transparent)' }}>
+            <button type="button" onClick={close} aria-label="Chiudi" className="press flex h-12 w-12 items-center justify-center rounded-full" style={{ background: 'var(--pill-bg)', border: '1px solid var(--glass-border)' }}><X size={20} /></button>
+            <span className="flex-1" />
+            {c.ourId ? (
+              <button type="button" className="press rounded-full px-6 py-3 text-[14px] font-extrabold" style={{ background: 'var(--accent)', color: '#fff' }} onClick={() => { closePlayer(); navigate(`/giocatore/${c.ourId}`); }}>Profilo</button>
+            ) : null}
+          </div>
+        </div>
+      </div>
+    ) : null,
     document.body,
   );
 }

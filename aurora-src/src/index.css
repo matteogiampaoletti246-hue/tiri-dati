@@ -559,3 +559,6 @@
     padding-bottom: max(env(safe-area-inset-bottom), 12px);
   }
 }
+
+@keyframes slup { from { transform: translate3d(0,100%,0); } to { transform: translate3d(0,0,0); } }
+@keyframes slfade { from { opacity: 0; } to { opacity: 1; } }
