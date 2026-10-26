@@ -7,14 +7,14 @@ import { BAND_COLORS, bandColor, bandOf } from '@/components/player/playerCalc';
 
 const f1 = (v) => (v == null ? '—' : (Math.round(v * 10) / 10).toString().replace('.', ','));
 
-const fracIn = (sorted, v) => {
+export const fracIn = (sorted, v) => {
   if (!sorted || sorted.length < 2) return null;
   let below = 0;
   sorted.forEach((x) => { if (x <= v) below += 1; });
   return Math.max(0, Math.min(1, (below - 1) / (sorted.length - 1)));
 };
 
-function RefBar({ label, v, avg, sorted, concept }) {
+export function RefBar({ label, v, avg, sorted, concept }) {
   const top = Math.max(avg * 1.7, v * 1.05, 0.0001);
   const frac = fracIn(sorted, v);
   const col = bandColor(frac);

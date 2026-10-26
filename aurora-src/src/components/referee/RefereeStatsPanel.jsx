@@ -1,5 +1,7 @@
 import PanelTitle from '@/components/PanelTitle';
 import { comma } from '@/lib/format';
+import { RefBar } from '@/components/match/RefereeCard';
+import { leagueRefAvg, refStatsIn } from '@/data/referees';
 
 const TILES = [
   { key: 'games', label: 'Gare' },
@@ -20,6 +22,8 @@ const COLS = '1fr 44px 54px';
 export default function RefereeStatsPanel({ referee }) {
   const per = (value) => comma(referee.games ? value / referee.games : null, 2);
 
+  const lg = referee.leagueId ? leagueRefAvg(referee.leagueId) : null;
+  const st = lg ? refStatsIn(referee, referee.leagueId) : null;
   return (
     <div className="flex flex-col gap-7">
       <section className="px-5">
@@ -36,6 +40,17 @@ export default function RefereeStatsPanel({ referee }) {
           ))}
         </div>
       </section>
+
+      {lg && st ? (
+        <section className="px-5">
+          <PanelTitle>Rispetto agli altri arbitri</PanelTitle>
+          <div className="glass overflow-hidden rounded-[24px]">
+            <RefBar label="Ammonizioni / partita" v={st.y} avg={lg.y} sorted={lg.ys} concept="b" />
+            <div style={{ borderTop: '1px solid var(--hair-2)' }}><RefBar label="Falli fischiati / partita" v={st.fo} avg={lg.fo} sorted={lg.fos} concept="b" /></div>
+            <p className="px-4 pb-3 text-[10px]" style={{ color: 'var(--ink-3)' }}>La lineetta è la media stagionale degli arbitri del campionato ({lg.n} arbitri).</p>
+          </div>
+        </section>
+      ) : null}
 
       <section className="px-5">
         <PanelTitle>Medie</PanelTitle>
