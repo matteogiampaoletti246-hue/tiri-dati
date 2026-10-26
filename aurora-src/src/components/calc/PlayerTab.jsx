@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import PanelTitle from '@/components/PanelTitle';
 import { playerById } from '@/data/players';
 import { teamById } from '@/data/teams';
-import { nextFixture, prefillShots, teamShots } from '@/data/calcData';
+import { fixtureAt, nextFixture, prefillShots, teamShots } from '@/data/calcData';
 import { fillFrom, initialForm, resultFromForm } from '@/data/calcPlayer';
 import {
   COMPETITION_OPTIONS,
@@ -30,6 +31,19 @@ export default function PlayerTab({ onSave }) {
     const id = setTimeout(() => setSaved(false), 2600);
     return () => clearTimeout(id);
   }, [saved]);
+
+  // arrivo dai Migliori Giocatori: giocatore, linea e partita già inseriti
+  const loc = useLocation();
+  useEffect(() => {
+    const st = loc.state && loc.state.calc;
+    if (!st) return;
+    const p = playerById(st.playerId);
+    if (!p) return;
+    const lineStr = String(st.line).replace('.', ',');
+    const fx = (st.ts && fixtureAt(p.teamName, st.ts)) || nextFixture(p.teamName);
+    setForm((f) => fillFrom({ ...f, line: lineStr }, p, f.tipoTiri, fx));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const set = (key, value) => setForm((f) => ({ ...f, [key]: value }));
   const setSeason = (key, patch) => setForm((f) => ({ ...f, season: { ...f.season, [key]: { ...f.season[key], ...patch } } }));

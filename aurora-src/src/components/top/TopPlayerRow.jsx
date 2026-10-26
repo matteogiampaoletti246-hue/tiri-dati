@@ -1,62 +1,71 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { Calculator } from 'lucide-react';
 import Crest from '@/components/Crest';
-import TeamLink from '@/components/TeamLink';
+import RollNumber from '@/components/RollNumber';
+import { Image } from '@/components/ui/image';
 import { teamById } from '@/data/teams';
-import { comma } from '@/lib/format';
+import { carriereOf, countryIt, flagOf } from '@/data/carriere';
 
-const POS = { GK: 'POR', DEF: 'DIF', MID: 'CEN', WNG: 'ALA', ATT: 'ATT' };
+const RK = ['#F5C84C', '#C5CEDB', '#D98F5C'];
 
-export default function TopPlayerRow({ row, rank, divider = true }) {
+const FMT = new Intl.DateTimeFormat('it-IT', { timeZone: 'Europe/Rome', weekday: 'short', hour: '2-digit', minute: '2-digit', hour12: false });
+const when = (ts) => {
+  const t = FMT.format(new Date(ts)).replace('.', '');
+  return t.charAt(0).toUpperCase() + t.slice(1);
+};
+
+export default function TopPlayerRow({ row, rank, threshold, delay = 0 }) {
   const { player, match } = row;
+  const nav = useNavigate();
   const team = teamById(player.teamId);
   const opp = match ? teamById(match.homeId === player.teamId ? match.awayId : match.homeId) : null;
+  const c1 = team ? team.colors[0] : '#2C3E66';
+  const c2 = team ? team.colors[1] : '#0b1230';
+  const car = carriereOf(player.id) || {};
+  const nat = car.c ? `${flagOf(car.c)} ${countryIt(car.c)}`.trim() : '';
+  const rk = RK[rank - 1] || 'var(--accent)';
+
+  const openCalc = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    nav('/calcolatore', { state: { calc: { playerId: player.id, line: threshold, ts: match ? match.ts : null } } });
+  };
 
   return (
     <Link
       to={`/giocatore/${player.id}`}
-      className="block px-5 py-3 transition-opacity active:opacity-60"
-      style={{ borderTop: divider ? '1px solid var(--hair-2)' : 'none' }}
+      className="press mx-4 mb-2.5 flex items-center gap-3 rounded-[24px] p-3"
+      style={{ background: `linear-gradient(100deg, ${c1}55, rgba(255,255,255,.03) 70%)`, border: '1px solid var(--glass-border)' }}
     >
-      <div className="flex items-center gap-3">
-        <span className="tnum w-[18px] flex-none text-[11.5px]" style={{ color: 'var(--ink-3)' }}>
+      <span className="relative flex-none">
+        <span className="avatar h-[50px] w-[50px] text-[13px]">
+          {player.photo ? <Image src={player.photo} alt={player.name} className="h-full w-full" fittingType="fill" /> : player.initials}
+        </span>
+        <b className="absolute -left-1.5 -top-1.5 flex h-[22px] min-w-[22px] items-center justify-center rounded-full px-1 text-[12px]" style={{ background: rk, color: rank <= 3 ? '#06101f' : '#fff' }}>
           {rank}
-        </span>
-        <span className="w-[30px] flex-none text-[9.5px] uppercase tracking-[.1em]" style={{ color: 'var(--ink-3)' }}>
-          {POS[player.position] || player.position}
-        </span>
-        <span className="min-w-0 flex-1 truncate text-[14px]" style={{ color: 'var(--ink)' }}>
-          {player.name}
-        </span>
-        <span className="flex flex-none items-baseline gap-1.5">
-          <span className="text-[9.5px] uppercase tracking-[.1em]" style={{ color: 'var(--ink-3)' }}>
-            Voto
-          </span>
-          <span className="tnum text-[15.5px] font-medium" style={{ color: 'var(--ink)' }}>
-            {comma(row.voto, 2)}
-          </span>
-        </span>
-      </div>
+        </b>
+      </span>
 
-      <div className="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 pl-[48px]">
-        <TeamLink team={team} className="flex flex-none items-center gap-2 transition-opacity active:opacity-60">
-          <Crest team={team} size={16} />
-          <span className="text-[11.5px]" style={{ color: 'var(--ink-2)' }}>
-            {team ? team.name : '—'}
-          </span>
-        </TeamLink>
-        {opp ? (
-          <span className="flex-none text-[11.5px]" style={{ color: 'var(--ink-2)' }}>
-            – {opp.name}
+      <span className="min-w-0 flex-1">
+        <span className="block truncate text-[14.5px] font-extrabold" style={{ color: 'var(--ink)' }}>{player.name}</span>
+        <span className="block truncate text-[11px]" style={{ color: 'var(--ink-3)' }}>
+          {[nat, team ? team.name : null].filter(Boolean).join(' · ')}
+        </span>
+        {match ? (
+          <span className="mt-1 flex items-center gap-1.5 text-[11px]" style={{ color: 'var(--ink-2)' }}>
+            {opp ? <Crest team={opp} size={14} /> : null}
+            <span className="truncate">{opp ? opp.name : match.oppName} · {when(match.ts)}</span>
           </span>
         ) : null}
-        <span className="tnum basis-full text-[11px]" style={{ color: 'var(--ink-3)' }}>
-          Media attesa {comma(row.mediaAttesa, 2)} · 90&apos; medi {row.minutiMedi}
-        </span>
-      </div>
+        <span className="mt-1.5 block h-[5px] rounded-full" style={{ background: `linear-gradient(90deg, ${c1}, ${c2})` }} />
+      </span>
 
-      <div className="tnum mt-1 pl-[48px] text-[11px]" style={{ color: 'var(--ink-3)' }}>
-        Ultime 5: {comma(row.ultime5, 1)} — stagione {comma(row.stagione90, 1)} /90&apos;
-      </div>
+      <span className="flex flex-none flex-col items-center gap-1.5">
+        <RollNumber value={row.voto} delay={delay} className="text-[25px] font-extrabold leading-none" />
+        <button type="button" onClick={openCalc} aria-label="Apri nel calcolatore" className="glass press flex h-[27px] w-[27px] items-center justify-center rounded-full" style={{ color: 'var(--accent)' }}>
+          <Calculator size={14} strokeWidth={2} />
+        </button>
+      </span>
     </Link>
   );
 }

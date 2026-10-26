@@ -330,6 +330,13 @@
     line-height: 1;
   }
 
+  .title-sora {
+    font-family: 'Sora', var(--font-heading);
+    font-weight: 700;
+    letter-spacing: -.03em;
+    line-height: 1.1;
+  }
+
   .title-lg {
     font-family: var(--font-heading);
     font-weight: 800;

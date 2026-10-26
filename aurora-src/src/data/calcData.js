@@ -169,5 +169,13 @@ export function nextFixture(teamName) {
   return { ts: new Date(f[0]).getTime(), opp: f[1], home: f[2] === 1, comp: f[3], cup: CUPS.includes(f[3]) };
 }
 
+// partita di una squadra a un certo istante (per aprire il Calcolatore dalla lista dei migliori giocatori)
+export function fixtureAt(teamName, ts) {
+  const list = (RAW.giocatori && RAW.giocatori.fix && RAW.giocatori.fix[teamName]) || [];
+  const f = list.find((x) => new Date(x[0]).getTime() === ts);
+  if (!f) return null;
+  return { ts: new Date(f[0]).getTime(), opp: f[1], home: f[2] === 1, comp: f[3], cup: CUPS.includes(f[3]) };
+}
+
 // per le liste di giocatori (stessa logica dell'app originale)
 export { lgAvg as leagueAvgOf, domesticKey, blend as blendTeam, LD as CALC_DATA };

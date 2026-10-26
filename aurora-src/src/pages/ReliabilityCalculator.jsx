@@ -1,4 +1,7 @@
+import { primeKeyboard } from '@/lib/keyboard';
 import { useRef, useState } from 'react';
+import FixedBar from '@/components/FixedBar';
+import SearchOverlay from '@/components/SearchOverlay';
 import PageShell from '@/components/PageShell';
 import SwipeTabs from '@/components/SwipeTabs';
 import PlayerTab from '@/components/calc/PlayerTab';
@@ -11,14 +14,16 @@ const TABS = [
 
 export default function ReliabilityCalculator() {
   const [index, setIndex] = useState(0);
+  const [searchOpen, setSearchOpen] = useState(false);
   const noop = useRef(() => {}).current;
 
   return (
     <PageShell swipeBack={false}>
       {/* testata unica: titolo e due schede grandi nello stesso blocco opaco, il contenuto non si vede passare */}
       <header className="sticky top-0 z-30" style={{ background: 'var(--sky-2)' }}>
-        <div className="px-5 pb-2.5 pt-3.5" style={{ background: 'color-mix(in srgb, var(--sky-2) 100%, transparent)' }}>
-          <h1 className="title-lg truncate text-[17px] tracking-[-.03em]" style={{ color: 'var(--ink)' }}>
+        <FixedBar onSearch={() => { primeKeyboard(); setSearchOpen(true); }} />
+        <div className="px-5 pb-2.5">
+          <h1 className="title-sora whitespace-nowrap text-[23px]" style={{ color: 'var(--ink)' }}>
             Calcolatore di Affidabilità
           </h1>
           <div className="relative mt-3 grid grid-cols-2 rounded-[16px] p-1" style={{ background: 'var(--panel-2)', border: '1px solid var(--hair)' }}>
@@ -55,6 +60,7 @@ export default function ReliabilityCalculator() {
         onChange={setIndex}
         panels={[<PlayerTab key="player" onSave={noop} />, <TeamTab key="team" onSave={noop} />]}
       />
+      <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
     </PageShell>
   );
 }

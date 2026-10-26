@@ -149,6 +149,18 @@ export const SCORE_COLORS = ['#E5484D', '#F2866B', '#E8B923', '#7CCB5A', '#1FA45
 export const scoreBand = (v) => (v < 4 ? 0 : v < 6 ? 1 : v < 7.5 ? 2 : v < 8.5 ? 3 : v < 9 ? 4 : 5);
 export const scoreColor = (v) => (v === null || v === undefined || Number.isNaN(v) ? 'var(--ink-3)' : SCORE_COLORS[scoreBand(v)]);
 
+// Colore continuo lungo la stessa scala (usato mentre il numero scorre da un voto all'altro)
+const _hex = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+const _mix = (a, b, t) => { const x = _hex(a); const y = _hex(b); return `#${x.map((v, i) => Math.round(v + (y[i] - v) * t).toString(16).padStart(2, '0')).join('')}`; };
+const _ST = [[0, 0], [3.5, 0], [4.5, 1], [5.5, 1], [6.5, 2], [7.2, 2], [7.8, 3], [8.3, 3], [8.7, 4], [8.9, 4], [9.1, 5], [10, 5]];
+export const scoreColorSmooth = (v) => {
+  if (v === null || v === undefined || Number.isNaN(v)) return 'var(--ink-3)';
+  for (let i = 1; i < _ST.length; i += 1) {
+    if (v <= _ST[i][0]) { const a = _ST[i - 1]; const b = _ST[i]; return _mix(SCORE_COLORS[a[1]], SCORE_COLORS[b[1]], (v - a[0]) / (b[0] - a[0] || 1)); }
+  }
+  return SCORE_COLORS[5];
+};
+
 /* ── Affidabilità, quota, valore, stake ────────────────────────────── */
 export const reliability = (score) => {
   if (score === null || score === undefined) return { label: '—', tone: 'none' };
