@@ -1,0 +1,1355 @@
+{
+ "allLeagues_a": {
+  "popular": [
+   {
+    "id": 55,
+    "name": "Serie A",
+    "localizedName": "Serie A",
+    "pageUrl": "/leagues/55/overview/serie",
+    "ccode": "ITA"
+   },
+   "len=10"
+  ],
+  "international": [
+   {
+    "ccode": "INT",
+    "name": "International",
+    "leagues": [
+     "{...5}",
+     "len=127"
+    ],
+    "localizedName": "International"
+   },
+   "len=1"
+  ],
+  "countries": [
+   {
+    "ccode": "ALB",
+    "name": "Albania",
+    "leagues": [
+     "{...5}",
+     "len=3"
+    ],
+    "localizedName": "Albania"
+   },
+   "len=94"
+  ]
+ },
+ "allLeagues_b": {
+  "__err": "HTTP Error 404: Not Found"
+ },
+ "allLeagues_c": {
+  "popular": [
+   {
+    "id": 47,
+    "name": "Premier League",
+    "localizedName": "Premier League",
+    "pageUrl": "/leagues/47/overview/premier-league",
+    "ccode": "ENG"
+   },
+   "len=10"
+  ],
+  "international": [
+   {
+    "ccode": "INT",
+    "name": "International",
+    "leagues": [
+     "{...5}",
+     "len=127"
+    ],
+    "localizedName": "International"
+   },
+   "len=1"
+  ],
+  "countries": [
+   {
+    "ccode": "ALB",
+    "name": "Albania",
+    "leagues": [
+     "{...5}",
+     "len=3"
+    ],
+    "localizedName": "Albania"
+   },
+   "len=94"
+  ]
+ },
+ "allLeagues_d": {
+  "__err": "HTTP Error 404: Not Found"
+ },
+ "league_keys": [
+  "tabs",
+  "allAvailableSeasons",
+  "details",
+  "seostr",
+  "QAData",
+  "table",
+  "transfers",
+  "overview",
+  "stats",
+  "fixtures",
+  "playoff",
+  "seasons"
+ ],
+ "details": {
+  "id": 47,
+  "type": "league",
+  "name": "Premier League",
+  "selectedSeason": "2015/2016",
+  "latestSeason": "2026/2027",
+  "shortName": "Premier League",
+  "country": "ENG",
+  "gender": "male",
+  "nationalTeamId": 8491,
+  "faqJSONLD": null,
+  "breadcrumbJSONLD": {
+   "@context": "https://schema.org",
+   "@type": "BreadcrumbList",
+   "itemListElement": [
+    "{...4}",
+    "len=2"
+   ]
+  },
+  "canSyncCalendar": true,
+  "hasFixtureDifficulty": false,
+  "leagueColor": "#3F1152",
+  "dataProvider": "enet",
+  "seopath": "premier-league"
+ },
+ "table": [
+  {
+   "data": {
+    "ccode": "ENG",
+    "leagueId": 47,
+    "pageUrl": "/leagues/47/overview/premier-league?season=2015-2016",
+    "leagueName": "Premier League",
+    "legend": [
+     {
+      "title": "Champions League",
+      "tKey": "championsleague",
+      "color": "#2AD572",
+      "indices": [
+       0,
+       "len=3"
+      ]
+     },
+     "len=5"
+    ],
+    "ongoing": [],
+    "table": {
+     "all": [
+      {
+       "name": "Leicester City",
+       "shortName": "Leicester",
+       "id": 8197,
+       "pageUrl": "/teams/8197/overview/leicester-city",
+       "deduction": null,
+       "ongoing": null,
+       "played": 38,
+       "wins": 23,
+       "draws": 12,
+       "losses": 3,
+       "scoresStr": "68-36",
+       "goalConDiff": 32,
+       "pts": 81,
+       "idx": 1,
+       "qualColor": "#2AD572"
+      },
+      "len=20"
+     ],
+     "home": [
+      {
+       "name": "Leicester City",
+       "shortName": "Leicester",
+       "id": 8197,
+       "pageUrl": "/teams/8197/overview/leicester-city",
+       "deduction": null,
+       "ongoing": null,
+       "played": 19,
+       "wins": 12,
+       "draws": 6,
+       "losses": 1,
+       "scoresStr": "35-18",
+       "goalConDiff": 17,
+       "goalsScored": 35,
+       "pts": 42,
+       "idx": 1,
+       "qualColor": "#2AD572"
+      },
+      "len=20"
+     ],
+     "away": [
+      {
+       "name": "Leicester City",
+       "shortName": "Leicester",
+       "id": 8197,
+       "pageUrl": "/teams/8197/overview/leicester-city",
+       "deduction": null,
+       "ongoing": null,
+       "played": 19,
+       "wins": 11,
+       "draws": 6,
+       "losses": 2,
+       "scoresStr": "33-18",
+       "goalConDiff": 15,
+       "goalsScored": 33,
+       "pts": 39,
+       "idx": 1,
+       "qualColor": "#2AD572"
+      },
+      "len=20"
+     ],
+     "form": [
+      {
+       "name": "Southampton",
+       "shortName": "Southampton",
+       "featuredInMatch": false,
+       "id": 8466,
+       "pageUrl": "/teams/8466/overview/southampton",
+       "played": 5,
+       "wins": 4,
+       "draws": 1,
+       "losses": 0,
+       "scoresStr": "15-7",
+       "goalConDiff": 8,
+       "goalsScored": 15,
+       "pts": 13,
+       "ongoing": null,
+       "idx": 1,
+       "qualColor": "#2AD572"
+      },
+      "len=20"
+     ]
+    },
+    "tableFilterTypes": [
+     "all",
+     "len=4"
+    ],
+    "composite": false,
+    "selectedSeason": "2015/2016",
+    "isCurrentSeason": false
+   },
+   "tableFilterTypes": [
+    "all",
+    "len=4"
+   ],
+   "teamForm": {
+    "8197": [
+     {
+      "result": 0,
+      "resultString": "D",
+      "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/8654.png",
+      "linkToMatch": "/matches/leicester-city-vs-west-ham-united/2cjg6k#1989044",
+      "date": null,
+      "teamPageUrl": "/teams/8654/overview/west-ham-united",
+      "tooltipText": {
+       "utcTime": "2016-04-17T12:30:00Z",
+       "homeTeam": "Leicester City",
+       "homeTeamId": 8197,
+       "homeScore": 2,
+       "awayTeam": "West Ham United",
+       "awayTeamId": 8654,
+       "awayScore": 2
+      },
+      "score": "2 - 2",
+      "home": {
+       "id": "8197",
+       "name": "Leicester City",
+       "shortName": "Leicester City",
+       "isOurTeam": true
+      },
+      "away": {
+       "id": "8654",
+       "name": "West Ham United",
+       "shortName": "West Ham United",
+       "isOurTeam": false
+      }
+     },
+     "len=5"
+    ],
+    "8455": [
+     {
+      "result": 1,
+      "resultString": "W",
+      "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/8678.png",
+      "linkToMatch": "/matches/chelsea-vs-afc-bournemouth/2fe5n5#1989051",
+      "date": null,
+      "teamPageUrl": "/teams/8678/overview/afc-bournemouth",
+      "tooltipText": {
+       "utcTime": "2016-04-23T14:00:00Z",
+       "homeTeam": "AFC Bournemouth",
+       "homeTeamId": 8678,
+       "homeScore": 1,
+       "awayTeam": "Chelsea",
+       "awayTeamId": 8455,
+       "awayScore": 4
+      },
+      "score": "1 - 4",
+      "home": {
+       "id": "8678",
+       "name": "AFC Bournemouth",
+       "shortName": "AFC Bournemouth",
+       "isOurTeam": false
+      },
+      "away": {
+       "id": "8455",
+       "name": "Chelsea",
+       "shortName": "Chelsea",
+       "isOurTeam": true
+      }
+     },
+     "len=5"
+    ],
+    "8456": [
+     {
+      "result": 0,
+      "resultString": "D",
+      "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/10261.png",
+      "linkToMatch": "/matches/manchester-city-vs-newcastle-united/2waqez#1988973",
+      "date": null,
+      "teamPageUrl": "/teams/10261/overview/newcastle-united",
+      "tooltipText": {
+       "utcTime": "2016-04-19T18:45:00Z",
+       "homeTeam": "Newcastle United",
+       "homeTeamId": 10261,
+       "homeScore": 1,
+       "awayTeam": "Manchester City",
+       "awayTeamId": 8456,
+       "awayScore": 1
+      },
+      "score": "1 - 1",
+      "home": {
+       "id": "10261",
+       "name": "Newcastle United",
+       "shortName": "Newcastle United",
+       "isOurTeam": false
+      },
+      "away": {
+       "id": "8456",
+       "name": "Manchester City",
+       "shortName": "Manchester City",
+       "isOurTeam": true
+      }
+     },
+     "len=5"
+    ],
+    "8466": [
+     {
+      "result": 0,
+      "resultString": "D",
+      "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/8668.png",
+      "linkToMatch": "/matches/southampton-vs-everton/2feiut#1989043",
+      "date": null,
+      "teamPageUrl": "/teams/8668/overview/everton",
+      "tooltipText": {
+       "utcTime": "2016-04-16T14:00:00Z",
+       "homeTeam": "Everton",
+       "homeTeamId": 8668,
+       "homeScore": 1,
+       "awayTeam": "Southampton",
+       "awayTeamId": 8466,
+       "awayScore": 1
+      },
+      "score": "1 - 1",
+      "home": {
+       "id": "8668",
+       "name": "Everton",
+       "shortName": "Everton",
+       "isOurTeam": false
+      },
+      "away": {
+       "id": "8466",
+       "name": "Southampton",
+       "shortName": "Southampton",
+       "isOurTeam": true
+      }
+     },
+     "len=5"
+    ],
+    "8472": [
+     {
+      "result": 0,
+      "resultString": "D",
+      "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/9825.png",
+      "linkToMatch": "/matches/sunderland-vs-arsenal/2ro5o6#1989057",
+      "date": null,
+      "teamPageUrl": "/teams/9825/overview/arsenal",
+      "tooltipText": {
+       "utcTime": "2016-04-24T13:05:00Z",
+       "homeTeam": "Sunderland",
+       "homeTeamId": 8472,
+       "homeScore": 0,
+       "awayTeam": "Arsenal",
+       "awayTeamId": 9825,
+       "awayScore": 0
+      },
+      "score": "0 - 0",
+      "home": {
+       "id": "8472",
+       "name": "Sunderland",
+       "shortName": "Sunderland",
+       "isOurTeam": true
+      },
+      "away": {
+       "id": "9825",
+       "name": "Arsenal",
+       "shortName": "Arsenal",
+       "isOurTeam": false
+      }
+     },
+     "len=5"
+    ],
+    "8586": [
+     {
+      "result": 1,
+      "resultString": "W",
+      "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/10194.png",
+      "linkToMatch": "/matches/tottenham-hotspur-vs-stoke-city/2x01xc#1989048",
+      "date": null,
+      "teamPageUrl": "/teams/10194/overview/stoke-city",
+      "tooltipText": {
+       "utcTime": "2016-04-18T19:00:00Z",
+       "homeTeam": "Stoke City",
+       "homeTeamId": 10194,
+       "homeScore": 0,
+       "awayTeam": "Tottenham Hotspur",
+       "awayTeamId": 8586,
+       "awayScore": 4
+      },
+      "score": "0 - 4",
+      "home": {
+       "id": "10194",
+       "name": "Stoke City",
+       "shortName": "Stoke City",
+       "isOurTeam": false
+      },
+      "away": {
+       "id": "8586",
+       "name": "Tottenham Hotspur",
+       "shortName": "Tottenham Hotspur",
+       "isOurTeam": true
+      }
+     },
+     "len=5"
+    ],
+    "8650": [
+     {
+      "result": 0,
+      "resultString": "D",
+      "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/10261.png",
+      "linkToMatch": "/matches/liverpool-vs-newcastle-united/2ygyxm#1989054",
+      "date": null,
+      "teamPageUrl": "/teams/10261/overview/newcastle-united",
+      "tooltipText": {
+       "utcTime": "2016-04-23T14:00:00Z",
+       "homeTeam": "Liverpool",
+       "homeTeamId": 8650,
+       "homeScore": 2,
+       "awayTeam": "Newcastle United",
+       "awayTeamId": 10261,
+       "awayScore": 2
+      },
+      "score": "2 - 2",
+      "home": {
+       "id": "8650",
+       "name": "Liverpool",
+       "shortName": "Liverpool",
+       "isOurTeam": true
+      },
+      "away": {
+       "id": "10261",
+       "name": "Newcastle United",
+       "shortName": "Newcastle United",
+       "isOurTeam": false
+      }
+     },
+     "len=5"
+    ],
+    "8654": [
+     {
+      "result": 1,
+      "resultString": "W",
+      "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/9817.png",
+      "linkToMatch": "/matches/west-ham-united-vs-watford/2tkpyd#1989009",
+      "date": null,
+      "teamPageUrl": "/teams/9817/overview/watford",
+      "tooltipText": {
+       "utcTime": "2016-04-20T18:45:00Z",
+       "homeTeam": "West Ham United",
+       "homeTeamId": 8654,
+       "homeScore": 3,
+       "awayTeam": "Watford",
+       "awayTeamId": 9817,
+       "awayScore": 1
+      },
+      "score": "3 - 1",
+      "home": {
+       "id": "8654",
+       "name": "West Ham United",
+       "shortName": "West Ham United",
+       "isOurTeam": true
+      },
+      "away": {
+       "id": "9817",
+       "name": "Watford",
+       "shortName": "Watford",
+       "isOurTeam": false
+      }
+     },
+     "len=5"
+    ],
+    "8659": [
+     {
+      "result": -1,
+      "resultString": "L",
+      "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/9825.png",
+      "linkToMatch": "/matches/west-bromwich-albion-vs-arsenal/2tpvb7#1989000",
+      "date": null,
+      "teamPageUrl": "/teams/9825/overview/arsenal",
+      "tooltipText": {
+       "utcTime": "2016-04-21T18:45:00Z",
+       "homeTeam": "Arsenal",
+       "homeTeamId": 9825,
+       "homeScore": 2,
+       "awayTeam": "West Bromwich Albion",
+       "awayTeamId": 8659,
+       "awayScore": 0
+      },
+      "score": "2 - 0",
+      "home": {
+       "id": "9825",
+       "name": "Arsenal",
+       "shortName": "Arsenal",
+       "isOurTeam": false
+      },
+      "away": {
+       "id": "8659",
+       "name": "West Bromwich Albion",
+       "shortName": "West Bromwich Albion",
+       "isOurTeam": true
+      }
+     },
+     "len=5"
+    ],
+    "8668": [
+     {
+      "result": -1,
+      "resultString": "L",
+      "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/8650.png",
+      "linkToMatch": "/matches/liverpool-vs-everton/2hagld#1988971",
+      "date": null,
+      "teamPageUrl": "/teams/8650/overview/liverpool",
+      "tooltipText": {
+       "utcTime": "2016-04-20T19:00:00Z",
+       "homeTeam": "Liverpool",
+       "homeTeamId": 8650,
+       "homeScore": 4,
+       "awayTeam": "Everton",
+       "awayTeamId": 8668,
+       "awayScore": 0
+      },
+      "score": "4 - 0",
+      "home": {
+       "id": "8650",
+       "name": "Liverpool",
+       "shortName": "Liverpool",
+       "isOurTeam": false
+      },
+      "away": {
+       "id": "8668",
+       "name": "Everton",
+       "shortName": "Everton",
+       "isOurTeam": true
+      }
+     },
+     "len=5"
+    ],
+    "8678": [
+     {
+      "result": -1,
+      "resultString": "L",
+      "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/8650.png",
+      "linkToMatch": "/matches/liverpool-vs-afc-bournemouth/2he69q#1989041",
+      "date": null,
+      "teamPageUrl": "/teams/8650/overview/liverpool",
+      "tooltipText": {
+       "utcTime": "2016-04-17T12:30:00Z",
+       "homeTeam": "AFC Bournemouth",
+       "homeTeamId": 8678,
+       "homeScore": 1,
+       "awayTeam": "Liverpool",
+       "awayTeamId": 8650,
+       "awayScore": 2
+      },
+      "score": "1 - 2",
+      "home": {
+       "id": "8678",
+       "name": "AFC Bournemouth",
+       "shortName": "AFC Bournemouth",
+       "isOurTeam": true
+      },
+      "away": {
+       "id": "8650",
+       "name": "Liverpool",
+       "shortName": "Liverpool",
+       "isOurTeam": false
+      }
+     },
+     "len=5"
+    ],
+    "9817": [
+     {
+      "result": -1,
+      "resultString": "L",
+      "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/8654.png",
+      "linkToMatch": "/matches/west-ham-united-vs-watford/2tkpyd#1989009",
+      "date": null,
+      "teamPageUrl": "/teams/8654/overview/west-ham-united",
+      "tooltipText": {
+       "utcTime": "2016-04-20T18:45:00Z",
+       "homeTeam": "West Ham United",
+       "homeTeamId": 8654,
+       "homeScore": 3,
+       "awayTeam": "Watford",
+       "awayTeamId": 9817,
+       "awayScore": 1
+      },
+      "score": "3 - 1",
+      "home": {
+       "id": "8654",
+       "name": "West Ham United",
+       "shortName": "West Ham United",
+       "isOurTeam": false
+      },
+      "away": {
+       "id": "9817",
+       "name": "Watford",
+       "shortName": "Watford",
+       "isOurTeam": true
+      }
+     },
+     "len=5"
+    ],
+    "9825": [
+     {
+      "result": 1,
+      "resultString": "W",
+      "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/8659.png",
+      "linkToMatch": "/matches/west-bromwich-albion-vs-arsenal/2tpvb7#1989000",
+      "date": null,
+      "teamPageUrl": "/teams/8659/overview/west-bromwich-albion",
+      "tooltipText": {
+       "utcTime": "2016-04-21T18:45:00Z",
+       "homeTeam": "Arsenal",
+       "homeTeamId": 9825,
+       "homeScore": 2,
+       "awayTeam": "West Bromwich Albion",
+       "awayTeamId": 8659,
+       "awayScore": 0
+      },
+      "score": "2 - 0",
+      "home": {
+       "id": "9825",
+       "name": "Arsenal",
+       "shortName": "Arsenal",
+       "isOurTeam": true
+      },
+      "away": {
+       "id": "8659",
+       "name": "West Bromwich Albion",
+       "shortName": "West Bromwich Albion",
+       "isOurTeam": false
+      }
+     },
+     "len=5"
+    ],
+    "9826": [
+     {
+      "result": 0,
+      "resultString": "D",
+      "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/9825.png",
+      "linkToMatch": "/matches/arsenal-vs-crystal-palace/36ytc8#1989040",
+      "date": null,
+      "teamPageUrl": "/teams/9825/overview/arsenal",
+      "tooltipText": {
+       "utcTime": "2016-04-17T15:00:00Z",
+       "homeTeam": "Arsenal",
+       "homeTeamId": 9825,
+       "homeScore": 1,
+       "awayTeam": "Crystal Palace",
+       "awayTeamId": 9826,
+       "awayScore": 1
+      },
+      "score": "1 - 1",
+      "home": {
+       "id": "9825",
+       "name": "Arsenal",
+       "shortName": "Arsenal",
+       "isOurTeam": false
+      },
+      "away": {
+       "id": "9826",
+       "name": "Crystal Palace",
+       "shortName": "Crystal Palace",
+       "isOurTeam": true
+      }
+     },
+     "len=5"
+    ],
+    "9850": [
+     {
+      "result": -1,
+      "resultString": "L",
+      "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/8472.png",
+      "linkToMatch": "/matches/sunderland-vs-norwich-city/2rxyw5#1989047",
+      "date": null,
+      "teamPageUrl": "/teams/8472/overview/sunderland",
+      "tooltipText": {
+       "utcTime": "2016-04-16T11:45:00Z",
+       "homeTeam": "Norwich City",
+       "homeTeamId": 9850,
+       "homeScore": 0,
+       "awayTeam": "Sunderland",
+       "awayTeamId": 8472,
+       "awayScore": 3
+      },
+      "score": "0 - 3",
+      "home": {
+       "id": "9850",
+       "name": "Norwich City",
+       "shortName": "Norwich City",
+       "isOurTeam": true
+      },
+      "away": {
+       "id": "8472",
+       "name": "Sunderland",
+       "shortName": "Sunderland",
+       "isOurTeam": false
+      }
+     },
+     "len=5"
+    ],
+    "10003": [
+     {
+      "result": -1,
+      "resultString": "L",
+      "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/10261.png",
+      "linkToMatch": "/matches/swansea-city-vs-newcastle-united/3e91op#1989046",
+      "date": null,
+      "teamPageUrl": "/teams/10261/overview/newcastle-united",
+      "tooltipText": {
+       "utcTime": "2016-04-16T14:00:00Z",
+       "homeTeam": "Newcastle United",
+       "homeTeamId": 10261,
+       "homeScore": 3,
+       "awayTeam": "Swansea City",
+       "awayTeamId": 10003,
+       "awayScore": 0
+      },
+      "score": "3 - 0",
+      "home": {
+       "id": "10261",
+       "name": "Newcastle United",
+       "shortName": "Newcastle United",
+       "isOurTeam": false
+      },
+      "away": {
+       "id": "10003",
+       "name": "Swansea City",
+       "shortName": "Swansea City",
+       "isOurTeam": true
+      }
+     },
+     "len=5"
+    ],
+    "10194": [
+     {
+      "result": -1,
+      "resultString": "L",
+      "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/8586.png",
+      "linkToMatch": "/matches/tottenham-hotspur-vs-stoke-city/2x01xc#1989048",
+      "date": null,
+      "teamPageUrl": "/teams/8586/overview/tottenham-hotspur",
+      "tooltipText": {
+       "utcTime": "2016-04-18T19:00:00Z",
+       "homeTeam": "Stoke City",
+       "homeTeamId": 10194,
+       "homeScore": 0,
+       "awayTeam": "Tottenham Hotspur",
+       "awayTeamId": 8586,
+       "awayScore": 4
+      },
+      "score": "0 - 4",
+      "home": {
+       "id": "10194",
+       "name": "Stoke City",
+       "shortName": "Stoke City",
+       "isOurTeam": true
+      },
+      "away": {
+       "id": "8586",
+       "name": "Tottenham Hotspur",
+       "shortName": "Tottenham Hotspur",
+       "isOurTeam": false
+      }
+     },
+     "len=5"
+    ],
+    "10252": [
+     {
+      "result": -1,
+      "resultString": "L",
+      "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/10260.png",
+      "linkToMatch": "/matches/aston-villa-vs-manchester-united/3h9f6s#1989045",
+      "date": null,
+      "teamPageUrl": "/teams/10260/overview/manchester-united",
+      "tooltipText": {
+       "utcTime": "2016-04-16T14:00:00Z",
+       "homeTeam": "Manchester United",
+       "homeTeamId": 10260,
+       "homeScore": 1,
+       "awayTeam": "Aston Villa",
+       "awayTeamId": 10252,
+       "awayScore": 0
+      },
+      "score": "1 - 0",
+      "home": {
+       "id": "10260",
+       "name": "Manchester United",
+       "shortName": "Manchester United",
+       "isOurTeam": false
+      },
+      "away": {
+       "id": "10252",
+       "name": "Aston Villa",
+       "shortName": "Aston Villa",
+       "isOurTeam": true
+      }
+     },
+     "len=5"
+    ],
+    "10260": [
+     {
+      "result": 1,
+      "resultString": "W",
+      "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/9826.png",
+      "linkToMatch": "/matches/crystal-palace-vs-manchester-united/3c42bz#1989005",
+      "date": null,
+      "teamPageUrl": "/teams/9826/overview/crystal-palace",
+      "tooltipText": {
+       "utcTime": "2016-04-20T19:00:00Z",
+       "homeTeam": "Manchester United",
+       "homeTeamId": 10260,
+       "homeScore": 2,
+       "awayTeam": "Crystal Palace",
+       "awayTeamId": 9826,
+       "awayScore": 0
+      },
+      "score": "2 - 0",
+      "home": {
+       "id": "10260",
+       "name": "Manchester United",
+       "shortName": "Manchester United",
+       "isOurTeam": true
+      },
+      "away": {
+       "id": "9826",
+       "name": "Crystal Palace",
+       "shortName": "Crystal Palace",
+       "isOurTeam": false
+      }
+     },
+     "len=5"
+    ],
+    "10261": [
+     {
+      "result": 0,
+      "resultString": "D",
+      "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/8456.png",
+      "linkToMatch": "/matches/manchester-city-vs-newcastle-united/2waqez#1988973",
+      "date": null,
+      "teamPageUrl": "/teams/8456/overview/manchester-city",
+      "tooltipText": {
+       "utcTime": "2016-04-19T18:45:00Z",
+       "homeTeam": "Newcastle United",
+       "homeTeamId": 10261,
+       "homeScore": 1,
+       "awayTeam": "Manchester City",
+       "awayTeamId": 8456,
+       "awayScore": 1
+      },
+      "score": "1 - 1",
+      "home": {
+       "id": "10261",
+       "name": "Newcastle United",
+       "shortName": "Newcastle United",
+       "isOurTeam": true
+      },
+      "away": {
+       "id": "8456",
+       "name": "Manchester City",
+       "shortName": "Manchester City",
+       "isOurTeam": false
+      }
+     },
+     "len=5"
+    ]
+   },
+   "nextOpponent": null,
+   "tableHeader": {
+    "staticTableHeaders": [
+     "#",
+     "len=9"
+    ],
+    "dynamicTableHeaders": [
+     "Form",
+     "len=1"
+    ]
+   }
+  },
+  "len=1"
+ ],
+ "fixtures_first": {
+  "round": "1",
+  "roundName": 1,
+  "pageUrl": "/matches/tottenham-hotspur-vs-manchester-united/2xqo0r#1987037",
+  "id": "1987037",
+  "home": {
+   "name": "Manchester United",
+   "shortName": "Man United",
+   "id": "10260"
+  },
+  "away": {
+   "name": "Tottenham Hotspur",
+   "shortName": "Tottenham",
+   "id": "8586"
+  },
+  "status": {
+   "utcTime": "2015-08-08T11:45:00Z",
+   "timezone": "",
+   "finished": true,
+   "started": true,
+   "cancelled": false,
+   "awarded": false,
+   "scoreStr": "1 - 0",
+   "reason": {
+    "short": "FT",
+    "shortKey": "fulltime_short",
+    "long": "Full-Time",
+    "longKey": "finished"
+   }
+  }
+ },
+ "fixtures_keys": [
+  "firstUnplayedMatch",
+  "allMatches",
+  "hasOngoingMatch",
+  "fixtureInfo"
+ ],
+ "stats": {},
+ "stats_players_first3": [],
+ "stats_teams_first3": [],
+ "seasonStatLinks": [],
+ "playoff": null,
+ "overview_keys": [
+  "season",
+  "selectedSeason",
+  "table",
+  "topPlayers",
+  "hasTotw",
+  "leagueOverviewMatches",
+  "hasOngoingMatch",
+  "shotMap",
+  "matches"
+ ],
+ "stats_names_2526": {
+  "players": [
+   "Top scorer",
+   "Assists",
+   "Goals + Assists",
+   "FotMob rating",
+   "Minutes played",
+   "Top speed",
+   "Total distance",
+   "Total sprints",
+   "Distance per 90",
+   "Sprints per 90",
+   "Goals per 90",
+   "Expected goals (xG)",
+   "Expected goals (xG) per 90",
+   "Expected goals on target (xGOT)",
+   "Shots on target per 90",
+   "Shots per 90",
+   "Accurate passes per 90",
+   "Big chances created",
+   "Chances created",
+   "Accurate long balls per 90",
+   "Line-breaking passes per 90",
+   "Expected assist (xA)",
+   "Expected assist (xA) per 90",
+   "xG + xA per 90",
+   "Successful dribbles per 90",
+   "Big chances missed",
+   "Penalties won",
+   "Defensive actions per 90",
+   "Tackles per 90",
+   "Interceptions per 90",
+   "Clearances per 90",
+   "Blocks per 90",
+   "Recoveries per 90",
+   "Penalties conceded",
+   "Possession won final 3rd per 90",
+   "Clean sheets",
+   "Save percentage",
+   "Saves per 90",
+   "Goals prevented",
+   "Goals conceded per 90",
+   "High claims per 90",
+   "Sweeper actions per 90",
+   "Penalty saves",
+   "Fouls committed per 90",
+   "Yellow cards",
+   "Red cards"
+  ],
+  "teams": [
+   "FotMob rating",
+   "Goals per match",
+   "Goals conceded per match",
+   "Average possession",
+   "Distance per match",
+   "Clean sheets",
+   "Attendance",
+   "Squad value",
+   "Expected goals",
+   "xG difference",
+   "Shots on target per match",
+   "Big chances",
+   "Big chances missed",
+   "Accurate passes per match",
+   "Accurate long balls per match",
+   "Accurate crosses per match",
+   "Penalties awarded",
+   "Touches in opposition box",
+   "Corners",
+   "Set piece goals",
+   "xG conceded",
+   "Interceptions per match",
+   "Tackles per match",
+   "Clearances per match",
+   "Possession won final 3rd per match",
+   "Set piece goals conceded",
+   "Penalties conceded",
+   "Saves per match",
+   "Fouls per match",
+   "Yellow cards",
+   "Red cards"
+  ]
+ },
+ "stats_names_1516": {
+  "players": [],
+  "teams": []
+ },
+ "lg_arg": {
+  "nome": "Liga Profesional",
+  "paese": "ARG",
+  "tipo": "league",
+  "stats_players": 40,
+  "stats_teams": 28,
+  "table_keys": [
+   "data",
+   "tableFilterTypes",
+   "teamForm",
+   "nextOpponent",
+   "tableHeader"
+  ],
+  "partite": 240
+ },
+ "lg_fa_cup": {
+  "nome": "FA Cup",
+  "paese": "ENG",
+  "tipo": "league",
+  "stats_players": 0,
+  "stats_teams": 0,
+  "table_keys": null,
+  "partite": 40
+ },
+ "lg_copa_lib": {
+  "nome": "Champions League",
+  "paese": "INT",
+  "tipo": "league",
+  "stats_players": 46,
+  "stats_teams": 31,
+  "table_keys": [
+   "data",
+   "tableFilterTypes",
+   "teamForm",
+   "nextOpponent",
+   "tableHeader"
+  ],
+  "partite": 144
+ },
+ "lg_ucl": {
+  "nome": "Champions League",
+  "paese": "INT",
+  "tipo": "league",
+  "stats_players": 46,
+  "stats_teams": 31,
+  "table_keys": [
+   "data",
+   "tableFilterTypes",
+   "teamForm",
+   "nextOpponent",
+   "tableHeader"
+  ],
+  "partite": 144
+ },
+ "team_keys": [
+  "tabs",
+  "allAvailableSeasons",
+  "details",
+  "seostr",
+  "QAData",
+  "table",
+  "transfers",
+  "overview",
+  "stats",
+  "fixtures",
+  "squad",
+  "history"
+ ],
+ "team_squad_shape": {
+  "squad": [
+   {
+    "title": "coach",
+    "members": [
+     "{...10}",
+     "len=1"
+    ]
+   },
+   "len=5"
+  ],
+  "isNationalTeam": false
+ },
+ "espn_items": [
+  "fifa.world",
+  "fifa.wwc",
+  "uefa.champions",
+  "eng.1",
+  "eng.fa",
+  "eng.league_cup",
+  "esp.1",
+  "eng.charity",
+  "uefa.nations",
+  "fifa.friendly",
+  "usa.1",
+  "usa.nwsl",
+  "esp.super_cup",
+  "esp.copa_del_rey",
+  "concacaf.leagues.cup",
+  "campeones.cup",
+  "usa.nwsl.cup",
+  "fifa.shebelieves",
+  "fifa.w.champions_cup",
+  "uefa.wchampions",
+  "uefa.europa",
+  "uefa.europa.conf",
+  "ita.1",
+  "ita.coppa_italia",
+  "ger.1",
+  "ger.playoff.relegation",
+  "ger.dfb_pokal",
+  "fra.1",
+  "mex.1",
+  "fra.coupe_de_france",
+  "fra.super_cup",
+  "ita.super_cup",
+  "ger.super_cup",
+  "ned.1",
+  "eng.w.1",
+  "eng.2",
+  "eng.w.promotion.relegation",
+  "fifa.wworldq.uefa",
+  "fifa.friendly.w",
+  "usa.open",
+  "concacaf.nations.league",
+  "conmebol.libertadores",
+  "concacaf.champions",
+  "fifa.worldq.uefa",
+  "fifa.wcq.ply",
+  "fifa.worldq.concacaf",
+  "fifa.worldq.afc",
+  "fifa.worldq.caf",
+  "fifa.worldq.conmebol",
+  "fifa.worldq.ofc",
+  "fifa.wwcq.ply",
+  "uefa.w.nations",
+  "usa.w.usl.1",
+  "uefa.champions_qual",
+  "uefa.wchampions_qual",
+  "eng.w.fa",
+  "eng.w.league_cup",
+  "esp.w.1",
+  "esp.copa_de_la_reina",
+  "fra.w.1",
+  "ned.cup",
+  "sco.1",
+  "sco.tennents",
+  "sco.cis",
+  "aus.1",
+  "aus.w.1",
+  "ksa.1",
+  "ksa.kings.cup",
+  "por.1",
+  "por.taca.portugal",
+  "tur.1",
+  "caf.nations",
+  "afc.champions",
+  "caf.nations_qual",
+  "afc.cup",
+  "fifa.cwc",
+  "fifa.olympics",
+  "fifa.w.olympics",
+  "concacaf.gold",
+  "concacaf.gold_qual",
+  "concacaf.w.gold",
+  "concacaf.confederations_playoff",
+  "concacaf.w.champions_cup",
+  "concacaf.womens.championship",
+  "uefa.euro",
+  "uefa.euroq",
+  "uefa.weuro",
+  "uefa.euro_u21",
+  "uefa.super_cup",
+  "conmebol.america",
+  "conmebol.america.femenina",
+  "usa.usl.1",
+  "usa.usl.l1",
+  "usa.usl.l1.cup",
+  "mex.2",
+  "mex.w.1",
+  "global.finalissima",
+  "global.u20.intercontinental_cup",
+  "global.w.finalissima",
+  "fifa.world.u20",
+  "afc.asian.cup",
+  "afc.w.asian.cup",
+  "afc.cupq",
+  "aff.championship",
+  "caf.w.nations",
+  "caf.championship",
+  "can.w.nsl",
+  "uefa.europa_qual",
+  "uefa.europa.conf_qual",
+  "uefa.w.europa",
+  "fifa.intercontinental_cup",
+  "afc.champions_qual",
+  "afc.cup_qual",
+  "club.friendly",
+  "nonfifa",
+  "rus.1",
+  "rus.1.promotion.relegation",
+  "bel.1",
+  "bel.promotion.relegation",
+  "esp.2",
+  "ger.2",
+  "ita.2",
+  "fra.1.promotion.relegation",
+  "fra.2",
+  "por.1.promotion.relegation",
+  "aut.1",
+  "gre.1",
+  "chn.1",
+  "global.club_challenge",
+  "ned.supercup",
+  "global.pinatar_cup",
+  "friendly.emirates_cup",
+  "esp.joan_gamper",
+  "jpn.world_challenge",
+  "global.arnold.clark_cup",
+  "fifa.conmebol.olympicsq",
+  "fifa.concacaf.olympicsq",
+  "fifa.w.concacaf.olympicsq",
+  "fifa.world.u17",
+  "fifa.wworld.u17",
+  "uefa.euro_u21_qual",
+  "uefa.euro.u19",
+  "fifa.friendly_u21",
+  "ger.2.promotion.relegation",
+  "eng.trophy",
+  "eng.3",
+  "eng.4",
+  "eng.5",
+  "eng.fa_qual",
+  "sco.1.promotion.relegation",
+  "sco.2",
+  "sco.2.promotion.relegation",
+  "sco.challenge",
+  "sco.tennents_qual",
+  "ned.playoff.relegation",
+  "ned.2",
+  "ned.3.promotion.relegation",
+  "ned.w.knvb_cup",
+  "ned.w.1",
+  "swe.1",
+  "swe.1.promotion.relegation",
+  "den.1",
+  "nor.1.promotion.relegation",
+  "nor.1",
+  "conmebol.sudamericana",
+  "conmebol.recopa",
+  "arg.1",
+  "arg.copa",
+  "arg.copa_de_la_superliga",
+  "arg.trofeo_de_la_campeones",
+  "arg.2",
+  "arg.supercopa",
+  "arg.supercopa.internacional",
+  "arg.3",
+  "bra.supercopa_do_brazil",
+  "bra.1",
+  "bra.2",
+  "bra.copa_do_brazil",
+  "bra.camp.carioca",
+  "bra.camp.paulista",
+  "bra.camp.gaucho",
+  "bra.camp.mineiro",
+  "chi.super_cup",
+  "chi.1",
+  "chi.1.promotion.relegation",
+  "chi.copa_chi",
+  "uru.1",
+  "uru.2",
+  "col.superliga",
+  "col.1",
+  "col.copa",
+  "per.1",
+  "par.1",
+  "par.1.supercopa",
+  "ecu.1",
+  "ven.1",
+  "bol.ply.rel",
+  "bol.copa",
+  "bol.1",
+  "jpn.1",
+  "mex.campeon",
+  "concacaf.central.american.cup",
+  "concacaf.champions_cup",
+  "concacaf.u23",
+  "hon.1",
+  "crc.1",
+  "gua.1",
+  "slv.1",
+  "fifa.intercontinental.cup",
+  "afc.saff.championship",
+  "chn.1.promotion.relegation",
+  "ind.1",
+  "ind.2",
+  "global.gulf_cup",
+  "caf.cosafa",
+  "caf.champions",
+  "caf.confed",
+  "rsa.1",
+  "usa.ncaa.m.1",
+  "usa.ncaa.w.1"
+ ]
+}
