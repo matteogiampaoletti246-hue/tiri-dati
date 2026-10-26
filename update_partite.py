@@ -10,6 +10,7 @@ from update_data import api, find_league, WANTED, SEASON_START, PAUSE, KEY
 
 ROME = ZoneInfo("Europe/Rome")
 TOP5 = ["serie-a", "premier-league", "la-liga", "bundesliga", "ligue-1"]
+CUPS = ["champions-league", "europa-league"]   # competizioni europee: calendario completo + partite dei prossimi giorni
 DAYS = 8            # giorni di calendario mostrati
 LINEUP_DAYS = 3     # formazioni solo per le partite dei prossimi N giorni
 WINDOW_H = 3        # modalita' --formazioni: si aggiornano le partite che iniziano entro N ore
@@ -221,7 +222,7 @@ def main():
     shown = False
     res_all, logo_of = {}, {}
     for key, cc, rx, ex in WANTED:
-        if key not in TOP5:
+        if key not in TOP5 and key not in CUPS:
             continue
         lgs = find_league(leagues, cc, rx, ex)
         if not lgs:
@@ -238,7 +239,8 @@ def main():
             print("Esempio partita giocata (campi):", {k: played[0].get(k) for k in ("date", "time_utc", "status", "score_home", "score_away")})
         allm = {m["id"]: m for m in played + future}.values()
         fm = forms(list(allm))
-        out["tab"][key] = {mode: table(list(allm), mode, fm) for mode in ("tot", "casa", "trasf")}
+        if key in TOP5:
+            out["tab"][key] = {mode: table(list(allm), mode, fm) for mode in ("tot", "casa", "trasf")}
         res_all[key] = team_results(list(allm))
         for m_ in allm:
             for s_ in ("home_team", "away_team"):
@@ -256,7 +258,7 @@ def main():
                                    "h": m["home_team"]["name"], "a": m["away_team"]["name"],
                                    "hl": m["home_team"].get("image_url"), "al": m["away_team"].get("image_url")})
             n += 1
-        print(f"✔ {key}: {lg['name']} - classifica {len(out['tab'][key]['tot'])} squadre, {n} partite nei prossimi {DAYS} giorni")
+        print(f"✔ {key}: {lg['name']} - {n} partite nei prossimi {DAYS} giorni, calendario futuro {len(future)} partite")
     # formazioni: solo i prossimi giorni
     lim = today + timedelta(days=LINEUP_DAYS)
     got = 0
