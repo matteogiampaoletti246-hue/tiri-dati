@@ -337,7 +337,7 @@ export default function PlayerSheetHost() {
             </div>
             <motion.div className="flex min-h-0 flex-1 flex-col" animate={slide} drag="x" dragDirectionLock dragConstraints={{ left: 0, right: 0 }} dragElastic={0.35} onDragEnd={onSwipeEnd} style={{ touchAction: 'pan-y' }}>
               <div className="shrink-0"><Header c={c} concept={concept} /></div>
-              <div ref={scroller} className="min-h-0 flex-1 overflow-y-auto overscroll-contain" style={{ WebkitOverflowScrolling: 'touch' }}>
+              <div ref={scroller} className="min-h-0 flex-1 overflow-y-auto overscroll-contain" style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-y' }}>
                 <Body c={c} concept={concept} />
                 <div style={{ height: 84 }} />
               </div>
