@@ -144,6 +144,11 @@ export const teamLambda = (teamFor, teamOpp, sede) => {
   return ((teamFor + teamOpp) / 2) * (SEDE_TEAM[sede] ?? 1);
 };
 
+// Colore del voto di affidabilità: <4 rosso, 4–5,99 rosso chiaro, 6–7,49 giallo, 7,5–8,49 verde chiaro, 8,5–8,99 verde scuro, ≥9 azzurro
+export const SCORE_COLORS = ['#E5484D', '#F2866B', '#E8B923', '#7CCB5A', '#1FA45B', '#38BDF8'];
+export const scoreBand = (v) => (v < 4 ? 0 : v < 6 ? 1 : v < 7.5 ? 2 : v < 8.5 ? 3 : v < 9 ? 4 : 5);
+export const scoreColor = (v) => (v === null || v === undefined || Number.isNaN(v) ? 'var(--ink-3)' : SCORE_COLORS[scoreBand(v)]);
+
 /* ── Affidabilità, quota, valore, stake ────────────────────────────── */
 export const reliability = (score) => {
   if (score === null || score === undefined) return { label: '—', tone: 'none' };

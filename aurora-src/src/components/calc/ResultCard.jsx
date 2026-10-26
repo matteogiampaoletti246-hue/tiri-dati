@@ -16,7 +16,7 @@ function Metric({ label, value, strong = false }) {
 }
 
 // Scheda risultato: punteggio, voci del modello, stake suggerito e «Gioca!».
-export default function ResultCard({ result, kind = 'player', onPlay, saved = false }) {
+export default function ResultCard({ result, kind = 'player' }) {
   const { stake } = result;
   const stakeValue = stake.stake === null ? '—' : comma(stake.stake, 2);
   const stakeCaption =
@@ -31,7 +31,7 @@ export default function ResultCard({ result, kind = 'player', onPlay, saved = fa
   return (
     <div className="panel overflow-hidden">
       <div className="px-5 pb-5 pt-6">
-        <Gauge score={result.score} tone={result.reliability.tone} />
+        <Gauge score={result.score} />
         <p className="mt-3 text-center text-[14px]" style={{ color: 'var(--ink-2)' }}>
           {result.reliability.label}
         </p>
@@ -67,22 +67,7 @@ export default function ResultCard({ result, kind = 'player', onPlay, saved = fa
         </p>
       </div>
 
-      <div className="px-5 pb-5 pt-4">
-        <button
-          type="button"
-          onClick={onPlay}
-          disabled={!result.ready}
-          className="filter-btn is-on w-full py-3 text-[16px] transition-opacity active:opacity-50 disabled:opacity-30"
-          style={{ color: 'var(--accent)' }}
-        >
-          Gioca!
-        </button>
-        {saved ? (
-          <p className="mt-2 text-center text-[11.5px]" style={{ color: 'var(--good)' }}>
-            Giocata salvata nello Storico
-          </p>
-        ) : null}
-      </div>
+      <div className="pb-4" />
     </div>
   );
 }

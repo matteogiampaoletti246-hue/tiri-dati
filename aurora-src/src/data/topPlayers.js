@@ -4,6 +4,7 @@ import { PLAYERS } from './players';
 import { teamById, teamByName } from './teams';
 import { blendTeam, domesticKey, pickLeagueKey, CUPS } from './calcData';
 import { romeDay } from './util';
+import { calcReliability } from './calcPlayer';
 
 export const THRESHOLDS = [
   { key: '0.5', label: 'Over 0,5' },
@@ -98,7 +99,8 @@ export function bestPlayers(day, threshold) {
     if (!DOMESTIC.includes(f[3])) return;
     const t = lambdaOf(p, f, 0);
     if (!t) return;
-    const voto = Math.max(0, Math.min(1, 1 - pois(Math.floor(line), t.lam))) * 10;
+    const rr = calcReliability(p, { ts: new Date(f[0]).getTime(), opp: f[1], home: f[2] === 1, comp: f[3], cup: CUPS.includes(f[3]) }, line, 'over', 'totali');
+    const voto = rr ? Math.max(0, Math.min(10, rr.voto)) : 0;
     if (voto < MIN_VOTE) return;
     const opp = teamByName(f[1]);
     const own = teamById(p.teamId);
@@ -118,15 +120,17 @@ export function bestPlayers(day, threshold) {
 
 export { domesticKey };
 
-// Affidabilità di un giocatore in una partita (tiri totali, soglia over): voto 0–10 e media attesa.
+// Affidabilità di un giocatore in una partita (tiri totali, soglia over): stesso calcolo del Calcolatore.
 export function playerReliability(p, dateIso, line = 0.5) {
   if (!p) return null;
   const list = ((RAW.giocatori && RAW.giocatori.fix) || {})[p.teamName] || [];
   const f = list.find((x) => romeDay(new Date(x[0]).getTime()) === dateIso);
   if (!f) return null;
+  const opp = teamByName(f[1]);
+  const r = calcReliability(p, { ts: new Date(f[0]).getTime(), opp: f[1], home: f[2] === 1, comp: f[3], cup: CUPS.includes(f[3]) }, line, 'over', 'totali');
+  if (!r) return null;
   const t = lambdaOf(p, f, 0);
-  if (!t) return null;
-  return { voto: Math.max(0, Math.min(1, 1 - pois(Math.floor(line), t.lam))) * 10, lam: t.lam, minuti: t.mn };
+  return { voto: Math.max(0, Math.min(10, r.voto)), lam: r.lam, minuti: t ? t.mn : null, opp };
 }
 
 export function matchReliability(match, line = 0.5) {

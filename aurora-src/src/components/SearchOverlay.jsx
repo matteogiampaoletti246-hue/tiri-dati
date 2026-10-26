@@ -18,7 +18,7 @@ const norm = (s) =>
 
 const ring = (t) => (t && t.colors && t.colors[0]) || 'var(--hair)';
 
-function PlayerFace({ p, size }) {
+export function PlayerFace({ p, size }) {
   const t = teamById(p.teamId);
   return (
     <span className="relative shrink-0" style={{ width: size, height: size }}>

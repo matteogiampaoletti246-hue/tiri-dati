@@ -6,8 +6,9 @@ import { Image } from '@/components/ui/image';
 import { playersByTeam } from '@/data/players';
 import { playerReliability } from '@/data/topPlayers';
 import { comma } from '@/lib/format';
+import { scoreColor } from '@/lib/calc';
 
-export const voteColor = (v) => (v >= 7.5 ? '#17944F' : v >= 6.75 ? '#8FCF63' : v >= 6.25 ? '#EBCB3B' : v >= 5.5 ? '#C79A12' : v >= 4.5 ? '#F0816C' : '#D92B22');
+export const ratingColor = (v) => (v >= 7.5 ? '#17944F' : v >= 6.75 ? '#8FCF63' : v >= 6.25 ? '#EBCB3B' : v >= 5.5 ? '#C79A12' : v >= 4.5 ? '#F0816C' : '#D92B22');
 
 function top3(teamId, date, line) {
   const list = playersByTeam(teamId);
@@ -29,7 +30,8 @@ export default function BestPlayers({ match, home, away, concept = 'a' }) {
   const H = top3(match.homeId, match.date, line);
   const A = top3(match.awayId, match.date, line);
   const aff = H.kind === 'aff' || A.kind === 'aff';
-  const fmt = (v) => comma(v, aff ? 1 : 2);
+  const fmt = (v) => comma(v, 2);
+  const voteColor = (v) => (aff ? scoreColor(v) : ratingColor(v));
   const n = Math.max(H.rows.length, A.rows.length);
   if (!n) return <p className="py-4 text-center text-[12px]" style={{ color: 'var(--ink-3)' }}>Dati non ancora disponibili</p>;
 

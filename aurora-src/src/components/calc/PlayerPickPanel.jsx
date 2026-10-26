@@ -7,6 +7,9 @@ import { COMPETITION_OPTIONS, HIT_OPTIONS, LINE_OPTIONS, SEDE_OPTIONS, SHOTS_OPT
 import FieldRow from './FieldRow';
 import NumInput from './NumInput';
 import PickerSheet from './PickerSheet';
+import MiniSelect from './MiniSelect';
+import Crest from '@/components/Crest';
+import { PlayerFace } from '@/components/SearchOverlay';
 import SelectRow from './SelectRow';
 
 // Impostazioni di base della giocata su un giocatore.
@@ -19,7 +22,18 @@ export default function PlayerPickPanel({ form, set, player, hint, onSelectPlaye
     () =>
       [...PLAYERS].sort((a, b) => a.name.localeCompare(b.name)).map((p) => {
         const t = teamById(p.teamId);
-        return { value: p.id, label: p.name, sub: t ? `${t.name}${p.position ? ' · ' + p.position : ''}` : p.position || '' };
+        return {
+          value: p.id,
+          label: p.name,
+          sub: t ? t.name : p.teamName || '',
+          avatar: <PlayerFace p={p} size={52} />,
+          subNode: (
+            <span className="mt-0.5 flex items-center gap-1.5 text-[12px]" style={{ color: 'var(--ink-3)' }}>
+              {t ? <Crest team={t} size={14} /> : null}
+              <span className="truncate">{t ? t.name : p.teamName}</span>
+            </span>
+          ),
+        };
       }),
     [],
   );
@@ -27,7 +41,7 @@ export default function PlayerPickPanel({ form, set, player, hint, onSelectPlaye
   return (
     <section>
       <PanelTitle>Giocatore</PanelTitle>
-      <div className="panel overflow-hidden">
+      <div className="panel relative z-10">
         <SelectRow
           first
           label="Giocatore"
@@ -43,7 +57,13 @@ export default function PlayerPickPanel({ form, set, player, hint, onSelectPlaye
           <TextFilter options={LINE_OPTIONS} value={form.lineType} onChange={(v) => set('lineType', v)} />
         </FieldRow>
         <FieldRow label="Valore linea" hint={hint}>
-          <NumInput value={form.line} onChange={(v) => set('line', v)} ariaLabel="Valore linea" />
+          <MiniSelect
+            ariaLabel="Valore linea"
+            width={96}
+            value={form.line}
+            onChange={(v) => set('line', v)}
+            options={['0,5', '1,5', '2,5', '3,5'].map((x) => ({ value: x, label: x }))}
+          />
         </FieldRow>
         <FieldRow label="Quota">
           <NumInput value={form.odds} onChange={(v) => set('odds', v)} ariaLabel="Quota" />
@@ -54,23 +74,26 @@ export default function PlayerPickPanel({ form, set, player, hint, onSelectPlaye
         <FieldRow label="Competizione" noSwipe>
           <TextFilter options={COMPETITION_OPTIONS} value={form.competizione} onChange={(v) => set('competizione', v)} />
         </FieldRow>
-        <SelectRow label="Hit rate ultime 5" value={hitLabel} onClick={() => setPicker('hit')} />
+        <FieldRow label="Hit rate ultime 5">
+          <MiniSelect
+            ariaLabel="Hit rate ultime 5"
+            width={124}
+            value={form.hitRate}
+            placeholder="Nessuna"
+            onChange={(v) => set('hitRate', v)}
+            options={[{ value: '', label: 'Nessuna' }, ...HIT_OPTIONS]}
+          />
+        </FieldRow>
       </div>
 
       <PickerSheet
         open={picker === 'player'}
         title="Giocatore"
         placeholder="Cerca giocatore o squadra"
+        cards
         hint="Cerca per nome o per squadra, poi tocca per selezionare."
         options={playerOptions}
         onSelect={(o) => onSelectPlayer(o.value)}
-        onClose={() => setPicker(null)}
-      />
-      <PickerSheet
-        open={picker === 'hit'}
-        title="Hit rate ultime 5"
-        options={[{ value: '', label: 'Nessuna' }, ...HIT_OPTIONS]}
-        onSelect={(o) => set('hitRate', o.value)}
         onClose={() => setPicker(null)}
       />
     </section>

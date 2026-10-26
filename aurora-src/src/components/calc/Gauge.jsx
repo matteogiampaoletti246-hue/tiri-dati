@@ -1,18 +1,12 @@
 import { comma } from '@/lib/format';
+import { scoreColor } from '@/lib/calc';
 
-const TONES = {
-  high: 'var(--good)',
-  good: 'var(--accent)',
-  mid: 'var(--warm-2)',
-  low: 'var(--live)',
-  none: 'var(--ink-3)',
-};
-
-// Indicatore semicircolare del punteggio di affidabilità (0-10).
-export default function Gauge({ score, tone = 'none' }) {
-  const pct = score === null || score === undefined ? 0 : Math.max(0, Math.min(1, score / 10));
+// Indicatore semicircolare del punteggio di affidabilità (0-10), colorato per fascia di voto.
+export default function Gauge({ score }) {
+  const has = score !== null && score !== undefined;
+  const pct = has ? Math.max(0, Math.min(1, score / 10)) : 0;
   const length = Math.PI * 74;
-  const color = TONES[tone] || TONES.none;
+  const color = has ? scoreColor(score) : 'var(--ink-3)';
 
   return (
     <div className="relative mx-auto w-[180px]">
@@ -30,8 +24,8 @@ export default function Gauge({ score, tone = 'none' }) {
         />
       </svg>
       <div className="absolute inset-x-0 bottom-0 text-center">
-        <p className="title-xl tnum text-[40px]" style={{ color: 'var(--ink)' }}>
-          {score === null || score === undefined ? '—' : comma(score, 1)}
+        <p className="title-xl tnum text-[36px]" style={{ color }}>
+          {has ? comma(score, 2) : '—'}
         </p>
         <p className="label-sm mt-1">su 10</p>
       </div>

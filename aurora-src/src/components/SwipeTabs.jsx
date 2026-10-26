@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { carousel, pageBack } from '@/lib/carousel';
 
 
-export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, className = '', stickyTop = 'var(--ent-h, 0px)', fixedBar = false, edgeBack = true }) {
+export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, className = '', stickyTop = 'var(--ent-h, 0px)', fixedBar = false, edgeBack = true, hideBar = false }) {
   const navigate = useNavigate();
   const loc = useLocation();
   const wrapRef = useRef(null);
@@ -41,7 +41,11 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
     const box = headRef.current;
     if (!box || !el) return 0;
     const max = Math.max(0, box.scrollWidth - box.clientWidth);
-    return Math.max(0, Math.min(max, el.offsetLeft - 20));
+    // la scheda k e la successiva devono stare per intero nello schermo
+    const nx = tabRefs.current[Math.min(tabRefs.current.length - 1, k + 1)] || el;
+    const want = nx.offsetLeft + nx.offsetWidth + 20 - box.clientWidth;
+    const lim = el.offsetLeft - 20;
+    return Math.max(0, Math.min(max, Math.min(want, lim)));
   };
   // durante lo swipe la riga scorre seguendo il dito, cosi' si vede la scheda che sta arrivando
   const followBar = (from, to, t) => {
@@ -49,7 +53,9 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
     if (!box) return;
     const sa = scrollTargetOf(from);
     const sb = scrollTargetOf(to);
-    box.scrollLeft = sa + (sb - sa) * t;
+    // la riga anticipa il dito: arriva alla posizione finale prima di fine swipe
+    const e = Math.min(1, t * 1.6);
+    box.scrollLeft = sa + (sb - sa) * e;
   };
 
   const live = useRef({});
@@ -221,7 +227,7 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
   return (
     <div className={className}>
       {fixedBar ? <div aria-hidden="true" style={{ height: headH }} /> : null}
-      {fixedBar ? createPortal(HEAD, document.body) : HEAD}
+      {hideBar ? null : fixedBar ? createPortal(HEAD, document.body) : HEAD}
       <div ref={wrapRef} data-tabs-back={edgeBack && loc.key !== 'default' ? '1' : undefined} className="relative" style={{ touchAction: 'pan-y', minHeight: '60vh' }}>
         <div ref={contentRef}>{panels[index]}</div>
       </div>

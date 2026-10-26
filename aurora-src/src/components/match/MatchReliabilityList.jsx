@@ -6,8 +6,9 @@ import { Image } from '@/components/ui/image';
 import { matchReliability } from '@/data/topPlayers';
 import { teamById } from '@/data/teams';
 import { comma } from '@/lib/format';
+import { scoreColor } from '@/lib/calc';
 
-const tone = (v) => (v >= 7.75 ? '#1FA45B' : v >= 6.5 ? '#5DBB3F' : v >= 5 ? '#E0B400' : '#E8892B');
+
 
 // Affidabilità dei giocatori nelle partite non ancora iniziate (tiri totali, soglia over).
 export default function MatchReliabilityList({ match, home, away }) {
@@ -32,7 +33,7 @@ export default function MatchReliabilityList({ match, home, away }) {
                 <span className="block truncate text-[13.5px] font-bold">{r.player.name}</span>
                 <span className="flex items-center gap-1.5 text-[10.5px]" style={{ color: 'var(--ink-3)' }}><Crest team={teamById(r.player.teamId)} size={13} />tiri attesi {comma(r.lam, 2)}</span>
               </span>
-              <span className="tnum rounded-full px-2.5 py-1 text-[13px] font-extrabold text-white" style={{ background: tone(r.voto) }}>{comma(r.voto, 1)}</span>
+              <span className="tnum rounded-full px-2.5 py-1 text-[13px] font-extrabold text-white" style={{ background: scoreColor(r.voto) }}>{comma(r.voto, 2)}</span>
             </Link>
           ))}
         </section>

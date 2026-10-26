@@ -1,45 +1,59 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import PageShell from '@/components/PageShell';
 import SwipeTabs from '@/components/SwipeTabs';
-import TopBar from '@/components/TopBar';
 import PlayerTab from '@/components/calc/PlayerTab';
-import StoricoTab from '@/components/calc/StoricoTab';
 import TeamTab from '@/components/calc/TeamTab';
-import useCalcHistory from '@/hooks/useCalcHistory';
 
 const TABS = [
   { key: 'player', label: 'Affidabilità giocatore' },
-  { key: 'team', label: 'Media tiri squadra' },
-  { key: 'storico', label: 'Storico' },
+  { key: 'team', label: 'Affidabilità squadra' },
 ];
 
 export default function ReliabilityCalculator() {
   const [index, setIndex] = useState(0);
-  const { plays, add, remove, merge } = useCalcHistory();
+  const noop = useRef(() => {}).current;
 
   return (
     <PageShell swipeBack={false}>
-      <TopBar
-        title="Calcolatore di Affidabilità"
-        back={false}
-        right={
-          plays.length ? (
-            <button type="button" className="filter-btn" onClick={() => setIndex(2)}>
-              Storico · {plays.length}
-            </button>
-          ) : null
-        }
-      />
+      {/* testata unica: titolo e due schede grandi nello stesso blocco opaco, il contenuto non si vede passare */}
+      <header className="sticky top-0 z-30" style={{ background: 'var(--sky-2)' }}>
+        <div className="px-5 pb-2.5 pt-3.5" style={{ background: 'color-mix(in srgb, var(--sky-2) 100%, transparent)' }}>
+          <h1 className="title-lg truncate text-[17px] tracking-[-.03em]" style={{ color: 'var(--ink)' }}>
+            Calcolatore di Affidabilità
+          </h1>
+          <div className="relative mt-3 grid grid-cols-2 rounded-[16px] p-1" style={{ background: 'var(--panel-2)', border: '1px solid var(--hair)' }}>
+            <span
+              aria-hidden="true"
+              className="absolute bottom-1 top-1 rounded-[12px]"
+              style={{
+                left: 4,
+                width: 'calc(50% - 4px)',
+                transform: `translateX(${index * 100}%)`,
+                transition: 'transform .34s cubic-bezier(.22,.8,.24,1)',
+                background: 'color-mix(in srgb, var(--accent) 22%, transparent)',
+                border: '1px solid color-mix(in srgb, var(--accent) 45%, transparent)',
+              }}
+            />
+            {TABS.map((t, i) => (
+              <button
+                key={t.key}
+                type="button"
+                onClick={() => setIndex(i)}
+                className="relative z-10 py-3 text-[14px] font-bold transition-colors"
+                style={{ color: i === index ? 'var(--ink)' : 'var(--ink-3)' }}
+              >
+                {t.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </header>
       <SwipeTabs
+        hideBar
         tabs={TABS}
         index={index}
-        stickyTop="54px"
         onChange={setIndex}
-        panels={[
-          <PlayerTab key="player" onSave={add} />,
-          <TeamTab key="team" onSave={add} />,
-          <StoricoTab key="storico" plays={plays} onRemove={remove} onMerge={merge} />,
-        ]}
+        panels={[<PlayerTab key="player" onSave={noop} />, <TeamTab key="team" onSave={noop} />]}
       />
     </PageShell>
   );

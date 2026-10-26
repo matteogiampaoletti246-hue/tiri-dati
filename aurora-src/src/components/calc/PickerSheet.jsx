@@ -8,7 +8,7 @@ const norm = (s) =>
     .replace(/[̀-ͯ]/g, '');
 
 // Elenco a tutto schermo con ricerca: usato per giocatori, squadre e campionati.
-export default function PickerSheet({ open, title, options = [], placeholder = 'Cerca', hint, emptyLabel = 'Nessun risultato', onSelect, onClose }) {
+export default function PickerSheet({ open, title, options = [], placeholder = 'Cerca', hint, emptyLabel = 'Nessun risultato', cards = false, onSelect, onClose }) {
   const [q, setQ] = useState('');
   const inputRef = useRef(null);
 
@@ -30,7 +30,8 @@ export default function PickerSheet({ open, title, options = [], placeholder = '
   if (!open) return null;
 
   const needle = norm(q);
-  const list = (needle ? options.filter((o) => norm(o.label).includes(needle) || norm(o.sub).includes(needle)) : options).slice(0, 60);
+  const rk = (n) => { const x = norm(n); return x.startsWith(needle) ? 0 : x.split(' ').some((w) => w.startsWith(needle)) ? 1 : 2; };
+  const list = (needle ? options.filter((o) => norm(o.label).includes(needle) || norm(o.sub).includes(needle)).sort((a, b) => rk(a.label) - rk(b.label)) : options).slice(0, 60);
 
   return (
     <div className="fade-in fixed inset-0 z-[60]" style={{ background: 'color-mix(in srgb, var(--sky-2) 94%, transparent)', backdropFilter: 'blur(24px)' }}>
@@ -42,7 +43,7 @@ export default function PickerSheet({ open, title, options = [], placeholder = '
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder={placeholder}
-            className="w-full bg-transparent text-[16px] font-light outline-none"
+            className="w-full bg-transparent text-[17px] font-light outline-none"
             style={{ color: 'var(--ink)' }}
           />
           <button type="button" className="icon-btn" aria-label="Chiudi" onClick={onClose}>
@@ -59,7 +60,21 @@ export default function PickerSheet({ open, title, options = [], placeholder = '
 
         <div className="hide-sb flex-1 overflow-y-auto pb-24">
           {list.length ? (
-            list.map((o) => (
+            list.map((o) => (cards ? (
+              <div key={o.value} className="px-4 py-1">
+                <button
+                  type="button"
+                  onClick={() => { onSelect(o); onClose(); }}
+                  className="glass press flex w-full items-center gap-3.5 rounded-[20px] px-4 py-3 text-left"
+                >
+                  {o.avatar || null}
+                  <span className="min-w-0">
+                    <span className="block truncate text-[16px] font-extrabold" style={{ color: 'var(--ink)' }}>{o.label}</span>
+                    {o.subNode || (o.sub ? <span className="mt-0.5 block truncate text-[12px]" style={{ color: 'var(--ink-3)' }}>{o.sub}</span> : null)}
+                  </span>
+                </button>
+              </div>
+            ) : (
               <button
                 key={o.value}
                 type="button"
@@ -82,6 +97,7 @@ export default function PickerSheet({ open, title, options = [], placeholder = '
                 </span>
               </button>
             ))
+            )
           ) : (
             <p className="px-5 py-6 text-[13px]" style={{ color: 'var(--ink-3)' }}>
               {emptyLabel}
