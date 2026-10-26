@@ -63,7 +63,8 @@ def pos_of(key, st, su):
     for src in (st, su):
         v = src.get(key)
         if v and max(v) > 0:
-            return "PDCA"[v.index(max(v))]
+            m = max(v)
+            return "PDCA"[max(i for i, x in enumerate(v) if x == m)]  # a parità vince il ruolo più avanzato
     return None
 
 
