@@ -6,6 +6,7 @@ import { comma } from '@/lib/format';
 import { POS_IT, percentiles, ratingColor, dateIt, rankOf, statValue, roleAverage, GROUPS } from './playerCalc';
 import { per90, EX_COLS } from '@/data/players';
 import { upcomingMatches } from '@/data/extras';
+import { playerReliability } from '@/data/topPlayers';
 import { teamById } from '@/data/teams';
 import { teamByName } from '@/data/teams';
 import { carriereOf, countryIt, FOOT, dateLong, ageOf, money, monthIt } from '@/data/carriere';
@@ -190,7 +191,8 @@ export function ProfiloPanel({ player, team, concept }) {
               <p className="tnum text-[22px] font-light" style={{ color: 'var(--ink)' }}>{v}</p>
               <p style={L}>{k}</p>
             </div>
-          ))}
+            );
+          })}
         </div>
       </section>
       <section>
@@ -263,12 +265,16 @@ function Affidabilita({ player, team }) {
           ) : <span className="ml-auto text-[12px]" style={{ color: 'var(--ink-3)' }}>nessuna partita</span>}
         </div>
         <div className="grid grid-cols-3 gap-2.5">
-          {['Over 0,5', 'Over 1,5', 'Over 2,5'].map((k) => (
+          {[['Over 0,5', 0.5], ['Over 1,5', 1.5], ['Over 2,5', 2.5]].map(([k, ln]) => {
+            const r = next ? playerReliability(player, next.date, ln) : null;
+            const col = !r ? 'var(--ink-3)' : r.voto >= 7.75 ? '#1FA45B' : r.voto >= 6.5 ? '#5DBB3F' : r.voto >= 5 ? '#E0B400' : '#E8892B';
+            return (
             <div key={k} className="rounded-xl py-3 text-center" style={{ background: 'rgba(127,160,200,.1)' }}>
-              <p className="tnum text-[22px] font-light" style={{ color: 'var(--ink-3)' }}>—</p>
+              <p className="tnum text-[22px] font-semibold" style={{ color: col }}>{r ? comma(r.voto, 1) : '—'}</p>
               <p style={L}>{k}</p>
             </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

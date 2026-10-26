@@ -105,7 +105,7 @@ export default function MatchLineupsPanel({ match, view, home, away, pre }) {
   const valOf = (p) => {
     const pl = playerById(p.playerId);
     if (pre) {
-      const r = pl && playerReliability(pl, match.date);
+      const r = pl && playerReliability(pl, match.date, 1.5);
       return r ? r.voto : null;
     }
     return p.rating;
@@ -128,7 +128,7 @@ export default function MatchLineupsPanel({ match, view, home, away, pre }) {
             <span className="ml-auto text-[13px] font-extrabold" style={{ color: 'var(--ink-2)' }}>{lineup.formation ? lineup.formation.label : ''}</span>
           </div>
           <PitchView lineup={lineup} team={team} valOf={valOf} concept={concept} match={match} />
-          <p className="mt-2 text-center text-[10.5px]" style={{ color: 'var(--ink-3)' }}>{pre ? 'Voto = affidabilità tiri (over 0,5)' : 'Voto = prestazione in partita'}</p>
+          <p className="mt-2 text-center text-[10.5px]" style={{ color: 'var(--ink-3)' }}>{pre ? 'Voto = affidabilità tiri (over 1,5)' : 'Voto = prestazione in partita'}</p>
         </div>
       ) : null}
 
