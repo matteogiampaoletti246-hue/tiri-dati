@@ -86,6 +86,13 @@ export function pageBack(shell, dx, navigate) {
   shell.style.opacity = '';
   const snap = snapshot(shell, 35);
   snap.box.style.boxShadow = '-18px 0 40px -18px rgba(0,0,0,.5)';
+  // la copia deve essere opaca (stesso sfondo dell'app), altrimenti la pagina sotto traspare e si vede una sovrapposizione
+  try {
+    const ab = document.querySelector('.aurora-bg');
+    const cs = ab ? getComputedStyle(ab) : null;
+    snap.box.style.backgroundColor = 'hsl(var(--background))';
+    if (cs && cs.backgroundImage && cs.backgroundImage !== 'none') snap.box.style.backgroundImage = cs.backgroundImage;
+  } catch { /* sfondo pieno */ }
   snap.box.style.transform = `translate3d(${dx}px,0,0)`;
   const start = location.hash;
   navigate(-1);
