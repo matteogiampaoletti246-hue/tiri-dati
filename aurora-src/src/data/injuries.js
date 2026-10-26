@@ -20,31 +20,26 @@ export const reasonIt = (r) => {
   return hit ? hit[1] : r;
 };
 
-// rientro: cerca in qualsiasi campo extra una data (YYYY-MM-DD) o un testo
+// rientro previsto da FotMob: chiave (early/mid/late + mese, circa N settimane, ecc.) -> data stimata + testo italiano
+const MONTHS_EN = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
+const addDays = (iso, n) => { const d = new Date(`${iso}T12:00:00Z`); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); };
 function parseReturn(v) {
-  let ed = v.ed || null;
-  let text = v.e || null;
-  const x = v.x || {};
-  const scan = (o) => {
-    if (!o) return;
-    if (typeof o === 'string') {
-      const m = o.match(/(\d{4}-\d{2}-\d{2})/);
-      if (m && !ed && /return|rientro/i.test(o) === false) { /* data generica */ }
-      return;
-    }
-    if (typeof o === 'object') Object.entries(o).forEach(([k, val]) => {
-      if (/return/i.test(k)) {
-        if (typeof val === 'string') { text = text || val; const m = val.match(/(\d{4}-\d{2}-\d{2})/); if (m) ed = ed || m[1]; }
-        else if (val && typeof val === 'object') {
-          const u = val.utcTime || val.date || val.value;
-          if (typeof u === 'string' && /\d{4}-\d{2}-\d{2}/.test(u)) ed = ed || u.slice(0, 10);
-          if (val.fallback || val.text) text = text || val.fallback || val.text;
-        }
-      } else if (val && typeof val === 'object') scan(val);
-    });
-  };
-  scan(x);
-  return { ed, text };
+  const e = (v.x && v.x.expectedReturn) || {};
+  const key = String(e.expectedReturnKey || '').replace('expected_return_date_', '');
+  const base = v.s || new Date().toISOString().slice(0, 10);
+  const rel = { a_few_days: [4, 'Pochi giorni'], about_a_week: [7, 'Circa una settimana'], about_1_2_weeks: [14, '1-2 settimane circa'], a_few_weeks: [21, 'Alcune settimane'], back_in_training: [7, 'Di nuovo in gruppo'] }[key];
+  if (rel) return { ed: addDays(base, rel[0]), text: rel[1] };
+  if (key === 'out_for_season') return { ed: null, text: 'Fuori per la stagione' };
+  if (key === 'doubtful') return { ed: null, text: 'Dubbio' };
+  const prm = String(e.expectedReturnDateParam || '').toLowerCase().split(' ');
+  const mi = MONTHS_EN.indexOf(prm[0]);
+  if (mi >= 0 && /^(early|mid|late)$/.test(key)) {
+    const y = Number(prm[1]);
+    const day = key === 'early' ? 10 : key === 'mid' ? 20 : new Date(Date.UTC(y, mi + 1, 0)).getUTCDate();
+    const pre = key === 'early' ? 'Inizio' : key === 'mid' ? 'Metà' : 'Fine';
+    return { ed: `${y}-${String(mi + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`, text: `${pre} ${MESI[mi]} ${y}` };
+  }
+  return { ed: v.ed || null, text: v.e || null };
 }
 
 export function injuryOf(playerId) {
@@ -53,9 +48,7 @@ export function injuryOf(playerId) {
   if (!v) return null;
   const { ed, text } = parseReturn(v);
   if (ed && ed < new Date().toISOString().slice(0, 10)) return null; // rientro previsto già passato
-  let label = null;
-  if (ed) { const [y, m, dd] = ed.split('-').map(Number); label = `${dd} ${MESI[m - 1]} ${y}`; }
-  else if (text) label = text;
+  const label = text || null;
   return { reason: reasonIt(v.r), ed, label };
 }
 

@@ -75,7 +75,7 @@ function BioCard({ player, team }) {
             <InjuryIcon size={24} />
             <div className="min-w-0">
               <p className="text-[14px] font-bold" style={{ color: '#E5484D' }}>Infortunato</p>
-              <p className="text-[12px]" style={{ color: 'var(--ink-2)' }}>{injuryOf(player.id).reason}{injuryOf(player.id).label ? ` · rientro previsto ${injuryOf(player.id).label}` : ''}</p>
+              <p className="text-[12px]" style={{ color: 'var(--ink-2)' }}>{injuryOf(player.id).reason}{injuryOf(player.id).label ? ` · Rientro previsto: ${injuryOf(player.id).label}` : ''}</p>
             </div>
           </div>
         ) : null}
