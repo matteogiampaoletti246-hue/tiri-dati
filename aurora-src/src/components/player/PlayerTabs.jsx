@@ -3,7 +3,7 @@ import Crest from '@/components/Crest';
 import PanelTitle from '@/components/PanelTitle';
 import Radar from './Radar';
 import { comma } from '@/lib/format';
-import { POS_IT, percentiles, ratingColor, dateIt, rankOf, statValue, roleAverage, GROUPS } from './playerCalc';
+import { POS_IT, percentiles, ratingColor, dateIt, rankOf, statValue, roleAverage, standing, bandColor, bandOf, BAND_COLORS, GROUPS } from './playerCalc';
 import { per90, EX_COLS } from '@/data/players';
 import { upcomingMatches } from '@/data/extras';
 import { playerReliability } from '@/data/topPlayers';
@@ -280,27 +280,85 @@ function Affidabilita({ player, team }) {
   );
 }
 
+function useStatConcept() {
+  try { return localStorage.getItem('sl-concept-statbar') || 'a'; } catch { return 'a'; }
+}
+
+function RankRow({ x }) {
+  const concept = useStatConcept();
+  const col = bandColor(x.r.frac);
+  const w = Math.max(4, x.r.frac * 100);
+  return (
+    <div className="px-4 py-2.5" style={{ borderTop: '1px solid var(--hair-2)' }}>
+      <div className="grid items-center gap-2" style={{ gridTemplateColumns: '1fr 52px 96px' }}>
+        <span className="text-[12.5px]" style={{ color: 'var(--ink-2)' }}>{x.label}</span>
+        <span className="tnum text-right text-[13px]" style={{ color: 'var(--ink-3)' }}>{comma(x.v, 2)}</span>
+        <span className="tnum justify-self-end text-right text-[14px] font-semibold" style={concept === 'b' ? { color: col, background: `${col}26`, padding: '1px 9px', borderRadius: 999 } : { color: col }}>
+          {x.r.rank}° <span className="text-[10.5px] font-normal" style={{ color: 'var(--ink-3)' }}>su {x.r.of}</span>
+        </span>
+      </div>
+      {concept === 'c' ? (
+        <div className="relative mt-2 h-[6px]">
+          <div className="absolute inset-0 flex gap-[2px] overflow-hidden rounded-full">
+            {BAND_COLORS.map((c, k) => <span key={c} className="h-full flex-1" style={{ background: c, opacity: k <= bandOf(x.r.frac) ? 0.95 : 0.16 }} />)}
+          </div>
+          <span className="absolute top-1/2 h-[12px] w-[12px] rounded-full" style={{ left: `${w}%`, transform: 'translate(-50%,-50%)', background: '#fff', border: `3px solid ${col}` }} />
+        </div>
+      ) : (
+        <div className="mt-2 rounded-full" style={{ height: concept === 'b' ? 8 : 5, background: 'var(--hair-2)' }}>
+          <div className="h-full rounded-full" style={{ width: `${w}%`, background: concept === 'b' ? `linear-gradient(90deg, ${col}88, ${col})` : col }} />
+        </div>
+      )}
+    </div>
+  );
+}
+
 function StatRow({ player, row, i }) {
   const s = statValue(player, row);
   const l = statValue(player, row, true);
   if (s === null && l === null) return null;
+  const concept = useStatConcept();
   const pct = row[2] === 'pct';
-  const bad = row[3] === 1;
   const ref = roleAverage(player, row);
   const fmt = (v) => (v === null ? '–' : pct ? `${Math.round(v)}%` : f1(v, v < 10 ? 2 : 1));
   const top = ref ? Math.max(ref.p95 || 0, ref.avg * 1.6, s || 0, 0.0001) : null;
-  const good = ref && s !== null ? (bad ? s <= ref.avg : s >= ref.avg) : true;
+  const frac = ref && s !== null ? standing(player, row, s) : null;
+  const col = bandColor(frac);
+  const barW = ref && s !== null ? Math.max(2, Math.min(100, (s / top) * 100)) : 0;
+  const avgX = ref ? Math.min(100, (ref.avg / top) * 100) : 0;
+  const lab = ref ? fmt(ref.avg) : '';
+  const labelX = Math.min(88, Math.max(12, avgX));
+  const valStyle = concept === 'b' && frac !== null
+    ? { color: col, background: `${col}26`, padding: '1px 8px', borderRadius: 999 }
+    : { color: frac !== null ? col : 'var(--ink)' };
   return (
     <div className="px-4 py-2.5" style={{ borderTop: i ? '1px solid var(--hair-2)' : 'none' }}>
-      <div className="grid items-baseline gap-2" style={{ gridTemplateColumns: '1fr 56px 56px' }}>
+      <div className="grid items-baseline gap-2" style={{ gridTemplateColumns: '1fr 64px 52px' }}>
         <span className="text-[12.5px] leading-tight" style={{ color: 'var(--ink-2)' }}>{row[1]}</span>
-        <span className="tnum text-right text-[14px] font-semibold" style={{ color: 'var(--ink)' }}>{fmt(s)}</span>
+        <span className="tnum justify-self-end text-right text-[14px] font-semibold" style={valStyle}>{fmt(s)}</span>
         <span className="tnum text-right text-[13px]" style={{ color: 'var(--ink-3)' }}>{fmt(l)}</span>
       </div>
       {ref && s !== null ? (
-        <div className="relative mt-2 h-[5px] rounded-full" style={{ background: 'var(--hair-2)' }}>
-          <div className="h-full rounded-full" style={{ width: `${Math.max(2, Math.min(100, (s / top) * 100))}%`, background: good ? '#1fa971' : '#e0603a' }} />
-          <span className="absolute -top-[3px] h-[11px] w-[2px] rounded" style={{ left: `${Math.min(100, (ref.avg / top) * 100)}%`, background: 'var(--ink-2)' }} />
+        <div className="relative" style={{ marginTop: 17, height: concept === 'b' ? 9 : 6 }}>
+          {concept === 'c' ? (
+            <div className="absolute inset-0 flex gap-[2px] overflow-hidden rounded-full">
+              {BAND_COLORS.map((c, k) => <span key={c} className="h-full flex-1" style={{ background: c, opacity: k <= bandOf(frac) ? 0.95 : 0.16 }} />)}
+            </div>
+          ) : (
+            <div className="absolute inset-0 rounded-full" style={{ background: 'var(--hair-2)' }}>
+              <div className="h-full rounded-full" style={{ width: `${barW}%`, background: concept === 'b' ? `linear-gradient(90deg, ${col}88, ${col})` : col }} />
+            </div>
+          )}
+          {concept === 'c' ? (
+            <span className="absolute top-1/2 h-[12px] w-[12px] rounded-full" style={{ left: `${barW}%`, transform: 'translate(-50%,-50%)', background: '#fff', border: `3px solid ${col}`, boxShadow: '0 1px 4px rgba(0,0,0,.4)' }} />
+          ) : null}
+          <span className="absolute" style={{ left: `${avgX}%`, top: concept === 'b' ? -5 : -4, bottom: concept === 'b' ? -5 : -4, width: 0, borderLeft: concept === 'b' ? '2px dashed var(--ink)' : '2px solid var(--ink)', opacity: 0.85 }} />
+          <span
+            className="tnum absolute whitespace-nowrap text-[9.5px] font-bold leading-none"
+            style={{ left: `${labelX}%`, top: -17, transform: 'translateX(-50%)', color: 'var(--ink-2)', ...(concept === 'b' ? { background: 'var(--hair-2)', padding: '2px 5px', borderRadius: 6, top: -20 } : {}) }}
+          >
+            {concept === 'c' ? '▼ ' : ''}{lab}
+          </span>
         </div>
       ) : null}
     </div>
@@ -362,17 +420,9 @@ export function StatistichePanel({ player, team }) {
           <div className="overflow-hidden rounded-2xl" style={CARD}>
             <div className="px-4 pb-1 pt-3.5">
               <span className="text-[14px] font-semibold" style={{ color: 'var(--ink)' }}>Classifica per ruolo</span>
-              <p className="mt-0.5 text-[10.5px]" style={{ color: 'var(--ink-3)' }}>Posizione tra i {{ GK: 'portieri', DEF: 'difensori', MID: 'centrocampisti', ATT: 'attaccanti' }[p.position] || 'giocatori'} dei 5 campionati (valori ogni 90&apos;, almeno 270&apos;)</p>
+              <p className="mt-0.5 text-[10.5px]" style={{ color: 'var(--ink-3)' }}>Posizione tra {{ GK: 'i portieri', DEF: 'i difensori', MID: 'i centrocampisti', ATT: 'gli attaccanti' }[p.position] || 'i giocatori'} del suo campionato (valori ogni 90&apos;)</p>
             </div>
-            {rk.map((x, i) => (
-              <div key={x.k} className="flex items-center justify-between px-4 py-2.5" style={{ borderTop: '1px solid var(--hair-2)' }}>
-                <span className="text-[12.5px]" style={{ color: 'var(--ink-2)' }}>{x.label}</span>
-                <span className="tnum text-[13px]" style={{ color: 'var(--ink-3)' }}>{comma(x.v, 2)}</span>
-                <span className="tnum w-[84px] text-right text-[14px] font-semibold" style={{ color: x.r.rank <= 10 ? '#1fa971' : 'var(--ink)' }}>
-                  {x.r.rank}° <span className="text-[10.5px] font-normal" style={{ color: 'var(--ink-3)' }}>su {x.r.of}</span>
-                </span>
-              </div>
-            ))}
+            {rk.map((x) => <RankRow key={x.k} x={x} />)}
           </div>
         </section>
       ) : null}
@@ -383,7 +433,7 @@ export function StatistichePanel({ player, team }) {
         const rows = mk(g.rows).filter(Boolean);
         return rows.length ? <Group key={g.title} title={g.title}>{rows}</Group> : null;
       })}
-      <p className="px-1 text-[10.5px]" style={{ color: 'var(--ink-3)' }}>La lineetta sulla barra è la media del ruolo. Verde = meglio della media, rosso = peggio.</p>
+      <p className="px-1 text-[10.5px]" style={{ color: 'var(--ink-3)' }}>La lineetta con il numero è la media del campionato per quel ruolo. Colori: rosso = nella parte bassa della classifica, giallo = a metà, verde = nella parte alta.</p>
     </div>
   );
 }

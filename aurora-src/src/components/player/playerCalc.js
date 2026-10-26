@@ -15,19 +15,29 @@ export const METRICS = [
 
 let CACHE = null;
 let CACHE_N = -1;
+const poolKey = (p) => `${p.leagueId}|${p.position}`;
 function pool() {
   if (CACHE && CACHE_N === PLAYERS.length) return CACHE;
   CACHE_N = PLAYERS.length;
   CACHE = {};
+  AVG = {};
+  SORTED = {};
   PLAYERS.forEach((p) => {
     if (!p.position || p.minutes < 270) return;
-    (CACHE[p.position] = CACHE[p.position] || []).push(p);
+    (CACHE[poolKey(p)] = CACHE[poolKey(p)] || []).push(p);
   });
   return CACHE;
 }
+// giocatori dello stesso campionato e dello stesso ruolo (almeno 270')
+export const poolOf = (player) => pool()[poolKey(player)] || [];
+
+// fasce di colore: basso = rosso, medio-basso = rosso chiaro, medio = giallo, medio-alto = verde chiaro, alto = verde scuro
+export const BAND_COLORS = ['#E0443A', '#F08A5B', '#E8C23A', '#8CCB5E', '#1FA45B'];
+export const bandOf = (frac) => (frac === null || frac === undefined ? null : Math.min(4, Math.max(0, Math.floor(frac * 5))));
+export const bandColor = (frac) => (frac === null || frac === undefined ? 'var(--ink-3)' : BAND_COLORS[bandOf(frac)]);
 
 export function percentile(player, key) {
-  const list = pool()[player.position] || [];
+  const list = poolOf(player);
   if (!list.length || player.minutes < 1) return null;
   const v = per90(player[key] || 0, player.minutes);
   let below = 0;
@@ -58,14 +68,15 @@ export const dateIt = (d) => {
 
 // ---------- classifica per ruolo ----------
 export function rankOf(player, key) {
-  const list = pool()[player.position] || [];
+  const list = poolOf(player);
   if (!list.length || player.minutes < 270) return null;
   const v = per90(player[key] || 0, player.minutes);
   let better = 0;
   list.forEach((p) => {
     if (p.id !== player.id && per90(p[key] || 0, p.minutes) > v + 1e-9) better += 1;
   });
-  return { rank: better + 1, of: list.length };
+  const of = list.length;
+  return { rank: better + 1, of, frac: of > 1 ? (of - (better + 1)) / (of - 1) : 1 };
 }
 
 // ---------- statistiche dettagliate da stats_ex ----------
@@ -134,11 +145,27 @@ export function statValue(player, row, last5 = false) {
 }
 
 let AVG = {};
+let SORTED = {};
+const rowKey = (player, row) => `${poolKey(player)}|${row[0]}|${row[2]}`;
+function sortedVals(player, row) {
+  const key = rowKey(player, row);
+  if (SORTED[key]) return SORTED[key];
+  const vs = poolOf(player).map((p) => statValue(p, row)).filter((v) => v !== null && Number.isFinite(v)).sort((a, b) => a - b);
+  return (SORTED[key] = vs);
+}
+// media e 95° percentile del campionato e del ruolo del giocatore
 export function roleAverage(player, row) {
-  const key = `${player.position}|${row[0]}|${row[2]}`;
+  const key = rowKey(player, row);
   if (AVG[key] !== undefined) return AVG[key];
-  const list = pool()[player.position] || [];
-  const vs = list.map((p) => statValue(p, row)).filter((v) => v !== null && Number.isFinite(v)).sort((a, b) => a - b);
-  AVG[key] = vs.length ? { avg: vs.reduce((a, b) => a + b, 0) / vs.length, p95: vs[Math.floor(vs.length * 0.95)] || vs[vs.length - 1] } : null;
+  const vs = sortedVals(player, row);
+  AVG[key] = vs.length ? { avg: vs.reduce((a, b) => a + b, 0) / vs.length, p95: vs[Math.floor(vs.length * 0.95)] || vs[vs.length - 1], n: vs.length } : null;
   return AVG[key];
+}
+// posizione 0..1 (1 = migliore) del valore tra i pari ruolo dello stesso campionato; row[3]===1 => meno è meglio
+export function standing(player, row, v) {
+  const vs = sortedVals(player, row);
+  if (!vs.length || v === null || v === undefined) return null;
+  let below = 0;
+  vs.forEach((x) => { if (row[3] === 1 ? x >= v : x <= v) below += 1; });
+  return Math.max(0, Math.min(1, (below - 1) / Math.max(1, vs.length - 1)));
 }
