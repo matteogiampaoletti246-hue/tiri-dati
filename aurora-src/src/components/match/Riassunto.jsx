@@ -1,6 +1,14 @@
 import { EventIcon } from './EventIcons';
 import PlayerLink from './PlayerLink';
 
+// "Giacomo Raspadori" -> "G. Raspadori"; gia' abbreviato resta com'e'
+export const shortName = (n) => {
+  const t = String(n || '').trim().split(/\s+/);
+  if (t.length < 2) return t[0] || '';
+  if (/^[A-Za-zÀ-ÿ]\.$/.test(t[0])) return t.join(' ');
+  return `${t[0][0].toUpperCase()}. ${t.slice(1).join(' ')}`;
+};
+
 const minNum = (m) => parseInt(String(m), 10) || 0;
 
 // righe con separatori PT / FT
@@ -31,14 +39,14 @@ const Mark = ({ text }) => (
 const Lines = ({ e, align, match }) => (
   <span className={`min-w-0 ${align === 'right' ? 'text-right' : 'text-left'}`}>
     <span className="block break-words text-[13px] font-bold leading-tight">
-      <PlayerLink match={match} name={e.type === 'sub' ? e.inName : e.name}>{e.type === 'sub' ? e.inName : e.name}</PlayerLink>
+      <PlayerLink match={match} name={e.type === 'sub' ? e.inName : e.name}>{shortName(e.type === 'sub' ? e.inName : e.name)}</PlayerLink>
       {e.pen ? ' (rig.)' : ''}
       {e.og ? ' (aut.)' : ''}
     </span>
-    {e.type === 'sub' ? <span className="block break-words text-[11px] leading-tight" style={{ color: 'var(--ink-3)' }}><PlayerLink match={match} name={e.name}>{e.name}</PlayerLink></span> : null}
+    {e.type === 'sub' ? <span className="block break-words text-[11px] leading-tight" style={{ color: 'var(--ink-3)' }}><PlayerLink match={match} name={e.name}>{shortName(e.name)}</PlayerLink></span> : null}
     {e.type === 'goal' ? (
       <span className="block break-words text-[11px] leading-tight" style={{ color: 'var(--ink-3)' }}>
-        {e.assist ? <>assist <PlayerLink match={match} name={e.assist}>{e.assist}</PlayerLink> · </> : null}
+        {e.assist ? <>assist <PlayerLink match={match} name={e.assist}>{shortName(e.assist)}</PlayerLink> · </> : null}
         {e.score ? `${e.score[0]} – ${e.score[1]}` : ''}
       </span>
     ) : null}

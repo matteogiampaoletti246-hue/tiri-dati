@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { CalendarDays } from 'lucide-react';
+import { useNavigationType } from 'react-router-dom';
 import PageShell from '@/components/PageShell';
 import HomeHeader from '@/components/HomeHeader';
 import DayStrip from '@/components/DayStrip';
@@ -14,10 +15,18 @@ import { syncDayTimes } from '@/data/fotmob';
 import { DATES, TODAY_INDEX, isoDate, matchesByDate } from '@/data/matches';
 import { LEAGUES } from '@/data/leagues';
 
+// giorno scelto: resta in memoria mentre si naviga, cosi' tornando indietro si ritrova lo stesso giorno
+const KEEP = { day: null, custom: null, filter: 'all' };
+
 export default function Home() {
-  const [dayIdx, setDayIdx] = useState(TODAY_INDEX);
-  const [filter, setFilter] = useState('all');
-  const [custom, setCustom] = useState(null);
+  const pop = useNavigationType() === 'POP';
+  const keep = pop && KEEP.day !== null;
+  const [dayIdx, setDayIdx] = useState(keep ? KEEP.day : TODAY_INDEX);
+  const [filter, setFilter] = useState(keep ? KEEP.filter : 'all');
+  const [custom, setCustom] = useState(keep ? KEEP.custom : null);
+  KEEP.day = dayIdx;
+  KEEP.custom = custom;
+  KEEP.filter = filter;
   const [searchOpen, setSearchOpen] = useState(false);
   const loading = useInitialLoad();
   useTicker(30000);
@@ -150,11 +159,12 @@ export default function Home() {
 
   return (
     <PageShell>
-      <HomeHeader onSearch={() => setSearchOpen(true)} />
-
-      <DayStrip dates={DATES} todayIndex={TODAY_INDEX} value={custom ? -1 : dayIdx}
-        onChange={goDay}
-      />
+      <div className="glass-head sticky top-0 z-30">
+        <HomeHeader onSearch={() => setSearchOpen(true)} />
+        <DayStrip dates={DATES} todayIndex={TODAY_INDEX} value={custom ? -1 : dayIdx}
+          onChange={goDay}
+        />
+      </div>
 
       <div className="flex items-center px-5 pb-1 pt-1">
         <TextFilter

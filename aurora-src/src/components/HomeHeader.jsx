@@ -35,7 +35,7 @@ export default function HomeHeader({ onSearch }) {
   }, []);
 
   return (
-    <header className="glass-head sticky top-0 z-30">
+    <header>
       <div className="flex items-center justify-between gap-3 px-5 py-3">
         <Link
           to="/"

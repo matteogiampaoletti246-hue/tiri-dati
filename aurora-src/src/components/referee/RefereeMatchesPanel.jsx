@@ -9,7 +9,7 @@ export default function RefereeMatchesPanel({ refereeId }) {
     <div>
       <div className="px-5 pt-3">
         <PanelTitle right={<span className="tnum text-[11px]" style={{ color: 'var(--ink-3)' }}>{list.length}</span>}>
-          Dirette
+          Partite arbitrate
         </PanelTitle>
       </div>
       {list.length ? (

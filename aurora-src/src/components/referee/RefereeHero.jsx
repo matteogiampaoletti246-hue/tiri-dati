@@ -63,10 +63,7 @@ export default function RefereeHero({ referee, league, matchCount }) {
               {referee.name}
             </h1>
             <p className="mt-1 truncate text-[11.5px]" style={{ color: 'var(--ink-3)' }}>
-              {referee.country} · {referee.games} gare
-            </p>
-            <p className="tnum mt-3 text-[11.5px]" style={{ color: 'var(--ink-2)' }}>
-              {matchCount} dirette in calendario
+              {referee.country} · {referee.games} gare arbitrate
             </p>
           </div>
         </div>

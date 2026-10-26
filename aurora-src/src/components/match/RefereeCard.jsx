@@ -3,6 +3,7 @@ import { refereeById, findRefereeByName, refStatsIn, leagueRefAvg } from '@/data
 import { Image } from '@/components/ui/image';
 import { WhistleIcon } from '@/components/LineIcons';
 import { conceptOf } from '@/components/match/FormCard';
+import { leagueById } from '@/data/leagues';
 import { BAND_COLORS, bandColor, bandOf } from '@/components/player/playerCalc';
 
 const f1 = (v) => (v == null ? '—' : (Math.round(v * 10) / 10).toString().replace('.', ','));
@@ -69,7 +70,7 @@ export default function RefereeCard({ match, concept = 'b' }) {
         <div style={{ borderTop: '1px solid var(--hair-2)' }}>
           <RefBar label="Ammonizioni / partita" v={st.y} avg={lg.y} sorted={lg.ys} concept={concept} />
           <div style={{ borderTop: '1px solid var(--hair-2)' }}><RefBar label="Falli fischiati / partita" v={st.fo} avg={lg.fo} sorted={lg.fos} concept={concept} /></div>
-          <p className="px-4 pb-3 text-[10px]" style={{ color: 'var(--ink-3)' }}>La lineetta è la media stagionale degli arbitri del campionato ({lg.n} arbitri).</p>
+          <p className="flex items-center gap-2 px-4 pb-3 text-[10.5px]" style={{ color: 'var(--ink-3)' }}><span style={{ display: 'inline-block', height: 12, borderLeft: concept === 'b' ? '2px dashed var(--ink)' : '2px solid var(--ink)', opacity: 0.85 }} />media stagionale arbitri {(leagueById(match.leagueId) || {}).name || ''}</p>
         </div>
       ) : null}
     </>

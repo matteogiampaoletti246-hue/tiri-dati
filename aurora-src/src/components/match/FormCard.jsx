@@ -54,7 +54,8 @@ export default function FormCard({ match, home, away, concept = 'c' }) {
   if (concept === 'c') {
     return (
       <div className="glass mx-4 overflow-hidden rounded-[24px] px-4 py-3.5">
-        <div className="mb-2 flex items-baseline justify-between"><p className="text-[11px] font-extrabold uppercase tracking-wider" style={{ color: 'var(--ink-3)' }}>Forma recente</p><p className="text-[11px] font-extrabold uppercase tracking-wider" style={{ color: 'var(--ink-3)' }}>meno recente</p></div>
+        <div className="mb-1 flex items-baseline justify-between"><p className="text-[11px] font-extrabold uppercase tracking-wider" style={{ color: 'var(--ink-3)' }}>Forma recente</p></div>
+        <div className="grid grid-cols-5 gap-1.5"><span className="col-start-5 whitespace-nowrap text-center text-[9px] font-medium" style={{ color: 'var(--ink-3)' }}>più recente</span></div>
         {sides.map(({ team, id }, i) => {
           const list = recentMatches(id, 5).slice().reverse();
           return (

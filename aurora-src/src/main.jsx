@@ -11,7 +11,8 @@ document.addEventListener('touchmove', (e) => { if (e.touches && e.touches.lengt
 class Boundary extends React.Component {
   constructor(p) { super(p); this.state = { err: 0 }; }
   static getDerivedStateFromError() { return { err: Date.now() }; }
-  componentDidCatch() { setTimeout(() => this.setState({ err: 0 }), 400); }
+  componentDidCatch(e) {
+    try { (window.__slErr = window.__slErr || []).push(String((e && e.stack) || e).slice(0, 400)); } catch { /* ignora */ } setTimeout(() => this.setState({ err: 0 }), 400); }
   render() {
     if (this.state.err) return <div style={{ minHeight: '100vh' }} />;
     return this.props.children;

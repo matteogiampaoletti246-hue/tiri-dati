@@ -51,14 +51,17 @@ export default function useSwipeBack(enabled = true) {
           el.style.transform = 'translate3d(100%,0,0)';
           el.style.opacity = '0';
         }
+        // naviga a schermo nascosto: il vecchio schermo non ricompare
         setTimeout(() => {
-          if (el) {
-            el.style.transition = 'none';
-            el.style.transform = 'translate3d(0,0,0)';
-            el.style.opacity = '1';
-          }
           navigate(-1);
-        }, 180);
+          setTimeout(() => {
+            if (el && el.isConnected) {
+              el.style.transition = 'none';
+              el.style.transform = 'translate3d(0,0,0)';
+              el.style.opacity = '1';
+            }
+          }, 500);
+        }, 250);
       } else if (el) {
         el.style.transition = 'transform .3s cubic-bezier(.22,.8,.24,1), opacity .3s ease';
         el.style.transform = 'translate3d(0,0,0)';
