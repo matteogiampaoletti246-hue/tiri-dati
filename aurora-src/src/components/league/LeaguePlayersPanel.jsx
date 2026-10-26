@@ -32,13 +32,18 @@ export default function LeaguePlayersPanel({ leagueId, teamId }) {
   const lgPool = PLAYERS.filter((p) => ids.has(p.teamId) && p.hasStats && p.minutes >= 270);
   // voto 0..1 del giocatore rispetto a tutto il campionato (valori ogni 90', o totale se non ha senso)
   const gradeOf = (m, p) => {
-    const val = (q) => { const r = m.f(q); return r == null ? null : m.p90 || m.avg ? (m.avg ? r : (r * 90) / q.minutes) : r; };
+    const val = (q) => { const r = m.f(q); return r == null ? null : m.p90 ? (r * 90) / q.minutes : r; };
     const mine = val(p);
     if (mine == null) return null;
     const all = lgPool.map(val).filter((v) => v != null);
     if (all.length < 5) return null;
-    const below = all.filter((v) => (NEGK.includes(m.key) ? v >= mine : v <= mine)).length;
-    return Math.max(0, Math.min(1, (below - 1) / (all.length - 1)));
+    const avg = all.reduce((x, y) => x + y, 0) / all.length;
+    if (!(avg > 0)) return null;
+    const ratio = mine / avg;
+    const neg = NEGK.includes(m.key);
+    // rosso sotto la media, giallo poco sotto / uguale / poco sopra, verde sopra (invertito per le statistiche negative)
+    if (!neg) return ratio < 0.85 ? '#E0443A' : ratio <= 1.1 ? '#E8C23A' : '#1FA45B';
+    return ratio > 1.18 ? '#E0443A' : ratio >= 0.9 ? '#E8C23A' : '#1FA45B';
   };
   const sections = [];
   METRICS.forEach((m) => {
@@ -64,7 +69,7 @@ export default function LeaguePlayersPanel({ leagueId, teamId }) {
         name: p.name,
         sub: p.teamName,
         value: fmt(v),
-        frac: m.key === 'min' || m.key === 'apps' ? null : gradeOf(m, p),
+        color: m.key === 'min' || m.key === 'apps' ? null : gradeOf(m, p),
       }));
     if (rows.length) sections.push({ id: m.key, group: m.group, title: mode === 'p90' ? `${m.label} / 90'` : m.label, rows });
   });

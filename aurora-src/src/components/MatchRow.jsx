@@ -6,7 +6,7 @@ import { viewMatch } from '@/data/matches';
 const RC = { V: '#1FA45B', S: '#8A93A6', P: '#E0443A' };
 const conceptRes = () => { try { return localStorage.getItem('sl-concept-rowres') || 'a'; } catch { return 'a'; } };
 
-export default function MatchRow({ match, teamId = null, concept = conceptRes() }) {
+export default function MatchRow({ match, teamId = null, concept = 'c' }) {
   const m = viewMatch(match);
   const home = teamById(m.homeId);
   const away = teamById(m.awayId);
