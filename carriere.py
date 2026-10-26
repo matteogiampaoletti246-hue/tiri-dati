@@ -65,7 +65,7 @@ def slim(j, fid):
     if pt.get("onLoan"): r["loan"] = 1
     car = []
     for e in (((j.get("careerHistory") or {}).get("careerItems") or {}).get("senior") or {}).get("teamEntries") or []:
-        car.append([e.get("team"), (e.get("startDate") or "")[:7], (e.get("endDate") or "")[:7], e.get("appearances"), e.get("goals"), e.get("assists"), 1 if e.get("transferType") else 0, 1 if e.get("active") else 0, e.get("teamId")])
+        car.append([e.get("team"), str(e.get("startDate") or "")[:7], str(e.get("endDate") or "")[:7], e.get("appearances"), e.get("goals"), e.get("assists"), 1 if e.get("transferType") else 0, 1 if e.get("active") else 0, e.get("teamId")])
     r["car"] = car
     return r
 
