@@ -85,49 +85,68 @@ export default function Home() {
     slide(() => { setCustom(null); setDayIdx(i); }, dir);
   };
 
-  const onPointerDown = (e) => {
-    if (busy.current) return;
-    drag.current = { x: e.clientX, y: e.clientY, t: Date.now(), on: false };
-    moved.current = false;
-  };
-
-  const onPointerMove = (e) => {
-    const d = drag.current;
-    if (!d) return;
-    const dx = e.clientX - d.x;
-    const dy = e.clientY - d.y;
-    if (!d.on) {
-      if (Math.abs(dx) < 10 || Math.abs(dx) < Math.abs(dy) * 1.2) return;
-      d.on = true;
-      moved.current = true;
-    }
-    const el = listRef.current;
-    if (el) {
-      el.style.transition = 'none';
-      el.style.transform = `translate3d(${dx * 0.8}px,0,0)`;
-      el.style.opacity = String(Math.max(0.45, 1 - Math.abs(dx) / 500));
-    }
-  };
-
-  const onPointerUp = (e) => {
-    const d = drag.current;
-    drag.current = null;
-    if (!d || !d.on) return;
-    const dx = e.clientX - d.x;
-    const v = Math.abs(dx) / Math.max(80, Date.now() - d.t);
-    const el = listRef.current;
-    // il contenuto segue il dito: verso destra si torna ai giorni precedenti, verso sinistra si va avanti
-    const next = dayIdx + (dx > 0 ? -1 : 1);
-    if ((Math.abs(dx) > 70 || v > 0.5) && next >= 0 && next <= DATES.length - 1) {
-      const dir = dx > 0 ? 1 : -1;
-      busy.current = false;
-      slide(() => { setCustom(null); setDayIdx(next); }, dir);
-    } else if (el) {
-      el.style.transition = 'transform .25s cubic-bezier(.22,.8,.24,1), opacity .25s ease';
-      el.style.transform = 'translate3d(0,0,0)';
-      el.style.opacity = '1';
-    }
-  };
+  // Swipe laterale tra i giorni: eventi touch nativi su tutta la pagina (affidabili su iPhone).
+  const live = useRef({});
+  live.current = { dayIdx, slide };
+  useEffect(() => {
+    let st = null;
+    const blocked = (t) => t.closest && t.closest('[data-no-swipe], input, select, textarea, [role="dialog"], .fixed');
+    const onStart = (e) => {
+      if (e.touches.length !== 1 || busy.current || blocked(e.target)) { st = null; return; }
+      const t = e.touches[0];
+      st = { x: t.clientX, y: t.clientY, t: Date.now(), on: false };
+      moved.current = false;
+    };
+    const onMove = (e) => {
+      if (!st) return;
+      const t = e.touches[0];
+      const dx = t.clientX - st.x;
+      const dy = t.clientY - st.y;
+      if (!st.on) {
+        if (Math.abs(dy) > 12 && Math.abs(dy) > Math.abs(dx)) { st = null; return; }
+        if (Math.abs(dx) < 10 || Math.abs(dx) < Math.abs(dy) * 1.2) return;
+        st.on = true;
+        moved.current = true;
+      }
+      if (e.cancelable) e.preventDefault();
+      const el = listRef.current;
+      if (el) {
+        el.style.transition = 'none';
+        el.style.transform = `translate3d(${dx * 0.8}px,0,0)`;
+        el.style.opacity = String(Math.max(0.45, 1 - Math.abs(dx) / 500));
+      }
+    };
+    const onEnd = (e) => {
+      const d = st;
+      st = null;
+      if (!d || !d.on) return;
+      const t = (e.changedTouches && e.changedTouches[0]) || { clientX: d.x };
+      const dx = t.clientX - d.x;
+      const v = Math.abs(dx) / Math.max(80, Date.now() - d.t);
+      const el = listRef.current;
+      const { dayIdx: cur, slide: sl } = live.current;
+      // dito verso destra → giorno precedente (Ieri); dito verso sinistra → giorno successivo (Domani)
+      const next = cur + (dx > 0 ? -1 : 1);
+      if ((Math.abs(dx) > 60 || v > 0.45) && next >= 0 && next <= DATES.length - 1) {
+        busy.current = false;
+        sl(() => { setCustom(null); setDayIdx(next); }, dx > 0 ? 1 : -1);
+      } else if (el) {
+        el.style.transition = 'transform .25s cubic-bezier(.22,.8,.24,1), opacity .25s ease';
+        el.style.transform = 'translate3d(0,0,0)';
+        el.style.opacity = '1';
+      }
+    };
+    document.addEventListener('touchstart', onStart, { passive: true });
+    document.addEventListener('touchmove', onMove, { passive: false });
+    document.addEventListener('touchend', onEnd, { passive: true });
+    document.addEventListener('touchcancel', onEnd, { passive: true });
+    return () => {
+      document.removeEventListener('touchstart', onStart);
+      document.removeEventListener('touchmove', onMove);
+      document.removeEventListener('touchend', onEnd);
+      document.removeEventListener('touchcancel', onEnd);
+    };
+  }, []);
 
   return (
     <PageShell>
@@ -176,11 +195,7 @@ export default function Home() {
 
       <div
         ref={listRef}
-        style={{ touchAction: 'pan-y' }}
-        onPointerDown={onPointerDown}
-        onPointerMove={onPointerMove}
-        onPointerUp={onPointerUp}
-        onPointerCancel={onPointerUp}
+        style={{ minHeight: '55vh' }}
         onClickCapture={(e) => { if (moved.current) { e.preventDefault(); e.stopPropagation(); moved.current = false; } }}
       >
         {loading ? (

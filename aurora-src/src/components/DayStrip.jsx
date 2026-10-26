@@ -14,7 +14,7 @@ export default function DayStrip({ dates, todayIndex, value, onChange }) {
   }, [value]);
 
   return (
-    <div ref={box} className="hide-sb flex items-center gap-6 overflow-x-auto px-5 py-2">
+    <div ref={box} data-no-swipe className="hide-sb flex items-center gap-6 overflow-x-auto px-5 py-2">
       {dates.map((d, i) => {
         const active = i === value;
         return (
