@@ -24,7 +24,7 @@ function summary(form) {
   return { v, s, p, pts: form.reduce((a, x) => a + (PTS[x] || 0), 0) };
 }
 
-export default function FormCard({ match, home, away, concept = conceptOf('forma') }) {
+export default function FormCard({ match, home, away, concept = 'c' }) {
   const sides = [{ team: home, id: match.homeId }, { team: away, id: match.awayId }];
 
   if (concept === 'b') {

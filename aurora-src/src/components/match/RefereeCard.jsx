@@ -48,7 +48,7 @@ function RefBar({ label, v, avg, sorted, concept }) {
 }
 
 // Arbitro: nome, bandiera, ammonizioni e falli a partita (stagione) a confronto con la media degli altri arbitri del campionato.
-export default function RefereeCard({ match, concept = conceptOf('arbitro') }) {
+export default function RefereeCard({ match, concept = 'b' }) {
   const r = (match.refereeId && refereeById(match.refereeId)) || findRefereeByName(match.refereeName);
   const name = r ? r.name : match.refereeName;
   if (!name) return null;

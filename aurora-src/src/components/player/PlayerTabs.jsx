@@ -281,7 +281,7 @@ function Affidabilita({ player, team }) {
 }
 
 function useStatConcept() {
-  try { return localStorage.getItem('sl-concept-statbar') || 'a'; } catch { return 'a'; }
+  try { return 'b'; } catch { return 'b'; }
 }
 
 function RankRow({ x }) {
