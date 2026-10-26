@@ -16,13 +16,13 @@ export default function ChipInput({ value, onChange, onFocus, max = 5, ariaLabel
     setCur('');
   };
   return (
-    <div className="flex w-full flex-col items-end gap-2.5">
-      <div className="flex flex-nowrap justify-end gap-1">
+    <div className="flex w-full min-w-0 flex-col items-end gap-2.5">
+      <div className="flex min-w-0 flex-nowrap justify-end gap-[2px]">
         {list.map((n, i) => (
-          <span key={i} className="tnum inline-flex shrink-0 items-center rounded-full py-0.5 pl-2.5 pr-0.5 text-[14px] font-extrabold" style={{ background: 'color-mix(in srgb, var(--accent) 16%, transparent)', border: '1px solid color-mix(in srgb, var(--accent) 45%, transparent)' }}>
+          <span key={i} className="tnum inline-flex h-[24px] shrink-0 items-center rounded-full pl-1.5 pr-1 text-[12px] font-extrabold leading-none" style={{ background: 'color-mix(in srgb, var(--accent) 16%, transparent)', border: '1px solid color-mix(in srgb, var(--accent) 45%, transparent)' }}>
             {n}
-            <button type="button" aria-label="Rimuovi" onClick={() => commit(list.filter((_, k) => k !== i))} className="flex h-8 w-8 items-center justify-center rounded-full" style={{ color: 'var(--ink-3)' }}>
-              <X size={14} strokeWidth={2.4} />
+            <button type="button" aria-label="Rimuovi" onClick={() => commit(list.filter((_, k) => k !== i))} className="relative flex h-3.5 w-3.5 items-center justify-center before:absolute before:-inset-2.5 before:content-['']" style={{ color: 'var(--ink-3)' }}>
+              <X size={10} strokeWidth={2.6} />
             </button>
           </span>
         ))}
