@@ -50,6 +50,8 @@ def parse(j):
     r = txt(inj.get("name")) or txt(inj.get("injuryName")) or txt(inj.get("type")) or txt(inj.get("reason"))
     ret = inj.get("expectedReturn") or inj.get("expectedReturnDate") or inj.get("returnDate")
     out = {"r": r}
+    ex = {k: v for k, v in inj.items() if k not in ("name",)}
+    if ex: out["x"] = ex
     e = txt(ret)
     if e: out["e"] = e
     ed = iso(ret)
