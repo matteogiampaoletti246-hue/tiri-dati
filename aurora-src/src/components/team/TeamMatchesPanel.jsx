@@ -2,6 +2,8 @@ import { useState } from 'react';
 import TextFilter from '@/components/TextFilter';
 import MatchDayList from '@/components/MatchDayList';
 import { allTeamMatches } from '@/data/extras';
+import CompSelect from '@/components/CompSelect';
+import { teamCompetitions } from '@/data/competitions';
 
 const MATCH = {
   all: () => true,
@@ -11,11 +13,14 @@ const MATCH = {
 
 export default function TeamMatchesPanel({ teamId }) {
   const [filter, setFilter] = useState('all');
-  const shown = allTeamMatches(teamId).filter(MATCH[filter]);
+  const [comp, setComp] = useState('all');
+  const comps = teamCompetitions(teamId);
+  const shown = allTeamMatches(teamId).filter(MATCH[filter]).filter((m) => comp === 'all' || m.leagueId === comp);
 
   return (
-    <div className="pt-2">
-      <div className="px-5">
+    <div className="pt-0">
+      <CompSelect options={comps} value={comp} onChange={setComp} allLabel="Tutte le competizioni" />
+      <div className="px-5 pt-2">
         <TextFilter
           options={[
             { value: 'all', label: 'Tutte' },
@@ -27,7 +32,7 @@ export default function TeamMatchesPanel({ teamId }) {
         />
       </div>
       {shown.length ? (
-        <MatchDayList matches={shown} teamId={teamId} />
+        <div key={comp + filter} className="comp-in"><MatchDayList matches={shown} teamId={teamId} /></div>
       ) : (
         <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>
           Nessuna partita

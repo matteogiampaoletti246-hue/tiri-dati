@@ -11,7 +11,6 @@ import {
   fmtLine,
   lineHintText,
   parseNum,
-  sanitizeNum,
 } from '@/lib/calc';
 import PlayerLast5Panel from './PlayerLast5Panel';
 import PlayerPickPanel from './PlayerPickPanel';
@@ -67,12 +66,6 @@ export default function PlayerTab({ onSave }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form.tipoTiri, form.line, form.lineType]);
 
-  const addDash = () =>
-    setForm((f) => {
-      const key = f.dashTarget === 'minutes' ? 'minutes5' : 'shots5';
-      return { ...f, [key]: sanitizeNum(`${f[key] || ''}-`, true) };
-    });
-
   const play = () => {
     if (!result.ready) return;
     const sedeLabel = SEDE_OPTIONS.find((o) => o.value === form.sede)?.label ?? '';
@@ -113,7 +106,7 @@ export default function PlayerTab({ onSave }) {
         hint={lineHintText(result.lambda, line)}
       />
       <div className="mt-7">
-        <PlayerLast5Panel form={form} set={set} onDash={addDash} />
+        <PlayerLast5Panel form={form} set={set} />
       </div>
       <div className="mt-7">
         <PlayerSeasonPanel season={form.season} onChange={setSeason} rate90={result.rate90} />

@@ -113,6 +113,8 @@ export function teamShots(teamId, leagueId) {
     avg: { for: { totali: fTot.avg, inPorta: fSot.avg }, against: { totali: aTot.avg, inPorta: aSot.avg } },
     rankFor: cup ? null : ranks(leagueId, 'totalFor')[name],
     rankAgainst: cup ? null : ranks(leagueId, 'totalAgainst')[name],
+    rankSotFor: cup ? null : ranks(leagueId, 'sotFor')[name],
+    rankSotAgainst: cup ? null : ranks(leagueId, 'sotAgainst')[name],
     breakdown: cup ? { for: fTot, against: aTot } : null,
     raw: { for: LD[leagueId].teams[name], against: LD[leagueId].teams[name] },
   };

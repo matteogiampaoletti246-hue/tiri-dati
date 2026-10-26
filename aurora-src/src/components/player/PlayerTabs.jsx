@@ -10,6 +10,10 @@ import { playerReliability } from '@/data/topPlayers';
 import { scoreColor } from '@/lib/calc';
 import { teamById } from '@/data/teams';
 import { teamByName } from '@/data/teams';
+import CompSelect from '@/components/CompSelect';
+import { teamCompetitions } from '@/data/competitions';
+import { MATCHES } from '@/data/matches';
+import { useState } from 'react';
 import { carriereOf, countryIt, FOOT, dateLong, ageOf, money, monthIt } from '@/data/carriere';
 
 const L = { fontSize: 9.5, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--ink-3)' };
@@ -250,8 +254,8 @@ export function PartitePanel({ player, concept }) {
 const f1 = (v, d = 1) => (v === null || v === undefined || !Number.isFinite(v) ? '–' : comma(Math.round(v * 10 ** d) / 10 ** d, d));
 const CARD = { background: 'var(--panel-solid, rgba(255,255,255,.04))', border: '1px solid var(--hair-2)', borderRadius: 18 };
 
-function Affidabilita({ player, team }) {
-  const next = upcomingMatches(player.teamId, 1)[0];
+function Affidabilita({ player, team, comp }) {
+  const next = upcomingMatches(player.teamId, 40).find((m) => !comp || m.leagueId === comp);
   const opp = next ? teamById(next.homeId === player.teamId ? next.awayId : next.homeId) : null;
   return (
     <section className="px-0">
@@ -381,8 +385,33 @@ function Group({ title, children }) {
   );
 }
 
+// statistiche di una coppa (tiri e minuti della competizione)
+function CupSummary({ p }) {
+  const c = p.c || [0, 0, 0, 0];
+  const g = c[0] || 0;
+  const mn = c[3] || 0;
+  const p90 = (v) => (mn > 0 ? comma((v * 90) / mn, 2) : '–');
+  const rows = [['Partite giocate', g], ['Minuti', Math.round(mn)], ['Tiri totali', Math.round(c[1] || 0)], ['Tiri in porta', Math.round(c[2] || 0)], ["Tiri ogni 90'", p90(c[1] || 0)], ["Tiri in porta ogni 90'", p90(c[2] || 0)]];
+  return (
+    <section>
+      <div className="overflow-hidden rounded-2xl" style={CARD}>
+        <div className="px-4 pb-1 pt-3.5"><span className="text-[14px] font-semibold">Statistiche della competizione</span></div>
+        {g ? rows.map(([k, v], i) => (
+          <div key={k} className="flex items-baseline px-4 py-2.5" style={{ borderTop: '1px solid var(--hair-2)' }}>
+            <span className="text-[12.5px]" style={{ color: 'var(--ink-2)' }}>{k}</span>
+            <span className="tnum ml-auto text-[14px] font-semibold">{v}</span>
+          </div>
+        )) : <p className="px-4 pb-4 pt-2 text-[12.5px]" style={{ color: 'var(--ink-3)' }}>Nessuna presenza in questa competizione</p>}
+      </div>
+    </section>
+  );
+}
+
 export function StatistichePanel({ player, team }) {
   const p = player;
+  const comps = teamCompetitions(p.teamId);
+  const [comp, setComp] = useState(comps.length ? comps[0].id : null);
+  const dom = comps.length ? comps[0].id : null;
   const rk = [['goals', 'Gol'], ['assists', 'Assist'], ['shots', 'Tiri'], ['shotsOnTarget', 'Tiri in porta'], ['xg', 'xG'], ['foulsDrawn', 'Falli subiti']]
     .map(([k, label]) => ({ k, label, r: rankOf(p, k), v: per90(p[k] || 0, p.minutes) }))
     .filter((x) => x.r);
@@ -414,9 +443,12 @@ export function StatistichePanel({ player, team }) {
   const gDisc = [['fouls', "Falli commessi ogni 90'", 'p90', 1], ['was_fouled', "Falli subiti ogni 90'", 'p90'], ['Offsides', "Fuorigioco ogni 90'", 'p90', 1]];
 
   return (
-    <div className="flex flex-col gap-4 px-5 pb-10 pt-5">
-      <Affidabilita player={p} team={team} />
-      {rk.length ? (
+    <div className="-mt-1">
+    {comps.length ? <CompSelect options={comps} value={comp} onChange={setComp} /> : null}
+    <div key={comp} className="comp-in flex flex-col gap-4 px-5 pb-10 pt-4">
+      <Affidabilita player={p} team={team} comp={comp} />
+      {comp !== dom ? <CupSummary p={p} /> : null}
+      {comp === dom && rk.length ? (
         <section>
           <div className="overflow-hidden rounded-2xl" style={CARD}>
             <div className="px-4 pb-1 pt-3.5">
@@ -427,14 +459,15 @@ export function StatistichePanel({ player, team }) {
           </div>
         </section>
       ) : null}
-      <Group title="Generale">{simple(gen)}</Group>
-      <Group title="Tiri">{mk(gShots)}</Group>
-      <Group title="Disciplina">{simple(disc)}{mk(gDisc)}</Group>
-      {GROUPS.filter((g) => (g.gk ? isGk : g.title !== 'Fisico' || true)).map((g) => {
+      {comp === dom ? <Group title="Generale">{simple(gen)}</Group> : null}
+      {comp === dom ? <Group title="Tiri">{mk(gShots)}</Group> : null}
+      {comp === dom ? <Group title="Disciplina">{simple(disc)}{mk(gDisc)}</Group> : null}
+      {comp === dom ? GROUPS.filter((g) => (g.gk ? isGk : g.title !== 'Fisico' || true)).map((g) => {
         const rows = mk(g.rows).filter(Boolean);
         return rows.length ? <Group key={g.title} title={g.title}>{rows}</Group> : null;
-      })}
-      <p className="px-1 text-[10.5px]" style={{ color: 'var(--ink-3)' }}>La lineetta con il numero è la media del campionato per quel ruolo. Colori: rosso = nella parte bassa della classifica, giallo = a metà, verde = nella parte alta.</p>
+      }) : null}
+      {comp === dom ? <p className="px-1 text-[10.5px]" style={{ color: 'var(--ink-3)' }}>La lineetta con il numero è la media del campionato per quel ruolo. Colori: rosso = nella parte bassa della classifica, giallo = a metà, verde = nella parte alta.</p> : null}
+    </div>
     </div>
   );
 }

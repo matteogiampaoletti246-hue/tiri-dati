@@ -509,6 +509,22 @@
     }
   }
 
+  .comp-in {
+    animation: compIn .42s cubic-bezier(.22, .8, .24, 1) both;
+  }
+
+  @keyframes compIn {
+    from {
+      opacity: 0;
+      transform: translateY(14px) scale(.985);
+    }
+
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
   .fade-in {
     animation: fadeIn .35s ease both;
   }

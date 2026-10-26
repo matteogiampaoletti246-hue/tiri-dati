@@ -8,6 +8,7 @@ import NumInput from './NumInput';
 import PickerSheet from './PickerSheet';
 import SelectRow from './SelectRow';
 import StatBox from './StatBox';
+import { bandColor } from '@/components/player/playerCalc';
 
 // Blocco squadra riusato nel calcolo: campionato, squadra, tiri (totali e in porta),
 // nota di posizione e riquadri casa / trasferta.
@@ -17,6 +18,11 @@ export default function TeamBlock({ title, mode = 'for', family = 'totali', bloc
   const stats = teamShots(block.id, block.leagueId);
   const boxes = splitBoxes(stats, mode, family);
   const shotsLabel = mode === 'against' ? 'Tiri subiti' : 'Tiri fatti';
+
+  const rk = (r) => (stats && !stats.cup && r ? { r, col: bandColor(stats.size > 1 ? (stats.size - r) / (stats.size - 1) : 1) } : null);
+  const rankTot = rk(mode === 'against' ? stats?.rankAgainst : stats?.rankFor);
+  const rankSot = rk(mode === 'against' ? stats?.rankSotAgainst : stats?.rankSotFor);
+  const RankTag = ({ x }) => (x ? <span className="tnum whitespace-nowrap text-[15px] font-extrabold" style={{ color: x.col }}>{x.r}° <span className="text-[10.5px] font-normal" style={{ color: 'var(--ink-3)' }}>su {stats.size}</span></span> : null);
 
   const leagueOptions = calcLeagues().map((l) => ({ value: l.id, label: l.name, sub: l.cup ? 'Coppa europea' : '' }));
   const teamOptions = calcTeamsOf(block.leagueId)
@@ -37,17 +43,21 @@ export default function TeamBlock({ title, mode = 'for', family = 'totali', bloc
           onClick={() => setPicker('team')}
         />
         <FieldRow label={`${shotsLabel} totali`}>
-          <NumInput value={block.totali} onChange={(v) => onChange({ totali: v })} ariaLabel={`${shotsLabel} totali`} />
+          <RankTag x={rankTot} />
+          <NumInput value={block.totali} tint={rankTot ? rankTot.col : null} onChange={(v) => onChange({ totali: v })} ariaLabel={`${shotsLabel} totali`} />
         </FieldRow>
         <FieldRow label={`${shotsLabel} in porta`}>
-          <NumInput value={block.inPorta} onChange={(v) => onChange({ inPorta: v })} ariaLabel={`${shotsLabel} in porta`} />
+          <RankTag x={rankSot} />
+          <NumInput value={block.inPorta} tint={rankSot ? rankSot.col : null} onChange={(v) => onChange({ inPorta: v })} ariaLabel={`${shotsLabel} in porta`} />
         </FieldRow>
 
         {stats ? (
           <div className="px-5 pb-5 pt-2">
-            <p className="text-[11.5px] leading-snug" style={{ color: 'var(--ink-3)' }}>
-              {rankNote(stats, mode)}
-            </p>
+            {stats.cup ? (
+              <p className="text-[11.5px] leading-snug" style={{ color: 'var(--ink-3)' }}>
+                {rankNote(stats, mode)}
+              </p>
+            ) : null}
             {stats.strength < 1 ? (
               <p className="mt-1 text-[11.5px] leading-snug" style={{ color: 'var(--ink-3)' }}>
                 Campionato meno prestigioso: lo scarto dalla media pesa ×{String(stats.strength).replace('.', ',')}.

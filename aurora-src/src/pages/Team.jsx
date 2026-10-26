@@ -9,6 +9,8 @@ import EntityBanner from '@/components/EntityBanner';
 import FormDots from '@/components/FormDots';
 import TeamMatchesPanel from '@/components/team/TeamMatchesPanel';
 import StandingsTable from '@/components/StandingsTable';
+import TeamRosterPanel from '@/components/team/TeamRosterPanel';
+import TeamStandingsPanel from '@/components/team/TeamStandingsPanel';
 import LeaguePlayersPanel from '@/components/league/LeaguePlayersPanel';
 import TeamStatsPanel from '@/components/team/TeamStatsPanel';
 import useInitialLoad from '@/hooks/useInitialLoad';
@@ -22,7 +24,8 @@ import { coachOf } from '@/data/players';
 const TABS = [
   { key: 'matches', label: 'Partite' },
   { key: 'standings', label: 'Classifica' },
-  { key: 'stats', label: 'Squadra' },
+  { key: 'roster', label: 'Squadra' },
+  { key: 'stats', label: 'Statistiche' },
   { key: 'players', label: 'Giocatori' },
 ];
 
@@ -64,7 +67,8 @@ export default function Team() {
 
   const panels = [
     <TeamMatchesPanel key="matches" teamId={team.id} />,
-    <div key="standings" className="pt-4"><StandingsTable leagueId={team.leagueId} highlight={[team.id]} /></div>,
+    <TeamStandingsPanel key="standings" team={team} />,
+    <TeamRosterPanel key="roster" teamId={team.id} />,
     <TeamStatsPanel key="stats" team={team} />,
     <LeaguePlayersPanel key="players" leagueId={team.leagueId} teamId={team.id} />,
   ];
