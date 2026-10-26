@@ -5,6 +5,7 @@ import Crest from '@/components/Crest';
 import TeamLink from '@/components/TeamLink';
 import TextFilter from '@/components/TextFilter';
 import MatchShotMap from './MatchShotMap';
+import PreMatchStats from './PreMatchStats';
 import { CATEGORY_DEFS, metricOf } from '@/data/standings';
 import { comma, num } from '@/lib/format';
 
@@ -23,27 +24,28 @@ const LIVE_STATS = [
 
 export default function MatchStatsPanel({ match, view, home, away, pre }) {
   const [period, setPeriod] = useState('all');
+  const [full, setFull] = useState(false);
   const cs = 'a';
 
   if (pre) {
     return (
-      <div className="flex flex-col gap-7 pt-2">
-        <div className="flex items-center gap-2 px-5">
-          <TeamLink team={home} className="flex min-w-0 items-center gap-2 transition-opacity active:opacity-60">
-            <Crest team={home} size={20} />
-            <span className="truncate text-[12.5px]" style={{ color: 'var(--ink-2)' }}>{home ? home.name : ''}</span>
-          </TeamLink>
-          <TeamLink team={away} className="ml-auto flex min-w-0 items-center gap-2 transition-opacity active:opacity-60">
-            <span className="truncate text-[12.5px]" style={{ color: 'var(--ink-2)' }}>{away ? away.name : ''}</span>
-            <Crest team={away} size={20} />
-          </TeamLink>
+      <div>
+        <PreMatchStats home={home} away={away} />
+        <div className="mt-2">
+          <button type="button" onClick={() => setFull(!full)} className="glass press mx-auto my-3 block rounded-full px-4 py-2 text-[12.5px] font-bold">
+            {full ? 'Nascondi confronto completo' : 'Confronto completo delle statistiche'}
+          </button>
+          {full ? (
+            <div className="flex flex-col gap-7 pt-2">
+              {CATEGORY_DEFS.map((cat) => (
+                <section key={cat.key} className="px-5">
+                  <PanelTitle>{cat.title}</PanelTitle>
+                  <CompareBars rows={cat.metrics.map((mt) => ({ label: mt.label, home: metricOf(match.homeId, mt.key), away: metricOf(match.awayId, mt.key) }))} format={num} />
+                </section>
+              ))}
+            </div>
+          ) : null}
         </div>
-        {CATEGORY_DEFS.map((cat) => (
-          <section key={cat.key} className="px-5">
-            <PanelTitle>{cat.title}</PanelTitle>
-            <CompareBars rows={cat.metrics.map((mt) => ({ label: mt.label, home: metricOf(match.homeId, mt.key), away: metricOf(match.awayId, mt.key) }))} format={num} />
-          </section>
-        ))}
       </div>
     );
   }

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import TextFilter from '@/components/TextFilter';
-import MatchDayList from '@/components/MatchDayList';
+import { MatchdayList } from '@/components/MatchDayList';
 import { matchesForLeague } from '@/data/matches';
 
 const MATCH = {
@@ -12,7 +12,8 @@ const MATCH = {
 
 export default function LeagueMatchesPanel({ leagueId }) {
   const [filter, setFilter] = useState('all');
-  const shown = matchesForLeague(leagueId).filter(MATCH[filter]);
+  const all = matchesForLeague(leagueId);
+  const shown = all.filter(MATCH[filter]);
 
   return (
     <div className="pt-2">
@@ -29,7 +30,7 @@ export default function LeagueMatchesPanel({ leagueId }) {
         />
       </div>
       {shown.length ? (
-        <MatchDayList matches={shown} />
+        <MatchdayList matches={shown} all={all} />
       ) : (
         <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>
           Nessuna partita
