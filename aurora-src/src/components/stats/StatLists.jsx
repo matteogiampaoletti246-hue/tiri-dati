@@ -9,7 +9,7 @@ export default function StatLists({ sections, controls = null, limit = 8 }) {
   const [sheet, setSheet] = useState(false);
   const [open, setOpen] = useState({});
   const [rev, setRev] = useState({});
-  const concept = (() => { try { return localStorage.getItem('sl-concept-sort') || 'a'; } catch { return 'a'; } })();
+  const concept = 'b';
   const groups = [];
   sections.forEach((s) => {
     let g = groups.find((x) => x.name === s.group);
