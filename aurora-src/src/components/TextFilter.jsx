@@ -23,10 +23,11 @@ export default function TextFilter({ options, value, onChange, className = '' })
   useEffect(() => {
     const b = box.current;
     if (!b || typeof ResizeObserver === 'undefined') return undefined;
-    const ro = new ResizeObserver(() => place(false));
+    let skip = true;
+    const ro = new ResizeObserver(() => { if (skip) { skip = false; return; } place(false); });
     ro.observe(b);
     return () => ro.disconnect();
-  }, [value]);
+  }, []);
 
   // la voce attiva resta sempre interamente visibile
   useEffect(() => {
