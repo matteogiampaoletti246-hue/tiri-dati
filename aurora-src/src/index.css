@@ -565,3 +565,9 @@
 
 @keyframes slinL { from { opacity: 0; transform: translate3d(-40px,0,0); } to { opacity: 1; transform: translate3d(0,0,0); } }
 @keyframes slinR { from { opacity: 0; transform: translate3d(40px,0,0); } to { opacity: 1; transform: translate3d(0,0,0); } }
+
+/* riflesso morbido che scorre dentro le lettere del logo all'avvio */
+.sl-shine{position:absolute;left:0;top:0;white-space:nowrap;color:transparent;-webkit-text-fill-color:transparent;font-size:inherit;letter-spacing:inherit;
+  background:linear-gradient(100deg,rgba(255,255,255,0) 40%,rgba(255,255,255,.85) 50%,rgba(255,255,255,0) 60%);background-size:320% 100%;background-position:100% 0;
+  -webkit-background-clip:text;background-clip:text;animation:sl-shine 1.1s ease-in-out .9s forwards;pointer-events:none}
+@keyframes sl-shine{to{background-position:0 0}}

@@ -36,14 +36,14 @@ export default function LaunchScreen({ ready = true }) {
   // 1) il logo si disegna, 2) esce la scritta
   useEffect(() => {
     if (!visible) return undefined;
-    const t = setTimeout(() => setReveal(true), 1150);
+    const t = setTimeout(() => setReveal(true), 1700);
     return () => clearTimeout(t);
   }, [visible]);
 
   // 3) dopo la scritta (e a dati pronti) parte il volo verso l'intestazione
   useEffect(() => {
     if (!visible || !reveal || !ready || fly) return undefined;
-    const wait = Math.max(0, 2250 - (Date.now() - t0.current));
+    const wait = Math.max(0, 3400 - (Date.now() - t0.current));
     const t = setTimeout(() => {
       const from = pair.current && pair.current.getBoundingClientRect();
       const brand = document.getElementById('sl-brand');
@@ -62,7 +62,7 @@ export default function LaunchScreen({ ready = true }) {
     const t1 = setTimeout(() => {
       window.dispatchEvent(new Event('sl-launch-done'));
       setFade(true);
-    }, 760);
+    }, 1150);
     const t2 = setTimeout(() => {
       try {
         sessionStorage.setItem('sl-launched', '1');
@@ -70,7 +70,7 @@ export default function LaunchScreen({ ready = true }) {
         /* ignora */
       }
       setVisible(false);
-    }, 1200);
+    }, 1700);
     return () => {
       clearTimeout(t1);
       clearTimeout(t2);
@@ -100,26 +100,35 @@ export default function LaunchScreen({ ready = true }) {
         className="flex items-center"
         style={{ transformOrigin: 'left top', color: 'var(--ink)' }}
         animate={fly ? { x: delta.x, y: delta.y, scale: delta.s } : { x: 0, y: 0, scale: 1 }}
-        transition={{ duration: 0.72, ease: [0.65, 0, 0.35, 1] }}
+        transition={{ duration: 1.1, ease: [0.65, 0, 0.35, 1] }}
       >
-        <div className="relative z-10 shrink-0" style={{ width: LOGO, height: LOGO }}>
+        <motion.div
+          className="relative z-10 shrink-0"
+          style={{ width: LOGO, height: LOGO }}
+          initial={{ scale: 0.6, rotate: -25, opacity: 0 }}
+          animate={{ scale: 1, rotate: 0, opacity: 1 }}
+          transition={{ type: 'spring', stiffness: 150, damping: 14, opacity: { duration: 0.3 } }}
+        >
           <Logo size={LOGO} draw />
-        </div>
+        </motion.div>
         <motion.div
           className="overflow-hidden"
           style={{ paddingBottom: 6, marginBottom: -6 }}
           initial={{ width: 0 }}
           animate={{ width: reveal ? textW + GAP : 0 }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
         >
           <motion.span
             className="title-lg block whitespace-nowrap"
             style={{ fontSize: TEXT, letterSpacing: '-.04em', paddingLeft: GAP }}
             initial={{ x: -(textW + GAP) }}
             animate={{ x: reveal ? 0 : -(textW + GAP) }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           >
-            ScalperLab
+            <span className="relative inline-block">
+              ScalperLab
+              {reveal ? <span className="sl-shine title-lg" aria-hidden="true">ScalperLab</span> : null}
+            </span>
           </motion.span>
         </motion.div>
       </motion.div>

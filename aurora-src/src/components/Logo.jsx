@@ -1,69 +1,58 @@
 import { motion } from 'framer-motion';
 
-const KEY = 'sl-logo';
-export const getLogoVariant = () => {
-  try {
-    const v = localStorage.getItem(KEY);
-    return v === 'b' || v === 'c' ? v : 'a';
-  } catch {
-    return 'a';
-  }
-};
-export const setLogoVariant = (v) => {
-  try {
-    localStorage.setItem(KEY, v);
-  } catch {
-    /* ignora */
-  }
-};
+// Marchio ScalperLab: la lente d'ingrandimento ("Lab") con dentro il campo da calcio.
+// Lente e palla seguono il tema (nero di giorno, bianco di notte); il campo e il manico sono azzurri.
+const OUT = [0.22, 1, 0.36, 1];
 
-const S_PATH = 'M66 30c-4-9-19-14-30-9-11 5-13 18-3 24 8 5 22 6 28 12 6 6 3 18-8 22-11 4-26-1-30-10';
-const ease = 'easeInOut';
-
-// Tre marchi a tema calcio, nero (giorno) o bianco (notte) tramite currentColor.
-//  a: pallone   b: scudetto con la S   c: tiro in porta
-export default function Logo({ size = 32, draw = false, variant, className = '' }) {
-  const v = variant || getLogoVariant();
-  const line = (delay = 0, dur = 0.9) =>
+export default function Logo({ size = 32, draw = false, className = '' }) {
+  const line = (delay, dur) =>
     draw
-      ? { initial: { pathLength: 0, opacity: 0 }, animate: { pathLength: 1, opacity: 1 }, transition: { duration: dur, delay, ease } }
+      ? { initial: { pathLength: 0 }, animate: { pathLength: 1 }, transition: { duration: dur, delay, ease: OUT } }
       : { initial: false };
-  const pop = (delay) =>
-    draw
-      ? { initial: { scale: 0, opacity: 0 }, animate: { scale: 1, opacity: 1 }, transition: { delay, type: 'spring', stiffness: 260, damping: 15 } }
-      : { initial: false };
-  const stroke = { stroke: 'currentColor', strokeLinecap: 'round', strokeLinejoin: 'round', fill: 'none' };
+  const stroke = { strokeLinecap: 'round', strokeLinejoin: 'round', fill: 'none' };
+  const acc = 'var(--accent)';
 
   return (
     <svg width={size} height={size} viewBox="0 0 100 100" className={className} aria-hidden="true" style={{ overflow: 'visible', color: 'var(--ink)' }}>
-      {v === 'a' ? (
-        <>
-          <motion.circle cx={50} cy={50} r={40} strokeWidth={6} {...stroke} {...line(0, 0.85)} />
-          <motion.path d="M50 36L63.3 45.7L58.2 61.3H41.8L36.7 45.7Z" strokeWidth={5} {...stroke} {...line(0.7, 0.5)} />
-          <motion.path
-            d="M50 36V10M63.3 45.7L88 37.6M58.2 61.3L73.5 82.4M41.8 61.3L26.5 82.4M36.7 45.7L12 37.6"
-            strokeWidth={5}
-            {...stroke}
-            {...line(0.95, 0.5)}
+      <defs>
+        <clipPath id="sl-lens-clip">
+          <circle cx={42} cy={42} r={26} />
+        </clipPath>
+      </defs>
+      <motion.circle cx={42} cy={42} r={30} strokeWidth={8} stroke="currentColor" {...stroke} {...line(0, 0.8)} />
+      <motion.path d="M42 14V70" strokeWidth={3.5} stroke={acc} {...stroke} {...line(0.6, 0.5)} />
+      <motion.circle cx={42} cy={42} r={10} strokeWidth={3.5} stroke={acc} {...stroke} {...line(0.7, 0.6)} />
+      <motion.path d="M13 31H20V53H13M71 31H64V53H71" strokeWidth={3} stroke={acc} opacity={0.7} {...stroke} {...line(0.8, 0.6)} />
+      <motion.path
+        d="M65 65L88 88"
+        strokeWidth={11}
+        stroke={acc}
+        {...stroke}
+        {...(draw
+          ? { initial: { opacity: 0, x: -16, y: -16 }, animate: { opacity: 1, x: 0, y: 0 }, transition: { duration: 0.6, delay: 0.9, ease: OUT } }
+          : { initial: false })}
+      />
+      <motion.circle
+        cx={42}
+        cy={42}
+        r={4}
+        fill="currentColor"
+        {...(draw ? { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { delay: 1.3, duration: 0.2 } } : { initial: false })}
+      />
+      {draw ? (
+        <g clipPath="url(#sl-lens-clip)">
+          <motion.rect
+            x={10}
+            width={64}
+            height={3}
+            rx={1.5}
+            fill={acc}
+            style={{ filter: 'drop-shadow(0 0 3px var(--accent))' }}
+            initial={{ y: 14, opacity: 0 }}
+            animate={{ y: [14, 70, 14, 70], opacity: [0, 1, 1, 0] }}
+            transition={{ duration: 1.2, delay: 0.9, ease: 'easeInOut' }}
           />
-        </>
-      ) : null}
-      {v === 'b' ? (
-        <>
-          <motion.path d="M50 7L87 19V50C87 74 71 88 50 94C29 88 13 74 13 50V19Z" strokeWidth={6} {...stroke} {...line(0, 0.95)} />
-          <g transform="translate(18 14) scale(.64)">
-            <motion.path d={S_PATH} strokeWidth={10} {...stroke} {...line(0.7, 0.7)} />
-          </g>
-          <motion.circle cx={69} cy={72} r={5.5} fill="currentColor" {...pop(1.35)} style={{ transformOrigin: '69px 72px' }} />
-        </>
-      ) : null}
-      {v === 'c' ? (
-        <>
-          <motion.path d="M10 86V34H90V86" strokeWidth={6} {...stroke} {...line(0, 0.7)} />
-          <motion.path d="M10 52H90M10 70H90M30 34V86M50 34V86M70 34V86" strokeWidth={2} {...stroke} opacity={0.35} {...line(0.4, 0.6)} />
-          <motion.path d="M8 92C16 18 66 6 70 56" strokeWidth={5} strokeDasharray="1 9" {...stroke} {...line(0.6, 0.9)} />
-          <motion.circle cx={70} cy={58} r={9} fill="currentColor" {...pop(1.3)} style={{ transformOrigin: '70px 58px' }} />
-        </>
+        </g>
       ) : null}
     </svg>
   );
