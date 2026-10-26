@@ -1,0 +1,495 @@
+{
+ "stats_keys": [
+  "players",
+  "teams",
+  "seasonStatLinks",
+  "seasonsWithLinks"
+ ],
+ "seasonStatLinks": [
+  {
+   "Name": "2026/2027",
+   "CountryCode": "ENG",
+   "RelativePath": "stats/47/season/36781/topstats.json",
+   "League": "Premier League",
+   "StageId": 0,
+   "TemplateId": 47,
+   "TournamentId": 36781
+  },
+  {
+   "Name": "2025/2026",
+   "CountryCode": "ENG",
+   "RelativePath": "stats/47/season/27110/topstats.json",
+   "League": "Premier League",
+   "StageId": 0,
+   "TemplateId": 47,
+   "TournamentId": 27110
+  },
+  {
+   "Name": "2024/2025",
+   "CountryCode": "ENG",
+   "RelativePath": "stats/47/season/23685/topstats.json",
+   "League": "Premier League",
+   "StageId": 0,
+   "TemplateId": 47,
+   "TournamentId": 23685
+  },
+  {
+   "Name": "2023/2024",
+   "CountryCode": "ENG",
+   "RelativePath": "stats/47/season/20720/topstats.json",
+   "League": "Premier League",
+   "StageId": 0,
+   "TemplateId": 47,
+   "TournamentId": 20720
+  },
+  {
+   "Name": "2022/2023",
+   "CountryCode": "ENG",
+   "RelativePath": "stats/47/season/17664/topstats.json",
+   "League": "Premier League",
+   "StageId": 0,
+   "TemplateId": 47,
+   "TournamentId": 17664
+  },
+  {
+   "Name": "2021/2022",
+   "CountryCode": "ENG",
+   "RelativePath": "stats/47/season/16390/topstats.json",
+   "League": "Premier League",
+   "StageId": 0,
+   "TemplateId": 47,
+   "TournamentId": 16390
+  },
+  {
+   "Name": "2020/2021",
+   "CountryCode": "ENG",
+   "RelativePath": "stats/47/season/15382/topstats.json",
+   "League": "Premier League",
+   "StageId": 0,
+   "TemplateId": 47,
+   "TournamentId": 15382
+  },
+  {
+   "Name": "2019/2020",
+   "CountryCode": "ENG",
+   "RelativePath": "stats/47/season/14022/topstats.json",
+   "League": "Premier League",
+   "StageId": 0,
+   "TemplateId": 47,
+   "TournamentId": 14022
+  },
+  {
+   "Name": "2018/2019",
+   "CountryCode": "ENG",
+   "RelativePath": "stats/47/season/12776/topstats.json",
+   "League": "Premier League",
+   "StageId": 0,
+   "TemplateId": 47,
+   "TournamentId": 12776
+  },
+  {
+   "Name": "2017/2018",
+   "CountryCode": "ENG",
+   "RelativePath": "stats/47/season/11522/topstats.json",
+   "League": "Premier League",
+   "StageId": 0,
+   "TemplateId": 47,
+   "TournamentId": 11522
+  },
+  {
+   "Name": "2016/2017",
+   "CountryCode": "ENG",
+   "RelativePath": "stats/47/season/10418/topstats.json",
+   "League": "Premier League",
+   "StageId": 0,
+   "TemplateId": 47,
+   "TournamentId": 10418
+  }
+ ],
+ "seasonsWithLinks": [
+  "2026/2027",
+  "len=17"
+ ],
+ "players_first2": [
+  {
+   "header": "Top scorer",
+   "participant": {
+    "id": 737066,
+    "name": "Erling Haaland",
+    "rank": 1,
+    "ccode": "NOR",
+    "teamId": 8456,
+    "teamName": "Manchester City",
+    "value": 9,
+    "stat": {
+     "name": "goals",
+     "value": 9,
+     "format": "number",
+     "fractions": 0
+    }
+   },
+   "fetchAllUrl": "https://data.fotmob.com/stats/47/season/36781/goals.json",
+   "topThree": [
+    {
+     "id": 737066,
+     "name": "Erling Haaland",
+     "rank": 1,
+     "ccode": "NOR",
+     "teamId": 8456,
+     "teamName": "Manchester City",
+     "value": 9,
+     "stat": {
+      "name": "goals",
+      "value": 9,
+      "format": "number",
+      "fractions": 0
+     },
+     "teamColors": {
+      "darkMode": "#76b4e5",
+      "lightMode": "#69A8D8",
+      "fontDarkMode": "rgba(29, 29, 29, 1.0)",
+      "fontLightMode": "rgba(255, 255, 255, 1.0)"
+     }
+    },
+    {
+     "id": 690107,
+     "name": "Alexander Isak",
+     "rank": 2,
+     "ccode": "SWE",
+     "teamId": 8650,
+     "teamName": "Liverpool",
+     "value": 6,
+     "stat": {
+      "name": "goals",
+      "value": 6,
+      "format": "number",
+      "fractions": 0
+     },
+     "teamColors": {
+      "darkMode": "#911712",
+      "lightMode": "#911712",
+      "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+      "fontLightMode": "rgba(255, 255, 255, 1.0)"
+     }
+    },
+    {
+     "id": 1021382,
+     "name": "João Pedro",
+     "rank": 3,
+     "ccode": "BRA",
+     "teamId": 8455,
+     "teamName": "Chelsea",
+     "value": 5,
+     "stat": {
+      "name": "goals",
+      "value": 5,
+      "format": "number",
+      "fractions": 0
+     },
+     "teamColors": {
+      "darkMode": "#033cc1",
+      "lightMode": "#051495",
+      "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+      "fontLightMode": "rgba(255, 255, 255, 1.0)"
+     }
+    }
+   ],
+   "order": 1,
+   "name": "goals",
+   "localizedTitleId": "goals_title",
+   "category": "Top Stat"
+  },
+  {
+   "header": "Assists",
+   "participant": {
+    "id": 654096,
+    "name": "Declan Rice",
+    "rank": 1,
+    "ccode": "ENG",
+    "teamId": 9825,
+    "teamName": "Arsenal",
+    "value": 4,
+    "stat": {
+     "name": "goal_assist",
+     "value": 4,
+     "format": "number",
+     "fractions": 0
+    }
+   },
+   "fetchAllUrl": "https://data.fotmob.com/stats/47/season/36781/goal_assist.json",
+   "topThree": [
+    {
+     "id": 654096,
+     "name": "Declan Rice",
+     "rank": 1,
+     "ccode": "ENG",
+     "teamId": 9825,
+     "teamName": "Arsenal",
+     "value": 4,
+     "stat": {
+      "name": "goal_assist",
+      "value": 4,
+      "format": "number",
+      "fractions": 0
+     },
+     "teamColors": {
+      "darkMode": "#bd0510",
+      "lightMode": "#bd0510",
+      "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+      "fontLightMode": "rgba(255, 255, 255, 1.0)"
+     }
+    },
+    {
+     "id": 167008,
+     "name": "Pascal Groß",
+     "rank": 2,
+     "ccode": "GER",
+     "teamId": 10204,
+     "teamName": "Brighton and Hove Albion",
+     "value": 4,
+     "stat": {
+      "name": "goal_assist",
+      "value": 4,
+      "format": "number",
+      "fractions": 0
+     },
+     "teamColors": {
+      "darkMode": "#095bb6",
+      "lightMode": "#0850A0",
+      "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+      "fontLightMode": "rgba(255, 255, 255, 1.0)"
+     }
+    },
+    {
+     "id": 1098096,
+     "name": "Evanilson",
+     "rank": 3,
+     "ccode": "BRA",
+     "teamId": 8678,
+     "teamName": "Bournemouth",
+     "value": 4,
+     "stat": {
+      "name": "goal_assist",
+      "value": 4,
+      "format": "number",
+      "fractions": 0
+     },
+     "teamColors": {
+      "darkMode": "#D71921",
+      "lightMode": "#D71921",
+      "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+      "fontLightMode": "rgba(255, 255, 255, 1.0)"
+     }
+    }
+   ],
+   "order": 2,
+   "name": "goal_assist",
+   "localizedTitleId": "goal_assist_title",
+   "category": "Top Stat"
+  }
+ ],
+ "teams_first2": [
+  {
+   "header": "FotMob rating",
+   "participant": {
+    "id": 0,
+    "name": "Manchester City",
+    "rank": 1,
+    "ccode": "ENG",
+    "teamId": 8456,
+    "value": 7.28,
+    "stat": {
+     "name": "rating_team",
+     "value": 7.28,
+     "format": "fraction",
+     "fractions": 2
+    }
+   },
+   "fetchAllUrl": "https://data.fotmob.com/stats/47/season/36781/rating_team.json",
+   "topThree": [
+    {
+     "id": 0,
+     "name": "Manchester City",
+     "rank": 1,
+     "ccode": "ENG",
+     "teamId": 8456,
+     "value": 7.28,
+     "stat": {
+      "name": "rating_team",
+      "value": 7.28,
+      "format": "fraction",
+      "fractions": 2
+     },
+     "teamColors": {
+      "darkMode": "#76b4e5",
+      "lightMode": "#69A8D8",
+      "fontDarkMode": "rgba(29, 29, 29, 1.0)",
+      "fontLightMode": "rgba(255, 255, 255, 1.0)"
+     }
+    },
+    {
+     "id": 0,
+     "name": "Brighton & Hove Albion",
+     "rank": 2,
+     "ccode": "ENG",
+     "teamId": 10204,
+     "value": 7.09,
+     "stat": {
+      "name": "rating_team",
+      "value": 7.09,
+      "format": "fraction",
+      "fractions": 2
+     },
+     "teamColors": {
+      "darkMode": "#095bb6",
+      "lightMode": "#0850A0",
+      "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+      "fontLightMode": "rgba(255, 255, 255, 1.0)"
+     }
+    },
+    {
+     "id": 0,
+     "name": "Arsenal",
+     "rank": 3,
+     "ccode": "ENG",
+     "teamId": 9825,
+     "value": 7.08,
+     "stat": {
+      "name": "rating_team",
+      "value": 7.08,
+      "format": "fraction",
+      "fractions": 2
+     },
+     "teamColors": {
+      "darkMode": "#bd0510",
+      "lightMode": "#bd0510",
+      "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+      "fontLightMode": "rgba(255, 255, 255, 1.0)"
+     }
+    }
+   ],
+   "order": 47,
+   "name": "rating_team",
+   "localizedTitleId": "rating_team_title",
+   "category": "Top Stat"
+  },
+  {
+   "header": "Goals per match",
+   "participant": {
+    "id": 0,
+    "name": "Brighton & Hove Albion",
+    "rank": 1,
+    "ccode": "ENG",
+    "teamId": 10204,
+    "value": 2.9,
+    "stat": {
+     "name": "goals_team_match",
+     "value": 2.9,
+     "format": "fraction",
+     "fractions": 1
+    }
+   },
+   "fetchAllUrl": "https://data.fotmob.com/stats/47/season/36781/goals_team_match.json",
+   "topThree": [
+    {
+     "id": 0,
+     "name": "Brighton & Hove Albion",
+     "rank": 1,
+     "ccode": "ENG",
+     "teamId": 10204,
+     "value": 2.9,
+     "stat": {
+      "name": "goals_team_match",
+      "value": 2.9,
+      "format": "fraction",
+      "fractions": 1
+     },
+     "teamColors": {
+      "darkMode": "#095bb6",
+      "lightMode": "#0850A0",
+      "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+      "fontLightMode": "rgba(255, 255, 255, 1.0)"
+     }
+    },
+    {
+     "id": 0,
+     "name": "Manchester City",
+     "rank": 2,
+     "ccode": "ENG",
+     "teamId": 8456,
+     "value": 2.5,
+     "stat": {
+      "name": "goals_team_match",
+      "value": 2.5,
+      "format": "fraction",
+      "fractions": 1
+     },
+     "teamColors": {
+      "darkMode": "#76b4e5",
+      "lightMode": "#69A8D8",
+      "fontDarkMode": "rgba(29, 29, 29, 1.0)",
+      "fontLightMode": "rgba(255, 255, 255, 1.0)"
+     }
+    },
+    {
+     "id": 0,
+     "name": "Chelsea",
+     "rank": 3,
+     "ccode": "ENG",
+     "teamId": 8455,
+     "value": 2.1,
+     "stat": {
+      "name": "goals_team_match",
+      "value": 2.1,
+      "format": "fraction",
+      "fractions": 1
+     },
+     "teamColors": {
+      "darkMode": "#033cc1",
+      "lightMode": "#051495",
+      "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+      "fontLightMode": "rgba(255, 255, 255, 1.0)"
+     }
+    }
+   ],
+   "order": 48,
+   "name": "goals_team_match",
+   "localizedTitleId": "goals_team_match_title",
+   "category": "Top Stat"
+  }
+ ],
+ "sw_head": "[\"2026/2027\", \"2025/2026\", \"2024/2025\", \"2023/2024\", \"2022/2023\", \"2021/2022\", \"2020/2021\", \"2019/2020\", \"2018/2019\", \"2017/2018\", \"2016/2017\", \"2015/2016\", \"2014/2015\", \"2013/2014\", \"2012/2013\", \"2011/2012\", \"2010/2011\"]",
+ "fetch_goals": "{\"TopLists\": [{\"StatName\": \"goals\", \"Title\": \"Top scorer\", \"Subtitle\": \"Penalty goals\", \"LocalizedTitleId\": \"goals_title\", \"LocalizedSubtitleId\": \"goals_subtitle\", \"StatList\": [{\"ParticipantName\": \"Erling Haaland\", \"ParticiantId\": 737066, \"TeamId\": 8456, \"TeamColor\": \"#69A8D8\", \"StatValue\": 9.0, \"SubStatValue\": 0.0, \"MinutesPlayed\": 710, \"MatchesPlayed\": 8, \"StatValueCount\": 7, \"Rank\": 1, \"ParticipantCountryCode\": \"NOR\", \"TeamName\": \"Manchester City\", \"Positions\": [115]}, {\"ParticipantName\": \"Alexander Isak\", \"ParticiantId\": 690107, \"TeamId\": 8650, \"TeamColor\": \"#911712\", \"StatValue\": 6.0, \"SubStatValue\": 0.0, \"MinutesPlayed\": 571, \"MatchesPlayed\": 7, \"StatValueCount\": 5, \"Rank\": 2, \"ParticipantCountryCode\": \"SWE\", \"TeamName\": \"Liverpool\", \"Positions\": [115]}, {\"ParticipantName\": \"Jo\\u00e3o Pedro\", \"ParticiantId\": 1021382, \"TeamId\": 8455, \"TeamColor\": \"#051495\", \"StatValue\": 5.0, \"SubStatValue\": 0.0, \"MinutesPlayed\": 521, \"MatchesPlayed\": 6, \"StatValueCount\": 4, \"Rank\": 3, \"ParticipantCountryCode\": \"BRA\", \"TeamName\": \"Chelsea\", \"Positions\": [115, 85]}, {\"ParticipantName\": \"Marcus Tavernier\", \"ParticiantId\": 789630, \"TeamId\": 8678, \"TeamColor\": \"#D71921\", \"StatValue\": 5.0, \"SubStatV",
+ "url_example": "https://data.fotmob.com/stats/47/season/36781/rating_team.json",
+ "fetch_rating_team": "{\"TopLists\": [{\"StatName\": \"rating_team\", \"Title\": \"FotMob rating\", \"LocalizedTitleId\": \"rating_team_title\", \"StatList\": [{\"ParticipantName\": \"Manchester City\", \"ParticiantId\": 0, \"TeamId\": 8456, \"TeamColor\": \"#69A8D8\", \"StatValue\": 7.28, \"SubStatValue\": 0.0, \"MinutesPlayed\": 0, \"MatchesPlayed\": 8, \"StatValueCount\": 8, \"Rank\": 1, \"ParticipantCountryCode\": \"ENG\"}, {\"ParticipantName\": \"Brighton & Hove Albion\", \"ParticiantId\": 0, \"TeamId\": 10204, \"TeamColor\": \"#0850A0\", \"StatValue\": 7.09, \"SubStatValue\": 0.0, \"MinutesPlayed\": 0, \"MatchesPlayed\": 8, \"StatValueCount\": 8, \"Rank\": 2, \"ParticipantCountryCode\": \"ENG\"}, {\"ParticipantName\": \"Arsenal\", \"ParticiantId\": 0, \"TeamId\": 9825, \"TeamColor\": \"#bd0510\", \"StatValue\": 7.08, \"SubStatValue\": 0.0, \"MinutesPlayed\": 0, \"MatchesPlayed\": 8, \"StatValueCount\": 8, \"Rank\": 3, \"ParticipantCountryCode\": \"ENG\"}, {\"ParticipantName\": \"Liverpool\", \"ParticiantId\": 0, \"TeamId\": 8650, \"TeamColor\": \"#911712\", \"StatValue\": 7.03, \"SubStatValue\": 0.0, \"MinutesPlayed\": 0, \"MatchesPlayed\": 8, \"StatValueCount\": 8, \"Rank\": 4, \"ParticipantCountryCode\": \"ENG\"}, {\"ParticipantName\": \"Chelsea\", \"ParticiantId\": 0, \"TeamId\": 8455, \"TeamColor\": \"#051495\", \"StatValue\": 6.98,",
+ "match_old_keys": [
+  "general",
+  "header",
+  "nav",
+  "ongoing",
+  "hasPendingVAR",
+  "content",
+  "seo"
+ ],
+ "match_old_content_keys": [
+  "matchFacts",
+  "liveticker",
+  "superlive",
+  "buzz",
+  "stats",
+  "playerStats",
+  "shotmap",
+  "lineup",
+  "table",
+  "h2h",
+  "momentum"
+ ],
+ "match_old_stats": "{\"Periods\": {\"All\": {\"stats\": [{\"title\": \"Top stats\", \"key\": \"top_stats\", \"stats\": [{\"title\": \"Ball possession\", \"key\": \"BallPossesion\", \"stats\": [51, 49], \"rawStats\": [{\"value\": 51}, {\"value\": 49}], \"format\": \"integer\", \"type\": \"graph\", \"highlighted\": \"home\"}, {\"title\": \"Total shots\", \"key\": \"total_shots\", \"stats\": [5, 8], \"rawStats\": [{\"value\": 5}, {\"value\": 8}], \"format\": \"integer\", \"type\": \"text\", \"highlighted\": \"away\"}, {\"title\": \"Shots on target\", \"key\": \"ShotsOnTarget\", \"stats\": [1, 6], \"rawStats\": [{\"value\": 1}, {\"value\": 6}], \"format\": \"integer\", \"type\": \"text\", \"highlighted\": \"away\"}, {\"title\": \"Corners\", \"key\": \"corners\", \"stats\": [1, 2], \"rawStats\": [{\"value\": 1}, {\"value\": 2}], \"format\": \"integer\", \"type\": \"text\", \"highlighted\": \"away\"}]}], \"teamColors\": {\"darkMode\": {\"home\": \"#C70101\", \"away\": \"#ffffff\"}, \"lightMode\": {\"home\": \"#C70101\", \"away\": \"#132257\"}, \"fontDarkMode\": {\"home\": \"rgba(255, 255, 255, 1.0)\", \"away\": \"rgba(29, 29, 29, 1.0)\"}, \"fontLightMode\": {\"home\": \"rgba(255, 255, 255, 1.0)\", \"away\": \"rgba(255, 255, 255, 1.0)\"}}}}}",
+ "match_old_lineup": "{\"matchId\": 1987037, \"lineupType\": \"standard\", \"availableFilters\": [\"match\", \"len=1\"], \"homeTeam\": {\"id\": 10260, \"name\": \"Manchester United\", \"formation\": \"4-2-3-1\", \"starters\": [{\"id\": 109060, \"name\": \"Sergio Romero\", \"positionId\": 11, \"usualPlayingPositionId\": 0, \"shirtNumber\": \"20\", \"isCaptain\": false, \"horizontalLayout\": \"{...4}\", \"verticalLayout\": \"{...4}\", \"performance\": \"{...3}\", \"firstName\": \"Sergio\", \"lastName\": \"Romero\", \"rankings\": null}, \"len=11\"], \"coach\": {\"id\": 109077, \"name\": \"Louis van Gaal\", \"usualPlayingPositionId\": null, \"primaryTeamName\": \"Manchester United\", \"performance\": {\"events\": []}, \"firstName\": \"Louis\", \"lastName\": \"van Gaal\", \"primaryTeamId\": 10260, \"isCoach\": true}, \"subs\": [{\"id\": 30872, \"name\": \"Bastian Schweinsteiger\", \"positionId\": 0, \"usualPlayingPositionId\": 2, \"shirtNumber\": \"31\", \"isCaptain\": false, \"performance\": \"{...3}\", \"firstName\": \"Bastian\", \"lastName\": \"Schweinsteiger\", \"rankings\": null}, \"len=7\"], \"unavailable\": []}, \"awayTeam\": {\"id\": 8586, \"name\": \"Tottenham Hotspur\", \"formation\": \"4-2-3-1\", \"starters\": [{\"id\": 37193, \"name\": \"Michel Vorm\", \"positionId\": 11, \"usualPlayingPositionId\": 0, \"shirtNumber\": \"13\", \"isCaptain\": false, \"horizontalLayout\": \"{...4}\", \"verticalLayout\": \"{...4}\", \"performance\": \"{...3}\", \"firstName\": \"Michel\", \"lastName\": \"Vorm\", \"rankings\": null}, \"len=11\"], \"coach\": {\"id\": 37915, \"name\": \"Mauricio Pochettino\", \"usualPlayingPositionId\": null, \"primaryTeamName\": \"Tottenham Hotspur\", \"performance\": {\"events\"",
+ "match_old_shotmap": "{\"shots\": [], \"Periods\": {\"All\": []}}",
+ "match_2425_stats_head": "{\"Periods\": {\"All\": {\"stats\": [{\"title\": \"Top stats\", \"key\": \"top_stats\", \"stats\": [{\"title\": \"Ball possession\", \"key\": \"BallPossesion\", \"stats\": [53, 47], \"rawStats\": [{\"value\": 53}, {\"value\": 47}], \"format\": \"integer\", \"type\": \"graph\", \"highlighted\": \"home\"}, {\"title\": \"Expected goals (xG)\", \"key\": \"expected_goals\", \"stats\": [\"1.31\", \"1.27\"], \"rawStats\": [{\"value\": 1.31}, {\"value\": 1.27}], \"format\": \"double\", \"type\": \"text\", \"highlighted\": \"home\"}, {\"title\": \"Total shots\", \"key\": \"total_shots\", \"stats\": [16, 12], \"rawStats\": [{\"value\": 16}, {\"value\": 12}], \"format\": \"integer\", \"type\": \"text\", \"highlighted\": \"home\"}, {\"title\": \"Shots on target\", \"key\": \"ShotsOnTarget\", \"stats\": [9, 4], \"rawStats\": [{\"value\": 9}, {\"value\": 4}], \"format\": \"integer\", \"type\": \"text\", \"highlighted\": \"home\"}, {\"title\": \"Touches in opposition box\", \"key\": \"touches_opp_box\", \"stats\": [39, 24], \"rawStats\": [{\"value\": 39}, {\"value\": 24}], \"type\": \"text\", \"highlighted\": \"home\"}, {\"title\": \"Big chances\", \"key\": \"big_chance\", \"stats\": [2, 2], \"rawStats\": [{\"value\": 2}, {\"value\": 2}], \"format\": \"integer\", \"type\": \"text\", \"highlighted\": \"equal\"}, {\"title\": \"Big chances missed\", \"key\": \"big_chance_missed_title\", ",
+ "fd_data_page": "<HTML>\r\n<HEAD>\r\n<TITLE>Football Results, Statistics & Soccer Betting Odds Data</TITLE>\r\n<META NAME=\"description\" CONTENT=\"Football results, fixed odds, total goals and Asian Handicap betting odds data",
+ "fd_csv_links": [],
+ "fd_downloadm": "\r\n<HTML>\r\n<HEAD>\r\n<TITLE>European Football Results and Betting Odds</TITLE>\r\n<META NAME=\"description\" CONTENT=\"European football results, fixed odds, total goals and Asian Handicap betting odds data\">",
+ "fd_all_links": []
+}
