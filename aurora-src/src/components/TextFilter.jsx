@@ -28,7 +28,7 @@ export default function TextFilter({ options, value, onChange, className = '' })
             data-on={active ? '1' : '0'}
             type="button"
             onClick={() => onChange(val)}
-            className="press relative shrink-0 rounded-full px-3.5 py-[6px] text-[12.5px] font-bold"
+            className="press relative shrink-0 rounded-full px-[10.5px] py-[6px] text-[12.5px] font-bold"
           >
             {active ? (
               <motion.span
