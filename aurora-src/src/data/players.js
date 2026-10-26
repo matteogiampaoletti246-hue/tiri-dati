@@ -5,6 +5,7 @@ import { ensureTeam, teamByName, teamById } from './teams';
 import { norm, slug, r1, r2 } from './util';
 
 export const PLAYERS = [];
+export const EX_COLS = [];
 export const COACHES = {};
 
 const BY_ID = {};
@@ -53,6 +54,8 @@ export function buildPlayers() {
   // voto e xG stagionali (stats_ex)
   const EXH = (RAW.statsEx && RAW.statsEx.head) || [];
   const EXC = (RAW.statsEx && RAW.statsEx.cols) || [];
+  EX_COLS.length = 0;
+  EXC.forEach((c) => EX_COLS.push(c));
   const exIx = {};
   EXH.forEach((c, i) => {
     exIx[c] = i;
@@ -98,6 +101,12 @@ export function buildPlayers() {
       shots: s ? s[ix.sh] : Math.round(lg[1] + cup[1]),
       shotsOnTarget: s ? s[ix.st] : lg[2] + cup[2],
       xg: ex && xgIdx >= 0 && ex[exIx.s] ? r2(ex[exIx.s][xgIdx] || 0) : null,
+      exS: ex ? ex[exIx.s] : null,
+      exL5: ex ? ex[exIx.l5] : null,
+      l5g: ex ? ex[exIx.l5g] : 0,
+      l5min: ex ? ex[exIx.l5min] : 0,
+      l5y: ex ? ex[exIx.l5y] : 0,
+      l5r: ex ? ex[exIx.l5r] : 0,
       foulsCommitted: s ? s[ix.fo] : 0,
       foulsDrawn: s ? s[ix.fs] : 0,
       offsides: s ? s[ix.of] : 0,

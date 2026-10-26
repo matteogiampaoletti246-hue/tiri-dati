@@ -64,13 +64,14 @@ export default function Player() {
   const panels = [
     <ProfiloPanel key="p" player={player} team={team} concept="c" />,
     <PartitePanel key="m" player={player} concept="b" />,
-    <StatistichePanel key="s" player={player} concept="b" />,
+    <StatistichePanel key="s" player={player} team={team} />,
     <CarrieraPanel key="c" player={player} team={team} concept="b" />,
   ];
 
   return (
     <PageShell swipeBack={false}>
       <EntityBanner
+        tall
         name={player.name}
         subtitle={[team ? team.name : player.teamName, POS_IT[player.position]].filter(Boolean).join(' · ')}
         colors={team ? team.colors : undefined}

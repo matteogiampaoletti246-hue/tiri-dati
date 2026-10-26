@@ -3,7 +3,10 @@ import Crest from '@/components/Crest';
 import PanelTitle from '@/components/PanelTitle';
 import Radar from './Radar';
 import { comma } from '@/lib/format';
-import { POS_IT, percentiles, ratingColor, dateIt } from './playerCalc';
+import { POS_IT, percentiles, ratingColor, dateIt, rankOf, statValue, roleAverage, GROUPS } from './playerCalc';
+import { per90, EX_COLS } from '@/data/players';
+import { upcomingMatches } from '@/data/extras';
+import { teamById } from '@/data/teams';
 import { teamByName } from '@/data/teams';
 import { carriereOf, countryIt, FOOT, dateLong, ageOf, money, monthIt } from '@/data/carriere';
 
@@ -215,7 +218,7 @@ export function PartitePanel({ player, concept }) {
               <Crest team={opp} size={26} />
               <div className="min-w-0 flex-1">
                 <p className="truncate text-[13.5px]" style={{ color: 'var(--ink)' }}>
-                  {m.home ? 'vs' : '@'} {m.opp}
+                  vs {m.opp}
                 </p>
                 <p className="mt-0.5 text-[11px]" style={{ color: 'var(--ink-3)' }}>
                   {dateIt(m.date)} · {m.minutes}&apos;
@@ -242,64 +245,140 @@ export function PartitePanel({ player, concept }) {
 }
 
 /* ---------- STATISTICHE ---------- */
-export function StatistichePanel({ player, concept }) {
-  const pc = percentiles(player);
-  const p = player;
-  const totals = [
-    ['Gol', p.goals], ['Assist', p.assists], ['Tiri', p.shots], ['In porta', p.shotsOnTarget],
-    ['xG', p.xg === null || p.xg === undefined ? '—' : comma(p.xg, 2)], ['Falli fatti', p.foulsCommitted],
-    ['Falli subiti', p.foulsDrawn], ['Fuorigioco', p.offsides], ['Gialli', p.yellows], ['Rossi', p.reds],
-  ];
+const f1 = (v, d = 1) => (v === null || v === undefined || !Number.isFinite(v) ? '–' : comma(Math.round(v * 10 ** d) / 10 ** d, d));
+const CARD = { background: 'var(--panel-solid, rgba(255,255,255,.04))', border: '1px solid var(--hair-2)', borderRadius: 18 };
+
+function Affidabilita({ player, team }) {
+  const next = upcomingMatches(player.teamId, 1)[0];
+  const opp = next ? teamById(next.homeId === player.teamId ? next.awayId : next.homeId) : null;
   return (
-    <div className="flex flex-col gap-6 px-5 pb-8 pt-5">
-      <section>
-        <PanelTitle right={<span className="tnum text-[11px]" style={{ color: 'var(--ink-3)' }}>{p.minutes} min</span>}>Per 90&apos;</PanelTitle>
-        <div className={concept === 'b' ? 'flex flex-col gap-2.5' : 'panel-solid rounded-2xl px-4 py-2'}>
-          {pc.map((x, i) => (
-            <div
-              key={x.key}
-              className="py-2.5"
-              style={concept === 'b' ? { background: 'rgba(127,160,200,.08)', borderRadius: 14, padding: '12px 14px' } : { borderTop: i ? '1px solid var(--hair-2)' : 'none' }}
-            >
-              <div className="flex items-baseline justify-between">
-                <span className="text-[13px]" style={{ color: 'var(--ink-2)' }}>{x.label}</span>
-                <span className="tnum text-[14px] font-medium" style={{ color: 'var(--ink)' }}>
-                  {comma(x.value, 2)} <span className="text-[10.5px] font-normal" style={{ color: 'var(--ink-3)' }}>({x.total === 0 ? 0 : comma(x.total, x.key === 'xg' ? 1 : 0)})</span>
+    <section className="px-0">
+      <div className="rounded-2xl px-4 py-3.5" style={CARD}>
+        <div className="mb-3 flex items-center gap-2">
+          <span className="text-[13.5px] font-semibold" style={{ color: 'var(--ink)' }}>Affidabilità prossima partita</span>
+          {opp ? (
+            <span className="ml-auto flex items-center gap-1.5 text-[12px]" style={{ color: 'var(--ink-2)' }}>
+              VS <Crest team={opp} size={18} /> {opp.name}
+            </span>
+          ) : <span className="ml-auto text-[12px]" style={{ color: 'var(--ink-3)' }}>nessuna partita</span>}
+        </div>
+        <div className="grid grid-cols-3 gap-2.5">
+          {['Over 0,5', 'Over 1,5', 'Over 2,5'].map((k) => (
+            <div key={k} className="rounded-xl py-3 text-center" style={{ background: 'rgba(127,160,200,.1)' }}>
+              <p className="tnum text-[22px] font-light" style={{ color: 'var(--ink-3)' }}>—</p>
+              <p style={L}>{k}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function StatRow({ player, row, i }) {
+  const s = statValue(player, row);
+  const l = statValue(player, row, true);
+  if (s === null && l === null) return null;
+  const pct = row[2] === 'pct';
+  const bad = row[3] === 1;
+  const ref = roleAverage(player, row);
+  const fmt = (v) => (v === null ? '–' : pct ? `${Math.round(v)}%` : f1(v, v < 10 ? 2 : 1));
+  const top = ref ? Math.max(ref.p95 || 0, ref.avg * 1.6, s || 0, 0.0001) : null;
+  const good = ref && s !== null ? (bad ? s <= ref.avg : s >= ref.avg) : true;
+  return (
+    <div className="px-4 py-2.5" style={{ borderTop: i ? '1px solid var(--hair-2)' : 'none' }}>
+      <div className="grid items-baseline gap-2" style={{ gridTemplateColumns: '1fr 56px 56px' }}>
+        <span className="text-[12.5px] leading-tight" style={{ color: 'var(--ink-2)' }}>{row[1]}</span>
+        <span className="tnum text-right text-[14px] font-semibold" style={{ color: 'var(--ink)' }}>{fmt(s)}</span>
+        <span className="tnum text-right text-[13px]" style={{ color: 'var(--ink-3)' }}>{fmt(l)}</span>
+      </div>
+      {ref && s !== null ? (
+        <div className="relative mt-2 h-[5px] rounded-full" style={{ background: 'var(--hair-2)' }}>
+          <div className="h-full rounded-full" style={{ width: `${Math.max(2, Math.min(100, (s / top) * 100))}%`, background: good ? '#1fa971' : '#e0603a' }} />
+          <span className="absolute -top-[3px] h-[11px] w-[2px] rounded" style={{ left: `${Math.min(100, (ref.avg / top) * 100)}%`, background: 'var(--ink-2)' }} />
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function Group({ title, children }) {
+  return (
+    <section>
+      <div className="overflow-hidden rounded-2xl" style={CARD}>
+        <div className="grid items-end gap-2 px-4 pb-1.5 pt-3.5" style={{ gridTemplateColumns: '1fr 56px 56px' }}>
+          <span className="text-[14px] font-semibold" style={{ color: 'var(--ink)' }}>{title}</span>
+          <span className="text-right text-[9.5px] uppercase tracking-[.08em]" style={{ color: 'var(--ink-3)' }}>Stagione</span>
+          <span className="text-right text-[9.5px] uppercase tracking-[.08em]" style={{ color: 'var(--ink-3)' }}>Ultime 5</span>
+        </div>
+        {children}
+      </div>
+    </section>
+  );
+}
+
+export function StatistichePanel({ player, team }) {
+  const p = player;
+  const rk = [['goals', 'Gol'], ['assists', 'Assist'], ['shots', 'Tiri'], ['shotsOnTarget', 'Tiri in porta'], ['xg', 'xG'], ['foulsDrawn', 'Falli subiti']]
+    .map(([k, label]) => ({ k, label, r: rankOf(p, k), v: per90(p[k] || 0, p.minutes) }))
+    .filter((x) => x.r);
+  const exv = (k, last) => {
+    const arr = last ? p.exL5 : p.exS;
+    const i = EX_COLS.indexOf(k);
+    return arr && i >= 0 ? arr[i] : null;
+  };
+  const mpp = (m, g) => (g ? Math.round(m / g) : null);
+  const gen = [
+    ['Partite giocate', p.appearances, p.l5g],
+    ['Gol', p.goals, exv('goals', true)],
+    ['Assist', p.assists, exv('assists', true)],
+    ['Minuti a partita', mpp(p.minutes, p.appearances) === null ? '–' : `${mpp(p.minutes, p.appearances)}'`, mpp(p.l5min, p.l5g) === null ? '–' : `${mpp(p.l5min, p.l5g)}'`],
+  ];
+  const disc = [
+    ['Gialli', p.yellows, p.l5y], ['Rossi', p.reds, p.l5r],
+  ];
+  const simple = (rows) => rows.map(([k, v, l], i) => (
+    <div key={k} className="grid items-baseline gap-2 px-4 py-2.5" style={{ gridTemplateColumns: '1fr 56px 56px', borderTop: i ? '1px solid var(--hair-2)' : 'none' }}>
+      <span className="text-[12.5px]" style={{ color: 'var(--ink-2)' }}>{k}</span>
+      <span className="tnum text-right text-[14px] font-semibold" style={{ color: 'var(--ink)' }}>{v ?? '–'}</span>
+      <span className="tnum text-right text-[13px]" style={{ color: 'var(--ink-3)' }}>{l ?? '–'}</span>
+    </div>
+  ));
+  const isGk = p.position === 'GK';
+  const mk = (rows) => rows.map((r, i) => <StatRow key={r[0] + r[2] + i} player={p} row={r} i={i} />);
+  const gShots = [['total_shots', "Tiri ogni 90'", 'p90'], ['ShotsOnTarget', "Tiri in porta ogni 90'", 'p90']];
+  const gDisc = [['fouls', "Falli commessi ogni 90'", 'p90', 1], ['was_fouled', "Falli subiti ogni 90'", 'p90'], ['Offsides', "Fuorigioco ogni 90'", 'p90', 1]];
+
+  return (
+    <div className="flex flex-col gap-4 px-5 pb-10 pt-5">
+      <Affidabilita player={p} team={team} />
+      {rk.length ? (
+        <section>
+          <div className="overflow-hidden rounded-2xl" style={CARD}>
+            <div className="px-4 pb-1 pt-3.5">
+              <span className="text-[14px] font-semibold" style={{ color: 'var(--ink)' }}>Classifica per ruolo</span>
+              <p className="mt-0.5 text-[10.5px]" style={{ color: 'var(--ink-3)' }}>Posizione tra i {POS_IT[p.position] ? POS_IT[p.position].toLowerCase() + 'i' : 'giocatori'} dei 5 campionati (valori ogni 90&apos;, almeno 270&apos;)</p>
+            </div>
+            {rk.map((x, i) => (
+              <div key={x.k} className="flex items-center justify-between px-4 py-2.5" style={{ borderTop: '1px solid var(--hair-2)' }}>
+                <span className="text-[12.5px]" style={{ color: 'var(--ink-2)' }}>{x.label}</span>
+                <span className="tnum text-[13px]" style={{ color: 'var(--ink-3)' }}>{comma(x.v, 2)}</span>
+                <span className="tnum w-[84px] text-right text-[14px] font-semibold" style={{ color: x.r.rank <= 10 ? '#1fa971' : 'var(--ink)' }}>
+                  {x.r.rank}° <span className="text-[10.5px] font-normal" style={{ color: 'var(--ink-3)' }}>su {x.r.of}</span>
                 </span>
               </div>
-              {x.pct !== null ? (
-                concept === 'c' ? (
-                  <div className="mt-2 flex items-center gap-[3px]">
-                    {Array.from({ length: 20 }).map((_, k) => (
-                      <span key={k} className="h-[8px] flex-1 rounded-[3px]" style={{ background: k < Math.round(x.pct / 5) ? 'var(--accent)' : 'var(--hair-2)' }} />
-                    ))}
-                    <span className="tnum ml-2 w-8 text-right text-[11px]" style={{ color: 'var(--ink-3)' }}>{x.pct}°</span>
-                  </div>
-                ) : (
-                  <div className="mt-2 flex items-center gap-2">
-                    <div className="h-[6px] flex-1 overflow-hidden rounded-full" style={{ background: 'var(--hair-2)' }}>
-                      <div className="h-full rounded-full" style={{ width: `${Math.max(3, x.pct)}%`, background: concept === 'b' ? ratingColor(5.5 + x.pct / 25) : 'var(--accent)' }} />
-                    </div>
-                    <span className="tnum w-8 text-right text-[11px]" style={{ color: 'var(--ink-3)' }}>{x.pct}°</span>
-                  </div>
-                )
-              ) : null}
-            </div>
-          ))}
-        </div>
-        <p className="mt-2 text-[10.5px]" style={{ color: 'var(--ink-3)' }}>Il percentile confronta il giocatore con chi ha lo stesso ruolo (almeno 270 minuti).</p>
-      </section>
-      <section>
-        <PanelTitle>Totali stagione</PanelTitle>
-        <div className="grid grid-cols-5 gap-y-4 rounded-2xl px-1 py-2 text-center panel-solid">
-          {totals.map(([k, v]) => (
-            <div key={k}>
-              <p className="tnum text-[17px] font-light" style={{ color: 'var(--ink)' }}>{v}</p>
-              <p style={{ ...L, fontSize: 8.5 }}>{k}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+            ))}
+          </div>
+        </section>
+      ) : null}
+      <Group title="Generale">{simple(gen)}</Group>
+      <Group title="Tiri">{mk(gShots)}</Group>
+      <Group title="Disciplina">{simple(disc)}{mk(gDisc)}</Group>
+      {GROUPS.filter((g) => (g.gk ? isGk : g.title !== 'Fisico' || true)).map((g) => {
+        const rows = mk(g.rows).filter(Boolean);
+        return rows.length ? <Group key={g.title} title={g.title}>{rows}</Group> : null;
+      })}
+      <p className="px-1 text-[10.5px]" style={{ color: 'var(--ink-3)' }}>La lineetta sulla barra è la media del ruolo. Verde = meglio della media, rosso = peggio.</p>
     </div>
   );
 }
