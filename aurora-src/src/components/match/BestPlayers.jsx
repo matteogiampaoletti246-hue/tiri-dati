@@ -7,7 +7,7 @@ import { playersByTeam } from '@/data/players';
 import { playerReliability } from '@/data/topPlayers';
 import { comma } from '@/lib/format';
 
-export const voteColor = (v) => (v >= 7.75 ? '#1FA45B' : v >= 6.5 ? '#8CCB5E' : v >= 5 ? '#E8C23A' : v >= 3.5 ? '#F08A5B' : '#E0443A');
+export const voteColor = (v) => (v >= 7.5 ? '#17944F' : v >= 6.75 ? '#8FCF63' : v >= 6.25 ? '#EBCB3B' : v >= 5.5 ? '#C79A12' : v >= 4.5 ? '#F0816C' : '#D92B22');
 
 function top3(teamId, date, line) {
   const list = playersByTeam(teamId);

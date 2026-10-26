@@ -31,10 +31,15 @@ function pool() {
 // giocatori dello stesso campionato e dello stesso ruolo (almeno 270')
 export const poolOf = (player) => pool()[poolKey(player)] || [];
 
-// fasce di colore: basso = rosso, medio-basso = rosso chiaro, medio = giallo, medio-alto = verde chiaro, alto = verde scuro
-export const BAND_COLORS = ['#E0443A', '#F08A5B', '#E8C23A', '#8CCB5E', '#1FA45B'];
-export const bandOf = (frac) => (frac === null || frac === undefined ? null : Math.min(4, Math.max(0, Math.floor(frac * 5))));
+// 6 fasce graduali: rosso intenso, rosso chiaro, giallo scuro, giallo, verde chiaro, verde scuro
+export const BAND_COLORS = ['#D92B22', '#F0816C', '#C79A12', '#EBCB3B', '#8FCF63', '#17944F'];
+export const bandOf = (frac) => (frac === null || frac === undefined ? null : Math.min(5, Math.max(0, Math.floor(frac * 6))));
 export const bandColor = (frac) => (frac === null || frac === undefined ? 'var(--ink-3)' : BAND_COLORS[bandOf(frac)]);
+// colore dal rapporto valore/media del ruolo (neg = piu' e' alto peggio e')
+export const ratioColor = (ratio, neg = false) => {
+  const r = neg ? (ratio > 0 ? 1 / ratio : 3) : ratio;
+  return BAND_COLORS[r < 0.6 ? 0 : r < 0.85 ? 1 : r < 0.97 ? 2 : r < 1.1 ? 3 : r < 1.35 ? 4 : 5];
+};
 
 export function percentile(player, key) {
   const list = poolOf(player);

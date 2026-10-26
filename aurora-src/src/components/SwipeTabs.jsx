@@ -1,8 +1,11 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 
-export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, className = '', stickyTop = 'var(--ent-h, 0px)', fixedBar = false }) {
+export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, className = '', stickyTop = 'var(--ent-h, 0px)', fixedBar = false, edgeBack = true }) {
+  const navigate = useNavigate();
+  const loc = useLocation();
   const wrapRef = useRef(null);
   const barRef = useRef(null);
   const tabRefs = useRef([]);
@@ -34,15 +37,14 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
   // posizione di scorrimento della riga di schede per mostrare la scheda k
   const scrollTargetOf = (k) => {
     const el = tabRefs.current[k];
-    const box = el && el.parentElement;
-    if (!box) return 0;
+    const box = headRef.current;
+    if (!box || !el) return 0;
     const max = Math.max(0, box.scrollWidth - box.clientWidth);
     return Math.max(0, Math.min(max, el.offsetLeft - 20));
   };
   // durante lo swipe la riga scorre seguendo il dito, cosi' si vede la scheda che sta arrivando
   const followBar = (from, to, t) => {
-    const a = tabRefs.current[from];
-    const box = a && a.parentElement;
+    const box = headRef.current;
     if (!box) return;
     const sa = scrollTargetOf(from);
     const sb = scrollTargetOf(to);
@@ -50,7 +52,7 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
   };
 
   const live = useRef({});
-  live.current = { index, onChange, n: tabs.length };
+  live.current = { index, onChange, n: tabs.length, back: edgeBack && loc.key !== 'default', navigate };
   const prevIdx = useRef(index);
   const contentRef = useRef(null);
 
@@ -59,8 +61,8 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
     posBar(index, index, 0, prevIdx.current !== index);
     if (prevIdx.current !== index) window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
     const cur = tabRefs.current[index];
-    if (cur && cur.parentElement) {
-      cur.parentElement.scrollTo({ left: Math.max(0, cur.offsetLeft - 20), behavior: 'smooth' });
+    if (cur && headRef.current) {
+      headRef.current.scrollTo({ left: scrollTargetOf(index), behavior: 'smooth' });
     }
     const el = contentRef.current;
     const dir = index > prevIdx.current ? 1 : index < prevIdx.current ? -1 : 0;
@@ -101,23 +103,34 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
         st.on = true;
       }
       if (e.cancelable) e.preventDefault();
-      const { index: i, n } = live.current;
-      const edge = (i === 0 && dx > 0) || (i === n - 1 && dx < 0);
-      const off = edge ? dx * 0.25 : dx;
+      st.dx = dx;
+      if (!st.raf) st.raf = requestAnimationFrame(frame);
+    };
+    const frame = () => {
+      if (!st) return;
+      st.raf = 0;
+      const dx = st.dx;
+      const { index: i, n, back } = live.current;
+      const edgeL = i === 0 && dx > 0;
+      const edge = edgeL || (i === n - 1 && dx < 0);
+      const off = edgeL && back ? dx * 0.9 : edge ? dx * 0.25 : dx;
       const el = contentRef.current;
       if (el) {
         el.style.transition = 'none';
+        el.style.willChange = 'transform';
         el.style.transform = `translate3d(${off}px,0,0)`;
-        el.style.opacity = String(Math.max(0.5, 1 - Math.abs(off) / 600));
       }
+      if (edgeL && back) return;
       const p = Math.max(0, Math.min(n - 1, i - off / st.w));
       const from = Math.floor(p);
-      posBar(from, Math.min(n - 1, from + 1), p - from, false);
-      followBar(from, Math.min(n - 1, from + 1), p - from);
+      const to = Math.min(n - 1, from + 1);
+      posBar(from, to, p - from, false);
+      followBar(from, to, p - from);
     };
     const onEnd = (e) => {
       const d = st;
       st = null;
+      if (d && d.raf) cancelAnimationFrame(d.raf);
       if (!d || !d.on) return;
       const x = (e.changedTouches && e.changedTouches[0] ? e.changedTouches[0].clientX : d.x);
       const dx = x - d.x;
@@ -125,6 +138,19 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
       const { index: i, n, onChange: oc } = live.current;
       const next = dx < 0 ? i + 1 : i - 1;
       const el = contentRef.current;
+      if (i === 0 && dx > 0 && live.current.back && (dx > d.w * 0.3 || v > 0.55)) {
+        busy = true;
+        if (el) {
+          el.style.transition = 'transform .2s ease-in';
+          el.style.transform = 'translate3d(100%,0,0)';
+        }
+        setTimeout(() => {
+          if (el) { el.style.transition = 'none'; el.style.transform = ''; el.style.willChange = ''; }
+          busy = false;
+          live.current.navigate(-1);
+        }, 190);
+        return;
+      }
       if ((Math.abs(dx) > d.w * 0.2 || v > 0.45) && next >= 0 && next < n) {
         busy = true;
         if (el) {
@@ -138,7 +164,7 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
           el.style.transition = 'transform .25s cubic-bezier(.22,.8,.24,1), opacity .25s ease';
           el.style.transform = 'translate3d(0,0,0)';
           el.style.opacity = '1';
-          setTimeout(() => { el.style.transition = ''; el.style.transform = ''; el.style.opacity = ''; }, 280);
+          setTimeout(() => { el.style.transition = ''; el.style.transform = ''; el.style.opacity = ''; el.style.willChange = ''; }, 280);
         }
         posBar(i, i, 0, true);
       }

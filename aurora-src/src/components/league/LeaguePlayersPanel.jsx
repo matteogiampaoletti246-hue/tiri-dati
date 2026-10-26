@@ -5,6 +5,7 @@ import { Image } from '@/components/ui/image';
 import { PLAYERS } from '@/data/players';
 import { teamsOf } from '@/data/teams';
 import { comma } from '@/lib/format';
+import { ratioColor } from '@/components/player/playerCalc';
 
 const METRICS = [
   { key: 'goals', label: 'Gol', group: 'Attacco', f: (p) => p.goals, p90: true },
@@ -30,20 +31,20 @@ export default function LeaguePlayersPanel({ leagueId, teamId }) {
   const ids = new Set(teamsOf(leagueId).map((t) => t.id));
   const pool = PLAYERS.filter((p) => (teamId ? p.teamId === teamId : ids.has(p.teamId)) && p.hasStats);
   const lgPool = PLAYERS.filter((p) => ids.has(p.teamId) && p.hasStats && p.minutes >= 270);
-  // voto 0..1 del giocatore rispetto a tutto il campionato (valori ogni 90', o totale se non ha senso)
+  // colore: valore del giocatore rispetto alla media dei giocatori dello STESSO RUOLO nel campionato
+  const avgCache = {};
   const gradeOf = (m, p) => {
     const val = (q) => { const r = m.f(q); return r == null ? null : m.p90 ? (r * 90) / q.minutes : r; };
     const mine = val(p);
     if (mine == null) return null;
-    const all = lgPool.map(val).filter((v) => v != null);
-    if (all.length < 5) return null;
-    const avg = all.reduce((x, y) => x + y, 0) / all.length;
+    const ck = `${m.key}|${p.position}`;
+    if (!(ck in avgCache)) {
+      const all = lgPool.filter((q) => !p.position || q.position === p.position).map(val).filter((v) => v != null);
+      avgCache[ck] = all.length < 5 ? null : all.reduce((x, y) => x + y, 0) / all.length;
+    }
+    const avg = avgCache[ck];
     if (!(avg > 0)) return null;
-    const ratio = mine / avg;
-    const neg = NEGK.includes(m.key);
-    // rosso sotto la media, giallo poco sotto / uguale / poco sopra, verde sopra (invertito per le statistiche negative)
-    if (!neg) return ratio < 0.85 ? '#E0443A' : ratio <= 1.1 ? '#E8C23A' : '#1FA45B';
-    return ratio > 1.18 ? '#E0443A' : ratio >= 0.9 ? '#E8C23A' : '#1FA45B';
+    return ratioColor(mine / avg, NEGK.includes(m.key));
   };
   const sections = [];
   METRICS.forEach((m) => {

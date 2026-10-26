@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import usePageTab from '@/hooks/usePageTab';
 import { useParams } from 'react-router-dom';
 import PageShell from '@/components/PageShell';
 import TopBar from '@/components/TopBar';
@@ -36,7 +37,7 @@ const PLAYED_TABS = [
 
 export default function Match() {
   const { id } = useParams();
-  const [tab, setTab] = useState(0);
+  const [tab, setTab] = usePageTab('match', id);
   const loading = useInitialLoad(280);
   useTicker(30000);
   const raw = matchById(id);
@@ -60,9 +61,6 @@ export default function Match() {
     };
   }, [id]);
 
-  useEffect(() => {
-    setTab(0);
-  }, [id]);
 
   if (!raw) {
     return (
@@ -111,7 +109,7 @@ export default function Match() {
           </div>
         </div>
       ) : (
-        <SwipeTabs tabs={tabs} panels={panels} index={tab} onChange={setTab} className="pt-2" stickyTop="0px" />
+        <SwipeTabs tabs={tabs} panels={panels} index={Math.min(tab, tabs.length - 1)} onChange={setTab} className="pt-2" stickyTop="0px" />
       )}
     </PageShell>
   );

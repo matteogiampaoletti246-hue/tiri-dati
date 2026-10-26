@@ -59,9 +59,19 @@ export const standings = (leagueId, mode = 'total') => {
 export const teamRow = (leagueId, teamId) => standings(leagueId, 'total').find((r) => r.teamId === teamId) || null;
 
 // Zone di classifica (Champions, Europa, retrocessione…) da zone.json: { posizione: [nome, colore] }
+const ZONE_STYLE = [
+  [/relegation playoff/i, 'Play Out', '#FF9AA2'],
+  [/relegat/i, 'Retrocessione', '#E5332A'],
+  [/conference/i, 'Conference League', '#1FB35A'],
+  [/europa/i, 'Europa League', '#FF8A1F'],
+  [/champions league/i, 'Champions League', '#2E7BFF'],
+];
 export const zoneOf = (leagueId, rank) => {
   const z = RAW.zone && RAW.zone[leagueId];
-  return z && z[String(rank)] ? { label: z[String(rank)][0], color: z[String(rank)][1] } : null;
+  if (!z || !z[String(rank)]) return null;
+  const [label, color] = z[String(rank)];
+  const hit = ZONE_STYLE.find(([re]) => re.test(label));
+  return hit ? { label: hit[1], color: hit[2] } : { label, color };
 };
 
 /* ───────────── statistiche di squadra ───────────── */

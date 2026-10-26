@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import usePageTab from '@/hooks/usePageTab';
 import { useParams } from 'react-router-dom';
 import PageShell from '@/components/PageShell';
 import TopBar from '@/components/TopBar';
@@ -26,14 +27,11 @@ const TABS = [
 
 export default function League() {
   const { id } = useParams();
-  const [tab, setTab] = useState(0);
+  const [tab, setTab] = usePageTab('league', id);
   const loading = useInitialLoad(280);
   const dark = useDark();
   const league = leagueById(id);
 
-  useEffect(() => {
-    setTab(0);
-  }, [id]);
 
   if (!league) {
     return (
