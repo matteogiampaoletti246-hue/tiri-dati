@@ -1,8 +1,9 @@
 import { flushSync } from 'react-dom';
 
 // Fotografia viva dell'elemento: copia fissa che resta dov'e' mentre sotto cambia la pagina.
-function snapshot(el, z = 35) {
+function snapshot(el, z = 35, host = null) {
   const r = el.getBoundingClientRect();
+  const hr = host ? host.getBoundingClientRect() : { left: 0, top: 0 };
   const clone = el.cloneNode(true);
   clone.removeAttribute('id');
   clone.style.transition = 'none';
@@ -24,9 +25,9 @@ function snapshot(el, z = 35) {
   }
   const box = document.createElement('div');
   box.setAttribute('aria-hidden', 'true');
-  box.style.cssText = `position:fixed;left:${r.left}px;top:${r.top}px;width:${r.width}px;height:${r.height}px;z-index:${z};pointer-events:none;will-change:transform;contain:layout paint`;
+  box.style.cssText = `position:${host ? 'absolute' : 'fixed'};left:${r.left - hr.left}px;top:${r.top - hr.top}px;width:${r.width}px;height:${r.height}px;z-index:${z};pointer-events:none;will-change:transform;contain:layout paint`;
   box.appendChild(clone);
-  document.body.appendChild(box);
+  (host || document.body).appendChild(box);
   return { box, rect: r };
 }
 
@@ -34,13 +35,13 @@ const EASE = 'cubic-bezier(.22,.8,.24,1)';
 
 // Cambio contenuto a scorrimento: il vecchio esce da un lato mentre il nuovo entra dall'altro, senza schermo vuoto in mezzo.
 // dx = spostamento attuale (px) del contenuto trascinato; dir = +1 il nuovo arriva da destra, -1 da sinistra.
-export function carousel(el, dx, dir, apply, done, ms = 300) {
+export function carousel(el, dx, dir, apply, done, ms = 300, host = null) {
   if (!el) { apply(); if (done) done(); return; }
   const w = Math.min(window.innerWidth, 430);
   el.style.transition = 'none';
   el.style.transform = '';
   el.style.opacity = '';
-  const snap = snapshot(el);
+  const snap = snapshot(el, host ? 5 : 35, host);
   snap.box.style.transform = `translate3d(${dx}px,0,0)`;
   flushSync(apply);
   el.style.transform = `translate3d(${dir * w + dx}px,0,0)`;

@@ -10,6 +10,7 @@ import { CardIcon, SubIcon, BallIcon } from './EventIcons';
 import { closePlayer, openPlayer, findInMatch, matchOf, ourPlayerId, usePlayerSheet } from '@/data/playerSheet';
 import { comma } from '@/lib/format';
 import { shortName } from './Riassunto';
+import { carousel } from '@/lib/carousel';
 import { norm } from '@/data/util';
 
 const IT = {
@@ -82,7 +83,7 @@ function Face({ c, size = 76 }) {
   );
 }
 
-function Badges({ c }) {
+function Badges({ c, onOpen }) {
   const items = [];
   const goals = c.evs.filter((e) => e.type === 'goal' && norm(e.name) === norm(c.name));
   if (goals.length) items.push(<span key="g" className="flex items-center gap-1"><BallIcon size={15} />{goals.map((g) => `${g.minute}'`).join(' ')}</span>);
@@ -90,23 +91,23 @@ function Badges({ c }) {
   if (ass.length) items.push(<span key="a" className="flex items-center gap-1">Assist {ass.map((g) => `${g.minute}'`).join(' ')}</span>);
   c.evs.filter((e) => (e.type === 'yellow' || e.type === 'red') && norm(e.name) === norm(c.name)).forEach((e, i) => items.push(<span key={`c${i}`} className="flex items-center gap-1"><CardIcon red={e.type === 'red'} size={15} />{e.minute}&apos;</span>));
   const subs = c.evs.filter((e) => e.type === 'sub');
-  subs.filter((e) => norm(e.inName) === norm(c.name)).forEach((e, i) => items.push(<span key={`s${i}`} className="flex items-center gap-1"><SubIcon size={15} />Entra {e.minute}&apos;</span>));
   const outs = subs.filter((e) => norm(e.inName) !== norm(c.name));
-  if (!items.length && !outs.length) return null;
+  const ins = subs.filter((e) => norm(e.inName) === norm(c.name));
+  if (!items.length && !outs.length && !ins.length) return null;
   return (
     <div className="flex flex-wrap gap-2">
       {items.map((it, i) => <span key={i} className="glass-flat rounded-full px-3 py-1.5 text-[12px] font-bold">{it}</span>)}
-      {outs.map((e, i) => {
-        const f = findInMatch(c.match, e.inName, null);
+      {[...ins.map((e) => ({ e, who: e.name, label: 'Entra', d: -1 })), ...outs.map((e) => ({ e, who: e.inName, label: 'Esce', d: 1 }))].map(({ e, who, label, d }, i) => {
+        const f = findInMatch(c.match, who, null);
         const fm = f && f.fmId;
         const photo = (f && f.entry && f.entry.photo) || (fm ? `https://images.fotmob.com/image_resources/playerimages/${fm}.png` : null);
         return (
-          <button key={`o${i}`} type="button" data-no-swipe onClick={() => openPlayer({ matchId: c.match.id, name: e.inName, fmId: fm || undefined })} className="glass-flat press flex min-w-0 basis-full items-center gap-2 rounded-full py-1.5 pl-3 pr-2 text-left text-[12px] font-bold">
+          <button key={`o${i}`} type="button" data-no-swipe onClick={() => onOpen({ matchId: c.match.id, name: who, fmId: fm || undefined }, d)} className="glass-flat press flex min-w-0 basis-full items-center gap-2 rounded-full py-1.5 pl-3 pr-2 text-left text-[12px] font-bold">
             <SubIcon size={15} />
-            <span className="shrink-0">Esce {e.minute}&apos;</span>
+            <span className="shrink-0">{label} {e.minute}&apos;</span>
             <span className="mx-0.5 h-4 w-px shrink-0" style={{ background: 'var(--hair)' }} />
             <span className="h-[26px] w-[26px] shrink-0 overflow-hidden rounded-full" style={{ background: 'var(--hair)' }}>{photo ? <img src={photo} alt="" className="h-full w-full object-cover" decoding="async" /> : null}</span>
-            <span className="min-w-0 flex-1 truncate">{shortName(e.inName)}</span>
+            <span className="min-w-0 flex-1 truncate">{shortName(who)}</span>
             <ChevronRight size={15} className="shrink-0" style={{ color: 'var(--ink-3)' }} />
           </button>
         );
@@ -180,12 +181,12 @@ const MapBlock = ({ c }) => (c.shots.length ? <MiniShotMap shots={c.shots} /> : 
   <p className="rounded-[16px] py-5 text-center text-[12.5px]" style={{ background: 'var(--hair-2)', color: 'var(--ink-3)' }}>Nessun tiro del giocatore</p>
 ));
 
-function Body({ c, concept }) {
+function Body({ c, concept, onOpen }) {
   const noStats = !c.groups.length;
   const kpi = useMemo(() => build(c).kpi, [c]);
   return (
     <div className="flex flex-col gap-4 px-5 pb-6 pt-3">
-      <Badges c={c} />
+      <Badges c={c} onOpen={onOpen} />
       {!noStats ? (
         <div className="grid grid-cols-4 text-center">
           {kpi.map((r) => (
@@ -263,33 +264,25 @@ export default function PlayerSheetHost() {
   live.current.close = close;
 
   const go = (d) => {
-    const { c: cc, sheet: sh } = live.current;
+    const { c: cc } = live.current;
     if (!cc || cc.idx < 0) return false;
     const to = cc.roster[cc.idx + d];
     if (!to) return false;
-    const el = slideRef.current;
+    return switchTo({ name: to.name, fmId: to.fmId }, d);
+  };
+
+  function switchTo(to, d) {
+    const { sheet: sh } = live.current;
+    if (busy.current || !sh) return false;
+    const dx0 = live.current.dragDx || 0;
+    live.current.dragDx = 0;
     busy.current = true;
-    if (el) {
-      el.style.transition = 'transform .15s ease-in, opacity .15s ease-in';
-      el.style.transform = `translate3d(${d > 0 ? -90 : 90}px,0,0)`;
-      el.style.opacity = '0';
-    }
-    setTimeout(() => {
+    carousel(slideRef.current, dx0, d, () => {
       openPlayer({ matchId: sh.matchId, name: to.name, fmId: to.fmId });
       if (scroller.current) scroller.current.scrollTop = 0;
-      if (el) {
-        el.style.transition = 'none';
-        el.style.transform = `translate3d(${d > 0 ? 90 : -90}px,0,0)`;
-        requestAnimationFrame(() => requestAnimationFrame(() => {
-          el.style.transition = 'transform .26s cubic-bezier(.22,.8,.24,1), opacity .26s ease';
-          el.style.transform = 'translate3d(0,0,0)';
-          el.style.opacity = '1';
-          setTimeout(() => { el.style.transition = ''; el.style.transform = ''; busy.current = false; }, 280);
-        }));
-      } else busy.current = false;
-    }, 150);
+    }, () => { busy.current = false; }, 300, sheetRef.current);
     return true;
-  };
+  }
 
   // gesti con eventi touch nativi: swipe laterale tra compagni, trascinamento verso il basso per chiudere
   useEffect(() => {
@@ -325,6 +318,7 @@ export default function PlayerSheetHost() {
         const el = slideRef.current;
         const cc = live.current.c;
         const edge = !cc || cc.idx < 0 || (dx > 0 && cc.idx === 0) || (dx < 0 && cc.idx === cc.roster.length - 1);
+        live.current.dragDx = edge ? dx * 0.25 : dx;
         if (el) {
           el.style.transition = 'none';
           el.style.transform = `translate3d(${edge ? dx * 0.25 : dx}px,0,0)`;
@@ -347,6 +341,7 @@ export default function PlayerSheetHost() {
       if (d.axis === 'x') {
         const el = slideRef.current;
         if ((Math.abs(dx) > 70 || Math.abs(dx) / v > 0.45) && go(dx < 0 ? 1 : -1)) return;
+        live.current.dragDx = 0;
         if (el) {
           el.style.transition = 'transform .25s cubic-bezier(.22,.8,.24,1), opacity .25s ease';
           el.style.transform = 'translate3d(0,0,0)';
@@ -389,7 +384,7 @@ export default function PlayerSheetHost() {
           <div ref={slideRef} className="flex min-h-0 flex-1 flex-col">
             <div className="shrink-0"><Header c={c} concept={concept} /></div>
             <div ref={scroller} className="min-h-0 flex-1 overflow-y-auto overscroll-contain" style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-y', overscrollBehavior: 'contain' }}>
-              <Body c={c} concept={concept} />
+              <Body c={c} concept={concept} onOpen={(to, d) => switchTo(to, d)} />
               <div style={{ height: 84 }} />
             </div>
           </div>
