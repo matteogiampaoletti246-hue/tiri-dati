@@ -84,3 +84,4 @@ def run():
         dump("arch/index.json", idx)
     dump("arch/index.json", idx)
 run()
+# v2
