@@ -9,7 +9,6 @@ import { PLAYERS } from '@/data/players';
 import { REFEREES } from '@/data/referees';
 import { teamById } from '@/data/teams';
 import { leagueById } from '@/data/leagues';
-import { conceptOf } from '@/components/match/FormCard';
 
 const norm = (s) =>
   String(s)
@@ -19,11 +18,11 @@ const norm = (s) =>
 
 const ring = (t) => (t && t.colors && t.colors[0]) || 'var(--hair)';
 
-function PlayerFace({ p, size, concept }) {
+function PlayerFace({ p, size }) {
   const t = teamById(p.teamId);
   return (
     <span className="relative shrink-0" style={{ width: size, height: size }}>
-      <span className="block h-full w-full overflow-hidden rounded-full" style={{ background: t ? `linear-gradient(150deg, ${t.colors[0]}, ${t.colors[1]})` : 'var(--hair)', boxShadow: concept === 'b' ? `0 0 0 2px ${ring(t)}` : 'none' }}>
+      <span className="block h-full w-full overflow-hidden rounded-full" style={{ background: t ? `linear-gradient(150deg, ${t.colors[0]}, ${t.colors[1]})` : 'var(--hair)', boxShadow: `0 0 0 2px ${ring(t)}` }}>
         {p.photo ? <img src={p.photo} alt="" loading="lazy" decoding="async" className="h-full w-full object-cover" /> : <span className="flex h-full w-full items-center justify-center text-[13px] font-bold text-white">{p.initials}</span>}
       </span>
     </span>
@@ -36,7 +35,6 @@ const countryOf = (t) => {
 };
 
 export default function SearchOverlay({ open, onClose }) {
-  const concept = conceptOf('search');
   const [q, setQ] = useState('');
   const navigate = useNavigate();
   const inputRef = useRef(null);
@@ -61,9 +59,11 @@ export default function SearchOverlay({ open, onClose }) {
   if (!open) return null;
 
   const needle = norm(q);
-  const teams = needle ? TEAMS.filter((t) => norm(t.name).includes(needle)).slice(0, 8) : [];
+  const rank = (n) => { const x = norm(n); return x.startsWith(needle) ? 0 : x.split(' ').some((w) => w.startsWith(needle)) ? 1 : 2; };
+  const byRel = (a, b) => rank(a.name) - rank(b.name);
+  const teams = needle ? TEAMS.filter((t) => norm(t.name).includes(needle)).sort(byRel).slice(0, 8) : [];
   const leagues = needle ? LEAGUES.filter((l) => norm(l.name).includes(needle)).slice(0, 6) : [];
-  const players = needle ? PLAYERS.filter((p) => norm(p.name).includes(needle)).slice(0, 8) : [];
+  const players = needle ? PLAYERS.filter((p) => norm(p.name).includes(needle)).sort(byRel).slice(0, 8) : [];
   const referees = needle ? REFEREES.filter((r) => norm(r.name).includes(needle)).slice(0, 8) : [];
 
   const go = (path) => {
@@ -131,29 +131,13 @@ export default function SearchOverlay({ open, onClose }) {
                         <span className="truncate">{countryOf(t)}{countryOf(t) && l ? ' · ' : ''}{l ? l.name : ''}</span>
                       </span>
                     );
-                    if (concept === 'b') {
-                      return (
-                        <div key={t.id} className="px-4 py-1">
-                          <button type="button" onClick={() => go(`/squadra/${t.id}`)} className="glass press flex w-full items-center gap-3.5 rounded-[20px] px-4 py-3 text-left">
-                            <Crest team={t} size={52} />
-                            <span className="min-w-0"><span className="block truncate text-[16px] font-extrabold" style={{ color: 'var(--ink)' }}>{t.name}</span>{sub}</span>
-                          </button>
-                        </div>
-                      );
-                    }
-                    if (concept === 'c') {
-                      return (
-                        <Row key={t.id} onClick={() => go(`/squadra/${t.id}`)}>
-                          <span className="flex h-[58px] w-[58px] shrink-0 items-center justify-center rounded-[18px]" style={{ background: `linear-gradient(150deg, ${t.colors[0]}55, ${t.colors[1]}22)`, border: '1px solid var(--glass-border)' }}><Crest team={t} size={40} /></span>
-                          <span className="min-w-0"><span className="block truncate text-[16px] font-bold" style={{ color: 'var(--ink)' }}>{t.name}</span>{sub}</span>
-                        </Row>
-                      );
-                    }
                     return (
-                      <Row key={t.id} onClick={() => go(`/squadra/${t.id}`)}>
-                        <Crest team={t} size={46} />
-                        <span className="min-w-0"><span className="block truncate text-[16px] font-bold" style={{ color: 'var(--ink)' }}>{t.name}</span>{sub}</span>
-                      </Row>
+                      <div key={t.id} className="px-4 py-1">
+                        <button type="button" onClick={() => go(`/squadra/${t.id}`)} className="glass press flex w-full items-center gap-3.5 rounded-[20px] px-4 py-3 text-left">
+                          <Crest team={t} size={52} />
+                          <span className="min-w-0"><span className="block truncate text-[16px] font-extrabold" style={{ color: 'var(--ink)' }}>{t.name}</span>{sub}</span>
+                        </button>
+                      </div>
                     );
                   })}
                 </Section>
@@ -168,22 +152,13 @@ export default function SearchOverlay({ open, onClose }) {
                         <span className="truncate">{t ? t.name : p.teamName}</span>
                       </span>
                     );
-                    if (concept === 'b') {
-                      return (
-                        <div key={p.id} className="px-4 py-1">
-                          <button type="button" onClick={() => go(`/giocatore/${p.id}`)} className="glass press flex w-full items-center gap-3.5 rounded-[20px] px-4 py-3 text-left">
-                            <PlayerFace p={p} size={52} concept="b" />
-                            <span className="min-w-0"><span className="block truncate text-[16px] font-extrabold" style={{ color: 'var(--ink)' }}>{p.name}</span>{sub}</span>
-                          </button>
-                        </div>
-                      );
-                    }
                     return (
-                      <Row key={p.id} onClick={() => go(`/giocatore/${p.id}`)}>
-                        <PlayerFace p={p} size={concept === 'c' ? 58 : 46} concept={concept} />
-                        <span className="min-w-0 flex-1"><span className="block truncate text-[16px] font-bold" style={{ color: 'var(--ink)' }}>{p.name}</span>{sub}</span>
-                        {concept === 'c' && p.position ? <span className="glass-flat shrink-0 rounded-full px-2.5 py-1 text-[10.5px] font-bold" style={{ color: 'var(--ink-2)' }}>{({ GK: 'POR', DEF: 'DIF', MID: 'CEN', WNG: 'ALA', ATT: 'ATT' })[p.position] || p.position}</span> : null}
-                      </Row>
+                      <div key={p.id} className="px-4 py-1">
+                        <button type="button" onClick={() => go(`/giocatore/${p.id}`)} className="glass press flex w-full items-center gap-3.5 rounded-[20px] px-4 py-3 text-left">
+                          <PlayerFace p={p} size={52} />
+                          <span className="min-w-0"><span className="block truncate text-[16px] font-extrabold" style={{ color: 'var(--ink)' }}>{p.name}</span>{sub}</span>
+                        </button>
+                      </div>
                     );
                   })}
                 </Section>
