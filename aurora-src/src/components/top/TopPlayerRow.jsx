@@ -4,14 +4,20 @@ import Crest from '@/components/Crest';
 import RollNumber from '@/components/RollNumber';
 import { Image } from '@/components/ui/image';
 import { teamById } from '@/data/teams';
+import { matchesByDate } from '@/data/matches';
+import { romeDay } from '@/data/util';
 import { carriereOf, countryIt, flagOf } from '@/data/carriere';
 
 const RK = ['#F5C84C', '#C5CEDB', '#D98F5C'];
 
-const FMT = new Intl.DateTimeFormat('it-IT', { timeZone: 'Europe/Rome', weekday: 'short', hour: '2-digit', minute: '2-digit', hour12: false });
-const when = (ts) => {
-  const t = FMT.format(new Date(ts)).replace('.', '');
-  return t.charAt(0).toUpperCase() + t.slice(1);
+const FMT = new Intl.DateTimeFormat('it-IT', { timeZone: 'Europe/Rome', weekday: 'short', day: 'numeric', month: 'short' });
+// orario vero dalla partita in calendario; se non c'è, solo giorno e data
+const when = (match) => {
+  const t = FMT.format(new Date(match.ts)).replace(/\./g, '');
+  const cap = t.charAt(0).toUpperCase() + t.slice(1);
+  const real = matchesByDate(romeDay(match.ts)).find((m) => m.homeId === match.homeId && m.awayId === match.awayId);
+  const wd = cap.split(' ')[0];
+  return real && real.kickoff ? `${wd} ${real.kickoff}` : cap;
 };
 
 export default function TopPlayerRow({ row, rank, threshold, delay = 0 }) {
@@ -54,7 +60,7 @@ export default function TopPlayerRow({ row, rank, threshold, delay = 0 }) {
         {match ? (
           <span className="mt-1 flex items-center gap-1.5 text-[11px]" style={{ color: 'var(--ink-2)' }}>
             {opp ? <Crest team={opp} size={14} /> : null}
-            <span className="truncate">{opp ? opp.name : match.oppName} · {when(match.ts)}</span>
+            <span className="truncate">{opp ? opp.name : match.oppName} · {when(match)}</span>
           </span>
         ) : null}
         <span className="mt-1.5 block h-[5px] rounded-full" style={{ background: `linear-gradient(90deg, ${c1}, ${c2})` }} />
