@@ -20,8 +20,40 @@ export default function MatchKeyNumbers({ match }) {
   const [width, setWidth] = useState(0);
   const [idx, setIdx] = useState(0);
   const [dx, setDx] = useState(0);
-  const [held, setHeld] = useState(false);
+  const [prog, setProg] = useState(0);
+  const heldRef = useRef(false);
+  const idxRef = useRef(0);
   const n = cards.length;
+  idxRef.current = idx;
+  const DUR = 5500;
+
+  // avanzamento automatico: 5,5 s per statistica, in pausa solo mentre il dito e' appoggiato
+  useEffect(() => {
+    if (!n) return undefined;
+    let last = performance.now();
+    let acc = 0;
+    let raf = 0;
+    const tick = (now) => {
+      const dt = Math.min(100, now - last);
+      last = now;
+      if (!heldRef.current && !document.hidden) acc += dt;
+      if (acc >= DUR) {
+        acc = 0;
+        setIdx((i) => (i + 1) % n);
+        setProg(0);
+      } else setProg(acc / DUR);
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    const reset = () => { acc = 0; };
+    window.__kmReset = reset;
+    return () => { cancelAnimationFrame(raf); if (window.__kmReset === reset) window.__kmReset = null; };
+  }, [n]);
+
+  const setHeld = (v) => {
+    heldRef.current = v;
+    if (v) setTimeout(() => { heldRef.current = false; }, 6000); // sicurezza: non resta mai bloccato
+  };
 
   useEffect(() => {
     const el = wrapRef.current;
@@ -33,7 +65,7 @@ export default function MatchKeyNumbers({ match }) {
     return () => ro.disconnect();
   }, []);
 
-  const go = (i) => setIdx(((i % n) + n) % n);
+  const go = (i) => { setIdx(((i % n) + n) % n); setProg(0); if (window.__kmReset) window.__kmReset(); };
 
   const onDown = (e) => {
     drag.current = { x: e.clientX, moved: false };
@@ -130,14 +162,7 @@ export default function MatchKeyNumbers({ match }) {
                           <span className="block h-full w-full" style={{ background: 'rgba(255,255,255,.92)' }} />
                         ) : null}
                         {j === i ? (
-                          <span
-                            className="km-fill block h-full w-full"
-                            style={{
-                              background: 'rgba(255,255,255,.92)',
-                              animationPlayState: held || drag.current ? 'paused' : 'running',
-                            }}
-                            onAnimationEnd={() => go(idx + 1)}
-                          />
+                          <span className="block h-full" style={{ width: `${Math.round(prog * 1000) / 10}%`, background: 'rgba(255,255,255,.92)' }} />
                         ) : null}
                       </span>
                     ))}
