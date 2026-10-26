@@ -39,8 +39,8 @@ export function buildLeagues() {
   // Europa League: coppa disegnata, bianca di notte e nera di giorno
   const el = LEAGUES.find((l) => l.id === 'europa-league');
   if (el) {
-    el.logo = `${import.meta.env.BASE_URL}el-light.svg`;
-    el.logoDark = `${import.meta.env.BASE_URL}el-night.svg`;
+    el.logo = `${import.meta.env.BASE_URL}el-light.png`;
+    el.logoDark = `${import.meta.env.BASE_URL}el-night.png`;
   }
   CALC_LEAGUES.length = 0;
   Object.keys(L)
