@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { Image } from '@/components/ui/image';
 import { comma } from '@/lib/format';
 
-const POS = { GK: 'Portiere', DEF: 'Difensore', MID: 'Centrocampista', ATT: 'Attaccante' };
+const POS = { GK: 'Portiere', DEF: 'Difensore', MID: 'Centrocampista', WNG: 'Ala', ATT: 'Attaccante' };
 
 export default function PlayerRow({ player, rank, value, valueLabel, link = false, divider = true }) {
   if (!player) return null;

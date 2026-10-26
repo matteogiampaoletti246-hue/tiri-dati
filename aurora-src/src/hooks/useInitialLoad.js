@@ -1,11 +1,16 @@
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
-// Stato di caricamento iniziale: mostra gli skeleton con shimmer al primo render.
+const seen = new Set();
+
+// Skeleton con shimmer solo alla prima apertura di una pagina: tornando indietro si vede subito il contenuto.
 export default function useInitialLoad(ms = 320) {
-  const [loading, setLoading] = useState(true);
+  const { pathname } = useLocation();
+  const [loading, setLoading] = useState(() => !seen.has(pathname));
   useEffect(() => {
-    const id = setTimeout(() => setLoading(false), ms);
+    if (seen.has(pathname)) { setLoading(false); return undefined; }
+    const id = setTimeout(() => { seen.add(pathname); setLoading(false); }, ms);
     return () => clearTimeout(id);
-  }, [ms]);
+  }, [ms, pathname]);
   return loading;
 }

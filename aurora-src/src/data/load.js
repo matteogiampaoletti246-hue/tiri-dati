@@ -27,6 +27,7 @@ const FILES = {
   foto: 'foto.json',
   refcc: 'refcc.json',
   zone: 'zone.json',
+  ali: 'ali.json',
 };
 
 export async function loadRaw() {

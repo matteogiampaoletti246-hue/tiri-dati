@@ -3,7 +3,7 @@ import Crest from '@/components/Crest';
 import PanelTitle from '@/components/PanelTitle';
 import Radar from './Radar';
 import { comma } from '@/lib/format';
-import { POS_IT, percentiles, ratingColor, dateIt, rankOf, statValue, roleAverage, standing, bandColor, bandOf, BAND_COLORS, GROUPS } from './playerCalc';
+import { POS_IT, POS_PL, percentiles, ratingColor, dateIt, rankOf, statValue, roleAverage, standing, bandColor, bandOf, BAND_COLORS, GROUPS } from './playerCalc';
 import { per90, EX_COLS } from '@/data/players';
 import { upcomingMatches } from '@/data/extras';
 import { playerReliability } from '@/data/topPlayers';
@@ -197,7 +197,7 @@ export function ProfiloPanel({ player, team, concept }) {
       <section>
         <PanelTitle>Radar</PanelTitle>
         <div className="panel-solid rounded-2xl px-2 py-4"><Radar items={pc} color="var(--accent)" /></div>
-        <p className="mt-2 text-center text-[10.5px]" style={{ color: 'var(--ink-3)' }}>Percentile per 90&apos; tra i {POS_IT[player.position] ? POS_IT[player.position].toLowerCase() + 'i' : 'giocatori'} dei campionati</p>
+        <p className="mt-2 text-center text-[10.5px]" style={{ color: 'var(--ink-3)' }}>Percentile per 90&apos; tra i {POS_PL[player.position] || 'giocatori'} dei campionati</p>
       </section>
     </div>
   );
@@ -420,7 +420,7 @@ export function StatistichePanel({ player, team }) {
           <div className="overflow-hidden rounded-2xl" style={CARD}>
             <div className="px-4 pb-1 pt-3.5">
               <span className="text-[14px] font-semibold" style={{ color: 'var(--ink)' }}>Classifica per ruolo</span>
-              <p className="mt-0.5 text-[10.5px]" style={{ color: 'var(--ink-3)' }}>Posizione tra {{ GK: 'i portieri', DEF: 'i difensori', MID: 'i centrocampisti', ATT: 'gli attaccanti' }[p.position] || 'i giocatori'} del suo campionato (valori ogni 90&apos;)</p>
+              <p className="mt-0.5 text-[10.5px]" style={{ color: 'var(--ink-3)' }}>Posizione tra {{ GK: 'i portieri', DEF: 'i difensori', MID: 'i centrocampisti', WNG: 'le ali', ATT: 'gli attaccanti' }[p.position] || 'i giocatori'} del suo campionato (valori ogni 90&apos;)</p>
             </div>
             {rk.map((x) => <RankRow key={x.k} x={x} />)}
           </div>

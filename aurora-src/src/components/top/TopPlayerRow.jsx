@@ -4,7 +4,7 @@ import TeamLink from '@/components/TeamLink';
 import { teamById } from '@/data/teams';
 import { comma } from '@/lib/format';
 
-const POS = { GK: 'POR', DEF: 'DIF', MID: 'CEN', ATT: 'ATT' };
+const POS = { GK: 'POR', DEF: 'DIF', MID: 'CEN', WNG: 'ALA', ATT: 'ATT' };
 
 export default function TopPlayerRow({ row, rank, divider = true }) {
   const { player, match } = row;

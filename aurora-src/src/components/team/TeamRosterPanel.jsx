@@ -7,6 +7,7 @@ const GROUPS = [
   ['GK', 'Portieri'],
   ['DEF', 'Difensori'],
   ['MID', 'Centrocampisti'],
+  ['WNG', 'Ali'],
   ['ATT', 'Attaccanti'],
 ];
 

@@ -134,6 +134,21 @@ export function buildPlayers() {
     if (!seen.has(s[ix.id])) make(null, s);
   });
 
+  // Ali: centrocampisti/attaccanti che partono titolari larghi e avanzati (ali del 4-3-3, esterni alti del 4-2-3-1, ali del 3-4-3)
+  const ALI = {};
+  Object.entries(RAW.ali || {}).forEach(([k, v]) => {
+    const [n, t] = k.split('|');
+    ALI[`${norm(n)}|${slug(t)}`] = v;
+  });
+  PLAYERS.forEach((p) => {
+    if (p.position !== 'MID' && p.position !== 'ATT') return;
+    const v = ALI[`${norm(p.name)}|${slug(p.teamName)}`];
+    if (v && v[1] >= 4 && v[0] / v[1] >= 0.6) {
+      p.basePosition = p.position;
+      p.position = 'WNG';
+    }
+  });
+
   // allenatori dalle formazioni prevedibili
   const lin = (RAW.partite && RAW.partite.lin) || {};
   ((RAW.partite && RAW.partite.matches) || []).forEach((m) => {

@@ -5,7 +5,7 @@ import { Image } from '@/components/ui/image';
 import useCollapse from '@/hooks/useCollapse';
 import { comma } from '@/lib/format';
 
-const POS = { GK: 'Portiere', DEF: 'Difensore', MID: 'Centrocampista', ATT: 'Attaccante' };
+const POS = { GK: 'Portiere', DEF: 'Difensore', MID: 'Centrocampista', WNG: 'Ala', ATT: 'Attaccante' };
 
 export default function PlayerHero({ player, team }) {
   const navigate = useNavigate();

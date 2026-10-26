@@ -1,6 +1,7 @@
 import { PLAYERS, per90, EX_COLS } from '@/data/players';
 
-export const POS_IT = { GK: 'Portiere', DEF: 'Difensore', MID: 'Centrocampista', ATT: 'Attaccante' };
+export const POS_IT = { GK: 'Portiere', DEF: 'Difensore', MID: 'Centrocampista', WNG: 'Ala', ATT: 'Attaccante' };
+export const POS_PL = { GK: 'portieri', DEF: 'difensori', MID: 'centrocampisti', WNG: 'ali', ATT: 'attaccanti' };
 
 // metriche per 90' usate per percentili e radar
 export const METRICS = [
