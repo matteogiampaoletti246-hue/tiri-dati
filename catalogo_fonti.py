@@ -5,3 +5,4 @@ UA = {"User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mobile/15E148)
 j = json.load(urllib.request.urlopen(urllib.request.Request("https://www.fotmob.com/api/data/allLeagues?locale=en", headers=UA), timeout=40))
 json.dump(j, open("catalogo_raw.json", "w"), ensure_ascii=False, separators=(",", ":"))
 print(len(j.get("countries", [])), "paesi")
+# run
