@@ -32,9 +32,9 @@ const SITUATION = {
   FreeKick: 'Calcio di punizione', Penalty: 'Rigore', ThrowInSetPiece: 'Rimessa laterale', IndirectFreekick: 'Punizione indiretta',
   Assisted: 'Assistito', IndividualPlay: 'Azione personale', Corner: 'Da calcio d\'angolo',
 };
-const situationOf = (s) => SITUATION[s] || (s ? String(s).replace(/([a-z])([A-Z])/g, '$1 $2') : '—');
+export const situationOf = (s) => SITUATION[s] || (s ? String(s).replace(/([a-z])([A-Z])/g, '$1 $2') : '—');
 
-const zoneOf = (s) => {
+export const zoneOf = (s) => {
   if (s.gy == null || s.gz == null) return '—';
   const y = s.gy - 34;
   const col = Math.abs(y) < 1.2 ? 'al centro' : y < 0 ? 'a sinistra' : 'a destra';
@@ -42,7 +42,7 @@ const zoneOf = (s) => {
   if (s.gy < 30.34 - 0.2 || s.gy > 37.66 + 0.2 || s.gz > 2.44 + 0.1) return 'Fuori dallo specchio';
   return `${row} ${col}`;
 };
-const outcomeOf = (s) => (s.outcome === 'Fuori' && s.onTarget ? 'Palo / traversa' : s.outcome);
+export const outcomeOf = (s) => (s.outcome === 'Fuori' && s.onTarget ? 'Palo / traversa' : s.outcome);
 
 const FILTERS = [
   { value: 'all', label: 'Tutti' },

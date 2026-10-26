@@ -5,7 +5,8 @@ import { AnimatePresence, motion, useAnimationControls, useDragControls } from '
 import { X } from 'lucide-react';
 import Crest from '@/components/Crest';
 import TextFilter from '@/components/TextFilter';
-import MiniShotMap from './MiniShotMap';
+import ShotExplorer from './ShotExplorer';
+import StatTabs from './StatTabs';
 import { CardIcon, SubIcon, BallIcon } from './EventIcons';
 import { closePlayer, openPlayer, findInMatch, matchOf, ourPlayerId, usePlayerSheet } from '@/data/playerSheet';
 import { useConcept } from '@/lib/concept';
@@ -160,89 +161,27 @@ const MapBlock = ({ c }) => (c.shots.length ? <MiniShotMap shots={c.shots} /> : 
 ));
 
 function Body({ c, concept }) {
-  const [chip, setChip] = useState(0);
   const noStats = !c.groups.length;
-  const { kpi, cats } = useMemo(() => build(c), [c]);
-  if (noStats) {
-    return (
-      <div className="flex flex-col gap-5 px-5 pb-6 pt-3">
-        <Badges c={c} />
-        <MapBlock c={c} />
-        <p className="py-6 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Statistiche del giocatore non disponibili per questa partita</p>
-      </div>
-    );
-  }
-  const Kpi4 = ({ tiles }) => (
-    tiles ? (
-      <div className="grid grid-cols-2 gap-2.5">
-        {kpi.map((r) => (
-          <div key={r.k} className="glass-flat rounded-[18px] px-4 py-3.5">
-            <p className="tnum text-[26px] font-light leading-none">{r.text.replace(/ \(\d+%\)/, '')}</p>
-            <p className="mt-1.5 text-[11px]" style={{ color: 'var(--ink-3)' }}>{r.label}</p>
-          </div>
-        ))}
-      </div>
-    ) : (
-      <div className="grid grid-cols-4 text-center">
-        {kpi.map((r) => (
-          <div key={r.k}>
-            <p className="tnum text-[22px] font-light leading-none">{r.text.replace(/ \(\d+%\)/, '')}</p>
-            <p className="mt-1.5 text-[10.5px]" style={{ color: 'var(--ink-3)' }}>{r.label}</p>
-          </div>
-        ))}
-      </div>
-    )
-  );
-
-  if (concept === 'b') {
-    return (
-      <div className="flex flex-col gap-4 px-5 pb-6 pt-3">
-        <Badges c={c} />
-        <MapBlock c={c} />
-        <Kpi4 tiles />
-        {cats.map((g) => (
-          <section key={g.title} className="rounded-[22px] px-4 pb-3 pt-3.5" style={{ background: 'var(--hair-2)' }}>
-            <h4 className="mb-2 text-[14px] font-extrabold">{g.title}</h4>
-            <div className="grid grid-cols-2 gap-x-3 gap-y-3.5">
-              {g.rows.map((r) => (
-                <div key={r.k}>
-                  <p className="tnum text-[17px] font-semibold leading-none">{r.text}</p>
-                  <p className="mt-1 text-[10.5px] leading-tight" style={{ color: 'var(--ink-3)' }}>{r.label}</p>
-                </div>
-              ))}
+  const kpi = useMemo(() => build(c).kpi, [c]);
+  return (
+    <div className="flex flex-col gap-4 px-5 pb-6 pt-3">
+      <Badges c={c} />
+      {!noStats ? (
+        <div className="grid grid-cols-4 text-center">
+          {kpi.map((r) => (
+            <div key={r.k}>
+              <p className="tnum text-[22px] font-light leading-none">{r.text.replace(/ \(\d+%\)/, '')}</p>
+              <p className="mt-1.5 text-[10.5px]" style={{ color: 'var(--ink-3)' }}>{r.label}</p>
             </div>
-          </section>
-        ))}
-      </div>
-    );
-  }
-  if (concept === 'c') {
-    const cur = cats[Math.min(chip, cats.length - 1)];
-    return (
-      <div className="flex flex-col gap-4 px-5 pb-6 pt-3">
-        <Badges c={c} />
-        <MapBlock c={c} />
-        <Kpi4 />
-        <div className="hide-sb -mx-5 flex gap-2 overflow-x-auto px-5" data-no-swipe>
-          {cats.map((g, i) => (
-            <button key={g.title} type="button" onClick={() => setChip(i)} className="press shrink-0 rounded-full px-4 py-2 text-[12.5px] font-bold" style={{ background: i === chip ? 'var(--accent)' : 'var(--pill-bg)', color: i === chip ? '#fff' : 'var(--ink-2)', border: '1px solid var(--glass-border)' }}>{g.title}</button>
           ))}
         </div>
-        <section><Rows rows={cur.rows} /></section>
-      </div>
-    );
-  }
-  return (
-    <div className="flex flex-col gap-5 px-5 pb-6 pt-3">
-      <Badges c={c} />
-      <MapBlock c={c} />
-      <div className="rounded-[20px] py-4" style={{ background: 'var(--hair-2)' }}><Kpi4 /></div>
-      {cats.map((g) => (
-        <section key={g.title}>
-          <h4 className="mb-1 text-[15px] font-extrabold">{g.title}</h4>
-          <Rows rows={g.rows} />
-        </section>
-      ))}
+      ) : null}
+      <ShotExplorer key={c.name} shots={c.shots} concept={concept} />
+      {noStats ? (
+        <p className="py-6 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Statistiche del giocatore non disponibili per questa partita</p>
+      ) : (
+        <StatTabs key={c.name + 't'} c={c} concept={concept} />
+      )}
     </div>
   );
 }
