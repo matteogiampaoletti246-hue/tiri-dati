@@ -16,6 +16,8 @@ export const flagOf = (c) => {
   return x ? String.fromCodePoint(...x.toUpperCase().split('').map((ch) => 127397 + ch.charCodeAt(0))) : '';
 };
 
+const LEAGUE_CC = { 'serie-a': 'ITA', 'premier-league': 'ENG', 'la-liga': 'ESP', 'bundesliga': 'GER', 'ligue-1': 'FRA' };
+
 export function buildReferees() {
   REFEREES.length = 0;
   Object.keys(BY_ID).forEach((k) => delete BY_ID[k]);
@@ -28,8 +30,8 @@ export function buildReferees() {
       id: slug(name),
       name,
       photo: null,
-      country: COUNTRY[cc[name]] || cc[name] || '',
-      flag: flagOf(cc[name]),
+      country: COUNTRY[cc[name] || LEAGUE_CC[r.lg]] || cc[name] || '',
+      flag: flagOf(cc[name] || LEAGUE_CC[r.lg]),
       leagueId: r.lg || null,
       games,
       yellows: Math.round((r.y || 0) * games),
@@ -47,6 +49,27 @@ export function buildReferees() {
     BY_ID[item.id] = item;
   });
   REFEREES.sort((a, b) => b.games - a.games || a.name.localeCompare(b.name));
+}
+
+// statistiche di stagione dell'arbitro in quel campionato (ammonizioni e falli a partita)
+export const refStatsIn = (r, leagueId) => {
+  const b = r && r.by && r.by[leagueId];
+  if (b) return { n: b.n || 0, y: b.y || 0, fo: b.fo || 0 };
+  return r ? { n: r.games, y: r.yellowsAvg, fo: r.foulsAvg } : null;
+};
+
+// media di campionato (stagione corrente) degli altri arbitri e valori ordinati per le fasce di colore
+export function leagueRefAvg(leagueId) {
+  const list = REFEREES.map((r) => (r.by && r.by[leagueId] ? r.by[leagueId] : null)).filter((b) => b && b.n > 0);
+  const tot = list.reduce((a, b) => a + b.n, 0);
+  if (!tot) return null;
+  return {
+    n: list.length,
+    y: list.reduce((a, b) => a + (b.y || 0) * b.n, 0) / tot,
+    fo: list.reduce((a, b) => a + (b.fo || 0) * b.n, 0) / tot,
+    ys: list.map((b) => b.y || 0).sort((a, b) => a - b),
+    fos: list.map((b) => b.fo || 0).sort((a, b) => a - b),
+  };
 }
 
 export const findRefereeByName = (name) => (name ? BY_ID[slug(name)] || REFEREES.find((r) => norm(r.name) === norm(name)) || null : null);

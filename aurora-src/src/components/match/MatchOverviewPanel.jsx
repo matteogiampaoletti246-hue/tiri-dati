@@ -1,12 +1,11 @@
 import { Link } from 'react-router-dom';
 import Crest from '@/components/Crest';
-import ResultRow from '@/components/ResultRow';
 import MatchKeyNumbers from '@/components/match/MatchKeyNumbers';
 import InfoBand from '@/components/InfoBand';
+import RecentSplit from '@/components/match/RecentSplit';
 import FormCard from '@/components/match/FormCard';
 import RefereeCard from '@/components/match/RefereeCard';
 import { Image } from '@/components/ui/image';
-import { recentMatches } from '@/data/extras';
 import { playersByTeam } from '@/data/players';
 import { playerReliability } from '@/data/topPlayers';
 import { comma } from '@/lib/format';
@@ -64,12 +63,7 @@ export default function MatchOverviewPanel({ match, home, away }) {
       <FormCard match={match} home={home} away={away} />
       <section><h3 className="px-5 pb-2 text-[12.5px] font-extrabold uppercase tracking-wider">Numeri da tenere d&apos;occhio</h3><MatchKeyNumbers match={match} /></section>
       <Card title="Giocatori migliori"><Best match={match} home={home} away={away} /></Card>
-      <Card title="Ultime gare" noPad>
-        <div className="px-4 pb-2">
-          {recentMatches(match.homeId, 3).map((m, i) => <ResultRow key={m.id} match={m} teamId={match.homeId} divider={i > 0} />)}
-          {recentMatches(match.awayId, 3).map((m, i) => <ResultRow key={m.id} match={m} teamId={match.awayId} divider />)}
-        </div>
-      </Card>
+      <RecentSplit match={match} home={home} away={away} />
       <InfoBand match={match} />
       <RefereeCard match={match} />
     </div>

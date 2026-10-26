@@ -562,3 +562,6 @@
 
 @keyframes slup { from { transform: translate3d(0,100%,0); } to { transform: translate3d(0,0,0); } }
 @keyframes slfade { from { opacity: 0; } to { opacity: 1; } }
+
+@keyframes slinL { from { opacity: 0; transform: translate3d(-40px,0,0); } to { opacity: 1; transform: translate3d(0,0,0); } }
+@keyframes slinR { from { opacity: 0; transform: translate3d(40px,0,0); } to { opacity: 1; transform: translate3d(0,0,0); } }
