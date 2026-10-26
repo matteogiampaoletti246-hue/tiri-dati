@@ -4,6 +4,8 @@ import { comma } from '@/lib/format';
 // Mappetta tiri del singolo giocatore: metà campo offensiva + porta vista da davanti.
 const PITCH = 'rgba(42,98,62,.92)';
 const LINE = 'rgba(255,255,255,.55)';
+const cx = (v) => Math.max(66, Math.min(104.5, v));
+const cy = (v) => Math.max(12, Math.min(54, v));
 const col = (s) => (s.outcome === 'Gol' ? '#fff' : s.onTarget ? '#7fd6ff' : 'rgba(255,255,255,.3)');
 
 export default function MiniShotMap({ shots }) {
@@ -24,8 +26,8 @@ export default function MiniShotMap({ shots }) {
           </div>
         ))}
       </div>
-      <div className="grid gap-2" style={{ gridTemplateColumns: '1.35fr 1fr' }}>
-        <svg viewBox="50 -1 56 70" className="w-full overflow-hidden rounded-[10px]" style={{ background: PITCH }}>
+      <div className="grid items-center gap-3" style={{ gridTemplateColumns: '1fr 1fr' }}>
+        <svg viewBox="64 10 42 46" className="w-full overflow-hidden rounded-[10px]" style={{ background: PITCH, maxHeight: 150 }}>
           <rect x="0" y="0" width="105" height="68" fill="none" stroke={LINE} strokeWidth="0.5" />
           <line x1="52.5" x2="52.5" y1="0" y2="68" stroke={LINE} strokeWidth="0.5" />
           <polyline points="105,13.84 88.5,13.84 88.5,54.16 105,54.16" fill="none" stroke={LINE} strokeWidth="0.5" />
@@ -33,19 +35,19 @@ export default function MiniShotMap({ shots }) {
           <circle cx="52.5" cy="34" r="9.15" fill="none" stroke={LINE} strokeWidth="0.5" />
           {list.map((s, i) => (
             <g key={i} onClick={() => setSel(i === sel ? null : i)}>
-              {i === sel ? <circle cx={s.px} cy={s.py} r="3.4" fill="none" stroke="#fff" strokeWidth="0.6" /> : null}
-              <circle cx={s.px} cy={s.py} r="2" fill={col(s)} stroke={s.outcome === 'Gol' ? '#111' : '#fff'} strokeWidth={s.outcome === 'Gol' ? 0.7 : 0.35} />
+              {i === sel ? <circle cx={cx(s.px)} cy={cy(s.py)} r="3.4" fill="none" stroke="#fff" strokeWidth="0.6" /> : null}
+              <circle cx={cx(s.px)} cy={cy(s.py)} r="2" fill={col(s)} stroke={s.outcome === 'Gol' ? '#111' : '#fff'} strokeWidth={s.outcome === 'Gol' ? 0.7 : 0.35} />
             </g>
           ))}
         </svg>
-        <svg viewBox="0 0 60 52" className="w-full">
+        <svg viewBox="0 0 60 52" className="w-full" style={{ maxHeight: 150 }}>
           <line x1="2" x2="58" y1="44" y2="44" stroke={LINE} strokeWidth="0.5" />
           <rect x="4" y={44 - 2.44 * W * 0.7} width={7.32 * W * 0.7} height={2.44 * W * 0.7} fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.75)" strokeWidth="1" />
           {list.filter((s) => s.gy != null && s.gz != null).map((s) => {
             const i = list.indexOf(s);
-            const cx = 4 + (s.gy - 30.34) * W * 0.7;
-            const cy = 44 - Math.max(0, Math.min(s.gz, 3.4)) * W * 0.7;
-            return <circle key={i} cx={Math.max(3, Math.min(57, cx))} cy={cy} r="2" fill={col(s)} stroke={s.outcome === 'Gol' ? '#111' : '#fff'} strokeWidth="0.4" onClick={() => setSel(i === sel ? null : i)} />;
+            const gx = 4 + (s.gy - 30.34) * W * 0.7;
+            const gyy = 44 - Math.max(0, Math.min(s.gz, 3.4)) * W * 0.7;
+            return <circle key={i} cx={Math.max(3, Math.min(57, gx))} cy={gyy} r="2" fill={col(s)} stroke={s.outcome === 'Gol' ? '#111' : '#fff'} strokeWidth="0.4" onClick={() => setSel(i === sel ? null : i)} />;
           })}
         </svg>
       </div>

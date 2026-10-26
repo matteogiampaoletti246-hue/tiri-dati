@@ -289,6 +289,7 @@ export default function PlayerSheetHost() {
   }, [sheet]);
 
   const go = async (d) => {
+    if (typeof window !== "undefined") window.__sw = { idx: c && c.idx, n: c && c.roster.length, d };
     if (!c || busy.current) return false;
     const to = c.roster[c.idx + d];
     if (c.idx < 0 || !to) return false;
