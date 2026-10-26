@@ -1,3 +1,5 @@
+import InjuryIcon from '@/components/InjuryIcon';
+import { injuryOf } from '@/data/injuries';
 import { Link } from 'react-router-dom';
 import Crest from '@/components/Crest';
 import PanelTitle from '@/components/PanelTitle';
@@ -68,6 +70,15 @@ function BioCard({ player, team }) {
             <p className="text-[11.5px]" style={{ color: 'var(--ink-3)' }}>{c.ce ? `Contratto fino al ${dateLong(c.ce)}` : ' '}</p>
           </div>
         </div>
+        {injuryOf(player.id) ? (
+          <div className="mb-4 flex items-center gap-3 rounded-2xl px-3.5 py-3" style={{ background: 'rgba(229,72,77,.12)', border: '1px solid rgba(229,72,77,.4)' }}>
+            <InjuryIcon size={24} />
+            <div className="min-w-0">
+              <p className="text-[14px] font-bold" style={{ color: '#E5484D' }}>Infortunato</p>
+              <p className="text-[12px]" style={{ color: 'var(--ink-2)' }}>{injuryOf(player.id).reason}{injuryOf(player.id).label ? ` · rientro previsto ${injuryOf(player.id).label}` : ''}</p>
+            </div>
+          </div>
+        ) : null}
         <div className="grid grid-cols-2 gap-x-4 gap-y-4">
           {cells.map(([k, v]) => (
             <div key={k}>
@@ -270,7 +281,7 @@ function Affidabilita({ player, team, comp }) {
         </div>
         <div className="grid grid-cols-3 gap-2.5">
           {[['Over 0,5', 0.5], ['Over 1,5', 1.5], ['Over 2,5', 2.5]].map(([k, ln]) => {
-            const r = next ? playerReliability(player, next.date, ln) : null;
+            const r = next ? playerReliability(player, next.date, ln, true) : null;
             const col = r ? scoreColor(r.voto) : 'var(--ink-3)';
             return (
             <div key={k} className="rounded-xl py-3 text-center" style={{ background: 'rgba(127,160,200,.1)' }}>

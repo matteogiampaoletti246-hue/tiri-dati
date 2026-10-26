@@ -1,3 +1,5 @@
+import InjuryIcon from '@/components/InjuryIcon';
+import { injuryOf } from '@/data/injuries';
 import { primeKeyboard } from '@/lib/keyboard';
 import { useMemo, useState } from 'react';
 import PanelTitle from '@/components/PanelTitle';
@@ -52,7 +54,7 @@ export default function PlayerPickPanel({ form, set, player, hint, onSelectPlaye
           >
             <PlayerFace p={player} size={56} />
             <span className="min-w-0 flex-1">
-              <span className="block truncate text-[17px] font-extrabold">{player.name}</span>
+              <span className="flex items-center gap-1.5 text-[17px] font-extrabold"><span className="truncate">{player.name}</span>{injuryOf(player.id) ? <InjuryIcon size={17} /> : null}</span>
               <span className="mt-0.5 flex items-center gap-1.5 text-[12.5px]" style={{ color: 'var(--ink-3)' }}>
                 {team ? <Crest team={team} size={15} /> : null}
                 <span className="truncate">{team ? team.name : player.teamName}</span>

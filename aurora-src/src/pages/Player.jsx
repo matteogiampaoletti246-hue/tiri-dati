@@ -1,3 +1,5 @@
+import InjuryIcon from '@/components/InjuryIcon';
+import { injuryOf } from '@/data/injuries';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import PageShell from '@/components/PageShell';
@@ -73,6 +75,7 @@ export default function Player() {
       <EntityBanner
         tall
         name={player.name}
+        nameExtra={injuryOf(player.id) ? <InjuryIcon size={20} /> : null}
         subtitle={[team ? team.name : player.teamName, POS_IT[player.position]].filter(Boolean).join(' · ')}
         colors={team ? team.colors : undefined}
         logoUrl={player.photo}

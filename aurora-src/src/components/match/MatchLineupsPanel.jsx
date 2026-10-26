@@ -1,3 +1,5 @@
+import InjuryIcon from '@/components/InjuryIcon';
+import { injuryOf } from '@/data/injuries';
 import { useState } from 'react';
 import TextFilter from '@/components/TextFilter';
 import Crest from '@/components/Crest';
@@ -91,7 +93,7 @@ function PitchView({ lineup, team, valOf, concept, match }) {
 function PitchNode({ p, team, val, light, match }) {
   return (
     <PlayerLink match={match} name={p.name} fmId={p.fmId} className="flex w-[70px] flex-col items-center gap-1">
-      <span className="relative"><Face p={p} team={team} size={46} /><Badge v={val} /></span>
+      <span className="relative"><Face p={p} team={team} size={46} /><Badge v={val} />{match.status === 'scheduled' && p.playerId && injuryOf(p.playerId) ? <span className="absolute -bottom-1 -left-1"><InjuryIcon size={16} /></span> : null}</span>
       <span className="mt-1 w-full truncate text-center text-[10.5px] font-bold leading-tight" style={{ color: light ? '#fff' : 'var(--ink)', textShadow: light ? '0 1px 3px rgba(0,0,0,.55)' : 'none' }}>{p.number} {last(p.name)}</span>
     </PlayerLink>
   );

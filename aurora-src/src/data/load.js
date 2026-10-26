@@ -29,6 +29,7 @@ const FILES = {
   zone: 'zone.json',
   ali: 'ali.json',
   ruoli: 'ruoli.json',
+  infortuni: 'infortuni.json',
 };
 
 export async function loadRaw() {

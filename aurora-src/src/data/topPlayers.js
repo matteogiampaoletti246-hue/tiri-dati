@@ -5,6 +5,7 @@ import { teamById, teamByName } from './teams';
 import { blendTeam, domesticKey, pickLeagueKey, CUPS } from './calcData';
 import { romeDay } from './util';
 import { calcReliability } from './calcPlayer';
+import { isOutOn } from './injuries';
 
 export const THRESHOLDS = [
   { key: '0.5', label: 'Over 0,5' },
@@ -97,6 +98,7 @@ export function bestPlayers(day, threshold) {
     const f = bd[p.teamName];
     if (!f) return;
     if (!DOMESTIC.includes(f[3])) return;
+    if (isOutOn(p.id, romeDay(new Date(f[0]).getTime()))) return; // infortunato fino al rientro
     const t = lambdaOf(p, f, 0);
     if (!t) return;
     const rr = calcReliability(p, { ts: new Date(f[0]).getTime(), opp: f[1], home: f[2] === 1, comp: f[3], cup: CUPS.includes(f[3]) }, line, 'over', 'totali');
@@ -121,8 +123,9 @@ export function bestPlayers(day, threshold) {
 export { domesticKey };
 
 // Affidabilità di un giocatore in una partita (tiri totali, soglia over): stesso calcolo del Calcolatore.
-export function playerReliability(p, dateIso, line = 0.5) {
+export function playerReliability(p, dateIso, line = 0.5, keepInjured = false) {
   if (!p) return null;
+  if (!keepInjured && isOutOn(p.id, dateIso)) return null;
   const list = ((RAW.giocatori && RAW.giocatori.fix) || {})[p.teamName] || [];
   const f = list.find((x) => romeDay(new Date(x[0]).getTime()) === dateIso);
   if (!f) return null;

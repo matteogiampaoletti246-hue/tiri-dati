@@ -1,3 +1,5 @@
+import InjuryIcon from '@/components/InjuryIcon';
+import { injuryOf } from '@/data/injuries';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { loadCarriere, carriereOf, countryIt, flagOf, ageOf } from '@/data/carriere';
@@ -39,7 +41,7 @@ export default function TeamRosterPanel({ teamId }) {
                 {p.photo ? <Image src={p.photo} alt={p.name} className="h-full w-full" fittingType="fill" /> : p.initials}
               </span>
               <span className="min-w-0 flex-1">
-                <span className="block truncate text-[14px] font-bold">{(() => { const n = (carriereOf(p.id) || {}).n; return n ? <span style={{ color: 'var(--accent)' }}>{n} </span> : null; })()}{p.name}</span>
+                <span className="block truncate text-[14px] font-bold">{(() => { const n = (carriereOf(p.id) || {}).n; return n ? <span style={{ color: 'var(--accent)' }}>{n} </span> : null; })()}{p.name}{injuryOf(p.id) ? <> <InjuryIcon size={15} /></> : null}</span>
                 {(() => {
                   const c = carriereOf(p.id) || {};
                   const age = ageOf(c.b);

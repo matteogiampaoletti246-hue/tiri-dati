@@ -6,7 +6,7 @@ import { Image } from '@/components/ui/image';
 
 // Banner di campionato / squadra: fisso in alto, sempre visibile, con il colore della squadra o del campionato.
 // A = colore pieno, B = base scura con alone colorato, C = colore pieno più alto con logo grande in filigrana.
-export default function EntityBanner({ name, subtitle, meta, colors = ['#1E4BD8', '#7FB6E8'], logoUrl = null, initials = '', liveCount = 0, logoFilter, tall = false }) {
+export default function EntityBanner({ name, subtitle, meta, colors = ['#1E4BD8', '#7FB6E8'], logoUrl = null, initials = '', liveCount = 0, logoFilter, tall = false, nameExtra = null }) {
   const navigate = useNavigate();
   const ref = useRef(null);
   const [h, setH] = useState(120);
@@ -75,7 +75,7 @@ export default function EntityBanner({ name, subtitle, meta, colors = ['#1E4BD8'
             <span className="tnum flex h-[54px] w-[54px] shrink-0 items-center justify-center text-[16px] font-extrabold" style={{ color: fg }}>{initials}</span>
           )}
           <div className="min-w-0 flex-1">
-            <h1 className="title-lg truncate text-[22px]" style={{ color: fg, letterSpacing: '-.03em' }}>{name}</h1>
+            <div className="flex min-w-0 items-center gap-2"><h1 className="title-lg truncate text-[22px]" style={{ color: fg, letterSpacing: '-.03em' }}>{name}</h1>{nameExtra}</div>
             {subtitle ? <p className="truncate text-[12px]" style={{ color: sub }}>{subtitle}</p> : null}
             {meta ? <div className="mt-1" style={{ color: sub }}>{meta}</div> : null}
           </div>
