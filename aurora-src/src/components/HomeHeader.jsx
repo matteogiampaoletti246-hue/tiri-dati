@@ -41,12 +41,12 @@ export default function HomeHeader({ onSearch }) {
           to="/"
           id="sl-brand"
           className={`flex items-center transition-opacity duration-300 ${ready ? 'opacity-100' : 'opacity-0'}`}
-          style={{ gap: 5, color: 'var(--ink)' }}
+          style={{ gap: 11 * (28 / 64), color: 'var(--ink)' }}
           aria-label="ScalperLab"
         >
           <Logo size={28} />
-          <span className="title-lg" style={{ fontSize: 15, letterSpacing: '-.04em' }}>
-            ScalperLab
+          <span className="title-lg" style={{ fontSize: 34 * (28 / 64), letterSpacing: '-.04em' }}>
+            Scalper<span style={{ color: 'var(--accent)' }}>Lab</span>
           </span>
         </Link>
         <div className="flex items-center gap-2">
