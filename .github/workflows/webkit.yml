@@ -12,17 +12,21 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 20
+    container:
+      image: mcr.microsoft.com/playwright:v1.47.2-jammy
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - run: |
-          mkdir -p /tmp/wk && cd /tmp/wk && npm init -y >/dev/null && npm i playwright@1.47.2 pngjs@7 >/dev/null
-          npx playwright install --with-deps webkit
-      - run: NODE_PATH=/tmp/wk/node_modules node --input-type=module -e "import('/tmp/wk/node_modules/playwright/index.mjs').then(()=>0)" ; cp .github/webkit/test.mjs /tmp/wk/test.mjs && cd /tmp/wk && cp -r $GITHUB_WORKSPACE/. /tmp/wk/repo 2>/dev/null; cd /tmp/wk && node test.mjs && cp -r webkit-out webkit-report.json $GITHUB_WORKSPACE/ || true
-      - run: |
+      - name: Test
+        timeout-minutes: 12
+        run: |
+          mkdir -p /tmp/wk && cp .github/webkit/test.mjs /tmp/wk/ && cd /tmp/wk
+          npm init -y >/dev/null && npm i playwright@1.47.2 pngjs@7 --no-audit --no-fund
+          node test.mjs || true
+          cp -r webkit-out webkit-report.json "$GITHUB_WORKSPACE/" || true
+      - name: Salva
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
           git config user.name "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
           git add webkit-out webkit-report.json || true
