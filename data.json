@@ -525,16 +525,16 @@
    "handicap": 0.65,
    "label": "HNL (CRO)",
    "league_avg": {
-    "sotAgainst": 3.667,
+    "sotAgainst": 3.4,
     "sotFor": 7.0,
-    "totalAgainst": 9.556,
-    "totalFor": 19.556
+    "totalAgainst": 9.1,
+    "totalFor": 19.2
    },
    "logo": "https://cdn.pitchapi.dev/images/leagues/4465aea105839a24f2d53ead9c53bda99ad9ac5ef046d92dd47db55804698e1a.webp",
    "logos": {
     "Dinamo Zagreb": "https://cdn.pitchapi.dev/images/teams/156d34e6aa49318bc7cca25f3d06df36a7d09c4651d715fc5dd4dfca4a81ff65.webp"
    },
-   "matches": 9,
+   "matches": 10,
    "matches_without_stats": 0,
    "name": "HNL",
    "restricted": true,
@@ -542,11 +542,11 @@
    "size": 1,
    "teams": {
     "Dinamo Zagreb": {
-     "games": 9,
-     "sotAgainst": 3.667,
+     "games": 10,
+     "sotAgainst": 3.4,
      "sotFor": 7.0,
-     "totalAgainst": 9.556,
-     "totalFor": 19.556
+     "totalAgainst": 9.1,
+     "totalFor": 19.2
     }
    }
   },
@@ -1772,10 +1772,10 @@
    "country": "ITA",
    "label": "Serie A",
    "league_avg": {
-    "sotAgainst": 4.944,
-    "sotFor": 4.944,
-    "totalAgainst": 14.613,
-    "totalFor": 14.613
+    "sotAgainst": 4.983,
+    "sotFor": 4.974,
+    "totalAgainst": 14.648,
+    "totalFor": 14.638
    },
    "logo": "https://cdn.pitchapi.dev/images/leagues/1e6b2d0d7b14ef10ae27b51a6a7f536b32fdceea229d84c475be346978232f22.webp",
    "logos": {
@@ -1800,7 +1800,7 @@
     "Udinese": "https://cdn.pitchapi.dev/images/teams/bf074b2992c5c0d8bb4fefdf71b549070c402656ac2e6405a52e8ee9ef6c8801.webp",
     "Venezia": "https://cdn.pitchapi.dev/images/teams/ef4cf59b13e1d9d130d304bad00d700783a9783ba1c0469952db26a8a76a5b38.webp"
    },
-   "matches": 80,
+   "matches": 83,
    "matches_without_stats": 0,
    "name": "Serie A",
    "restricted": false,
@@ -1822,18 +1822,18 @@
      "totalFor": 12.25
     },
     "Cagliari": {
-     "games": 8,
-     "sotAgainst": 5.25,
-     "sotFor": 3.625,
-     "totalAgainst": 18.5,
-     "totalFor": 9.75
+     "games": 9,
+     "sotAgainst": 5.556,
+     "sotFor": 4.111,
+     "totalAgainst": 18.667,
+     "totalFor": 10.778
     },
     "Como": {
-     "games": 8,
-     "sotAgainst": 3.25,
-     "sotFor": 6.75,
-     "totalAgainst": 13.75,
-     "totalFor": 20.625
+     "games": 9,
+     "sotAgainst": 3.444,
+     "sotFor": 6.556,
+     "totalAgainst": 13.444,
+     "totalFor": 20.333
     },
     "Fiorentina": {
      "games": 8,
@@ -1871,11 +1871,11 @@
      "totalFor": 15.75
     },
     "Lazio": {
-     "games": 8,
-     "sotAgainst": 4.625,
-     "sotFor": 4.25,
-     "totalAgainst": 12.25,
-     "totalFor": 13.875
+     "games": 9,
+     "sotAgainst": 4.222,
+     "sotFor": 4.667,
+     "totalAgainst": 11.889,
+     "totalFor": 14.111
     },
     "Lecce": {
      "games": 8,
@@ -1913,25 +1913,25 @@
      "totalFor": 10.625
     },
     "Roma": {
-     "games": 8,
-     "sotAgainst": 3.875,
-     "sotFor": 5.75,
-     "totalAgainst": 11.125,
-     "totalFor": 18.875
+     "games": 9,
+     "sotAgainst": 4.333,
+     "sotFor": 6.0,
+     "totalAgainst": 12.0,
+     "totalFor": 19.0
     },
     "Sassuolo": {
-     "games": 8,
-     "sotAgainst": 6.5,
-     "sotFor": 5.625,
-     "totalAgainst": 15.5,
-     "totalFor": 14.625
+     "games": 9,
+     "sotAgainst": 6.667,
+     "sotFor": 5.111,
+     "totalAgainst": 15.556,
+     "totalFor": 14.0
     },
     "Torino": {
-     "games": 8,
-     "sotAgainst": 4.375,
-     "sotFor": 3.625,
-     "totalAgainst": 15.5,
-     "totalFor": 10.625
+     "games": 9,
+     "sotAgainst": 4.444,
+     "sotFor": 3.778,
+     "totalAgainst": 15.778,
+     "totalFor": 10.667
     },
     "Udinese": {
      "games": 8,
@@ -2027,5 +2027,5 @@
   }
  },
  "season_start": "2026",
- "updated_at": "2026-10-27T05:29:13+00:00"
+ "updated_at": "2026-10-27T23:29:40+00:00"
 }
