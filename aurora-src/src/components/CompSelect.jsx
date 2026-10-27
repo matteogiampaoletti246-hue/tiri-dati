@@ -4,7 +4,7 @@ import { Check, ChevronDown } from 'lucide-react';
 import LeagueBadge from '@/components/LeagueBadge';
 
 // Tendina delle competizioni: logo + nome, si apre sotto il tasto.
-export default function CompSelect({ options, value, onChange, allLabel = null }) {
+export default function CompSelect({ options, value, onChange, allLabel = null, inline = false }) {
   const [open, setOpen] = useState(false);
   const [shown, setShown] = useState(false);
   const ref = useRef(null);
@@ -21,7 +21,7 @@ export default function CompSelect({ options, value, onChange, allLabel = null }
   const items = allLabel ? [{ id: 'all', name: allLabel }, ...options] : options;
 
   return (
-    <div ref={ref} className="relative z-[25] px-4 pb-1 pt-3" data-no-swipe="true" style={open ? { zIndex: 96 } : undefined}>
+    <div ref={ref} className={inline ? 'relative' : 'relative z-[25] px-4 pb-1 pt-3'} data-no-swipe="true" style={open ? { zIndex: 96 } : undefined}>
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
@@ -34,7 +34,7 @@ export default function CompSelect({ options, value, onChange, allLabel = null }
       {open ? <MenuBackdrop onClose={() => setOpen(false)} /> : null}
       {open ? (
         <div
-          className="absolute left-4 top-[calc(100%-2px)] min-w-[250px] rounded-[18px] p-1.5"
+          className={`absolute ${inline ? 'left-0 top-[calc(100%+8px)]' : 'left-4 top-[calc(100%-2px)]'} z-50 min-w-[250px] rounded-[18px] p-1.5`}
           style={{
             background: 'var(--sky-2)',
             border: '1px solid var(--hair)',

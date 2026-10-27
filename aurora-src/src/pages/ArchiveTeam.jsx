@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Navigate } from 'react-router-dom';
+import { teamByName } from '@/data/teams';
+import { NAV } from '@/components/past/PastBits';
 import PageShell from '@/components/PageShell';
 import TopBar from '@/components/TopBar';
 import SwipeTabs from '@/components/SwipeTabs';
@@ -20,7 +22,7 @@ const TABS = [
 ];
 const Empty = ({ children }) => <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>{children}</p>;
 
-function TeamMatches({ season, tid, fm, sk, tint }) {
+export function TeamMatches({ season, tid, fm, sk, tint }) {
   const list = season.fix.filter((m) => String(m[2]) === tid || String(m[3]) === tid).sort((a, b) => String(a[4]).localeCompare(String(b[4])));
   if (!list.length) return <Empty>Nessuna partita</Empty>;
   const days = [];
@@ -39,7 +41,7 @@ function TeamMatches({ season, tid, fm, sk, tint }) {
   );
 }
 
-function TeamPlayers({ stats, tid, season, fm, sk }) {
+export function TeamPlayers({ stats, tid, season, fm, sk }) {
   const lists = (stats && stats.players) || {};
   const sections = Object.keys(lists).filter((k) => !k.startsWith('_')).map((k) => ({
     id: k,
@@ -63,6 +65,13 @@ export default function ArchiveTeam() {
   const name = season && season.teams && season.teams[tid];
   if (loading) return <PageShell bar={false}><TopBar title="Squadra" /><div className="px-5 pt-8"><Skeleton className="h-[52px] w-full" /></div></PageShell>;
   if (!season || !name) return <PageShell bar={false}><TopBar title="Squadra" /><Empty>Squadra non trovata</Empty></PageShell>;
+  // squadra presente nell'app: si apre la scheda unica della squadra, con la stagione scelta
+  const appTeam = teamByName(name);
+  if (appTeam && appTeam.leagueId && FM_ID[appTeam.leagueId] && String(FM_ID[appTeam.leagueId]) === String(fm)) {
+    NAV.fm = fm; NAV.sk = sk; NAV.tab = 1;
+    try { sessionStorage.setItem(`sl-tab-team-${appTeam.id}`, '1'); } catch (e) { /* ignore */ }
+    return <Navigate replace to={`/squadra/${appTeam.id}`} />;
+  }
   const lid = Object.keys(FM_ID).find((k) => String(FM_ID[k]) === String(fm));
   const league = lid ? leagueById(lid) : null;
   const tint = lid ? leagueTint(lid) : '#38A2FF';

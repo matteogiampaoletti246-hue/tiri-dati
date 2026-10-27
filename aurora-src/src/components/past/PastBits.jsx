@@ -1,0 +1,91 @@
+import { useEffect, useRef, useState } from 'react';
+import useAsync from '@/hooks/useAsync';
+import { pastSeasons } from '@/data/archive';
+import { bandColor } from '@/components/player/playerCalc';
+
+// stagione/scheda richiesta da un collegamento dello storico: la scheda unica si apre gia' li'
+export const NAV = { fm: null, sk: null, tab: null };
+export const initSeason = (fm) => (NAV.sk && String(NAV.fm) === String(fm) ? NAV.sk : 'cur');
+
+export const CARD = { backgroundColor: 'var(--panel-solid, rgba(255,255,255,.04))', border: '1px solid var(--hair-2)', borderRadius: 18 };
+export const LBL = { fontSize: 9.5, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--ink-3)' };
+export const NEG_RE = /conceded|card|foul|lost|dispossess|miss|offside|dribbled_past/i;
+
+// stagioni passate del campionato (FotMob id) per la tendina
+export function useSeasonList(fm) {
+  const { data } = useAsync(() => (fm ? pastSeasons(fm) : Promise.resolve([])), [fm]);
+  return data || [];
+}
+
+const ease = (t) => 1 - (1 - t) ** 3;
+// numero che scorre dal valore precedente a quello nuovo (cifre insieme alla barra)
+export function RollText({ value, fmt, delay = 0, duration = 900, className = '', style }) {
+  const el = useRef(null);
+  const shown = useRef(value);
+  const raf = useRef(0);
+  useEffect(() => {
+    const node = el.current;
+    if (!node) return undefined;
+    const from = shown.current;
+    const to = value;
+    cancelAnimationFrame(raf.current);
+    if (typeof to !== 'number' || typeof from !== 'number' || from === to) { node.textContent = fmt(to); shown.current = to; return undefined; }
+    const t0 = performance.now() + delay;
+    const tick = (now) => {
+      const t = (now - t0) / duration;
+      if (t < 0) { raf.current = requestAnimationFrame(tick); return; }
+      const p = Math.min(1, t);
+      const v = from + (to - from) * ease(p);
+      shown.current = v;
+      node.textContent = fmt(p >= 1 ? to : v);
+      if (p < 1) raf.current = requestAnimationFrame(tick);
+    };
+    raf.current = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf.current);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
+  return <span ref={el} className={`tnum ${className}`} style={style}>{fmt(shown.current)}</span>;
+}
+
+// riga con valore a pillola colorata, posizione e barra con la media del campionato
+export function BarRow({ label, value, fmt, frac, width, avgPos, avgText, rank, first, delay = 0 }) {
+  const col = bandColor(frac);
+  const [w, setW] = useState(0);
+  useEffect(() => {
+    const id = requestAnimationFrame(() => requestAnimationFrame(() => setW(width)));
+    return () => cancelAnimationFrame(id);
+  }, [width]);
+  return (
+    <div className="px-4 py-2.5" style={{ borderTop: first ? 'none' : '1px solid var(--hair-2)' }}>
+      <div className="grid items-baseline gap-2" style={{ gridTemplateColumns: '1fr auto 42px' }}>
+        <span className="text-[12.5px] leading-tight" style={{ color: 'var(--ink-2)' }}>{label}</span>
+        <RollText value={value} fmt={fmt} delay={delay} className="justify-self-end text-right text-[14px] font-semibold" style={{ color: col, background: `${col}26`, padding: '1px 8px', borderRadius: 999, transition: 'color .9s, background .9s' }} />
+        <span className="tnum text-right text-[11px] font-bold" style={{ color: 'var(--ink-3)' }}>{rank ? `${rank}°` : ''}</span>
+      </div>
+      <div className="relative" style={{ marginTop: 17, height: 9 }}>
+        <div className="absolute inset-0 rounded-full" style={{ background: 'var(--hair-2)' }}>
+          <div className="h-full rounded-full" style={{ width: `${w}%`, background: `linear-gradient(90deg, ${col}88, ${col})`, transition: `width .9s cubic-bezier(.22,.8,.24,1) ${delay}ms, background .9s` }} />
+        </div>
+        {avgText ? (
+          <>
+            <span className="absolute" style={{ left: `${avgPos}%`, top: -5, bottom: -5, borderLeft: '2px dashed var(--ink)', opacity: 0.85 }} />
+            <span className="tnum absolute whitespace-nowrap text-[9.5px] font-bold leading-none" style={{ left: `${Math.min(88, Math.max(12, avgPos))}%`, top: -20, transform: 'translateX(-50%)', color: 'var(--ink-2)', background: 'var(--hair-2)', padding: '2px 5px', borderRadius: 6 }}>media {avgText}</span>
+          </>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
+// da una lista ordinata di classifica ricava posizione, frazione (1 = migliore), larghezza barra e media
+export function standingOf(list, idx, key) {
+  const n = list.length;
+  const v = Number(list[idx][3]);
+  const neg = NEG_RE.test(key);
+  const best = Math.max(...list.slice(0, 5).map((r) => Number(r[3]) || 0), 0.0001);
+  const avg = list.reduce((a, r) => a + (Number(r[3]) || 0), 0) / n;
+  const top = Math.max(best * 1.05, avg * 1.6, v, 0.0001);
+  const rank = neg ? n - idx : idx + 1;
+  const frac = n > 1 ? (neg ? idx / (n - 1) : 1 - idx / (n - 1)) : 1;
+  return { v, rank, frac, width: Math.max(3, Math.min(100, (v / top) * 100)), avg, avgPos: Math.min(100, (avg / top) * 100) };
+}

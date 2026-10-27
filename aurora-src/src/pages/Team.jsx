@@ -11,7 +11,7 @@ import TeamMatchesPanel from '@/components/team/TeamMatchesPanel';
 import StandingsTable from '@/components/StandingsTable';
 import TeamRosterPanel from '@/components/team/TeamRosterPanel';
 import TeamStandingsPanel from '@/components/team/TeamStandingsPanel';
-import LeaguePlayersPanel from '@/components/league/LeaguePlayersPanel';
+import TeamPlayersPanel from '@/components/team/TeamPlayersPanel';
 import TeamStatsPanel from '@/components/team/TeamStatsPanel';
 import useInitialLoad from '@/hooks/useInitialLoad';
 import { teamById } from '@/data/teams';
@@ -65,13 +65,16 @@ export default function Team() {
     </div>
   );
 
+  const club = team.colors && team.colors[0];
+  const wrap = (a, n) => <div key={n.key} className="club-scope" style={{ '--club': club, '--club-a': a }}>{n}</div>;
   const panels = [
-    <TeamMatchesPanel key="matches" teamId={team.id} />,
-    <TeamStandingsPanel key="standings" team={team} />,
+    wrap('22%', <TeamMatchesPanel key="matches" teamId={team.id} />),
+    wrap('24%', <TeamStandingsPanel key="standings" team={team} />),
     <TeamRosterPanel key="roster" teamId={team.id} />,
-    <TeamStatsPanel key="stats" team={team} />,
-    <LeaguePlayersPanel key="players" leagueId={team.leagueId} teamId={team.id} />,
+    wrap('22%', <TeamStatsPanel key="stats" team={team} />),
+    wrap('22%', <TeamPlayersPanel key="players" team={team} />),
   ];
+
 
   return (
     <PageShell swipeBack={false}>

@@ -107,7 +107,7 @@ function MatchesPanel({ fm, sk, season, tint }) {
   );
 }
 
-const fmtVal = (key, v) => {
+export const fmtVal = (key, v) => {
   if (v == null) return '–';
   if (/rating/.test(key)) return Number(v).toFixed(2).replace('.', ',');
   if (/per_90|percentage|_team_match|expected|_diff/.test(key)) return Number(v).toFixed(2).replace('.', ',');
@@ -120,12 +120,12 @@ const GROUPS = [
   ['Disciplina', /card|foul|offside/i],
   ['Rendimento', /rating|min|match|appear/i],
 ];
-const groupOf = (k) => (GROUPS.find(([, re]) => re.test(k)) || ['Altro'])[0];
-const ORDER = ['Attacco', 'Rendimento', 'Passaggi', 'Difesa', 'Disciplina', 'Altro'];
+export const groupOf = (k) => (GROUPS.find(([, re]) => re.test(k)) || ['Altro'])[0];
+export const ORDER = ['Attacco', 'Rendimento', 'Passaggi', 'Difesa', 'Disciplina', 'Altro'];
 
 // Classifiche statistiche: stesso componente delle statistiche del campionato attuale
 const NO90 = /rating|mins_played|percentage|^_|per_90|clean_sheet|matches|appear/i;
-function statSections(stats, kind, names, col, fm, sk, mode = 'tot') {
+export function statSections(stats, kind, names, col, fm, sk, mode = 'tot', onlyTeam = null) {
   const lists = stats && stats[kind];
   if (!lists) return [];
   const isP = kind === 'players';
@@ -133,6 +133,7 @@ function statSections(stats, kind, names, col, fm, sk, mode = 'tot') {
   const secs = [];
   Object.keys(lists).forEach((k) => {
     let list = lists[k];
+    if (list && onlyTeam) list = list.filter((r) => String(r[2]) === String(onlyTeam));
     if (!list || !list.length || k.startsWith('_')) return;
     let title = SEASON_STAT_IT[k] || prettyKey(k);
     let kk = k;
@@ -141,7 +142,7 @@ function statSections(stats, kind, names, col, fm, sk, mode = 'tot') {
       if (p90) {
         if (isRate) { /* gia' ogni 90' */ } else if (NO90.test(k)) return;
         else {
-          list = list.filter((r) => r[4] >= 450 && r[3] != null)
+          list = list.filter((r) => r[4] >= (onlyTeam ? 180 : 450) && r[3] != null)
             .map((r) => [r[0], r[1], r[2], (Number(r[3]) * 90) / r[4], r[4], r[5], r[6]])
             .sort((x, y) => y[3] - x[3]);
           if (!list.length) return;

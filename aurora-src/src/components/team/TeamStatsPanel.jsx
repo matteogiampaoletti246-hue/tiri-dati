@@ -8,7 +8,10 @@ import Crest from '@/components/Crest';
 import { Link } from 'react-router-dom';
 import { comma } from '@/lib/format';
 import { bandColor, ratioColor } from '@/components/player/playerCalc';
-import CompSelect from '@/components/CompSelect';
+import CompSeasonBar from '@/components/CompSeasonBar';
+import { PastTeamStats } from '@/components/past/PastTeam';
+import { useSeasonList, initSeason } from '@/components/past/PastBits';
+import { FM_ID } from '@/data/archive';
 import { teamCompetitions } from '@/data/competitions';
 import { teamShots } from '@/data/calcData';
 import { MATCHES } from '@/data/matches';
@@ -107,7 +110,7 @@ function DomesticStats({ team, comp }) {
         ) : null}
       </div>
       {cats.map((c) => (
-        <section key={c.key} className="glass mx-4 overflow-hidden rounded-[24px]">
+        <section key={c.key} className="glass club-card mx-4 overflow-hidden rounded-[24px]">
           <h3 className="px-4 pb-1 pt-3.5 text-[12.5px] font-extrabold uppercase tracking-wider">{c.title}</h3>
           {c.metrics.map((mt, i) => {
             const r = rankIn(team, mt.key, part);
@@ -151,13 +154,18 @@ function DomesticStats({ team, comp }) {
 
 export default function TeamStatsPanel({ team }) {
   const [comp, setComp] = useState(team.leagueId);
+  const [season, setSeason] = useState(() => initSeason(FM_ID[comp]));
   const comps = teamCompetitions(team.id);
+  const fm = FM_ID[comp];
+  const seasons = useSeasonList(fm);
   return (
     <div>
-      <CompSelect options={comps} value={comp} onChange={setComp} />
-      <div key={comp} className="comp-in">
-        <DomesticStats team={team} comp={comp} />
-      </div>
+      <CompSeasonBar comps={comps} comp={comp} onComp={(c) => { setComp(c); setSeason('cur'); }} seasons={seasons} season={season} onSeason={setSeason} />
+      {season !== 'cur' && fm ? <PastTeamStats fm={fm} sk={season} team={team} /> : (
+        <div key={comp} className="comp-in">
+          <DomesticStats team={team} comp={comp} />
+        </div>
+      )}
     </div>
   );
 }

@@ -4,6 +4,11 @@ import MatchDayList from '@/components/MatchDayList';
 import { allTeamMatches } from '@/data/extras';
 import CompSelect from '@/components/CompSelect';
 import { teamCompetitions } from '@/data/competitions';
+import { PastTeamMatches } from '@/components/past/PastMatches';
+import { useSeasonList } from '@/components/past/PastBits';
+import { FM_ID, teamIdByName } from '@/data/archive';
+import { leagueTint } from '@/data/leagues';
+import { teamById } from '@/data/teams';
 
 const MATCH = {
   all: () => true,
@@ -15,6 +20,9 @@ export default function TeamMatchesPanel({ teamId }) {
   const [filter, setFilter] = useState('all');
   const [comp, setComp] = useState('all');
   const comps = teamCompetitions(teamId);
+  const team = teamById(teamId);
+  const fm = FM_ID[team && team.leagueId];
+  const seasons = useSeasonList(fm);
   const shown = allTeamMatches(teamId).filter(MATCH[filter]).filter((m) => comp === 'all' || m.leagueId === comp);
 
   return (
@@ -38,6 +46,7 @@ export default function TeamMatchesPanel({ teamId }) {
           Nessuna partita
         </p>
       )}
+      {fm && seasons.length && filter !== 'upcoming' && (comp === 'all' || comp === team.leagueId) ? <PastTeamMatches fm={fm} seasons={seasons} teamName={team.name} tint={leagueTint(team.leagueId)} teamIdByName={teamIdByName} /> : null}
     </div>
   );
 }

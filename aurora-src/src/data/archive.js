@@ -78,3 +78,20 @@ export const PLAYER_STAT_IT = {
   shot_blocks: 'Tiri murati', defensive_actions: 'Azioni difensive', touches_opp_box: 'Tocchi in area',
 };
 export const prettyKey = (k) => String(k).replace(/_t$/, '').replace(/^matchstats\.headers\./, '').replace(/_/g, ' ').replace(/^\w/, (c) => c.toUpperCase());
+
+// stagioni passate di un campionato (la piu' recente dell'indice e' quella in corso, mostrata dai dati live)
+export const pastSeasons = async (fm) => {
+  const idx = await archIndex();
+  const e = idx && idx[String(fm)];
+  return sortSeasons((e && e.s) || []).slice(1);
+};
+const norm = (n) => String(n || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9 ]/g, ' ').replace(/\b(fc|ac|as|ss|us|afc|cf|sc|calcio|1\w*)\b/g, ' ').replace(/\s+/g, ' ').trim();
+// id FotMob di una squadra dentro i dati di una stagione, dal nome
+export const teamIdByName = (teams, name) => {
+  const n = norm(name);
+  if (!n || !teams) return null;
+  const ent = Object.entries(teams);
+  let hit = ent.find(([, v]) => norm(v) === n);
+  if (!hit) hit = ent.find(([, v]) => { const m = norm(v); return m && (m.includes(n) || n.includes(m)); });
+  return hit ? hit[0] : null;
+};

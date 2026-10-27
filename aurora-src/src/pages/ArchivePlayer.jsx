@@ -1,4 +1,8 @@
-import { useParams } from 'react-router-dom';
+import { useParams, Navigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { PLAYERS } from '@/data/players';
+import { loadCarriere } from '@/data/carriere';
+import { NAV } from '@/components/past/PastBits';
 import PageShell from '@/components/PageShell';
 import TopBar from '@/components/TopBar';
 import Skeleton from '@/components/Skeleton';
@@ -14,8 +18,20 @@ const fmt = (k, v) => (/rating|per_90|expected/.test(k) ? Number(v).toFixed(2).r
 export default function ArchivePlayer() {
   const { fm, sk, pid } = useParams();
   const col = useTeamColors();
+  const [car, setCar] = useState(undefined);
+  useEffect(() => { let on = true; loadCarriere().then((d) => on && setCar(d || {})); return () => { on = false; }; }, []);
   const { data: season } = useAsync(() => loadSeason(fm, sk), [fm, sk]);
   const { data: stats, loading } = useAsync(() => loadSeasonStats(fm, sk), [fm, sk]);
+  // giocatore presente nell'app: si apre la sua scheda unica (Statistiche) con la stagione scelta
+  if (car) {
+    const appId = Object.keys(car).find((k) => String(car[k] && car[k].fm) === String(pid));
+    if (appId && PLAYERS.some((p) => p.id === appId)) {
+      NAV.fm = fm; NAV.sk = sk; NAV.tab = 2;
+      try { sessionStorage.setItem('sl-ptab-' + appId, '2'); } catch (e) { /* ignore */ }
+      return <Navigate replace to={`/giocatore/${appId}`} />;
+    }
+  }
+  if (car === undefined) return <PageShell bar={false}><TopBar title="Giocatore" /></PageShell>;
   if (loading) return <PageShell bar={false}><TopBar title="Giocatore" /><div className="px-5 pt-8"><Skeleton className="h-[52px] w-full" /></div></PageShell>;
   const lists = (stats && stats.players) || {};
   const rows = [];
