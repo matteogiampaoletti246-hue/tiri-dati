@@ -19,11 +19,9 @@ export default function RefereeHero({ referee, league, matchCount }) {
     <>
       <header className="fixed inset-x-0 top-0 z-30" style={{ opacity: p, pointerEvents: p > 0.7 ? 'auto' : 'none' }}>
         <div
-          className="mx-auto flex max-w-[var(--app-w)] items-center gap-3 px-5 py-3"
+          className="bf-dark mx-auto flex max-w-[var(--app-w)] items-center gap-3 px-5 py-3"
           style={{
             background: 'color-mix(in srgb, var(--sky-2) 78%, transparent)',
-            backdropFilter: 'blur(20px) saturate(160%)',
-            WebkitBackdropFilter: 'blur(20px) saturate(160%)',
           }}
         >
           <button type="button" className="icon-btn -ml-1" aria-label="Indietro" onClick={() => navigate(-1)}>

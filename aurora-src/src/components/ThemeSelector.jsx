@@ -16,9 +16,7 @@ export default function ThemeSelector() {
           key={opt.value}
           type="button"
           className={`filter-btn ${theme === opt.value ? 'is-on' : ''}`}
-          onClick={(e) => {
-            const r = e.currentTarget.getBoundingClientRect();
-            window.__fxOrigin = { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+          onClick={() => {
             setTheme(opt.value);
             setLocal(opt.value);
           }}

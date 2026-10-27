@@ -623,8 +623,19 @@
   :root { --app-w: 900px; --sheet-w: 560px; }
 }
 
-/* Tema chiaro: via le sfocature inline (hero, barre) per mantenere la fluidita' */
-html:not(.dark) [style*="backdrop-filter"] {
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
+/* sfocatura delle testate solo nel tema scuro (nel chiaro costa troppo durante lo swipe) */
+.dark .bf-dark {
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  backdrop-filter: blur(20px) saturate(160%);
+}
+
+.shell-in {
+  animation: shell-in .32s cubic-bezier(.22, 1, .36, 1) backwards;
+}
+
+@keyframes shell-in {
+  from {
+    opacity: 0;
+    transform: translate3d(14px, 0, 0);
+  }
 }

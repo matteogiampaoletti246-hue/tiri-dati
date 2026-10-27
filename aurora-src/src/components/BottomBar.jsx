@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Home as HomeIcon, Calculator, Users, Swords } from 'lucide-react';
@@ -10,7 +11,7 @@ const ITEMS = [
 ];
 
 // Barra in basso: vetro, l'indicatore scivola da una voce all'altra.
-export default function BottomBar() {
+function BottomBar() {
   const { pathname } = useLocation();
   const isActive = (item) => (item.exact ? pathname === item.to : pathname.startsWith(item.to));
 
@@ -47,3 +48,6 @@ export default function BottomBar() {
     </nav>
   );
 }
+
+// memo: non si ridisegna quando cambia il contenuto della pagina (evita misure di layout inutili)
+export default memo(BottomBar);

@@ -6,11 +6,9 @@ export default function TopBar({ title, subtitle, right, back = true, bare = fal
   return (
     <header className="sticky top-0 z-30">
       <div
-        className={bare ? 'flex items-center gap-3 px-5 py-3' : 'flex items-center gap-3 px-5 py-3.5'}
+        className={bare ? 'flex items-center gap-3 px-5 py-3' : 'bf-dark flex items-center gap-3 px-5 py-3.5'}
         style={{
           background: bare ? 'transparent' : 'color-mix(in srgb, var(--sky-2) 70%, transparent)',
-          backdropFilter: bare ? 'none' : 'blur(20px) saturate(160%)',
-          WebkitBackdropFilter: bare ? 'none' : 'blur(20px) saturate(160%)',
         }}
       >
         {back ? (

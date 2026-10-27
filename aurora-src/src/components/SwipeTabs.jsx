@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { createPortal } from 'react-dom';
+import { createPortal, flushSync } from 'react-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { carousel, pageBack, finishCarousel } from '@/lib/carousel';
+import { pageBack, finishCarousel } from '@/lib/carousel';
 
 
 export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, className = '', stickyTop = 'var(--ent-h, 0px)', fixedBar = false, edgeBack = true, hideBar = false }) {
@@ -66,6 +66,7 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
   const prevIdx = useRef(index);
   const contentRef = useRef(null);
   const skipEntry = useRef(false);
+  const finishRef = useRef(null);
 
   // la barra segue la scheda attiva; la nuova scheda entra con una breve animazione
   useLayoutEffect(() => {
@@ -101,6 +102,7 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
     let busy = false;
     const onStart = (e) => {
       finishCarousel();
+      if (finishRef.current) finishRef.current();
       if (busy || e.touches.length !== 1) { st = null; return; }
       const t = e.target;
       if (t.closest && t.closest('input, select, textarea, [data-no-swipe]')) { st = null; return; }
@@ -180,8 +182,32 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
       }
       if ((Math.abs(dx) > d.w * 0.2 || v > 0.45) && next >= 0 && next < n) {
         busy = true;
-        const off = (i === 0 && dx > 0) || (i === n - 1 && dx < 0) ? dx * 0.25 : dx;
-        carousel(el, off, dx < 0 ? 1 : -1, () => { skipEntry.current = true; peekRef.current = null; setPeek(null); oc(next); }, () => { busy = false; });
+        // la scheda vicina e' gia' accanto: si muove solo la striscia, poi si scambia senza ricostruire nulla
+        const dir = dx < 0 ? -1 : 1;
+        const w = Math.min(window.innerWidth, el.offsetWidth || 430);
+        flushSync(() => showPeek(next));
+        posBar(i, next, 1, true);
+        let ended = false;
+        let tm = 0;
+        const end = () => {
+          if (ended) return;
+          ended = true;
+          clearTimeout(tm);
+          finishRef.current = null;
+          el.style.transition = 'none';
+          flushSync(() => { skipEntry.current = true; peekRef.current = null; setPeek(null); oc(next); });
+          el.style.transform = '';
+          el.style.willChange = '';
+          busy = false;
+        };
+        finishRef.current = end;
+        el.style.willChange = 'transform';
+        requestAnimationFrame(() => {
+          if (ended) return;
+          el.style.transition = 'transform .26s cubic-bezier(.22,.8,.24,1)';
+          el.style.transform = `translate3d(${dir * w}px,0,0)`;
+          tm = setTimeout(end, 290);
+        });
       } else {
         if (el) {
           el.style.transition = 'transform .25s cubic-bezier(.22,.8,.24,1), opacity .25s ease';
@@ -237,10 +263,11 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
       {hideBar ? null : fixedBar ? createPortal(HEAD, document.body) : HEAD}
       <div ref={wrapRef} data-tabs-back={edgeBack && loc.key !== 'default' ? '1' : undefined} className="relative" style={{ touchAction: 'pan-y', minHeight: '60vh', overflowX: 'clip' }}>
         <div ref={contentRef} style={{ position: 'relative' }}>
-          {panels[index]}
-          {peek !== null && peek !== index && panels[peek] ? (
-            <div aria-hidden="true" style={{ position: 'absolute', top: 0, width: '100%', left: peek > index ? '100%' : '-100%', pointerEvents: 'none' }}>{panels[peek]}</div>
-          ) : null}
+          {[index, peek !== null && peek !== index && panels[peek] ? peek : null].filter((k) => k !== null).map((k) => (
+            <div key={k} style={k === index ? undefined : { position: 'absolute', top: 0, width: '100%', left: k > index ? '100%' : '-100%' }}>
+              {panels[k]}
+            </div>
+          ))}
         </div>
       </div>
     </div>
