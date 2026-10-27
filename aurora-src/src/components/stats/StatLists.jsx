@@ -42,7 +42,7 @@ export default function StatLists({ sections, controls = null, limit = 8 }) {
   return (
     <div className="pb-6 pt-2">
       <div style={{ position: 'sticky', top: 'calc(var(--ent-h, 0px) + var(--tabs-h, 0px) + 6px)', height: 0, zIndex: 25 }}>
-        <button type="button" onClick={() => { setLim(sections.length); setSheet(true); }} className="glass-strong press absolute flex items-center gap-1.5 rounded-full px-3.5 py-2 text-[12.5px] font-bold" style={{ right: 16, top: 3 }}>
+        <button type="button" onClick={() => { setLim(sections.length); setSheet(true); }} className="glass-strong press absolute flex items-center gap-1.5 rounded-full px-3.5 py-2 text-[12.5px] font-bold" style={{ right: 16, top: 3, background: 'var(--sky-2)', boxShadow: '0 6px 16px -6px rgba(0,0,0,.55)' }}>
           <ListTree size={14} />
           Vai a
         </button>
