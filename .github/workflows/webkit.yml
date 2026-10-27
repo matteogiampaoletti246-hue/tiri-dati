@@ -20,15 +20,14 @@ jobs:
       - name: Test
         timeout-minutes: 12
         run: |
-          mkdir -p /tmp/wk && cp .github/webkit/test.mjs /tmp/wk/ && cd /tmp/wk
+          mkdir -p /tmp/wk && cp .github/webkit/*.mjs /tmp/wk/ && cd /tmp/wk
           npm init -y >/dev/null && npm i playwright@1.47.2 pngjs@7 --no-audit --no-fund
-          node test.mjs || true
-          cp -r webkit-out webkit-report.json "$GITHUB_WORKSPACE/" || true
+          if [ -f "$GITHUB_WORKSPACE/webkit.debug" ]; then node debug.mjs || true; cp webkit-debug.json "$GITHUB_WORKSPACE/" || true; else node test.mjs || true; cp -r webkit-out webkit-report.json "$GITHUB_WORKSPACE/" || true; fi
       - name: Salva
         run: |
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
           git config user.name "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
-          git add webkit-out webkit-report.json || true
+          git add webkit-out webkit-report.json webkit-debug.json || true
           git diff --staged --quiet || git commit -m "Test WebKit: rapporto"
           for i in 1 2 3 4 5 6; do git pull --rebase && git push && break; sleep $((i*5)); done
