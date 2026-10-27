@@ -18,7 +18,7 @@ import useAsync from '@/hooks/useAsync';
 import { FM_ID, archIndex, seasonLabel, sortSeasons } from '@/data/archive';
 import useDark from '@/hooks/useDark';
 import useInitialLoad from '@/hooks/useInitialLoad';
-import { leagueById, initialsOf } from '@/data/leagues';
+import { leagueById, initialsOf, leagueTint } from '@/data/leagues';
 import { teamsOf } from '@/data/teams';
 import { matchesForLeague } from '@/data/matches';
 
@@ -100,7 +100,7 @@ export default function League() {
       />
 
       {inArchive ? (
-        <ArchiveLeague key={season} fm={fm} sk={season} tab={aTab} setTab={setATab} />
+        <ArchiveLeague key={season} fm={fm} sk={season} tab={aTab} setTab={setATab} tint={leagueTint(league.id)} />
       ) : loading ? (
         <div className="px-5 pt-8">
           <Skeleton className="h-[42px] w-full" />

@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import { teamGrad } from '@/lib/tint';
 import Crest from './Crest';
 import FormDots from './FormDots';
 import { teamById } from '@/data/teams';
@@ -23,7 +22,7 @@ export default function StandingsTable({ leagueId, mode = 'total', highlight = [
 
   return (
     <div>
-      <div className="grid items-center gap-2 px-[26px] pb-2 text-[9.5px] font-bold uppercase tracking-[.1em]" style={{ gridTemplateColumns: cols, color: 'var(--ink-3)' }}>
+      <div className="grid items-center gap-2 px-4 pb-2 text-[9.5px] font-bold uppercase tracking-[.1em]" style={{ gridTemplateColumns: cols, color: 'var(--ink-3)' }}>
         {head.map((h, i) => (
           <span key={h} className={i === 1 ? '' : 'text-right'}>{h}</span>
         ))}
@@ -38,8 +37,8 @@ export default function StandingsTable({ leagueId, mode = 'total', highlight = [
           <Link
             key={row.teamId}
             to={`/squadra/${row.teamId}`}
-            className="press relative mx-2 mb-1.5 grid items-center gap-2 rounded-[16px] px-2.5 py-2.5"
-            style={{ gridTemplateColumns: cols, background: on ? 'var(--accent-soft)' : teamGrad(team, 0x55) }}
+            className="press relative grid items-center gap-2 px-4 py-2.5"
+            style={{ gridTemplateColumns: cols, borderTop: '1px solid var(--hair-2)', background: on ? 'var(--accent-soft)' : 'transparent' }}
           >
             {z ? <span aria-hidden="true" className="absolute left-0 top-1.5 bottom-1.5 w-[3.5px] rounded-r-full" style={{ background: z.color }} /> : null}
             <span className="tnum text-right text-[11.5px]" style={{ color: 'var(--ink-3)' }}>{row.rank}</span>

@@ -23,6 +23,7 @@ export const archIndex = () => once('index', async () => {
   });
   return out;
 });
+export const loadColors = () => json('arch/colors.json');
 export const loadSeason = (lid, sk) => json(`arch/${lid}/${sk}.json`);
 export const loadSeasonStats = (lid, sk) => json(`arch/${lid}/${sk}_s.json`);
 export const loadSeasonMatches = (lid, sk) => gz(`partite/${lid}/${sk}.json.gz`);

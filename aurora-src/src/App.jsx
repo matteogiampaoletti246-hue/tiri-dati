@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { HashRouter, Route, Routes } from 'react-router-dom';
 import ArchiveMatch from '@/pages/ArchiveMatch';
+import ArchiveTeam from '@/pages/ArchiveTeam';
+import ArchivePlayer from '@/pages/ArchivePlayer';
 import { bootData } from '@/data';
 import LaunchScreen from '@/components/LaunchScreen';
 import ScrollToTop from '@/components/ScrollToTop';
@@ -48,6 +50,8 @@ export default function App() {
         <Route path="/linee-guida" element={<Guidelines />} />
         <Route path="/match/:id" element={<Match />} />
         <Route path="/campionato/:id" element={<League />} />
+        <Route path="/storico/:fm/:sk/squadra/:tid" element={<ArchiveTeam />} />
+        <Route path="/storico/:fm/:sk/giocatore/:pid" element={<ArchivePlayer />} />
         <Route path="/storico/:fm/:sk/:mid" element={<ArchiveMatch />} />
         <Route path="/squadra/:id" element={<Team />} />
         <Route path="/giocatore/:id" element={<Player />} />

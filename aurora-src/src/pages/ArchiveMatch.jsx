@@ -1,6 +1,10 @@
 import { useMemo, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { ArrowLeftRight } from 'lucide-react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { ArrowLeftRight, ChevronLeft } from 'lucide-react';
+import LeagueBadge from '@/components/LeagueBadge';
+import LeagueLink from '@/components/LeagueLink';
+import { leagueById, leagueTint } from '@/data/leagues';
+import { StandingsPanel, useTeamColors } from '@/components/archive/parts';
 import PageShell from '@/components/PageShell';
 import TopBar from '@/components/TopBar';
 import SwipeTabs from '@/components/SwipeTabs';
@@ -8,14 +12,15 @@ import Skeleton from '@/components/Skeleton';
 import StatIcon from '@/components/StatIcon';
 import { TeamLogo, PlayerFace } from '@/components/FmImg';
 import useAsync from '@/hooks/useAsync';
-import { loadSeason, loadSeasonMatches, seasonLabel, STAT_IT, STAT_GROUPS, PLAYER_STAT_IT, prettyKey } from '@/data/archive';
+import { FM_ID, loadSeason, loadSeasonMatches, seasonLabel, STAT_IT, STAT_GROUPS, PLAYER_STAT_IT, prettyKey } from '@/data/archive';
 import { scoreColorSmooth } from '@/lib/calc';
 
 const TABS = [
-  { key: 'overview', label: 'Panoramica' },
+  { key: 'overview', label: 'Riepilogo' },
   { key: 'stats', label: 'Statistiche' },
   { key: 'lineups', label: 'Formazioni' },
   { key: 'players', label: 'Giocatori' },
+  { key: 'standings', label: 'Classifica' },
 ];
 const HDR = new Set(['shots', 'passes', 'defense', 'duels', 'discipline']);
 
@@ -40,7 +45,7 @@ function Overview({ d, hn, an, fx }) {
           const home = e.isHome;
           const t = `${e.time}${e.overloadTime ? `+${e.overloadTime}` : ''}'`;
           let body = null;
-          if (e.type === 'Goal') body = <span><b>{e.nameStr || (e.p && e.p[1])}</b>{e.assistStr ? <span style={{ color: 'var(--ink-3)' }}> · assist {e.assistStr}</span> : null}</span>;
+          if (e.type === 'Goal') body = <span><b>{e.nameStr || (e.p && e.p[1])}</b>{e.assistStr ? <span style={{ color: 'var(--ink-3)' }}> · {String(e.assistStr).replace(/^assist by\s*/i, 'assist ')}</span> : null}</span>;
           else if (e.type === 'Card') body = <span>{(e.p && e.p[1]) || e.nameStr}</span>;
           else if (e.type === 'Substitution') body = <span className="flex items-center gap-1.5"><ArrowLeftRight size={13} style={{ color: 'var(--ink-3)' }} />{(e.swap || []).map((x) => x.name).join(' / ') || (e.p && e.p[1])}</span>;
           else body = <span style={{ color: 'var(--ink-2)' }}>{e.type}{e.p ? ` · ${e.p[1]}` : ''}</span>;
@@ -179,6 +184,8 @@ function Players({ d }) {
 export default function ArchiveMatch() {
   const { fm, sk, mid } = useParams();
   const [tab, setTab] = useState(0);
+  const navigate = useNavigate();
+  const col = useTeamColors();
   const { data: season, loading } = useAsync(() => loadSeason(fm, sk), [fm, sk]);
   const { data: det, loading: l2 } = useAsync(() => loadSeasonMatches(fm, sk), [fm, sk]);
   const fx = season && season.fix.find((m) => String(m[0]) === String(mid));
@@ -196,26 +203,61 @@ export default function ArchiveMatch() {
   const sc = String(fx[5] || '').split(' - ');
   const dt = new Date(fx[4]);
   const when = Number.isNaN(dt.getTime()) ? '' : dt.toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Europe/Rome' });
-  const panels = [<Overview key="o" d={d} hn={hn} an={an} fx={fx} />, <Stats key="s" d={d} />, <Lineups key="l" d={d} hn={hn} an={an} fx={fx} />, <Players key="p" d={d} />];
+  const lid = Object.keys(FM_ID).find((k) => String(FM_ID[k]) === String(fm));
+  const league = lid ? leagueById(lid) : null;
+  const tint = lid ? leagueTint(lid) : '#38A2FF';
+  const goals = ((d && d.e) || []).filter((e) => e.type === 'Goal');
+  const hc = col(fx[2], hn).colors[0];
+  const ac = col(fx[3], an).colors[0];
+  const shortName = (n) => { const q = String(n || '').trim().split(/\s+/); return q.length < 2 ? q[0] || '' : `${q[0][0]}. ${q.slice(1).join(' ')}`; };
+  const scorers = (home) => goals.filter((g) => !!g.isHome === home);
+  const Scorers = ({ list, right }) => (list.length ? (
+    <div className={`mt-2 flex w-full flex-col gap-[3px] ${right ? 'items-end text-right' : 'items-start text-left'}`}>
+      {list.map((g, i) => (
+        <span key={i} className="max-w-full truncate text-[11.5px] leading-tight" style={{ color: 'var(--ink-2)' }}>
+          <span className="tnum" style={{ color: 'var(--ink-3)' }}>{g.time}{g.overloadTime ? `+${g.overloadTime}` : ''}&apos;</span> {shortName(g.nameStr || (g.p && g.p[1]))}{g.ownGoal ? ' (aut.)' : ''}
+        </span>
+      ))}
+    </div>
+  ) : null);
+  const panels = [<Overview key="o" d={d} hn={hn} an={an} fx={fx} />, <Stats key="s" d={d} />, <Lineups key="l" d={d} hn={hn} an={an} fx={fx} />, <Players key="p" d={d} />, <StandingsPanel key="c" season={season} fm={fm} sk={sk} highlight={null} />];
   return (
-    <PageShell bar={false} swipeBack={false}>
-      <TopBar title={seasonLabel(sk)} />
-      <section className="glass mx-4 mt-2 rounded-[28px] px-4 pb-5 pt-4" style={{ background: 'linear-gradient(110deg, color-mix(in srgb, var(--accent) 16%, transparent), rgba(255,255,255,.03) 50%, color-mix(in srgb, var(--accent) 6%, transparent))' }}>
-        <p className="tnum pb-3 text-center text-[11.5px] font-semibold" style={{ color: 'var(--ink-3)' }}>{when}{fx[1] ? ` · Giornata ${fx[1]}` : ''}</p>
-        <div className="flex items-center">
-          <Link to={`/squadra-storica/${fx[2]}`} className="flex flex-1 flex-col items-center gap-2" onClick={(e) => e.preventDefault()}>
-            <TeamLogo id={fx[2]} name={hn} size={62} /><span className="text-center text-[14px] font-bold">{hn}</span>
-          </Link>
-          <div className="w-[96px] text-center">
-            {fx[6] && sc.length === 2 ? <span className="tnum text-[34px] font-extrabold">{sc[0]} – {sc[1]}</span> : <span className="text-[14px]" style={{ color: 'var(--ink-3)' }}>{fx[8] ? 'Annullata' : 'Non giocata'}</span>}
-            {fx[6] ? <p className="text-[11px] font-semibold" style={{ color: 'var(--ink-3)' }}>Finale</p> : null}
+    <PageShell swipeBack={false}>
+      <div style={{ '--tint': tint }}>
+      <section className="safe-top px-4 pb-3">
+        <div className="flex items-center gap-2">
+          <button type="button" className="glass press flex h-9 w-9 items-center justify-center rounded-full" aria-label="Indietro" onClick={() => navigate(-1)}><ChevronLeft size={19} /></button>
+          {league ? (
+            <LeagueLink league={league} className="mx-auto flex items-center gap-2 transition-opacity active:opacity-60">
+              <LeagueBadge league={league} size={20} />
+              <span className="text-[12px] font-extrabold uppercase tracking-wider" style={{ color: 'var(--ink-2)' }}>{league.name} · {seasonLabel(sk)}</span>
+            </LeagueLink>
+          ) : <span className="mx-auto text-[12px] font-extrabold uppercase tracking-wider" style={{ color: 'var(--ink-2)' }}>{seasonLabel(sk)}</span>}
+          <span className="h-9 w-9" />
+        </div>
+        <div className="glass mt-3 rounded-[28px] px-4 pb-4 pt-5" style={{ background: `linear-gradient(90deg, color-mix(in srgb, ${hc} 55%, transparent) 0%, transparent 38%, transparent 62%, color-mix(in srgb, ${ac} 50%, transparent) 100%), var(--glass-bg)` }}>
+          <div className="flex items-start">
+            <div className="flex min-w-0 flex-1 flex-col items-center gap-2">
+              <Link to={`/storico/${fm}/${sk}/squadra/${fx[2]}`} className="flex flex-col items-center gap-2 transition-opacity active:opacity-60">
+                <TeamLogo id={fx[2]} name={hn} size={54} /><span className="text-center text-[13px] font-semibold leading-tight">{hn}</span>
+              </Link>
+            </div>
+            <div className="flex w-[104px] flex-none flex-col items-center pt-3">
+              {fx[6] && sc.length === 2 ? <span className="title-xl tnum text-[32px]">{sc[0]} – {sc[1]}</span> : <span className="text-[14px]" style={{ color: 'var(--ink-3)' }}>{fx[8] ? 'Annullata' : 'Non giocata'}</span>}
+              <span className="mt-1 text-[11px] font-semibold" style={{ color: 'var(--ink-3)' }}>{fx[6] ? 'Finita' : when}</span>
+            </div>
+            <div className="flex min-w-0 flex-1 flex-col items-center gap-2">
+              <Link to={`/storico/${fm}/${sk}/squadra/${fx[3]}`} className="flex flex-col items-center gap-2 transition-opacity active:opacity-60">
+                <TeamLogo id={fx[3]} name={an} size={54} /><span className="text-center text-[13px] font-semibold leading-tight">{an}</span>
+              </Link>
+            </div>
           </div>
-          <div className="flex flex-1 flex-col items-center gap-2">
-            <TeamLogo id={fx[3]} name={an} size={62} /><span className="text-center text-[14px] font-bold">{an}</span>
-          </div>
+          <div className="mt-1 flex gap-3"><div className="flex-1"><Scorers list={scorers(true)} /></div><div className="flex-1"><Scorers list={scorers(false)} right /></div></div>
+          <p className="tnum mt-3 text-center text-[11px]" style={{ color: 'var(--ink-3)' }}>{when}{fx[1] ? ` · ${/^\d+$/.test(String(fx[1])) ? `Giornata ${fx[1]}` : String(fx[1])}` : ''}</p>
         </div>
       </section>
       <SwipeTabs tabs={TABS} panels={panels} index={tab} onChange={setTab} className="pt-2" stickyTop="0px" edgeBack={false} />
+      </div>
     </PageShell>
   );
 }
