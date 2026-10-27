@@ -15,7 +15,7 @@ def get(i, tries=3):
             except Exception: pass
             return json.loads(r)
         except Exception as e:
-            if getattr(e, "code", 0) in (404, 410): return None
+            if getattr(e, "code", 0) in (404, 410): return "gone"
             time.sleep(1.5 * (k + 1))
     return None
 def dump(p, o):
@@ -96,6 +96,7 @@ def run():
                 if s[:4] == str(y): units.append((lid, s))
     mine = [u for i, u in enumerate(units) if i % NSHARD == SHARD]
     capped = False
+    fails = 0
     for lid, s in mine:
         if time.time() - T0 > BUDGET: print("budget finito"); break
         sk = s.replace("/", "-")
@@ -112,7 +113,12 @@ def run():
             if time.time() - T0 > BUDGET: break
             j = get(m[0])
             time.sleep(0.2)
-            if not j: cur["m"][str(m[0])] = {}; continue
+            if j == "gone": cur["m"][str(m[0])] = {}; continue
+            if not j:
+                fails += 1
+                if fails >= 25: print("troppi errori di fila: mi fermo"); dump(p, cur); sys.exit(0)
+                continue
+            fails = 0
             try: cur["m"][str(m[0])] = compact(j)
             except Exception as e: cur["m"][str(m[0])] = {}
             n += 1

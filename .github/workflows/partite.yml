@@ -15,7 +15,7 @@ permissions:
 jobs:
   turno:
     runs-on: ubuntu-latest
-    timeout-minutes: 350
+    timeout-minutes: 130
     strategy:
       fail-fast: false
       matrix:
@@ -28,7 +28,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: SHARD=${{ matrix.shard }} NSHARD=3 BUDGET_MIN=320 python partite.py
+      - run: SHARD=${{ matrix.shard }} NSHARD=3 BUDGET_MIN=110 python partite.py
       - name: Salva
         if: always()
         run: |
