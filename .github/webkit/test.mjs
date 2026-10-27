@@ -28,7 +28,7 @@ async function step(name, fn) {
   try { await fn(); } catch (e) { report.steps.push({ step: name, failed: String(e).slice(0, 250) }); }
 }
 const click = (sel) => pg.evaluate((s) => { const e = document.querySelector(s); if (e) e.click(); return !!e; }, sel);
-const clickText = (t, exact = true) => pg.evaluate(([t, ex]) => { const b = [...document.querySelectorAll('button,a')].find((x) => (ex ? x.textContent.trim() === t : x.textContent.includes(t))); if (b) b.click(); return !!b; }, [t, exact]);
+const clickText = (t, exact = true) => pg.evaluate(([t, ex]) => { const b = [...document.querySelectorAll('button,a')].find((x) => { const r = x.getBoundingClientRect(); const okPos = r.bottom < window.innerHeight - 110; return okPos && (ex ? x.textContent.trim() === t : x.textContent.includes(t)); }); if (b) b.click(); return !!b; }, [t, exact]);
 // swipe con eventi puntatore e touch sintetici
 async function swipe(x0, y, x1, steps = 12) {
   await pg.evaluate(async ([x0, y, x1, steps]) => {
@@ -59,6 +59,21 @@ await step('partita', async () => {
   report.steps.push({ step: 'swipe-indietro-dalla-partita', backToHome: !url.includes('#/match'), url });
   await shot('dopo-swipe-indietro');
 });
+await step('stress-swipe-indietro', async () => {
+  let ok = 0; let white = 0; const N = 12;
+  for (let i = 0; i < N; i++) {
+    await pg.goto(BASE); await wait(1500);
+    const c = await pg.evaluate(() => { const a = [...document.querySelectorAll('a[href*="#/match/"]')].find((x) => { const r = x.getBoundingClientRect(); return r.top > 150 && r.top < 600 && r.left >= 0 && r.left < 300; }); if (a) a.click(); return !!a; });
+    await wait(1500);
+    for (const t of ['Statistiche', 'Formazioni']) { await clickText(t); await wait(300); }
+    for (let k = 0; k < 3; k++) { await swipe(60, 420, 340); await wait(300); }
+    await swipe(12, 420, 320, 14); await wait(120);
+    const l = lum(await pg.screenshot()); if (l > 150) white++;
+    await wait(1000);
+    if (c && !pg.url().includes('#/match')) ok++;
+  }
+  report.steps.push({ step: 'stress-swipe-indietro', giri: N, tornatiIndietro: ok, schermiBianchi: white });
+});
 await step('matchup', async () => {
   await pg.goto(BASE + '#/migliori-matchup'); await wait(3500);
   await clickText('Angoli'); await wait(600); await shot('matchup-tendina');
@@ -80,7 +95,7 @@ await step('squadra', async () => {
 await step('campionato', async () => {
   await pg.goto(BASE + '#/campionato/serie-a'); await wait(3500); await shot('campionato');
   await clickText('Giocatori'); await wait(1500);
-  const t0 = []; for (let i = 0; i < 6; i++) { await pg.mouse.wheel(0, 600); await wait(150); t0.push(await pg.evaluate(() => { const b = [...document.querySelectorAll('button')].find((x) => x.textContent.trim() === 'Vai a'); return b ? Math.round(b.getBoundingClientRect().top * 10) / 10 : null; })); }
+  const t0 = []; for (let i = 0; i < 6; i++) { await pg.evaluate(() => window.scrollBy(0, 600)); await wait(150); t0.push(await pg.evaluate(() => { const b = [...document.querySelectorAll('button')].find((x) => x.textContent.trim() === 'Vai a'); return b ? Math.round(b.getBoundingClientRect().top * 10) / 10 : null; })); }
   report.steps.push({ step: 'vai-a-posizioni', tops: t0 });
 });
 report.problems = report.steps.filter((s) => s.failed || s.whiteScreen || s.backToHome === false).length + report.errors.length;
