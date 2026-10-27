@@ -124,36 +124,59 @@ const groupOf = (k) => (GROUPS.find(([, re]) => re.test(k)) || ['Altro'])[0];
 const ORDER = ['Attacco', 'Rendimento', 'Passaggi', 'Difesa', 'Disciplina', 'Altro'];
 
 // Classifiche statistiche: stesso componente delle statistiche del campionato attuale
-function statSections(stats, kind, names, col, fm, sk) {
+const NO90 = /rating|mins_played|percentage|^_|per_90|clean_sheet|matches|appear/i;
+function statSections(stats, kind, names, col, fm, sk, mode = 'tot') {
   const lists = stats && stats[kind];
   if (!lists) return [];
   const isP = kind === 'players';
-  const keys = Object.keys(lists).filter((k) => lists[k] && lists[k].length && !k.startsWith('_'));
-  const secs = keys.map((k) => ({
-    id: k,
-    group: groupOf(k),
-    title: SEASON_STAT_IT[k] || prettyKey(k),
-    rows: lists[k].slice(0, 50).map((r, i) => ({
-      id: `${r[0]}-${i}`,
-      to: isP ? `/storico/${fm}/${sk}/giocatore/${r[0]}` : `/storico/${fm}/${sk}/squadra/${r[2]}`,
-      left: isP ? <PlayerFace id={r[0]} name={r[1]} size={30} /> : <TeamLogo id={r[2]} name={r[1]} size={24} />,
-      name: r[1],
-      sub: isP ? (names[r[2]] || '') : undefined,
-      bg: rowBg(col, r[2], names[r[2]] || r[1], 0x55),
-      value: fmtVal(k, r[3]),
-    })),
-  }));
+  const p90 = isP && mode === 'p90';
+  const secs = [];
+  Object.keys(lists).forEach((k) => {
+    let list = lists[k];
+    if (!list || !list.length || k.startsWith('_')) return;
+    let title = SEASON_STAT_IT[k] || prettyKey(k);
+    let kk = k;
+    if (isP) {
+      const isRate = /per_90/.test(k);
+      if (p90) {
+        if (isRate) { /* gia' ogni 90' */ } else if (NO90.test(k)) return;
+        else {
+          list = list.filter((r) => r[4] >= 450 && r[3] != null)
+            .map((r) => [r[0], r[1], r[2], (Number(r[3]) * 90) / r[4], r[4], r[5], r[6]])
+            .sort((x, y) => y[3] - x[3]);
+          if (!list.length) return;
+          title = `${title} / 90'`;
+          kk = `${k}_per_90`;
+        }
+      } else if (isRate) return;
+    }
+    secs.push({
+      id: kk,
+      group: groupOf(k),
+      title,
+      rows: list.slice(0, 50).map((r, i) => ({
+        id: `${r[0]}-${i}`,
+        to: isP ? `/storico/${fm}/${sk}/giocatore/${r[0]}` : `/storico/${fm}/${sk}/squadra/${r[2]}`,
+        left: isP ? <PlayerFace id={r[0]} name={r[1]} size={30} /> : <TeamLogo id={r[2]} name={r[1]} size={24} />,
+        name: r[1],
+        sub: isP ? (names[r[2]] || '') : undefined,
+        bg: rowBg(col, r[2], names[r[2]] || r[1], 0x55),
+        value: fmtVal(p90 && kk !== k ? 'per_90' : k, r[3]),
+      })),
+    });
+  });
   secs.sort((a, b) => ORDER.indexOf(a.group) - ORDER.indexOf(b.group) || (SEASON_STAT_IT[a.id] ? 0 : 1) - (SEASON_STAT_IT[b.id] ? 0 : 1));
   return secs;
 }
 
-export function ArchStatPanel({ stats, kind, names, col, fm, sk, filterTeam = null }) {
-  let sections = statSections(stats, kind, names, col, fm, sk);
-  if (filterTeam != null) {
-    sections = sections.map((s) => ({ ...s, rows: s.rows.filter((r) => String(r.to).includes('/giocatore/') && true) })).filter((s) => s.rows.length);
-  }
+export function ArchStatPanel({ stats, kind, names, col, fm, sk }) {
+  const [mode, setMode] = useState('tot');
+  const sections = statSections(stats, kind, names, col, fm, sk, mode);
   if (!sections.length) return <Empty>Statistiche non disponibili per questa stagione</Empty>;
-  return <StatLists sections={sections} />;
+  const controls = kind === 'players'
+    ? <TextFilter options={[{ value: 'tot', label: 'Totale' }, { value: 'p90', label: "Ogni 90'" }]} value={mode} onChange={setMode} />
+    : null;
+  return <StatLists key={mode} sections={sections} controls={controls} />;
 }
 
 // arbitri della stagione: medie calcolate dalle partite archiviate (arbitro, cartellini, falli, rigori)

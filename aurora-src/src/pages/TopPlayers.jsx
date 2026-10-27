@@ -6,6 +6,7 @@ import { loadCarriere } from '@/data/carriere';
 import DayStrip from '@/components/DayStrip';
 import TextFilter from '@/components/TextFilter';
 import SearchOverlay from '@/components/SearchOverlay';
+import DayPager from '@/components/DayPager';
 import Skeleton from '@/components/Skeleton';
 import TopPlayerRow from '@/components/top/TopPlayerRow';
 import useInitialLoad from '@/hooks/useInitialLoad';
@@ -48,16 +49,20 @@ export default function TopPlayers() {
             <Skeleton key={i} className="h-[96px] w-full rounded-[24px]" />
           ))}
         </div>
-      ) : rows.length ? (
-        <div>
-          {rows.map((row, i) => (
-            <TopPlayerRow key={row.player.id} row={row} rank={i + 1} threshold={dThr} delay={Math.min(i, 8) * 60} />
-          ))}
-        </div>
       ) : (
-        <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>
-          Nessun giocatore
-        </p>
+        <DayPager
+          index={dayIdx}
+          count={DATES.length}
+          onChange={setDayIdx}
+          render={(i) => {
+            const rows = bestPlayers(isoDate(DATES[i]), dThr);
+            return rows.length ? (
+              <div>{rows.map((row, k) => <TopPlayerRow key={row.player.id} row={row} rank={k + 1} threshold={dThr} delay={0} />)}</div>
+            ) : (
+              <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Nessun giocatore</p>
+            );
+          }}
+        />
       )}
 
       <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />

@@ -57,18 +57,16 @@ export default function StatIcon({ k, size = 22 }) {
       </svg>
     );
   }
-  // fuorigioco: bandierina in orizzontale
+  // fuorigioco: asta orizzontale in alto, bandierina a scacchi appesa sotto, a destra
   const cells = [];
   for (let i = 0; i < 4; i += 1) for (let j = 0; j < 3; j += 1) {
-    cells.push(<rect key={`${i}${j}`} x={9 + i * 3.25} y={6 + j * 3.67} width="3.25" height="3.67" fill={(i + j) % 2 === 0 ? Y : R} />);
+    cells.push(<rect key={`${i}${j}`} x={9 + i * 3.25} y={7.5 + j * 3.4} width="3.25" height="3.4" fill={(i + j) % 2 === 0 ? Y : R} />);
   }
   return (
     <svg {...p}>
-      <g transform="rotate(90 12 12)">
-      <path d="M2.5 17H9" stroke="currentColor" strokeWidth="1.6" />
+      <path d="M2.5 7H21.5" stroke="currentColor" strokeWidth="1.8" />
       <g>{cells}</g>
-      <rect x="9" y="6" width="13" height="11" stroke="currentColor" strokeWidth="1" />
-      </g>
+      <rect x="9" y="7.5" width="13" height="10.2" stroke="currentColor" strokeWidth="1" />
     </svg>
   );
 }

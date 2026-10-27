@@ -5,6 +5,7 @@ import FixedBar from '@/components/FixedBar';
 import DayStrip from '@/components/DayStrip';
 import StatPicker from '@/components/top/StatPicker';
 import SearchOverlay from '@/components/SearchOverlay';
+import DayPager from '@/components/DayPager';
 import Skeleton from '@/components/Skeleton';
 import MatchupRow from '@/components/top/MatchupRow';
 import useInitialLoad from '@/hooks/useInitialLoad';
@@ -16,8 +17,6 @@ export default function TopMatchups() {
   const [typeKey, setTypeKey] = useState('corner');
   const [searchOpen, setSearchOpen] = useState(false);
   const loading = useInitialLoad();
-
-  const rows = matchupRows(isoDate(DATES[dayIdx]), typeKey);
 
   return (
     <PageShell>
@@ -36,16 +35,20 @@ export default function TopMatchups() {
             <Skeleton key={i} className="h-[150px] w-full rounded-[24px]" />
           ))}
         </div>
-      ) : rows.length ? (
-        <div>
-          {rows.map((row, i) => (
-            <MatchupRow key={row.id} row={row} />
-          ))}
-        </div>
       ) : (
-        <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>
-          Nessuna partita
-        </p>
+        <DayPager
+          index={dayIdx}
+          count={DATES.length}
+          onChange={setDayIdx}
+          render={(i) => {
+            const rows = matchupRows(isoDate(DATES[i]), typeKey);
+            return rows.length ? (
+              <div>{rows.map((row) => <MatchupRow key={row.id} row={row} />)}</div>
+            ) : (
+              <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Nessuna partita</p>
+            );
+          }}
+        />
       )}
 
       <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
