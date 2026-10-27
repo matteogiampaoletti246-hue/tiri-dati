@@ -291,6 +291,8 @@ def main():
         if hk is not None and ak is not None and min(hn, an) >= MIN_G:
             h1, _ = mean(rows_of(u["h"]), "k1"); a1, _ = mean(rows_of(u["a"]), "k1")
             e.update(cards=round(hk + ak, 1), cards_1t=round(h1 + a1, 1) if h1 is not None and a1 is not None else None,
+                     cards_home=round(hk, 1), cards_away=round(ak, 1),
+                     cards_1t_home=round(h1, 1) if h1 is not None else None, cards_1t_away=round(a1, 1) if a1 is not None else None,
                      games_k=[hn, an])
         if any(k in e for k in ("gap", "cards", "tiri_gap", "sot_gap", "falli_gap", "off_gap")):
             day["matches"].append(e)
