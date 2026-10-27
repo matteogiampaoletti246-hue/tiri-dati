@@ -114,6 +114,7 @@ export const fmtVal = (key, v) => {
   return Number.isInteger(v) ? String(v) : Number(v).toFixed(1).replace('.', ',');
 };
 const GROUPS = [
+  ['Difesa', /conced|clean|faced|saves|save_|saved|keeper|error|last_man|clearance|owngoal/i],
   ['Attacco', /goal|shot|scoring_att|assist|chance|xg|expected|penalty_won|won_contest|dribble/i],
   ['Passaggi', /pass|cross|long|lbp|touch/i],
   ['Difesa', /tackle|intercept|clear|block|recover|defens|duel|aerial|poss_won|save|clean|conced/i],

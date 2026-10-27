@@ -131,10 +131,24 @@ export default function MatchDayList({ matches, focusToday = true, teamId = null
   const ref = useRef(null);
   const todayIso = isoDate(DATES[TODAY_INDEX]);
   const firstId = (matches.find((m) => m.date >= todayIso) || {}).id;
+  // si porta alla prima partita da giocare solo quando l'elenco e' davvero sullo schermo (le schede vicine, gia' pronte e nascoste, non devono muovere la pagina)
   useEffect(() => {
-    if (!focusToday || !ref.current) return;
-    const el = ref.current.querySelector('[data-focus="1"]');
-    if (el) window.scrollTo({ top: Math.max(0, el.getBoundingClientRect().top + window.scrollY - 120), behavior: 'auto' });
+    if (!focusToday || !ref.current) return undefined;
+    const root = ref.current;
+    let done = false;
+    const shown = () => {
+      const r = root.getBoundingClientRect();
+      return r.width > 0 && r.left > -5 && r.left < window.innerWidth - 5 && getComputedStyle(root).visibility !== 'hidden';
+    };
+    const go = () => {
+      if (done || !shown()) return;
+      done = true;
+      const el = root.querySelector('[data-focus="1"]');
+      if (el) window.scrollTo({ top: Math.max(0, el.getBoundingClientRect().top + window.scrollY - 120), behavior: 'auto' });
+    };
+    go();
+    window.addEventListener('sl-tab-shown', go);
+    return () => window.removeEventListener('sl-tab-shown', go);
   }, [matches.length, focusToday]);
 
   const groups = [];

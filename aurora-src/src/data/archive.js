@@ -12,7 +12,7 @@ const gz = (path) => once(path, async () => {
 });
 
 // id dell'app → id FotMob
-export const FM_ID = { 'serie-a': 55, 'premier-league': 47, 'la-liga': 87, bundesliga: 54, 'ligue-1': 53, 'champions-league': 42, 'europa-league': 73, 'conference-league': 10216 };
+export const FM_ID = { 'serie-a': 55, 'premier-league': 47, 'la-liga': 87, bundesliga: 54, 'ligue-1': 53, 'champions-league': 42, 'europa-league': 73, 'conference-league': 10216, eredivisie: 57, 'super-lig': 71, 'liga-portugal': 61, 'pro-league': 40, 'scottish-premiership': 64, 'aut-bundesliga': 38, 'nor-eliteserien': 59, 'gre-super-league-1': 135 };
 
 export const archIndex = () => once('index', async () => {
   const [a, b] = await Promise.all([json('arch/index.json'), json('arch/index_top.json')]);
@@ -83,6 +83,11 @@ export const PLAYER_STAT_IT = {
   'matchstats.headers.tackles': 'Contrasti', clearances: 'Respinte', recoveries: 'Recuperi', duel_won: 'Duelli vinti', duel_lost: 'Duelli persi', aerials_won: 'Duelli aerei vinti',
   dribbles_succeeded: 'Dribbling riusciti', saves: 'Parate', goals_conceded: 'Gol subiti', dispossessed: 'Palle perse', crosses: 'Cross', passes_into_final_third: 'Passaggi nell\'ultimo terzo',
   shot_blocks: 'Tiri murati', defensive_actions: 'Azioni difensive', touches_opp_box: 'Tocchi in area',
+  expected_goals_on_target_faced: 'Gol attesi subiti (xGOT)', errors_led_to_goal: 'Errori che portano a gol', conceded_penalties: 'Rigori concessi', last_man_tackle: 'Ultimo uomo', penalties_won: 'Rigori procurati',
+  clearance_off_the_line: 'Salvataggi sulla linea', owngoal: 'Autogol', missed_penalty: 'Rigori sbagliati', saved_penalties: 'Rigori parati', keeper_diving_save: 'Parate in tuffo', saves_inside_box: 'Parate in area',
+  keeper_high_claim: 'Uscite alte', keeper_sweeper: 'Uscite basse', expected_assists: 'Assist attesi (xA)', expected_goals: 'Gol attesi (xG)', expected_goals_non_penalty: 'xG senza rigori', ground_duels_won: 'Duelli a terra vinti',
+  long_balls_accurate: 'Lanci lunghi riusciti', line_breaking_passes: 'Passaggi che rompono la linea', headed_clearance: 'Respinte di testa', dribbled_past: 'Dribblato', corners: 'Calci d\'angolo', Offsides: 'Fuorigioco',
+  big_chance_missed_title: 'Palle gol sbagliate', accurate_crosses: 'Cross riusciti', shots_woodwork: 'Legni colpiti', rating_title: 'Voto medio',
 };
 export const prettyKey = (k) => String(k).replace(/_t$/, '').replace(/^matchstats\.headers\./, '').replace(/_/g, ' ').replace(/^\w/, (c) => c.toUpperCase());
 
@@ -92,8 +97,49 @@ export const pastSeasons = async (fm) => {
   const e = idx && idx[String(fm)];
   return sortSeasons((e && e.s) || []).slice(1);
 };
+// Statistiche dei giocatori ricavate dalle partite della stagione (quando le statistiche stagionali ufficiali non ci sono ancora).
+// Stessa forma delle statistiche v2: chiave -> [[id, nome, squadra, valore, minuti, partite, ruoli]] in ordine di classifica.
+const SKIP_KEY = /_t$|^physical_|^minutes_played$|^goals_prevented$|^xg_and_xa$|^shot_accuracy$|variant$|_team_title$|^player_throws$|^punches$/;
+export const statsFromMatches = (lid, sk) => once(`sfm/${lid}/${sk}`, async () => {
+  const d = await loadSeasonMatches(lid, sk);
+  if (!d || !d.m) return null;
+  const tot = {};
+  const acc = {};
+  Object.values(d.m).forEach((m) => {
+    Object.entries((m && m.p) || {}).forEach(([pid, v]) => {
+      const mins = Number(v.minutes_played) || 0;
+      if (!mins) return;
+      const t = (tot[pid] = tot[pid] || { min: 0, n: 0 });
+      t.min += mins;
+      t.n += 1;
+      Object.entries(v).forEach(([k, val]) => {
+        if (typeof val !== 'number' || SKIP_KEY.test(k) || HIDDEN_STAT.test(k)) return;
+        const a = ((acc[k] = acc[k] || {})[pid] = acc[k][pid] || { s: 0, n: 0 });
+        a.s += val;
+        a.n += 1;
+      });
+    });
+  });
+  const players = {};
+  Object.entries(acc).forEach(([k, per]) => {
+    const isRating = k === 'rating_title';
+    const rows = Object.entries(per)
+      .map(([pid, a]) => [pid, '', null, isRating ? a.s / a.n : a.s, tot[pid].min, tot[pid].n, null])
+      .filter((r) => (isRating ? r[4] >= 90 : r[3] > 0));
+    if (rows.length < 3) return;
+    rows.sort((x, y) => y[3] - x[3]);
+    players[k] = rows;
+  });
+  return Object.keys(players).length ? { v: 2, players, teams: {}, fromMatches: true } : null;
+});
+// statistiche giocatori di una stagione: quelle ufficiali se ci sono, altrimenti quelle calcolate dalle partite
+export const loadPlayerStats = async (lid, sk) => {
+  const st = await loadSeasonStats(lid, sk);
+  if (st && st.players && Object.keys(st.players).length) return st;
+  return statsFromMatches(lid, sk);
+};
 // campionati con storico completo; gli altri hanno statistiche solo dal 2020
-const TOP20 = new Set([47, 87, 55, 54, 53, 57, 61, 48, 86, 146, 140, 110, 71, 40, 64, 268, 112, 130, 230, 38, 42, 73, 10216]);
+const TOP20 = new Set([47, 87, 55, 54, 53, 57, 61, 48, 86, 146, 71, 40, 64, 268, 112, 130, 230, 38, 59, 135, 42, 73, 10216]);
 export const noStats = (fm, sk) => !TOP20.has(Number(fm)) && Number(String(sk).slice(0, 4)) < 2020;
 // stagione piu' recente dell'indice (quella in corso)
 export const currentSeason = async (fm) => {

@@ -100,6 +100,7 @@ export const canGoBack = () => histIdx() > 0;
 
 // Indietro "sicuro": una sola volta per pagina (anche se arrivano piu' richieste: tasto, swipe, timer),
 // mai oltre la prima schermata dell'app (in quel caso si va alla Home).
+export const BACK = { t: 0 }; // ultimo "indietro" voluto dall'app (per riconoscere quello del sistema)
 let LAST = { idx: -1, t: 0 };
 export function goBack(navigate, fromIdx) {
   const idx = histIdx();
@@ -108,6 +109,7 @@ export function goBack(navigate, fromIdx) {
   const now = Date.now();
   if (LAST.idx === idx && now - LAST.t < 1200) return false;
   LAST = { idx, t: now };
+  BACK.t = now;
   navigate(-1);
   return true;
 }

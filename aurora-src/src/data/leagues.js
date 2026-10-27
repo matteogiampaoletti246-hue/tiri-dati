@@ -10,6 +10,15 @@ export const LEAGUES = [
   { id: 'ligue-1', name: 'Ligue 1', country: 'Francia', countryUpper: 'FRANCIA', colors: ['#0A1A3C', '#3C6E9E'] },
   { id: 'champions-league', name: 'Champions League', country: 'Europa', countryUpper: 'EUROPA', colors: ['#0A1C5E', '#7FB6E8'] },
   { id: 'europa-league', name: 'Europa League', country: 'Europa', countryUpper: 'EUROPA', colors: ['#7A3A06', '#E08A2B'] },
+  // campionati extra: solo partite in Home + pagina campionato dall'archivio (niente Migliori giocatori/matchup)
+  { id: 'eredivisie', fm: 57, extra: true, name: 'Eredivisie', country: 'Paesi Bassi', countryUpper: 'PAESI BASSI', colors: ['#7A2A06', '#E8863A'] },
+  { id: 'super-lig', fm: 71, extra: true, name: 'Süper Lig', country: 'Turchia', countryUpper: 'TURCHIA', colors: ['#6E0E1A', '#C8352E'] },
+  { id: 'liga-portugal', fm: 61, extra: true, name: 'Liga Portugal', country: 'Portogallo', countryUpper: 'PORTOGALLO', colors: ['#0B3B2A', '#2E9E6B'] },
+  { id: 'pro-league', fm: 40, extra: true, name: 'Pro League', country: 'Belgio', countryUpper: 'BELGIO', colors: ['#3A2A06', '#C9A227'] },
+  { id: 'scottish-premiership', fm: 64, extra: true, name: 'Premiership', country: 'Scozia', countryUpper: 'SCOZIA', colors: ['#0A2A5E', '#3C7AC8'] },
+  { id: 'aut-bundesliga', fm: 38, extra: true, name: 'Bundesliga Austria', country: 'Austria', countryUpper: 'AUSTRIA', colors: ['#5E0E14', '#D2483E'] },
+  { id: 'nor-eliteserien', fm: 59, extra: true, name: 'Eliteserien', country: 'Norvegia', countryUpper: 'NORVEGIA', colors: ['#0A2A4E', '#C8372E'] },
+  { id: 'gre-super-league-1', fm: 135, extra: true, name: 'Super League', country: 'Grecia', countryUpper: 'GRECIA', colors: ['#0A3A6E', '#4C9AE0'] },
 ].map((l) => ({ season: '', logo: null, logoDark: null, banner: null, ...l }));
 
 // Campionati presenti solo nel calcolatore (da data.json): nome + id.
@@ -27,6 +36,14 @@ export const LEAGUE_TINT = {
   'champions-league': '#2F5BE0',
   'europa-league': '#F5902B',
   'conference-league': '#2FBF71',
+  eredivisie: '#F28B3A',
+  'super-lig': '#E5484D',
+  'liga-portugal': '#2FBF71',
+  'pro-league': '#E5B23A',
+  'scottish-premiership': '#4C8EE0',
+  'aut-bundesliga': '#E5484D',
+  'nor-eliteserien': '#4C8EE0',
+  'gre-super-league-1': '#4FA3F0',
 };
 export const leagueTint = (id) => LEAGUE_TINT[id] || '#38A2FF';
 
@@ -47,7 +64,7 @@ export function buildLeagues() {
     const d = L[l.id];
     if (!d) return;
     l.logo = d.logo || null;
-    l.season = d.season || '';
+    l.season = l.extra ? '' : d.season || '';
   });
   // Europa League: coppa disegnata, bianca di notte e nera di giorno
   const el = LEAGUES.find((l) => l.id === 'europa-league');

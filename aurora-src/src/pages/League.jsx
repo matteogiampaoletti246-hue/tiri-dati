@@ -18,6 +18,7 @@ import useAsync from '@/hooks/useAsync';
 import { FM_ID, archIndex, seasonLabel, sortSeasons } from '@/data/archive';
 import useDark from '@/hooks/useDark';
 import useInitialLoad from '@/hooks/useInitialLoad';
+import { RAW } from '@/data/load';
 import { leagueById, initialsOf, leagueTint } from '@/data/leagues';
 import { teamsOf } from '@/data/teams';
 import { matchesForLeague } from '@/data/matches';
@@ -36,7 +37,7 @@ export default function League() {
   const loading = useInitialLoad(280);
   const dark = useDark();
   const league = leagueById(id);
-  const [season, setSeason] = useState('live');
+  const [season, setSeason] = useState(() => { const l = leagueById(id); const x = l && l.extra && RAW.extra && RAW.extra.sk && RAW.extra.sk[String(l.fm)]; return x || 'live'; });
   const [aTab, setATab] = useState(0);
   const [sheet, setSheet] = useState(false);
   const fm = FM_ID[id];

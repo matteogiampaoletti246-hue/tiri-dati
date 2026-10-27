@@ -13,7 +13,7 @@ export default function LiveStrip({ match }) {
 
   return (
     <Link
-      to={`/match/${m.id}`}
+      to={m.href || `/match/${m.id}`}
       className="flex items-center gap-3 px-5 py-2.5"
       style={{ background: 'color-mix(in srgb, var(--live) 8%, transparent)' }}
     >

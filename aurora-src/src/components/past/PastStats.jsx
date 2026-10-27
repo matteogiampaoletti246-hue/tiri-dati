@@ -1,5 +1,5 @@
 import useAsync from '@/hooks/useAsync';
-import { noStats, loadSeason, loadSeasonStats, SEASON_STAT_IT, prettyKey, seasonLabel } from '@/data/archive';
+import { noStats, loadSeason, loadPlayerStats, loadSeasonStats, teamIdByName, PLAYER_STAT_IT, SEASON_STAT_IT, prettyKey, seasonLabel } from '@/data/archive';
 import { useTeamColors } from '@/components/archive/parts';
 import { groupOf, fmtVal, ORDER } from '@/components/archive/ArchiveLeague';
 import { TeamLogo } from '@/components/FmImg';
@@ -9,9 +9,9 @@ const Msg = ({ children }) => <p className="px-5 py-14 text-center text-[13px]" 
 
 // Statistiche di una stagione passata, con lo stesso aspetto della stagione attuale:
 // riquadri a pillola col colore della squadra, valori colorati per posizione, barre con la media del campionato.
-export default function PastStats({ kind, id, fm, sk, current = false }) {
+export default function PastStats({ kind, id, fm, sk, current = false, teamName = '' }) {
   const col = useTeamColors();
-  const { data: stats, loading } = useAsync(() => loadSeasonStats(fm, sk), [fm, sk]);
+  const { data: stats, loading } = useAsync(() => (kind === 'players' ? loadPlayerStats(fm, sk) : loadSeasonStats(fm, sk)), [fm, sk, kind]);
   const { data: season } = useAsync(() => loadSeason(fm, sk), [fm, sk]);
   if (loading) return <Msg>Carico la stagione {seasonLabel(sk)}…</Msg>;
   const lists = stats && stats[kind];
@@ -27,10 +27,10 @@ export default function PastStats({ kind, id, fm, sk, current = false }) {
     if (idx < 0) return;
     me = me || list[idx];
     const g = groupOf(k.replace(/_team$/, ''));
-    (groups[g] = groups[g] || []).push({ k, st: standingOf(list, idx, k), title: SEASON_STAT_IT[k] || prettyKey(k) });
+    (groups[g] = groups[g] || []).push({ k, st: standingOf(list, idx, k), title: SEASON_STAT_IT[k] || PLAYER_STAT_IT[k] || prettyKey(k) });
   });
   if (!me) return <Msg>Nessuna presenza in questa stagione</Msg>;
-  const tid = isP ? me[2] : id;
+  const tid = isP ? (me[2] || (teamName ? teamIdByName(names, teamName) : null)) : id;
   const tname = names[tid] || '';
   const club = col(tid, tname).colors[0];
   const order = Object.keys(groups).sort((a, b) => ORDER.indexOf(a) - ORDER.indexOf(b));

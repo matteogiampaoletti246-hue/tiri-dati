@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import usePageTab from '@/hooks/usePageTab';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, Navigate } from 'react-router-dom';
 import { openPlayer } from '@/data/playerSheet';
 import PageShell from '@/components/PageShell';
 import TopBar from '@/components/TopBar';
@@ -79,6 +79,7 @@ export default function Match() {
   }, [id]);
 
 
+  if (raw && raw.href) return <Navigate to={raw.href} replace />;
   if (!raw) {
     return (
       <PageShell bar={false}>

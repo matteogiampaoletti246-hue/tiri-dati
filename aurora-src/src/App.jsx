@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
-import { HashRouter, Route, Routes } from 'react-router-dom';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { HashRouter, Route, Routes, useLocation, useNavigate, useNavigationType } from 'react-router-dom';
+import { BACK } from '@/lib/carousel';
 import ArchiveMatch from '@/pages/ArchiveMatch';
 import ArchiveTeam from '@/pages/ArchiveTeam';
 import ArchivePlayer from '@/pages/ArchivePlayer';
@@ -22,6 +23,24 @@ import TeamShots from '@/pages/TeamShots';
 import TopMatchups from '@/pages/TopMatchups';
 import TopPlayers from '@/pages/TopPlayers';
 
+// Dalle schede principali non si torna "indietro" con lo swipe del sistema: si cambia scheda dalla barra in basso.
+const ROOTS = new Set(['/', '/calcolatore', '/migliori-giocatori', '/migliori-matchup']);
+function NavGuard() {
+  const loc = useLocation();
+  const type = useNavigationType();
+  const navigate = useNavigate();
+  const prev = useRef(null);
+  useLayoutEffect(() => {
+    const p = prev.current;
+    if (type === 'POP' && p && ROOTS.has(p) && Date.now() - BACK.t > 1500) {
+      navigate(p, { replace: true });
+      return;
+    }
+    prev.current = loc.pathname;
+  }, [loc.key]); // eslint-disable-line react-hooks/exhaustive-deps
+  return null;
+}
+
 // Tema applicato subito, prima del primo disegno.
 applyTheme(getTheme());
 
@@ -36,6 +55,7 @@ export default function App() {
   return (
     <HashRouter>
       <LaunchScreen ready={ready} />
+      <NavGuard />
       <ScrollToTop />
       <PlayerSheetHost />
       {ready ? (

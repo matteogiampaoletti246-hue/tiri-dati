@@ -13,6 +13,7 @@ const get = (name) =>
 // nome campo in RAW  →  file
 const FILES = {
   partite: 'partite.json',
+  extra: 'partite_extra.json',
   indice: 'aurora_indice.json',
   data: 'data.json',
   teams: 'teams.json',

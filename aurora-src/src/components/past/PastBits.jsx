@@ -9,7 +9,7 @@ export const initSeason = (fm) => (NAV.sk && String(NAV.fm) === String(fm) ? NAV
 
 export const CARD = { backgroundColor: 'var(--panel-solid, rgba(255,255,255,.04))', border: '1px solid var(--hair-2)', borderRadius: 18 };
 export const LBL = { fontSize: 9.5, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--ink-3)' };
-export const NEG_RE = /conceded|card|foul|lost|dispossess|miss|offside|dribbled_past/i;
+export const NEG_RE = /conceded|card|^fouls$|lost|dispossess|miss|offside|dribbled_past|error|faced|owngoal/i;
 
 // stagioni passate del campionato (FotMob id) per la tendina
 // con teamName: solo le stagioni in cui quella squadra ha giocato la competizione

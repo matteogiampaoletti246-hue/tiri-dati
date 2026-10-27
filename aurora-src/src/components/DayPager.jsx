@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
-import { canGoBack } from '@/lib/carousel';
 
 // Giorni affiancati: lo swipe laterale sposta una striscia gia' pronta (come nella Home).
 // I giorni vicini si preparano a riposo, quando l'app e' ferma.
@@ -23,7 +22,6 @@ export default function DayPager({ index, count, onChange, render }) {
     const onStart = (e) => {
       if (busy || e.touches.length !== 1 || blocked(e.target)) { st = null; return; }
       const t = e.touches[0];
-      if (t.clientX < 30 && canGoBack()) { st = null; return; }
       st = { x: t.clientX, y: t.clientY, t: Date.now(), on: false, dx: 0, raf: 0 };
     };
     const onMove = (e) => {

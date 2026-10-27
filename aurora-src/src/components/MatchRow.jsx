@@ -26,7 +26,7 @@ export default function MatchRow({ match, teamId = null, concept = 'c' }) {
     : concept === 'a' ? { boxShadow: `inset 4px 0 0 ${rc}`, background: `linear-gradient(90deg, ${rc}14, transparent 40%)` } : undefined;
 
   return (
-    <Link to={`/match/${m.id}`} className="press flex items-center gap-2 px-4 py-3" style={rowStyle}>
+    <Link to={m.href || `/match/${m.id}`} className="press flex items-center gap-2 px-4 py-3" style={rowStyle}>
       <div className="flex min-w-0 flex-1 items-center justify-end gap-2.5">
         <span className="truncate text-right text-[14px] font-semibold" style={{ color: 'var(--ink)' }}>
           {home ? home.name : '—'}

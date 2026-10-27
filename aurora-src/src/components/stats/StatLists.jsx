@@ -15,10 +15,21 @@ export default function StatLists({ sections, controls = null, limit = 8 }) {
   const [onScreen, setOnScreen] = useState(false);
   useEffect(() => {
     const el = rootRef.current;
-    if (!el || typeof IntersectionObserver === 'undefined') { setOnScreen(true); return undefined; }
-    const io = new IntersectionObserver(([e]) => setOnScreen(e.isIntersecting), { threshold: 0 });
-    io.observe(el);
-    return () => io.disconnect();
+    if (!el) return undefined;
+    let raf = 0;
+    const check = () => {
+      raf = 0;
+      const r = el.getBoundingClientRect();
+      const ok = r.width > 0 && r.left > -40 && r.left < window.innerWidth - 40 && r.bottom > 140 && r.top < window.innerHeight && getComputedStyle(el).visibility !== 'hidden';
+      setOnScreen((v) => (v === ok ? v : ok));
+    };
+    const sched = () => { if (!raf) raf = requestAnimationFrame(check); };
+    check();
+    window.addEventListener('scroll', sched, { passive: true });
+    window.addEventListener('resize', sched);
+    window.addEventListener('sl-tab-shown', sched);
+    const iv = setInterval(sched, 400);
+    return () => { cancelAnimationFrame(raf); clearInterval(iv); window.removeEventListener('scroll', sched); window.removeEventListener('resize', sched); window.removeEventListener('sl-tab-shown', sched); };
   }, []);
   // le classifiche si disegnano a blocchi: all'apertura (e durante lo swipe) ne servono poche, le altre arrivano a app ferma
   const [lim, setLim] = useState(4);

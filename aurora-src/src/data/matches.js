@@ -2,7 +2,8 @@
 // calendario squadra da teams.json. Il dettaglio (eventi, statistiche, tiri, formazioni)
 // si scarica solo quando si apre la partita.
 import { RAW, loadDetail } from './load';
-import { ensureTeam, teamById, teamByName } from './teams';
+import { ensureTeam, teamById, teamByName, TEAMS } from './teams';
+import { LEAGUES } from './leagues';
 import { romeDay, romeTime, slug } from './util';
 
 export const DAY_MS = 86400000;
@@ -138,6 +139,42 @@ export function buildMatches() {
       });
     });
   });
+
+  // 4) campionati extra (solo Home): nomi allineati alle squadre gia' note, stemma FotMob
+  const X = RAW.extra;
+  if (X && X.m) {
+    const nn = (n) => String(n || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]/g, '');
+    const lgOf = {};
+    LEAGUES.filter((l) => l.extra).forEach((l) => { lgOf[l.fm] = l.id; });
+    const byNorm = {};
+    TEAMS.forEach((t) => { byNorm[nn(t.name)] = t; });
+    const team = (name, fmId, lg) => {
+      const hit = byNorm[nn(name)];
+      const crest = `https://images.fotmob.com/image_resources/logo/teamlogo/${fmId}.png`;
+      const t = hit || ensureTeam(name, lg, crest);
+      if (t && !t.crest) t.crest = crest;
+      return t;
+    };
+    X.m.forEach(([mid, fm, utc, hn, an, hid, aid, gh, ga, st]) => {
+      const lg = lgOf[fm];
+      if (!lg || !hn || !an) return;
+      const ts = new Date(utc).getTime();
+      const d = romeDay(ts);
+      const home = team(hn, hid, lg);
+      const away = team(an, aid, lg);
+      const sk = (X.sk && X.sk[String(fm)]) || '';
+      const id = `x-${fm}-${mid}`;
+      const fin = st === 'f' && gh !== null && ga !== null;
+      const m = baseMatch({
+        id, leagueId: lg, homeId: home.id, awayId: away.id, date: d, ts, timeKnown: true,
+        status: fin ? 'finished' : st === 'l' ? 'live' : 'scheduled', minute: fin ? 90 : null,
+        score: gh !== null && ga !== null ? [gh, ga] : null, liveScore: st === 'l' && gh !== null ? [gh, ga] : null,
+        href: sk ? `/storico/${fm}/${sk}/${mid}` : null, extra: true,
+      });
+      MATCHES.push(m);
+      MATCH_BY_ID[id] = m;
+    });
+  }
 
   MATCHES.forEach(finalize);
   MATCHES.sort((a, b) => a.ts - b.ts);

@@ -114,6 +114,7 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
     const el = contentRef.current;
     const dir = index > prevIdx.current ? 1 : index < prevIdx.current ? -1 : 0;
     prevIdx.current = index;
+    requestAnimationFrame(() => window.dispatchEvent(new Event('sl-tab-shown')));
     if (skipEntry.current) { skipEntry.current = false; return undefined; }
     if (!el || !dir) return undefined;
     el.style.transition = 'none';
