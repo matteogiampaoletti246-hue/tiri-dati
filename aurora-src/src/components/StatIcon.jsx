@@ -64,9 +64,11 @@ export default function StatIcon({ k, size = 22 }) {
   }
   return (
     <svg {...p}>
+      <g transform="rotate(90 12 12)">
       <path d="M2.5 17H9" stroke="currentColor" strokeWidth="1.6" />
       <g>{cells}</g>
       <rect x="9" y="6" width="13" height="11" stroke="currentColor" strokeWidth="1" />
+      </g>
     </svg>
   );
 }
