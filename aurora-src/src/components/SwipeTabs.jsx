@@ -12,6 +12,9 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
   const tabRefs = useRef([]);
   const headRef = useRef(null);
   const [headH, setHeadH] = useState(44);
+  const [peek, setPeek] = useState(null);
+  const peekRef = useRef(null);
+  const showPeek = (v) => { if (peekRef.current !== v) { peekRef.current = v; setPeek(v); } };
 
   useEffect(() => {
     const el = headRef.current;
@@ -134,6 +137,8 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
         }
         return;
       }
+      const want = off < 0 ? i + 1 : off > 0 ? i - 1 : null;
+      showPeek(want !== null && want >= 0 && want < n ? want : null);
       const el = contentRef.current;
       if (el) {
         el.style.transition = 'none';
@@ -176,13 +181,13 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
       if ((Math.abs(dx) > d.w * 0.2 || v > 0.45) && next >= 0 && next < n) {
         busy = true;
         const off = (i === 0 && dx > 0) || (i === n - 1 && dx < 0) ? dx * 0.25 : dx;
-        carousel(el, off, dx < 0 ? 1 : -1, () => { skipEntry.current = true; oc(next); }, () => { busy = false; });
+        carousel(el, off, dx < 0 ? 1 : -1, () => { skipEntry.current = true; peekRef.current = null; setPeek(null); oc(next); }, () => { busy = false; });
       } else {
         if (el) {
           el.style.transition = 'transform .25s cubic-bezier(.22,.8,.24,1), opacity .25s ease';
           el.style.transform = 'translate3d(0,0,0)';
           el.style.opacity = '1';
-          setTimeout(() => { el.style.transition = ''; el.style.transform = ''; el.style.opacity = ''; el.style.willChange = ''; }, 280);
+          setTimeout(() => { el.style.transition = ''; el.style.transform = ''; el.style.opacity = ''; el.style.willChange = ''; showPeek(null); }, 280);
         }
         posBar(i, i, 0, true);
       }
@@ -230,8 +235,13 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
     <div className={className}>
       {fixedBar ? <div aria-hidden="true" style={{ height: headH }} /> : null}
       {hideBar ? null : fixedBar ? createPortal(HEAD, document.body) : HEAD}
-      <div ref={wrapRef} data-tabs-back={edgeBack && loc.key !== 'default' ? '1' : undefined} className="relative" style={{ touchAction: 'pan-y', minHeight: '60vh' }}>
-        <div ref={contentRef}>{panels[index]}</div>
+      <div ref={wrapRef} data-tabs-back={edgeBack && loc.key !== 'default' ? '1' : undefined} className="relative" style={{ touchAction: 'pan-y', minHeight: '60vh', overflowX: 'clip' }}>
+        <div ref={contentRef} style={{ position: 'relative' }}>
+          {panels[index]}
+          {peek !== null && peek !== index && panels[peek] ? (
+            <div aria-hidden="true" style={{ position: 'absolute', top: 0, width: '100%', left: peek > index ? '100%' : '-100%', pointerEvents: 'none' }}>{panels[peek]}</div>
+          ) : null}
+        </div>
       </div>
     </div>
   );

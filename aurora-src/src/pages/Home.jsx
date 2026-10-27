@@ -54,13 +54,18 @@ export default function Home() {
     })();
     return () => { on = false; };
   }, []);
-  const dayMatches = matchesByDate(custom || isoDate(date));
-  const liveMatches = dayMatches.filter((m) => m.status === 'live');
-  const shown = filter === 'live' ? liveMatches : dayMatches;
-  const groups = LEAGUES.map((league) => ({
-    league,
-    matches: shown.filter((m) => m.leagueId === league.id).sort((a, b) => a.ts - b.ts),
-  })).filter((g) => g.matches.length);
+  const groupsOf = (iso) => {
+    const dm = matchesByDate(iso);
+    const sh = filter === 'live' ? dm.filter((m) => m.status === 'live') : dm;
+    return LEAGUES.map((league) => ({
+      league,
+      matches: sh.filter((m) => m.leagueId === league.id).sort((a, b) => a.ts - b.ts),
+    })).filter((g) => g.matches.length);
+  };
+  const groups = groupsOf(custom || isoDate(date));
+  const [peek, setPeek] = useState(null);
+  const peekRef = useRef(null);
+  const showPeek = (v) => { if (peekRef.current !== v) { peekRef.current = v; setPeek(v); } };
 
   const listRef = useRef(null);
   const busy = useRef(false);
@@ -107,10 +112,12 @@ export default function Home() {
       }
       if (e.cancelable) e.preventDefault();
       const el = listRef.current;
+      const cd = live.current.dayIdx;
+      const nd = cd + (dx > 0 ? -1 : 1);
+      showPeek(nd >= 0 && nd <= DATES.length - 1 ? nd : null);
       if (el) {
         el.style.transition = 'none';
-        el.style.transform = `translate3d(${dx * 0.8}px,0,0)`;
-        el.style.opacity = String(Math.max(0.45, 1 - Math.abs(dx) / 500));
+        el.style.transform = `translate3d(${dx}px,0,0)`;
       }
     };
     const onEnd = (e) => {
@@ -126,11 +133,12 @@ export default function Home() {
       const next = cur + (dx > 0 ? -1 : 1);
       if ((Math.abs(dx) > 60 || v > 0.45) && next >= 0 && next <= DATES.length - 1) {
         busy.current = true;
-        carousel(el, dx * 0.8, dx > 0 ? -1 : 1, () => { setCustom(null); setDayIdx(next); }, () => { busy.current = false; });
+        carousel(el, dx, dx > 0 ? -1 : 1, () => { peekRef.current = null; setPeek(null); setCustom(null); setDayIdx(next); }, () => { busy.current = false; });
       } else if (el) {
         el.style.transition = 'transform .25s cubic-bezier(.22,.8,.24,1), opacity .25s ease';
         el.style.transform = 'translate3d(0,0,0)';
         el.style.opacity = '1';
+        setTimeout(() => showPeek(null), 280);
       }
     };
     document.addEventListener('touchstart', onStart, { passive: true });
@@ -192,9 +200,10 @@ export default function Home() {
         </label>
       </div>
 
+      <div style={{ overflowX: 'clip' }}>
       <div
         ref={listRef}
-        style={{ minHeight: '55vh' }}
+        style={{ minHeight: '55vh', position: 'relative' }}
         onClickCapture={(e) => { if (moved.current) { e.preventDefault(); e.stopPropagation(); moved.current = false; } }}
       >
         {loading ? (
@@ -218,6 +227,12 @@ export default function Home() {
             Nessuna partita
           </p>
         )}
+        {peek !== null && peek !== dayIdx && !custom ? (
+          <div aria-hidden="true" style={{ position: 'absolute', top: 0, width: '100%', left: peek > dayIdx ? '100%' : '-100%', pointerEvents: 'none' }}>
+            {groupsOf(isoDate(DATES[peek])).map((g) => <LeagueGroup key={g.league.id} league={g.league} matches={g.matches} />)}
+          </div>
+        ) : null}
+      </div>
       </div>
 
       <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
