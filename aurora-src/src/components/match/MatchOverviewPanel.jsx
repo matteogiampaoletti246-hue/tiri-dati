@@ -6,7 +6,7 @@ import RefereeCard from '@/components/match/RefereeCard';
 import BestPlayers from '@/components/match/BestPlayers';
 
 const Card = ({ title, children, noPad }) => (
-  <section className="glass mx-4 overflow-hidden rounded-[24px]">
+  <section className="glass tint-card mx-4 overflow-hidden rounded-[24px]">
     <h3 className="px-4 pb-1 pt-3.5 text-[12.5px] font-extrabold uppercase tracking-wider">{title}</h3>
     <div className={noPad ? '' : 'px-4 pb-4 pt-2'}>{children}</div>
   </section>

@@ -66,6 +66,7 @@ export default function PickerSheet({ open, title, options = [], placeholder = '
                   type="button"
                   onClick={() => { onSelect(o); onClose(); }}
                   className="glass press flex w-full items-center gap-3.5 rounded-[20px] px-4 py-3 text-left"
+                  style={o.bg ? { background: o.bg } : undefined}
                 >
                   {o.avatar || null}
                   <span className="min-w-0">

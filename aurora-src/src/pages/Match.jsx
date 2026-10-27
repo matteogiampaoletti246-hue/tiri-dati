@@ -19,7 +19,7 @@ import { matchById, viewMatch, ensureDetail } from '@/data/matches';
 import { loadFm } from '@/data/fotmob';
 import { playerLookup } from '@/data/players';
 import { teamById } from '@/data/teams';
-import { leagueById } from '@/data/leagues';
+import { leagueById, leagueTint } from '@/data/leagues';
 
 const PRE_TABS = [
   { key: 'overview', label: 'Panoramica' },
@@ -114,6 +114,7 @@ export default function Match() {
 
   return (
     <PageShell swipeBack={false}>
+      <div style={{ '--tint': leagueTint(raw.leagueId) }}>
       <MatchHero match={raw} view={view} league={league} home={home} away={away} />
 
       {loading ? (
@@ -128,6 +129,7 @@ export default function Match() {
       ) : (
         <SwipeTabs tabs={tabs} panels={panels} index={Math.min(tab, tabs.length - 1)} onChange={setTab} className="pt-2" stickyTop="0px" />
       )}
+      </div>
     </PageShell>
   );
 }

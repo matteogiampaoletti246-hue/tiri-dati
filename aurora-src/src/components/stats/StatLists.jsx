@@ -81,7 +81,7 @@ export default function StatLists({ sections, controls = null, limit = 8 }) {
                 </>
               );
               const cls = 'press flex items-center gap-3 px-4 py-2.5';
-              const st = { borderTop: '1px solid var(--hair-2)' };
+              const st = r.bg ? { background: r.bg, borderRadius: 16, margin: '0 8px 6px' } : { borderTop: '1px solid var(--hair-2)' };
               return r.to ? (
                 <Link key={r.id} to={r.to} className={cls} style={st}>{inner}</Link>
               ) : (

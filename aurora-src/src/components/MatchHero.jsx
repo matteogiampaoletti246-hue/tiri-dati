@@ -1,3 +1,4 @@
+import { teamColor } from '@/lib/tint';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, Share2 } from 'lucide-react';
 import Crest from './Crest';
@@ -64,7 +65,7 @@ export default function MatchHero({ match, view, league, home, away }) {
         </button>
       </div>
 
-      <div className="glass mt-3 rounded-[28px] px-4 pb-4 pt-5">
+      <div className="glass mt-3 rounded-[28px] px-4 pb-4 pt-5" style={{ background: `linear-gradient(90deg, color-mix(in srgb, ${teamColor(home)} 55%, transparent) 0%, transparent 38%, transparent 62%, color-mix(in srgb, ${teamColor(away)} 50%, transparent) 100%), var(--glass-bg)` }}>
         <div className="flex items-start">
           <div className="flex min-w-0 flex-1 flex-col items-center gap-2">
             <TeamLink team={home} className="flex flex-col items-center gap-2 transition-opacity active:opacity-60">

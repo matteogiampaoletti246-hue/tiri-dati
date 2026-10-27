@@ -1,3 +1,4 @@
+import { teamGrad } from '@/lib/tint';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, X } from 'lucide-react';
@@ -154,7 +155,7 @@ export default function SearchOverlay({ open, onClose }) {
                     );
                     return (
                       <div key={p.id} className="px-4 py-1">
-                        <button type="button" onClick={() => go(`/giocatore/${p.id}`)} className="glass press flex w-full items-center gap-3.5 rounded-[20px] px-4 py-3 text-left">
+                        <button type="button" onClick={() => go(`/giocatore/${p.id}`)} className="glass press flex w-full items-center gap-3.5 rounded-[20px] px-4 py-3 text-left" style={{ background: teamGrad(t, 0x55) }}>
                           <PlayerFace p={p} size={52} />
                           <span className="min-w-0"><span className="block truncate text-[16px] font-extrabold" style={{ color: 'var(--ink)' }}>{p.name}</span>{sub}</span>
                         </button>

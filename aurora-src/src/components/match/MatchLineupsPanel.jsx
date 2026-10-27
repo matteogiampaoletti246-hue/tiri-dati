@@ -1,3 +1,4 @@
+import { teamColor } from '@/lib/tint';
 import InjuryIcon from '@/components/InjuryIcon';
 import { injuryOf } from '@/data/injuries';
 import { useState } from 'react';
@@ -135,7 +136,7 @@ export default function MatchLineupsPanel({ match, view, home, away, pre }) {
       ) : null}
 
       {lineup && lineup.coach ? (
-        <section className="glass mx-4 flex items-center gap-3 rounded-[24px] px-4 py-3">
+        <section className="glass tint-card mx-4 flex items-center gap-3 rounded-[24px] px-4 py-3" style={{ '--tint': teamColor(team) }}>
           <span className="avatar h-[52px] w-[52px]">{lineup.coachId ? <Image src={`https://images.fotmob.com/image_resources/playerimages/${lineup.coachId}.png`} alt={lineup.coach} className="h-full w-full" fittingType="fill" /> : lineup.coach.slice(0, 1)}</span>
           <div>
             <p className="text-[10.5px] font-extrabold uppercase tracking-wider" style={{ color: 'var(--ink-3)' }}>Allenatore</p>
@@ -145,7 +146,7 @@ export default function MatchLineupsPanel({ match, view, home, away, pre }) {
       ) : null}
 
       {lineup && lineup.bench && lineup.bench.length ? (
-        <section className="glass mx-4 overflow-hidden rounded-[24px] px-4 py-3.5">
+        <section className="glass tint-card mx-4 overflow-hidden rounded-[24px] px-4 py-3.5" style={{ '--tint': teamColor(team) }}>
           <p className="mb-2 text-[12.5px] font-extrabold uppercase tracking-wider">Panchina</p>
           <div className="grid grid-cols-2 gap-x-4">
             {lineup.bench.map((p, i) => {

@@ -94,7 +94,7 @@ export default function IdeaSection({ match, home, away, concept = 'a' }) {
   const ok = home && away && hasMetrics(match.homeId) && hasMetrics(match.awayId);
   if (concept === 'b') {
     return (
-      <section className="glass mx-4 overflow-hidden rounded-[24px] px-4 py-4">
+      <section className="glass tint-card mx-4 overflow-hidden rounded-[24px] px-4 py-4">
         <h3 className="text-[12.5px] font-extrabold uppercase tracking-wider">Tendenze · ultime 10</h3>
         {[match.homeId, match.awayId].map((id, i) => (
           <div key={id} className="mt-3" style={{ borderTop: i ? '1px solid var(--hair-2)' : 'none', paddingTop: i ? 12 : 0 }}>
@@ -107,7 +107,7 @@ export default function IdeaSection({ match, home, away, concept = 'a' }) {
   }
   if (concept === 'c') {
     return (
-      <section className="glass mx-4 overflow-hidden rounded-[24px] px-4 py-4">
+      <section className="glass tint-card mx-4 overflow-hidden rounded-[24px] px-4 py-4">
         <h3 className="mb-3 text-[12.5px] font-extrabold uppercase tracking-wider">Cammino dopo questa gara</h3>
         <div className="flex flex-col gap-4"><Path teamId={match.homeId} /><Path teamId={match.awayId} /></div>
         <p className="mt-3 text-[10px]" style={{ color: 'var(--ink-3)' }}>Colore = difficoltà dell'avversario in base alla classifica (verde facile, rosso difficile).</p>
@@ -115,7 +115,7 @@ export default function IdeaSection({ match, home, away, concept = 'a' }) {
     );
   }
   return (
-    <section className="glass mx-4 overflow-hidden rounded-[24px] px-4 py-4">
+    <section className="glass tint-card mx-4 overflow-hidden rounded-[24px] px-4 py-4">
       <h3 className="text-[12.5px] font-extrabold uppercase tracking-wider">Duello in numeri</h3>
       {ok ? <div className="mt-2"><Radar home={home} away={away} /></div> : <p className="py-6 text-center text-[12px]" style={{ color: 'var(--ink-3)' }}>Dati non disponibili</p>}
       <div className="mt-1 flex items-center justify-center gap-5 text-[11.5px] font-bold">

@@ -1,3 +1,4 @@
+import { teamGrad } from '@/lib/tint';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import TextFilter from '@/components/TextFilter';
@@ -33,7 +34,7 @@ export default function MatchReliabilityList({ match, home, away }) {
                 key={r.player.id}
                 to={`/giocatore/${r.player.id}`}
                 className="press mx-4 mb-2 flex items-center gap-2.5 rounded-[20px] px-2.5 py-2"
-                style={{ background: `linear-gradient(100deg, ${c1}66, rgba(255,255,255,.03) 70%)`, border: '1px solid var(--glass-border)' }}
+                style={{ background: teamGrad(t, 0x66), border: '1px solid var(--glass-border)' }}
               >
                 <span className="avatar h-[38px] w-[38px]">{r.player.photo ? <Image src={r.player.photo} alt={r.player.name} className="h-full w-full" fittingType="fill" /> : r.player.initials}</span>
                 <span className="min-w-0 flex-1">

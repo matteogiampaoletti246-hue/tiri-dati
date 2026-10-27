@@ -3,7 +3,8 @@ import TextFilter from '@/components/TextFilter';
 import StatLists from '@/components/stats/StatLists';
 import { Image } from '@/components/ui/image';
 import { PLAYERS } from '@/data/players';
-import { teamsOf } from '@/data/teams';
+import { teamsOf, teamById } from '@/data/teams';
+import { teamGrad } from '@/lib/tint';
 import { comma } from '@/lib/format';
 import { ratioColor } from '@/components/player/playerCalc';
 
@@ -68,6 +69,7 @@ export default function LeaguePlayersPanel({ leagueId, teamId }) {
           </span>
         ),
         name: p.name,
+        bg: teamGrad(teamById(p.teamId), 0x55),
         sub: p.teamName,
         value: fmt(v),
         color: m.key === 'min' || m.key === 'apps' ? null : gradeOf(m, p),

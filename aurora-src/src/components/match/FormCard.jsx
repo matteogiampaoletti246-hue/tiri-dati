@@ -30,7 +30,7 @@ export default function FormCard({ match, home, away, concept = 'c' }) {
 
   if (concept === 'b') {
     return (
-      <div className="glass mx-4 overflow-hidden rounded-[24px] px-3 py-3.5">
+      <div className="glass tint-card mx-4 overflow-hidden rounded-[24px] px-3 py-3.5">
         <p className="mb-3 px-1 text-[11px] font-extrabold uppercase tracking-wider" style={{ color: 'var(--ink-3)' }}>Forma recente</p>
         <div className="grid grid-cols-2 gap-2">
           {sides.map(({ team, id }, i) => {
@@ -53,7 +53,7 @@ export default function FormCard({ match, home, away, concept = 'c' }) {
 
   if (concept === 'c') {
     return (
-      <div className="glass mx-4 overflow-hidden rounded-[24px] px-4 py-3.5">
+      <div className="glass tint-card mx-4 overflow-hidden rounded-[24px] px-4 py-3.5">
         <div className="mb-1 flex items-baseline justify-between"><p className="text-[11px] font-extrabold uppercase tracking-wider" style={{ color: 'var(--ink-3)' }}>Forma recente</p></div>
         <div className="grid grid-cols-5 gap-1.5"><span className="col-start-5 whitespace-nowrap text-center text-[9px] font-medium" style={{ color: 'var(--ink-3)' }}>più recente</span></div>
         {sides.map(({ team, id }, i) => {
@@ -86,7 +86,7 @@ export default function FormCard({ match, home, away, concept = 'c' }) {
 
   // A
   return (
-    <div className="glass mx-4 overflow-hidden rounded-[24px] px-4 py-3">
+    <div className="glass tint-card mx-4 overflow-hidden rounded-[24px] px-4 py-3">
       <p className="mb-1 text-[11px] font-extrabold uppercase tracking-wider" style={{ color: 'var(--ink-3)' }}>Forma recente</p>
       {sides.map(({ team, id }, i) => {
         const f = teamForm(id);

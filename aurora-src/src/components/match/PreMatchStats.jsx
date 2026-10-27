@@ -1,3 +1,4 @@
+import { teamColor } from '@/lib/tint';
 import { useState } from 'react';
 import Crest from '@/components/Crest';
 import TeamLink from '@/components/TeamLink';
@@ -136,7 +137,7 @@ function TeamTable({ me, op, concept, side }) {
   });
 
   return (
-    <section className="glass mx-4 overflow-hidden rounded-[24px] pb-1">
+    <section className="glass tint-card mx-4 overflow-hidden rounded-[24px] pb-1" style={{ '--tint': teamColor(me) }}>
       {head}
       {bestBox}
       {concept === 'a' ? colHead : null}

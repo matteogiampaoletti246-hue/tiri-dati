@@ -1,3 +1,4 @@
+import { teamGrad } from '@/lib/tint';
 import InjuryIcon from '@/components/InjuryIcon';
 import { injuryOf } from '@/data/injuries';
 import { primeKeyboard } from '@/lib/keyboard';
@@ -30,6 +31,7 @@ export default function PlayerPickPanel({ form, set, player, hint, onSelectPlaye
           label: p.name,
           sub: t ? t.name : p.teamName || '',
           avatar: <PlayerFace p={p} size={52} />,
+          bg: teamGrad(t, 0x55),
           subNode: (
             <span className="mt-0.5 flex items-center gap-1.5 text-[12px]" style={{ color: 'var(--ink-3)' }}>
               {t ? <Crest team={t} size={14} /> : null}

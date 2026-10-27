@@ -6,7 +6,7 @@ import RefereeCard from './RefereeCard';
 import FormCard from './FormCard';
 
 const Card = ({ title, concept, children, noPad }) => (
-  <section className="glass mx-4 overflow-hidden rounded-[24px]">
+  <section className="glass tint-card mx-4 overflow-hidden rounded-[24px]">
     <div className="flex items-center px-4 pb-1 pt-3.5">
       <h3 className="text-[12.5px] font-extrabold uppercase tracking-wider">{title}</h3>
       {concept ? <div className="ml-auto">{concept}</div> : null}

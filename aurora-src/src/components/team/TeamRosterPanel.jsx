@@ -1,3 +1,5 @@
+import { teamGrad } from '@/lib/tint';
+import { teamById } from '@/data/teams';
 import InjuryIcon from '@/components/InjuryIcon';
 import { injuryOf } from '@/data/injuries';
 import { useEffect, useState } from 'react';
@@ -36,7 +38,7 @@ export default function TeamRosterPanel({ teamId }) {
             <span className="ml-auto text-[12px]" style={{ color: 'var(--ink-3)' }}>{g.list.length}</span>
           </div>
           {g.list.map((p) => (
-            <Link key={p.id} to={`/giocatore/${p.id}`} className="press flex items-center gap-3 px-4 py-2" style={{ borderTop: '1px solid var(--hair-2)' }}>
+            <Link key={p.id} to={`/giocatore/${p.id}`} className="press mx-2 mb-1.5 flex items-center gap-3 rounded-[18px] px-3 py-2" style={{ background: teamGrad(teamById(teamId), 0x55) }}>
               <span className="avatar h-[38px] w-[38px] text-[11px]">
                 {p.photo ? <Image src={p.photo} alt={p.name} className="h-full w-full" fittingType="fill" /> : p.initials}
               </span>

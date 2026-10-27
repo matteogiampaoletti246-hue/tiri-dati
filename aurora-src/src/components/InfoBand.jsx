@@ -29,7 +29,7 @@ export default function InfoBand({ match }) {
   const ref = match.refereeId ? refereeById(match.refereeId) : null;
 
   return (
-    <div className="panel mx-5 flex items-stretch px-2 py-4">
+    <div className="panel tint-card mx-5 flex items-stretch px-2 py-4">
       <div className={CELL}>
         <StadiumIcon size={16} style={ICON} />
         <span className="label-sm">Stadio</span>

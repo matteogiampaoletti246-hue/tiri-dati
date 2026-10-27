@@ -77,13 +77,13 @@ export default function MatchStatsPanel({ match, view, home, away, pre }) {
 
       {groups ? (
         groups.slice(0, 1).map((g) => (
-          <section key={g.key} className="glass mx-4 rounded-[24px] px-4 py-4">
+          <section key={g.key} className="glass tint-card mx-4 rounded-[24px] px-4 py-4">
             <PanelTitle>{g.title}</PanelTitle>
             <CompareBars variant={cs} rows={g.rows.map((r) => ({ label: r.label, home: r.home, away: r.away, homeText: r.homeText, awayText: r.awayText }))} />
           </section>
         ))
       ) : fallback.length ? (
-        <section className="glass mx-4 rounded-[24px] px-4 py-4"><CompareBars variant={cs} rows={fallback} /></section>
+        <section className="glass tint-card mx-4 rounded-[24px] px-4 py-4"><CompareBars variant={cs} rows={fallback} /></section>
       ) : null}
 
       {(view.shots || []).length ? (
@@ -95,7 +95,7 @@ export default function MatchStatsPanel({ match, view, home, away, pre }) {
 
       {groups
         ? groups.slice(1).map((g) => (
-            <section key={g.key} className="glass mx-4 rounded-[24px] px-4 py-4">
+            <section key={g.key} className="glass tint-card mx-4 rounded-[24px] px-4 py-4">
               <PanelTitle>{g.title}</PanelTitle>
               <CompareBars variant={cs} rows={g.rows.map((r) => ({ label: r.label, home: r.home, away: r.away, homeText: r.homeText, awayText: r.awayText }))} />
             </section>

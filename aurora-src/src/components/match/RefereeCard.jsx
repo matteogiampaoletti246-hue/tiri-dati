@@ -75,5 +75,5 @@ export default function RefereeCard({ match, concept = 'b' }) {
       ) : null}
     </>
   );
-  return r ? <Link to={`/arbitro/${r.id}`} className="glass press mx-4 block overflow-hidden rounded-[24px]">{inner}</Link> : <div className="glass mx-4 overflow-hidden rounded-[24px]">{inner}</div>;
+  return r ? <Link to={`/arbitro/${r.id}`} className="glass tint-card press mx-4 block overflow-hidden rounded-[24px]">{inner}</Link> : <div className="glass mx-4 overflow-hidden rounded-[24px]">{inner}</div>;
 }
