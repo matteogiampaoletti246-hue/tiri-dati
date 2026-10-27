@@ -307,7 +307,7 @@ export default function Home() {
           panes.map(({ k, role }) => (
             <div
               key={k}
-                            style={role ? { position: 'absolute', top: 0, width: '100%', left: `${role * 100}%` } : undefined}
+                            style={role ? { position: 'absolute', top: 0, width: '100%', left: `${role * 100}%`, display: 'flow-root' } : { display: 'flow-root' }}
             >
               <DayPane iso={k} filter={filter} ver={ver} tick={role === 0 ? tick : 0} active={role === 0 || peek === k} />
             </div>

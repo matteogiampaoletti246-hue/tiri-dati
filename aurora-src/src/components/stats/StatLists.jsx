@@ -10,6 +10,13 @@ export default function StatLists({ sections, controls = null, limit = 8 }) {
   const [open, setOpen] = useState({});
   const [rev, setRev] = useState({});
   const concept = 'b';
+  // le classifiche si disegnano a blocchi: all'apertura (e durante lo swipe) ne servono poche, le altre arrivano a app ferma
+  const [lim, setLim] = useState(4);
+  useEffect(() => {
+    if (lim >= sections.length) return undefined;
+    const id = setTimeout(() => setLim((n) => n + 4), document.documentElement.dataset.tch ? 400 : 140);
+    return () => clearTimeout(id);
+  }, [lim, sections.length]);
   const groups = [];
   sections.forEach((s) => {
     let g = groups.find((x) => x.name === s.group);
@@ -34,15 +41,18 @@ export default function StatLists({ sections, controls = null, limit = 8 }) {
 
   return (
     <div className="pb-6 pt-2">
-      <div className="flex items-center gap-3 px-4">
-        <div className="min-w-0 flex-1">{controls}</div>
-        <button type="button" onClick={() => setSheet(true)} className="glass press flex shrink-0 items-center gap-1.5 rounded-full px-3.5 py-2 text-[12.5px] font-bold">
+      <div style={{ position: 'sticky', top: 'calc(var(--ent-h, 0px) + var(--tabs-h, 0px) + 6px)', height: 0, zIndex: 25 }}>
+        <button type="button" onClick={() => { setLim(sections.length); setSheet(true); }} className="glass-strong press absolute flex items-center gap-1.5 rounded-full px-3.5 py-2 text-[12.5px] font-bold" style={{ right: 16, top: 3 }}>
           <ListTree size={14} />
           Vai a
         </button>
       </div>
+      <div className="flex items-center gap-3 px-4">
+        <div className="min-w-0 flex-1">{controls}</div>
+        <span aria-hidden="true" className="h-[38px] w-[78px] shrink-0" />
+      </div>
 
-      {sections.map((s) => {
+      {sections.slice(0, lim).map((s) => {
         const all = !!open[s.id];
         const r0 = !!rev[s.id];
         const flip = () => setRev({ ...rev, [s.id]: !r0 });
@@ -50,7 +60,7 @@ export default function StatLists({ sections, controls = null, limit = 8 }) {
         const rows = all ? ordered : ordered.slice(0, limit);
         const arrow = r0 ? '↑' : '↓';
         return (
-          <section key={s.id} id={`st-${s.id}`} className="glass mx-4 mt-4 overflow-hidden rounded-[24px]" style={{ scrollMarginTop: 150 }}>
+          <section key={s.id} id={`st-${s.id}`} className="glass mx-4 mt-4 overflow-hidden rounded-[24px]" style={{ scrollMarginTop: 150, contentVisibility: 'auto', containIntrinsicSize: 'auto 520px' }}>
             <div className="flex items-baseline justify-between px-4 pb-2 pt-3.5">
               {concept === 'a' ? (
                 <button type="button" onClick={flip} className="press text-left text-[12.5px] font-extrabold uppercase tracking-wider"><h3 className="inline">{s.title}</h3> <span style={{ color: 'var(--accent)' }}>{arrow}</span></button>

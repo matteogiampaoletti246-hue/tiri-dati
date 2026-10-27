@@ -7,7 +7,8 @@ import StatLists from '@/components/stats/StatLists';
 import Skeleton from '@/components/Skeleton';
 import { TeamLogo, PlayerFace } from '@/components/FmImg';
 import useAsync from '@/hooks/useAsync';
-import { loadSeason, loadSeasonStats, SEASON_STAT_IT, prettyKey } from '@/data/archive';
+import { RefereesView } from '@/components/league/LeagueRefereesPanel';
+import { loadSeason, loadSeasonStats, loadSeasonMatches, SEASON_STAT_IT, prettyKey } from '@/data/archive';
 import { tintGrad } from '@/lib/tint';
 import { ArchRow, StandingsPanel, fmtDate, dayKey, useTeamColors, rowBg } from './parts';
 
@@ -84,7 +85,7 @@ function MatchesPanel({ fm, sk, season, tint }) {
             list.forEach((m) => { const k = dayKey(m[4]); const l = days[days.length - 1]; if (l && l.k === k) l.m.push(m); else days.push({ k, m: [m] }); });
             const range = days.length > 1 ? `${fmtDate(days[0].m[0][4])} – ${fmtDate(days[days.length - 1].m[0][4])}` : fmtDate(days[0].m[0][4]);
             return (
-              <section key={r} className="glass mx-4 mt-5 overflow-hidden rounded-[24px] pb-1" style={tint ? { background: tintGrad(tint, 0x45) } : undefined}>
+              <section key={r} className="glass mx-4 mt-5 overflow-hidden rounded-[24px] pb-1" style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 420px', ...(tint ? { background: tintGrad(tint, 0x45) } : null) }}>
                 <div className="flex items-center gap-2 px-4 pb-1 pt-3.5">
                   <h3 className="text-[15px] font-extrabold">{roundTitle(r)}</h3>
                   <span className="rounded-full px-2 py-[2px] text-[9.5px] font-extrabold uppercase tracking-wider" style={{ background: tag === 'Conclusa' ? 'var(--hair-2)' : 'var(--accent-soft)', color: tag === 'Conclusa' ? 'var(--ink-3)' : 'var(--accent)' }}>{tag}</span>
@@ -155,18 +156,39 @@ export function ArchStatPanel({ stats, kind, names, col, fm, sk, filterTeam = nu
   return <StatLists sections={sections} />;
 }
 
+// arbitri della stagione: medie calcolate dalle partite archiviate (arbitro, cartellini, falli, rigori)
+function refsOf(det) {
+  const by = {};
+  Object.values((det && det.m) || {}).forEach((x) => {
+    const name = x.i && x.i.ref;
+    if (!name) return;
+    const r = (by[name] = by[name] || { id: name, name, country: '', n: 0, y: 0, r: 0, fo: 0, pen: 0 });
+    r.n += 1;
+    (x.e || []).forEach((e) => {
+      if (e.type === 'Card') { if (/Yellow/i.test(e.card || '')) r.y += 1; if (/Red/i.test(e.card || '')) r.r += 1; }
+      if (e.type === 'MissedPenalty' || (e.type === 'Goal' && e.goalDescription === 'Penalty')) r.pen += 1;
+    });
+    const f = x.s && x.s.fouls;
+    if (f) r.fo += (Number(f[0]) || 0) + (Number(f[1]) || 0);
+  });
+  return Object.values(by).map((r) => ({ ...r, y: r.y / r.n, r: r.r / r.n, fo: r.fo / r.n, pen: r.pen / r.n }));
+}
+
 export default function ArchiveLeague({ fm, sk, tab, setTab, tint }) {
   const { data: season, loading } = useAsync(() => loadSeason(fm, sk), [fm, sk]);
   const { data: stats } = useAsync(() => loadSeasonStats(fm, sk), [fm, sk]);
+  const { data: det, loading: l2 } = useAsync(() => loadSeasonMatches(fm, sk), [fm, sk]);
   const col = useTeamColors();
-  if (loading && !season) return <Loading />;
+  const refs = useMemo(() => refsOf(det), [det]);
+  if ((loading && !season) || l2) return <Loading />;
   const names = (season && season.teams) || {};
   const panels = [
     <MatchesPanel key="m" fm={fm} sk={sk} season={season} tint={tint} />,
     <StandingsPanel key="s" season={season} fm={fm} sk={sk} />,
     <ArchStatPanel key="t" stats={stats} kind="teams" names={names} col={col} fm={fm} sk={sk} />,
     <ArchStatPanel key="p" stats={stats} kind="players" names={names} col={col} fm={fm} sk={sk} />,
-    <Empty key="r">Arbitri non disponibili per questa stagione</Empty>,
-  ];
-  return <SwipeTabs fixedBar tabs={TABS} panels={panels} index={tab} onChange={setTab} className="pt-0" />;
+    refs.length ? <RefereesView key="r" base={refs} /> : null,
+  ].filter(Boolean);
+  const tabs = refs.length ? TABS : TABS.filter((t) => t.key !== 'referees');
+  return <SwipeTabs fixedBar tabs={tabs} panels={panels} index={Math.min(tab, tabs.length - 1)} onChange={setTab} className="pt-0" />;
 }

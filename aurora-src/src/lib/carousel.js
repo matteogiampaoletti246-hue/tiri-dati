@@ -77,33 +77,28 @@ export function carousel(el, dx, dir, apply, done, ms = 240, host = null) {
   });
 }
 
-// Ritorno indietro: la pagina corrente scivola via a destra e sotto c'e' gia' quella precedente.
+// Ritorno indietro: la pagina corrente (quella vera, senza copie) prosegue dal punto del dito fino a uscire a destra;
+// solo a fine corsa si cambia pagina, cosi' non c'e' mai una pagina doppia o un salto.
 export function pageBack(shell, dx, navigate) {
   if (!shell) { navigate(-1); return; }
   const w = Math.min(window.innerWidth, shell.offsetWidth || 430);
-  shell.style.transition = 'none';
-  shell.style.transform = '';
-  shell.style.opacity = '';
-  const snap = snapshot(shell, 35);
-  snap.box.style.boxShadow = '-18px 0 40px -18px rgba(0,0,0,.5)';
-  // la copia deve essere opaca (stesso sfondo dell'app), altrimenti la pagina sotto traspare e si vede una sovrapposizione
-  try {
-    const ab = document.querySelector('.aurora-bg');
-    const cs = ab ? getComputedStyle(ab) : null;
-    snap.box.style.backgroundColor = 'hsl(var(--background))';
-    if (cs && cs.backgroundImage && cs.backgroundImage !== 'none') snap.box.style.backgroundImage = cs.backgroundImage;
-  } catch { /* sfondo pieno */ }
-  snap.box.style.transform = `translate3d(${dx}px,0,0)`;
-  const start = location.hash;
-  navigate(-1);
-  const t0 = Date.now();
+  let done = false;
   const go = () => {
-    if (location.hash === start && Date.now() - t0 < 500) { requestAnimationFrame(go); return; }
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-      snap.box.style.transition = `transform .27s ${EASE}`;
-      snap.box.style.transform = `translate3d(${w + 24}px,0,0)`;
-      setTimeout(() => snap.box.remove(), 320);
-    }));
+    if (done) return;
+    done = true;
+    shell.style.visibility = 'hidden';
+    navigate(-1);
   };
-  go();
+  shell.style.willChange = 'transform';
+  shell.style.boxShadow = '-18px 0 40px -18px rgba(0,0,0,.5)';
+  shell.style.transition = 'none';
+  shell.style.transform = `translate3d(${dx}px,0,0)`;
+  void shell.offsetWidth;
+  const ms = Math.max(120, Math.round(230 * (1 - dx / (w + 24)) + 90));
+  requestAnimationFrame(() => {
+    shell.style.transition = `transform ${ms}ms ${EASE}, opacity ${ms}ms ease`;
+    shell.style.transform = `translate3d(${w + 24}px,0,0)`;
+    shell.style.opacity = '0.6';
+    setTimeout(go, Math.round(ms * 0.62));
+  });
 }

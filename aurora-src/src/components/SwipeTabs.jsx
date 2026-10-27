@@ -19,11 +19,11 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
   useEffect(() => {
     const el = headRef.current;
     if (!el || !fixedBar) return undefined;
-    const set = () => setHeadH(el.offsetHeight);
+    const set = () => { setHeadH(el.offsetHeight); document.documentElement.style.setProperty('--tabs-h', `${el.offsetHeight}px`); };
     set();
     const ro = new ResizeObserver(set);
     ro.observe(el);
-    return () => ro.disconnect();
+    return () => { ro.disconnect(); document.documentElement.style.setProperty('--tabs-h', '0px'); };
   }, [fixedBar]);
 
   const posBar = (from, to, t, animate) => {
@@ -102,6 +102,7 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
     let st = null;
     let busy = false;
     const onStart = (e) => {
+      document.documentElement.dataset.tch = '1';
       finishCarousel();
       if (finishRef.current) finishRef.current();
       if (busy || e.touches.length !== 1) { st = null; return; }
@@ -155,6 +156,7 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
       followBar(from, to, p - from);
     };
     const onEnd = (e) => {
+      delete document.documentElement.dataset.tch;
       const d = st;
       st = null;
       if (d && d.raf) cancelAnimationFrame(d.raf);
@@ -265,7 +267,7 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
       <div ref={wrapRef} data-tabs-back={edgeBack && loc.key !== 'default' ? '1' : undefined} className="relative" style={{ touchAction: 'pan-y', minHeight: '60vh', overflowX: 'clip' }}>
         <div ref={contentRef} style={{ position: 'relative' }}>
           {[index, peek !== null && peek !== index && panels[peek] ? peek : null].filter((k) => k !== null).map((k) => (
-            <div key={k} style={k === index ? undefined : { position: 'absolute', top: 0, width: '100%', left: k > index ? '100%' : '-100%' }}>
+            <div key={k} style={k === index ? { display: 'flow-root' } : { position: 'absolute', top: 0, width: '100%', left: k > index ? '100%' : '-100%', display: 'flow-root' }}>
               {panels[k]}
             </div>
           ))}

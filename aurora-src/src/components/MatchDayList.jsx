@@ -93,7 +93,7 @@ export function MatchdayList({ matches, all, tint = null, concept = cptOf() }) {
         }
         if (concept === 'c') {
           return (
-            <section key={g} className="glass mx-4 mt-5 overflow-hidden rounded-[24px] pb-1" style={tint ? { background: tintGrad(tint, 0x45) } : undefined}>
+            <section key={g} className="glass mx-4 mt-5 overflow-hidden rounded-[24px] pb-1" style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 420px', ...(tint ? { background: tintGrad(tint, 0x45) } : null) }}>
               <div className="flex items-center gap-2 px-4 pb-1 pt-3.5">
                 <h3 className="text-[15px] font-extrabold">Giornata {g}</h3>
                 <span className="rounded-full px-2 py-[2px] text-[9.5px] font-extrabold uppercase tracking-wider" style={{ background: tag === 'Conclusa' ? 'var(--hair-2)' : 'var(--accent-soft)', color: tag === 'Conclusa' ? 'var(--ink-3)' : 'var(--accent)' }}>{tag}</span>

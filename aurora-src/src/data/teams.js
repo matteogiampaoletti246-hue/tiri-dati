@@ -2,6 +2,7 @@
 import { RAW } from './load';
 import { LEAGUES, TOP5 } from './leagues';
 import { slug } from './util';
+import { fixedColors } from './teamColorFix';
 
 export const TEAMS = [];
 export const TEAMS_BY_LEAGUE = {};
@@ -59,7 +60,8 @@ export function ensureTeam(name, leagueId, crest) {
     const base0 = TEAM_COL[id] || (RAW.teams && RAW.teams.col && RAW.teams.col[name]) || null;
     const base = base0 ? lift(base0) : null;
     const short = shortOf(name);
-    t = { id, name, short, initials: short.slice(0, 3), leagueId: leagueId || null, crest: crest || null, photo: null, colors: [base || '#2C3E66', shade(base || '#2C3E66', 0.55)] };
+    const fx = fixedColors(name);
+    t = { id, name, short, initials: short.slice(0, 3), leagueId: leagueId || null, crest: crest || null, photo: null, colors: fx || [base || '#2C3E66', shade(base || '#2C3E66', 0.55)] };
     INDEX[id] = t;
     BY_NAME[name] = t;
     TEAMS.push(t);

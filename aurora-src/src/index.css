@@ -150,7 +150,7 @@
   --glass-bg-strong: linear-gradient(158deg, rgba(255, 255, 255, .15) 0%, rgba(255, 255, 255, .05) 100%);
   --glass-border: rgba(255, 255, 255, .12);
   --glass-inner: rgba(255, 255, 255, .18);
-  --glass-shadow: 0 26px 60px -32px rgba(0, 0, 0, .95);
+  --glass-shadow: 0 10px 22px -16px rgba(0, 0, 0, .8);
   --glass-blur: 26px;
   --glass-sheen: linear-gradient(125deg, rgba(255, 255, 255, .16) 0%, rgba(255, 255, 255, 0) 42%);
 }
@@ -637,5 +637,15 @@
   from {
     opacity: 0;
     transform: translate3d(14px, 0, 0);
+  }
+}
+
+.shell-pop {
+  animation: shell-pop .18s ease-out backwards;
+}
+
+@keyframes shell-pop {
+  from {
+    opacity: 0;
   }
 }

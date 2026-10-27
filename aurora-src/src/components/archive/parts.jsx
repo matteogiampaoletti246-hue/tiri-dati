@@ -5,8 +5,10 @@ import TextFilter from '@/components/TextFilter';
 import { TeamLogo } from '@/components/FmImg';
 import { loadColors } from '@/data/archive';
 import { teamByName } from '@/data/teams';
+import { fixedColors } from '@/data/teamColorFix';
 import { teamGrad } from '@/lib/tint';
 import { useState } from 'react';
+import FormDots from '@/components/FormDots';
 
 export const fmtDate = (iso) => {
   const d = new Date(iso);
@@ -33,6 +35,8 @@ export function useTeamColors() {
   return useMemo(() => {
     const map = data || {};
     return (id, name) => {
+      const fx = fixedColors(name);
+      if (fx) return { colors: fx };
       const t = name ? teamByName(name) : null;
       const c = (t && t.colors && t.colors[0]) || map[String(id)] || '#2C3E66';
       return { colors: [c, shade(c, 0.55)] };
@@ -74,15 +78,32 @@ export function ArchRow({ m, names, fm, sk }) {
 }
 
 const COLS = '18px 1fr 22px 20px 20px 20px 36px 28px';
+const COLS_F = '18px 1fr 92px 30px';
+
+// ultime 5 partite di ogni squadra (V/S/P) dal calendario della stagione
+const formOf = (season) => {
+  const res = {};
+  [...season.fix].filter((m) => m[6] && !m[8]).sort((a, b) => String(a[4]).localeCompare(String(b[4]))).forEach((m) => {
+    const sc = String(m[5] || '').split(' - ').map(Number);
+    if (sc.length !== 2 || sc.some(Number.isNaN)) return;
+    const [h, a] = sc;
+    (res[m[2]] = res[m[2]] || []).push(h > a ? 'V' : h === a ? 'S' : 'P');
+    (res[m[3]] = res[m[3]] || []).push(a > h ? 'V' : h === a ? 'S' : 'P');
+  });
+  return res;
+};
 export function StandingsPanel({ season, fm, sk, highlight = null }) {
   const [mode, setMode] = useState('all');
   const t = season && season.table;
   if (!t) return <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Classifica non disponibile per questa stagione</p>;
-  const rows = t[mode] || t.all || [];
-  const legend = season.legend || [];
   const forma = mode === 'form';
-  const cols = COLS;
-  const head = ['#', 'Squadra', 'PG', 'V', 'N', 'P', 'GF:GS', 'Pt'];
+  const fm5 = useMemo(() => formOf(season), [season]);
+  const rows = forma
+    ? (t.all || []).map((r) => { const f = (fm5[r.id] || []).slice(-5); return { ...r, f, fp: f.reduce((x, c) => x + (c === 'V' ? 3 : c === 'S' ? 1 : 0), 0) }; }).sort((a, b) => b.fp - a.fp || b.pts - a.pts)
+    : (t[mode] || t.all || []);
+  const legend = season.legend || [];
+  const cols = forma ? COLS_F : COLS;
+  const head = forma ? ['#', 'Squadra', 'Ultime 5', 'Pt'] : ['#', 'Squadra', 'PG', 'V', 'N', 'P', 'GF:GS', 'Pt'];
   return (
     <div className="pt-3">
       <div className="px-4">
@@ -97,16 +118,16 @@ export function StandingsPanel({ season, fm, sk, highlight = null }) {
           return (
             <Link key={r.id} to={`/storico/${fm}/${sk}/squadra/${r.id}`} className="press relative grid items-center gap-2 px-4 py-2.5" style={{ gridTemplateColumns: cols, borderTop: '1px solid var(--hair-2)', background: on ? 'var(--accent-soft)' : 'transparent' }}>
               {r.qualColor && !forma ? <span aria-hidden="true" className="absolute bottom-1.5 left-0 top-1.5 w-[3.5px] rounded-r-full" style={{ background: r.qualColor }} /> : null}
-              <span className="tnum text-right text-[11.5px]" style={{ color: 'var(--ink-3)' }}>{r.idx || i + 1}</span>
+              <span className="tnum text-right text-[11.5px]" style={{ color: 'var(--ink-3)' }}>{forma ? i + 1 : (r.idx || i + 1)}</span>
               <span className="flex min-w-0 items-center gap-2"><TeamLogo id={r.id} name={r.shortName || r.name} size={22} /><span className="truncate text-[13px] font-semibold">{r.shortName || r.name}</span></span>
-              <>
+              {forma ? <span className="flex justify-end"><FormDots form={r.f} size={15} /></span> : <>
                   <span className="tnum text-right text-[11.5px]" style={{ color: 'var(--ink-2)' }}>{r.played}</span>
                   <span className="tnum text-right text-[11.5px]" style={{ color: 'var(--ink-2)' }}>{r.wins}</span>
                   <span className="tnum text-right text-[11.5px]" style={{ color: 'var(--ink-2)' }}>{r.draws}</span>
                   <span className="tnum text-right text-[11.5px]" style={{ color: 'var(--ink-2)' }}>{r.losses}</span>
                   <span className="tnum text-right text-[11px]" style={{ color: 'var(--ink-2)' }}>{String(r.scoresStr || '').replace('-', ':')}</span>
-              </>
-              <span className="tnum text-right text-[13.5px] font-extrabold">{r.pts}</span>
+              </>}
+              <span className="tnum text-right text-[13.5px] font-extrabold">{forma ? r.fp : r.pts}</span>
             </Link>
           );
         })}

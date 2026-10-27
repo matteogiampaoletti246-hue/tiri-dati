@@ -11,14 +11,12 @@ const METRICS = [
   { key: 'pen', label: 'Rigori', f: 'pen', d: 2 },
   { key: 'n', label: 'Partite', f: 'n', d: 0 },
 ];
+const Wrap = ({ to: t, children, ...rest }) => (t ? <Link to={t} {...rest}>{children}</Link> : <div {...rest}>{children}</div>);
 const GRID = '20px minmax(0,1fr) repeat(5, 40px)';
 
 // Classifica arbitri del campionato: la statistica scelta ordina la lista e la sua colonna e' evidenziata.
 // I dati sono quelli del campionato (non di tutte le competizioni).
 export default function LeagueRefereesPanel({ leagueId }) {
-  const [mode, setMode] = useState('avg');
-  const [sel, setSel] = useState('y');
-
   const base = useMemo(
     () =>
       refereesOf(leagueId)
@@ -29,7 +27,13 @@ export default function LeagueRefereesPanel({ leagueId }) {
         .filter((r) => r.n > 0),
     [leagueId]
   );
+  return <RefereesView base={base} to={(r) => `/arbitro/${r.id}`} />;
+}
 
+// Classifica arbitri (medie a partita o totali): usata dal campionato attuale e dalle stagioni passate
+export function RefereesView({ base, to = null }) {
+  const [mode, setMode] = useState('avg');
+  const [sel, setSel] = useState('y');
   if (!base.length) return <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Nessun arbitro disponibile</p>;
 
   const val = (r, m) => (m.key === 'n' ? r.n : mode === 'avg' ? r[m.f] : Math.round(r[m.f] * r.n));
@@ -69,7 +73,7 @@ export default function LeagueRefereesPanel({ leagueId }) {
           ))}
         </div>
         {rows.map((r, i) => (
-          <Link key={r.id} to={`/arbitro/${r.id}`} className="grid items-center gap-1.5 px-4 py-2.5" style={{ gridTemplateColumns: GRID, borderTop: '1px solid var(--hair-2)' }}>
+          <Wrap key={r.id} to={to ? to(r) : null} className="grid items-center gap-1.5 px-4 py-2.5" style={{ gridTemplateColumns: GRID, borderTop: '1px solid var(--hair-2)' }}>
             <span className="tnum text-[11.5px]" style={{ color: 'var(--ink-3)' }}>{i + 1}</span>
             <span className="min-w-0">
               <span className="block truncate text-[12.5px] font-semibold">{r.name}</span>
@@ -82,7 +86,7 @@ export default function LeagueRefereesPanel({ leagueId }) {
                 <span key={m.key} className="tnum text-right text-[11.5px]" style={{ color: 'var(--ink-3)' }}>{fmt(val(r, m), m)}</span>
               )
             )}
-          </Link>
+          </Wrap>
         ))}
       </div>
     </div>
