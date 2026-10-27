@@ -1,0 +1,26 @@
+name: Partite campionati extra
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 * * * *"
+  push:
+    paths:
+      - extra_partite.py
+permissions:
+  contents: write
+jobs:
+  extra:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python extra_partite.py
+      - run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add partite_extra.json
+          git diff --staged --quiet || git commit -m "Partite extra"
+          for i in 1 2 3 4 5 6; do git pull --rebase && git push && break; sleep $((i*5)); done
