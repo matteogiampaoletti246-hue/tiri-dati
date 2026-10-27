@@ -1,0 +1,545 @@
+{
+ "2025/2026": {
+  "keys": [
+   "tabs",
+   "allAvailableSeasons",
+   "details",
+   "seostr",
+   "QAData",
+   "table",
+   "transfers",
+   "overview",
+   "stats",
+   "fixtures",
+   "playoff",
+   "seasons"
+  ],
+  "stats_keys": [
+   "players",
+   "teams",
+   "seasonStatLinks",
+   "seasonsWithLinks"
+  ],
+  "links": [
+   {
+    "Name": "2026/2027",
+    "CountryCode": "ITA",
+    "RelativePath": "stats/55/season/36072/topstats.json",
+    "League": "Serie A",
+    "StageId": 0,
+    "TemplateId": 55,
+    "TournamentId": 36072
+   },
+   {
+    "Name": "2025/2026",
+    "CountryCode": "ITA",
+    "RelativePath": "stats/55/season/27044/topstats.json",
+    "League": "Serie A",
+    "StageId": 0,
+    "TemplateId": 55,
+    "TournamentId": 27044
+   },
+   {
+    "Name": "2024/2025",
+    "CountryCode": "ITA",
+    "RelativePath": "stats/55/season/23819/topstats.json",
+    "League": "Serie A",
+    "StageId": 0,
+    "TemplateId": 55,
+    "TournamentId": 23819
+   },
+   {
+    "Name": "2023/2024",
+    "CountryCode": "ITA",
+    "RelativePath": "stats/55/season/20956/topstats.json",
+    "League": "Serie A",
+    "StageId": 0,
+    "TemplateId": 55,
+    "TournamentId": 20956
+   },
+   {
+    "Name": "2022/2023",
+    "CountryCode": "ITA",
+    "RelativePath": "stats/55/season/17866/topstats.json",
+    "League": "Serie A",
+    "StageId": 0,
+    "TemplateId": 55,
+    "TournamentId": 17866
+   },
+   {
+    "Name": "2021/2022",
+    "CountryCode": "ITA",
+    "RelativePath": "stats/55/season/16621/topstats.json",
+    "League": "Serie A",
+    "StageId": 0,
+    "TemplateId": 55,
+    "TournamentId": 16621
+   },
+   {
+    "Name": "2020/2021",
+    "CountryCode": "ITA",
+    "RelativePath": "stats/55/season/15604/topstats.json",
+    "League": "Serie A",
+    "StageId": 0,
+    "TemplateId": 55,
+    "TournamentId": 15604
+   },
+   {
+    "Name": "2019/2020",
+    "CountryCode": "ITA",
+    "RelativePath": "stats/55/season/14290/topstats.json",
+    "League": "Serie A",
+    "StageId": 0,
+    "TemplateId": 55,
+    "TournamentId": 14290
+   },
+   {
+    "Name": "2018/2019",
+    "CountryCode": "ITA",
+    "RelativePath": "stats/55/season/13037/topstats.json",
+    "League": "Serie A",
+    "StageId": 0,
+    "TemplateId": 55,
+    "TournamentId": 13037
+   },
+   {
+    "Name": "2017/2018",
+    "CountryCode": "ITA",
+    "RelativePath": "stats/55/season/11768/topstats.json",
+    "League": "Serie A",
+    "StageId": 0,
+    "TemplateId": 55,
+    "TournamentId": 11768
+   },
+   {
+    "Name": "2016/2017",
+    "CountryCode": "ITA",
+    "RelativePath": "stats/55/season/10692/topstats.json",
+    "League": "Serie A",
+    "StageId": 0,
+    "TemplateId": 55,
+    "TournamentId": 10692
+   }
+  ],
+  "players": [
+   "https://data.fotmob.com/stats/55/season/27044/goals.json",
+   "https://data.fotmob.com/stats/55/season/27044/goal_assist.json",
+   "https://data.fotmob.com/stats/55/season/27044/_goals_and_goal_assist.json",
+   "https://data.fotmob.com/stats/55/season/27044/rating.json"
+  ],
+  "details": "2025/2026",
+  "all": [
+   "2026/2027",
+   "2025/2026",
+   "2024/2025",
+   "2023/2024",
+   "2022/2023",
+   "2021/2022",
+   "2020/2021",
+   "2019/2020",
+   "2018/2019",
+   "2017/2018",
+   "2016/2017",
+   "2015/2016",
+   "2014/2015",
+   "2013/2014",
+   "2012/2013",
+   "2011/2012",
+   "2010/2011"
+  ],
+  "probe": {
+   "36072": [
+    [
+     "Antonio Raimondo",
+     7.0
+    ],
+    [
+     "Gustavo Varela",
+     7.0
+    ]
+   ],
+   "27044": [
+    [
+     "Lautaro Martínez",
+     17.0
+    ],
+    [
+     "Anastasios Douvikas",
+     14.0
+    ]
+   ],
+   "23819": [
+    [
+     "Mateo Retegui",
+     25.0
+    ],
+    [
+     "Moise Kean",
+     19.0
+    ]
+   ]
+  }
+ },
+ "2023/2024": {
+  "keys": [
+   "tabs",
+   "allAvailableSeasons",
+   "details",
+   "seostr",
+   "QAData",
+   "table",
+   "transfers",
+   "overview",
+   "stats",
+   "fixtures",
+   "playoff",
+   "seasons"
+  ],
+  "stats_keys": [
+   "players",
+   "teams",
+   "seasonStatLinks",
+   "seasonsWithLinks"
+  ],
+  "links": [
+   {
+    "Name": "2026/2027",
+    "CountryCode": "ITA",
+    "RelativePath": "stats/55/season/36072/topstats.json",
+    "League": "Serie A",
+    "StageId": 0,
+    "TemplateId": 55,
+    "TournamentId": 36072
+   },
+   {
+    "Name": "2025/2026",
+    "CountryCode": "ITA",
+    "RelativePath": "stats/55/season/27044/topstats.json",
+    "League": "Serie A",
+    "StageId": 0,
+    "TemplateId": 55,
+    "TournamentId": 27044
+   },
+   {
+    "Name": "2024/2025",
+    "CountryCode": "ITA",
+    "RelativePath": "stats/55/season/23819/topstats.json",
+    "League": "Serie A",
+    "StageId": 0,
+    "TemplateId": 55,
+    "TournamentId": 23819
+   },
+   {
+    "Name": "2023/2024",
+    "CountryCode": "ITA",
+    "RelativePath": "stats/55/season/20956/topstats.json",
+    "League": "Serie A",
+    "StageId": 0,
+    "TemplateId": 55,
+    "TournamentId": 20956
+   },
+   {
+    "Name": "2022/2023",
+    "CountryCode": "ITA",
+    "RelativePath": "stats/55/season/17866/topstats.json",
+    "League": "Serie A",
+    "StageId": 0,
+    "TemplateId": 55,
+    "TournamentId": 17866
+   },
+   {
+    "Name": "2021/2022",
+    "CountryCode": "ITA",
+    "RelativePath": "stats/55/season/16621/topstats.json",
+    "League": "Serie A",
+    "StageId": 0,
+    "TemplateId": 55,
+    "TournamentId": 16621
+   },
+   {
+    "Name": "2020/2021",
+    "CountryCode": "ITA",
+    "RelativePath": "stats/55/season/15604/topstats.json",
+    "League": "Serie A",
+    "StageId": 0,
+    "TemplateId": 55,
+    "TournamentId": 15604
+   },
+   {
+    "Name": "2019/2020",
+    "CountryCode": "ITA",
+    "RelativePath": "stats/55/season/14290/topstats.json",
+    "League": "Serie A",
+    "StageId": 0,
+    "TemplateId": 55,
+    "TournamentId": 14290
+   },
+   {
+    "Name": "2018/2019",
+    "CountryCode": "ITA",
+    "RelativePath": "stats/55/season/13037/topstats.json",
+    "League": "Serie A",
+    "StageId": 0,
+    "TemplateId": 55,
+    "TournamentId": 13037
+   },
+   {
+    "Name": "2017/2018",
+    "CountryCode": "ITA",
+    "RelativePath": "stats/55/season/11768/topstats.json",
+    "League": "Serie A",
+    "StageId": 0,
+    "TemplateId": 55,
+    "TournamentId": 11768
+   },
+   {
+    "Name": "2016/2017",
+    "CountryCode": "ITA",
+    "RelativePath": "stats/55/season/10692/topstats.json",
+    "League": "Serie A",
+    "StageId": 0,
+    "TemplateId": 55,
+    "TournamentId": 10692
+   }
+  ],
+  "players": [
+   "https://data.fotmob.com/stats/55/season/20956/goals.json",
+   "https://data.fotmob.com/stats/55/season/20956/goal_assist.json",
+   "https://data.fotmob.com/stats/55/season/20956/_goals_and_goal_assist.json",
+   "https://data.fotmob.com/stats/55/season/20956/rating.json"
+  ],
+  "details": "2023/2024",
+  "all": [
+   "2026/2027",
+   "2025/2026",
+   "2024/2025",
+   "2023/2024",
+   "2022/2023",
+   "2021/2022",
+   "2020/2021",
+   "2019/2020",
+   "2018/2019",
+   "2017/2018",
+   "2016/2017",
+   "2015/2016",
+   "2014/2015",
+   "2013/2014",
+   "2012/2013",
+   "2011/2012",
+   "2010/2011"
+  ],
+  "probe": {
+   "36072": [
+    [
+     "Antonio Raimondo",
+     7.0
+    ],
+    [
+     "Gustavo Varela",
+     7.0
+    ]
+   ],
+   "27044": [
+    [
+     "Lautaro Martínez",
+     17.0
+    ],
+    [
+     "Anastasios Douvikas",
+     14.0
+    ]
+   ],
+   "23819": [
+    [
+     "Mateo Retegui",
+     25.0
+    ],
+    [
+     "Moise Kean",
+     19.0
+    ]
+   ]
+  }
+ },
+ "2026/2027": {
+  "keys": [
+   "tabs",
+   "allAvailableSeasons",
+   "details",
+   "seostr",
+   "QAData",
+   "table",
+   "transfers",
+   "overview",
+   "stats",
+   "fixtures",
+   "playoff",
+   "seasons"
+  ],
+  "stats_keys": [
+   "players",
+   "teams",
+   "seasonStatLinks",
+   "seasonsWithLinks"
+  ],
+  "links": [
+   {
+    "Name": "2026/2027",
+    "CountryCode": "ITA",
+    "RelativePath": "stats/55/season/36072/topstats.json",
+    "League": "Serie A",
+    "StageId": 0,
+    "TemplateId": 55,
+    "TournamentId": 36072
+   },
+   {
+    "Name": "2025/2026",
+    "CountryCode": "ITA",
+    "RelativePath": "stats/55/season/27044/topstats.json",
+    "League": "Serie A",
+    "StageId": 0,
+    "TemplateId": 55,
+    "TournamentId": 27044
+   },
+   {
+    "Name": "2024/2025",
+    "CountryCode": "ITA",
+    "RelativePath": "stats/55/season/23819/topstats.json",
+    "League": "Serie A",
+    "StageId": 0,
+    "TemplateId": 55,
+    "TournamentId": 23819
+   },
+   {
+    "Name": "2023/2024",
+    "CountryCode": "ITA",
+    "RelativePath": "stats/55/season/20956/topstats.json",
+    "League": "Serie A",
+    "StageId": 0,
+    "TemplateId": 55,
+    "TournamentId": 20956
+   },
+   {
+    "Name": "2022/2023",
+    "CountryCode": "ITA",
+    "RelativePath": "stats/55/season/17866/topstats.json",
+    "League": "Serie A",
+    "StageId": 0,
+    "TemplateId": 55,
+    "TournamentId": 17866
+   },
+   {
+    "Name": "2021/2022",
+    "CountryCode": "ITA",
+    "RelativePath": "stats/55/season/16621/topstats.json",
+    "League": "Serie A",
+    "StageId": 0,
+    "TemplateId": 55,
+    "TournamentId": 16621
+   },
+   {
+    "Name": "2020/2021",
+    "CountryCode": "ITA",
+    "RelativePath": "stats/55/season/15604/topstats.json",
+    "League": "Serie A",
+    "StageId": 0,
+    "TemplateId": 55,
+    "TournamentId": 15604
+   },
+   {
+    "Name": "2019/2020",
+    "CountryCode": "ITA",
+    "RelativePath": "stats/55/season/14290/topstats.json",
+    "League": "Serie A",
+    "StageId": 0,
+    "TemplateId": 55,
+    "TournamentId": 14290
+   },
+   {
+    "Name": "2018/2019",
+    "CountryCode": "ITA",
+    "RelativePath": "stats/55/season/13037/topstats.json",
+    "League": "Serie A",
+    "StageId": 0,
+    "TemplateId": 55,
+    "TournamentId": 13037
+   },
+   {
+    "Name": "2017/2018",
+    "CountryCode": "ITA",
+    "RelativePath": "stats/55/season/11768/topstats.json",
+    "League": "Serie A",
+    "StageId": 0,
+    "TemplateId": 55,
+    "TournamentId": 11768
+   },
+   {
+    "Name": "2016/2017",
+    "CountryCode": "ITA",
+    "RelativePath": "stats/55/season/10692/topstats.json",
+    "League": "Serie A",
+    "StageId": 0,
+    "TemplateId": 55,
+    "TournamentId": 10692
+   }
+  ],
+  "players": [
+   "https://data.fotmob.com/stats/55/season/36072/goals.json",
+   "https://data.fotmob.com/stats/55/season/36072/goal_assist.json",
+   "https://data.fotmob.com/stats/55/season/36072/_goals_and_goal_assist.json",
+   "https://data.fotmob.com/stats/55/season/36072/rating.json"
+  ],
+  "details": "2026/2027",
+  "all": [
+   "2026/2027",
+   "2025/2026",
+   "2024/2025",
+   "2023/2024",
+   "2022/2023",
+   "2021/2022",
+   "2020/2021",
+   "2019/2020",
+   "2018/2019",
+   "2017/2018",
+   "2016/2017",
+   "2015/2016",
+   "2014/2015",
+   "2013/2014",
+   "2012/2013",
+   "2011/2012",
+   "2010/2011"
+  ],
+  "probe": {
+   "36072": [
+    [
+     "Antonio Raimondo",
+     7.0
+    ],
+    [
+     "Gustavo Varela",
+     7.0
+    ]
+   ],
+   "27044": [
+    [
+     "Lautaro Martínez",
+     17.0
+    ],
+    [
+     "Anastasios Douvikas",
+     14.0
+    ]
+   ],
+   "23819": [
+    [
+     "Mateo Retegui",
+     25.0
+    ],
+    [
+     "Moise Kean",
+     19.0
+    ]
+   ]
+  }
+ }
+}
