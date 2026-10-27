@@ -6,7 +6,7 @@ import { Image } from '@/components/ui/image';
 import { matchReliability } from '@/data/topPlayers';
 import { teamById } from '@/data/teams';
 import { comma } from '@/lib/format';
-import { scoreColor } from '@/lib/calc';
+import RollNumber from '@/components/RollNumber';
 
 
 
@@ -24,19 +24,27 @@ export default function MatchReliabilityList({ match, home, away }) {
       </div>
       {!list.length ? <p className="px-5 py-12 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Affidabilità non ancora calcolabile per questa partita</p> : null}
       {list.length ? (
-        <section className="glass mx-4 overflow-hidden rounded-[24px]">
-          {list.slice(0, 40).map((r, i) => (
-            <Link key={r.player.id} to={`/giocatore/${r.player.id}`} className="press flex items-center gap-3 px-4 py-2.5" style={{ borderTop: i ? '1px solid var(--hair-2)' : 'none' }}>
-              <span className="tnum w-[18px] text-[11px]" style={{ color: 'var(--ink-3)' }}>{i + 1}</span>
-              <span className="avatar h-[36px] w-[36px]">{r.player.photo ? <Image src={r.player.photo} alt={r.player.name} className="h-full w-full" fittingType="fill" /> : r.player.initials}</span>
-              <span className="min-w-0 flex-1">
-                <span className="block truncate text-[13.5px] font-bold">{r.player.name}</span>
-                <span className="flex items-center gap-1.5 text-[10.5px]" style={{ color: 'var(--ink-3)' }}><Crest team={teamById(r.player.teamId)} size={13} />tiri attesi {comma(r.lam, 2)}</span>
-              </span>
-              <span className="tnum rounded-full px-2.5 py-1 text-[13px] font-extrabold text-white" style={{ background: scoreColor(r.voto) }}>{comma(r.voto, 2)}</span>
-            </Link>
-          ))}
-        </section>
+        <div>
+          {list.slice(0, 40).map((r, i) => {
+            const t = teamById(r.player.teamId);
+            const c1 = t ? t.colors[0] : '#2C3E66';
+            return (
+              <Link
+                key={r.player.id}
+                to={`/giocatore/${r.player.id}`}
+                className="press mx-4 mb-2 flex items-center gap-2.5 rounded-[20px] px-2.5 py-2"
+                style={{ background: `linear-gradient(100deg, ${c1}66, rgba(255,255,255,.03) 70%)`, border: '1px solid var(--glass-border)' }}
+              >
+                <span className="avatar h-[38px] w-[38px]">{r.player.photo ? <Image src={r.player.photo} alt={r.player.name} className="h-full w-full" fittingType="fill" /> : r.player.initials}</span>
+                <span className="min-w-0 flex-1">
+                  <span className="block truncate text-[13px] font-extrabold">{r.player.name}</span>
+                  <span className="flex items-center gap-1.5 text-[10.5px]" style={{ color: 'var(--ink-3)' }}><Crest team={t} size={13} />tiri attesi {comma(r.lam, 2)}</span>
+                </span>
+                <RollNumber value={r.voto} delay={Math.min(i, 8) * 50} className="text-[20px] font-extrabold" />
+              </Link>
+            );
+          })}
+        </div>
       ) : null}
     </div>
   );

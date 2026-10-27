@@ -17,6 +17,19 @@ export const CALC_LEAGUES = [];
 
 export const TOP5 = ['serie-a', 'premier-league', 'la-liga', 'bundesliga', 'ligue-1'];
 
+// Colore del campionato: lo usano le schede neutre di una partita (che riguardano entrambe le squadre).
+export const LEAGUE_TINT = {
+  'serie-a': '#38A2FF',
+  'premier-league': '#9B6BFF',
+  'la-liga': '#F28B82',
+  bundesliga: '#E5484D',
+  'ligue-1': '#4FC3F7',
+  'champions-league': '#2F5BE0',
+  'europa-league': '#F5902B',
+  'conference-league': '#2FBF71',
+};
+export const leagueTint = (id) => LEAGUE_TINT[id] || '#38A2FF';
+
 export const leagueById = (id) => LEAGUES.find((l) => l.id === id) || null;
 
 // Iniziali di fallback quando manca il logo (stesse regole del tassello logo).
