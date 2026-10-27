@@ -1,0 +1,18 @@
+{
+  "tab0": ":400|:400|Panoramica:800|Statistiche:500|Formazioni:500|Affidabilità:500|Classifica:500",
+  "A": [
+    "target DIV.grid grid-cols-5 gap-1.5",
+    "ERR TypeError: Illegal constructor",
+    "ERR TypeError: Illegal constructor",
+    "ERR TypeError: Illegal constructor",
+    "ERR TypeError: Illegal constructor",
+    "ERR TypeError: Illegal constructor",
+    "ERR TypeError: Illegal constructor",
+    "ERR TypeError: Illegal constructor",
+    "ERR TypeError: Illegal constructor",
+    "ERR TypeError: Illegal constructor",
+    "ERR TypeError: Illegal constructor",
+    "ERR TypeError: Illegal constructor"
+  ],
+  "after": ":400|:400|Panoramica:800|Statistiche:500|Formazioni:500|Affidabilità:500|Classifica:500"
+}
