@@ -1,0 +1,2133 @@
+{
+ "teams_tot": 3017,
+ "teams_ok": 2584,
+ "players_tot": 4000,
+ "players_ok": 3056,
+ "teams_by_country": {
+  "INT": [
+   1489,
+   1387
+  ],
+  "AUT": [
+   205,
+   125
+  ],
+  "AUS": [
+   150,
+   91
+  ],
+  "BRA": [
+   326,
+   270
+  ],
+  "CHN": [
+   178,
+   125
+  ],
+  "BEL": [
+   110,
+   79
+  ],
+  "BUL": [
+   97,
+   72
+  ],
+  "CHI": [
+   47,
+   37
+  ],
+  "ARG": [
+   177,
+   170
+  ],
+  "CAN": [
+   32,
+   29
+  ],
+  "ARM": [
+   21,
+   18
+  ],
+  "AZE": [
+   20,
+   17
+  ],
+  "BIH": [
+   30,
+   29
+  ],
+  "ALB": [
+   24,
+   24
+  ],
+  "BLR": [
+   30,
+   30
+  ],
+  "ALG": [
+   40,
+   40
+  ],
+  "BOL": [
+   22,
+   22
+  ],
+  "COL": [
+   19,
+   19
+  ]
+ },
+ "players_by_country": {
+  "INT": [
+   1938,
+   1768
+  ],
+  "BRA": [
+   781,
+   342
+  ],
+  "ARG": [
+   480,
+   315
+  ],
+  "CHN": [
+   125,
+   86
+  ],
+  "CHI": [
+   118,
+   99
+  ],
+  "AUT": [
+   97,
+   88
+  ],
+  "BEL": [
+   94,
+   82
+  ],
+  "CAN": [
+   72,
+   44
+  ],
+  "AUS": [
+   69,
+   54
+  ],
+  "BUL": [
+   68,
+   62
+  ],
+  "BOL": [
+   65,
+   42
+  ],
+  "BLR": [
+   35,
+   29
+  ],
+  "ALG": [
+   16,
+   13
+  ],
+  "ARM": [
+   15,
+   10
+  ],
+  "AZE": [
+   11,
+   7
+  ],
+  "BIH": [
+   9,
+   8
+  ],
+  "ALB": [
+   7,
+   7
+  ]
+ },
+ "players_by_lastyear": {
+  "2023": [
+   9,
+   8
+  ],
+  "2024": [
+   74,
+   62
+  ],
+  "2025": [
+   274,
+   231
+  ],
+  "2026": [
+   3643,
+   2755
+  ]
+ },
+ "bad_team_sample": [
+  [
+   "1",
+   [
+    "INT",
+    "OFC Pro League",
+    2027,
+    "Winner Semi-final 1"
+   ]
+  ],
+  [
+   "100757",
+   [
+    "BEL",
+    "Belgian Cup",
+    2014,
+    "UR Namur"
+   ]
+  ],
+  [
+   "1008507",
+   [
+    "AUS",
+    "Australia Championship",
+    2025,
+    "St George City"
+   ]
+  ],
+  [
+   "10146",
+   [
+    "BUL",
+    "Bulgarian Cup",
+    2021,
+    "Rodopa Smolyan"
+   ]
+  ],
+  [
+   "101755",
+   [
+    "INT",
+    "AFC Champions League Two",
+    2021,
+    "Al-Nasr Salalah"
+   ]
+  ],
+  [
+   "101888",
+   [
+    "INT",
+    "AFC Challenge League",
+    2014,
+    "KRL"
+   ]
+  ],
+  [
+   "102143",
+   [
+    "INT",
+    "CAF Champions League",
+    2010,
+    "Dynamos"
+   ]
+  ],
+  [
+   "102205",
+   [
+    "INT",
+    "CAF Confed Cup",
+    2019,
+    "Al-Nasr"
+   ]
+  ],
+  [
+   "1029689",
+   [
+    "CHN",
+    "Chinese FA Cup",
+    2019,
+    "Nanning Binjiang"
+   ]
+  ],
+  [
+   "1029690",
+   [
+    "CHN",
+    "Chinese FA Cup",
+    2019,
+    "Taizhou Aizhilu"
+   ]
+  ],
+  [
+   "1029691",
+   [
+    "CHN",
+    "Chinese FA Cup",
+    2019,
+    "Liuzhou Yuandao"
+   ]
+  ],
+  [
+   "1029695",
+   [
+    "CHN",
+    "Chinese FA Cup",
+    2021,
+    "Kunming Zheng He Shipman FC"
+   ]
+  ],
+  [
+   "1029700",
+   [
+    "CHN",
+    "Chinese FA Cup",
+    2019,
+    "Lhasa Chengtou"
+   ]
+  ],
+  [
+   "1029704",
+   [
+    "CHN",
+    "China League One",
+    2020,
+    "Taizhou Yuanda"
+   ]
+  ],
+  [
+   "1029966",
+   [
+    "CHN",
+    "Chinese FA Cup",
+    2019,
+    "Hubei Athletics Zaiming"
+   ]
+  ],
+  [
+   "1033972",
+   [
+    "CHN",
+    "Chinese FA Cup",
+    2019,
+    "Jinan Dayou"
+   ]
+  ],
+  [
+   "107353",
+   [
+    "BUL",
+    "Bulgarian Cup",
+    2021,
+    "Bansko"
+   ]
+  ],
+  [
+   "1085154",
+   [
+    "BUL",
+    "Bulgarian Cup",
+    2020,
+    "Drenovets"
+   ]
+  ],
+  [
+   "1085163",
+   [
+    "BUL",
+    "Bulgarian Cup",
+    2023,
+    "Balkan Botevgrad"
+   ]
+  ],
+  [
+   "1117574",
+   [
+    "BRA",
+    "Copa do Brasil",
+    2023,
+    "Nova Mutum"
+   ]
+  ],
+  [
+   "1118807",
+   [
+    "BRA",
+    "Copa do Brasil",
+    2021,
+    "SE Juventude"
+   ]
+  ],
+  [
+   "1119188",
+   [
+    "BRA",
+    "Copa do Brasil",
+    2020,
+    "Vilhenense"
+   ]
+  ],
+  [
+   "1172847",
+   [
+    "AUT",
+    "Austrian Cup",
+    2021,
+    "SV St. Jakob im Rosental"
+   ]
+  ],
+  [
+   "1186076",
+   [
+    "BUL",
+    "Bulgarian Cup",
+    2020,
+    "Izvor"
+   ]
+  ],
+  [
+   "1189936",
+   [
+    "BEL",
+    "Belgian Cup",
+    2020,
+    "KSC Blankenberge"
+   ]
+  ],
+  [
+   "1189944",
+   [
+    "BEL",
+    "Belgian Cup",
+    2020,
+    "RSD Jette"
+   ]
+  ],
+  [
+   "1189951",
+   [
+    "BEL",
+    "Belgian Cup",
+    2023,
+    "URSL Visé"
+   ]
+  ],
+  [
+   "119162",
+   [
+    "CHN",
+    "China League One",
+    2014,
+    "Chengdu Tiancheng"
+   ]
+  ],
+  [
+   "1223148",
+   [
+    "BRA",
+    "Baiano",
+    2022,
+    "UNIRB FC"
+   ]
+  ],
+  [
+   "1233339",
+   [
+    "BRA",
+    "Copa do Brasil",
+    2025,
+    "Dourados AC"
+   ]
+  ],
+  [
+   "1236189",
+   [
+    "BRA",
+    "Copa do Brasil",
+    2025,
+    "Rio Branco VN"
+   ]
+  ],
+  [
+   "1241160",
+   [
+    "CHI",
+    "Copa Chile",
+    2021,
+    "Lautaro de Buin"
+   ]
+  ],
+  [
+   "1266309",
+   [
+    "BUL",
+    "Bulgarian Cup",
+    2021,
+    "Dunav Lom"
+   ]
+  ],
+  [
+   "1282925",
+   [
+    "CHN",
+    "Chinese FA Cup",
+    2021,
+    "Xian Wolves"
+   ]
+  ],
+  [
+   "1282926",
+   [
+    "CHN",
+    "Chinese FA Cup",
+    2021,
+    "Shaanxi Warriors"
+   ]
+  ],
+  [
+   "1282928",
+   [
+    "CHN",
+    "Chinese FA Cup",
+    2021,
+    "Sichuan Minzu"
+   ]
+  ],
+  [
+   "1283251",
+   [
+    "CHN",
+    "Chinese FA Cup",
+    2021,
+    "Xiamen Egret Island"
+   ]
+  ],
+  [
+   "1293664",
+   [
+    "BEL",
+    "Belgian Cup",
+    2021,
+    "Onhaye"
+   ]
+  ],
+  [
+   "131704",
+   [
+    "AUT",
+    "Austrian Cup",
+    2013,
+    "SV Stegersbach"
+   ]
+  ],
+  [
+   "1320862",
+   [
+    "BRA",
+    "Copa do Brasil",
+    2023,
+    "Falcon"
+   ]
+  ],
+  [
+   "1325807",
+   [
+    "AUS",
+    "Australia Championship",
+    2025,
+    "Cooks Hill United FC"
+   ]
+  ],
+  [
+   "1368193",
+   [
+    "BEL",
+    "Belgian Cup",
+    2024,
+    "K. Lyra-Lierse"
+   ]
+  ],
+  [
+   "1371459",
+   [
+    "CHI",
+    "Copa Chile",
+    2022,
+    "Provincial Ovalle"
+   ]
+  ],
+  [
+   "1403012",
+   [
+    "BUL",
+    "Bulgarian Cup",
+    2024,
+    "OFC Haskovo"
+   ]
+  ],
+  [
+   "1409553",
+   [
+    "BEL",
+    "Belgian Cup",
+    2023,
+    "RFC Meux"
+   ]
+  ],
+  [
+   "1425031",
+   [
+    "ARG",
+    "Copa Argentina",
+    2023,
+    "Yupanqui"
+   ]
+  ],
+  [
+   "1428093",
+   [
+    "AUS",
+    "Australia Championship",
+    2025,
+    "New Lambton FC"
+   ]
+  ],
+  [
+   "142963",
+   [
+    "AZE",
+    "Premier League",
+    2010,
+    "FK Mughan"
+   ]
+  ],
+  [
+   "1438606",
+   [
+    "BRA",
+    "Copa do Brasil",
+    2023,
+    "São Francisco AC"
+   ]
+  ],
+  [
+   "1440908",
+   [
+    "INT",
+    "EURO",
+    2028,
+    "Winner EF 1"
+   ]
+  ],
+  [
+   "1440909",
+   [
+    "INT",
+    "EURO",
+    2028,
+    "Winner EF 2"
+   ]
+  ],
+  [
+   "1440910",
+   [
+    "INT",
+    "EURO",
+    2028,
+    "Winner EF 3"
+   ]
+  ],
+  [
+   "1440911",
+   [
+    "INT",
+    "EURO",
+    2028,
+    "Winner EF 4"
+   ]
+  ],
+  [
+   "1440912",
+   [
+    "INT",
+    "EURO",
+    2028,
+    "Winner EF 5"
+   ]
+  ],
+  [
+   "1440913",
+   [
+    "INT",
+    "EURO",
+    2028,
+    "Winner EF 8"
+   ]
+  ],
+  [
+   "1440914",
+   [
+    "INT",
+    "EURO",
+    2028,
+    "Winner EF 7"
+   ]
+  ],
+  [
+   "1440915",
+   [
+    "INT",
+    "EURO",
+    2028,
+    "Winner EF 6"
+   ]
+  ],
+  [
+   "149512",
+   [
+    "AUT",
+    "Austrian Cup",
+    2010,
+    "Neuhofen Ried"
+   ]
+  ],
+  [
+   "1497759",
+   [
+    "INT",
+    "Maurice Revello Tournament ",
+    2023,
+    "Bolivia U23"
+   ]
+  ],
+  [
+   "1497760",
+   [
+    "INT",
+    "Maurice Revello Tournament ",
+    2023,
+    "Togo U23"
+   ]
+  ]
+ ],
+ "bad_player_sample": [
+  [
+   1797710,
+   [
+    "Thainler",
+    "BRA",
+    2026,
+    "Serie D"
+   ]
+  ],
+  [
+   1905655,
+   [
+    "Aloísio",
+    "BRA",
+    2026,
+    "Série B"
+   ]
+  ],
+  [
+   1790931,
+   [
+    "Danilo Guimarães",
+    "BRA",
+    2026,
+    "Serie D"
+   ]
+  ],
+  [
+   1828096,
+   [
+    "Dimong Sophal",
+    "INT",
+    2026,
+    "ASEAN Championship"
+   ]
+  ],
+  [
+   1541500,
+   [
+    "Affane Saïd Djambae",
+    "INT",
+    2025,
+    "COSAFA Cup"
+   ]
+  ],
+  [
+   1713370,
+   [
+    "Rodrigo Gaia",
+    "BRA",
+    2026,
+    "Paulista A2"
+   ]
+  ],
+  [
+   1928565,
+   [
+    "Jiancong Wang",
+    "CHN",
+    2026,
+    "China League One"
+   ]
+  ],
+  [
+   1925328,
+   [
+    "Guilherme Pinheiro",
+    "BRA",
+    2026,
+    "Serie D"
+   ]
+  ],
+  [
+   787349,
+   [
+    "Lucas Barboza",
+    "BRA",
+    2026,
+    "Serie D"
+   ]
+  ],
+  [
+   2001862,
+   [
+    "Valentin Rodriguez",
+    "ARG",
+    2026,
+    "Primera B Metropolitana & Torneo Federal A"
+   ]
+  ],
+  [
+   1796776,
+   [
+    "PH",
+    "BRA",
+    2026,
+    "Serie D"
+   ]
+  ],
+  [
+   1437529,
+   [
+    "Alberte",
+    "BRA",
+    2026,
+    "Gaúcho"
+   ]
+  ],
+  [
+   1789774,
+   [
+    "Iago",
+    "BRA",
+    2026,
+    "Serie D"
+   ]
+  ],
+  [
+   1625055,
+   [
+    "Shihao Su",
+    "CHN",
+    2026,
+    "Chinese FA Cup"
+   ]
+  ],
+  [
+   2013303,
+   [
+    "Gabriel Ramaciotti",
+    "BRA",
+    2026,
+    "Paulista A2"
+   ]
+  ],
+  [
+   1908779,
+   [
+    "Nelsinho",
+    "BRA",
+    2026,
+    "Série C"
+   ]
+  ],
+  [
+   1788095,
+   [
+    "Hiago Lucas",
+    "BRA",
+    2026,
+    "Serie D"
+   ]
+  ],
+  [
+   1792382,
+   [
+    "Luca Caio",
+    "BRA",
+    2026,
+    "Serie D"
+   ]
+  ],
+  [
+   1792274,
+   [
+    "Moussa Moise Camara",
+    "INT",
+    2024,
+    "African Nations Championship"
+   ]
+  ],
+  [
+   1127773,
+   [
+    "Emerson Carioca",
+    "BRA",
+    2026,
+    "Paulista A2"
+   ]
+  ],
+  [
+   1829265,
+   [
+    "Stephen Ende",
+    "INT",
+    2026,
+    "Conference League"
+   ]
+  ],
+  [
+   1787108,
+   [
+    "Kayo",
+    "BRA",
+    2026,
+    "Serie D"
+   ]
+  ],
+  [
+   1785185,
+   [
+    "Jean Carlos Silva",
+    "BRA",
+    2026,
+    "Serie D"
+   ]
+  ],
+  [
+   1945475,
+   [
+    "Wellington",
+    "BRA",
+    2026,
+    "Serie D"
+   ]
+  ],
+  [
+   1922400,
+   [
+    "Juan Dignani",
+    "ARG",
+    2026,
+    "Copa Argentina"
+   ]
+  ],
+  [
+   1787729,
+   [
+    "Ícaro Alves",
+    "BRA",
+    2026,
+    "Serie D"
+   ]
+  ],
+  [
+   1928475,
+   [
+    "Diogo Fogliato",
+    "BRA",
+    2026,
+    "Serie D"
+   ]
+  ],
+  [
+   1263368,
+   [
+    "Jean Silva",
+    "BRA",
+    2026,
+    "Serie D"
+   ]
+  ],
+  [
+   319928,
+   [
+    "Paulo Henrique",
+    "BRA",
+    2026,
+    "Mineiro"
+   ]
+  ],
+  [
+   1242107,
+   [
+    "Diego Guerra",
+    "BRA",
+    2026,
+    "Mineiro"
+   ]
+  ],
+  [
+   1736947,
+   [
+    "Júlio Henrique",
+    "BRA",
+    2026,
+    "Série C"
+   ]
+  ],
+  [
+   1809739,
+   [
+    "Lautaro Lucero",
+    "ARG",
+    2026,
+    "Primera B Metropolitana & Torneo Federal A"
+   ]
+  ],
+  [
+   1299055,
+   [
+    "Ezequiel Morales",
+    "ARG",
+    2026,
+    "Primera B Metropolitana & Torneo Federal A"
+   ]
+  ],
+  [
+   1357745,
+   [
+    "Luciano Villalva",
+    "ARG",
+    2026,
+    "Primera B Metropolitana & Torneo Federal A"
+   ]
+  ],
+  [
+   1933427,
+   [
+    "Lautaro Romero",
+    "ARG",
+    2026,
+    "Primera B Metropolitana & Torneo Federal A"
+   ]
+  ],
+  [
+   1798922,
+   [
+    "Nora Bilcape",
+    "INT",
+    2025,
+    "Copa America Femenina"
+   ]
+  ],
+  [
+   2137037,
+   [
+    "Javan Ngoyi",
+    "BEL",
+    2026,
+    "First Division B"
+   ]
+  ],
+  [
+   1898998,
+   [
+    "Paolo Giaccone",
+    "ARG",
+    2026,
+    "Copa Argentina"
+   ]
+  ],
+  [
+   1648346,
+   [
+    "Chris Erambo",
+    "INT",
+    2024,
+    "African Nations Championship"
+   ]
+  ],
+  [
+   1925137,
+   [
+    "Matheus Lima",
+    "BRA",
+    2026,
+    "Série C"
+   ]
+  ],
+  [
+   1670319,
+   [
+    "Samuel Mika",
+    "BRA",
+    2026,
+    "Paulista A2"
+   ]
+  ],
+  [
+   1254227,
+   [
+    "Emanuel Del Bianco",
+    "ARG",
+    2026,
+    "Primera B Metropolitana & Torneo Federal A"
+   ]
+  ],
+  [
+   1859972,
+   [
+    "Nasser Khader",
+    "INT",
+    2025,
+    "FIFA Arab Cup"
+   ]
+  ],
+  [
+   1796045,
+   [
+    "Gabriel Rossetto",
+    "BRA",
+    2026,
+    "Mineiro"
+   ]
+  ],
+  [
+   1919186,
+   [
+    "Ekber Osman",
+    "CHN",
+    2026,
+    "Super League"
+   ]
+  ],
+  [
+   1922805,
+   [
+    "Juan Villavicencio",
+    "INT",
+    2026,
+    "Copa Sudamericana"
+   ]
+  ],
+  [
+   1909022,
+   [
+    "Lee Yong-Jae",
+    "INT",
+    2026,
+    "AFC Champions League Two"
+   ]
+  ],
+  [
+   1244427,
+   [
+    "Luís Araújo",
+    "BRA",
+    2026,
+    "Mineiro"
+   ]
+  ],
+  [
+   2106234,
+   [
+    "Batuhan Karakas",
+    "AUT",
+    2026,
+    "Austrian Cup"
+   ]
+  ],
+  [
+   1836772,
+   [
+    "Wilma Espinoza",
+    "INT",
+    2026,
+    "Copa Libertadores Femenina"
+   ]
+  ],
+  [
+   1796134,
+   [
+    "Wesley Barbosa",
+    "BRA",
+    2026,
+    "Serie D"
+   ]
+  ],
+  [
+   2068625,
+   [
+    "Santino Fabi",
+    "ARG",
+    2026,
+    "Primera B Metropolitana & Torneo Federal A"
+   ]
+  ],
+  [
+   1797713,
+   [
+    "Bridget Mutipula",
+    "CAN",
+    2026,
+    "Northern Super League"
+   ]
+  ],
+  [
+   850331,
+   [
+    "Martín Peralta",
+    "ARG",
+    2026,
+    "Primera B Metropolitana & Torneo Federal A"
+   ]
+  ],
+  [
+   1798921,
+   [
+    "Birka Ruíz",
+    "INT",
+    2025,
+    "Copa America Femenina"
+   ]
+  ],
+  [
+   239225,
+   [
+    "Hector Gabriel Morales",
+    "ARG",
+    2026,
+    "Primera B Metropolitana & Torneo Federal A"
+   ]
+  ],
+  [
+   1785204,
+   [
+    "Antony",
+    "BRA",
+    2026,
+    "Serie D"
+   ]
+  ],
+  [
+   2216754,
+   [
+    "Michael Asiryan",
+    "ARM",
+    2026,
+    "Premier League"
+   ]
+  ],
+  [
+   1944623,
+   [
+    "Barra",
+    "BRA",
+    2026,
+    "Serie D"
+   ]
+  ],
+  [
+   2100454,
+   [
+    "Lucas Wildmann",
+    "AUT",
+    2026,
+    "Austrian Cup"
+   ]
+  ]
+ ],
+ "team_variants": {
+  "1": {
+   "_small": [
+    403,
+    0
+   ],
+   "_xsmall": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ]
+  },
+  "100757": {
+   "_small": [
+    403,
+    0
+   ],
+   "_xsmall": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ]
+  },
+  "1008507": {
+   "_small": [
+    403,
+    0
+   ],
+   "_xsmall": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ]
+  },
+  "10146": {
+   "_small": [
+    403,
+    0
+   ],
+   "_xsmall": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ]
+  },
+  "101755": {
+   "_small": [
+    403,
+    0
+   ],
+   "_xsmall": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ]
+  },
+  "101888": {
+   "_small": [
+    403,
+    0
+   ],
+   "_xsmall": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ]
+  },
+  "102143": {
+   "_small": [
+    403,
+    0
+   ],
+   "_xsmall": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ]
+  },
+  "102205": {
+   "_small": [
+    403,
+    0
+   ],
+   "_xsmall": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ]
+  },
+  "1029689": {
+   "_small": [
+    403,
+    0
+   ],
+   "_xsmall": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ]
+  },
+  "1029690": {
+   "_small": [
+    403,
+    0
+   ],
+   "_xsmall": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ]
+  },
+  "1029691": {
+   "_small": [
+    403,
+    0
+   ],
+   "_xsmall": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ]
+  },
+  "1029695": {
+   "_small": [
+    403,
+    0
+   ],
+   "_xsmall": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ]
+  },
+  "1029700": {
+   "_small": [
+    403,
+    0
+   ],
+   "_xsmall": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ]
+  },
+  "1029704": {
+   "_small": [
+    403,
+    0
+   ],
+   "_xsmall": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ]
+  },
+  "1029966": {
+   "_small": [
+    403,
+    0
+   ],
+   "_xsmall": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ]
+  },
+  "1033972": {
+   "_small": [
+    403,
+    0
+   ],
+   "_xsmall": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ]
+  },
+  "107353": {
+   "_small": [
+    403,
+    0
+   ],
+   "_xsmall": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ]
+  },
+  "1085154": {
+   "_small": [
+    403,
+    0
+   ],
+   "_xsmall": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ]
+  },
+  "1085163": {
+   "_small": [
+    403,
+    0
+   ],
+   "_xsmall": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ]
+  },
+  "1117574": {
+   "_small": [
+    403,
+    0
+   ],
+   "_xsmall": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ]
+  },
+  "1118807": {
+   "_small": [
+    403,
+    0
+   ],
+   "_xsmall": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ]
+  },
+  "1119188": {
+   "_small": [
+    403,
+    0
+   ],
+   "_xsmall": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ]
+  },
+  "1172847": {
+   "_small": [
+    403,
+    0
+   ],
+   "_xsmall": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ]
+  },
+  "1186076": {
+   "_small": [
+    403,
+    0
+   ],
+   "_xsmall": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ]
+  },
+  "1189936": {
+   "_small": [
+    403,
+    0
+   ],
+   "_xsmall": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ]
+  }
+ },
+ "player_variants": {
+  "1797710": {
+   "_small": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ],
+   "": [
+    403,
+    0
+   ]
+  },
+  "1905655": {
+   "_small": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ],
+   "": [
+    403,
+    0
+   ]
+  },
+  "1790931": {
+   "_small": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ],
+   "": [
+    403,
+    0
+   ]
+  },
+  "1828096": {
+   "_small": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ],
+   "": [
+    403,
+    0
+   ]
+  },
+  "1541500": {
+   "_small": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ],
+   "": [
+    403,
+    0
+   ]
+  },
+  "1713370": {
+   "_small": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ],
+   "": [
+    403,
+    0
+   ]
+  },
+  "1928565": {
+   "_small": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ],
+   "": [
+    403,
+    0
+   ]
+  },
+  "1925328": {
+   "_small": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ],
+   "": [
+    403,
+    0
+   ]
+  },
+  "787349": {
+   "_small": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ],
+   "": [
+    403,
+    0
+   ]
+  },
+  "2001862": {
+   "_small": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ],
+   "": [
+    403,
+    0
+   ]
+  },
+  "1796776": {
+   "_small": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ],
+   "": [
+    403,
+    0
+   ]
+  },
+  "1437529": {
+   "_small": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ],
+   "": [
+    403,
+    0
+   ]
+  },
+  "1789774": {
+   "_small": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ],
+   "": [
+    403,
+    0
+   ]
+  },
+  "1625055": {
+   "_small": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ],
+   "": [
+    403,
+    0
+   ]
+  },
+  "2013303": {
+   "_small": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ],
+   "": [
+    403,
+    0
+   ]
+  },
+  "1908779": {
+   "_small": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ],
+   "": [
+    403,
+    0
+   ]
+  },
+  "1788095": {
+   "_small": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ],
+   "": [
+    403,
+    0
+   ]
+  },
+  "1792382": {
+   "_small": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ],
+   "": [
+    403,
+    0
+   ]
+  },
+  "1792274": {
+   "_small": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ],
+   "": [
+    403,
+    0
+   ]
+  },
+  "1127773": {
+   "_small": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ],
+   "": [
+    403,
+    0
+   ]
+  },
+  "1829265": {
+   "_small": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ],
+   "": [
+    403,
+    0
+   ]
+  },
+  "1787108": {
+   "_small": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ],
+   "": [
+    403,
+    0
+   ]
+  },
+  "1785185": {
+   "_small": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ],
+   "": [
+    403,
+    0
+   ]
+  },
+  "1945475": {
+   "_small": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ],
+   "": [
+    403,
+    0
+   ]
+  },
+  "1922400": {
+   "_small": [
+    403,
+    0
+   ],
+   "_large": [
+    403,
+    0
+   ],
+   "": [
+    403,
+    0
+   ]
+  }
+ },
+ "alt_team": [
+  {
+   "id": "1",
+   "nome": "Winner Semi-final 1",
+   "lega": "OFC Pro League",
+   "tsdb": "HTTP Error 403: Forbidden",
+   "sofa": "HTTP Error 403: Forbidden"
+  },
+  {
+   "id": "100757",
+   "nome": "UR Namur",
+   "lega": "Belgian Cup",
+   "tsdb": "HTTP Error 403: Forbidden",
+   "sofa": "HTTP Error 403: Forbidden"
+  },
+  {
+   "id": "1008507",
+   "nome": "St George City",
+   "lega": "Australia Championship",
+   "tsdb": "HTTP Error 403: Forbidden",
+   "sofa": "HTTP Error 403: Forbidden"
+  },
+  {
+   "id": "10146",
+   "nome": "Rodopa Smolyan",
+   "lega": "Bulgarian Cup",
+   "tsdb": "HTTP Error 403: Forbidden",
+   "sofa": "HTTP Error 403: Forbidden"
+  },
+  {
+   "id": "101755",
+   "nome": "Al-Nasr Salalah",
+   "lega": "AFC Champions League Two",
+   "tsdb": "HTTP Error 403: Forbidden",
+   "sofa": "HTTP Error 403: Forbidden"
+  },
+  {
+   "id": "101888",
+   "nome": "KRL",
+   "lega": "AFC Challenge League",
+   "tsdb": "HTTP Error 403: Forbidden",
+   "sofa": "HTTP Error 403: Forbidden"
+  },
+  {
+   "id": "102143",
+   "nome": "Dynamos",
+   "lega": "CAF Champions League",
+   "tsdb": "HTTP Error 403: Forbidden",
+   "sofa": "HTTP Error 403: Forbidden"
+  },
+  {
+   "id": "102205",
+   "nome": "Al-Nasr",
+   "lega": "CAF Confed Cup",
+   "tsdb": "HTTP Error 403: Forbidden",
+   "sofa": "HTTP Error 403: Forbidden"
+  },
+  {
+   "id": "1029689",
+   "nome": "Nanning Binjiang",
+   "lega": "Chinese FA Cup",
+   "tsdb": "HTTP Error 403: Forbidden",
+   "sofa": "HTTP Error 403: Forbidden"
+  },
+  {
+   "id": "1029690",
+   "nome": "Taizhou Aizhilu",
+   "lega": "Chinese FA Cup",
+   "tsdb": "HTTP Error 403: Forbidden",
+   "sofa": "HTTP Error 403: Forbidden"
+  },
+  {
+   "id": "1029691",
+   "nome": "Liuzhou Yuandao",
+   "lega": "Chinese FA Cup",
+   "tsdb": "HTTP Error 403: Forbidden",
+   "sofa": "HTTP Error 403: Forbidden"
+  },
+  {
+   "id": "1029695",
+   "nome": "Kunming Zheng He Shipman FC",
+   "lega": "Chinese FA Cup",
+   "tsdb": "HTTP Error 403: Forbidden",
+   "sofa": "HTTP Error 403: Forbidden"
+  },
+  {
+   "id": "1029700",
+   "nome": "Lhasa Chengtou",
+   "lega": "Chinese FA Cup",
+   "tsdb": "HTTP Error 403: Forbidden",
+   "sofa": "HTTP Error 403: Forbidden"
+  },
+  {
+   "id": "1029704",
+   "nome": "Taizhou Yuanda",
+   "lega": "China League One",
+   "tsdb": "HTTP Error 403: Forbidden",
+   "sofa": "HTTP Error 403: Forbidden"
+  },
+  {
+   "id": "1029966",
+   "nome": "Hubei Athletics Zaiming",
+   "lega": "Chinese FA Cup",
+   "tsdb": "HTTP Error 403: Forbidden",
+   "sofa": "HTTP Error 403: Forbidden"
+  },
+  {
+   "id": "1033972",
+   "nome": "Jinan Dayou",
+   "lega": "Chinese FA Cup",
+   "tsdb": "HTTP Error 403: Forbidden",
+   "sofa": "HTTP Error 403: Forbidden"
+  },
+  {
+   "id": "107353",
+   "nome": "Bansko",
+   "lega": "Bulgarian Cup",
+   "tsdb": "HTTP Error 403: Forbidden",
+   "sofa": "HTTP Error 403: Forbidden"
+  },
+  {
+   "id": "1085154",
+   "nome": "Drenovets",
+   "lega": "Bulgarian Cup",
+   "tsdb": "HTTP Error 403: Forbidden",
+   "sofa": "HTTP Error 403: Forbidden"
+  },
+  {
+   "id": "1085163",
+   "nome": "Balkan Botevgrad",
+   "lega": "Bulgarian Cup",
+   "tsdb": "HTTP Error 403: Forbidden",
+   "sofa": "HTTP Error 403: Forbidden"
+  },
+  {
+   "id": "1117574",
+   "nome": "Nova Mutum",
+   "lega": "Copa do Brasil",
+   "tsdb": "HTTP Error 403: Forbidden",
+   "sofa": "HTTP Error 403: Forbidden"
+  },
+  {
+   "id": "1118807",
+   "nome": "SE Juventude",
+   "lega": "Copa do Brasil",
+   "tsdb": "HTTP Error 403: Forbidden",
+   "sofa": "HTTP Error 403: Forbidden"
+  },
+  {
+   "id": "1119188",
+   "nome": "Vilhenense",
+   "lega": "Copa do Brasil",
+   "tsdb": "HTTP Error 403: Forbidden",
+   "sofa": "HTTP Error 403: Forbidden"
+  },
+  {
+   "id": "1172847",
+   "nome": "SV St. Jakob im Rosental",
+   "lega": "Austrian Cup",
+   "tsdb": "HTTP Error 403: Forbidden",
+   "sofa": "HTTP Error 403: Forbidden"
+  },
+  {
+   "id": "1186076",
+   "nome": "Izvor",
+   "lega": "Bulgarian Cup",
+   "tsdb": "HTTP Error 403: Forbidden",
+   "sofa": "HTTP Error 403: Forbidden"
+  },
+  {
+   "id": "1189936",
+   "nome": "KSC Blankenberge",
+   "lega": "Belgian Cup",
+   "tsdb": "HTTP Error 403: Forbidden",
+   "sofa": "HTTP Error 403: Forbidden"
+  }
+ ]
+}
