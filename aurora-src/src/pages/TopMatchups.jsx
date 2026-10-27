@@ -1,7 +1,7 @@
 import { primeKeyboard } from '@/lib/keyboard';
 import { useState } from 'react';
 import PageShell from '@/components/PageShell';
-import ListHeader from '@/components/ListHeader';
+import FixedBar from '@/components/FixedBar';
 import DayStrip from '@/components/DayStrip';
 import TextFilter from '@/components/TextFilter';
 import SearchOverlay from '@/components/SearchOverlay';
@@ -21,16 +21,17 @@ export default function TopMatchups() {
 
   return (
     <PageShell>
-      <ListHeader title="Migliori Matchup" subtitle="Divario atteso tra le squadre" onSearch={() => { primeKeyboard(); setSearchOpen(true); }} />
-
-      <DayStrip dates={DATES} todayIndex={TODAY_INDEX} value={dayIdx} onChange={setDayIdx} />
-
-      <div className="flex items-center px-5 pb-1 pt-1">
-        <TextFilter options={MATCHUP_TYPES.map((t) => ({ value: t.key, label: t.label }))} value={typeKey} onChange={setTypeKey} />
-        <span className="tnum ml-auto pl-4 text-[11.5px]" style={{ color: 'var(--ink-3)' }}>
-          {rows.length}
-        </span>
-      </div>
+      <header className="sticky top-0 z-30 pb-1" style={{ background: 'var(--sky-2)' }}>
+        <FixedBar title="Migliori Matchup" onSearch={() => { primeKeyboard(); setSearchOpen(true); }} />
+        <DayStrip dates={DATES} todayIndex={TODAY_INDEX} value={dayIdx} onChange={setDayIdx} />
+        <div className="flex items-center px-5 pt-1">
+          <TextFilter options={MATCHUP_TYPES.map((t) => ({ value: t.key, label: t.label }))} value={typeKey} onChange={setTypeKey} />
+          <span className="tnum ml-auto pl-4 text-[11.5px]" style={{ color: 'var(--ink-3)' }}>
+            {rows.length}
+          </span>
+        </div>
+      </header>
+      <div className="h-2" />
 
       {loading ? (
         <div className="space-y-3 px-5 pt-4">

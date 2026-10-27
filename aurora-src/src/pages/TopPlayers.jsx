@@ -31,11 +31,7 @@ export default function TopPlayers() {
   return (
     <PageShell>
       <header className="sticky top-0 z-30 pb-1" style={{ background: 'var(--sky-2)' }}>
-        <FixedBar onSearch={() => { primeKeyboard(); setSearchOpen(true); }} />
-        <div className="px-5">
-          <h1 className="title-sora text-[26px]" style={{ color: 'var(--ink)' }}>Migliori Giocatori</h1>
-          <p className="text-[12px]" style={{ color: 'var(--ink-3)' }}>Voti attesi per data</p>
-        </div>
+        <FixedBar title="Migliori Giocatori" onSearch={() => { primeKeyboard(); setSearchOpen(true); }} />
         <DayStrip dates={DATES} todayIndex={TODAY_INDEX} value={dayIdx} onChange={setDayIdx} />
         <div className="flex items-center px-5 pt-1">
           <TextFilter options={THRESHOLDS.map((t) => ({ value: t.key, label: t.label }))} value={threshold} onChange={setThreshold} />
