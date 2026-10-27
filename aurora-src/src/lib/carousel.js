@@ -77,28 +77,44 @@ export function carousel(el, dx, dir, apply, done, ms = 240, host = null) {
   });
 }
 
-// Ritorno indietro: la pagina corrente (quella vera, senza copie) prosegue dal punto del dito fino a uscire a destra;
-// solo a fine corsa si cambia pagina, cosi' non c'e' mai una pagina doppia o un salto.
-export function pageBack(shell, dx, navigate) {
-  if (!shell) { navigate(-1); return; }
-  const w = Math.min(window.innerWidth, shell.offsetWidth || 430);
-  let done = false;
-  const go = () => {
-    if (done) return;
-    done = true;
-    shell.style.visibility = 'hidden';
-    navigate(-1);
-  };
-  shell.style.willChange = 'transform';
-  shell.style.boxShadow = '-18px 0 40px -18px rgba(0,0,0,.5)';
-  shell.style.transition = 'none';
-  shell.style.transform = `translate3d(${dx}px,0,0)`;
-  void shell.offsetWidth;
+// Pagina intera: il contenuto (#sl-shell) e le parti fisse (banner e barra schede, marcate data-pf) si muovono insieme.
+const pageEls = () => [document.getElementById('sl-shell'), ...document.querySelectorAll('[data-pf]')].filter(Boolean);
+export function pageDrag(dx) {
+  pageEls().forEach((el, i) => {
+    el.style.transition = 'none';
+    el.style.transform = `translate3d(${Math.max(0, dx)}px,0,0)`;
+    if (i === 0) el.style.opacity = String(Math.max(0.7, 1 - dx / 900));
+  });
+}
+export function pageReset(animated = true) {
+  const els = pageEls();
+  els.forEach((el, i) => {
+    el.style.transition = animated ? 'transform .28s cubic-bezier(.22,.8,.24,1), opacity .28s ease' : 'none';
+    el.style.transform = 'translate3d(0,0,0)';
+    if (i === 0) el.style.opacity = '1';
+  });
+  setTimeout(() => els.forEach((el) => { el.style.transition = ''; el.style.transform = ''; el.style.opacity = ''; el.style.willChange = ''; el.style.boxShadow = ''; el.style.visibility = ''; }), animated ? 320 : 0);
+}
+export const canGoBack = () => { const st = window.history.state; return !!(st && typeof st.idx === 'number' && st.idx > 0); };
+
+// Ritorno indietro: la pagina vera (con banner e schede) prosegue dal punto del dito fino a uscire a destra;
+// solo verso la fine si cambia pagina, cosi' non c'e' mai una pagina doppia o un salto. Se non c'e' dove tornare, rientra.
+export function pageBack(dx, navigate) {
+  const els = pageEls();
+  if (!els.length || !canGoBack()) { pageReset(true); return; }
+  const w = Math.min(window.innerWidth, els[0].offsetWidth || 430);
   const ms = Math.max(120, Math.round(230 * (1 - dx / (w + 24)) + 90));
+  els.forEach((el) => { el.style.willChange = 'transform'; el.style.transition = 'none'; el.style.transform = `translate3d(${dx}px,0,0)`; });
+  els[0].style.boxShadow = '-18px 0 40px -18px rgba(0,0,0,.5)';
+  void els[0].offsetWidth;
   requestAnimationFrame(() => {
-    shell.style.transition = `transform ${ms}ms ${EASE}, opacity ${ms}ms ease`;
-    shell.style.transform = `translate3d(${w + 24}px,0,0)`;
-    shell.style.opacity = '0.6';
-    setTimeout(go, Math.round(ms * 0.62));
+    els.forEach((el, i) => {
+      el.style.transition = `transform ${ms}ms ${EASE}, opacity ${ms}ms ease`;
+      el.style.transform = `translate3d(${w + 24}px,0,0)`;
+      if (i === 0) el.style.opacity = '0.6';
+    });
+    setTimeout(() => navigate(-1), Math.round(ms * 0.62));
+    // rete di sicurezza: se per qualunque motivo la pagina non cambia, si ripristina tutto (mai schermo nero)
+    setTimeout(() => { const sh = document.getElementById('sl-shell'); if (sh && sh === els[0] && sh.isConnected) pageReset(false); }, ms + 900);
   });
 }

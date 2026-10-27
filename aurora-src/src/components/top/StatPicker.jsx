@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import MenuBackdrop from '@/components/MenuBackdrop';
 import { Check, ChevronDown } from 'lucide-react';
 import StatIcon from '@/components/StatIcon';
 
@@ -18,12 +19,13 @@ export default function StatPicker({ options, value, onChange }) {
   }, [open]);
 
   return (
-    <div ref={ref} className="relative" data-no-swipe="true">
+    <div ref={ref} className="relative" data-no-swipe="true" style={open ? { zIndex: 96 } : undefined}>
       <button type="button" onClick={() => setOpen((o) => !o)} className="glass press flex h-10 items-center gap-2.5 rounded-full pl-3.5 pr-3 text-[14.5px] font-bold" style={{ color: 'var(--ink)' }}>
         <StatIcon k={cur.key} size={20} />
         <span>{cur.label}</span>
         <ChevronDown size={16} strokeWidth={2} style={{ color: 'var(--ink-3)', transform: open ? 'rotate(180deg)' : 'none', transition: 'transform .25s' }} />
       </button>
+      {open ? <MenuBackdrop onClose={() => setOpen(false)} /> : null}
       {open ? (
         <div
           className="absolute left-0 top-[calc(100%+8px)] z-50 min-w-[230px] overflow-hidden rounded-[22px] py-1.5"

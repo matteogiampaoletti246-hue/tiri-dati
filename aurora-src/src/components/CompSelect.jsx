@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import MenuBackdrop from '@/components/MenuBackdrop';
 import { Check, ChevronDown } from 'lucide-react';
 import LeagueBadge from '@/components/LeagueBadge';
 
@@ -20,7 +21,7 @@ export default function CompSelect({ options, value, onChange, allLabel = null }
   const items = allLabel ? [{ id: 'all', name: allLabel }, ...options] : options;
 
   return (
-    <div ref={ref} className="relative z-[25] px-4 pb-1 pt-3" data-no-swipe="true">
+    <div ref={ref} className="relative z-[25] px-4 pb-1 pt-3" data-no-swipe="true" style={open ? { zIndex: 96 } : undefined}>
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
@@ -30,6 +31,7 @@ export default function CompSelect({ options, value, onChange, allLabel = null }
         <b className="text-[14px]">{cur ? cur.name : allLabel}</b>
         <ChevronDown size={16} strokeWidth={2} style={{ color: 'var(--ink-3)', transform: open ? 'rotate(180deg)' : 'none', transition: 'transform .25s' }} />
       </button>
+      {open ? <MenuBackdrop onClose={() => setOpen(false)} /> : null}
       {open ? (
         <div
           className="absolute left-4 top-[calc(100%-2px)] min-w-[250px] rounded-[18px] p-1.5"

@@ -16,6 +16,8 @@ import CompSelect from '@/components/CompSelect';
 import { teamCompetitions } from '@/data/competitions';
 import { MATCHES } from '@/data/matches';
 import { useState } from 'react';
+import { teamGrad } from '@/lib/tint';
+import { fixedColors } from '@/data/teamColorFix';
 import { carriereOf, countryIt, flagOf, FOOT, dateLong, ageOf, money, monthIt } from '@/data/carriere';
 
 const L = { fontSize: 9.5, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--ink-3)' };
@@ -263,14 +265,14 @@ export function PartitePanel({ player, concept }) {
 
 /* ---------- STATISTICHE ---------- */
 const f1 = (v, d = 1) => (v === null || v === undefined || !Number.isFinite(v) ? '–' : comma(Math.round(v * 10 ** d) / 10 ** d, d));
-const CARD = { background: 'var(--panel-solid, rgba(255,255,255,.04))', border: '1px solid var(--hair-2)', borderRadius: 18 };
+const CARD = { backgroundColor: 'var(--panel-solid, rgba(255,255,255,.04))', border: '1px solid var(--hair-2)', borderRadius: 18 };
 
 function Affidabilita({ player, team, comp }) {
   const next = upcomingMatches(player.teamId, 40).find((m) => !comp || m.leagueId === comp);
   const opp = next ? teamById(next.homeId === player.teamId ? next.awayId : next.homeId) : null;
   return (
     <section className="px-0">
-      <div className="rounded-2xl px-4 py-3.5" style={CARD}>
+      <div className="club-card rounded-2xl px-4 py-3.5" style={CARD}>
         <div className="mb-3 flex items-center gap-2">
           <span className="text-[13.5px] font-semibold" style={{ color: 'var(--ink)' }}>Affidabilità prossima partita</span>
           {opp ? (
@@ -384,7 +386,7 @@ function StatRow({ player, row, i }) {
 function Group({ title, children }) {
   return (
     <section>
-      <div className="overflow-hidden rounded-2xl" style={CARD}>
+      <div className="club-card overflow-hidden rounded-2xl" style={CARD}>
         <div className="grid items-end gap-2 px-4 pb-1.5 pt-3.5" style={{ gridTemplateColumns: '1fr 56px 56px' }}>
           <span className="text-[14px] font-semibold" style={{ color: 'var(--ink)' }}>{title}</span>
           <span className="text-right text-[9.5px] uppercase tracking-[.08em]" style={{ color: 'var(--ink-3)' }}>Stagione</span>
@@ -405,7 +407,7 @@ function CupSummary({ p }) {
   const rows = [['Partite giocate', g], ['Minuti', Math.round(mn)], ['Tiri totali', Math.round(c[1] || 0)], ['Tiri in porta', Math.round(c[2] || 0)], ["Tiri ogni 90'", p90(c[1] || 0)], ["Tiri in porta ogni 90'", p90(c[2] || 0)]];
   return (
     <section>
-      <div className="overflow-hidden rounded-2xl" style={CARD}>
+      <div className="club-card overflow-hidden rounded-2xl" style={CARD}>
         <div className="px-4 pb-1 pt-3.5"><span className="text-[14px] font-semibold">Statistiche della competizione</span></div>
         {g ? rows.map(([k, v], i) => (
           <div key={k} className="flex items-baseline px-4 py-2.5" style={{ borderTop: '1px solid var(--hair-2)' }}>
@@ -461,7 +463,7 @@ export function StatistichePanel({ player, team }) {
       {comp !== dom ? <CupSummary p={p} /> : null}
       {comp === dom && rk.length ? (
         <section>
-          <div className="overflow-hidden rounded-2xl" style={CARD}>
+          <div className="club-card overflow-hidden rounded-2xl" style={CARD}>
             <div className="px-4 pb-1 pt-3.5">
               <span className="text-[14px] font-semibold" style={{ color: 'var(--ink)' }}>Classifica per ruolo</span>
               <p className="mt-0.5 text-[10.5px]" style={{ color: 'var(--ink-3)' }}>Posizione tra {{ GK: 'i portieri', DEF: 'i difensori', MID: 'i centrocampisti', WNG: 'le ali', ATT: 'gli attaccanti' }[p.position] || 'i giocatori'} del suo campionato (valori ogni 90&apos;)</p>
@@ -473,7 +475,7 @@ export function StatistichePanel({ player, team }) {
       {comp === dom ? <Group title="Generale">{simple(gen)}</Group> : null}
       {comp === dom ? <Group title="Tiri">{mk(gShots)}</Group> : null}
       {comp === dom ? <Group title="Disciplina">{simple(disc)}{mk(gDisc)}</Group> : null}
-      {comp === dom ? GROUPS.filter((g) => (g.gk ? isGk : g.title !== 'Fisico' || true)).map((g) => {
+      {comp === dom ? GROUPS.filter((g) => g.title !== 'Fisico' && (g.gk ? isGk : true)).map((g) => {
         const rows = mk(g.rows).filter(Boolean);
         return rows.length ? <Group key={g.title} title={g.title}>{rows}</Group> : null;
       }) : null}
@@ -486,21 +488,33 @@ export function StatistichePanel({ player, team }) {
 /* ---------- CARRIERA ---------- */
 export function CarrieraPanel({ player }) {
   const c = carriereOf(player.id);
-  const rows = (c && c.car) || [];
+  const raw = (c && c.car) || [];
+  const now = new Date().toISOString().slice(0, 7);
+  // FotMob registra anche i "rientri" dal prestito (stesso mese, zero presenze) e il futuro: non sono periodi giocati
+  const isStub = (r) => (r[3] === null || r[3] === undefined) && (r[1] === r[2] || String(r[1]) > now);
+  const rows = raw
+    .map((r, i) => {
+      const prev = raw[i + 1];
+      const next = raw[i - 1];
+      const loan = !isStub(r) && prev && next && isStub(prev) && isStub(next) && prev[0] === next[0];
+      return { r, loan: !!loan, from: loan ? prev[0] : null };
+    })
+    .filter((x) => !isStub(x.r));
   if (!rows.length) {
     return <p className="px-5 py-16 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Carriera non disponibile per questo giocatore</p>;
   }
   return (
     <div className="px-5 pb-8 pt-5">
       <div className="flex flex-col gap-2.5">
-        {rows.map((r, i) => {
+        {rows.map(({ r, loan, from }, i) => {
           const t = teamByName(r[0]);
+          const cols = fixedColors(r[0]) || (t && t.colors) || ['#37507a', '#5a7bb0'];
           return (
-            <div key={i} className="flex items-center gap-3 rounded-2xl px-3.5 py-3" style={{ background: 'rgba(127,160,200,.08)' }}>
+            <div key={i} className="flex items-center gap-3 rounded-2xl px-3.5 py-3" style={{ background: teamGrad({ colors: cols }, 0x55) }}>
               <Crest team={t || { name: r[0], initials: String(r[0] || '').slice(0, 2).toUpperCase(), colors: ['#37507a', '#5a7bb0'] }} size={30} />
               <div className="min-w-0 flex-1">
                 <p className="flex items-center gap-1.5 text-[14px]" style={{ color: 'var(--ink)' }}>
-                  <span className="truncate">{r[0]}</span>{r[6] ? <span className="shrink-0 rounded-full px-1.5 text-[9.5px]" style={{ color: 'var(--ink-3)', border: '1px solid var(--hair-2)' }}>PRESTITO</span> : null}
+                  <span className="truncate">{r[0]}</span>{loan ? <span className="shrink-0 rounded-full px-1.5 text-[9.5px]" style={{ color: 'var(--ink-3)', border: '1px solid var(--hair-2)' }}>PRESTITO{from ? ` · ${from}` : ''}</span> : null}
                 </p>
                 <p className="mt-0.5 text-[11px]" style={{ color: 'var(--ink-3)' }}>
                   {monthIt(r[1])} – {r[7] ? 'oggi' : monthIt(r[2]) || '—'}

@@ -63,10 +63,12 @@ export default function Player() {
   }
 
   const team = teamById(player.teamId);
+  const club = team && team.colors ? team.colors[0] : '#2C3E66';
+  const wrap = (a, n) => <div key={n.key} className="club-scope" style={{ '--club': club, '--club-a': a }}>{n}</div>;
   const panels = [
-    <ProfiloPanel key="p" player={player} team={team} concept="c" />,
-    <PartitePanel key="m" player={player} concept="b" />,
-    <StatistichePanel key="s" player={player} team={team} />,
+    wrap('28%', <ProfiloPanel key="p" player={player} team={team} concept="c" />),
+    wrap('20%', <PartitePanel key="m" player={player} concept="b" />),
+    wrap('16%', <StatistichePanel key="s" player={player} team={team} />),
     <CarrieraPanel key="c" player={player} team={team} concept="b" />,
   ];
 

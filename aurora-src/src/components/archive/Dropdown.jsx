@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import MenuBackdrop from '@/components/MenuBackdrop';
 import { Check, ChevronDown } from 'lucide-react';
 
 // Tasto in vetro che apre un elenco (stesso stile del menu statistiche del Matchup).
@@ -16,12 +17,13 @@ export default function Dropdown({ options, value, onChange, icon = null, width 
   }, [open]);
   if (!cur) return null;
   return (
-    <div ref={ref} className="relative" data-no-swipe="true">
+    <div ref={ref} className="relative" data-no-swipe="true" style={open ? { zIndex: 96 } : undefined}>
       <button type="button" onClick={() => setOpen((o) => !o)} className="glass press flex h-10 max-w-full items-center gap-2.5 rounded-full pl-4 pr-3 text-[14px] font-bold" style={{ color: 'var(--ink)' }}>
         {icon}
         <span className="truncate">{cur.label}</span>
         <ChevronDown size={16} strokeWidth={2} className="flex-none" style={{ color: 'var(--ink-3)', transform: open ? 'rotate(180deg)' : 'none', transition: 'transform .25s' }} />
       </button>
+      {open ? <MenuBackdrop onClose={() => setOpen(false)} /> : null}
       {open ? (
         <div className="hide-sb absolute left-0 top-[calc(100%+8px)] z-50 max-h-[56vh] overflow-y-auto rounded-[22px] py-1.5" style={{ width, opacity: shown ? 1 : 0, transform: shown ? 'translateY(0) scale(1)' : 'translateY(-6px) scale(.97)', transformOrigin: 'top left', transition: 'opacity .2s ease, transform .22s cubic-bezier(.22,.8,.24,1)', background: 'var(--sky-2)', border: '1px solid var(--hair)', boxShadow: '0 18px 40px rgba(0,0,0,.5)' }}>
           {options.map((o) => {

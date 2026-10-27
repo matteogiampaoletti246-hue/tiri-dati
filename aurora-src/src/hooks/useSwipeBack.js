@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { pageBack } from '@/lib/carousel';
+import { pageBack, pageDrag, pageReset, canGoBack } from '@/lib/carousel';
 
 // Swipe-back dal bordo sinistro con animazione di slittamento.
 export default function useSwipeBack(enabled = true) {
@@ -14,7 +14,7 @@ export default function useSwipeBack(enabled = true) {
     const shell = () => document.getElementById('sl-shell');
 
     const onDown = (e) => {
-      if (e.clientX > 32 || document.querySelector('[data-tabs-back]')) return;
+      if (e.clientX > 32 || document.querySelector('[data-tabs-back]') || !canGoBack()) return;
       start.current = { x: e.clientX, y: e.clientY };
     };
 
@@ -31,12 +31,7 @@ export default function useSwipeBack(enabled = true) {
         if (dx < 10) return;
         dragging.current = true;
       }
-      const el = shell();
-      if (el) {
-        el.style.transition = 'none';
-        el.style.transform = `translate3d(${Math.max(0, dx)}px,0,0)`;
-        el.style.opacity = String(Math.max(0.7, 1 - dx / 900));
-      }
+      pageDrag(dx);
     };
 
     const onUp = (e) => {
@@ -45,14 +40,8 @@ export default function useSwipeBack(enabled = true) {
       if (!s || !dragging.current) return;
       dragging.current = false;
       const dx = e.clientX - s.x;
-      const el = shell();
-      if (dx > 92) {
-        pageBack(el, dx, navigate);
-      } else if (el) {
-        el.style.transition = 'transform .3s cubic-bezier(.22,.8,.24,1), opacity .3s ease';
-        el.style.transform = 'translate3d(0,0,0)';
-        el.style.opacity = '1';
-      }
+      if (dx > 92) pageBack(dx, navigate);
+      else pageReset(true);
     };
 
     window.addEventListener('pointerdown', onDown, { passive: true });

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import MenuBackdrop from '@/components/MenuBackdrop';
 import { Check, ChevronDown } from 'lucide-react';
 
 // Tendina compatta: si apre sotto il campo senza cambiare pagina.
@@ -17,7 +18,7 @@ export default function MiniSelect({ value, options, onChange, placeholder = 'Se
   }, [open]);
 
   return (
-    <div ref={ref} className="relative" data-no-swipe="true" style={{ width }}>
+    <div ref={ref} className="relative" data-no-swipe="true" style={{ width, ...(open ? { zIndex: 96 } : null) }}>
       <button
         type="button"
         aria-label={ariaLabel}
@@ -28,6 +29,7 @@ export default function MiniSelect({ value, options, onChange, placeholder = 'Se
         <span className="truncate">{cur ? cur.label : placeholder}</span>
         <ChevronDown size={16} strokeWidth={1.5} style={{ color: 'var(--ink-3)', transform: open ? 'rotate(180deg)' : 'none', transition: 'transform .25s' }} />
       </button>
+      {open ? <MenuBackdrop onClose={() => setOpen(false)} /> : null}
       {open ? (
         <div
           className="absolute right-0 top-[calc(100%+6px)] z-40 overflow-hidden rounded-2xl py-1"

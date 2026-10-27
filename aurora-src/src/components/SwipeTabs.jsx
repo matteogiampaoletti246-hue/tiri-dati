@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal, flushSync } from 'react-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { pageBack, finishCarousel } from '@/lib/carousel';
+import { pageBack, pageDrag, pageReset, finishCarousel, canGoBack } from '@/lib/carousel';
 
 
 export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, className = '', stickyTop = 'var(--ent-h, 0px)', fixedBar = false, edgeBack = true, hideBar = false }) {
@@ -63,7 +63,7 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
   };
 
   const live = useRef({});
-  live.current = { index, onChange, n: tabs.length, back: edgeBack && loc.key !== 'default', navigate };
+  live.current = { index, onChange, n: tabs.length, back: edgeBack && canGoBack(), navigate };
   const prevIdx = useRef(index);
   const contentRef = useRef(null);
   const skipEntry = useRef(false);
@@ -133,12 +133,7 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
       const off = edgeL && back ? dx * 0.9 : edge ? 0 : dx;
       if (edgeL && back) {
         // torna indietro: si muove tutta la pagina, i riquadri restano fermi al loro posto
-        const sh = document.getElementById('sl-shell');
-        if (sh) {
-          sh.style.transition = 'none';
-          sh.style.transform = `translate3d(${Math.max(0, dx)}px,0,0)`;
-          sh.style.opacity = String(Math.max(0.7, 1 - dx / 900));
-        }
+        pageDrag(dx);
         return;
       }
       const want = off < 0 ? i + 1 : off > 0 ? i - 1 : null;
@@ -169,18 +164,12 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
       const el = contentRef.current;
       if (i === 0 && dx > 0 && live.current.back && (dx > d.w * 0.3 || v > 0.55)) {
         busy = true;
-        pageBack(document.getElementById('sl-shell'), Math.max(0, dx), live.current.navigate);
+        pageBack(Math.max(0, dx), live.current.navigate);
         setTimeout(() => { busy = false; }, 450);
         return;
       }
       if (i === 0 && dx > 0 && live.current.back) {
-        const sh = document.getElementById('sl-shell');
-        if (sh) {
-          sh.style.transition = 'transform .25s cubic-bezier(.22,.8,.24,1), opacity .25s ease';
-          sh.style.transform = 'translate3d(0,0,0)';
-          sh.style.opacity = '1';
-          setTimeout(() => { sh.style.transition = ''; sh.style.transform = ''; sh.style.opacity = ''; }, 280);
-        }
+        pageReset(true);
         return;
       }
       if ((Math.abs(dx) > d.w * 0.2 || v > 0.45) && next >= 0 && next < n) {
@@ -234,7 +223,7 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
   }, []);
 
   const HEAD = (
-<div ref={headRef} className={fixedBar ? 'hide-sb fixed inset-x-0 z-30 mx-auto w-full max-w-[var(--app-w)] overflow-x-auto px-5 pt-2.5' : 'hide-sb glass-head sticky z-20 overflow-x-auto px-5 pt-2.5'} style={{ top: stickyTop, background: fixedBar ? 'var(--sky-2)' : 'color-mix(in srgb, hsl(var(--background)) 94%, transparent)' }}>
+<div ref={headRef} data-pf={fixedBar ? '1' : undefined} className={fixedBar ? 'hide-sb fixed inset-x-0 z-30 mx-auto w-full max-w-[var(--app-w)] overflow-x-auto px-5 pt-2.5' : 'hide-sb glass-head sticky z-20 overflow-x-auto px-5 pt-2.5'} style={{ top: stickyTop, background: fixedBar ? 'var(--sky-2)' : 'color-mix(in srgb, hsl(var(--background)) 94%, transparent)' }}>
         <div className="relative flex items-center gap-6" style={{ width: 'max-content' }}>
           {tabs.map((tab, i) => (
             <button
@@ -264,7 +253,7 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
     <div className={className}>
       {fixedBar ? <div aria-hidden="true" style={{ height: headH }} /> : null}
       {hideBar ? null : fixedBar ? createPortal(HEAD, document.body) : HEAD}
-      <div ref={wrapRef} data-tabs-back={edgeBack && loc.key !== 'default' ? '1' : undefined} className="relative" style={{ touchAction: 'pan-y', minHeight: '60vh', overflowX: 'clip' }}>
+      <div ref={wrapRef} data-tabs-back={edgeBack && canGoBack() ? '1' : undefined} className="relative" style={{ touchAction: 'pan-y', minHeight: '60vh', overflowX: 'clip' }}>
         <div ref={contentRef} style={{ position: 'relative' }}>
           {[index, peek !== null && peek !== index && panels[peek] ? peek : null].filter((k) => k !== null).map((k) => (
             <div key={k} style={k === index ? { display: 'flow-root' } : { position: 'absolute', top: 0, width: '100%', left: k > index ? '100%' : '-100%', display: 'flow-root' }}>

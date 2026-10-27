@@ -43,6 +43,7 @@ export default function EntityBanner({ name, subtitle, meta, colors = ['#1E4BD8'
   const bar = (
     <header
       ref={ref}
+      data-pf="1"
       className="fixed inset-x-0 top-0 z-40 mx-auto w-full max-w-[var(--app-w)] overflow-hidden"
       style={{ backgroundColor: 'var(--sky-2)', backgroundImage: bg, borderBottom: concept === 'b' ? `2px solid ${c0}` : '1px solid rgba(255,255,255,.12)' }}
     >

@@ -649,3 +649,9 @@
     opacity: 0;
   }
 }
+
+/* Scheda giocatore: i riquadri prendono la sfumatura del colore del club (intensita' regolabile con --club-a) */
+.club-scope .panel-solid,
+.club-scope .club-card {
+  background-image: linear-gradient(100deg, color-mix(in srgb, var(--club) var(--club-a, 26%), transparent), transparent 78%);
+}
