@@ -24,9 +24,11 @@ export default function TopMatchups() {
       <header className="sticky top-0 z-30 pb-1" style={{ background: 'var(--sky-2)' }}>
         <FixedBar title="Migliori Matchup" onSearch={() => { primeKeyboard(); setSearchOpen(true); }} />
         <DayStrip dates={DATES} todayIndex={TODAY_INDEX} value={dayIdx} onChange={setDayIdx} />
-        <div className="flex items-center px-5 pt-1">
-          <TextFilter options={MATCHUP_TYPES.map((t) => ({ value: t.key, label: t.label }))} value={typeKey} onChange={setTypeKey} />
-          <span className="tnum ml-auto pl-4 text-[11.5px]" style={{ color: 'var(--ink-3)' }}>
+        <div className="flex items-center pl-5 pr-5 pt-1">
+          <div data-no-swipe className="hide-sb min-w-0 flex-1 overflow-x-auto">
+            <TextFilter options={MATCHUP_TYPES.map((t) => ({ value: t.key, label: t.label }))} value={typeKey} onChange={setTypeKey} />
+          </div>
+          <span className="tnum flex-none pl-4 text-[11.5px]" style={{ color: 'var(--ink-3)' }}>
             {rows.length}
           </span>
         </div>
@@ -36,13 +38,13 @@ export default function TopMatchups() {
       {loading ? (
         <div className="space-y-3 px-5 pt-4">
           {[0, 1, 2, 3, 4, 5].map((i) => (
-            <Skeleton key={i} className="h-[78px] w-full" />
+            <Skeleton key={i} className="h-[150px] w-full rounded-[24px]" />
           ))}
         </div>
       ) : rows.length ? (
         <div>
           {rows.map((row, i) => (
-            <MatchupRow key={row.id} row={row} divider={i > 0} />
+            <MatchupRow key={row.id} row={row} />
           ))}
         </div>
       ) : (
