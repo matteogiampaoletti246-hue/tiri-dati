@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { teamGrad } from '@/lib/tint';
 import Crest from './Crest';
 import FormDots from './FormDots';
 
@@ -7,8 +8,8 @@ export default function TeamRow({ team, rank, form, note }) {
   return (
     <Link
       to={`/squadra/${team.id}`}
-      className="flex items-center gap-3 px-5 py-3 transition-opacity active:opacity-60"
-      style={{ borderTop: '1px solid var(--hair-2)' }}
+      className="mx-2 mb-1.5 flex items-center gap-3 rounded-[18px] px-3 py-2.5 transition-opacity active:opacity-60"
+      style={{ background: teamGrad(team, 0x55) }}
     >
       {rank ? (
         <span className="tnum w-[22px] text-[11.5px]" style={{ color: 'var(--ink-3)' }}>

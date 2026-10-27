@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import TextFilter from '@/components/TextFilter';
 import StatLists from '@/components/stats/StatLists';
+import { teamGrad } from '@/lib/tint';
 import Crest from '@/components/Crest';
 import { teamsOf } from '@/data/teams';
 import { CATEGORY_DEFS, hasMetrics, metricOf } from '@/data/standings';
@@ -16,7 +17,7 @@ export default function LeagueTeamsPanel({ leagueId }) {
       const rows = teams
         .map((t) => ({ t, v: metricOf(t.id, mt.key, part) }))
         .sort((a, b) => b.v - a.v)
-        .map(({ t, v }) => ({ id: t.id, to: `/squadra/${t.id}`, left: <Crest team={t} size={24} />, name: t.name, value: comma(v, 2) }));
+        .map(({ t, v }) => ({ id: t.id, to: `/squadra/${t.id}`, left: <Crest team={t} size={24} />, name: t.name, bg: teamGrad(t, 0x55), value: comma(v, 2) }));
       sections.push({ id: mt.key, group: cat.title, title: mt.label, rows });
     }),
   );

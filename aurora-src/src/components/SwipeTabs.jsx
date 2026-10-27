@@ -46,8 +46,9 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
     const max = Math.max(0, box.scrollWidth - box.clientWidth);
     // la scheda k e la successiva devono stare per intero nello schermo
     const nx = tabRefs.current[Math.min(tabRefs.current.length - 1, k + 1)] || el;
-    const want = nx.offsetLeft + nx.offsetWidth + 20 - box.clientWidth;
+    const want = nx.offsetLeft + nx.offsetWidth + 44 - box.clientWidth;
     const lim = el.offsetLeft - 20;
+    if (k >= tabRefs.current.length - 1) return Math.max(0, Math.min(max, want));
     return Math.max(0, Math.min(max, Math.min(want, lim)));
   };
   // durante lo swipe la riga scorre seguendo il dito, cosi' si vede la scheda che sta arrivando
@@ -128,7 +129,7 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
       const { index: i, n, back } = live.current;
       const edgeL = i === 0 && dx > 0;
       const edge = edgeL || (i === n - 1 && dx < 0);
-      const off = edgeL && back ? dx * 0.9 : edge ? dx * 0.25 : dx;
+      const off = edgeL && back ? dx * 0.9 : edge ? 0 : dx;
       if (edgeL && back) {
         // torna indietro: si muove tutta la pagina, i riquadri restano fermi al loro posto
         const sh = document.getElementById('sl-shell');
@@ -246,7 +247,7 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
               {tab.label}
             </button>
           ))}
-          <span aria-hidden="true" style={{ width: 24, height: 1, flex: '0 0 24px', marginLeft: -12 }} />
+          <span aria-hidden="true" style={{ width: 28, height: 1, flex: '0 0 28px' }} />
           <span
             ref={barRef}
             className="absolute bottom-0 left-0 h-[2.5px] rounded-full"

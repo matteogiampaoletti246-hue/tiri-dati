@@ -2,6 +2,7 @@ import { useState } from 'react';
 import TextFilter from '@/components/TextFilter';
 import { MatchdayList } from '@/components/MatchDayList';
 import { matchesForLeague } from '@/data/matches';
+import { leagueTint } from '@/data/leagues';
 
 const MATCH = {
   all: () => true,
@@ -30,7 +31,7 @@ export default function LeagueMatchesPanel({ leagueId }) {
         />
       </div>
       {shown.length ? (
-        <MatchdayList matches={shown} all={all} />
+        <MatchdayList matches={shown} all={all} tint={leagueTint(leagueId)} />
       ) : (
         <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>
           Nessuna partita

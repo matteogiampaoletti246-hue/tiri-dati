@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { ChevronUp } from 'lucide-react';
 import MatchRow from './MatchRow';
+import { tintGrad } from '@/lib/tint';
 import { DATES, TODAY_INDEX, isoDate } from '@/data/matches';
 import { dayLabel, longDate } from '@/lib/format';
 
@@ -23,7 +24,7 @@ const giornateOf = (all) => {
 };
 
 // Elenco per giornate di campionato: parte dalla giornata in corso, con il tasto per vedere le precedenti.
-export function MatchdayList({ matches, all, concept = cptOf() }) {
+export function MatchdayList({ matches, all, tint = null, concept = cptOf() }) {
   const [extra, setExtra] = useState(0);
   const gmap = giornateOf(all);
   const first = [...all].sort((a, b) => a.ts - b.ts).find((m) => m.status !== 'finished');
@@ -92,7 +93,7 @@ export function MatchdayList({ matches, all, concept = cptOf() }) {
         }
         if (concept === 'c') {
           return (
-            <section key={g} className="glass mx-4 mt-5 overflow-hidden rounded-[24px] pb-1">
+            <section key={g} className="glass mx-4 mt-5 overflow-hidden rounded-[24px] pb-1" style={tint ? { background: tintGrad(tint, 0x45) } : undefined}>
               <div className="flex items-center gap-2 px-4 pb-1 pt-3.5">
                 <h3 className="text-[15px] font-extrabold">Giornata {g}</h3>
                 <span className="rounded-full px-2 py-[2px] text-[9.5px] font-extrabold uppercase tracking-wider" style={{ background: tag === 'Conclusa' ? 'var(--hair-2)' : 'var(--accent-soft)', color: tag === 'Conclusa' ? 'var(--ink-3)' : 'var(--accent)' }}>{tag}</span>
