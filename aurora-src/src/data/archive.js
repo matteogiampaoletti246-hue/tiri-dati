@@ -25,7 +25,8 @@ export const archIndex = () => once('index', async () => {
 });
 export const loadColors = () => json('arch/colors.json');
 export const loadSeason = (lid, sk) => json(`arch/${lid}/${sk}.json`);
-export const loadSeasonStats = (lid, sk) => json(`arch/${lid}/${sk}_s.json`);
+// le statistiche vecchie (v1) erano della stagione sbagliata: si usano solo quelle riscaricate (v2)
+export const loadSeasonStats = (lid, sk) => json(`arch/${lid}/${sk}_s.json`).then((d) => (d && d.v === 2 ? d : null));
 export const loadSeasonMatches = (lid, sk) => gz(`partite/${lid}/${sk}.json.gz`);
 
 export const teamLogo = (id) => `https://images.fotmob.com/image_resources/logo/teamlogo/${id}.png`;
