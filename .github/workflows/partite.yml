@@ -1,32 +1,51 @@
-name: Aggiorna partite
+name: Partite storiche
 on:
-  schedule:
-    - cron: "10 7-23 * * *"
   workflow_dispatch:
+  schedule:
+    - cron: "41 */6 * * *"
+  push:
+    paths:
+      - partite.py
+concurrency:
+  group: partite-main
+  cancel-in-progress: false
 permissions:
   contents: write
-concurrency:
-  group: partite-json
-  cancel-in-progress: false
+  actions: write
 jobs:
-  partite:
+  turno:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 350
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2]
+    concurrency:
+      group: partite-turno-${{ matrix.shard }}
+      cancel-in-progress: false
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Libreria immagini
-        run: pip install pillow
-      - name: Partite, classifiche e formazioni
-        run: python update_partite.py
-        env:
-          PITCHAPI_KEY: ${{ secrets.PITCHAPI_KEY }}
+      - run: SHARD=${{ matrix.shard }} NSHARD=3 BUDGET_MIN=320 python partite.py
       - name: Salva
+        if: always()
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
-          git add partite.json foto.json teams.json 2>/dev/null || true
-          git diff --staged --quiet || git commit -m "Aggiorna partite"
-          for i in 1 2 3 4 5; do git pull --rebase && git push && break; sleep $((i*4)); done
+          git add partite 2>/dev/null || true
+          git diff --staged --quiet || git commit -m "Partite storiche turno ${{ matrix.shard }}"
+          for i in 1 2 3 4 5 6; do git pull --rebase && git push && break; sleep $((i*5)); done
+  riparti:
+    needs: turno
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ ! -f partite/.done0 ] || [ ! -f partite/.done1 ] || [ ! -f partite/.done2 ]; then
+            if [ ! -f partite/.cap0 ] && [ ! -f partite/.cap1 ] && [ ! -f partite/.cap2 ]; then gh workflow run partite.yml --ref ${{ github.ref_name }}; fi
+          fi
