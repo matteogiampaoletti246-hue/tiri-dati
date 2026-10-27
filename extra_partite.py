@@ -16,13 +16,14 @@ def get(url):
     return None
 now = datetime.datetime.now(datetime.timezone.utc)
 lo, hi = now - datetime.timedelta(days=9), now + datetime.timedelta(days=9)
-out, ok = [], 0
+out, ok, sk = [], 0, {}
 for lid in LEGHE:
     d = get("https://www.fotmob.com/api/data/leagues?id=%s&tab=fixtures" % lid)
     if not d: continue
     allm = ((d.get("fixtures") or {}).get("allMatches")) or []
     if not allm: continue
     ok += 1
+    sk[str(lid)] = str((d.get("details") or {}).get("selectedSeason") or "").replace("/", "-")
     for x in allm:
         s = x.get("status") or {}
         t = s.get("utcTime")
@@ -38,4 +39,4 @@ for lid in LEGHE:
         out.append([str(x.get("id")), lid, t, h.get("name"), a.get("name"), h.get("id"), a.get("id"), gh, ga, st])
 print("leghe ok", ok, "partite", len(out))
 if ok:
-    json.dump({"updated_at": now.isoformat(), "m": out}, open("partite_extra.json", "w"), ensure_ascii=False, separators=(",", ":"))
+    json.dump({"updated_at": now.isoformat(), "sk": sk, "m": out}, open("partite_extra.json", "w"), ensure_ascii=False, separators=(",", ":"))
