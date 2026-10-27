@@ -1,3 +1,5 @@
+import { runThemeFx, FX } from './themeFx';
+
 const KEY = 'scalperlab-theme';
 
 export function getTheme() {
@@ -26,8 +28,12 @@ export function setTheme(theme) {
   } catch (e) {
     /* ignora */
   }
-  applyTheme(theme);
+  const now = document.documentElement.classList.contains('dark');
+  const to = isDark(theme);
+  if (now === to || window.matchMedia('(prefers-reduced-motion: reduce)').matches) { applyTheme(theme); return; }
+  runThemeFx(to, () => applyTheme(theme), window.__fxOrigin);
 }
+if (typeof window !== 'undefined') window.__themeFx = FX;
 
 export function initTheme() {
   applyTheme(getTheme());
