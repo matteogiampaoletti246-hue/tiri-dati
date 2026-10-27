@@ -157,7 +157,7 @@ export default function TeamStatsPanel({ team }) {
   const [season, setSeason] = useState(() => initSeason(FM_ID[comp]));
   const comps = teamCompetitions(team.id);
   const fm = FM_ID[comp];
-  const seasons = useSeasonList(fm);
+  const seasons = useSeasonList(fm, team && team.name);
   return (
     <div>
       <CompSeasonBar comps={comps} comp={comp} onComp={(c) => { setComp(c); setSeason('cur'); announceComp(team.id, c); }} seasons={seasons} season={season} onSeason={setSeason} />

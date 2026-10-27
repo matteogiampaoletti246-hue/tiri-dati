@@ -241,7 +241,7 @@ export default function Home() {
   if (nextIso) panes.push({ k: nextIso, role: 1 });
 
   return (
-    <PageShell>
+    <PageShell swipeBack={false}>
       <div className="glass-head sticky top-0 z-30">
         <HomeHeader onSearch={() => { primeKeyboard(); setSearchOpen(true); }} />
         <DayStrip dates={DATES} todayIndex={TODAY_INDEX} value={custom ? -1 : dayIdx}

@@ -12,14 +12,22 @@ import useInitialLoad from '@/hooks/useInitialLoad';
 import { matchupRows, MATCHUP_TYPES } from '@/data/matchups';
 import { DATES, TODAY_INDEX, isoDate } from '@/data/matches';
 
+// Giorno e statistica restano quando si apre una partita e si torna indietro.
+const KEEP = { day: null, type: 'corner', stamp: '' };
+
 export default function TopMatchups() {
-  const [dayIdx, setDayIdx] = useState(TODAY_INDEX);
-  const [typeKey, setTypeKey] = useState('corner');
+  const today = isoDate(new Date());
+  const fresh = KEEP.day === null || KEEP.stamp !== today;
+  const [dayIdx, setDayIdx] = useState(fresh ? TODAY_INDEX : KEEP.day);
+  const [typeKey, setTypeKey] = useState(fresh ? 'corner' : KEEP.type);
+  KEEP.stamp = today;
+  KEEP.day = dayIdx;
+  KEEP.type = typeKey;
   const [searchOpen, setSearchOpen] = useState(false);
   const loading = useInitialLoad();
 
   return (
-    <PageShell>
+    <PageShell swipeBack={false}>
       <header className="sticky top-0 z-30 pb-1" style={{ background: 'var(--sky-2)' }}>
         <FixedBar title="Migliori Matchup" onSearch={() => { primeKeyboard(); setSearchOpen(true); }} />
         <DayStrip dates={DATES} todayIndex={TODAY_INDEX} value={dayIdx} onChange={setDayIdx} />

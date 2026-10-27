@@ -9,7 +9,7 @@ const Msg = ({ children }) => <p className="px-5 py-14 text-center text-[13px]" 
 
 // Statistiche di una stagione passata, con lo stesso aspetto della stagione attuale:
 // riquadri a pillola col colore della squadra, valori colorati per posizione, barre con la media del campionato.
-export default function PastStats({ kind, id, fm, sk }) {
+export default function PastStats({ kind, id, fm, sk, current = false }) {
   const col = useTeamColors();
   const { data: stats, loading } = useAsync(() => loadSeasonStats(fm, sk), [fm, sk]);
   const { data: season } = useAsync(() => loadSeason(fm, sk), [fm, sk]);
@@ -41,7 +41,7 @@ export default function PastStats({ kind, id, fm, sk }) {
           <TeamLogo id={tid} name={tname} size={30} />
           <div className="min-w-0 flex-1">
             <p className="truncate text-[14px] font-semibold">{tname}</p>
-            <p className="text-[11px]" style={{ color: 'var(--ink-3)' }}>Stagione {seasonLabel(sk)}</p>
+            <p className="text-[11px]" style={{ color: 'var(--ink-3)' }}>{current ? 'Stagione attuale' : `Stagione ${seasonLabel(sk)}`}</p>
           </div>
           <div className="text-right">
             <p className="tnum text-[17px] font-semibold">{me[5] || 0}</p>

@@ -1,4 +1,5 @@
 import { teamColor } from '@/lib/tint';
+import { goBack } from '@/lib/carousel';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, Share2 } from 'lucide-react';
 import Crest from './Crest';
@@ -53,7 +54,7 @@ export default function MatchHero({ match, view, league, home, away }) {
   return (
     <section className="safe-top px-4 pb-3">
       <div className="flex items-center gap-2">
-        <button type="button" className="glass press flex h-9 w-9 items-center justify-center rounded-full" aria-label="Indietro" onClick={() => navigate(-1)}>
+        <button type="button" className="glass press flex h-9 w-9 items-center justify-center rounded-full" aria-label="Indietro" onClick={() => goBack(navigate)}>
           <ChevronLeft size={19} />
         </button>
         <LeagueLink league={league} className="mx-auto flex items-center gap-2 transition-opacity active:opacity-60">

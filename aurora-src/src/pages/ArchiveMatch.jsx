@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { goBack } from '@/lib/carousel';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ArrowLeftRight, ChevronLeft } from 'lucide-react';
 import LeagueBadge from '@/components/LeagueBadge';
@@ -157,7 +158,7 @@ function Players({ d }) {
     <section className="glass mx-4 mt-4 overflow-hidden rounded-[26px]">
       {rows.map((r, i) => {
         const on = open === r.id;
-        const ks = Object.keys(r.v).filter((k) => !k.endsWith('_t') && k !== 'rating_title' && r.v[k]);
+        const ks = Object.keys(r.v).filter((k) => !k.endsWith('_t') && !/^poss_?won_?att_?3rd/i.test(k) && k !== 'rating_title' && r.v[k]);
         return (
           <div key={r.id} style={{ borderTop: i ? '1px solid var(--hair-2)' : 'none' }}>
             <button type="button" onClick={() => setOpen(on ? null : r.id)} className="press flex w-full items-center gap-3 px-4 py-2.5 text-left">
@@ -226,7 +227,7 @@ export default function ArchiveMatch() {
       <div style={{ '--tint': tint }}>
       <section className="safe-top px-4 pb-3">
         <div className="flex items-center gap-2">
-          <button type="button" className="glass press flex h-9 w-9 items-center justify-center rounded-full" aria-label="Indietro" onClick={() => navigate(-1)}><ChevronLeft size={19} /></button>
+          <button type="button" className="glass press flex h-9 w-9 items-center justify-center rounded-full" aria-label="Indietro" onClick={() => goBack(navigate)}><ChevronLeft size={19} /></button>
           {league ? (
             <LeagueLink league={league} className="mx-auto flex items-center gap-2 transition-opacity active:opacity-60">
               <LeagueBadge league={league} size={20} />

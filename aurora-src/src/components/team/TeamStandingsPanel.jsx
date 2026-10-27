@@ -13,7 +13,7 @@ export default function TeamStandingsPanel({ team }) {
   const [season, setSeason] = useState(() => initSeason(FM_ID[comp]));
   const comps = teamCompetitions(team.id);
   const fm = FM_ID[comp];
-  const seasons = useSeasonList(fm);
+  const seasons = useSeasonList(fm, team && team.name);
   const has = standings(comp).length > 0;
   return (
     <div>

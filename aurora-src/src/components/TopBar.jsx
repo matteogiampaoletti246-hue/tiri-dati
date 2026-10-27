@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { goBack } from '@/lib/carousel';
 import { ChevronLeft } from 'lucide-react';
 
 export default function TopBar({ title, subtitle, right, back = true, bare = false }) {
@@ -12,7 +13,7 @@ export default function TopBar({ title, subtitle, right, back = true, bare = fal
         }}
       >
         {back ? (
-          <button type="button" className="icon-btn -ml-1" aria-label="Indietro" onClick={() => navigate(-1)}>
+          <button type="button" className="icon-btn -ml-1" aria-label="Indietro" onClick={() => goBack(navigate)}>
             <ChevronLeft size={22} strokeWidth={1.25} />
           </button>
         ) : null}

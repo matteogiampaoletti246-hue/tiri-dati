@@ -1,4 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
+import { goBack } from '@/lib/carousel';
 import { ChevronLeft } from 'lucide-react';
 import Crest from '@/components/Crest';
 import { Image } from '@/components/ui/image';
@@ -22,7 +23,7 @@ export default function PlayerHero({ player, team }) {
             background: 'color-mix(in srgb, var(--sky-2) 78%, transparent)',
           }}
         >
-          <button type="button" className="icon-btn -ml-1" aria-label="Indietro" onClick={() => navigate(-1)}>
+          <button type="button" className="icon-btn -ml-1" aria-label="Indietro" onClick={() => goBack(navigate)}>
             <ChevronLeft size={22} strokeWidth={1.25} />
           </button>
           <span className="crest h-[22px] w-[22px] text-[9px]" style={gradient}>
@@ -42,7 +43,7 @@ export default function PlayerHero({ player, team }) {
         style={{ transform: `scale(${1 - p * 0.05})`, transformOrigin: 'top center', opacity: Math.max(0, 1 - p * 1.15) }}
       >
         <div className="flex items-center">
-          <button type="button" className="icon-btn -ml-1" aria-label="Indietro" onClick={() => navigate(-1)}>
+          <button type="button" className="icon-btn -ml-1" aria-label="Indietro" onClick={() => goBack(navigate)}>
             <ChevronLeft size={22} strokeWidth={1.25} />
           </button>
           <Link to={`/squadra/${player.teamId}`} className="mx-auto flex items-center gap-2 active:opacity-60">

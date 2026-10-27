@@ -26,7 +26,14 @@ export const archIndex = () => once('index', async () => {
 export const loadColors = () => json('arch/colors.json');
 export const loadSeason = (lid, sk) => json(`arch/${lid}/${sk}.json`);
 // le statistiche vecchie (v1) erano della stagione sbagliata: si usano solo quelle riscaricate (v2)
-export const loadSeasonStats = (lid, sk) => json(`arch/${lid}/${sk}_s.json`).then((d) => (d && d.v === 2 ? d : null));
+// statistiche nascoste ovunque (significato poco chiaro)
+const HIDDEN_STAT = /^poss_?won_?att_?3rd/i;
+const strip = (o) => { if (o) for (const k of Object.keys(o)) if (HIDDEN_STAT.test(k)) delete o[k]; return o; };
+export const loadSeasonStats = (lid, sk) => json(`arch/${lid}/${sk}_s.json`).then((d) => {
+  if (!d || d.v !== 2) return null;
+  strip(d.players); strip(d.teams);
+  return d;
+});
 export const loadSeasonMatches = (lid, sk) => gz(`partite/${lid}/${sk}.json.gz`);
 
 export const teamLogo = (id) => `https://images.fotmob.com/image_resources/logo/teamlogo/${id}.png`;
@@ -84,6 +91,18 @@ export const pastSeasons = async (fm) => {
   const idx = await archIndex();
   const e = idx && idx[String(fm)];
   return sortSeasons((e && e.s) || []).slice(1);
+};
+// stagione piu' recente dell'indice (quella in corso)
+export const currentSeason = async (fm) => {
+  const idx = await archIndex();
+  const e = idx && idx[String(fm)];
+  return e && e.s && e.s.length ? sortSeasons(e.s)[0] : null;
+};
+// stagioni passate in cui la squadra ha davvero giocato quella competizione
+export const teamSeasons = async (fm, name) => {
+  const list = await pastSeasons(fm);
+  const hit = await Promise.all(list.map((sk) => loadSeason(fm, sk).then((s) => (s && s.teams && teamIdByName(s.teams, name) ? sk : null)).catch(() => null)));
+  return hit.filter(Boolean);
 };
 const norm = (n) => String(n || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9 ]/g, ' ').replace(/\b(fc|ac|as|ss|us|afc|cf|sc|calcio|1\w*)\b/g, ' ').replace(/\s+/g, ' ').trim();
 // id FotMob di una squadra dentro i dati di una stagione, dal nome

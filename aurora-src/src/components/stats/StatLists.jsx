@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import { ChevronDown, ListTree, X } from 'lucide-react';
@@ -10,6 +10,16 @@ export default function StatLists({ sections, controls = null, limit = 8 }) {
   const [open, setOpen] = useState({});
   const [rev, setRev] = useState({});
   const concept = 'b';
+  // "Vai a" e' fisso sullo schermo (non appiccicoso): non puo' quindi muoversi mentre si scorre. Si vede solo se questo elenco e' sullo schermo.
+  const rootRef = useRef(null);
+  const [onScreen, setOnScreen] = useState(false);
+  useEffect(() => {
+    const el = rootRef.current;
+    if (!el || typeof IntersectionObserver === 'undefined') { setOnScreen(true); return undefined; }
+    const io = new IntersectionObserver(([e]) => setOnScreen(e.isIntersecting), { threshold: 0 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
   // le classifiche si disegnano a blocchi: all'apertura (e durante lo swipe) ne servono poche, le altre arrivano a app ferma
   const [lim, setLim] = useState(4);
   useEffect(() => {
@@ -40,13 +50,7 @@ export default function StatLists({ sections, controls = null, limit = 8 }) {
   };
 
   return (
-    <div className="pb-6 pt-2">
-      <div style={{ position: 'sticky', top: 'calc(var(--ent-h, 0px) + var(--tabs-h, 0px) + 6px)', height: 0, zIndex: 25, willChange: 'transform', transform: 'translateZ(0)' }}>
-        <button type="button" onClick={() => { setLim(sections.length); setSheet(true); }} className="glass-strong press absolute flex items-center gap-1.5 rounded-full px-3.5 py-2 text-[12.5px] font-bold" style={{ right: 16, top: 3, transform: 'translateZ(0)', backfaceVisibility: 'hidden', background: 'var(--sky-2)', boxShadow: '0 6px 16px -6px rgba(0,0,0,.55)' }}>
-          <ListTree size={14} />
-          Vai a
-        </button>
-      </div>
+    <div ref={rootRef} className="pb-6 pt-2">
       <div className="flex items-center gap-3 px-4">
         <div className="min-w-0 flex-1">{controls}</div>
         <span aria-hidden="true" className="h-[38px] w-[78px] shrink-0" />
@@ -112,6 +116,16 @@ export default function StatLists({ sections, controls = null, limit = 8 }) {
           </section>
         );
       })}
+
+      {onScreen ? createPortal(
+        <div data-pf="1" data-fast-ok="1" style={{ position: 'fixed', left: 0, right: 0, margin: '0 auto', maxWidth: 'var(--app-w)', top: 'calc(var(--ent-h, 0px) + var(--tabs-h, 0px) + 6px)', height: 0, zIndex: 25, pointerEvents: 'none' }}>
+          <button type="button" onClick={() => { setLim(sections.length); setSheet(true); }} className="glass-strong press absolute flex items-center gap-1.5 rounded-full px-3.5 py-2 text-[12.5px] font-bold" style={{ right: 16, top: 3, pointerEvents: 'auto', background: 'var(--sky-2)', boxShadow: '0 6px 16px -6px rgba(0,0,0,.55)' }}>
+            <ListTree size={14} />
+            Vai a
+          </button>
+        </div>,
+        document.body,
+      ) : null}
 
       {sheet ? createPortal(
         <div className="fixed inset-0 z-[90] flex items-end justify-center" onClick={() => setSheet(false)} onTouchMove={(e) => { if (e.target === e.currentTarget && e.cancelable) e.preventDefault(); }} style={{ background: 'rgba(0,0,0,.5)', touchAction: 'none' }}>

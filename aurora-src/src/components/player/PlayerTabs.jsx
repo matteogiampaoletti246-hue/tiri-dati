@@ -21,6 +21,8 @@ import CompSeasonBar from '@/components/CompSeasonBar';
 import PastStats from '@/components/past/PastStats';
 import { PastPlayerMatches } from '@/components/past/PastMatches';
 import { useSeasonList, initSeason } from '@/components/past/PastBits';
+import useAsync from '@/hooks/useAsync';
+import { currentSeason, loadSeasonStats } from '@/data/archive';
 import { FM_ID } from '@/data/archive';
 import { fixedColors } from '@/data/teamColorFix';
 import { carriereOf, countryIt, flagOf, FOOT, dateLong, ageOf, money, monthIt } from '@/data/carriere';
@@ -433,6 +435,19 @@ function CupSummary({ p }) {
   );
 }
 
+// Competizione diversa dal campionato, stagione in corso: stesso aspetto delle altre stagioni
+// (riquadri col colore della squadra, valori a pillola, barre con la media della competizione).
+function CupCurrent({ p, fm, fmPid, team }) {
+  const { data, loading } = useAsync(async () => {
+    const sk = await currentSeason(fm);
+    const st = sk ? await loadSeasonStats(fm, sk) : null;
+    return { sk, st };
+  }, [fm]);
+  if (loading && !data) return <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Carico le statistiche…</p>;
+  if (data && data.sk && data.st && fmPid) return <PastStats kind="players" id={fmPid} fm={fm} sk={data.sk} current />;
+  return <div className="px-5 pb-10 pt-4"><CupSummary p={p} /></div>;
+}
+
 export function StatistichePanel({ player, team }) {
   const p = player;
   const comps = teamCompetitions(p.teamId);
@@ -476,9 +491,10 @@ export function StatistichePanel({ player, team }) {
     <div className="-mt-1">
     <CompSeasonBar comps={comps} comp={comp} onComp={(c) => { setComp(c); setSeason('cur'); }} seasons={fmPid ? seasons : []} season={season} onSeason={setSeason} />
     {season !== 'cur' && fmL && fmPid ? <PastStats kind="players" id={fmPid} fm={fmL} sk={season} /> : (
-    <div key={comp} className="comp-in flex flex-col gap-4 px-5 pb-10 pt-4">
-      <Affidabilita player={p} team={team} comp={comp} />
-      {comp !== dom ? <CupSummary p={p} /> : null}
+    <div key={comp} className="comp-in">
+    <div className="flex flex-col gap-4 px-5 pt-4"><Affidabilita player={p} team={team} comp={comp} /></div>
+    {comp !== dom ? <CupCurrent p={p} fm={fmL} fmPid={fmPid} team={team} /> : (
+    <div className="flex flex-col gap-4 px-5 pb-10 pt-4">
       {comp === dom && rk.length ? (
         <section>
           <div className="club-card overflow-hidden rounded-2xl" style={CARD}>
@@ -498,6 +514,8 @@ export function StatistichePanel({ player, team }) {
         return rows.length ? <Group key={g.title} title={g.title}>{rows}</Group> : null;
       }) : null}
       {comp === dom ? <p className="px-1 text-[10.5px]" style={{ color: 'var(--ink-3)' }}>La lineetta con il numero è la media del campionato per quel ruolo. Colori: rosso = nella parte bassa della classifica, giallo = a metà, verde = nella parte alta.</p> : null}
+    </div>
+    )}
     </div>
     )}
     </div>

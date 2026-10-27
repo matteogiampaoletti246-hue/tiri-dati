@@ -15,7 +15,7 @@ function Side({ team, name, value }) {
         <Crest team={team} size={46} />
       </TeamLink>
       <span className="mt-1.5 line-clamp-2 w-full text-center text-[12.5px] font-extrabold leading-tight" style={{ color: 'var(--ink)' }}>{name}</span>
-      <span className="tnum mt-1 text-[18px] font-extrabold leading-none" style={{ color: 'var(--ink)' }}>{comma(value, 1)}</span>
+      <span className="tnum mt-1 text-[18px] font-extrabold leading-none" style={{ color: 'var(--ink)' }}>{value == null ? '\u00a0' : comma(value, 1)}</span>
     </div>
   );
 }
@@ -43,7 +43,7 @@ export default function MatchupRow({ row }) {
       <div className="grid items-start" style={{ gridTemplateColumns: '1fr 88px 1fr' }}>
         <Side team={home} name={row.homeName} value={row.home} />
         <div className="flex flex-col items-center pt-2">
-          <span className="text-[9.5px] font-bold uppercase tracking-[.12em]" style={{ color: 'var(--ink-3)' }}>Divario</span>
+          <span className="text-[9.5px] font-bold uppercase tracking-[.12em]" style={{ color: 'var(--ink-3)' }}>{row.type.centerLabel || 'Divario'}</span>
           <span className="tnum text-[30px] font-extrabold leading-none" style={{ color: GOLD }}>{comma(row.divario, 1)}</span>
           <span className="mt-2 text-[10px]" style={{ color: 'var(--ink-3)' }}>{row.type.label}</span>
         </div>

@@ -1,4 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
+import { goBack } from '@/lib/carousel';
 import { ChevronLeft } from 'lucide-react';
 import LeagueBadge from '@/components/LeagueBadge';
 import useCollapse from '@/hooks/useCollapse';
@@ -24,7 +25,7 @@ export default function RefereeHero({ referee, league, matchCount }) {
             background: 'color-mix(in srgb, var(--sky-2) 78%, transparent)',
           }}
         >
-          <button type="button" className="icon-btn -ml-1" aria-label="Indietro" onClick={() => navigate(-1)}>
+          <button type="button" className="icon-btn -ml-1" aria-label="Indietro" onClick={() => goBack(navigate)}>
             <ChevronLeft size={22} strokeWidth={1.25} />
           </button>
           <span className="truncate text-[13.5px]" style={{ color: 'var(--ink)' }}>
@@ -39,7 +40,7 @@ export default function RefereeHero({ referee, league, matchCount }) {
         style={{ transform: `scale(${1 - p * 0.05})`, transformOrigin: 'top center', opacity: Math.max(0, 1 - p * 1.15) }}
       >
         <div className="flex items-center">
-          <button type="button" className="icon-btn -ml-1" aria-label="Indietro" onClick={() => navigate(-1)}>
+          <button type="button" className="icon-btn -ml-1" aria-label="Indietro" onClick={() => goBack(navigate)}>
             <ChevronLeft size={22} strokeWidth={1.25} />
           </button>
           {league ? (

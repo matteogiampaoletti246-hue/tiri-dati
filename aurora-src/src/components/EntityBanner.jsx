@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { goBack } from '@/lib/carousel';
 import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft } from 'lucide-react';
@@ -67,7 +68,7 @@ export default function EntityBanner({ name, subtitle, meta, colors = ['#1E4BD8'
       ) : null}
       <div className={`safe-top relative px-4 ${tall ? 'pb-7 pt-5' : 'pb-4 pt-3'}`}>
         <div className="flex items-center gap-3">
-          <button type="button" className="press flex h-9 w-9 shrink-0 items-center justify-center rounded-full" style={{ background: 'rgba(0,0,0,.28)', color: '#fff' }} aria-label="Indietro" onClick={() => navigate(-1)}>
+          <button type="button" className="press flex h-9 w-9 shrink-0 items-center justify-center rounded-full" style={{ background: 'rgba(0,0,0,.28)', color: '#fff' }} aria-label="Indietro" onClick={() => goBack(navigate)}>
             <ChevronLeft size={19} />
           </button>
           {logoUrl ? (

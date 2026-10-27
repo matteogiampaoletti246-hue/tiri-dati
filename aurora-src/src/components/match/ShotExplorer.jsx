@@ -5,6 +5,18 @@ import { situationOf, zoneOf, outcomeOf } from './MatchShotMap';
 const PITCH = 'rgba(42,98,62,.95)';
 const LINE = 'rgba(255,255,255,.55)';
 const dotCol = (s) => (s.outcome === 'Gol' ? '#2FBF71' : s.onTarget ? '#4aa3ff' : s.outcome === 'Bloccato' ? '#9aa4b2' : '#e5a84a');
+// Pallone da calcio disegnato dentro il pallino del gol (r = raggio del pallino).
+function Ball({ r }) {
+  const b = r * 0.78;
+  const pent = [0, 1, 2, 3, 4].map((k) => { const a = (-90 + k * 72) * Math.PI / 180; return [Math.cos(a) * b * 0.42, Math.sin(a) * b * 0.42]; });
+  return (
+    <g pointerEvents="none">
+      <circle r={b} fill="#fff" />
+      <polygon points={pent.map((p) => p.join(',')).join(' ')} fill="#111" />
+      {pent.map((p, k) => { const a = (-90 + k * 72) * Math.PI / 180; return <line key={k} x1={p[0]} y1={p[1]} x2={Math.cos(a) * b * 0.95} y2={Math.sin(a) * b * 0.95} stroke="#111" strokeWidth={b * 0.14} strokeLinecap="round" />; })}
+    </g>
+  );
+}
 const px = (v) => Math.max(66, Math.min(104.5, v));
 const py = (v) => Math.max(12, Math.min(54, v));
 const bodyOf = (b) => (b === 'Testa' ? 'Di testa' : b === 'Destro' ? 'Di destro' : b === 'Sinistro' ? 'Di sinistro' : '—');
@@ -25,7 +37,8 @@ function Goal({ list, sel, onSel, dim = true, h = 150, frame = 'rgba(255,255,255
         return (
           <g key={i} onClick={() => onSel(i)} style={{ cursor: 'pointer' }} opacity={sel == null || on || !dim ? 1 : 0.35}>
             {on ? <circle cx={Math.max(3, Math.min(97, cx))} cy={cy} r="4.2" fill="none" stroke="#fff" strokeWidth="0.7" /> : null}
-            <circle cx={Math.max(3, Math.min(97, cx))} cy={cy} r="2.4" fill={dotCol(s)} stroke="#fff" strokeWidth="0.5" />
+            <circle cx={Math.max(3, Math.min(97, cx))} cy={cy} r={s.outcome === 'Gol' ? 3.1 : 2.4} fill={dotCol(s)} stroke="#fff" strokeWidth="0.5" />
+            {s.outcome === 'Gol' ? <g transform={`translate(${Math.max(3, Math.min(97, cx))} ${cy})`}><Ball r={3.1} /></g> : null}
           </g>
         );
       })}
@@ -48,7 +61,8 @@ function Half({ list, sel, onSel, h = 190, line = true }) {
         return (
           <g key={i} onClick={() => onSel(i)} style={{ cursor: 'pointer' }} opacity={sel == null || on ? 1 : 0.35}>
             {on ? <circle cx={px(s.px)} cy={py(s.py)} r="3.6" fill="none" stroke="#fff" strokeWidth="0.6" /> : null}
-            <circle cx={px(s.px)} cy={py(s.py)} r="2.1" fill={dotCol(s)} stroke="#fff" strokeWidth="0.4" />
+            <circle cx={px(s.px)} cy={py(s.py)} r={s.outcome === 'Gol' ? 2.7 : 2.1} fill={dotCol(s)} stroke="#fff" strokeWidth="0.4" />
+            {s.outcome === 'Gol' ? <g transform={`translate(${px(s.px)} ${py(s.py)})`}><Ball r={2.7} /></g> : null}
           </g>
         );
       })}
@@ -95,10 +109,12 @@ function Chips({ list, sel, onSel, variant }) {
         const on = sel === it.i;
         const goal = it.s && it.s.outcome === 'Gol';
         const base = { flex: '0 0 auto' };
+        const c = it.s ? dotCol(it.s) : null;
+        const fg = c === '#e5a84a' ? '#1d1500' : '#fff';
         let st;
-        if (variant === 'a') st = { ...base, width: it.i === null ? 54 : 40, height: 40, borderRadius: 999, background: it.i === null ? (on ? 'var(--accent)' : 'var(--pill-bg)') : (on ? 'transparent' : 'rgba(76,110,200,.55)'), border: on ? '2px solid #e5484d' : '2px solid transparent', color: '#fff', fontSize: 12, fontWeight: 700 };
-        else if (variant === 'b') st = { ...base, padding: '0 14px', height: 34, borderRadius: 999, background: on ? 'var(--ink)' : 'var(--pill-bg)', color: on ? 'var(--sky-2)' : 'var(--ink)', border: '1px solid var(--glass-border)', fontSize: 12.5, fontWeight: 700 };
-        else st = { ...base, minWidth: 52, height: 46, borderRadius: 14, background: on ? 'var(--accent)' : 'var(--hair-2)', color: on ? '#fff' : 'var(--ink)', border: `2px solid ${it.s ? dotCol(it.s) : 'transparent'}`, fontSize: 12.5, fontWeight: 700 };
+        if (variant === 'a') st = { ...base, width: it.i === null ? 54 : 40, height: 40, borderRadius: 999, background: it.i === null ? (on ? 'var(--accent)' : 'var(--pill-bg)') : c, border: on ? '2px solid #fff' : '2px solid transparent', boxShadow: on ? `0 0 0 2px ${c || 'var(--accent)'}` : 'none', opacity: on || sel == null || it.i === null ? 1 : 0.55, color: it.i === null ? '#fff' : fg, fontSize: 12, fontWeight: 800 };
+        else if (variant === 'b') st = { ...base, padding: '0 14px', height: 34, borderRadius: 999, background: it.i === null ? (on ? 'var(--ink)' : 'var(--pill-bg)') : c, color: it.i === null ? (on ? 'var(--sky-2)' : 'var(--ink)') : fg, border: on ? '2px solid #fff' : '1px solid var(--glass-border)', boxShadow: on && c ? `0 0 0 2px ${c}` : 'none', opacity: on || sel == null || it.i === null ? 1 : 0.55, fontSize: 12.5, fontWeight: 800 };
+        else st = { ...base, minWidth: 52, height: 46, borderRadius: 14, background: it.i === null ? (on ? 'var(--accent)' : 'var(--hair-2)') : c, color: it.i === null ? (on ? '#fff' : 'var(--ink)') : fg, border: on ? '2px solid #fff' : '2px solid transparent', boxShadow: on && c ? `0 0 0 2px ${c}` : 'none', opacity: on || sel == null || it.i === null ? 1 : 0.55, fontSize: 12.5, fontWeight: 800 };
         return (
           <button key={String(it.i)} type="button" data-on={on ? 1 : 0} onClick={() => onSel(it.i)} className="press tnum flex items-center justify-center gap-1" style={st}>
             {goal ? <span style={{ fontSize: 11 }}>⚽</span> : null}{it.label}

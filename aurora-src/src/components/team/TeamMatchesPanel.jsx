@@ -22,7 +22,7 @@ export default function TeamMatchesPanel({ teamId }) {
   const comps = teamCompetitions(teamId);
   const team = teamById(teamId);
   const fm = FM_ID[team && team.leagueId];
-  const seasons = useSeasonList(fm);
+  const seasons = useSeasonList(fm, team && team.name);
   const shown = allTeamMatches(teamId).filter(MATCH[filter]).filter((m) => comp === 'all' || m.leagueId === comp);
 
   return (

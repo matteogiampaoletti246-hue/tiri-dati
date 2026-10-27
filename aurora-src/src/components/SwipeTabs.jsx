@@ -1,8 +1,14 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { memo, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal, flushSync } from 'react-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { pageBack, pageDrag, pageReset, finishCarousel, canGoBack } from '@/lib/carousel';
 
+
+// Scheda vicina gia' montata e ferma: non si ridisegna quando cambia la pagina (si aggiorna solo quando diventa quella attiva).
+const Frozen = memo(({ children }) => children, (a, b) => a.freeze && b.freeze);
+
+const idle = (fn) => (window.requestIdleCallback ? window.requestIdleCallback(fn, { timeout: 1800 }) : setTimeout(fn, 60));
+const cancelIdle = (id) => (window.cancelIdleCallback ? window.cancelIdleCallback(id) : clearTimeout(id));
 
 export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, className = '', stickyTop = 'var(--ent-h, 0px)', fixedBar = false, edgeBack = true, hideBar = false }) {
   const navigate = useNavigate();
@@ -14,7 +20,18 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
   const [headH, setHeadH] = useState(44);
   const [peek, setPeek] = useState(null);
   const peekRef = useRef(null);
-  const showPeek = (v) => { if (peekRef.current !== v) { peekRef.current = v; setPeek(v); } };
+  const peekTop = useRef(0);
+  // schede vicine gia' costruite (nascoste): al primo movimento del dito non c'e' nulla da montare, quindi niente scatti
+  const [warm, setWarm] = useState([]);
+  // bordo basso della testata fissa/appiccicosa: da li' in giu' si vede il contenuto
+  const visibleTop = () => (headRef.current ? headRef.current.getBoundingClientRect().bottom : 0);
+  const showPeek = (v) => {
+    if (peekRef.current !== v) {
+      if (v !== null && wrapRef.current) peekTop.current = Math.max(0, visibleTop() - wrapRef.current.getBoundingClientRect().top);
+      peekRef.current = v;
+      setPeek(v);
+    }
+  };
 
   useEffect(() => {
     const el = headRef.current;
@@ -62,6 +79,23 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
     box.scrollLeft = sa + (sb - sa) * e;
   };
 
+  useEffect(() => {
+    setWarm((w) => w.filter((k) => Math.abs(k - index) === 1));
+    const want = [index + 1, index - 1].filter((k) => k >= 0 && k < tabs.length && panels[k]);
+    let tm = 0;
+    let id = 0;
+    let n = 0;
+    const step = () => {
+      if (n >= want.length) return;
+      const k = want[n++];
+      setWarm((w) => (w.includes(k) ? w : [...w, k]));
+      tm = setTimeout(() => { id = idle(step); }, 450);
+    };
+    tm = setTimeout(() => { id = idle(step); }, 900);
+    return () => { clearTimeout(tm); cancelIdle(id); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [index, tabs.length]);
+
   const live = useRef({});
   live.current = { index, onChange, n: tabs.length, back: edgeBack && canGoBack(), navigate };
   const prevIdx = useRef(index);
@@ -108,7 +142,7 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
       if (busy || e.touches.length !== 1) { st = null; return; }
       const t = e.target;
       if (t.closest && t.closest('input, select, textarea, [data-no-swipe]')) { st = null; return; }
-      st = { x: e.touches[0].clientX, y: e.touches[0].clientY, t: Date.now(), on: false, w: wrap.clientWidth || 360 };
+      st = { x: e.touches[0].clientX, y: e.touches[0].clientY, t: Date.now(), on: false, w: wrap.clientWidth || 360, edge: e.touches[0].clientX <= 36 };
     };
     const onMove = (e) => {
       if (!st) return;
@@ -127,7 +161,8 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
       if (!st) return;
       st.raf = 0;
       const dx = st.dx;
-      const { index: i, n, back } = live.current;
+      const { index: i, n } = live.current;
+      const back = live.current.back && st.edge;
       const edgeL = i === 0 && dx > 0;
       const edge = edgeL || (i === n - 1 && dx < 0);
       const off = edgeL && back ? dx * 0.9 : edge ? 0 : dx;
@@ -162,13 +197,13 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
       const { index: i, n, onChange: oc } = live.current;
       const next = dx < 0 ? i + 1 : i - 1;
       const el = contentRef.current;
-      if (i === 0 && dx > 0 && live.current.back && (dx > d.w * 0.3 || v > 0.55)) {
+      if (i === 0 && dx > 0 && live.current.back && d.edge && (dx > d.w * 0.3 || v > 0.55)) {
         busy = true;
         pageBack(Math.max(0, dx), live.current.navigate);
         setTimeout(() => { busy = false; }, 450);
         return;
       }
-      if (i === 0 && dx > 0 && live.current.back) {
+      if (i === 0 && dx > 0 && live.current.back && d.edge) {
         pageReset(true);
         return;
       }
@@ -187,9 +222,12 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
           clearTimeout(tm);
           finishRef.current = null;
           el.style.transition = 'none';
+          // la nuova scheda parte dal suo inizio, esattamente dove la si vedeva durante lo swipe
+          const target = Math.max(0, wrap.getBoundingClientRect().top + window.scrollY - visibleTop());
           flushSync(() => { skipEntry.current = true; peekRef.current = null; setPeek(null); oc(next); });
           el.style.transform = '';
           el.style.willChange = '';
+          if (window.scrollY > target + 1) window.scrollTo(0, target);
           busy = false;
         };
         finishRef.current = end;
@@ -255,11 +293,18 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
       {hideBar ? null : fixedBar ? createPortal(HEAD, document.body) : HEAD}
       <div ref={wrapRef} data-tabs-back={edgeBack && canGoBack() ? '1' : undefined} className="relative" style={{ touchAction: 'pan-y', minHeight: '60vh', overflowX: 'clip' }}>
         <div ref={contentRef} style={{ position: 'relative' }}>
-          {[index, peek !== null && peek !== index && panels[peek] ? peek : null].filter((k) => k !== null).map((k) => (
-            <div key={k} style={k === index ? { display: 'flow-root' } : { position: 'absolute', top: 0, width: '100%', left: k > index ? '100%' : '-100%', display: 'flow-root' }}>
-              {panels[k]}
-            </div>
-          ))}
+          {[index, ...warm.filter((k) => Math.abs(k - index) === 1 && panels[k]), ...(peek !== null && peek !== index && !warm.includes(peek) && panels[peek] ? [peek] : [])]
+            .sort((a, b) => a - b)
+            .map((k) => (
+              <div
+                key={k}
+                style={k === index
+                  ? { display: 'flow-root' }
+                  : { position: 'absolute', top: peek === k ? peekTop.current : 0, width: '100%', left: k > index ? '100%' : '-100%', display: 'flow-root', height: '100vh', overflow: 'hidden', visibility: peek === k ? 'visible' : 'hidden', pointerEvents: 'none' }}
+              >
+                <Frozen freeze={k !== index && peek !== k}>{panels[k]}</Frozen>
+              </div>
+            ))}
         </div>
       </div>
     </div>

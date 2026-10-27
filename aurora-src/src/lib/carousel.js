@@ -95,13 +95,29 @@ export function pageReset(animated = true) {
   });
   setTimeout(() => els.forEach((el) => { el.style.transition = ''; el.style.transform = ''; el.style.opacity = ''; el.style.willChange = ''; el.style.boxShadow = ''; el.style.visibility = ''; }), animated ? 320 : 0);
 }
-export const canGoBack = () => { const st = window.history.state; return !!(st && typeof st.idx === 'number' && st.idx > 0); };
+export const histIdx = () => { const st = window.history.state; return st && typeof st.idx === 'number' ? st.idx : 0; };
+export const canGoBack = () => histIdx() > 0;
+
+// Indietro "sicuro": una sola volta per pagina (anche se arrivano piu' richieste: tasto, swipe, timer),
+// mai oltre la prima schermata dell'app (in quel caso si va alla Home).
+let LAST = { idx: -1, t: 0 };
+export function goBack(navigate, fromIdx) {
+  const idx = histIdx();
+  if (fromIdx !== undefined && fromIdx !== idx) return false; // nel frattempo la pagina e' gia' cambiata
+  if (idx <= 0) { navigate('/', { replace: true }); return true; }
+  const now = Date.now();
+  if (LAST.idx === idx && now - LAST.t < 1200) return false;
+  LAST = { idx, t: now };
+  navigate(-1);
+  return true;
+}
 
 // Ritorno indietro: la pagina vera (con banner e schede) prosegue dal punto del dito fino a uscire a destra;
 // solo verso la fine si cambia pagina, cosi' non c'e' mai una pagina doppia o un salto. Se non c'e' dove tornare, rientra.
 export function pageBack(dx, navigate) {
   const els = pageEls();
   if (!els.length || !canGoBack()) { pageReset(true); return; }
+  const fromIdx = histIdx();
   const w = Math.min(window.innerWidth, els[0].offsetWidth || 430);
   const ms = Math.max(120, Math.round(230 * (1 - dx / (w + 24)) + 90));
   els.forEach((el) => { el.style.willChange = 'transform'; el.style.transition = 'none'; el.style.transform = `translate3d(${dx}px,0,0)`; });
@@ -113,7 +129,7 @@ export function pageBack(dx, navigate) {
       el.style.transform = `translate3d(${w + 24}px,0,0)`;
       if (i === 0) el.style.opacity = '0.6';
     });
-    setTimeout(() => navigate(-1), Math.round(ms * 0.62));
+    setTimeout(() => goBack(navigate, fromIdx), Math.round(ms * 0.62));
     // rete di sicurezza: se per qualunque motivo la pagina non cambia, si ripristina tutto (mai schermo nero)
     setTimeout(() => { const sh = document.getElementById('sl-shell'); if (sh && sh === els[0] && sh.isConnected) pageReset(false); }, ms + 900);
   });

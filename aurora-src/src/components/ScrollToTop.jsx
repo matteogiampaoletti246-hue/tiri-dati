@@ -11,8 +11,18 @@ export default function ScrollToTop() {
   const navigationType = useNavigationType();
   const keyRef = useRef(loc.key);
   const map = useRef(read());
+  const navAt = useRef(0);
 
-  useLayoutEffect(() => { keyRef.current = loc.key; }, [loc.key]);
+  useLayoutEffect(() => { keyRef.current = loc.key; navAt.current = Date.now(); }, [loc.key]);
+
+  // un secondo tocco "fantasma" subito dopo il cambio pagina non deve premere cio' che nel frattempo e' comparso sotto il dito
+  useEffect(() => {
+    const block = (e) => {
+      if (Date.now() - navAt.current < 280 && !(e.target.closest && e.target.closest('[data-fast-ok]'))) { e.preventDefault(); e.stopPropagation(); }
+    };
+    window.addEventListener('click', block, true);
+    return () => window.removeEventListener('click', block, true);
+  }, []);
 
   useEffect(() => {
     let t = null;

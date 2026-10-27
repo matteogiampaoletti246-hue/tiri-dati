@@ -13,9 +13,17 @@ import useInitialLoad from '@/hooks/useInitialLoad';
 import { bestPlayers, THRESHOLDS } from '@/data/topPlayers';
 import { DATES, TODAY_INDEX, isoDate } from '@/data/matches';
 
+// Giorno e soglia restano quando si apre un giocatore e si torna indietro.
+const KEEP = { day: null, thr: '0.5', stamp: '' };
+
 export default function TopPlayers() {
-  const [dayIdx, setDayIdx] = useState(TODAY_INDEX);
-  const [threshold, setThreshold] = useState('0.5');
+  const today = isoDate(new Date());
+  const fresh = KEEP.day === null || KEEP.stamp !== today;
+  const [dayIdx, setDayIdx] = useState(fresh ? TODAY_INDEX : KEEP.day);
+  const [threshold, setThreshold] = useState(fresh ? '0.5' : KEEP.thr);
+  KEEP.stamp = today;
+  KEEP.day = dayIdx;
+  KEEP.thr = threshold;
   const [searchOpen, setSearchOpen] = useState(false);
   const loading = useInitialLoad();
 
@@ -30,7 +38,7 @@ export default function TopPlayers() {
   const rows = bestPlayers(isoDate(DATES[dayIdx]), dThr);
 
   return (
-    <PageShell>
+    <PageShell swipeBack={false}>
       <header className="sticky top-0 z-30 pb-1" style={{ background: 'var(--sky-2)' }}>
         <FixedBar title="Migliori Giocatori" onSearch={() => { primeKeyboard(); setSearchOpen(true); }} />
         <DayStrip dates={DATES} todayIndex={TODAY_INDEX} value={dayIdx} onChange={setDayIdx} />
