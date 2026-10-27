@@ -23,6 +23,12 @@ def compact_fix(m):
     return [m.get("id"), m.get("round"), m["home"]["id"], m["away"]["id"], s.get("utcTime"), s.get("scoreStr"), int(bool(s.get("finished"))), int(bool(s.get("started"))), int(bool(s.get("cancelled")))]
 INDEX = os.environ.get("INDEX", "arch/index.json")
 ONLY = [x for x in os.environ.get("ONLY_IDS", "").split(",") if x]
+
+# Primi 20 campionati per ranking (+ tutte le competizioni internazionali): storico completo dal 2010.
+# Gli altri: calendario e classifica dal 2010, statistiche e dettaglio partite solo dal 2020.
+TOP20 = {47,87,55,54,53,57,61,48,86,146,140,110,71,40,64,268,112,130,230,38}
+def storico_ridotto(lid, c, sk):
+    return int(lid) not in TOP20 and c != "INT" and int(str(sk)[:4]) < 2020
 MINYEAR = int(os.environ.get("MINYEAR", "2010"))
 # ordine di priorità: top campionati e paesi principali prima, poi il resto
 PRIO = ["ITA", "ENG", "ESP", "GER", "FRA", "POR", "NED", "TUR", "BEL", "SCO", "BRA", "ARG", "USA", "MEX", "COL", "CHI", "URU", "AUT", "SUI", "GRE", "RUS", "UKR", "DEN", "SWE", "NOR", "POL", "CZE", "CRO", "SRB", "ROU"]
@@ -56,6 +62,8 @@ def run():
                 try: return os.path.exists(ps) and json.load(open(ps)).get("v") == 2
                 except Exception: return False
             have_main, have_s = os.path.exists(p), s_ok()
+            ridotto = storico_ridotto(lid, L["c"], sk)
+            if ridotto: have_s = True
             if have_main and have_s:
                 if sk not in e["s"]: e["s"].append(sk)
                 continue
@@ -81,7 +89,7 @@ def run():
             # il link giusto e' quello con il nome della stagione richiesta (prima c'era sempre il primo = stagione attuale)
             lk = [x for x in links if str(x.get("Name")) == str(s)] or [x for x in links if str(x.get("Name")).replace("/", "-") == sk]
             tid = lk[0].get("TournamentId") if lk else None
-            if tid:
+            if tid and not ridotto:
                 ref = base.get("stats", {})
                 for kind in ("players", "teams"):
                     for it in ref.get(kind, []) or []:

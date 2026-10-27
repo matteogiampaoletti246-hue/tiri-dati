@@ -81,6 +81,12 @@ def compact(j):
     if pm.get("id"): meta["potm"] = pm["id"]
     if meta: out["i"] = meta
     return out
+
+# Primi 20 campionati per ranking (+ tutte le competizioni internazionali): storico completo dal 2010.
+# Gli altri: calendario e classifica dal 2010, statistiche e dettaglio partite solo dal 2020.
+TOP20 = {47,87,55,54,53,57,61,48,86,146,140,110,71,40,64,268,112,130,230,38}
+def storico_ridotto(lid, c, sk):
+    return int(lid) not in TOP20 and c != "INT" and int(str(sk)[:4]) < 2020
 def folder_mb(path):
     n = 0
     for r, _, fs in os.walk(path):
@@ -93,7 +99,7 @@ def run():
     for y in years:
         for lid, v in ix.items():
             for s in v["s"]:
-                if s[:4] == str(y): units.append((lid, s))
+                if s[:4] == str(y) and not storico_ridotto(lid, v.get("c"), s): units.append((lid, s))
     mine = [u for i, u in enumerate(units) if i % NSHARD == SHARD]
     capped = False
     fails = 0
