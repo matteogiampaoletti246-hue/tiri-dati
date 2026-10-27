@@ -3,7 +3,7 @@ import { useState } from 'react';
 import PageShell from '@/components/PageShell';
 import FixedBar from '@/components/FixedBar';
 import DayStrip from '@/components/DayStrip';
-import TextFilter from '@/components/TextFilter';
+import StatPicker from '@/components/top/StatPicker';
 import SearchOverlay from '@/components/SearchOverlay';
 import Skeleton from '@/components/Skeleton';
 import MatchupRow from '@/components/top/MatchupRow';
@@ -25,12 +25,7 @@ export default function TopMatchups() {
         <FixedBar title="Migliori Matchup" onSearch={() => { primeKeyboard(); setSearchOpen(true); }} />
         <DayStrip dates={DATES} todayIndex={TODAY_INDEX} value={dayIdx} onChange={setDayIdx} />
         <div className="flex items-center pl-5 pr-5 pt-1">
-          <div data-no-swipe className="hide-sb min-w-0 flex-1 overflow-x-auto">
-            <TextFilter options={MATCHUP_TYPES.map((t) => ({ value: t.key, label: t.label }))} value={typeKey} onChange={setTypeKey} />
-          </div>
-          <span className="tnum flex-none pl-4 text-[11.5px]" style={{ color: 'var(--ink-3)' }}>
-            {rows.length}
-          </span>
+          <StatPicker options={MATCHUP_TYPES} value={typeKey} onChange={setTypeKey} />
         </div>
       </header>
       <div className="h-2" />
