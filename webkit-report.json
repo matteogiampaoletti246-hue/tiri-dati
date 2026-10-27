@@ -1,0 +1,124 @@
+{
+  "when": "2026-10-27T14:36:57.456Z",
+  "steps": [
+    {
+      "step": "home",
+      "luminance": 22,
+      "whiteScreen": false
+    },
+    {
+      "step": "home-domani",
+      "luminance": 26,
+      "whiteScreen": false
+    },
+    {
+      "step": "partita",
+      "luminance": 35,
+      "whiteScreen": false,
+      "clicked": true
+    },
+    {
+      "step": "partita-statistiche",
+      "luminance": 36,
+      "whiteScreen": false
+    },
+    {
+      "step": "partita-formazioni",
+      "luminance": 44,
+      "whiteScreen": false
+    },
+    {
+      "step": "partita-giocatori",
+      "luminance": 33,
+      "whiteScreen": false
+    },
+    {
+      "step": "partita-prima-scheda",
+      "luminance": 33,
+      "whiteScreen": false
+    },
+    {
+      "step": "swipe-indietro-dalla-partita",
+      "backToHome": false,
+      "url": "https://matteogiampaoletti246-hue.github.io/tiri-dati/aurora/#/match/m_0Apv0v"
+    },
+    {
+      "step": "dopo-swipe-indietro",
+      "luminance": 44,
+      "whiteScreen": false
+    },
+    {
+      "step": "matchup-tendina",
+      "luminance": 27,
+      "whiteScreen": false
+    },
+    {
+      "step": "matchup-tiri-porta",
+      "luminance": 34,
+      "whiteScreen": false
+    },
+    {
+      "step": "matchup-giorno-dopo",
+      "luminance": 34,
+      "whiteScreen": false
+    },
+    {
+      "step": "giocatore-profilo",
+      "luminance": 22,
+      "whiteScreen": false
+    },
+    {
+      "step": "giocatore-statistiche",
+      "luminance": 26,
+      "whiteScreen": false
+    },
+    {
+      "step": "giocatore-tendina-stagioni",
+      "luminance": 24,
+      "whiteScreen": false
+    },
+    {
+      "step": "swipe-indietro-giocatore",
+      "url": "https://matteogiampaoletti246-hue.github.io/tiri-dati/aurora/#/giocatore/p_2uzN8N"
+    },
+    {
+      "step": "squadra-partite",
+      "luminance": 20,
+      "whiteScreen": false
+    },
+    {
+      "step": "squadra-classifica",
+      "luminance": 23,
+      "whiteScreen": false
+    },
+    {
+      "step": "squadra-statistiche",
+      "luminance": 29,
+      "whiteScreen": false
+    },
+    {
+      "step": "squadra-giocatori",
+      "luminance": 33,
+      "whiteScreen": false
+    },
+    {
+      "step": "campionato",
+      "luminance": 31,
+      "whiteScreen": false
+    },
+    {
+      "step": "campionato",
+      "failed": "Error: mouse.wheel: Mouse wheel is not supported in mobile WebKit"
+    }
+  ],
+  "errors": [],
+  "console": [],
+  "support": {
+    "colorMix": true,
+    "cv": true,
+    "touch": true,
+    "backdrop": true,
+    "ua": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1"
+  },
+  "problems": 2
+}
