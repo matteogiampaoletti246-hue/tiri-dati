@@ -10,7 +10,7 @@ import { comma } from '@/lib/format';
 import { bandColor, ratioColor } from '@/components/player/playerCalc';
 import CompSeasonBar from '@/components/CompSeasonBar';
 import { PastTeamStats } from '@/components/past/PastTeam';
-import { useSeasonList, initSeason } from '@/components/past/PastBits';
+import { useSeasonList, initSeason, announceComp } from '@/components/past/PastBits';
 import { FM_ID } from '@/data/archive';
 import { teamCompetitions } from '@/data/competitions';
 import { teamShots } from '@/data/calcData';
@@ -160,7 +160,7 @@ export default function TeamStatsPanel({ team }) {
   const seasons = useSeasonList(fm);
   return (
     <div>
-      <CompSeasonBar comps={comps} comp={comp} onComp={(c) => { setComp(c); setSeason('cur'); }} seasons={seasons} season={season} onSeason={setSeason} />
+      <CompSeasonBar comps={comps} comp={comp} onComp={(c) => { setComp(c); setSeason('cur'); announceComp(team.id, c); }} seasons={seasons} season={season} onSeason={setSeason} />
       {season !== 'cur' && fm ? <PastTeamStats fm={fm} sk={season} team={team} /> : (
         <div key={comp} className="comp-in">
           <DomesticStats team={team} comp={comp} />

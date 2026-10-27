@@ -6,7 +6,7 @@ import { Image } from '@/components/ui/image';
 
 // Banner di campionato / squadra: fisso in alto, sempre visibile, con il colore della squadra o del campionato.
 // A = colore pieno, B = base scura con alone colorato, C = colore pieno più alto con logo grande in filigrana.
-export default function EntityBanner({ name, subtitle, meta, colors = ['#1E4BD8', '#7FB6E8'], logoUrl = null, initials = '', liveCount = 0, logoFilter, tall = false, nameExtra = null }) {
+export default function EntityBanner({ name, subtitle, meta, colors = ['#1E4BD8', '#7FB6E8'], logoUrl = null, initials = '', liveCount = 0, logoFilter, tall = false, nameExtra = null, below = null }) {
   const navigate = useNavigate();
   const ref = useRef(null);
   const [h, setH] = useState(120);
@@ -87,6 +87,7 @@ export default function EntityBanner({ name, subtitle, meta, colors = ['#1E4BD8'
             </span>
           ) : null}
         </div>
+        {below ? <div className="mt-2.5 min-w-0">{below}</div> : null}
       </div>
     </header>
   );

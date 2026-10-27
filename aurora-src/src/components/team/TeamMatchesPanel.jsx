@@ -5,7 +5,7 @@ import { allTeamMatches } from '@/data/extras';
 import CompSelect from '@/components/CompSelect';
 import { teamCompetitions } from '@/data/competitions';
 import { PastTeamMatches } from '@/components/past/PastMatches';
-import { useSeasonList } from '@/components/past/PastBits';
+import { useSeasonList, announceComp } from '@/components/past/PastBits';
 import { FM_ID, teamIdByName } from '@/data/archive';
 import { leagueTint } from '@/data/leagues';
 import { teamById } from '@/data/teams';
@@ -27,7 +27,7 @@ export default function TeamMatchesPanel({ teamId }) {
 
   return (
     <div className="pt-0">
-      <CompSelect options={comps} value={comp} onChange={setComp} allLabel="Tutte le competizioni" />
+      <CompSelect options={comps} value={comp} onChange={(c) => { setComp(c); announceComp(teamId, c); }} allLabel="Tutte le competizioni" />
       <div className="px-5 pt-2">
         <TextFilter
           options={[

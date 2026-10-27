@@ -32,6 +32,12 @@ const TABS = [
 export default function Team() {
   const { id } = useParams();
   const [tab, setTab] = usePageTab('team', id);
+  const [bComp, setBComp] = useState(null);
+  useEffect(() => {
+    const h = (e) => { if (e.detail && e.detail.teamId === id) setBComp(e.detail.comp); };
+    window.addEventListener('sl-comp', h);
+    return () => window.removeEventListener('sl-comp', h);
+  }, [id]);
   const loading = useInitialLoad(280);
   const team = teamById(id);
 
@@ -51,17 +57,19 @@ export default function Team() {
   const row = teamRow(team.leagueId, team.id);
   const liveCount = allTeamMatches(team.id).filter((m) => m.status === 'live').length;
 
-  const meta = (
-    <div className="flex min-w-0 items-center gap-3">
-      <FormDots form={teamForm(team.id)} size={14} />
-      {row ? (
-        <span className="tnum text-[11.5px]" style={{ color: 'var(--ink-2)' }}>
-          {row.rank}° · {row.points} pt
-        </span>
+  const shownLg = bComp && bComp !== 'all' ? leagueById(bComp) : league;
+  const isHome = !bComp || bComp === 'all' || bComp === team.leagueId;
+  const meta = <FormDots form={teamForm(team.id)} size={14} />;
+  const below = (
+    <div className="flex min-w-0 items-center gap-2.5 text-[12.5px]">
+      {isHome && row ? (
+        <>
+          <b className="tnum text-[16px]" style={{ color: 'var(--ink)' }}>{row.rank}°</b>
+          <span className="tnum" style={{ color: 'var(--ink-2)' }}>{row.points} pt</span>
+          <span aria-hidden="true" className="h-4 w-px" style={{ background: 'var(--hair)' }} />
+        </>
       ) : null}
-      <span className="min-w-0 truncate text-[11px]" style={{ color: 'var(--ink-3)' }}>
-        {coachOf(team.id)}
-      </span>
+      <span className="min-w-0 truncate" style={{ color: 'var(--ink-2)' }}>All. {coachOf(team.id)}</span>
     </div>
   );
 
@@ -80,8 +88,9 @@ export default function Team() {
     <PageShell swipeBack={false}>
       <EntityBanner
         name={team.name}
-        subtitle={league ? league.name : ''}
+        subtitle={shownLg ? shownLg.name : ''}
         meta={meta}
+        below={below}
         colors={team.colors}
         logoUrl={team.crest}
         initials={team.initials}
