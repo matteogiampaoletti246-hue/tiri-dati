@@ -2,7 +2,7 @@ import { useState } from 'react';
 import useAsync from '@/hooks/useAsync';
 import TextFilter from '@/components/TextFilter';
 import StatLists from '@/components/stats/StatLists';
-import { loadSeason, loadSeasonStats, teamIdByName, seasonLabel } from '@/data/archive';
+import { noStats, loadSeason, loadSeasonStats, teamIdByName, seasonLabel } from '@/data/archive';
 import { StandingsPanel, useTeamColors } from '@/components/archive/parts';
 import { statSections } from '@/components/archive/ArchiveLeague';
 import PastStats from './PastStats';
@@ -37,6 +37,6 @@ export function PastTeamPlayers({ fm, sk, team }) {
   if (loading || l2) return <Msg>Carico la stagione {seasonLabel(sk)}…</Msg>;
   if (!season || !tid) return <Msg>{team.name} non ha giocato questo campionato nel {seasonLabel(sk)}</Msg>;
   const sections = statSections(stats, 'players', season.teams || {}, col, fm, sk, mode, tid);
-  if (!sections.length) return <Msg>Statistiche dei giocatori del {seasonLabel(sk)} in arrivo</Msg>;
+  if (!sections.length) return <Msg>{noStats(fm, sk) ? `Statistiche dei giocatori non disponibili per il ${seasonLabel(sk)}` : `Statistiche dei giocatori del ${seasonLabel(sk)} in arrivo`}</Msg>;
   return <StatLists key={mode} sections={sections} controls={<TextFilter options={[{ value: 'tot', label: 'Totale' }, { value: 'p90', label: "Ogni 90'" }]} value={mode} onChange={setMode} />} />;
 }

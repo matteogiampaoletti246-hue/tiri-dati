@@ -92,6 +92,9 @@ export const pastSeasons = async (fm) => {
   const e = idx && idx[String(fm)];
   return sortSeasons((e && e.s) || []).slice(1);
 };
+// campionati con storico completo; gli altri hanno statistiche solo dal 2020
+const TOP20 = new Set([47, 87, 55, 54, 53, 57, 61, 48, 86, 146, 140, 110, 71, 40, 64, 268, 112, 130, 230, 38, 42, 73, 10216]);
+export const noStats = (fm, sk) => !TOP20.has(Number(fm)) && Number(String(sk).slice(0, 4)) < 2020;
 // stagione piu' recente dell'indice (quella in corso)
 export const currentSeason = async (fm) => {
   const idx = await archIndex();

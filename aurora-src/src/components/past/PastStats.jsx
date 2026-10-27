@@ -1,5 +1,5 @@
 import useAsync from '@/hooks/useAsync';
-import { loadSeason, loadSeasonStats, SEASON_STAT_IT, prettyKey, seasonLabel } from '@/data/archive';
+import { noStats, loadSeason, loadSeasonStats, SEASON_STAT_IT, prettyKey, seasonLabel } from '@/data/archive';
 import { useTeamColors } from '@/components/archive/parts';
 import { groupOf, fmtVal, ORDER } from '@/components/archive/ArchiveLeague';
 import { TeamLogo } from '@/components/FmImg';
@@ -15,7 +15,7 @@ export default function PastStats({ kind, id, fm, sk, current = false }) {
   const { data: season } = useAsync(() => loadSeason(fm, sk), [fm, sk]);
   if (loading) return <Msg>Carico la stagione {seasonLabel(sk)}…</Msg>;
   const lists = stats && stats[kind];
-  if (!lists) return <Msg>Statistiche della stagione {seasonLabel(sk)} in arrivo</Msg>;
+  if (!lists) return <Msg>{noStats(fm, sk) ? `Statistiche non disponibili per la stagione ${seasonLabel(sk)}` : `Statistiche della stagione ${seasonLabel(sk)} in arrivo`}</Msg>;
   const isP = kind === 'players';
   const names = (season && season.teams) || {};
   const groups = {};
