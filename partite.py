@@ -87,8 +87,8 @@ def folder_mb(path):
         for f in fs: n += os.path.getsize(os.path.join(r, f))
     return n / 1e6
 def run():
-    ix = json.load(open("arch/index.json"))
-    years = range(2026, 2009, -1)
+    ix = json.load(open(os.environ.get("INDEX", "arch/index.json")))
+    years = range(2026, int(os.environ.get("MINYEAR", "2010")) - 1, -1)
     units = []
     for y in years:
         for lid, v in ix.items():

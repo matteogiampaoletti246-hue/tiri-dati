@@ -21,10 +21,16 @@ def dump(p, o):
 def compact_fix(m):
     s = m.get("status", {})
     return [m.get("id"), m.get("round"), m["home"]["id"], m["away"]["id"], s.get("utcTime"), s.get("scoreStr"), int(bool(s.get("finished"))), int(bool(s.get("started"))), int(bool(s.get("cancelled")))]
+INDEX = os.environ.get("INDEX", "arch/index.json")
+ONLY = [x for x in os.environ.get("ONLY_IDS", "").split(",") if x]
+MINYEAR = int(os.environ.get("MINYEAR", "2010"))
+# ordine di priorità: top campionati e paesi principali prima, poi il resto
+PRIO = ["ITA", "ENG", "ESP", "GER", "FRA", "POR", "NED", "TUR", "BEL", "SCO", "BRA", "ARG", "USA", "MEX", "COL", "CHI", "URU", "AUT", "SUI", "GRE", "RUS", "UKR", "DEN", "SWE", "NOR", "POL", "CZE", "CRO", "SRB", "ROU"]
 def run():
     sel = json.load(open("selezione.json"))
-    leghe = sel["internazionali"] + sel["nazionali"]
-    idx = json.load(open("arch/index.json")) if os.path.exists("arch/index.json") else {}
+    leghe = sel["internazionali"] + sorted(sel["nazionali"], key=lambda L: (PRIO.index(L["c"]) if L["c"] in PRIO else 99, 0))
+    if ONLY: leghe = [L for L in leghe if str(L["id"]) in ONLY]
+    idx = json.load(open(INDEX)) if os.path.exists(INDEX) else {}
     for L in leghe:
         lid = str(L["id"])
         if time.time() - T0 > BUDGET: print("budget finito"); break
@@ -33,14 +39,16 @@ def run():
         base = get(f"https://www.fotmob.com/api/data/leagues?id={lid}&ccode3={L['c'] if L['c']!='INT' else 'INT'}")
         if not base: continue
         seasons = base.get("allAvailableSeasons") or [x for x in [base.get("details", {}).get("selectedSeason")] if x]
-        seasons = [s for s in seasons if str(s)[:4].isdigit() and int(str(s)[:4]) >= 2010]
+        seasons = [s for s in seasons if str(s)[:4].isdigit() and int(str(s)[:4]) >= MINYEAR]
         det = base.get("details", {})
         e.update(color=det.get("leagueColor"), type=det.get("type"), tabs=[t for t in base.get("tabs", [])][:8])
         for s in seasons:
             if time.time() - T0 > BUDGET: break
             sk = str(s).replace("/", "-")
             p = f"arch/{lid}/{sk}.json"
-            if os.path.exists(p): continue
+            if os.path.exists(p):
+                if sk not in e["s"]: e["s"].append(sk)
+                continue
             d = get(f"https://www.fotmob.com/api/data/leagues?id={lid}&season={urllib.parse.quote(str(s))}&ccode3={L['c']}") or None
             if not d: continue
             tb = d.get("table") or []
@@ -81,9 +89,10 @@ def run():
         else:
             e["done"] = True
         idx[lid] = e
-        dump("arch/index.json", idx)
-    dump("arch/index.json", idx)
+        dump(INDEX, idx)
+    dump(INDEX, idx)
     ok = all(idx.get(str(L["id"]), {}).get("done") for L in leghe)
-    open("arch/.complete", "w").write("1") if ok else (os.path.exists("arch/.complete") and os.remove("arch/.complete"))
+    if INDEX == "arch/index.json":
+        open("arch/.complete", "w").write("1") if ok else (os.path.exists("arch/.complete") and os.remove("arch/.complete"))
 run()
 # v2

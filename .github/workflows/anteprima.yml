@@ -1,0 +1,49 @@
+name: Anteprima top campionati
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - anteprima.trigger
+concurrency:
+  group: anteprima
+  cancel-in-progress: false
+permissions:
+  contents: write
+jobs:
+  classifiche:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: ONLY_IDS=55,47,87,54,53,57,61,71,86,48,141,132,138,209,134 MINYEAR=2025 INDEX=arch/index_top.json BUDGET_MIN=100 python archivio.py
+      - run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add arch
+          git diff --staged --quiet || git commit -m "Anteprima: classifiche top campionati"
+          for i in 1 2 3 4 5 6; do git pull --rebase && git push && break; sleep $((i*5)); done
+  partite:
+    needs: classifiche
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: SHARD=${{ matrix.shard }} NSHARD=4 INDEX=arch/index_top.json MINYEAR=2025 BUDGET_MIN=130 python partite.py
+      - if: always()
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add partite 2>/dev/null || true
+          git reset -q partite/.done* partite/.cap* 2>/dev/null || true
+          git diff --staged --quiet || git commit -m "Anteprima: partite top campionati ${{ matrix.shard }}"
+          for i in 1 2 3 4 5 6; do git pull --rebase && git push && break; sleep $((i*5)); done
