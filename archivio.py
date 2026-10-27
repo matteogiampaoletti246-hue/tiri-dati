@@ -31,6 +31,11 @@ def run():
     leghe = sel["internazionali"] + sorted(sel["nazionali"], key=lambda L: (PRIO.index(L["c"]) if L["c"] in PRIO else 99, 0))
     if ONLY: leghe = [L for L in leghe if str(L["id"]) in ONLY]
     idx = json.load(open(INDEX)) if os.path.exists(INDEX) else {}
+    # le statistiche v1 erano della stagione sbagliata: si rifanno tutte (una volta sola per indice)
+    if not os.path.exists(INDEX + ".sv2"):
+        for v in idx.values():
+            if isinstance(v, dict): v.pop("done", None)
+        open(INDEX + ".sv2", "w").write("1")
     for L in leghe:
         lid = str(L["id"])
         if time.time() - T0 > BUDGET: print("budget finito"); break
@@ -46,7 +51,12 @@ def run():
             if time.time() - T0 > BUDGET: break
             sk = str(s).replace("/", "-")
             p = f"arch/{lid}/{sk}.json"
-            if os.path.exists(p):
+            ps = f"arch/{lid}/{sk}_s.json"
+            def s_ok():
+                try: return os.path.exists(ps) and json.load(open(ps)).get("v") == 2
+                except Exception: return False
+            have_main, have_s = os.path.exists(p), s_ok()
+            if have_main and have_s:
                 if sk not in e["s"]: e["s"].append(sk)
                 continue
             d = get(f"https://www.fotmob.com/api/data/leagues?id={lid}&season={urllib.parse.quote(str(s))}&ccode3={L['c']}") or None
@@ -62,13 +72,15 @@ def run():
             for r in rows: teams[r.get("id")] = r.get("shortName") or r.get("name")
             out = {"table": {k: tab.get(k) for k in ("all", "home", "away", "form")} if tab else None, "legend": tdata.get("legend") if isinstance(tdata, dict) else None,
                    "teams": teams, "fix": [compact_fix(m) for m in d.get("fixtures", {}).get("allMatches", [])]}
-            dump(p, out)
+            if not have_main: dump(p, out)
             # statistiche stagionali
             st = {"players": {}, "teams": {}}
             for lk in (d.get("stats", {}) or {}).get("seasonStatLinks", []) or []:
                 pass
             links = (d.get("stats", {}) or {}).get("seasonStatLinks") or []
-            tid = links[0].get("TournamentId") if links else None
+            # il link giusto e' quello con il nome della stagione richiesta (prima c'era sempre il primo = stagione attuale)
+            lk = [x for x in links if str(x.get("Name")) == str(s)] or [x for x in links if str(x.get("Name")).replace("/", "-") == sk]
+            tid = lk[0].get("TournamentId") if lk else None
             if tid:
                 ref = base.get("stats", {})
                 for kind in ("players", "teams"):
@@ -83,7 +95,8 @@ def run():
                                 lst.append([r.get("ParticiantId") or r.get("ParticipantId"), r.get("ParticipantName"), r.get("TeamId"), r.get("StatValue"), r.get("MinutesPlayed"), r.get("MatchesPlayed"), r.get("Positions")])
                         st[kind][nm.replace(".json", "")] = lst
                         time.sleep(0.15)
-                dump(f"arch/{lid}/{sk}_s.json", st)
+                st["v"] = 2
+                dump(ps, st)
             if sk not in e["s"]: e["s"].append(sk)
             time.sleep(0.3)
         else:
