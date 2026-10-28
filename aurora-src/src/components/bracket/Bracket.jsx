@@ -1,3 +1,4 @@
+import { useSel } from '@/components/past/PastBits';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAsync from '@/hooks/useAsync';
@@ -116,8 +117,10 @@ function BracketView({ data, fm, sk }) {
     if (open >= 0) return Math.min(open, Math.max(0, L - 1));
     return Math.max(0, L - 3);
   }, [rounds, L]);
-  const [active, setActive] = useState(start);
-  if (P.current == null) P.current = start;
+  const [saved, setSaved] = useSel(`lg-${fm}`, `ph-${sk}`, null);
+  const first = saved != null && saved < L ? saved : start;
+  const [active, setActive] = useState(first);
+  if (P.current == null) P.current = first;
 
   const scale = useMemo(() => {
     const a = rounds.map((r) => 1 / Math.max(1, slots / r.ties.length));
@@ -207,6 +210,7 @@ function BracketView({ data, fm, sk }) {
 
   const go = (to) => {
     setActive(to);
+    setSaved(to);
     cancelAnimationFrame(raf.current);
     const from = P.current;
     if (from === to) return;

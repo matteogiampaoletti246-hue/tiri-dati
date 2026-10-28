@@ -364,6 +364,15 @@ await step('tabellone: stagione attuale senza dati e stagione passata con tabell
   ok('Tabellone CL 2025/26: finale con rigori reali', /vince ai rigori 5–4/.test(f), { f: f.slice(0, 400) });
   await clickVis('Ottavi'); await wait(1600); await shot('cl-2526-ottavi');
   await clickVis('Spareggi'); await wait(1600); await shot('cl-2526-spareggi');
+  // si apre una partita dal tabellone e si torna indietro: resta la stagione passata sul tabellone
+  await clickVis('Semifinali'); await wait(1500);
+  const opened = await pg.evaluate(() => { const a = [...document.querySelectorAll('a,button')].filter((x) => /#\/(match|storico)\//.test(x.getAttribute('href') || '') || /^\d+\s*[–-]\s*\d+$/.test(x.textContent.trim()))[0]; if (a) { a.click(); return true; } return false; });
+  await wait(3500);
+  const urlIn = await pg.evaluate(() => location.hash);
+  await pg.goBack(); await wait(3000);
+  const back = await pg.evaluate(() => ({ h: location.hash, t: document.body.innerText }));
+  await shot('cl-ritorno-da-partita');
+  ok('tabellone: tornando da una partita resta la stagione passata sul Tabellone', opened && /2025\/26/.test(back.t) && /Ottavi/.test(back.t) && /Semifinali/.test(back.t), { opened, urlIn, h: back.h, t: back.t.slice(0, 200) });
 });
 
 report.passed = report.checks.filter((c) => c.pass).length;

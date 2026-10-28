@@ -1,4 +1,5 @@
 import { useLayoutEffect, useEffect, useRef, useState } from 'react';
+import { useSel } from '@/components/past/PastBits';
 import Bracket from '@/components/bracket/Bracket';
 import { hasCup } from '@/data/bracket';
 
@@ -11,8 +12,8 @@ const OPTS = ['Classifica', 'Tabellone'];
 export default function ClassificaSwitch({ fm, sk, children }) {
   const A = useRef(null); const Bv = useRef(null);
   const box = useRef(null); const ind = useRef(null); const btn = useRef([]);
-  const S = useRef(0); const raf = useRef(0);
-  const [view, setView] = useState(0);
+  const [view, setView] = useSel(`lg-${fm}`, `vw-${sk}`, 0);
+  const S = useRef(view); const raf = useRef(0);
 
   const paint = (s) => {
     const a = A.current; const b = Bv.current;
