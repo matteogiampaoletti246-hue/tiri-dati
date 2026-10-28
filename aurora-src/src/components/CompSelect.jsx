@@ -21,14 +21,14 @@ export default function CompSelect({ options, value, onChange, allLabel = null, 
   const items = allLabel ? [{ id: 'all', name: allLabel }, ...options] : options;
 
   return (
-    <div ref={ref} className={inline ? 'relative' : 'relative z-[25] px-4 pb-1 pt-3'} data-no-swipe="true" style={open ? { zIndex: 96 } : undefined}>
+    <div ref={ref} className={inline ? 'relative min-w-0' : 'relative z-[25] px-4 pb-1 pt-3'} data-no-swipe="true" style={open ? { zIndex: 96 } : undefined}>
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="glass press inline-flex items-center gap-2 rounded-[16px] py-2 pl-3 pr-2.5"
+        className="glass press inline-flex max-w-full items-center gap-2 rounded-[16px] py-2 pl-3 pr-2.5"
       >
         {cur ? <LeagueBadge league={cur} size={24} /> : null}
-        <b className="whitespace-nowrap text-[14px]">{cur ? cur.name : allLabel}</b>
+        <b className="truncate whitespace-nowrap text-[14px]">{cur ? cur.name : allLabel}</b>
         <ChevronDown size={16} strokeWidth={2} style={{ color: 'var(--ink-3)', transform: open ? 'rotate(180deg)' : 'none', transition: 'transform .25s' }} />
       </button>
       {open ? <MenuBackdrop onClose={() => setOpen(false)} /> : null}

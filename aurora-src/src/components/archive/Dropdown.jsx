@@ -20,7 +20,7 @@ export default function Dropdown({ options, value, onChange, icon = null, width 
     <div ref={ref} className="relative" data-no-swipe="true" style={open ? { zIndex: 96 } : undefined}>
       <button type="button" onClick={() => setOpen((o) => !o)} className="glass press flex h-10 max-w-full items-center gap-2.5 rounded-full pl-4 pr-3 text-[14px] font-bold" style={{ color: 'var(--ink)' }}>
         {icon}
-        <span className="truncate">{cur.label}</span>
+        <span className="truncate">{cur.short || cur.label}</span>
         <ChevronDown size={16} strokeWidth={2} className="flex-none" style={{ color: 'var(--ink-3)', transform: open ? 'rotate(180deg)' : 'none', transition: 'transform .25s' }} />
       </button>
       {open ? <MenuBackdrop onClose={() => setOpen(false)} /> : null}

@@ -45,6 +45,7 @@ export default function TeamRosterPanel({ teamId }) {
               <b className="text-[12.5px] uppercase tracking-[.07em]" style={{ color: g.color }}>{g.title}</b>
               <span className="ml-auto text-[12px]" style={{ color: 'var(--ink-3)' }}>{g.list.length}</span>
             </div>
+            <div className="h-1.5" />
             {g.list.map((r) => {
               const bits = [r[4] ? `${flagOf(r[4])} ${countryIt(r[4])}`.trim() : null, r[6] ? `${r[6]} cm` : null, r[5] ? `${r[5]} anni` : null].filter(Boolean);
               const initials = String(r[1]).split(' ').map((w) => w[0]).join('').slice(0, 2).toUpperCase();
@@ -79,6 +80,7 @@ export default function TeamRosterPanel({ teamId }) {
             <b className="text-[12.5px] uppercase tracking-[.07em]" style={{ color: g.color }}>{g.title}</b>
             <span className="ml-auto text-[12px]" style={{ color: 'var(--ink-3)' }}>{g.list.length}</span>
           </div>
+          <div className="h-1.5" />
           {g.list.map((p) => (
             <Link key={p.id} to={`/giocatore/${p.id}`} className="press mx-2 mb-1.5 flex items-center gap-3 rounded-[18px] px-3 py-2" style={{ background: teamGrad(teamById(teamId), 0x55) }}>
               <span className="avatar h-[38px] w-[38px] text-[11px]">

@@ -206,13 +206,60 @@ export const playerSeasons = (fm, pid) => {
   }
   return PS[k];
 };
-const norm = (n) => String(n || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9 ]/g, ' ').replace(/\b(fc|ac|as|ss|us|afc|cf|sc|calcio|1\w*)\b/g, ' ').replace(/\s+/g, ' ').trim();
-// id FotMob di una squadra dentro i dati di una stagione, dal nome
+const ALIAS = [[/\bmanchester\b/g, 'man'], [/\bnottingham\b/g, 'nottm'], [/\bmunchen\b/g, 'munich'], [/\bm gladbach\b|\bmonchengladbach\b|\bmgladbach\b/g, 'gladbach'], [/\bsaint\b/g, 'st'], [/\bborussia\b/g, ' '], [/\bwolverhampton wanderers\b/g, 'wolves'], [/\btottenham hotspur\b/g, 'tottenham']];
+const norm = (n) => {
+  let x = String(n || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9 ]/g, ' ').replace(/\b(fc|ac|as|ss|us|afc|cf|sc|calcio|1\w*)\b/g, ' ');
+  ALIAS.forEach(([re, to]) => { x = x.replace(re, to); });
+  return x.replace(/\s+/g, ' ').trim();
+};
+// sigla ("Paris Saint-Germain" -> "psg")
+const acr = (n) => String(n || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').split(/[\s-]+/).filter(Boolean).map((t) => t[0]).join('');
+// id FotMob di una squadra dentro i dati di una stagione, dal nome: prima uguale, poi sigla, poi nome contenuto (mai due squadre diverse che si somigliano)
 export const teamIdByName = (teams, name) => {
   const n = norm(name);
   if (!n || !teams) return null;
   const ent = Object.entries(teams);
   let hit = ent.find(([, v]) => norm(v) === n);
-  if (!hit) hit = ent.find(([, v]) => { const m = norm(v); return m && (m.includes(n) || n.includes(m)); });
+  if (!hit) { const a = acr(name); hit = ent.find(([, v]) => { const m = norm(v); return m === a || (a.length >= 3 && acr(v) === n); }); }
+  if (!hit) {
+    const cand = ent.filter(([, v]) => { const m = norm(v); return m && m.length >= 4 && n.length >= 4 && (m.includes(n) || n.includes(m)); });
+    if (cand.length === 1) hit = cand[0];
+  }
   return hit ? hit[0] : null;
 };
+
+// Statistiche di squadra di una stagione calcolate partita per partita (media a partita, in casa o in trasferta):
+// stessa forma delle statistiche stagionali: chiave -> [[null, nome, id squadra, valore, 0, partite]] in ordine di classifica.
+const NUMV = (v) => { const n = parseFloat(String(v).replace(',', '.')); return Number.isFinite(n) ? n : null; };
+const TEAM_PART_KEYS = ['BallPossesion', 'expected_goals', 'total_shots', 'ShotsOnTarget', 'ShotsOffTarget', 'blocked_shots', 'shots_woodwork', 'shots_inside_box', 'shots_outside_box', 'big_chance', 'big_chance_missed_title',
+  'touches_opp_box', 'corners', 'passes', 'accurate_passes', 'own_half_passes', 'opposition_half_passes', 'long_balls_accurate', 'accurate_crosses', 'player_throws', 'Offsides', 'matchstats.headers.tackles', 'interceptions',
+  'shot_blocks', 'clearances', 'keeper_saves', 'duel_won', 'ground_duels_won', 'aerials_won', 'dribbles_succeeded', 'yellow_cards', 'red_cards', 'fouls'];
+export const teamPartStats = (lid, sk, part) => once(`tps/${lid}/${sk}/${part}`, async () => {
+  const d = await loadSeasonMatches(lid, sk);
+  if (!d || !d.m) return null;
+  const season = await loadSeason(lid, sk);
+  const names = (season && season.teams) || {};
+  const acc = {};
+  Object.values(d.m).forEach((m) => {
+    if (!m || !m.s || !m.h || !m.a) return;
+    [[0, m.h.id, 'home'], [1, m.a.id, 'away']].forEach(([side, tid, where]) => {
+      if (part === 'home' && where !== 'home') return;
+      if (part === 'away' && where !== 'away') return;
+      TEAM_PART_KEYS.forEach((k) => {
+        const arr = m.s[k];
+        const v = arr ? NUMV(arr[side]) : null;
+        if (v === null) return;
+        const a = ((acc[k] = acc[k] || {})[tid] = acc[k][tid] || { s: 0, n: 0 });
+        a.s += v; a.n += 1;
+      });
+    });
+  });
+  const teams = {};
+  Object.entries(acc).forEach(([k, per]) => {
+    const rows = Object.entries(per).filter(([, a]) => a.n > 0).map(([tid, a]) => [null, names[tid] || '', Number(tid), a.s / a.n, 0, a.n]);
+    if (rows.length < 3) return;
+    rows.sort((x, y) => y[3] - x[3]);
+    teams[k] = rows;
+  });
+  return Object.keys(teams).length ? { v: 2, teams, players: {}, fromMatches: true } : null;
+});

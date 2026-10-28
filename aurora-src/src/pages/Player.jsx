@@ -10,7 +10,7 @@ import EntityBanner from '@/components/EntityBanner';
 import useInitialLoad from '@/hooks/useInitialLoad';
 import { playerById } from '@/data/players';
 import { parseArchiveId, makeArchivePlayer } from '@/data/archivePlayer';
-import { NAV } from '@/components/past/PastBits';
+import { useEntityScope } from '@/components/past/PastBits';
 import useAsync from '@/hooks/useAsync';
 import { teamById } from '@/data/teams';
 import { loadPlayerShots } from '@/data/extras';
@@ -42,11 +42,11 @@ export default function Player() {
       </PageShell>
     );
   }
-  if (arc) { NAV.fm = arc.fm; NAV.sk = arc.sk; }
   return <PlayerView key={id} id={id} />;
 }
 
 function PlayerView({ id }) {
+  useEntityScope(id);
   const loading = useInitialLoad(280);
   const player = playerById(id);
   const [tab, setTab] = useState(() => {

@@ -10,8 +10,7 @@ import { comma } from '@/lib/format';
 import { bandColor, ratioColor } from '@/components/player/playerCalc';
 import CompSeasonBar from '@/components/CompSeasonBar';
 import { PastTeamStats } from '@/components/past/PastTeam';
-import { useSeasonList, initSeason, announceComp } from '@/components/past/PastBits';
-import { FM_ID } from '@/data/archive';
+import { useTeamView, announceComp } from '@/components/past/PastBits';
 import { teamCompetitions } from '@/data/competitions';
 import { teamShots } from '@/data/calcData';
 import { MATCHES } from '@/data/matches';
@@ -153,14 +152,10 @@ function DomesticStats({ team, comp }) {
 
 
 export default function TeamStatsPanel({ team }) {
-  const [comp, setComp] = useState(team.leagueId);
-  const [season, setSeason] = useState(() => initSeason(FM_ID[comp]));
-  const comps = teamCompetitions(team.id);
-  const fm = FM_ID[comp];
-  const seasons = useSeasonList(fm, team && team.name);
+  const { comp, setComp, season, setSeason, comps, seasons, fm } = useTeamView(team, 'sx', teamCompetitions(team.id), team.leagueId);
   return (
     <div>
-      <CompSeasonBar comps={comps} comp={comp} onComp={(c) => { setComp(c); setSeason('cur'); announceComp(team.id, c); }} seasons={seasons} season={season} onSeason={setSeason} />
+      <CompSeasonBar comps={comps} comp={comp} onComp={(c) => { setComp(c); announceComp(team.id, c); }} seasons={seasons} season={season} onSeason={setSeason} />
       {season !== 'cur' && fm ? <PastTeamStats fm={fm} sk={season} team={team} /> : (
         <div key={comp} className="comp-in">
           <DomesticStats team={team} comp={comp} />

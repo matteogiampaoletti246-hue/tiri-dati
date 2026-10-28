@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import usePageTab from '@/hooks/usePageTab';
+import { useEntityScope } from '@/components/past/PastBits';
 import { useParams } from 'react-router-dom';
 import PageShell from '@/components/PageShell';
 import TopBar from '@/components/TopBar';
@@ -20,6 +21,7 @@ import { teamRow } from '@/data/standings';
 import { teamForm } from '@/data/matches';
 import { allTeamMatches } from '@/data/extras';
 import { coachOf } from '@/data/players';
+import { loadRose, roseOf } from '@/data/rose';
 
 const TABS = [
   { key: 'matches', label: 'Partite' },
@@ -31,6 +33,7 @@ const TABS = [
 
 export default function Team() {
   const { id } = useParams();
+  useEntityScope(id);
   const [tab, setTab] = usePageTab('team', id);
   const [bComp, setBComp] = useState(null);
   useEffect(() => {
@@ -40,6 +43,8 @@ export default function Team() {
   }, [id]);
   const loading = useInitialLoad(280);
   const team = teamById(id);
+  const [, bumpR] = useState(0);
+  useEffect(() => { let on = true; loadRose().then(() => on && bumpR((n) => n + 1)); return () => { on = false; }; }, []);
 
 
   if (!team) {
@@ -69,7 +74,7 @@ export default function Team() {
           <span aria-hidden="true" className="h-4 w-px" style={{ background: 'var(--hair)' }} />
         </>
       ) : null}
-      <span className="min-w-0 truncate" style={{ color: 'var(--ink-2)' }}>All. {coachOf(team.id)}</span>
+      <span className="min-w-0 truncate" style={{ color: 'var(--ink-2)' }}>All. {(roseOf(team) || {}).co || coachOf(team.id)}</span>
     </div>
   );
 

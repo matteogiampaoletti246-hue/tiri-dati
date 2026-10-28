@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { ChevronUp } from 'lucide-react';
 import TextFilter from '@/components/TextFilter';
 import CompSeasonBar from '@/components/CompSeasonBar';
 import LeagueBadge from '@/components/LeagueBadge';
@@ -6,7 +7,7 @@ import MatchRow from '@/components/MatchRow';
 import useAsync from '@/hooks/useAsync';
 import { allTeamMatches } from '@/data/extras';
 import { teamCompetitions } from '@/data/competitions';
-import { announceComp } from '@/components/past/PastBits';
+import { announceComp, useTeamView, useSel } from '@/components/past/PastBits';
 import { ArchRow, fmtDate, dayKey } from '@/components/archive/parts';
 import { FM_ID, loadSeason, teamIdByName, teamSeasons, sortSeasons } from '@/data/archive';
 import { leagueById, leagueTint } from '@/data/leagues';
@@ -91,30 +92,36 @@ function PastSeason({ team, comp, sk, filter }) {
   return <Pills items={list} dayHead={(d) => fmtDate(d)} row={(it) => <ArchRow m={it.m} names={it.names} fm={it.fm} sk={sk} tid={it.tid} />} />;
 }
 
-// stagione in corso: partite gia' giocate e da giocare, con le competizioni che la squadra sta disputando
+// stagione in corso: "Tutte" parte dalle ultime due partite giocate (le precedenti si aprono col tasto) e prosegue con le prossime
 function CurrentSeason({ teamId, comp, filter }) {
-  const list = useMemo(() => {
+  const [more, setMore] = useState(false);
+  const { list, hidden } = useMemo(() => {
     const l = allTeamMatches(teamId).filter(MATCH[filter]).filter((m) => comp === 'all' || m.leagueId === comp);
     const items = l.map((m) => ({ key: m.id, day: m.date, ts: m.ts, lid: m.leagueId, m }));
-    return items.sort((a, b) => (filter === 'upcoming' ? a.ts - b.ts : b.ts - a.ts));
+    if (filter !== 'all') return { list: items.sort((a, b) => (filter === 'upcoming' ? a.ts - b.ts : b.ts - a.ts)), hidden: 0 };
+    items.sort((a, b) => a.ts - b.ts);
+    const fi = items.findIndex((it) => it.m.status !== 'finished');
+    const start = Math.max(0, (fi < 0 ? items.length : fi) - 2);
+    return { list: items, hidden: start };
   }, [teamId, comp, filter]);
   if (!list.length) return <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Nessuna partita</p>;
-  return <Pills items={list} dayHead={dayHeadLive} row={(it) => <MatchRow match={it.m} teamId={teamId} />} />;
+  const shown = filter === 'all' && !more ? list.slice(hidden) : list;
+  return (
+    <div>
+      {filter === 'all' && hidden > 0 && !more ? (
+        <button type="button" onClick={() => setMore(true)} className="press mx-auto mt-4 flex items-center gap-1.5 px-4 py-2 text-[12.5px] font-bold" style={{ color: 'var(--accent)' }}>
+          <ChevronUp size={15} />Partite precedenti ({hidden})
+        </button>
+      ) : null}
+      <Pills items={shown} dayHead={dayHeadLive} row={(it) => <MatchRow match={it.m} teamId={teamId} />} />
+    </div>
+  );
 }
 
 export default function TeamMatchesPanel({ teamId }) {
   const team = teamById(teamId);
-  const [filter, setFilter] = useState('all');
-  const [comp, setComp] = useState('all');
-  const [season, setSeason] = useState('cur');
-  const comps = teamCompetitions(teamId);
-  // stagioni passate in cui la squadra ha giocato la competizione scelta (con "tutte" si sommano campionato e coppe europee)
-  const { data: seasons } = useAsync(async () => {
-    const lists = await Promise.all(fmsFor(team, comp).map((fm) => teamSeasons(fm, team.name)));
-    return sortSeasons([...new Set(lists.flat())]);
-  }, [team.name, comp]);
-  const sList = seasons || [];
-  const sk = season !== 'cur' && sList.includes(season) ? season : 'cur';
+  const [filter, setFilter] = useSel(teamId, 'mf', 'all');
+  const { comp, setComp, season: sk, setSeason, comps, seasons } = useTeamView(team, 'mt', teamCompetitions(teamId), 'all', true);
 
   return (
     <div className="pt-0">
@@ -123,7 +130,7 @@ export default function TeamMatchesPanel({ teamId }) {
         comp={comp}
         allLabel="Tutte le competizioni"
         onComp={(c) => { setComp(c); announceComp(teamId, c); }}
-        seasons={sList}
+        seasons={seasons}
         season={sk}
         onSeason={setSeason}
       />

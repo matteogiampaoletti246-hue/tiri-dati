@@ -1,11 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
+import { useNavigationType } from 'react-router-dom';
 import useAsync from '@/hooks/useAsync';
-import { pastSeasons, teamSeasons, playerSeasons } from '@/data/archive';
+import { pastSeasons, teamSeasons, playerSeasons, loadSeason, teamIdByName, sortSeasons, FM_ID } from '@/data/archive';
+import { leagueById } from '@/data/leagues';
 import { bandColor } from '@/components/player/playerCalc';
 
 // stagione/scheda richiesta da un collegamento dello storico: la scheda unica si apre gia' li'
 export const NAV = { fm: null, sk: null, tab: null };
-export const initSeason = (fm) => (NAV.sk && String(NAV.fm) === String(fm) ? NAV.sk : 'cur');
+// la stagione richiesta da un collegamento vale una sola volta: le schede aperte dopo non la ereditano
+export const initSeason = (fm) => {
+  if (NAV.sk && String(NAV.fm) === String(fm)) { const v = NAV.sk; NAV.sk = null; NAV.fm = null; return v; }
+  return 'cur';
+};
 
 export const CARD = { backgroundColor: 'var(--panel-solid, rgba(255,255,255,.04))', border: '1px solid var(--hair-2)', borderRadius: 18 };
 export const LBL = { fontSize: 9.5, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--ink-3)' };
@@ -16,7 +22,66 @@ export const NEG_RE = /conceded|card|^fouls$|lost|dispossess|miss|offside|dribbl
 // con pid (id FotMob del giocatore): solo le stagioni in cui quel giocatore ha giocato la competizione
 export function useSeasonList(fm, teamName, pid) {
   const { data } = useAsync(() => (fm ? (pid ? playerSeasons(fm, pid) : teamName ? teamSeasons(fm, teamName) : pastSeasons(fm)) : Promise.resolve([])), [fm, teamName, pid]);
-  return data || [];
+  const arr = data || [];
+  arr.loaded = !!data;
+  return arr;
+}
+
+// ---- Scelte di stagione / competizione legate alla scheda aperta ----
+// Si ricordano finche' la scheda resta "nella pila" (apro un giocatore e torno indietro: la stagione c'e' ancora).
+// Aprendo una scheda da zero (o dopo averla chiusa) si riparte da "stagione attuale".
+const SEL = new Map();
+const resetSel = (entity) => { [...SEL.keys()].forEach((k) => { if (k.startsWith(`${entity}|`)) SEL.delete(k); }); };
+export function useEntityScope(entity) {
+  const nav = useNavigationType();
+  const done = useRef(null);
+  if (done.current !== entity) {
+    done.current = entity;
+    if (nav !== 'POP') resetSel(entity);
+  }
+}
+export function useSel(entity, slot, initial) {
+  const k = `${entity}|${slot}`;
+  const [v, setV] = useState(() => {
+    if (SEL.has(k)) return SEL.get(k);
+    const x = typeof initial === 'function' ? initial() : initial;
+    SEL.set(k, x);
+    return x;
+  });
+  const set = (x) => { SEL.set(k, x); setV(x); };
+  return [v, set];
+}
+
+const CUP_IDS = ['champions-league', 'europa-league', 'conference-league'];
+// competizioni (id app) che la squadra ha giocato in quella stagione: legate al tasto stagione
+export function useSeasonComps(team, season, base) {
+  const { data } = useAsync(async () => {
+    if (season === 'cur') return null;
+    const cands = [...new Set([team.leagueId, ...CUP_IDS])].filter((id) => FM_ID[id]);
+    const hits = await Promise.all(cands.map(async (id) => {
+      const s = await loadSeason(FM_ID[id], season).catch(() => null);
+      return s && s.teams && teamIdByName(s.teams, team.name) ? id : null;
+    }));
+    return hits.filter(Boolean).map(leagueById).filter(Boolean);
+  }, [team.name, season]);
+  return season === 'cur' ? base : (data && data.length ? data : base);
+}
+
+// Vista di un pannello squadra: competizione + stagione collegate. allowAll: aggiunge "Tutte le competizioni".
+export function useTeamView(team, slot, baseComps, defComp, allowAll = false) {
+  const [comp, setComp] = useSel(team.id, `${slot}-c`, defComp);
+  const [season, setSeason] = useSel(team.id, `${slot}-s`, () => initSeason(FM_ID[defComp === 'all' ? team.leagueId : defComp]));
+  const comps = useSeasonComps(team, season, baseComps);
+  const okComp = comp === 'all' ? allowAll : comps.some((c) => c.id === comp);
+  const compEff = okComp ? comp : (allowAll ? 'all' : (comps[0] ? comps[0].id : comp));
+  const fms = compEff === 'all' ? [...new Set([FM_ID[team.leagueId], ...CUP_IDS.map((c) => FM_ID[c])].filter(Boolean))] : [FM_ID[compEff]].filter(Boolean);
+  const { data } = useAsync(async () => {
+    const lists = await Promise.all(fms.map((fm) => teamSeasons(fm, team.name)));
+    return sortSeasons([...new Set(lists.flat())]);
+  }, [team.name, compEff]);
+  const seasons = data || [];
+  const sk = season === 'cur' || !data || seasons.includes(season) ? season : 'cur';
+  return { comp: compEff, setComp, season: sk, setSeason, comps, seasons, fm: FM_ID[compEff] };
 }
 
 const ease = (t) => 1 - (1 - t) ** 3;

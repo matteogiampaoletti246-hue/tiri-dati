@@ -162,11 +162,12 @@ export function applyFm(m, d, playerLookup) {
     period: s[18],
     own: !!s[17],
     px: s[4],
-    py: s[5],
-    gy: s[11],
+    // FotMob misura la larghezza al contrario di come la guarda chi vede il campo da sopra: si specchia (campo e porta)
+    py: s[5] == null ? s[5] : 68 - s[5],
+    gy: s[11] == null ? s[11] : 68 - s[11],
     gz: s[12],
     x: Math.max(0, Math.min(1, s[4] / 105)),
-    y: Math.max(0, Math.min(1, s[5] / 68)),
+    y: Math.max(0, Math.min(1, 1 - s[5] / 68)),
   }));
   m.shotsFm = true;
   if (d.pl) m.playerStats = d.pl;

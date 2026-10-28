@@ -7,6 +7,8 @@ import json, os, re, time, unicodedata, urllib.request
 UA = {"User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mobile/15E148) AppleWebKit/605.1.15 Mobile Safari/604.1", "Accept": "application/json,*/*", "Accept-Language": "en-US,en;q=0.9"}
 LEAGUES = {"eredivisie": 57, "super-lig": 71, "liga-portugal": 61, "pro-league": 40, "scottish-premiership": 64,
            "aut-bundesliga": 38, "nor-eliteserien": 59, "gre-super-league-1": 135}
+# campionati maggiori: qui servono solo gli allenatori (la rosa completa arriva dagli altri file)
+COACH_ONLY = {"serie-a": 55, "premier-league": 47, "la-liga": 87, "bundesliga": 54, "ligue-1": 53}
 GRP = {"keepers": "GK", "defenders": "DEF", "midfielders": "MID", "attackers": "ATT"}
 OUT = "rose.json"
 
@@ -57,7 +59,7 @@ def main():
     except Exception:
         pass
     res = dict(old)
-    for lg, lid in LEAGUES.items():
+    for lg, lid in {**LEAGUES, **COACH_ONLY}.items():
         j = get("https://www.fotmob.com/api/data/leagues?id=%d&ccode3=ITA" % lid)
         teams = {}
         find_teams((j or {}).get("table") or j or {}, teams)
@@ -82,7 +84,7 @@ def main():
                 for m in g.get("members") or []:
                     rows.append([m.get("id"), m.get("name"), GRP[t0], m.get("shirtNumber"), m.get("cname"), m.get("age"), num(m.get("height")),
                                  num(m.get("rating")), m.get("goals") or 0, m.get("assists") or 0, 1 if m.get("injury") else 0])
-            res[key] = {"id": tid, "co": co, "lg": lg, "p": rows}
+            res[key] = {"id": tid, "co": co, "lg": lg, "p": [] if lg in COACH_ONLY else rows}
             time.sleep(0.3)
     json.dump(res, open(OUT, "w"), ensure_ascii=False, separators=(",", ":"))
     print("scritto", len(res), "squadre")

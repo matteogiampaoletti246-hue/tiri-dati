@@ -16,10 +16,20 @@ function useTeamSeason(fm, sk, team) {
 }
 
 export function PastTeamStats({ fm, sk, team }) {
+  const [part, setPart] = useState('tot');
+  const [cat, setCat] = useState('all');
   const { tid, loading, season } = useTeamSeason(fm, sk, team);
   if (loading) return <Msg>Carico la stagione {seasonLabel(sk)}…</Msg>;
   if (!season || !tid) return <Msg>{team.name} non ha giocato questo campionato nel {seasonLabel(sk)}</Msg>;
-  return <PastStats kind="teams" id={tid} fm={fm} sk={sk} />;
+  return (
+    <div>
+      <div className="flex flex-col gap-2 px-4 pt-3">
+        <TextFilter options={[{ value: 'tot', label: 'Totale' }, { value: 'home', label: 'Casa' }, { value: 'away', label: 'Trasferta' }]} value={part} onChange={setPart} />
+        <TextFilter options={[{ value: 'all', label: 'Tutte' }, { value: 'Attacco', label: 'Attacco' }, { value: 'Difesa', label: 'Difesa' }, { value: 'Disciplina', label: 'Disciplina' }, { value: 'Gioco', label: 'Gioco' }]} value={cat} onChange={setCat} />
+      </div>
+      <div key={`${part}|${cat}`} className="comp-in"><PastStats kind="teams" id={tid} fm={fm} sk={sk} part={part} cat={cat} /></div>
+    </div>
+  );
 }
 
 export function PastTeamStandings({ fm, sk, team }) {

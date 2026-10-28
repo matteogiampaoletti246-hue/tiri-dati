@@ -1,21 +1,27 @@
 import useAsync from '@/hooks/useAsync';
-import { noStats, loadSeason, loadPlayerStats, loadSeasonStats, teamIdByName, PLAYER_STAT_IT, SEASON_STAT_IT, prettyKey, seasonLabel } from '@/data/archive';
+import { noStats, loadSeason, loadPlayerStats, loadSeasonStats, teamPartStats, teamIdByName, PLAYER_STAT_IT, SEASON_STAT_IT, STAT_IT, prettyKey, seasonLabel } from '@/data/archive';
 import { useTeamColors } from '@/components/archive/parts';
 import { groupOf, fmtVal, ORDER } from '@/components/archive/ArchiveLeague';
 import { TeamLogo } from '@/components/FmImg';
 import { CARD, BarRow, standingOf } from './PastBits';
 
+// categorie come nella stagione attuale: Attacco / Difesa / Disciplina / Gioco
+const catOfMatchKey = (k) => (/yellow|red_cards|fouls|Offsides/.test(k) ? 'Disciplina' : /tackles|interceptions|shot_blocks|clearances|keeper_saves/.test(k) ? 'Difesa' : /expected_goals|shots|ShotsOn|ShotsOff|big_chance|corners|touches_opp_box|woodwork/.test(k) ? 'Attacco' : 'Gioco');
+const catOfSeasonGroup = (g) => (['Attacco', 'Difesa', 'Disciplina'].includes(g) ? g : 'Gioco');
+const GROUP_ORDER = ['Attacco', 'Difesa', 'Disciplina', 'Gioco'];
+
 const Msg = ({ children }) => <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>{children}</p>;
 
 // Statistiche di una stagione passata, con lo stesso aspetto della stagione attuale:
 // riquadri a pillola col colore della squadra, valori colorati per posizione, barre con la media del campionato.
-export default function PastStats({ kind, id, fm, sk, current = false, teamName = '' }) {
+export default function PastStats({ kind, id, fm, sk, current = false, teamName = '', part = 'tot', cat = 'all' }) {
+  const byMatch = kind === 'teams' && part !== 'tot';
   const col = useTeamColors();
-  const { data: stats, loading } = useAsync(() => (kind === 'players' ? loadPlayerStats(fm, sk) : loadSeasonStats(fm, sk)), [fm, sk, kind]);
+  const { data: stats, loading } = useAsync(() => (kind === 'players' ? loadPlayerStats(fm, sk) : byMatch ? teamPartStats(fm, sk, part) : loadSeasonStats(fm, sk)), [fm, sk, kind, part]);
   const { data: season } = useAsync(() => loadSeason(fm, sk), [fm, sk]);
   if (loading) return <Msg>Carico la stagione {seasonLabel(sk)}…</Msg>;
   const lists = stats && stats[kind];
-  if (!lists) return <Msg>{noStats(fm, sk) ? `Statistiche non disponibili per la stagione ${seasonLabel(sk)}` : `Statistiche della stagione ${seasonLabel(sk)} in arrivo`}</Msg>;
+  if (!lists) return <Msg>{byMatch ? `Dati partita per partita del ${seasonLabel(sk)} non disponibili` : noStats(fm, sk) ? `Statistiche non disponibili per la stagione ${seasonLabel(sk)}` : `Statistiche della stagione ${seasonLabel(sk)} in arrivo`}</Msg>;
   const isP = kind === 'players';
   const names = (season && season.teams) || {};
   const groups = {};
@@ -26,14 +32,15 @@ export default function PastStats({ kind, id, fm, sk, current = false, teamName 
     const idx = list.findIndex((r) => String(isP ? r[0] : r[2]) === String(id));
     if (idx < 0) return;
     me = me || list[idx];
-    const g = groupOf(k.replace(/_team$/, ''));
-    (groups[g] = groups[g] || []).push({ k, st: standingOf(list, idx, k), title: SEASON_STAT_IT[k] || PLAYER_STAT_IT[k] || prettyKey(k) });
+    const g = byMatch ? catOfMatchKey(k) : kind === 'teams' ? catOfSeasonGroup(groupOf(k.replace(/_team$/, ''))) : groupOf(k.replace(/_team$/, ''));
+    if (kind === 'teams' && cat !== 'all' && g !== cat) return;
+    (groups[g] = groups[g] || []).push({ k, st: standingOf(list, idx, k), title: byMatch ? (STAT_IT[k] || prettyKey(k)) : (SEASON_STAT_IT[k] || PLAYER_STAT_IT[k] || prettyKey(k)) });
   });
   if (!me) return <Msg>Nessuna presenza in questa stagione</Msg>;
   const tid = isP ? (me[2] || (teamName ? teamIdByName(names, teamName) : null)) : id;
   const tname = names[tid] || '';
   const club = col(tid, tname).colors[0];
-  const order = Object.keys(groups).sort((a, b) => ORDER.indexOf(a) - ORDER.indexOf(b));
+  const order = Object.keys(groups).sort((a, b) => (kind === 'teams' ? GROUP_ORDER.indexOf(a) - GROUP_ORDER.indexOf(b) : ORDER.indexOf(a) - ORDER.indexOf(b)));
   return (
     <div className="club-scope flex flex-col gap-4 px-5 pb-10 pt-4" style={{ '--club': club, '--club-a': '24%' }}>
       {isP ? (
@@ -63,11 +70,11 @@ export default function PastStats({ kind, id, fm, sk, current = false, teamName 
                 first={i === 0}
                 label={r.title}
                 value={r.st.v}
-                fmt={(v) => fmtVal(r.k, v)}
+                fmt={(v) => (byMatch ? (/BallPossesion/.test(r.k) ? `${Math.round(v)}%` : Number(v).toFixed(Number.isInteger(v) ? 0 : 2).replace('.', ',')) : fmtVal(r.k, v))}
                 frac={r.st.frac}
                 width={r.st.width}
                 avgPos={r.st.avgPos}
-                avgText={fmtVal(r.k, r.st.avg)}
+                avgText={byMatch ? Number(r.st.avg).toFixed(2).replace('.', ',') : fmtVal(r.k, r.st.avg)}
                 rank={r.st.rank}
                 delay={Math.min(i, 8) * 40}
               />

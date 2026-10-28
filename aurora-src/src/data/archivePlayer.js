@@ -45,7 +45,7 @@ export async function makeArchivePlayer(fm, sk, pid) {
   const initials = String(me[1]).split(' ').map((w) => w[0]).join('').slice(0, 2).toUpperCase();
   const p = {
     id, teamId: team ? team.id : null, teamName, leagueId: lid, name: me[1], initials, number: R ? R[3] : null, position: R ? R[2] : null,
-    photo: playerFace(pid), hasStats: false, archive: true,
+    photo: playerFace(pid), hasStats: false, archive: true, sk,
     rating: v('rating') || (R && R[7]) || null, appearances: me[5] || 0, minutes: me[4] || 0, goals: v('goals') || (R && R[8]) || 0, assists: v('goal_assist') || (R && R[9]) || 0,
     shots: v('total_scoring_att') || 0, shotsOnTarget: v('ontarget_scoring_att') || 0, xg: v('expected_goals') || null,
     exS: null, exL5: null, l5g: 0, l5min: 0, l5y: 0, l5r: 0, foulsCommitted: v('fouls') || 0, foulsDrawn: 0, offsides: 0,

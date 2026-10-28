@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import TextFilter from '@/components/TextFilter';
 import { comma } from '@/lib/format';
@@ -59,10 +59,22 @@ export default function MatchShotMap({ shots = [], home, away, match = null, lin
   const radius = (s) => (1.9);
   const found = cur && match ? findInMatch(match, cur.playerName) : null;
   const photo = found ? found.entry.photo : null;
+  // le foto dei giocatori dei tiri si caricano in anticipo: cambiando tiro con la freccia non c'e' attesa
+  useEffect(() => {
+    if (!match) return;
+    const seen = new Set();
+    list.forEach((s) => {
+      if (seen.has(s.playerName)) return;
+      seen.add(s.playerName);
+      const f = findInMatch(match, s.playerName);
+      const u = f && f.entry && f.entry.photo;
+      if (u) { const im = new Image(); im.decoding = 'async'; im.src = u; }
+    });
+  }, [list.length, match]);
   const step = (d) => setSel((i) => (list.length ? (((i == null ? -1 : i) + d + list.length) % list.length) : null));
 
-  const Dot = ({ s, cx, cy, r, active, onClick }) => (
-    <g transform={`translate(${cx} ${cy})`} onClick={onClick} style={{ cursor: 'pointer' }}>
+  const Dot = ({ s, cx, cy, r, active, onClick, k }) => (
+    <g key={k} transform={`translate(${cx} ${cy})`} onClick={onClick} style={{ cursor: 'pointer' }}>
       {active ? <circle r={r + 1.6} fill="none" stroke="#fff" strokeWidth="0.6" /> : null}
       {s.outcome === 'Gol' ? (
         <>
@@ -94,14 +106,14 @@ export default function MatchShotMap({ shots = [], home, away, match = null, lin
           const i = list.indexOf(s);
           const cx = x0 + 4 + (s.gy - 30.34) * W * 0.9;
           const cy = 44 - Math.max(0, Math.min(s.gz, 3.4)) * W * 0.9;
-          return <Dot key={i} s={s} cx={Math.max(3, Math.min(97, cx))} cy={cy} r={2.3} active={i === sel} onClick={() => setSel(i)} />;
+          return Dot({ k: i, s, cx: Math.max(3, Math.min(97, cx)), cy, r: 2.3, active: i === sel, onClick: () => setSel(i) });
         })}
       </svg>
     );
   };
 
   const team = cur ? (cur.side === 'home' ? home : away) : null;
-  const goalPt = cur && cur.gy != null ? { x: cur.side === 'home' ? 0 : 105, y: cur.gy } : null;
+  const goalPt = cur && cur.gy != null ? { x: cur.side === 'home' ? 0 : 105, y: cur.side === 'home' ? 68 - cur.gy : cur.gy } : null;
 
   return (
     <div className="flex flex-col gap-3">
@@ -121,13 +133,13 @@ export default function MatchShotMap({ shots = [], home, away, match = null, lin
         ) : null}
         {list.map((s, i) => {
           const [cx, cy] = pos(s);
-          return <Dot key={i} s={s} cx={cx} cy={cy} r={radius(s)} active={i === sel} onClick={() => setSel(i === sel ? null : i)} />;
+          return Dot({ k: i, s, cx, cy, r: radius(s), active: i === sel, onClick: () => setSel(i === sel ? null : i) });
         })}
       </svg>
 
       <div className="grid grid-cols-2 gap-2">
-        <div><p className="mb-0.5 text-[10.5px] font-bold" style={{ color: HC }}>{home ? home.short || home.name : 'Casa'}</p><Goal side="home" /></div>
-        <div><p className="mb-0.5 text-right text-[10.5px] font-bold" style={{ color: AC }}>{away ? away.short || away.name : 'Trasferta'}</p><Goal side="away" /></div>
+        <div><p className="mb-0.5 text-[10.5px] font-bold" style={{ color: HC }}>{home ? home.short || home.name : 'Casa'}</p>{Goal({ side: 'home' })}</div>
+        <div><p className="mb-0.5 text-right text-[10.5px] font-bold" style={{ color: AC }}>{away ? away.short || away.name : 'Trasferta'}</p>{Goal({ side: 'away' })}</div>
       </div>
 
       {cur ? (
