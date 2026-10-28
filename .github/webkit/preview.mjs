@@ -530,7 +530,7 @@ await step('campionati e coppe aggiunti: partita non iniziata con Duello, numeri
   for (const r of pick) {
     await go(`#/match/x-${r[1]}-${r[0]}`, 3000);
     await pg.waitForFunction(() => /duello in numeri/i.test(document.body.innerText), null, { timeout: 15000 }).catch(() => {});
-    await wait(1500);
+    await clickText('Panoramica'); await wait(1500); // la scheda scelta in una partita si ricorda: si parte sempre da Panoramica
     let b = await pg.evaluate(() => document.body.innerText);
     if (!/duello in numeri/i.test(b) && !/dettagli non disponibili/i.test(b)) { await go(`#/match/x-${r[1]}-${r[0]}`, 9000); b = await pg.evaluate(() => document.body.innerText); }
     const poly = await pg.evaluate(() => document.querySelectorAll('svg polygon').length);
