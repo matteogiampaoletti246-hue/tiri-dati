@@ -108,18 +108,35 @@ const grab = () => {
   const hi = window.innerHeight * 1.5;
   return els.map((el) => {
     const r = el.getBoundingClientRect();
+    // parti fisse e "sticky": prima di copiare si annotano posizione e ingombro, cosi' la copia non perde lo spazio che occupavano
+    // (prima venivano tolte e tutto il contenuto saliva di quanto erano alte: salto di ~110 px al ritorno)
+    const marked = [...el.querySelectorAll('[data-pf],.sticky,[style*="sticky"]')];
+    marked.forEach((x) => {
+      const cs = getComputedStyle(x); const rr = x.getBoundingClientRect();
+      x.setAttribute('data-slm', JSON.stringify({ pos: cs.position, t: rr.top - r.top, l: rr.left - r.left, w: rr.width, h: rr.height, mt: cs.marginTop, mb: cs.marginBottom, pf: x.hasAttribute('data-pf') }));
+    });
     const clone = cloneVisible(el, lo, hi);
+    marked.forEach((x) => x.removeAttribute('data-slm'));
     clone.removeAttribute('id');
     clone.style.transition = 'none'; clone.style.transform = 'none'; clone.style.opacity = '1'; clone.style.boxShadow = 'none';
-    if (el.id) clone.querySelectorAll('[data-pf]').forEach((x) => x.remove()); // le parti fisse si fotografano a parte
-    else { clone.style.position = 'absolute'; clone.style.inset = 'auto'; clone.style.left = '0'; clone.style.top = '0'; clone.style.width = `${r.width}px`; clone.style.margin = '0'; }
-    // gli elementi "sticky" non seguono piu' lo scorrimento nella copia: li fisso dove sono ora
-    const a = el.querySelectorAll('.sticky,[style*="sticky"]');
-    a.forEach((x) => {
-      const path = []; let n = x;
-      while (n && n !== el) { const p = n.parentElement; path.unshift(Array.prototype.indexOf.call(p.children, n)); n = p; }
-      let c = clone; for (const i of path) c = c && c.children[i];
-      if (c) { const rr = x.getBoundingClientRect(); c.style.position = 'absolute'; c.style.top = `${rr.top - r.top}px`; c.style.left = `${rr.left - r.left}px`; c.style.width = `${rr.width}px`; }
+    if (!el.id) { clone.style.position = 'absolute'; clone.style.inset = 'auto'; clone.style.left = '0'; clone.style.top = '0'; clone.style.width = `${r.width}px`; clone.style.margin = '0'; }
+    clone.querySelectorAll('[data-slm]').forEach((c) => {
+      if (!c.isConnected) return;
+      let m; try { m = JSON.parse(c.getAttribute('data-slm')); } catch (e) { m = null; }
+      c.removeAttribute('data-slm');
+      if (!m) return;
+      const inFlow = m.pos === 'sticky' || m.pos === 'relative' || m.pos === 'static';
+      if (m.pf) {
+        // le parti fisse si fotografano a parte: qui resta solo lo spazio (se occupavano posto nel flusso)
+        if (el.id) { if (inFlow) { c.replaceChildren(); c.style.cssText += `;visibility:hidden;height:${m.h}px`; } else c.remove(); }
+        return;
+      }
+      if (m.pos === 'sticky') {
+        const sp = document.createElement('div');
+        sp.style.cssText = `height:${m.h}px;margin-top:${m.mt};margin-bottom:${m.mb};visibility:hidden`;
+        c.parentNode.insertBefore(sp, c);
+        c.style.position = 'absolute'; c.style.top = `${m.t}px`; c.style.left = `${m.l}px`; c.style.width = `${m.w}px`; c.style.margin = '0';
+      }
     });
     const box = document.createElement('div');
     box.style.cssText = `position:fixed;left:${r.left}px;top:${r.top}px;width:${r.width}px;height:${r.height}px;z-index:${el.id ? 1 : 3};pointer-events:none;contain:layout paint`;
@@ -135,19 +152,22 @@ export function installBackSnaps() {
   window.__slCarousel = { pageDrag, pageBack: (dx) => pageBack(dx, (n) => { if (typeof n === 'number') window.history.go(n); }), pageReset }; // anche per le prove automatiche
   const ps = window.history.pushState.bind(window.history);
   window.history.pushState = function pushState(...a) {
+    try { if (window.__slSaveScroll) window.__slSaveScroll(); } catch (e) { /* ignore */ }
     try {
       const idx = histIdx();
       const g = grab();
       if (g) { SNAPS.set(idx, g); [...SNAPS.keys()].filter((k) => k < idx - 8).forEach((k) => SNAPS.delete(k)); }
     } catch (e) { /* senza fotografia: si torna indietro come prima */ }
-    return ps(...a);
+    const r = ps(...a);
+    warmLater();
+    return r;
   };
+  window.addEventListener('popstate', () => { warmOff(); warmLater(); });
+  warmLater();
 }
 let BEHIND = null;
-const behindOn = () => {
-  if (BEHIND) return BEHIND;
-  const g = SNAPS.get(histIdx() - 1);
-  if (!g) return null;
+let WARM = null; // fotografia di destinazione gia' montata (quasi invisibile) cosi' le immagini sono decodificate prima dello swipe
+const buildHost = (g) => {
   const host = document.createElement('div');
   host.setAttribute('aria-hidden', 'true');
   host.style.cssText = 'position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;will-change:transform;background:' + solid();
@@ -155,8 +175,41 @@ const behindOn = () => {
   const dim = document.createElement('div');
   dim.style.cssText = 'position:absolute;inset:0;background:#000;opacity:.35;z-index:50';
   host.appendChild(dim);
-  document.body.appendChild(host);
-  BEHIND = { host, dim };
+  return { host, dim };
+};
+const warmOff = () => { if (WARM) { WARM.host.remove(); WARM = null; } };
+// Dopo ogni cambio pagina, a riposo, si prepara la fotografia della pagina precedente (dietro quella attuale, a opacita' minima).
+let warmTimer = 0;
+const warmLater = () => {
+  clearTimeout(warmTimer);
+  warmTimer = setTimeout(() => {
+    try {
+      if (BEHIND) { warmLater(); return; }
+      const idx = histIdx() - 1;
+      if (WARM && WARM.idx === idx) return;
+      warmOff();
+      const g = SNAPS.get(idx);
+      if (!g) return;
+      const w = buildHost(g);
+      w.host.style.opacity = '0.01'; w.host.style.zIndex = '-1';
+      document.body.appendChild(w.host);
+      WARM = { ...w, idx };
+    } catch (e) { /* ignore */ }
+  }, 450);
+};
+const behindOn = () => {
+  if (BEHIND) return BEHIND;
+  const idx = histIdx() - 1;
+  let w = null;
+  if (WARM && WARM.idx === idx) { w = WARM; WARM = null; w.host.style.opacity = ''; w.host.style.zIndex = '1'; }
+  else {
+    warmOff();
+    const g = SNAPS.get(idx);
+    if (!g) return null;
+    w = buildHost(g);
+    document.body.appendChild(w.host);
+  }
+  BEHIND = { host: w.host, dim: w.dim };
   const sh = document.getElementById('sl-shell');
   if (sh) { sh.style.zIndex = '2'; sh.style.background = solid(); }
   return BEHIND;

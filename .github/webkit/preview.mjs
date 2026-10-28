@@ -451,6 +451,32 @@ await step('home: tornando da una partita resta all\'altezza di prima, senza sal
   ok('home: ritorno senza salti di scroll (mai sopra l\'altezza di prima)', y0 > 100 && ys.length > 5 && mn >= y0 - 3, { y0, minimo: mn, primi: ys.slice(0, 8) });
 });
 
+await step('home: la fotografia sotto lo swipe indietro e\' alla stessa altezza della pagina vera', async () => {
+  await go('#/', 4500);
+  await pg.evaluate(() => window.scrollTo(0, 420));
+  await wait(800);
+  const pre = await pg.evaluate(() => { const l = [...document.querySelectorAll('a[href*="/match/"]')].filter((a) => { const r = a.getBoundingClientRect(); return r.top > 150 && r.bottom < innerHeight - 100; }); const a = l[0] || document.querySelector('a[href*="/match/"]'); return { id: a.getAttribute('href'), top: Math.round(a.getBoundingClientRect().top), sy: Math.round(scrollY) }; });
+  await pg.evaluate((h) => document.querySelector(`a[href="${h}"]`).click(), pre.id);
+  await wait(4500);
+  const r = await pg.evaluate((h) => new Promise((res) => {
+    const a = []; const t0 = performance.now();
+    const f = () => {
+      const host = document.querySelector('body > div[aria-hidden="true"]');
+      const cl = host && host.querySelector(`a[href="${h}"]`);
+      const real = [...document.querySelectorAll(`a[href="${h}"]`)].find((x) => !x.closest('[aria-hidden="true"]'));
+      a.push({ host: !!host, c: cl ? Math.round(cl.getBoundingClientRect().top) : null, r: real ? Math.round(real.getBoundingClientRect().top) : null });
+      if (performance.now() - t0 < 1800) requestAnimationFrame(f); else res(a);
+    };
+    requestAnimationFrame(f); window.__slCarousel.pageBack(120);
+  }), pre.id);
+  const cs = r.filter((x) => x.c !== null).map((x) => x.c);
+  const rs = r.filter((x) => x.r !== null && x.r > 0).map((x) => x.r);
+  const dc = cs.length ? Math.max(...cs.map((c) => Math.abs(c - pre.top))) : 999;
+  const dr = rs.length ? Math.max(...rs.map((c) => Math.abs(c - pre.top))) : 999;
+  ok('home: la fotografia sotto lo swipe mostra la riga dove stava (nessun salto al cambio pagina)', cs.length > 3 && dc <= 4, { pre, dc, campioni: cs.slice(0, 6) });
+  ok('home: la pagina vera rimette la riga dove stava', rs.length > 3 && dr <= 4, { pre, dr, campioni: rs.slice(0, 6) });
+});
+
 await step('coppa nazionale: solo tabellone con turni e partite (DFB Pokal)', async () => {
   await go('#/campionato/dfb-pokal', 6000);
   const tabs = await pg.evaluate(() => [...document.querySelectorAll('.tab-btn')].map((x) => x.textContent.trim()));

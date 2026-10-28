@@ -43,6 +43,8 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 ## Swipe per tornare indietro (regola fissa, vale per ogni pagina presente e futura)
 - Lo swipe indietro e' a scorrimento: la pagina attuale esce a destra e la pagina di destinazione si vede sotto (fotografia presa prima di lasciarla, `installBackSnaps` in `lib/carousel.js`) e prende il posto al centro. Mai schermo nero. Tutti i punti che tornano indietro passano da `pageDrag`/`pageBack` di `lib/carousel.js`.
 - Tornando, i tabelloni gia' caricati restano in memoria (`peekBracket`) e non si rianimano.
+- La fotografia deve avere le righe ESATTAMENTE dove stanno nella pagina vera: le parti fisse/sticky tolte dalla copia lasciano il loro spazio (`data-slm` in `grab`), altrimenti al cambio pagina tutto salta di ~110 px. La fotografia della pagina precedente si monta in anticipo e quasi invisibile (`warmLater`) cosi' non c'e' nero mentre si decodificano le immagini. L'altezza di scroll si salva esatta quando si lascia la pagina (`__slSaveScroll`). Prova automatica: `home: la fotografia sotto lo swipe...` in `preview.mjs` (misura la posizione della riga a ogni fotogramma, non solo `scrollY`).
+- Coppe nazionali pure (`isPureCup`, `data/bracket.js`): solo Tabellone, niente Classifica; i turni si normalizzano con `normRound`. Le squadre dei campionati extra usano la scheda `/squadra/<id>` (nessun `href` sulla squadra).
 
 ## Swipe tra giorni / schede
 - Nel passaggio tra giorni il riquadro e' alto quanto il giorno piu' lungo (`growBox`): nessuna scheda tagliata. I giorni vicini sono costruiti per intero.

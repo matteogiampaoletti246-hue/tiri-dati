@@ -24,6 +24,12 @@ export default function ScrollToTop() {
     return () => window.removeEventListener('click', block, true);
   }, []);
 
+  // altezza esatta al momento di lasciare la pagina (lo scroll con inerzia continua dopo l'ultimo evento salvato)
+  useEffect(() => {
+    window.__slSaveScroll = () => { map.current[keyRef.current] = Math.round(window.scrollY); write(map.current); };
+    return () => { window.__slSaveScroll = null; };
+  }, []);
+
   useEffect(() => {
     let t = null;
     const onScroll = () => {
