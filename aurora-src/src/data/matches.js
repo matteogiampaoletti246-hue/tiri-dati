@@ -3,7 +3,7 @@
 // si scarica solo quando si apre la partita.
 import { RAW, loadDetail } from './load';
 import { ensureTeam, teamById, teamByName, TEAMS } from './teams';
-import { LEAGUES } from './leagues';
+import { LEAGUES, leagueById, CUP_IDS } from './leagues';
 import { romeDay, romeTime, slug } from './util';
 
 export const DAY_MS = 86400000;
@@ -149,10 +149,18 @@ export function buildMatches() {
     const byNorm = {};
     TEAMS.forEach((t) => { byNorm[nn(t.name)] = t; });
     const team = (name, fmId, lg, fm, sk) => {
-      const hit = byNorm[nn(name)];
+      let hit = byNorm[nn(name)];
       const crest = `https://images.fotmob.com/image_resources/logo/teamlogo/${fmId}.png`;
-      const t = hit || ensureTeam(name, lg, crest, fmId);
+      // stesso nome ma squadra di un altro paese (es. "Arsenal" in Coupe de France): non e' l'Arsenal inglese
+      if (hit) {
+        const ca = hit.leagueId && leagueById(hit.leagueId) && leagueById(hit.leagueId).country;
+        const cb = leagueById(lg) && leagueById(lg).country;
+        if (ca && cb && ca !== cb && ca !== 'Europa' && cb !== 'Europa') hit = null;
+      }
+      const t = hit || ensureTeam(name, lg, crest, fmId, byNorm[nn(name)] ? `${slug(name)}-${fmId}` : undefined);
       if (t && !t.crest) t.crest = crest;
+      // una squadra che compare prima in una coppa prende come campionato quello nazionale
+      if (t && !hit && CUP_IDS.has(t.leagueId) && !CUP_IDS.has(lg)) t.leagueId = lg;
       // squadra nuova (non presente tra i top): il suo link porta alla pagina dell'archivio
       if (t && !hit && sk) t.href = `/storico/${fm}/${sk}/squadra/${fmId}`;
       return t;

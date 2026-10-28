@@ -64,7 +64,7 @@ export default function MatchStatsPanel({ match, view, home, away, pre }) {
   const fallback = LIVE_STATS.filter((s) => stats[s.key]).map((s) => ({ label: s.label, home: stats[s.key][0], away: stats[s.key][1], format: s.format || num }));
 
   if (!groups && !fallback.length && !(view.shots || []).length) {
-    return <p className="px-5 py-16 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>{view.live ? 'Statistiche in arrivo' : 'Statistiche non disponibili per questa partita'}</p>;
+    return <p className="px-5 py-16 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>{view.live ? 'Le statistiche per questa partita non sono disponibili. Se la fonte le pubblica compariranno qui in diretta.' : 'Statistiche non disponibili per questa partita'}</p>;
   }
 
   return (

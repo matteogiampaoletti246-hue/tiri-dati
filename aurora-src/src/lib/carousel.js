@@ -84,12 +84,31 @@ const pageEls = () => [document.getElementById('sl-shell'), ...document.querySel
 
 const solid = () => (getComputedStyle(document.documentElement).getPropertyValue('--sky-2').trim() || '#070b14');
 const SNAPS = new Map(); // idx cronologia -> fotografie (shell + parti fisse)
+// Copia solo cio' che si vede (schermo +/- mezza schermata): le parti fuori restano scatole vuote della stessa altezza.
+// Con tante partite in Home la copia intera pesava (scatto al tocco) e le immagini non ancora decodificate lasciavano frame bianchi.
+const cloneVisible = (el, lo, hi) => {
+  const c = el.cloneNode(false);
+  if (c.nodeType !== 1) return c;
+  if (c.tagName === 'IMG') { c.setAttribute('loading', 'eager'); c.setAttribute('decoding', 'sync'); return c; }
+  for (const ch of el.childNodes) {
+    if (ch.nodeType !== 1) { c.appendChild(ch.cloneNode(false)); continue; }
+    const r = ch.getBoundingClientRect();
+    if (r.height > 0 && r.width > 0 && (r.bottom < lo || r.top > hi || r.right < -40 || r.left > window.innerWidth + 40)) {
+      const sp = ch.cloneNode(false);
+      sp.style.cssText += `;box-sizing:border-box;height:${r.height}px;visibility:hidden;overflow:hidden`;
+      c.appendChild(sp);
+    } else c.appendChild(cloneVisible(ch, lo, hi));
+  }
+  return c;
+};
 const grab = () => {
   const els = pageEls();
   if (!els.length) return null;
+  const lo = -window.innerHeight * 0.5;
+  const hi = window.innerHeight * 1.5;
   return els.map((el) => {
     const r = el.getBoundingClientRect();
-    const clone = el.cloneNode(true);
+    const clone = cloneVisible(el, lo, hi);
     clone.removeAttribute('id');
     clone.style.transition = 'none'; clone.style.transform = 'none'; clone.style.opacity = '1'; clone.style.boxShadow = 'none';
     if (el.id) clone.querySelectorAll('[data-pf]').forEach((x) => x.remove()); // le parti fisse si fotografano a parte

@@ -2,6 +2,37 @@
 // Per aggiungere un campionato alla Home basta una riga in LEAGUES.
 import { RAW } from './load';
 
+
+// Colori scelti dall'utente per i campionati/coppe aggiunti: [scuro, vivace] per i banner e colore delle pillole in Home.
+const PALETTE = {
+  'coppa-italia': { colors: ['#0A2A6E', '#1E5AC8'], tint: '#2F6FE0' },
+  'dfb-pokal': { colors: ['#0B3B1E', '#C9A227'], tint: '#2FA85A' },
+  'coupe-de-france': { colors: ['#0A1F5E', '#3C6AE0'], tint: '#3C6AE0' },
+  'taca-de-portugal': { colors: ['#7A1420', '#1E9C5A'], tint: '#E5484D' },
+  'serie-b': { colors: ['#04302A', '#1E9C7C'], tint: '#1FA36F' },
+  championship: { colors: ['#6E0E1A', '#E0443A'], tint: '#E5484D' },
+  'bundesliga-2': { colors: ['#1A1A20', '#C8202E'], tint: '#E5484D' },
+  'laliga-2': { colors: ['#1A1A20', '#F0614F'], tint: '#F0614F' },
+  'ligue-2': { colors: ['#10181C', '#18B8B0'], tint: '#18B8B0' },
+  eredivisie: { colors: ['#0A1F5E', '#D2282E'], tint: '#3C6AE0' },
+  'pro-league': { colors: ['#14110A', '#C9A227'], tint: '#E5B23A' },
+  'scottish-premiership': { colors: ['#0A2A6E', '#3C7AE0'], tint: '#3C7AE0' },
+  'nor-eliteserien': { colors: ['#0A2A6E', '#3C7AE0'], tint: '#3C7AE0' },
+  'gre-super-league-1': { colors: ['#0A3A8E', '#4C9AE8'], tint: '#4C9AE8' },
+  'super-lig': { colors: ['#1A1014', '#C8202E'], tint: '#E5484D' },
+  'aut-bundesliga': { colors: ['#1A1014', '#C8202E'], tint: '#E5484D' },
+  brasileirao: { colors: ['#0E3A1E', '#E0B400'], tint: '#3DB85A' },
+  'copa-do-brasil': { colors: ['#0E3A1E', '#E0B400'], tint: '#3DB85A' },
+  'arg-liga-profesional': { colors: ['#0C2A6E', '#5AB0F0'], tint: '#5AB0F0' },
+  mls: { colors: ['#0A1F5E', '#C8202E'], tint: '#3C6AE0' },
+  'liga-mx': { colors: ['#0A3A1E', '#C8202E'], tint: '#2FBF71' },
+  'belgian-cup': { colors: ['#14110A', '#C9A227'], tint: '#E5B23A' },
+  'austrian-cup': { colors: ['#1A1014', '#C8202E'], tint: '#E5484D' },
+  'scottish-league-cup': { colors: ['#0A2A6E', '#3C7AE0'], tint: '#3C7AE0' },
+};
+// coppe nazionali: le squadre che le giocano appartengono al loro campionato, non alla coppa
+export const CUP_IDS = new Set(['coppa-italia', 'dfb-pokal', 'coupe-de-france', 'taca-de-portugal', 'efl-cup', 'belgian-cup', 'austrian-cup', 'scottish-league-cup', 'copa-do-brasil']);
+
 export const LEAGUES = [
   { id: 'serie-a', name: 'Serie A', country: 'Italia', countryUpper: 'ITALIA', colors: ['#0B2A5B', '#1E8E9C'] },
   { id: 'premier-league', name: 'Premier League', country: 'Inghilterra', countryUpper: 'INGHILTERRA', colors: ['#2C1157', '#0E7A72'] },
@@ -40,7 +71,7 @@ export const LEAGUES = [
   { id: 'austrian-cup', fm: 278, extra: true, name: 'Austrian Cup', country: 'Austria', countryUpper: 'AUSTRIA', colors: ['#212121', '#D2483E'] },
   { id: 'scottish-league-cup', fm: 180, extra: true, name: 'League Cup', country: 'Scozia', countryUpper: 'SCOZIA', colors: ['#00237A', '#3C7AC8'] },
   { id: 'copa-do-brasil', fm: 9067, extra: true, name: 'Copa do Brasil', country: 'Brasile', countryUpper: 'BRASILE', colors: ['#1C5A29', '#34A348'] },
-].map((l) => ({ season: '', logo: null, logoDark: null, banner: null, ...l }));
+].map((l) => ({ season: '', logo: null, logoDark: null, banner: null, ...l, ...(PALETTE[l.id] || {}) }));
 
 // Campionati presenti solo nel calcolatore (da data.json): nome + id.
 export const CALC_LEAGUES = [];
@@ -66,7 +97,7 @@ export const LEAGUE_TINT = {
   'nor-eliteserien': '#4C8EE0',
   'gre-super-league-1': '#4FA3F0',
 };
-export const leagueTint = (id) => LEAGUE_TINT[id] || '#38A2FF';
+export const leagueTint = (id) => (PALETTE[id] && PALETTE[id].tint) || LEAGUE_TINT[id] || '#38A2FF';
 
 export const leagueById = (id) => LEAGUES.find((l) => l.id === id) || null;
 
@@ -83,8 +114,13 @@ export function buildLeagues() {
   const L = (RAW.data && RAW.data.leagues) || {};
   LEAGUES.forEach((l) => {
     const d = L[l.id];
+    // campionati e coppe aggiunti: logo ufficiale FotMob (chiaro e scuro) se non c'e' nel calcolatore
+    if (l.extra && l.fm && !(d && d.logo)) {
+      l.logo = `https://images.fotmob.com/image_resources/logo/leaguelogo/${l.fm}.png`;
+      l.logoDark = `https://images.fotmob.com/image_resources/logo/leaguelogo/dark/${l.fm}.png`;
+    }
     if (!d) return;
-    l.logo = d.logo || null;
+    if (!(l.extra && l.logo)) l.logo = d.logo || null;
     l.season = l.extra ? '' : d.season || '';
   });
   // Europa League: coppa disegnata, bianca di notte e nera di giorno

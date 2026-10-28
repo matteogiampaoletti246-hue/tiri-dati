@@ -25,7 +25,7 @@ export default function MatchSummaryPanel({ match, view, home, away }) {
     <div className="flex flex-col gap-4 pb-6 pt-3">
       {empty ? (
         <p className="px-5 py-10 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>
-          {view.live ? 'Partita in corso: cronologia e statistiche live in arrivo' : 'Dettagli non disponibili per questa partita'}
+          {view.live ? 'Partita in corso: per ora c\'è solo il risultato. Cronologia e statistiche compariranno qui se la fonte le pubblica.' : 'Dettagli non disponibili per questa partita'}
         </p>
       ) : (
         <>
