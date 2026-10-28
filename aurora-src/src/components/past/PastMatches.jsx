@@ -5,6 +5,11 @@ import { loadSeason, loadSeasonStats, loadSeasonMatches, seasonLabel } from '@/d
 import { ArchRow, fmtDate, dayKey } from '@/components/archive/parts';
 import { tintGrad } from '@/lib/tint';
 import { RatingPill } from '@/components/player/PlayerTabs';
+import { leagueById } from '@/data/leagues';
+import { FM_ID } from '@/data/archive';
+
+const LID_BY_FM = {};
+Object.keys(FM_ID).forEach((k) => { LID_BY_FM[FM_ID[k]] = k; });
 
 // Carica a una a una le stagioni precedenti quando si scorre in fondo all'elenco delle partite.
 function useOlder(seasons, build) {
@@ -72,8 +77,11 @@ export function PastTeamMatches({ fm, seasons, teamName, tint, teamIdByName }) {
 }
 
 // partite di un giocatore nelle stagioni passate (dai dettagli delle partite archiviate)
-export function PastPlayerMatches({ fm, seasons, fmPid }) {
-  const { parts, busy, done, box } = useOlder(seasons, async (sk) => {
+export function PastPlayerMatches({ fm: fm0, seasons, fmPid, items }) {
+  // items: [[fm, stagione]] di tutte le competizioni giocate; senza, solo il campionato fm0
+  const list = (items || seasons.map((sk) => [fm0, sk])).map(([f, sk]) => `${f}|${sk}`);
+  const { parts: parts0, busy, done, box } = useOlder(list, async (key) => {
+    const [fm, sk] = key.split('|');
     const [s, det, st] = await Promise.all([loadSeason(fm, sk), loadSeasonMatches(fm, sk), loadSeasonStats(fm, sk)]);
     if (!s || !det) return null;
     let myTeam = null;
@@ -93,13 +101,14 @@ export function PastPlayerMatches({ fm, seasons, fmPid }) {
       rows.push({ mid, date: f ? f[4] : '', opp, oppName: s.teams[opp] || '', home, score: f ? f[5] : '', p });
     });
     rows.sort((a, b) => String(b.date).localeCompare(String(a.date)));
-    return { rows };
+    return { rows, fm };
   });
+  const parts = parts0.map((x) => ({ ...x, key: x.sk, sk: String(x.sk).split('|')[1], fm: String(x.sk).split('|')[0] }));
   return (
     <div className="px-5">
-      {parts.map(({ sk, res }) => (res && res.rows.length ? (
-        <div key={sk}>
-          <div className="mb-2 mt-5 text-[11px] font-extrabold uppercase tracking-wider" style={{ color: 'var(--ink-3)' }}>Stagione {seasonLabel(sk)}</div>
+      {parts.map(({ key, sk, fm, res }) => (res && res.rows.length ? (
+        <div key={key}>
+          <div className="mb-2 mt-5 text-[11px] font-extrabold uppercase tracking-wider" style={{ color: 'var(--ink-3)' }}>{items ? `${(leagueById(LID_BY_FM[fm]) || {}).name || ''} · ` : ''}Stagione {seasonLabel(sk)}</div>
           <div className="flex flex-col gap-2.5">
             {res.rows.map((m) => (
               <Link key={m.mid} to={`/match/a-${fm}-${sk}-${m.mid}`} className="club-card flex items-center gap-3 rounded-2xl px-3.5 py-3 active:opacity-60" style={{ background: 'var(--panel-solid, rgba(255,255,255,.04))' }}>

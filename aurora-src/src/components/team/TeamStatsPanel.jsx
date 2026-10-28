@@ -150,7 +150,7 @@ export default function TeamStatsPanel({ team }) {
   return (
     <div>
       <CompSeasonBar comps={comps} comp={comp} onComp={(c) => { setComp(c); announceComp(team.id, c); }} seasons={seasons} season={season} onSeason={setSeason} />
-      {eff !== 'cur' && fm ? <PastTeamStats fm={fm} sk={eff} team={team} /> : (
+      {eff !== 'cur' && fm ? <PastTeamStats fm={fm} sk={eff} team={team} comp={comp} cur={season === 'cur'} /> : (
         <div key={comp} className="comp-in">
           <DomesticStats team={team} comp={comp} />
         </div>

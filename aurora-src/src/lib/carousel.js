@@ -139,8 +139,18 @@ const grab = () => {
       }
     });
     const box = document.createElement('div');
-    box.style.cssText = `position:fixed;left:${r.left}px;top:${r.top}px;width:${r.width}px;height:${r.height}px;z-index:${el.id ? 1 : 3};pointer-events:none;contain:layout paint`;
-    box.appendChild(clone);
+    if (el.id) {
+      // la pagina intera e' alta anche migliaia di pixel: la fotografia occupa solo lo schermo (clip) e il contenuto e' spostato dello scroll di ora.
+      // Cosi' il livello da disegnare e' piccolo (su iPhone un livello enorme restava nero per qualche decimo di secondo).
+      box.style.cssText = `position:fixed;left:${r.left}px;top:0;width:${r.width}px;height:${window.innerHeight}px;overflow:hidden;z-index:1;pointer-events:none;contain:layout paint`;
+      const inner = document.createElement('div');
+      inner.style.cssText = `position:absolute;left:0;top:${r.top}px;width:${r.width}px;height:${r.height}px`;
+      inner.appendChild(clone);
+      box.appendChild(inner);
+    } else {
+      box.style.cssText = `position:fixed;left:${r.left}px;top:${r.top}px;width:${r.width}px;height:${r.height}px;z-index:3;pointer-events:none;contain:layout paint`;
+      box.appendChild(clone);
+    }
     return box;
   });
 };
@@ -240,13 +250,13 @@ export function pageDrag(dx) {
 }
 export function pageReset(animated = true) {
   const els = pageEls();
-  behindMove(0, 430, animated ? 280 : 0);
+  behindMove(0, 430, animated ? 420 : 0);
   els.forEach((el, i) => {
-    el.style.transition = animated ? 'transform .28s cubic-bezier(.22,.8,.24,1), opacity .28s ease' : 'none';
+    el.style.transition = animated ? 'transform .42s cubic-bezier(.22,.8,.24,1), opacity .42s ease' : 'none';
     el.style.transform = 'translate3d(0,0,0)';
     if (i === 0) el.style.opacity = '1';
   });
-  setTimeout(() => { behindOff(); els.forEach((el) => { el.style.transition = ''; el.style.transform = ''; el.style.opacity = ''; el.style.willChange = ''; el.style.boxShadow = ''; el.style.visibility = ''; }); }, animated ? 320 : 0);
+  setTimeout(() => { behindOff(); els.forEach((el) => { el.style.transition = ''; el.style.transform = ''; el.style.opacity = ''; el.style.willChange = ''; el.style.boxShadow = ''; el.style.visibility = ''; }); }, animated ? 470 : 0);
 }
 export const histIdx = () => { const st = window.history.state; return st && typeof st.idx === 'number' ? st.idx : 0; };
 export const canGoBack = () => histIdx() > 0;

@@ -175,3 +175,26 @@ export function standing(player, row, v) {
   vs.forEach((x) => { if (row[3] === 1 ? x >= v : x <= v) below += 1; });
   return Math.max(0, Math.min(1, (below - 1) / Math.max(1, vs.length - 1)));
 }
+
+// ---------- percentili dalle statistiche dell'archivio (giocatori fuori dall'elenco dei campionati principali) ----------
+const AKEY = { goals: 'goals', assists: 'goal_assist', shots: 'total_scoring_att', shotsOnTarget: 'ontarget_scoring_att', xg: 'expected_goals', foulsDrawn: 'was_fouled', foulsCommitted: 'fouls' };
+// st: statistiche stagionali (players: chiave -> [[id, nome, squadra, valore, minuti, partite, ruoli]]) del campionato; pid: id FotMob
+export function archivePercentiles(st, pid) {
+  const L = (st && st.players) || {};
+  const base = L.goals || L.goal_assist || [];
+  const me = base.find((r) => String(r[0]) === String(pid)) || Object.keys(L).map((k) => (L[k] || []).find((r) => String(r[0]) === String(pid))).find(Boolean);
+  if (!me || !(me[4] > 0)) return null;
+  const roles = new Set(me[6] || []);
+  const pool = base.filter((r) => r[4] >= 270 && (!roles.size || (r[6] || []).some((x) => roles.has(x))));
+  if (pool.length < 5) return null;
+  const val = (key, id) => { const r = (L[AKEY[key]] || []).find((x) => String(x[0]) === String(id)); return r ? Number(r[3]) || 0 : 0; };
+  const idx = {};
+  Object.keys(AKEY).forEach((k) => { idx[k] = {}; (L[AKEY[k]] || []).forEach((r) => { idx[k][String(r[0])] = Number(r[3]) || 0; }); });
+  return METRICS.map((m) => {
+    const total = idx[m.key][String(pid)] || 0;
+    const v = per90(total, me[4]);
+    let below = 0;
+    pool.forEach((r) => { if (per90(idx[m.key][String(r[0])] || 0, r[4]) <= v) below += 1; });
+    return { ...m, value: v, total, pct: Object.keys(idx[m.key]).length ? Math.round((below / pool.length) * 100) : null };
+  });
+}

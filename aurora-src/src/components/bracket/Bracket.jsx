@@ -119,7 +119,10 @@ function BracketView({ data, fm, sk }) {
   const posterRef = useRef(null);
   const P = useRef(null);
   const raf = useRef(0);
+  const rowRef = useRef(null);
   const dims = useRef({ cw: 170, step: 188 });
+  // ordine verticale dei riquadri di ogni turno (per tenerli sempre ben distanziati, mai uno dentro l'altro)
+  const ord = useMemo(() => rounds.map((r) => r.ties.map((_, i) => i).sort((a, b) => r.ties[a].cy - r.ties[b].cy)), [rounds]);
 
   const start = useMemo(() => {
     const open = rounds.findIndex((r) => r.ties.some((t) => !t.played));
@@ -147,15 +150,24 @@ function BracketView({ data, fm, sk }) {
     const sy = SY(p);
     const s = hasFinal ? clamp((p - (L - 1) + 0.45) / 0.45) : 0;
     const pos = {};
-    rounds.forEach((r, ri) => r.ties.forEach((t, i) => {
-      const x = X0 + (ri - p) * step; const y = 8 + t.cy * U * sy - H / 2;
-      pos[`${ri}-${i}`] = { x, y, t };
-      const el = cardRefs.current[`${ri}-${i}`];
-      if (!el) return;
-      el.style.transform = `translate3d(${x.toFixed(2)}px,${y.toFixed(2)}px,0)`;
-      el.style.opacity = hasFinal && ri === L - 1 ? String(1 - s) : '1';
-      el.style.visibility = x < -cw - 4 || x > cw * 2 + 60 ? 'hidden' : 'visible';
-    }));
+    let maxB = 0;
+    const k0v = Math.floor(p);
+    rounds.forEach((r, ri) => {
+      let prev = -1e9;
+      ord[ri].forEach((i) => {
+        const t = r.ties[i];
+        const x = X0 + (ri - p) * step; let y = 8 + t.cy * U * sy - H / 2;
+        if (y < prev + H + 10) y = prev + H + 10; // distanza minima fra due riquadri dello stesso turno
+        prev = y;
+        pos[`${ri}-${i}`] = { x, y, t };
+        if (ri >= k0v && ri <= k0v + 1 && !(hasFinal && ri === L - 1 && s > 0.5)) maxB = Math.max(maxB, y + H);
+        const el = cardRefs.current[`${ri}-${i}`];
+        if (!el) return;
+        el.style.transform = `translate3d(${x.toFixed(2)}px,${y.toFixed(2)}px,0)`;
+        el.style.opacity = hasFinal && ri === L - 1 ? String(1 - s) : '1';
+        el.style.visibility = x < -cw - 4 || x > cw * 2 + 60 ? 'hidden' : 'visible';
+      });
+    });
     let d1 = ''; let d2 = '';
     rounds.forEach((r, ri) => {
       if (!ri) return;
@@ -185,7 +197,7 @@ function BracketView({ data, fm, sk }) {
       pf.style.visibility = s <= 0.001 ? 'hidden' : 'visible';
     }
     const box = boxRef.current;
-    if (box) box.style.height = `${Math.max(hasFinal ? POSTER_H + 40 : 200, slots * U * sy + 24)}px`;
+    if (box) box.style.height = `${Math.max(hasFinal ? POSTER_H + 40 : 200, Math.max(slots * U * sy, maxB) + 24)}px`;
     // indicatore delle pillole fasi
     const it = pillRefs.current; const ind = indRef.current;
     if (ind && it[0]) {
@@ -196,7 +208,7 @@ function BracketView({ data, fm, sk }) {
         ind.style.transform = `translate3d(${a.offsetLeft + (b.offsetLeft - a.offsetLeft) * f}px,0,0)`;
       }
     }
-  }, [rounds, slots, L, SY, hasFinal]);
+  }, [rounds, slots, L, SY, hasFinal, ord]);
 
   const measure = useCallback(() => {
     // se il tabellone e' ancora nascosto (display none) la larghezza si prende dal primo contenitore visibile: niente salto al primo disegno
@@ -228,14 +240,26 @@ function BracketView({ data, fm, sk }) {
     if (from === to) return;
     const dur = 750 + 100 * (Math.abs(to - from) - 1 > 0 ? Math.abs(to - from) - 1 : 0);
     const t0 = performance.now();
+    const row = rowRef.current; const sc0 = row ? row.scrollLeft : 0; const sc1 = rowTarget(to);
     const step = (now) => {
       const k = clamp((now - t0) / dur);
       P.current = from + (to - from) * eIO(k);
       draw(P.current);
+      if (row) row.scrollLeft = sc0 + (sc1 - sc0) * eIO(k);
       if (k < 1) raf.current = requestAnimationFrame(step); else { P.current = to; draw(to); }
     };
     raf.current = requestAnimationFrame(step);
   };
+
+  // la riga di pillole scorre col dito; la pillola del turno scelto viene portata al centro da sola, piano piano
+  const rowTarget = (p) => {
+    const row = rowRef.current; if (!row) return 0;
+    const k0 = clamp(Math.floor(p), 0, L - 1); const k1 = clamp(k0 + 1, 0, L - 1); const f = p - k0;
+    const c = (i) => { const e = pillRefs.current[i]; return e ? e.offsetLeft + e.offsetWidth / 2 : 0; };
+    const ctr = c(k0) + (c(k1) - c(k0)) * f;
+    return clamp(ctr - row.clientWidth / 2, 0, Math.max(0, row.scrollWidth - row.clientWidth));
+  };
+  useLayoutEffect(() => { const row = rowRef.current; if (row) row.scrollLeft = rowTarget(P.current); }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const open = (t) => {
     const l = [...t.legs].reverse().find((x) => x.score) || t.legs[t.legs.length - 1];
@@ -244,7 +268,7 @@ function BracketView({ data, fm, sk }) {
 
   return (
     <div ref={wrapRef} className="relative overflow-x-clip pb-6">
-      <div className="hide-sb relative mx-4 mt-3 flex items-center gap-1.5 overflow-x-auto" style={{ overflowY: 'hidden' }}>
+      <div ref={rowRef} data-no-back className="hide-sb relative mx-4 mt-3 flex items-center gap-1.5 overflow-x-auto" style={{ overflowY: 'hidden', WebkitOverflowScrolling: 'touch', overscrollBehaviorX: 'contain' }}>
         <span ref={indRef} aria-hidden="true" className="absolute left-0 top-0 h-full rounded-full" style={{ background: 'var(--accent)', willChange: 'transform' }} />
         {rounds.map((r, i) => (
           <button key={r.key} ref={(el) => { pillRefs.current[i] = el; }} type="button" onClick={() => go(i)} className="press relative shrink-0 rounded-full px-[13px] py-2 text-[12.5px] font-extrabold" style={{ color: active === i ? '#fff' : 'var(--ink-3)', transition: 'color .25s ease' }}>

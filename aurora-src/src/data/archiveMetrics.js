@@ -38,9 +38,26 @@ function table(det, season) {
 }
 
 // restituisce { has(tid), value(tid,key), tids() } con le stesse chiavi di standings.metricOf
+// somma le tabelle di piu' competizioni (coppa + campionato): media pesata sulle partite, come se fossero un'unica stagione
+function merged(m) {
+  const base = table(m.det, m.season);
+  if (!m.moreDet || !m.moreDet.length) return base;
+  if (m._amMerged && m._amMergedN === m.moreDet.length) return m._amMerged;
+  const out = {};
+  [base, ...m.moreDet.map((x) => table(x.det, x.season))].forEach((tb) => {
+    Object.entries(tb).forEach(([tid, t]) => {
+      const o = (out[tid] = out[tid] || { n: 0, f: {}, c: {}, k: {} });
+      o.n += t.n;
+      ['f', 'c', 'k'].forEach((b) => Object.entries(t[b]).forEach(([k, v]) => { o[b][k] = (o[b][k] || 0) + v; }));
+    });
+  });
+  m._amMerged = out; m._amMergedN = m.moreDet.length;
+  return out;
+}
+
 export function archiveMetrics(m) {
   if (!m || !m.det || !m.season) return null;
-  const by = table(m.det, m.season);
+  const by = merged(m);
   const value = (tid, key) => {
     const t = by[tid];
     const src = SRC[key];

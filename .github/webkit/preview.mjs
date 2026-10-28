@@ -463,7 +463,7 @@ await step('home: la fotografia sotto lo swipe indietro e\' alla stessa altezza 
     if (n > best.n) best = { n, t };
   }
   if (best.t) { await pg.evaluate((tt) => { const e = [...document.querySelectorAll('button,div')].filter((x) => (x.textContent || '').trim().slice(0, 8) === tt && x.children.length < 4).pop(); if (e) e.click(); }, best.t); await wait(2500); }
-  await pg.evaluate(() => { const l = [...document.querySelectorAll('a[href*="/match/"]')]; const a = l[Math.min(6, l.length - 1)]; window.scrollTo(0, Math.max(0, a.getBoundingClientRect().top + scrollY - 300)); });
+  await pg.evaluate(() => { const l = [...document.querySelectorAll('a[href*="/match/"]')]; const a = l[Math.min(20, l.length - 1)]; window.scrollTo(0, Math.max(0, a.getBoundingClientRect().top + scrollY - 300)); });
   await wait(900);
   const pre = await pg.evaluate(() => { const l = [...document.querySelectorAll('a[href*="/match/"]')].filter((a) => { const r = a.getBoundingClientRect(); return r.top > 150 && r.bottom < innerHeight - 100; }); const a = l[0] || document.querySelector('a[href*="/match/"]'); return { id: a.getAttribute('href'), top: Math.round(a.getBoundingClientRect().top), sy: Math.round(scrollY) }; });
   await pg.evaluate((h) => document.querySelector(`a[href="${h}"]`).click(), pre.id);

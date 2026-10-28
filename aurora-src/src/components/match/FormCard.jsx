@@ -8,6 +8,16 @@ import { Link } from 'react-router-dom';
 
 const COL = { V: '#1FA45B', S: '#8A93A6', P: '#E0443A' };
 const PTS = { V: 3, S: 1, P: 0 };
+// Forma: le ultime 5 partite della squadra in TUTTE le competizioni (non solo in quella della partita), prima di questa partita.
+// Per le partite di stagioni passate resta quella della stagione, perche' le altre competizioni non sono collegate.
+const recentOfMatch = (match, id) => {
+  if (match.recentOf && (!match.extra || String(match.id).startsWith('a-'))) return match.recentOf(id);
+  return recentMatches(id, 80).filter((m) => m.id !== match.id && (!match.ts || m.ts < match.ts)).slice(0, 5);
+};
+const formOfMatch = (match, id) => {
+  if (match.formOf && (!match.extra || String(match.id).startsWith('a-'))) return match.formOf(id);
+  return recentOfMatch(match, id).slice().reverse().map((x) => { const r = resOf(x, id); return r ? r.r : 'S'; });
+};
 export const conceptOf = (k) => { try { return localStorage.getItem(`sl-concept-${k}`) || 'a'; } catch { return 'a'; } };
 
 const resOf = (m, teamId) => {
@@ -34,7 +44,7 @@ export default function FormCard({ match, home, away, concept = 'c' }) {
         <p className="mb-3 px-1 text-[11px] font-extrabold uppercase tracking-wider" style={{ color: 'var(--ink-3)' }}>Forma recente</p>
         <div className="grid grid-cols-2 gap-2">
           {sides.map(({ team, id }, i) => {
-            const f = teamForm(id);
+            const f = formOfMatch(match, id);
             const sm = summary(f);
             const c = team ? team.colors[0] : '#2C3E66';
             return (
@@ -57,7 +67,7 @@ export default function FormCard({ match, home, away, concept = 'c' }) {
         <div className="mb-1 flex items-baseline justify-between"><p className="text-[11px] font-extrabold uppercase tracking-wider" style={{ color: 'var(--ink-3)' }}>Forma recente</p></div>
         <div className="grid grid-cols-5 gap-1.5"><span className="col-start-5 whitespace-nowrap text-center text-[9px] font-medium" style={{ color: 'var(--ink-3)' }}>più recente</span></div>
         {sides.map(({ team, id }, i) => {
-          const list = (match.recentOf ? match.recentOf(id) : recentMatches(id, 5)).slice().reverse();
+          const list = recentOfMatch(match, id).slice().reverse();
           return (
             <div key={i} className="py-2" style={{ borderTop: i ? '1px solid var(--hair-2)' : 'none' }}>
               <TeamLink team={team} className="mb-2 flex items-center gap-2"><Crest team={team} size={20} /><span className="text-[13px] font-bold">{team ? team.name : '—'}</span></TeamLink>
@@ -89,7 +99,7 @@ export default function FormCard({ match, home, away, concept = 'c' }) {
     <div className="glass tint-card mx-4 overflow-hidden rounded-[24px] px-4 py-3">
       <p className="mb-1 text-[11px] font-extrabold uppercase tracking-wider" style={{ color: 'var(--ink-3)' }}>Forma recente</p>
       {sides.map(({ team, id }, i) => {
-        const f = match.formOf ? match.formOf(id) : teamForm(id);
+        const f = formOfMatch(match, id);
         const sm = summary(f);
         return (
           <div key={i} className="py-2.5" style={{ borderTop: i ? '1px solid var(--hair-2)' : 'none' }}>

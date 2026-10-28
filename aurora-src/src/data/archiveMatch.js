@@ -1,10 +1,11 @@
 // Partite dei campionati aggiunti e dell'archivio: costruite nello stesso formato delle partite dei top campionati,
 // così la pagina partita è identica (Riepilogo, statistiche, mappa tiri, formazioni, classifica).
 // Il dettaglio completo arriva dal Worker (FotMob, vale per qualsiasi partita); quello salvato nell'archivio è la riserva.
-import { loadSeason, loadSeasonMatches, FM_ID, archIndex, teamLogo, seasonLabel, STAT_IT, STAT_GROUPS, prettyKey } from './archive';
+import { loadSeason, loadSeasonMatches, FM_ID, archIndex, teamLogo, seasonLabel, STAT_IT, STAT_GROUPS, prettyKey, currentSeason } from './archive';
+import { isPureCup } from './bracket';
 import { MATCH_BY_ID } from './matches';
 import { ensureTeam, teamById } from './teams';
-import { leagueById } from './leagues';
+import { leagueById, LEAGUES, CUP_IDS } from './leagues';
 import { romeDay, romeTime, slug, norm } from './util';
 
 export const archiveId = (fm, sk, mid) => `a-${fm}-${sk}-${mid}`;
@@ -118,6 +119,28 @@ export function applyRefExtra(m) {
   if (r) m.refExtra = { name: m.refereeName, n: r.n, y: r.y, fo: r.fo, lg: t.lg };
 }
 
+
+// Coppe nazionali: poche partite, statistiche poco affidabili. Per le prestazioni "pre-partita" si usa la media tra la coppa e il campionato
+// (della stessa stagione) delle due squadre: qui si caricano i campionati del paese in cui una delle due gioca.
+async function domesticFor(fm, hid, aid) {
+  if (!isPureCup(fm)) return null;
+  const cup = await leagueForFm(fm);
+  if (!cup || !cup.country) return null;
+  const lgs = LEAGUES.filter((l) => l.country === cup.country && !CUP_IDS.has(l.id) && FM_ID[l.id] && l.id !== cup.id);
+  const out = await Promise.all(lgs.map(async (l) => {
+    try {
+      const fmD = FM_ID[l.id];
+      const sk = await currentSeason(fmD);
+      if (!sk) return null;
+      const [season, det] = await Promise.all([loadSeason(fmD, sk), loadSeasonMatches(fmD, sk)]);
+      if (!season || !det || !season.teams) return null;
+      const has = (t) => t != null && Object.prototype.hasOwnProperty.call(season.teams, String(t));
+      return has(hid) || has(aid) ? { season, det } : null;
+    } catch (e) { return null; }
+  }));
+  return out.filter(Boolean);
+}
+
 function enrich(m, fm, sk, season, det, tmap, cur) {
   m.season = season;
   m.det = det;
@@ -176,6 +199,7 @@ export async function buildArchiveMatch(fm, sk, mid) {
   MATCH_BY_ID[id] = m;
   m.leagueObj = league;
   // stagione in corso di un campionato aggiunto: niente etichetta; stagioni passate: "· 2019/20"
+  if (isPureCup(fm)) m.moreDet = await domesticFor(fm, fx[2], fx[3]);
   return enrich(m, fm, sk, season, det, tmap, false);
 }
 
@@ -191,6 +215,7 @@ export async function completeExtraMatch(m) {
   // le due squadre della partita sono quelle gia' usate dall'app (anche se il nome nel calendario e' scritto in modo diverso)
   if (m.archive.hid != null && teamById(m.homeId)) tmap[m.archive.hid] = teamById(m.homeId);
   if (m.archive.aid != null && teamById(m.awayId)) tmap[m.archive.aid] = teamById(m.awayId);
+  if (isPureCup(fm)) m.moreDet = await domesticFor(fm, m.archive.hid, m.archive.aid);
   return enrich(m, fm, sk, season, det, tmap, true);
 }
 

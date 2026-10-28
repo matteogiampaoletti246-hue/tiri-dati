@@ -40,7 +40,8 @@ export default function useSwipeBack(enabled = true) {
       if (!s || !dragging.current) return;
       dragging.current = false;
       const dx = e.clientX - s.x;
-      if (dx > 92) pageBack(dx, navigate);
+      // oltre la meta' dello schermo si torna indietro; prima, la pagina rientra lentamente al suo posto
+      if (dx > Math.min(window.innerWidth, 430) * 0.5) pageBack(dx, navigate);
       else pageReset(true);
     };
 

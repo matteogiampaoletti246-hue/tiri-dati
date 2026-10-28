@@ -17,6 +17,7 @@ const GROUPS = [
   { key: 'DEF', title: 'Difensori', color: '#38A2FF', pos: ['DEF'] },
   { key: 'MID', title: 'Centrocampisti', color: '#3FCF8E', pos: ['MID'] },
   { key: 'ATT', title: 'Attaccanti', color: '#EF5B5B', pos: ['WNG', 'ATT'] },
+  { key: 'UNK', title: 'Giocatori', color: '#8EA0BD', pos: ['UNK'] }, // ruolo non fornito dalla fonte (rosa ricavata dalle presenze)
 ];
 
 // Rosa della squadra divisa per ruolo.
@@ -50,7 +51,7 @@ export default function TeamRosterPanel({ teamId }) {
               const bits = [r[4] ? `${flagOf(r[4])} ${countryIt(r[4])}`.trim() : null, r[6] ? `${r[6]} cm` : null, r[5] ? `${r[5]} anni` : null].filter(Boolean);
               const initials = String(r[1]).split(' ').map((w) => w[0]).join('').slice(0, 2).toUpperCase();
               return (
-                <Link key={r[0]} to={mine[nk(r[1])] ? `/giocatore/${mine[nk(r[1])].id}` : skR ? `/giocatore/${archiveId(fmR, skR, r[0])}` : '#'} className="press mx-2 mb-1.5 flex items-center gap-3 rounded-[18px] px-3 py-2" style={{ background: teamGrad(team, 0x55) }}>
+                <Link key={r[0]} to={mine[nk(r[1])] ? `/giocatore/${mine[nk(r[1])].id}` : skR && r[0] > 0 ? `/giocatore/${archiveId(fmR, skR, r[0])}` : '#'} className="press mx-2 mb-1.5 flex items-center gap-3 rounded-[18px] px-3 py-2" style={{ background: teamGrad(team, 0x55) }}>
                   <span className="avatar h-[38px] w-[38px] text-[11px]">
                     <Image src={playerFace(r[0])} alt={r[1]} className="h-full w-full" fittingType="fill" />
                     <span className="sr-only">{initials}</span>

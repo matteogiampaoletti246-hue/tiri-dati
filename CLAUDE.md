@@ -73,3 +73,13 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 
 ## Colori e loghi competizioni
 - Colori scelti dall'utente in `PALETTE` (`data/leagues.js`): banner e pillole Home. Loghi dei campionati/coppe extra da FotMob (`leaguelogo/<fm>.png`, `dark/`). Le squadre delle coppe nazionali mostrano il campionato (`CUP_IDS`), e squadre omonime di altro paese non si fondono (es. Arsenal in Coupe de France).
+
+## Giocatori: competizioni e stagioni (regola fissa)
+- Indice `pidx/<id%100>.json` (`giocatori_indice.py`, workflow `giocatori_indice.yml`, ogni giorno): per ogni id FotMob tutte le competizioni/stagioni giocate. `data/playerIndex.js` (`usePlayerCareer`, `resolvePid`) lo usa per: tendina competizioni di Statistiche (squadra attuale + tutte quelle giocate, anche Premier League dell'anno scorso), stagioni per competizione, lista Partite di tutte le competizioni (`PastPlayerMatches items`).
+- L'id FotMob si trova da carriere.json, id archivio, rosa della squadra, statistiche della stagione in corso. Anagrafica da carriere.json, altrimenti dalla rosa (`rose.json`); radar da `archivePercentiles` se il giocatore non e' tra quelli dei campionati principali.
+
+## Squadra unica, rose, coppe (regola fissa)
+- Una sola scheda per squadra (`findAppTeam` in `data/teamMatch.js`, `t.fmId`): il banner e' sempre quello del campionato nazionale (es. Francoforte = Bundesliga); le coppe sono tendine. Scegliendo una coppa nazionale pura nella Classifica della squadra compare il Tabellone.
+- Rose da piu' fonti (`update_rose.py`: FotMob, PitchAPI, API-Football). Statistiche squadra: riquadri Gol/xG/Tiri/Tiri in porta con posizione + riga "Prossima" della competizione scelta (solo se esiste).
+- Forma recente = ultime 5 partite in tutte le competizioni. Per le sole coppe nazionali le statistiche pre-partita sono la media coppa + campionato (coppe europee escluse).
+- Swipe indietro: oltre la meta' dello schermo si torna, prima la pagina rientra lentamente. Pillole dei turni del Tabellone: la riga scorre e centra la pillola scelta; schede ben spaziate.

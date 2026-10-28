@@ -22,8 +22,10 @@ import CompSeasonBar from '@/components/CompSeasonBar';
 import PastStats from '@/components/past/PastStats';
 import { PastPlayerMatches } from '@/components/past/PastMatches';
 import { useSeasonList, initSeason, useSel } from '@/components/past/PastBits';
+import { usePlayerCareer, useArchivePct, useBioPid } from '@/data/playerIndex';
+import { rosePlayer } from '@/data/rose';
 import useAsync from '@/hooks/useAsync';
-import { currentSeason, loadPlayerStats } from '@/data/archive';
+import { currentSeason, loadPlayerStats, sortSeasons } from '@/data/archive';
 import { FM_ID } from '@/data/archive';
 import { fixedColors } from '@/data/teamColorFix';
 import { carriereOf, countryIt, flagOf, FOOT, dateLong, ageOf, money, monthIt } from '@/data/carriere';
@@ -59,11 +61,16 @@ function Bars({ values, color }) {
 const avg = (a) => (a.length ? a.reduce((x, y) => x + y, 0) / a.length : null);
 
 function BioCard({ player, team }) {
-  const c = carriereOf(player.id) || {};
-  const age = ageOf(c.b);
+  const c0 = carriereOf(player.id) || {};
+  const pidB = useBioPid(player);
+  const rp = pidB ? rosePlayer(pidB) : null;
+  const R = rp ? rp.r : null;
+  // senza scheda carriere (campionati minori, appena arrivati): nazionalita', eta', altezza e maglia dalla rosa FotMob
+  const c = { ...(R ? { c: R[4], h: R[6], n: R[3] } : {}), ...c0 };
+  const age = ageOf(c.b) || (R && R[5]) || null;
   const cells = [
     ['Nazionalità', c.c ? `${flagOf(c.c)} ${countryIt(c.c)}`.trim() : '—'],
-    ['Nato il', c.b ? `${dateLong(c.b)}${age ? ` · ${age} anni` : ''}` : '—'],
+    ['Nato il', c.b ? `${dateLong(c.b)}${age ? ` · ${age} anni` : ''}` : age ? `${age} anni` : '—'],
     ['Altezza', c.h ? `${c.h} cm` : '—'],
     ['Piede', FOOT[c.f] || '—'],
     ['Ruolo', POS_IT[player.position] || '—'],
@@ -110,7 +117,9 @@ function BioCard({ player, team }) {
 
 /* ---------- PROFILO ---------- */
 export function ProfiloPanel({ player, team, concept }) {
-  const pc = percentiles(player).filter((x) => x.key !== 'foulsCommitted');
+  const pc0 = percentiles(player);
+  const ap = useArchivePct(player, !pc0.some((x) => x.pct !== null));
+  const pc = (ap || pc0).filter((x) => x.key !== 'foulsCommitted');
   const colors = team ? team.colors : ['#1E4BD8', '#7FB6E8'];
   const r5 = player.ratings5 || [];
   const facts = [
@@ -232,12 +241,12 @@ export function ProfiloPanel({ player, team, concept }) {
 /* ---------- PARTITE ---------- */
 export function PartitePanel({ player, concept }) {
   const rows = player.recent || [];
-  const lg = player.archive ? player.leagueId : (teamById(player.teamId) || {}).leagueId;
-  const fm = FM_ID[lg];
-  const c = carriereOf(player.id);
-  const fmPid = c && c.fm;
-  const seasons = useSeasonList(fm, null, fmPid);
-  if (!rows.length && !(fm && fmPid && seasons.length)) {
+  const car = usePlayerCareer(player);
+  const fmPid = car.pid || (carriereOf(player.id) || {}).fm;
+  // tutte le competizioni e stagioni in cui ha giocato, dalla piu' recente
+  const items = car.rows.filter((r) => leagueById(Object.keys(FM_ID).find((k) => FM_ID[k] === r[0]))).map((r) => [r[0], r[1]]);
+  const seasons = items;
+  if (!rows.length && !(fmPid && items.length)) {
     return <p className="px-5 py-16 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Nessuna partita disponibile</p>;
   }
   return (
@@ -274,7 +283,7 @@ export function PartitePanel({ player, concept }) {
         })}
       </div>
     </div>
-    {fm && fmPid && seasons.length ? <PastPlayerMatches fm={fm} seasons={seasons} fmPid={fmPid} /> : null}
+    {fmPid && items.length ? <PastPlayerMatches key={fmPid} items={items} fmPid={fmPid} /> : null}
     </div>
   );
 }
@@ -451,18 +460,25 @@ function CupCurrent({ p, fm, fmPid, team }) {
 
 export function StatistichePanel({ player, team }) {
   const p = player;
-  const comps = (() => {
+  const car = usePlayerCareer(p);
+  const baseComps = (() => {
     const c = teamCompetitions(p.teamId);
     const l = p.archive && p.leagueId ? leagueById(p.leagueId) : null;
     return l ? [l, ...c.filter((x) => x.id !== l.id)] : c;
   })();
+  // tutte le competizioni in cui ha giocato (indice giocatori), oltre a quelle della squadra attuale
+  const comps = [...baseComps, ...car.order.filter((id) => !baseComps.some((c) => c.id === id)).map(leagueById).filter(Boolean)];
   const [comp, setComp] = useSel(p.id, 'sc', comps.length ? comps[0].id : null);
   const [season, setSeason] = useSel(p.id, 'ss', () => (p.archive ? p.sk : initSeason(FM_ID[comps.length ? comps[0].id : null])));
   const fmL = FM_ID[comp];
-  const fmPid = (carriereOf(p.id) || {}).fm;
-  const seasons = useSeasonList(fmL, null, fmPid);
-  // giocatore dell'archivio: non c'e' una "stagione attuale" da mostrare, si parte dall'ultima in cui ha giocato
-  const seasonEff = p.archive && season === 'cur' ? (seasons[0] || null) : season;
+  const fmPid = car.pid || (carriereOf(p.id) || {}).fm;
+  const inBase = baseComps.some((c) => c.id === comp);
+  const idxSeasons = car.bySeason[comp];
+  const oldSeasons = useSeasonList(idxSeasons || car.loading ? null : fmL, null, fmPid);
+  const seasons = idxSeasons ? sortSeasons(idxSeasons).filter((s) => !inBase || p.archive || s !== car.cur[fmL]) : oldSeasons;
+  const noCur = !!p.archive || !inBase;
+  // senza una "stagione attuale" da mostrare (archivio o competizione non attuale) si parte dall'ultima in cui ha giocato
+  const seasonEff = noCur && season === 'cur' ? (seasons[0] || null) : season;
   const dom = comps.length ? comps[0].id : null;
   const rk = [['goals', 'Gol'], ['assists', 'Assist'], ['shots', 'Tiri'], ['shotsOnTarget', 'Tiri in porta'], ['xg', 'xG'], ['foulsDrawn', 'Falli subiti']]
     .map(([k, label]) => ({ k, label, r: rankOf(p, k), v: per90(p[k] || 0, p.minutes) }))
@@ -496,8 +512,8 @@ export function StatistichePanel({ player, team }) {
 
   return (
     <div className="-mt-1">
-    <CompSeasonBar comps={comps} comp={comp} onComp={(c) => { setComp(c); setSeason('cur'); }} seasons={fmPid ? (p.archive && p.sk && !seasons.includes(p.sk) ? [p.sk, ...seasons] : seasons) : []} season={seasonEff || 'cur'} onSeason={setSeason} noCur={!!p.archive} />
-    {p.archive && !seasonEff ? <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Nessuna stagione in questa competizione</p> : seasonEff && seasonEff !== 'cur' && fmL && fmPid ? <PastStats kind="players" id={fmPid} fm={fmL} sk={seasonEff} teamName={team && team.name} /> : (
+    <CompSeasonBar comps={comps} comp={comp} onComp={(c) => { setComp(c); setSeason('cur'); }} seasons={fmPid ? (p.archive && p.sk && comp === p.leagueId && !seasons.includes(p.sk) ? [p.sk, ...seasons] : seasons) : []} season={seasonEff || 'cur'} onSeason={setSeason} noCur={noCur} />
+    {noCur && !seasonEff ? <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Nessuna stagione in questa competizione</p> : seasonEff && seasonEff !== 'cur' && fmL && fmPid ? <PastStats kind="players" id={fmPid} fm={fmL} sk={seasonEff} teamName={team && team.name} /> : (
     <div key={comp} className="comp-in">
     <div className="flex flex-col gap-4 px-5 pt-4"><Affidabilita player={p} team={team} comp={comp} /></div>
     {comp !== dom ? <CupCurrent p={p} fm={fmL} fmPid={fmPid} team={team} /> : (

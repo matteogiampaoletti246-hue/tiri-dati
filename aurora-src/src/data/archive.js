@@ -206,14 +206,7 @@ export const playerSeasons = (fm, pid) => {
   }
   return PS[k];
 };
-const ALIAS = [[/\bmanchester\b/g, 'man'], [/\bnottingham\b/g, 'nottm'], [/\bmunchen\b/g, 'munich'], [/\bm gladbach\b|\bmonchengladbach\b|\bmgladbach\b/g, 'gladbach'], [/\bsaint\b/g, 'st'], [/\bborussia\b/g, ' '], [/\bwolverhampton wanderers\b/g, 'wolves'], [/\btottenham hotspur\b/g, 'tottenham']];
-const norm = (n) => {
-  let x = String(n || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9 ]/g, ' ').replace(/\b(fc|ac|as|ss|us|afc|cf|sc|calcio|1\w*)\b/g, ' ');
-  ALIAS.forEach(([re, to]) => { x = x.replace(re, to); });
-  return x.replace(/\s+/g, ' ').trim();
-};
-// sigla ("Paris Saint-Germain" -> "psg")
-const acr = (n) => String(n || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').split(/[\s-]+/).filter(Boolean).map((t) => t[0]).join('');
+import { norm, acr } from './teamMatch';
 // id FotMob di una squadra dentro i dati di una stagione, dal nome: prima uguale, poi sigla, poi nome contenuto (mai due squadre diverse che si somigliano)
 export const teamIdByName = (teams, name) => {
   const n = norm(name);

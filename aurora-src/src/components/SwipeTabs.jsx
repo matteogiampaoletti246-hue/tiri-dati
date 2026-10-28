@@ -214,7 +214,7 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
       const { index: i, n, onChange: oc } = live.current;
       const next = dx < 0 ? i + 1 : i - 1;
       const el = contentRef.current;
-      if (i === 0 && dx > 0 && live.current.back && d.edge && (dx > d.w * 0.3 || v > 0.55)) {
+      if (i === 0 && dx > 0 && live.current.back && d.edge && (dx > d.w * 0.5 || (v > 0.9 && dx > d.w * 0.25))) {
         busy = true;
         pageBack(Math.max(0, dx), live.current.navigate);
         setTimeout(() => { busy = false; }, 450);
