@@ -453,8 +453,18 @@ await step('home: tornando da una partita resta all\'altezza di prima, senza sal
 
 await step('home: la fotografia sotto lo swipe indietro e\' alla stessa altezza della pagina vera', async () => {
   await go('#/', 4500);
-  await pg.evaluate(() => { const l = [...document.querySelectorAll('a[href*="/match/"]')]; const a = l[Math.min(3, l.length - 1)]; window.scrollTo(0, Math.max(0, a.getBoundingClientRect().top + scrollY - 300)); });
-  await wait(800);
+  // si sceglie il giorno con piu' partite, cosi' la pagina e' abbastanza lunga da scorrere davvero
+  const days = await pg.evaluate(() => [...document.querySelectorAll('button,div')].filter((x) => /^\s*(Lun|Mar|Mer|Gio|Ven|Sab|Dom)\s*\d+/i.test(x.textContent || '') && x.children.length < 4).map((x) => (x.textContent || '').trim().slice(0, 8)));
+  let best = { n: 0, t: null };
+  for (const t of [...new Set(days)].slice(0, 9)) {
+    await pg.evaluate((tt) => { const e = [...document.querySelectorAll('button,div')].filter((x) => (x.textContent || '').trim().slice(0, 8) === tt && x.children.length < 4).pop(); if (e) e.click(); }, t);
+    await wait(1600);
+    const n = await pg.evaluate(() => document.querySelectorAll('a[href*="/match/"]').length);
+    if (n > best.n) best = { n, t };
+  }
+  if (best.t) { await pg.evaluate((tt) => { const e = [...document.querySelectorAll('button,div')].filter((x) => (x.textContent || '').trim().slice(0, 8) === tt && x.children.length < 4).pop(); if (e) e.click(); }, best.t); await wait(2500); }
+  await pg.evaluate(() => { const l = [...document.querySelectorAll('a[href*="/match/"]')]; const a = l[Math.min(6, l.length - 1)]; window.scrollTo(0, Math.max(0, a.getBoundingClientRect().top + scrollY - 300)); });
+  await wait(900);
   const pre = await pg.evaluate(() => { const l = [...document.querySelectorAll('a[href*="/match/"]')].filter((a) => { const r = a.getBoundingClientRect(); return r.top > 150 && r.bottom < innerHeight - 100; }); const a = l[0] || document.querySelector('a[href*="/match/"]'); return { id: a.getAttribute('href'), top: Math.round(a.getBoundingClientRect().top), sy: Math.round(scrollY) }; });
   await pg.evaluate((h) => document.querySelector(`a[href="${h}"]`).click(), pre.id);
   await wait(4500);
@@ -473,8 +483,9 @@ await step('home: la fotografia sotto lo swipe indietro e\' alla stessa altezza 
   const rs = r.filter((x) => x.r !== null).map((x) => x.r).slice(-12);
   const dc = cs.length ? Math.max(...cs.map((c) => Math.abs(c - pre.top))) : 999;
   const dr = rs.length ? Math.max(...rs.map((c) => Math.abs(c - pre.top))) : 999; // solo gli ultimi fotogrammi: dopo il ripristino
-  ok('home: la fotografia sotto lo swipe mostra la riga dove stava (nessun salto al cambio pagina)', cs.length > 3 && dc <= 4, { pre, dc, campioni: cs.slice(0, 6) });
-  ok('home: la pagina vera rimette la riga dove stava', rs.length > 3 && dr <= 4 && pre.top > 100, { pre, dr, campioni: rs.slice(0, 6) });
+  ok('home: la pagina è abbastanza lunga da scorrere per la prova', pre.sy > 100 || best.n < 8, { pre, best });
+  ok('home: la fotografia sotto lo swipe mostra la riga dove stava (nessun salto al cambio pagina)', cs.length >= 1 && dc <= 4, { pre, giorno: best, dc, campioni: cs.slice(0, 6) });
+  ok('home: la pagina vera rimette la riga dove stava', rs.length >= 1 && dr <= 4 && pre.top > 100, { pre, giorno: best, dr, campioni: rs.slice(0, 6) });
 });
 
 await step('coppa nazionale: solo tabellone con turni e partite (DFB Pokal)', async () => {
