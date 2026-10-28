@@ -33,3 +33,9 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 - Dentro Classifica c'e' il selettore Classifica | Tabellone (`components/bracket/ClassificaSwitch.jsx`), per ogni competizione in `CUP_FM` (`data/bracket.js`): per aggiungere una coppa basta aggiungere il suo id FotMob.
 - Il tabellone si ricava da `arch/<fm>/<stagione>.json` (turni `playoff,1/16,1/8,1/4,1/2,final`), rigori dall'evento `PenaltyShootout` delle partite. Stagione in corso senza turni a eliminazione: "Nessun dato ancora disponibile".
 - Fasi in pillole: ogni schermata mostra due fasi e il passaggio e' uno scorrimento orizzontale (`components/bracket/Bracket.jsx`, posizioni calcolate a ogni fotogramma, mai componenti ricreati). Finale: locandina con colori e logo della competizione.
+
+## Ritorno da una partita
+- Aprendo una partita (anche dal Tabellone) e tornando indietro, il campionato resta sulla stessa stagione, scheda, Classifica/Tabellone e fase (`useEntityScope`/`useSel` con chiave `lg-<fm>`); si resetta solo aprendo di nuovo la competizione da zero.
+
+## Partite minori non iniziate
+- Stesse schede dei top campionati: Panoramica, Statistiche (`data/archiveMetrics.js`, medie a partita dalla stagione archiviata), Formazioni, Classifica; niente "Giocatori migliori" né Affidabilità; ragnatela in "Duello in numeri"; meteo da 3 giorni prima.
