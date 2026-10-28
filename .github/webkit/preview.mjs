@@ -232,7 +232,7 @@ await step('colori squadre', async () => {
 });
 
 await step('squadra: Partite con stagione e tutte le competizioni', async () => {
-  await go('#/squadra/10235', 6000);
+  await go('#/squadra/feyenoord', 6000);
   await clickText('Partite'); await wait(2500);
   const t = await pg.evaluate(() => document.body.innerText);
   ok('squadra Partite: tasto Tutte le competizioni', /Tutte le competizioni/.test(t));
