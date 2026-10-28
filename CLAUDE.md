@@ -39,3 +39,15 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 
 ## Partite minori non iniziate
 - Stesse schede dei top campionati: Panoramica, Statistiche (`data/archiveMetrics.js`, medie a partita dalla stagione archiviata), Formazioni, Classifica; niente "Giocatori migliori" né Affidabilità; ragnatela in "Duello in numeri"; meteo da 3 giorni prima.
+
+## Swipe per tornare indietro (regola fissa, vale per ogni pagina presente e futura)
+- Lo swipe indietro e' a scorrimento: la pagina attuale esce a destra e la pagina di destinazione si vede sotto (fotografia presa prima di lasciarla, `installBackSnaps` in `lib/carousel.js`) e prende il posto al centro. Mai schermo nero. Tutti i punti che tornano indietro passano da `pageDrag`/`pageBack` di `lib/carousel.js`.
+- Tornando, i tabelloni gia' caricati restano in memoria (`peekBracket`) e non si rianimano.
+
+## Swipe tra giorni / schede
+- Nel passaggio tra giorni il riquadro e' alto quanto il giorno piu' lungo (`growBox`): nessuna scheda tagliata. I giorni vicini sono costruiti per intero.
+- I titoli delle schede (`SwipeTabs`) si accendono gradualmente con la barra (colore interpolato, stesso peso per tutti). Le righe di pillole non scorrono in verticale (`overflowY: hidden`).
+
+## Campionati minori
+- Partite di tutta la stagione in corso in `partite_extra.json` (`extra_partite.py`), cosi' forma, numeri da tenere d'occhio e medie sono affidabili. Arbitro: barra delle medie anche per i minori e nome nella fascia Stadio/Meteo/Arbitro.
+- Autogol: nella mappa tiri compare come gol della squadra avversaria, specchiato (`og`).

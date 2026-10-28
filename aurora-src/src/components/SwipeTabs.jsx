@@ -58,6 +58,14 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
     const w = aW + (bW - aW) * t;
     bar.style.transform = `translate3d(${left}px,0,0)`;
     bar.style.width = `${w}px`;
+    // i titoli si accendono piano piano insieme alla barra (stesso peso per tutti: niente scatti di grassetto)
+    const pos = from + t;
+    tabRefs.current.forEach((el, k) => {
+      if (!el) return;
+      const m = Math.max(0, 1 - Math.abs(k - pos));
+      el.style.transition = animate ? 'color .34s ease' : 'none';
+      el.style.color = `color-mix(in srgb, var(--ink) ${Math.round(m * 100)}%, var(--ink-3))`;
+    });
   };
 
   // posizione di scorrimento della riga di schede per mostrare la scheda k
@@ -270,7 +278,7 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
   }, []);
 
   const HEAD = (
-<div ref={headRef} data-pf={fixedBar ? '1' : undefined} className={fixedBar ? 'hide-sb fixed inset-x-0 z-30 mx-auto w-full max-w-[var(--app-w)] overflow-x-auto px-5 pt-2.5' : 'hide-sb glass-head sticky z-20 overflow-x-auto px-5 pt-2.5'} style={{ top: stickyTop, background: fixedBar ? 'var(--sky-2)' : 'color-mix(in srgb, hsl(var(--background)) 94%, transparent)' }}>
+<div ref={headRef} data-pf={fixedBar ? '1' : undefined} className={fixedBar ? 'hide-sb fixed inset-x-0 z-30 mx-auto w-full max-w-[var(--app-w)] overflow-x-auto px-5 pt-2.5' : 'hide-sb glass-head sticky z-20 overflow-x-auto px-5 pt-2.5'} style={{ overflowY: 'hidden', top: stickyTop, background: fixedBar ? 'var(--sky-2)' : 'color-mix(in srgb, hsl(var(--background)) 94%, transparent)' }}>
         <div className="relative flex items-center gap-6" style={{ width: 'max-content' }}>
           {tabs.map((tab, i) => (
             <button

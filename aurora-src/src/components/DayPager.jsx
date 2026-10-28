@@ -4,6 +4,13 @@ import { dragDays } from '@/components/DayStrip';
 
 // Giorni affiancati: lo swipe laterale sposta una striscia gia' pronta (come nella Home).
 // I giorni vicini si preparano a riposo, quando l'app e' ferma.
+// durante lo swipe il riquadro e' alto quanto il giorno piu' lungo tra quelli affiancati: niente schede tagliate
+export const growBox = (el) => {
+  if (!el) return;
+  let h = 0;
+  for (const c of el.children) h = Math.max(h, c.offsetHeight);
+  el.style.height = `${h}px`;
+};
 export default function DayPager({ index, count, onChange, render }) {
   const box = useRef(null);
   const [ready, setReady] = useState(false);
@@ -11,8 +18,7 @@ export default function DayPager({ index, count, onChange, render }) {
   live.current = { index, count, onChange };
 
   useEffect(() => {
-    setReady(false);
-    const t = setTimeout(() => setReady(true), 120);
+    const t = setTimeout(() => setReady(true), 60);
     return () => clearTimeout(t);
   }, [index]);
 
@@ -47,6 +53,7 @@ export default function DayPager({ index, count, onChange, render }) {
           const el = box.current;
           dragDays(ok ? -st.dx / Math.min(window.innerWidth, (el && el.offsetWidth) || 430) : 0);
           if (el) {
+            growBox(el);
             el.style.transition = 'none';
             el.style.willChange = 'transform';
             el.style.transform = `translate3d(${ok ? st.dx : st.dx * 0.28}px,0,0)`;
@@ -77,6 +84,7 @@ export default function DayPager({ index, count, onChange, render }) {
           clearTimeout(tm);
           el.style.transition = 'none';
           flushSync(() => oc(next));
+          el.style.height = '';
           el.style.transform = '';
           el.style.willChange = '';
           busy = false;
@@ -91,7 +99,7 @@ export default function DayPager({ index, count, onChange, render }) {
         el.style.transition = 'transform .25s cubic-bezier(.22,.8,.24,1)';
         el.style.transform = 'translate3d(0,0,0)';
         dragDays(0, true);
-        setTimeout(() => { el.style.transition = ''; el.style.transform = ''; el.style.willChange = ''; }, 280);
+        setTimeout(() => { el.style.transition = ''; el.style.transform = ''; el.style.willChange = ''; el.style.height = ''; }, 280);
       }
     };
     document.addEventListener('touchstart', onStart, { passive: true });

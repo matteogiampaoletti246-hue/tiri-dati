@@ -244,7 +244,7 @@ function BracketView({ data, fm, sk }) {
 
   return (
     <div ref={wrapRef} className="relative overflow-x-clip pb-6">
-      <div className="hide-sb relative mx-4 mt-3 flex items-center gap-1.5 overflow-x-auto">
+      <div className="hide-sb relative mx-4 mt-3 flex items-center gap-1.5 overflow-x-auto" style={{ overflowY: 'hidden' }}>
         <span ref={indRef} aria-hidden="true" className="absolute left-0 top-0 h-full rounded-full" style={{ background: 'var(--accent)', willChange: 'transform' }} />
         {rounds.map((r, i) => (
           <button key={r.key} ref={(el) => { pillRefs.current[i] = el; }} type="button" onClick={() => go(i)} className="press relative shrink-0 rounded-full px-[13px] py-2 text-[12.5px] font-extrabold" style={{ color: active === i ? '#fff' : 'var(--ink-3)', transition: 'color .25s ease' }}>

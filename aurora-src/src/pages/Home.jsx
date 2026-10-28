@@ -1,4 +1,5 @@
 import { memo, useEffect, useRef, useState } from 'react';
+import { growBox } from '@/components/DayPager';
 import { flushSync } from 'react-dom';
 import { CalendarDays } from 'lucide-react';
 import { useNavigationType } from 'react-router-dom';
@@ -49,8 +50,8 @@ const DayPane = memo(function DayPane({ iso, filter, ver, tick, active }) {
     if (active) { if (cnt !== Infinity) setCnt(Infinity); return undefined; }
     if (cnt >= total) return undefined;
     let id;
-    const go = () => { if (TOUCHING) { id = setTimeout(go, 120); return; } setCnt((c) => c + 12); };
-    id = setTimeout(go, cnt === 0 ? 140 : 60);
+    const go = () => { if (TOUCHING) { id = setTimeout(go, 120); return; } setCnt(Infinity); };
+    id = setTimeout(go, 70);
     return () => clearTimeout(id);
   }, [cnt, active, total]);
   if (!groups.length) {
@@ -123,6 +124,7 @@ export default function Home() {
     const dir = target === nextIso ? -1 : 1;
     busy.current = true;
     showPeek(target);
+    growBox(el);
     dragDays(-dir, true);
     let ended = false;
     let tm = 0;
@@ -133,6 +135,7 @@ export default function Home() {
       finishRef.current = null;
       el.style.transition = 'none';
       flushSync(() => { setIso(target); setPeek(null); peekRef.current = null; });
+      el.style.height = '';
       el.style.transform = '';
       el.style.willChange = '';
       busy.current = false;
@@ -197,6 +200,7 @@ export default function Home() {
           showPeek(nb);
           dragDays(nb ? -st.dx / Math.min(window.innerWidth, (el && el.offsetWidth) || 430) : 0);
           if (el) {
+            growBox(el);
             el.style.transition = 'none';
             el.style.willChange = 'transform';
             el.style.transform = `translate3d(${nb ? st.dx : st.dx * 0.28}px,0,0)`;
@@ -223,7 +227,7 @@ export default function Home() {
         el.style.transition = 'transform .25s cubic-bezier(.22,.8,.24,1)';
         el.style.transform = 'translate3d(0,0,0)';
         dragDays(0, true);
-        setTimeout(() => { el.style.transition = ''; el.style.transform = ''; el.style.willChange = ''; showPeek(null); }, 280);
+        setTimeout(() => { el.style.transition = ''; el.style.transform = ''; el.style.willChange = ''; el.style.height = ''; showPeek(null); }, 280);
       }
     };
     document.addEventListener('touchstart', onStart, { passive: true });

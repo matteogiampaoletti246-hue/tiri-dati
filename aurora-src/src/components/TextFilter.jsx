@@ -24,7 +24,7 @@ export default function TextFilter({ options, value, onChange, className = '' })
     const b = box.current;
     if (!b || typeof ResizeObserver === 'undefined') return undefined;
     let skip = true;
-    const ro = new ResizeObserver(() => { if (skip) { skip = false; return; } place(false); });
+    const ro = new ResizeObserver(() => { if (skip) { skip = false; if (!pill.current || pill.current.style.opacity !== '1' || !pill.current.offsetWidth) place(false); return; } place(false); });
     ro.observe(b);
     return () => ro.disconnect();
   }, []);
@@ -42,7 +42,7 @@ export default function TextFilter({ options, value, onChange, className = '' })
   }, [value]);
 
   return (
-    <div ref={box} className={`glass-flat hide-sb relative flex w-fit max-w-full items-center gap-0.5 overflow-x-auto rounded-full p-1 ${className}`}>
+    <div ref={box} className={`glass-flat hide-sb relative flex w-fit max-w-full items-center gap-0.5 overflow-x-auto rounded-full p-1 ${className}`} style={{ overflowY: 'hidden', overscrollBehavior: 'contain' }}>
       <span ref={pill} aria-hidden="true" className="absolute left-0 rounded-full" style={{ top: 4, bottom: 4, width: 0, opacity: 0, background: 'var(--pill-active)', boxShadow: 'var(--shadow-2)', willChange: 'transform' }} />
       {options.map((opt) => {
         const val = typeof opt === 'string' ? opt : opt.value;
