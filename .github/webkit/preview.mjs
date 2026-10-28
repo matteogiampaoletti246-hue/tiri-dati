@@ -375,6 +375,31 @@ await step('tabellone: stagione attuale senza dati e stagione passata con tabell
   ok('tabellone: tornando da una partita resta la stagione passata sul Tabellone', opened && /2025\/26/.test(back.t) && /Ottavi/.test(back.t) && /Semifinali/.test(back.t), { opened, urlIn, h: back.h, t: back.t.slice(0, 200) });
 });
 
+// swipe indietro a scorrimento: a meta' corsa si vede la pagina di destinazione sotto, poi si torna davvero
+await step('swipe indietro: pagina sotto visibile', async () => {
+  await go('#/campionato/serie-a', 6000);
+  const opened = await pg.evaluate(() => { const a = [...document.querySelectorAll('a')].find((x) => /#\/match\//.test(x.getAttribute('href') || '')); if (a) { a.click(); return true; } return false; });
+  await wait(3500);
+  const inMatch = await pg.evaluate(() => /#\/match\//.test(location.hash));
+  const touch = (type, x, y) => pg.evaluate(([type, x, y]) => {
+    const t = new Touch({ identifier: 1, target: document.body, clientX: x, clientY: y, pageX: x, pageY: y });
+    document.dispatchEvent(new TouchEvent(type, { touches: type === 'touchend' ? [] : [t], changedTouches: [t], targetTouches: type === 'touchend' ? [] : [t], bubbles: true, cancelable: true }));
+  }, [type, x, y]);
+  let drove = true;
+  try {
+    await touch('touchstart', 8, 300);
+    for (const x of [30, 60, 100, 150, 200]) { await touch('touchmove', x, 302); await wait(60); }
+    await wait(150); await shot('swipe-indietro-meta');
+    const behind = await pg.evaluate(() => !!document.querySelector('body > div[aria-hidden="true"][style*="position: fixed"]'));
+    ok('swipe indietro: la pagina di destinazione e\' visibile sotto', behind);
+    await touch('touchend', 260, 302);
+    await wait(1800);
+  } catch (e) { drove = false; report.errors.push('swipe-indietro ' + String(e).slice(0, 160)); }
+  const h = await pg.evaluate(() => location.hash);
+  ok('swipe indietro: si torna al campionato', opened && inMatch && /campionato\/serie-a/.test(h), { opened, inMatch, h, drove });
+  await shot('swipe-indietro-fine');
+});
+
 report.passed = report.checks.filter((c) => c.pass).length;
 report.total = report.checks.length;
 fs.writeFileSync(`${OUT}/report.json`, JSON.stringify(report, null, 2));
