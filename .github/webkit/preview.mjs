@@ -89,7 +89,7 @@ await step('home: giorni diversi, stesso stato iniziale', async () => {
   const DAYRE = '^(Ieri|Oggi|Domani|Lun|Mar|Mer|Gio|Ven|Sab|Dom)';
   const nDays = await pg.evaluate((re) => [...document.querySelectorAll('button')].filter((x) => new RegExp(re).test(x.textContent.trim()) && /\d/.test(x.textContent)).length, DAYRE);
   report.giorniProvati = nDays;
-  for (let i = 0; i < Math.min(nDays, 3); i++) {
+  for (let i = 0; i < Math.min(nDays, 10); i++) {
     await pg.evaluate(([re, i]) => { const l = [...document.querySelectorAll('button')].filter((x) => new RegExp(re).test(x.textContent.trim()) && /\d/.test(x.textContent)); if (l[i]) l[i].click(); }, [DAYRE, i]);
     await wait(1400);
     const info = await groupsInfo();
@@ -103,7 +103,7 @@ await step('home: giorni diversi, stesso stato iniziale', async () => {
 await step('barra in basso resta ferma scorrendo', async () => {
   await pg.goto(APP); await wait(7000);
   const res = [];
-  for (const y of [900, 3000, 0]) {
+  for (const y of [300, 900, 1800, 3000, 600, 0]) {
     await pg.evaluate((y) => window.scrollTo(0, y), y); await wait(350);
     res.push(await pg.evaluate(() => { const nav = document.querySelector('nav.fixed'); if (!nav) return null; const r = nav.getBoundingClientRect(); return { top: Math.round(r.top), bottom: Math.round(r.bottom), vh: window.innerHeight, sy: Math.round(window.scrollY) }; }));
   }
@@ -135,7 +135,7 @@ await step('migliori giocatori e matchup: calendario da ieri', async () => {
 const px = await getJson('partite_extra.json');
 const fin = px && px.m ? px.m.filter((r) => r[9] === 'f').slice(-3) : [];
 const matchIds = [];
-for (const r of fin.slice(0, 1)) matchIds.push(`x-${r[1]}-${r[0]}`);
+for (const r of fin.slice(0, 2)) matchIds.push(`x-${r[1]}-${r[0]}`);
 let archSeason = null;
 for (const fm of ['71', '57', '61']) { const s = await getJson(`arch/${fm}/2025-2026.json`); const f = s && s.fix && s.fix.filter((x) => x[6] && !x[8]).slice(-1)[0]; if (f) { archSeason = { fm, sk: '2025-2026', f, s }; break; } }
 if (archSeason) matchIds.push(`a-${archSeason.fm}-${archSeason.sk}-${archSeason.f[0]}`);
@@ -257,7 +257,7 @@ await step('Mostra tutti + scorrimento veloce: la barra resta in basso', async (
   for (let i = 0; i < 3; i++) await pg.evaluate(() => { const b = [...document.querySelectorAll('button')].find((x) => /^Mostra tutti/.test(x.textContent.trim())); if (b) b.click(); });
   await wait(500);
   const res = [];
-  for (const y of [2500, 9000, 0]) {
+  for (const y of [400, 2500, 6000, 900, 9000, 0]) {
     await pg.evaluate((y) => window.scrollTo(0, y), y); await wait(250);
     res.push(await pg.evaluate(() => { const nav = document.querySelector('nav.fixed'); const r = nav.getBoundingClientRect(); return { bottom: Math.round(r.bottom), vh: window.innerHeight, vvTop: window.visualViewport ? Math.round(window.visualViewport.offsetTop) : 0 }; }));
   }
@@ -313,7 +313,7 @@ await step('giocatore dell\'archivio: stessa scheda a 4 schede', async () => {
 });
 
 await step('nuovi campionati: scheda con statistiche', async () => {
-  for (const lg of ["serie-b", "mls"]) {
+  for (const lg of ['serie-b', 'mls', 'championship', 'coppa-italia']) {
     await go(`#/campionato/${lg}`, 6000);
     const t0 = await pg.evaluate(() => document.body.innerText);
     ok(`${lg}: scheda campionato aperta`, /Partite/.test(t0) && /Classifica/.test(t0), { len: t0.length });
@@ -325,7 +325,7 @@ await step('nuovi campionati: scheda con statistiche', async () => {
 });
 
 await step('squadra minore: statistiche e giocatori della stagione attuale', async () => {
-  for (const team of ["fortuna-sittard"]) {
+  for (const team of ['fortuna-sittard', 'feyenoord']) {
     await go(`#/squadra/${team}`, 6000);
     await clickText('Statistiche'); await wait(3500);
     const t = await pg.evaluate(() => document.body.innerText);
