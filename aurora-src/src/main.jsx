@@ -10,11 +10,25 @@ const stop = (e) => e.preventDefault();
 document.addEventListener('touchmove', (e) => { if (e.touches && e.touches.length > 1) e.preventDefault(); }, { passive: false });
 // Se un pezzo di pagina va in errore non si resta con lo schermo bianco: si riprova da solo.
 class Boundary extends React.Component {
-  constructor(p) { super(p); this.state = { err: 0 }; }
+  constructor(p) { super(p); this.state = { err: 0, hard: false }; this.n = []; }
   static getDerivedStateFromError() { return { err: Date.now() }; }
   componentDidCatch(e) {
-    try { (window.__slErr = window.__slErr || []).push(String((e && e.stack) || e).slice(0, 400)); } catch { /* ignora */ } setTimeout(() => this.setState({ err: 0 }), 400); }
+    try { (window.__slErr = window.__slErr || []).push(String((e && e.stack) || e).slice(0, 400)); } catch { /* ignora */ }
+    const now = Date.now();
+    this.n = this.n.filter((t) => now - t < 6000).concat(now);
+    // primo errore: si riprova da solo; errori ripetuti: messaggio con tasto invece dello schermo nero
+    if (this.n.length >= 3) { this.setState({ hard: true }); return; }
+    setTimeout(() => this.setState({ err: 0 }), 400);
+  }
   render() {
+    if (this.state.hard) {
+      return (
+        <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 14, color: '#cfd6e6', font: '600 14px system-ui' }}>
+          <span>Qualcosa non ha funzionato</span>
+          <button type="button" onClick={() => { this.n = []; try { location.hash = '#/'; } catch { /* ignora */ } this.setState({ err: 0, hard: false }); }} style={{ padding: '10px 20px', borderRadius: 999, border: '1px solid rgba(255,255,255,.25)', background: 'transparent', color: 'inherit', font: 'inherit' }}>Riprova</button>
+        </div>
+      );
+    }
     if (this.state.err) return <div style={{ minHeight: '100vh' }} />;
     return this.props.children;
   }

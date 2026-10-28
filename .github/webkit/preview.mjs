@@ -231,6 +231,30 @@ await step('colori squadre', async () => {
   await shot('eliteserien-stat-squadre');
 });
 
+await step('squadra: Partite con stagione e tutte le competizioni', async () => {
+  await go('#/squadra/10235', 6000);
+  await clickText('Partite'); await wait(2500);
+  const t = await pg.evaluate(() => document.body.innerText);
+  ok('squadra Partite: tasto Tutte le competizioni', /Tutte le competizioni/.test(t));
+  ok('squadra Partite: tasto stagione', /20\d\d\/\d\d/.test(t));
+  await shot('feyenoord-partite');
+  await pg.evaluate(() => window.scrollTo(0, 600)); await wait(300);
+  await clickText('Classifica'); await wait(1500);
+  ok('cambio scheda: la pagina riparte dall\'alto', await pg.evaluate(() => window.scrollY < 40));
+});
+
+await step('stagione 2011/12: niente schermo nero', async () => {
+  await go('#/campionato/eredivisie', 6000);
+  await clickText('Classifica'); await wait(1500);
+  await pg.evaluate(() => { const b = [...document.querySelectorAll('button')].find((x) => /^20\d\d\/\d\d$/.test(x.textContent.trim())); if (b) b.click(); });
+  await wait(900);
+  await pg.evaluate(() => { const b = [...document.querySelectorAll('button,[role=option],li')].find((x) => x.textContent.trim() === '2011/12'); if (b) b.click(); });
+  await wait(2500);
+  const len = await pg.evaluate(() => document.body.innerText.length);
+  ok('stagione 2011/12: la pagina resta visibile', len > 200, { len });
+  await shot('eredivisie-2011-12');
+});
+
 report.passed = report.checks.filter((c) => c.pass).length;
 report.total = report.checks.length;
 fs.writeFileSync(`${OUT}/report.json`, JSON.stringify(report, null, 2));

@@ -127,7 +127,8 @@ export function MatchdayList({ matches, all, tint = null, concept = cptOf() }) {
   );
 }
 
-export default function MatchDayList({ matches, focusToday = true, teamId = null }) {
+// focusToday: di norma l'elenco parte dall'inizio; lo scorrimento automatico alla prima partita da giocare e' solo su richiesta
+export default function MatchDayList({ matches, focusToday = false, teamId = null }) {
   const ref = useRef(null);
   const todayIso = isoDate(DATES[TODAY_INDEX]);
   const firstId = (matches.find((m) => m.date >= todayIso) || {}).id;

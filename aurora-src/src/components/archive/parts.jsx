@@ -46,7 +46,7 @@ export function useTeamColors() {
 }
 export const rowBg = (col, id, name, a = 0x55) => teamGrad(col(id, name), a);
 
-export function ArchRow({ m, names, fm, sk }) {
+export function ArchRow({ m, names, fm, sk, tid = null }) {
   const hn = names[m[2]] || '—';
   const an = names[m[3]] || '—';
   const played = !!m[6];
@@ -74,6 +74,17 @@ export function ArchRow({ m, names, fm, sk }) {
         <TeamLogo id={m[3]} name={an} size={24} />
         <span className="truncate text-[14px] font-semibold" style={{ color: 'var(--ink)' }}>{an}</span>
       </div>
+      {tid != null ? (() => {
+        // V / S / P dal punto di vista della squadra (come nelle partite della stagione in corso)
+        let res = null;
+        if (hasScore) {
+          const h = Number(sc[0]); const a = Number(sc[1]);
+          const mine = String(m[2]) === String(tid) ? [h, a] : [a, h];
+          res = mine[0] > mine[1] ? 'V' : mine[0] === mine[1] ? 'S' : 'P';
+        }
+        const col = { V: '#1FA45B', S: '#8A93A6', P: '#E0443A' }[res];
+        return <span className="flex h-[20px] w-[20px] shrink-0 items-center justify-center rounded-full text-[10.5px] font-extrabold" style={{ background: col || 'transparent', color: '#fff' }}>{res || ''}</span>;
+      })() : null}
     </Link>
   );
 }
@@ -96,9 +107,10 @@ const formOf = (season) => {
 export function StandingsPanel({ season, fm, sk, highlight = null }) {
   const [mode, setMode] = useState('all');
   const t = season && season.table;
-  if (!t) return <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Classifica non disponibile per questa stagione</p>;
   const forma = mode === 'form';
-  const fm5 = useMemo(() => formOf(season), [season]);
+  // gli hook vanno sempre prima di qualunque uscita anticipata (altrimenti React si blocca cambiando stagione)
+  const fm5 = useMemo(() => (t ? formOf(season) : {}), [season, t]);
+  if (!t) return <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Classifica non disponibile per questa stagione</p>;
   const rows = forma
     ? (t.all || []).map((r) => { const f = (fm5[r.id] || []).slice(-5); return { ...r, f, fp: f.reduce((x, c) => x + (c === 'V' ? 3 : c === 'S' ? 1 : 0), 0) }; }).sort((a, b) => b.fp - a.fp || b.pts - a.pts)
     : (t[mode] || t.all || []);

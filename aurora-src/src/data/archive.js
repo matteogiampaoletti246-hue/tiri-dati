@@ -24,7 +24,46 @@ export const archIndex = () => once('index', async () => {
   return out;
 });
 export const loadColors = () => json('arch/colors.json');
-export const loadSeason = (lid, sk) => json(`arch/${lid}/${sk}.json`);
+// Classifica ricostruita dalle partite giocate, per le stagioni in cui FotMob non ha la tabella (solo campionati nazionali).
+const CUPS = new Set([42, 73, 10216]);
+function tableFromFix(season, lid) {
+  const fix = (season && season.fix) || [];
+  if (CUPS.has(Number(lid)) || !fix.length) return null;
+  const names = season.teams || {};
+  const mk = () => ({});
+  const T = { all: mk(), home: mk(), away: mk() };
+  let played = 0;
+  const add = (tab, id, gf, ga) => {
+    const r = tab[id] || (tab[id] = { id, played: 0, wins: 0, draws: 0, losses: 0, gf: 0, ga: 0, pts: 0 });
+    r.played += 1; r.gf += gf; r.ga += ga;
+    if (gf > ga) { r.wins += 1; r.pts += 3; } else if (gf === ga) { r.draws += 1; r.pts += 1; } else r.losses += 1;
+  };
+  fix.forEach((m) => {
+    if (!m[6] || m[8]) return;
+    const sc = String(m[5] || '').split(' - ').map(Number);
+    if (sc.length !== 2 || sc.some(Number.isNaN)) return;
+    played += 1;
+    add(T.all, m[2], sc[0], sc[1]); add(T.all, m[3], sc[1], sc[0]);
+    add(T.home, m[2], sc[0], sc[1]); add(T.away, m[3], sc[1], sc[0]);
+  });
+  const n = Object.keys(T.all).length;
+  if (!played || n < 8 || n > 30) return null;
+  const out = {};
+  Object.keys(T).forEach((k) => {
+    out[k] = Object.values(T[k])
+      .sort((a, b) => b.pts - a.pts || (b.gf - b.ga) - (a.gf - a.ga) || b.gf - a.gf || String(names[a.id]).localeCompare(String(names[b.id])))
+      .map((r, i) => ({ name: names[r.id] || '', shortName: names[r.id] || '', id: r.id, played: r.played, wins: r.wins, draws: r.draws, losses: r.losses, scoresStr: `${r.gf}-${r.ga}`, goalConDiff: r.gf - r.ga, pts: r.pts, idx: i + 1 }));
+  });
+  return out;
+}
+export const loadSeason = (lid, sk) => json(`arch/${lid}/${sk}.json`).then((d) => {
+  if (d && !d.table && !d.__tc) {
+    d.__tc = true;
+    const t = tableFromFix(d, lid);
+    if (t) { d.table = t; d.legend = d.legend || []; d.tableComputed = true; }
+  }
+  return d;
+});
 // le statistiche vecchie (v1) erano della stagione sbagliata: si usano solo quelle riscaricate (v2)
 // statistiche nascoste ovunque (significato poco chiaro)
 const HIDDEN_STAT = /^poss_?won_?att_?3rd/i;
