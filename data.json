@@ -1743,16 +1743,16 @@
    "handicap": 0.65,
    "label": "Premiership",
    "league_avg": {
-    "sotAgainst": 3.889,
-    "sotFor": 9.222,
-    "totalAgainst": 12.0,
-    "totalFor": 20.0
+    "sotAgainst": 4.0,
+    "sotFor": 9.1,
+    "totalAgainst": 11.9,
+    "totalFor": 20.9
    },
    "logo": "https://cdn.pitchapi.dev/images/leagues/e9f616ee8f6d62d139ad75eb85cca5d279dd90bbece3157ba434a6db4e8307f7.webp",
    "logos": {
     "Celtic": "https://cdn.pitchapi.dev/images/teams/962c70903cb3c720b0baedc22bee5480b8d41fce1ba696b043ae311d3103de14.webp"
    },
-   "matches": 9,
+   "matches": 10,
    "matches_without_stats": 0,
    "name": "Premiership",
    "restricted": true,
@@ -1760,11 +1760,11 @@
    "size": 1,
    "teams": {
     "Celtic": {
-     "games": 9,
-     "sotAgainst": 3.889,
-     "sotFor": 9.222,
-     "totalAgainst": 12.0,
-     "totalFor": 20.0
+     "games": 10,
+     "sotAgainst": 4.0,
+     "sotFor": 9.1,
+     "totalAgainst": 11.9,
+     "totalFor": 20.9
     }
    }
   },
@@ -1772,10 +1772,10 @@
    "country": "ITA",
    "label": "Serie A",
    "league_avg": {
-    "sotAgainst": 4.983,
-    "sotFor": 4.974,
-    "totalAgainst": 14.648,
-    "totalFor": 14.638
+    "sotAgainst": 4.942,
+    "sotFor": 4.922,
+    "totalAgainst": 14.615,
+    "totalFor": 14.571
    },
    "logo": "https://cdn.pitchapi.dev/images/leagues/1e6b2d0d7b14ef10ae27b51a6a7f536b32fdceea229d84c475be346978232f22.webp",
    "logos": {
@@ -1800,7 +1800,7 @@
     "Udinese": "https://cdn.pitchapi.dev/images/teams/bf074b2992c5c0d8bb4fefdf71b549070c402656ac2e6405a52e8ee9ef6c8801.webp",
     "Venezia": "https://cdn.pitchapi.dev/images/teams/ef4cf59b13e1d9d130d304bad00d700783a9783ba1c0469952db26a8a76a5b38.webp"
    },
-   "matches": 83,
+   "matches": 88,
    "matches_without_stats": 0,
    "name": "Serie A",
    "restricted": false,
@@ -1815,11 +1815,11 @@
      "totalFor": 14.375
     },
     "Bologna": {
-     "games": 8,
-     "sotAgainst": 3.875,
-     "sotFor": 3.75,
-     "totalAgainst": 12.5,
-     "totalFor": 12.25
+     "games": 9,
+     "sotAgainst": 3.778,
+     "sotFor": 3.889,
+     "totalAgainst": 12.0,
+     "totalFor": 11.889
     },
     "Cagliari": {
      "games": 9,
@@ -1850,25 +1850,25 @@
      "totalFor": 18.25
     },
     "Genoa": {
-     "games": 8,
-     "sotAgainst": 4.5,
-     "sotFor": 3.0,
-     "totalAgainst": 15.75,
-     "totalFor": 10.625
+     "games": 9,
+     "sotAgainst": 4.444,
+     "sotFor": 2.889,
+     "totalAgainst": 15.889,
+     "totalFor": 11.0
     },
     "Inter": {
-     "games": 8,
-     "sotAgainst": 3.375,
-     "sotFor": 7.75,
-     "totalAgainst": 10.5,
-     "totalFor": 23.125
+     "games": 9,
+     "sotAgainst": 3.444,
+     "sotFor": 7.111,
+     "totalAgainst": 10.667,
+     "totalFor": 22.333
     },
     "Juventus": {
-     "games": 8,
-     "sotAgainst": 2.875,
-     "sotFor": 5.375,
-     "totalAgainst": 8.5,
-     "totalFor": 15.75
+     "games": 9,
+     "sotAgainst": 2.778,
+     "sotFor": 5.222,
+     "totalAgainst": 9.111,
+     "totalFor": 15.889
     },
     "Lazio": {
      "games": 9,
@@ -1885,32 +1885,32 @@
      "totalFor": 11.75
     },
     "Milan": {
-     "games": 8,
-     "sotAgainst": 3.75,
-     "sotFor": 5.0,
-     "totalAgainst": 9.875,
-     "totalFor": 13.125
+     "games": 9,
+     "sotAgainst": 3.889,
+     "sotFor": 4.778,
+     "totalAgainst": 9.778,
+     "totalFor": 12.556
     },
     "Monza": {
-     "games": 8,
-     "sotAgainst": 5.375,
-     "sotFor": 5.625,
-     "totalAgainst": 13.625,
-     "totalFor": 13.375
+     "games": 9,
+     "sotAgainst": 5.556,
+     "sotFor": 5.556,
+     "totalAgainst": 13.889,
+     "totalFor": 13.222
     },
     "Napoli": {
-     "games": 8,
-     "sotAgainst": 3.875,
-     "sotFor": 6.0,
-     "totalAgainst": 16.625,
-     "totalFor": 16.625
+     "games": 9,
+     "sotAgainst": 4.0,
+     "sotFor": 6.111,
+     "totalAgainst": 16.111,
+     "totalFor": 16.556
     },
     "Parma": {
-     "games": 8,
-     "sotAgainst": 5.25,
-     "sotFor": 3.5,
-     "totalAgainst": 17.5,
-     "totalFor": 10.625
+     "games": 9,
+     "sotAgainst": 5.222,
+     "sotFor": 3.333,
+     "totalAgainst": 17.778,
+     "totalFor": 10.333
     },
     "Roma": {
      "games": 9,
@@ -1934,18 +1934,18 @@
      "totalFor": 10.667
     },
     "Udinese": {
-     "games": 8,
-     "sotAgainst": 6.625,
-     "sotFor": 4.0,
-     "totalAgainst": 16.75,
-     "totalFor": 14.0
+     "games": 9,
+     "sotAgainst": 6.111,
+     "sotFor": 4.111,
+     "totalAgainst": 15.778,
+     "totalFor": 14.667
     },
     "Venezia": {
-     "games": 8,
-     "sotAgainst": 6.875,
-     "sotFor": 4.375,
-     "totalAgainst": 16.25,
-     "totalFor": 14.625
+     "games": 9,
+     "sotAgainst": 6.333,
+     "sotFor": 4.333,
+     "totalAgainst": 16.222,
+     "totalFor": 14.333
     }
    }
   },
@@ -2000,16 +2000,16 @@
    "handicap": 0.5,
    "label": "1. liga (SVK)",
    "league_avg": {
-    "sotAgainst": 2.727,
-    "sotFor": 5.636,
-    "totalAgainst": 10.091,
-    "totalFor": 17.364
+    "sotAgainst": 2.5,
+    "sotFor": 5.583,
+    "totalAgainst": 9.583,
+    "totalFor": 17.917
    },
    "logo": "https://cdn.pitchapi.dev/images/leagues/0a2be45fc74909a3737bccefce447e88b0562ed557c4b6f5202c6b281c550890.webp",
    "logos": {
     "Slovan Bratislava": "https://cdn.pitchapi.dev/images/teams/19a562f7f6053ae9daba69ad68f5a9be26220b39c30e9f0081ab0ab089b441d8.webp"
    },
-   "matches": 11,
+   "matches": 12,
    "matches_without_stats": 0,
    "name": "1. liga",
    "restricted": true,
@@ -2017,15 +2017,15 @@
    "size": 1,
    "teams": {
     "Slovan Bratislava": {
-     "games": 11,
-     "sotAgainst": 2.727,
-     "sotFor": 5.636,
-     "totalAgainst": 10.091,
-     "totalFor": 17.364
+     "games": 12,
+     "sotAgainst": 2.5,
+     "sotFor": 5.583,
+     "totalAgainst": 9.583,
+     "totalFor": 17.917
     }
    }
   }
  },
  "season_start": "2026",
- "updated_at": "2026-10-28T05:37:15+00:00"
+ "updated_at": "2026-10-28T23:31:31+00:00"
 }
