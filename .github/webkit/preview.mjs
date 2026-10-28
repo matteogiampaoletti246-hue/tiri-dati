@@ -71,6 +71,15 @@ await step('home: tendine di tutti i campionati', async () => {
   await wait(900); await shot('tendina-riaperta');
   const re = await groupsInfo();
   ok('home: si riapre', re.some((g) => g.open));
+  // apro una tendina che partiva chiusa, entro in una partita e torno indietro: deve restare com'e'
+  await pg.evaluate(() => { const b = [...document.querySelectorAll('section button[aria-expanded="false"]')][0]; if (b) b.click(); });
+  await wait(900);
+  const prima = await groupsInfo();
+  const opened = await pg.evaluate(() => { const a = [...document.querySelectorAll('section button[aria-expanded="true"]')].map((b) => b.closest('section').querySelector('a[href*="/match/"]')).filter(Boolean).pop(); if (a) { a.click(); return true; } return false; });
+  await wait(2500);
+  await pg.goBack(); await wait(2500);
+  const dopo = await groupsInfo();
+  ok('home: tornando da una partita le tendine restano come le avevo lasciate', opened && JSON.stringify(prima.map((g) => g.open)) === JSON.stringify(dopo.map((g) => g.open)), { prima: prima.map((g) => g.open).join(''), dopo: dopo.map((g) => g.open).join('') });
 });
 
 await step('home: giorni diversi, stesso stato iniziale', async () => {
