@@ -4,13 +4,14 @@ import TextFilter from '@/components/TextFilter';
 import { comma } from '@/lib/format';
 import PlayerLink from './PlayerLink';
 import { findInMatch } from '@/data/playerSheet';
+import { ShotDot, SHOT_HOME, SHOT_AWAY, SHOT_PITCH, SHOT_LINE, SHOT_GOALBG } from './ShotDot';
 
 // Mappa tiri stile "campo verde": casa attacca a sinistra, trasferta a destra.
 // Sotto il campo: le due porte viste da davanti. Toccando un tiro compare la scheda con i dettagli.
-const HC = 'var(--accent)';
-const AC = 'var(--live)';
-const PITCH = 'rgba(42,98,62,.92)';
-const LINE = 'rgba(255,255,255,.55)';
+const HC = SHOT_HOME;
+const AC = SHOT_AWAY;
+const PITCH = SHOT_PITCH;
+const LINE = SHOT_LINE;
 
 const arc = (cx, cy, r, from, to, n = 30) => {
   const pts = [];
@@ -56,7 +57,7 @@ export default function MatchShotMap({ shots = [], home, away, match = null, lin
   const cur = sel != null && list[sel] ? list[sel] : null;
   const color = (s) => (s.side === 'home' ? HC : AC);
   const pos = (s) => (s.side === 'home' ? [105 - s.px, 68 - s.py] : [s.px, s.py]);
-  const radius = (s) => (1.9);
+  const radius = () => 1.9;
   const found = cur && match ? findInMatch(match, cur.playerName) : null;
   const photo = found ? found.entry.photo : null;
   // le foto dei giocatori dei tiri si caricano in anticipo: cambiando tiro con la freccia non c'e' attesa
@@ -75,21 +76,8 @@ export default function MatchShotMap({ shots = [], home, away, match = null, lin
 
   const Dot = ({ s, cx, cy, r, active, onClick, k }) => (
     <g key={k} transform={`translate(${cx} ${cy})`} onClick={onClick} style={{ cursor: 'pointer' }}>
-      {active ? <circle r={r + 1.6} fill="none" stroke="#fff" strokeWidth="0.6" /> : null}
-      {s.outcome === 'Gol' ? (
-        <>
-          <circle r={r + 0.9} fill="#fff" stroke={color(s)} strokeWidth="0.7" />
-          <polygon points="0,-1.15 1.1,-0.35 0.7,0.95 -0.7,0.95 -1.1,-0.35" fill="#111" />
-          {[[0, -1.15, 0, -2.3], [1.1, -0.35, 2.2, -0.75], [0.7, 0.95, 1.4, 1.9], [-0.7, 0.95, -1.4, 1.9], [-1.1, -0.35, -2.2, -0.75]].map((l, i) => (
-            <line key={i} x1={l[0]} y1={l[1]} x2={l[2]} y2={l[3]} stroke="#111" strokeWidth="0.35" />
-          ))}
-        </>
-      ) : (
-        <>
-          <circle r={r} fill={s.onTarget ? color(s) : 'rgba(255,255,255,.28)'} fillOpacity={s.onTarget ? 0.9 : 1} stroke={color(s)} strokeWidth="0.6" />
-          {s.onTarget ? <circle r="0.55" fill="#fff" /> : null}
-        </>
-      )}
+      {active ? <circle r={r + 1.6} fill="none" stroke="#f5a400" strokeWidth="0.7" /> : null}
+      <ShotDot c={color(s)} goal={s.outcome === 'Gol'} on={!!s.onTarget} r={r} />
     </g>
   );
 
@@ -99,14 +87,14 @@ export default function MatchShotMap({ shots = [], home, away, match = null, lin
     const gl = list.filter((s) => s.side === side && s.gy != null && s.gz != null);
     const x0 = 10;
     return (
-      <svg viewBox="0 0 100 52" className="w-full">
-        <line x1="2" x2="98" y1="44" y2="44" strokeWidth="0.5" style={{ stroke: 'var(--ink-3)' }} />
-        <rect x={x0 + 4} y={44 - 2.44 * W * 0.9} width={7.32 * W * 0.9} height={2.44 * W * 0.9} strokeWidth="1.2" style={{ fill: 'var(--hair-2)', stroke: 'var(--ink)' }} />
+      <svg viewBox="0 0 100 52" className="w-full" style={{ background: SHOT_GOALBG, borderRadius: 10 }}>
+        <line x1="2" x2="98" y1="44" y2="44" strokeWidth="0.5" style={{ stroke: 'rgba(150,175,225,.5)' }} />
+        <rect x={x0 + 4} y={44 - 2.44 * W * 0.9} width={7.32 * W * 0.9} height={2.44 * W * 0.9} strokeWidth="1.2" style={{ fill: 'rgba(255,255,255,.04)', stroke: '#dfe8fb' }} />
         {gl.map((s) => {
           const i = list.indexOf(s);
           const cx = x0 + 4 + (s.gy - 30.34) * W * 0.9;
           const cy = 44 - Math.max(0, Math.min(s.gz, 3.4)) * W * 0.9;
-          return Dot({ k: i, s, cx: Math.max(3, Math.min(97, cx)), cy, r: 2.3, active: i === sel, onClick: () => setSel(i) });
+          return Dot({ k: i, s, cx: Math.max(3, Math.min(97, cx)), cy, r: 2.1, active: i === sel, onClick: () => setSel(i) });
         })}
       </svg>
     );
@@ -129,7 +117,7 @@ export default function MatchShotMap({ shots = [], home, away, match = null, lin
         <polyline points={arc(94, 34, 9.15, 127, 233)} fill="none" stroke={LINE} strokeWidth="0.5" />
         <polyline points={arc(11, 34, 9.15, -53, 53)} fill="none" stroke={LINE} strokeWidth="0.5" />
         {cur && goalPt ? (
-          <line x1={pos(cur)[0]} y1={pos(cur)[1]} x2={goalPt.x} y2={goalPt.y} stroke="#fff" strokeWidth="0.45" strokeDasharray="1.4 1.2" />
+          <line x1={pos(cur)[0]} y1={pos(cur)[1]} x2={goalPt.x} y2={goalPt.y} stroke="#0b1a10" strokeWidth="0.45" strokeDasharray="1.4 1.2" />
         ) : null}
         {list.map((s, i) => {
           const [cx, cy] = pos(s);

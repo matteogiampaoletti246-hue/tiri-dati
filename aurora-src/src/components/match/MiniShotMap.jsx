@@ -2,11 +2,12 @@ import { useState } from 'react';
 import { comma } from '@/lib/format';
 
 // Mappetta tiri del singolo giocatore: metà campo offensiva + porta vista da davanti.
-const PITCH = 'rgba(42,98,62,.92)';
-const LINE = 'rgba(255,255,255,.55)';
+import { ShotDot, SHOT_HOME, SHOT_PITCH, SHOT_LINE, SHOT_GOALBG } from './ShotDot';
+const PITCH = SHOT_PITCH;
+const LINE = SHOT_LINE;
 const cx = (v) => Math.max(66, Math.min(104.5, v));
 const cy = (v) => Math.max(12, Math.min(54, v));
-const col = (s) => (s.outcome === 'Gol' ? '#fff' : s.onTarget ? '#7fd6ff' : 'rgba(255,255,255,.3)');
+
 
 export default function MiniShotMap({ shots }) {
   const [sel, setSel] = useState(null);
@@ -35,19 +36,19 @@ export default function MiniShotMap({ shots }) {
           <circle cx="52.5" cy="34" r="9.15" fill="none" stroke={LINE} strokeWidth="0.5" />
           {list.map((s, i) => (
             <g key={i} onClick={() => setSel(i === sel ? null : i)}>
-              {i === sel ? <circle cx={cx(s.px)} cy={cy(s.py)} r="3.4" fill="none" stroke="#fff" strokeWidth="0.6" /> : null}
-              <circle cx={cx(s.px)} cy={cy(s.py)} r="2" fill={col(s)} stroke={s.outcome === 'Gol' ? '#111' : '#fff'} strokeWidth={s.outcome === 'Gol' ? 0.7 : 0.35} />
+              {i === sel ? <circle cx={cx(s.px)} cy={cy(s.py)} r="3.4" fill="none" stroke="#f5a400" strokeWidth="0.7" /> : null}
+              <g transform={`translate(${cx(s.px)} ${cy(s.py)})`}><ShotDot c={SHOT_HOME} goal={s.outcome === 'Gol'} on={!!s.onTarget} r={2} /></g>
             </g>
           ))}
         </svg>
-        <svg viewBox="0 0 60 52" className="w-full" style={{ maxHeight: 150 }}>
-          <line x1="2" x2="58" y1="44" y2="44" stroke={LINE} strokeWidth="0.5" />
+        <svg viewBox="0 0 60 52" className="w-full" style={{ maxHeight: 150, background: SHOT_GOALBG, borderRadius: 10 }}>
+          <line x1="2" x2="58" y1="44" y2="44" stroke="rgba(150,175,225,.5)" strokeWidth="0.5" />
           <rect x="4" y={44 - 2.44 * W * 0.7} width={7.32 * W * 0.7} height={2.44 * W * 0.7} fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.75)" strokeWidth="1" />
           {list.filter((s) => s.gy != null && s.gz != null).map((s) => {
             const i = list.indexOf(s);
             const gx = 4 + (s.gy - 30.34) * W * 0.7;
             const gyy = 44 - Math.max(0, Math.min(s.gz, 3.4)) * W * 0.7;
-            return <circle key={i} cx={Math.max(3, Math.min(57, gx))} cy={gyy} r="2" fill={col(s)} stroke={s.outcome === 'Gol' ? '#111' : '#fff'} strokeWidth="0.4" onClick={() => setSel(i === sel ? null : i)} />;
+            return <g key={i} transform={`translate(${Math.max(3, Math.min(57, gx))} ${gyy})`} onClick={() => setSel(i === sel ? null : i)}><ShotDot c={SHOT_HOME} goal={s.outcome === 'Gol'} on={!!s.onTarget} r={2} /></g>;
           })}
         </svg>
       </div>

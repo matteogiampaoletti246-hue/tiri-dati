@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { comma } from '@/lib/format';
 import { situationOf, zoneOf, outcomeOf } from './MatchShotMap';
+import { ShotDot, SHOT_HOME, SHOT_PITCH, SHOT_LINE, SHOT_GOALBG } from './ShotDot';
 
-const PITCH = 'rgba(42,98,62,.95)';
-const LINE = 'rgba(255,255,255,.55)';
+const PITCH = SHOT_PITCH;
+const LINE = SHOT_LINE;
 const dotCol = (s) => (s.outcome === 'Gol' ? '#2FBF71' : s.onTarget ? '#4aa3ff' : s.outcome === 'Bloccato' ? '#9aa4b2' : '#e5a84a');
 // Pallone da calcio disegnato dentro il pallino del gol (r = raggio del pallino).
 function Ball({ r }) {
@@ -26,9 +27,9 @@ function Goal({ list, sel, onSel, dim = true, h = 150, frame = 'rgba(255,255,255
   const W = 11.5 * 0.9;
   const x0 = 14;
   return (
-    <svg viewBox="0 0 100 52" className="w-full" style={{ maxHeight: h }}>
-      <line x1="2" x2="98" y1="44" y2="44" strokeWidth="0.5" style={{ stroke: 'var(--ink-3)' }} />
-      <rect x={x0} y={44 - 2.44 * W} width={7.32 * W} height={2.44 * W} strokeWidth="1.2" style={{ fill: 'var(--hair-2)', stroke: 'var(--ink)' }} />
+    <svg viewBox="0 0 100 52" className="w-full" style={{ maxHeight: h, background: SHOT_GOALBG, borderRadius: 10 }}>
+      <line x1="2" x2="98" y1="44" y2="44" strokeWidth="0.5" style={{ stroke: 'rgba(150,175,225,.5)' }} />
+      <rect x={x0} y={44 - 2.44 * W} width={7.32 * W} height={2.44 * W} strokeWidth="1.2" style={{ fill: 'rgba(255,255,255,.04)', stroke: '#dfe8fb' }} />
       {list.map((s, i) => {
         if (s.gy == null || s.gz == null) return null;
         const cx = x0 + (s.gy - 30.34) * W;
@@ -36,9 +37,8 @@ function Goal({ list, sel, onSel, dim = true, h = 150, frame = 'rgba(255,255,255
         const on = sel === i;
         return (
           <g key={i} onClick={() => onSel(i)} style={{ cursor: 'pointer' }} opacity={sel == null || on || !dim ? 1 : 0.35}>
-            {on ? <circle cx={Math.max(3, Math.min(97, cx))} cy={cy} r="4.2" fill="none" stroke="#fff" strokeWidth="0.7" /> : null}
-            <circle cx={Math.max(3, Math.min(97, cx))} cy={cy} r={s.outcome === 'Gol' ? 3.1 : 2.4} fill={dotCol(s)} stroke="#fff" strokeWidth="0.5" />
-            {s.outcome === 'Gol' ? <g transform={`translate(${Math.max(3, Math.min(97, cx))} ${cy})`}><Ball r={3.1} /></g> : null}
+            {on ? <circle cx={Math.max(3, Math.min(97, cx))} cy={cy} r="4.2" fill="none" stroke="#f5a400" strokeWidth="0.7" /> : null}
+            <g transform={`translate(${Math.max(3, Math.min(97, cx))} ${cy})`}><ShotDot c={SHOT_HOME} goal={s.outcome === 'Gol'} on={!!s.onTarget} r={2.2} /></g>
           </g>
         );
       })}
@@ -54,15 +54,14 @@ function Half({ list, sel, onSel, h = 190, line = true }) {
       <polyline points="105,13.84 88.5,13.84 88.5,54.16 105,54.16" fill="none" stroke={LINE} strokeWidth="0.5" />
       <polyline points="105,24.84 99.5,24.84 99.5,43.16 105,43.16" fill="none" stroke={LINE} strokeWidth="0.5" />
       <circle cx="94" cy="34" r="0.5" fill={LINE} />
-      {line && cur && cur.px != null ? <line x1={px(cur.px)} y1={py(cur.py)} x2="105" y2="34" stroke="#fff" strokeWidth="0.45" strokeDasharray="1.3 1.1" /> : null}
+      {line && cur && cur.px != null ? <line x1={px(cur.px)} y1={py(cur.py)} x2="105" y2="34" stroke="#0b1a10" strokeWidth="0.45" strokeDasharray="1.3 1.1" /> : null}
       {list.map((s, i) => {
         if (s.px == null) return null;
         const on = sel === i;
         return (
           <g key={i} onClick={() => onSel(i)} style={{ cursor: 'pointer' }} opacity={sel == null || on ? 1 : 0.35}>
-            {on ? <circle cx={px(s.px)} cy={py(s.py)} r="3.6" fill="none" stroke="#fff" strokeWidth="0.6" /> : null}
-            <circle cx={px(s.px)} cy={py(s.py)} r={s.outcome === 'Gol' ? 2.7 : 2.1} fill={dotCol(s)} stroke="#fff" strokeWidth="0.4" />
-            {s.outcome === 'Gol' ? <g transform={`translate(${px(s.px)} ${py(s.py)})`}><Ball r={2.7} /></g> : null}
+            {on ? <circle cx={px(s.px)} cy={py(s.py)} r="3.6" fill="none" stroke="#f5a400" strokeWidth="0.7" /> : null}
+            <g transform={`translate(${px(s.px)} ${py(s.py)})`}><ShotDot c={SHOT_HOME} goal={s.outcome === 'Gol'} on={!!s.onTarget} r={2} /></g>
           </g>
         );
       })}
