@@ -187,10 +187,19 @@ export function applyFm(m, d, playerLookup) {
       if (e.ty === 'Card') evRows.push([/red/i.test(e.cd || '') ? 'redcard' : 'yellowcard', e.t, 0, '', side, e.n]);
       if (e.ty === 'Substitution') evRows.push(['substitution', e.t, 0, '', side, e.o, 0, 0, 0, 0, e.n]);
     });
+    const goalsBy = {};
+    const assistsBy = {};
+    (d.ev || []).forEach((e) => {
+      if (e.ty !== 'Goal') return;
+      const sd = e.h ? 'h' : 'a';
+      if (e.og) return; // l'autogol non e' un gol del giocatore
+      if (e.n) goalsBy[`${sd}|${e.n}`] = (goalsBy[`${sd}|${e.n}`] || 0) + 1;
+      if (e.as) assistsBy[`${sd}|${e.as}`] = (assistsBy[`${sd}|${e.as}`] || 0) + 1;
+    });
     const make = (side, raw, team) => {
       if (!raw || !raw.s || !raw.s.length) return null;
       const pl = [];
-      [...raw.s, ...(raw.b || [])].forEach((p) => pl.push([p[0], side, p[6] == null ? null : Math.round(p[6] * 10) / 10]));
+      [...raw.s, ...(raw.b || [])].forEach((p) => pl.push([p[0], side, p[6] == null ? null : Math.round(p[6] * 10) / 10, null, goalsBy[`${side}|${p[0]}`] || 0, assistsBy[`${side}|${p[0]}`] || 0]));
       const pseudo = { ev: evRows, pl };
       const lu = buildLineup(side, { f: raw.f, s: raw.s.map((p) => [p[0], p[1], p[2], p[3], p[4], null]), b: (raw.b || []).map((p) => [p[0], p[1], 0, 0, false, null]), co: raw.co && raw.co.n, c: !/pred|prob|expect/i.test(String(d.ty || '')) }, pseudo, team, playerLookup);
       const byName = {};
