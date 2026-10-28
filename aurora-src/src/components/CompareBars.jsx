@@ -1,65 +1,30 @@
-import { useEffect, useRef, useState } from 'react';
-
-// Movimento delle barre quando cambiano i valori (Totale / 1° tempo / 2° tempo):
-// a = scivola morbida, b = elastica con leggero rimbalzo e partenza a cascata, c = lenta con numeri che scorrono.
-const MOVE = {
-  a: { dur: 620, ease: 'cubic-bezier(.22,1,.36,1)', step: 0, count: false },
-  b: { dur: 820, ease: 'cubic-bezier(.34,1.56,.64,1)', step: 45, count: false },
-  c: { dur: 950, ease: 'cubic-bezier(.65,0,.35,1)', step: 30, count: true },
-};
-
-// numero che scorre dal valore precedente a quello nuovo (solo concept c)
-function Num({ value, fmt, tween }) {
-  const [v, setV] = useState(value);
-  const cur = useRef(value);
-  useEffect(() => {
-    const from = cur.current;
-    const to = value;
-    if (!tween || typeof to !== 'number' || typeof from !== 'number' || from === to) { cur.current = to; setV(to); return undefined; }
-    const whole = Number.isInteger(from) && Number.isInteger(to);
-    let raf = 0;
-    let t0 = 0;
-    const step = (t) => {
-      if (!t0) t0 = t;
-      const k = Math.min(1, (t - t0) / 800);
-      const e = 1 - (1 - k) ** 3;
-      const x = from + (to - from) * e;
-      cur.current = x;
-      setV(whole ? Math.round(x) : x);
-      if (k < 1) raf = requestAnimationFrame(step); else { cur.current = to; setV(to); }
-    };
-    raf = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(raf);
-  }, [value, tween]);
-  return <>{fmt(v)}</>;
-}
+// Movimento delle barre quando cambiano i valori (Totale / 1° tempo / 2° tempo): scivolano in modo morbido.
+const MOVE = { dur: 620, ease: 'cubic-bezier(.22,1,.36,1)' };
 
 // Confronto squadra / squadra. Chi ha il valore più alto è in colore pieno, l'altra sbiadita.
 // variant: a = barre dal centro, b = barra unica divisa, c = numeri con linee sottili.
-export default function CompareBars({ rows, homeColor = 'var(--accent)', awayColor = 'var(--live)', format = (v) => v, variant = 'a', motion = 'a' }) {
+export default function CompareBars({ rows, homeColor = 'var(--accent)', awayColor = 'var(--live)', format = (v) => v, variant = 'a' }) {
   // d = stile delle statistiche partita: numeri neri, nome al centro, barra divisa azzurra / grigia (chi ha di piu' e' in evidenza)
   if (variant === 'd') {
-    const mv = MOVE[motion] || MOVE.a;
     return (
       <div className="flex flex-col">
-        {rows.map((row, idx) => {
+        {rows.map((row) => {
           const na = Math.abs(row.home || 0);
           const nb = Math.abs(row.away || 0);
           const tot = na + nb;
           const pa = tot > 0 ? (na / tot) * 100 : 50;
           const fmt = row.format || format;
-          const delay = idx * mv.step;
-          const tr = `width ${mv.dur}ms ${mv.ease} ${delay}ms, opacity .45s ease ${delay}ms`;
+          const tr = `width ${MOVE.dur}ms ${MOVE.ease}, opacity .45s ease`;
           return (
             <div key={row.label} className="py-2">
               <div className="flex items-center justify-between text-[13px]">
-                <span className="tnum font-bold">{row.homeText ?? <Num value={row.home} fmt={fmt} tween={mv.count} />}</span>
+                <span className="tnum font-bold">{row.homeText ?? fmt(row.home)}</span>
                 <span className="px-2 text-center text-[12px]" style={{ color: 'var(--ink-2)' }}>{row.label}</span>
-                <span className="tnum font-bold">{row.awayText ?? <Num value={row.away} fmt={fmt} tween={mv.count} />}</span>
+                <span className="tnum font-bold">{row.awayText ?? fmt(row.away)}</span>
               </div>
               <div className="mt-1 flex h-[4px] gap-[3px] overflow-hidden rounded-full">
                 <span style={{ width: `${pa}%`, minWidth: 0, background: 'var(--accent)', opacity: na >= nb ? 1 : 0.45, borderRadius: 4, transition: tr }} />
-                <span style={{ flex: '1 1 0%', minWidth: 0, background: 'var(--ink-2)', opacity: nb >= na ? 0.9 : 0.35, borderRadius: 4, transition: `opacity .45s ease ${delay}ms` }} />
+                <span style={{ flex: '1 1 0%', minWidth: 0, background: 'var(--ink-2)', opacity: nb >= na ? 0.9 : 0.35, borderRadius: 4, transition: 'opacity .45s ease' }} />
               </div>
             </div>
           );

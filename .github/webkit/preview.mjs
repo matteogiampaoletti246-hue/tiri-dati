@@ -190,8 +190,7 @@ await step('campionato minore: stat squadre', async () => {
 
 await step('statistiche partita: barre con transizione (concept A/B/C)', async () => {
   const id = matchIds[0];
-  for (const c of ['a', 'b', 'c']) {
-    await pg.evaluate((c) => { localStorage.setItem('sl-concept-barre', c); }, c);
+  for (const c of ['a']) {
     await go('#/match/' + id, 8000);
     await clickText('Statistiche'); await wait(2500);
     const w = () => pg.evaluate(() => { const sp = [...document.querySelectorAll('section span')].filter((x) => /width/.test(x.style.transition || '') && x.style.width); return { n: sp.length, w: sp.slice(0, 4).map((x) => Math.round(parseFloat(getComputedStyle(x).width))), tr: sp[0] ? sp[0].style.transition.slice(0, 60) : null }; });
@@ -206,7 +205,6 @@ await step('statistiche partita: barre con transizione (concept A/B/C)', async (
     await clickText('2° tempo'); await wait(1500); await shot(`barre-${c}-secondo-tempo`);
     await clickText('Totale'); await wait(1500);
   }
-  await pg.evaluate(() => { localStorage.setItem('sl-concept-barre', 'a'); });
 });
 
 await step('Mostra tutti + scorrimento veloce: la barra resta in basso', async () => {
