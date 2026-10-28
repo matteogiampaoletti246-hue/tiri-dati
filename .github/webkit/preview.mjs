@@ -23,7 +23,7 @@ const step = async (name, fn) => { try { await fn(); } catch (e) { ok(name + ' (
 const getJson = async (p) => { try { return await (await fetch(BASE + p)).json(); } catch { return null; } };
 const texts = () => pg.evaluate(() => [...document.querySelectorAll('button,a')].map((x) => x.textContent.trim()).filter(Boolean));
 const clickText = (t) => pg.evaluate((t) => { const e = [...document.querySelectorAll('button,a')].find((x) => x.textContent.trim() === t); if (e) e.click(); return !!e; }, t);
-const go = async (hash, ms = 4500) => { await pg.evaluate((h) => { location.hash = h; }, hash); await wait(ms); };
+const go = async (hash, ms = 4500) => { await pg.goto('about:blank'); await pg.goto(APP + hash); await wait(ms); };
 
 await step('home', async () => {
   await pg.goto(APP);
