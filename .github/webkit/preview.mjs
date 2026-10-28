@@ -425,6 +425,18 @@ await step('tabellone: stagione attuale senza dati e stagione passata con tabell
 });
 
 // swipe indietro a scorrimento: a meta' corsa si vede la pagina di destinazione sotto, poi si torna davvero
+await step('home: tornando da una partita resta all\'altezza di prima, senza salti', async () => {
+  await go('#/', 4500);
+  await pg.evaluate(() => { const l = [...document.querySelectorAll('a[href*="/match/"]')]; const a = l[Math.min(6, l.length - 1)]; a.scrollIntoView({ block: 'center' }); });
+  await wait(600);
+  const y0 = await pg.evaluate(() => Math.round(scrollY));
+  await pg.evaluate(() => { const l = [...document.querySelectorAll('a[href*="/match/"]')].filter((a) => { const r = a.getBoundingClientRect(); return r.top > 120 && r.bottom < innerHeight - 100; }); (l[0] || document.querySelector('a[href*="/match/"]')).click(); });
+  await wait(4500);
+  const ys = await pg.evaluate(() => new Promise((res) => { const a = []; const t0 = performance.now(); const f = () => { a.push(Math.round(scrollY)); if (performance.now() - t0 < 1500) requestAnimationFrame(f); else res(a); }; requestAnimationFrame(f); history.back(); }));
+  const mn = Math.min(...ys);
+  ok('home: ritorno senza salti di scroll (mai sopra l\'altezza di prima)', y0 > 100 && mn >= y0 - 3, { y0, minimo: mn, primi: ys.slice(0, 8) });
+});
+
 await step('swipe indietro: pagina sotto visibile', async () => {
   await go('#/campionato/serie-a', 6000);
   const opened = await pg.evaluate(() => { const a = [...document.querySelectorAll('a')].find((x) => /#\/match\//.test(x.getAttribute('href') || '')); if (a) { a.click(); return true; } return false; });

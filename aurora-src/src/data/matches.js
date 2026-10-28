@@ -162,7 +162,7 @@ export function buildMatches() {
       // una squadra che compare prima in una coppa prende come campionato quello nazionale
       if (t && !hit && CUP_IDS.has(t.leagueId) && !CUP_IDS.has(lg)) t.leagueId = lg;
       // squadra nuova (non presente tra i top): il suo link porta alla pagina dell'archivio
-      if (t && !hit && sk) t.href = `/storico/${fm}/${sk}/squadra/${fmId}`;
+      // niente href: le squadre aggiunte usano la stessa scheda squadra dei top campionati (/squadra/<id>)
       return t;
     };
     X.m.forEach(([mid, fm, utc, hn, an, hid, aid, gh, ga, st]) => {

@@ -34,23 +34,32 @@ export default function ScrollToTop() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  useEffect(() => {
+  // Tornando indietro la pagina riparte gia' all'altezza di prima, PRIMA del primo disegno (niente salto dall'alto).
+  // Se la pagina non e' ancora alta abbastanza, la si tiene alta con un minimo temporaneo finche' il contenuto non la raggiunge.
+  useLayoutEffect(() => {
+    try { window.history.scrollRestoration = 'manual'; } catch (e) { /* ignore */ }
     if (navigationType !== 'POP') {
       window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
       return undefined;
     }
     const y = map.current[loc.key];
     if (!y) return undefined;
+    const root = document.documentElement;
+    const need = y + window.innerHeight;
+    if (root.scrollHeight < need) root.style.minHeight = `${need}px`;
+    window.scrollTo({ top: y, left: 0, behavior: 'instant' });
     let n = 0;
     let raf;
     const step = () => {
-      const h = document.documentElement.scrollHeight;
-      if (h >= y + window.innerHeight - 4 || n > 60) { window.scrollTo({ top: y, left: 0, behavior: 'instant' }); return; }
       n += 1;
+      if (Math.abs(window.scrollY - y) > 1 && n < 20) window.scrollTo({ top: y, left: 0, behavior: 'instant' });
+      const body = document.body;
+      const natural = Math.max(body.scrollHeight, body.offsetHeight);
+      if (natural >= need - 4 || n > 90) { root.style.minHeight = ''; return; }
       raf = requestAnimationFrame(step);
     };
-    step();
-    return () => cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(step);
+    return () => { cancelAnimationFrame(raf); root.style.minHeight = ''; };
   }, [loc.key, navigationType]);
 
   return null;

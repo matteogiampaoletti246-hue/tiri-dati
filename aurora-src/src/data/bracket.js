@@ -5,10 +5,23 @@ import { loadSeason, loadSeasonMatches } from './archive';
 
 export const CUP_FM = new Set([42, 73, 10216, 141, 209, 134, 186, 133, 149, 278, 180, 9067]);
 export const hasCup = (fm) => CUP_FM.has(Number(fm));
+// coppe nazionali: solo tabellone (niente classifica)
+export const PURE_CUP_FM = new Set([141, 209, 134, 186, 133, 149, 278, 180, 9067]);
+export const isPureCup = (fm) => PURE_CUP_FM.has(Number(fm));
 export const CUP_NAME = { 42: 'UEFA Champions League', 73: 'UEFA Europa League', 10216: 'UEFA Conference League', 141: 'Coppa Italia', 209: 'DFB Pokal', 134: 'Coupe de France', 186: 'Taça de Portugal', 133: 'EFL Cup', 149: 'Belgian Cup', 278: 'Austrian Cup', 180: 'Scottish League Cup', 9067: 'Copa do Brasil' };
 
-const ROUND_ORDER = ['playoff', '1/32', '1/16', '1/8', '1/4', '1/2', 'final'];
-export const ROUND_LABEL = { playoff: 'Spareggi', '1/32': 'Trentaduesimi', '1/16': 'Sedicesimi', '1/8': 'Ottavi', '1/4': 'Quarti', '1/2': 'Semifinali', final: 'Finale' };
+const ROUND_ORDER = ['playoff', '1/64', '1/32', '1/16', '1/8', '1/4', '1/2', 'final'];
+// i turni arrivano con nomi diversi a seconda della competizione ("2", "1st Round", "8th Finals", "Quarter-finals"...): si portano a una forma unica
+const NAMED = { final: ['final', 100], finals: ['final', 100], 'semi-finals': ['1/2', 90], '1/2': ['1/2', 90], 'quarter-finals': ['1/4', 80], '1/4': ['1/4', 80], '8th finals': ['1/8', 70], '1/8': ['1/8', 70], '1/16': ['1/16', 60], '1/32': ['1/32', 50], '1/64': ['1/64', 40], playoff: ['playoff', 5] };
+export const normRound = (r) => {
+  const t = String(r || '').trim();
+  const hit = NAMED[t.toLowerCase()];
+  if (hit) return { key: hit[0], ord: hit[1], label: ROUND_LABEL[hit[0]] };
+  const n = parseInt(t, 10);
+  if (Number.isFinite(n)) return { key: `n${n}`, ord: n, label: `Turno ${n}` };
+  return { key: t, ord: 30, label: t };
+};
+export const ROUND_LABEL = { playoff: 'Spareggi', '1/64': 'Sessantaquattresimi', '1/32': 'Trentaduesimi', '1/16': 'Sedicesimi', '1/8': 'Ottavi', '1/4': 'Quarti', '1/2': 'Semifinali', final: 'Finale' };
 const key = (a, b) => [String(a), String(b)].sort().join('-');
 const goals = (m) => {
   const sc = String(m[5] || '').split(' - ').map(Number);
@@ -103,9 +116,10 @@ export const loadBracket = async (fm, sk) => {
 const loadBracketRaw = async (fm, sk) => {
   const s = await loadSeason(fm, sk);
   if (!s || !s.fix) return null;
-  const present = ROUND_ORDER.filter((k) => s.fix.some((m) => m[1] === k));
-  if (!present.length) return { rounds: [], names: s.teams || {} };
-  const rounds = present.map((k) => ({ key: k, label: ROUND_LABEL[k], ties: tiesOf(s.fix, k) })).filter((r) => r.ties.length);
+  const origs = [...new Set(s.fix.filter((m) => !m[8]).map((m) => m[1]))].map((o) => ({ o, ...normRound(o) })).sort((a, b) => a.ord - b.ord);
+  if (!origs.length) return { rounds: [], names: s.teams || {} };
+  const rounds = origs.map((r) => ({ key: r.key, label: r.label, ties: tiesOf(s.fix, r.o) })).filter((r) => r.ties.length);
+  if (!rounds.length) return { rounds: [], names: s.teams || {} };
   let det = null;
   if (rounds.some((r) => r.ties.some((t) => t.played && t.sa === t.sb))) det = await loadSeasonMatches(fm, sk);
   const old = Number(String(sk).slice(0, 4)) < 2021;

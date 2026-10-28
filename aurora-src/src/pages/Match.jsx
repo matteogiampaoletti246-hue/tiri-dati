@@ -12,6 +12,8 @@ import MatchStatsPanel from '@/components/match/MatchStatsPanel';
 import MatchLineupsPanel from '@/components/match/MatchLineupsPanel';
 import MatchReliabilityList from '@/components/match/MatchReliabilityList';
 import MatchStandingsPanel from '@/components/match/MatchStandingsPanel';
+import Bracket from '@/components/bracket/Bracket';
+import { isPureCup } from '@/data/bracket';
 import useTicker from '@/hooks/useTicker';
 import { matchById, viewMatch } from '@/data/matches';
 import { prepareMatch, isReady } from '@/data/prepare';
@@ -50,6 +52,10 @@ function Loader({ title = 'Partita' }) {
       </div>
     </PageShell>
   );
+}
+
+function StandingsOrBracket({ raw, cup }) {
+  return cup ? <Bracket fm={raw.archive.fm} sk={raw.archive.sk} /> : <MatchStandingsPanel match={raw} />;
 }
 
 export default function Match() {
@@ -113,13 +119,17 @@ export default function Match() {
   const league = leagueById(raw.leagueId) || raw.leagueObj || null;
   const pre = raw.status === 'scheduled';
 
-  const tabs = pre ? (raw.archive ? PRE_TABS_X : PRE_TABS) : PLAYED_TABS;
+  // coppe nazionali: al posto della classifica c'e' il tabellone
+  const cup = !!(raw.archive && isPureCup(raw.archive.fm));
+  const lastTab = cup ? { key: 'standings', label: 'Tabellone' } : { key: 'standings', label: 'Classifica' };
+  const baseTabs = pre ? (raw.archive ? PRE_TABS_X : PRE_TABS) : PLAYED_TABS;
+  const tabs = baseTabs.map((t) => (t.key === 'standings' ? lastTab : t));
   const panels = pre && raw.archive
     ? [
         <MatchOverviewPanel key="overview" match={raw} home={home} away={away} />,
         <MatchStatsPanel key="stats" match={raw} view={view} home={home} away={away} pre />,
         <MatchLineupsPanel key="lineups" match={raw} view={view} home={home} away={away} pre />,
-        <MatchStandingsPanel key="standings" match={raw} />,
+        <StandingsOrBracket key="standings" raw={raw} cup={cup} />,
       ]
     : pre
     ? [
@@ -127,13 +137,13 @@ export default function Match() {
         <MatchStatsPanel key="stats" match={raw} view={view} home={home} away={away} pre />,
         <MatchLineupsPanel key="lineups" match={raw} view={view} home={home} away={away} pre />,
         <MatchReliabilityList key="rel" match={raw} home={home} away={away} />,
-        <MatchStandingsPanel key="standings" match={raw} />,
+        <StandingsOrBracket key="standings" raw={raw} cup={cup} />,
       ]
     : [
         <MatchSummaryPanel key="summary" match={raw} view={view} home={home} away={away} />,
         <MatchStatsPanel key="stats" match={raw} view={view} home={home} away={away} />,
         <MatchLineupsPanel key="lineups" match={raw} view={view} home={home} away={away} />,
-        <MatchStandingsPanel key="standings" match={raw} />,
+        <StandingsOrBracket key="standings" raw={raw} cup={cup} />,
       ];
 
   return (

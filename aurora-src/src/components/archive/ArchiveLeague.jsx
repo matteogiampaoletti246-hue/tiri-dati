@@ -11,6 +11,8 @@ import { RefereesView } from '@/components/league/LeagueRefereesPanel';
 import { loadSeason, loadSeasonStats, loadSeasonMatches, SEASON_STAT_IT, STAT_IT, STAT_GROUPS, prettyKey } from '@/data/archive';
 import { tintGrad } from '@/lib/tint';
 import ClassificaSwitch from '@/components/bracket/ClassificaSwitch';
+import Bracket from '@/components/bracket/Bracket';
+import { isPureCup } from '@/data/bracket';
 import { ArchRow, StandingsPanel, fmtDate, dayKey, useTeamColors, rowBg } from './parts';
 
 const TABS = [
@@ -286,11 +288,12 @@ export default function ArchiveLeague({ fm, sk, tab, setTab, tint }) {
   const names = (season && season.teams) || {};
   const panels = [
     <MatchesPanel key="m" fm={fm} sk={sk} season={season} tint={tint} />,
-    <ClassificaSwitch key="s" fm={fm} sk={sk}><StandingsPanel season={season} fm={fm} sk={sk} /></ClassificaSwitch>,
+    isPureCup(fm) ? <Bracket key="s" fm={fm} sk={sk} /> : <ClassificaSwitch key="s" fm={fm} sk={sk}><StandingsPanel season={season} fm={fm} sk={sk} /></ClassificaSwitch>,
     <ArchTeamStatPanel key="t" season={season} det={det} stats={stats} names={names} col={col} fm={fm} sk={sk} />,
     <ArchStatPanel key="p" stats={stats} kind="players" names={names} col={col} fm={fm} sk={sk} />,
     refs.length ? <RefereesView key="r" base={refs} /> : null,
   ].filter(Boolean);
-  const tabs = refs.length ? TABS : TABS.filter((t) => t.key !== 'referees');
+  const baseTabs = isPureCup(fm) ? TABS.map((t) => (t.key === 'standings' ? { ...t, label: 'Tabellone' } : t)) : TABS;
+  const tabs = refs.length ? baseTabs : baseTabs.filter((t) => t.key !== 'referees');
   return <SwipeTabs fixedBar tabs={tabs} panels={panels} index={Math.min(tab, tabs.length - 1)} onChange={setTab} className="pt-0" />;
 }
