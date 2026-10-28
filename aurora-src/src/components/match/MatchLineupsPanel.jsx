@@ -1,9 +1,6 @@
 import { teamColor } from '@/lib/tint';
 import InjuryIcon from '@/components/InjuryIcon';
 import { injuryOf } from '@/data/injuries';
-import { useState } from 'react';
-import TextFilter from '@/components/TextFilter';
-import Crest from '@/components/Crest';
 import { Image } from '@/components/ui/image';
 import PlayerLink from './PlayerLink';
 import { SubIcon, BallIcon, BootIcon } from './EventIcons';
@@ -15,48 +12,60 @@ import { comma } from '@/lib/format';
 const last = (n) => String(n || '').split(' ').slice(-1)[0];
 const tone = (v) => (v == null ? 'var(--hair)' : v >= 7.5 ? '#1FA45B' : v >= 7 ? '#5DBB3F' : v >= 6.5 ? '#E0B400' : v >= 6 ? '#E8892B' : '#E5484D');
 
+// Concept B: voto a pillola sul bordo basso del volto; a sinistra cartellino / capitano / cambio col minuto, a destra gol e assist.
+// Ogni icona ha il suo posto fisso (colonne ai lati del volto): non si coprono tra loro ne' con il voto.
 const SHADOW = { filter: 'drop-shadow(0 1px 2px rgba(0,0,0,.9)) drop-shadow(0 0 1px rgba(0,0,0,.9))' };
-function Mark({ style, n, children }) {
+
+function Face({ p, size = 46, team, ring }) {
   return (
-    <span className="absolute flex items-center" style={style}>
-      {children}
-      {n > 1 ? <span className="tnum text-[10px] font-extrabold leading-none text-white">×{n}</span> : null}
+    <span className="avatar relative shrink-0 overflow-visible" style={{ width: size, height: size, background: `linear-gradient(150deg, ${team.colors[0]}, ${team.colors[1]})`, boxShadow: ring ? '0 0 0 2.5px #FFC83D, 0 0 14px rgba(255,200,61,.55)' : undefined }}>
+      <span className="block h-full w-full overflow-hidden rounded-full">
+        {p.photo ? <Image src={p.photo} alt={p.name} className="h-full w-full" fittingType="fill" /> : <span className="flex h-full w-full items-center justify-center text-[12px] font-bold text-white">{p.initials}</span>}
+      </span>
     </span>
   );
 }
 
-function Face({ p, size = 46, team }) {
+function Events({ p, size, mvp }) {
+  const left = [];
+  if (p.card) left.push(<span key="card" className="rounded-[2.5px]" style={{ width: size * 0.62, height: size * 0.82, background: p.card === 'red' ? '#E5484D' : '#F2C230', boxShadow: '0 0 0 1px rgba(0,0,0,.35)' }} />);
+  if (p.captain) left.push(<span key="cap" className="flex items-center justify-center rounded-full font-extrabold" style={{ width: size * 0.9, height: size * 0.9, fontSize: size * 0.55, background: '#F2C230', color: '#222' }}>C</span>);
+  if (p.subOut) left.push(<span key="sub" className="flex items-center gap-[1px]" style={SHADOW}><SubIcon size={size} />{typeof p.subOut === 'number' || /^\d/.test(String(p.subOut)) ? <span className="tnum text-[9px] font-extrabold leading-none text-white">{String(p.subOut).replace(/'/g, '')}&apos;</span> : null}</span>);
+  const right = [];
+  if (p.goals) right.push(<span key="g" className="flex items-center" style={SHADOW}><BallIcon size={size} />{p.goals > 1 ? <span className="tnum text-[10px] font-extrabold leading-none text-white">{p.goals}</span> : null}</span>);
+  if (p.assists) right.push(<span key="a" className="flex items-center" style={SHADOW}><BootIcon size={size} />{p.assists > 1 ? <span className="tnum text-[10px] font-extrabold leading-none text-white">{p.assists}</span> : null}</span>);
   return (
-    <span className="avatar relative shrink-0 overflow-visible" style={{ width: size, height: size, background: `linear-gradient(150deg, ${team.colors[0]}, ${team.colors[1]})` }}>
-      <span className="block h-full w-full overflow-hidden rounded-full">
-        {p.photo ? <Image src={p.photo} alt={p.name} className="h-full w-full" fittingType="fill" /> : <span className="flex h-full w-full items-center justify-center text-[12px] font-bold text-white">{p.initials}</span>}
-      </span>
-      <span className="pointer-events-none" style={SHADOW}>
-        {p.goals ? <Mark style={{ top: -6, right: -8 }} n={p.goals}><BallIcon size={20} /></Mark> : null}
-        {p.assists ? <Mark style={{ top: 11, right: -13 }} n={p.assists}><BootIcon size={20} /></Mark> : null}
-        {p.card ? <span className="absolute rounded-[2.5px]" style={{ top: -6, left: -8, width: 11, height: 15, background: p.card === 'red' ? '#E5484D' : '#F2C230' }} /> : null}
-        {p.subOut ? <Mark style={{ bottom: -6, right: -6 }}><SubIcon size={20} /></Mark> : null}
-      </span>
-      {p.captain ? <span className="absolute -right-1 top-0 flex h-[14px] w-[14px] items-center justify-center rounded-full text-[8.5px] font-extrabold" style={{ background: '#F2C230', color: '#222' }}>C</span> : null}
-    </span>
+    <>
+      {left.length ? <span className="pointer-events-none absolute flex flex-col items-end gap-[2px]" style={{ right: '100%', top: -2, marginRight: 2 }}>{left}</span> : null}
+      {right.length ? <span className="pointer-events-none absolute flex flex-col items-start gap-[2px]" style={{ left: '100%', top: -2, marginLeft: 2 }}>{right}</span> : null}
+      {mvp ? <span className="pointer-events-none absolute text-[13px] leading-none" style={{ left: -4, top: -8, color: '#FFC83D', textShadow: '0 1px 2px #000' }}>★</span> : null}
+    </>
   );
 }
 
 function Badge({ v }) {
   if (v == null) return null;
-  return <span className="tnum absolute -bottom-1 -right-2 rounded-full px-[5px] py-[1px] text-[10px] font-extrabold text-white" style={{ background: tone(v), border: '1.5px solid hsl(var(--background))' }}>{comma(v, 1)}</span>;
+  return <span className="tnum absolute left-1/2 -translate-x-1/2 rounded-full px-[6px] py-[1px] text-[10.5px] font-extrabold leading-[13px] text-white" style={{ bottom: -7, background: tone(v), border: '1.5px solid rgba(0,0,0,.4)' }}>{comma(v, 1)}</span>;
 }
 
-function Node({ p, team, val, size, match }) {
+function PitchNode({ p, team, val, match, compact, mvp }) {
+  const size = compact ? 40 : 46;
+  const ic = compact ? 14 : 16;
   return (
-    <PlayerLink match={match} name={p.name} fmId={p.fmId} className="flex w-[70px] flex-col items-center gap-1">
-      <span className="relative"><Face p={p} team={team} size={size} /><Badge v={val} /></span>
-      <span className="mt-1 w-full truncate text-center text-[10.5px] font-bold leading-tight" style={{ color: 'var(--ink)' }}><span className="tnum" style={{ color: 'var(--ink-3)' }}>{p.number} </span>{last(p.name)}</span>
+    <PlayerLink match={match} name={p.name} fmId={p.fmId} className="flex w-[72px] flex-col items-center">
+      <span className="relative">
+        <Face p={p} team={team} size={size} ring={mvp} />
+        <Events p={p} size={ic} mvp={mvp} />
+        <Badge v={val} />
+        {match.status === 'scheduled' && p.playerId && injuryOf(p.playerId) ? <span className="absolute -left-1 -top-1"><InjuryIcon size={14} /></span> : null}
+      </span>
+      <span className="mt-[11px] max-w-full truncate rounded-full px-1.5 text-center text-[10.5px] font-bold leading-[15px] text-white" style={{ background: 'rgba(0,0,0,.32)', textShadow: '0 1px 2px rgba(0,0,0,.6)' }}>{last(p.name)}</span>
     </PlayerLink>
   );
 }
 
-function PitchView({ lineup, team, valOf, concept, match }) {
+// righe di una squadra dal portiere all'attacco (ordine di FotMob)
+function rowsOf(lineup) {
   const xi = lineup.xi;
   const rows = [[xi[0]]];
   let idx = 1;
@@ -64,65 +73,88 @@ function PitchView({ lineup, team, valOf, concept, match }) {
     rows.push(xi.slice(idx, idx + c));
     idx += c;
   });
-  const display = [...rows.slice(1).reverse(), rows[0]];
+  return rows;
+}
 
-  if (concept === 'c') {
-    const names = ['Portiere', 'Difesa', 'Centrocampo', 'Attacco'];
-    const order = [...rows.slice(1), rows[0]].reverse();
-    return (
-      <div className="flex flex-col gap-3">
-        {order.map((row, ri) => (
-          <div key={ri} className="glass-flat rounded-[20px] px-3 py-3">
-            <p className="mb-2 text-[10px] font-extrabold uppercase tracking-wider" style={{ color: 'var(--ink-3)' }}>{ri === 0 ? names[3] : ri === order.length - 1 ? names[0] : order.length === 4 ? names[order.length - 1 - ri] : `Linea ${order.length - ri - 1}`}</p>
-            <div className="flex flex-wrap justify-around gap-y-3">{row.map((p) => <Node key={p.playerId} match={match} p={p} team={team} val={valOf(p)} size={46} />)}</div>
-          </div>
-        ))}
-      </div>
-    );
-  }
-
-  const green = concept !== 'b';
+// Campo unico: casa in alto (specchiata: la sua ala destra sta a sinistra dello schermo), ospite in basso.
+function DualPitch({ lh, la, home, away, valOf, match, mvpId }) {
+  const rh = lh ? rowsOf(lh).map((r) => [...r].reverse()) : [];
+  const ra = la ? rowsOf(la).reverse() : [];
+  const ROW = 80;
+  const GAP = 34;
+  const h = (rh.length + ra.length) * ROW + GAP + 52;
+  const line = 'rgba(255,255,255,.2)';
+  const half = (rows, team, side) => (
+    <div className="flex flex-col justify-between" style={{ height: rows.length * ROW }}>
+      {rows.map((row, ri) => (
+        <div key={ri} className="flex items-start justify-around gap-1" style={{ height: ROW }}>
+          {row.map((p) => <PitchNode key={p.playerId || p.name} match={match} p={p} team={team} val={valOf(p)} compact={row.length >= 5} mvp={!!mvpId && p.playerId === mvpId} />)}
+        </div>
+      ))}
+    </div>
+  );
   return (
-    <div
-      className="relative overflow-hidden rounded-[24px] px-2 py-6"
-      style={{
-        background: green ? 'repeating-linear-gradient(180deg,#1f6f43 0 56px,#227a4a 56px 112px)' : 'linear-gradient(180deg, rgba(120,170,255,.16), rgba(120,170,255,.05))',
-        border: green ? '1px solid rgba(255,255,255,.18)' : '1px solid var(--hair)',
-      }}
-    >
-      <span className="pointer-events-none absolute inset-x-3 bottom-3 h-20 rounded-b-[12px]" style={{ border: `1.5px solid ${green ? 'rgba(255,255,255,.4)' : 'var(--hair)'}`, borderTop: 'none' }} />
-      <span className="pointer-events-none absolute inset-x-3 top-3 h-20 rounded-t-[12px]" style={{ border: `1.5px solid ${green ? 'rgba(255,255,255,.4)' : 'var(--hair)'}`, borderBottom: 'none' }} />
-      <span className="pointer-events-none absolute inset-x-3 top-1/2 h-px" style={{ background: green ? 'rgba(255,255,255,.4)' : 'var(--hair)' }} />
-      <span className="pointer-events-none absolute left-1/2 top-1/2 h-[84px] w-[84px] -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ border: `1.5px solid ${green ? 'rgba(255,255,255,.4)' : 'var(--hair)'}` }} />
-      <div className="relative flex flex-col gap-7">
-        {display.map((row, ri) => (
-          <div key={ri} className="flex items-start justify-around gap-1">
-            {row.map((p, pi) => (
-              <div key={p.playerId} style={row.length === 5 && (pi === 0 || pi === 4) ? { marginTop: -14 } : undefined}>
-                <PitchNode match={match} p={p} team={team} val={valOf(p)} light={green} />
-              </div>
-            ))}
-          </div>
-        ))}
+    <div className="relative overflow-hidden rounded-[24px] px-1.5" style={{ height: h, paddingTop: 26, background: 'linear-gradient(180deg,#12301f,#0f2a1b)', border: '1px solid rgba(255,255,255,.12)' }}>
+      <span className="pointer-events-none absolute left-1/2 top-0 h-[86px] w-[56%] -translate-x-1/2 rounded-b-[10px]" style={{ border: `1.5px solid ${line}`, borderTop: 'none' }} />
+      <span className="pointer-events-none absolute bottom-0 left-1/2 h-[86px] w-[56%] -translate-x-1/2 rounded-t-[10px]" style={{ border: `1.5px solid ${line}`, borderBottom: 'none' }} />
+      <span className="pointer-events-none absolute inset-x-0 top-1/2 h-px" style={{ background: line }} />
+      <span className="pointer-events-none absolute left-1/2 top-1/2 h-[92px] w-[92px] -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ border: `1.5px solid ${line}` }} />
+      <span className="absolute left-3 top-2.5 z-[2] text-[11.5px] font-extrabold uppercase tracking-wider" style={{ color: tcol(home) }}>{home ? home.short || home.name : ''}</span>
+      <span className="absolute bottom-2.5 right-3 z-[2] text-[11.5px] font-extrabold uppercase tracking-wider" style={{ color: tcol(away) }}>{away ? away.short || away.name : ''}</span>
+      <div className="relative">
+        {half(rh, home, 'h')}
+        <div style={{ height: GAP }} />
+        {half(ra, away, 'a')}
       </div>
     </div>
   );
 }
 
-function PitchNode({ p, team, val, light, match }) {
+// colore del nome squadra leggibile sul verde scuro
+const tcol = (t) => { const c = t && t.colors && t.colors[0]; return c ? `color-mix(in srgb, ${c} 55%, #fff)` : '#fff'; };
+
+function CoachCard({ lineup, team }) {
+  if (!lineup || !lineup.coach) return null;
   return (
-    <PlayerLink match={match} name={p.name} fmId={p.fmId} className="flex w-[70px] flex-col items-center gap-1">
-      <span className="relative"><Face p={p} team={team} size={46} /><Badge v={val} />{match.status === 'scheduled' && p.playerId && injuryOf(p.playerId) ? <span className="absolute -bottom-1 -left-1"><InjuryIcon size={16} /></span> : null}</span>
-      <span className="mt-1 w-full truncate text-center text-[10.5px] font-bold leading-tight" style={{ color: light ? '#fff' : 'var(--ink)', textShadow: light ? '0 1px 3px rgba(0,0,0,.55)' : 'none' }}>{p.number} {last(p.name)}</span>
-    </PlayerLink>
+    <div className="flex items-center gap-3 py-2">
+      <span className="avatar h-[46px] w-[46px]">{lineup.coachId ? <Image src={`https://images.fotmob.com/image_resources/playerimages/${lineup.coachId}.png`} alt={lineup.coach} className="h-full w-full" fittingType="fill" /> : lineup.coach.slice(0, 1)}</span>
+      <div className="min-w-0">
+        <p className="truncate text-[10.5px] font-extrabold uppercase tracking-wider" style={{ color: 'var(--ink-3)' }}>Allenatore · {team ? team.short || team.name : ''}</p>
+        <p className="text-[15px] font-extrabold">{lineup.coach} {lineup.coachCc ? <span className="ml-1">{flagOf(lineup.coachCc)}</span> : null}</p>
+      </div>
+    </div>
+  );
+}
+
+function Bench({ lineup, team, valOf, match }) {
+  if (!lineup || !lineup.bench || !lineup.bench.length) return null;
+  return (
+    <section className="glass tint-card mx-4 overflow-hidden rounded-[24px] px-4 py-3.5" style={{ '--tint': teamColor(team) }}>
+      <p className="mb-2 text-[12.5px] font-extrabold uppercase tracking-wider">Panchina · {team ? team.short || team.name : ''}</p>
+      <div className="grid grid-cols-2 gap-x-4">
+        {lineup.bench.map((p, i) => {
+          const v = valOf(p);
+          return (
+            <PlayerLink key={p.playerId + i} match={match} name={p.name} fmId={p.fmId} className="flex items-center gap-2.5 py-2" style={{ borderTop: i > 1 ? '1px solid var(--hair-2)' : 'none', width: '100%' }}>
+              <span className="relative"><Face p={p} team={team} size={34} /></span>
+              <span className="min-w-0 flex-1">
+                <span className="block truncate text-[12.5px] font-bold"><span className="tnum" style={{ color: 'var(--ink-3)' }}>{p.number} </span>{last(p.name)}</span>
+                {p.subIn ? <span className="flex items-center gap-1 text-[10.5px]" style={{ color: 'var(--good)' }}><SubIcon size={11} />{p.subIn}&apos;</span> : null}
+              </span>
+              {v != null ? <span className="tnum rounded-full px-1.5 py-[1px] text-[10px] font-extrabold text-white" style={{ background: tone(v) }}>{comma(v, 1)}</span> : null}
+            </PlayerLink>
+          );
+        })}
+      </div>
+    </section>
   );
 }
 
 export default function MatchLineupsPanel({ match, view, home, away, pre }) {
-  const [side, setSide] = useState('home');
-  const concept = 'a';
-  const lineup = view.lineup ? view.lineup[side] : null;
-  const team = side === 'home' ? home : away;
+  const lh = view.lineup ? view.lineup.home : null;
+  const la = view.lineup ? view.lineup.away : null;
+  const okH = !!(lh && lh.xi && lh.xi.length && lh.formation);
+  const okA = !!(la && la.xi && la.xi.length && la.formation);
   const valOf = (p) => {
     const pl = playerById(p.playerId);
     if (pre) {
@@ -132,58 +164,48 @@ export default function MatchLineupsPanel({ match, view, home, away, pre }) {
     return p.rating;
   };
   // ufficiale solo se FotMob la dà come tale ("standard"); "lastStarting11" e' l'ultima formazione schierata = probabile
-  const official = !!lineup && lineup.confirmed !== false && view.lineupType !== undefined && /^(standard|official|confirm)/i.test(String(view.lineupType || ''));
+  const official = (okH || okA) && (lh || la).confirmed !== false && view.lineupType !== undefined && /^(standard|official|confirm)/i.test(String(view.lineupType || ''));
+  // migliore in campo (stella): voto piu' alto tra tutti, solo a partita giocata
+  let mvpId = null;
+  if (!pre) {
+    let best = 0;
+    [lh, la].forEach((l) => l && [...(l.xi || []), ...(l.bench || [])].forEach((p) => { if (p.rating != null && p.rating > best) { best = p.rating; mvpId = p.playerId; } }));
+  }
+  const title = pre ? (official ? 'Formazione ufficiale' : 'Formazione probabile') : 'Formazioni';
 
   return (
     <div className="flex flex-col gap-5 pb-6 pt-3">
-      <div className="flex items-center gap-3 px-4">
-        <TextFilter options={[{ value: 'home', label: home ? home.short || home.name : 'Casa' }, { value: 'away', label: away ? away.short || away.name : 'Trasferta' }]} value={side} onChange={setSide} />
-      </div>
+      {!okH && !okA ? <p className="px-5 py-12 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Formazioni non ancora disponibili</p> : null}
 
-      {!lineup || !lineup.xi || !lineup.xi.length ? <p className="px-5 py-12 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Formazioni non ancora disponibili</p> : null}
-
-      {lineup && lineup.xi && lineup.xi.length ? (
+      {okH || okA ? (
         <div className="px-4">
-          <div className="mb-3 flex items-center gap-2">
-            <Crest team={team} size={22} />
-            <span className="text-[13px] font-extrabold">{pre ? (official ? 'Formazione ufficiale' : 'Formazione probabile') : 'Formazione'}</span>
-            <span className="ml-auto text-[13px] font-extrabold" style={{ color: 'var(--ink-2)' }}>{lineup.formation ? lineup.formation.label : ''}</span>
+          <div className="mb-3 text-center">
+            <p className="text-[15px] font-extrabold">{title}</p>
+            <p className="mt-1 text-[13px] font-extrabold">
+              <span style={{ color: tcol(home) }}>{okH ? lh.formation.label : '—'}</span>
+              <span className="mx-2" style={{ color: 'var(--ink-3)' }}>·</span>
+              <span style={{ color: tcol(away) }}>{okA ? la.formation.label : '—'}</span>
+            </p>
           </div>
-          <PitchView lineup={lineup} team={team} valOf={valOf} concept={concept} match={match} />
+          {okH && okA ? (
+            <DualPitch lh={lh} la={la} home={home} away={away} valOf={valOf} match={match} mvpId={mvpId} />
+          ) : (
+            <p className="py-10 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Formazione di {okH ? (away ? away.name : 'ospite') : (home ? home.name : 'casa')} non ancora disponibile</p>
+          )}
           <p className="mt-2 text-center text-[10.5px]" style={{ color: 'var(--ink-3)' }}>{pre ? 'Voto = affidabilità tiri (over 1,5)' : 'Voto = prestazione in partita'}</p>
         </div>
       ) : null}
 
-      {lineup && lineup.coach ? (
-        <section className="glass tint-card mx-4 flex items-center gap-3 rounded-[24px] px-4 py-3" style={{ '--tint': teamColor(team) }}>
-          <span className="avatar h-[52px] w-[52px]">{lineup.coachId ? <Image src={`https://images.fotmob.com/image_resources/playerimages/${lineup.coachId}.png`} alt={lineup.coach} className="h-full w-full" fittingType="fill" /> : lineup.coach.slice(0, 1)}</span>
-          <div>
-            <p className="text-[10.5px] font-extrabold uppercase tracking-wider" style={{ color: 'var(--ink-3)' }}>Allenatore</p>
-            <p className="text-[16px] font-extrabold">{lineup.coach} {lineup.coachCc ? <span className="ml-1">{flagOf(lineup.coachCc)}</span> : null}</p>
-          </div>
+      {(lh && lh.coach) || (la && la.coach) ? (
+        <section className="glass tint-card mx-4 rounded-[24px] px-4 py-2" style={{ '--tint': teamColor(home) }}>
+          <CoachCard lineup={lh} team={home} />
+          {lh && lh.coach && la && la.coach ? <div style={{ borderTop: '1px solid var(--hair-2)' }} /> : null}
+          <CoachCard lineup={la} team={away} />
         </section>
       ) : null}
 
-      {lineup && lineup.bench && lineup.bench.length ? (
-        <section className="glass tint-card mx-4 overflow-hidden rounded-[24px] px-4 py-3.5" style={{ '--tint': teamColor(team) }}>
-          <p className="mb-2 text-[12.5px] font-extrabold uppercase tracking-wider">Panchina</p>
-          <div className="grid grid-cols-2 gap-x-4">
-            {lineup.bench.map((p, i) => {
-              const v = valOf(p);
-              return (
-                <PlayerLink key={p.playerId + i} match={match} name={p.name} fmId={p.fmId} className="flex items-center gap-2.5 py-2" style={{ borderTop: i > 1 ? '1px solid var(--hair-2)' : 'none', width: '100%' }}>
-                  <span className="relative"><Face p={p} team={team} size={34} /></span>
-                  <span className="min-w-0 flex-1">
-                    <span className="block truncate text-[12.5px] font-bold"><span className="tnum" style={{ color: 'var(--ink-3)' }}>{p.number} </span>{last(p.name)}</span>
-                    {p.subIn ? <span className="flex items-center gap-1 text-[10.5px]" style={{ color: 'var(--good)' }}><SubIcon size={11} />{p.subIn}&apos;</span> : null}
-                  </span>
-                  {v != null ? <span className="tnum rounded-full px-1.5 py-[1px] text-[10px] font-extrabold text-white" style={{ background: tone(v) }}>{comma(v, 1)}</span> : null}
-                </PlayerLink>
-              );
-            })}
-          </div>
-        </section>
-      ) : null}
+      <Bench lineup={lh} team={home} valOf={valOf} match={match} />
+      <Bench lineup={la} team={away} valOf={valOf} match={match} />
     </div>
   );
 }

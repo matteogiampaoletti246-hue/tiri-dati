@@ -163,14 +163,14 @@ for (const id of matchIds) {
     await pg.evaluate(() => window.scrollTo(0, 900)); await wait(500); await shot(`partita-${id}-statistiche-2`);
     await pg.evaluate(() => window.scrollTo(0, 0));
     await clickText('Formazioni'); await wait(2500); await shot(`partita-${id}-formazioni`);
-    const green = await pg.evaluate(() => [...document.querySelectorAll('div')].some((d) => /1f6f43/i.test(d.style.background || '') || /rgb\(31, 111, 67\)/.test(d.style.background || '')));
+    const green = await pg.evaluate(() => [...document.querySelectorAll('div')].some((d) => /12301f/i.test(d.style.background || '') || /rgb\(18, 48, 31\)/.test(d.style.background || '')));
     ok(`${id}: formazione sul campo verde`, green);
     // icone sui volti (gol/assist/cartellini): una squadra con gol, scorrendo fino al campo
-    for (const lab of [null, 'second']) {
-      if (lab) await pg.evaluate(() => { const b = [...document.querySelectorAll('button')].filter((x) => x.closest('[class*="px-4"]') && x.textContent.trim().length === 3); if (b[1]) b[1].click(); });
-      await wait(600); await pg.evaluate(() => window.scrollTo(0, 430)); await wait(500); await shot(`partita-${id}-formazioni-icone${lab ? '-2' : ''}`);
-      await pg.evaluate(() => window.scrollTo(0, 0));
+    // campo unico con le due squadre: due schermate (meta' alta e meta' bassa)
+    for (const [k, y] of [['', 260], ['-2', 760]]) {
+      await pg.evaluate((yy) => window.scrollTo(0, yy), y); await wait(500); await shot(`partita-${id}-formazioni-icone${k}`);
     }
+    await pg.evaluate(() => window.scrollTo(0, 0));
     await clickText('Classifica'); await wait(2500); await shot(`partita-${id}-classifica`);
     const hi = await pg.evaluate(() => [...document.querySelectorAll('a')].filter((a) => /accent-soft/.test(a.getAttribute('style') || '')).length);
     ok(`${id}: due squadre evidenziate in classifica`, coppa || hi === 2, { evidenziate: hi });
