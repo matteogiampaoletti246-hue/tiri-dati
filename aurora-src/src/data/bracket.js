@@ -3,9 +3,9 @@
 // basta aggiungere l'id FotMob in CUP_FM. Ogni turno e' formato da "sfide" (andata+ritorno o gara unica).
 import { loadSeason, loadSeasonMatches } from './archive';
 
-export const CUP_FM = new Set([42, 73, 10216]);
+export const CUP_FM = new Set([42, 73, 10216, 141, 209, 134, 186, 133, 149, 278, 180, 9067]);
 export const hasCup = (fm) => CUP_FM.has(Number(fm));
-export const CUP_NAME = { 42: 'UEFA Champions League', 73: 'UEFA Europa League', 10216: 'UEFA Conference League' };
+export const CUP_NAME = { 42: 'UEFA Champions League', 73: 'UEFA Europa League', 10216: 'UEFA Conference League', 141: 'Coppa Italia', 209: 'DFB Pokal', 134: 'Coupe de France', 186: 'Taça de Portugal', 133: 'EFL Cup', 149: 'Belgian Cup', 278: 'Austrian Cup', 180: 'Scottish League Cup', 9067: 'Copa do Brasil' };
 
 const ROUND_ORDER = ['playoff', '1/32', '1/16', '1/8', '1/4', '1/2', 'final'];
 export const ROUND_LABEL = { playoff: 'Spareggi', '1/32': 'Trentaduesimi', '1/16': 'Sedicesimi', '1/8': 'Ottavi', '1/4': 'Quarti', '1/2': 'Semifinali', final: 'Finale' };

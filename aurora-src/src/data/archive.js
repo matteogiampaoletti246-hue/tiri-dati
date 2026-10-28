@@ -12,7 +12,7 @@ const gz = (path) => once(path, async () => {
 });
 
 // id dell'app → id FotMob
-export const FM_ID = { 'serie-a': 55, 'premier-league': 47, 'la-liga': 87, bundesliga: 54, 'ligue-1': 53, 'champions-league': 42, 'europa-league': 73, 'conference-league': 10216, eredivisie: 57, 'super-lig': 71, 'liga-portugal': 61, 'pro-league': 40, 'scottish-premiership': 64, 'aut-bundesliga': 38, 'nor-eliteserien': 59, 'gre-super-league-1': 135 };
+export const FM_ID = { 'serie-a': 55, 'premier-league': 47, 'la-liga': 87, bundesliga: 54, 'ligue-1': 53, 'champions-league': 42, 'europa-league': 73, 'conference-league': 10216, eredivisie: 57, 'super-lig': 71, 'liga-portugal': 61, 'pro-league': 40, 'scottish-premiership': 64, 'aut-bundesliga': 38, 'nor-eliteserien': 59, 'gre-super-league-1': 135, 'championship': 48, 'serie-b': 86, 'bundesliga-2': 146, 'laliga-2': 140, 'ligue-2': 110, 'liga-portugal-2': 185, 'eerste-divisie': 111, 'turchia-1-lig': 165, 'brasileirao': 268, 'arg-liga-profesional': 112, 'mls': 130, 'liga-mx': 230, 'coppa-italia': 141, 'dfb-pokal': 209, 'coupe-de-france': 134, 'taca-de-portugal': 186, 'efl-cup': 133, 'belgian-cup': 149, 'austrian-cup': 278, 'scottish-league-cup': 180, 'copa-do-brasil': 9067 };
 
 export const archIndex = () => once('index', async () => {
   const [a, b] = await Promise.all([json('arch/index.json'), json('arch/index_top.json')]);

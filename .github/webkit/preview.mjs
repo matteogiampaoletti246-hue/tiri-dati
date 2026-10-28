@@ -79,7 +79,7 @@ await step('home: tendine di tutti i campionati', async () => {
   await wait(2500);
   await pg.goBack(); await wait(2500); await shot('home-dopo-ritorno');
   const dopo = await groupsInfo();
-  ok('home: tornando da una partita le tendine restano come le avevo lasciate', opened && JSON.stringify(prima.map((g) => g.open)) === JSON.stringify(dopo.map((g) => g.open)), { prima: prima.map((g) => g.open).join(''), dopo: dopo.map((g) => g.open).join('') });
+  ok('home: tornando da una partita le tendine restano come le avevo lasciate', opened && JSON.stringify(prima.map((g) => g.open)) === JSON.stringify(dopo.map((g) => g.open)), { prima: prima.map((g) => g.name + ':' + g.open).join(','), dopo: dopo.map((g) => g.name + ':' + g.open).join(',') });
 });
 
 await step('home: giorni diversi, stesso stato iniziale', async () => {

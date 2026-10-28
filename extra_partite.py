@@ -3,7 +3,8 @@
 m = [matchId, fotmobLeagueId, utc, casa, trasferta, idCasa, idTrasf, golC, golT, stato(n|l|f)]"""
 import json, gzip, time, datetime, urllib.request
 UA = {"User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mobile/15E148) AppleWebKit/605.1.15 Mobile Safari/604.1", "Accept": "application/json,*/*"}
-LEGHE = [57, 71, 61, 40, 64, 38, 59, 135]
+# prima i campionati, poi le coppe nazionali (le squadre prendono come campionato il primo in cui compaiono)
+LEGHE = [57, 71, 61, 40, 64, 38, 59, 135, 48, 86, 146, 140, 110, 185, 111, 165, 268, 112, 130, 230, 141, 209, 134, 186, 133, 149, 278, 180, 9067]
 def get(url):
     for k in range(3):
         try:

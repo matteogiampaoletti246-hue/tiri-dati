@@ -101,7 +101,7 @@ def run():
             for s in v["s"]:
                 if s[:4] == str(y) and not storico_ridotto(lid, v.get("c"), s): units.append((lid, s))
     # prima i campionati gia' presenti nell'app, poi il resto (ordine per anno invariato)
-    units.sort(key=lambda u: 0 if int(u[0]) in {57, 71, 61, 40, 64, 38, 59, 135} else 1)
+    units.sort(key=lambda u: 0 if int(u[0]) in {57, 71, 61, 40, 64, 38, 59, 135, 48, 86, 146, 140, 110, 185, 111, 165, 268, 112, 130, 230, 141, 209, 134, 186, 133, 149, 278, 180, 9067} else 1)
     mine = [u for i, u in enumerate(units) if i % NSHARD == SHARD]
     capped = False
     fails = 0

@@ -33,7 +33,7 @@ MINYEAR = int(os.environ.get("MINYEAR", "2010"))
 # ordine di priorità: top campionati e paesi principali prima, poi il resto
 PRIO = ["ITA", "ENG", "ESP", "GER", "FRA", "POR", "NED", "TUR", "BEL", "SCO", "BRA", "ARG", "USA", "MEX", "COL", "CHI", "URU", "AUT", "SUI", "GRE", "RUS", "UKR", "DEN", "SWE", "NOR", "POL", "CZE", "CRO", "SRB", "ROU"]
 # campionati gia' aggiunti all'app (src/data/leagues.js, extra: true): hanno la precedenza su tutto
-ADDED = {57, 71, 61, 40, 64, 38, 59, 135}
+ADDED = {57, 71, 61, 40, 64, 38, 59, 135, 48, 86, 146, 140, 110, 185, 111, 165, 268, 112, 130, 230, 141, 209, 134, 186, 133, 149, 278, 180, 9067}
 def run():
     sel = json.load(open("selezione.json"))
     # prima i campionati gia' presenti nell'app (ADDED), poi il resto

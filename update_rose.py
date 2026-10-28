@@ -6,7 +6,8 @@ import json, os, re, time, unicodedata, urllib.request
 
 UA = {"User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mobile/15E148) AppleWebKit/605.1.15 Mobile Safari/604.1", "Accept": "application/json,*/*", "Accept-Language": "en-US,en;q=0.9"}
 LEAGUES = {"eredivisie": 57, "super-lig": 71, "liga-portugal": 61, "pro-league": 40, "scottish-premiership": 64,
-           "aut-bundesliga": 38, "nor-eliteserien": 59, "gre-super-league-1": 135}
+           "aut-bundesliga": 38, "nor-eliteserien": 59, "gre-super-league-1": 135,
+           "championship": 48, "serie-b": 86, "bundesliga-2": 146, "laliga-2": 140, "ligue-2": 110, "liga-portugal-2": 185, "eerste-divisie": 111, "turchia-1-lig": 165, "brasileirao": 268, "arg-liga-profesional": 112, "mls": 130, "liga-mx": 230}
 # campionati maggiori: qui servono solo gli allenatori (la rosa completa arriva dagli altri file)
 COACH_ONLY = {"serie-a": 55, "premier-league": 47, "la-liga": 87, "bundesliga": 54, "ligue-1": 53}
 GRP = {"keepers": "GK", "defenders": "DEF", "midfielders": "MID", "attackers": "ATT"}
