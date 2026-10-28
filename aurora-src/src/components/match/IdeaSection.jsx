@@ -6,12 +6,15 @@ import { teamFinished, upcomingMatches } from '@/data/extras';
 import { teamRow, standings } from '@/data/standings';
 import { conceptOf } from '@/components/match/FormCard';
 import { bandColor } from '@/components/player/playerCalc';
-import { archiveMetrics } from '@/data/archiveMetrics';
+import { archiveMetrics, listMetrics } from '@/data/archiveMetrics';
 
-const AXES = [['xg', 'xG'], ['tiri', 'Tiri'], ['tiriInPorta', 'In porta'], ['possesso', 'Possesso'], ['corner', 'Corner'], ['precisione', 'Passaggi']];
+const AXES6 = [['xg', 'xG'], ['tiri', 'Tiri'], ['tiriInPorta', 'In porta'], ['possesso', 'Possesso'], ['corner', 'Corner'], ['precisione', 'Passaggi']];
+// con le sole classifiche di squadra della stagione: gli assi che la fonte da' davvero (niente numeri inventati)
+const AXES_LIST = [...AXES6.filter(([k]) => k !== 'tiri'), ['gol', 'Gol fatti'], ['golSubiti', 'Gol subiti'], ['inviolata', 'Porta inv.']];
+const INV = new Set(['golSubiti']);
 const fracOf = (t, key, am) => {
   if (am) {
-    const rows = am.am.tids().map((tid) => ({ tid, v: am.am.value(tid, key) })).filter((r) => r.v !== null).sort((a, b) => b.v - a.v);
+    const rows = am.am.tids().map((tid) => ({ tid, v: am.am.value(tid, key) })).filter((r) => r.v !== null).sort((a, b) => (INV.has(key) ? a.v - b.v : b.v - a.v));
     const i = rows.findIndex((r) => String(r.tid) === String(am.tid(t)));
     return i >= 0 && rows.length > 1 ? (rows.length - 1 - i) / (rows.length - 1) : null;
   }
@@ -19,7 +22,7 @@ const fracOf = (t, key, am) => {
   return r && r.rank && r.total > 1 ? (r.total - r.rank) / (r.total - 1) : null;
 };
 
-function Radar({ home, away, am }) {
+function Radar({ home, away, am, AXES }) {
   const S = 220; const C = S / 2; const R = 78;
   const pt = (i, f) => {
     const a = -Math.PI / 2 + (i * 2 * Math.PI) / AXES.length;
@@ -97,9 +100,13 @@ function Path({ teamId }) {
 }
 
 export default function IdeaSection({ match, home, away, concept = 'a' }) {
-  const am0 = match.archive ? archiveMetrics(match) : null;
+  const a1 = match.archive ? archiveMetrics(match) : null;
+  const am0 = match.archive ? (a1 && a1.tids().length ? a1 : listMetrics(match)) : null;
   const am = am0 ? { am: am0, tid: (t) => (t.id === match.homeId ? match.archive.hid : match.archive.aid) } : null;
-  const ok = home && away && (am ? am0.has(am.tid(home)) && am0.has(am.tid(away)) : hasMetrics(match.homeId) && hasMetrics(match.awayId));
+  const baseAxes = am0 && am0.fromLists ? AXES_LIST : AXES6;
+  // solo gli assi per cui entrambe le squadre hanno il dato
+  const axes = home && away && am ? baseAxes.filter(([k]) => fracOf(home, k, am) !== null && fracOf(away, k, am) !== null) : baseAxes;
+  const ok = home && away && (am ? am0.has(am.tid(home)) && am0.has(am.tid(away)) && axes.length >= 3 : hasMetrics(match.homeId) && hasMetrics(match.awayId));
   if (concept === 'b') {
     return (
       <section className="glass tint-card mx-4 overflow-hidden rounded-[24px] px-4 py-4">
@@ -125,7 +132,7 @@ export default function IdeaSection({ match, home, away, concept = 'a' }) {
   return (
     <section className="glass tint-card mx-4 overflow-hidden rounded-[24px] px-4 py-4">
       <h3 className="text-[12.5px] font-extrabold uppercase tracking-wider">Duello in numeri</h3>
-      {ok ? <div className="mt-2"><Radar home={home} away={away} am={am} /></div> : <p className="py-6 text-center text-[12px]" style={{ color: 'var(--ink-3)' }}>Dati non disponibili</p>}
+      {ok ? <div className="mt-2"><Radar home={home} away={away} am={am} AXES={axes} /></div> : <p className="py-6 text-center text-[12px]" style={{ color: 'var(--ink-3)' }}>Dati non disponibili</p>}
       <div className="mt-1 flex items-center justify-center gap-5 text-[11.5px] font-bold">
         <span className="flex items-center gap-1.5"><i className="h-[9px] w-[9px] rounded-full" style={{ background: "#E0443A" }} /><Crest team={home} size={16} />{home ? home.short : ""}</span>
         <span className="flex items-center gap-1.5"><i className="h-[9px] w-[9px] rounded-full" style={{ background: "#3B9DFF" }} /><Crest team={away} size={16} />{away ? away.short : ""}</span>

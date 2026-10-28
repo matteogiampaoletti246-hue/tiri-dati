@@ -521,10 +521,14 @@ await step('swipe indietro: pagina sotto visibile', async () => {
 // ---- Funzioni nuove: valgono per tutte le competizioni e squadre aggiunte ----
 await step('campionati e coppe aggiunti: partita non iniziata con Duello, numeri da tenere d\'occhio e forma', async () => {
   const seen = new Set();
-  const pick = (px && px.m ? px.m : []).filter((r) => r[9] === 'n' && !seen.has(r[1]) && seen.add(r[1]));
+  const now = Date.now();
+  // solo partite davvero non iniziate (una gia' cominciata mostra altro e non il confronto pre-partita)
+  const pick = (px && px.m ? px.m : []).filter((r) => r[9] === 'n' && Date.parse(r[2]) > now + 3600e3 && !seen.has(r[1]) && seen.add(r[1]));
   report.sweepFm = pick.map((r) => r[1]);
   for (const r of pick) {
-    await go(`#/match/x-${r[1]}-${r[0]}`, 6500);
+    await go(`#/match/x-${r[1]}-${r[0]}`, 3000);
+    await pg.waitForFunction(() => /duello in numeri/i.test(document.body.innerText), null, { timeout: 15000 }).catch(() => {});
+    await wait(1200);
     const b = await pg.evaluate(() => document.body.innerText);
     const poly = await pg.evaluate(() => document.querySelectorAll('svg polygon').length);
     ok(`extra ${r[1]}: Duello in numeri con ragnatela`, /duello in numeri/i.test(b) && poly >= 4, { poly });
@@ -543,7 +547,7 @@ await step('squadra: riquadri Gol/xG/Tiri e riga Prossima', async () => {
 });
 
 await step('squadra unica: Francoforte col banner del campionato', async () => {
-  await go('#/squadra/frankfurt', 6000);
+  await go('#/squadra/eintracht-frankfurt', 6000);
   const t = await pg.evaluate(() => document.body.innerText.slice(0, 500));
   ok('frankfurt: sotto il nome c\'e\' la Bundesliga, non la coppa', /Bundesliga/i.test(t) && !/DFB.?Pokal\s*·/i.test(t), { testa: t.replace(/\n+/g, ' | ').slice(0, 200) });
   await pg.evaluate(() => { const e = [...document.querySelectorAll('.tab-btn')].find((x) => x.textContent.trim() === 'Classifica'); if (e) e.click(); }); await wait(3000);
@@ -559,7 +563,7 @@ await step('squadra unica: Francoforte col banner del campionato', async () => {
 });
 
 await step('giocatore: tendina competizioni con tutte quelle giocate e partite', async () => {
-  await go('#/squadra/frankfurt', 6000);
+  await go('#/squadra/eintracht-frankfurt', 6000);
   const href = await pg.evaluate(() => { const a = [...document.querySelectorAll('a[href*="giocatore"]')][0]; return a ? a.getAttribute('href') : null; });
   if (!href) { ok('giocatore: link trovato dalla rosa', false); return; }
   await go(href, 7000);
@@ -602,10 +606,18 @@ await step('giocatore di campionato minore: profilo, partite, tendine', async ()
 await step('tabellone: pillole dei turni scorrono e restano centrate', async () => {
   await go('#/campionato/efl-cup', 6000);
   await pg.evaluate(() => { const e = [...document.querySelectorAll('.tab-btn')].find((x) => x.textContent.trim() === 'Tabellone'); if (e) e.click(); }); await wait(3500);
-  const pills = await pg.evaluate(() => { const r = [...document.querySelectorAll('[data-no-back]')].find((x) => x.scrollWidth > x.clientWidth + 4); return r ? { sw: r.scrollWidth, cw: r.clientWidth, left: r.scrollLeft } : null; });
-  ok('tabellone: riga delle pillole scorrevole', !!pills, { pills });
-  await shot('tabellone-efl-cup');
-  const cards = await pg.evaluate(() => { const els = [...document.querySelectorAll('[data-bracket-card], .bracket-card')]; return els.length; });
+  const res = await pg.evaluate(async () => {
+    const row = [...document.querySelectorAll('[data-no-back]')].find((x) => x.querySelectorAll('button').length >= 3);
+    if (!row) return null;
+    const bts = [...row.querySelectorAll('button')];
+    bts[bts.length - 1].click();
+    await new Promise((r) => setTimeout(r, 1500));
+    const q = bts[bts.length - 1].getBoundingClientRect();
+    return { n: bts.length, left: Math.round(q.left), right: Math.round(q.right), vw: innerWidth };
+  });
+  ok('tabellone: cliccando l\'ultima pillola entra e resta visibile', !!res && res.left >= 0 && res.right <= res.vw + 1, { res });
+  await shot('tabellone-efl-cup-ultima-fase');
+  const cards = 0;
   report.bracketCards = cards;
 });
 

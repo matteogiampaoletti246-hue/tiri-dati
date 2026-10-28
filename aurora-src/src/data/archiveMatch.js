@@ -1,7 +1,7 @@
 // Partite dei campionati aggiunti e dell'archivio: costruite nello stesso formato delle partite dei top campionati,
 // così la pagina partita è identica (Riepilogo, statistiche, mappa tiri, formazioni, classifica).
 // Il dettaglio completo arriva dal Worker (FotMob, vale per qualsiasi partita); quello salvato nell'archivio è la riserva.
-import { loadSeason, loadSeasonMatches, FM_ID, archIndex, teamLogo, seasonLabel, STAT_IT, STAT_GROUPS, prettyKey, currentSeason } from './archive';
+import { loadSeason, loadSeasonMatches, loadSeasonStats, FM_ID, archIndex, teamLogo, seasonLabel, STAT_IT, STAT_GROUPS, prettyKey, currentSeason } from './archive';
 import { isPureCup } from './bracket';
 import { MATCH_BY_ID } from './matches';
 import { ensureTeam, teamById } from './teams';
@@ -200,6 +200,7 @@ export async function buildArchiveMatch(fm, sk, mid) {
   m.leagueObj = league;
   // stagione in corso di un campionato aggiunto: niente etichetta; stagioni passate: "· 2019/20"
   if (isPureCup(fm)) m.moreDet = await domesticFor(fm, fx[2], fx[3]);
+  try { const st = await loadSeasonStats(fm, sk); m.sTeams = (st && st.teams) || null; } catch (e) { /* ignora */ }
   return enrich(m, fm, sk, season, det, tmap, false);
 }
 
@@ -216,6 +217,7 @@ export async function completeExtraMatch(m) {
   if (m.archive.hid != null && teamById(m.homeId)) tmap[m.archive.hid] = teamById(m.homeId);
   if (m.archive.aid != null && teamById(m.awayId)) tmap[m.archive.aid] = teamById(m.awayId);
   if (isPureCup(fm)) m.moreDet = await domesticFor(fm, m.archive.hid, m.archive.aid);
+  try { const st = await loadSeasonStats(fm, sk); m.sTeams = (st && st.teams) || null; } catch (e) { /* ignora */ }
   return enrich(m, fm, sk, season, det, tmap, true);
 }
 

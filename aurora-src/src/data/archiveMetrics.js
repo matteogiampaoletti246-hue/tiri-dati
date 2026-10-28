@@ -71,3 +71,23 @@ export function archiveMetrics(m) {
   const has = (tid) => value(tid, 'tiri') !== null;
   return { value, has, tids: () => Object.keys(by).filter(has) };
 }
+
+// Senza le partite archiviate (es. Eliteserien, campionato greco, Liga Portugal 2) si usano le classifiche di squadra della stagione
+// (arch/<fm>/<stagione>_s.json, "teams"): stesse chiavi del Duello in numeri, solo quelle che la fonte da' davvero.
+const LIST = { xg: 'expected_goals_team', tiriInPorta: 'ontarget_scoring_att_team', possesso: 'possession_percentage_team', corner: 'corner_taken_team', precisione: 'accurate_pass_team', gol: 'goals_team_match', golSubiti: 'goals_conceded_team_match', inviolata: 'clean_sheet_team' };
+export function listMetrics(m) {
+  const T = m && m.sTeams;
+  if (!T) return null;
+  const value = (tid, key) => {
+    const rows = T[LIST[key]];
+    if (!rows) return null;
+    const r = rows.find((x) => String(x[2]) === String(tid));
+    return r ? num(r[3]) : null;
+  };
+  const tids = () => {
+    const set = new Set();
+    Object.values(LIST).forEach((k) => (T[k] || []).forEach((r) => set.add(String(r[2]))));
+    return [...set];
+  };
+  return { value, has: (tid) => Object.keys(LIST).some((k) => value(tid, k) !== null), tids, fromLists: true };
+}
