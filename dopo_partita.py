@@ -9,12 +9,16 @@ W = "https://scalperlab-live.matteo-giampaoletti04.workers.dev"
 STATE = "dopo_partita.json"
 
 
+DIAG = []
+
+
 def feed(day):
     try:
         req = urllib.request.Request(f"{W}/f?date={day:%Y%m%d}", headers={"User-Agent": "scalperlab-ci"})
         return json.load(urllib.request.urlopen(req, timeout=25)).get("m") or []
     except Exception as ex:
         print("feed non letto", day, str(ex)[:100])
+        DIAG.append(f"{day:%Y%m%d}: {str(ex)[:160]}")
         return []
 
 
@@ -41,6 +45,10 @@ def main():
     if out:
         open(out, "a").write(f"go={'1' if go else '0'}\n")
     print("go =", int(go))
+    try:
+        json.dump({"ts": now.isoformat(), "finite": len(fin), "da_elaborare": len(todo), "errori": DIAG}, open("dopo_partita_diag.json", "w"))
+    except Exception:
+        pass
 
 
 if __name__ == "__main__":
