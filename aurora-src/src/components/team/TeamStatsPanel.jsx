@@ -146,11 +146,11 @@ function DomesticStats({ team, comp }) {
 
 
 export default function TeamStatsPanel({ team }) {
-  const { comp, setComp, season, setSeason, comps, seasons, fm } = useTeamView(team, 'sx', teamCompetitions(team.id), team.leagueId);
+  const { comp, setComp, season, eff, setSeason, comps, seasons, fm } = useTeamView(team, 'sx', teamCompetitions(team.id), team.leagueId);
   return (
     <div>
       <CompSeasonBar comps={comps} comp={comp} onComp={(c) => { setComp(c); announceComp(team.id, c); }} seasons={seasons} season={season} onSeason={setSeason} />
-      {season !== 'cur' && fm ? <PastTeamStats fm={fm} sk={season} team={team} /> : (
+      {eff !== 'cur' && fm ? <PastTeamStats fm={fm} sk={eff} team={team} /> : (
         <div key={comp} className="comp-in">
           <DomesticStats team={team} comp={comp} />
         </div>

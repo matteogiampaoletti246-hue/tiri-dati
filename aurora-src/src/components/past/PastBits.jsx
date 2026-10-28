@@ -3,6 +3,7 @@ import { useNavigationType } from 'react-router-dom';
 import useAsync from '@/hooks/useAsync';
 import { pastSeasons, teamSeasons, playerSeasons, loadSeason, teamIdByName, sortSeasons, FM_ID } from '@/data/archive';
 import { leagueById } from '@/data/leagues';
+import { RAW } from '@/data/load';
 import { bandColor } from '@/components/player/playerCalc';
 
 // stagione/scheda richiesta da un collegamento dello storico: la scheda unica si apre gia' li'
@@ -81,7 +82,11 @@ export function useTeamView(team, slot, baseComps, defComp, allowAll = false) {
   }, [team.name, compEff]);
   const seasons = data || [];
   const sk = season === 'cur' || !data || seasons.includes(season) ? season : 'cur';
-  return { comp: compEff, setComp, season: sk, setSeason, comps, seasons, fm: FM_ID[compEff] };
+  // campionati aggiunti: la stagione in corso si legge dall'archivio (stesse statistiche dei top campionati), "Attuale" resta il nome in tendina
+  const lg = compEff !== 'all' ? leagueById(compEff) : null;
+  const arch = lg && lg.extra && RAW.extra && RAW.extra.sk ? RAW.extra.sk[String(lg.fm)] : null;
+  const eff = sk === 'cur' && arch ? arch : sk;
+  return { comp: compEff, setComp, season: sk, eff, setSeason, comps, seasons, fm: FM_ID[compEff] };
 }
 
 const ease = (t) => 1 - (1 - t) ** 3;

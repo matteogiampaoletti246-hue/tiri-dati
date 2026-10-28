@@ -310,6 +310,26 @@ await step('giocatore dell\'archivio: stessa scheda a 4 schede', async () => {
   ok('archivio: carriera con stagioni', !/Carriera non disponibile/.test(c));
 });
 
+await step('squadra minore: statistiche e giocatori della stagione attuale', async () => {
+  for (const team of ['fortuna-sittard', 'feyenoord']) {
+    await go(`#/squadra/${team}`, 6000);
+    await clickText('Statistiche'); await wait(3500);
+    const t = await pg.evaluate(() => document.body.innerText);
+    const barre = await pg.evaluate(() => document.querySelectorAll('[style*="width"]').length);
+    ok(`${team}: statistiche squadra con valori`, /Attacco/.test(t) && /Tiri/i.test(t) && !/in arrivo|non disponibili/i.test(t), { len: t.length });
+    await shot(`${team}-statistiche-attuali`);
+    await clickText('Giocatori'); await wait(3500);
+    const g = await pg.evaluate(() => document.body.innerText);
+    ok(`${team}: giocatori con classifiche`, /gol|assist/i.test(g) && !/in arrivo|non disponibili/i.test(g), { len: g.length });
+    await shot(`${team}-giocatori-attuali`);
+    const href = await pg.evaluate(() => { const a = [...document.querySelectorAll('a[href*="giocatore"]')][0]; if (a) { a.click(); return a.getAttribute('href'); } return null; });
+    await wait(4000);
+    const pt = await pg.evaluate(() => document.body.innerText);
+    ok(`${team}: scheda giocatore piena`, !!href && /Profilo/.test(pt) && /Statistiche/.test(pt) && !/Carriera non disponibile/.test(pt), { href });
+    await shot(`${team}-giocatore-scheda`);
+  }
+});
+
 await step('squadra minore: rosa per ruoli con volti', async () => {
   await go('#/squadra/feyenoord', 6000);
   await clickText('Squadra'); await wait(2500);
