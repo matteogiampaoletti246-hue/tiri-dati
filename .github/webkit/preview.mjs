@@ -236,7 +236,7 @@ await step('squadra: Partite con stagione e tutte le competizioni', async () => 
   await clickText('Partite'); await wait(2500);
   const t = await pg.evaluate(() => document.body.innerText);
   ok('squadra Partite: tasto Tutte le competizioni', /Tutte le competizioni/.test(t));
-  ok('squadra Partite: tasto stagione', /Stagione attuale|20\d\d\/\d\d/.test(t));
+  ok('squadra Partite: tasto stagione', /Attuale|20\d\d\/\d\d/.test(t));
   await shot('feyenoord-partite');
   await pg.evaluate(() => window.scrollTo(0, 600)); await wait(300);
   await clickText('Classifica'); await wait(1500);
