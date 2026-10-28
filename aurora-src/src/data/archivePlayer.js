@@ -4,6 +4,7 @@ import { loadPlayerStats, loadSeason, playerSeasons, playerFace, FM_ID } from '.
 import { registerPlayer, playerById } from './players';
 import { ensureTeam } from './teams';
 import { loadCarriere, setCarriere } from './carriere';
+import { loadRose, rosePlayer } from './rose';
 
 const LID_BY_FM = {};
 Object.keys(FM_ID).forEach((k) => { LID_BY_FM[FM_ID[k]] = k; });
@@ -29,20 +30,23 @@ const rowsOf = (st, pid) => {
 export async function makeArchivePlayer(fm, sk, pid) {
   const id = archiveId(fm, sk, pid);
   if (playerById(id)) return playerById(id);
-  await loadCarriere();
+  await Promise.all([loadCarriere(), loadRose()]);
+  const rp = rosePlayer(pid);
+  const R = rp ? rp.r : null;
   const lid = LID_BY_FM[Number(fm)] || null;
   const [st, season] = await Promise.all([loadPlayerStats(fm, sk), loadSeason(fm, sk)]);
-  const hit = rowsOf(st, pid);
+  // senza statistiche (appena arrivato): si usano i dati della rosa
+  const hit = rowsOf(st, pid) || (R ? { me: [pid, R[1], null, null, 0, 0], by: {} } : null);
   if (!hit) return null;
   const { me, by } = hit;
-  const teamName = (season && season.teams && season.teams[me[2]]) || '';
+  const teamName = (season && season.teams && season.teams[me[2]]) || (rp ? rp.team : '');
   const team = teamName ? ensureTeam(teamName, lid) : null;
   const v = (k) => (by[k] ? by[k][3] : null);
   const initials = String(me[1]).split(' ').map((w) => w[0]).join('').slice(0, 2).toUpperCase();
   const p = {
-    id, teamId: team ? team.id : null, teamName, leagueId: lid, name: me[1], initials, number: null, position: null,
+    id, teamId: team ? team.id : null, teamName, leagueId: lid, name: me[1], initials, number: R ? R[3] : null, position: R ? R[2] : null,
     photo: playerFace(pid), hasStats: false, archive: true,
-    rating: v('rating') || null, appearances: me[5] || 0, minutes: me[4] || 0, goals: v('goals') || 0, assists: v('goal_assist') || 0,
+    rating: v('rating') || (R && R[7]) || null, appearances: me[5] || 0, minutes: me[4] || 0, goals: v('goals') || (R && R[8]) || 0, assists: v('goal_assist') || (R && R[9]) || 0,
     shots: v('total_scoring_att') || 0, shotsOnTarget: v('ontarget_scoring_att') || 0, xg: v('expected_goals') || null,
     exS: null, exL5: null, l5g: 0, l5min: 0, l5y: 0, l5r: 0, foulsCommitted: v('fouls') || 0, foulsDrawn: 0, offsides: 0,
     yellows: v('yellow_card') || 0, reds: v('red_card') || 0, l: [0, 0, 0, 0], c: [0, 0, 0, 0], r: [], h: [],
@@ -63,6 +67,6 @@ export async function makeArchivePlayer(fm, sk, pid) {
       return [tn, `${y}-07`, `${y + 1}-06`, h.me[5] || 0, (h.by.goals || [])[3] || 0, (h.by.goal_assist || [])[3] || 0, 0, 0, h.me[2]];
     }))).filter(Boolean);
   } catch (e) { /* ignora */ }
-  setCarriere(id, { fm: String(pid), car });
+  setCarriere(id, { fm: String(pid), car, ...(R ? { c: R[4], h: R[6], n: R[3] } : {}) });
   return p;
 }

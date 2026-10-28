@@ -256,7 +256,7 @@ await step('stagione 2011/12: niente schermo nero', async () => {
 });
 
 await step('giocatore dell\'archivio: stessa scheda a 4 schede', async () => {
-  await go('#/storico/57/2018-2019/giocatore/937032', 7000);
+  await go('#/storico/57/2025-2026/giocatore/774947', 7000);
   const t = await pg.evaluate(() => [...document.querySelectorAll('button')].map((x) => x.textContent.trim()).join('|'));
   ok('archivio: schede Profilo/Partite/Statistiche/Carriera', /Profilo/.test(t) && /Partite/.test(t) && /Statistiche/.test(t) && /Carriera/.test(t), { t: t.slice(0, 200) });
   await shot('archivio-giocatore-profilo');
@@ -266,6 +266,16 @@ await step('giocatore dell\'archivio: stessa scheda a 4 schede', async () => {
   await shot('archivio-giocatore-carriera');
   const c = await pg.evaluate(() => document.body.innerText);
   ok('archivio: carriera con stagioni', !/Carriera non disponibile/.test(c));
+});
+
+await step('squadra minore: rosa per ruoli con volti', async () => {
+  await go('#/squadra/feyenoord', 6000);
+  await clickText('Squadra'); await wait(2500);
+  const t = await pg.evaluate(() => document.body.innerText);
+  ok('rosa Feyenoord: ruoli Portieri/Difensori/Centrocampisti/Attaccanti', /Portieri/.test(t) && /Difensori/.test(t) && /Centrocampisti/.test(t) && /Attaccanti/.test(t));
+  const imgs = await pg.evaluate(() => document.querySelectorAll('img[src*="playerimages"]').length);
+  ok('rosa Feyenoord: ci sono i volti', imgs > 10, { imgs });
+  await shot('feyenoord-rosa');
 });
 
 report.passed = report.checks.filter((c) => c.pass).length;
