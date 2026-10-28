@@ -77,7 +77,7 @@ await step('home: tendine di tutti i campionati', async () => {
   const prima = await groupsInfo();
   const opened = await pg.evaluate(() => { const a = [...document.querySelectorAll('section button[aria-expanded="true"]')].map((b) => b.closest('section').querySelector('a[href*="/match/"]')).filter(Boolean).pop(); if (a) { a.click(); return true; } return false; });
   await wait(2500);
-  await pg.goBack(); await wait(2500);
+  await pg.goBack(); await wait(2500); await shot('home-dopo-ritorno');
   const dopo = await groupsInfo();
   ok('home: tornando da una partita le tendine restano come le avevo lasciate', opened && JSON.stringify(prima.map((g) => g.open)) === JSON.stringify(dopo.map((g) => g.open)), { prima: prima.map((g) => g.open).join(''), dopo: dopo.map((g) => g.open).join('') });
 });
@@ -318,7 +318,7 @@ await step('squadra minore: statistiche e giocatori della stagione attuale', asy
     const barre = await pg.evaluate(() => document.querySelectorAll('[style*="width"]').length);
     ok(`${team}: statistiche squadra con valori`, /Attacco/.test(t) && /Tiri/i.test(t) && !/in arrivo|non disponibili/i.test(t), { len: t.length });
     await shot(`${team}-statistiche-attuali`);
-    await clickText('Giocatori'); await wait(3500);
+    await pg.evaluate(() => { const e = [...document.querySelectorAll('.tab-btn')].find((x) => x.textContent.trim() === 'Giocatori'); if (e) e.click(); }); await wait(3500);
     const g = await pg.evaluate(() => document.body.innerText);
     ok(`${team}: giocatori con classifiche`, /gol|assist/i.test(g) && !/in arrivo|non disponibili/i.test(g), { len: g.length });
     await shot(`${team}-giocatori-attuali`);
