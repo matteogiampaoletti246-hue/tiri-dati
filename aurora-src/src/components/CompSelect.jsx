@@ -28,7 +28,7 @@ export default function CompSelect({ options, value, onChange, allLabel = null, 
         className="glass press inline-flex items-center gap-2 rounded-[16px] py-2 pl-3 pr-2.5"
       >
         {cur ? <LeagueBadge league={cur} size={24} /> : null}
-        <b className="text-[14px]">{cur ? cur.name : allLabel}</b>
+        <b className="whitespace-nowrap text-[14px]">{cur ? cur.name : allLabel}</b>
         <ChevronDown size={16} strokeWidth={2} style={{ color: 'var(--ink-3)', transform: open ? 'rotate(180deg)' : 'none', transition: 'transform .25s' }} />
       </button>
       {open ? <MenuBackdrop onClose={() => setOpen(false)} /> : null}
