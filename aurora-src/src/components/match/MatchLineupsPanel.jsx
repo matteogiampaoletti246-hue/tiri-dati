@@ -12,7 +12,7 @@ import { comma } from '@/lib/format';
 const last = (n) => String(n || '').split(' ').slice(-1)[0];
 const tone = (v) => (v == null ? 'var(--hair)' : v >= 7.5 ? '#1FA45B' : v >= 7 ? '#5DBB3F' : v >= 6.5 ? '#E0B400' : v >= 6 ? '#E8892B' : '#E5484D');
 
-// Concept B: voto a pillola sul bordo basso del volto; a sinistra cartellino / capitano / cambio col minuto, a destra gol e assist.
+// Concept A: voto a pillola sul bordo basso del volto; cartellino in alto a sinistra, gol e assist in colonna in alto a destra, cambio col minuto in basso a sinistra, capitano in basso a destra, stella (migliore) in alto.
 // Ogni icona ha il suo posto fisso (colonne ai lati del volto): non si coprono tra loro ne' con il voto.
 const SHADOW = { filter: 'drop-shadow(0 1px 2px rgba(0,0,0,.9)) drop-shadow(0 0 1px rgba(0,0,0,.9))' };
 
@@ -27,18 +27,24 @@ function Face({ p, size = 46, team, ring }) {
 }
 
 function Events({ p, size, mvp }) {
-  const left = [];
-  if (p.card) left.push(<span key="card" className="rounded-[2.5px]" style={{ width: size * 0.62, height: size * 0.82, background: p.card === 'red' ? '#E5484D' : '#F2C230', boxShadow: '0 0 0 1px rgba(0,0,0,.35)' }} />);
-  if (p.captain) left.push(<span key="cap" className="flex items-center justify-center rounded-full font-extrabold" style={{ width: size * 0.9, height: size * 0.9, fontSize: size * 0.55, background: '#F2C230', color: '#222' }}>C</span>);
-  if (p.subOut) left.push(<span key="sub" className="flex items-center gap-[1px]" style={SHADOW}><SubIcon size={size} />{typeof p.subOut === 'number' || /^\d/.test(String(p.subOut)) ? <span className="tnum text-[9px] font-extrabold leading-none text-white">{String(p.subOut).replace(/'/g, '')}&apos;</span> : null}</span>);
-  const right = [];
-  if (p.goals) right.push(<span key="g" className="flex items-center" style={SHADOW}><BallIcon size={size} />{p.goals > 1 ? <span className="tnum text-[10px] font-extrabold leading-none text-white">{p.goals}</span> : null}</span>);
-  if (p.assists) right.push(<span key="a" className="flex items-center" style={SHADOW}><BootIcon size={size} />{p.assists > 1 ? <span className="tnum text-[10px] font-extrabold leading-none text-white">{p.assists}</span> : null}</span>);
+  const ab = 'pointer-events-none absolute';
+  const num = (n) => (n > 1 ? <span className="tnum text-[10px] font-extrabold leading-none text-white">{n}</span> : null);
   return (
     <>
-      {left.length ? <span className="pointer-events-none absolute flex flex-col items-end gap-[2px]" style={{ right: '100%', top: -2, marginRight: 2 }}>{left}</span> : null}
-      {right.length ? <span className="pointer-events-none absolute flex flex-col items-start gap-[2px]" style={{ left: '100%', top: -2, marginLeft: 2 }}>{right}</span> : null}
-      {mvp ? <span className="pointer-events-none absolute text-[13px] leading-none" style={{ left: -4, top: -8, color: '#FFC83D', textShadow: '0 1px 2px #000' }}>★</span> : null}
+      {p.card ? <span className={ab} style={{ left: -7, top: -5, width: size * 0.62, height: size * 0.82, borderRadius: 2.5, background: p.card === 'red' ? '#E5484D' : '#F2C230', boxShadow: '0 0 0 1px rgba(0,0,0,.35)' }} /> : null}
+      {p.goals || p.assists ? (
+        <span className={`${ab} flex flex-col items-start gap-[2px]`} style={{ left: '100%', top: -5, marginLeft: -2 }}>
+          {p.goals ? <span className="flex items-center" style={SHADOW}><BallIcon size={size} />{num(p.goals)}</span> : null}
+          {p.assists ? <span className="flex items-center" style={SHADOW}><BootIcon size={size} />{num(p.assists)}</span> : null}
+        </span>
+      ) : null}
+      {p.subOut ? (
+        <span className={`${ab} flex items-center gap-[1px] rounded-full px-[4px] py-[1px]`} style={{ right: '100%', marginRight: -3, bottom: 3, background: '#E5484D', border: '1px solid rgba(0,0,0,.35)' }}>
+          <SubIcon size={size * 0.7} /><span className="tnum text-[9px] font-extrabold leading-none text-white">{String(p.subOut).replace(/'/g, '')}&apos;</span>
+        </span>
+      ) : null}
+      {p.captain ? <span className={`${ab} flex items-center justify-center rounded-full font-extrabold`} style={{ left: '100%', marginLeft: -3, bottom: 3, width: size * 0.95, height: size * 0.95, fontSize: size * 0.58, background: '#F2C230', color: '#222' }}>C</span> : null}
+      {mvp ? <span className={`${ab} text-[14px] leading-none`} style={{ left: '50%', top: -11, transform: 'translateX(-50%)', color: '#FFC83D', textShadow: '0 1px 2px #000' }}>★</span> : null}
     </>
   );
 }
