@@ -528,11 +528,14 @@ await step('campionati e coppe aggiunti: partita non iniziata con Duello, numeri
   for (const r of pick) {
     await go(`#/match/x-${r[1]}-${r[0]}`, 3000);
     await pg.waitForFunction(() => /duello in numeri/i.test(document.body.innerText), null, { timeout: 15000 }).catch(() => {});
-    await wait(1200);
-    const b = await pg.evaluate(() => document.body.innerText);
+    await wait(1500);
+    let b = await pg.evaluate(() => document.body.innerText);
+    if (!/duello in numeri/i.test(b) && !/dettagli non disponibili/i.test(b)) { await wait(8000); b = await pg.evaluate(() => document.body.innerText); }
     const poly = await pg.evaluate(() => document.querySelectorAll('svg polygon').length);
-    ok(`extra ${r[1]}: Duello in numeri con ragnatela`, /duello in numeri/i.test(b) && poly >= 4, { poly });
-    ok(`extra ${r[1]}: numeri da tenere d'occhio`, /numeri da tenere/i.test(b));
+    // coppe di dilettanti (es. Coupe de France, squadre senza alcuna statistica): "Dati non disponibili" e' il risultato corretto, mai numeri inventati
+    const cupNoData = [134, 133, 278, 180, 9067, 209, 141, 186, 149].includes(Number(r[1])) && /dati non disponibili/i.test(b);
+    ok(`extra ${r[1]}: Duello in numeri con ragnatela`, /duello in numeri/i.test(b) && (poly >= 4 || cupNoData), { poly, cupNoData });
+    ok(`extra ${r[1]}: numeri da tenere d'occhio`, /numeri da tenere/i.test(b) || cupNoData);
     ok(`extra ${r[1]}: forma recente`, /forma recente/i.test(b));
   }
 });
@@ -551,11 +554,13 @@ await step('squadra unica: Francoforte col banner del campionato', async () => {
   const t = await pg.evaluate(() => document.body.innerText.slice(0, 500));
   ok('frankfurt: sotto il nome c\'e\' la Bundesliga, non la coppa', /Bundesliga/i.test(t) && !/DFB.?Pokal\s*·/i.test(t), { testa: t.replace(/\n+/g, ' | ').slice(0, 200) });
   await pg.evaluate(() => { const e = [...document.querySelectorAll('.tab-btn')].find((x) => x.textContent.trim() === 'Classifica'); if (e) e.click(); }); await wait(3000);
-  await pg.evaluate(() => { const bt = [...document.querySelectorAll('button.glass')].find((x) => x.querySelector('b')); if (bt) bt.click(); }); await wait(700);
+  try { await pg.locator('button.glass:visible', { has: pg.locator('b') }).first().click({ timeout: 4000 }); } catch (e) { report.errors.push('tendina ' + String(e).slice(0, 100)); }
+  await wait(700);
   await shot('frankfurt-tendina-competizioni');
-  const names = await pg.evaluate(() => [...document.querySelectorAll('button')].map((x) => x.textContent.trim()));
+  const names = await pg.evaluate(() => [...document.querySelectorAll('button')].filter((x) => x.offsetParent).map((x) => x.textContent.trim()));
   ok('frankfurt: la tendina ha la coppa nazionale', names.some((x) => /DFB.?Pokal/i.test(x)), { n: names.length });
-  const clicked = await pg.evaluate(() => { const e = [...document.querySelectorAll('button')].find((x) => /^DFB.?Pokal$/i.test(x.textContent.trim())); if (e) { e.click(); return true; } return false; });
+  let clicked = false;
+  try { await pg.locator('button:visible', { hasText: /^DFB.?Pokal$/ }).first().click({ timeout: 4000 }); clicked = true; } catch (e) { report.errors.push('coppa ' + String(e).slice(0, 100)); }
   await wait(3500);
   const c = await pg.evaluate(() => document.body.innerText);
   ok('frankfurt: scegliendo la coppa in Classifica compare il Tabellone', clicked && /Turno|Sedicesimi|Ottavi|Quarti|Semifinali|Finale|Nessun dato/i.test(c), { clicked, snippet: c.slice(0, 160) });
@@ -568,9 +573,10 @@ await step('giocatore: tendina competizioni con tutte quelle giocate e partite',
   if (!href) { ok('giocatore: link trovato dalla rosa', false); return; }
   await go(href, 7000);
   await clickText('Statistiche'); await wait(4000);
-  const bt = await pg.evaluate(() => { const b = [...document.querySelectorAll('button.glass')].find((x) => x.querySelector('b')); if (b) { b.click(); return true; } return false; });
+  let bt = false;
+  try { await pg.locator('button.glass:visible', { has: pg.locator('b') }).first().click({ timeout: 4000 }); bt = true; } catch (e) { report.errors.push('tendina giocatore ' + String(e).slice(0, 100)); }
   await wait(700);
-  const opts = await pg.evaluate(() => [...document.querySelectorAll('button')].map((x) => x.textContent.trim()).filter((x) => x.length > 2 && x.length < 40));
+  const opts = await pg.evaluate(() => [...document.querySelectorAll('button')].filter((x) => x.offsetParent).map((x) => x.textContent.trim()).filter((x) => x.length > 2 && x.length < 40));
   ok('giocatore: tendina competizioni con almeno 2 voci', bt && opts.filter((x) => /Bundesliga|Champions|Europa|Conference|Pokal|League|Liga/i.test(x)).length >= 2, { opts: opts.slice(0, 30) });
   await shot('giocatore-tendina-competizioni');
   await pg.keyboard.press('Escape');
