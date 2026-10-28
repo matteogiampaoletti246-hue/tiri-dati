@@ -131,7 +131,8 @@ export default function MatchLineupsPanel({ match, view, home, away, pre }) {
     }
     return p.rating;
   };
-  const official = lineup && lineup.confirmed !== false && view.lineupType !== undefined && !/pred|prob/i.test(String(view.lineupType || ''));
+  // ufficiale solo se FotMob la dà come tale ("standard"); "lastStarting11" e' l'ultima formazione schierata = probabile
+  const official = !!lineup && lineup.confirmed !== false && view.lineupType !== undefined && /^(standard|official|confirm)/i.test(String(view.lineupType || ''));
 
   return (
     <div className="flex flex-col gap-5 pb-6 pt-3">

@@ -10,6 +10,7 @@ import HomeHeader from '@/components/HomeHeader';
 import DayStrip, { dragDays } from '@/components/DayStrip';
 import TextFilter from '@/components/TextFilter';
 import LeagueGroup from '@/components/LeagueGroup';
+import { useEntityScope } from '@/components/past/PastBits';
 import MatchRowSkeleton from '@/components/MatchRowSkeleton';
 import Skeleton from '@/components/Skeleton';
 import SearchOverlay from '@/components/SearchOverlay';
@@ -69,10 +70,11 @@ const DayPane = memo(function DayPane({ iso, filter, ver, tick, active }) {
     shown.push(g);
     seen += g.matches.length;
   }
-  return shown.map((g) => <LeagueGroup key={`${iso}|${g.league.id}`} league={g.league} matches={g.matches} forceOpen={filter === 'live'} />);
+  return shown.map((g) => <LeagueGroup key={`${iso}|${g.league.id}`} league={g.league} matches={g.matches} iso={iso} forceOpen={filter === 'live'} />);
 });
 
 export default function Home() {
+  useEntityScope('home');
   const keep = KEEP.iso !== null && KEEP.stamp === isoDate(new Date());
   const [iso, setIso] = useState(keep ? KEEP.iso : ISO_LIST[TODAY_INDEX]);
   const [filter, setFilter] = useState(keep ? KEEP.filter : 'all');

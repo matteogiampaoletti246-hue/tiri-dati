@@ -5,6 +5,7 @@ import LeagueLink from './LeagueLink';
 import MatchRow from './MatchRow';
 import { tintGrad } from '@/lib/tint';
 import { leagueTint, TOP5 } from '@/data/leagues';
+import { useSel } from '@/components/past/PastBits';
 
 // Partono aperti i top 5 campionati e le coppe europee; tutti gli altri partono chiusi.
 // Ogni campionato ha la sua tendina: lo stato vale solo per il giorno mostrato (cambiando giorno si riparte dal predefinito).
@@ -39,8 +40,9 @@ function Collapse({ open, children }) {
   );
 }
 
-export default function LeagueGroup({ league, matches, forceOpen = false }) {
-  const [open, setOpen] = useState(() => OPEN_AT_START.has(league.id));
+export default function LeagueGroup({ league, matches, iso = '', forceOpen = false }) {
+  // la tendina resta com'e' finche' si resta nel giro della Home (apro una partita e torno indietro); cambiando sezione si riparte da zero
+  const [open, setOpen] = useSel('home', `${iso}|${league.id}`, () => OPEN_AT_START.has(league.id));
   const isOpen = forceOpen || open;
   const toggle = () => setOpen((v) => !v);
 

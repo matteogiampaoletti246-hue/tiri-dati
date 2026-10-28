@@ -7,6 +7,7 @@ import TopBar from '@/components/TopBar';
 import Logo from '@/components/Logo';
 import ThemeSelector from '@/components/ThemeSelector';
 import SearchOverlay from '@/components/SearchOverlay';
+import { perfEnabled, setPerf } from '@/lib/perfMon';
 
 const ITEMS = [
   { label: 'Home', to: '/' },
@@ -18,6 +19,7 @@ const ITEMS = [
 
 export default function Menu() {
   const [searchOpen, setSearchOpen] = useState(false);
+  const [perf, setPerfState] = useState(perfEnabled());
 
   return (
     <PageShell>
@@ -59,6 +61,14 @@ export default function Menu() {
         <div className="mt-3">
           <ThemeSelector />
         </div>
+      </div>
+
+      <div className="px-5 pt-8">
+        <p className="label-sm">Diagnostica</p>
+        <button type="button" onClick={() => { setPerf(!perf); setPerfState(!perf); }} className="press mt-3 flex w-full items-center justify-between py-3" style={{ borderBottom: '1px solid var(--hair-2)' }}>
+          <span className="text-[15px] font-light" style={{ color: 'var(--ink)' }}>Monitor fluidità (fotogrammi e scatti)</span>
+          <span className="text-[12.5px] font-bold" style={{ color: perf ? 'var(--accent)' : 'var(--ink-3)' }}>{perf ? 'Attivo' : 'Spento'}</span>
+        </button>
       </div>
 
       <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />

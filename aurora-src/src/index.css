@@ -640,7 +640,7 @@
 }
 
 .shell-pop {
-  animation: shell-pop .18s ease-out backwards;
+  animation: none; /* tornando indietro la pagina riappare identica, senza dissolvenza (niente effetto refresh) */
 }
 
 @keyframes shell-pop {

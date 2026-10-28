@@ -372,7 +372,7 @@ export default function PlayerSheetHost() {
 
   return createPortal(
     sheet && c ? (
-      <div className="fixed inset-0 z-[80]" style={{ touchAction: 'none' }}>
+      <div data-no-back="1" className="fixed inset-0 z-[80]" style={{ touchAction: 'none' }}>
         <div ref={backdropRef} aria-hidden="true" className="absolute inset-0" style={{ background: 'rgba(0,0,0,.55)', animation: 'slfade .25s ease' }} onClick={close} onTouchMove={(e) => { if (e.cancelable) e.preventDefault(); }} />
         <div
           ref={sheetRef}

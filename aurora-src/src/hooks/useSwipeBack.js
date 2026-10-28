@@ -14,7 +14,7 @@ export default function useSwipeBack(enabled = true) {
     const shell = () => document.getElementById('sl-shell');
 
     const onDown = (e) => {
-      if (e.clientX > 32 || document.querySelector('[data-tabs-back]') || !canGoBack()) return;
+      if (e.clientX > 32 || (e.target && e.target.closest && e.target.closest('[data-no-back]')) || document.querySelector('[data-tabs-back]') || !canGoBack()) return;
       start.current = { x: e.clientX, y: e.clientY };
     };
 

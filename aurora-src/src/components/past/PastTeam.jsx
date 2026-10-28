@@ -48,5 +48,5 @@ export function PastTeamPlayers({ fm, sk, team }) {
   if (!season || !tid) return <Msg>{team.name} non ha giocato questo campionato nel {seasonLabel(sk)}</Msg>;
   const sections = statSections(stats, 'players', season.teams || {}, col, fm, sk, mode, tid);
   if (!sections.length) return <Msg>{noStats(fm, sk) ? `Statistiche dei giocatori non disponibili per il ${seasonLabel(sk)}` : `Statistiche dei giocatori del ${seasonLabel(sk)} in arrivo`}</Msg>;
-  return <StatLists key={mode} sections={sections} controls={<TextFilter options={[{ value: 'tot', label: 'Totale' }, { value: 'p90', label: "Ogni 90'" }]} value={mode} onChange={setMode} />} />;
+  return <StatLists sections={sections} controls={<TextFilter options={[{ value: 'tot', label: 'Totale' }, { value: 'p90', label: "Ogni 90'" }]} value={mode} onChange={setMode} />} />;
 }

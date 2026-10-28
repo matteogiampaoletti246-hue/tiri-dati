@@ -179,7 +179,7 @@ export function ArchStatPanel({ stats, kind, names, col, fm, sk }) {
   const controls = kind === 'players'
     ? <TextFilter options={[{ value: 'tot', label: 'Totale' }, { value: 'p90', label: "Ogni 90'" }]} value={mode} onChange={setMode} />
     : null;
-  return <StatLists key={mode} sections={sections} controls={controls} />;
+  return <StatLists sections={sections} controls={controls} />;
 }
 
 
@@ -252,7 +252,6 @@ function ArchTeamStatPanel({ season, det, stats, names, col, fm, sk }) {
   if (!sections.length) return <ArchStatPanel stats={stats} kind="teams" names={names} col={col} fm={fm} sk={sk} />;
   return (
     <StatLists
-      key={part}
       sections={sections}
       controls={<TextFilter options={TEAM_PART} value={part} onChange={setPart} />}
     />
@@ -279,11 +278,11 @@ function refsOf(det) {
 
 export default function ArchiveLeague({ fm, sk, tab, setTab, tint }) {
   const { data: season, loading } = useAsync(() => loadSeason(fm, sk), [fm, sk]);
-  const { data: stats } = useAsync(() => loadSeasonStats(fm, sk), [fm, sk]);
+  const { data: stats, loading: l3 } = useAsync(() => loadSeasonStats(fm, sk), [fm, sk]);
   const { data: det, loading: l2 } = useAsync(() => loadSeasonMatches(fm, sk), [fm, sk]);
   const col = useTeamColors();
   const refs = useMemo(() => refsOf(det), [det]);
-  if ((loading && !season) || l2) return <Loading />;
+  if ((loading && !season) || l2 || l3) return <Loading />;
   const names = (season && season.teams) || {};
   const panels = [
     <MatchesPanel key="m" fm={fm} sk={sk} season={season} tint={tint} />,
