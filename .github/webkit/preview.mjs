@@ -517,6 +517,111 @@ await step('swipe indietro: pagina sotto visibile', async () => {
   await shot('swipe-indietro-fine');
 });
 
+
+// ---- Funzioni nuove: valgono per tutte le competizioni e squadre aggiunte ----
+await step('campionati e coppe aggiunti: partita non iniziata con Duello, numeri da tenere d\'occhio e forma', async () => {
+  const seen = new Set();
+  const pick = (px && px.m ? px.m : []).filter((r) => r[9] === 'n' && !seen.has(r[1]) && seen.add(r[1]));
+  report.sweepFm = pick.map((r) => r[1]);
+  for (const r of pick) {
+    await go(`#/match/x-${r[1]}-${r[0]}`, 6500);
+    const b = await pg.evaluate(() => document.body.innerText);
+    const poly = await pg.evaluate(() => document.querySelectorAll('svg polygon').length);
+    ok(`extra ${r[1]}: Duello in numeri con ragnatela`, /duello in numeri/i.test(b) && poly >= 4, { poly });
+    ok(`extra ${r[1]}: numeri da tenere d'occhio`, /numeri da tenere/i.test(b));
+    ok(`extra ${r[1]}: forma recente`, /forma recente/i.test(b));
+  }
+});
+
+await step('squadra: riquadri Gol/xG/Tiri e riga Prossima', async () => {
+  await go('#/squadra/feyenoord', 6000);
+  await clickText('Statistiche'); await wait(3500);
+  const t = await pg.evaluate(() => document.body.innerText);
+  ok('feyenoord statistiche: riquadri Gol e Tiri in porta con posizione', /Gol/.test(t) && /Tiri in porta/i.test(t) && /\d+°/.test(t), { snippet: t.slice(0, 200) });
+  ok('feyenoord statistiche: riga Prossima partita', /Prossima/i.test(t) && /(Casa|Trasferta)/.test(t));
+  await shot('feyenoord-statistiche-riquadri');
+});
+
+await step('squadra unica: Francoforte col banner del campionato', async () => {
+  await go('#/squadra/frankfurt', 6000);
+  const t = await pg.evaluate(() => document.body.innerText.slice(0, 500));
+  ok('frankfurt: sotto il nome c\'e\' la Bundesliga, non la coppa', /Bundesliga/i.test(t) && !/DFB.?Pokal\s*·/i.test(t), { testa: t.replace(/\n+/g, ' | ').slice(0, 200) });
+  await pg.evaluate(() => { const e = [...document.querySelectorAll('.tab-btn')].find((x) => x.textContent.trim() === 'Classifica'); if (e) e.click(); }); await wait(3000);
+  await pg.evaluate(() => { const bt = [...document.querySelectorAll('button.glass')].find((x) => x.querySelector('b')); if (bt) bt.click(); }); await wait(700);
+  await shot('frankfurt-tendina-competizioni');
+  const names = await pg.evaluate(() => [...document.querySelectorAll('button')].map((x) => x.textContent.trim()));
+  ok('frankfurt: la tendina ha la coppa nazionale', names.some((x) => /DFB.?Pokal/i.test(x)), { n: names.length });
+  const clicked = await pg.evaluate(() => { const e = [...document.querySelectorAll('button')].find((x) => /^DFB.?Pokal$/i.test(x.textContent.trim())); if (e) { e.click(); return true; } return false; });
+  await wait(3500);
+  const c = await pg.evaluate(() => document.body.innerText);
+  ok('frankfurt: scegliendo la coppa in Classifica compare il Tabellone', clicked && /Turno|Sedicesimi|Ottavi|Quarti|Semifinali|Finale|Nessun dato/i.test(c), { clicked, snippet: c.slice(0, 160) });
+  await shot('frankfurt-classifica-coppa');
+});
+
+await step('giocatore: tendina competizioni con tutte quelle giocate e partite', async () => {
+  await go('#/squadra/frankfurt', 6000);
+  const href = await pg.evaluate(() => { const a = [...document.querySelectorAll('a[href*="giocatore"]')][0]; return a ? a.getAttribute('href') : null; });
+  if (!href) { ok('giocatore: link trovato dalla rosa', false); return; }
+  await go(href, 7000);
+  await clickText('Statistiche'); await wait(4000);
+  const bt = await pg.evaluate(() => { const b = [...document.querySelectorAll('button.glass')].find((x) => x.querySelector('b')); if (b) { b.click(); return true; } return false; });
+  await wait(700);
+  const opts = await pg.evaluate(() => [...document.querySelectorAll('button')].map((x) => x.textContent.trim()).filter((x) => x.length > 2 && x.length < 40));
+  ok('giocatore: tendina competizioni con almeno 2 voci', bt && opts.filter((x) => /Bundesliga|Champions|Europa|Conference|Pokal|League|Liga/i.test(x)).length >= 2, { opts: opts.slice(0, 30) });
+  await shot('giocatore-tendina-competizioni');
+  await pg.keyboard.press('Escape');
+  await go(href, 7000);
+  await clickText('Partite'); await wait(4000);
+  const pt = await pg.evaluate(() => document.body.innerText);
+  ok('giocatore: lista partite presente', /vs |@ /.test(pt) && !/Nessuna partita disponibile/.test(pt), { len: pt.length });
+  await shot('giocatore-partite');
+  await clickText('Profilo'); await wait(2000);
+  const pr = await pg.evaluate(() => ({ t: document.body.innerText, poly: document.querySelectorAll('svg polygon').length }));
+  ok('giocatore: profilo con anagrafica e radar', /Nazionalit/i.test(pr.t) && pr.poly >= 4, { poly: pr.poly });
+  await shot('giocatore-profilo');
+});
+
+await step('giocatore di campionato minore: profilo, partite, tendine', async () => {
+  await go('#/squadra/fluminense', 6000);
+  await clickText('Giocatori'); await wait(3000);
+  const href = await pg.evaluate(() => { const a = [...document.querySelectorAll('a[href*="giocatore"]')][0]; return a ? a.getAttribute('href') : null; });
+  if (!href) { ok('giocatore minore: link trovato', false); return; }
+  await go(href, 7000);
+  const pr = await pg.evaluate(() => ({ t: document.body.innerText, poly: document.querySelectorAll('svg polygon').length }));
+  ok('giocatore minore: profilo con anagrafica', /Nazionalit|Altezza/i.test(pr.t), { len: pr.t.length });
+  ok('giocatore minore: radar', pr.poly >= 4, { poly: pr.poly });
+  await clickText('Statistiche'); await wait(4000);
+  const st = await pg.evaluate(() => document.body.innerText);
+  ok('giocatore minore: statistiche con tendina competizione', !!(await pg.evaluate(() => [...document.querySelectorAll('button.glass')].some((x) => x.querySelector('b')))), { len: st.length });
+  await clickText('Partite'); await wait(3500);
+  const pt = await pg.evaluate(() => document.body.innerText);
+  ok('giocatore minore: partite presenti', !/Nessuna partita disponibile/.test(pt), { len: pt.length });
+  await shot('giocatore-minore-partite');
+});
+
+await step('tabellone: pillole dei turni scorrono e restano centrate', async () => {
+  await go('#/campionato/efl-cup', 6000);
+  await pg.evaluate(() => { const e = [...document.querySelectorAll('.tab-btn')].find((x) => x.textContent.trim() === 'Tabellone'); if (e) e.click(); }); await wait(3500);
+  const pills = await pg.evaluate(() => { const r = [...document.querySelectorAll('[data-no-back]')].find((x) => x.scrollWidth > x.clientWidth + 4); return r ? { sw: r.scrollWidth, cw: r.clientWidth, left: r.scrollLeft } : null; });
+  ok('tabellone: riga delle pillole scorrevole', !!pills, { pills });
+  await shot('tabellone-efl-cup');
+  const cards = await pg.evaluate(() => { const els = [...document.querySelectorAll('[data-bracket-card], .bracket-card')]; return els.length; });
+  report.bracketCards = cards;
+});
+
+await step('swipe indietro: sotto meta\' la pagina rientra, oltre torna', async () => {
+  await go('#/campionato/serie-a', 6000);
+  await pg.evaluate(() => { const a = [...document.querySelectorAll('a')].find((x) => /#\/match\//.test(x.getAttribute('href') || '')); if (a) a.click(); }); await wait(3500);
+  for (const x of [20, 60, 100, 140]) { await pg.evaluate((x) => window.__slCarousel.pageDrag(x), x); await wait(40); }
+  await pg.evaluate(() => window.__slCarousel.pageReset(true)); await wait(1200);
+  const h1 = await pg.evaluate(() => location.hash);
+  ok('swipe indietro: rilasciato prima di meta\' resta sulla partita', /#\/match\//.test(h1), { h1 });
+  for (const x of [20, 80, 160, 240]) { await pg.evaluate((x) => window.__slCarousel.pageDrag(x), x); await wait(40); }
+  await pg.evaluate(() => window.__slCarousel.pageBack(260)); await wait(1800);
+  const h2 = await pg.evaluate(() => location.hash);
+  ok('swipe indietro: oltre meta\' si torna al campionato', /campionato\/serie-a/.test(h2), { h2 });
+});
+
 report.passed = report.checks.filter((c) => c.pass).length;
 report.total = report.checks.length;
 fs.writeFileSync(`${OUT}/report.json`, JSON.stringify(report, null, 2));
