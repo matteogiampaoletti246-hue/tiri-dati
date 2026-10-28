@@ -35,8 +35,8 @@ const go = async (hash, ms = 4500) => { await pg.goto('about:blank'); await pg.g
 const TOPNAMES = ['SERIE A', 'PREMIER LEAGUE', 'LALIGA', 'LA LIGA', 'BUNDESLIGA', 'LIGUE 1', 'CHAMPIONS LEAGUE', 'EUROPA LEAGUE', 'CONFERENCE LEAGUE'];
 const groupsInfo = () => pg.evaluate(() => [...document.querySelectorAll('section button[aria-expanded]')].map((b) => {
   const sec = b.closest('section');
-  const a = sec.querySelector('a');
-  return { name: (a ? a.textContent : '').trim().toUpperCase(), open: b.getAttribute('aria-expanded') === 'true', href: a ? a.getAttribute('href') : null };
+  const a = sec.querySelector('[role="link"]');
+  return { name: (a ? a.textContent : '').trim().toUpperCase(), open: b.getAttribute('aria-expanded') === 'true' };
 }));
 
 await step('home: tendine di tutti i campionati', async () => {
@@ -52,7 +52,7 @@ await step('home: tendine di tutti i campionati', async () => {
   ok('home: i campionati minori partono chiusi', minor.every((g) => !g.open), { aperti: minor.filter((g) => g.open).map((g) => g.name) });
   // il nome del campionato apre la scheda del campionato e non la tendina
   const before = await groupsInfo();
-  await pg.evaluate(() => { const a = document.querySelector('section button[aria-expanded]').closest('section').querySelector('a'); a.click(); });
+  await pg.evaluate(() => { const a = document.querySelector('section button[aria-expanded]').closest('section').querySelector('[role="link"]'); a.click(); });
   await wait(1800);
   const hash = await pg.evaluate(() => location.hash);
   ok('home: toccando il nome si apre la scheda del campionato', /campionato|storico/.test(hash), { hash });
