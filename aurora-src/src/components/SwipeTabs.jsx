@@ -43,14 +43,19 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
     return () => { ro.disconnect(); document.documentElement.style.setProperty('--tabs-h', '0px'); };
   }, [fixedBar]);
 
+  // misure delle schede prese una volta sola all'inizio dello swipe: durante il movimento non si legge nulla dal layout (niente ricalcoli a ogni fotogramma)
+  const geom = useRef(null);
   const posBar = (from, to, t, animate) => {
     const a = tabRefs.current[from];
     const b = tabRefs.current[to] || a;
     const bar = barRef.current;
     if (!a || !bar) return;
     bar.style.transition = animate ? 'transform .34s cubic-bezier(.22,.8,.24,1), width .34s cubic-bezier(.22,.8,.24,1)' : 'none';
-    const left = a.offsetLeft + (b.offsetLeft - a.offsetLeft) * t;
-    const w = a.offsetWidth + (b.offsetWidth - a.offsetWidth) * t;
+    const g = !animate && geom.current;
+    const aL = g ? g.l[from] : a.offsetLeft; const bL = g ? g.l[to] ?? g.l[from] : b.offsetLeft;
+    const aW = g ? g.w[from] : a.offsetWidth; const bW = g ? g.w[to] ?? g.w[from] : b.offsetWidth;
+    const left = aL + (bL - aL) * t;
+    const w = aW + (bW - aW) * t;
     bar.style.transform = `translate3d(${left}px,0,0)`;
     bar.style.width = `${w}px`;
   };
@@ -72,8 +77,9 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
   const followBar = (from, to, t) => {
     const box = headRef.current;
     if (!box) return;
-    const sa = scrollTargetOf(from);
-    const sb = scrollTargetOf(to);
+    const g = geom.current;
+    const sa = g ? g.t[from] : scrollTargetOf(from);
+    const sb = g ? g.t[to] : scrollTargetOf(to);
     // la riga anticipa il dito: arriva alla posizione finale prima di fine swipe
     const e = Math.min(1, t * 1.6);
     box.scrollLeft = sa + (sb - sa) * e;
@@ -89,9 +95,9 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
       if (n >= want.length) return;
       const k = want[n++];
       setWarm((w) => (w.includes(k) ? w : [...w, k]));
-      tm = setTimeout(() => { id = idle(step); }, 450);
+      tm = setTimeout(() => { id = idle(step); }, 160);
     };
-    tm = setTimeout(() => { id = idle(step); }, 900);
+    tm = setTimeout(() => { id = idle(step); }, 220);
     return () => { clearTimeout(tm); cancelIdle(id); };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [index, tabs.length]);
@@ -153,6 +159,7 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
         if (Math.abs(dy) > 12 && Math.abs(dy) > Math.abs(dx)) { st = null; return; }
         if (Math.abs(dx) < 10 || Math.abs(dx) < Math.abs(dy) * 1.2) return;
         st.on = true;
+        geom.current = { l: tabRefs.current.map((x) => x && x.offsetLeft), w: tabRefs.current.map((x) => x && x.offsetWidth), t: tabRefs.current.map((_, k) => scrollTargetOf(k)) };
       }
       if (e.cancelable) e.preventDefault();
       st.dx = dx;
@@ -190,6 +197,7 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
       delete document.documentElement.dataset.tch;
       const d = st;
       st = null;
+      geom.current = null;
       if (d && d.raf) cancelAnimationFrame(d.raf);
       if (!d || !d.on) return;
       const x = (e.changedTouches && e.changedTouches[0] ? e.changedTouches[0].clientX : d.x);

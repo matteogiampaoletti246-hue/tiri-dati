@@ -10,7 +10,7 @@ export const initialForm = () => ({
   playerId: null,
   tipoTiri: 'totali',
   lineType: 'over',
-  line: '2,5',
+  line: '',
   odds: '',
   sede: 'neutro',
   competizione: 'campionato',

@@ -85,6 +85,7 @@ export default function PlayerPickPanel({ form, set, player, hint, onSelectPlaye
             ariaLabel="Valore linea"
             width={96}
             value={form.line}
+            placeholder="—"
             onChange={(v) => set('line', v)}
             options={['0,5', '1,5', '2,5', '3,5'].map((x) => ({ value: x, label: x }))}
           />

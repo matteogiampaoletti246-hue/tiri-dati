@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, Menu as MenuIcon } from 'lucide-react';
 import Logo from '@/components/Logo';
+import { openMenu } from '@/components/MenuDrawer';
 
 const launched = () => {
   try {
@@ -53,7 +54,7 @@ export default function HomeHeader({ onSearch }) {
           <IconButton onClick={onSearch} label="Cerca">
             <Search size={16} strokeWidth={2} />
           </IconButton>
-          <IconButton to="/menu" label="Menu">
+          <IconButton onClick={openMenu} label="Menu">
             <MenuIcon size={16} strokeWidth={2} />
           </IconButton>
         </div>

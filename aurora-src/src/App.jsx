@@ -1,3 +1,4 @@
+import MenuDrawer from '@/components/MenuDrawer';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { HashRouter, Route, Routes, useLocation, useNavigate, useNavigationType } from 'react-router-dom';
 import { BACK } from '@/lib/carousel';
@@ -60,6 +61,7 @@ export default function App() {
       <NavGuard />
       <ScrollToTop />
       <PlayerSheetHost />
+      <MenuDrawer />
       {ready ? (
       <Routes>
         <Route path="/" element={<Home />} />

@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { openMenu } from '@/components/MenuDrawer';
 import { Search, Menu as MenuIcon } from 'lucide-react';
 
 const btn = 'glass press flex h-9 w-9 items-center justify-center rounded-full';
@@ -11,9 +11,9 @@ export default function FixedBar({ onSearch, title }) {
       <button type="button" onClick={onSearch} aria-label="Cerca" className={btn}>
         <Search size={16} strokeWidth={2} />
       </button>
-      <Link to="/menu" aria-label="Menu" className={btn}>
+      <button type="button" onClick={openMenu} aria-label="Menu" className={btn}>
         <MenuIcon size={16} strokeWidth={2} />
-      </Link>
+      </button>
     </div>
   );
 }

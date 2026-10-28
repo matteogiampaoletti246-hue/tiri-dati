@@ -255,7 +255,7 @@ export function buildLineup(side, raw, detail, team, playerLookup) {
   const list = starters.map(norm);
   const depths = [...new Set(list.map((p) => p.x))].sort((a, b) => a - b);
   const rowsDepth = depths.slice(1); // la prima profondità è il portiere
-  const rows = rowsDepth.map((x) => list.filter((p) => p.x === x).sort((a, b) => b.y - a.y));
+  const rows = rowsDepth.map((x) => list.filter((p) => p.x === x).sort((a, b) => a.y - b.y)); // sinistra->destra come in campo (FotMob: y cresce verso destra)
   const gk = list.filter((p) => p.x === depths[0]);
   const ordered = [...gk, ...rows.flat()];
 
@@ -391,7 +391,7 @@ export function applyDetail(m, detail, playerLookup) {
 
   m.momentum = bucketMomentum(detail.mo);
 
-  m.shots = (detail.tr || []).map((t) => ({
+  m.shots = (detail.tr || []).filter((t) => !(t[11] === 'Goal' && t[3] < 30)).map((t) => ({
     side: t[1] === 'h' ? 'home' : 'away',
     outcome: OUTCOME[t[11]] || 'Fuori',
     playerName: t[2],

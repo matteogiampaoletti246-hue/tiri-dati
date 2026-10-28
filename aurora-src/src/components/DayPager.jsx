@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
+import { dragDays } from '@/components/DayStrip';
 
 // Giorni affiancati: lo swipe laterale sposta una striscia gia' pronta (come nella Home).
 // I giorni vicini si preparano a riposo, quando l'app e' ferma.
@@ -11,7 +12,7 @@ export default function DayPager({ index, count, onChange, render }) {
 
   useEffect(() => {
     setReady(false);
-    const t = setTimeout(() => setReady(true), 380);
+    const t = setTimeout(() => setReady(true), 120);
     return () => clearTimeout(t);
   }, [index]);
 
@@ -44,6 +45,7 @@ export default function DayPager({ index, count, onChange, render }) {
           const { index: i, count: n } = live.current;
           const ok = st.dx > 0 ? i > 0 : i < n - 1;
           const el = box.current;
+          dragDays(ok ? -st.dx / Math.min(window.innerWidth, (el && el.offsetWidth) || 430) : 0);
           if (el) {
             el.style.transition = 'none';
             el.style.willChange = 'transform';
@@ -79,6 +81,7 @@ export default function DayPager({ index, count, onChange, render }) {
           el.style.willChange = '';
           busy = false;
         };
+        dragDays(dx > 0 ? -1 : 1, true);
         requestAnimationFrame(() => {
           el.style.transition = 'transform .26s cubic-bezier(.22,.8,.24,1)';
           el.style.transform = `translate3d(${(dx > 0 ? 1 : -1) * w}px,0,0)`;
@@ -87,6 +90,7 @@ export default function DayPager({ index, count, onChange, render }) {
       } else {
         el.style.transition = 'transform .25s cubic-bezier(.22,.8,.24,1)';
         el.style.transform = 'translate3d(0,0,0)';
+        dragDays(0, true);
         setTimeout(() => { el.style.transition = ''; el.style.transform = ''; el.style.willChange = ''; }, 280);
       }
     };

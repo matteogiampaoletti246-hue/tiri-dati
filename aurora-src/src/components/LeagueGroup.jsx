@@ -48,12 +48,12 @@ export default function LeagueGroup({ league, matches, forceOpen = false }) {
     <section className="mx-4 mt-4 overflow-hidden rounded-[26px] glass" style={{ background: tintGrad(leagueTint(league.id), 0x45) }}>
       <div className="flex items-center">
         {/* logo e nome: aprono la scheda del campionato */}
-        <LeagueLink league={league} className="press flex min-w-0 flex-1 items-center gap-3 py-3.5 pl-4 pr-2">
+        <LeagueLink league={league} className="press flex min-w-0 shrink items-center gap-3 py-3.5 pl-4 pr-3">
           <LeagueBadge league={league} size={22} />
-          <span className="flex-1 truncate text-[12.5px] font-extrabold uppercase tracking-wider" style={{ color: 'var(--ink)' }}>{league.name}</span>
+          <span className="truncate text-[12.5px] font-extrabold uppercase tracking-wider" style={{ color: 'var(--ink)' }}>{league.name}</span>
         </LeagueLink>
-        {/* solo questa parte apre e chiude la tendina */}
-        <button type="button" onClick={toggle} aria-expanded={isOpen} aria-label={isOpen ? 'Chiudi partite' : 'Apri partite'} className="press flex items-center gap-2 py-3.5 pl-3 pr-4">
+        {/* tutto il resto della riga (spazio vuoto, numero e freccia) apre e chiude la tendina */}
+        <button type="button" onClick={toggle} aria-expanded={isOpen} aria-label={isOpen ? 'Chiudi partite' : 'Apri partite'} className="press flex min-w-[56px] flex-1 items-center justify-end gap-2 self-stretch pl-3 pr-4">
           <span className="tnum text-[11px] font-medium" style={{ color: 'var(--ink-3)' }}>{matches.length}</span>
           <ChevronDown size={17} strokeWidth={1.9} style={{ color: 'var(--ink-3)', transition: 'transform .34s cubic-bezier(.22,1,.36,1)', transform: isOpen ? 'rotate(180deg)' : 'none' }} />
         </button>

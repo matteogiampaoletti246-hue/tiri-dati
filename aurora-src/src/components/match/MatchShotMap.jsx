@@ -52,7 +52,7 @@ const FILTERS = [
 export default function MatchShotMap({ shots = [], home, away, match = null, linkNames = true }) {
   const [mode, setMode] = useState('all');
   const [sel, setSel] = useState(null);
-  const list = shots.filter((s) => s.px != null && (mode !== 'target' || s.onTarget));
+  const list = shots.filter((s) => !s.own && s.px != null && (mode !== 'target' || s.onTarget));
   const cur = sel != null && list[sel] ? list[sel] : null;
   const color = (s) => (s.side === 'home' ? HC : AC);
   const pos = (s) => (s.side === 'home' ? [105 - s.px, 68 - s.py] : [s.px, s.py]);

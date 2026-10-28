@@ -10,7 +10,7 @@ import { comma } from '@/lib/format';
 import { bandColor, ratioColor } from '@/components/player/playerCalc';
 import CompSeasonBar from '@/components/CompSeasonBar';
 import { PastTeamStats } from '@/components/past/PastTeam';
-import { useTeamView, announceComp } from '@/components/past/PastBits';
+import { useTeamView, announceComp, GrowBar, RollText } from '@/components/past/PastBits';
 import { teamCompetitions } from '@/data/competitions';
 import { teamShots } from '@/data/calcData';
 import { MATCHES } from '@/data/matches';
@@ -124,16 +124,10 @@ function DomesticStats({ team, comp }) {
               <div key={mt.key} className="px-4 py-2.5" style={{ borderTop: '1px solid var(--hair-2)' }}>
                 <div className="flex items-center gap-3">
                   <span className="min-w-0 flex-1 truncate text-[13.5px]">{mt.label}</span>
-                  <span className="tnum rounded-full text-[14px] font-extrabold" style={{ color: col, background: `${col}26`, padding: '1px 9px' }}>{comma(v, 2)}</span>
+                  <RollText value={v} fmt={(x) => comma(x, 2)} className="rounded-full text-[14px] font-extrabold" style={{ color: col, backgroundColor: `${col}26`, padding: '1px 9px', transition: 'color .9s ease, background-color .9s ease' }} />
                   <span className="tnum w-[34px] text-right text-[11px] font-bold" style={{ color: 'var(--ink-3)' }}>{r.rank}°</span>
                 </div>
-                <div className="relative" style={{ marginTop: 20, height: 9 }}>
-                  <div className="absolute inset-0 rounded-full" style={{ background: 'var(--hair-2)' }}>
-                    <div className="h-full rounded-full" style={{ width: `${w}%`, background: `linear-gradient(90deg, ${col}88, ${col})` }} />
-                  </div>
-                  <span className="absolute" style={{ left: `${ax}%`, top: -5, bottom: -5, borderLeft: '2px dashed var(--ink)', opacity: 0.85 }} />
-                  <span className="tnum absolute whitespace-nowrap text-[9.5px] font-bold leading-none" style={{ left: `${lx}%`, top: -21, transform: 'translateX(-50%)', color: 'var(--ink-2)', background: 'var(--hair-2)', padding: '2px 5px', borderRadius: 6 }}>media {comma(r.avg, 2)}</span>
-                </div>
+                <GrowBar width={w} col={col} avgPos={ax} avgText={comma(r.avg, 2)} marginTop={20} labelTop={-21} />
                 {o ? (
                   <div className="mt-2 flex items-center gap-2 text-[11px]" style={{ color: 'var(--ink-2)' }}>
                     <Crest team={opp} size={14} />

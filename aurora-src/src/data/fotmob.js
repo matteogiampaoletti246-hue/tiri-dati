@@ -160,7 +160,8 @@ export function applyFm(m, d, playerLookup) {
     xg: s[13] || 0,
     xgot: s[14] || 0,
     period: s[18],
-    own: !!s[17],
+    // autogol: il tiro e' registrato a favore del difensore ma sta nella sua area, non e' un tiro della squadra
+    own: !!s[17] || (OUT[s[6]] === 'Gol' && s[4] != null && s[4] < 30),
     px: s[4],
     // FotMob misura la larghezza al contrario di come la guarda chi vede il campo da sopra: si specchia (campo e porta)
     py: s[5] == null ? s[5] : 68 - s[5],
@@ -169,6 +170,7 @@ export function applyFm(m, d, playerLookup) {
     x: Math.max(0, Math.min(1, s[4] / 105)),
     y: Math.max(0, Math.min(1, 1 - s[5] / 68)),
   }));
+  m.shots = m.shots.filter((s) => !s.own);
   m.shotsFm = true;
   if (d.pl) m.playerStats = d.pl;
 

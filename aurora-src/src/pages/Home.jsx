@@ -6,7 +6,7 @@ import { primeKeyboard } from '@/lib/keyboard';
 import { carousel, finishCarousel } from '@/lib/carousel';
 import PageShell from '@/components/PageShell';
 import HomeHeader from '@/components/HomeHeader';
-import DayStrip from '@/components/DayStrip';
+import DayStrip, { dragDays } from '@/components/DayStrip';
 import TextFilter from '@/components/TextFilter';
 import LeagueGroup from '@/components/LeagueGroup';
 import MatchRowSkeleton from '@/components/MatchRowSkeleton';
@@ -44,12 +44,13 @@ const DayPane = memo(function DayPane({ iso, filter, ver, tick, active }) {
   const total = groups.reduce((n, g) => n + g.matches.length, 0);
   // il giorno aperto si disegna subito; quelli vicini si preparano a piccoli passi mentre l'app e' ferma
   const [cnt, setCnt] = useState(active ? Infinity : 0);
+  const eff = active ? Infinity : cnt;
   useEffect(() => {
     if (active) { if (cnt !== Infinity) setCnt(Infinity); return undefined; }
     if (cnt >= total) return undefined;
     let id;
-    const go = () => { if (TOUCHING) { id = setTimeout(go, 250); return; } setCnt((c) => c + 7); };
-    id = setTimeout(go, cnt === 0 ? 300 : 120);
+    const go = () => { if (TOUCHING) { id = setTimeout(go, 120); return; } setCnt((c) => c + 12); };
+    id = setTimeout(go, cnt === 0 ? 140 : 60);
     return () => clearTimeout(id);
   }, [cnt, active, total]);
   if (!groups.length) {
@@ -59,11 +60,11 @@ const DayPane = memo(function DayPane({ iso, filter, ver, tick, active }) {
       </p>
     );
   }
-  if (cnt === 0) return <div style={{ minHeight: '40vh' }} />;
+  if (eff === 0) return <div style={{ minHeight: '40vh' }} />;
   let seen = 0;
   const shown = [];
   for (const g of groups) {
-    if (seen >= cnt) break;
+    if (seen >= eff) break;
     shown.push(g);
     seen += g.matches.length;
   }
@@ -122,6 +123,7 @@ export default function Home() {
     const dir = target === nextIso ? -1 : 1;
     busy.current = true;
     showPeek(target);
+    dragDays(-dir, true);
     let ended = false;
     let tm = 0;
     const end = () => {
@@ -193,6 +195,7 @@ export default function Home() {
           const { prevIso: p, nextIso: n } = live.current;
           const nb = st.dx > 0 ? p : n;
           showPeek(nb);
+          dragDays(nb ? -st.dx / Math.min(window.innerWidth, (el && el.offsetWidth) || 430) : 0);
           if (el) {
             el.style.transition = 'none';
             el.style.willChange = 'transform';
@@ -219,6 +222,7 @@ export default function Home() {
       } else if (el) {
         el.style.transition = 'transform .25s cubic-bezier(.22,.8,.24,1)';
         el.style.transform = 'translate3d(0,0,0)';
+        dragDays(0, true);
         setTimeout(() => { el.style.transition = ''; el.style.transform = ''; el.style.willChange = ''; showPeek(null); }, 280);
       }
     };
