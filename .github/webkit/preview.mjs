@@ -525,16 +525,18 @@ await step('campionati e coppe aggiunti: partita non iniziata con Duello, numeri
   // solo partite davvero non iniziate (una gia' cominciata mostra altro e non il confronto pre-partita)
   const pick = (px && px.m ? px.m : []).filter((r) => r[9] === 'n' && Date.parse(r[2]) > now + 3600e3 && !seen.has(r[1]) && seen.add(r[1]));
   report.sweepFm = pick.map((r) => r[1]);
+  // riscaldamento: la prima apertura di una partita scarica i dati comuni
+  if (pick[0]) { await go(`#/match/x-${pick[0][1]}-${pick[0][0]}`, 3000); await wait(8000); }
   for (const r of pick) {
     await go(`#/match/x-${r[1]}-${r[0]}`, 3000);
     await pg.waitForFunction(() => /duello in numeri/i.test(document.body.innerText), null, { timeout: 15000 }).catch(() => {});
     await wait(1500);
     let b = await pg.evaluate(() => document.body.innerText);
-    if (!/duello in numeri/i.test(b) && !/dettagli non disponibili/i.test(b)) { await wait(8000); b = await pg.evaluate(() => document.body.innerText); }
+    if (!/duello in numeri/i.test(b) && !/dettagli non disponibili/i.test(b)) { await go(`#/match/x-${r[1]}-${r[0]}`, 9000); b = await pg.evaluate(() => document.body.innerText); }
     const poly = await pg.evaluate(() => document.querySelectorAll('svg polygon').length);
     // coppe di dilettanti (es. Coupe de France, squadre senza alcuna statistica): "Dati non disponibili" e' il risultato corretto, mai numeri inventati
     const cupNoData = [134, 133, 278, 180, 9067, 209, 141, 186, 149].includes(Number(r[1])) && /dati non disponibili/i.test(b);
-    ok(`extra ${r[1]}: Duello in numeri con ragnatela`, /duello in numeri/i.test(b) && (poly >= 4 || cupNoData), { poly, cupNoData });
+    ok(`extra ${r[1]}: Duello in numeri con ragnatela`, /duello in numeri/i.test(b) && (poly >= 4 || cupNoData), { poly, cupNoData, id: `x-${r[1]}-${r[0]}`, snippet: b.replace(/\n+/g, ' | ').slice(0, 220) });
     ok(`extra ${r[1]}: numeri da tenere d'occhio`, /numeri da tenere/i.test(b) || cupNoData);
     ok(`extra ${r[1]}: forma recente`, /forma recente/i.test(b));
   }
