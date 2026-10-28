@@ -325,7 +325,7 @@ await step('nuovi campionati: scheda con statistiche', async () => {
 });
 
 await step('squadra minore: statistiche e giocatori della stagione attuale', async () => {
-  for (const team of ['fortuna-sittard', 'feyenoord']) {
+  for (const team of ['fortuna-sittard', 'feyenoord', 'fluminense']) {
     await go(`#/squadra/${team}`, 6000);
     await clickText('Statistiche'); await wait(3500);
     const t = await pg.evaluate(() => document.body.innerText);
@@ -342,6 +342,19 @@ await step('squadra minore: statistiche e giocatori della stagione attuale', asy
     ok(`${team}: scheda giocatore piena`, !!href && /Profilo/.test(pt) && /Statistiche/.test(pt) && !/Carriera non disponibile/.test(pt), { href });
     await shot(`${team}-giocatore-scheda`);
   }
+});
+
+await step('squadra di campionato aggiunto che gioca anche una coppa (Fluminense)', async () => {
+  await go('#/squadra/fluminense', 6000);
+  const t = await pg.evaluate(() => document.body.innerText.slice(0, 600));
+  ok('fluminense: sotto il nome c\'e\' il campionato, non la coppa', /Brasileir/i.test(t) && !/Copa do Brasil\s*·/.test(t), { testa: t.replace(/\n+/g, ' | ').slice(0, 160) });
+  const tabs = await pg.evaluate(() => [...document.querySelectorAll('.tab-btn')].map((x) => x.textContent.trim()));
+  ok('fluminense: stesse schede dei top campionati', ['Partite', 'Classifica', 'Statistiche', 'Giocatori'].every((x) => tabs.some((y) => y.includes(x))), { tabs });
+  await shot('fluminense-partite');
+  await pg.evaluate(() => { const e = [...document.querySelectorAll('.tab-btn')].find((x) => x.textContent.trim() === 'Classifica'); if (e) e.click(); }); await wait(3500);
+  const c = await pg.evaluate(() => document.body.innerText);
+  ok('fluminense: classifica del Brasileirao', !/non disponibile/i.test(c) && /Flamengo|Palmeiras/.test(c), { len: c.length });
+  await shot('fluminense-classifica');
 });
 
 await step('squadra minore: rosa per ruoli con volti', async () => {
