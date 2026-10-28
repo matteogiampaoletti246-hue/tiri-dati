@@ -30,6 +30,7 @@ const step = async (name, fn) => { try { await fn(); } catch (e) { ok(name + ' (
 const getJson = async (p) => { try { return await (await fetch(BASE + p)).json(); } catch { return null; } };
 const texts = () => pg.evaluate(() => [...document.querySelectorAll('button,a')].map((x) => x.textContent.trim()).filter(Boolean));
 const clickText = (t) => pg.evaluate((t) => { const e = [...document.querySelectorAll('button,a')].find((x) => x.textContent.trim() === t); if (e) e.click(); return !!e; }, t);
+const clickVis = async (t) => { try { await pg.locator('button:visible', { hasText: new RegExp('^' + t + '$') }).first().click({ timeout: 4000 }); } catch (e) { report.errors.push('clickVis ' + t + ' ' + String(e).slice(0, 120)); } };
 const go = async (hash, ms = 4500) => { await pg.goto('about:blank'); await pg.goto(APP + hash); await wait(ms); };
 
 const TOPNAMES = ['SERIE A', 'PREMIER LEAGUE', 'LALIGA', 'LA LIGA', 'BUNDESLIGA', 'LIGUE 1', 'CHAMPIONS LEAGUE', 'EUROPA LEAGUE', 'CONFERENCE LEAGUE'];
@@ -307,36 +308,36 @@ await step('squadra: stagioni, pillole passate, tasti sulla stessa riga', async 
 
 await step('tabellone: stagione attuale senza dati e stagione passata con tabellone', async () => {
   await go('#/campionato/champions-league', 6500);
-  await clickText('Classifica'); await wait(1800);
+  await clickVis('Classifica'); await wait(1800);
   const t0 = await texts();
   ok('Classifica CL: tasto Tabellone presente', t0.includes('Tabellone'));
   await shot('cl-classifica');
-  await clickText('Tabellone');
+  await clickVis('Tabellone');
   await wait(380); await shot('cl-transizione-meta');
   await wait(1500);
   const t = await pg.evaluate(() => document.body.innerText);
   ok('Tabellone CL attuale: nessun dato ancora disponibile (se non ci sono turni a eliminazione)', /Nessun dato ancora disponibile/.test(t) || /Ottavi|Quarti|Semifinali/.test(t));
   await shot('cl-tabellone-attuale');
-  await clickText('Classifica'); await wait(1200);
+  await clickVis('Classifica'); await wait(1200);
   // stagione passata: 2025/26
   await pg.evaluate(() => { const b = [...document.querySelectorAll('button')].find((x) => /\d\d\d\d\/\d\d/.test(x.textContent) && x.className.includes('glass')); if (b) b.click(); });
   await wait(900);
   await pg.evaluate(() => { const b = [...document.querySelectorAll('button,[role=option],li')].find((x) => x.textContent.trim() === '2025/26'); if (b) b.click(); });
   await wait(3500);
-  await clickText('Classifica'); await wait(1500);
-  await clickText('Tabellone'); await wait(2500);
+  await clickVis('Classifica'); await wait(1500);
+  await clickVis('Tabellone'); await wait(2500);
   const t2 = await pg.evaluate(() => document.body.innerText);
   ok('Tabellone CL 2025/26: fasi Ottavi/Quarti/Semifinali/Finale', /Ottavi/.test(t2) && /Quarti/.test(t2) && /Semifinali/.test(t2) && /Finale/.test(t2), { t: t2.slice(0, 300) });
   const imgs = await pg.evaluate(() => document.querySelectorAll('img[src*="teamlogo"]').length);
   ok('Tabellone CL 2025/26: ci sono gli stemmi', imgs >= 8, { imgs });
   await shot('cl-2526-tabellone-quarti');
-  await clickText('Semifinali'); await wait(350); await shot('cl-2526-scorrimento-meta');
+  await clickVis('Semifinali'); await wait(350); await shot('cl-2526-scorrimento-meta');
   await wait(1200); await shot('cl-2526-semifinali');
-  await clickText('Finale'); await wait(1600); await shot('cl-2526-finale');
+  await clickVis('Finale'); await wait(1600); await shot('cl-2526-finale');
   const f = await pg.evaluate(() => document.body.innerText);
   ok('Tabellone CL 2025/26: finale con rigori reali', /vince ai rigori 5–4/.test(f), { f: f.slice(0, 400) });
-  await clickText('Ottavi'); await wait(1600); await shot('cl-2526-ottavi');
-  await clickText('Spareggi'); await wait(1600); await shot('cl-2526-spareggi');
+  await clickVis('Ottavi'); await wait(1600); await shot('cl-2526-ottavi');
+  await clickVis('Spareggi'); await wait(1600); await shot('cl-2526-spareggi');
 });
 
 report.passed = report.checks.filter((c) => c.pass).length;
