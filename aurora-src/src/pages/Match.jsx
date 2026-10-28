@@ -6,19 +6,15 @@ import PageShell from '@/components/PageShell';
 import TopBar from '@/components/TopBar';
 import MatchHero from '@/components/MatchHero';
 import SwipeTabs from '@/components/SwipeTabs';
-import Skeleton from '@/components/Skeleton';
 import MatchOverviewPanel from '@/components/match/MatchOverviewPanel';
 import MatchSummaryPanel from '@/components/match/MatchSummaryPanel';
 import MatchStatsPanel from '@/components/match/MatchStatsPanel';
 import MatchLineupsPanel from '@/components/match/MatchLineupsPanel';
 import MatchReliabilityList from '@/components/match/MatchReliabilityList';
 import MatchStandingsPanel from '@/components/match/MatchStandingsPanel';
-import useInitialLoad from '@/hooks/useInitialLoad';
 import useTicker from '@/hooks/useTicker';
-import { matchById, viewMatch, ensureDetail } from '@/data/matches';
-import { parseArchiveId, buildArchiveMatch, completeExtraMatch, applyArchiveFallback } from '@/data/archiveMatch';
-import { loadFm } from '@/data/fotmob';
-import { playerLookup } from '@/data/players';
+import { matchById, viewMatch } from '@/data/matches';
+import { prepareMatch, isReady } from '@/data/prepare';
 import { teamById } from '@/data/teams';
 import { leagueById, leagueTint } from '@/data/leagues';
 
@@ -45,47 +41,42 @@ const PLAYED_TABS = [
   { key: 'standings', label: 'Classifica' },
 ];
 
+function Loader({ title = 'Partita' }) {
+  return (
+    <PageShell bar={false}>
+      <TopBar title={title} />
+      <div className="flex items-center justify-center" style={{ minHeight: '60vh' }} role="status" aria-label="Caricamento">
+        <span className="spin" style={{ width: 30, height: 30, borderRadius: '50%', border: '3px solid var(--hair-2)', borderTopColor: 'var(--ink-2)', display: 'block' }} />
+      </div>
+    </PageShell>
+  );
+}
+
 export default function Match() {
   const { id } = useParams();
   const [tab, setTab] = usePageTab('match', id);
-  const loading = useInitialLoad(280);
   useTicker(30000);
   const [, bump] = useState(0);
-  const arch = parseArchiveId(id);
-  // partite dei campionati aggiunti e dell'archivio: il calendario della stagione si carica prima di mostrare la pagina
-  const raw0 = matchById(id);
-  const needPrep = !!arch ? !(raw0 && raw0.archReady) : !!(raw0 && raw0.archive && !raw0.archReady);
-  const [prepId, setPrepId] = useState(null);
-  const prepared = !needPrep || prepId === id;
-  useEffect(() => {
-    if (!needPrep) return undefined;
-    let on = true;
-    const job = arch ? buildArchiveMatch(arch.fm, arch.sk, arch.mid) : completeExtraMatch(matchById(id));
-    Promise.resolve(job).catch(() => null).then(() => { if (on) { setPrepId(id); bump((n) => n + 1); } });
-    return () => { on = false; };
-  }, [id]); // eslint-disable-line react-hooks/exhaustive-deps
-  const raw = matchById(id);
+  // la pagina compare solo quando tutto e' pronto (max 7 s): niente riepilogo, momentum o statistiche che arrivano dopo
+  const [okId, setOkId] = useState(() => (isReady(id) ? id : null));
+  const ready = okId === id || isReady(id);
   const loc = useLocation();
   const wantPlayer = loc.state && loc.state.openPlayer;
   const opened = useRef('');
 
   useEffect(() => {
     let on = true;
-    const run = (force) =>
-      ensureDetail(id, playerLookup)
-        .then(() => loadFm(matchById(id), playerLookup, force))
-        .then(() => { const mm = matchById(id); if (mm && mm.archive && !mm.detail) applyArchiveFallback(mm); })
-        .then(() => {
-          if (!on) return;
-          bump((n) => n + 1);
-          if (wantPlayer && opened.current !== id && matchById(id) && matchById(id).lineup) {
-            opened.current = id;
-            setTimeout(() => openPlayer({ matchId: id, name: wantPlayer.name }), 250);
-          }
-        })
-        .catch(() => {});
-    if (needPrep && !prepared) return undefined;
-    run(false);
+    const done = () => {
+      if (!on) return;
+      setOkId(id);
+      bump((n) => n + 1);
+      if (wantPlayer && opened.current !== id && matchById(id) && matchById(id).lineup) {
+        opened.current = id;
+        setTimeout(() => openPlayer({ matchId: id, name: wantPlayer.name }), 250);
+      }
+    };
+    const cap = setTimeout(() => { if (on) setOkId(id); }, 7000);
+    prepareMatch(id).then(() => { clearTimeout(cap); done(); });
     // ogni 10 secondi: partita live o vicina; formazioni probabili piu' lontane ogni minuto
     let n = 0;
     const t = setInterval(() => {
@@ -93,25 +84,18 @@ export default function Match() {
       const m = matchById(id);
       if (!m) return;
       const to = m.ts - Date.now();
-      if (m.status === 'live' || (m.status === 'scheduled' && to < 3 * 3600000)) run(true);
-      else if (m.status === 'scheduled' && to < 96 * 3600000 && n % 6 === 0) run(true);
+      if (m.status === 'live' || (m.status === 'scheduled' && to < 3 * 3600000) || (m.status === 'scheduled' && to < 96 * 3600000 && n % 6 === 0)) prepareMatch(id, true).then(() => on && bump((x) => x + 1));
     }, 10000);
     return () => {
       on = false;
+      clearTimeout(cap);
       clearInterval(t);
     };
-  }, [id, prepared]);
+  }, [id]);
 
-
+  const raw = matchById(id);
   if (raw && raw.href) return <Navigate to={raw.href} replace />;
-  if (!raw && !prepared) {
-    return (
-      <PageShell bar={false}>
-        <TopBar title="Partita" />
-        <div className="px-5 pt-8"><Skeleton className="h-[150px] w-full rounded-[28px]" /><Skeleton className="mt-4 h-[42px] w-full" /></div>
-      </PageShell>
-    );
-  }
+  if (!ready) return <Loader />;
   if (!raw) {
     return (
       <PageShell bar={false}>
@@ -157,18 +141,8 @@ export default function Match() {
       <div style={{ '--tint': (raw.leagueObj && raw.leagueObj.tint) || leagueTint(raw.leagueId) }}>
       <MatchHero match={raw} view={view} league={league} home={home} away={away} />
 
-      {loading ? (
-        <div className="px-5 pt-8">
-          <Skeleton className="h-[42px] w-full" />
-          <div className="mt-6 space-y-4">
-            {[0, 1, 2, 3].map((i) => (
-              <Skeleton key={i} className="h-[56px] w-full" />
-            ))}
-          </div>
-        </div>
-      ) : (
-        <SwipeTabs tabs={tabs} panels={panels} index={Math.min(tab, tabs.length - 1)} onChange={setTab} className="pt-2" stickyTop="0px" />
-      )}
+      <SwipeTabs tabs={tabs} panels={panels} index={Math.min(tab, tabs.length - 1)} onChange={setTab} className="pt-2" stickyTop="0px" />
+
       </div>
     </PageShell>
   );

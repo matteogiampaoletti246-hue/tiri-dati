@@ -2,6 +2,12 @@ import { Link } from 'react-router-dom';
 import Crest from './Crest';
 import { teamById } from '@/data/teams';
 import { viewMatch } from '@/data/matches';
+import { prepareMatch } from '@/data/prepare';
+
+// appena il dito si appoggia sulla riga si prepara la partita: all'apertura i dati sono gia' in arrivo
+let pf = 0;
+const warm = (id) => { clearTimeout(pf); pf = setTimeout(() => prepareMatch(id), 90); };
+const cool = () => clearTimeout(pf);
 
 const RC = { V: '#1FA45B', S: '#8A93A6', P: '#E0443A' };
 const conceptRes = () => { try { return localStorage.getItem('sl-concept-rowres') || 'a'; } catch { return 'a'; } };
@@ -26,7 +32,7 @@ export default function MatchRow({ match, teamId = null, concept = 'c' }) {
     : concept === 'a' ? { boxShadow: `inset 4px 0 0 ${rc}`, background: `linear-gradient(90deg, ${rc}14, transparent 40%)` } : undefined;
 
   return (
-    <Link to={m.href || `/match/${m.id}`} className="press flex items-center gap-2 px-4 py-3" style={rowStyle}>
+    <Link to={m.href || `/match/${m.id}`} onPointerDown={() => warm(m.id)} onPointerCancel={cool} onPointerLeave={cool} className="press flex items-center gap-2 px-4 py-3" style={rowStyle}>
       <div className="flex min-w-0 flex-1 items-center justify-end gap-2.5">
         <span className="truncate text-right text-[14px] font-semibold" style={{ color: 'var(--ink)' }}>
           {home ? home.name : '—'}
@@ -46,7 +52,7 @@ export default function MatchRow({ match, teamId = null, concept = 'c' }) {
         ) : (
           <span className="tnum text-[13.5px] font-semibold" style={{ color: 'var(--ink-3)' }}>{m.timeKnown === false ? '—' : m.kickoff}</span>
         )}
-        {finished && m.timeKnown !== false ? <span className="tnum mt-[2px] block text-[10.5px]" style={{ color: 'var(--ink-3)' }}>{m.kickoff}</span> : null}
+        {finished ? <span className="tnum mt-[2px] block min-h-[13px] text-[10.5px]" style={{ color: 'var(--ink-3)' }}>{m.timeKnown !== false ? m.kickoff : '\u00a0'}</span> : null}
         {live ? (
           <span className="mt-[3px] flex items-center justify-center gap-1">
             <span className="live-dot" style={{ width: 5, height: 5 }} />

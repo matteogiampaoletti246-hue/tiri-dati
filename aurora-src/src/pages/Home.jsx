@@ -28,6 +28,8 @@ const addDays = (iso, k) => {
   d.setDate(d.getDate() + k);
   return isoDate(d);
 };
+// il giorno si mostra solo quando orari e ordine sono definitivi (max 1,5 s di attesa): niente righe che si spostano dopo
+const dayReady = (iso) => Promise.race([syncDayTimes(iso).catch(() => 0), new Promise((r) => setTimeout(r, 1500))]);
 const ISO_LIST = DATES.map((d) => isoDate(d));
 let TOUCHING = false;
 
@@ -161,7 +163,7 @@ export default function Home() {
     const dir = i > dayIdx && dayIdx >= 0 ? -1 : 1;
     finishCarousel();
     busy.current = true;
-    carousel(el, 0, -dir, () => { setIso(target); }, () => { busy.current = false; });
+    dayReady(target).then(() => carousel(el, 0, -dir, () => { setIso(target); }, () => { busy.current = false; }));
   };
 
   // Swipe laterale tra i giorni: eventi touch nativi su tutta la pagina (affidabili su iPhone).
@@ -287,7 +289,7 @@ export default function Home() {
               const v = e.target.value;
               if (!v) return;
               e.target.blur();
-              setIso(v);
+              dayReady(v).then(() => setIso(v));
             }}
             aria-label="Scegli data"
           />

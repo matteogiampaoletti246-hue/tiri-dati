@@ -654,3 +654,6 @@
 .club-scope .club-card {
   background-image: linear-gradient(100deg, color-mix(in srgb, var(--club) var(--club-a, 26%), transparent), transparent 78%);
 }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+.spin { animation: spin .8s linear infinite; }
