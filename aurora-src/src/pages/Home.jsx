@@ -324,6 +324,7 @@ export default function Home() {
         )}
       </div>
       </div>
+      <div aria-hidden="true" style={{ height: 'calc(56px + env(safe-area-inset-bottom))' }} />
 
       <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
     </PageShell>

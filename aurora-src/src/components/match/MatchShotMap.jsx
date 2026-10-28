@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import TextFilter from '@/components/TextFilter';
 import { comma } from '@/lib/format';
+import { teamGrad } from '@/lib/tint';
 import PlayerLink from './PlayerLink';
 import { findInMatch } from '@/data/playerSheet';
 import { ShotDot, SHOT_HOME, SHOT_AWAY, SHOT_PITCH, SHOT_LINE, SHOT_GOALBG } from './ShotDot';
@@ -131,7 +132,7 @@ export default function MatchShotMap({ shots = [], home, away, match = null, lin
       </div>
 
       {cur ? (
-        <div className="rounded-[18px] p-3.5" style={{ background: 'var(--hair-2)' }}>
+        <div className="rounded-[18px] p-3.5" style={{ background: `${teamGrad(team, 0x70)}, var(--hair-2)`, transition: 'background .2s' }}>
           <div className="flex items-center gap-2">
             <button type="button" className="press p-1" onClick={() => step(-1)} aria-label="Tiro precedente"><ChevronLeft size={20} style={{ color: 'var(--accent)' }} /></button>
             <div className="min-w-0 flex-1 text-center">

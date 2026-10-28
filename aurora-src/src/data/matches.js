@@ -260,9 +260,15 @@ export function buildLineup(side, raw, detail, team, playerLookup) {
   const ordered = [...gk, ...rows.flat()];
 
   const ratingOf = {};
+  const goalsOf = {};
+  const assistsOf = {};
   if (detail && detail.pl) {
     detail.pl.forEach((r) => {
-      if (r[1] === side) ratingOf[r[0]] = r[2];
+      if (r[1] === side) {
+        ratingOf[r[0]] = r[2];
+        goalsOf[r[0]] = r[4] || 0;
+        assistsOf[r[0]] = r[5] || 0;
+      }
     });
   }
   const evs = (detail && detail.ev) || [];
@@ -293,6 +299,8 @@ export function buildLineup(side, raw, detail, team, playerLookup) {
       rating: rating === null || rating === undefined ? null : rating,
       captain: false,
       card: cardOf[p.name] || null,
+      goals: goalsOf[p.name] || 0,
+      assists: assistsOf[p.name] || 0,
       subOut: subOut[p.name] || null,
       subIn: subIn[p.name] || null,
     };

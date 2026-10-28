@@ -6,7 +6,7 @@ import TextFilter from '@/components/TextFilter';
 import Crest from '@/components/Crest';
 import { Image } from '@/components/ui/image';
 import PlayerLink from './PlayerLink';
-import { SubIcon } from './EventIcons';
+import { SubIcon, BallIcon, BootIcon } from './EventIcons';
 import { playerById } from '@/data/players';
 import { playerReliability } from '@/data/topPlayers';
 import { flagOf } from '@/data/referees';
@@ -15,14 +15,28 @@ import { comma } from '@/lib/format';
 const last = (n) => String(n || '').split(' ').slice(-1)[0];
 const tone = (v) => (v == null ? 'var(--hair)' : v >= 7.5 ? '#1FA45B' : v >= 7 ? '#5DBB3F' : v >= 6.5 ? '#E0B400' : v >= 6 ? '#E8892B' : '#E5484D');
 
+const SHADOW = { filter: 'drop-shadow(0 1px 2px rgba(0,0,0,.9)) drop-shadow(0 0 1px rgba(0,0,0,.9))' };
+function Mark({ style, n, children }) {
+  return (
+    <span className="absolute flex items-center" style={style}>
+      {children}
+      {n > 1 ? <span className="tnum text-[10px] font-extrabold leading-none text-white">×{n}</span> : null}
+    </span>
+  );
+}
+
 function Face({ p, size = 46, team }) {
   return (
     <span className="avatar relative shrink-0 overflow-visible" style={{ width: size, height: size, background: `linear-gradient(150deg, ${team.colors[0]}, ${team.colors[1]})` }}>
       <span className="block h-full w-full overflow-hidden rounded-full">
         {p.photo ? <Image src={p.photo} alt={p.name} className="h-full w-full" fittingType="fill" /> : <span className="flex h-full w-full items-center justify-center text-[12px] font-bold text-white">{p.initials}</span>}
       </span>
-      {p.card ? <span className="absolute -left-1 -top-1 h-[11px] w-[8px] rounded-[1.5px]" style={{ background: p.card === 'red' ? '#E5484D' : '#F2C230' }} /> : null}
-      {p.subOut ? <span className="absolute -left-2 top-0 rounded-full p-[1px]" style={{ background: 'hsl(var(--background))' }}><SubIcon size={13} /></span> : null}
+      <span className="pointer-events-none" style={SHADOW}>
+        {p.goals ? <Mark style={{ top: -6, right: -8 }} n={p.goals}><BallIcon size={20} /></Mark> : null}
+        {p.assists ? <Mark style={{ top: 20, right: -10 }} n={p.assists}><BootIcon size={20} /></Mark> : null}
+        {p.card ? <span className="absolute rounded-[2.5px]" style={{ top: -6, left: -8, width: 11, height: 15, background: p.card === 'red' ? '#E5484D' : '#F2C230' }} /> : null}
+        {p.subOut ? <Mark style={{ bottom: -6, right: -6 }}><SubIcon size={20} /></Mark> : null}
+      </span>
       {p.captain ? <span className="absolute -right-1 top-0 flex h-[14px] w-[14px] items-center justify-center rounded-full text-[8.5px] font-extrabold" style={{ background: '#F2C230', color: '#222' }}>C</span> : null}
     </span>
   );
@@ -83,7 +97,11 @@ function PitchView({ lineup, team, valOf, concept, match }) {
       <div className="relative flex flex-col gap-7">
         {display.map((row, ri) => (
           <div key={ri} className="flex items-start justify-around gap-1">
-            {row.map((p) => <PitchNode key={p.playerId} match={match} p={p} team={team} val={valOf(p)} light={green} />)}
+            {row.map((p, pi) => (
+              <div key={p.playerId} style={row.length === 5 && (pi === 0 || pi === 4) ? { marginTop: -14 } : undefined}>
+                <PitchNode match={match} p={p} team={team} val={valOf(p)} light={green} />
+              </div>
+            ))}
           </div>
         ))}
       </div>

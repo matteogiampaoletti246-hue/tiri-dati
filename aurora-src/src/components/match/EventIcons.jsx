@@ -23,3 +23,12 @@ export function CardIcon({ red = false, size = 18 }) {
   );
 }
 export const EventIcon = ({ e, size = 18 }) => (e.type === 'goal' ? <BallIcon size={size} /> : e.type === 'sub' ? <SubIcon size={size} /> : <CardIcon red={e.type === 'red'} size={size} />);
+
+export function BootIcon({ size = 18 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M3 5h6v7c0 1.5 1 2.4 2.6 2.9l6.6 2c1.6.5 2.8 1.5 2.8 3.1H3z" fill="#F4F6FA" stroke="#1B2433" strokeWidth="1.4" strokeLinejoin="round" />
+      <path d="M5 21v1.5M10 21v1.5M15 21v1.5M20 21v1.5" stroke="#1B2433" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>
+  );
+}
