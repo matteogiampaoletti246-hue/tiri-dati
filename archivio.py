@@ -32,9 +32,12 @@ def storico_ridotto(lid, c, sk):
 MINYEAR = int(os.environ.get("MINYEAR", "2010"))
 # ordine di priorità: top campionati e paesi principali prima, poi il resto
 PRIO = ["ITA", "ENG", "ESP", "GER", "FRA", "POR", "NED", "TUR", "BEL", "SCO", "BRA", "ARG", "USA", "MEX", "COL", "CHI", "URU", "AUT", "SUI", "GRE", "RUS", "UKR", "DEN", "SWE", "NOR", "POL", "CZE", "CRO", "SRB", "ROU"]
+# campionati gia' aggiunti all'app (src/data/leagues.js, extra: true): hanno la precedenza su tutto
+ADDED = {57, 71, 61, 40, 64, 38, 59, 135}
 def run():
     sel = json.load(open("selezione.json"))
-    leghe = sel["internazionali"] + sorted(sel["nazionali"], key=lambda L: (PRIO.index(L["c"]) if L["c"] in PRIO else 99, 0))
+    # prima i campionati gia' presenti nell'app (ADDED), poi il resto
+    leghe = sorted(sel["internazionali"] + sorted(sel["nazionali"], key=lambda L: (PRIO.index(L["c"]) if L["c"] in PRIO else 99, 0)), key=lambda L: 0 if L["id"] in ADDED else 1)
     if ONLY: leghe = [L for L in leghe if str(L["id"]) in ONLY]
     idx = json.load(open(INDEX)) if os.path.exists(INDEX) else {}
     # le statistiche v1 erano della stagione sbagliata: si rifanno tutte (una volta sola per indice)
