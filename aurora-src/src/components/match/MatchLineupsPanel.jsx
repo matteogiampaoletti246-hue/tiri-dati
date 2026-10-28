@@ -39,8 +39,8 @@ function Events({ p, size, mvp }) {
         </span>
       ) : null}
       {p.subOut ? (
-        <span className={`${ab} flex items-center gap-[1px] rounded-full px-[4px] py-[1px]`} style={{ right: '100%', marginRight: -3, bottom: 3, background: '#E5484D', border: '1px solid rgba(0,0,0,.35)' }}>
-          <SubIcon size={size * 0.7} /><span className="tnum text-[9px] font-extrabold leading-none text-white">{String(p.subOut).replace(/'/g, '')}&apos;</span>
+        <span className={`${ab} flex items-center gap-[1px] rounded-full px-[4px] py-[1px]`} style={{ right: '100%', marginRight: -12, bottom: 3, background: '#E5484D', border: '1px solid rgba(0,0,0,.35)' }}>
+          <SubIcon size={size * 0.7} /><span className="tnum text-[9px] font-extrabold leading-none text-white">{String(p.subOut).replace(/'/g, '')}</span>
         </span>
       ) : null}
       {p.captain ? <span className={`${ab} flex items-center justify-center rounded-full font-extrabold`} style={{ left: '100%', marginLeft: -3, bottom: 3, width: size * 0.95, height: size * 0.95, fontSize: size * 0.58, background: '#F2C230', color: '#222' }}>C</span> : null}
@@ -86,7 +86,7 @@ function rowsOf(lineup) {
 function DualPitch({ lh, la, home, away, valOf, match, mvpId }) {
   const rh = lh ? rowsOf(lh).map((r) => [...r].reverse()) : [];
   const ra = la ? rowsOf(la).reverse() : [];
-  const ROW = 80;
+  const ROW = 86;
   const GAP = 34;
   const h = (rh.length + ra.length) * ROW + GAP + 52;
   const line = 'rgba(255,255,255,.2)';
@@ -105,8 +105,8 @@ function DualPitch({ lh, la, home, away, valOf, match, mvpId }) {
       <span className="pointer-events-none absolute bottom-0 left-1/2 h-[86px] w-[56%] -translate-x-1/2 rounded-t-[10px]" style={{ border: `1.5px solid ${line}`, borderBottom: 'none' }} />
       <span className="pointer-events-none absolute inset-x-0 top-1/2 h-px" style={{ background: line }} />
       <span className="pointer-events-none absolute left-1/2 top-1/2 h-[92px] w-[92px] -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ border: `1.5px solid ${line}` }} />
-      <span className="absolute left-3 top-2.5 z-[2] text-[11.5px] font-extrabold uppercase tracking-wider" style={{ color: tcol(home) }}>{home ? home.short || home.name : ''}</span>
-      <span className="absolute bottom-2.5 right-3 z-[2] text-[11.5px] font-extrabold uppercase tracking-wider" style={{ color: tcol(away) }}>{away ? away.short || away.name : ''}</span>
+      <span className="absolute left-3 top-2.5 z-[2] max-w-[60%] truncate text-[11.5px] font-extrabold uppercase tracking-wider" style={{ color: tcol(home) }}>{home ? home.name : ''}</span>
+      <span className="absolute bottom-2.5 right-3 z-[2] max-w-[60%] truncate text-[11.5px] font-extrabold uppercase tracking-wider" style={{ color: tcol(away) }}>{away ? away.name : ''}</span>
       <div className="relative">
         {half(rh, home, 'h')}
         <div style={{ height: GAP }} />
