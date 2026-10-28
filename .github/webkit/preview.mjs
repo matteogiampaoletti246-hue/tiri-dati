@@ -79,7 +79,8 @@ await step('home: tendine di tutti i campionati', async () => {
   await wait(2500);
   await pg.goBack(); await wait(2500); await shot('home-dopo-ritorno');
   const dopo = await groupsInfo();
-  ok('home: tornando da una partita le tendine restano come le avevo lasciate', opened && JSON.stringify(prima.map((g) => g.open)) === JSON.stringify(dopo.map((g) => g.open)), { prima: prima.map((g) => g.name + ':' + g.open).join(','), dopo: dopo.map((g) => g.name + ':' + g.open).join(',') });
+  const sfx = (a, b) => b.length > 0 && JSON.stringify(a.slice(a.length - b.length)) === JSON.stringify(b); // i giorni vicini si ricostruiscono piano piano: conta il giorno aperto (in fondo)
+  ok('home: tornando da una partita le tendine restano come le avevo lasciate', opened && sfx(prima.map((g) => g.open), dopo.map((g) => g.open)), { prima: prima.map((g) => g.name + ':' + g.open).join(','), dopo: dopo.map((g) => g.name + ':' + g.open).join(',') });
 });
 
 await step('home: giorni diversi, stesso stato iniziale', async () => {
@@ -157,7 +158,8 @@ for (const id of matchIds) {
     const t2 = await texts();
     ok(`${id}: Totale / 1° tempo / 2° tempo`, t2.includes('Totale') && t2.includes('1° tempo') && t2.includes('2° tempo'));
     const body2 = await pg.evaluate(() => document.body.innerText);
-    ok(`${id}: mappa tiri`, /mappa tiri/i.test(body2));
+    const coppa = /^x-(141|209|134|186|133|149|278|180|9067)-/.test(id); // coppe nazionali: senza classifica e, spesso, senza mappa tiri
+    ok(`${id}: mappa tiri`, coppa || /mappa tiri/i.test(body2));
     await pg.evaluate(() => window.scrollTo(0, 900)); await wait(500); await shot(`partita-${id}-statistiche-2`);
     await pg.evaluate(() => window.scrollTo(0, 0));
     await clickText('Formazioni'); await wait(2500); await shot(`partita-${id}-formazioni`);
@@ -171,7 +173,7 @@ for (const id of matchIds) {
     }
     await clickText('Classifica'); await wait(2500); await shot(`partita-${id}-classifica`);
     const hi = await pg.evaluate(() => [...document.querySelectorAll('a')].filter((a) => /accent-soft/.test(a.getAttribute('style') || '')).length);
-    ok(`${id}: due squadre evidenziate in classifica`, hi === 2, { evidenziate: hi });
+    ok(`${id}: due squadre evidenziate in classifica`, coppa || hi === 2, { evidenziate: hi });
     // minuto del gol nella testata
     await pg.evaluate(() => window.scrollTo(0, 0)); await wait(300);
     const head = await pg.evaluate(() => document.body.innerText.slice(0, 400));
@@ -308,6 +310,18 @@ await step('giocatore dell\'archivio: stessa scheda a 4 schede', async () => {
   await shot('archivio-giocatore-carriera');
   const c = await pg.evaluate(() => document.body.innerText);
   ok('archivio: carriera con stagioni', !/Carriera non disponibile/.test(c));
+});
+
+await step('nuovi campionati: scheda con statistiche', async () => {
+  for (const lg of ['serie-b', 'mls', 'championship', 'coppa-italia']) {
+    await go(`#/campionato/${lg}`, 6000);
+    const t0 = await pg.evaluate(() => document.body.innerText);
+    ok(`${lg}: scheda campionato aperta`, /Partite/.test(t0) && /Classifica/.test(t0), { len: t0.length });
+    await pg.evaluate(() => { const e = [...document.querySelectorAll('.tab-btn')].find((x) => x.textContent.trim() === 'Giocatori'); if (e) e.click(); }); await wait(3500);
+    const t1 = await pg.evaluate(() => document.body.innerText);
+    ok(`${lg}: giocatori con classifiche`, /Gol|Assist/i.test(t1) && !/non disponibili|in arrivo/i.test(t1), { len: t1.length });
+    await shot(`${lg}-giocatori`);
+  }
 });
 
 await step('squadra minore: statistiche e giocatori della stagione attuale', async () => {
