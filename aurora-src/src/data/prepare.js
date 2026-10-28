@@ -4,6 +4,7 @@ import { matchById, ensureDetail } from './matches';
 import { parseArchiveId, buildArchiveMatch, completeExtraMatch, applyArchiveFallback } from './archiveMatch';
 import { loadFm } from './fotmob';
 import { playerLookup } from './players';
+import { perfLog, perfTime } from '@/lib/perfMon';
 
 const P = new Map();
 
@@ -22,6 +23,8 @@ export function prepareMatch(id, force = false) {
   const e = P.get(id);
   if (!force && e && (!e.done || fresh(id, e))) return e.p;
   const entry = { at: Date.now(), done: false, p: null };
+  const t0 = performance.now();
+  perfLog(`partita: preparo ${String(id).slice(0, 18)}`);
   entry.p = (async () => {
     try {
       const arch = parseArchiveId(id);
@@ -33,6 +36,7 @@ export function prepareMatch(id, force = false) {
       const mm = matchById(id);
       if (mm && mm.archive && !mm.detail) applyArchiveFallback(mm);
     } catch { /* si mostra comunque cio' che c'e' */ }
+    perfTime('partita pronta in', t0);
     entry.done = true;
     entry.at = Date.now();
     return matchById(id);
