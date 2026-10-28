@@ -146,7 +146,8 @@ for (const id of matchIds) {
     await go('#/match/' + id, 9000);
     await shot(`partita-${id}-riepilogo`);
     const t = await texts();
-    ok(`${id}: schede Riepilogo/Statistiche/Formazioni/Classifica`, ['Riepilogo', 'Statistiche', 'Formazioni', 'Classifica'].every((x) => t.includes(x)), { tabs: t.filter((x) => ['Riepilogo', 'Statistiche', 'Formazioni', 'Classifica', 'Giocatori', 'Panoramica'].includes(x)) });
+    const coppaTab = /^x-(141|209|134|186|133|149|278|180|9067)-/.test(id);
+    ok(`${id}: schede Riepilogo/Statistiche/Formazioni/Classifica`, (coppaTab ? ['Riepilogo', 'Statistiche', 'Formazioni'].every((x) => t.includes(x)) && /Tabellone|Classifica/.test(t.join(' ')) : ['Riepilogo', 'Statistiche', 'Formazioni', 'Classifica'].every((x) => t.includes(x))), { tabs: t.filter((x) => ['Riepilogo', 'Statistiche', 'Formazioni', 'Classifica', 'Giocatori', 'Panoramica'].includes(x)) });
     ok(`${id}: nessuna scheda Giocatori`, !(await pg.evaluate(() => [...document.querySelectorAll('[role=tab],button')].some((b) => b.textContent.trim() === 'Giocatori' && !b.closest('nav')))));
     const pills = await pg.evaluate(() => document.body.innerText);
     ok(`${id}: riepilogo con Momentum e Riassunto`, /momentum/i.test(pills) && /riassunto/i.test(pills), { snippet: pills.slice(0, 80) });
@@ -316,7 +317,7 @@ await step('nuovi campionati: scheda con statistiche', async () => {
   for (const lg of ['serie-b', 'mls', 'championship', 'coppa-italia']) {
     await go(`#/campionato/${lg}`, 6000);
     const t0 = await pg.evaluate(() => document.body.innerText);
-    ok(`${lg}: scheda campionato aperta`, /Partite/.test(t0) && /Classifica/.test(t0), { len: t0.length });
+    ok(`${lg}: scheda campionato aperta`, /Partite/.test(t0) && /Classifica|Tabellone/.test(t0), { len: t0.length });
     await pg.evaluate(() => { const e = [...document.querySelectorAll('.tab-btn')].find((x) => x.textContent.trim() === 'Giocatori'); if (e) e.click(); }); await wait(3500);
     const t1 = await pg.evaluate(() => document.body.innerText);
     ok(`${lg}: giocatori con classifiche`, /Gol|Assist/i.test(t1) && !/non disponibili|in arrivo/i.test(t1), { len: t1.length });
@@ -440,14 +441,24 @@ await step('tabellone: stagione attuale senza dati e stagione passata con tabell
 // swipe indietro a scorrimento: a meta' corsa si vede la pagina di destinazione sotto, poi si torna davvero
 await step('home: tornando da una partita resta all\'altezza di prima, senza salti', async () => {
   await go('#/', 4500);
-  await pg.evaluate(() => { const l = [...document.querySelectorAll('a[href*="/match/"]')]; const a = l[Math.min(6, l.length - 1)]; a.scrollIntoView({ block: 'center' }); });
-  await wait(600);
+  await pg.evaluate(() => window.scrollTo(0, 420));
+  await wait(700);
   const y0 = await pg.evaluate(() => Math.round(scrollY));
   await pg.evaluate(() => { const l = [...document.querySelectorAll('a[href*="/match/"]')].filter((a) => { const r = a.getBoundingClientRect(); return r.top > 120 && r.bottom < innerHeight - 100; }); (l[0] || document.querySelector('a[href*="/match/"]')).click(); });
   await wait(4500);
-  const ys = await pg.evaluate(() => new Promise((res) => { const a = []; const t0 = performance.now(); const f = () => { a.push(Math.round(scrollY)); if (performance.now() - t0 < 1500) requestAnimationFrame(f); else res(a); }; requestAnimationFrame(f); history.back(); }));
-  const mn = Math.min(...ys);
-  ok('home: ritorno senza salti di scroll (mai sopra l\'altezza di prima)', y0 > 100 && mn >= y0 - 3, { y0, minimo: mn, primi: ys.slice(0, 8) });
+  const ys = await pg.evaluate(() => new Promise((res) => { const a = []; let on = false; const t0 = performance.now(); const f = () => { if (location.hash === '#/' || location.hash === '') { on = true; } if (on) a.push(Math.round(scrollY)); if (performance.now() - t0 < 1800) requestAnimationFrame(f); else res(a); }; requestAnimationFrame(f); history.back(); }));
+  const mn = ys.length ? Math.min(...ys) : -1;
+  ok('home: ritorno senza salti di scroll (mai sopra l\'altezza di prima)', y0 > 100 && ys.length > 5 && mn >= y0 - 3, { y0, minimo: mn, primi: ys.slice(0, 8) });
+});
+
+await step('coppa nazionale: solo tabellone con turni e partite (DFB Pokal)', async () => {
+  await go('#/campionato/dfb-pokal', 6000);
+  const tabs = await pg.evaluate(() => [...document.querySelectorAll('.tab-btn')].map((x) => x.textContent.trim()));
+  ok('dfb-pokal: la scheda e\' Tabellone, non Classifica', tabs.includes('Tabellone') && !tabs.includes('Classifica'), { tabs });
+  await pg.evaluate(() => { const e = [...document.querySelectorAll('.tab-btn')].find((x) => x.textContent.trim() === 'Tabellone'); if (e) e.click(); }); await wait(3500);
+  const t = await pg.evaluate(() => document.body.innerText);
+  ok('dfb-pokal: tabellone con turni e squadre', /Turno|Sedicesimi|Ottavi|Finale/.test(t) && !/Nessun dato/.test(t), { len: t.length });
+  await shot('dfb-pokal-tabellone');
 });
 
 await step('swipe indietro: pagina sotto visibile', async () => {

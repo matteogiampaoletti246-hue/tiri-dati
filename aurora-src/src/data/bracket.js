@@ -114,9 +114,11 @@ export const loadBracket = async (fm, sk) => {
   return r;
 };
 const loadBracketRaw = async (fm, sk) => {
+  const pure = isPureCup(fm);
   const s = await loadSeason(fm, sk);
   if (!s || !s.fix) return null;
-  const origs = [...new Set(s.fix.filter((m) => !m[8]).map((m) => m[1]))].map((o) => ({ o, ...normRound(o) })).sort((a, b) => a.ord - b.ord);
+  // coppe europee: solo le fasi a eliminazione con nome (i numeri sono giornate della fase a girone); coppe nazionali: anche i turni numerati
+  const origs = [...new Set(s.fix.filter((m) => !m[8]).map((m) => m[1]))].map((o) => ({ o, ...normRound(o) })).filter((r) => pure || ROUND_ORDER.includes(r.key)).sort((a, b) => a.ord - b.ord);
   if (!origs.length) return { rounds: [], names: s.teams || {} };
   const rounds = origs.map((r) => ({ key: r.key, label: r.label, ties: tiesOf(s.fix, r.o) })).filter((r) => r.ties.length);
   if (!rounds.length) return { rounds: [], names: s.teams || {} };
