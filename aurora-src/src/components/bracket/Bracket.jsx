@@ -31,11 +31,15 @@ const legsText = (t) => {
   return t.legs.length > 1 || t.pen ? s.join(' · ') : '';
 };
 
-function Side({ id, name, on }) {
+// Concept B: il lato passato e' luminoso con una barretta dorata, quello eliminato e' piu' piccolo, spento e quasi senza colore
+function Side({ id, name, state }) {
+  const win = state === 'win'; const lose = state === 'lose';
+  const z = win ? 30 : lose ? 24 : 28;
   return (
-    <div className="flex w-[44px] flex-col items-center gap-[2px]" style={{ opacity: on ? 1 : 0.55 }}>
-      <img src={teamLogo(id)} alt="" width={28} height={28} decoding="async" style={{ width: 28, height: 28 }} className="object-contain" />
-      <b className="text-[9px] tracking-[.08em]">{sigla(name)}</b>
+    <div className="flex w-[44px] flex-col items-center gap-[2px]">
+      <img src={teamLogo(id)} alt="" width={z} height={z} decoding="async" style={{ width: z, height: z, opacity: lose ? 0.42 : 1, filter: lose ? 'grayscale(.6)' : 'none' }} className="object-contain" />
+      <b className="text-[9px] tracking-[.08em]" style={{ opacity: lose ? 0.4 : 1 }}>{sigla(name)}</b>
+      <i className="block h-[3px] w-[22px] rounded-full" style={{ background: win ? '#ffd66b' : 'transparent', boxShadow: win ? '0 0 8px #ffd66b88' : 'none' }} />
     </div>
   );
 }
@@ -44,15 +48,20 @@ function Tie({ t, names, col, w }) {
   const na = names[t.a] || '—'; const nb = names[t.b] || '—';
   const ca = col(t.a, na).colors[0]; const cb = col(t.b, nb).colors[0];
   const done = t.played;
+  const sa = t.win === 'a' ? 'win' : t.win === 'b' ? 'lose' : 'even';
+  const sb = t.win === 'b' ? 'win' : t.win === 'a' ? 'lose' : 'even';
+  const ga = sa === 'lose' ? '44' : 'cc'; const gb = sb === 'lose' ? '44' : 'cc';
   return (
     <div
       className="flex h-full items-center justify-between rounded-[22px] px-2"
-      style={{ width: w, background: `radial-gradient(90px 60px at 0% 50%, ${ca}cc, transparent), radial-gradient(90px 60px at 100% 50%, ${cb}cc, transparent), var(--panel-solid, #0b1426)`, border: '1px solid var(--hair)', color: 'var(--ink)' }}
+      style={{ width: w, background: `radial-gradient(90px 60px at 0% 50%, ${ca}${ga}, transparent), radial-gradient(90px 60px at 100% 50%, ${cb}${gb}, transparent), var(--panel-solid, #0b1426)`, border: '1px solid var(--hair)', color: 'var(--ink)' }}
     >
-      <Side id={t.a} name={na} on={t.win !== 'b'} />
+      <Side id={t.a} name={na} state={sa} />
       <div className="min-w-0 text-center">
         {done || t.legs.some((l) => l.score) ? (
-          <div className="tnum text-[19px] font-extrabold tracking-[.02em]">{t.sa}–{t.sb}</div>
+          <div className="tnum text-[19px] font-extrabold tracking-[.02em]">
+            <span style={{ opacity: sa === 'lose' ? 0.45 : 1 }}>{t.sa}</span><span style={{ opacity: 0.4 }}>–</span><span style={{ opacity: sb === 'lose' ? 0.45 : 1 }}>{t.sb}</span>
+          </div>
         ) : (
           <div className="tnum text-[12px] font-bold" style={{ color: 'var(--ink-2)' }}>
             {new Date(t.date).toLocaleDateString('it-IT', { day: 'numeric', month: 'short', timeZone: 'Europe/Rome' }).replace('.', '')}
@@ -60,7 +69,7 @@ function Tie({ t, names, col, w }) {
         )}
         <div className="tnum truncate text-[9.5px] font-bold" style={{ color: 'var(--ink-2)', maxWidth: 'calc(var(--cw) - 100px)' }}>{legsText(t)}</div>
       </div>
-      <Side id={t.b} name={nb} on={t.win !== 'a'} />
+      <Side id={t.b} name={nb} state={sb} />
     </div>
   );
 }
