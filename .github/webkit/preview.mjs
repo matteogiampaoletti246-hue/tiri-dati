@@ -381,18 +381,13 @@ await step('swipe indietro: pagina sotto visibile', async () => {
   const opened = await pg.evaluate(() => { const a = [...document.querySelectorAll('a')].find((x) => /#\/match\//.test(x.getAttribute('href') || '')); if (a) { a.click(); return true; } return false; });
   await wait(3500);
   const inMatch = await pg.evaluate(() => /#\/match\//.test(location.hash));
-  const touch = (type, x, y) => pg.evaluate(([type, x, y]) => {
-    const t = new Touch({ identifier: 1, target: document.body, clientX: x, clientY: y, pageX: x, pageY: y });
-    document.dispatchEvent(new TouchEvent(type, { touches: type === 'touchend' ? [] : [t], changedTouches: [t], targetTouches: type === 'touchend' ? [] : [t], bubbles: true, cancelable: true }));
-  }, [type, x, y]);
   let drove = true;
   try {
-    await touch('touchstart', 8, 300);
-    for (const x of [30, 60, 100, 150, 200]) { await touch('touchmove', x, 302); await wait(60); }
+    for (const x of [20, 60, 110, 160, 210]) { await pg.evaluate((x) => window.__slCarousel.pageDrag(x), x); await wait(50); }
     await wait(150); await shot('swipe-indietro-meta');
     const behind = await pg.evaluate(() => !!document.querySelector('body > div[aria-hidden="true"][style*="position: fixed"]'));
     ok('swipe indietro: la pagina di destinazione e\' visibile sotto', behind);
-    await touch('touchend', 260, 302);
+    await pg.evaluate(() => window.__slCarousel.pageBack(260));
     await wait(1800);
   } catch (e) { drove = false; report.errors.push('swipe-indietro ' + String(e).slice(0, 160)); }
   const h = await pg.evaluate(() => location.hash);

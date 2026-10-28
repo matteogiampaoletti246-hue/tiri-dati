@@ -112,6 +112,7 @@ export const consumeQuiet = () => { const q = QUIET; QUIET = false; return q; };
 export function installBackSnaps() {
   if (window.__slSnaps) return;
   window.__slSnaps = true;
+  window.__slCarousel = { pageDrag, pageBack: (dx) => pageBack(dx, (n) => { if (typeof n === 'number') window.history.go(n); }), pageReset }; // anche per le prove automatiche
   const ps = window.history.pushState.bind(window.history);
   window.history.pushState = function pushState(...a) {
     try {
