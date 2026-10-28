@@ -305,6 +305,40 @@ await step('squadra: stagioni, pillole passate, tasti sulla stessa riga', async 
   await shot('lazio-partite-attuale');
 });
 
+await step('tabellone: stagione attuale senza dati e stagione passata con tabellone', async () => {
+  await go('#/campionato/champions-league', 6500);
+  await clickText('Classifica'); await wait(1800);
+  const t0 = await texts();
+  ok('Classifica CL: tasto Tabellone presente', t0.includes('Tabellone'));
+  await shot('cl-classifica');
+  await clickText('Tabellone');
+  await wait(380); await shot('cl-transizione-meta');
+  await wait(1500);
+  const t = await pg.evaluate(() => document.body.innerText);
+  ok('Tabellone CL attuale: nessun dato ancora disponibile (se non ci sono turni a eliminazione)', /Nessun dato ancora disponibile/.test(t) || /Ottavi|Quarti|Semifinali/.test(t));
+  await shot('cl-tabellone-attuale');
+  await clickText('Classifica'); await wait(1200);
+  // stagione passata: 2025/26
+  await pg.evaluate(() => { const b = [...document.querySelectorAll('button')].find((x) => /\d\d\d\d\/\d\d/.test(x.textContent) && x.className.includes('glass')); if (b) b.click(); });
+  await wait(900);
+  await pg.evaluate(() => { const b = [...document.querySelectorAll('button,[role=option],li')].find((x) => x.textContent.trim() === '2025/26'); if (b) b.click(); });
+  await wait(3500);
+  await clickText('Classifica'); await wait(1500);
+  await clickText('Tabellone'); await wait(2500);
+  const t2 = await pg.evaluate(() => document.body.innerText);
+  ok('Tabellone CL 2025/26: fasi Ottavi/Quarti/Semifinali/Finale', /Ottavi/.test(t2) && /Quarti/.test(t2) && /Semifinali/.test(t2) && /Finale/.test(t2), { t: t2.slice(0, 300) });
+  const imgs = await pg.evaluate(() => document.querySelectorAll('img[src*="teamlogo"]').length);
+  ok('Tabellone CL 2025/26: ci sono gli stemmi', imgs >= 8, { imgs });
+  await shot('cl-2526-tabellone-quarti');
+  await clickText('Semifinali'); await wait(350); await shot('cl-2526-scorrimento-meta');
+  await wait(1200); await shot('cl-2526-semifinali');
+  await clickText('Finale'); await wait(1600); await shot('cl-2526-finale');
+  const f = await pg.evaluate(() => document.body.innerText);
+  ok('Tabellone CL 2025/26: finale con rigori reali', /vince ai rigori 5–4/.test(f), { f: f.slice(0, 400) });
+  await clickText('Ottavi'); await wait(1600); await shot('cl-2526-ottavi');
+  await clickText('Spareggi'); await wait(1600); await shot('cl-2526-spareggi');
+});
+
 report.passed = report.checks.filter((c) => c.pass).length;
 report.total = report.checks.length;
 fs.writeFileSync(`${OUT}/report.json`, JSON.stringify(report, null, 2));
