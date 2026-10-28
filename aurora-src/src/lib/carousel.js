@@ -82,6 +82,7 @@ export function carousel(el, dx, dir, apply, done, ms = 240, host = null) {
 // scorre al centro e ne prende il posto (fotografia della pagina presa prima di lasciarla: installBackSnaps).
 const pageEls = () => [document.getElementById('sl-shell'), ...document.querySelectorAll('[data-pf]')].filter(Boolean);
 
+const solid = () => (getComputedStyle(document.documentElement).getPropertyValue('--sky-2').trim() || '#070b14');
 const SNAPS = new Map(); // idx cronologia -> fotografie (shell + parti fisse)
 const grab = () => {
   const els = pageEls();
@@ -130,7 +131,7 @@ const behindOn = () => {
   if (!g) return null;
   const host = document.createElement('div');
   host.setAttribute('aria-hidden', 'true');
-  host.style.cssText = 'position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;will-change:transform;background:' + getComputedStyle(document.body).backgroundColor;
+  host.style.cssText = 'position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;will-change:transform;background:' + solid();
   g.forEach((b) => host.appendChild(b.cloneNode(true)));
   const dim = document.createElement('div');
   dim.style.cssText = 'position:absolute;inset:0;background:#000;opacity:.35;z-index:50';
@@ -138,7 +139,7 @@ const behindOn = () => {
   document.body.appendChild(host);
   BEHIND = { host, dim };
   const sh = document.getElementById('sl-shell');
-  if (sh) { sh.style.zIndex = '2'; sh.style.background = getComputedStyle(document.body).backgroundColor; }
+  if (sh) { sh.style.zIndex = '2'; sh.style.background = solid(); }
   return BEHIND;
 };
 const behindMove = (dx, w, ms = 0) => {
