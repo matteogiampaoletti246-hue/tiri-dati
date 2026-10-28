@@ -14,6 +14,7 @@ import { teamById } from '@/data/teams';
 import { teamByName } from '@/data/teams';
 import CompSelect from '@/components/CompSelect';
 import { teamCompetitions } from '@/data/competitions';
+import { leagueById } from '@/data/leagues';
 import { MATCHES } from '@/data/matches';
 import { useState } from 'react';
 import { teamGrad } from '@/lib/tint';
@@ -231,11 +232,11 @@ export function ProfiloPanel({ player, team, concept }) {
 /* ---------- PARTITE ---------- */
 export function PartitePanel({ player, concept }) {
   const rows = player.recent || [];
-  const lg = (teamById(player.teamId) || {}).leagueId;
+  const lg = player.archive ? player.leagueId : (teamById(player.teamId) || {}).leagueId;
   const fm = FM_ID[lg];
-  const seasons = useSeasonList(fm);
   const c = carriereOf(player.id);
   const fmPid = c && c.fm;
+  const seasons = useSeasonList(fm, null, fmPid);
   if (!rows.length && !(fm && fmPid && seasons.length)) {
     return <p className="px-5 py-16 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Nessuna partita disponibile</p>;
   }
@@ -450,12 +451,18 @@ function CupCurrent({ p, fm, fmPid, team }) {
 
 export function StatistichePanel({ player, team }) {
   const p = player;
-  const comps = teamCompetitions(p.teamId);
+  const comps = (() => {
+    const c = teamCompetitions(p.teamId);
+    const l = p.archive && p.leagueId ? leagueById(p.leagueId) : null;
+    return l ? [l, ...c.filter((x) => x.id !== l.id)] : c;
+  })();
   const [comp, setComp] = useState(comps.length ? comps[0].id : null);
   const [season, setSeason] = useState(() => initSeason(FM_ID[comps.length ? comps[0].id : null]));
   const fmL = FM_ID[comp];
-  const seasons = useSeasonList(fmL);
   const fmPid = (carriereOf(p.id) || {}).fm;
+  const seasons = useSeasonList(fmL, null, fmPid);
+  // giocatore dell'archivio: non c'e' una "stagione attuale" da mostrare, si parte dall'ultima in cui ha giocato
+  const seasonEff = p.archive && season === 'cur' ? (seasons[0] || null) : season;
   const dom = comps.length ? comps[0].id : null;
   const rk = [['goals', 'Gol'], ['assists', 'Assist'], ['shots', 'Tiri'], ['shotsOnTarget', 'Tiri in porta'], ['xg', 'xG'], ['foulsDrawn', 'Falli subiti']]
     .map(([k, label]) => ({ k, label, r: rankOf(p, k), v: per90(p[k] || 0, p.minutes) }))
@@ -489,8 +496,8 @@ export function StatistichePanel({ player, team }) {
 
   return (
     <div className="-mt-1">
-    <CompSeasonBar comps={comps} comp={comp} onComp={(c) => { setComp(c); setSeason('cur'); }} seasons={fmPid ? seasons : []} season={season} onSeason={setSeason} />
-    {season !== 'cur' && fmL && fmPid ? <PastStats kind="players" id={fmPid} fm={fmL} sk={season} teamName={team && team.name} /> : (
+    <CompSeasonBar comps={comps} comp={comp} onComp={(c) => { setComp(c); setSeason('cur'); }} seasons={fmPid ? seasons : []} season={seasonEff || 'cur'} onSeason={setSeason} noCur={!!p.archive} />
+    {p.archive && !seasonEff ? <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Nessuna stagione in questa competizione</p> : seasonEff && seasonEff !== 'cur' && fmL && fmPid ? <PastStats kind="players" id={fmPid} fm={fmL} sk={seasonEff} teamName={team && team.name} /> : (
     <div key={comp} className="comp-in">
     <div className="flex flex-col gap-4 px-5 pt-4"><Affidabilita player={p} team={team} comp={comp} /></div>
     {comp !== dom ? <CupCurrent p={p} fm={fmL} fmPid={fmPid} team={team} /> : (

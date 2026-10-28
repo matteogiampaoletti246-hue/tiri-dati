@@ -23,6 +23,8 @@ const initialsOf = (name) =>
     .toUpperCase();
 
 export const playerById = (id) => BY_ID[id] || null;
+// giocatori dell'archivio (non nell'elenco attuale): si aggiungono solo per la scheda
+export const registerPlayer = (p) => { BY_ID[p.id] = p; };
 export const playersByTeam = (teamId) => BY_TEAM[teamId] || [];
 export const coachOf = (teamId) => COACHES[teamId] || '—';
 export const per90 = (value, minutes) => (minutes > 0 ? (value * 90) / minutes : 0);

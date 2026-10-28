@@ -15,6 +15,7 @@ export function loadCarriere() {
     });
   return PROM;
 }
+export const setCarriere = (id, v) => { if (!DATA) DATA = {}; if (!DATA[id]) DATA[id] = v; };
 export const carriereOf = (id) => (DATA ? DATA[id] || null : null);
 
 const IT = {

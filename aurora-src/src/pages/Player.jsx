@@ -9,6 +9,9 @@ import Skeleton from '@/components/Skeleton';
 import EntityBanner from '@/components/EntityBanner';
 import useInitialLoad from '@/hooks/useInitialLoad';
 import { playerById } from '@/data/players';
+import { parseArchiveId, makeArchivePlayer } from '@/data/archivePlayer';
+import { NAV } from '@/components/past/PastBits';
+import useAsync from '@/hooks/useAsync';
 import { teamById } from '@/data/teams';
 import { loadPlayerShots } from '@/data/extras';
 import { loadCarriere } from '@/data/carriere';
@@ -22,8 +25,28 @@ const TABS = [
   { key: 'carriera', label: 'Carriera' },
 ];
 
+// Scheda unica: i giocatori fuori dall'elenco attuale (ritirati, stagioni passate) vengono costruiti dall'archivio e usano le stesse schede
 export default function Player() {
   const { id } = useParams();
+  const arc = parseArchiveId(id);
+  const { data, loading } = useAsync(() => (arc && !playerById(id) ? makeArchivePlayer(arc.fm, arc.sk, arc.pid) : Promise.resolve(null)), [id]);
+  if (arc && !playerById(id)) {
+    return (
+      <PageShell bar={false}>
+        <TopBar title="Giocatore" />
+        {loading || data ? (
+          <div className="px-5 pt-8"><Skeleton className="h-[80px] w-full" /></div>
+        ) : (
+          <p className="px-5 py-16 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Giocatore non trovato</p>
+        )}
+      </PageShell>
+    );
+  }
+  if (arc) { NAV.fm = arc.fm; NAV.sk = arc.sk; }
+  return <PlayerView key={id} id={id} />;
+}
+
+function PlayerView({ id }) {
   const loading = useInitialLoad(280);
   const player = playerById(id);
   const [tab, setTab] = useState(() => {

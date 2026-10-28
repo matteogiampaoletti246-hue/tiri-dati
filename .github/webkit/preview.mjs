@@ -255,6 +255,19 @@ await step('stagione 2011/12: niente schermo nero', async () => {
   await shot('eredivisie-2011-12');
 });
 
+await step('giocatore dell\'archivio: stessa scheda a 4 schede', async () => {
+  await go('#/storico/57/2018-2019/giocatore/937032', 7000);
+  const t = await pg.evaluate(() => [...document.querySelectorAll('button')].map((x) => x.textContent.trim()).join('|'));
+  ok('archivio: schede Profilo/Partite/Statistiche/Carriera', /Profilo/.test(t) && /Partite/.test(t) && /Statistiche/.test(t) && /Carriera/.test(t), { t: t.slice(0, 200) });
+  await shot('archivio-giocatore-profilo');
+  await clickText('Statistiche'); await wait(2500);
+  await shot('archivio-giocatore-statistiche');
+  await clickText('Carriera'); await wait(1500);
+  await shot('archivio-giocatore-carriera');
+  const c = await pg.evaluate(() => document.body.innerText);
+  ok('archivio: carriera con stagioni', !/Carriera non disponibile/.test(c));
+});
+
 report.passed = report.checks.filter((c) => c.pass).length;
 report.total = report.checks.length;
 fs.writeFileSync(`${OUT}/report.json`, JSON.stringify(report, null, 2));

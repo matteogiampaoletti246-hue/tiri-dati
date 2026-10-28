@@ -192,6 +192,20 @@ export const teamSeasons = async (fm, name) => {
   const hit = await Promise.all(list.map((sk) => loadSeason(fm, sk).then((s) => (s && s.teams && teamIdByName(s.teams, name) ? sk : null)).catch(() => null)));
   return hit.filter(Boolean);
 };
+// stagioni passate in cui il giocatore (id FotMob) compare davvero nelle statistiche di quella competizione
+const PS = {};
+export const playerSeasons = (fm, pid) => {
+  const k = `${fm}|${pid}`;
+  if (!PS[k]) {
+    PS[k] = pastSeasons(fm).then((list) => Promise.all(list.map((sk) => loadPlayerStats(fm, sk)
+      .then((st) => {
+        const L = (st && st.players) || {};
+        return Object.keys(L).some((n) => !n.startsWith('_') && (L[n] || []).some((r) => String(r[0]) === String(pid))) ? sk : null;
+      })
+      .catch(() => null)))).then((h) => h.filter(Boolean));
+  }
+  return PS[k];
+};
 const norm = (n) => String(n || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9 ]/g, ' ').replace(/\b(fc|ac|as|ss|us|afc|cf|sc|calcio|1\w*)\b/g, ' ').replace(/\s+/g, ' ').trim();
 // id FotMob di una squadra dentro i dati di una stagione, dal nome
 export const teamIdByName = (teams, name) => {

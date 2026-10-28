@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import useAsync from '@/hooks/useAsync';
-import { pastSeasons, teamSeasons } from '@/data/archive';
+import { pastSeasons, teamSeasons, playerSeasons } from '@/data/archive';
 import { bandColor } from '@/components/player/playerCalc';
 
 // stagione/scheda richiesta da un collegamento dello storico: la scheda unica si apre gia' li'
@@ -13,8 +13,9 @@ export const NEG_RE = /conceded|card|^fouls$|lost|dispossess|miss|offside|dribbl
 
 // stagioni passate del campionato (FotMob id) per la tendina
 // con teamName: solo le stagioni in cui quella squadra ha giocato la competizione
-export function useSeasonList(fm, teamName) {
-  const { data } = useAsync(() => (fm ? (teamName ? teamSeasons(fm, teamName) : pastSeasons(fm)) : Promise.resolve([])), [fm, teamName]);
+// con pid (id FotMob del giocatore): solo le stagioni in cui quel giocatore ha giocato la competizione
+export function useSeasonList(fm, teamName, pid) {
+  const { data } = useAsync(() => (fm ? (pid ? playerSeasons(fm, pid) : teamName ? teamSeasons(fm, teamName) : pastSeasons(fm)) : Promise.resolve([])), [fm, teamName, pid]);
   return data || [];
 }
 
