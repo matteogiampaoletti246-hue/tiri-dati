@@ -278,6 +278,33 @@ await step('squadra minore: rosa per ruoli con volti', async () => {
   await shot('feyenoord-rosa');
 });
 
+await step('squadra: stagioni, pillole passate, tasti sulla stessa riga', async () => {
+  await go('#/squadra/paris-saint-germain', 6500);
+  await clickText('Partite'); await wait(1500);
+  const rows = await pg.evaluate(() => { const bs = [...document.querySelectorAll('button')].filter((b) => /Attuale|Tutte le competizioni/.test(b.textContent)); return bs.map((b) => Math.round(b.getBoundingClientRect().top)); });
+  ok('Partite: competizioni e stagione sulla stessa riga', rows.length >= 2 && Math.abs(rows[0] - rows[1]) <= 6, { rows });
+  await pg.evaluate(() => { const b = [...document.querySelectorAll('button')].find((x) => /^Attuale/.test(x.textContent.trim())); if (b) b.click(); });
+  await wait(1200);
+  const opts = await pg.evaluate(() => (document.body.innerText.match(/20\d\d\/\d\d/g) || []));
+  ok('PSG: piu di 2 stagioni in tendina', new Set(opts).size >= 5, { n: new Set(opts).size });
+  await shot('psg-stagioni');
+  await go('#/squadra/lazio', 6500);
+  await clickText('Statistiche'); await wait(2000);
+  await pg.evaluate(() => { const b = [...document.querySelectorAll('button')].find((x) => /^Attuale/.test(x.textContent.trim())); if (b) b.click(); });
+  await wait(900);
+  await pg.evaluate(() => { const b = [...document.querySelectorAll('button')].find((x) => x.textContent.trim() === '2024/25'); if (b) b.click(); });
+  await wait(3000);
+  const t = await pg.evaluate(() => document.body.innerText);
+  ok('Statistiche passate: pillole Casa/Trasferta e categorie', /Casa/.test(t) && /Trasferta/.test(t) && /Disciplina/i.test(t) && /Gioco/.test(t));
+  await clickText('Casa'); await wait(2500);
+  await shot('lazio-stat-2024-casa');
+  await go('#/squadra/lazio', 6500);
+  await clickText('Partite'); await wait(2000);
+  const t2 = await pg.evaluate(() => document.body.innerText);
+  ok('Partite attuale: tasto partite precedenti', /Partite precedenti/.test(t2));
+  await shot('lazio-partite-attuale');
+});
+
 report.passed = report.checks.filter((c) => c.pass).length;
 report.total = report.checks.length;
 fs.writeFileSync(`${OUT}/report.json`, JSON.stringify(report, null, 2));
