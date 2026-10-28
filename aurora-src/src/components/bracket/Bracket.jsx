@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import useAsync from '@/hooks/useAsync';
 import { useTeamColors } from '@/components/archive/parts';
 import { teamLogo } from '@/data/archive';
-import { loadBracket, CUP_NAME } from '@/data/bracket';
+import { loadBracket, peekBracket, CUP_NAME } from '@/data/bracket';
 import { teamByName } from '@/data/teams';
 import { LEAGUES, leagueTint } from '@/data/leagues';
 import { FM_ID } from '@/data/archive';
@@ -199,7 +199,10 @@ function BracketView({ data, fm, sk }) {
   }, [rounds, slots, L, SY, hasFinal]);
 
   const measure = useCallback(() => {
-    const w = (wrapRef.current && wrapRef.current.clientWidth) || 390;
+    // se il tabellone e' ancora nascosto (display none) la larghezza si prende dal primo contenitore visibile: niente salto al primo disegno
+    let w = 0; let n = wrapRef.current;
+    while (n && !w) { w = n.clientWidth; n = n.parentElement; }
+    w = w || 390;
     const cw = Math.max(120, (w - 2 * X0 - GAP) / 2);
     dims.current = { cw, step: cw + GAP };
     const wr = wrapRef.current;
@@ -276,7 +279,9 @@ function BracketView({ data, fm, sk }) {
 }
 
 export default function Bracket({ fm, sk }) {
-  const { data, loading } = useAsync(() => (sk ? loadBracket(fm, sk) : null), [fm, sk]);
+  const hit = sk ? peekBracket(fm, sk) : null;
+  const { data: d0, loading } = useAsync(() => (sk ? loadBracket(fm, sk) : null), [fm, sk]);
+  const data = d0 || hit;
   if (loading && !data) return <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Carico il tabellone…</p>;
   if (!data || !data.rounds || !data.rounds.length) {
     return <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Nessun dato ancora disponibile</p>;

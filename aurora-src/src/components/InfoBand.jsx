@@ -63,7 +63,7 @@ export default function InfoBand({ match }) {
           <WhistleIcon size={16} style={ICON} />
           <span className="label-sm">Arbitro</span>
           <span className="text-[12px]" style={{ color: 'var(--ink)' }}>
-            —
+            {match.refereeName || '—'}
           </span>
         </div>
       )}

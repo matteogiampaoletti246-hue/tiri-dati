@@ -6,6 +6,7 @@ import { romeTime } from './util';
 import { teamById } from './teams';
 import { same } from './live';
 import { slug } from './util';
+import { applyRefExtra } from './archiveMatch';
 
 const dayCache = {};
 const fxCache = {};
@@ -170,7 +171,11 @@ export function applyFm(m, d, playerLookup) {
     x: Math.max(0, Math.min(1, s[4] / 105)),
     y: Math.max(0, Math.min(1, 1 - s[5] / 68)),
   }));
-  m.shots = m.shots.filter((s) => !s.own);
+  // autogol: e' un gol della squadra avversaria. Si mostra nell'area di chi lo subisce (specchiato), con il nome del difensore
+  m.shots = m.shots.map((s) => (s.own ? {
+    ...s, own: false, og: true, side: s.side === 'home' ? 'away' : 'home',     px: s.px == null ? s.px : 105 - s.px, py: s.py == null ? s.py : 68 - s.py, gy: s.gy == null ? s.gy : 68 - s.gy,
+    x: 1 - s.x, y: 1 - s.y, xg: 0, xgot: 0,
+  } : s));
   m.shotsFm = true;
   if (d.pl) m.playerStats = d.pl;
 
@@ -215,6 +220,8 @@ export function applyFm(m, d, playerLookup) {
     m.refereeName = d.ref.n;
     m.refereeId = slug(d.ref.n);
     m.refFm = d.ref;
+    // campionati aggiunti: medie degli arbitri della stagione per la barra di confronto
+    if (m.archive && m.det) applyRefExtra(m);
   }
   if (d.stad && !m.stadium) m.stadium = d.stad;
   m.lineupType = d.ty || null;

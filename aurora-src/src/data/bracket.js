@@ -90,7 +90,17 @@ function layout(rounds) {
   return n0;
 }
 
+// i tabelloni gia' caricati restano in memoria: tornando da una partita si ridisegnano subito, senza "Carico..." e senza animazioni
+const MEM = new Map();
+export const peekBracket = (fm, sk) => MEM.get(`${fm}-${sk}`);
 export const loadBracket = async (fm, sk) => {
+  const k = `${fm}-${sk}`;
+  if (MEM.has(k)) return MEM.get(k);
+  const r = await loadBracketRaw(fm, sk);
+  if (r && r.rounds && r.rounds.length) MEM.set(k, r);
+  return r;
+};
+const loadBracketRaw = async (fm, sk) => {
   const s = await loadSeason(fm, sk);
   if (!s || !s.fix) return null;
   const present = ROUND_ORDER.filter((k) => s.fix.some((m) => m[1] === k));

@@ -138,9 +138,9 @@ export default function MatchShotMap({ shots = [], home, away, match = null, lin
               <div className="flex items-center justify-center gap-2">
                 {photo ? <img src={photo} alt="" decoding="async" className="h-[34px] w-[34px] shrink-0 rounded-full object-cover" style={{ background: 'var(--hair)' }} /> : null}
                 {linkNames && match ? (
-                  <PlayerLink match={match} name={cur.playerName} fmId={found && found.fmId} className="truncate text-[14px] font-extrabold" style={{ color: color(cur) }}>{cur.playerName}</PlayerLink>
+                  <PlayerLink match={match} name={cur.playerName} fmId={found && found.fmId} className="truncate text-[14px] font-extrabold" style={{ color: color(cur) }}>{cur.playerName}{cur.og ? ' (autogol)' : ''}</PlayerLink>
                 ) : (
-                  <p className="truncate text-[14px] font-extrabold" style={{ color: color(cur) }}>{cur.playerName}</p>
+                  <p className="truncate text-[14px] font-extrabold" style={{ color: color(cur) }}>{cur.playerName}{cur.og ? ' (autogol)' : ''}</p>
                 )}
               </div>
               <p className="text-[11.5px]" style={{ color: 'var(--ink-3)' }}>{team ? team.name : ''} · {cur.minute}&apos;</p>

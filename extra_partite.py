@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Partite dei campionati extra (solo Home): finestra -8/+8 giorni -> partite_extra.json.
+"""Partite dei campionati extra (solo Home): tutta la stagione in corso fino a +9 giorni -> partite_extra.json.
 m = [matchId, fotmobLeagueId, utc, casa, trasferta, idCasa, idTrasf, golC, golT, stato(n|l|f)]"""
 import json, gzip, time, datetime, urllib.request
 UA = {"User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mobile/15E148) AppleWebKit/605.1.15 Mobile Safari/604.1", "Accept": "application/json,*/*"}
@@ -15,7 +15,7 @@ def get(url):
             time.sleep(2 * (k + 1))
     return None
 now = datetime.datetime.now(datetime.timezone.utc)
-lo, hi = now - datetime.timedelta(days=9), now + datetime.timedelta(days=9)
+lo, hi = datetime.datetime(2000, 1, 1, tzinfo=datetime.timezone.utc), now + datetime.timedelta(days=9)  # tutta la stagione in corso (storico per medie e numeri da tenere d occhio)
 out, ok, sk = [], 0, {}
 for lid in LEGHE:
     d = get("https://www.fotmob.com/api/data/leagues?id=%s&tab=fixtures" % lid)

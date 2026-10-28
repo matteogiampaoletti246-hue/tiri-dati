@@ -391,17 +391,23 @@ export function applyDetail(m, detail, playerLookup) {
 
   m.momentum = bucketMomentum(detail.mo);
 
-  m.shots = (detail.tr || []).filter((t) => !(t[11] === 'Goal' && t[3] < 30)).map((t) => ({
-    side: t[1] === 'h' ? 'home' : 'away',
-    outcome: OUTCOME[t[11]] || 'Fuori',
-    playerName: t[2],
-    minute: t[0],
-    body: BODY[t[10]] || 'Altro',
-    situation: t[12],
-    xg: t[5] || 0,
-    x: Math.max(0, Math.min(1, t[3] / 105)),
-    y: Math.max(0, Math.min(0.6, (t[4] / 68) * 0.6)),
-  }));
+  // autogol (gol nell'area di chi lo fa): e' un gol della squadra avversaria, mostrato specchiato
+  m.shots = (detail.tr || []).map((r) => {
+    const og = r[11] === 'Goal' && r[3] < 30;
+    const t = og ? [r[0], r[1] === 'h' ? 'a' : 'h', r[2], 105 - r[3], 68 - r[4], 0, ...r.slice(6)] : r;
+    return {
+      og,
+      side: t[1] === 'h' ? 'home' : 'away',
+      outcome: OUTCOME[t[11]] || 'Fuori',
+      playerName: t[2],
+      minute: t[0],
+      body: BODY[t[10]] || 'Altro',
+      situation: t[12],
+      xg: t[5] || 0,
+      x: Math.max(0, Math.min(1, t[3] / 105)),
+      y: Math.max(0, Math.min(0.6, (t[4] / 68) * 0.6)),
+    };
+  });
 
   if (detail.lu) {
     m.lineup = {

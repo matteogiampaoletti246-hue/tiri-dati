@@ -7,6 +7,7 @@ import ArchiveTeam from '@/pages/ArchiveTeam';
 import ArchivePlayer from '@/pages/ArchivePlayer';
 import { bootData } from '@/data';
 import { installFixedGuard } from '@/lib/fixedGuard';
+import { installBackSnaps } from '@/lib/carousel';
 import LaunchScreen from '@/components/LaunchScreen';
 import ScrollToTop from '@/components/ScrollToTop';
 import PlayerSheetHost from '@/components/match/PlayerSheet';
@@ -52,6 +53,7 @@ export default function App() {
   const [ready, setReady] = useState(false);
   useEffect(() => {
     installFixedGuard();
+    installBackSnaps();
     bootData().finally(() => setReady(true));
   }, []);
 

@@ -78,22 +78,101 @@ export function carousel(el, dx, dir, apply, done, ms = 240, host = null) {
 }
 
 // Pagina intera: il contenuto (#sl-shell) e le parti fisse (banner e barra schede, marcate data-pf) si muovono insieme.
+// Regola fissa: negli swipe per tornare indietro la pagina di destinazione si vede sotto e, mentre quella attuale esce a destra,
+// scorre al centro e ne prende il posto (fotografia della pagina presa prima di lasciarla: installBackSnaps).
 const pageEls = () => [document.getElementById('sl-shell'), ...document.querySelectorAll('[data-pf]')].filter(Boolean);
+
+const SNAPS = new Map(); // idx cronologia -> fotografie (shell + parti fisse)
+const grab = () => {
+  const els = pageEls();
+  if (!els.length) return null;
+  return els.map((el) => {
+    const r = el.getBoundingClientRect();
+    const clone = el.cloneNode(true);
+    clone.removeAttribute('id');
+    clone.style.transition = 'none'; clone.style.transform = 'none'; clone.style.opacity = '1'; clone.style.boxShadow = 'none';
+    if (el.id) clone.querySelectorAll('[data-pf]').forEach((x) => x.remove()); // le parti fisse si fotografano a parte
+    else { clone.style.position = 'absolute'; clone.style.inset = 'auto'; clone.style.left = '0'; clone.style.top = '0'; clone.style.width = `${r.width}px`; clone.style.margin = '0'; }
+    // gli elementi "sticky" non seguono piu' lo scorrimento nella copia: li fisso dove sono ora
+    const a = el.querySelectorAll('.sticky,[style*="sticky"]');
+    a.forEach((x) => {
+      const path = []; let n = x;
+      while (n && n !== el) { const p = n.parentElement; path.unshift(Array.prototype.indexOf.call(p.children, n)); n = p; }
+      let c = clone; for (const i of path) c = c && c.children[i];
+      if (c) { const rr = x.getBoundingClientRect(); c.style.position = 'absolute'; c.style.top = `${rr.top - r.top}px`; c.style.left = `${rr.left - r.left}px`; c.style.width = `${rr.width}px`; }
+    });
+    const box = document.createElement('div');
+    box.style.cssText = `position:fixed;left:${r.left}px;top:${r.top}px;width:${r.width}px;height:${r.height}px;z-index:${el.id ? 1 : 3};pointer-events:none;contain:layout paint`;
+    box.appendChild(clone);
+    return box;
+  });
+};
+let QUIET = false;
+export const consumeQuiet = () => { const q = QUIET; QUIET = false; return q; };
+export function installBackSnaps() {
+  if (window.__slSnaps) return;
+  window.__slSnaps = true;
+  const ps = window.history.pushState.bind(window.history);
+  window.history.pushState = function pushState(...a) {
+    try {
+      const idx = histIdx();
+      const g = grab();
+      if (g) { SNAPS.set(idx, g); [...SNAPS.keys()].filter((k) => k < idx - 8).forEach((k) => SNAPS.delete(k)); }
+    } catch (e) { /* senza fotografia: si torna indietro come prima */ }
+    return ps(...a);
+  };
+}
+let BEHIND = null;
+const behindOn = () => {
+  if (BEHIND) return BEHIND;
+  const g = SNAPS.get(histIdx() - 1);
+  if (!g) return null;
+  const host = document.createElement('div');
+  host.setAttribute('aria-hidden', 'true');
+  host.style.cssText = 'position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;will-change:transform;background:' + getComputedStyle(document.body).backgroundColor;
+  g.forEach((b) => host.appendChild(b.cloneNode(true)));
+  const dim = document.createElement('div');
+  dim.style.cssText = 'position:absolute;inset:0;background:#000;opacity:.35;z-index:50';
+  host.appendChild(dim);
+  document.body.appendChild(host);
+  BEHIND = { host, dim };
+  const sh = document.getElementById('sl-shell');
+  if (sh) { sh.style.zIndex = '2'; sh.style.background = getComputedStyle(document.body).backgroundColor; }
+  return BEHIND;
+};
+const behindMove = (dx, w, ms = 0) => {
+  const b = BEHIND; if (!b) return;
+  const p = Math.max(0, Math.min(1, dx / w));
+  b.host.style.transition = ms ? `transform ${ms}ms ${EASE}` : 'none';
+  b.host.style.transform = `translate3d(${(-26 * (1 - p)).toFixed(2)}%,0,0)`;
+  b.dim.style.transition = ms ? `opacity ${ms}ms ease` : 'none';
+  b.dim.style.opacity = String(0.35 * (1 - p));
+};
+const behindOff = () => {
+  if (!BEHIND) return;
+  BEHIND.host.remove(); BEHIND = null;
+  const sh = document.getElementById('sl-shell');
+  if (sh) { sh.style.zIndex = ''; sh.style.background = ''; }
+};
 export function pageDrag(dx) {
+  const w = Math.min(window.innerWidth, 430);
+  behindOn();
+  behindMove(Math.max(0, dx), w);
   pageEls().forEach((el, i) => {
     el.style.transition = 'none';
     el.style.transform = `translate3d(${Math.max(0, dx)}px,0,0)`;
-    if (i === 0) el.style.opacity = String(Math.max(0.7, 1 - dx / 900));
+    if (i === 0) el.style.boxShadow = '-18px 0 40px -18px rgba(0,0,0,.5)';
   });
 }
 export function pageReset(animated = true) {
   const els = pageEls();
+  behindMove(0, 430, animated ? 280 : 0);
   els.forEach((el, i) => {
     el.style.transition = animated ? 'transform .28s cubic-bezier(.22,.8,.24,1), opacity .28s ease' : 'none';
     el.style.transform = 'translate3d(0,0,0)';
     if (i === 0) el.style.opacity = '1';
   });
-  setTimeout(() => els.forEach((el) => { el.style.transition = ''; el.style.transform = ''; el.style.opacity = ''; el.style.willChange = ''; el.style.boxShadow = ''; el.style.visibility = ''; }), animated ? 320 : 0);
+  setTimeout(() => { behindOff(); els.forEach((el) => { el.style.transition = ''; el.style.transform = ''; el.style.opacity = ''; el.style.willChange = ''; el.style.boxShadow = ''; el.style.visibility = ''; }); }, animated ? 320 : 0);
 }
 export const histIdx = () => { const st = window.history.state; return st && typeof st.idx === 'number' ? st.idx : 0; };
 export const canGoBack = () => histIdx() > 0;
@@ -121,17 +200,21 @@ export function pageBack(dx, navigate) {
   if (!els.length || !canGoBack()) { pageReset(true); return; }
   const fromIdx = histIdx();
   const w = Math.min(window.innerWidth, els[0].offsetWidth || 430);
-  const ms = Math.max(120, Math.round(230 * (1 - dx / (w + 24)) + 90));
+  const ms = Math.max(160, Math.round(260 * (1 - dx / (w + 24)) + 110));
+  const hasBehind = !!behindOn();
   els.forEach((el) => { el.style.willChange = 'transform'; el.style.transition = 'none'; el.style.transform = `translate3d(${dx}px,0,0)`; });
+  if (hasBehind) behindMove(dx, w);
   els[0].style.boxShadow = '-18px 0 40px -18px rgba(0,0,0,.5)';
   void els[0].offsetWidth;
   requestAnimationFrame(() => {
-    els.forEach((el, i) => {
-      el.style.transition = `transform ${ms}ms ${EASE}, opacity ${ms}ms ease`;
+    els.forEach((el) => {
+      el.style.transition = `transform ${ms}ms ${EASE}`;
       el.style.transform = `translate3d(${w + 24}px,0,0)`;
-      if (i === 0) el.style.opacity = '0.6';
     });
-    setTimeout(() => goBack(navigate, fromIdx), Math.round(ms * 0.62));
+    if (hasBehind) behindMove(w, w, ms);
+    // la pagina vera di destinazione prende il posto quando e' arrivata la fotografia al centro
+    setTimeout(() => { if (hasBehind) QUIET = true; goBack(navigate, fromIdx); }, hasBehind ? ms + 20 : Math.round(ms * 0.62));
+    setTimeout(behindOff, ms + 260);
     // rete di sicurezza: se per qualunque motivo la pagina non cambia, si ripristina tutto (mai schermo nero)
     setTimeout(() => { const sh = document.getElementById('sl-shell'); if (sh && sh === els[0] && sh.isConnected) pageReset(false); }, ms + 900);
   });
