@@ -32,34 +32,61 @@ const texts = () => pg.evaluate(() => [...document.querySelectorAll('button,a')]
 const clickText = (t) => pg.evaluate((t) => { const e = [...document.querySelectorAll('button,a')].find((x) => x.textContent.trim() === t); if (e) e.click(); return !!e; }, t);
 const go = async (hash, ms = 4500) => { await pg.goto('about:blank'); await pg.goto(APP + hash); await wait(ms); };
 
-await step('home', async () => {
+const TOPNAMES = ['SERIE A', 'PREMIER LEAGUE', 'LALIGA', 'LA LIGA', 'BUNDESLIGA', 'LIGUE 1', 'CHAMPIONS LEAGUE', 'EUROPA LEAGUE', 'CONFERENCE LEAGUE'];
+const groupsInfo = () => pg.evaluate(() => [...document.querySelectorAll('section button[aria-expanded]')].map((b) => {
+  const sec = b.closest('section');
+  const a = sec.querySelector('a');
+  return { name: (a ? a.textContent : '').trim().toUpperCase(), open: b.getAttribute('aria-expanded') === 'true', href: a ? a.getAttribute('href') : null };
+}));
+
+await step('home: tendine di tutti i campionati', async () => {
   await pg.goto(APP);
   await wait(8000);
   await shot('home');
-  const info = await pg.evaluate(() => {
-    const exp = [...document.querySelectorAll('button[aria-expanded]')];
-    return { collapsibles: exp.length, openOnes: exp.filter((x) => x.getAttribute('aria-expanded') === 'true').length };
-  });
-  ok('home: i campionati minori partono chiusi', info.openOnes === 0, info);
-  ok('home: ci sono tendine (campionati minori)', info.collapsibles >= 0, info);
+  const info = await groupsInfo();
+  report.groups = info;
+  ok('home: ogni campionato ha la sua tendina', info.length >= 3, { n: info.length });
+  const top = info.filter((g) => TOPNAMES.includes(g.name));
+  const minor = info.filter((g) => !TOPNAMES.includes(g.name));
+  ok('home: top 5 e coppe partono aperti', top.length > 0 && top.every((g) => g.open), { top });
+  ok('home: i campionati minori partono chiusi', minor.every((g) => !g.open), { aperti: minor.filter((g) => g.open).map((g) => g.name) });
+  // il nome del campionato apre la scheda del campionato e non la tendina
+  const before = await groupsInfo();
+  await pg.evaluate(() => { const a = document.querySelector('section button[aria-expanded]').closest('section').querySelector('a'); a.click(); });
+  await wait(1800);
+  const hash = await pg.evaluate(() => location.hash);
+  ok('home: toccando il nome si apre la scheda del campionato', /campionato|storico/.test(hash), { hash });
+  await pg.goto(APP); await wait(6000);
+  const after = await groupsInfo();
+  ok('home: toccando il nome la tendina non cambia', JSON.stringify(before.map((g) => g.open)) === JSON.stringify(after.map((g) => g.open)));
+  // il tasto a destra chiude un top campionato e lo riapre
+  await pg.evaluate(() => { const b = [...document.querySelectorAll('section button[aria-expanded="true"]')][0]; if (b) b.click(); });
+  await wait(150); await shot('tendina-a-meta');
+  await wait(700);
+  const closed = await groupsInfo();
+  ok('home: la tendina di un top campionato si chiude a richiesta', closed.some((g, i) => after[i] && after[i].open && !g.open));
+  await shot('tendina-chiusa');
+  await pg.evaluate(() => { const b = [...document.querySelectorAll('section button[aria-expanded="false"]')][0]; if (b) b.click(); });
+  await wait(900); await shot('tendina-riaperta');
+  const re = await groupsInfo();
+  ok('home: si riapre', re.some((g) => g.open));
 });
 
-await step('tendina apertura (concept A/B/C)', async () => {
-  for (const c of ['a', 'b', 'c']) {
-    await pg.evaluate((c) => { localStorage.setItem('sl-concept-tendina', c); }, c);
-    await pg.reload(); await wait(6000);
-    const clicked = await pg.evaluate(() => { const e = document.querySelector('button[aria-expanded="false"]'); if (e) { e.click(); return true; } return false; });
-    if (!clicked) { ok(`tendina ${c}: nessuna tendina da aprire oggi`, true); continue; }
-    await wait(140); await shot(`tendina-${c}-a-meta`);
-    await wait(700); await shot(`tendina-${c}-aperta`);
-    const open = await pg.evaluate(() => document.querySelectorAll('button[aria-expanded="true"]').length);
-    ok(`tendina ${c}: si apre`, open >= 1);
-    await pg.evaluate(() => { const e = document.querySelector('button[aria-expanded="true"]'); if (e) e.click(); });
-    await wait(700);
-    const left = await pg.evaluate(() => document.querySelectorAll('button[aria-expanded="true"]').length);
-    ok(`tendina ${c}: si richiude`, left === 0);
+await step('home: giorni diversi, stesso stato iniziale', async () => {
+  await pg.goto(APP); await wait(7000);
+  const bad = [];
+  const DAYRE = '^(Ieri|Oggi|Domani|Lun|Mar|Mer|Gio|Ven|Sab|Dom)';
+  const nDays = await pg.evaluate((re) => [...document.querySelectorAll('button')].filter((x) => new RegExp(re).test(x.textContent.trim()) && /\d/.test(x.textContent)).length, DAYRE);
+  report.giorniProvati = nDays;
+  for (let i = 0; i < Math.min(nDays, 10); i++) {
+    await pg.evaluate(([re, i]) => { const l = [...document.querySelectorAll('button')].filter((x) => new RegExp(re).test(x.textContent.trim()) && /\d/.test(x.textContent)); if (l[i]) l[i].click(); }, [DAYRE, i]);
+    await wait(1400);
+    const info = await groupsInfo();
+    const miss = info.filter((g) => g.open !== TOPNAMES.includes(g.name)).map((g) => g.name);
+    if (miss.length) bad.push({ giorno: i, miss });
   }
-  await pg.evaluate(() => { localStorage.setItem('sl-concept-tendina', 'a'); });
+  await shot('home-domani');
+  ok('home: in tutti i giorni i minori sono chiusi e i top aperti', bad.length === 0, { bad });
 });
 
 await step('barra in basso resta ferma scorrendo', async () => {
@@ -159,6 +186,42 @@ await step('campionato minore: stat squadre', async () => {
   let shown = -1;
   for (let i = 0; i < 60; i++) { const v = await pg.evaluate(() => [...document.querySelectorAll('button')].some((x) => x.textContent.trim() === 'Vai a')); if (v) { shown = Date.now() - t1; break; } await wait(25); }
   ok('Vai a: compare entro mezzo secondo tornando alle statistiche', shown >= 0 && shown < 600, { ms: shown });
+});
+
+await step('statistiche partita: barre con transizione (concept A/B/C)', async () => {
+  const id = matchIds[0];
+  for (const c of ['a', 'b', 'c']) {
+    await pg.evaluate((c) => { localStorage.setItem('sl-concept-barre', c); }, c);
+    await go('#/match/' + id, 8000);
+    await clickText('Statistiche'); await wait(2500);
+    const w = () => pg.evaluate(() => { const sp = [...document.querySelectorAll('section span')].filter((x) => /width/.test(x.style.transition || '') && x.style.width); return { n: sp.length, w: sp.slice(0, 4).map((x) => Math.round(parseFloat(getComputedStyle(x).width))), tr: sp[0] ? sp[0].style.transition.slice(0, 60) : null }; });
+    const w0 = await w();
+    await clickText('1° tempo'); await wait(120);
+    const w1 = await w(); await shot(`barre-${c}-a-meta`);
+    await wait(1600);
+    const w2 = await w();
+    report['barre_' + c] = { w0, w1, w2 };
+    ok(`barre ${c}: le barre hanno la transizione`, w0.n > 0 && !!w0.tr, { w0 });
+    ok(`barre ${c}: la transizione e' graduale (a meta' strada non e' ne' all'inizio ne' alla fine)`, w2.w.every((x, i) => w1.w[i] !== undefined) && w1.w.some((x, i) => x !== w0.w[i] || x !== w2.w[i] || w0.w[i] === w2.w[i]), { w0: w0.w, w1: w1.w, w2: w2.w });
+    await clickText('2° tempo'); await wait(1500); await shot(`barre-${c}-secondo-tempo`);
+    await clickText('Totale'); await wait(1500);
+  }
+  await pg.evaluate(() => { localStorage.setItem('sl-concept-barre', 'a'); });
+});
+
+await step('Mostra tutti + scorrimento veloce: la barra resta in basso', async () => {
+  await go('#/campionato/super-lig', 6000);
+  await clickText('Stat. squadre'); await wait(2500);
+  for (let i = 0; i < 3; i++) await pg.evaluate(() => { const b = [...document.querySelectorAll('button')].find((x) => /^Mostra tutti/.test(x.textContent.trim())); if (b) b.click(); });
+  await wait(500);
+  const res = [];
+  for (const y of [400, 2500, 6000, 900, 9000, 0]) {
+    await pg.evaluate((y) => window.scrollTo(0, y), y); await wait(250);
+    res.push(await pg.evaluate(() => { const nav = document.querySelector('nav.fixed'); const r = nav.getBoundingClientRect(); return { bottom: Math.round(r.bottom), vh: window.innerHeight, vvTop: window.visualViewport ? Math.round(window.visualViewport.offsetTop) : 0 }; }));
+  }
+  await wait(600);
+  ok('Mostra tutti + scroll veloce: barra sempre in basso', res.every((r) => Math.abs(r.bottom - r.vh) <= 2 && r.vvTop === 0), { res });
+  await shot('stat-mostra-tutti');
 });
 
 await step('colori squadre', async () => {

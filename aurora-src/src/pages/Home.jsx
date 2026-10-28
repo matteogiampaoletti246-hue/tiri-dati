@@ -17,7 +17,6 @@ import useTicker from '@/hooks/useTicker';
 import { syncDayTimes } from '@/data/fotmob';
 import { DATES, TODAY_INDEX, isoDate, matchesByDate } from '@/data/matches';
 import { LEAGUES } from '@/data/leagues';
-import { useConcept, ConceptSwitch } from '@/lib/concept';
 
 // giorno scelto: resta in memoria mentre si naviga, cosi' tornando indietro si ritrova lo stesso giorno
 const KEEP = { iso: null, filter: 'all', stamp: '' };
@@ -40,7 +39,7 @@ function groupsOf(iso, filter) {
 }
 
 // Un giorno intero. I giorni vicini sono gia' pronti accanto a quello aperto: durante lo swipe non c'e' nulla da costruire.
-const DayPane = memo(function DayPane({ iso, filter, ver, tick, active, cpt }) {
+const DayPane = memo(function DayPane({ iso, filter, ver, tick, active }) {
   const groups = groupsOf(iso, filter);
   const total = groups.reduce((n, g) => n + g.matches.length, 0);
   // il giorno aperto si disegna subito; quelli vicini si preparano a piccoli passi mentre l'app e' ferma
@@ -68,7 +67,7 @@ const DayPane = memo(function DayPane({ iso, filter, ver, tick, active, cpt }) {
     shown.push(g);
     seen += g.matches.length;
   }
-  return shown.map((g) => <LeagueGroup key={g.league.id} league={g.league} matches={g.matches} concept={cpt} forceOpen={filter === 'live'} />);
+  return shown.map((g) => <LeagueGroup key={`${iso}|${g.league.id}`} league={g.league} matches={g.matches} forceOpen={filter === 'live'} />);
 });
 
 export default function Home() {
@@ -83,7 +82,6 @@ export default function Home() {
   const [searchOpen, setSearchOpen] = useState(false);
   const loading = useInitialLoad();
   const tick = useTicker(10000);
-  const [cpt, setCpt] = useConcept('tendina');
 
   const [ver, bump] = useState(0);
   // orari reali: prima il giorno aperto, poi gli altri in sottofondo
@@ -268,7 +266,7 @@ export default function Home() {
           value={filter}
           onChange={setFilter}
         />
-        <div className="ml-auto mr-2" data-no-swipe><ConceptSwitch value={cpt} onChange={setCpt} label="Tendina" /></div>
+        <div className="ml-auto" />
         <label className="glass press relative flex h-9 w-9 items-center justify-center rounded-full" aria-label="Calendario">
           <CalendarDays size={16} strokeWidth={1.9} style={{ color: custom ? 'var(--accent)' : 'var(--ink)' }} />
           <input
@@ -312,7 +310,7 @@ export default function Home() {
               key={k}
                             style={role ? { position: 'absolute', top: 0, width: '100%', left: `${role * 100}%`, display: 'flow-root' } : { display: 'flow-root' }}
             >
-              <DayPane iso={k} filter={filter} ver={ver} tick={role === 0 ? tick : 0} active={role === 0 || peek === k} cpt={cpt} />
+              <DayPane iso={k} filter={filter} ver={ver} tick={role === 0 ? tick : 0} active={role === 0 || peek === k} />
             </div>
           ))
         )}

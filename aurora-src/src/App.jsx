@@ -5,6 +5,7 @@ import ArchiveMatch from '@/pages/ArchiveMatch';
 import ArchiveTeam from '@/pages/ArchiveTeam';
 import ArchivePlayer from '@/pages/ArchivePlayer';
 import { bootData } from '@/data';
+import { installFixedGuard } from '@/lib/fixedGuard';
 import LaunchScreen from '@/components/LaunchScreen';
 import ScrollToTop from '@/components/ScrollToTop';
 import PlayerSheetHost from '@/components/match/PlayerSheet';
@@ -49,6 +50,7 @@ applyTheme(getTheme());
 export default function App() {
   const [ready, setReady] = useState(false);
   useEffect(() => {
+    installFixedGuard();
     bootData().finally(() => setReady(true));
   }, []);
 

@@ -8,6 +8,7 @@ import MatchShotMap from './MatchShotMap';
 import PreMatchStats from './PreMatchStats';
 import { CATEGORY_DEFS, metricOf } from '@/data/standings';
 import { comma, num } from '@/lib/format';
+import { useConcept, ConceptSwitch } from '@/lib/concept';
 
 const LIVE_STATS = [
   { key: 'possesso', label: 'Possesso', format: (v) => `${comma(v, 0)}%` },
@@ -26,6 +27,7 @@ export default function MatchStatsPanel({ match, view, home, away, pre }) {
   const [period, setPeriod] = useState('all');
   const [full, setFull] = useState(false);
   const cs = 'd';
+  const [mot, setMot] = useConcept('barre');
 
   if (pre) {
     return (
@@ -68,6 +70,7 @@ export default function MatchStatsPanel({ match, view, home, away, pre }) {
     <div className="flex flex-col gap-5 pb-4 pt-3">
       <div className="flex items-center gap-3 px-4">
         <TextFilter options={[{ value: 'all', label: 'Totale' }, { value: 'first', label: '1° tempo' }, { value: 'second', label: '2° tempo' }]} value={period} onChange={setPeriod} />
+        <div className="ml-auto" data-no-swipe><ConceptSwitch value={mot} onChange={setMot} label="Barre" /></div>
       </div>
 
       <div className="flex items-center gap-2 px-5">
@@ -79,11 +82,11 @@ export default function MatchStatsPanel({ match, view, home, away, pre }) {
         groups.slice(0, 1).map((g) => (
           <section key={g.key} className="glass tint-card mx-4 rounded-[24px] px-4 py-4">
             <PanelTitle>{g.title}</PanelTitle>
-            <CompareBars variant={cs} rows={g.rows.map((r) => ({ label: r.label, home: r.home, away: r.away, homeText: r.homeText, awayText: r.awayText }))} />
+            <CompareBars variant={cs} motion={mot} rows={g.rows.map((r) => ({ label: r.label, home: r.home, away: r.away, homeText: r.homeText, awayText: r.awayText }))} />
           </section>
         ))
       ) : fallback.length ? (
-        <section className="glass tint-card mx-4 rounded-[24px] px-4 py-4"><CompareBars variant={cs} rows={fallback} /></section>
+        <section className="glass tint-card mx-4 rounded-[24px] px-4 py-4"><CompareBars variant={cs} motion={mot} rows={fallback} /></section>
       ) : null}
 
       {(view.shots || []).length ? (
@@ -97,7 +100,7 @@ export default function MatchStatsPanel({ match, view, home, away, pre }) {
         ? groups.slice(1).map((g) => (
             <section key={g.key} className="glass tint-card mx-4 rounded-[24px] px-4 py-4">
               <PanelTitle>{g.title}</PanelTitle>
-              <CompareBars variant={cs} rows={g.rows.map((r) => ({ label: r.label, home: r.home, away: r.away, homeText: r.homeText, awayText: r.awayText }))} />
+              <CompareBars variant={cs} motion={mot} rows={g.rows.map((r) => ({ label: r.label, home: r.home, away: r.away, homeText: r.homeText, awayText: r.awayText }))} />
             </section>
           ))
         : null}
