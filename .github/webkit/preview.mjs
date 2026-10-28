@@ -446,7 +446,7 @@ await step('home: tornando da una partita resta all\'altezza di prima, senza sal
   const y0 = await pg.evaluate(() => Math.round(scrollY));
   await pg.evaluate(() => { const l = [...document.querySelectorAll('a[href*="/match/"]')].filter((a) => { const r = a.getBoundingClientRect(); return r.top > 120 && r.bottom < innerHeight - 100; }); (l[0] || document.querySelector('a[href*="/match/"]')).click(); });
   await wait(4500);
-  const ys = await pg.evaluate(() => new Promise((res) => { const a = []; let on = false; const t0 = performance.now(); const f = () => { if (location.hash === '#/' || location.hash === '') { on = true; } if (on) a.push(Math.round(scrollY)); if (performance.now() - t0 < 1800) requestAnimationFrame(f); else res(a); }; requestAnimationFrame(f); history.back(); }));
+  const ys = await pg.evaluate(() => new Promise((res) => { const a = []; let on = false; const t0 = performance.now(); const f = () => { if (!on && document.querySelector('section.glass') && !document.querySelector('[role=status]')) { on = true; } if (on) a.push(Math.round(scrollY)); if (performance.now() - t0 < 1800) requestAnimationFrame(f); else res(a); }; requestAnimationFrame(f); history.back(); }));
   const mn = ys.length ? Math.min(...ys) : -1;
   ok('home: ritorno senza salti di scroll (mai sopra l\'altezza di prima)', y0 > 100 && ys.length > 5 && mn >= y0 - 3, { y0, minimo: mn, primi: ys.slice(0, 8) });
 });
