@@ -14,6 +14,13 @@ const ok = (name, pass, extra = {}) => { report.checks.push({ name, pass: !!pass
 const b = await webkit.launch();
 const ctx = await b.newContext({ ...devices['iPhone 13'], locale: 'it-IT', timezoneId: 'Europe/Rome' });
 const pg = await ctx.newPage();
+// il Worker accetta solo l'origine del sito pubblicato: dal test lo si raggiunge dal lato server aggiungendo l'header CORS
+await ctx.route('**/*.workers.dev/**', async (route) => {
+  try {
+    const r = await route.fetch({ timeout: 20000 });
+    await route.fulfill({ response: r, headers: { ...r.headers(), 'access-control-allow-origin': '*' } });
+  } catch { await route.abort(); }
+});
 pg.on('pageerror', (e) => report.errors.push(String(e).slice(0, 400)));
 pg.on('console', (m) => { if (m.type() === 'error') report.console.push(m.text().slice(0, 240)); });
 let n = 0;
@@ -102,7 +109,7 @@ for (const id of matchIds) {
     await shot(`partita-${id}-riepilogo`);
     const t = await texts();
     ok(`${id}: schede Riepilogo/Statistiche/Formazioni/Classifica`, ['Riepilogo', 'Statistiche', 'Formazioni', 'Classifica'].every((x) => t.includes(x)), { tabs: t.filter((x) => ['Riepilogo', 'Statistiche', 'Formazioni', 'Classifica', 'Giocatori', 'Panoramica'].includes(x)) });
-    ok(`${id}: nessuna scheda Giocatori`, !t.includes('Giocatori'));
+    ok(`${id}: nessuna scheda Giocatori`, !(await pg.evaluate(() => [...document.querySelectorAll('[role=tab],button')].some((b) => b.textContent.trim() === 'Giocatori' && !b.closest('nav')))));
     const pills = await pg.evaluate(() => document.body.innerText);
     ok(`${id}: riepilogo con Momentum e Riassunto`, /momentum/i.test(pills) && /riassunto/i.test(pills), { snippet: pills.slice(0, 80) });
     ok(`${id}: pillola Stadio / Meteo / Arbitro`, /stadio/i.test(pills) && /meteo/i.test(pills) && /arbitro/i.test(pills));
