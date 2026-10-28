@@ -17,7 +17,7 @@ export default function MatchOverviewPanel({ match, home, away }) {
     <div className="flex flex-col gap-4 pb-6 pt-3">
       <FormCard match={match} home={home} away={away} />
       <section><h3 className="px-5 pb-2 text-[12.5px] font-extrabold uppercase tracking-wider">Numeri da tenere d&apos;occhio</h3><MatchKeyNumbers match={match} /></section>
-      <Card title="Giocatori migliori"><BestPlayers match={match} home={home} away={away} concept="b" /></Card>
+      {match.archive ? null : <Card title="Giocatori migliori"><BestPlayers match={match} home={home} away={away} concept="b" /></Card>}
       <IdeaSection match={match} home={home} away={away} />
       <InfoBand match={match} />
       <RefereeCard match={match} />

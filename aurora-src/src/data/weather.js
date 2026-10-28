@@ -40,7 +40,7 @@ export async function loadWeather(m) {
     st = await geoStadium(m.stadium, home && home.name);
   }
   if (!st || !st.lat) return null;
-  if (days < -6) return null;
+  if (days < (m.archive ? -3 : -6)) return null;
   if (days > 80) {
     // partita vecchia: dati storici (solo campionati aggiunti e archivio)
     if (!m.archive) return null;

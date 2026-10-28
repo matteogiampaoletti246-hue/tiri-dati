@@ -164,6 +164,32 @@ for (const id of matchIds) {
   });
 }
 
+// partita non iniziata di un campionato minore: Statistiche con confronto, niente "Giocatori migliori", ragnatela
+const pend = px && px.m ? px.m.filter((r) => r[9] === 'n')[0] : null;
+if (pend) {
+  await step('minori: partita non iniziata', async () => {
+    await go(`#/match/x-${pend[1]}-${pend[0]}`, 9000);
+    await shot('minori-pre-panoramica');
+    const b = await pg.evaluate(() => document.body.innerText);
+    ok('minori pre: niente Giocatori migliori', !/giocatori migliori/i.test(b));
+    ok('minori pre: Duello in numeri con ragnatela', /duello in numeri/i.test(b) && (await pg.evaluate(() => document.querySelectorAll('svg polygon').length)) >= 4, { snippet: b.slice(0, 60) });
+    const t = await texts();
+    ok('minori pre: scheda Statistiche', t.includes('Statistiche'));
+    await clickText('Statistiche'); await wait(2500); await shot('minori-pre-statistiche');
+    const s2 = await pg.evaluate(() => document.body.innerText);
+    ok('minori pre: confronto in casa / in trasferta', /in casa/i.test(s2) && /in trasferta/i.test(s2), { snippet: s2.slice(0, 120) });
+  });
+}
+
+// menu laterale (tre linee) a mezzo schermo
+await step('menu laterale', async () => {
+  await go('#/', 3500);
+  await pg.evaluate(() => { const b = [...document.querySelectorAll('button')].find((x) => /menu/i.test(x.getAttribute('aria-label') || '')); if (b) b.click(); });
+  await wait(900); await shot('menu-laterale');
+  const w = await pg.evaluate(() => { const c = document.querySelector('button[aria-label="Chiudi"]'); const p = c && c.parentElement; const r = p && p.getBoundingClientRect(); return r ? { left: Math.round(r.left), width: Math.round(r.width), vw: innerWidth } : null; });
+  ok('menu laterale: pannello a destra, non a tutto schermo', !!w && w.width < w.vw * 0.9 && w.left > 20, { w });
+});
+
 // campionato minore: statistiche di squadra con Totale / Casa / Trasferta e tasto Vai a
 await step('campionato minore: stat squadre', async () => {
   await go('#/campionato/super-lig', 6000);

@@ -33,6 +33,7 @@ const PRE_TABS = [
 // partite dei campionati aggiunti non ancora giocate: solo cio' che esiste davvero per loro
 const PRE_TABS_X = [
   { key: 'overview', label: 'Panoramica' },
+  { key: 'stats', label: 'Statistiche' },
   { key: 'lineups', label: 'Formazioni' },
   { key: 'standings', label: 'Classifica' },
 ];
@@ -132,6 +133,7 @@ export default function Match() {
   const panels = pre && raw.archive
     ? [
         <MatchOverviewPanel key="overview" match={raw} home={home} away={away} />,
+        <MatchStatsPanel key="stats" match={raw} view={view} home={home} away={away} pre />,
         <MatchLineupsPanel key="lineups" match={raw} view={view} home={home} away={away} pre />,
         <MatchStandingsPanel key="standings" match={raw} />,
       ]

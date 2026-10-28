@@ -6,6 +6,7 @@ import { teamsOf } from '@/data/teams';
 import { hasMetrics, metricOf } from '@/data/standings';
 import { bandColor } from '@/components/player/playerCalc';
 import { comma } from '@/lib/format';
+import { archiveMetrics } from '@/data/archiveMetrics';
 
 const cptOf = () => { try { return 'a'; } catch { return 'a'; } };
 // [statistica fatta, stessa statistica subita dall'avversaria, etichetta]
@@ -18,19 +19,23 @@ const PAIRS = [
   ['corner', 'cornerConcessi', 'Corner'],
   ['falli', 'fallisubiti', 'Falli'],
 ];
-const rk = (team, key) => {
-  const rows = teamsOf(team.leagueId).filter((t) => hasMetrics(t.id)).map((t) => ({ id: t.id, v: metricOf(t.id, key) })).sort((a, b) => b.v - a.v);
-  const i = rows.findIndex((r) => r.id === team.id);
-  return { rank: i + 1, total: rows.length, v: metricOf(team.id, key), max: rows.length ? rows[0].v : 1 };
+const rk = (team, key, ctx) => {
+  const rows = (ctx
+    ? ctx.am.tids().map((tid) => ({ id: tid, v: ctx.am.value(tid, key) }))
+    : teamsOf(team.leagueId).filter((t) => hasMetrics(t.id)).map((t) => ({ id: t.id, v: metricOf(t.id, key) }))
+  ).filter((r) => r.v !== null && r.v !== undefined).sort((a, b) => b.v - a.v);
+  const me = ctx ? ctx.tid(team) : team.id;
+  const i = rows.findIndex((r) => String(r.id) === String(me));
+  return { rank: i + 1, total: rows.length, v: ctx ? ctx.am.value(me, key) : metricOf(team.id, key), max: rows.length ? rows[0].v : 1 };
 };
 const frac = (r) => (r.total > 1 ? (r.total - r.rank) / (r.total - 1) : 1);
 const f2 = (v) => comma(v, 2);
 const ord = (r) => `${r.rank}º`;
 
-function build(me, op) {
+function build(me, op, ctx) {
   const rows = PAIRS.map(([a, b, label]) => {
-    const m = rk(me, a);
-    const o = rk(op, b);
+    const m = rk(me, a, ctx);
+    const o = rk(op, b, ctx);
     return { key: a, label, m, o, s: (frac(m) + frac(o)) / 2, hl: a !== 'falli' };
   });
   const best = rows.filter((r) => r.hl && frac(r.m) >= 0.6 && frac(r.o) >= 0.6).sort((x, y) => y.s - x.s).slice(0, 3);
@@ -41,9 +46,9 @@ const Pill = ({ r }) => (
   <span className="tnum rounded-full px-1.5 py-[1px] text-[10px] font-extrabold text-white" style={{ background: bandColor(frac(r)) }}>{ord(r)}</span>
 );
 
-function TeamTable({ me, op, concept, side }) {
-  if (!me || !op || !hasMetrics(me.id) || !hasMetrics(op.id)) return null;
-  const { rows, best } = build(me, op);
+function TeamTable({ me, op, concept, side, ctx }) {
+  if (!me || !op || !(ctx ? ctx.am.has(ctx.tid(me)) && ctx.am.has(ctx.tid(op)) : hasMetrics(me.id) && hasMetrics(op.id))) return null;
+  const { rows, best } = build(me, op, ctx);
   const isBest = (k) => best.some((b) => b.key === k);
   const head = (
     <div className="flex items-center gap-2.5 px-4 pb-2 pt-3.5">
@@ -151,16 +156,21 @@ function TeamTable({ me, op, concept, side }) {
   );
 }
 
-export default function PreMatchStats({ home, away, concept = cptOf() }) {
+export default function PreMatchStats({ home, away, match, concept = cptOf() }) {
   const [, force] = useState(0);
   void force;
   if (!home || !away) return null;
-  const ok = hasMetrics(home.id) && hasMetrics(away.id);
+  let ctx = null;
+  if (match && match.archive) {
+    const am = archiveMetrics(match);
+    if (am) ctx = { am, tid: (t) => (t.id === home.id ? match.archive.hid : match.archive.aid) };
+  }
+  const ok = ctx ? ctx.am.has(ctx.tid(home)) && ctx.am.has(ctx.tid(away)) : hasMetrics(home.id) && hasMetrics(away.id);
   if (!ok) return <p className="px-5 py-16 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Statistiche non disponibili per questa partita</p>;
   return (
     <div className="flex flex-col gap-5 pb-4 pt-3">
-      <TeamTable me={home} op={away} concept={concept} side="In casa" />
-      <TeamTable me={away} op={home} concept={concept} side="In trasferta" />
+      <TeamTable me={home} op={away} concept={concept} side="In casa" ctx={ctx} />
+      <TeamTable me={away} op={home} concept={concept} side="In trasferta" ctx={ctx} />
     </div>
   );
 }

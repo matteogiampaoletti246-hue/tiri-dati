@@ -91,7 +91,7 @@ export const zoneOf = (leagueId, rank) => {
 /* ───────────── statistiche di squadra ───────────── */
 
 // [file, campo, lato]   file: 'ex' = squadre_ex.json, 'sq' = squadre.json   lato: 0 = fatti, 1 = subiti
-const SRC = {
+export const SRC = {
   gol: ['ex', 'goals', 0],
   xg: ['ex', 'expected_goals', 0],
   xgNoPen: ['ex', 'expected_goals_non_penalty', 0],
