@@ -29,7 +29,10 @@ export default function TeamRosterPanel({ teamId }) {
   }, []);
   const all = playersByTeam(teamId);
   const team = teamById(teamId);
-  const rose = !all.length ? roseOf(team) : null;
+  const rose = roseOf(team);
+  const nk = (x) => String(x || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
+  const mine = {};
+  all.forEach((p) => { mine[nk(p.name)] = p; });
   const fmR = rose ? FM_ID[rose.lg] : null;
   const { data: skR } = useAsync(() => (fmR ? currentSeason(fmR) : Promise.resolve(null)), [fmR]);
   if (rose && rose.p && rose.p.length) {
@@ -46,7 +49,7 @@ export default function TeamRosterPanel({ teamId }) {
               const bits = [r[4] ? `${flagOf(r[4])} ${countryIt(r[4])}`.trim() : null, r[6] ? `${r[6]} cm` : null, r[5] ? `${r[5]} anni` : null].filter(Boolean);
               const initials = String(r[1]).split(' ').map((w) => w[0]).join('').slice(0, 2).toUpperCase();
               return (
-                <Link key={r[0]} to={skR ? `/giocatore/${archiveId(fmR, skR, r[0])}` : '#'} className="press mx-2 mb-1.5 flex items-center gap-3 rounded-[18px] px-3 py-2" style={{ background: teamGrad(team, 0x55) }}>
+                <Link key={r[0]} to={mine[nk(r[1])] ? `/giocatore/${mine[nk(r[1])].id}` : skR ? `/giocatore/${archiveId(fmR, skR, r[0])}` : '#'} className="press mx-2 mb-1.5 flex items-center gap-3 rounded-[18px] px-3 py-2" style={{ background: teamGrad(team, 0x55) }}>
                   <span className="avatar h-[38px] w-[38px] text-[11px]">
                     <Image src={playerFace(r[0])} alt={r[1]} className="h-full w-full" fittingType="fill" />
                     <span className="sr-only">{initials}</span>
