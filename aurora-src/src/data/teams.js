@@ -52,22 +52,31 @@ const lift = (hex) => {
 // colori sociali scelti a mano dove quello automatico non rende bene
 const TEAM_COL = { genoa: '#D4202F' };
 
-export function ensureTeam(name, leagueId, crest) {
+// id FotMob dallo stemma (…/teamlogo/1234.png): serve per trovare il colore dominante dello stemma in arch/colors.json
+const fmIdOf = (crest) => { const m = /teamlogo\/(\d+)\.png/.exec(String(crest || '')); return m ? m[1] : null; };
+const crestColor = (fmId, crest) => { const k = fmId || fmIdOf(crest); const c = k && RAW.colors && RAW.colors[String(k)]; return c || null; };
+
+export function ensureTeam(name, leagueId, crest, fmId, uid) {
   if (!name) return null;
-  const id = slug(name);
+  const id = uid || slug(name);
   let t = INDEX[id];
   if (!t) {
-    const base0 = TEAM_COL[id] || (RAW.teams && RAW.teams.col && RAW.teams.col[name]) || null;
+    const base0 = TEAM_COL[id] || (RAW.teams && RAW.teams.col && RAW.teams.col[name]) || crestColor(fmId, crest) || null;
     const base = base0 ? lift(base0) : null;
     const short = shortOf(name);
     const fx = fixedColors(name);
-    t = { id, name, short, initials: short.slice(0, 3), leagueId: leagueId || null, crest: crest || null, photo: null, colors: fx || [base || '#2C3E66', shade(base || '#2C3E66', 0.55)] };
+    t = { id, name, short, initials: short.slice(0, 3), leagueId: leagueId || null, crest: crest || null, photo: null, colors: fx || [base || '#2C3E66', shade(base || '#2C3E66', 0.55)], fixedCol: !!fx };
     INDEX[id] = t;
-    BY_NAME[name] = t;
+    if (!BY_NAME[name]) BY_NAME[name] = t;
     TEAMS.push(t);
   } else {
     if (crest && !t.crest) t.crest = crest;
     if (leagueId && !t.leagueId) t.leagueId = leagueId;
+    // squadra creata prima di conoscere lo stemma: se ha ancora il blu neutro prende il colore dello stemma
+    if (!t.fixedCol && t.colors && t.colors[0] === '#2C3E66') {
+      const cc = crestColor(fmId, crest || t.crest);
+      if (cc) { const b = lift(cc); t.colors = [b, shade(b, 0.55)]; }
+    }
   }
   return t;
 }

@@ -31,6 +31,7 @@ const FILES = {
   ali: 'ali.json',
   ruoli: 'ruoli.json',
   infortuni: 'infortuni.json',
+  colors: 'arch/colors.json',
 };
 
 export async function loadRaw() {

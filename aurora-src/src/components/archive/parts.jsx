@@ -38,7 +38,8 @@ export function useTeamColors() {
       const fx = fixedColors(name);
       if (fx) return { colors: fx };
       const t = name ? teamByName(name) : null;
-      const c = (t && t.colors && t.colors[0]) || map[String(id)] || '#2C3E66';
+      let c = t && t.colors && t.colors[0];
+      if (!c || c === '#2C3E66') c = map[String(id)] || c || '#2C3E66';
       return { colors: [c, shade(c, 0.55)] };
     };
   }, [data]);
@@ -52,7 +53,7 @@ export function ArchRow({ m, names, fm, sk }) {
   const sc = String(m[5] || '').split(' - ');
   const hasScore = played && sc.length === 2;
   return (
-    <Link to={`/storico/${fm}/${sk}/${m[0]}`} className="press flex items-center gap-2 px-4 py-3">
+    <Link to={`/match/a-${fm}-${sk}-${m[0]}`} className="press flex items-center gap-2 px-4 py-3">
       <div className="flex min-w-0 flex-1 items-center justify-end gap-2.5">
         <span className="truncate text-right text-[14px] font-semibold" style={{ color: 'var(--ink)' }}>{hn}</span>
         <TeamLogo id={m[2]} name={hn} size={24} />
@@ -114,7 +115,7 @@ export function StandingsPanel({ season, fm, sk, highlight = null }) {
           {head.map((h, i) => <span key={h} className={i === 1 ? '' : 'text-right'}>{h}</span>)}
         </div>
         {rows.map((r, i) => {
-          const on = highlight != null && String(highlight) === String(r.id);
+          const on = highlight != null && (Array.isArray(highlight) ? highlight : [highlight]).some((h) => String(h) === String(r.id));
           return (
             <Link key={r.id} to={`/storico/${fm}/${sk}/squadra/${r.id}`} className="press relative grid items-center gap-2 px-4 py-2.5" style={{ gridTemplateColumns: cols, borderTop: '1px solid var(--hair-2)', background: on ? 'var(--accent-soft)' : 'transparent' }}>
               {r.qualColor && !forma ? <span aria-hidden="true" className="absolute bottom-1.5 left-0 top-1.5 w-[3.5px] rounded-r-full" style={{ background: r.qualColor }} /> : null}

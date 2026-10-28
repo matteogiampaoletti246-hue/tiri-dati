@@ -1,6 +1,33 @@
 // Confronto squadra / squadra. Chi ha il valore più alto è in colore pieno, l'altra sbiadita.
 // variant: a = barre dal centro, b = barra unica divisa, c = numeri con linee sottili.
 export default function CompareBars({ rows, homeColor = 'var(--accent)', awayColor = 'var(--live)', format = (v) => v, variant = 'a' }) {
+  // d = stile delle statistiche partita: numeri neri, nome al centro, barra divisa azzurra / grigia (chi ha di piu' e' in evidenza)
+  if (variant === 'd') {
+    return (
+      <div className="flex flex-col">
+        {rows.map((row) => {
+          const na = Math.abs(row.home || 0);
+          const nb = Math.abs(row.away || 0);
+          const tot = na + nb;
+          const pa = tot > 0 ? (na / tot) * 100 : 50;
+          const fmt = row.format || format;
+          return (
+            <div key={row.label} className="py-2">
+              <div className="flex items-center justify-between text-[13px]">
+                <span className="tnum font-bold">{row.homeText ?? fmt(row.home)}</span>
+                <span className="px-2 text-center text-[12px]" style={{ color: 'var(--ink-2)' }}>{row.label}</span>
+                <span className="tnum font-bold">{row.awayText ?? fmt(row.away)}</span>
+              </div>
+              <div className="mt-1 flex h-[4px] gap-[3px] overflow-hidden rounded-full">
+                <span style={{ width: `${pa}%`, background: 'var(--accent)', opacity: na >= nb ? 1 : 0.45, borderRadius: 4 }} />
+                <span style={{ width: `${100 - pa}%`, background: 'var(--ink-2)', opacity: nb >= na ? 0.9 : 0.35, borderRadius: 4 }} />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
   return (
     <div className="flex flex-col gap-5">
       {rows.map((row) => {

@@ -25,7 +25,7 @@ const LIVE_STATS = [
 export default function MatchStatsPanel({ match, view, home, away, pre }) {
   const [period, setPeriod] = useState('all');
   const [full, setFull] = useState(false);
-  const cs = 'a';
+  const cs = 'd';
 
   if (pre) {
     return (

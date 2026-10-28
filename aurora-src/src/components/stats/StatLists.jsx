@@ -24,12 +24,31 @@ export default function StatLists({ sections, controls = null, limit = 8 }) {
       setOnScreen((v) => (v === ok ? v : ok));
     };
     const sched = () => { if (!raf) raf = requestAnimationFrame(check); };
+    // mentre il dito e' sullo schermo (swipe tra schede o pagine) si controlla a ogni fotogramma: il tasto compare e sparisce subito
+    let loop = 0;
+    let until = 0;
+    const tick = () => {
+      check();
+      loop = Date.now() < until ? requestAnimationFrame(tick) : 0;
+    };
+    const run = (ms) => { until = Math.max(until, Date.now() + ms); if (!loop) loop = requestAnimationFrame(tick); };
+    const onTouchStart = () => run(60000);
+    const onTouchEnd = () => { until = Date.now() + 700; run(700); };
+    const onShown = () => { check(); run(450); };
     check();
     window.addEventListener('scroll', sched, { passive: true });
     window.addEventListener('resize', sched);
-    window.addEventListener('sl-tab-shown', sched);
-    const iv = setInterval(sched, 400);
-    return () => { cancelAnimationFrame(raf); clearInterval(iv); window.removeEventListener('scroll', sched); window.removeEventListener('resize', sched); window.removeEventListener('sl-tab-shown', sched); };
+    window.addEventListener('sl-tab-shown', onShown);
+    document.addEventListener('touchstart', onTouchStart, { passive: true });
+    document.addEventListener('touchend', onTouchEnd, { passive: true });
+    document.addEventListener('touchcancel', onTouchEnd, { passive: true });
+    const iv = setInterval(sched, 1000);
+    run(600);
+    return () => {
+      cancelAnimationFrame(raf); cancelAnimationFrame(loop); clearInterval(iv);
+      window.removeEventListener('scroll', sched); window.removeEventListener('resize', sched); window.removeEventListener('sl-tab-shown', onShown);
+      document.removeEventListener('touchstart', onTouchStart); document.removeEventListener('touchend', onTouchEnd); document.removeEventListener('touchcancel', onTouchEnd);
+    };
   }, []);
   // le classifiche si disegnano a blocchi: all'apertura (e durante lo swipe) ne servono poche, le altre arrivano a app ferma
   const [lim, setLim] = useState(4);

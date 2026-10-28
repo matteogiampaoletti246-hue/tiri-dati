@@ -57,7 +57,7 @@ export default function FormCard({ match, home, away, concept = 'c' }) {
         <div className="mb-1 flex items-baseline justify-between"><p className="text-[11px] font-extrabold uppercase tracking-wider" style={{ color: 'var(--ink-3)' }}>Forma recente</p></div>
         <div className="grid grid-cols-5 gap-1.5"><span className="col-start-5 whitespace-nowrap text-center text-[9px] font-medium" style={{ color: 'var(--ink-3)' }}>più recente</span></div>
         {sides.map(({ team, id }, i) => {
-          const list = recentMatches(id, 5).slice().reverse();
+          const list = (match.recentOf ? match.recentOf(id) : recentMatches(id, 5)).slice().reverse();
           return (
             <div key={i} className="py-2" style={{ borderTop: i ? '1px solid var(--hair-2)' : 'none' }}>
               <TeamLink team={team} className="mb-2 flex items-center gap-2"><Crest team={team} size={20} /><span className="text-[13px] font-bold">{team ? team.name : '—'}</span></TeamLink>
@@ -89,7 +89,7 @@ export default function FormCard({ match, home, away, concept = 'c' }) {
     <div className="glass tint-card mx-4 overflow-hidden rounded-[24px] px-4 py-3">
       <p className="mb-1 text-[11px] font-extrabold uppercase tracking-wider" style={{ color: 'var(--ink-3)' }}>Forma recente</p>
       {sides.map(({ team, id }, i) => {
-        const f = teamForm(id);
+        const f = match.formOf ? match.formOf(id) : teamForm(id);
         const sm = summary(f);
         return (
           <div key={i} className="py-2.5" style={{ borderTop: i ? '1px solid var(--hair-2)' : 'none' }}>

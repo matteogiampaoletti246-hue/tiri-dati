@@ -16,10 +16,17 @@ function BottomBar() {
   const isActive = (item) => (item.exact ? pathname === item.to : pathname.startsWith(item.to));
 
   return (
-    <nav
+    // layoutRoot: l'animazione dell'indicatore non tiene conto dello scorrimento della pagina (la barra e' fissa),
+    // cosi' non puo' staccarsi e finire a meta' schermo dopo aver scrollato. Livello proprio per evitare artefatti di Safari.
+    <motion.nav
+      layoutRoot
       className="safe-bottom fixed inset-x-0 bottom-0 z-40"
       style={{
         background: 'linear-gradient(to top, hsl(var(--background)) 62%, transparent)',
+        transform: 'translate3d(0,0,0)',
+        WebkitTransform: 'translate3d(0,0,0)',
+        willChange: 'transform',
+        contain: 'layout',
       }}
     >
       <div className="mx-auto w-full max-w-[var(--app-w)] px-4 pt-2">
@@ -45,7 +52,7 @@ function BottomBar() {
           })}
         </div>
       </div>
-    </nav>
+    </motion.nav>
   );
 }
 

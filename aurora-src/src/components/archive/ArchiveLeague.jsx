@@ -8,7 +8,7 @@ import Skeleton from '@/components/Skeleton';
 import { TeamLogo, PlayerFace } from '@/components/FmImg';
 import useAsync from '@/hooks/useAsync';
 import { RefereesView } from '@/components/league/LeagueRefereesPanel';
-import { loadSeason, loadSeasonStats, loadSeasonMatches, SEASON_STAT_IT, prettyKey } from '@/data/archive';
+import { loadSeason, loadSeasonStats, loadSeasonMatches, SEASON_STAT_IT, STAT_IT, STAT_GROUPS, prettyKey } from '@/data/archive';
 import { tintGrad } from '@/lib/tint';
 import { ArchRow, StandingsPanel, fmtDate, dayKey, useTeamColors, rowBg } from './parts';
 
@@ -181,6 +181,83 @@ export function ArchStatPanel({ stats, kind, names, col, fm, sk }) {
   return <StatLists key={mode} sections={sections} controls={controls} />;
 }
 
+
+// Statistiche di squadra con Totale / Casa / Trasferta: medie a partita ricavate dalle partite archiviate della stagione.
+const TEAM_PART = [{ value: 0, label: 'Totale' }, { value: 1, label: 'Casa' }, { value: 2, label: 'Trasferta' }];
+const TS_KEYS = STAT_GROUPS.flatMap(([title, keys]) => keys.map((k) => [k, title]));
+const TS_EXTRA = ['expected_goals_open_play', 'expected_goals_non_penalty', 'expected_goals_on_target'];
+function teamAverages(season, det) {
+  const m = (det && det.m) || {};
+  const acc = {}; // tid -> part -> key -> {s,n}
+  const bump = (tid, part, k, v) => {
+    const t = (acc[tid] = acc[tid] || [{}, {}, {}]);
+    const x = (t[part][k] = t[part][k] || { s: 0, n: 0 });
+    x.s += v; x.n += 1;
+  };
+  (season.fix || []).forEach((f) => {
+    if (!f[6] || f[8]) return;
+    const sc = String(f[5] || '').split(' - ').map(Number);
+    const d = m[String(f[0])];
+    const sides = [[f[2], 1, 0], [f[3], 2, 1]];
+    sides.forEach(([tid, part, i]) => {
+      if (sc.length === 2 && !sc.some(Number.isNaN)) {
+        bump(tid, 0, 'goals_for', sc[i]); bump(tid, part, 'goals_for', sc[i]);
+        bump(tid, 0, 'goals_against', sc[1 - i]); bump(tid, part, 'goals_against', sc[1 - i]);
+      }
+      if (!d || !d.s) return;
+      Object.entries(d.s).forEach(([k, v]) => {
+        const n = Number(Array.isArray(v) ? v[i] : NaN);
+        if (!Number.isFinite(n)) return;
+        bump(tid, 0, k, n); bump(tid, part, k, n);
+      });
+    });
+  });
+  return acc;
+}
+const TS_LABEL = { goals_for: 'Gol fatti', goals_against: 'Gol subiti' };
+function ArchTeamStatPanel({ season, det, stats, names, col, fm, sk }) {
+  const [part, setPart] = useState(0);
+  const acc = useMemo(() => (season && det && det.m ? teamAverages(season, det) : null), [season, det]);
+  const has = acc && Object.keys(acc).length > 0 && Object.values(acc).some((t) => Object.keys(t[0]).some((k) => k !== 'goals_for' && k !== 'goals_against'));
+  if (!has) return <ArchStatPanel stats={stats} kind="teams" names={names} col={col} fm={fm} sk={sk} />;
+  const sections = [];
+  const groupOfKey = (k) => (TS_KEYS.find((x) => x[0] === k) || [null, 'Altro'])[1];
+  const keys = new Set(['goals_for', 'goals_against']);
+  Object.values(acc).forEach((t) => Object.keys(t[0]).forEach((k) => keys.add(k)));
+  const wanted = [...keys].filter((k) => TS_LABEL[k] || STAT_IT[k] || TS_EXTRA.includes(k));
+  wanted.forEach((k) => {
+    const rows = Object.entries(acc)
+      .map(([tid, t]) => ({ tid, x: t[part][k] }))
+      .filter((r) => r.x && r.x.n)
+      .map((r) => ({ tid: r.tid, v: r.x.s / r.x.n }))
+      .sort((a, b) => b.v - a.v);
+    if (rows.length < 2 || rows.every((r) => !r.v)) return;
+    sections.push({
+      id: k,
+      group: TS_LABEL[k] ? 'Principali' : groupOfKey(k),
+      title: TS_LABEL[k] || STAT_IT[k] || prettyKey(k),
+      rows: rows.map((r, i) => ({
+        id: `${r.tid}-${i}`,
+        to: `/storico/${fm}/${sk}/squadra/${r.tid}`,
+        left: <TeamLogo id={r.tid} name={names[r.tid]} size={24} />,
+        name: names[r.tid] || '—',
+        bg: rowBg(col, r.tid, names[r.tid], 0x55),
+        value: fmtVal(k === 'BallPossesion' ? 'percentage' : 'expected', r.v),
+      })),
+    });
+  });
+  const order = ['Principali', ...STAT_GROUPS.map((g) => g[0]).filter((g) => g !== 'Principali'), 'Altro'];
+  sections.sort((a, b) => order.indexOf(a.group) - order.indexOf(b.group));
+  if (!sections.length) return <ArchStatPanel stats={stats} kind="teams" names={names} col={col} fm={fm} sk={sk} />;
+  return (
+    <StatLists
+      key={part}
+      sections={sections}
+      controls={<TextFilter options={TEAM_PART} value={part} onChange={setPart} />}
+    />
+  );
+}
+
 // arbitri della stagione: medie calcolate dalle partite archiviate (arbitro, cartellini, falli, rigori)
 function refsOf(det) {
   const by = {};
@@ -210,7 +287,7 @@ export default function ArchiveLeague({ fm, sk, tab, setTab, tint }) {
   const panels = [
     <MatchesPanel key="m" fm={fm} sk={sk} season={season} tint={tint} />,
     <StandingsPanel key="s" season={season} fm={fm} sk={sk} />,
-    <ArchStatPanel key="t" stats={stats} kind="teams" names={names} col={col} fm={fm} sk={sk} />,
+    <ArchTeamStatPanel key="t" season={season} det={det} stats={stats} names={names} col={col} fm={fm} sk={sk} />,
     <ArchStatPanel key="p" stats={stats} kind="players" names={names} col={col} fm={fm} sk={sk} />,
     refs.length ? <RefereesView key="r" base={refs} /> : null,
   ].filter(Boolean);

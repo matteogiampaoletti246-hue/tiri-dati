@@ -1,0 +1,38 @@
+name: Aurora build
+# Quando il codice dell'app (aurora-src) cambia sul ramo principale, ricostruisce la cartella aurora/ che GitHub Pages pubblica.
+on:
+  push:
+    branches: [main]
+    paths:
+      - aurora-src/**
+  workflow_dispatch:
+concurrency:
+  group: aurora-build
+  cancel-in-progress: false
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Build
+        run: |
+          cd aurora-src
+          npm ci --no-audit --no-fund
+          npm run build
+      - name: Aggiorna aurora/
+        run: |
+          rm -rf aurora/assets
+          cp -r aurora-src/dist/. aurora/
+      - name: Salva
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add aurora
+          git diff --staged --quiet || git commit -m "Aurora: build dell'app"
+          for i in 1 2 3 4 5 6; do git pull --rebase && git push && break; sleep $((i*5)); done

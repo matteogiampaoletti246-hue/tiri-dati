@@ -1,6 +1,8 @@
 name: Colori squadre
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "23 */3 * * *"
   push:
     paths:
       - colori.trigger

@@ -211,7 +211,9 @@ export function applyFm(m, d, playerLookup) {
   if (d.ref && d.ref.n) {
     m.refereeName = d.ref.n;
     m.refereeId = slug(d.ref.n);
+    m.refFm = d.ref;
   }
+  if (d.stad && !m.stadium) m.stadium = d.stad;
   m.lineupType = d.ty || null;
   m.detail = true;
   m.fm = true;

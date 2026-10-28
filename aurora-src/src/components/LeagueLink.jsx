@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 export default function LeagueLink({ league, children, className = '' }) {
   const navigate = useNavigate();
 
-  if (!league) return <span className={className}>{children}</span>;
+  if (!league || league.noPage) return <span className={className}>{children}</span>;
 
   const open = (e) => {
     e.preventDefault();

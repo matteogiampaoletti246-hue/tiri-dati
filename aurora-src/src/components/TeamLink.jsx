@@ -10,7 +10,7 @@ export default function TeamLink({ team, children, className = '' }) {
   const open = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    navigate(`/squadra/${team.id}`);
+    navigate(team.href || `/squadra/${team.id}`);
   };
 
   return (

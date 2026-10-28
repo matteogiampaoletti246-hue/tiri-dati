@@ -13,13 +13,17 @@ import useInitialLoad from '@/hooks/useInitialLoad';
 import { bestPlayers, THRESHOLDS } from '@/data/topPlayers';
 import { DATES, TODAY_INDEX, isoDate } from '@/data/matches';
 
+// Il calendario parte da ieri: i giorni piu' vecchi non servono (oggi e' il secondo giorno della striscia)
+const DAYS = DATES.slice(Math.max(0, TODAY_INDEX - 1));
+const TODAY_I = TODAY_INDEX - Math.max(0, TODAY_INDEX - 1);
+
 // Giorno e soglia restano quando si apre un giocatore e si torna indietro.
 const KEEP = { day: null, thr: '0.5', stamp: '' };
 
 export default function TopPlayers() {
   const today = isoDate(new Date());
   const fresh = KEEP.day === null || KEEP.stamp !== today;
-  const [dayIdx, setDayIdx] = useState(fresh ? TODAY_INDEX : KEEP.day);
+  const [dayIdx, setDayIdx] = useState(fresh ? TODAY_I : Math.min(DAYS.length - 1, Math.max(0, KEEP.day)));
   const [threshold, setThreshold] = useState(fresh ? '0.5' : KEEP.thr);
   KEEP.stamp = today;
   KEEP.day = dayIdx;
@@ -35,13 +39,13 @@ export default function TopPlayers() {
   }, []);
 
   const dThr = useDeferredValue(threshold);
-  const rows = bestPlayers(isoDate(DATES[dayIdx]), dThr);
+  const rows = bestPlayers(isoDate(DAYS[dayIdx]), dThr);
 
   return (
     <PageShell swipeBack={false}>
       <header className="sticky top-0 z-30 pb-1" style={{ background: 'var(--sky-2)' }}>
         <FixedBar title="Migliori Giocatori" onSearch={() => { primeKeyboard(); setSearchOpen(true); }} />
-        <DayStrip dates={DATES} todayIndex={TODAY_INDEX} value={dayIdx} onChange={setDayIdx} />
+        <DayStrip dates={DAYS} todayIndex={TODAY_I} value={dayIdx} onChange={setDayIdx} />
         <div className="flex items-center px-5 pt-1">
           <TextFilter options={THRESHOLDS.map((t) => ({ value: t.key, label: t.label }))} value={threshold} onChange={setThreshold} />
           <span className="tnum ml-auto pl-4 text-[11.5px]" style={{ color: 'var(--ink-3)' }}>
@@ -60,10 +64,10 @@ export default function TopPlayers() {
       ) : (
         <DayPager
           index={dayIdx}
-          count={DATES.length}
+          count={DAYS.length}
           onChange={setDayIdx}
           render={(i) => {
-            const rows = bestPlayers(isoDate(DATES[i]), dThr);
+            const rows = bestPlayers(isoDate(DAYS[i]), dThr);
             return rows.length ? (
               <div>{rows.map((row, k) => <TopPlayerRow key={row.player.id} row={row} rank={k + 1} threshold={dThr} delay={0} />)}</div>
             ) : (

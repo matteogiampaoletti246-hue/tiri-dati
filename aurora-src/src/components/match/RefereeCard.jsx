@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { refereeById, findRefereeByName, refStatsIn, leagueRefAvg } from '@/data/referees';
+import { refereeById, findRefereeByName, refStatsIn, leagueRefAvg, flagOf } from '@/data/referees';
 import { Image } from '@/components/ui/image';
 import { WhistleIcon } from '@/components/LineIcons';
 import { conceptOf } from '@/components/match/FormCard';
@@ -53,8 +53,12 @@ export default function RefereeCard({ match, concept = 'b' }) {
   const r = (match.refereeId && refereeById(match.refereeId)) || findRefereeByName(match.refereeName);
   const name = r ? r.name : match.refereeName;
   if (!name) return null;
-  const st = r ? refStatsIn(r, match.leagueId) : null;
-  const lg = leagueRefAvg(match.leagueId);
+  // campionati senza arbitri in archivio: medie dell'arbitro da FotMob (o dalla stagione archiviata) contro la media del campionato
+  const fmRef = match.refFm;
+  const ex = match.refExtra;
+  const st = r ? refStatsIn(r, match.leagueId) : fmRef && fmRef.ya != null ? { n: fmRef.mt || 0, y: fmRef.ya, fo: fmRef.foa || 0 } : ex ? { n: ex.n, y: ex.y, fo: ex.fo } : null;
+  const lg = (r ? leagueRefAvg(match.leagueId) : null) || match.refLg || null;
+  const flag = r && r.flag ? r.flag : fmRef && fmRef.cc ? flagOf(fmRef.cc) : '';
   const inner = (
     <>
       <div className="flex items-center gap-3 px-4 py-3.5">
@@ -62,7 +66,7 @@ export default function RefereeCard({ match, concept = 'b' }) {
           {r && r.photo ? <Image src={r.photo} alt={name} className="h-full w-full" fittingType="fill" /> : <WhistleIcon size={20} />}
         </span>
         <div className="min-w-0">
-          <p className="flex items-center gap-1.5 truncate text-[15px] font-extrabold">{r && r.flag ? <span className="text-[17px] leading-none">{r.flag}</span> : null}<span className="truncate">{name}</span></p>
+          <p className="flex items-center gap-1.5 truncate text-[15px] font-extrabold">{flag ? <span className="text-[17px] leading-none">{flag}</span> : null}<span className="truncate">{name}</span></p>
           <p className="text-[11.5px]" style={{ color: 'var(--ink-3)' }}>{st ? `${st.n} ${st.n === 1 ? 'gara' : 'gare'} questa stagione` : 'Arbitro'}</p>
         </div>
       </div>
@@ -70,7 +74,7 @@ export default function RefereeCard({ match, concept = 'b' }) {
         <div style={{ borderTop: '1px solid var(--hair-2)' }}>
           <RefBar label="Ammonizioni / partita" v={st.y} avg={lg.y} sorted={lg.ys} concept={concept} />
           <div style={{ borderTop: '1px solid var(--hair-2)' }}><RefBar label="Falli fischiati / partita" v={st.fo} avg={lg.fo} sorted={lg.fos} concept={concept} /></div>
-          <p className="flex items-center gap-2 px-4 pb-3 text-[10.5px]" style={{ color: 'var(--ink-3)' }}><span style={{ display: 'inline-block', height: 12, borderLeft: concept === 'b' ? '2px dashed var(--ink)' : '2px solid var(--ink)', opacity: 0.85 }} />media stagionale arbitri {(leagueById(match.leagueId) || {}).name || ''}</p>
+          <p className="flex items-center gap-2 px-4 pb-3 text-[10.5px]" style={{ color: 'var(--ink-3)' }}><span style={{ display: 'inline-block', height: 12, borderLeft: concept === 'b' ? '2px dashed var(--ink)' : '2px solid var(--ink)', opacity: 0.85 }} />media stagionale arbitri {(leagueById(match.leagueId) || match.leagueObj || {}).name || ''}</p>
         </div>
       ) : null}
     </>

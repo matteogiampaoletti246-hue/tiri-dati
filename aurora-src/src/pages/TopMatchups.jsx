@@ -12,13 +12,17 @@ import useInitialLoad from '@/hooks/useInitialLoad';
 import { matchupRows, MATCHUP_TYPES } from '@/data/matchups';
 import { DATES, TODAY_INDEX, isoDate } from '@/data/matches';
 
+// Il calendario parte da ieri: i giorni piu' vecchi non servono (oggi e' il secondo giorno della striscia)
+const DAYS = DATES.slice(Math.max(0, TODAY_INDEX - 1));
+const TODAY_I = TODAY_INDEX - Math.max(0, TODAY_INDEX - 1);
+
 // Giorno e statistica restano quando si apre una partita e si torna indietro.
 const KEEP = { day: null, type: 'corner', stamp: '' };
 
 export default function TopMatchups() {
   const today = isoDate(new Date());
   const fresh = KEEP.day === null || KEEP.stamp !== today;
-  const [dayIdx, setDayIdx] = useState(fresh ? TODAY_INDEX : KEEP.day);
+  const [dayIdx, setDayIdx] = useState(fresh ? TODAY_I : Math.min(DAYS.length - 1, Math.max(0, KEEP.day)));
   const [typeKey, setTypeKey] = useState(fresh ? 'corner' : KEEP.type);
   KEEP.stamp = today;
   KEEP.day = dayIdx;
@@ -30,7 +34,7 @@ export default function TopMatchups() {
     <PageShell swipeBack={false}>
       <header className="sticky top-0 z-30 pb-1" style={{ background: 'var(--sky-2)' }}>
         <FixedBar title="Migliori Matchup" onSearch={() => { primeKeyboard(); setSearchOpen(true); }} />
-        <DayStrip dates={DATES} todayIndex={TODAY_INDEX} value={dayIdx} onChange={setDayIdx} />
+        <DayStrip dates={DAYS} todayIndex={TODAY_I} value={dayIdx} onChange={setDayIdx} />
         <div className="flex items-center pl-5 pr-5 pt-1">
           <StatPicker options={MATCHUP_TYPES} value={typeKey} onChange={setTypeKey} />
         </div>
@@ -46,10 +50,10 @@ export default function TopMatchups() {
       ) : (
         <DayPager
           index={dayIdx}
-          count={DATES.length}
+          count={DAYS.length}
           onChange={setDayIdx}
           render={(i) => {
-            const rows = matchupRows(isoDate(DATES[i]), typeKey);
+            const rows = matchupRows(isoDate(DAYS[i]), typeKey);
             return rows.length ? (
               <div>{rows.map((row) => <MatchupRow key={row.id} row={row} />)}</div>
             ) : (

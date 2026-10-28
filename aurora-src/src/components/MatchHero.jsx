@@ -59,7 +59,7 @@ export default function MatchHero({ match, view, league, home, away }) {
         </button>
         <LeagueLink league={league} className="mx-auto flex items-center gap-2 transition-opacity active:opacity-60">
           <LeagueBadge league={league} size={20} />
-          <span className="text-[12px] font-extrabold uppercase tracking-wider" style={{ color: 'var(--ink-2)' }}>{league ? league.name : '—'}</span>
+          <span className="text-[12px] font-extrabold uppercase tracking-wider" style={{ color: 'var(--ink-2)' }}>{league ? league.name : '—'}{match.seasonLabel ? ` · ${match.seasonLabel}` : ''}</span>
         </LeagueLink>
         <button type="button" className="glass press flex h-9 w-9 items-center justify-center rounded-full" aria-label="Condividi" onClick={share}>
           <Share2 size={16} />
@@ -73,7 +73,7 @@ export default function MatchHero({ match, view, league, home, away }) {
               <Crest team={home} size={54} />
               <span className="text-center text-[13px] font-semibold leading-tight">{home ? home.name : '—'}</span>
             </TeamLink>
-            {!live && !finished ? <FormDots form={teamForm(match.homeId)} size={13} /> : null}
+            {!live && !finished ? <FormDots form={match.formOf ? match.formOf(match.homeId) : teamForm(match.homeId)} size={13} /> : null}
           </div>
 
           <div className="flex w-[104px] flex-none flex-col items-center pt-3">
@@ -90,6 +90,7 @@ export default function MatchHero({ match, view, league, home, away }) {
             ) : (
               <span className="mt-1.5 text-center text-[11px]" style={{ color: 'var(--ink-3)' }}>{statusText}</span>
             )}
+            {finished && match.seasonLabel ? <span className="tnum mt-0.5 text-center text-[10.5px]" style={{ color: 'var(--ink-3)' }}>{longDate(date)}</span> : null}
           </div>
 
           <div className="flex min-w-0 flex-1 flex-col items-center gap-2">
@@ -97,7 +98,7 @@ export default function MatchHero({ match, view, league, home, away }) {
               <Crest team={away} size={54} />
               <span className="text-center text-[13px] font-semibold leading-tight">{away ? away.name : '—'}</span>
             </TeamLink>
-            {!live && !finished ? <FormDots form={teamForm(match.awayId)} size={13} /> : null}
+            {!live && !finished ? <FormDots form={match.formOf ? match.formOf(match.awayId) : teamForm(match.awayId)} size={13} /> : null}
           </div>
         </div>
 

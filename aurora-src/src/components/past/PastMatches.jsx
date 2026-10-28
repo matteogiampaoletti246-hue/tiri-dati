@@ -102,7 +102,7 @@ export function PastPlayerMatches({ fm, seasons, fmPid }) {
           <div className="mb-2 mt-5 text-[11px] font-extrabold uppercase tracking-wider" style={{ color: 'var(--ink-3)' }}>Stagione {seasonLabel(sk)}</div>
           <div className="flex flex-col gap-2.5">
             {res.rows.map((m) => (
-              <Link key={m.mid} to={`/storico/${fm}/${sk}/${m.mid}`} className="club-card flex items-center gap-3 rounded-2xl px-3.5 py-3 active:opacity-60" style={{ background: 'var(--panel-solid, rgba(255,255,255,.04))' }}>
+              <Link key={m.mid} to={`/match/a-${fm}-${sk}-${m.mid}`} className="club-card flex items-center gap-3 rounded-2xl px-3.5 py-3 active:opacity-60" style={{ background: 'var(--panel-solid, rgba(255,255,255,.04))' }}>
                 <TeamLogo id={m.opp} name={m.oppName} size={26} />
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-[13.5px]">{m.home ? 'vs' : '@'} {m.oppName || '—'} <span className="tnum" style={{ color: 'var(--ink-3)' }}>{m.score}</span></p>

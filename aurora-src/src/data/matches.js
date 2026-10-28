@@ -148,11 +148,13 @@ export function buildMatches() {
     LEAGUES.filter((l) => l.extra).forEach((l) => { lgOf[l.fm] = l.id; });
     const byNorm = {};
     TEAMS.forEach((t) => { byNorm[nn(t.name)] = t; });
-    const team = (name, fmId, lg) => {
+    const team = (name, fmId, lg, fm, sk) => {
       const hit = byNorm[nn(name)];
       const crest = `https://images.fotmob.com/image_resources/logo/teamlogo/${fmId}.png`;
-      const t = hit || ensureTeam(name, lg, crest);
+      const t = hit || ensureTeam(name, lg, crest, fmId);
       if (t && !t.crest) t.crest = crest;
+      // squadra nuova (non presente tra i top): il suo link porta alla pagina dell'archivio
+      if (t && !hit && sk) t.href = `/storico/${fm}/${sk}/squadra/${fmId}`;
       return t;
     };
     X.m.forEach(([mid, fm, utc, hn, an, hid, aid, gh, ga, st]) => {
@@ -160,16 +162,16 @@ export function buildMatches() {
       if (!lg || !hn || !an) return;
       const ts = new Date(utc).getTime();
       const d = romeDay(ts);
-      const home = team(hn, hid, lg);
-      const away = team(an, aid, lg);
       const sk = (X.sk && X.sk[String(fm)]) || '';
+      const home = team(hn, hid, lg, fm, sk);
+      const away = team(an, aid, lg, fm, sk);
       const id = `x-${fm}-${mid}`;
       const fin = st === 'f' && gh !== null && ga !== null;
       const m = baseMatch({
         id, leagueId: lg, homeId: home.id, awayId: away.id, date: d, ts, timeKnown: true,
         status: fin ? 'finished' : st === 'l' ? 'live' : 'scheduled', minute: fin ? 90 : null,
         score: gh !== null && ga !== null ? [gh, ga] : null, liveScore: st === 'l' && gh !== null ? [gh, ga] : null,
-        href: sk ? `/storico/${fm}/${sk}/${mid}` : null, extra: true,
+        extra: true, fmId: mid, archive: sk ? { fm, sk, mid, hid, aid } : null,
       });
       MATCHES.push(m);
       MATCH_BY_ID[id] = m;
@@ -427,7 +429,7 @@ export async function ensureDetail(id, playerLookup) {
     applyPlannedLineup(m, playerLookup);
     return m;
   }
-  if (m.detail || m.placeholder) return m;
+  if (m.detail || m.placeholder || m.archive) return m;
   const d = await loadDetail(id);
   if (d) applyDetail(m, d, playerLookup);
   return m;
