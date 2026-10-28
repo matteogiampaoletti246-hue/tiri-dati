@@ -33,7 +33,7 @@ function Face({ p, size = 46, team }) {
       </span>
       <span className="pointer-events-none" style={SHADOW}>
         {p.goals ? <Mark style={{ top: -6, right: -8 }} n={p.goals}><BallIcon size={20} /></Mark> : null}
-        {p.assists ? <Mark style={{ top: 20, right: -10 }} n={p.assists}><BootIcon size={20} /></Mark> : null}
+        {p.assists ? <Mark style={{ top: 11, right: -13 }} n={p.assists}><BootIcon size={20} /></Mark> : null}
         {p.card ? <span className="absolute rounded-[2.5px]" style={{ top: -6, left: -8, width: 11, height: 15, background: p.card === 'red' ? '#E5484D' : '#F2C230' }} /> : null}
         {p.subOut ? <Mark style={{ bottom: -6, right: -6 }}><SubIcon size={20} /></Mark> : null}
       </span>
