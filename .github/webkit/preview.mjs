@@ -272,7 +272,7 @@ await step('squadra minore: rosa per ruoli con volti', async () => {
   await go('#/squadra/feyenoord', 6000);
   await clickText('Squadra'); await wait(2500);
   const t = await pg.evaluate(() => document.body.innerText);
-  ok('rosa Feyenoord: ruoli Portieri/Difensori/Centrocampisti/Attaccanti', /Portieri/.test(t) && /Difensori/.test(t) && /Centrocampisti/.test(t) && /Attaccanti/.test(t));
+  ok('rosa Feyenoord: ruoli Portieri/Difensori/Centrocampisti/Attaccanti', /portieri/i.test(t) && /difensori/i.test(t) && /centrocampisti/i.test(t) && /attaccanti/i.test(t));
   const imgs = await pg.evaluate(() => document.querySelectorAll('img[src*="playerimages"]').length);
   ok('rosa Feyenoord: ci sono i volti', imgs > 10, { imgs });
   await shot('feyenoord-rosa');
