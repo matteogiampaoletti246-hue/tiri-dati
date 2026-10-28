@@ -64,7 +64,7 @@ export default function ClassificaSwitch({ fm, sk, children }) {
           ))}
         </div>
       </div>
-      <div ref={box} className="grid overflow-x-clip">
+      <div ref={box} className="grid overflow-x-clip" style={{ gridTemplateColumns: "minmax(0, 1fr)" }}>
         <div ref={A} style={{ gridArea: '1 / 1', transformOrigin: 'top center', willChange: 'transform, opacity' }}>{children}</div>
         <div ref={Bv} style={{ gridArea: '1 / 1', transformOrigin: 'top center', display: 'none', willChange: 'transform, opacity' }}>
           <Bracket fm={fm} sk={sk} />
