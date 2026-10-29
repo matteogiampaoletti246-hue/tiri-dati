@@ -740,7 +740,7 @@ await step('partita senza momentum (Austrian Cup): il Riepilogo parte dal primo 
 });
 
 const ready = () => pg.waitForFunction(() => document.querySelectorAll('.tab-btn').length > 0, null, { timeout: 30000 }).catch(() => {});
-const tabClick = (t) => pg.evaluate((t) => { const vis = (x) => { const r = x.getBoundingClientRect(); return r.width > 0 && r.height > 0; }; const e = [...document.querySelectorAll('.tab-btn')].filter(vis).find((x) => x.textContent.trim() === t); if (e) e.click(); return !!e; }, t);
+const tabClick = (t) => pg.evaluate((t) => { const vis = (x) => { const r = x.getBoundingClientRect(); if (r.width <= 0 || r.height <= 0) return false; const t = document.elementFromPoint(Math.min(Math.max(r.left + r.width / 2, 1), innerWidth - 1), Math.min(Math.max(r.top + r.height / 2, 1), innerHeight - 1)); return !!t && (x === t || x.contains(t)); }; const e = [...document.querySelectorAll('.tab-btn')].filter(vis).find((x) => x.textContent.trim() === t); if (e) e.click(); return !!e; }, t);
 
 await step('pillole: tornando su una squadra con lo swipe non saltano', async () => {
   for (const team of ['lazio', 'feyenoord']) {
@@ -778,7 +778,7 @@ await step('campionati aggiunti: squadra della Liga MX (stagione con suffisso) c
   await pg.evaluate(() => { const a = [...document.querySelectorAll('a[href*="giocatore"]')].find((x) => x.getBoundingClientRect().height > 0); if (a) a.click(); });
   await pg.waitForFunction(() => /giocatore/.test(location.hash) && [...document.querySelectorAll('.tab-btn')].some((x) => x.textContent.trim() === 'Carriera'), null, { timeout: 25000 }).catch(() => {});
   await wait(1500);
-  const tabs = await pg.evaluate(() => [...document.querySelectorAll('.tab-btn')].filter((x) => x.getBoundingClientRect().height > 0).map((x) => x.textContent.trim()));
+  const tabs = await pg.evaluate(() => [...document.querySelectorAll('.tab-btn')].filter((x) => { const r = x.getBoundingClientRect(); const t = document.elementFromPoint(Math.min(Math.max(r.left + r.width / 2, 1), innerWidth - 1), Math.min(Math.max(r.top + r.height / 2, 1), innerHeight - 1)); return r.height > 0 && !!t && (x === t || x.contains(t)); }).map((x) => x.textContent.trim()));
   await tabClick('Statistiche'); await wait(3500);
   const p = await pg.evaluate(() => document.body.innerText);
   ok('liga mx: scheda giocatore con Profilo/Partite/Statistiche/Carriera e statistiche della stagione', ['Profilo', 'Partite', 'Statistiche', 'Carriera'].every((x) => tabs.includes(x)) && /presenze/i.test(p) && /Apertura|Clausura/.test(p), { tabs });
