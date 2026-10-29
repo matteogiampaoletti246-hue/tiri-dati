@@ -5,6 +5,7 @@ import CompSeasonBar from '@/components/CompSeasonBar';
 import LeagueBadge from '@/components/LeagueBadge';
 import MatchRow from '@/components/MatchRow';
 import useAsync from '@/hooks/useAsync';
+import { useArchAny } from '@/hooks/useArchFresh';
 import { allTeamMatches } from '@/data/extras';
 import { teamCompetitions } from '@/data/competitions';
 import { announceComp, useTeamView, useSel, useCompIn } from '@/components/past/PastBits';
@@ -78,15 +79,23 @@ function PastSeason({ team, comp, sk, filter }) {
       if (!tid) continue;
       (s.fix || []).forEach((m) => {
         if (String(m[2]) !== String(tid) && String(m[3]) !== String(tid)) return;
-        out.push({ key: `${fm}-${m[0]}`, day: dayKey(m[4]), date: String(m[4]), lid: LID_BY_FM[fm], fm, m, names: s.teams, tid, played: !!m[6] });
+        out.push({ key: `${fm}-${m[0]}`, day: dayKey(m[4]), date: String(m[4]), lid: LID_BY_FM[fm], fm, m, s, names: s.teams, tid, played: !!m[6] });
       });
     }
     return out;
   }, [team.name, comp, sk]);
+  // stagione in corso: i risultati arrivati dopo (data/archive.js) sostituiscono le righe vecchie
+  const ver = useArchAny();
   const list = useMemo(() => {
-    const l = (data || []).filter((it) => (filter === 'all' ? true : filter === 'results' ? it.played : !it.played));
+    const rows = new Map();
+    const now = (it) => {
+      if (!rows.has(it.s)) rows.set(it.s, new Map((it.s.fix || []).map((m) => [m[0], m])));
+      const m = rows.get(it.s).get(it.m[0]) || it.m;
+      return m === it.m ? it : { ...it, m, played: !!m[6] };
+    };
+    const l = (data || []).map(now).filter((it) => (filter === 'all' ? true : filter === 'results' ? it.played : !it.played));
     return l.sort((a, b) => (filter === 'upcoming' ? a.date.localeCompare(b.date) : b.date.localeCompare(a.date)));
-  }, [data, filter]);
+  }, [data, filter, ver]);
   if (loading) return <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Carico le partite…</p>;
   if (!list.length) return <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Nessuna partita</p>;
   return <Pills items={list} dayHead={(d) => fmtDate(d)} row={(it) => <ArchRow m={it.m} names={it.names} fm={it.fm} sk={sk} tid={it.tid} />} />;

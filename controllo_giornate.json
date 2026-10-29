@@ -1,0 +1,4376 @@
+{
+ "competizioni": 365,
+ "con_errori_prima": 140,
+ "giornate_lunghe_prima": 524,
+ "giornate_lunghe_dopo": 1,
+ "dettaglio": {
+  "10007": {
+   "stagione": "2024",
+   "turni": [
+    {
+     "turno": "9",
+     "giorni": 17,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "11",
+     "giorni": 28,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "10076": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "1",
+     "giorni": 41,
+     "riquadri": 2,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "2",
+     "giorni": 23,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "5",
+     "giorni": 34,
+     "riquadri": 1,
+     "recuperi": 3,
+     "corretta": true
+    }
+   ]
+  },
+  "10226": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "20",
+     "giorni": 71,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "9",
+     "giorni": 69,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "10270": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "5",
+     "giorni": 13,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    }
+   ]
+  },
+  "10272": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "5",
+     "giorni": 50,
+     "riquadri": 1,
+     "recuperi": 3,
+     "corretta": true
+    },
+    {
+     "turno": "1",
+     "giorni": 29,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "2",
+     "giorni": 34,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "3",
+     "giorni": 33,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "4",
+     "giorni": 33,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "6",
+     "giorni": 29,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    }
+   ]
+  },
+  "10274": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "1",
+     "giorni": 27,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "2",
+     "giorni": 26,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "3",
+     "giorni": 30,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "4",
+     "giorni": 33,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "5",
+     "giorni": 35,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "6",
+     "giorni": 35,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    }
+   ]
+  },
+  "10282": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "1",
+     "giorni": 110,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "16",
+     "giorni": 78,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "27",
+     "giorni": 155,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "18",
+     "giorni": 144,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "20",
+     "giorni": 67,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "14",
+     "giorni": 114,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "26",
+     "giorni": 85,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "15",
+     "giorni": 88,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "21",
+     "giorni": 41,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "17",
+     "giorni": 84,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "30",
+     "giorni": 88,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "23",
+     "giorni": 39,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "25",
+     "giorni": 36,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    }
+   ]
+  },
+  "10448": {
+   "stagione": "2025-2026",
+   "turni": [
+    {
+     "turno": "1",
+     "giorni": 226,
+     "riquadri": 1,
+     "recuperi": 10,
+     "corretta": true
+    },
+    {
+     "turno": "2",
+     "giorni": 203,
+     "riquadri": 2,
+     "recuperi": 6,
+     "corretta": true
+    },
+    {
+     "turno": "3",
+     "giorni": 212,
+     "riquadri": 1,
+     "recuperi": 12,
+     "corretta": true
+    },
+    {
+     "turno": "4",
+     "giorni": 154,
+     "riquadri": 4,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "5",
+     "giorni": 156,
+     "riquadri": 2,
+     "recuperi": 8,
+     "corretta": true
+    },
+    {
+     "turno": "11",
+     "giorni": 199,
+     "riquadri": 2,
+     "recuperi": 8,
+     "corretta": true
+    },
+    {
+     "turno": "6",
+     "giorni": 191,
+     "riquadri": 3,
+     "recuperi": 4,
+     "corretta": true
+    },
+    {
+     "turno": "7",
+     "giorni": 196,
+     "riquadri": 1,
+     "recuperi": 12,
+     "corretta": true
+    },
+    {
+     "turno": "12",
+     "giorni": 191,
+     "riquadri": 3,
+     "recuperi": 4,
+     "corretta": true
+    },
+    {
+     "turno": "9",
+     "giorni": 155,
+     "riquadri": 3,
+     "recuperi": 4,
+     "corretta": true
+    },
+    {
+     "turno": "16",
+     "giorni": 184,
+     "riquadri": 1,
+     "recuperi": 5,
+     "corretta": true
+    },
+    {
+     "turno": "10",
+     "giorni": 164,
+     "riquadri": 2,
+     "recuperi": 8,
+     "corretta": true
+    },
+    {
+     "turno": "8",
+     "giorni": 149,
+     "riquadri": 3,
+     "recuperi": 4,
+     "corretta": true
+    },
+    {
+     "turno": "13",
+     "giorni": 162,
+     "riquadri": 2,
+     "recuperi": 8,
+     "corretta": true
+    },
+    {
+     "turno": "17",
+     "giorni": 155,
+     "riquadri": 2,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "14",
+     "giorni": 148,
+     "riquadri": 4,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "15",
+     "giorni": 124,
+     "riquadri": 1,
+     "recuperi": 4,
+     "corretta": true
+    },
+    {
+     "turno": "18",
+     "giorni": 127,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    }
+   ]
+  },
+  "10628": {
+   "stagione": "2025-2026",
+   "turni": [
+    {
+     "turno": "1",
+     "giorni": 28,
+     "riquadri": 3,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "2",
+     "giorni": 21,
+     "riquadri": 1,
+     "recuperi": 3,
+     "corretta": true
+    }
+   ]
+  },
+  "10654": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "2",
+     "giorni": 42,
+     "riquadri": 1,
+     "recuperi": 3,
+     "corretta": true
+    },
+    {
+     "turno": "3",
+     "giorni": 39,
+     "riquadri": 1,
+     "recuperi": 3,
+     "corretta": true
+    },
+    {
+     "turno": "4",
+     "giorni": 35,
+     "riquadri": 1,
+     "recuperi": 4,
+     "corretta": true
+    }
+   ]
+  },
+  "10705": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "1",
+     "giorni": 84,
+     "riquadri": 1,
+     "recuperi": 3,
+     "corretta": true
+    },
+    {
+     "turno": "3",
+     "giorni": 77,
+     "riquadri": 1,
+     "recuperi": 6,
+     "corretta": true
+    },
+    {
+     "turno": "4",
+     "giorni": 28,
+     "riquadri": 1,
+     "recuperi": 4,
+     "corretta": true
+    }
+   ]
+  },
+  "10721": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "6",
+     "giorni": 20,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "108": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "3",
+     "giorni": 67,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "8",
+     "giorni": 80,
+     "riquadri": 1,
+     "recuperi": 6,
+     "corretta": true
+    },
+    {
+     "turno": "9",
+     "giorni": 115,
+     "riquadri": 2,
+     "recuperi": 3,
+     "corretta": true
+    }
+   ]
+  },
+  "109": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "8",
+     "giorni": 59,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "9",
+     "giorni": 73,
+     "riquadri": 1,
+     "recuperi": 3,
+     "corretta": true
+    }
+   ]
+  },
+  "11030": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "5",
+     "giorni": 21,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "111": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "8",
+     "giorni": 27,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "9",
+     "giorni": 20,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    }
+   ]
+  },
+  "11499": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "1",
+     "giorni": 60,
+     "riquadri": 1,
+     "recuperi": 3,
+     "corretta": true
+    },
+    {
+     "turno": "9",
+     "giorni": 39,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "116": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "9",
+     "giorni": 14,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "11697": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "4",
+     "giorni": 11,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "117": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "14",
+     "giorni": 14,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "118": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "3",
+     "giorni": 27,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "15",
+     "giorni": 99,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "4",
+     "giorni": 98,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "120": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "18",
+     "giorni": 64,
+     "riquadri": 1,
+     "recuperi": 4,
+     "corretta": true
+    },
+    {
+     "turno": "22",
+     "giorni": 42,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "122": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "4",
+     "giorni": 18,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "5",
+     "giorni": 18,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "6",
+     "giorni": 46,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "11",
+     "giorni": 18,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "123": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "8",
+     "giorni": 25,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "9",
+     "giorni": 24,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    }
+   ]
+  },
+  "124": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "3",
+     "giorni": 31,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "7",
+     "giorni": 45,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "126": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "1",
+     "giorni": 17,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "2",
+     "giorni": 24,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "11",
+     "giorni": 168,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "24",
+     "giorni": 47,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "25",
+     "giorni": 33,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "28",
+     "giorni": 14,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "30",
+     "giorni": 28,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "33",
+     "giorni": 17,
+     "riquadri": 1,
+     "recuperi": 3,
+     "corretta": true
+    }
+   ]
+  },
+  "127": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "1",
+     "giorni": 12,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    }
+   ]
+  },
+  "129": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "1",
+     "giorni": 32,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "3",
+     "giorni": 67,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "4",
+     "giorni": 95,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "9",
+     "giorni": 74,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "10",
+     "giorni": 17,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "130": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "1",
+     "giorni": 146,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "3",
+     "giorni": 154,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "7",
+     "giorni": 165,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "9",
+     "giorni": 167,
+     "riquadri": 1,
+     "recuperi": 3,
+     "corretta": true
+    },
+    {
+     "turno": "32",
+     "giorni": 103,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "23",
+     "giorni": 47,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "24",
+     "giorni": 22,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "135": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "1",
+     "giorni": 19,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "142": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "1",
+     "giorni": 98,
+     "riquadri": 2,
+     "recuperi": 11,
+     "corretta": true
+    },
+    {
+     "turno": "2",
+     "giorni": 70,
+     "riquadri": 2,
+     "recuperi": 11,
+     "corretta": true
+    },
+    {
+     "turno": "3",
+     "giorni": 49,
+     "riquadri": 1,
+     "recuperi": 17,
+     "corretta": true
+    }
+   ]
+  },
+  "144": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "6",
+     "giorni": 61,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "7",
+     "giorni": 57,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "8",
+     "giorni": 62,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "10",
+     "giorni": 44,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    }
+   ]
+  },
+  "145": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "1",
+     "giorni": 17,
+     "riquadri": 2,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "147": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "7",
+     "giorni": 18,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "8",
+     "giorni": 25,
+     "riquadri": 1,
+     "recuperi": 3,
+     "corretta": true
+    },
+    {
+     "turno": "9",
+     "giorni": 11,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "161": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "1",
+     "giorni": 236,
+     "riquadri": 3,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "2",
+     "giorni": 184,
+     "riquadri": 3,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "3",
+     "giorni": 184,
+     "riquadri": 3,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "4",
+     "giorni": 186,
+     "riquadri": 3,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "5",
+     "giorni": 185,
+     "riquadri": 3,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "6",
+     "giorni": 185,
+     "riquadri": 2,
+     "recuperi": 8,
+     "corretta": true
+    },
+    {
+     "turno": "7",
+     "giorni": 185,
+     "riquadri": 3,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "8",
+     "giorni": 188,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "9",
+     "giorni": 191,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "10",
+     "giorni": 191,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "11",
+     "giorni": 192,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "12",
+     "giorni": 191,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "13",
+     "giorni": 192,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    }
+   ]
+  },
+  "169": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "6",
+     "giorni": 155,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "26",
+     "giorni": 156,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "15",
+     "giorni": 33,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "171": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "1",
+     "giorni": 62,
+     "riquadri": 2,
+     "recuperi": 9,
+     "corretta": true
+    },
+    {
+     "turno": "2",
+     "giorni": 49,
+     "riquadri": 2,
+     "recuperi": 3,
+     "corretta": true
+    }
+   ]
+  },
+  "173": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "2",
+     "giorni": 39,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "6",
+     "giorni": 103,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "176": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "3",
+     "giorni": 81,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    }
+   ]
+  },
+  "179": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "2",
+     "giorni": 35,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    }
+   ]
+  },
+  "182": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "2",
+     "giorni": 95,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "3",
+     "giorni": 40,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "4",
+     "giorni": 81,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "5",
+     "giorni": 33,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "185": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "5",
+     "giorni": 29,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "189": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "4",
+     "giorni": 62,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "193": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "5",
+     "giorni": 16,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    }
+   ]
+  },
+  "196": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "2",
+     "giorni": 46,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "3",
+     "giorni": 66,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "4",
+     "giorni": 125,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "5",
+     "giorni": 13,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    }
+   ]
+  },
+  "197": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "3",
+     "giorni": 190,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "20",
+     "giorni": 189,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "22",
+     "giorni": 190,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "5",
+     "giorni": 190,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "6",
+     "giorni": 190,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "23",
+     "giorni": 188,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "7",
+     "giorni": 41,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "13",
+     "giorni": 183,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "30",
+     "giorni": 179,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "203": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "1",
+     "giorni": 63,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "24",
+     "giorni": 19,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "204": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "11",
+     "giorni": 67,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "16",
+     "giorni": 32,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "205": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "8",
+     "giorni": 89,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "13",
+     "giorni": 54,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "17",
+     "giorni": 52,
+     "riquadri": 1,
+     "recuperi": 4,
+     "corretta": true
+    }
+   ]
+  },
+  "206": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "1",
+     "giorni": 12,
+     "riquadri": 1,
+     "recuperi": 5,
+     "corretta": true
+    },
+    {
+     "turno": "2",
+     "giorni": 23,
+     "riquadri": 1,
+     "recuperi": 10,
+     "corretta": true
+    },
+    {
+     "turno": "3",
+     "giorni": 22,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "209": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "1",
+     "giorni": 12,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    }
+   ]
+  },
+  "212": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "3",
+     "giorni": 27,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "5",
+     "giorni": 104,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "215": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "16",
+     "giorni": 62,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "14",
+     "giorni": 48,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "216": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "8",
+     "giorni": 39,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "9",
+     "giorni": 17,
+     "riquadri": 1,
+     "recuperi": 3,
+     "corretta": true
+    },
+    {
+     "turno": "15",
+     "giorni": 69,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "16",
+     "giorni": 20,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    }
+   ]
+  },
+  "218": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "10",
+     "giorni": 45,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "223": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "16",
+     "giorni": 140,
+     "riquadri": 1,
+     "recuperi": 3,
+     "corretta": true
+    }
+   ]
+  },
+  "224": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "4",
+     "giorni": 25,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    }
+   ]
+  },
+  "225": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "20",
+     "giorni": 88,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "10",
+     "giorni": 85,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "21",
+     "giorni": 115,
+     "riquadri": 1,
+     "recuperi": 3,
+     "corretta": true
+    },
+    {
+     "turno": "17",
+     "giorni": 25,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "14",
+     "giorni": 116,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "18",
+     "giorni": 88,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "226": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "23",
+     "giorni": 38,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "24",
+     "giorni": 51,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "25",
+     "giorni": 75,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    }
+   ]
+  },
+  "228": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "22",
+     "giorni": 154,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "13",
+     "giorni": 76,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "32",
+     "giorni": 64,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "23",
+     "giorni": 63,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "24",
+     "giorni": 45,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "25",
+     "giorni": 45,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "230": {
+   "stagione": "2026-2027 - Apertura",
+   "turni": [
+    {
+     "turno": "7",
+     "giorni": 71,
+     "riquadri": 1,
+     "recuperi": 4,
+     "corretta": true
+    }
+   ]
+  },
+  "241": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "1",
+     "giorni": 54,
+     "riquadri": 1,
+     "recuperi": 3,
+     "corretta": true
+    },
+    {
+     "turno": "8",
+     "giorni": 183,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "17",
+     "giorni": 184,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "9",
+     "giorni": 182,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "18",
+     "giorni": 182,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "242": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "1",
+     "giorni": 11,
+     "riquadri": 1,
+     "recuperi": 4,
+     "corretta": true
+    },
+    {
+     "turno": "2",
+     "giorni": 16,
+     "riquadri": 1,
+     "recuperi": 4,
+     "corretta": true
+    },
+    {
+     "turno": "4",
+     "giorni": 13,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    }
+   ]
+  },
+  "246": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "1",
+     "giorni": 47,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "16",
+     "giorni": 32,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "248": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "13",
+     "giorni": 98,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "19",
+     "giorni": 13,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "20",
+     "giorni": 62,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "22",
+     "giorni": 40,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    }
+   ]
+  },
+  "250": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "3",
+     "giorni": 12,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "18",
+     "giorni": 13,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "251": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "1",
+     "giorni": 66,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "13",
+     "giorni": 18,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "252": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "2",
+     "giorni": 117,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "254": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "3",
+     "giorni": 49,
+     "riquadri": 1,
+     "recuperi": 6,
+     "corretta": true
+    }
+   ]
+  },
+  "262": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "2",
+     "giorni": 117,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    }
+   ]
+  },
+  "263": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "2",
+     "giorni": 128,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "17",
+     "giorni": 206,
+     "riquadri": 1,
+     "recuperi": 3,
+     "corretta": true
+    },
+    {
+     "turno": "15",
+     "giorni": 55,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "16",
+     "giorni": 76,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    }
+   ]
+  },
+  "264": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "8",
+     "giorni": 11,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    }
+   ]
+  },
+  "267": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "2",
+     "giorni": 33,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    }
+   ]
+  },
+  "268": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "2",
+     "giorni": 15,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "4",
+     "giorni": 189,
+     "riquadri": 1,
+     "recuperi": 3,
+     "corretta": true
+    },
+    {
+     "turno": "5",
+     "giorni": 19,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "21",
+     "giorni": 67,
+     "riquadri": 1,
+     "recuperi": 3,
+     "corretta": true
+    }
+   ]
+  },
+  "270": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "5",
+     "giorni": 19,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "6",
+     "giorni": 26,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "10",
+     "giorni": 76,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "273": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "9",
+     "giorni": 23,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "13",
+     "giorni": 27,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "16",
+     "giorni": 40,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "17",
+     "giorni": 33,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "19",
+     "giorni": 12,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "21",
+     "giorni": 19,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "23",
+     "giorni": 20,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "24",
+     "giorni": 18,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "331": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "14",
+     "giorni": 126,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "9",
+     "giorni": 71,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "332": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "3",
+     "giorni": 37,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "11",
+     "giorni": 70,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "15",
+     "giorni": 39,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "18",
+     "giorni": 32,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    }
+   ]
+  },
+  "333": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "1",
+     "giorni": 25,
+     "riquadri": 2,
+     "recuperi": 5,
+     "corretta": true
+    },
+    {
+     "turno": "2",
+     "giorni": 151,
+     "riquadri": 2,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "335": {
+   "stagione": "2026-2027 - Apertura",
+   "turni": [
+    {
+     "turno": "2",
+     "giorni": 29,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "3",
+     "giorni": 95,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "9",
+     "giorni": 15,
+     "riquadri": 1,
+     "recuperi": 3,
+     "corretta": true
+    },
+    {
+     "turno": "10",
+     "giorni": 26,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "13",
+     "giorni": 22,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "336": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "2",
+     "giorni": 18,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "4",
+     "giorni": 39,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "10",
+     "giorni": 20,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "12",
+     "giorni": 19,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "338": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "7",
+     "giorni": 39,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "10",
+     "giorni": 82,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "19",
+     "giorni": 81,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "21",
+     "giorni": 62,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "38": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "4",
+     "giorni": 12,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    }
+   ]
+  },
+  "40": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "3",
+     "giorni": 13,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "9",
+     "giorni": 11,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "439": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "1",
+     "giorni": 42,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "8",
+     "giorni": 52,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "17",
+     "giorni": 53,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "20",
+     "giorni": 41,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "22",
+     "giorni": 44,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "441": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "1",
+     "giorni": 124,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "6",
+     "giorni": 75,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    }
+   ]
+  },
+  "46": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "3",
+     "giorni": 27,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    }
+   ]
+  },
+  "48": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "6",
+     "giorni": 42,
+     "riquadri": 1,
+     "recuperi": 3,
+     "corretta": true
+    }
+   ]
+  },
+  "51": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "1",
+     "giorni": 158,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "2",
+     "giorni": 157,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "3",
+     "giorni": 154,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "14",
+     "giorni": 73,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "4",
+     "giorni": 169,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "5",
+     "giorni": 168,
+     "riquadri": 3,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "6",
+     "giorni": 163,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "7",
+     "giorni": 162,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "15",
+     "giorni": 52,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "8",
+     "giorni": 160,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "9",
+     "giorni": 156,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "10",
+     "giorni": 148,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    }
+   ]
+  },
+  "512": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "1",
+     "giorni": 29,
+     "riquadri": 3,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "2",
+     "giorni": 16,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "3",
+     "giorni": 28,
+     "riquadri": 3,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "4",
+     "giorni": 40,
+     "riquadri": 2,
+     "recuperi": 9,
+     "corretta": true
+    },
+    {
+     "turno": "5",
+     "giorni": 23,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": false
+    },
+    {
+     "turno": "6",
+     "giorni": 15,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "7",
+     "giorni": 16,
+     "riquadri": 3,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "9",
+     "giorni": 42,
+     "riquadri": 1,
+     "recuperi": 10,
+     "corretta": true
+    },
+    {
+     "turno": "10",
+     "giorni": 26,
+     "riquadri": 2,
+     "recuperi": 9,
+     "corretta": true
+    },
+    {
+     "turno": "11",
+     "giorni": 198,
+     "riquadri": 3,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "29",
+     "giorni": 211,
+     "riquadri": 3,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "12",
+     "giorni": 26,
+     "riquadri": 3,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "13",
+     "giorni": 34,
+     "riquadri": 3,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "14",
+     "giorni": 19,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "15",
+     "giorni": 22,
+     "riquadri": 4,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "16",
+     "giorni": 22,
+     "riquadri": 4,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "17",
+     "giorni": 23,
+     "riquadri": 3,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "18",
+     "giorni": 23,
+     "riquadri": 3,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "19",
+     "giorni": 23,
+     "riquadri": 3,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "20",
+     "giorni": 92,
+     "riquadri": 4,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "21",
+     "giorni": 92,
+     "riquadri": 4,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "22",
+     "giorni": 92,
+     "riquadri": 4,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "23",
+     "giorni": 21,
+     "riquadri": 3,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "24",
+     "giorni": 21,
+     "riquadri": 3,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "25",
+     "giorni": 21,
+     "riquadri": 3,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "26",
+     "giorni": 21,
+     "riquadri": 3,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "27",
+     "giorni": 21,
+     "riquadri": 4,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "28",
+     "giorni": 24,
+     "riquadri": 4,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "30",
+     "giorni": 28,
+     "riquadri": 3,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "31",
+     "giorni": 24,
+     "riquadri": 3,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "32",
+     "giorni": 26,
+     "riquadri": 3,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "33",
+     "giorni": 29,
+     "riquadri": 3,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "34",
+     "giorni": 29,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    }
+   ]
+  },
+  "516": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "1",
+     "giorni": 62,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "2",
+     "giorni": 64,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "9",
+     "giorni": 15,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "522": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "1",
+     "giorni": 18,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "2",
+     "giorni": 18,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "523": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "7",
+     "giorni": 34,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    }
+   ]
+  },
+  "530": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "1",
+     "giorni": 41,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "533": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "2",
+     "giorni": 25,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "3",
+     "giorni": 25,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "9",
+     "giorni": 26,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "10",
+     "giorni": 32,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    }
+   ]
+  },
+  "536": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "8",
+     "giorni": 18,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "9",
+     "giorni": 142,
+     "riquadri": 1,
+     "recuperi": 3,
+     "corretta": true
+    },
+    {
+     "turno": "10",
+     "giorni": 50,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "544": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "1",
+     "giorni": 29,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "3",
+     "giorni": 59,
+     "riquadri": 1,
+     "recuperi": 3,
+     "corretta": true
+    },
+    {
+     "turno": "6",
+     "giorni": 12,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "7",
+     "giorni": 15,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    }
+   ]
+  },
+  "57": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "3",
+     "giorni": 24,
+     "riquadri": 1,
+     "recuperi": 3,
+     "corretta": true
+    }
+   ]
+  },
+  "59": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "1",
+     "giorni": 32,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "2",
+     "giorni": 123,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "15",
+     "giorni": 103,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "17",
+     "giorni": 102,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "18",
+     "giorni": 108,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "8",
+     "giorni": 12,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "11",
+     "giorni": 54,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "61": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "2",
+     "giorni": 66,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "3",
+     "giorni": 19,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    }
+   ]
+  },
+  "64": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "3",
+     "giorni": 24,
+     "riquadri": 1,
+     "recuperi": 3,
+     "corretta": true
+    },
+    {
+     "turno": "12",
+     "giorni": 24,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    }
+   ]
+  },
+  "67": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "15",
+     "giorni": 75,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "10",
+     "giorni": 97,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "18",
+     "giorni": 26,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "69": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "4",
+     "giorni": 25,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    }
+   ]
+  },
+  "8815": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "5",
+     "giorni": 11,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "8935": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "2",
+     "giorni": 127,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "19",
+     "giorni": 126,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "4",
+     "giorni": 197,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "21",
+     "giorni": 195,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "25",
+     "giorni": 197,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "8",
+     "giorni": 197,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "10",
+     "giorni": 189,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "27",
+     "giorni": 188,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "13",
+     "giorni": 190,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "30",
+     "giorni": 189,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "15",
+     "giorni": 190,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "32",
+     "giorni": 188,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "8944": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "1",
+     "giorni": 52,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "2",
+     "giorni": 53,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "3",
+     "giorni": 83,
+     "riquadri": 1,
+     "recuperi": 3,
+     "corretta": true
+    },
+    {
+     "turno": "4",
+     "giorni": 52,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "5",
+     "giorni": 67,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "6",
+     "giorni": 50,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "8",
+     "giorni": 28,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "12",
+     "giorni": 31,
+     "riquadri": 2,
+     "recuperi": 5,
+     "corretta": true
+    },
+    {
+     "turno": "14",
+     "giorni": 11,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "28",
+     "giorni": 98,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "16",
+     "giorni": 24,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "8947": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "1",
+     "giorni": 213,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "35",
+     "giorni": 210,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "2",
+     "giorni": 106,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "5",
+     "giorni": 38,
+     "riquadri": 2,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "6",
+     "giorni": 28,
+     "riquadri": 2,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "7",
+     "giorni": 15,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "8",
+     "giorni": 85,
+     "riquadri": 3,
+     "recuperi": 5,
+     "corretta": true
+    },
+    {
+     "turno": "9",
+     "giorni": 45,
+     "riquadri": 2,
+     "recuperi": 8,
+     "corretta": true
+    },
+    {
+     "turno": "12",
+     "giorni": 70,
+     "riquadri": 2,
+     "recuperi": 5,
+     "corretta": true
+    },
+    {
+     "turno": "18",
+     "giorni": 56,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "10",
+     "giorni": 80,
+     "riquadri": 2,
+     "recuperi": 22,
+     "corretta": true
+    },
+    {
+     "turno": "11",
+     "giorni": 73,
+     "riquadri": 2,
+     "recuperi": 11,
+     "corretta": true
+    },
+    {
+     "turno": "14",
+     "giorni": 66,
+     "riquadri": 2,
+     "recuperi": 5,
+     "corretta": true
+    },
+    {
+     "turno": "13",
+     "giorni": 59,
+     "riquadri": 2,
+     "recuperi": 8,
+     "corretta": true
+    },
+    {
+     "turno": "15",
+     "giorni": 52,
+     "riquadri": 1,
+     "recuperi": 24,
+     "corretta": true
+    },
+    {
+     "turno": "16",
+     "giorni": 38,
+     "riquadri": 1,
+     "recuperi": 11,
+     "corretta": true
+    },
+    {
+     "turno": "17",
+     "giorni": 161,
+     "riquadri": 2,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "41",
+     "giorni": 161,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "8965": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "7",
+     "giorni": 12,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "16",
+     "giorni": 19,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "17",
+     "giorni": 82,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "21",
+     "giorni": 61,
+     "riquadri": 2,
+     "recuperi": 6,
+     "corretta": true
+    }
+   ]
+  },
+  "8968": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "5",
+     "giorni": 12,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "8969": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "1",
+     "giorni": 164,
+     "riquadri": 1,
+     "recuperi": 125,
+     "corretta": true
+    },
+    {
+     "turno": "3",
+     "giorni": 12,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "8970": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "8",
+     "giorni": 170,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "24",
+     "giorni": 168,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "8976": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "1",
+     "giorni": 53,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "10",
+     "giorni": 19,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "9011": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "3",
+     "giorni": 14,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    }
+   ]
+  },
+  "9039": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "1",
+     "giorni": 192,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "2",
+     "giorni": 192,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "3",
+     "giorni": 192,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "4",
+     "giorni": 192,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "5",
+     "giorni": 194,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "6",
+     "giorni": 192,
+     "riquadri": 2,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "7",
+     "giorni": 192,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "8",
+     "giorni": 192,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "9",
+     "giorni": 192,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "10",
+     "giorni": 192,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "11",
+     "giorni": 192,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "12",
+     "giorni": 198,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "13",
+     "giorni": 199,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "14",
+     "giorni": 191,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "15",
+     "giorni": 190,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "16",
+     "giorni": 190,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    }
+   ]
+  },
+  "9080": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "2",
+     "giorni": 39,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "22",
+     "giorni": 50,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "9091": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "1",
+     "giorni": 146,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "2",
+     "giorni": 146,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "3",
+     "giorni": 15,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "5",
+     "giorni": 16,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "6",
+     "giorni": 46,
+     "riquadri": 2,
+     "recuperi": 2,
+     "corretta": true
+    }
+   ]
+  },
+  "9096": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "11",
+     "giorni": 60,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "9112": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "14",
+     "giorni": 43,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "9117": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "17",
+     "giorni": 197,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "2",
+     "giorni": 197,
+     "riquadri": 1,
+     "recuperi": 4,
+     "corretta": true
+    },
+    {
+     "turno": "9",
+     "giorni": 183,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "24",
+     "giorni": 183,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "9122": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "1",
+     "giorni": 58,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "2",
+     "giorni": 57,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "3",
+     "giorni": 59,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "4",
+     "giorni": 57,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "5",
+     "giorni": 58,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "6",
+     "giorni": 58,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "7",
+     "giorni": 58,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    }
+   ]
+  },
+  "9123": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "12",
+     "giorni": 11,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "9125": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "3",
+     "giorni": 65,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "4",
+     "giorni": 58,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "11",
+     "giorni": 17,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "9126": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "25",
+     "giorni": 22,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "26",
+     "giorni": 13,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    }
+   ]
+  },
+  "9136": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "1",
+     "giorni": 32,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "9137": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "2",
+     "giorni": 191,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "14",
+     "giorni": 77,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "18",
+     "giorni": 52,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "9138": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "3",
+     "giorni": 18,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "5",
+     "giorni": 32,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "7",
+     "giorni": 39,
+     "riquadri": 1,
+     "recuperi": 5,
+     "corretta": true
+    }
+   ]
+  },
+  "9195": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "5",
+     "giorni": 31,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "9213": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "1",
+     "giorni": 171,
+     "riquadri": 3,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "2",
+     "giorni": 169,
+     "riquadri": 3,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "3",
+     "giorni": 166,
+     "riquadri": 3,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "4",
+     "giorni": 167,
+     "riquadri": 3,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "6",
+     "giorni": 169,
+     "riquadri": 3,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "7",
+     "giorni": 171,
+     "riquadri": 3,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "8",
+     "giorni": 169,
+     "riquadri": 3,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "9",
+     "giorni": 170,
+     "riquadri": 3,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "10",
+     "giorni": 45,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "11",
+     "giorni": 47,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "5",
+     "giorni": 129,
+     "riquadri": 3,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "12",
+     "giorni": 51,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "13",
+     "giorni": 51,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "14",
+     "giorni": 51,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "15",
+     "giorni": 51,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "16",
+     "giorni": 50,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "17",
+     "giorni": 52,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "18",
+     "giorni": 57,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    }
+   ]
+  },
+  "9296": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "6",
+     "giorni": 17,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "7",
+     "giorni": 179,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "21",
+     "giorni": 66,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "22",
+     "giorni": 84,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "23",
+     "giorni": 77,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "9428": {
+   "stagione": "2024",
+   "turni": [
+    {
+     "turno": "3",
+     "giorni": 10,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    }
+   ]
+  },
+  "9464": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "1",
+     "giorni": 18,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "3",
+     "giorni": 18,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "5",
+     "giorni": 35,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "9483": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "8",
+     "giorni": 26,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "9490": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "4",
+     "giorni": 13,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "9500": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "7",
+     "giorni": 60,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "8",
+     "giorni": 32,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "9537": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "21",
+     "giorni": 50,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "20",
+     "giorni": 22,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "9545": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "1",
+     "giorni": 63,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "2",
+     "giorni": 18,
+     "riquadri": 1,
+     "recuperi": 4,
+     "corretta": true
+    },
+    {
+     "turno": "10",
+     "giorni": 70,
+     "riquadri": 2,
+     "recuperi": 3,
+     "corretta": true
+    },
+    {
+     "turno": "6",
+     "giorni": 24,
+     "riquadri": 2,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "7",
+     "giorni": 21,
+     "riquadri": 3,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "8",
+     "giorni": 80,
+     "riquadri": 3,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "9",
+     "giorni": 14,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "12",
+     "giorni": 63,
+     "riquadri": 3,
+     "recuperi": 5,
+     "corretta": true
+    },
+    {
+     "turno": "22",
+     "giorni": 147,
+     "riquadri": 2,
+     "recuperi": 3,
+     "corretta": true
+    },
+    {
+     "turno": "15",
+     "giorni": 64,
+     "riquadri": 3,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "11",
+     "giorni": 28,
+     "riquadri": 3,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "13",
+     "giorni": 24,
+     "riquadri": 2,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "14",
+     "giorni": 118,
+     "riquadri": 3,
+     "recuperi": 1,
+     "corretta": true
+    },
+    {
+     "turno": "21",
+     "giorni": 91,
+     "riquadri": 2,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "16",
+     "giorni": 35,
+     "riquadri": 3,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "17",
+     "giorni": 29,
+     "riquadri": 3,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "18",
+     "giorni": 35,
+     "riquadri": 3,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "19",
+     "giorni": 28,
+     "riquadri": 3,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "20",
+     "giorni": 28,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "23",
+     "giorni": 35,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "24",
+     "giorni": 35,
+     "riquadri": 3,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "25",
+     "giorni": 42,
+     "riquadri": 3,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "26",
+     "giorni": 42,
+     "riquadri": 3,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "27",
+     "giorni": 42,
+     "riquadri": 3,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "28",
+     "giorni": 42,
+     "riquadri": 3,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "29",
+     "giorni": 42,
+     "riquadri": 3,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "30",
+     "giorni": 42,
+     "riquadri": 3,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "32",
+     "giorni": 14,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    }
+   ]
+  },
+  "9676": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "7",
+     "giorni": 13,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "9821": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "5",
+     "giorni": 38,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    },
+    {
+     "turno": "6",
+     "giorni": 38,
+     "riquadri": 2,
+     "recuperi": 0,
+     "corretta": true
+    }
+   ]
+  },
+  "9906": {
+   "stagione": "2026-2027",
+   "turni": [
+    {
+     "turno": "10",
+     "giorni": 20,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  },
+  "9986": {
+   "stagione": "2026",
+   "turni": [
+    {
+     "turno": "11",
+     "giorni": 32,
+     "riquadri": 1,
+     "recuperi": 2,
+     "corretta": true
+    },
+    {
+     "turno": "13",
+     "giorni": 82,
+     "riquadri": 1,
+     "recuperi": 1,
+     "corretta": true
+    }
+   ]
+  }
+ }
+}

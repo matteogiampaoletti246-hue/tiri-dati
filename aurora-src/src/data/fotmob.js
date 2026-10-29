@@ -1,5 +1,6 @@
 // Dettaglio partita in diretta da FotMob (tramite il Worker): cronologia, statistiche per tempo,
 // mappa tiri, momentum e formazioni. Vale per partite live, di oggi e anche per quelle passate.
+import { dayFile } from './archive';
 import { WORKER } from './load';
 import { buildLineup, MATCHES } from './matches';
 import { romeTime } from './util';
@@ -352,6 +353,16 @@ export function refreshStatus() {
       }
     };
     await Promise.all([worker(), worker(), worker(), worker()]);
+    // iniziate da piu' di 5 ore e ancora senza risultato: feed del giorno di tutte le competizioni (giorni/<data>.json, ogni 10 minuti)
+    const old = sus.filter((m) => m.extra && m.fmId && m.status !== 'finished' && now - m.ts >= 5 * 3600000 && now - m.ts < 4 * 86400000);
+    const oldDays = [...new Set(old.map((m) => m.date))];
+    const files = await Promise.all(oldDays.map((iso) => dayFile(iso)));
+    const by = {};
+    files.forEach((f) => ((f && f.m) || []).forEach((x) => { by[String(x[0])] = x; }));
+    old.forEach((m) => {
+      const x = by[String(m.fmId)];
+      if (x && x[8] === 'f' && applyStatus(m, { fin: true, sc: scoreOf(x[7]) })) changed += 1;
+    });
     return changed;
   })().finally(() => { refreshing = null; });
   return refreshing;

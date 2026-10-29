@@ -1,7 +1,7 @@
 import { lruGet, lruSet } from '@/lib/lru';
 // Archivio storico (FotMob): classifiche, calendari, statistiche stagionali e dettaglio partite dal 2010.
 // I file stanno nel repository dati (arch/ e partite/) e si scaricano solo quando servono.
-import { BASE } from './load';
+import { BASE, RAW, WORKER } from './load';
 import { LEAGUES, leagueById } from './leagues';
 
 // file scaricati una volta sola; quelli grandi (partite della stagione .gz, statistiche) con capienza fissa: la memoria non cresce all'infinito
@@ -98,7 +98,7 @@ function tableFromFix(season, lid) {
 }
 // campionati con gironi/conference o punti dimezzati dopo la prima fase (MLS, Argentina, Austria, Belgio, Grecia) e coppe
 const ZONES_NOT_BY_POINTS = new Set([130, 112, 38, 40, 135, 42, 73, 10216]);
-export const loadSeason = (lid, sk) => json(`arch/${lid}/${sk}.json`).then((d) => {
+export const loadSeason = (lid, sk) => json(`arch/${lid}/${sk}.json`).then(firstFresh(lid, sk)).then((d) => {
   if (d && !d.table && !d.__tc) {
     d.__tc = true;
     const t = tableFromFix(d, lid);
@@ -115,6 +115,96 @@ export const loadSeason = (lid, sk) => json(`arch/${lid}/${sk}.json`).then((d) =
   }
   return d;
 });
+
+// ───── Stagione in corso sempre aggiornata ─────
+// Le righe con l'orario d'inizio passato e senza risultato (anche se il file arch/ in cache e' vecchio) si correggono da:
+// partite_extra.json (campionati/coppe aggiunti, ogni ora), giorni/<data>.json (feed FotMob del giorno di tutte le competizioni,
+// risultati.py ogni 10 minuti) e /fx per quelle iniziate da meno di 5 ore. Il file in memoria riceve un nuovo array `fix`
+// (stesso oggetto stagione) e chi lo mostra si ridisegna con l'evento 'sl-arch' (useArchFresh): Partite, Tabellone, squadra, giocatore.
+const DAY_MS = 864e5;
+const isCurrent = (lid, sk) => {
+  const x = RAW.extra && RAW.extra.sk && RAW.extra.sk[String(lid)];
+  return x === sk || curSeasonSync(lid) === sk;
+};
+const stale = (m, now) => !m[6] && !m[8] && Date.parse(m[4]) < now && now - Date.parse(m[4]) < 10 * DAY_MS;
+const romeDay = (iso) => new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Rome' }).format(new Date(iso));
+const DAYF = new Map();
+export const dayFile = (iso) => {
+  const hit = lruGet(DAYF, iso);
+  if (hit && Date.now() - hit.at < 120000) return hit.p;
+  const p = fetch(`${BASE}giorni/${iso}.json`, { cache: 'no-cache' }).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  lruSet(DAYF, iso, { at: Date.now(), p }, 8);
+  return p;
+};
+const FRESH = new Map(); // `${lid}/${sk}` -> {at, p}
+const LIVE_KEYS = new Map(); // stagioni in corso aperte di recente (ricontrollate ogni minuto)
+export const archVersion = new Map();
+const patch = (m, st, sc, out) => {
+  const n = m.slice(0, 9);
+  if (st === 'f' && sc) { n[5] = sc; n[6] = 1; n[7] = 1; n[8] = 0; } else if (st === 'c') { n[8] = 1; } else if (st === 'l') { n[7] = 1; } else return null;
+  if (out != null) n[9] = out;
+  return n;
+};
+async function freshen(lid, sk, d) {
+  const now = Date.now();
+  const sus = (d.fix || []).filter((m) => stale(m, now));
+  if (!sus.length) return false;
+  const P = {};
+  const left = () => sus.filter((m) => !P[m[0]] || P[m[0]][6] !== 1);
+  // 1) partite_extra.json
+  const ex = RAW.extra && RAW.extra.m;
+  if (ex) {
+    const by = {};
+    ex.forEach((x) => { if (String(x[1]) === String(lid)) by[String(x[0])] = x; });
+    sus.forEach((m) => { const x = by[String(m[0])]; if (x && x[9] === 'f' && x[7] != null) P[m[0]] = patch(m, 'f', `${x[7]} - ${x[8]}`); });
+  }
+  // 2) giorni/<data>.json
+  let rest = left();
+  if (rest.length) {
+    const days = [...new Set(rest.map((m) => romeDay(m[4])))].slice(-4);
+    const files = await Promise.all(days.map(dayFile));
+    const by = {};
+    files.forEach((f) => ((f && f.m) || []).forEach((x) => { by[String(x[0])] = x; }));
+    rest.forEach((m) => { const x = by[String(m[0])]; if (x) { const n = patch(m, x[8], x[7], x[9]); if (n) P[m[0]] = n; } });
+  }
+  // 3) /fx per le partite iniziate da meno di 5 ore ancora senza risultato (poche richieste)
+  rest = left().filter((m) => now - Date.parse(m[4]) < 5 * 3600e3).slice(0, 8);
+  await Promise.all(rest.map((m) => fetch(`${WORKER}/fx?id=${m[0]}`).then((r) => (r.ok ? r.json() : null)).then((x) => {
+    if (!x) return;
+    const sc = x.sc && x.sc[0] != null ? `${x.sc[0]} - ${x.sc[1]}` : null;
+    const n = patch(m, x.fin ? 'f' : x.st ? 'l' : 'n', sc);
+    if (n) P[m[0]] = n;
+  }).catch(() => null)));
+  const ids = Object.keys(P).filter((k) => P[k] && JSON.stringify(P[k]) !== JSON.stringify((d.fix.find((m) => String(m[0]) === k) || [])));
+  if (!ids.length) return false;
+  d.fix = d.fix.map((m) => P[m[0]] || m);
+  const key = `${lid}/${sk}`;
+  archVersion.set(key, (archVersion.get(key) || 0) + 1);
+  try { window.dispatchEvent(new CustomEvent('sl-arch', { detail: { fm: String(lid), sk } })); } catch (e) { /* ignora */ }
+  return true;
+}
+export const freshSeason = (lid, sk, d) => {
+  const key = `${lid}/${sk}`;
+  const hit = FRESH.get(key);
+  if (hit && Date.now() - hit.at < 60000) return hit.p;
+  const p = freshen(lid, sk, d).catch(() => false);
+  lruSet(FRESH, key, { at: Date.now(), p }, 20);
+  lruSet(LIVE_KEYS, key, { lid, sk, d }, 6);
+  return p;
+};
+// al primo arrivo la stagione in corso aspetta l'aggiornamento (al massimo 1,2 s): la lista nasce gia' con i risultati veri
+const firstFresh = (lid, sk) => (d) => {
+  if (!d || !d.fix || !isCurrent(lid, sk)) return d;
+  return Promise.race([freshSeason(lid, sk, d), new Promise((r) => { setTimeout(r, 1200); })]).then(() => d);
+};
+if (typeof window !== 'undefined') {
+  const tick = () => {
+    if (document.visibilityState === 'hidden') return;
+    LIVE_KEYS.forEach(({ lid, sk, d }) => { freshSeason(lid, sk, d); });
+  };
+  setInterval(tick, 60000);
+  document.addEventListener('visibilitychange', tick);
+}
 // le statistiche vecchie (v1) erano della stagione sbagliata: si usano solo quelle riscaricate (v2)
 // statistiche nascoste ovunque (significato poco chiaro)
 const HIDDEN_STAT = /^poss_?won_?att_?3rd/i;
