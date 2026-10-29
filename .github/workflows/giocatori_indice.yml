@@ -6,6 +6,7 @@ on:
   push:
     paths:
       - giocatori_indice.py
+      - controllo_squadre.py
 permissions:
   contents: write
 jobs:
@@ -18,10 +19,12 @@ jobs:
         with:
           python-version: "3.12"
       - run: python giocatori_indice.py
+      # controllo: ogni squadra della stagione in corso ha Statistiche e Giocatori (elenco delle vuote e motivo)
+      - run: python controllo_squadre.py
       - name: Salva i risultati
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
-          git add pidx
+          git add pidx controllo_squadre.json
           git diff --staged --quiet || git commit -m "Aggiorna indice giocatori"
           for i in 1 2 3 4 5; do git pull --rebase && git push && break; sleep $((i*4)); done

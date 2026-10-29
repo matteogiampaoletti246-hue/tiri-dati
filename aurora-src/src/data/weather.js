@@ -1,6 +1,9 @@
 // Meteo allo stadio all'ora del calcio d'inizio (open-meteo, senza chiave).
-import { RAW } from './load';
+import { RAW, BASE } from './load';
 import { teamById } from './teams';
+import { roseOf, loadRose } from './rose';
+import { teamFmId } from './teamIndex';
+import { archIndex } from './archive';
 
 const CACHE = {};
 
@@ -11,24 +14,33 @@ const iconOf = (code, wind) => {
   return 'cloud';
 };
 
-// campionati aggiunti: la posizione dello stadio si cerca per nome (geocoding open-meteo), una volta sola per stadio
+// campionati aggiunti: la posizione dello stadio si cerca per nome (geocoding open-meteo), una volta sola per stadio,
+// solo tra i risultati del paese del campionato (mai uno stadio omonimo dall'altra parte del mondo); risultato ricordato sul telefono
 const GEO = {};
-async function geoStadium(name, fallback) {
+const geoMem = (k, v) => { try { if (v === undefined) { const x = localStorage.getItem(`sl-geo-${k}`); return x ? JSON.parse(x) : undefined; } localStorage.setItem(`sl-geo-${k}`, JSON.stringify(v)); } catch { /* memoria non disponibile */ } return undefined; };
+async function geoStadium(name, fallback, country) {
   const key = String(name || fallback || '').toLowerCase();
   if (!key) return null;
   if (GEO[key] !== undefined) return GEO[key];
+  const saved = geoMem(key);
+  if (saved !== undefined) { GEO[key] = saved; return saved; }
   const tries = [name, String(name || '').replace(/\b(stadium|stadion|stadio|arena|park|ground|estadio|estádio|stade)\b/gi, '').trim(), fallback].filter((x) => x && x.length > 2);
+  const plain = (s) => String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
   for (const q of tries) {
     try {
-      const r = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(q)}&count=1&language=en`);
+      const r = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(q)}&count=10&language=en`);
       const d = await r.json();
-      const hit = d && d.results && d.results[0];
-      if (hit) { GEO[key] = { lat: hit.latitude, lon: hit.longitude }; return GEO[key]; }
+      const hit = d && d.results && d.results.find((x) => !country || plain(x.country) === plain(country));
+      if (hit) { GEO[key] = { lat: hit.latitude, lon: hit.longitude }; geoMem(key, GEO[key]); return GEO[key]; }
     } catch { /* si prova con il nome successivo */ }
   }
   GEO[key] = null;
   return null;
 }
+
+// stadi di tutte le squadre (stadi_extra.py), scaricati solo quando serve
+let EX = null;
+const stadiEx = () => { if (!EX) EX = fetch(`${BASE}stadi_ex.json`).then((r) => (r.ok ? r.json() : {})).catch(() => ({})); return EX; };
 
 export async function loadWeather(m) {
   if (m.weather) return m.weather;
@@ -36,8 +48,22 @@ export async function loadWeather(m) {
   const home = teamById(m.homeId);
   let st = home && RAW.stadi && RAW.stadi[home.name];
   const days = Math.round((Date.now() - m.ts) / 86400000);
+  if (!st || !st.lat) await loadRose().catch(() => null);
+  // stadio della squadra di casa da FotMob (rosa: nome, coordinate, citta')
+  const ro = home && roseOf(home);
+  if ((!st || !st.lat) && ro && ro.v && ro.v[1] != null) {
+    st = { s: ro.v[0], lat: ro.v[1], lon: ro.v[2] };
+    if (!m.stadium && ro.v[0]) m.stadium = ro.v[0];
+  }
+  if (!st || !st.lat) {
+    const fid = teamFmId(home);
+    const ex = fid ? (await stadiEx())[String(fid)] : null;
+    if (ex) { st = ex; if (!m.stadium && ex.s) m.stadium = ex.s; }
+  }
   if ((!st || !st.lat) && m.archive && m.stadium) {
-    st = await geoStadium(m.stadium, home && home.name);
+    const ie = await archIndex().catch(() => null);
+    const cn = ie && ie[String(m.archive.fm)] && ie[String(m.archive.fm)].cn;
+    st = await geoStadium(m.stadium, home && home.name, /europe|world|international/i.test(cn || '') ? null : cn);
   }
   if (!st || !st.lat) return null;
   if (days < (m.archive ? -3 : -6)) return null;

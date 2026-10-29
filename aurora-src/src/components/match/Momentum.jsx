@@ -1,6 +1,6 @@
 // Momentum: positivo = squadra di casa. Tre versioni: A barre, B area, C periodi.
 export default function Momentum({ values = [], events = [], home, away, concept }) {
-  if (!values.length) return <p className="py-8 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Momentum non disponibile</p>;
+  if (!values || !values.length) return null;
   const n = values.length;
   const max = Math.max(40, ...values.map((v) => Math.abs(v)));
   const goals = events.filter((e) => e.type === 'goal');

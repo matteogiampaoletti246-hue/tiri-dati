@@ -33,6 +33,8 @@ const clickText = (t) => pg.evaluate((t) => { const e = [...document.querySelect
 const clickVis = async (t) => { try { await pg.locator('button:visible', { hasText: new RegExp('^' + t + '$') }).first().click({ timeout: 4000 }); } catch (e) { report.errors.push('clickVis ' + t + ' ' + String(e).slice(0, 120)); } };
 const go = async (hash, ms = 4500) => { await pg.goto('about:blank'); await pg.goto(APP + hash); await wait(ms); };
 
+// testi vietati: un elemento senza dati non si mostra (regola fissa)
+const ND = /non (ancora )?disponibil|in arrivo|nessun dato/i;
 const TOPNAMES = ['SERIE A', 'PREMIER LEAGUE', 'LALIGA', 'LA LIGA', 'BUNDESLIGA', 'LIGUE 1', 'CHAMPIONS LEAGUE', 'EUROPA LEAGUE', 'CONFERENCE LEAGUE'];
 const groupsInfo = () => pg.evaluate(() => [...document.querySelectorAll('section button[aria-expanded]')].map((b) => {
   const sec = b.closest('section');
@@ -147,29 +149,36 @@ for (const id of matchIds) {
     await shot(`partita-${id}-riepilogo`);
     const t = await texts();
     const coppaTab = /^x-(141|209|134|186|133|149|278|180|9067)-/.test(id);
-    ok(`${id}: schede Riepilogo/Statistiche/Formazioni/Classifica`, (coppaTab ? ['Riepilogo', 'Statistiche', 'Formazioni'].every((x) => t.includes(x)) && /Tabellone|Classifica/.test(t.join(' ')) : ['Riepilogo', 'Statistiche', 'Formazioni', 'Classifica'].every((x) => t.includes(x))), { tabs: t.filter((x) => ['Riepilogo', 'Statistiche', 'Formazioni', 'Classifica', 'Giocatori', 'Panoramica'].includes(x)) });
+    ok(`${id}: scheda Riepilogo (le altre solo se hanno dati)`, t.includes('Riepilogo') && (coppaTab || t.includes('Classifica')), { tabs: t.filter((x) => ['Riepilogo', 'Statistiche', 'Formazioni', 'Classifica', 'Tabellone', 'Giocatori', 'Panoramica'].includes(x)) });
     ok(`${id}: nessuna scheda Giocatori`, !(await pg.evaluate(() => [...document.querySelectorAll('[role=tab],button')].some((b) => b.textContent.trim() === 'Giocatori' && !b.closest('nav')))));
     const pills = await pg.evaluate(() => document.body.innerText);
-    ok(`${id}: riepilogo con Momentum e Riassunto`, /momentum/i.test(pills) && /riassunto/i.test(pills), { snippet: pills.slice(0, 80) });
-    ok(`${id}: pillola Stadio / Meteo / Arbitro`, /stadio/i.test(pills) && /meteo/i.test(pills) && /arbitro/i.test(pills));
+    ok(`${id}: riepilogo senza testi "non disponibile"`, !ND.test(pills), { nd: (pills.match(ND) || [])[0] });
+    ok(`${id}: riepilogo con almeno un riquadro`, /momentum|riassunto|forma recente|stadio|arbitro/i.test(pills), { snippet: pills.slice(0, 80) });
     ok(`${id}: forma recente`, /forma recente/i.test(pills));
     await pg.evaluate(() => window.scrollTo(0, 700)); await wait(500); await shot(`partita-${id}-riepilogo-2`);
     await pg.evaluate(() => window.scrollTo(0, 0));
-    await clickText('Statistiche'); await wait(2500); await shot(`partita-${id}-statistiche`);
-    const t2 = await texts();
-    ok(`${id}: Totale / 1° tempo / 2° tempo`, t2.includes('Totale') && t2.includes('1° tempo') && t2.includes('2° tempo'));
-    const body2 = await pg.evaluate(() => document.body.innerText);
     const coppa = /^x-(141|209|134|186|133|149|278|180|9067)-/.test(id); // coppe nazionali: senza classifica e, spesso, senza mappa tiri
-    ok(`${id}: mappa tiri`, coppa || /mappa tiri/i.test(body2));
+    if (t.includes('Statistiche')) {
+      await clickText('Statistiche'); await wait(2500); await shot(`partita-${id}-statistiche`);
+      const t2 = await texts();
+      ok(`${id}: Totale / 1° tempo / 2° tempo`, t2.includes('Totale') && t2.includes('1° tempo') && t2.includes('2° tempo'));
+      const body2 = await pg.evaluate(() => document.body.innerText);
+      ok(`${id}: mappa tiri`, coppa || /mappa tiri/i.test(body2));
+    }
     await pg.evaluate(() => window.scrollTo(0, 900)); await wait(500); await shot(`partita-${id}-statistiche-2`);
     await pg.evaluate(() => window.scrollTo(0, 0));
-    await clickText('Formazioni'); await wait(2500); await shot(`partita-${id}-formazioni`);
-    const green = await pg.evaluate(() => [...document.querySelectorAll('div')].some((d) => /12301f/i.test(d.style.background || '') || /rgb\(18, 48, 31\)/.test(d.style.background || '')));
-    ok(`${id}: formazione sul campo verde`, green);
-    // icone sui volti (gol/assist/cartellini): una squadra con gol, scorrendo fino al campo
-    // campo unico con le due squadre: due schermate (meta' alta e meta' bassa)
-    for (const [k, y] of [['', 260], ['-2', 760]]) {
-      await pg.evaluate((yy) => window.scrollTo(0, yy), y); await wait(500); await shot(`partita-${id}-formazioni-icone${k}`);
+    if (t.includes('Formazioni')) {
+      await clickText('Formazioni'); await wait(2500); await shot(`partita-${id}-formazioni`);
+      const green = await pg.evaluate(() => [...document.querySelectorAll('div')].some((d) => /12301f/i.test(d.style.background || '') || /rgb\(18, 48, 31\)/.test(d.style.background || '')));
+      ok(`${id}: formazione sul campo verde`, green);
+      // icone sui volti (gol/assist/cartellini): una squadra con gol, scorrendo fino al campo
+      // campo unico con le due squadre: due schermate (meta' alta e meta' bassa)
+      for (const [k, y] of [['', 260], ['-2', 760]]) {
+        await pg.evaluate((yy) => window.scrollTo(0, yy), y); await wait(500); await shot(`partita-${id}-formazioni-icone${k}`);
+      }
+      // cambio: solo le due freccette (niente riquadro rosso col minuto)
+      const subBox = await pg.evaluate(() => [...document.querySelectorAll('span')].filter((x) => /229, 72, 77|E5484D/i.test(x.style.background || '') && /^\d+$/.test(x.textContent.trim())).length);
+      ok(`${id}: cambio senza riquadro ne' minuto`, subBox === 0, { subBox });
     }
     await pg.evaluate(() => window.scrollTo(0, 0));
     await clickText('Classifica'); await wait(2500); await shot(`partita-${id}-classifica`);
@@ -190,12 +199,15 @@ if (pend) {
     await shot('minori-pre-panoramica');
     const b = await pg.evaluate(() => document.body.innerText);
     ok('minori pre: niente Giocatori migliori', !/giocatori migliori/i.test(b));
-    ok('minori pre: Duello in numeri con ragnatela', /duello in numeri/i.test(b) && (await pg.evaluate(() => document.querySelectorAll('svg polygon').length)) >= 4, { snippet: b.slice(0, 60) });
+    const poly = await pg.evaluate(() => document.querySelectorAll('svg polygon').length);
+    ok('minori pre: Duello in numeri con ragnatela (se ci sono i dati)', !/duello in numeri/i.test(b) || poly >= 4, { snippet: b.slice(0, 60) });
+    ok('minori pre: nessun "non disponibile"', !ND.test(b), { nd: (b.match(ND) || [])[0] });
     const t = await texts();
-    ok('minori pre: scheda Statistiche', t.includes('Statistiche'));
-    await clickText('Statistiche'); await wait(2500); await shot('minori-pre-statistiche');
-    const s2 = await pg.evaluate(() => document.body.innerText);
-    ok('minori pre: confronto in casa / in trasferta', /in casa/i.test(s2) && /in trasferta/i.test(s2), { snippet: s2.slice(0, 120) });
+    if (t.includes('Statistiche')) {
+      await clickText('Statistiche'); await wait(2500); await shot('minori-pre-statistiche');
+      const s2 = await pg.evaluate(() => document.body.innerText);
+      ok('minori pre: confronto in casa / in trasferta', /in casa/i.test(s2) && /in trasferta/i.test(s2), { snippet: s2.slice(0, 120) });
+    }
   });
 }
 
@@ -310,7 +322,7 @@ await step('giocatore dell\'archivio: stessa scheda a 4 schede', async () => {
   await clickText('Carriera'); await wait(1500);
   await shot('archivio-giocatore-carriera');
   const c = await pg.evaluate(() => document.body.innerText);
-  ok('archivio: carriera con stagioni', !/Carriera non disponibile/.test(c));
+  ok('archivio: nessun "non disponibile" in carriera', !ND.test(c));
 });
 
 await step('nuovi campionati: scheda con statistiche', async () => {
@@ -399,13 +411,13 @@ await step('tabellone: stagione attuale senza dati e stagione passata con tabell
   await go('#/campionato/champions-league', 6500);
   await clickVis('Classifica'); await wait(1800);
   const t0 = await texts();
-  ok('Classifica CL: tasto Tabellone presente', t0.includes('Tabellone'));
+  report.clTabelloneAttuale = t0.includes('Tabellone');
   await shot('cl-classifica');
   await clickVis('Tabellone');
   await wait(380); await shot('cl-transizione-meta');
   await wait(1500);
   const t = await pg.evaluate(() => document.body.innerText);
-  ok('Tabellone CL attuale: nessun dato ancora disponibile (se non ci sono turni a eliminazione)', /Nessun dato ancora disponibile/.test(t) || /Ottavi|Quarti|Semifinali/.test(t));
+  ok('Tabellone CL attuale: turni a eliminazione oppure nessun Tabellone (mai "nessun dato")', !/Nessun dato/.test(t) && (/Ottavi|Quarti|Semifinali|Spareggi/.test(t) || !t0.includes('Tabellone')));
   await shot('cl-tabellone-attuale');
   await clickVis('Classifica'); await wait(1200);
   // stagione passata: 2025/26
@@ -530,15 +542,14 @@ await step('campionati e coppe aggiunti: partita non iniziata con Duello, numeri
   for (const r of pick) {
     await go(`#/match/x-${r[1]}-${r[0]}`, 3000);
     await pg.waitForFunction(() => /duello in numeri/i.test(document.body.innerText), null, { timeout: 15000 }).catch(() => {});
-    await wait(1500);
+    await clickText('Panoramica'); await wait(1500); // la scheda scelta in una partita si ricorda: si parte sempre da Panoramica
     let b = await pg.evaluate(() => document.body.innerText);
-    if (!/duello in numeri/i.test(b) && !/dettagli non disponibili/i.test(b)) { await go(`#/match/x-${r[1]}-${r[0]}`, 9000); b = await pg.evaluate(() => document.body.innerText); }
+    if (!/duello in numeri|forma recente/i.test(b)) { await go(`#/match/x-${r[1]}-${r[0]}`, 9000); b = await pg.evaluate(() => document.body.innerText); }
     const poly = await pg.evaluate(() => document.querySelectorAll('svg polygon').length);
-    // coppe di dilettanti (es. Coupe de France, squadre senza alcuna statistica): "Dati non disponibili" e' il risultato corretto, mai numeri inventati
-    const cupNoData = [134, 133, 278, 180, 9067, 209, 141, 186, 149].includes(Number(r[1])) && /dati non disponibili/i.test(b);
-    ok(`extra ${r[1]}: Duello in numeri con ragnatela`, /duello in numeri/i.test(b) && (poly >= 4 || cupNoData), { poly, cupNoData, id: `x-${r[1]}-${r[0]}`, snippet: b.replace(/\n+/g, ' | ').slice(0, 220) });
-    ok(`extra ${r[1]}: numeri da tenere d'occhio`, /numeri da tenere/i.test(b) || cupNoData);
-    ok(`extra ${r[1]}: forma recente`, /forma recente/i.test(b));
+    // senza dati il riquadro non c'e' (mai "non disponibile"): se c'e', la ragnatela e' disegnata
+    ok(`extra ${r[1]}: Duello in numeri con ragnatela (se ci sono i dati)`, !/duello in numeri/i.test(b) || poly >= 4, { poly, id: `x-${r[1]}-${r[0]}`, snippet: b.replace(/\n+/g, ' | ').slice(0, 220) });
+    ok(`extra ${r[1]}: nessun "non disponibile"`, !ND.test(b), { nd: (b.match(ND) || [])[0] });
+    report['km_' + r[1]] = /numeri da tenere/i.test(b);
   }
 });
 
@@ -565,7 +576,7 @@ await step('squadra unica: Francoforte col banner del campionato', async () => {
   try { await pg.locator('button:visible', { hasText: /^DFB.?Pokal$/ }).first().click({ timeout: 4000 }); clicked = true; } catch (e) { report.errors.push('coppa ' + String(e).slice(0, 100)); }
   await wait(3500);
   const c = await pg.evaluate(() => document.body.innerText);
-  ok('frankfurt: scegliendo la coppa in Classifica compare il Tabellone', clicked && /Turno|Sedicesimi|Ottavi|Quarti|Semifinali|Finale|Nessun dato/i.test(c), { clicked, snippet: c.slice(0, 160) });
+  ok('frankfurt: scegliendo la coppa in Classifica compare il Tabellone', clicked && /Turno|Sedicesimi|Ottavi|Quarti|Semifinali|Finale/i.test(c) && !ND.test(c), { clicked, snippet: c.slice(0, 160) });
   await shot('frankfurt-classifica-coppa');
 });
 
@@ -640,6 +651,241 @@ await step('swipe indietro: sotto meta\' la pagina rientra, oltre torna', async 
   await pg.evaluate(() => window.__slCarousel.pageBack(260)); await wait(1800);
   const h2 = await pg.evaluate(() => location.hash);
   ok('swipe indietro: oltre meta\' si torna al campionato', /campionato\/serie-a/.test(h2), { h2 });
+});
+
+// ---- Regole nuove (ottobre 2026) ----
+// eventi touch finti (WebKit non permette "new Touch"): i gestori dell'app leggono solo coordinate e target
+const swipeIn = (sel, dx, x0 = null) => pg.evaluate(async ([sel, dx, x0]) => {
+  const el = document.querySelector(sel);
+  if (!el) return null;
+  const r = el.getBoundingClientRect();
+  const x = x0 == null ? r.left + r.width / 2 : x0; const y = r.top + Math.min(r.height / 2, 300);
+  const mk = (cx) => ({ identifier: 1, target: el, clientX: cx, clientY: y, pageX: cx, pageY: y + scrollY });
+  const fire = (type, cx) => { const ev = new Event(type, { bubbles: true, cancelable: true }); Object.defineProperty(ev, 'touches', { value: type === 'touchend' ? [] : [mk(cx)] }); Object.defineProperty(ev, 'changedTouches', { value: [mk(cx)] }); el.dispatchEvent(ev); };
+  const out = [];
+  const probe = () => { const sh = document.getElementById('sl-shell'); out.push({ shell: sh ? sh.style.transform || '' : '', behind: [...document.querySelectorAll('body > div[aria-hidden="true"]')].filter((b) => b.style.zIndex === '1' && b.style.opacity !== '0.01').length, sy: Math.round(scrollY) }); };
+  fire('touchstart', x);
+  for (let i = 1; i <= 10; i++) { fire('touchmove', x + (dx * i) / 10); await new Promise((q) => requestAnimationFrame(q)); probe(); }
+  fire('touchend', x + dx);
+  await new Promise((q) => setTimeout(q, 700)); probe();
+  return out;
+}, [sel, dx, x0]);
+
+await step('tendina stagioni lunga (Santos): sopra la barra in basso, scorre solo la lista', async () => {
+  await go('#/squadra/santos', 7000);
+  await pg.evaluate(() => { const e = [...document.querySelectorAll('.tab-btn')].find((x) => x.textContent.trim() === 'Giocatori'); if (e) e.click(); });
+  await wait(3000);
+  // solo il tasto della scheda visibile (le schede vicine sono montate fuori schermo)
+  await pg.evaluate(() => { const b = [...document.querySelectorAll('button')].find((x) => { const r = x.getBoundingClientRect(); return /^Attuale/.test(x.textContent.trim()) && r.height > 0 && r.left >= 0 && r.right <= innerWidth; }); if (b) b.click(); });
+  await wait(700);
+  await shot('santos-tendina-stagioni');
+  const m = await pg.evaluate(() => {
+    const l = document.querySelector('[data-pop-scroll]'); const nav = document.querySelector('nav.fixed');
+    if (!l) return null;
+    const r = l.getBoundingClientRect();
+    return { top: Math.round(r.top), bottom: Math.round(r.bottom), navTop: nav ? Math.round(nav.getBoundingClientRect().top) : innerHeight, sh: l.scrollHeight, ch: l.clientHeight, ov: l.style.overscrollBehavior || getComputedStyle(l).overscrollBehaviorY, sy: Math.round(scrollY), right: Math.round(r.right), vw: innerWidth };
+  });
+  ok('tendina stagioni: aperta', !!m, { m });
+  ok('tendina stagioni: finisce sopra la barra in basso', !!m && m.bottom <= m.navTop - 4 && m.top >= 0, { m });
+  ok('tendina stagioni: dentro lo schermo a destra', !!m && m.right <= m.vw, { m });
+  ok('tendina stagioni: scorre solo la lista (overscroll contain)', !!m && m.ov === 'contain', { m });
+  // ultima stagione raggiungibile scorrendo la lista
+  const last = await pg.evaluate(async () => { const l = document.querySelector('[data-pop-scroll]'); if (!l) return null; l.scrollTop = l.scrollHeight; await new Promise((q) => setTimeout(q, 200)); const b = [...l.querySelectorAll('button')].pop(); const r = b.getBoundingClientRect(); const lr = l.getBoundingClientRect(); return { txt: b.textContent.trim(), inside: r.bottom <= lr.bottom + 1, sy: Math.round(scrollY) }; });
+  ok('tendina stagioni: l\'ultima stagione si raggiunge e la pagina dietro non si muove', !!last && last.inside && last.sy === m.sy, { last });
+  await pg.evaluate(() => { const l = document.querySelector('[data-pop-scroll]'); const b = l && [...l.querySelectorAll('button')].pop(); if (b) b.click(); });
+  await wait(1500);
+  ok('tendina stagioni: si chiude scegliendo una voce', await pg.evaluate(() => !document.querySelector('[data-pop-scroll]')));
+});
+
+await step('finestra giocatore: swipe tra giocatori con la pagina sotto ferma', async () => {
+  await go('#/', 6000);
+  await pg.evaluate(() => { const b = [...document.querySelectorAll('button')].find((x) => /^Ieri/.test(x.textContent.trim())); if (b) b.click(); });
+  await wait(2500);
+  const opened = await pg.evaluate(() => { const a = [...document.querySelectorAll('a[href*="/match/"]')].find((x) => /\d\s*[-–]\s*\d/.test(x.textContent)); if (a) { a.click(); return a.getAttribute('href'); } return null; });
+  await pg.waitForFunction(() => document.querySelectorAll('.tab-btn').length > 0, null, { timeout: 20000 }).catch(() => {});
+  await wait(1200);
+  await pg.evaluate(() => { const e = [...document.querySelectorAll('.tab-btn')].find((x) => x.textContent.trim() === 'Formazioni'); if (e) e.click(); });
+  await wait(2000);
+  const face = await pg.evaluate(() => { const b = [...document.querySelectorAll('#sl-shell button')].find((x) => x.querySelector('.avatar') && x.getBoundingClientRect().top > 150 && x.getBoundingClientRect().bottom < innerHeight - 120); if (b) { b.click(); return true; } return false; });
+  await wait(2000);
+  const name = () => pg.evaluate(() => { const d = document.querySelector('[role=dialog] p.text-\\[19px\\]'); return d ? d.textContent : null; });
+  const n0 = await name();
+  ok('finestra giocatore: si apre con il tasto Profilo', !!n0 && (await pg.evaluate(() => [...document.querySelectorAll('[role=dialog] button')].some((b) => b.textContent.trim() === 'Profilo'))), { opened, face, n0 });
+  const h0 = await pg.evaluate(() => location.hash);
+  const s1 = await swipeIn('[role=dialog] .flex-1.flex-col', -170);
+  const n1 = await name();
+  ok('finestra giocatore: lo swipe passa al giocatore successivo', !!n1 && n1 !== n0, { n0, n1 });
+  ok('finestra giocatore: la pagina sotto non si muove e la fotografia dietro non compare', !!s1 && s1.every((x) => !x.shell && x.behind === 0), { s1: s1 && s1.slice(-3) });
+  // dal bordo sinistro dentro la finestra: niente swipe indietro
+  const s2 = await swipeIn('[role=dialog] .flex-1.flex-col', 200, 8);
+  await wait(600);
+  const h1 = await pg.evaluate(() => location.hash);
+  ok('finestra giocatore: dal bordo sinistro non parte lo swipe indietro', h1 === h0 && !!s2 && s2.every((x) => !x.shell && x.behind === 0), { h0, h1 });
+  await shot('finestra-giocatore-dopo-swipe');
+  await pg.evaluate(() => { const b = document.querySelector('[role=dialog] button[aria-label="Chiudi"]'); if (b) b.click(); });
+  await wait(800);
+});
+
+await step('partita senza momentum (Austrian Cup): il Riepilogo parte dal primo riquadro con dati', async () => {
+  const has = px && px.m && px.m.some((r) => String(r[0]) === '6171138');
+  if (!has) { report.austria = 'partita non piu\' nei dati'; return; }
+  await go('#/match/x-278-6171138', 3000);
+  await pg.waitForFunction(() => document.querySelectorAll('.tab-btn').length > 0, null, { timeout: 30000 }).catch(() => {});
+  await wait(1500);
+  const b = await pg.evaluate(() => document.body.innerText);
+  ok('austrian cup: nessun "non disponibile"', !ND.test(b), { nd: (b.match(ND) || [])[0] });
+  const first = await pg.evaluate(() => { const h = [...document.querySelectorAll('#sl-shell h3')].find((x) => x.getBoundingClientRect().height > 0); return h ? h.textContent.trim() : null; });
+  ok('austrian cup: il primo riquadro ha dati (Momentum solo se c\'e\')', !!first && (/momentum/i.test(first) ? true : /riassunto|forma/i.test(first)), { first });
+  await shot('austrian-cup-riepilogo');
+});
+
+const ready = () => pg.waitForFunction(() => document.querySelectorAll('.tab-btn').length > 0, null, { timeout: 30000 }).catch(() => {});
+const tabClick = (t) => pg.evaluate((t) => { const e = [...document.querySelectorAll('.tab-btn')].find((x) => x.textContent.trim() === t); if (e) e.click(); return !!e; }, t);
+
+await step('pillole: tornando su una squadra con lo swipe non saltano', async () => {
+  for (const team of ['lazio', 'feyenoord']) {
+    await go(`#/squadra/${team}`, 3000); await ready(); await wait(1200);
+    await tabClick('Statistiche'); await wait(3000);
+    await tabClick('Partite'); await wait(1500);
+    await tabClick('Statistiche'); await wait(2500);
+    const href = await pg.evaluate(() => { const a = [...document.querySelectorAll('a[href*="/match/"], a[href*="giocatore"]')][0]; if (a) { a.click(); return a.getAttribute('href'); } return null; });
+    await wait(3500);
+    const ys = await pg.evaluate(async () => {
+      const out = []; const t0 = performance.now();
+      window.__slCarousel.pageBack(140);
+      await new Promise((r) => { const f = () => { const b = [...document.querySelectorAll('#sl-shell button')].find((q) => q.textContent.trim() === 'Totale' && q.getBoundingClientRect().height > 0); if (b) out.push(Math.round(b.getBoundingClientRect().top)); if (performance.now() - t0 < 2600) requestAnimationFrame(f); else r(); }; requestAnimationFrame(f); });
+      return out;
+    });
+    const jump = ys.length ? Math.max(...ys) - Math.min(...ys) : null;
+    ok(`${team}: tornando indietro le pillole Totale/Casa/Trasferta restano ferme`, !!href && jump !== null && jump <= 3, { href, jump, n: ys.length });
+  }
+});
+
+await step('campionati aggiunti: squadra della Liga MX (stagione con suffisso) con Statistiche e Giocatori', async () => {
+  await go('#/campionato/liga-mx', 3000); await ready(); await wait(1200);
+  await tabClick('Classifica'); await wait(2500);
+  const h = await pg.evaluate(() => { const a = [...document.querySelectorAll('a[href*="squadra"]')].find((x) => x.getBoundingClientRect().height > 0); if (a) { a.click(); return a.getAttribute('href'); } return null; });
+  await wait(3000); await ready(); await wait(1200);
+  const hash = await pg.evaluate(() => location.hash);
+  ok('liga mx: la squadra apre la scheda unica /squadra/', /#\/squadra\//.test(hash), { h, hash });
+  await tabClick('Statistiche'); await wait(3500);
+  const s = await pg.evaluate(() => document.body.innerText);
+  ok('liga mx: Statistiche con valori', /tiri/i.test(s) && !ND.test(s), { len: s.length });
+  await tabClick('Giocatori'); await wait(3500);
+  const n = await pg.evaluate(() => [...document.querySelectorAll('a[href*="giocatore"]')].filter((a) => a.getBoundingClientRect().height > 0).length);
+  ok('liga mx: Giocatori con classifiche', n > 3, { n });
+  await shot('liga-mx-giocatori');
+  await pg.evaluate(() => { const a = [...document.querySelectorAll('a[href*="giocatore"]')].find((x) => x.getBoundingClientRect().height > 0); if (a) a.click(); });
+  await pg.waitForFunction(() => /giocatore/.test(location.hash) && [...document.querySelectorAll('.tab-btn')].some((x) => x.textContent.trim() === 'Carriera'), null, { timeout: 25000 }).catch(() => {});
+  await wait(1500);
+  const tabs = await pg.evaluate(() => [...document.querySelectorAll('.tab-btn')].map((x) => x.textContent.trim()));
+  await tabClick('Statistiche'); await wait(3500);
+  const p = await pg.evaluate(() => document.body.innerText);
+  ok('liga mx: scheda giocatore con Profilo/Partite/Statistiche/Carriera e statistiche della stagione', ['Profilo', 'Partite', 'Statistiche', 'Carriera'].every((x) => tabs.includes(x)) && /presenze/i.test(p) && /Apertura|Clausura/.test(p), { tabs });
+  await shot('liga-mx-giocatore-statistiche');
+});
+
+await step('formazioni dei campionati aggiunti: tasto Profilo e scheda completa', async () => {
+  const f = (px && px.m ? px.m : []).filter((r) => r[9] === 'f' && [230, 57, 61, 71, 40].includes(r[1])).slice(-1)[0];
+  if (!f) { report.f11 = 'nessuna partita'; return; }
+  await go(`#/match/x-${f[1]}-${f[0]}`, 3000); await ready(); await wait(1500);
+  if (!(await tabClick('Formazioni'))) { report.f11 = 'senza formazioni'; return; }
+  await wait(2500);
+  await pg.evaluate(() => { const b = [...document.querySelectorAll('#sl-shell button')].find((x) => x.querySelector('.avatar') && x.getBoundingClientRect().top > 150 && x.getBoundingClientRect().bottom < innerHeight - 120); if (b) b.click(); });
+  await wait(2500);
+  const pr = await pg.evaluate(() => { const b = [...document.querySelectorAll('[role=dialog] button')].find((x) => x.textContent.trim() === 'Profilo'); if (b) { b.click(); return true; } return false; });
+  ok(`x-${f[1]}: la finestra giocatore ha il tasto Profilo`, pr);
+  await pg.waitForFunction(() => /giocatore/.test(location.hash) && [...document.querySelectorAll('.tab-btn')].some((x) => x.textContent.trim() === 'Carriera'), null, { timeout: 25000 }).catch(() => {});
+  await wait(1000);
+  const tabs = await pg.evaluate(() => [...document.querySelectorAll('.tab-btn')].map((x) => x.textContent.trim()));
+  ok(`x-${f[1]}: Profilo apre la scheda completa`, /#\/giocatore\//.test(await pg.evaluate(() => location.hash)) && tabs.includes('Carriera'), { tabs });
+});
+
+await step('squadre B separate dalla prima squadra (Real Sociedad B)', async () => {
+  await go('#/campionato/laliga-2', 3000); await ready(); await wait(1200);
+  await tabClick('Classifica'); await wait(2500);
+  const ok1 = await pg.evaluate(() => { const a = [...document.querySelectorAll('a[href*="squadra"]')].find((x) => /Sociedad B/.test(x.textContent)); if (a) { a.click(); return true; } return false; });
+  await wait(3000); await ready(); await wait(1200);
+  // il banner e' fisso e sta in fondo al documento: si guarda il suo testo, non l'inizio della pagina
+  const head = await pg.evaluate(() => { const h = document.querySelector('header[data-pf]'); return { b: h ? h.innerText : '', h: location.hash }; });
+  ok('real sociedad b: scheda propria con nome "Real Sociedad B" e LaLiga2', !ok1 || (/Real Sociedad B/.test(head.b) && /LaLiga ?2/i.test(head.b) && /#\/squadra\//.test(head.h)), head);
+  await shot('real-sociedad-b');
+});
+
+await step('squadra: tendina competizioni con tutta la storia (indice tidx)', async () => {
+  await go('#/campionato/austrian-cup', 3000); await ready(); await wait(1200);
+  const href = await pg.evaluate(() => { const a = [...document.querySelectorAll('a[href*="squadra"]')].find((x) => /Wacker Innsbruck/.test(x.textContent)); return a ? a.getAttribute('href') : null; });
+  await go(href || '#/squadra/fc-wacker-innsbruck', 3000); await ready(); await wait(1500);
+  await tabClick('Classifica'); await wait(2500);
+  try { await pg.locator('button.glass:visible', { has: pg.locator('b') }).first().click({ timeout: 4000 }); } catch (e) { report.errors.push('tidx ' + String(e).slice(0, 80)); }
+  await wait(700);
+  const names = await pg.evaluate(() => { const l = [...document.querySelectorAll('[data-pop-scroll]')].find((x) => x.getBoundingClientRect().height > 0); return l ? [...l.querySelectorAll('button')].map((b) => b.textContent.trim()) : []; });
+  ok('wacker innsbruck: in tendina anche la Bundesliga austriaca giocata anni fa', names.some((x) => /Bundesliga/.test(x)), { names });
+  await shot('tidx-wacker');
+});
+
+// tempi dei fotogrammi mentre si fa uno swipe di scheda (dito verso sinistra) sul contenuto
+const frameSwipe = () => pg.evaluate(async () => {
+  const el = document.querySelector('#sl-shell div[style*="pan-y"]');
+  if (!el) return null;
+  const y = 400; const x = 330;
+  const mk = (cx) => ({ identifier: 1, target: el, clientX: cx, clientY: y });
+  const fire = (type, cx) => { const ev = new Event(type, { bubbles: true, cancelable: true }); Object.defineProperty(ev, 'touches', { value: type === 'touchend' ? [] : [mk(cx)] }); Object.defineProperty(ev, 'changedTouches', { value: [mk(cx)] }); el.dispatchEvent(ev); };
+  const ts = []; let on = true;
+  const f = (t) => { ts.push(t); if (on) requestAnimationFrame(f); };
+  requestAnimationFrame(f);
+  fire('touchstart', x);
+  for (let i = 1; i <= 14; i++) { fire('touchmove', x - 16 * i); await new Promise((q) => requestAnimationFrame(q)); }
+  fire('touchend', x - 230);
+  await new Promise((q) => setTimeout(q, 900));
+  on = false;
+  const d = ts.slice(1).map((t, i) => t - ts[i]).sort((a, b) => a - b);
+  return { n: d.length, p50: Math.round(d[Math.floor(d.length / 2)] || 0), p95: Math.round(d[Math.floor(d.length * 0.95)] || 0), tab: (document.querySelector('.tab-btn.is-on') || {}).textContent };
+});
+
+await step('tabellone EFL Cup: swipe da Formazioni senza decine di livelli', async () => {
+  const r = (px && px.m ? px.m : []).filter((x) => x[1] === 133 && x[9] === 'f').slice(-1)[0];
+  if (!r) { report.efl = 'nessuna partita'; return; }
+  const id = `x-133-${r[0]}`;
+  await go('#/match/' + id, 3000); await ready(); await wait(2500);
+  const base = await (async () => { await tabClick('Riepilogo'); await wait(1500); return frameSwipe(); })();
+  await go('#/match/' + id, 3000); await ready(); await wait(2500);
+  const hasLu = await tabClick('Formazioni'); await wait(2500);
+  const br = hasLu ? await frameSwipe() : null;
+  const layers = await pg.evaluate(() => [...document.querySelectorAll('#sl-shell [style*="will-change"]')].length);
+  report.eflFrames = { riepilogoStatistiche: base, formazioniTabellone: br, layers };
+  ok('tabellone: da fermo un solo livello (niente will-change su ogni riquadro)', layers <= 4, { layers });
+  ok('tabellone: lo swipe verso il Tabellone non e\' piu\' lento dello swipe tra schede leggere', !br || !base || br.p95 <= base.p95 * 1.35 + 8, { base, br });
+});
+
+await step('memoria: 40+ pagine di seguito, fotogrammi stabili e swipe indietro mai nero', async () => {
+  await go('#/', 6000);
+  const pages = [];
+  const links = await pg.evaluate(() => [...document.querySelectorAll('a[href*="/match/"]')].slice(0, 14).map((a) => a.getAttribute('href')));
+  const teams = ['#/squadra/lazio', '#/squadra/feyenoord', '#/squadra/santos', '#/squadra/fluminense', '#/squadra/eintracht-frankfurt', '#/campionato/serie-a', '#/campionato/eredivisie', '#/campionato/liga-mx', '#/campionato/efl-cup', '#/campionato/premier-league'];
+  for (let i = 0; i < 44; i++) pages.push(i % 3 === 2 ? teams[i % teams.length] : links[i % Math.max(1, links.length)] || teams[i % teams.length]);
+  const t0 = await frameSwipe();
+  let black = 0; let checked = 0;
+  for (let i = 0; i < pages.length; i++) {
+    // navigazione dell'app (pushState): cosi' si accumulano fotografie e cronologia come su iPhone
+    await pg.evaluate((h) => { const p = h.replace(/^#/, ''); if (window.__slNav) window.__slNav(p); else location.hash = p; }, pages[i]);
+    await wait(i % 5 === 4 ? 2200 : 900);
+    if (i % 6 === 5) {
+      // swipe indietro a meta': sotto deve esserci la fotografia della pagina precedente
+      for (const x of [30, 90, 150]) { await pg.evaluate((x) => window.__slCarousel.pageDrag(x), x); await wait(40); }
+      const behind = await pg.evaluate(() => !!document.querySelector('body > div[aria-hidden="true"][style*="position: fixed"]'));
+      checked += 1; if (!behind) black += 1;
+      await pg.evaluate(() => window.__slCarousel.pageReset(false)); await wait(300);
+    }
+  }
+  await ready(); await wait(1500);
+  const t1 = await frameSwipe();
+  const hosts = await pg.evaluate(() => document.querySelectorAll('body > div[aria-hidden="true"]').length);
+  const nodes = await pg.evaluate(() => document.getElementsByTagName('*').length);
+  report.memoria = { inizio: t0, fine: t1, hosts, nodes, black, checked };
+  ok('memoria: dopo 44 pagine le copie nascoste delle pagine non si accumulano', hosts <= 3, { hosts });
+  ok('memoria: swipe indietro con la pagina sotto visibile (mai nero)', checked > 0 && black === 0, { black, checked });
+  ok('memoria: fotogrammi a fine giro simili all\'inizio', !t0 || !t1 || t1.p95 <= t0.p95 * 1.5 + 10, { t0, t1, nodes });
 });
 
 report.passed = report.checks.filter((c) => c.pass).length;

@@ -7,7 +7,7 @@ import MatchRow from '@/components/MatchRow';
 import useAsync from '@/hooks/useAsync';
 import { allTeamMatches } from '@/data/extras';
 import { teamCompetitions } from '@/data/competitions';
-import { announceComp, useTeamView, useSel } from '@/components/past/PastBits';
+import { announceComp, useTeamView, useSel, useCompIn } from '@/components/past/PastBits';
 import { ArchRow, fmtDate, dayKey } from '@/components/archive/parts';
 import { FM_ID, loadSeason, teamIdByName, teamSeasons, sortSeasons } from '@/data/archive';
 import { leagueById, leagueTint } from '@/data/leagues';
@@ -121,7 +121,8 @@ function CurrentSeason({ teamId, comp, filter }) {
 export default function TeamMatchesPanel({ teamId }) {
   const team = teamById(teamId);
   const [filter, setFilter] = useSel(teamId, 'mf', 'all');
-  const { comp, setComp, season: sk, setSeason, comps, seasons } = useTeamView(team, 'mt', teamCompetitions(teamId), 'all', true);
+  const { comp, setComp, season: sk, setSeason, comps, seasons, noCur } = useTeamView(team, 'mt', teamCompetitions(teamId), 'all', true);
+  const anim = useCompIn(`${comp}|${sk}|${filter}`);
 
   return (
     <div className="pt-0">
@@ -133,6 +134,7 @@ export default function TeamMatchesPanel({ teamId }) {
         seasons={seasons}
         season={sk}
         onSeason={setSeason}
+        noCur={noCur}
       />
       <div className="px-5 pt-2">
         <TextFilter
@@ -145,7 +147,7 @@ export default function TeamMatchesPanel({ teamId }) {
           onChange={setFilter}
         />
       </div>
-      <div key={`${comp}|${sk}|${filter}`} className="comp-in">
+      <div key={`${comp}|${sk}|${filter}`} className={anim}>
         {sk === 'cur' ? <CurrentSeason teamId={teamId} comp={comp} filter={filter} /> : <PastSeason team={team} comp={comp} sk={sk} filter={filter} />}
       </div>
     </div>

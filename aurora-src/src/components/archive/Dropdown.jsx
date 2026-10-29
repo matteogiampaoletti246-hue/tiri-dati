@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import MenuBackdrop from '@/components/MenuBackdrop';
 import { Check, ChevronDown } from 'lucide-react';
+import { usePopFit, popScroll } from '@/lib/popFit';
 
 // Tasto in vetro che apre un elenco (stesso stile del menu statistiche del Matchup).
 export default function Dropdown({ options, value, onChange, icon = null, width = 250 }) {
@@ -8,6 +9,7 @@ export default function Dropdown({ options, value, onChange, icon = null, width 
   const [shown, setShown] = useState(false);
   const ref = useRef(null);
   const cur = options.find((o) => o.key === value) || options[0];
+  const room = usePopFit(ref, open, width);
   useEffect(() => {
     if (!open) return undefined;
     const id = requestAnimationFrame(() => setShown(true));
@@ -25,7 +27,7 @@ export default function Dropdown({ options, value, onChange, icon = null, width 
       </button>
       {open ? <MenuBackdrop onClose={() => setOpen(false)} /> : null}
       {open ? (
-        <div className="hide-sb absolute left-0 top-[calc(100%+8px)] z-50 max-h-[56vh] overflow-y-auto rounded-[22px] py-1.5" style={{ width, opacity: shown ? 1 : 0, transform: shown ? 'translateY(0) scale(1)' : 'translateY(-6px) scale(.97)', transformOrigin: 'top left', transition: 'opacity .2s ease, transform .22s cubic-bezier(.22,.8,.24,1)', background: 'var(--sky-2)', border: '1px solid var(--hair)', boxShadow: '0 18px 40px rgba(0,0,0,.5)' }}>
+        <div data-pop-scroll className={`hide-sb absolute ${room.right ? 'right-0' : 'left-0'} ${room.up ? 'bottom-[calc(100%+8px)]' : 'top-[calc(100%+8px)]'} z-50 rounded-[22px] py-1.5`} style={{ width, ...popScroll(room), opacity: shown ? 1 : 0, transform: shown ? 'translateY(0) scale(1)' : `translateY(${room.up ? 6 : -6}px) scale(.97)`, transformOrigin: `${room.up ? 'bottom' : 'top'} ${room.right ? 'right' : 'left'}`, transition: 'opacity .2s ease, transform .22s cubic-bezier(.22,.8,.24,1)', background: 'var(--sky-2)', border: '1px solid var(--hair)', boxShadow: '0 18px 40px rgba(0,0,0,.5)' }}>
           {options.map((o) => {
             const on = o.key === value;
             return (

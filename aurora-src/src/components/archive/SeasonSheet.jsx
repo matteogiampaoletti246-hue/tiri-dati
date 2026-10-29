@@ -1,18 +1,22 @@
+import { useModalLock } from '@/lib/modal';
 import { Check, X } from 'lucide-react';
 import { seasonLabel } from '@/data/archive';
+import MenuBackdrop from '@/components/MenuBackdrop';
 
 // Scelta della stagione: foglio che sale dal basso con tutte le stagioni disponibili.
 export default function SeasonSheet({ open, seasons, value, currentLabel, onSelect, onClose }) {
+  useModalLock(!!open);
   if (!open) return null;
   return (
-    <div className="fade-in fixed inset-0 z-[70]" style={{ background: 'rgba(0,0,0,.5)' }} onClick={onClose}>
+    <div data-no-back="1" className="fade-in fixed inset-0 z-[70]" style={{ background: 'rgba(0,0,0,.5)', touchAction: 'none' }} onClick={onClose}>
       <div className="absolute inset-x-0 bottom-0 mx-auto w-full max-w-[var(--sheet-w)] rounded-t-[28px] pb-8 pt-3" style={{ background: 'var(--sky-2)', border: '1px solid var(--hair)', boxShadow: '0 -20px 50px rgba(0,0,0,.45)' }} onClick={(e) => e.stopPropagation()}>
         <div className="mx-auto mb-3 h-1 w-10 rounded-full" style={{ background: 'var(--hair)' }} />
         <div className="flex items-center justify-between px-6 pb-2">
           <p className="title-sora text-[20px]">Stagione</p>
           <button type="button" className="icon-btn" aria-label="Chiudi" onClick={onClose}><X size={20} strokeWidth={1.5} /></button>
         </div>
-        <div className="hide-sb max-h-[56vh] overflow-y-auto px-3">
+        <MenuBackdrop onClose={onClose} />
+        <div data-pop-scroll className="hide-sb max-h-[56vh] overflow-y-auto overscroll-contain px-3" style={{ touchAction: 'pan-y' }}>
           {seasons.map((s) => {
             const on = s === value;
             return (

@@ -21,7 +21,7 @@ import { teamGrad } from '@/lib/tint';
 import CompSeasonBar from '@/components/CompSeasonBar';
 import PastStats from '@/components/past/PastStats';
 import { PastPlayerMatches } from '@/components/past/PastMatches';
-import { useSeasonList, initSeason, useSel } from '@/components/past/PastBits';
+import { useSeasonList, initSeason, useSel, useCompIn } from '@/components/past/PastBits';
 import { usePlayerCareer, useArchivePct, useBioPid } from '@/data/playerIndex';
 import { rosePlayer } from '@/data/rose';
 import useAsync from '@/hooks/useAsync';
@@ -247,7 +247,7 @@ export function PartitePanel({ player, concept }) {
   const items = car.rows.filter((r) => leagueById(Object.keys(FM_ID).find((k) => FM_ID[k] === r[0]))).map((r) => [r[0], r[1]]);
   const seasons = items;
   if (!rows.length && !(fmPid && items.length)) {
-    return <p className="px-5 py-16 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Nessuna partita disponibile</p>;
+    return null;
   }
   return (
     <div className="pb-8">
@@ -510,11 +510,12 @@ export function StatistichePanel({ player, team }) {
   const gShots = [['total_shots', "Tiri ogni 90'", 'p90'], ['ShotsOnTarget', "Tiri in porta ogni 90'", 'p90']];
   const gDisc = [['fouls', "Falli commessi ogni 90'", 'p90', 1], ['was_fouled', "Falli subiti ogni 90'", 'p90'], ['Offsides', "Fuorigioco ogni 90'", 'p90', 1]];
 
+  const anim = useCompIn(comp);
   return (
     <div className="-mt-1">
     <CompSeasonBar comps={comps} comp={comp} onComp={(c) => { setComp(c); setSeason('cur'); }} seasons={fmPid ? (p.archive && p.sk && comp === p.leagueId && !seasons.includes(p.sk) ? [p.sk, ...seasons] : seasons) : []} season={seasonEff || 'cur'} onSeason={setSeason} noCur={noCur} />
-    {noCur && !seasonEff ? <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Nessuna stagione in questa competizione</p> : seasonEff && seasonEff !== 'cur' && fmL && fmPid ? <PastStats kind="players" id={fmPid} fm={fmL} sk={seasonEff} teamName={team && team.name} /> : (
-    <div key={comp} className="comp-in">
+    {noCur && !seasonEff ? null : seasonEff && seasonEff !== 'cur' && fmL && fmPid ? <PastStats kind="players" id={fmPid} fm={fmL} sk={seasonEff} teamName={team && team.name} /> : (
+    <div key={comp} className={anim}>
     <div className="flex flex-col gap-4 px-5 pt-4"><Affidabilita player={p} team={team} comp={comp} /></div>
     {comp !== dom ? <CupCurrent p={p} fm={fmL} fmPid={fmPid} team={team} /> : (
     <div className="flex flex-col gap-4 px-5 pb-10 pt-4">
@@ -561,7 +562,7 @@ export function CarrieraPanel({ player }) {
     })
     .filter((x) => !isStub(x.r));
   if (!rows.length) {
-    return <p className="px-5 py-16 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Carriera non disponibile per questo giocatore</p>;
+    return null;
   }
   return (
     <div className="px-5 pb-8 pt-5">

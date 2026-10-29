@@ -156,6 +156,16 @@ function TeamTable({ me, op, concept, side, ctx }) {
   );
 }
 
+// ci sono statistiche pre-partita per entrambe le squadre? (senza, la scheda Statistiche non si mostra)
+export function preStatsOk(match, home, away) {
+  if (!home || !away) return false;
+  if (match && match.archive) {
+    const am = archiveMetrics(match);
+    return !!am && am.has(match.archive.hid) && am.has(match.archive.aid);
+  }
+  return hasMetrics(home.id) && hasMetrics(away.id);
+}
+
 export default function PreMatchStats({ home, away, match, concept = cptOf() }) {
   const [, force] = useState(0);
   void force;
@@ -166,7 +176,7 @@ export default function PreMatchStats({ home, away, match, concept = cptOf() }) 
     if (am) ctx = { am, tid: (t) => (t.id === home.id ? match.archive.hid : match.archive.aid) };
   }
   const ok = ctx ? ctx.am.has(ctx.tid(home)) && ctx.am.has(ctx.tid(away)) : hasMetrics(home.id) && hasMetrics(away.id);
-  if (!ok) return <p className="px-5 py-16 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Statistiche non disponibili per questa partita</p>;
+  if (!ok) return null;
   return (
     <div className="flex flex-col gap-5 pb-4 pt-3">
       <TeamTable me={home} op={away} concept={concept} side="In casa" ctx={ctx} />

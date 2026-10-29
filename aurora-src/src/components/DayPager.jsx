@@ -1,3 +1,4 @@
+import { modalOpen } from '@/lib/modal';
 import { useEffect, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
 import { dragDays } from '@/components/DayStrip';
@@ -27,7 +28,7 @@ export default function DayPager({ index, count, onChange, render }) {
     let busy = false;
     const blocked = (t) => t.closest && t.closest('[data-no-swipe], input, select, textarea, [role="dialog"]');
     const onStart = (e) => {
-      if (busy || e.touches.length !== 1 || blocked(e.target)) { st = null; return; }
+      if (busy || e.touches.length !== 1 || modalOpen() || blocked(e.target)) { st = null; return; }
       const t = e.touches[0];
       st = { x: t.clientX, y: t.clientY, t: Date.now(), on: false, dx: 0, raf: 0 };
     };

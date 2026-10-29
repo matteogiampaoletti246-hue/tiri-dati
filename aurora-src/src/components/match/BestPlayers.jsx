@@ -25,6 +25,9 @@ const Avatar = ({ p, size = 44, ring }) => (
 );
 const sur = (p) => p.name.split(' ').slice(-1)[0];
 
+// la scheda "Giocatori migliori" compare solo se almeno una squadra ha dei voti
+export const hasBestPlayers = (match) => !!(top3(match.homeId, match.date, 1.5).rows.length || top3(match.awayId, match.date, 1.5).rows.length);
+
 export default function BestPlayers({ match, home, away, concept = 'a' }) {
   const [line, setLine] = useState(1.5);
   const H = top3(match.homeId, match.date, line);
@@ -33,7 +36,7 @@ export default function BestPlayers({ match, home, away, concept = 'a' }) {
   const fmt = (v) => comma(v, 2);
   const voteColor = (v) => (aff ? scoreColor(v) : ratingColor(v));
   const n = Math.max(H.rows.length, A.rows.length);
-  if (!n) return <p className="py-4 text-center text-[12px]" style={{ color: 'var(--ink-3)' }}>Dati non ancora disponibili</p>;
+  if (!n) return null;
 
   const tabs = aff ? (
     <div className="mb-3"><TextFilter options={[{ value: 0.5, label: 'Over 0,5' }, { value: 1.5, label: 'Over 1,5' }, { value: 2.5, label: 'Over 2,5' }]} value={line} onChange={setLine} /></div>

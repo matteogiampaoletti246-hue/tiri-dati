@@ -1,3 +1,4 @@
+import { useModalLock } from '@/lib/modal';
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ChevronRight, X } from 'lucide-react';
@@ -19,6 +20,7 @@ export default function MenuDrawer() {
   const [open, setOpen] = useState(false);
   const [shown, setShown] = useState(false);
   const loc = useLocation();
+  useModalLock(open);
   useEffect(() => {
     const on = () => setOpen(true);
     window.addEventListener('sl-menu', on);

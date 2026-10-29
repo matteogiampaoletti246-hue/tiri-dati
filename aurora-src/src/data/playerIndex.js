@@ -34,7 +34,7 @@ export const resolvePid = (player) => {
       await Promise.all([loadCarriere(), loadRose()]);
       const c = carriereOf(player.id);
       if (c && c.fm) return String(c.fm);
-      const m = /^fm~\d+~[\d-]+~(\d+)$/.exec(player.id || '');
+      const m = /^fm~\d+~[^~]+~(\d+)$/.exec(player.id || '');
       if (m) return m[1];
       const team = teamById(player.teamId);
       const n = nm(player.name);

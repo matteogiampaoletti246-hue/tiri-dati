@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import MenuBackdrop from '@/components/MenuBackdrop';
 import { Check, ChevronDown } from 'lucide-react';
+import { usePopFit, popScroll } from '@/lib/popFit';
 import LeagueBadge from '@/components/LeagueBadge';
 
 // Tendina delle competizioni: logo + nome, si apre sotto il tasto.
@@ -8,6 +9,7 @@ export default function CompSelect({ options, value, onChange, allLabel = null, 
   const [open, setOpen] = useState(false);
   const [shown, setShown] = useState(false);
   const ref = useRef(null);
+  const room = usePopFit(ref, open);
   const cur = options.find((o) => o.id === value) || null;
 
   useEffect(() => {
@@ -34,14 +36,16 @@ export default function CompSelect({ options, value, onChange, allLabel = null, 
       {open ? <MenuBackdrop onClose={() => setOpen(false)} /> : null}
       {open ? (
         <div
-          className={`absolute ${inline ? 'left-0 top-[calc(100%+8px)]' : 'left-4 top-[calc(100%-2px)]'} z-50 min-w-[250px] rounded-[18px] p-1.5`}
+          data-pop-scroll
+          className={`hide-sb absolute ${inline ? 'left-0' : 'left-4'} ${room.up ? 'bottom-[calc(100%+8px)]' : inline ? 'top-[calc(100%+8px)]' : 'top-[calc(100%-2px)]'} z-50 min-w-[250px] rounded-[18px] p-1.5`}
           style={{
+            ...popScroll(room),
             background: 'var(--sky-2)',
             border: '1px solid var(--hair)',
             boxShadow: '0 18px 40px rgba(0,0,0,.45)',
             opacity: shown ? 1 : 0,
-            transform: shown ? 'translateY(0) scale(1)' : 'translateY(-8px) scale(.97)',
-            transformOrigin: 'top left',
+            transform: shown ? 'translateY(0) scale(1)' : `translateY(${room.up ? 8 : -8}px) scale(.97)`,
+            transformOrigin: room.up ? 'bottom left' : 'top left',
             transition: 'opacity .2s ease, transform .24s cubic-bezier(.22,.8,.24,1)',
           }}
         >

@@ -150,6 +150,8 @@ export function buildMatches() {
     const byNorm = {};
     TEAMS.forEach((t) => { byNorm[nn(t.name)] = t; });
     const byFm = {}; // id FotMob -> squadra: la stessa squadra e' sempre la stessa scheda, in qualunque competizione compaia
+    // prima di tutto l'id FotMob anche per le squadre gia' note (dallo stemma teamlogo/<id>.png): mai un abbinamento per nome sbagliato
+    TEAMS.forEach((t) => { const fid = t.fmId || (/teamlogo\/(\d+)\.png/.exec(String(t.crest || '')) || [])[1]; if (fid && !byFm[fid]) byFm[fid] = t; });
     const team = (name, fmId, lg, fm, sk) => {
       if (fmId && byFm[fmId]) return byFm[fmId];
       const cb = leagueById(lg) && leagueById(lg).country;

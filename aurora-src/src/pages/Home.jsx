@@ -1,3 +1,4 @@
+import { modalOpen } from '@/lib/modal';
 import { memo, useEffect, useRef, useState } from 'react';
 import { growBox } from '@/components/DayPager';
 import { flushSync } from 'react-dom';
@@ -16,7 +17,7 @@ import Skeleton from '@/components/Skeleton';
 import SearchOverlay from '@/components/SearchOverlay';
 import useInitialLoad from '@/hooks/useInitialLoad';
 import useTicker from '@/hooks/useTicker';
-import { syncDayTimes } from '@/data/fotmob';
+import { syncDayTimes, refreshStatus } from '@/data/fotmob';
 import { DATES, TODAY_INDEX, isoDate, matchesByDate } from '@/data/matches';
 import { LEAGUES } from '@/data/leagues';
 
@@ -94,8 +95,17 @@ export default function Home() {
   useEffect(() => {
     let on = true;
     syncDayTimes(iso).then((n) => on && n && bump((x) => x + 1));
+    refreshStatus().then((n) => on && n && bump((x) => x + 1));
     return () => { on = false; };
   }, [iso]);
+  // l'app torna in primo piano: stato e risultati di nuovo dalla fonte, poi la Home si ridisegna
+  useEffect(() => {
+    const vis = () => { if (!document.hidden) refreshStatus().then((n) => n && bump((x) => x + 1)); };
+    document.addEventListener('visibilitychange', vis);
+    window.addEventListener('pageshow', vis);
+    const t = setInterval(vis, 30000);
+    return () => { clearInterval(t); document.removeEventListener('visibilitychange', vis); window.removeEventListener('pageshow', vis); };
+  }, []);
   useEffect(() => {
     let on = true;
     (async () => {
@@ -176,7 +186,7 @@ export default function Home() {
       TOUCHING = true;
       if (finishRef.current) finishRef.current();
       finishCarousel();
-      if (e.touches.length !== 1 || busy.current || live.current.search || blocked(e.target)) { st = null; return; }
+      if (e.touches.length !== 1 || busy.current || live.current.search || modalOpen() || blocked(e.target)) { st = null; return; }
       const t = e.touches[0];
       st = { x: t.clientX, y: t.clientY, t: Date.now(), on: false };
       moved.current = false;

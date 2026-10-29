@@ -1,5 +1,6 @@
 // Rose dei campionati minori (rose.json, scaricate da FotMob): stessi ruoli e stesse righe dei campionati maggiori.
 import { BASE } from './load';
+import { sameSquad } from './teamMatch';
 
 let DATA = null;
 let PROM = null;
@@ -28,7 +29,7 @@ export const roseOf = (team) => {
   if (same) { const hit = same.find((v) => !team.leagueId || v.lg === team.leagueId) || (same.length === 1 ? same[0] : null); if (hit) return hit; }
   // "Eintracht Frankfurt" = "Frankfurt": nome contenuto, solo se una sola squadra combacia
   if (n.length >= 5) {
-    const cand = Object.entries(DATA).filter(([k, v]) => { const m = nrm(k); return m.length >= 5 && (m.includes(n) || n.includes(m)) && (!team.leagueId || v.lg === team.leagueId); });
+    const cand = Object.entries(DATA).filter(([k, v]) => { const m = nrm(k); return m.length >= 5 && (m.includes(n) || n.includes(m)) && sameSquad(k, team.name) && (!team.leagueId || v.lg === team.leagueId); });
     if (cand.length === 1) return cand[0][1];
   }
   return null;

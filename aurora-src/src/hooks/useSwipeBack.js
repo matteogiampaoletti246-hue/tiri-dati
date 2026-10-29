@@ -1,3 +1,4 @@
+import { modalOpen } from '@/lib/modal';
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { pageBack, pageDrag, pageReset, canGoBack } from '@/lib/carousel';
@@ -14,7 +15,7 @@ export default function useSwipeBack(enabled = true) {
     const shell = () => document.getElementById('sl-shell');
 
     const onDown = (e) => {
-      if (e.clientX > 32 || (e.target && e.target.closest && e.target.closest('[data-no-back]')) || document.querySelector('[data-tabs-back]') || !canGoBack()) return;
+      if (e.clientX > 32 || modalOpen() || (e.target && e.target.closest && e.target.closest('[data-no-back]')) || document.querySelector('[data-tabs-back]') || !canGoBack()) return;
       start.current = { x: e.clientX, y: e.clientY };
     };
 

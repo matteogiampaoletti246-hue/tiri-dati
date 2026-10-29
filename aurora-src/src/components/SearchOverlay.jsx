@@ -1,3 +1,4 @@
+import { useModalLock } from '@/lib/modal';
 import { teamGrad } from '@/lib/tint';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -56,6 +57,7 @@ export default function SearchOverlay({ open, onClose }) {
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
   }, [onClose]);
+  useModalLock(!!open);
 
   if (!open) return null;
 

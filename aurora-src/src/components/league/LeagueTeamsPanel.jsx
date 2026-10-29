@@ -21,7 +21,7 @@ export default function LeagueTeamsPanel({ leagueId }) {
       sections.push({ id: mt.key, group: cat.title, title: mt.label, rows });
     }),
   );
-  if (!teams.length) return <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Statistiche non ancora disponibili</p>;
+  if (!teams.length) return null;
   return (
     <StatLists
       sections={sections}

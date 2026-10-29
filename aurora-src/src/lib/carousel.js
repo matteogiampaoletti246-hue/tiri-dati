@@ -1,4 +1,5 @@
 import { flushSync } from 'react-dom';
+import { modalOpen } from './modal';
 
 // Fotografia viva dell'elemento: copia fissa che resta dov'e' mentre sotto cambia la pagina.
 function snapshot(el, z = 35, host = null) {
@@ -166,7 +167,8 @@ export function installBackSnaps() {
     try {
       const idx = histIdx();
       const g = grab();
-      if (g) { SNAPS.set(idx, g); [...SNAPS.keys()].filter((k) => k < idx - 8).forEach((k) => SNAPS.delete(k)); }
+      // solo le ultime 5 fotografie (e nessuna della cronologia 'avanti', ormai irraggiungibile): la memoria resta piccola anche dopo 40+ pagine
+      if (g) { SNAPS.set(idx, g); [...SNAPS.keys()].filter((k) => k < idx - 5 || k > idx).forEach((k) => SNAPS.delete(k)); }
     } catch (e) { /* senza fotografia: si torna indietro come prima */ }
     const r = ps(...a);
     warmLater();
@@ -239,6 +241,7 @@ const behindOff = () => {
   if (sh) { sh.style.zIndex = ''; sh.style.background = ''; }
 };
 export function pageDrag(dx) {
+  if (modalOpen()) return; // finestra aperta (giocatore, fogli): la pagina sotto e la sua fotografia restano ferme
   const w = Math.min(window.innerWidth, 430);
   behindOn();
   behindMove(Math.max(0, dx), w);

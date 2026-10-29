@@ -16,7 +16,7 @@ const recentOfMatch = (match, id) => {
 };
 const formOfMatch = (match, id) => {
   if (match.formOf && (!match.extra || String(match.id).startsWith('a-'))) return match.formOf(id);
-  return recentOfMatch(match, id).slice().reverse().map((x) => { const r = resOf(x, id); return r ? r.r : 'S'; });
+  return recentOfMatch(match, id).slice().reverse().map((x) => { const r = resOf(x, id); return r ? r.r : null; }).filter(Boolean); // mai un risultato inventato
 };
 export const conceptOf = (k) => { try { return localStorage.getItem(`sl-concept-${k}`) || 'a'; } catch { return 'a'; } };
 
@@ -36,7 +36,9 @@ function summary(form) {
 }
 
 export default function FormCard({ match, home, away, concept = 'c' }) {
-  const sides = [{ team: home, id: match.homeId }, { team: away, id: match.awayId }];
+  // si mostra solo la squadra che ha partite con risultato; senza nessuna delle due il riquadro non c'e'
+  const sides = [{ team: home, id: match.homeId }, { team: away, id: match.awayId }].filter(({ id }) => formOfMatch(match, id).length);
+  if (!sides.length) return null;
 
   if (concept === 'b') {
     return (

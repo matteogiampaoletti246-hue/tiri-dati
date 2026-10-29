@@ -1,7 +1,8 @@
+import { lruSet } from '@/lib/lru';
 // Tabellone a eliminazione diretta ricavato dal calendario archiviato (arch/<fm>/<stagione>.json).
 // Regola: vale per ogni competizione con fasi a eliminazione (coppe europee e, in futuro, coppe nazionali):
 // basta aggiungere l'id FotMob in CUP_FM. Ogni turno e' formato da "sfide" (andata+ritorno o gara unica).
-import { loadSeason, loadSeasonMatches } from './archive';
+import { loadSeason, loadSeasonMatches, teamLogo } from './archive';
 
 export const CUP_FM = new Set([42, 73, 10216, 141, 209, 134, 186, 133, 149, 278, 180, 9067]);
 export const hasCup = (fm) => CUP_FM.has(Number(fm));
@@ -110,7 +111,13 @@ export const loadBracket = async (fm, sk) => {
   const k = `${fm}-${sk}`;
   if (MEM.has(k)) return MEM.get(k);
   const r = await loadBracketRaw(fm, sk);
-  if (r && r.rounds && r.rounds.length) MEM.set(k, r);
+  if (r && r.rounds) lruSet(MEM, k, r, 16); // anche vuoto: tornando si sa subito che il Tabellone non c'e' (al massimo 16 tabelloni)
+  // stemmi gia' decodificati prima che il tabellone entri (swipe dalla scheda accanto senza scatti)
+  if (r && r.rounds && r.rounds.length) {
+    const ids = new Set();
+    r.rounds.forEach((rd) => rd.ties.forEach((t) => { if (t.a) ids.add(t.a); if (t.b) ids.add(t.b); }));
+    [...ids].slice(0, 160).forEach((id) => { try { const im = new Image(); im.src = teamLogo(id); if (im.decode) im.decode().catch(() => {}); } catch (e) { /* ignora */ } });
+  }
   return r;
 };
 const loadBracketRaw = async (fm, sk) => {

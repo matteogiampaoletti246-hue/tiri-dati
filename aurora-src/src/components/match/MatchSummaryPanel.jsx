@@ -19,24 +19,21 @@ export default function MatchSummaryPanel({ match, view, home, away }) {
   const cr = 'a';
   const cm = 'c';
   const events = view.events || [];
-  const empty = !events.length && !(view.momentum && view.momentum.length);
+  const hasMomentum = !!(view.momentum && view.momentum.length);
 
+  // ogni riquadro compare solo se ha dati: senza momentum il Riepilogo parte dal Riassunto
   return (
     <div className="flex flex-col gap-4 pb-6 pt-3">
-      {empty ? (
-        <p className="px-5 py-10 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>
-          {view.live ? 'Partita in corso: per ora c\'è solo il risultato. Cronologia e statistiche compariranno qui se la fonte le pubblica.' : 'Dettagli non disponibili per questa partita'}
-        </p>
-      ) : (
-        <>
-          <Card title="Momentum">
-            <Momentum values={view.momentum} events={events} home={home} away={away} concept={cm} />
-          </Card>
-          <Card title="Riassunto" noPad>
-            {events.length ? <Riassunto match={match} events={events} finished={match.status === 'finished'} concept={cr} /> : <p className="py-6 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Nessun evento</p>}
-          </Card>
-        </>
-      )}
+      {hasMomentum ? (
+        <Card title="Momentum">
+          <Momentum values={view.momentum} events={events} home={home} away={away} concept={cm} />
+        </Card>
+      ) : null}
+      {events.length ? (
+        <Card title="Riassunto" noPad>
+          <Riassunto match={match} events={events} finished={match.status === 'finished'} concept={cr} />
+        </Card>
+      ) : null}
       <InfoBand match={match} />
       <RefereeCard match={match} />
       <FormCard match={match} home={home} away={away} />

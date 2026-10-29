@@ -1,7 +1,7 @@
 import { useLayoutEffect, useEffect, useRef, useState } from 'react';
 import { useSel } from '@/components/past/PastBits';
 import Bracket from '@/components/bracket/Bracket';
-import { hasCup } from '@/data/bracket';
+import { hasCup, peekBracket, loadBracket } from '@/data/bracket';
 
 // Classifica | Tabellone: scorrimento con profondita' (la vista che esce si rimpicciolisce e sfuma verso sinistra,
 // quella che entra arriva da destra). Tutto e' guidato da un solo valore 0..1 calcolato a ogni fotogramma.
@@ -12,7 +12,18 @@ const OPTS = ['Classifica', 'Tabellone'];
 export default function ClassificaSwitch({ fm, sk, children }) {
   const A = useRef(null); const Bv = useRef(null);
   const box = useRef(null); const ind = useRef(null); const btn = useRef([]);
-  const [view, setView] = useSel(`lg-${fm}`, `vw-${sk}`, 0);
+  const [view0, setView] = useSel(`lg-${fm}`, `vw-${sk}`, 0);
+  // il Tabellone c'e' solo se la stagione ha turni a eliminazione (mai "nessun dato"): finche' non si sa, la riga resta com'e'
+  const pk = sk ? peekBracket(fm, sk) : null;
+  const [rounds, setRounds] = useState(() => (pk ? pk.rounds.length : null));
+  useEffect(() => {
+    if (!hasCup(fm) || !sk) return undefined;
+    let on = true;
+    loadBracket(fm, sk).then((d) => on && setRounds(d && d.rounds ? d.rounds.length : 0)).catch(() => on && setRounds(0));
+    return () => { on = false; };
+  }, [fm, sk]);
+  const noB = rounds === 0 || !sk;
+  const view = noB ? 0 : view0;
   const S = useRef(view); const raf = useRef(0);
 
   const paint = (s) => {
@@ -38,7 +49,7 @@ export default function ClassificaSwitch({ fm, sk, children }) {
   useLayoutEffect(() => { paint(S.current); });
   useEffect(() => () => cancelAnimationFrame(raf.current), []);
 
-  if (!hasCup(fm)) return children;
+  if (!hasCup(fm) || noB) return children;
   const go = (to) => {
     if (to === view) return;
     setView(to);

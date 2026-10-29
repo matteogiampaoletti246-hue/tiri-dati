@@ -2,7 +2,7 @@ import { useState } from 'react';
 import useAsync from '@/hooks/useAsync';
 import TextFilter from '@/components/TextFilter';
 import StatLists from '@/components/stats/StatLists';
-import { noStats, loadSeason, loadSeasonStats, teamPartStats, teamIdByName, seasonLabel } from '@/data/archive';
+import { loadSeason, loadSeasonStats, loadPlayerStats, teamPartStats, teamIdByName, seasonLabel } from '@/data/archive';
 import { Link } from 'react-router-dom';
 import Crest from '@/components/Crest';
 import { comma } from '@/lib/format';
@@ -84,7 +84,7 @@ export function PastTeamStats({ fm, sk, team, comp, cur }) {
   const [cat, setCat] = useState('all');
   const { tid, loading, season } = useTeamSeason(fm, sk, team);
   if (loading) return <Msg>Carico la stagione {seasonLabel(sk)}…</Msg>;
-  if (!season || !tid) return <Msg>{team.name} non ha giocato questo campionato nel {seasonLabel(sk)}</Msg>;
+  if (!season || !tid) return null;
   return (
     <div>
       <TopTiles fm={fm} sk={sk} tid={tid} />
@@ -101,7 +101,7 @@ export function PastTeamStats({ fm, sk, team, comp, cur }) {
 export function PastTeamStandings({ fm, sk, team }) {
   const { tid, loading, season } = useTeamSeason(fm, sk, team);
   if (loading) return <Msg>Carico la stagione {seasonLabel(sk)}…</Msg>;
-  if (!season) return <Msg>Classifica non disponibile per questa stagione</Msg>;
+  if (!season) return null;
   return <StandingsPanel season={season} fm={fm} sk={sk} highlight={tid} />;
 }
 
@@ -109,10 +109,10 @@ export function PastTeamPlayers({ fm, sk, team }) {
   const [mode, setMode] = useState('tot');
   const col = useTeamColors();
   const { tid, loading, season } = useTeamSeason(fm, sk, team);
-  const { data: stats, loading: l2 } = useAsync(() => loadSeasonStats(fm, sk), [fm, sk]);
+  const { data: stats, loading: l2 } = useAsync(() => loadPlayerStats(fm, sk), [fm, sk]);
   if (loading || l2) return <Msg>Carico la stagione {seasonLabel(sk)}…</Msg>;
   if (!season || !tid) return <Msg>{team.name} non ha giocato questo campionato nel {seasonLabel(sk)}</Msg>;
   const sections = statSections(stats, 'players', season.teams || {}, col, fm, sk, mode, tid);
-  if (!sections.length) return <Msg>{noStats(fm, sk) ? `Statistiche dei giocatori non disponibili per il ${seasonLabel(sk)}` : `Statistiche dei giocatori del ${seasonLabel(sk)} in arrivo`}</Msg>;
+  if (!sections.length) return null;
   return <StatLists sections={sections} controls={<TextFilter options={[{ value: 'tot', label: 'Totale' }, { value: 'p90', label: "Ogni 90'" }]} value={mode} onChange={setMode} />} />;
 }

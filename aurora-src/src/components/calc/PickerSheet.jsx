@@ -1,3 +1,4 @@
+import { useModalLock } from '@/lib/modal';
 import { useEffect, useRef, useState } from 'react';
 import { Search, X } from 'lucide-react';
 
@@ -26,6 +27,7 @@ export default function PickerSheet({ open, title, options = [], placeholder = '
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
   }, [onClose]);
+  useModalLock(!!open);
 
   if (!open) return null;
 
@@ -34,8 +36,8 @@ export default function PickerSheet({ open, title, options = [], placeholder = '
   const list = (needle ? options.filter((o) => norm(o.label).includes(needle) || norm(o.sub).includes(needle)).sort((a, b) => rk(a.label) - rk(b.label)) : (requireQuery ? [] : options)).slice(0, 60);
 
   return (
-    <div className="fade-in fixed inset-0 z-[60]" style={{ background: 'color-mix(in srgb, var(--sky-2) 94%, transparent)', backdropFilter: 'blur(24px)' }}>
-      <div className="mx-auto flex min-h-screen w-full max-w-[var(--sheet-w)] flex-col">
+    <div data-no-back="1" className="fade-in fixed inset-0 z-[60] overflow-hidden" style={{ background: 'color-mix(in srgb, var(--sky-2) 94%, transparent)', backdropFilter: 'blur(24px)' }}>
+      <div className="mx-auto flex h-full w-full max-w-[var(--sheet-w)] flex-col">
         <div className="flex items-center gap-3 px-5 py-4">
           <Search size={18} strokeWidth={1.25} style={{ color: 'var(--ink-3)' }} />
           <input
@@ -58,7 +60,7 @@ export default function PickerSheet({ open, title, options = [], placeholder = '
           </p>
         ) : null}
 
-        <div className="hide-sb flex-1 overflow-y-auto pb-24">
+        <div className="hide-sb min-h-0 flex-1 overflow-y-auto overscroll-contain pb-24">
           {list.length ? (
             list.map((o) => (cards ? (
               <div key={o.value} className="px-4 py-1">

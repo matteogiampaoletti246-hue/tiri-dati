@@ -1,0 +1,33 @@
+name: Arbitri e stadi campionati aggiunti
+on:
+  schedule:
+    - cron: "15 */4 * * *"
+  workflow_dispatch:
+  push:
+    paths:
+      - arbitri_extra.py
+      - stadi_extra.py
+permissions:
+  contents: write
+jobs:
+  arbitri:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      # arbitri designati 1-3 giorni prima (API-Football), quando FotMob non li da' ancora
+      - run: python arbitri_extra.py
+        env:
+          API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
+      # coordinate degli stadi per il meteo (solo le squadre nuove; le altre restano in stadi_ex.json)
+      - run: python stadi_extra.py || true
+      - name: Salva i risultati
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add arbitri_extra.json stadi_ex.json
+          git diff --staged --quiet || git commit -m "Arbitri e stadi campionati aggiunti"
+          for i in 1 2 3 4 5; do git pull --rebase && git push && break; sleep $((i*4)); done

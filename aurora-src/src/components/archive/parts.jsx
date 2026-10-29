@@ -110,7 +110,7 @@ export function StandingsPanel({ season, fm, sk, highlight = null }) {
   const forma = mode === 'form';
   // gli hook vanno sempre prima di qualunque uscita anticipata (altrimenti React si blocca cambiando stagione)
   const fm5 = useMemo(() => (t ? formOf(season) : {}), [season, t]);
-  if (!t) return <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Classifica non disponibile per questa stagione</p>;
+  if (!t) return null;
   const rows = forma
     ? (t.all || []).map((r) => { const f = (fm5[r.id] || []).slice(-5); return { ...r, f, fp: f.reduce((x, c) => x + (c === 'V' ? 3 : c === 'S' ? 1 : 0), 0) }; }).sort((a, b) => b.fp - a.fp || b.pts - a.pts)
     : (t[mode] || t.all || []);

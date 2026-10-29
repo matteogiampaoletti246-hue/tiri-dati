@@ -1,3 +1,4 @@
+import { useModalLock } from '@/lib/modal';
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
@@ -7,6 +8,7 @@ import { ChevronDown, ListTree, X } from 'lucide-react';
 // sections: [{ id, group, title, rows: [{ id, to, left, name, sub, value }] }]
 export default function StatLists({ sections, controls = null, limit = 8 }) {
   const [sheet, setSheet] = useState(false);
+  useModalLock(sheet);
   const [open, setOpen] = useState({});
   const [rev, setRev] = useState({});
   const concept = 'b';

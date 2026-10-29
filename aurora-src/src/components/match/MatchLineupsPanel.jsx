@@ -12,7 +12,7 @@ import { comma } from '@/lib/format';
 const last = (n) => String(n || '').split(' ').slice(-1)[0];
 const tone = (v) => (v == null ? 'var(--hair)' : v >= 7.5 ? '#1FA45B' : v >= 7 ? '#5DBB3F' : v >= 6.5 ? '#E0B400' : v >= 6 ? '#E8892B' : '#E5484D');
 
-// Concept A: voto a pillola sul bordo basso del volto; cartellino in alto a sinistra, gol e assist in colonna in alto a destra, cambio col minuto in basso a sinistra, capitano in basso a destra, stella (migliore) in alto.
+// Concept A: voto a pillola sul bordo basso del volto; cartellino in alto a sinistra, gol e assist in colonna in alto a destra, cambio (solo le due freccette, senza sfondo ne' minuto) in basso a sinistra, capitano in basso a destra, stella (migliore) in alto.
 // Ogni icona ha il suo posto fisso (colonne ai lati del volto): non si coprono tra loro ne' con il voto.
 const SHADOW = { filter: 'drop-shadow(0 1px 2px rgba(0,0,0,.9)) drop-shadow(0 0 1px rgba(0,0,0,.9))' };
 
@@ -39,8 +39,8 @@ function Events({ p, size, mvp }) {
         </span>
       ) : null}
       {p.subOut ? (
-        <span className={`${ab} flex items-center gap-[1px] rounded-full px-[4px] py-[1px]`} style={{ right: '100%', marginRight: -12, bottom: 3, background: '#E5484D', border: '1px solid rgba(0,0,0,.35)' }}>
-          <SubIcon size={size * 0.7} /><span className="tnum text-[9px] font-extrabold leading-none text-white">{String(p.subOut).replace(/'/g, '')}</span>
+        <span className={`${ab} flex items-center`} style={{ right: '100%', marginRight: -6, bottom: 2, ...SHADOW }}>
+          <SubIcon size={size} />
         </span>
       ) : null}
       {p.captain ? <span className={`${ab} flex items-center justify-center rounded-full font-extrabold`} style={{ left: '100%', marginLeft: -3, bottom: 3, width: size * 0.95, height: size * 0.95, fontSize: size * 0.58, background: '#F2C230', color: '#222' }}>C</span> : null}
@@ -156,11 +156,19 @@ function Bench({ lineup, team, valOf, match }) {
   );
 }
 
+// la scheda Formazioni compare solo se c'e' almeno un campo, un allenatore o una panchina
+const okSide = (l) => !!(l && l.xi && l.xi.length && l.formation);
+export const hasLineups = (view) => {
+  const l = view.lineup;
+  if (!l) return false;
+  return (okSide(l.home) && okSide(l.away)) || [l.home, l.away].some((x) => x && (x.coach || (x.bench && x.bench.length)));
+};
+
 export default function MatchLineupsPanel({ match, view, home, away, pre }) {
   const lh = view.lineup ? view.lineup.home : null;
   const la = view.lineup ? view.lineup.away : null;
-  const okH = !!(lh && lh.xi && lh.xi.length && lh.formation);
-  const okA = !!(la && la.xi && la.xi.length && la.formation);
+  const okH = okSide(lh);
+  const okA = okSide(la);
   const valOf = (p) => {
     const pl = playerById(p.playerId);
     if (pre) {
@@ -181,23 +189,17 @@ export default function MatchLineupsPanel({ match, view, home, away, pre }) {
 
   return (
     <div className="flex flex-col gap-5 pb-6 pt-3">
-      {!okH && !okA ? <p className="px-5 py-12 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Formazioni non ancora disponibili</p> : null}
-
-      {okH || okA ? (
+      {okH && okA ? (
         <div className="px-4">
           <div className="mb-3 text-center">
             <p className="text-[15px] font-extrabold">{title}</p>
             <p className="mt-1 text-[13px] font-extrabold">
-              <span style={{ color: tcol(home) }}>{okH ? lh.formation.label : '—'}</span>
+              <span style={{ color: tcol(home) }}>{lh.formation.label}</span>
               <span className="mx-2" style={{ color: 'var(--ink-3)' }}>·</span>
-              <span style={{ color: tcol(away) }}>{okA ? la.formation.label : '—'}</span>
+              <span style={{ color: tcol(away) }}>{la.formation.label}</span>
             </p>
           </div>
-          {okH && okA ? (
-            <DualPitch lh={lh} la={la} home={home} away={away} valOf={valOf} match={match} mvpId={mvpId} />
-          ) : (
-            <p className="py-10 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Formazione di {okH ? (away ? away.name : 'ospite') : (home ? home.name : 'casa')} non ancora disponibile</p>
-          )}
+          <DualPitch lh={lh} la={la} home={home} away={away} valOf={valOf} match={match} mvpId={mvpId} />
           <p className="mt-2 text-center text-[10.5px]" style={{ color: 'var(--ink-3)' }}>{pre ? 'Voto = affidabilità tiri (over 1,5)' : 'Voto = prestazione in partita'}</p>
         </div>
       ) : null}

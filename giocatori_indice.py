@@ -9,7 +9,8 @@ for fm in FMS:
     d = os.path.join(ROOT, 'arch', str(fm))
     if not os.path.isdir(d): continue
     for f in sorted(os.listdir(d)):
-        m = re.match(r'(\d{4}-\d{4}|\d{4})_s\.json$', f)
+        # anche le stagioni con suffisso (Messico/Argentina: "2026-2027 - Apertura", "2026 - Clausura")
+        m = re.match(r'((?:\d{4}-\d{4}|\d{4})(?: - [^_/]+)?)_s\.json$', f)
         if not m: continue
         sk = m.group(1)
         try: pl = json.load(open(os.path.join(d, f), encoding='utf-8')).get('players') or {}

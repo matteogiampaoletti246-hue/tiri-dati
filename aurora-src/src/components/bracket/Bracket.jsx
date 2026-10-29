@@ -241,12 +241,15 @@ function BracketView({ data, fm, sk }) {
     const dur = 750 + 100 * (Math.abs(to - from) - 1 > 0 ? Math.abs(to - from) - 1 : 0);
     const t0 = performance.now();
     const row = rowRef.current; const sc0 = row ? row.scrollLeft : 0; const sc1 = rowTarget(to);
+    // livelli separati solo durante il passaggio tra fasi: da fermo (e nello swipe tra schede) un solo livello, non decine
+    const layer = (v) => { Object.values(cardRefs.current).forEach((el) => { if (el) el.style.willChange = v; }); if (posterRef.current) posterRef.current.style.willChange = v; };
+    layer('transform');
     const step = (now) => {
       const k = clamp((now - t0) / dur);
       P.current = from + (to - from) * eIO(k);
       draw(P.current);
       if (row) row.scrollLeft = sc0 + (sc1 - sc0) * eIO(k);
-      if (k < 1) raf.current = requestAnimationFrame(step); else { P.current = to; draw(to); }
+      if (k < 1) raf.current = requestAnimationFrame(step); else { P.current = to; draw(to); layer(''); }
     };
     raf.current = requestAnimationFrame(step);
   };
@@ -289,12 +292,12 @@ function BracketView({ data, fm, sk }) {
             tabIndex={0}
             onClick={() => open(t)}
             className="press absolute left-0 top-0"
-            style={{ width: 'var(--cw)', height: H, willChange: 'transform' }}
+            style={{ width: 'var(--cw)', height: H, contain: 'layout paint' }}
           >
             <Tie t={t} names={names} col={col} w="var(--cw)" />
           </div>
         )))}
-        {hasFinal ? <div ref={posterRef} role="button" tabIndex={0} onClick={() => open(rounds[L - 1].ties[0])} className="absolute left-0 top-0" style={{ width: 'var(--pw)', height: POSTER_H, willChange: 'transform', visibility: 'hidden' }}>
+        {hasFinal ? <div ref={posterRef} role="button" tabIndex={0} onClick={() => open(rounds[L - 1].ties[0])} className="absolute left-0 top-0" style={{ width: 'var(--pw)', height: POSTER_H, contain: 'layout paint', visibility: 'hidden' }}>
           <Poster t={rounds[L - 1].ties[0]} names={names} fm={fm} tint={tint} mid={mid} name={CUP_NAME[fm] || (lg && lg.name) || ''} />
         </div> : null}
       </div>
@@ -308,7 +311,7 @@ export default function Bracket({ fm, sk }) {
   const data = d0 || hit;
   if (loading && !data) return <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Carico il tabellone…</p>;
   if (!data || !data.rounds || !data.rounds.length) {
-    return <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Nessun dato ancora disponibile</p>;
+    return null;
   }
   return <BracketView key={`${fm}-${sk}`} data={data} fm={fm} sk={sk} />;
 }

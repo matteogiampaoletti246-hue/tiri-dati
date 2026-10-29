@@ -31,7 +31,7 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 
 ## Tabellone (coppe a eliminazione diretta)
 - Dentro Classifica c'e' il selettore Classifica | Tabellone (`components/bracket/ClassificaSwitch.jsx`), per ogni competizione in `CUP_FM` (`data/bracket.js`): per aggiungere una coppa basta aggiungere il suo id FotMob.
-- Il tabellone si ricava da `arch/<fm>/<stagione>.json` (turni `playoff,1/16,1/8,1/4,1/2,final`), rigori dall'evento `PenaltyShootout` delle partite. Stagione in corso senza turni a eliminazione: "Nessun dato ancora disponibile".
+- Il tabellone si ricava da `arch/<fm>/<stagione>.json` (turni `playoff,1/16,1/8,1/4,1/2,final`), rigori dall'evento `PenaltyShootout` delle partite. Stagione senza turni a eliminazione: il Tabellone non si mostra (niente pillola, niente scheda).
 - Fasi in pillole: ogni schermata mostra due fasi e il passaggio e' uno scorrimento orizzontale (`components/bracket/Bracket.jsx`, posizioni calcolate a ogni fotogramma, mai componenti ricreati). Finale: locandina con colori e logo della competizione.
 
 ## Ritorno da una partita
@@ -64,7 +64,7 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 
 ## Formazioni (regola fissa, tutte le partite: live, prima del fischio, finite)
 - Un solo campo con le due squadre (`MatchLineupsPanel.jsx`, `DualPitch`): casa in alto specchiata (ala destra a sinistra), ospite in basso, portieri agli estremi; nome casa nell'angolo in alto a sinistra, ospite in basso a destra; in cima "Formazione probabile/ufficiale" (o "Formazioni" a partita giocata) e i due moduli. Niente tasto di cambio squadra.
-- Icone sul giocatore (concept A, posto fisso): voto a pillola sotto il volto, cartellino in alto a sinistra, gol/assist in colonna in alto a destra, cambio col minuto in basso a sinistra, capitano "C" in basso a destra, stella gialla al migliore in campo.
+- Icone sul giocatore (concept A, posto fisso): voto a pillola sotto il volto, cartellino in alto a sinistra, gol/assist in colonna in alto a destra, cambio = solo le due freccette (verde su / rossa giu', niente sfondo, bordo o minuto) in basso a sinistra, capitano "C" in basso a destra, stella gialla al migliore in campo.
 
 ## Fluidita' (priorita' massima)
 - Una partita si mostra solo quando e' pronta: `data/prepare.js` (`prepareMatch`, una promessa per partita, avviata al tocco della riga in `MatchRow`), spinner unico in `pages/Match.jsx`; niente riepilogo/momentum/statistiche che arrivano dopo.
@@ -83,3 +83,46 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 - Rose da piu' fonti (`update_rose.py`: FotMob, PitchAPI, API-Football). Statistiche squadra: riquadri Gol/xG/Tiri/Tiri in porta con posizione + riga "Prossima" della competizione scelta (solo se esiste).
 - Forma recente = ultime 5 partite in tutte le competizioni. Per le sole coppe nazionali le statistiche pre-partita sono la media coppa + campionato (coppe europee escluse).
 - Swipe indietro: oltre la meta' dello schermo si torna, prima la pagina rientra lentamente. Pillole dei turni del Tabellone: la riga scorre e centra la pillola scelta; schede ben spaziate.
+
+## Niente "non disponibile" (regola fissa, ogni pagina presente e futura)
+- Statistica, riquadro, pillola, voce o scheda senza dati: non si mostra (mai "non disponibile", "non ancora disponibile", "in arrivo", "nessun dato", mai un riquadro vuoto o un "—"). La pagina parte dal primo elemento con dati. Mai dati inventati (niente sole come meteo finto, niente pareggio per una partita senza risultato).
+- Partita: le schede vuote si tolgono (`hasMatchStats`, `hasLineups`, Tabellone da `peekBracket`, caricato in `prepareMatch`); la scheda scelta si ricorda per nome (`usePageTabKey`). Riepilogo: Momentum solo se c'e'. Stadio/Meteo/Arbitro: solo le voci con dato (`InfoBand`).
+- Campionato dell'archivio: schede filtrate per dati (`ArchiveLeague`). Prova: `ND` in `preview.mjs`.
+
+## Tendine e finestre
+- Ogni tendina (`Dropdown`, `CompSelect`, `MiniSelect`, `StatPicker`) usa `usePopFit`/`popScroll` (`lib/popFit.js`): altezza massima sopra la barra in basso con margine, si apre verso l'alto se sotto non c'e' spazio, non esce dallo schermo, scorre solo la lista (`data-pop-scroll`, overscroll contain). `MenuBackdrop` tiene ferma la pagina dietro; si chiude solo scegliendo o toccando fuori.
+- Finestre e fogli (giocatore, stagioni, Vai a, ricerca, menu): `useModalLock` (`lib/modal.js`). Con una finestra aperta nessuno swipe di pagina parte (giorni, schede, indietro, `pageDrag`); la finestra giocatore ha `role=dialog` e `data-no-back`.
+
+## Home: stato e risultato sempre quelli veri
+- `refreshStatus` (`data/fotmob.js`): all'avvio (prima della Home, max 2,5 s), cambiando giorno, ogni 30 s e quando l'app torna in primo piano. Top campionati/coppe europee: lista FotMob del giorno (`syncDayTimes` applica anche stato, punteggio e minuto); campionati e coppe aggiunti: `/fx` per le partite iniziate da meno di 5 ore o ancora "live" (stessa cache della pagina partita). Mai "live" per una partita finita.
+
+## Stagioni con suffisso
+- Stagioni come "2026-2027 - Apertura", "2026 - Clausura" valgono ovunque: `parseArchiveId` (giocatore e partita), `seasonLabel` ("2026/27 Apertura"), `giocatori_indice.py`, `squadre_indice.py`.
+- Stagione in corso con `_s.json` vuoto: giocatori da `statsFromMatches` (squadra e nome dalle formazioni), squadre da `loadTeamStats` (medie a partita). Per mostrare classifiche usare `loadPlayerStats`/`loadTeamStats`, mai `loadSeasonStats`.
+- Controllo automatico: `controllo_squadre.py` (workflow `giocatori_indice.yml`) scrive `controllo_squadre.json` con le squadre senza Statistiche/Giocatori e il motivo.
+- La scheda archivio di una squadra (`/storico/.../squadra/<id>`) rimanda alla scheda unica se la squadra e' nell'app: prima per id FotMob (`teamByFm`), poi per nome.
+
+## Giocatori di tutti i campionati
+- `ourPlayerId` (`data/playerSheet.js`): se il giocatore non e' nell'elenco principale usa l'id archivio `fm~<lega>~<stagione>~<id FotMob>` (id dalla formazione o dalla rosa; prima il campionato della squadra). Il volto in formazione prima della partita apre la scheda, la finestra a partita iniziata ha sempre il tasto Profilo.
+
+## Squadre B / riserve
+- Prima si abbina per id FotMob (anche dallo stemma `teamlogo/<id>.png`), poi per nome. `sameSquad` (`data/teamMatch.js`): nomi che differiscono per B, II, III, U19/U21/U23, Reserves, Castilla, Jong, Promesas, femminili, ecc. non sono mai la stessa squadra (`findAppTeam`, `teamIdByName`, `roseOf`, feed live).
+
+## Competizioni di una squadra: tutta la storia
+- Indice `tidx/<id%100>.json` (`squadre_indice.py`, workflow `squadre_indice.yml`, ogni giorno): per id FotMob tutte le competizioni/stagioni dal 2010. `useTeamView`: con "Attuale" la tendina competizioni elenca tutte quelle giocate; con una stagione passata solo quelle di quell'anno; scelta una competizione le stagioni sono solo quelle giocate; una competizione non piu' giocata parte dalla stagione piu' recente (niente "Attuale", `noCur`).
+
+## Numeri da tenere d'occhio (tutte le partite)
+- `matchKeyNumbers` (`data/extras.js`): un solo calcolo per top campionati (`metricOf`) e campionati/coppe aggiunti (`archiveMetrics`, altrimenti `listMetrics`). Per ogni statistica di `CATEGORY_DEFS` la posizione nel proprio campionato (1° = migliore; statistiche negative al contrario): solo le squadre tra le prime o le ultime (~12%, almeno 2), con valore e posizione, casa e trasferta alternate, al massimo 8. Valori condivisi da molte squadre non sono primati. Vittorie fuori casa e Over 2,5 solo se fuori dal comune. Niente di notevole = niente riquadro.
+
+## Meteo e arbitro (campionati aggiunti)
+- Meteo (`data/weather.js`, Open-Meteo, da 3 giorni prima): stadio da `stadi.json`, poi stadio FotMob della squadra di casa (`v` in `rose.json`, `update_rose.py`), poi `stadi_ex.json` (`stadi_extra.py`), infine geocoding filtrato per paese del campionato (risultati ricordati sul telefono). Il nome dello stadio FotMob riempie anche la voce Stadio.
+- Arbitro: FotMob (`/fx`), poi `arbitri_extra.json` (`arbitri_extra.py`, API-Football con `API_FOOTBALL_KEY`, partite di oggi e dei 3 giorni dopo), letto in `prepareMatch`. Workflow `arbitri_extra.yml` ogni 4 ore. ESPN non da' gli arbitri (verificato). Mai nomi inventati.
+
+## Tabellone fluido
+- Riquadri del tabellone con `contain: layout paint`; `will-change` solo durante il passaggio tra fasi (da fermo e nello swipe tra schede un solo livello). Stemmi pre-decodificati in `loadBracket`.
+
+## Memoria (l'app resta fluida anche dopo molte pagine)
+- Capienza fissa (`lib/lru.js`): fotografie dello swipe indietro ultime 5 (mai quelle "avanti"), file grandi dell'archivio (partite .gz 10, statistiche 30), dettagli FotMob 12, partite pronte 30 (uscendo liberano `det`/`moreDet` e si ricostruiscono se riaperte), tabelloni 16, `useAsync` 120. Ogni cache nuova va limitata allo stesso modo. Prova: "memoria: 40+ pagine..." in `preview.mjs`.
+
+## Niente salti all'arrivo
+- `useAsync` ricorda i risultati (LRU): rimontando un pannello i dati ci sono al primo disegno. Banner e barra schede fisse si misurano prima del disegno (`useLayoutEffect`, ultima altezza ricordata). L'animazione `comp-in` solo cambiando competizione/stagione (`useCompIn`), mai all'arrivo. Prova: "pillole: tornando su una squadra..." in `preview.mjs`.
