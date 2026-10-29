@@ -40,7 +40,7 @@ export const archIndex = () => once('index', async () => {
 export const LID_BY_FM = {};
 Object.keys(FM_ID).forEach((k) => { LID_BY_FM[FM_ID[k]] = k; });
 // Tutte le competizioni scaricate in arch/ sono raggiungibili: quelle che non sono gia' nell'app diventano campionati "dell'archivio"
-// (id fm-<id FotMob>): scheda campionato, tendine di squadra e giocatore, ricerca. Non compaiono in Home (nessuna partita del giorno).
+// (id fm-<id FotMob>): scheda campionato, tendine di squadra e giocatore, ricerca. In Home nei giorni in cui giocano (data/dayFeed.js).
 // paesi dell'indice (inglese) -> italiano, come nel resto dell'app
 const PAESE = { Algeria: 'Algeria', Azerbaijan: 'Azerbaigian', Belarus: 'Bielorussia', Belgium: 'Belgio', Bosnia: 'Bosnia', 'Bosnia-Herzegovina': 'Bosnia ed Erzegovina', Brazil: 'Brasile', Chile: 'Cile', China: 'Cina', Croatia: 'Croazia', Cyprus: 'Cipro', Czechia: 'Repubblica Ceca', Denmark: 'Danimarca', Ecuador: 'Ecuador', Egypt: 'Egitto', England: 'Inghilterra', Estonia: 'Estonia', 'Faroe Islands': 'Isole Faroe', Finland: 'Finlandia', France: 'Francia', Germany: 'Germania', Greece: 'Grecia', Hungary: 'Ungheria', Iceland: 'Islanda', Ireland: 'Irlanda', Israel: 'Israele', Italy: 'Italia', Japan: 'Giappone', Kazakhstan: 'Kazakistan', Latvia: 'Lettonia', Lithuania: 'Lituania', Luxembourg: 'Lussemburgo', Mexico: 'Messico', Morocco: 'Marocco', Netherlands: 'Paesi Bassi', 'North Macedonia': 'Macedonia del Nord', 'Northern Ireland': 'Irlanda del Nord', Norway: 'Norvegia', Peru: 'Perù', Poland: 'Polonia', Portugal: 'Portogallo', Romania: 'Romania', Russia: 'Russia', 'Saudi Arabia': 'Arabia Saudita', Scotland: 'Scozia', Serbia: 'Serbia', Slovakia: 'Slovacchia', Slovenia: 'Slovenia', 'South Africa': 'Sudafrica', 'South Korea': 'Corea del Sud', Spain: 'Spagna', Sweden: 'Svezia', Switzerland: 'Svizzera', Tunisia: 'Tunisia', Turkiye: 'Turchia', Ukraine: 'Ucraina', 'United Arab Emirates': 'Emirati Arabi Uniti', 'United States': 'Stati Uniti', Wales: 'Galles' };
 function addArchiveLeagues(idx) {
@@ -51,7 +51,7 @@ function addArchiveLeagues(idx) {
     if (!leagueById(id)) {
       const col = /^#[0-9a-f]{6}$/i.test(e.color || '') ? e.color : '#38A2FF';
       const country = PAESE[e.cn] || e.cn || '';
-      LEAGUES.push({ id, fm, extra: true, arch: true, name: e.n || `Competizione ${fm}`, country, countryUpper: country.toUpperCase(), colors: ['#0E1626', col], tint: col,
+      LEAGUES.push({ id, fm, extra: true, arch: true, cc: e.c || '', name: e.n || `Competizione ${fm}`, country, countryUpper: country.toUpperCase(), colors: ['#0E1626', col], tint: col,
         logo: `https://images.fotmob.com/image_resources/logo/leaguelogo/${fm}.png`, logoDark: `https://images.fotmob.com/image_resources/logo/leaguelogo/dark/${fm}.png`, season: '' });
     }
     FM_ID[id] = fm;
@@ -351,6 +351,18 @@ export const currentSeason = async (fm) => {
   const idx = await archIndex();
   const e = idx && idx[String(fm)];
   return e && e.s && e.s.length ? sortSeasons(e.s)[0] : null;
+};
+// una stagione con calendario o classifica (le stagioni vuote non si mostrano: regola "niente non disponibile")
+export const hasSeasonData = (d) => !!(d && ((d.fix && d.fix.length) || d.table || (d.groups && d.groups.length)));
+// competizione dell'archivio: la scheda parte dalla stagione piu' recente CON dati; {sk, empty: stagioni vuote da togliere dalla tendina}
+export const firstSeasonWithData = async (fm, list) => {
+  const empty = [];
+  for (const sk of list.slice(0, 4)) {
+    const d = await loadSeason(fm, sk).catch(() => null);
+    if (hasSeasonData(d)) return { sk, empty };
+    empty.push(sk);
+  }
+  return { sk: null, empty };
 };
 // stagioni passate in cui la squadra ha davvero giocato quella competizione
 export const teamSeasons = async (fm, name) => {

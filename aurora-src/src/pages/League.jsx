@@ -16,7 +16,7 @@ import ArchiveLeague from '@/components/archive/ArchiveLeague';
 import { useEntityScope, useSel } from '@/components/past/PastBits';
 import SeasonSheet from '@/components/archive/SeasonSheet';
 import useAsync from '@/hooks/useAsync';
-import { FM_ID, archIndex, seasonLabel, sortSeasons } from '@/data/archive';
+import { FM_ID, archIndex, seasonLabel, sortSeasons, firstSeasonWithData } from '@/data/archive';
 import useDark from '@/hooks/useDark';
 import useInitialLoad from '@/hooks/useInitialLoad';
 import { RAW } from '@/data/load';
@@ -46,9 +46,10 @@ export default function League() {
   const isArch = /^fm-\d+$/.test(String(id));
   const { data: aidx } = useAsync(() => (FM_ID[id] || isArch ? archIndex() : null), [id]);
   const fm = FM_ID[id];
+  const archS = (aidx && fm && aidx[String(fm)] && aidx[String(fm)].s) || [];
+  const { data: fsd } = useAsync(() => (isArch && fm && archS.length ? firstSeasonWithData(fm, sortSeasons(archS)) : null), [fm, archS.length]);
 
-
-  if (!league && isArch && !aidx) {
+  if ((!league && isArch && !aidx) || (isArch && archS.length && !fsd)) {
     return (
       <PageShell bar={false}>
         <TopBar title="Campionato" />
@@ -56,7 +57,7 @@ export default function League() {
       </PageShell>
     );
   }
-  if (!league) {
+  if (!league || (isArch && fsd && !fsd.sk)) {
     return (
       <PageShell bar={false}>
         <TopBar title="Campionato" />
@@ -72,9 +73,9 @@ export default function League() {
   const liveCount = leagueMatches.filter((m) => m.status === 'live').length;
   const initials = initialsOf(league.name);
   const curKey = (league.season || '').replace('/', '-');
-  const past = sortSeasons(((aidx && fm && aidx[String(fm)] && aidx[String(fm)].s) || []).filter((x) => x !== curKey));
-  // campionato solo dall'archivio: nessuna stagione "dal vivo", si parte dalla piu' recente scaricata
-  const seasonEff = league.arch && season === 'live' ? past[0] : season;
+  const past = sortSeasons(((aidx && fm && aidx[String(fm)] && aidx[String(fm)].s) || []).filter((x) => x !== curKey && !(fsd && fsd.empty.includes(x))));
+  // campionato solo dall'archivio: nessuna stagione "dal vivo", si parte dalla piu' recente con dati
+  const seasonEff = league.arch && season === 'live' ? ((fsd && fsd.sk) || past[0]) : season;
   const inArchive = seasonEff !== 'live';
   const seasonBtn = fm && past.length ? (
     <button type="button" onClick={() => setSheet(true)} className="glass press flex items-center gap-1.5 rounded-full py-1 pl-3 pr-2 text-[11.5px] font-bold" style={{ color: 'var(--ink)' }}>

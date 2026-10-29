@@ -61,7 +61,7 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 - Autogol: nella mappa tiri compare come gol della squadra avversaria, specchiato (`og`).
 
 ## Campionati aggiunti (extra) — regola fissa
-- Tutte le competizioni di `arch/index.json` sono raggiungibili: quelle non in `data/leagues.js` diventano campionati d'archivio `fm-<id FotMob>` (`addArchiveLeagues` in `data/archive.js`, `arch: true`): scheda campionato dalla stagione piu' recente, tendine di squadra/giocatore (`LID_BY_FM`), ricerca. Non compaiono in Home.
+- Tutte le competizioni di `arch/index.json` sono raggiungibili: quelle non in `data/leagues.js` diventano campionati d'archivio `fm-<id FotMob>` (`addArchiveLeagues` in `data/archive.js`, `arch: true`): scheda campionato dalla stagione piu' recente, tendine di squadra/giocatore (`LID_BY_FM`), ricerca. In Home nei giorni in cui giocano (vedi "Tutte le competizioni in Home").
 - `archivio.py`: lega irraggiungibile 3 volte = `skip`; `done` solo se tutte le stagioni sono scaricate; `arch/.complete` quando tutte sono `done` o `skip` (il workflow non si rilancia piu' a vuoto).
 - Un campionato/coppa "extra" ha una riga in `data/leagues.js` (extra: true, fm), l'id in `FM_ID` (`data/archive.js`), l'id in `LEGHE` di `extra_partite.py` (prima i campionati, poi le coppe), in `ADDED` di `archivio.py`/`partite.py` (scaricati per primi) e, se ha rose, in `update_rose.py`.
 - La stagione in corso di una squadra/giocatore di un extra si legge dall'archivio (`useTeamView` → `eff`, `RAW.extra.sk[fm]`): stesse schede, pillole e barre dei top campionati. Le tendine mostrano "Attuale".
@@ -172,3 +172,18 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 ## Swipe indietro: la pagina vera prima della fotografia
 - Dopo il ritorno la fotografia sotto resta finche' la pagina vera e' disegnata (`waitDestination` in `lib/carousel.js`: alcuni fotogrammi stabili, max 3 s, poi dissolvenza); senza fotografia c'e' una superficie dello stesso colore dell'app, mai il nero. Prova: "swipe indietro: azioni veloci..." in `preview.mjs`.
 - Home: il minuto live si aggiorna ogni 10 s solo se c'e' una partita live, altrimenti ogni minuto.
+
+## Risultati sempre aggiornati (regola fissa, ogni competizione presente e futura)
+- `risultati.py` (workflow `risultati.yml`, ogni 10 minuti; ogni 3 ore anche i 7 giorni dopo): feed FotMob del giorno (una richiesta copre tutte le leghe) -> `giorni/<data>.json` `[id, fm, utc, idCasa, idOspite, casa, ospite, punteggio (solo a partita finita), stato n|l|f|c, eliminata]` e correzione delle righe della stagione in corso in `arch/<fm>/<stagione>.json` (risultato, finita, iniziata, annullata, squadra eliminata ai rigori in posizione 9). Commit solo se qualcosa cambia; `giorni/` tiene 10 giorni.
+- App: una stagione in corso (`isCurrent`) con righe dall'orario passato e senza risultato si corregge da `partite_extra.json`, `giorni/` e `/fx` (iniziate da meno di 5 ore) in `freshSeason` (`data/archive.js`): nuovo array `fix`, evento `sl-arch`; chi mostra la stagione usa `useArchFresh`/`useArchAny` (Partite, Tabellone ricalcolato, squadra, archivio squadra). Al primo arrivo si aspetta al massimo 1,2 s, poi ogni minuto.
+- Tabellone: senza l'evento `PenaltyShootout` decide la squadra eliminata del feed (`m[9]`). Home: le partite extra iniziate da oltre 5 ore e senza risultato si chiudono da `giorni/`.
+- Prova: "risultati: partita finita con dati vecchi in cache..." in `preview.mjs`.
+
+## Giornate dalle date (competizioni aggiunte e d'archivio)
+- `data/rounds.js` (`roundBlocks`, `blockTag`, `currentBlock`): un turno numerico si divide in gruppi di date (partite a piu' di 3 giorni = gruppo nuovo); i gruppi con almeno il 20% delle partite (min 3) sono riquadri del turno, gli altri diventano "Recuperi" nella loro data (giorno + "· Giornata N"). "In corso"/"Prossima"/"Conclusa" dalle date (una giornata la cui ultima partita e' passata da 36 ore e' conclusa); annullata = "Annull." senza orario ne' risultato; mai risultato e orario insieme (`ArchRow`); il giorno si raggruppa nel fuso di Roma (`dayKey`).
+- Controllo: `controllo_giornate.py` -> `controllo_giornate.json` (giornate di oltre 10 giorni prima/dopo la regola). Prova "giornate: nessuna giornata di mesi..." in `preview.mjs`.
+
+## Tutte le competizioni in Home e una scheda per ogni squadra
+- Le competizioni d'archivio (`fm-<id>`) entrano in Home nei giorni in cui giocano, come finestre chiuse (`data/dayFeed.js` -> `addFeedRows` in `data/matches.js`): si caricano solo il giorno aperto e i vicini (all'avvio oggi, max 2,5 s con `refreshStatus`). Ordine: top e campionati aggiunti come prima, poi internazionali, paesi principali (`PRIO` in `Home.jsx`), poi gli altri in ordine alfabetico. Annullate/rinviate non in Home. `/fx` per le partite del feed: max 24 per giro.
+- Squadre: id `fm-<id FotMob>` per quelle che l'app non conosceva; `/squadra/fm-<id>` si ricostruisce da `tidx` (`teamFromIndex`, campionato = competizione nazionale a punti piu' recente, colori dallo stemma). `/storico/.../squadra/<id>` apre sempre la scheda unica.
+- Competizione d'archivio: la scheda parte dalla stagione piu' recente CON dati (`firstSeasonWithData`), le stagioni vuote non sono in tendina.

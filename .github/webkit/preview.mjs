@@ -108,6 +108,68 @@ await step('home: giorni diversi, stesso stato iniziale', async () => {
   ok('home: in tutti i giorni i minori sono chiusi e i top aperti', bad.length === 0, { bad });
 });
 
+// Competizioni dell'archivio (fm-<id>) nella Home nei giorni in cui giocano: finestre chiuse come gli altri minori, dopo i top campionati.
+await step('home: competizioni dell\'archivio nei giorni in cui giocano', async () => {
+  const idx = await getJson('arch/index.json');
+  const today = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Rome' }).format(new Date());
+  const feed = await getJson(`giorni/${today}.json`);
+  const known = new Set([47, 87, 54, 53, 55, 42, 73, 10216, 57, 71, 61, 40, 64, 38, 59, 135, 48, 86, 146, 140, 110, 185, 111, 165, 268, 112, 130, 230, 141, 209, 134, 186, 133, 149, 278, 180, 9067]);
+  const want = new Set(((feed && feed.m) || []).filter((x) => x[8] !== 'c' && !known.has(Number(x[1])) && idx && idx[String(x[1])]).map((x) => String(idx[String(x[1])].n).toUpperCase()));
+  await pg.goto(APP); await wait(8000);
+  const info = await groupsInfo();
+  const names = info.map((g) => g.name);
+  const got = [...want].filter((n) => names.includes(n));
+  ok('home: le competizioni dell\'archivio di oggi hanno la loro finestra', !want.size || got.length >= Math.ceil(want.size * 0.9), { attese: want.size, trovate: got.length, mancano: [...want].filter((n) => !names.includes(n)).slice(0, 8) });
+  const arch = info.filter((g) => want.has(g.name));
+  ok('home: le competizioni dell\'archivio partono chiuse', arch.every((g) => !g.open), { aperte: arch.filter((g) => g.open).map((g) => g.name) });
+  const lastTop = Math.max(-1, ...info.map((g, i) => (TOPNAMES.includes(g.name) ? i : -1)));
+  const firstArch = info.findIndex((g) => want.has(g.name));
+  ok('home: prima i top campionati, poi le competizioni dell\'archivio', firstArch < 0 || firstArch > lastTop, { lastTop, firstArch });
+  const empty = await pg.evaluate(() => [...document.querySelectorAll('section button[aria-expanded]')].filter((b) => !/\d/.test(b.closest('section').textContent)).length);
+  ok('home: nessuna finestra vuota', empty === 0, { empty });
+  await shot('home-competizioni-archivio');
+  // apro una competizione dell'archivio: righe con orario o risultato e la partita si apre
+  const opened = await pg.evaluate((w) => { const s = [...document.querySelectorAll('section button[aria-expanded="false"]')].find((b) => w.includes((b.closest('section').querySelector('[role="link"]') || {}).textContent?.trim().toUpperCase())); if (s) s.click(); return !!s; }, [...want]);
+  await wait(900);
+  if (opened) {
+    await shot('home-competizione-aperta');
+    const go1 = await pg.evaluate(() => { const a = [...document.querySelectorAll('section button[aria-expanded="true"]')].map((b) => b.closest('section').querySelector('a[href*="/match/"]')).filter(Boolean).pop(); if (a) { a.click(); return a.getAttribute('href'); } return null; });
+    await wait(4500);
+    const t = await pg.evaluate(() => document.body.innerText);
+    ok('home: la partita di una competizione dell\'archivio si apre senza "non disponibile"', !!go1 && !ND.test(t) && t.length > 200, { href: go1 });
+    await shot('partita-competizione-archivio');
+  }
+});
+
+// Ogni squadra di ogni competizione ha la scheda unica (/squadra/fm-<id FotMob>): banner, schede, tendina competizioni, niente "non disponibile".
+await step('squadra di una competizione dell\'archivio: scheda unica da id FotMob', async () => {
+  const idx = await getJson('arch/index.json');
+  // una squadra di una competizione solo d'archivio (es. Danimarca, Giappone...) dalla stagione piu' recente
+  let pick = null;
+  for (const fm of ['46', '223', '108', '119', '69', '67']) {
+    const e = idx && idx[fm];
+    if (!e || !e.s || !e.s.length) continue;
+    const sk = [...e.s].sort().reverse()[0];
+    const d = await getJson(`arch/${fm}/${encodeURIComponent(sk)}.json`);
+    const tid = d && d.teams && Object.keys(d.teams)[0];
+    if (tid) { pick = { fm, sk, tid, name: d.teams[tid] }; break; }
+  }
+  if (!pick) { ok('squadra archivio: nessuna competizione di prova (saltata)', true); return; }
+  await go(`#/storico/${pick.fm}/${encodeURIComponent(pick.sk)}/squadra/${pick.tid}`, 6500);
+  const hash = await pg.evaluate(() => location.hash);
+  ok('squadra archivio: il link d\'archivio apre la scheda unica /squadra/', /#\/squadra\//.test(hash), { hash, pick });
+  const tabs = await pg.evaluate(() => [...document.querySelectorAll('.tab-btn')].map((x) => x.textContent.trim()));
+  const t = await pg.evaluate(() => document.body.innerText);
+  ok('squadra archivio: banner con il nome e schede come gli altri', t.includes(pick.name) && tabs.includes('Partite'), { tabs });
+  ok('squadra archivio: niente "non disponibile"', !ND.test(t));
+  await shot('squadra-archivio');
+  // il link diretto /squadra/fm-<id> (aperto da zero) ricostruisce la stessa scheda
+  await go(`#/squadra/fm-${pick.tid}`, 6500);
+  const t2 = await pg.evaluate(() => document.body.innerText);
+  ok('squadra archivio: /squadra/fm-<id> aperto da zero mostra la scheda', t2.includes(pick.name) && !/Squadra non trovata/.test(t2));
+  await shot('squadra-archivio-link');
+});
+
 await step('barra in basso resta ferma scorrendo', async () => {
   await pg.goto(APP); await wait(7000);
   const res = [];

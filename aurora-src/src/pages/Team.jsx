@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import usePageTab from '@/hooks/usePageTab';
 import { useEntityScope } from '@/components/past/PastBits';
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
+import useAsync from '@/hooks/useAsync';
+import { teamFromIndex } from '@/data/teamIndex';
 import PageShell from '@/components/PageShell';
 import TopBar from '@/components/TopBar';
 import SwipeTabs from '@/components/SwipeTabs';
@@ -42,10 +44,17 @@ export default function Team() {
     return () => window.removeEventListener('sl-comp', h);
   }, [id]);
   const loading = useInitialLoad(280);
-  const team = teamById(id);
+  // squadre di tutte le competizioni (/squadra/fm-<id FotMob>): la scheda si costruisce dall'indice tidx
+  const fmRoute = /^fm-(\d+)$/.exec(String(id));
+  const { data: idxTeam, loading: idxLoading } = useAsync(() => (fmRoute && !teamById(id) ? teamFromIndex(fmRoute[1]) : null), [id]);
+  const team = teamById(id) || idxTeam;
   const [, bumpR] = useState(0);
   useEffect(() => { let on = true; loadRose().then(() => on && bumpR((n) => n + 1)); return () => { on = false; }; }, []);
 
+  if (team && team.id !== id) return <Navigate replace to={`/squadra/${team.id}`} />;
+  if (!team && fmRoute && idxLoading) {
+    return <PageShell bar={false}><TopBar title="Squadra" /><div className="px-5 pt-8"><Skeleton className="h-[52px] w-full" /></div></PageShell>;
+  }
 
   if (!team) {
     return (

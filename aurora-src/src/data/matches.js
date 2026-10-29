@@ -143,7 +143,7 @@ export function buildMatches() {
 
   // 4) campionati extra (solo Home): nomi allineati alle squadre gia' note, stemma FotMob
   const X = RAW.extra;
-  if (X && X.m) {
+  {
     const nn = (n) => String(n || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]/g, '');
     const lgOf = {};
     LEAGUES.filter((l) => l.extra).forEach((l) => { lgOf[l.fm] = l.id; });
@@ -152,7 +152,7 @@ export function buildMatches() {
     const byFm = {}; // id FotMob -> squadra: la stessa squadra e' sempre la stessa scheda, in qualunque competizione compaia
     // prima di tutto l'id FotMob anche per le squadre gia' note (dallo stemma teamlogo/<id>.png): mai un abbinamento per nome sbagliato
     TEAMS.forEach((t) => { const fid = t.fmId || (/teamlogo\/(\d+)\.png/.exec(String(t.crest || '')) || [])[1]; if (fid && !byFm[fid]) byFm[fid] = t; });
-    const team = (name, fmId, lg, fm, sk) => {
+    const team = (name, fmId, lg, fm, sk, uidFm = false) => {
       if (fmId && byFm[fmId]) return byFm[fmId];
       const cb = leagueById(lg) && leagueById(lg).country;
       const intl = !cb || cb === 'Europa' || /mondo|internaz|sud america|nord/i.test(cb);
@@ -166,7 +166,8 @@ export function buildMatches() {
       }
       // nomi diversi tra le fonti ("Eintracht Frankfurt" = "Frankfurt"): stessa squadra, stessa scheda
       if (!hit) hit = findAppTeam(name, TEAMS, sameCountry);
-      const t = hit || ensureTeam(name, lg, crest, fmId, byNorm[nn(name)] ? `${slug(name)}-${fmId}` : undefined);
+      // squadre delle competizioni dell'archivio: id fm-<id FotMob> (la scheda si ricostruisce anche aprendo il link da zero)
+      const t = hit || ensureTeam(name, lg, crest, fmId, uidFm && fmId ? `fm-${fmId}` : byNorm[nn(name)] ? `${slug(name)}-${fmId}` : undefined);
       if (t && !t.crest) t.crest = crest;
       // una squadra che compare prima in una coppa prende come campionato quello nazionale
       if (t && !hit && CUP_IDS.has(t.leagueId) && !CUP_IDS.has(lg)) t.leagueId = lg;
@@ -174,7 +175,8 @@ export function buildMatches() {
       if (t && fmId) { byFm[fmId] = t; if (!t.fmId) t.fmId = fmId; }
       return t;
     };
-    X.m.forEach(([mid, fm, utc, hn, an, hid, aid, gh, ga, st]) => {
+    extraTeam = team;
+    if (X && X.m) X.m.forEach(([mid, fm, utc, hn, an, hid, aid, gh, ga, st]) => {
       const lg = lgOf[fm];
       if (!lg || !hn || !an) return;
       const ts = new Date(utc).getTime();
@@ -209,6 +211,49 @@ export function buildMatches() {
     push(m.homeId, sh > sa ? 'V' : sh === sa ? 'S' : 'P');
     push(m.awayId, sa > sh ? 'V' : sh === sa ? 'S' : 'P');
   });
+}
+
+// Competizioni dell'archivio in Home (giorni/<data>.json di risultati.py), solo per i giorni che si aprono.
+// Riga: [id, fm, utc, idCasa, idOspite, casa, ospite, punteggio (solo a partita finita), stato n|l|f|c, eliminata].
+// lgOf(fm) -> id campionato dell'app (null = la competizione e' gia' coperta da altre fonti); skOf(fm) -> stagione in corso.
+let extraTeam = null;
+export function addFeedRows(rows, lgOf, skOf) {
+  if (!extraTeam) return 0;
+  let n = 0;
+  rows.forEach(([mid, fm, utc, hid, aid, hn, an, sc, st]) => {
+    if (st === 'c' || !hn || !an || !utc) return; // annullate/rinviate: non in Home (come partite_extra.json)
+    const lg = lgOf(fm);
+    if (!lg) return;
+    const id = `x-${fm}-${mid}`;
+    const g = /(\d+)\s*-\s*(\d+)/.exec(sc || '');
+    const old = MATCH_BY_ID[id];
+    if (old) {
+      if (st === 'f' && g && (old.status !== 'finished' || !old.score)) {
+        old.status = 'finished'; old.score = [Number(g[1]), Number(g[2])]; old.minute = 90; old.liveScore = null; n += 1;
+      }
+      return;
+    }
+    const ts = new Date(utc).getTime();
+    if (!Number.isFinite(ts)) return;
+    const sk = skOf(fm) || '';
+    const home = extraTeam(hn, hid, lg, fm, sk, true);
+    const away = extraTeam(an, aid, lg, fm, sk, true);
+    if (!home || !away) return;
+    const fin = st === 'f' && !!g;
+    const m = baseMatch({
+      id, leagueId: lg, homeId: home.id, awayId: away.id, date: romeDay(ts), ts, timeKnown: true,
+      status: fin ? 'finished' : st === 'l' ? 'live' : 'scheduled', minute: fin ? 90 : null,
+      score: fin ? [Number(g[1]), Number(g[2])] : null, liveScore: null,
+      extra: true, feed: true, fmId: String(mid), archive: sk ? { fm, sk, mid: String(mid), hid, aid } : null,
+    });
+    finalize(m);
+    m.offset = Math.round((midday(m.date).getTime() - TODAY.getTime()) / DAY_MS);
+    MATCHES.push(m);
+    MATCH_BY_ID[id] = m;
+    n += 1;
+  });
+  if (n) MATCHES.sort((a, b) => a.ts - b.ts);
+  return n;
 }
 
 export const matchById = (id) => MATCH_BY_ID[id] || null;

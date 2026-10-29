@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
-import { teamByName, teamByFm } from '@/data/teams';
+import { teamByName, teamByFm, ensureTeam } from '@/data/teams';
 import { NAV } from '@/components/past/PastBits';
 import PageShell from '@/components/PageShell';
 import TopBar from '@/components/TopBar';
@@ -11,7 +11,7 @@ import StatLists from '@/components/stats/StatLists';
 import { PlayerFace } from '@/components/FmImg';
 import useAsync from '@/hooks/useAsync';
 import useArchFresh from '@/hooks/useArchFresh';
-import { FM_ID, loadSeason, loadPlayerStats, seasonLabel, teamLogo, SEASON_STAT_IT, prettyKey } from '@/data/archive';
+import { FM_ID, LID_BY_FM, loadSeason, loadPlayerStats, seasonLabel, teamLogo, SEASON_STAT_IT, prettyKey } from '@/data/archive';
 import { leagueById, leagueTint } from '@/data/leagues';
 import { tintGrad } from '@/lib/tint';
 import { ArchRow, StandingsPanel, fmtDate, dayKey, useTeamColors } from '@/components/archive/parts';
@@ -71,7 +71,9 @@ export default function ArchiveTeam() {
   // (prima per id FotMob, in qualunque competizione; poi per nome uguale nella sua competizione)
   const byFm = teamByFm(tid);
   const byName = teamByName(name);
-  const appTeam = byFm || (byName && byName.leagueId && FM_ID[byName.leagueId] && String(FM_ID[byName.leagueId]) === String(fm) ? byName : null);
+  // squadra che l'app non conosceva: si crea con id fm-<id FotMob> (stemma e colori dallo stemma) e si apre la stessa scheda unica
+  const appTeam = byFm || (byName && byName.leagueId && FM_ID[byName.leagueId] && String(FM_ID[byName.leagueId]) === String(fm) ? byName : null)
+    || ensureTeam(name, LID_BY_FM[fm] || null, teamLogo(tid), String(tid), `fm-${tid}`);
   if (appTeam) {
     NAV.fm = fm; NAV.sk = sk; NAV.tab = 1;
     try { sessionStorage.setItem(`sl-tab-team-${appTeam.id}`, '1'); } catch (e) { /* ignore */ }
