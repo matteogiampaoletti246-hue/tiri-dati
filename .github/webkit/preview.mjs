@@ -118,18 +118,23 @@ await step('home: competizioni dell\'archivio nei giorni in cui giocano', async 
   await pg.goto(APP); await wait(8000);
   const info = await groupsInfo();
   const names = info.map((g) => g.name);
-  const got = [...want].filter((n) => names.includes(n));
-  ok('home: le competizioni dell\'archivio di oggi hanno la loro finestra', !want.size || got.length >= Math.ceil(want.size * 0.9), { attese: want.size, trovate: got.length, mancano: [...want].filter((n) => !names.includes(n)).slice(0, 8) });
-  const arch = info.filter((g) => want.has(g.name));
+  // nomi uguali a quelli di altri paesi hanno il paese tra parentesi ("PREMIER LEAGUE (EGITTO)")
+  const isW = (name) => !TOPNAMES.includes(name) && [...want].some((n) => name === n || name.startsWith(`${n} (`));
+  const has = (n) => names.some((x) => x === n || x.startsWith(`${n} (`));
+  const got = [...want].filter(has);
+  ok('home: le competizioni dell\'archivio di oggi hanno la loro finestra', !want.size || got.length >= Math.ceil(want.size * 0.9), { attese: want.size, trovate: got.length, mancano: [...want].filter((n) => !has(n)).slice(0, 8) });
+  const dup = TOPNAMES.filter((n) => names.filter((x) => x === n).length > 1);
+  ok('home: nessuna competizione dell\'archivio con lo stesso nome di un top campionato', !dup.length, { dup });
+  const arch = info.filter((g) => isW(g.name));
   ok('home: le competizioni dell\'archivio partono chiuse', arch.every((g) => !g.open), { aperte: arch.filter((g) => g.open).map((g) => g.name) });
   const lastTop = Math.max(-1, ...info.map((g, i) => (TOPNAMES.includes(g.name) ? i : -1)));
-  const firstArch = info.findIndex((g) => want.has(g.name));
+  const firstArch = info.findIndex((g) => isW(g.name));
   ok('home: prima i top campionati, poi le competizioni dell\'archivio', firstArch < 0 || firstArch > lastTop, { lastTop, firstArch });
   const empty = await pg.evaluate(() => [...document.querySelectorAll('section button[aria-expanded]')].filter((b) => !/\d/.test(b.closest('section').textContent)).length);
   ok('home: nessuna finestra vuota', empty === 0, { empty });
   await shot('home-competizioni-archivio');
   // apro una competizione dell'archivio: righe con orario o risultato e la partita si apre
-  const opened = await pg.evaluate((w) => { const s = [...document.querySelectorAll('section button[aria-expanded="false"]')].find((b) => w.includes((b.closest('section').querySelector('[role="link"]') || {}).textContent?.trim().toUpperCase())); if (s) s.click(); return !!s; }, [...want]);
+  const opened = await pg.evaluate((w) => { const s = [...document.querySelectorAll('section button[aria-expanded="false"]')].find((b) => { const t = ((b.closest('section').querySelector('[role="link"]') || {}).textContent || '').trim().toUpperCase(); return w.some((n) => t === n || t.startsWith(`${n} (`)); }); if (s) s.click(); return !!s; }, [...want]);
   await wait(900);
   if (opened) {
     await shot('home-competizione-aperta');

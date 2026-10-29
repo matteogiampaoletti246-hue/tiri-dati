@@ -66,7 +66,9 @@ export default function SearchOverlay({ open, onClose }) {
   const rank = (n) => { const x = norm(n); return x.startsWith(needle) ? 0 : x.split(' ').some((w) => w.startsWith(needle)) ? 1 : 2; };
   const byRel = (a, b) => rank(a.name) - rank(b.name);
   const teams = needle ? TEAMS.filter((t) => norm(t.name).includes(needle)).sort(byRel).slice(0, 8) : [];
-  const leagues = needle ? LEAGUES.filter((l) => norm(l.name).includes(needle)).slice(0, 6) : [];
+  // competizioni: per nome o per paese ("danimarca" = tutte le danesi), prima quelle dell'app, poi l'archivio (fino a 30)
+  const leagues = needle ? LEAGUES.filter((l) => norm(l.name).includes(needle) || norm(l.country || '').includes(needle))
+    .sort((a, b) => (a.arch ? 1 : 0) - (b.arch ? 1 : 0) || (norm(a.name).includes(needle) ? 0 : 1) - (norm(b.name).includes(needle) ? 0 : 1)).slice(0, 30) : [];
   const players = needle ? PLAYERS.filter((p) => norm(p.name).includes(needle)).sort(byRel).slice(0, 8) : [];
   const referees = needle ? REFEREES.filter((r) => norm(r.name).includes(needle)).slice(0, 8) : [];
 
@@ -118,9 +120,10 @@ export default function SearchOverlay({ open, onClose }) {
                   {leagues.map((l) => (
                     <Row key={l.id} onClick={() => go(`/campionato/${l.id}`)}>
                       <LeagueBadge league={l} size={26} />
-                      <span className="text-[14.5px]" style={{ color: 'var(--ink)' }}>
+                      <span className="min-w-0 flex-1 truncate text-[14.5px]" style={{ color: 'var(--ink)' }}>
                         {l.name}
                       </span>
+                      {l.country ? <span className="shrink-0 text-[11.5px]" style={{ color: 'var(--ink-3)' }}>{l.country}</span> : null}
                     </Row>
                   ))}
                 </Section>

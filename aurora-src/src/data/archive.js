@@ -43,7 +43,20 @@ Object.keys(FM_ID).forEach((k) => { LID_BY_FM[FM_ID[k]] = k; });
 // (id fm-<id FotMob>): scheda campionato, tendine di squadra e giocatore, ricerca. In Home nei giorni in cui giocano (data/dayFeed.js).
 // paesi dell'indice (inglese) -> italiano, come nel resto dell'app
 const PAESE = { Algeria: 'Algeria', Azerbaijan: 'Azerbaigian', Belarus: 'Bielorussia', Belgium: 'Belgio', Bosnia: 'Bosnia', 'Bosnia-Herzegovina': 'Bosnia ed Erzegovina', Brazil: 'Brasile', Chile: 'Cile', China: 'Cina', Croatia: 'Croazia', Cyprus: 'Cipro', Czechia: 'Repubblica Ceca', Denmark: 'Danimarca', Ecuador: 'Ecuador', Egypt: 'Egitto', England: 'Inghilterra', Estonia: 'Estonia', 'Faroe Islands': 'Isole Faroe', Finland: 'Finlandia', France: 'Francia', Germany: 'Germania', Greece: 'Grecia', Hungary: 'Ungheria', Iceland: 'Islanda', Ireland: 'Irlanda', Israel: 'Israele', Italy: 'Italia', Japan: 'Giappone', Kazakhstan: 'Kazakistan', Latvia: 'Lettonia', Lithuania: 'Lituania', Luxembourg: 'Lussemburgo', Mexico: 'Messico', Morocco: 'Marocco', Netherlands: 'Paesi Bassi', 'North Macedonia': 'Macedonia del Nord', 'Northern Ireland': 'Irlanda del Nord', Norway: 'Norvegia', Peru: 'Perù', Poland: 'Polonia', Portugal: 'Portogallo', Romania: 'Romania', Russia: 'Russia', 'Saudi Arabia': 'Arabia Saudita', Scotland: 'Scozia', Serbia: 'Serbia', Slovakia: 'Slovacchia', Slovenia: 'Slovenia', 'South Africa': 'Sudafrica', 'South Korea': 'Corea del Sud', Spain: 'Spagna', Sweden: 'Svezia', Switzerland: 'Svizzera', Tunisia: 'Tunisia', Turkiye: 'Turchia', Ukraine: 'Ucraina', 'United Arab Emirates': 'Emirati Arabi Uniti', 'United States': 'Stati Uniti', Wales: 'Galles' };
+// nomi uguali tra paesi diversi ("Premier League" d'Egitto, "Ligue 1" d'Algeria, "Super League"...): il paese tra parentesi,
+// cosi' in Home, ricerca e tendine non si confondono con i top campionati
+const uniqueName = (idx) => {
+  const norm = (x) => String(x || '').trim().toLowerCase();
+  const app = new Set(LEAGUES.filter((l) => !l.arch).map((l) => norm(l.name)));
+  const cnt = {};
+  Object.entries(idx || {}).forEach(([k, e]) => { if (e && e.n && !LID_BY_FM[Number(k)]) cnt[norm(e.n)] = (cnt[norm(e.n)] || 0) + 1; });
+  return (e, country) => {
+    const n = e.n || '';
+    return n && country && e.c !== 'INT' && (app.has(norm(n)) || cnt[norm(n)] > 1) ? `${n} (${country})` : n;
+  };
+};
 function addArchiveLeagues(idx) {
+  const nameOf = uniqueName(idx);
   Object.entries(idx || {}).forEach(([k, e]) => {
     const fm = Number(k);
     if (!e || !e.s || !e.s.length || LID_BY_FM[fm] || e.skip) return;
@@ -51,7 +64,7 @@ function addArchiveLeagues(idx) {
     if (!leagueById(id)) {
       const col = /^#[0-9a-f]{6}$/i.test(e.color || '') ? e.color : '#38A2FF';
       const country = PAESE[e.cn] || e.cn || '';
-      LEAGUES.push({ id, fm, extra: true, arch: true, cc: e.c || '', name: e.n || `Competizione ${fm}`, country, countryUpper: country.toUpperCase(), colors: ['#0E1626', col], tint: col,
+      LEAGUES.push({ id, fm, extra: true, arch: true, cc: e.c || '', name: nameOf(e, country) || `Competizione ${fm}`, country, countryUpper: country.toUpperCase(), colors: ['#0E1626', col], tint: col,
         logo: `https://images.fotmob.com/image_resources/logo/leaguelogo/${fm}.png`, logoDark: `https://images.fotmob.com/image_resources/logo/leaguelogo/dark/${fm}.png`, season: '' });
     }
     FM_ID[id] = fm;
