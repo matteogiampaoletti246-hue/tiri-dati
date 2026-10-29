@@ -63,6 +63,7 @@ const baseMatch = (o) => ({
 });
 
 export function buildMatches() {
+  DAY_IDX = null;
   MATCHES.length = 0;
   Object.keys(MATCH_BY_ID).forEach((k) => delete MATCH_BY_ID[k]);
   const seen = new Set();
@@ -211,6 +212,7 @@ export function buildMatches() {
     push(m.homeId, sh > sa ? 'V' : sh === sa ? 'S' : 'P');
     push(m.awayId, sa > sh ? 'V' : sh === sa ? 'S' : 'P');
   });
+  DAY_IDX = null;
 }
 
 // Competizioni dell'archivio in Home (giorni/<data>.json di risultati.py), solo per i giorni che si aprono.
@@ -252,12 +254,23 @@ export function addFeedRows(rows, lgOf, skOf) {
     MATCH_BY_ID[id] = m;
     n += 1;
   });
-  if (n) MATCHES.sort((a, b) => a.ts - b.ts);
+  if (n) { DAY_IDX = null; MATCHES.sort((a, b) => a.ts - b.ts); }
   return n;
 }
 
 export const matchById = (id) => MATCH_BY_ID[id] || null;
-export const matchesByDate = (dateStr) => MATCHES.filter((m) => m.date === dateStr).sort((a, b) => a.ts - b.ts);
+// indice per giorno: una sola passata su tutte le partite (migliaia) invece di un filtro completo a ogni ridisegno della Home
+let DAY_IDX = null;
+let DAY_LEN = -1;
+const dayIndex = () => {
+  if (DAY_IDX && DAY_LEN === MATCHES.length) return DAY_IDX;
+  const ix = new Map();
+  MATCHES.forEach((m) => { const a = ix.get(m.date); if (a) a.push(m); else ix.set(m.date, [m]); });
+  DAY_IDX = ix;
+  DAY_LEN = MATCHES.length;
+  return ix;
+};
+export const matchesByDate = (dateStr) => (dayIndex().get(dateStr) || []).slice().sort((a, b) => a.ts - b.ts);
 export const matchesForLeague = (leagueId) => MATCHES.filter((m) => m.leagueId === leagueId).sort((a, b) => a.ts - b.ts);
 export const liveMatches = () => MATCHES.filter((m) => m.status === 'live');
 export const teamForm = (teamId) => (TEAM_FORM[teamId] || []).slice(-5);
