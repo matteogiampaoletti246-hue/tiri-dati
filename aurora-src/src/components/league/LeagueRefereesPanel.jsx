@@ -16,17 +16,16 @@ const GRID = '20px minmax(0,1fr) repeat(5, 40px)';
 
 // Classifica arbitri del campionato: la statistica scelta ordina la lista e la sua colonna e' evidenziata.
 // I dati sono quelli del campionato (non di tutte le competizioni).
+export const leagueReferees = (leagueId) =>
+  refereesOf(leagueId)
+    .map((r) => {
+      const b = (r.by && r.by[leagueId]) || { n: r.games, y: r.yellowsAvg, r: r.redsAvg, fo: r.foulsAvg, pen: r.penaltiesAvg };
+      return { id: r.id, name: r.name, country: r.country, n: b.n || 0, y: b.y || 0, r: b.r || 0, fo: b.fo || 0, pen: b.pen || 0 };
+    })
+    .filter((r) => r.n > 0);
+
 export default function LeagueRefereesPanel({ leagueId }) {
-  const base = useMemo(
-    () =>
-      refereesOf(leagueId)
-        .map((r) => {
-          const b = (r.by && r.by[leagueId]) || { n: r.games, y: r.yellowsAvg, r: r.redsAvg, fo: r.foulsAvg, pen: r.penaltiesAvg };
-          return { id: r.id, name: r.name, country: r.country, n: b.n || 0, y: b.y || 0, r: b.r || 0, fo: b.fo || 0, pen: b.pen || 0 };
-        })
-        .filter((r) => r.n > 0),
-    [leagueId]
-  );
+  const base = useMemo(() => leagueReferees(leagueId), [leagueId]);
   return <RefereesView base={base} to={(r) => `/arbitro/${r.id}`} />;
 }
 
@@ -34,7 +33,7 @@ export default function LeagueRefereesPanel({ leagueId }) {
 export function RefereesView({ base, to = null }) {
   const [mode, setMode] = useState('avg');
   const [sel, setSel] = useState('y');
-  if (!base.length) return <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Nessun arbitro disponibile</p>;
+  if (!base.length) return null;
 
   const val = (r, m) => (m.key === 'n' ? r.n : mode === 'avg' ? r[m.f] : Math.round(r[m.f] * r.n));
   const fmt = (v, m) => (m.key === 'n' || mode === 'tot' ? String(v) : comma(v, m.d));

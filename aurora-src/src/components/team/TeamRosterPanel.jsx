@@ -1,3 +1,4 @@
+import PlayerPhoto from '@/components/PlayerPhoto';
 import { teamGrad } from '@/lib/tint';
 import { teamById } from '@/data/teams';
 import InjuryIcon from '@/components/InjuryIcon';
@@ -85,7 +86,7 @@ export default function TeamRosterPanel({ teamId }) {
           {g.list.map((p) => (
             <Link key={p.id} to={`/giocatore/${p.id}`} className="press mx-2 mb-1.5 flex items-center gap-3 rounded-[18px] px-3 py-2" style={{ background: teamGrad(teamById(teamId), 0x55) }}>
               <span className="avatar h-[38px] w-[38px] text-[11px]">
-                {p.photo ? <Image src={p.photo} alt={p.name} className="h-full w-full" fittingType="fill" /> : p.initials}
+                <PlayerPhoto src={p.photo} alt={p.name} />
               </span>
               <span className="min-w-0 flex-1">
                 <span className="block truncate text-[14px] font-bold">{(() => { const n = (carriereOf(p.id) || {}).n; return n ? <span style={{ color: 'var(--accent)' }}>{n} </span> : null; })()}{p.name}{injuryOf(p.id) ? <> <InjuryIcon size={15} /></> : null}</span>

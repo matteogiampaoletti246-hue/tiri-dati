@@ -18,6 +18,15 @@ export function loadCarriere() {
 export const setCarriere = (id, v) => { if (!DATA) DATA = {}; if (!DATA[id]) DATA[id] = v; };
 export const carriereOf = (id) => (DATA ? DATA[id] || null : null);
 
+// Carriere di tutti i giocatori delle rose (car/<id FotMob % 100>.json, carriere_extra.py): squadre senior, giovanili e nazionali
+const SH = {};
+const shard = (n) => { if (!SH[n]) SH[n] = fetch(`${BASE}car/${n}.json`).then((r) => (r.ok ? r.json() : {})).catch(() => ({})); return SH[n]; };
+export const careerByFm = async (fid) => {
+  if (!fid) return null;
+  const d = await shard(Number(fid) % 100);
+  return d[String(fid)] || null;
+};
+
 const IT = {
   Albania: 'Albania', Algeria: 'Algeria', Angola: 'Angola', Argentina: 'Argentina', Armenia: 'Armenia', Australia: 'Australia', Austria: 'Austria', Belgium: 'Belgio', Benin: 'Benin',
   'Bosnia and Herzegovina': 'Bosnia ed Erzegovina', Brazil: 'Brasile', Bulgaria: 'Bulgaria', 'Burkina Faso': 'Burkina Faso', Burundi: 'Burundi', Cameroon: 'Camerun', Canada: 'Canada',

@@ -7,6 +7,20 @@ export const SHOT_GOALBG = '#10203a';
 
 const PENT = [0, 1, 2, 3, 4].map((i) => { const a = -Math.PI / 2 + (i * 2 * Math.PI) / 5; return [a, Math.cos(a), Math.sin(a)]; });
 
+export const isBlocked = (s) => s && s.outcome === 'Murato';
+
+// Tiro murato: traiettoria tratteggiata fino al punto in cui e' stato fermato, chiusa da un breve trattino perpendicolare (mai fino alla porta)
+export function BlockTrace({ x1, y1, x2, y2, stroke = '#0b1a10', w = 0.45 }) {
+  const dx = x2 - x1; const dy = y2 - y1; const L = Math.hypot(dx, dy) || 1;
+  const nx = -dy / L; const ny = dx / L; const t = 1.5;
+  return (
+    <g pointerEvents="none">
+      <line x1={x1} y1={y1} x2={x2} y2={y2} stroke={stroke} strokeWidth={w} strokeDasharray="1.3 1.1" />
+      <line x1={x2 - nx * t} y1={y2 - ny * t} x2={x2 + nx * t} y2={y2 + ny * t} stroke={stroke} strokeWidth={w * 2} strokeLinecap="round" />
+    </g>
+  );
+}
+
 export function ShotDot({ c, goal, on, r }) {
   if (goal) {
     return (

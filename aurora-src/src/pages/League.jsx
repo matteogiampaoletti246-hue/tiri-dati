@@ -11,7 +11,7 @@ import LeagueMatchesPanel from '@/components/league/LeagueMatchesPanel';
 import LeagueStandingsPanel from '@/components/league/LeagueStandingsPanel';
 import LeagueTeamsPanel from '@/components/league/LeagueTeamsPanel';
 import LeaguePlayersPanel from '@/components/league/LeaguePlayersPanel';
-import LeagueRefereesPanel from '@/components/league/LeagueRefereesPanel';
+import LeagueRefereesPanel, { leagueReferees } from '@/components/league/LeagueRefereesPanel';
 import ArchiveLeague from '@/components/archive/ArchiveLeague';
 import { useEntityScope, useSel } from '@/components/past/PastBits';
 import SeasonSheet from '@/components/archive/SeasonSheet';
@@ -79,6 +79,11 @@ export default function League() {
     <LeagueRefereesPanel key="referees" leagueId={league.id} />,
   ];
 
+  // la scheda Arbitri c'e' solo se per il campionato ci sono arbitri
+  const showRefs = leagueReferees(league.id).length > 0;
+  const liveTabs = TABS.filter((t) => t.key !== 'referees' || showRefs);
+  const livePanels = panels.filter((_, i) => TABS[i].key !== 'referees' || showRefs);
+
   return (
     <PageShell swipeBack={false}>
       <EntityBanner
@@ -114,7 +119,7 @@ export default function League() {
           </div>
         </div>
       ) : (
-        <SwipeTabs fixedBar tabs={TABS} panels={panels} index={tab} onChange={setTab} className="pt-0" />
+        <SwipeTabs fixedBar tabs={liveTabs} panels={livePanels} index={Math.min(tab, liveTabs.length - 1)} onChange={setTab} className="pt-0" />
       )}
       <SeasonSheet open={sheet} seasons={['live', ...past]} value={season} currentLabel={league.season || 'Stagione attuale'} onClose={() => setSheet(false)} onSelect={(v) => { setSeason(v); setATab(0); setSheet(false); window.scrollTo({ top: 0 }); }} />
     </PageShell>

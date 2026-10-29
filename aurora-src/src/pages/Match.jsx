@@ -16,6 +16,7 @@ import Bracket from '@/components/bracket/Bracket';
 import { isPureCup, peekBracket } from '@/data/bracket';
 import { hasMatchStats } from '@/components/match/MatchStatsPanel';
 import { hasLineups } from '@/components/match/MatchLineupsPanel';
+import { hasReliability } from '@/components/match/MatchReliabilityList';
 import useTicker from '@/hooks/useTicker';
 import { matchById, viewMatch } from '@/data/matches';
 import { prepareMatch, isReady } from '@/data/prepare';
@@ -129,6 +130,7 @@ export default function Match() {
   const has = {
     stats: hasMatchStats(raw, view, home, away, pre),
     lineups: hasLineups(view),
+    rel: hasReliability(raw),
     standings: cup ? !!((peekBracket(raw.archive.fm, raw.archive.sk) || {}).rounds || []).length : !raw.archive || !!(raw.season && raw.season.table),
   };
   const PANEL = {

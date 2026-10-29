@@ -1,3 +1,4 @@
+import PlayerPhoto from '@/components/PlayerPhoto';
 import { teamColor } from '@/lib/tint';
 import InjuryIcon from '@/components/InjuryIcon';
 import { injuryOf } from '@/data/injuries';
@@ -20,7 +21,7 @@ function Face({ p, size = 46, team, ring }) {
   return (
     <span className="avatar relative shrink-0 overflow-visible" style={{ width: size, height: size, background: `linear-gradient(150deg, ${team.colors[0]}, ${team.colors[1]})`, boxShadow: ring ? '0 0 0 2.5px #FFC83D, 0 0 14px rgba(255,200,61,.55)' : undefined }}>
       <span className="block h-full w-full overflow-hidden rounded-full">
-        {p.photo ? <Image src={p.photo} alt={p.name} className="h-full w-full" fittingType="fill" /> : <span className="flex h-full w-full items-center justify-center text-[12px] font-bold text-white">{p.initials}</span>}
+        <PlayerPhoto src={p.photo} alt={p.name} />
       </span>
     </span>
   );

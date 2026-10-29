@@ -7,7 +7,7 @@ import PageShell from '@/components/PageShell';
 import TopBar from '@/components/TopBar';
 import Skeleton from '@/components/Skeleton';
 import useAsync from '@/hooks/useAsync';
-import { loadPlayerStats } from '@/data/archive';
+import { loadPlayerStatsFor } from '@/data/archive';
 import { archiveId } from '@/data/archivePlayer';
 
 // Scheda del giocatore in quella stagione: tutte le statistiche in cui compare, con la sua posizione in classifica
@@ -15,7 +15,7 @@ export default function ArchivePlayer() {
   const { fm, sk, pid } = useParams();
   const [car, setCar] = useState(undefined);
   useEffect(() => { let on = true; loadCarriere().then((d) => on && setCar(d || {})); return () => { on = false; }; }, []);
-  const { data: stats, loading } = useAsync(() => loadPlayerStats(fm, sk), [fm, sk]);
+  const { data: stats, loading } = useAsync(() => loadPlayerStatsFor(fm, sk, pid), [fm, sk, pid]);
   // giocatore presente nell'app: si apre la sua scheda unica (Statistiche) con la stagione scelta
   if (car) {
     const appId = Object.keys(car).find((k) => String(car[k] && car[k].fm) === String(pid));

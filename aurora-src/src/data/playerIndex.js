@@ -3,7 +3,7 @@ import { BASE } from './load';
 import useAsync from '@/hooks/useAsync';
 import { carriereOf, loadCarriere } from './carriere';
 import { loadRose, roseOf, rosePlayer } from './rose';
-import { loadPlayerStats, currentSeason, sortSeasons, FM_ID } from './archive';
+import { loadPlayerStats, loadPlayerStatsFor, currentSeason, sortSeasons, FM_ID } from './archive';
 import { playerById } from './players';
 import { teamById } from './teams';
 import { archivePercentiles } from '@/components/player/playerCalc';
@@ -89,7 +89,7 @@ export function useArchivePct(player, enabled) {
     const fm = FM_ID[lid];
     if (!fm) return null;
     const sk = player.archive && player.sk ? player.sk : await currentSeason(fm);
-    const st = sk ? await loadPlayerStats(fm, sk) : null;
+    const st = sk ? await loadPlayerStatsFor(fm, sk, pid) : null;
     return archivePercentiles(st, pid);
   }, [player && player.id, enabled]);
   return data || null;

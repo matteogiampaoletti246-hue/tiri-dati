@@ -1,3 +1,4 @@
+import { BallIcon, BootIcon } from '@/components/match/EventIcons';
 import InjuryIcon from '@/components/InjuryIcon';
 import { injuryOf } from '@/data/injuries';
 import { Link } from 'react-router-dom';
@@ -22,13 +23,13 @@ import CompSeasonBar from '@/components/CompSeasonBar';
 import PastStats from '@/components/past/PastStats';
 import { PastPlayerMatches } from '@/components/past/PastMatches';
 import { useSeasonList, initSeason, useSel, useCompIn } from '@/components/past/PastBits';
-import { usePlayerCareer, useArchivePct, useBioPid } from '@/data/playerIndex';
+import { usePlayerCareer, useArchivePct, useBioPid, resolvePid } from '@/data/playerIndex';
 import { rosePlayer } from '@/data/rose';
 import useAsync from '@/hooks/useAsync';
-import { currentSeason, loadPlayerStats, sortSeasons } from '@/data/archive';
+import { currentSeason, loadPlayerStatsFor, sortSeasons } from '@/data/archive';
 import { FM_ID } from '@/data/archive';
 import { fixedColors } from '@/data/teamColorFix';
-import { carriereOf, countryIt, flagOf, FOOT, dateLong, ageOf, money, monthIt } from '@/data/carriere';
+import { carriereOf, careerByFm, countryIt, flagOf, FOOT, dateLong, ageOf, money, monthIt } from '@/data/carriere';
 
 const L = { fontSize: 9.5, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--ink-3)' };
 
@@ -264,8 +265,8 @@ export function PartitePanel({ player, concept }) {
                 </p>
                 <p className="mt-0.5 text-[11px]" style={{ color: 'var(--ink-3)' }}>
                   {dateIt(m.date)} · {m.minutes}&apos;
-                  {m.goals ? ` · ⚽ ${m.goals}` : ''}
-                  {m.assists ? ` · 🅰 ${m.assists}` : ''}
+                  {m.goals ? <span className="inline-flex items-center gap-0.5 align-middle"> · <BallIcon size={12} />{m.goals}</span> : null}
+                  {m.assists ? <span className="inline-flex items-center gap-0.5 align-middle"> · <BootIcon size={12} />{m.assists}</span> : null}
                 </p>
               </div>
               <RatingPill r={m.rating} big={concept === 'c'} />
@@ -450,9 +451,9 @@ function CupSummary({ p }) {
 function CupCurrent({ p, fm, fmPid, team }) {
   const { data, loading } = useAsync(async () => {
     const sk = await currentSeason(fm);
-    const st = sk ? await loadPlayerStats(fm, sk) : null;
+    const st = sk ? await loadPlayerStatsFor(fm, sk, fmPid) : null;
     return { sk, st };
-  }, [fm]);
+  }, [fm, fmPid]);
   if (loading && !data) return <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Carico le statistiche…</p>;
   if (data && data.sk && data.st && fmPid) return <PastStats kind="players" id={fmPid} fm={fm} sk={data.sk} current teamName={team && team.name} />;
   return <div className="px-5 pb-10 pt-4"><CupSummary p={p} /></div>;
@@ -547,40 +548,40 @@ export function StatistichePanel({ player, team }) {
 }
 
 /* ---------- CARRIERA ---------- */
-export function CarrieraPanel({ player }) {
-  const c = carriereOf(player.id);
-  const raw = (c && c.car) || [];
-  const now = new Date().toISOString().slice(0, 7);
-  // FotMob registra anche i "rientri" dal prestito (stesso mese, zero presenze) e il futuro: non sono periodi giocati
-  const isStub = (r) => (r[3] === null || r[3] === undefined) && (r[1] === r[2] || String(r[1]) > now);
-  const rows = raw
-    .map((r, i) => {
-      const prev = raw[i + 1];
-      const next = raw[i - 1];
-      const loan = !isStub(r) && prev && next && isStub(prev) && isStub(next) && prev[0] === next[0];
-      return { r, loan: !!loan, from: loan ? prev[0] : null };
-    })
-    .filter((x) => !isStub(x.r));
-  if (!rows.length) {
-    return null;
-  }
+// Periodi consecutivi nella stessa squadra = una sola pillola (intervallo e somma di presenze/gol/assist). Se tra due periodi c'e' un'altra squadra restano separati.
+const sumN = (a, b) => (a == null && b == null ? null : (Number(a) || 0) + (Number(b) || 0));
+export function mergeConsecutive(rows) {
+  const out = [];
+  rows.forEach((x) => {
+    const last = out[out.length - 1];
+    if (last && last.r[0] === x.r[0]) {
+      const o = x.r;
+      last.r = [last.r[0], o[1] && (!last.r[1] || String(o[1]) < String(last.r[1])) ? o[1] : last.r[1], last.r[2], sumN(last.r[3], o[3]), sumN(last.r[4], o[4]), sumN(last.r[5], o[5]), last.r[6], last.r[7], last.r[8]];
+      last.loan = last.loan && x.loan;
+      last.n += 1;
+    } else out.push({ r: [...x.r], loan: x.loan, from: x.from, n: 1 });
+  });
+  return out;
+}
+
+function CareerRows({ rows }) {
   return (
-    <div className="px-5 pb-8 pt-5">
-      <div className="flex flex-col gap-2.5">
-        {rows.map(({ r, loan, from }, i) => {
-          const t = teamByName(r[0]);
-          const cols = fixedColors(r[0]) || (t && t.colors) || ['#37507a', '#5a7bb0'];
-          return (
-            <div key={i} className="flex items-center gap-3 rounded-2xl px-3.5 py-3" style={{ background: teamGrad({ colors: cols }, 0x55) }}>
-              <Crest team={t || { name: r[0], initials: String(r[0] || '').slice(0, 2).toUpperCase(), colors: ['#37507a', '#5a7bb0'] }} size={30} />
-              <div className="min-w-0 flex-1">
-                <p className="flex items-center gap-1.5 text-[14px]" style={{ color: 'var(--ink)' }}>
-                  <span className="truncate">{r[0]}</span>{loan ? <span className="shrink-0 rounded-full px-1.5 text-[9.5px]" style={{ color: 'var(--ink-3)', border: '1px solid var(--hair-2)' }}>PRESTITO{from ? ` · ${from}` : ''}</span> : null}
-                </p>
-                <p className="mt-0.5 text-[11px]" style={{ color: 'var(--ink-3)' }}>
-                  {monthIt(r[1])} – {r[7] ? 'oggi' : monthIt(r[2]) || '—'}
-                </p>
-              </div>
+    <div className="flex flex-col gap-2.5">
+      {rows.map(({ r, loan, from }, i) => {
+        const t = teamByName(r[0]);
+        const cols = fixedColors(r[0]) || (t && t.colors) || ['#37507a', '#5a7bb0'];
+        return (
+          <div key={i} className="flex items-center gap-3 rounded-2xl px-3.5 py-3" style={{ background: teamGrad({ colors: cols }, 0x55) }}>
+            <Crest team={t || { name: r[0], initials: String(r[0] || '').slice(0, 2).toUpperCase(), colors: ['#37507a', '#5a7bb0'] }} size={30} />
+            <div className="min-w-0 flex-1">
+              <p className="flex items-center gap-1.5 text-[14px]" style={{ color: 'var(--ink)' }}>
+                <span className="truncate">{r[0]}</span>{loan ? <span className="shrink-0 rounded-full px-1.5 text-[9.5px]" style={{ color: 'var(--ink-3)', border: '1px solid var(--hair-2)' }}>PRESTITO{from ? ` · ${from}` : ''}</span> : null}
+              </p>
+              <p className="mt-0.5 text-[11px]" style={{ color: 'var(--ink-3)' }}>
+                {monthIt(r[1])}{monthIt(r[1]) ? ' – ' : ''}{r[7] ? 'oggi' : monthIt(r[2])}
+              </p>
+            </div>
+            {r[3] != null || r[4] != null || r[5] != null ? (
               <div className="grid grid-cols-3 gap-3 text-center">
                 {[['Pres.', r[3]], ['Gol', r[4]], ['Ass.', r[5]]].map(([k, v]) => (
                   <div key={k} className="w-8">
@@ -589,10 +590,41 @@ export function CarrieraPanel({ player }) {
                   </div>
                 ))}
               </div>
-            </div>
-          );
-        })}
-      </div>
+            ) : null}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+export function CarrieraPanel({ player }) {
+  const c = carriereOf(player.id);
+  const { data: rec } = useAsync(async () => { const pid = await resolvePid(player); return pid ? careerByFm(pid) : null; }, [player.id]);
+  // la carriera completa (tutte le squadre) viene da car/ e carriere.json; quella ricostruita dalle sole stagioni di un campionato non la sostituisce
+  if (rec === undefined && !(c && c.ok)) return null;
+  const raw = (rec && rec.car && rec.car.length ? rec.car : (c && c.car) || []);
+  const now = new Date().toISOString().slice(0, 7);
+  // FotMob registra anche i "rientri" dal prestito (stesso mese, zero presenze) e il futuro: non sono periodi giocati
+  const isStub = (r) => (r[3] === null || r[3] === undefined) && (r[1] === r[2] || String(r[1]) > now);
+  const senior = mergeConsecutive(raw
+    .map((r, i) => {
+      const prev = raw[i + 1];
+      const next = raw[i - 1];
+      const loan = !isStub(r) && prev && next && isStub(prev) && isStub(next) && prev[0] === next[0];
+      return { r, loan: !!loan, from: loan ? prev[0] : null };
+    })
+    .filter((x) => !isStub(x.r)));
+  const plain = (list) => mergeConsecutive((list || []).filter((r) => !isStub(r)).map((r) => ({ r, loan: false, from: null })));
+  const youth = plain(rec && rec.yo);
+  const nat = plain(rec && rec.nt);
+  if (!senior.length && !youth.length && !nat.length) return null;
+  const Title = ({ children }) => <p className="mb-2 mt-6 text-[11px] font-extrabold uppercase tracking-wider" style={{ color: 'var(--ink-3)' }}>{children}</p>;
+  return (
+    <div className="px-5 pb-8 pt-5">
+      {senior.length ? <CareerRows rows={senior} /> : null}
+      {nat.length ? <><Title>Nazionale</Title><CareerRows rows={nat} /></> : null}
+      {youth.length ? <><Title>Giovanili</Title><CareerRows rows={youth} /></> : null}
     </div>
   );
 }

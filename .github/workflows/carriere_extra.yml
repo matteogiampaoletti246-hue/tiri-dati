@@ -1,0 +1,32 @@
+name: Carriere e foto di tutti i giocatori
+on:
+  schedule:
+    - cron: "40 3 * * 3"
+  workflow_dispatch:
+  push:
+    paths:
+      - carriere_extra.py
+      - foto_check.py
+permissions:
+  contents: write
+jobs:
+  carriere:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      # carriere (senior, giovanili, nazionali) di tutti i giocatori delle rose: riprende da dove si era fermato
+      - run: python carriere_extra.py 80
+      # quali giocatori non hanno la foto su FotMob (l'app mostra subito l'omino)
+      - run: python foto_check.py || true
+      - name: Salva i risultati
+        if: always()
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add car foto_mancanti.json foto_check_cache.json 2>/dev/null || true
+          git diff --staged --quiet || git commit -m "Aggiorna carriere e foto mancanti"
+          for i in 1 2 3 4 5; do git pull --rebase && git push && break; sleep $((i*4)); done

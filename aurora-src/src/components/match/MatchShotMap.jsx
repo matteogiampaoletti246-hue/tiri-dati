@@ -5,7 +5,7 @@ import { comma } from '@/lib/format';
 import { teamGrad } from '@/lib/tint';
 import PlayerLink from './PlayerLink';
 import { findInMatch } from '@/data/playerSheet';
-import { ShotDot, SHOT_HOME, SHOT_AWAY, SHOT_PITCH, SHOT_LINE, SHOT_GOALBG } from './ShotDot';
+import { ShotDot, BlockTrace, isBlocked, SHOT_HOME, SHOT_AWAY, SHOT_PITCH, SHOT_LINE, SHOT_GOALBG } from './ShotDot';
 
 // Mappa tiri stile "campo verde": casa attacca a sinistra, trasferta a destra.
 // Sotto il campo: le due porte viste da davanti. Toccando un tiro compare la scheda con i dettagli.
@@ -85,7 +85,7 @@ export default function MatchShotMap({ shots = [], home, away, match = null, lin
   // porta vista da davanti: 7,32 m × 2,44 m
   const Goal = ({ side }) => {
     const W = 11.5;
-    const gl = list.filter((s) => s.side === side && s.gy != null && s.gz != null);
+    const gl = list.filter((s) => s.side === side && s.gy != null && s.gz != null && !isBlocked(s)); // la porta mostra solo i tiri che l'hanno raggiunta
     const x0 = 10;
     return (
       <svg viewBox="0 0 100 52" className="w-full" style={{ background: SHOT_GOALBG, borderRadius: 10 }}>
@@ -117,7 +117,7 @@ export default function MatchShotMap({ shots = [], home, away, match = null, lin
         {RIGHT.map((l, i) => <polyline key={`l${i}`} points={pl(mir(l))} fill="none" stroke={LINE} strokeWidth="0.5" />)}
         <polyline points={arc(94, 34, 9.15, 127, 233)} fill="none" stroke={LINE} strokeWidth="0.5" />
         <polyline points={arc(11, 34, 9.15, -53, 53)} fill="none" stroke={LINE} strokeWidth="0.5" />
-        {cur && goalPt ? (
+        {cur && isBlocked(cur) ? (cur.bx != null ? <BlockTrace x1={pos(cur)[0]} y1={pos(cur)[1]} x2={pos({ side: cur.side, px: cur.bx, py: cur.by })[0]} y2={pos({ side: cur.side, px: cur.bx, py: cur.by })[1]} /> : null) : cur && goalPt ? (
           <line x1={pos(cur)[0]} y1={pos(cur)[1]} x2={goalPt.x} y2={goalPt.y} stroke="#0b1a10" strokeWidth="0.45" strokeDasharray="1.4 1.2" />
         ) : null}
         {list.map((s, i) => {

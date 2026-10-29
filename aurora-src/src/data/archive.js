@@ -72,11 +72,22 @@ function tableFromFix(season, lid) {
   });
   return out;
 }
+// campionati con gironi/conference o punti dimezzati dopo la prima fase (MLS, Argentina, Austria, Belgio, Grecia) e coppe
+const ZONES_NOT_BY_POINTS = new Set([130, 112, 38, 40, 135, 42, 73, 10216]);
 export const loadSeason = (lid, sk) => json(`arch/${lid}/${sk}.json`).then((d) => {
   if (d && !d.table && !d.__tc) {
     d.__tc = true;
     const t = tableFromFix(d, lid);
-    if (t) { d.table = t; d.legend = d.legend || []; d.tableComputed = true; }
+    if (t) {
+      d.table = t; d.legend = d.legend || []; d.tableComputed = true;
+      // le zone (Champions, retrocessione...) della fonte hanno le posizioni: si colorano le righe solo dove la classifica finale e' quella a punti
+      // (non nei campionati a gironi/conference, ne' dove i punti si dimezzano dopo la prima fase: li' le posizioni non coincidono e non si inventa nulla)
+      if (!ZONES_NOT_BY_POINTS.has(Number(lid)) && Array.isArray(d.legend)) {
+        const zoned = {};
+        d.legend.forEach((z) => (z.indices || []).forEach((i) => { if (!zoned[i]) zoned[i] = z.color; }));
+        Object.keys(t).forEach((k) => t[k].forEach((r, i) => { if (zoned[i]) r.qualColor = zoned[i]; }));
+      }
+    }
   }
   return d;
 });
@@ -201,6 +212,14 @@ export const loadTeamStats = async (lid, sk) => {
   if (st && st.teams && Object.keys(st.teams).length) return st;
   return teamPartStats(lid, sk, 'tot');
 };
+// stesse statistiche ma per un giocatore preciso: se non e' nelle classifiche ufficiali (hanno solo i primi di ogni voce) si usano quelle calcolate dalle partite
+export const loadPlayerStatsFor = async (lid, sk, pid) => {
+  const st = await loadPlayerStats(lid, sk);
+  const has = (s) => !!(s && s.players && Object.keys(s.players).some((k) => !k.startsWith('_') && (s.players[k] || []).some((r) => String(r[0]) === String(pid))));
+  if (has(st)) return st;
+  const fm = await statsFromMatches(lid, sk);
+  return has(fm) ? fm : st;
+};
 // statistiche giocatori di una stagione: quelle ufficiali se ci sono, altrimenti quelle calcolate dalle partite
 export const loadPlayerStats = async (lid, sk) => {
   const st = await loadSeasonStats(lid, sk);
@@ -210,6 +229,9 @@ export const loadPlayerStats = async (lid, sk) => {
 // campionati con storico completo; gli altri hanno statistiche solo dal 2020
 const TOP20 = new Set([47, 87, 55, 54, 53, 57, 61, 48, 86, 146, 71, 40, 64, 268, 112, 130, 230, 38, 59, 135, 42, 73, 10216]);
 export const noStats = (fm, sk) => !TOP20.has(Number(fm)) && Number(String(sk).slice(0, 4)) < 2020;
+// Arbitri di un campionato: per tutte le stagioni solo top 5 e coppe europee; per gli altri solo la stagione in corso
+const REFS_ALL = new Set([55, 47, 87, 54, 53, 42, 73, 10216]);
+export const refsAllSeasons = (fm) => REFS_ALL.has(Number(fm));
 // stagione piu' recente dell'indice (quella in corso)
 export const currentSeason = async (fm) => {
   const idx = await archIndex();
@@ -222,19 +244,15 @@ export const teamSeasons = async (fm, name) => {
   const hit = await Promise.all(list.map((sk) => loadSeason(fm, sk).then((s) => (s && s.teams && teamIdByName(s.teams, name) ? sk : null)).catch(() => null)));
   return hit.filter(Boolean);
 };
-// stagioni passate in cui il giocatore (id FotMob) compare davvero nelle statistiche di quella competizione
-const PS = {};
-export const playerSeasons = (fm, pid) => {
-  const k = `${fm}|${pid}`;
-  if (!PS[k]) {
-    PS[k] = pastSeasons(fm).then((list) => Promise.all(list.map((sk) => loadPlayerStats(fm, sk)
-      .then((st) => {
-        const L = (st && st.players) || {};
-        return Object.keys(L).some((n) => !n.startsWith('_') && (L[n] || []).some((r) => String(r[0]) === String(pid))) ? sk : null;
-      })
-      .catch(() => null)))).then((h) => h.filter(Boolean));
-  }
-  return PS[k];
+// stagioni passate in cui il giocatore (id FotMob) ha giocato quella competizione: dall'indice giocatori (pidx), che comprende anche
+// chi non e' nelle classifiche ufficiali (si ricava dalle partite archiviate)
+const PSH = {};
+const pshard = (n) => { if (!PSH[n]) PSH[n] = fetch(`${BASE}pidx/${n}.json`).then((r) => (r.ok ? r.json() : {})).catch(() => ({})); return PSH[n]; };
+export const playerSeasons = async (fm, pid) => {
+  const [d, past] = await Promise.all([pshard(Number(pid) % 100), pastSeasons(fm)]);
+  const e = d[String(pid)];
+  const mine = new Set(e ? e.slice(1).filter((r) => String(r[0]) === String(fm)).map((r) => r[1]) : []);
+  return sortSeasons(past.filter((s) => mine.has(s)));
 };
 import { norm, acr, sameSquad } from './teamMatch';
 // id FotMob di una squadra dentro i dati di una stagione, dal nome: prima uguale, poi sigla, poi nome contenuto (mai due squadre diverse che si somigliano)

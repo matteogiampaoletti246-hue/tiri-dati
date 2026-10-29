@@ -1,7 +1,8 @@
+import { BallIcon } from './EventIcons';
 import { useEffect, useRef, useState } from 'react';
 import { comma } from '@/lib/format';
 import { situationOf, zoneOf, outcomeOf } from './MatchShotMap';
-import { ShotDot, SHOT_HOME, SHOT_PITCH, SHOT_LINE, SHOT_GOALBG } from './ShotDot';
+import { ShotDot, BlockTrace, isBlocked, SHOT_HOME, SHOT_PITCH, SHOT_LINE, SHOT_GOALBG } from './ShotDot';
 
 const PITCH = SHOT_PITCH;
 const LINE = SHOT_LINE;
@@ -31,7 +32,7 @@ function Goal({ list, sel, onSel, dim = true, h = 150, frame = 'rgba(255,255,255
       <line x1="2" x2="98" y1="44" y2="44" strokeWidth="0.5" style={{ stroke: 'rgba(150,175,225,.5)' }} />
       <rect x={x0} y={44 - 2.44 * W} width={7.32 * W} height={2.44 * W} strokeWidth="1.2" style={{ fill: 'rgba(255,255,255,.04)', stroke: '#dfe8fb' }} />
       {list.map((s, i) => {
-        if (s.gy == null || s.gz == null) return null;
+        if (s.gy == null || s.gz == null || isBlocked(s)) return null; // la porta non mostra i tiri murati
         const cx = x0 + (s.gy - 30.34) * W;
         const cy = 44 - Math.max(0, Math.min(s.gz, 3.4)) * W;
         const on = sel === i;
@@ -54,7 +55,7 @@ function Half({ list, sel, onSel, h = 190, line = true }) {
       <polyline points="105,13.84 88.5,13.84 88.5,54.16 105,54.16" fill="none" stroke={LINE} strokeWidth="0.5" />
       <polyline points="105,24.84 99.5,24.84 99.5,43.16 105,43.16" fill="none" stroke={LINE} strokeWidth="0.5" />
       <circle cx="94" cy="34" r="0.5" fill={LINE} />
-      {line && cur && cur.px != null ? <line x1={px(cur.px)} y1={py(cur.py)} x2="105" y2="34" stroke="#0b1a10" strokeWidth="0.45" strokeDasharray="1.3 1.1" /> : null}
+      {line && cur && cur.px != null ? (isBlocked(cur) ? (cur.bx != null ? <BlockTrace x1={px(cur.px)} y1={py(cur.py)} x2={px(cur.bx)} y2={py(cur.by)} /> : null) : <line x1={px(cur.px)} y1={py(cur.py)} x2="105" y2="34" stroke="#0b1a10" strokeWidth="0.45" strokeDasharray="1.3 1.1" />) : null}
       {list.map((s, i) => {
         if (s.px == null) return null;
         const on = sel === i;
@@ -116,7 +117,7 @@ function Chips({ list, sel, onSel, variant }) {
         else st = { ...base, minWidth: 52, height: 46, borderRadius: 14, background: it.i === null ? (on ? 'var(--accent)' : 'var(--hair-2)') : c, color: it.i === null ? (on ? '#fff' : 'var(--ink)') : fg, border: on ? '2px solid #fff' : '2px solid transparent', boxShadow: on && c ? `0 0 0 2px ${c}` : 'none', opacity: on || sel == null || it.i === null ? 1 : 0.55, fontSize: 12.5, fontWeight: 800 };
         return (
           <button key={String(it.i)} type="button" data-on={on ? 1 : 0} onClick={() => onSel(it.i)} className="press tnum flex items-center justify-center gap-1" style={st}>
-            {goal ? <span style={{ fontSize: 11 }}>⚽</span> : null}{it.label}
+            {goal ? <BallIcon size={12} /> : null}{it.label}
           </button>
         );
       })}

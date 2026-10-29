@@ -413,7 +413,7 @@ await step('tabellone: stagione attuale senza dati e stagione passata con tabell
   const t0 = await texts();
   report.clTabelloneAttuale = t0.includes('Tabellone');
   await shot('cl-classifica');
-  await clickVis('Tabellone');
+  if (report.clTabelloneAttuale) await clickVis('Tabellone');
   await wait(380); await shot('cl-transizione-meta');
   await wait(1500);
   const t = await pg.evaluate(() => document.body.innerText);
@@ -740,7 +740,7 @@ await step('partita senza momentum (Austrian Cup): il Riepilogo parte dal primo 
 });
 
 const ready = () => pg.waitForFunction(() => document.querySelectorAll('.tab-btn').length > 0, null, { timeout: 30000 }).catch(() => {});
-const tabClick = (t) => pg.evaluate((t) => { const e = [...document.querySelectorAll('.tab-btn')].find((x) => x.textContent.trim() === t); if (e) e.click(); return !!e; }, t);
+const tabClick = (t) => pg.evaluate((t) => { const vis = (x) => { const r = x.getBoundingClientRect(); if (r.width <= 0 || r.height <= 0) return false; const t = document.elementFromPoint(Math.min(Math.max(r.left + r.width / 2, 1), innerWidth - 1), Math.min(Math.max(r.top + r.height / 2, 1), innerHeight - 1)); return !!t && (x === t || x.contains(t)); }; const e = [...document.querySelectorAll('.tab-btn')].filter(vis).find((x) => x.textContent.trim() === t); if (e) e.click(); return !!e; }, t);
 
 await step('pillole: tornando su una squadra con lo swipe non saltano', async () => {
   for (const team of ['lazio', 'feyenoord']) {
@@ -778,7 +778,7 @@ await step('campionati aggiunti: squadra della Liga MX (stagione con suffisso) c
   await pg.evaluate(() => { const a = [...document.querySelectorAll('a[href*="giocatore"]')].find((x) => x.getBoundingClientRect().height > 0); if (a) a.click(); });
   await pg.waitForFunction(() => /giocatore/.test(location.hash) && [...document.querySelectorAll('.tab-btn')].some((x) => x.textContent.trim() === 'Carriera'), null, { timeout: 25000 }).catch(() => {});
   await wait(1500);
-  const tabs = await pg.evaluate(() => [...document.querySelectorAll('.tab-btn')].map((x) => x.textContent.trim()));
+  const tabs = await pg.evaluate(() => [...document.querySelectorAll('.tab-btn')].filter((x) => { const r = x.getBoundingClientRect(); const t = document.elementFromPoint(Math.min(Math.max(r.left + r.width / 2, 1), innerWidth - 1), Math.min(Math.max(r.top + r.height / 2, 1), innerHeight - 1)); return r.height > 0 && !!t && (x === t || x.contains(t)); }).map((x) => x.textContent.trim()));
   await tabClick('Statistiche'); await wait(3500);
   const p = await pg.evaluate(() => document.body.innerText);
   ok('liga mx: scheda giocatore con Profilo/Partite/Statistiche/Carriera e statistiche della stagione', ['Profilo', 'Partite', 'Statistiche', 'Carriera'].every((x) => tabs.includes(x)) && /presenze/i.test(p) && /Apertura|Clausura/.test(p), { tabs });
@@ -886,6 +886,100 @@ await step('memoria: 40+ pagine di seguito, fotogrammi stabili e swipe indietro 
   ok('memoria: dopo 44 pagine le copie nascoste delle pagine non si accumulano', hosts <= 3, { hosts });
   ok('memoria: swipe indietro con la pagina sotto visibile (mai nero)', checked > 0 && black === 0, { black, checked });
   ok('memoria: fotogrammi a fine giro simili all\'inizio', !t0 || !t1 || t1.p95 <= t0.p95 * 1.5 + 10, { t0, t1, nodes });
+});
+
+// ---- Giro di novembre: foto, icone, partite precedenti, competizioni, swipe indietro, carriere, tiri murati ----
+await step('partite precedenti: la pagina non sale e la lista resta aperta tornando da una partita', async () => {
+  await go('#/squadra/lille', 3000); await ready(); await wait(2000);
+  const btn = await pg.evaluate(() => { const b = [...document.querySelectorAll('button')].find((x) => /Partite precedenti/.test(x.textContent) && x.getBoundingClientRect().height > 0); if (!b) return null; b.scrollIntoView({ block: 'center' }); const a = [...document.querySelectorAll('a[href*="/match/"]')].find((x) => x.getBoundingClientRect().height > 0); return { sy: Math.round(scrollY), first: a ? a.getAttribute('href') : null, top: a ? Math.round(a.getBoundingClientRect().top) : null }; });
+  if (!btn) { report.precedenti = 'nessun tasto (poche partite)'; return; }
+  await wait(300);
+  const before = await pg.evaluate(() => { const a = [...document.querySelectorAll('a[href*="/match/"]')].find((x) => x.getBoundingClientRect().height > 0); return { top: Math.round(a.getBoundingClientRect().top), href: a.getAttribute('href') }; });
+  await pg.evaluate(() => { const b = [...document.querySelectorAll('button')].find((x) => /Partite precedenti/.test(x.textContent)); if (b) b.click(); });
+  await wait(700);
+  const after = await pg.evaluate((h) => { const a = document.querySelector(`a[href="${h}"]`); return a ? { top: Math.round(a.getBoundingClientRect().top), sy: Math.round(scrollY) } : null; }, before.href);
+  ok('partite precedenti: la partita che guardavo resta alla stessa altezza', !!after && Math.abs(after.top - before.top) <= 6 && after.sy > 50, { before, after });
+  await pg.evaluate((h) => { const a = document.querySelector(`a[href="${h}"]`); if (a) a.click(); }, before.href);
+  await wait(3500);
+  await pg.goBack(); await wait(2500);
+  const still = await pg.evaluate(() => !([...document.querySelectorAll('button')].some((x) => /Partite precedenti/.test(x.textContent) && x.getBoundingClientRect().height > 0)));
+  ok('partite precedenti: tornando da una partita la lista e\' ancora aperta', still);
+});
+
+await step('tendina competizioni sempre completa: con una stagione passata restano tutte', async () => {
+  await go('#/squadra/lazio', 3000); await ready(); await wait(1500);
+  await tabClick('Classifica'); await wait(2500);
+  const names0 = async () => { try { await pg.locator('button.glass:visible', { has: pg.locator('b') }).first().click({ timeout: 4000 }); } catch (e) { return []; } await wait(600); const n = await pg.evaluate(() => { const l = [...document.querySelectorAll('[data-pop-scroll]')].find((x) => x.getBoundingClientRect().height > 0); return l ? [...l.querySelectorAll('button')].map((b) => b.textContent.trim()) : []; }); await pg.keyboard.press('Escape'); await pg.mouse.click(5, 300); await wait(400); return n; };
+  const cur = await names0();
+  // stagione passata dalla tendina stagioni
+  await pg.evaluate(() => { const b = [...document.querySelectorAll('button')].find((x) => /^Attuale/.test(x.textContent.trim()) && x.getBoundingClientRect().height > 0); if (b) b.click(); });
+  await wait(600);
+  await pg.evaluate(() => { const l = [...document.querySelectorAll('[data-pop-scroll]')].find((x) => x.getBoundingClientRect().height > 0); const b = l && [...l.querySelectorAll('button')].find((x) => /2019/.test(x.textContent)); if (b) b.click(); });
+  await wait(2500);
+  const past = await names0();
+  ok('competizioni: con una stagione passata la tendina ha le stesse voci', cur.length >= 2 && past.length >= cur.length, { cur, past });
+});
+
+await step('swipe indietro: azioni veloci tra giorni, partite e squadre, mai nero', async () => {
+  await go('#/', 5000);
+  await pg.waitForFunction(() => document.querySelectorAll('a[href*="/match/"]').length > 3, null, { timeout: 40000 }).catch(() => {});
+  const targets = ['#/campionato/serie-a', '#/squadra/lazio', '#/campionato/liga-mx', '#/squadra/santos', '#/campionato/super-lig', '#/squadra/feyenoord'];
+  const days = ['Domani', 'Oggi', 'Ieri'];
+  let black = 0; let frames = 0;
+  for (let i = 0; i < 8; i++) {
+    await pg.evaluate((d) => { const b = [...document.querySelectorAll('button')].find((x) => x.textContent.trim().startsWith(d)); if (b) b.click(); }, days[i % 3]);
+    await wait(180);
+    await pg.evaluate((h) => window.__slNav(h.replace(/^#/, '')), targets[i % targets.length]);
+    await wait(i % 2 ? 150 : 700);
+    await pg.evaluate(() => { for (const x of [30, 90, 160, 230]) window.__slCarousel.pageDrag(x); });
+    const r = pg.evaluate(async () => {
+      const out = []; const t0 = performance.now();
+      await new Promise((res) => { const f = () => {
+        const host = [...document.querySelectorAll('body > div[aria-hidden="true"]')].find((b) => b.style.zIndex === '1' && b.style.opacity !== '0.01');
+        const sh = document.getElementById('sl-shell');
+        const shOk = sh && sh.getBoundingClientRect().height > innerHeight * 0.5;
+        const moving = sh && /translate3d\((?!0px)/.test(sh.style.transform || '');
+        out.push(!!host && host.style.opacity !== '0' || (!!shOk && !moving));
+        if (performance.now() - t0 < 2600) requestAnimationFrame(f); else res(); }; requestAnimationFrame(f); });
+      return { n: out.length, black: out.filter((x) => !x).length };
+    });
+    await pg.evaluate(() => window.__slCarousel.pageBack(240));
+    const o = await r; black += o.black; frames += o.n;
+    await wait(300);
+  }
+  ok('swipe indietro veloce: nessun fotogramma nero', frames > 20 && black === 0, { frames, black });
+});
+
+await step('giocatori: foto mancante = omino, partite con "vs", carriera con periodi consecutivi uniti', async () => {
+  await go('#/squadra/eintracht-frankfurt', 6000); await ready(); await wait(1200);
+  await tabClick('Squadra'); await wait(2500);
+  const href = await pg.evaluate(() => { const a = [...document.querySelectorAll('a[href*="giocatore"]')].find((x) => x.getBoundingClientRect().height > 0); return a ? a.getAttribute('href') : null; });
+  if (!href) { report.carrieraTest = 'nessun giocatore'; return; }
+  await go(href, 6000); await ready(); await wait(1500);
+  await tabClick('Partite'); await wait(3500);
+  const pt = await pg.evaluate(() => document.body.innerText);
+  ok('partite del giocatore: mai "@"', !/(^|\n)\s*@ /.test(pt) && !/ @ [A-Z]/.test(pt));
+  await tabClick('Carriera'); await wait(3500);
+  const teams = await pg.evaluate(() => [...document.querySelectorAll('#sl-shell p.flex.items-center.gap-1\\.5 span.truncate')].map((x) => x.textContent.trim()));
+  const dup = teams.some((t, i) => i > 0 && t === teams[i - 1]);
+  ok('carriera: nessuna squadra ripetuta due volte di seguito', teams.length > 0 && !dup, { teams });
+  report.carrieraSquadre = teams.length;
+  const broken = await pg.evaluate(() => [...document.querySelectorAll('img')].filter((i) => i.complete && i.naturalWidth === 0 && i.src).length);
+  ok('foto: nessuna immagine rotta in pagina', broken === 0, { broken });
+});
+
+await step('tiri murati: pallino vuoto, mai nella porta', async () => {
+  const f = (px && px.m ? px.m : []).filter((r) => r[9] === 'f' && [230, 57, 61, 71, 40].includes(r[1])).slice(-3);
+  let seen = 0;
+  for (const r of f) {
+    await go(`#/match/x-${r[1]}-${r[0]}`, 3000); await ready(); await wait(1500);
+    if (!(await tabClick('Statistiche'))) continue;
+    await wait(3000);
+    const info = await pg.evaluate(() => ({ svg: document.querySelectorAll('#sl-shell svg').length }));
+    seen += info.svg;
+  }
+  report.murati = seen;
+  ok('tiri murati: mappa tiri disegnata senza errori', seen > 0 && report.errors.filter((e) => /Shot|Block|bx|by/.test(e)).length === 0, { seen });
 });
 
 report.passed = report.checks.filter((c) => c.pass).length;

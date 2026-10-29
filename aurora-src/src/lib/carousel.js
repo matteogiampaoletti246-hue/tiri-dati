@@ -207,7 +207,7 @@ const warmLater = () => {
       document.body.appendChild(w.host);
       WARM = { ...w, idx };
     } catch (e) { /* ignore */ }
-  }, 450);
+  }, 220);
 };
 const behindOn = () => {
   if (BEHIND) return BEHIND;
@@ -217,8 +217,8 @@ const behindOn = () => {
   else {
     warmOff();
     const g = SNAPS.get(idx);
-    if (!g) return null;
-    w = buildHost(g);
+    // senza fotografia (pagina aperta da un collegamento, memoria liberata): una superficie dello stesso colore dell'app, mai il nero
+    w = buildHost(g || []);
     document.body.appendChild(w.host);
   }
   BEHIND = { host: w.host, dim: w.dim };
@@ -234,6 +234,28 @@ const behindMove = (dx, w, ms = 0) => {
   b.dim.style.transition = ms ? `opacity ${ms}ms ease` : 'none';
   b.dim.style.opacity = String(0.35 * (1 - p));
 };
+// La fotografia della pagina di destinazione resta finche' la pagina vera non e' disegnata (pagine pesanti come la Home impiegano piu' tempo):
+// si toglie con una breve dissolvenza dopo alcuni fotogrammi stabili, al massimo dopo 3 s. Mai un vuoto nero tra le due.
+function waitDestination(fromShell, fromIdx) {
+  const t0 = performance.now();
+  let stable = 0;
+  const fade = () => {
+    const b = BEHIND;
+    if (!b) return;
+    b.host.style.transition = 'opacity .16s ease';
+    b.host.style.opacity = '0';
+    setTimeout(behindOff, 180);
+  };
+  const f = () => {
+    if (!BEHIND) return;
+    const sh = document.getElementById('sl-shell');
+    const ok = histIdx() !== fromIdx && sh && sh !== fromShell && sh.isConnected && sh.getBoundingClientRect().height > window.innerHeight * 0.5;
+    stable = ok ? stable + 1 : 0;
+    if (stable >= 3 || performance.now() - t0 > 3000) { fade(); return; }
+    requestAnimationFrame(f);
+  };
+  requestAnimationFrame(f);
+}
 const behindOff = () => {
   if (!BEHIND) return;
   BEHIND.host.remove(); BEHIND = null;
@@ -300,8 +322,7 @@ export function pageBack(dx, navigate) {
     });
     if (hasBehind) behindMove(w, w, ms);
     // la pagina vera di destinazione prende il posto quando e' arrivata la fotografia al centro
-    setTimeout(() => { if (hasBehind) QUIET = true; goBack(navigate, fromIdx); }, hasBehind ? ms + 20 : Math.round(ms * 0.62));
-    setTimeout(behindOff, ms + 260);
+    setTimeout(() => { if (hasBehind) QUIET = true; goBack(navigate, fromIdx); if (hasBehind) waitDestination(els[0], fromIdx); }, hasBehind ? ms + 20 : Math.round(ms * 0.62));
     // rete di sicurezza: se per qualunque motivo la pagina non cambia, si ripristina tutto (mai schermo nero)
     setTimeout(() => { const sh = document.getElementById('sl-shell'); if (sh && sh === els[0] && sh.isConnected) pageReset(false); }, ms + 900);
   });

@@ -87,11 +87,10 @@ export function useTeamView(team, slot, baseComps, defComp, allowAll = false) {
   const base = new Set(baseComps.map((c) => c.id));
   let comps = comps0;
   if (hist) {
+    // la tendina competizioni elenca SEMPRE tutte quelle giocate dalla squadra in tutta la sua storia (qualunque stagione sia scelta);
+    // sono le stagioni ad adattarsi alla competizione, non il contrario
     const ever = Object.keys(hist).sort((a, b) => String(hist[b][0]).localeCompare(String(hist[a][0])));
-    comps = season === 'cur'
-      ? [...baseComps, ...ever.filter((id) => !base.has(id)).map(leagueById).filter(Boolean)]
-      : [...new Set([...comps0.map((c) => c.id).filter((id) => !hist[id] || hist[id].includes(season)), ...ever.filter((id) => hist[id].includes(season))])].map(leagueById).filter(Boolean);
-    if (!comps.length) comps = comps0;
+    comps = [...baseComps, ...ever.filter((id) => !base.has(id)).map(leagueById).filter(Boolean)];
   }
   const okComp = comp === 'all' ? allowAll : comps.some((c) => c.id === comp);
   const compEff = okComp ? comp : (allowAll ? 'all' : (comps[0] ? comps[0].id : comp));
@@ -114,8 +113,13 @@ export function useTeamView(team, slot, baseComps, defComp, allowAll = false) {
   const lg = compEff !== 'all' ? leagueById(compEff) : null;
   const arch = lg && lg.extra && RAW.extra && RAW.extra.sk ? RAW.extra.sk[String(lg.fm)] : null;
   const eff = sk === 'cur' && arch ? arch : sk;
-  // cambiando competizione la stagione riparte da "Attuale" (o dalla piu' recente se non la gioca piu')
-  const setComp = (c) => { setComp0(c); if (!base.has(c) && c !== 'all') setSeason('cur'); };
+  // scegliendo una competizione che la squadra non ha giocato nella stagione selezionata, la stagione torna ad "Attuale"
+  // (o alla piu' recente in cui l'ha giocata se oggi non c'e')
+  const setComp = (c) => {
+    setComp0(c);
+    if (c !== 'all' && season !== 'cur' && hist && hist[c] && !hist[c].includes(season)) setSeason('cur');
+    else if (c !== 'all' && season !== 'cur' && !hist) setSeason('cur');
+  };
   return { comp: compEff, setComp, season: sk, eff, setSeason, comps, seasons, fm: FM_ID[compEff], noCur };
 }
 

@@ -1,6 +1,6 @@
 // Giocatori che non sono nell'elenco attuale (ritirati, stagioni passate, altri campionati):
 // si costruisce lo stesso oggetto giocatore dai dati dell'archivio, cosi' la scheda e' identica per tutti.
-import { loadPlayerStats, loadSeason, playerSeasons, playerFace, FM_ID } from './archive';
+import { loadPlayerStatsFor, loadSeason, playerSeasons, playerFace, FM_ID } from './archive';
 import { registerPlayer, playerById } from './players';
 import { ensureTeam } from './teams';
 import { loadCarriere, setCarriere } from './carriere';
@@ -37,7 +37,7 @@ export async function makeArchivePlayer(fm, sk, pid) {
   const rp = rosePlayer(pid);
   const R = rp ? rp.r : null;
   const lid = LID_BY_FM[Number(fm)] || null;
-  const [st, season] = await Promise.all([loadPlayerStats(fm, sk), loadSeason(fm, sk)]);
+  const [st, season] = await Promise.all([loadPlayerStatsFor(fm, sk, pid), loadSeason(fm, sk)]);
   // senza statistiche (appena arrivato): si usano i dati della rosa
   const hit = rowsOf(st, pid) || (R ? { me: [pid, R[1], null, null, 0, 0], by: {} } : null);
   if (!hit) return null;
@@ -62,7 +62,7 @@ export async function makeArchivePlayer(fm, sk, pid) {
     const list = await playerSeasons(fm, pid);
     const all = [...new Set([...list, sk])].sort().reverse();
     car = (await Promise.all(all.map(async (s) => {
-      const [ss, sn] = await Promise.all([loadPlayerStats(fm, s), loadSeason(fm, s)]);
+      const [ss, sn] = await Promise.all([loadPlayerStatsFor(fm, s, pid), loadSeason(fm, s)]);
       const h = rowsOf(ss, pid);
       if (!h) return null;
       const y = Number(String(s).slice(0, 4));

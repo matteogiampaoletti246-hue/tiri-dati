@@ -114,7 +114,8 @@ export function StandingsPanel({ season, fm, sk, highlight = null }) {
   const rows = forma
     ? (t.all || []).map((r) => { const f = (fm5[r.id] || []).slice(-5); return { ...r, f, fp: f.reduce((x, c) => x + (c === 'V' ? 3 : c === 'S' ? 1 : 0), 0) }; }).sort((a, b) => b.fp - a.fp || b.pts - a.pts)
     : (t[mode] || t.all || []);
-  const legend = season.legend || [];
+  // la leggenda c'e' solo se le righe hanno davvero le lineette colorate
+  const legend = (t.all || []).some((r) => r.qualColor) ? (season.legend || []) : [];
   const cols = forma ? COLS_F : COLS;
   const head = forma ? ['#', 'Squadra', 'Ultime 5', 'Pt'] : ['#', 'Squadra', 'PG', 'V', 'N', 'P', 'GF:GS', 'Pt'];
   return (

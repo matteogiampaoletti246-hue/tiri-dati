@@ -1,3 +1,4 @@
+import PlayerPhoto from '@/components/PlayerPhoto';
 import { useModalLock } from '@/lib/modal';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
@@ -75,7 +76,7 @@ function Face({ c, size = 76 }) {
   return (
     <span className="relative inline-block shrink-0" style={{ width: size, height: size }}>
       <span className="block h-full w-full overflow-hidden rounded-full" style={{ background: t ? `linear-gradient(150deg, ${t.colors[0]}, ${t.colors[1]})` : 'var(--hair)' }}>
-        {c.photo ? <img src={c.photo} alt={c.name} className="h-full w-full object-cover" decoding="async" /> : null}
+        <PlayerPhoto src={c.photo} alt={c.name} />
       </span>
       {c.rating != null ? (
         <span className="tnum absolute -bottom-1 -right-2 rounded-full px-[7px] py-[2px] text-[12px] font-extrabold text-white" style={{ background: tone(c.rating), border: '2px solid var(--sky-2)' }}>{comma(c.rating, 1)}</span>
