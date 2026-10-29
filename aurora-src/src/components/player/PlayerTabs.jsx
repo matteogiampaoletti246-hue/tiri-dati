@@ -579,7 +579,13 @@ export function mergeConsecutive(rows) {
   return out;
 }
 
-function CareerRows({ rows }) {
+// Nazionali: la bandiera e' quella del paese anche per Under (U15-U23), femminili, olimpica, B (stessa bandiera)
+const natBase = (n) => { let x = String(n || '').trim(); for (let i = 0; i < 3; i++) x = x.replace(/\s*\(?\b(U-?\d{2}|Women|W|Olympic|Olympics|Amateur|B)\b\)?$/i, '').trim(); return x; };
+const NatFlag = ({ name, size = 30 }) => (
+  <span className="inline-flex shrink-0 items-center justify-center rounded-full" style={{ width: size, height: size, fontSize: size * 0.62, lineHeight: 1, background: 'rgba(255,255,255,.08)' }} aria-hidden="true">{flagOf(natBase(name))}</span>
+);
+
+function CareerRows({ rows, national }) {
   return (
     <div className="flex flex-col gap-2.5">
       {rows.map(({ r, loan, from }, i) => {
@@ -587,7 +593,7 @@ function CareerRows({ rows }) {
         const cols = fixedColors(r[0]) || (t && t.colors) || ['#37507a', '#5a7bb0'];
         return (
           <div key={i} className="flex items-center gap-3 rounded-2xl px-3.5 py-3" style={{ background: teamGrad({ colors: cols }, 0x55) }}>
-            <Crest team={t || { name: r[0], initials: String(r[0] || '').slice(0, 2).toUpperCase(), colors: ['#37507a', '#5a7bb0'] }} size={30} />
+            {national && flagOf(natBase(r[0])) ? <NatFlag name={r[0]} /> : <Crest team={t || { name: r[0], initials: String(r[0] || '').slice(0, 2).toUpperCase(), colors: ['#37507a', '#5a7bb0'] }} size={30} />}
             <div className="min-w-0 flex-1">
               <p className="flex items-center gap-1.5 text-[14px]" style={{ color: 'var(--ink)' }}>
                 <span className="truncate">{r[0]}</span>{loan ? <span className="shrink-0 rounded-full px-1.5 text-[9.5px]" style={{ color: 'var(--ink-3)', border: '1px solid var(--hair-2)' }}>PRESTITO{from ? ` · ${from}` : ''}</span> : null}
@@ -638,8 +644,8 @@ export function CarrieraPanel({ player }) {
   return (
     <div className="px-5 pb-8 pt-5">
       {senior.length ? <CareerRows rows={senior} /> : null}
-      {nat.length ? <><Title>Nazionale</Title><CareerRows rows={nat} /></> : null}
-      {youth.length ? <><Title>Giovanili</Title><CareerRows rows={youth} /></> : null}
+      {nat.length ? <><Title>Nazionale</Title><CareerRows rows={nat} national /></> : null}
+      {youth.length ? <><Title>Giovanili</Title><CareerRows rows={youth} national /></> : null}
     </div>
   );
 }
