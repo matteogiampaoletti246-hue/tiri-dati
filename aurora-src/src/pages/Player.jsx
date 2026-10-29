@@ -18,7 +18,8 @@ import { teamById } from '@/data/teams';
 import { loadPlayerShots } from '@/data/extras';
 import { loadCarriere, careerByFm, carriereOf } from '@/data/carriere';
 import { POS_IT } from '@/components/player/playerCalc';
-import { ProfiloPanel, PartitePanel, StatistichePanel, CarrieraPanel } from '@/components/player/PlayerTabs';
+import { ProfiloPanel, PartitePanel, StatistichePanel, CarrieraPanel, playerHasCurStats } from '@/components/player/PlayerTabs';
+import { usePlayerCareer } from '@/data/playerIndex';
 
 const TABS = [
   { key: 'profilo', label: 'Profilo' },
@@ -74,6 +75,9 @@ function PlayerView({ id }) {
   const { data: carRec } = useAsync(() => (pid ? careerByFm(pid) : Promise.resolve(null)), [pid]);
   const cOld = carriereOf(id);
   const hasCar = !!(carRec && ((carRec.car || []).length || (carRec.yo || []).length || (carRec.nt || []).length)) || !!(cOld && cOld.ok && cOld.car && cOld.car.length);
+  // Statistiche solo se il giocatore ha dati in almeno una stagione/competizione (dati dell'app o indice giocatori pidx)
+  const car = usePlayerCareer(player);
+  const hasStats = playerHasCurStats(player) || !!car.loading || car.rows.length > 0;
   const change = (i) => {
     setTab(i);
     try {
@@ -97,13 +101,15 @@ function PlayerView({ id }) {
   const team = teamById(player.teamId);
   const club = team && team.colors ? team.colors[0] : '#2C3E66';
   const wrap = (a, n) => <div key={n.key} className="club-scope" style={{ '--club': club, '--club-a': a }}>{n}</div>;
-  const panels = [
+  const all = [
     wrap('28%', <ProfiloPanel key="p" player={player} team={team} concept="c" />),
     wrap('20%', <PartitePanel key="m" player={player} concept="b" />),
     wrap('16%', <StatistichePanel key="s" player={player} team={team} />),
     <CarrieraPanel key="c" player={player} team={team} concept="b" />,
-  ].slice(0, hasCar ? 4 : 3);
-  const tabs = hasCar ? TABS : TABS.slice(0, 3);
+  ];
+  const keep = TABS.map((t) => (t.key === 'stat' ? hasStats : t.key === 'carriera' ? hasCar : true));
+  const panels = all.filter((_, i) => keep[i]);
+  const tabs = TABS.filter((_, i) => keep[i]);
 
   return (
     <PageShell swipeBack={false}>

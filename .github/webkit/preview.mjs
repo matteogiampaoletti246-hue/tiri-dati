@@ -195,6 +195,68 @@ await step('competizioni: tutte per paese, ognuna con la sua scheda', async () =
   await shot('competizione-da-elenco');
 });
 
+// Statistiche giocatore (regola): dati solo nel passato -> stagione attuale con "Dati non disponibili" e tendina verso le stagioni con dati;
+// dati nella stagione attuale -> statistiche subito; nessun dato in nessuna stagione -> niente scheda Statistiche.
+await step('statistiche giocatore: dati solo nel passato, nella stagione attuale, nessun dato', async () => {
+  const rose = await getJson('rose.json');
+  const idx = await getJson('arch/index.json');
+  const lab = (sk) => { const m = /^(\d{4})-(\d{4})(.*)$/.exec(sk); return m ? `${m[1]}/${m[2].slice(2)}${m[3].replace(' - ', ' ')}` : sk; };
+  const sh = {};
+  const rowsOf = async (pid) => { const n = Number(pid) % 100; if (!sh[n]) sh[n] = (await getJson(`pidx/${n}.json`)) || {}; const e = sh[n][String(pid)]; return e ? e.slice(1) : null; };
+  const FM = { eredivisie: 57, 'super-lig': 71, 'liga-portugal': 61, 'pro-league': 40, championship: 48, 'serie-b': 86 };
+  const pick = { past: null, cur: null, none: null };
+  for (const t of Object.values(rose || {})) {
+    const fm = FM[t.lg];
+    if (!fm || !idx || !idx[fm]) continue;
+    const cur = [...idx[fm].s].sort().reverse()[0];
+    for (const r of t.p || []) {
+      if (pick.past && pick.cur && pick.none) break;
+      const rows = await rowsOf(r[0]);
+      const one = { pid: r[0], name: r[1], fm, cur };
+      if (!rows || !rows.length) { if (!pick.none) pick.none = one; continue; }
+      const hasCur = rows.some((x) => String(x[0]) === String(fm) && x[1] === cur);
+      const pastHere = rows.filter((x) => String(x[0]) === String(fm) && x[1] < cur);
+      if (hasCur && !pick.cur) pick.cur = one;
+      if (!rows.some((x) => String(x[1]).slice(0, 4) >= String(cur).slice(0, 4)) && pastHere.length && !pick.past) pick.past = { ...one, sk: pastHere[0][1] };
+    }
+    if (pick.past && pick.cur && pick.none) break;
+  }
+  report.statCasi = pick;
+  const open = async (x) => {
+    await go(`#/giocatore/${encodeURIComponent(`fm~${x.fm}~${x.cur}~${x.pid}`)}`, 2500);
+    await pg.waitForFunction(() => document.querySelectorAll('.tab-btn').length > 0, null, { timeout: 25000 }).catch(() => {});
+    await wait(2500); // indice giocatori arrivato: le schede sono quelle definitive
+    return pg.evaluate(() => [...document.querySelectorAll('.tab-btn')].map((b) => b.textContent.trim()));
+  };
+  if (pick.past) {
+    const tabs = await open(pick.past);
+    ok('statistiche: con dati solo nel passato la scheda Statistiche c\'e\'', tabs.includes('Statistiche'), { tabs, p: pick.past });
+    await clickText('Statistiche'); await wait(2500);
+    const t = await pg.evaluate(() => document.body.innerText);
+    ok('statistiche: stagione attuale senza dati = "Dati non disponibili" (un solo messaggio, niente "–")', /Dati non disponibili/.test(t) && (t.match(/Dati non disponibili/g) || []).length === 1 && !/Nessuna presenza/.test(t), { t: t.slice(0, 300) });
+    await shot('statistiche-solo-passato');
+    // tendina stagioni: si passa a una stagione con dati e le statistiche compaiono subito
+    await clickText(lab(pick.past.cur)); await wait(600);
+    const chose = await clickText(lab(pick.past.sk)); await wait(2500);
+    const t2 = await pg.evaluate(() => document.body.innerText);
+    ok('statistiche: dalla tendina una stagione passata mostra le statistiche', chose && /presenze/i.test(t2) && !/Dati non disponibili/.test(t2), { sk: pick.past.sk, chose });
+    await shot('statistiche-stagione-passata');
+  } else ok('statistiche: nessun giocatore con dati solo nel passato (prova saltata)', true);
+  if (pick.cur) {
+    await open(pick.cur);
+    await clickText('Statistiche'); await wait(2500);
+    const t = await pg.evaluate(() => document.body.innerText);
+    ok('statistiche: con dati nella stagione attuale si vedono subito', /presenze/i.test(t) && !/Dati non disponibili/.test(t), { p: pick.cur });
+  }
+  if (pick.none) {
+    const tabs = await open(pick.none);
+    await wait(2500);
+    const tabs2 = await pg.evaluate(() => [...document.querySelectorAll('.tab-btn')].map((b) => b.textContent.trim()));
+    ok('statistiche: senza dati in nessuna stagione la scheda Statistiche non c\'e\'', tabs2.length > 0 && !tabs2.includes('Statistiche'), { tabs: tabs2, p: pick.none });
+    await shot('statistiche-nessun-dato');
+  }
+});
+
 await step('barra in basso resta ferma scorrendo', async () => {
   await pg.goto(APP); await wait(7000);
   const res = [];
@@ -564,11 +626,12 @@ await step('home: la fotografia sotto lo swipe indietro e\' alla stessa altezza 
   for (const t of [...new Set(days)].slice(0, 9)) {
     await pg.evaluate((tt) => { const e = [...document.querySelectorAll('button,div')].filter((x) => (x.textContent || '').trim().slice(0, 8) === tt && x.children.length < 4).pop(); if (e) e.click(); }, t);
     await wait(1600);
-    const n = await pg.evaluate(() => document.querySelectorAll('a[href*="/match/"]').length);
+    // solo il giorno visibile (i giorni vicini sono costruiti accanto, fuori schermo)
+    const n = await pg.evaluate(() => [...document.querySelectorAll('a[href*="/match/"]')].filter((x) => { const r = x.getBoundingClientRect(); return r.width > 0 && r.left > -5 && r.left < innerWidth - 5; }).length);
     if (n > best.n) best = { n, t };
   }
   if (best.t) { await pg.evaluate((tt) => { const e = [...document.querySelectorAll('button,div')].filter((x) => (x.textContent || '').trim().slice(0, 8) === tt && x.children.length < 4).pop(); if (e) e.click(); }, best.t); await wait(2500); }
-  await pg.evaluate(() => { const l = [...document.querySelectorAll('a[href*="/match/"]')]; const a = l[Math.min(20, l.length - 1)]; window.scrollTo(0, Math.max(0, a.getBoundingClientRect().top + scrollY - 300)); });
+  await pg.evaluate(() => { const l = [...document.querySelectorAll('a[href*="/match/"]')].filter((x) => { const r = x.getBoundingClientRect(); return r.width > 0 && r.left > -5 && r.left < innerWidth - 5; }); const a = l[Math.min(20, l.length - 1)]; window.scrollTo(0, Math.max(0, a.getBoundingClientRect().top + scrollY - 300)); });
   await wait(900);
   const pre = await pg.evaluate(() => { const l = [...document.querySelectorAll('a[href*="/match/"]')].filter((a) => { const r = a.getBoundingClientRect(); return r.top > 150 && r.bottom < innerHeight - 100; }); const a = l[0] || document.querySelector('a[href*="/match/"]'); return { id: a.getAttribute('href'), top: Math.round(a.getBoundingClientRect().top), sy: Math.round(scrollY) }; });
   await pg.evaluate((h) => document.querySelector(`a[href="${h}"]`).click(), pre.id);
