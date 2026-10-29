@@ -126,6 +126,9 @@ export default function SearchOverlay({ open, onClose }) {
                       {l.country ? <span className="shrink-0 text-[11.5px]" style={{ color: 'var(--ink-3)' }}>{l.country}</span> : null}
                     </Row>
                   ))}
+                  <Row key="all" onClick={() => go('/competizioni')}>
+                    <span className="text-[13.5px] font-bold" style={{ color: 'var(--accent)' }}>Tutte le competizioni per paese</span>
+                  </Row>
                 </Section>
               ) : null}
               {teams.length ? (

@@ -310,14 +310,19 @@ export default function Bracket({ fm, sk }) {
   const hit = sk ? peekBracket(fm, sk) : null;
   const { data: d0, loading } = useAsync(() => (sk ? loadBracket(fm, sk) : null), [fm, sk]);
   // risultati arrivati dopo (stagione in corso): stesso componente, dati ricalcolati
+  // (solo aggiornamenti arrivati dopo la comparsa e solo se i risultati cambiano: niente ridisegno durante lo swipe d'entrata)
   const ver = useArchFresh(fm, sk);
+  const ver0 = useRef(ver);
   const [fresh, setFresh] = useState(null);
   useEffect(() => {
-    if (!ver || !sk) return undefined;
+    if (ver === ver0.current || !sk) return undefined;
+    ver0.current = ver;
     let on = true;
-    loadBracket(fm, sk).then((d) => { if (on && d && d.rounds) setFresh({ k: `${fm}-${sk}`, d }); });
+    const sig = (d) => (d && d.rounds ? d.rounds.map((r) => r.ties.map((t) => `${t.a}${t.b}${t.sa}${t.sb}${t.win}`).join()).join('|') : '');
+    const cur = (fresh && fresh.d) || d0 || hit;
+    loadBracket(fm, sk).then((d) => { if (on && d && d.rounds && sig(d) !== sig(cur)) setFresh({ k: `${fm}-${sk}`, d }); });
     return () => { on = false; };
-  }, [ver, fm, sk]);
+  }, [ver, fm, sk]); // eslint-disable-line react-hooks/exhaustive-deps
   const data = (fresh && fresh.k === `${fm}-${sk}` && fresh.d) || d0 || hit;
   if (loading && !data) return <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Carico il tabellone…</p>;
   if (!data || !data.rounds || !data.rounds.length) {

@@ -11,6 +11,7 @@ import { perfEnabled, setPerf } from '@/lib/perfMon';
 
 const ITEMS = [
   { label: 'Home', to: '/' },
+  { label: 'Competizioni', to: '/competizioni' },
   { label: 'Calcolatore di Affidabilità', to: '/calcolatore' },
   { label: 'Migliori Giocatori', to: '/migliori-giocatori' },
   { label: 'Migliori Matchup', to: '/migliori-matchup' },

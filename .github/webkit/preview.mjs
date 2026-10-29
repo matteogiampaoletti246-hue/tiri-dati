@@ -116,7 +116,11 @@ await step('home: competizioni dell\'archivio nei giorni in cui giocano', async 
   const known = new Set([47, 87, 54, 53, 55, 42, 73, 10216, 57, 71, 61, 40, 64, 38, 59, 135, 48, 86, 146, 140, 110, 185, 111, 165, 268, 112, 130, 230, 141, 209, 134, 186, 133, 149, 278, 180, 9067]);
   const want = new Set(((feed && feed.m) || []).filter((x) => x[8] !== 'c' && !known.has(Number(x[1])) && idx && idx[String(x[1])]).map((x) => String(idx[String(x[1])].n).toUpperCase()));
   await pg.goto(APP); await wait(8000);
-  const info = await groupsInfo();
+  // solo il giorno visibile (i giorni vicini sono gia' costruiti accanto, fuori schermo)
+  const info = await pg.evaluate(() => [...document.querySelectorAll('section button[aria-expanded]')].filter((b) => { const r = b.getBoundingClientRect(); return r.left > -5 && r.left < innerWidth - 5; }).map((b) => {
+    const a = b.closest('section').querySelector('[role="link"]');
+    return { name: (a ? a.textContent : '').trim().toUpperCase(), open: b.getAttribute('aria-expanded') === 'true' };
+  }));
   const names = info.map((g) => g.name);
   // nomi uguali a quelli di altri paesi hanno il paese tra parentesi ("PREMIER LEAGUE (EGITTO)")
   const isW = (name) => !TOPNAMES.includes(name) && [...want].some((n) => name === n || name.startsWith(`${n} (`));
@@ -173,6 +177,22 @@ await step('squadra di una competizione dell\'archivio: scheda unica da id FotMo
   const t2 = await pg.evaluate(() => document.body.innerText);
   ok('squadra archivio: /squadra/fm-<id> aperto da zero mostra la scheda', t2.includes(pick.name) && !/Squadra non trovata/.test(t2));
   await shot('squadra-archivio-link');
+});
+
+// Pagina Competizioni (Menu e ricerca): tutte le competizioni raggruppate per paese, ognuna apre la sua scheda.
+await step('competizioni: tutte per paese, ognuna con la sua scheda', async () => {
+  await go('#/competizioni', 6000);
+  const r = await pg.evaluate(() => ({ rows: document.querySelectorAll('a[href*="/campionato/"]').length, heads: [...document.querySelectorAll('section p.label-sm')].map((x) => x.textContent.trim()) }));
+  ok('competizioni: oltre 300 competizioni in elenco', r.rows >= 300, { rows: r.rows });
+  ok('competizioni: internazionali in cima, poi Italia', r.heads[0] === 'Internazionali' && r.heads.indexOf('Italia') > 0 && r.heads.indexOf('Italia') < 4, { heads: r.heads.slice(0, 6) });
+  const t = await pg.evaluate(() => document.body.innerText);
+  ok('competizioni: niente "non disponibile"', !ND.test(t));
+  await shot('competizioni');
+  await pg.evaluate(() => { const a = [...document.querySelectorAll('a[href*="/campionato/fm-"]')][5]; if (a) a.click(); });
+  await wait(5000);
+  const tabs = await pg.evaluate(() => [...document.querySelectorAll('.tab-btn')].map((x) => x.textContent.trim()));
+  ok('competizioni: una competizione dell\'archivio apre la scheda con le sue schede', tabs.length >= 1, { tabs, hash: await pg.evaluate(() => location.hash) });
+  await shot('competizione-da-elenco');
 });
 
 await step('barra in basso resta ferma scorrendo', async () => {
@@ -688,6 +708,8 @@ await step('swipe indietro da partite squadra: banner e schede nella fotografia 
 });
 await step('swipe indietro verso la Home: giorno scelto al centro anche nella fotografia', async () => {
   await go('#/', 6000);
+  // la Home puo' riaprirsi all'altezza lasciata dal passo prima: qui si misura la striscia dei giorni, che sta in cima
+  await pg.evaluate(() => window.scrollTo(0, 0)); await wait(400);
   await pg.waitForFunction(() => [...document.querySelectorAll('a[href*="/match/"]')].some((x) => { const r = x.getBoundingClientRect(); return r.top > 150 && r.bottom < innerHeight - 90 && r.left >= 0 && r.left < 200; }), null, { timeout: 30000 }).catch(() => {});
   const real = await pg.evaluate(() => { const a = document.querySelector('#sl-shell [data-active="1"]'); if (!a) return null; const r = a.getBoundingClientRect(); return Math.round(r.left + r.width / 2); });
   await pg.evaluate(() => { const a = [...document.querySelectorAll('a[href*="/match/"]')].find((x) => { const r = x.getBoundingClientRect(); return r.top > 150 && r.bottom < innerHeight - 90 && r.left >= 0 && r.left < 200; }); if (a) a.click(); });
