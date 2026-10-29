@@ -1,9 +1,18 @@
+import { lruGet, lruSet } from '@/lib/lru';
 // Archivio storico (FotMob): classifiche, calendari, statistiche stagionali e dettaglio partite dal 2010.
 // I file stanno nel repository dati (arch/ e partite/) e si scaricano solo quando servono.
 import { BASE } from './load';
 
-const cache = {};
-const once = (key, fn) => { if (!cache[key]) cache[key] = fn().catch(() => null); return cache[key]; };
+// file scaricati una volta sola; quelli grandi (partite della stagione .gz, statistiche) con capienza fissa: la memoria non cresce all'infinito
+const cache = new Map();
+const cap = (key) => (/\.gz$/.test(key) ? 10 : /_s\.json$|^(sfm|tps)\//.test(key) ? 30 : 0);
+const BIG = new Map();
+const once = (key, fn) => {
+  const c = cap(key);
+  if (c) { const hit = lruGet(BIG, key); if (hit) return hit; const p = fn().catch(() => null); lruSet(BIG, key, p, c); return p; }
+  if (!cache.has(key)) cache.set(key, fn().catch(() => null));
+  return cache.get(key);
+};
 const json = (path) => once(path, () => fetch(`${BASE}${path}`).then((r) => (r.ok ? r.json() : null)));
 const gz = (path) => once(path, async () => {
   const r = await fetch(`${BASE}${path}`);

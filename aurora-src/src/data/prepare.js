@@ -1,3 +1,4 @@
+import { lruSet } from '@/lib/lru';
 // Prepara una partita PRIMA di mostrarla: calendario della stagione (archivio), dettaglio, FotMob, riserve.
 // Una sola promessa per partita: la Home la avvia appena si tocca la riga, la pagina la riusa (niente caricamento a due tempi).
 import { matchById, ensureDetail } from './matches';
@@ -9,8 +10,11 @@ import { isPureCup, loadBracket } from './bracket';
 import { loadWeather } from './weather';
 import { archIndex } from './archive';
 import { loadRose } from './rose';
+import { BASE } from './load';
 
 const P = new Map();
+let AR = null;
+const arbitriExtra = () => { if (!AR) AR = fetch(`${BASE}arbitri_extra.json`, { cache: 'no-cache' }).then((r) => (r.ok ? r.json() : {})).catch(() => ({})); return AR; };
 
 const fresh = (id, e) => {
   const m = matchById(id);
@@ -39,6 +43,12 @@ export function prepareMatch(id, force = false) {
       await loadFm(matchById(id), playerLookup, force);
       const mm = matchById(id);
       if (mm && mm.archive && !mm.detail) applyArchiveFallback(mm);
+      // arbitro designato da altre fonti (arbitri_extra.py) se FotMob non lo da' ancora
+      if (mm && mm.extra && !mm.refereeName && mm.fmId) {
+        const ar = await Promise.race([arbitriExtra(), new Promise((r) => setTimeout(() => r(null), 1500))]);
+        const hit = ar && ar[String(mm.fmId)];
+        if (hit && hit.n) mm.refereeName = hit.n;
+      }
       // tabellone (coppe) e meteo pronti prima di mostrare la partita: si sa subito quali schede/voci hanno dati e niente arriva dopo
       if (mm) {
         const cap = (p, ms) => Promise.race([p.catch(() => null), new Promise((r) => setTimeout(r, ms))]);
@@ -56,6 +66,7 @@ export function prepareMatch(id, force = false) {
     entry.at = Date.now();
     return matchById(id);
   })();
-  P.set(id, entry);
+  // al massimo 30 partite pronte in memoria: le piu' vecchie lasciano i dati pesanti (partite della stagione) e si ricostruiscono se riaperte
+  lruSet(P, id, entry, 30, (oldId) => { const om = matchById(oldId); if (om && om.archive && oldId !== id) { om.det = null; om.moreDet = null; om.archReady = false; om._km = null; } });
   return entry.p;
 }

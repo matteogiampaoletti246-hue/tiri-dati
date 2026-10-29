@@ -167,7 +167,8 @@ export function installBackSnaps() {
     try {
       const idx = histIdx();
       const g = grab();
-      if (g) { SNAPS.set(idx, g); [...SNAPS.keys()].filter((k) => k < idx - 8).forEach((k) => SNAPS.delete(k)); }
+      // solo le ultime 5 fotografie (e nessuna della cronologia 'avanti', ormai irraggiungibile): la memoria resta piccola anche dopo 40+ pagine
+      if (g) { SNAPS.set(idx, g); [...SNAPS.keys()].filter((k) => k < idx - 5 || k > idx).forEach((k) => SNAPS.delete(k)); }
     } catch (e) { /* senza fotografia: si torna indietro come prima */ }
     const r = ps(...a);
     warmLater();

@@ -9,7 +9,10 @@ import { slug } from './util';
 import { applyRefExtra } from './archiveMatch';
 
 const dayCache = {};
+// dettagli FotMob (pesanti): solo gli ultimi 12
 const fxCache = {};
+const fxOrder = [];
+const fxKeep = (id) => { const i = fxOrder.indexOf(id); if (i >= 0) fxOrder.splice(i, 1); fxOrder.push(id); while (fxOrder.length > 12) delete fxCache[fxOrder.shift()]; };
 
 const jget = async (url) => {
   const r = await fetch(url, { cache: 'no-store' });
@@ -253,6 +256,7 @@ export async function loadFm(m, playerLookup, force = false) {
     else {
       d = await jget(`${WORKER}/fx?id=${id}`);
       fxCache[id] = { at: Date.now(), d };
+      fxKeep(id);
     }
     applyFm(m, d, playerLookup);
   } catch {
@@ -339,6 +343,7 @@ export function refreshStatus() {
           const c = fxCache[m.fmId];
           const d = c && Date.now() - c.at < 8000 ? c.d : await jget(`${WORKER}/fx?id=${m.fmId}`);
           fxCache[m.fmId] = { at: Date.now(), d };
+          fxKeep(m.fmId);
           if (applyStatus(m, { fin: d.fin, st: d.st, sc: d.sc && d.sc[0] != null ? [Number(d.sc[0]), Number(d.sc[1])] : null, clk: d.clk, ht: d.ht })) changed += 1;
         } catch { /* si riprova al prossimo giro */ }
       }

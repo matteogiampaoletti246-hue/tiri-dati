@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 // Risultato gia' ottenuto (stessa funzione, stesse dipendenze): si mostra subito al primo disegno, senza "Carico..."
 // e senza contenuto che arriva dopo spingendo giu' la pagina (tornando indietro, cambiando scheda, swipe).
 // La memoria e' limitata (le voci usate meno di recente si buttano).
-const MAX = 300;
+const MAX = 120;
 const MEM = new Map();
 const keyOf = (fn, deps) => {
   const parts = [];
