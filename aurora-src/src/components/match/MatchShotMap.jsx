@@ -5,7 +5,7 @@ import { comma } from '@/lib/format';
 import { teamGrad } from '@/lib/tint';
 import PlayerLink from './PlayerLink';
 import { findInMatch } from '@/data/playerSheet';
-import { ShotDot, BlockTrace, isBlocked, SHOT_HOME, SHOT_AWAY, SHOT_PITCH, SHOT_LINE, SHOT_GOALBG } from './ShotDot';
+import { ShotDot, ShotHit, BlockTrace, isBlocked, SHOT_HOME, SHOT_AWAY, SHOT_PITCH, SHOT_LINE, SHOT_GOALBG } from './ShotDot';
 
 // Mappa tiri stile "campo verde": casa attacca a sinistra, trasferta a destra.
 // Sotto il campo: le due porte viste da davanti. Toccando un tiro compare la scheda con i dettagli.
@@ -78,6 +78,7 @@ export default function MatchShotMap({ shots = [], home, away, match = null, lin
   const Dot = ({ s, cx, cy, r, active, onClick, k }) => (
     <g key={k} transform={`translate(${cx} ${cy})`} onClick={onClick} style={{ cursor: 'pointer' }}>
       {active ? <circle r={r + 1.6} fill="none" stroke="#f5a400" strokeWidth="0.7" /> : null}
+      <ShotHit />
       <ShotDot c={color(s)} goal={s.outcome === 'Gol'} on={!!s.onTarget} r={r} />
     </g>
   );

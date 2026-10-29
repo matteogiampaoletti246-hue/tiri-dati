@@ -21,6 +21,11 @@ export function BlockTrace({ x1, y1, x2, y2, stroke = '#0b1a10', w = 0.45 }) {
   );
 }
 
+// area di tocco ampia (~54 px) trasparente: i pallini sono piccoli, ma si toccano facilmente
+export function ShotHit({ r = 4.6 }) {
+  return <circle r={r} fill="transparent" />;
+}
+
 export function ShotDot({ c, goal, on, r }) {
   if (goal) {
     return (

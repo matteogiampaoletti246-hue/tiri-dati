@@ -27,15 +27,13 @@ export const EventIcon = ({ e, size = 18 }) => (e.type === 'goal' ? <BallIcon si
 
 // Assist: scarpino dorato (glifo)
 export function BootIcon({ size = 18 }) {
+  // scarpino basso, inclinato con la punta in basso a destra (collo a conchiglia, tacchetti sul lato inferiore)
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true">
-      <defs>
-        <linearGradient id="sl-gold" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#FFE58A" /><stop offset="55%" stopColor="#F2B825" /><stop offset="100%" stopColor="#C98A0C" /></linearGradient>
-      </defs>
-      <path d="M3.2 4h6.2v7.2c0 1.4 1 2.3 2.5 2.8l6.4 2c1.7.5 2.9 1.6 2.9 3.4V20H3.2z" fill="url(#sl-gold)" stroke="#6B4A06" strokeWidth="1.3" strokeLinejoin="round" />
-      <path d="M3.2 17.6h17.8" stroke="#6B4A06" strokeWidth="1.1" />
-      <path d="M5.2 20.2v2M9.6 20.2v2M14 20.2v2M18.4 20.2v2" stroke="#3E2A03" strokeWidth="1.7" strokeLinecap="round" />
-      <path d="M12.4 14.2l1.5-1.2M14.7 15l1.4-1.1" stroke="#6B4A06" strokeWidth="1" strokeLinecap="round" />
+    <svg width={size} height={size} viewBox="0 0 64 64" aria-hidden="true">
+      <defs><linearGradient id="sl-gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#FFD966" /><stop offset="100%" stopColor="#F2B825" /></linearGradient></defs>
+      <path d="M7 15Q8 9 15 9L22 9Q24 16 30 19Q34 12 37 10L41 11Q47 30 56 41Q61 47 58 53Q54 56 49 53L33 45Q16 38 9 31Q6 24 7 15Z" fill="url(#sl-gold)" />
+      <path d="M33 24Q40 36 47 44Q40 42 34 37Q31 30 33 24Z" fill="#B9810A" fillOpacity=".75" />
+      <path d="M12 33l-2 4.5M20 37.5l-2 4.5M28 41.5l-2 4.5M36 46l-2 4.5M44 50l-2 4.5" stroke="#B9810A" strokeWidth="3.2" strokeLinecap="round" />
     </svg>
   );
 }
