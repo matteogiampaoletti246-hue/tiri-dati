@@ -32,6 +32,7 @@ function NavGuard() {
   const loc = useLocation();
   const type = useNavigationType();
   const navigate = useNavigate();
+  window.__slNav = navigate; // navigazione dell'app (pushState) anche per le prove automatiche
   const prev = useRef(null);
   useLayoutEffect(() => {
     const p = prev.current;

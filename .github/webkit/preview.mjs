@@ -776,7 +776,8 @@ await step('campionati aggiunti: squadra della Liga MX (stagione con suffisso) c
   ok('liga mx: Giocatori con classifiche', n > 3, { n });
   await shot('liga-mx-giocatori');
   await pg.evaluate(() => { const a = [...document.querySelectorAll('a[href*="giocatore"]')].find((x) => x.getBoundingClientRect().height > 0); if (a) a.click(); });
-  await wait(3500); await ready(); await wait(1500);
+  await pg.waitForFunction(() => /giocatore/.test(location.hash) && [...document.querySelectorAll('.tab-btn')].some((x) => x.textContent.trim() === 'Carriera'), null, { timeout: 25000 }).catch(() => {});
+  await wait(1500);
   const tabs = await pg.evaluate(() => [...document.querySelectorAll('.tab-btn')].map((x) => x.textContent.trim()));
   await tabClick('Statistiche'); await wait(3500);
   const p = await pg.evaluate(() => document.body.innerText);
@@ -794,7 +795,8 @@ await step('formazioni dei campionati aggiunti: tasto Profilo e scheda completa'
   await wait(2500);
   const pr = await pg.evaluate(() => { const b = [...document.querySelectorAll('[role=dialog] button')].find((x) => x.textContent.trim() === 'Profilo'); if (b) { b.click(); return true; } return false; });
   ok(`x-${f[1]}: la finestra giocatore ha il tasto Profilo`, pr);
-  await wait(3500); await ready(); await wait(1500);
+  await pg.waitForFunction(() => /giocatore/.test(location.hash) && [...document.querySelectorAll('.tab-btn')].some((x) => x.textContent.trim() === 'Carriera'), null, { timeout: 25000 }).catch(() => {});
+  await wait(1000);
   const tabs = await pg.evaluate(() => [...document.querySelectorAll('.tab-btn')].map((x) => x.textContent.trim()));
   ok(`x-${f[1]}: Profilo apre la scheda completa`, /#\/giocatore\//.test(await pg.evaluate(() => location.hash)) && tabs.includes('Carriera'), { tabs });
 });
@@ -813,8 +815,7 @@ await step('squadre B separate dalla prima squadra (Real Sociedad B)', async () 
 await step('squadra: tendina competizioni con tutta la storia (indice tidx)', async () => {
   await go('#/campionato/austrian-cup', 3000); await ready(); await wait(1200);
   const href = await pg.evaluate(() => { const a = [...document.querySelectorAll('a[href*="squadra"]')].find((x) => /Wacker Innsbruck/.test(x.textContent)); return a ? a.getAttribute('href') : null; });
-  if (!href) { report.tidx = 'Wacker Innsbruck non in pagina'; return; }
-  await go(href, 3000); await ready(); await wait(1500);
+  await go(href || '#/squadra/fc-wacker-innsbruck', 3000); await ready(); await wait(1500);
   await tabClick('Classifica'); await wait(2500);
   try { await pg.locator('button.glass:visible', { has: pg.locator('b') }).first().click({ timeout: 4000 }); } catch (e) { report.errors.push('tidx ' + String(e).slice(0, 80)); }
   await wait(700);
@@ -867,7 +868,7 @@ await step('memoria: 40+ pagine di seguito, fotogrammi stabili e swipe indietro 
   let black = 0; let checked = 0;
   for (let i = 0; i < pages.length; i++) {
     // navigazione dell'app (pushState): cosi' si accumulano fotografie e cronologia come su iPhone
-    await pg.evaluate((h) => { location.hash = h.replace(/^#/, ''); }, pages[i]);
+    await pg.evaluate((h) => { const p = h.replace(/^#/, ''); if (window.__slNav) window.__slNav(p); else location.hash = p; }, pages[i]);
     await wait(i % 5 === 4 ? 2200 : 900);
     if (i % 6 === 5) {
       // swipe indietro a meta': sotto deve esserci la fotografia della pagina precedente
