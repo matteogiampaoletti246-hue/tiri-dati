@@ -10,7 +10,7 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 
 ## Stagioni e competizioni
 - Il tasto stagione elenca SOLO le stagioni in cui squadra/giocatore ha davvero giocato quella competizione (`useSeasonList`, `teamSeasons`, `playerSeasons`).
-- Il tasto competizione è legato alla stagione scelta (`useSeasonComps`, `useTeamView` in `components/past/PastBits.jsx`): "Tutte le competizioni" mostra solo quelle giocate in quella stagione. Valido per ogni squadra e per le competizioni aggiunte in futuro.
+- La tendina COMPETIZIONI di una squadra mostra SEMPRE tutte le competizioni giocate in tutta la sua storia (indice `tidx`, `useTeamView` in `components/past/PastBits.jsx`), qualunque stagione sia scelta; la tendina STAGIONI si adatta alla competizione scelta. Scegliendo una competizione non giocata nella stagione selezionata la stagione torna ad "Attuale" (o alla piu' recente giocata). Vale per ogni squadra e per le competizioni aggiunte in futuro.
 - Stagione e competizione scelte si ricordano finché la scheda resta nella pila (apro un giocatore e torno indietro); aprendo una scheda da zero si riparte da "Attuale" (`useEntityScope`, `useSel`). Una stagione richiesta da un link vale una sola volta (`initSeason`).
 - Nomi squadra tra fonti diverse: `teamIdByName` (alias, sigla, mai due squadre simili).
 - Stagioni passate: stesse pillole della stagione attuale (Totale/Casa/Trasferta, Tutte/Attacco/Difesa/Disciplina/Gioco).
@@ -109,7 +109,7 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 - Prima si abbina per id FotMob (anche dallo stemma `teamlogo/<id>.png`), poi per nome. `sameSquad` (`data/teamMatch.js`): nomi che differiscono per B, II, III, U19/U21/U23, Reserves, Castilla, Jong, Promesas, femminili, ecc. non sono mai la stessa squadra (`findAppTeam`, `teamIdByName`, `roseOf`, feed live).
 
 ## Competizioni di una squadra: tutta la storia
-- Indice `tidx/<id%100>.json` (`squadre_indice.py`, workflow `squadre_indice.yml`, ogni giorno): per id FotMob tutte le competizioni/stagioni dal 2010. `useTeamView`: con "Attuale" la tendina competizioni elenca tutte quelle giocate; con una stagione passata solo quelle di quell'anno; scelta una competizione le stagioni sono solo quelle giocate; una competizione non piu' giocata parte dalla stagione piu' recente (niente "Attuale", `noCur`).
+- Indice `tidx/<id%100>.json` (`squadre_indice.py`, workflow `squadre_indice.yml`, ogni giorno): per id FotMob tutte le competizioni/stagioni dal 2010. `useTeamView`: la tendina competizioni elenca sempre tutte quelle giocate (anche con una stagione passata scelta); scelta una competizione le stagioni sono solo quelle giocate; una competizione non piu' giocata parte dalla stagione piu' recente (niente "Attuale", `noCur`).
 
 ## Numeri da tenere d'occhio (tutte le partite)
 - `matchKeyNumbers` (`data/extras.js`): un solo calcolo per top campionati (`metricOf`) e campionati/coppe aggiunti (`archiveMetrics`, altrimenti `listMetrics`). Per ogni statistica di `CATEGORY_DEFS` la posizione nel proprio campionato (1° = migliore; statistiche negative al contrario): solo le squadre tra le prime o le ultime (~12%, almeno 2), con valore e posizione, casa e trasferta alternate, al massimo 8. Valori condivisi da molte squadre non sono primati. Vittorie fuori casa e Over 2,5 solo se fuori dal comune. Niente di notevole = niente riquadro.
@@ -126,3 +126,36 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 
 ## Niente salti all'arrivo
 - `useAsync` ricorda i risultati (LRU): rimontando un pannello i dati ci sono al primo disegno. Banner e barra schede fisse si misurano prima del disegno (`useLayoutEffect`, ultima altezza ricordata). L'animazione `comp-in` solo cambiando competizione/stagione (`useCompIn`), mai all'arrivo. Prova: "pillole: tornando su una squadra..." in `preview.mjs`.
+
+## Foto dei giocatori
+- Un solo componente per tutte le foto (`components/PlayerPhoto.jsx`): se la foto manca o non si carica compare l'omino neutro (testa e spalle), mai l'icona di immagine rotta ne' le iniziali. Formazioni, rose, liste, finestre e banner usano la stessa foto (id FotMob, `resolvePid`). Il banner del giocatore e' `EntityBanner person`.
+- `foto_check.py` (workflow `carriere_extra.yml`) scrive `foto_mancanti.json`: gli id senza foto su FotMob (circa il 16%).
+
+## Icone gol e assist
+- Gol = pallone bianco con pentagono e cuciture neri (`BallIcon`), assist = scarpino dorato (`BootIcon`), in `components/match/EventIcons.jsx`: usarle ovunque (formazioni, Riassunto, finestre, liste, mappe). Mai emoji.
+
+## Partite squadra: "Partite precedenti"
+- Premendo il tasto la pagina non si sposta: la partita che si guardava resta alla stessa altezza (si compensa l'altezza aggiunta sopra). Lo stato "aperto" si ricorda finche' la scheda e' nella pila (`useSel(teamId, 'more-<comp>')`).
+- Nelle liste di partite sempre "vs" (mai "@").
+
+## Affidabilita' e arbitri
+- Scheda Affidabilita' (partite non iniziate): solo giocatori con voto >= 7,00 (`okVoto`, `MIN_VOTO` in `data/topPlayers.js`); senza nessuno la scheda non c'e'.
+- Scheda Arbitri di un campionato: per tutte le stagioni solo top 5 e coppe europee (`refsAllSeasons`); per gli altri solo la stagione in corso. Il nome dell'arbitro nella partita e le barre delle medie restano.
+
+## Classifiche: zone e leggenda
+- Le lineette colorate vengono dalla fonte (`qualColor` delle righe, `legend` della stagione). Se FotMob non ha la tabella e la classifica e' ricostruita dalle partite, le posizioni della leggenda si applicano solo dove la classifica finale e' a punti (`ZONES_NOT_BY_POINTS` in `data/archive.js` esclude MLS, Argentina, Austria, Belgio, Grecia e coppe). La leggenda c'e' solo se le righe hanno colori. Mai zone inventate.
+
+## Mappa tiri: tiri murati
+- Un tiro murato (`outcome === 'Murato'`) non e' in porta (`onTarget` false anche se la fonte dice il contrario): pallino vuoto, traiettoria tratteggiata fino al punto in cui e' stato fermato (`bx`,`by`) chiusa da un trattino perpendicolare (`BlockTrace` in `ShotDot.jsx`), mai nella grafica della porta. Vale in ogni mappa (`MatchShotMap`, `ShotExplorer`, `MiniShotMap`).
+
+## Carriere
+- `car/<id FotMob % 100>.json` (`carriere_extra.py`, workflow `carriere_extra.yml`): carriera di tutti i giocatori delle rose e dei top 5, con senior (`car`), giovanili (`yo`), nazionali (`nt`). `careerByFm` in `data/carriere.js`. La carriera ricostruita dalle sole stagioni di un campionato non sostituisce quella completa.
+- `CarrieraPanel`: periodi consecutivi nella stessa squadra in una sola pillola (intervallo e somma presenze/gol/assist, `mergeConsecutive`); se tra due periodi c'e' un'altra squadra restano separati. Sezioni Nazionale e Giovanili sotto.
+
+## Statistiche complete per ogni stagione
+- Indice giocatori `pidx` comprende anche chi non e' nelle classifiche ufficiali (si ricava dalle partite archiviate). `loadPlayerStatsFor(fm, sk, pid)`: classifiche ufficiali se il giocatore c'e', altrimenti statistiche calcolate dalle partite. `playerSeasons` legge `pidx`.
+- `controllo_stagioni.py` scrive `controllo_stagioni.json`: per ogni competizione/stagione partite scaricate, statistiche, e (con la rete) un campione FotMob per capire se una stagione "dimenticata" va riscaricata. Verificato: dove mancano statistiche FotMob non le ha.
+
+## Swipe indietro: la pagina vera prima della fotografia
+- Dopo il ritorno la fotografia sotto resta finche' la pagina vera e' disegnata (`waitDestination` in `lib/carousel.js`: alcuni fotogrammi stabili, max 3 s, poi dissolvenza); senza fotografia c'e' una superficie dello stesso colore dell'app, mai il nero. Prova: "swipe indietro: azioni veloci..." in `preview.mjs`.
+- Home: il minuto live si aggiorna ogni 10 s solo se c'e' una partita live, altrimenti ogni minuto.

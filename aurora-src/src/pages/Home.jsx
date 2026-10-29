@@ -18,7 +18,7 @@ import SearchOverlay from '@/components/SearchOverlay';
 import useInitialLoad from '@/hooks/useInitialLoad';
 import useTicker from '@/hooks/useTicker';
 import { syncDayTimes, refreshStatus } from '@/data/fotmob';
-import { DATES, TODAY_INDEX, isoDate, matchesByDate } from '@/data/matches';
+import { DATES, TODAY_INDEX, isoDate, matchesByDate, MATCHES } from '@/data/matches';
 import { LEAGUES } from '@/data/leagues';
 
 // giorno scelto: resta in memoria mentre si naviga, cosi' tornando indietro si ritrova lo stesso giorno
@@ -88,7 +88,8 @@ export default function Home() {
   const custom = dayIdx < 0 ? iso : null;
   const [searchOpen, setSearchOpen] = useState(false);
   const loading = useInitialLoad();
-  const tick = useTicker(10000);
+  // il minuto live si aggiorna ogni 10 s solo se c'e' una partita live; altrimenti ogni minuto (niente ridisegno di centinaia di righe per nulla)
+  const tick = useTicker(MATCHES.some((m) => m.status === 'live') ? 10000 : 60000);
 
   const [ver, bump] = useState(0);
   // orari reali: prima il giorno aperto, poi gli altri in sottofondo

@@ -1,5 +1,5 @@
 import useAsync from '@/hooks/useAsync';
-import { loadSeason, loadPlayerStats, loadTeamStats, teamPartStats, teamIdByName, PLAYER_STAT_IT, SEASON_STAT_IT, STAT_IT, prettyKey, seasonLabel } from '@/data/archive';
+import { loadSeason, loadPlayerStatsFor, loadTeamStats, teamPartStats, teamIdByName, PLAYER_STAT_IT, SEASON_STAT_IT, STAT_IT, prettyKey, seasonLabel } from '@/data/archive';
 import { useTeamColors } from '@/components/archive/parts';
 import { groupOf, fmtVal, ORDER } from '@/components/archive/ArchiveLeague';
 import { TeamLogo } from '@/components/FmImg';
@@ -17,7 +17,7 @@ const Msg = ({ children }) => <p className="px-5 py-14 text-center text-[13px]" 
 export default function PastStats({ kind, id, fm, sk, current = false, teamName = '', part = 'tot', cat = 'all' }) {
   const wantMatch = kind === 'teams' && part !== 'tot';
   const col = useTeamColors();
-  const { data: res, loading } = useAsync(async () => ({ byMatch: wantMatch, stats: await (kind === 'players' ? loadPlayerStats(fm, sk) : wantMatch ? teamPartStats(fm, sk, part) : loadTeamStats(fm, sk)) }), [fm, sk, kind, part]);
+  const { data: res, loading } = useAsync(async () => ({ byMatch: wantMatch, stats: await (kind === 'players' ? loadPlayerStatsFor(fm, sk, id) : wantMatch ? teamPartStats(fm, sk, part) : loadTeamStats(fm, sk)) }), [fm, sk, kind, part, id]);
   // finche' arrivano i dati nuovi restano visibili quelli di prima (con la loro modalita'): nessun salto
   const stats = res ? res.stats : undefined;
   const byMatch = res ? res.byMatch : wantMatch;

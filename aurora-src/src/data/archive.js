@@ -212,6 +212,14 @@ export const loadTeamStats = async (lid, sk) => {
   if (st && st.teams && Object.keys(st.teams).length) return st;
   return teamPartStats(lid, sk, 'tot');
 };
+// stesse statistiche ma per un giocatore preciso: se non e' nelle classifiche ufficiali (hanno solo i primi di ogni voce) si usano quelle calcolate dalle partite
+export const loadPlayerStatsFor = async (lid, sk, pid) => {
+  const st = await loadPlayerStats(lid, sk);
+  const has = (s) => !!(s && s.players && Object.keys(s.players).some((k) => !k.startsWith('_') && (s.players[k] || []).some((r) => String(r[0]) === String(pid))));
+  if (has(st)) return st;
+  const fm = await statsFromMatches(lid, sk);
+  return has(fm) ? fm : st;
+};
 // statistiche giocatori di una stagione: quelle ufficiali se ci sono, altrimenti quelle calcolate dalle partite
 export const loadPlayerStats = async (lid, sk) => {
   const st = await loadSeasonStats(lid, sk);
@@ -236,19 +244,15 @@ export const teamSeasons = async (fm, name) => {
   const hit = await Promise.all(list.map((sk) => loadSeason(fm, sk).then((s) => (s && s.teams && teamIdByName(s.teams, name) ? sk : null)).catch(() => null)));
   return hit.filter(Boolean);
 };
-// stagioni passate in cui il giocatore (id FotMob) compare davvero nelle statistiche di quella competizione
-const PS = {};
-export const playerSeasons = (fm, pid) => {
-  const k = `${fm}|${pid}`;
-  if (!PS[k]) {
-    PS[k] = pastSeasons(fm).then((list) => Promise.all(list.map((sk) => loadPlayerStats(fm, sk)
-      .then((st) => {
-        const L = (st && st.players) || {};
-        return Object.keys(L).some((n) => !n.startsWith('_') && (L[n] || []).some((r) => String(r[0]) === String(pid))) ? sk : null;
-      })
-      .catch(() => null)))).then((h) => h.filter(Boolean));
-  }
-  return PS[k];
+// stagioni passate in cui il giocatore (id FotMob) ha giocato quella competizione: dall'indice giocatori (pidx), che comprende anche
+// chi non e' nelle classifiche ufficiali (si ricava dalle partite archiviate)
+const PSH = {};
+const pshard = (n) => { if (!PSH[n]) PSH[n] = fetch(`${BASE}pidx/${n}.json`).then((r) => (r.ok ? r.json() : {})).catch(() => ({})); return PSH[n]; };
+export const playerSeasons = async (fm, pid) => {
+  const [d, past] = await Promise.all([pshard(Number(pid) % 100), pastSeasons(fm)]);
+  const e = d[String(pid)];
+  const mine = new Set(e ? e.slice(1).filter((r) => String(r[0]) === String(fm)).map((r) => r[1]) : []);
+  return sortSeasons(past.filter((s) => mine.has(s)));
 };
 import { norm, acr, sameSquad } from './teamMatch';
 // id FotMob di una squadra dentro i dati di una stagione, dal nome: prima uguale, poi sigla, poi nome contenuto (mai due squadre diverse che si somigliano)

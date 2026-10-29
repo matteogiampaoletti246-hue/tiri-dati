@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useLayoutEffect, useMemo, useRef } from 'react';
 import { ChevronUp } from 'lucide-react';
 import TextFilter from '@/components/TextFilter';
 import CompSeasonBar from '@/components/CompSeasonBar';
@@ -54,7 +54,7 @@ function Pills({ items, row, dayHead }) {
               <span className="tnum text-[11px]" style={{ color: 'var(--ink-3)' }}>{g.items.length}</span>
             </div>
             {g.items.map((it, i) => (
-              <div key={it.key}>
+              <div key={it.key} data-key={it.key}>
                 {i === 0 || it.day !== g.items[i - 1].day ? <div className="px-4 pb-0.5 pt-2.5 text-[10.5px] font-bold uppercase tracking-wider" style={{ color: 'var(--ink-3)', borderTop: '1px solid var(--hair-2)' }}>{dayHead(it.day)}</div> : null}
                 {row(it)}
               </div>
@@ -94,7 +94,10 @@ function PastSeason({ team, comp, sk, filter }) {
 
 // stagione in corso: "Tutte" parte dalle ultime due partite giocate (le precedenti si aprono col tasto) e prosegue con le prossime
 function CurrentSeason({ teamId, comp, filter }) {
-  const [more, setMore] = useState(false);
+  // "Partite precedenti" aperte: si ricordano finche' la scheda resta nella pila (apro una partita e torno: la lista e' ancora aperta)
+  const [more, setMore] = useSel(teamId, `more-${comp}`, false);
+  const box = useRef(null);
+  const anchor = useRef(null);
   const { list, hidden } = useMemo(() => {
     const l = allTeamMatches(teamId).filter(MATCH[filter]).filter((m) => comp === 'all' || m.leagueId === comp);
     const items = l.map((m) => ({ key: m.id, day: m.date, ts: m.ts, lid: m.leagueId, m }));
@@ -104,12 +107,26 @@ function CurrentSeason({ teamId, comp, filter }) {
     const start = Math.max(0, (fi < 0 ? items.length : fi) - 2);
     return { list: items, hidden: start };
   }, [teamId, comp, filter]);
+  // aprendo le partite precedenti la pagina resta dov'era: la partita che guardavo non si sposta (si compensa l'altezza aggiunta sopra)
+  useLayoutEffect(() => {
+    const a = anchor.current;
+    if (!a) return;
+    anchor.current = null;
+    const el = box.current && box.current.querySelector(`[data-key="${a.key}"]`);
+    if (el) { const d = el.getBoundingClientRect().top - a.top; if (Math.abs(d) > 0.5) window.scrollBy(0, d); }
+  }, [more]);
   if (!list.length) return <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Nessuna partita</p>;
   const shown = filter === 'all' && !more ? list.slice(hidden) : list;
+  const open = () => {
+    const first = shown[0];
+    const el = first && box.current && box.current.querySelector(`[data-key="${first.key}"]`);
+    anchor.current = el ? { key: first.key, top: el.getBoundingClientRect().top } : null;
+    setMore(true);
+  };
   return (
-    <div>
+    <div ref={box}>
       {filter === 'all' && hidden > 0 && !more ? (
-        <button type="button" onClick={() => setMore(true)} className="press mx-auto mt-4 flex items-center gap-1.5 px-4 py-2 text-[12.5px] font-bold" style={{ color: 'var(--accent)' }}>
+        <button type="button" onClick={open} className="press mx-auto mt-4 flex items-center gap-1.5 px-4 py-2 text-[12.5px] font-bold" style={{ color: 'var(--accent)' }}>
           <ChevronUp size={15} />Partite precedenti ({hidden})
         </button>
       ) : null}
