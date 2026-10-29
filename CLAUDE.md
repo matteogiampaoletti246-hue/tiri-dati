@@ -48,6 +48,8 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 
 ## Swipe indietro su iPhone (regola fissa)
 - Il bordo sinistro avvia anche l'"indietro" di iOS (fotografia nera o Home in doppia copia): `installEdgeGuard` in `lib/carousel.js` blocca il touchstart nei primi 26 px (i tasti sul bordo ricevono comunque il tocco) e lo swipe resta solo nostro (`pageDrag`/`pageBack`).
+- Zona dello swipe indietro: `BACK_ZONE` = 48 px dal bordo (SwipeTabs e `useSwipeBack`), angolo largo per le partenze dal bordo (`backAngleOk`); `useSwipeBack` usa eventi touch (i pointer venivano annullati da iOS). Prova: "swipe indietro: parte anche un po lontano dal bordo...".
+- Rete di sicurezza di `pageBack`: se la cronologia e' gia' tornata indietro la vecchia pagina resta fuori a destra finche' arriva la nuova (mai `pageReset` sopra la Home: era il glitch del video 23). Prova: "home: swipe indietro verso la Home in cima...".
 - Le copie della fotografia non hanno mai `data-pf` (altrimenti `pageDrag` le spostava con la pagina vera: banner e schede sparivano, sotto il nero); `pageEls` ignora tutto cio' che sta dentro `aria-hidden`.
 - `cloneVisible` copia anche lo scorrimento orizzontale (striscia dei giorni, pillole) e gli spazi vuoti hanno larghezza: la fotografia e' identica alla pagina. `DayStrip` centra il giorno prima del disegno (`useLayoutEffect`).
 - Prove: "swipe indietro da partite squadra..." e "swipe indietro verso la Home: giorno scelto..." in `preview.mjs` (misura a ogni fotogramma).
@@ -91,7 +93,7 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 ## Squadra unica, rose, coppe (regola fissa)
 - Una sola scheda per squadra (`findAppTeam` in `data/teamMatch.js`, `t.fmId`): il banner e' sempre quello del campionato nazionale (es. Francoforte = Bundesliga); le coppe sono tendine. Scegliendo una coppa nazionale pura nella Classifica della squadra compare il Tabellone.
 - Rose da piu' fonti (`update_rose.py`: FotMob, PitchAPI, API-Football). Statistiche squadra: riquadri Gol/xG/Tiri/Tiri in porta con posizione + riga "Prossima" della competizione scelta (solo se esiste).
-- Forma recente = ultime 5 partite in tutte le competizioni. Per le sole coppe nazionali le statistiche pre-partita sono la media coppa + campionato (coppe europee escluse).
+- Forma recente = ultime 5 partite in tutte le competizioni: partite in memoria + calendario archiviato della stagione della competizione e del campionato della squadra (`recentOf`, `addLeagueForm` in `data/archiveMatch.js`, unione senza doppioni in `FormCard`); senza partite giocate niente riquadro. Controllo: `forma` in `controllo_squadre.json`. Per le sole coppe nazionali le statistiche pre-partita sono la media coppa + campionato (coppe europee escluse).
 - Abbinamento squadra tra app e archivio: prima l'id FotMob della squadra (`teamIdByName` usa `teamByName(...).fmId` o lo stemma), poi il nome (alias `sheff`, `utd`, `wed`...). Prima 525 stagioni-squadra (Sheffield, MK Dons, Hearts, LAFC, NYCFC...) restavano senza statistiche.
 - Swipe indietro: oltre la meta' dello schermo si torna, prima la pagina rientra lentamente. Pillole dei turni del Tabellone: la riga scorre e centra la pillola scelta; schede ben spaziate.
 
@@ -151,7 +153,7 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 
 ## Affidabilita' e arbitri
 - Scheda Affidabilita' (partite non iniziate): solo giocatori con voto >= 7,00 (`okVoto`, `MIN_VOTO` in `data/topPlayers.js`); senza nessuno la scheda non c'e'.
-- Scheda Arbitri di un campionato: per tutte le stagioni solo top 5 e coppe europee (`refsAllSeasons`); per gli altri solo la stagione in corso. Il nome dell'arbitro nella partita e le barre delle medie restano.
+- Scheda Arbitri di un campionato: SOLO per i 9 top campionati (top 5 + Pro League, Eredivisie, Primeira Liga, Super Lig), coppe europee e competizioni internazionali (`refsAllowed` in `data/archive.js`, paese `INT` dell'indice); per tutte le altre niente pillola ne' riquadro. Dove c'e': tutte le stagioni per top 5 e coppe europee (`refsAllSeasons`), per gli altri solo la stagione in corso. Il nome dell'arbitro nella partita (fascia Stadio/Meteo/Arbitro) e le barre delle medie restano per tutte le competizioni.
 
 ## Classifiche: zone e leggenda
 - FotMob per molte stagioni da' la classifica a gironi/conference (`tables`): `archivio.py` e `tabelle_gironi.py` (workflow Archivio storico) la salvano come `groups: [{n, table, legend}]` (un solo gruppo = `table` + `legend`); `nogroups` = FotMob non ha classifica. `StandingsPanel` mostra un blocco per gruppo con le sue zone e la sua leggenda.
@@ -184,7 +186,7 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 - Controllo: `controllo_giornate.py` -> `controllo_giornate.json` (giornate di oltre 10 giorni prima/dopo la regola). Prova "giornate: nessuna giornata di mesi..." in `preview.mjs`.
 
 ## Tutte le competizioni in Home e una scheda per ogni squadra
-- Le competizioni d'archivio (`fm-<id>`) entrano in Home nei giorni in cui giocano, come finestre chiuse (`data/dayFeed.js` -> `addFeedRows` in `data/matches.js`): si caricano solo il giorno aperto e i vicini (all'avvio oggi, max 2,5 s con `refreshStatus`). Ordine: top e campionati aggiunti come prima, poi internazionali, paesi principali (`PRIO` in `Home.jsx`), poi gli altri in ordine alfabetico. Annullate/rinviate non in Home. `/fx` per le partite del feed: max 24 per giro.
+- Le competizioni d'archivio (`fm-<id>`) entrano in Home nei giorni in cui giocano, come finestre chiuse (`data/dayFeed.js` -> `addFeedRows` in `data/matches.js`): si caricano solo il giorno aperto e i vicini (all'avvio oggi, max 2,5 s con `refreshStatus`). Ordine e raggruppamento: vedi "Home: finestre per paese". Annullate/rinviate non in Home. `/fx` per le partite del feed: max 24 per giro.
 - Squadre: id `fm-<id FotMob>` per quelle che l'app non conosceva; `/squadra/fm-<id>` si ricostruisce da `tidx` (`teamFromIndex`, campionato = competizione nazionale a punti piu' recente, colori dallo stemma). `/storico/.../squadra/<id>` apre sempre la scheda unica.
 - Competizione d'archivio: la scheda parte dalla stagione piu' recente CON dati (`firstSeasonWithData`), le stagioni vuote non sono in tendina.
 
@@ -193,3 +195,22 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 - Eccezione 2: giocatore senza statistiche in nessuna stagione e competizione (dati dell'app `playerHasCurStats` o righe `pidx`): la scheda Statistiche non c'e' (`Player.jsx`), come la Carriera senza dati.
 - `pidx` (`giocatori_indice.py`) segue le stesse regole dell'app: solo `_s.json` v2 e mai le liste con chiave che inizia per `_`; `statsFromMatches` da' a chiunque abbia giocato almeno la voce `mins_played` (presenze e minuti). Cosi' ogni riga dell'indice ha statistiche visibili.
 - Controllo: `controllo_statistiche_giocatori.py [n] [--app-vecchia]` -> `controllo_statistiche_giocatori.json` (righe competizione/stagione senza statistiche e motivo). Prova: "statistiche giocatore: dati solo nel passato, nella stagione attuale, nessun dato" in `preview.mjs`.
+
+## Home: finestre per paese (concept Sofascore, regola fissa)
+- In alto, da soli: i 9 top campionati (Serie A, Premier League, LaLiga, Bundesliga, Ligue 1 aperti; Pro League, Eredivisie, Primeira Liga, Super Lig chiusi), poi coppe europee, poi competizioni internazionali (senza paese, es. Giovanili internazionali: finestra propria). `TOP_SOLO` in `Home.jsx`.
+- Tutte le altre competizioni stanno nella finestra del loro paese (`CountryGroup` in `components/LeagueGroup.jsx`): bandiera + nome (il nome apre/chiude, non e' un collegamento), paesi in ordine alfabetico italiano. Dentro, in ordine di importanza (`importance` in `data/countries.js`: campionati maschili nell'ordine dell'indice, poi femminili/giovanili, poi coppe), ogni competizione con la sua intestazione cliccabile e le sue partite. Il paese si ricava dai dati della competizione (`countryCode`: `cc` dell'indice o nome del paese), mai da un elenco fisso.
+- Finestra chiusa = nessuna partita montata, `content-visibility: auto` (altezza fissa nota). Stato aperto/chiuso ricordato nel giro Home -> partita -> indietro (`useSel('home', ...)`). Animazione di apertura `Collapse`.
+
+## Fluidita' della Home (regola fissa)
+- Misurato (Chromium, CPU 4x, 10 cambi giorno): blocchi del thread principale 18,6 s -> 7,4 s. Colli di bottiglia tolti: abbinamento squadre del feed (`leagueById` su mappa, nomi normalizzati in memoria a capienza fissa in `teamMatch.js`), raggruppamento per giorno memorizzato (`groupsOf`), ogni giorno si ridisegna solo se cambiano le sue partite (`daySig`), giorni vicini costruiti a pezzi a riposo (`FIRST`/`STEP`), `growBox` solo quando cambia il giorno affiancato.
+- Il WebKit dell'anteprima disegna in software: i suoi fotogrammi servono solo per confronti relativi (prima/dopo, inizio/fine giro). Prove: "fluidita: 12 swipe di fila...", "fluidita: swipe tra schede...".
+
+## Rose (pannello "Squadra", regola fissa)
+- Fonti in ordine: `rose.json` (id FotMob), giocatori dell'app, poi `seasonRoster` (`data/rose.js`): chi ha giocato la stagione in corso per quella squadra (minuti e formazioni delle partite, classifiche ufficiali dei giocatori, gol e cartellini), gruppo "Giocatori". Nessuna fonte = niente scheda Squadra (`Team.jsx`). Foto sempre con `PlayerPhoto`.
+- Controllo: `rose` in `controllo_squadre.json` (squadre senza rosa e motivo, prima/dopo).
+
+## Partite squadra: stagione in corso da tutte le competizioni
+- "Attuale" = partite in memoria + calendario archiviato della stagione in corso di ogni competizione giocata quest'anno (indice `tidx` + campionato della squadra, `archCurrent` in `TeamMatchesPanel.jsx`, righe `ArchRow`); un giorno gia' presente non si ripete. Controllo: `partite_stagione` in `controllo_squadre.json`.
+
+## Posizioni nelle statistiche (mai "0°")
+- Posizione = 1 + squadre con valore migliore (pari merito = stessa posizione); squadra senza quel dato = riga omessa (`PreMatchStats`, `TeamStatsPanel`). Prova: "statistiche pre-partita: nessuna posizione 0°".

@@ -8,7 +8,14 @@ import { Image } from '@/components/ui/image';
 import { matchReliability } from '@/data/topPlayers';
 
 // la scheda Affidabilita' c'e' solo se almeno un giocatore ha voto >= 7,00 (su una delle tre soglie)
-export const hasReliability = (match) => [0.5, 1.5, 2.5].some((l) => matchReliability(match, l).length > 0);
+// (calcolata al massimo una volta ogni 2 minuti per partita: la pagina si ridisegna spesso e il calcolo e' pesante)
+export const hasReliability = (match) => {
+  const c = match._hasRel;
+  if (c && Date.now() - c.at < 120000) return c.v;
+  const v = [0.5, 1.5, 2.5].some((l) => matchReliability(match, l).length > 0);
+  match._hasRel = { at: Date.now(), v };
+  return v;
+};
 import { teamById } from '@/data/teams';
 import { comma } from '@/lib/format';
 import RollNumber from '@/components/RollNumber';

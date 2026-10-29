@@ -1,7 +1,7 @@
 // Partite dei campionati aggiunti e dell'archivio: costruite nello stesso formato delle partite dei top campionati,
 // così la pagina partita è identica (Riepilogo, statistiche, mappa tiri, formazioni, classifica).
 // Il dettaglio completo arriva dal Worker (FotMob, vale per qualsiasi partita); quello salvato nell'archivio è la riserva.
-import { loadSeason, loadSeasonMatches, loadSeasonStats, FM_ID, archIndex, teamLogo, seasonLabel, STAT_IT, STAT_GROUPS, prettyKey, currentSeason } from './archive';
+import { loadSeason, loadSeasonMatches, loadSeasonStats, FM_ID, archIndex, teamLogo, seasonLabel, STAT_IT, STAT_GROUPS, prettyKey, currentSeason, teamIdByName } from './archive';
 import { isPureCup } from './bracket';
 import { MATCH_BY_ID } from './matches';
 import { ensureTeam, teamById } from './teams';
@@ -221,7 +221,40 @@ export async function completeExtraMatch(m) {
   if (m.archive.aid != null && teamById(m.awayId)) tmap[m.archive.aid] = teamById(m.awayId);
   if (isPureCup(fm)) m.moreDet = await domesticFor(fm, m.archive.hid, m.archive.aid);
   try { const st = await loadSeasonStats(fm, sk); m.sTeams = (st && st.teams) || null; } catch (e) { /* ignora */ }
-  return enrich(m, fm, sk, season, det, tmap, true);
+  enrich(m, fm, sk, season, det, tmap, true);
+  await addLeagueForm(m, fm);
+  return m;
+}
+
+// Forma recente in tutte le competizioni: se la partita e' di una coppa (o di un'altra competizione) si aggiungono le partite
+// della stagione in corso del campionato di ciascuna squadra (calendario archiviato), unite a quelle della competizione della partita.
+async function addLeagueForm(m, fm) {
+  const base = m.recentOf;
+  const extra = {};
+  await Promise.all([m.homeId, m.awayId].map(async (id) => {
+    try {
+      const t = teamById(id);
+      const lfm = t && FM_ID[t.leagueId];
+      if (!lfm || Number(lfm) === Number(fm)) return;
+      const sk = await currentSeason(lfm);
+      const season = sk && await loadSeason(lfm, sk);
+      if (!season || !season.teams) return;
+      const tid = teamIdByName(season.teams, t.name) || (t.fmId && season.teams[String(t.fmId)] ? String(t.fmId) : null);
+      if (!tid) return;
+      const tmap = teamsOf(season, lfm, sk, t.leagueId);
+      tmap[tid] = t;
+      extra[id] = { rec: recentFn(lfm, sk, season, tmap), tid };
+    } catch (e) { /* solo la competizione della partita */ }
+  }));
+  if (!Object.keys(extra).length) return;
+  m.recentOf = (teamId) => {
+    const a = base ? base(teamId) : [];
+    const x = extra[teamId];
+    if (!x) return a;
+    const seen = new Set();
+    return [...a, ...x.rec(x.tid, m.ts)].filter((r) => { const k = `${r.date}|${r.homeId}|${r.awayId}`; if (seen.has(k)) return false; seen.add(k); return true; })
+      .sort((p, q) => q.ts - p.ts).slice(0, 5);
+  };
 }
 
 /* ── riserva: dettaglio salvato nell'archivio, usata solo se il Worker non risponde ── */

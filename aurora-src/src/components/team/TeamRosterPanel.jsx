@@ -6,9 +6,8 @@ import { injuryOf } from '@/data/injuries';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { loadCarriere, carriereOf, countryIt, flagOf, ageOf } from '@/data/carriere';
-import { Image } from '@/components/ui/image';
 import { playersByTeam } from '@/data/players';
-import { loadRose, roseOf } from '@/data/rose';
+import { loadRose, roseOf, seasonRoster } from '@/data/rose';
 import { FM_ID, currentSeason, playerFace } from '@/data/archive';
 import { archiveId } from '@/data/archivePlayer';
 import useAsync from '@/hooks/useAsync';
@@ -36,9 +35,16 @@ export default function TeamRosterPanel({ teamId }) {
   const mine = {};
   all.forEach((p) => { mine[nk(p.name)] = p; });
   const fmR = rose ? FM_ID[rose.lg] : null;
-  const { data: skR } = useAsync(() => (fmR ? currentSeason(fmR) : Promise.resolve(null)), [fmR]);
-  if (rose && rose.p && rose.p.length) {
-    const grp = GROUPS.map((g) => ({ ...g, list: rose.p.filter((r) => g.pos.includes(r[2]) || (g.key === 'ATT' && r[2] === 'ATT')).sort((a, b) => (b[7] || 0) - (a[7] || 0) || (a[3] || 99) - (b[3] || 99)) }));
+  const { data: skR0 } = useAsync(() => (fmR ? currentSeason(fmR) : Promise.resolve(null)), [fmR]);
+  // nessuna rosa (rose.json vuota o squadra di una competizione dell'archivio) e nessun giocatore dell'app: chi ha giocato la stagione in corso
+  const noRose = !(rose && rose.p && rose.p.length) && !all.length;
+  const { data: sr } = useAsync(() => (noRose && team ? seasonRoster(team) : Promise.resolve(null)), [noRose, teamId]);
+  const R = rose && rose.p && rose.p.length ? { p: rose.p, fm: fmR, sk: skR0 } : noRose && sr ? sr : null;
+  const skR = R && R.sk;
+  if (R) {
+    const fmR2 = R.fm;
+    // stesse righe: ruolo noto dalla rosa, altrimenti "Giocatori" ordinati per minuti giocati
+    const grp = GROUPS.map((g) => ({ ...g, list: R.p.filter((r) => g.pos.includes(r[2]) || (g.key === 'ATT' && r[2] === 'ATT')).sort((a, b) => (b[7] || 0) - (a[7] || 0) || (b[11] || 0) - (a[11] || 0) || (a[3] || 99) - (b[3] || 99)) }));
     return (
       <div className="flex flex-col gap-3.5 px-4 pb-8 pt-4">
         {grp.filter((g) => g.list.length).map((g) => (
@@ -50,12 +56,10 @@ export default function TeamRosterPanel({ teamId }) {
             <div className="h-1.5" />
             {g.list.map((r) => {
               const bits = [r[4] ? `${flagOf(r[4])} ${countryIt(r[4])}`.trim() : null, r[6] ? `${r[6]} cm` : null, r[5] ? `${r[5]} anni` : null].filter(Boolean);
-              const initials = String(r[1]).split(' ').map((w) => w[0]).join('').slice(0, 2).toUpperCase();
               return (
-                <Link key={r[0]} to={mine[nk(r[1])] ? `/giocatore/${mine[nk(r[1])].id}` : skR && r[0] > 0 ? `/giocatore/${archiveId(fmR, skR, r[0])}` : '#'} className="press mx-2 mb-1.5 flex items-center gap-3 rounded-[18px] px-3 py-2" style={{ background: teamGrad(team, 0x55) }}>
+                <Link key={r[0]} to={mine[nk(r[1])] ? `/giocatore/${mine[nk(r[1])].id}` : skR && r[0] > 0 ? `/giocatore/${archiveId(fmR2, skR, r[0])}` : '#'} className="press mx-2 mb-1.5 flex items-center gap-3 rounded-[18px] px-3 py-2" style={{ background: teamGrad(team, 0x55) }}>
                   <span className="avatar h-[38px] w-[38px] text-[11px]">
-                    <Image src={playerFace(r[0])} alt={r[1]} className="h-full w-full" fittingType="fill" />
-                    <span className="sr-only">{initials}</span>
+                    <PlayerPhoto src={playerFace(r[0])} alt={r[1]} />
                   </span>
                   <span className="min-w-0 flex-1">
                     <span className="block truncate text-[14px] font-bold">{r[3] ? <span style={{ color: 'var(--accent)' }}>{r[3]} </span> : null}{r[1]}{r[10] ? <> <InjuryIcon size={15} /></> : null}</span>

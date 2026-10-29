@@ -189,6 +189,11 @@ export function installBackSnaps() {
 // si sovrapponeva al nostro scorrimento. Un tocco che parte dal bordo resta all'app (preventDefault): lo swipe lo gestiscono
 // SwipeTabs/useSwipeBack con pageDrag/pageBack. I tasti sul bordo (freccia indietro) ricevono comunque il tocco.
 const EDGE = 26;
+// zona da cui parte il nostro swipe indietro: un po' piu' larga del blocco di iOS, cosi' parte sempre vicino al bordo
+// senza dover essere precisissimi (SwipeTabs e useSwipeBack usano la stessa misura)
+export const BACK_ZONE = 48;
+// partendo dal bordo basta un movimento piu' orizzontale che verticale (angolo largo): lo swipe indietro non si perde
+export const backAngleOk = (dx, dy) => dx > 8 && dx > Math.abs(dy) * 0.75;
 function installEdgeGuard() {
   let tap = null;
   document.addEventListener('touchstart', (e) => {
@@ -282,6 +287,8 @@ function waitDestination(fromShell, fromIdx) {
   const f = () => {
     if (!BEHIND) return;
     const sh = document.getElementById('sl-shell');
+    // la pagina che usciva e' gia' quella di destinazione (React non l'ha sostituita): rientra al suo posto, la fotografia si toglie
+    if (histIdx() !== fromIdx && sh && sh === fromShell && isDestination(sh)) { pageReset(false); return; }
     const ok = histIdx() !== fromIdx && sh && sh !== fromShell && sh.isConnected && sh.getBoundingClientRect().height > window.innerHeight * 0.5;
     stable = ok ? stable + 1 : 0;
     if (stable >= 3 || performance.now() - t0 > 3000) { fade(); return; }
@@ -316,6 +323,8 @@ export function pageReset(animated = true) {
   });
   setTimeout(() => { behindOff(); els.forEach((el) => { el.style.transition = ''; el.style.transform = ''; el.style.opacity = ''; el.style.willChange = ''; el.style.boxShadow = ''; el.style.visibility = ''; }); }, animated ? 470 : 0);
 }
+// la pagina mostrata appartiene alla voce di cronologia attuale (data-lk = chiave di react-router, PageShell)
+const isDestination = (sh) => { const st = window.history.state; return !!(sh && st && st.key && sh.dataset && sh.dataset.lk === st.key); };
 export const histIdx = () => { const st = window.history.state; return st && typeof st.idx === 'number' ? st.idx : 0; };
 export const canGoBack = () => histIdx() > 0;
 
@@ -356,7 +365,16 @@ export function pageBack(dx, navigate) {
     if (hasBehind) behindMove(w, w, ms);
     // la pagina vera di destinazione prende il posto quando e' arrivata la fotografia al centro
     setTimeout(() => { if (hasBehind) QUIET = true; goBack(navigate, fromIdx); if (hasBehind) waitDestination(els[0], fromIdx); }, hasBehind ? ms + 20 : Math.round(ms * 0.62));
-    // rete di sicurezza: se per qualunque motivo la pagina non cambia, si ripristina tutto (mai schermo nero)
-    setTimeout(() => { const sh = document.getElementById('sl-shell'); if (sh && sh === els[0] && sh.isConnected) pageReset(false); }, ms + 900);
+    // rete di sicurezza: se per qualunque motivo la pagina non cambia, si ripristina tutto (mai schermo nero).
+    // Se la cronologia e' gia' tornata indietro la pagina nuova sta solo arrivando (la Home pesante puo' metterci piu' di un secondo):
+    // la vecchia resta fuori a destra, altrimenti tornava per un attimo al centro sopra la Home (glitch del video 23).
+    const safety = (k) => {
+      const sh = document.getElementById('sl-shell');
+      if (!sh || sh !== els[0] || !sh.isConnected) return;
+      // pagina rimasta = proprio quella di destinazione (navigazioni rapidissime: la nuova non era ancora disegnata): rientra subito
+      if (histIdx() === fromIdx || isDestination(sh) || k >= 12) { pageReset(false); return; }
+      setTimeout(() => safety(k + 1), 300);
+    };
+    setTimeout(() => safety(0), ms + 900);
   });
 }

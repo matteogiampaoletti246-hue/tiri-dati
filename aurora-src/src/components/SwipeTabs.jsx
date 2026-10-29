@@ -2,7 +2,7 @@ import { modalOpen } from '@/lib/modal';
 import { memo, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal, flushSync } from 'react-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { pageBack, pageDrag, pageReset, finishCarousel, canGoBack } from '@/lib/carousel';
+import { pageBack, pageDrag, pageReset, finishCarousel, canGoBack, BACK_ZONE, backAngleOk } from '@/lib/carousel';
 
 
 // Scheda vicina gia' montata e ferma: non si ridisegna quando cambia la pagina (si aggiorna solo quando diventa quella attiva).
@@ -160,15 +160,18 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
       if (busy || e.touches.length !== 1 || modalOpen()) { st = null; return; }
       const t = e.target;
       if (t.closest && t.closest('input, select, textarea, [data-no-swipe]')) { st = null; return; }
-      st = { x: e.touches[0].clientX, y: e.touches[0].clientY, t: Date.now(), on: false, w: wrap.clientWidth || 360, edge: e.touches[0].clientX <= 36 };
+      st = { x: e.touches[0].clientX, y: e.touches[0].clientY, t: Date.now(), on: false, w: wrap.clientWidth || 360, edge: e.touches[0].clientX <= BACK_ZONE };
     };
     const onMove = (e) => {
       if (!st) return;
       const dx = e.touches[0].clientX - st.x;
       const dy = e.touches[0].clientY - st.y;
       if (!st.on) {
-        if (Math.abs(dy) > 12 && Math.abs(dy) > Math.abs(dx)) { st = null; return; }
-        if (Math.abs(dx) < 10 || Math.abs(dx) < Math.abs(dy) * 1.2) return;
+        const backStart = st.edge && live.current.back && live.current.index === 0 && backAngleOk(dx, dy);
+        if (!backStart) {
+          if (Math.abs(dy) > 12 && Math.abs(dy) > Math.abs(dx)) { st = null; return; }
+          if (Math.abs(dx) < 10 || Math.abs(dx) < Math.abs(dy) * 1.2) return;
+        }
         st.on = true;
         geom.current = { l: tabRefs.current.map((x) => x && x.offsetLeft), w: tabRefs.current.map((x) => x && x.offsetWidth), t: tabRefs.current.map((_, k) => scrollTargetOf(k)) };
       }

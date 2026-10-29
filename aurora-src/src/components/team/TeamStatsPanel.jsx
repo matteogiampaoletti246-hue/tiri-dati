@@ -19,12 +19,16 @@ import { teamByName } from '@/data/teams';
 // statistiche negative: meno ce ne sono, meglio e' (subiti/concessi e fuorigioco)
 export const NEG = ['golSubiti', 'xgSubiti', 'tiriConcessi', 'tiriInPortaConcessi', 'occasioniConcesse', 'cornerConcessi', 'fuorigioco'];
 const rankInC = (comp, team, key, part) => {
-  const rows = teamsInComp(comp).filter((t) => hasMetrics0(t.id, comp)).map((t) => ({ id: t.id, v: metricOf0(t.id, key, part, comp) })).sort((a, b) => (NEG.includes(key) ? a.v - b.v : b.v - a.v));
-  const i = rows.findIndex((r) => r.id === team.id);
+  const neg = NEG.includes(key);
+  const rows = teamsInComp(comp).filter((t) => hasMetrics0(t.id, comp)).map((t) => ({ id: t.id, v: metricOf0(t.id, key, part, comp) })).filter((r) => Number.isFinite(r.v));
+  const mine = rows.find((r) => r.id === team.id);
+  // statistica che la squadra non ha: niente posizione (la riga si omette, mai "0°"); pari merito = stessa posizione
+  if (!mine) return null;
+  const rank = 1 + rows.filter((r) => (neg ? r.v < mine.v : r.v > mine.v)).length;
   const total = rows.length;
-  const avg = total ? rows.reduce((a, r) => a + r.v, 0) / total : 0;
+  const avg = rows.reduce((a, r) => a + r.v, 0) / total;
   const max = rows.reduce((m, r) => Math.max(m, r.v), 0);
-  return { rank: i + 1, total, avg, max, frac: total > 1 ? (total - (i + 1)) / (total - 1) : 1 };
+  return { rank, total, avg, max, frac: total > 1 ? (total - rank) / (total - 1) : 1 };
 };
 // collegamento attacco di una squadra <-> cio' che l'avversaria concede (e viceversa)
 const PAIR = { gol: 'golSubiti', xg: 'xgSubiti', tiri: 'tiriConcessi', tiriInPorta: 'tiriInPortaConcessi', occasioni: 'occasioniConcesse', corner: 'cornerConcessi', golSubiti: 'gol', xgSubiti: 'xg', tiriConcessi: 'tiri', tiriInPortaConcessi: 'tiriInPorta', occasioniConcesse: 'occasioni', cornerConcessi: 'corner' };
@@ -62,6 +66,7 @@ function DomesticStats({ team, comp }) {
     const vo = metricOf(opp.id, cfg.opp, 0);
     const rm = rankIn(team, key, part);
     const vm = metricOf(team.id, key, part);
+    if (!ro || !rm) return null;
     let fav;
     if (cfg.mode === 'att') {
       const q = ro.avg > 0 ? vo / ro.avg : 1; // l'avversaria concede piu' della media = favorevole
@@ -83,6 +88,7 @@ function DomesticStats({ team, comp }) {
       <div className="grid grid-cols-4 gap-2 px-4">
         {TILE_METRICS.slice(0, 4).map((t) => {
           const r = rankIn(team, t.key, part);
+          if (!r) return null;
           return (
             <div key={t.key} className="glass rounded-[18px] px-2 py-2.5 text-center">
               <p className="text-[9px] font-extrabold uppercase tracking-wider" style={{ color: 'var(--ink-3)' }}>{t.label}</p>
@@ -113,6 +119,7 @@ function DomesticStats({ team, comp }) {
           <h3 className="px-4 pb-1 pt-3.5 text-[12.5px] font-extrabold uppercase tracking-wider">{c.title}</h3>
           {c.metrics.map((mt, i) => {
             const r = rankIn(team, mt.key, part);
+            if (!r) return null;
             const v = metricOf(team.id, mt.key, part);
             const col = bandColor(r.frac);
             const o = oppOk && vsOn ? vsOf(mt.key) : null;

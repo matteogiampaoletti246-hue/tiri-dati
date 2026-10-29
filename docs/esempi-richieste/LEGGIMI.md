@@ -11,3 +11,8 @@
 - `10-brasileirao-giornata-21-sbagliata.png`: Brasileirao Serie A 2026, scheda Partite: "Giornata 21 IN CORSO, mer 29 lug - sab 3 ott" con partite del 29, 30 e 31 luglio (e altre fino a ottobre): una giornata non puo' durare tre mesi. Una partita e' "Annull.", altre mostrano risultato E orario insieme (es. 1-1 sopra 00:30). Succede in tutte le competizioni aggiunte dopo i top 5.
 - `11-dfb-pokal-tabellone-senza-risultati.png`: DFB Pokal 2026/27, Tabellone, Turno 2: gli ottavi del turno 2 (Bochum-Mainz, Amburgo-Francoforte, RW Essen-Lipsia...) giocati il 27-28 ottobre mostrano ancora "27 ott" invece del risultato.
 - `11b-dfb-pokal-partite-senza-risultati.png`: stessa coppa, scheda Partite: "Giornata 2 PROSSIMA, mar 27 ott - mer 28 ott" con le partite ancora con orario (18:00, 20:45) invece del risultato, anche se sono finite. Vale per tutte le coppe e competizioni.
+
+## Lotto 29/10 (sono esempi validi per TUTTE le competizioni, squadre, stagioni e giocatori)
+- 20, 21: Sofascore, finestre raggruppate per paese (bandiera + nome, si apre e mostra le competizioni).
+- 22: scheda squadra (Atletico Madrileno, Primera Federacion) con pannello Squadra quasi vuoto/nero: rosa mancante.
+- 23: video; al secondo ~0:07 lo swipe indietro verso la Home (in alto) fa un glitch grafico.

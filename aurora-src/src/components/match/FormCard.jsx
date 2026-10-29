@@ -9,15 +9,19 @@ import { Link } from 'react-router-dom';
 const COL = { V: '#1FA45B', S: '#8A93A6', P: '#E0443A' };
 const PTS = { V: 3, S: 1, P: 0 };
 // Forma: le ultime 5 partite della squadra in TUTTE le competizioni (non solo in quella della partita), prima di questa partita.
-// Per le partite di stagioni passate resta quella della stagione, perche' le altre competizioni non sono collegate.
+// Fonti unite senza doppioni: partite in memoria (tutte le competizioni dell'app) e calendario archiviato della stagione
+// (competizione della partita e campionato della squadra: recentOf, preparato in prepareMatch). Per le partite di stagioni passate
+// le partite in memoria sono tutte successive e resta solo la stagione archiviata.
+const keyOf = (m) => `${m.date}|${[m.homeId, m.awayId].sort().join('|')}`;
 const recentOfMatch = (match, id) => {
-  if (match.recentOf && (!match.extra || String(match.id).startsWith('a-'))) return match.recentOf(id);
-  return recentMatches(id, 80).filter((m) => m.id !== match.id && (!match.ts || m.ts < match.ts)).slice(0, 5);
+  const seen = new Set();
+  const out = [];
+  const a = match.recentOf ? match.recentOf(id) : [];
+  const b = recentMatches(id, 80).filter((m) => m.id !== match.id && (!match.ts || m.ts < match.ts));
+  [...b, ...a].forEach((m) => { const k = keyOf(m); if (!seen.has(k) && Array.isArray(m.score)) { seen.add(k); out.push(m); } });
+  return out.sort((x, y) => y.ts - x.ts).slice(0, 5);
 };
-const formOfMatch = (match, id) => {
-  if (match.formOf && (!match.extra || String(match.id).startsWith('a-'))) return match.formOf(id);
-  return recentOfMatch(match, id).slice().reverse().map((x) => { const r = resOf(x, id); return r ? r.r : null; }).filter(Boolean); // mai un risultato inventato
-};
+const formOfMatch = (match, id) => recentOfMatch(match, id).slice().reverse().map((x) => { const r = resOf(x, id); return r ? r.r : null; }).filter(Boolean); // mai un risultato inventato
 export const conceptOf = (k) => { try { return localStorage.getItem(`sl-concept-${k}`) || 'a'; } catch { return 'a'; } };
 
 const resOf = (m, teamId) => {
