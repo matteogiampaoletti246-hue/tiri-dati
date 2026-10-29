@@ -1,0 +1,48 @@
+name: Misura fluidita (Chromium, CPU rallentata)
+# Costruisce l'app dal ramo scelto, simula gli swipe tra i giorni della Home con la CPU rallentata e confronta varianti.
+# Risultato nel ramo "perf-out" (perf.json). Non tocca il sito pubblicato.
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: ramo o commit da misurare
+        default: dev
+      only:
+        description: regex sui nomi delle varianti (vuoto = tutte)
+        default: ''
+permissions:
+  contents: write
+jobs:
+  perf:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    container:
+      image: mcr.microsoft.com/playwright:v1.47.2-jammy
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Costruisce l'app
+        run: |
+          cd aurora-src
+          npm ci --no-audit --no-fund
+          npm run build 2>&1 | tail -5
+          rm -rf ../aurora && cp -r dist ../aurora
+      - name: Misura
+        run: |
+          mkdir -p /tmp/pf && cp .github/perf/prof.mjs /tmp/pf/ && cp .github/perf/variants.json /tmp/pf/
+          cd /tmp/pf && npm init -y >/dev/null && npm i playwright@1.47.2 --no-audit --no-fund >/dev/null
+          node $GITHUB_WORKSPACE/.github/webkit/serve.mjs "$GITHUB_WORKSPACE" 8080 &
+          sleep 2
+          cd /tmp/pf && VARIANTS=/tmp/pf/variants.json ONLY='${{ inputs.only }}' BASE=http://localhost:8080/ node prof.mjs || true
+          mkdir -p "$GITHUB_WORKSPACE/perf-out" && cp -r /tmp/pf/perf-out/. "$GITHUB_WORKSPACE/perf-out/" || true
+      - name: Salva nel ramo perf-out
+        if: always()
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          mkdir -p /tmp/po && cp -r perf-out/. /tmp/po/ 2>/dev/null || true
+          cd /tmp/po && git init -q -b perf-out && git config user.name github-actions && git config user.email github-actions@users.noreply.github.com
+          git add -A && git commit -qm "Misura $GITHUB_SHA" && git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" perf-out
