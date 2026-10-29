@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import usePageTab from '@/hooks/usePageTab';
 import { useEntityScope } from '@/components/past/PastBits';
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
+import useAsync from '@/hooks/useAsync';
+import { teamFromIndex } from '@/data/teamIndex';
 import PageShell from '@/components/PageShell';
 import TopBar from '@/components/TopBar';
 import SwipeTabs from '@/components/SwipeTabs';
@@ -42,10 +44,17 @@ export default function Team() {
     return () => window.removeEventListener('sl-comp', h);
   }, [id]);
   const loading = useInitialLoad(280);
-  const team = teamById(id);
+  // squadre di tutte le competizioni (/squadra/fm-<id FotMob>): la scheda si costruisce dall'indice tidx
+  const fmRoute = /^fm-(\d+)$/.exec(String(id));
+  const { data: idxTeam, loading: idxLoading } = useAsync(() => (fmRoute && !teamById(id) ? teamFromIndex(fmRoute[1]) : null), [id]);
+  const team = teamById(id) || idxTeam;
   const [, bumpR] = useState(0);
   useEffect(() => { let on = true; loadRose().then(() => on && bumpR((n) => n + 1)); return () => { on = false; }; }, []);
 
+  if (team && team.id !== id) return <Navigate replace to={`/squadra/${team.id}`} />;
+  if (!team && fmRoute && idxLoading) {
+    return <PageShell bar={false}><TopBar title="Squadra" /><div className="px-5 pt-8"><Skeleton className="h-[52px] w-full" /></div></PageShell>;
+  }
 
   if (!team) {
     return (
@@ -65,18 +74,20 @@ export default function Team() {
   const shownLg = bComp && bComp !== 'all' ? leagueById(bComp) : league;
   const isHome = !bComp || bComp === 'all' || bComp === team.leagueId;
   const meta = <FormDots form={teamForm(team.id)} size={14} />;
-  const below = (
+  // allenatore solo se noto (mai "All. —")
+  const coach = (roseOf(team) || {}).co || (coachOf(team.id) !== '—' ? coachOf(team.id) : null);
+  const below = (isHome && row) || coach ? (
     <div className="flex min-w-0 items-center gap-2.5 text-[12.5px]">
       {isHome && row ? (
         <>
           <b className="tnum text-[16px]" style={{ color: 'var(--ink)' }}>{row.rank}°</b>
           <span className="tnum" style={{ color: 'var(--ink-2)' }}>{row.points} pt</span>
-          <span aria-hidden="true" className="h-4 w-px" style={{ background: 'var(--hair)' }} />
+          {coach ? <span aria-hidden="true" className="h-4 w-px" style={{ background: 'var(--hair)' }} /> : null}
         </>
       ) : null}
-      <span className="min-w-0 truncate" style={{ color: 'var(--ink-2)' }}>All. {(roseOf(team) || {}).co || coachOf(team.id)}</span>
+      {coach ? <span className="min-w-0 truncate" style={{ color: 'var(--ink-2)' }}>All. {coach}</span> : null}
     </div>
-  );
+  ) : null;
 
   const club = team.colors && team.colors[0];
   const wrap = (a, n) => <div key={n.key} className="club-scope" style={{ '--club': club, '--club-a': a }}>{n}</div>;

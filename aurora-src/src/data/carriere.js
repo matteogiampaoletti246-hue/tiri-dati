@@ -1,4 +1,5 @@
 import { BASE } from './load';
+import { lruGet, lruSet } from '@/lib/lru';
 
 let DATA = null;
 let PROM = null;
@@ -19,8 +20,15 @@ export const setCarriere = (id, v) => { if (!DATA) DATA = {}; if (!DATA[id]) DAT
 export const carriereOf = (id) => (DATA ? DATA[id] || null : null);
 
 // Carriere di tutti i giocatori delle rose (car/<id FotMob % 100>.json, carriere_extra.py): squadre senior, giovanili e nazionali
-const SH = {};
-const shard = (n) => { if (!SH[n]) SH[n] = fetch(`${BASE}car/${n}.json`).then((r) => (r.ok ? r.json() : {})).catch(() => ({})); return SH[n]; };
+// capienza fissa: con tutti i giocatori dell'indice ogni file e' grande, in memoria restano gli ultimi 8
+const SH = new Map();
+const shard = (n) => {
+  const hit = lruGet(SH, n);
+  if (hit) return hit;
+  const p = fetch(`${BASE}car/${n}.json`).then((r) => (r.ok ? r.json() : {})).catch(() => ({}));
+  lruSet(SH, n, p, 8);
+  return p;
+};
 export const careerByFm = async (fid) => {
   if (!fid) return null;
   const d = await shard(Number(fid) % 100);

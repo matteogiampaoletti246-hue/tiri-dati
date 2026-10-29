@@ -10,6 +10,8 @@ import { resetStandingsCache } from './standings';
 import { startLive } from './live';
 import { refreshStatus } from './fotmob';
 import { archIndex } from './archive';
+import { loadDayFeed } from './dayFeed';
+import { TODAY_ISO } from './matches';
 
 let booted = null;
 
@@ -27,7 +29,8 @@ export function bootData() {
       // indice dell'archivio a riposo: le competizioni scaricate (anche quelle solo d'archivio) sono subito in ricerca e nelle tendine
       setTimeout(() => { archIndex().catch(() => null); }, 1200);
       // prima di mostrare la Home: stato e risultati delle partite "live" o appena finite dalla fonte (max 2,5 s)
-      return Promise.race([refreshStatus().catch(() => 0), new Promise((r) => setTimeout(r, 2500))]).then(() => RAW);
+      // e le partite di oggi delle competizioni dell'archivio (giorni/<data>.json): la Home nasce completa, niente finestre che arrivano dopo
+      return Promise.race([loadDayFeed(TODAY_ISO).catch(() => 0).then(() => refreshStatus()).catch(() => 0), new Promise((r) => setTimeout(r, 2500))]).then(() => RAW);
     });
   }
   return booted;

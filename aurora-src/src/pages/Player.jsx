@@ -16,7 +16,7 @@ import { useEntityScope } from '@/components/past/PastBits';
 import useAsync from '@/hooks/useAsync';
 import { teamById } from '@/data/teams';
 import { loadPlayerShots } from '@/data/extras';
-import { loadCarriere } from '@/data/carriere';
+import { loadCarriere, careerByFm, carriereOf } from '@/data/carriere';
 import { POS_IT } from '@/components/player/playerCalc';
 import { ProfiloPanel, PartitePanel, StatistichePanel, CarrieraPanel } from '@/components/player/PlayerTabs';
 
@@ -70,6 +70,10 @@ function PlayerView({ id }) {
       on = false;
     };
   }, [id]);
+  // Carriera solo se c'e' (car/ di carriere_extra.py o carriere.json): niente scheda vuota, compare appena il dato arriva
+  const { data: carRec } = useAsync(() => (pid ? careerByFm(pid) : Promise.resolve(null)), [pid]);
+  const cOld = carriereOf(id);
+  const hasCar = !!(carRec && ((carRec.car || []).length || (carRec.yo || []).length || (carRec.nt || []).length)) || !!(cOld && cOld.ok && cOld.car && cOld.car.length);
   const change = (i) => {
     setTab(i);
     try {
@@ -98,7 +102,8 @@ function PlayerView({ id }) {
     wrap('20%', <PartitePanel key="m" player={player} concept="b" />),
     wrap('16%', <StatistichePanel key="s" player={player} team={team} />),
     <CarrieraPanel key="c" player={player} team={team} concept="b" />,
-  ];
+  ].slice(0, hasCar ? 4 : 3);
+  const tabs = hasCar ? TABS : TABS.slice(0, 3);
 
   return (
     <PageShell swipeBack={false}>
@@ -117,7 +122,7 @@ function PlayerView({ id }) {
           {[0, 1, 2, 3].map((i) => <Skeleton key={i} className="h-[80px] w-full" />)}
         </div>
       ) : (
-        <SwipeTabs fixedBar tabs={TABS} panels={panels} index={tab} onChange={change} className="pt-0" />
+        <SwipeTabs fixedBar tabs={tabs} panels={panels} index={Math.min(tab, tabs.length - 1)} onChange={change} className="pt-0" />
       )}
     </PageShell>
   );

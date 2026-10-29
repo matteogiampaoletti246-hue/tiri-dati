@@ -18,6 +18,7 @@ import SearchOverlay from '@/components/SearchOverlay';
 import useInitialLoad from '@/hooks/useInitialLoad';
 import useTicker from '@/hooks/useTicker';
 import { syncDayTimes, refreshStatus } from '@/data/fotmob';
+import { loadDayFeed } from '@/data/dayFeed';
 import { DATES, TODAY_INDEX, isoDate, matchesByDate, MATCHES } from '@/data/matches';
 import { LEAGUES } from '@/data/leagues';
 
@@ -30,17 +31,34 @@ const addDays = (iso, k) => {
   return isoDate(d);
 };
 // il giorno si mostra solo quando orari e ordine sono definitivi (max 1,5 s di attesa): niente righe che si spostano dopo
-const dayReady = (iso) => Promise.race([syncDayTimes(iso).catch(() => 0), new Promise((r) => setTimeout(r, 1500))]);
+// (anche le partite delle competizioni dell'archivio, giorni/<data>.json)
+const dayReady = (iso) => Promise.race([Promise.all([syncDayTimes(iso).catch(() => 0), loadDayFeed(iso).catch(() => 0)]), new Promise((r) => setTimeout(r, 1500))]);
 const ISO_LIST = DATES.map((d) => isoDate(d));
 let TOUCHING = false;
 
+// ordine: top campionati e campionati aggiunti come sempre, poi le competizioni dell'archivio: internazionali,
+// poi i paesi principali, poi gli altri paesi in ordine alfabetico (nello stesso paese l'ordine dell'indice: prima la serie maggiore)
+const PRIO = ['INT', 'ITA', 'ENG', 'ESP', 'GER', 'FRA', 'POR', 'NED', 'TUR', 'BEL', 'SCO', 'BRA', 'ARG', 'USA', 'MEX', 'COL', 'CHI', 'URU', 'AUT', 'SUI', 'GRE', 'RUS', 'UKR', 'DEN', 'SWE', 'NOR', 'POL', 'CZE', 'CRO', 'SRB', 'ROU'];
+const rankOf = (L) => {
+  if (!L.arch) return [0, 0, ''];
+  const p = PRIO.indexOf(L.cc);
+  return [1, p < 0 ? PRIO.length : p, p < 0 ? L.country || '' : ''];
+};
+let ORDER = null;
+const leagueOrder = () => {
+  if (ORDER && ORDER.n === LEAGUES.length) return ORDER.list;
+  const list = LEAGUES.map((L, i) => ({ L, i, r: rankOf(L) }))
+    .sort((a, b) => a.r[0] - b.r[0] || a.r[1] - b.r[1] || a.r[2].localeCompare(b.r[2]) || a.i - b.i)
+    .map((x) => x.L);
+  ORDER = { n: LEAGUES.length, list };
+  return list;
+};
 function groupsOf(iso, filter) {
   const dm = matchesByDate(iso);
   const sh = filter === 'live' ? dm.filter((m) => m.status === 'live') : dm;
-  return LEAGUES.map((league) => ({
-    league,
-    matches: sh.filter((m) => m.leagueId === league.id).sort((a, b) => a.ts - b.ts),
-  })).filter((g) => g.matches.length);
+  const by = {};
+  sh.forEach((m) => { (by[m.leagueId] = by[m.leagueId] || []).push(m); });
+  return leagueOrder().filter((league) => by[league.id]).map((league) => ({ league, matches: by[league.id].sort((a, b) => a.ts - b.ts) }));
 }
 
 // Un giorno intero. I giorni vicini sono gia' pronti accanto a quello aperto: durante lo swipe non c'e' nulla da costruire.
@@ -96,7 +114,10 @@ export default function Home() {
   useEffect(() => {
     let on = true;
     syncDayTimes(iso).then((n) => on && n && bump((x) => x + 1));
-    refreshStatus().then((n) => on && n && bump((x) => x + 1));
+    // competizioni dell'archivio del giorno aperto e dei due vicini (lo swipe tra giorni li trova gia' pronti)
+    Promise.all([iso, addDays(iso, -1), addDays(iso, 1)].map((d) => loadDayFeed(d).catch(() => 0)))
+      .then((ns) => { if (on && ns.some(Boolean)) bump((x) => x + 1); return refreshStatus(); })
+      .then((n) => on && n && bump((x) => x + 1));
     return () => { on = false; };
   }, [iso]);
   // l'app torna in primo piano: stato e risultati di nuovo dalla fonte, poi la Home si ridisegna
@@ -113,7 +134,8 @@ export default function Home() {
       for (const d of DATES) {
         if (!on) return;
         const n = await syncDayTimes(isoDate(d));
-        if (n && on) bump((x) => x + 1);
+        const f = await loadDayFeed(isoDate(d)).catch(() => 0);
+        if ((n || f) && on) bump((x) => x + 1);
       }
     })();
     return () => { on = false; };

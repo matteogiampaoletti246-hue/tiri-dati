@@ -7,6 +7,7 @@ on:
     - cron: "*/10 * * * *"   # ieri, oggi e domani
     - cron: "23 */3 * * *"   # anche i 7 giorni successivi (orari e rinvii)
   push:
+    branches: [main]   # i dati si scrivono solo su main (niente copie divergenti su dev da unire)
     paths:
       - risultati.py
 concurrency: risultati
@@ -18,13 +19,11 @@ jobs:
     timeout-minutes: 8
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
+      # solo libreria standard: basta il python3 gia' presente nel runner (niente setup a ogni giro, 144 giri al giorno)
       - name: Scarica
         run: |
           if [ "${{ github.event.schedule }}" = "23 */3 * * *" ] || [ "${{ github.event_name }}" != "schedule" ]; then export DAYS="-2..7"; else export DAYS="-1..1"; fi
-          python risultati.py
+          python3 risultati.py
       - name: Salva
         run: |
           git config user.name "github-actions"

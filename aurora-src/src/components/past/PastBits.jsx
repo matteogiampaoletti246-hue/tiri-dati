@@ -111,7 +111,8 @@ export function useTeamView(team, slot, baseComps, defComp, allowAll = false) {
   if (noCur && sk === 'cur') sk = seasons[0];
   // campionati aggiunti: la stagione in corso si legge dall'archivio (stesse statistiche dei top campionati), "Attuale" resta il nome in tendina
   const lg = compEff !== 'all' ? leagueById(compEff) : null;
-  const arch = lg && lg.extra && RAW.extra && RAW.extra.sk ? RAW.extra.sk[String(lg.fm)] : null;
+  // (anche le competizioni dell'archivio fm-<id>: la stagione in corso e' la piu' recente dell'indice)
+  const arch = lg && lg.extra ? ((RAW.extra && RAW.extra.sk && RAW.extra.sk[String(lg.fm)]) || (lg.arch ? curSeasonSync(lg.fm) : null)) : null;
   const eff = sk === 'cur' && arch ? arch : sk;
   // scegliendo una competizione che la squadra non ha giocato nella stagione selezionata, la stagione torna ad "Attuale"
   // (o alla piu' recente in cui l'ha giocata se oggi non c'e')

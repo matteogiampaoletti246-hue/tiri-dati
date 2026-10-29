@@ -338,7 +338,10 @@ export function refreshStatus() {
     const days = [...new Set(sus.filter((m) => !m.extra).map((m) => m.date))];
     await Promise.all(days.map((iso) => syncDayTimes(iso, true).then((n) => { changed += n; }).catch(() => 0)));
     // solo quelle iniziate nelle ultime 5 ore (le piu' vecchie le corregge partite_extra.json): poche richieste anche su iPhone
-    const one = sus.filter((m) => m.extra && m.fmId && (m.status === 'live' || now - m.ts < 5 * 3600000));
+    // competizioni dell'archivio (feed del giorno): tante partite insieme, al massimo 24 richieste per giro (prima quelle senza punteggio live)
+    const one0 = sus.filter((m) => m.extra && m.fmId && (m.status === 'live' || now - m.ts < 5 * 3600000));
+    const feed = one0.filter((m) => m.feed).sort((a, b) => (a.liveScore ? 1 : 0) - (b.liveScore ? 1 : 0) || (a.statusAt || 0) - (b.statusAt || 0)).slice(0, 24);
+    const one = one0.filter((m) => !m.feed).concat(feed);
     let i = 0;
     const worker = async () => {
       while (i < one.length) {

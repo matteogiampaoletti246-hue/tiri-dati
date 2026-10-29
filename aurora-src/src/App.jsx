@@ -17,6 +17,7 @@ import Home from '@/pages/Home';
 import League from '@/pages/League';
 import Match from '@/pages/Match';
 import Menu from '@/pages/Menu';
+import Competitions from '@/pages/Competitions';
 import Partite from '@/pages/Partite';
 import Player from '@/pages/Player';
 import Referee from '@/pages/Referee';
@@ -69,6 +70,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/menu" element={<Menu />} />
+        <Route path="/competizioni" element={<Competitions />} />
         <Route path="/calcolatore" element={<ReliabilityCalculator />} />
         <Route path="/partite" element={<Partite />} />
         <Route path="/tiri-squadre" element={<TeamShots />} />
