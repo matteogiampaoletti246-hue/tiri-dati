@@ -203,6 +203,7 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 
 ## Fluidita' della Home (regola fissa)
 - Misurato (Chromium, CPU 4x, 10 cambi giorno): blocchi del thread principale 18,6 s -> 7,4 s. Colli di bottiglia tolti: abbinamento squadre del feed (`leagueById` su mappa, nomi normalizzati in memoria a capienza fissa in `teamMatch.js`), raggruppamento per giorno memorizzato (`groupsOf`), ogni giorno si ridisegna solo se cambiano le sue partite (`daySig`), giorni vicini costruiti a pezzi a riposo (`FIRST`/`STEP`), `growBox` solo quando cambia il giorno affiancato.
+- Swipe tra giorni (secondo giro): finestra di 5 giorni montati (`DayPane`, due vicini + due lontani `data-far`, nascosti e non misurati da `growBox`), completati a riposo (vicini a pezzi di 12, lontani di 5), mai durante dito o scorrimento (`TOUCHING`/`GLIDE`); `BUILT` evita il ridisegno della Home a inizio swipe se il vicino e' completo. `matchesByDate` usa un indice per giorno (una passata, non un filtro su tutte le partite a ogni ridisegno). Gli aggiornamenti dalla rete (`later`) si applicano solo a pagina ferma e la rete del nuovo giorno parte 280 ms dopo l'ultimo cambio.
 - Il WebKit dell'anteprima disegna in software: i suoi fotogrammi servono solo per confronti relativi (prima/dopo, inizio/fine giro). Prove: "fluidita: 12 swipe di fila...", "fluidita: swipe tra schede...".
 
 ## Rose (pannello "Squadra", regola fissa)

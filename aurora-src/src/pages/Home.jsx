@@ -36,6 +36,11 @@ const addDays = (iso, k) => {
 const dayReady = (iso) => Promise.race([Promise.all([syncDayTimes(iso).catch(() => 0), loadDayFeed(iso).catch(() => 0)]), new Promise((r) => setTimeout(r, 1500))]);
 const ISO_LIST = DATES.map((d) => isoDate(d));
 let TOUCHING = false;
+let GLIDE = false;
+// giorni gia' montati per intero (iso|filtro): il giorno vicino completo non fa ridisegnare la Home a inizio swipe
+const BUILT = new Map();
+// aggiornamenti dalla rete: mai mentre il dito e' sullo schermo o il giorno sta scorrendo (si ridisegna appena la pagina e' ferma)
+const later = (fn) => { const go = () => { if (TOUCHING || GLIDE) setTimeout(go, 200); else fn(); }; go(); };
 
 // In alto, da soli: top campionati (i 5 aperti, gli altri 4 chiusi), coppe europee, competizioni internazionali.
 // Tutte le altre competizioni stanno nella finestra del loro paese (paesi in ordine alfabetico italiano; dentro, in ordine di importanza).
@@ -89,18 +94,22 @@ function groupsOf(iso, filter, ver) {
 // (un pezzo per volta: nessun fotogramma bloccato); durante lo swipe non c'e' nulla da costruire.
 const FIRST = 6;
 const STEP = 5;
-const DayPane = memo(function DayPane({ iso, filter, ver, active }) {
+const STEP_NEAR = 12;
+const DayPane = memo(function DayPane({ iso, filter, ver, active, near }) {
   const items = groupsOf(iso, filter, ver);
   const [cnt, setCnt] = useState(active ? Infinity : FIRST);
   const eff = active ? Infinity : cnt;
+  BUILT.set(`${iso}|${filter}`, eff >= items.length);
+  if (BUILT.size > 40) BUILT.delete(BUILT.keys().next().value);
   useEffect(() => {
     if (active) { if (cnt !== Infinity) setCnt(Infinity); return undefined; }
     if (cnt >= items.length) return undefined;
     let id;
-    const go = () => { if (TOUCHING) { id = setTimeout(go, 120); return; } setCnt((c) => c + STEP); };
-    id = setTimeout(go, 60);
+    // i giorni vicini si completano per primi e a pezzi grandi; quelli a due giorni di distanza dopo; mai durante lo swipe
+    const go = () => { if (TOUCHING || GLIDE) { id = setTimeout(go, 150); return; } setCnt((c) => c + (near ? STEP_NEAR : STEP)); };
+    id = setTimeout(go, near ? 40 : 160);
     return () => clearTimeout(id);
-  }, [cnt, active, items.length]);
+  }, [cnt, active, items.length, near]);
   if (!items.length) {
     return (
       <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>
@@ -131,18 +140,25 @@ export default function Home() {
 
   const [ver, bump] = useState(0);
   // orari reali: prima il giorno aperto, poi gli altri in sottofondo
+  const firstFx = useRef(true);
   useEffect(() => {
     let on = true;
-    syncDayTimes(iso).then((n) => on && n && bump((x) => x + 1));
-    // competizioni dell'archivio del giorno aperto e dei due vicini (lo swipe tra giorni li trova gia' pronti)
-    Promise.all([iso, addDays(iso, -1), addDays(iso, 1)].map((d) => loadDayFeed(d).catch(() => 0)))
-      .then((ns) => { if (on && ns.some(Boolean)) bump((x) => x + 1); return refreshStatus(); })
-      .then((n) => on && n && bump((x) => x + 1));
-    return () => { on = false; };
+    const again = () => later(() => on && bump((x) => x + 1));
+    const run = () => {
+      syncDayTimes(iso).then((n) => on && n && again());
+      // competizioni dell'archivio del giorno aperto e dei due vicini (lo swipe tra giorni li trova gia' pronti)
+      Promise.all([iso, addDays(iso, -1), addDays(iso, 1)].map((d) => loadDayFeed(d).catch(() => 0)))
+        .then((ns) => { if (on && ns.some(Boolean)) again(); return refreshStatus(); })
+        .then((n) => on && n && again());
+    };
+    // cambiando giorno la rete parte solo se ci si ferma (piu' swipe di fila = una sola richiesta, niente ridisegni in mezzo allo scorrimento)
+    let tm = 0;
+    if (firstFx.current) { firstFx.current = false; run(); } else tm = setTimeout(run, 280);
+    return () => { on = false; clearTimeout(tm); };
   }, [iso]);
   // l'app torna in primo piano: stato e risultati di nuovo dalla fonte, poi la Home si ridisegna
   useEffect(() => {
-    const vis = () => { if (!document.hidden) refreshStatus().then((n) => n && bump((x) => x + 1)); };
+    const vis = () => { if (!document.hidden) refreshStatus().then((n) => n && later(() => bump((x) => x + 1))); };
     document.addEventListener('visibilitychange', vis);
     window.addEventListener('pageshow', vis);
     const t = setInterval(vis, 30000);
@@ -155,7 +171,7 @@ export default function Home() {
         if (!on) return;
         const n = await syncDayTimes(isoDate(d));
         const f = await loadDayFeed(isoDate(d)).catch(() => 0);
-        if ((n || f) && on) bump((x) => x + 1);
+        if ((n || f) && on) later(() => on && bump((x) => x + 1));
       }
     })();
     return () => { on = false; };
@@ -166,7 +182,13 @@ export default function Home() {
   const nextIso = dayIdx === ISO_LIST.length - 1 ? null : addDays(iso, 1);
   const [peek, setPeek] = useState(null);
   const peekRef = useRef(null);
-  const showPeek = (v) => { if (peekRef.current !== v) { peekRef.current = v; setPeek(v); } };
+  const showPeek = (v) => {
+    if (peekRef.current === v) return;
+    peekRef.current = v;
+    // giorno vicino gia' completo: niente ridisegno della Home a inizio swipe
+    if (v && BUILT.get(`${v}|${live.current.filter}`)) return;
+    setPeek(v);
+  };
 
   const listRef = useRef(null);
   const busy = useRef(false);
@@ -180,6 +202,7 @@ export default function Home() {
     const w = Math.min(window.innerWidth, el.offsetWidth || 430);
     const dir = target === nextIso ? -1 : 1;
     busy.current = true;
+    GLIDE = true;
     showPeek(target);
     growBox(el);
     dragDays(-dir, true);
@@ -196,6 +219,7 @@ export default function Home() {
       el.style.transform = '';
       el.style.willChange = '';
       busy.current = false;
+      GLIDE = false;
     };
     finishRef.current = end;
     el.style.willChange = 'transform';
@@ -221,7 +245,7 @@ export default function Home() {
 
   // Swipe laterale tra i giorni: eventi touch nativi su tutta la pagina (affidabili su iPhone).
   const live = useRef({});
-  live.current = { iso, prevIso, nextIso, search: searchOpen, glide };
+  live.current = { iso, prevIso, nextIso, search: searchOpen, glide, filter };
   useEffect(() => {
     let st = null;
     const blocked = (t) => t.closest && t.closest('[data-no-swipe], input, select, textarea, [role="dialog"]');
@@ -296,6 +320,7 @@ export default function Home() {
     document.addEventListener('touchcancel', onEnd, { passive: true });
     return () => {
       TOUCHING = false;
+      GLIDE = false;
       document.removeEventListener('touchstart', onStart);
       document.removeEventListener('touchmove', onMove);
       document.removeEventListener('touchend', onEnd);
@@ -303,12 +328,16 @@ export default function Home() {
     };
   }, []);
 
+  // finestra di 5 giorni: i due vicini (pronti per lo swipe) e due piu' lontani, preparati a riposo e non disegnati finche' non diventano vicini
+  const farIso = (r) => { const j = dayIdx + r; return dayIdx >= 0 && (j < 0 || j >= ISO_LIST.length) ? null : addDays(iso, r); };
   const panes = [];
   const sigs = {};
-  [prevIso, iso, nextIso].forEach((d) => { if (d) sigs[d] = `${LEAGUES.length}#${daySig(d)}`; });
-  if (prevIso) panes.push({ k: prevIso, role: -1 });
-  panes.push({ k: iso, role: 0 });
-  if (nextIso) panes.push({ k: nextIso, role: 1 });
+  const add = (k, role) => { if (!k) return; sigs[k] = `${LEAGUES.length}#${daySig(k)}`; panes.push({ k, role }); };
+  add(farIso(-2), -2);
+  add(prevIso, -1);
+  add(iso, 0);
+  add(nextIso, 1);
+  add(farIso(2), 2);
 
   return (
     <PageShell swipeBack={false}>
@@ -378,9 +407,10 @@ export default function Home() {
           panes.map(({ k, role }) => (
             <div
               key={k}
-                            style={role ? { position: 'absolute', top: 0, width: '100%', left: `${role * 100}%`, display: 'flow-root' } : { display: 'flow-root' }}
+              data-far={Math.abs(role) > 1 ? '1' : undefined}
+              style={role ? { position: 'absolute', top: 0, width: '100%', left: `${role * 100}%`, display: 'flow-root', ...(Math.abs(role) > 1 ? { visibility: 'hidden', pointerEvents: 'none' } : null) } : { display: 'flow-root' }}
             >
-              <DayPane iso={k} filter={filter} ver={sigs[k]} tick={role === 0 ? tick : 0} active={role === 0 || peek === k} />
+              <DayPane iso={k} filter={filter} ver={sigs[k]} tick={role === 0 ? tick : 0} active={role === 0 || peek === k} near={Math.abs(role) <= 1} />
             </div>
           ))
         )}
