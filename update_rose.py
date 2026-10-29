@@ -34,6 +34,25 @@ def norm(s):
     return re.sub(r"\b(fc|ac|as|sc|sk|fk|cf|cd|sv|kv|rsc|rc|ssc)\b", " ", re.sub(r"[^a-z0-9]+", " ", s)).strip()
 
 
+# seconde squadre / riserve / giovanili / femminili: due nomi che differiscono per uno di questi segni non sono mai la stessa squadra
+RESERVE = {"b", "ii", "iii", "2", "u17", "u18", "u19", "u20", "u21", "u22", "u23", "sub", "reserves", "reserve", "res", "castilla", "jong",
+           "promesas", "youth", "academy", "primavera", "amateure", "women", "femenino", "feminino", "femminile", "feminine", "ladies", "frauen", "vrouwen"}
+
+
+def reserve_tag(s):
+    return " ".join(sorted(t for t in norm(s).split() if t in RESERVE))
+
+
+def venue_of(t):
+    """Stadio della squadra da FotMob: [nome, lat, lon, citta'] (per il meteo)."""
+    w = (((t or {}).get("overview") or {}).get("venue") or {}).get("widget") or {}
+    loc = w.get("location") or []
+    try:
+        return [w.get("name"), round(float(loc[0]), 4), round(float(loc[1]), 4), w.get("city")] if len(loc) == 2 else None
+    except Exception:
+        return None
+
+
 def find_teams(o, out):
     if isinstance(o, dict):
         if isinstance(o.get("id"), int) and "name" in o and ("pageUrl" in o or "shortName" in o):
@@ -209,7 +228,7 @@ def main():
                 continue
             key = mine.get(norm(tname))
             if not key:
-                key = next((v for k, v in mine.items() if k and (k in norm(tname) or norm(tname) in k)), tname)
+                key = next((v for k, v in mine.items() if k and (k in norm(tname) or norm(tname) in k) and reserve_tag(v) == reserve_tag(tname)), tname)
             rows, co = [], None
             for g in sq:
                 t0 = g.get("title")
@@ -222,6 +241,9 @@ def main():
                     rows.append([m.get("id"), m.get("name"), GRP[t0], m.get("shirtNumber"), m.get("cname"), m.get("age"), num(m.get("height")),
                                  num(m.get("rating")), m.get("goals") or 0, m.get("assists") or 0, 1 if m.get("injury") else 0])
             res[key] = {"id": tid, "co": co, "lg": lg, "p": [] if lg in COACH_ONLY else rows}
+            v = venue_of(t)
+            if v:
+                res[key]["v"] = v
             time.sleep(0.3)
     res = fill_missing(res)
     json.dump(res, open(OUT, "w"), ensure_ascii=False, separators=(",", ":"))
