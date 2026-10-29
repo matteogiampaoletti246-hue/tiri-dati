@@ -1,0 +1,6004 @@
+{
+ "stagioni": {
+  "aut-bundesliga": "2026-2027",
+  "pro-league": "2026-2027",
+  "champions-league": "2026-2027",
+  "premier-league": "2026-2027",
+  "championship": "2026-2027",
+  "ligue-1": "2026-2027",
+  "bundesliga": "2026-2027",
+  "serie-a": "2026-2027",
+  "eredivisie": "2026-2027",
+  "nor-eliteserien": "2026",
+  "liga-portugal": "2026-2027",
+  "scottish-premiership": "2026-2027",
+  "super-lig": "2026-2027",
+  "europa-league": "2026-2027",
+  "serie-b": "2026-2027",
+  "la-liga": "2026-2027",
+  "ligue-2": "2026-2027",
+  "eerste-divisie": "2026-2027",
+  "arg-liga-profesional": "2026 - Clausura",
+  "mls": "2026",
+  "efl-cup": "2026-2027",
+  "coupe-de-france": "2026-2027",
+  "gre-super-league-1": "2026-2027",
+  "laliga-2": "2026-2027",
+  "coppa-italia": "2026-2027",
+  "bundesliga-2": "2026-2027",
+  "belgian-cup": "2026-2027",
+  "turchia-1-lig": "2026-2027",
+  "scottish-league-cup": "2026-2027",
+  "liga-portugal-2": "2026-2027",
+  "taca-de-portugal": "2026-2027",
+  "dfb-pokal": "2026-2027",
+  "liga-mx": "2026-2027 - Apertura",
+  "brasileirao": "2026",
+  "austrian-cup": "2026-2027",
+  "copa-do-brasil": "2026",
+  "conference-league": "2026-2027"
+ },
+ "vuote": [
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Cernex ES",
+   "id": "2386828",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "RCF 07",
+   "id": "2386829",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Concarneau Hermine",
+   "id": "2390718",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Tinteniac FC",
+   "id": "2390705",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Roeschwoog",
+   "id": "2389486",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "ASC Biesheim",
+   "id": "402236",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Bogny",
+   "id": "293306",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Thionville Lusitanos",
+   "id": "1308840",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Feurs",
+   "id": "293344",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "US Monistrol",
+   "id": "2386832",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "SCNA Derval",
+   "id": "2386573",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Le Poire Sur Vie",
+   "id": "108899",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "US Sucs et Lignon",
+   "id": "2386836",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Hauts Lyonnais",
+   "id": "687558",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Étoile Frejus Saint-Raphael",
+   "id": "1813",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "ES Fosseenne",
+   "id": "1570341",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Ginglin Cesson Saint Brieuc",
+   "id": "497187",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Rennes TA",
+   "id": "238959",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Saint Pierre Milizac",
+   "id": "1103615",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Ergue Gaberic PD",
+   "id": "293287",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "AS Domarin",
+   "id": "971154",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Villefranche Beaujolais",
+   "id": "161694",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "AS Steenvoorde",
+   "id": "801431",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Amiens",
+   "id": "8587",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "ASA Vauzelles",
+   "id": "1198327",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Cosne UCS Football",
+   "id": "1198323",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Blois",
+   "id": "4103",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Orléans",
+   "id": "47211",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Chevigny Saint Sauveur",
+   "id": "402251",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Vesoul",
+   "id": "4119",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Colombier Satolas",
+   "id": "1688084",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Chassieu Décines",
+   "id": "497092",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Comtal",
+   "id": "1688051",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Balma",
+   "id": "1814",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Crest Aouste",
+   "id": "971169",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Olympique de Valence",
+   "id": "1103650",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Dijon ASPTT",
+   "id": "576204",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "EF Villages",
+   "id": "576207",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "FC 2 Rives 82",
+   "id": "1833168",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Stade Beaucairois 30",
+   "id": "971223",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "FC Riom",
+   "id": "402207",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Moulins Yzeure",
+   "id": "1824",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "FCO Strasbourg Koenigshoffen",
+   "id": "1200165",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "FCSR Haguenau",
+   "id": "4123",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "FCVI St Maurice Blussans",
+   "id": "1828848",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Is-Selongey Football",
+   "id": "108896",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Feignies Aulnoye",
+   "id": "238915",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Croix",
+   "id": "293452",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Gravelines",
+   "id": "293455",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Valenciennes",
+   "id": "9873",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Libourne",
+   "id": "8591",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "UA Niort St. Florent",
+   "id": "801239",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Lourdes FC",
+   "id": "591801",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Alberes Argeles",
+   "id": "497135",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "OC Cesson",
+   "id": "238958",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Concarneau",
+   "id": "47207",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Offranville",
+   "id": "1308770",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Caen PTT",
+   "id": "293273",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Paray",
+   "id": "238949",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Jura Dolois",
+   "id": "291995",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Racing Besançon",
+   "id": "7785",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Saint-Vit",
+   "id": "291991",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Roannais Foot 42",
+   "id": "1200313",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Lyon La Duchere",
+   "id": "6376",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "SC Toulon",
+   "id": "9852",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "US Mandelieu la Napoule",
+   "id": "1567134",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Seyssinet Pariset",
+   "id": "2520",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "La Tour Saint-Clair",
+   "id": "293355",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "ST Lo Manche",
+   "id": "583143",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Caen",
+   "id": "7819",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "US Briode",
+   "id": "2386872",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "FCO Firminy",
+   "id": "238937",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "US Montagnarde",
+   "id": "1826",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Vitré",
+   "id": "2509",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "US Saint Philbert",
+   "id": "801227",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "La Suze",
+   "id": "238917",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "USF Fecamp",
+   "id": "1105647",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Grand-Quevilly FC",
+   "id": "801449",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Yvetot AC",
+   "id": "402288",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Avranches",
+   "id": "4107",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Ambert Livradois Sud",
+   "id": "1570213",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Le Puy",
+   "id": "293257",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "AS Contres",
+   "id": "1828838",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Vierzon FC",
+   "id": "889477",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Association Still Mutzig",
+   "id": "1570258",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "US Oberlauterbach/Eberbach",
+   "id": "801217",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Coutancaise",
+   "id": "402226",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Quevilly",
+   "id": "2517",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Jeune Entente Toulousaine",
+   "id": "2392114",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Nîmes",
+   "id": "6394",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "US Vandoeuvre",
+   "id": "402218",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Centre Ornain",
+   "id": "801253",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "AC Garona",
+   "id": "2392057",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Puissalicon Magalas",
+   "id": "2392058",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "AS Levier",
+   "id": "1309099",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "FC Chalon",
+   "id": "292033",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Bassin d'Arcachon",
+   "id": "238941",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Boulazac",
+   "id": "1199949",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Cestas",
+   "id": "497182",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Le Bouscat",
+   "id": "293253",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Chambéry",
+   "id": "238924",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Manival",
+   "id": "687552",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "FC Claira St Laurent",
+   "id": "2392052",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Clermontaise",
+   "id": "238947",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Genets Anglet",
+   "id": "2513",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Sud Correze",
+   "id": "2386448",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Montlucon Football",
+   "id": "6369",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "AS Montferrand",
+   "id": "1688046",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Reims Murigny FP",
+   "id": "1688161",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Thaon",
+   "id": "238957",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Stade Bordelais",
+   "id": "238901",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Mérignac Arlac",
+   "id": "801224",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "USC Mezidon",
+   "id": "2391349",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Rouen",
+   "id": "8582",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Bressuire",
+   "id": "293303",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "AS Panazol",
+   "id": "687338",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Brive",
+   "id": "4090",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "FC Périgny",
+   "id": "402211",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Espoir Foot 88",
+   "id": "2392020",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "La Juventus De Papus",
+   "id": "497139",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "FC 3 Vallees 86",
+   "id": "2386450",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "ES Buxerolles",
+   "id": "1199952",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Lafarge Limoges",
+   "id": "2386449",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Asmur",
+   "id": "1829942",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Marmande",
+   "id": "238916",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Aviron Bayonnais FC",
+   "id": "4089",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Pont de Cheruy",
+   "id": "47208",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Tarentaise",
+   "id": "889754",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "SC Bastia",
+   "id": "7794",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Furiani Agliani",
+   "id": "238900",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Sportive Gueretoise",
+   "id": "402193",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Trélissac",
+   "id": "1815",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "St Emilion",
+   "id": "402206",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Rochefort",
+   "id": "971648",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "AC Portugal Tours",
+   "id": "1102968",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "St-Pryve St-Hilaire",
+   "id": "6253",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Ain Sud Foot",
+   "id": "238963",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Bourg en Bresse Péronnas",
+   "id": "6246",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Argonay US",
+   "id": "2386907",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "FC Limonest Dardilly Saint-Didier",
+   "id": "402309",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "AS Sundhoffen",
+   "id": "293249",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "AS Blotzheim",
+   "id": "1688159",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "ASL Koetzingue",
+   "id": "292124",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Mulhouse Foot Reunis",
+   "id": "2389415",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Brétigny FCS",
+   "id": "238688",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Paris 13 Atlético",
+   "id": "238671",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Brouviller",
+   "id": "2389508",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Talange",
+   "id": "2389509",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "CA Boulay",
+   "id": "971216",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "HW Racing 96",
+   "id": "292133",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Cergy Pontoise",
+   "id": "1309062",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "FC Fleury 91",
+   "id": "238687",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Chatou",
+   "id": "292024",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Lusitanos St Maur",
+   "id": "1823",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Cormontreuil",
+   "id": "889363",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Épinal",
+   "id": "6378",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "CSM Clamart",
+   "id": "2390165",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Les Ulis",
+   "id": "292031",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "ES Coteaux Sud",
+   "id": "2389501",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Neuvillette Jamin",
+   "id": "1308835",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "ES Villerupt",
+   "id": "591232",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Amnéville",
+   "id": "2523",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "ESAP Metz",
+   "id": "1688157",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Marnaval",
+   "id": "1413622",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "FC Bastia-Borgo",
+   "id": "213348",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Balagne FC",
+   "id": "497113",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "FC Deolois",
+   "id": "402209",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "S.C. Massay",
+   "id": "2386890",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "FC Du Foron",
+   "id": "889764",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "GFA Rumilly Vallières",
+   "id": "889751",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "FC Montlouis",
+   "id": "402254",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "UF Touraine",
+   "id": "1828839",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "FC Val de Risle",
+   "id": "2391378",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Stade Sotteville",
+   "id": "2391391",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "FR Saint Marcel",
+   "id": "1309069",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "AF Virois",
+   "id": "497189",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Generation Emblavez Jeunes",
+   "id": "2386897",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "ES Veauche",
+   "id": "2386900",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Haut D'Allier",
+   "id": "2386901",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Cournon d'Auvergne",
+   "id": "4099",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Kellermann",
+   "id": "687513",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Mulhouse",
+   "id": "6393",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Longjumeau",
+   "id": "2390674",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Linas Montlhery",
+   "id": "1103457",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Montigny les Metz",
+   "id": "1103320",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Dossenheim",
+   "id": "2389463",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Muzolais",
+   "id": "2386903",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "FC Saint-Paul-en-Jarez",
+   "id": "1827872",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Poissy",
+   "id": "4086",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Saint Ouen I Aumone",
+   "id": "191091",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Sarre-Union",
+   "id": "276276",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "APM Metz",
+   "id": "293319",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "St Denis US",
+   "id": "889580",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Versailles",
+   "id": "191111",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Tremblay F.C.",
+   "id": "238665",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Vitry CA",
+   "id": "1200307",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "US Mer",
+   "id": "2386893",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Bourges Foot 18",
+   "id": "293293",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "US Reipertswiller",
+   "id": "292125",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Hoerdt",
+   "id": "2389432",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Val de l'Orne",
+   "id": "2389502",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Charleville",
+   "id": "591120",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Velizy ASC",
+   "id": "2390581",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Maisons Alfort FC",
+   "id": "497147",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Vitry FC",
+   "id": "402234",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Sedan",
+   "id": "9856",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Yerres-Crosne",
+   "id": "292014",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Drancy",
+   "id": "6086",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "A.S. Neuville",
+   "id": "2386559",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "La Baule Le Pouliguen",
+   "id": "1103426",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "AC Basse Goulaine",
+   "id": "1103333",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Sablé FC",
+   "id": "238967",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "AFC Compiegne",
+   "id": "191093",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Chambly",
+   "id": "294236",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Amiens Portugais",
+   "id": "889496",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Bethune",
+   "id": "592192",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "AS Verson",
+   "id": "1105685",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Jeunesse Fertoise Bagnoles",
+   "id": "2391444",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "AS Violaines",
+   "id": "2392207",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Peronne CAFC",
+   "id": "1413307",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "ASP Neslois",
+   "id": "497149",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Bleriot Plage",
+   "id": "1572640",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Atlas Paillade",
+   "id": "1566529",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "US Salinieres Aigues Mortes",
+   "id": "402258",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Baume-les-Dames",
+   "id": "291996",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Longvic",
+   "id": "292004",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Calais Beau Marais",
+   "id": "1688189",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Loon Plage",
+   "id": "592188",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Challans",
+   "id": "238940",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Montilliers",
+   "id": "2386472",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Château Etampes",
+   "id": "971694",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "St Omer",
+   "id": "1656",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Chauny",
+   "id": "238896",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Stade Orchies",
+   "id": "2392219",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "CS Chaumontois",
+   "id": "1415586",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "RC Calais",
+   "id": "1572622",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Encausse Soga",
+   "id": "2391762",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Castanet US",
+   "id": "293333",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "EP Manosque",
+   "id": "402265",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "US Marseille Endoume Catalans",
+   "id": "591794",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "ES Vigneux",
+   "id": "1199965",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Vendée Fontenay Foot",
+   "id": "6477",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Esches Fosseuse",
+   "id": "2392161",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Cambrai Amerique",
+   "id": "2392182",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "ESOF La Roche",
+   "id": "1309454",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Voltigeurs de Châteaubriant",
+   "id": "47205",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Espoir FC de la Vallee",
+   "id": "2392060",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Le Grau du Roi",
+   "id": "1688047",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "FC Tatinghem",
+   "id": "497111",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "ES Genech",
+   "id": "1688179",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Garde St Cyr Moreac",
+   "id": "402295",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Saint-Renan",
+   "id": "238921",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Plaintel",
+   "id": "889560",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "La Montoye",
+   "id": "2392243",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Le Touquet",
+   "id": "497101",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Landerneau",
+   "id": "238907",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Lannion",
+   "id": "238930",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Marquette",
+   "id": "191114",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "US Le Pays du Valois",
+   "id": "1200265",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Mérignac",
+   "id": "801222",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Angoulême",
+   "id": "2516",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Nueillaubiers",
+   "id": "1103481",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Avenir 79",
+   "id": "2386447",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Perros Louannec",
+   "id": "1308849",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "US Fougères",
+   "id": "293281",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Plabennec",
+   "id": "7772",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Stade Briochin",
+   "id": "685213",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "RC Chambery",
+   "id": "2390158",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Cozes",
+   "id": "497087",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "RC Ganges",
+   "id": "2391623",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Avenir Foot Lozère",
+   "id": "402231",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Rennes CPB Brequigny",
+   "id": "293288",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "AS St Jacques",
+   "id": "2391108",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Riviera",
+   "id": "2390685",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Istres",
+   "id": "10178",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Saint Sebastien",
+   "id": "889465",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Olympique Saumur",
+   "id": "4122",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Saint-Andre Saint-Macaire",
+   "id": "1688028",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Angevin",
+   "id": "497142",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Stade Castelbourgeois",
+   "id": "2391069",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "La Saint Colomban Locminé",
+   "id": "4083",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Tourcoing US",
+   "id": "238906",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Biache St Vaast",
+   "id": "2392237",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "US Changé",
+   "id": "292042",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "La Roche VF",
+   "id": "7725",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "US Choisy au Bac",
+   "id": "402303",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "US Lesquin",
+   "id": "402271",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "US Gregorienne 35",
+   "id": "1413638",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Garde Saint-Ivy Pontivy",
+   "id": "4105",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "US Hordain",
+   "id": "402282",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Marcquois",
+   "id": "497118",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "USM Senlis",
+   "id": "801472",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "St Amand FC",
+   "id": "402284",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Valdahon Vercel",
+   "id": "801244",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "CA Pontarlier",
+   "id": "291993",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Vannes",
+   "id": "1657",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Vignoc",
+   "id": "497171",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Vermelles",
+   "id": "6085",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Amiens RIF",
+   "id": "2392235",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Vertou",
+   "id": "238893",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Les Sables VF",
+   "id": "1829062",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Villers Bretonneux",
+   "id": "2392189",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Montreuil sur Mer",
+   "id": "2392195",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "US Janze",
+   "id": "2391211",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "St Pontivyen",
+   "id": "402294",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Siroco",
+   "id": "213658",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "AS Gosier",
+   "id": "189086",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Sporting BM",
+   "id": "889903",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Arsenal",
+   "id": "571464",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "AS ET Matoury",
+   "id": "889460",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Le Geldar de Kourou",
+   "id": "805138",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Olympique De Cayenne",
+   "id": "687950",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Dynamo de Soula",
+   "id": "2412816",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "ES Trappes",
+   "id": "2390667",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Racing Club de France",
+   "id": "402290",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coppa-italia",
+   "fm": 141,
+   "stagione": "2026-2027",
+   "squadra": "Inter",
+   "id": "8636",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coppa-italia",
+   "fm": 141,
+   "stagione": "2026-2027",
+   "squadra": "Como",
+   "id": "10171",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coppa-italia",
+   "fm": 141,
+   "stagione": "2026-2027",
+   "squadra": "Juventus",
+   "id": "9885",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coppa-italia",
+   "fm": 141,
+   "stagione": "2026-2027",
+   "squadra": "Bologna",
+   "id": "9857",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coppa-italia",
+   "fm": 141,
+   "stagione": "2026-2027",
+   "squadra": "Napoli",
+   "id": "9875",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coppa-italia",
+   "fm": 141,
+   "stagione": "2026-2027",
+   "squadra": "Roma",
+   "id": "8686",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coppa-italia",
+   "fm": 141,
+   "stagione": "2026-2027",
+   "squadra": "Milan",
+   "id": "8564",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coppa-italia",
+   "fm": 141,
+   "stagione": "2026-2027",
+   "squadra": "Atalanta",
+   "id": "8524",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coppa-italia",
+   "fm": 141,
+   "stagione": "2026-2027",
+   "squadra": "AC Milan/Monza",
+   "id": "2297938",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coppa-italia",
+   "fm": 141,
+   "stagione": "2026-2027",
+   "squadra": "Como/Cremonese",
+   "id": "2297933",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coppa-italia",
+   "fm": 141,
+   "stagione": "2026-2027",
+   "squadra": "Atalanta/Udinese",
+   "id": "2297939",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coppa-italia",
+   "fm": 141,
+   "stagione": "2026-2027",
+   "squadra": "SSC Napoli/Fiorentina",
+   "id": "2297936",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coppa-italia",
+   "fm": 141,
+   "stagione": "2026-2027",
+   "squadra": "Inter/Genoa",
+   "id": "2297932",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coppa-italia",
+   "fm": 141,
+   "stagione": "2026-2027",
+   "squadra": "Bologna/Palermo",
+   "id": "2297935",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coppa-italia",
+   "fm": 141,
+   "stagione": "2026-2027",
+   "squadra": "Roma/Hellas Verona",
+   "id": "2297937",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coppa-italia",
+   "fm": 141,
+   "stagione": "2026-2027",
+   "squadra": "Juventus/Sassuolo",
+   "id": "2297934",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coppa-italia",
+   "fm": 141,
+   "stagione": "2026-2027",
+   "squadra": "Winner QF 1",
+   "id": "1526513",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coppa-italia",
+   "fm": 141,
+   "stagione": "2026-2027",
+   "squadra": "Winner QF 2",
+   "id": "1526512",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coppa-italia",
+   "fm": 141,
+   "stagione": "2026-2027",
+   "squadra": "Winner QF 3",
+   "id": "1526511",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coppa-italia",
+   "fm": 141,
+   "stagione": "2026-2027",
+   "squadra": "Winner QF 4",
+   "id": "1526510",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coppa-italia",
+   "fm": 141,
+   "stagione": "2026-2027",
+   "squadra": "Winner SF 1",
+   "id": "1216848",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "coppa-italia",
+   "fm": 141,
+   "stagione": "2026-2027",
+   "squadra": "Winner SF 2",
+   "id": "1216849",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "belgian-cup",
+   "fm": 149,
+   "stagione": "2026-2027",
+   "squadra": "Habay La Neuve",
+   "id": "1784552",
+   "motivo": [
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "belgian-cup",
+   "fm": 149,
+   "stagione": "2026-2027",
+   "squadra": "Patro Eisden",
+   "id": "274583",
+   "motivo": [
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "belgian-cup",
+   "fm": 149,
+   "stagione": "2026-2027",
+   "squadra": "FCV Dender EH",
+   "id": "7947",
+   "motivo": [
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "belgian-cup",
+   "fm": 149,
+   "stagione": "2026-2027",
+   "squadra": "KSK Heist",
+   "id": "206603",
+   "motivo": [
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "belgian-cup",
+   "fm": 149,
+   "stagione": "2026-2027",
+   "squadra": "Francs Borains",
+   "id": "96953",
+   "motivo": [
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "belgian-cup",
+   "fm": 149,
+   "stagione": "2026-2027",
+   "squadra": "Renaissance Mons",
+   "id": "584006",
+   "motivo": [
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "belgian-cup",
+   "fm": 149,
+   "stagione": "2026-2027",
+   "squadra": "KSC Lokeren",
+   "id": "213307",
+   "motivo": [
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "belgian-cup",
+   "fm": 149,
+   "stagione": "2026-2027",
+   "squadra": "FC Liège",
+   "id": "6363",
+   "motivo": [
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "belgian-cup",
+   "fm": 149,
+   "stagione": "2026-2027",
+   "squadra": "Virton",
+   "id": "8174",
+   "motivo": [
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "belgian-cup",
+   "fm": 149,
+   "stagione": "2026-2027",
+   "squadra": "RFC Seraing",
+   "id": "149408",
+   "motivo": [
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "belgian-cup",
+   "fm": 149,
+   "stagione": "2026-2027",
+   "squadra": "KFC Nijlen",
+   "id": "1652884",
+   "motivo": [
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "scottish-league-cup",
+   "fm": 180,
+   "stagione": "2026-2027",
+   "squadra": "Greenock Morton",
+   "id": "8648",
+   "motivo": [
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Real SC",
+   "id": "213956",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Académica",
+   "id": "10215",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Imortal",
+   "id": "1782",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Tondela",
+   "id": "188163",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "AD Castro Daire",
+   "id": "1074308",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Portimonense",
+   "id": "9765",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Naval",
+   "id": "9809",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Felgueiras 1932",
+   "id": "474326",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Vitória de Sernache",
+   "id": "560912",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Varzim",
+   "id": "1722",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Atlético",
+   "id": "4665",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Lagoa",
+   "id": "5989",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Salgueiros",
+   "id": "7845",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Feirense",
+   "id": "4064",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "ACDR Lamelas",
+   "id": "1410936",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Santo António",
+   "id": "4094",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Oliveirense",
+   "id": "1785",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Penafiel",
+   "id": "6547",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Mafra",
+   "id": "47535",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Tirsense",
+   "id": "7816",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "O Elvas",
+   "id": "474341",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "União de Leiria",
+   "id": "9771",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Beira-Mar",
+   "id": "10211",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "CF Os Belenenses",
+   "id": "1296841",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "AD Fafe",
+   "id": "212796",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "JD Lajense",
+   "id": "1404971",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Sacavenense",
+   "id": "1791",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Farense",
+   "id": "6004",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Estrela Calheta",
+   "id": "1798616",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Vianense",
+   "id": "2278",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Cinfães",
+   "id": "158087",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Leixões",
+   "id": "6421",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "AD Limianos",
+   "id": "238628",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Aljustrelense",
+   "id": "5987",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Alcochetense",
+   "id": "290445",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Clube Futebol Benfica",
+   "id": "361665",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Alpendorada",
+   "id": "1296835",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Mação",
+   "id": "951923",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Amora FC",
+   "id": "588631",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "União Serra",
+   "id": "188158",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Ançã FC",
+   "id": "1190965",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Sanjoanense",
+   "id": "1796",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Bragança",
+   "id": "7824",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Celoricense",
+   "id": "1787616",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Fátima",
+   "id": "5988",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Vinhais",
+   "id": "1296834",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Fazendense",
+   "id": "1798613",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Ginásio Figueirense",
+   "id": "1074310",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Guarda FC",
+   "id": "1662585",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Chaves",
+   "id": "9774",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Madalena",
+   "id": "212822",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Lusitânia Lourosa",
+   "id": "188154",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Mortágua FC",
+   "id": "560911",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Leça",
+   "id": "6008",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Olhanense",
+   "id": "2033",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Portel",
+   "id": "2177344",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Oliveira Hospital",
+   "id": "2502",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Juventude Évora",
+   "id": "108645",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Ovarense",
+   "id": "1799",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "CF Marialvas",
+   "id": "1404974",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Ponte da Barca",
+   "id": "396268",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Amarante FC",
+   "id": "280216",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Santarém",
+   "id": "1074312",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Merelinense",
+   "id": "188156",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Serpa",
+   "id": "1296842",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Louletano",
+   "id": "1939",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Sintrense",
+   "id": "9766",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "AVS Futebol SAD",
+   "id": "1889",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Vila Pouca",
+   "id": "2174425",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Brito FC",
+   "id": "1182559",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Bombarralense",
+   "id": "231978",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Vizela",
+   "id": "4531",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "CD Alcains",
+   "id": "588629",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Vitória de Setúbal",
+   "id": "10238",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Paredes",
+   "id": "2503",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Maria da Fonte",
+   "id": "951914",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "AD Marco 09",
+   "id": "1530180",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Maia",
+   "id": "7846",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Camacha",
+   "id": "1790",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Florgrade",
+   "id": "1521708",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Gil Vicente",
+   "id": "9764",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Vitória de Guimarães",
+   "id": "7844",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Nacional",
+   "id": "10214",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Estrela da Amadora",
+   "id": "1074320",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Moreirense",
+   "id": "8348",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Rio Ave",
+   "id": "7841",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Marítimo",
+   "id": "10212",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Casa Pia AC",
+   "id": "212821",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Académico Viseu",
+   "id": "1786",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Santa Clara",
+   "id": "1567",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Estoril",
+   "id": "7842",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Alverca",
+   "id": "9780",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Famalicão",
+   "id": "1634",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Arouca",
+   "id": "158085",
+   "motivo": [
+    "Statistiche: partite senza statistiche di squadra",
+    "Giocatori: partite senza statistiche dei giocatori"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "FC Porto",
+   "id": "9773",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Sporting CP",
+   "id": "9768",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Torreense",
+   "id": "212820",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Benfica",
+   "id": "9772",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "taca-de-portugal",
+   "fm": 186,
+   "stagione": "2026-2027",
+   "squadra": "Braga",
+   "id": "10264",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "austrian-cup",
+   "fm": 278,
+   "stagione": "2026-2027",
+   "squadra": "SC Wieselburg",
+   "id": "2056527",
+   "motivo": [
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "austrian-cup",
+   "fm": 278,
+   "stagione": "2026-2027",
+   "squadra": "SV Leobendorf",
+   "id": "553864",
+   "motivo": [
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "austrian-cup",
+   "fm": 278,
+   "stagione": "2026-2027",
+   "squadra": "SVG Bleiburg",
+   "id": "1922",
+   "motivo": [
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "austrian-cup",
+   "fm": 278,
+   "stagione": "2026-2027",
+   "squadra": "Leoben",
+   "id": "10241",
+   "motivo": [
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "austrian-cup",
+   "fm": 278,
+   "stagione": "2026-2027",
+   "squadra": "Seekirchen",
+   "id": "4073",
+   "motivo": [
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "austrian-cup",
+   "fm": 278,
+   "stagione": "2026-2027",
+   "squadra": "SR Donaufeld",
+   "id": "4653",
+   "motivo": [
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "austrian-cup",
+   "fm": 278,
+   "stagione": "2026-2027",
+   "squadra": "Reichenau",
+   "id": "1684",
+   "motivo": [
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "austrian-cup",
+   "fm": 278,
+   "stagione": "2026-2027",
+   "squadra": "Kalsdorf",
+   "id": "2028",
+   "motivo": [
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "austrian-cup",
+   "fm": 278,
+   "stagione": "2026-2027",
+   "squadra": "SU Vortuna Bad Leonfelden",
+   "id": "2056524",
+   "motivo": [
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "austrian-cup",
+   "fm": 278,
+   "stagione": "2026-2027",
+   "squadra": "Kremser SC",
+   "id": "1691",
+   "motivo": [
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "austrian-cup",
+   "fm": 278,
+   "stagione": "2026-2027",
+   "squadra": "SV Kuchl",
+   "id": "583697",
+   "motivo": [
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "austrian-cup",
+   "fm": 278,
+   "stagione": "2026-2027",
+   "squadra": "Wiener SC",
+   "id": "4664",
+   "motivo": [
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "austrian-cup",
+   "fm": 278,
+   "stagione": "2026-2027",
+   "squadra": "Wienerberg",
+   "id": "4655",
+   "motivo": [
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Sampaio Corrêa-RJ",
+   "id": "581903",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Desportiva Ferroviária",
+   "id": "197668",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Porto SC",
+   "id": "1694586",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Serra Branca",
+   "id": "1421409",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Maguary",
+   "id": "1426346",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Laguna",
+   "id": "1699616",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Baré",
+   "id": "197606",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Madureira",
+   "id": "111117",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Araguaína",
+   "id": "197392",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "América SE",
+   "id": "197401",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Tirol",
+   "id": "1696139",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Betim",
+   "id": "104815",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Piauí",
+   "id": "197640",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Gama",
+   "id": "1756",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Monte Roraima",
+   "id": "1918583",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Santa Catarina",
+   "id": "1697960",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Iape",
+   "id": "197777",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Ivinhema",
+   "id": "197611",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Independente AP",
+   "id": "260017",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Ji-Paraná FC",
+   "id": "299123",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "FC Pantanal",
+   "id": "197614",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Galvez EC",
+   "id": "422123",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Guaporé",
+   "id": "1918576",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Primavera-MT",
+   "id": "244236",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Bragantino PA",
+   "id": "297311",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Vasco da Gama AC",
+   "id": "198608",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Velo Clube",
+   "id": "606359",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Boavista RJ",
+   "id": "198132",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Joinville",
+   "id": "197689",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "CSA",
+   "id": "239132",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "América-RN",
+   "id": "47387",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "GAS",
+   "id": "197604",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Castanhal EC",
+   "id": "239703",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Guarani-SP",
+   "id": "7817",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Juazeirense",
+   "id": "298336",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Capital FC",
+   "id": "304653",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "ABC",
+   "id": "109708",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Nacional AM",
+   "id": "197682",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Penedense",
+   "id": "197677",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Retrô",
+   "id": "1116984",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Uberlândia",
+   "id": "197808",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "São Luiz",
+   "id": "197890",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Maranhão",
+   "id": "197781",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Tombense",
+   "id": "414725",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Oratório",
+   "id": "215629",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Anápolis",
+   "id": "412808",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Cianorte",
+   "id": "197430",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Imperatriz",
+   "id": "197782",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Amazonas",
+   "id": "1340094",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Ceilândia",
+   "id": "197654",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "ASA",
+   "id": "162164",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Operário-MS",
+   "id": "246244",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Caxias",
+   "id": "172206",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Guarany de Bagé",
+   "id": "1320332",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Atlético de Alagoinhas",
+   "id": "197706",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Ypiranga RS",
+   "id": "197885",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Independência",
+   "id": "197384",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Mixto",
+   "id": "162173",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Botafogo-PB",
+   "id": "197792",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Operário VG",
+   "id": "197816",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Porto Velho EC",
+   "id": "1236190",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Altos",
+   "id": "710764",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Azuriz",
+   "id": "1223346",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Lagarto",
+   "id": "299701",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Tuna Luso",
+   "id": "239707",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Tocantinópolis",
+   "id": "197394",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Avaí",
+   "id": "104822",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Porto Vitória",
+   "id": "1729665",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Capital TO",
+   "id": "728046",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Manaus FC",
+   "id": "512379",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Rio Branco ES",
+   "id": "197659",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Cuiabá",
+   "id": "197815",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Manauara",
+   "id": "1608540",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Itabaiana",
+   "id": "197398",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "América-MG",
+   "id": "1757",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Trem DC",
+   "id": "215633",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Fluminense PI",
+   "id": "1223501",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Portuguesa RJ",
+   "id": "581912",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Maracanã",
+   "id": "410825",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Santa Cruz",
+   "id": "9920",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Sousa",
+   "id": "197791",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Atlético-MG/Grêmio",
+   "id": "1",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "copa-do-brasil",
+   "fm": 9067,
+   "stagione": "2026",
+   "squadra": "Palmeiras/Vasco da Gama",
+   "id": "2",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  }
+ ],
+ "competizioni_senza_dati": [],
+ "squadre_controllate": 1483
+}
