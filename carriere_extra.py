@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""Carriere di TUTTI i giocatori delle rose (campionati minori, coppe, campionati aggiunti) e dei top 5, da FotMob.
+"""Carriere di TUTTI i giocatori: rose (campionati minori, coppe, campionati aggiunti), top 5 e indice pidx (137.906 id), da FotMob.
+Ordine: prima rose e carriere.json, poi chi ha giocato la stagione in corso, poi tutti gli altri raggruppati per shard
+(ogni esecuzione completa pochi file car/: pochi commit grandi, il repository non si gonfia). car/.stato.json = quanti mancano.
 Scrive car/<id FotMob % 100>.json = {id FotMob: {b, h, n, f, c, cc, mv, ce, ps, car:[...], yo:[...], nt:[...]}}.
   car = squadre senior (con prestiti), yo = giovanili, nt = nazionali; ogni riga:
   [squadra, inizio 'AAAA-MM', fine 'AAAA-MM' o '', presenze, gol, assist, tipo trasferimento (0/1), attiva (0/1), id squadra]
@@ -17,6 +19,7 @@ T0 = time.time()
 lock = threading.Lock()
 stop = threading.Event()
 fails = [0]
+http_err = {}  # codice -> quante volte (403/429 = limiti FotMob)
 
 
 def get(url):
@@ -28,6 +31,8 @@ def get(url):
                 fails[0] = 0
                 return json.load(r)
         except urllib.error.HTTPError as e:
+            with lock:
+                http_err[str(e.code)] = http_err.get(str(e.code), 0) + 1
             if e.code == 404:
                 return {}
             if e.code in (403, 429):
@@ -81,16 +86,29 @@ def main():
         except Exception: shards[i] = {}
     have = {k for s in shards.values() for k in s}
     ids = set()
+    base = set()
     rose = json.load(open(os.path.join(ROOT, 'rose.json'), encoding='utf-8'))
     for v in rose.values():
         for p in v.get('p', []):
-            if p and p[0]: ids.add(str(p[0]))
+            if p and p[0]: ids.add(str(p[0])); base.add(str(p[0]))
     try:
         for v in json.load(open(os.path.join(ROOT, 'carriere.json'), encoding='utf-8')).values():
-            if v.get('fm'): ids.add(str(v['fm']))
+            if v.get('fm'): ids.add(str(v['fm'])); base.add(str(v['fm']))
     except Exception:
         pass
-    todo = sorted(ids - have, key=int)
+    # indice giocatori: chi ha giocato una stagione in corso (2026, 2025-2026, 2026-2027...) prima degli altri
+    recent = set()
+    for i in range(100):
+        try:
+            px = json.load(open(os.path.join(ROOT, 'pidx', f'{i}.json'), encoding='utf-8'))
+        except Exception:
+            continue
+        for pid, v in px.items():
+            ids.add(str(pid))
+            if any(isinstance(c, list) and len(c) > 1 and str(c[1])[:4] in ('2025', '2026') for c in v[1:]):
+                recent.add(str(pid))
+    prio = lambda k: (0 if k in base else 1 if k in recent else 2, int(k) % 100 if k not in base and k not in recent else 0, int(k))
+    todo = sorted(ids - have, key=prio)
     print(len(ids), 'giocatori,', len(have), 'gia\' presenti,', len(todo), 'da scaricare', flush=True)
     done = [0]
 
@@ -118,7 +136,11 @@ def main():
         list(ex.map(work, todo))
     save()
     withcar = sum(1 for s in shards.values() for v in s.values() if v.get('car'))
-    print('fine:', done[0], 'nuovi,', withcar, 'con carriera,', sum(len(s) for s in shards.values()), 'in archivio', flush=True)
+    left = len(todo) - done[0]
+    json.dump({'mancano': left, 'nuovi': done[0], 'con_carriera': withcar, 'in_archivio': sum(len(s) for s in shards.values()),
+               'fermato': bool(stop.is_set()), 'errori_http': http_err, 'quando': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())},
+              open(os.path.join(OUT, '.stato.json'), 'w', encoding='utf-8'))
+    print('fine:', done[0], 'nuovi,', withcar, 'con carriera,', sum(len(s) for s in shards.values()), 'in archivio,', left, 'mancano', flush=True)
 
 
 if __name__ == '__main__':

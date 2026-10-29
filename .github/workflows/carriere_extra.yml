@@ -1,4 +1,7 @@
 name: Carriere e foto di tutti i giocatori
+# Carriere di TUTTI i giocatori dell'indice pidx (carriere_extra.py): prima le rose, poi chi gioca la stagione in corso, poi gli altri
+# per shard. Blocchi da ~5 ore, UN commit per blocco (pochi commit grandi); si riparte da solo finche' mancano giocatori, ma solo se
+# il blocco ha scaricato qualcosa (niente cicli infiniti se FotMob blocca). Stato in car/.stato.json.
 on:
   schedule:
     - cron: "40 3 * * 3"
@@ -6,27 +9,32 @@ on:
   push:
     paths:
       - carriere_extra.py
-      - foto_check.py
+concurrency: carriere
 permissions:
   contents: write
+  actions: write
 jobs:
   carriere:
     runs-on: ubuntu-latest
-    timeout-minutes: 120
+    timeout-minutes: 350
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-      # carriere (senior, giovanili, nazionali) di tutti i giocatori delle rose: riprende da dove si era fermato
-      - run: python carriere_extra.py 80
+      # solo libreria standard: basta il python3 del runner
+      - run: python3 carriere_extra.py 310
       # quali giocatori non hanno la foto su FotMob (l'app mostra subito l'omino)
-      - run: python foto_check.py || true
+      - run: python3 foto_check.py || true
       - name: Salva i risultati
         if: always()
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
           git add car foto_mancanti.json foto_check_cache.json 2>/dev/null || true
-          git diff --staged --quiet || git commit -m "Aggiorna carriere e foto mancanti"
+          git diff --staged --quiet || git commit -m "Carriere giocatori (blocco)"
           for i in 1 2 3 4 5; do git pull --rebase && git push && break; sleep $((i*4)); done
+      - name: Riparti se mancano giocatori e il blocco ha scaricato qualcosa
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 -c "import json,sys; s=json.load(open('car/.stato.json')); print(s); sys.exit(0 if s.get('mancano',0)>0 and s.get('nuovi',0)>0 else 1)" \
+            && gh workflow run carriere_extra.yml --ref ${{ github.ref_name }} || echo "fine o fermo: nessuna ripartenza"
