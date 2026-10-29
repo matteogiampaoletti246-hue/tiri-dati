@@ -111,5 +111,18 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 ## Competizioni di una squadra: tutta la storia
 - Indice `tidx/<id%100>.json` (`squadre_indice.py`, workflow `squadre_indice.yml`, ogni giorno): per id FotMob tutte le competizioni/stagioni dal 2010. `useTeamView`: con "Attuale" la tendina competizioni elenca tutte quelle giocate; con una stagione passata solo quelle di quell'anno; scelta una competizione le stagioni sono solo quelle giocate; una competizione non piu' giocata parte dalla stagione piu' recente (niente "Attuale", `noCur`).
 
+## Numeri da tenere d'occhio (tutte le partite)
+- `matchKeyNumbers` (`data/extras.js`): un solo calcolo per top campionati (`metricOf`) e campionati/coppe aggiunti (`archiveMetrics`, altrimenti `listMetrics`). Per ogni statistica di `CATEGORY_DEFS` la posizione nel proprio campionato (1° = migliore; statistiche negative al contrario): solo le squadre tra le prime o le ultime (~12%, almeno 2), con valore e posizione, casa e trasferta alternate, al massimo 8. Valori condivisi da molte squadre non sono primati. Vittorie fuori casa e Over 2,5 solo se fuori dal comune. Niente di notevole = niente riquadro.
+
+## Meteo e arbitro (campionati aggiunti)
+- Meteo (`data/weather.js`, Open-Meteo, da 3 giorni prima): stadio da `stadi.json`, poi stadio FotMob della squadra di casa (`v` in `rose.json`, `update_rose.py`), poi `stadi_ex.json` (`stadi_extra.py`), infine geocoding filtrato per paese del campionato (risultati ricordati sul telefono). Il nome dello stadio FotMob riempie anche la voce Stadio.
+- Arbitro: FotMob (`/fx`), poi `arbitri_extra.json` (`arbitri_extra.py`, API-Football con `API_FOOTBALL_KEY`, partite di oggi e dei 3 giorni dopo), letto in `prepareMatch`. Workflow `arbitri_extra.yml` ogni 4 ore. ESPN non da' gli arbitri (verificato). Mai nomi inventati.
+
+## Tabellone fluido
+- Riquadri del tabellone con `contain: layout paint`; `will-change` solo durante il passaggio tra fasi (da fermo e nello swipe tra schede un solo livello). Stemmi pre-decodificati in `loadBracket`.
+
+## Memoria (l'app resta fluida anche dopo molte pagine)
+- Capienza fissa (`lib/lru.js`): fotografie dello swipe indietro ultime 5 (mai quelle "avanti"), file grandi dell'archivio (partite .gz 10, statistiche 30), dettagli FotMob 12, partite pronte 30 (uscendo liberano `det`/`moreDet` e si ricostruiscono se riaperte), tabelloni 16, `useAsync` 120. Ogni cache nuova va limitata allo stesso modo. Prova: "memoria: 40+ pagine..." in `preview.mjs`.
+
 ## Niente salti all'arrivo
 - `useAsync` ricorda i risultati (LRU): rimontando un pannello i dati ci sono al primo disegno. Banner e barra schede fisse si misurano prima del disegno (`useLayoutEffect`, ultima altezza ricordata). L'animazione `comp-in` solo cambiando competizione/stagione (`useCompIn`), mai all'arrivo. Prova: "pillole: tornando su una squadra..." in `preview.mjs`.

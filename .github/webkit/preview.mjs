@@ -675,14 +675,15 @@ await step('tendina stagioni lunga (Santos): sopra la barra in basso, scorre sol
   await go('#/squadra/santos', 7000);
   await pg.evaluate(() => { const e = [...document.querySelectorAll('.tab-btn')].find((x) => x.textContent.trim() === 'Giocatori'); if (e) e.click(); });
   await wait(3000);
-  await pg.evaluate(() => { const b = [...document.querySelectorAll('button')].find((x) => /^Attuale/.test(x.textContent.trim()) && x.offsetParent); if (b) b.click(); });
+  // solo il tasto della scheda visibile (le schede vicine sono montate fuori schermo)
+  await pg.evaluate(() => { const b = [...document.querySelectorAll('button')].find((x) => { const r = x.getBoundingClientRect(); return /^Attuale/.test(x.textContent.trim()) && r.height > 0 && r.left >= 0 && r.right <= innerWidth; }); if (b) b.click(); });
   await wait(700);
   await shot('santos-tendina-stagioni');
   const m = await pg.evaluate(() => {
     const l = document.querySelector('[data-pop-scroll]'); const nav = document.querySelector('nav.fixed');
     if (!l) return null;
     const r = l.getBoundingClientRect();
-    return { top: Math.round(r.top), bottom: Math.round(r.bottom), navTop: nav ? Math.round(nav.getBoundingClientRect().top) : innerHeight, sh: l.scrollHeight, ch: l.clientHeight, ov: getComputedStyle(l).overscrollBehaviorY, sy: Math.round(scrollY), right: Math.round(r.right), vw: innerWidth };
+    return { top: Math.round(r.top), bottom: Math.round(r.bottom), navTop: nav ? Math.round(nav.getBoundingClientRect().top) : innerHeight, sh: l.scrollHeight, ch: l.clientHeight, ov: l.style.overscrollBehavior || getComputedStyle(l).overscrollBehaviorY, sy: Math.round(scrollY), right: Math.round(r.right), vw: innerWidth };
   });
   ok('tendina stagioni: aperta', !!m, { m });
   ok('tendina stagioni: finisce sopra la barra in basso', !!m && m.bottom <= m.navTop - 4 && m.top >= 0, { m });
@@ -803,8 +804,9 @@ await step('squadre B separate dalla prima squadra (Real Sociedad B)', async () 
   await tabClick('Classifica'); await wait(2500);
   const ok1 = await pg.evaluate(() => { const a = [...document.querySelectorAll('a[href*="squadra"]')].find((x) => /Sociedad B/.test(x.textContent)); if (a) { a.click(); return true; } return false; });
   await wait(3000); await ready(); await wait(1200);
-  const head = await pg.evaluate(() => document.body.innerText.slice(0, 200));
-  ok('real sociedad b: scheda propria con nome "Real Sociedad B" e LaLiga2', !ok1 || (/Real Sociedad B/.test(head) && /LaLiga ?2/i.test(head)), { head: head.replace(/\n+/g, ' | ').slice(0, 120) });
+  // il banner e' fisso e sta in fondo al documento: si guarda il suo testo, non l'inizio della pagina
+  const head = await pg.evaluate(() => { const h = document.querySelector('header[data-pf]'); return { b: h ? h.innerText : '', h: location.hash }; });
+  ok('real sociedad b: scheda propria con nome "Real Sociedad B" e LaLiga2', !ok1 || (/Real Sociedad B/.test(head.b) && /LaLiga ?2/i.test(head.b) && /#\/squadra\//.test(head.h)), head);
   await shot('real-sociedad-b');
 });
 
@@ -819,6 +821,70 @@ await step('squadra: tendina competizioni con tutta la storia (indice tidx)', as
   const names = await pg.evaluate(() => { const l = [...document.querySelectorAll('[data-pop-scroll]')].find((x) => x.getBoundingClientRect().height > 0); return l ? [...l.querySelectorAll('button')].map((b) => b.textContent.trim()) : []; });
   ok('wacker innsbruck: in tendina anche la Bundesliga austriaca giocata anni fa', names.some((x) => /Bundesliga/.test(x)), { names });
   await shot('tidx-wacker');
+});
+
+// tempi dei fotogrammi mentre si fa uno swipe di scheda (dito verso sinistra) sul contenuto
+const frameSwipe = () => pg.evaluate(async () => {
+  const el = document.querySelector('#sl-shell div[style*="pan-y"]');
+  if (!el) return null;
+  const y = 400; const x = 330;
+  const mk = (cx) => ({ identifier: 1, target: el, clientX: cx, clientY: y });
+  const fire = (type, cx) => { const ev = new Event(type, { bubbles: true, cancelable: true }); Object.defineProperty(ev, 'touches', { value: type === 'touchend' ? [] : [mk(cx)] }); Object.defineProperty(ev, 'changedTouches', { value: [mk(cx)] }); el.dispatchEvent(ev); };
+  const ts = []; let on = true;
+  const f = (t) => { ts.push(t); if (on) requestAnimationFrame(f); };
+  requestAnimationFrame(f);
+  fire('touchstart', x);
+  for (let i = 1; i <= 14; i++) { fire('touchmove', x - 16 * i); await new Promise((q) => requestAnimationFrame(q)); }
+  fire('touchend', x - 230);
+  await new Promise((q) => setTimeout(q, 900));
+  on = false;
+  const d = ts.slice(1).map((t, i) => t - ts[i]).sort((a, b) => a - b);
+  return { n: d.length, p50: Math.round(d[Math.floor(d.length / 2)] || 0), p95: Math.round(d[Math.floor(d.length * 0.95)] || 0), tab: (document.querySelector('.tab-btn.is-on') || {}).textContent };
+});
+
+await step('tabellone EFL Cup: swipe da Formazioni senza decine di livelli', async () => {
+  const r = (px && px.m ? px.m : []).filter((x) => x[1] === 133 && x[9] === 'f').slice(-1)[0];
+  if (!r) { report.efl = 'nessuna partita'; return; }
+  const id = `x-133-${r[0]}`;
+  await go('#/match/' + id, 3000); await ready(); await wait(2500);
+  const base = await (async () => { await tabClick('Riepilogo'); await wait(1500); return frameSwipe(); })();
+  await go('#/match/' + id, 3000); await ready(); await wait(2500);
+  const hasLu = await tabClick('Formazioni'); await wait(2500);
+  const br = hasLu ? await frameSwipe() : null;
+  const layers = await pg.evaluate(() => [...document.querySelectorAll('#sl-shell [style*="will-change"]')].length);
+  report.eflFrames = { riepilogoStatistiche: base, formazioniTabellone: br, layers };
+  ok('tabellone: da fermo un solo livello (niente will-change su ogni riquadro)', layers <= 4, { layers });
+  ok('tabellone: lo swipe verso il Tabellone non e\' piu\' lento dello swipe tra schede leggere', !br || !base || br.p95 <= base.p95 * 1.35 + 8, { base, br });
+});
+
+await step('memoria: 40+ pagine di seguito, fotogrammi stabili e swipe indietro mai nero', async () => {
+  await go('#/', 6000);
+  const pages = [];
+  const links = await pg.evaluate(() => [...document.querySelectorAll('a[href*="/match/"]')].slice(0, 14).map((a) => a.getAttribute('href')));
+  const teams = ['#/squadra/lazio', '#/squadra/feyenoord', '#/squadra/santos', '#/squadra/fluminense', '#/squadra/eintracht-frankfurt', '#/campionato/serie-a', '#/campionato/eredivisie', '#/campionato/liga-mx', '#/campionato/efl-cup', '#/campionato/premier-league'];
+  for (let i = 0; i < 44; i++) pages.push(i % 3 === 2 ? teams[i % teams.length] : links[i % Math.max(1, links.length)] || teams[i % teams.length]);
+  const t0 = await frameSwipe();
+  let black = 0; let checked = 0;
+  for (let i = 0; i < pages.length; i++) {
+    // navigazione dell'app (pushState): cosi' si accumulano fotografie e cronologia come su iPhone
+    await pg.evaluate((h) => { location.hash = h.replace(/^#/, ''); }, pages[i]);
+    await wait(i % 5 === 4 ? 2200 : 900);
+    if (i % 6 === 5) {
+      // swipe indietro a meta': sotto deve esserci la fotografia della pagina precedente
+      for (const x of [30, 90, 150]) { await pg.evaluate((x) => window.__slCarousel.pageDrag(x), x); await wait(40); }
+      const behind = await pg.evaluate(() => !!document.querySelector('body > div[aria-hidden="true"][style*="position: fixed"]'));
+      checked += 1; if (!behind) black += 1;
+      await pg.evaluate(() => window.__slCarousel.pageReset(false)); await wait(300);
+    }
+  }
+  await ready(); await wait(1500);
+  const t1 = await frameSwipe();
+  const hosts = await pg.evaluate(() => document.querySelectorAll('body > div[aria-hidden="true"]').length);
+  const nodes = await pg.evaluate(() => document.getElementsByTagName('*').length);
+  report.memoria = { inizio: t0, fine: t1, hosts, nodes, black, checked };
+  ok('memoria: dopo 44 pagine le copie nascoste delle pagine non si accumulano', hosts <= 3, { hosts });
+  ok('memoria: swipe indietro con la pagina sotto visibile (mai nero)', checked > 0 && black === 0, { black, checked });
+  ok('memoria: fotogrammi a fine giro simili all\'inizio', !t0 || !t1 || t1.p95 <= t0.p95 * 1.5 + 10, { t0, t1, nodes });
 });
 
 report.passed = report.checks.filter((c) => c.pass).length;
