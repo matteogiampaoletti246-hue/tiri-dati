@@ -129,10 +129,11 @@ export default function IdeaSection({ match, home, away, concept = 'a' }) {
       </section>
     );
   }
+  if (!ok) return null; // senza dati per entrambe le squadre il Duello non si mostra
   return (
     <section className="glass tint-card mx-4 overflow-hidden rounded-[24px] px-4 py-4">
       <h3 className="text-[12.5px] font-extrabold uppercase tracking-wider">Duello in numeri</h3>
-      {ok ? <div className="mt-2"><Radar home={home} away={away} am={am} AXES={axes} /></div> : <p className="py-6 text-center text-[12px]" style={{ color: 'var(--ink-3)' }}>Dati non disponibili</p>}
+      <div className="mt-2"><Radar home={home} away={away} am={am} AXES={axes} /></div>
       <div className="mt-1 flex items-center justify-center gap-5 text-[11.5px] font-bold">
         <span className="flex items-center gap-1.5"><i className="h-[9px] w-[9px] rounded-full" style={{ background: "#E0443A" }} /><Crest team={home} size={16} />{home ? home.short : ""}</span>
         <span className="flex items-center gap-1.5"><i className="h-[9px] w-[9px] rounded-full" style={{ background: "#3B9DFF" }} /><Crest team={away} size={16} />{away ? away.short : ""}</span>

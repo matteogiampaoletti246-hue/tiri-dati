@@ -11,7 +11,10 @@ Object.keys(FM_ID).forEach((k) => { LID_BY_FM[FM_ID[k]] = k; });
 
 export const archiveId = (fm, sk, pid) => `fm~${fm}~${sk}~${pid}`;
 export const parseArchiveId = (id) => {
-  const m = /^fm~(\d+)~([\d-]+)~(\d+)$/.exec(id || '');
+  // stagione anche con suffisso: "2026-2027 - Apertura", "2026 - Clausura"
+  let s = String(id || '');
+  try { s = decodeURIComponent(s); } catch (e) { /* gia' in chiaro */ }
+  const m = /^fm~(\d+)~([^~]+)~(\d+)$/.exec(s);
   return m ? { fm: m[1], sk: m[2], pid: m[3] } : null;
 };
 

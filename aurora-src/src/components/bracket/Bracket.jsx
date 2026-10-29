@@ -308,7 +308,7 @@ export default function Bracket({ fm, sk }) {
   const data = d0 || hit;
   if (loading && !data) return <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Carico il tabellone…</p>;
   if (!data || !data.rounds || !data.rounds.length) {
-    return <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Nessun dato ancora disponibile</p>;
+    return null;
   }
   return <BracketView key={`${fm}-${sk}`} data={data} fm={fm} sk={sk} />;
 }

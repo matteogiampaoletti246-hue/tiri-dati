@@ -4,6 +4,7 @@ import { WORKER } from './load';
 import { MATCHES } from './matches';
 import { teamById } from './teams';
 import { norm } from './util';
+import { sameSquad } from './teamMatch';
 
 const STOP = new Set(['fc', 'ac', 'as', 'sc', 'afc', 'fk', 'cf', 'ssc', 'us', 'rc', 'og', 'de', 'ca', 'cd', 'ud', 'sv', 'vfl', 'vfb', 'tsg', '1', 'ca', 'rb', 'ogc', 'cp']);
 const ALIAS = { internazionale: 'inter', 'stade rennais': 'rennes', 'bayern munich': 'bayern monaco', 'bayern munchen': 'bayern monaco', 'manchester united': 'manchester united' };
@@ -19,7 +20,7 @@ const clean = (s) => {
 export const same = (a, b) => {
   const x = clean(a);
   const y = clean(b);
-  if (!x || !y) return false;
+  if (!x || !y || !sameSquad(a, b)) return false; // la squadra B non e' la prima squadra
   if (x === y || x.includes(y) || y.includes(x)) return true;
   const tx = x.split(' ').filter((t) => t.length > 3);
   const ty = y.split(' ');

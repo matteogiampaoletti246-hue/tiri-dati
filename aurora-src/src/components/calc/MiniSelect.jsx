@@ -1,12 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import MenuBackdrop from '@/components/MenuBackdrop';
 import { Check, ChevronDown } from 'lucide-react';
+import { usePopFit, popScroll } from '@/lib/popFit';
 
 // Tendina compatta: si apre sotto il campo senza cambiare pagina.
 export default function MiniSelect({ value, options, onChange, placeholder = 'Seleziona', width = 132, ariaLabel }) {
   const [open, setOpen] = useState(false);
   const [shown, setShown] = useState(false);
   const ref = useRef(null);
+  const room = usePopFit(ref, open);
   const cur = options.find((o) => String(o.value) === String(value));
 
   useEffect(() => {
@@ -32,8 +34,9 @@ export default function MiniSelect({ value, options, onChange, placeholder = 'Se
       {open ? <MenuBackdrop onClose={() => setOpen(false)} /> : null}
       {open ? (
         <div
-          className="absolute right-0 top-[calc(100%+6px)] z-40 overflow-hidden rounded-2xl py-1"
-          style={{ minWidth: '100%', opacity: shown ? 1 : 0, transform: shown ? 'translateY(0) scale(1)' : 'translateY(-6px) scale(.97)', transformOrigin: 'top right', transition: 'opacity .2s ease, transform .22s cubic-bezier(.22,.8,.24,1)', background: 'var(--sky-2)', border: '1px solid var(--hair)', boxShadow: '0 14px 34px rgba(0,0,0,.45)' }}
+          data-pop-scroll
+          className={`hide-sb absolute right-0 ${room.up ? 'bottom-[calc(100%+6px)]' : 'top-[calc(100%+6px)]'} z-40 rounded-2xl py-1`}
+          style={{ minWidth: '100%', ...popScroll(room), opacity: shown ? 1 : 0, transform: shown ? 'translateY(0) scale(1)' : `translateY(${room.up ? 6 : -6}px) scale(.97)`, transformOrigin: room.up ? 'bottom right' : 'top right', transition: 'opacity .2s ease, transform .22s cubic-bezier(.22,.8,.24,1)', background: 'var(--sky-2)', border: '1px solid var(--hair)', boxShadow: '0 14px 34px rgba(0,0,0,.45)' }}
         >
           {options.map((o) => {
             const on = String(o.value) === String(value);

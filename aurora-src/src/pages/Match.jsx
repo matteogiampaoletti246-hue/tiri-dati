@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import usePageTab from '@/hooks/usePageTab';
+import usePageTabKey, { tabIndexOf } from '@/hooks/usePageTabKey';
 import { useParams, useLocation, Navigate } from 'react-router-dom';
 import { openPlayer } from '@/data/playerSheet';
 import PageShell from '@/components/PageShell';
@@ -13,7 +13,9 @@ import MatchLineupsPanel from '@/components/match/MatchLineupsPanel';
 import MatchReliabilityList from '@/components/match/MatchReliabilityList';
 import MatchStandingsPanel from '@/components/match/MatchStandingsPanel';
 import Bracket from '@/components/bracket/Bracket';
-import { isPureCup } from '@/data/bracket';
+import { isPureCup, peekBracket } from '@/data/bracket';
+import { hasMatchStats } from '@/components/match/MatchStatsPanel';
+import { hasLineups } from '@/components/match/MatchLineupsPanel';
 import useTicker from '@/hooks/useTicker';
 import { matchById, viewMatch } from '@/data/matches';
 import { prepareMatch, isReady } from '@/data/prepare';
@@ -60,7 +62,7 @@ function StandingsOrBracket({ raw, cup }) {
 
 export default function Match() {
   const { id } = useParams();
-  const [tab, setTab] = usePageTab('match', id);
+  const [tabKey, setTabKey] = usePageTabKey('match', id);
   useTicker(30000);
   const [, bump] = useState(0);
   // la pagina compare solo quando tutto e' pronto (max 7 s): niente riepilogo, momentum o statistiche che arrivano dopo
@@ -123,35 +125,29 @@ export default function Match() {
   const cup = !!(raw.archive && isPureCup(raw.archive.fm));
   const lastTab = cup ? { key: 'standings', label: 'Tabellone' } : { key: 'standings', label: 'Classifica' };
   const baseTabs = pre ? (raw.archive ? PRE_TABS_X : PRE_TABS) : PLAYED_TABS;
-  const tabs = baseTabs.map((t) => (t.key === 'standings' ? lastTab : t));
-  const panels = pre && raw.archive
-    ? [
-        <MatchOverviewPanel key="overview" match={raw} home={home} away={away} />,
-        <MatchStatsPanel key="stats" match={raw} view={view} home={home} away={away} pre />,
-        <MatchLineupsPanel key="lineups" match={raw} view={view} home={home} away={away} pre />,
-        <StandingsOrBracket key="standings" raw={raw} cup={cup} />,
-      ]
-    : pre
-    ? [
-        <MatchOverviewPanel key="overview" match={raw} home={home} away={away} />,
-        <MatchStatsPanel key="stats" match={raw} view={view} home={home} away={away} pre />,
-        <MatchLineupsPanel key="lineups" match={raw} view={view} home={home} away={away} pre />,
-        <MatchReliabilityList key="rel" match={raw} home={home} away={away} />,
-        <StandingsOrBracket key="standings" raw={raw} cup={cup} />,
-      ]
-    : [
-        <MatchSummaryPanel key="summary" match={raw} view={view} home={home} away={away} />,
-        <MatchStatsPanel key="stats" match={raw} view={view} home={home} away={away} />,
-        <MatchLineupsPanel key="lineups" match={raw} view={view} home={home} away={away} />,
-        <StandingsOrBracket key="standings" raw={raw} cup={cup} />,
-      ];
+  // una scheda senza dati non si mostra (mai "non disponibile")
+  const has = {
+    stats: hasMatchStats(raw, view, home, away, pre),
+    lineups: hasLineups(view),
+    standings: cup ? !!((peekBracket(raw.archive.fm, raw.archive.sk) || {}).rounds || []).length : !raw.archive || !!(raw.season && raw.season.table),
+  };
+  const PANEL = {
+    overview: () => <MatchOverviewPanel key="overview" match={raw} home={home} away={away} />,
+    summary: () => <MatchSummaryPanel key="summary" match={raw} view={view} home={home} away={away} />,
+    stats: () => <MatchStatsPanel key="stats" match={raw} view={view} home={home} away={away} pre={pre} />,
+    lineups: () => <MatchLineupsPanel key="lineups" match={raw} view={view} home={home} away={away} pre={pre} />,
+    rel: () => <MatchReliabilityList key="rel" match={raw} home={home} away={away} />,
+    standings: () => <StandingsOrBracket key="standings" raw={raw} cup={cup} />,
+  };
+  const tabs = baseTabs.map((t) => (t.key === 'standings' ? lastTab : t)).filter((t) => has[t.key] !== false);
+  const panels = tabs.map((t) => PANEL[t.key]());
 
   return (
     <PageShell swipeBack={false}>
       <div style={{ '--tint': (raw.leagueObj && raw.leagueObj.tint) || leagueTint(raw.leagueId) }}>
       <MatchHero match={raw} view={view} league={league} home={home} away={away} />
 
-      <SwipeTabs tabs={tabs} panels={panels} index={Math.min(tab, tabs.length - 1)} onChange={setTab} className="pt-2" stickyTop="0px" />
+      <SwipeTabs tabs={tabs} panels={panels} index={tabIndexOf(tabs, tabKey)} onChange={(i) => setTabKey(tabs[i] ? tabs[i].key : '')} className="pt-2" stickyTop="0px" />
 
       </div>
     </PageShell>

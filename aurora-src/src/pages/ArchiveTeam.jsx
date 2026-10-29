@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
-import { teamByName } from '@/data/teams';
+import { teamByName, teamByFm } from '@/data/teams';
 import { NAV } from '@/components/past/PastBits';
 import PageShell from '@/components/PageShell';
 import TopBar from '@/components/TopBar';
@@ -10,7 +10,7 @@ import EntityBanner from '@/components/EntityBanner';
 import StatLists from '@/components/stats/StatLists';
 import { PlayerFace } from '@/components/FmImg';
 import useAsync from '@/hooks/useAsync';
-import { FM_ID, loadSeason, loadSeasonStats, seasonLabel, teamLogo, SEASON_STAT_IT, prettyKey } from '@/data/archive';
+import { FM_ID, loadSeason, loadPlayerStats, seasonLabel, teamLogo, SEASON_STAT_IT, prettyKey } from '@/data/archive';
 import { leagueById, leagueTint } from '@/data/leagues';
 import { tintGrad } from '@/lib/tint';
 import { ArchRow, StandingsPanel, fmtDate, dayKey, useTeamColors } from '@/components/archive/parts';
@@ -52,7 +52,7 @@ export function TeamPlayers({ stats, tid, season, fm, sk }) {
       value: /rating|per_90|expected/.test(k) ? Number(r[3]).toFixed(2).replace('.', ',') : Number.isInteger(r[3]) ? String(r[3]) : Number(r[3]).toFixed(1).replace('.', ','),
     })),
   })).filter((s) => s.rows.length);
-  if (!sections.length) return <Empty>Statistiche dei giocatori non disponibili</Empty>;
+  if (!sections.length) return null;
   return <StatLists sections={sections} />;
 }
 
@@ -61,13 +61,16 @@ export default function ArchiveTeam() {
   const [tab, setTab] = useState(0);
   const col = useTeamColors();
   const { data: season, loading } = useAsync(() => loadSeason(fm, sk), [fm, sk]);
-  const { data: stats } = useAsync(() => loadSeasonStats(fm, sk), [fm, sk]);
+  const { data: stats } = useAsync(() => loadPlayerStats(fm, sk), [fm, sk]);
   const name = season && season.teams && season.teams[tid];
   if (loading) return <PageShell bar={false}><TopBar title="Squadra" /><div className="px-5 pt-8"><Skeleton className="h-[52px] w-full" /></div></PageShell>;
   if (!season || !name) return <PageShell bar={false}><TopBar title="Squadra" /><Empty>Squadra non trovata</Empty></PageShell>;
   // squadra presente nell'app: si apre la scheda unica della squadra, con la stagione scelta
-  const appTeam = teamByName(name);
-  if (appTeam && appTeam.leagueId && FM_ID[appTeam.leagueId] && String(FM_ID[appTeam.leagueId]) === String(fm)) {
+  // (prima per id FotMob, in qualunque competizione; poi per nome uguale nella sua competizione)
+  const byFm = teamByFm(tid);
+  const byName = teamByName(name);
+  const appTeam = byFm || (byName && byName.leagueId && FM_ID[byName.leagueId] && String(FM_ID[byName.leagueId]) === String(fm) ? byName : null);
+  if (appTeam) {
     NAV.fm = fm; NAV.sk = sk; NAV.tab = 1;
     try { sessionStorage.setItem(`sl-tab-team-${appTeam.id}`, '1'); } catch (e) { /* ignore */ }
     return <Navigate replace to={`/squadra/${appTeam.id}`} />;

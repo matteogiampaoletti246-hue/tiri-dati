@@ -71,7 +71,7 @@ export default function TeamRosterPanel({ teamId }) {
   const grouped = GROUPS.map((g) => ({ ...g, list: all.filter((p) => g.pos.includes(p.position)).sort((a, b) => (b.minutes || 0) - (a.minutes || 0)) }));
   const other = all.filter((p) => !GROUPS.some((g) => g.pos.includes(p.position)));
   if (other.length) grouped.push({ key: 'OT', title: 'Altri', color: '#8EA0BD', list: other });
-  if (!all.length) return <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Rosa non disponibile</p>;
+  if (!all.length) return null;
 
   return (
     <div className="flex flex-col gap-3.5 px-4 pb-8 pt-4">

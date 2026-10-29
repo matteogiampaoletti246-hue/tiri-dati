@@ -12,6 +12,12 @@ const BY_NAME = {};
 export const teamById = (id) => INDEX[id] || null;
 export const teamsOf = (leagueId) => TEAMS_BY_LEAGUE[leagueId] || [];
 export const teamByName = (name) => BY_NAME[name] || null;
+// squadra dall'id FotMob (quello noto o quello dello stemma teamlogo/<id>.png): l'abbinamento piu' sicuro tra le fonti
+export const teamByFm = (fid) => {
+  if (!fid) return null;
+  const k = String(fid);
+  return TEAMS.find((t) => String(t.fmId || '') === k) || TEAMS.find((t) => new RegExp(`teamlogo/${k}\\.png`).test(String(t.crest || ''))) || null;
+};
 export const teamIdOf = (name) => slug(name);
 
 const shade = (hex, k) => {

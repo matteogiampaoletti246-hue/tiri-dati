@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import MenuBackdrop from '@/components/MenuBackdrop';
 import { Check, ChevronDown } from 'lucide-react';
+import { usePopFit, popScroll } from '@/lib/popFit';
 import StatIcon from '@/components/StatIcon';
 
 // Tasto unico in vetro: apre l'elenco delle statistiche, ognuna con la sua icona.
@@ -8,6 +9,7 @@ export default function StatPicker({ options, value, onChange }) {
   const [open, setOpen] = useState(false);
   const [shown, setShown] = useState(false);
   const ref = useRef(null);
+  const room = usePopFit(ref, open);
   const cur = options.find((o) => o.key === value) || options[0];
 
   useEffect(() => {
@@ -28,8 +30,9 @@ export default function StatPicker({ options, value, onChange }) {
       {open ? <MenuBackdrop onClose={() => setOpen(false)} /> : null}
       {open ? (
         <div
-          className="absolute left-0 top-[calc(100%+8px)] z-50 min-w-[230px] overflow-hidden rounded-[22px] py-1.5"
-          style={{ opacity: shown ? 1 : 0, transform: shown ? 'translateY(0) scale(1)' : 'translateY(-6px) scale(.97)', transformOrigin: 'top left', transition: 'opacity .2s ease, transform .22s cubic-bezier(.22,.8,.24,1)', background: 'var(--sky-2)', border: '1px solid var(--hair)', boxShadow: '0 18px 40px rgba(0,0,0,.5)' }}
+          data-pop-scroll
+          className={`hide-sb absolute left-0 ${room.up ? 'bottom-[calc(100%+8px)]' : 'top-[calc(100%+8px)]'} z-50 min-w-[230px] rounded-[22px] py-1.5`}
+          style={{ ...popScroll(room), opacity: shown ? 1 : 0, transform: shown ? 'translateY(0) scale(1)' : `translateY(${room.up ? 6 : -6}px) scale(.97)`, transformOrigin: room.up ? 'bottom left' : 'top left', transition: 'opacity .2s ease, transform .22s cubic-bezier(.22,.8,.24,1)', background: 'var(--sky-2)', border: '1px solid var(--hair)', boxShadow: '0 18px 40px rgba(0,0,0,.5)' }}
         >
           {options.map((o) => {
             const on = o.key === value;

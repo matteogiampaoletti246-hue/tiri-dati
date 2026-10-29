@@ -8,12 +8,19 @@ export const norm = (n) => {
 // sigla ("Paris Saint-Germain" -> "psg")
 export const acr = (n) => String(n || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').split(/[\s-]+/).filter(Boolean).map((t) => t[0]).join('');
 
+// Seconde squadre, riserve, giovanili e femminili: due nomi che differiscono per uno di questi segni non sono MAI la stessa squadra
+// ("Real Sociedad B" non e' "Real Sociedad", "Jong Ajax" non e' "Ajax", "Bayern II" non e' "Bayern").
+const RESERVE = new Set(['b', 'ii', 'iii', '2', 'u17', 'u18', 'u19', 'u20', 'u21', 'u22', 'u23', 'sub', 'reserves', 'reserve', 'res', 'castilla', 'jong', 'promesas', 'youth', 'academy', 'primavera', 'amateure', 'women', 'femenino', 'feminino', 'femminile', 'feminine', 'ladies', 'frauen', 'vrouwen']);
+const words = (s) => String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, ' ').trim().split(' ').filter(Boolean);
+export const reserveTag = (name) => words(name).filter((t) => RESERVE.has(t)).sort().join(' ');
+export const sameSquad = (a, b) => reserveTag(a) === reserveTag(b);
+
 // Cerca tra le squadre dell'app quella che corrisponde a `name`: nome uguale, poi nome normalizzato, poi sigla,
 // poi nome contenuto -- ma solo tra squadre dello stesso paese (mai due squadre diverse che si somigliano: "Arsenal" inglese e francese).
 export function findAppTeam(name, teams, sameCountry) {
   const n = norm(name);
   if (!n) return null;
-  const pool = sameCountry ? teams.filter(sameCountry) : teams;
+  const pool = (sameCountry ? teams.filter(sameCountry) : teams).filter((t) => sameSquad(t.name, name));
   let hit = pool.filter((t) => norm(t.name) === n);
   if (hit.length === 1) return hit[0];
   if (!sameCountry) return null; // senza paese certo (coppe internazionali) solo corrispondenza esatta

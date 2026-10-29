@@ -5,7 +5,7 @@ import Crest from '@/components/Crest';
 import TeamLink from '@/components/TeamLink';
 import TextFilter from '@/components/TextFilter';
 import MatchShotMap from './MatchShotMap';
-import PreMatchStats from './PreMatchStats';
+import PreMatchStats, { preStatsOk } from './PreMatchStats';
 import { CATEGORY_DEFS, metricOf } from '@/data/standings';
 import { comma, num } from '@/lib/format';
 import { archiveMetrics } from '@/data/archiveMetrics';
@@ -22,6 +22,14 @@ const LIVE_STATS = [
   { key: 'passaggi', label: 'Passaggi' },
   { key: 'fuorigioco', label: 'Fuorigioco' },
 ];
+
+// la scheda Statistiche compare solo se c'e' qualcosa da mostrare
+export function hasMatchStats(match, view, home, away, pre) {
+  if (pre) return preStatsOk(match, home, away);
+  const periods = view.statPeriods;
+  const stats = view.stats || {};
+  return !!((periods && (periods.all || Object.keys(periods).length)) || LIVE_STATS.some((s) => stats[s.key]) || (view.shots || []).length);
+}
 
 export default function MatchStatsPanel({ match, view, home, away, pre }) {
   const [period, setPeriod] = useState('all');
@@ -64,7 +72,7 @@ export default function MatchStatsPanel({ match, view, home, away, pre }) {
   const fallback = LIVE_STATS.filter((s) => stats[s.key]).map((s) => ({ label: s.label, home: stats[s.key][0], away: stats[s.key][1], format: s.format || num }));
 
   if (!groups && !fallback.length && !(view.shots || []).length) {
-    return <p className="px-5 py-16 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>{view.live ? 'Le statistiche per questa partita non sono disponibili. Se la fonte le pubblica compariranno qui in diretta.' : 'Statistiche non disponibili per questa partita'}</p>;
+    return null;
   }
 
   return (

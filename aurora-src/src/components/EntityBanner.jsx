@@ -1,4 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
+
+const LAST_H = {};
 import { goBack } from '@/lib/carousel';
 import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
@@ -10,13 +12,16 @@ import { Image } from '@/components/ui/image';
 export default function EntityBanner({ name, subtitle, meta, colors = ['#1E4BD8', '#7FB6E8'], logoUrl = null, initials = '', liveCount = 0, logoFilter, tall = false, nameExtra = null, below = null }) {
   const navigate = useNavigate();
   const ref = useRef(null);
-  const [h, setH] = useState(120);
+  // spazio riservato sotto il banner: misurato prima del disegno e partendo dall'ultima altezza vista (niente pagina che scende all'arrivo)
+  const hk = `${tall ? 't' : 's'}${subtitle ? 1 : 0}${meta ? 1 : 0}${below ? 1 : 0}`;
+  const [h, setH] = useState(() => LAST_H[hk] || 120);
   const concept = 'b';
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const el = ref.current;
     if (!el) return undefined;
     const set = () => {
+      if (el.offsetHeight) LAST_H[hk] = el.offsetHeight;
       setH(el.offsetHeight);
       document.documentElement.style.setProperty('--ent-h', `${el.offsetHeight}px`);
     };

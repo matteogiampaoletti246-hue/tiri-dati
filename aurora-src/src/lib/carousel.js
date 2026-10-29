@@ -1,4 +1,5 @@
 import { flushSync } from 'react-dom';
+import { modalOpen } from './modal';
 
 // Fotografia viva dell'elemento: copia fissa che resta dov'e' mentre sotto cambia la pagina.
 function snapshot(el, z = 35, host = null) {
@@ -239,6 +240,7 @@ const behindOff = () => {
   if (sh) { sh.style.zIndex = ''; sh.style.background = ''; }
 };
 export function pageDrag(dx) {
+  if (modalOpen()) return; // finestra aperta (giocatore, fogli): la pagina sotto e la sua fotografia restano ferme
   const w = Math.min(window.innerWidth, 430);
   behindOn();
   behindMove(Math.max(0, dx), w);

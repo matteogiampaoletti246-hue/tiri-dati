@@ -10,7 +10,7 @@ import { comma } from '@/lib/format';
 import { bandColor, ratioColor } from '@/components/player/playerCalc';
 import CompSeasonBar from '@/components/CompSeasonBar';
 import { PastTeamStats } from '@/components/past/PastTeam';
-import { useTeamView, announceComp, GrowBar, RollText } from '@/components/past/PastBits';
+import { useTeamView, announceComp, GrowBar, RollText, useCompIn } from '@/components/past/PastBits';
 import { teamCompetitions } from '@/data/competitions';
 import { teamShots } from '@/data/calcData';
 import { MATCHES } from '@/data/matches';
@@ -146,12 +146,13 @@ function DomesticStats({ team, comp }) {
 
 
 export default function TeamStatsPanel({ team }) {
-  const { comp, setComp, season, eff, setSeason, comps, seasons, fm } = useTeamView(team, 'sx', teamCompetitions(team.id), team.leagueId);
+  const { comp, setComp, season, eff, setSeason, comps, seasons, fm, noCur } = useTeamView(team, 'sx', teamCompetitions(team.id), team.leagueId);
+  const anim = useCompIn(comp);
   return (
     <div>
-      <CompSeasonBar comps={comps} comp={comp} onComp={(c) => { setComp(c); announceComp(team.id, c); }} seasons={seasons} season={season} onSeason={setSeason} />
+      <CompSeasonBar comps={comps} comp={comp} onComp={(c) => { setComp(c); announceComp(team.id, c); }} seasons={seasons} season={season} onSeason={setSeason} noCur={noCur} />
       {eff !== 'cur' && fm ? <PastTeamStats fm={fm} sk={eff} team={team} comp={comp} cur={season === 'cur'} /> : (
-        <div key={comp} className="comp-in">
+        <div key={comp} className={anim}>
           <DomesticStats team={team} comp={comp} />
         </div>
       )}

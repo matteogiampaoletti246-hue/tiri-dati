@@ -8,11 +8,11 @@ import Skeleton from '@/components/Skeleton';
 import { TeamLogo, PlayerFace } from '@/components/FmImg';
 import useAsync from '@/hooks/useAsync';
 import { RefereesView } from '@/components/league/LeagueRefereesPanel';
-import { loadSeason, loadSeasonStats, loadSeasonMatches, SEASON_STAT_IT, STAT_IT, STAT_GROUPS, prettyKey } from '@/data/archive';
+import { loadSeason, loadTeamStats, loadPlayerStats, loadSeasonMatches, SEASON_STAT_IT, STAT_IT, STAT_GROUPS, prettyKey } from '@/data/archive';
 import { tintGrad } from '@/lib/tint';
 import ClassificaSwitch from '@/components/bracket/ClassificaSwitch';
 import Bracket from '@/components/bracket/Bracket';
-import { isPureCup } from '@/data/bracket';
+import { isPureCup, loadBracket } from '@/data/bracket';
 import { ArchRow, StandingsPanel, fmtDate, dayKey, useTeamColors, rowBg } from './parts';
 
 const TABS = [
@@ -56,7 +56,7 @@ function MatchesPanel({ fm, sk, season, tint }) {
     fix.forEach((m) => { if (!seen.includes(m[1])) seen.push(m[1]); });
     return seen;
   }, [fix]);
-  if (!season || !fix.length) return <Empty>Calendario non disponibile per questa stagione</Empty>;
+  if (!season || !fix.length) return null;
   const shown = fix.filter(MATCH[filter]);
   const byR = {};
   shown.forEach((m) => { (byR[m[1]] = byR[m[1]] || []).push(m); });
@@ -177,7 +177,7 @@ export function statSections(stats, kind, names, col, fm, sk, mode = 'tot', only
 export function ArchStatPanel({ stats, kind, names, col, fm, sk }) {
   const [mode, setMode] = useState('tot');
   const sections = statSections(stats, kind, names, col, fm, sk, mode);
-  if (!sections.length) return <Empty>Statistiche non disponibili per questa stagione</Empty>;
+  if (!sections.length) return null;
   const controls = kind === 'players'
     ? <TextFilter options={[{ value: 'tot', label: 'Totale' }, { value: 'p90', label: "Ogni 90'" }]} value={mode} onChange={setMode} />
     : null;
@@ -280,20 +280,32 @@ function refsOf(det) {
 
 export default function ArchiveLeague({ fm, sk, tab, setTab, tint }) {
   const { data: season, loading } = useAsync(() => loadSeason(fm, sk), [fm, sk]);
-  const { data: stats, loading: l3 } = useAsync(() => loadSeasonStats(fm, sk), [fm, sk]);
+  const { data: stats, loading: l3 } = useAsync(() => loadTeamStats(fm, sk), [fm, sk]);
+  const { data: pstats, loading: l5 } = useAsync(() => loadPlayerStats(fm, sk), [fm, sk]);
   const { data: det, loading: l2 } = useAsync(() => loadSeasonMatches(fm, sk), [fm, sk]);
   const col = useTeamColors();
+  const pure = isPureCup(fm);
+  const { data: br, loading: l4 } = useAsync(() => (pure ? loadBracket(fm, sk) : null), [fm, sk]);
   const refs = useMemo(() => refsOf(det), [det]);
-  if ((loading && !season) || l2 || l3) return <Loading />;
+  if ((loading && !season) || l2 || l3 || l4 || l5) return <Loading />;
   const names = (season && season.teams) || {};
-  const panels = [
-    <MatchesPanel key="m" fm={fm} sk={sk} season={season} tint={tint} />,
-    isPureCup(fm) ? <Bracket key="s" fm={fm} sk={sk} /> : <ClassificaSwitch key="s" fm={fm} sk={sk}><StandingsPanel season={season} fm={fm} sk={sk} /></ClassificaSwitch>,
-    <ArchTeamStatPanel key="t" season={season} det={det} stats={stats} names={names} col={col} fm={fm} sk={sk} />,
-    <ArchStatPanel key="p" stats={stats} kind="players" names={names} col={col} fm={fm} sk={sk} />,
-    refs.length ? <RefereesView key="r" base={refs} /> : null,
-  ].filter(Boolean);
-  const baseTabs = isPureCup(fm) ? TABS.map((t) => (t.key === 'standings' ? { ...t, label: 'Tabellone' } : t)) : TABS;
-  const tabs = refs.length ? baseTabs : baseTabs.filter((t) => t.key !== 'referees');
+  // una scheda senza dati non si mostra (mai "non disponibile")
+  const has = {
+    matches: !!(season && season.fix && season.fix.length),
+    standings: pure ? !!(br && br.rounds && br.rounds.length) : !!(season && season.table),
+    teams: !!(det && det.m && Object.keys(det.m).length) || statSections(stats, 'teams', names, col, fm, sk, 'tot').length > 0,
+    players: statSections(pstats, 'players', names, col, fm, sk, 'tot').length > 0,
+    referees: refs.length > 0,
+  };
+  const PANEL = {
+    matches: () => <MatchesPanel key="m" fm={fm} sk={sk} season={season} tint={tint} />,
+    standings: () => (pure ? <Bracket key="s" fm={fm} sk={sk} /> : <ClassificaSwitch key="s" fm={fm} sk={sk}><StandingsPanel season={season} fm={fm} sk={sk} /></ClassificaSwitch>),
+    teams: () => <ArchTeamStatPanel key="t" season={season} det={det} stats={stats} names={names} col={col} fm={fm} sk={sk} />,
+    players: () => <ArchStatPanel key="p" stats={pstats} kind="players" names={names} col={col} fm={fm} sk={sk} />,
+    referees: () => <RefereesView key="r" base={refs} />,
+  };
+  const baseTabs = pure ? TABS.map((t) => (t.key === 'standings' ? { ...t, label: 'Tabellone' } : t)) : TABS;
+  const tabs = baseTabs.filter((t) => has[t.key]);
+  const panels = tabs.map((t) => PANEL[t.key]());
   return <SwipeTabs fixedBar tabs={tabs} panels={panels} index={Math.min(tab, tabs.length - 1)} onChange={setTab} className="pt-0" />;
 }

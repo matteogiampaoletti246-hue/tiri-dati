@@ -289,6 +289,62 @@ export async function syncDayTimes(iso, force = false) {
       m.timeKnown = true;
       changed += 1;
     }
+    // stato e risultato dalla stessa fonte della pagina partita: in Home mai un "live" gia' finito o un punteggio vecchio
+    if (applyStatus(m, { fin: hit.f, st: hit.s && !hit.f, sc: scoreOf(hit.sc), clk: hit.lt })) changed += 1;
   });
   return changed;
+}
+
+const scoreOf = (s) => { const x = String(s || '').match(/(\d+)\s*-\s*(\d+)/); return x ? [Number(x[1]), Number(x[2])] : null; };
+
+// Applica stato/punteggio/minuto (FotMob). Ritorna true se qualcosa e' cambiato.
+function applyStatus(m, { fin, st, sc, clk, ht }) {
+  const before = `${m.status}|${m.score}|${m.liveScore}|${m.liveMinute}`;
+  if (fin && sc) {
+    m.status = 'finished'; m.score = sc; m.minute = 90; m.liveScore = null; m.liveHalf = false;
+  } else if (st) {
+    m.status = 'live';
+    if (sc) m.liveScore = sc;
+    const mm = parseInt(String(clk || ''), 10);
+    if (Number.isFinite(mm)) m.liveMinute = mm;
+    m.liveHalf = !!ht || /^HT$/i.test(String(clk || ''));
+  } else if (!fin && !st && m.status === 'live') {
+    // FotMob dice "non iniziata" (rinvio o ritardo): non e' live
+    m.status = 'scheduled'; m.liveScore = null;
+  }
+  m.statusAt = Date.now();
+  return before !== `${m.status}|${m.score}|${m.liveScore}|${m.liveMinute}`;
+}
+
+// Partite "sospette" (live, iniziate senza risultato): si chiede lo stato a FotMob prima di mostrarle.
+// Top campionati e coppe europee: una richiesta per giorno; gli altri (campionati e coppe aggiunti): una per partita (/fx, la stessa
+// che usa la pagina partita, salvata nella sua cache cosi' aprendo la partita i dati sono gli stessi).
+const suspect = (m, now) => m.status === 'live' || (m.status === 'scheduled' && m.ts < now) || (m.status === 'finished' && !m.score && now - m.ts < 2 * 86400000);
+let refreshing = null;
+export function refreshStatus() {
+  if (refreshing) return refreshing;
+  refreshing = (async () => {
+    const now = Date.now();
+    const sus = MATCHES.filter((m) => suspect(m, now) && now - (m.statusAt || 0) > 20000);
+    let changed = 0;
+    const days = [...new Set(sus.filter((m) => !m.extra).map((m) => m.date))];
+    await Promise.all(days.map((iso) => syncDayTimes(iso, true).then((n) => { changed += n; }).catch(() => 0)));
+    // solo quelle iniziate nelle ultime 5 ore (le piu' vecchie le corregge partite_extra.json): poche richieste anche su iPhone
+    const one = sus.filter((m) => m.extra && m.fmId && (m.status === 'live' || now - m.ts < 5 * 3600000));
+    let i = 0;
+    const worker = async () => {
+      while (i < one.length) {
+        const m = one[i++];
+        try {
+          const c = fxCache[m.fmId];
+          const d = c && Date.now() - c.at < 8000 ? c.d : await jget(`${WORKER}/fx?id=${m.fmId}`);
+          fxCache[m.fmId] = { at: Date.now(), d };
+          if (applyStatus(m, { fin: d.fin, st: d.st, sc: d.sc && d.sc[0] != null ? [Number(d.sc[0]), Number(d.sc[1])] : null, clk: d.clk, ht: d.ht })) changed += 1;
+        } catch { /* si riprova al prossimo giro */ }
+      }
+    };
+    await Promise.all([worker(), worker(), worker(), worker()]);
+    return changed;
+  })().finally(() => { refreshing = null; });
+  return refreshing;
 }

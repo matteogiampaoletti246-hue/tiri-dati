@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigationType } from 'react-router-dom';
 import useAsync from '@/hooks/useAsync';
-import { pastSeasons, teamSeasons, playerSeasons, loadSeason, teamIdByName, sortSeasons, FM_ID } from '@/data/archive';
+import { pastSeasons, teamSeasons, playerSeasons, loadSeason, teamIdByName, sortSeasons, FM_ID, archIndex, curSeasonSync } from '@/data/archive';
+import { teamHistory } from '@/data/teamIndex';
 import { leagueById } from '@/data/leagues';
 import { RAW } from '@/data/load';
 import { bandColor } from '@/components/player/playerCalc';
@@ -68,11 +69,30 @@ export function useSeasonComps(team, season, base) {
   return season === 'cur' ? base : (data && data.length ? data : base);
 }
 
+// stagione in corso di una competizione (campionati aggiunti: quella dell'archivio; gli altri: la piu' recente dell'indice)
+const curSkOf = (lid) => {
+  const fm = FM_ID[lid];
+  if (!fm) return null;
+  return (RAW.extra && RAW.extra.sk && RAW.extra.sk[String(fm)]) || curSeasonSync(fm);
+};
+
 // Vista di un pannello squadra: competizione + stagione collegate. allowAll: aggiunge "Tutte le competizioni".
+// Competizioni: con "Attuale" tutte quelle giocate dalla squadra in tutti gli anni (indice tidx, per id FotMob), con una stagione
+// passata solo quelle giocate quell'anno. Stagioni: solo quelle in cui ha giocato la competizione scelta.
 export function useTeamView(team, slot, baseComps, defComp, allowAll = false) {
-  const [comp, setComp] = useSel(team.id, `${slot}-c`, defComp);
+  const [comp, setComp0] = useSel(team.id, `${slot}-c`, defComp);
   const [season, setSeason] = useSel(team.id, `${slot}-s`, () => initSeason(FM_ID[defComp === 'all' ? team.leagueId : defComp]));
-  const comps = useSeasonComps(team, season, baseComps);
+  const { data: hist } = useAsync(async () => { await archIndex(); return teamHistory(team); }, [team.id]);
+  const comps0 = useSeasonComps(team, season, baseComps);
+  const base = new Set(baseComps.map((c) => c.id));
+  let comps = comps0;
+  if (hist) {
+    const ever = Object.keys(hist).sort((a, b) => String(hist[b][0]).localeCompare(String(hist[a][0])));
+    comps = season === 'cur'
+      ? [...baseComps, ...ever.filter((id) => !base.has(id)).map(leagueById).filter(Boolean)]
+      : [...new Set([...comps0.map((c) => c.id).filter((id) => !hist[id] || hist[id].includes(season)), ...ever.filter((id) => hist[id].includes(season))])].map(leagueById).filter(Boolean);
+    if (!comps.length) comps = comps0;
+  }
   const okComp = comp === 'all' ? allowAll : comps.some((c) => c.id === comp);
   const compEff = okComp ? comp : (allowAll ? 'all' : (comps[0] ? comps[0].id : comp));
   const fms = compEff === 'all' ? [...new Set([FM_ID[team.leagueId], ...CUP_IDS.map((c) => FM_ID[c])].filter(Boolean))] : [FM_ID[compEff]].filter(Boolean);
@@ -80,13 +100,29 @@ export function useTeamView(team, slot, baseComps, defComp, allowAll = false) {
     const lists = await Promise.all(fms.map((fm) => teamSeasons(fm, team.name)));
     return sortSeasons([...new Set(lists.flat())]);
   }, [team.name, compEff]);
-  const seasons = data || [];
-  const sk = season === 'cur' || !data || seasons.includes(season) ? season : 'cur';
+  // stagioni passate della competizione: dall'indice squadre (per id), altrimenti dal nome nelle stagioni archiviate
+  const fromHist = hist && (compEff === 'all'
+    ? sortSeasons([...new Set(Object.entries(hist).flatMap(([id, sks]) => sks.filter((s) => !(base.has(id) && s === curSkOf(id)))))])
+    : hist[compEff] ? hist[compEff].filter((s) => !(base.has(compEff) && s === curSkOf(compEff))) : null);
+  const seasons = fromHist || data || [];
+  // competizione che la squadra non gioca piu' (es. la prima divisione di anni fa): niente "Attuale", si parte dalla stagione piu' recente
+  const noCur = compEff !== 'all' && !base.has(compEff) && seasons.length > 0;
+  const known = !!fromHist || !!data;
+  let sk = season === 'cur' || !known || seasons.includes(season) ? season : 'cur';
+  if (noCur && sk === 'cur') sk = seasons[0];
   // campionati aggiunti: la stagione in corso si legge dall'archivio (stesse statistiche dei top campionati), "Attuale" resta il nome in tendina
   const lg = compEff !== 'all' ? leagueById(compEff) : null;
   const arch = lg && lg.extra && RAW.extra && RAW.extra.sk ? RAW.extra.sk[String(lg.fm)] : null;
   const eff = sk === 'cur' && arch ? arch : sk;
-  return { comp: compEff, setComp, season: sk, eff, setSeason, comps, seasons, fm: FM_ID[compEff] };
+  // cambiando competizione la stagione riparte da "Attuale" (o dalla piu' recente se non la gioca piu')
+  const setComp = (c) => { setComp0(c); if (!base.has(c) && c !== 'all') setSeason('cur'); };
+  return { comp: compEff, setComp, season: sk, eff, setSeason, comps, seasons, fm: FM_ID[compEff], noCur };
+}
+
+// animazione di entrata solo quando si cambia competizione/stagione, mai all'arrivo sulla pagina (niente pillole che scivolano giu')
+export function useCompIn(key) {
+  const first = useRef(key);
+  return first.current !== key ? 'comp-in' : '';
 }
 
 const ease = (t) => 1 - (1 - t) ** 3;

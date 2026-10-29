@@ -29,8 +29,9 @@ export function tabRows(c) {
 
 export default function StatTabs({ c, concept }) {
   const [i, setI] = useState(0);
-  const tabs = tabRows(c);
-  const cur = tabs[i];
+  const tabs = tabRows(c).filter((t) => t.rows.length); // pillola senza righe = pillola nascosta
+  const cur = tabs[Math.min(i, tabs.length - 1)];
+  if (!cur) return null;
   const bar = concept === 'b' ? (
     <div className="flex gap-6 px-1">
       {tabs.map((t, k) => (
@@ -74,7 +75,6 @@ export default function StatTabs({ c, concept }) {
               <span className="tnum text-[13.5px] font-bold">{r.text}</span>
             </div>
           ))}
-          {!rows.length ? <p className="py-6 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Nessun dato</p> : null}
         </div>
       )}
     </div>

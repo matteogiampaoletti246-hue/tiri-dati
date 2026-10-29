@@ -3,6 +3,10 @@ import { MATCH_BY_ID } from './matches';
 import { teamById, } from './teams';
 import { playersByTeam } from './players';
 import { norm } from './util';
+import { FM_ID, curSeasonSync } from './archive';
+import { archiveId } from './archivePlayer';
+import { roseOf } from './rose';
+import { RAW } from './load';
 
 // Stato condiviso della tendina giocatore (si apre da formazioni, riassunto, tiri…).
 let state = null;
@@ -36,6 +40,26 @@ export function ourPlayerId(match, name, fmId) {
     const p = playersByTeam(t.id).find((x) => norm(x.name) === n);
     if (p) return p.id;
   }
+  // campionati e coppe aggiunti (e chiunque non sia nell'elenco principale): scheda costruita dall'archivio, id fm~<lega>~<stagione>~<id FotMob>
+  const e = f && f.entry;
+  let pid = (f && f.fmId) || fmId || (e && !e.linkable && /^\d+$/.test(String(e.playerId)) ? String(e.playerId) : null);
+  if (!pid) {
+    for (const t of teams) {
+      const ro = roseOf(t);
+      const r = ro && (ro.p || []).find((x) => norm(x[1]) === n);
+      if (r) { pid = String(r[0]); break; }
+    }
+  }
+  if (!pid) return null;
+  // prima il campionato della squadra (banner e statistiche di campionato), poi la competizione della partita
+  const team = (f && f.team) || teams[0];
+  const cands = [team && team.leagueId, match && match.leagueId].filter(Boolean);
+  for (const lid of cands) {
+    const fm = FM_ID[lid];
+    const sk = fm && ((RAW.extra && RAW.extra.sk && RAW.extra.sk[String(fm)]) || curSeasonSync(fm));
+    if (fm && sk) return archiveId(fm, sk, pid);
+  }
+  if (match && match.archive && match.archive.sk) return archiveId(match.archive.fm, match.archive.sk, pid);
   return null;
 }
 

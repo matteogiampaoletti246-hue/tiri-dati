@@ -10,7 +10,10 @@ import { romeDay, romeTime, slug, norm } from './util';
 
 export const archiveId = (fm, sk, mid) => `a-${fm}-${sk}-${mid}`;
 export const parseArchiveId = (id) => {
-  const m = /^a-(\d+)-(\d{4}(?:-\d{4})?)-(\d+)$/.exec(String(id));
+  // stagione anche con suffisso: "a-230-2026-2027 - Apertura-123"
+  let s = String(id);
+  try { s = decodeURIComponent(s); } catch (e) { /* gia' in chiaro */ }
+  const m = /^a-(\d+)-(\d{4}(?:-\d{4})?(?: - [^-]+?)?)-(\d+)$/.exec(s);
   return m ? { fm: m[1], sk: m[2], mid: m[3] } : null;
 };
 

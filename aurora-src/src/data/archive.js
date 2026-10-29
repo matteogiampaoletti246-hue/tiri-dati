@@ -14,6 +14,7 @@ const gz = (path) => once(path, async () => {
 // id dell'app → id FotMob
 export const FM_ID = { 'serie-a': 55, 'premier-league': 47, 'la-liga': 87, bundesliga: 54, 'ligue-1': 53, 'champions-league': 42, 'europa-league': 73, 'conference-league': 10216, eredivisie: 57, 'super-lig': 71, 'liga-portugal': 61, 'pro-league': 40, 'scottish-premiership': 64, 'aut-bundesliga': 38, 'nor-eliteserien': 59, 'gre-super-league-1': 135, 'championship': 48, 'serie-b': 86, 'bundesliga-2': 146, 'laliga-2': 140, 'ligue-2': 110, 'liga-portugal-2': 185, 'eerste-divisie': 111, 'turchia-1-lig': 165, 'brasileirao': 268, 'arg-liga-profesional': 112, 'mls': 130, 'liga-mx': 230, 'coppa-italia': 141, 'dfb-pokal': 209, 'coupe-de-france': 134, 'taca-de-portugal': 186, 'efl-cup': 133, 'belgian-cup': 149, 'austrian-cup': 278, 'scottish-league-cup': 180, 'copa-do-brasil': 9067 };
 
+let IDX = null; // indice gia' caricato (per le letture sincrone)
 export const archIndex = () => once('index', async () => {
   const [a, b] = await Promise.all([json('arch/index.json'), json('arch/index_top.json')]);
   const out = { ...(a || {}) };
@@ -21,8 +22,14 @@ export const archIndex = () => once('index', async () => {
     const o = out[k];
     out[k] = o ? { ...o, ...v, s: [...new Set([...(o.s || []), ...(v.s || [])])] } : v;
   });
+  IDX = out;
   return out;
 });
+// stagione in corso senza attese (null se l'indice non e' ancora arrivato)
+export const curSeasonSync = (fm) => {
+  const e = IDX && IDX[String(fm)];
+  return e && e.s && e.s.length ? [...e.s].sort((a, b) => String(b).localeCompare(String(a)))[0] : null;
+};
 export const loadColors = () => json('arch/colors.json');
 // Classifica ricostruita dalle partite giocate, per le stagioni in cui FotMob non ha la tabella (solo campionati nazionali).
 const CUPS = new Set([42, 73, 10216]);
@@ -78,10 +85,12 @@ export const loadSeasonMatches = (lid, sk) => gz(`partite/${lid}/${sk}.json.gz`)
 export const teamLogo = (id) => `https://images.fotmob.com/image_resources/logo/teamlogo/${id}.png`;
 export const playerFace = (id) => `https://images.fotmob.com/image_resources/playerimages/${id}.png`;
 
-// "2025-2026" → "2025/26"
+// "2025-2026" → "2025/26"; "2025-2026 - Clausura" → "2025/26 Clausura"; "2026 - Apertura" → "2026 Apertura"
 export const seasonLabel = (sk) => {
-  const m = /^(\d{4})-(\d{4})$/.exec(sk || '');
-  return m ? `${m[1]}/${m[2].slice(2)}` : String(sk || '').replace('-', '/');
+  const m = /^(\d{4})-(\d{4})(?: - (.+))?$/.exec(sk || '');
+  if (m) return `${m[1]}/${m[2].slice(2)}${m[3] ? ` ${m[3]}` : ''}`;
+  const y = /^(\d{4}) - (.+)$/.exec(sk || '');
+  return y ? `${y[1]} ${y[2]}` : String(sk || '').replace('-', '/');
 };
 export const sortSeasons = (list) => [...list].sort((a, b) => String(b).localeCompare(String(a)));
 
@@ -144,7 +153,12 @@ export const statsFromMatches = (lid, sk) => once(`sfm/${lid}/${sk}`, async () =
   if (!d || !d.m) return null;
   const tot = {};
   const acc = {};
+  const who = {}; // id giocatore -> [squadra, nome] dalle formazioni della partita (titolari e panchina)
   Object.values(d.m).forEach((m) => {
+    [m && m.h, m && m.a].forEach((side) => {
+      if (!side || !side.id) return;
+      Object.values(side).forEach((list) => { if (Array.isArray(list)) list.forEach((r) => { if (Array.isArray(r) && r[0] != null) who[String(r[0])] = [String(side.id), r[1] || '']; }); });
+    });
     Object.entries((m && m.p) || {}).forEach(([pid, v]) => {
       const mins = Number(v.minutes_played) || 0;
       if (!mins) return;
@@ -163,7 +177,7 @@ export const statsFromMatches = (lid, sk) => once(`sfm/${lid}/${sk}`, async () =
   Object.entries(acc).forEach(([k, per]) => {
     const isRating = k === 'rating_title';
     const rows = Object.entries(per)
-      .map(([pid, a]) => [pid, '', null, isRating ? a.s / a.n : a.s, tot[pid].min, tot[pid].n, null])
+      .map(([pid, a]) => [pid, (who[pid] || [])[1] || '', (who[pid] || [])[0] || null, isRating ? a.s / a.n : a.s, tot[pid].min, tot[pid].n, null])
       .filter((r) => (isRating ? r[4] >= 90 : r[3] > 0));
     if (rows.length < 3) return;
     rows.sort((x, y) => y[3] - x[3]);
@@ -171,6 +185,13 @@ export const statsFromMatches = (lid, sk) => once(`sfm/${lid}/${sk}`, async () =
   });
   return Object.keys(players).length ? { v: 2, players, teams: {}, fromMatches: true } : null;
 });
+// statistiche squadre di una stagione: quelle ufficiali se ci sono, altrimenti le medie a partita dalle partite archiviate
+// (stagione in corso dei campionati aggiunti: il file ufficiale esiste ma e' ancora vuoto)
+export const loadTeamStats = async (lid, sk) => {
+  const st = await loadSeasonStats(lid, sk);
+  if (st && st.teams && Object.keys(st.teams).length) return st;
+  return teamPartStats(lid, sk, 'tot');
+};
 // statistiche giocatori di una stagione: quelle ufficiali se ci sono, altrimenti quelle calcolate dalle partite
 export const loadPlayerStats = async (lid, sk) => {
   const st = await loadSeasonStats(lid, sk);
@@ -206,12 +227,12 @@ export const playerSeasons = (fm, pid) => {
   }
   return PS[k];
 };
-import { norm, acr } from './teamMatch';
+import { norm, acr, sameSquad } from './teamMatch';
 // id FotMob di una squadra dentro i dati di una stagione, dal nome: prima uguale, poi sigla, poi nome contenuto (mai due squadre diverse che si somigliano)
 export const teamIdByName = (teams, name) => {
   const n = norm(name);
   if (!n || !teams) return null;
-  const ent = Object.entries(teams);
+  const ent = Object.entries(teams).filter(([, v]) => sameSquad(v, name)); // mai la prima squadra al posto della B (o viceversa)
   let hit = ent.find(([, v]) => norm(v) === n);
   if (!hit) { const a = acr(name); hit = ent.find(([, v]) => { const m = norm(v); return m === a || (a.length >= 3 && acr(v) === n); }); }
   if (!hit) {

@@ -5,6 +5,10 @@ import { parseArchiveId, buildArchiveMatch, completeExtraMatch, applyArchiveFall
 import { loadFm } from './fotmob';
 import { playerLookup } from './players';
 import { perfLog, perfTime } from '@/lib/perfMon';
+import { isPureCup, loadBracket } from './bracket';
+import { loadWeather } from './weather';
+import { archIndex } from './archive';
+import { loadRose } from './rose';
 
 const P = new Map();
 
@@ -35,6 +39,17 @@ export function prepareMatch(id, force = false) {
       await loadFm(matchById(id), playerLookup, force);
       const mm = matchById(id);
       if (mm && mm.archive && !mm.detail) applyArchiveFallback(mm);
+      // tabellone (coppe) e meteo pronti prima di mostrare la partita: si sa subito quali schede/voci hanno dati e niente arriva dopo
+      if (mm) {
+        const cap = (p, ms) => Promise.race([p.catch(() => null), new Promise((r) => setTimeout(r, ms))]);
+        await Promise.all([
+          mm.archive && isPureCup(mm.archive.fm) && mm.archive.sk ? cap(loadBracket(mm.archive.fm, mm.archive.sk), 2500) : null,
+          cap(loadWeather(mm), 1500),
+          // per aprire la scheda di qualunque giocatore (anche dei campionati aggiunti) senza attese
+          cap(archIndex(), 1500),
+          cap(loadRose(), 1500),
+        ]);
+      }
     } catch { /* si mostra comunque cio' che c'e' */ }
     perfTime('partita pronta in', t0);
     entry.done = true;

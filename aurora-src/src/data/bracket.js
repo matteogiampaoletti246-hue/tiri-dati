@@ -110,7 +110,7 @@ export const loadBracket = async (fm, sk) => {
   const k = `${fm}-${sk}`;
   if (MEM.has(k)) return MEM.get(k);
   const r = await loadBracketRaw(fm, sk);
-  if (r && r.rounds && r.rounds.length) MEM.set(k, r);
+  if (r && r.rounds) MEM.set(k, r); // anche vuoto: tornando si sa subito che il Tabellone non c'e'
   return r;
 };
 const loadBracketRaw = async (fm, sk) => {

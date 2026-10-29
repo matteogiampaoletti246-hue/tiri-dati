@@ -1,3 +1,4 @@
+import { useModalLock } from '@/lib/modal';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
@@ -199,7 +200,7 @@ function Body({ c, concept, onOpen }) {
       ) : null}
       <ShotExplorer key={c.name} shots={c.shots} concept={concept} />
       {noStats ? (
-        <p className="py-6 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Statistiche del giocatore non disponibili per questa partita</p>
+        null
       ) : (
         <StatTabs key={c.name + 't'} c={c} concept={concept} />
       )}
@@ -243,6 +244,7 @@ export default function PlayerSheetHost() {
   const busy = useRef(false);
   const live = useRef({});
   live.current = { c, sheet };
+  useModalLock(!!sheet); // pagina sotto immobile, niente swipe di giorni/schede/indietro mentre la finestra e' aperta
 
   useEffect(() => {
     if (!sheet) return undefined;
@@ -372,7 +374,7 @@ export default function PlayerSheetHost() {
 
   return createPortal(
     sheet && c ? (
-      <div data-no-back="1" className="fixed inset-0 z-[80]" style={{ touchAction: 'none' }}>
+      <div data-no-back="1" role="dialog" aria-modal="true" className="fixed inset-0 z-[80]" style={{ touchAction: 'none' }}>
         <div ref={backdropRef} aria-hidden="true" className="absolute inset-0" style={{ background: 'rgba(0,0,0,.55)', animation: 'slfade .25s ease' }} onClick={close} onTouchMove={(e) => { if (e.cancelable) e.preventDefault(); }} />
         <div
           ref={sheetRef}

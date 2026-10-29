@@ -1,3 +1,4 @@
+import { modalOpen } from '@/lib/modal';
 import { memo, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal, flushSync } from 'react-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -7,6 +8,7 @@ import { pageBack, pageDrag, pageReset, finishCarousel, canGoBack } from '@/lib/
 // Scheda vicina gia' montata e ferma: non si ridisegna quando cambia la pagina (si aggiorna solo quando diventa quella attiva).
 const Frozen = memo(({ children }) => children, (a, b) => a.freeze && b.freeze);
 
+let HEAD_H = 44;
 const idle = (fn) => (window.requestIdleCallback ? window.requestIdleCallback(fn, { timeout: 1800 }) : setTimeout(fn, 60));
 const cancelIdle = (id) => (window.cancelIdleCallback ? window.cancelIdleCallback(id) : clearTimeout(id));
 
@@ -17,7 +19,8 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
   const barRef = useRef(null);
   const tabRefs = useRef([]);
   const headRef = useRef(null);
-  const [headH, setHeadH] = useState(44);
+  // altezza della barra fissa: si parte dall'ultima misurata (niente salto di ~30 px al primo disegno)
+  const [headH, setHeadH] = useState(() => HEAD_H);
   const [peek, setPeek] = useState(null);
   const peekRef = useRef(null);
   const peekTop = useRef(0);
@@ -33,10 +36,10 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
     }
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const el = headRef.current;
     if (!el || !fixedBar) return undefined;
-    const set = () => { setHeadH(el.offsetHeight); document.documentElement.style.setProperty('--tabs-h', `${el.offsetHeight}px`); };
+    const set = () => { HEAD_H = el.offsetHeight || HEAD_H; setHeadH(HEAD_H); document.documentElement.style.setProperty('--tabs-h', `${el.offsetHeight}px`); };
     set();
     const ro = new ResizeObserver(set);
     ro.observe(el);
@@ -154,7 +157,7 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
       document.documentElement.dataset.tch = '1';
       finishCarousel();
       if (finishRef.current) finishRef.current();
-      if (busy || e.touches.length !== 1) { st = null; return; }
+      if (busy || e.touches.length !== 1 || modalOpen()) { st = null; return; }
       const t = e.target;
       if (t.closest && t.closest('input, select, textarea, [data-no-swipe]')) { st = null; return; }
       st = { x: e.touches[0].clientX, y: e.touches[0].clientY, t: Date.now(), on: false, w: wrap.clientWidth || 360, edge: e.touches[0].clientX <= 36 };

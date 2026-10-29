@@ -8,6 +8,7 @@ import { buildReferees } from './referees';
 import { buildCalcData } from './calcData';
 import { resetStandingsCache } from './standings';
 import { startLive } from './live';
+import { refreshStatus } from './fotmob';
 
 let booted = null;
 
@@ -22,7 +23,8 @@ export function bootData() {
       buildPlayers();
       resetStandingsCache();
       startLive();
-      return RAW;
+      // prima di mostrare la Home: stato e risultati delle partite "live" o appena finite dalla fonte (max 2,5 s)
+      return Promise.race([refreshStatus().catch(() => 0), new Promise((r) => setTimeout(r, 2500))]).then(() => RAW);
     });
   }
   return booted;
