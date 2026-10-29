@@ -1,921 +1,11 @@
 {
- "updated_at": "2026-10-29T05:40:26+00:00",
+ "updated_at": "2026-10-29T23:32:56+00:00",
  "window": {
   "nlast": 0,
   "min_games": 1,
   "days_ahead": 8
  },
  "days": {
-  "2026-10-29": {
-   "analizzate": 2,
-   "con_dati": 2,
-   "corner": [
-    {
-     "id": "m_0h3uIF",
-     "date": "2026-10-29",
-     "time": "2026-10-29",
-     "league": "Serie A",
-     "home": "Fiorentina",
-     "away": "Atalanta",
-     "non_coperto": [],
-     "corners_home": 6.5,
-     "corners_away": 3.8,
-     "gap": 2.6,
-     "games": [
-      4,
-      3
-     ],
-     "tiri_home": 20.0,
-     "tiri_away": 10.8,
-     "tiri_gap": 9.2,
-     "tiri_games": [
-      4,
-      3
-     ],
-     "sot_home": 6.1,
-     "sot_away": 4.2,
-     "sot_gap": 1.9,
-     "sot_games": [
-      4,
-      3
-     ],
-     "falli_home": 10.2,
-     "falli_away": 11.2,
-     "falli_gap": 1.1,
-     "falli_games": [
-      8,
-      8
-     ],
-     "off_home": 2.3,
-     "off_away": 1.1,
-     "off_gap": 1.2,
-     "off_games": [
-      8,
-      8
-     ],
-     "cards": 3.2,
-     "cards_1t": 0.9,
-     "cards_home": 2.1,
-     "cards_away": 1.1,
-     "cards_1t_home": 0.6,
-     "cards_1t_away": 0.2,
-     "games_k": [
-      8,
-      8
-     ],
-     "home_logo": "https://cdn.pitchapi.dev/images/teams/52f92c4c2ae57c14bc3d2ead58a2f899ab2fa12bebb91e6f627af2b99608dfce.webp",
-     "away_logo": "https://cdn.pitchapi.dev/images/teams/108eb0aab69689251ffd6d722eff62fd754c93e39c20909a373b26464bbb38be.webp"
-    },
-    {
-     "id": "m_002ZzY",
-     "date": "2026-10-29",
-     "time": "2026-10-29",
-     "league": "Serie A",
-     "home": "Frosinone",
-     "away": "Lecce",
-     "non_coperto": [],
-     "corners_home": 4.4,
-     "corners_away": 5.1,
-     "gap": 0.8,
-     "games": [
-      4,
-      4
-     ],
-     "tiri_home": 16.2,
-     "tiri_away": 15.1,
-     "tiri_gap": 1.1,
-     "tiri_games": [
-      4,
-      4
-     ],
-     "sot_home": 6.0,
-     "sot_away": 5.6,
-     "sot_gap": 0.4,
-     "sot_games": [
-      4,
-      4
-     ],
-     "falli_home": 12.6,
-     "falli_away": 12.1,
-     "falli_gap": 0.6,
-     "falli_games": [
-      8,
-      8
-     ],
-     "off_home": 3.6,
-     "off_away": 1.8,
-     "off_gap": 1.9,
-     "off_games": [
-      8,
-      8
-     ],
-     "cards": 3.9,
-     "cards_1t": 1.9,
-     "cards_home": 2.0,
-     "cards_away": 1.9,
-     "cards_1t_home": 1.1,
-     "cards_1t_away": 0.8,
-     "games_k": [
-      8,
-      8
-     ],
-     "home_logo": "https://cdn.pitchapi.dev/images/teams/097fc95a83112a7fa163b200006b2fdffd2823180101ff48cf116ec881a3d0f0.webp",
-     "away_logo": "https://cdn.pitchapi.dev/images/teams/fd12bd6e2b68f30eee08cea1fb48d9fb43ce61b3e152f980732e2835fb8be9fd.webp"
-    }
-   ],
-   "tiri": [
-    {
-     "id": "m_0h3uIF",
-     "date": "2026-10-29",
-     "time": "2026-10-29",
-     "league": "Serie A",
-     "home": "Fiorentina",
-     "away": "Atalanta",
-     "non_coperto": [],
-     "corners_home": 6.5,
-     "corners_away": 3.8,
-     "gap": 2.6,
-     "games": [
-      4,
-      3
-     ],
-     "tiri_home": 20.0,
-     "tiri_away": 10.8,
-     "tiri_gap": 9.2,
-     "tiri_games": [
-      4,
-      3
-     ],
-     "sot_home": 6.1,
-     "sot_away": 4.2,
-     "sot_gap": 1.9,
-     "sot_games": [
-      4,
-      3
-     ],
-     "falli_home": 10.2,
-     "falli_away": 11.2,
-     "falli_gap": 1.1,
-     "falli_games": [
-      8,
-      8
-     ],
-     "off_home": 2.3,
-     "off_away": 1.1,
-     "off_gap": 1.2,
-     "off_games": [
-      8,
-      8
-     ],
-     "cards": 3.2,
-     "cards_1t": 0.9,
-     "cards_home": 2.1,
-     "cards_away": 1.1,
-     "cards_1t_home": 0.6,
-     "cards_1t_away": 0.2,
-     "games_k": [
-      8,
-      8
-     ],
-     "home_logo": "https://cdn.pitchapi.dev/images/teams/52f92c4c2ae57c14bc3d2ead58a2f899ab2fa12bebb91e6f627af2b99608dfce.webp",
-     "away_logo": "https://cdn.pitchapi.dev/images/teams/108eb0aab69689251ffd6d722eff62fd754c93e39c20909a373b26464bbb38be.webp"
-    },
-    {
-     "id": "m_002ZzY",
-     "date": "2026-10-29",
-     "time": "2026-10-29",
-     "league": "Serie A",
-     "home": "Frosinone",
-     "away": "Lecce",
-     "non_coperto": [],
-     "corners_home": 4.4,
-     "corners_away": 5.1,
-     "gap": 0.8,
-     "games": [
-      4,
-      4
-     ],
-     "tiri_home": 16.2,
-     "tiri_away": 15.1,
-     "tiri_gap": 1.1,
-     "tiri_games": [
-      4,
-      4
-     ],
-     "sot_home": 6.0,
-     "sot_away": 5.6,
-     "sot_gap": 0.4,
-     "sot_games": [
-      4,
-      4
-     ],
-     "falli_home": 12.6,
-     "falli_away": 12.1,
-     "falli_gap": 0.6,
-     "falli_games": [
-      8,
-      8
-     ],
-     "off_home": 3.6,
-     "off_away": 1.8,
-     "off_gap": 1.9,
-     "off_games": [
-      8,
-      8
-     ],
-     "cards": 3.9,
-     "cards_1t": 1.9,
-     "cards_home": 2.0,
-     "cards_away": 1.9,
-     "cards_1t_home": 1.1,
-     "cards_1t_away": 0.8,
-     "games_k": [
-      8,
-      8
-     ],
-     "home_logo": "https://cdn.pitchapi.dev/images/teams/097fc95a83112a7fa163b200006b2fdffd2823180101ff48cf116ec881a3d0f0.webp",
-     "away_logo": "https://cdn.pitchapi.dev/images/teams/fd12bd6e2b68f30eee08cea1fb48d9fb43ce61b3e152f980732e2835fb8be9fd.webp"
-    }
-   ],
-   "tiri_sot": [
-    {
-     "id": "m_0h3uIF",
-     "date": "2026-10-29",
-     "time": "2026-10-29",
-     "league": "Serie A",
-     "home": "Fiorentina",
-     "away": "Atalanta",
-     "non_coperto": [],
-     "corners_home": 6.5,
-     "corners_away": 3.8,
-     "gap": 2.6,
-     "games": [
-      4,
-      3
-     ],
-     "tiri_home": 20.0,
-     "tiri_away": 10.8,
-     "tiri_gap": 9.2,
-     "tiri_games": [
-      4,
-      3
-     ],
-     "sot_home": 6.1,
-     "sot_away": 4.2,
-     "sot_gap": 1.9,
-     "sot_games": [
-      4,
-      3
-     ],
-     "falli_home": 10.2,
-     "falli_away": 11.2,
-     "falli_gap": 1.1,
-     "falli_games": [
-      8,
-      8
-     ],
-     "off_home": 2.3,
-     "off_away": 1.1,
-     "off_gap": 1.2,
-     "off_games": [
-      8,
-      8
-     ],
-     "cards": 3.2,
-     "cards_1t": 0.9,
-     "cards_home": 2.1,
-     "cards_away": 1.1,
-     "cards_1t_home": 0.6,
-     "cards_1t_away": 0.2,
-     "games_k": [
-      8,
-      8
-     ],
-     "home_logo": "https://cdn.pitchapi.dev/images/teams/52f92c4c2ae57c14bc3d2ead58a2f899ab2fa12bebb91e6f627af2b99608dfce.webp",
-     "away_logo": "https://cdn.pitchapi.dev/images/teams/108eb0aab69689251ffd6d722eff62fd754c93e39c20909a373b26464bbb38be.webp"
-    },
-    {
-     "id": "m_002ZzY",
-     "date": "2026-10-29",
-     "time": "2026-10-29",
-     "league": "Serie A",
-     "home": "Frosinone",
-     "away": "Lecce",
-     "non_coperto": [],
-     "corners_home": 4.4,
-     "corners_away": 5.1,
-     "gap": 0.8,
-     "games": [
-      4,
-      4
-     ],
-     "tiri_home": 16.2,
-     "tiri_away": 15.1,
-     "tiri_gap": 1.1,
-     "tiri_games": [
-      4,
-      4
-     ],
-     "sot_home": 6.0,
-     "sot_away": 5.6,
-     "sot_gap": 0.4,
-     "sot_games": [
-      4,
-      4
-     ],
-     "falli_home": 12.6,
-     "falli_away": 12.1,
-     "falli_gap": 0.6,
-     "falli_games": [
-      8,
-      8
-     ],
-     "off_home": 3.6,
-     "off_away": 1.8,
-     "off_gap": 1.9,
-     "off_games": [
-      8,
-      8
-     ],
-     "cards": 3.9,
-     "cards_1t": 1.9,
-     "cards_home": 2.0,
-     "cards_away": 1.9,
-     "cards_1t_home": 1.1,
-     "cards_1t_away": 0.8,
-     "games_k": [
-      8,
-      8
-     ],
-     "home_logo": "https://cdn.pitchapi.dev/images/teams/097fc95a83112a7fa163b200006b2fdffd2823180101ff48cf116ec881a3d0f0.webp",
-     "away_logo": "https://cdn.pitchapi.dev/images/teams/fd12bd6e2b68f30eee08cea1fb48d9fb43ce61b3e152f980732e2835fb8be9fd.webp"
-    }
-   ],
-   "falli": [
-    {
-     "id": "m_0h3uIF",
-     "date": "2026-10-29",
-     "time": "2026-10-29",
-     "league": "Serie A",
-     "home": "Fiorentina",
-     "away": "Atalanta",
-     "non_coperto": [],
-     "corners_home": 6.5,
-     "corners_away": 3.8,
-     "gap": 2.6,
-     "games": [
-      4,
-      3
-     ],
-     "tiri_home": 20.0,
-     "tiri_away": 10.8,
-     "tiri_gap": 9.2,
-     "tiri_games": [
-      4,
-      3
-     ],
-     "sot_home": 6.1,
-     "sot_away": 4.2,
-     "sot_gap": 1.9,
-     "sot_games": [
-      4,
-      3
-     ],
-     "falli_home": 10.2,
-     "falli_away": 11.2,
-     "falli_gap": 1.1,
-     "falli_games": [
-      8,
-      8
-     ],
-     "off_home": 2.3,
-     "off_away": 1.1,
-     "off_gap": 1.2,
-     "off_games": [
-      8,
-      8
-     ],
-     "cards": 3.2,
-     "cards_1t": 0.9,
-     "cards_home": 2.1,
-     "cards_away": 1.1,
-     "cards_1t_home": 0.6,
-     "cards_1t_away": 0.2,
-     "games_k": [
-      8,
-      8
-     ],
-     "home_logo": "https://cdn.pitchapi.dev/images/teams/52f92c4c2ae57c14bc3d2ead58a2f899ab2fa12bebb91e6f627af2b99608dfce.webp",
-     "away_logo": "https://cdn.pitchapi.dev/images/teams/108eb0aab69689251ffd6d722eff62fd754c93e39c20909a373b26464bbb38be.webp"
-    },
-    {
-     "id": "m_002ZzY",
-     "date": "2026-10-29",
-     "time": "2026-10-29",
-     "league": "Serie A",
-     "home": "Frosinone",
-     "away": "Lecce",
-     "non_coperto": [],
-     "corners_home": 4.4,
-     "corners_away": 5.1,
-     "gap": 0.8,
-     "games": [
-      4,
-      4
-     ],
-     "tiri_home": 16.2,
-     "tiri_away": 15.1,
-     "tiri_gap": 1.1,
-     "tiri_games": [
-      4,
-      4
-     ],
-     "sot_home": 6.0,
-     "sot_away": 5.6,
-     "sot_gap": 0.4,
-     "sot_games": [
-      4,
-      4
-     ],
-     "falli_home": 12.6,
-     "falli_away": 12.1,
-     "falli_gap": 0.6,
-     "falli_games": [
-      8,
-      8
-     ],
-     "off_home": 3.6,
-     "off_away": 1.8,
-     "off_gap": 1.9,
-     "off_games": [
-      8,
-      8
-     ],
-     "cards": 3.9,
-     "cards_1t": 1.9,
-     "cards_home": 2.0,
-     "cards_away": 1.9,
-     "cards_1t_home": 1.1,
-     "cards_1t_away": 0.8,
-     "games_k": [
-      8,
-      8
-     ],
-     "home_logo": "https://cdn.pitchapi.dev/images/teams/097fc95a83112a7fa163b200006b2fdffd2823180101ff48cf116ec881a3d0f0.webp",
-     "away_logo": "https://cdn.pitchapi.dev/images/teams/fd12bd6e2b68f30eee08cea1fb48d9fb43ce61b3e152f980732e2835fb8be9fd.webp"
-    }
-   ],
-   "fuorigiochi": [
-    {
-     "id": "m_002ZzY",
-     "date": "2026-10-29",
-     "time": "2026-10-29",
-     "league": "Serie A",
-     "home": "Frosinone",
-     "away": "Lecce",
-     "non_coperto": [],
-     "corners_home": 4.4,
-     "corners_away": 5.1,
-     "gap": 0.8,
-     "games": [
-      4,
-      4
-     ],
-     "tiri_home": 16.2,
-     "tiri_away": 15.1,
-     "tiri_gap": 1.1,
-     "tiri_games": [
-      4,
-      4
-     ],
-     "sot_home": 6.0,
-     "sot_away": 5.6,
-     "sot_gap": 0.4,
-     "sot_games": [
-      4,
-      4
-     ],
-     "falli_home": 12.6,
-     "falli_away": 12.1,
-     "falli_gap": 0.6,
-     "falli_games": [
-      8,
-      8
-     ],
-     "off_home": 3.6,
-     "off_away": 1.8,
-     "off_gap": 1.9,
-     "off_games": [
-      8,
-      8
-     ],
-     "cards": 3.9,
-     "cards_1t": 1.9,
-     "cards_home": 2.0,
-     "cards_away": 1.9,
-     "cards_1t_home": 1.1,
-     "cards_1t_away": 0.8,
-     "games_k": [
-      8,
-      8
-     ],
-     "home_logo": "https://cdn.pitchapi.dev/images/teams/097fc95a83112a7fa163b200006b2fdffd2823180101ff48cf116ec881a3d0f0.webp",
-     "away_logo": "https://cdn.pitchapi.dev/images/teams/fd12bd6e2b68f30eee08cea1fb48d9fb43ce61b3e152f980732e2835fb8be9fd.webp"
-    },
-    {
-     "id": "m_0h3uIF",
-     "date": "2026-10-29",
-     "time": "2026-10-29",
-     "league": "Serie A",
-     "home": "Fiorentina",
-     "away": "Atalanta",
-     "non_coperto": [],
-     "corners_home": 6.5,
-     "corners_away": 3.8,
-     "gap": 2.6,
-     "games": [
-      4,
-      3
-     ],
-     "tiri_home": 20.0,
-     "tiri_away": 10.8,
-     "tiri_gap": 9.2,
-     "tiri_games": [
-      4,
-      3
-     ],
-     "sot_home": 6.1,
-     "sot_away": 4.2,
-     "sot_gap": 1.9,
-     "sot_games": [
-      4,
-      3
-     ],
-     "falli_home": 10.2,
-     "falli_away": 11.2,
-     "falli_gap": 1.1,
-     "falli_games": [
-      8,
-      8
-     ],
-     "off_home": 2.3,
-     "off_away": 1.1,
-     "off_gap": 1.2,
-     "off_games": [
-      8,
-      8
-     ],
-     "cards": 3.2,
-     "cards_1t": 0.9,
-     "cards_home": 2.1,
-     "cards_away": 1.1,
-     "cards_1t_home": 0.6,
-     "cards_1t_away": 0.2,
-     "games_k": [
-      8,
-      8
-     ],
-     "home_logo": "https://cdn.pitchapi.dev/images/teams/52f92c4c2ae57c14bc3d2ead58a2f899ab2fa12bebb91e6f627af2b99608dfce.webp",
-     "away_logo": "https://cdn.pitchapi.dev/images/teams/108eb0aab69689251ffd6d722eff62fd754c93e39c20909a373b26464bbb38be.webp"
-    }
-   ],
-   "cartellini": [
-    {
-     "id": "m_0h3uIF",
-     "date": "2026-10-29",
-     "time": "2026-10-29",
-     "league": "Serie A",
-     "home": "Fiorentina",
-     "away": "Atalanta",
-     "non_coperto": [],
-     "corners_home": 6.5,
-     "corners_away": 3.8,
-     "gap": 2.6,
-     "games": [
-      4,
-      3
-     ],
-     "tiri_home": 20.0,
-     "tiri_away": 10.8,
-     "tiri_gap": 9.2,
-     "tiri_games": [
-      4,
-      3
-     ],
-     "sot_home": 6.1,
-     "sot_away": 4.2,
-     "sot_gap": 1.9,
-     "sot_games": [
-      4,
-      3
-     ],
-     "falli_home": 10.2,
-     "falli_away": 11.2,
-     "falli_gap": 1.1,
-     "falli_games": [
-      8,
-      8
-     ],
-     "off_home": 2.3,
-     "off_away": 1.1,
-     "off_gap": 1.2,
-     "off_games": [
-      8,
-      8
-     ],
-     "cards": 3.2,
-     "cards_1t": 0.9,
-     "cards_home": 2.1,
-     "cards_away": 1.1,
-     "cards_1t_home": 0.6,
-     "cards_1t_away": 0.2,
-     "games_k": [
-      8,
-      8
-     ],
-     "home_logo": "https://cdn.pitchapi.dev/images/teams/52f92c4c2ae57c14bc3d2ead58a2f899ab2fa12bebb91e6f627af2b99608dfce.webp",
-     "away_logo": "https://cdn.pitchapi.dev/images/teams/108eb0aab69689251ffd6d722eff62fd754c93e39c20909a373b26464bbb38be.webp"
-    },
-    {
-     "id": "m_002ZzY",
-     "date": "2026-10-29",
-     "time": "2026-10-29",
-     "league": "Serie A",
-     "home": "Frosinone",
-     "away": "Lecce",
-     "non_coperto": [],
-     "corners_home": 4.4,
-     "corners_away": 5.1,
-     "gap": 0.8,
-     "games": [
-      4,
-      4
-     ],
-     "tiri_home": 16.2,
-     "tiri_away": 15.1,
-     "tiri_gap": 1.1,
-     "tiri_games": [
-      4,
-      4
-     ],
-     "sot_home": 6.0,
-     "sot_away": 5.6,
-     "sot_gap": 0.4,
-     "sot_games": [
-      4,
-      4
-     ],
-     "falli_home": 12.6,
-     "falli_away": 12.1,
-     "falli_gap": 0.6,
-     "falli_games": [
-      8,
-      8
-     ],
-     "off_home": 3.6,
-     "off_away": 1.8,
-     "off_gap": 1.9,
-     "off_games": [
-      8,
-      8
-     ],
-     "cards": 3.9,
-     "cards_1t": 1.9,
-     "cards_home": 2.0,
-     "cards_away": 1.9,
-     "cards_1t_home": 1.1,
-     "cards_1t_away": 0.8,
-     "games_k": [
-      8,
-      8
-     ],
-     "home_logo": "https://cdn.pitchapi.dev/images/teams/097fc95a83112a7fa163b200006b2fdffd2823180101ff48cf116ec881a3d0f0.webp",
-     "away_logo": "https://cdn.pitchapi.dev/images/teams/fd12bd6e2b68f30eee08cea1fb48d9fb43ce61b3e152f980732e2835fb8be9fd.webp"
-    }
-   ],
-   "cartellini_1t": [
-    {
-     "id": "m_0h3uIF",
-     "date": "2026-10-29",
-     "time": "2026-10-29",
-     "league": "Serie A",
-     "home": "Fiorentina",
-     "away": "Atalanta",
-     "non_coperto": [],
-     "corners_home": 6.5,
-     "corners_away": 3.8,
-     "gap": 2.6,
-     "games": [
-      4,
-      3
-     ],
-     "tiri_home": 20.0,
-     "tiri_away": 10.8,
-     "tiri_gap": 9.2,
-     "tiri_games": [
-      4,
-      3
-     ],
-     "sot_home": 6.1,
-     "sot_away": 4.2,
-     "sot_gap": 1.9,
-     "sot_games": [
-      4,
-      3
-     ],
-     "falli_home": 10.2,
-     "falli_away": 11.2,
-     "falli_gap": 1.1,
-     "falli_games": [
-      8,
-      8
-     ],
-     "off_home": 2.3,
-     "off_away": 1.1,
-     "off_gap": 1.2,
-     "off_games": [
-      8,
-      8
-     ],
-     "cards": 3.2,
-     "cards_1t": 0.9,
-     "cards_home": 2.1,
-     "cards_away": 1.1,
-     "cards_1t_home": 0.6,
-     "cards_1t_away": 0.2,
-     "games_k": [
-      8,
-      8
-     ],
-     "home_logo": "https://cdn.pitchapi.dev/images/teams/52f92c4c2ae57c14bc3d2ead58a2f899ab2fa12bebb91e6f627af2b99608dfce.webp",
-     "away_logo": "https://cdn.pitchapi.dev/images/teams/108eb0aab69689251ffd6d722eff62fd754c93e39c20909a373b26464bbb38be.webp"
-    },
-    {
-     "id": "m_002ZzY",
-     "date": "2026-10-29",
-     "time": "2026-10-29",
-     "league": "Serie A",
-     "home": "Frosinone",
-     "away": "Lecce",
-     "non_coperto": [],
-     "corners_home": 4.4,
-     "corners_away": 5.1,
-     "gap": 0.8,
-     "games": [
-      4,
-      4
-     ],
-     "tiri_home": 16.2,
-     "tiri_away": 15.1,
-     "tiri_gap": 1.1,
-     "tiri_games": [
-      4,
-      4
-     ],
-     "sot_home": 6.0,
-     "sot_away": 5.6,
-     "sot_gap": 0.4,
-     "sot_games": [
-      4,
-      4
-     ],
-     "falli_home": 12.6,
-     "falli_away": 12.1,
-     "falli_gap": 0.6,
-     "falli_games": [
-      8,
-      8
-     ],
-     "off_home": 3.6,
-     "off_away": 1.8,
-     "off_gap": 1.9,
-     "off_games": [
-      8,
-      8
-     ],
-     "cards": 3.9,
-     "cards_1t": 1.9,
-     "cards_home": 2.0,
-     "cards_away": 1.9,
-     "cards_1t_home": 1.1,
-     "cards_1t_away": 0.8,
-     "games_k": [
-      8,
-      8
-     ],
-     "home_logo": "https://cdn.pitchapi.dev/images/teams/097fc95a83112a7fa163b200006b2fdffd2823180101ff48cf116ec881a3d0f0.webp",
-     "away_logo": "https://cdn.pitchapi.dev/images/teams/fd12bd6e2b68f30eee08cea1fb48d9fb43ce61b3e152f980732e2835fb8be9fd.webp"
-    }
-   ],
-   "tutte": [
-    {
-     "id": "m_002ZzY",
-     "date": "2026-10-29",
-     "time": "2026-10-29",
-     "league": "Serie A",
-     "home": "Frosinone",
-     "away": "Lecce",
-     "corners_home": 4.4,
-     "corners_away": 5.1,
-     "gap": 0.8,
-     "games": [
-      4,
-      4
-     ],
-     "tiri_home": 16.2,
-     "tiri_away": 15.1,
-     "tiri_gap": 1.1,
-     "tiri_games": [
-      4,
-      4
-     ],
-     "sot_home": 6.0,
-     "sot_away": 5.6,
-     "sot_gap": 0.4,
-     "sot_games": [
-      4,
-      4
-     ],
-     "falli_home": 12.6,
-     "falli_away": 12.1,
-     "falli_gap": 0.6,
-     "falli_games": [
-      8,
-      8
-     ],
-     "off_home": 3.6,
-     "off_away": 1.8,
-     "off_gap": 1.9,
-     "off_games": [
-      8,
-      8
-     ],
-     "cards": 3.9,
-     "cards_1t": 1.9,
-     "cards_home": 2.0,
-     "cards_away": 1.9,
-     "cards_1t_home": 1.1,
-     "cards_1t_away": 0.8,
-     "games_k": [
-      8,
-      8
-     ]
-    },
-    {
-     "id": "m_0h3uIF",
-     "date": "2026-10-29",
-     "time": "2026-10-29",
-     "league": "Serie A",
-     "home": "Fiorentina",
-     "away": "Atalanta",
-     "corners_home": 6.5,
-     "corners_away": 3.8,
-     "gap": 2.6,
-     "games": [
-      4,
-      3
-     ],
-     "tiri_home": 20.0,
-     "tiri_away": 10.8,
-     "tiri_gap": 9.2,
-     "tiri_games": [
-      4,
-      3
-     ],
-     "sot_home": 6.1,
-     "sot_away": 4.2,
-     "sot_gap": 1.9,
-     "sot_games": [
-      4,
-      3
-     ],
-     "falli_home": 10.2,
-     "falli_away": 11.2,
-     "falli_gap": 1.1,
-     "falli_games": [
-      8,
-      8
-     ],
-     "off_home": 2.3,
-     "off_away": 1.1,
-     "off_gap": 1.2,
-     "off_games": [
-      8,
-      8
-     ],
-     "cards": 3.2,
-     "cards_1t": 0.9,
-     "cards_home": 2.1,
-     "cards_away": 1.1,
-     "cards_1t_home": 0.6,
-     "cards_1t_away": 0.2,
-     "games_k": [
-      8,
-      8
-     ]
-    }
-   ]
-  },
   "2026-10-30": {
    "analizzate": 5,
    "con_dati": 5,
@@ -6818,60 +5908,60 @@
      "away_logo": "https://cdn.pitchapi.dev/images/teams/fc7189194b0929cc3fd7f474f626fb8ce6abafecff23857e50b3feb6fcfb5470.webp"
     },
     {
-     "id": "m_0ryKWG",
+     "id": "m_2mVrHa",
      "date": "2026-11-01",
      "time": "2026-11-01",
-     "league": "Bundesliga",
-     "home": "Eintracht Frankfurt",
-     "away": "Hamburger SV",
+     "league": "Serie A",
+     "home": "Frosinone",
+     "away": "Torino",
      "non_coperto": [],
-     "corners_home": 6.0,
-     "corners_away": 3.8,
-     "gap": 2.3,
+     "corners_home": 4.8,
+     "corners_away": 4.9,
+     "gap": 0.2,
      "games": [
-      3,
+      5,
       4
      ],
-     "tiri_home": 16.8,
-     "tiri_away": 13.1,
-     "tiri_gap": 3.7,
+     "tiri_home": 17.9,
+     "tiri_away": 14.1,
+     "tiri_gap": 3.8,
      "tiri_games": [
-      3,
+      5,
       4
      ],
-     "sot_home": 5.8,
-     "sot_away": 4.3,
-     "sot_gap": 1.4,
+     "sot_home": 6.2,
+     "sot_away": 4.7,
+     "sot_gap": 1.6,
      "sot_games": [
-      3,
+      5,
       4
      ],
-     "falli_home": 11.6,
-     "falli_away": 13.4,
-     "falli_gap": 1.7,
+     "falli_home": 12.8,
+     "falli_away": 10.8,
+     "falli_gap": 2.1,
      "falli_games": [
-      7,
-      7
+      9,
+      9
      ],
-     "off_home": 1.7,
-     "off_away": 1.1,
-     "off_gap": 0.6,
+     "off_home": 2.4,
+     "off_away": 1.6,
+     "off_gap": 0.8,
      "off_games": [
-      7,
-      7
+      9,
+      9
      ],
-     "cards": 3.7,
-     "cards_1t": 1.6,
-     "cards_home": 2.3,
-     "cards_away": 1.4,
+     "cards": 2.7,
+     "cards_1t": 1.4,
+     "cards_home": 1.8,
+     "cards_away": 0.9,
      "cards_1t_home": 1.0,
-     "cards_1t_away": 0.6,
+     "cards_1t_away": 0.4,
      "games_k": [
-      7,
-      7
+      9,
+      9
      ],
-     "home_logo": "https://cdn.pitchapi.dev/images/teams/452b5eefc3ee2e2ba11aaedb9f1d2f0c25fb2019ac3636c9e5b2104abad54b04.webp",
-     "away_logo": "https://cdn.pitchapi.dev/images/teams/aeb175ab92cb3317ad4f19f71de974531b67a4552a18b2be523c81f4384f375f.webp"
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/097fc95a83112a7fa163b200006b2fdffd2823180101ff48cf116ec881a3d0f0.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/9228f7a3cf4ea300f3381a9a39828e08ec959a59ccfa86d1918809dcb520a4f2.webp"
     }
    ],
    "tiri_sot": [
@@ -7214,62 +6304,6 @@
      "away_logo": "https://cdn.pitchapi.dev/images/teams/cc89aa6a111b43694223ca0506940e05f825369c259a6c8bf4ab8cf8b080a05b.webp"
     },
     {
-     "id": "m_2mVrHa",
-     "date": "2026-11-01",
-     "time": "2026-11-01",
-     "league": "Serie A",
-     "home": "Frosinone",
-     "away": "Torino",
-     "non_coperto": [],
-     "corners_home": 4.2,
-     "corners_away": 5.2,
-     "gap": 1.0,
-     "games": [
-      4,
-      4
-     ],
-     "tiri_home": 17.0,
-     "tiri_away": 14.5,
-     "tiri_gap": 2.5,
-     "tiri_games": [
-      4,
-      4
-     ],
-     "sot_home": 6.0,
-     "sot_away": 4.6,
-     "sot_gap": 1.4,
-     "sot_games": [
-      4,
-      4
-     ],
-     "falli_home": 13.1,
-     "falli_away": 10.5,
-     "falli_gap": 2.7,
-     "falli_games": [
-      8,
-      9
-     ],
-     "off_home": 2.4,
-     "off_away": 1.7,
-     "off_gap": 0.7,
-     "off_games": [
-      8,
-      9
-     ],
-     "cards": 2.9,
-     "cards_1t": 1.6,
-     "cards_home": 2.0,
-     "cards_away": 0.9,
-     "cards_1t_home": 1.1,
-     "cards_1t_away": 0.4,
-     "games_k": [
-      8,
-      9
-     ],
-     "home_logo": "https://cdn.pitchapi.dev/images/teams/097fc95a83112a7fa163b200006b2fdffd2823180101ff48cf116ec881a3d0f0.webp",
-     "away_logo": "https://cdn.pitchapi.dev/images/teams/9228f7a3cf4ea300f3381a9a39828e08ec959a59ccfa86d1918809dcb520a4f2.webp"
-    },
-    {
      "id": "m_1Z3qMe",
      "date": "2026-11-01",
      "time": "2026-11-01",
@@ -7298,32 +6332,88 @@
       4,
       3
      ],
-     "falli_home": 11.9,
-     "falli_away": 9.5,
-     "falli_gap": 2.4,
+     "falli_home": 12.2,
+     "falli_away": 9.6,
+     "falli_gap": 2.6,
      "falli_games": [
-      8,
+      9,
       9
      ],
-     "off_home": 1.9,
+     "off_home": 1.8,
      "off_away": 3.2,
      "off_gap": 1.4,
      "off_games": [
-      8,
+      9,
       9
      ],
-     "cards": 4.1,
+     "cards": 4.2,
      "cards_1t": 1.2,
-     "cards_home": 1.9,
+     "cards_home": 2.0,
      "cards_away": 2.2,
      "cards_1t_home": 0.8,
      "cards_1t_away": 0.4,
      "games_k": [
-      8,
+      9,
       9
      ],
      "home_logo": "https://cdn.pitchapi.dev/images/teams/fd12bd6e2b68f30eee08cea1fb48d9fb43ce61b3e152f980732e2835fb8be9fd.webp",
      "away_logo": "https://cdn.pitchapi.dev/images/teams/c303d188af518260d4e49f3708493f3324c501752d19c0fb26d49214af885f4d.webp"
+    },
+    {
+     "id": "m_2mVrHa",
+     "date": "2026-11-01",
+     "time": "2026-11-01",
+     "league": "Serie A",
+     "home": "Frosinone",
+     "away": "Torino",
+     "non_coperto": [],
+     "corners_home": 4.8,
+     "corners_away": 4.9,
+     "gap": 0.2,
+     "games": [
+      5,
+      4
+     ],
+     "tiri_home": 17.9,
+     "tiri_away": 14.1,
+     "tiri_gap": 3.8,
+     "tiri_games": [
+      5,
+      4
+     ],
+     "sot_home": 6.2,
+     "sot_away": 4.7,
+     "sot_gap": 1.6,
+     "sot_games": [
+      5,
+      4
+     ],
+     "falli_home": 12.8,
+     "falli_away": 10.8,
+     "falli_gap": 2.1,
+     "falli_games": [
+      9,
+      9
+     ],
+     "off_home": 2.4,
+     "off_away": 1.6,
+     "off_gap": 0.8,
+     "off_games": [
+      9,
+      9
+     ],
+     "cards": 2.7,
+     "cards_1t": 1.4,
+     "cards_home": 1.8,
+     "cards_away": 0.9,
+     "cards_1t_home": 1.0,
+     "cards_1t_away": 0.4,
+     "games_k": [
+      9,
+      9
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/097fc95a83112a7fa163b200006b2fdffd2823180101ff48cf116ec881a3d0f0.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/9228f7a3cf4ea300f3381a9a39828e08ec959a59ccfa86d1918809dcb520a4f2.webp"
     },
     {
      "id": "m_0ryKWG",
@@ -7468,28 +6558,28 @@
       4,
       3
      ],
-     "falli_home": 11.9,
-     "falli_away": 9.5,
-     "falli_gap": 2.4,
+     "falli_home": 12.2,
+     "falli_away": 9.6,
+     "falli_gap": 2.6,
      "falli_games": [
-      8,
+      9,
       9
      ],
-     "off_home": 1.9,
+     "off_home": 1.8,
      "off_away": 3.2,
      "off_gap": 1.4,
      "off_games": [
-      8,
+      9,
       9
      ],
-     "cards": 4.1,
+     "cards": 4.2,
      "cards_1t": 1.2,
-     "cards_home": 1.9,
+     "cards_home": 2.0,
      "cards_away": 2.2,
      "cards_1t_home": 0.8,
      "cards_1t_away": 0.4,
      "games_k": [
-      8,
+      9,
       9
      ],
      "home_logo": "https://cdn.pitchapi.dev/images/teams/fd12bd6e2b68f30eee08cea1fb48d9fb43ce61b3e152f980732e2835fb8be9fd.webp",
@@ -7785,49 +6875,49 @@
      "home": "Frosinone",
      "away": "Torino",
      "non_coperto": [],
-     "corners_home": 4.2,
-     "corners_away": 5.2,
-     "gap": 1.0,
+     "corners_home": 4.8,
+     "corners_away": 4.9,
+     "gap": 0.2,
      "games": [
-      4,
+      5,
       4
      ],
-     "tiri_home": 17.0,
-     "tiri_away": 14.5,
-     "tiri_gap": 2.5,
+     "tiri_home": 17.9,
+     "tiri_away": 14.1,
+     "tiri_gap": 3.8,
      "tiri_games": [
-      4,
+      5,
       4
      ],
-     "sot_home": 6.0,
-     "sot_away": 4.6,
-     "sot_gap": 1.4,
+     "sot_home": 6.2,
+     "sot_away": 4.7,
+     "sot_gap": 1.6,
      "sot_games": [
-      4,
+      5,
       4
      ],
-     "falli_home": 13.1,
-     "falli_away": 10.5,
-     "falli_gap": 2.7,
+     "falli_home": 12.8,
+     "falli_away": 10.8,
+     "falli_gap": 2.1,
      "falli_games": [
-      8,
+      9,
       9
      ],
      "off_home": 2.4,
-     "off_away": 1.7,
-     "off_gap": 0.7,
+     "off_away": 1.6,
+     "off_gap": 0.8,
      "off_games": [
-      8,
+      9,
       9
      ],
-     "cards": 2.9,
-     "cards_1t": 1.6,
-     "cards_home": 2.0,
+     "cards": 2.7,
+     "cards_1t": 1.4,
+     "cards_home": 1.8,
      "cards_away": 0.9,
-     "cards_1t_home": 1.1,
+     "cards_1t_home": 1.0,
      "cards_1t_away": 0.4,
      "games_k": [
-      8,
+      9,
       9
      ],
      "home_logo": "https://cdn.pitchapi.dev/images/teams/097fc95a83112a7fa163b200006b2fdffd2823180101ff48cf116ec881a3d0f0.webp",
@@ -8398,49 +7488,49 @@
      "league": "Serie A",
      "home": "Frosinone",
      "away": "Torino",
-     "corners_home": 4.2,
-     "corners_away": 5.2,
-     "gap": 1.0,
+     "corners_home": 4.8,
+     "corners_away": 4.9,
+     "gap": 0.2,
      "games": [
-      4,
+      5,
       4
      ],
-     "tiri_home": 17.0,
-     "tiri_away": 14.5,
-     "tiri_gap": 2.5,
+     "tiri_home": 17.9,
+     "tiri_away": 14.1,
+     "tiri_gap": 3.8,
      "tiri_games": [
-      4,
+      5,
       4
      ],
-     "sot_home": 6.0,
-     "sot_away": 4.6,
-     "sot_gap": 1.4,
+     "sot_home": 6.2,
+     "sot_away": 4.7,
+     "sot_gap": 1.6,
      "sot_games": [
-      4,
+      5,
       4
      ],
-     "falli_home": 13.1,
-     "falli_away": 10.5,
-     "falli_gap": 2.7,
+     "falli_home": 12.8,
+     "falli_away": 10.8,
+     "falli_gap": 2.1,
      "falli_games": [
-      8,
+      9,
       9
      ],
      "off_home": 2.4,
-     "off_away": 1.7,
-     "off_gap": 0.7,
+     "off_away": 1.6,
+     "off_gap": 0.8,
      "off_games": [
-      8,
+      9,
       9
      ],
-     "cards": 2.9,
-     "cards_1t": 1.6,
-     "cards_home": 2.0,
+     "cards": 2.7,
+     "cards_1t": 1.4,
+     "cards_home": 1.8,
      "cards_away": 0.9,
-     "cards_1t_home": 1.1,
+     "cards_1t_home": 1.0,
      "cards_1t_away": 0.4,
      "games_k": [
-      8,
+      9,
       9
      ]
     },
@@ -8472,28 +7562,28 @@
       4,
       3
      ],
-     "falli_home": 11.9,
-     "falli_away": 9.5,
-     "falli_gap": 2.4,
+     "falli_home": 12.2,
+     "falli_away": 9.6,
+     "falli_gap": 2.6,
      "falli_games": [
-      8,
+      9,
       9
      ],
-     "off_home": 1.9,
+     "off_home": 1.8,
      "off_away": 3.2,
      "off_gap": 1.4,
      "off_games": [
-      8,
+      9,
       9
      ],
-     "cards": 4.1,
+     "cards": 4.2,
      "cards_1t": 1.2,
-     "cards_home": 1.9,
+     "cards_home": 2.0,
      "cards_away": 2.2,
      "cards_1t_home": 0.8,
      "cards_1t_away": 0.4,
      "games_k": [
-      8,
+      9,
       9
      ]
     },
@@ -9168,28 +8258,28 @@
       5,
       4
      ],
-     "falli_home": 12.1,
+     "falli_home": 12.3,
      "falli_away": 9.8,
-     "falli_gap": 2.3,
+     "falli_gap": 2.4,
      "falli_games": [
-      8,
+      9,
       9
      ],
      "off_home": 1.7,
-     "off_away": 2.2,
-     "off_gap": 0.5,
+     "off_away": 2.1,
+     "off_gap": 0.3,
      "off_games": [
-      8,
+      9,
       9
      ],
-     "cards": 2.6,
-     "cards_1t": 0.6,
-     "cards_home": 1.1,
+     "cards": 2.7,
+     "cards_1t": 0.7,
+     "cards_home": 1.2,
      "cards_away": 1.4,
-     "cards_1t_home": 0.2,
+     "cards_1t_home": 0.3,
      "cards_1t_away": 0.3,
      "games_k": [
-      8,
+      9,
       9
      ],
      "home_logo": "https://cdn.pitchapi.dev/images/teams/108eb0aab69689251ffd6d722eff62fd754c93e39c20909a373b26464bbb38be.webp",
@@ -9338,27 +8428,27 @@
      ],
      "falli_home": 11.0,
      "falli_away": 11.7,
-     "falli_gap": 0.8,
+     "falli_gap": 0.7,
      "falli_games": [
       9,
-      8
+      9
      ],
      "off_home": 1.8,
-     "off_away": 1.3,
-     "off_gap": 0.5,
+     "off_away": 1.2,
+     "off_gap": 0.6,
      "off_games": [
       9,
-      8
+      9
      ],
-     "cards": 3.6,
-     "cards_1t": 0.8,
+     "cards": 3.7,
+     "cards_1t": 0.9,
      "cards_home": 1.4,
-     "cards_away": 2.1,
+     "cards_away": 2.2,
      "cards_1t_home": 0.2,
-     "cards_1t_away": 0.6,
+     "cards_1t_away": 0.7,
      "games_k": [
       9,
-      8
+      9
      ],
      "home_logo": "https://cdn.pitchapi.dev/images/teams/6d1458229c36991186c0335b8d5656e50422806805f2bf064712147162e428c8.webp",
      "away_logo": "https://cdn.pitchapi.dev/images/teams/52f92c4c2ae57c14bc3d2ead58a2f899ab2fa12bebb91e6f627af2b99608dfce.webp"
@@ -9450,28 +8540,28 @@
       5,
       4
      ],
-     "falli_home": 12.1,
+     "falli_home": 12.3,
      "falli_away": 9.8,
-     "falli_gap": 2.3,
+     "falli_gap": 2.4,
      "falli_games": [
-      8,
+      9,
       9
      ],
      "off_home": 1.7,
-     "off_away": 2.2,
-     "off_gap": 0.5,
+     "off_away": 2.1,
+     "off_gap": 0.3,
      "off_games": [
-      8,
+      9,
       9
      ],
-     "cards": 2.6,
-     "cards_1t": 0.6,
-     "cards_home": 1.1,
+     "cards": 2.7,
+     "cards_1t": 0.7,
+     "cards_home": 1.2,
      "cards_away": 1.4,
-     "cards_1t_home": 0.2,
+     "cards_1t_home": 0.3,
      "cards_1t_away": 0.3,
      "games_k": [
-      8,
+      9,
       9
      ],
      "home_logo": "https://cdn.pitchapi.dev/images/teams/108eb0aab69689251ffd6d722eff62fd754c93e39c20909a373b26464bbb38be.webp",
@@ -9676,27 +8766,27 @@
      ],
      "falli_home": 11.0,
      "falli_away": 11.7,
-     "falli_gap": 0.8,
+     "falli_gap": 0.7,
      "falli_games": [
       9,
-      8
+      9
      ],
      "off_home": 1.8,
-     "off_away": 1.3,
-     "off_gap": 0.5,
+     "off_away": 1.2,
+     "off_gap": 0.6,
      "off_games": [
       9,
-      8
+      9
      ],
-     "cards": 3.6,
-     "cards_1t": 0.8,
+     "cards": 3.7,
+     "cards_1t": 0.9,
      "cards_home": 1.4,
-     "cards_away": 2.1,
+     "cards_away": 2.2,
      "cards_1t_home": 0.2,
-     "cards_1t_away": 0.6,
+     "cards_1t_away": 0.7,
      "games_k": [
       9,
-      8
+      9
      ],
      "home_logo": "https://cdn.pitchapi.dev/images/teams/6d1458229c36991186c0335b8d5656e50422806805f2bf064712147162e428c8.webp",
      "away_logo": "https://cdn.pitchapi.dev/images/teams/52f92c4c2ae57c14bc3d2ead58a2f899ab2fa12bebb91e6f627af2b99608dfce.webp"
@@ -9732,28 +8822,28 @@
       5,
       4
      ],
-     "falli_home": 12.1,
+     "falli_home": 12.3,
      "falli_away": 9.8,
-     "falli_gap": 2.3,
+     "falli_gap": 2.4,
      "falli_games": [
-      8,
+      9,
       9
      ],
      "off_home": 1.7,
-     "off_away": 2.2,
-     "off_gap": 0.5,
+     "off_away": 2.1,
+     "off_gap": 0.3,
      "off_games": [
-      8,
+      9,
       9
      ],
-     "cards": 2.6,
-     "cards_1t": 0.6,
-     "cards_home": 1.1,
+     "cards": 2.7,
+     "cards_1t": 0.7,
+     "cards_home": 1.2,
      "cards_away": 1.4,
-     "cards_1t_home": 0.2,
+     "cards_1t_home": 0.3,
      "cards_1t_away": 0.3,
      "games_k": [
-      8,
+      9,
       9
      ],
      "home_logo": "https://cdn.pitchapi.dev/images/teams/108eb0aab69689251ffd6d722eff62fd754c93e39c20909a373b26464bbb38be.webp",
@@ -9958,27 +9048,27 @@
      ],
      "falli_home": 11.0,
      "falli_away": 11.7,
-     "falli_gap": 0.8,
+     "falli_gap": 0.7,
      "falli_games": [
       9,
-      8
+      9
      ],
      "off_home": 1.8,
-     "off_away": 1.3,
-     "off_gap": 0.5,
+     "off_away": 1.2,
+     "off_gap": 0.6,
      "off_games": [
       9,
-      8
+      9
      ],
-     "cards": 3.6,
-     "cards_1t": 0.8,
+     "cards": 3.7,
+     "cards_1t": 0.9,
      "cards_home": 1.4,
-     "cards_away": 2.1,
+     "cards_away": 2.2,
      "cards_1t_home": 0.2,
-     "cards_1t_away": 0.6,
+     "cards_1t_away": 0.7,
      "games_k": [
       9,
-      8
+      9
      ],
      "home_logo": "https://cdn.pitchapi.dev/images/teams/6d1458229c36991186c0335b8d5656e50422806805f2bf064712147162e428c8.webp",
      "away_logo": "https://cdn.pitchapi.dev/images/teams/52f92c4c2ae57c14bc3d2ead58a2f899ab2fa12bebb91e6f627af2b99608dfce.webp"
@@ -10126,28 +9216,28 @@
       5,
       4
      ],
-     "falli_home": 12.1,
+     "falli_home": 12.3,
      "falli_away": 9.8,
-     "falli_gap": 2.3,
+     "falli_gap": 2.4,
      "falli_games": [
-      8,
+      9,
       9
      ],
      "off_home": 1.7,
-     "off_away": 2.2,
-     "off_gap": 0.5,
+     "off_away": 2.1,
+     "off_gap": 0.3,
      "off_games": [
-      8,
+      9,
       9
      ],
-     "cards": 2.6,
-     "cards_1t": 0.6,
-     "cards_home": 1.1,
+     "cards": 2.7,
+     "cards_1t": 0.7,
+     "cards_home": 1.2,
      "cards_away": 1.4,
-     "cards_1t_home": 0.2,
+     "cards_1t_home": 0.3,
      "cards_1t_away": 0.3,
      "games_k": [
-      8,
+      9,
       9
      ],
      "home_logo": "https://cdn.pitchapi.dev/images/teams/108eb0aab69689251ffd6d722eff62fd754c93e39c20909a373b26464bbb38be.webp",
@@ -10184,27 +9274,27 @@
      ],
      "falli_home": 11.0,
      "falli_away": 11.7,
-     "falli_gap": 0.8,
+     "falli_gap": 0.7,
      "falli_games": [
       9,
-      8
+      9
      ],
      "off_home": 1.8,
-     "off_away": 1.3,
-     "off_gap": 0.5,
+     "off_away": 1.2,
+     "off_gap": 0.6,
      "off_games": [
       9,
-      8
+      9
      ],
-     "cards": 3.6,
-     "cards_1t": 0.8,
+     "cards": 3.7,
+     "cards_1t": 0.9,
      "cards_home": 1.4,
-     "cards_away": 2.1,
+     "cards_away": 2.2,
      "cards_1t_home": 0.2,
-     "cards_1t_away": 0.6,
+     "cards_1t_away": 0.7,
      "games_k": [
       9,
-      8
+      9
      ],
      "home_logo": "https://cdn.pitchapi.dev/images/teams/6d1458229c36991186c0335b8d5656e50422806805f2bf064712147162e428c8.webp",
      "away_logo": "https://cdn.pitchapi.dev/images/teams/52f92c4c2ae57c14bc3d2ead58a2f899ab2fa12bebb91e6f627af2b99608dfce.webp"
@@ -10298,86 +9388,30 @@
      ],
      "falli_home": 11.0,
      "falli_away": 11.7,
-     "falli_gap": 0.8,
+     "falli_gap": 0.7,
      "falli_games": [
       9,
-      8
+      9
      ],
      "off_home": 1.8,
-     "off_away": 1.3,
-     "off_gap": 0.5,
+     "off_away": 1.2,
+     "off_gap": 0.6,
      "off_games": [
       9,
-      8
+      9
      ],
-     "cards": 3.6,
-     "cards_1t": 0.8,
+     "cards": 3.7,
+     "cards_1t": 0.9,
      "cards_home": 1.4,
-     "cards_away": 2.1,
+     "cards_away": 2.2,
      "cards_1t_home": 0.2,
-     "cards_1t_away": 0.6,
+     "cards_1t_away": 0.7,
      "games_k": [
       9,
-      8
+      9
      ],
      "home_logo": "https://cdn.pitchapi.dev/images/teams/6d1458229c36991186c0335b8d5656e50422806805f2bf064712147162e428c8.webp",
      "away_logo": "https://cdn.pitchapi.dev/images/teams/52f92c4c2ae57c14bc3d2ead58a2f899ab2fa12bebb91e6f627af2b99608dfce.webp"
-    },
-    {
-     "id": "m_4Z0Hkz",
-     "date": "2026-11-02",
-     "time": "2026-11-02",
-     "league": "Serie A",
-     "home": "Atalanta",
-     "away": "Parma",
-     "non_coperto": [],
-     "corners_home": 6.4,
-     "corners_away": 3.6,
-     "gap": 2.8,
-     "games": [
-      5,
-      4
-     ],
-     "tiri_home": 19.7,
-     "tiri_away": 13.0,
-     "tiri_gap": 6.8,
-     "tiri_games": [
-      5,
-      4
-     ],
-     "sot_home": 6.3,
-     "sot_away": 4.6,
-     "sot_gap": 1.7,
-     "sot_games": [
-      5,
-      4
-     ],
-     "falli_home": 12.1,
-     "falli_away": 9.8,
-     "falli_gap": 2.3,
-     "falli_games": [
-      8,
-      9
-     ],
-     "off_home": 1.7,
-     "off_away": 2.2,
-     "off_gap": 0.5,
-     "off_games": [
-      8,
-      9
-     ],
-     "cards": 2.6,
-     "cards_1t": 0.6,
-     "cards_home": 1.1,
-     "cards_away": 1.4,
-     "cards_1t_home": 0.2,
-     "cards_1t_away": 0.3,
-     "games_k": [
-      8,
-      9
-     ],
-     "home_logo": "https://cdn.pitchapi.dev/images/teams/108eb0aab69689251ffd6d722eff62fd754c93e39c20909a373b26464bbb38be.webp",
-     "away_logo": "https://cdn.pitchapi.dev/images/teams/2bc9e6c9d46925f545749ecd287f49bb9ab6671e48084d1ad6093334b4df069d.webp"
     },
     {
      "id": "m_2P8d0o",
@@ -10492,6 +9526,62 @@
      "away_logo": "https://cdn.pitchapi.dev/images/teams/dd9ed059b3f4a132cfd8357431d608d7280fbd23b4014ea8552a7a411164d901.webp"
     },
     {
+     "id": "m_4Z0Hkz",
+     "date": "2026-11-02",
+     "time": "2026-11-02",
+     "league": "Serie A",
+     "home": "Atalanta",
+     "away": "Parma",
+     "non_coperto": [],
+     "corners_home": 6.4,
+     "corners_away": 3.6,
+     "gap": 2.8,
+     "games": [
+      5,
+      4
+     ],
+     "tiri_home": 19.7,
+     "tiri_away": 13.0,
+     "tiri_gap": 6.8,
+     "tiri_games": [
+      5,
+      4
+     ],
+     "sot_home": 6.3,
+     "sot_away": 4.6,
+     "sot_gap": 1.7,
+     "sot_games": [
+      5,
+      4
+     ],
+     "falli_home": 12.3,
+     "falli_away": 9.8,
+     "falli_gap": 2.4,
+     "falli_games": [
+      9,
+      9
+     ],
+     "off_home": 1.7,
+     "off_away": 2.1,
+     "off_gap": 0.3,
+     "off_games": [
+      9,
+      9
+     ],
+     "cards": 2.7,
+     "cards_1t": 0.7,
+     "cards_home": 1.2,
+     "cards_away": 1.4,
+     "cards_1t_home": 0.3,
+     "cards_1t_away": 0.3,
+     "games_k": [
+      9,
+      9
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/108eb0aab69689251ffd6d722eff62fd754c93e39c20909a373b26464bbb38be.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/2bc9e6c9d46925f545749ecd287f49bb9ab6671e48084d1ad6093334b4df069d.webp"
+    },
+    {
      "id": "m_0eAA1g",
      "date": "2026-11-02",
      "time": "2026-11-02",
@@ -10550,62 +9640,6 @@
    ],
    "cartellini": [
     {
-     "id": "m_4Z0Hkz",
-     "date": "2026-11-02",
-     "time": "2026-11-02",
-     "league": "Serie A",
-     "home": "Atalanta",
-     "away": "Parma",
-     "non_coperto": [],
-     "corners_home": 6.4,
-     "corners_away": 3.6,
-     "gap": 2.8,
-     "games": [
-      5,
-      4
-     ],
-     "tiri_home": 19.7,
-     "tiri_away": 13.0,
-     "tiri_gap": 6.8,
-     "tiri_games": [
-      5,
-      4
-     ],
-     "sot_home": 6.3,
-     "sot_away": 4.6,
-     "sot_gap": 1.7,
-     "sot_games": [
-      5,
-      4
-     ],
-     "falli_home": 12.1,
-     "falli_away": 9.8,
-     "falli_gap": 2.3,
-     "falli_games": [
-      8,
-      9
-     ],
-     "off_home": 1.7,
-     "off_away": 2.2,
-     "off_gap": 0.5,
-     "off_games": [
-      8,
-      9
-     ],
-     "cards": 2.6,
-     "cards_1t": 0.6,
-     "cards_home": 1.1,
-     "cards_away": 1.4,
-     "cards_1t_home": 0.2,
-     "cards_1t_away": 0.3,
-     "games_k": [
-      8,
-      9
-     ],
-     "home_logo": "https://cdn.pitchapi.dev/images/teams/108eb0aab69689251ffd6d722eff62fd754c93e39c20909a373b26464bbb38be.webp",
-     "away_logo": "https://cdn.pitchapi.dev/images/teams/2bc9e6c9d46925f545749ecd287f49bb9ab6671e48084d1ad6093334b4df069d.webp"
-    },
-    {
      "id": "m_0xOQtL",
      "date": "2026-11-02",
      "time": "2026-11-02",
@@ -10662,6 +9696,62 @@
      "away_logo": "https://cdn.pitchapi.dev/images/teams/dd9ed059b3f4a132cfd8357431d608d7280fbd23b4014ea8552a7a411164d901.webp"
     },
     {
+     "id": "m_4Z0Hkz",
+     "date": "2026-11-02",
+     "time": "2026-11-02",
+     "league": "Serie A",
+     "home": "Atalanta",
+     "away": "Parma",
+     "non_coperto": [],
+     "corners_home": 6.4,
+     "corners_away": 3.6,
+     "gap": 2.8,
+     "games": [
+      5,
+      4
+     ],
+     "tiri_home": 19.7,
+     "tiri_away": 13.0,
+     "tiri_gap": 6.8,
+     "tiri_games": [
+      5,
+      4
+     ],
+     "sot_home": 6.3,
+     "sot_away": 4.6,
+     "sot_gap": 1.7,
+     "sot_games": [
+      5,
+      4
+     ],
+     "falli_home": 12.3,
+     "falli_away": 9.8,
+     "falli_gap": 2.4,
+     "falli_games": [
+      9,
+      9
+     ],
+     "off_home": 1.7,
+     "off_away": 2.1,
+     "off_gap": 0.3,
+     "off_games": [
+      9,
+      9
+     ],
+     "cards": 2.7,
+     "cards_1t": 0.7,
+     "cards_home": 1.2,
+     "cards_away": 1.4,
+     "cards_1t_home": 0.3,
+     "cards_1t_away": 0.3,
+     "games_k": [
+      9,
+      9
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/108eb0aab69689251ffd6d722eff62fd754c93e39c20909a373b26464bbb38be.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/2bc9e6c9d46925f545749ecd287f49bb9ab6671e48084d1ad6093334b4df069d.webp"
+    },
+    {
      "id": "m_32m5m0",
      "date": "2026-11-02",
      "time": "2026-11-02",
@@ -10692,27 +9782,27 @@
      ],
      "falli_home": 11.0,
      "falli_away": 11.7,
-     "falli_gap": 0.8,
+     "falli_gap": 0.7,
      "falli_games": [
       9,
-      8
+      9
      ],
      "off_home": 1.8,
-     "off_away": 1.3,
-     "off_gap": 0.5,
+     "off_away": 1.2,
+     "off_gap": 0.6,
      "off_games": [
       9,
-      8
+      9
      ],
-     "cards": 3.6,
-     "cards_1t": 0.8,
+     "cards": 3.7,
+     "cards_1t": 0.9,
      "cards_home": 1.4,
-     "cards_away": 2.1,
+     "cards_away": 2.2,
      "cards_1t_home": 0.2,
-     "cards_1t_away": 0.6,
+     "cards_1t_away": 0.7,
      "games_k": [
       9,
-      8
+      9
      ],
      "home_logo": "https://cdn.pitchapi.dev/images/teams/6d1458229c36991186c0335b8d5656e50422806805f2bf064712147162e428c8.webp",
      "away_logo": "https://cdn.pitchapi.dev/images/teams/52f92c4c2ae57c14bc3d2ead58a2f899ab2fa12bebb91e6f627af2b99608dfce.webp"
@@ -10860,28 +9950,28 @@
       5,
       4
      ],
-     "falli_home": 12.1,
+     "falli_home": 12.3,
      "falli_away": 9.8,
-     "falli_gap": 2.3,
+     "falli_gap": 2.4,
      "falli_games": [
-      8,
+      9,
       9
      ],
      "off_home": 1.7,
-     "off_away": 2.2,
-     "off_gap": 0.5,
+     "off_away": 2.1,
+     "off_gap": 0.3,
      "off_games": [
-      8,
+      9,
       9
      ],
-     "cards": 2.6,
-     "cards_1t": 0.6,
-     "cards_home": 1.1,
+     "cards": 2.7,
+     "cards_1t": 0.7,
+     "cards_home": 1.2,
      "cards_away": 1.4,
-     "cards_1t_home": 0.2,
+     "cards_1t_home": 0.3,
      "cards_1t_away": 0.3,
      "games_k": [
-      8,
+      9,
       9
      ],
      "home_logo": "https://cdn.pitchapi.dev/images/teams/108eb0aab69689251ffd6d722eff62fd754c93e39c20909a373b26464bbb38be.webp",
@@ -10918,27 +10008,27 @@
      ],
      "falli_home": 11.0,
      "falli_away": 11.7,
-     "falli_gap": 0.8,
+     "falli_gap": 0.7,
      "falli_games": [
       9,
-      8
+      9
      ],
      "off_home": 1.8,
-     "off_away": 1.3,
-     "off_gap": 0.5,
+     "off_away": 1.2,
+     "off_gap": 0.6,
      "off_games": [
       9,
-      8
+      9
      ],
-     "cards": 3.6,
-     "cards_1t": 0.8,
+     "cards": 3.7,
+     "cards_1t": 0.9,
      "cards_home": 1.4,
-     "cards_away": 2.1,
+     "cards_away": 2.2,
      "cards_1t_home": 0.2,
-     "cards_1t_away": 0.6,
+     "cards_1t_away": 0.7,
      "games_k": [
       9,
-      8
+      9
      ],
      "home_logo": "https://cdn.pitchapi.dev/images/teams/6d1458229c36991186c0335b8d5656e50422806805f2bf064712147162e428c8.webp",
      "away_logo": "https://cdn.pitchapi.dev/images/teams/52f92c4c2ae57c14bc3d2ead58a2f899ab2fa12bebb91e6f627af2b99608dfce.webp"
@@ -11143,27 +10233,27 @@
      ],
      "falli_home": 11.0,
      "falli_away": 11.7,
-     "falli_gap": 0.8,
+     "falli_gap": 0.7,
      "falli_games": [
       9,
-      8
+      9
      ],
      "off_home": 1.8,
-     "off_away": 1.3,
-     "off_gap": 0.5,
+     "off_away": 1.2,
+     "off_gap": 0.6,
      "off_games": [
       9,
-      8
+      9
      ],
-     "cards": 3.6,
-     "cards_1t": 0.8,
+     "cards": 3.7,
+     "cards_1t": 0.9,
      "cards_home": 1.4,
-     "cards_away": 2.1,
+     "cards_away": 2.2,
      "cards_1t_home": 0.2,
-     "cards_1t_away": 0.6,
+     "cards_1t_away": 0.7,
      "games_k": [
       9,
-      8
+      9
      ]
     },
     {
@@ -11194,28 +10284,28 @@
       5,
       4
      ],
-     "falli_home": 12.1,
+     "falli_home": 12.3,
      "falli_away": 9.8,
-     "falli_gap": 2.3,
+     "falli_gap": 2.4,
      "falli_games": [
-      8,
+      9,
       9
      ],
      "off_home": 1.7,
-     "off_away": 2.2,
-     "off_gap": 0.5,
+     "off_away": 2.1,
+     "off_gap": 0.3,
      "off_games": [
-      8,
+      9,
       9
      ],
-     "cards": 2.6,
-     "cards_1t": 0.6,
-     "cards_home": 1.1,
+     "cards": 2.7,
+     "cards_1t": 0.7,
+     "cards_home": 1.2,
      "cards_away": 1.4,
-     "cards_1t_home": 0.2,
+     "cards_1t_home": 0.3,
      "cards_1t_away": 0.3,
      "games_k": [
-      8,
+      9,
       9
      ]
     },

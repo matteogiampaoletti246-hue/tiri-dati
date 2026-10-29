@@ -1772,10 +1772,10 @@
    "country": "ITA",
    "label": "Serie A",
    "league_avg": {
-    "sotAgainst": 4.942,
-    "sotFor": 4.922,
-    "totalAgainst": 14.615,
-    "totalFor": 14.571
+    "sotAgainst": 4.939,
+    "sotFor": 4.939,
+    "totalAgainst": 14.667,
+    "totalFor": 14.667
    },
    "logo": "https://cdn.pitchapi.dev/images/leagues/1e6b2d0d7b14ef10ae27b51a6a7f536b32fdceea229d84c475be346978232f22.webp",
    "logos": {
@@ -1800,7 +1800,7 @@
     "Udinese": "https://cdn.pitchapi.dev/images/teams/bf074b2992c5c0d8bb4fefdf71b549070c402656ac2e6405a52e8ee9ef6c8801.webp",
     "Venezia": "https://cdn.pitchapi.dev/images/teams/ef4cf59b13e1d9d130d304bad00d700783a9783ba1c0469952db26a8a76a5b38.webp"
    },
-   "matches": 88,
+   "matches": 90,
    "matches_without_stats": 0,
    "name": "Serie A",
    "restricted": false,
@@ -1808,11 +1808,11 @@
    "size": 20,
    "teams": {
     "Atalanta": {
-     "games": 8,
-     "sotAgainst": 6.375,
-     "sotFor": 5.125,
-     "totalAgainst": 18.75,
-     "totalFor": 14.375
+     "games": 9,
+     "sotAgainst": 6.111,
+     "sotFor": 5.111,
+     "totalAgainst": 19.556,
+     "totalFor": 13.889
     },
     "Bologna": {
      "games": 9,
@@ -1836,18 +1836,18 @@
      "totalFor": 20.333
     },
     "Fiorentina": {
-     "games": 8,
-     "sotAgainst": 6.125,
-     "sotFor": 5.0,
-     "totalAgainst": 14.75,
-     "totalFor": 15.375
+     "games": 9,
+     "sotAgainst": 6.0,
+     "sotFor": 4.889,
+     "totalAgainst": 14.222,
+     "totalFor": 16.556
     },
     "Frosinone": {
-     "games": 8,
-     "sotAgainst": 6.125,
-     "sotFor": 6.125,
-     "totalAgainst": 19.875,
-     "totalFor": 18.25
+     "games": 9,
+     "sotAgainst": 6.111,
+     "sotFor": 6.444,
+     "totalAgainst": 19.333,
+     "totalFor": 19.111
     },
     "Genoa": {
      "games": 9,
@@ -1878,11 +1878,11 @@
      "totalFor": 14.111
     },
     "Lecce": {
-     "games": 8,
-     "sotAgainst": 6.0,
-     "sotFor": 4.625,
-     "totalAgainst": 14.375,
-     "totalFor": 11.75
+     "games": 9,
+     "sotAgainst": 6.333,
+     "sotFor": 4.778,
+     "totalAgainst": 15.667,
+     "totalFor": 12.111
     },
     "Milan": {
      "games": 9,
@@ -2027,5 +2027,5 @@
   }
  },
  "season_start": "2026",
- "updated_at": "2026-10-29T05:39:27+00:00"
+ "updated_at": "2026-10-29T23:32:03+00:00"
 }
