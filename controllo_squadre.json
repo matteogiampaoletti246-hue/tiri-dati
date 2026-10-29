@@ -7049,7 +7049,7 @@
     "competizioni": [
      "Copa del Rey 2026-2027"
     ],
-    "motivo": "nessuna partita giocata nella stagione in corso"
+    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
     "squadra": "Atletico Pinatarense",
@@ -7745,7 +7745,7 @@
     "competizioni": [
      "Copa del Rey 2026-2027"
     ],
-    "motivo": "nessuna partita giocata nella stagione in corso"
+    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
     "squadra": "CD Cuarte",
@@ -7769,7 +7769,7 @@
     "competizioni": [
      "Copa del Rey 2026-2027"
     ],
-    "motivo": "nessuna partita giocata nella stagione in corso"
+    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
     "squadra": "CD Manacor",
@@ -7801,7 +7801,7 @@
     "competizioni": [
      "Copa del Rey 2026-2027"
     ],
-    "motivo": "nessuna partita giocata nella stagione in corso"
+    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
     "squadra": "CE Europa (W)",
@@ -8737,7 +8737,7 @@
     "competizioni": [
      "Turkish Cup 2026-2027"
     ],
-    "motivo": "nessuna partita giocata nella stagione in corso"
+    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
     "squadra": "Espoir FC de la Vallee",
@@ -8937,7 +8937,7 @@
     "competizioni": [
      "Ukraine Cup 2026-2027"
     ],
-    "motivo": "nessuna partita giocata nella stagione in corso"
+    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
     "squadra": "FC Orel",
@@ -9594,7 +9594,7 @@
     "competizioni": [
      "Copa del Rey 2026-2027"
     ],
-    "motivo": "nessuna partita giocata nella stagione in corso"
+    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
     "squadra": "Górnik Zabrze II",
@@ -11555,7 +11555,7 @@
     "competizioni": [
      "KNVB Cup 2026-2027"
     ],
-    "motivo": "nessuna partita giocata nella stagione in corso"
+    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
     "squadra": "North End United",
@@ -12902,7 +12902,7 @@
     "competizioni": [
      "KNVB Cup 2026-2027"
     ],
-    "motivo": "nessuna partita giocata nella stagione in corso"
+    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
     "squadra": "Spartak Moscow II",
@@ -13512,7 +13512,7 @@
     "competizioni": [
      "Copa del Rey 2026-2027"
     ],
-    "motivo": "nessuna partita giocata nella stagione in corso"
+    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
     "squadra": "UDIB",
@@ -14582,7 +14582,7 @@
     "competizioni": [
      "Turkish Cup 2026-2027"
     ],
-    "motivo": "nessuna partita giocata nella stagione in corso"
+    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
     "squadra": "Épinal",
@@ -15330,7 +15330,7 @@
  },
  "forma": {
   "squadre_senza_forma_prima": 4030,
-  "squadre_senza_forma_dopo": 223,
+  "squadre_senza_forma_dopo": 212,
   "motivo_dopo": "nessuna partita giocata nella stagione in corso: niente riquadro"
  }
 }
