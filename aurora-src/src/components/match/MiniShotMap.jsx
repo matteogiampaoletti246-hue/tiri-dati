@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { comma } from '@/lib/format';
 
 // Mappetta tiri del singolo giocatore: metà campo offensiva + porta vista da davanti.
-import { ShotDot, BlockTrace, isBlocked, SHOT_HOME, SHOT_PITCH, SHOT_LINE, SHOT_GOALBG } from './ShotDot';
+import { ShotDot, ShotHit, BlockTrace, isBlocked, SHOT_HOME, SHOT_PITCH, SHOT_LINE, SHOT_GOALBG } from './ShotDot';
 const PITCH = SHOT_PITCH;
 const LINE = SHOT_LINE;
 const cx = (v) => Math.max(66, Math.min(104.5, v));
@@ -38,7 +38,7 @@ export default function MiniShotMap({ shots }) {
           {list.map((s, i) => (
             <g key={i} onClick={() => setSel(i === sel ? null : i)}>
               {i === sel ? <circle cx={cx(s.px)} cy={cy(s.py)} r="3.4" fill="none" stroke="#f5a400" strokeWidth="0.7" /> : null}
-              <g transform={`translate(${cx(s.px)} ${cy(s.py)})`}><ShotDot c={SHOT_HOME} goal={s.outcome === 'Gol'} on={!!s.onTarget} r={2} /></g>
+              <g transform={`translate(${cx(s.px)} ${cy(s.py)})`}><ShotHit /><ShotDot c={SHOT_HOME} goal={s.outcome === 'Gol'} on={!!s.onTarget} r={2} /></g>
             </g>
           ))}
         </svg>
@@ -49,7 +49,7 @@ export default function MiniShotMap({ shots }) {
             const i = list.indexOf(s);
             const gx = 4 + (s.gy - 30.34) * W * 0.7;
             const gyy = 44 - Math.max(0, Math.min(s.gz, 3.4)) * W * 0.7;
-            return <g key={i} transform={`translate(${Math.max(3, Math.min(57, gx))} ${gyy})`} onClick={() => setSel(i === sel ? null : i)}><ShotDot c={SHOT_HOME} goal={s.outcome === 'Gol'} on={!!s.onTarget} r={2} /></g>;
+            return <g key={i} transform={`translate(${Math.max(3, Math.min(57, gx))} ${gyy})`} onClick={() => setSel(i === sel ? null : i)}><ShotHit /><ShotDot c={SHOT_HOME} goal={s.outcome === 'Gol'} on={!!s.onTarget} r={2} /></g>;
           })}
         </svg>
       </div>

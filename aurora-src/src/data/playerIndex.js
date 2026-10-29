@@ -3,7 +3,7 @@ import { BASE } from './load';
 import useAsync from '@/hooks/useAsync';
 import { carriereOf, loadCarriere } from './carriere';
 import { loadRose, roseOf, rosePlayer } from './rose';
-import { loadPlayerStats, loadPlayerStatsFor, currentSeason, sortSeasons, FM_ID } from './archive';
+import { loadPlayerStats, loadPlayerStatsFor, currentSeason, sortSeasons, FM_ID, LID_BY_FM } from './archive';
 import { playerById } from './players';
 import { teamById } from './teams';
 import { archivePercentiles } from '@/components/player/playerCalc';
@@ -21,8 +21,6 @@ export const loadPidx = async (pid) => {
   return e ? e.slice(1) : [];
 };
 
-const LID_BY_FM = {};
-Object.keys(FM_ID).forEach((k) => { LID_BY_FM[FM_ID[k]] = k; });
 const nm = (s) => String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
 
 // id FotMob del giocatore: carriere.json, poi id dell'archivio, poi rosa della squadra, poi statistiche della stagione in corso

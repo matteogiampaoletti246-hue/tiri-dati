@@ -22,15 +22,17 @@ const fresh = (id, e) => {
   return Date.now() - e.at < ttl;
 };
 
+// pronta = gia' preparata una volta (anche se da aggiornare): riaprendola si mostra subito e prepareMatch la rinfresca dietro,
+// prima dopo 5 minuti (15 s se live) tornava lo spinner intero
 export const isReady = (id) => {
   const e = P.get(id);
-  return !!(e && e.done && fresh(id, e));
+  return !!(e && (e.done || e.was));
 };
 
 export function prepareMatch(id, force = false) {
   const e = P.get(id);
   if (!force && e && (!e.done || fresh(id, e))) return e.p;
-  const entry = { at: Date.now(), done: false, p: null };
+  const entry = { at: Date.now(), done: false, p: null, was: !!(e && (e.done || e.was)) };
   const t0 = performance.now();
   perfLog(`partita: preparo ${String(id).slice(0, 18)}`);
   entry.p = (async () => {

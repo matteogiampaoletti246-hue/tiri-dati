@@ -1,0 +1,8 @@
+# Esempi allegati alle richieste (sono SOLO esempi: i difetti valgono per tutte le competizioni, squadre, stagioni e giocatori)
+
+- `01-sheffield-statistiche-nere.png` (punto 1): Sheffield United, Premier League 2023/24, scheda Statistiche della squadra: tutti i riquadri neri/spenti, senza le carte colorate con barra. Succede con altre squadre/stagioni.
+- `02-swipe-home-doppia-copia-nera.png` (punto 2): swipe indietro da una partita verso la Home: la Home appare in due copie sfalsate con strisce nere tra le due.
+- `02-video-swipe-indietro-nero-giocatore-squadra-partita-home.mp4` (punti 2 e 8, 3,5 s): giocatore (Ebnoutalib) -> squadra Eintracht Frankfurt (Giocatori) -> partita Amburgo-Francoforte -> swipe indietro: schermo nero invece dello scorrimento, poi la Home appare di colpo. `02-video-swipe-fotogrammi.jpg` e' la sequenza dei fotogrammi (i neri sono quelli vuoti).
+- `02-08-video-lungo-fotogrammi.jpg` (punti 2, 3, 8, video di 30 s, solo fotogrammi): Home -> partita Parma-Udinese -> indietro (nero + "Partita" con spinner); Napoli (Partite) -> partita -> indietro (nero + spinner); Mainz (Partite/Statistiche/Giocatori) -> giocatore Caci -> indietro (nero). Mostra anche i caricamenti lunghi con spinner (punto 3).
+- `05-sofascore-formazioni-pillole-squadra.png` (punto 5): concept Sofascore Frosinone-Lecce: sotto il campo due pillole a tutta larghezza (casa a sinistra, ospite a destra, stemma in ciascuna; selezionata scura), poi allenatore e "Infortuni e squalifiche" della squadra scelta.
+- `05b-app-allenatori-panchina-attuale.png` (punto 5): com'e' ora la nostra scheda Formazioni: allenatori e panchina in due colonne con entrambe le squadre, senza selettore.

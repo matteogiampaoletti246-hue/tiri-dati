@@ -2,7 +2,7 @@ import { BallIcon } from './EventIcons';
 import { useEffect, useRef, useState } from 'react';
 import { comma } from '@/lib/format';
 import { situationOf, zoneOf, outcomeOf } from './MatchShotMap';
-import { ShotDot, BlockTrace, isBlocked, SHOT_HOME, SHOT_PITCH, SHOT_LINE, SHOT_GOALBG } from './ShotDot';
+import { ShotDot, ShotHit, BlockTrace, isBlocked, SHOT_HOME, SHOT_PITCH, SHOT_LINE, SHOT_GOALBG } from './ShotDot';
 
 const PITCH = SHOT_PITCH;
 const LINE = SHOT_LINE;
@@ -39,7 +39,7 @@ function Goal({ list, sel, onSel, dim = true, h = 150, frame = 'rgba(255,255,255
         return (
           <g key={i} onClick={() => onSel(i)} style={{ cursor: 'pointer' }} opacity={sel == null || on || !dim ? 1 : 0.35}>
             {on ? <circle cx={Math.max(3, Math.min(97, cx))} cy={cy} r="4.2" fill="none" stroke="#f5a400" strokeWidth="0.7" /> : null}
-            <g transform={`translate(${Math.max(3, Math.min(97, cx))} ${cy})`}><ShotDot c={SHOT_HOME} goal={s.outcome === 'Gol'} on={!!s.onTarget} r={2.2} /></g>
+            <g transform={`translate(${Math.max(3, Math.min(97, cx))} ${cy})`}><ShotHit /><ShotDot c={SHOT_HOME} goal={s.outcome === 'Gol'} on={!!s.onTarget} r={2.2} /></g>
           </g>
         );
       })}
@@ -62,7 +62,7 @@ function Half({ list, sel, onSel, h = 190, line = true }) {
         return (
           <g key={i} onClick={() => onSel(i)} style={{ cursor: 'pointer' }} opacity={sel == null || on ? 1 : 0.35}>
             {on ? <circle cx={px(s.px)} cy={py(s.py)} r="3.6" fill="none" stroke="#f5a400" strokeWidth="0.7" /> : null}
-            <g transform={`translate(${px(s.px)} ${py(s.py)})`}><ShotDot c={SHOT_HOME} goal={s.outcome === 'Gol'} on={!!s.onTarget} r={2} /></g>
+            <g transform={`translate(${px(s.px)} ${py(s.py)})`}><ShotHit /><ShotDot c={SHOT_HOME} goal={s.outcome === 'Gol'} on={!!s.onTarget} r={2} /></g>
           </g>
         );
       })}

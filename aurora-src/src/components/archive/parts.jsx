@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import useAsync from '@/hooks/useAsync';
 import TextFilter from '@/components/TextFilter';
 import { TeamLogo } from '@/components/FmImg';
-import { loadColors } from '@/data/archive';
+import { loadColors, loadSeasonMatches } from '@/data/archive';
+import { prepareMatch } from '@/data/prepare';
 import { teamByName } from '@/data/teams';
 import { fixedColors } from '@/data/teamColorFix';
 import { teamGrad } from '@/lib/tint';
@@ -46,14 +47,21 @@ export function useTeamColors() {
 }
 export const rowBg = (col, id, name, a = 0x55) => teamGrad(col(id, name), a);
 
+// partite archiviate: il file della stagione (partite/<fm>/<stagione>.json.gz, ~1 MB) si scarica a riposo appena compare la lista,
+// e al tocco della riga si prepara la partita (come MatchRow): aprendola i dati ci sono gia', niente spinner lungo
+const idle = (f) => (typeof requestIdleCallback === 'function' ? requestIdleCallback(f, { timeout: 2500 }) : setTimeout(f, 600));
+const WARMED = new Set();
+const warmSeason = (fm, sk) => { const k = `${fm}/${sk}`; if (WARMED.has(k)) return; WARMED.add(k); idle(() => loadSeasonMatches(fm, sk).catch(() => null)); };
+let pfa = 0;
 export function ArchRow({ m, names, fm, sk, tid = null }) {
+  useEffect(() => { if (m[6]) warmSeason(fm, sk); }, [fm, sk]); // eslint-disable-line react-hooks/exhaustive-deps
   const hn = names[m[2]] || '—';
   const an = names[m[3]] || '—';
   const played = !!m[6];
   const sc = String(m[5] || '').split(' - ');
   const hasScore = played && sc.length === 2;
   return (
-    <Link to={`/match/a-${fm}-${sk}-${m[0]}`} className="press flex items-center gap-2 px-4 py-3">
+    <Link to={`/match/a-${fm}-${sk}-${m[0]}`} onPointerDown={() => { clearTimeout(pfa); pfa = setTimeout(() => prepareMatch(`a-${fm}-${sk}-${m[0]}`), 90); }} onPointerCancel={() => clearTimeout(pfa)} className="press flex items-center gap-2 px-4 py-3">
       <div className="flex min-w-0 flex-1 items-center justify-end gap-2.5">
         <span className="truncate text-right text-[14px] font-semibold" style={{ color: 'var(--ink)' }}>{hn}</span>
         <TeamLogo id={m[2]} name={hn} size={24} />
@@ -104,57 +112,70 @@ const formOf = (season) => {
   });
   return res;
 };
-export function StandingsPanel({ season, fm, sk, highlight = null }) {
-  const [mode, setMode] = useState('all');
-  const t = season && season.table;
+// Una tabella (classifica unica o un girone/conference): righe con lineette delle zone e leggenda sotto, solo se le righe hanno i colori.
+function StandingsTable({ t, legendSrc, title, mode, fm5, fm, sk, highlight }) {
   const forma = mode === 'form';
-  // gli hook vanno sempre prima di qualunque uscita anticipata (altrimenti React si blocca cambiando stagione)
-  const fm5 = useMemo(() => (t ? formOf(season) : {}), [season, t]);
-  if (!t) return null;
   const rows = forma
     ? (t.all || []).map((r) => { const f = (fm5[r.id] || []).slice(-5); return { ...r, f, fp: f.reduce((x, c) => x + (c === 'V' ? 3 : c === 'S' ? 1 : 0), 0) }; }).sort((a, b) => b.fp - a.fp || b.pts - a.pts)
     : (t[mode] || t.all || []);
+  if (!rows.length) return null;
   // la leggenda c'e' solo se le righe hanno davvero le lineette colorate
-  const legend = (t.all || []).some((r) => r.qualColor) ? (season.legend || []) : [];
+  const legend = (t.all || []).some((r) => r.qualColor) ? (legendSrc || []) : [];
   const cols = forma ? COLS_F : COLS;
   const head = forma ? ['#', 'Squadra', 'Ultime 5', 'Pt'] : ['#', 'Squadra', 'PG', 'V', 'N', 'P', 'GF:GS', 'Pt'];
+  return (
+    <div className="mt-3">
+      {title ? <p className="px-5 pb-2 pt-2 text-[12px] font-extrabold uppercase tracking-wider">{title}</p> : null}
+      <div className="grid items-center gap-2 px-4 pb-2 text-[9.5px] font-bold uppercase tracking-[.1em]" style={{ gridTemplateColumns: cols, color: 'var(--ink-3)' }}>
+        {head.map((h, i) => <span key={h} className={i === 1 ? '' : 'text-right'}>{h}</span>)}
+      </div>
+      {rows.map((r, i) => {
+        const on = highlight != null && (Array.isArray(highlight) ? highlight : [highlight]).some((h) => String(h) === String(r.id));
+        return (
+          <Link key={r.id} to={`/storico/${fm}/${sk}/squadra/${r.id}`} className="press relative grid items-center gap-2 px-4 py-2.5" style={{ gridTemplateColumns: cols, borderTop: '1px solid var(--hair-2)', background: on ? 'var(--accent-soft)' : 'transparent' }}>
+            {r.qualColor && !forma ? <span aria-hidden="true" className="absolute bottom-1.5 left-0 top-1.5 w-[3.5px] rounded-r-full" style={{ background: r.qualColor }} /> : null}
+            <span className="tnum text-right text-[11.5px]" style={{ color: 'var(--ink-3)' }}>{forma ? i + 1 : (r.idx || i + 1)}</span>
+            <span className="flex min-w-0 items-center gap-2"><TeamLogo id={r.id} name={r.shortName || r.name} size={22} /><span className="truncate text-[13px] font-semibold">{r.shortName || r.name}</span></span>
+            {forma ? <span className="flex justify-end"><FormDots form={r.f} size={15} /></span> : <>
+                <span className="tnum text-right text-[11.5px]" style={{ color: 'var(--ink-2)' }}>{r.played}</span>
+                <span className="tnum text-right text-[11.5px]" style={{ color: 'var(--ink-2)' }}>{r.wins}</span>
+                <span className="tnum text-right text-[11.5px]" style={{ color: 'var(--ink-2)' }}>{r.draws}</span>
+                <span className="tnum text-right text-[11.5px]" style={{ color: 'var(--ink-2)' }}>{r.losses}</span>
+                <span className="tnum text-right text-[11px]" style={{ color: 'var(--ink-2)' }}>{String(r.scoresStr || '').replace('-', ':')}</span>
+            </>}
+            <span className="tnum text-right text-[13.5px] font-extrabold">{forma ? r.fp : r.pts}</span>
+          </Link>
+        );
+      })}
+      {legend.length && !forma ? (
+        <div className="flex flex-wrap gap-x-4 gap-y-2 px-5 pb-6 pt-4">
+          {legend.map((l) => (
+            <span key={l.tKey || l.title} className="flex items-center gap-1.5 text-[11px]" style={{ color: 'var(--ink-3)' }}>
+              <span className="h-[9px] w-[9px] rounded-full" style={{ background: l.color }} />{l.title}
+            </span>
+          ))}
+        </div>
+      ) : <div className="h-6" />}
+    </div>
+  );
+}
+
+// Classifica della stagione: unica, oppure a gironi/conference (FotMob `tables`, tabelle_gironi.py) con zone e leggenda di ciascun gruppo.
+export function StandingsPanel({ season, fm, sk, highlight = null }) {
+  const [mode, setMode] = useState('all');
+  const groups = season && Array.isArray(season.groups) && season.groups.length ? season.groups : null;
+  const t = season && season.table;
+  // gli hook vanno sempre prima di qualunque uscita anticipata (altrimenti React si blocca cambiando stagione)
+  const fm5 = useMemo(() => (t || groups ? formOf(season) : {}), [season, t, groups]);
+  if (!t && !groups) return null;
   return (
     <div className="pt-3">
       <div className="px-4">
         <TextFilter options={[{ value: 'all', label: 'Totale' }, { value: 'home', label: 'Casa' }, { value: 'away', label: 'Trasferta' }, { value: 'form', label: 'Forma' }]} value={mode} onChange={setMode} />
       </div>
-      <div className="mt-3">
-        <div className="grid items-center gap-2 px-4 pb-2 text-[9.5px] font-bold uppercase tracking-[.1em]" style={{ gridTemplateColumns: cols, color: 'var(--ink-3)' }}>
-          {head.map((h, i) => <span key={h} className={i === 1 ? '' : 'text-right'}>{h}</span>)}
-        </div>
-        {rows.map((r, i) => {
-          const on = highlight != null && (Array.isArray(highlight) ? highlight : [highlight]).some((h) => String(h) === String(r.id));
-          return (
-            <Link key={r.id} to={`/storico/${fm}/${sk}/squadra/${r.id}`} className="press relative grid items-center gap-2 px-4 py-2.5" style={{ gridTemplateColumns: cols, borderTop: '1px solid var(--hair-2)', background: on ? 'var(--accent-soft)' : 'transparent' }}>
-              {r.qualColor && !forma ? <span aria-hidden="true" className="absolute bottom-1.5 left-0 top-1.5 w-[3.5px] rounded-r-full" style={{ background: r.qualColor }} /> : null}
-              <span className="tnum text-right text-[11.5px]" style={{ color: 'var(--ink-3)' }}>{forma ? i + 1 : (r.idx || i + 1)}</span>
-              <span className="flex min-w-0 items-center gap-2"><TeamLogo id={r.id} name={r.shortName || r.name} size={22} /><span className="truncate text-[13px] font-semibold">{r.shortName || r.name}</span></span>
-              {forma ? <span className="flex justify-end"><FormDots form={r.f} size={15} /></span> : <>
-                  <span className="tnum text-right text-[11.5px]" style={{ color: 'var(--ink-2)' }}>{r.played}</span>
-                  <span className="tnum text-right text-[11.5px]" style={{ color: 'var(--ink-2)' }}>{r.wins}</span>
-                  <span className="tnum text-right text-[11.5px]" style={{ color: 'var(--ink-2)' }}>{r.draws}</span>
-                  <span className="tnum text-right text-[11.5px]" style={{ color: 'var(--ink-2)' }}>{r.losses}</span>
-                  <span className="tnum text-right text-[11px]" style={{ color: 'var(--ink-2)' }}>{String(r.scoresStr || '').replace('-', ':')}</span>
-              </>}
-              <span className="tnum text-right text-[13.5px] font-extrabold">{forma ? r.fp : r.pts}</span>
-            </Link>
-          );
-        })}
-        {legend.length && !forma ? (
-          <div className="flex flex-wrap gap-x-4 gap-y-2 px-5 pb-6 pt-4">
-            {legend.map((l) => (
-              <span key={l.tKey || l.title} className="flex items-center gap-1.5 text-[11px]" style={{ color: 'var(--ink-3)' }}>
-                <span className="h-[9px] w-[9px] rounded-full" style={{ background: l.color }} />{l.title}
-              </span>
-            ))}
-          </div>
-        ) : <div className="h-6" />}
-      </div>
+      {groups
+        ? groups.map((g, i) => <StandingsTable key={g.n || i} t={g.table} legendSrc={g.legend} title={g.n} mode={mode} fm5={fm5} fm={fm} sk={sk} highlight={highlight} />)
+        : <StandingsTable t={t} legendSrc={season.legend} mode={mode} fm5={fm5} fm={fm} sk={sk} highlight={highlight} />}
     </div>
   );
 }

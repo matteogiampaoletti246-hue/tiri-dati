@@ -2,6 +2,7 @@ import { lruGet, lruSet } from '@/lib/lru';
 // Archivio storico (FotMob): classifiche, calendari, statistiche stagionali e dettaglio partite dal 2010.
 // I file stanno nel repository dati (arch/ e partite/) e si scaricano solo quando servono.
 import { BASE } from './load';
+import { LEAGUES, leagueById } from './leagues';
 
 // file scaricati una volta sola; quelli grandi (partite della stagione .gz, statistiche) con capienza fissa: la memoria non cresce all'infinito
 const cache = new Map();
@@ -32,8 +33,31 @@ export const archIndex = () => once('index', async () => {
     out[k] = o ? { ...o, ...v, s: [...new Set([...(o.s || []), ...(v.s || [])])] } : v;
   });
   IDX = out;
+  addArchiveLeagues(out);
   return out;
 });
+// id FotMob -> id app (anche per le competizioni aggiunte dall'archivio)
+export const LID_BY_FM = {};
+Object.keys(FM_ID).forEach((k) => { LID_BY_FM[FM_ID[k]] = k; });
+// Tutte le competizioni scaricate in arch/ sono raggiungibili: quelle che non sono gia' nell'app diventano campionati "dell'archivio"
+// (id fm-<id FotMob>): scheda campionato, tendine di squadra e giocatore, ricerca. Non compaiono in Home (nessuna partita del giorno).
+// paesi dell'indice (inglese) -> italiano, come nel resto dell'app
+const PAESE = { Algeria: 'Algeria', Azerbaijan: 'Azerbaigian', Belarus: 'Bielorussia', Belgium: 'Belgio', Bosnia: 'Bosnia', 'Bosnia-Herzegovina': 'Bosnia ed Erzegovina', Brazil: 'Brasile', Chile: 'Cile', China: 'Cina', Croatia: 'Croazia', Cyprus: 'Cipro', Czechia: 'Repubblica Ceca', Denmark: 'Danimarca', Ecuador: 'Ecuador', Egypt: 'Egitto', England: 'Inghilterra', Estonia: 'Estonia', 'Faroe Islands': 'Isole Faroe', Finland: 'Finlandia', France: 'Francia', Germany: 'Germania', Greece: 'Grecia', Hungary: 'Ungheria', Iceland: 'Islanda', Ireland: 'Irlanda', Israel: 'Israele', Italy: 'Italia', Japan: 'Giappone', Kazakhstan: 'Kazakistan', Latvia: 'Lettonia', Lithuania: 'Lituania', Luxembourg: 'Lussemburgo', Mexico: 'Messico', Morocco: 'Marocco', Netherlands: 'Paesi Bassi', 'North Macedonia': 'Macedonia del Nord', 'Northern Ireland': 'Irlanda del Nord', Norway: 'Norvegia', Peru: 'Perù', Poland: 'Polonia', Portugal: 'Portogallo', Romania: 'Romania', Russia: 'Russia', 'Saudi Arabia': 'Arabia Saudita', Scotland: 'Scozia', Serbia: 'Serbia', Slovakia: 'Slovacchia', Slovenia: 'Slovenia', 'South Africa': 'Sudafrica', 'South Korea': 'Corea del Sud', Spain: 'Spagna', Sweden: 'Svezia', Switzerland: 'Svizzera', Tunisia: 'Tunisia', Turkiye: 'Turchia', Ukraine: 'Ucraina', 'United Arab Emirates': 'Emirati Arabi Uniti', 'United States': 'Stati Uniti', Wales: 'Galles' };
+function addArchiveLeagues(idx) {
+  Object.entries(idx || {}).forEach(([k, e]) => {
+    const fm = Number(k);
+    if (!e || !e.s || !e.s.length || LID_BY_FM[fm] || e.skip) return;
+    const id = `fm-${fm}`;
+    if (!leagueById(id)) {
+      const col = /^#[0-9a-f]{6}$/i.test(e.color || '') ? e.color : '#38A2FF';
+      const country = PAESE[e.cn] || e.cn || '';
+      LEAGUES.push({ id, fm, extra: true, arch: true, name: e.n || `Competizione ${fm}`, country, countryUpper: country.toUpperCase(), colors: ['#0E1626', col], tint: col,
+        logo: `https://images.fotmob.com/image_resources/logo/leaguelogo/${fm}.png`, logoDark: `https://images.fotmob.com/image_resources/logo/leaguelogo/dark/${fm}.png`, season: '' });
+    }
+    FM_ID[id] = fm;
+    LID_BY_FM[fm] = id;
+  });
+}
 // stagione in corso senza attese (null se l'indice non e' ancora arrivato)
 export const curSeasonSync = (fm) => {
   const e = IDX && IDX[String(fm)];
@@ -255,10 +279,15 @@ export const playerSeasons = async (fm, pid) => {
   return sortSeasons(past.filter((s) => mine.has(s)));
 };
 import { norm, acr, sameSquad } from './teamMatch';
+import { teamByName } from './teams';
+const fmOfTeam = (t) => { if (!t) return null; if (t.fmId) return String(t.fmId); const m = /teamlogo\/(\d+)\.png/.exec(String(t.crest || '')); return m ? m[1] : null; };
 // id FotMob di una squadra dentro i dati di una stagione, dal nome: prima uguale, poi sigla, poi nome contenuto (mai due squadre diverse che si somigliano)
 export const teamIdByName = (teams, name) => {
   const n = norm(name);
   if (!n || !teams) return null;
+  // prima l'id FotMob della squadra dell'app (nomi diversi tra fonti: "Sheffield United" e "Sheff Utd")
+  const f = fmOfTeam(teamByName(name));
+  if (f && teams[f] && sameSquad(teams[f], name)) return f;
   const ent = Object.entries(teams).filter(([, v]) => sameSquad(v, name)); // mai la prima squadra al posto della B (o viceversa)
   let hit = ent.find(([, v]) => norm(v) === n);
   if (!hit) { const a = acr(name); hit = ent.find(([, v]) => { const m = norm(v); return m === a || (a.length >= 3 && acr(v) === n); }); }

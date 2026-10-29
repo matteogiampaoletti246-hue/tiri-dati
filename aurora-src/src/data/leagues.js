@@ -97,7 +97,7 @@ export const LEAGUE_TINT = {
   'nor-eliteserien': '#4C8EE0',
   'gre-super-league-1': '#4FA3F0',
 };
-export const leagueTint = (id) => (PALETTE[id] && PALETTE[id].tint) || LEAGUE_TINT[id] || '#38A2FF';
+export const leagueTint = (id) => (PALETTE[id] && PALETTE[id].tint) || LEAGUE_TINT[id] || ((LEAGUES.find((l) => l.id === id) || {}).tint) || '#38A2FF';
 
 export const leagueById = (id) => LEAGUES.find((l) => l.id === id) || null;
 

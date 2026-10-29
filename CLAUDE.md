@@ -46,6 +46,12 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 - La fotografia deve avere le righe ESATTAMENTE dove stanno nella pagina vera: le parti fisse/sticky tolte dalla copia lasciano il loro spazio (`data-slm` in `grab`), altrimenti al cambio pagina tutto salta di ~110 px. La fotografia della pagina precedente si monta in anticipo e quasi invisibile (`warmLater`) cosi' non c'e' nero mentre si decodificano le immagini. L'altezza di scroll si salva esatta quando si lascia la pagina (`__slSaveScroll`). Prova automatica: `home: la fotografia sotto lo swipe...` in `preview.mjs` (misura la posizione della riga a ogni fotogramma, non solo `scrollY`).
 - Coppe nazionali pure (`isPureCup`, `data/bracket.js`): solo Tabellone, niente Classifica; i turni si normalizzano con `normRound`. Le squadre dei campionati extra usano la scheda `/squadra/<id>` (nessun `href` sulla squadra).
 
+## Swipe indietro su iPhone (regola fissa)
+- Il bordo sinistro avvia anche l'"indietro" di iOS (fotografia nera o Home in doppia copia): `installEdgeGuard` in `lib/carousel.js` blocca il touchstart nei primi 26 px (i tasti sul bordo ricevono comunque il tocco) e lo swipe resta solo nostro (`pageDrag`/`pageBack`).
+- Le copie della fotografia non hanno mai `data-pf` (altrimenti `pageDrag` le spostava con la pagina vera: banner e schede sparivano, sotto il nero); `pageEls` ignora tutto cio' che sta dentro `aria-hidden`.
+- `cloneVisible` copia anche lo scorrimento orizzontale (striscia dei giorni, pillole) e gli spazi vuoti hanno larghezza: la fotografia e' identica alla pagina. `DayStrip` centra il giorno prima del disegno (`useLayoutEffect`).
+- Prove: "swipe indietro da partite squadra..." e "swipe indietro verso la Home: giorno scelto..." in `preview.mjs` (misura a ogni fotogramma).
+
 ## Swipe tra giorni / schede
 - Nel passaggio tra giorni il riquadro e' alto quanto il giorno piu' lungo (`growBox`): nessuna scheda tagliata. I giorni vicini sono costruiti per intero.
 - I titoli delle schede (`SwipeTabs`) si accendono gradualmente con la barra (colore interpolato, stesso peso per tutti). Le righe di pillole non scorrono in verticale (`overflowY: hidden`).
@@ -55,6 +61,8 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 - Autogol: nella mappa tiri compare come gol della squadra avversaria, specchiato (`og`).
 
 ## Campionati aggiunti (extra) — regola fissa
+- Tutte le competizioni di `arch/index.json` sono raggiungibili: quelle non in `data/leagues.js` diventano campionati d'archivio `fm-<id FotMob>` (`addArchiveLeagues` in `data/archive.js`, `arch: true`): scheda campionato dalla stagione piu' recente, tendine di squadra/giocatore (`LID_BY_FM`), ricerca. Non compaiono in Home.
+- `archivio.py`: lega irraggiungibile 3 volte = `skip`; `done` solo se tutte le stagioni sono scaricate; `arch/.complete` quando tutte sono `done` o `skip` (il workflow non si rilancia piu' a vuoto).
 - Un campionato/coppa "extra" ha una riga in `data/leagues.js` (extra: true, fm), l'id in `FM_ID` (`data/archive.js`), l'id in `LEGHE` di `extra_partite.py` (prima i campionati, poi le coppe), in `ADDED` di `archivio.py`/`partite.py` (scaricati per primi) e, se ha rose, in `update_rose.py`.
 - La stagione in corso di una squadra/giocatore di un extra si legge dall'archivio (`useTeamView` → `eff`, `RAW.extra.sk[fm]`): stesse schede, pillole e barre dei top campionati. Le tendine mostrano "Attuale".
 - Mai lasciare una scheda extra vuota: se i dati sono in `arch/` e `partite/` devono comparire. Sempre provare su iPhone simulato (squadra + giocatore) prima di confermare.
@@ -64,9 +72,11 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 
 ## Formazioni (regola fissa, tutte le partite: live, prima del fischio, finite)
 - Un solo campo con le due squadre (`MatchLineupsPanel.jsx`, `DualPitch`): casa in alto specchiata (ala destra a sinistra), ospite in basso, portieri agli estremi; nome casa nell'angolo in alto a sinistra, ospite in basso a destra; in cima "Formazione probabile/ufficiale" (o "Formazioni" a partita giocata) e i due moduli. Niente tasto di cambio squadra.
+- Sotto il campo: selettore squadra (`SidePicker` in `MatchLineupsPanel.jsx`, concept Sofascore): due pillole a meta' larghezza, larghe quanto il campo, casa a sinistra e ospite a destra con stemma + nome; la scelta scorre (striscia orizzontale, niente componenti ricreati) e mostra la pillola dell'allenatore nei colori della squadra e sotto, in colonna, tutta la sua panchina. Il "niente tasto di cambio squadra" vale per il campo, non per queste pillole. Una sola squadra con dati = niente pillole.
 - Icone sul giocatore (concept A, posto fisso): voto a pillola sotto il volto, cartellino in alto a sinistra, gol/assist in colonna in alto a destra, cambio = solo le due freccette (verde su / rossa giu', niente sfondo, bordo o minuto) in basso a sinistra, capitano "C" in basso a destra, stella gialla al migliore in campo.
 
 ## Fluidita' (priorita' massima)
+- Partite d'archivio: appena compare una lista (`ArchRow`) il file della stagione (`partite/<fm>/<stagione>.json.gz`) si scarica a riposo, al tocco della riga parte `prepareMatch`.
 - Una partita si mostra solo quando e' pronta: `data/prepare.js` (`prepareMatch`, una promessa per partita, avviata al tocco della riga in `MatchRow`), spinner unico in `pages/Match.jsx`; niente riepilogo/momentum/statistiche che arrivano dopo.
 - Cambio giorno dal calendario: `dayReady` aspetta gli orari reali; la riga dell'orario e' sempre riservata (niente salti di altezza).
 - La fotografia per lo swipe indietro (`cloneVisible` in `lib/carousel.js`) copia solo la parte visibile.
@@ -82,6 +92,7 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 - Una sola scheda per squadra (`findAppTeam` in `data/teamMatch.js`, `t.fmId`): il banner e' sempre quello del campionato nazionale (es. Francoforte = Bundesliga); le coppe sono tendine. Scegliendo una coppa nazionale pura nella Classifica della squadra compare il Tabellone.
 - Rose da piu' fonti (`update_rose.py`: FotMob, PitchAPI, API-Football). Statistiche squadra: riquadri Gol/xG/Tiri/Tiri in porta con posizione + riga "Prossima" della competizione scelta (solo se esiste).
 - Forma recente = ultime 5 partite in tutte le competizioni. Per le sole coppe nazionali le statistiche pre-partita sono la media coppa + campionato (coppe europee escluse).
+- Abbinamento squadra tra app e archivio: prima l'id FotMob della squadra (`teamIdByName` usa `teamByName(...).fmId` o lo stemma), poi il nome (alias `sheff`, `utd`, `wed`...). Prima 525 stagioni-squadra (Sheffield, MK Dons, Hearts, LAFC, NYCFC...) restavano senza statistiche.
 - Swipe indietro: oltre la meta' dello schermo si torna, prima la pagina rientra lentamente. Pillole dei turni del Tabellone: la riga scorre e centra la pillola scelta; schede ben spaziate.
 
 ## Niente "non disponibile" (regola fissa, ogni pagina presente e futura)
@@ -128,11 +139,11 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 - `useAsync` ricorda i risultati (LRU): rimontando un pannello i dati ci sono al primo disegno. Banner e barra schede fisse si misurano prima del disegno (`useLayoutEffect`, ultima altezza ricordata). L'animazione `comp-in` solo cambiando competizione/stagione (`useCompIn`), mai all'arrivo. Prova: "pillole: tornando su una squadra..." in `preview.mjs`.
 
 ## Foto dei giocatori
-- Un solo componente per tutte le foto (`components/PlayerPhoto.jsx`): se la foto manca o non si carica compare l'omino neutro (testa e spalle), mai l'icona di immagine rotta ne' le iniziali. Formazioni, rose, liste, finestre e banner usano la stessa foto (id FotMob, `resolvePid`). Il banner del giocatore e' `EntityBanner person`.
+- Un solo componente per tutte le foto (`components/PlayerPhoto.jsx`): se la foto manca o non si carica compare la sagoma scura (testa e spalle) sul colore del riquadro che la contiene (colori squadra in formazione e nel banner), mai l'icona di immagine rotta ne' le iniziali. Formazioni, rose, liste, finestre e banner usano la stessa foto (id FotMob, `resolvePid`). Il banner del giocatore e' `EntityBanner person`.
 - `foto_check.py` (workflow `carriere_extra.yml`) scrive `foto_mancanti.json`: gli id senza foto su FotMob (circa il 16%).
 
 ## Icone gol e assist
-- Gol = pallone bianco con pentagono e cuciture neri (`BallIcon`), assist = scarpino dorato (`BootIcon`), in `components/match/EventIcons.jsx`: usarle ovunque (formazioni, Riassunto, finestre, liste, mappe). Mai emoji.
+- Gol = pallone bianco con pentagono e cuciture neri (`BallIcon`), assist = scarpino dorato basso e inclinato, punta in basso a destra, tacchetti sotto (`BootIcon`), in `components/match/EventIcons.jsx`: usarle ovunque (formazioni, Riassunto, finestre, liste, mappe). Mai emoji.
 
 ## Partite squadra: "Partite precedenti"
 - Premendo il tasto la pagina non si sposta: la partita che si guardava resta alla stessa altezza (si compensa l'altezza aggiunta sopra). Lo stato "aperto" si ricorda finche' la scheda e' nella pila (`useSel(teamId, 'more-<comp>')`).
@@ -143,9 +154,11 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 - Scheda Arbitri di un campionato: per tutte le stagioni solo top 5 e coppe europee (`refsAllSeasons`); per gli altri solo la stagione in corso. Il nome dell'arbitro nella partita e le barre delle medie restano.
 
 ## Classifiche: zone e leggenda
+- FotMob per molte stagioni da' la classifica a gironi/conference (`tables`): `archivio.py` e `tabelle_gironi.py` (workflow Archivio storico) la salvano come `groups: [{n, table, legend}]` (un solo gruppo = `table` + `legend`); `nogroups` = FotMob non ha classifica. `StandingsPanel` mostra un blocco per gruppo con le sue zone e la sua leggenda.
 - Le lineette colorate vengono dalla fonte (`qualColor` delle righe, `legend` della stagione). Se FotMob non ha la tabella e la classifica e' ricostruita dalle partite, le posizioni della leggenda si applicano solo dove la classifica finale e' a punti (`ZONES_NOT_BY_POINTS` in `data/archive.js` esclude MLS, Argentina, Austria, Belgio, Grecia e coppe). La leggenda c'e' solo se le righe hanno colori. Mai zone inventate.
 
 ## Mappa tiri: tiri murati
+- Ogni pallino ha un'area di tocco trasparente ampia (~54 px, `ShotDot.jsx`) in tutte le mappe: si tocca facilmente anche se piccolo.
 - Un tiro murato (`outcome === 'Murato'`) non e' in porta (`onTarget` false anche se la fonte dice il contrario): pallino vuoto, traiettoria tratteggiata fino al punto in cui e' stato fermato (`bx`,`by`) chiusa da un trattino perpendicolare (`BlockTrace` in `ShotDot.jsx`), mai nella grafica della porta. Vale in ogni mappa (`MatchShotMap`, `ShotExplorer`, `MiniShotMap`).
 
 ## Carriere
