@@ -1,3 +1,4 @@
+import { BallIcon, BootIcon } from '@/components/match/EventIcons';
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { TeamLogo } from '@/components/FmImg';
@@ -114,9 +115,9 @@ export function PastPlayerMatches({ fm: fm0, seasons, fmPid, items }) {
               <Link key={m.mid} to={`/match/a-${fm}-${sk}-${m.mid}`} className="club-card flex items-center gap-3 rounded-2xl px-3.5 py-3 active:opacity-60" style={{ background: 'var(--panel-solid, rgba(255,255,255,.04))' }}>
                 <TeamLogo id={m.opp} name={m.oppName} size={26} />
                 <div className="min-w-0 flex-1">
-                  <p className="truncate text-[13.5px]">{m.home ? 'vs' : '@'} {m.oppName || '—'} <span className="tnum" style={{ color: 'var(--ink-3)' }}>{m.score}</span></p>
+                  <p className="truncate text-[13.5px]">vs {m.oppName || '—'} <span className="tnum" style={{ color: 'var(--ink-3)' }}>{m.score}</span></p>
                   <p className="mt-0.5 text-[11px]" style={{ color: 'var(--ink-3)' }}>
-                    {fmtDate(m.date)} · {Math.round(m.p.minutes_played)}&apos;{m.p.goals ? ` · ⚽ ${m.p.goals}` : ''}{m.p.goal_assist || m.p.assists ? ` · 🅰 ${m.p.goal_assist || m.p.assists}` : ''}
+                    {fmtDate(m.date)} · {Math.round(m.p.minutes_played)}&apos;{m.p.goals ? <span className="inline-flex items-center gap-0.5 align-middle"> · <BallIcon size={12} />{m.p.goals}</span> : null}{m.p.goal_assist || m.p.assists ? <span className="inline-flex items-center gap-0.5 align-middle"> · <BootIcon size={12} />{m.p.goal_assist || m.p.assists}</span> : null}
                   </p>
                 </div>
                 {m.p.rating_title ? <RatingPill r={m.p.rating_title} /> : null}

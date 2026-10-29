@@ -1,3 +1,4 @@
+import PlayerPhoto from '@/components/PlayerPhoto';
 import { useModalLock } from '@/lib/modal';
 import { teamGrad } from '@/lib/tint';
 import { useEffect, useRef, useState } from 'react';
@@ -25,7 +26,7 @@ export function PlayerFace({ p, size }) {
   return (
     <span className="relative shrink-0" style={{ width: size, height: size }}>
       <span className="block h-full w-full overflow-hidden rounded-full" style={{ background: t ? `linear-gradient(150deg, ${t.colors[0]}, ${t.colors[1]})` : 'var(--hair)', boxShadow: `0 0 0 2px ${ring(t)}` }}>
-        {p.photo ? <img src={p.photo} alt="" loading="lazy" decoding="async" className="h-full w-full object-cover" /> : <span className="flex h-full w-full items-center justify-center text-[13px] font-bold text-white">{p.initials}</span>}
+        <PlayerPhoto src={p.photo} alt="" />
       </span>
     </span>
   );

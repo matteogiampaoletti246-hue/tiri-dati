@@ -1,4 +1,4 @@
-import { EventIcon } from './EventIcons';
+import { EventIcon, BootIcon } from './EventIcons';
 import PlayerLink from './PlayerLink';
 
 // "Giacomo Raspadori" -> "G. Raspadori"; gia' abbreviato resta com'e'
@@ -46,7 +46,7 @@ const Lines = ({ e, align, match }) => (
     {e.type === 'sub' ? <span className="block break-words text-[11px] leading-tight" style={{ color: 'var(--ink-3)' }}><PlayerLink match={match} name={e.name}>{shortName(e.name)}</PlayerLink></span> : null}
     {e.type === 'goal' ? (
       <span className="block break-words text-[11px] leading-tight" style={{ color: 'var(--ink-3)' }}>
-        {e.assist ? <>assist <PlayerLink match={match} name={e.assist}>{shortName(e.assist)}</PlayerLink> · </> : null}
+        {e.assist ? <><span className="inline-flex align-middle"><BootIcon size={13} /></span> <PlayerLink match={match} name={e.assist}>{shortName(e.assist)}</PlayerLink> · </> : null}
         {e.score ? `${e.score[0]} – ${e.score[1]}` : ''}
       </span>
     ) : null}

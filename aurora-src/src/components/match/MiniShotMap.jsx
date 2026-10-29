@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { comma } from '@/lib/format';
 
 // Mappetta tiri del singolo giocatore: metà campo offensiva + porta vista da davanti.
-import { ShotDot, SHOT_HOME, SHOT_PITCH, SHOT_LINE, SHOT_GOALBG } from './ShotDot';
+import { ShotDot, BlockTrace, isBlocked, SHOT_HOME, SHOT_PITCH, SHOT_LINE, SHOT_GOALBG } from './ShotDot';
 const PITCH = SHOT_PITCH;
 const LINE = SHOT_LINE;
 const cx = (v) => Math.max(66, Math.min(104.5, v));
@@ -34,6 +34,7 @@ export default function MiniShotMap({ shots }) {
           <polyline points="105,13.84 88.5,13.84 88.5,54.16 105,54.16" fill="none" stroke={LINE} strokeWidth="0.5" />
           <polyline points="105,24.84 99.5,24.84 99.5,43.16 105,43.16" fill="none" stroke={LINE} strokeWidth="0.5" />
           <circle cx="52.5" cy="34" r="9.15" fill="none" stroke={LINE} strokeWidth="0.5" />
+          {cur && isBlocked(cur) && cur.bx != null ? <BlockTrace x1={cx(cur.px)} y1={cy(cur.py)} x2={cx(cur.bx)} y2={cy(cur.by)} /> : null}
           {list.map((s, i) => (
             <g key={i} onClick={() => setSel(i === sel ? null : i)}>
               {i === sel ? <circle cx={cx(s.px)} cy={cy(s.py)} r="3.4" fill="none" stroke="#f5a400" strokeWidth="0.7" /> : null}
@@ -44,7 +45,7 @@ export default function MiniShotMap({ shots }) {
         <svg viewBox="0 0 60 52" className="w-full" style={{ maxHeight: 150, background: SHOT_GOALBG, borderRadius: 10 }}>
           <line x1="2" x2="58" y1="44" y2="44" stroke="rgba(150,175,225,.5)" strokeWidth="0.5" />
           <rect x="4" y={44 - 2.44 * W * 0.7} width={7.32 * W * 0.7} height={2.44 * W * 0.7} fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.75)" strokeWidth="1" />
-          {list.filter((s) => s.gy != null && s.gz != null).map((s) => {
+          {list.filter((s) => s.gy != null && s.gz != null && !isBlocked(s)).map((s) => {
             const i = list.indexOf(s);
             const gx = 4 + (s.gy - 30.34) * W * 0.7;
             const gyy = 44 - Math.max(0, Math.min(s.gz, 3.4)) * W * 0.7;

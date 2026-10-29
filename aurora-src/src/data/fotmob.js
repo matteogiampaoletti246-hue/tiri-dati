@@ -155,7 +155,10 @@ export function applyFm(m, d, playerLookup) {
   m.shots = (d.sh || []).map((s) => ({
     side: s[2] === d.hi ? 'home' : 'away',
     outcome: s[7] ? 'Murato' : OUT[s[6]] || 'Fuori',
-    onTarget: !!s[8],
+    // un tiro murato non e' un tiro in porta (FotMob lo segna comunque "on target"): non arriva alla porta
+    onTarget: !!s[8] && !s[7],
+    bx: s[9] == null ? null : s[9],
+    by: s[10] == null ? null : 68 - s[10],
     playerName: s[3],
     minute: s[1] ? `${s[0]}+${s[1]}` : s[0],
     min: s[0],

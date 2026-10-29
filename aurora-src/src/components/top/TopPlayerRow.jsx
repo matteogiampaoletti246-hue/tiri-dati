@@ -1,3 +1,4 @@
+import PlayerPhoto from '@/components/PlayerPhoto';
 import { Link, useNavigate } from 'react-router-dom';
 import { Calculator } from 'lucide-react';
 import Crest from '@/components/Crest';
@@ -45,7 +46,7 @@ export default function TopPlayerRow({ row, rank, threshold, delay = 0 }) {
     >
       <span className="relative flex-none">
         <span className="avatar h-[50px] w-[50px] text-[13px]">
-          {player.photo ? <Image src={player.photo} alt={player.name} className="h-full w-full" fittingType="fill" /> : player.initials}
+          <PlayerPhoto src={player.photo} alt={player.name} />
         </span>
         <b className="absolute -left-1.5 -top-1.5 flex h-[22px] min-w-[22px] items-center justify-center rounded-full px-1 text-[12px]" style={{ background: rk, color: rank <= 3 ? '#06101f' : '#fff' }}>
           {rank}

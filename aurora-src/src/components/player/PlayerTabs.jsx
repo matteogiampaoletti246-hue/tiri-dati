@@ -1,3 +1,4 @@
+import { BallIcon, BootIcon } from '@/components/match/EventIcons';
 import InjuryIcon from '@/components/InjuryIcon';
 import { injuryOf } from '@/data/injuries';
 import { Link } from 'react-router-dom';
@@ -264,8 +265,8 @@ export function PartitePanel({ player, concept }) {
                 </p>
                 <p className="mt-0.5 text-[11px]" style={{ color: 'var(--ink-3)' }}>
                   {dateIt(m.date)} · {m.minutes}&apos;
-                  {m.goals ? ` · ⚽ ${m.goals}` : ''}
-                  {m.assists ? ` · 🅰 ${m.assists}` : ''}
+                  {m.goals ? <span className="inline-flex items-center gap-0.5 align-middle"> · <BallIcon size={12} />{m.goals}</span> : null}
+                  {m.assists ? <span className="inline-flex items-center gap-0.5 align-middle"> · <BootIcon size={12} />{m.assists}</span> : null}
                 </p>
               </div>
               <RatingPill r={m.rating} big={concept === 'c'} />

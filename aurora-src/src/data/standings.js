@@ -66,7 +66,7 @@ const ZONE_STYLE = [
   [/europa/i, 'Europa League', '#FF8A1F'],
   [/champions league/i, 'Champions League', '#2E7BFF'],
 ];
-const ZONE_KEY = { 'champions-league': 'uefa.champions', 'europa-league': 'uefa.europa' };
+const ZONE_KEY = { 'champions-league': 'uefa.champions', 'europa-league': 'uefa.europa', 'conference-league': 'uefa.europa.conf' };
 const CUP_ZONE = [
   [/round of 16/i, 'Ottavi di finale', '#1FA45B'],
   [/seeded/i, 'Spareggi', '#2E7BFF'],

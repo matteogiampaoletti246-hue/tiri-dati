@@ -1,10 +1,11 @@
+import PlayerPhoto from '@/components/PlayerPhoto';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Crest from '@/components/Crest';
 import TextFilter from '@/components/TextFilter';
 import { Image } from '@/components/ui/image';
 import { playersByTeam } from '@/data/players';
-import { playerReliability } from '@/data/topPlayers';
+import { playerReliability, okVoto } from '@/data/topPlayers';
 import { comma } from '@/lib/format';
 import { scoreColor } from '@/lib/calc';
 
@@ -12,7 +13,7 @@ export const ratingColor = (v) => (v >= 7.5 ? '#17944F' : v >= 6.75 ? '#8FCF63' 
 
 function top3(teamId, date, line) {
   const list = playersByTeam(teamId);
-  const rel = list.map((p) => ({ p, v: (playerReliability(p, date, line) || {}).voto })).filter((x) => x.v != null).sort((a, b) => b.v - a.v).slice(0, 3);
+  const rel = list.map((p) => ({ p, v: (playerReliability(p, date, line) || {}).voto })).filter((x) => okVoto(x.v)).sort((a, b) => b.v - a.v).slice(0, 3);
   if (rel.length) return { rows: rel, kind: 'aff' };
   const r = list.filter((p) => p.rating).sort((a, b) => b.rating - a.rating).slice(0, 3).map((p) => ({ p, v: p.rating }));
   return { rows: r, kind: 'rating' };
@@ -20,7 +21,7 @@ function top3(teamId, date, line) {
 
 const Avatar = ({ p, size = 44, ring }) => (
   <span className="avatar relative shrink-0" style={{ width: size, height: size, boxShadow: ring ? `0 0 0 3px ${ring}` : undefined }}>
-    {p.photo ? <Image src={p.photo} alt={p.name} className="h-full w-full" fittingType="fill" /> : p.initials}
+    <PlayerPhoto src={p.photo} alt={p.name} />
   </span>
 );
 const sur = (p) => p.name.split(' ').slice(-1)[0];

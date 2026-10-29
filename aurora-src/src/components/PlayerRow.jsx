@@ -1,3 +1,4 @@
+import PlayerPhoto from '@/components/PlayerPhoto';
 import { Link } from 'react-router-dom';
 import { Image } from '@/components/ui/image';
 import { comma } from '@/lib/format';
@@ -10,11 +11,7 @@ export default function PlayerRow({ player, rank, value, valueLabel, link = fals
   const inner = (
     <>
       <span className="avatar h-[28px] w-[28px] text-[10px]">
-        {player.photo ? (
-          <Image src={player.photo} alt={player.name} className="h-full w-full" fittingType="fill" />
-        ) : (
-          player.initials
-        )}
+        <PlayerPhoto src={player.photo} alt={player.name} />
       </span>
       <span className="min-w-0">
         <span className="block truncate text-[13.5px]" style={{ color: 'var(--ink)' }}>

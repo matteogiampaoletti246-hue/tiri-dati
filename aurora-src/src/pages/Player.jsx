@@ -1,3 +1,5 @@
+import { playerFace } from '@/data/archive';
+import { useBioPid } from '@/data/playerIndex';
 import InjuryIcon from '@/components/InjuryIcon';
 import { injuryOf } from '@/data/injuries';
 import { useEffect, useState } from 'react';
@@ -49,6 +51,9 @@ function PlayerView({ id }) {
   useEntityScope(id);
   const loading = useInitialLoad(280);
   const player = playerById(id);
+  // stessa foto delle formazioni: quella del giocatore, altrimenti dall'id FotMob risolto (resolvePid)
+  const pid = useBioPid(player);
+  const photo = (player && player.photo) || (pid ? playerFace(pid) : null);
   const [tab, setTab] = useState(() => {
     try {
       return Number(sessionStorage.getItem('sl-ptab-' + id)) || 0;
@@ -103,7 +108,8 @@ function PlayerView({ id }) {
         nameExtra={injuryOf(player.id) ? <InjuryIcon size={20} /> : null}
         subtitle={[team ? team.name : player.teamName, POS_IT[player.position]].filter(Boolean).join(' · ')}
         colors={team ? team.colors : undefined}
-        logoUrl={player.photo}
+        logoUrl={photo}
+        person
         initials={player.initials}
       />
       {loading ? (

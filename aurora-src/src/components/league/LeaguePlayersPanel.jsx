@@ -1,3 +1,4 @@
+import PlayerPhoto from '@/components/PlayerPhoto';
 import { useState } from 'react';
 import TextFilter from '@/components/TextFilter';
 import StatLists from '@/components/stats/StatLists';
@@ -65,7 +66,7 @@ export default function LeaguePlayersPanel({ leagueId, teamId }) {
         to: `/giocatore/${p.id}`,
         left: (
           <span className="avatar h-[30px] w-[30px] text-[10px]">
-            {p.photo ? <Image src={p.photo} alt={p.name} className="h-full w-full" fittingType="fill" /> : p.initials}
+            <PlayerPhoto src={p.photo} alt={p.name} />
           </span>
         ),
         name: p.name,

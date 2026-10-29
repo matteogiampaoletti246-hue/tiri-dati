@@ -8,7 +8,8 @@ import Skeleton from '@/components/Skeleton';
 import { TeamLogo, PlayerFace } from '@/components/FmImg';
 import useAsync from '@/hooks/useAsync';
 import { RefereesView } from '@/components/league/LeagueRefereesPanel';
-import { loadSeason, loadTeamStats, loadPlayerStats, loadSeasonMatches, SEASON_STAT_IT, STAT_IT, STAT_GROUPS, prettyKey } from '@/data/archive';
+import { RAW } from '@/data/load';
+import { currentSeason, refsAllSeasons, loadSeason, loadTeamStats, loadPlayerStats, loadSeasonMatches, SEASON_STAT_IT, STAT_IT, STAT_GROUPS, prettyKey } from '@/data/archive';
 import { tintGrad } from '@/lib/tint';
 import ClassificaSwitch from '@/components/bracket/ClassificaSwitch';
 import Bracket from '@/components/bracket/Bracket';
@@ -286,7 +287,9 @@ export default function ArchiveLeague({ fm, sk, tab, setTab, tint }) {
   const col = useTeamColors();
   const pure = isPureCup(fm);
   const { data: br, loading: l4 } = useAsync(() => (pure ? loadBracket(fm, sk) : null), [fm, sk]);
-  const refs = useMemo(() => refsOf(det), [det]);
+  const { data: curSk } = useAsync(() => currentSeason(fm), [fm]);
+  const refsOk = refsAllSeasons(fm) || (!!curSk && curSk === sk) || (RAW.extra && RAW.extra.sk && RAW.extra.sk[String(fm)] === sk);
+  const refs = useMemo(() => (refsOk ? refsOf(det) : []), [det, refsOk]);
   if ((loading && !season) || l2 || l3 || l4 || l5) return <Loading />;
   const names = (season && season.teams) || {};
   // una scheda senza dati non si mostra (mai "non disponibile")

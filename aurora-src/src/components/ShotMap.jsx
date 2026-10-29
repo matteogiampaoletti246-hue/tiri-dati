@@ -1,3 +1,4 @@
+import { BallIcon } from '@/components/match/EventIcons';
 import { comma } from '@/lib/format';
 
 // Mappa tiri in metri (campo 105×68, tiri sempre verso la porta di destra).
@@ -100,7 +101,7 @@ export default function ShotMap({ shots = [], home, away, concept = 'a' }) {
       <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[11px]" style={{ color: 'var(--ink-3)' }}>
         <span className="flex items-center gap-1.5"><span className="h-[10px] w-[10px] rounded-full" style={{ border: '1.5px solid var(--ink-2)' }} />Fuori</span>
         <span className="flex items-center gap-1.5"><span className="h-[10px] w-[10px] rounded-full" style={{ background: 'var(--ink-2)' }} />In porta / parato</span>
-        <span className="flex items-center gap-1.5"><span className="flex h-[12px] w-[12px] items-center justify-center rounded-full text-[8px]" style={{ background: 'var(--ink-2)', color: 'hsl(var(--background))' }}>⚽</span>Gol</span>
+        <span className="flex items-center gap-1.5"><BallIcon size={13} />Gol</span>
       </div>
       <div className="flex items-center gap-3 text-[11.5px] font-bold">
         <span className="flex items-center gap-1.5"><span className="h-[8px] w-[8px] rounded-full" style={{ background: HC }} />{home ? home.short || home.name : 'Casa'}</span>

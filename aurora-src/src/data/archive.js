@@ -72,11 +72,22 @@ function tableFromFix(season, lid) {
   });
   return out;
 }
+// campionati con gironi/conference o punti dimezzati dopo la prima fase (MLS, Argentina, Austria, Belgio, Grecia) e coppe
+const ZONES_NOT_BY_POINTS = new Set([130, 112, 38, 40, 135, 42, 73, 10216]);
 export const loadSeason = (lid, sk) => json(`arch/${lid}/${sk}.json`).then((d) => {
   if (d && !d.table && !d.__tc) {
     d.__tc = true;
     const t = tableFromFix(d, lid);
-    if (t) { d.table = t; d.legend = d.legend || []; d.tableComputed = true; }
+    if (t) {
+      d.table = t; d.legend = d.legend || []; d.tableComputed = true;
+      // le zone (Champions, retrocessione...) della fonte hanno le posizioni: si colorano le righe solo dove la classifica finale e' quella a punti
+      // (non nei campionati a gironi/conference, ne' dove i punti si dimezzano dopo la prima fase: li' le posizioni non coincidono e non si inventa nulla)
+      if (!ZONES_NOT_BY_POINTS.has(Number(lid)) && Array.isArray(d.legend)) {
+        const zoned = {};
+        d.legend.forEach((z) => (z.indices || []).forEach((i) => { if (!zoned[i]) zoned[i] = z.color; }));
+        Object.keys(t).forEach((k) => t[k].forEach((r, i) => { if (zoned[i]) r.qualColor = zoned[i]; }));
+      }
+    }
   }
   return d;
 });
@@ -210,6 +221,9 @@ export const loadPlayerStats = async (lid, sk) => {
 // campionati con storico completo; gli altri hanno statistiche solo dal 2020
 const TOP20 = new Set([47, 87, 55, 54, 53, 57, 61, 48, 86, 146, 71, 40, 64, 268, 112, 130, 230, 38, 59, 135, 42, 73, 10216]);
 export const noStats = (fm, sk) => !TOP20.has(Number(fm)) && Number(String(sk).slice(0, 4)) < 2020;
+// Arbitri di un campionato: per tutte le stagioni solo top 5 e coppe europee; per gli altri solo la stagione in corso
+const REFS_ALL = new Set([55, 47, 87, 54, 53, 42, 73, 10216]);
+export const refsAllSeasons = (fm) => REFS_ALL.has(Number(fm));
 // stagione piu' recente dell'indice (quella in corso)
 export const currentSeason = async (fm) => {
   const idx = await archIndex();

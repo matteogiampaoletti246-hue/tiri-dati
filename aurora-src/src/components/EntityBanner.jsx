@@ -1,3 +1,4 @@
+import PlayerPhoto from '@/components/PlayerPhoto';
 import { useLayoutEffect, useRef, useState } from 'react';
 
 const LAST_H = {};
@@ -9,7 +10,7 @@ import { Image } from '@/components/ui/image';
 
 // Banner di campionato / squadra: fisso in alto, sempre visibile, con il colore della squadra o del campionato.
 // A = colore pieno, B = base scura con alone colorato, C = colore pieno più alto con logo grande in filigrana.
-export default function EntityBanner({ name, subtitle, meta, colors = ['#1E4BD8', '#7FB6E8'], logoUrl = null, initials = '', liveCount = 0, logoFilter, tall = false, nameExtra = null, below = null }) {
+export default function EntityBanner({ name, subtitle, meta, colors = ['#1E4BD8', '#7FB6E8'], logoUrl = null, initials = '', liveCount = 0, logoFilter, tall = false, nameExtra = null, below = null, person = false }) {
   const navigate = useNavigate();
   const ref = useRef(null);
   // spazio riservato sotto il banner: misurato prima del disegno e partendo dall'ultima altezza vista (niente pagina che scende all'arrivo)
@@ -68,7 +69,7 @@ export default function EntityBanner({ name, subtitle, meta, colors = ['#1E4BD8'
             maskImage: 'linear-gradient(to left, #000 35%, transparent 100%)',
           }}
         >
-          <img src={logoUrl} alt="" decoding="async" style={{ width: '100%', height: '100%', objectFit: 'contain', filter: full ? 'brightness(0) invert(1)' : logoFilter }} />
+          <img src={logoUrl} alt="" decoding="async" onError={(e) => { e.currentTarget.style.display = 'none'; }} style={{ width: '100%', height: '100%', objectFit: 'contain', filter: full ? 'brightness(0) invert(1)' : logoFilter }} />
         </span>
       ) : null}
       <div className={`safe-top relative px-4 ${tall ? 'pb-7 pt-5' : 'pb-4 pt-3'}`}>
@@ -76,7 +77,9 @@ export default function EntityBanner({ name, subtitle, meta, colors = ['#1E4BD8'
           <button type="button" className="press flex h-9 w-9 shrink-0 items-center justify-center rounded-full" style={{ background: 'rgba(0,0,0,.28)', color: '#fff' }} aria-label="Indietro" onClick={() => goBack(navigate)}>
             <ChevronLeft size={19} />
           </button>
-          {logoUrl ? (
+          {person ? (
+            <span className="block shrink-0 overflow-hidden rounded-full" style={{ width: tall ? 72 : 54, height: tall ? 72 : 54 }}><PlayerPhoto src={logoUrl} alt={name} /></span>
+          ) : logoUrl ? (
             <Image src={logoUrl} alt={name} className={tall ? 'h-[72px] w-[72px] shrink-0' : 'h-[54px] w-[54px] shrink-0'} fittingType="fit" style={{ objectFit: 'contain', filter: logoFilter }} />
           ) : (
             <span className="tnum flex h-[54px] w-[54px] shrink-0 items-center justify-center text-[16px] font-extrabold" style={{ color: fg }}>{initials}</span>

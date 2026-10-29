@@ -1,3 +1,4 @@
+import PlayerPhoto from '@/components/PlayerPhoto';
 import { Link, useNavigate } from 'react-router-dom';
 import { goBack } from '@/lib/carousel';
 import { ChevronLeft } from 'lucide-react';
@@ -55,11 +56,7 @@ export default function PlayerHero({ player, team }) {
 
         <div className="mt-4 flex items-start gap-5">
           <span className="crest h-[84px] w-[84px]" style={gradient}>
-            {player.photo ? (
-              <Image src={player.photo} alt={player.name} className="h-full w-full" fittingType="fill" />
-            ) : (
-              <span className="text-[24px] font-light">{player.initials}</span>
-            )}
+            <PlayerPhoto src={player.photo} alt={player.name} />
           </span>
 
           <div className="min-w-0 flex-1 pt-1">

@@ -136,13 +136,17 @@ export function playerReliability(p, dateIso, line = 0.5, keepInjured = false) {
   return { voto: Math.max(0, Math.min(10, r.voto)), lam: r.lam, minuti: t ? t.mn : null, opp };
 }
 
+// Affidabilita' partite non iniziate: solo i giocatori con voto >= 7,00
+export const MIN_VOTO = 7;
+export const okVoto = (v) => v != null && Math.round(v * 100) / 100 >= MIN_VOTO;
+
 export function matchReliability(match, line = 0.5) {
   const out = [];
   PLAYERS.forEach((p) => {
     if (p.teamId !== match.homeId && p.teamId !== match.awayId) return;
     if ((p.l ? p.l[0] : 0) + (p.c ? p.c[0] : 0) < 3) return; // almeno 3 presenze
     const r = playerReliability(p, match.date, line);
-    if (r) out.push({ player: p, side: p.teamId === match.homeId ? 'home' : 'away', ...r });
+    if (r && okVoto(r.voto)) out.push({ player: p, side: p.teamId === match.homeId ? 'home' : 'away', ...r });
   });
   return out.sort((a, b) => b.voto - a.voto);
 }
