@@ -1,0 +1,9 @@
+[
+  {"name": "base"},
+  {"name": "senza giorni lontani", "css": "[data-far]{display:none !important}"},
+  {"name": "contain sui giorni", "css": "div[style*='flow-root']{contain:layout style}"},
+  {"name": "content-visibility sulle finestre", "css": "section.glass{content-visibility:auto;contain-intrinsic-size:auto 320px}"},
+  {"name": "senza ombre e sfumature", "css": ".glass{box-shadow:none !important}.glass::before{display:none !important}"},
+  {"name": "vicini max 900px", "css": "div[style*='position: absolute'][style*='flow-root']{max-height:900px;overflow:hidden}"},
+  {"name": "senza sfocatura", "css": "*{-webkit-backdrop-filter:none !important;backdrop-filter:none !important}"}
+]
