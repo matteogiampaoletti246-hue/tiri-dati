@@ -42,7 +42,8 @@ const go = async (hash, ms = 4500) => { await pg.goto('about:blank'); await pg.g
 // testi vietati: un elemento senza dati non si mostra (regola fissa)
 const ND = /non (ancora )?disponibil|in arrivo|nessun dato/i;
 const TOPNAMES = ['SERIE A', 'PREMIER LEAGUE', 'LALIGA', 'LA LIGA', 'BUNDESLIGA', 'LIGUE 1', 'CHAMPIONS LEAGUE', 'EUROPA LEAGUE', 'CONFERENCE LEAGUE'];
-const groupsInfo = () => pg.evaluate(() => [...document.querySelectorAll('section button[aria-expanded]')].map((b) => {
+// solo il giorno visibile: i giorni vicini (fuori schermo) si costruiscono a pezzi mentre l'app e' ferma
+const groupsInfo = () => pg.evaluate(() => [...document.querySelectorAll('section button[aria-expanded]')].filter((b) => { const r = b.getBoundingClientRect(); return r.left > -5 && r.left < innerWidth - 5; }).map((b) => {
   const sec = b.closest('section');
   const a = sec.querySelector('[role="link"]');
   return { name: (a ? a.textContent : '').trim().toUpperCase(), open: b.getAttribute('aria-expanded') === 'true' };
@@ -61,7 +62,7 @@ await step('home: tendine di tutti i campionati', async () => {
   ok('home: i campionati minori partono chiusi', minor.every((g) => !g.open), { aperti: minor.filter((g) => g.open).map((g) => g.name) });
   // il nome del campionato apre la scheda del campionato e non la tendina
   const before = await groupsInfo();
-  await pg.evaluate(() => { const a = document.querySelector('section button[aria-expanded]').closest('section').querySelector('[role="link"]'); a.click(); });
+  await pg.evaluate(() => { const a = [...document.querySelectorAll('section button[aria-expanded]')].filter((b) => { const r = b.getBoundingClientRect(); return r.left > -5 && r.left < innerWidth - 5; }).map((b) => b.closest('section').querySelector('[role="link"]')).find(Boolean); a.click(); });
   await wait(1800);
   const hash = await pg.evaluate(() => location.hash);
   ok('home: toccando il nome si apre la scheda del campionato', /campionato|storico/.test(hash), { hash });
@@ -69,21 +70,21 @@ await step('home: tendine di tutti i campionati', async () => {
   const after = await groupsInfo();
   ok('home: toccando il nome la tendina non cambia', JSON.stringify(before.map((g) => g.open)) === JSON.stringify(after.map((g) => g.open)));
   // il tasto a destra chiude un top campionato e lo riapre
-  await pg.evaluate(() => { const b = [...document.querySelectorAll('section button[aria-expanded="true"]')][0]; if (b) b.click(); });
+  await pg.evaluate(() => { const b = [...document.querySelectorAll('section button[aria-expanded="true"]')].filter((b) => { const r = b.getBoundingClientRect(); return r.left > -5 && r.left < innerWidth - 5; })[0]; if (b) b.click(); });
   await wait(150); await shot('tendina-a-meta');
   await wait(700);
   const closed = await groupsInfo();
   ok('home: la tendina di un top campionato si chiude a richiesta', closed.some((g, i) => after[i] && after[i].open && !g.open));
   await shot('tendina-chiusa');
-  await pg.evaluate(() => { const b = [...document.querySelectorAll('section button[aria-expanded="false"]')][0]; if (b) b.click(); });
+  await pg.evaluate(() => { const b = [...document.querySelectorAll('section button[aria-expanded="false"]')].filter((b) => { const r = b.getBoundingClientRect(); return r.left > -5 && r.left < innerWidth - 5; })[0]; if (b) b.click(); });
   await wait(900); await shot('tendina-riaperta');
   const re = await groupsInfo();
   ok('home: si riapre', re.some((g) => g.open));
   // apro una tendina che partiva chiusa, entro in una partita e torno indietro: deve restare com'e'
-  await pg.evaluate(() => { const b = [...document.querySelectorAll('section button[aria-expanded="false"]')][0]; if (b) b.click(); });
+  await pg.evaluate(() => { const b = [...document.querySelectorAll('section button[aria-expanded="false"]')].filter((b) => { const r = b.getBoundingClientRect(); return r.left > -5 && r.left < innerWidth - 5; })[0]; if (b) b.click(); });
   await wait(900);
   const prima = await groupsInfo();
-  const opened = await pg.evaluate(() => { const a = [...document.querySelectorAll('section button[aria-expanded="true"]')].map((b) => b.closest('section').querySelector('a[href*="/match/"]')).filter(Boolean).pop(); if (a) { a.click(); return true; } return false; });
+  const opened = await pg.evaluate(() => { const a = [...document.querySelectorAll('section button[aria-expanded="true"]')].filter((b) => { const r = b.getBoundingClientRect(); return r.left > -5 && r.left < innerWidth - 5; }).map((b) => b.closest('section').querySelector('a[href*="/match/"]')).filter(Boolean).pop(); if (a) { a.click(); return true; } return false; });
   await wait(2500);
   await pg.goBack(); await wait(2500); await shot('home-dopo-ritorno');
   const dopo = await groupsInfo();
@@ -117,37 +118,53 @@ await step('home: competizioni dell\'archivio nei giorni in cui giocano', async 
   const want = new Set(((feed && feed.m) || []).filter((x) => x[8] !== 'c' && !known.has(Number(x[1])) && idx && idx[String(x[1])]).map((x) => String(idx[String(x[1])].n).toUpperCase()));
   await pg.goto(APP); await wait(8000);
   // solo il giorno visibile (i giorni vicini sono gia' costruiti accanto, fuori schermo)
-  const info = await pg.evaluate(() => [...document.querySelectorAll('section button[aria-expanded]')].filter((b) => { const r = b.getBoundingClientRect(); return r.left > -5 && r.left < innerWidth - 5; }).map((b) => {
-    const a = b.closest('section').querySelector('[role="link"]');
-    return { name: (a ? a.textContent : '').trim().toUpperCase(), open: b.getAttribute('aria-expanded') === 'true' };
-  }));
+  const visSel = (b) => { const r = b.getBoundingClientRect(); return r.left > -5 && r.left < innerWidth - 5; };
+  // finestre dei paesi (concept Sofascore): partono chiuse, bandiera + nome, il nome non e' un collegamento
+  const countries = await pg.evaluate(() => [...document.querySelectorAll('section[data-country]')].filter((s) => { const r = s.getBoundingClientRect(); return r.left > -5 && r.left < innerWidth - 5; }).map((s) => ({ cc: s.dataset.country, name: (s.querySelector('button span.uppercase') || {}).textContent || '', open: s.querySelector('button').getAttribute('aria-expanded') === 'true', link: !!s.querySelector('button [role="link"], button a'), rows: s.querySelectorAll('a[href*="/match/"]').length })));
+  report.paesi = countries.map((c) => c.name);
+  ok('home: competizioni non top raggruppate in finestre per paese', !want.size || countries.length > 0, { paesi: countries.length });
+  ok('home: le finestre dei paesi partono chiuse e il nome non apre una scheda', countries.every((c) => !c.open && !c.link), { aperte: countries.filter((c) => c.open).map((c) => c.name) });
+  ok('home: una finestra paese chiusa non monta le partite (piu leggera)', countries.every((c) => c.open || c.rows === 0), { conRighe: countries.filter((c) => !c.open && c.rows).map((c) => c.name) });
+  const sorted = [...countries.map((c) => c.name)].sort((a, b) => a.localeCompare(b, 'it'));
+  ok('home: paesi in ordine alfabetico italiano', JSON.stringify(sorted) === JSON.stringify(countries.map((c) => c.name)), { paesi: countries.map((c) => c.name).slice(0, 12) });
+  const topIdx = await pg.evaluate((top) => { const secs = [...document.querySelectorAll('#sl-shell section')].filter((s) => { const r = s.getBoundingClientRect(); return r.left > -5 && r.left < innerWidth - 5; }); const name = (s) => ((s.querySelector('[role="link"]') || {}).textContent || '').trim().toUpperCase(); return { lastTop: Math.max(-1, ...secs.map((s, i) => (top.includes(name(s)) ? i : -1))), firstCountry: secs.findIndex((s) => s.dataset.country) }; }, TOPNAMES);
+  ok('home: prima i top campionati, poi i paesi', topIdx.firstCountry < 0 || topIdx.firstCountry > topIdx.lastTop, topIdx);
+  // apro tutte le finestre dei paesi del giorno: dentro ci sono le competizioni dell'archivio, ognuna con la sua intestazione
+  await pg.evaluate(() => [...document.querySelectorAll('section[data-country] > button[aria-expanded="false"]')].filter((b) => { const r = b.getBoundingClientRect(); return r.left > -5 && r.left < innerWidth - 5; }).forEach((b) => b.click()));
+  await wait(1200);
+  const info = await pg.evaluate(() => [...document.querySelectorAll('#sl-shell section [role="link"]')].filter((a) => { const r = a.getBoundingClientRect(); return r.left > -5 && r.left < innerWidth - 5; }).map((a) => ({ name: a.textContent.trim().toUpperCase(), inCountry: !!a.closest('section[data-country]') })));
   const names = info.map((g) => g.name);
   // nomi uguali a quelli di altri paesi hanno il paese tra parentesi ("PREMIER LEAGUE (EGITTO)")
-  const isW = (name) => !TOPNAMES.includes(name) && [...want].some((n) => name === n || name.startsWith(`${n} (`));
   const has = (n) => names.some((x) => x === n || x.startsWith(`${n} (`));
   const got = [...want].filter(has);
-  ok('home: le competizioni dell\'archivio di oggi hanno la loro finestra', !want.size || got.length >= Math.ceil(want.size * 0.9), { attese: want.size, trovate: got.length, mancano: [...want].filter((n) => !has(n)).slice(0, 8) });
+  ok('home: le competizioni dell\'archivio di oggi ci sono (sole o nella finestra del paese)', !want.size || got.length >= Math.ceil(want.size * 0.9), { attese: want.size, trovate: got.length, mancano: [...want].filter((n) => !has(n)).slice(0, 8) });
   const dup = TOPNAMES.filter((n) => names.filter((x) => x === n).length > 1);
   ok('home: nessuna competizione dell\'archivio con lo stesso nome di un top campionato', !dup.length, { dup });
-  const arch = info.filter((g) => isW(g.name));
-  ok('home: le competizioni dell\'archivio partono chiuse', arch.every((g) => !g.open), { aperte: arch.filter((g) => g.open).map((g) => g.name) });
-  const lastTop = Math.max(-1, ...info.map((g, i) => (TOPNAMES.includes(g.name) ? i : -1)));
-  const firstArch = info.findIndex((g) => isW(g.name));
-  ok('home: prima i top campionati, poi le competizioni dell\'archivio', firstArch < 0 || firstArch > lastTop, { lastTop, firstArch });
+  ok('home: nessun top campionato dentro una finestra paese', !info.some((g) => g.inCountry && TOPNAMES.includes(g.name)), {});
   const empty = await pg.evaluate(() => [...document.querySelectorAll('section button[aria-expanded]')].filter((b) => !/\d/.test(b.closest('section').textContent)).length);
   ok('home: nessuna finestra vuota', empty === 0, { empty });
-  await shot('home-competizioni-archivio');
-  // apro una competizione dell'archivio: righe con orario o risultato e la partita si apre
-  const opened = await pg.evaluate((w) => { const s = [...document.querySelectorAll('section button[aria-expanded="false"]')].find((b) => { const t = ((b.closest('section').querySelector('[role="link"]') || {}).textContent || '').trim().toUpperCase(); return w.some((n) => t === n || t.startsWith(`${n} (`)); }); if (s) s.click(); return !!s; }, [...want]);
-  await wait(900);
-  if (opened) {
-    await shot('home-competizione-aperta');
-    const go1 = await pg.evaluate(() => { const a = [...document.querySelectorAll('section button[aria-expanded="true"]')].map((b) => b.closest('section').querySelector('a[href*="/match/"]')).filter(Boolean).pop(); if (a) { a.click(); return a.getAttribute('href'); } return null; });
-    await wait(4500);
+  await shot('home-paesi-aperti');
+  // una competizione dentro un paese: l'intestazione apre la scheda competizione, la riga apre la partita
+  // si riparte con poche finestre aperte (come farebbe una persona), poi si apre una partita dentro un paese
+  await pg.goto(APP); await wait(7000);
+  const opened3 = await pg.evaluate(() => [...document.querySelectorAll('section[data-country] > button[aria-expanded="false"]')].filter((b) => { const r = b.getBoundingClientRect(); return r.left > -5 && r.left < innerWidth - 5; }).slice(0, 3).map((b) => { b.click(); return b.closest('section').dataset.country; }));
+  await wait(1200);
+  const go1 = await pg.evaluate(() => { const a = [...document.querySelectorAll('section[data-country] a[href*="/match/"]')].find((x) => { const r = x.getBoundingClientRect(); return r.left > -5 && r.left < innerWidth - 5; }); if (a) { a.click(); return a.getAttribute('href'); } return null; });
+  await wait(4500);
+  const inMatch = /match/.test(await pg.evaluate(() => location.hash));
+  ok('home: la partita dentro una finestra paese si apre', !go1 || inMatch, { go1, opened3 });
+  if (go1 && inMatch) {
     const t = await pg.evaluate(() => document.body.innerText);
-    ok('home: la partita di una competizione dell\'archivio si apre senza "non disponibile"', !!go1 && !ND.test(t) && t.length > 200, { href: go1 });
+    ok('home: la partita di una competizione dell\'archivio si apre senza "non disponibile"', !ND.test(t) && t.length > 200, { href: go1 });
     await shot('partita-competizione-archivio');
+    // tornando indietro la finestra del paese resta aperta (useEntityScope('home'))
+    await pg.goBack(); await wait(3000);
+    const stillOpen = await pg.evaluate(() => [...document.querySelectorAll('section[data-country] > button[aria-expanded="true"]')].filter((b) => { const r = b.getBoundingClientRect(); return r.left > -5 && r.left < innerWidth - 5; }).map((b) => b.closest('section').dataset.country));
+    ok('home: tornando da una partita le finestre dei paesi restano aperte', opened3.every((c) => stillOpen.includes(c)), { opened3, stillOpen });
   }
+  const lg = await pg.evaluate(() => { const a = [...document.querySelectorAll('section[data-country] [role="link"]')].find((x) => { const r = x.getBoundingClientRect(); return r.left > -5 && r.left < innerWidth - 5; }); if (a) { a.click(); return true; } return false; });
+  await wait(2500);
+  if (lg) ok('home: l\'intestazione della competizione dentro il paese apre la sua scheda', /campionato/.test(await pg.evaluate(() => location.hash)));
 });
 
 // Ogni squadra di ogni competizione ha la scheda unica (/squadra/fm-<id FotMob>): banner, schede, tendina competizioni, niente "non disponibile".
@@ -1323,6 +1340,160 @@ await step('competizioni solo d\'archivio: scheda campionato raggiungibile (fm-<
   }
   await shot('archivio-campionato');
   ok('archivio: almeno 5 competizioni minori raggiungibili', okN >= Math.min(5, cand.length) && cand.length > 0, { okN });
+});
+
+// ---- Lotto 29/10: fluidita', Home per paesi, swipe indietro verso la Home, zona dello swipe, rose, forma, partite, 0°, arbitri ----
+// swipe tra giorni sulla Home (eventi touch sul documento, come su iPhone): misura fotogrammi, blocchi e nodi
+const daySwipes = (n, gap) => pg.evaluate(async ([n, gap]) => {
+  const ts = []; let on = true;
+  const f = (t) => { ts.push(t); if (on) requestAnimationFrame(f); };
+  requestAnimationFrame(f);
+  const el = document.getElementById('sl-shell') || document.body;
+  for (let k = 0; k < n; k++) {
+    const dir = k < n / 2 ? -1 : 1; const x = dir < 0 ? 320 : 70;
+    const mk = (cx) => ({ identifier: 1, target: el, clientX: cx, clientY: 450 });
+    const fire = (type, cx) => { const ev = new Event(type, { bubbles: true, cancelable: true }); Object.defineProperty(ev, 'touches', { value: type === 'touchend' ? [] : [mk(cx)] }); Object.defineProperty(ev, 'changedTouches', { value: [mk(cx)] }); el.dispatchEvent(ev); };
+    fire('touchstart', x);
+    for (let i = 1; i <= 8; i++) { fire('touchmove', x + dir * 22 * i); await new Promise((q) => requestAnimationFrame(q)); }
+    fire('touchend', x + dir * 180);
+    await new Promise((q) => setTimeout(q, gap));
+  }
+  await new Promise((q) => setTimeout(q, 1500));
+  on = false;
+  const d = ts.slice(1).map((t, i) => t - ts[i]);
+  const s = [...d].sort((a, b) => a - b);
+  return { frames: d.length, p50: Math.round(s[Math.floor(s.length / 2)] || 0), p95: Math.round(s[Math.floor(s.length * 0.95)] || 0), max: Math.round(s[s.length - 1] || 0), persi: Math.round(d.reduce((a, x) => a + Math.max(0, Math.round(x / 16.7) - 1), 0)) };
+}, [n, gap]);
+const activeDay = () => pg.evaluate(() => { const a = document.querySelector('[data-active="1"]'); return a ? a.textContent.trim() : ''; });
+const nodeCount = () => pg.evaluate(() => document.getElementsByTagName('*').length);
+
+await step('fluidita: 12 swipe di fila tra i giorni della Home (fotogrammi, nodi, giorno giusto)', async () => {
+  await go('#/', 9000);
+  const d0 = await activeDay(); const n0 = await nodeCount();
+  const lento = await daySwipes(12, 650);
+  const d1 = await activeDay(); const n1 = await nodeCount();
+  const veloce = await daySwipes(12, 300);
+  const d2 = await activeDay(); const n2 = await nodeCount();
+  report.fluidita = { lento, veloce, nodi: [n0, n1, n2] };
+  ok('fluidita: dopo 6 giorni avanti e 6 indietro si torna al giorno di partenza', d0 && d0 === d1 && d1 === d2, { d0, d1, d2 });
+  ok('fluidita: i nodi della Home non crescono con gli swipe', n1 <= n0 * 1.15 && n2 <= n0 * 1.15, { n0, n1, n2 });
+  ok('fluidita: swipe veloci non peggiori di quelli lenti (niente accumulo)', veloce.p95 <= lento.p95 * 1.5 + 20, { lento, veloce });
+  await shot('home-dopo-swipe');
+});
+
+await step('fluidita: swipe tra schede e indietro in sequenza veloce', async () => {
+  await go('#/', 5000);
+  await pg.evaluate(() => window.__slNav('/squadra/lazio')); await ready(); await wait(2500);
+  const t0 = await frameSwipe();
+  for (let i = 0; i < 6; i++) await frameSwipe();
+  const t1 = await frameSwipe();
+  report.fluiditaSchede = { t0, t1 };
+  ok('fluidita: swipe tra schede ripetuti senza peggiorare', !t0 || !t1 || t1.p95 <= t0.p95 * 1.5 + 20, { t0, t1 });
+  await pg.evaluate(() => window.__slCarousel.pageBack(240)); await wait(2500);
+  const h = await pg.evaluate(() => location.hash);
+  ok('fluidita: indietro dopo gli swipe torna alla Home', !/squadra/.test(h), { h });
+});
+
+await step('home: swipe indietro verso la Home in cima, la partita non ricompare sopra (video 23)', async () => {
+  for (const day of ['Oggi', 'Domani']) {
+    await go('#/', 7000);
+    await pg.evaluate((d) => { const x = [...document.querySelectorAll('button')].find((q) => q.textContent.trim().startsWith(d)); if (x) x.click(); }, day); await wait(2200);
+    await pg.evaluate(() => window.scrollTo(0, 0)); await wait(300);
+    const href = await pg.evaluate(() => { const a = [...document.querySelectorAll('a[href*="/match/"]')].find((x) => { const r = x.getBoundingClientRect(); return r.top > 150 && r.top < 700 && r.left >= 0 && r.left < 300; }); if (a) { a.click(); return a.getAttribute('href'); } return null; });
+    if (!href) continue;
+    await wait(3500);
+    const r = await pg.evaluate(async () => {
+      const old = document.getElementById('sl-shell');
+      const bad = []; let n = 0; let headOk = true; const t0 = performance.now();
+      window.__slCarousel.pageBack(150);
+      await new Promise((res) => { const f = () => {
+        n += 1;
+        const home = !/match/.test(location.hash);
+        // la vecchia pagina (partita) non deve tornare al centro mentre si e' gia' sulla Home
+        if (home && old.isConnected && !/translate3d\((?!0px)/.test(old.style.transform || '')) bad.push(Math.round(performance.now() - t0));
+        const sh = document.getElementById('sl-shell');
+        const host = [...document.querySelectorAll('body > div[aria-hidden="true"]')].find((x) => x.style.zIndex === '1' && x.style.opacity !== '0');
+        if (home && sh && sh !== old && !host) { const h = sh.querySelector('.glass-head'); if (!h || Math.abs(h.getBoundingClientRect().top) > 1) headOk = false; }
+        if (performance.now() - t0 < 3500) requestAnimationFrame(f); else res(); }; requestAnimationFrame(f); });
+      return { n, bad: bad.slice(0, 5), headOk };
+    });
+    ok(`home (${day}): tornando con lo swipe la partita non ricompare sopra la Home`, r.n > 5 && !r.bad.length, r);
+    ok(`home (${day}): la testata della Home e' al suo posto appena si vede la pagina vera`, r.headOk, r);
+  }
+  await shot('home-dopo-swipe-indietro');
+});
+
+await step('swipe indietro: parte anche un po lontano dal bordo (10, 30, 45 px), non dal centro', async () => {
+  const res = {};
+  for (const x0 of [10, 30, 45, 120]) {
+    await go('#/', 4500);
+    await pg.evaluate(() => window.__slNav('/squadra/feyenoord')); await ready(); await wait(2500);
+    await swipeIn('#sl-shell div[style*="pan-y"]', 300, x0);
+    await wait(1800);
+    res[x0] = await pg.evaluate(() => location.hash);
+  }
+  const back = (h) => !/squadra/.test(h || '');
+  ok('swipe indietro: dal bordo e fino a 45 px si torna indietro', back(res[10]) && back(res[30]) && back(res[45]), res);
+  ok('swipe indietro: dal centro dello schermo non si torna indietro', !back(res[120]), res);
+});
+
+await step('rose: squadra minore con la rosa dalla stagione, nessun pannello vuoto', async () => {
+  await go('#/squadra/fm-161759', 6000); await ready();
+  const tabs = await pg.evaluate(() => [...document.querySelectorAll('.tab-btn')].map((x) => x.textContent.trim()));
+  await tabClick('Squadra'); await wait(3000);
+  const n = await pg.evaluate(() => document.querySelectorAll('#sl-shell a[href*="giocatore"]').length);
+  ok('rose: Atletico Madrileno (Primera Federacion) ha la scheda Squadra con i giocatori', tabs.includes('Squadra') && n >= 5, { tabs, n });
+  await shot('rosa-atletico-madrileno');
+  const ctl = await getJson('controllo_squadre.json');
+  const none = ctl && ctl.rose && (ctl.rose.senza_rosa || []).find((r) => /nessuna partita/.test(r.motivo));
+  if (none) {
+    await go(`#/squadra/fm-${none.id}`, 6000); await ready();
+    const t2 = await pg.evaluate(() => [...document.querySelectorAll('.tab-btn')].map((x) => x.textContent.trim()));
+    ok('rose: squadra senza nessuna fonte di rosa = niente scheda Squadra', t2.length > 0 && !t2.includes('Squadra'), { squadra: none.squadra, tabs: t2 });
+  }
+  report.rose = ctl && ctl.rose ? { prima: ctl.rose.senza_rosa_prima, dopo: ctl.rose.senza_rosa_dopo } : null;
+});
+
+await step('partite squadra: stagione in corso anche dalle competizioni d\'archivio (Atletico Madrileno)', async () => {
+  await go('#/squadra/fm-161759', 6000); await ready();
+  await pg.waitForFunction(() => document.querySelectorAll('#sl-shell [data-key]').length > 0, null, { timeout: 20000 }).catch(() => {});
+  await wait(800);
+  await pg.evaluate(() => { const b = [...document.querySelectorAll('button')].find((x) => /^Partite precedenti/.test(x.textContent.trim())); if (b) b.click(); });
+  await wait(1000);
+  const r = await pg.evaluate(() => ({ rows: document.querySelectorAll('#sl-shell [data-key]').length, played: [...document.querySelectorAll('#sl-shell [data-key]')].filter((x) => /\d\s*[–-]\s*\d/.test(x.textContent)).length }));
+  ok('partite squadra: la stagione in corso ha le partite giocate e le prossime', r.rows >= 8 && r.played >= 4, r);
+  await shot('partite-atletico-madrileno');
+  // la prossima partita: Panoramica con la Forma recente (ultime partite della stagione dall'archivio)
+  const open = await pg.evaluate(() => { const rows = [...document.querySelectorAll('#sl-shell [data-key]')].filter((x) => !/\d\s*[–-]\s*\d/.test(x.textContent)); const a = rows.map((x) => x.querySelector('a[href*="/match/"]')).find(Boolean); if (a) { a.click(); return a.getAttribute('href'); } return null; });
+  if (open) {
+    await wait(6000);
+    const t = await pg.evaluate(() => document.body.innerText);
+    ok('forma: partita non iniziata di una competizione d\'archivio con la Forma recente', /Forma recente/i.test(t), { href: open });
+    await shot('forma-recente-archivio');
+  }
+});
+
+await step('statistiche pre-partita: nessuna posizione 0°', async () => {
+  await go('#/', 7000);
+  const links = await pg.evaluate(() => [...document.querySelectorAll('a[href*="/match/"]')].filter((a) => /\d{1,2}:\d{2}/.test(a.textContent)).slice(0, 6).map((a) => a.getAttribute('href')));
+  const bad = [];
+  for (const h of links) {
+    await go(h, 6000); await ready();
+    if (!(await tabClick('Statistiche'))) continue;
+    await wait(2500);
+    const t = await pg.evaluate(() => document.getElementById('sl-shell').innerText);
+    if (/(^|[\s(])0\s?[°º]/m.test(t)) bad.push(h);
+  }
+  ok('statistiche pre-partita: nessuna riga con posizione 0°', !bad.length, { provate: links.length, bad });
+});
+
+await step('arbitri: scheda solo per top campionati, coppe europee e internazionali', async () => {
+  await go('#/campionato/fm-8968', 6000); await ready(); await wait(2000);
+  const tabs = await pg.evaluate(() => [...document.querySelectorAll('.tab-btn')].map((x) => x.textContent.trim()));
+  ok('arbitri: Primera Federacion senza scheda Arbitri', tabs.length > 0 && !tabs.includes('Arbitri'), { tabs });
+  await go('#/campionato/championship', 6000); await ready(); await wait(2000);
+  const t2 = await pg.evaluate(() => [...document.querySelectorAll('.tab-btn')].map((x) => x.textContent.trim()));
+  ok('arbitri: Championship (campionato aggiunto, non top) senza scheda Arbitri', t2.length > 0 && !t2.includes('Arbitri'), { tabs: t2 });
 });
 
 report.passed = report.checks.filter((c) => c.pass).length;

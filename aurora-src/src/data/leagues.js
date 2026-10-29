@@ -97,9 +97,15 @@ export const LEAGUE_TINT = {
   'nor-eliteserien': '#4C8EE0',
   'gre-super-league-1': '#4FA3F0',
 };
-export const leagueTint = (id) => (PALETTE[id] && PALETTE[id].tint) || LEAGUE_TINT[id] || ((LEAGUES.find((l) => l.id === id) || {}).tint) || '#38A2FF';
+export const leagueTint = (id) => (PALETTE[id] && PALETTE[id].tint) || LEAGUE_TINT[id] || ((leagueById(id) || {}).tint) || '#38A2FF';
 
-export const leagueById = (id) => LEAGUES.find((l) => l.id === id) || null;
+// ricerca su mappa (si ricostruisce solo quando si aggiungono competizioni): chiamata migliaia di volte negli abbinamenti squadra
+let BY_ID = null;
+let BY_N = -1;
+export const leagueById = (id) => {
+  if (BY_N !== LEAGUES.length) { BY_ID = new Map(); LEAGUES.forEach((l) => { if (!BY_ID.has(l.id)) BY_ID.set(l.id, l); }); BY_N = LEAGUES.length; }
+  return BY_ID.get(id) || null;
+};
 
 // Iniziali di fallback quando manca il logo (stesse regole del tassello logo).
 export const initialsOf = (name) =>

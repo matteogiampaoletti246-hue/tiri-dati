@@ -70,7 +70,7 @@ export function useSeasonComps(team, season, base) {
 }
 
 // stagione in corso di una competizione (campionati aggiunti: quella dell'archivio; gli altri: la piu' recente dell'indice)
-const curSkOf = (lid) => {
+export const curSkOf = (lid) => {
   const fm = FM_ID[lid];
   if (!fm) return null;
   return (RAW.extra && RAW.extra.sk && RAW.extra.sk[String(fm)]) || curSeasonSync(fm);

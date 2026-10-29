@@ -25,8 +25,12 @@ const rk = (team, key, ctx) => {
     : teamsOf(team.leagueId).filter((t) => hasMetrics(t.id)).map((t) => ({ id: t.id, v: metricOf(t.id, key) }))
   ).filter((r) => r.v !== null && r.v !== undefined).sort((a, b) => b.v - a.v);
   const me = ctx ? ctx.tid(team) : team.id;
-  const i = rows.findIndex((r) => String(r.id) === String(me));
-  return { rank: i + 1, total: rows.length, v: ctx ? ctx.am.value(me, key) : metricOf(team.id, key), max: rows.length ? rows[0].v : 1 };
+  const mine = rows.find((r) => String(r.id) === String(me));
+  // statistica che la squadra non ha: niente posizione (la riga si omette, mai "0°")
+  if (!mine) return null;
+  // pari merito: stessa posizione (1 + squadre con un valore migliore)
+  const rank = 1 + rows.filter((r) => r.v > mine.v).length;
+  return { rank, total: rows.length, v: mine.v, max: rows[0].v };
 };
 const frac = (r) => (r.total > 1 ? (r.total - r.rank) / (r.total - 1) : 1);
 const f2 = (v) => comma(v, 2);
@@ -36,8 +40,9 @@ function build(me, op, ctx) {
   const rows = PAIRS.map(([a, b, label]) => {
     const m = rk(me, a, ctx);
     const o = rk(op, b, ctx);
+    if (!m || !o) return null;
     return { key: a, label, m, o, s: (frac(m) + frac(o)) / 2, hl: a !== 'falli' };
-  });
+  }).filter(Boolean);
   const best = rows.filter((r) => r.hl && frac(r.m) >= 0.6 && frac(r.o) >= 0.6).sort((x, y) => y.s - x.s).slice(0, 3);
   return { rows, best };
 }
@@ -49,6 +54,7 @@ const Pill = ({ r }) => (
 function TeamTable({ me, op, concept, side, ctx }) {
   if (!me || !op || !(ctx ? ctx.am.has(ctx.tid(me)) && ctx.am.has(ctx.tid(op)) : hasMetrics(me.id) && hasMetrics(op.id))) return null;
   const { rows, best } = build(me, op, ctx);
+  if (!rows.length) return null;
   const isBest = (k) => best.some((b) => b.key === k);
   const head = (
     <div className="flex items-center gap-2.5 px-4 pb-2 pt-3.5">

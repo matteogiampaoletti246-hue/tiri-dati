@@ -10,7 +10,7 @@ import PageShell from '@/components/PageShell';
 import HomeHeader from '@/components/HomeHeader';
 import DayStrip, { dragDays } from '@/components/DayStrip';
 import TextFilter from '@/components/TextFilter';
-import LeagueGroup from '@/components/LeagueGroup';
+import LeagueGroup, { CountryGroup } from '@/components/LeagueGroup';
 import { useEntityScope } from '@/components/past/PastBits';
 import MatchRowSkeleton from '@/components/MatchRowSkeleton';
 import Skeleton from '@/components/Skeleton';
@@ -20,7 +20,8 @@ import useTicker from '@/hooks/useTicker';
 import { syncDayTimes, refreshStatus } from '@/data/fotmob';
 import { loadDayFeed } from '@/data/dayFeed';
 import { DATES, TODAY_INDEX, isoDate, matchesByDate, MATCHES } from '@/data/matches';
-import { LEAGUES } from '@/data/leagues';
+import { LEAGUES, leagueById } from '@/data/leagues';
+import { countryCode, importance } from '@/data/countries';
 
 // giorno scelto: resta in memoria mentre si naviga, cosi' tornando indietro si ritrova lo stesso giorno
 const KEEP = { iso: null, filter: 'all', stamp: '' };
@@ -36,62 +37,81 @@ const dayReady = (iso) => Promise.race([Promise.all([syncDayTimes(iso).catch(() 
 const ISO_LIST = DATES.map((d) => isoDate(d));
 let TOUCHING = false;
 
-// ordine: top campionati e campionati aggiunti come sempre, poi le competizioni dell'archivio: internazionali,
-// poi i paesi principali, poi gli altri paesi in ordine alfabetico (nello stesso paese l'ordine dell'indice: prima la serie maggiore)
-const PRIO = ['INT', 'ITA', 'ENG', 'ESP', 'GER', 'FRA', 'POR', 'NED', 'TUR', 'BEL', 'SCO', 'BRA', 'ARG', 'USA', 'MEX', 'COL', 'CHI', 'URU', 'AUT', 'SUI', 'GRE', 'RUS', 'UKR', 'DEN', 'SWE', 'NOR', 'POL', 'CZE', 'CRO', 'SRB', 'ROU'];
-const rankOf = (L) => {
-  if (!L.arch) return [0, 0, ''];
-  const p = PRIO.indexOf(L.cc);
-  return [1, p < 0 ? PRIO.length : p, p < 0 ? L.country || '' : ''];
+// In alto, da soli: top campionati (i 5 aperti, gli altri 4 chiusi), coppe europee, competizioni internazionali.
+// Tutte le altre competizioni stanno nella finestra del loro paese (paesi in ordine alfabetico italiano; dentro, in ordine di importanza).
+const TOP_SOLO = ['serie-a', 'premier-league', 'la-liga', 'bundesliga', 'ligue-1', 'pro-league', 'eredivisie', 'liga-portugal', 'super-lig', 'champions-league', 'europa-league', 'conference-league'];
+let LAYOUT = null;
+const layout = () => {
+  if (LAYOUT && LAYOUT.n === LEAGUES.length) return LAYOUT;
+  const solo = new Map();
+  TOP_SOLO.forEach((id, k) => solo.set(id, k));
+  const pos = new Map(LEAGUES.map((L, i) => [L.id, i]));
+  // internazionali (senza paese) subito dopo i top, nell'ordine dell'indice
+  LEAGUES.forEach((L) => { if (!solo.has(L.id) && !countryCode(L)) solo.set(L.id, TOP_SOLO.length + pos.get(L.id)); });
+  const rank = new Map(LEAGUES.map((L) => [L.id, importance(L) * 1e5 + pos.get(L.id)]));
+  LAYOUT = { n: LEAGUES.length, solo, rank };
+  return LAYOUT;
 };
-let ORDER = null;
-const leagueOrder = () => {
-  if (ORDER && ORDER.n === LEAGUES.length) return ORDER.list;
-  const list = LEAGUES.map((L, i) => ({ L, i, r: rankOf(L) }))
-    .sort((a, b) => a.r[0] - b.r[0] || a.r[1] - b.r[1] || a.r[2].localeCompare(b.r[2]) || a.i - b.i)
-    .map((x) => x.L);
-  ORDER = { n: LEAGUES.length, list };
-  return list;
-};
-function groupsOf(iso, filter) {
+// un calcolo per giorno/filtro/versione: i ridisegni (minuto live, giorni vicini) non rifanno raggruppamenti e ordinamenti
+const GROUPS = new Map();
+// firma di un giorno: cambia solo se cambiano le sue partite (stato, risultato, orario); gli altri giorni non si ridisegnano
+const daySig = (iso) => matchesByDate(iso).map((m) => `${m.id}${m.status[0]}${m.score ? m.score.join('-') : ''}${m.ts}`).join('|');
+function groupsOf(iso, filter, ver) {
+  const key = `${iso}|${filter}`;
+  const hit = GROUPS.get(key);
+  if (hit && hit.ver === ver && hit.lg === LEAGUES.length) return hit.list;
   const dm = matchesByDate(iso);
+  const { solo, rank } = layout();
   const sh = filter === 'live' ? dm.filter((m) => m.status === 'live') : dm;
-  const by = {};
-  sh.forEach((m) => { (by[m.leagueId] = by[m.leagueId] || []).push(m); });
-  return leagueOrder().filter((league) => by[league.id]).map((league) => ({ league, matches: by[league.id].sort((a, b) => a.ts - b.ts) }));
+  const by = new Map();
+  sh.forEach((m) => { if (!by.has(m.leagueId)) by.set(m.leagueId, []); by.get(m.leagueId).push(m); });
+  const top = [];
+  const countries = new Map();
+  by.forEach((ms, id) => {
+    const league = leagueById(id);
+    if (!league) return;
+    const g = { league, matches: ms.sort((a, b) => a.ts - b.ts) };
+    if (solo.has(id)) { top.push(g); return; }
+    const cc = countryCode(league);
+    if (!countries.has(cc)) countries.set(cc, { cc, name: league.country || '', comps: [] });
+    countries.get(cc).comps.push(g);
+  });
+  top.sort((a, b) => solo.get(a.league.id) - solo.get(b.league.id));
+  const cs = [...countries.values()].sort((a, b) => a.name.localeCompare(b.name, 'it'));
+  cs.forEach((c) => c.comps.sort((a, b) => rank.get(a.league.id) - rank.get(b.league.id)));
+  const list = [...top.map((g) => ({ key: g.league.id, g })), ...cs.map((c) => ({ key: `paese:${c.cc}`, c }))];
+  GROUPS.set(key, { ver, lg: LEAGUES.length, list });
+  if (GROUPS.size > 24) GROUPS.delete(GROUPS.keys().next().value);
+  return list;
 }
 
-// Un giorno intero. I giorni vicini sono gia' pronti accanto a quello aperto: durante lo swipe non c'e' nulla da costruire.
-const DayPane = memo(function DayPane({ iso, filter, ver, tick, active }) {
-  const groups = groupsOf(iso, filter);
-  const total = groups.reduce((n, g) => n + g.matches.length, 0);
-  // il giorno aperto si disegna subito; quelli vicini si preparano a piccoli passi mentre l'app e' ferma
-  const [cnt, setCnt] = useState(active ? Infinity : 0);
+// Un giorno intero. I giorni vicini si costruiscono accanto a quello aperto a piccoli pezzi mentre l'app e' ferma
+// (un pezzo per volta: nessun fotogramma bloccato); durante lo swipe non c'e' nulla da costruire.
+const FIRST = 6;
+const STEP = 5;
+const DayPane = memo(function DayPane({ iso, filter, ver, active }) {
+  const items = groupsOf(iso, filter, ver);
+  const [cnt, setCnt] = useState(active ? Infinity : FIRST);
   const eff = active ? Infinity : cnt;
   useEffect(() => {
     if (active) { if (cnt !== Infinity) setCnt(Infinity); return undefined; }
-    if (cnt >= total) return undefined;
+    if (cnt >= items.length) return undefined;
     let id;
-    const go = () => { if (TOUCHING) { id = setTimeout(go, 120); return; } setCnt(Infinity); };
-    id = setTimeout(go, 70);
+    const go = () => { if (TOUCHING) { id = setTimeout(go, 120); return; } setCnt((c) => c + STEP); };
+    id = setTimeout(go, 60);
     return () => clearTimeout(id);
-  }, [cnt, active, total]);
-  if (!groups.length) {
+  }, [cnt, active, items.length]);
+  if (!items.length) {
     return (
       <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>
         Nessuna partita
       </p>
     );
   }
-  if (eff === 0) return <div style={{ minHeight: '40vh' }} />;
-  let seen = 0;
-  const shown = [];
-  for (const g of groups) {
-    if (seen >= eff) break;
-    shown.push(g);
-    seen += g.matches.length;
-  }
-  return shown.map((g) => <LeagueGroup key={`${iso}|${g.league.id}`} league={g.league} matches={g.matches} iso={iso} forceOpen={filter === 'live'} />);
+  const live = filter === 'live';
+  return items.slice(0, eff).map((it) => (it.g
+    ? <LeagueGroup key={`${iso}|${it.key}`} league={it.g.league} matches={it.g.matches} iso={iso} forceOpen={live} />
+    : <CountryGroup key={`${iso}|${it.key}`} cc={it.c.cc} name={it.c.name} comps={it.c.comps} iso={iso} forceOpen={live} />));
 });
 
 export default function Home() {
@@ -234,10 +254,13 @@ export default function Home() {
           const el = listRef.current;
           const { prevIso: p, nextIso: n } = live.current;
           const nb = st.dx > 0 ? p : n;
+          // altezza del riquadro misurata solo quando cambia il giorno affiancato (e il fotogramma dopo, a giorno costruito):
+          // una misura a ogni fotogramma forzava il ricalcolo di tutta la pagina
+          if (st.nb !== nb) { st.nb = nb; st.grow = 2; }
           showPeek(nb);
+          if (el && st.grow > 0) { st.grow -= 1; growBox(el); }
           dragDays(nb ? -st.dx / Math.min(window.innerWidth, (el && el.offsetWidth) || 430) : 0);
           if (el) {
-            growBox(el);
             el.style.transition = 'none';
             el.style.willChange = 'transform';
             el.style.transform = `translate3d(${nb ? st.dx : st.dx * 0.28}px,0,0)`;
@@ -281,6 +304,8 @@ export default function Home() {
   }, []);
 
   const panes = [];
+  const sigs = {};
+  [prevIso, iso, nextIso].forEach((d) => { if (d) sigs[d] = `${LEAGUES.length}#${daySig(d)}`; });
   if (prevIso) panes.push({ k: prevIso, role: -1 });
   panes.push({ k: iso, role: 0 });
   if (nextIso) panes.push({ k: nextIso, role: 1 });
@@ -355,7 +380,7 @@ export default function Home() {
               key={k}
                             style={role ? { position: 'absolute', top: 0, width: '100%', left: `${role * 100}%`, display: 'flow-root' } : { display: 'flow-root' }}
             >
-              <DayPane iso={k} filter={filter} ver={ver} tick={role === 0 ? tick : 0} active={role === 0 || peek === k} />
+              <DayPane iso={k} filter={filter} ver={sigs[k]} tick={role === 0 ? tick : 0} active={role === 0 || peek === k} />
             </div>
           ))
         )}

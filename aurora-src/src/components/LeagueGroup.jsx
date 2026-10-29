@@ -5,9 +5,10 @@ import LeagueLink from './LeagueLink';
 import MatchRow from './MatchRow';
 import { tintGrad } from '@/lib/tint';
 import { leagueTint, TOP5 } from '@/data/leagues';
+import { flagEmoji } from '@/data/countries';
 import { useSel } from '@/components/past/PastBits';
 
-// Partono aperti i top 5 campionati e le coppe europee; tutti gli altri partono chiusi.
+// Partono aperti i top 5 campionati e le coppe europee; tutti gli altri (e le finestre dei paesi) partono chiusi.
 // Ogni campionato ha la sua tendina: lo stato vale solo per il giorno mostrato (cambiando giorno si riparte dal predefinito).
 const OPEN_AT_START = new Set([...TOP5, 'champions-league', 'europa-league', 'conference-league']);
 
@@ -44,7 +45,7 @@ export default function LeagueGroup({ league, matches, iso = '', forceOpen = fal
   // la tendina resta com'e' finche' si resta nel giro della Home (apro una partita e torno indietro); cambiando sezione si riparte da zero
   const [open, setOpen] = useSel('home', `${iso}|${league.id}`, () => OPEN_AT_START.has(league.id));
   const isOpen = forceOpen || open;
-  const toggle = () => setOpen((v) => !v);
+  const toggle = () => setOpen(!open);
 
   return (
     <section className="mx-4 mt-4 overflow-hidden rounded-[26px] glass" style={{ background: tintGrad(leagueTint(league.id), 0x45) }}>
@@ -68,6 +69,47 @@ export default function LeagueGroup({ league, matches, iso = '', forceOpen = fal
             </div>
           ))}
         </div>
+      </Collapse>
+    </section>
+  );
+}
+
+// Bandiera tonda del paese (globo se il paese non ha una bandiera)
+export const CountryFlag = ({ cc, size = 22 }) => (
+  <span className="inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full" style={{ width: size, height: size, fontSize: size * 0.78, lineHeight: 1, background: 'rgba(255,255,255,.08)' }} aria-hidden="true">
+    {flagEmoji(cc) || '\u{1F30D}'}
+  </span>
+);
+
+// Finestra di un paese (concept Sofascore): bandiera + nome aprono e chiudono; dentro, in ordine di importanza, ogni competizione
+// con la sua intestazione (logo e nome portano alla scheda competizione) e le sue partite. Chiusa non monta nulla.
+export function CountryGroup({ cc, name, comps, iso = '', forceOpen = false }) {
+  const [open, setOpen] = useSel('home', `${iso}|paese:${cc}`, false);
+  const isOpen = forceOpen || open;
+  const total = comps.reduce((n, c) => n + c.matches.length, 0);
+  return (
+    // chiusa ha un'altezza fissa nota: fuori schermo il browser la salta (stile, layout e disegno) senza cambiare l'altezza della pagina
+    <section data-country={cc} className="mx-4 mt-4 overflow-hidden rounded-[26px] glass" style={isOpen ? undefined : { contentVisibility: 'auto', containIntrinsicSize: 'auto 52px' }}>
+      <button type="button" onClick={() => setOpen(!open)} aria-expanded={isOpen} aria-label={`${name}: ${isOpen ? 'chiudi' : 'apri'} competizioni`} className="press flex w-full items-center gap-3 py-3.5 pl-4 pr-4 text-left">
+        <CountryFlag cc={cc} />
+        <span className="min-w-0 flex-1 truncate text-[12.5px] font-extrabold uppercase tracking-wider" style={{ color: 'var(--ink)' }}>{name}</span>
+        <span className="tnum text-[11px] font-medium" style={{ color: 'var(--ink-3)' }}>{total}</span>
+        <ChevronDown size={17} strokeWidth={1.9} style={{ color: 'var(--ink-3)', transition: 'transform .34s cubic-bezier(.22,1,.36,1)', transform: isOpen ? 'rotate(180deg)' : 'none' }} />
+      </button>
+      <Collapse open={isOpen}>
+        {comps.map(({ league, matches }) => (
+          <div key={league.id} className="border-t" style={{ borderColor: 'var(--hair-2)', background: tintGrad(leagueTint(league.id), 0x22) }}>
+            <LeagueLink league={league} className="press flex min-w-0 items-center gap-3 py-3 pl-4 pr-4">
+              <LeagueBadge league={league} size={20} />
+              <span className="truncate text-[12px] font-bold uppercase tracking-wider" style={{ color: 'var(--ink)' }}>{league.name}</span>
+            </LeagueLink>
+            {matches.map((m) => (
+              <div key={m.id} style={{ borderTop: '1px solid var(--hair-2)' }}>
+                <MatchRow match={m} />
+              </div>
+            ))}
+          </div>
+        ))}
       </Collapse>
     </section>
   );

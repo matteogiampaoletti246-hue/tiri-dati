@@ -23,7 +23,8 @@ import { teamRow } from '@/data/standings';
 import { teamForm } from '@/data/matches';
 import { allTeamMatches } from '@/data/extras';
 import { coachOf } from '@/data/players';
-import { loadRose, roseOf } from '@/data/rose';
+import { loadRose, roseOf, seasonRoster, roseLoaded } from '@/data/rose';
+import { playersByTeam } from '@/data/players';
 
 const TABS = [
   { key: 'matches', label: 'Partite' },
@@ -50,6 +51,11 @@ export default function Team() {
   const team = teamById(id) || idxTeam;
   const [, bumpR] = useState(0);
   useEffect(() => { let on = true; loadRose().then(() => on && bumpR((n) => n + 1)); return () => { on = false; }; }, []);
+  // scheda "Squadra" solo se c'e' una rosa (rose.json, giocatori dell'app o chi ha giocato la stagione in corso): mai un pannello vuoto
+  const rp = team && roseLoaded() ? roseOf(team) : null;
+  const rosterSync = !!team && ((rp && rp.p && rp.p.length) || playersByTeam(team.id).length > 0);
+  const { data: srT, loading: srL } = useAsync(() => (team && roseLoaded() && !rosterSync ? seasonRoster(team) : Promise.resolve(null)), [team && team.id, rosterSync, roseLoaded()]);
+  const hasRoster = rosterSync || !!srT || srL || !roseLoaded();
 
   if (team && team.id !== id) return <Navigate replace to={`/squadra/${team.id}`} />;
   if (!team && fmRoute && idxLoading) {
@@ -98,6 +104,8 @@ export default function Team() {
     wrap('22%', <TeamStatsPanel key="stats" team={team} />),
     wrap('22%', <TeamPlayersPanel key="players" team={team} />),
   ];
+  const tabs = TABS.filter((t) => t.key !== 'roster' || hasRoster);
+  const shownPanels = panels.filter((_, i) => TABS[i].key !== 'roster' || hasRoster);
 
 
   return (
@@ -124,7 +132,7 @@ export default function Team() {
           </div>
         </div>
       ) : (
-        <SwipeTabs fixedBar tabs={TABS} panels={panels} index={tab} onChange={setTab} className="pt-0" />
+        <SwipeTabs fixedBar tabs={tabs} panels={shownPanels} index={Math.max(0, tabs.findIndex((t) => t.key === (TABS[tab] || TABS[0]).key))} onChange={(i) => setTab(TABS.findIndex((t) => t.key === tabs[i].key))} className="pt-0" />
       )}
     </PageShell>
   );

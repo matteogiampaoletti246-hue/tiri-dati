@@ -1,9 +1,11 @@
 import { modalOpen } from '@/lib/modal';
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { pageBack, pageDrag, pageReset, canGoBack } from '@/lib/carousel';
+import { pageBack, pageDrag, pageReset, canGoBack, BACK_ZONE, backAngleOk } from '@/lib/carousel';
 
 // Swipe-back dal bordo sinistro con animazione di slittamento.
+// Su iPhone eventi touch (i pointer venivano annullati da iOS appena il dito scendeva un poco: lo swipe a volte non partiva);
+// col mouse (computer) eventi pointer.
 export default function useSwipeBack(enabled = true) {
   const navigate = useNavigate();
   const start = useRef(null);
@@ -12,49 +14,57 @@ export default function useSwipeBack(enabled = true) {
   useEffect(() => {
     if (!enabled) return undefined;
 
-    const shell = () => document.getElementById('sl-shell');
-
-    const onDown = (e) => {
-      if (e.clientX > 32 || modalOpen() || (e.target && e.target.closest && e.target.closest('[data-no-back]')) || document.querySelector('[data-tabs-back]') || !canGoBack()) return;
-      start.current = { x: e.clientX, y: e.clientY };
-    };
-
-    const onMove = (e) => {
+    const can = (x, target) => !(x > BACK_ZONE || modalOpen() || (target && target.closest && target.closest('[data-no-back]')) || document.querySelector('[data-tabs-back]') || !canGoBack());
+    const begin = (x, y, target) => { start.current = can(x, target) ? { x, y, t: Date.now() } : null; dragging.current = false; };
+    // true = lo swipe e' nostro (la pagina segue il dito)
+    const move = (x, y) => {
       const s = start.current;
-      if (!s) return;
-      const dx = e.clientX - s.x;
-      const dy = e.clientY - s.y;
+      if (!s) return false;
+      const dx = x - s.x;
+      const dy = y - s.y;
       if (!dragging.current) {
-        if (Math.abs(dy) > 14 && Math.abs(dy) > Math.abs(dx)) {
-          start.current = null;
-          return;
-        }
-        if (dx < 10) return;
+        if (Math.abs(dy) > 14 && Math.abs(dy) > Math.abs(dx)) { start.current = null; return false; }
+        if (!backAngleOk(dx, dy)) return false;
         dragging.current = true;
       }
-      pageDrag(dx);
+      pageDrag(Math.max(0, dx));
+      return true;
     };
-
-    const onUp = (e) => {
+    const end = (x) => {
       const s = start.current;
       start.current = null;
       if (!s || !dragging.current) return;
       dragging.current = false;
-      const dx = e.clientX - s.x;
-      // oltre la meta' dello schermo si torna indietro; prima, la pagina rientra lentamente al suo posto
-      if (dx > Math.min(window.innerWidth, 430) * 0.5) pageBack(dx, navigate);
+      const dx = x - s.x;
+      const v = dx / Math.max(80, Date.now() - s.t);
+      // oltre la meta' dello schermo (o un colpo veloce oltre un quarto) si torna indietro; prima, la pagina rientra lentamente
+      const w = Math.min(window.innerWidth, 430);
+      if (dx > w * 0.5 || (v > 0.9 && dx > w * 0.25)) pageBack(dx, navigate);
       else pageReset(true);
     };
 
-    window.addEventListener('pointerdown', onDown, { passive: true });
-    window.addEventListener('pointermove', onMove, { passive: true });
-    window.addEventListener('pointerup', onUp, { passive: true });
-    window.addEventListener('pointercancel', onUp, { passive: true });
+    const tStart = (e) => { if (e.touches.length !== 1) { start.current = null; return; } const t = e.touches[0]; begin(t.clientX, t.clientY, e.target); };
+    const tMove = (e) => { const t = e.touches[0]; if (t && move(t.clientX, t.clientY) && e.cancelable) e.preventDefault(); };
+    const tEnd = (e) => { const t = e.changedTouches && e.changedTouches[0]; end(t ? t.clientX : start.current ? start.current.x : 0); };
+    const pDown = (e) => { if (e.pointerType === 'mouse') begin(e.clientX, e.clientY, e.target); };
+    const pMove = (e) => { if (e.pointerType === 'mouse') move(e.clientX, e.clientY); };
+    const pUp = (e) => { if (e.pointerType === 'mouse') end(e.clientX); };
+
+    window.addEventListener('touchstart', tStart, { passive: true });
+    window.addEventListener('touchmove', tMove, { passive: false });
+    window.addEventListener('touchend', tEnd, { passive: true });
+    window.addEventListener('touchcancel', tEnd, { passive: true });
+    window.addEventListener('pointerdown', pDown, { passive: true });
+    window.addEventListener('pointermove', pMove, { passive: true });
+    window.addEventListener('pointerup', pUp, { passive: true });
     return () => {
-      window.removeEventListener('pointerdown', onDown);
-      window.removeEventListener('pointermove', onMove);
-      window.removeEventListener('pointerup', onUp);
-      window.removeEventListener('pointercancel', onUp);
+      window.removeEventListener('touchstart', tStart);
+      window.removeEventListener('touchmove', tMove);
+      window.removeEventListener('touchend', tEnd);
+      window.removeEventListener('touchcancel', tEnd);
+      window.removeEventListener('pointerdown', pDown);
+      window.removeEventListener('pointermove', pMove);
+      window.removeEventListener('pointerup', pUp);
     };
   }, [enabled, navigate]);
 }
