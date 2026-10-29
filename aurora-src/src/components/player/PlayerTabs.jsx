@@ -456,8 +456,14 @@ function CupCurrent({ p, fm, fmPid, team }) {
   }, [fm, fmPid]);
   if (loading && !data) return <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Carico le statistiche…</p>;
   if (data && data.sk && data.st && fmPid) return <PastStats kind="players" id={fmPid} fm={fm} sk={data.sk} current teamName={team && team.name} />;
+  if (!(p.c && p.c[0])) return <NoData />;
   return <div className="px-5 pb-10 pt-4"><CupSummary p={p} /></div>;
 }
+
+// un solo messaggio ordinato quando la stagione scelta non ha dati (le tendine portano alle stagioni che li hanno)
+export const NoData = () => <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Dati non disponibili</p>;
+// statistiche della stagione in corso nei dati dell'app (top campionati): presenze o minuti, oppure una coppa con presenze
+export const playerHasCurStats = (p) => !!p && ((p.appearances || 0) > 0 || (p.minutes || 0) > 0 || !!(p.c && p.c[0]));
 
 export function StatistichePanel({ player, team }) {
   const p = player;
@@ -467,8 +473,12 @@ export function StatistichePanel({ player, team }) {
     const l = p.archive && p.leagueId ? leagueById(p.leagueId) : null;
     return l ? [l, ...c.filter((x) => x.id !== l.id)] : c;
   })();
-  // tutte le competizioni in cui ha giocato (indice giocatori), oltre a quelle della squadra attuale
-  const comps = [...baseComps, ...car.order.filter((id) => !baseComps.some((c) => c.id === id)).map(leagueById).filter(Boolean)];
+  // tutte le competizioni in cui ha giocato (indice giocatori), oltre a quelle della squadra attuale; in tendina solo quelle con dati
+  // (la prima, quella di partenza, resta sempre: senza dati mostra "Dati non disponibili")
+  const hasCurApp = (p.appearances || 0) > 0 || (p.minutes || 0) > 0;
+  const withData = (id, i) => i === 0 || !!(car.bySeason[id] && car.bySeason[id].length) || (baseComps.some((c) => c.id === id) && !!(p.c && p.c[0]));
+  const comps = [...baseComps, ...car.order.filter((id) => !baseComps.some((c) => c.id === id)).map(leagueById).filter(Boolean)]
+    .filter((c, i) => car.loading || withData(c.id, i));
   const [comp, setComp] = useSel(p.id, 'sc', comps.length ? comps[0].id : null);
   const [season, setSeason] = useSel(p.id, 'ss', () => (p.archive ? p.sk : initSeason(FM_ID[comps.length ? comps[0].id : null])));
   const fmL = FM_ID[comp];
@@ -515,7 +525,12 @@ export function StatistichePanel({ player, team }) {
   return (
     <div className="-mt-1">
     <CompSeasonBar comps={comps} comp={comp} onComp={(c) => { setComp(c); setSeason('cur'); }} seasons={fmPid ? (p.archive && p.sk && comp === p.leagueId && !seasons.includes(p.sk) ? [p.sk, ...seasons] : seasons) : []} season={seasonEff || 'cur'} onSeason={setSeason} noCur={noCur} />
-    {noCur && !seasonEff ? null : seasonEff && seasonEff !== 'cur' && fmL && fmPid ? <PastStats kind="players" id={fmPid} fm={fmL} sk={seasonEff} teamName={team && team.name} /> : (
+    {noCur && !seasonEff ? <NoData /> : seasonEff && seasonEff !== 'cur' && fmL && fmPid ? <PastStats kind="players" id={fmPid} fm={fmL} sk={seasonEff} teamName={team && team.name} /> : comp === dom && !hasCurApp ? (
+      // stagione in corso senza i dati dell'app: quelli dell'archivio se ci sono (indice giocatori), altrimenti un solo messaggio
+      fmL && fmPid && car.cur[fmL] && (car.bySeason[comp] || []).includes(car.cur[fmL])
+        ? <PastStats kind="players" id={fmPid} fm={fmL} sk={car.cur[fmL]} current teamName={team && team.name} />
+        : <NoData />
+    ) : (
     <div key={comp} className={anim}>
     <div className="flex flex-col gap-4 px-5 pt-4"><Affidabilita player={p} team={team} comp={comp} /></div>
     {comp !== dom ? <CupCurrent p={p} fm={fmL} fmPid={fmPid} team={team} /> : (

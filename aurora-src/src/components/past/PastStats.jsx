@@ -25,8 +25,9 @@ export default function PastStats({ kind, id, fm, sk, current = false, teamName 
   // cambiando Casa/Trasferta il contenuto resta al suo posto e le barre scorrono ai nuovi valori (niente scomparsa e riapparizione)
   if (loading && !stats) return <Msg>Carico la stagione {seasonLabel(sk)}…</Msg>;
   const lists = stats && stats[kind];
-  if (!lists) return null;
   const isP = kind === 'players';
+  // giocatore senza dati in questa stagione (ne ha in altre: le tendine portano li'): un solo messaggio, niente riquadri vuoti
+  if (!lists) return isP ? <Msg>Dati non disponibili</Msg> : null;
   const names = (season && season.teams) || {};
   const groups = {};
   let me = null;
@@ -40,7 +41,7 @@ export default function PastStats({ kind, id, fm, sk, current = false, teamName 
     if (kind === 'teams' && cat !== 'all' && g !== cat) return;
     (groups[g] = groups[g] || []).push({ k, st: standingOf(list, idx, k), title: byMatch ? (STAT_IT[k] || prettyKey(k)) : (SEASON_STAT_IT[k] || PLAYER_STAT_IT[k] || prettyKey(k)) });
   });
-  if (!me) return <Msg>Nessuna presenza in questa stagione</Msg>;
+  if (!me) return <Msg>{isP ? 'Dati non disponibili' : 'Nessuna presenza in questa stagione'}</Msg>;
   const tid = isP ? (me[2] || (teamName ? teamIdByName(names, teamName) : null)) : id;
   const tname = names[tid] || '';
   const club = col(tid, tname).colors[0];

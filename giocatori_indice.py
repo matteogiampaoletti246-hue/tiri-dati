@@ -18,10 +18,15 @@ for fm in FMS:
         pl = {}
         sp = os.path.join(d, sk + '_s.json')
         if os.path.exists(sp):
-            try: pl = json.load(open(sp, encoding='utf-8')).get('players') or {}
+            # stessa regola dell'app (loadSeasonStats): solo le statistiche v2 (le v1 erano della stagione sbagliata)
+            try:
+                sj = json.load(open(sp, encoding='utf-8'))
+                pl = (sj.get('players') or {}) if sj.get('v') == 2 else {}
             except Exception: pl = {}
         best = {}
-        for rows in pl.values():
+        # le liste con la chiave che inizia per "_" l'app non le mostra: un giocatore presente solo li' non ha statistiche visibili
+        for key, rows in pl.items():
+            if str(key).startswith('_'): continue
             for r in rows:
                 if len(r) < 6: continue
                 pid = int(r[0]); a = best.setdefault(pid, [r[1], r[2], 0, 0])

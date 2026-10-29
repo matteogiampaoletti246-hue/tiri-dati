@@ -330,6 +330,9 @@ export const statsFromMatches = (lid, sk) => once(`sfm/${lid}/${sk}`, async () =
     rows.sort((x, y) => y[3] - x[3]);
     players[k] = rows;
   });
+  // minuti di chiunque abbia giocato (stessa voce delle classifiche ufficiali): anche chi ha tutti i valori a zero ha le sue statistiche
+  const mins = Object.entries(tot).map(([pid, t]) => [pid, (who[pid] || [])[1] || '', (who[pid] || [])[0] || null, t.min, t.min, t.n, null]);
+  if (mins.length >= 3 && !players.mins_played) players.mins_played = mins.sort((x, y) => y[3] - x[3]);
   return Object.keys(players).length ? { v: 2, players, teams: {}, fromMatches: true } : null;
 });
 // statistiche squadre di una stagione: quelle ufficiali se ci sono, altrimenti le medie a partita dalle partite archiviate
