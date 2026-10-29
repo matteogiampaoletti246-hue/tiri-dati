@@ -1428,6 +1428,8 @@ await step('swipe indietro: parte anche un po lontano dal bordo (10, 30, 45 px),
   for (const x0 of [10, 30, 45, 120]) {
     await go('#/', 4500);
     await pg.evaluate(() => window.__slNav('/squadra/feyenoord')); await ready(); await wait(2500);
+    // lo swipe indietro parte dalla prima scheda (dalle altre lo swipe a destra torna alla scheda precedente)
+    await tabClick('Partite'); await wait(900);
     await swipeIn('#sl-shell div[style*="pan-y"]', 300, x0);
     await wait(1800);
     res[x0] = await pg.evaluate(() => location.hash);
