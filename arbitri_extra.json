@@ -1,6 +1,82 @@
 {
+"5103689": {
+"n": "Raphael Claus",
+"src": "api-football",
+"at": "2026-10-29T08:59+00:00"
+},
+"5103685": {
+"n": "Bruno Arleu",
+"src": "api-football",
+"at": "2026-10-29T08:59+00:00"
+},
+"6275369": {
+"n": "Farai Hallam",
+"src": "api-football",
+"at": "2026-10-29T08:59+00:00"
+},
+"5846013": {
+"n": "Isa Simsek",
+"src": "api-football",
+"at": "2026-10-29T08:59+00:00"
+},
+"5105035": {
+"n": "Espen Eskas",
+"src": "api-football",
+"at": "2026-10-29T08:59+00:00"
+},
+"5836904": {
+"n": "David Webb",
+"src": "api-football",
+"at": "2026-10-29T08:59+00:00"
+},
+"5803300": {
+"n": "Chamel",
+"src": "api-football",
+"at": "2026-10-29T08:59+00:00"
+},
+"5803302": {
+"n": "Faouzi Benchabane",
+"src": "api-football",
+"at": "2026-10-29T08:59+00:00"
+},
+"5803303": {
+"n": "Bastein Dechepy",
+"src": "api-football",
+"at": "2026-10-29T08:59+00:00"
+},
+"5803304": {
+"n": "Mickael Leleu",
+"src": "api-football",
+"at": "2026-10-29T08:59+00:00"
+},
+"5803307": {
+"n": "Eddy Rosier",
+"src": "api-football",
+"at": "2026-10-29T08:59+00:00"
+},
+"5103690": {
+"n": "Alex Gomes Stefano",
+"src": "api-football",
+"at": "2026-10-29T08:59+00:00"
+},
+"5103687": {
+"n": "Matheus Delgado Candancan",
+"src": "api-football",
+"at": "2026-10-29T08:59+00:00"
+},
+"1000019614": {
+"n": "Juan Pablo Loustau",
+"src": "api-football",
+"at": "2026-10-29T08:59+00:00"
+},
+"1000019616": {
+"n": "Leandro Rey Hilfer",
+"src": "api-football",
+"at": "2026-10-29T08:59+00:00"
+},
 "_err": [
-"manca il segreto API_FOOTBALL_KEY"
+"2026-10-31: {\"plan\": \"Free plans do not have access to this date, try from 2026-10-28 to 2026-10-30.\"}",
+"2026-11-01: {\"plan\": \"Free plans do not have access to this date, try from 2026-10-28 to 2026-10-30.\"}"
 ],
-"_at": "2026-10-29T02:46+00:00"
+"_at": "2026-10-29T08:59+00:00"
 }

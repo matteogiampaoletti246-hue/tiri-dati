@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-28T23:32:42+00:00",
+ "updated_at": "2026-10-29T05:40:26+00:00",
  "window": {
   "nlast": 0,
   "min_games": 1,
@@ -18364,6 +18364,59 @@
    ],
    "tutte": [
     {
+     "id": "m_0Mi2bq",
+     "date": "2026-11-05",
+     "time": "2026-11-05",
+     "league": "Europa League",
+     "home": "Lillestrøm",
+     "away": "Viktoria Plzeň",
+     "corners_home": 6.5,
+     "corners_away": 3.4,
+     "gap": 3.1,
+     "games": [
+      11,
+      6
+     ],
+     "tiri_home": 15.8,
+     "tiri_away": 14.8,
+     "tiri_gap": 1.0,
+     "tiri_games": [
+      11,
+      6
+     ],
+     "sot_home": 5.0,
+     "sot_away": 5.8,
+     "sot_gap": 0.8,
+     "sot_games": [
+      11,
+      6
+     ],
+     "falli_home": 11.3,
+     "falli_away": 11.9,
+     "falli_gap": 0.6,
+     "falli_games": [
+      22,
+      15
+     ],
+     "off_home": 1.5,
+     "off_away": 1.3,
+     "off_gap": 0.2,
+     "off_games": [
+      22,
+      15
+     ],
+     "cards": 3.7,
+     "cards_1t": 1.3,
+     "cards_home": 1.7,
+     "cards_away": 2.0,
+     "cards_1t_home": 0.5,
+     "cards_1t_away": 0.8,
+     "games_k": [
+      22,
+      15
+     ]
+    },
+    {
      "id": "m_1HX51i",
      "date": "2026-11-05",
      "time": "2026-11-05",
@@ -18576,56 +18629,56 @@
      ]
     },
     {
-     "id": "m_0Mi2bq",
+     "id": "m_4ePthU",
      "date": "2026-11-05",
      "time": "2026-11-05",
      "league": "Europa League",
-     "home": "Lillestrøm",
-     "away": "Viktoria Plzeň",
-     "corners_home": 6.5,
-     "corners_away": 3.4,
-     "gap": 3.1,
+     "home": "NEC Nijmegen",
+     "away": "Omonia Nicosia",
+     "corners_home": 5.1,
+     "corners_away": 3.8,
+     "gap": 1.4,
      "games": [
-      11,
-      6
+      7,
+      1
      ],
-     "tiri_home": 15.8,
-     "tiri_away": 14.8,
-     "tiri_gap": 1.0,
+     "tiri_home": 14.0,
+     "tiri_away": 12.8,
+     "tiri_gap": 1.2,
      "tiri_games": [
-      11,
-      6
+      7,
+      1
      ],
-     "sot_home": 5.0,
-     "sot_away": 5.8,
-     "sot_gap": 0.8,
+     "sot_home": 3.4,
+     "sot_away": 5.4,
+     "sot_gap": 2.0,
      "sot_games": [
-      11,
-      6
+      7,
+      1
      ],
-     "falli_home": 11.3,
-     "falli_away": 11.9,
-     "falli_gap": 0.6,
+     "falli_home": 12.1,
+     "falli_away": 10.3,
+     "falli_gap": 1.8,
      "falli_games": [
-      22,
-      15
+      13,
+      3
      ],
-     "off_home": 1.5,
-     "off_away": 1.3,
+     "off_home": 1.7,
+     "off_away": 1.5,
      "off_gap": 0.2,
      "off_games": [
-      22,
-      15
+      13,
+      3
      ],
-     "cards": 3.7,
-     "cards_1t": 1.3,
-     "cards_home": 1.7,
-     "cards_away": 2.0,
+     "cards": 2.3,
+     "cards_1t": 0.5,
+     "cards_home": 1.3,
+     "cards_away": 1.0,
      "cards_1t_home": 0.5,
-     "cards_1t_away": 0.8,
+     "cards_1t_away": 0.0,
      "games_k": [
-      22,
-      15
+      13,
+      3
      ]
     },
     {
@@ -18735,53 +18788,53 @@
      ]
     },
     {
-     "id": "m_4ePthU",
+     "id": "m_1MJfdg",
      "date": "2026-11-05",
      "time": "2026-11-05",
      "league": "Europa League",
-     "home": "NEC Nijmegen",
-     "away": "Omonia Nicosia",
-     "corners_home": 5.1,
-     "corners_away": 3.8,
-     "gap": 1.4,
+     "home": "Sturm Graz",
+     "away": "NK Celje",
+     "corners_home": 6.4,
+     "corners_away": 3.4,
+     "gap": 3.0,
      "games": [
       7,
       1
      ],
      "tiri_home": 14.0,
-     "tiri_away": 12.8,
-     "tiri_gap": 1.2,
+     "tiri_away": 14.6,
+     "tiri_gap": 0.6,
      "tiri_games": [
       7,
       1
      ],
-     "sot_home": 3.4,
-     "sot_away": 5.4,
-     "sot_gap": 2.0,
+     "sot_home": 5.8,
+     "sot_away": 4.5,
+     "sot_gap": 1.3,
      "sot_games": [
       7,
       1
      ],
      "falli_home": 12.1,
-     "falli_away": 10.3,
-     "falli_gap": 1.8,
+     "falli_away": 10.5,
+     "falli_gap": 1.6,
      "falli_games": [
       13,
       3
      ],
-     "off_home": 1.7,
-     "off_away": 1.5,
-     "off_gap": 0.2,
+     "off_home": 2.1,
+     "off_away": 1.3,
+     "off_gap": 0.8,
      "off_games": [
       13,
       3
      ],
-     "cards": 2.3,
-     "cards_1t": 0.5,
-     "cards_home": 1.3,
-     "cards_away": 1.0,
-     "cards_1t_home": 0.5,
-     "cards_1t_away": 0.0,
+     "cards": 4.5,
+     "cards_1t": 2.1,
+     "cards_home": 2.5,
+     "cards_away": 2.0,
+     "cards_1t_home": 0.8,
+     "cards_1t_away": 1.3,
      "games_k": [
       13,
       3
@@ -19210,58 +19263,2250 @@
       11,
       13
      ]
+    }
+   ]
+  },
+  "2026-11-06": {
+   "analizzate": 5,
+   "con_dati": 5,
+   "corner": [
+    {
+     "id": "m_2vsKSO",
+     "date": "2026-11-06",
+     "time": "2026-11-06",
+     "league": "Ligue 1",
+     "home": "Toulouse",
+     "away": "Strasbourg",
+     "non_coperto": [],
+     "corners_home": 4.8,
+     "corners_away": 3.1,
+     "gap": 1.7,
+     "games": [
+      4,
+      5
+     ],
+     "tiri_home": 16.1,
+     "tiri_away": 11.1,
+     "tiri_gap": 5.1,
+     "tiri_games": [
+      4,
+      5
+     ],
+     "sot_home": 5.7,
+     "sot_away": 4.2,
+     "sot_gap": 1.5,
+     "sot_games": [
+      4,
+      5
+     ],
+     "falli_home": 12.3,
+     "falli_away": 12.6,
+     "falli_gap": 0.2,
+     "falli_games": [
+      8,
+      8
+     ],
+     "off_home": 1.9,
+     "off_away": 1.0,
+     "off_gap": 0.9,
+     "off_games": [
+      8,
+      8
+     ],
+     "cards": 4.0,
+     "cards_1t": 1.2,
+     "cards_home": 2.1,
+     "cards_away": 1.9,
+     "cards_1t_home": 0.9,
+     "cards_1t_away": 0.4,
+     "games_k": [
+      8,
+      8
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/1f5139af48bf869cbecf3c4444a0761f443e5feaf6ff3b8a559c6d0bc1631d8f.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/e49b6b67d4f44ab2182c8f2384be346d13f717d85c447736c43e52ae587de406.webp"
     },
     {
-     "id": "m_1MJfdg",
-     "date": "2026-11-05",
-     "time": "2026-11-05",
-     "league": "Europa League",
-     "home": "Sturm Graz",
-     "away": "NK Celje",
-     "corners_home": 6.4,
+     "id": "m_0ZFoVd",
+     "date": "2026-11-06",
+     "time": "2026-11-06",
+     "league": "Premier League",
+     "home": "Everton",
+     "away": "Coventry City",
+     "non_coperto": [],
+     "corners_home": 4.9,
      "corners_away": 3.4,
-     "gap": 3.0,
+     "gap": 1.5,
      "games": [
-      7,
-      1
+      4,
+      4
      ],
-     "tiri_home": 14.0,
-     "tiri_away": 14.6,
-     "tiri_gap": 0.6,
+     "tiri_home": 17.0,
+     "tiri_away": 11.8,
+     "tiri_gap": 5.2,
      "tiri_games": [
-      7,
-      1
+      4,
+      4
+     ],
+     "sot_home": 4.5,
+     "sot_away": 3.2,
+     "sot_gap": 1.2,
+     "sot_games": [
+      4,
+      4
+     ],
+     "falli_home": 9.6,
+     "falli_away": 11.9,
+     "falli_gap": 2.3,
+     "falli_games": [
+      8,
+      8
+     ],
+     "off_home": 2.8,
+     "off_away": 1.1,
+     "off_gap": 1.7,
+     "off_games": [
+      8,
+      8
+     ],
+     "cards": 3.0,
+     "cards_1t": 1.2,
+     "cards_home": 1.9,
+     "cards_away": 1.1,
+     "cards_1t_home": 0.8,
+     "cards_1t_away": 0.5,
+     "games_k": [
+      8,
+      8
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/a755328b0286a79ef4e19406b2c63417922769a93ca17365b7333d4173cb9a2b.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/6bfdc5bca0f54e9ecb03c27941a777e0fd63d96a57f3a0c6f6e1aaca96d533b6.webp"
+    },
+    {
+     "id": "m_2DSeYr",
+     "date": "2026-11-06",
+     "time": "2026-11-06",
+     "league": "Bundesliga",
+     "home": "Hamburger SV",
+     "away": "Borussia Mönchengladbach",
+     "non_coperto": [],
+     "corners_home": 5.1,
+     "corners_away": 5.5,
+     "gap": 0.4,
+     "games": [
+      3,
+      4
+     ],
+     "tiri_home": 15.4,
+     "tiri_away": 16.3,
+     "tiri_gap": 0.9,
+     "tiri_games": [
+      3,
+      4
      ],
      "sot_home": 5.8,
-     "sot_away": 4.5,
-     "sot_gap": 1.3,
+     "sot_away": 5.1,
+     "sot_gap": 0.7,
      "sot_games": [
-      7,
-      1
+      3,
+      4
      ],
-     "falli_home": 12.1,
-     "falli_away": 10.5,
-     "falli_gap": 1.6,
+     "falli_home": 12.2,
+     "falli_away": 13.7,
+     "falli_gap": 1.5,
      "falli_games": [
-      13,
-      3
+      7,
+      7
      ],
-     "off_home": 2.1,
-     "off_away": 1.3,
-     "off_gap": 0.8,
+     "off_home": 1.2,
+     "off_away": 1.8,
+     "off_gap": 0.6,
      "off_games": [
-      13,
-      3
+      7,
+      7
      ],
-     "cards": 4.5,
-     "cards_1t": 2.1,
-     "cards_home": 2.5,
-     "cards_away": 2.0,
-     "cards_1t_home": 0.8,
-     "cards_1t_away": 1.3,
+     "cards": 4.6,
+     "cards_1t": 1.6,
+     "cards_home": 1.4,
+     "cards_away": 3.1,
+     "cards_1t_home": 0.6,
+     "cards_1t_away": 1.0,
      "games_k": [
-      13,
-      3
+      7,
+      7
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/aeb175ab92cb3317ad4f19f71de974531b67a4552a18b2be523c81f4384f375f.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/900d05c66e5abaad118cad096fa73364f6c70c74faf9619f86eab52f3c700aff.webp"
+    },
+    {
+     "id": "m_3apOTP",
+     "date": "2026-11-06",
+     "time": "2026-11-06",
+     "league": "LaLiga",
+     "home": "Sevilla",
+     "away": "Deportivo Alavés",
+     "non_coperto": [],
+     "corners_home": 4.2,
+     "corners_away": 3.8,
+     "gap": 0.4,
+     "games": [
+      5,
+      4
+     ],
+     "tiri_home": 13.2,
+     "tiri_away": 12.1,
+     "tiri_gap": 1.1,
+     "tiri_games": [
+      5,
+      4
+     ],
+     "sot_home": 4.3,
+     "sot_away": 4.2,
+     "sot_gap": 0.1,
+     "sot_games": [
+      5,
+      4
+     ],
+     "falli_home": 13.8,
+     "falli_away": 13.1,
+     "falli_gap": 0.7,
+     "falli_games": [
+      10,
+      10
+     ],
+     "off_home": 1.5,
+     "off_away": 2.1,
+     "off_gap": 0.6,
+     "off_games": [
+      10,
+      10
+     ],
+     "cards": 4.8,
+     "cards_1t": 1.5,
+     "cards_home": 3.0,
+     "cards_away": 1.8,
+     "cards_1t_home": 0.8,
+     "cards_1t_away": 0.7,
+     "games_k": [
+      10,
+      10
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/418e2903a54b8c05e9e9fe996f8757868a0c1027aae798b4f13601018762cd8f.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/e9f08977249bc4545a47dee37f4730f023cab2f5f4a76a34ce20c185665d2d56.webp"
+    },
+    {
+     "id": "m_3A4n8A",
+     "date": "2026-11-06",
+     "time": "2026-11-06",
+     "league": "Serie A",
+     "home": "Venezia",
+     "away": "Udinese",
+     "non_coperto": [],
+     "corners_home": 4.2,
+     "corners_away": 4.3,
+     "gap": 0.1,
+     "games": [
+      5,
+      4
+     ],
+     "tiri_home": 14.4,
+     "tiri_away": 15.4,
+     "tiri_gap": 1.0,
+     "tiri_games": [
+      5,
+      4
+     ],
+     "sot_home": 5.3,
+     "sot_away": 4.9,
+     "sot_gap": 0.4,
+     "sot_games": [
+      5,
+      4
+     ],
+     "falli_home": 9.7,
+     "falli_away": 10.8,
+     "falli_gap": 1.2,
+     "falli_games": [
+      9,
+      9
+     ],
+     "off_home": 2.8,
+     "off_away": 1.6,
+     "off_gap": 1.2,
+     "off_games": [
+      9,
+      9
+     ],
+     "cards": 4.0,
+     "cards_1t": 2.1,
+     "cards_home": 2.2,
+     "cards_away": 1.8,
+     "cards_1t_home": 0.9,
+     "cards_1t_away": 1.2,
+     "games_k": [
+      9,
+      9
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/ef4cf59b13e1d9d130d304bad00d700783a9783ba1c0469952db26a8a76a5b38.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/bf074b2992c5c0d8bb4fefdf71b549070c402656ac2e6405a52e8ee9ef6c8801.webp"
+    }
+   ],
+   "tiri": [
+    {
+     "id": "m_0ZFoVd",
+     "date": "2026-11-06",
+     "time": "2026-11-06",
+     "league": "Premier League",
+     "home": "Everton",
+     "away": "Coventry City",
+     "non_coperto": [],
+     "corners_home": 4.9,
+     "corners_away": 3.4,
+     "gap": 1.5,
+     "games": [
+      4,
+      4
+     ],
+     "tiri_home": 17.0,
+     "tiri_away": 11.8,
+     "tiri_gap": 5.2,
+     "tiri_games": [
+      4,
+      4
+     ],
+     "sot_home": 4.5,
+     "sot_away": 3.2,
+     "sot_gap": 1.2,
+     "sot_games": [
+      4,
+      4
+     ],
+     "falli_home": 9.6,
+     "falli_away": 11.9,
+     "falli_gap": 2.3,
+     "falli_games": [
+      8,
+      8
+     ],
+     "off_home": 2.8,
+     "off_away": 1.1,
+     "off_gap": 1.7,
+     "off_games": [
+      8,
+      8
+     ],
+     "cards": 3.0,
+     "cards_1t": 1.2,
+     "cards_home": 1.9,
+     "cards_away": 1.1,
+     "cards_1t_home": 0.8,
+     "cards_1t_away": 0.5,
+     "games_k": [
+      8,
+      8
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/a755328b0286a79ef4e19406b2c63417922769a93ca17365b7333d4173cb9a2b.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/6bfdc5bca0f54e9ecb03c27941a777e0fd63d96a57f3a0c6f6e1aaca96d533b6.webp"
+    },
+    {
+     "id": "m_2vsKSO",
+     "date": "2026-11-06",
+     "time": "2026-11-06",
+     "league": "Ligue 1",
+     "home": "Toulouse",
+     "away": "Strasbourg",
+     "non_coperto": [],
+     "corners_home": 4.8,
+     "corners_away": 3.1,
+     "gap": 1.7,
+     "games": [
+      4,
+      5
+     ],
+     "tiri_home": 16.1,
+     "tiri_away": 11.1,
+     "tiri_gap": 5.1,
+     "tiri_games": [
+      4,
+      5
+     ],
+     "sot_home": 5.7,
+     "sot_away": 4.2,
+     "sot_gap": 1.5,
+     "sot_games": [
+      4,
+      5
+     ],
+     "falli_home": 12.3,
+     "falli_away": 12.6,
+     "falli_gap": 0.2,
+     "falli_games": [
+      8,
+      8
+     ],
+     "off_home": 1.9,
+     "off_away": 1.0,
+     "off_gap": 0.9,
+     "off_games": [
+      8,
+      8
+     ],
+     "cards": 4.0,
+     "cards_1t": 1.2,
+     "cards_home": 2.1,
+     "cards_away": 1.9,
+     "cards_1t_home": 0.9,
+     "cards_1t_away": 0.4,
+     "games_k": [
+      8,
+      8
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/1f5139af48bf869cbecf3c4444a0761f443e5feaf6ff3b8a559c6d0bc1631d8f.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/e49b6b67d4f44ab2182c8f2384be346d13f717d85c447736c43e52ae587de406.webp"
+    },
+    {
+     "id": "m_3apOTP",
+     "date": "2026-11-06",
+     "time": "2026-11-06",
+     "league": "LaLiga",
+     "home": "Sevilla",
+     "away": "Deportivo Alavés",
+     "non_coperto": [],
+     "corners_home": 4.2,
+     "corners_away": 3.8,
+     "gap": 0.4,
+     "games": [
+      5,
+      4
+     ],
+     "tiri_home": 13.2,
+     "tiri_away": 12.1,
+     "tiri_gap": 1.1,
+     "tiri_games": [
+      5,
+      4
+     ],
+     "sot_home": 4.3,
+     "sot_away": 4.2,
+     "sot_gap": 0.1,
+     "sot_games": [
+      5,
+      4
+     ],
+     "falli_home": 13.8,
+     "falli_away": 13.1,
+     "falli_gap": 0.7,
+     "falli_games": [
+      10,
+      10
+     ],
+     "off_home": 1.5,
+     "off_away": 2.1,
+     "off_gap": 0.6,
+     "off_games": [
+      10,
+      10
+     ],
+     "cards": 4.8,
+     "cards_1t": 1.5,
+     "cards_home": 3.0,
+     "cards_away": 1.8,
+     "cards_1t_home": 0.8,
+     "cards_1t_away": 0.7,
+     "games_k": [
+      10,
+      10
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/418e2903a54b8c05e9e9fe996f8757868a0c1027aae798b4f13601018762cd8f.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/e9f08977249bc4545a47dee37f4730f023cab2f5f4a76a34ce20c185665d2d56.webp"
+    },
+    {
+     "id": "m_3A4n8A",
+     "date": "2026-11-06",
+     "time": "2026-11-06",
+     "league": "Serie A",
+     "home": "Venezia",
+     "away": "Udinese",
+     "non_coperto": [],
+     "corners_home": 4.2,
+     "corners_away": 4.3,
+     "gap": 0.1,
+     "games": [
+      5,
+      4
+     ],
+     "tiri_home": 14.4,
+     "tiri_away": 15.4,
+     "tiri_gap": 1.0,
+     "tiri_games": [
+      5,
+      4
+     ],
+     "sot_home": 5.3,
+     "sot_away": 4.9,
+     "sot_gap": 0.4,
+     "sot_games": [
+      5,
+      4
+     ],
+     "falli_home": 9.7,
+     "falli_away": 10.8,
+     "falli_gap": 1.2,
+     "falli_games": [
+      9,
+      9
+     ],
+     "off_home": 2.8,
+     "off_away": 1.6,
+     "off_gap": 1.2,
+     "off_games": [
+      9,
+      9
+     ],
+     "cards": 4.0,
+     "cards_1t": 2.1,
+     "cards_home": 2.2,
+     "cards_away": 1.8,
+     "cards_1t_home": 0.9,
+     "cards_1t_away": 1.2,
+     "games_k": [
+      9,
+      9
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/ef4cf59b13e1d9d130d304bad00d700783a9783ba1c0469952db26a8a76a5b38.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/bf074b2992c5c0d8bb4fefdf71b549070c402656ac2e6405a52e8ee9ef6c8801.webp"
+    },
+    {
+     "id": "m_2DSeYr",
+     "date": "2026-11-06",
+     "time": "2026-11-06",
+     "league": "Bundesliga",
+     "home": "Hamburger SV",
+     "away": "Borussia Mönchengladbach",
+     "non_coperto": [],
+     "corners_home": 5.1,
+     "corners_away": 5.5,
+     "gap": 0.4,
+     "games": [
+      3,
+      4
+     ],
+     "tiri_home": 15.4,
+     "tiri_away": 16.3,
+     "tiri_gap": 0.9,
+     "tiri_games": [
+      3,
+      4
+     ],
+     "sot_home": 5.8,
+     "sot_away": 5.1,
+     "sot_gap": 0.7,
+     "sot_games": [
+      3,
+      4
+     ],
+     "falli_home": 12.2,
+     "falli_away": 13.7,
+     "falli_gap": 1.5,
+     "falli_games": [
+      7,
+      7
+     ],
+     "off_home": 1.2,
+     "off_away": 1.8,
+     "off_gap": 0.6,
+     "off_games": [
+      7,
+      7
+     ],
+     "cards": 4.6,
+     "cards_1t": 1.6,
+     "cards_home": 1.4,
+     "cards_away": 3.1,
+     "cards_1t_home": 0.6,
+     "cards_1t_away": 1.0,
+     "games_k": [
+      7,
+      7
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/aeb175ab92cb3317ad4f19f71de974531b67a4552a18b2be523c81f4384f375f.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/900d05c66e5abaad118cad096fa73364f6c70c74faf9619f86eab52f3c700aff.webp"
+    }
+   ],
+   "tiri_sot": [
+    {
+     "id": "m_2vsKSO",
+     "date": "2026-11-06",
+     "time": "2026-11-06",
+     "league": "Ligue 1",
+     "home": "Toulouse",
+     "away": "Strasbourg",
+     "non_coperto": [],
+     "corners_home": 4.8,
+     "corners_away": 3.1,
+     "gap": 1.7,
+     "games": [
+      4,
+      5
+     ],
+     "tiri_home": 16.1,
+     "tiri_away": 11.1,
+     "tiri_gap": 5.1,
+     "tiri_games": [
+      4,
+      5
+     ],
+     "sot_home": 5.7,
+     "sot_away": 4.2,
+     "sot_gap": 1.5,
+     "sot_games": [
+      4,
+      5
+     ],
+     "falli_home": 12.3,
+     "falli_away": 12.6,
+     "falli_gap": 0.2,
+     "falli_games": [
+      8,
+      8
+     ],
+     "off_home": 1.9,
+     "off_away": 1.0,
+     "off_gap": 0.9,
+     "off_games": [
+      8,
+      8
+     ],
+     "cards": 4.0,
+     "cards_1t": 1.2,
+     "cards_home": 2.1,
+     "cards_away": 1.9,
+     "cards_1t_home": 0.9,
+     "cards_1t_away": 0.4,
+     "games_k": [
+      8,
+      8
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/1f5139af48bf869cbecf3c4444a0761f443e5feaf6ff3b8a559c6d0bc1631d8f.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/e49b6b67d4f44ab2182c8f2384be346d13f717d85c447736c43e52ae587de406.webp"
+    },
+    {
+     "id": "m_0ZFoVd",
+     "date": "2026-11-06",
+     "time": "2026-11-06",
+     "league": "Premier League",
+     "home": "Everton",
+     "away": "Coventry City",
+     "non_coperto": [],
+     "corners_home": 4.9,
+     "corners_away": 3.4,
+     "gap": 1.5,
+     "games": [
+      4,
+      4
+     ],
+     "tiri_home": 17.0,
+     "tiri_away": 11.8,
+     "tiri_gap": 5.2,
+     "tiri_games": [
+      4,
+      4
+     ],
+     "sot_home": 4.5,
+     "sot_away": 3.2,
+     "sot_gap": 1.2,
+     "sot_games": [
+      4,
+      4
+     ],
+     "falli_home": 9.6,
+     "falli_away": 11.9,
+     "falli_gap": 2.3,
+     "falli_games": [
+      8,
+      8
+     ],
+     "off_home": 2.8,
+     "off_away": 1.1,
+     "off_gap": 1.7,
+     "off_games": [
+      8,
+      8
+     ],
+     "cards": 3.0,
+     "cards_1t": 1.2,
+     "cards_home": 1.9,
+     "cards_away": 1.1,
+     "cards_1t_home": 0.8,
+     "cards_1t_away": 0.5,
+     "games_k": [
+      8,
+      8
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/a755328b0286a79ef4e19406b2c63417922769a93ca17365b7333d4173cb9a2b.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/6bfdc5bca0f54e9ecb03c27941a777e0fd63d96a57f3a0c6f6e1aaca96d533b6.webp"
+    },
+    {
+     "id": "m_2DSeYr",
+     "date": "2026-11-06",
+     "time": "2026-11-06",
+     "league": "Bundesliga",
+     "home": "Hamburger SV",
+     "away": "Borussia Mönchengladbach",
+     "non_coperto": [],
+     "corners_home": 5.1,
+     "corners_away": 5.5,
+     "gap": 0.4,
+     "games": [
+      3,
+      4
+     ],
+     "tiri_home": 15.4,
+     "tiri_away": 16.3,
+     "tiri_gap": 0.9,
+     "tiri_games": [
+      3,
+      4
+     ],
+     "sot_home": 5.8,
+     "sot_away": 5.1,
+     "sot_gap": 0.7,
+     "sot_games": [
+      3,
+      4
+     ],
+     "falli_home": 12.2,
+     "falli_away": 13.7,
+     "falli_gap": 1.5,
+     "falli_games": [
+      7,
+      7
+     ],
+     "off_home": 1.2,
+     "off_away": 1.8,
+     "off_gap": 0.6,
+     "off_games": [
+      7,
+      7
+     ],
+     "cards": 4.6,
+     "cards_1t": 1.6,
+     "cards_home": 1.4,
+     "cards_away": 3.1,
+     "cards_1t_home": 0.6,
+     "cards_1t_away": 1.0,
+     "games_k": [
+      7,
+      7
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/aeb175ab92cb3317ad4f19f71de974531b67a4552a18b2be523c81f4384f375f.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/900d05c66e5abaad118cad096fa73364f6c70c74faf9619f86eab52f3c700aff.webp"
+    },
+    {
+     "id": "m_3A4n8A",
+     "date": "2026-11-06",
+     "time": "2026-11-06",
+     "league": "Serie A",
+     "home": "Venezia",
+     "away": "Udinese",
+     "non_coperto": [],
+     "corners_home": 4.2,
+     "corners_away": 4.3,
+     "gap": 0.1,
+     "games": [
+      5,
+      4
+     ],
+     "tiri_home": 14.4,
+     "tiri_away": 15.4,
+     "tiri_gap": 1.0,
+     "tiri_games": [
+      5,
+      4
+     ],
+     "sot_home": 5.3,
+     "sot_away": 4.9,
+     "sot_gap": 0.4,
+     "sot_games": [
+      5,
+      4
+     ],
+     "falli_home": 9.7,
+     "falli_away": 10.8,
+     "falli_gap": 1.2,
+     "falli_games": [
+      9,
+      9
+     ],
+     "off_home": 2.8,
+     "off_away": 1.6,
+     "off_gap": 1.2,
+     "off_games": [
+      9,
+      9
+     ],
+     "cards": 4.0,
+     "cards_1t": 2.1,
+     "cards_home": 2.2,
+     "cards_away": 1.8,
+     "cards_1t_home": 0.9,
+     "cards_1t_away": 1.2,
+     "games_k": [
+      9,
+      9
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/ef4cf59b13e1d9d130d304bad00d700783a9783ba1c0469952db26a8a76a5b38.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/bf074b2992c5c0d8bb4fefdf71b549070c402656ac2e6405a52e8ee9ef6c8801.webp"
+    },
+    {
+     "id": "m_3apOTP",
+     "date": "2026-11-06",
+     "time": "2026-11-06",
+     "league": "LaLiga",
+     "home": "Sevilla",
+     "away": "Deportivo Alavés",
+     "non_coperto": [],
+     "corners_home": 4.2,
+     "corners_away": 3.8,
+     "gap": 0.4,
+     "games": [
+      5,
+      4
+     ],
+     "tiri_home": 13.2,
+     "tiri_away": 12.1,
+     "tiri_gap": 1.1,
+     "tiri_games": [
+      5,
+      4
+     ],
+     "sot_home": 4.3,
+     "sot_away": 4.2,
+     "sot_gap": 0.1,
+     "sot_games": [
+      5,
+      4
+     ],
+     "falli_home": 13.8,
+     "falli_away": 13.1,
+     "falli_gap": 0.7,
+     "falli_games": [
+      10,
+      10
+     ],
+     "off_home": 1.5,
+     "off_away": 2.1,
+     "off_gap": 0.6,
+     "off_games": [
+      10,
+      10
+     ],
+     "cards": 4.8,
+     "cards_1t": 1.5,
+     "cards_home": 3.0,
+     "cards_away": 1.8,
+     "cards_1t_home": 0.8,
+     "cards_1t_away": 0.7,
+     "games_k": [
+      10,
+      10
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/418e2903a54b8c05e9e9fe996f8757868a0c1027aae798b4f13601018762cd8f.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/e9f08977249bc4545a47dee37f4730f023cab2f5f4a76a34ce20c185665d2d56.webp"
+    }
+   ],
+   "falli": [
+    {
+     "id": "m_0ZFoVd",
+     "date": "2026-11-06",
+     "time": "2026-11-06",
+     "league": "Premier League",
+     "home": "Everton",
+     "away": "Coventry City",
+     "non_coperto": [],
+     "corners_home": 4.9,
+     "corners_away": 3.4,
+     "gap": 1.5,
+     "games": [
+      4,
+      4
+     ],
+     "tiri_home": 17.0,
+     "tiri_away": 11.8,
+     "tiri_gap": 5.2,
+     "tiri_games": [
+      4,
+      4
+     ],
+     "sot_home": 4.5,
+     "sot_away": 3.2,
+     "sot_gap": 1.2,
+     "sot_games": [
+      4,
+      4
+     ],
+     "falli_home": 9.6,
+     "falli_away": 11.9,
+     "falli_gap": 2.3,
+     "falli_games": [
+      8,
+      8
+     ],
+     "off_home": 2.8,
+     "off_away": 1.1,
+     "off_gap": 1.7,
+     "off_games": [
+      8,
+      8
+     ],
+     "cards": 3.0,
+     "cards_1t": 1.2,
+     "cards_home": 1.9,
+     "cards_away": 1.1,
+     "cards_1t_home": 0.8,
+     "cards_1t_away": 0.5,
+     "games_k": [
+      8,
+      8
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/a755328b0286a79ef4e19406b2c63417922769a93ca17365b7333d4173cb9a2b.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/6bfdc5bca0f54e9ecb03c27941a777e0fd63d96a57f3a0c6f6e1aaca96d533b6.webp"
+    },
+    {
+     "id": "m_2DSeYr",
+     "date": "2026-11-06",
+     "time": "2026-11-06",
+     "league": "Bundesliga",
+     "home": "Hamburger SV",
+     "away": "Borussia Mönchengladbach",
+     "non_coperto": [],
+     "corners_home": 5.1,
+     "corners_away": 5.5,
+     "gap": 0.4,
+     "games": [
+      3,
+      4
+     ],
+     "tiri_home": 15.4,
+     "tiri_away": 16.3,
+     "tiri_gap": 0.9,
+     "tiri_games": [
+      3,
+      4
+     ],
+     "sot_home": 5.8,
+     "sot_away": 5.1,
+     "sot_gap": 0.7,
+     "sot_games": [
+      3,
+      4
+     ],
+     "falli_home": 12.2,
+     "falli_away": 13.7,
+     "falli_gap": 1.5,
+     "falli_games": [
+      7,
+      7
+     ],
+     "off_home": 1.2,
+     "off_away": 1.8,
+     "off_gap": 0.6,
+     "off_games": [
+      7,
+      7
+     ],
+     "cards": 4.6,
+     "cards_1t": 1.6,
+     "cards_home": 1.4,
+     "cards_away": 3.1,
+     "cards_1t_home": 0.6,
+     "cards_1t_away": 1.0,
+     "games_k": [
+      7,
+      7
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/aeb175ab92cb3317ad4f19f71de974531b67a4552a18b2be523c81f4384f375f.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/900d05c66e5abaad118cad096fa73364f6c70c74faf9619f86eab52f3c700aff.webp"
+    },
+    {
+     "id": "m_3A4n8A",
+     "date": "2026-11-06",
+     "time": "2026-11-06",
+     "league": "Serie A",
+     "home": "Venezia",
+     "away": "Udinese",
+     "non_coperto": [],
+     "corners_home": 4.2,
+     "corners_away": 4.3,
+     "gap": 0.1,
+     "games": [
+      5,
+      4
+     ],
+     "tiri_home": 14.4,
+     "tiri_away": 15.4,
+     "tiri_gap": 1.0,
+     "tiri_games": [
+      5,
+      4
+     ],
+     "sot_home": 5.3,
+     "sot_away": 4.9,
+     "sot_gap": 0.4,
+     "sot_games": [
+      5,
+      4
+     ],
+     "falli_home": 9.7,
+     "falli_away": 10.8,
+     "falli_gap": 1.2,
+     "falli_games": [
+      9,
+      9
+     ],
+     "off_home": 2.8,
+     "off_away": 1.6,
+     "off_gap": 1.2,
+     "off_games": [
+      9,
+      9
+     ],
+     "cards": 4.0,
+     "cards_1t": 2.1,
+     "cards_home": 2.2,
+     "cards_away": 1.8,
+     "cards_1t_home": 0.9,
+     "cards_1t_away": 1.2,
+     "games_k": [
+      9,
+      9
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/ef4cf59b13e1d9d130d304bad00d700783a9783ba1c0469952db26a8a76a5b38.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/bf074b2992c5c0d8bb4fefdf71b549070c402656ac2e6405a52e8ee9ef6c8801.webp"
+    },
+    {
+     "id": "m_3apOTP",
+     "date": "2026-11-06",
+     "time": "2026-11-06",
+     "league": "LaLiga",
+     "home": "Sevilla",
+     "away": "Deportivo Alavés",
+     "non_coperto": [],
+     "corners_home": 4.2,
+     "corners_away": 3.8,
+     "gap": 0.4,
+     "games": [
+      5,
+      4
+     ],
+     "tiri_home": 13.2,
+     "tiri_away": 12.1,
+     "tiri_gap": 1.1,
+     "tiri_games": [
+      5,
+      4
+     ],
+     "sot_home": 4.3,
+     "sot_away": 4.2,
+     "sot_gap": 0.1,
+     "sot_games": [
+      5,
+      4
+     ],
+     "falli_home": 13.8,
+     "falli_away": 13.1,
+     "falli_gap": 0.7,
+     "falli_games": [
+      10,
+      10
+     ],
+     "off_home": 1.5,
+     "off_away": 2.1,
+     "off_gap": 0.6,
+     "off_games": [
+      10,
+      10
+     ],
+     "cards": 4.8,
+     "cards_1t": 1.5,
+     "cards_home": 3.0,
+     "cards_away": 1.8,
+     "cards_1t_home": 0.8,
+     "cards_1t_away": 0.7,
+     "games_k": [
+      10,
+      10
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/418e2903a54b8c05e9e9fe996f8757868a0c1027aae798b4f13601018762cd8f.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/e9f08977249bc4545a47dee37f4730f023cab2f5f4a76a34ce20c185665d2d56.webp"
+    },
+    {
+     "id": "m_2vsKSO",
+     "date": "2026-11-06",
+     "time": "2026-11-06",
+     "league": "Ligue 1",
+     "home": "Toulouse",
+     "away": "Strasbourg",
+     "non_coperto": [],
+     "corners_home": 4.8,
+     "corners_away": 3.1,
+     "gap": 1.7,
+     "games": [
+      4,
+      5
+     ],
+     "tiri_home": 16.1,
+     "tiri_away": 11.1,
+     "tiri_gap": 5.1,
+     "tiri_games": [
+      4,
+      5
+     ],
+     "sot_home": 5.7,
+     "sot_away": 4.2,
+     "sot_gap": 1.5,
+     "sot_games": [
+      4,
+      5
+     ],
+     "falli_home": 12.3,
+     "falli_away": 12.6,
+     "falli_gap": 0.2,
+     "falli_games": [
+      8,
+      8
+     ],
+     "off_home": 1.9,
+     "off_away": 1.0,
+     "off_gap": 0.9,
+     "off_games": [
+      8,
+      8
+     ],
+     "cards": 4.0,
+     "cards_1t": 1.2,
+     "cards_home": 2.1,
+     "cards_away": 1.9,
+     "cards_1t_home": 0.9,
+     "cards_1t_away": 0.4,
+     "games_k": [
+      8,
+      8
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/1f5139af48bf869cbecf3c4444a0761f443e5feaf6ff3b8a559c6d0bc1631d8f.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/e49b6b67d4f44ab2182c8f2384be346d13f717d85c447736c43e52ae587de406.webp"
+    }
+   ],
+   "fuorigiochi": [
+    {
+     "id": "m_0ZFoVd",
+     "date": "2026-11-06",
+     "time": "2026-11-06",
+     "league": "Premier League",
+     "home": "Everton",
+     "away": "Coventry City",
+     "non_coperto": [],
+     "corners_home": 4.9,
+     "corners_away": 3.4,
+     "gap": 1.5,
+     "games": [
+      4,
+      4
+     ],
+     "tiri_home": 17.0,
+     "tiri_away": 11.8,
+     "tiri_gap": 5.2,
+     "tiri_games": [
+      4,
+      4
+     ],
+     "sot_home": 4.5,
+     "sot_away": 3.2,
+     "sot_gap": 1.2,
+     "sot_games": [
+      4,
+      4
+     ],
+     "falli_home": 9.6,
+     "falli_away": 11.9,
+     "falli_gap": 2.3,
+     "falli_games": [
+      8,
+      8
+     ],
+     "off_home": 2.8,
+     "off_away": 1.1,
+     "off_gap": 1.7,
+     "off_games": [
+      8,
+      8
+     ],
+     "cards": 3.0,
+     "cards_1t": 1.2,
+     "cards_home": 1.9,
+     "cards_away": 1.1,
+     "cards_1t_home": 0.8,
+     "cards_1t_away": 0.5,
+     "games_k": [
+      8,
+      8
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/a755328b0286a79ef4e19406b2c63417922769a93ca17365b7333d4173cb9a2b.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/6bfdc5bca0f54e9ecb03c27941a777e0fd63d96a57f3a0c6f6e1aaca96d533b6.webp"
+    },
+    {
+     "id": "m_3A4n8A",
+     "date": "2026-11-06",
+     "time": "2026-11-06",
+     "league": "Serie A",
+     "home": "Venezia",
+     "away": "Udinese",
+     "non_coperto": [],
+     "corners_home": 4.2,
+     "corners_away": 4.3,
+     "gap": 0.1,
+     "games": [
+      5,
+      4
+     ],
+     "tiri_home": 14.4,
+     "tiri_away": 15.4,
+     "tiri_gap": 1.0,
+     "tiri_games": [
+      5,
+      4
+     ],
+     "sot_home": 5.3,
+     "sot_away": 4.9,
+     "sot_gap": 0.4,
+     "sot_games": [
+      5,
+      4
+     ],
+     "falli_home": 9.7,
+     "falli_away": 10.8,
+     "falli_gap": 1.2,
+     "falli_games": [
+      9,
+      9
+     ],
+     "off_home": 2.8,
+     "off_away": 1.6,
+     "off_gap": 1.2,
+     "off_games": [
+      9,
+      9
+     ],
+     "cards": 4.0,
+     "cards_1t": 2.1,
+     "cards_home": 2.2,
+     "cards_away": 1.8,
+     "cards_1t_home": 0.9,
+     "cards_1t_away": 1.2,
+     "games_k": [
+      9,
+      9
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/ef4cf59b13e1d9d130d304bad00d700783a9783ba1c0469952db26a8a76a5b38.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/bf074b2992c5c0d8bb4fefdf71b549070c402656ac2e6405a52e8ee9ef6c8801.webp"
+    },
+    {
+     "id": "m_2vsKSO",
+     "date": "2026-11-06",
+     "time": "2026-11-06",
+     "league": "Ligue 1",
+     "home": "Toulouse",
+     "away": "Strasbourg",
+     "non_coperto": [],
+     "corners_home": 4.8,
+     "corners_away": 3.1,
+     "gap": 1.7,
+     "games": [
+      4,
+      5
+     ],
+     "tiri_home": 16.1,
+     "tiri_away": 11.1,
+     "tiri_gap": 5.1,
+     "tiri_games": [
+      4,
+      5
+     ],
+     "sot_home": 5.7,
+     "sot_away": 4.2,
+     "sot_gap": 1.5,
+     "sot_games": [
+      4,
+      5
+     ],
+     "falli_home": 12.3,
+     "falli_away": 12.6,
+     "falli_gap": 0.2,
+     "falli_games": [
+      8,
+      8
+     ],
+     "off_home": 1.9,
+     "off_away": 1.0,
+     "off_gap": 0.9,
+     "off_games": [
+      8,
+      8
+     ],
+     "cards": 4.0,
+     "cards_1t": 1.2,
+     "cards_home": 2.1,
+     "cards_away": 1.9,
+     "cards_1t_home": 0.9,
+     "cards_1t_away": 0.4,
+     "games_k": [
+      8,
+      8
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/1f5139af48bf869cbecf3c4444a0761f443e5feaf6ff3b8a559c6d0bc1631d8f.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/e49b6b67d4f44ab2182c8f2384be346d13f717d85c447736c43e52ae587de406.webp"
+    },
+    {
+     "id": "m_2DSeYr",
+     "date": "2026-11-06",
+     "time": "2026-11-06",
+     "league": "Bundesliga",
+     "home": "Hamburger SV",
+     "away": "Borussia Mönchengladbach",
+     "non_coperto": [],
+     "corners_home": 5.1,
+     "corners_away": 5.5,
+     "gap": 0.4,
+     "games": [
+      3,
+      4
+     ],
+     "tiri_home": 15.4,
+     "tiri_away": 16.3,
+     "tiri_gap": 0.9,
+     "tiri_games": [
+      3,
+      4
+     ],
+     "sot_home": 5.8,
+     "sot_away": 5.1,
+     "sot_gap": 0.7,
+     "sot_games": [
+      3,
+      4
+     ],
+     "falli_home": 12.2,
+     "falli_away": 13.7,
+     "falli_gap": 1.5,
+     "falli_games": [
+      7,
+      7
+     ],
+     "off_home": 1.2,
+     "off_away": 1.8,
+     "off_gap": 0.6,
+     "off_games": [
+      7,
+      7
+     ],
+     "cards": 4.6,
+     "cards_1t": 1.6,
+     "cards_home": 1.4,
+     "cards_away": 3.1,
+     "cards_1t_home": 0.6,
+     "cards_1t_away": 1.0,
+     "games_k": [
+      7,
+      7
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/aeb175ab92cb3317ad4f19f71de974531b67a4552a18b2be523c81f4384f375f.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/900d05c66e5abaad118cad096fa73364f6c70c74faf9619f86eab52f3c700aff.webp"
+    },
+    {
+     "id": "m_3apOTP",
+     "date": "2026-11-06",
+     "time": "2026-11-06",
+     "league": "LaLiga",
+     "home": "Sevilla",
+     "away": "Deportivo Alavés",
+     "non_coperto": [],
+     "corners_home": 4.2,
+     "corners_away": 3.8,
+     "gap": 0.4,
+     "games": [
+      5,
+      4
+     ],
+     "tiri_home": 13.2,
+     "tiri_away": 12.1,
+     "tiri_gap": 1.1,
+     "tiri_games": [
+      5,
+      4
+     ],
+     "sot_home": 4.3,
+     "sot_away": 4.2,
+     "sot_gap": 0.1,
+     "sot_games": [
+      5,
+      4
+     ],
+     "falli_home": 13.8,
+     "falli_away": 13.1,
+     "falli_gap": 0.7,
+     "falli_games": [
+      10,
+      10
+     ],
+     "off_home": 1.5,
+     "off_away": 2.1,
+     "off_gap": 0.6,
+     "off_games": [
+      10,
+      10
+     ],
+     "cards": 4.8,
+     "cards_1t": 1.5,
+     "cards_home": 3.0,
+     "cards_away": 1.8,
+     "cards_1t_home": 0.8,
+     "cards_1t_away": 0.7,
+     "games_k": [
+      10,
+      10
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/418e2903a54b8c05e9e9fe996f8757868a0c1027aae798b4f13601018762cd8f.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/e9f08977249bc4545a47dee37f4730f023cab2f5f4a76a34ce20c185665d2d56.webp"
+    }
+   ],
+   "cartellini": [
+    {
+     "id": "m_0ZFoVd",
+     "date": "2026-11-06",
+     "time": "2026-11-06",
+     "league": "Premier League",
+     "home": "Everton",
+     "away": "Coventry City",
+     "non_coperto": [],
+     "corners_home": 4.9,
+     "corners_away": 3.4,
+     "gap": 1.5,
+     "games": [
+      4,
+      4
+     ],
+     "tiri_home": 17.0,
+     "tiri_away": 11.8,
+     "tiri_gap": 5.2,
+     "tiri_games": [
+      4,
+      4
+     ],
+     "sot_home": 4.5,
+     "sot_away": 3.2,
+     "sot_gap": 1.2,
+     "sot_games": [
+      4,
+      4
+     ],
+     "falli_home": 9.6,
+     "falli_away": 11.9,
+     "falli_gap": 2.3,
+     "falli_games": [
+      8,
+      8
+     ],
+     "off_home": 2.8,
+     "off_away": 1.1,
+     "off_gap": 1.7,
+     "off_games": [
+      8,
+      8
+     ],
+     "cards": 3.0,
+     "cards_1t": 1.2,
+     "cards_home": 1.9,
+     "cards_away": 1.1,
+     "cards_1t_home": 0.8,
+     "cards_1t_away": 0.5,
+     "games_k": [
+      8,
+      8
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/a755328b0286a79ef4e19406b2c63417922769a93ca17365b7333d4173cb9a2b.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/6bfdc5bca0f54e9ecb03c27941a777e0fd63d96a57f3a0c6f6e1aaca96d533b6.webp"
+    },
+    {
+     "id": "m_3A4n8A",
+     "date": "2026-11-06",
+     "time": "2026-11-06",
+     "league": "Serie A",
+     "home": "Venezia",
+     "away": "Udinese",
+     "non_coperto": [],
+     "corners_home": 4.2,
+     "corners_away": 4.3,
+     "gap": 0.1,
+     "games": [
+      5,
+      4
+     ],
+     "tiri_home": 14.4,
+     "tiri_away": 15.4,
+     "tiri_gap": 1.0,
+     "tiri_games": [
+      5,
+      4
+     ],
+     "sot_home": 5.3,
+     "sot_away": 4.9,
+     "sot_gap": 0.4,
+     "sot_games": [
+      5,
+      4
+     ],
+     "falli_home": 9.7,
+     "falli_away": 10.8,
+     "falli_gap": 1.2,
+     "falli_games": [
+      9,
+      9
+     ],
+     "off_home": 2.8,
+     "off_away": 1.6,
+     "off_gap": 1.2,
+     "off_games": [
+      9,
+      9
+     ],
+     "cards": 4.0,
+     "cards_1t": 2.1,
+     "cards_home": 2.2,
+     "cards_away": 1.8,
+     "cards_1t_home": 0.9,
+     "cards_1t_away": 1.2,
+     "games_k": [
+      9,
+      9
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/ef4cf59b13e1d9d130d304bad00d700783a9783ba1c0469952db26a8a76a5b38.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/bf074b2992c5c0d8bb4fefdf71b549070c402656ac2e6405a52e8ee9ef6c8801.webp"
+    },
+    {
+     "id": "m_2vsKSO",
+     "date": "2026-11-06",
+     "time": "2026-11-06",
+     "league": "Ligue 1",
+     "home": "Toulouse",
+     "away": "Strasbourg",
+     "non_coperto": [],
+     "corners_home": 4.8,
+     "corners_away": 3.1,
+     "gap": 1.7,
+     "games": [
+      4,
+      5
+     ],
+     "tiri_home": 16.1,
+     "tiri_away": 11.1,
+     "tiri_gap": 5.1,
+     "tiri_games": [
+      4,
+      5
+     ],
+     "sot_home": 5.7,
+     "sot_away": 4.2,
+     "sot_gap": 1.5,
+     "sot_games": [
+      4,
+      5
+     ],
+     "falli_home": 12.3,
+     "falli_away": 12.6,
+     "falli_gap": 0.2,
+     "falli_games": [
+      8,
+      8
+     ],
+     "off_home": 1.9,
+     "off_away": 1.0,
+     "off_gap": 0.9,
+     "off_games": [
+      8,
+      8
+     ],
+     "cards": 4.0,
+     "cards_1t": 1.2,
+     "cards_home": 2.1,
+     "cards_away": 1.9,
+     "cards_1t_home": 0.9,
+     "cards_1t_away": 0.4,
+     "games_k": [
+      8,
+      8
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/1f5139af48bf869cbecf3c4444a0761f443e5feaf6ff3b8a559c6d0bc1631d8f.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/e49b6b67d4f44ab2182c8f2384be346d13f717d85c447736c43e52ae587de406.webp"
+    },
+    {
+     "id": "m_2DSeYr",
+     "date": "2026-11-06",
+     "time": "2026-11-06",
+     "league": "Bundesliga",
+     "home": "Hamburger SV",
+     "away": "Borussia Mönchengladbach",
+     "non_coperto": [],
+     "corners_home": 5.1,
+     "corners_away": 5.5,
+     "gap": 0.4,
+     "games": [
+      3,
+      4
+     ],
+     "tiri_home": 15.4,
+     "tiri_away": 16.3,
+     "tiri_gap": 0.9,
+     "tiri_games": [
+      3,
+      4
+     ],
+     "sot_home": 5.8,
+     "sot_away": 5.1,
+     "sot_gap": 0.7,
+     "sot_games": [
+      3,
+      4
+     ],
+     "falli_home": 12.2,
+     "falli_away": 13.7,
+     "falli_gap": 1.5,
+     "falli_games": [
+      7,
+      7
+     ],
+     "off_home": 1.2,
+     "off_away": 1.8,
+     "off_gap": 0.6,
+     "off_games": [
+      7,
+      7
+     ],
+     "cards": 4.6,
+     "cards_1t": 1.6,
+     "cards_home": 1.4,
+     "cards_away": 3.1,
+     "cards_1t_home": 0.6,
+     "cards_1t_away": 1.0,
+     "games_k": [
+      7,
+      7
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/aeb175ab92cb3317ad4f19f71de974531b67a4552a18b2be523c81f4384f375f.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/900d05c66e5abaad118cad096fa73364f6c70c74faf9619f86eab52f3c700aff.webp"
+    },
+    {
+     "id": "m_3apOTP",
+     "date": "2026-11-06",
+     "time": "2026-11-06",
+     "league": "LaLiga",
+     "home": "Sevilla",
+     "away": "Deportivo Alavés",
+     "non_coperto": [],
+     "corners_home": 4.2,
+     "corners_away": 3.8,
+     "gap": 0.4,
+     "games": [
+      5,
+      4
+     ],
+     "tiri_home": 13.2,
+     "tiri_away": 12.1,
+     "tiri_gap": 1.1,
+     "tiri_games": [
+      5,
+      4
+     ],
+     "sot_home": 4.3,
+     "sot_away": 4.2,
+     "sot_gap": 0.1,
+     "sot_games": [
+      5,
+      4
+     ],
+     "falli_home": 13.8,
+     "falli_away": 13.1,
+     "falli_gap": 0.7,
+     "falli_games": [
+      10,
+      10
+     ],
+     "off_home": 1.5,
+     "off_away": 2.1,
+     "off_gap": 0.6,
+     "off_games": [
+      10,
+      10
+     ],
+     "cards": 4.8,
+     "cards_1t": 1.5,
+     "cards_home": 3.0,
+     "cards_away": 1.8,
+     "cards_1t_home": 0.8,
+     "cards_1t_away": 0.7,
+     "games_k": [
+      10,
+      10
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/418e2903a54b8c05e9e9fe996f8757868a0c1027aae798b4f13601018762cd8f.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/e9f08977249bc4545a47dee37f4730f023cab2f5f4a76a34ce20c185665d2d56.webp"
+    }
+   ],
+   "cartellini_1t": [
+    {
+     "id": "m_0ZFoVd",
+     "date": "2026-11-06",
+     "time": "2026-11-06",
+     "league": "Premier League",
+     "home": "Everton",
+     "away": "Coventry City",
+     "non_coperto": [],
+     "corners_home": 4.9,
+     "corners_away": 3.4,
+     "gap": 1.5,
+     "games": [
+      4,
+      4
+     ],
+     "tiri_home": 17.0,
+     "tiri_away": 11.8,
+     "tiri_gap": 5.2,
+     "tiri_games": [
+      4,
+      4
+     ],
+     "sot_home": 4.5,
+     "sot_away": 3.2,
+     "sot_gap": 1.2,
+     "sot_games": [
+      4,
+      4
+     ],
+     "falli_home": 9.6,
+     "falli_away": 11.9,
+     "falli_gap": 2.3,
+     "falli_games": [
+      8,
+      8
+     ],
+     "off_home": 2.8,
+     "off_away": 1.1,
+     "off_gap": 1.7,
+     "off_games": [
+      8,
+      8
+     ],
+     "cards": 3.0,
+     "cards_1t": 1.2,
+     "cards_home": 1.9,
+     "cards_away": 1.1,
+     "cards_1t_home": 0.8,
+     "cards_1t_away": 0.5,
+     "games_k": [
+      8,
+      8
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/a755328b0286a79ef4e19406b2c63417922769a93ca17365b7333d4173cb9a2b.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/6bfdc5bca0f54e9ecb03c27941a777e0fd63d96a57f3a0c6f6e1aaca96d533b6.webp"
+    },
+    {
+     "id": "m_2vsKSO",
+     "date": "2026-11-06",
+     "time": "2026-11-06",
+     "league": "Ligue 1",
+     "home": "Toulouse",
+     "away": "Strasbourg",
+     "non_coperto": [],
+     "corners_home": 4.8,
+     "corners_away": 3.1,
+     "gap": 1.7,
+     "games": [
+      4,
+      5
+     ],
+     "tiri_home": 16.1,
+     "tiri_away": 11.1,
+     "tiri_gap": 5.1,
+     "tiri_games": [
+      4,
+      5
+     ],
+     "sot_home": 5.7,
+     "sot_away": 4.2,
+     "sot_gap": 1.5,
+     "sot_games": [
+      4,
+      5
+     ],
+     "falli_home": 12.3,
+     "falli_away": 12.6,
+     "falli_gap": 0.2,
+     "falli_games": [
+      8,
+      8
+     ],
+     "off_home": 1.9,
+     "off_away": 1.0,
+     "off_gap": 0.9,
+     "off_games": [
+      8,
+      8
+     ],
+     "cards": 4.0,
+     "cards_1t": 1.2,
+     "cards_home": 2.1,
+     "cards_away": 1.9,
+     "cards_1t_home": 0.9,
+     "cards_1t_away": 0.4,
+     "games_k": [
+      8,
+      8
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/1f5139af48bf869cbecf3c4444a0761f443e5feaf6ff3b8a559c6d0bc1631d8f.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/e49b6b67d4f44ab2182c8f2384be346d13f717d85c447736c43e52ae587de406.webp"
+    },
+    {
+     "id": "m_3apOTP",
+     "date": "2026-11-06",
+     "time": "2026-11-06",
+     "league": "LaLiga",
+     "home": "Sevilla",
+     "away": "Deportivo Alavés",
+     "non_coperto": [],
+     "corners_home": 4.2,
+     "corners_away": 3.8,
+     "gap": 0.4,
+     "games": [
+      5,
+      4
+     ],
+     "tiri_home": 13.2,
+     "tiri_away": 12.1,
+     "tiri_gap": 1.1,
+     "tiri_games": [
+      5,
+      4
+     ],
+     "sot_home": 4.3,
+     "sot_away": 4.2,
+     "sot_gap": 0.1,
+     "sot_games": [
+      5,
+      4
+     ],
+     "falli_home": 13.8,
+     "falli_away": 13.1,
+     "falli_gap": 0.7,
+     "falli_games": [
+      10,
+      10
+     ],
+     "off_home": 1.5,
+     "off_away": 2.1,
+     "off_gap": 0.6,
+     "off_games": [
+      10,
+      10
+     ],
+     "cards": 4.8,
+     "cards_1t": 1.5,
+     "cards_home": 3.0,
+     "cards_away": 1.8,
+     "cards_1t_home": 0.8,
+     "cards_1t_away": 0.7,
+     "games_k": [
+      10,
+      10
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/418e2903a54b8c05e9e9fe996f8757868a0c1027aae798b4f13601018762cd8f.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/e9f08977249bc4545a47dee37f4730f023cab2f5f4a76a34ce20c185665d2d56.webp"
+    },
+    {
+     "id": "m_2DSeYr",
+     "date": "2026-11-06",
+     "time": "2026-11-06",
+     "league": "Bundesliga",
+     "home": "Hamburger SV",
+     "away": "Borussia Mönchengladbach",
+     "non_coperto": [],
+     "corners_home": 5.1,
+     "corners_away": 5.5,
+     "gap": 0.4,
+     "games": [
+      3,
+      4
+     ],
+     "tiri_home": 15.4,
+     "tiri_away": 16.3,
+     "tiri_gap": 0.9,
+     "tiri_games": [
+      3,
+      4
+     ],
+     "sot_home": 5.8,
+     "sot_away": 5.1,
+     "sot_gap": 0.7,
+     "sot_games": [
+      3,
+      4
+     ],
+     "falli_home": 12.2,
+     "falli_away": 13.7,
+     "falli_gap": 1.5,
+     "falli_games": [
+      7,
+      7
+     ],
+     "off_home": 1.2,
+     "off_away": 1.8,
+     "off_gap": 0.6,
+     "off_games": [
+      7,
+      7
+     ],
+     "cards": 4.6,
+     "cards_1t": 1.6,
+     "cards_home": 1.4,
+     "cards_away": 3.1,
+     "cards_1t_home": 0.6,
+     "cards_1t_away": 1.0,
+     "games_k": [
+      7,
+      7
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/aeb175ab92cb3317ad4f19f71de974531b67a4552a18b2be523c81f4384f375f.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/900d05c66e5abaad118cad096fa73364f6c70c74faf9619f86eab52f3c700aff.webp"
+    },
+    {
+     "id": "m_3A4n8A",
+     "date": "2026-11-06",
+     "time": "2026-11-06",
+     "league": "Serie A",
+     "home": "Venezia",
+     "away": "Udinese",
+     "non_coperto": [],
+     "corners_home": 4.2,
+     "corners_away": 4.3,
+     "gap": 0.1,
+     "games": [
+      5,
+      4
+     ],
+     "tiri_home": 14.4,
+     "tiri_away": 15.4,
+     "tiri_gap": 1.0,
+     "tiri_games": [
+      5,
+      4
+     ],
+     "sot_home": 5.3,
+     "sot_away": 4.9,
+     "sot_gap": 0.4,
+     "sot_games": [
+      5,
+      4
+     ],
+     "falli_home": 9.7,
+     "falli_away": 10.8,
+     "falli_gap": 1.2,
+     "falli_games": [
+      9,
+      9
+     ],
+     "off_home": 2.8,
+     "off_away": 1.6,
+     "off_gap": 1.2,
+     "off_games": [
+      9,
+      9
+     ],
+     "cards": 4.0,
+     "cards_1t": 2.1,
+     "cards_home": 2.2,
+     "cards_away": 1.8,
+     "cards_1t_home": 0.9,
+     "cards_1t_away": 1.2,
+     "games_k": [
+      9,
+      9
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/ef4cf59b13e1d9d130d304bad00d700783a9783ba1c0469952db26a8a76a5b38.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/bf074b2992c5c0d8bb4fefdf71b549070c402656ac2e6405a52e8ee9ef6c8801.webp"
+    }
+   ],
+   "tutte": [
+    {
+     "id": "m_3A4n8A",
+     "date": "2026-11-06",
+     "time": "2026-11-06",
+     "league": "Serie A",
+     "home": "Venezia",
+     "away": "Udinese",
+     "corners_home": 4.2,
+     "corners_away": 4.3,
+     "gap": 0.1,
+     "games": [
+      5,
+      4
+     ],
+     "tiri_home": 14.4,
+     "tiri_away": 15.4,
+     "tiri_gap": 1.0,
+     "tiri_games": [
+      5,
+      4
+     ],
+     "sot_home": 5.3,
+     "sot_away": 4.9,
+     "sot_gap": 0.4,
+     "sot_games": [
+      5,
+      4
+     ],
+     "falli_home": 9.7,
+     "falli_away": 10.8,
+     "falli_gap": 1.2,
+     "falli_games": [
+      9,
+      9
+     ],
+     "off_home": 2.8,
+     "off_away": 1.6,
+     "off_gap": 1.2,
+     "off_games": [
+      9,
+      9
+     ],
+     "cards": 4.0,
+     "cards_1t": 2.1,
+     "cards_home": 2.2,
+     "cards_away": 1.8,
+     "cards_1t_home": 0.9,
+     "cards_1t_away": 1.2,
+     "games_k": [
+      9,
+      9
+     ]
+    },
+    {
+     "id": "m_0ZFoVd",
+     "date": "2026-11-06",
+     "time": "2026-11-06",
+     "league": "Premier League",
+     "home": "Everton",
+     "away": "Coventry City",
+     "corners_home": 4.9,
+     "corners_away": 3.4,
+     "gap": 1.5,
+     "games": [
+      4,
+      4
+     ],
+     "tiri_home": 17.0,
+     "tiri_away": 11.8,
+     "tiri_gap": 5.2,
+     "tiri_games": [
+      4,
+      4
+     ],
+     "sot_home": 4.5,
+     "sot_away": 3.2,
+     "sot_gap": 1.2,
+     "sot_games": [
+      4,
+      4
+     ],
+     "falli_home": 9.6,
+     "falli_away": 11.9,
+     "falli_gap": 2.3,
+     "falli_games": [
+      8,
+      8
+     ],
+     "off_home": 2.8,
+     "off_away": 1.1,
+     "off_gap": 1.7,
+     "off_games": [
+      8,
+      8
+     ],
+     "cards": 3.0,
+     "cards_1t": 1.2,
+     "cards_home": 1.9,
+     "cards_away": 1.1,
+     "cards_1t_home": 0.8,
+     "cards_1t_away": 0.5,
+     "games_k": [
+      8,
+      8
+     ]
+    },
+    {
+     "id": "m_2DSeYr",
+     "date": "2026-11-06",
+     "time": "2026-11-06",
+     "league": "Bundesliga",
+     "home": "Hamburger SV",
+     "away": "Borussia Mönchengladbach",
+     "corners_home": 5.1,
+     "corners_away": 5.5,
+     "gap": 0.4,
+     "games": [
+      3,
+      4
+     ],
+     "tiri_home": 15.4,
+     "tiri_away": 16.3,
+     "tiri_gap": 0.9,
+     "tiri_games": [
+      3,
+      4
+     ],
+     "sot_home": 5.8,
+     "sot_away": 5.1,
+     "sot_gap": 0.7,
+     "sot_games": [
+      3,
+      4
+     ],
+     "falli_home": 12.2,
+     "falli_away": 13.7,
+     "falli_gap": 1.5,
+     "falli_games": [
+      7,
+      7
+     ],
+     "off_home": 1.2,
+     "off_away": 1.8,
+     "off_gap": 0.6,
+     "off_games": [
+      7,
+      7
+     ],
+     "cards": 4.6,
+     "cards_1t": 1.6,
+     "cards_home": 1.4,
+     "cards_away": 3.1,
+     "cards_1t_home": 0.6,
+     "cards_1t_away": 1.0,
+     "games_k": [
+      7,
+      7
+     ]
+    },
+    {
+     "id": "m_3apOTP",
+     "date": "2026-11-06",
+     "time": "2026-11-06",
+     "league": "LaLiga",
+     "home": "Sevilla",
+     "away": "Deportivo Alavés",
+     "corners_home": 4.2,
+     "corners_away": 3.8,
+     "gap": 0.4,
+     "games": [
+      5,
+      4
+     ],
+     "tiri_home": 13.2,
+     "tiri_away": 12.1,
+     "tiri_gap": 1.1,
+     "tiri_games": [
+      5,
+      4
+     ],
+     "sot_home": 4.3,
+     "sot_away": 4.2,
+     "sot_gap": 0.1,
+     "sot_games": [
+      5,
+      4
+     ],
+     "falli_home": 13.8,
+     "falli_away": 13.1,
+     "falli_gap": 0.7,
+     "falli_games": [
+      10,
+      10
+     ],
+     "off_home": 1.5,
+     "off_away": 2.1,
+     "off_gap": 0.6,
+     "off_games": [
+      10,
+      10
+     ],
+     "cards": 4.8,
+     "cards_1t": 1.5,
+     "cards_home": 3.0,
+     "cards_away": 1.8,
+     "cards_1t_home": 0.8,
+     "cards_1t_away": 0.7,
+     "games_k": [
+      10,
+      10
+     ]
+    },
+    {
+     "id": "m_2vsKSO",
+     "date": "2026-11-06",
+     "time": "2026-11-06",
+     "league": "Ligue 1",
+     "home": "Toulouse",
+     "away": "Strasbourg",
+     "corners_home": 4.8,
+     "corners_away": 3.1,
+     "gap": 1.7,
+     "games": [
+      4,
+      5
+     ],
+     "tiri_home": 16.1,
+     "tiri_away": 11.1,
+     "tiri_gap": 5.1,
+     "tiri_games": [
+      4,
+      5
+     ],
+     "sot_home": 5.7,
+     "sot_away": 4.2,
+     "sot_gap": 1.5,
+     "sot_games": [
+      4,
+      5
+     ],
+     "falli_home": 12.3,
+     "falli_away": 12.6,
+     "falli_gap": 0.2,
+     "falli_games": [
+      8,
+      8
+     ],
+     "off_home": 1.9,
+     "off_away": 1.0,
+     "off_gap": 0.9,
+     "off_games": [
+      8,
+      8
+     ],
+     "cards": 4.0,
+     "cards_1t": 1.2,
+     "cards_home": 2.1,
+     "cards_away": 1.9,
+     "cards_1t_home": 0.9,
+     "cards_1t_away": 0.4,
+     "games_k": [
+      8,
+      8
      ]
     }
    ]
