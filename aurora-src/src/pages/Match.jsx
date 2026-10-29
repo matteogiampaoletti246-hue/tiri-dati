@@ -131,7 +131,7 @@ export default function Match() {
     stats: hasMatchStats(raw, view, home, away, pre),
     lineups: hasLineups(view),
     rel: hasReliability(raw),
-    standings: cup ? !!((peekBracket(raw.archive.fm, raw.archive.sk) || {}).rounds || []).length : !raw.archive || !!(raw.season && raw.season.table),
+    standings: cup ? !!((peekBracket(raw.archive.fm, raw.archive.sk) || {}).rounds || []).length : !raw.archive || !!(raw.season && (raw.season.table || (raw.season.groups && raw.season.groups.length))),
   };
   const PANEL = {
     overview: () => <MatchOverviewPanel key="overview" match={raw} home={home} away={away} />,

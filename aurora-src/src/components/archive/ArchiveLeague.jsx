@@ -295,7 +295,7 @@ export default function ArchiveLeague({ fm, sk, tab, setTab, tint }) {
   // una scheda senza dati non si mostra (mai "non disponibile")
   const has = {
     matches: !!(season && season.fix && season.fix.length),
-    standings: pure ? !!(br && br.rounds && br.rounds.length) : !!(season && season.table),
+    standings: pure ? !!(br && br.rounds && br.rounds.length) : !!(season && (season.table || (season.groups && season.groups.length))),
     teams: !!(det && det.m && Object.keys(det.m).length) || statSections(stats, 'teams', names, col, fm, sk, 'tot').length > 0,
     players: statSections(pstats, 'players', names, col, fm, sk, 'tot').length > 0,
     referees: refs.length > 0,

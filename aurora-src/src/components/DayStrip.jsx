@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef } from 'react';
 import { dayLabel, MONTHS } from '@/lib/format';
 
 // Mentre si fa lo swipe laterale la striscia dei giorni segue il dito: scorre e sfuma da un giorno all'altro in modo continuo.
@@ -17,7 +17,8 @@ export default function DayStrip({ dates, todayIndex, value, onChange }) {
     x.style.setProperty('--m', x.dataset.active === '1' ? '100%' : '0%');
     x.style.setProperty('--w', x.dataset.active === '1' ? '800' : '500');
   });
-  useEffect(() => {
+  // prima del disegno: tornando sulla Home il giorno scelto e' gia' al centro (niente "Gio 22" che poi scorre a "Oggi")
+  useLayoutEffect(() => {
     const b = box.current;
     const el = b && b.querySelector('[data-active="1"]');
     if (!el) return;

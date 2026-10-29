@@ -1,4 +1,6 @@
+import { useLayoutEffect, useRef, useState } from 'react';
 import PlayerPhoto from '@/components/PlayerPhoto';
+import Crest from '@/components/Crest';
 import { teamColor } from '@/lib/tint';
 import InjuryIcon from '@/components/InjuryIcon';
 import { injuryOf } from '@/data/injuries';
@@ -120,40 +122,89 @@ function DualPitch({ lh, la, home, away, valOf, match, mvpId }) {
 // colore del nome squadra leggibile sul verde scuro
 const tcol = (t) => { const c = t && t.colors && t.colors[0]; return c ? `color-mix(in srgb, ${c} 55%, #fff)` : '#fff'; };
 
-function CoachCard({ lineup, team }) {
+// Pillola dell'allenatore nei colori della squadra scelta
+function CoachPill({ lineup, team }) {
   if (!lineup || !lineup.coach) return null;
+  const c = (team && team.colors) || ['#1B2C4E', '#0E1830'];
   return (
-    <div className="flex items-center gap-3 py-2">
-      <span className="avatar h-[46px] w-[46px]">{lineup.coachId ? <Image src={`https://images.fotmob.com/image_resources/playerimages/${lineup.coachId}.png`} alt={lineup.coach} className="h-full w-full" fittingType="fill" /> : lineup.coach.slice(0, 1)}</span>
-      <div className="min-w-0">
-        <p className="truncate text-[10.5px] font-extrabold uppercase tracking-wider" style={{ color: 'var(--ink-3)' }}>Allenatore · {team ? team.short || team.name : ''}</p>
-        <p className="text-[15px] font-extrabold">{lineup.coach} {lineup.coachCc ? <span className="ml-1">{flagOf(lineup.coachCc)}</span> : null}</p>
+    <div className="flex items-center gap-3 rounded-full py-1.5 pl-1.5 pr-5" style={{ background: `linear-gradient(110deg, ${c[0]}, color-mix(in srgb, ${c[1] || c[0]} 70%, #000))`, boxShadow: '0 6px 18px -10px rgba(0,0,0,.7)' }}>
+      <span className="avatar h-[44px] w-[44px] shrink-0 overflow-hidden rounded-full" style={{ background: 'rgba(0,0,0,.25)' }}>{lineup.coachId ? <Image src={`https://images.fotmob.com/image_resources/playerimages/${lineup.coachId}.png`} alt={lineup.coach} className="h-full w-full" fittingType="fill" /> : <PlayerPhoto src={null} alt={lineup.coach} />}</span>
+      <div className="min-w-0" style={{ textShadow: '0 1px 2px rgba(0,0,0,.45)' }}>
+        <p className="text-[10.5px] font-extrabold uppercase tracking-wider text-white/75">Allenatore</p>
+        <p className="truncate text-[15px] font-extrabold text-white">{lineup.coach} {lineup.coachCc ? <span className="ml-1">{flagOf(lineup.coachCc)}</span> : null}</p>
       </div>
     </div>
   );
 }
 
+// Panchina in colonna (una riga per giocatore)
 function Bench({ lineup, team, valOf, match }) {
   if (!lineup || !lineup.bench || !lineup.bench.length) return null;
   return (
-    <section className="glass tint-card mx-4 overflow-hidden rounded-[24px] px-4 py-3.5" style={{ '--tint': teamColor(team) }}>
-      <p className="mb-2 text-[12.5px] font-extrabold uppercase tracking-wider">Panchina · {team ? team.short || team.name : ''}</p>
-      <div className="grid grid-cols-2 gap-x-4">
-        {lineup.bench.map((p, i) => {
-          const v = valOf(p);
-          return (
-            <PlayerLink key={p.playerId + i} match={match} name={p.name} fmId={p.fmId} className="flex items-center gap-2.5 py-2" style={{ borderTop: i > 1 ? '1px solid var(--hair-2)' : 'none', width: '100%' }}>
-              <span className="relative"><Face p={p} team={team} size={34} /></span>
-              <span className="min-w-0 flex-1">
-                <span className="block truncate text-[12.5px] font-bold"><span className="tnum" style={{ color: 'var(--ink-3)' }}>{p.number} </span>{last(p.name)}</span>
-                {p.subIn ? <span className="flex items-center gap-1 text-[10.5px]" style={{ color: 'var(--good)' }}><SubIcon size={11} />{p.subIn}&apos;</span> : null}
-              </span>
-              {v != null ? <span className="tnum rounded-full px-1.5 py-[1px] text-[10px] font-extrabold text-white" style={{ background: tone(v) }}>{comma(v, 1)}</span> : null}
-            </PlayerLink>
-          );
-        })}
-      </div>
+    <section className="glass tint-card overflow-hidden rounded-[24px] px-4 py-3" style={{ '--tint': teamColor(team) }}>
+      <p className="mb-1 text-[12.5px] font-extrabold uppercase tracking-wider">Panchina</p>
+      {lineup.bench.map((p, i) => {
+        const v = valOf(p);
+        return (
+          <PlayerLink key={p.playerId + i} match={match} name={p.name} fmId={p.fmId} className="flex items-center gap-3 py-2" style={{ borderTop: i ? '1px solid var(--hair-2)' : 'none', width: '100%' }}>
+            <span className="relative"><Face p={p} team={team} size={36} /></span>
+            <span className="min-w-0 flex-1">
+              <span className="block truncate text-[13.5px] font-bold"><span className="tnum" style={{ color: 'var(--ink-3)' }}>{p.number} </span>{p.name}</span>
+              {p.subIn ? <span className="flex items-center gap-1 text-[10.5px]" style={{ color: 'var(--good)' }}><SubIcon size={11} />{p.subIn}&apos;</span> : null}
+            </span>
+            {v != null ? <span className="tnum rounded-full px-2 py-[1px] text-[11px] font-extrabold text-white" style={{ background: tone(v) }}>{comma(v, 1)}</span> : null}
+          </PlayerLink>
+        );
+      })}
     </section>
+  );
+}
+
+const hasSide = (l) => !!(l && (l.coach || (l.bench && l.bench.length)));
+
+// Selettore squadra sotto il campo (concept Sofascore): due pillole a meta' larghezza, casa a sinistra e ospite a destra;
+// la squadra scelta mostra allenatore e panchina, il passaggio e' uno scorrimento orizzontale (niente componenti ricreati).
+function SidePicker({ lh, la, home, away, valOf, match }) {
+  const sides = [[lh, home], [la, away]].map(([l, t], i) => ({ l, t, i })).filter((x) => hasSide(x.l));
+  const [sel, setSel] = useState(0);
+  const boxes = useRef([]);
+  const [h, setH] = useState(null);
+  const cur = sides.length > 1 ? sel : 0;
+  useLayoutEffect(() => {
+    const el = boxes.current[cur];
+    if (!el) return undefined;
+    const upd = () => setH(el.offsetHeight);
+    upd();
+    if (!('ResizeObserver' in window)) return undefined;
+    const ro = new ResizeObserver(upd);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [cur, sides.length]);
+  if (!sides.length) return null;
+  return (
+    <div className="px-4">
+      {sides.length > 1 ? (
+        <div className="glass relative mb-3 flex rounded-full p-1" role="tablist" data-side-picker="1">
+          <span aria-hidden="true" className="absolute bottom-1 left-1 top-1 rounded-full" style={{ width: 'calc(50% - 4px)', transform: `translate3d(${cur ? '100%' : '0'},0,0)`, transition: 'transform .3s cubic-bezier(.22,.8,.24,1), background .3s ease', background: 'var(--pill-active)' }} />
+          {sides.map((x, k) => (
+            <button key={x.i} type="button" role="tab" aria-selected={cur === k} onClick={() => setSel(k)} className="press relative z-[1] flex min-w-0 flex-1 items-center justify-center gap-2 rounded-full px-3 py-2">
+              <Crest team={x.t} size={22} />
+              <span className="truncate text-[13px] font-extrabold" style={{ color: cur === k ? 'var(--ink)' : 'var(--ink-3)', transition: 'color .3s ease' }}>{x.t ? x.t.name : ''}</span>
+            </button>
+          ))}
+        </div>
+      ) : null}
+      <div className="overflow-hidden" style={{ height: h == null ? 'auto' : h, transition: 'height .3s cubic-bezier(.22,.8,.24,1)' }}>
+        <div className="flex items-start" style={{ width: `${sides.length * 100}%`, transform: `translate3d(${(-100 * cur) / sides.length}%,0,0)`, transition: 'transform .3s cubic-bezier(.22,.8,.24,1)' }}>
+          {sides.map((x, k) => (
+            <div key={x.i} ref={(el) => { boxes.current[k] = el; }} className="flex flex-col gap-3" style={{ width: `${100 / sides.length}%` }} aria-hidden={cur !== k}>
+              <CoachPill lineup={x.l} team={x.t} />
+              <Bench lineup={x.l} team={x.t} valOf={valOf} match={match} />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -205,16 +256,7 @@ export default function MatchLineupsPanel({ match, view, home, away, pre }) {
         </div>
       ) : null}
 
-      {(lh && lh.coach) || (la && la.coach) ? (
-        <section className="glass tint-card mx-4 rounded-[24px] px-4 py-2" style={{ '--tint': teamColor(home) }}>
-          <CoachCard lineup={lh} team={home} />
-          {lh && lh.coach && la && la.coach ? <div style={{ borderTop: '1px solid var(--hair-2)' }} /> : null}
-          <CoachCard lineup={la} team={away} />
-        </section>
-      ) : null}
-
-      <Bench lineup={lh} team={home} valOf={valOf} match={match} />
-      <Bench lineup={la} team={away} valOf={valOf} match={match} />
+      <SidePicker lh={lh} la={la} home={home} away={away} valOf={valOf} match={match} />
     </div>
   );
 }

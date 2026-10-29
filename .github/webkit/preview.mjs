@@ -24,9 +24,15 @@ await ctx.route('**/*.workers.dev/**', async (route) => {
 pg.on('pageerror', (e) => report.errors.push(String(e).slice(0, 400)));
 pg.on('console', (m) => { if (m.type() === 'error') report.console.push(m.text().slice(0, 240)); });
 let n = 0;
-const shot = async (name) => { try { await pg.screenshot({ path: `${OUT}/${String(++n).padStart(2, '0')}-${name}.png` }); } catch (e) { report.errors.push('shot ' + name + ' ' + e); } };
+const shot = async (name) => { try { await pg.screenshot({ path: `${OUT}/${NSHARD > 1 ? `s${SHARD}-` : ''}${String(++n).padStart(2, '0')}-${name}.png` }); } catch (e) { report.errors.push('shot ' + name + ' ' + e); } };
 const wait = (ms) => pg.waitForTimeout(ms);
-const step = async (name, fn) => { try { await fn(); } catch (e) { ok(name + ' (errore)', false, { err: String(e).slice(0, 300) }); } };
+// ONLY=regex: solo i passi con quel nome (prove locali veloci; in CI gira tutto)
+const ONLY = process.env.ONLY ? new RegExp(process.env.ONLY, 'i') : null;
+// SHARD/NSHARD: in CI i passi si dividono tra piu' job in parallelo (tutti i controlli girano, ognuno una volta sola)
+const SHARD = Number(process.env.SHARD || 0);
+const NSHARD = Number(process.env.NSHARD || 1);
+let SI = 0;
+const step = async (name, fn) => { const mine = (SI++ % NSHARD) === SHARD; if (!mine || (ONLY && !ONLY.test(name))) return; try { await fn(); } catch (e) { ok(name + ' (errore)', false, { err: String(e).slice(0, 300) }); } };
 const getJson = async (p) => { try { return await (await fetch(BASE + p)).json(); } catch { return null; } };
 const texts = () => pg.evaluate(() => [...document.querySelectorAll('button,a')].map((x) => x.textContent.trim()).filter(Boolean));
 const clickText = (t) => pg.evaluate((t) => { const e = [...document.querySelectorAll('button,a')].find((x) => x.textContent.trim() === t); if (e) e.click(); return !!e; }, t);
@@ -529,6 +535,60 @@ await step('swipe indietro: pagina sotto visibile', async () => {
   await shot('swipe-indietro-fine');
 });
 
+// la fotografia sotto deve restare intera a ogni fotogramma: banner e schede fisse ferme dentro la fotografia (prima pageDrag spostava anche le copie
+// con data-pf e sotto restava il nero), giorno scelto della Home al centro come nella pagina vera
+const backFrames = (sel) => pg.evaluate((sel) => new Promise((res) => {
+  const a = []; const t0 = performance.now(); const w = innerWidth;
+  const f = () => {
+    const host = [...document.querySelectorAll('body > div[aria-hidden="true"]')].find((x) => x.style.inset === '0px' && x.style.position === 'fixed');
+    const shell = document.getElementById('sl-shell');
+    const sr = shell ? shell.getBoundingClientRect() : null;
+    const covered = (host && host.style.opacity !== '0.01') || (sr && sr.left < w * 0.5 && sr.right > w * 0.5);
+    const item = host && sel ? host.querySelector(sel) : null;
+    const ir = item ? item.getBoundingClientRect() : null;
+    a.push({ t: Math.round(performance.now() - t0), covered: !!covered, pf: host ? host.querySelectorAll('[data-pf]').length : 0, item: ir ? [Math.round(ir.left), Math.round(ir.top), Math.round(ir.width)] : null, hostX: host ? host.getBoundingClientRect().left : null });
+    if (performance.now() - t0 < 1600) requestAnimationFrame(f); else res(a);
+  };
+  for (const x of [20, 70, 130, 190]) window.__slCarousel.pageDrag(x);
+  requestAnimationFrame(f); setTimeout(() => window.__slCarousel.pageBack(190), 120);
+}), sel);
+await step('swipe indietro da partite squadra: banner e schede nella fotografia a ogni fotogramma', async () => {
+  await go('#/squadra/napoli', 6000);
+  await pg.waitForFunction(() => [...document.querySelectorAll('a[href*="/match/"]')].some((x) => { const r = x.getBoundingClientRect(); return r.top > 150 && r.bottom < innerHeight - 90 && r.left >= 0 && r.left < 200; }), null, { timeout: 30000 }).catch(() => {});
+  const banner = await pg.evaluate(() => { const h = document.querySelector('header[data-pf]'); return h ? Math.round(h.getBoundingClientRect().height) : 0; });
+  const opened = await pg.evaluate(() => { const a = [...document.querySelectorAll('a[href*="/match/"]')].find((x) => { const r = x.getBoundingClientRect(); return r.top > 150 && r.bottom < innerHeight - 90 && r.left >= 0 && r.left < 200; }); if (a) { a.click(); return true; } return false; });
+  await wait(4000);
+  const fr = await backFrames('header');
+  const withHost = fr.filter((x) => x.item);
+  const offView = withHost.filter((x) => x.item[0] - x.hostX > 2 || x.item[0] - x.hostX < -2);
+  ok('swipe squadra: nella fotografia nessuna copia segnata data-pf', fr.every((x) => x.pf === 0), { pf: Math.max(...fr.map((x) => x.pf)) });
+  ok('swipe squadra: il banner nella fotografia resta fermo dentro di essa', opened && banner > 0 && withHost.length >= 3 && offView.length === 0, { banner, n: withHost.length, fuori: offView.slice(0, 3) });
+  ok('swipe squadra: mai un fotogramma senza pagina (nero)', fr.length > 8 && fr.every((x) => x.covered), { neri: fr.filter((x) => !x.covered).map((x) => x.t).slice(0, 6) });
+  ok('swipe squadra: si torna alla squadra', /squadra\/napoli/.test(await pg.evaluate(() => location.hash)));
+});
+await step('swipe indietro verso la Home: giorno scelto al centro anche nella fotografia', async () => {
+  await go('#/', 6000);
+  await pg.waitForFunction(() => [...document.querySelectorAll('a[href*="/match/"]')].some((x) => { const r = x.getBoundingClientRect(); return r.top > 150 && r.bottom < innerHeight - 90 && r.left >= 0 && r.left < 200; }), null, { timeout: 30000 }).catch(() => {});
+  const real = await pg.evaluate(() => { const a = document.querySelector('#sl-shell [data-active="1"]'); if (!a) return null; const r = a.getBoundingClientRect(); return Math.round(r.left + r.width / 2); });
+  await pg.evaluate(() => { const a = [...document.querySelectorAll('a[href*="/match/"]')].find((x) => { const r = x.getBoundingClientRect(); return r.top > 150 && r.bottom < innerHeight - 90 && r.left >= 0 && r.left < 200; }); if (a) a.click(); });
+  await wait(4000);
+  const fr = await backFrames('[data-active="1"]');
+  const cs = fr.filter((x) => x.item).map((x) => Math.round(x.item[0] + x.item[2] / 2 - x.hostX));
+  ok('home: nella fotografia il giorno scelto e\' dove sta nella pagina vera', real !== null && cs.length >= 3 && cs.every((c) => Math.abs(c - real) <= 4), { real, cs: cs.slice(0, 5) });
+  ok('home: swipe indietro mai nero', fr.length > 8 && fr.every((x) => x.covered), { neri: fr.filter((x) => !x.covered).map((x) => x.t).slice(0, 6) });
+});
+await step('bordo sinistro: il tocco resta all\'app (niente indietro del sistema sopra il nostro)', async () => {
+  const r = await pg.evaluate(() => {
+    try {
+      const mk = (x) => { const t = new Touch({ identifier: 1, target: document.body, clientX: x, clientY: 400 }); return new TouchEvent('touchstart', { touches: [t], targetTouches: [t], changedTouches: [t], cancelable: true, bubbles: true }); };
+      const e1 = mk(8); document.body.dispatchEvent(e1);
+      const e2 = mk(200); document.body.dispatchEvent(e2);
+      return { edge: e1.defaultPrevented, mid: e2.defaultPrevented };
+    } catch (e) { return { skip: String(e).slice(0, 80) }; }
+  });
+  ok('bordo sinistro: touchstart sul bordo bloccato, al centro libero', r.skip ? true : r.edge && !r.mid, r);
+});
+
 
 // ---- Funzioni nuove: valgono per tutte le competizioni e squadre aggiunte ----
 await step('campionati e coppe aggiunti: partita non iniziata con Duello, numeri da tenere d\'occhio e forma', async () => {
@@ -980,6 +1040,82 @@ await step('tiri murati: pallino vuoto, mai nella porta', async () => {
   }
   report.murati = seen;
   ok('tiri murati: mappa tiri disegnata senza errori', seen > 0 && report.errors.filter((e) => /Shot|Block|bx|by/.test(e)).length === 0, { seen });
+});
+
+// ---- Giro di fine ottobre: statistiche per id FotMob, selettore squadra in Formazioni, classifiche a gironi, competizioni dell'archivio ----
+const pickComp = async (comp, season) => pg.evaluate(async ([comp, season]) => {
+  const sl = (ms) => new Promise((r) => setTimeout(r, ms));
+  const vis = (x) => { const r = x.getBoundingClientRect(); return r.width > 0 && r.top > 0 && r.top < innerHeight; };
+  const clk = (re) => { const t = [...document.querySelectorAll('button,[role=option],li')].filter(vis).find((x) => re.test(x.textContent.trim())); if (t) t.click(); return !!t; };
+  const a = clk(/^(Championship|Premier League|Serie A|Bundesliga|LaLiga|Ligue 1|Attuale|Tutte le competizioni)$/) && (await sl(700), clk(new RegExp(`^${comp}$`)));
+  await sl(1800);
+  const b = clk(/^(Attuale|\d{4}\/\d{2}.*)$/) && (await sl(700), clk(new RegExp(`^${season.replace('/', '\\/')}$`)));
+  return { a, b };
+}, [comp, season]);
+await step('statistiche squadra con nome diverso tra fonti (Sheffield United = "Sheff Utd", Premier League 2023/24)', async () => {
+  await go('#/squadra/sheffield-united', 6000); await ready(); await wait(1000);
+  await tabClick('Statistiche'); await wait(2000);
+  const sel = await pickComp('Premier League', '2023/24'); await wait(4500);
+  const info = await pg.evaluate(() => ({ tiles: document.querySelectorAll('#sl-shell .grid-cols-4 .glass').length, txt: document.getElementById('sl-shell').innerText }));
+  await shot('sheffield-2324-statistiche');
+  ok('sheffield 2023/24: statistiche con riquadri e barre', sel.a && sel.b && info.tiles >= 2 && /Totale/.test(info.txt), { sel, tiles: info.tiles });
+  ok('sheffield 2023/24: mai "non ha giocato"', !/non ha giocato/.test(info.txt));
+});
+await step('formazioni: selettore squadra sotto il campo (allenatore e panchina della squadra scelta)', async () => {
+  const f = (px && px.m ? px.m : []).filter((r) => r[9] === 'f' && [230, 57, 61, 71, 40].includes(r[1])).slice(-2)[0];
+  const ids = [...(f ? [`x-${f[1]}-${f[0]}`] : [])];
+  await go('#/', 5000);
+  const top = await pg.evaluate(() => { const a = [...document.querySelectorAll('a[href*="/match/"]')].find((x) => { const r = x.getBoundingClientRect(); return r.top > 120 && r.left >= 0 && r.left < 200; }); return a ? a.getAttribute('href').replace('#/match/', '') : null; });
+  if (top) ids.push(top);
+  let seen = 0;
+  for (const id of ids) {
+    await go(`#/match/${id}`, 3000); await ready(); await wait(1200);
+    if (!(await tabClick('Formazioni'))) continue;
+    await wait(2500);
+    const r = await pg.evaluate(async () => {
+      const pk = document.querySelector('[data-side-picker]');
+      if (!pk) return { pk: false };
+      const pr = pk.getBoundingClientRect();
+      const pitch = [...document.querySelectorAll('#sl-shell div')].find((d) => /12301f/.test(d.style.background || ''));
+      const wr = pitch ? pitch.getBoundingClientRect() : null;
+      const btn = [...pk.querySelectorAll('button')];
+      const vis = () => [...document.querySelectorAll('#sl-shell [aria-hidden="false"] p')].map((p) => p.textContent).join('|');
+      const before = vis();
+      btn[1].click();
+      await new Promise((r) => setTimeout(r, 450));
+      const after = vis();
+      return { pk: true, n: btn.length, w: Math.round(pr.width), pw: wr ? Math.round(wr.width) : null, sel: btn[1].getAttribute('aria-selected'), changed: before !== after };
+    });
+    if (!r.pk) continue;
+    seen += 1;
+    await shot(`formazioni-selettore-${seen}`);
+    ok(`formazioni ${id}: due pillole larghe quanto il campo, la scelta cambia allenatore e panchina`, r.n === 2 && (r.pw == null || Math.abs(r.w - r.pw) <= 4) && r.sel === 'true' && r.changed, r);
+  }
+  ok('formazioni: selettore squadra presente', seen > 0, { ids });
+});
+await step('classifiche a gironi/conference dalla fonte (MLS 2015: Eastern e Western con zone)', async () => {
+  await go('#/campionato/mls', 6000); await ready(); await wait(1500);
+  const ok1 = await pg.evaluate(async () => { const b = [...document.querySelectorAll('button')].find((x) => /^\d{4}( |$)|Stagione|^2026$/.test(x.textContent.trim()) && x.querySelector('svg')); if (!b) return false; b.click(); await new Promise((r) => setTimeout(r, 800)); const o = [...document.querySelectorAll('button,li,[role=option]')].find((x) => x.textContent.trim() === '2015'); if (o) o.click(); return !!o; });
+  await wait(4000);
+  await tabClick('Classifica'); await wait(2500);
+  const t = await pg.evaluate(() => ({ txt: document.getElementById('sl-shell').innerText, lines: [...document.querySelectorAll('#sl-shell a span[aria-hidden="true"]')].filter((s) => s.style.background).length }));
+  await shot('mls-2015-gironi');
+  ok('mls 2015: classifiche Eastern e Western con lineette delle zone', ok1 && /Eastern/i.test(t.txt) && /Western/i.test(t.txt) && t.lines > 4, { ok1, lines: t.lines });
+});
+await step('competizioni solo d\'archivio: scheda campionato raggiungibile (fm-<id>)', async () => {
+  const idx = await getJson('arch/index.json');
+  const known = new Set([55, 47, 87, 54, 53, 42, 73, 10216, 57, 71, 61, 40, 64, 38, 59, 135, 48, 86, 146, 140, 110, 185, 111, 165, 268, 112, 130, 230, 141, 209, 134, 186, 133, 149, 278, 180, 9067]);
+  const cand = Object.entries(idx || {}).filter(([k, v]) => !known.has(+k) && v.s && v.s.length >= 3 && !v.skip).slice(0, 5);
+  let okN = 0;
+  for (const [k, v] of cand) {
+    await go(`#/campionato/fm-${k}`, 5000); await ready(); await wait(2500);
+    const t = await pg.evaluate(() => ({ txt: document.getElementById('sl-shell') ? document.getElementById('sl-shell').innerText : '', tabs: document.querySelectorAll('.tab-btn').length }));
+    const good = t.tabs > 0 && !/non trovato/i.test(t.txt) && !ND.test(t.txt);
+    if (good) okN += 1;
+    ok(`archivio fm-${k} (${v.n}): scheda con schede e dati`, good, { tabs: t.tabs });
+  }
+  await shot('archivio-campionato');
+  ok('archivio: almeno 5 competizioni minori raggiungibili', okN >= Math.min(5, cand.length) && cand.length > 0, { okN });
 });
 
 report.passed = report.checks.filter((c) => c.pass).length;

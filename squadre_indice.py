@@ -5,6 +5,8 @@ import json, os, re
 ROOT = os.path.dirname(os.path.abspath(__file__))
 src = open(os.path.join(ROOT, 'aurora-src/src/data/archive.js'), encoding='utf-8').read()
 FMS = sorted({int(x) for x in re.findall(r"'?[\w-]+'?:\s*(\d+)", re.search(r'FM_ID\s*=\s*\{(.*?)\}', src, re.S).group(1))})
+# tutte le competizioni scaricate in arch/ (anche quelle solo d'archivio, fm-<id> nell'app)
+FMS = sorted(set(FMS) | {int(d) for d in os.listdir(os.path.join(ROOT, 'arch')) if d.isdigit()})
 # stagione: "2025-2026", "2025", anche con suffisso ("2026-2027 - Apertura", "2026 - Clausura")
 SEASON = re.compile(r'^((?:\d{4}-\d{4}|\d{4})(?: - [^_/]+)?)\.json$')
 idx = {}

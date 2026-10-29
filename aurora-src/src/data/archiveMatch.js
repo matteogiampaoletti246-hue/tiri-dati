@@ -129,7 +129,7 @@ async function domesticFor(fm, hid, aid) {
   if (!isPureCup(fm)) return null;
   const cup = await leagueForFm(fm);
   if (!cup || !cup.country) return null;
-  const lgs = LEAGUES.filter((l) => l.country === cup.country && !CUP_IDS.has(l.id) && FM_ID[l.id] && l.id !== cup.id);
+  const lgs = LEAGUES.filter((l) => !l.arch && l.country === cup.country && !CUP_IDS.has(l.id) && FM_ID[l.id] && l.id !== cup.id);
   const out = await Promise.all(lgs.map(async (l) => {
     try {
       const fmD = FM_ID[l.id];

@@ -42,10 +42,20 @@ export default function League() {
   const [season, setSeason] = useSel(`lg-${FM_ID[id] || id}`, 'season', () => { const l = leagueById(id); const x = l && l.extra && RAW.extra && RAW.extra.sk && RAW.extra.sk[String(l.fm)]; return x || 'live'; });
   const [aTab, setATab] = useSel(`lg-${FM_ID[id] || id}`, 'atab', 0);
   const [sheet, setSheet] = useState(false);
+  // competizioni dell'archivio (fm-<id>): esistono quando l'indice e' arrivato
+  const isArch = /^fm-\d+$/.test(String(id));
+  const { data: aidx } = useAsync(() => (FM_ID[id] || isArch ? archIndex() : null), [id]);
   const fm = FM_ID[id];
-  const { data: aidx } = useAsync(() => (fm ? archIndex() : null), [fm]);
 
 
+  if (!league && isArch && !aidx) {
+    return (
+      <PageShell bar={false}>
+        <TopBar title="Campionato" />
+        <div className="px-5 pt-8"><Skeleton className="h-[52px] w-full" /></div>
+      </PageShell>
+    );
+  }
   if (!league) {
     return (
       <PageShell bar={false}>
@@ -63,10 +73,12 @@ export default function League() {
   const initials = initialsOf(league.name);
   const curKey = (league.season || '').replace('/', '-');
   const past = sortSeasons(((aidx && fm && aidx[String(fm)] && aidx[String(fm)].s) || []).filter((x) => x !== curKey));
-  const inArchive = season !== 'live';
+  // campionato solo dall'archivio: nessuna stagione "dal vivo", si parte dalla piu' recente scaricata
+  const seasonEff = league.arch && season === 'live' ? past[0] : season;
+  const inArchive = seasonEff !== 'live';
   const seasonBtn = fm && past.length ? (
     <button type="button" onClick={() => setSheet(true)} className="glass press flex items-center gap-1.5 rounded-full py-1 pl-3 pr-2 text-[11.5px] font-bold" style={{ color: 'var(--ink)' }}>
-      <span className="tnum">{inArchive ? seasonLabel(season) : (league.season || 'Stagione')}</span>
+      <span className="tnum">{inArchive ? seasonLabel(seasonEff) : (league.season || 'Stagione')}</span>
       <ChevronDown size={13} strokeWidth={2.2} style={{ color: 'var(--ink-3)' }} />
     </button>
   ) : null;
@@ -88,7 +100,7 @@ export default function League() {
     <PageShell swipeBack={false}>
       <EntityBanner
         name={league.name}
-        subtitle={`${league.country} · ${inArchive ? seasonLabel(season) : league.season}`}
+        subtitle={`${league.country} · ${inArchive ? seasonLabel(seasonEff) : league.season}`}
         meta={
           <span className="flex flex-wrap items-center gap-x-2.5 gap-y-1.5 whitespace-nowrap">
             {inArchive ? null : (
@@ -108,7 +120,7 @@ export default function League() {
       />
 
       {inArchive ? (
-        <ArchiveLeague key={season} fm={fm} sk={season} tab={aTab} setTab={setATab} tint={leagueTint(league.id)} />
+        <ArchiveLeague key={seasonEff} fm={fm} sk={seasonEff} tab={aTab} setTab={setATab} tint={leagueTint(league.id)} />
       ) : loading ? (
         <div className="px-5 pt-8">
           <Skeleton className="h-[42px] w-full" />
@@ -121,7 +133,7 @@ export default function League() {
       ) : (
         <SwipeTabs fixedBar tabs={liveTabs} panels={livePanels} index={Math.min(tab, liveTabs.length - 1)} onChange={setTab} className="pt-0" />
       )}
-      <SeasonSheet open={sheet} seasons={['live', ...past]} value={season} currentLabel={league.season || 'Stagione attuale'} onClose={() => setSheet(false)} onSelect={(v) => { setSeason(v); setATab(0); setSheet(false); window.scrollTo({ top: 0 }); }} />
+      <SeasonSheet open={sheet} seasons={league.arch ? past : ['live', ...past]} value={seasonEff} currentLabel={league.season || 'Stagione attuale'} onClose={() => setSheet(false)} onSelect={(v) => { setSeason(v); setATab(0); setSheet(false); window.scrollTo({ top: 0 }); }} />
     </PageShell>
   );
 }

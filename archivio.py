@@ -18,6 +18,18 @@ def get(url, tries=3):
 def dump(p, o):
     os.makedirs(os.path.dirname(p), exist_ok=True)
     json.dump(o, open(p, "w"), ensure_ascii=False, separators=(",", ":"))
+def tables_of(d):
+    """[(nome, {all,home,away,form}, legend)]: classifica unica o a gironi/conference (FotMob `tables`)."""
+    out = []
+    for tb in d.get("table") or []:
+        data = tb.get("data") or {}
+        if isinstance(data.get("table"), dict) and data["table"].get("all"):
+            out.append((data.get("leagueName") or "", {k: data["table"].get(k) for k in ("all", "home", "away", "form")}, data.get("legend")))
+        for g in data.get("tables") or []:
+            t = g.get("table") or {}
+            if isinstance(t, dict) and t.get("all"):
+                out.append((g.get("leagueName") or "", {k: t.get(k) for k in ("all", "home", "away", "form")}, g.get("legend")))
+    return out
 def compact_fix(m):
     s = m.get("status", {})
     return [m.get("id"), m.get("round"), m["home"]["id"], m["away"]["id"], s.get("utcTime"), s.get("scoreStr"), int(bool(s.get("finished"))), int(bool(s.get("started"))), int(bool(s.get("cancelled")))]
@@ -49,15 +61,26 @@ def run():
         lid = str(L["id"])
         if time.time() - T0 > BUDGET: print("budget finito"); break
         e = idx.get(lid, {"n": L["n"], "c": L["c"], "cn": L["cn"], "s": []})
-        if e.get("done"): continue
+        if e.get("done") or e.get("skip"): continue
         base = get(f"https://www.fotmob.com/api/data/leagues?id={lid}&ccode3={L['c'] if L['c']!='INT' else 'INT'}")
-        if not base: continue
+        if not base:
+            # lega irraggiungibile (FotMob risponde null): dopo 3 giri si segna e non blocca piu' il completamento
+            e["fail"] = e.get("fail", 0) + 1
+            if e["fail"] >= 3: e["skip"] = "irraggiungibile"; print("salto", lid, L["n"], "irraggiungibile")
+            idx[lid] = e; dump(INDEX, idx)
+            continue
         seasons = base.get("allAvailableSeasons") or [x for x in [base.get("details", {}).get("selectedSeason")] if x]
         seasons = [s for s in seasons if str(s)[:4].isdigit() and int(str(s)[:4]) >= MINYEAR]
         det = base.get("details", {})
         e.update(color=det.get("leagueColor"), type=det.get("type"), tabs=[t for t in base.get("tabs", [])][:8])
+        e.pop("fail", None)
+        if not seasons:
+            e["skip"] = "nessuna stagione"; print("salto", lid, L["n"], "nessuna stagione")
+            idx[lid] = e; dump(INDEX, idx)
+            continue
+        complete = True  # "done" solo se TUTTE le stagioni sono state scaricate (prima il for/else segnava done anche con stagioni fallite)
         for s in seasons:
-            if time.time() - T0 > BUDGET: break
+            if time.time() - T0 > BUDGET: complete = False; break
             sk = str(s).replace("/", "-")
             p = f"arch/{lid}/{sk}.json"
             ps = f"arch/{lid}/{sk}_s.json"
@@ -71,23 +94,21 @@ def run():
                 if sk not in e["s"]: e["s"].append(sk)
                 continue
             d = get(f"https://www.fotmob.com/api/data/leagues?id={lid}&season={urllib.parse.quote(str(s))}&ccode3={L['c']}") or None
-            if not d: continue
-            tb = d.get("table") or []
-            tdata = tb[0].get("data", {}) if tb else {}
-            tab = tdata.get("table", {}) if isinstance(tdata, dict) else {}
+            if not d: complete = False; continue
+            groups = tables_of(d)
             teams = {}
             for m in d.get("fixtures", {}).get("allMatches", []):
                 for k in ("home", "away"):
                     teams[m[k]["id"]] = m[k].get("shortName") or m[k].get("name")
-            rows = tab.get("all", []) if isinstance(tab, dict) else []
-            for r in rows: teams[r.get("id")] = r.get("shortName") or r.get("name")
-            out = {"table": {k: tab.get(k) for k in ("all", "home", "away", "form")} if tab else None, "legend": tdata.get("legend") if isinstance(tdata, dict) else None,
+            for _, t, _ in groups:
+                for r in t.get("all") or []: teams[r.get("id")] = r.get("shortName") or r.get("name")
+            out = {"table": groups[0][1] if len(groups) == 1 else None, "legend": groups[0][2] if len(groups) == 1 else None,
                    "teams": teams, "fix": [compact_fix(m) for m in d.get("fixtures", {}).get("allMatches", [])]}
+            if len(groups) > 1: out["groups"] = [{"n": n, "table": t, "legend": lg} for n, t, lg in groups]
+            elif not groups: out["nogroups"] = 1
             if not have_main: dump(p, out)
             # statistiche stagionali
             st = {"players": {}, "teams": {}}
-            for lk in (d.get("stats", {}) or {}).get("seasonStatLinks", []) or []:
-                pass
             links = (d.get("stats", {}) or {}).get("seasonStatLinks") or []
             # il link giusto e' quello con il nome della stagione richiesta (prima c'era sempre il primo = stagione attuale)
             lk = [x for x in links if str(x.get("Name")) == str(s)] or [x for x in links if str(x.get("Name")).replace("/", "-") == sk]
@@ -110,13 +131,14 @@ def run():
                 dump(ps, st)
             if sk not in e["s"]: e["s"].append(sk)
             time.sleep(0.3)
-        else:
-            e["done"] = True
+        if complete: e["done"] = True
         idx[lid] = e
         dump(INDEX, idx)
     dump(INDEX, idx)
-    ok = all(idx.get(str(L["id"]), {}).get("done") for L in leghe)
+    ok = all(idx.get(str(L["id"]), {}).get("done") or idx.get(str(L["id"]), {}).get("skip") for L in leghe)
     if INDEX == "arch/index.json":
-        open("arch/.complete", "w").write("1") if ok else (os.path.exists("arch/.complete") and os.remove("arch/.complete"))
+        if ok: open("arch/.complete", "w").write("1")
+        elif os.path.exists("arch/.complete"): os.remove("arch/.complete")
+    print("completo" if ok else "da continuare", sum(1 for L in leghe if idx.get(str(L["id"]), {}).get("done")), "/", len(leghe))
 run()
 # v2

@@ -81,7 +81,7 @@ export function carousel(el, dx, dir, apply, done, ms = 240, host = null) {
 // Pagina intera: il contenuto (#sl-shell) e le parti fisse (banner e barra schede, marcate data-pf) si muovono insieme.
 // Regola fissa: negli swipe per tornare indietro la pagina di destinazione si vede sotto e, mentre quella attuale esce a destra,
 // scorre al centro e ne prende il posto (fotografia della pagina presa prima di lasciarla: installBackSnaps).
-const pageEls = () => [document.getElementById('sl-shell'), ...document.querySelectorAll('[data-pf]')].filter(Boolean);
+const pageEls = () => [document.getElementById('sl-shell'), ...document.querySelectorAll('[data-pf]')].filter((x) => x && !x.closest('[aria-hidden="true"]'));
 
 const solid = () => (getComputedStyle(document.documentElement).getPropertyValue('--sky-2').trim() || '#070b14');
 const SNAPS = new Map(); // idx cronologia -> fotografie (shell + parti fisse)
@@ -91,15 +91,18 @@ const cloneVisible = (el, lo, hi) => {
   const c = el.cloneNode(false);
   if (c.nodeType !== 1) return c;
   if (c.tagName === 'IMG') { c.setAttribute('loading', 'eager'); c.setAttribute('decoding', 'sync'); return c; }
+  // righe scorrevoli (giorni, pillole): la copia non ricorda lo scorrimento, i figli si spostano di quanto era scorsa (niente "Dom 25" al posto di "Oggi")
+  const sx = el.scrollLeft || 0; const sy = el.scrollTop || 0;
   for (const ch of el.childNodes) {
     if (ch.nodeType !== 1) { c.appendChild(ch.cloneNode(false)); continue; }
     const r = ch.getBoundingClientRect();
     if (r.height > 0 && r.width > 0 && (r.bottom < lo || r.top > hi || r.right < -40 || r.left > window.innerWidth + 40)) {
       const sp = ch.cloneNode(false);
-      sp.style.cssText += `;box-sizing:border-box;height:${r.height}px;visibility:hidden;overflow:hidden`;
+      sp.style.cssText += `;box-sizing:border-box;height:${r.height}px;width:${r.width}px;flex-shrink:0;visibility:hidden;overflow:hidden`;
       c.appendChild(sp);
     } else c.appendChild(cloneVisible(ch, lo, hi));
   }
+  if (sx || sy) for (const k of c.children) k.style.translate = `${-sx}px ${-sy}px`;
   return c;
 };
 const grab = () => {
@@ -119,6 +122,9 @@ const grab = () => {
     const clone = cloneVisible(el, lo, hi);
     marked.forEach((x) => x.removeAttribute('data-slm'));
     clone.removeAttribute('id');
+    // la copia non e' piu' una "parte fissa": altrimenti pageDrag/pageBack la spostavano insieme alla pagina vera (banner e schede sparivano, sotto restava il nero)
+    clone.removeAttribute('data-pf');
+    clone.querySelectorAll('[data-pf]').forEach((x) => x.removeAttribute('data-pf'));
     clone.style.transition = 'none'; clone.style.transform = 'none'; clone.style.opacity = '1'; clone.style.boxShadow = 'none';
     if (!el.id) { clone.style.position = 'absolute'; clone.style.inset = 'auto'; clone.style.left = '0'; clone.style.top = '0'; clone.style.width = `${r.width}px`; clone.style.margin = '0'; }
     clone.querySelectorAll('[data-slm]').forEach((c) => {
@@ -175,7 +181,34 @@ export function installBackSnaps() {
     return r;
   };
   window.addEventListener('popstate', () => { warmOff(); warmLater(); });
+  installEdgeGuard();
   warmLater();
+}
+
+// Su iPhone il bordo sinistro avvia anche lo "indietro" del sistema: la sua fotografia (spesso nera, o la Home in doppia copia)
+// si sovrapponeva al nostro scorrimento. Un tocco che parte dal bordo resta all'app (preventDefault): lo swipe lo gestiscono
+// SwipeTabs/useSwipeBack con pageDrag/pageBack. I tasti sul bordo (freccia indietro) ricevono comunque il tocco.
+const EDGE = 26;
+function installEdgeGuard() {
+  let tap = null;
+  document.addEventListener('touchstart', (e) => {
+    tap = null;
+    if (e.touches.length !== 1) return;
+    const t = e.touches[0];
+    if (t.clientX > EDGE) return;
+    const el = e.target;
+    if (el && el.closest && el.closest('input, textarea, select, [contenteditable]')) return;
+    if (e.cancelable) e.preventDefault();
+    const btn = el && el.closest && el.closest('button, a, [role="button"], [role="link"], label');
+    if (btn) tap = { btn, x: t.clientX, y: t.clientY, t: Date.now() };
+  }, { passive: false, capture: true });
+  // il preventDefault toglie il "click": per un tocco breve e fermo su un tasto lo si ricrea
+  document.addEventListener('touchend', (e) => {
+    const d = tap; tap = null;
+    if (!d || !e.changedTouches[0]) return;
+    const t = e.changedTouches[0];
+    if (Math.abs(t.clientX - d.x) < 10 && Math.abs(t.clientY - d.y) < 10 && Date.now() - d.t < 600 && d.btn.isConnected) d.btn.click();
+  }, { passive: true, capture: true });
 }
 let BEHIND = null;
 let WARM = null; // fotografia di destinazione gia' montata (quasi invisibile) cosi' le immagini sono decodificate prima dello swipe

@@ -1,6 +1,6 @@
 // Indice squadre (tidx/<id%100>.json, squadre_indice.py): per ogni id FotMob tutte le competizioni e stagioni giocate dal 2010.
 import { BASE } from './load';
-import { FM_ID } from './archive';
+import { FM_ID, LID_BY_FM } from './archive';
 import { leagueById } from './leagues';
 
 const SH = {};
@@ -8,8 +8,6 @@ const shard = (n) => {
   if (!SH[n]) SH[n] = fetch(`${BASE}tidx/${n}.json`).then((r) => (r.ok ? r.json() : {})).catch(() => ({}));
   return SH[n];
 };
-const LID_BY_FM = {};
-Object.keys(FM_ID).forEach((k) => { LID_BY_FM[FM_ID[k]] = k; });
 
 // id FotMob della squadra: quello noto, altrimenti dallo stemma (teamlogo/<id>.png)
 export const teamFmId = (team) => (team && (team.fmId || (/teamlogo\/(\d+)\.png/.exec(String(team.crest || '')) || [])[1])) || null;
