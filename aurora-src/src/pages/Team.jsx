@@ -74,18 +74,20 @@ export default function Team() {
   const shownLg = bComp && bComp !== 'all' ? leagueById(bComp) : league;
   const isHome = !bComp || bComp === 'all' || bComp === team.leagueId;
   const meta = <FormDots form={teamForm(team.id)} size={14} />;
-  const below = (
+  // allenatore solo se noto (mai "All. —")
+  const coach = (roseOf(team) || {}).co || (coachOf(team.id) !== '—' ? coachOf(team.id) : null);
+  const below = (isHome && row) || coach ? (
     <div className="flex min-w-0 items-center gap-2.5 text-[12.5px]">
       {isHome && row ? (
         <>
           <b className="tnum text-[16px]" style={{ color: 'var(--ink)' }}>{row.rank}°</b>
           <span className="tnum" style={{ color: 'var(--ink-2)' }}>{row.points} pt</span>
-          <span aria-hidden="true" className="h-4 w-px" style={{ background: 'var(--hair)' }} />
+          {coach ? <span aria-hidden="true" className="h-4 w-px" style={{ background: 'var(--hair)' }} /> : null}
         </>
       ) : null}
-      <span className="min-w-0 truncate" style={{ color: 'var(--ink-2)' }}>All. {(roseOf(team) || {}).co || coachOf(team.id)}</span>
+      {coach ? <span className="min-w-0 truncate" style={{ color: 'var(--ink-2)' }}>All. {coach}</span> : null}
     </div>
-  );
+  ) : null;
 
   const club = team.colors && team.colors[0];
   const wrap = (a, n) => <div key={n.key} className="club-scope" style={{ '--club': club, '--club-a': a }}>{n}</div>;

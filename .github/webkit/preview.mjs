@@ -170,7 +170,7 @@ await step('squadra di una competizione dell\'archivio: scheda unica da id FotMo
   const tabs = await pg.evaluate(() => [...document.querySelectorAll('.tab-btn')].map((x) => x.textContent.trim()));
   const t = await pg.evaluate(() => document.body.innerText);
   ok('squadra archivio: banner con il nome e schede come gli altri', t.includes(pick.name) && tabs.includes('Partite'), { tabs });
-  ok('squadra archivio: niente "non disponibile"', !ND.test(t));
+  ok('squadra archivio: niente "non disponibile" ne\' "All. —"',!ND.test(t) && !/All\.\s*[—–-]\s*$/m.test(t), { all: (t.match(/All\..{0,20}/) || [''])[0] });
   await shot('squadra-archivio');
   // il link diretto /squadra/fm-<id> (aperto da zero) ricostruisce la stessa scheda
   await go(`#/squadra/fm-${pick.tid}`, 6500);
