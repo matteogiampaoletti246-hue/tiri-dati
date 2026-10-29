@@ -49,7 +49,7 @@ function tiesOf(fix, round) {
     });
     return {
       round, a, b, sa, sb, awayA, awayB, played, date: legs[legs.length - 1][4],
-      legs: legs.map((m) => ({ mid: m[0], h: String(m[2]), a: String(m[3]), score: goals(m) && m[6] ? goals(m) : null, date: m[4] })),
+      legs: legs.map((m) => ({ mid: m[0], h: String(m[2]), a: String(m[3]), score: goals(m) && m[6] ? goals(m) : null, date: m[4], out: m[9] != null ? String(m[9]) : null })),
       pen: null, win: null,
     };
   });
@@ -69,7 +69,9 @@ function decide(t, det, old) {
     t.win = t.pen[0] > t.pen[1] ? 'a' : t.pen[1] > t.pen[0] ? 'b' : null;
     return;
   }
-  if (old && t.awayA !== t.awayB) t.win = t.awayA > t.awayB ? 'a' : 'b';
+  if (old && t.awayA !== t.awayB) { t.win = t.awayA > t.awayB ? 'a' : 'b'; return; }
+  // dettaglio partita non ancora scaricato: la squadra eliminata (feed del giorno, risultati.py) decide la sfida
+  if (last.out) t.win = last.out === t.a ? 'b' : last.out === t.b ? 'a' : null;
 }
 
 // ordina le sfide come in un albero: ogni sfida e' tra le due da cui provengono le squadre
@@ -107,6 +109,8 @@ function layout(rounds) {
 // i tabelloni gia' caricati restano in memoria: tornando da una partita si ridisegnano subito, senza "Carico..." e senza animazioni
 const MEM = new Map();
 export const peekBracket = (fm, sk) => MEM.get(`${fm}-${sk}`);
+// risultati nuovi della stagione in corso (data/archive.js): il tabellone si ricalcola alla prossima richiesta
+if (typeof window !== 'undefined') window.addEventListener('sl-arch', (e) => { if (e.detail) MEM.delete(`${e.detail.fm}-${e.detail.sk}`); });
 export const loadBracket = async (fm, sk) => {
   const k = `${fm}-${sk}`;
   if (MEM.has(k)) return MEM.get(k);

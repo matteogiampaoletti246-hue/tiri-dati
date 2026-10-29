@@ -10,6 +10,7 @@ import EntityBanner from '@/components/EntityBanner';
 import StatLists from '@/components/stats/StatLists';
 import { PlayerFace } from '@/components/FmImg';
 import useAsync from '@/hooks/useAsync';
+import useArchFresh from '@/hooks/useArchFresh';
 import { FM_ID, loadSeason, loadPlayerStats, seasonLabel, teamLogo, SEASON_STAT_IT, prettyKey } from '@/data/archive';
 import { leagueById, leagueTint } from '@/data/leagues';
 import { tintGrad } from '@/lib/tint';
@@ -61,6 +62,7 @@ export default function ArchiveTeam() {
   const [tab, setTab] = useState(0);
   const col = useTeamColors();
   const { data: season, loading } = useAsync(() => loadSeason(fm, sk), [fm, sk]);
+  useArchFresh(fm, sk); // risultati nuovi della stagione in corso
   const { data: stats } = useAsync(() => loadPlayerStats(fm, sk), [fm, sk]);
   const name = season && season.teams && season.teams[tid];
   if (loading) return <PageShell bar={false}><TopBar title="Squadra" /><div className="px-5 pt-8"><Skeleton className="h-[52px] w-full" /></div></PageShell>;

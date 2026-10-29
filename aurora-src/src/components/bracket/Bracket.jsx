@@ -2,6 +2,7 @@ import { useSel } from '@/components/past/PastBits';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAsync from '@/hooks/useAsync';
+import useArchFresh from '@/hooks/useArchFresh';
 import { useTeamColors } from '@/components/archive/parts';
 import { teamLogo } from '@/data/archive';
 import { loadBracket, peekBracket, CUP_NAME } from '@/data/bracket';
@@ -308,7 +309,16 @@ function BracketView({ data, fm, sk }) {
 export default function Bracket({ fm, sk }) {
   const hit = sk ? peekBracket(fm, sk) : null;
   const { data: d0, loading } = useAsync(() => (sk ? loadBracket(fm, sk) : null), [fm, sk]);
-  const data = d0 || hit;
+  // risultati arrivati dopo (stagione in corso): stesso componente, dati ricalcolati
+  const ver = useArchFresh(fm, sk);
+  const [fresh, setFresh] = useState(null);
+  useEffect(() => {
+    if (!ver || !sk) return undefined;
+    let on = true;
+    loadBracket(fm, sk).then((d) => { if (on && d && d.rounds) setFresh({ k: `${fm}-${sk}`, d }); });
+    return () => { on = false; };
+  }, [ver, fm, sk]);
+  const data = (fresh && fresh.k === `${fm}-${sk}` && fresh.d) || d0 || hit;
   if (loading && !data) return <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Carico il tabellone…</p>;
   if (!data || !data.rounds || !data.rounds.length) {
     return null;

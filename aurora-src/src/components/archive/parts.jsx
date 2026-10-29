@@ -20,7 +20,12 @@ export const fmtTime = (iso) => {
   const d = new Date(iso);
   return Number.isNaN(d.getTime()) ? '' : d.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Rome' });
 };
-export const dayKey = (iso) => String(iso || '').slice(0, 10);
+// giorno nel fuso di Roma, lo stesso di fmtDate (una partita alle 00:30 UTC sta nel giorno che si legge)
+const DAY_FMT = new Intl.DateTimeFormat('sv-SE', { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'Europe/Rome' });
+export const dayKey = (iso) => {
+  const d = new Date(iso);
+  return Number.isNaN(d.getTime()) ? String(iso || '').slice(0, 10) : DAY_FMT.format(d);
+};
 
 const shade = (hex, k) => {
   const m = /^#?([0-9a-f]{6})$/i.exec(hex || '');
@@ -76,7 +81,6 @@ export function ArchRow({ m, names, fm, sk, tid = null }) {
         ) : (
           <span className="tnum text-[13.5px] font-semibold" style={{ color: 'var(--ink-3)' }}>{m[8] ? 'Annull.' : fmtTime(m[4])}</span>
         )}
-        {played ? <span className="tnum mt-[2px] block text-[10.5px]" style={{ color: 'var(--ink-3)' }}>{fmtTime(m[4])}</span> : null}
       </div>
       <div className="flex min-w-0 flex-1 items-center gap-2.5">
         <TeamLogo id={m[3]} name={an} size={24} />

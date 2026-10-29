@@ -7,6 +7,7 @@ import StatLists from '@/components/stats/StatLists';
 import Skeleton from '@/components/Skeleton';
 import { TeamLogo, PlayerFace } from '@/components/FmImg';
 import useAsync from '@/hooks/useAsync';
+import useArchFresh from '@/hooks/useArchFresh';
 import { RefereesView } from '@/components/league/LeagueRefereesPanel';
 import { RAW } from '@/data/load';
 import { currentSeason, refsAllSeasons, loadSeason, loadTeamStats, loadPlayerStats, loadSeasonMatches, SEASON_STAT_IT, STAT_IT, STAT_GROUPS, prettyKey } from '@/data/archive';
@@ -14,6 +15,7 @@ import { tintGrad } from '@/lib/tint';
 import ClassificaSwitch from '@/components/bracket/ClassificaSwitch';
 import Bracket from '@/components/bracket/Bracket';
 import { isPureCup, loadBracket } from '@/data/bracket';
+import { roundBlocks, blockTag, currentBlock } from '@/data/rounds';
 import { ArchRow, StandingsPanel, fmtDate, dayKey, useTeamColors, rowBg } from './parts';
 
 const TABS = [
@@ -52,52 +54,47 @@ function MatchesPanel({ fm, sk, season, tint }) {
   const [filter, setFilter] = useState('all');
   const [extra, setExtra] = useState(0);
   const fix = season ? season.fix : [];
-  const rounds = useMemo(() => {
-    const seen = [];
-    fix.forEach((m) => { if (!seen.includes(m[1])) seen.push(m[1]); });
-    return seen;
-  }, [fix]);
+  // giornate dalle date: recuperi nella loro data, "in corso"/"prossima" dal calendario (data/rounds.js)
+  const blocks = useMemo(() => roundBlocks(fix), [fix]);
   if (!season || !fix.length) return null;
-  const shown = fix.filter(MATCH[filter]);
-  const byR = {};
-  shown.forEach((m) => { (byR[m[1]] = byR[m[1]] || []).push(m); });
-  const firstOpen = fix.find((m) => !m[6]);
-  const curI = Math.max(0, rounds.indexOf(firstOpen ? firstOpen[1] : rounds[rounds.length - 1]));
+  const pass = MATCH[filter];
+  const vis0 = blocks.map((b) => ({ ...b, shown: b.list.filter(pass) }));
+  const shownN = vis0.reduce((n, b) => n + b.shown.length, 0);
+  const curI = currentBlock(blocks);
   const from = Math.max(0, curI - extra);
-  const vis = rounds.slice(from).filter((r) => byR[r]);
-  const hiddenPrev = rounds.slice(0, from).filter((r) => byR[r]);
+  const vis = vis0.slice(from).filter((b) => b.shown.length);
+  const hiddenPrev = vis0.slice(0, from).filter((b) => b.shown.length);
   const prev = hiddenPrev[hiddenPrev.length - 1];
-  const prevI = prev !== undefined ? rounds.indexOf(prev) : null;
+  const prevI = prev ? vis0.indexOf(prev) : null;
   const names = season.teams || {};
   return (
     <div className="pt-2">
       <div className="px-5">
         <TextFilter options={[{ value: 'all', label: 'Tutte' }, { value: 'live', label: 'Live' }, { value: 'results', label: 'Risultati' }, { value: 'upcoming', label: 'Programmate' }]} value={filter} onChange={(v) => { setFilter(v); setExtra(0); }} />
       </div>
-      {!shown.length ? <Empty>Nessuna partita</Empty> : (
+      {!shownN ? <Empty>Nessuna partita</Empty> : (
         <div>
-          {prev !== undefined ? (
+          {prev ? (
             <button type="button" onClick={() => setExtra(curI - prevI)} className="glass press mx-auto mt-4 flex items-center gap-1.5 rounded-full px-4 py-2 text-[12.5px] font-bold">
-              <ChevronUp size={15} />{ /^\d+$/.test(String(prev)) ? 'Giornate precedenti' : 'Turni precedenti' }
+              <ChevronUp size={15} />{ prev.rec || /^\d+$/.test(String(prev.r)) ? 'Giornate precedenti' : 'Turni precedenti' }
             </button>
           ) : null}
-          {vis.map((r) => {
-            const list = [...byR[r]].sort((a, b) => String(a[4]).localeCompare(String(b[4])));
-            const done = list.filter((m) => m[6]).length;
-            const tag = done === list.length ? 'Conclusa' : done ? 'In corso' : 'Prossima';
+          {vis.map((b) => {
+            const list = [...b.shown].sort((x, y) => String(x[4]).localeCompare(String(y[4])));
+            const tag = blockTag(b.list);
             const days = [];
             list.forEach((m) => { const k = dayKey(m[4]); const l = days[days.length - 1]; if (l && l.k === k) l.m.push(m); else days.push({ k, m: [m] }); });
             const range = days.length > 1 ? `${fmtDate(days[0].m[0][4])} – ${fmtDate(days[days.length - 1].m[0][4])}` : fmtDate(days[0].m[0][4]);
             return (
-              <section key={r} className="glass mx-4 mt-5 overflow-hidden rounded-[24px] pb-1" style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 420px', ...(tint ? { background: tintGrad(tint, 0x45) } : null) }}>
+              <section key={b.key} data-round={b.rec ? 'rec' : String(b.r)} className="glass mx-4 mt-5 overflow-hidden rounded-[24px] pb-1" style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 420px', ...(tint ? { background: tintGrad(tint, 0x45) } : null) }}>
                 <div className="flex items-center gap-2 px-4 pb-1 pt-3.5">
-                  <h3 className="text-[15px] font-extrabold">{roundTitle(r)}</h3>
+                  <h3 className="text-[15px] font-extrabold">{b.rec ? 'Recuperi' : roundTitle(b.r)}</h3>
                   <span className="rounded-full px-2 py-[2px] text-[9.5px] font-extrabold uppercase tracking-wider" style={{ background: tag === 'Conclusa' ? 'var(--hair-2)' : 'var(--accent-soft)', color: tag === 'Conclusa' ? 'var(--ink-3)' : 'var(--accent)' }}>{tag}</span>
                   <span className="ml-auto text-[10.5px]" style={{ color: 'var(--ink-3)' }}>{range}</span>
                 </div>
                 {days.map((d) => (
                   <div key={d.k}>
-                    <div className="px-4 pb-0.5 pt-2.5 text-[10.5px] font-bold uppercase tracking-wider" style={{ color: 'var(--ink-3)', borderTop: '1px solid var(--hair-2)' }}>{fmtDate(d.m[0][4])}</div>
+                    <div className="px-4 pb-0.5 pt-2.5 text-[10.5px] font-bold uppercase tracking-wider" style={{ color: 'var(--ink-3)', borderTop: '1px solid var(--hair-2)' }}>{fmtDate(d.m[0][4])}{b.rec ? ` · ${[...new Set(d.m.map((m) => roundTitle(m[1])))].join(', ')}` : ''}</div>
                     {d.m.map((m) => <ArchRow key={m[0]} m={m} names={names} fm={fm} sk={sk} />)}
                   </div>
                 ))}
@@ -280,6 +277,7 @@ function refsOf(det) {
 }
 
 export default function ArchiveLeague({ fm, sk, tab, setTab, tint }) {
+  useArchFresh(fm, sk); // risultati nuovi della stagione in corso: si ridisegna con le righe aggiornate
   const { data: season, loading } = useAsync(() => loadSeason(fm, sk), [fm, sk]);
   const { data: stats, loading: l3 } = useAsync(() => loadTeamStats(fm, sk), [fm, sk]);
   const { data: pstats, loading: l5 } = useAsync(() => loadPlayerStats(fm, sk), [fm, sk]);

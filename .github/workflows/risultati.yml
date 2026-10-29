@@ -1,0 +1,35 @@
+name: Risultati competizioni aggiunte
+# Feed FotMob del giorno (una richiesta copre tutte le leghe): giorni/<data>.json per la Home e risultati
+# delle stagioni in corso di arch/ (Partite, Tabellone, squadre, giocatori) subito dopo la fine delle partite.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "*/10 * * * *"   # ieri, oggi e domani
+    - cron: "23 */3 * * *"   # anche i 7 giorni successivi (orari e rinvii)
+  push:
+    paths:
+      - risultati.py
+concurrency: risultati
+permissions:
+  contents: write
+jobs:
+  risultati:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Scarica
+        run: |
+          if [ "${{ github.event.schedule }}" = "23 */3 * * *" ] || [ "${{ github.event_name }}" != "schedule" ]; then export DAYS="-2..7"; else export DAYS="-1..1"; fi
+          python risultati.py
+      - name: Salva
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add giorni arch 2>/dev/null || true
+          git diff --staged --quiet && exit 0
+          git commit -m "Risultati competizioni aggiunte"
+          for i in 1 2 3 4 5; do git pull --rebase && git push && break; sleep $((i*4)); done
