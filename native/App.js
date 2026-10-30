@@ -140,8 +140,8 @@ const LeagueGroup = memo(({ iso, g, forceOpen, onOpen, onLeague }) => {
   return (
     <Card tint={g.c.tint}>
       <View style={s.headRow}>
-        <Pressable onPress={() => onLeague(leagueRoute(g.c, g.fm))} style={({ pressed }) => [{ flex: 1 }, pressed && { opacity: 0.6 }]}><LeagueHead c={g.c} /></Pressable>
-        <Pressable onPress={toggle} hitSlop={{ top: 14, bottom: 14, left: 8, right: 14 }} style={{ flexDirection: 'row', alignItems: 'center' }}><Text style={s.cnt}>{g.matches.length}</Text><Chev open={isOpen} /></Pressable>
+        <Pressable onPress={() => onLeague(leagueRoute(g.c, g.fm))} style={({ pressed }) => [{ flexShrink: 1 }, pressed && { opacity: 0.6 }]}><LeagueHead c={g.c} /></Pressable>
+        <Pressable onPress={toggle} hitSlop={{ top: 14, bottom: 14, right: 14 }} style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end' }}><Text style={s.cnt}>{g.matches.length}</Text><Chev open={isOpen} /></Pressable>
       </View>
       {isOpen ? <View style={s.body}>{g.matches.map((m, i) => <View key={m[0]} style={i ? s.sep : null}><Row m={m} onOpen={onOpen} /></View>)}</View> : null}
     </Card>
@@ -254,6 +254,7 @@ const scoreStr = (sc) => { const x = /(\d+)\s*-\s*(\d+)/.exec(String(sc || ''));
 
 // barra in basso come nel sito (stesse icone): Home, Calcolatore, Giocatori, Matchup. Componente a parte e memoizzato: non si ridisegna
 // quando la Home cambia giorno o scorre; le altre pagine sono nella pagina web, che ha la sua barra.
+const isTabRoute = (r) => TABS.some(([, , x]) => x && String(r || '').startsWith(x));
 const TABS = [['Home', 'home-outline', null], ['Calcolatore', 'calculator-outline', '/calcolatore'], ['Giocatori', 'people-outline', '/migliori-giocatori'], ['Matchup', 'sword-cross', '/migliori-matchup']];
 const TabBar = memo(({ onOpen, onHome, active, bottom }) => {
   const { C, s } = useT();
@@ -313,6 +314,7 @@ function Screen({ onTheme }) {
   const [ready, setReady] = useState(false);
   const readyRef = useRef(false);
   const [webOpen, setWebOpen] = useState(false);   // la pagina web e' sopra la Home (la barra in basso e' sempre quella nativa)
+  const [barOn, setBarOn] = useState(false);       // la barra nativa si vede solo in Home e nelle tre schede (Calcolatore, Giocatori, Matchup)
   const [webRoute, setWebRoute] = useState('');     // rotta mostrata dalla pagina web (per evidenziare la voce giusta)
   const [busy, setBusy] = useState(false); // apertura in corso: rotella al posto della pagina vecchia
   const webPath = useRef('');               // percorso che la pagina web dice di mostrare (messaggio `route:`)
@@ -453,7 +455,7 @@ function Screen({ onTheme }) {
     setReady(true);
   }, []);
   const openRoute = useCallback((route) => {
-    openRef.current = true; setWebOpen(true); setDepth(0);
+    openRef.current = true; setWebOpen(true); setDepth(0); setBarOn(isTabRoute(route));
     if (!readyRef.current) { startRoute.current = route; setWarm(true); }
     const path = route.split('?')[0];
     if (webPath.current !== path) { // la pagina web e' gia' su questa rotta (riapertura veloce): niente attesa
@@ -474,7 +476,7 @@ function Screen({ onTheme }) {
   const onMsg = useCallback((e) => {
     const t = e && e.nativeEvent && e.nativeEvent.data;
     if (t === 'dark' || t === 'light') onTheme(t);
-    else if (typeof t === 'string' && t.startsWith('route:')) { webPath.current = t.slice(6); setWebRoute(webPath.current); if (awaitRoute.current === webPath.current) endBusy(); } // la pagina web ha disegnato questa rotta
+    else if (typeof t === 'string' && t.startsWith('route:')) { webPath.current = t.slice(6); setWebRoute(webPath.current); setBarOn(isTabRoute(webPath.current)); if (awaitRoute.current === webPath.current) endBusy(); } // la pagina web ha disegnato questa rotta
     else if (typeof t === 'string' && t.startsWith('depth:')) setDepth(Number(t.slice(6)) || 0);
     else if (typeof t === 'string' && t.startsWith('drag:')) { const d = Number(t.slice(5)); ov.value = d < 0 ? withTiming(0, { duration: 180 }) : withTiming(d, { duration: 90, easing: Easing.linear }); } // swipe indietro partito dentro la pagina web (prima pagina dopo la Home)
     else if (t === 'home' && openRef.current) closeWeb(); // il tasto indietro del sito e' tornato alla pagina di partenza: si torna alla Home
@@ -547,7 +549,7 @@ function Screen({ onTheme }) {
         </View>
         <GestureDetector gesture={edge}><View pointerEvents={depth > 0 ? 'none' : 'auto'} style={[s.edge, { width: EDGE_W, top: insets.top + 98 }]} /></GestureDetector>
       </Animated.View>
-      <TabBar onOpen={openRoute} onHome={closeWeb} active={webOpen ? (TABS.find(([, , r]) => r && webRoute.startsWith(r)) || [])[2] || '' : null} bottom={insets.bottom} />
+      {!webOpen || barOn ? <TabBar onOpen={openRoute} onHome={closeWeb} active={webOpen ? (TABS.find(([, , r]) => r && webRoute.startsWith(r)) || [])[2] || '' : null} bottom={insets.bottom} /> : null}
     </View>
   );
 }

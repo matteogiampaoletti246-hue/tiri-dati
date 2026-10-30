@@ -322,8 +322,5 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 - Una sola pillola divisa a meta', in alto a sinistra, larga poco meno di meta' schermo (44%, alta 40) (`LivePill` in `native/App.js`, `components/LivePill.jsx` nel sito), tutta arrotondata, indicatore dentro i bordi (`overflow: hidden`). Su Tutte l'indicatore e' blu (`accent`), passando a Live scorre a destra e vira al rosso (`live`) e il pallino diventa bianco; tornando indietro il percorso inverso. Colori sempre dai temi (`DARK`/`LIGHT`, variabili CSS), mai fissi.
 - Il filtro Live vale solo per la pagina di oggi: ogni giorno e' filtrato in base alla sua data (non in base al giorno al centro), cosi' durante lo swipe i giorni vicini non restano vuoti; cambiando giorno torna "Tutte" con la stessa animazione.
 
-## Finestre e barra nativa (regola fissa)
-- Nell'app nativa la barra in basso sta SOPRA la pagina web: i tasti in fondo a una finestra (es. Chiudi/Profilo della finestra giocatore, `natBar` in `PlayerSheet.jsx`, 104 px) si alzano della sua altezza, mai coperti. Ogni nuova finestra con tasti in basso fa lo stesso.
-
-## Aggiornamento live a 5 secondi (regola fissa)
-- Con una partita live: Home web e nativa, pagina partita e `refreshStatus` ricontrollano ogni 5 secondi (senza live: 30-60 s). Cache del worker `/f` e `/fx` 3 s, cache interne 3-4 s. Il worker va ripubblicato a mano su Cloudflare (`worker/index.js`). Il ritardo che resta e' quello di FotMob. Piu' fonti "la piu' veloce vince" = servizio sempre acceso a parte (non ancora fatto).
+## Barra nativa solo nelle 4 voci (regola fissa)
+- Nell'app nativa la barra in basso (`TabBar`) si vede SOLO in Home e nelle tre schede Calcolatore, Giocatori, Matchup (`isTabRoute`, `barOn` in `native/App.js`). Ogni altra pagina (partita, campionato, squadra, giocatore, finestre) non ha la barra: si torna con lo swipe o col tasto indietro. Mai spostare i tasti delle finestre per farli stare sopra la barra.
