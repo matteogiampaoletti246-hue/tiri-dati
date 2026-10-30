@@ -439,6 +439,17 @@ function Screen({ onTheme }) {
           {shown.map((i) => <Pane key={i} idx={i} x={x}><Day iso={keys[i]} rows={data[i]} filter={filter} onOpen={openMatch} onLeague={openRoute} /></Pane>)}
         </View>
       </GestureDetector>
+      {/* barra in basso come nel sito: Home, Calcolatore, Giocatori, Matchup (le altre pagine sono nella pagina web, che ha la sua barra) */}
+      <View pointerEvents="box-none" style={[s.tabWrap, { paddingBottom: Math.max(insets.bottom, 8) }]}>
+        <View style={s.tabBar}>
+          {[['Home', 'home', null], ['Calcolatore', 'calculator', '/calcolatore'], ['Giocatori', 'people', '/migliori-giocatori'], ['Matchup', 'flash', '/migliori-matchup']].map(([label, icon, route]) => (
+            <Pressable key={label} onPress={route ? () => openRoute(route) : undefined} style={[s.tabItem, !route && s.tabOn]} accessibilityLabel={label}>
+              <Ionicons name={icon} size={20} color={!route ? C.accent : C.ink3} />
+              <Text style={[s.tabTxt, !route && { color: C.accent }]}>{label}</Text>
+            </Pressable>
+          ))}
+        </View>
+      </View>
       <Calendar visible={cal} selected={dates[cur] || new Date()} onClose={() => setCal(false)} onPick={pick} />
 
       {/* pagina web (resto dell'app): gia' caricata, si apre scorrendo da destra */}
@@ -473,6 +484,11 @@ const makeStyles = (C) => StyleSheet.create({
   filters: { flexDirection: 'row', alignItems: 'center', gap: 18, paddingHorizontal: 20, paddingVertical: 6 },
   fBtn: { color: C.ink3, fontSize: 13.5, fontWeight: '500' },
   fOn: { color: C.ink, fontWeight: '700' },
+  tabWrap: { position: 'absolute', left: 0, right: 0, bottom: 0, paddingHorizontal: 16, paddingTop: 8 },
+  tabBar: { flexDirection: 'row', padding: 6, borderRadius: 26, backgroundColor: C.sheet, borderWidth: 1, borderColor: C.border },
+  tabItem: { flex: 1, alignItems: 'center', gap: 3, paddingVertical: 8, borderRadius: 20 },
+  tabOn: { backgroundColor: C.chip },
+  tabTxt: { color: C.ink3, fontSize: 10.5, fontWeight: '700' },
   fLive: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   liveDot: { width: 5, height: 5, borderRadius: 3, backgroundColor: C.live },
   card: { marginHorizontal: 16, marginTop: 16, borderRadius: 26, overflow: 'hidden', borderWidth: 1, borderColor: C.border },
