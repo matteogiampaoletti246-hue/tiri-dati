@@ -1489,6 +1489,29 @@ await step('statistiche pre-partita: nessuna posizione 0°', async () => {
   ok('statistiche pre-partita: nessuna riga con posizione 0°', !bad.length, { provate: links.length, bad });
 });
 
+await step('statistiche previste: pannello al posto del confronto completo', async () => {
+  await go('#/', 7000);
+  const links = await pg.evaluate(() => [...document.querySelectorAll('a[href*="/match/"]')].filter((a) => /\d{1,2}:\d{2}/.test(a.textContent)).slice(0, 8).map((a) => a.getAttribute('href')));
+  let shown = 0; const old = []; const bad = [];
+  for (const h of links) {
+    await go(h, 6000); await ready();
+    if (!(await tabClick('Statistiche'))) continue;
+    await wait(2500);
+    const r = await pg.evaluate(() => {
+      const t = document.getElementById('sl-shell').innerText;
+      const sec = document.querySelector('section[aria-label="Statistiche previste"]');
+      if (!sec) return { old: /Confronto completo/i.test(t) };
+      const nums = [...sec.querySelectorAll('.tnum')].map((x) => x.textContent.trim());
+      return { old: /Confronto completo/i.test(t), rows: nums.length / 2, nums, note: /\(fatti|Previsione =/i.test(sec.innerText) };
+    });
+    if (r.old) old.push(h);
+    if (r.rows) { shown += 1; if (r.note || r.nums.some((n) => !/^\d+,\d$/.test(n))) bad.push({ h, r }); }
+    if (r.rows && shown === 1) await shot('statistiche-previste');
+  }
+  ok('statistiche previste: nessun tasto "Confronto completo"', !old.length, { old });
+  ok('statistiche previste: il pannello compare con valori a una cifra decimale e senza nota di calcolo', shown > 0 && !bad.length, { provate: links.length, shown, bad });
+});
+
 await step('arbitri: scheda solo per top campionati, coppe europee e internazionali', async () => {
   await go('#/campionato/fm-8968', 6000); await ready(); await wait(2000);
   const tabs = await pg.evaluate(() => [...document.querySelectorAll('.tab-btn')].map((x) => x.textContent.trim()));

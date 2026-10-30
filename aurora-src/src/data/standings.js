@@ -124,6 +124,8 @@ export const SRC = {
   precisione: ['ex', 'accurate_passes%', 0],
   fuorigioco: ['ex', 'Offsides', 0],
   cross: ['ex', 'accurate_crosses', 0],
+  fuorigiocoAvv: ['ex', 'Offsides', 1],
+  gialliAvv: ['ex', 'yellow_cards', 1],
 };
 
 export const CATEGORY_DEFS = [

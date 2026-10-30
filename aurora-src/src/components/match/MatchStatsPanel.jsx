@@ -6,9 +6,8 @@ import TeamLink from '@/components/TeamLink';
 import TextFilter from '@/components/TextFilter';
 import MatchShotMap from './MatchShotMap';
 import PreMatchStats, { preStatsOk } from './PreMatchStats';
-import { CATEGORY_DEFS, metricOf } from '@/data/standings';
+import PredictedStats from './PredictedStats';
 import { comma, num } from '@/lib/format';
-import { archiveMetrics } from '@/data/archiveMetrics';
 
 const LIVE_STATS = [
   { key: 'possesso', label: 'Possesso', format: (v) => `${comma(v, 0)}%` },
@@ -33,30 +32,13 @@ export function hasMatchStats(match, view, home, away, pre) {
 
 export default function MatchStatsPanel({ match, view, home, away, pre }) {
   const [period, setPeriod] = useState('all');
-  const [full, setFull] = useState(false);
   const cs = 'd';
-  const am = pre && match.archive ? archiveMetrics(match) : null;
-  const mv = (tid, teamId, key) => (am ? am.value(tid, key) : metricOf(teamId, key));
 
   if (pre) {
     return (
       <div>
         <PreMatchStats home={home} away={away} match={match} />
-        <div className="mt-2">
-          <button type="button" onClick={() => setFull(!full)} className="glass press mx-auto my-3 block rounded-full px-4 py-2 text-[12.5px] font-bold">
-            {full ? 'Nascondi confronto completo' : 'Confronto completo delle statistiche'}
-          </button>
-          {full ? (
-            <div className="flex flex-col gap-7 pt-2">
-              {CATEGORY_DEFS.map((cat) => ({ ...cat, metrics: am ? cat.metrics.filter((mt) => mv(match.archive.hid, null, mt.key) !== null) : cat.metrics })).filter((cat) => cat.metrics.length).map((cat) => (
-                <section key={cat.key} className="px-5">
-                  <PanelTitle>{cat.title}</PanelTitle>
-                  <CompareBars rows={cat.metrics.map((mt) => ({ label: mt.label, home: mv(match.archive && match.archive.hid, match.homeId, mt.key), away: mv(match.archive && match.archive.aid, match.awayId, mt.key) }))} format={num} />
-                </section>
-              ))}
-            </div>
-          ) : null}
-        </div>
+        <PredictedStats home={home} away={away} match={match} />
       </div>
     );
   }
