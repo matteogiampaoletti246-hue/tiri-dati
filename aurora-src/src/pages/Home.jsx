@@ -39,6 +39,8 @@ let TOUCHING = false;
 let GLIDE = false;
 // giorni gia' montati per intero (iso|filtro): il giorno vicino completo non fa ridisegnare la Home a inizio swipe
 const BUILT = new Map();
+// giorni con almeno le prime finestre montate (quanto serve per vederli durante lo scorrimento)
+const BUILT_FIRST = new Map();
 // aggiornamenti dalla rete: mai mentre il dito e' sullo schermo o il giorno sta scorrendo (si ridisegna appena la pagina e' ferma)
 const later = (fn) => { const go = () => { if (TOUCHING || GLIDE) setTimeout(go, 200); else fn(); }; go(); };
 
@@ -90,26 +92,37 @@ function groupsOf(iso, filter, ver) {
   return list;
 }
 
-// Un giorno intero. I giorni vicini si costruiscono accanto a quello aperto a piccoli pezzi mentre l'app e' ferma
-// (un pezzo per volta: nessun fotogramma bloccato); durante lo swipe non c'e' nulla da costruire.
-const FIRST = 6;
-const STEP = 5;
-const STEP_NEAR = 12;
-const DayPane = memo(function DayPane({ iso, filter, ver, active, near }) {
+// Un giorno. Il giorno aperto si costruisce per intero (a pezzi se ci si arriva con uno swipe); i vicini mostrano solo le prime
+// finestre (quello che si vede durante lo scorrimento) e si completano solo se la pagina e' scorsa in basso. Cosi' ogni swipe
+// monta poche righe e non ne smonta centinaia; mai un pezzo costruito mentre il dito e' sullo schermo.
+const FIRST = 8;
+const STEP = 8;
+const DayPane = memo(DayPaneBody, (a, b) => a.iso === b.iso && a.filter === b.filter && a.ver === b.ver
+  // giorno gia' completo: diventare centrale o vicino non cambia nulla, niente ridisegno delle sue righe
+  && ((a.lead === b.lead && a.need === b.need) || BUILT.get(`${b.iso}|${b.filter}`) === true)
+  // il minuto live ridisegna solo il giorno centrale (tick 0 = giorno non centrale)
+  && (a.tick === b.tick || a.tick === 0 || b.tick === 0));
+function DayPaneBody({ iso, filter, ver, lead, need }) {
   const items = groupsOf(iso, filter, ver);
-  const [cnt, setCnt] = useState(active ? Infinity : FIRST);
-  const eff = active ? Infinity : cnt;
-  BUILT.set(`${iso}|${filter}`, eff >= items.length);
-  if (BUILT.size > 40) BUILT.delete(BUILT.keys().next().value);
+  // un giorno vicino appena arrivato parte vuoto (cambiare giorno non monta righe) e mostra le prime finestre a riposo
+  const [cnt, setCnt] = useState(lead ? Infinity : 0);
+  const eff = Math.max(cnt, need || 0);
+  const key = `${iso}|${filter}`;
+  BUILT.set(key, eff >= items.length);
+  BUILT_FIRST.set(key, eff >= Math.min(FIRST, items.length));
+  if (BUILT.size > 40) { BUILT.delete(BUILT.keys().next().value); BUILT_FIRST.delete(BUILT_FIRST.keys().next().value); }
+  // richiesto (inizio swipe): il numero richiesto resta montato anche quando la richiesta finisce
+  useEffect(() => { if (need && cnt < need) setCnt(need); }, [need, cnt]);
   useEffect(() => {
-    if (active) { if (cnt !== Infinity) setCnt(Infinity); return undefined; }
-    if (cnt >= items.length) return undefined;
+    // il giorno vicino si riempie a riposo (prime finestre), quello che diventa centrale con uno swipe si completa a pezzi;
+    // mai con il dito o lo scorrimento in corso
+    const goal = lead ? Infinity : FIRST;
+    if (cnt >= Math.min(goal, items.length)) return undefined;
     let id;
-    // i giorni vicini si completano per primi e a pezzi grandi; quelli a due giorni di distanza dopo; mai durante lo swipe
-    const go = () => { if (TOUCHING || GLIDE) { id = setTimeout(go, 150); return; } setCnt((c) => c + (near ? STEP_NEAR : STEP)); };
-    id = setTimeout(go, near ? 40 : 160);
+    const go = () => { if (TOUCHING || GLIDE) { id = setTimeout(go, 120); return; } setCnt((c) => Math.min(goal, c + (lead ? STEP : 4))); };
+    id = setTimeout(go, lead ? 50 : 70);
     return () => clearTimeout(id);
-  }, [cnt, active, items.length, near]);
+  }, [cnt, lead, items.length]);
   if (!items.length) {
     return (
       <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>
@@ -121,7 +134,7 @@ const DayPane = memo(function DayPane({ iso, filter, ver, active, near }) {
   return items.slice(0, eff).map((it) => (it.g
     ? <LeagueGroup key={`${iso}|${it.key}`} league={it.g.league} matches={it.g.matches} iso={iso} forceOpen={live} />
     : <CountryGroup key={`${iso}|${it.key}`} cc={it.c.cc} name={it.c.name} comps={it.c.comps} iso={iso} forceOpen={live} />));
-});
+}
 
 export default function Home() {
   useEntityScope('home');
@@ -171,7 +184,8 @@ export default function Home() {
         if (!on) return;
         const n = await syncDayTimes(isoDate(d));
         const f = await loadDayFeed(isoDate(d)).catch(() => 0);
-        if ((n || f) && on) later(() => on && bump((x) => x + 1));
+        // un giorno lontano da quello aperto non si ridisegna: quando lo si apre legge i dati gia' aggiornati
+        if ((n || f) && on && Math.abs(ISO_LIST.indexOf(isoDate(d)) - ISO_LIST.indexOf(live.current.iso)) <= 1) later(() => on && bump((x) => x + 1));
       }
     })();
     return () => { on = false; };
@@ -185,11 +199,10 @@ export default function Home() {
   const showPeek = (v) => {
     if (peekRef.current === v) return;
     peekRef.current = v;
-    // giorno vicino gia' completo: niente ridisegno della Home a inizio swipe
-    if (v && BUILT.get(`${v}|${live.current.filter}`)) return;
+    // il giorno vicino si completa solo se la pagina e' scorsa in basso (si vedrebbe tagliato); in cima bastano le prime finestre
+    if (v && (live.current.deep ? BUILT : BUILT_FIRST).get(`${v}|${live.current.filter}`)) return;
     setPeek(v);
   };
-
   const listRef = useRef(null);
   const busy = useRef(false);
   const finishRef = useRef(null);
@@ -203,6 +216,7 @@ export default function Home() {
     const dir = target === nextIso ? -1 : 1;
     busy.current = true;
     GLIDE = true;
+    live.current.deep = true;
     showPeek(target);
     growBox(el);
     dragDays(-dir, true);
@@ -213,11 +227,12 @@ export default function Home() {
       ended = true;
       clearTimeout(tm);
       finishRef.current = null;
+      // stili e cambio giorno nello stesso passaggio (nessun fotogramma in mezzo): un solo calcolo di stile e layout
       el.style.transition = 'none';
-      flushSync(() => { setIso(target); setPeek(null); peekRef.current = null; });
       el.style.height = '';
       el.style.transform = '';
       el.style.willChange = '';
+      flushSync(() => { setIso(target); setPeek(null); peekRef.current = null; });
       busy.current = false;
       GLIDE = false;
     };
@@ -245,12 +260,13 @@ export default function Home() {
 
   // Swipe laterale tra i giorni: eventi touch nativi su tutta la pagina (affidabili su iPhone).
   const live = useRef({});
-  live.current = { iso, prevIso, nextIso, search: searchOpen, glide, filter };
+  live.current = { iso, prevIso, nextIso, search: searchOpen, glide, filter, deep: live.current.deep };
   useEffect(() => {
     let st = null;
     const blocked = (t) => t.closest && t.closest('[data-no-swipe], input, select, textarea, [role="dialog"]');
     const onStart = (e) => {
       TOUCHING = true;
+      live.current.deep = window.scrollY > 120;
       if (finishRef.current) finishRef.current();
       finishCarousel();
       if (e.touches.length !== 1 || busy.current || live.current.search || modalOpen() || blocked(e.target)) { st = null; return; }
@@ -328,16 +344,18 @@ export default function Home() {
     };
   }, []);
 
-  // finestra di 5 giorni: i due vicini (pronti per lo swipe) e due piu' lontani, preparati a riposo e non disegnati finche' non diventano vicini
-  const farIso = (r) => { const j = dayIdx + r; return dayIdx >= 0 && (j < 0 || j >= ISO_LIST.length) ? null : addDays(iso, r); };
-  const panes = [];
+  // 3 caselle fisse a rotazione: cambiando giorno la casella che esce a sinistra rientra a destra con il giorno nuovo; le altre due restano
+  // com'erano e cambia solo la loro posizione (nessuna proprieta' ereditata cambia: niente ricalcolo di stile sulle righe)
+  const epoch = Math.floor(Date.parse(`${iso}T12:00:00Z`) / 864e5);
+  const c0 = ((epoch % 3) + 3) % 3;
+  const deepPeek = !!live.current.deep;
   const sigs = {};
-  const add = (k, role) => { if (!k) return; sigs[k] = `${LEAGUES.length}#${daySig(k)}`; panes.push({ k, role }); };
-  add(farIso(-2), -2);
-  add(prevIso, -1);
-  add(iso, 0);
-  add(nextIso, 1);
-  add(farIso(2), 2);
+  const panes = [0, 1, 2].map((sl) => {
+    const role = (((sl - c0 + 1) % 3) + 3) % 3 - 1;
+    const k = role === 0 ? iso : role === -1 ? prevIso : nextIso;
+    if (k) sigs[k] = `${LEAGUES.length}#${daySig(k)}`;
+    return { sl, k, role };
+  });
 
   return (
     <PageShell swipeBack={false}>
@@ -386,7 +404,7 @@ export default function Home() {
       <div style={{ overflow: 'clip' }}>
       <div
         ref={listRef}
-        style={{ minHeight: '55vh', position: 'relative' }}
+        style={{ minHeight: '55vh', position: 'relative', display: 'grid' }}
         onClickCapture={(e) => { if (moved.current) { e.preventDefault(); e.stopPropagation(); moved.current = false; } }}
       >
         {loading ? (
@@ -404,13 +422,12 @@ export default function Home() {
             ))}
           </>
         ) : (
-          panes.map(({ k, role }) => (
+          panes.map(({ sl, k, role }) => (
             <div
-              key={k}
-              data-far={Math.abs(role) > 1 ? '1' : undefined}
-              style={role ? { position: 'absolute', top: 0, width: '100%', left: `${role * 100}%`, display: 'flow-root', ...(Math.abs(role) > 1 ? { visibility: 'hidden', pointerEvents: 'none' } : null) } : { display: 'flow-root' }}
+              key={sl}
+              style={{ gridArea: '1 / 1', minWidth: 0, display: 'flow-root', ...(role ? { transform: `translateX(${role * 100}%)`, height: 0 } : null) }}
             >
-              <DayPane iso={k} filter={filter} ver={sigs[k]} tick={role === 0 ? tick : 0} active={role === 0 || peek === k} near={Math.abs(role) <= 1} />
+              {k ? <DayPane key={k} iso={k} filter={filter} ver={sigs[k]} tick={role === 0 ? tick + 1 : 0} lead={role === 0} need={peek === k ? (deepPeek ? Infinity : FIRST) : 0} /> : null}
             </div>
           ))
         )}

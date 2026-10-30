@@ -9,7 +9,7 @@ import { dragDays } from '@/components/DayStrip';
 export const growBox = (el) => {
   if (!el) return;
   let h = 0;
-  for (const c of el.children) if (!c.hasAttribute('data-far')) h = Math.max(h, c.offsetHeight);
+  for (const c of el.children) if (!c.hasAttribute('data-far')) h = Math.max(h, c.offsetHeight, c.scrollHeight);
   el.style.height = `${h}px`;
 };
 export default function DayPager({ index, count, onChange, render }) {

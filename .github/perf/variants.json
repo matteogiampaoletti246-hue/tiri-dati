@@ -1,6 +1,4 @@
 [
-  {"name": "base"},
-  {"name": "senza giorni lontani", "css": "[data-far]{display:none !important}"},
-  {"name": "senza ombre e sfumature", "css": ".glass{box-shadow:none !important}.glass::before{display:none !important}"},
-  {"name": "content-visibility sulle finestre", "css": "section.glass{content-visibility:auto;contain-intrinsic-size:auto 320px}"}
+ {"name":"base","cpu":true,"loaf":true},
+ {"name":"old","app":"aurora_old/","cpu":false,"loaf":true}
 ]
