@@ -1,7 +1,9 @@
 // ScalperLab nativa - Home (React Native). Stesse regole della Home web: finestre per paese, top campionati in alto,
 // colori e loghi delle competizioni, righe partita. Metadati da meta.json (generato da data/leagues.js e data/countries.js).
 import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { View, Text, FlatList, Image, Pressable, ScrollView, StatusBar, Dimensions, StyleSheet, ActivityIndicator, Modal, LayoutAnimation, Platform, UIManager } from 'react-native';
+import { View, Text, FlatList, Image, Pressable, ScrollView, StatusBar, Dimensions, StyleSheet, ActivityIndicator, LayoutAnimation, Platform, UIManager } from 'react-native';
+import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
+import Animated, { useSharedValue, useAnimatedStyle, useAnimatedReaction, withTiming, cancelAnimation, runOnJS, Easing } from 'react-native-reanimated';
 import { SafeAreaProvider, SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
@@ -124,7 +126,7 @@ const Day = memo(({ iso, rows, filter, onOpen }) => {
   if (!items.length) return <View style={{ width: W }}><Text style={s.empty}>Nessuna partita</Text></View>;
   return (
     <View style={{ width: W }}>
-      <FlatList data={items} renderItem={render} keyExtractor={(i) => i.key} initialNumToRender={8} maxToRenderPerBatch={6} windowSize={7} contentContainerStyle={{ paddingBottom: 90 }} />
+      <FlatList data={items} renderItem={render} keyExtractor={(i) => i.key} initialNumToRender={6} maxToRenderPerBatch={6} windowSize={7} contentContainerStyle={{ paddingBottom: 90 }} />
     </View>
   );
 });
@@ -141,15 +143,28 @@ function Header({ onSearch, onMenu }) {
   );
 }
 
+// Una pagina del pager: posizione = (indice - pagina corrente) * larghezza, calcolata sul thread dell'interfaccia (mai dal JS)
+const Pane = ({ idx, x, children }) => {
+  const st = useAnimatedStyle(() => ({ transform: [{ translateX: (idx - x.value) * W }] }));
+  return <Animated.View style={[StyleSheet.absoluteFill, st]}>{children}</Animated.View>;
+};
+
+const NO_LAUNCH = "try{sessionStorage.setItem('sl-launched','1')}catch(e){};true;";
+
 function Screen() {
   const insets = useSafeAreaInsets();
   const [data, setData] = useState(null);
   const [cur, setCur] = useState(TODAY_INDEX);
   const [filter, setFilter] = useState('all');
-  const [web, setWeb] = useState(null);
-  const pager = useRef(null); const strip = useRef(null); const pos = useRef({});
+  const [warm, setWarm] = useState(false);
+  const strip = useRef(null); const pos = useRef({}); const webRef = useRef(null);
   const dates = useMemo(() => OFFSETS.map((o) => { const d = new Date(); d.setDate(d.getDate() + o); return d; }), []);
   const keys = useMemo(() => dates.map(rome), [dates]);
+  const N = OFFSETS.length;
+  const x = useSharedValue(TODAY_INDEX);
+  const x0 = useSharedValue(TODAY_INDEX);
+  const ov = useSharedValue(W); // pagina web: W = fuori schermo a destra, 0 = aperta
+  const ovStart = useSharedValue(0);
 
   useEffect(() => {
     (async () => {
@@ -162,24 +177,55 @@ function Screen() {
       setData(keys.map((k) => by[k] || []));
     })();
   }, [keys]);
+  // la pagina web si prepara a riposo (leggera) cosi' aprire una partita non ricarica niente
+  useEffect(() => { if (!data) return undefined; const t = setTimeout(() => setWarm(true), 2500); return () => clearTimeout(t); }, [data]);
 
+  const hashTo = useCallback((h) => { if (webRef.current) webRef.current.injectJavaScript(`location.hash=${JSON.stringify(h)};true;`); }, []);
+  const openRoute = useCallback((route) => { hashTo(`#${route}`); ov.value = withTiming(0, { duration: 260, easing: Easing.out(Easing.cubic) }); }, [hashTo, ov]);
+  const closeWeb = useCallback(() => { ov.value = withTiming(W, { duration: 240, easing: Easing.out(Easing.cubic) }, (done) => { if (done) runOnJS(hashTo)('#/linee-guida'); }); }, [hashTo, ov]);
   const openMatch = useCallback((m) => {
     const c = META.comps[m[1]];
     const top = c && c.solo >= 0 && c.cc && ['serie-a', 'premier-league', 'la-liga', 'bundesliga', 'ligue-1'].includes(c.id);
     const sk = META.cur[String(m[1])];
-    const route = top && sk ? `/storico/${m[1]}/${sk}/${m[0]}` : `/match/x-${m[1]}-${m[0]}`;
-    setWeb(`${SITE}aurora/#${route}`);
-  }, []);
+    openRoute(top && sk ? `/storico/${m[1]}/${sk}/${m[0]}` : `/match/x-${m[1]}-${m[0]}`);
+  }, [openRoute]);
 
-  const centre = (i) => { const p = pos.current[i]; if (p && strip.current) strip.current.scrollTo({ x: Math.max(0, p.x - W / 2 + p.w / 2), animated: true }); };
-  const onEnd = useCallback((e) => { const i = Math.round(e.nativeEvent.contentOffset.x / W); setCur(i); centre(i); }, []);
-  const go = (i) => { setCur(i); centre(i); pager.current && pager.current.scrollToIndex({ index: i, animated: true }); };
+  const centre = useCallback((i) => { const p = pos.current[i]; if (p && strip.current) strip.current.scrollTo({ x: Math.max(0, p.x - W / 2 + p.w / 2), animated: true }); }, []);
+  useEffect(() => { centre(cur); }, [cur, centre]);
+  useAnimatedReaction(() => Math.round(x.value), (r, prev) => { if (r !== prev) runOnJS(setCur)(r); });
+  const go = (i) => { x.value = withTiming(i, { duration: 320, easing: Easing.out(Easing.cubic) }); };
+
+  // swipe tra i giorni: parte anche mentre la lista scorre in verticale o l'animazione precedente non e' finita
+  const pan = useMemo(() => Gesture.Pan().activeOffsetX([-10, 10]).failOffsetY([-28, 28])
+    .onStart(() => { cancelAnimation(x); x0.value = x.value; })
+    .onUpdate((e) => {
+      let v = x0.value - e.translationX / W;
+      if (v < 0) v *= 0.3; else if (v > N - 1) v = N - 1 + (v - (N - 1)) * 0.3;
+      x.value = v;
+    })
+    .onEnd((e) => {
+      const base = Math.round(x0.value);
+      let t = Math.round(x.value - (e.velocityX / W) * 0.2);
+      t = Math.max(base - 1, Math.min(base + 1, t));
+      t = Math.max(0, Math.min(N - 1, t));
+      x.value = withTiming(t, { duration: 240, easing: Easing.out(Easing.cubic) });
+    }), [x, x0, N]);
+
+  // bordo sinistro: scorrimento indietro dalla pagina web
+  const edge = useMemo(() => Gesture.Pan().activeOffsetX([8, 1000]).failOffsetY([-30, 30])
+    .onStart(() => { ovStart.value = ov.value; })
+    .onUpdate((e) => { ov.value = Math.max(0, ovStart.value + e.translationX); })
+    .onEnd((e) => {
+      if (e.translationX > W * 0.3 || e.velocityX > 700) { ov.value = withTiming(W, { duration: 200, easing: Easing.out(Easing.cubic) }, (done) => { if (done) runOnJS(hashTo)('#/linee-guida'); }); } else ov.value = withTiming(0, { duration: 180 });
+    }), [ov, ovStart, hashTo]);
+  const ovStyle = useAnimatedStyle(() => ({ transform: [{ translateX: ov.value }] }));
 
   if (!data) return <View style={[s.root, { alignItems: 'center', justifyContent: 'center' }]}><ActivityIndicator color={C.accent} /></View>;
+  const shown = [cur - 2, cur - 1, cur, cur + 1, cur + 2].filter((i) => i >= 0 && i < N);
   return (
     <View style={[s.root, { paddingTop: insets.top }]}>
       <StatusBar barStyle="light-content" />
-      <Header onSearch={() => setWeb(`${SITE}aurora/#/`)} onMenu={() => setWeb(`${SITE}aurora/#/menu`)} />
+      <Header onSearch={() => openRoute('/')} onMenu={() => openRoute('/menu')} />
       <ScrollView ref={strip} horizontal showsHorizontalScrollIndicator={false} style={{ flexGrow: 0 }} contentContainerStyle={s.strip}>
         {dates.map((d, i) => (
           <Pressable key={keys[i]} onPress={() => go(i)} onLayout={(e) => { pos.current[i] = { x: e.nativeEvent.layout.x, w: e.nativeEvent.layout.width }; if (i === cur) centre(i); }}>
@@ -192,23 +238,25 @@ function Screen() {
         <Pressable onPress={() => setFilter('all')}><Text style={[s.fBtn, filter === 'all' && s.fOn]}>Tutte</Text></Pressable>
         <Pressable onPress={() => setFilter('live')} style={s.fLive}><View style={s.liveDot} /><Text style={[s.fBtn, filter === 'live' && s.fOn]}>Live</Text></Pressable>
       </View>
-      <FlatList
-        ref={pager} data={keys} horizontal pagingEnabled showsHorizontalScrollIndicator={false} keyExtractor={(k) => k}
-        renderItem={({ item, index }) => <Day iso={item} rows={data[index]} filter={filter} onOpen={openMatch} />}
-        getItemLayout={(_, i) => ({ length: W, offset: W * i, index: i })} initialScrollIndex={TODAY_INDEX}
-        onMomentumScrollEnd={onEnd} windowSize={3} initialNumToRender={1} maxToRenderPerBatch={1} decelerationRate="fast" extraData={filter}
-      />
-      <Modal visible={!!web} animationType="slide" presentationStyle="pageSheet" onRequestClose={() => setWeb(null)}>
-        <View style={{ flex: 1, backgroundColor: C.bg }}>
-          <Pressable onPress={() => setWeb(null)} style={s.back}><Ionicons name="chevron-back" size={20} color={C.accent} /><Text style={{ color: C.accent, fontSize: 16 }}>Home</Text></Pressable>
-          {web ? <WebView source={{ uri: web }} style={{ flex: 1, backgroundColor: C.bg }} allowsBackForwardNavigationGestures /> : null}
+      <GestureDetector gesture={pan}>
+        <View style={{ flex: 1, overflow: 'hidden' }}>
+          {shown.map((i) => <Pane key={i} idx={i} x={x}><Day iso={keys[i]} rows={data[i]} filter={filter} onOpen={openMatch} /></Pane>)}
         </View>
-      </Modal>
+      </GestureDetector>
+
+      {/* pagina web (resto dell'app): gia' caricata, si apre scorrendo da destra */}
+      <Animated.View pointerEvents="box-none" style={[StyleSheet.absoluteFill, { backgroundColor: C.bg }, ovStyle]}>
+        <View style={{ paddingTop: insets.top, flex: 1 }}>
+          <Pressable onPress={closeWeb} style={s.back}><Ionicons name="chevron-back" size={20} color={C.accent} /><Text style={{ color: C.accent, fontSize: 16 }}>Home</Text></Pressable>
+          {warm ? <WebView ref={webRef} source={{ uri: `${SITE}aurora/#/linee-guida` }} style={{ flex: 1, backgroundColor: C.bg }} injectedJavaScriptBeforeContentLoaded={NO_LAUNCH} bounces={false} /> : null}
+        </View>
+        <GestureDetector gesture={edge}><View style={s.edge} /></GestureDetector>
+      </Animated.View>
     </View>
   );
 }
 
-export default function App() { return <SafeAreaProvider><Screen /></SafeAreaProvider>; }
+export default function App() { return <GestureHandlerRootView style={{ flex: 1, backgroundColor: C.bg }}><SafeAreaProvider><Screen /></SafeAreaProvider></GestureHandlerRootView>; }
 
 const s = StyleSheet.create({
   root: { flex: 1, backgroundColor: C.bg },
@@ -248,4 +296,5 @@ const s = StyleSheet.create({
   liveT: { color: C.live, fontSize: 10, fontWeight: '700' },
   empty: { color: C.ink3, textAlign: 'center', padding: 50 },
   back: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 12, paddingVertical: 12 },
+  edge: { position: 'absolute', left: 0, top: 0, bottom: 0, width: 22 },
 });
