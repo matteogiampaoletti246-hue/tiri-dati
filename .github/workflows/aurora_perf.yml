@@ -10,6 +10,9 @@ on:
       only:
         description: regex sui nomi delle varianti (vuoto = tutte)
         default: ''
+      readable:
+        description: costruire senza minificare (nomi leggibili nel profilo)
+        default: 'true'
       old_ref:
         description: secondo ramo/commit da costruire e confrontare nello stesso processo (vuoto = nessuno)
         default: ''
@@ -44,7 +47,7 @@ jobs:
         run: |
           cd aurora-src
           npm ci --no-audit --no-fund
-          npm run build 2>&1 | tail -5
+          if [ '${{ inputs.readable }}' = 'true' ]; then npx vite build --minify false 2>&1 | tail -5; else npm run build 2>&1 | tail -5; fi
           rm -rf ../aurora && cp -r dist ../aurora
       - name: Misura
         run: |
