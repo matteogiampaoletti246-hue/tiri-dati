@@ -376,8 +376,10 @@ export default function Home() {
       const el = listRef.current;
       const { prevIso: p, nextIso: n, glide: gl } = live.current;
       // dito verso destra → giorno precedente (Ieri); dito verso sinistra → giorno successivo (Domani)
-      const target = o > 0 ? p : n;
-      if ((Math.abs(o) > 60 || v > 0.45) && target) {
+      // colpo veloce: conta la direzione del dito; piano: conta da che parte si trova la pagina
+      const fast = v > 0.45 && Math.abs(dx) > 20;
+      const target = (fast ? dx : o) > 0 ? p : n;
+      if ((Math.abs(o) > 60 || fast) && target) {
         gl(target);
       } else if (el) {
         el.style.transition = 'transform .25s cubic-bezier(.22,.8,.24,1)';

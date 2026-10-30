@@ -11,7 +11,24 @@ export const dragDays = (frac, smooth = false) => {
 export default function DayStrip({ dates, todayIndex, value, onChange }) {
   const box = useRef(null);
   const first = useRef(true);
-  const centered = (b, el) => Math.max(0, el.offsetLeft - (b.clientWidth - el.offsetWidth) / 2);
+  // posizioni dei giorni misurate una volta (non cambiano): niente misura forzata del layout a ogni swipe e a ogni fotogramma
+  const geo = useRef(null);
+  useEffect(() => {
+    const drop = () => { geo.current = null; };
+    window.addEventListener('resize', drop);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(drop).catch(() => {});
+    return () => window.removeEventListener('resize', drop);
+  }, []);
+  const centered = (b, el) => {
+    let g = geo.current;
+    if (!g || g.n !== b.childElementCount) {
+      g = { n: b.childElementCount, w: b.clientWidth, m: new Map() };
+      b.querySelectorAll('[data-i]').forEach((x) => g.m.set(x, [x.offsetLeft, x.offsetWidth]));
+      geo.current = g;
+    }
+    const m = g.m.get(el) || [el.offsetLeft, el.offsetWidth];
+    return Math.max(0, m[0] - (g.w - m[1]) / 2);
+  };
   const reset = (b) => b.querySelectorAll('[data-i]').forEach((x) => {
     x.style.transition = '';
     x.style.setProperty('--m', x.dataset.active === '1' ? '100%' : '0%');
