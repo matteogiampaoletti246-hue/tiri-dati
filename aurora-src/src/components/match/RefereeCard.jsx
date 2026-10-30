@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
-import { refereeById, findRefereeByName, refStatsIn, leagueRefAvg, flagOf } from '@/data/referees';
+import FlagDot from '@/components/FlagDot';
+import { refereeById, findRefereeByName, refStatsIn, leagueRefAvg, flagCodeOf } from '@/data/referees';
 import { Image } from '@/components/ui/image';
 import { WhistleIcon } from '@/components/LineIcons';
 import { conceptOf } from '@/components/match/FormCard';
@@ -58,7 +59,7 @@ export default function RefereeCard({ match, concept = 'b' }) {
   const ex = match.refExtra;
   const st = r ? refStatsIn(r, match.leagueId) : fmRef && fmRef.ya != null ? { n: fmRef.mt || 0, y: fmRef.ya, fo: fmRef.foa || 0 } : ex ? { n: ex.n, y: ex.y, fo: ex.fo } : null;
   const lg = (r ? leagueRefAvg(match.leagueId) : null) || match.refLg || null;
-  const flag = r && r.flag ? r.flag : fmRef && fmRef.cc ? flagOf(fmRef.cc) : '';
+  const flag = r && r.cc ? flagCodeOf(r.cc) : fmRef && fmRef.cc ? flagCodeOf(fmRef.cc) : '';
   const inner = (
     <>
       <div className="flex items-center gap-3 px-4 py-3.5">
@@ -66,7 +67,7 @@ export default function RefereeCard({ match, concept = 'b' }) {
           {r && r.photo ? <Image src={r.photo} alt={name} className="h-full w-full" fittingType="fill" /> : <WhistleIcon size={20} />}
         </span>
         <div className="min-w-0">
-          <p className="flex items-center gap-1.5 truncate text-[15px] font-extrabold">{flag ? <span className="text-[17px] leading-none">{flag}</span> : null}<span className="truncate">{name}</span></p>
+          <p className="flex items-center gap-1.5 truncate text-[15px] font-extrabold">{flag ? <FlagDot code={flag} size={18} /> : null}<span className="truncate">{name}</span></p>
           <p className="text-[11.5px]" style={{ color: 'var(--ink-3)' }}>{st ? `${st.n} ${st.n === 1 ? 'gara' : 'gare'} questa stagione` : 'Arbitro'}</p>
         </div>
       </div>

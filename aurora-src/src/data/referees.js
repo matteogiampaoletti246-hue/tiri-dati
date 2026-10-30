@@ -16,6 +16,9 @@ export const flagOf = (c) => {
   return x ? String.fromCodePoint(...x.toUpperCase().split('').map((ch) => 127397 + ch.charCodeAt(0))) : '';
 };
 
+// codice bandiera (immagine tonda) da sigla a 3 lettere o ISO2; Scozia e Inghilterra hanno la propria bandiera
+export const flagCodeOf = (c) => (c === 'ENG' ? 'gb-eng' : c === 'SCO' ? 'gb-sct' : ISO2[c] ? ISO2[c].toLowerCase() : c && c.length === 2 ? c.toLowerCase() : '');
+
 const LEAGUE_CC = { 'serie-a': 'ITA', 'premier-league': 'ENG', 'la-liga': 'ESP', 'bundesliga': 'GER', 'ligue-1': 'FRA' };
 
 // stesso arbitro scritto con/senza accenti o maiuscole: unisce i dati (medie pesate sulle partite)
@@ -88,6 +91,7 @@ export function buildReferees() {
       photo: null,
       country: COUNTRY[cc[name] || LEAGUE_CC[r.lg]] || cc[name] || '',
       flag: flagOf(cc[name] || LEAGUE_CC[r.lg]),
+      cc: cc[name] || LEAGUE_CC[r.lg] || '',
       leagueId: r.lg || null,
       games,
       yellows: Math.round((r.y || 0) * games),

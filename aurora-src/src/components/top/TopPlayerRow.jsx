@@ -7,7 +7,8 @@ import { Image } from '@/components/ui/image';
 import { teamById } from '@/data/teams';
 import { matchesByDate } from '@/data/matches';
 import { romeDay } from '@/data/util';
-import { carriereOf, countryIt, flagOf } from '@/data/carriere';
+import FlagDot from '@/components/FlagDot';
+import { carriereOf, countryIt } from '@/data/carriere';
 
 const RK = ['#F5C84C', '#C5CEDB', '#D98F5C'];
 
@@ -29,7 +30,7 @@ export default function TopPlayerRow({ row, rank, threshold, delay = 0 }) {
   const c1 = team ? team.colors[0] : '#2C3E66';
   const c2 = team ? team.colors[1] : '#0b1230';
   const car = carriereOf(player.id) || {};
-  const nat = car.c ? `${flagOf(car.c)} ${countryIt(car.c)}`.trim() : '';
+  const nat = car.c ? countryIt(car.c) : '';
   const rk = RK[rank - 1] || 'var(--accent)';
 
   const openCalc = (e) => {
@@ -55,8 +56,9 @@ export default function TopPlayerRow({ row, rank, threshold, delay = 0 }) {
 
       <span className="min-w-0 flex-1">
         <span className="block truncate text-[14.5px] font-extrabold" style={{ color: 'var(--ink)' }}>{player.name}</span>
-        <span className="block truncate text-[11px]" style={{ color: 'var(--ink-3)' }}>
-          {[nat, team ? team.name : null].filter(Boolean).join(' · ')}
+        <span className="flex items-center gap-1.5 text-[11px]" style={{ color: 'var(--ink-3)' }}>
+          {car.c ? <FlagDot name={car.c} size={14} /> : null}
+          <span className="min-w-0 truncate">{[nat, team ? team.name : null].filter(Boolean).join(' · ')}</span>
         </span>
         {match ? (
           <span className="mt-1 flex items-center gap-1.5 text-[11px]" style={{ color: 'var(--ink-2)' }}>
