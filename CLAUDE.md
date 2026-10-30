@@ -298,3 +298,12 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 
 ## Home nativa: il risultato accanto a LIVE (regola fissa)
 - Ogni partita live mostra i gol: `refresh` in `native/App.js` chiede `/fx` (36 per giro, 6 insieme) prima alle partite "live" ancora senza gol, e ricorda l'ultimo risultato noto (`LIVE_MEM`, 10 minuti) cosi' dopo molti cambi giorno non resta solo la scritta LIVE.
+
+## Colore delle schede partita, tabellone, riepilogo live, minuti live (regola fissa)
+- Schede di una partita (`--tint` in `pages/Match.jsx`) = colore della finestra che la racchiude in Home (`data/matchTint.js`): top campionati e coppe europee col colore scelto (`PALETTE`), tutte le altre competizioni col colore dominante della bandiera del paese (`data/flagTints.json`, per codice paese dell'indice `arch/index.json`; si rigenera con `gen_flags.mjs` se compare un paese nuovo). Stessa luce nel Tabellone (`Bracket.jsx`), estesa dietro alle pillole dei turni.
+- Nomi segnaposto dalle fonti ("TBD", "TBA", "N/A", "Unknown") non si mostrano mai: restano icona e minuto (`shortName`, `PlayerLink`, `MatchHero`). Il worker `/fx` ricava i marcatori anche da `header.events` quando `matchFacts.events` manca (campionati minori); il worker va ripubblicato a mano su Cloudflare.
+- Scheda giocatore di una partita live: "Minuti giocati" senza il dato della fonte = cronometro (titolare: minuto attuale; subentrato: minuto attuale meno ingresso; sostituito: uscita meno ingresso; espulso: minuto del rosso), in `PlayerSheet.jsx` (`liveMins`).
+- Il tasto Live vale solo per oggi: cambiando giorno (swipe o calendario) torna "Tutte" (`Home.jsx`, `native/App.js`).
+- Meteo: se mancano le coordinate dello stadio si cerca per nome dello stadio e poi per la citta' della squadra di casa nel paese del campionato (`data/weather.js`).
+- Classifiche: se le posizioni della fonte non crescono (riga fuori posto) si riordina per punti, differenza reti e gol fatti e si rinumera (`orderRows` in `components/archive/parts.jsx`); una classifica gia' in ordine, anche con fase finale o punti dimezzati, non si tocca.
+- Calcolatore: giocatore e valori inseriti restano finche' non si cambia zona (Home, Migliori giocatori, Migliori matchup): aprendo la scheda del giocatore dal banner e tornando indietro non si resetta (`data/calcKeep.js`, `CalcKeepGuard` in `App.jsx`).

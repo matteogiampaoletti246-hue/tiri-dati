@@ -67,7 +67,26 @@ function useCard(sheet) {
     const lu = f && match.lineup ? match.lineup[f.side] : null;
     const roster = lu ? [...(lu.xi || []), ...(lu.bench || [])].filter((p) => p && p.name) : [];
     const idx = roster.findIndex((p) => norm(p.name) === norm(sheet.name) || (fmId && String(p.fmId) === String(fmId)));
-    return { match, f, fmId, groups, flat, shots, evs, rating, photo, roster, idx, team: f && f.team, side: f && f.side, ourId: ourPlayerId(match, sheet.name, fmId), name: sheet.name };
+    // minuti giocati dal cronometro della partita live: titolare = minuto attuale, subentrato = minuto attuale - minuto di ingresso,
+    // sostituito = minuto di uscita - ingresso, espulso = minuto del rosso (solo se la fonte non da' gia' i minuti)
+    let liveMins = null;
+    if (match.status === 'live' && !flat.minutes_played && idx >= 0) {
+      const mn = (x) => String(x == null ? '' : x).split('+').reduce((t, q) => t + (parseInt(q, 10) || 0), 0);
+      const now = match.liveHalf ? 45 : (Number(match.liveMinute) || 0);
+      const nxi = lu && lu.xi ? lu.xi.length : 0;
+      const inEv = (match.events || []).find((e) => e.type === 'sub' && norm(e.inName) === n);
+      const outEv = (match.events || []).find((e) => e.type === 'sub' && norm(e.name) === n);
+      const redEv = (match.events || []).find((e) => e.type === 'red' && norm(e.name) === n);
+      let start = null;
+      if (idx < nxi) start = 0; else if (inEv) start = mn(inEv.minute);
+      if (start != null) {
+        let end = now;
+        if (outEv) end = Math.min(end, mn(outEv.minute));
+        if (redEv) end = Math.min(end, mn(redEv.minute));
+        liveMins = Math.max(0, end - start);
+      }
+    }
+    return { liveMins, match, f, fmId, groups, flat, shots, evs, rating, photo, roster, idx, team: f && f.team, side: f && f.side, ourId: ourPlayerId(match, sheet.name, fmId), name: sheet.name };
   }, [sheet]);
 }
 
@@ -155,7 +174,7 @@ const KPI_FALLBACK = { minutes_played: 'Minuti giocati', goals: 'Gol', assists: 
 function build(c) {
   const used = new Set(['rating_title', ...KPI_KEYS, 'expected_goals_on_target_variant', 'expected_assists', 'xg_and_xa']);
   const extra = ['expected_goals_on_target_variant', 'expected_assists'].map((k) => c.flat[k]).filter(Boolean);
-  const kpi = KPI_KEYS.map((k) => ({ k, label: (c.flat[k] && c.flat[k].label) || KPI_FALLBACK[k], text: c.flat[k] ? c.flat[k].text : '—' }));
+  const kpi = KPI_KEYS.map((k) => ({ k, label: (c.flat[k] && c.flat[k].label) || KPI_FALLBACK[k], text: c.flat[k] ? c.flat[k].text : (k === 'minutes_played' && c.liveMins != null ? String(c.liveMins) : '—') }));
   const cats = CATS.map(([title, keys], i) => {
     const rows = keys.map((k) => { used.add(k); return c.flat[k]; }).filter(Boolean);
     if (i === 0) rows.unshift(...extra);

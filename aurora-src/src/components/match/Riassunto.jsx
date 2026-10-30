@@ -3,6 +3,8 @@ import PlayerLink from './PlayerLink';
 
 // "Giacomo Raspadori" -> "G. Raspadori"; gia' abbreviato resta com'e'
 export const shortName = (n) => {
+  // nome mancante o segnaposto (TBD...): niente testo, restano solo icona e minuto
+  if (/^\(?\s*(tbd|tba|n\/a|unknown)\s*\)?$/i.test(String(n || '').trim())) return '';
   const t = String(n || '').trim().split(/\s+/);
   if (t.length < 2) return t[0] || '';
   if (/^[A-Za-zÀ-ÿ]\.$/.test(t[0])) return t.join(' ');

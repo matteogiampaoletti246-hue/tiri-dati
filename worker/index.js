@@ -142,6 +142,16 @@ export default {
           else { const sw = e.swap || []; Object.assign(o, { n: nm(sw[0]), id: sw[0] && +sw[0].id || null, o: nm(sw[1]), oid: sw[1] && +sw[1].id || null }); }
           return o;
         });
+        // campionati minori: FotMob a volte non da' matchFacts.events ma i marcatori stanno nell'intestazione (header.events)
+        if (!ev.some((x) => x.ty === "Goal") && hd.events) {
+          ["homeTeamGoals", "awayTeamGoals"].forEach((k, side) => {
+            Object.values(hd.events[k] || {}).forEach((arr) => (Array.isArray(arr) ? arr : []).forEach((g) => {
+              const add = g.overloadTime || 0, t = parseInt(g.time, 10);
+              if (!Number.isFinite(t)) return;
+              ev.push({ ty: "Goal", t, a: add, h: side === 0, ts: t * 100 + add, n: (g.player && g.player.name) || g.fullName || "", id: (g.player && g.player.id) || g.playerId || null, as: g.assistStr || null, aid: g.assistPlayerId || null, og: !!g.ownGoal, pen: /pen/i.test(g.goalDescription || g.type || ""), sc: null });
+            }));
+          });
+        }
         ev.sort((x, y) => x.ts - y.ts);
         const per = (P) => {
           if (!P || !P.stats) return null;

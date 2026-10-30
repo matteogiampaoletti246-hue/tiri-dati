@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { CALC_KEEP } from '@/data/calcKeep';
 import { useLocation } from 'react-router-dom';
 import PanelTitle from '@/components/PanelTitle';
 import { playerById } from '@/data/players';
@@ -23,7 +24,8 @@ const extra = { dashTarget: 'shots' };
 const initial = () => ({ ...initialForm(), ...extra });
 
 export default function PlayerTab({ onSave }) {
-  const [form, setForm] = useState(initial);
+  const [form, setForm] = useState(() => CALC_KEEP.player || initial());
+  CALC_KEEP.player = form;
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
@@ -36,7 +38,8 @@ export default function PlayerTab({ onSave }) {
   const loc = useLocation();
   useEffect(() => {
     const st = loc.state && loc.state.calc;
-    if (!st) return;
+    if (!st || CALC_KEEP.stKey === loc.key) return; // tornando indietro dalla scheda del giocatore non si rifa' il riempimento
+    CALC_KEEP.stKey = loc.key;
     const p = playerById(st.playerId);
     if (!p) return;
     const lineStr = String(st.line).replace('.', ',');

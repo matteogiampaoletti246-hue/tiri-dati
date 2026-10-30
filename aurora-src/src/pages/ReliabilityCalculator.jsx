@@ -1,6 +1,7 @@
 import { isNative } from '@/lib/carousel';
 import { primeKeyboard } from '@/lib/keyboard';
 import { useRef, useState } from 'react';
+import { CALC_KEEP } from '@/data/calcKeep';
 import FixedBar from '@/components/FixedBar';
 import SearchOverlay from '@/components/SearchOverlay';
 import PageShell from '@/components/PageShell';
@@ -14,7 +15,8 @@ const TABS = [
 ];
 
 export default function ReliabilityCalculator() {
-  const [index, setIndex] = useState(0);
+  const [index, setIndexRaw] = useState(CALC_KEEP.index);
+  const setIndex = (i) => { CALC_KEEP.index = i; setIndexRaw(i); };
   const [searchOpen, setSearchOpen] = useState(false);
   const noop = useRef(() => {}).current;
 

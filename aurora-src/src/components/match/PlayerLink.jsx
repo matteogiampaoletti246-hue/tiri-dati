@@ -4,7 +4,7 @@ import { openPlayer, ourPlayerId } from '@/data/playerSheet';
 // Nome cliccabile: partita iniziata o finita → tendina del giocatore; altrimenti → scheda giocatore.
 export default function PlayerLink({ match, name, fmId, className = '', style, children }) {
   const navigate = useNavigate();
-  if (!name) return <span className={className} style={style}>{children}</span>;
+  if (!name || /^\(?\s*(tbd|tba|n\/a|unknown)\s*\)?$/i.test(String(name).trim())) return <span className={className} style={style}>{children}</span>;
   const onClick = (e) => {
     e.preventDefault();
     e.stopPropagation();

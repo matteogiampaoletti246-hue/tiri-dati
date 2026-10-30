@@ -4,7 +4,7 @@ import { RAW } from './load';
 
 
 // Colori scelti dall'utente per i campionati/coppe aggiunti: [scuro, vivace] per i banner e colore delle pillole in Home.
-const PALETTE = {
+export const PALETTE = {
   'coppa-italia': { colors: ['#0A2A6E', '#1E5AC8'], tint: '#2F6FE0' },
   'dfb-pokal': { colors: ['#0B3B1E', '#C9A227'], tint: '#2FA85A' },
   'coupe-de-france': { colors: ['#0A1F5E', '#3C6AE0'], tint: '#3C6AE0' },

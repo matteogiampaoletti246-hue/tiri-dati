@@ -117,11 +117,22 @@ const formOf = (season) => {
   return res;
 };
 // Una tabella (classifica unica o un girone/conference): righe con lineette delle zone e leggenda sotto, solo se le righe hanno i colori.
+// Classifica sempre in ordine di punti: se le posizioni della fonte non crescono (riga fuori posto) si riordina per punti, differenza reti, gol fatti
+// e le posizioni si rinumerano; una classifica gia' in ordine (anche con spareggi o fase finale della fonte) non si tocca.
+const gf = (r) => { const m = /^(\d+)\D+(\d+)$/.exec(String(r.scoresStr || '')); return m ? [Number(m[1]), Number(m[2])] : [0, 0]; };
+function orderRows(rows) {
+  const mono = rows.every((r, i) => !i || (r.idx || 0) >= (rows[i - 1].idx || 0));
+  const byPts = rows.every((r, i) => !i || (r.pts || 0) <= (rows[i - 1].pts || 0));
+  if (mono && byPts) return rows;
+  if (mono) return rows; // ordine ufficiale della fonte (fase finale, punti dimezzati): non si inventa nulla
+  return [...rows].sort((a, b) => (b.pts || 0) - (a.pts || 0) || (gf(b)[0] - gf(b)[1]) - (gf(a)[0] - gf(a)[1]) || gf(b)[0] - gf(a)[0]).map((r, i) => ({ ...r, idx: i + 1 }));
+}
+
 function StandingsTable({ t, legendSrc, title, mode, fm5, fm, sk, highlight }) {
   const forma = mode === 'form';
   const rows = forma
     ? (t.all || []).map((r) => { const f = (fm5[r.id] || []).slice(-5); return { ...r, f, fp: f.reduce((x, c) => x + (c === 'V' ? 3 : c === 'S' ? 1 : 0), 0) }; }).sort((a, b) => b.fp - a.fp || b.pts - a.pts)
-    : (t[mode] || t.all || []);
+    : orderRows(t[mode] || t.all || []);
   if (!rows.length) return null;
   // la leggenda c'e' solo se le righe hanno davvero le lineette colorate
   const legend = (t.all || []).some((r) => r.qualColor) ? (legendSrc || []) : [];

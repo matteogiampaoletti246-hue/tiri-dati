@@ -21,7 +21,8 @@ import useTicker from '@/hooks/useTicker';
 import { matchById, viewMatch } from '@/data/matches';
 import { prepareMatch, isReady } from '@/data/prepare';
 import { teamById } from '@/data/teams';
-import { leagueById, leagueTint } from '@/data/leagues';
+import { leagueById } from '@/data/leagues';
+import { matchTint } from '@/data/matchTint';
 import { EXTRA_KEYS } from '@/data/calcData';
 
 const PRE_TABS = [
@@ -148,7 +149,7 @@ export default function Match() {
 
   return (
     <PageShell>
-      <div style={{ '--tint': (raw.leagueObj && raw.leagueObj.tint) || leagueTint(raw.leagueId) }}>
+      <div style={{ '--tint': matchTint(raw.leagueId, raw.leagueObj) }}>
       <div data-back-banner="1"><MatchHero match={raw} view={view} league={league} home={home} away={away} /></div>
 
       <SwipeTabs tabs={tabs} panels={panels} index={tabIndexOf(tabs, tabKey)} onChange={(i) => setTabKey(tabs[i] ? tabs[i].key : '')} className="pt-2" stickyTop="0px" />

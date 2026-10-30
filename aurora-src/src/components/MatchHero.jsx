@@ -12,6 +12,7 @@ import { longDate } from '@/lib/format';
 
 // "Robin Fellhauer" → "R. Fellhauer"
 const short = (n) => {
+  if (/^\(?\s*(tbd|tba|n\/a|unknown)\s*\)?$/i.test(String(n || '').trim())) return '';
   const p = String(n || '').trim().split(/\s+/);
   return p.length < 2 ? p[0] || '' : `${p[0][0]}. ${p.slice(1).join(' ')}`;
 };

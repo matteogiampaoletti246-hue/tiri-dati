@@ -145,6 +145,8 @@ export default function Home() {
   KEEP.iso = iso;
   KEEP.filter = filter;
   const dayIdx = ISO_LIST.indexOf(iso);
+  // il tasto Live vale solo per oggi: cambiando giorno si torna a "Tutte" (altrimenti nei giorni passati/futuri compare "nessuna partita")
+  useEffect(() => { if (filter === 'live' && iso !== isoDate(new Date())) setFilter('all'); }, [iso, filter]);
   const custom = dayIdx < 0 ? iso : null;
   const [searchOpen, setSearchOpen] = useState(false);
   const loading = useInitialLoad();

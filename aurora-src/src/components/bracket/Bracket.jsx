@@ -8,6 +8,7 @@ import { teamLogo } from '@/data/archive';
 import { loadBracket, peekBracket, CUP_NAME } from '@/data/bracket';
 import { teamByName } from '@/data/teams';
 import { LEAGUES, leagueTint } from '@/data/leagues';
+import { matchTint } from '@/data/matchTint';
 import { FM_ID } from '@/data/archive';
 
 // Tabellone: due fasi per schermata, le pillole delle fasi fanno scorrere il tabellone da un lato all'altro.
@@ -110,6 +111,9 @@ function BracketView({ data, fm, sk }) {
   const hasFinal = rounds[L - 1].key === 'final';
   const lg = lgFor(fm);
   const tint = leagueTint(lg ? lg.id : '');
+  // luce del fondale = colore della competizione (come il banner: colore scelto, altrimenti quello della bandiera), dietro anche alle pillole dei turni
+  const glow = matchTint(lg ? lg.id : '', lg);
+  const glowA = (a) => { const h = String(glow).replace('#', ''); const n = parseInt(h.length === 3 ? h.split('').map((c) => c + c).join('') : h.slice(0, 6), 16); return Number.isFinite(n) ? `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})` : `rgba(77,168,255,${a})`; };
   const mid = (lg && lg.colors && lg.colors[0]) || '#0A1C5E';
   const boxRef = useRef(null);
   const wrapRef = useRef(null);
@@ -272,6 +276,8 @@ function BracketView({ data, fm, sk }) {
 
   return (
     <div ref={wrapRef} className="relative overflow-x-clip pb-6">
+      {/* fondale: luce del colore della competizione dall'alto, dietro le pillole dei turni e il tabellone (statica, un solo livello) */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0" style={{ height: 520, background: `radial-gradient(90% 100% at 50% 0%, ${glowA(0.28)}, ${glowA(0)} 74%)` }} />
       <div ref={rowRef} data-no-back className="hide-sb relative mx-4 mt-3 flex items-center gap-1.5 overflow-x-auto" style={{ overflowY: 'hidden', WebkitOverflowScrolling: 'touch', overscrollBehaviorX: 'contain' }}>
         <span ref={indRef} aria-hidden="true" className="absolute left-0 top-0 h-full rounded-full" style={{ background: 'var(--accent)', willChange: 'transform' }} />
         {rounds.map((r, i) => (
@@ -281,8 +287,6 @@ function BracketView({ data, fm, sk }) {
         ))}
       </div>
       <div ref={boxRef} className="relative mt-3 overflow-hidden" style={{ minHeight: POSTER_H + 40 }}>
-        {/* fondale come le altre pagine: luce tenue azzurra dall'alto (statica, un solo livello) */}
-        <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0" style={{ height: 460, background: 'radial-gradient(90% 100% at 50% 0%, rgba(77,168,255,.22), rgba(77,168,255,0) 72%)' }} />
         <svg ref={svgRef} className="pointer-events-none absolute left-0 top-0" width="100%" height="100%" style={{ overflow: 'visible' }}>
           <path fill="none" stroke="var(--hair)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
           <path fill="none" stroke="var(--hair)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />

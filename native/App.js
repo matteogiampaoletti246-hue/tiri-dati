@@ -304,6 +304,8 @@ function Screen({ onTheme }) {
   const strip = useRef(null); const pos = useRef({}); const webRef = useRef(null);
   const lastCenter = useRef(0);
   const curRef = useRef(cur); curRef.current = cur;
+  // il tasto Live vale solo per oggi: cambiando giorno (swipe o calendario) si torna a "Tutte"
+  useEffect(() => { if (filter === 'live' && cur !== TODAY_INDEX) setFilter('all'); }, [cur, filter]);
   const viewRef = useRef(null); viewRef.current = view;
   const data = view ? view.data : null;
   const keys = view ? view.keys : NOKEYS;

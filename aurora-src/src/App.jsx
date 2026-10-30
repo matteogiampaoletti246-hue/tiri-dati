@@ -14,6 +14,7 @@ import PlayerSheetHost from '@/components/match/PlayerSheet';
 import { applyTheme, getTheme } from '@/lib/theme';
 import Guidelines from '@/pages/Guidelines';
 import NativeHomeGuard from '@/components/NativeHomeGuard';
+import { resetCalcKeep } from '@/data/calcKeep';
 import Cerca from '@/pages/Cerca';
 import League from '@/pages/League';
 import Match from '@/pages/Match';
@@ -49,6 +50,13 @@ function NavGuard() {
 
 // App nativa: dice all'app quale pagina e' appena stata disegnata (`route:<percorso>`), cosi' la rotella di caricamento sparisce nel momento giusto.
 // Doppio fotogramma = dopo il primo disegno; il timer copre il caso in cui la pagina fuori schermo non disegni.
+// il Calcolatore ricorda giocatore e valori finche' non si cambia zona dell'app (Home, Migliori giocatori, Migliori matchup)
+function CalcKeepGuard() {
+  const { pathname } = useLocation();
+  useEffect(() => { if (/^\/(migliori-giocatori|migliori-matchup|linee-guida)?$/.test(pathname)) resetCalcKeep(); }, [pathname]);
+  return null;
+}
+
 function NativeSignal({ ready }) {
   const { pathname } = useLocation();
   useEffect(() => {
@@ -80,6 +88,7 @@ export default function App() {
       <LaunchScreen ready={ready} />
       <NavGuard />
       <NativeSignal ready={ready} />
+      <CalcKeepGuard />
       <ScrollToTop />
       <PlayerSheetHost />
       <MenuDrawer />

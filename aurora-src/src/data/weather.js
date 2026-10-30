@@ -60,10 +60,12 @@ export async function loadWeather(m) {
     const ex = fid ? (await stadiEx())[String(fid)] : null;
     if (ex) { st = ex; if (!m.stadium && ex.s) m.stadium = ex.s; }
   }
-  if ((!st || !st.lat) && m.archive && m.stadium) {
-    const ie = await archIndex().catch(() => null);
-    const cn = ie && ie[String(m.archive.fm)] && ie[String(m.archive.fm)].cn;
-    st = await geoStadium(m.stadium, home && home.name, /europe|world|international/i.test(cn || '') ? null : cn);
+  // nessuna coordinata nota: nome dello stadio, poi quello della citta' (squadra di casa senza sigle) nel paese del campionato
+  if ((!st || !st.lat) && (m.archive || m.extra) && (m.stadium || home)) {
+    const ie = m.archive ? await archIndex().catch(() => null) : null;
+    const cn = ie && m.archive && ie[String(m.archive.fm)] && ie[String(m.archive.fm)].cn;
+    const city = String((home && home.name) || '').replace(/\b(fc|sc|ac|cf|bk|if|fk|sk|afc|cd|ud|sd|rc|as|us|ss|sv|vfb|vfl|tsv|fsv|1\.|u\d\d|ii|b)\b/gi, ' ').replace(/\s+/g, ' ').trim();
+    st = await geoStadium(m.stadium, city || (home && home.name), /europe|world|international/i.test(cn || '') ? null : cn);
   }
   if (!st || !st.lat) return null;
   if (days < (m.archive ? -3 : -6)) return null;

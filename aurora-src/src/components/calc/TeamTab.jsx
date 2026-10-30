@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { CALC_KEEP } from '@/data/calcKeep';
 import PanelTitle from '@/components/PanelTitle';
 import TextFilter from '@/components/TextFilter';
 import { teamShots } from '@/data/calcData';
@@ -22,7 +23,8 @@ const initialForm = () => ({
 });
 
 export default function TeamTab({ onSave }) {
-  const [form, setForm] = useState(initialForm);
+  const [form, setForm] = useState(() => CALC_KEEP.team || initialForm());
+  CALC_KEEP.team = form;
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
