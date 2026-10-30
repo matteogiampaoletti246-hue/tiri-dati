@@ -32,7 +32,8 @@ const rowsOf = (st, pid) => {
 
 export async function makeArchivePlayer(fm, sk, pid) {
   const id = archiveId(fm, sk, pid);
-  if (playerById(id)) return playerById(id);
+  const lite = playerById(id);
+  if (lite && !lite.lite) return lite;
   await Promise.all([loadCarriere(), loadRose()]);
   const rp = rosePlayer(pid);
   const R = rp ? rp.r : null;
@@ -55,6 +56,8 @@ export async function makeArchivePlayer(fm, sk, pid) {
     yellows: v('yellow_card') || 0, reds: v('red_card') || 0, l: [0, 0, 0, 0], c: [0, 0, 0, 0], r: [], h: [],
     shots5: [], sot5: [], minutes5: [], recent: [], ratings5: [],
   };
+  // giocatore dei campionati aggiunti: tiri e ultime partite per l'Affidabilita' restano (la scheda completa sostituisce solo il resto)
+  if (lite && lite.lite) Object.assign(p, { l: lite.l, c: lite.c, r: lite.r, h: lite.h, shots5: lite.shots5, sot5: lite.sot5, minutes5: lite.minutes5, recent: lite.recent, ratings5: lite.ratings5, leagueId: lite.leagueId || p.leagueId, teamId: p.teamId || lite.teamId });
   registerPlayer(p);
   // carriera ricostruita dalle stagioni in cui ha giocato questa competizione
   let car = [];

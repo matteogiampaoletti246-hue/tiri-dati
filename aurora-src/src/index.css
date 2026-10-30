@@ -202,6 +202,15 @@
 }
 
 @layer components {
+  /* Testi su una riga (truncate) e a righe limitate: l'overflow nascosto tagliava le lettere che scendono (g, p, y, q) e gli accenti
+     quando l'interlinea e' stretta. Si allarga l'area visibile sopra e sotto e si compensa col margine: la riga resta dov'era.
+     Sta nel livello components, cosi' i margini/padding scelti con le classi (mb-2, py-1...) vincono. */
+  .truncate, .line-clamp-2, .line-clamp-1, .line-clamp-3 {
+    padding-top: .14em;
+    padding-bottom: .22em;
+    margin-top: -.14em;
+    margin-bottom: -.22em;
+  }
   /* Fondale: nero (notte) o bianco (giorno) con aloni azzurri morbidi. */
   .aurora-bg {
     position: fixed;

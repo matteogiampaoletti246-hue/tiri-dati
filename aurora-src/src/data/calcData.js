@@ -7,9 +7,12 @@ import { teamById } from './teams';
 import { romeDay } from './util';
 
 // Campionati disponibili nel calcolatore, nell'ordine in cui compaiono nei menu.
-export const CALC_KEYS = ['serie-a', 'premier-league', 'bundesliga', 'la-liga', 'ligue-1', 'champions-league', 'europa-league'];
+// Campionati aggiunti (dall'archivio FotMob, calc_extra.py): hanno Affidabilita' in partita, Migliori giocatori e Calcolatore come i top 5
+export const EXTRA_KEYS = ['eredivisie', 'pro-league', 'fm-46', 'gre-super-league-1', 'liga-portugal', 'super-lig'];
+export const CALC_KEYS = ['serie-a', 'premier-league', 'bundesliga', 'la-liga', 'ligue-1', ...EXTRA_KEYS, 'champions-league', 'europa-league'];
 export const CUPS = ['champions-league', 'europa-league'];
-const LABELS = { 'serie-a': 'Serie A', 'premier-league': 'Premier League', bundesliga: 'Bundesliga', 'la-liga': 'LaLiga', 'ligue-1': 'Ligue 1', 'champions-league': 'Champions League', 'europa-league': 'Europa League' };
+export const DOMESTIC_KEYS = CALC_KEYS.filter((k) => !CUPS.includes(k));
+const LABELS = { 'serie-a': 'Serie A', 'premier-league': 'Premier League', bundesliga: 'Bundesliga', 'la-liga': 'LaLiga', 'ligue-1': 'Ligue 1', 'champions-league': 'Champions League', 'europa-league': 'Europa League', eredivisie: 'Eredivisie', 'pro-league': 'Pro League', 'fm-46': 'Superliga Danimarca', 'gre-super-league-1': 'Super League Grecia', 'liga-portugal': 'Primeira Liga', 'super-lig': 'Süper Lig' };
 
 const LD = {};
 export const calcLeagues = () => CALC_KEYS.filter((k) => LD[k]).map((k) => ({ id: k, name: LABELS[k] || LD[k].label, cup: CUPS.includes(k) }));

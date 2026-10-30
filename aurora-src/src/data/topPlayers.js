@@ -2,7 +2,7 @@
 import { RAW } from './load';
 import { PLAYERS } from './players';
 import { teamById, teamByName } from './teams';
-import { blendTeam, domesticKey, pickLeagueKey, CUPS } from './calcData';
+import { blendTeam, domesticKey, pickLeagueKey, CUPS, DOMESTIC_KEYS } from './calcData';
 import { romeDay } from './util';
 import { calcReliability } from './calcPlayer';
 import { isOutOn } from './injuries';
@@ -14,8 +14,8 @@ export const THRESHOLDS = [
 ];
 
 const MIN_VOTE = 7.75;
-const MAX_PER_DAY = 30;
-const DOMESTIC = ['serie-a', 'premier-league', 'la-liga', 'bundesliga', 'ligue-1'];
+const MAX_PER_DAY = 80;
+const DOMESTIC = DOMESTIC_KEYS; // top 5 + campionati aggiunti con Affidabilita'
 
 const pois = (k, l) => {
   let s = 0;

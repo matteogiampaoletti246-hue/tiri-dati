@@ -228,3 +228,15 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 
 ## App nativa: Home concept B (regola fissa)
 - Una tinta per finestra: top campionati = colore del campionato, paesi = colore dominante della bandiera (`meta.tints`, `gen_flags.mjs`); righe e campionati dentro il paese neutri. Bandiera = immagine rotonda vera (`native-link/flags/<codice>.png`, `fc` in `meta.json`) con anello e alone della tinta, mai emoji.
+
+## Classifiche giocatori: tutti con almeno 180 minuti (regola fissa, ogni competizione presente e futura)
+- Nelle classifiche delle statistiche dei giocatori di un campionato (`LeaguePlayersPanel`, `statSections` in `ArchiveLeague.jsx`, `MIN_MIN` = 180) compaiono TUTTI i giocatori con almeno 180 minuti in stagione, in ogni modalita' (Totale e Ogni 90'): niente limite ai primi 50, niente soglia piu' alta (prima 450' in "Ogni 90'"). Nella squadra restano tutti quelli che hanno giocato.
+
+## Testi tagliati (regola fissa)
+- Le righe con `truncate`/`line-clamp` (overflow nascosto) e interlinea stretta tagliavano le lettere che scendono (g, p, y, q) e gli accenti: `index.css` (livello components) allarga l'area visibile sopra e sotto e compensa col margine, la riga resta dov'era. Prova: "testi: lettere che scendono non tagliate" in `preview.mjs`.
+
+## Affidabilita' per Eredivisie, Pro League, Superliga (Danimarca), Super League (Grecia), Primeira Liga, Super Lig (regola fissa)
+- `calc_extra.py` (workflow `calc_extra.yml`, ogni 2 ore) legge `arch/<fm>/<stagione>.json` e `partite/<fm>/<stagione>.json.gz` della stagione in corso e scrive `calc_extra.json`: medie tiri (totali/in porta, fatti/subiti) di TUTTE le squadre, statistiche di campionato di tutti i giocatori (`upd` per chi e' gia' in `giocatori.json` con id `p_...`, che per questi campionati ha solo 1-2 partite; `players` per chi manca, id d'archivio `fm~<lega>~<stagione>~<id FotMob>`, `lite`) e prossime partite delle squadre senza `fix`. Nomi squadra uniti a quelli API-Football (mai squadre doppie).
+- `data/load.js` (`mergeCalcExtra`) unisce il file a `data.json`/`giocatori.json`: il resto dell'app (Calcolatore, Migliori giocatori, scheda Affidabilita' in partita, `PlayerTabs`) non cambia. Chiavi in `EXTRA_KEYS` (`data/calcData.js`; Danimarca = `fm-46`); aggiungere un campionato = riga in `LEGHE` di `calc_extra.py` + chiave in `EXTRA_KEYS`.
+- Giocatori `lite`: stanno in `PLAYERS` (ricerca del Calcolatore, Migliori giocatori) ma non in `BY_TEAM`/`BY_KEY`; la scheda si costruisce dall'archivio (`makeArchivePlayer`, `needArchive` in `Player.jsx`) e conserva tiri e ultime partite.
+- Partite non iniziate di questi campionati: scheda Affidabilita' come per i top (`PRE_TABS_X`, solo se c'e' un giocatore con voto >= 7,00); Migliori giocatori include gli stessi campionati (`DOMESTIC_KEYS`, max 80 al giorno). Prova: "affidabilita campionati aggiunti" in `preview.mjs`.
