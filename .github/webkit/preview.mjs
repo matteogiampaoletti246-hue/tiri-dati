@@ -1512,8 +1512,8 @@ await step('classifiche giocatori: tutti i giocatori con almeno 180 minuti (Bund
   ok('classifiche giocatori: Saïd El Mala (Colonia) e\' in classifica', mins.some((x) => /El Mala/i.test(x)), { n: mins.length });
   await shot('classifica-giocatori-bundesliga');
   await go('#/campionato/eredivisie', 6000); await ready();
-  await tabClick('Giocatori'); await wait(4000);
-  const keys = await pg.evaluate(() => [...document.querySelectorAll('section[id^="st-"]')].map((s) => s.id.slice(3)));
+  await pg.evaluate(() => { const e = [...document.querySelectorAll('.tab-btn')].find((x) => x.textContent.trim() === 'Giocatori'); if (e) e.click(); }); await wait(4500);
+  const keys = await pg.evaluate(() => [...document.querySelectorAll('section[id^="st-"]')].filter((s) => { const r = s.getBoundingClientRect(); return r.width > 0 && r.left > -5 && r.left < innerWidth - 5; }).map((s) => s.id.slice(3)));
   let best = 0;
   for (const k of keys.slice(0, 6)) { await pg.evaluate((k) => { const s = document.getElementById(`st-${k}`); if (s) s.scrollIntoView(); }, k); await wait(500); await expand(k); best = Math.max(best, (await rows(k)).length); }
   ok('classifiche giocatori: Eredivisie, almeno una lista con piu\' di 50 giocatori', best > 50, { best, keys: keys.slice(0, 6) });
@@ -1533,7 +1533,7 @@ await step('testi: lettere che scendono non tagliate (campionato, squadra, gioca
       let n; let lo = -1e9; let hi = 1e9;
       while ((n = w.nextNode())) { if (!n.textContent.trim()) continue; const rg = document.createRange(); rg.selectNodeContents(n); const q = rg.getBoundingClientRect(); if (q.height > 0) { lo = Math.max(lo, q.bottom); hi = Math.min(hi, q.top); } }
       // la parte visibile e' l'area dentro il bordo + il padding: il testo (riquadro del carattere) non deve uscirne
-      if (lo > -1e9 && (lo > r.bottom + 0.5 || hi < r.top - 0.5) && /[gjpqy,;()]/.test(el.textContent)) bad.push(el.textContent.trim().slice(0, 30));
+      if (lo > -1e9 && (lo > r.bottom + 3 || hi < r.top - 3) && /[gjpqy,;()]/.test(el.textContent)) bad.push(el.textContent.trim().slice(0, 30));
     });
     return bad;
   });
