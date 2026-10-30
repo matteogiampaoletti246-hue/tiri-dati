@@ -12,8 +12,8 @@ html,body{margin:0;background:#0b0d12;color:#e8eaf0;font:14px -apple-system,syst
 .d.on{background:#3b82f6;color:#fff}
 #hud{font:11px ui-monospace,monospace;padding:0 12px 6px;color:#8b93a7}
 #view{position:relative;overflow:hidden;margin-top:calc(env(safe-area-inset-top) + 92px);touch-action:pan-y}
-#track{display:flex;width:300%;margin-left:-100%;will-change:transform}
-.pane{width:33.3333%;flex:none;min-height:80vh}
+#track{display:grid;will-change:transform}
+.pane{grid-area:1/1;min-width:0;min-height:80vh;overflow:visible;will-change:transform}
 .g{content-visibility:auto;contain-intrinsic-size:auto 300px;margin:10px 10px 0;background:#151a24;border-radius:14px;overflow:hidden}
 .gh{padding:10px 12px;font-weight:700;border-bottom:1px solid #222836;color:#aab3c8}
 .r{display:grid;grid-template-columns:1fr 54px 1fr;align-items:center;gap:6px;padding:10px 12px;border-bottom:1px solid #1d2331}
@@ -46,21 +46,41 @@ return html[k]=h}
 const P=[p0,p1,p2],tr=track,W=()=>innerWidth;
 let cur=days.indexOf(new Date().toLocaleDateString('sv-SE',{timeZone:'Europe/Rome'}));
 const strip=document.getElementById('strip');
-days.forEach((k,i)=>{const e=document.createElement('div');e.className='d';const d=new Date(k+'T12:00:00');e.innerHTML=d.toLocaleDateString('it-IT',{weekday:'short'})+'<br>'+d.getDate()+'/'+(d.getMonth()+1);e.onclick=()=>go(i);strip.appendChild(e)});
-function show(){[...strip.children].forEach((e,i)=>e.classList.toggle('on',i==cur));
- P[0].innerHTML=cur>0?build(days[cur-1]):'';P[1].innerHTML=build(days[cur]);P[2].innerHTML=cur<days.length-1?build(days[cur+1]):'';
- const e=strip.children[cur];strip.scrollLeft=e.offsetLeft-W()/2+e.offsetWidth/2;scrollTo(0,0)}
-function go(i){cur=i;tr.style.transform='';show()}
-show();
-let sx=0,sy=0,dx=0,drag=false,lock=0,anim=false;
-addEventListener('touchstart',e=>{if(anim)return;sx=e.touches[0].clientX;sy=e.touches[0].clientY;dx=0;drag=true;lock=0},{passive:true});
+days.forEach((k,i)=>{const e=document.createElement('div');e.className='d';const d=new Date(k+'T12:00:00');e.innerHTML=d.toLocaleDateString('it-IT',{weekday:'short'})+'<br>'+d.getDate()+'/'+(d.getMonth()+1);e.onclick=()=>jump(i);strip.appendChild(e)});
+// 3 caselle fisse: non si ricostruiscono, cambiano solo ruolo (posizione); il giorno nuovo si riempie fuori schermo
+const slotDay=[null,null,null];
+const role=sl=>((((sl-cur%3)+1)%3)+3)%3-1;   // -1 sinistra, 0 centro, 1 destra
+function place(){P.forEach((e,sl)=>{const r=role(sl);e.style.transform='translate3d('+(r*100)+'%,0,0)';e.style.height=r?'0':'';e.style.minHeight=r?'0':'';e.dataset.r=r})}
+function fill(sl,dayIdx){const k=days[dayIdx];const e=P[sl];if(slotDay[sl]===dayIdx)return;slotDay[sl]=dayIdx;e.innerHTML=(dayIdx>=0&&dayIdx<days.length)?build(k):''}
+function fillAll(){P.forEach((e,sl)=>{const r=role(sl);if(r===0)fill(sl,cur)});setTimeout(()=>P.forEach((e,sl)=>{const r=role(sl);if(r)fill(sl,cur+r)}),0)}
+function mark(){[...strip.children].forEach((e,i)=>e.classList.toggle('on',i==cur));const e=strip.children[cur];strip.scrollTo({left:e.offsetLeft-W()/2+e.offsetWidth/2})}
+// assegna ai tre posti i giorni giusti
+function init(){for(let sl=0;sl<3;sl++){const r=role(sl);slotDay[sl]=null;fill(sl,cur+r)}place();mark()}
+init();
+function jump(i){if(i===cur)return;const d=i-cur;cur=i;tr.style.transition='none';tr.style.transform='';init();scrollTo(0,0)}
+let sx=0,sy=0,base=0,dx=0,drag=false,lock=0,anim=null,t0=0,lx=0,vx=0;
+const curX=()=>new DOMMatrix(getComputedStyle(tr).transform).m41;
+function commit(dir){ // la casella uscita prende il giorno nuovo dal lato opposto
+  cur+=dir;tr.style.transition='none';tr.style.transform='translate3d(0,0,0)';place();mark();
+  P.forEach((e,sl)=>{const r=role(sl);if(r)fill(sl,cur+r)});}
+addEventListener('touchstart',e=>{
+  sx=e.touches[0].clientX;sy=e.touches[0].clientY;dx=0;drag=true;lock=0;lx=sx;vx=0;t0=performance.now();base=0;
+  if(anim){ // swipe durante l'animazione: si riparte da dove siamo, nessuna attesa
+    const x0=curX();clearTimeout(anim.id);const dir=anim.dir;anim=null;
+    if(dir){commit(dir);base=x0+dir*W();}else{base=x0}
+    tr.style.transition='none';tr.style.transform='translate3d('+base+'px,0,0)';lock=1;sx=e.touches[0].clientX;}
+},{passive:true});
 addEventListener('touchmove',e=>{if(!drag)return;const x=e.touches[0].clientX-sx,y=e.touches[0].clientY-sy;
  if(!lock){if(Math.abs(x)>8||Math.abs(y)>8)lock=Math.abs(x)>Math.abs(y)?1:2;else return}
- if(lock!=1)return;dx=x;tr.style.transition='none';tr.style.transform='translate3d('+dx+'px,0,0)'},{passive:true});
+ if(lock!=1)return;vx=e.touches[0].clientX-lx;lx=e.touches[0].clientX;dx=x;
+ let o=base+dx;if((cur===0&&o>0)||(cur===days.length-1&&o<0))o*=.3;
+ tr.style.transition='none';tr.style.transform='translate3d('+o+'px,0,0)'},{passive:true});
 addEventListener('touchend',()=>{if(!drag)return;drag=false;if(lock!=1)return;
- let dir=0;if(dx<-W()*.25&&cur<days.length-1)dir=1;else if(dx>W()*.25&&cur>0)dir=-1;
- anim=true;tr.style.transition='transform .22s cubic-bezier(.2,.8,.2,1)';tr.style.transform='translate3d('+(-dir*W())+'px,0,0)';
- setTimeout(()=>{tr.style.transition='none';tr.style.transform='';cur+=dir;show();anim=false},230)});
+ const o=base+dx;let dir=0;
+ if((o<-W()*.22||vx<-9)&&cur<days.length-1)dir=1;else if((o>W()*.22||vx>9)&&cur>0)dir=-1;
+ const target=-dir*W();const dist=Math.abs(target-o);const ms=Math.max(120,Math.min(240,dist*0.6));
+ tr.style.transition='transform '+ms+'ms cubic-bezier(.2,.8,.2,1)';tr.style.transform='translate3d('+target+'px,0,0)';
+ anim={dir,id:setTimeout(()=>{anim=null;commit(dir)},ms+10)}});
 // misuratore: fotogrammi lenti
 let last=performance.now(),n=0,slow=0,mx=0,tot=0;
 const hud=document.getElementById('hud');
