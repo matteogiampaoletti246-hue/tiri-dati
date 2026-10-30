@@ -258,7 +258,7 @@ export default function Home() {
   const moved = useRef(false);
 
   // cambio giorno vicino con scorrimento: i due giorni sono gia' affiancati, si muove solo la striscia
-  const glide = (target) => {
+  const glide = (target, from = 0) => {
     const el = listRef.current;
     if (!el) { setIso(target); return; }
     const w = Math.min(window.innerWidth, el.offsetWidth || 430);
@@ -288,7 +288,7 @@ export default function Home() {
     };
     finishRef.current = end;
     el.style.willChange = 'transform';
-    const ms = Math.max(140, Math.min(260, Math.abs(dir * w - xNow(el)) * 0.65));
+    const ms = Math.max(140, Math.min(260, Math.abs(dir * w - from) * 0.65));
     requestAnimationFrame(() => {
       if (g.ended) return;
       el.style.transition = `transform ${ms}ms cubic-bezier(.22,.8,.24,1)`;
@@ -380,7 +380,7 @@ export default function Home() {
       const fast = v > 0.45 && Math.abs(dx) > 20;
       const target = (fast ? dx : o) > 0 ? p : n;
       if ((Math.abs(o) > 60 || fast) && target) {
-        gl(target);
+        gl(target, o);
       } else if (el) {
         el.style.transition = 'transform .25s cubic-bezier(.22,.8,.24,1)';
         el.style.transform = 'translate3d(0,0,0)';
