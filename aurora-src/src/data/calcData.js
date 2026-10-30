@@ -34,13 +34,28 @@ export function buildCalcData() {
   });
 }
 
-const lgAvg = (k, field) => {
+// stesso campionato e stessa voce: si calcola una volta (si chiamano per ogni giocatore di ogni giorno); si rifa' se cambiano le squadre del campionato
+const perLeague = (fn) => {
+  const M = new Map();
+  return (key, field) => {
+    const L = LD[key];
+    if (!L) return fn(key, field);
+    const ck = `${key}|${field}`;
+    const n = L.teams ? Object.keys(L.teams).length : 0;
+    const h = M.get(ck);
+    if (h && h.t === L.teams && h.n === n) return h.v;
+    const v = fn(key, field);
+    M.set(ck, { t: L.teams, n, v });
+    return v;
+  };
+};
+const lgAvg = perLeague((k, field) => {
   const L = LD[k];
   if (!L) return null;
   if (L.avg) return L.avg[field];
   const v = Object.values(L.teams).map((t) => t[field]);
   return v.length ? v.reduce((a, b) => a + b, 0) / v.length : null;
-};
+});
 const adj = (v, avg, s) => (s < 1 && avg > 0 ? avg + (v - avg) * s : v);
 
 // campionato nazionale della squadra (tra quelli del menu, esclusa la coppa)
@@ -64,7 +79,7 @@ function blend(key, name, field) {
 
 const dec = (v) => Math.round(v * 100) / 100;
 
-const ranks = (key, field) => {
+const ranks = perLeague((key, field) => {
   const entries = Object.entries(LD[key].teams).map(([name, t]) => ({ name, val: t[field] }));
   entries.sort((a, b) => b.val - a.val);
   const out = {};
@@ -78,7 +93,7 @@ const ranks = (key, field) => {
     out[e.name] = rank;
   });
   return out;
-};
+});
 
 // split casa / trasferta dalla pagina squadre (squadre.json): [[totale,partite],[casa],[trasferta]]
 const split = (team, leagueKey, field, side) => {

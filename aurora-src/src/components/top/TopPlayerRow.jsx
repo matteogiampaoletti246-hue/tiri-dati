@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import PlayerPhoto from '@/components/PlayerPhoto';
 import { Link, useNavigate } from 'react-router-dom';
 import { Calculator } from 'lucide-react';
@@ -22,7 +23,7 @@ const when = (match) => {
   return real && real.kickoff ? `${wd} ${real.kickoff}` : cap;
 };
 
-export default function TopPlayerRow({ row, rank, threshold, delay = 0 }) {
+export default memo(function TopPlayerRow({ row, rank, threshold, delay = 0 }) {
   const { player, match } = row;
   const nav = useNavigate();
   const team = teamById(player.teamId);
@@ -77,4 +78,4 @@ export default function TopPlayerRow({ row, rank, threshold, delay = 0 }) {
       </span>
     </Link>
   );
-}
+});

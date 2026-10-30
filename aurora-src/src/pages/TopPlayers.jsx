@@ -1,4 +1,5 @@
 import { primeKeyboard } from '@/lib/keyboard';
+import { isNative } from '@/lib/carousel';
 import { useDeferredValue, useEffect, useState } from 'react';
 import PageShell from '@/components/PageShell';
 import FixedBar from '@/components/FixedBar';
@@ -9,6 +10,7 @@ import SearchOverlay from '@/components/SearchOverlay';
 import DayPager from '@/components/DayPager';
 import Skeleton from '@/components/Skeleton';
 import TopPlayerRow from '@/components/top/TopPlayerRow';
+import ChunkRows from '@/components/top/ChunkRows';
 import useInitialLoad from '@/hooks/useInitialLoad';
 import { bestPlayers, THRESHOLDS } from '@/data/topPlayers';
 import { DATES, TODAY_INDEX, isoDate } from '@/data/matches';
@@ -17,6 +19,7 @@ import { DATES, TODAY_INDEX, isoDate } from '@/data/matches';
 const DAYS = DATES.slice(Math.max(0, TODAY_INDEX - 1));
 const TODAY_I = TODAY_INDEX - Math.max(0, TODAY_INDEX - 1);
 
+const keyOfPlayer = (row) => row.player.id;
 // Giorno e soglia restano quando si apre un giocatore e si torna indietro.
 const KEEP = { day: null, thr: '0.5', stamp: '' };
 
@@ -42,7 +45,7 @@ export default function TopPlayers() {
   const rows = bestPlayers(isoDate(DAYS[dayIdx]), dThr);
 
   return (
-    <PageShell swipeBack={false}>
+    <PageShell swipeBack={isNative()}>
       <header className="sticky top-0 z-30 pb-1" style={{ background: 'var(--sky-2)' }}>
         <FixedBar title="Migliori Giocatori" onSearch={() => { primeKeyboard(); setSearchOpen(true); }} />
         <DayStrip dates={DAYS} todayIndex={TODAY_I} value={dayIdx} onChange={setDayIdx} />
@@ -63,13 +66,14 @@ export default function TopPlayers() {
         </div>
       ) : (
         <DayPager
+          backEdge={isNative()}
           index={dayIdx}
           count={DAYS.length}
           onChange={setDayIdx}
-          render={(i) => {
+          render={(i, active) => {
             const rows = bestPlayers(isoDate(DAYS[i]), dThr);
             return rows.length ? (
-              <div>{rows.map((row, k) => <TopPlayerRow key={row.player.id} row={row} rank={k + 1} threshold={dThr} delay={0} />)}</div>
+              <ChunkRows key={`${i}|${dThr}`} rows={rows} active={active} rowH={84} keyOf={keyOfPlayer} renderRow={(row, k) => <TopPlayerRow row={row} rank={k + 1} threshold={dThr} delay={0} />} />
             ) : (
               <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Nessun giocatore</p>
             );

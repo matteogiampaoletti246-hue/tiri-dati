@@ -19,12 +19,19 @@ export function installFixedGuard() {
     if (!vv || typing()) return false;
     return Math.abs(vv.offsetTop) > 1.5 || window.innerHeight - vv.height > 2;
   };
+  // pagina mostrata = voce di cronologia attuale (subito dopo un "indietro" la vecchia pagina resta a schermo finche' la nuova non e' pronta)
+  const shell = () => document.getElementById('sl-shell');
+  const settled = () => { const sh = shell(); const st = window.history.state; return !sh || !st || !st.key || sh.dataset.lk === st.key; };
   const nudge = () => {
+    if (!settled()) return;
     const y = window.scrollY;
     const max = root.scrollHeight - window.innerHeight;
     const d = y + 1 <= max ? 1 : -1;
+    const sh = shell();
+    const hash = window.location.hash;
     window.scrollTo(0, y + d);
-    requestAnimationFrame(() => window.scrollTo(0, y));
+    // solo se la pagina e' ancora quella: altrimenti la Home riceveva l'altezza della squadra appena lasciata
+    requestAnimationFrame(() => { if (shell() === sh && window.location.hash === hash) window.scrollTo(0, y); });
   };
   const settle = () => {
     timer = 0;

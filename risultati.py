@@ -21,7 +21,7 @@ try:
 except Exception:  # Windows senza tzdata: basta per scegliere i giorni
     ROME = datetime.timezone(datetime.timedelta(hours=1))
 KEEP_DAYS = 10  # file giorni/ piu' vecchi di 10 giorni si cancellano (il passato sta in arch/)
-
+from femminili import is_women_comp, is_women_name, women_name
 
 def get(url):
     for k in range(3):
@@ -83,8 +83,11 @@ def main():
                 s = x.get("status") or {}
                 h, a = x.get("home") or {}, x.get("away") or {}
                 st = state(s)
-                r = [str(x.get("id")), int(fm), s.get("utcTime"), h.get("id"), a.get("id"), h.get("shortName") or h.get("name"),
-                     a.get("shortName") or a.get("name"), s.get("scoreStr") if st == "f" else None, st, x.get("eliminatedTeamId")]
+                hn, an = h.get("shortName") or h.get("name"), a.get("shortName") or a.get("name")
+                if is_women_comp(fm, idx[fm].get("n")) or is_women_name(hn) or is_women_name(an):
+                    hn, an = women_name(hn), women_name(an)
+                r = [str(x.get("id")), int(fm), s.get("utcTime"), h.get("id"), a.get("id"), hn,
+                     an, s.get("scoreStr") if st == "f" else None, st, x.get("eliminatedTeamId")]
                 rows.append(r)
                 seen.setdefault(fm, {})[r[0]] = (r, s)
         rows.sort(key=lambda r: (r[2] or "", r[1], r[0]))

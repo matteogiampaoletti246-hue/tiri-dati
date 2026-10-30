@@ -243,3 +243,27 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 
 ## Statistiche previste (partite non iniziate, regola fissa)
 - Al posto del tasto "Confronto completo delle statistiche" c'e' il pannello `components/match/PredictedStats.jsx` (concept B): casa a sinistra, ospite a destra con stemmi, una barra divisa per statistica nei colori sociali delle due squadre (se troppo simili l'ospite passa al secondo colore), senza note sul calcolo. Previsto casa = (fatti dalla casa + subiti dall'ospite) / 2 e viceversa (`fallisubiti`, `fuorigiocoAvv`, `gialliAvv` in `SRC`); fattore casa +15% / trasferta -15% SOLO su tiri, tiri in porta e corner (etichetta "Fattore casa"), mai su falli, fuorigioco e cartellini. Riga senza uno dei quattro dati = omessa; niente dati = niente pannello. Prova: "statistiche previste: pannello..." in `preview.mjs`.
+
+## Squadre femminili (regola fissa)
+- FotMob le chiama come le maschili ("Barcelona" in Liga F) o con "(W)". Una sola forma ovunque: "Barcelona F" (`womenName`, `isWomenComp`, `isWomenName` in `data/teamMatch.js`; stessa regola in `femminili.py`). Vale per tutte le squadre di una competizione femminile, anche se non esiste una maschile omonima.
+- I nomi si cambiano quando i dati arrivano: `loadSeason`, `loadSeasonStats` (`data/archive.js`), righe del feed (`womenFeedRow`), `teamFromIndex`; `risultati.py` (`giorni/`, Home nativa compresa) e `squadre_indice.py` (`tidx/`) li scrivono gia' cosi'. `sameSquad` non unisce mai "X F" e "X". Competizioni dal nome generico (A-Liga, Super Cup olandese): `WOMEN_FM`.
+
+## Swipe indietro: dove parte (regola fissa, sostituisce la vecchia "zona")
+- Pagina senza schede/giorni a sinistra (prima scheda compresa): da tutto lo schermo, tranne dentro cio' che scorre o si trascina di lato (`inHScroll` in `lib/carousel.js`). Con schede o giorni a sinistra: dal bordo (`BACK_ZONE`) o dal banner (`data-back-banner`, `EntityBanner` e `MatchHero`). Dal bordo verso sinistra resta il cambio scheda.
+- App nativa, prima pagina dopo la Home (`__slDepth === 0`): la pagina web non si muove, si muove tutta la WebView (`drag:<px>`, `drag:-1` = rientra, `home` = chiude; `onMsg` in `native/App.js`). Le pagine con i giorni (`DayPager backEdge`) e il calcolatore hanno lo swipe indietro solo nell'app nativa. Prova: "swipe indietro: con schede a sinistra...".
+
+## Scroll indipendente tra le pagine (regola fissa)
+- Tornando indietro una pagina va all'altezza salvata per la sua voce di cronologia; senza altezza o a 0 va in cima, mai a quella della pagina appena lasciata (`ScrollToTop`). Nell'app nativa le pagine aperte cambiando l'hash non hanno chiave: si distinguono col percorso (`keyOf`) e si dimenticano tornando a `/linee-guida`. Prova: "home e squadra non condividono lo scroll".
+
+## Arbitro in partita: ultime due stagioni
+- `arbitri_stagioni.py` (workflow `arbitri_stagioni.yml`, ogni giorno) -> `arbitri2/<fm>.json`: gare e medie di cartellini (gialli + rossi) e falli nelle due stagioni piu' recenti con arbitri, stesso arbitro con nomi diversi unito (nome + cognome), medie solo sulle partite con quel dato. `refTwoSeasons` in `prepareMatch`, `RefereeCard`: "N gare nelle ultime 2 stagioni". Senza dati si resta sulle altre fonti; una barra senza dato non si mostra.
+
+## Migliori giocatori e Migliori matchup (fluidita')
+- `ChunkRows`: 10 righe al primo disegno (5 nei giorni vicini), il resto a riposo, `content-visibility`; tornando indietro la lista nasce intera. Giorni vicini a riposo (`DayPager`). `bestPlayers` guarda solo le squadre del giorno (`playersOf`, stesso ordine di prima), `matchupRows` memorizzato, righe `memo`. Risultati invariati (`MAX_PER_DAY` compreso).
+
+## Foto mancanti (calcolatore e ovunque)
+- `foto_fm.py` (workflow `carriere_extra.yml`) -> `foto_fm.json`: id FotMob di chi non ha foto in `foto.json`/`stats.json` (carriere, rosa + nome, classifiche della stagione + squadra, nome solo se unico). Letto da `photoOf` in `data/players.js`.
+
+## Statistiche giocatore: stessi numeri ovunque (regola fissa)
+- Un solo calcolo: `playerSeasonLine` (`data/archive.js`, classifiche ufficiali, altrimenti partite) per Profilo (`usePlayerSeason`) e Statistiche. Presenze = campionato, le coppe hanno le loro statistiche: mai la somma campionato + coppa, mai 0 gol "di default" per chi non e' in `stats.json`.
+- Tutte le competizioni e stagioni con l'archivio usano `PastStats` con pillole Totale/Casa/Trasferta (solo se le partite della stagione hanno il giocatore, `statsFromMatches(lid, sk, part)`) e Tutte/Attacco/Difesa/Disciplina/Gioco. L'interfaccia vecchia resta solo per chi non e' nell'archivio. Controllo: `controllo_coerenza_giocatori.py` -> `controllo_coerenza_giocatori.json` (ufficiali contro partite: le differenze sono partite mancanti nei file, es. preliminari).

@@ -3,6 +3,7 @@ import { lruGet, lruSet } from '@/lib/lru';
 // I file stanno nel repository dati (arch/ e partite/) e si scaricano solo quando servono.
 import { BASE, RAW, WORKER } from './load';
 import { LEAGUES, leagueById } from './leagues';
+import { isWomenComp, isWomenName, womenName } from './teamMatch';
 
 // file scaricati una volta sola; quelli grandi (partite della stagione .gz, statistiche) con capienza fissa: la memoria non cresce all'infinito
 const cache = new Map();
@@ -111,7 +112,30 @@ function tableFromFix(season, lid) {
 }
 // campionati con gironi/conference o punti dimezzati dopo la prima fase (MLS, Argentina, Austria, Belgio, Grecia) e coppe
 const ZONES_NOT_BY_POINTS = new Set([130, 112, 38, 40, 135, 42, 73, 10216]);
-export const loadSeason = (lid, sk) => json(`arch/${lid}/${sk}.json`).then(firstFresh(lid, sk)).then((d) => {
+// competizione femminile: i nomi diventano "Nome F" appena arriva il file, cosi' abbinamenti (mai con la maschile), liste e classifiche usano tutti la stessa forma
+const womenRows = (o, depth = 0) => {
+  if (!o || depth > 4) return;
+  if (Array.isArray(o)) { o.forEach((r) => { if (r && typeof r === 'object' && !Array.isArray(r) && r.name) { r.name = womenName(r.name); if (r.shortName) r.shortName = womenName(r.shortName); } else womenRows(r, depth + 1); }); return; }
+  if (typeof o === 'object') Object.values(o).forEach((v) => womenRows(v, depth + 1));
+};
+const womenSeason = (lid, d) => {
+  if (!d || d.__w !== undefined) return d;
+  const e = IDX && IDX[String(lid)];
+  const names = Object.values(d.teams || {});
+  d.__w = isWomenComp(lid, e && e.n) || (names.length > 0 && names.filter(isWomenName).length * 2 >= names.length);
+  if (!d.__w) return d;
+  Object.keys(d.teams || {}).forEach((k) => { d.teams[k] = womenName(d.teams[k]); });
+  womenRows(d.table);
+  womenRows(d.groups);
+  return d;
+};
+// le righe del feed (giorni/) con i nomi come nel resto dell'app; risultati.py li scrive gia' cosi', qui per i file ancora vecchi
+export const womenFeedRow = (r) => {
+  const e = IDX && IDX[String(r[1])];
+  if (!isWomenComp(r[1], e && e.n) && !isWomenName(r[5]) && !isWomenName(r[6])) return r;
+  const n = r.slice(); n[5] = womenName(r[5]); n[6] = womenName(r[6]); return n;
+};
+export const loadSeason = (lid, sk) => archIndex().then(() => json(`arch/${lid}/${sk}.json`)).then((d) => womenSeason(lid, d)).then(firstFresh(lid, sk)).then((d) => {
   if (d && !d.table && !d.__tc) {
     d.__tc = true;
     const t = tableFromFix(d, lid);
@@ -222,9 +246,11 @@ if (typeof window !== 'undefined') {
 // statistiche nascoste ovunque (significato poco chiaro)
 const HIDDEN_STAT = /^poss_?won_?att_?3rd/i;
 const strip = (o) => { if (o) for (const k of Object.keys(o)) if (HIDDEN_STAT.test(k)) delete o[k]; return o; };
-export const loadSeasonStats = (lid, sk) => json(`arch/${lid}/${sk}_s.json`).then((d) => {
+export const loadSeasonStats = (lid, sk) => archIndex().then(() => json(`arch/${lid}/${sk}_s.json`)).then((d) => {
   if (!d || d.v !== 2) return null;
   strip(d.players); strip(d.teams);
+  const e = IDX && IDX[String(lid)];
+  if (!d.__w && isWomenComp(lid, e && e.n)) { d.__w = true; Object.values(d.teams || {}).forEach((l) => (l || []).forEach((r) => { if (r && r[1]) r[1] = womenName(r[1]); })); }
   return d;
 });
 export const loadSeasonMatches = (lid, sk) => gz(`partite/${lid}/${sk}.json.gz`);
@@ -295,20 +321,24 @@ export const pastSeasons = async (fm) => {
 // Statistiche dei giocatori ricavate dalle partite della stagione (quando le statistiche stagionali ufficiali non ci sono ancora).
 // Stessa forma delle statistiche v2: chiave -> [[id, nome, squadra, valore, minuti, partite, ruoli]] in ordine di classifica.
 const SKIP_KEY = /_t$|^physical_|^minutes_played$|^goals_prevented$|^xg_and_xa$|^shot_accuracy$|variant$|_team_title$|^player_throws$|^punches$/;
-export const statsFromMatches = (lid, sk) => once(`sfm/${lid}/${sk}`, async () => {
+// part: 'tot' | 'home' | 'away' (solo le partite giocate in casa o in trasferta: lato ricavato dalla formazione)
+export const statsFromMatches = (lid, sk, part = 'tot') => once(`sfm/${lid}/${sk}/${part}`, async () => {
   const d = await loadSeasonMatches(lid, sk);
   if (!d || !d.m) return null;
   const tot = {};
   const acc = {};
   const who = {}; // id giocatore -> [squadra, nome] dalle formazioni della partita (titolari e panchina)
   Object.values(d.m).forEach((m) => {
-    [m && m.h, m && m.a].forEach((side) => {
+    const homeIds = new Set();
+    const awayIds = new Set();
+    [[m && m.h, homeIds], [m && m.a, awayIds]].forEach(([side, ids]) => {
       if (!side || !side.id) return;
-      Object.values(side).forEach((list) => { if (Array.isArray(list)) list.forEach((r) => { if (Array.isArray(r) && r[0] != null) who[String(r[0])] = [String(side.id), r[1] || '']; }); });
+      Object.values(side).forEach((list) => { if (Array.isArray(list)) list.forEach((r) => { if (Array.isArray(r) && r[0] != null) { who[String(r[0])] = [String(side.id), r[1] || '']; ids.add(String(r[0])); } }); });
     });
     Object.entries((m && m.p) || {}).forEach(([pid, v]) => {
       const mins = Number(v.minutes_played) || 0;
       if (!mins) return;
+      if ((part === 'home' && !homeIds.has(pid)) || (part === 'away' && !awayIds.has(pid))) return;
       const t = (tot[pid] = tot[pid] || { min: 0, n: 0 });
       t.min += mins;
       t.n += 1;
@@ -349,6 +379,18 @@ export const loadPlayerStatsFor = async (lid, sk, pid) => {
   if (has(st)) return st;
   const fm = await statsFromMatches(lid, sk);
   return has(fm) ? fm : st;
+};
+// presenze, minuti, gol, assist e voto di un giocatore in una stagione e competizione: un solo calcolo per Profilo e Statistiche
+export const playerSeasonLine = async (lid, sk, pid) => {
+  const st = await loadPlayerStatsFor(lid, sk, pid);
+  const P = st && st.players;
+  if (!P) return null;
+  const mine = (k) => (P[k] || []).find((r) => String(r[0]) === String(pid)) || null;
+  const anyKey = Object.keys(P).find((k) => !k.startsWith('_') && mine(k));
+  if (!anyKey) return null;
+  const me = mine('mins_played') || mine(anyKey);
+  const val = (...ks) => { for (const k of ks) { const r = mine(k); if (r) return r[3]; } return null; };
+  return { appearances: me[5] || 0, minutes: me[4] || 0, goals: val('goals') || 0, assists: val('goal_assist', 'assists') || 0, rating: val('rating', 'rating_title') };
 };
 // statistiche giocatori di una stagione: quelle ufficiali se ci sono, altrimenti quelle calcolate dalle partite
 export const loadPlayerStats = async (lid, sk) => {

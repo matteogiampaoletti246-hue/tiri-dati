@@ -23,12 +23,14 @@ jobs:
       - run: python3 carriere_extra.py 310
       # quali giocatori non hanno la foto su FotMob (l'app mostra subito l'omino)
       - run: python3 foto_check.py || true
+      # id FotMob per chi non ha foto nelle altre fonti (calcolatore, ricerca)
+      - run: python3 foto_fm.py || true
       - name: Salva i risultati
         if: always()
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
-          git add car foto_mancanti.json foto_check_cache.json 2>/dev/null || true
+          git add car foto_mancanti.json foto_check_cache.json foto_fm.json 2>/dev/null || true
           git diff --staged --quiet || git commit -m "Carriere giocatori (blocco)"
           for i in 1 2 3 4 5; do git pull --rebase && git push && break; sleep $((i*4)); done
       - name: Riparti se mancano giocatori e il blocco ha scaricato qualcosa

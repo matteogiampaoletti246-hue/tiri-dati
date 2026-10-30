@@ -3,7 +3,7 @@ import { BASE } from './load';
 import useAsync from '@/hooks/useAsync';
 import { carriereOf, loadCarriere } from './carriere';
 import { loadRose, roseOf, rosePlayer } from './rose';
-import { loadPlayerStats, loadPlayerStatsFor, currentSeason, sortSeasons, FM_ID, LID_BY_FM } from './archive';
+import { loadPlayerStats, loadPlayerStatsFor, playerSeasonLine, currentSeason, sortSeasons, FM_ID, LID_BY_FM } from './archive';
 import { playerById } from './players';
 import { teamById } from './teams';
 import { archivePercentiles } from '@/components/player/playerCalc';
@@ -91,6 +91,21 @@ export function useArchivePct(player, enabled) {
     return archivePercentiles(st, pid);
   }, [player && player.id, enabled]);
   return data || null;
+}
+
+// Numeri del Profilo: gli stessi della scheda Statistiche e dell'elenco Partite (archivio, campionato della stagione in corso, o stagione dell'id archivio).
+// Se l'archivio non ha il giocatore restano quelli dell'app.
+export function usePlayerSeason(player) {
+  const { data } = useAsync(async () => {
+    const pid = await resolvePid(player);
+    if (!pid) return null;
+    const lid = player.archive ? player.leagueId : (teamById(player.teamId) || {}).leagueId || player.leagueId;
+    const fm = FM_ID[lid];
+    if (!fm) return null;
+    const sk = player.archive && player.sk ? player.sk : await currentSeason(fm);
+    return sk ? playerSeasonLine(fm, sk, pid) : null;
+  }, [player && player.id]);
+  return data ? { ...player, ...data, rating: data.rating || player.rating } : player;
 }
 
 export function useBioPid(player) {

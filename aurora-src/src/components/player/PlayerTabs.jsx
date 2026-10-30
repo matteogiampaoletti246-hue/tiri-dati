@@ -23,7 +23,7 @@ import CompSeasonBar from '@/components/CompSeasonBar';
 import PastStats from '@/components/past/PastStats';
 import { PastPlayerMatches } from '@/components/past/PastMatches';
 import { useSeasonList, initSeason, useSel, useCompIn } from '@/components/past/PastBits';
-import { usePlayerCareer, useArchivePct, useBioPid, resolvePid } from '@/data/playerIndex';
+import { usePlayerCareer, useArchivePct, useBioPid, resolvePid, usePlayerSeason } from '@/data/playerIndex';
 import { rosePlayer } from '@/data/rose';
 import useAsync from '@/hooks/useAsync';
 import { currentSeason, loadPlayerStatsFor, sortSeasons } from '@/data/archive';
@@ -118,9 +118,10 @@ function BioCard({ player, team }) {
 }
 
 /* ---------- PROFILO ---------- */
-export function ProfiloPanel({ player, team, concept }) {
-  const pc0 = percentiles(player);
-  const ap = useArchivePct(player, !pc0.some((x) => x.pct !== null));
+export function ProfiloPanel({ player: player0, team, concept }) {
+  const player = usePlayerSeason(player0);
+  const pc0 = percentiles(player0);
+  const ap = useArchivePct(player0, !pc0.some((x) => x.pct !== null));
   const pc = (ap || pc0).filter((x) => x.key !== 'foulsCommitted');
   const colors = team ? team.colors : ['#1E4BD8', '#7FB6E8'];
   const r5 = player.ratings5 || [];
@@ -526,12 +527,13 @@ export function StatistichePanel({ player, team }) {
   return (
     <div className="-mt-1">
     <CompSeasonBar comps={comps} comp={comp} onComp={(c) => { setComp(c); setSeason('cur'); }} seasons={fmPid ? (p.archive && p.sk && comp === p.leagueId && !seasons.includes(p.sk) ? [p.sk, ...seasons] : seasons) : []} season={seasonEff || 'cur'} onSeason={setSeason} noCur={noCur} />
-    {noCur && !seasonEff ? <NoData /> : seasonEff && seasonEff !== 'cur' && fmL && fmPid ? <PastStats kind="players" id={fmPid} fm={fmL} sk={seasonEff} teamName={team && team.name} /> : comp === dom && !hasCurApp ? (
-      // stagione in corso senza i dati dell'app: quelli dell'archivio se ci sono (indice giocatori), altrimenti un solo messaggio
-      fmL && fmPid && car.cur[fmL] && (car.bySeason[comp] || []).includes(car.cur[fmL])
-        ? <PastStats kind="players" id={fmPid} fm={fmL} sk={car.cur[fmL]} current teamName={team && team.name} />
-        : <NoData />
-    ) : (
+    {noCur && !seasonEff ? <NoData /> : seasonEff && seasonEff !== 'cur' && fmL && fmPid ? <PastStats kind="players" id={fmPid} fm={fmL} sk={seasonEff} teamName={team && team.name} /> : fmL && fmPid && car.cur[fmL] && (car.bySeason[comp] || []).includes(car.cur[fmL]) ? (
+      // stagione in corso con l'archivio: stessa interfaccia di ogni altra competizione e stagione (pillole, barre); l'Affidabilita' resta sopra
+      <div key={comp} className={anim}>
+        <div className="flex flex-col gap-4 px-5 pt-4"><Affidabilita player={p} team={team} comp={comp} /></div>
+        <PastStats kind="players" id={fmPid} fm={fmL} sk={car.cur[fmL]} current teamName={team && team.name} />
+      </div>
+    ) : car.loading ? null : comp === dom && !hasCurApp ? <NoData /> : (
     <div key={comp} className={anim}>
     <div className="flex flex-col gap-4 px-5 pt-4"><Affidabilita player={p} team={team} comp={comp} /></div>
     {comp !== dom ? <CupCurrent p={p} fm={fmL} fmPid={fmPid} team={team} /> : (

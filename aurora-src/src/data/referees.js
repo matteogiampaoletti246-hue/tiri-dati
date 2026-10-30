@@ -1,6 +1,7 @@
 // Arbitri da arbitri.json (medie a partita) con foto (refphoto.json) e nazionalità (refcc.json).
-import { RAW } from './load';
+import { BASE, RAW } from './load';
 import { norm, slug } from './util';
+import { lruGet, lruSet } from '@/lib/lru';
 
 export const REFEREES = [];
 const BY_ID = {};
@@ -131,6 +132,25 @@ export function leagueRefAvg(leagueId) {
     ys: list.map((b) => b.y || 0).sort((a, b) => a - b),
     fos: list.map((b) => b.fo || 0).sort((a, b) => a - b),
   };
+}
+
+// Ultime due stagioni dell'arbitro in quella competizione (arbitri2/<fm>.json, arbitri_stagioni.py): file piccoli, letti quando si prepara la partita
+const TWO = new Map();
+const loadTwo = (fm) => {
+  const hit = lruGet(TWO, fm);
+  if (hit) return hit;
+  const p = fetch(`${BASE}arbitri2/${fm}.json`).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  lruSet(TWO, fm, p, 12);
+  return p;
+};
+const firstLast = (n) => { const t = norm(n).split(/\s+/).filter(Boolean); return t.length ? `${t[0]} ${t[t.length - 1]}` : ''; };
+export async function refTwoSeasons(fm, name) {
+  const d = fm && name ? await loadTwo(fm) : null;
+  if (!d || !d.ref) return null;
+  const k = firstLast(name);
+  const key = Object.keys(d.ref).find((x) => norm(x) === norm(name)) || Object.keys(d.ref).find((x) => firstLast(x) === k);
+  const v = key && d.ref[key];
+  return v && v[0] > 0 ? { n: v[0], y: v[1], fo: v[2], lg: d.lg, seasons: d.s.length } : null;
 }
 
 export const findRefereeByName = (name) => (name ? BY_ID[slug(name)] || REFEREES.find((r) => norm(r.name) === norm(name)) || null : null);

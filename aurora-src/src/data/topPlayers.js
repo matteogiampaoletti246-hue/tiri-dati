@@ -6,6 +6,7 @@ import { blendTeam, domesticKey, pickLeagueKey, CUPS, DOMESTIC_KEYS } from './ca
 import { romeDay } from './util';
 import { calcReliability } from './calcPlayer';
 import { isOutOn } from './injuries';
+import { lruGet, lruSet } from '@/lib/lru';
 
 export const THRESHOLDS = [
   { key: '0.5', label: 'Over 0,5' },
@@ -87,18 +88,32 @@ export function fixturesByDay() {
 
 export const bestDays = () => fixturesByDay().keys;
 
-const CACHE = {};
+// giocatori per squadra: ogni giorno si guardano solo quelli delle squadre che giocano, non tutti i ~6000
+let BY_TEAM = null;
+let BY_TEAM_N = -1;
+const playersOf = (team) => {
+  if (BY_TEAM_N !== PLAYERS.length) {
+    BY_TEAM = new Map();
+    BY_TEAM_N = PLAYERS.length;
+    PLAYERS.forEach((p) => { const l = BY_TEAM.get(p.teamName); if (l) l.push(p); else BY_TEAM.set(p.teamName, [p]); });
+  }
+  return BY_TEAM.get(team) || [];
+};
+let ORDER = null;
+let ORDER_N = -1;
+const playerOrder = () => { if (ORDER_N !== PLAYERS.length) { ORDER = new Map(PLAYERS.map((p, i) => [p, i])); ORDER_N = PLAYERS.length; } return ORDER; };
+const CACHE = new Map();
 export function bestPlayers(day, threshold) {
   const line = parseFloat(threshold);
   const ck = `${day}|${line}`;
-  if (CACHE[ck]) return CACHE[ck];
+  const hit = lruGet(CACHE, ck);
+  if (hit) return hit;
   const bd = fixturesByDay().byDay[day] || {};
   const out = [];
-  PLAYERS.forEach((p) => {
+  Object.keys(bd).forEach((teamName) => playersOf(teamName).forEach((p) => {
     const f = bd[p.teamName];
-    if (!f) return;
     if (!DOMESTIC.includes(f[3])) return;
-    if (isOutOn(p.id, romeDay(new Date(f[0]).getTime()))) return; // infortunato fino al rientro
+    if (isOutOn(p.id, day)) return; // infortunato fino al rientro
     const t = lambdaOf(p, f, 0);
     if (!t) return;
     const rr = calcReliability(p, { ts: new Date(f[0]).getTime(), opp: f[1], home: f[2] === 1, comp: f[3], cup: CUPS.includes(f[3]) }, line, 'over', 'totali');
@@ -115,9 +130,13 @@ export function bestPlayers(day, threshold) {
       stagione90: t.sea,
       match: { ts: new Date(f[0]).getTime(), homeId: f[2] === 1 ? own?.id : opp?.id, awayId: f[2] === 1 ? opp?.id : own?.id, oppName: f[1], home: f[2] === 1, comp: f[3] },
     });
-  });
-  out.sort((a, b) => b.voto - a.voto || b.mediaAttesa - a.mediaAttesa);
-  return (CACHE[ck] = out.slice(0, MAX_PER_DAY));
+  }));
+  // a parita' di voto e media vale l'ordine dell'elenco giocatori (come quando si scorrevano tutti)
+  const pos = playerOrder();
+  out.sort((a, b) => b.voto - a.voto || b.mediaAttesa - a.mediaAttesa || pos.get(a.player) - pos.get(b.player));
+  const top = out.slice(0, MAX_PER_DAY);
+  lruSet(CACHE, ck, top, 30);
+  return top;
 }
 
 export { domesticKey };

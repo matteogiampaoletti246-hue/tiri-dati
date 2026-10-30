@@ -98,7 +98,7 @@ export default function League() {
   const livePanels = panels.filter((_, i) => TABS[i].key !== 'referees' || showRefs);
 
   return (
-    <PageShell swipeBack={false}>
+    <PageShell>
       <EntityBanner
         name={league.name}
         subtitle={`${league.country} · ${inArchive ? seasonLabel(seasonEff) : league.season}`}

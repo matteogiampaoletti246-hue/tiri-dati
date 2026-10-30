@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import Crest from '@/components/Crest';
 import TeamLink from '@/components/TeamLink';
@@ -21,7 +22,7 @@ function Side({ team, name, value }) {
 }
 
 // Scheda del matchup: bordi nei colori delle due squadre, divario in oro al centro.
-export default function MatchupRow({ row }) {
+export default memo(function MatchupRow({ row }) {
   const home = teamById(row.homeId);
   const away = teamById(row.awayId);
   const found = matchesByDate(row.date).find((m) => m.homeId === row.homeId && m.awayId === row.awayId);
@@ -54,4 +55,4 @@ export default function MatchupRow({ row }) {
       </p>
     </Wrap>
   );
-}
+});

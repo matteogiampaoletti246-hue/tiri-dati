@@ -1,0 +1,28 @@
+name: Arbitri ultime due stagioni
+on:
+  schedule:
+    - cron: "25 6 * * *"
+  workflow_dispatch:
+  push:
+    paths:
+      - arbitri_stagioni.py
+permissions:
+  contents: write
+jobs:
+  arbitri:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python arbitri_stagioni.py
+      - name: Salva
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@users.noreply.github.com
+          git add arbitri2
+          git diff --cached --quiet && exit 0
+          git commit -m "Arbitri: ultime due stagioni"
+          for i in 1 2 3 4 5; do git pull --rebase origin main && git push origin HEAD:main && break; sleep 10; done

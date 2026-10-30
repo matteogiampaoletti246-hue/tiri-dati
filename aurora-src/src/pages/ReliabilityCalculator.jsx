@@ -1,3 +1,4 @@
+import { isNative } from '@/lib/carousel';
 import { primeKeyboard } from '@/lib/keyboard';
 import { useRef, useState } from 'react';
 import FixedBar from '@/components/FixedBar';
@@ -18,7 +19,7 @@ export default function ReliabilityCalculator() {
   const noop = useRef(() => {}).current;
 
   return (
-    <PageShell swipeBack={false}>
+    <PageShell swipeBack={isNative()}>
       {/* testata unica: titolo e due schede grandi nello stesso blocco opaco, il contenuto non si vede passare */}
       <header className="sticky top-0 z-30" style={{ background: 'var(--sky-2)' }}>
         <FixedBar onSearch={() => { primeKeyboard(); setSearchOpen(true); }} />

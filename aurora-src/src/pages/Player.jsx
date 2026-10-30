@@ -115,7 +115,7 @@ function PlayerView({ id }) {
   const tabs = TABS.filter((_, i) => keep[i]);
 
   return (
-    <PageShell swipeBack={false}>
+    <PageShell>
       <EntityBanner
         tall
         name={player.name}
