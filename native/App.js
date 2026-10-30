@@ -4,7 +4,7 @@ import React, { createContext, memo, useCallback, useContext, useEffect, useMemo
 import { View, Text, FlatList, Pressable, ScrollView, StatusBar, Dimensions, StyleSheet, ActivityIndicator, LayoutAnimation, Platform, UIManager, AppState, Modal } from 'react-native';
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Image } from 'expo-image';
-import Animated, { useSharedValue, useAnimatedStyle, useAnimatedReaction, withTiming, cancelAnimation, runOnJS, Easing } from 'react-native-reanimated';
+import Animated, { useSharedValue, useAnimatedStyle, useAnimatedReaction, withTiming, cancelAnimation, runOnJS, Easing, interpolateColor } from 'react-native-reanimated';
 import { SafeAreaProvider, SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
@@ -275,6 +275,27 @@ const TabBar = memo(({ onOpen, onHome, active, bottom }) => {
   );
 });
 
+
+// pillola unica Tutte | Live: l'indicatore scorre da meta' a meta' e passa dal blu al rosso (stesso movimento e colore nel sito)
+function LivePill({ value, onChange }) {
+  const { C } = useT();
+  const [w, setW] = useState(0);
+  const p = useSharedValue(value === 'live' ? 1 : 0);
+  useEffect(() => { p.value = withTiming(value === 'live' ? 1 : 0, { duration: 420, easing: Easing.inOut(Easing.cubic) }); }, [value, p]);
+  const half = w / 2;
+  const th = useAnimatedStyle(() => ({ transform: [{ translateX: p.value * half }], backgroundColor: interpolateColor(p.value, [0, 1], [C.accent, C.live]) }), [half, C]);
+  const t1 = useAnimatedStyle(() => ({ color: interpolateColor(p.value, [0, 1], ['#FFFFFF', C.ink3]) }), [C]);
+  const t2 = useAnimatedStyle(() => ({ color: interpolateColor(p.value, [0, 1], [C.ink3, '#FFFFFF']) }), [C]);
+  const dot = useAnimatedStyle(() => ({ backgroundColor: interpolateColor(p.value, [0, 1], [C.live, '#FFFFFF']) }), [C]);
+  return (
+    <View onLayout={(e) => setW(e.nativeEvent.layout.width)} style={{ height: 46, borderRadius: 23, overflow: 'hidden', flexDirection: 'row', backgroundColor: C.chip, borderWidth: 1, borderColor: C.border }}>
+      {w ? <Animated.View pointerEvents="none" style={[{ position: 'absolute', top: 0, bottom: 0, left: 0, width: half, borderRadius: 23 }, th]} /> : null}
+      <Pressable onPress={() => onChange('all')} style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><Animated.Text style={[{ fontSize: 15, fontWeight: '600' }, t1]}>Tutte</Animated.Text></Pressable>
+      <Pressable onPress={() => onChange('live')} style={{ flex: 1, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', gap: 7 }}><Animated.View style={[{ width: 8, height: 8, borderRadius: 4 }, dot]} /><Animated.Text style={[{ fontSize: 15, fontWeight: '600' }, t2]}>Live</Animated.Text></Pressable>
+    </View>
+  );
+}
+
 function Screen({ onTheme }) {
   const { C, s } = useT();
   const insets = useSafeAreaInsets();
@@ -506,8 +527,7 @@ function Screen({ onTheme }) {
         ))}
       </ScrollView>
       <View style={s.filters}>
-        <Pressable onPress={() => setFilter('all')}><Text style={[s.fBtn, eff === 'all' && s.fOn]}>Tutte</Text></Pressable>
-        <Pressable onPress={() => setFilter('live')} style={s.fLive}><View style={s.liveDot} /><Text style={[s.fBtn, eff === 'live' && s.fOn]}>Live</Text></Pressable>
+        <LivePill value={eff} onChange={setFilter} />
       </View>
       <GestureDetector gesture={pan}>
         <View style={{ flex: 1, overflow: 'hidden' }}>
@@ -549,7 +569,7 @@ const makeStyles = (C) => StyleSheet.create({
   dTop: { color: C.ink3, fontSize: 15, fontWeight: '500' },
   dOn: { color: C.ink, fontWeight: '800' },
   dSub: { color: C.ink3, fontSize: 10.5, opacity: 0.6 },
-  filters: { flexDirection: 'row', alignItems: 'center', gap: 18, paddingHorizontal: 20, paddingVertical: 6 },
+  filters: { paddingHorizontal: 20, paddingVertical: 6 },
   fBtn: { color: C.ink3, fontSize: 13.5, fontWeight: '500' },
   fOn: { color: C.ink, fontWeight: '700' },
   tabWrap: { position: 'absolute', left: 0, right: 0, bottom: 0, paddingHorizontal: 16, paddingTop: 8 },

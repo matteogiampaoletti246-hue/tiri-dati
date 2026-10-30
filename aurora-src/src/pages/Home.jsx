@@ -9,7 +9,7 @@ import { carousel, finishCarousel } from '@/lib/carousel';
 import PageShell from '@/components/PageShell';
 import HomeHeader from '@/components/HomeHeader';
 import DayStrip, { dragDays } from '@/components/DayStrip';
-import TextFilter from '@/components/TextFilter';
+import LivePill from '@/components/LivePill';
 import LeagueGroup, { CountryGroup } from '@/components/LeagueGroup';
 import { useEntityScope } from '@/components/past/PastBits';
 import MatchRowSkeleton from '@/components/MatchRowSkeleton';
@@ -369,23 +369,8 @@ export default function Home() {
       </div>
 
       <div className="flex items-center px-5 pb-1 pt-1">
-        <TextFilter
-          options={[
-            { value: 'all', label: 'Tutte' },
-            {
-              value: 'live',
-              label: (
-                <span className="flex items-center gap-1.5">
-                  <span className="live-dot" />
-                  Live
-                </span>
-              ),
-            },
-          ]}
-          value={filter}
-          onChange={setFilter}
-        />
-        <div className="ml-auto" />
+        <LivePill className="flex-1" value={filter} onChange={setFilter} />
+        <div className="w-3" />
         <label className="glass press relative flex h-9 w-9 items-center justify-center rounded-full" aria-label="Calendario">
           <CalendarDays size={16} strokeWidth={1.9} style={{ color: custom ? 'var(--accent)' : 'var(--ink)' }} />
           <input
