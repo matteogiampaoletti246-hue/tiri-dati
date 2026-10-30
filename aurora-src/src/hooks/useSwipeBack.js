@@ -1,7 +1,7 @@
 import { modalOpen } from '@/lib/modal';
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { pageBack, pageDrag, pageReset, canGoBack, BACK_ZONE, backAngleOk } from '@/lib/carousel';
+import { pageBack, pageDrag, pageReset, canGoBack, BACK_ZONE, backAngleOk, backDone } from '@/lib/carousel';
 
 // Swipe-back dal bordo sinistro con animazione di slittamento.
 // Su iPhone eventi touch (i pointer venivano annullati da iOS appena il dito scendeva un poco: lo swipe a volte non partiva);
@@ -39,7 +39,7 @@ export default function useSwipeBack(enabled = true) {
       const v = dx / Math.max(80, Date.now() - s.t);
       // oltre la meta' dello schermo (o un colpo veloce oltre un quarto) si torna indietro; prima, la pagina rientra lentamente
       const w = Math.min(window.innerWidth, 430);
-      if (dx > w * 0.5 || (v > 0.9 && dx > w * 0.25)) pageBack(dx, navigate);
+      if (backDone(dx, w, v)) pageBack(dx, navigate);
       else pageReset(true);
     };
 

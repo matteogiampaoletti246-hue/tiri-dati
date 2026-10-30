@@ -191,10 +191,14 @@ export function installBackSnaps() {
 const EDGE = 26;
 // zona da cui parte il nostro swipe indietro: un po' piu' larga del blocco di iOS, cosi' parte sempre vicino al bordo
 // senza dover essere precisissimi (SwipeTabs e useSwipeBack usano la stessa misura)
-export const BACK_ZONE = 48;
+// dentro l'app nativa (WebView) lo swipe indietro parte da una zona piu' larga e basta un gesto meno marcato
+const isNative = () => typeof window !== 'undefined' && !!window.ReactNativeWebView;
+export const BACK_ZONE = isNative() ? 64 : 48;
+export const backDone = (dx, w, v) => (isNative() ? dx > w * 0.33 || (v > 0.5 && dx > w * 0.15) : dx > w * 0.5 || (v > 0.9 && dx > w * 0.25));
 // partendo dal bordo basta un movimento piu' orizzontale che verticale (angolo largo): lo swipe indietro non si perde
 export const backAngleOk = (dx, dy) => dx > 8 && dx > Math.abs(dy) * 0.75;
 function installEdgeGuard() {
+  if (isNative()) return; // WKWebView non ha lo "indietro" di iOS dal bordo: il bordo resta libero per il nostro swipe
   let tap = null;
   document.addEventListener('touchstart', (e) => {
     tap = null;
@@ -326,13 +330,16 @@ export function pageReset(animated = true) {
 // la pagina mostrata appartiene alla voce di cronologia attuale (data-lk = chiave di react-router, PageShell)
 const isDestination = (sh) => { const st = window.history.state; return !!(sh && st && st.key && sh.dataset && sh.dataset.lk === st.key); };
 export const histIdx = () => { const st = window.history.state; return st && typeof st.idx === 'number' ? st.idx : 0; };
-export const canGoBack = () => histIdx() > 0;
+// nell'app nativa la prima pagina aperta dalla Home torna alla Home (lo gestisce l'app): qui non c'e' nulla dietro
+export const canGoBack = () => histIdx() > 0 && !(isNative() && window.__slDepth === 0);
 
 // Indietro "sicuro": una sola volta per pagina (anche se arrivano piu' richieste: tasto, swipe, timer),
 // mai oltre la prima schermata dell'app (in quel caso si va alla Home).
 export const BACK = { t: 0 }; // ultimo "indietro" voluto dall'app (per riconoscere quello del sistema)
 let LAST = { idx: -1, t: 0 };
 export function goBack(navigate, fromIdx) {
+  // nell'app nativa, dalla prima pagina aperta dalla Home si torna alla Home (lo fa l'app)
+  if (isNative() && window.__slDepth === 0) { try { window.ReactNativeWebView.postMessage('home'); } catch (e) { /* ignora */ } return true; }
   const idx = histIdx();
   if (fromIdx !== undefined && fromIdx !== idx) return false; // nel frattempo la pagina e' gia' cambiata
   if (idx <= 0) { navigate('/', { replace: true }); return true; }

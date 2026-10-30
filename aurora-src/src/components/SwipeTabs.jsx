@@ -2,7 +2,7 @@ import { modalOpen } from '@/lib/modal';
 import { memo, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal, flushSync } from 'react-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { pageBack, pageDrag, pageReset, finishCarousel, canGoBack, BACK_ZONE, backAngleOk } from '@/lib/carousel';
+import { pageBack, pageDrag, pageReset, finishCarousel, canGoBack, BACK_ZONE, backAngleOk, backDone } from '@/lib/carousel';
 
 
 // Scheda vicina gia' montata e ferma: non si ridisegna quando cambia la pagina (si aggiorna solo quando diventa quella attiva).
@@ -220,7 +220,7 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
       const { index: i, n, onChange: oc } = live.current;
       const next = dx < 0 ? i + 1 : i - 1;
       const el = contentRef.current;
-      if (i === 0 && dx > 0 && live.current.back && d.edge && (dx > d.w * 0.5 || (v > 0.9 && dx > d.w * 0.25))) {
+      if (i === 0 && dx > 0 && live.current.back && d.edge && backDone(dx, d.w, v)) {
         busy = true;
         pageBack(Math.max(0, dx), live.current.navigate);
         setTimeout(() => { busy = false; }, 450);

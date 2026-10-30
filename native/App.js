@@ -65,12 +65,23 @@ function groupsOf(rows, filter) {
 }
 
 // ---------- componenti ----------
+// Stemma: se non si scarica riprova (2 volte, con attesa); se FotMob non ce l'ha, sagoma con le iniziali (mai un buco)
+const initialsOf = (n) => String(n || '').replace(/\(.*?\)/g, '').split(/[\s-]+/).filter((w) => /^[\p{L}\p{N}]/u.test(w)).slice(0, 2).map((w) => w[0].toUpperCase()).join('');
+const Crest = memo(({ id, name }) => {
+  const { s } = useT();
+  const [tries, setTries] = useState(0);
+  const [bad, setBad] = useState(false);
+  const fail = useCallback(() => { if (tries < 2) setTimeout(() => setTries((t) => t + 1), 1200 * (tries + 1)); else setBad(true); }, [tries]);
+  if (bad) return <View style={[s.crest, s.crestPh]}><Text style={s.crestTx}>{initialsOf(name)}</Text></View>;
+  return <Image key={tries} source={{ uri: crest(id) + (tries ? `?r=${tries}` : '') }} style={s.crest} contentFit="contain" cachePolicy="memory-disk" transition={0} onError={fail} />;
+});
+
 const Row = memo(({ m, onOpen }) => {
   const { C, s } = useT();
   const live = m[8] === 'l'; const fin = m[8] === 'f'; const sc = /(\d+)\s*-\s*(\d+)/.exec(m[7] || '');
   return (
     <Pressable onPress={() => onOpen(m)} style={({ pressed }) => [s.row, pressed && { opacity: 0.6 }]}>
-      <View style={s.teamL}><Text numberOfLines={1} style={s.tName}>{nm(m[3], m[5])}</Text><Image source={{ uri: crest(m[3]) }} style={s.crest} contentFit="contain" cachePolicy="memory-disk" transition={0} /></View>
+      <View style={s.teamL}><Text numberOfLines={1} style={s.tName}>{nm(m[3], m[5])}</Text><Crest id={m[3]} name={nm(m[3], m[5])} /></View>
       <View style={s.mid}>
         {(live || fin) && sc ? (
           <Text style={[s.score, live && { color: C.live }]}>{sc[1]}<Text style={{ color: C.ink3, fontWeight: '500' }}> – </Text>{sc[2]}</Text>
@@ -78,7 +89,7 @@ const Row = memo(({ m, onOpen }) => {
         {fin ? <Text style={s.kick}>{hhmm(m[2])}</Text> : null}
         {live ? <View style={s.liveRow}><View style={s.liveDot} /><Text style={s.liveT}>{/^\d+(\+\d+)?$/.test(m[10] || '') ? `${m[10]}'` : /^HT$/i.test(m[10] || '') ? 'Int.' : 'LIVE'}</Text></View> : null}
       </View>
-      <View style={s.teamR}><Image source={{ uri: crest(m[4]) }} style={s.crest} contentFit="contain" cachePolicy="memory-disk" transition={0} /><Text numberOfLines={1} style={s.tName}>{nm(m[4], m[6])}</Text></View>
+      <View style={s.teamR}><Crest id={m[4]} name={nm(m[4], m[6])} /><Text numberOfLines={1} style={s.tName}>{nm(m[4], m[6])}</Text></View>
     </Pressable>
   );
 });
@@ -218,7 +229,8 @@ const Pane = ({ idx, x, children }) => {
   return <Animated.View style={[StyleSheet.absoluteFill, st]}>{children}</Animated.View>;
 };
 
-const NO_LAUNCH = "try{sessionStorage.setItem('sl-launched','1')}catch(e){};true;";
+const NO_LAUNCH = "try{sessionStorage.setItem('sl-launched','1')}catch(e){};" + "(function(){var n=0;window.__slDepth=0;var send=function(){window.__slDepth=n;try{window.ReactNativeWebView.postMessage('depth:'+n)}catch(e){}};var P=history.pushState,R=history.replaceState;history.pushState=function(s,t,u){n++;var st=Object.assign({},s||{});st.__sln=n;var r=P.call(this,st,t,u);send();return r;};history.replaceState=function(s,t,u){var st=Object.assign({},s||{});st.__sln=n;return R.call(this,st,t,u);};window.addEventListener('popstate',function(){var st=history.state;if(st&&typeof st.__sln==='number'){n=st.__sln;}else{n=0;}send();if(location.hash==='#/linee-guida'){try{window.ReactNativeWebView.postMessage('home')}catch(e){}}});})();true;";
+const EDGE_W = 60; // zona dello swipe indietro (px dal bordo): larga, cosi' parte anche senza essere precisi
 
 const THEME_JS = "(function(){try{var send=function(){window.ReactNativeWebView.postMessage(document.documentElement.classList.contains('dark')?'dark':'light');};send();new MutationObserver(send).observe(document.documentElement,{attributes:true,attributeFilter:['class']});}catch(e){}})();true;";
 const scoreStr = (sc) => { const x = /(\d+)\s*-\s*(\d+)/.exec(String(sc || '')); return x ? `${x[1]}-${x[2]}` : null; };
@@ -232,6 +244,8 @@ function Screen({ onTheme }) {
   const [cur, setCur] = useState(TODAY_INDEX);
   const [filter, setFilter] = useState('all');
   const [warm, setWarm] = useState(false);
+  const [depth, setDepth] = useState(0); // pagine aperte nella WebView dopo la prima (0 = la prima: lo swipe indietro e' dell'app)
+  const openRef = useRef(false);
   const strip = useRef(null); const pos = useRef({}); const webRef = useRef(null);
   const lastCenter = useRef(0);
   const curRef = useRef(cur); curRef.current = cur;
@@ -338,18 +352,23 @@ function Screen({ onTheme }) {
     return () => { alive = false; clearTimeout(t); sub.remove(); };
   }, [!!data, refresh]);
 
+  const markClosed = useCallback(() => { openRef.current = false; }, []);
   const hashTo = useCallback((h) => { if (webRef.current) webRef.current.injectJavaScript(`location.hash=${JSON.stringify(h)};true;`); }, []);
-  const openRoute = useCallback((route) => { hashTo(`#${route}`); ov.value = withTiming(0, { duration: 260, easing: Easing.out(Easing.cubic) }); }, [hashTo, ov]);
-  const closeWeb = useCallback(() => { ov.value = withTiming(W, { duration: 240, easing: Easing.out(Easing.cubic) }, (done) => { if (done) runOnJS(hashTo)('#/linee-guida'); }); }, [hashTo, ov]);
+  const openRoute = useCallback((route) => { openRef.current = true; setDepth(0); hashTo(`#${route}`); ov.value = withTiming(0, { duration: 260, easing: Easing.out(Easing.cubic) }); }, [hashTo, ov]);
+  const afterClose = useCallback(() => { hashTo('#/linee-guida'); setDepth(0); }, [hashTo]);
+  const closeWeb = useCallback(() => { openRef.current = false; ov.value = withTiming(W, { duration: 240, easing: Easing.out(Easing.cubic) }, (done) => { if (done) runOnJS(afterClose)(); }); }, [afterClose, ov]);
   const openMatch = useCallback((m) => {
-    // competizioni dell'app (top campionati, coppe europee): scheda d'archivio della stagione in corso, la stessa che apre il sito;
-    // competizioni aggiunte (fm-<id>): scheda del feed. Provato sul sito: per Champions/Europa/Conference il percorso del feed non trova la partita.
-    const c = META.comps[m[1]];
+    // sempre la scheda d'archivio della stagione in corso: il percorso del feed (x-) trova la partita solo se il sito ha gia' caricato
+    // quel giorno (provato: 12 partite su 26 dei campionati minori e tutte le coppe europee davano "Partita non trovata").
     const sk = META.cur[String(m[1])];
-    const app = c && !String(c.id).startsWith('fm-');
-    openRoute(app && sk ? `/match/a-${m[1]}-${sk}-${m[0]}` : `/match/x-${m[1]}-${m[0]}`);
+    openRoute(sk ? `/match/a-${m[1]}-${sk}-${m[0]}` : `/match/x-${m[1]}-${m[0]}`);
   }, [openRoute]);
-  const onMsg = useCallback((e) => { const t = e && e.nativeEvent && e.nativeEvent.data; if (t === 'dark' || t === 'light') onTheme(t); }, [onTheme]);
+  const onMsg = useCallback((e) => {
+    const t = e && e.nativeEvent && e.nativeEvent.data;
+    if (t === 'dark' || t === 'light') onTheme(t);
+    else if (typeof t === 'string' && t.startsWith('depth:')) setDepth(Number(t.slice(6)) || 0);
+    else if (t === 'home' && openRef.current) closeWeb(); // il tasto indietro del sito e' tornato alla pagina di partenza: si torna alla Home
+  }, [onTheme, closeWeb]);
   const pick = useCallback((diff) => { setCal(false); setCenter(diff); }, []);
 
   const centre = useCallback((i) => { const p = pos.current[i]; if (p && strip.current) strip.current.scrollTo({ x: Math.max(0, p.x - W / 2 + p.w / 2), animated: true }); }, []);
@@ -374,12 +393,12 @@ function Screen({ onTheme }) {
     }), [x, x0, N]);
 
   // bordo sinistro: scorrimento indietro dalla pagina web
-  const edge = useMemo(() => Gesture.Pan().activeOffsetX([8, 1000]).failOffsetY([-30, 30])
+  const edge = useMemo(() => Gesture.Pan().activeOffsetX([6, 1000]).failOffsetY([-40, 40])
     .onStart(() => { ovStart.value = ov.value; })
     .onUpdate((e) => { ov.value = Math.max(0, ovStart.value + e.translationX); })
     .onEnd((e) => {
-      if (e.translationX > W * 0.3 || e.velocityX > 700) { ov.value = withTiming(W, { duration: 200, easing: Easing.out(Easing.cubic) }, (done) => { if (done) runOnJS(hashTo)('#/linee-guida'); }); } else ov.value = withTiming(0, { duration: 180 });
-    }), [ov, ovStart, hashTo]);
+      if (e.translationX > W * 0.25 || e.velocityX > 500) { runOnJS(markClosed)(); ov.value = withTiming(W, { duration: 200, easing: Easing.out(Easing.cubic) }, (done) => { if (done) runOnJS(afterClose)(); }); } else ov.value = withTiming(0, { duration: 180 });
+    }), [ov, ovStart, afterClose, markClosed]);
   const ovStyle = useAnimatedStyle(() => ({ transform: [{ translateX: ov.value }] }));
 
   if (!data) return <View style={[s.root, { alignItems: 'center', justifyContent: 'center' }]}><ActivityIndicator color={C.accent} /></View>;
@@ -413,7 +432,7 @@ function Screen({ onTheme }) {
           <Pressable onPress={closeWeb} style={s.back}><Ionicons name="chevron-back" size={20} color={C.accent} /><Text style={{ color: C.accent, fontSize: 16 }}>Home</Text></Pressable>
           {warm ? <WebView ref={webRef} source={{ uri: `${SITE}aurora/#/linee-guida` }} style={{ flex: 1, backgroundColor: C.bg }} injectedJavaScriptBeforeContentLoaded={NO_LAUNCH} injectedJavaScript={THEME_JS} onMessage={onMsg} decelerationRate={0.998} contentInsetAdjustmentBehavior="never" automaticallyAdjustContentInsets={false} directionalLockEnabled={false} allowsLinkPreview={false} /> : null}
         </View>
-        <GestureDetector gesture={edge}><View style={s.edge} /></GestureDetector>
+        <GestureDetector gesture={edge}><View pointerEvents={depth > 0 ? 'none' : 'auto'} style={[s.edge, { width: EDGE_W, top: insets.top + 98 }]} /></GestureDetector>
       </Animated.View>
     </View>
   );
@@ -456,6 +475,8 @@ const makeStyles = (C) => StyleSheet.create({
   teamR: { flex: 1, flexDirection: 'row', alignItems: 'center', gap: 10 },
   tName: { color: C.ink, fontSize: 14, fontWeight: '600', flexShrink: 1 },
   crest: { width: 24, height: 24 },
+  crestPh: { borderRadius: 12, backgroundColor: C.chip, alignItems: 'center', justifyContent: 'center' },
+  crestTx: { color: C.ink3, fontSize: 9, fontWeight: '800' },
   mid: { width: 64, alignItems: 'center' },
   score: { color: C.ink, fontSize: 15.5, fontWeight: '800' },
   time: { color: C.ink3, fontSize: 13.5, fontWeight: '600' },
