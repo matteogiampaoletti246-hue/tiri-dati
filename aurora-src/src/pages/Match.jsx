@@ -22,6 +22,7 @@ import { matchById, viewMatch } from '@/data/matches';
 import { prepareMatch, isReady } from '@/data/prepare';
 import { teamById } from '@/data/teams';
 import { leagueById, leagueTint } from '@/data/leagues';
+import { EXTRA_KEYS } from '@/data/calcData';
 
 const PRE_TABS = [
   { key: 'overview', label: 'Panoramica' },
@@ -36,6 +37,7 @@ const PRE_TABS_X = [
   { key: 'overview', label: 'Panoramica' },
   { key: 'stats', label: 'Statistiche' },
   { key: 'lineups', label: 'Formazioni' },
+  { key: 'rel', label: 'Affidabilità' }, // solo nei campionati con Affidabilita' (EXTRA_KEYS), se c'e' almeno un giocatore
   { key: 'standings', label: 'Classifica' },
 ];
 
@@ -130,7 +132,7 @@ export default function Match() {
   const has = {
     stats: hasMatchStats(raw, view, home, away, pre),
     lineups: hasLineups(view),
-    rel: hasReliability(raw),
+    rel: (!raw.archive || EXTRA_KEYS.includes(raw.leagueId)) && hasReliability(raw),
     standings: cup ? !!((peekBracket(raw.archive.fm, raw.archive.sk) || {}).rounds || []).length : !raw.archive || !!(raw.season && (raw.season.table || (raw.season.groups && raw.season.groups.length))),
   };
   const PANEL = {

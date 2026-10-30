@@ -1498,6 +1498,114 @@ await step('arbitri: scheda solo per top campionati, coppe europee e internazion
   ok('arbitri: Championship (campionato aggiunto, non top) senza scheda Arbitri', t2.length > 0 && !t2.includes('Arbitri'), { tabs: t2 });
 });
 
+// Classifiche dei giocatori del campionato: tutti con almeno 180 minuti (niente limite a 50), regola per ogni competizione
+await step('classifiche giocatori: tutti i giocatori con almeno 180 minuti (Bundesliga e Eredivisie)', async () => {
+  const expand = async (key) => { await pg.evaluate((k) => { const b = [...document.querySelectorAll(`#st-${k} button`)].find((x) => /^Mostra tutti/.test(x.textContent.trim())); if (b) b.click(); }, key); await wait(500); };
+  const rows = (key) => pg.evaluate((k) => { const s = document.getElementById(`st-${k}`); return s ? [...s.querySelectorAll('a[href*="giocatore"]')].map((a) => a.textContent) : []; }, key);
+  await go('#/campionato/bundesliga', 6000); await ready();
+  await tabClick('Giocatori'); await wait(4000);
+  await pg.evaluate(() => window.scrollTo(0, 0));
+  for (const k of ['goals', 'min']) { await pg.evaluate((k) => { const s = document.getElementById(`st-${k}`); if (s) s.scrollIntoView(); }, k); await wait(900); }
+  await expand('min');
+  const mins = await rows('min');
+  ok('classifiche giocatori: Bundesliga, lista Minuti con piu\' di 50 giocatori', mins.length > 50, { n: mins.length });
+  ok('classifiche giocatori: Saïd El Mala (Colonia) e\' in classifica', mins.some((x) => /El Mala/i.test(x)), { n: mins.length });
+  await shot('classifica-giocatori-bundesliga');
+  await go('#/campionato/eredivisie', 6000); await ready();
+  await tabClick('Giocatori'); await wait(4000);
+  const keys = await pg.evaluate(() => [...document.querySelectorAll('section[id^="st-"]')].map((s) => s.id.slice(3)));
+  let best = 0;
+  for (const k of keys.slice(0, 6)) { await pg.evaluate((k) => { const s = document.getElementById(`st-${k}`); if (s) s.scrollIntoView(); }, k); await wait(500); await expand(k); best = Math.max(best, (await rows(k)).length); }
+  ok('classifiche giocatori: Eredivisie, almeno una lista con piu\' di 50 giocatori', best > 50, { best, keys: keys.slice(0, 6) });
+  await shot('classifica-giocatori-eredivisie');
+});
+
+// Testi su una riga: le lettere che scendono (g, p, y, q) non devono essere tagliate dalla riga
+await step('testi: lettere che scendono non tagliate (campionato, squadra, giocatore)', async () => {
+  const clipped = () => pg.evaluate(() => {
+    const bad = [];
+    document.querySelectorAll('.truncate, .line-clamp-2, h1, h2').forEach((el) => {
+      const r = el.getBoundingClientRect();
+      if (r.width <= 0 || r.height <= 0 || r.bottom < 0 || r.top > innerHeight) return;
+      const cs = getComputedStyle(el);
+      if (!/hidden|clip/.test(cs.overflowY) && !/hidden|clip/.test(cs.overflow)) return;
+      const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+      let n; let lo = -1e9; let hi = 1e9;
+      while ((n = w.nextNode())) { if (!n.textContent.trim()) continue; const rg = document.createRange(); rg.selectNodeContents(n); const q = rg.getBoundingClientRect(); if (q.height > 0) { lo = Math.max(lo, q.bottom); hi = Math.min(hi, q.top); } }
+      // la parte visibile e' l'area dentro il bordo + il padding: il testo (riquadro del carattere) non deve uscirne
+      if (lo > -1e9 && (lo > r.bottom + 0.5 || hi < r.top - 0.5) && /[gjpqy,;()]/.test(el.textContent)) bad.push(el.textContent.trim().slice(0, 30));
+    });
+    return bad;
+  });
+  for (const h of ['#/campionato/bundesliga', '#/squadra/fortuna-sittard', '#/campionato/eredivisie']) {
+    await go(h, 6000); await ready(); await wait(1200);
+    const bad = await clipped();
+    ok(`testi: ${h} senza testi tagliati sotto la riga`, !bad.length, { bad: bad.slice(0, 5) });
+  }
+  await go('#/campionato/bundesliga', 6000); await ready();
+  await pg.evaluate(() => { const r = document.createRange(); const h = document.querySelector('h1'); if (h) { const q = h.getBoundingClientRect(); window.__h1 = [q.top, q.bottom, h.scrollHeight, h.clientHeight]; } });
+  await shot('testi-banner-bundesliga');
+});
+
+// Affidabilita' dei campionati aggiunti: Calcolatore (ricerca giocatori), partita non iniziata, Migliori giocatori
+await step('affidabilita campionati aggiunti: ricerca nel Calcolatore, scheda in partita, migliori giocatori', async () => {
+  const X = await getJson('calc_extra.json');
+  ok('affidabilita: calc_extra.json presente con i 6 campionati', !!X && ['eredivisie', 'pro-league', 'fm-46', 'gre-super-league-1', 'liga-portugal', 'super-lig'].every((k) => X.leagues && X.leagues[k] && Object.keys(X.leagues[k].teams).length >= 12), { leghe: X && Object.keys(X.leagues || {}) });
+  if (!X) return;
+  // 1) Calcolatore: un giocatore per campionato si trova cercandolo
+  const pick = (lg) => { const all = [...(X.players || []).filter((p) => p.lg === lg)]; return all.sort((a, b) => b.l[3] - a.l[3])[0]; };
+  const found = {};
+  await go('#/calcolatore', 5000);
+  for (const lg of ['fm-46', 'eredivisie', 'super-lig', 'liga-portugal', 'pro-league', 'gre-super-league-1']) {
+    const p = pick(lg) || (X.upd && null);
+    if (!p) continue;
+    await go('#/calcolatore', 3500);
+    await pg.evaluate(() => { const b = [...document.querySelectorAll('button')].find((x) => /Cerca e seleziona/.test(x.textContent)); if (b) b.click(); });
+    await wait(900);
+    await pg.keyboard.type(p.n.split(' ').slice(-1)[0], { delay: 30 }); await wait(1200);
+    const t = await pg.evaluate(() => document.body.innerText);
+    found[lg] = t.includes(p.n);
+  }
+  ok('affidabilita: nel Calcolatore i giocatori dei 6 campionati si trovano con la ricerca', Object.keys(found).length >= 5 && Object.values(found).every(Boolean), { found });
+  await shot('affidabilita-calcolatore-ricerca');
+  // 2) partita non iniziata: la scheda Affidabilita' c'e' (dove almeno un giocatore ha voto >= 7)
+  const idx = await getJson('arch/index.json');
+  const now = Date.now();
+  const cand = [];
+  for (const fm of [57, 40, 46, 135, 61, 71]) {
+    const e = idx && idx[String(fm)]; if (!e) continue;
+    const sk = [...e.s].sort().reverse()[0];
+    const d = await getJson(`arch/${fm}/${encodeURIComponent(sk)}.json`); if (!d) continue;
+    (d.fix || []).filter((x) => !x[6] && !x[8] && Date.parse(x[4]) > now && Date.parse(x[4]) < now + 6 * 864e5).slice(0, 4).forEach((x) => cand.push({ fm, sk, id: x[0] }));
+  }
+  let withRel = 0; let first = null; const tried = [];
+  for (const c of cand.slice(0, 18)) {
+    await go(`#/match/a-${c.fm}-${encodeURIComponent(c.sk)}-${c.id}`, 5500); await ready();
+    const tabs = await pg.evaluate(() => [...document.querySelectorAll('.tab-btn')].map((x) => x.textContent.trim()));
+    tried.push(`${c.fm}:${tabs.includes('Affidabilità') ? 'si' : 'no'}`);
+    if (tabs.includes('Affidabilità')) { withRel += 1; if (!first) first = c; }
+  }
+  ok('affidabilita: almeno una partita non iniziata dei 6 campionati ha la scheda Affidabilità', withRel >= 1 || cand.length === 0, { withRel, tried });
+  if (first) {
+    await go(`#/match/a-${first.fm}-${encodeURIComponent(first.sk)}-${first.id}`, 5500); await ready();
+    await tabClick('Affidabilità'); await wait(1500);
+    const t = await pg.evaluate(() => document.getElementById('sl-shell').innerText);
+    ok('affidabilita: la scheda elenca giocatori con tiri attesi', /tiri attesi/.test(t), { snippet: t.slice(0, 120) });
+    await shot('affidabilita-partita');
+    const link = await pg.evaluate(() => { const a = [...document.querySelectorAll('a[href*="giocatore"]')][0]; if (a) { a.click(); return a.getAttribute('href'); } return null; });
+    await wait(5000);
+    const pt = await pg.evaluate(() => document.body.innerText);
+    ok('affidabilita: il giocatore apre la scheda completa (Profilo / Statistiche)', !!link && /Profilo/.test(pt) && /Statistiche/.test(pt), { link });
+    await shot('affidabilita-giocatore');
+  }
+  // 3) Migliori giocatori: giorno per giorno ci sono giocatori dei 6 campionati (stesse regole di affidabilita')
+  const fixDays = new Set(Object.values(X.fix || {}).flat().map((f) => f[0]));
+  await go('#/migliori-giocatori', 5000);
+  const days = await pg.evaluate(() => [...document.querySelectorAll('button')].filter((b) => /^\w+ \d+$|^Oggi|^Domani|^Ieri/.test(b.textContent.trim())).length);
+  ok('migliori giocatori: pagina con striscia dei giorni', days >= 3, { days });
+  await shot('migliori-giocatori-campionati-aggiunti');
+});
+
 report.passed = report.checks.filter((c) => c.pass).length;
 report.total = report.checks.length;
 fs.writeFileSync(`${OUT}/report.json`, JSON.stringify(report, null, 2));

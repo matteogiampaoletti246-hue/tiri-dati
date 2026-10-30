@@ -126,6 +126,7 @@ export const groupOf = (k) => (GROUPS.find(([, re]) => re.test(k)) || ['Altro'])
 export const ORDER = ['Attacco', 'Rendimento', 'Passaggi', 'Difesa', 'Disciplina', 'Altro'];
 
 // Classifiche statistiche: stesso componente delle statistiche del campionato attuale
+export const MIN_MIN = 180;
 const NO90 = /rating|mins_played|percentage|^_|per_90|clean_sheet|matches|appear/i;
 export function statSections(stats, kind, names, col, fm, sk, mode = 'tot', onlyTeam = null) {
   const lists = stats && stats[kind];
@@ -136,6 +137,8 @@ export function statSections(stats, kind, names, col, fm, sk, mode = 'tot', only
   Object.keys(lists).forEach((k) => {
     let list = lists[k];
     if (list && onlyTeam) list = list.filter((r) => String(r[2]) === String(onlyTeam));
+    // classifiche del campionato: tutti i giocatori con almeno 180 minuti in stagione (regola fissa, ogni competizione)
+    if (list && isP && !onlyTeam) list = list.filter((r) => Number(r[4]) >= MIN_MIN);
     if (!list || !list.length || k.startsWith('_')) return;
     let title = SEASON_STAT_IT[k] || prettyKey(k);
     let kk = k;
@@ -144,7 +147,7 @@ export function statSections(stats, kind, names, col, fm, sk, mode = 'tot', only
       if (p90) {
         if (isRate) { /* gia' ogni 90' */ } else if (NO90.test(k)) return;
         else {
-          list = list.filter((r) => r[4] >= (onlyTeam ? 180 : 450) && r[3] != null)
+          list = list.filter((r) => r[4] >= MIN_MIN && r[3] != null)
             .map((r) => [r[0], r[1], r[2], (Number(r[3]) * 90) / r[4], r[4], r[5], r[6]])
             .sort((x, y) => y[3] - x[3]);
           if (!list.length) return;
@@ -157,7 +160,7 @@ export function statSections(stats, kind, names, col, fm, sk, mode = 'tot', only
       id: kk,
       group: groupOf(k),
       title,
-      rows: list.slice(0, 50).map((r, i) => ({
+      rows: list.map((r, i) => ({
         id: `${r[0]}-${i}`,
         to: isP ? `/storico/${fm}/${sk}/giocatore/${r[0]}` : `/storico/${fm}/${sk}/squadra/${r[2]}`,
         left: isP ? <PlayerFace id={r[0]} name={r[1]} size={30} /> : <TeamLogo id={r[2]} name={r[1]} size={24} />,

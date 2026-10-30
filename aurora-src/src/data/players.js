@@ -82,19 +82,21 @@ export function buildPlayers() {
     const ex = EX[`${norm(name)}|${slug(teamName)}`];
     const rec = recent[`${name}|${teamName}`] || [];
     const lg = g ? g.l : [0, 0, 0, 0];
-    const cup = g ? g.c : [0, 0, 0, 0];
+    const cup = (g && g.c) || [0, 0, 0, 0];
     const rows = g ? g.r || [] : [];
 
     const p = {
       id: g ? g.i : s[ix.id],
       teamId: team.id,
       teamName,
-      leagueId: s ? s[ix.lg] : team.leagueId,
+      leagueId: s ? s[ix.lg] : (g && g.lg) || team.leagueId,
       name,
       initials: initialsOf(name),
       number: null,
       position: s ? POS[s[ix.pos]] || null : null,
-      photo: photoOf(g ? g.i : s[ix.id]),
+      photo: g && g.fm ? `https://images.fotmob.com/image_resources/playerimages/${g.fm}.png` : photoOf(g ? g.i : s[ix.id]),
+      // giocatore dei campionati aggiunti (calc_extra.py): solo tiri e minuti per l'Affidabilita'; la scheda completa si costruisce dall'archivio
+      lite: !!(g && g.fm),
       hasStats: !!s,
       rating: ex && ex[exIx.rat] ? r2(ex[exIx.rat]) : null,
       appearances: s ? s[ix.g] : lg[0] + cup[0],
@@ -127,8 +129,10 @@ export function buildPlayers() {
     p.ratings5 = p.recent.slice(0, 5).map((x) => x.rating).filter((v) => v !== null && v !== undefined);
     PLAYERS.push(p);
     BY_ID[p.id] = p;
-    BY_KEY[`${norm(name)}|${team.id}`] = p;
-    (BY_TEAM[team.id] = BY_TEAM[team.id] || []).push(p);
+    if (!p.lite) {
+      BY_KEY[`${norm(name)}|${team.id}`] = p;
+      (BY_TEAM[team.id] = BY_TEAM[team.id] || []).push(p);
+    }
     seen.add(p.id);
   };
 

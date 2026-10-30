@@ -22,6 +22,7 @@ const FILES = {
   stats: 'stats.json',
   statsEx: 'stats_ex.json',
   giocatori: 'giocatori.json',
+  calcExtra: 'calc_extra.json',
   arbitri: 'arbitri.json',
   stadi: 'stadi.json',
   angoli: 'angoli.json',
@@ -34,12 +35,32 @@ const FILES = {
   colors: 'arch/colors.json',
 };
 
+// Campionati aggiunti con Affidabilita' (calc_extra.py, dall'archivio FotMob): medie di TUTTE le squadre al posto di quelle
+// parziali di data.json, statistiche complete dei giocatori che giocatori.json ha solo in parte (upd, per id), giocatori e
+// partite che mancano. Stessa forma dei dati dei top campionati: il resto dell'app non cambia.
+function mergeCalcExtra() {
+  const X = RAW.calcExtra;
+  if (!X) return;
+  if (!RAW.data) RAW.data = { leagues: {} };
+  if (!RAW.data.leagues) RAW.data.leagues = {};
+  Object.entries(X.leagues || {}).forEach(([k, L]) => { RAW.data.leagues[k] = { ...(RAW.data.leagues[k] || {}), ...L }; });
+  if (!RAW.giocatori) RAW.giocatori = { players: [], fix: {} };
+  const G = RAW.giocatori;
+  const byId = new Map();
+  (G.players || []).forEach((p) => byId.set(p.i, p));
+  (X.upd || []).forEach((u) => { const p = byId.get(u.i); if (p) { p.l = u.l; p.r = u.r; p.h = u.h; } });
+  G.players = (G.players || []).concat(X.players || []);
+  G.fix = G.fix || {};
+  Object.entries(X.fix || {}).forEach(([t, lst]) => { if (!G.fix[t]) G.fix[t] = lst; });
+}
+
 export async function loadRaw() {
   await Promise.all(
     Object.entries(FILES).map(async ([key, file]) => {
       RAW[key] = await get(file);
     }),
   );
+  mergeCalcExtra();
   return RAW;
 }
 

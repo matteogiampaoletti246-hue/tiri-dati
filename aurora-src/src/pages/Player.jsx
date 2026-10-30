@@ -28,12 +28,15 @@ const TABS = [
   { key: 'carriera', label: 'Carriera' },
 ];
 
+// giocatore non ancora costruito dall'archivio (assente, o solo con i dati per l'Affidabilita')
+const needArchive = (id) => { const p = playerById(id); return !p || !!p.lite; };
+
 // Scheda unica: i giocatori fuori dall'elenco attuale (ritirati, stagioni passate) vengono costruiti dall'archivio e usano le stesse schede
 export default function Player() {
   const { id } = useParams();
   const arc = parseArchiveId(id);
-  const { data, loading } = useAsync(() => (arc && !playerById(id) ? makeArchivePlayer(arc.fm, arc.sk, arc.pid) : Promise.resolve(null)), [id]);
-  if (arc && !playerById(id)) {
+  const { data, loading } = useAsync(() => (arc && needArchive(id) ? makeArchivePlayer(arc.fm, arc.sk, arc.pid) : Promise.resolve(null)), [id]);
+  if (arc && needArchive(id)) {
     return (
       <PageShell bar={false}>
         <TopBar title="Giocatore" />

@@ -31,7 +31,8 @@ const fmt = (v) => (Number.isInteger(v) ? String(v) : comma(v, 2));
 export default function LeaguePlayersPanel({ leagueId, teamId }) {
   const [mode, setMode] = useState('tot');
   const ids = new Set(teamsOf(leagueId).map((t) => t.id));
-  const pool = PLAYERS.filter((p) => (teamId ? p.teamId === teamId : ids.has(p.teamId)) && p.hasStats);
+  // classifiche del campionato: tutti i giocatori con almeno 180 minuti (regola fissa); nella squadra tutti quelli che hanno giocato
+  const pool = PLAYERS.filter((p) => (teamId ? p.teamId === teamId : ids.has(p.teamId) && p.minutes >= 180) && p.hasStats);
   const lgPool = PLAYERS.filter((p) => ids.has(p.teamId) && p.hasStats && p.minutes >= 270);
   // colore: valore del giocatore rispetto alla media dei giocatori dello STESSO RUOLO nel campionato
   const avgCache = {};
@@ -52,7 +53,7 @@ export default function LeaguePlayersPanel({ leagueId, teamId }) {
   METRICS.forEach((m) => {
     if (mode === 'p90' && !m.p90) return;
     const rows = pool
-      .filter((p) => (mode === 'p90' ? p.minutes >= (teamId ? 180 : 450) : true))
+      .filter((p) => (mode === 'p90' ? p.minutes >= 180 : true))
       .map((p) => {
         const raw = m.f(p);
         const v = raw == null ? null : mode === 'p90' ? (raw * 90) / p.minutes : raw;
@@ -60,7 +61,6 @@ export default function LeaguePlayersPanel({ leagueId, teamId }) {
       })
       .filter((x) => x.v !== null && x.v > 0)
       .sort((a, b) => b.v - a.v)
-      .slice(0, 50)
       .map(({ p, v }) => ({
         id: p.id,
         to: `/giocatore/${p.id}`,
