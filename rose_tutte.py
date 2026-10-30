@@ -388,7 +388,8 @@ def external_fill(data, tidx, country_of, is_current, stato):
         for tid, got in ex.map(one, todo):
             if got == "tempo":
                 continue
-            ext[tid] = dict(got or {}, d=today.isoformat())
+            # nulla di nuovo (anche per un errore di rete): resta la rosa esterna che c'era
+            ext[tid] = dict(got or ext.get(tid) or {}, d=today.isoformat())
             found += 1 if got else 0
     print("fonti esterne: trovate", found, "su", len(todo), int(time.time() - t1), "s", flush=True)
     # unione: per nome ai giocatori gia' noti (il ruolo della rosa esterna vale per chi non ne ha); gli altri si aggiungono
