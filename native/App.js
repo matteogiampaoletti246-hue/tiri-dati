@@ -120,6 +120,7 @@ const useOpen = (key, init) => {
   const toggle = () => { LayoutAnimation.configureNext(LayoutAnimation.create(260, 'easeInEaseOut', 'opacity')); setOpen((o) => { OPEN_KEY[key] = !o; return !o; }); };
   return [open, toggle];
 };
+const leagueRoute = (c, fm) => `/campionato/${c.id || `fm-${fm}`}`;
 const LeagueHead = ({ c, size = 22, small }) => {
   const { C, s } = useT();
   const uri = c.logoFm === EL_FM || /\/leaguelogo\/73\.png/.test(c.logo || '') ? `${SITE}aurora/${C.dark ? 'el-night' : 'el-light'}.png` : (C.dark ? darkLogo(c.logo) : c.logo);
@@ -131,22 +132,22 @@ const LeagueHead = ({ c, size = 22, small }) => {
   );
 };
 
-const LeagueGroup = memo(({ iso, g, forceOpen, onOpen }) => {
+const LeagueGroup = memo(({ iso, g, forceOpen, onOpen, onLeague }) => {
   const { s } = useT();
   const [open, toggle] = useOpen(`${iso}|${g.fm}`, g.c.open);
   const isOpen = forceOpen || open;
   return (
     <Card tint={g.c.tint}>
-      <Pressable onPress={toggle} style={s.headRow}>
-        <View style={{ flex: 1 }}><LeagueHead c={g.c} /></View>
-        <Text style={s.cnt}>{g.matches.length}</Text><Chev open={isOpen} />
-      </Pressable>
+      <View style={s.headRow}>
+        <Pressable onPress={() => onLeague(leagueRoute(g.c, g.fm))} style={({ pressed }) => [{ flex: 1 }, pressed && { opacity: 0.6 }]}><LeagueHead c={g.c} /></Pressable>
+        <Pressable onPress={toggle} hitSlop={{ top: 14, bottom: 14, left: 8, right: 14 }} style={{ flexDirection: 'row', alignItems: 'center' }}><Text style={s.cnt}>{g.matches.length}</Text><Chev open={isOpen} /></Pressable>
+      </View>
       {isOpen ? <View style={s.body}>{g.matches.map((m, i) => <View key={m[0]} style={i ? s.sep : null}><Row m={m} onOpen={onOpen} /></View>)}</View> : null}
     </Card>
   );
 });
 
-const CountryGroup = memo(({ iso, p, forceOpen, onOpen }) => {
+const CountryGroup = memo(({ iso, p, forceOpen, onOpen, onLeague }) => {
   const { C, s } = useT();
   const [open, toggle] = useOpen(`${iso}|paese:${p.k}`, false);
   const isOpen = forceOpen || open;
@@ -160,7 +161,7 @@ const CountryGroup = memo(({ iso, p, forceOpen, onOpen }) => {
       </Pressable>
       {isOpen ? p.comps.map((x) => (
         <View key={x.fm} style={s.inner}>
-          <View style={s.hairTop}><LeagueHead c={x.c} size={20} small /></View>
+          <Pressable onPress={() => onLeague(leagueRoute(x.c, x.fm))} style={({ pressed }) => [s.hairTop, pressed && { opacity: 0.6 }]}><LeagueHead c={x.c} size={20} small /></Pressable>
           {x.matches.map((m) => <View key={m[0]} style={s.sep}><Row m={m} onOpen={onOpen} /></View>)}
         </View>
       )) : null}
@@ -168,10 +169,10 @@ const CountryGroup = memo(({ iso, p, forceOpen, onOpen }) => {
   );
 });
 
-const Day = memo(({ iso, rows, filter, onOpen }) => {
+const Day = memo(({ iso, rows, filter, onOpen, onLeague }) => {
   const { s } = useT();
   const items = useMemo(() => groupsOf(rows, filter), [rows, filter]);
-  const render = useCallback(({ item }) => (item.g ? <LeagueGroup iso={iso} g={item.g} forceOpen={filter === 'live'} onOpen={onOpen} /> : <CountryGroup iso={iso} p={item.p} forceOpen={filter === 'live'} onOpen={onOpen} />), [iso, filter, onOpen]);
+  const render = useCallback(({ item }) => (item.g ? <LeagueGroup iso={iso} g={item.g} forceOpen={filter === 'live'} onOpen={onOpen} onLeague={onLeague} /> : <CountryGroup iso={iso} p={item.p} forceOpen={filter === 'live'} onOpen={onOpen} onLeague={onLeague} />), [iso, filter, onOpen, onLeague]);
   if (!items.length) return <View style={{ width: W }}><Text style={s.empty}>Nessuna partita</Text></View>;
   return (
     <View style={{ width: W }}>
@@ -435,7 +436,7 @@ function Screen({ onTheme }) {
       </View>
       <GestureDetector gesture={pan}>
         <View style={{ flex: 1, overflow: 'hidden' }}>
-          {shown.map((i) => <Pane key={i} idx={i} x={x}><Day iso={keys[i]} rows={data[i]} filter={filter} onOpen={openMatch} /></Pane>)}
+          {shown.map((i) => <Pane key={i} idx={i} x={x}><Day iso={keys[i]} rows={data[i]} filter={filter} onOpen={openMatch} onLeague={openRoute} /></Pane>)}
         </View>
       </GestureDetector>
       <Calendar visible={cal} selected={dates[cur] || new Date()} onClose={() => setCal(false)} onPick={pick} />
