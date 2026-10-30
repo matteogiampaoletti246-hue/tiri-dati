@@ -66,10 +66,16 @@ function summary(j) {
 }
 
 export default {
-  async fetch(req) {
+  async fetch(req, env) {
     if (req.method === "OPTIONS") return new Response(null, { headers: { ...cors(req), "Access-Control-Allow-Methods": "GET", "Access-Control-Max-Age": "86400" } });
     const u = new URL(req.url);
     try {
+      if (u.pathname === "/r") { // rose da fonti esterne (KV "rose", legato come ROSE): ?k=ls:<id squadra LiveScore> oppure ?k=idx:<paese>/<campionato>
+        const k = u.searchParams.get("k") || "";
+        if (!env || !env.ROSE || !/^(ls|idx):[a-z0-9\/-]{1,60}$/.test(k)) return new Response("{}", { status: 400, headers: cors(req) });
+        const v = await env.ROSE.get(k);
+        return new Response(v || "null", { status: v ? 200 : 404, headers: cors(req, { "Cache-Control": "public, max-age=300" }) });
+      }
       if (u.pathname === "/s") {
         const all = await Promise.all(LEGHE.map((lg) => espn("/" + lg + "/scoreboard").then((j) => scoreboard(j, lg)).catch(() => [])));
         return new Response(JSON.stringify({ t: Date.now(), ev: all.flat() }), { headers: cors(req) });

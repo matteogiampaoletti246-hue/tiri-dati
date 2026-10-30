@@ -1,0 +1,25 @@
+name: Rose da LiveScore (Cloudflare KV)
+# Scarica le rose dei campionati dove FotMob e' carente e le mette nello spazio KV "rose" di Cloudflare (non nel repository, che e' pubblico).
+on:
+  workflow_dispatch:
+    inputs:
+      paese:
+        description: 'paese (come nell indirizzo LiveScore)'
+        default: algeria
+      campionato:
+        description: 'campionato'
+        default: ligue-1
+permissions:
+  contents: read
+jobs:
+  rose:
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CF_ACCOUNT: 344b4f68fd540269085abbf16851253c
+      CF_NAMESPACE: 02759a8a953d423dbd19c58fb8241c34
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then echo "CLOUDFLARE_API_TOKEN mancante"; exit 1; fi
+          python3 tools/rose_livescore.py "${{ inputs.paese }}" "${{ inputs.campionato }}"
