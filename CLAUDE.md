@@ -215,3 +215,11 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 
 ## Posizioni nelle statistiche (mai "0°")
 - Posizione = 1 + squadre con valore migliore (pari merito = stessa posizione); squadra senza quel dato = riga omessa (`PreMatchStats`, `TeamStatsPanel`). Prova: "statistiche pre-partita: nessuna posizione 0°".
+
+## App nativa (Expo / React Native, cartella `native/`)
+- La Home e' nativa (`native/App.js`), tutto il resto e' il sito dentro una WebView gia' caricata. Si pubblica da sola a ogni push su `main` che tocca `native/**` (`native_expo.yml`, EAS Update); il progetto Expo sta nell'organizzazione `lozellatos-team`. Il link per Expo Go e' in `native-link/url.txt` (cambia a ogni pubblicazione, lo riscrive il workflow).
+- Regole della Home: stesse del sito (finestre per paese, colori, ordine) da `meta.json` generato da `native/tools/gen_meta.mjs` (include i nomi squadra come nel sito, `names`). Nomi, stato e minuto live: `/f` del worker per il giorno, `/fx` per le partite iniziate da meno di 5 ore, `giorni/<data>.json` per le piu' vecchie; mai "live" per una partita finita.
+- Fluidita' prima di tutto: swipe tra giorni su Reanimated/gesture-handler (nessun lavoro JS durante il gesto), stemmi con `expo-image` in cache, formattatori Intl creati una volta sola, liste a pezzi piccoli. Ogni modifica va giudicata sul telefono dall'utente (Expo Go).
+- Tema chiaro/scuro: segue la scelta fatta nel sito (la WebView la comunica e l'app la ricorda). Nuovi colori sempre in `DARK`/`LIGHT`, mai valori fissi nei componenti.
+- Partite: top campionati e coppe europee si aprono con `/match/a-<fm>-<stagione>-<id>`, i campionati aggiunti (`fm-<id>`) con `/match/x-<fm>-<id>`.
+- Calendario: i giorni senza file in `giorni/` (oltre ~10 giorni) restano vuoti; il feed e' la stessa fonte dei campionati aggiunti del sito.

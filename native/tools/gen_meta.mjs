@@ -52,5 +52,26 @@ if (!byFm[10216]) byFm[10216] = { id: 'conference-league', name: 'Conference Lea
 // stagione in corso di ogni competizione (per aprire la partita dall'archivio)
 const cur = {};
 Object.entries(idx).forEach(([k, e]) => { if (e && e.s && e.s.length) cur[k] = [...e.s].sort((a, b) => String(b).localeCompare(String(a)))[0]; });
-fs.writeFileSync(OUT, JSON.stringify({ comps: byFm, cur }));
+// nomi delle squadre come nel sito: id FotMob -> nome dell'app (solo dove differisce da quello di FotMob)
+fs.writeFileSync(path.join(tmp, 'lru.js'), 'export const lruGet = (m, k) => m.get(k); export const lruSet = (m, k, v) => { m.set(k, v); };');
+fs.writeFileSync(path.join(tmp, 'teamMatch.js'), fs.readFileSync(path.join(SRC, 'data/teamMatch.js'), 'utf8').replace("'@/lib/lru'", "'./lru.js'"));
+const { findAppTeam } = await import(pathToFileURL(path.join(tmp, 'teamMatch.js')));
+const names = {};
+try {
+  const D = JSON.parse(fs.readFileSync(path.resolve(SRC, '../../data.json'), 'utf8')).leagues || {};
+  Object.entries(byFm).forEach(([fm, c]) => {
+    const L = D[c.id];
+    const sk = cur[fm];
+    if (!L || !sk) return;
+    const web = Object.keys(L.logos || L.teams || {}).map((name) => ({ name }));
+    let arch;
+    try { arch = JSON.parse(fs.readFileSync(path.resolve(SRC, `../../arch/${fm}/${sk}.json`), 'utf8')).teams || {}; } catch (e) { return; }
+    Object.entries(arch).forEach(([id, fmName]) => {
+      const hit = findAppTeam(fmName, web, () => true);
+      if (hit && hit.name !== fmName) names[id] = hit.name;
+    });
+  });
+} catch (e) { console.log('nomi: saltati', e.message); }
+console.log('nomi squadra diversi da FotMob:', Object.keys(names).length);
+fs.writeFileSync(OUT, JSON.stringify({ comps: byFm, cur, names }));
 console.log('competizioni', Object.keys(byFm).length, 'bytes', fs.statSync(OUT).size);

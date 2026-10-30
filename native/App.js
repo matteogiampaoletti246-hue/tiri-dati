@@ -1,7 +1,7 @@
 // ScalperLab nativa - Home (React Native). Stesse regole della Home web: finestre per paese, top campionati in alto,
 // colori e loghi delle competizioni, righe partita. Metadati da meta.json (generato da data/leagues.js e data/countries.js).
-import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { View, Text, FlatList, Pressable, ScrollView, StatusBar, Dimensions, StyleSheet, ActivityIndicator, LayoutAnimation, Platform, UIManager } from 'react-native';
+import React, { createContext, memo, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { View, Text, FlatList, Pressable, ScrollView, StatusBar, Dimensions, StyleSheet, ActivityIndicator, LayoutAnimation, Platform, UIManager, AppState, Modal } from 'react-native';
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Image } from 'expo-image';
 import Animated, { useSharedValue, useAnimatedStyle, useAnimatedReaction, withTiming, cancelAnimation, runOnJS, Easing } from 'react-native-reanimated';
@@ -9,13 +9,21 @@ import { SafeAreaProvider, SafeAreaView, useSafeAreaInsets } from 'react-native-
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { WebView } from 'react-native-webview';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import META from './meta.json';
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) UIManager.setLayoutAnimationEnabledExperimental(true);
 
 const SITE = 'https://matteogiampaoletti246-hue.github.io/tiri-dati/';
 const W = Dimensions.get('window').width;
-const C = { bg: '#05070D', ink: '#F1F5FB', ink2: '#A9B6CC', ink3: '#6D7A91', hair: 'rgba(255,255,255,.07)', border: 'rgba(255,255,255,.12)', accent: '#4DA8FF', live: '#FF6464' };
+const DARK = { dark: true, bg: '#05070D', ink: '#F1F5FB', ink2: '#A9B6CC', ink3: '#6D7A91', hair: 'rgba(255,255,255,.07)', border: 'rgba(255,255,255,.12)', accent: '#4DA8FF', live: '#FF6464', chip: 'rgba(255,255,255,.08)', wash: 'rgba(255,255,255,0.03)', card1: 'rgba(255,255,255,0.10)', card2: 'rgba(255,255,255,0.035)', sheet: '#0E1626' };
+const LIGHT = { dark: false, bg: '#F3F6FB', ink: '#0F172A', ink2: '#475569', ink3: '#8592A6', hair: 'rgba(15,23,42,.08)', border: 'rgba(15,23,42,.10)', accent: '#1F6BEF', live: '#E5484D', chip: 'rgba(15,23,42,.06)', wash: 'rgba(255,255,255,0.85)', card1: 'rgba(255,255,255,0.95)', card2: 'rgba(255,255,255,0.8)', sheet: '#FFFFFF' };
+const WORKER = 'https://scalperlab-live.matteo-giampaoletti04.workers.dev';
+const NAMES = META.names || {};
+const nm = (id, n) => NAMES[String(id)] || n;
+const EL_FM = 73; // Europa League: coppa disegnata (bianca di notte, nera di giorno) come nel sito
+const _n = new Date(); const TODAY_MID = new Date(_n.getFullYear(), _n.getMonth(), _n.getDate());
+const NOKEYS = [];
 const WEEK = ['Dom', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'];
 const MONTHS = ['gen', 'feb', 'mar', 'apr', 'mag', 'giu', 'lug', 'ago', 'set', 'ott', 'nov', 'dic'];
 const OFFSETS = [-7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7];
@@ -29,7 +37,7 @@ const hhmm = (iso) => { if (HM_CACHE[iso] !== undefined) return HM_CACHE[iso]; l
 const crest = (id) => `https://images.fotmob.com/image_resources/logo/teamlogo/${id}.png`;
 const darkLogo = (u) => (u || '').replace('/leaguelogo/', '/leaguelogo/dark/');
 const getJ = async (u) => { const r = await fetch(SITE + u); if (!r.ok) throw new Error(u); return r.json(); };
-const dayLabel = (d, i) => (i === TODAY_INDEX - 1 ? 'Ieri' : i === TODAY_INDEX ? 'Oggi' : i === TODAY_INDEX + 1 ? 'Domani' : `${WEEK[d.getDay()]} ${d.getDate()}`);
+const dayLabel = (d) => { const diff = Math.round((new Date(d.getFullYear(), d.getMonth(), d.getDate()) - TODAY_MID) / 86400000); return diff === -1 ? 'Ieri' : diff === 0 ? 'Oggi' : diff === 1 ? 'Domani' : `${WEEK[d.getDay()]} ${d.getDate()}`; };
 
 // ---------- raggruppamento (come groupsOf della Home web) ----------
 const OPEN_KEY = {}; // aperto/chiuso ricordato per giorno e finestra
@@ -58,39 +66,48 @@ function groupsOf(rows, filter) {
 
 // ---------- componenti ----------
 const Row = memo(({ m, onOpen }) => {
+  const { C, s } = useT();
   const live = m[8] === 'l'; const fin = m[8] === 'f'; const sc = /(\d+)\s*-\s*(\d+)/.exec(m[7] || '');
   return (
     <Pressable onPress={() => onOpen(m)} style={({ pressed }) => [s.row, pressed && { opacity: 0.6 }]}>
-      <View style={s.teamL}><Text numberOfLines={1} style={s.tName}>{m[5]}</Text><Image source={{ uri: crest(m[3]) }} style={s.crest} contentFit="contain" cachePolicy="memory-disk" transition={0} /></View>
+      <View style={s.teamL}><Text numberOfLines={1} style={s.tName}>{nm(m[3], m[5])}</Text><Image source={{ uri: crest(m[3]) }} style={s.crest} contentFit="contain" cachePolicy="memory-disk" transition={0} /></View>
       <View style={s.mid}>
         {(live || fin) && sc ? (
           <Text style={[s.score, live && { color: C.live }]}>{sc[1]}<Text style={{ color: C.ink3, fontWeight: '500' }}> – </Text>{sc[2]}</Text>
         ) : fin ? <Text style={s.fin}>Finita</Text> : <Text style={s.time}>{hhmm(m[2])}</Text>}
         {fin ? <Text style={s.kick}>{hhmm(m[2])}</Text> : null}
-        {live ? <View style={s.liveRow}><View style={s.liveDot} /><Text style={s.liveT}>LIVE</Text></View> : null}
+        {live ? <View style={s.liveRow}><View style={s.liveDot} /><Text style={s.liveT}>{/^\d+(\+\d+)?$/.test(m[10] || '') ? `${m[10]}'` : /^HT$/i.test(m[10] || '') ? 'Int.' : 'LIVE'}</Text></View> : null}
       </View>
-      <View style={s.teamR}><Image source={{ uri: crest(m[4]) }} style={s.crest} contentFit="contain" cachePolicy="memory-disk" transition={0} /><Text numberOfLines={1} style={s.tName}>{m[6]}</Text></View>
+      <View style={s.teamR}><Image source={{ uri: crest(m[4]) }} style={s.crest} contentFit="contain" cachePolicy="memory-disk" transition={0} /><Text numberOfLines={1} style={s.tName}>{nm(m[4], m[6])}</Text></View>
     </Pressable>
   );
 });
 
-const Card = ({ tint, a = '45', style, children }) => (
-  <LinearGradient colors={[`${tint}${a}`, 'rgba(255,255,255,0.03)']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0.35 }} style={[s.card, style]}>{children}</LinearGradient>
-);
-const Chev = ({ open }) => <Ionicons name="chevron-down" size={17} color={C.ink3} style={{ transform: [{ rotate: open ? '180deg' : '0deg' }] }} />;
+const Card = ({ tint, a = '45', style, children }) => {
+  const { C, s } = useT();
+  return (
+    <LinearGradient colors={[`${tint}${C.dark ? a : '1F'}`, C.wash]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0.35 }} style={[s.card, style]}>{children}</LinearGradient>
+  );
+};
+const Chev = ({ open }) => { const { C } = useT(); return <Ionicons name="chevron-down" size={17} color={C.ink3} style={{ transform: [{ rotate: open ? '180deg' : '0deg' }] }} />; };
 const useOpen = (key, init) => {
   const [open, setOpen] = useState(() => (key in OPEN_KEY ? OPEN_KEY[key] : init));
   const toggle = () => { LayoutAnimation.configureNext(LayoutAnimation.create(260, 'easeInEaseOut', 'opacity')); setOpen((o) => { OPEN_KEY[key] = !o; return !o; }); };
   return [open, toggle];
 };
-const LeagueHead = ({ c, size = 22, small }) => (
-  <View style={[s.lhRow, small && { paddingVertical: 12 }]}>
-    <Image source={{ uri: darkLogo(c.logo) }} style={{ width: size, height: size }} contentFit="contain" cachePolicy="memory-disk" transition={0} />
-    <Text numberOfLines={1} style={[s.lhName, small && { fontSize: 12, fontWeight: '700' }]}>{c.name}</Text>
-  </View>
-);
+const LeagueHead = ({ c, size = 22, small }) => {
+  const { C, s } = useT();
+  const uri = c.logoFm === EL_FM || /\/leaguelogo\/73\.png/.test(c.logo || '') ? `${SITE}aurora/${C.dark ? 'el-night' : 'el-light'}.png` : (C.dark ? darkLogo(c.logo) : c.logo);
+  return (
+    <View style={[s.lhRow, small && { paddingVertical: 12 }]}>
+      <Image source={{ uri }} style={{ width: size, height: size }} contentFit="contain" cachePolicy="memory-disk" transition={0} />
+      <Text numberOfLines={1} style={[s.lhName, small && { fontSize: 12, fontWeight: '700' }]}>{c.name}</Text>
+    </View>
+  );
+};
 
 const LeagueGroup = memo(({ iso, g, forceOpen, onOpen }) => {
+  const { s } = useT();
   const [open, toggle] = useOpen(`${iso}|${g.fm}`, g.c.open);
   const isOpen = forceOpen || open;
   return (
@@ -105,11 +122,12 @@ const LeagueGroup = memo(({ iso, g, forceOpen, onOpen }) => {
 });
 
 const CountryGroup = memo(({ iso, p, forceOpen, onOpen }) => {
+  const { C, s } = useT();
   const [open, toggle] = useOpen(`${iso}|paese:${p.k}`, false);
   const isOpen = forceOpen || open;
   const total = p.comps.reduce((n, x) => n + x.matches.length, 0);
   return (
-    <LinearGradient colors={['rgba(255,255,255,0.10)', 'rgba(255,255,255,0.035)']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={s.card}>
+    <LinearGradient colors={[C.card1, C.card2]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={s.card}>
       <Pressable onPress={toggle} style={s.headRow}>
         <View style={s.flag}><Text style={{ fontSize: 17 }}>{p.flag || '\u{1F30D}'}</Text></View>
         <Text numberOfLines={1} style={[s.lhName, { flex: 1, marginLeft: 12 }]}>{p.name}</Text>
@@ -126,6 +144,7 @@ const CountryGroup = memo(({ iso, p, forceOpen, onOpen }) => {
 });
 
 const Day = memo(({ iso, rows, filter, onOpen }) => {
+  const { s } = useT();
   const items = useMemo(() => groupsOf(rows, filter), [rows, filter]);
   const render = useCallback(({ item }) => (item.g ? <LeagueGroup iso={iso} g={item.g} forceOpen={filter === 'live'} onOpen={onOpen} /> : <CountryGroup iso={iso} p={item.p} forceOpen={filter === 'live'} onOpen={onOpen} />), [iso, filter, onOpen]);
   if (!items.length) return <View style={{ width: W }}><Text style={s.empty}>Nessuna partita</Text></View>;
@@ -136,15 +155,60 @@ const Day = memo(({ iso, rows, filter, onOpen }) => {
   );
 });
 
-function Header({ onSearch, onMenu }) {
+function Header({ onSearch, onMenu, onCal }) {
+  const { C, s } = useT();
   return (
     <View style={s.header}>
       <Text style={s.brand}>Scalper<Text style={{ color: C.accent }}>Lab</Text></Text>
       <View style={{ flexDirection: 'row', gap: 8 }}>
+        <Pressable onPress={onCal} style={s.iconBtn}><Ionicons name="calendar-outline" size={16} color={C.ink} /></Pressable>
         <Pressable onPress={onSearch} style={s.iconBtn}><Ionicons name="search" size={16} color={C.ink} /></Pressable>
         <Pressable onPress={onMenu} style={s.iconBtn}><Ionicons name="menu" size={17} color={C.ink} /></Pressable>
       </View>
     </View>
+  );
+}
+
+// Calendario: sceglie un giorno qualsiasi; la striscia dei giorni e le pagine si ricentrano su quel giorno.
+const MFULL = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'];
+const WK = ['L', 'M', 'M', 'G', 'V', 'S', 'D'];
+function Calendar({ visible, selected, onClose, onPick }) {
+  const { C, s } = useT();
+  const [mon, setMon] = useState(() => new Date(selected.getFullYear(), selected.getMonth(), 1));
+  useEffect(() => { if (visible) setMon(new Date(selected.getFullYear(), selected.getMonth(), 1)); }, [visible, selected]);
+  const first = (new Date(mon.getFullYear(), mon.getMonth(), 1).getDay() + 6) % 7;
+  const days = new Date(mon.getFullYear(), mon.getMonth() + 1, 0).getDate();
+  const cells = [];
+  for (let i = 0; i < first; i++) cells.push(null);
+  for (let d = 1; d <= days; d++) cells.push(d);
+  while (cells.length % 7) cells.push(null);
+  const diffOf = (d) => Math.round((new Date(mon.getFullYear(), mon.getMonth(), d) - TODAY_MID) / 86400000);
+  const selDiff = Math.round((new Date(selected.getFullYear(), selected.getMonth(), selected.getDate()) - TODAY_MID) / 86400000);
+  return (
+    <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
+      <Pressable style={s.calBack} onPress={onClose}>
+        <Pressable style={s.calBox} onPress={() => {}}>
+          <View style={s.calHead}>
+            <Pressable hitSlop={14} onPress={() => setMon(new Date(mon.getFullYear(), mon.getMonth() - 1, 1))}><Ionicons name="chevron-back" size={20} color={C.ink} /></Pressable>
+            <Text style={s.calTitle}>{MFULL[mon.getMonth()]} {mon.getFullYear()}</Text>
+            <Pressable hitSlop={14} onPress={() => setMon(new Date(mon.getFullYear(), mon.getMonth() + 1, 1))}><Ionicons name="chevron-forward" size={20} color={C.ink} /></Pressable>
+          </View>
+          <View style={s.calRow}>{WK.map((w, i) => <Text key={i} style={s.calWk}>{w}</Text>)}</View>
+          <View style={s.calGrid}>
+            {cells.map((d, i) => {
+              if (!d) return <View key={i} style={s.calCell} />;
+              const df = diffOf(d); const sel = df === selDiff;
+              return (
+                <Pressable key={i} onPress={() => onPick(df)} style={s.calCell}>
+                  <View style={[s.calDay, sel && s.calSel, !sel && df === 0 && s.calToday]}><Text style={[s.calTxt, sel && s.calTxtSel]}>{d}</Text></View>
+                </Pressable>
+              );
+            })}
+          </View>
+          <Pressable onPress={() => onPick(0)} style={s.calTodayBtn}><Text style={{ color: C.accent, fontWeight: '700', fontSize: 14 }}>Oggi</Text></Pressable>
+        </Pressable>
+      </Pressable>
+    </Modal>
   );
 }
 
@@ -156,15 +220,25 @@ const Pane = ({ idx, x, children }) => {
 
 const NO_LAUNCH = "try{sessionStorage.setItem('sl-launched','1')}catch(e){};true;";
 
-function Screen() {
+const THEME_JS = "(function(){try{var send=function(){window.ReactNativeWebView.postMessage(document.documentElement.classList.contains('dark')?'dark':'light');};send();new MutationObserver(send).observe(document.documentElement,{attributes:true,attributeFilter:['class']});}catch(e){}})();true;";
+const scoreStr = (sc) => { const x = /(\d+)\s*-\s*(\d+)/.exec(String(sc || '')); return x ? `${x[1]}-${x[2]}` : null; };
+
+function Screen({ onTheme }) {
+  const { C, s } = useT();
   const insets = useSafeAreaInsets();
-  const [data, setData] = useState(null);
+  const [view, setView] = useState(null); // { dates, keys, data } cambiano insieme: mai date nuove con partite vecchie
+  const [center, setCenter] = useState(0); // giorno al centro della striscia (0 = oggi)
+  const [cal, setCal] = useState(false);
   const [cur, setCur] = useState(TODAY_INDEX);
   const [filter, setFilter] = useState('all');
   const [warm, setWarm] = useState(false);
   const strip = useRef(null); const pos = useRef({}); const webRef = useRef(null);
-  const dates = useMemo(() => OFFSETS.map((o) => { const d = new Date(); d.setDate(d.getDate() + o); return d; }), []);
-  const keys = useMemo(() => dates.map(rome), [dates]);
+  const lastCenter = useRef(0);
+  const curRef = useRef(cur); curRef.current = cur;
+  const viewRef = useRef(null); viewRef.current = view;
+  const data = view ? view.data : null;
+  const keys = view ? view.keys : NOKEYS;
+  const dates = view ? view.dates : NOKEYS;
   const N = OFFSETS.length;
   const x = useSharedValue(TODAY_INDEX);
   const x0 = useSharedValue(TODAY_INDEX);
@@ -172,31 +246,114 @@ function Screen() {
   const ovStart = useSharedValue(0);
 
   useEffect(() => {
+    let on = true;
+    const base = new Date(); base.setDate(base.getDate() + center);
+    const ds = OFFSETS.map((o) => { const d = new Date(base); d.setDate(d.getDate() + o); return d; });
+    const ks = ds.map(rome);
     (async () => {
-      const files = await Promise.all(keys.map((k) => getJ(`giorni/${k}.json`).catch(() => ({ m: [] }))));
+      const files = await Promise.all(ks.map((k) => getJ(`giorni/${k}.json`).catch(() => ({ m: [] }))));
       const seen = new Set(); const by = {};
       files.forEach((f) => (f.m || []).forEach((m) => {
         if (seen.has(m[0]) || m[8] === 'c' || !m[5] || !m[6] || !m[2]) return; seen.add(m[0]);
         const k = rome(new Date(m[2])); (by[k] = by[k] || []).push(m);
       }));
-      setData(keys.map((k) => by[k] || []));
+      if (!on) return;
+      if (lastCenter.current !== center) { lastCenter.current = center; cancelAnimation(x); x.value = TODAY_INDEX; setCur(TODAY_INDEX); }
+      setView({ dates: ds, keys: ks, data: ks.map((k) => by[k] || []) });
     })();
-  }, [keys]);
+    return () => { on = false; };
+  }, [center, x]);
   // la pagina web si prepara a riposo (leggera) cosi' aprire una partita non ricarica niente
-  useEffect(() => { if (!data) return undefined; const t = setTimeout(() => setWarm(true), 2500); return () => clearTimeout(t); }, [data]);
+  useEffect(() => { if (!data) return undefined; const t = setTimeout(() => setWarm(true), 2500); return () => clearTimeout(t); }, [!!data]);
+
+  // stato, risultato e minuto live veri (come la Home web): /f del giorno per top campionati e coppe europee, /fx per le altre partite
+  // iniziate da meno di 5 ore, giorni/<data>.json per quelle piu' vecchie. Mai "live" per una partita finita.
+  const refresh = useCallback(async (iso) => {
+    const v = viewRef.current; if (!v) return;
+    const i = v.keys.indexOf(iso); if (i < 0) return;
+    const now = Date.now();
+    const clock = (c, ht) => { if (ht || /^HT$/i.test(String(c || ''))) return 'HT'; const n = parseInt(String(c || ''), 10); return Number.isFinite(n) ? String(n) : undefined; };
+    const upd = new Map(); // id partita -> { st, score, lt }
+    const getF = async (p) => { const r = await fetch(p); if (!r.ok) throw new Error(p); return r.json(); };
+    try {
+      const d = await getF(`${WORKER}/f?date=${iso.replace(/-/g, '')}`);
+      (d.m || []).forEach((y) => {
+        const sc = scoreStr(y.sc);
+        upd.set(String(y.id), y.f && sc ? { st: 'f', score: sc } : y.s && !y.f ? { st: 'l', score: sc, lt: clock(y.lt) } : { st: 'n' });
+      });
+    } catch (e) { /* si riprova al prossimo giro */ }
+    const rows0 = (viewRef.current && viewRef.current.keys === v.keys ? viewRef.current.data[i] : null) || [];
+    // altre partite iniziate da meno di 5 ore (campionati e coppe aggiunti): una richiesta per partita, al massimo 12 per giro
+    const one = rows0.filter((m) => !upd.has(String(m[0])) && m[8] !== 'f' && Date.parse(m[2]) <= now && now - Date.parse(m[2]) < 5 * 3600000).slice(0, 12);
+    let k = 0;
+    const worker = async () => {
+      while (k < one.length) {
+        const m = one[k++];
+        try {
+          const d = await getF(`${WORKER}/fx?id=${m[0]}`);
+          const sc = d.sc && d.sc[0] != null ? `${d.sc[0]}-${d.sc[1]}` : null;
+          upd.set(String(m[0]), d.fin && sc ? { st: 'f', score: sc } : d.st ? { st: 'l', score: sc, lt: clock(d.clk, d.ht) } : { st: 'n' });
+        } catch (e) { /* si riprova al prossimo giro */ }
+      }
+    };
+    await Promise.all([worker(), worker(), worker(), worker()]);
+    // iniziate da piu' di 5 ore e ancora senza risultato: feed del giorno (aggiornato ogni 10 minuti)
+    if (rows0.some((m) => m[8] !== 'f' && now - Date.parse(m[2]) >= 5 * 3600000 && now - Date.parse(m[2]) < 4 * 86400000)) {
+      try {
+        const f = await getF(`${SITE}giorni/${iso}.json?t=${Math.floor(now / 60000)}`);
+        (f.m || []).forEach((y) => { const sc = scoreStr(y[7]); if (y[8] === 'f' && sc && !upd.has(String(y[0]))) upd.set(String(y[0]), { st: 'f', score: sc }); });
+      } catch (e) { /* ignora */ }
+    }
+    const v2 = viewRef.current; if (!v2 || v2.keys !== v.keys) return;
+    let changed = false;
+    const rows = v2.data[i].map((m) => {
+      const u = upd.get(String(m[0])); if (!u) return m;
+      let st = m[8]; let score = m[7]; let lt = m[10];
+      if (u.st === 'f' && u.score) { st = 'f'; score = u.score; lt = undefined; }
+      else if (u.st === 'l') { st = 'l'; if (u.score) score = u.score; lt = u.lt; }
+      else if (u.st === 'n' && st === 'l') { st = 'n'; score = ''; lt = undefined; }
+      if (st === m[8] && score === m[7] && lt === m[10]) return m;
+      changed = true;
+      const n = m.slice(); n[7] = score; n[8] = st; n[10] = lt; return n;
+    });
+    if (changed) setView((p) => (p && p.keys === v2.keys ? { ...p, data: p.data.map((r, kk) => (kk === i ? rows : r)) } : p));
+  }, []);
+  useEffect(() => {
+    if (!data) return undefined;
+    let alive = true; let t;
+    const tick = async () => {
+      if (!alive) return;
+      if (AppState.currentState === 'active') {
+        const v = viewRef.current;
+        const days = new Set([rome(new Date())]);
+        if (v && v.keys[curRef.current]) days.add(v.keys[curRef.current]);
+        for (const iso of days) await refresh(iso);
+      }
+      const v3 = viewRef.current;
+      const anyLive = !!v3 && v3.data.some((d) => d.some((m) => m[8] === 'l'));
+      if (alive) t = setTimeout(tick, anyLive ? 15000 : 60000);
+    };
+    tick();
+    const sub = AppState.addEventListener('change', (st) => { if (st === 'active') { clearTimeout(t); tick(); } });
+    return () => { alive = false; clearTimeout(t); sub.remove(); };
+  }, [!!data, refresh]);
 
   const hashTo = useCallback((h) => { if (webRef.current) webRef.current.injectJavaScript(`location.hash=${JSON.stringify(h)};true;`); }, []);
   const openRoute = useCallback((route) => { hashTo(`#${route}`); ov.value = withTiming(0, { duration: 260, easing: Easing.out(Easing.cubic) }); }, [hashTo, ov]);
   const closeWeb = useCallback(() => { ov.value = withTiming(W, { duration: 240, easing: Easing.out(Easing.cubic) }, (done) => { if (done) runOnJS(hashTo)('#/linee-guida'); }); }, [hashTo, ov]);
   const openMatch = useCallback((m) => {
+    // competizioni dell'app (top campionati, coppe europee): scheda d'archivio della stagione in corso, la stessa che apre il sito;
+    // competizioni aggiunte (fm-<id>): scheda del feed. Provato sul sito: per Champions/Europa/Conference il percorso del feed non trova la partita.
     const c = META.comps[m[1]];
-    const top = c && c.solo >= 0 && c.cc && ['serie-a', 'premier-league', 'la-liga', 'bundesliga', 'ligue-1'].includes(c.id);
     const sk = META.cur[String(m[1])];
-    openRoute(top && sk ? `/storico/${m[1]}/${sk}/${m[0]}` : `/match/x-${m[1]}-${m[0]}`);
+    const app = c && !String(c.id).startsWith('fm-');
+    openRoute(app && sk ? `/match/a-${m[1]}-${sk}-${m[0]}` : `/match/x-${m[1]}-${m[0]}`);
   }, [openRoute]);
+  const onMsg = useCallback((e) => { const t = e && e.nativeEvent && e.nativeEvent.data; if (t === 'dark' || t === 'light') onTheme(t); }, [onTheme]);
+  const pick = useCallback((diff) => { setCal(false); setCenter(diff); }, []);
 
   const centre = useCallback((i) => { const p = pos.current[i]; if (p && strip.current) strip.current.scrollTo({ x: Math.max(0, p.x - W / 2 + p.w / 2), animated: true }); }, []);
-  useEffect(() => { centre(cur); }, [cur, centre]);
+  useEffect(() => { centre(cur); }, [cur, centre, view]);
   useAnimatedReaction(() => Math.round(x.value), (r, prev) => { if (r !== prev) runOnJS(setCur)(r); });
   const go = (i) => { x.value = withTiming(i, { duration: 320, easing: Easing.out(Easing.cubic) }); };
 
@@ -229,12 +386,12 @@ function Screen() {
   const shown = [cur - 2, cur - 1, cur, cur + 1, cur + 2].filter((i) => i >= 0 && i < N);
   return (
     <View style={[s.root, { paddingTop: insets.top }]}>
-      <StatusBar barStyle="light-content" />
-      <Header onSearch={() => openRoute('/')} onMenu={() => openRoute('/menu')} />
+      <StatusBar barStyle={C.dark ? 'light-content' : 'dark-content'} />
+      <Header onSearch={() => openRoute('/')} onMenu={() => openRoute('/menu')} onCal={() => setCal(true)} />
       <ScrollView ref={strip} horizontal showsHorizontalScrollIndicator={false} style={{ flexGrow: 0 }} contentContainerStyle={s.strip}>
         {dates.map((d, i) => (
           <Pressable key={keys[i]} onPress={() => go(i)} onLayout={(e) => { pos.current[i] = { x: e.nativeEvent.layout.x, w: e.nativeEvent.layout.width }; if (i === cur) centre(i); }}>
-            <Text style={[s.dTop, i === cur && s.dOn]}>{dayLabel(d, i)}</Text>
+            <Text style={[s.dTop, i === cur && s.dOn]}>{dayLabel(d)}</Text>
             <Text style={[s.dSub, i === cur && { opacity: 0.9 }]}>{d.getDate()} {MONTHS[d.getMonth()]}</Text>
           </Pressable>
         ))}
@@ -248,12 +405,13 @@ function Screen() {
           {shown.map((i) => <Pane key={i} idx={i} x={x}><Day iso={keys[i]} rows={data[i]} filter={filter} onOpen={openMatch} /></Pane>)}
         </View>
       </GestureDetector>
+      <Calendar visible={cal} selected={dates[cur] || new Date()} onClose={() => setCal(false)} onPick={pick} />
 
       {/* pagina web (resto dell'app): gia' caricata, si apre scorrendo da destra */}
       <Animated.View pointerEvents="box-none" style={[StyleSheet.absoluteFill, { backgroundColor: C.bg }, ovStyle]}>
         <View style={{ paddingTop: insets.top, flex: 1 }}>
           <Pressable onPress={closeWeb} style={s.back}><Ionicons name="chevron-back" size={20} color={C.accent} /><Text style={{ color: C.accent, fontSize: 16 }}>Home</Text></Pressable>
-          {warm ? <WebView ref={webRef} source={{ uri: `${SITE}aurora/#/linee-guida` }} style={{ flex: 1, backgroundColor: C.bg }} injectedJavaScriptBeforeContentLoaded={NO_LAUNCH} decelerationRate={0.998} contentInsetAdjustmentBehavior="never" automaticallyAdjustContentInsets={false} directionalLockEnabled={false} allowsLinkPreview={false} /> : null}
+          {warm ? <WebView ref={webRef} source={{ uri: `${SITE}aurora/#/linee-guida` }} style={{ flex: 1, backgroundColor: C.bg }} injectedJavaScriptBeforeContentLoaded={NO_LAUNCH} injectedJavaScript={THEME_JS} onMessage={onMsg} decelerationRate={0.998} contentInsetAdjustmentBehavior="never" automaticallyAdjustContentInsets={false} directionalLockEnabled={false} allowsLinkPreview={false} /> : null}
         </View>
         <GestureDetector gesture={edge}><View style={s.edge} /></GestureDetector>
       </Animated.View>
@@ -261,13 +419,19 @@ function Screen() {
   );
 }
 
-export default function App() { return <GestureHandlerRootView style={{ flex: 1, backgroundColor: C.bg }}><SafeAreaProvider><Screen /></SafeAreaProvider></GestureHandlerRootView>; }
+export default function App() {
+  const [theme, setTheme] = useState('dark');
+  useEffect(() => { AsyncStorage.getItem('sl-theme').then((v) => { if (v === 'light' || v === 'dark') setTheme(v); }).catch(() => {}); }, []);
+  const onTheme = useCallback((t) => { setTheme(t); AsyncStorage.setItem('sl-theme', t).catch(() => {}); }, []);
+  const T = THEMES[theme];
+  return <GestureHandlerRootView style={{ flex: 1, backgroundColor: T.C.bg }}><TCtx.Provider value={T}><SafeAreaProvider><Screen onTheme={onTheme} /></SafeAreaProvider></TCtx.Provider></GestureHandlerRootView>;
+}
 
-const s = StyleSheet.create({
+const makeStyles = (C) => StyleSheet.create({
   root: { flex: 1, backgroundColor: C.bg },
   header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 20, paddingVertical: 10 },
   brand: { color: C.ink, fontSize: 24, fontWeight: '800', letterSpacing: -1 },
-  iconBtn: { width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255,255,255,.08)', borderWidth: 1, borderColor: C.border },
+  iconBtn: { width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center', backgroundColor: C.chip, borderWidth: 1, borderColor: C.border },
   strip: { paddingHorizontal: 20, paddingVertical: 8, gap: 24, alignItems: 'center' },
   dTop: { color: C.ink3, fontSize: 15, fontWeight: '500' },
   dOn: { color: C.ink, fontWeight: '800' },
@@ -284,7 +448,7 @@ const s = StyleSheet.create({
   lhName: { color: C.ink, fontSize: 12.5, fontWeight: '800', letterSpacing: 0.9, textTransform: 'uppercase', flexShrink: 1 },
   hairTop: { },
   cnt: { color: C.ink3, fontSize: 11, fontWeight: '500', marginRight: 8 },
-  flag: { width: 22, height: 22, borderRadius: 11, marginLeft: 16, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255,255,255,.08)', overflow: 'hidden' },
+  flag: { width: 22, height: 22, borderRadius: 11, marginLeft: 16, alignItems: 'center', justifyContent: 'center', backgroundColor: C.chip, overflow: 'hidden' },
   body: { borderTopWidth: 1, borderTopColor: C.hair },
   sep: { borderTopWidth: 1, borderTopColor: C.hair },
   row: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 12, gap: 8 },
@@ -302,4 +466,21 @@ const s = StyleSheet.create({
   empty: { color: C.ink3, textAlign: 'center', padding: 50 },
   back: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 12, paddingVertical: 12 },
   edge: { position: 'absolute', left: 0, top: 0, bottom: 0, width: 22 },
+  calBack: { flex: 1, backgroundColor: 'rgba(0,0,0,.55)', justifyContent: 'center', padding: 24 },
+  calBox: { backgroundColor: C.sheet, borderRadius: 24, padding: 16, borderWidth: 1, borderColor: C.border },
+  calHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingBottom: 12 },
+  calTitle: { color: C.ink, fontSize: 16, fontWeight: '800' },
+  calRow: { flexDirection: 'row' },
+  calWk: { width: '14.2857%', textAlign: 'center', color: C.ink3, fontSize: 12, paddingVertical: 6 },
+  calGrid: { flexDirection: 'row', flexWrap: 'wrap' },
+  calCell: { width: '14.2857%', alignItems: 'center', paddingVertical: 3 },
+  calDay: { width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center' },
+  calSel: { backgroundColor: C.accent },
+  calToday: { borderWidth: 1, borderColor: C.accent },
+  calTxt: { color: C.ink, fontSize: 14, fontWeight: '600' },
+  calTxtSel: { color: '#FFFFFF' },
+  calTodayBtn: { alignSelf: 'center', paddingVertical: 10, paddingHorizontal: 20, marginTop: 6 },
 });
+const THEMES = { dark: { C: DARK, s: makeStyles(DARK) }, light: { C: LIGHT, s: makeStyles(LIGHT) } };
+const TCtx = createContext(THEMES.dark);
+const useT = () => useContext(TCtx);

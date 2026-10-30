@@ -29,7 +29,7 @@ jobs:
           cp native/App.js app/App.js
           cd app
           npm install --no-audit --no-fund
-          npx expo install expo-updates expo-image expo-linear-gradient react-native-webview react-native-safe-area-context @expo/vector-icons react-native-gesture-handler react-native-reanimated
+          npx expo install expo-updates expo-image @react-native-async-storage/async-storage expo-linear-gradient react-native-webview react-native-safe-area-context @expo/vector-icons react-native-gesture-handler react-native-reanimated
           if [ "$(node -p "parseInt(require('react-native-reanimated/package.json').version)")" -ge 4 ]; then npx expo install react-native-worklets; fi
           node -e "const f='app.json',j=require('./'+f);j.expo.owner='lozellatos-team';require('fs').writeFileSync(f,JSON.stringify(j,null,2))"
           npx --yes eas-cli@latest whoami
