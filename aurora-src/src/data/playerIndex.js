@@ -96,7 +96,7 @@ export function useArchivePct(player, enabled) {
 // Numeri del Profilo: gli stessi della scheda Statistiche e dell'elenco Partite (archivio, campionato della stagione in corso, o stagione dell'id archivio).
 // Se l'archivio non ha il giocatore restano quelli dell'app.
 export function usePlayerSeason(player) {
-  const { data } = useAsync(async () => {
+  const { data, loading } = useAsync(async () => {
     const pid = await resolvePid(player);
     if (!pid) return null;
     const lid = player.archive ? player.leagueId : (teamById(player.teamId) || {}).leagueId || player.leagueId;
@@ -105,7 +105,9 @@ export function usePlayerSeason(player) {
     const sk = player.archive && player.sk ? player.sk : await currentSeason(fm);
     return sk ? playerSeasonLine(fm, sk, pid) : null;
   }, [player && player.id]);
-  return data ? { ...player, ...data, rating: data.rating || player.rating } : player;
+  if (data) return { ...player, ...data, rating: data.rating || player.rating };
+  // finche' non arriva, chi non e' in stats.json non ha gol e assist veri: spazio vuoto, mai uno "0" che poi cambia
+  return loading && !player.hasStats && !player.archive ? { ...player, goals: ' ', assists: ' ', appearances: ' ', minutes: ' ' } : player;
 }
 
 export function useBioPid(player) {

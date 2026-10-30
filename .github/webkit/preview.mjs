@@ -1507,11 +1507,14 @@ await step('arbitro: gare e medie delle ultime due stagioni', async () => {
 });
 
 await step('giocatore fuori dai top campionati: Profilo e Statistiche con gli stessi numeri', async () => {
-  await go('#/giocatore/p_2rRKt0', 7000); await ready(); await wait(3000);
+  await go('#/giocatore/p_2rRKt0', 7000); await ready(); await wait(1000);
+  await tabClick('Profilo');
+  await pg.waitForFunction(() => /\d+\s*PRES/i.test(document.body.innerText), null, { timeout: 25000 }).catch(() => {});
+  await wait(4000);
   const prof = await pg.evaluate(() => document.body.innerText);
   const num = (label, t) => { const m = new RegExp(`(\\d+)\\s*\\n?\\s*${label}`, 'i').exec(t); return m ? Number(m[1]) : null; };
   const g = num('Gol', prof);
-  ok('Osimhen: il Profilo non dice 0 gol', g != null && g > 0, { g, pres: num('Pres', prof) });
+  ok('Osimhen: il Profilo non dice 0 gol', g != null && g > 0, { g, pres: num('Pres', prof), testo: prof.slice(0, 200) });
   // i numeri giusti dal file della stagione in corso: presenze, gol e minuti devono essere proprio quelli (non campionato + coppa)
   const idx = await getJson('arch/index.json');
   const sk = [...idx['71'].s].sort().reverse()[0];
