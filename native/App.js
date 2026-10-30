@@ -305,12 +305,15 @@ function Screen({ onTheme }) {
   const lastCenter = useRef(0);
   const curRef = useRef(cur); curRef.current = cur;
   // il tasto Live vale solo per oggi: cambiando giorno (swipe o calendario) si torna a "Tutte"
-  useEffect(() => { if (filter === 'live' && cur !== TODAY_INDEX) setFilter('all'); }, [cur, filter]);
+  // (filtro effettivo: dipende dal giorno mostrato, non da un effetto che arriva dopo; il giorno si confronta con la data vera)
   const viewRef = useRef(null); viewRef.current = view;
   const data = view ? view.data : null;
   const keys = view ? view.keys : NOKEYS;
   const dates = view ? view.dates : NOKEYS;
   const N = OFFSETS.length;
+  const todayKey = rome(new Date());
+  const eff = filter === 'live' && keys[cur] === todayKey ? 'live' : 'all';
+  useEffect(() => { if (filter === 'live' && keys[cur] !== todayKey) setFilter('all'); }, [cur, filter, keys, todayKey]);
   const x = useSharedValue(TODAY_INDEX);
   const x0 = useSharedValue(TODAY_INDEX);
   const ov = useSharedValue(W); // pagina web: W = fuori schermo a destra, 0 = aperta
@@ -503,12 +506,12 @@ function Screen({ onTheme }) {
         ))}
       </ScrollView>
       <View style={s.filters}>
-        <Pressable onPress={() => setFilter('all')}><Text style={[s.fBtn, filter === 'all' && s.fOn]}>Tutte</Text></Pressable>
-        <Pressable onPress={() => setFilter('live')} style={s.fLive}><View style={s.liveDot} /><Text style={[s.fBtn, filter === 'live' && s.fOn]}>Live</Text></Pressable>
+        <Pressable onPress={() => setFilter('all')}><Text style={[s.fBtn, eff === 'all' && s.fOn]}>Tutte</Text></Pressable>
+        <Pressable onPress={() => setFilter('live')} style={s.fLive}><View style={s.liveDot} /><Text style={[s.fBtn, eff === 'live' && s.fOn]}>Live</Text></Pressable>
       </View>
       <GestureDetector gesture={pan}>
         <View style={{ flex: 1, overflow: 'hidden' }}>
-          {shown.map((i) => <Pane key={i} idx={i} x={x}><Day iso={keys[i]} rows={data[i]} filter={filter} onOpen={openMatch} onLeague={openRoute} /></Pane>)}
+          {shown.map((i) => <Pane key={i} idx={i} x={x}><Day iso={keys[i]} rows={data[i]} filter={filter === 'live' && keys[i] === todayKey ? 'live' : 'all'} onOpen={openMatch} onLeague={openRoute} /></Pane>)}
         </View>
       </GestureDetector>
       <Calendar visible={cal} selected={dates[cur] || new Date()} onClose={() => setCal(false)} onPick={pick} />
