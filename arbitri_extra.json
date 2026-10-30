@@ -349,9 +349,19 @@
 "src": "api-football",
 "at": "2026-10-30T04:54+00:00"
 },
+"5881708": {
+"n": "Jarno Wienefeld",
+"src": "api-football",
+"at": "2026-10-30T16:54+00:00"
+},
+"5881709": {
+"n": "Florian Lechner",
+"src": "api-football",
+"at": "2026-10-30T16:54+00:00"
+},
 "_err": [
 "2026-11-01: {\"plan\": \"Free plans do not have access to this date, try from 2026-10-29 to 2026-10-31.\"}",
 "2026-11-02: {\"plan\": \"Free plans do not have access to this date, try from 2026-10-29 to 2026-10-31.\"}"
 ],
-"_at": "2026-10-30T13:01+00:00"
+"_at": "2026-10-30T16:54+00:00"
 }
