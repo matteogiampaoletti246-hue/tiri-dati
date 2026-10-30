@@ -1,0 +1,22 @@
+name: Prova fonti (raggiungibilita dal runner)
+# Controlla solo se FBref, WhoScored, Sofascore e Understat rispondono ai server di GitHub. Scrive il referto nel ramo probe-out.
+on: workflow_dispatch
+permissions:
+  contents: write
+jobs:
+  prova:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Prova
+        run: |
+          mkdir -p /tmp/po
+          UA='Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 Mobile Safari/604.1'
+          D=$(date -u +%Y-%m-%d)
+          for u in "https://api.sofascore.com/api/v1/sport/football/scheduled-events/$D" "https://www.sofascore.com/" "https://fbref.com/en/matches/$D" "https://understat.com/league/Serie_A" "https://www.whoscored.com/" "https://www.livescore.com/en/" "https://onefootball.com/en/home"; do
+            c=$(curl -sS -m 20 -o /tmp/b.txt -w '%{http_code}' -A "$UA" "$u" 2>&1 | tail -1)
+            echo "$c $(wc -c < /tmp/b.txt) $u" | tee -a /tmp/po/referto.txt
+          done
+      - name: Salva
+        run: |
+          cd /tmp/po && git init -q -b probe-out && git config user.name github-actions && git config user.email github-actions@users.noreply.github.com
+          git add -A && git commit -qm "Referto fonti" && git push -qf "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" probe-out
