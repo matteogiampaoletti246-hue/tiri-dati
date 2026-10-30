@@ -211,7 +211,10 @@ export const inHScroll = (el) => {
 // fuori dalla zona del bordo si chiede un gesto chiaramente orizzontale (lo scorrimento verticale non si perde mai)
 export const backFarOk = (dx, dy) => dx > 10 && dx > Math.abs(dy) * 1.2;
 export const BACK_ZONE = isNative() ? 64 : 48;
-export const backDone = (dx, w, v) => (isNative() ? dx > w * 0.22 || (v > 0.3 && dx > w * 0.08) : dx > w * 0.5 || (v > 0.9 && dx > w * 0.25));
+// nell'app nativa la pagina corre piu' veloce del dito (SWIPE_GAIN, come in native/App.js): uno swipe leggero la porta oltre la meta'
+export const SWIPE_GAIN = isNative() ? 2.2 : 1;
+const gained = (dx) => Math.min(Math.max(0, dx) * SWIPE_GAIN, 460);
+export const backDone = (dx, w, v) => (isNative() ? dx > w * 0.23 || (v > 0.3 && dx > w * 0.08) : dx > w * 0.5 || (v > 0.9 && dx > w * 0.25));
 // partendo dal bordo basta un movimento piu' orizzontale che verticale (angolo largo): lo swipe indietro non si perde
 export const backAngleOk = (dx, dy) => dx > 8 && dx > Math.abs(dy) * 0.75;
 function installEdgeGuard() {
@@ -328,6 +331,7 @@ export function pageDrag(dx) {
   if (modalOpen()) return; // finestra aperta (giocatore, fogli): la pagina sotto e la sua fotografia restano ferme
   if (nativeRoot()) { toNative(`drag:${Math.round(Math.max(0, dx))}`); return; }
   const w = Math.min(window.innerWidth, 430);
+  dx = Math.min(gained(dx), w);
   behindOn();
   behindMove(Math.max(0, dx), w);
   pageEls().forEach((el, i) => {
@@ -379,6 +383,7 @@ export function pageBack(dx, navigate) {
   if (!els.length || !canGoBack()) { pageReset(true); return; }
   const fromIdx = histIdx();
   const w = Math.min(window.innerWidth, els[0].offsetWidth || 430);
+  dx = Math.min(gained(dx), w);
   const ms = Math.max(160, Math.round(260 * (1 - dx / (w + 24)) + 110));
   const hasBehind = !!behindOn();
   els.forEach((el) => { el.style.willChange = 'transform'; el.style.transition = 'none'; el.style.transform = `translate3d(${dx}px,0,0)`; });

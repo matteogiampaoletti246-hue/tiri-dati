@@ -245,7 +245,8 @@ const Pane = ({ idx, x, children }) => {
 };
 
 const NO_LAUNCH = "try{sessionStorage.setItem('sl-launched','1')}catch(e){};" + "(function(){var n=0;window.__slDepth=0;var send=function(){window.__slDepth=n;try{window.ReactNativeWebView.postMessage('depth:'+n)}catch(e){}};var P=history.pushState,R=history.replaceState;history.pushState=function(s,t,u){n++;var st=Object.assign({},s||{});st.__sln=n;var r=P.call(this,st,t,u);send();return r;};history.replaceState=function(s,t,u){var st=Object.assign({},s||{});st.__sln=n;return R.call(this,st,t,u);};window.addEventListener('popstate',function(){var st=history.state;if(st&&typeof st.__sln==='number'){n=st.__sln;}else{n=0;}send();if(location.hash==='#/linee-guida'){try{window.ReactNativeWebView.postMessage('home')}catch(e){}}});})();true;";
-const EDGE_W = 60; // zona dello swipe indietro (px dal bordo): larga, cosi' parte anche senza essere precisi
+const EDGE_W = 16; // striscia nativa sul bordo (swipe fluido sul thread UI). Stretta: piu' larga copriva i tasti a sinistra (Riepilogo) e ne mangiava il tocco.
+const SWIPE_GAIN = 2.2; // la pagina corre piu' veloce del dito: uno swipe leggero (~23% dello schermo) la porta oltre la meta'. Stesso valore in lib/carousel.js
 
 const THEME_JS = "(function(){try{var send=function(){window.ReactNativeWebView.postMessage(document.documentElement.classList.contains('dark')?'dark':'light');};send();new MutationObserver(send).observe(document.documentElement,{attributes:true,attributeFilter:['class']});}catch(e){}})();true;";
 const scoreStr = (sc) => { const x = /(\d+)\s*-\s*(\d+)/.exec(String(sc || '')); return x ? `${x[1]}-${x[2]}` : null; };
@@ -253,17 +254,18 @@ const scoreStr = (sc) => { const x = /(\d+)\s*-\s*(\d+)/.exec(String(sc || ''));
 // barra in basso come nel sito (stesse icone): Home, Calcolatore, Giocatori, Matchup. Componente a parte e memoizzato: non si ridisegna
 // quando la Home cambia giorno o scorre; le altre pagine sono nella pagina web, che ha la sua barra.
 const TABS = [['Home', 'home-outline', null], ['Calcolatore', 'calculator-outline', '/calcolatore'], ['Giocatori', 'people-outline', '/migliori-giocatori'], ['Matchup', 'sword-cross', '/migliori-matchup']];
-const TabBar = memo(({ onOpen, bottom }) => {
+const TabBar = memo(({ onOpen, onHome, active, bottom }) => {
   const { C, s } = useT();
   return (
     <View pointerEvents="box-none" style={[s.tabWrap, { paddingBottom: Math.max(bottom, 8) }]}>
       <View style={s.tabBar}>
         {TABS.map(([label, icon, route]) => {
           const Ic = icon === 'sword-cross' ? MaterialCommunityIcons : Ionicons;
+          const on = active === route;
           return (
-            <Pressable key={label} onPress={route ? () => onOpen(route) : undefined} style={[s.tabItem, !route && s.tabOn]} accessibilityLabel={label}>
-              <Ic name={icon} size={21} color={!route ? C.accent : C.ink3} />
-              <Text style={[s.tabTxt, !route && { color: C.accent }]}>{label}</Text>
+            <Pressable key={label} onPress={() => (route ? onOpen(route) : onHome())} style={[s.tabItem, on && s.tabOn]} accessibilityLabel={label}>
+              <Ic name={icon} size={21} color={on ? C.accent : C.ink3} />
+              <Text style={[s.tabTxt, on && { color: C.accent }]}>{label}</Text>
             </Pressable>
           );
         })}
@@ -288,6 +290,8 @@ function Screen({ onTheme }) {
   // (`pendingHash`), la pagina si monta subito gia' sulla rotta giusta (`bootUri`) e al termine del caricamento si applica.
   const [ready, setReady] = useState(false);
   const readyRef = useRef(false);
+  const [webOpen, setWebOpen] = useState(false);   // la pagina web e' sopra la Home (la barra in basso e' sempre quella nativa)
+  const [webRoute, setWebRoute] = useState('');     // rotta mostrata dalla pagina web (per evidenziare la voce giusta)
   const [busy, setBusy] = useState(false); // apertura in corso: rotella al posto della pagina vecchia
   const webPath = useRef('');               // percorso che la pagina web dice di mostrare (messaggio `route:`)
   const awaitRoute = useRef(null);
@@ -402,7 +406,7 @@ function Screen({ onTheme }) {
     return () => { alive = false; clearTimeout(t); sub.remove(); };
   }, [!!data, refresh]);
 
-  const markClosed = useCallback(() => { openRef.current = false; }, []);
+  const markClosed = useCallback(() => { openRef.current = false; setWebOpen(false); }, []);
   const hashTo = useCallback((h) => {
     if (readyRef.current && webRef.current) { pendingHash.current = null; webRef.current.injectJavaScript(`location.hash=${JSON.stringify(h)};true;`); }
     else pendingHash.current = h; // pagina non ancora caricata: si applica appena pronta
@@ -415,7 +419,7 @@ function Screen({ onTheme }) {
     setReady(true);
   }, []);
   const openRoute = useCallback((route) => {
-    openRef.current = true; setDepth(0);
+    openRef.current = true; setWebOpen(true); setDepth(0);
     if (!readyRef.current) { startRoute.current = route; setWarm(true); }
     const path = route.split('?')[0];
     if (webPath.current !== path) { // la pagina web e' gia' su questa rotta (riapertura veloce): niente attesa
@@ -426,7 +430,7 @@ function Screen({ onTheme }) {
     ov.value = withTiming(0, { duration: 260, easing: Easing.out(Easing.cubic) });
   }, [hashTo, ov, endBusy]);
   const afterClose = useCallback(() => { hashTo('#/linee-guida'); setDepth(0); }, [hashTo]);
-  const closeWeb = useCallback(() => { openRef.current = false; ov.value = withTiming(W, { duration: 240, easing: Easing.out(Easing.cubic) }, (done) => { if (done) runOnJS(afterClose)(); }); }, [afterClose, ov]);
+  const closeWeb = useCallback(() => { openRef.current = false; setWebOpen(false); ov.value = withTiming(W, { duration: 240, easing: Easing.out(Easing.cubic) }, (done) => { if (done) runOnJS(afterClose)(); }); }, [afterClose, ov]);
   const openMatch = useCallback((m) => {
     // sempre la scheda d'archivio della stagione in corso: il percorso del feed (x-) trova la partita solo se il sito ha gia' caricato
     // quel giorno (provato: 12 partite su 26 dei campionati minori e tutte le coppe europee davano "Partita non trovata").
@@ -436,7 +440,7 @@ function Screen({ onTheme }) {
   const onMsg = useCallback((e) => {
     const t = e && e.nativeEvent && e.nativeEvent.data;
     if (t === 'dark' || t === 'light') onTheme(t);
-    else if (typeof t === 'string' && t.startsWith('route:')) { webPath.current = t.slice(6); if (awaitRoute.current === webPath.current) endBusy(); } // la pagina web ha disegnato questa rotta
+    else if (typeof t === 'string' && t.startsWith('route:')) { webPath.current = t.slice(6); setWebRoute(webPath.current); if (awaitRoute.current === webPath.current) endBusy(); } // la pagina web ha disegnato questa rotta
     else if (typeof t === 'string' && t.startsWith('depth:')) setDepth(Number(t.slice(6)) || 0);
     else if (typeof t === 'string' && t.startsWith('drag:')) { const d = Number(t.slice(5)); ov.value = d < 0 ? withTiming(0, { duration: 180 }) : withTiming(d, { duration: 90, easing: Easing.linear }); } // swipe indietro partito dentro la pagina web (prima pagina dopo la Home)
     else if (t === 'home' && openRef.current) closeWeb(); // il tasto indietro del sito e' tornato alla pagina di partenza: si torna alla Home
@@ -467,9 +471,9 @@ function Screen({ onTheme }) {
   // bordo sinistro: scorrimento indietro dalla pagina web
   const edge = useMemo(() => Gesture.Pan().activeOffsetX([6, 1000]).failOffsetY([-40, 40])
     .onStart(() => { ovStart.value = ov.value; })
-    .onUpdate((e) => { ov.value = Math.max(0, ovStart.value + e.translationX); })
+    .onUpdate((e) => { ov.value = Math.min(W, Math.max(0, ovStart.value + e.translationX * SWIPE_GAIN)); })
     .onEnd((e) => {
-      if (e.translationX > W * 0.2 || e.velocityX > 350) { runOnJS(markClosed)(); ov.value = withTiming(W, { duration: 200, easing: Easing.out(Easing.cubic) }, (done) => { if (done) runOnJS(afterClose)(); }); } else ov.value = withTiming(0, { duration: 180 });
+      if (e.translationX > W * 0.2 || e.velocityX > 300) { runOnJS(markClosed)(); ov.value = withTiming(W, { duration: 200, easing: Easing.out(Easing.cubic) }, (done) => { if (done) runOnJS(afterClose)(); }); } else ov.value = withTiming(0, { duration: 180 });
     }), [ov, ovStart, afterClose, markClosed]);
   const ovStyle = useAnimatedStyle(() => ({ transform: [{ translateX: ov.value }] }));
 
@@ -497,7 +501,6 @@ function Screen({ onTheme }) {
           {shown.map((i) => <Pane key={i} idx={i} x={x}><Day iso={keys[i]} rows={data[i]} filter={filter} onOpen={openMatch} onLeague={openRoute} /></Pane>)}
         </View>
       </GestureDetector>
-      <TabBar onOpen={openRoute} bottom={insets.bottom} />
       <Calendar visible={cal} selected={dates[cur] || new Date()} onClose={() => setCal(false)} onPick={pick} />
 
       {/* pagina web (resto dell'app): gia' caricata, si apre scorrendo da destra */}
@@ -511,6 +514,7 @@ function Screen({ onTheme }) {
         </View>
         <GestureDetector gesture={edge}><View pointerEvents={depth > 0 ? 'none' : 'auto'} style={[s.edge, { width: EDGE_W, top: insets.top + 98 }]} /></GestureDetector>
       </Animated.View>
+      <TabBar onOpen={openRoute} onHome={closeWeb} active={webOpen ? (TABS.find(([, , r]) => r && webRoute.startsWith(r)) || [])[2] || '' : null} bottom={insets.bottom} />
     </View>
   );
 }

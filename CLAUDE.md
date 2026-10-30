@@ -288,3 +288,7 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 
 ## Pubblicazione app nativa (Expo)
 - `native_expo.yml` ha `concurrency` (una pubblicazione alla volta, in coda): due merge ravvicinati pubblicavano insieme sullo stesso ramo EAS e scrivevano insieme `native-link/latest.json`; l'utente apriva un aggiornamento a meta' (errore Expo Go "RCTEventEmitter.receiveEvent ... not registered"). Dopo una pubblicazione: chiudere Expo Go del tutto e riaprirlo due volte.
+
+## App nativa: barra unica e swipe indietro veloce (regola fissa)
+- Nell'app nativa la barra in basso e' una sola, quella nativa (`TabBar` in `native/App.js`), disegnata SOPRA la pagina web: Home chiude la WebView (`closeWeb`), le altre voci aprono la rotta; la voce attiva segue `route:` della pagina. La barra del sito (`BottomBar`) e' `visibility:hidden` in nativo: nessun cambio di colore, mai la Home vecchia del sito.
+- Swipe indietro: la pagina corre piu' veloce del dito (`SWIPE_GAIN` 2,2 in `native/App.js` e `lib/carousel.js`, soglia `backDone` nativa 23%): uno swipe leggero la porta oltre la meta'. Striscia nativa del bordo stretta (`EDGE_W` 16 px): piu' larga copriva i tasti a sinistra (Riepilogo) e ne mangiava il tocco.

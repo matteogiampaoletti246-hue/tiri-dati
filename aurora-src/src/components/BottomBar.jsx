@@ -28,6 +28,8 @@ function BottomBar() {
         WebkitTransform: 'translate3d(0,0,0)',
         willChange: 'transform',
         contain: 'layout',
+        // app nativa: la barra in basso e' quella nativa (sempre sopra la pagina), questa resta invisibile
+        ...(isNative() ? { visibility: 'hidden', pointerEvents: 'none' } : null),
       }}
     >
       <div className="mx-auto w-full max-w-[var(--app-w)] px-4 pt-2">
