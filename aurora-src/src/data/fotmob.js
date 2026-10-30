@@ -256,7 +256,7 @@ export async function loadFm(m, playerLookup, force = false) {
     if (!id) return m;
     const c = fxCache[id];
     let d;
-    if (c && Date.now() - c.at < 8000) d = c.d;
+    if (c && Date.now() - c.at < 3000) d = c.d;
     else {
       d = await jget(`${WORKER}/fx?id=${id}`);
       fxCache[id] = { at: Date.now(), d };
@@ -333,7 +333,7 @@ export function refreshStatus() {
   if (refreshing) return refreshing;
   refreshing = (async () => {
     const now = Date.now();
-    const sus = MATCHES.filter((m) => suspect(m, now) && now - (m.statusAt || 0) > 20000);
+    const sus = MATCHES.filter((m) => suspect(m, now) && now - (m.statusAt || 0) > 4000);
     let changed = 0;
     const days = [...new Set(sus.filter((m) => !m.extra).map((m) => m.date))];
     await Promise.all(days.map((iso) => syncDayTimes(iso, true).then((n) => { changed += n; }).catch(() => 0)));
@@ -348,7 +348,7 @@ export function refreshStatus() {
         const m = one[i++];
         try {
           const c = fxCache[m.fmId];
-          const d = c && Date.now() - c.at < 8000 ? c.d : await jget(`${WORKER}/fx?id=${m.fmId}`);
+          const d = c && Date.now() - c.at < 3000 ? c.d : await jget(`${WORKER}/fx?id=${m.fmId}`);
           fxCache[m.fmId] = { at: Date.now(), d };
           fxKeep(m.fmId);
           if (applyStatus(m, { fin: d.fin, st: d.st, sc: d.sc && d.sc[0] != null ? [Number(d.sc[0]), Number(d.sc[1])] : null, clk: d.clk, ht: d.ht })) changed += 1;

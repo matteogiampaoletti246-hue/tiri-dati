@@ -111,7 +111,7 @@ export default {
       if (u.pathname === "/fx") {
         const id = u.searchParams.get("id");
         if (!/^\d{5,10}$/.test(id || "")) return new Response("{}", { status: 400, headers: cors(req) });
-        const r = await fetch("https://www.fotmob.com/api/data/matchDetails?matchId=" + id, { headers: FMH, cf: { cacheTtl: 5, cacheEverything: true } });
+        const r = await fetch("https://www.fotmob.com/api/data/matchDetails?matchId=" + id, { headers: FMH, cf: { cacheTtl: 3, cacheEverything: true } });
         if (!r.ok) throw new Error("FotMob " + r.status);
         const j = await r.json(), c = j.content || {}, lu = c.lineup || {}, rf = c.matchFacts && c.matchFacts.infoBox && c.matchFacts.infoBox.Referee;
         const ph = (pid) => pid ? "https://images.fotmob.com/image_resources/playerimages/" + pid + ".png" : null;
@@ -179,7 +179,7 @@ export default {
         });
         const shs = ((c.shotmap || {}).shots || []).map((x) => [x.min, x.minAdded, x.teamId, x.playerName, x.x, x.y, x.eventType, x.isBlocked ? 1 : 0, x.isOnTarget ? 1 : 0, x.blockedX, x.blockedY, x.goalCrossedY, x.goalCrossedZ, x.expectedGoals, x.expectedGoalsOnTarget, x.shotType, x.situation, x.isOwnGoal ? 1 : 0, x.period]);
         const mo = ((c.momentum || {}).main || {}).data || null;
-        return new Response(JSON.stringify({ t: Date.now(), hi: g2.homeTeam && g2.homeTeam.id, ai: g2.awayTeam && g2.awayTeam.id, sh: shs, mo: mo && mo.length ? mo.map((q) => ({ minute: q.minute, value: q.value })) : null, ty: lu.lineupType || null, started: !!g2.started, fin: !!g2.finished, st: live, sc: tm.length > 1 ? [tm[0].score, tm[1].score] : null, clk: clean(lt.short), ht, ev, stats, pl, h: team(lu.homeTeam), a: team(lu.awayTeam), ref }), { headers: cors(req, { "Cache-Control": "public, max-age=5" }) });
+        return new Response(JSON.stringify({ t: Date.now(), hi: g2.homeTeam && g2.homeTeam.id, ai: g2.awayTeam && g2.awayTeam.id, sh: shs, mo: mo && mo.length ? mo.map((q) => ({ minute: q.minute, value: q.value })) : null, ty: lu.lineupType || null, started: !!g2.started, fin: !!g2.finished, st: live, sc: tm.length > 1 ? [tm[0].score, tm[1].score] : null, clk: clean(lt.short), ht, ev, stats, pl, h: team(lu.homeTeam), a: team(lu.awayTeam), ref }), { headers: cors(req, { "Cache-Control": "public, max-age=3" }) });
       }
       if (u.pathname === "/m") {
         const lg = u.searchParams.get("lg"), id = u.searchParams.get("id");
@@ -190,12 +190,12 @@ export default {
       if (u.pathname === "/f") {
         const dt = u.searchParams.get("date");
         if (!/^\d{8}$/.test(dt || "")) return new Response("{}", { status: 400, headers: cors(req) });
-        const r = await fetch("https://www.fotmob.com/api/data/matches?date=" + dt + "&timezone=Europe%2FRome&ccode3=ITA", { headers: FMH, cf: { cacheTtl: 8, cacheEverything: true } });
+        const r = await fetch("https://www.fotmob.com/api/data/matches?date=" + dt + "&timezone=Europe%2FRome&ccode3=ITA", { headers: FMH, cf: { cacheTtl: 3, cacheEverything: true } });
         if (!r.ok) throw new Error("FotMob " + r.status);
         const j = await r.json(), OK = [47, 54, 87, 53, 55, 42, 73, 10216];
         const m = [];
         (j.leagues || []).forEach((l) => { if (!OK.includes(l.primaryId || l.id)) return; (l.matches || []).forEach((x) => m.push({ id: x.id, l: l.primaryId || l.id, h: x.home && x.home.name, a: x.away && x.away.name, hi: x.home && x.home.id, ai: x.away && x.away.id, t: x.status && x.status.utcTime, f: !!(x.status && x.status.finished), s: !!(x.status && x.status.started), sc: x.status && x.status.scoreStr || null, lt: x.status && x.status.liveTime ? String(x.status.liveTime.short || "").replace(/[\u200e\u200f]/g, "") : null })); });
-        return new Response(JSON.stringify({ t: Date.now(), m }), { headers: cors(req, { "Cache-Control": "public, max-age=8" }) });
+        return new Response(JSON.stringify({ t: Date.now(), m }), { headers: cors(req, { "Cache-Control": "public, max-age=3" }) });
       }
       if (u.pathname === "/fs") {
         const id = u.searchParams.get("id");

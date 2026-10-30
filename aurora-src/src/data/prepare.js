@@ -19,7 +19,7 @@ const arbitriExtra = () => { if (!AR) AR = fetch(`${BASE}arbitri_extra.json`, { 
 
 const fresh = (id, e) => {
   const m = matchById(id);
-  const ttl = m && (m.status === 'live' || (m.status === 'scheduled' && m.ts - Date.now() < 3 * 3600000)) ? 15000 : 300000;
+  const ttl = m && (m.status === 'live' || (m.status === 'scheduled' && m.ts - Date.now() < 3 * 3600000)) ? 4000 : 300000;
   return Date.now() - e.at < ttl;
 };
 
