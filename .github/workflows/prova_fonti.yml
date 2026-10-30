@@ -18,17 +18,7 @@ jobs:
           g "$B/lineups/" /tmp/po/m_lineups.html
           g "$B/stats/" /tmp/po/m_stats.html
           for f in m_sum m_lineups m_stats; do
-            python3 - "$f" <<'PY' | tee -a /tmp/po/referto.txt
-import re,json,sys
-f=sys.argv[1]
-s=open('/tmp/po/'+f+'.html',encoding='utf8',errors='ignore').read()
-m=re.search(r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>',s,re.S)
-if not m: print('---',f,'senza NEXT_DATA'); sys.exit()
-j=json.loads(m.group(1)); i=j['props']['pageProps'].get('initialData') or j['props']['pageProps']
-print('---',f,'chiavi:',list(i.keys())[:12])
-t=json.dumps(i,ensure_ascii=False)
-print('   byte',len(t),'| giocatori(playerName/name con photo):',len(re.findall(r'"(?:playerName|PlayerName|firstName)"',t)),'| lineup/Formation:',len(re.findall(r'(?i)formation|lineup',t)),'| stat:',len(re.findall(r'(?i)shots|possession|corners',t)))
-PY
+            python3 tools/prova_ls.py "$f" | tee -a /tmp/po/referto.txt
           done
       - name: Salva
         run: |
