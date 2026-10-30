@@ -28,6 +28,7 @@ async function once(v) {
   await cdp.send('Emulation.setCPUThrottlingRate', { rate: RATE });
   await b.startTracing(pg, { categories: ['devtools.timeline', 'disabled-by-default-devtools.timeline', 'blink', 'cc'] });
   const res = await pg.evaluate(async ([n, gap]) => {
+    const lts = []; try { new PerformanceObserver((l) => l.getEntries().forEach((e) => lts.push(Math.round(e.duration)))).observe({ type: 'longtask', buffered: true }); } catch (e) { /* ignore */ }
     const ts = []; let on = true;
     const f = (t) => { ts.push(t); if (on) requestAnimationFrame(f); };
     requestAnimationFrame(f);
@@ -45,17 +46,19 @@ async function once(v) {
     on = false;
     const d = ts.slice(1).map((t, i) => t - ts[i]);
     const s = [...d].sort((a, c) => a - c);
-    return { p50: Math.round(s[s.length >> 1]), p95: Math.round(s[Math.floor(s.length * 0.95)]), max: Math.round(s[s.length - 1]), over50: d.filter((x) => x > 50).length, over100: d.filter((x) => x > 100).length, persi: Math.round(d.reduce((a, x) => a + Math.max(0, Math.round(x / 16.7) - 1), 0)) };
+    await new Promise((q) => setTimeout(q, 100));
+    return { lt: lts, p50: Math.round(s[s.length >> 1]), p95: Math.round(s[Math.floor(s.length * 0.95)]), max: Math.round(s[s.length - 1]), over50: d.filter((x) => x > 50).length, over100: d.filter((x) => x > 100).length, persi: Math.round(d.reduce((a, x) => a + Math.max(0, Math.round(x / 16.7) - 1), 0)) };
   }, [N, GAP]);
   const trace = JSON.parse((await b.stopTracing()).toString());
   const ev = trace.traceEvents || trace;
   const by = {}; const longTasks = [];
   const cnt = {};
-  ev.forEach((e) => { if (e.name === 'RunTask') cnt[`${e.pid}:${e.tid}`] = (cnt[`${e.pid}:${e.tid}`] || 0) + 1; });
+  ev.forEach((e) => { if (NAMES.includes(e.name) && e.ph === 'X') cnt[`${e.pid}:${e.tid}`] = (cnt[`${e.pid}:${e.tid}`] || 0) + 1; });
   const main = Object.entries(cnt).sort((a, c) => c[1] - a[1])[0][0];
   ev.forEach((e) => { if (`${e.pid}:${e.tid}` !== main || e.ph !== 'X' || !e.dur) return; if (NAMES.includes(e.name)) by[e.name] = (by[e.name] || 0) + e.dur / 1000; if (e.name === 'RunTask' && e.dur > 50000) longTasks.push(Math.round(e.dur / 1000)); });
   await ctx.close();
-  return { ...res, nodes, ms: Object.fromEntries(Object.entries(by).map(([k, x]) => [k, Math.round(x)])), lt50: longTasks.length, lt100: longTasks.filter((x) => x > 100).length };
+  const lt = res.lt || [];
+  return { ...res, lt: undefined, ltN: lt.length, ltSum: lt.reduce((a, x) => a + x, 0), ltMax: Math.max(0, ...lt), nodes, ms: Object.fromEntries(Object.entries(by).map(([k, x]) => [k, Math.round(x)])), lt50: longTasks.length, lt100: longTasks.filter((x) => x > 100).length };
 }
 
 const out = { when: new Date().toISOString(), rate: RATE, reps: REPS, variants: {} };
@@ -64,7 +67,7 @@ for (const v of VARIANTS) {
   const runs = [];
   for (let i = 0; i < REPS; i++) { try { runs.push(await once(v)); } catch (e) { runs.push({ err: String(e).slice(0, 200) }); } }
   const okr = runs.filter((r) => !r.err);
-  const agg = okr.length ? { p50: med(okr.map((r) => r.p50)), p95: med(okr.map((r) => r.p95)), over50: med(okr.map((r) => r.over50)), over100: med(okr.map((r) => r.over100)), persi: med(okr.map((r) => r.persi)), lt50: med(okr.map((r) => r.lt50)), lt100: med(okr.map((r) => r.lt100)), nodes: okr[0].nodes, ms: Object.fromEntries(NAMES.map((k) => [k, med(okr.map((r) => r.ms[k] || 0))])) } : { err: runs.map((r) => r.err) };
+  const agg = okr.length ? { p50: med(okr.map((r) => r.p50)), p95: med(okr.map((r) => r.p95)), over50: med(okr.map((r) => r.over50)), over100: med(okr.map((r) => r.over100)), persi: med(okr.map((r) => r.persi)), lt50: med(okr.map((r) => r.lt50)), lt100: med(okr.map((r) => r.lt100)), ltN: med(okr.map((r) => r.ltN)), ltSum: med(okr.map((r) => r.ltSum)), ltMax: med(okr.map((r) => r.ltMax)), nodes: okr[0].nodes, ms: Object.fromEntries(NAMES.map((k) => [k, med(okr.map((r) => r.ms[k] || 0))])) } : { err: runs.map((r) => r.err) };
   out.variants[v.name] = agg;
   console.log(v.name, JSON.stringify(agg));
 }

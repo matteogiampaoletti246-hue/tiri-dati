@@ -95,7 +95,12 @@ function groupsOf(iso, filter, ver) {
 const FIRST = 6;
 const STEP = 5;
 const STEP_NEAR = 12;
-const DayPane = memo(function DayPane({ iso, filter, ver, active, near }) {
+const DayPane = memo(DayPaneBody, (a, b) => a.iso === b.iso && a.filter === b.filter && a.ver === b.ver && a.near === b.near
+  // giorno gia' completo: diventare centrale o vicino non cambia nulla, niente ridisegno delle sue righe
+  && (a.active === b.active || BUILT.get(`${b.iso}|${b.filter}`) === true)
+  // il minuto live ridisegna solo il giorno centrale (tick 0 = giorno non centrale)
+  && (a.tick === b.tick || a.tick === 0 || b.tick === 0));
+function DayPaneBody({ iso, filter, ver, active, near }) {
   const items = groupsOf(iso, filter, ver);
   const [cnt, setCnt] = useState(active ? Infinity : FIRST);
   const eff = active ? Infinity : cnt;
@@ -121,7 +126,7 @@ const DayPane = memo(function DayPane({ iso, filter, ver, active, near }) {
   return items.slice(0, eff).map((it) => (it.g
     ? <LeagueGroup key={`${iso}|${it.key}`} league={it.g.league} matches={it.g.matches} iso={iso} forceOpen={live} />
     : <CountryGroup key={`${iso}|${it.key}`} cc={it.c.cc} name={it.c.name} comps={it.c.comps} iso={iso} forceOpen={live} />));
-});
+}
 
 export default function Home() {
   useEntityScope('home');
@@ -213,11 +218,12 @@ export default function Home() {
       ended = true;
       clearTimeout(tm);
       finishRef.current = null;
+      // stili e cambio giorno nello stesso passaggio (nessun fotogramma in mezzo): un solo calcolo di stile e layout
       el.style.transition = 'none';
-      flushSync(() => { setIso(target); setPeek(null); peekRef.current = null; });
       el.style.height = '';
       el.style.transform = '';
       el.style.willChange = '';
+      flushSync(() => { setIso(target); setPeek(null); peekRef.current = null; });
       busy.current = false;
       GLIDE = false;
     };
@@ -330,14 +336,17 @@ export default function Home() {
 
   // finestra di 5 giorni: i due vicini (pronti per lo swipe) e due piu' lontani, preparati a riposo e non disegnati finche' non diventano vicini
   const farIso = (r) => { const j = dayIdx + r; return dayIdx >= 0 && (j < 0 || j >= ISO_LIST.length) ? null : addDays(iso, r); };
-  const panes = [];
+  // 5 caselle fisse: cambiando giorno ruotano (la casella che esce a sinistra rientra a destra con il giorno nuovo), le altre restano
+  // com'erano (stesso giorno, stesso disegno) e cambia solo la loro posizione: niente giorni smontati e rimontati a ogni swipe
+  const epoch = Math.floor(Date.parse(`${iso}T12:00:00Z`) / 864e5);
+  const c0 = ((epoch % 5) + 5) % 5;
   const sigs = {};
-  const add = (k, role) => { if (!k) return; sigs[k] = `${LEAGUES.length}#${daySig(k)}`; panes.push({ k, role }); };
-  add(farIso(-2), -2);
-  add(prevIso, -1);
-  add(iso, 0);
-  add(nextIso, 1);
-  add(farIso(2), 2);
+  const panes = [0, 1, 2, 3, 4].map((sl) => {
+    const role = (((sl - c0 + 2) % 5) + 5) % 5 - 2;
+    const k = role === 0 ? iso : role === -1 ? prevIso : role === 1 ? nextIso : farIso(role);
+    if (k) sigs[k] = `${LEAGUES.length}#${daySig(k)}`;
+    return { sl, k, role };
+  });
 
   return (
     <PageShell swipeBack={false}>
@@ -386,7 +395,7 @@ export default function Home() {
       <div style={{ overflow: 'clip' }}>
       <div
         ref={listRef}
-        style={{ minHeight: '55vh', position: 'relative' }}
+        style={{ minHeight: '55vh', position: 'relative', display: 'grid' }}
         onClickCapture={(e) => { if (moved.current) { e.preventDefault(); e.stopPropagation(); moved.current = false; } }}
       >
         {loading ? (
@@ -404,13 +413,13 @@ export default function Home() {
             ))}
           </>
         ) : (
-          panes.map(({ k, role }) => (
+          panes.map(({ sl, k, role }) => (
             <div
-              key={k}
+              key={sl}
               data-far={Math.abs(role) > 1 ? '1' : undefined}
-              style={role ? { position: 'absolute', top: 0, width: '100%', left: `${role * 100}%`, display: 'flow-root', ...(Math.abs(role) > 1 ? { visibility: 'hidden', pointerEvents: 'none' } : null) } : { display: 'flow-root' }}
+              style={{ gridArea: '1 / 1', minWidth: 0, display: 'flow-root', ...(role ? { transform: `translateX(${role * 100}%)`, height: 0, pointerEvents: 'none' } : null), ...(Math.abs(role) > 1 ? { visibility: 'hidden' } : null) }}
             >
-              <DayPane iso={k} filter={filter} ver={sigs[k]} tick={role === 0 ? tick : 0} active={role === 0 || peek === k} near={Math.abs(role) <= 1} />
+              {k ? <DayPane key={k} iso={k} filter={filter} ver={sigs[k]} tick={role === 0 ? tick + 1 : 0} active={role === 0 || peek === k} near={Math.abs(role) <= 1} /> : null}
             </div>
           ))
         )}
