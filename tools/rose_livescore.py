@@ -39,9 +39,22 @@ def kv_put(items):
 
 
 def main(country, comp):
-    page = nxt(get(f'{BASE}/{country}/{comp}/'))
-    teams = page['initialData']['tables']['league']['']
-    teams = teams[0]['teams'] if isinstance(teams, list) else []
+    found = {}
+    for suf in ('', 'table/', 'fixtures/', 'results/'):
+        pg0 = nxt(get(f'{BASE}/{country}/{comp}/{suf}'))
+        d = (pg0 or {}).get('initialData') or {}
+        lg = (d.get('tables') or {}).get('league') or {}
+        for grp in lg.values():
+            for tb in (grp if isinstance(grp, list) else []):
+                for t in tb.get('teams', []):
+                    found.setdefault(str(t['id']), {'id': str(t['id']), 'name': t['name'], 'teamBadge': t.get('teamBadge')})
+        for sec in d.get('sections') or []:
+            for e in sec.get('events', []):
+                for side in ('home', 'away'):
+                    i, n = e.get(side + 'TeamId'), e.get(side + 'TeamName')
+                    if i and n: found.setdefault(str(i), {'id': str(i), 'name': n, 'teamBadge': e.get(side + 'TeamBadge')})
+        print(f'pagina "{suf}": squadre finora {len(found)}')
+    teams = list(found.values())
     out, idx, miss = [], [], []
     for t in teams:
         tid, name = t['id'], t['name']
