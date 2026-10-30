@@ -5,9 +5,9 @@ import { archiveMetrics } from '@/data/archiveMetrics';
 import { comma } from '@/lib/format';
 
 // Statistiche previste: per ogni squadra (fatti suoi + subiti dall'avversaria) / 2.
-// Fattore casa/trasferta piccolo (+5% / -5%) solo su tiri, tiri in porta e corner: falli, fuorigioco e cartellini non cambiano in casa.
-const HOME_F = 1.05;
-const AWAY_F = 0.95;
+// Fattore casa/trasferta piccolo (+15% / -15%) solo su tiri, tiri in porta e corner: falli, fuorigioco e cartellini non cambiano in casa.
+const HOME_F = 1.15;
+const AWAY_F = 0.85;
 // [etichetta, statistica fatta, stessa statistica subita dall'avversaria, fattore casa]
 const ROWS = [
   ['Tiri', 'tiri', 'tiriConcessi', true],
