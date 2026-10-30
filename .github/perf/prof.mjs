@@ -26,6 +26,7 @@ async function once(v) {
   await pg.waitForTimeout(9000);
   const nodes = await pg.evaluate(() => document.getElementsByTagName('*').length);
   await cdp.send('Emulation.setCPUThrottlingRate', { rate: RATE });
+  if (v.cpu) { await cdp.send('Profiler.enable'); await cdp.send('Profiler.setSamplingInterval', { interval: 400 }); await cdp.send('Profiler.start'); }
   await b.startTracing(pg, { categories: ['devtools.timeline', 'disabled-by-default-devtools.timeline', 'blink', 'cc'] });
   const res = await pg.evaluate(async ([n, gap]) => {
     const lts = []; try { new PerformanceObserver((l) => l.getEntries().forEach((e) => lts.push(Math.round(e.duration)))).observe({ type: 'longtask', buffered: true }); } catch (e) { /* ignore */ }
@@ -51,6 +52,23 @@ async function once(v) {
     await new Promise((q) => setTimeout(q, 100));
     return { loaf: window.__loaf, lt: lts, p50: Math.round(s[s.length >> 1]), p95: Math.round(s[Math.floor(s.length * 0.95)]), max: Math.round(s[s.length - 1]), over50: d.filter((x) => x > 50).length, over100: d.filter((x) => x > 100).length, persi: Math.round(d.reduce((a, x) => a + Math.max(0, Math.round(x / 16.7) - 1), 0)) };
   }, [N, GAP]);
+  if (v.cpu && !globalThis.__cpuDone) {
+    globalThis.__cpuDone = true;
+    const prof = (await cdp.send('Profiler.stop')).profile;
+    const nodes = new Map(prof.nodes.map((n) => [n.id, n]));
+    const parent = new Map(); prof.nodes.forEach((n) => (n.children || []).forEach((c) => parent.set(c, n.id)));
+    const self = {}; const incl = {}; const dt = prof.timeDeltas;
+    const nm = (n) => { const cf = n.callFrame; return `${cf.functionName || '(anonima)'} ${(cf.url || '').split('/').pop()}:${cf.lineNumber + 1}`; };
+    prof.samples.forEach((id, i) => {
+      const t = (dt[i] || 0) / 1000; const n = nodes.get(id);
+      const k = nm(n); self[k] = (self[k] || 0) + t;
+      const seen = new Set(); let cur = id;
+      while (cur) { const kk = nm(nodes.get(cur)); if (!seen.has(kk)) { seen.add(kk); incl[kk] = (incl[kk] || 0) + t; } cur = parent.get(cur); }
+    });
+    const top = (o, n) => Object.entries(o).sort((a, c) => c[1] - a[1]).slice(0, n).map(([k, x]) => [Math.round(x), k]);
+    fs.mkdirSync('perf-out', { recursive: true });
+    fs.writeFileSync('perf-out/cpu.json', JSON.stringify({ self: top(self, 40), incl: top(incl, 70) }, null, 1));
+  }
   const trace = JSON.parse((await b.stopTracing()).toString());
   const ev = trace.traceEvents || trace;
   const by = {}; const longTasks = [];
