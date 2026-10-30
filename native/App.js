@@ -283,6 +283,14 @@ function Screen({ onTheme }) {
   const [warm, setWarm] = useState(false);
   const [depth, setDepth] = useState(0); // pagine aperte nella WebView dopo la prima (0 = la prima: lo swipe indietro e' dell'app)
   const openRef = useRef(false);
+  // La pagina web si prepara a riposo (2,5 s dopo l'avvio) e poi ci mette un po' a caricarsi. Un tocco prima che sia pronta
+  // (tasto in basso, ricerca, menu, partita) non puo' cambiare l'hash di una pagina che non c'e' ancora: la rotta si ricorda
+  // (`pendingHash`), la pagina si monta subito gia' sulla rotta giusta (`bootUri`) e al termine del caricamento si applica.
+  const [ready, setReady] = useState(false);
+  const readyRef = useRef(false);
+  const pendingHash = useRef(null);
+  const startRoute = useRef('/linee-guida');
+  const bootUri = useRef(null);
   const strip = useRef(null); const pos = useRef({}); const webRef = useRef(null);
   const lastCenter = useRef(0);
   const curRef = useRef(cur); curRef.current = cur;
@@ -390,8 +398,18 @@ function Screen({ onTheme }) {
   }, [!!data, refresh]);
 
   const markClosed = useCallback(() => { openRef.current = false; }, []);
-  const hashTo = useCallback((h) => { if (webRef.current) webRef.current.injectJavaScript(`location.hash=${JSON.stringify(h)};true;`); }, []);
-  const openRoute = useCallback((route) => { openRef.current = true; setDepth(0); hashTo(`#${route}`); ov.value = withTiming(0, { duration: 260, easing: Easing.out(Easing.cubic) }); }, [hashTo, ov]);
+  const hashTo = useCallback((h) => {
+    if (readyRef.current && webRef.current) { pendingHash.current = null; webRef.current.injectJavaScript(`location.hash=${JSON.stringify(h)};true;`); }
+    else pendingHash.current = h; // pagina non ancora caricata: si applica appena pronta
+  }, []);
+  const onWebLoaded = useCallback(() => {
+    readyRef.current = true;
+    const h = pendingHash.current;
+    pendingHash.current = null;
+    if (h && webRef.current) webRef.current.injectJavaScript(`if(location.hash!==${JSON.stringify(h)})location.hash=${JSON.stringify(h)};true;`);
+    setReady(true);
+  }, []);
+  const openRoute = useCallback((route) => { openRef.current = true; setDepth(0); if (!readyRef.current) { startRoute.current = route; setWarm(true); } hashTo(`#${route}`); ov.value = withTiming(0, { duration: 260, easing: Easing.out(Easing.cubic) }); }, [hashTo, ov]);
   const afterClose = useCallback(() => { hashTo('#/linee-guida'); setDepth(0); }, [hashTo]);
   const closeWeb = useCallback(() => { openRef.current = false; ov.value = withTiming(W, { duration: 240, easing: Easing.out(Easing.cubic) }, (done) => { if (done) runOnJS(afterClose)(); }); }, [afterClose, ov]);
   const openMatch = useCallback((m) => {
@@ -440,6 +458,7 @@ function Screen({ onTheme }) {
   const ovStyle = useAnimatedStyle(() => ({ transform: [{ translateX: ov.value }] }));
 
   if (!data) return <View style={[s.root, { alignItems: 'center', justifyContent: 'center' }]}><ActivityIndicator color={C.accent} /></View>;
+  if (warm && !bootUri.current) bootUri.current = `${SITE}aurora/#${startRoute.current}`; // fissato al primo montaggio: cambiarlo dopo ricaricherebbe la pagina
   const shown = [cur - 2, cur - 1, cur, cur + 1, cur + 2].filter((i) => i >= 0 && i < N);
   return (
     <View style={[s.root, { paddingTop: insets.top }]}>
@@ -469,7 +488,8 @@ function Screen({ onTheme }) {
       <Animated.View pointerEvents="box-none" style={[StyleSheet.absoluteFill, { backgroundColor: C.bg }, ovStyle]}>
         <View style={{ paddingTop: insets.top, flex: 1 }}>
           <Pressable onPress={closeWeb} style={s.back}><Ionicons name="chevron-back" size={20} color={C.accent} /><Text style={{ color: C.accent, fontSize: 16 }}>Home</Text></Pressable>
-          {warm ? <WebView ref={webRef} source={{ uri: `${SITE}aurora/#/linee-guida` }} style={{ flex: 1, backgroundColor: C.bg }} injectedJavaScriptBeforeContentLoaded={NO_LAUNCH} injectedJavaScript={THEME_JS} onMessage={onMsg} decelerationRate={0.998} contentInsetAdjustmentBehavior="never" automaticallyAdjustContentInsets={false} directionalLockEnabled={false} allowsLinkPreview={false} /> : null}
+          {warm ? <WebView ref={webRef} source={{ uri: bootUri.current }} onLoadEnd={onWebLoaded} style={{ flex: 1, backgroundColor: C.bg }} injectedJavaScriptBeforeContentLoaded={NO_LAUNCH} injectedJavaScript={THEME_JS} onMessage={onMsg} decelerationRate={0.998} contentInsetAdjustmentBehavior="never" automaticallyAdjustContentInsets={false} directionalLockEnabled={false} allowsLinkPreview={false} /> : null}
+          {!ready ? <View pointerEvents="none" style={[StyleSheet.absoluteFill, { alignItems: 'center', justifyContent: 'center' }]}><ActivityIndicator color={C.accent} /></View> : null}
         </View>
         <GestureDetector gesture={edge}><View pointerEvents={depth > 0 ? 'none' : 'auto'} style={[s.edge, { width: EDGE_W, top: insets.top + 98 }]} /></GestureDetector>
       </Animated.View>
