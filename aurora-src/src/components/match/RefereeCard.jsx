@@ -57,8 +57,13 @@ export default function RefereeCard({ match, concept = 'b' }) {
   // campionati senza arbitri in archivio: medie dell'arbitro da FotMob (o dalla stagione archiviata) contro la media del campionato
   const fmRef = match.refFm;
   const ex = match.refExtra;
-  const st = r ? refStatsIn(r, match.leagueId) : fmRef && fmRef.ya != null ? { n: fmRef.mt || 0, y: fmRef.ya, fo: fmRef.foa || 0 } : ex ? { n: ex.n, y: ex.y, fo: ex.fo } : null;
-  const lg = (r ? leagueRefAvg(match.leagueId) : null) || match.refLg || null;
+  // prima le ultime due stagioni in questa competizione (arbitri2/); senza, le altre fonti della stagione
+  const two = match.refTwo;
+  const st = two || (r ? refStatsIn(r, match.leagueId) : fmRef && fmRef.ya != null ? { n: fmRef.mt || 0, y: fmRef.ya, fo: fmRef.foa || 0 } : ex ? { n: ex.n, y: ex.y, fo: ex.fo } : null);
+  const lg = (two && two.lg) || (r ? leagueRefAvg(match.leagueId) : null) || match.refLg || null;
+  const when = two ? (two.seasons > 1 ? 'nelle ultime 2 stagioni' : "nell'ultima stagione") : 'questa stagione';
+  const barY = st && lg && st.y != null && lg.y != null;
+  const barF = st && lg && st.fo != null && lg.fo != null;
   const flag = r && r.cc ? flagCodeOf(r.cc) : fmRef && fmRef.cc ? flagCodeOf(fmRef.cc) : '';
   const inner = (
     <>
@@ -68,14 +73,14 @@ export default function RefereeCard({ match, concept = 'b' }) {
         </span>
         <div className="min-w-0">
           <p className="flex items-center gap-1.5 truncate text-[15px] font-extrabold">{flag ? <FlagDot code={flag} size={18} /> : null}<span className="truncate">{name}</span></p>
-          <p className="text-[11.5px]" style={{ color: 'var(--ink-3)' }}>{st ? `${st.n} ${st.n === 1 ? 'gara' : 'gare'} questa stagione` : 'Arbitro'}</p>
+          <p className="text-[11.5px]" style={{ color: 'var(--ink-3)' }}>{st ? `${st.n} ${st.n === 1 ? 'gara' : 'gare'} ${when}` : 'Arbitro'}</p>
         </div>
       </div>
-      {st && lg ? (
+      {barY || barF ? (
         <div style={{ borderTop: '1px solid var(--hair-2)' }}>
-          <RefBar label="Ammonizioni / partita" v={st.y} avg={lg.y} sorted={lg.ys} concept={concept} />
-          <div style={{ borderTop: '1px solid var(--hair-2)' }}><RefBar label="Falli fischiati / partita" v={st.fo} avg={lg.fo} sorted={lg.fos} concept={concept} /></div>
-          <p className="flex items-center gap-2 px-4 pb-3 text-[10.5px]" style={{ color: 'var(--ink-3)' }}><span style={{ display: 'inline-block', height: 12, borderLeft: concept === 'b' ? '2px dashed var(--ink)' : '2px solid var(--ink)', opacity: 0.85 }} />media stagionale arbitri {(leagueById(match.leagueId) || match.leagueObj || {}).name || ''}</p>
+          {barY ? <RefBar label={two ? 'Cartellini / partita' : 'Ammonizioni / partita'} v={st.y} avg={lg.y} sorted={lg.ys} concept={concept} /> : null}
+          {barF ? <div style={barY ? { borderTop: '1px solid var(--hair-2)' } : undefined}><RefBar label="Falli fischiati / partita" v={st.fo} avg={lg.fo} sorted={lg.fos} concept={concept} /></div> : null}
+          <p className="flex items-center gap-2 px-4 pb-3 text-[10.5px]" style={{ color: 'var(--ink-3)' }}><span style={{ display: 'inline-block', height: 12, borderLeft: concept === 'b' ? '2px dashed var(--ink)' : '2px solid var(--ink)', opacity: 0.85 }} />{two ? `media ${two.seasons > 1 ? 'ultime 2 stagioni' : 'stagione'} arbitri` : 'media stagionale arbitri'} {(leagueById(match.leagueId) || match.leagueObj || {}).name || ''}</p>
         </div>
       ) : null}
     </>

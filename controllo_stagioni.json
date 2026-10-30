@@ -2113,13 +2113,15 @@ false
 "lega": "serie-a",
 "fm": 55,
 "stagione": "2026-2027",
-"giocate": 80,
+"giocate": 90,
 "partite_scaricate": 80,
 "con_stat_squadra": 80,
 "con_stat_giocatori": 80,
 "ufficiali_giocatori": 41,
 "ufficiali_squadre": 30,
-"motivo": []
+"motivo": [
+"partite scaricate 80 su 90"
+]
 },
 {
 "lega": "eredivisie",
@@ -3269,7 +3271,7 @@ false
 "lega": "scottish-premiership",
 "fm": 64,
 "stagione": "2026-2027",
-"giocate": 60,
+"giocate": 66,
 "partite_scaricate": 60,
 "con_stat_squadra": 60,
 "con_stat_giocatori": 60,
@@ -4087,13 +4089,15 @@ false
 "lega": "serie-b",
 "fm": 86,
 "stagione": "2026-2027",
-"giocate": 80,
+"giocate": 90,
 "partite_scaricate": 80,
 "con_stat_squadra": 80,
 "con_stat_giocatori": 80,
 "ufficiali_giocatori": 41,
 "ufficiali_squadre": 30,
-"motivo": []
+"motivo": [
+"partite scaricate 80 su 90"
+]
 },
 {
 "lega": "la-liga",
@@ -5318,7 +5322,7 @@ false
 "lega": "arg-liga-profesional",
 "fm": 112,
 "stagione": "2026 - Clausura",
-"giocate": 207,
+"giocate": 209,
 "partite_scaricate": 207,
 "con_stat_squadra": 207,
 "con_stat_giocatori": 207,
@@ -5615,7 +5619,7 @@ false
 "lega": "mls",
 "fm": 130,
 "stagione": "2026",
-"giocate": 466,
+"giocate": 480,
 "partite_scaricate": 466,
 "con_stat_squadra": 466,
 "con_stat_giocatori": 466,
@@ -5859,7 +5863,7 @@ false
 "lega": "efl-cup",
 "fm": 133,
 "stagione": "2026-2027",
-"giocate": 74,
+"giocate": 82,
 "partite_scaricate": 74,
 "con_stat_squadra": 74,
 "con_stat_giocatori": 74,
@@ -9228,13 +9232,15 @@ false
 "lega": "dfb-pokal",
 "fm": 209,
 "stagione": "2026-2027",
-"giocate": 32,
+"giocate": 48,
 "partite_scaricate": 32,
 "con_stat_squadra": 32,
 "con_stat_giocatori": 32,
 "ufficiali_giocatori": 37,
 "ufficiali_squadre": 27,
-"motivo": []
+"motivo": [
+"partite scaricate 32 su 48"
+]
 },
 {
 "lega": "liga-mx",
@@ -9896,7 +9902,7 @@ false
 "lega": "liga-mx",
 "fm": 230,
 "stagione": "2026-2027 - Apertura",
-"giocate": 124,
+"giocate": 125,
 "partite_scaricate": 124,
 "con_stat_squadra": 124,
 "con_stat_giocatori": 124,
@@ -10207,7 +10213,7 @@ false
 "lega": "brasileirao",
 "fm": 268,
 "stagione": "2026",
-"giocate": 317,
+"giocate": 326,
 "partite_scaricate": 317,
 "con_stat_squadra": 317,
 "con_stat_giocatori": 317,
@@ -10535,13 +10541,15 @@ false
 "lega": "austrian-cup",
 "fm": 278,
 "stagione": "2026-2027",
-"giocate": 48,
+"giocate": 56,
 "partite_scaricate": 48,
 "con_stat_squadra": 0,
 "con_stat_giocatori": 0,
 "ufficiali_giocatori": 2,
 "ufficiali_squadre": 4,
-"motivo": [],
+"motivo": [
+"partite scaricate 48 su 56"
+],
 "campione_fotmob": [
 [
 false,
@@ -11688,6 +11696,20 @@ false
 ]
 },
 {
+"lega": "serie-a",
+"fm": 55,
+"stagione": "2026-2027",
+"giocate": 90,
+"partite_scaricate": 80,
+"con_stat_squadra": 80,
+"con_stat_giocatori": 80,
+"ufficiali_giocatori": 41,
+"ufficiali_squadre": 30,
+"motivo": [
+"partite scaricate 80 su 90"
+]
+},
+{
 "lega": "nor-eliteserien",
 "fm": 59,
 "stagione": "2010",
@@ -12511,6 +12533,20 @@ false
 "ufficiali_squadre": 0,
 "motivo": [
 "giocatori: nessuna fonte"
+]
+},
+{
+"lega": "serie-b",
+"fm": 86,
+"stagione": "2026-2027",
+"giocate": 90,
+"partite_scaricate": 80,
+"con_stat_squadra": 80,
+"con_stat_giocatori": 80,
+"ufficiali_giocatori": 41,
+"ufficiali_squadre": 30,
+"motivo": [
+"partite scaricate 80 su 90"
 ]
 },
 {
@@ -15617,6 +15653,20 @@ false
 ]
 },
 {
+"lega": "dfb-pokal",
+"fm": 209,
+"stagione": "2026-2027",
+"giocate": 48,
+"partite_scaricate": 32,
+"con_stat_squadra": 32,
+"con_stat_giocatori": 32,
+"ufficiali_giocatori": 37,
+"ufficiali_squadre": 27,
+"motivo": [
+"partite scaricate 32 su 48"
+]
+},
+{
 "lega": "liga-mx",
 "fm": 230,
 "stagione": "2010-2011 - Apertura",
@@ -16325,6 +16375,34 @@ false
 "partite scaricate 0 su 63",
 "giocatori: nessuna fonte",
 "squadre: nessuna fonte"
+]
+},
+{
+"lega": "austrian-cup",
+"fm": 278,
+"stagione": "2026-2027",
+"giocate": 56,
+"partite_scaricate": 48,
+"con_stat_squadra": 0,
+"con_stat_giocatori": 0,
+"ufficiali_giocatori": 2,
+"ufficiali_squadre": 4,
+"motivo": [
+"partite scaricate 48 su 56"
+],
+"campione_fotmob": [
+[
+false,
+false
+],
+[
+false,
+false
+],
+[
+false,
+false
+]
 ]
 },
 {

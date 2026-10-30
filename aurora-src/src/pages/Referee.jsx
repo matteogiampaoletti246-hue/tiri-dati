@@ -30,7 +30,7 @@ export default function Referee() {
   const count = matchesByReferee(referee.id).length;
 
   return (
-    <PageShell swipeBack={false}>
+    <PageShell>
       <RefereeHero referee={referee} league={league} matchCount={count} />
 
       {loading ? (

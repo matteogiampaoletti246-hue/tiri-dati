@@ -2,6 +2,7 @@
 Legge arch/<fm>/<stagione>.json di tutte le competizioni in FM_ID (aurora-src/src/data/archive.js)
 e scrive tidx/<tid%100>.json = {tid: [nome, [fm, [stagioni dalla piu' recente]], ...]}."""
 import json, os, re
+from femminili import is_women_comp, is_women_name, women_name
 ROOT = os.path.dirname(os.path.abspath(__file__))
 src = open(os.path.join(ROOT, 'aurora-src/src/data/archive.js'), encoding='utf-8').read()
 FMS = sorted({int(x) for x in re.findall(r"'?[\w-]+'?:\s*(\d+)", re.search(r'FM_ID\s*=\s*\{(.*?)\}', src, re.S).group(1))})
@@ -26,6 +27,12 @@ for fm in FMS:
             idx.setdefault(tid, {}).setdefault(fm, set()).add(sk)
             # nome piu' recente
             if sk >= names.get(tid, ('', ''))[0]: names[tid] = (sk, name)
+# squadre che giocano solo competizioni femminili: "Nome F" (stessa regola dell'app, mai il nome della maschile)
+ALL_IDX = json.load(open(os.path.join(ROOT, 'arch', 'index.json'), encoding='utf-8'))
+for tid, comps in idx.items():
+    sk, name = names.get(tid, ('', ''))
+    if is_women_name(name) or all(is_women_comp(fm, (ALL_IDX.get(str(fm)) or {}).get('n')) for fm in comps):
+        names[tid] = (sk, women_name(name))
 out = os.path.join(ROOT, 'tidx'); os.makedirs(out, exist_ok=True)
 sh = {}
 for tid, comps in idx.items():

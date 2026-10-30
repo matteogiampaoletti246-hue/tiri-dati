@@ -1436,7 +1436,104 @@ await step('swipe indietro: parte anche un po lontano dal bordo (10, 30, 45 px),
   }
   const back = (h) => !/squadra/.test(h || '');
   ok('swipe indietro: dal bordo e fino a 45 px si torna indietro', back(res[10]) && back(res[30]) && back(res[45]), res);
-  ok('swipe indietro: dal centro dello schermo non si torna indietro', !back(res[120]), res);
+  ok('swipe indietro: dalla prima scheda (a sinistra non c\'e\' nulla) parte anche dal centro', back(res[120]), res);
+});
+
+await step('swipe indietro: con schede a sinistra solo dal bordo o dal banner', async () => {
+  const open = async () => { await go('#/', 4500); await pg.evaluate(() => window.__slNav('/squadra/feyenoord')); await ready(); await wait(2500); await pg.evaluate(() => { const t = [...document.querySelectorAll('.tab-btn')]; if (t[1]) t[1].click(); }); await wait(900); };
+  const hash = () => pg.evaluate(() => location.hash);
+  await open();
+  await swipeIn('#sl-shell div[style*="pan-y"]', 300, 150); await wait(1800);
+  const centro = await hash();
+  await open();
+  await swipeIn('#sl-shell div[style*="pan-y"]', 300, 20); await wait(1800);
+  const bordo = await hash();
+  await open();
+  await swipeIn('[data-back-banner]', 300, 150); await wait(1800);
+  const banner = await hash();
+  ok('swipe indietro: scheda con altre a sinistra, dal centro resta sulla pagina', /squadra/.test(centro), { centro });
+  ok('swipe indietro: scheda con altre a sinistra, dal bordo torna indietro', !/squadra/.test(bordo), { bordo });
+  ok('swipe indietro: scheda con altre a sinistra, dal banner torna indietro', !/squadra/.test(banner), { banner });
+});
+
+await step('home e squadra non condividono lo scroll: tornando la Home e\' dov\'era', async () => {
+  for (const y0 of [0, 700]) {
+    await go('#/', 7000);
+    await pg.evaluate((y) => window.scrollTo(0, y), y0); await wait(500);
+    const prima = await pg.evaluate(() => Math.round(window.scrollY));
+    await pg.evaluate(() => window.__slNav('/squadra/feyenoord')); await ready(); await wait(2500);
+    await pg.evaluate(() => { const h = document.documentElement; h.style.minHeight = '4000px'; window.scrollTo(0, 1800); }); await wait(500);
+    const squadra = await pg.evaluate(() => Math.round(window.scrollY));
+    // la pagina cresce subito prima di tornare: il controllo della barra fissa (fixedGuard) non deve riportare sulla Home l'altezza della squadra
+    await pg.evaluate(() => { document.documentElement.style.minHeight = '4100px'; });
+    await pg.goBack(); await wait(5000);
+    const dopo = await pg.evaluate(() => Math.round(window.scrollY));
+    await pg.evaluate(() => { document.documentElement.style.minHeight = ''; });
+    ok(`scroll: Home a ${y0} px, squadra scorsa, al ritorno la Home e' alla stessa altezza`, squadra > 1000 && Math.abs(dopo - prima) <= 2, { prima, squadra, dopo });
+  }
+});
+
+await step('squadre femminili: nome con F, mai sulla scheda della maschile', async () => {
+  const has = async (re) => pg.evaluate((s) => new RegExp(s).test(document.body.innerText), re);
+  await go('#/squadra/fm-401657', 7000); await ready();
+  ok('femminili: la Barcellona di Liga F si chiama "Barcelona F"', await has('Barcelona F'));
+  const tidx = await getJson('tidx/34.json');
+  const men = tidx && tidx['8634'];
+  ok('femminili: la Barcellona maschile non ha competizioni femminili nell\'indice', !!men && !men.slice(1).some((c) => c[0] === 9907), { comp: men && men.slice(1).map((c) => c[0]) });
+  // la classifica di Liga F mostra i nomi con la F
+  await go('#/campionato/fm-9907', 7000); await ready(); await wait(1500);
+  await tabClick('Classifica'); await wait(2500);
+  ok('femminili: classifica di Liga F con "Barcelona F"', await has('Barcelona F'));
+  await go('#/squadra/barcelona', 6000); await ready(); await wait(1500);
+  ok('femminili: la scheda della squadra maschile resta "Barcelona"', (await pg.evaluate(() => { const h = document.querySelector('[data-back-banner]'); return h ? h.innerText : ''; })).split('\n').every((l) => l.trim() !== 'Barcelona F'));
+});
+
+await step('arbitro: gare e medie delle ultime due stagioni', async () => {
+  const d = await getJson('arbitri2/55.json');
+  ok('arbitri2: file con due stagioni, arbitri e medie', !!d && d.s.length === 2 && Object.keys(d.ref).length > 5 && d.lg.y > 0 && d.lg.fo > 0, { s: d && d.s });
+  // partita della stagione in corso con un arbitro noto nel file: il riquadro dice "ultime 2 stagioni" e il numero di gare del file
+  const idx = await getJson('arch/index.json');
+  const sk = [...idx['55'].s].sort().reverse()[0];
+  const season = await getJson(`arch/55/${sk}.json`);
+  const played = (season.fix || []).filter((m) => m[6]).slice(-6);
+  let seen = null;
+  for (const m of played) {
+    await go(`#/match/a-55-${sk}-${m[0]}`, 1000); await ready(); await wait(1500);
+    const t = await pg.evaluate(() => document.body.innerText);
+    const g = /(\d+) gar[ae] nelle ultime 2 stagioni/.exec(t);
+    if (g) { seen = Number(g[1]); break; }
+  }
+  ok('arbitro: il riquadro mostra le gare delle ultime 2 stagioni', seen != null && Object.values(d.ref).some((v) => v[0] === seen), { seen });
+});
+
+await step('giocatore fuori dai top campionati: Profilo e Statistiche con gli stessi numeri', async () => {
+  await go('#/giocatore/p_2rRKt0', 7000); await ready(); await wait(1000);
+  await tabClick('Profilo');
+  await pg.waitForFunction(() => /\d+\s*PRES/i.test(document.body.innerText), null, { timeout: 25000 }).catch(() => {});
+  await wait(4000);
+  const prof = await pg.evaluate(() => document.body.innerText);
+  const num = (label, t) => { const m = new RegExp(`(\\d+)\\s*\\n?\\s*${label}`, 'i').exec(t); return m ? Number(m[1]) : null; };
+  const g = num('Gol', prof);
+  ok('Osimhen: il Profilo non dice 0 gol', g != null && g > 0, { g, pres: num('Pres', prof), testo: prof.slice(0, 200) });
+  // i numeri giusti dal file della stagione in corso: presenze, gol e minuti devono essere proprio quelli (non campionato + coppa)
+  const idx = await getJson('arch/index.json');
+  const sk = [...idx['71'].s].sort().reverse()[0];
+  const off = await getJson(`arch/71/${sk}_s.json`);
+  const row = (k) => (off.players[k] || []).find((r) => r[0] === 687681);
+  ok('Osimhen: presenze del Profilo = quelle ufficiali del campionato', num('Pres', prof) === row('mins_played')[5], { pres: num('Pres', prof), uff: row('mins_played')[5] });
+  ok('Osimhen: gol del Profilo = quelli ufficiali del campionato', g === row('goals')[3], { g, uff: row('goals')[3] });
+  await tabClick('Statistiche'); await wait(3500);
+  const st = await pg.evaluate(() => document.body.innerText);
+  ok('giocatore: pillole Totale/Casa/Trasferta e Tutte/Attacco/Difesa/Disciplina/Gioco', /Totale/.test(st) && /Casa/.test(st) && /Trasferta/.test(st) && /Tutte/.test(st) && /Attacco/.test(st) && /Disciplina/.test(st));
+  await pg.evaluate(() => { const b = [...document.querySelectorAll('button')].find((x) => x.textContent.trim() === 'Casa'); if (b) b.click(); }); await wait(2500);
+  const casa = await pg.evaluate(() => document.body.innerText);
+  ok('giocatore: la pillola Casa mostra solo le partite in casa', /presenze/i.test(casa));
+  await shot('giocatore-osimhen-statistiche');
+});
+
+await step('calcolatore: foto dei giocatori anche da foto_fm.json', async () => {
+  const m = await getJson('foto_fm.json');
+  ok('foto_fm: file con id FotMob', !!m && Object.keys(m).length > 1000, { n: m && Object.keys(m).length });
 });
 
 await step('rose: squadra minore con la rosa dalla stagione, nessun pannello vuoto', async () => {

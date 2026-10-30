@@ -1,6 +1,7 @@
 // Migliori matchup: le liste sono già calcolate da angoli.json (aggiornato dall'Action).
 import { RAW } from './load';
 import { teamByName } from './teams';
+import { lruGet, lruSet } from '@/lib/lru';
 
 // key = categoria nell'app; list = lista dentro angoli.json; f = campi [casa, trasferta, divario]; g = partite usate
 export const MATCHUP_TYPES = [
@@ -17,11 +18,18 @@ export const matchupDays = () => Object.keys((RAW.angoli && RAW.angoli.days) || 
 
 const typeOf = (key) => MATCHUP_TYPES.find((t) => t.key === key) || MATCHUP_TYPES[0];
 
+// stesse righe per lo stesso giorno e statistica: a ogni disegno si riusano (righe gia' fatte = niente ridisegno)
+const MEMO = new Map();
+let MEMO_SRC = null;
 export function matchupRows(dateStr, typeKey) {
+  if (MEMO_SRC !== RAW.angoli) { MEMO.clear(); MEMO_SRC = RAW.angoli; }
+  const ck = `${dateStr}|${typeKey}`;
+  const hit = lruGet(MEMO, ck);
+  if (hit) return hit;
   const type = typeOf(typeKey);
   const day = RAW.angoli && RAW.angoli.days && RAW.angoli.days[dateStr];
   const list = (day && day[type.list]) || [];
-  return list.map((m) => {
+  const out = list.map((m) => {
     const home = teamByName(m.home);
     const away = teamByName(m.away);
     const games = m[type.g] || [];
@@ -43,4 +51,6 @@ export function matchupRows(dateStr, typeKey) {
     }
     return { id: m.id, type, homeId: home ? home.id : null, awayId: away ? away.id : null, homeName: m.home, awayName: m.away, league: m.league, date: m.date, home: first, away: second, divario, playedHome: games[0], playedAway: games[1], nonCovered: m.non_coperto || [] };
   });
+  lruSet(MEMO, ck, out, 40);
+  return out;
 }

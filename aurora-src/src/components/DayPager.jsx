@@ -2,6 +2,7 @@ import { modalOpen } from '@/lib/modal';
 import { useEffect, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
 import { dragDays } from '@/components/DayStrip';
+import { BACK_ZONE } from '@/lib/carousel';
 
 // Giorni affiancati: lo swipe laterale sposta una striscia gia' pronta (come nella Home).
 // I giorni vicini si preparano a riposo, quando l'app e' ferma.
@@ -12,14 +13,16 @@ export const growBox = (el) => {
   for (const c of el.children) if (!c.hasAttribute('data-far')) h = Math.max(h, c.offsetHeight, c.scrollHeight);
   el.style.height = `${h}px`;
 };
-export default function DayPager({ index, count, onChange, render }) {
+export default function DayPager({ index, count, onChange, render, backEdge = false }) {
   const box = useRef(null);
   const [ready, setReady] = useState(false);
   const live = useRef({});
   live.current = { index, count, onChange };
 
   useEffect(() => {
-    const t = setTimeout(() => setReady(true), 60);
+    // i giorni vicini si calcolano quando l'app e' ferma (o al primo movimento del dito): mai insieme al giorno che si sta mostrando
+    if (window.requestIdleCallback) { const id = window.requestIdleCallback(() => setReady(true), { timeout: 700 }); return () => window.cancelIdleCallback(id); }
+    const t = setTimeout(() => setReady(true), 120);
     return () => clearTimeout(t);
   }, [index]);
 
@@ -30,7 +33,7 @@ export default function DayPager({ index, count, onChange, render }) {
     const onStart = (e) => {
       if (busy || e.touches.length !== 1 || modalOpen() || blocked(e.target)) { st = null; return; }
       const t = e.touches[0];
-      st = { x: t.clientX, y: t.clientY, t: Date.now(), on: false, dx: 0, raf: 0 };
+      st = { x: t.clientX, y: t.clientY, t: Date.now(), on: false, dx: 0, raf: 0, near: t.clientX <= BACK_ZONE };
     };
     const onMove = (e) => {
       if (!st) return;
@@ -38,6 +41,8 @@ export default function DayPager({ index, count, onChange, render }) {
       const dx = t.clientX - st.x;
       const dy = t.clientY - st.y;
       if (!st.on) {
+        // verso destra dal bordo, o dal primo giorno: e' lo swipe indietro (useSwipeBack)
+        if (backEdge && dx > 0 && (st.near || live.current.index === 0)) { st = null; return; }
         if (Math.abs(dy) > 12 && Math.abs(dy) > Math.abs(dx)) { st = null; return; }
         if (Math.abs(dx) < 10 || Math.abs(dx) < Math.abs(dy) * 1.2) return;
         st.on = true;
@@ -121,7 +126,7 @@ export default function DayPager({ index, count, onChange, render }) {
     </div>
   );
   return (
-    <div style={{ overflow: 'clip' }}>
+    <div data-days-left={backEdge && index > 0 ? '1' : undefined} style={{ overflow: 'clip' }}>
       <div ref={box} style={{ minHeight: '55vh', position: 'relative' }}>
         {index > 0 ? pane(index - 1, -1) : null}
         {pane(index, 0)}
