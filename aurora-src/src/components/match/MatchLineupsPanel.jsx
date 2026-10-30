@@ -9,7 +9,8 @@ import PlayerLink from './PlayerLink';
 import { SubIcon, BallIcon, BootIcon } from './EventIcons';
 import { playerById } from '@/data/players';
 import { playerReliability } from '@/data/topPlayers';
-import { flagOf } from '@/data/referees';
+import FlagDot from '@/components/FlagDot';
+import { flagCodeOf } from '@/data/referees';
 import { comma } from '@/lib/format';
 
 const last = (n) => String(n || '').split(' ').slice(-1)[0];
@@ -131,7 +132,7 @@ function CoachPill({ lineup, team }) {
       <span className="avatar h-[44px] w-[44px] shrink-0 overflow-hidden rounded-full" style={{ background: 'rgba(0,0,0,.25)' }}>{lineup.coachId ? <Image src={`https://images.fotmob.com/image_resources/playerimages/${lineup.coachId}.png`} alt={lineup.coach} className="h-full w-full" fittingType="fill" /> : <PlayerPhoto src={null} alt={lineup.coach} />}</span>
       <div className="min-w-0" style={{ textShadow: '0 1px 2px rgba(0,0,0,.45)' }}>
         <p className="text-[10.5px] font-extrabold uppercase tracking-wider text-white/75">Allenatore</p>
-        <p className="truncate text-[15px] font-extrabold text-white">{lineup.coach} {lineup.coachCc ? <span className="ml-1">{flagOf(lineup.coachCc)}</span> : null}</p>
+        <p className="truncate text-[15px] font-extrabold text-white">{lineup.coach} {lineup.coachCc ? <span className="ml-1 align-middle"><FlagDot code={flagCodeOf(lineup.coachCc)} size={16} /></span> : null}</p>
       </div>
     </div>
   );

@@ -5,7 +5,8 @@ import InjuryIcon from '@/components/InjuryIcon';
 import { injuryOf } from '@/data/injuries';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { loadCarriere, carriereOf, countryIt, flagOf, ageOf } from '@/data/carriere';
+import FlagDot from '@/components/FlagDot';
+import { loadCarriere, carriereOf, countryIt, ageOf } from '@/data/carriere';
 import { playersByTeam } from '@/data/players';
 import { loadRose, roseOf, seasonRoster } from '@/data/rose';
 import { FM_ID, currentSeason, playerFace } from '@/data/archive';
@@ -55,7 +56,7 @@ export default function TeamRosterPanel({ teamId }) {
             </div>
             <div className="h-1.5" />
             {g.list.map((r) => {
-              const bits = [r[4] ? `${flagOf(r[4])} ${countryIt(r[4])}`.trim() : null, r[6] ? `${r[6]} cm` : null, r[5] ? `${r[5]} anni` : null].filter(Boolean);
+              const bits = [r[4] ? countryIt(r[4]) : null, r[6] ? `${r[6]} cm` : null, r[5] ? `${r[5]} anni` : null].filter(Boolean);
               return (
                 <Link key={r[0]} to={mine[nk(r[1])] ? `/giocatore/${mine[nk(r[1])].id}` : skR && r[0] > 0 ? `/giocatore/${archiveId(fmR2, skR, r[0])}` : '#'} className="press mx-2 mb-1.5 flex items-center gap-3 rounded-[18px] px-3 py-2" style={{ background: teamGrad(team, 0x55) }}>
                   <span className="avatar h-[38px] w-[38px] text-[11px]">
@@ -63,7 +64,7 @@ export default function TeamRosterPanel({ teamId }) {
                   </span>
                   <span className="min-w-0 flex-1">
                     <span className="block truncate text-[14px] font-bold">{r[3] ? <span style={{ color: 'var(--accent)' }}>{r[3]} </span> : null}{r[1]}{r[10] ? <> <InjuryIcon size={15} /></> : null}</span>
-                    {bits.length ? <span className="block truncate text-[11px]" style={{ color: 'var(--ink-3)' }}>{bits.join(' · ')}</span> : null}
+                    {bits.length ? <span className="flex items-center gap-1.5 text-[11px]" style={{ color: 'var(--ink-3)' }}>{r[4] ? <FlagDot name={r[4]} size={14} /> : null}<span className="min-w-0 truncate">{bits.join(' · ')}</span></span> : null}
                   </span>
                 </Link>
               );
@@ -97,8 +98,8 @@ export default function TeamRosterPanel({ teamId }) {
                 {(() => {
                   const c = carriereOf(p.id) || {};
                   const age = ageOf(c.b);
-                  const bits = [c.c ? `${flagOf(c.c)} ${countryIt(c.c)}`.trim() : null, c.h ? `${c.h} cm` : null, age ? `${age} anni` : null].filter(Boolean);
-                  return bits.length ? <span className="block truncate text-[11px]" style={{ color: 'var(--ink-3)' }}>{bits.join(' · ')}</span> : null;
+                  const bits = [c.c ? countryIt(c.c) : null, c.h ? `${c.h} cm` : null, age ? `${age} anni` : null].filter(Boolean);
+                  return bits.length ? <span className="flex items-center gap-1.5 text-[11px]" style={{ color: 'var(--ink-3)' }}>{c.c ? <FlagDot name={c.c} size={14} /> : null}<span className="min-w-0 truncate">{bits.join(' · ')}</span></span> : null;
                 })()}
               </span>
             </Link>

@@ -29,7 +29,8 @@ import useAsync from '@/hooks/useAsync';
 import { currentSeason, loadPlayerStatsFor, sortSeasons } from '@/data/archive';
 import { FM_ID } from '@/data/archive';
 import { fixedColors } from '@/data/teamColorFix';
-import { carriereOf, careerByFm, countryIt, flagOf, FOOT, dateLong, ageOf, money, monthIt } from '@/data/carriere';
+import FlagDot from '@/components/FlagDot';
+import { carriereOf, careerByFm, countryIt, flagCode, FOOT, dateLong, ageOf, money, monthIt } from '@/data/carriere';
 
 const L = { fontSize: 9.5, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--ink-3)' };
 
@@ -70,7 +71,7 @@ function BioCard({ player, team }) {
   const c = { ...(R ? { c: R[4], h: R[6], n: R[3] } : {}), ...c0 };
   const age = ageOf(c.b) || (R && R[5]) || null;
   const cells = [
-    ['Nazionalità', c.c ? `${flagOf(c.c)} ${countryIt(c.c)}`.trim() : '—'],
+    ['Nazionalità', c.c ? <span className="inline-flex items-center gap-2"><FlagDot name={c.c} size={20} />{countryIt(c.c)}</span> : '—'],
     ['Nato il', c.b ? `${dateLong(c.b)}${age ? ` · ${age} anni` : ''}` : age ? `${age} anni` : '—'],
     ['Altezza', c.h ? `${c.h} cm` : '—'],
     ['Piede', FOOT[c.f] || '—'],
@@ -581,9 +582,7 @@ export function mergeConsecutive(rows) {
 
 // Nazionali: la bandiera e' quella del paese anche per Under (U15-U23), femminili, olimpica, B (stessa bandiera)
 const natBase = (n) => { let x = String(n || '').trim(); for (let i = 0; i < 3; i++) x = x.replace(/\s*\(?\b(U-?\d{2}|Women|W|Olympic|Olympics|Amateur|B)\b\)?$/i, '').trim(); return x; };
-const NatFlag = ({ name, size = 30 }) => (
-  <span className="inline-flex shrink-0 items-center justify-center rounded-full" style={{ width: size, height: size, fontSize: size * 0.62, lineHeight: 1, background: 'rgba(255,255,255,.08)' }} aria-hidden="true">{flagOf(natBase(name))}</span>
-);
+const NatFlag = ({ name, size = 30 }) => <FlagDot name={natBase(name)} size={size} />;
 
 function CareerRows({ rows, national }) {
   return (
@@ -593,7 +592,7 @@ function CareerRows({ rows, national }) {
         const cols = fixedColors(r[0]) || (t && t.colors) || ['#37507a', '#5a7bb0'];
         return (
           <div key={i} className="flex items-center gap-3 rounded-2xl px-3.5 py-3" style={{ background: teamGrad({ colors: cols }, 0x55) }}>
-            {national && flagOf(natBase(r[0])) ? <NatFlag name={r[0]} /> : <Crest team={t || { name: r[0], initials: String(r[0] || '').slice(0, 2).toUpperCase(), colors: ['#37507a', '#5a7bb0'] }} size={30} />}
+            {national && flagCode(natBase(r[0])) ? <NatFlag name={r[0]} /> : <Crest team={t || { name: r[0], initials: String(r[0] || '').slice(0, 2).toUpperCase(), colors: ['#37507a', '#5a7bb0'] }} size={30} />}
             <div className="min-w-0 flex-1">
               <p className="flex items-center gap-1.5 text-[14px]" style={{ color: 'var(--ink)' }}>
                 <span className="truncate">{r[0]}</span>{loan ? <span className="shrink-0 rounded-full px-1.5 text-[9.5px]" style={{ color: 'var(--ink-3)', border: '1px solid var(--hair-2)' }}>PRESTITO{from ? ` · ${from}` : ''}</span> : null}

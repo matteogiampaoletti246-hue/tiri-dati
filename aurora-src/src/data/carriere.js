@@ -61,6 +61,9 @@ export const flagOf = (c) => {
   const k = ISO2[c];
   return k ? String.fromCodePoint(...[...k].map((ch) => 127397 + ch.charCodeAt(0))) : '';
 };
+// codice bandiera (flag-icons, minuscolo) dal nome inglese della nazione; Inghilterra, Scozia, Galles e Irlanda del Nord hanno la propria
+const SPECIAL_CODE = { England: 'gb-eng', Scotland: 'gb-sct', Wales: 'gb-wls', 'Northern Ireland': 'gb-nir' };
+export const flagCode = (c) => (c ? SPECIAL_CODE[c] || (ISO2[c] ? ISO2[c].toLowerCase() : '') : '');
 export const FOOT = { right: 'Destro', left: 'Sinistro', both: 'Ambidestro' };
 const MESI = ['gen', 'feb', 'mar', 'apr', 'mag', 'giu', 'lug', 'ago', 'set', 'ott', 'nov', 'dic'];
 export const monthIt = (ym) => (ym && ym.length >= 7 ? `${MESI[Number(ym.slice(5, 7)) - 1]} ${ym.slice(0, 4)}` : '');
