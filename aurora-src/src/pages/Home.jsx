@@ -117,13 +117,11 @@ function DayPaneBody({ iso, filter, ver, lead, need }) {
   useEffect(() => { if (need && cnt < need) setCnt(need); }, [need, cnt]);
   // un giorno che non e' piu' quello aperto torna alle prime finestre quando ci si ferma: i nodi non crescono con gli swipe
   // (lo dice la Home con un evento: un giorno gia' completo non si ridisegna, quindi non puo' accorgersene da solo)
-  const needRef = useRef(0);
-  needRef.current = need || 0;
   useEffect(() => {
     let id;
     const run = () => {
       if (TOUCHING || GLIDE) { id = setTimeout(run, 400); return; }
-      if (iso !== CENTER.iso && !needRef.current) setCnt((c) => (c > FIRST ? FIRST : c));
+      if (iso !== CENTER.iso) setCnt((c) => (c > FIRST ? FIRST : c));
     };
     const on = () => { clearTimeout(id); id = setTimeout(run, 100); };
     window.addEventListener('sl-trim', on);
