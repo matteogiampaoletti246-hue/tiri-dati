@@ -1598,6 +1598,14 @@ await step('affidabilita campionati aggiunti: ricerca nel Calcolatore, scheda in
     ok('affidabilita: il giocatore apre la scheda completa (Profilo / Statistiche)', !!link && /Profilo/.test(pt) && /Statistiche/.test(pt), { link });
     await shot('affidabilita-giocatore');
   }
+  // giocatore dei campionati aggiunti che il Calcolatore conosce solo dai tiri (id d'archivio): la scheda completa si costruisce lo stesso
+  const lite = (X.players || []).filter((p) => p.lg === 'fm-46').sort((a, b) => b.l[3] - a.l[3])[0];
+  if (lite) {
+    await go(`#/giocatore/${encodeURIComponent(lite.i)}`, 7000);
+    const pt = await pg.evaluate(() => document.body.innerText);
+    ok('affidabilita: scheda completa di un giocatore danese (Profilo / Statistiche / Carriera)', pt.includes(lite.n.split(' ').slice(-1)[0]) && /Profilo/.test(pt) && /Statistiche/.test(pt) && !ND.test(pt), { id: lite.i });
+    await shot('affidabilita-giocatore-danese');
+  }
   // 3) Migliori giocatori: giorno per giorno ci sono giocatori dei 6 campionati (stesse regole di affidabilita')
   const fixDays = new Set(Object.values(X.fix || {}).flat().map((f) => f[0]));
   await go('#/migliori-giocatori', 5000);
