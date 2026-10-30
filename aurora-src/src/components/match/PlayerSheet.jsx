@@ -218,7 +218,7 @@ function Body({ c, concept, onOpen }) {
           ))}
         </div>
       ) : null}
-      <ShotExplorer key={c.name} shots={c.shots} concept={concept} />
+      <ShotExplorer key={c.name} shots={c.shots} concept={concept} team={c.team ? c.team.colors[0] : null} />
       {noStats ? (
         null
       ) : (

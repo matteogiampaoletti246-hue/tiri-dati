@@ -44,7 +44,7 @@ export const zoneOf = (s) => {
   if (s.gy < 30.34 - 0.2 || s.gy > 37.66 + 0.2 || s.gz > 2.44 + 0.1) return 'Fuori dallo specchio';
   return `${row} ${col}`;
 };
-export const outcomeOf = (s) => (s.outcome === 'Fuori' && s.onTarget ? 'Palo / traversa' : s.outcome);
+export const outcomeOf = (s) => (s.outcome === 'Fuori' && s.onTarget ? 'Palo' : s.outcome);
 
 const FILTERS = [
   { value: 'all', label: 'Tutti' },

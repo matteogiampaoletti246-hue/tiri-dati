@@ -2,6 +2,7 @@ import { BallIcon } from './EventIcons';
 import { useEffect, useRef, useState } from 'react';
 import { comma } from '@/lib/format';
 import { situationOf, zoneOf, outcomeOf } from './MatchShotMap';
+import { seen, lum } from '@/components/player/Radar';
 import { ShotDot, ShotHit, BlockTrace, isBlocked, SHOT_HOME, SHOT_PITCH, SHOT_LINE, SHOT_GOALBG } from './ShotDot';
 
 const PITCH = SHOT_PITCH;
@@ -96,7 +97,9 @@ function Details({ s, cols = 2 }) {
   );
 }
 
-function Chips({ list, sel, onSel, variant }) {
+function Chips({ list, sel, onSel, variant, team }) {
+  const tc = seen(team || '#4aa3ff');
+  const onTc = lum(tc) > 0.6 ? '#111' : '#fff';
   const ref = useRef(null);
   useEffect(() => {
     const el = ref.current && ref.current.querySelector('[data-on="1"]');
@@ -104,7 +107,7 @@ function Chips({ list, sel, onSel, variant }) {
   }, [sel]);
   const items = [{ label: 'Tutti', i: null }, ...list.map((s, i) => ({ label: `${s.minute}'`, i, s }))];
   return (
-    <div ref={ref} data-no-swipe className="hide-sb -mx-1 flex gap-2 overflow-x-auto px-1 py-1" style={{ touchAction: 'pan-x' }}>
+    <div ref={ref} data-no-swipe className="hide-sb -mx-1 flex gap-2.5 overflow-x-auto px-2 py-2" style={{ touchAction: 'pan-x' }}>
       {items.map((it) => {
         const on = sel === it.i;
         const goal = it.s && it.s.outcome === 'Gol';
@@ -112,12 +115,19 @@ function Chips({ list, sel, onSel, variant }) {
         const c = it.s ? dotCol(it.s) : null;
         const fg = c === '#e5a84a' ? '#1d1500' : '#fff';
         let st;
-        if (variant === 'a') st = { ...base, width: it.i === null ? 54 : 40, height: 40, borderRadius: 999, background: it.i === null ? (on ? 'var(--accent)' : 'var(--pill-bg)') : c, border: on ? '2px solid #fff' : '2px solid transparent', boxShadow: on ? `0 0 0 2px ${c || 'var(--accent)'}` : 'none', opacity: on || sel == null || it.i === null ? 1 : 0.55, color: it.i === null ? '#fff' : fg, fontSize: 12, fontWeight: 800 };
+        if (variant === 'a') {
+          // pallino del minuto = pallino del tiro: fuori/murato = solo contorno col colore squadra e dentro scuro; in porta/palo = pieno
+          // col colore squadra; gol = pieno con anello dorato
+          const full = it.s && (it.s.outcome === 'Gol' || (it.s.onTarget && !isBlocked(it.s)));
+          st = it.i === null
+            ? { ...base, width: 54, height: 40, borderRadius: 999, background: on ? 'var(--accent)' : 'var(--pill-bg)', border: '2px solid transparent', color: on ? '#fff' : 'var(--ink)', fontSize: 12, fontWeight: 800 }
+            : { ...base, width: 40, height: 40, borderRadius: 999, boxSizing: 'border-box', background: full ? tc : 'var(--sky-2)', border: `2.5px solid ${tc}`, color: full ? onTc : 'var(--ink)', fontSize: 12, fontWeight: 800, boxShadow: goal ? '0 0 0 2.5px var(--sky-2), 0 0 0 5px #f5c542' : 'none', transform: on ? 'scale(1.1)' : 'none', opacity: on || sel == null ? 1 : 0.55 };
+        }
         else if (variant === 'b') st = { ...base, padding: '0 14px', height: 34, borderRadius: 999, background: it.i === null ? (on ? 'var(--ink)' : 'var(--pill-bg)') : c, color: it.i === null ? (on ? 'var(--sky-2)' : 'var(--ink)') : fg, border: on ? '2px solid #fff' : '1px solid var(--glass-border)', boxShadow: on && c ? `0 0 0 2px ${c}` : 'none', opacity: on || sel == null || it.i === null ? 1 : 0.55, fontSize: 12.5, fontWeight: 800 };
         else st = { ...base, minWidth: 52, height: 46, borderRadius: 14, background: it.i === null ? (on ? 'var(--accent)' : 'var(--hair-2)') : c, color: it.i === null ? (on ? '#fff' : 'var(--ink)') : fg, border: on ? '2px solid #fff' : '2px solid transparent', boxShadow: on && c ? `0 0 0 2px ${c}` : 'none', opacity: on || sel == null || it.i === null ? 1 : 0.55, fontSize: 12.5, fontWeight: 800 };
         return (
           <button key={String(it.i)} type="button" data-on={on ? 1 : 0} onClick={() => onSel(it.i)} className="press tnum flex items-center justify-center gap-1" style={st}>
-            {goal ? <BallIcon size={12} /> : null}{it.label}
+            {goal && variant !== 'a' ? <BallIcon size={12} /> : null}{it.label}
           </button>
         );
       })}
@@ -125,7 +135,7 @@ function Chips({ list, sel, onSel, variant }) {
   );
 }
 
-export default function ShotExplorer({ shots, concept }) {
+export default function ShotExplorer({ shots, concept, team }) {
   const list = [...shots].filter((s) => s.px != null).sort((a, b) => (a.minute || 0) - (b.minute || 0));
   const [sel, setSel] = useState(null);
   const pick = (i) => setSel((p) => (i === p ? null : i));
@@ -178,7 +188,7 @@ export default function ShotExplorer({ shots, concept }) {
       <div className="rounded-[14px] px-2 pt-2" style={{ background: 'rgba(8,16,28,.55)' }}>
         <Goal list={list} sel={sel} onSel={pick} h={130} />
       </div>
-      <Chips list={list} sel={sel} onSel={(i) => (i === null ? setSel(null) : pick(i))} variant="a" />
+      <Chips list={list} sel={sel} onSel={(i) => (i === null ? setSel(null) : pick(i))} variant="a" team={team} />
       <div className="grid gap-3" style={{ gridTemplateColumns: '0.9fr 1.1fr' }}>
         <Half list={list} sel={sel} onSel={pick} h={150} />
         <div className="flex items-center"><Details s={cur} cols={2} /></div>

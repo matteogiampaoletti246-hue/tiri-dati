@@ -327,3 +327,7 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 
 ## Formazioni probabili dei campionati aggiunti (verificato)
 - FotMob (`matchDetails` -> `content.lineup`) per molti campionati minori (es. Pro League) ha `lineupType: unavailable` e nessun titolare fino a ~1 ora dal fischio: la scheda Formazioni compare quando FotMob li pubblica. Mai formazioni inventate o stimate.
+
+## Scheda giocatore live: pallini dei minuti e ragnatela (regola fissa)
+- Pallini dei minuti sopra la mappa (`Chips` in `ShotExplorer.jsx`, concept A): rispecchiano il pallino del tiro. Fuori e murato = solo contorno nel colore squadra, dentro scuro come lo sfondo; in porta e palo = pieno nel colore squadra; gol = pieno con anello dorato. Colore squadra troppo scuro (`seen` in `player/Radar.jsx`) = bianco. Esito di palo/traversa = "Palo" (`outcomeOf`). Le mappe (campo e porta) non cambiano.
+- Ragnatela giocatore (`player/Radar.jsx`, concept B): colore squadra scuro (`lum` < 0,42) = area grigio argento piena, linea spessa, punti sui vertici, griglia piu' chiara (`--ink` al 22%); colori chiari restano come prima.
