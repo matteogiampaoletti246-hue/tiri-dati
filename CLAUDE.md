@@ -267,3 +267,6 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 ## Statistiche giocatore: stessi numeri ovunque (regola fissa)
 - Un solo calcolo: `playerSeasonLine` (`data/archive.js`, classifiche ufficiali, altrimenti partite) per Profilo (`usePlayerSeason`) e Statistiche. Presenze = campionato, le coppe hanno le loro statistiche: mai la somma campionato + coppa, mai 0 gol "di default" per chi non e' in `stats.json`.
 - Tutte le competizioni e stagioni con l'archivio usano `PastStats` con pillole Totale/Casa/Trasferta (solo se le partite della stagione hanno il giocatore, `statsFromMatches(lid, sk, part)`) e Tutte/Attacco/Difesa/Disciplina/Gioco. L'interfaccia vecchia resta solo per chi non e' nell'archivio. Controllo: `controllo_coerenza_giocatori.py` -> `controllo_coerenza_giocatori.json` (ufficiali contro partite: le differenze sono partite mancanti nei file, es. preliminari).
+
+## Migliori giocatori: riga squadre (concept B, regola fissa)
+- Sotto il nome: stemma + squadra del giocatore in grassetto, sotto stemma + avversaria (tenue) · orario (`TopPlayerRow.jsx`). Niente nazionalita' ne' bandiera. Vale per tutti i giocatori della sezione.

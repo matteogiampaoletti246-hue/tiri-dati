@@ -8,8 +8,6 @@ import { Image } from '@/components/ui/image';
 import { teamById } from '@/data/teams';
 import { matchesByDate } from '@/data/matches';
 import { romeDay } from '@/data/util';
-import FlagDot from '@/components/FlagDot';
-import { carriereOf, countryIt } from '@/data/carriere';
 
 const RK = ['#F5C84C', '#C5CEDB', '#D98F5C'];
 
@@ -30,8 +28,6 @@ export default memo(function TopPlayerRow({ row, rank, threshold, delay = 0 }) {
   const opp = match ? teamById(match.homeId === player.teamId ? match.awayId : match.homeId) : null;
   const c1 = team ? team.colors[0] : '#2C3E66';
   const c2 = team ? team.colors[1] : '#0b1230';
-  const car = carriereOf(player.id) || {};
-  const nat = car.c ? countryIt(car.c) : '';
   const rk = RK[rank - 1] || 'var(--accent)';
 
   const openCalc = (e) => {
@@ -57,13 +53,14 @@ export default memo(function TopPlayerRow({ row, rank, threshold, delay = 0 }) {
 
       <span className="min-w-0 flex-1">
         <span className="block truncate text-[14.5px] font-extrabold" style={{ color: 'var(--ink)' }}>{player.name}</span>
-        <span className="flex items-center gap-1.5 text-[11px]" style={{ color: 'var(--ink-3)' }}>
-          {car.c ? <FlagDot name={car.c} size={14} /> : null}
-          <span className="min-w-0 truncate">{[nat, team ? team.name : null].filter(Boolean).join(' · ')}</span>
+        {/* concept B: squadra del giocatore in grassetto, sotto l'avversaria con orario; entrambe con stemma, niente nazionalita' */}
+        <span className="mt-0.5 flex items-center gap-1.5 text-[12px]" style={{ color: 'var(--ink)' }}>
+          {team ? <Crest team={team} size={15} /> : null}
+          <span className="min-w-0 truncate font-extrabold">{team ? team.name : player.teamName}</span>
         </span>
         {match ? (
-          <span className="mt-1 flex items-center gap-1.5 text-[11px]" style={{ color: 'var(--ink-2)' }}>
-            {opp ? <Crest team={opp} size={14} /> : null}
+          <span className="mt-1 flex items-center gap-1.5 text-[11px]" style={{ color: 'var(--ink-3)' }}>
+            {opp ? <Crest team={opp} size={15} /> : null}
             <span className="truncate">{opp ? opp.name : match.oppName} · {when(match)}</span>
           </span>
         ) : null}
