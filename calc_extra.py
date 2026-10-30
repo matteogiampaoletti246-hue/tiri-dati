@@ -7,7 +7,7 @@ calc_extra.json con la stessa forma dei dati dei top campionati:
   upd:     per i giocatori gia' presenti in giocatori.json (id p_...): presenze, tiri, tiri in porta e minuti di campionato,
            ultime 5 partite e ultime 5 da 50+ minuti (giocatori.json ne ha solo 1-2 per questi campionati)
   players: giocatori che giocatori.json non ha (id d'archivio fm~<lega>~<stagione>~<id FotMob>), stessa forma di giocatori.json
-  fix:     prossime partite delle squadre che giocatori.json non ha: [data (Roma), avversario, 1 se in casa, campionato]
+  fix:     prossime partite delle squadre dei campionati aggiunti (calendario FotMob; le coppe restano quelle di giocatori.json): [data (Roma), avversario, 1 se in casa, campionato]
 L'app unisce questo file a data.json e giocatori.json (data/load.js). Nomi squadra: se la squadra c'e' gia' nei dati
 API-Football si usa quel nome, cosi' non nascono squadre doppie. Mai dati inventati: solo partite finite con statistiche,
 tiri dei giocatori letti dalla stessa partita."""
@@ -205,10 +205,12 @@ def main():
             nxt.setdefault(tname[hid], []).append((utc, [d, tname[aid], 1, key]))
             nxt.setdefault(tname[aid], []).append((utc, [d, tname[hid], 0, key]))
         for tn, lst in nxt.items():
-            if tn in old_fix:     # squadre che giocatori.json ha gia': le sue partite (anche di coppa) restano quelle
-                continue
             lst.sort(key=lambda x: x[0])
-            out["fix"][tn] = [x[1] for x in lst[:NEXT_FIX]]
+            mine = [x[1] for x in lst]
+            # il calendario del campionato e' sempre quello di FotMob (le liste di giocatori.json per questi campionati erano
+            # vecchie o sbagliate: Standard-Kortrijk non compariva); le partite di coppa di giocatori.json restano
+            cups = [f for f in (old_fix.get(tn) or []) if f[3] != key and f[0] >= today]
+            out["fix"][tn] = sorted(mine + cups, key=lambda f: f[0])[:NEXT_FIX]
         ren = sorted({(cal["teams"][k], v) for k, v in tname.items() if cal["teams"][k] != v})
         print(f"{label}: {sk}, {n_fin} partite, {len(teams)} squadre, {n_upd} giocatori aggiornati, {n_new} nuovi")
         if ren:

@@ -52,7 +52,7 @@ function mergeCalcExtra() {
   (X.upd || []).forEach((u) => { const p = byId.get(u.i); if (p) { p.l = u.l; p.r = u.r; p.h = u.h; } });
   G.players = (G.players || []).concat(X.players || []);
   G.fix = G.fix || {};
-  Object.entries(X.fix || {}).forEach(([t, lst]) => { if (!G.fix[t]) G.fix[t] = lst; });
+  Object.entries(X.fix || {}).forEach(([t, lst]) => { G.fix[t] = lst; });
 }
 
 export async function loadRaw() {
