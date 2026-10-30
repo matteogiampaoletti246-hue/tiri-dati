@@ -3,7 +3,7 @@
 import { chromium, devices } from 'playwright';
 import fs from 'fs';
 
-const APP = (process.env.BASE || 'http://localhost:8080/') + 'aurora/';
+const ROOT = process.env.BASE || 'http://localhost:8080/';
 const RATE = Number(process.env.RATE || 4);
 const REPS = Number(process.env.REPS || 3);
 const N = Number(process.env.N || 14);
@@ -21,7 +21,7 @@ async function once(v) {
   await ctx.route('**/*.workers.dev/**', (r) => r.abort());
   if (v.init) await pg.addInitScript(v.init);
   const cdp = await ctx.newCDPSession(pg);
-  await pg.goto(APP);
+  await pg.goto(ROOT + (v.app || 'aurora/'));
   if (v.css) await pg.addStyleTag({ content: v.css });
   await pg.waitForTimeout(9000);
   const nodes = await pg.evaluate(() => document.getElementsByTagName('*').length);

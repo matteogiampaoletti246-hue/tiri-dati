@@ -1,6 +1,16 @@
 [
  {
-  "name": "base",
-  "loaf": true
+  "name": "base"
+ },
+ {
+  "name": "vecchio (online)",
+  "app": "aurora_old/"
+ },
+ {
+  "name": "base bis"
+ },
+ {
+  "name": "vecchio bis",
+  "app": "aurora_old/"
  }
 ]
