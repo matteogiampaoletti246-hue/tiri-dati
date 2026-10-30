@@ -1,5 +1,5 @@
 name: Prova fonti (raggiungibilita dal runner)
-# Controlla cosa contengono LiveScore e OneFootball per l'Algeria (Ligue 1) rispetto a FotMob. Referto nel ramo probe-out.
+# Controlla se LiveScore e OneFootball hanno la rosa nella pagina squadra (MC Alger). Referto nel ramo probe-out.
 on: workflow_dispatch
 permissions:
   contents: write
@@ -13,15 +13,15 @@ jobs:
           mkdir -p /tmp/po
           UA='Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 Mobile Safari/604.1'
           g() { curl -sS -m 25 -L -A "$UA" -H 'Accept-Language: en' -o "$2" -w "%{http_code} %{size_download} $1\n" "$1" 2>&1 | tail -1 | tee -a /tmp/po/referto.txt; }
-          B="https://www.livescore.com/en/football/algeria/ligue-1/us-biskra-vs-mc-alger/1854239"
-          g "$B/" /tmp/po/m_sum.html
-          g "$B/lineups/" /tmp/po/m_lineups.html
-          g "$B/stats/" /tmp/po/m_stats.html
-          for f in m_sum m_lineups m_stats; do
-            python3 tools/prova_ls.py "$f" | tee -a /tmp/po/referto.txt
-          done
+          g "https://www.livescore.com/en/football/team/mc-alger/3274/" /tmp/po/ls_team.html
+          g "https://www.livescore.com/en/football/team/mc-alger/3274/squad/" /tmp/po/ls_squad.html
+          g "https://www.livescore.com/en/football/team/mc-alger/3274/players/" /tmp/po/ls_players.html
+          g "https://onefootball.com/en/team/mc-alger" /tmp/po/of_team.html
+          g "https://onefootball.com/en/search?q=mc%20alger" /tmp/po/of_search.html
+          g "https://onefootball.com/en/team/manchester-city-9/squad" /tmp/po/of_city.html
+          for f in ls_team ls_squad ls_players of_team of_search of_city; do python3 tools/prova_sq.py "$f" | tee -a /tmp/po/referto.txt; done
       - name: Salva
         run: |
-          cd /tmp/po && for f in *.html; do head -c 300000 "$f" > "$f.cut" && mv "$f.cut" "$f"; done
+          cd /tmp/po && for f in *.html; do head -c 200000 "$f" > "$f.cut" && mv "$f.cut" "$f"; done
           git init -q -b probe-out && git config user.name github-actions && git config user.email github-actions@users.noreply.github.com
           git add -A && git commit -qm "Referto fonti" && git push -qf "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" probe-out
