@@ -113,6 +113,14 @@ function DayPaneBody({ iso, filter, ver, lead, need }) {
   if (BUILT.size > 40) { BUILT.delete(BUILT.keys().next().value); BUILT_FIRST.delete(BUILT_FIRST.keys().next().value); }
   // richiesto (inizio swipe): il numero richiesto resta montato anche quando la richiesta finisce
   useEffect(() => { if (need && cnt < need) setCnt(need); }, [need, cnt]);
+  // un giorno che non e' piu' quello aperto torna alle prime finestre quando ci si ferma: i nodi non crescono con gli swipe
+  useEffect(() => {
+    if (lead || need || cnt <= FIRST) return undefined;
+    let id;
+    const go = () => { if (TOUCHING || GLIDE) { id = setTimeout(go, 400); return; } setCnt(FIRST); };
+    id = setTimeout(go, 700);
+    return () => clearTimeout(id);
+  }, [lead, need, cnt]);
   useEffect(() => {
     // il giorno vicino si riempie a riposo (prime finestre), quello che diventa centrale con uno swipe si completa a pezzi;
     // mai con il dito o lo scorrimento in corso
