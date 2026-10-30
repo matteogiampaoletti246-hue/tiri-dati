@@ -276,8 +276,17 @@ def search_name(name):
 
 def from_livescore(tid, name):
     """LiveScore: la squadra e' quella giusta solo se lo stemma ha il suo id FotMob. Righe [nome, ruolo, maglia, paese, eta', altezza], allenatore."""
-    j = get("https://prod-cdn-search-api.livescore.com/api/v2/search/soccer/team?query=%s&limit=30" % urllib.parse.quote(search_name(name)))
-    hit = [x for x in ((j or {}).get("Teams") or []) if str(x.get("Img") or "") == "enet/%s.png" % tid]
+    # l'id nello stemma rende sicura anche una ricerca larga: nome intero, senza accenti, poi la parola piu' lunga
+    ascii_name = unicodedata.normalize("NFKD", str(name)).encode("ascii", "ignore").decode()
+    words = sorted(norm(name).split(), key=len, reverse=True)
+    hit = []
+    for q in dict.fromkeys([search_name(name), search_name(ascii_name)] + words[:1]):
+        if len(q) < 3:
+            continue
+        j = get("https://prod-cdn-search-api.livescore.com/api/v2/search/soccer/team?query=%s&limit=30" % urllib.parse.quote(q))
+        hit = [x for x in ((j or {}).get("Teams") or []) if str(x.get("Img") or "") == "enet/%s.png" % tid]
+        if hit:
+            break
     if len(hit) != 1:
         return None
     html = get_text("https://www.livescore.com/en/football/team/x/%s/squad/" % hit[0]["ID"])

@@ -1598,6 +1598,7 @@ await step('giocatori squadra: le tendine elencano solo competizioni con dati, s
 
 await step('partite squadra: stagione in corso anche dalle competizioni d\'archivio (Atletico Madrileno)', async () => {
   await go('#/squadra/fm-161759', 6000); await ready();
+  await tabClick('Partite'); // la scheda si ricorda tra i passi dello stesso job
   await pg.waitForFunction(() => document.querySelectorAll('#sl-shell [data-key]').length > 0, null, { timeout: 20000 }).catch(() => {});
   await wait(800);
   await pg.evaluate(() => { const b = [...document.querySelectorAll('button')].find((x) => /^Partite precedenti/.test(x.textContent.trim())); if (b) b.click(); });
