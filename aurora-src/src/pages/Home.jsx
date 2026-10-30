@@ -377,7 +377,8 @@ export default function Home() {
       const { prevIso: p, nextIso: n, glide: gl } = live.current;
       // dito verso destra → giorno precedente (Ieri); dito verso sinistra → giorno successivo (Domani)
       // colpo veloce: conta la direzione del dito; piano: conta da che parte si trova la pagina
-      const fast = v > 0.45 && Math.abs(dx) > 20;
+      // swipe ripartito durante lo scorrimento del precedente: un trascinamento deciso conta come un giorno in piu'
+      const fast = (v > 0.45 && Math.abs(dx) > 20) || (d.base !== 0 && Math.abs(dx) > 60);
       const target = (fast ? dx : o) > 0 ? p : n;
       if ((Math.abs(o) > 60 || fast) && target) {
         gl(target, o);
