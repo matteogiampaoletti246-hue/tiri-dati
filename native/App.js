@@ -288,10 +288,10 @@ function LivePill({ value, onChange }) {
   const t2 = useAnimatedStyle(() => ({ color: interpolateColor(p.value, [0, 1], [C.ink3, '#FFFFFF']) }), [C]);
   const dot = useAnimatedStyle(() => ({ backgroundColor: interpolateColor(p.value, [0, 1], [C.live, '#FFFFFF']) }), [C]);
   return (
-    <View onLayout={(e) => setW(e.nativeEvent.layout.width)} style={{ height: 46, borderRadius: 23, overflow: 'hidden', flexDirection: 'row', backgroundColor: C.chip, borderWidth: 1, borderColor: C.border }}>
-      {w ? <Animated.View pointerEvents="none" style={[{ position: 'absolute', top: 0, bottom: 0, left: 0, width: half, borderRadius: 23 }, th]} /> : null}
-      <Pressable onPress={() => onChange('all')} style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><Animated.Text style={[{ fontSize: 15, fontWeight: '600' }, t1]}>Tutte</Animated.Text></Pressable>
-      <Pressable onPress={() => onChange('live')} style={{ flex: 1, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', gap: 7 }}><Animated.View style={[{ width: 8, height: 8, borderRadius: 4 }, dot]} /><Animated.Text style={[{ fontSize: 15, fontWeight: '600' }, t2]}>Live</Animated.Text></Pressable>
+    <View onLayout={(e) => setW(e.nativeEvent.layout.width)} style={{ width: 160, height: 38, borderRadius: 19, overflow: 'hidden', flexDirection: 'row', backgroundColor: C.chip, borderWidth: 1, borderColor: C.border }}>
+      {w ? <Animated.View pointerEvents="none" style={[{ position: 'absolute', top: 0, bottom: 0, left: 0, width: half, borderRadius: 19 }, th]} /> : null}
+      <Pressable onPress={() => onChange('all')} style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><Animated.Text style={[{ fontSize: 13.5, fontWeight: '600' }, t1]}>Tutte</Animated.Text></Pressable>
+      <Pressable onPress={() => onChange('live')} style={{ flex: 1, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', gap: 6 }}><Animated.View style={[{ width: 7, height: 7, borderRadius: 4 }, dot]} /><Animated.Text style={[{ fontSize: 13.5, fontWeight: '600' }, t2]}>Live</Animated.Text></Pressable>
     </View>
   );
 }

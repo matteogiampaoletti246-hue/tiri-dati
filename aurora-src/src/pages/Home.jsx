@@ -369,8 +369,8 @@ export default function Home() {
       </div>
 
       <div className="flex items-center px-5 pb-1 pt-1">
-        <LivePill className="flex-1" value={filter} onChange={setFilter} />
-        <div className="w-3" />
+        <LivePill value={filter} onChange={setFilter} />
+        <div className="ml-auto" />
         <label className="glass press relative flex h-9 w-9 items-center justify-center rounded-full" aria-label="Calendario">
           <CalendarDays size={16} strokeWidth={1.9} style={{ color: custom ? 'var(--accent)' : 'var(--ink)' }} />
           <input
