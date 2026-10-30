@@ -16,7 +16,7 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
 
 const SITE = 'https://matteogiampaoletti246-hue.github.io/tiri-dati/';
 const W = Dimensions.get('window').width;
-const DARK = { dark: true, bg: '#05070D', ink: '#F1F5FB', ink2: '#A9B6CC', ink3: '#6D7A91', hair: 'rgba(255,255,255,.07)', border: 'rgba(255,255,255,.12)', accent: '#4DA8FF', live: '#FF6464', chip: 'rgba(255,255,255,.08)', wash: 'rgba(255,255,255,0.03)', card1: 'rgba(255,255,255,0.10)', card2: 'rgba(255,255,255,0.035)', sheet: '#0E1626' };
+const DARK = { dark: true, bg: '#05070D', ink: '#F1F5FB', ink2: '#A9B6CC', ink3: '#6D7A91', hair: 'rgba(255,255,255,.10)', border: 'rgba(255,255,255,.12)', accent: '#4DA8FF', live: '#FF6464', chip: 'rgba(255,255,255,.08)', wash: 'rgba(255,255,255,0.03)', card1: 'rgba(255,255,255,0.10)', card2: 'rgba(255,255,255,0.035)', sheet: '#0E1626' };
 const LIGHT = { dark: false, bg: '#F3F6FB', ink: '#0F172A', ink2: '#475569', ink3: '#8592A6', hair: 'rgba(15,23,42,.08)', border: 'rgba(15,23,42,.10)', accent: '#1F6BEF', live: '#E5484D', chip: 'rgba(15,23,42,.06)', wash: 'rgba(255,255,255,0.85)', card1: 'rgba(255,255,255,0.95)', card2: 'rgba(255,255,255,0.8)', sheet: '#FFFFFF' };
 const WORKER = 'https://scalperlab-live.matteo-giampaoletti04.workers.dev';
 const NAMES = META.names || {};
@@ -55,7 +55,7 @@ function groupsOf(rows, filter) {
     const g = { fm, c, matches: ms.sort((a, b) => (a[2] < b[2] ? -1 : 1)) };
     if (c.solo >= 0) { top.push(g); return; }
     const k = c.cc || `N:${c.country}`;
-    if (!countries.has(k)) countries.set(k, { k, flag: c.flag, name: c.country || '', comps: [] });
+    if (!countries.has(k)) countries.set(k, { k, flag: c.flag, fc: c.fc || '', tint: (META.tints && META.tints[c.fc]) || '', name: c.country || '', comps: [] });
     countries.get(k).comps.push(g);
   });
   top.sort((a, b) => a.c.solo - b.c.solo);
@@ -94,13 +94,27 @@ const Row = memo(({ m, onOpen }) => {
   );
 });
 
-const Card = ({ tint, a = '45', style, children }) => {
+// Finestra a una sola tinta (concept B): sfumatura a 135 gradi dalla tinta (.34) quasi a vuoto (.06 al 70%)
+const Card = ({ tint, style, children }) => {
   const { C, s } = useT();
+  const t = /^#[0-9a-f]{6}$/i.test(tint || '') ? tint : '#6D7A91';
   return (
-    <LinearGradient colors={[`${tint}${C.dark ? a : '1F'}`, C.wash]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0.35 }} style={[s.card, style]}>{children}</LinearGradient>
+    <LinearGradient colors={[`${t}${C.dark ? '57' : '33'}`, `${t}${C.dark ? '0F' : '0A'}`]} locations={[0, 0.7]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={[s.card, style]}>{children}</LinearGradient>
   );
 };
-const Chev = ({ open }) => { const { C } = useT(); return <Ionicons name="chevron-down" size={17} color={C.ink3} style={{ transform: [{ rotate: open ? '180deg' : '0deg' }] }} />; };
+// Bandiera rotonda vera, con anello e alone della tinta del paese; senza bandiera, un globo
+const Flag = memo(({ fc, tint }) => {
+  const { C, s } = useT();
+  const t = /^#[0-9a-f]{6}$/i.test(tint || '') ? tint : '#6D7A91';
+  const ring = { borderColor: `${t}8C`, shadowColor: t };
+  return (
+    <View style={[s.flag, ring]}>
+      {fc ? <Image source={{ uri: `${SITE}native-link/flags/${fc}.png` }} style={s.flagImg} contentFit="cover" cachePolicy="memory-disk" transition={0} />
+        : <Ionicons name="globe-outline" size={18} color={C.ink2} />}
+    </View>
+  );
+});
+const Chev = ({ open }) => { const { C } = useT(); return <Ionicons name="chevron-down" size={17} color={C.ink2} style={{ transform: [{ rotate: open ? '180deg' : '0deg' }] }} />; };
 const useOpen = (key, init) => {
   const [open, setOpen] = useState(() => (key in OPEN_KEY ? OPEN_KEY[key] : init));
   const toggle = () => { LayoutAnimation.configureNext(LayoutAnimation.create(260, 'easeInEaseOut', 'opacity')); setOpen((o) => { OPEN_KEY[key] = !o; return !o; }); };
@@ -138,19 +152,19 @@ const CountryGroup = memo(({ iso, p, forceOpen, onOpen }) => {
   const isOpen = forceOpen || open;
   const total = p.comps.reduce((n, x) => n + x.matches.length, 0);
   return (
-    <LinearGradient colors={[C.card1, C.card2]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={s.card}>
+    <Card tint={p.tint}>
       <Pressable onPress={toggle} style={s.headRow}>
-        <View style={s.flag}><Text style={{ fontSize: 17 }}>{p.flag || '\u{1F30D}'}</Text></View>
+        <Flag fc={p.fc} tint={p.tint} />
         <Text numberOfLines={1} style={[s.lhName, { flex: 1, marginLeft: 12 }]}>{p.name}</Text>
         <Text style={s.cnt}>{total}</Text><Chev open={isOpen} />
       </Pressable>
       {isOpen ? p.comps.map((x) => (
-        <Card key={x.fm} tint={x.c.tint} a="22" style={s.inner}>
+        <View key={x.fm} style={s.inner}>
           <View style={s.hairTop}><LeagueHead c={x.c} size={20} small /></View>
           {x.matches.map((m) => <View key={m[0]} style={s.sep}><Row m={m} onOpen={onOpen} /></View>)}
-        </Card>
+        </View>
       )) : null}
-    </LinearGradient>
+    </Card>
   );
 });
 
@@ -461,13 +475,14 @@ const makeStyles = (C) => StyleSheet.create({
   fLive: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   liveDot: { width: 5, height: 5, borderRadius: 3, backgroundColor: C.live },
   card: { marginHorizontal: 16, marginTop: 16, borderRadius: 26, overflow: 'hidden', borderWidth: 1, borderColor: C.border },
-  inner: { marginHorizontal: 0, marginTop: 0, borderRadius: 0, borderWidth: 0, borderTopWidth: 1, borderColor: C.hair },
+  inner: { borderTopWidth: 1, borderTopColor: C.hair },
   headRow: { flexDirection: 'row', alignItems: 'center', paddingRight: 16, minHeight: 50 },
   lhRow: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 14, paddingLeft: 16, paddingRight: 12 },
   lhName: { color: C.ink, fontSize: 12.5, fontWeight: '800', letterSpacing: 0.9, textTransform: 'uppercase', flexShrink: 1 },
   hairTop: { },
-  cnt: { color: C.ink3, fontSize: 11, fontWeight: '500', marginRight: 8 },
-  flag: { width: 22, height: 22, borderRadius: 11, marginLeft: 16, alignItems: 'center', justifyContent: 'center', backgroundColor: C.chip, overflow: 'hidden' },
+  cnt: { color: C.ink2, fontSize: 11, fontWeight: '500', marginRight: 8 },
+  flag: { width: 30, height: 30, borderRadius: 15, marginLeft: 16, alignItems: 'center', justifyContent: 'center', backgroundColor: C.chip, borderWidth: 2, shadowOpacity: 0.35, shadowRadius: 7, shadowOffset: { width: 0, height: 0 } },
+  flagImg: { width: 26, height: 26, borderRadius: 13 },
   body: { borderTopWidth: 1, borderTopColor: C.hair },
   sep: { borderTopWidth: 1, borderTopColor: C.hair },
   row: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 12, gap: 8 },
@@ -475,11 +490,11 @@ const makeStyles = (C) => StyleSheet.create({
   teamR: { flex: 1, flexDirection: 'row', alignItems: 'center', gap: 10 },
   tName: { color: C.ink, fontSize: 14, fontWeight: '600', flexShrink: 1 },
   crest: { width: 24, height: 24 },
-  crestPh: { borderRadius: 12, backgroundColor: C.chip, alignItems: 'center', justifyContent: 'center' },
+  crestPh: { borderRadius: 12, backgroundColor: C.dark ? 'rgba(255,255,255,.16)' : C.chip, alignItems: 'center', justifyContent: 'center' },
   crestTx: { color: C.ink3, fontSize: 9, fontWeight: '800' },
   mid: { width: 64, alignItems: 'center' },
   score: { color: C.ink, fontSize: 15.5, fontWeight: '800' },
-  time: { color: C.ink3, fontSize: 13.5, fontWeight: '600' },
+  time: { color: C.ink2, fontSize: 13.5, fontWeight: '600' },
   fin: { color: C.ink3, fontSize: 12, fontWeight: '600' },
   kick: { color: C.ink3, fontSize: 10.5, marginTop: 2 },
   liveRow: { flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: 3 },

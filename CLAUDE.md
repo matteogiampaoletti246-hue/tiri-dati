@@ -225,3 +225,6 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 - Calendario: i giorni senza file in `giorni/` (oltre ~10 giorni) restano vuoti; il feed e' la stessa fonte dei campionati aggiunti del sito.
 - Swipe indietro nell'app: la prima pagina aperta dalla Home torna alla Home con lo swipe dell'app (`EDGE_W` 60 px, sotto l'intestazione); dalle pagine successive lo swipe e' quello del sito (zona 64 px e gesto piu' leggero dentro la WebView, `isNative` in `lib/carousel.js`, niente blocco del bordo). La profondita' la comunica la WebView (`window.__slDepth`, messaggi `depth:N` e `home`). Il tasto indietro del sito alla prima pagina rimanda alla Home.
 - Partite aperte dall'app: sempre `/match/a-<fm>-<stagione>-<id>` (il percorso `x-` funziona solo se il sito ha gia' caricato quel giorno). Stemmi: `Crest` riprova e poi mostra le iniziali; FotMob non ha lo stemma di circa 8 squadre su 3000.
+
+## App nativa: Home concept B (regola fissa)
+- Una tinta per finestra: top campionati = colore del campionato, paesi = colore dominante della bandiera (`meta.tints`, `gen_flags.mjs`); righe e campionati dentro il paese neutri. Bandiera = immagine rotonda vera (`native-link/flags/<codice>.png`, `fc` in `meta.json`) con anello e alone della tinta, mai emoji.

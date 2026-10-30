@@ -14,6 +14,11 @@ fs.writeFileSync(path.join(tmp, 'leagues.js'), fs.readFileSync(path.join(SRC, 'd
 fs.writeFileSync(path.join(tmp, 'countries.js'), fs.readFileSync(path.join(SRC, 'data/countries.js'), 'utf8'));
 const { LEAGUES, leagueTint } = await import(pathToFileURL(path.join(tmp, 'leagues.js')));
 const { countryCode, importance, flagEmoji } = await import(pathToFileURL(path.join(tmp, 'countries.js')));
+// codice della bandiera (cartella flag-icons): ISO2 minuscolo, Inghilterra/Scozia/Galles/Irlanda del Nord a parte
+const cSrc = fs.readFileSync(path.join(SRC, 'data/countries.js'), 'utf8');
+const ISO2 = eval('(' + /const ISO2 = (\{[\s\S]*?\});/.exec(cSrc)[1] + ')');
+const FLAG_TAG = { ENG: 'gb-eng', SCO: 'gb-sct', WAL: 'gb-wls', NIR: 'gb-nir' };
+const flagCode = (cc) => (!cc ? '' : FLAG_TAG[cc] || (ISO2[cc] ? ISO2[cc].toLowerCase() : ''));
 
 // archive.js: FM_ID, PAESE e addArchiveLeagues (stesse regole)
 const arch = fs.readFileSync(path.join(SRC, 'data/archive.js'), 'utf8');
@@ -45,7 +50,7 @@ LEAGUES.forEach((L) => {
   const fm = L.fm || FM_ID[L.id];
   if (!fm) return;
   const cc = countryCode(L);
-  byFm[fm] = { id: L.id, name: L.name, country: L.country || '', cc: cc || '', flag: flagEmoji(cc) || '', tint: leagueTint(L.id), solo: solo.has(L.id) ? solo.get(L.id) : -1, rank: importance(L) * 1e5 + pos.get(L.id), open: OPEN.has(L.id), logo: FMLOGO(fm) };
+  byFm[fm] = { id: L.id, name: L.name, country: L.country || '', cc: cc || '', flag: flagEmoji(cc) || '', fc: flagCode(cc), tint: leagueTint(L.id), solo: solo.has(L.id) ? solo.get(L.id) : -1, rank: importance(L) * 1e5 + pos.get(L.id), open: OPEN.has(L.id), logo: FMLOGO(fm) };
 });
 // conferenza: nell'app e' un campionato d'archivio senza riga propria
 if (!byFm[10216]) byFm[10216] = { id: 'conference-league', name: 'Conference League', country: 'Europa', cc: '', flag: '', tint: '#2FBF71', solo: TOP_SOLO.indexOf('conference-league'), rank: 0, open: true, logo: FMLOGO(10216) };

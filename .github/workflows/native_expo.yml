@@ -26,6 +26,8 @@ jobs:
         run: |
           npx --yes create-expo-app@latest app --template blank --no-install
           node native/tools/gen_meta.mjs aurora-src/src app/meta.json
+          (cd native/tools && npm install sharp --no-save --no-audit --no-fund)
+          node native/tools/gen_flags.mjs app/meta.json native-link/flags
           cp native/App.js app/App.js
           cd app
           npm install --no-audit --no-fund
@@ -50,7 +52,7 @@ jobs:
             printf '{"id":"%s","group":"%s","at":"%s"}\n' "$ID" "$G" "$(TZ=Europe/Rome date '+%d/%m %H:%M')" > native-link/latest.json
             git config user.name github-actions && git config user.email github-actions@users.noreply.github.com
             printf 'exp://u.expo.dev/%s/group/%s' "$ID" "$G" > native-link/url.txt
-            git add native-link/latest.json native-link/url.txt && git commit -qm "App nativa: ultima versione ($G)" || exit 0
+            git add native-link/latest.json native-link/url.txt native-link/flags && git commit -qm "App nativa: ultima versione ($G)" || exit 0
             for i in 1 2 3 4 5; do git pull -q --rebase origin main && git push -q origin HEAD:main && break; sleep 3; done
           fi
       - name: Salva nel ramo native-out
