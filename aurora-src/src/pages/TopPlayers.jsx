@@ -1,9 +1,8 @@
 import { primeKeyboard } from '@/lib/keyboard';
 import { isNative } from '@/lib/carousel';
-import { useDeferredValue, useEffect, useState } from 'react';
+import { useDeferredValue, useState } from 'react';
 import PageShell from '@/components/PageShell';
 import FixedBar from '@/components/FixedBar';
-import { loadCarriere } from '@/data/carriere';
 import DayStrip from '@/components/DayStrip';
 import TextFilter from '@/components/TextFilter';
 import SearchOverlay from '@/components/SearchOverlay';
@@ -33,13 +32,6 @@ export default function TopPlayers() {
   KEEP.thr = threshold;
   const [searchOpen, setSearchOpen] = useState(false);
   const loading = useInitialLoad();
-
-  const [, bump] = useState(0);
-  useEffect(() => {
-    let on = true;
-    loadCarriere().then(() => on && bump((n) => n + 1));
-    return () => { on = false; };
-  }, []);
 
   const dThr = useDeferredValue(threshold);
   const rows = bestPlayers(isoDate(DAYS[dayIdx]), dThr);

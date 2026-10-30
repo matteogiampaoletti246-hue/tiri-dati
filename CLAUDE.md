@@ -275,3 +275,7 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 
 ## App nativa: tocco prima che la pagina web sia pronta (regola fissa)
 - La pagina web si monta 2,5 s dopo l'avvio e poi si carica: un tasto (barra in basso, ricerca, menu, partita, campionato) toccato prima non deve mai mostrare le Linee guida. `openRoute` ricorda la rotta (`pendingHash`), monta subito la pagina sulla rotta giusta (`bootUri`, fissato al primo montaggio: cambiare `source` dopo ricaricherebbe tutto) e la applica a fine caricamento (`onWebLoaded`); finche' non e' pronta (`ready`) sotto c'e' lo spinner.
+
+## App nativa: apertura veloce delle schede e rotella (regola fissa)
+- Pagina web montata 0,7 s dopo i dati (non 2,5 s). Nella WebView nativa `bootData` non aspetta il feed della Home (`window.ReactNativeWebView`: il feed parte a riposo dopo 8 s) e le tre schede della barra (`/calcolatore`, `/migliori-giocatori`, `/migliori-matchup`) non mostrano lo skeleton da 320 ms (`useInitialLoad`). Misurato (CPU 4x): avvio -2 s, apertura Giocatori -350 ms.
+- Rotella: aprendo una rotta l'app copre la WebView con `ActivityIndicator` (`busy`/`ready` in `native/App.js`) finche' la pagina web manda `route:<percorso>` (`NativeSignal` in `App.jsx`, dopo il primo disegno); rete di sicurezza 4 s; se la pagina e' gia' sulla rotta (`webPath`) niente attesa. Ogni nuovo caricamento pesante nelle schede va tenuto fuori dal primo disegno.

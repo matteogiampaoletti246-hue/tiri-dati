@@ -46,6 +46,21 @@ function NavGuard() {
   return null;
 }
 
+// App nativa: dice all'app quale pagina e' appena stata disegnata (`route:<percorso>`), cosi' la rotella di caricamento sparisce nel momento giusto.
+// Doppio fotogramma = dopo il primo disegno; il timer copre il caso in cui la pagina fuori schermo non disegni.
+function NativeSignal({ ready }) {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    if (!ready || !window.ReactNativeWebView) return undefined;
+    let done = false; let r1 = 0; let r2 = 0;
+    const send = () => { if (done) return; done = true; try { window.ReactNativeWebView.postMessage(`route:${pathname}`); } catch (e) { /* ignore */ } };
+    r1 = requestAnimationFrame(() => { r2 = requestAnimationFrame(send); });
+    const t = setTimeout(send, 150);
+    return () => { done = true; cancelAnimationFrame(r1); cancelAnimationFrame(r2); clearTimeout(t); };
+  }, [ready, pathname]);
+  return null;
+}
+
 // Tema applicato subito, prima del primo disegno.
 applyTheme(getTheme());
 
@@ -63,6 +78,7 @@ export default function App() {
     <HashRouter>
       <LaunchScreen ready={ready} />
       <NavGuard />
+      <NativeSignal ready={ready} />
       <ScrollToTop />
       <PlayerSheetHost />
       <MenuDrawer />

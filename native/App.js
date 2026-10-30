@@ -288,6 +288,11 @@ function Screen({ onTheme }) {
   // (`pendingHash`), la pagina si monta subito gia' sulla rotta giusta (`bootUri`) e al termine del caricamento si applica.
   const [ready, setReady] = useState(false);
   const readyRef = useRef(false);
+  const [busy, setBusy] = useState(false); // apertura in corso: rotella al posto della pagina vecchia
+  const webPath = useRef('');               // percorso che la pagina web dice di mostrare (messaggio `route:`)
+  const awaitRoute = useRef(null);
+  const busyTimer = useRef(null);
+  const endBusy = useCallback(() => { clearTimeout(busyTimer.current); awaitRoute.current = null; setBusy(false); }, []);
   const pendingHash = useRef(null);
   const startRoute = useRef('/linee-guida');
   const bootUri = useRef(null);
@@ -323,7 +328,7 @@ function Screen({ onTheme }) {
     return () => { on = false; };
   }, [center, x]);
   // la pagina web si prepara a riposo (leggera) cosi' aprire una partita non ricarica niente
-  useEffect(() => { if (!data) return undefined; const t = setTimeout(() => setWarm(true), 2500); return () => clearTimeout(t); }, [!!data]);
+  useEffect(() => { if (!data) return undefined; const t = setTimeout(() => setWarm(true), 700); return () => clearTimeout(t); }, [!!data]);
 
   // stato, risultato e minuto live veri (come la Home web): /f del giorno per top campionati e coppe europee, /fx per le altre partite
   // iniziate da meno di 5 ore, giorni/<data>.json per quelle piu' vecchie. Mai "live" per una partita finita.
@@ -409,7 +414,17 @@ function Screen({ onTheme }) {
     if (h && webRef.current) webRef.current.injectJavaScript(`if(location.hash!==${JSON.stringify(h)})location.hash=${JSON.stringify(h)};true;`);
     setReady(true);
   }, []);
-  const openRoute = useCallback((route) => { openRef.current = true; setDepth(0); if (!readyRef.current) { startRoute.current = route; setWarm(true); } hashTo(`#${route}`); ov.value = withTiming(0, { duration: 260, easing: Easing.out(Easing.cubic) }); }, [hashTo, ov]);
+  const openRoute = useCallback((route) => {
+    openRef.current = true; setDepth(0);
+    if (!readyRef.current) { startRoute.current = route; setWarm(true); }
+    const path = route.split('?')[0];
+    if (webPath.current !== path) { // la pagina web e' gia' su questa rotta (riapertura veloce): niente attesa
+      awaitRoute.current = path; setBusy(true);
+      clearTimeout(busyTimer.current); busyTimer.current = setTimeout(endBusy, 4000); // rete di sicurezza: mai rotella infinita
+    }
+    hashTo(`#${route}`);
+    ov.value = withTiming(0, { duration: 260, easing: Easing.out(Easing.cubic) });
+  }, [hashTo, ov, endBusy]);
   const afterClose = useCallback(() => { hashTo('#/linee-guida'); setDepth(0); }, [hashTo]);
   const closeWeb = useCallback(() => { openRef.current = false; ov.value = withTiming(W, { duration: 240, easing: Easing.out(Easing.cubic) }, (done) => { if (done) runOnJS(afterClose)(); }); }, [afterClose, ov]);
   const openMatch = useCallback((m) => {
@@ -421,10 +436,11 @@ function Screen({ onTheme }) {
   const onMsg = useCallback((e) => {
     const t = e && e.nativeEvent && e.nativeEvent.data;
     if (t === 'dark' || t === 'light') onTheme(t);
+    else if (typeof t === 'string' && t.startsWith('route:')) { webPath.current = t.slice(6); if (awaitRoute.current === webPath.current) endBusy(); } // la pagina web ha disegnato questa rotta
     else if (typeof t === 'string' && t.startsWith('depth:')) setDepth(Number(t.slice(6)) || 0);
     else if (typeof t === 'string' && t.startsWith('drag:')) { const d = Number(t.slice(5)); ov.value = d < 0 ? withTiming(0, { duration: 180 }) : d; } // swipe indietro partito dentro la pagina web (prima pagina dopo la Home)
     else if (t === 'home' && openRef.current) closeWeb(); // il tasto indietro del sito e' tornato alla pagina di partenza: si torna alla Home
-  }, [onTheme, closeWeb, ov]);
+  }, [onTheme, closeWeb, ov, endBusy]);
   const pick = useCallback((diff) => { setCal(false); setCenter(diff); }, []);
 
   const centre = useCallback((i) => { const p = pos.current[i]; if (p && strip.current) strip.current.scrollTo({ x: Math.max(0, p.x - W / 2 + p.w / 2), animated: true }); }, []);
@@ -488,8 +504,10 @@ function Screen({ onTheme }) {
       <Animated.View pointerEvents="box-none" style={[StyleSheet.absoluteFill, { backgroundColor: C.bg }, ovStyle]}>
         <View style={{ paddingTop: insets.top, flex: 1 }}>
           <Pressable onPress={closeWeb} style={s.back}><Ionicons name="chevron-back" size={20} color={C.accent} /><Text style={{ color: C.accent, fontSize: 16 }}>Home</Text></Pressable>
-          {warm ? <WebView ref={webRef} source={{ uri: bootUri.current }} onLoadEnd={onWebLoaded} style={{ flex: 1, backgroundColor: C.bg }} injectedJavaScriptBeforeContentLoaded={NO_LAUNCH} injectedJavaScript={THEME_JS} onMessage={onMsg} decelerationRate={0.998} contentInsetAdjustmentBehavior="never" automaticallyAdjustContentInsets={false} directionalLockEnabled={false} allowsLinkPreview={false} /> : null}
-          {!ready ? <View pointerEvents="none" style={[StyleSheet.absoluteFill, { alignItems: 'center', justifyContent: 'center' }]}><ActivityIndicator color={C.accent} /></View> : null}
+          <View style={{ flex: 1 }}>
+            {warm ? <WebView ref={webRef} source={{ uri: bootUri.current }} onLoadEnd={onWebLoaded} style={{ flex: 1, backgroundColor: C.bg }} injectedJavaScriptBeforeContentLoaded={NO_LAUNCH} injectedJavaScript={THEME_JS} onMessage={onMsg} decelerationRate={0.998} contentInsetAdjustmentBehavior="never" automaticallyAdjustContentInsets={false} directionalLockEnabled={false} allowsLinkPreview={false} /> : null}
+            {!ready || busy ? <View pointerEvents="auto" style={[StyleSheet.absoluteFill, { backgroundColor: C.bg, alignItems: 'center', justifyContent: 'center' }]}><ActivityIndicator size="large" color={C.accent} /></View> : null}
+          </View>
         </View>
         <GestureDetector gesture={edge}><View pointerEvents={depth > 0 ? 'none' : 'auto'} style={[s.edge, { width: EDGE_W, top: insets.top + 98 }]} /></GestureDetector>
       </Animated.View>

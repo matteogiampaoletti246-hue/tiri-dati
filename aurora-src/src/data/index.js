@@ -30,7 +30,11 @@ export function bootData() {
       setTimeout(() => { archIndex().catch(() => null); }, 1200);
       // prima di mostrare la Home: stato e risultati delle partite "live" o appena finite dalla fonte (max 2,5 s)
       // e le partite di oggi delle competizioni dell'archivio (giorni/<data>.json): la Home nasce completa, niente finestre che arrivano dopo
-      return Promise.race([loadDayFeed(TODAY_ISO).catch(() => 0).then(() => refreshStatus()).catch(() => 0), new Promise((r) => setTimeout(r, 2500))]).then(() => RAW);
+      const feed = () => loadDayFeed(TODAY_ISO).catch(() => 0).then(() => refreshStatus()).catch(() => 0);
+      // app nativa: la Home e' dell'app, la pagina web serve per le altre schede: si apre subito e il feed si aggiorna a riposo
+      // (lontano dal momento in cui si apre una scheda, per non rubarle tempo)
+      if (typeof window !== 'undefined' && window.ReactNativeWebView) { setTimeout(feed, 8000); return RAW; }
+      return Promise.race([feed(), new Promise((r) => setTimeout(r, 2500))]).then(() => RAW);
     });
   }
   return booted;
