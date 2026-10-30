@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Home di prova</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:#0b0d12;color:#e8eaf0;font:14px -apple-system,system-ui,sans-serif;overscroll-behavior:none}
+#bar{position:fixed;top:0;left:0;right:0;z-index:5;background:#11141b;padding:env(safe-area-inset-top) 0 0;border-bottom:1px solid #222836}
+#strip{display:flex;gap:6px;overflow-x:auto;padding:10px 10px;scrollbar-width:none}
+#strip::-webkit-scrollbar{display:none}
+.d{flex:0 0 auto;padding:8px 12px;border-radius:12px;background:#1a1f2b;font-weight:600;text-align:center;min-width:58px}
+.d.on{background:#3b82f6;color:#fff}
+#hud{font:11px ui-monospace,monospace;padding:0 12px 6px;color:#8b93a7}
+#view{position:relative;overflow:hidden;margin-top:calc(env(safe-area-inset-top) + 92px);touch-action:pan-y}
+#track{display:flex;width:300%;margin-left:-100%;will-change:transform}
+.pane{width:33.3333%;flex:none;min-height:80vh}
+.g{content-visibility:auto;contain-intrinsic-size:auto 300px;margin:10px 10px 0;background:#151a24;border-radius:14px;overflow:hidden}
+.gh{padding:10px 12px;font-weight:700;border-bottom:1px solid #222836;color:#aab3c8}
+.r{display:grid;grid-template-columns:1fr 54px 1fr;align-items:center;gap:6px;padding:10px 12px;border-bottom:1px solid #1d2331}
+.t{display:flex;align-items:center;gap:8px;min-width:0}.t.o{justify-content:flex-end;text-align:right}
+.t img{width:22px;height:22px;flex:none}.t span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.s{text-align:center;font-weight:700}.s small{display:block;font-weight:400;color:#8b93a7}
+.nm{padding:50px;text-align:center;color:#8b93a7}
+</style></head><body>
+<div id="bar"><div id="strip"></div><div id="hud">caricamento…</div></div>
+<div id="view"><div id="track"><div class="pane" id="p0"></div><div class="pane" id="p1"></div><div class="pane" id="p2"></div></div></div>
+<script>
+(async()=>{
+const R='../';const j=async u=>(await fetch(R+u)).json();
+const idx=await j('arch/index.json');
+const days=[];for(let i=-3;i<=6;i++){const d=new Date();d.setDate(d.getDate()+i);days.push(d.toLocaleDateString('sv-SE',{timeZone:'Europe/Rome'}))}
+const by={};const all=[];
+for(const k of days){try{const f=await j('giorni/'+k+'.json');f.m.forEach(m=>all.push(m))}catch(e){}}
+const seen=new Set();
+for(const m of all){if(seen.has(m[0]))continue;seen.add(m[0]);const k=new Date(m[2]).toLocaleDateString('sv-SE',{timeZone:'Europe/Rome'});(by[k]=by[k]||[]).push(m)}
+const html={};
+const logo=id=>'https://images.fotmob.com/image_resources/logo/teamlogo/'+id+'.png';
+const esc=s=>String(s).replace(/[&<]/g,c=>c=='&'?'&amp;':'&lt;');
+function build(k){if(html[k])return html[k];const ms=(by[k]||[]).slice().sort((a,b)=>a[2]<b[2]?-1:1);if(!ms.length)return html[k]='<div class="nm">Nessuna partita</div>';
+const g={};ms.forEach(m=>(g[m[1]]=g[m[1]]||[]).push(m));let h='';
+for(const fm of Object.keys(g)){const n=(idx[fm]||{}).n||('Competizione '+fm);h+='<div class="g"><div class="gh">'+esc(n)+'</div>';
+for(const m of g[fm]){const t=new Date(m[2]).toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit',timeZone:'Europe/Rome'});
+h+='<div class="r"><div class="t"><img loading="lazy" decoding="async" src="'+logo(m[3])+'" alt=""><span>'+esc(m[5])+'</span></div><div class="s">'+(m[7]||t)+'<small>'+(m[8]=='l'?'LIVE':m[8]=='f'?'Fin':'')+'</small></div><div class="t o"><span>'+esc(m[6])+'</span><img loading="lazy" decoding="async" src="'+logo(m[4])+'" alt=""></div></div>'}
+h+='</div>'}
+return html[k]=h}
+const P=[p0,p1,p2],tr=track,W=()=>innerWidth;
+let cur=days.indexOf(new Date().toLocaleDateString('sv-SE',{timeZone:'Europe/Rome'}));
+const strip=document.getElementById('strip');
+days.forEach((k,i)=>{const e=document.createElement('div');e.className='d';const d=new Date(k+'T12:00:00');e.innerHTML=d.toLocaleDateString('it-IT',{weekday:'short'})+'<br>'+d.getDate()+'/'+(d.getMonth()+1);e.onclick=()=>go(i);strip.appendChild(e)});
+function show(){[...strip.children].forEach((e,i)=>e.classList.toggle('on',i==cur));
+ P[0].innerHTML=cur>0?build(days[cur-1]):'';P[1].innerHTML=build(days[cur]);P[2].innerHTML=cur<days.length-1?build(days[cur+1]):'';
+ const e=strip.children[cur];strip.scrollLeft=e.offsetLeft-W()/2+e.offsetWidth/2;scrollTo(0,0)}
+function go(i){cur=i;tr.style.transform='';show()}
+show();
+let sx=0,sy=0,dx=0,drag=false,lock=0,anim=false;
+addEventListener('touchstart',e=>{if(anim)return;sx=e.touches[0].clientX;sy=e.touches[0].clientY;dx=0;drag=true;lock=0},{passive:true});
+addEventListener('touchmove',e=>{if(!drag)return;const x=e.touches[0].clientX-sx,y=e.touches[0].clientY-sy;
+ if(!lock){if(Math.abs(x)>8||Math.abs(y)>8)lock=Math.abs(x)>Math.abs(y)?1:2;else return}
+ if(lock!=1)return;dx=x;tr.style.transition='none';tr.style.transform='translate3d('+dx+'px,0,0)'},{passive:true});
+addEventListener('touchend',()=>{if(!drag)return;drag=false;if(lock!=1)return;
+ let dir=0;if(dx<-W()*.25&&cur<days.length-1)dir=1;else if(dx>W()*.25&&cur>0)dir=-1;
+ anim=true;tr.style.transition='transform .22s cubic-bezier(.2,.8,.2,1)';tr.style.transform='translate3d('+(-dir*W())+'px,0,0)';
+ setTimeout(()=>{tr.style.transition='none';tr.style.transform='';cur+=dir;show();anim=false},230)});
+// misuratore: fotogrammi lenti
+let last=performance.now(),n=0,slow=0,mx=0,tot=0;
+const hud=document.getElementById('hud');
+function tick(t){const d=t-last;last=t;n++;tot++;if(d>50){slow++}if(d>mx)mx=d;
+ if(n>=30){hud.textContent='lenti(>50ms): '+slow+' | peggiore: '+Math.round(mx)+' ms | giorni: '+Object.keys(by).length;n=0}
+ requestAnimationFrame(tick)}
+requestAnimationFrame(tick);
+})();
+</script></body></html>
