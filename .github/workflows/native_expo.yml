@@ -3,6 +3,9 @@ name: App nativa (Expo) - pubblica la Home di prova
 # Serve il secret EXPO_TOKEN. Il link da aprire finisce nel ramo "native-out" (link.txt).
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['native/**']
 permissions:
   contents: write
 jobs:
@@ -37,6 +40,17 @@ jobs:
           npx --yes eas-cli@latest update --branch main --message "Home di prova nativa $GITHUB_SHA" --non-interactive 2>&1 | tee /tmp/update.txt
           mkdir -p /tmp/no && grep -Eo 'https://[^ ]+' /tmp/update.txt > /tmp/no/link.txt || true
           node -e "const a=require('./app.json').expo;console.log(JSON.stringify({slug:a.slug,id:a.extra&&a.extra.eas&&a.extra.eas.projectId,owner:a.owner}))" > /tmp/no/info.json || true
+      - name: Link fisso (native-link/latest.json)
+        run: |
+          G=$(grep -Eo 'Update group ID +[0-9a-f-]+' /tmp/update.txt | awk '{print $NF}')
+          ID=$(node -p "require('./app/app.json').expo.extra.eas.projectId")
+          if [ -n "$G" ] && [ -n "$ID" ]; then
+            mkdir -p native-link
+            printf '{"id":"%s","group":"%s","at":"%s"}\n' "$ID" "$G" "$(TZ=Europe/Rome date '+%d/%m %H:%M')" > native-link/latest.json
+            git config user.name github-actions && git config user.email github-actions@users.noreply.github.com
+            git add native-link/latest.json && git commit -qm "App nativa: ultima versione ($G)" || exit 0
+            for i in 1 2 3 4 5; do git pull -q --rebase origin main && git push -q origin HEAD:main && break; sleep 3; done
+          fi
       - name: Salva nel ramo native-out
         if: always()
         run: |
