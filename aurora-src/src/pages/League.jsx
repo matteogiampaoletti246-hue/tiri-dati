@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { ChevronDown } from 'lucide-react';
 import usePageTab from '@/hooks/usePageTab';
 import { useParams } from 'react-router-dom';
 import PageShell from '@/components/PageShell';
@@ -14,7 +13,7 @@ import LeaguePlayersPanel from '@/components/league/LeaguePlayersPanel';
 import LeagueRefereesPanel, { leagueReferees } from '@/components/league/LeagueRefereesPanel';
 import ArchiveLeague from '@/components/archive/ArchiveLeague';
 import { useEntityScope, useSel } from '@/components/past/PastBits';
-import SeasonSheet from '@/components/archive/SeasonSheet';
+import SeasonDrop from '@/components/archive/SeasonDrop';
 import useAsync from '@/hooks/useAsync';
 import { FM_ID, archIndex, seasonLabel, sortSeasons, firstSeasonWithData } from '@/data/archive';
 import useDark from '@/hooks/useDark';
@@ -41,7 +40,6 @@ export default function League() {
   useEntityScope(`lg-${FM_ID[id] || id}`);
   const [season, setSeason] = useSel(`lg-${FM_ID[id] || id}`, 'season', () => { const l = leagueById(id); const x = l && l.extra && RAW.extra && RAW.extra.sk && RAW.extra.sk[String(l.fm)]; return x || 'live'; });
   const [aTab, setATab] = useSel(`lg-${FM_ID[id] || id}`, 'atab', 0);
-  const [sheet, setSheet] = useState(false);
   // competizioni dell'archivio (fm-<id>): esistono quando l'indice e' arrivato
   const isArch = /^fm-\d+$/.test(String(id));
   const { data: aidx } = useAsync(() => (FM_ID[id] || isArch ? archIndex() : null), [id]);
@@ -78,10 +76,12 @@ export default function League() {
   const seasonEff = league.arch && season === 'live' ? ((fsd && fsd.sk) || past[0]) : season;
   const inArchive = seasonEff !== 'live';
   const seasonBtn = fm && past.length ? (
-    <button type="button" onClick={() => setSheet(true)} className="glass press flex items-center gap-1.5 rounded-full py-1 pl-3 pr-2 text-[11.5px] font-bold" style={{ color: 'var(--ink)' }}>
-      <span className="tnum">{inArchive ? seasonLabel(seasonEff) : (league.season || 'Stagione')}</span>
-      <ChevronDown size={13} strokeWidth={2.2} style={{ color: 'var(--ink-3)' }} />
-    </button>
+    <SeasonDrop
+      seasons={league.arch ? past : ['live', ...past]}
+      value={seasonEff}
+      currentLabel={league.season || 'Stagione attuale'}
+      onSelect={(v) => { setSeason(v); setATab(0); window.scrollTo({ top: 0 }); }}
+    />
   ) : null;
 
   const panels = [
@@ -134,7 +134,6 @@ export default function League() {
       ) : (
         <SwipeTabs fixedBar tabs={liveTabs} panels={livePanels} index={Math.min(tab, liveTabs.length - 1)} onChange={setTab} className="pt-0" />
       )}
-      <SeasonSheet open={sheet} seasons={league.arch ? past : ['live', ...past]} value={seasonEff} currentLabel={league.season || 'Stagione attuale'} onClose={() => setSheet(false)} onSelect={(v) => { setSeason(v); setATab(0); setSheet(false); window.scrollTo({ top: 0 }); }} />
     </PageShell>
   );
 }
