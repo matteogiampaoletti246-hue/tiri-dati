@@ -29,6 +29,8 @@ async function once(v) {
   await b.startTracing(pg, { categories: ['devtools.timeline', 'disabled-by-default-devtools.timeline', 'blink', 'cc'] });
   const res = await pg.evaluate(async ([n, gap]) => {
     const lts = []; try { new PerformanceObserver((l) => l.getEntries().forEach((e) => lts.push(Math.round(e.duration)))).observe({ type: 'longtask', buffered: true }); } catch (e) { /* ignore */ }
+    const loaf = []; try { new PerformanceObserver((l) => l.getEntries().forEach((e) => { if (e.duration > 80) loaf.push({ d: Math.round(e.duration), blk: Math.round(e.blockingDuration || 0), rs: Math.round(e.renderStart ? e.startTime + e.duration - e.renderStart : 0), sl: Math.round(e.styleAndLayoutStart ? e.startTime + e.duration - e.styleAndLayoutStart : 0), sc: (e.scripts || []).map((x) => `${x.invokerType}:${(x.invoker || '').slice(0, 40)} ${Math.round(x.duration)}ms forced ${Math.round(x.forcedStyleAndLayoutDuration || 0)} ${x.sourceFunctionName || ''}@${(x.sourceURL || '').split('/').pop()}:${x.sourceCharPosition}`) }); })).observe({ type: 'long-animation-frame', buffered: true }); } catch (e) { /* ignore */ }
+    window.__loaf = loaf;
     const ts = []; let on = true;
     const f = (t) => { ts.push(t); if (on) requestAnimationFrame(f); };
     requestAnimationFrame(f);
@@ -47,7 +49,7 @@ async function once(v) {
     const d = ts.slice(1).map((t, i) => t - ts[i]);
     const s = [...d].sort((a, c) => a - c);
     await new Promise((q) => setTimeout(q, 100));
-    return { lt: lts, p50: Math.round(s[s.length >> 1]), p95: Math.round(s[Math.floor(s.length * 0.95)]), max: Math.round(s[s.length - 1]), over50: d.filter((x) => x > 50).length, over100: d.filter((x) => x > 100).length, persi: Math.round(d.reduce((a, x) => a + Math.max(0, Math.round(x / 16.7) - 1), 0)) };
+    return { loaf: window.__loaf, lt: lts, p50: Math.round(s[s.length >> 1]), p95: Math.round(s[Math.floor(s.length * 0.95)]), max: Math.round(s[s.length - 1]), over50: d.filter((x) => x > 50).length, over100: d.filter((x) => x > 100).length, persi: Math.round(d.reduce((a, x) => a + Math.max(0, Math.round(x / 16.7) - 1), 0)) };
   }, [N, GAP]);
   const trace = JSON.parse((await b.stopTracing()).toString());
   const ev = trace.traceEvents || trace;
@@ -58,7 +60,8 @@ async function once(v) {
   ev.forEach((e) => { if (`${e.pid}:${e.tid}` !== main || e.ph !== 'X' || !e.dur) return; if (NAMES.includes(e.name)) by[e.name] = (by[e.name] || 0) + e.dur / 1000; if (e.name === 'RunTask' && e.dur > 50000) longTasks.push(Math.round(e.dur / 1000)); });
   await ctx.close();
   const lt = res.lt || [];
-  return { ...res, lt: undefined, ltN: lt.length, ltSum: lt.reduce((a, x) => a + x, 0), ltMax: Math.max(0, ...lt), nodes, ms: Object.fromEntries(Object.entries(by).map(([k, x]) => [k, Math.round(x)])), lt50: longTasks.length, lt100: longTasks.filter((x) => x > 100).length };
+  if (v.loaf && !globalThis.__loafDone) { globalThis.__loafDone = true; fs.mkdirSync('perf-out', { recursive: true }); fs.writeFileSync('perf-out/loaf.json', JSON.stringify(res.loaf, null, 1)); }
+  return { ...res, loaf: undefined, lt: undefined, ltN: lt.length, ltSum: lt.reduce((a, x) => a + x, 0), ltMax: Math.max(0, ...lt), nodes, ms: Object.fromEntries(Object.entries(by).map(([k, x]) => [k, Math.round(x)])), lt50: longTasks.length, lt100: longTasks.filter((x) => x > 100).length };
 }
 
 const out = { when: new Date().toISOString(), rate: RATE, reps: REPS, variants: {} };

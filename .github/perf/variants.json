@@ -1,25 +1,6 @@
 [
  {
-  "name": "base"
- },
- {
-  "name": "will-change fisso",
-  "css": "div[style*='min-height: 55vh']{will-change:transform !important}"
- },
- {
-  "name": "senza striscia animata",
-  "init": "window.addEventListener('sl-daydrag', e=>e.stopImmediatePropagation(), true)"
- },
- {
-  "name": "senza transizioni",
-  "css": "*{transition:none !important}"
- },
- {
-  "name": "barra bassa senza sfocatura",
-  "css": ".glass-bar,nav.fixed{-webkit-backdrop-filter:none !important;backdrop-filter:none !important}"
- },
- {
-  "name": "contain sulla lista",
-  "css": "div[style*='min-height: 55vh']{contain:layout paint}"
+  "name": "base",
+  "loaf": true
  }
 ]
