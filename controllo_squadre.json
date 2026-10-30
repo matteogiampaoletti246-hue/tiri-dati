@@ -6360,7 +6360,7 @@
     "competizioni": [
      "KNVB Cup 2026-2027"
     ],
-    "motivo": "nessuna partita giocata nella stagione in corso"
+    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
     "squadra": "AE Prat",
@@ -6368,7 +6368,7 @@
     "competizioni": [
      "Copa del Rey 2026-2027"
     ],
-    "motivo": "nessuna partita giocata nella stagione in corso"
+    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
     "squadra": "AF Virois",
@@ -7089,7 +7089,7 @@
     "competizioni": [
      "Copa del Rey 2026-2027"
     ],
-    "motivo": "nessuna partita giocata nella stagione in corso"
+    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
     "squadra": "Avangard Kursk",
@@ -9410,7 +9410,7 @@
     "competizioni": [
      "KNVB Cup 2026-2027"
     ],
-    "motivo": "nessuna partita giocata nella stagione in corso"
+    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
     "squadra": "Gemlik Sumerbey Spor",
@@ -12196,7 +12196,7 @@
     "competizioni": [
      "Copa del Rey 2026-2027"
     ],
-    "motivo": "nessuna partita giocata nella stagione in corso"
+    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
     "squadra": "Ringkøbing",
@@ -12958,7 +12958,7 @@
     "competizioni": [
      "Copa del Rey 2026-2027"
     ],
-    "motivo": "nessuna partita giocata nella stagione in corso"
+    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
     "squadra": "Sporting de Alcazar",
@@ -13784,7 +13784,7 @@
     "competizioni": [
      "KNVB Cup 2026-2027"
     ],
-    "motivo": "nessuna partita giocata nella stagione in corso"
+    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
     "squadra": "VRI",
@@ -14089,7 +14089,7 @@
     "competizioni": [
      "Copa Uruguay 2026"
     ],
-    "motivo": "nessuna partita giocata nella stagione in corso"
+    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
     "squadra": "Welwalo Adigrat University",
@@ -15330,7 +15330,7 @@
  },
  "forma": {
   "squadre_senza_forma_prima": 4030,
-  "squadre_senza_forma_dopo": 212,
+  "squadre_senza_forma_dopo": 204,
   "motivo_dopo": "nessuna partita giocata nella stagione in corso: niente riquadro"
  }
 }
