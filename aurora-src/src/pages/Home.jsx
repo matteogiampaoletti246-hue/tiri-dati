@@ -203,13 +203,62 @@ export default function Home() {
     if (v && (live.current.deep ? BUILT : BUILT_FIRST).get(`${v}|${live.current.filter}`)) return;
     setPeek(v);
   };
+  // Il cambio giorno e' visivo e immediato (solo stili: la casella uscita rientra dall'altro lato); lo stato di React lo segue a pagina ferma.
+  // Cosi' un nuovo swipe puo' partire in qualsiasi momento, anche durante lo scorrimento, e la fine dello swipe non costa un ridisegno.
+  const slotEls = useRef([]);
+  const pend = useRef(null);
+  const pendTm = useRef(0);
+  const glRef = useRef(null);
+  const commitNow = () => {
+    const v = pend.current;
+    if (v == null) return;
+    clearTimeout(pendTm.current);
+    pend.current = null;
+    flushSync(() => { setIso(v); setPeek(null); peekRef.current = null; });
+  };
+  const rotate = (target) => {
+    const ep = Math.floor(Date.parse(`${target}T12:00:00Z`) / 864e5);
+    const cc = ((ep % 3) + 3) % 3;
+    slotEls.current.forEach((n, sl) => {
+      if (!n) return;
+      const r = (((sl - cc + 1) % 3) + 3) % 3 - 1;
+      n.style.transform = r ? `translateX(${r * 100}%)` : '';
+      n.style.height = r ? '0px' : '';
+    });
+  };
+  const xNow = (el) => { try { return new DOMMatrix(getComputedStyle(el).transform).m41; } catch (e) { return 0; } };
+  const settle = (target) => {
+    rotate(target);
+    KEEP.iso = target;
+    pend.current = target;
+    clearTimeout(pendTm.current);
+    pendTm.current = setTimeout(commitNow, 160);
+  };
+  // swipe che parte mentre quello precedente scorre ancora: si riparte dal punto in cui e' la pagina (niente salto, niente attesa)
+  const rebase = () => {
+    const g = glRef.current;
+    const el = listRef.current;
+    if (!g || !el) return 0;
+    const x = xNow(el);
+    clearTimeout(g.tm);
+    g.ended = true;
+    glRef.current = null;
+    finishRef.current = null;
+    el.style.transition = 'none';
+    settle(g.target);
+    const nx = x - g.dir * g.w;
+    el.style.transform = `translate3d(${nx}px,0,0)`;
+    busy.current = false;
+    GLIDE = false;
+    return nx;
+  };
   const listRef = useRef(null);
   const busy = useRef(false);
   const finishRef = useRef(null);
   const moved = useRef(false);
 
   // cambio giorno vicino con scorrimento: i due giorni sono gia' affiancati, si muove solo la striscia
-  const glide = (target, dx = 0) => {
+  const glide = (target) => {
     const el = listRef.current;
     if (!el) { setIso(target); return; }
     const w = Math.min(window.innerWidth, el.offsetWidth || 430);
@@ -220,33 +269,36 @@ export default function Home() {
     showPeek(target);
     growBox(el);
     dragDays(-dir, true);
-    let ended = false;
-    let tm = 0;
+    const g = { target, dir, w, ended: false, tm: 0 };
+    glRef.current = g;
     const end = () => {
-      if (ended) return;
-      ended = true;
-      clearTimeout(tm);
+      if (g.ended) return;
+      g.ended = true;
+      clearTimeout(g.tm);
+      glRef.current = null;
       finishRef.current = null;
-      // stili e cambio giorno nello stesso passaggio (nessun fotogramma in mezzo): un solo calcolo di stile e layout
+      // stili e ruoli delle caselle nello stesso passaggio: nessun fotogramma in mezzo, nessun ridisegno di React
       el.style.transition = 'none';
       el.style.height = '';
       el.style.transform = '';
       el.style.willChange = '';
-      flushSync(() => { setIso(target); setPeek(null); peekRef.current = null; });
+      settle(target);
       busy.current = false;
       GLIDE = false;
     };
     finishRef.current = end;
     el.style.willChange = 'transform';
+    const ms = Math.max(140, Math.min(260, Math.abs(dir * w - xNow(el)) * 0.65));
     requestAnimationFrame(() => {
-      if (ended) return;
-      el.style.transition = 'transform .26s cubic-bezier(.22,.8,.24,1)';
+      if (g.ended) return;
+      el.style.transition = `transform ${ms}ms cubic-bezier(.22,.8,.24,1)`;
       el.style.transform = `translate3d(${dir * w}px,0,0)`;
-      tm = setTimeout(end, 290);
+      g.tm = setTimeout(end, ms + 30);
     });
   };
 
   const goDay = (i) => {
+    commitNow();
     const target = ISO_LIST[i];
     if (target === iso) return;
     if (target === nextIso || target === prevIso) { finishCarousel(); glide(target); return; }
@@ -260,19 +312,21 @@ export default function Home() {
 
   // Swipe laterale tra i giorni: eventi touch nativi su tutta la pagina (affidabili su iPhone).
   const live = useRef({});
-  live.current = { iso, prevIso, nextIso, search: searchOpen, glide, filter, deep: live.current.deep };
+  live.current = { iso, prevIso, nextIso, search: searchOpen, glide, goDay, filter, deep: live.current.deep };
   useEffect(() => {
     let st = null;
     const blocked = (t) => t.closest && t.closest('[data-no-swipe], input, select, textarea, [role="dialog"]');
     const onStart = (e) => {
       TOUCHING = true;
       live.current.deep = window.scrollY > 120;
-      if (finishRef.current) finishRef.current();
+      const rb = !!glRef.current;
+      const base = rb ? rebase() : 0;
+      commitNow();
       finishCarousel();
       if (e.touches.length !== 1 || busy.current || live.current.search || modalOpen() || blocked(e.target)) { st = null; return; }
       const t = e.touches[0];
-      st = { x: t.clientX, y: t.clientY, t: Date.now(), on: false };
-      moved.current = false;
+      st = { x: t.clientX, y: t.clientY, t: Date.now(), on: rb, base, dx: 0 };
+      moved.current = rb;
     };
     const onMove = (e) => {
       if (!st) return;
@@ -293,17 +347,18 @@ export default function Home() {
           st.raf = 0;
           const el = listRef.current;
           const { prevIso: p, nextIso: n } = live.current;
-          const nb = st.dx > 0 ? p : n;
+          const o = st.base + st.dx;
+          const nb = o > 0 ? p : n;
           // altezza del riquadro misurata solo quando cambia il giorno affiancato (e il fotogramma dopo, a giorno costruito):
           // una misura a ogni fotogramma forzava il ricalcolo di tutta la pagina
           if (st.nb !== nb) { st.nb = nb; st.grow = 2; }
           showPeek(nb);
           if (el && st.grow > 0) { st.grow -= 1; growBox(el); }
-          dragDays(nb ? -st.dx / Math.min(window.innerWidth, (el && el.offsetWidth) || 430) : 0);
+          dragDays(nb ? -o / Math.min(window.innerWidth, (el && el.offsetWidth) || 430) : 0);
           if (el) {
             el.style.transition = 'none';
             el.style.willChange = 'transform';
-            el.style.transform = `translate3d(${nb ? st.dx : st.dx * 0.28}px,0,0)`;
+            el.style.transform = `translate3d(${nb ? o : o * 0.28}px,0,0)`;
           }
         });
       }
@@ -316,13 +371,14 @@ export default function Home() {
       if (!d || !d.on) return;
       const t = (e.changedTouches && e.changedTouches[0]) || { clientX: d.x };
       const dx = t.clientX - d.x;
+      const o = d.base + dx;
       const v = Math.abs(dx) / Math.max(80, Date.now() - d.t);
       const el = listRef.current;
       const { prevIso: p, nextIso: n, glide: gl } = live.current;
       // dito verso destra → giorno precedente (Ieri); dito verso sinistra → giorno successivo (Domani)
-      const target = dx > 0 ? p : n;
-      if ((Math.abs(dx) > 60 || v > 0.45) && target) {
-        gl(target, dx);
+      const target = o > 0 ? p : n;
+      if ((Math.abs(o) > 60 || v > 0.45) && target) {
+        gl(target);
       } else if (el) {
         el.style.transition = 'transform .25s cubic-bezier(.22,.8,.24,1)';
         el.style.transform = 'translate3d(0,0,0)';
@@ -335,6 +391,7 @@ export default function Home() {
     document.addEventListener('touchend', onEnd, { passive: true });
     document.addEventListener('touchcancel', onEnd, { passive: true });
     return () => {
+      clearTimeout(pendTm.current);
       TOUCHING = false;
       GLIDE = false;
       document.removeEventListener('touchstart', onStart);
@@ -362,7 +419,7 @@ export default function Home() {
       <div className="glass-head sticky top-0 z-30">
         <HomeHeader onSearch={() => { primeKeyboard(); setSearchOpen(true); }} />
         <DayStrip dates={DATES} todayIndex={TODAY_INDEX} value={custom ? -1 : dayIdx}
-          onChange={goDay}
+          onChange={(i) => { commitNow(); live.current.goDay(i); }}
         />
       </div>
 
@@ -381,7 +438,7 @@ export default function Home() {
             },
           ]}
           value={filter}
-          onChange={setFilter}
+          onChange={(f) => { commitNow(); setFilter(f); }}
         />
         <div className="ml-auto" />
         <label className="glass press relative flex h-9 w-9 items-center justify-center rounded-full" aria-label="Calendario">
@@ -394,6 +451,7 @@ export default function Home() {
               const v = e.target.value;
               if (!v) return;
               e.target.blur();
+              commitNow();
               dayReady(v).then(() => setIso(v));
             }}
             aria-label="Scegli data"
@@ -425,6 +483,7 @@ export default function Home() {
           panes.map(({ sl, k, role }) => (
             <div
               key={sl}
+              ref={(n) => { slotEls.current[sl] = n; }}
               style={{ gridArea: '1 / 1', minWidth: 0, display: 'flow-root', ...(role ? { transform: `translateX(${role * 100}%)`, height: 0 } : null) }}
             >
               {k ? <DayPane key={k} iso={k} filter={filter} ver={sigs[k]} tick={role === 0 ? tick + 1 : 0} lead={role === 0} need={peek === k ? (deepPeek ? Infinity : FIRST) : 0} /> : null}
