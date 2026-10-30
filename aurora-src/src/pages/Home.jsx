@@ -39,6 +39,8 @@ let TOUCHING = false;
 let GLIDE = false;
 // giorni gia' montati per intero (iso|filtro): il giorno vicino completo non fa ridisegnare la Home a inizio swipe
 const BUILT = new Map();
+// giorni con almeno le prime finestre montate (quanto serve per vederli durante lo scorrimento)
+const BUILT_FIRST = new Map();
 // aggiornamenti dalla rete: mai mentre il dito e' sullo schermo o il giorno sta scorrendo (si ridisegna appena la pagina e' ferma)
 const later = (fn) => { const go = () => { if (TOUCHING || GLIDE) setTimeout(go, 200); else fn(); }; go(); };
 
@@ -97,23 +99,28 @@ const FIRST = 8;
 const STEP = 8;
 const DayPane = memo(DayPaneBody, (a, b) => a.iso === b.iso && a.filter === b.filter && a.ver === b.ver
   // giorno gia' completo: diventare centrale o vicino non cambia nulla, niente ridisegno delle sue righe
-  && ((a.lead === b.lead && a.force === b.force) || BUILT.get(`${b.iso}|${b.filter}`) === true)
+  && ((a.lead === b.lead && a.need === b.need) || BUILT.get(`${b.iso}|${b.filter}`) === true)
   // il minuto live ridisegna solo il giorno centrale (tick 0 = giorno non centrale)
   && (a.tick === b.tick || a.tick === 0 || b.tick === 0));
-function DayPaneBody({ iso, filter, ver, lead, force }) {
+function DayPaneBody({ iso, filter, ver, lead, need }) {
   const items = groupsOf(iso, filter, ver);
-  const [cnt, setCnt] = useState(lead ? Infinity : FIRST);
-  const eff = force ? Infinity : cnt;
-  BUILT.set(`${iso}|${filter}`, eff >= items.length);
-  if (BUILT.size > 40) BUILT.delete(BUILT.keys().next().value);
-  // completato per forza (pagina scorsa in basso): resta completo anche quando la richiesta finisce
-  useEffect(() => { if (force && cnt !== Infinity) setCnt(Infinity); }, [force, cnt]);
+  // un giorno vicino appena arrivato parte vuoto (cambiare giorno non monta righe) e mostra le prime finestre a riposo
+  const [cnt, setCnt] = useState(lead ? Infinity : 0);
+  const eff = Math.max(cnt, need || 0);
+  const key = `${iso}|${filter}`;
+  BUILT.set(key, eff >= items.length);
+  BUILT_FIRST.set(key, eff >= Math.min(FIRST, items.length));
+  if (BUILT.size > 40) { BUILT.delete(BUILT.keys().next().value); BUILT_FIRST.delete(BUILT_FIRST.keys().next().value); }
+  // richiesto (inizio swipe): il numero richiesto resta montato anche quando la richiesta finisce
+  useEffect(() => { if (need && cnt < need) setCnt(need); }, [need, cnt]);
   useEffect(() => {
-    // il giorno che diventa centrale con uno swipe si completa a riposo, a pezzi (mai con il dito o lo scorrimento in corso)
-    if (!lead || cnt >= items.length) return undefined;
+    // il giorno vicino si riempie a riposo (prime finestre), quello che diventa centrale con uno swipe si completa a pezzi;
+    // mai con il dito o lo scorrimento in corso
+    const goal = lead ? Infinity : FIRST;
+    if (cnt >= Math.min(goal, items.length)) return undefined;
     let id;
-    const go = () => { if (TOUCHING || GLIDE) { id = setTimeout(go, 120); return; } setCnt((c) => c + STEP); };
-    id = setTimeout(go, 50);
+    const go = () => { if (TOUCHING || GLIDE) { id = setTimeout(go, 120); return; } setCnt((c) => Math.min(goal, c + (lead ? STEP : 4))); };
+    id = setTimeout(go, lead ? 50 : 70);
     return () => clearTimeout(id);
   }, [cnt, lead, items.length]);
   if (!items.length) {
@@ -177,7 +184,8 @@ export default function Home() {
         if (!on) return;
         const n = await syncDayTimes(isoDate(d));
         const f = await loadDayFeed(isoDate(d)).catch(() => 0);
-        if ((n || f) && on) later(() => on && bump((x) => x + 1));
+        // un giorno lontano da quello aperto non si ridisegna: quando lo si apre legge i dati gia' aggiornati
+        if ((n || f) && on && Math.abs(ISO_LIST.indexOf(isoDate(d)) - ISO_LIST.indexOf(live.current.iso)) <= 1) later(() => on && bump((x) => x + 1));
       }
     })();
     return () => { on = false; };
@@ -192,8 +200,7 @@ export default function Home() {
     if (peekRef.current === v) return;
     peekRef.current = v;
     // il giorno vicino si completa solo se la pagina e' scorsa in basso (si vedrebbe tagliato); in cima bastano le prime finestre
-    if (v && !live.current.deep) return;
-    if (v && BUILT.get(`${v}|${live.current.filter}`)) return;
+    if (v && (live.current.deep ? BUILT : BUILT_FIRST).get(`${v}|${live.current.filter}`)) return;
     setPeek(v);
   };
   const listRef = useRef(null);
@@ -341,6 +348,7 @@ export default function Home() {
   // com'erano e cambia solo la loro posizione (nessuna proprieta' ereditata cambia: niente ricalcolo di stile sulle righe)
   const epoch = Math.floor(Date.parse(`${iso}T12:00:00Z`) / 864e5);
   const c0 = ((epoch % 3) + 3) % 3;
+  const deepPeek = !!live.current.deep;
   const sigs = {};
   const panes = [0, 1, 2].map((sl) => {
     const role = (((sl - c0 + 1) % 3) + 3) % 3 - 1;
@@ -419,7 +427,7 @@ export default function Home() {
               key={sl}
               style={{ gridArea: '1 / 1', minWidth: 0, display: 'flow-root', ...(role ? { transform: `translateX(${role * 100}%)`, height: 0 } : null) }}
             >
-              {k ? <DayPane key={k} iso={k} filter={filter} ver={sigs[k]} tick={role === 0 ? tick + 1 : 0} lead={role === 0} force={peek === k} /> : null}
+              {k ? <DayPane key={k} iso={k} filter={filter} ver={sigs[k]} tick={role === 0 ? tick + 1 : 0} lead={role === 0} need={peek === k ? (deepPeek ? Infinity : FIRST) : 0} /> : null}
             </div>
           ))
         )}
