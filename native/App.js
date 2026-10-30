@@ -7,7 +7,7 @@ import { Image } from 'expo-image';
 import Animated, { useSharedValue, useAnimatedStyle, useAnimatedReaction, withTiming, cancelAnimation, runOnJS, Easing } from 'react-native-reanimated';
 import { SafeAreaProvider, SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { WebView } from 'react-native-webview';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import META from './meta.json';
@@ -176,7 +176,7 @@ const Day = memo(({ iso, rows, filter, onOpen, onLeague }) => {
   if (!items.length) return <View style={{ width: W }}><Text style={s.empty}>Nessuna partita</Text></View>;
   return (
     <View style={{ width: W }}>
-      <FlatList data={items} renderItem={render} keyExtractor={(i) => i.key} initialNumToRender={4} maxToRenderPerBatch={3} updateCellsBatchingPeriod={60} windowSize={5} contentContainerStyle={{ paddingBottom: 90 }} />
+      <FlatList data={items} renderItem={render} keyExtractor={(i) => i.key} initialNumToRender={4} maxToRenderPerBatch={3} updateCellsBatchingPeriod={60} windowSize={5} contentContainerStyle={{ paddingBottom: 140 }} />
     </View>
   );
 });
@@ -249,6 +249,28 @@ const EDGE_W = 60; // zona dello swipe indietro (px dal bordo): larga, cosi' par
 
 const THEME_JS = "(function(){try{var send=function(){window.ReactNativeWebView.postMessage(document.documentElement.classList.contains('dark')?'dark':'light');};send();new MutationObserver(send).observe(document.documentElement,{attributes:true,attributeFilter:['class']});}catch(e){}})();true;";
 const scoreStr = (sc) => { const x = /(\d+)\s*-\s*(\d+)/.exec(String(sc || '')); return x ? `${x[1]}-${x[2]}` : null; };
+
+// barra in basso come nel sito (stesse icone): Home, Calcolatore, Giocatori, Matchup. Componente a parte e memoizzato: non si ridisegna
+// quando la Home cambia giorno o scorre; le altre pagine sono nella pagina web, che ha la sua barra.
+const TABS = [['Home', 'home-outline', null], ['Calcolatore', 'calculator-outline', '/calcolatore'], ['Giocatori', 'people-outline', '/migliori-giocatori'], ['Matchup', 'sword-cross', '/migliori-matchup']];
+const TabBar = memo(({ onOpen, bottom }) => {
+  const { C, s } = useT();
+  return (
+    <View pointerEvents="box-none" style={[s.tabWrap, { paddingBottom: Math.max(bottom, 8) }]}>
+      <View style={s.tabBar}>
+        {TABS.map(([label, icon, route]) => {
+          const Ic = icon === 'sword-cross' ? MaterialCommunityIcons : Ionicons;
+          return (
+            <Pressable key={label} onPress={route ? () => onOpen(route) : undefined} style={[s.tabItem, !route && s.tabOn]} accessibilityLabel={label}>
+              <Ic name={icon} size={21} color={!route ? C.accent : C.ink3} />
+              <Text style={[s.tabTxt, !route && { color: C.accent }]}>{label}</Text>
+            </Pressable>
+          );
+        })}
+      </View>
+    </View>
+  );
+});
 
 function Screen({ onTheme }) {
   const { C, s } = useT();
@@ -439,17 +461,7 @@ function Screen({ onTheme }) {
           {shown.map((i) => <Pane key={i} idx={i} x={x}><Day iso={keys[i]} rows={data[i]} filter={filter} onOpen={openMatch} onLeague={openRoute} /></Pane>)}
         </View>
       </GestureDetector>
-      {/* barra in basso come nel sito: Home, Calcolatore, Giocatori, Matchup (le altre pagine sono nella pagina web, che ha la sua barra) */}
-      <View pointerEvents="box-none" style={[s.tabWrap, { paddingBottom: Math.max(insets.bottom, 8) }]}>
-        <View style={s.tabBar}>
-          {[['Home', 'home', null], ['Calcolatore', 'calculator', '/calcolatore'], ['Giocatori', 'people', '/migliori-giocatori'], ['Matchup', 'flash', '/migliori-matchup']].map(([label, icon, route]) => (
-            <Pressable key={label} onPress={route ? () => openRoute(route) : undefined} style={[s.tabItem, !route && s.tabOn]} accessibilityLabel={label}>
-              <Ionicons name={icon} size={20} color={!route ? C.accent : C.ink3} />
-              <Text style={[s.tabTxt, !route && { color: C.accent }]}>{label}</Text>
-            </Pressable>
-          ))}
-        </View>
-      </View>
+      <TabBar onOpen={openRoute} bottom={insets.bottom} />
       <Calendar visible={cal} selected={dates[cur] || new Date()} onClose={() => setCal(false)} onPick={pick} />
 
       {/* pagina web (resto dell'app): gia' caricata, si apre scorrendo da destra */}
