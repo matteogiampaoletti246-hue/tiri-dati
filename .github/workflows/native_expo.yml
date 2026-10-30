@@ -8,6 +8,9 @@ on:
     paths: ['native/**']
 permissions:
   contents: write
+concurrency:
+  group: native-expo
+  cancel-in-progress: false
 jobs:
   publica:
     runs-on: ubuntu-latest

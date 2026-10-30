@@ -285,3 +285,6 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 - Ordine in alto (Home sito e nativa, `TOP_SOLO`): Champions, Europa, Conference, poi i 9 top campionati, poi internazionali, poi i paesi in ordine alfabetico.
 - Swipe indietro: soglia bassa (`backDone`: 22% della larghezza, o 8% con scatto); durante lo swipe la pagina resta opaca ma con lo sfondo dell'app (bagliore azzurro, `paintSolid`), mai nero.
 - Forma recente: ultime 5 in tutte le competizioni della squadra (`addLeagueForm`: indice `tidx`, stagione in corso + precedente).
+
+## Pubblicazione app nativa (Expo)
+- `native_expo.yml` ha `concurrency` (una pubblicazione alla volta, in coda): due merge ravvicinati pubblicavano insieme sullo stesso ramo EAS e scrivevano insieme `native-link/latest.json`; l'utente apriva un aggiornamento a meta' (errore Expo Go "RCTEventEmitter.receiveEvent ... not registered"). Dopo una pubblicazione: chiudere Expo Go del tutto e riaprirlo due volte.
