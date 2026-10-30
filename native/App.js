@@ -32,6 +32,7 @@ const FMT_DAY = (() => { try { return new Intl.DateTimeFormat('sv-SE', { timeZon
 const FMT_HM = (() => { try { return new Intl.DateTimeFormat('it-IT', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Rome' }); } catch (e) { return null; } })();
 const rome = (d) => { try { return FMT_DAY.format(d); } catch (e) { return d.toISOString().slice(0, 10); } };
 const HM_CACHE = {};
+const LIVE_MEM = new Map(); // id partita -> ultimo { st, score, lt, t } letto da /fx
 const hhmm = (iso) => { if (HM_CACHE[iso] !== undefined) return HM_CACHE[iso]; let r = ''; try { r = FMT_HM.format(new Date(iso)); } catch (e) { r = ''; } HM_CACHE[iso] = r; return r; };
 
 const crest = (id) => `https://images.fotmob.com/image_resources/logo/teamlogo/${id}.png`;
@@ -352,7 +353,9 @@ function Screen({ onTheme }) {
     } catch (e) { /* si riprova al prossimo giro */ }
     const rows0 = (viewRef.current && viewRef.current.keys === v.keys ? viewRef.current.data[i] : null) || [];
     // altre partite iniziate da meno di 5 ore (campionati e coppe aggiunti): una richiesta per partita, al massimo 12 per giro
-    const one = rows0.filter((m) => !upd.has(String(m[0])) && m[8] !== 'f' && Date.parse(m[2]) <= now && now - Date.parse(m[2]) < 5 * 3600000).slice(0, 12);
+    // prima quelle gia' "live" ma senza gol (il risultato deve esserci sempre), poi le altre; al massimo 36 per giro, 6 richieste insieme
+    const one = rows0.filter((m) => !upd.has(String(m[0])) && m[8] !== 'f' && Date.parse(m[2]) <= now && now - Date.parse(m[2]) < 5 * 3600000)
+      .sort((a, b) => (b[8] === 'l' && !/\d/.test(b[7] || '') ? 1 : 0) - (a[8] === 'l' && !/\d/.test(a[7] || '') ? 1 : 0)).slice(0, 36);
     let k = 0;
     const worker = async () => {
       while (k < one.length) {
@@ -360,11 +363,13 @@ function Screen({ onTheme }) {
         try {
           const d = await getF(`${WORKER}/fx?id=${m[0]}`);
           const sc = d.sc && d.sc[0] != null ? `${d.sc[0]}-${d.sc[1]}` : null;
-          upd.set(String(m[0]), d.fin && sc ? { st: 'f', score: sc } : d.st ? { st: 'l', score: sc, lt: clock(d.clk, d.ht) } : { st: 'n' });
+          const u = d.fin && sc ? { st: 'f', score: sc } : d.st ? { st: 'l', score: sc, lt: clock(d.clk, d.ht) } : { st: 'n' };
+          upd.set(String(m[0]), u);
+          if (u.score) LIVE_MEM.set(String(m[0]), { ...u, t: now });
         } catch (e) { /* si riprova al prossimo giro */ }
       }
     };
-    await Promise.all([worker(), worker(), worker(), worker()]);
+    await Promise.all([worker(), worker(), worker(), worker(), worker(), worker()]);
     // iniziate da piu' di 5 ore e ancora senza risultato: feed del giorno (aggiornato ogni 10 minuti)
     if (rows0.some((m) => m[8] !== 'f' && now - Date.parse(m[2]) >= 5 * 3600000 && now - Date.parse(m[2]) < 4 * 86400000)) {
       try {
@@ -375,7 +380,10 @@ function Screen({ onTheme }) {
     const v2 = viewRef.current; if (!v2 || v2.keys !== v.keys) return;
     let changed = false;
     const rows = v2.data[i].map((m) => {
-      const u = upd.get(String(m[0])); if (!u) return m;
+      let u = upd.get(String(m[0]));
+      // ultimo risultato noto (anche dopo aver cambiato giorno e ricostruito le righe): mai "live" senza gol se lo conosciamo
+      if (!u && m[8] === 'l' && !/\d/.test(m[7] || '')) { const mem = LIVE_MEM.get(String(m[0])); if (mem && now - mem.t < 10 * 60000) u = mem; }
+      if (!u) return m;
       let st = m[8]; let score = m[7]; let lt = m[10];
       if (u.st === 'f' && u.score) { st = 'f'; score = u.score; lt = undefined; }
       else if (u.st === 'l') { st = 'l'; if (u.score) score = u.score; lt = u.lt; }

@@ -295,3 +295,6 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 
 ## Tendina delle stagioni nel banner (regola fissa, concept A)
 - Il tasto stagione del banner di una competizione (`pages/League.jsx`) apre una tendina SOTTO il tasto (`components/archive/SeasonDrop.jsx`), mai il foglio dal basso: si srotola verso il basso (clip-path, voci in cascata), scorre dopo ~7 voci, sta sopra la barra in basso (`popRoom`) e, se sotto non c'e' spazio, si apre verso l'alto. Portale a posizione fissa (il banner non la taglia), `MenuBackdrop` + `useModalLock` come le altre tendine. Tasto largo almeno 150 px, tendina almeno 196 px. `SeasonSheet` non e' piu' usato.
+
+## Home nativa: il risultato accanto a LIVE (regola fissa)
+- Ogni partita live mostra i gol: `refresh` in `native/App.js` chiede `/fx` (36 per giro, 6 insieme) prima alle partite "live" ancora senza gol, e ricorda l'ultimo risultato noto (`LIVE_MEM`, 10 minuti) cosi' dopo molti cambi giorno non resta solo la scritta LIVE.
