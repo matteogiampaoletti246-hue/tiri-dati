@@ -270,3 +270,5 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 
 ## Migliori giocatori: riga squadre (concept B, regola fissa)
 - Sotto il nome: stemma + squadra del giocatore in grassetto, sotto stemma + avversaria (tenue) · orario (`TopPlayerRow.jsx`). Niente nazionalita' ne' bandiera. Vale per tutti i giocatori della sezione.
+## Handicap dei campionati minori (regola fissa, Calcolatore e Affidabilita')
+- Le medie squadra mostrate sono sempre quelle vere (le stesse del pannello Statistiche squadra). L'handicap (`handicap` di `data.json`/`calc_extra.json`: Eredivisie, Pro League, Liga Portugal 0,85; Super League GR e Super Lig 0,80; Superliga 0,75) si applica SOLO nelle coppe europee, e solo alla parte "campionato" di una squadra di un campionato minore (`blend` in `data/calcData.js`: fatti x h, subiti / h). Coppa tra squadre dei top 5 = nessun handicap. Scegliendo Competizione = campionato l'handicap non c'e' mai.
