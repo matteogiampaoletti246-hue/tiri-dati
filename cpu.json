@@ -1,0 +1,446 @@
+{
+ "self": [
+  [
+   7182,
+   "(program) :0"
+  ],
+  [
+   1153,
+   "(idle) :0"
+  ],
+  [
+   583,
+   "growBox index-B6uc0ZzM.js:24721"
+  ],
+  [
+   492,
+   "fetch :0"
+  ],
+  [
+   477,
+   "setAttribute :0"
+  ],
+  [
+   212,
+   "scrollTo :0"
+  ],
+  [
+   168,
+   "(anonima) index-B6uc0ZzM.js:25701"
+  ],
+  [
+   125,
+   "sb index-B6uc0ZzM.js:1141"
+  ],
+  [
+   114,
+   "glide index-B6uc0ZzM.js:25601"
+  ],
+  [
+   94,
+   "kk index-B6uc0ZzM.js:5425"
+  ],
+  [
+   87,
+   "Ej index-B6uc0ZzM.js:4498"
+  ],
+  [
+   87,
+   "dispatchEvent :0"
+  ],
+  [
+   74,
+   "(garbage collector) :0"
+  ],
+  [
+   66,
+   "ta index-B6uc0ZzM.js:706"
+  ],
+  [
+   63,
+   "jget index-B6uc0ZzM.js:21284"
+  ],
+  [
+   56,
+   "q index-B6uc0ZzM.js:317"
+  ],
+  [
+   50,
+   "requestAnimationFrame :0"
+  ],
+  [
+   48,
+   "removeChild :0"
+  ],
+  [
+   43,
+   "Home index-B6uc0ZzM.js:25464"
+  ],
+  [
+   42,
+   "(anonima) index-B6uc0ZzM.js:21627"
+  ],
+  [
+   39,
+   "Bj index-B6uc0ZzM.js:4425"
+  ],
+  [
+   38,
+   "querySelector :0"
+  ],
+  [
+   34,
+   "appendChild :0"
+  ],
+  [
+   32,
+   "Nh index-B6uc0ZzM.js:3387"
+  ],
+  [
+   31,
+   "(anonima) index-B6uc0ZzM.js:20452"
+  ],
+  [
+   28,
+   "Sk index-B6uc0ZzM.js:6036"
+  ],
+  [
+   26,
+   "createElement :0"
+  ],
+  [
+   25,
+   "addEventListener :0"
+  ],
+  [
+   22,
+   "LinkWithRef index-B6uc0ZzM.js:9229"
+  ],
+  [
+   22,
+   "(anonima) index-B6uc0ZzM.js:9617"
+  ],
+  [
+   20,
+   "(anonima) index-B6uc0ZzM.js:24696"
+  ],
+  [
+   19,
+   "setProperty :0"
+  ],
+  [
+   19,
+   "luminance$1 index-B6uc0ZzM.js:23544"
+  ],
+  [
+   18,
+   "(anonima) index-B6uc0ZzM.js:21629"
+  ],
+  [
+   18,
+   "createElementNS :0"
+  ],
+  [
+   17,
+   "Kb index-B6uc0ZzM.js:1216"
+  ],
+  [
+   16,
+   "on2 index-B6uc0ZzM.js:24683"
+  ],
+  [
+   15,
+   "(anonima) index-B6uc0ZzM.js:9654"
+  ],
+  [
+   15,
+   "LeagueGroup index-B6uc0ZzM.js:25138"
+  ],
+  [
+   14,
+   "dk index-B6uc0ZzM.js:5167"
+  ]
+ ],
+ "incl": [
+  [
+   12397,
+   "(root) :0"
+  ],
+  [
+   7182,
+   "(program) :0"
+  ],
+  [
+   1585,
+   "Ik index-B6uc0ZzM.js:6003"
+  ],
+  [
+   1583,
+   "Tk index-B6uc0ZzM.js:6024"
+  ],
+  [
+   1189,
+   "Uk index-B6uc0ZzM.js:6030"
+  ],
+  [
+   1171,
+   "R2 index-B6uc0ZzM.js:442"
+  ],
+  [
+   1160,
+   "J2 index-B6uc0ZzM.js:408"
+  ],
+  [
+   1153,
+   "(idle) :0"
+  ],
+  [
+   1143,
+   "Gk index-B6uc0ZzM.js:5648"
+  ],
+  [
+   962,
+   "Sk index-B6uc0ZzM.js:6036"
+  ],
+  [
+   926,
+   "Ej index-B6uc0ZzM.js:4498"
+  ],
+  [
+   908,
+   "jg index-B6uc0ZzM.js:2694"
+  ],
+  [
+   907,
+   "Ek index-B6uc0ZzM.js:5787"
+  ],
+  [
+   835,
+   "(anonima) index-B6uc0ZzM.js:25701"
+  ],
+  [
+   723,
+   "(anonima) :1"
+  ],
+  [
+   711,
+   "fire :12"
+  ],
+  [
+   594,
+   "Vk index-B6uc0ZzM.js:6322"
+  ],
+  [
+   584,
+   "growBox index-B6uc0ZzM.js:24721"
+  ],
+  [
+   546,
+   "ta index-B6uc0ZzM.js:706"
+  ],
+  [
+   538,
+   "jget index-B6uc0ZzM.js:21284"
+  ],
+  [
+   517,
+   "Nh index-B6uc0ZzM.js:3387"
+  ],
+  [
+   492,
+   "commitNow index-B6uc0ZzM.js:25545"
+  ],
+  [
+   492,
+   "fetch :0"
+  ],
+  [
+   491,
+   "reactDom_production_min.flushSync index-B6uc0ZzM.js:6946"
+  ],
+  [
+   490,
+   "Rk index-B6uc0ZzM.js:5814"
+  ],
+  [
+   477,
+   "setAttribute :0"
+  ],
+  [
+   465,
+   "worker index-B6uc0ZzM.js:21639"
+  ],
+  [
+   462,
+   "Pk index-B6uc0ZzM.js:6069"
+  ],
+  [
+   462,
+   "onStart index-B6uc0ZzM.js:25669"
+  ],
+  [
+   461,
+   "Wk index-B6uc0ZzM.js:6078"
+  ],
+  [
+   420,
+   "(anonima) index-B6uc0ZzM.js:5622"
+  ],
+  [
+   303,
+   "ik index-B6uc0ZzM.js:5405"
+  ],
+  [
+   303,
+   "hk index-B6uc0ZzM.js:5401"
+  ],
+  [
+   300,
+   "kk index-B6uc0ZzM.js:5425"
+  ],
+  [
+   255,
+   "cj index-B6uc0ZzM.js:4044"
+  ],
+  [
+   212,
+   "scrollTo :0"
+  ],
+  [
+   207,
+   "Qj index-B6uc0ZzM.js:4982"
+  ],
+  [
+   204,
+   "Yi index-B6uc0ZzM.js:3984"
+  ],
+  [
+   200,
+   "(anonima) index-B6uc0ZzM.js:24672"
+  ],
+  [
+   200,
+   "(anonima) index-B6uc0ZzM.js:21627"
+  ],
+  [
+   137,
+   "onEnd index-B6uc0ZzM.js:25726"
+  ],
+  [
+   137,
+   "glide index-B6uc0ZzM.js:25601"
+  ],
+  [
+   128,
+   "sb index-B6uc0ZzM.js:1141"
+  ],
+  [
+   114,
+   "LinkWithRef index-B6uc0ZzM.js:9229"
+  ],
+  [
+   110,
+   "dk index-B6uc0ZzM.js:5167"
+  ],
+  [
+   110,
+   "ck index-B6uc0ZzM.js:5131"
+  ],
+  [
+   102,
+   "dragDays index-B6uc0ZzM.js:24638"
+  ],
+  [
+   101,
+   "Home index-B6uc0ZzM.js:25464"
+  ],
+  [
+   89,
+   "refreshStatus index-B6uc0ZzM.js:21625"
+  ],
+  [
+   89,
+   "(anonima) index-B6uc0ZzM.js:25484"
+  ],
+  [
+   88,
+   "on2 index-B6uc0ZzM.js:24683"
+  ],
+  [
+   87,
+   "dispatchEvent :0"
+  ],
+  [
+   74,
+   "(garbage collector) :0"
+  ],
+  [
+   71,
+   "syncDayTimes index-B6uc0ZzM.js:21568"
+  ],
+  [
+   70,
+   "fmDay index-B6uc0ZzM.js:21289"
+  ],
+  [
+   56,
+   "useHref index-B6uc0ZzM.js:7878"
+  ],
+  [
+   56,
+   "q index-B6uc0ZzM.js:317"
+  ],
+  [
+   52,
+   "Zj index-B6uc0ZzM.js:5058"
+  ],
+  [
+   52,
+   "Yj index-B6uc0ZzM.js:5055"
+  ],
+  [
+   50,
+   "loadDayFeed index-B6uc0ZzM.js:23225"
+  ],
+  [
+   50,
+   "requestAnimationFrame :0"
+  ],
+  [
+   48,
+   "removeChild :0"
+  ],
+  [
+   47,
+   "run index-B6uc0ZzM.js:25482"
+  ],
+  [
+   43,
+   "Bj index-B6uc0ZzM.js:4425"
+  ],
+  [
+   42,
+   "Hk index-B6uc0ZzM.js:6132"
+  ],
+  [
+   41,
+   "fd index-B6uc0ZzM.js:1701"
+  ],
+  [
+   40,
+   "f :6"
+  ],
+  [
+   39,
+   "(anonima) index-B6uc0ZzM.js:25773"
+  ],
+  [
+   38,
+   "CountryGroup index-B6uc0ZzM.js:25157"
+  ],
+  [
+   38,
+   "J2 index-B6uc0ZzM.js:3054"
+  ]
+ ]
+}

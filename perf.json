@@ -1,0 +1,51 @@
+{
+ "when": "2026-10-30T03:29:43.154Z",
+ "rate": 4,
+ "reps": 3,
+ "variants": {
+  "base": {
+   "p50": 17,
+   "p95": 150,
+   "over50": 59,
+   "over100": 22,
+   "persi": 443,
+   "lt50": 33,
+   "lt100": 14,
+   "ltN": 34,
+   "ltSum": 3590,
+   "ltMax": 267,
+   "nodes": 1129,
+   "ms": {
+    "FunctionCall": 3343,
+    "UpdateLayoutTree": 1563,
+    "Layout": 1181,
+    "Paint": 1130,
+    "PrePaint": 473,
+    "Layerize": 693,
+    "Commit": 237
+   }
+  },
+  "old": {
+   "p50": 17,
+   "p95": 83,
+   "over50": 40,
+   "over100": 16,
+   "persi": 306,
+   "lt50": 28,
+   "lt100": 7,
+   "ltN": 29,
+   "ltSum": 2454,
+   "ltMax": 169,
+   "nodes": 1129,
+   "ms": {
+    "FunctionCall": 3035,
+    "UpdateLayoutTree": 1341,
+    "Layout": 800,
+    "Paint": 884,
+    "PrePaint": 382,
+    "Layerize": 564,
+    "Commit": 226
+   }
+  }
+ }
+}

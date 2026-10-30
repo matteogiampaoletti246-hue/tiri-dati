@@ -1,0 +1,374 @@
+[
+ {
+  "d": 106,
+  "blk": 0,
+  "rs": 2,
+  "sl": 1,
+  "sc": []
+ },
+ {
+  "d": 276,
+  "blk": 224,
+  "rs": 1,
+  "sl": 0,
+  "sc": []
+ },
+ {
+  "d": 205,
+  "blk": 155,
+  "rs": 6,
+  "sl": 3,
+  "sc": []
+ },
+ {
+  "d": 111,
+  "blk": 56,
+  "rs": 3,
+  "sl": 2,
+  "sc": []
+ },
+ {
+  "d": 205,
+  "blk": 154,
+  "rs": 3,
+  "sl": 2,
+  "sc": []
+ },
+ {
+  "d": 147,
+  "blk": 86,
+  "rs": 3,
+  "sl": 2,
+  "sc": []
+ },
+ {
+  "d": 143,
+  "blk": 91,
+  "rs": 2,
+  "sl": 2,
+  "sc": []
+ },
+ {
+  "d": 88,
+  "blk": 27,
+  "rs": 67,
+  "sl": 57,
+  "sc": [
+   "user-callback:FrameRequestCallback 8ms forced 1 @index-B6uc0ZzM.js:967556"
+  ]
+ },
+ {
+  "d": 142,
+  "blk": 27,
+  "rs": 70,
+  "sl": 39,
+  "sc": [
+   "user-callback:FrameRequestCallback 8ms forced 6 @index-B6uc0ZzM.js:967556",
+   "user-callback:FrameRequestCallback 22ms forced 18 @:-1"
+  ]
+ },
+ {
+  "d": 102,
+  "blk": 0,
+  "rs": 29,
+  "sl": 27,
+  "sc": []
+ },
+ {
+  "d": 96,
+  "blk": 43,
+  "rs": 34,
+  "sl": 29,
+  "sc": [
+   "user-callback:TimerHandler:setTimeout 58ms forced 15 @:-1"
+  ]
+ },
+ {
+  "d": 216,
+  "blk": 165,
+  "rs": 126,
+  "sl": 38,
+  "sc": [
+   "event-listener:MessagePort.onmessage 88ms forced 0 R2@index-B6uc0ZzM.js:15574",
+   "user-callback:FrameRequestCallback 84ms forced 82 @index-B6uc0ZzM.js:967556"
+  ]
+ },
+ {
+  "d": 81,
+  "blk": 1,
+  "rs": 36,
+  "sl": 29,
+  "sc": [
+   "event-listener:MessagePort.onmessage 14ms forced 0 R2@index-B6uc0ZzM.js:15574"
+  ]
+ },
+ {
+  "d": 227,
+  "blk": 160,
+  "rs": 93,
+  "sl": 90,
+  "sc": [
+   "event-listener:MessagePort.onmessage 116ms forced 0 R2@index-B6uc0ZzM.js:15574"
+  ]
+ },
+ {
+  "d": 136,
+  "blk": 71,
+  "rs": 64,
+  "sl": 56,
+  "sc": [
+   "user-callback:TimerHandler:setTimeout 56ms forced 14 @:-1"
+  ]
+ },
+ {
+  "d": 270,
+  "blk": 218,
+  "rs": 267,
+  "sl": 151,
+  "sc": [
+   "user-callback:FrameRequestCallback 113ms forced 14 @:-1"
+  ]
+ },
+ {
+  "d": 82,
+  "blk": 2,
+  "rs": 35,
+  "sl": 30,
+  "sc": [
+   "event-listener:MessagePort.onmessage 16ms forced 0 R2@index-B6uc0ZzM.js:15574"
+  ]
+ },
+ {
+  "d": 86,
+  "blk": 25,
+  "rs": 36,
+  "sl": 32,
+  "sc": [
+   "user-callback:TimerHandler:setTimeout 38ms forced 15 @:-1"
+  ]
+ },
+ {
+  "d": 244,
+  "blk": 187,
+  "rs": 235,
+  "sl": 128,
+  "sc": [
+   "user-callback:FrameRequestCallback 102ms forced 16 @:-1"
+  ]
+ },
+ {
+  "d": 107,
+  "blk": 2,
+  "rs": 40,
+  "sl": 37,
+  "sc": [
+   "event-listener:MessagePort.onmessage 11ms forced 0 R2@index-B6uc0ZzM.js:15574"
+  ]
+ },
+ {
+  "d": 95,
+  "blk": 23,
+  "rs": 32,
+  "sl": 28,
+  "sc": [
+   "user-callback:TimerHandler:setTimeout 41ms forced 15 @:-1"
+  ]
+ },
+ {
+  "d": 224,
+  "blk": 165,
+  "rs": 212,
+  "sl": 130,
+  "sc": [
+   "user-callback:FrameRequestCallback 80ms forced 2 @:-1"
+  ]
+ },
+ {
+  "d": 110,
+  "blk": 7,
+  "rs": 40,
+  "sl": 39,
+  "sc": [
+   "event-listener:MessagePort.onmessage 15ms forced 0 R2@index-B6uc0ZzM.js:15574"
+  ]
+ },
+ {
+  "d": 90,
+  "blk": 14,
+  "rs": 29,
+  "sl": 26,
+  "sc": [
+   "user-callback:TimerHandler:setTimeout 5ms forced 0 run@index-B6uc0ZzM.js:960490",
+   "user-callback:TimerHandler:setTimeout 34ms forced 15 @:-1"
+  ]
+ },
+ {
+  "d": 234,
+  "blk": 177,
+  "rs": 224,
+  "sl": 117,
+  "sc": [
+   "user-callback:FrameRequestCallback 104ms forced 1 @:-1"
+  ]
+ },
+ {
+  "d": 238,
+  "blk": 122,
+  "rs": 155,
+  "sl": 153,
+  "sc": [
+   "event-listener:MessagePort.onmessage 16ms forced 0 R2@index-B6uc0ZzM.js:15574"
+  ]
+ },
+ {
+  "d": 94,
+  "blk": 13,
+  "rs": 28,
+  "sl": 24,
+  "sc": [
+   "user-callback:TimerHandler:setTimeout 8ms forced 0 run@index-B6uc0ZzM.js:960490",
+   "user-callback:TimerHandler:setTimeout 34ms forced 14 @:-1"
+  ]
+ },
+ {
+  "d": 206,
+  "blk": 149,
+  "rs": 196,
+  "sl": 107,
+  "sc": [
+   "user-callback:FrameRequestCallback 86ms forced 2 @:-1"
+  ]
+ },
+ {
+  "d": 111,
+  "blk": 0,
+  "rs": 26,
+  "sl": 25,
+  "sc": []
+ },
+ {
+  "d": 235,
+  "blk": 170,
+  "rs": 130,
+  "sl": 57,
+  "sc": [
+   "event-listener:MessagePort.onmessage 89ms forced 0 R2@index-B6uc0ZzM.js:15574",
+   "user-callback:FrameRequestCallback 70ms forced 69 @index-B6uc0ZzM.js:967556"
+  ]
+ },
+ {
+  "d": 126,
+  "blk": 0,
+  "rs": 41,
+  "sl": 30,
+  "sc": [
+   "event-listener:MessagePort.onmessage 8ms forced 0 R2@index-B6uc0ZzM.js:15574",
+   "user-callback:FrameRequestCallback 8ms forced 6 @index-B6uc0ZzM.js:967556"
+  ]
+ },
+ {
+  "d": 195,
+  "blk": 140,
+  "rs": 115,
+  "sl": 57,
+  "sc": [
+   "event-listener:MessagePort.onmessage 74ms forced 0 R2@index-B6uc0ZzM.js:15574",
+   "user-callback:FrameRequestCallback 56ms forced 53 @index-B6uc0ZzM.js:967556"
+  ]
+ },
+ {
+  "d": 107,
+  "blk": 0,
+  "rs": 37,
+  "sl": 28,
+  "sc": [
+   "event-listener:MessagePort.onmessage 6ms forced 0 R2@index-B6uc0ZzM.js:15574",
+   "user-callback:FrameRequestCallback 7ms forced 5 @index-B6uc0ZzM.js:967556"
+  ]
+ },
+ {
+  "d": 156,
+  "blk": 103,
+  "rs": 82,
+  "sl": 32,
+  "sc": [
+   "event-listener:MessagePort.onmessage 70ms forced 0 R2@index-B6uc0ZzM.js:15574",
+   "user-callback:FrameRequestCallback 47ms forced 46 @index-B6uc0ZzM.js:967556"
+  ]
+ },
+ {
+  "d": 270,
+  "blk": 215,
+  "rs": 134,
+  "sl": 28,
+  "sc": [
+   "event-listener:MessagePort.onmessage 130ms forced 0 R2@index-B6uc0ZzM.js:15574",
+   "user-callback:FrameRequestCallback 104ms forced 101 @index-B6uc0ZzM.js:967556"
+  ]
+ },
+ {
+  "d": 137,
+  "blk": 0,
+  "rs": 35,
+  "sl": 23,
+  "sc": [
+   "user-callback:FrameRequestCallback 10ms forced 9 @index-B6uc0ZzM.js:967556"
+  ]
+ },
+ {
+  "d": 82,
+  "blk": 21,
+  "rs": 39,
+  "sl": 32,
+  "sc": [
+   "user-callback:TimerHandler:setTimeout 32ms forced 11 @:-1"
+  ]
+ },
+ {
+  "d": 381,
+  "blk": 323,
+  "rs": 198,
+  "sl": 43,
+  "sc": [
+   "event-listener:MessagePort.onmessage 174ms forced 0 R2@index-B6uc0ZzM.js:15574",
+   "user-callback:FrameRequestCallback 150ms forced 147 @index-B6uc0ZzM.js:967556"
+  ]
+ },
+ {
+  "d": 216,
+  "blk": 10,
+  "rs": 49,
+  "sl": 30,
+  "sc": [
+   "user-callback:FrameRequestCallback 15ms forced 13 @index-B6uc0ZzM.js:967556"
+  ]
+ },
+ {
+  "d": 85,
+  "blk": 0,
+  "rs": 31,
+  "sl": 27,
+  "sc": [
+   "event-listener:MessagePort.onmessage 13ms forced 0 R2@index-B6uc0ZzM.js:15574"
+  ]
+ },
+ {
+  "d": 128,
+  "blk": 78,
+  "rs": 82,
+  "sl": 81,
+  "sc": [
+   "user-callback:TimerHandler:setTimeout 45ms forced 6 @:-1"
+  ]
+ },
+ {
+  "d": 154,
+  "blk": 102,
+  "rs": 96,
+  "sl": 56,
+  "sc": [
+   "event-listener:MessagePort.onmessage 56ms forced 0 R2@index-B6uc0ZzM.js:15574",
+   "user-callback:FrameRequestCallback 38ms forced 37 @index-B6uc0ZzM.js:967556"
+  ]
+ }
+]
