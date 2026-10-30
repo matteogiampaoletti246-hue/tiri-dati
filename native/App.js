@@ -248,7 +248,7 @@ function Screen() {
       <Animated.View pointerEvents="box-none" style={[StyleSheet.absoluteFill, { backgroundColor: C.bg }, ovStyle]}>
         <View style={{ paddingTop: insets.top, flex: 1 }}>
           <Pressable onPress={closeWeb} style={s.back}><Ionicons name="chevron-back" size={20} color={C.accent} /><Text style={{ color: C.accent, fontSize: 16 }}>Home</Text></Pressable>
-          {warm ? <WebView ref={webRef} source={{ uri: `${SITE}aurora/#/linee-guida` }} style={{ flex: 1, backgroundColor: C.bg }} injectedJavaScriptBeforeContentLoaded={NO_LAUNCH} bounces={false} /> : null}
+          {warm ? <WebView ref={webRef} source={{ uri: `${SITE}aurora/#/linee-guida` }} style={{ flex: 1, backgroundColor: C.bg }} injectedJavaScriptBeforeContentLoaded={NO_LAUNCH} decelerationRate={0.998} contentInsetAdjustmentBehavior="never" automaticallyAdjustContentInsets={false} directionalLockEnabled={false} allowsLinkPreview={false} /> : null}
         </View>
         <GestureDetector gesture={edge}><View style={s.edge} /></GestureDetector>
       </Animated.View>
