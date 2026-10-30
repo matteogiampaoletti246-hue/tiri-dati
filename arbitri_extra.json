@@ -74,9 +74,134 @@
 "src": "api-football",
 "at": "2026-10-29T08:59+00:00"
 },
+"5887666": {
+"n": "Miguel Andre Monteiro Fonseca",
+"src": "api-football",
+"at": "2026-10-30T01:05+00:00"
+},
+"5908689": {
+"n": "Omer Faruk Gultekin",
+"src": "api-football",
+"at": "2026-10-30T01:05+00:00"
+},
+"5781787": {
+"n": "Joey Kooij",
+"src": "api-football",
+"at": "2026-10-30T01:05+00:00"
+},
+"5781793": {
+"n": "Danny Makkelie",
+"src": "api-football",
+"at": "2026-10-30T01:05+00:00"
+},
+"5781791": {
+"n": "Sander van der Eijk",
+"src": "api-football",
+"at": "2026-10-30T01:05+00:00"
+},
+"5781786": {
+"n": "Allard Lindhout",
+"src": "api-football",
+"at": "2026-10-30T01:05+00:00"
+},
+"5781788": {
+"n": "Serdar Gozubuyuk",
+"src": "api-football",
+"at": "2026-10-30T01:05+00:00"
+},
+"5846011": {
+"n": "Julian Schnur",
+"src": "api-football",
+"at": "2026-10-30T01:05+00:00"
+},
+"5105034": {
+"n": "Sigurd Smehus Kringstad",
+"src": "api-football",
+"at": "2026-10-30T01:05+00:00"
+},
+"5105039": {
+"n": "Tore Hansen",
+"src": "api-football",
+"at": "2026-10-30T01:05+00:00"
+},
+"5836900": {
+"n": "Lewis Smith",
+"src": "api-football",
+"at": "2026-10-30T01:05+00:00"
+},
+"5836903": {
+"n": "Ben Speedie",
+"src": "api-football",
+"at": "2026-10-30T01:05+00:00"
+},
+"5836906": {
+"n": "Adam Herczeg",
+"src": "api-football",
+"at": "2026-10-30T01:05+00:00"
+},
+"5836898": {
+"n": "Bobby Madley",
+"src": "api-football",
+"at": "2026-10-30T01:05+00:00"
+},
+"5836899": {
+"n": "Ruebyn Ricardo",
+"src": "api-football",
+"at": "2026-10-30T01:05+00:00"
+},
+"5836901": {
+"n": "Will Finnie",
+"src": "api-football",
+"at": "2026-10-30T01:05+00:00"
+},
+"5836902": {
+"n": "Anthony Backhouse",
+"src": "api-football",
+"at": "2026-10-30T01:05+00:00"
+},
+"5836907": {
+"n": "Gavin Ward",
+"src": "api-football",
+"at": "2026-10-30T01:05+00:00"
+},
+"5836908": {
+"n": "Robert Jones",
+"src": "api-football",
+"at": "2026-10-30T01:05+00:00"
+},
+"5803299": {
+"n": "Antoine Valnet",
+"src": "api-football",
+"at": "2026-10-30T01:05+00:00"
+},
+"5803301": {
+"n": "Benoit Millot",
+"src": "api-football",
+"at": "2026-10-30T01:05+00:00"
+},
+"1000019612": {
+"n": "Nazareno Arasa",
+"src": "api-football",
+"at": "2026-10-30T01:05+00:00"
+},
+"1000019615": {
+"n": "Andres Merlos",
+"src": "api-football",
+"at": "2026-10-30T01:05+00:00"
+},
+"1000019606": {
+"n": "Dario Herrera",
+"src": "api-football",
+"at": "2026-10-30T01:05+00:00"
+},
+"1000019609": {
+"n": "Facundo Tello",
+"src": "api-football",
+"at": "2026-10-30T01:05+00:00"
+},
 "_err": [
-"2026-10-31: {\"plan\": \"Free plans do not have access to this date, try from 2026-10-28 to 2026-10-30.\"}",
-"2026-11-01: {\"plan\": \"Free plans do not have access to this date, try from 2026-10-28 to 2026-10-30.\"}"
+"2026-11-01: {\"plan\": \"Free plans do not have access to this date, try from 2026-10-29 to 2026-10-31.\"}",
+"2026-11-02: {\"plan\": \"Free plans do not have access to this date, try from 2026-10-29 to 2026-10-31.\"}"
 ],
-"_at": "2026-10-29T20:51+00:00"
+"_at": "2026-10-30T01:05+00:00"
 }
