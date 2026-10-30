@@ -433,7 +433,7 @@ function Screen({ onTheme }) {
       }
       const v3 = viewRef.current;
       const anyLive = !!v3 && v3.data.some((d) => d.some((m) => m[8] === 'l'));
-      if (alive) t = setTimeout(tick, anyLive ? 15000 : 60000);
+      if (alive) t = setTimeout(tick, anyLive ? 5000 : 60000);
     };
     tick();
     const sub = AppState.addEventListener('change', (st) => { if (st === 'active') { clearTimeout(t); tick(); } });

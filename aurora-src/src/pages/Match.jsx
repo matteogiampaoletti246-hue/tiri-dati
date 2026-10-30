@@ -89,15 +89,15 @@ export default function Match() {
     };
     const cap = setTimeout(() => { if (on) setOkId(id); }, 7000);
     prepareMatch(id).then(() => { clearTimeout(cap); done(); });
-    // ogni 10 secondi: partita live o vicina; formazioni probabili piu' lontane ogni minuto
+    // ogni 5 secondi: partita live o vicina; formazioni probabili piu' lontane ogni minuto
     let n = 0;
     const t = setInterval(() => {
       n += 1;
       const m = matchById(id);
       if (!m) return;
       const to = m.ts - Date.now();
-      if (m.status === 'live' || (m.status === 'scheduled' && to < 3 * 3600000) || (m.status === 'scheduled' && to < 96 * 3600000 && n % 6 === 0)) prepareMatch(id, true).then(() => on && bump((x) => x + 1));
-    }, 10000);
+      if (m.status === 'live' || (m.status === 'scheduled' && to < 3 * 3600000) || (m.status === 'scheduled' && to < 96 * 3600000 && n % 12 === 0)) prepareMatch(id, true).then(() => on && bump((x) => x + 1));
+    }, 5000);
     return () => {
       on = false;
       clearTimeout(cap);

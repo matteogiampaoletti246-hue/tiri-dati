@@ -151,7 +151,7 @@ export default function Home() {
   const [searchOpen, setSearchOpen] = useState(false);
   const loading = useInitialLoad();
   // il minuto live si aggiorna ogni 10 s solo se c'e' una partita live; altrimenti ogni minuto (niente ridisegno di centinaia di righe per nulla)
-  const tick = useTicker(MATCHES.some((m) => m.status === 'live') ? 10000 : 60000);
+  const tick = useTicker(MATCHES.some((m) => m.status === 'live') ? 5000 : 60000);
 
   const [ver, bump] = useState(0);
   // orari reali: prima il giorno aperto, poi gli altri in sottofondo
@@ -176,8 +176,11 @@ export default function Home() {
     const vis = () => { if (!document.hidden) refreshStatus().then((n) => n && later(() => bump((x) => x + 1))); };
     document.addEventListener('visibilitychange', vis);
     window.addEventListener('pageshow', vis);
-    const t = setInterval(vis, 30000);
-    return () => { clearInterval(t); document.removeEventListener('visibilitychange', vis); window.removeEventListener('pageshow', vis); };
+    // partita live: ogni 5 secondi; altrimenti ogni 30
+    let t = 0; let n = 0;
+    const loop = () => { n += 1; if (MATCHES.some((m) => m.status === 'live') || n % 6 === 0) vis(); t = setTimeout(loop, 5000); };
+    t = setTimeout(loop, 5000);
+    return () => { clearTimeout(t); document.removeEventListener('visibilitychange', vis); window.removeEventListener('pageshow', vis); };
   }, []);
   useEffect(() => {
     let on = true;

@@ -324,3 +324,6 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 
 ## Finestre e barra nativa (regola fissa)
 - Nell'app nativa la barra in basso sta SOPRA la pagina web: i tasti in fondo a una finestra (es. Chiudi/Profilo della finestra giocatore, `natBar` in `PlayerSheet.jsx`, 104 px) si alzano della sua altezza, mai coperti. Ogni nuova finestra con tasti in basso fa lo stesso.
+
+## Aggiornamento live a 5 secondi (regola fissa)
+- Con una partita live: Home web e nativa, pagina partita e `refreshStatus` ricontrollano ogni 5 secondi (senza live: 30-60 s). Cache del worker `/f` e `/fx` 3 s, cache interne 3-4 s. Il worker va ripubblicato a mano su Cloudflare (`worker/index.js`). Il ritardo che resta e' quello di FotMob. Piu' fonti "la piu' veloce vince" = servizio sempre acceso a parte (non ancora fatto).
