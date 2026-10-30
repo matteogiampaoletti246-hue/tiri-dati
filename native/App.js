@@ -1,8 +1,9 @@
 // ScalperLab nativa - Home (React Native). Stesse regole della Home web: finestre per paese, top campionati in alto,
 // colori e loghi delle competizioni, righe partita. Metadati da meta.json (generato da data/leagues.js e data/countries.js).
 import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { View, Text, FlatList, Image, Pressable, ScrollView, StatusBar, Dimensions, StyleSheet, ActivityIndicator, LayoutAnimation, Platform, UIManager } from 'react-native';
+import { View, Text, FlatList, Pressable, ScrollView, StatusBar, Dimensions, StyleSheet, ActivityIndicator, LayoutAnimation, Platform, UIManager } from 'react-native';
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
+import { Image } from 'expo-image';
 import Animated, { useSharedValue, useAnimatedStyle, useAnimatedReaction, withTiming, cancelAnimation, runOnJS, Easing } from 'react-native-reanimated';
 import { SafeAreaProvider, SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -19,8 +20,12 @@ const WEEK = ['Dom', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'];
 const MONTHS = ['gen', 'feb', 'mar', 'apr', 'mag', 'giu', 'lug', 'ago', 'set', 'ott', 'nov', 'dic'];
 const OFFSETS = [-7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7];
 const TODAY_INDEX = 7;
-const rome = (d) => { try { return d.toLocaleDateString('sv-SE', { timeZone: 'Europe/Rome' }); } catch (e) { return d.toISOString().slice(0, 10); } };
-const hhmm = (iso) => { try { return new Date(iso).toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Rome' }); } catch (e) { return ''; } };
+const FMT_DAY = (() => { try { return new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Rome' }); } catch (e) { return null; } })();
+const FMT_HM = (() => { try { return new Intl.DateTimeFormat('it-IT', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Rome' }); } catch (e) { return null; } })();
+const rome = (d) => { try { return FMT_DAY.format(d); } catch (e) { return d.toISOString().slice(0, 10); } };
+const HM_CACHE = {};
+const hhmm = (iso) => { if (HM_CACHE[iso] !== undefined) return HM_CACHE[iso]; let r = ''; try { r = FMT_HM.format(new Date(iso)); } catch (e) { r = ''; } HM_CACHE[iso] = r; return r; };
+
 const crest = (id) => `https://images.fotmob.com/image_resources/logo/teamlogo/${id}.png`;
 const darkLogo = (u) => (u || '').replace('/leaguelogo/', '/leaguelogo/dark/');
 const getJ = async (u) => { const r = await fetch(SITE + u); if (!r.ok) throw new Error(u); return r.json(); };
@@ -56,7 +61,7 @@ const Row = memo(({ m, onOpen }) => {
   const live = m[8] === 'l'; const fin = m[8] === 'f'; const sc = /(\d+)\s*-\s*(\d+)/.exec(m[7] || '');
   return (
     <Pressable onPress={() => onOpen(m)} style={({ pressed }) => [s.row, pressed && { opacity: 0.6 }]}>
-      <View style={s.teamL}><Text numberOfLines={1} style={s.tName}>{m[5]}</Text><Image source={{ uri: crest(m[3]) }} style={s.crest} /></View>
+      <View style={s.teamL}><Text numberOfLines={1} style={s.tName}>{m[5]}</Text><Image source={{ uri: crest(m[3]) }} style={s.crest} contentFit="contain" cachePolicy="memory-disk" transition={0} /></View>
       <View style={s.mid}>
         {(live || fin) && sc ? (
           <Text style={[s.score, live && { color: C.live }]}>{sc[1]}<Text style={{ color: C.ink3, fontWeight: '500' }}> – </Text>{sc[2]}</Text>
@@ -64,7 +69,7 @@ const Row = memo(({ m, onOpen }) => {
         {fin ? <Text style={s.kick}>{hhmm(m[2])}</Text> : null}
         {live ? <View style={s.liveRow}><View style={s.liveDot} /><Text style={s.liveT}>LIVE</Text></View> : null}
       </View>
-      <View style={s.teamR}><Image source={{ uri: crest(m[4]) }} style={s.crest} /><Text numberOfLines={1} style={s.tName}>{m[6]}</Text></View>
+      <View style={s.teamR}><Image source={{ uri: crest(m[4]) }} style={s.crest} contentFit="contain" cachePolicy="memory-disk" transition={0} /><Text numberOfLines={1} style={s.tName}>{m[6]}</Text></View>
     </Pressable>
   );
 });
@@ -80,7 +85,7 @@ const useOpen = (key, init) => {
 };
 const LeagueHead = ({ c, size = 22, small }) => (
   <View style={[s.lhRow, small && { paddingVertical: 12 }]}>
-    <Image source={{ uri: darkLogo(c.logo) }} style={{ width: size, height: size }} resizeMode="contain" />
+    <Image source={{ uri: darkLogo(c.logo) }} style={{ width: size, height: size }} contentFit="contain" cachePolicy="memory-disk" transition={0} />
     <Text numberOfLines={1} style={[s.lhName, small && { fontSize: 12, fontWeight: '700' }]}>{c.name}</Text>
   </View>
 );
@@ -126,7 +131,7 @@ const Day = memo(({ iso, rows, filter, onOpen }) => {
   if (!items.length) return <View style={{ width: W }}><Text style={s.empty}>Nessuna partita</Text></View>;
   return (
     <View style={{ width: W }}>
-      <FlatList data={items} renderItem={render} keyExtractor={(i) => i.key} initialNumToRender={6} maxToRenderPerBatch={6} windowSize={7} contentContainerStyle={{ paddingBottom: 90 }} />
+      <FlatList data={items} renderItem={render} keyExtractor={(i) => i.key} initialNumToRender={4} maxToRenderPerBatch={3} updateCellsBatchingPeriod={60} windowSize={5} contentContainerStyle={{ paddingBottom: 90 }} />
     </View>
   );
 });
