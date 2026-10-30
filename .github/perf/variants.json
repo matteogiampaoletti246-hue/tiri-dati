@@ -1,7 +1,4 @@
 [
- {
-  "name": "base",
-  "cpu": true,
-  "loaf": true
- }
+ {"name":"base","cpu":true,"loaf":true},
+ {"name":"old","app":"aurora_old/","cpu":false,"loaf":true}
 ]
