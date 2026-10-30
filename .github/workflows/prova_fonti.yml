@@ -13,13 +13,22 @@ jobs:
           mkdir -p /tmp/po
           UA='Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 Mobile Safari/604.1'
           g() { curl -sS -m 25 -L -A "$UA" -H 'Accept-Language: en' -o "$2" -w "%{http_code} %{size_download} $1\n" "$1" 2>&1 | tail -1 | tee -a /tmp/po/referto.txt; }
-          g "https://www.livescore.com/en/football/algeria/ligue-1/" /tmp/po/ls_lega.html
-          g "https://www.livescore.com/en/football/algeria/" /tmp/po/ls_paese.html
-          g "https://onefootball.com/en/home" /tmp/po/of_home.html
-          g "https://onefootball.com/en/competitions" /tmp/po/of_comp.html
-          for f in ls_lega ls_paese of_home of_comp; do
-            echo "--- $f: __NEXT_DATA__=$(grep -c '__NEXT_DATA__' /tmp/po/$f.html) algeria=$(grep -oi 'algeri\?a' /tmp/po/$f.html | wc -l) lineup=$(grep -oi 'lineup' /tmp/po/$f.html | wc -l)" | tee -a /tmp/po/referto.txt
-            grep -oiE 'https?://[^"]*(algeria|belouizdad|usm-alger|mc-alger|js-kabylie)[^"]*' /tmp/po/$f.html | sort -u | head -15 | tee -a /tmp/po/referto.txt
+          B="https://www.livescore.com/en/football/algeria/ligue-1/us-biskra-vs-mc-alger/1854239"
+          g "$B/" /tmp/po/m_sum.html
+          g "$B/lineups/" /tmp/po/m_lineups.html
+          g "$B/stats/" /tmp/po/m_stats.html
+          for f in m_sum m_lineups m_stats; do
+            python3 - "$f" <<'PY' | tee -a /tmp/po/referto.txt
+import re,json,sys
+f=sys.argv[1]
+s=open('/tmp/po/'+f+'.html',encoding='utf8',errors='ignore').read()
+m=re.search(r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>',s,re.S)
+if not m: print('---',f,'senza NEXT_DATA'); sys.exit()
+j=json.loads(m.group(1)); i=j['props']['pageProps'].get('initialData') or j['props']['pageProps']
+print('---',f,'chiavi:',list(i.keys())[:12])
+t=json.dumps(i,ensure_ascii=False)
+print('   byte',len(t),'| giocatori(playerName/name con photo):',len(re.findall(r'"(?:playerName|PlayerName|firstName)"',t)),'| lineup/Formation:',len(re.findall(r'(?i)formation|lineup',t)),'| stat:',len(re.findall(r'(?i)shots|possession|corners',t)))
+PY
           done
       - name: Salva
         run: |
