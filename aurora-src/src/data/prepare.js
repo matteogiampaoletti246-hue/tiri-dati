@@ -8,7 +8,8 @@ import { playerLookup } from './players';
 import { perfLog, perfTime } from '@/lib/perfMon';
 import { isPureCup, loadBracket } from './bracket';
 import { loadWeather } from './weather';
-import { archIndex } from './archive';
+import { archIndex, FM_ID } from './archive';
+import { refTwoSeasons } from './referees';
 import { loadRose } from './rose';
 import { BASE } from './load';
 
@@ -60,6 +61,7 @@ export function prepareMatch(id, force = false) {
           // per aprire la scheda di qualunque giocatore (anche dei campionati aggiunti) senza attese
           cap(archIndex(), 1500),
           cap(loadRose(), 1500),
+          cap(refTwoSeasons((mm.archive && mm.archive.fm) || FM_ID[mm.leagueId], mm.refereeName).then((t) => { mm.refTwo = t; }), 1500),
         ]);
       }
     } catch { /* si mostra comunque cio' che c'e' */ }

@@ -69,7 +69,9 @@ export function buildPlayers() {
     EX[`${norm(r[exIx.n])}|${slug(r[exIx.t])}`] = r;
   });
 
-  const photoOf = (id) => (RAW.stats && RAW.stats.ph && RAW.stats.ph[id]) || (RAW.foto && RAW.foto[id] && RAW.foto[id].u) || null;
+  const faceUrl = (fm) => `https://images.fotmob.com/image_resources/playerimages/${fm}.png`;
+  // foto_fm.json (foto_fm.py): id FotMob di chi non ha foto nelle altre fonti; se su FotMob non c'e', PlayerPhoto mostra la sagoma
+  const photoOf = (id) => (RAW.stats && RAW.stats.ph && RAW.stats.ph[id]) || (RAW.foto && RAW.foto[id] && RAW.foto[id].u) || (RAW.fotoFm && RAW.fotoFm[id] ? faceUrl(RAW.fotoFm[id]) : null);
   const recent = (RAW.indice && RAW.indice.p) || {};
 
   const source = (RAW.giocatori && RAW.giocatori.players) || [];
@@ -99,8 +101,9 @@ export function buildPlayers() {
       lite: !!(g && g.fm),
       hasStats: !!s,
       rating: ex && ex[exIx.rat] ? r2(ex[exIx.rat]) : null,
-      appearances: s ? s[ix.g] : lg[0] + cup[0],
-      minutes: s ? s[ix.min] : Math.round(lg[3] + cup[3]),
+      // stessa misura per tutti: il campionato (le coppe hanno le loro statistiche). I gol di chi non e' in stats.json arrivano dall'archivio (usePlayerSeason)
+      appearances: s ? s[ix.g] : lg[0],
+      minutes: s ? s[ix.min] : Math.round(lg[3]),
       goals: s ? s[ix.go] : 0,
       assists: s ? s[ix.as] : 0,
       shots: s ? s[ix.sh] : Math.round(lg[1] + cup[1]),

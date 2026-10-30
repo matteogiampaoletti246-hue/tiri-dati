@@ -3,6 +3,7 @@ import { BASE } from './load';
 import { FM_ID, LID_BY_FM, archIndex, teamLogo } from './archive';
 import { ensureTeam, teamByFm } from './teams';
 import { leagueById } from './leagues';
+import { isWomenComp, isWomenName, womenName } from './teamMatch';
 
 const SH = {};
 const shard = (n) => {
@@ -26,7 +27,9 @@ export const teamFromIndex = async (fid) => {
   const kind = (fm) => { const x = idx && idx[String(fm)]; return x ? (x.c === 'INT' ? 2 : x.type === 'cup' ? 1 : 0) : 3; };
   const best = comps.filter(([fm]) => LID_BY_FM[fm] && leagueById(LID_BY_FM[fm]))
     .sort((a, b) => kind(a[0]) - kind(b[0]) || String(b[1][0] || '').localeCompare(String(a[1][0] || '')))[0];
-  const t = ensureTeam(name, best ? LID_BY_FM[best[0]] : null, teamLogo(fid), String(fid), `fm-${fid}`);
+  // squadra che gioca solo competizioni femminili: stesso nome delle schede ("Barcelona F"), anche con un indice ancora vecchio
+  const women = comps.length > 0 && comps.every(([fm]) => isWomenComp(fm, idx && idx[String(fm)] && idx[String(fm)].n));
+  const t = ensureTeam(women || isWomenName(name) ? womenName(name) : name, best ? LID_BY_FM[best[0]] : null, teamLogo(fid), String(fid), `fm-${fid}`);
   if (t && !t.fmId) t.fmId = String(fid);
   return t;
 };

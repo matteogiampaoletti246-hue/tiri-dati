@@ -109,7 +109,7 @@ export default function Team() {
 
 
   return (
-    <PageShell swipeBack={false}>
+    <PageShell>
       <EntityBanner
         name={team.name}
         subtitle={shownLg ? shownLg.name : ''}

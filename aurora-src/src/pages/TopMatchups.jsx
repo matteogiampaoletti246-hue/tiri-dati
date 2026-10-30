@@ -1,4 +1,5 @@
 import { primeKeyboard } from '@/lib/keyboard';
+import { isNative } from '@/lib/carousel';
 import { useState } from 'react';
 import PageShell from '@/components/PageShell';
 import FixedBar from '@/components/FixedBar';
@@ -8,6 +9,7 @@ import SearchOverlay from '@/components/SearchOverlay';
 import DayPager from '@/components/DayPager';
 import Skeleton from '@/components/Skeleton';
 import MatchupRow from '@/components/top/MatchupRow';
+import ChunkRows from '@/components/top/ChunkRows';
 import useInitialLoad from '@/hooks/useInitialLoad';
 import { matchupRows, MATCHUP_TYPES } from '@/data/matchups';
 import { DATES, TODAY_INDEX, isoDate } from '@/data/matches';
@@ -16,6 +18,8 @@ import { DATES, TODAY_INDEX, isoDate } from '@/data/matches';
 const DAYS = DATES.slice(Math.max(0, TODAY_INDEX - 1));
 const TODAY_I = TODAY_INDEX - Math.max(0, TODAY_INDEX - 1);
 
+const keyOfRow = (row) => row.id;
+const renderRow = (row) => <MatchupRow row={row} />;
 // Giorno e statistica restano quando si apre una partita e si torna indietro.
 const KEEP = { day: null, type: 'corner', stamp: '' };
 
@@ -31,7 +35,7 @@ export default function TopMatchups() {
   const loading = useInitialLoad();
 
   return (
-    <PageShell swipeBack={false}>
+    <PageShell swipeBack={isNative()}>
       <header className="sticky top-0 z-30 pb-1" style={{ background: 'var(--sky-2)' }}>
         <FixedBar title="Migliori Matchup" onSearch={() => { primeKeyboard(); setSearchOpen(true); }} />
         <DayStrip dates={DAYS} todayIndex={TODAY_I} value={dayIdx} onChange={setDayIdx} />
@@ -49,13 +53,14 @@ export default function TopMatchups() {
         </div>
       ) : (
         <DayPager
+          backEdge={isNative()}
           index={dayIdx}
           count={DAYS.length}
           onChange={setDayIdx}
-          render={(i) => {
+          render={(i, active) => {
             const rows = matchupRows(isoDate(DAYS[i]), typeKey);
             return rows.length ? (
-              <div>{rows.map((row) => <MatchupRow key={row.id} row={row} />)}</div>
+              <ChunkRows key={`${i}|${typeKey}`} rows={rows} active={active} rowH={190} keyOf={keyOfRow} renderRow={renderRow} />
             ) : (
               <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Nessuna partita</p>
             );

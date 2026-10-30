@@ -192,7 +192,20 @@ const EDGE = 26;
 // zona da cui parte il nostro swipe indietro: un po' piu' larga del blocco di iOS, cosi' parte sempre vicino al bordo
 // senza dover essere precisissimi (SwipeTabs e useSwipeBack usano la stessa misura)
 // dentro l'app nativa (WebView) lo swipe indietro parte da una zona piu' larga e basta un gesto meno marcato
-const isNative = () => typeof window !== 'undefined' && !!window.ReactNativeWebView;
+export const isNative = () => typeof window !== 'undefined' && !!window.ReactNativeWebView;
+// prima pagina aperta dalla Home nativa: dietro c'e' la Home (livello nativo), quindi non si muove la pagina web ma tutta la WebView (messaggi drag:<px>)
+const nativeRoot = () => isNative() && window.__slDepth === 0;
+const toNative = (t) => { try { window.ReactNativeWebView.postMessage(t); } catch (e) { /* ignora */ } };
+// lo swipe indietro non parte dentro cio' che scorre o si trascina di lato per conto suo (pillole, striscia dei giorni, tabellone, mappe, campi di testo)
+export const inHScroll = (el) => {
+  for (let n = el; n && n.nodeType === 1 && n !== document.body; n = n.parentElement) {
+    if (n.matches('input, select, textarea, [data-no-swipe], [data-no-back], [role="slider"]')) return true;
+    if (n.scrollWidth > n.clientWidth + 1) { const o = getComputedStyle(n).overflowX; if (o === 'auto' || o === 'scroll') return true; }
+  }
+  return false;
+};
+// fuori dalla zona del bordo si chiede un gesto chiaramente orizzontale (lo scorrimento verticale non si perde mai)
+export const backFarOk = (dx, dy) => dx > 10 && dx > Math.abs(dy) * 1.2;
 export const BACK_ZONE = isNative() ? 64 : 48;
 export const backDone = (dx, w, v) => (isNative() ? dx > w * 0.33 || (v > 0.5 && dx > w * 0.15) : dx > w * 0.5 || (v > 0.9 && dx > w * 0.25));
 // partendo dal bordo basta un movimento piu' orizzontale che verticale (angolo largo): lo swipe indietro non si perde
@@ -308,6 +321,7 @@ const behindOff = () => {
 };
 export function pageDrag(dx) {
   if (modalOpen()) return; // finestra aperta (giocatore, fogli): la pagina sotto e la sua fotografia restano ferme
+  if (nativeRoot()) { toNative(`drag:${Math.round(Math.max(0, dx))}`); return; }
   const w = Math.min(window.innerWidth, 430);
   behindOn();
   behindMove(Math.max(0, dx), w);
@@ -318,6 +332,7 @@ export function pageDrag(dx) {
   });
 }
 export function pageReset(animated = true) {
+  if (nativeRoot()) { toNative('drag:-1'); return; }
   const els = pageEls();
   behindMove(0, 430, animated ? 420 : 0);
   els.forEach((el, i) => {
@@ -330,8 +345,8 @@ export function pageReset(animated = true) {
 // la pagina mostrata appartiene alla voce di cronologia attuale (data-lk = chiave di react-router, PageShell)
 const isDestination = (sh) => { const st = window.history.state; return !!(sh && st && st.key && sh.dataset && sh.dataset.lk === st.key); };
 export const histIdx = () => { const st = window.history.state; return st && typeof st.idx === 'number' ? st.idx : 0; };
-// nell'app nativa la prima pagina aperta dalla Home torna alla Home (lo gestisce l'app): qui non c'e' nulla dietro
-export const canGoBack = () => histIdx() > 0 && !(isNative() && window.__slDepth === 0);
+// nell'app nativa la prima pagina aperta dalla Home torna alla Home (la WebView scorre via seguendo il dito)
+export const canGoBack = () => nativeRoot() || histIdx() > 0;
 
 // Indietro "sicuro": una sola volta per pagina (anche se arrivano piu' richieste: tasto, swipe, timer),
 // mai oltre la prima schermata dell'app (in quel caso si va alla Home).
@@ -354,6 +369,7 @@ export function goBack(navigate, fromIdx) {
 // Ritorno indietro: la pagina vera (con banner e schede) prosegue dal punto del dito fino a uscire a destra;
 // solo verso la fine si cambia pagina, cosi' non c'e' mai una pagina doppia o un salto. Se non c'e' dove tornare, rientra.
 export function pageBack(dx, navigate) {
+  if (nativeRoot()) { goBack(navigate); return; } // la Home nativa chiude la WebView partendo da dove l'ha lasciata il dito
   const els = pageEls();
   if (!els.length || !canGoBack()) { pageReset(true); return; }
   const fromIdx = histIdx();

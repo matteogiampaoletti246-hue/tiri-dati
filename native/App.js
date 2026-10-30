@@ -381,8 +381,9 @@ function Screen({ onTheme }) {
     const t = e && e.nativeEvent && e.nativeEvent.data;
     if (t === 'dark' || t === 'light') onTheme(t);
     else if (typeof t === 'string' && t.startsWith('depth:')) setDepth(Number(t.slice(6)) || 0);
+    else if (typeof t === 'string' && t.startsWith('drag:')) { const d = Number(t.slice(5)); ov.value = d < 0 ? withTiming(0, { duration: 180 }) : d; } // swipe indietro partito dentro la pagina web (prima pagina dopo la Home)
     else if (t === 'home' && openRef.current) closeWeb(); // il tasto indietro del sito e' tornato alla pagina di partenza: si torna alla Home
-  }, [onTheme, closeWeb]);
+  }, [onTheme, closeWeb, ov]);
   const pick = useCallback((diff) => { setCal(false); setCenter(diff); }, []);
 
   const centre = useCallback((i) => { const p = pos.current[i]; if (p && strip.current) strip.current.scrollTo({ x: Math.max(0, p.x - W / 2 + p.w / 2), animated: true }); }, []);

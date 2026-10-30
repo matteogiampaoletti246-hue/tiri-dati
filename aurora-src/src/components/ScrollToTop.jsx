@@ -5,15 +5,26 @@ const KEY = 'sl-scroll';
 const read = () => { try { return JSON.parse(sessionStorage.getItem(KEY)) || {}; } catch (e) { return {}; } };
 const write = (m) => { try { sessionStorage.setItem(KEY, JSON.stringify(m)); } catch (e) { /* ignore */ } };
 
+// L'app nativa apre le pagine cambiando l'hash: la voce di cronologia non ha chiave (per react-router sono tutte 'default') e lo scroll di una pagina
+// finiva sulla successiva. Si distinguono col percorso, e ogni volta che l'app torna alla pagina di partenza si dimentica tutto: riaperte ripartono da in cima.
+const NATIVE_START = '/linee-guida';
+const keyOf = (loc) => (loc.key === 'default' && window.ReactNativeWebView ? `h:${loc.pathname}${loc.search}` : loc.key);
+
+// altezza salvata della pagina (chi costruisce le liste a pezzi deve sapere se tornando serve subito tutta l'altezza)
+export const savedScroll = (loc) => read()[keyOf(loc)] || 0;
+
 // Nuova pagina: in cima. Ritorno indietro (swipe/back): torna dove eri (scheda salvata a parte + scroll).
 export default function ScrollToTop() {
   const loc = useLocation();
   const navigationType = useNavigationType();
-  const keyRef = useRef(loc.key);
+  const keyRef = useRef(keyOf(loc));
   const map = useRef(read());
   const navAt = useRef(0);
 
-  useLayoutEffect(() => { keyRef.current = loc.key; navAt.current = Date.now(); }, [loc.key]);
+  useLayoutEffect(() => {
+    keyRef.current = keyOf(loc); navAt.current = Date.now();
+    if (window.ReactNativeWebView && loc.pathname === NATIVE_START) { Object.keys(map.current).forEach((k) => { if (k.startsWith('h:')) delete map.current[k]; }); write(map.current); }
+  }, [loc]);
 
   // un secondo tocco "fantasma" subito dopo il cambio pagina non deve premere cio' che nel frattempo e' comparso sotto il dito
   useEffect(() => {
@@ -48,8 +59,9 @@ export default function ScrollToTop() {
       window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
       return undefined;
     }
-    const y = map.current[loc.key];
-    if (!y) return undefined;
+    const y = map.current[keyOf(loc)];
+    // nessuna altezza salvata (o 0): si parte da in cima, mai dall'altezza della pagina appena lasciata (la Home ereditava lo scroll della squadra)
+    if (!y) { window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); return undefined; }
     const root = document.documentElement;
     const need = y + window.innerHeight;
     if (root.scrollHeight < need) root.style.minHeight = `${need}px`;
@@ -66,7 +78,7 @@ export default function ScrollToTop() {
     };
     raf = requestAnimationFrame(step);
     return () => { cancelAnimationFrame(raf); root.style.minHeight = ''; };
-  }, [loc.key, navigationType]);
+  }, [loc, navigationType]);
 
   return null;
 }

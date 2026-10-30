@@ -1,9 +1,10 @@
 import { modalOpen } from '@/lib/modal';
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { pageBack, pageDrag, pageReset, canGoBack, BACK_ZONE, backAngleOk, backDone } from '@/lib/carousel';
+import { pageBack, pageDrag, pageReset, canGoBack, BACK_ZONE, backAngleOk, backFarOk, backDone, inHScroll } from '@/lib/carousel';
 
-// Swipe-back dal bordo sinistro con animazione di slittamento.
+// Swipe-back con animazione di slittamento. Pagina senza schede/giorni a sinistra: da tutto lo schermo; con schede o giorni (SwipeTabs, DayPager):
+// solo dal bordo sinistro (BACK_ZONE) o dal banner in alto (data-back-banner). Il contenuto delle schede lo gestisce SwipeTabs.
 // Su iPhone eventi touch (i pointer venivano annullati da iOS appena il dito scendeva un poco: lo swipe a volte non partiva);
 // col mouse (computer) eventi pointer.
 export default function useSwipeBack(enabled = true) {
@@ -14,8 +15,13 @@ export default function useSwipeBack(enabled = true) {
   useEffect(() => {
     if (!enabled) return undefined;
 
-    const can = (x, target) => !(x > BACK_ZONE || modalOpen() || (target && target.closest && target.closest('[data-no-back]')) || document.querySelector('[data-tabs-back]') || !canGoBack());
-    const begin = (x, y, target) => { start.current = can(x, target) ? { x, y, t: Date.now() } : null; dragging.current = false; };
+    const can = (x, t) => {
+      if (modalOpen() || !canGoBack() || !t || !t.closest || t.closest('[data-no-back], [data-tabs-back]')) return false;
+      if (x <= BACK_ZONE) return true;
+      if (document.querySelector('[data-tabs-back], [data-days-left]')) return !!t.closest('[data-back-banner]') && !inHScroll(t);
+      return !inHScroll(t);
+    };
+    const begin = (x, y, target) => { start.current = can(x, target) ? { x, y, t: Date.now(), near: x <= BACK_ZONE } : null; dragging.current = false; };
     // true = lo swipe e' nostro (la pagina segue il dito)
     const move = (x, y) => {
       const s = start.current;
@@ -24,7 +30,7 @@ export default function useSwipeBack(enabled = true) {
       const dy = y - s.y;
       if (!dragging.current) {
         if (Math.abs(dy) > 14 && Math.abs(dy) > Math.abs(dx)) { start.current = null; return false; }
-        if (!backAngleOk(dx, dy)) return false;
+        if (!(s.near ? backAngleOk(dx, dy) : backFarOk(dx, dy))) return false;
         dragging.current = true;
       }
       pageDrag(Math.max(0, dx));

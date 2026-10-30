@@ -147,9 +147,9 @@ export default function Match() {
   const panels = tabs.map((t) => PANEL[t.key]());
 
   return (
-    <PageShell swipeBack={false}>
+    <PageShell>
       <div style={{ '--tint': (raw.leagueObj && raw.leagueObj.tint) || leagueTint(raw.leagueId) }}>
-      <MatchHero match={raw} view={view} league={league} home={home} away={away} />
+      <div data-back-banner="1"><MatchHero match={raw} view={view} league={league} home={home} away={away} /></div>
 
       <SwipeTabs tabs={tabs} panels={panels} index={tabIndexOf(tabs, tabKey)} onChange={(i) => setTabKey(tabs[i] ? tabs[i].key : '')} className="pt-2" stickyTop="0px" />
 

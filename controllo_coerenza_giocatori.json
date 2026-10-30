@@ -1,0 +1,563 @@
+{
+"righe_competizione_stagione": 1046,
+"giocatori_confrontati": 311177,
+"giocatori_con_differenze": 16137,
+"giocatori_ufficiali_senza_dati_partita": 120676,
+"righe_con_differenze": 338,
+"competizioni_con_piu_differenze": [
+[
+"268 Série A",
+10
+],
+[
+"48 Championship",
+10
+],
+[
+"57 Eredivisie",
+9
+],
+[
+"38 Bundesliga",
+8
+],
+[
+"86 Serie B",
+8
+],
+[
+"141 Coppa Italia",
+7
+],
+[
+"108 League One",
+7
+],
+[
+"109 League Two",
+7
+],
+[
+"140 LaLiga2",
+7
+],
+[
+"73 Europa League",
+6
+],
+[
+"525 AFC Champions League Elite",
+6
+],
+[
+"9469 AFC Champions League Two",
+6
+],
+[
+"526 CAF Champions League",
+6
+],
+[
+"113 A-League",
+6
+],
+[
+"8814 Série B",
+6
+],
+[
+"273 Liga de Primera",
+6
+],
+[
+"9091 Copa Chile",
+6
+],
+[
+"87 LaLiga",
+6
+],
+[
+"146 2. Bundesliga",
+6
+],
+[
+"53 Ligue 1",
+6
+],
+[
+"61 Liga Portugal",
+6
+],
+[
+"130 MLS",
+6
+],
+[
+"9296 USL League One",
+6
+],
+[
+"112 Liga Profesional",
+5
+],
+[
+"40 First Division A",
+5
+],
+[
+"10274 Gaúcho",
+5
+],
+[
+"10244 Paulista A1",
+5
+],
+[
+"9986 Premier League",
+5
+],
+[
+"208 3. Liga",
+5
+],
+[
+"110 Ligue 2",
+5
+]
+],
+"esempi": [
+{
+"fm": "42",
+"competizione": "Champions League",
+"stagione": "2019-2020",
+"giocatore": "Tetê",
+"ufficiale": {
+"min": 155.0
+},
+"partite": {
+"min": 96
+}
+},
+{
+"fm": "42",
+"competizione": "Champions League",
+"stagione": "2018-2019",
+"giocatore": "Maycon Barberan",
+"ufficiale": {
+"min": 451.0
+},
+"partite": {
+"min": 361
+}
+},
+{
+"fm": "42",
+"competizione": "Champions League",
+"stagione": "2017-2018",
+"giocatore": "Sergio Escudero",
+"ufficiale": {
+"min": 900.0,
+"n": 10
+},
+"partite": {
+"min": 720,
+"n": 8
+}
+},
+{
+"fm": "42",
+"competizione": "Champions League",
+"stagione": "2016-2017",
+"giocatore": "Sergio Escudero",
+"ufficiale": {
+"min": 720.0,
+"n": 8,
+"a": 1.0
+},
+"partite": {
+"min": 180,
+"n": 2,
+"a": 0
+}
+},
+{
+"fm": "42",
+"competizione": "Champions League",
+"stagione": "2016-2017",
+"giocatore": "Ante Coric",
+"ufficiale": {
+"min": 248.0
+},
+"partite": {
+"min": 195
+}
+},
+{
+"fm": "73",
+"competizione": "Europa League",
+"stagione": "2023-2024",
+"giocatore": "Shavy Babicka",
+"ufficiale": {
+"g": 3.0
+},
+"partite": {
+"g": 2
+}
+},
+{
+"fm": "73",
+"competizione": "Europa League",
+"stagione": "2022-2023",
+"giocatore": "Rasheed Akanbi",
+"ufficiale": {
+"min": 501.0,
+"n": 6,
+"g": 2.0,
+"a": 1.0
+},
+"partite": {
+"min": 339,
+"n": 4,
+"g": 1,
+"a": 0
+}
+},
+{
+"fm": "73",
+"competizione": "Europa League",
+"stagione": "2019-2020",
+"giocatore": "Marcos Antônio",
+"ufficiale": {
+"min": 439.0,
+"n": 6
+},
+"partite": {
+"min": 254,
+"n": 3
+}
+},
+{
+"fm": "73",
+"competizione": "Europa League",
+"stagione": "2019-2020",
+"giocatore": "Sergio Escudero",
+"ufficiale": {
+"min": 630.0
+},
+"partite": {
+"min": 540
+}
+},
+{
+"fm": "73",
+"competizione": "Europa League",
+"stagione": "2019-2020",
+"giocatore": "Tetê",
+"ufficiale": {
+"n": 4,
+"a": 1.0
+},
+"partite": {
+"n": 1,
+"a": 0
+}
+},
+{
+"fm": "73",
+"competizione": "Europa League",
+"stagione": "2018-2019",
+"giocatore": "Abdoulwahid Sissoko",
+"ufficiale": {
+"min": 500.0
+},
+"partite": {
+"min": 410
+}
+},
+{
+"fm": "73",
+"competizione": "Europa League",
+"stagione": "2018-2019",
+"giocatore": "Matvey Safonov",
+"ufficiale": {
+"min": 450.0,
+"n": 5
+},
+"partite": {
+"min": 180,
+"n": 2
+}
+},
+{
+"fm": "73",
+"competizione": "Europa League",
+"stagione": "2017-2018",
+"giocatore": "Emiliano Ariel Rigoni",
+"ufficiale": {
+"g": 6.0
+},
+"partite": {
+"g": 5
+}
+},
+{
+"fm": "73",
+"competizione": "Europa League",
+"stagione": "2017-2018",
+"giocatore": "Mario Balotelli",
+"ufficiale": {
+"min": 527.0,
+"n": 7,
+"g": 6.0,
+"a": 1.0
+},
+"partite": {
+"min": 352,
+"n": 5,
+"g": 3,
+"a": 0
+}
+},
+{
+"fm": "73",
+"competizione": "Europa League",
+"stagione": "2017-2018",
+"giocatore": "Alassane Pléa",
+"ufficiale": {
+"min": 581.0,
+"n": 8,
+"g": 4.0,
+"a": 1.0
+},
+"partite": {
+"min": 414,
+"n": 6,
+"g": 2,
+"a": 0
+}
+},
+{
+"fm": "73",
+"competizione": "Europa League",
+"stagione": "2017-2018",
+"giocatore": "Lucas Ocampos",
+"ufficiale": {
+"min": 964.0,
+"g": 4.0,
+"a": 1.0
+},
+"partite": {
+"min": 874,
+"g": 3,
+"a": 0
+}
+},
+{
+"fm": "73",
+"competizione": "Europa League",
+"stagione": "2017-2018",
+"giocatore": "Aaron Iseka",
+"ufficiale": {
+"min": 409.0,
+"n": 5,
+"g": 2.0
+},
+"partite": {
+"min": 180,
+"n": 2,
+"g": 1
+}
+},
+{
+"fm": "73",
+"competizione": "Europa League",
+"stagione": "2017-2018",
+"giocatore": "Allan Saint-Maximin",
+"ufficiale": {
+"min": 337.0,
+"g": 2.0
+},
+"partite": {
+"min": 247,
+"g": 1
+}
+},
+{
+"fm": "73",
+"competizione": "Europa League",
+"stagione": "2017-2018",
+"giocatore": "Bryan Linssen",
+"ufficiale": {
+"min": 445.0,
+"n": 5,
+"a": 1.0
+},
+"partite": {
+"min": 265,
+"n": 3,
+"a": 0
+}
+},
+{
+"fm": "73",
+"competizione": "Europa League",
+"stagione": "2017-2018",
+"giocatore": "Paolo Hurtado",
+"ufficiale": {
+"min": 386.0,
+"n": 5,
+"g": 2.0
+},
+"partite": {
+"min": 117,
+"n": 2,
+"g": 0
+}
+},
+{
+"fm": "73",
+"competizione": "Europa League",
+"stagione": "2017-2018",
+"giocatore": "Valère Germain",
+"ufficiale": {
+"min": 844.0,
+"n": 13
+},
+"partite": {
+"min": 666,
+"n": 11
+}
+},
+{
+"fm": "73",
+"competizione": "Europa League",
+"stagione": "2017-2018",
+"giocatore": "Adil Rami",
+"ufficiale": {
+"min": 1262.0,
+"n": 14
+},
+"partite": {
+"min": 1082,
+"n": 12
+}
+},
+{
+"fm": "73",
+"competizione": "Europa League",
+"stagione": "2017-2018",
+"giocatore": "Adrien Tamèze",
+"ufficiale": {
+"n": 6,
+"g": 1.0
+},
+"partite": {
+"n": 4,
+"g": 0
+}
+},
+{
+"fm": "73",
+"competizione": "Europa League",
+"stagione": "2017-2018",
+"giocatore": "Bouna Sarr",
+"ufficiale": {
+"min": 1000.0,
+"n": 15
+},
+"partite": {
+"min": 820,
+"n": 13
+}
+},
+{
+"fm": "73",
+"competizione": "Europa League",
+"stagione": "2017-2018",
+"giocatore": "Brian Hämäläinen",
+"ufficiale": {
+"min": 468.0,
+"n": 6,
+"g": 1.0
+},
+"partite": {
+"min": 135,
+"n": 2,
+"g": 0
+}
+},
+{
+"fm": "73",
+"competizione": "Europa League",
+"stagione": "2017-2018",
+"giocatore": "Clinton N'Jie",
+"ufficiale": {
+"min": 446.0,
+"n": 11
+},
+"partite": {
+"min": 377,
+"n": 9
+}
+},
+{
+"fm": "73",
+"competizione": "Europa League",
+"stagione": "2017-2018",
+"giocatore": "Dante",
+"ufficiale": {
+"min": 720.0,
+"n": 8,
+"g": 1.0
+},
+"partite": {
+"min": 540,
+"n": 6,
+"g": 0
+}
+},
+{
+"fm": "73",
+"competizione": "Europa League",
+"stagione": "2017-2018",
+"giocatore": "Deni Milosevic",
+"ufficiale": {
+"min": 412.0,
+"n": 6,
+"g": 1.0
+},
+"partite": {
+"min": 314,
+"n": 4,
+"g": 0
+}
+},
+{
+"fm": "73",
+"competizione": "Europa League",
+"stagione": "2017-2018",
+"giocatore": "Juan Felipe",
+"ufficiale": {
+"min": 540.0
+},
+"partite": {
+"min": 450
+}
+},
+{
+"fm": "73",
+"competizione": "Europa League",
+"stagione": "2017-2018",
+"giocatore": "Luc Castaignos",
+"ufficiale": {
+"min": 254.0,
+"n": 5
+},
+"partite": {
+"min": 129,
+"n": 3
+}
+}
+]
+}

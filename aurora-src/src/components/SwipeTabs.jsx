@@ -2,7 +2,7 @@ import { modalOpen } from '@/lib/modal';
 import { memo, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal, flushSync } from 'react-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { pageBack, pageDrag, pageReset, finishCarousel, canGoBack, BACK_ZONE, backAngleOk, backDone } from '@/lib/carousel';
+import { pageBack, pageDrag, pageReset, finishCarousel, canGoBack, BACK_ZONE, backAngleOk, backFarOk, backDone, inHScroll } from '@/lib/carousel';
 
 
 // Scheda vicina gia' montata e ferma: non si ridisegna quando cambia la pagina (si aggiorna solo quando diventa quella attiva).
@@ -160,15 +160,18 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
       if (busy || e.touches.length !== 1 || modalOpen()) { st = null; return; }
       const t = e.target;
       if (t.closest && t.closest('input, select, textarea, [data-no-swipe]')) { st = null; return; }
-      st = { x: e.touches[0].clientX, y: e.touches[0].clientY, t: Date.now(), on: false, w: wrap.clientWidth || 360, edge: e.touches[0].clientX <= BACK_ZONE };
+      const x0 = e.touches[0].clientX;
+      // indietro: dal bordo sinistro sempre; dalla prima scheda (a sinistra non c'e' nulla) da tutto lo schermo, tranne dentro cio' che scorre di lato
+      const near = x0 <= BACK_ZONE;
+      st = { x: x0, y: e.touches[0].clientY, t: Date.now(), on: false, w: wrap.clientWidth || 360, near, far: !near && live.current.index === 0 && !inHScroll(t), back: false };
     };
     const onMove = (e) => {
       if (!st) return;
       const dx = e.touches[0].clientX - st.x;
       const dy = e.touches[0].clientY - st.y;
       if (!st.on) {
-        const backStart = st.edge && live.current.back && live.current.index === 0 && backAngleOk(dx, dy);
-        if (!backStart) {
+        st.back = live.current.back && ((st.near && backAngleOk(dx, dy)) || (st.far && backFarOk(dx, dy)));
+        if (!st.back) {
           if (Math.abs(dy) > 12 && Math.abs(dy) > Math.abs(dx)) { st = null; return; }
           if (Math.abs(dx) < 10 || Math.abs(dx) < Math.abs(dy) * 1.2) return;
         }
@@ -184,15 +187,13 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
       st.raf = 0;
       const dx = st.dx;
       const { index: i, n } = live.current;
-      const back = live.current.back && st.edge;
-      const edgeL = i === 0 && dx > 0;
-      const edge = edgeL || (i === n - 1 && dx < 0);
-      const off = edgeL && back ? dx * 0.9 : edge ? 0 : dx;
-      if (edgeL && back) {
+      if (st.back) {
         // torna indietro: si muove tutta la pagina, i riquadri restano fermi al loro posto
-        pageDrag(dx);
+        pageDrag(Math.max(0, dx));
         return;
       }
+      const edge = (i === 0 && dx > 0) || (i === n - 1 && dx < 0);
+      const off = edge ? 0 : dx;
       const want = off < 0 ? i + 1 : off > 0 ? i - 1 : null;
       showPeek(want !== null && want >= 0 && want < n ? want : null);
       const el = contentRef.current;
@@ -220,13 +221,13 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
       const { index: i, n, onChange: oc } = live.current;
       const next = dx < 0 ? i + 1 : i - 1;
       const el = contentRef.current;
-      if (i === 0 && dx > 0 && live.current.back && d.edge && backDone(dx, d.w, v)) {
+      if (d.back && dx > 0 && backDone(dx, d.w, v)) {
         busy = true;
-        pageBack(Math.max(0, dx), live.current.navigate);
+        pageBack(dx, live.current.navigate);
         setTimeout(() => { busy = false; }, 450);
         return;
       }
-      if (i === 0 && dx > 0 && live.current.back && d.edge) {
+      if (d.back) {
         pageReset(true);
         return;
       }

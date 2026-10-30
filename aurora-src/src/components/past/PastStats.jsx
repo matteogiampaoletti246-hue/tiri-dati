@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import useAsync from '@/hooks/useAsync';
-import { loadSeason, loadPlayerStatsFor, loadTeamStats, teamPartStats, teamIdByName, PLAYER_STAT_IT, SEASON_STAT_IT, STAT_IT, prettyKey, seasonLabel } from '@/data/archive';
+import TextFilter from '@/components/TextFilter';
+import { loadSeason, statsFromMatches, loadPlayerStatsFor, loadTeamStats, teamPartStats, teamIdByName, PLAYER_STAT_IT, SEASON_STAT_IT, STAT_IT, prettyKey, seasonLabel } from '@/data/archive';
 import { useTeamColors } from '@/components/archive/parts';
 import { groupOf, fmtVal, ORDER } from '@/components/archive/ArchiveLeague';
 import { TeamLogo } from '@/components/FmImg';
@@ -14,10 +16,22 @@ const Msg = ({ children }) => <p className="px-5 py-14 text-center text-[13px]" 
 
 // Statistiche di una stagione passata, con lo stesso aspetto della stagione attuale:
 // riquadri a pillola col colore della squadra, valori colorati per posizione, barre con la media del campionato.
-export default function PastStats({ kind, id, fm, sk, current = false, teamName = '', part = 'tot', cat = 'all' }) {
+const PARTS = [{ value: 'tot', label: 'Totale' }, { value: 'home', label: 'Casa' }, { value: 'away', label: 'Trasferta' }];
+const CATS = [{ value: 'all', label: 'Tutte' }, { value: 'Attacco', label: 'Attacco' }, { value: 'Difesa', label: 'Difesa' }, { value: 'Disciplina', label: 'Disciplina' }, { value: 'Gioco', label: 'Gioco' }];
+const hasPlayer = (st, id) => !!(st && st.players && Object.keys(st.players).some((k) => !k.startsWith('_') && (st.players[k] || []).some((r) => String(r[0]) === String(id))));
+
+export default function PastStats({ kind, id, fm, sk, current = false, teamName = '', part: partProp = 'tot', cat: catProp = 'all' }) {
+  const isPlayer = kind === 'players';
+  // giocatori: le pillole stanno qui (squadre: nel pannello che le contiene)
+  const [partP, setPartP] = useState('tot');
+  const [catP, setCatP] = useState('all');
+  const part = isPlayer ? partP : partProp;
+  const cat = isPlayer ? catP : catProp;
   const wantMatch = kind === 'teams' && part !== 'tot';
   const col = useTeamColors();
-  const { data: res, loading } = useAsync(async () => ({ byMatch: wantMatch, stats: await (kind === 'players' ? loadPlayerStatsFor(fm, sk, id) : wantMatch ? teamPartStats(fm, sk, part) : loadTeamStats(fm, sk)) }), [fm, sk, kind, part, id]);
+  const { data: res, loading } = useAsync(async () => ({ byMatch: wantMatch, stats: await (isPlayer ? (part === 'tot' ? loadPlayerStatsFor(fm, sk, id) : statsFromMatches(fm, sk, part)) : wantMatch ? teamPartStats(fm, sk, part) : loadTeamStats(fm, sk)) }), [fm, sk, kind, part, id]);
+  // Casa/Trasferta solo dove le partite della stagione hanno il giocatore (dati per partita)
+  const { data: split } = useAsync(async () => (isPlayer ? hasPlayer(await statsFromMatches(fm, sk), id) : false), [fm, sk, kind, id]);
   // finche' arrivano i dati nuovi restano visibili quelli di prima (con la loro modalita'): nessun salto
   const stats = res ? res.stats : undefined;
   const byMatch = res ? res.byMatch : wantMatch;
@@ -27,7 +41,13 @@ export default function PastStats({ kind, id, fm, sk, current = false, teamName 
   const lists = stats && stats[kind];
   const isP = kind === 'players';
   // giocatore senza dati in questa stagione (ne ha in altre: le tendine portano li'): un solo messaggio, niente riquadri vuoti
-  if (!lists) return isP ? <Msg>Dati non disponibili</Msg> : null;
+  const pills = isP ? (
+    <div className="flex flex-col gap-2 px-5 pt-3" data-no-swipe="true">
+      {split ? <TextFilter options={PARTS} value={part} onChange={setPartP} /> : null}
+      <TextFilter options={CATS} value={cat} onChange={setCatP} />
+    </div>
+  ) : null;
+  if (!lists) return isP ? <>{pills}<Msg>Dati non disponibili</Msg></> : null;
   const names = (season && season.teams) || {};
   const groups = {};
   let me = null;
@@ -38,15 +58,17 @@ export default function PastStats({ kind, id, fm, sk, current = false, teamName 
     if (idx < 0) return;
     me = me || list[idx];
     const g = byMatch ? catOfMatchKey(k) : kind === 'teams' ? catOfSeasonGroup(groupOf(k.replace(/_team$/, ''))) : groupOf(k.replace(/_team$/, ''));
-    if (kind === 'teams' && cat !== 'all' && g !== cat) return;
+    if (cat !== 'all' && (kind === 'teams' ? g : catOfSeasonGroup(g)) !== cat) return;
     (groups[g] = groups[g] || []).push({ k, st: standingOf(list, idx, k), title: byMatch ? (STAT_IT[k] || prettyKey(k)) : (SEASON_STAT_IT[k] || PLAYER_STAT_IT[k] || prettyKey(k)) });
   });
-  if (!me) return <Msg>{isP ? 'Dati non disponibili' : 'Nessuna presenza in questa stagione'}</Msg>;
+  if (!me) return isP ? <>{pills}<Msg>Dati non disponibili</Msg></> : <Msg>Nessuna presenza in questa stagione</Msg>;
   const tid = isP ? (me[2] || (teamName ? teamIdByName(names, teamName) : null)) : id;
   const tname = names[tid] || '';
   const club = col(tid, tname).colors[0];
   const order = Object.keys(groups).sort((a, b) => (kind === 'teams' ? GROUP_ORDER.indexOf(a) - GROUP_ORDER.indexOf(b) : ORDER.indexOf(a) - ORDER.indexOf(b)));
   return (
+    <>
+    {pills}
     <div className="club-scope flex flex-col gap-4 px-5 pb-10 pt-4" style={{ '--club': club, '--club-a': '24%' }}>
       {isP ? (
         <div className="club-card flex items-center gap-3 rounded-2xl px-4 py-3.5" style={CARD}>
@@ -89,5 +111,6 @@ export default function PastStats({ kind, id, fm, sk, current = false, teamName 
       ))}
       <p className="px-1 text-[10.5px]" style={{ color: 'var(--ink-3)' }}>La lineetta con il numero è la media del campionato. Colori: rosso = parte bassa della classifica, giallo = metà, verde = parte alta.</p>
     </div>
+    </>
   );
 }

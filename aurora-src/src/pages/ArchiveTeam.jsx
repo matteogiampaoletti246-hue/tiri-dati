@@ -90,7 +90,7 @@ export default function ArchiveTeam() {
     <TeamPlayers key="p" stats={stats} tid={tid} season={season} fm={fm} sk={sk} />,
   ];
   return (
-    <PageShell swipeBack={false}>
+    <PageShell>
       <EntityBanner
         name={name}
         subtitle={`${league ? league.name : ''}${league ? ' · ' : ''}${seasonLabel(sk)}`}

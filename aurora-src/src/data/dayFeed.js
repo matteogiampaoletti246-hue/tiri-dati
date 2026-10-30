@@ -1,6 +1,6 @@
 // Competizioni dell'archivio (fm-<id>) nella Home: le partite di un giorno arrivano da giorni/<data>.json
 // (risultati.py, feed FotMob del giorno ogni 10 minuti) e si aggiungono solo per i giorni che si aprono (mai tutte insieme).
-import { archIndex, dayFile, curSeasonSync } from './archive';
+import { archIndex, dayFile, curSeasonSync, womenFeedRow } from './archive';
 import { addFeedRows } from './matches';
 import { leagueById } from './leagues';
 
@@ -12,5 +12,5 @@ export async function loadDayFeed(iso) {
   await archIndex();
   const f = await dayFile(iso);
   if (!f || !f.m) return 0;
-  return addFeedRows(f.m, lgOf, (fm) => curSeasonSync(fm));
+  return addFeedRows(f.m.map(womenFeedRow), lgOf, (fm) => curSeasonSync(fm));
 }
