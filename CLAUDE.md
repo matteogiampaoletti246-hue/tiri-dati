@@ -311,3 +311,6 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 ## Tasto Tutte | Live: pillola unica (regola fissa, sito e app nativa)
 - Una sola pillola divisa a meta', in alto a sinistra, larga poco meno di meta' schermo (44%, alta 40) (`LivePill` in `native/App.js`, `components/LivePill.jsx` nel sito), tutta arrotondata, indicatore dentro i bordi (`overflow: hidden`). Su Tutte l'indicatore e' blu (`accent`), passando a Live scorre a destra e vira al rosso (`live`) e il pallino diventa bianco; tornando indietro il percorso inverso. Colori sempre dai temi (`DARK`/`LIGHT`, variabili CSS), mai fissi.
 - Il filtro Live vale solo per la pagina di oggi: ogni giorno e' filtrato in base alla sua data (non in base al giorno al centro), cosi' durante lo swipe i giorni vicini non restano vuoti; cambiando giorno torna "Tutte" con la stessa animazione.
+
+## Finestre e barra nativa (regola fissa)
+- Nell'app nativa la barra in basso sta SOPRA la pagina web: i tasti in fondo a una finestra (es. Chiudi/Profilo della finestra giocatore, `natBar` in `PlayerSheet.jsx`, 104 px) si alzano della sua altezza, mai coperti. Ogni nuova finestra con tasti in basso fa lo stesso.

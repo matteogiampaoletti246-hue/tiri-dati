@@ -12,7 +12,10 @@ import { CardIcon, SubIcon, BallIcon } from './EventIcons';
 import { closePlayer, openPlayer, findInMatch, matchOf, ourPlayerId, usePlayerSheet } from '@/data/playerSheet';
 import { comma } from '@/lib/format';
 import { shortName } from './Riassunto';
-import { carousel, finishCarousel } from '@/lib/carousel';
+import { carousel, finishCarousel, isNative } from '@/lib/carousel';
+
+// nell'app nativa la barra in basso e' disegnata SOPRA la pagina web: i tasti della finestra si alzano della sua altezza
+const natBar = () => (isNative() ? 104 : 0);
 import { norm } from '@/data/util';
 
 const IT = {
@@ -408,10 +411,10 @@ export default function PlayerSheetHost() {
             <div className="shrink-0"><Header c={c} concept={concept} /></div>
             <div ref={scroller} className="min-h-0 flex-1 overflow-y-auto overscroll-contain" style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-y', overscrollBehavior: 'contain' }}>
               <Body c={c} concept={concept} onOpen={(to, d) => switchTo(to, d)} />
-              <div style={{ height: 84 }} />
+              <div style={{ height: 84 + natBar() }} />
             </div>
           </div>
-          <div className="absolute inset-x-0 bottom-0 flex items-center gap-3 px-5 pb-[max(14px,env(safe-area-inset-bottom))] pt-3" style={{ background: 'linear-gradient(to top, var(--sky-2) 70%, transparent)' }}>
+          <div className="absolute inset-x-0 bottom-0 flex items-center gap-3 px-5 pb-[max(14px,env(safe-area-inset-bottom))] pt-3" style={{ bottom: natBar(), paddingBottom: natBar() ? 14 : undefined, background: 'linear-gradient(to top, var(--sky-2) 70%, transparent)' }}>
             <button type="button" onClick={close} aria-label="Chiudi" className="press flex h-12 w-12 items-center justify-center rounded-full" style={{ background: 'var(--pill-bg)', border: '1px solid var(--glass-border)' }}><X size={20} /></button>
             <span className="flex-1" />
             {c.ourId ? (
