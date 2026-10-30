@@ -84,6 +84,10 @@ export function carousel(el, dx, dir, apply, done, ms = 240, host = null) {
 const pageEls = () => [document.getElementById('sl-shell'), ...document.querySelectorAll('[data-pf]')].filter((x) => x && !x.closest('[aria-hidden="true"]'));
 
 const solid = () => (getComputedStyle(document.documentElement).getPropertyValue('--sky-2').trim() || '#070b14');
+// sfondo dell'app (bagliore azzurro in alto a destra + colore): durante lo swipe la pagina resta opaca ma con lo stesso sfondo, mai tutto nero/piatto
+const glow = () => getComputedStyle(document.documentElement).getPropertyValue('--app-bg-image').trim();
+const paintSolid = (el) => { const g = glow(); el.style.backgroundColor = solid(); el.style.backgroundImage = g || 'none'; el.style.backgroundRepeat = 'no-repeat'; el.style.backgroundSize = '100% 100vh'; el.style.backgroundPosition = '0 0'; };
+const clearSolid = (el) => { el.style.background = ''; el.style.backgroundColor = ''; el.style.backgroundImage = ''; el.style.backgroundRepeat = ''; el.style.backgroundSize = ''; el.style.backgroundPosition = ''; };
 const SNAPS = new Map(); // idx cronologia -> fotografie (shell + parti fisse)
 // Copia solo cio' che si vede (schermo +/- mezza schermata): le parti fuori restano scatole vuote della stessa altezza.
 // Con tante partite in Home la copia intera pesava (scatto al tocco) e le immagini non ancora decodificate lasciavano frame bianchi.
@@ -207,7 +211,7 @@ export const inHScroll = (el) => {
 // fuori dalla zona del bordo si chiede un gesto chiaramente orizzontale (lo scorrimento verticale non si perde mai)
 export const backFarOk = (dx, dy) => dx > 10 && dx > Math.abs(dy) * 1.2;
 export const BACK_ZONE = isNative() ? 64 : 48;
-export const backDone = (dx, w, v) => (isNative() ? dx > w * 0.33 || (v > 0.5 && dx > w * 0.15) : dx > w * 0.5 || (v > 0.9 && dx > w * 0.25));
+export const backDone = (dx, w, v) => (isNative() ? dx > w * 0.22 || (v > 0.3 && dx > w * 0.08) : dx > w * 0.5 || (v > 0.9 && dx > w * 0.25));
 // partendo dal bordo basta un movimento piu' orizzontale che verticale (angolo largo): lo swipe indietro non si perde
 export const backAngleOk = (dx, dy) => dx > 8 && dx > Math.abs(dy) * 0.75;
 function installEdgeGuard() {
@@ -237,7 +241,8 @@ let WARM = null; // fotografia di destinazione gia' montata (quasi invisibile) c
 const buildHost = (g) => {
   const host = document.createElement('div');
   host.setAttribute('aria-hidden', 'true');
-  host.style.cssText = 'position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;will-change:transform;background:' + solid();
+  host.style.cssText = 'position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;will-change:transform;';
+  paintSolid(host);
   g.forEach((b) => host.appendChild(b.cloneNode(true)));
   const dim = document.createElement('div');
   dim.style.cssText = 'position:absolute;inset:0;background:#000;opacity:.35;z-index:50';
@@ -278,7 +283,7 @@ const behindOn = () => {
   }
   BEHIND = { host: w.host, dim: w.dim };
   const sh = document.getElementById('sl-shell');
-  if (sh) { sh.style.zIndex = '2'; sh.style.background = solid(); }
+  if (sh) { sh.style.zIndex = '2'; paintSolid(sh); }
   return BEHIND;
 };
 const behindMove = (dx, w, ms = 0) => {
@@ -317,7 +322,7 @@ const behindOff = () => {
   if (!BEHIND) return;
   BEHIND.host.remove(); BEHIND = null;
   const sh = document.getElementById('sl-shell');
-  if (sh) { sh.style.zIndex = ''; sh.style.background = ''; }
+  if (sh) { sh.style.zIndex = ''; clearSolid(sh); }
 };
 export function pageDrag(dx) {
   if (modalOpen()) return; // finestra aperta (giocatore, fogli): la pagina sotto e la sua fotografia restano ferme

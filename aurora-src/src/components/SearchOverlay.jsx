@@ -37,7 +37,7 @@ const countryOf = (t) => {
   return l ? l.country : '';
 };
 
-export default function SearchOverlay({ open, onClose }) {
+export default function SearchOverlay({ open, onClose, page }) {
   const [q, setQ] = useState('');
   const navigate = useNavigate();
   const inputRef = useRef(null);
@@ -59,6 +59,18 @@ export default function SearchOverlay({ open, onClose }) {
     return () => document.removeEventListener('keydown', onKey);
   }, [onClose]);
   useModalLock(!!open);
+  // altezza visibile (sopra la tastiera): la lista arriva fino alla tastiera e si puo' scorrere tutta; la pagina sotto non si muove
+  const [vh, setVh] = useState(() => (typeof window !== 'undefined' ? (window.visualViewport ? window.visualViewport.height : window.innerHeight) : 800));
+  useEffect(() => {
+    if (!open) return undefined;
+    const vv = window.visualViewport;
+    const f = () => setVh(vv ? vv.height : window.innerHeight);
+    f();
+    if (vv) { vv.addEventListener('resize', f); vv.addEventListener('scroll', f); }
+    window.addEventListener('resize', f);
+    return () => { if (vv) { vv.removeEventListener('resize', f); vv.removeEventListener('scroll', f); } window.removeEventListener('resize', f); };
+  }, [open]);
+  const hideKb = () => { const el = inputRef.current; if (el && document.activeElement === el) el.blur(); };
 
   if (!open) return null;
 
@@ -73,7 +85,7 @@ export default function SearchOverlay({ open, onClose }) {
   const referees = needle ? REFEREES.filter((r) => norm(r.name).includes(needle)).slice(0, 8) : [];
 
   const go = (path) => {
-    onClose();
+    if (!page) onClose();
     navigate(path);
   };
 
@@ -95,9 +107,9 @@ export default function SearchOverlay({ open, onClose }) {
   );
 
   return (
-    <div className="fixed inset-0 z-50 fade-in" style={{ background: 'color-mix(in srgb, var(--sky-2) 92%, transparent)', backdropFilter: 'blur(24px)' }}>
-      <div className="mx-auto min-h-screen w-full max-w-[var(--app-w)]">
-        <div className="flex items-center gap-3 px-5 py-4">
+    <div className="fixed inset-x-0 top-0 z-50 fade-in" style={{ height: vh, overscrollBehavior: 'none', background: 'color-mix(in srgb, var(--sky-2) 92%, transparent)', backdropFilter: 'blur(24px)' }}>
+      <div className="mx-auto w-full max-w-[var(--app-w)]">
+        <div className="flex items-center gap-3 px-5 py-4" style={{ touchAction: 'none' }}>
           <Search size={18} strokeWidth={1.25} style={{ color: 'var(--ink-3)' }} />
           <input
             ref={inputRef}
@@ -112,7 +124,7 @@ export default function SearchOverlay({ open, onClose }) {
           </button>
         </div>
 
-        <div className="hide-sb max-h-[calc(100vh-80px)] overflow-y-auto pb-16">
+        <div className="hide-sb overflow-y-auto pb-16" style={{ height: Math.max(120, vh - 64), overscrollBehavior: 'contain', WebkitOverflowScrolling: 'touch' }} onScroll={hideKb} onTouchMove={hideKb} onTouchStart={(e) => { if (!e.target.closest('button')) hideKb(); }}>
           {!needle ? null : (
             <>
               {leagues.length ? (

@@ -54,10 +54,10 @@ export default function PredictedStats({ home, away, match }) {
 
   return (
     <section className="glass tint-card mx-4 mb-4 overflow-hidden rounded-[26px]" aria-label="Statistiche previste">
-      <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: '1px solid var(--glass-border)' }}>
+      <div className="grid items-center gap-2 px-5 py-4" style={{ gridTemplateColumns: 'minmax(0,1fr) auto minmax(0,1fr)', borderBottom: '1px solid var(--glass-border)' }}>
         <TeamLink team={home} className="flex min-w-0 items-center gap-2.5"><Crest team={home} size={34} /><span className="truncate text-[14px] font-bold">{home.name}</span></TeamLink>
-        <span className="px-2 text-[10.5px] font-extrabold uppercase tracking-[.1em]" style={{ color: 'var(--ink-3)' }}>Previste</span>
-        <TeamLink team={away} className="flex min-w-0 items-center gap-2.5"><span className="truncate text-[14px] font-bold">{away.name}</span><Crest team={away} size={34} /></TeamLink>
+        <span className="px-1 text-center text-[10.5px] font-extrabold uppercase tracking-[.1em]" style={{ color: 'var(--ink-3)' }}>Previste</span>
+        <TeamLink team={away} className="flex min-w-0 items-center justify-end gap-2.5"><span className="truncate text-[14px] font-bold">{away.name}</span><Crest team={away} size={34} /></TeamLink>
       </div>
       {rows.map((r, i) => {
         const pa = (r.h / (r.h + r.a)) * 100;

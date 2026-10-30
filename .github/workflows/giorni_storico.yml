@@ -1,0 +1,28 @@
+name: Giorni passati (Home nativa)
+# giorni_arch/<data>.json dalle stagioni archiviate: la Home nativa mostra anche i giorni piu' vecchi dei 10 di giorni/
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "40 4 * * *"
+  push:
+    branches: [main]
+    paths:
+      - giorni_storico.py
+concurrency: giorni-storico
+permissions:
+  contents: write
+jobs:
+  storico:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 giorni_storico.py
+      - name: Salva
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add giorni_arch
+          if git diff --cached --quiet; then echo "niente da salvare"; exit 0; fi
+          git commit -m "Giorni passati per la Home nativa"
+          for i in 1 2 3 4 5; do git pull --rebase -q origin main && git push -q origin HEAD:main && break; sleep 5; done

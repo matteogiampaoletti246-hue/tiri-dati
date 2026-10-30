@@ -315,7 +315,7 @@ function Screen({ onTheme }) {
     const ds = OFFSETS.map((o) => { const d = new Date(base); d.setDate(d.getDate() + o); return d; });
     const ks = ds.map(rome);
     (async () => {
-      const files = await Promise.all(ks.map((k) => getJ(`giorni/${k}.json`).catch(() => ({ m: [] }))));
+      const files = await Promise.all(ks.map((k) => getJ(`giorni/${k}.json`).catch(() => getJ(`giorni_arch/${k}.json`)).catch(() => ({ m: [] }))));
       const seen = new Set(); const by = {};
       files.forEach((f) => (f.m || []).forEach((m) => {
         if (seen.has(m[0]) || m[8] === 'c' || !m[5] || !m[6] || !m[2]) return; seen.add(m[0]);
@@ -430,7 +430,7 @@ function Screen({ onTheme }) {
   const openMatch = useCallback((m) => {
     // sempre la scheda d'archivio della stagione in corso: il percorso del feed (x-) trova la partita solo se il sito ha gia' caricato
     // quel giorno (provato: 12 partite su 26 dei campionati minori e tutte le coppe europee davano "Partita non trovata").
-    const sk = META.cur[String(m[1])];
+    const sk = m[11] || META.cur[String(m[1])];
     openRoute(sk ? `/match/a-${m[1]}-${sk}-${m[0]}` : `/match/x-${m[1]}-${m[0]}`);
   }, [openRoute]);
   const onMsg = useCallback((e) => {
@@ -438,7 +438,7 @@ function Screen({ onTheme }) {
     if (t === 'dark' || t === 'light') onTheme(t);
     else if (typeof t === 'string' && t.startsWith('route:')) { webPath.current = t.slice(6); if (awaitRoute.current === webPath.current) endBusy(); } // la pagina web ha disegnato questa rotta
     else if (typeof t === 'string' && t.startsWith('depth:')) setDepth(Number(t.slice(6)) || 0);
-    else if (typeof t === 'string' && t.startsWith('drag:')) { const d = Number(t.slice(5)); ov.value = d < 0 ? withTiming(0, { duration: 180 }) : d; } // swipe indietro partito dentro la pagina web (prima pagina dopo la Home)
+    else if (typeof t === 'string' && t.startsWith('drag:')) { const d = Number(t.slice(5)); ov.value = d < 0 ? withTiming(0, { duration: 180 }) : withTiming(d, { duration: 90, easing: Easing.linear }); } // swipe indietro partito dentro la pagina web (prima pagina dopo la Home)
     else if (t === 'home' && openRef.current) closeWeb(); // il tasto indietro del sito e' tornato alla pagina di partenza: si torna alla Home
   }, [onTheme, closeWeb, ov, endBusy]);
   const pick = useCallback((diff) => { setCal(false); setCenter(diff); }, []);
@@ -469,7 +469,7 @@ function Screen({ onTheme }) {
     .onStart(() => { ovStart.value = ov.value; })
     .onUpdate((e) => { ov.value = Math.max(0, ovStart.value + e.translationX); })
     .onEnd((e) => {
-      if (e.translationX > W * 0.25 || e.velocityX > 500) { runOnJS(markClosed)(); ov.value = withTiming(W, { duration: 200, easing: Easing.out(Easing.cubic) }, (done) => { if (done) runOnJS(afterClose)(); }); } else ov.value = withTiming(0, { duration: 180 });
+      if (e.translationX > W * 0.2 || e.velocityX > 350) { runOnJS(markClosed)(); ov.value = withTiming(W, { duration: 200, easing: Easing.out(Easing.cubic) }, (done) => { if (done) runOnJS(afterClose)(); }); } else ov.value = withTiming(0, { duration: 180 });
     }), [ov, ovStart, afterClose, markClosed]);
   const ovStyle = useAnimatedStyle(() => ({ transform: [{ translateX: ov.value }] }));
 
@@ -479,7 +479,7 @@ function Screen({ onTheme }) {
   return (
     <View style={[s.root, { paddingTop: insets.top }]}>
       <StatusBar barStyle={C.dark ? 'light-content' : 'dark-content'} />
-      <Header onSearch={() => openRoute('/')} onMenu={() => openRoute('/menu')} onCal={() => setCal(true)} />
+      <Header onSearch={() => openRoute('/cerca')} onMenu={() => openRoute('/menu')} onCal={() => setCal(true)} />
       <ScrollView ref={strip} horizontal showsHorizontalScrollIndicator={false} style={{ flexGrow: 0 }} contentContainerStyle={s.strip}>
         {dates.map((d, i) => (
           <Pressable key={keys[i]} onPress={() => go(i)} onLayout={(e) => { pos.current[i] = { x: e.nativeEvent.layout.x, w: e.nativeEvent.layout.width }; if (i === cur) centre(i); }}>
