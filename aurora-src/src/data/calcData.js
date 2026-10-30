@@ -23,14 +23,14 @@ export function buildCalcData() {
   Object.keys(LD).forEach((k) => delete LD[k]);
   const L = (RAW.data && RAW.data.leagues) || {};
   Object.entries(L).forEach(([k, src]) => {
-    const h = src.handicap;
+    // le medie restano quelle vere (stesse del pannello statistiche squadra): l'handicap dei campionati minori vale SOLO nelle coppe europee
+    // (squadre di campionati diversi, peso diverso) e si applica in blend(); scegliendo il campionato non c'e' mai
+    const h = src.handicap || null;
     const teams = {};
     Object.entries(src.teams || {}).forEach(([n, t]) => {
-      teams[n] = h
-        ? { totalFor: t.totalFor * h, totalAgainst: t.totalAgainst / h, sotFor: t.sotFor * h, sotAgainst: t.sotAgainst / h }
-        : { totalFor: t.totalFor, totalAgainst: t.totalAgainst, sotFor: t.sotFor, sotAgainst: t.sotAgainst };
+      teams[n] = { totalFor: t.totalFor, totalAgainst: t.totalAgainst, sotFor: t.sotFor, sotAgainst: t.sotAgainst };
     });
-    LD[k] = { label: src.label || src.name || k, teams, avg: h ? src.league_avg : null, strength: h ? 1 : 1, cup: CUPS.includes(k) };
+    LD[k] = { label: src.label || src.name || k, teams, avg: h ? src.league_avg : null, strength: 1, hcap: h, cup: CUPS.includes(k) };
   });
 }
 
@@ -56,7 +56,10 @@ function blend(key, name, field) {
   if (!L.cup) return { v: t[field], avg, str: L.strength || 1, cup: false };
   const dk = domesticKey(name);
   if (!dk) return { v: t[field], avg, str: 1, cup: true, domKey: null, cupVal: t[field] };
-  const dv = LD[dk].teams[name][field];
+  const hc = LD[dk].hcap;
+  const dv0 = LD[dk].teams[name][field];
+  // handicap in coppa: campionato minore = tiri fatti ridotti, subiti aumentati (stessa regola di prima, ora solo qui)
+  const dv = hc ? (/Against$/.test(field) ? dv0 / hc : dv0 * hc) : dv0;
   const da = lgAvg(dk, field);
   const domAdj = adj(dv, da, LD[dk].strength || 1);
   return { v: (domAdj + t[field]) / 2, avg: (da + avg) / 2, str: 1, cup: true, domKey: dk, domVal: dv, cupVal: t[field] };
