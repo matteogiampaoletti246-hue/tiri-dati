@@ -46,7 +46,7 @@ const later = (fn) => { const go = () => { if (TOUCHING || GLIDE) setTimeout(go,
 
 // In alto, da soli: top campionati (i 5 aperti, gli altri 4 chiusi), coppe europee, competizioni internazionali.
 // Tutte le altre competizioni stanno nella finestra del loro paese (paesi in ordine alfabetico italiano; dentro, in ordine di importanza).
-const TOP_SOLO = ['serie-a', 'premier-league', 'la-liga', 'bundesliga', 'ligue-1', 'pro-league', 'eredivisie', 'liga-portugal', 'super-lig', 'champions-league', 'europa-league', 'conference-league'];
+const TOP_SOLO = ['champions-league', 'europa-league', 'conference-league', 'serie-a', 'premier-league', 'la-liga', 'bundesliga', 'ligue-1', 'pro-league', 'eredivisie', 'liga-portugal', 'super-lig'];
 let LAYOUT = null;
 const layout = () => {
   if (LAYOUT && LAYOUT.n === LEAGUES.length) return LAYOUT;

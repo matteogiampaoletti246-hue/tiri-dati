@@ -1,6 +1,7 @@
 import { memo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { isNative } from '@/lib/carousel';
 import { Home as HomeIcon, Calculator, Users, Swords } from 'lucide-react';
 
 const ITEMS = [
@@ -34,7 +35,7 @@ function BottomBar() {
           {ITEMS.map(({ to, label, icon: Icon, exact }) => {
             const active = isActive({ to, exact });
             return (
-              <Link key={to} to={to} aria-label={label} className="press relative flex flex-1 flex-col items-center gap-1 rounded-[20px] py-2">
+              <Link key={to} to={to} aria-label={label} onClick={to === '/' && isNative() ? (e) => { e.preventDefault(); try { window.ReactNativeWebView.postMessage('home'); } catch (err) { /* ignora */ } } : undefined} className="press relative flex flex-1 flex-col items-center gap-1 rounded-[20px] py-2">
                 {active ? (
                   <motion.span
                     layoutId="nav-indicator"

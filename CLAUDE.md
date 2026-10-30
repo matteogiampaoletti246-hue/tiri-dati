@@ -272,3 +272,10 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 - Sotto il nome: stemma + squadra del giocatore in grassetto, sotto stemma + avversaria (tenue) · orario (`TopPlayerRow.jsx`). Niente nazionalita' ne' bandiera. Vale per tutti i giocatori della sezione.
 ## Handicap dei campionati minori (regola fissa, Calcolatore e Affidabilita')
 - Le medie squadra mostrate sono sempre quelle vere (le stesse del pannello Statistiche squadra). L'handicap (`handicap` di `data.json`/`calc_extra.json`: Eredivisie, Pro League, Liga Portugal 0,85; Super League GR e Super Lig 0,80; Superliga 0,75) si applica SOLO nelle coppe europee, e solo alla parte "campionato" di una squadra di un campionato minore (`blend` in `data/calcData.js`: fatti x h, subiti / h). Coppa tra squadre dei top 5 = nessun handicap. Scegliendo Competizione = campionato l'handicap non c'e' mai.
+
+## Home nativa (Expo Go): ritorni, ricerca, storico, ordine (regola fissa)
+- La Home del sito non deve mai comparire nell'app nativa: `NativeHomeGuard` (route `/` e `*`) avvisa l'app (`home`) e non disegna niente; il tasto Home della barra del sito fa lo stesso. La lente apre `/cerca` (`pages/Cerca.jsx`, `SearchOverlay page`): la tastiera si chiude toccando o scorrendo la lista, la lista arriva fino alla tastiera (`visualViewport`), la pagina sotto non si muove.
+- Giorni passati: `giorni/` tiene 10 giorni, i piu' vecchi stanno in `giorni_arch/<data>.json` (`giorni_storico.py`, workflow `giorni_storico.yml`, dal 1 luglio dell'anno scorso, riga con la stagione in posizione 11); la Home nativa prova prima `giorni/` poi `giorni_arch/`.
+- Ordine in alto (Home sito e nativa, `TOP_SOLO`): Champions, Europa, Conference, poi i 9 top campionati, poi internazionali, poi i paesi in ordine alfabetico.
+- Swipe indietro: soglia bassa (`backDone`: 22% della larghezza, o 8% con scatto); durante lo swipe la pagina resta opaca ma con lo sfondo dell'app (bagliore azzurro, `paintSolid`), mai nero.
+- Forma recente: ultime 5 in tutte le competizioni della squadra (`addLeagueForm`: indice `tidx`, stagione in corso + precedente).

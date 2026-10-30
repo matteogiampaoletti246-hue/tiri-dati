@@ -3,6 +3,7 @@
 // Il dettaglio completo arriva dal Worker (FotMob, vale per qualsiasi partita); quello salvato nell'archivio è la riserva.
 import { loadSeason, loadSeasonMatches, loadSeasonStats, FM_ID, archIndex, teamLogo, seasonLabel, STAT_IT, STAT_GROUPS, prettyKey, currentSeason, teamIdByName } from './archive';
 import { isPureCup } from './bracket';
+import { teamHistory, teamFmId } from './teamIndex';
 import { MATCH_BY_ID } from './matches';
 import { ensureTeam, teamById } from './teams';
 import { leagueById, LEAGUES, CUP_IDS } from './leagues';
@@ -234,16 +235,33 @@ async function addLeagueForm(m, fm) {
   await Promise.all([m.homeId, m.awayId].map(async (id) => {
     try {
       const t = teamById(id);
-      const lfm = t && FM_ID[t.leagueId];
-      if (!lfm || Number(lfm) === Number(fm)) return;
-      const sk = await currentSeason(lfm);
-      const season = sk && await loadSeason(lfm, sk);
-      if (!season || !season.teams) return;
-      const tid = teamIdByName(season.teams, t.name) || (t.fmId && season.teams[String(t.fmId)] ? String(t.fmId) : null);
-      if (!tid) return;
-      const tmap = teamsOf(season, lfm, sk, t.leagueId);
-      tmap[tid] = t;
-      extra[id] = { rec: recentFn(lfm, sk, season, tmap), tid };
+      if (!t) return;
+      // tutte le competizioni giocate quest'anno (indice tidx) + il campionato della squadra: la forma sono le ultime 5 in ogni competizione
+      const hist = (await teamHistory(t).catch(() => null)) || {};
+      const lids = new Set(Object.keys(hist));
+      if (t.leagueId && FM_ID[t.leagueId]) lids.add(t.leagueId);
+      const list = [];
+      await Promise.all([...lids].map(async (lid) => {
+        const lfm = FM_ID[lid];
+        if (!lfm) return;
+        const cur = await currentSeason(lfm);
+        if (!cur) return;
+        // stagione in corso + la precedente (a inizio stagione servono per arrivare a 5 partite); la competizione della partita ha gia' la sua in corso
+        const prev = (hist[lid] || []).find((s) => s !== cur && s < cur);
+        const curOk = !hist[lid] || hist[lid].includes(cur) || lid === t.leagueId;
+        const sks = [Number(lfm) === Number(fm) || !curOk ? null : cur, prev].filter(Boolean);
+        await Promise.all(sks.map(async (sk) => {
+          const season = await loadSeason(lfm, sk);
+          if (!season || !season.teams) return;
+          const fid = teamFmId(t);
+          const tid = teamIdByName(season.teams, t.name) || (fid && season.teams[String(fid)] ? String(fid) : null);
+          if (!tid) return;
+          const tmap = teamsOf(season, lfm, sk, t.leagueId === lid ? lid : null);
+          tmap[tid] = t;
+          list.push({ rec: recentFn(lfm, sk, season, tmap), tid });
+        }));
+      }));
+      if (list.length) extra[id] = list;
     } catch (e) { /* solo la competizione della partita */ }
   }));
   if (!Object.keys(extra).length) return;
@@ -252,7 +270,7 @@ async function addLeagueForm(m, fm) {
     const x = extra[teamId];
     if (!x) return a;
     const seen = new Set();
-    return [...a, ...x.rec(x.tid, m.ts)].filter((r) => { const k = `${r.date}|${r.homeId}|${r.awayId}`; if (seen.has(k)) return false; seen.add(k); return true; })
+    return [...a, ...x.flatMap((e) => e.rec(e.tid, m.ts))].filter((r) => { const k = `${r.date}|${r.homeId}|${r.awayId}`; if (seen.has(k)) return false; seen.add(k); return true; })
       .sort((p, q) => q.ts - p.ts).slice(0, 5);
   };
 }

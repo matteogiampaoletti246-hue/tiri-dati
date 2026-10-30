@@ -13,7 +13,8 @@ import ScrollToTop from '@/components/ScrollToTop';
 import PlayerSheetHost from '@/components/match/PlayerSheet';
 import { applyTheme, getTheme } from '@/lib/theme';
 import Guidelines from '@/pages/Guidelines';
-import Home from '@/pages/Home';
+import NativeHomeGuard from '@/components/NativeHomeGuard';
+import Cerca from '@/pages/Cerca';
 import League from '@/pages/League';
 import Match from '@/pages/Match';
 import Menu from '@/pages/Menu';
@@ -68,7 +69,8 @@ export default function App() {
       <MenuDrawer />
       {ready ? (
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<NativeHomeGuard />} />
+        <Route path="/cerca" element={<Cerca />} />
         <Route path="/menu" element={<Menu />} />
         <Route path="/competizioni" element={<Competitions />} />
         <Route path="/calcolatore" element={<ReliabilityCalculator />} />
@@ -85,7 +87,7 @@ export default function App() {
         <Route path="/squadra/:id" element={<Team />} />
         <Route path="/giocatore/:id" element={<Player />} />
         <Route path="/arbitro/:id" element={<Referee />} />
-        <Route path="*" element={<Home />} />
+        <Route path="*" element={<NativeHomeGuard />} />
       </Routes>
       ) : null}
     </HashRouter>

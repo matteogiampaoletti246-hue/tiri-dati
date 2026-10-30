@@ -3,6 +3,7 @@ import InjuryIcon from '@/components/InjuryIcon';
 import { injuryOf } from '@/data/injuries';
 import { primeKeyboard } from '@/lib/keyboard';
 import { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PanelTitle from '@/components/PanelTitle';
 import TextFilter from '@/components/TextFilter';
 import { PLAYERS } from '@/data/players';
@@ -18,6 +19,7 @@ import SelectRow from './SelectRow';
 
 // Impostazioni di base della giocata su un giocatore.
 export default function PlayerPickPanel({ form, set, player, hint, onSelectPlayer }) {
+  const navigate = useNavigate();
   const [picker, setPicker] = useState(null);
   const hitLabel = HIT_OPTIONS.find((o) => o.value === form.hitRate)?.label ?? null;
   const team = player ? teamById(player.teamId) : null;
@@ -48,22 +50,23 @@ export default function PlayerPickPanel({ form, set, player, hint, onSelectPlaye
       <PanelTitle>Giocatore</PanelTitle>
       <div className="panel relative z-10">
         {player ? (
-          <button
-            type="button"
-            onClick={() => { primeKeyboard(); setPicker('player'); }}
-            className="press flex w-full items-center gap-3 px-4 py-3.5 text-left"
+          <div
+            className="flex w-full items-center gap-3 px-4 py-3.5"
             style={{ background: team ? `linear-gradient(110deg, ${team.colors[0]}8c, ${team.colors[1]}40 70%, transparent)` : undefined, borderRadius: 'inherit', borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }}
           >
-            <PlayerFace p={player} size={56} />
-            <span className="min-w-0 flex-1">
-              <span className="flex items-center gap-1.5 text-[17px] font-extrabold"><span className="truncate">{player.name}</span>{injuryOf(player.id) ? <InjuryIcon size={17} /> : null}</span>
-              <span className="mt-0.5 flex items-center gap-1.5 text-[12.5px]" style={{ color: 'var(--ink-3)' }}>
-                {team ? <Crest team={team} size={15} /> : null}
-                <span className="truncate">{team ? team.name : player.teamName}</span>
+            {/* banner e volto aprono la scheda del giocatore; per cambiare giocatore c'e' il tasto Cambia */}
+            <button type="button" onClick={() => navigate(`/giocatore/${player.id}`)} className="press flex min-w-0 flex-1 items-center gap-3 text-left" aria-label={`Apri la scheda di ${player.name}`}>
+              <PlayerFace p={player} size={56} />
+              <span className="min-w-0 flex-1">
+                <span className="flex items-center gap-1.5 text-[17px] font-extrabold"><span className="truncate">{player.name}</span>{injuryOf(player.id) ? <InjuryIcon size={17} /> : null}</span>
+                <span className="mt-0.5 flex items-center gap-1.5 text-[12.5px]" style={{ color: 'var(--ink-3)' }}>
+                  {team ? <Crest team={team} size={15} /> : null}
+                  <span className="truncate">{team ? team.name : player.teamName}</span>
+                </span>
               </span>
-            </span>
-            <span className="text-[12px] font-bold" style={{ color: 'var(--accent)' }}>Cambia</span>
-          </button>
+            </button>
+            <button type="button" onClick={() => { primeKeyboard(); setPicker('player'); }} className="press shrink-0 rounded-full px-3.5 py-2 text-[12.5px] font-bold text-white" style={{ background: 'var(--accent)' }}>Cambia</button>
+          </div>
         ) : (
           <SelectRow
             first

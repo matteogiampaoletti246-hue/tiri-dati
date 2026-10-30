@@ -281,6 +281,8 @@ function BracketView({ data, fm, sk }) {
         ))}
       </div>
       <div ref={boxRef} className="relative mt-3 overflow-hidden" style={{ minHeight: POSTER_H + 40 }}>
+        {/* fondale come le altre pagine: luce tenue azzurra dall'alto (statica, un solo livello) */}
+        <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0" style={{ height: 460, background: 'radial-gradient(90% 100% at 50% 0%, rgba(77,168,255,.22), rgba(77,168,255,0) 72%)' }} />
         <svg ref={svgRef} className="pointer-events-none absolute left-0 top-0" width="100%" height="100%" style={{ overflow: 'visible' }}>
           <path fill="none" stroke="var(--hair)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
           <path fill="none" stroke="var(--hair)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />

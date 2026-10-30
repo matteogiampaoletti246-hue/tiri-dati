@@ -39,7 +39,7 @@ Object.entries(idx).forEach(([k, e]) => {
   const country = PAESE[e.cn] || e.cn || '';
   LEAGUES.push({ id, fm, extra: true, arch: true, cc: e.c || '', name: nameOf(e, country) || `Competizione ${fm}`, country, countryUpper: country.toUpperCase(), colors: ['#0E1626', col], tint: col, logo: `https://images.fotmob.com/image_resources/logo/leaguelogo/${fm}.png`, logoDark: `https://images.fotmob.com/image_resources/logo/leaguelogo/dark/${fm}.png` });
 });
-const TOP_SOLO = ['serie-a', 'premier-league', 'la-liga', 'bundesliga', 'ligue-1', 'pro-league', 'eredivisie', 'liga-portugal', 'super-lig', 'champions-league', 'europa-league', 'conference-league'];
+const TOP_SOLO = ['champions-league', 'europa-league', 'conference-league', 'serie-a', 'premier-league', 'la-liga', 'bundesliga', 'ligue-1', 'pro-league', 'eredivisie', 'liga-portugal', 'super-lig'];
 const OPEN = new Set(['serie-a', 'premier-league', 'la-liga', 'bundesliga', 'ligue-1', 'champions-league', 'europa-league', 'conference-league']);
 const FMLOGO = (fm) => `https://images.fotmob.com/image_resources/logo/leaguelogo/${fm}.png`;
 const solo = new Map(TOP_SOLO.map((id, k) => [id, k]));
