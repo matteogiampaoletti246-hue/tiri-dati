@@ -3,7 +3,7 @@ import usePageTab from '@/hooks/usePageTab';
 import { useEntityScope } from '@/components/past/PastBits';
 import { Navigate, useParams } from 'react-router-dom';
 import useAsync from '@/hooks/useAsync';
-import { teamFromIndex } from '@/data/teamIndex';
+import { teamFromIndex, teamPlayerHistory } from '@/data/teamIndex';
 import PageShell from '@/components/PageShell';
 import TopBar from '@/components/TopBar';
 import SwipeTabs from '@/components/SwipeTabs';
@@ -56,6 +56,9 @@ export default function Team() {
   const rosterSync = !!team && ((rp && rp.p && rp.p.length) || playersByTeam(team.id).length > 0);
   const { data: srT, loading: srL } = useAsync(() => (team && roseLoaded() && !rosterSync ? seasonRoster(team) : Promise.resolve(null)), [team && team.id, rosterSync, roseLoaded()]);
   const hasRoster = rosterSync || !!srT || srL || !roseLoaded();
+  // scheda "Giocatori" solo se la squadra ha statistiche giocatori in almeno una competizione/stagione (dati dell'app o indice tidx)
+  const { data: plH, loading: plL } = useAsync(() => (team ? teamPlayerHistory(team) : Promise.resolve(null)), [team && team.id]);
+  const hasPlayers = !team || plL || playersByTeam(team.id).some((p) => p.hasStats) || !!(plH && Object.keys(plH.seasons).length);
 
   if (team && team.id !== id) return <Navigate replace to={`/squadra/${team.id}`} />;
   if (!team && fmRoute && idxLoading) {
@@ -81,7 +84,7 @@ export default function Team() {
   const isHome = !bComp || bComp === 'all' || bComp === team.leagueId;
   const meta = <FormDots form={teamForm(team.id)} size={14} />;
   // allenatore solo se noto (mai "All. —")
-  const coach = (roseOf(team) || {}).co || (coachOf(team.id) !== '—' ? coachOf(team.id) : null);
+  const coach = (roseOf(team) || {}).co || (coachOf(team.id) !== '—' ? coachOf(team.id) : null) || (srT && srT.co) || null;
   const below = (isHome && row) || coach ? (
     <div className="flex min-w-0 items-center gap-2.5 text-[12.5px]">
       {isHome && row ? (
@@ -104,8 +107,9 @@ export default function Team() {
     wrap('22%', <TeamStatsPanel key="stats" team={team} />),
     wrap('22%', <TeamPlayersPanel key="players" team={team} />),
   ];
-  const tabs = TABS.filter((t) => t.key !== 'roster' || hasRoster);
-  const shownPanels = panels.filter((_, i) => TABS[i].key !== 'roster' || hasRoster);
+  const tabOk = (t) => (t.key !== 'roster' || hasRoster) && (t.key !== 'players' || hasPlayers);
+  const tabs = TABS.filter(tabOk);
+  const shownPanels = panels.filter((_, i) => tabOk(TABS[i]));
 
 
   return (

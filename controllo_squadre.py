@@ -67,6 +67,9 @@ report['squadre_controllate'] = tot
 # ---- rose: tutte le competizioni dell'indice, squadre della stagione in corso (una squadra conta una volta: basta una competizione con dati)
 rose = load(os.path.join(ROOT, 'rose.json')) or {}
 rose_ids = {str(v.get('id')) for v in rose.values() if v and v.get('p')}
+rosa = {}
+for i in range(100):
+    rosa.update(load(os.path.join(ROOT, 'rosa', f'{i}.json')) or {})
 app_names = {p.get('t') for p in ((load(os.path.join(ROOT, 'giocatori.json')) or {}).get('players') or [])}
 seen = {}
 for fm, e in idx.items():
@@ -96,7 +99,7 @@ for fm, e in idx.items():
         before = tid in rose_ids or name in app_names
         r = seen.setdefault(tid, {'squadra': name, 'id': tid, 'prima': False, 'dopo': False, 'comp': []})
         r['prima'] = r['prima'] or before
-        r['dopo'] = r['dopo'] or before or tid in have
+        r['dopo'] = r['dopo'] or before or tid in have or bool((rosa.get(tid) or {}).get('p'))
         r['comp'].append({'fm': int(fm), 'nome': e.get('n'), 'stagione': sk, 'giocate': tid in played})
 senza = []
 for r in seen.values():
@@ -105,6 +108,51 @@ for r in seen.values():
     senza.append({'squadra': r['squadra'], 'id': r['id'], 'competizioni': [f"{c['nome']} {c['stagione']}" for c in r['comp']][:4],
                   'motivo': "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra" if gioc else 'nessuna partita giocata nella stagione in corso'})
 report['rose'] = {'squadre': len(seen), 'senza_rosa_prima': sum(1 for r in seen.values() if not r['prima']), 'senza_rosa_dopo': len(senza), 'senza_rosa': sorted(senza, key=lambda x: x['squadra'])}
+# ---- rose per ruolo: la rosa che l'app mostra (rose.json se completa, altrimenti rosa/<id%100>.json di rose_tutte.py) ha almeno 11 giocatori e i gruppi per ruolo?
+# Prima: rose.json o, come seasonRoster, chi ha giocato (tutti nel gruppo generico "Giocatori").
+rose_by_id = {str(v.get('id')): v.get('p') or [] for v in rose.values() if v and v.get('id')}
+def poor(p): return len(p) < 11 or any(x[2] == 'UNK' for x in p)
+def no_roles(p): return not any(x[2] != 'UNK' for x in p)
+per_ruolo, prima_ko = [], 0
+for tid, r in seen.items():
+    if r['squadra'] in app_names: continue
+    old = rose_by_id.get(tid) or []
+    if poor(old): prima_ko += 1
+    p = old if not poor(old) else ((rosa.get(tid) or {}).get('p') or old)
+    if len(p) >= 11 and not no_roles(p): continue
+    gioc = any(c['giocate'] for c in r['comp'])
+    why = []
+    if len(p) < 11: why.append(f"{len(p)} giocatori: FotMob non ha la rosa e l'archivio ne conosce solo {len(p)}" if gioc else f"{len(p)} giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso")
+    if p and no_roles(p): why.append('nessun ruolo noto: FotMob senza rosa, formazioni e schede giocatore senza posizione')
+    per_ruolo.append({'squadra': r['squadra'], 'id': tid, 'giocatori': len(p), 'competizioni': [f"{c['nome']} {c['stagione']}" for c in r['comp']][:3], 'motivo': why})
+report['rose_per_ruolo'] = {'squadre': len(seen), 'prima': prima_ko, 'dopo': len(per_ruolo), 'giocate_dopo': sum(1 for x in per_ruolo if 'nessuna partita' not in ' '.join(x['motivo'])), 'elenco': sorted(per_ruolo, key=lambda x: (x['giocatori'], x['squadra']))}
+print('rose per ruolo:', len(seen), 'squadre,', prima_ko, 'incomplete prima,', len(per_ruolo), 'dopo')
+# ---- statistiche giocatori nel pannello Giocatori della squadra, per ogni competizione giocata (tidx, colonne 3-4 di squadre_indice.py).
+# Prima: tutte le competizioni diverse dal campionato della squadra mostravano solo una frase. Dopo: si mostrano le statistiche, e le competizioni
+# senza dati non sono in tendina; squadra senza nessuna statistica = niente scheda Giocatori.
+tutte = {}
+for f in os.listdir(os.path.join(ROOT, 'tidx')):
+    if f.endswith('.json'): tutte.update(load(os.path.join(ROOT, 'tidx', f)) or {})
+coppie = con_frase = nascoste = frase_con_dati = 0
+sq_frase, sq_nessuna = set(), []
+for tid, e in tutte.items():
+    rows = [x for x in e[1:] if isinstance(x, list) and len(x) > 1]
+    lega = sorted((x for x in rows if (idx.get(str(x[0])) or {}).get('type') != 'cup' and (idx.get(str(x[0])) or {}).get('c') != 'INT'), key=lambda x: x[1][0], reverse=True)
+    lega = lega[0][0] if lega else None
+    okc = 0
+    for x in rows:
+        coppie += 1
+        no = x[2] if len(x) > 2 else []
+        if len(no) >= len(x[1]): nascoste += 1
+        else: okc += 1
+        if x[0] != lega:
+            con_frase += 1
+            sq_frase.add(tid)
+            if len(no) < len(x[1]): frase_con_dati += 1
+    if not okc: sq_nessuna.append({'squadra': e[0], 'id': tid})
+report['giocatori_competizioni'] = {'squadre': len(tutte), 'coppie_squadra_competizione': coppie, 'con_frase_prima': con_frase, 'squadre_con_frase_prima': len(sq_frase), 'con_frase_e_dati_ora_visibili': frase_con_dati, 'con_frase_dopo': 0,
+                                    'competizioni_senza_dati_tolte_dalla_tendina': nascoste, 'squadre_senza_scheda_giocatori': len(sq_nessuna), 'senza_scheda': sq_nessuna[:300]}
+print('giocatori:', con_frase, 'competizioni con la frase prima su', coppie, '(', len(sq_frase), 'squadre ), 0 dopo;', nascoste, 'senza dati tolte dalla tendina;', len(sq_nessuna), 'squadre senza scheda Giocatori')
 # ---- partite della stagione in corso (pannello Partite) e forma recente (Panoramica pre-partita), per tutte le squadre.
 # Prima: l'app mostrava solo le partite in memoria (competizioni dell'app); le competizioni d'archivio mancavano.
 # Dopo: si aggiungono le competizioni della stagione in corso dall'indice tidx (+ campionato della squadra); la forma unisce le stesse fonti.

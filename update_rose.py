@@ -4,7 +4,7 @@
   2) se FotMob non da' la rosa: giocatori che hanno giocato nella stagione (archivio arch/<lega>/<stagione>_s.json, ruolo sconosciuto "UNK");
   3) se manca ancora e c'e' API_FOOTBALL_KEY: rosa da API-Football (ricerca per nome, con un tetto di richieste).
 
-{nome squadra nell'app: {"id": id FotMob, "co": allenatore, "p": [[id, nome, ruolo(GK/DEF/MID/ATT), maglia, paese, eta, altezza, voto, gol, assist, infortunato], ...]}}
+{nome squadra nell'app: {"id": id FotMob, "co": allenatore, "ci": id allenatore, "p": [[id, nome, ruolo(GK/DEF/MID/ATT), maglia, paese, eta, altezza, voto, gol, assist, infortunato], ...]}}
 Lanciare ogni giorno: e' leggero (una chiamata per squadra)."""
 import json, os, re, time, unicodedata, urllib.request, urllib.parse
 from concurrent.futures import ThreadPoolExecutor
@@ -141,7 +141,7 @@ def squad_of(tid):
     for g in sq:
         t0 = g.get("title")
         if t0 == "coach":
-            co = (g.get("members") or [{}])[0].get("name")
+            co = (g.get("members") or [{}])[0]
             continue
         if t0 not in GRP:
             continue
@@ -198,7 +198,7 @@ def fill_missing(res):
                     src = "api-football" if rows else None
             if rows is None:
                 continue
-            res[nm] = {"id": int(tid), "co": co, "lg": lg, "p": rows, "src": src}
+            res[nm] = {"id": int(tid), "co": (co or {}).get("name"), "ci": (co or {}).get("id"), "lg": lg, "p": rows, "src": src}
     return res
 
 
@@ -229,18 +229,18 @@ def main():
             key = mine.get(norm(tname))
             if not key:
                 key = next((v for k, v in mine.items() if k and (k in norm(tname) or norm(tname) in k) and reserve_tag(v) == reserve_tag(tname)), tname)
-            rows, co = [], None
+            rows, co = [], {}
             for g in sq:
                 t0 = g.get("title")
                 if t0 == "coach":
-                    co = (g.get("members") or [{}])[0].get("name")
+                    co = (g.get("members") or [{}])[0]
                     continue
                 if t0 not in GRP:
                     continue
                 for m in g.get("members") or []:
                     rows.append([m.get("id"), m.get("name"), GRP[t0], m.get("shirtNumber"), m.get("cname"), m.get("age"), num(m.get("height")),
                                  num(m.get("rating")), m.get("goals") or 0, m.get("assists") or 0, 1 if m.get("injury") else 0])
-            res[key] = {"id": tid, "co": co, "lg": lg, "p": [] if lg in COACH_ONLY else rows}
+            res[key] = {"id": tid, "co": co.get("name"), "ci": co.get("id"), "lg": lg, "p": [] if lg in COACH_ONLY else rows}
             v = venue_of(t)
             if v:
                 res[key]["v"] = v

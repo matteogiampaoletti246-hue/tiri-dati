@@ -398,6 +398,16 @@ export const loadPlayerStats = async (lid, sk) => {
   if (st && st.players && Object.keys(st.players).length) return st;
   return statsFromMatches(lid, sk);
 };
+// statistiche giocatori per il pannello di una squadra: le classifiche ufficiali hanno solo i primi di ogni voce (una squadra piccola puo' non esserci
+// o avere pochi nomi), quindi sotto 11 giocatori si guardano anche quelle calcolate dalle partite e vale la fonte con piu' giocatori della squadra
+export const loadTeamPlayerStats = async (lid, sk, tid) => {
+  const count = (s) => { const ids = new Set(); Object.entries((s && s.players) || {}).forEach(([k, l]) => { if (!k.startsWith('_')) (l || []).forEach((r) => { if (String(r[2]) === String(tid)) ids.add(String(r[0])); }); }); return ids.size; };
+  const st = await loadSeasonStats(lid, sk).catch(() => null);
+  const n = count(st);
+  if (n >= 11) return st;
+  const fm = await statsFromMatches(lid, sk).catch(() => null);
+  return count(fm) > n ? fm : st;
+};
 // campionati con storico completo; gli altri hanno statistiche solo dal 2020
 const TOP20 = new Set([47, 87, 55, 54, 53, 57, 61, 48, 86, 146, 71, 40, 64, 268, 112, 130, 230, 38, 59, 135, 42, 73, 10216]);
 export const noStats = (fm, sk) => !TOP20.has(Number(fm)) && Number(String(sk).slice(0, 4)) < 2020;

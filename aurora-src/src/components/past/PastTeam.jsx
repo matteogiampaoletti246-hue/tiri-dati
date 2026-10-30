@@ -2,7 +2,8 @@ import { useState } from 'react';
 import useAsync from '@/hooks/useAsync';
 import TextFilter from '@/components/TextFilter';
 import StatLists from '@/components/stats/StatLists';
-import { loadSeason, loadSeasonStats, loadPlayerStats, teamPartStats, teamIdByName, seasonLabel } from '@/data/archive';
+import { loadSeason, loadTeamPlayerStats, statsFromMatches, teamPartStats, teamIdByName, seasonLabel } from '@/data/archive';
+import { teamFmId } from '@/data/teamIndex';
 import { Link } from 'react-router-dom';
 import Crest from '@/components/Crest';
 import { comma } from '@/lib/format';
@@ -17,7 +18,9 @@ const Msg = ({ children }) => <p className="px-5 py-14 text-center text-[13px]" 
 
 function useTeamSeason(fm, sk, team) {
   const { data: season, loading } = useAsync(() => loadSeason(fm, sk), [fm, sk]);
-  const tid = season ? teamIdByName(season.teams, team.name) : null;
+  // prima l'id FotMob (squadre fm-<id>, nomi diversi tra fonti), poi il nome
+  const fid = teamFmId(team);
+  const tid = season ? (fid && season.teams && season.teams[fid] ? String(fid) : teamIdByName(season.teams, team.name)) : null;
   return { season, tid, loading };
 }
 
@@ -105,14 +108,31 @@ export function PastTeamStandings({ fm, sk, team }) {
   return <StandingsPanel season={season} fm={fm} sk={sk} highlight={tid} />;
 }
 
-export function PastTeamPlayers({ fm, sk, team }) {
-  const [mode, setMode] = useState('tot');
+// Pillole del pannello Giocatori: Totale/Casa/Trasferta (Casa/Trasferta solo se la stagione ha le partite con i giocatori), Ogni 90', categorie.
+const PARTS = [{ value: 'tot', label: 'Totale' }, { value: 'home', label: 'Casa' }, { value: 'away', label: 'Trasferta' }, { value: 'p90', label: "Ogni 90'" }];
+const CATS = [{ value: 'all', label: 'Tutte' }, { value: 'Attacco', label: 'Attacco' }, { value: 'Difesa', label: 'Difesa' }, { value: 'Disciplina', label: 'Disciplina' }, { value: 'Gioco', label: 'Gioco' }];
+export const playerCat = (g) => (['Attacco', 'Difesa', 'Disciplina'].includes(g) ? g : 'Gioco');
+export function PlayerPills({ part, onPart, cat, onCat, split, has }) {
+  const cats = CATS.filter((c) => c.value === 'all' || has.includes(c.value));
+  return (
+    <div className="flex flex-col gap-2" data-no-swipe="true">
+      <TextFilter options={split ? PARTS : PARTS.filter((p) => p.value === 'tot' || p.value === 'p90')} value={part} onChange={onPart} />
+      {cats.length > 2 ? <TextFilter options={cats} value={cats.some((c) => c.value === cat) ? cat : 'all'} onChange={onCat} /> : null}
+    </div>
+  );
+}
+
+export function PastTeamPlayers({ fm, sk, team, part, onPart, cat, onCat, split }) {
   const col = useTeamColors();
   const { tid, loading, season } = useTeamSeason(fm, sk, team);
-  const { data: stats, loading: l2 } = useAsync(() => loadPlayerStats(fm, sk), [fm, sk]);
-  if (loading || l2) return <Msg>Carico la stagione {seasonLabel(sk)}…</Msg>;
-  if (!season || !tid) return <Msg>{team.name} non ha giocato questo campionato nel {seasonLabel(sk)}</Msg>;
-  const sections = statSections(stats, 'players', season.teams || {}, col, fm, sk, mode, tid);
-  if (!sections.length) return null;
-  return <StatLists sections={sections} controls={<TextFilter options={[{ value: 'tot', label: 'Totale' }, { value: 'p90', label: "Ogni 90'" }]} value={mode} onChange={setMode} />} />;
+  const byMatch = part === 'home' || part === 'away';
+  const { data: stats, loading: l2 } = useAsync(() => (!tid ? Promise.resolve(null) : byMatch ? statsFromMatches(fm, sk, part) : loadTeamPlayerStats(fm, sk, tid)), [fm, sk, tid, part]);
+  // cambiando pillola restano visibili i dati di prima finche' arrivano i nuovi: nessun salto
+  if (loading || (l2 && !stats)) return <Msg>Carico la stagione {seasonLabel(sk)}…</Msg>;
+  if (!season || !tid) return null;
+  const secs = statSections(stats, 'players', season.teams || {}, col, fm, sk, part === 'p90' ? 'p90' : 'tot', tid);
+  const has = [...new Set(secs.map((x) => playerCat(x.group)))];
+  const sections = cat === 'all' || !has.includes(cat) ? secs : secs.filter((x) => playerCat(x.group) === cat);
+  if (!sections.length && part === 'tot') return null;
+  return <StatLists wide sections={sections} controls={<PlayerPills part={part} onPart={onPart} cat={cat} onCat={onCat} split={split} has={has} />} />;
 }

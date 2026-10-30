@@ -1553,6 +1553,49 @@ await step('rose: squadra minore con la rosa dalla stagione, nessun pannello vuo
   report.rose = ctl && ctl.rose ? { prima: ctl.rose.senza_rosa_prima, dopo: ctl.rose.senza_rosa_dopo } : null;
 });
 
+await step('rose per ruolo: Van (FotMob senza rosa) e Ararat Armenia con Portieri/Difensori/Centrocampisti/Attaccanti e Allenatore', async () => {
+  for (const [id, name, coach] of [['fm-1078400', 'Van', false], ['fm-866109', 'Ararat Armenia', true]]) {
+    await go(`#/squadra/${id}`, 6000); await ready();
+    await tabClick('Squadra'); await wait(3000);
+    const r = await pg.evaluate(() => ({ t: document.querySelector('#sl-shell').innerText, n: [...document.querySelectorAll('#sl-shell section b')].map((b) => b.textContent.trim().toLowerCase()), rows: [...document.querySelectorAll('#sl-shell section .avatar')].filter((x) => x.getBoundingClientRect().height > 0).length }));
+    ok(`rose: ${name} divisa per ruolo`, ['portieri', 'difensori', 'centrocampisti', 'attaccanti'].every((g) => r.n.includes(g)), { gruppi: r.n });
+    ok(`rose: ${name} almeno 11 giocatori`, r.rows >= 11, { rows: r.rows });
+    ok(`rose: ${name} nessun gruppo generico "Giocatori" al posto dei ruoli`, !r.n.includes('giocatori') || r.n.includes('difensori'), { gruppi: r.n });
+    if (coach) ok(`rose: ${name} con l'allenatore`, r.n.includes('allenatore'), { gruppi: r.n });
+    await shot(`rosa-ruoli-${id}`);
+  }
+});
+
+await step('giocatori squadra: Ararat Armenia in Europa League ha le classifiche, mai la frase sul campionato', async () => {
+  await go('#/squadra/fm-866109', 6000); await ready();
+  await tabClick('Giocatori'); await wait(3500);
+  await pg.evaluate(() => { const b = [...document.querySelectorAll('#sl-shell button')].find((x) => { const r = x.getBoundingClientRect(); return r.height > 0 && r.left >= 0 && r.right <= innerWidth && /Premier League|Europa League/.test(x.textContent); }); if (b) b.click(); });
+  await wait(700);
+  const scelta = await pg.evaluate(() => { const l = document.querySelector('[data-pop-scroll]'); const b = l && [...l.querySelectorAll('button')].find((x) => /Europa League/.test(x.textContent)); if (b) { b.click(); return true; } return false; });
+  ok('giocatori: Europa League nella tendina', scelta);
+  await wait(4000);
+  const t = await pg.evaluate(() => document.querySelector('#sl-shell').innerText);
+  const n = await pg.evaluate(() => [...document.querySelectorAll('#sl-shell a[href*="giocatore"]')].filter((a) => a.getBoundingClientRect().height > 0).length);
+  ok('giocatori: Ararat Armenia in Europa League con le classifiche', n >= 3, { n });
+  ok('giocatori: niente frase "disponibili per il campionato"', !/disponibili per il campionato/i.test(t) && !ND.test(t));
+  ok('giocatori: pillole Totale e categorie', /Totale/.test(t) && /Attacco/.test(t) && /Tutte/.test(t));
+  await shot('giocatori-ararat-europa-league');
+});
+
+await step('giocatori squadra: le tendine elencano solo competizioni con dati, squadra senza dati senza scheda', async () => {
+  const shard = await getJson('tidx/9.json');
+  const rows = Object.entries(shard || {});
+  const none = rows.find(([, e]) => e.slice(1).length && e.slice(1).every((x) => (x[2] || []).length >= x[1].length));
+  if (none) {
+    await go(`#/squadra/fm-${none[0]}`, 6000); await ready();
+    const tabs = await pg.evaluate(() => [...document.querySelectorAll('.tab-btn')].map((x) => x.textContent.trim()));
+    ok('giocatori: squadra senza statistiche = niente scheda Giocatori', tabs.length > 0 && !tabs.includes('Giocatori'), { squadra: none[1][0], tabs });
+  }
+  const ctl = await getJson('controllo_squadre.json');
+  report.rosePerRuolo = ctl && ctl.rose_per_ruolo ? { prima: ctl.rose_per_ruolo.prima, dopo: ctl.rose_per_ruolo.dopo } : null;
+  report.giocatoriComp = ctl && ctl.giocatori_competizioni ? { frasePrima: ctl.giocatori_competizioni.con_frase_prima, senzaScheda: ctl.giocatori_competizioni.squadre_senza_scheda_giocatori } : null;
+});
+
 await step('partite squadra: stagione in corso anche dalle competizioni d\'archivio (Atletico Madrileno)', async () => {
   await go('#/squadra/fm-161759', 6000); await ready();
   await pg.waitForFunction(() => document.querySelectorAll('#sl-shell [data-key]').length > 0, null, { timeout: 20000 }).catch(() => {});

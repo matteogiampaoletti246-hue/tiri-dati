@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import FlagDot from '@/components/FlagDot';
 import { loadCarriere, carriereOf, countryIt, ageOf } from '@/data/carriere';
 import { playersByTeam } from '@/data/players';
-import { loadRose, roseOf, seasonRoster } from '@/data/rose';
+import { loadRose, roseOf, rosePoor, seasonRoster } from '@/data/rose';
 import { FM_ID, currentSeason, playerFace } from '@/data/archive';
 import { archiveId } from '@/data/archivePlayer';
 import useAsync from '@/hooks/useAsync';
@@ -20,6 +20,23 @@ const GROUPS = [
   { key: 'ATT', title: 'Attaccanti', color: '#EF5B5B', pos: ['WNG', 'ATT'] },
   { key: 'UNK', title: 'Giocatori', color: '#8EA0BD', pos: ['UNK'] }, // ruolo non fornito dalla fonte (rosa ricavata dalle presenze)
 ];
+
+// Allenatore: ultimo gruppo della rosa, stessa riga dei giocatori.
+const COACH = '#B48CFF';
+function CoachSection({ name, id, team }) {
+  return (
+    <section className="glass overflow-hidden rounded-[22px]" style={{ borderLeft: `3px solid ${COACH}` }}>
+      <div className="flex items-center px-4 py-2.5" style={{ background: `${COACH}1f` }}>
+        <b className="text-[12.5px] uppercase tracking-[.07em]" style={{ color: COACH }}>Allenatore</b>
+      </div>
+      <div className="h-1.5" />
+      <div className="mx-2 mb-1.5 flex items-center gap-3 rounded-[18px] px-3 py-2" style={{ background: teamGrad(team, 0x55) }}>
+        <span className="avatar h-[38px] w-[38px] text-[11px]"><PlayerPhoto src={id ? playerFace(id) : null} alt={name} /></span>
+        <span className="block min-w-0 flex-1 truncate text-[14px] font-bold">{name}</span>
+      </div>
+    </section>
+  );
+}
 
 // Rosa della squadra divisa per ruolo.
 export default function TeamRosterPanel({ teamId }) {
@@ -38,9 +55,15 @@ export default function TeamRosterPanel({ teamId }) {
   const fmR = rose ? FM_ID[rose.lg] : null;
   const { data: skR0 } = useAsync(() => (fmR ? currentSeason(fmR) : Promise.resolve(null)), [fmR]);
   // nessuna rosa (rose.json vuota o squadra di una competizione dell'archivio) e nessun giocatore dell'app: chi ha giocato la stagione in corso
-  const noRose = !(rose && rose.p && rose.p.length) && !all.length;
-  const { data: sr } = useAsync(() => (noRose && team ? seasonRoster(team) : Promise.resolve(null)), [noRose, teamId]);
-  const R = rose && rose.p && rose.p.length ? { p: rose.p, fm: fmR, sk: skR0 } : noRose && sr ? sr : null;
+  // anche con rose.json insufficiente (pochi giocatori o senza ruoli): si guarda la rosa completa di rosa/
+  const noRose = (!(rose && rose.p && rose.p.length) || rosePoor(rose)) && !all.length;
+  // allenatore e rosa completa si leggono sempre da rosa/ quando rose.json non ha la squadra
+  const { data: sr } = useAsync(() => ((noRose || !(rose && rose.co)) && team ? seasonRoster(team) : Promise.resolve(null)), [noRose, teamId]);
+  const roseOk = rose && rose.p && rose.p.length;
+  const srBetter = noRose && sr && (!roseOk || (sr.p.length >= rose.p.length && sr.p.some((x) => x[2] !== 'UNK')));
+  const R = srBetter ? { ...sr, fm: sr.fm || fmR, sk: sr.sk || skR0 } : roseOk ? { p: rose.p, fm: fmR, sk: skR0 } : null;
+  const coachName = (rose && rose.co) || (sr && sr.co) || null;
+  const coachId = (rose && rose.ci) || (sr && sr.ci) || null;
   const skR = R && R.sk;
   if (R) {
     const fmR2 = R.fm;
@@ -57,8 +80,10 @@ export default function TeamRosterPanel({ teamId }) {
             <div className="h-1.5" />
             {g.list.map((r) => {
               const bits = [r[4] ? countryIt(r[4]) : null, r[6] ? `${r[6]} cm` : null, r[5] ? `${r[5]} anni` : null].filter(Boolean);
+              const to = mine[nk(r[1])] ? `/giocatore/${mine[nk(r[1])].id}` : skR && fmR2 && r[0] > 0 ? `/giocatore/${archiveId(fmR2, skR, r[0])}` : null;
+              const Row = to ? Link : 'div'; // giocatore di una fonte esterna senza id FotMob: riga senza collegamento
               return (
-                <Link key={r[0]} to={mine[nk(r[1])] ? `/giocatore/${mine[nk(r[1])].id}` : skR && r[0] > 0 ? `/giocatore/${archiveId(fmR2, skR, r[0])}` : '#'} className="press mx-2 mb-1.5 flex items-center gap-3 rounded-[18px] px-3 py-2" style={{ background: teamGrad(team, 0x55) }}>
+                <Row key={r[0]} {...(to ? { to } : {})} className="press mx-2 mb-1.5 flex items-center gap-3 rounded-[18px] px-3 py-2" style={{ background: teamGrad(team, 0x55) }}>
                   <span className="avatar h-[38px] w-[38px] text-[11px]">
                     <PlayerPhoto src={playerFace(r[0])} alt={r[1]} />
                   </span>
@@ -66,11 +91,12 @@ export default function TeamRosterPanel({ teamId }) {
                     <span className="block truncate text-[14px] font-bold">{r[3] ? <span style={{ color: 'var(--accent)' }}>{r[3]} </span> : null}{r[1]}{r[10] ? <> <InjuryIcon size={15} /></> : null}</span>
                     {bits.length ? <span className="flex items-center gap-1.5 text-[11px]" style={{ color: 'var(--ink-3)' }}>{r[4] ? <FlagDot name={r[4]} size={14} /> : null}<span className="min-w-0 truncate">{bits.join(' · ')}</span></span> : null}
                   </span>
-                </Link>
+                </Row>
               );
             })}
           </section>
         ))}
+        {coachName ? <CoachSection name={coachName} id={coachId} team={team} /> : null}
       </div>
     );
   }
@@ -106,6 +132,7 @@ export default function TeamRosterPanel({ teamId }) {
           ))}
         </section>
       ))}
+      {coachName ? <CoachSection name={coachName} id={coachId} team={team} /> : null}
     </div>
   );
 }

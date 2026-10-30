@@ -28,8 +28,10 @@ const METRICS = [
 const NEGK = ['foulsC', 'yel', 'red', 'off'];
 const fmt = (v) => (Number.isInteger(v) ? String(v) : comma(v, 2));
 
-export default function LeaguePlayersPanel({ leagueId, teamId }) {
-  const [mode, setMode] = useState('tot');
+// Dal pannello squadra arrivano modalita', categoria e pillole; nel campionato le pillole restano qui.
+export default function LeaguePlayersPanel({ leagueId, teamId, mode: modeP, cat = 'all', catOf, renderControls }) {
+  const [mode0, setMode] = useState('tot');
+  const mode = modeP || mode0;
   const ids = new Set(teamsOf(leagueId).map((t) => t.id));
   // classifiche del campionato: tutti i giocatori con almeno 180 minuti (regola fissa); nella squadra tutti quelli che hanno giocato
   const pool = PLAYERS.filter((p) => (teamId ? p.teamId === teamId : ids.has(p.teamId) && p.minutes >= 180) && p.hasStats);
@@ -77,10 +79,12 @@ export default function LeaguePlayersPanel({ leagueId, teamId }) {
       }));
     if (rows.length) sections.push({ id: m.key, group: m.group, title: mode === 'p90' ? `${m.label} / 90'` : m.label, rows });
   });
+  const has = catOf ? [...new Set(sections.map((s) => catOf(s.group)))] : [];
   return (
     <StatLists
-      sections={sections}
-      controls={<TextFilter options={[{ value: 'tot', label: 'Totale' }, { value: 'p90', label: "Ogni 90'" }]} value={mode} onChange={setMode} />}
+      wide={!!renderControls}
+      sections={catOf && cat !== 'all' && has.includes(cat) ? sections.filter((s) => catOf(s.group) === cat) : sections}
+      controls={renderControls ? renderControls(has) : <TextFilter options={[{ value: 'tot', label: 'Totale' }, { value: 'p90', label: "Ogni 90'" }]} value={mode} onChange={setMode} />}
     />
   );
 }

@@ -1,6 +1,7 @@
 // Rose dei campionati minori (rose.json, scaricate da FotMob): stessi ruoli e stesse righe dei campionati maggiori.
 import { BASE } from './load';
 import { sameSquad } from './teamMatch';
+import { lruGet, lruSet } from '@/lib/lru';
 
 let DATA = null;
 let PROM = null;
@@ -45,6 +46,23 @@ export const rosePlayer = (fid) => {
   return IDX[String(fid)] || null;
 };
 
+// Rose di tutte le squadre dell'indice (rosa/<id%100>.json, rose_tutte.py): per ruolo, con allenatore. Capienza fissa.
+const RS = new Map();
+const rosaShard = (n) => {
+  const hit = lruGet(RS, n);
+  if (hit) return hit;
+  const p = fetch(`${BASE}rosa/${n}.json`).then((r) => (r.ok ? r.json() : {})).catch(() => ({}));
+  lruSet(RS, n, p, 12);
+  return p;
+};
+export const rosaOf = async (team) => {
+  const fid = team && (team.fmId || (/teamlogo\/(\d+)\.png/.exec(String(team.crest || '')) || [])[1]);
+  if (!fid) return null;
+  return (await rosaShard(Number(fid) % 100))[String(fid)] || null;
+};
+// rose.json insufficiente: pochi giocatori o senza ruoli (si cerca quella completa)
+export const rosePoor = (r) => { const p = (r && r.p) || []; return p.length < 11 || p.some((x) => x[2] === 'UNK'); };
+
 // Rosa ricavata dalla stagione in corso quando la squadra non e' in rose.json (squadre delle competizioni dell'archivio, squadre B,
 // rose vuote): chi ha giocato la stagione per quella squadra, da tutte le fonti dell'archivio insieme (molte competizioni minori hanno
 // solo alcune di queste): minuti e formazioni delle partite, classifiche ufficiali della stagione (pannello Giocatori), gol e cartellini.
@@ -52,9 +70,11 @@ export const rosePlayer = (fid) => {
 export const seasonRoster = async (team) => {
   const { FM_ID, currentSeason, loadSeason, loadSeasonStats, loadSeasonMatches, statsFromMatches, teamIdByName } = await import('./archive');
   const fm = team && FM_ID[team.leagueId];
-  if (!fm) return null;
-  const sk = await currentSeason(fm);
-  if (!sk) return null;
+  const R = await rosaOf(team);
+  const sk = fm ? await currentSeason(fm) : null;
+  // prima la rosa scaricata (per ruolo); le competizioni servono solo per aprire i giocatori
+  if (R && R.p && R.p.length) return { fm, sk, p: R.p, co: R.co, ci: R.ci };
+  if (!fm || !sk) return null;
   const safe = (p) => p.catch(() => null);
   const [season, st, off, det] = await Promise.all([safe(loadSeason(fm, sk)), safe(statsFromMatches(fm, sk)), safe(loadSeasonStats(fm, sk)), safe(loadSeasonMatches(fm, sk))]);
   const tid = String((season && teamIdByName(season.teams, team.name)) || team.fmId || '');
@@ -79,5 +99,5 @@ export const seasonRoster = async (team) => {
     const sd = sides[mid];
     if (sd) (m.e || []).forEach((e) => { if (e && Array.isArray(e.p) && (e.isHome ? sd[0] : sd[1]) === tid) add(e.p[0], e.p[1]); });
   });
-  return out.size ? { fm, sk, p: [...out.values()] } : null;
+  return out.size ? { fm, sk, p: [...out.values()], co: R && R.co, ci: R && R.ci } : null;
 };

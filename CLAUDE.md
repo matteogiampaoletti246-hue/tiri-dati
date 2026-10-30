@@ -210,6 +210,16 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 - Fonti in ordine: `rose.json` (id FotMob), giocatori dell'app, poi `seasonRoster` (`data/rose.js`): chi ha giocato la stagione in corso per quella squadra (minuti e formazioni delle partite, classifiche ufficiali dei giocatori, gol e cartellini), gruppo "Giocatori". Nessuna fonte = niente scheda Squadra (`Team.jsx`). Foto sempre con `PlayerPhoto`.
 - Controllo: `rose` in `controllo_squadre.json` (squadre senza rosa e motivo, prima/dopo).
 
+## Rose di tutte le squadre, per ruolo (regola fissa)
+- `rose_tutte.py` (workflow `rose.yml`) -> `rosa/<id%100>.json`: tutte le squadre di `tidx`, non solo quelle di `rose.json`. Fonti in ordine: FotMob; archivio (chi ha giocato l'ultima stagione); LiveScore (la ricerca da' lo stemma `enet/<id FotMob>.png`: squadra certa per id); OneFootball (stesso nome e paese, una sola squadra); API-Football. Righe esterne ricordate in `rosa/_esterne.json`, unite per nome (`same_person`); id FotMob ritrovato con la ricerca FotMob solo se il giocatore e' in quella squadra, altrimenti id negativo: riga senza collegamento e sagoma.
+- Ruolo mai indovinato: rosa della fonte, posizione piu' usata (righe delle classifiche `r[6]` e formazioni `st`, solo le posizioni con un ruolo chiaro, `POS_ROLE`), rosa FotMob di un'altra squadra, scheda FotMob del giocatore (`rosa/_ruoli.json`). Senza nessuna = "Giocatori".
+- App: `seasonRoster` legge prima `rosa/` (`rosaOf`, capienza fissa); `rose.json` con meno di 11 giocatori o ruoli mancanti (`rosePoor`) cede il posto a `rosa/`. Ultimo gruppo: Allenatore (`CoachSection`). Controllo: `rose_per_ruolo` in `controllo_squadre.json`. Prova: "rose per ruolo: Van...".
+
+## Giocatori della squadra: ogni competizione giocata (regola fissa)
+- `TeamPlayersPanel`: competizioni e stagioni solo con statistiche giocatori della squadra (`useTeamView(..., { hasApp })`, `teamPlayerHistory`, colonne 3-4 di `tidx`: stagioni senza statistiche e senza Casa/Trasferta). Senza nessuna: niente scheda Giocatori (`Team.jsx`). Mai una frase al posto dei dati.
+- Fonte: `loadTeamPlayerStats` (classifiche ufficiali; sotto 11 giocatori della squadra vale la fonte con piu' giocatori tra ufficiali e `statsFromMatches`). Campionato dell'app in corso: `LeaguePlayersPanel`, Casa/Trasferta dalle partite.
+- Pillole `PlayerPills` uguali ovunque: Totale/Casa/Trasferta/Ogni 90' e Tutte/Attacco/Difesa/Disciplina/Gioco (solo le categorie con dati). Controllo: `giocatori_competizioni` in `controllo_squadre.json`. Prova: "giocatori squadra: Ararat Armenia...".
+
 ## Partite squadra: stagione in corso da tutte le competizioni
 - "Attuale" = partite in memoria + calendario archiviato della stagione in corso di ogni competizione giocata quest'anno (indice `tidx` + campionato della squadra, `archCurrent` in `TeamMatchesPanel.jsx`, righe `ArchRow`); un giorno gia' presente non si ripete. Controllo: `partite_stagione` in `controllo_squadre.json`.
 

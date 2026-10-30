@@ -6,7 +6,7 @@ import { ChevronDown, ListTree, X } from 'lucide-react';
 
 // Classifiche impilate (una per statistica) con il tasto "Vai a" per saltare a quella che serve.
 // sections: [{ id, group, title, rows: [{ id, to, left, name, sub, value }] }]
-export default function StatLists({ sections, controls = null, limit = 8 }) {
+export default function StatLists({ sections, controls = null, limit = 8, wide = false }) {
   const [sheet, setSheet] = useState(false);
   useModalLock(sheet);
   const [open, setOpen] = useState({});
@@ -85,7 +85,7 @@ export default function StatLists({ sections, controls = null, limit = 8 }) {
     <div ref={rootRef} className="pb-6 pt-2">
       <div className="flex items-center gap-3 px-4">
         <div className="min-w-0 flex-1">{controls}</div>
-        <span aria-hidden="true" className="h-[38px] w-[78px] shrink-0" />
+        {wide ? null : <span aria-hidden="true" className="h-[38px] w-[78px] shrink-0" />}
       </div>
 
       {sections.slice(0, lim).map((s) => {

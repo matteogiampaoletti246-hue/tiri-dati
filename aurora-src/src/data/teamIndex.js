@@ -50,3 +50,28 @@ export const teamHistory = (team) => {
   }
   return MEM[fid];
 };
+
+// Solo le stagioni con statistiche giocatori (terza colonna di tidx: senza statistiche; quarta: senza Casa/Trasferta).
+// { seasons: {lid -> stagioni}, no: {lid -> stagioni senza}, noSplit: {lid -> stagioni senza Casa/Trasferta} }; null se la squadra non e' nell'indice
+const MEMP = {};
+export const teamPlayerHistory = (team) => {
+  const fid = teamFmId(team);
+  if (!fid) return Promise.resolve(null);
+  if (!MEMP[fid]) {
+    MEMP[fid] = shard(Number(fid) % 100).then((d) => {
+      const e = d && d[String(fid)];
+      if (!e) return null;
+      const out = { seasons: {}, no: {}, noSplit: {} };
+      e.slice(1).forEach(([fm, sks, no = [], noSplit = []]) => {
+        const lid = LID_BY_FM[fm];
+        if (!lid || !leagueById(lid)) return;
+        const ok = sks.filter((s) => !no.includes(s));
+        if (ok.length) out.seasons[lid] = ok;
+        out.no[lid] = no;
+        out.noSplit[lid] = noSplit;
+      });
+      return out;
+    });
+  }
+  return MEMP[fid];
+};

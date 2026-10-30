@@ -4,7 +4,7 @@ name: Anteprima app (iPhone)
 # I controlli si dividono tra 2 job in parallelo (SHARD/NSHARD in preview.mjs): stessi controlli, meta' del tempo.
 on:
   push:
-    branches: [dev]
+    branches: [dev, rose-stat]
     paths:
       - aurora-src/**
       - .github/webkit/preview.mjs
