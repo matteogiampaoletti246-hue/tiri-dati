@@ -41,6 +41,8 @@ let GLIDE = false;
 const BUILT = new Map();
 // giorni con almeno le prime finestre montate (quanto serve per vederli durante lo scorrimento)
 const BUILT_FIRST = new Map();
+// giorno aperto (per sapere quali giorni montati sono solo vicini)
+const CENTER = { iso: null };
 // aggiornamenti dalla rete: mai mentre il dito e' sullo schermo o il giorno sta scorrendo (si ridisegna appena la pagina e' ferma)
 const later = (fn) => { const go = () => { if (TOUCHING || GLIDE) setTimeout(go, 200); else fn(); }; go(); };
 
@@ -114,13 +116,19 @@ function DayPaneBody({ iso, filter, ver, lead, need }) {
   // richiesto (inizio swipe): il numero richiesto resta montato anche quando la richiesta finisce
   useEffect(() => { if (need && cnt < need) setCnt(need); }, [need, cnt]);
   // un giorno che non e' piu' quello aperto torna alle prime finestre quando ci si ferma: i nodi non crescono con gli swipe
+  // (lo dice la Home con un evento: un giorno gia' completo non si ridisegna, quindi non puo' accorgersene da solo)
+  const needRef = useRef(0);
+  needRef.current = need || 0;
   useEffect(() => {
-    if (lead || need || cnt <= FIRST) return undefined;
     let id;
-    const go = () => { if (TOUCHING || GLIDE) { id = setTimeout(go, 400); return; } setCnt(FIRST); };
-    id = setTimeout(go, 700);
-    return () => clearTimeout(id);
-  }, [lead, need, cnt]);
+    const run = () => {
+      if (TOUCHING || GLIDE) { id = setTimeout(run, 400); return; }
+      if (iso !== CENTER.iso && !needRef.current) setCnt((c) => (c > FIRST ? FIRST : c));
+    };
+    const on = () => { clearTimeout(id); id = setTimeout(run, 100); };
+    window.addEventListener('sl-trim', on);
+    return () => { clearTimeout(id); window.removeEventListener('sl-trim', on); };
+  }, [iso]);
   useEffect(() => {
     // il giorno vicino si riempie a riposo (prime finestre), quello che diventa centrale con uno swipe si completa a pezzi;
     // mai con il dito o lo scorrimento in corso
@@ -213,6 +221,11 @@ export default function Home() {
   };
   // Il cambio giorno e' visivo e immediato (solo stili: la casella uscita rientra dall'altro lato); lo stato di React lo segue a pagina ferma.
   // Cosi' un nuovo swipe puo' partire in qualsiasi momento, anche durante lo scorrimento, e la fine dello swipe non costa un ridisegno.
+  CENTER.iso = iso;
+  useEffect(() => {
+    const t = setTimeout(() => window.dispatchEvent(new Event('sl-trim')), 800);
+    return () => clearTimeout(t);
+  }, [iso]);
   const slotEls = useRef([]);
   const pend = useRef(null);
   const pendTm = useRef(0);
