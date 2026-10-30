@@ -48,7 +48,8 @@ jobs:
             mkdir -p native-link
             printf '{"id":"%s","group":"%s","at":"%s"}\n' "$ID" "$G" "$(TZ=Europe/Rome date '+%d/%m %H:%M')" > native-link/latest.json
             git config user.name github-actions && git config user.email github-actions@users.noreply.github.com
-            git add native-link/latest.json && git commit -qm "App nativa: ultima versione ($G)" || exit 0
+            printf 'exp://u.expo.dev/%s/group/%s' "$ID" "$G" > native-link/url.txt
+            git add native-link/latest.json native-link/url.txt && git commit -qm "App nativa: ultima versione ($G)" || exit 0
             for i in 1 2 3 4 5; do git pull -q --rebase origin main && git push -q origin HEAD:main && break; sleep 3; done
           fi
       - name: Salva nel ramo native-out
