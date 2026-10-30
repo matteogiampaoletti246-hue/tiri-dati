@@ -22,10 +22,11 @@ jobs:
       - name: Crea il progetto Expo con l'ultimo SDK e copia la Home di prova
         run: |
           npx --yes create-expo-app@latest app --template blank --no-install
+          node native/tools/gen_meta.mjs aurora-src/src app/meta.json
           cp native/App.js app/App.js
           cd app
           npm install --no-audit --no-fund
-          npx expo install expo-updates
+          npx expo install expo-updates expo-linear-gradient react-native-webview react-native-safe-area-context
           npx --yes eas-cli@latest whoami
           npx --yes eas-cli@latest init --non-interactive --force
           npx --yes eas-cli@latest update:configure --non-interactive || true
