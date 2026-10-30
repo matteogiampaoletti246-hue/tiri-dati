@@ -1,5 +1,5 @@
 name: Prova fonti (raggiungibilita dal runner)
-# Controlla solo se FBref, WhoScored, Sofascore e Understat rispondono ai server di GitHub. Scrive il referto nel ramo probe-out.
+# Controlla cosa contengono LiveScore e OneFootball per l'Algeria (Ligue 1) rispetto a FotMob. Referto nel ramo probe-out.
 on: workflow_dispatch
 permissions:
   contents: write
@@ -7,16 +7,22 @@ jobs:
   prova:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - name: Prova
         run: |
           mkdir -p /tmp/po
           UA='Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 Mobile Safari/604.1'
-          D=$(date -u +%Y-%m-%d)
-          for u in "https://api.sofascore.com/api/v1/sport/football/scheduled-events/$D" "https://www.sofascore.com/" "https://fbref.com/en/matches/$D" "https://understat.com/league/Serie_A" "https://www.whoscored.com/" "https://www.livescore.com/en/" "https://onefootball.com/en/home"; do
-            c=$(curl -sS -m 20 -o /tmp/b.txt -w '%{http_code}' -A "$UA" "$u" 2>&1 | tail -1)
-            echo "$c $(wc -c < /tmp/b.txt) $u" | tee -a /tmp/po/referto.txt
+          g() { curl -sS -m 25 -L -A "$UA" -H 'Accept-Language: en' -o "$2" -w "%{http_code} %{size_download} $1\n" "$1" 2>&1 | tail -1 | tee -a /tmp/po/referto.txt; }
+          g "https://www.livescore.com/en/football/algeria/ligue-1/" /tmp/po/ls_lega.html
+          g "https://www.livescore.com/en/football/algeria/" /tmp/po/ls_paese.html
+          g "https://onefootball.com/en/home" /tmp/po/of_home.html
+          g "https://onefootball.com/en/competitions" /tmp/po/of_comp.html
+          for f in ls_lega ls_paese of_home of_comp; do
+            echo "--- $f: __NEXT_DATA__=$(grep -c '__NEXT_DATA__' /tmp/po/$f.html) algeria=$(grep -oi 'algeri\?a' /tmp/po/$f.html | wc -l) lineup=$(grep -oi 'lineup' /tmp/po/$f.html | wc -l)" | tee -a /tmp/po/referto.txt
+            grep -oiE 'https?://[^"]*(algeria|belouizdad|usm-alger|mc-alger|js-kabylie)[^"]*' /tmp/po/$f.html | sort -u | head -15 | tee -a /tmp/po/referto.txt
           done
       - name: Salva
         run: |
-          cd /tmp/po && git init -q -b probe-out && git config user.name github-actions && git config user.email github-actions@users.noreply.github.com
+          cd /tmp/po && for f in *.html; do head -c 300000 "$f" > "$f.cut" && mv "$f.cut" "$f"; done
+          git init -q -b probe-out && git config user.name github-actions && git config user.email github-actions@users.noreply.github.com
           git add -A && git commit -qm "Referto fonti" && git push -qf "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" probe-out
