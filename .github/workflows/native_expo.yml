@@ -1,0 +1,43 @@
+name: App nativa (Expo) - pubblica la Home di prova
+# Costruisce il prototipo React Native in native/ e lo pubblica su Expo (EAS Update): si apre con Expo Go dal telefono.
+# Serve il secret EXPO_TOKEN. Il link da aprire finisce nel ramo "native-out" (link.txt).
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  publica:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Controlla il token
+        run: |
+          if [ -z "$EXPO_TOKEN" ]; then echo "EXPO_TOKEN mancante" ; exit 1; fi
+      - name: Crea il progetto Expo con l'ultimo SDK e copia la Home di prova
+        run: |
+          npx --yes create-expo-app@latest app --template blank --no-install
+          cp native/App.js app/App.js
+          cd app
+          npm install --no-audit --no-fund
+          npx expo install expo-updates
+          npx --yes eas-cli@latest whoami
+          npx --yes eas-cli@latest init --non-interactive --force
+          npx --yes eas-cli@latest update:configure --non-interactive || true
+      - name: Pubblica
+        run: |
+          cd app
+          npx --yes eas-cli@latest update --branch main --message "Home di prova nativa $GITHUB_SHA" --non-interactive 2>&1 | tee /tmp/update.txt
+          mkdir -p /tmp/no && grep -Eo 'https://[^ ]+' /tmp/update.txt > /tmp/no/link.txt || true
+          node -e "const a=require('./app.json').expo;console.log(JSON.stringify({slug:a.slug,id:a.extra&&a.extra.eas&&a.extra.eas.projectId,owner:a.owner}))" > /tmp/no/info.json || true
+      - name: Salva nel ramo native-out
+        if: always()
+        run: |
+          mkdir -p /tmp/no && cp /tmp/update.txt /tmp/no/log.txt 2>/dev/null || true
+          cd /tmp/no && git init -q -b native-out && git config user.name github-actions && git config user.email github-actions@users.noreply.github.com
+          git add -A && git commit -qm "Expo $GITHUB_SHA" && git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" native-out
