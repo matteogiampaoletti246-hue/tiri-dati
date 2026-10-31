@@ -132,10 +132,43 @@ const Flag = memo(({ fc, tint }) => {
   );
 });
 const Chev = ({ open }) => { const { C } = useT(); return <Ionicons name="chevron-down" size={17} color={C.ink2} style={{ transform: [{ rotate: open ? '180deg' : '0deg' }] }} />; };
-const useOpen = (key, init) => {
+const useOpen = (key, init, size = 0) => {
   const [open, setOpen] = useState(() => (key in OPEN_KEY ? OPEN_KEY[key] : init));
-  const toggle = () => { LayoutAnimation.configureNext(LayoutAnimation.create(260, 'easeInEaseOut', 'opacity')); setOpen((o) => { OPEN_KEY[key] = !o; return !o; }); };
+  // Finestre grandi: niente animazione di layout su decine di righe (era il ritardo e lo scatto).
+  const toggle = () => { if (size <= 14) LayoutAnimation.configureNext(LayoutAnimation.create(220, 'easeInEaseOut', 'opacity')); setOpen((o) => { OPEN_KEY[key] = !o; return !o; }); };
   return [open, toggle];
+};
+// Righe montate a pezzi: le prime subito (la finestra risponde al tocco), il resto a riposo, un pezzo per volta.
+const FIRST_ROWS = 8, STEP_ROWS = 10;
+const useChunk = (total) => {
+  const [n, setN] = useState(Math.min(total, FIRST_ROWS));
+  useEffect(() => {
+    if (n >= total) return undefined;
+    const t = setTimeout(() => setN((v) => Math.min(total, v + STEP_ROWS)), 40);
+    return () => clearTimeout(t);
+  }, [n, total]);
+  return Math.min(n, total);
+};
+const LeagueBody = ({ g, onOpen }) => {
+  const { s } = useT();
+  const n = useChunk(g.matches.length);
+  return <View style={s.body}>{g.matches.slice(0, n).map((m, i) => <View key={m[0]} style={i ? s.sep : null}><Row m={m} onOpen={onOpen} /></View>)}</View>;
+};
+const CountryBody = ({ p, onLeague, onOpen }) => {
+  const { s } = useT();
+  const total = p.comps.reduce((a, x) => a + x.matches.length, 0);
+  let left = useChunk(total);
+  return p.comps.map((x) => {
+    if (left <= 0) return null;
+    const ms = x.matches.slice(0, left);
+    left -= ms.length;
+    return (
+      <View key={x.fm} style={s.inner}>
+        <Pressable onPress={() => onLeague(leagueRoute(x.c, x.fm))} style={({ pressed }) => [s.hairTop, pressed && { opacity: 0.6 }]}><LeagueHead c={x.c} size={20} small /></Pressable>
+        {ms.map((m) => <View key={m[0]} style={s.sep}><Row m={m} onOpen={onOpen} /></View>)}
+      </View>
+    );
+  });
 };
 const leagueRoute = (c, fm) => `/campionato/${c.id || `fm-${fm}`}`;
 const LeagueHead = ({ c, size = 22, small }) => {
@@ -151,7 +184,7 @@ const LeagueHead = ({ c, size = 22, small }) => {
 
 const LeagueGroup = memo(({ iso, g, forceOpen, onOpen, onLeague }) => {
   const { s } = useT();
-  const [open, toggle] = useOpen(`${iso}|${g.fm}`, g.c.open);
+  const [open, toggle] = useOpen(`${iso}|${g.fm}`, g.c.open, g.matches.length);
   const isOpen = forceOpen || open;
   return (
     <Card tint={g.c.tint}>
@@ -159,16 +192,16 @@ const LeagueGroup = memo(({ iso, g, forceOpen, onOpen, onLeague }) => {
         <Pressable onPress={() => onLeague(leagueRoute(g.c, g.fm))} style={({ pressed }) => [{ flexShrink: 1 }, pressed && { opacity: 0.6 }]}><LeagueHead c={g.c} /></Pressable>
         <Pressable onPress={toggle} hitSlop={{ top: 14, bottom: 14, right: 14 }} style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end' }}><Text style={s.cnt}>{g.matches.length}</Text><Chev open={isOpen} /></Pressable>
       </View>
-      {isOpen ? <View style={s.body}>{g.matches.map((m, i) => <View key={m[0]} style={i ? s.sep : null}><Row m={m} onOpen={onOpen} /></View>)}</View> : null}
+      {isOpen ? <LeagueBody g={g} onOpen={onOpen} /> : null}
     </Card>
   );
 });
 
 const CountryGroup = memo(({ iso, p, forceOpen, onOpen, onLeague }) => {
   const { C, s } = useT();
-  const [open, toggle] = useOpen(`${iso}|paese:${p.k}`, false);
-  const isOpen = forceOpen || open;
   const total = p.comps.reduce((n, x) => n + x.matches.length, 0);
+  const [open, toggle] = useOpen(`${iso}|paese:${p.k}`, false, total);
+  const isOpen = forceOpen || open;
   return (
     <Card tint={p.tint}>
       <Pressable onPress={toggle} style={s.headRow}>
@@ -176,12 +209,7 @@ const CountryGroup = memo(({ iso, p, forceOpen, onOpen, onLeague }) => {
         <Text numberOfLines={1} style={[s.lhName, { flex: 1, marginLeft: 12 }]}>{p.name}</Text>
         <Text style={s.cnt}>{total}</Text><Chev open={isOpen} />
       </Pressable>
-      {isOpen ? p.comps.map((x) => (
-        <View key={x.fm} style={s.inner}>
-          <Pressable onPress={() => onLeague(leagueRoute(x.c, x.fm))} style={({ pressed }) => [s.hairTop, pressed && { opacity: 0.6 }]}><LeagueHead c={x.c} size={20} small /></Pressable>
-          {x.matches.map((m) => <View key={m[0]} style={s.sep}><Row m={m} onOpen={onOpen} /></View>)}
-        </View>
-      )) : null}
+      {isOpen ? <CountryBody p={p} onLeague={onLeague} onOpen={onOpen} /> : null}
     </Card>
   );
 });
