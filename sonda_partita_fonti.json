@@ -1,10 +1,475 @@
 {
  "livescore_fa_cup": {
   "scoreboard_status": 200,
+  "chiavi": [
+   "Ts",
+   "Stages"
+  ],
+  "n_stages": 172,
+  "stage_nomi": [
+   [
+    "Premiership: Championship Group",
+    "Scotland",
+    3
+   ],
+   [
+    "Bundesliga 25/26",
+    "Germany",
+    9
+   ],
+   [
+    "Eredivisie: Qualification",
+    "Netherlands",
+    1
+   ],
+   [
+    "Friendlies",
+    "International Friendlies",
+    1
+   ],
+   [
+    "Belgian Pro League Playoff: Championship Group",
+    "Belgium",
+    1
+   ],
+   [
+    "Belgian Pro League Playoff: Conference League Group",
+    "Belgium",
+    2
+   ],
+   [
+    "MLS",
+    "USA",
+    1
+   ],
+   [
+    "Serie A",
+    "Brazil",
+    3
+   ],
+   [
+    "Liga Profesional: Clausura Playoff",
+    "Argentina",
+    1
+   ],
+   [
+    "Allsvenskan",
+    "Sweden",
+    2
+   ],
+   [
+    "Eliteserien",
+    "Norway",
+    8
+   ],
+   [
+    "1st League: Placement Matches",
+    "Czech Republic",
+    1
+   ],
+   [
+    "1st League: Relegation",
+    "Czech Republic",
+    3
+   ],
+   [
+    "Bundesliga: Relegation",
+    "Austria",
+    3
+   ],
+   [
+    "Super League: Relegation",
+    "Greece",
+    2
+   ],
+   [
+    "Super League",
+    "China",
+    3
+   ],
+   [
+    "J1 League: East",
+    "Japan",
+    3
+   ],
+   [
+    "Liga 1: Championship Group",
+    "Romania",
+    1
+   ],
+   [
+    "Liga 1: Relegation Group",
+    "Romania",
+    1
+   ],
+   [
+    "League of Ireland Premier Division",
+    "Ireland",
+    1
+   ],
+   [
+    "K-League 1",
+    "Republic of Korea",
+    2
+   ],
+   [
+    "National Women's Soccer League",
+    "USA",
+    5
+   ],
+   [
+    "CAF Confederation Cup: Final Stage",
+    "International",
+    1
+   ],
+   [
+    "Kategoria Superiore Championship Group",
+    "Albania",
+    1
+   ],
+   [
+    "Kategoria Superiore: Qualification",
+    "Albania",
+    1
+   ],
+   [
+    "Primera Nacional",
+    "Argentina",
+    7
+   ],
+   [
+    "Primera B Metropolitana",
+    "Argentina",
+    9
+   ],
+   [
+    "Federal A: Group A",
+    "Argentina",
+    1
+   ],
+   [
+    "Primera C",
+    "Argentina",
+    6
+   ],
+   [
+    "NPL Capital",
+    "Australia",
+    4
+   ],
+   [
+    "NPL New South Wales",
+    "Australia",
+    7
+   ],
+   [
+    "Northern New South Wales",
+    "Australia",
+    3
+   ],
+   [
+    "Queensland",
+    "Australia",
+    1
+   ],
+   [
+    "NPL South Australia",
+    "Australia",
+    6
+   ],
+   [
+    "NPL Victoria",
+    "Australia",
+    3
+   ],
+   [
+    "NPL Western Australia",
+    "Australia",
+    6
+   ],
+   [
+    "NorZone Premier League",
+    "Australia",
+    2
+   ],
+   [
+    "New South Wales League One",
+    "Australia",
+    4
+   ],
+   [
+    "Queensland Premier League",
+    "Australia",
+    2
+   ],
+   [
+    "South Australia State League 1",
+    "Australia",
+    4
+   ]
+  ],
+  "evento_chiavi": [
+   "Eid",
+   "Pids",
+   "Inc-f",
+   "Tr1",
+   "Tr2",
+   "Trh1",
+   "Trh2",
+   "Tr1OR",
+   "Tr2OR",
+   "T1",
+   "T2",
+   "Eps",
+   "Esid",
+   "Epr",
+   "Ecov",
+   "ErnInf",
+   "Ewt",
+   "Et",
+   "Esd",
+   "EO",
+   "EOX",
+   "Spid",
+   "Pid"
+  ],
+  "evento_esempio": "{\"Eid\": \"1765480\", \"Pids\": {\"8\": \"1765480\"}, \"Inc-f\": {\"2\": [{\"IT\": 1037, \"Nm\": 1, \"Sc\": [2, 1]}]}, \"Tr1\": \"3\", \"Tr2\": \"1\", \"Trh1\": \"1\", \"Trh2\": \"1\", \"Tr1OR\": \"3\", \"Tr2OR\": \"1\", \"T1\": [{\"ID\": \"4700\", \"Nm\": \"Celtic\", \"Img\": \"enet/9925.png\", \"NewsTag\": \"/team/celtic-2021020913320920836-863/\", \"Abr\": \"CEL\", \"Fc\": \"018749\", \"Sc\": \"FDFDFD\"}], \"T2\": [{\"ID\": \"4669\", \"Nm\": \"Hearts\", \"Img\": \"enet/9860.png\", \"NewsTag\": \"/team/hearts-2022062716001253418-883/\", \"Abr\": \"HOM\", \"Fc\": \"800910\", \"Sc\": \"FDFDFD\"}]",
   "evento": null
  },
  "livescore_copa": {
   "scoreboard_status": 200,
+  "chiavi": [
+   "Ts",
+   "Stages"
+  ],
+  "n_stages": 44,
+  "stage_nomi": [
+   [
+    "Premier League 25/26",
+    "England",
+    4
+   ],
+   [
+    "EFL Trophy: Knockout Stage",
+    "England",
+    1
+   ],
+   [
+    "Qualification",
+    "Copa Sudamericana",
+    2
+   ],
+   [
+    "Turkiye Cup: Group A",
+    "Turkiye",
+    4
+   ],
+   [
+    "Primera Division: Apertura",
+    "Argentina",
+    4
+   ],
+   [
+    "Women's Friendlies",
+    "International Friendlies",
+    2
+   ],
+   [
+    "UEFA Qualification: Group B1",
+    "Women's World Cup Qualification",
+    2
+   ],
+   [
+    "UEFA Qualification: Group C4",
+    "Women's World Cup Qualification",
+    1
+   ],
+   [
+    "UEFA Qualification: Group A4",
+    "Women's World Cup Qualification",
+    2
+   ],
+   [
+    "UEFA Qualification: Group A3",
+    "Women's World Cup Qualification",
+    2
+   ],
+   [
+    "UEFA Qualification: Group A1",
+    "Women's World Cup Qualification",
+    2
+   ],
+   [
+    "UEFA Qualification: Group A2",
+    "Women's World Cup Qualification",
+    2
+   ],
+   [
+    "UEFA Qualification: Group B2",
+    "Women's World Cup Qualification",
+    2
+   ],
+   [
+    "UEFA Qualification: Group B3",
+    "Women's World Cup Qualification",
+    2
+   ],
+   [
+    "UEFA Qualification: Group B4",
+    "Women's World Cup Qualification",
+    2
+   ],
+   [
+    "UEFA Qualification: Group C1",
+    "Women's World Cup Qualification",
+    2
+   ],
+   [
+    "UEFA Qualification: Group C2",
+    "Women's World Cup Qualification",
+    2
+   ],
+   [
+    "UEFA Qualification: Group C3",
+    "Women's World Cup Qualification",
+    2
+   ],
+   [
+    "UEFA Qualification: Group C5",
+    "Women's World Cup Qualification",
+    1
+   ],
+   [
+    "UEFA Qualification: Group C6",
+    "Women's World Cup Qualification",
+    1
+   ],
+   [
+    "Qualification Round 2: Group B2",
+    "Women's Euro U17",
+    2
+   ],
+   [
+    "Primera Nacional",
+    "Argentina",
+    1
+   ],
+   [
+    "Primera B Metropolitana",
+    "Argentina",
+    2
+   ],
+   [
+    "Cup",
+    "Armenia",
+    1
+   ],
+   [
+    "AFC Asian Cup Women: Group B",
+    "International",
+    2
+   ],
+   [
+    "Carioca Taca Guanabara: Play-off",
+    "Brazil",
+    1
+   ],
+   [
+    "Carioca: Relegation Group",
+    "Brazil",
+    1
+   ],
+   [
+    "Primera B",
+    "Chile",
+    1
+   ],
+   [
+    "Primera B: Apertura",
+    "Colombia",
+    2
+   ],
+   [
+    "Liga de Ascenso: Clausura: Group A",
+    "Costa Rica",
+    1
+   ],
+   [
+    "Liga de Ascenso: Clausura: Group B",
+    "Costa Rica",
+    1
+   ],
+   [
+    "Serie A",
+    "Ecuador",
+    1
+   ],
+   [
+    "Premier League",
+    "South Africa",
+    3
+   ],
+   [
+    "Cup",
+    "Hungary",
+    1
+   ],
+   [
+    "League Cup: Group 4",
+    "Iceland",
+    1
+   ],
+   [
+    "Pro League",
+    "Jordan",
+    2
+   ],
+   [
+    "Premier League: Group C",
+    "Libya",
+    2
+   ],
+   [
+    "Cup",
+    "Moldova",
+    1
+   ],
+   [
+    "Division Profesional: Apertura",
+    "Paraguay",
+    1
+   ],
+   [
+    "Primera División: Apertura",
+    "Uruguay",
+    1
+   ]
+  ],
+  "evento_chiavi": [
+   "Eid",
+   "Pids",
+   "Tr1",
+   "Tr2",
+   "Trh1",
+   "Trh2",
+   "Tr1OR",
+   "Tr2OR",
+   "T1",
+   "T2",
+   "Eps",
+   "Esid",
+   "Epr",
+   "Ecov",
+   "ErnInf",
+   "Ewt",
+   "Et",
+   "Esd",
+   "EO",
+   "EOX",
+   "Spid",
+   "Pid"
+  ],
+  "evento_esempio": "{\"Eid\": \"1529076\", \"Pids\": {\"8\": \"1529076\"}, \"Tr1\": \"0\", \"Tr2\": \"0\", \"Trh1\": \"0\", \"Trh2\": \"0\", \"Tr1OR\": \"0\", \"Tr2OR\": \"0\", \"T1\": [{\"ID\": \"3928\", \"Nm\": \"AFC Bournemouth\", \"Img\": \"enet/8678.png\", \"NewsTag\": \"/team/bournemouth-2021020913320920836-123/\", \"Abr\": \"BOU\", \"Fc\": \"DA291C\", \"Sc\": \"000000\"}], \"T2\": [{\"ID\": \"2865\", \"Nm\": \"Brentford\", \"Img\": \"enet/9937.png\", \"NewsTag\": \"/team/brentford-2021020913320920836-136/\", \"Abr\": \"BRE\", \"Fc\": \"e30613\", \"Sc\": \"FDFDFD\"}], \"Eps\": \"FT\", \"Esid\": 6, \"Epr\": 2,",
   "evento": null
  },
  "onefootball_fa_cup": {
