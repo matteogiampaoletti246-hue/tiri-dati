@@ -93,20 +93,46 @@ def score(ts, fmt):
     return hit / max(1, min(len(ts), len(fmt)))
 
 
+BADGE = {}   # id FotMob (dallo stemma enet/<id>.png) -> {(paese, campionato LiveScore)}
+GL = {}
+
+
+def crawl():
+    """Tutti i campionati dell'elenco LiveScore: squadre e id stemma. L'abbinamento si fa dagli stemmi (id FotMob), senza fidarsi dei nomi."""
+    pairs = [(c, n) for c, ns in CATALOG.items() for n in sorted(ns)]
+    def one_ls(cn):
+        try: return cn, teams_of(*cn) or []
+        except Exception: return cn, []
+    with ThreadPoolExecutor(6) as ex:
+        for cn, ts in ex.map(one_ls, pairs):
+            GL[cn] = ts
+            for t in ts:
+                m = re.search(r'enet/(\d+)', t.get('teamBadge') or '')
+                if m: BADGE.setdefault(int(m.group(1)), set()).add(cn)
+    print(f'crawl: {len(GL)} campionati LiveScore, {len(BADGE)} stemmi', flush=True)
+
+
 def one(k_e):
     k, e = k_e
     cn = slug(e.get('cn') or ''); nm = slug(e['n'])
     fmt = fm_teams(k, e)
-    best = (0.0, None, None, None)
-    for c in countries(cn):
-        for cand in sorted(CATALOG[c]):
-            ts = ls_teams(c, cand)
-            sc = score(ts, fmt) + (0.05 if cand == nm else 0)
-            if sc > best[0]: best = (sc, c, cand, ts)
-    if best[0] >= 0.4:
-        with ThreadPoolExecutor(3) as ex: sq = list(ex.map(squad, best[3]))
-        return k, best[1], best[2], [t for t in sq if t['p']]
-    return k, None, nm, []
+    votes = {}
+    for i in fmt:
+        for c in BADGE.get(int(i), ()): votes[c] = votes.get(c, 0) + 1
+    best, bs = None, 0.0
+    for c, v in votes.items():
+        ts = GL.get(c) or []
+        sc = v / max(1, min(len(ts), len(fmt)))
+        sc += 0.05 * (c[0] in countries(cn)) + 0.05 * (c[1] == nm) - 0.05 * bool(re.search(r'\d{2}$', c[1]))
+        if v >= 3 and sc > bs: best, bs = c, sc
+    if best is None or bs < 0.5:  # senza stemmi in comune: abbinamento per nome nello stesso paese (come prima)
+        for c in countries(cn):
+            for cand in sorted(CATALOG[c]):
+                sc = score(GL.get((c, cand)) or [], fmt) + (0.05 if cand == nm else 0)
+                if sc > bs: best, bs = (c, cand), sc
+        if bs < 0.4: return k, None, nm, []
+    with ThreadPoolExecutor(3) as ex: sq = list(ex.map(squad, GL[best]))
+    return k, best[0], best[1], [t for t in sq if t['p']]
 
 
 SEEN = set()
@@ -114,8 +140,9 @@ SEEN = set()
 
 def main(off, lim):
     catalog()
+    crawl()
     idx = json.load(open('arch/index.json'))
-    items = [(k, e) for k, e in idx.items() if e.get('cn') not in ('Internazionale',) and e.get('s') and e['s'][0].startswith('2026') and 'table' in (e.get('tabs') or [])]
+    items = [(k, e) for k, e in idx.items() if e.get('cn') not in ('Internazionale',) and e.get('s') and e['s'][0][:4] in ('2026', '2025')]
     items = items[off:off + lim]
     out, rep = [], []
     mapL, mapT = {}, {}
