@@ -48,3 +48,18 @@ if live:
     print("players invariati dopo 60s:", a == b)
 
 open("sonda_pitch_live.txt", "w").write("\n".join(_out))
+# ---- tutte le leghe: stati presenti e partita piu' recente
+import urllib.parse
+from collections import Counter
+st = Counter(); newest = []
+for l in L:
+    ss = sorted(l.get("seasons") or [])
+    if not ss: continue
+    s_, j_, _ = raw(f"/v1/leagues/{l['id']}/matches?season={urllib.parse.quote(ss[-1], safe='')}")
+    for m in ((j_ or {}).get("data") or {}).get("matches", []):
+        st[str(m.get("status"))] += 1
+        newest.append((str(m.get("date")) + " " + str(m.get("time_utc")), str(m.get("status"))))
+print("stati in tutte le leghe:", dict(st))
+newest.sort(); print("partita piu' recente:", newest[-3:], "ora UTC:", datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M"))
+print("non finished:", [x for x in newest if x[1] != "finished"][:5])
+open("sonda_pitch_live.txt", "w").write("\n".join(_out))
