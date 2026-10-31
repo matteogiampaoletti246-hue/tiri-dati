@@ -264,7 +264,7 @@ export const loadSeasonMatches = (lid, sk) => once(`ps/${lid}/${sk}.gz`, async (
   try {
     const r = await fetch(`${WORKER}/r?k=idx:ps/${k}`);
     const ov = r.ok ? await r.json() : null;
-    Object.entries(ov || {}).forEach(([mid, v]) => { const m = d.m[mid] || (d.m[mid] = {}); if (!m.p) Object.assign(m, v); });
+    Object.entries(ov || {}).forEach(([mid, v]) => { const m = d.m[mid] || (d.m[mid] = {}); if (!m.p && v.p) { const { e: _e, ...rest } = v; Object.assign(m, rest); } if (!(m.e && m.e.length) && v.e) m.e = v.e; });
   } catch (e) { /* senza KV restano i dati di FotMob */ }
   return d;
 });

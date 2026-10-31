@@ -7,6 +7,87 @@ const LEGHE = DOM.concat(CUPS);
 const TTL = 8;
 const FMH = { "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 Mobile Safari/604.1", "Accept": "application/json,*/*", "Accept-Language": "en-US,en;q=0.9" };
 
+
+// ---- LiveScore come ripiego del live (dopo FotMob): punteggio, stato, minuto ed eventi. Dati pubblici letti al volo, mai salvati.
+// Si prende il piu' veloce: punteggio = il piu' alto tra le due fonti; se FotMob non ha ancora aperto la partita ma LiveScore si', la partita e' live;
+// se FotMob non ha eventi (o meno gol del punteggio) gli eventi vengono da LiveScore (gol, gialli, cambi: solo i codici verificati).
+const LSB = "https://prod-cdn-public-api.livescore.com/v1/api/app/";
+const LSH = { "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 Mobile Safari/604.1" };
+async function lsGet(url, ttl) {
+  const ctl = new AbortController();
+  const t = setTimeout(() => ctl.abort(), 2000);
+  try {
+    const r = await fetch(url, { headers: LSH, signal: ctl.signal, cf: { cacheTtl: ttl, cacheEverything: true } });
+    return r.ok ? await r.json() : null;
+  } catch (e) { return null; } finally { clearTimeout(t); }
+}
+const lsFlat = (o, acc) => {
+  if (Array.isArray(o)) o.forEach((v) => lsFlat(v, acc));
+  else if (o && typeof o === "object") { if (o.IT != null) acc.push(o); Object.values(o).forEach((v) => (v && typeof v === "object") && lsFlat(v, acc)); }
+  return acc;
+};
+async function lsMerge(out, startIso) {
+  try {
+    if (!out.hi || !out.ai) return;
+    const d = startIso ? new Date(startIso) : new Date();
+    if (isNaN(d.getTime())) return;
+    if (out.fin && out.ev && out.ev.length) return; // finita e completa: FotMob basta
+    const ymd = d.toISOString().slice(0, 10).replace(/-/g, "");
+    const day = await lsGet(LSB + "date/soccer/" + ymd + "/1?countryCode=GB&locale=en&MD=1", 10);
+    if (!day) return;
+    let ev0 = null;
+    for (const st of day.Stages || []) {
+      for (const x of st.Events || []) {
+        const a = ((x.T1 || [{}])[0].Img || "").match(/enet\/(\d+)\.png/), b = ((x.T2 || [{}])[0].Img || "").match(/enet\/(\d+)\.png/);
+        if (a && b && +a[1] === +out.hi && +b[1] === +out.ai) { ev0 = x; break; }
+      }
+      if (ev0) break;
+    }
+    if (!ev0) return;
+    const eps = String(ev0.Eps || "");
+    const mm = eps.match(/^(\d+)(?:\+(\d+))?'?$/);
+    const lsLive = !!mm || /^HT$/i.test(eps);
+    const h = parseInt(ev0.Tr1, 10), a2 = parseInt(ev0.Tr2, 10);
+    const hasSc = Number.isFinite(h) && Number.isFinite(a2);
+    if (lsLive && !out.fin) {
+      if (!out.st) { out.st = true; out.started = true; }
+      if (/^HT$/i.test(eps)) { out.ht = true; out.clk = "HT"; }
+      else if (mm && !out.clk) out.clk = (mm[2] ? mm[1] + "+" + mm[2] : mm[1]) + "'";
+    }
+    if (hasSc && (lsLive || out.st) && !out.fin) {
+      const cur = out.sc && out.sc[0] != null ? [+out.sc[0] || 0, +out.sc[1] || 0] : [0, 0];
+      out.sc = [Math.max(cur[0], h), Math.max(cur[1], a2)];
+      out.ls = 1;
+    }
+    // eventi: solo se mancano o FotMob ha meno gol del punteggio
+    const goals = (out.ev || []).filter((e) => e.ty === "Goal").length;
+    const tot = hasSc ? h + a2 : 0;
+    if (ev0.Eid && (!(out.ev || []).length || goals < tot) && (lsLive || out.fin || out.st)) {
+      const inc = await lsGet(LSB + "incidents/soccer/" + ev0.Eid + "?locale=en", 8);
+      const ln = await lsGet(LSB + "lineups/soccer/" + ev0.Eid + "?locale=en", 30);
+      if (inc) {
+        const rows = lsFlat(inc.Incs, []).concat(ln ? lsFlat(ln.Subs, []) : []);
+        const nm = (x) => ((x.Fn || "") + " " + (x.Ln || "")).trim() || x.Pn || "";
+        const lsEv = [];
+        rows.forEach((x) => {
+          const side = x.Nm, mn = x.Min;
+          if ((side !== 1 && side !== 2) || typeof mn !== "number") return;
+          const add = x.MinEx || 0, base = { t: mn, a: add, h: side === 1, ts: mn * 100 + add };
+          if (x.IT === 36 || x.IT === 37 || x.IT === 39) lsEv.push({ ...base, ty: "Goal", n: nm(x), id: null, as: null, aid: null, og: x.IT === 39, pen: x.IT === 37, sc: null });
+          else if (x.IT === 43) lsEv.push({ ...base, ty: "Card", n: nm(x), id: null, cd: "Yellow" });
+          else if (x.IT === 5) lsEv.push({ ...base, ty: "Substitution", n: nm(x), id: null, o: "", oid: null });
+        });
+        if (lsEv.length) {
+          const lsGoals = lsEv.filter((q) => q.ty === "Goal");
+          if (!(out.ev || []).length) out.ev = lsEv.sort((x, y) => x.ts - y.ts);
+          else if (goals < lsGoals.length) out.ev = (out.ev || []).filter((e) => e.ty !== "Goal").concat(lsGoals).sort((x, y) => x.ts - y.ts);
+          out.lsEv = 1;
+        }
+      }
+    }
+  } catch (e) { /* mai rompere /fx: si resta su FotMob */ }
+}
+
 function cors(req, extra) {
   const o = req.headers.get("Origin");
   const h = { "Content-Type": "application/json; charset=utf-8", "Cache-Control": "public, max-age=" + TTL, ...extra };
@@ -185,7 +266,9 @@ export default {
         });
         const shs = ((c.shotmap || {}).shots || []).map((x) => [x.min, x.minAdded, x.teamId, x.playerName, x.x, x.y, x.eventType, x.isBlocked ? 1 : 0, x.isOnTarget ? 1 : 0, x.blockedX, x.blockedY, x.goalCrossedY, x.goalCrossedZ, x.expectedGoals, x.expectedGoalsOnTarget, x.shotType, x.situation, x.isOwnGoal ? 1 : 0, x.period]);
         const mo = ((c.momentum || {}).main || {}).data || null;
-        return new Response(JSON.stringify({ t: Date.now(), hi: g2.homeTeam && g2.homeTeam.id, ai: g2.awayTeam && g2.awayTeam.id, sh: shs, mo: mo && mo.length ? mo.map((q) => ({ minute: q.minute, value: q.value })) : null, ty: lu.lineupType || null, started: !!g2.started, fin: !!g2.finished, st: live, sc: tm.length > 1 ? [tm[0].score, tm[1].score] : null, clk: clean(lt.short), ht, ev, stats, pl, h: team(lu.homeTeam), a: team(lu.awayTeam), ref }), { headers: cors(req, { "Cache-Control": "public, max-age=3" }) });
+        const out = { t: Date.now(), hi: g2.homeTeam && g2.homeTeam.id, ai: g2.awayTeam && g2.awayTeam.id, sh: shs, mo: mo && mo.length ? mo.map((q) => ({ minute: q.minute, value: q.value })) : null, ty: lu.lineupType || null, started: !!g2.started, fin: !!g2.finished, st: live, sc: tm.length > 1 ? [tm[0].score, tm[1].score] : null, clk: clean(lt.short), ht, ev, stats, pl, h: team(lu.homeTeam), a: team(lu.awayTeam), ref });
+        await lsMerge(out, g2.matchTimeUTCDate || stt.utcTime);
+        return new Response(JSON.stringify(out), { headers: cors(req, { "Cache-Control": "public, max-age=3" }) });
       }
       if (u.pathname === "/m") {
         const lg = u.searchParams.get("lg"), id = u.searchParams.get("id");

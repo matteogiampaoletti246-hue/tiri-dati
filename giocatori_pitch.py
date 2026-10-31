@@ -174,7 +174,7 @@ def main():
             kv = kvstats.load(fm, sk)   # dati di fonti terze: solo su Cloudflare KV, mai nel repository
             fix = {str(r[0]): r for r in (arch.get("fix") or [])}
             for mid, r in fix.items():
-                if not r[5] or (d.get("m") or {}).get(mid, {}).get("p") or mid in kv:
+                if not r[5] or (d.get("m") or {}).get(mid, {}).get("p") or (kv.get(mid) or {}).get("p"):
                     continue  # senza risultato = non finita; con `p` gia' completa
                 todo[mid] = r
             if not todo:
@@ -235,7 +235,7 @@ def main():
                     rec = {"p": out, "px": "pitchapi"}
                     if not m.get("h") or not m.get("a"):
                         rec["pn"] = pn  # nomi e squadra dei giocatori quando FotMob non ha le formazioni
-                    kv[mid] = rec
+                    kv.setdefault(mid, {}).update(rec)
                     n_ok += 1
                     n_pl += len(out)
                 else:

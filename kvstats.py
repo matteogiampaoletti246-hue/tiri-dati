@@ -47,6 +47,8 @@ def overlay(fm, sk, d):
     """Unisce al file partite (d = {'m': {...}}) i dati del KV dove FotMob non ha `p` (per gli script di indice e controllo)."""
     for mid, v in load(fm, sk).items():
         m = d.setdefault("m", {}).setdefault(mid, {})
-        if not m.get("p"):
-            m.update(v)
+        if not m.get("p") and v.get("p"):
+            m.update({k: x for k, x in v.items() if k != "e"})
+        if not m.get("e") and v.get("e"):
+            m["e"] = v["e"]
     return d

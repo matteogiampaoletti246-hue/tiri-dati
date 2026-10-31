@@ -151,7 +151,7 @@ def main():
         todo = {}
         for r in arch.get("fix") or []:
             mid = str(r[0])
-            if not r[5] or (d.get("m") or {}).get(mid, {}).get("p") or mid in kv:
+            if not r[5] or (d.get("m") or {}).get(mid, {}).get("p") or (kv.get(mid) or {}).get("p"):
                 continue
             if pp.get("nolega") or mid in pfail:
                 todo[mid] = r
@@ -196,7 +196,7 @@ def main():
                     out[fid] = v
                     pn[fid] = [x["n"], "h" if side == 1 else "a", str(tid)]
             if out:
-                kv[mid] = {"p": out, "px": "livescore"}
+                kv.setdefault(mid, {}).update({"p": out, "px": "livescore"})
                 if not m.get("h") or not m.get("a"):
                     kv[mid]["pn"] = pn
                 n_ok += 1
