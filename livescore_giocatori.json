@@ -1,106 +1,51 @@
 {
  "competizioni": {
-  "Superettan 2026": {
-   "partite_completate": 209,
-   "giocatori": 7749,
-   "da_fare": 209
+  "OBOS-ligaen 2026": {
+   "partite_completate": 37,
+   "giocatori": 1373,
+   "da_fare": 37
   },
-  "Ettan 2026": {
-   "partite_completate": 421,
-   "giocatori": 14143,
-   "da_fare": 449
+  "2. divisjon 2026": {
+   "partite_completate": 259,
+   "giocatori": 7074,
+   "da_fare": 350
   },
-  "Svenska Cupen 2026-2027": {
-   "partite_completate": 46,
-   "giocatori": 873,
-   "da_fare": 64
-  },
-  "Prva Liga 2026-2027": {
-   "partite_completate": 64,
-   "giocatori": 1143,
-   "da_fare": 64
-  },
-  "Slovak Cup 2026-2027": {
-   "partite_completate": 27,
-   "giocatori": 314,
-   "da_fare": 47
-  },
-  "Challenge Cup 2026-2027": {
-   "partite_completate": 114,
-   "giocatori": 2499,
-   "da_fare": 121
-  },
-  "League Cup 2026-2027": {
-   "partite_completate": 4,
-   "giocatori": 165,
-   "da_fare": 4
-  },
-  "Premiership playoff 2025-2026": {
-   "partite_completate": 6,
-   "giocatori": 190,
-   "da_fare": 6
-  },
-  "Kup Srbije 2025-2026": {
-   "partite_completate": 3,
-   "giocatori": 54,
-   "da_fare": 7
-  },
-  "Liga Portugal 2 2026-2027": {
-   "partite_completate": 57,
-   "giocatori": 1305,
-   "da_fare": 72
-  },
-  "Taça de Portugal 2026-2027": {
-   "partite_completate": 26,
-   "giocatori": 396,
-   "da_fare": 67
-  },
-  "Cupa României 2026-2027": {
-   "partite_completate": 20,
-   "giocatori": 665,
-   "da_fare": 24
-  },
-  "Supercupa 2025-2026": {
-   "partite_completate": 1,
-   "giocatori": 36,
-   "da_fare": 1
-  },
-  "Russian Cup 2026-2027": {
+  "Norsk Tipping-ligaen 2026": {
    "partite_completate": 0,
    "giocatori": 0,
-   "da_fare": 48
+   "da_fare": 1050
   },
-  "I Liga 2026-2027": {
-   "partite_completate": 108,
-   "giocatori": 1380,
-   "da_fare": 109
+  "Norgesmesterskapet 2026-2027": {
+   "partite_completate": 67,
+   "giocatori": 1620,
+   "da_fare": 110
   },
-  "Puchar Polski 2026-2027": {
-   "partite_completate": 36,
-   "giocatori": 504,
-   "da_fare": 54
+  "DFB Pokal 2026-2027": {
+   "partite_completate": 14,
+   "giocatori": 525,
+   "da_fare": 16
   },
-  "OBOS-ligaen 2026": {
-   "partite_completate": 187,
-   "giocatori": 6679,
-   "da_fare": 224
+  "Nemzeti Bajnokság I 2026-2027": {
+   "partite_completate": 22,
+   "giocatori": 906,
+   "da_fare": 65
   }
  },
  "codici_it_visti": {
-  "4": 11744,
-  "5": 11736,
-  "36": 4142,
-  "37": 277,
-  "38": 34,
-  "39": 91,
-  "40": 19,
+  "4": 3433,
+  "5": 3417,
+  "36": 1441,
+  "37": 86,
+  "38": 15,
+  "39": 26,
+  "40": 6,
   "41": 35,
-  "43": 2804,
-  "44": 51,
-  "45": 146,
-  "47": 23,
-  "57": 1,
-  "63": 1070
+  "43": 420,
+  "44": 13,
+  "45": 42,
+  "47": 13,
+  "63": 305,
+  "70": 2
  },
  "partite_completate_in_questo_giro": 1500
 }
