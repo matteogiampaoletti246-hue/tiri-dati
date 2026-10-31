@@ -1,0 +1,76 @@
+{
+ "competizioni": {
+  "Premier League 2026-2027": {
+   "partite_con_eventi": 2,
+   "da_fare": 2
+  },
+  "Championship 2026-2027": {
+   "partite_con_eventi": 1,
+   "da_fare": 2
+  },
+  "Veikkausliiga 2026": {
+   "partite_con_eventi": 3,
+   "da_fare": 3
+  },
+  "Bundesliga 2026-2027": {
+   "partite_con_eventi": 1,
+   "da_fare": 1
+  },
+  "Serie A 2026-2027": {
+   "partite_con_eventi": 1,
+   "da_fare": 1
+  },
+  "Premiership 2026-2027": {
+   "partite_con_eventi": 1,
+   "da_fare": 1
+  },
+  "Süper Lig 2026-2027": {
+   "partite_con_eventi": 2,
+   "da_fare": 2
+  },
+  "Serie B 2026-2027": {
+   "partite_con_eventi": 3,
+   "da_fare": 3
+  },
+  "LaLiga 2026-2027": {
+   "partite_con_eventi": 1,
+   "da_fare": 2
+  },
+  "League One 2026-2027": {
+   "partite_con_eventi": 2,
+   "da_fare": 3
+  },
+  "League Two 2026-2027": {
+   "partite_con_eventi": 1,
+   "da_fare": 1
+  },
+  "Ligue 2 2026-2027": {
+   "partite_con_eventi": 1,
+   "da_fare": 1
+  },
+  "Eerste Divisie 2026-2027": {
+   "partite_con_eventi": 1,
+   "da_fare": 2
+  },
+  "Liga 1 2026": {
+   "partite_con_eventi": 1,
+   "da_fare": 1
+  },
+  "2. Bundesliga 2026-2027": {
+   "partite_con_eventi": 1,
+   "da_fare": 1
+  },
+  "Ekstraklasa 2026-2027": {
+   "partite_con_eventi": 1,
+   "da_fare": 1
+  }
+ },
+ "tipi_visti": {
+  "yellowcard": 82,
+  "goal": 68,
+  "substitution": 199,
+  "redcard": 2
+ },
+ "partite_in_questo_giro": 23,
+ "orientamento_cambi": "player esce"
+}
