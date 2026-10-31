@@ -24011,10 +24011,10 @@
   "coppie_squadra_competizione": 23610,
   "con_frase_prima": 11672,
   "squadre_con_frase_prima": 5786,
-  "con_frase_e_dati_ora_visibili": 6540,
+  "con_frase_e_dati_ora_visibili": 6633,
   "con_frase_dopo": 0,
-  "competizioni_senza_dati_tolte_dalla_tendina": 12642,
-  "squadre_senza_scheda_giocatori": 7063,
+  "competizioni_senza_dati_tolte_dalla_tendina": 12485,
+  "squadre_senza_scheda_giocatori": 7029,
   "senza_scheda": [
    {
     "squadra": "Threave Rovers",
@@ -24343,10 +24343,6 @@
    {
     "squadra": "Le Poire Sur Vie",
     "id": "108899"
-   },
-   {
-    "squadra": "Homs Al Fidaa",
-    "id": "155699"
    },
    {
     "squadra": "FK Sloboda Užice",
@@ -25215,6 +25211,10 @@
    {
     "squadra": "Al-Khuraitiat",
     "id": "154190"
+   },
+   {
+    "squadra": "Ethnikos Assia",
+    "id": "154790"
    }
   ]
  },
