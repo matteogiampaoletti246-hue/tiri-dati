@@ -1,104 +1,47 @@
 {
  "competizioni": {
-  "Premier League 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 72
-  },
-  "Ukraine Cup 2026-2027": {
-   "partite_completate": 5,
-   "giocatori": 114,
-   "da_fare": 8
-  },
-  "Super Cup 2024-2025": {
-   "partite_completate": 1,
-   "giocatori": 17,
-   "da_fare": 1
-  },
-  "Regionalliga 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 652
-  },
-  "Ligue 1 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 53
-  },
-  "Super Cup 2025-2026": {
-   "partite_completate": 1,
-   "giocatori": 36,
-   "da_fare": 1
-  },
-  "Persian Gulf 2026-2027": {
-   "partite_completate": 28,
-   "giocatori": 600,
-   "da_fare": 94
-  },
-  "AFC Champions League Elite 2026-2027": {
-   "partite_completate": 10,
-   "giocatori": 403,
-   "da_fare": 12
-  },
-  "Botola Pro 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 39
-  },
-  "Professional Football League 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 98
-  },
-  "Ligue I 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 51
-  },
-  "Série B 2026": {
-   "partite_completate": 1,
-   "giocatori": 39,
-   "da_fare": 1
-  },
-  "Super League 2 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 64
-  },
-  "II Liga 2026-2027": {
-   "partite_completate": 51,
-   "giocatori": 728,
-   "da_fare": 118
-  },
-  "Australia Championship 2026": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 25
-  },
-  "National North & South 2026-2027": {
-   "partite_completate": 236,
-   "giocatori": 5354,
-   "da_fare": 321
-  },
   "Premier Division 2026-2027": {
    "partite_completate": 0,
    "giocatori": 0,
-   "da_fare": 589
+   "da_fare": 463
+  },
+  "Primera B Nacional 2026": {
+   "partite_completate": 396,
+   "giocatori": 12175,
+   "da_fare": 630
+  },
+  "Primera Federación 2026-2027": {
+   "partite_completate": 163,
+   "giocatori": 1676,
+   "da_fare": 182
+  },
+  "Ykkonen 2026": {
+   "partite_completate": 50,
+   "giocatori": 912,
+   "da_fare": 162
+  },
+  "Ligue 3 2026-2027": {
+   "partite_completate": 81,
+   "giocatori": 2183,
+   "da_fare": 91
+  },
+  "Série C 2026": {
+   "partite_completate": 66,
+   "giocatori": 1769,
+   "da_fare": 216
   }
  },
  "codici_it_visti": {
-  "4": 2648,
-  "5": 2646,
-  "36": 913,
-  "37": 47,
-  "38": 1,
-  "39": 14,
-  "40": 1,
-  "41": 9,
-  "43": 192,
-  "44": 4,
-  "45": 55,
-  "63": 62
+  "4": 7040,
+  "5": 7040,
+  "36": 1549,
+  "37": 138,
+  "38": 31,
+  "39": 38,
+  "43": 274,
+  "44": 51,
+  "45": 172,
+  "62": 1
  },
  "partite_completate_in_questo_giro": 1500
 }
