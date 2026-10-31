@@ -357,3 +357,13 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 ## Risultato live veloce quanto le statistiche (regola fissa)
 - Il risultato live non si ferma all'intestazione FotMob (arriva dopo eventi e mappa tiri): `fxScore` (`data/fotmob.js`) prende il piu' alto tra intestazione, ultimo gol con punteggio cumulativo e gol della mappa tiri (autogol all'altra squadra). Lo usano `applyFm` (pagina partita, ogni 5 s) e `refreshStatus`, che per i top campionati/coppe europee live chiede anche il dettaglio (`/fx`, max 12 per giro, stessa cache di 3 s della pagina partita).
 - Un risultato appena salito non scende per 45 s (`scUp` in `applyStatus`; la lista del giorno e ESPN `live.js` sono piu' lente) e ESPN non abbassa mai un risultato gia' aggiornato; dopo 45 s un gol annullato dal VAR si corregge.
+
+## Live: mappa tiri, barre e risultato insieme (regola fissa)
+- Partita live: le righe delle statistiche che derivano dai tiri (tiri totali, in porta, fuori, bloccati, xG) non scendono mai sotto la mappa tiri (`syncShotRows` in `data/fotmob.js`, anche per primo/secondo tempo); il risultato e' `fxScore` (intestazione, ultimo gol, gol della mappa). Cosi' mappa, barre e risultato cambiano nello stesso istante.
+- Home nativa: gli ultimi risultati live si salvano sul telefono (`LIVE_MEM` -> AsyncStorage `sl-livemem`, 3 ore) e si applicano prima del primo disegno: all'apertura mai "LIVE" senza gol.
+- Finestra giocatore (`PlayerSheet.jsx`): volto e nome aprono il profilo come il tasto Profilo (se il giocatore ha una scheda).
+
+## Profili completi per tutti i giocatori (regola fissa)
+- `resolvePid` (`data/playerIndex.js`): carriere.json, rose.json, poi la rosa completa `rosa/` (rose.json puo' avere la squadra vuota: caso Hudson-Odoi), nomi con lettere speciali (ı, ø, ł) e ordine diverso, cognome unico; infine le classifiche. Senza id niente anagrafica ne' stagioni.
+- Il Voto del Profilo non si mostra se manca (mai "—"). `carriere_extra.py` scarica prima chi e' in una rosa attuale e ha giocato di recente.
+- Controllo: `controllo_profili_giocatori.py` -> `controllo_profili_giocatori.json` (per campionato: senza id, senza anagrafica, senza stagioni, senza carriera).

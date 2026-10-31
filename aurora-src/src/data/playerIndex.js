@@ -2,7 +2,7 @@
 import { BASE } from './load';
 import useAsync from '@/hooks/useAsync';
 import { carriereOf, loadCarriere } from './carriere';
-import { loadRose, roseOf, rosePlayer } from './rose';
+import { loadRose, roseOf, rosePlayer, rosaOf } from './rose';
 import { loadPlayerStats, loadPlayerStatsFor, playerSeasonLine, currentSeason, sortSeasons, FM_ID, LID_BY_FM } from './archive';
 import { playerById } from './players';
 import { teamById } from './teams';
@@ -21,7 +21,7 @@ export const loadPidx = async (pid) => {
   return e ? e.slice(1) : [];
 };
 
-const nm = (s) => String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
+const nm = (s) => String(s || '').toLowerCase().replace(/ı/g, 'i').replace(/ø/g, 'o').replace(/ł/g, 'l').replace(/đ/g, 'd').replace(/ß/g, 'ss').replace(/æ/g, 'ae').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
 
 // id FotMob del giocatore: carriere.json, poi id dell'archivio, poi rosa della squadra, poi statistiche della stagione in corso
 const PID = {};
@@ -39,6 +39,16 @@ export const resolvePid = (player) => {
       const ro = team ? roseOf(team) : null;
       const hit = ro && (ro.p || []).find((r) => nm(r[1]) === n);
       if (hit) return String(hit[0]);
+      // rose.json puo' avere la squadra vuota (o senza di lui): rosa completa della squadra (rosa/<id%100>.json)
+      const full = team ? await rosaOf(team).catch(() => null) : null;
+      let hit2 = full && (full.p || []).find((r) => nm(r[1]) === n);
+      if (!hit2 && full) {
+        // nome scritto in modo diverso (Kim Min-Jae / Min-jae Kim): stesse parole in qualsiasi ordine, oppure cognome unico nella rosa
+        const w = n.split(' ').sort().join(' ');
+        hit2 = (full.p || []).find((r) => nm(r[1]).split(' ').sort().join(' ') === w);
+        if (!hit2) { const last = n.split(' ').pop(); const c = (full.p || []).filter((r) => nm(r[1]).split(' ').includes(last)); if (c.length === 1 && last.length > 3) hit2 = c[0]; }
+      }
+      if (hit2 && hit2[0] > 0) return String(hit2[0]);
       const fm = FM_ID[(team && team.leagueId) || player.leagueId];
       if (fm) {
         const sk = await currentSeason(fm);

@@ -90,6 +90,33 @@ function buildStats(periodGroups) {
   }));
 }
 
+
+// Partita live: la mappa tiri (`d.sh`) arriva prima delle statistiche a barre. Le righe che derivano dai tiri non scendono mai sotto
+// quello che mostra la mappa, cosi' mappa, barre e risultato (`fxScore`) cambiano nello stesso momento. `half`: 1 = primo tempo, 2 = secondo, null = tutta la partita.
+function syncShotRows(groups, d, half) {
+  if (!groups || !d || !d.st || !(d.sh || []).length) return groups;
+  const tot = { h: 0, a: 0, t: { h: 0, a: 0 }, off: { h: 0, a: 0 }, bl: { h: 0, a: 0 }, xg: { h: 0, a: 0 }, all: { h: 0, a: 0 } };
+  (d.sh || []).forEach((x) => {
+    if (x[17] || (x[6] === 'Goal' && x[4] != null && x[4] < 30)) return; // autogol: non e' un tiro
+    if (half) { const pr = String(x[18] || ''); if (half === 1 ? !/first|1/i.test(pr) : !/second|2/i.test(pr)) return; }
+    const k = x[2] === d.hi ? 'h' : 'a';
+    tot.all[k] += 1;
+    tot.xg[k] += Number(x[13]) || 0;
+    if (x[7]) tot.bl[k] += 1;
+    else if (x[8]) tot.t[k] += 1;
+    else tot.off[k] += 1;
+  });
+  const want = { total_shots: tot.all, ShotsOnTarget: tot.t, ShotsOffTarget: tot.off, blocked_shots: tot.bl, expected_goals: tot.xg };
+  groups.forEach((g) => g.rows.forEach((r) => {
+    const w = want[r.key];
+    if (!w) return;
+    const dec = r.key === 'expected_goals';
+    if (w.h > r.home + (dec ? 0.004 : 0)) { r.home = dec ? Math.round(w.h * 100) / 100 : w.h; r.homeText = dec ? r.home.toFixed(2) : String(w.h); }
+    if (w.a > r.away + (dec ? 0.004 : 0)) { r.away = dec ? Math.round(w.a * 100) / 100 : w.a; r.awayText = dec ? r.away.toFixed(2) : String(w.a); }
+  }));
+  return groups;
+}
+
 const bucket = (mo) => {
   if (!mo || !mo.length) return [];
   const out = [];
@@ -155,9 +182,9 @@ export function applyFm(m, d, playerLookup) {
   }
 
   // statistiche per tempo
-  const all = buildStats(d.stats && d.stats.All);
+  const all = syncShotRows(buildStats(d.stats && d.stats.All), d, null);
   if (all) {
-    m.statPeriods = { all, first: buildStats(d.stats.FirstHalf), second: buildStats(d.stats.SecondHalf) };
+    m.statPeriods = { all, first: syncShotRows(buildStats(d.stats.FirstHalf), d, 1), second: syncShotRows(buildStats(d.stats.SecondHalf), d, 2) };
     m.statGroups = all.map((g) => ({ title: g.title, rows: g.rows }));
     const flat = {};
     all.forEach((g) => g.rows.forEach((r) => { flat[r.key] = [r.home, r.away]; }));

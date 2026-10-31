@@ -1,0 +1,404 @@
+{
+ "campionati": {
+  "premier-league": {
+   "tot": 447,
+   "senza_id": 0,
+   "senza_anagrafica": 4,
+   "senza_stagioni": 0,
+   "senza_carriera": 4
+  },
+  "la-liga": {
+   "tot": 482,
+   "senza_id": 2,
+   "senza_anagrafica": 15,
+   "senza_stagioni": 0,
+   "senza_carriera": 15
+  },
+  "ligue-1": {
+   "tot": 420,
+   "senza_id": 1,
+   "senza_anagrafica": 8,
+   "senza_stagioni": 0,
+   "senza_carriera": 8
+  },
+  "serie-a": {
+   "tot": 488,
+   "senza_id": 0,
+   "senza_anagrafica": 10,
+   "senza_stagioni": 1,
+   "senza_carriera": 10
+  },
+  "bundesliga": {
+   "tot": 401,
+   "senza_id": 0,
+   "senza_anagrafica": 6,
+   "senza_stagioni": 0,
+   "senza_carriera": 6
+  }
+ },
+ "totale": 2238,
+ "problemi": {
+  "senza_id": 3,
+  "senza_anagrafica": 43,
+  "senza_stagioni": 1,
+  "senza_carriera": 43
+ },
+ "casi": [
+  [
+   "la-liga",
+   "Aimar Blázquez",
+   "Valencia",
+   [
+    "senza anagrafica",
+    "senza carriera"
+   ]
+  ],
+  [
+   "la-liga",
+   "Alejandro Santiago",
+   "Espanyol",
+   [
+    "id FotMob non trovato"
+   ]
+  ],
+  [
+   "bundesliga",
+   "Alexander Prass",
+   "Hoffenheim",
+   [
+    "senza anagrafica",
+    "senza carriera"
+   ]
+  ],
+  [
+   "la-liga",
+   "Alvaro Padilla",
+   "Elche",
+   [
+    "senza anagrafica",
+    "senza carriera"
+   ]
+  ],
+  [
+   "ligue-1",
+   "Arnaud Bodart",
+   "Le Havre",
+   [
+    "senza anagrafica",
+    "senza carriera"
+   ]
+  ],
+  [
+   "la-liga",
+   "Carlos Martín",
+   "Atlético Madrid",
+   [
+    "senza anagrafica",
+    "senza carriera"
+   ]
+  ],
+  [
+   "ligue-1",
+   "Christ Batola",
+   "Troyes",
+   [
+    "senza anagrafica",
+    "senza carriera"
+   ]
+  ],
+  [
+   "la-liga",
+   "Christian Imga",
+   "Athletic Club",
+   [
+    "senza anagrafica",
+    "senza carriera"
+   ]
+  ],
+  [
+   "premier-league",
+   "Cody Drameh",
+   "Hull City",
+   [
+    "senza anagrafica",
+    "senza carriera"
+   ]
+  ],
+  [
+   "ligue-1",
+   "David Boly",
+   "Paris Saint-Germain",
+   [
+    "id FotMob non trovato"
+   ]
+  ],
+  [
+   "serie-a",
+   "Djibril Diallo",
+   "Parma",
+   [
+    "senza stagioni (pidx)"
+   ]
+  ],
+  [
+   "serie-a",
+   "Giovanni Daffara",
+   "Parma",
+   [
+    "senza anagrafica",
+    "senza carriera"
+   ]
+  ],
+  [
+   "la-liga",
+   "Jan Peries",
+   "Espanyol",
+   [
+    "id FotMob non trovato"
+   ]
+  ],
+  [
+   "la-liga",
+   "Jorge Domínguez",
+   "Atlético Madrid",
+   [
+    "senza anagrafica",
+    "senza carriera"
+   ]
+  ],
+  [
+   "la-liga",
+   "Joselu Pérez",
+   "Getafe",
+   [
+    "senza anagrafica",
+    "senza carriera"
+   ]
+  ],
+  [
+   "ligue-1",
+   "Josué Casimir",
+   "Auxerre",
+   [
+    "senza anagrafica",
+    "senza carriera"
+   ]
+  ],
+  [
+   "serie-a",
+   "Justin Oboavwoduo",
+   "Juventus",
+   [
+    "senza anagrafica",
+    "senza carriera"
+   ]
+  ],
+  [
+   "premier-league",
+   "Kaden Braithwaite",
+   "Manchester City",
+   [
+    "senza anagrafica",
+    "senza carriera"
+   ]
+  ],
+  [
+   "serie-a",
+   "Kamaldeen Sulemana",
+   "Atalanta",
+   [
+    "senza anagrafica",
+    "senza carriera"
+   ]
+  ],
+  [
+   "serie-a",
+   "Kenan Yildiz",
+   "Juventus",
+   [
+    "senza anagrafica",
+    "senza carriera"
+   ]
+  ],
+  [
+   "la-liga",
+   "Kevin Sánchez",
+   "Deportivo A Coruña",
+   [
+    "senza anagrafica",
+    "senza carriera"
+   ]
+  ],
+  [
+   "bundesliga",
+   "Kim Min-Jae",
+   "Bayern München",
+   [
+    "senza anagrafica",
+    "senza carriera"
+   ]
+  ],
+  [
+   "serie-a",
+   "Kingstone Mutandwa",
+   "Cagliari",
+   [
+    "senza anagrafica",
+    "senza carriera"
+   ]
+  ],
+  [
+   "bundesliga",
+   "Koki Machida",
+   "Hoffenheim",
+   [
+    "senza anagrafica",
+    "senza carriera"
+   ]
+  ],
+  [
+   "ligue-1",
+   "Lasso Coulibaly",
+   "Auxerre",
+   [
+    "senza anagrafica",
+    "senza carriera"
+   ]
+  ],
+  [
+   "bundesliga",
+   "Leonidas Stergiou",
+   "VfB Stuttgart",
+   [
+    "senza anagrafica",
+    "senza carriera"
+   ]
+  ],
+  [
+   "bundesliga",
+   "Lion Schweers",
+   "Borussia Mönchengladbach",
+   [
+    "senza anagrafica",
+    "senza carriera"
+   ]
+  ],
+  [
+   "serie-a",
+   "Luca Marianucci",
+   "Napoli",
+   [
+    "senza anagrafica",
+    "senza carriera"
+   ]
+  ],
+  [
+   "premier-league",
+   "Mahdi Nicoll-Jazuli",
+   "Chelsea",
+   [
+    "senza anagrafica",
+    "senza carriera"
+   ]
+  ],
+  [
+   "ligue-1",
+   "Mathys de Carvalho",
+   "Lyon",
+   [
+    "senza anagrafica",
+    "senza carriera"
+   ]
+  ],
+  [
+   "serie-a",
+   "Matteo Lavelli",
+   "Inter",
+   [
+    "senza anagrafica",
+    "senza carriera"
+   ]
+  ],
+  [
+   "la-liga",
+   "Mauro Echegoyen",
+   "Osasuna",
+   [
+    "senza anagrafica",
+    "senza carriera"
+   ]
+  ],
+  [
+   "la-liga",
+   "Nizar El Jmili",
+   "Villarreal",
+   [
+    "senza anagrafica",
+    "senza carriera"
+   ]
+  ],
+  [
+   "la-liga",
+   "Oscar Lopez",
+   "Getafe",
+   [
+    "senza anagrafica",
+    "senza carriera"
+   ]
+  ],
+  [
+   "ligue-1",
+   "Quentin Ndjantou",
+   "Paris Saint-Germain",
+   [
+    "senza anagrafica",
+    "senza carriera"
+   ]
+  ],
+  [
+   "serie-a",
+   "Sebastian Walukiewicz",
+   "Sassuolo",
+   [
+    "senza anagrafica",
+    "senza carriera"
+   ]
+  ],
+  [
+   "la-liga",
+   "Sergio Martínez",
+   "Racing Santander",
+   [
+    "senza anagrafica",
+    "senza carriera"
+   ]
+  ],
+  [
+   "la-liga",
+   "Teun Gijselhart",
+   "Deportivo A Coruña",
+   [
+    "senza anagrafica",
+    "senza carriera"
+   ]
+  ],
+  [
+   "premier-league",
+   "Timur Tuterov",
+   "Sunderland",
+   [
+    "senza anagrafica",
+    "senza carriera"
+   ]
+  ],
+  [
+   "la-liga",
+   "Txus Vizcay",
+   "Athletic Club",
+   [
+    "senza anagrafica",
+    "senza carriera"
+   ]
+  ]
+ ]
+}

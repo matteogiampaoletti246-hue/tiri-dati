@@ -228,16 +228,16 @@ function Body({ c, concept, onOpen }) {
   );
 }
 
-function Header({ c, concept }) {
+function Header({ c, concept, onOpen }) {
   const t = c.team;
   const col = t ? t.colors[0] : '#2a3a66';
   const pos = c.idx >= 0 && c.roster.length ? `${c.idx + 1}/${c.roster.length}` : null;
   if (concept === 'b') {
     return (
       <div className="flex items-center gap-4 px-5 pb-1 pt-1">
-        <Face c={c} size={64} />
+        {onOpen ? <button type="button" className="press" onClick={onOpen}><Face c={c} size={64} /></button> : <Face c={c} size={64} />}
         <div className="min-w-0 flex-1">
-          <p className="truncate text-[20px] font-extrabold leading-tight">{c.name}</p>
+          <p className="truncate text-[20px] font-extrabold leading-tight" onClick={onOpen || undefined}>{c.name}</p>
           <p className="mt-0.5 flex items-center gap-1.5 text-[12.5px]" style={{ color: 'var(--ink-3)' }}>{t ? <Crest team={t} size={16} /> : null}{t ? t.name : ''}{c.f && c.f.entry.number ? ` · n. ${c.f.entry.number}` : ''}{pos ? ` · ${pos}` : ''}</p>
         </div>
       </div>
@@ -245,8 +245,8 @@ function Header({ c, concept }) {
   }
   return (
     <div className="relative px-5 pb-3 pt-2 text-center" >
-      <div className="flex justify-center"><Face c={c} size={concept === 'c' ? 64 : 78} /></div>
-      <p className="mt-3 text-[19px] font-extrabold">{c.name}</p>
+      <div className="flex justify-center">{onOpen ? <button type="button" className="press" onClick={onOpen} aria-label={`Profilo di ${c.name}`}><Face c={c} size={concept === 'c' ? 64 : 78} /></button> : <Face c={c} size={concept === 'c' ? 64 : 78} />}</div>
+      {onOpen ? <button type="button" className="press mt-3 text-[19px] font-extrabold" onClick={onOpen}>{c.name}</button> : <p className="mt-3 text-[19px] font-extrabold">{c.name}</p>}
       <p className="mt-0.5 flex items-center justify-center gap-1.5 text-[12.5px]" style={{ color: 'var(--ink-3)' }}>{t ? <Crest team={t} size={16} /> : null}{t ? t.name : ''}{c.f && c.f.entry.number ? ` · n. ${c.f.entry.number}` : ''}{pos ? ` · ${pos}` : ''}</p>
     </div>
   );
@@ -424,7 +424,7 @@ export default function PlayerSheetHost() {
             <span className="mx-auto block h-[5px] w-10 rounded-full" style={{ background: 'var(--hair)' }} />
           </div>
           <div ref={slideRef} className="flex min-h-0 flex-1 flex-col">
-            <div className="shrink-0"><Header c={c} concept={concept} /></div>
+            <div className="shrink-0"><Header c={c} concept={concept} onOpen={c.ourId ? () => { closePlayer(); navigate(`/giocatore/${c.ourId}`); } : null} /></div>
             <div ref={scroller} className="min-h-0 flex-1 overflow-y-auto overscroll-contain" style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-y', overscrollBehavior: 'contain' }}>
               <Body c={c} concept={concept} onOpen={(to, d) => switchTo(to, d)} />
               <div style={{ height: 84 }} />

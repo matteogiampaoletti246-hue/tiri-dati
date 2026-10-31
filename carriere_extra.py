@@ -107,7 +107,17 @@ def main():
             ids.add(str(pid))
             if any(isinstance(c, list) and len(c) > 1 and str(c[1])[:4] in ('2025', '2026') for c in v[1:]):
                 recent.add(str(pid))
-    prio = lambda k: (0 if k in base else 1 if k in recent else 2, int(k) % 100 if k not in base and k not in recent else 0, int(k))
+    # rose complete delle squadre (rosa/): chi e' in una rosa attuale e ha giocato di recente passa prima degli altri (profilo completo per tutti i giocatori di oggi)
+    inrosa = set()
+    for i in range(100):
+        try:
+            for t in json.load(open(os.path.join(ROOT, 'rosa', f'{i}.json'), encoding='utf-8')).values():
+                for p in (t.get('p') or []):
+                    if p and p[0] and p[0] > 0: inrosa.add(str(p[0]))
+        except Exception:
+            continue
+    tier = lambda k: 0 if k in base else 1 if (k in recent and k in inrosa) else 2 if k in recent else 3 if k in inrosa else 4
+    prio = lambda k: (tier(k), int(k) % 100 if tier(k) > 1 else 0, int(k))
     todo = sorted(ids - have, key=prio)
     print(len(ids), 'giocatori,', len(have), 'gia\' presenti,', len(todo), 'da scaricare', flush=True)
     done = [0]

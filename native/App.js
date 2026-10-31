@@ -33,6 +33,22 @@ const FMT_HM = (() => { try { return new Intl.DateTimeFormat('it-IT', { hour: '2
 const rome = (d) => { try { return FMT_DAY.format(d); } catch (e) { return d.toISOString().slice(0, 10); } };
 const HM_CACHE = {};
 const LIVE_MEM = new Map(); // id partita -> ultimo { st, score, lt, t } letto da /fx
+const MEM_KEY = 'sl-livemem';
+const MEM_TTL = 3 * 3600000;
+// gli ultimi risultati live si ricordano sul telefono: all'apertura la Home li mostra subito (mai "LIVE" senza gol nei primi secondi)
+const MEM_READY = AsyncStorage.getItem(MEM_KEY).then((v) => {
+  const o = v ? JSON.parse(v) : {}; const n = Date.now();
+  Object.keys(o).forEach((k) => { if (o[k] && n - o[k].t < MEM_TTL && !LIVE_MEM.has(k)) LIVE_MEM.set(k, o[k]); });
+}).catch(() => {});
+let memTimer = null;
+const memSave = () => {
+  if (memTimer) return;
+  memTimer = setTimeout(() => {
+    memTimer = null; const n = Date.now(); const o = {};
+    LIVE_MEM.forEach((v, k) => { if (n - v.t < MEM_TTL) o[k] = v; });
+    AsyncStorage.setItem(MEM_KEY, JSON.stringify(o)).catch(() => {});
+  }, 1500);
+};
 const hhmm = (iso) => { if (HM_CACHE[iso] !== undefined) return HM_CACHE[iso]; let r = ''; try { r = FMT_HM.format(new Date(iso)); } catch (e) { r = ''; } HM_CACHE[iso] = r; return r; };
 
 const crest = (id) => `https://images.fotmob.com/image_resources/logo/teamlogo/${id}.png`;
@@ -354,6 +370,13 @@ function Screen({ onTheme }) {
         if (seen.has(m[0]) || m[8] === 'c' || !m[5] || !m[6] || !m[2]) return; seen.add(m[0]);
         const k = rome(new Date(m[2])); (by[k] = by[k] || []).push(m);
       }));
+      await MEM_READY;
+      const nowT = Date.now();
+      Object.keys(by).forEach((k) => { by[k] = by[k].map((m) => {
+        if (m[8] !== 'l' || /\d/.test(m[7] || '')) return m;
+        const mem = LIVE_MEM.get(String(m[0])); if (!mem || nowT - mem.t >= MEM_TTL || mem.st !== 'l') return m;
+        const n = m.slice(); n[7] = mem.score; n[10] = mem.lt; return n;
+      }); });
       if (!on) return;
       if (lastCenter.current !== center) { lastCenter.current = center; cancelAnimation(x); x.value = TODAY_INDEX; setCur(TODAY_INDEX); }
       setView({ dates: ds, keys: ks, data: ks.map((k) => by[k] || []) });
@@ -376,7 +399,9 @@ function Screen({ onTheme }) {
       const d = await getF(`${WORKER}/f?date=${iso.replace(/-/g, '')}`);
       (d.m || []).forEach((y) => {
         const sc = scoreStr(y.sc);
-        upd.set(String(y.id), y.f && sc ? { st: 'f', score: sc } : y.s && !y.f ? { st: 'l', score: sc, lt: clock(y.lt) } : { st: 'n' });
+        const uu = y.f && sc ? { st: 'f', score: sc } : y.s && !y.f ? { st: 'l', score: sc, lt: clock(y.lt) } : { st: 'n' };
+        upd.set(String(y.id), uu);
+        if (uu.st === 'l' && uu.score) { LIVE_MEM.set(String(y.id), { ...uu, t: now }); memSave(); }
       });
     } catch (e) { /* si riprova al prossimo giro */ }
     const rows0 = (viewRef.current && viewRef.current.keys === v.keys ? viewRef.current.data[i] : null) || [];
@@ -393,7 +418,7 @@ function Screen({ onTheme }) {
           const sc = d.sc && d.sc[0] != null ? `${d.sc[0]}-${d.sc[1]}` : null;
           const u = d.fin && sc ? { st: 'f', score: sc } : d.st ? { st: 'l', score: sc, lt: clock(d.clk, d.ht) } : { st: 'n' };
           upd.set(String(m[0]), u);
-          if (u.score) LIVE_MEM.set(String(m[0]), { ...u, t: now });
+          if (u.score) { LIVE_MEM.set(String(m[0]), { ...u, t: now }); memSave(); }
         } catch (e) { /* si riprova al prossimo giro */ }
       }
     };
@@ -410,7 +435,7 @@ function Screen({ onTheme }) {
     const rows = v2.data[i].map((m) => {
       let u = upd.get(String(m[0]));
       // ultimo risultato noto (anche dopo aver cambiato giorno e ricostruito le righe): mai "live" senza gol se lo conosciamo
-      if (!u && m[8] === 'l' && !/\d/.test(m[7] || '')) { const mem = LIVE_MEM.get(String(m[0])); if (mem && now - mem.t < 10 * 60000) u = mem; }
+      if (!u && m[8] === 'l' && !/\d/.test(m[7] || '')) { const mem = LIVE_MEM.get(String(m[0])); if (mem && now - mem.t < MEM_TTL) u = mem; }
       if (!u) return m;
       let st = m[8]; let score = m[7]; let lt = m[10];
       if (u.st === 'f' && u.score) { st = 'f'; score = u.score; lt = undefined; }

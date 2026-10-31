@@ -136,8 +136,8 @@ export function ProfiloPanel({ player: player0, team, concept }) {
     ['Presenze', player.appearances],
     ['Gol', player.goals],
     ['Assist', player.assists],
-    ['Voto', player.rating ? comma(player.rating, 2) : '—'],
-  ];
+    ['Voto', player.rating ? comma(player.rating, 2) : null],
+  ].filter(([, v]) => v !== null);
 
   if (concept === 'b') {
     return (
