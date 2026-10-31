@@ -1,0 +1,3633 @@
+{
+  "when": "2026-10-31T03:17:50.154Z",
+  "checks": [
+    {
+      "name": "home: ogni campionato ha la sua tendina",
+      "pass": true,
+      "n": 82
+    },
+    {
+      "name": "home: top 5 e coppe partono aperti",
+      "pass": true,
+      "top": [
+        {
+          "name": "SERIE A",
+          "open": true
+        },
+        {
+          "name": "PREMIER LEAGUE",
+          "open": true
+        },
+        {
+          "name": "LALIGA",
+          "open": true
+        },
+        {
+          "name": "BUNDESLIGA",
+          "open": true
+        },
+        {
+          "name": "LIGUE 1",
+          "open": true
+        }
+      ]
+    },
+    {
+      "name": "home: i campionati minori partono chiusi",
+      "pass": true,
+      "aperti": []
+    },
+    {
+      "name": "home: toccando il nome si apre la scheda del campionato",
+      "pass": true,
+      "hash": "#/campionato/serie-a"
+    },
+    {
+      "name": "home: toccando il nome la tendina non cambia",
+      "pass": true
+    },
+    {
+      "name": "home: la tendina di un top campionato si chiude a richiesta",
+      "pass": true
+    },
+    {
+      "name": "home: si riapre",
+      "pass": true
+    },
+    {
+      "name": "home: tornando da una partita le tendine restano come le avevo lasciate",
+      "pass": true,
+      "prima": "SERIE A:true,PREMIER LEAGUE:true,LALIGA:true,BUNDESLIGA:true,LIGUE 1:true,PRO LEAGUE:true,EREDIVISIE:false,LIGA PORTUGAL:false,SÜPER LIG:false,COPA LIBERTADORES FEMENINA:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false",
+      "dopo": "SERIE A:true,PREMIER LEAGUE:true,LALIGA:true,BUNDESLIGA:true,LIGUE 1:true,PRO LEAGUE:true,EREDIVISIE:false,LIGA PORTUGAL:false,SÜPER LIG:false,COPA LIBERTADORES FEMENINA:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false,:false"
+    },
+    {
+      "name": "home: competizioni non top raggruppate in finestre per paese",
+      "pass": true,
+      "paesi": 72
+    },
+    {
+      "name": "home: le finestre dei paesi partono chiuse e il nome non apre una scheda",
+      "pass": true,
+      "aperte": []
+    },
+    {
+      "name": "home: una finestra paese chiusa non monta le partite (piu leggera)",
+      "pass": true,
+      "conRighe": []
+    },
+    {
+      "name": "home: paesi in ordine alfabetico italiano",
+      "pass": true,
+      "paesi": [
+        "Algeria",
+        "Arabia Saudita",
+        "Argentina",
+        "Armenia",
+        "Australia",
+        "Austria",
+        "Azerbaigian",
+        "Belgio",
+        "Bielorussia",
+        "Bolivia",
+        "Bosnia ed Erzegovina",
+        "Brasile"
+      ]
+    },
+    {
+      "name": "home: prima i top campionati, poi i paesi",
+      "pass": true,
+      "lastTop": 4,
+      "firstCountry": 10
+    },
+    {
+      "name": "home: le competizioni dell'archivio di oggi ci sono (sole o nella finestra del paese)",
+      "pass": true,
+      "attese": 91,
+      "trovate": 91,
+      "mancano": []
+    },
+    {
+      "name": "home: nessuna competizione dell'archivio con lo stesso nome di un top campionato",
+      "pass": true,
+      "dup": []
+    },
+    {
+      "name": "home: nessun top campionato dentro una finestra paese",
+      "pass": true
+    },
+    {
+      "name": "home: nessuna finestra vuota",
+      "pass": true,
+      "empty": 0
+    },
+    {
+      "name": "home: la partita dentro una finestra paese si apre",
+      "pass": true,
+      "go1": "#/match/x-516-5989867",
+      "opened3": [
+        "ALG",
+        "KSA",
+        "ARG"
+      ]
+    },
+    {
+      "name": "home: la partita di una competizione dell'archivio si apre senza \"non disponibile\"",
+      "pass": true,
+      "href": "#/match/x-516-5989867"
+    },
+    {
+      "name": "home: tornando da una partita le finestre dei paesi restano aperte",
+      "pass": true,
+      "opened3": [
+        "ALG",
+        "KSA",
+        "ARG"
+      ],
+      "stillOpen": [
+        "ALG",
+        "KSA",
+        "ARG"
+      ]
+    },
+    {
+      "name": "home: l'intestazione della competizione dentro il paese apre la sua scheda",
+      "pass": true
+    },
+    {
+      "name": "competizioni: oltre 300 competizioni in elenco",
+      "pass": true,
+      "rows": 370
+    },
+    {
+      "name": "competizioni: internazionali in cima, poi Italia",
+      "pass": true,
+      "heads": [
+        "Internazionali",
+        "Italia",
+        "Inghilterra",
+        "Spagna",
+        "Germania",
+        "Francia"
+      ]
+    },
+    {
+      "name": "competizioni: niente \"non disponibile\"",
+      "pass": true
+    },
+    {
+      "name": "competizioni: una competizione dell'archivio apre la scheda con le sue schede",
+      "pass": true,
+      "tabs": [
+        "Partite",
+        "Classifica",
+        "Stat. squadre",
+        "Giocatori",
+        "Arbitri"
+      ],
+      "hash": "#/campionato/fm-77"
+    },
+    {
+      "name": "barra in basso: sempre agganciata al fondo",
+      "pass": true,
+      "res": [
+        {
+          "top": 576,
+          "bottom": 664,
+          "vh": 664,
+          "sy": 300
+        },
+        {
+          "top": 576,
+          "bottom": 664,
+          "vh": 664,
+          "sy": 900
+        },
+        {
+          "top": 576,
+          "bottom": 664,
+          "vh": 664,
+          "sy": 1800
+        },
+        {
+          "top": 576,
+          "bottom": 664,
+          "vh": 664,
+          "sy": 3000
+        },
+        {
+          "top": 576,
+          "bottom": 664,
+          "vh": 664,
+          "sy": 600
+        },
+        {
+          "top": 576,
+          "bottom": 664,
+          "vh": 664,
+          "sy": 0
+        }
+      ]
+    },
+    {
+      "name": "barra in basso: dopo il cambio scheda resta al suo posto",
+      "pass": true,
+      "bottom": 664,
+      "vh": 664,
+      "indTop": 591,
+      "navTop": 576
+    },
+    {
+      "name": "x-9067-1000019467: scheda Riepilogo (le altre solo se hanno dati)",
+      "pass": true,
+      "tabs": [
+        "Riepilogo",
+        "Statistiche",
+        "Formazioni",
+        "Tabellone",
+        "Giocatori"
+      ]
+    },
+    {
+      "name": "x-9067-1000019467: nessuna scheda Giocatori",
+      "pass": true
+    },
+    {
+      "name": "x-9067-1000019467: riepilogo senza testi \"non disponibile\"",
+      "pass": true
+    },
+    {
+      "name": "x-9067-1000019467: riepilogo con almeno un riquadro",
+      "pass": true,
+      "snippet": "\n\nCOPA DO BRASIL\n\n\nSantos\n0 – 0\nFinita\n\nPalmeiras\nRiepilogo\nStatistiche\nFormazio"
+    },
+    {
+      "name": "x-9067-1000019467: forma recente",
+      "pass": true
+    },
+    {
+      "name": "x-9067-1000019467: Totale / 1° tempo / 2° tempo",
+      "pass": true
+    },
+    {
+      "name": "x-9067-1000019467: mappa tiri",
+      "pass": true
+    },
+    {
+      "name": "x-9067-1000019467: formazione sul campo verde",
+      "pass": true
+    },
+    {
+      "name": "x-9067-1000019467: cambio senza riquadro ne' minuto",
+      "pass": true,
+      "subBox": 0
+    },
+    {
+      "name": "x-9067-1000019467: due squadre evidenziate in classifica",
+      "pass": true,
+      "evidenziate": 0
+    },
+    {
+      "name": "a-71-2025-2026-4842620: scheda Riepilogo (le altre solo se hanno dati)",
+      "pass": true,
+      "tabs": [
+        "Riepilogo",
+        "Statistiche",
+        "Formazioni",
+        "Classifica",
+        "Giocatori"
+      ]
+    },
+    {
+      "name": "a-71-2025-2026-4842620: nessuna scheda Giocatori",
+      "pass": true
+    },
+    {
+      "name": "a-71-2025-2026-4842620: riepilogo senza testi \"non disponibile\"",
+      "pass": true
+    },
+    {
+      "name": "a-71-2025-2026-4842620: riepilogo con almeno un riquadro",
+      "pass": true,
+      "snippet": "\n\nSÜPER LIG · 2025/26\n\n\nTrabzonspor\n0 – 3\nFinita\nDomenica 17 mag\n\nGençlerbirliği"
+    },
+    {
+      "name": "a-71-2025-2026-4842620: forma recente",
+      "pass": true
+    },
+    {
+      "name": "a-71-2025-2026-4842620: Totale / 1° tempo / 2° tempo",
+      "pass": true
+    },
+    {
+      "name": "a-71-2025-2026-4842620: mappa tiri",
+      "pass": true
+    },
+    {
+      "name": "a-71-2025-2026-4842620: formazione sul campo verde",
+      "pass": true
+    },
+    {
+      "name": "a-71-2025-2026-4842620: cambio senza riquadro ne' minuto",
+      "pass": true,
+      "subBox": 0
+    },
+    {
+      "name": "a-71-2025-2026-4842620: due squadre evidenziate in classifica",
+      "pass": true,
+      "evidenziate": 2
+    },
+    {
+      "name": "menu laterale: pannello a destra, non a tutto schermo",
+      "pass": true,
+      "w": {
+        "left": 157,
+        "width": 236,
+        "vw": 390
+      }
+    },
+    {
+      "name": "barre a: le barre hanno la transizione",
+      "pass": true,
+      "w0": {
+        "n": 32,
+        "w": [
+          207,
+          220,
+          259,
+          245
+        ],
+        "tr": "width 620ms cubic-bezier(0.22, 1, 0.36, 1), opacity 0.45s"
+      }
+    },
+    {
+      "name": "barre a: la transizione e' graduale (a meta' strada non e' ne' all'inizio ne' alla fine)",
+      "pass": true,
+      "w0": [
+        207,
+        220,
+        259,
+        245
+      ],
+      "w1": [
+        211,
+        222,
+        250,
+        242
+      ],
+      "w2": [
+        214,
+        223,
+        243,
+        240
+      ]
+    },
+    {
+      "name": "stagione 2011/12: la pagina resta visibile",
+      "pass": true,
+      "len": 279
+    },
+    {
+      "name": "serie-b: scheda campionato aperta",
+      "pass": true,
+      "len": 496
+    },
+    {
+      "name": "serie-b: giocatori con classifiche",
+      "pass": true,
+      "len": 9786
+    },
+    {
+      "name": "mls: scheda campionato aperta",
+      "pass": true,
+      "len": 675
+    },
+    {
+      "name": "mls: giocatori con classifiche",
+      "pass": true,
+      "len": 10214
+    },
+    {
+      "name": "championship: scheda campionato aperta",
+      "pass": true,
+      "len": 551
+    },
+    {
+      "name": "championship: giocatori con classifiche",
+      "pass": true,
+      "len": 9516
+    },
+    {
+      "name": "coppa-italia: scheda campionato aperta",
+      "pass": true,
+      "len": 849
+    },
+    {
+      "name": "coppa-italia: giocatori con classifiche",
+      "pass": true,
+      "len": 6332
+    },
+    {
+      "name": "fluminense: sotto il nome c'e' il campionato, non la coppa",
+      "pass": true,
+      "testa": " | Tutte le competizioni | Attuale | Tutte | Risultati | Programmate | Partite precedenti (65) | BRASILEIRÃO SÉRIE A | 7 | DOM 25 | Chapecoense | 2–1 | 00:30 | "
+    },
+    {
+      "name": "fluminense: stesse schede dei top campionati",
+      "pass": true,
+      "tabs": [
+        "Partite",
+        "Classifica",
+        "Squadra",
+        "Statistiche",
+        "Giocatori"
+      ]
+    },
+    {
+      "name": "fluminense: classifica del Brasileirao",
+      "pass": true,
+      "len": 988
+    },
+    {
+      "name": "Partite: competizioni e stagione sulla stessa riga",
+      "pass": true,
+      "rows": [
+        210,
+        209,
+        210
+      ]
+    },
+    {
+      "name": "PSG: piu di 2 stagioni in tendina",
+      "pass": true,
+      "n": 16
+    },
+    {
+      "name": "Statistiche passate: pillole Casa/Trasferta e categorie",
+      "pass": true
+    },
+    {
+      "name": "Partite attuale: tasto partite precedenti",
+      "pass": true
+    },
+    {
+      "name": "home: ritorno senza salti di scroll (mai sopra l'altezza di prima)",
+      "pass": true,
+      "y0": 420,
+      "minimo": 420,
+      "primi": [
+        420,
+        420,
+        420,
+        421,
+        420,
+        420,
+        420,
+        420
+      ]
+    },
+    {
+      "name": "dfb-pokal: la scheda e' Tabellone, non Classifica",
+      "pass": true,
+      "tabs": [
+        "Partite",
+        "Tabellone",
+        "Stat. squadre"
+      ]
+    },
+    {
+      "name": "dfb-pokal: tabellone con turni e squadre",
+      "pass": true,
+      "len": 800
+    },
+    {
+      "name": "giornate: nessun riquadro piu' lungo di 10 giorni",
+      "pass": true,
+      "n": 46,
+      "long": []
+    },
+    {
+      "name": "giornate: mai risultato e orario insieme",
+      "pass": true,
+      "both": []
+    },
+    {
+      "name": "swipe squadra: nella fotografia nessuna copia segnata data-pf",
+      "pass": true,
+      "pf": 0
+    },
+    {
+      "name": "swipe squadra: il banner nella fotografia resta fermo dentro di essa",
+      "pass": true,
+      "banner": 156,
+      "n": 8,
+      "fuori": []
+    },
+    {
+      "name": "swipe squadra: mai un fotogramma senza pagina (nero)",
+      "pass": true,
+      "neri": []
+    },
+    {
+      "name": "swipe squadra: si torna alla squadra",
+      "pass": true
+    },
+    {
+      "name": "bordo sinistro: touchstart sul bordo bloccato, al centro libero",
+      "pass": true,
+      "skip": "TypeError: Illegal constructor"
+    },
+    {
+      "name": "feyenoord statistiche: riquadri Gol e Tiri in porta con posizione",
+      "pass": true,
+      "snippet": "\n\nEredivisie\n\nAttuale\nGOL\n3,2\n1°\nXG\n2,7\n1°\nTIRI\n20,5\n2°\nTIRI IN PORTA\n8,4\n1°\n\nPROSSIMA\nVS\n\nFortuna Sittard\nCasa\nTotale\nCasa\nTrasferta\nTutte\nAttacco\nDifesa\nDisciplina\nGioco\nAttacco\nGol a partita\n3,20\n1"
+    },
+    {
+      "name": "feyenoord statistiche: riga Prossima partita",
+      "pass": true
+    },
+    {
+      "name": "giocatore: tendina competizioni con almeno 2 voci",
+      "pass": true,
+      "opts": [
+        "Bundesliga",
+        "Bundesliga",
+        "DFB Pokal",
+        "Europa League",
+        "3. Liga",
+        "Attuale",
+        "Totale",
+        "Casa",
+        "Trasferta",
+        "Tutte",
+        "Attacco",
+        "Difesa",
+        "Disciplina",
+        "Gioco",
+        "Profilo",
+        "Partite",
+        "Statistiche",
+        "Carriera"
+      ]
+    },
+    {
+      "name": "giocatore: lista partite presente",
+      "pass": true,
+      "len": 654
+    },
+    {
+      "name": "giocatore: profilo con anagrafica e radar",
+      "pass": true,
+      "poly": 5
+    },
+    {
+      "name": "tabellone: cliccando l'ultima pillola entra e resta visibile",
+      "pass": true,
+      "res": {
+        "n": 4,
+        "left": 251,
+        "right": 324,
+        "vw": 390
+      }
+    },
+    {
+      "name": "tendina stagioni: aperta",
+      "pass": true,
+      "m": {
+        "top": 258,
+        "bottom": 564,
+        "navTop": 576,
+        "sh": 463,
+        "ch": 304,
+        "ov": "contain",
+        "sy": 0,
+        "right": 333,
+        "vw": 390
+      }
+    },
+    {
+      "name": "tendina stagioni: finisce sopra la barra in basso",
+      "pass": true,
+      "m": {
+        "top": 258,
+        "bottom": 564,
+        "navTop": 576,
+        "sh": 463,
+        "ch": 304,
+        "ov": "contain",
+        "sy": 0,
+        "right": 333,
+        "vw": 390
+      }
+    },
+    {
+      "name": "tendina stagioni: dentro lo schermo a destra",
+      "pass": true,
+      "m": {
+        "top": 258,
+        "bottom": 564,
+        "navTop": 576,
+        "sh": 463,
+        "ch": 304,
+        "ov": "contain",
+        "sy": 0,
+        "right": 333,
+        "vw": 390
+      }
+    },
+    {
+      "name": "tendina stagioni: scorre solo la lista (overscroll contain)",
+      "pass": true,
+      "m": {
+        "top": 258,
+        "bottom": 564,
+        "navTop": 576,
+        "sh": 463,
+        "ch": 304,
+        "ov": "contain",
+        "sy": 0,
+        "right": 333,
+        "vw": 390
+      }
+    },
+    {
+      "name": "tendina stagioni: l'ultima stagione si raggiunge e la pagina dietro non si muove",
+      "pass": true,
+      "last": {
+        "txt": "2014",
+        "inside": true,
+        "sy": 0
+      }
+    },
+    {
+      "name": "tendina stagioni: si chiude scegliendo una voce",
+      "pass": true
+    },
+    {
+      "name": "austrian cup: nessun \"non disponibile\"",
+      "pass": true
+    },
+    {
+      "name": "austrian cup: il primo riquadro ha dati (Momentum solo se c'e')",
+      "pass": true,
+      "first": "Riassunto"
+    },
+    {
+      "name": "liga mx: la squadra apre la scheda unica /squadra/",
+      "pass": true,
+      "h": "#/storico/230/2026-2027 - Apertura/squadra/6576",
+      "hash": "#/squadra/cf-america"
+    },
+    {
+      "name": "liga mx: Statistiche con valori",
+      "pass": true,
+      "len": 2178
+    },
+    {
+      "name": "liga mx: Giocatori con classifiche",
+      "pass": true,
+      "n": 340
+    },
+    {
+      "name": "liga mx: scheda giocatore con Profilo/Partite/Statistiche/Carriera e statistiche della stagione",
+      "pass": true,
+      "tabs": [
+        "Profilo",
+        "Partite",
+        "Statistiche",
+        "Carriera"
+      ]
+    },
+    {
+      "name": "real sociedad b: scheda propria con nome \"Real Sociedad B\" e LaLiga2",
+      "pass": true,
+      "b": "\n\nReal Sociedad B\nLaLiga2\nP\nP\nP\nP\nP\n20°\n8 pt\nAll. Ion Ansotegui\n",
+      "h": "#/squadra/real-sociedad-b"
+    },
+    {
+      "name": "tabellone: da fermo un solo livello (niente will-change su ogni riquadro)",
+      "pass": true,
+      "layers": 1
+    },
+    {
+      "name": "tabellone: lo swipe verso il Tabellone non e' piu' lento dello swipe tra schede leggere",
+      "pass": true,
+      "base": {
+        "n": 20,
+        "p50": 89,
+        "p95": 213,
+        "tab": "Statistiche"
+      },
+      "br": {
+        "n": 21,
+        "p50": 88,
+        "p95": 134,
+        "tab": "Tabellone"
+      }
+    },
+    {
+      "name": "partite precedenti: la partita che guardavo resta alla stessa altezza",
+      "pass": true,
+      "before": {
+        "top": 432,
+        "href": "#/match/m_4Z1eLV"
+      },
+      "after": {
+        "top": 432,
+        "sy": 1218
+      }
+    },
+    {
+      "name": "partite precedenti: tornando da una partita la lista e' ancora aperta",
+      "pass": true
+    },
+    {
+      "name": "swipe indietro veloce: nessun fotogramma nero",
+      "pass": true,
+      "frames": 854,
+      "black": 0
+    },
+    {
+      "name": "tiri murati: mappa tiri disegnata senza errori",
+      "pass": true,
+      "seen": 177
+    },
+    {
+      "name": "formazioni x-230-1000014624: due pillole larghe quanto il campo, la scelta cambia allenatore e panchina",
+      "pass": true,
+      "pk": true,
+      "n": 2,
+      "w": 358,
+      "pw": null,
+      "sel": "true",
+      "changed": true
+    },
+    {
+      "name": "formazioni m_2xKl7N: due pillole larghe quanto il campo, la scelta cambia allenatore e panchina",
+      "pass": true,
+      "pk": true,
+      "n": 2,
+      "w": 358,
+      "pw": null,
+      "sel": "true",
+      "changed": true
+    },
+    {
+      "name": "formazioni: selettore squadra presente",
+      "pass": true,
+      "ids": [
+        "x-230-1000014624",
+        "m_2xKl7N"
+      ]
+    },
+    {
+      "name": "archivio fm-44 (Copa America): scheda con schede e dati",
+      "pass": true,
+      "tabs": 5
+    },
+    {
+      "name": "archivio fm-45 (Copa Libertadores): scheda con schede e dati",
+      "pass": true,
+      "tabs": 5
+    },
+    {
+      "name": "archivio fm-46 (Superligaen): scheda con schede e dati",
+      "pass": true,
+      "tabs": 4
+    },
+    {
+      "name": "archivio fm-50 (EURO): scheda con schede e dati",
+      "pass": true,
+      "tabs": 2
+    },
+    {
+      "name": "archivio fm-51 (Veikkausliiga): scheda con schede e dati",
+      "pass": true,
+      "tabs": 4
+    },
+    {
+      "name": "archivio: almeno 5 competizioni minori raggiungibili",
+      "pass": true,
+      "okN": 5
+    },
+    {
+      "name": "fluidita: swipe tra schede ripetuti senza peggiorare",
+      "pass": true,
+      "t0": {
+        "n": 20,
+        "p50": 81,
+        "p95": 168,
+        "tab": "Classifica"
+      },
+      "t1": {
+        "n": 36,
+        "p50": 16,
+        "p95": 133,
+        "tab": "Giocatori"
+      }
+    },
+    {
+      "name": "fluidita: indietro dopo gli swipe torna alla Home",
+      "pass": true,
+      "h": "#/"
+    },
+    {
+      "10": "#/",
+      "30": "#/",
+      "45": "#/",
+      "120": "#/",
+      "name": "swipe indietro: dal bordo e fino a 45 px si torna indietro",
+      "pass": true
+    },
+    {
+      "10": "#/",
+      "30": "#/",
+      "45": "#/",
+      "120": "#/",
+      "name": "swipe indietro: dalla prima scheda (a sinistra non c'e' nulla) parte anche dal centro",
+      "pass": true
+    },
+    {
+      "name": "scroll: Home a 0 px, squadra scorsa, al ritorno la Home e' alla stessa altezza",
+      "pass": true,
+      "prima": 0,
+      "squadra": 1800,
+      "dopo": 0
+    },
+    {
+      "name": "scroll: Home a 700 px, squadra scorsa, al ritorno la Home e' alla stessa altezza",
+      "pass": true,
+      "prima": 700,
+      "squadra": 1800,
+      "dopo": 700
+    },
+    {
+      "name": "arbitri2: file con due stagioni, arbitri e medie",
+      "pass": true,
+      "s": [
+        "2026-2027",
+        "2025-2026"
+      ]
+    },
+    {
+      "name": "arbitro: il riquadro mostra le gare delle ultime 2 stagioni",
+      "pass": true,
+      "seen": 20
+    },
+    {
+      "name": "foto_fm: file con id FotMob",
+      "pass": true,
+      "n": 3631
+    },
+    {
+      "name": "rose: Van divisa per ruolo",
+      "pass": true,
+      "gruppi": [
+        "portieri",
+        "difensori",
+        "centrocampisti",
+        "attaccanti",
+        "allenatore"
+      ]
+    },
+    {
+      "name": "rose: Van almeno 11 giocatori",
+      "pass": true,
+      "rows": 33
+    },
+    {
+      "name": "rose: Van nessun gruppo generico \"Giocatori\" al posto dei ruoli",
+      "pass": true,
+      "gruppi": [
+        "portieri",
+        "difensori",
+        "centrocampisti",
+        "attaccanti",
+        "allenatore"
+      ]
+    },
+    {
+      "name": "rose: Ararat Armenia divisa per ruolo",
+      "pass": true,
+      "gruppi": [
+        "portieri",
+        "difensori",
+        "centrocampisti",
+        "attaccanti",
+        "allenatore"
+      ]
+    },
+    {
+      "name": "rose: Ararat Armenia almeno 11 giocatori",
+      "pass": true,
+      "rows": 30
+    },
+    {
+      "name": "rose: Ararat Armenia nessun gruppo generico \"Giocatori\" al posto dei ruoli",
+      "pass": true,
+      "gruppi": [
+        "portieri",
+        "difensori",
+        "centrocampisti",
+        "attaccanti",
+        "allenatore"
+      ]
+    },
+    {
+      "name": "rose: Ararat Armenia con l'allenatore",
+      "pass": true,
+      "gruppi": [
+        "portieri",
+        "difensori",
+        "centrocampisti",
+        "attaccanti",
+        "allenatore"
+      ]
+    },
+    {
+      "name": "giocatori: squadra senza statistiche = niente scheda Giocatori",
+      "pass": true,
+      "squadra": "ND Triglav",
+      "tabs": [
+        "Partite",
+        "Classifica",
+        "Squadra",
+        "Statistiche"
+      ]
+    },
+    {
+      "name": "statistiche pre-partita: nessuna riga con posizione 0°",
+      "pass": true,
+      "provate": 6,
+      "bad": []
+    },
+    {
+      "name": "arbitri: Primera Federacion senza scheda Arbitri",
+      "pass": true,
+      "tabs": [
+        "Partite",
+        "Classifica",
+        "Stat. squadre"
+      ]
+    },
+    {
+      "name": "arbitri: Championship (campionato aggiunto, non top) senza scheda Arbitri",
+      "pass": true,
+      "tabs": [
+        "Partite",
+        "Classifica",
+        "Stat. squadre",
+        "Giocatori"
+      ]
+    },
+    {
+      "name": "testi: #/campionato/bundesliga senza testi tagliati sotto la riga",
+      "pass": true,
+      "bad": []
+    },
+    {
+      "name": "testi: #/squadra/fortuna-sittard senza testi tagliati sotto la riga",
+      "pass": true,
+      "bad": []
+    },
+    {
+      "name": "testi: #/campionato/eredivisie senza testi tagliati sotto la riga",
+      "pass": true,
+      "bad": []
+    },
+    {
+      "name": "home: in tutti i giorni i minori sono chiusi e i top aperti",
+      "pass": true,
+      "bad": []
+    },
+    {
+      "name": "squadra archivio: il link d'archivio apre la scheda unica /squadra/",
+      "pass": true,
+      "hash": "#/squadra/agf",
+      "pick": {
+        "fm": "46",
+        "sk": "2026-2027",
+        "tid": "8071",
+        "name": "AGF"
+      }
+    },
+    {
+      "name": "squadra archivio: banner con il nome e schede come gli altri",
+      "pass": true,
+      "tabs": [
+        "Partite",
+        "Classifica",
+        "Squadra",
+        "Statistiche",
+        "Giocatori"
+      ]
+    },
+    {
+      "name": "squadra archivio: niente \"non disponibile\" ne' \"All. —\"",
+      "pass": true,
+      "all": "All. Jakob Poulsen"
+    },
+    {
+      "name": "squadra archivio: /squadra/fm-<id> aperto da zero mostra la scheda",
+      "pass": true
+    },
+    {
+      "name": "statistiche: con dati solo nel passato la scheda Statistiche c'e'",
+      "pass": true,
+      "tabs": [
+        "Profilo",
+        "Partite",
+        "Statistiche",
+        "Carriera"
+      ],
+      "p": {
+        "pid": 680011,
+        "name": "Bart Nieuwkoop",
+        "fm": 57,
+        "cur": "2026-2027",
+        "sk": "2025-2026"
+      }
+    },
+    {
+      "name": "statistiche: stagione attuale senza dati = \"Dati non disponibili\" (un solo messaggio, niente \"–\")",
+      "pass": true,
+      "t": "\n\nEredivisie\n\n2026/27\nTutte\nAttacco\nDifesa\nDisciplina\nGioco\nDati non disponibili\n\nHome\nCalcolatore\nGiocatori\nMatchup\n\n\n\nBart Nieuwkoop\nFeyenoord · Difensore\nProfilo\nPartite\nStatistiche\nCarriera\n"
+    },
+    {
+      "name": "statistiche: dalla tendina una stagione passata mostra le statistiche",
+      "pass": true,
+      "sk": "2025-2026",
+      "chose": true
+    },
+    {
+      "name": "statistiche: con dati nella stagione attuale si vedono subito",
+      "pass": true,
+      "p": {
+        "pid": 1336731,
+        "name": "Tjark Ernst",
+        "fm": 57,
+        "cur": "2026-2027"
+      }
+    },
+    {
+      "name": "statistiche: senza dati in nessuna stagione la scheda Statistiche non c'e'",
+      "pass": true,
+      "tabs": [
+        "Profilo",
+        "Partite",
+        "Carriera"
+      ],
+      "p": {
+        "pid": 1876641,
+        "name": "Hakeem Agboluaje",
+        "fm": 57,
+        "cur": "2026-2027"
+      }
+    },
+    {
+      "name": "migliori giocatori: la striscia parte da Ieri",
+      "pass": true,
+      "labels": [
+        "Ieri",
+        "Oggi",
+        "Domani",
+        "Lun "
+      ]
+    },
+    {
+      "name": "migliori matchup: la striscia parte da Ieri",
+      "pass": true,
+      "labels2": [
+        "Ieri",
+        "Oggi",
+        "Domani",
+        "Lun "
+      ]
+    },
+    {
+      "name": "x-9067-1000019466: scheda Riepilogo (le altre solo se hanno dati)",
+      "pass": true,
+      "tabs": [
+        "Riepilogo",
+        "Statistiche",
+        "Formazioni",
+        "Tabellone",
+        "Giocatori"
+      ]
+    },
+    {
+      "name": "x-9067-1000019466: nessuna scheda Giocatori",
+      "pass": true
+    },
+    {
+      "name": "x-9067-1000019466: riepilogo senza testi \"non disponibile\"",
+      "pass": true
+    },
+    {
+      "name": "x-9067-1000019466: riepilogo con almeno un riquadro",
+      "pass": true,
+      "snippet": "\n\nCOPA DO BRASIL\n\n\nVitória\n0 – 2\nFinita\n\nVasco da Gama\n81' A. Gómez\n90+7' J. Rod"
+    },
+    {
+      "name": "x-9067-1000019466: forma recente",
+      "pass": true
+    },
+    {
+      "name": "x-9067-1000019466: Totale / 1° tempo / 2° tempo",
+      "pass": true
+    },
+    {
+      "name": "x-9067-1000019466: mappa tiri",
+      "pass": true
+    },
+    {
+      "name": "x-9067-1000019466: formazione sul campo verde",
+      "pass": true
+    },
+    {
+      "name": "x-9067-1000019466: cambio senza riquadro ne' minuto",
+      "pass": true,
+      "subBox": 0
+    },
+    {
+      "name": "x-9067-1000019466: due squadre evidenziate in classifica",
+      "pass": true,
+      "evidenziate": 0
+    },
+    {
+      "name": "minori pre: niente Giocatori migliori",
+      "pass": true
+    },
+    {
+      "name": "minori pre: Duello in numeri con ragnatela (se ci sono i dati)",
+      "pass": true,
+      "snippet": "\n\nEREDIVISIE\n\n\nFeyenoord\nV\nV\nV\nP\nS\n16:30\nSabato 31 ott\n\nFort"
+    },
+    {
+      "name": "minori pre: nessun \"non disponibile\"",
+      "pass": true
+    },
+    {
+      "name": "minori pre: confronto in casa / in trasferta",
+      "pass": true,
+      "snippet": "\n\nEREDIVISIE\n\n\nFeyenoord\nV\nV\nV\nP\nS\n16:30\nSabato 31 ott\n\nFortuna Sittard\nV\nS\nS\nV\nS\nPanoramica\nStatistiche\nFormazioni\nAffi"
+    },
+    {
+      "name": "stat squadre minori: pillole Totale / Casa / Trasferta",
+      "pass": true
+    },
+    {
+      "name": "stat squadre minori: tasto Vai a visibile",
+      "pass": true
+    },
+    {
+      "name": "Vai a: sparisce entro mezzo secondo cambiando scheda",
+      "pass": true,
+      "ms": 74
+    },
+    {
+      "name": "Vai a: compare entro mezzo secondo tornando alle statistiche",
+      "pass": true,
+      "ms": 112
+    },
+    {
+      "name": "Mostra tutti + scroll veloce: barra sempre in basso",
+      "pass": true,
+      "res": [
+        {
+          "bottom": 664,
+          "vh": 664,
+          "vvTop": 0
+        },
+        {
+          "bottom": 664,
+          "vh": 664,
+          "vvTop": 0
+        },
+        {
+          "bottom": 664,
+          "vh": 664,
+          "vvTop": 0
+        },
+        {
+          "bottom": 664,
+          "vh": 664,
+          "vvTop": 0
+        },
+        {
+          "bottom": 664,
+          "vh": 664,
+          "vvTop": 0
+        },
+        {
+          "bottom": 664,
+          "vh": 664,
+          "vvTop": 0
+        }
+      ]
+    },
+    {
+      "name": "squadra Partite: tasto Tutte le competizioni",
+      "pass": true
+    },
+    {
+      "name": "squadra Partite: tasto stagione",
+      "pass": true
+    },
+    {
+      "name": "cambio scheda: la pagina riparte dall'alto",
+      "pass": true
+    },
+    {
+      "name": "archivio: schede Profilo/Partite/Statistiche/Carriera",
+      "pass": true,
+      "t": "Eredivisie|2025/26|Totale|Casa|Trasferta|Tutte|Attacco|Difesa|Disciplina|Gioco||Profilo|Partite|Statistiche|Carriera"
+    },
+    {
+      "name": "archivio: nessun \"non disponibile\" in carriera",
+      "pass": true
+    },
+    {
+      "name": "fortuna-sittard: statistiche squadra con valori",
+      "pass": true,
+      "len": 1340
+    },
+    {
+      "name": "fortuna-sittard: giocatori con classifiche",
+      "pass": true,
+      "len": 8701
+    },
+    {
+      "name": "fortuna-sittard: scheda giocatore piena",
+      "pass": true,
+      "href": "#/storico/57/2026-2027/giocatore/1116199"
+    },
+    {
+      "name": "feyenoord: statistiche squadra con valori",
+      "pass": true,
+      "len": 1309
+    },
+    {
+      "name": "feyenoord: giocatori con classifiche",
+      "pass": true,
+      "len": 7868
+    },
+    {
+      "name": "feyenoord: scheda giocatore piena",
+      "pass": true,
+      "href": "#/storico/57/2026-2027/giocatore/1576876"
+    },
+    {
+      "name": "fluminense: statistiche squadra con valori",
+      "pass": true,
+      "len": 1289
+    },
+    {
+      "name": "fluminense: giocatori con classifiche",
+      "pass": true,
+      "len": 7437
+    },
+    {
+      "name": "fluminense: scheda giocatore piena",
+      "pass": true,
+      "href": "#/storico/268/2026/giocatore/1224204"
+    },
+    {
+      "name": "rosa Feyenoord: ruoli Portieri/Difensori/Centrocampisti/Attaccanti",
+      "pass": true
+    },
+    {
+      "name": "rosa Feyenoord: ci sono i volti",
+      "pass": true,
+      "imgs": 33
+    },
+    {
+      "name": "Tabellone CL attuale: turni a eliminazione oppure nessun Tabellone (mai \"nessun dato\")",
+      "pass": true
+    },
+    {
+      "name": "Tabellone CL 2025/26: fasi Ottavi/Quarti/Semifinali/Finale",
+      "pass": true,
+      "t": "Classifica\nTabellone\nSpareggi\nOttavi\nQuarti\nSemifinali\nFinale\n\nPSG\n8–2\n5–2 · 3–0\n\nCHE\n\nGAL\n1–4\n1–0 · 0–4\n\nLIV\n\nRM\n5–1\n3–0 · 2–1\n\nMAN\n\nATA\n2–10\n1–6 · 1–4\n\nBM\n\nNEW\n3–8\n1–1 · 2–7\n\nBAR\n\nAM\n7–5\n5–2 · 2–3\n\nTOT\n\nBOD\n3–5\n3–0 · 0–5\n\nSC\n\nLEV\n1–3\n1–1 · 0–2\n\nARS\n\nPSG\n4–0\n2–0 · 2–0\n\nLIV\n\nRM\n4–6\n1–2 · 3–4\n\nBM\n\nBA"
+    },
+    {
+      "name": "Tabellone CL 2025/26: ci sono gli stemmi",
+      "pass": true,
+      "imgs": 334
+    },
+    {
+      "name": "Tabellone CL 2025/26: finale con rigori reali",
+      "pass": true,
+      "f": "Classifica\nTabellone\nSpareggi\nOttavi\nQuarti\nSemifinali\nFinale\n\nPSG\n6–5\n5–4 · 1–1\n\nBM\n\nAM\n1–2\n1–1 · 0–1\n\nARS\n\nPSG\n1–1\n1–1 · rig. 5–4\n\nARS\nUEFA CHAMPIONS LEAGUE · FINALE\n\n1–1\n\n🏆 PSG vince ai rigori 5–4\nHome\nCalcolatore\nGiocatori\nMatchup\n\n\n\nChampions League\nEuropa · 2025/26\n\n2025/26\nPartite\nClassifica\nStat. squadre\nGiocatori\nArbitri\n"
+    },
+    {
+      "name": "tabellone: tornando da una partita resta la stagione passata sul Tabellone",
+      "pass": true,
+      "opened": true,
+      "urlIn": "#/match/a-42-2025-2026-5205834",
+      "h": "#/campionato/champions-league",
+      "t": "Classifica\nTabellone\nSpareggi\nOttavi\nQuarti\nSemifinali\nFinale\n\nPSG\n4–0\n2–0 · 2–0\n\nLIV\n\nRM\n4–6\n1–2 · 3–4\n\nBM\n\nBAR\n2–3\n0–2 · 2–1\n\nAM\n\nSC\n0–1\n0–1 · 0–0\n\nARS\n\nPSG\n6–5\n5–4 · 1–1\n\nBM\n\nAM\n1–2\n1–1 · 0–1\n\nARS\n"
+    },
+    {
+      "name": "home: la pagina è abbastanza lunga da scorrere per la prova",
+      "pass": true,
+      "pre": {
+        "id": "#/match/m_1l9Fv2",
+        "top": 168,
+        "sy": 1519
+      },
+      "best": {
+        "n": 22,
+        "t": "Dom 2525"
+      }
+    },
+    {
+      "name": "home: la fotografia sotto lo swipe mostra la riga dove stava (nessun salto al cambio pagina)",
+      "pass": true,
+      "pre": {
+        "id": "#/match/m_1l9Fv2",
+        "top": 168,
+        "sy": 1519
+      },
+      "giorno": {
+        "n": 22,
+        "t": "Dom 2525"
+      },
+      "dc": 0,
+      "campioni": [
+        168,
+        168,
+        168,
+        168,
+        168,
+        168
+      ]
+    },
+    {
+      "name": "home: la pagina vera rimette la riga dove stava",
+      "pass": true,
+      "pre": {
+        "id": "#/match/m_1l9Fv2",
+        "top": 168,
+        "sy": 1519
+      },
+      "giorno": {
+        "n": 22,
+        "t": "Dom 2525"
+      },
+      "dr": 0,
+      "campioni": [
+        168,
+        168,
+        168,
+        168,
+        168,
+        168
+      ]
+    },
+    {
+      "name": "risultati: la riga mostra il risultato (non l'orario) anche con il file vecchio",
+      "pass": true,
+      "fm": "48",
+      "id": "5836904",
+      "txt": "Sheff Utd1–0Wrexham"
+    },
+    {
+      "name": "swipe indietro: la pagina di destinazione e' visibile sotto",
+      "pass": true
+    },
+    {
+      "name": "swipe indietro: si torna al campionato",
+      "pass": true,
+      "opened": true,
+      "inMatch": true,
+      "h": "#/campionato/serie-a",
+      "drove": true
+    },
+    {
+      "name": "home: nella fotografia il giorno scelto e' dove sta nella pagina vera",
+      "pass": true,
+      "real": 195,
+      "cs": [
+        195,
+        195,
+        195,
+        195,
+        195
+      ]
+    },
+    {
+      "name": "home: swipe indietro mai nero",
+      "pass": true,
+      "neri": []
+    },
+    {
+      "name": "extra 57: Duello in numeri con ragnatela (se ci sono i dati)",
+      "pass": true,
+      "poly": 6,
+      "id": "x-57-5781787",
+      "snippet": " | EREDIVISIE | Feyenoord | V | V | V | P | S | 16:30 | Sabato 31 ott | Fortuna Sittard | V | S | S | V | S | Panoramica | Statistiche | Formazioni | Affidabilità | Classifica | FORMA RECENTE | più recente | Feyenoord | "
+    },
+    {
+      "name": "extra 57: nessun \"non disponibile\"",
+      "pass": true
+    },
+    {
+      "name": "extra 71: Duello in numeri con ragnatela (se ci sono i dati)",
+      "pass": true,
+      "poly": 6,
+      "id": "x-71-5904793",
+      "snippet": " | SÜPER LIG | Erzurumspor FK | P | V | S | V | V | 11:30 | Sabato 31 ott | Çorum FK | V | P | V | V | P | Panoramica | Statistiche | Formazioni | Affidabilità | Classifica | FORMA RECENTE | più recente | Erzurumspor FK "
+    },
+    {
+      "name": "extra 71: nessun \"non disponibile\"",
+      "pass": true
+    },
+    {
+      "name": "extra 61: Duello in numeri con ragnatela (se ci sono i dati)",
+      "pass": true,
+      "poly": 6,
+      "id": "x-61-5887669",
+      "snippet": " | LIGA PORTUGAL | Moreirense | V | S | P | P | V | 16:30 | Sabato 31 ott | Estrela da Amadora | S | P | P | V | P | Panoramica | Statistiche | Formazioni | Affidabilità | Classifica | FORMA RECENTE | più recente | Morei"
+    },
+    {
+      "name": "extra 61: nessun \"non disponibile\"",
+      "pass": true
+    },
+    {
+      "name": "extra 40: Duello in numeri con ragnatela (se ci sono i dati)",
+      "pass": true,
+      "poly": 6,
+      "id": "x-40-5811795",
+      "snippet": " | PRO LEAGUE | KV Mechelen | P | P | S | V | V | 16:00 | Sabato 31 ott | Genk | S | P | V | V | V | Panoramica | Statistiche | Affidabilità | Classifica | FORMA RECENTE | più recente | KV Mechelen | 0–4 | 5 SET | 0–1 | "
+    },
+    {
+      "name": "extra 40: nessun \"non disponibile\"",
+      "pass": true
+    },
+    {
+      "name": "extra 64: Duello in numeri con ragnatela (se ci sono i dati)",
+      "pass": true,
+      "poly": 6,
+      "id": "x-64-5793967",
+      "snippet": " | PREMIERSHIP | Kilmarnock | S | P | V | P | P | 16:00 | Sabato 31 ott | St. Johnstone | S | V | S | P | S | Panoramica | Statistiche | Formazioni | Classifica | FORMA RECENTE | più recente | Kilmarnock | 1–3 | 10 OTT |"
+    },
+    {
+      "name": "extra 64: nessun \"non disponibile\"",
+      "pass": true
+    },
+    {
+      "name": "extra 38: Duello in numeri con ragnatela (se ci sono i dati)",
+      "pass": true,
+      "poly": 6,
+      "id": "x-38-5846011",
+      "snippet": " | BUNDESLIGA AUSTRIA | Altach | P | V | P | V | V | 17:00 | Sabato 31 ott | Ried | V | V | V | S | P | Panoramica | Statistiche | Formazioni | Classifica | FORMA RECENTE | più recente | Altach | 0–2 | 19 SET | 3–0 | 11 "
+    },
+    {
+      "name": "extra 38: nessun \"non disponibile\"",
+      "pass": true
+    },
+    {
+      "name": "extra 59: Duello in numeri con ragnatela (se ci sono i dati)",
+      "pass": true,
+      "poly": 6,
+      "id": "x-59-5105034",
+      "snippet": " | ELITESERIEN | Fredrikstad | S | S | P | P | V | 16:00 | Sabato 31 ott | Rosenborg | V | S | V | V | P | Panoramica | Statistiche | Formazioni | Classifica | FORMA RECENTE | più recente | Fredrikstad | 1–1 | 20 SET | 1"
+    },
+    {
+      "name": "extra 59: nessun \"non disponibile\"",
+      "pass": true
+    },
+    {
+      "name": "extra 135: Duello in numeri con ragnatela (se ci sono i dati)",
+      "pass": true,
+      "poly": 6,
+      "id": "x-135-5943283",
+      "snippet": " | SUPER LEAGUE | Kifisia FC | V | V | P | V | V | 18:00 | Sabato 31 ott | Olympiacos | V | V | V | V | V | Panoramica | Statistiche | Formazioni | Affidabilità | Classifica | FORMA RECENTE | più recente | Kifisia FC | 2"
+    },
+    {
+      "name": "extra 135: nessun \"non disponibile\"",
+      "pass": true
+    },
+    {
+      "name": "extra 48: Duello in numeri con ragnatela (se ci sono i dati)",
+      "pass": true,
+      "poly": 6,
+      "id": "x-48-5836900",
+      "snippet": " | CHAMPIONSHIP | Lincoln City | P | P | P | S | V | 13:30 | Sabato 31 ott | Birmingham City | S | V | V | V | P | Panoramica | Statistiche | Formazioni | Classifica | FORMA RECENTE | più recente | Lincoln City | 0–3 | 1"
+    },
+    {
+      "name": "extra 48: nessun \"non disponibile\"",
+      "pass": true
+    },
+    {
+      "name": "extra 86: Duello in numeri con ragnatela (se ci sono i dati)",
+      "pass": true,
+      "poly": 6,
+      "id": "x-86-5967132",
+      "snippet": " | SERIE B | Cremonese | S | S | P | P | V | 15:00 | Sabato 31 ott | Benevento | V | V | S | V | S | Panoramica | Statistiche | Formazioni | Classifica | FORMA RECENTE | più recente | Cremonese | 0–0 | 19 SET | 0–0 | 10 "
+    },
+    {
+      "name": "extra 86: nessun \"non disponibile\"",
+      "pass": true
+    },
+    {
+      "name": "extra 146: Duello in numeri con ragnatela (se ci sono i dati)",
+      "pass": true,
+      "poly": 6,
+      "id": "x-146-5881710",
+      "snippet": " | 2. BUNDESLIGA | Darmstadt | P | V | P | S | V | 13:00 | Sabato 31 ott | Magdeburg | S | V | P | V | P | Panoramica | Statistiche | Formazioni | Classifica | FORMA RECENTE | più recente | Darmstadt | 1–5 | 18 SET | 3–1"
+    },
+    {
+      "name": "extra 146: nessun \"non disponibile\"",
+      "pass": true
+    },
+    {
+      "name": "extra 140: Duello in numeri con ragnatela (se ci sono i dati)",
+      "pass": true,
+      "poly": 6,
+      "id": "x-140-5868522",
+      "snippet": " | LALIGA2 | Real Sociedad B | P | P | P | P | P | 14:00 | Sabato 31 ott | Girona | S | S | V | V | V | Panoramica | Statistiche | Formazioni | Classifica | FORMA RECENTE | più recente | Real Sociedad B | 1–3 | 26 SET | "
+    },
+    {
+      "name": "extra 140: nessun \"non disponibile\"",
+      "pass": true
+    },
+    {
+      "name": "extra 110: Duello in numeri con ragnatela (se ci sono i dati)",
+      "pass": true,
+      "poly": 6,
+      "id": "x-110-5803299",
+      "snippet": " | LIGUE 2 | Annecy FC | P | P | V | P | V | 14:00 | Sabato 31 ott | Montpellier | V | S | V | V | V | Panoramica | Statistiche | Formazioni | Classifica | FORMA RECENTE | più recente | Annecy FC | 1–2 | 12 SET | 1–2 | 1"
+    },
+    {
+      "name": "extra 110: nessun \"non disponibile\"",
+      "pass": true
+    },
+    {
+      "name": "extra 185: Duello in numeri con ragnatela (se ci sono i dati)",
+      "pass": true,
+      "poly": 6,
+      "id": "x-185-5888089",
+      "snippet": " | LIGA PORTUGAL 2 | Amarante FC | S | V | P | P | P | 12:00 | Sabato 31 ott | FC Porto B | P | P | S | V | S | Panoramica | Classifica | FORMA RECENTE | più recente | Amarante FC | 2–0 | 20 SET | 1–2 | 10 OTT | 2–3 | 17"
+    },
+    {
+      "name": "extra 185: nessun \"non disponibile\"",
+      "pass": true
+    },
+    {
+      "name": "extra 111: Duello in numeri con ragnatela (se ci sono i dati)",
+      "pass": true,
+      "poly": 6,
+      "id": "x-111-5832930",
+      "snippet": " | EERSTE DIVISIE | MVV Maastricht | P | P | P | S | P | 16:30 | Sabato 31 ott | VVV-Venlo | V | V | S | V | P | Panoramica | Statistiche | Formazioni | Classifica | FORMA RECENTE | più recente | MVV Maastricht | 1–4 | 3"
+    },
+    {
+      "name": "extra 111: nessun \"non disponibile\"",
+      "pass": true
+    },
+    {
+      "name": "extra 165: Duello in numeri con ragnatela (se ci sono i dati)",
+      "pass": true,
+      "poly": 6,
+      "id": "x-165-5908691",
+      "snippet": " | 1. LIG | Van Spor Kulübü | P | V | P | V | P | 11:30 | Sabato 31 ott | Sarıyer | S | P | S | P | V | Panoramica | Statistiche | Formazioni | Classifica | FORMA RECENTE | più recente | Van Spor Kulübü | 0–2 | 9 OTT | 2"
+    },
+    {
+      "name": "extra 165: nessun \"non disponibile\"",
+      "pass": true
+    },
+    {
+      "name": "extra 268: Duello in numeri con ragnatela (se ci sono i dati)",
+      "pass": true,
+      "poly": 6,
+      "id": "x-268-5103691",
+      "snippet": " | BRASILEIRÃO SÉRIE A | Coritiba | P | P | S | P | P | 20:00 | Sabato 31 ott | Vitória | P | V | P | S | S | Panoramica | Statistiche | Formazioni | Classifica | FORMA RECENTE | più recente | Coritiba | 0–5 | 20 SET | 0"
+    },
+    {
+      "name": "extra 268: nessun \"non disponibile\"",
+      "pass": true
+    },
+    {
+      "name": "extra 112: Duello in numeri con ragnatela (se ci sono i dati)",
+      "pass": true,
+      "poly": 6,
+      "id": "x-112-1000019606",
+      "snippet": " | LIGA PROFESIONAL | Deportivo Riestra | S | S | P | S | P | 21:00 | Sabato 31 ott | Talleres | P | P | S | P | P | Panoramica | Statistiche | Formazioni | Classifica | FORMA RECENTE | più recente | Deportivo Riestra | "
+    },
+    {
+      "name": "extra 112: nessun \"non disponibile\"",
+      "pass": true
+    },
+    {
+      "name": "extra 130: Duello in numeri con ragnatela (se ci sono i dati)",
+      "pass": true,
+      "poly": 6,
+      "id": "x-130-5071470",
+      "snippet": " | MLS | Charlotte FC | V | P | S | P | V | 18:00 | Sabato 31 ott | Orlando City | V | S | V | S | S | Panoramica | Statistiche | Formazioni | Classifica | FORMA RECENTE | più recente | Charlotte FC | 2–2 | 17 OTT | 2–3 "
+    },
+    {
+      "name": "extra 130: nessun \"non disponibile\"",
+      "pass": true
+    },
+    {
+      "name": "extra 230: Duello in numeri con ragnatela (se ci sono i dati)",
+      "pass": true,
+      "poly": 6,
+      "id": "x-230-1000014628",
+      "snippet": " | LIGA MX | Pachuca | P | S | P | P | V | 00:00 | Domenica 1 nov | Tigres | V | V | S | P | S | Panoramica | Statistiche | Formazioni | Classifica | FORMA RECENTE | più recente | Pachuca | 3–3 | 12 OTT | 1–2 | 19 OTT | "
+    },
+    {
+      "name": "extra 230: nessun \"non disponibile\"",
+      "pass": true
+    },
+    {
+      "name": "extra 134: Duello in numeri con ragnatela (se ci sono i dati)",
+      "pass": true,
+      "poly": 0,
+      "id": "x-134-6503673",
+      "snippet": " | COUPE DE FRANCE | AEM | AS ET Matoury | V | S | 15:45 | Sabato 31 ott | LGD | Le Geldar de Kourou | S | V | P | Panoramica | Tabellone | FORMA RECENTE | più recente | AEM | AS ET Matoury | UM | 4–1 | 18 OTT | 1–1 | 15"
+    },
+    {
+      "name": "extra 134: nessun \"non disponibile\"",
+      "pass": true
+    },
+    {
+      "name": "extra 180: Duello in numeri con ragnatela (se ci sono i dati)",
+      "pass": true,
+      "poly": 6,
+      "id": "x-180-6241190",
+      "snippet": " | LEAGUE CUP | Rangers | V | V | S | V | S | 18:30 | Sabato 31 ott | Aberdeen | S | P | V | P | P | Panoramica | Statistiche | Formazioni | Tabellone | FORMA RECENTE | più recente | Rangers | 2–2 | 17 OTT | 4–0 | 24 OTT"
+    },
+    {
+      "name": "extra 180: nessun \"non disponibile\"",
+      "pass": true
+    },
+    {
+      "name": "extra 9067: Duello in numeri con ragnatela (se ci sono i dati)",
+      "pass": true,
+      "poly": 6,
+      "id": "x-9067-1000019470",
+      "snippet": " | COPA DO BRASIL | Palmeiras | V | V | P | V | S | 20:00 | Domenica 1 nov | Vasco da Gama | V | P | P | V | P | Panoramica | Statistiche | Formazioni | Tabellone | FORMA RECENTE | più recente | Palmeiras | 0–1 | 22 OTT "
+    },
+    {
+      "name": "extra 9067: nessun \"non disponibile\"",
+      "pass": true
+    },
+    {
+      "name": "frankfurt: sotto il nome c'e' la Bundesliga, non la coppa",
+      "pass": true,
+      "testa": " | Tutte le competizioni | Attuale | Tutte | Risultati | Programmate | Partite precedenti (7) | BUNDESLIGA | 1 | SAB 24 | Borussia Dortmund | 1–0 |   | Eintracht Frankfurt | P | DFB POKAL | 1 | MAR 27"
+    },
+    {
+      "name": "frankfurt: la tendina ha la coppa nazionale",
+      "pass": true,
+      "n": 21
+    },
+    {
+      "name": "frankfurt: scegliendo la coppa in Classifica compare il Tabellone",
+      "pass": true,
+      "clicked": true,
+      "snippet": "\n\nDFB Pokal\n\nAttuale\nTurno 1\nTurno 2\n\nGF\n1–2\n\nBOC\n\nVK\n0–9\n\nMAI\n\nSV\n0–3\n\nHS\n\nSST\n0–11\n\nFRA\n\nRE\n2–0\n\nSP\n\nET\n0–6\n\nRL\n\nSG\n2–2\n2–2 · rig. 2–2\n\nAB\n\nEC\n0–2\n\nAUG\n\nHH\n0–"
+    },
+    {
+      "name": "giocatore minore: profilo con anagrafica",
+      "pass": true,
+      "len": 281
+    },
+    {
+      "name": "giocatore minore: radar",
+      "pass": true,
+      "poly": 5
+    },
+    {
+      "name": "giocatore minore: statistiche con tendina competizione",
+      "pass": true,
+      "len": 1254
+    },
+    {
+      "name": "giocatore minore: partite presenti",
+      "pass": true,
+      "len": 774
+    },
+    {
+      "name": "swipe indietro: rilasciato prima di meta' resta sulla partita",
+      "pass": true,
+      "h1": "#/match/m_2xKl7N"
+    },
+    {
+      "name": "swipe indietro: oltre meta' si torna al campionato",
+      "pass": true,
+      "h2": "#/campionato/serie-a"
+    },
+    {
+      "name": "finestra giocatore: si apre con il tasto Profilo",
+      "pass": true,
+      "opened": "#/match/m_002ZzY",
+      "face": true,
+      "n0": "Lorenzo Palmisani"
+    },
+    {
+      "name": "finestra giocatore: lo swipe passa al giocatore successivo",
+      "pass": true,
+      "n0": "Lorenzo Palmisani",
+      "n1": "Aleksa Terzić"
+    },
+    {
+      "name": "finestra giocatore: la pagina sotto non si muove e la fotografia dietro non compare",
+      "pass": true,
+      "s1": [
+        {
+          "shell": "",
+          "behind": 0,
+          "sy": 0
+        },
+        {
+          "shell": "",
+          "behind": 0,
+          "sy": 0
+        },
+        {
+          "shell": "",
+          "behind": 0,
+          "sy": 0
+        }
+      ]
+    },
+    {
+      "name": "finestra giocatore: dal bordo sinistro non parte lo swipe indietro",
+      "pass": true,
+      "h0": "#/match/m_002ZzY",
+      "h1": "#/match/m_002ZzY"
+    },
+    {
+      "name": "lazio: tornando indietro le pillole Totale/Casa/Trasferta restano ferme",
+      "pass": true,
+      "href": "#/giocatore/p_2u2pcX",
+      "jump": 0,
+      "n": 41
+    },
+    {
+      "name": "feyenoord: tornando indietro le pillole Totale/Casa/Trasferta restano ferme",
+      "pass": true,
+      "href": "#/giocatore/p_1ShWl1",
+      "jump": 0,
+      "n": 27
+    },
+    {
+      "name": "x-230: la finestra giocatore ha il tasto Profilo",
+      "pass": true
+    },
+    {
+      "name": "x-230: Profilo apre la scheda completa",
+      "pass": true,
+      "tabs": [
+        "Riepilogo",
+        "Statistiche",
+        "Formazioni",
+        "Classifica",
+        "Profilo",
+        "Partite",
+        "Statistiche",
+        "Carriera"
+      ]
+    },
+    {
+      "name": "wacker innsbruck: in tendina anche la Bundesliga austriaca giocata anni fa",
+      "pass": true,
+      "names": [
+        "Austrian Cup",
+        "2. Liga (Austria)",
+        "Bundesliga Austria"
+      ]
+    },
+    {
+      "name": "memoria: dopo 44 pagine le copie nascoste delle pagine non si accumulano",
+      "pass": true,
+      "hosts": 1
+    },
+    {
+      "name": "memoria: swipe indietro con la pagina sotto visibile (mai nero)",
+      "pass": true,
+      "black": 0,
+      "checked": 7
+    },
+    {
+      "name": "memoria: fotogrammi a fine giro simili all'inizio",
+      "pass": true,
+      "t0": null,
+      "t1": {
+        "n": 19,
+        "p50": 104,
+        "p95": 229,
+        "tab": "Statistiche"
+      },
+      "nodes": 1310
+    },
+    {
+      "name": "competizioni: con una stagione passata la tendina ha le stesse voci",
+      "pass": true,
+      "cur": [
+        "Serie A",
+        "Coppa Italia",
+        "Supercoppa",
+        "Europa League",
+        "Champions League"
+      ],
+      "past": [
+        "Serie A",
+        "Coppa Italia",
+        "Supercoppa",
+        "Europa League",
+        "Champions League"
+      ]
+    },
+    {
+      "name": "partite del giocatore: mai \"@\"",
+      "pass": true
+    },
+    {
+      "name": "carriera: nessuna squadra ripetuta due volte di seguito",
+      "pass": true,
+      "teams": [
+        "Eintracht Frankfurt",
+        "Freiburg",
+        "Freiburg II",
+        "Germany",
+        "Germany U21",
+        "Germany U19",
+        "Germany U17",
+        "Freiburg U19"
+      ]
+    },
+    {
+      "name": "foto: nessuna immagine rotta in pagina",
+      "pass": true,
+      "broken": 0
+    },
+    {
+      "name": "sheffield 2023/24: statistiche con riquadri e barre",
+      "pass": true,
+      "sel": {
+        "a": true,
+        "b": true
+      },
+      "tiles": 4
+    },
+    {
+      "name": "sheffield 2023/24: mai \"non ha giocato\"",
+      "pass": true
+    },
+    {
+      "name": "mls 2015: classifiche Eastern e Western con lineette delle zone",
+      "pass": true,
+      "ok1": true,
+      "lines": 12
+    },
+    {
+      "name": "fluidita: dopo 6 giorni avanti e 6 indietro si torna al giorno di partenza",
+      "pass": true,
+      "d0": "Oggi31 ott",
+      "d1": "Oggi31 ott",
+      "d2": "Oggi31 ott"
+    },
+    {
+      "name": "fluidita: i nodi della Home non crescono con gli swipe",
+      "pass": true,
+      "n0": 1507,
+      "n1": 1625,
+      "n2": 1507
+    },
+    {
+      "name": "fluidita: swipe veloci non peggiori di quelli lenti (niente accumulo)",
+      "pass": true,
+      "lento": {
+        "frames": 193,
+        "p50": 94,
+        "p95": 269,
+        "max": 324,
+        "persi": 1023
+      },
+      "veloce": {
+        "frames": 151,
+        "p50": 96,
+        "p95": 265,
+        "max": 297,
+        "persi": 896
+      }
+    },
+    {
+      "name": "home (Oggi): tornando con lo swipe la partita non ricompare sopra la Home",
+      "pass": true,
+      "n": 112,
+      "bad": [],
+      "headOk": true
+    },
+    {
+      "name": "home (Oggi): la testata della Home e' al suo posto appena si vede la pagina vera",
+      "pass": true,
+      "n": 112,
+      "bad": [],
+      "headOk": true
+    },
+    {
+      "name": "home (Domani): tornando con lo swipe la partita non ricompare sopra la Home",
+      "pass": true,
+      "n": 118,
+      "bad": [],
+      "headOk": true
+    },
+    {
+      "name": "home (Domani): la testata della Home e' al suo posto appena si vede la pagina vera",
+      "pass": true,
+      "n": 118,
+      "bad": [],
+      "headOk": true
+    },
+    {
+      "name": "swipe indietro: scheda con altre a sinistra, dal centro resta sulla pagina",
+      "pass": true,
+      "centro": "#/squadra/feyenoord"
+    },
+    {
+      "name": "swipe indietro: scheda con altre a sinistra, dal bordo torna indietro",
+      "pass": true,
+      "bordo": "#/"
+    },
+    {
+      "name": "swipe indietro: scheda con altre a sinistra, dal banner torna indietro",
+      "pass": true,
+      "banner": "#/"
+    },
+    {
+      "name": "femminili: la Barcellona di Liga F si chiama \"Barcelona F\"",
+      "pass": true
+    },
+    {
+      "name": "femminili: la Barcellona maschile non ha competizioni femminili nell'indice",
+      "pass": true,
+      "comp": [
+        87,
+        42,
+        139,
+        138,
+        73,
+        78,
+        74
+      ]
+    },
+    {
+      "name": "femminili: classifica di Liga F con \"Barcelona F\"",
+      "pass": true
+    },
+    {
+      "name": "femminili: la scheda della squadra maschile resta \"Barcelona\"",
+      "pass": true
+    },
+    {
+      "name": "Osimhen: il Profilo non dice 0 gol",
+      "pass": true,
+      "g": 8,
+      "pres": 7,
+      "testo": "8,3\n7\nPRES.\n8\nGOL\n3\nASSIST\nINFORMAZIONI\n\nGalatasaray\nNAZIONALITÀ\n\nNigeria\nNATO IL\n27 anni\nALTEZZA\n185 cm\nPIEDE\n—\nRUOLO\n—\nMAGLIA\n45\nPROFILO DI GIOCO\nGol\nAssist\nTiri\nIn porta\nxG\nSubiti\nHome\nCalcolatore\n"
+    },
+    {
+      "name": "Osimhen: presenze del Profilo = quelle ufficiali del campionato",
+      "pass": true,
+      "pres": 7,
+      "uff": 7
+    },
+    {
+      "name": "Osimhen: gol del Profilo = quelli ufficiali del campionato",
+      "pass": true,
+      "g": 8,
+      "uff": 8
+    },
+    {
+      "name": "giocatore: pillole Totale/Casa/Trasferta e Tutte/Attacco/Difesa/Disciplina/Gioco",
+      "pass": true
+    },
+    {
+      "name": "giocatore: la pillola Casa mostra solo le partite in casa",
+      "pass": true
+    },
+    {
+      "name": "rose: Atletico Madrileno (Primera Federacion) ha la scheda Squadra con i giocatori",
+      "pass": true,
+      "tabs": [
+        "Partite",
+        "Classifica",
+        "Squadra",
+        "Statistiche",
+        "Giocatori"
+      ],
+      "n": 11
+    },
+    {
+      "name": "rose: squadra senza nessuna fonte di rosa = niente scheda Squadra",
+      "pass": true,
+      "squadra": "1A",
+      "tabs": [
+        "Partite",
+        "Classifica",
+        "Statistiche"
+      ]
+    },
+    {
+      "name": "giocatori: Europa League nella tendina",
+      "pass": true
+    },
+    {
+      "name": "giocatori: Ararat Armenia in Europa League con le classifiche",
+      "pass": true,
+      "n": 164
+    },
+    {
+      "name": "giocatori: niente frase \"disponibili per il campionato\"",
+      "pass": true
+    },
+    {
+      "name": "giocatori: pillole Totale e categorie",
+      "pass": true
+    },
+    {
+      "name": "partite squadra: la stagione in corso ha le partite giocate e le prossime",
+      "pass": true,
+      "rows": 38,
+      "played": 10
+    },
+    {
+      "name": "forma: partita non iniziata di una competizione d'archivio con la Forma recente",
+      "pass": true,
+      "href": "#/match/a-8968-2026-2027-5883721"
+    },
+    {
+      "name": "statistiche previste: nessun tasto \"Confronto completo\"",
+      "pass": true,
+      "old": []
+    },
+    {
+      "name": "statistiche previste: il pannello compare con valori a una cifra decimale e senza nota di calcolo",
+      "pass": true,
+      "provate": 8,
+      "shown": 8,
+      "bad": []
+    },
+    {
+      "name": "classifiche giocatori: Bundesliga, lista Minuti con piu' di 50 giocatori",
+      "pass": true,
+      "n": 263
+    },
+    {
+      "name": "classifiche giocatori: Saïd El Mala (Colonia) e' in classifica",
+      "pass": true,
+      "n": 263
+    },
+    {
+      "name": "classifiche giocatori: Eredivisie, almeno una lista con piu' di 50 giocatori",
+      "pass": true,
+      "best": 250,
+      "keys": [
+        "goals",
+        "goal_assist",
+        "expected_goals",
+        "ontarget_scoring_att",
+        "total_scoring_att",
+        "big_chance_created"
+      ]
+    },
+    {
+      "name": "affidabilita: calc_extra.json presente con i 6 campionati",
+      "pass": true,
+      "leghe": [
+        "eredivisie",
+        "pro-league",
+        "fm-46",
+        "gre-super-league-1",
+        "liga-portugal",
+        "super-lig"
+      ]
+    },
+    {
+      "name": "affidabilita: nel Calcolatore i giocatori dei 6 campionati si trovano con la ricerca",
+      "pass": true,
+      "found": {
+        "fm-46": true,
+        "eredivisie": true,
+        "super-lig": true,
+        "liga-portugal": true,
+        "pro-league": true,
+        "gre-super-league-1": true
+      }
+    },
+    {
+      "name": "affidabilita: almeno una partita non iniziata dei 6 campionati ha la scheda Affidabilità",
+      "pass": true,
+      "withRel": 18,
+      "tried": [
+        "57:si",
+        "57:si",
+        "57:si",
+        "57:si",
+        "40:si",
+        "40:si",
+        "40:si",
+        "40:si",
+        "46:si",
+        "46:si",
+        "46:si",
+        "46:si",
+        "135:si",
+        "135:si",
+        "135:si",
+        "135:si",
+        "61:si",
+        "61:si"
+      ]
+    },
+    {
+      "name": "affidabilita: la scheda elenca giocatori con tiri attesi",
+      "pass": true,
+      "snippet": "\n\nEREDIVISIE · 2026/27\n\n\nFeyenoord\nV\nV\nV\nV\nS\n16:30\nSabato 31 ott\n\nFortuna Sittard\nP\nV\nS\nS\nV\nPanoramica\nStatistiche\nForma"
+    },
+    {
+      "name": "affidabilita: il giocatore apre la scheda completa (Profilo / Statistiche)",
+      "pass": true,
+      "link": "#/giocatore/p_2jdUeD"
+    },
+    {
+      "name": "affidabilita: scheda completa di un giocatore danese (Profilo / Statistiche / Carriera)",
+      "pass": true,
+      "id": "fm~46~2026-2027~1333333"
+    },
+    {
+      "name": "migliori giocatori: pagina con striscia dei giorni",
+      "pass": true,
+      "days": 3
+    }
+  ],
+  "errors": [],
+  "console": [
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ],
+  "failed": [],
+  "shards": 2,
+  "groups": [
+    {
+      "name": "SERIE A",
+      "open": true
+    },
+    {
+      "name": "PREMIER LEAGUE",
+      "open": true
+    },
+    {
+      "name": "LALIGA",
+      "open": true
+    },
+    {
+      "name": "BUNDESLIGA",
+      "open": true
+    },
+    {
+      "name": "LIGUE 1",
+      "open": true
+    },
+    {
+      "name": "PRO LEAGUE",
+      "open": false
+    },
+    {
+      "name": "EREDIVISIE",
+      "open": false
+    },
+    {
+      "name": "LIGA PORTUGAL",
+      "open": false
+    },
+    {
+      "name": "SÜPER LIG",
+      "open": false
+    },
+    {
+      "name": "COPA LIBERTADORES FEMENINA",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    }
+  ],
+  "paesi": [
+    "Algeria",
+    "Arabia Saudita",
+    "Argentina",
+    "Armenia",
+    "Australia",
+    "Austria",
+    "Azerbaigian",
+    "Belgio",
+    "Bielorussia",
+    "Bolivia",
+    "Bosnia ed Erzegovina",
+    "Brasile",
+    "Bulgaria",
+    "Canada",
+    "Cile",
+    "Cina",
+    "Cipro",
+    "Colombia",
+    "Corea del Sud",
+    "Costa Rica",
+    "Croazia",
+    "Danimarca",
+    "Ecuador",
+    "Egitto",
+    "El Salvador",
+    "Estonia",
+    "Francia",
+    "Galles",
+    "Georgia",
+    "Germania",
+    "Ghana",
+    "Giappone",
+    "Grecia",
+    "Honduras",
+    "Inghilterra",
+    "Iran",
+    "Irlanda del Nord",
+    "Isole Faroe",
+    "Israele",
+    "Italia",
+    "Kazakistan",
+    "Lituania",
+    "Lussemburgo",
+    "Marocco",
+    "Messico",
+    "Moldavia",
+    "Nigeria",
+    "Norvegia",
+    "Paesi Bassi",
+    "Panama",
+    "Paraguay",
+    "Perù",
+    "Polonia",
+    "Portogallo",
+    "Qatar",
+    "Repubblica Ceca",
+    "Romania",
+    "Russia",
+    "Scozia",
+    "Serbia",
+    "Slovacchia",
+    "Slovenia",
+    "Spagna",
+    "Stati Uniti",
+    "Sudafrica",
+    "Svezia",
+    "Svizzera",
+    "Turchia",
+    "Ucraina",
+    "Ungheria",
+    "Uruguay",
+    "Venezuela"
+  ],
+  "bottomBar": [
+    {
+      "top": 576,
+      "bottom": 664,
+      "vh": 664,
+      "sy": 300
+    },
+    {
+      "top": 576,
+      "bottom": 664,
+      "vh": 664,
+      "sy": 900
+    },
+    {
+      "top": 576,
+      "bottom": 664,
+      "vh": 664,
+      "sy": 1800
+    },
+    {
+      "top": 576,
+      "bottom": 664,
+      "vh": 664,
+      "sy": 3000
+    },
+    {
+      "top": 576,
+      "bottom": 664,
+      "vh": 664,
+      "sy": 600
+    },
+    {
+      "top": 576,
+      "bottom": 664,
+      "vh": 664,
+      "sy": 0
+    }
+  ],
+  "matchIds": [
+    "x-9067-1000019467",
+    "x-9067-1000019466",
+    "a-71-2025-2026-4842620",
+    "x-9067-1000019467",
+    "x-9067-1000019466",
+    "a-71-2025-2026-4842620"
+  ],
+  "testata_x-9067-1000019467": " | COPA DO BRASIL | Santos | 0 – 0 | Finita | Palmeiras | Riepilogo | Statistiche | Formazioni | Tabellone | Formazioni | 4-2-3-1·4-2-3-1 | SANTOSPALMEIRAS | 7,0 | Brazão | 6,5 | Vinícius | 7,0 | Veríssimo | 7,5 | Peres | ★8,4 | Escobar | 6,9 | Arão | 7,6 | Ol",
+  "testata_a-71-2025-2026-4842620": " | SÜPER LIG · 2025/26 | Trabzonspor | 0 – 3 | Finita | Domenica 17 mag | Gençlerbirliği | 45' A. Traoré | 88' F. Tongya | 90+3' M. Mimaroglu | Riepilogo | Statistiche | Formazioni | Classifica | Totale | Casa | Trasferta | Forma | # | SQUADRA | PG | V | N | P",
+  "barre_a": {
+    "w0": {
+      "n": 32,
+      "w": [
+        207,
+        220,
+        259,
+        245
+      ],
+      "tr": "width 620ms cubic-bezier(0.22, 1, 0.36, 1), opacity 0.45s"
+    },
+    "w1": {
+      "n": 32,
+      "w": [
+        211,
+        222,
+        250,
+        242
+      ],
+      "tr": "width 620ms cubic-bezier(0.22, 1, 0.36, 1), opacity 0.45s"
+    },
+    "w2": {
+      "n": 32,
+      "w": [
+        214,
+        223,
+        243,
+        240
+      ],
+      "tr": "width 620ms cubic-bezier(0.22, 1, 0.36, 1), opacity 0.45s"
+    }
+  },
+  "bracketCards": 0,
+  "eflFrames": {
+    "riepilogoStatistiche": {
+      "n": 20,
+      "p50": 89,
+      "p95": 213,
+      "tab": "Statistiche"
+    },
+    "formazioniTabellone": {
+      "n": 21,
+      "p50": 88,
+      "p95": 134,
+      "tab": "Tabellone"
+    },
+    "layers": 1
+  },
+  "murati": 177,
+  "fluiditaSchede": {
+    "t0": {
+      "n": 20,
+      "p50": 81,
+      "p95": 168,
+      "tab": "Classifica"
+    },
+    "t1": {
+      "n": 36,
+      "p50": 16,
+      "p95": 133,
+      "tab": "Giocatori"
+    }
+  },
+  "rosePerRuolo": {
+    "prima": 4401,
+    "dopo": 1185
+  },
+  "giocatoriComp": {
+    "frasePrima": 11672,
+    "senzaScheda": 7063
+  },
+  "passed": 306,
+  "total": 306,
+  "giorniProvati": 15,
+  "statCasi": {
+    "past": {
+      "pid": 680011,
+      "name": "Bart Nieuwkoop",
+      "fm": 57,
+      "cur": "2026-2027",
+      "sk": "2025-2026"
+    },
+    "cur": {
+      "pid": 1336731,
+      "name": "Tjark Ernst",
+      "fm": 57,
+      "cur": "2026-2027"
+    },
+    "none": {
+      "pid": 1876641,
+      "name": "Hakeem Agboluaje",
+      "fm": 57,
+      "cur": "2026-2027"
+    }
+  },
+  "daystrip": [
+    "Ieri",
+    "Oggi",
+    "Domani",
+    "Lun "
+  ],
+  "testata_x-9067-1000019466": " | COPA DO BRASIL | Vitória | 0 – 2 | Finita | Vasco da Gama | 81' A. Gómez | 90+7' J. Rodriguez | Riepilogo | Statistiche | Formazioni | Tabellone | Formazioni | 4-2-3-1·4-3-3 | VITÓRIAVASCO DA GAMA | C5,0 | Arcanjo | 7,3 | Mateusinho | 7,1 | Cacá | 5,7 | Cân",
+  "clTabelloneAttuale": false,
+  "sweepFm": [
+    57,
+    71,
+    61,
+    40,
+    64,
+    38,
+    59,
+    135,
+    48,
+    86,
+    146,
+    140,
+    110,
+    185,
+    111,
+    165,
+    268,
+    112,
+    130,
+    230,
+    134,
+    180,
+    9067
+  ],
+  "km_57": true,
+  "km_71": true,
+  "km_61": true,
+  "km_40": true,
+  "km_64": true,
+  "km_38": true,
+  "km_59": true,
+  "km_135": true,
+  "km_48": true,
+  "km_86": true,
+  "km_146": true,
+  "km_140": true,
+  "km_110": true,
+  "km_185": true,
+  "km_111": true,
+  "km_165": true,
+  "km_268": true,
+  "km_112": true,
+  "km_130": true,
+  "km_230": true,
+  "km_134": false,
+  "km_180": true,
+  "km_9067": true,
+  "memoria": {
+    "inizio": null,
+    "fine": {
+      "n": 19,
+      "p50": 104,
+      "p95": 229,
+      "tab": "Statistiche"
+    },
+    "hosts": 1,
+    "nodes": 1310,
+    "black": 0,
+    "checked": 7
+  },
+  "carrieraSquadre": 8,
+  "fluidita": {
+    "lento": {
+      "frames": 193,
+      "p50": 94,
+      "p95": 269,
+      "max": 324,
+      "persi": 1023
+    },
+    "veloce": {
+      "frames": 151,
+      "p50": 96,
+      "p95": 265,
+      "max": 297,
+      "persi": 896
+    },
+    "nodi": [
+      1507,
+      1625,
+      1507
+    ]
+  },
+  "rose": {
+    "prima": 4333,
+    "dopo": 622
+  }
+}
