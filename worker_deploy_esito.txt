@@ -12,19 +12,14 @@ npm warn deprecated sourcemap-codec@1.4.8: Please use @jridgewell/sourcemap-code
 
 
 
-[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mBuild failed with 1 error:[0m
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mA request to the Cloudflare API (/accounts/344b4f68fd540269085abbf16851253c/workers/services/scalperlab-live) failed.[0m
 
-  [31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mExpected ";" but found ")"[0m
+  No access to the specified service.
   
-      index.js:269:425:
-  [37m      269 │ ...v, stats, pl, h: team(lu.homeTeam), a: team(lu.awayTeam), ref }[32m)[37m;
-            │                                                                   [32m^[37m
-            ╵                                                                   [32m;[0m
-  
-  
+  If you think this is a bug, please open an issue at: [4mhttps://github.com/cloudflare/workers-sdk/issues/new/choose[0m
 
 
 
 Cloudflare collects anonymous telemetry about your usage of Wrangler. Learn more at https://github.com/cloudflare/workers-sdk/tree/main/packages/wrangler/telemetry.md
-🪵  Logs were written to "/home/runner/.config/.wrangler/logs/wrangler-2026-10-31_21-01-31_092.log"
+🪵  Logs were written to "/home/runner/.config/.wrangler/logs/wrangler-2026-10-31_21-03-04_827.log"
 exit=1
