@@ -85,7 +85,7 @@ export default function TeamRosterPanel({ teamId }) {
               return (
                 <Row key={r[0]} {...(to ? { to } : {})} className="press mx-2 mb-1.5 flex items-center gap-3 rounded-[18px] px-3 py-2" style={{ background: teamGrad(team, 0x55) }}>
                   <span className="avatar h-[38px] w-[38px] text-[11px]">
-                    <PlayerPhoto src={playerFace(r[0])} alt={r[1]} />
+                    <PlayerPhoto src={r[0] > 0 ? playerFace(r[0]) : null} alt={r[1]} />
                   </span>
                   <span className="min-w-0 flex-1">
                     <span className="block truncate text-[14px] font-bold">{r[3] ? <span style={{ color: 'var(--accent)' }}>{r[3]} </span> : null}{r[1]}{r[10] ? <> <InjuryIcon size={15} /></> : null}</span>

@@ -1,5 +1,5 @@
 // Rose dei campionati minori (rose.json, scaricate da FotMob): stessi ruoli e stesse righe dei campionati maggiori.
-import { BASE } from './load';
+import { BASE, WORKER } from './load';
 import { sameSquad } from './teamMatch';
 import { lruGet, lruSet } from '@/lib/lru';
 
@@ -61,6 +61,30 @@ export const rosaOf = async (team) => {
   return (await rosaShard(Number(fid) % 100))[String(fid)] || null;
 };
 // rose.json insufficiente: pochi giocatori o senza ruoli (si cerca quella completa)
+// Rose di LiveScore (Cloudflare KV, via worker /r): per le squadre dove FotMob non ha la rosa o e' povera. Una chiave per campionato; mappa id FotMob -> campionato.
+// Ruoli e numeri solo come li da la fonte (mai indovinati); id negativo = senza collegamento al giocatore (non e' un id FotMob).
+const LSR = new Map();
+const lsGet = (k) => {
+  const hit = lruGet(LSR, k);
+  if (hit) return hit;
+  const p = fetch(`${WORKER}/r?k=${k}`).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  lruSet(LSR, k, p, 24);
+  return p;
+};
+const LS_ROLE = { goalkeeper: 'GK', defender: 'DEF', midfielder: 'MID', forward: 'ATT' };
+export const lsRoster = async (team, fm) => {
+  const map = await lsGet('idx:fmmap');
+  if (!map || !team) return null;
+  const fid = team.fmId || (/teamlogo\/(\d+)\.png/.exec(String(team.crest || '')) || [])[1];
+  const key = (fid && map.t && map.t[String(fid)]) || (fm && map.l && map.l[String(fm)]);
+  if (!key) return null;
+  const lg = await lsGet(`idx:lg/${key}`);
+  const list = (lg && lg.t) || [];
+  const hit = list.find((t) => fid && t.fm && String(t.fm) === String(fid)) || list.find((t) => nrm(t.n) === nrm(team.name) && sameSquad(t.n, team.name));
+  if (!hit || !(hit.p || []).length) return null;
+  const p = hit.p.map((r, i) => [-(Number(r[0]) || 900000000 + i), r[1], LS_ROLE[r[2]] || 'UNK', r[3] || null, r[4] || null, null, null, null, 0, 0, 0, 0]);
+  return { p, co: (hit.co && hit.co[0]) || null };
+};
 export const rosePoor = (r) => { const p = (r && r.p) || []; return p.length < 11 || p.some((x) => x[2] === 'UNK'); };
 
 // Rosa ricavata dalla stagione in corso quando la squadra non e' in rose.json (squadre delle competizioni dell'archivio, squadre B,
@@ -73,6 +97,10 @@ export const seasonRoster = async (team) => {
   const R = await rosaOf(team);
   const sk = fm ? await currentSeason(fm) : null;
   // prima la rosa scaricata (per ruolo); le competizioni servono solo per aprire i giocatori
+  if (R && R.p && R.p.length && !rosePoor(R)) return { fm, sk, p: R.p, co: R.co, ci: R.ci };
+  // rosa FotMob assente o povera: rosa di LiveScore (per ruolo) se ne ha di piu'
+  const L = await lsRoster(team, fm).catch(() => null);
+  if (L && L.p.length > ((R && R.p) || []).length) return { fm, sk, p: L.p, co: L.co || (R && R.co), ci: R && R.ci };
   if (R && R.p && R.p.length) return { fm, sk, p: R.p, co: R.co, ci: R.ci };
   if (!fm || !sk) return null;
   const safe = (p) => p.catch(() => null);

@@ -2,7 +2,7 @@
 I dati NON vanno nel repository (e' pubblico): solo su Cloudflare KV. Uso: rose_livescore_all.py [OFFSET] [LIMIT]"""
 import json, os, re, sys, time
 sys.path.insert(0, os.path.dirname(__file__))
-from rose_livescore import get, nxt, slug, kv_put, BASE
+from rose_livescore import get, nxt, slug, kv_put, kv_get, BASE
 from concurrent.futures import ThreadPoolExecutor
 
 ALIAS = {'usa': ['usa', 'united-states'], 'united-states': ['usa', 'united-states'], 'south-korea': ['south-korea', 'korea-republic'], 'czech-republic': ['czech-republic', 'czechia'],
@@ -115,9 +115,16 @@ def main(off, lim):
     items = [(k, e) for k, e in idx.items() if e.get('cn') not in ('Internazionale',) and e.get('s') and e['s'][0].startswith('2026') and 'table' in (e.get('tabs') or [])]
     items = items[off:off + lim]
     out, rep = [], []
+    mapL, mapT = {}, {}
     for it in items:
-        k, c, nm, sq = one(it)
+        try:
+            k, c, nm, sq = one(it)
+        except Exception as ex:  # un campionato che fallisce non ferma gli altri
+            print('ERRORE', idx[it[0]]['cn'], idx[it[0]]['n'], str(ex)[:80], flush=True); continue
         if sq:
+            mapL[str(k)] = f'{c}/{nm}'
+            for t in sq:
+                if t.get('fm'): mapT[str(t['fm'])] = f'{c}/{nm}'
             out.append((f'idx:lg/{c}/{nm}', {'fmLeague': int(k), 'at': int(time.time()), 't': sq}))
             rep.append(f'OK {c}/{nm}: {len(sq)} squadre, {sum(len(s["p"]) for s in sq)} giocatori')
         else:
@@ -126,6 +133,10 @@ def main(off, lim):
         if len(out) >= 10: kv_put(out); out = []
         time.sleep(0.5)
     if out: kv_put(out)
+    old = kv_get('idx:fmmap') or {'l': {}, 't': {}}
+    old['l'].update(mapL); old['t'].update(mapT)
+    kv_put([('idx:fmmap', old)])
+    print('mappa:', len(old['l']), 'campionati,', len(old['t']), 'squadre', flush=True)
     print('totale OK', sum(r.startswith('OK') for r in rep), 'NO', sum(r.startswith('NO') for r in rep))
 
 
