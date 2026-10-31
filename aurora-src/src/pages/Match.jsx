@@ -23,7 +23,7 @@ import { prepareMatch, isReady } from '@/data/prepare';
 import { teamById } from '@/data/teams';
 import { leagueById } from '@/data/leagues';
 import { matchTint } from '@/data/matchTint';
-import { EXTRA_KEYS } from '@/data/calcData';
+import { CALC_KEYS } from '@/data/calcData';
 
 const PRE_TABS = [
   { key: 'overview', label: 'Panoramica' },
@@ -133,7 +133,7 @@ export default function Match() {
   const has = {
     stats: hasMatchStats(raw, view, home, away, pre),
     lineups: hasLineups(view),
-    rel: (!raw.archive || EXTRA_KEYS.includes(raw.leagueId)) && hasReliability(raw),
+    rel: (!raw.archive || CALC_KEYS.includes(raw.leagueId)) && hasReliability(raw),
     standings: cup ? !!((peekBracket(raw.archive.fm, raw.archive.sk) || {}).rounds || []).length : !raw.archive || !!(raw.season && (raw.season.table || (raw.season.groups && raw.season.groups.length))),
   };
   const PANEL = {
