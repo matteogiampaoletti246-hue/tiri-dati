@@ -654,9 +654,49 @@
 "src": "api-football",
 "at": "2026-10-31T08:50+00:00"
 },
+"5881710": {
+"n": "Lukas Benen",
+"src": "api-football",
+"at": "2026-10-31T12:55+00:00"
+},
+"5881713": {
+"n": "Felix Bickel",
+"src": "api-football",
+"at": "2026-10-31T12:55+00:00"
+},
+"5881716": {
+"n": "Konrad Oldhafer",
+"src": "api-football",
+"at": "2026-10-31T12:55+00:00"
+},
+"5881711": {
+"n": "Lars Erbst",
+"src": "api-football",
+"at": "2026-10-31T12:55+00:00"
+},
+"5881712": {
+"n": "Felix Weller",
+"src": "api-football",
+"at": "2026-10-31T12:55+00:00"
+},
+"5881715": {
+"n": "Robert Hartmann",
+"src": "api-football",
+"at": "2026-10-31T12:55+00:00"
+},
+"1000019470": {
+"n": "Anderson Daronco",
+"src": "api-football",
+"at": "2026-10-31T12:55+00:00"
+},
+"1000019468": {
+"n": "Davi de Oliveira Lacerda",
+"src": "api-football",
+"at": "2026-10-31T12:55+00:00"
+},
 "_err": [
 "2026-11-02: {\"plan\": \"Free plans do not have access to this date, try from 2026-10-30 to 2026-11-01.\"}",
 "2026-11-03: {\"plan\": \"Free plans do not have access to this date, try from 2026-10-30 to 2026-11-01.\"}"
 ],
-"_at": "2026-10-31T08:50+00:00"
+"_at": "2026-10-31T12:55+00:00"
 }
