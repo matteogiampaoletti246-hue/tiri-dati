@@ -1,0 +1,26 @@
+name: Pubblica worker Cloudflare
+# Ogni modifica a worker/ viene pubblicata da sola su Cloudflare (prima andava fatto a mano).
+on:
+  push:
+    branches: [main]
+    paths: ['worker/**', '.github/workflows/worker_deploy.yml']
+  workflow_dispatch:
+concurrency:
+  group: worker-deploy
+  cancel-in-progress: false
+permissions:
+  contents: read
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Pubblica
+        working-directory: worker
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: 344b4f68fd540269085abbf16851253c
+        run: npx --yes wrangler@3 deploy
