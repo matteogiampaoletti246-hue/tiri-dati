@@ -10,7 +10,10 @@ def get(url):
     for i in range(3):
         try:
             r = urllib.request.urlopen(urllib.request.Request(url, headers={'User-Agent': UA, 'Accept-Language': 'en'}), timeout=25)
-            return r.read().decode('utf8', 'ignore')
+            b = r.read()
+            if b[:2] == b'\x1f\x8b':
+                import gzip; b = gzip.decompress(b)
+            return b.decode('utf8', 'ignore')
         except urllib.error.HTTPError as e:
             if e.code == 404: return None
         except Exception:

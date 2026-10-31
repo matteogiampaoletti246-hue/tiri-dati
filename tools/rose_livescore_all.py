@@ -40,19 +40,45 @@ def squad(t):
     return {'lsId': t['id'], 'n': t['name'], 'fm': int(fm.group(1)) if fm else None, 'co': co, 'p': pl}
 
 
+CATALOG = {}
+
+
+def catalog():
+    # elenco ufficiale dei campionati di calcio di LiveScore (sitemap): paese -> {slug campionato}
+    x = get(f'{BASE}/competitions/sitemap.xml') or ''
+    urls = re.findall(r'<loc>https://www\.livescore\.com/en/football/([a-z0-9-]+)/([a-z0-9-]+)/?</loc>', x)
+    for c, n in urls:
+        if c in ('team', 'competitions', 'player'): continue
+        CATALOG.setdefault(c, set()).add(n)
+    print('catalogo LiveScore:', len(urls), 'campionati in', len(CATALOG), 'paesi', flush=True)
+
+
+def pick(cn, nm):
+    toks = lambda t: set(t.split('-')) - {'league', 'liga', 'division', 'de', 'la', 'the'}
+    for c in ALIAS.get(cn, [cn]):
+        cands = CATALOG.get(c)
+        if not cands: continue
+        if nm in cands: return c, nm
+        best = max(cands, key=lambda k: len(toks(k) & toks(nm)) / max(1, len(toks(k) | toks(nm))))
+        sc = len(toks(best) & toks(nm)) / max(1, len(toks(best) | toks(nm)))
+        if sc >= 0.5: return c, best
+    return None, nm
+
+
 def one(k_e):
     k, e = k_e
     cn = slug(e.get('cn') or ''); nm = slug(e['n'])
-    for c in ALIAS.get(cn, [cn]):
-        ts = teams_of(c, nm)
+    c, nm2 = pick(cn, nm)
+    if c:
+        ts = teams_of(c, nm2)
         if ts:
             with ThreadPoolExecutor(3) as ex: sq = list(ex.map(squad, ts))
-            sq = [s for s in sq if s['p']]
-            return k, c, nm, sq
+            return k, c, nm2, [t for t in sq if t['p']]
     return k, None, nm, []
 
 
 def main(off, lim):
+    catalog()
     idx = json.load(open('arch/index.json'))
     items = [(k, e) for k, e in idx.items() if e.get('cn') not in ('Internazionale',) and e.get('s') and e['s'][0].startswith('2026') and 'table' in (e.get('tabs') or [])]
     items = items[off:off + lim]
