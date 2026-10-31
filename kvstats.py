@@ -48,7 +48,9 @@ def overlay(fm, sk, d):
     for mid, v in load(fm, sk).items():
         m = d.setdefault("m", {}).setdefault(mid, {})
         if not m.get("p") and v.get("p"):
-            m.update({k: x for k, x in v.items() if k != "e"})
+            m.update({k: x for k, x in v.items() if k not in ("e", "s", "sh", "hi")})
         if not m.get("e") and v.get("e"):
             m["e"] = v["e"]
+        if not m.get("s") and v.get("s"):
+            m["s"] = v["s"]
     return d

@@ -148,6 +148,41 @@ export function fxScore(d) {
   return [h, a];
 }
 
+// Mappa tiri dal formato del worker (`sh`): usata dalla pagina partita live/recente e dalle partite d'archivio con tiri da altre fonti
+export function mapShots(sh, hi) {
+  let out = (sh || []).map((s) => ({
+    side: s[2] === hi ? 'home' : 'away',
+    outcome: s[7] ? 'Murato' : OUT[s[6]] || 'Fuori',
+    // un tiro murato non e' un tiro in porta (FotMob lo segna comunque "on target"): non arriva alla porta
+    onTarget: !!s[8] && !s[7],
+    bx: s[9] == null ? null : s[9],
+    by: s[10] == null ? null : 68 - s[10],
+    playerName: s[3],
+    minute: s[1] ? `${s[0]}+${s[1]}` : s[0],
+    min: s[0],
+    body: BODY[s[15]] || 'Altro',
+    situation: s[16],
+    xg: s[13] || 0,
+    xgot: s[14] || 0,
+    period: s[18],
+    // autogol: il tiro e' registrato a favore del difensore ma sta nella sua area, non e' un tiro della squadra
+    own: !!s[17] || (OUT[s[6]] === 'Gol' && s[4] != null && s[4] < 30),
+    px: s[4],
+    // FotMob misura la larghezza al contrario di come la guarda chi vede il campo da sopra: si specchia (campo e porta)
+    py: s[5] == null ? s[5] : 68 - s[5],
+    gy: s[11] == null ? s[11] : 68 - s[11],
+    gz: s[12],
+    x: Math.max(0, Math.min(1, s[4] / 105)),
+    y: Math.max(0, Math.min(1, 1 - s[5] / 68)),
+  }));
+  // autogol: e' un gol della squadra avversaria. Si mostra nell'area di chi lo subisce (specchiato), con il nome del difensore
+  out = out.map((s) => (s.own ? {
+    ...s, own: false, og: true, side: s.side === 'home' ? 'away' : 'home',     px: s.px == null ? s.px : 105 - s.px, py: s.py == null ? s.py : 68 - s.py, gy: s.gy == null ? s.gy : 68 - s.gy,
+    x: 1 - s.x, y: 1 - s.y, xg: 0, xgot: 0,
+  } : s));
+  return out;
+}
+
 export function applyFm(m, d, playerLookup) {
   if (!d) return m;
   const home = teamById(m.homeId);
@@ -198,36 +233,7 @@ export function applyFm(m, d, playerLookup) {
   m.momentum = bucket(d.mo);
 
   // mappa tiri
-  m.shots = (d.sh || []).map((s) => ({
-    side: s[2] === d.hi ? 'home' : 'away',
-    outcome: s[7] ? 'Murato' : OUT[s[6]] || 'Fuori',
-    // un tiro murato non e' un tiro in porta (FotMob lo segna comunque "on target"): non arriva alla porta
-    onTarget: !!s[8] && !s[7],
-    bx: s[9] == null ? null : s[9],
-    by: s[10] == null ? null : 68 - s[10],
-    playerName: s[3],
-    minute: s[1] ? `${s[0]}+${s[1]}` : s[0],
-    min: s[0],
-    body: BODY[s[15]] || 'Altro',
-    situation: s[16],
-    xg: s[13] || 0,
-    xgot: s[14] || 0,
-    period: s[18],
-    // autogol: il tiro e' registrato a favore del difensore ma sta nella sua area, non e' un tiro della squadra
-    own: !!s[17] || (OUT[s[6]] === 'Gol' && s[4] != null && s[4] < 30),
-    px: s[4],
-    // FotMob misura la larghezza al contrario di come la guarda chi vede il campo da sopra: si specchia (campo e porta)
-    py: s[5] == null ? s[5] : 68 - s[5],
-    gy: s[11] == null ? s[11] : 68 - s[11],
-    gz: s[12],
-    x: Math.max(0, Math.min(1, s[4] / 105)),
-    y: Math.max(0, Math.min(1, 1 - s[5] / 68)),
-  }));
-  // autogol: e' un gol della squadra avversaria. Si mostra nell'area di chi lo subisce (specchiato), con il nome del difensore
-  m.shots = m.shots.map((s) => (s.own ? {
-    ...s, own: false, og: true, side: s.side === 'home' ? 'away' : 'home',     px: s.px == null ? s.px : 105 - s.px, py: s.py == null ? s.py : 68 - s.py, gy: s.gy == null ? s.gy : 68 - s.gy,
-    x: 1 - s.x, y: 1 - s.y, xg: 0, xgot: 0,
-  } : s));
+  m.shots = mapShots(d.sh, d.hi);
   m.shotsFm = true;
   if (d.pl) m.playerStats = d.pl;
 

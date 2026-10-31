@@ -3,6 +3,7 @@
 // Il dettaglio completo arriva dal Worker (FotMob, vale per qualsiasi partita); quello salvato nell'archivio è la riserva.
 import { loadSeason, loadSeasonMatches, loadSeasonStats, FM_ID, archIndex, teamLogo, seasonLabel, STAT_IT, STAT_GROUPS, prettyKey, currentSeason, teamIdByName } from './archive';
 import { isPureCup } from './bracket';
+import { mapShots } from './fotmob';
 import { teamHistory, teamFmId } from './teamIndex';
 import { MATCH_BY_ID } from './matches';
 import { ensureTeam, teamById } from './teams';
@@ -312,6 +313,8 @@ export function applyArchiveFallback(m) {
     m.stats = { possesso: f.BallPossesion, xg: f.expected_goals, tiri: f.total_shots, tiriInPorta: f.ShotsOnTarget, occasioni: f.big_chance, corner: f.corners, falli: f.fouls, cartellini: f.yellow_cards, passaggi: f.passes, fuorigioco: f.Offsides };
     Object.keys(m.stats).forEach((k) => !m.stats[k] && delete m.stats[k]);
   }
-  if (events.length || groups.length) m.detail = true;
+  // mappa tiri da altre fonti (PitchAPI, via KV): stesso formato della mappa FotMob
+  if (Array.isArray(d.sh) && d.sh.length && d.hi) { m.shots = mapShots(d.sh, d.hi); m.shotsFm = true; }
+  if (events.length || groups.length || (m.shots && m.shots.length)) m.detail = true;
   return m;
 }
