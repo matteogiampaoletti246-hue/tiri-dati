@@ -1,51 +1,102 @@
 {
  "competizioni": {
-  "OBOS-ligaen 2026": {
-   "partite_completate": 37,
-   "giocatori": 1373,
-   "da_fare": 37
+  "Nemzeti Bajnokság I 2026-2027": {
+   "partite_completate": 43,
+   "giocatori": 1855,
+   "da_fare": 43
   },
-  "2. divisjon 2026": {
-   "partite_completate": 259,
-   "giocatori": 7074,
-   "da_fare": 350
+  "1. Deild 2026": {
+   "partite_completate": 91,
+   "giocatori": 2000,
+   "da_fare": 137
   },
-  "Norsk Tipping-ligaen 2026": {
+  "Icelandic Cup 2026": {
+   "partite_completate": 15,
+   "giocatori": 522,
+   "da_fare": 31
+  },
+  "First Division 2026": {
+   "partite_completate": 168,
+   "giocatori": 3317,
+   "da_fare": 184
+  },
+  "FAI Cup 2026": {
+   "partite_completate": 23,
+   "giocatori": 372,
+   "da_fare": 42
+  },
+  "J. League Cup 2026-2027": {
+   "partite_completate": 52,
+   "giocatori": 1170,
+   "da_fare": 52
+  },
+  "Premier League 2026": {
+   "partite_completate": 146,
+   "giocatori": 2380,
+   "da_fare": 232
+  },
+  "Toplyga 2026": {
+   "partite_completate": 100,
+   "giocatori": 1756,
+   "da_fare": 136
+  },
+  "National Division 2026-2027": {
+   "partite_completate": 2,
+   "giocatori": 24,
+   "da_fare": 64
+  },
+  "1. CFL 2026-2027": {
+   "partite_completate": 39,
+   "giocatori": 607,
+   "da_fare": 63
+  },
+  "KNVB Cup 2026-2027": {
+   "partite_completate": 23,
+   "giocatori": 563,
+   "da_fare": 26
+  },
+  "2. Division 2026-2027": {
    "partite_completate": 0,
    "giocatori": 0,
-   "da_fare": 1050
+   "da_fare": 80
   },
-  "Norgesmesterskapet 2026-2027": {
-   "partite_completate": 67,
-   "giocatori": 1620,
-   "da_fare": 110
+  "3. Division 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 79
   },
-  "DFB Pokal 2026-2027": {
-   "partite_completate": 14,
-   "giocatori": 525,
-   "da_fare": 16
+  "Danmarksserien 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 241
   },
-  "Nemzeti Bajnokság I 2026-2027": {
-   "partite_completate": 22,
-   "giocatori": 906,
-   "da_fare": 65
+  "DBU Pokalen 2026-2027": {
+   "partite_completate": 59,
+   "giocatori": 980,
+   "da_fare": 90
+  },
+  "Regular Season 2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 170
   }
  },
  "codici_it_visti": {
-  "4": 3433,
-  "5": 3417,
-  "36": 1441,
-  "37": 86,
-  "38": 15,
-  "39": 26,
-  "40": 6,
-  "41": 35,
-  "43": 420,
-  "44": 13,
-  "45": 42,
-  "47": 13,
-  "63": 305,
-  "70": 2
+  "4": 6971,
+  "5": 6967,
+  "36": 2268,
+  "37": 163,
+  "38": 6,
+  "39": 52,
+  "40": 14,
+  "41": 33,
+  "43": 481,
+  "44": 28,
+  "45": 121,
+  "47": 30,
+  "57": 3,
+  "63": 76,
+  "70": 1
  },
  "partite_completate_in_questo_giro": 1500
 }
