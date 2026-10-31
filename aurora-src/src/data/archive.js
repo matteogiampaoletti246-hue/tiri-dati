@@ -159,7 +159,7 @@ export const loadSeason = (lid, sk) => archIndex().then(() => json(`arch/${lid}/
 // risultati.py ogni 10 minuti) e /fx per quelle iniziate da meno di 5 ore. Il file in memoria riceve un nuovo array `fix`
 // (stesso oggetto stagione) e chi lo mostra si ridisegna con l'evento 'sl-arch' (useArchFresh): Partite, Tabellone, squadra, giocatore.
 const DAY_MS = 864e5;
-const isCurrent = (lid, sk) => {
+export const isCurrent = (lid, sk) => {
   const x = RAW.extra && RAW.extra.sk && RAW.extra.sk[String(lid)];
   return x === sk || curSeasonSync(lid) === sk;
 };

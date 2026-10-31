@@ -3,13 +3,15 @@ import { useEffect, useMemo } from 'react';
 import useAsync from '@/hooks/useAsync';
 import TextFilter from '@/components/TextFilter';
 import { TeamLogo } from '@/components/FmImg';
-import { loadColors, loadSeasonMatches } from '@/data/archive';
+import { loadColors, loadSeasonMatches, isCurrent } from '@/data/archive';
 import { prepareMatch } from '@/data/prepare';
 import { teamByName } from '@/data/teams';
 import { fixedColors } from '@/data/teamColorFix';
 import { teamGrad } from '@/lib/tint';
 import { useState } from 'react';
 import FormDots from '@/components/FormDots';
+import LiveScorePill from '@/components/LiveScorePill';
+import { useLiveTable, freshGroup, applyLive } from '@/data/liveTable';
 
 export const fmtDate = (iso) => {
   const d = new Date(iso);
@@ -128,11 +130,14 @@ function orderRows(rows) {
   return [...rows].sort((a, b) => (b.pts || 0) - (a.pts || 0) || (gf(b)[0] - gf(b)[1]) - (gf(a)[0] - gf(a)[1]) || gf(b)[0] - gf(a)[0]).map((r, i) => ({ ...r, idx: i + 1 }));
 }
 
-function StandingsTable({ t, legendSrc, title, mode, fm5, fm, sk, highlight }) {
+function StandingsTable({ t: t0, legendSrc, title, mode, fm5, fm, sk, highlight, lt }) {
   const forma = mode === 'form';
+  // classifica FotMob fresca + partite live (stagione in corso): righe con `lv` (risultato provvisorio), `mv` (posti), `dp` (punti)
+  const fg = freshGroup(lt, t0);
+  const t = fg ? fg.t : t0;
   const rows = forma
     ? (t.all || []).map((r) => { const f = (fm5[r.id] || []).slice(-5); return { ...r, f, fp: f.reduce((x, c) => x + (c === 'V' ? 3 : c === 'S' ? 1 : 0), 0) }; }).sort((a, b) => b.fp - a.fp || b.pts - a.pts)
-    : orderRows(t[mode] || t.all || []);
+    : orderRows(fg ? applyLive(t[mode] || t.all || [], lt.live, mode === 'all' ? 'all' : mode) : (t[mode] || t.all || []));
   if (!rows.length) return null;
   // la leggenda c'e' solo se le righe hanno davvero le lineette colorate
   const legend = (t.all || []).some((r) => r.qualColor) ? (legendSrc || []) : [];
@@ -147,10 +152,10 @@ function StandingsTable({ t, legendSrc, title, mode, fm5, fm, sk, highlight }) {
       {rows.map((r, i) => {
         const on = highlight != null && (Array.isArray(highlight) ? highlight : [highlight]).some((h) => String(h) === String(r.id));
         return (
-          <Link key={r.id} to={`/storico/${fm}/${sk}/squadra/${r.id}`} className="press relative grid items-center gap-2 px-4 py-2.5" style={{ gridTemplateColumns: cols, borderTop: '1px solid var(--hair-2)', background: on ? 'var(--accent-soft)' : 'transparent' }}>
+          <Link key={r.id} to={`/storico/${fm}/${sk}/squadra/${r.id}`} className="press relative grid items-center gap-2 px-4 py-2.5" style={{ gridTemplateColumns: cols, borderTop: '1px solid var(--hair-2)', background: !forma && r.lv ? 'var(--live-soft)' : on ? 'var(--accent-soft)' : 'transparent' }}>
             {r.qualColor && !forma ? <span aria-hidden="true" className="absolute bottom-1.5 left-0 top-1.5 w-[3.5px] rounded-r-full" style={{ background: r.qualColor }} /> : null}
-            <span className="tnum text-right text-[11.5px]" style={{ color: 'var(--ink-3)' }}>{forma ? i + 1 : (r.idx || i + 1)}</span>
-            <span className="flex min-w-0 items-center gap-2"><TeamLogo id={r.id} name={r.shortName || r.name} size={22} /><span className="truncate text-[13px] font-semibold">{r.shortName || r.name}</span></span>
+            <span className="tnum text-right text-[11.5px]" style={{ color: 'var(--ink-3)' }}>{forma ? i + 1 : (r.idx || i + 1)}{!forma && r.mv ? <span className="block text-[9px] font-bold leading-none" style={{ color: r.mv > 0 ? 'var(--good)' : 'var(--bad)' }}>{r.mv > 0 ? '▲' : '▼'}{Math.abs(r.mv)}</span> : null}</span>
+            <span className="flex min-w-0 items-center gap-2"><TeamLogo id={r.id} name={r.shortName || r.name} size={22} /><span className="truncate text-[13px] font-semibold">{r.shortName || r.name}</span>{!forma ? <LiveScorePill lv={r.lv} /> : null}</span>
             {forma ? <span className="flex justify-end"><FormDots form={r.f} size={15} /></span> : <>
                 <span className="tnum text-right text-[11.5px]" style={{ color: 'var(--ink-2)' }}>{r.played}</span>
                 <span className="tnum text-right text-[11.5px]" style={{ color: 'var(--ink-2)' }}>{r.wins}</span>
@@ -158,7 +163,7 @@ function StandingsTable({ t, legendSrc, title, mode, fm5, fm, sk, highlight }) {
                 <span className="tnum text-right text-[11.5px]" style={{ color: 'var(--ink-2)' }}>{r.losses}</span>
                 <span className="tnum text-right text-[11px]" style={{ color: 'var(--ink-2)' }}>{String(r.scoresStr || '').replace('-', ':')}</span>
             </>}
-            <span className="tnum text-right text-[13.5px] font-extrabold">{forma ? r.fp : r.pts}</span>
+            <span className="tnum text-right text-[13.5px] font-extrabold" style={!forma && r.lv ? { color: 'var(--live)' } : undefined}>{forma ? r.fp : r.pts}</span>
           </Link>
         );
       })}
@@ -182,6 +187,7 @@ export function StandingsPanel({ season, fm, sk, highlight = null }) {
   const t = season && season.table;
   // gli hook vanno sempre prima di qualunque uscita anticipata (altrimenti React si blocca cambiando stagione)
   const fm5 = useMemo(() => (t || groups ? formOf(season) : {}), [season, t, groups]);
+  const lt = useLiveTable(fm, !!(t || groups) && isCurrent(fm, sk));
   if (!t && !groups) return null;
   return (
     <div className="pt-3">
@@ -189,8 +195,8 @@ export function StandingsPanel({ season, fm, sk, highlight = null }) {
         <TextFilter options={[{ value: 'all', label: 'Totale' }, { value: 'home', label: 'Casa' }, { value: 'away', label: 'Trasferta' }, { value: 'form', label: 'Forma' }]} value={mode} onChange={setMode} />
       </div>
       {groups
-        ? groups.map((g, i) => <StandingsTable key={g.n || i} t={g.table} legendSrc={g.legend} title={g.n} mode={mode} fm5={fm5} fm={fm} sk={sk} highlight={highlight} />)
-        : <StandingsTable t={t} legendSrc={season.legend} mode={mode} fm5={fm5} fm={fm} sk={sk} highlight={highlight} />}
+        ? groups.map((g, i) => <StandingsTable key={g.n || i} t={g.table} legendSrc={g.legend} title={g.n} mode={mode} fm5={fm5} fm={fm} sk={sk} highlight={highlight} lt={lt} />)
+        : <StandingsTable t={t} legendSrc={season.legend} mode={mode} fm5={fm5} fm={fm} sk={sk} highlight={highlight} lt={lt} />}
     </div>
   );
 }

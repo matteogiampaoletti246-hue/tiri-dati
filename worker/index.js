@@ -286,6 +286,30 @@ export default {
         (j.leagues || []).forEach((l) => { if (!OK.includes(l.primaryId || l.id)) return; (l.matches || []).forEach((x) => m.push({ id: x.id, l: l.primaryId || l.id, h: x.home && x.home.name, a: x.away && x.away.name, hi: x.home && x.home.id, ai: x.away && x.away.id, t: x.status && x.status.utcTime, f: !!(x.status && x.status.finished), s: !!(x.status && x.status.started), sc: x.status && x.status.scoreStr || null, lt: x.status && x.status.liveTime ? String(x.status.liveTime.short || "").replace(/[\u200e\u200f]/g, "") : null })); });
         return new Response(JSON.stringify({ t: Date.now(), m }), { headers: cors(req, { "Cache-Control": "public, max-age=3" }) });
       }
+      if (u.pathname === "/lt") { // classifica FotMob della competizione (aggiornata ogni 5 s) + partite in corso: ?id=<id FotMob della lega>
+        const id = u.searchParams.get("id");
+        if (!/^\d{1,6}$/.test(id || "")) return new Response("{}", { status: 400, headers: cors(req) });
+        const r = await fetch("https://www.fotmob.com/api/data/leagues?id=" + id + "&ccode3=ITA", { headers: FMH, cf: { cacheTtl: 5, cacheEverything: true } });
+        if (!r.ok) throw new Error("FotMob " + r.status);
+        const j = await r.json();
+        const cut = (x) => (x || []).map((q) => ({ id: q.id, name: q.name, shortName: q.shortName, idx: q.idx, played: q.played, wins: q.wins, draws: q.draws, losses: q.losses, scoresStr: q.scoresStr, goalConDiff: q.goalConDiff, pts: q.pts, qualColor: q.qualColor }));
+        const groups = [];
+        (j.table || []).forEach((tb) => {
+          const d = tb.data || {};
+          if (d.table && d.table.all) groups.push({ n: d.leagueName || "", t: { all: cut(d.table.all), home: cut(d.table.home), away: cut(d.table.away) } });
+          (d.tables || []).forEach((g) => { const t = g.table || {}; if (t.all) groups.push({ n: g.leagueName || "", t: { all: cut(t.all), home: cut(t.home), away: cut(t.away) } }); });
+        });
+        const live = [];
+        ((j.fixtures && j.fixtures.allMatches) || []).forEach((m) => {
+          const st = m.status || {};
+          if (!st.started || st.finished || st.cancelled) return;
+          const sc = String(st.scoreStr || "").split("-").map((v) => parseInt(v, 10));
+          if (sc.length !== 2 || sc.some(isNaN)) return;
+          const lt = st.liveTime || {};
+          live.push([m.id, m.home && m.home.id, m.away && m.away.id, sc[0], sc[1], lt.short || lt.long || ""]);
+        });
+        return new Response(JSON.stringify({ t: Date.now(), groups, live }), { headers: cors(req, { "Cache-Control": "public, max-age=5" }) });
+      }
       if (u.pathname === "/fs") {
         const id = u.searchParams.get("id");
         if (!/^\d{5,10}$/.test(id || "")) return new Response("{}", { status: 400, headers: cors(req) });

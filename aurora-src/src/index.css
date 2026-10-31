@@ -666,3 +666,8 @@
 
 @keyframes spin { to { transform: rotate(360deg); } }
 .spin { animation: spin .8s linear infinite; }
+
+/* Risultato live nella classifica: pillola rossa che lampeggia piano (concept A) */
+@keyframes liveBlink { 0%, 100% { opacity: 1; } 50% { opacity: .58; } }
+.live-pill { animation: liveBlink 1.6s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .live-pill { animation: none; } }
