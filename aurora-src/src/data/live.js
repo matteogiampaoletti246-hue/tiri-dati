@@ -49,7 +49,8 @@ export async function pullLive() {
       const sa = parseInt(e.sa, 10) || 0;
       if (e.st === 'in') {
         m.status = 'live';
-        m.liveScore = [sh, sa];
+        // ESPN e' piu' lenta di FotMob: non abbassa mai un risultato gia' aggiornato (un gol non "sparisce" e ricompare)
+        if (!m.liveScore || m.liveScore[0] + m.liveScore[1] <= sh + sa) m.liveScore = [sh, sa];
         const mm = parseInt(String(e.clk || e.det), 10);
         m.liveMinute = e.det === 'HT' ? 45 : Number.isFinite(mm) ? mm : m.liveMinute || null;
         m.liveHalf = e.det === 'HT';

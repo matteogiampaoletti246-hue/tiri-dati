@@ -103,6 +103,24 @@ const bucket = (mo) => {
 const OUT = { Goal: 'Gol', AttemptSaved: 'Parato', Miss: 'Fuori', Post: 'Fuori', Blocked: 'Murato' };
 const BODY = { RightFoot: 'Destro', LeftFoot: 'Sinistro', Header: 'Testa', OtherBodyParts: 'Altro' };
 
+// Risultato dal dettaglio FotMob. Nelle partite live l'intestazione (header.teams) arriva a volte DOPO gli eventi e la mappa tiri:
+// il punteggio e' il piu' alto tra intestazione, ultimo evento gol (`sc` cumulativo) e gol della mappa tiri (autogol all'altra squadra).
+export function fxScore(d) {
+  if (!d || !d.sc || d.sc[0] == null) return null;
+  let h = Number(d.sc[0]) || 0;
+  let a = Number(d.sc[1]) || 0;
+  if (d.st) {
+    const last = [...(d.ev || [])].reverse().find((e) => e.ty === 'Goal' && Array.isArray(e.sc));
+    if (last) { h = Math.max(h, Number(last.sc[0]) || 0); a = Math.max(a, Number(last.sc[1]) || 0); }
+    let sh = 0;
+    let sa = 0;
+    (d.sh || []).forEach((x) => { if (x[6] !== 'Goal') return; if ((x[2] === d.hi) !== !!x[17]) sh += 1; else sa += 1; });
+    h = Math.max(h, sh);
+    a = Math.max(a, sa);
+  }
+  return [h, a];
+}
+
 export function applyFm(m, d, playerLookup) {
   if (!d) return m;
   const home = teamById(m.homeId);
@@ -122,7 +140,7 @@ export function applyFm(m, d, playerLookup) {
   // stato e risultato
   if (d.sc && d.sc[0] != null) {
     if (d.st) {
-      m.liveScore = [Number(d.sc[0]), Number(d.sc[1])];
+      m.liveScore = fxScore(d);
       const mm = parseInt(String(d.clk), 10);
       if (Number.isFinite(mm)) m.liveMinute = mm;
       m.liveHalf = !!d.ht;
@@ -312,7 +330,15 @@ function applyStatus(m, { fin, st, sc, clk, ht }) {
     m.status = 'finished'; m.score = sc; m.minute = 90; m.liveScore = null; m.liveHalf = false;
   } else if (st) {
     m.status = 'live';
-    if (sc) m.liveScore = sc;
+    if (sc) {
+      // la lista del giorno e' piu' lenta del dettaglio: un risultato appena salito non torna indietro per 45 s (poi un gol annullato dal VAR si corregge)
+      const cur = m.liveScore;
+      const lower = cur && sc[0] + sc[1] < cur[0] + cur[1] && Date.now() - (m.scUp || 0) < 45000;
+      if (!lower) {
+        if (!cur || sc[0] + sc[1] > cur[0] + cur[1]) m.scUp = Date.now();
+        m.liveScore = sc;
+      }
+    }
     const mm = parseInt(String(clk || ''), 10);
     if (Number.isFinite(mm)) m.liveMinute = mm;
     m.liveHalf = !!ht || /^HT$/i.test(String(clk || ''));
@@ -341,17 +367,21 @@ export function refreshStatus() {
     // competizioni dell'archivio (feed del giorno): tante partite insieme, al massimo 24 richieste per giro (prima quelle senza punteggio live)
     const one0 = sus.filter((m) => m.extra && m.fmId && (m.status === 'live' || now - m.ts < 5 * 3600000));
     const feed = one0.filter((m) => m.feed).sort((a, b) => (a.liveScore ? 1 : 0) - (b.liveScore ? 1 : 0) || (a.statusAt || 0) - (b.statusAt || 0)).slice(0, 24);
-    const one = one0.filter((m) => !m.feed).concat(feed);
+    // top campionati e coppe europee live: oltre alla lista del giorno anche il dettaglio (lo stesso della pagina partita: gol e risultato arrivano insieme), max 12 per giro
+    const liveTop = sus.filter((m) => !m.extra && m.status === 'live').sort((a, b) => (a.statusAt || 0) - (b.statusAt || 0)).slice(0, 12);
+    const one = one0.filter((m) => !m.feed).concat(feed, liveTop);
     let i = 0;
     const worker = async () => {
       while (i < one.length) {
         const m = one[i++];
         try {
-          const c = fxCache[m.fmId];
-          const d = c && Date.now() - c.at < 3000 ? c.d : await jget(`${WORKER}/fx?id=${m.fmId}`);
-          fxCache[m.fmId] = { at: Date.now(), d };
-          fxKeep(m.fmId);
-          if (applyStatus(m, { fin: d.fin, st: d.st, sc: d.sc && d.sc[0] != null ? [Number(d.sc[0]), Number(d.sc[1])] : null, clk: d.clk, ht: d.ht })) changed += 1;
+          const fid = m.fmId || await findFmId(m);
+          if (!fid) continue;
+          const c = fxCache[fid];
+          const d = c && Date.now() - c.at < 3000 ? c.d : await jget(`${WORKER}/fx?id=${fid}`);
+          fxCache[fid] = { at: Date.now(), d };
+          fxKeep(fid);
+          if (applyStatus(m, { fin: d.fin, st: d.st, sc: fxScore(d), clk: d.clk, ht: d.ht })) changed += 1;
         } catch { /* si riprova al prossimo giro */ }
       }
     };

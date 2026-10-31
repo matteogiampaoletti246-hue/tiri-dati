@@ -353,3 +353,7 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 
 ## Finestra giocatore su iPhone: altezza dallo schermo vero (regola fissa)
 - Con la pagina live che cresce Safari a volte accorcia il riquadro degli elementi fissi: la finestra giocatore finiva a meta' schermo con la pagina non oscurata sotto e i tasti sopra il contenuto. `PlayerSheet.jsx` misura altezza e posizione da `visualViewport` (`vbox`, si rimisura a ogni resize/scroll) e usa il 92% di quella altezza; senza `visualViewport` resta `92dvh`. Vale per ogni finestra a tutta altezza futura.
+
+## Risultato live veloce quanto le statistiche (regola fissa)
+- Il risultato live non si ferma all'intestazione FotMob (arriva dopo eventi e mappa tiri): `fxScore` (`data/fotmob.js`) prende il piu' alto tra intestazione, ultimo gol con punteggio cumulativo e gol della mappa tiri (autogol all'altra squadra). Lo usano `applyFm` (pagina partita, ogni 5 s) e `refreshStatus`, che per i top campionati/coppe europee live chiede anche il dettaglio (`/fx`, max 12 per giro, stessa cache di 3 s della pagina partita).
+- Un risultato appena salito non scende per 45 s (`scUp` in `applyStatus`; la lista del giorno e ESPN `live.js` sono piu' lente) e ESPN non abbassa mai un risultato gia' aggiornato; dopo 45 s un gol annullato dal VAR si corregge.
