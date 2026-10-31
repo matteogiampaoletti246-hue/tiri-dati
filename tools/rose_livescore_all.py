@@ -109,6 +109,9 @@ def one(k_e):
     return k, None, nm, []
 
 
+SEEN = set()
+
+
 def main(off, lim):
     catalog()
     idx = json.load(open('arch/index.json'))
@@ -122,6 +125,9 @@ def main(off, lim):
         except Exception as ex:  # un campionato che fallisce non ferma gli altri
             print('ERRORE', idx[it[0]]['cn'], idx[it[0]]['n'], str(ex)[:80], flush=True); continue
         if sq:
+            if any(o[0] == f'idx:lg/{c}/{nm}' for o in out) or f'{c}/{nm}' in SEEN:
+                mapL[str(k)] = f'{c}/{nm}'; continue  # stessa competizione LiveScore gia' salvata (coppa con le stesse squadre)
+            SEEN.add(f'{c}/{nm}')
             mapL[str(k)] = f'{c}/{nm}'
             for t in sq:
                 if t.get('fm'): mapT[str(t['fm'])] = f'{c}/{nm}'
