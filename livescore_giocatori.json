@@ -1,50 +1,99 @@
 {
  "competizioni": {
-  "Primera B 2026": {
-   "partite_completate": 41,
-   "giocatori": 1181,
+  "Primera B Metropolitana & Torneo Federal A 2026": {
+   "partite_completate": 181,
+   "giocatori": 3905,
+   "da_fare": 440
+  },
+  "FA Trophy 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 31
+  },
+  "Copa Argentina 2026": {
+   "partite_completate": 24,
+   "giocatori": 833,
+   "da_fare": 31
+  },
+  "Azadegan League 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
    "da_fare": 56
   },
-  "Liga de Ascenso 2026": {
-   "partite_completate": 139,
-   "giocatori": 3767,
-   "da_fare": 233
+  "Irish Cup 2025-2026": {
+   "partite_completate": 23,
+   "giocatori": 269,
+   "da_fare": 31
   },
-  "J. League 3 2026-2027": {
-   "partite_completate": 130,
-   "giocatori": 2920,
-   "da_fare": 130
+  "Copa do Nordeste 2026": {
+   "partite_completate": 45,
+   "giocatori": 1252,
+   "da_fare": 60
   },
-  "China League One 2026": {
-   "partite_completate": 124,
-   "giocatori": 3083,
-   "da_fare": 224
+  "Super Cup 2025": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
   },
-  "Segunda Federación 2026-2027": {
-   "partite_completate": 242,
-   "giocatori": 2075,
-   "da_fare": 354
+  "Open Cup 2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
   },
-  "Tweede Divisie 2026-2027": {
-   "partite_completate": 71,
-   "giocatori": 1144,
-   "da_fare": 99
+  "Serie D 2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 610
   },
-  "Primera B Metropolitana & Torneo Federal A 2026": {
-   "partite_completate": 221,
-   "giocatori": 4746,
-   "da_fare": 954
+  "CAF Confed Cup 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 75
+  },
+  "AFC Champions League Two 2026-2027": {
+   "partite_completate": 15,
+   "giocatori": 460,
+   "da_fare": 19
+  },
+  "AFC Challenge League 2026-2027": {
+   "partite_completate": 20,
+   "giocatori": 673,
+   "da_fare": 27
+  },
+  "Paulista A2 2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 150
+  },
+  "Super Cup 2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Copa Colombia 2026": {
+   "partite_completate": 47,
+   "giocatori": 1238,
+   "da_fare": 67
+  },
+  "WE League 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 37
   }
  },
  "codici_it_visti": {
-  "4": 8847,
-  "5": 8847,
-  "36": 2294,
-  "37": 173,
-  "39": 36,
-  "43": 364,
-  "44": 21,
-  "45": 192
+  "4": 3219,
+  "5": 3219,
+  "36": 789,
+  "37": 49,
+  "39": 14,
+  "40": 10,
+  "41": 23,
+  "43": 227,
+  "44": 12,
+  "45": 65,
+  "47": 8,
+  "63": 42
  },
  "partite_completate_in_questo_giro": 1500
 }
