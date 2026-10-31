@@ -20,6 +20,11 @@ def tree(o, d=0, name=""):
     if isinstance(o, dict): return "{" + ", ".join(f"{k}:{tree(v, d+1)}" for k, v in list(o.items())[:30]) + "}"
     if isinstance(o, list): return f"[{len(o)}×{tree(o[0], d+1) if o else ''}]"
     return type(o).__name__ if not isinstance(o, (int, float)) else "num"
+import builtins
+_out = []
+_p = builtins.print
+def print(*a, **k):
+    _p(*a, **k); _out.append(" ".join(str(x) for x in a))
 print("BASE", BASE)
 today = datetime.datetime.utcnow().strftime("%Y-%m-%d")
 for p in (f"/v1/matches?date={today}", f"/v1/matches/live", f"/v1/live", f"/v1/matches?status=live"):
@@ -41,3 +46,5 @@ if live:
         s, j, t = raw(f"/v1/matches/{mid}{ep}"); print(ep or "/", s, t, tree((j or {}).get("data", j))[:700] if j else "")
     a = raw(f"/v1/matches/{mid}/players")[1]; time.sleep(60); b = raw(f"/v1/matches/{mid}/players")[1]
     print("players invariati dopo 60s:", a == b)
+
+open("sonda_pitch_live.txt", "w").write("\n".join(_out))

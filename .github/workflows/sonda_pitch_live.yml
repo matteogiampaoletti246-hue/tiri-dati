@@ -1,7 +1,7 @@
 name: Sonda PitchAPI live
 on: workflow_dispatch
 permissions:
-  contents: read
+  contents: write
 jobs:
   sonda:
     runs-on: ubuntu-latest
@@ -13,3 +13,9 @@ jobs:
       - run: python sonda_pitch_live.py
         env:
           PITCHAPI_KEY: ${{ secrets.PITCHAPI_KEY }}
+      - run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add sonda_pitch_live.txt
+          git commit -m "Sonda PitchAPI live: struttura" || true
+          for i in 1 2 3; do git pull --rebase && git push && break; sleep 3; done
