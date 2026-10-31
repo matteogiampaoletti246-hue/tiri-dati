@@ -559,9 +559,54 @@
 "src": "api-football",
 "at": "2026-10-31T01:03+00:00"
 },
+"5967132": {
+"n": "Livio Marinelli",
+"src": "api-football",
+"at": "2026-10-31T04:51+00:00"
+},
+"5967134": {
+"n": "Francesco Fourneau",
+"src": "api-football",
+"at": "2026-10-31T04:51+00:00"
+},
+"5967137": {
+"n": "Davide Di Marco",
+"src": "api-football",
+"at": "2026-10-31T04:51+00:00"
+},
+"5967131": {
+"n": "Niccolo Turrini",
+"src": "api-football",
+"at": "2026-10-31T04:51+00:00"
+},
+"5967136": {
+"n": "Andrea Calzavara",
+"src": "api-football",
+"at": "2026-10-31T04:51+00:00"
+},
+"5868518": {
+"n": "Miranda Bolano Daniel",
+"src": "api-football",
+"at": "2026-10-31T04:51+00:00"
+},
+"5868514": {
+"n": "Andres Fuentes Molina",
+"src": "api-football",
+"at": "2026-10-31T04:51+00:00"
+},
+"6241190": {
+"n": "R. Lee",
+"src": "api-football",
+"at": "2026-10-31T04:51+00:00"
+},
+"6241189": {
+"n": "D. Dickinson",
+"src": "api-football",
+"at": "2026-10-31T04:51+00:00"
+},
 "_err": [
 "2026-11-02: {\"plan\": \"Free plans do not have access to this date, try from 2026-10-30 to 2026-11-01.\"}",
 "2026-11-03: {\"plan\": \"Free plans do not have access to this date, try from 2026-10-30 to 2026-11-01.\"}"
 ],
-"_at": "2026-10-31T01:03+00:00"
+"_at": "2026-10-31T04:51+00:00"
 }
