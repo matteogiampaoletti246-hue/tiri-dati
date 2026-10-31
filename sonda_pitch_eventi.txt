@@ -1,0 +1,8 @@
+partite
+120
+tipi {"goal": 401, "substitution": 1104, "yellowcard": 514, "redcard": 33}
+periodi {"FirstHalf": 392, "SecondHalf": 1660}
+goal -> {"event_type:str": 401, "minute:int": 401, "minute_added:int": 401, "period:str": 401, "team_id:str": 401, "player:{id,image_url,name,position_id}": 401, "score_home:int": 401, "score_away:int": 401, "is_own_goal:bool": 401, "is_penalty:bool": 401}
+substitution -> {"event_type:str": 1104, "minute:int": 1104, "minute_added:int": 1104, "period:str": 1104, "team_id:str": 1104, "player:{id,image_url,name,position_id}": 1104, "sub_in_player:{id,image_url,name,position_id}": 1104, "is_own_goal:bool": 1104, "is_penalty:bool": 1104}
+yellowcard -> {"event_type:str": 514, "minute:int": 514, "minute_added:int": 514, "period:str": 514, "team_id:str": 514, "player:{id,image_url,name,position_id}": 514, "is_own_goal:bool": 514, "is_penalty:bool": 514}
+redcard -> {"event_type:str": 33, "minute:int": 33, "minute_added:int": 33, "period:str": 33, "team_id:str": 33, "player:{id,image_url,name,position_id}": 33, "is_own_goal:bool": 33, "is_penalty:bool": 33}
