@@ -22,6 +22,7 @@ jobs:
       - name: Rose
         run: |
           [ -z "$CLOUDFLARE_API_TOKEN" ] && { echo "token mancante"; exit 1; }
+          set -o pipefail
           python3 -u tools/rose_livescore_all.py "${{ inputs.offset || '0' }}" "${{ inputs.limite || '400' }}" | tee /tmp/rep.txt
       - name: Referto (solo nomi campionato e conteggi)
         run: |

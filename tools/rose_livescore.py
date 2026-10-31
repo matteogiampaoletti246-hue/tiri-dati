@@ -32,6 +32,16 @@ def slug(s):
     return re.sub(r'[^a-z0-9]+', '-', s).strip('-')
 
 
+def kv_get(key):
+    acc, ns, tok = os.environ['CF_ACCOUNT'], os.environ['CF_NAMESPACE'], os.environ['CLOUDFLARE_API_TOKEN']
+    from urllib.parse import quote
+    req = urllib.request.Request(f'https://api.cloudflare.com/client/v4/accounts/{acc}/storage/kv/namespaces/{ns}/values/{quote(key, safe="")}', headers={'Authorization': 'Bearer ' + tok})
+    try:
+        return json.loads(urllib.request.urlopen(req, timeout=60).read())
+    except Exception:
+        return None
+
+
 def kv_put(items):
     acc, ns, tok = os.environ['CF_ACCOUNT'], os.environ['CF_NAMESPACE'], os.environ['CLOUDFLARE_API_TOKEN']
     body = json.dumps([{'key': k, 'value': json.dumps(v, ensure_ascii=False, separators=(',', ':'))} for k, v in items]).encode()
