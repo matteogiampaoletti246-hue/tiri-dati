@@ -1,0 +1,21 @@
+name: Sonda PitchAPI eventi
+on: workflow_dispatch
+permissions:
+  contents: write
+jobs:
+  sonda:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python sonda_pitch_eventi.py
+        env:
+          PITCHAPI_KEY: ${{ secrets.PITCHAPI_KEY }}
+      - run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add sonda_pitch_eventi.txt
+          git commit -m "Sonda PitchAPI eventi: struttura" || true
+          for i in 1 2 3; do git pull --rebase && git push && break; sleep 3; done
