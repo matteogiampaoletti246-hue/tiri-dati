@@ -12,7 +12,7 @@ const cy = (v) => Math.max(12, Math.min(54, v));
 export default function MiniShotMap({ shots }) {
   const [sel, setSel] = useState(null);
   const list = shots.filter((s) => s.px != null);
-  const on = list.filter((s) => s.onTarget || s.outcome === 'Gol').length;
+  const on = list.filter((s) => (s.onTarget && s.outcome !== 'Palo') || s.outcome === 'Gol').length;
   const goals = list.filter((s) => s.outcome === 'Gol').length;
   const xg = list.reduce((a, s) => a + (s.xg || 0), 0);
   const cur = sel != null ? list[sel] : null;

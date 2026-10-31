@@ -127,7 +127,7 @@ const bucket = (mo) => {
   return out;
 };
 
-const OUT = { Goal: 'Gol', AttemptSaved: 'Parato', Miss: 'Fuori', Post: 'Fuori', Blocked: 'Murato' };
+const OUT = { Goal: 'Gol', AttemptSaved: 'Parato', Miss: 'Fuori', Post: 'Palo', Blocked: 'Murato' };
 const BODY = { RightFoot: 'Destro', LeftFoot: 'Sinistro', Header: 'Testa', OtherBodyParts: 'Altro' };
 
 // Risultato dal dettaglio FotMob. Nelle partite live l'intestazione (header.teams) arriva a volte DOPO gli eventi e la mappa tiri:
@@ -154,7 +154,7 @@ export function mapShots(sh, hi) {
     side: s[2] === hi ? 'home' : 'away',
     outcome: s[7] ? 'Murato' : OUT[s[6]] || 'Fuori',
     // un tiro murato non e' un tiro in porta (FotMob lo segna comunque "on target"): non arriva alla porta
-    onTarget: !!s[8] && !s[7],
+    onTarget: (!!s[8] || s[6] === 'Post') && !s[7], // palo/traversa = pallino pieno come un tiro in porta
     bx: s[9] == null ? null : s[9],
     by: s[10] == null ? null : 68 - s[10],
     playerName: s[3],

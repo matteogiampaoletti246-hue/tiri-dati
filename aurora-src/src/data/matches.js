@@ -410,7 +410,7 @@ const bucketMomentum = (mo) => {
   return out;
 };
 
-const OUTCOME = { Goal: 'Gol', AttemptSaved: 'Parato', Miss: 'Fuori', Post: 'Fuori' };
+const OUTCOME = { Goal: 'Gol', AttemptSaved: 'Parato', Miss: 'Fuori', Post: 'Palo' };
 const BODY = { RightFoot: 'Destro', LeftFoot: 'Sinistro', Header: 'Testa', OtherBodyParts: 'Altro' };
 
 export function applyDetail(m, detail, playerLookup) {
@@ -482,6 +482,7 @@ export function applyDetail(m, detail, playerLookup) {
       og,
       side: t[1] === 'h' ? 'home' : 'away',
       outcome: OUTCOME[t[11]] || 'Fuori',
+      onTarget: t[11] === 'Post',
       playerName: t[2],
       minute: t[0],
       body: BODY[t[10]] || 'Altro',

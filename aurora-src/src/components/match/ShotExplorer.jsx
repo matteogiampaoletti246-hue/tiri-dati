@@ -140,7 +140,7 @@ export default function ShotExplorer({ shots, concept, team }) {
   const [sel, setSel] = useState(null);
   const pick = (i) => setSel((p) => (i === p ? null : i));
   const cur = sel != null ? list[sel] : null;
-  const on = list.filter((s) => s.onTarget || s.outcome === 'Gol').length;
+  const on = list.filter((s) => (s.onTarget && s.outcome !== 'Palo') || s.outcome === 'Gol').length;
   const goals = list.filter((s) => s.outcome === 'Gol').length;
   const xg = list.reduce((a, s) => a + (s.xg || 0), 0);
   const sum = (

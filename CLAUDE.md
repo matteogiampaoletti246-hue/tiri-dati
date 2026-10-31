@@ -381,3 +381,6 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 
 ## App nativa: ritorno dal background (regola fissa)
 - Entro 10 minuti in background l'app si ritrova com'era; oltre 10 minuti riparte da zero (`App` rimonta `Screen` con `gen`, `onReset`). Tornando entro 10 minuti la pagina web riceve un ping (`pong`): se non risponde entro 1,5 s, o iOS ha terminato il suo processo (`onContentProcessDidTerminate`), o aprendo una pagina la rotta non arriva in 4 s, la WebView si ricrea gia' sulla rotta giusta (`recover`, `webKey`, `lastRoute`). Prima la WebView ricaricata riapriva l'ultima rotta fissata all'avvio (Calcolatore) e ignorava il tocco sulla partita.
+
+## Mappa tiri: pali e traverse (regola fissa)
+- FotMob li da' come `eventType: Post` (con `isOnTarget` spesso falso): in `mapShots` (`data/fotmob.js`), `data/matches.js` ed `extras.js` diventano esito "Palo" con `onTarget` vero, quindi pallino pieno come un tiro in porta in ogni mappa. Nel conteggio "tiri in porta" (`MiniShotMap`, `ShotExplorer`) il palo non conta.

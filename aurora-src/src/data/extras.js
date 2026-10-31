@@ -76,7 +76,7 @@ export async function loadPlayerShots(playerId, n = 14) {
         if (t[2] !== p.name) return;
         out.push({
           side: 'home',
-          outcome: { Goal: 'Gol', AttemptSaved: 'Parato', Miss: 'Fuori', Post: 'Fuori' }[t[11]] || 'Fuori',
+          outcome: { Goal: 'Gol', AttemptSaved: 'Parato', Miss: 'Fuori', Post: 'Palo' }[t[11]] || 'Fuori',
           playerName: t[2],
           minute: t[0],
           body: { RightFoot: 'Destro', LeftFoot: 'Sinistro', Header: 'Testa', OtherBodyParts: 'Altro' }[t[10]] || 'Altro',
