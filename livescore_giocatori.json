@@ -1,47 +1,123 @@
 {
  "competizioni": {
-  "Premier Division 2026-2027": {
+  "Série C 2026": {
+   "partite_completate": 129,
+   "giocatori": 3359,
+   "da_fare": 141
+  },
+  "USL Championship 2026": {
+   "partite_completate": 2,
+   "giocatori": 72,
+   "da_fare": 2
+  },
+  "2. Liga 2026-2027": {
+   "partite_completate": 56,
+   "giocatori": 686,
+   "da_fare": 112
+  },
+  "J. League 2 2026-2027": {
+   "partite_completate": 130,
+   "giocatori": 5206,
+   "da_fare": 130
+  },
+  "Liga de Expansión MX 2026-2027": {
+   "partite_completate": 66,
+   "giocatori": 2030,
+   "da_fare": 114
+  },
+  "League Cup 2026-2027": {
    "partite_completate": 0,
    "giocatori": 0,
-   "da_fare": 463
+   "da_fare": 12
   },
-  "Primera B Nacional 2026": {
-   "partite_completate": 396,
-   "giocatori": 12175,
-   "da_fare": 630
+  "Emperor's Cup 2026": {
+   "partite_completate": 46,
+   "giocatori": 1122,
+   "da_fare": 72
   },
-  "Primera Federación 2026-2027": {
-   "partite_completate": 163,
-   "giocatori": 1676,
-   "da_fare": 182
+  "LPF 2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 181
   },
-  "Ykkonen 2026": {
-   "partite_completate": 50,
-   "giocatori": 912,
-   "da_fare": 162
+  "Copa do Brasil 2026": {
+   "partite_completate": 3,
+   "giocatori": 41,
+   "da_fare": 81
   },
-  "Ligue 3 2026-2027": {
-   "partite_completate": 81,
-   "giocatori": 2183,
-   "da_fare": 91
+  "Copa Chile 2026": {
+   "partite_completate": 80,
+   "giocatori": 2272,
+   "da_fare": 96
   },
-  "Série C 2026": {
-   "partite_completate": 66,
-   "giocatori": 1769,
-   "da_fare": 216
+  "Second Professional League 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 121
+  },
+  "State Cup 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 29
+  },
+  "Toto Cup Leumit 2026": {
+   "partite_completate": 4,
+   "giocatori": 110,
+   "da_fare": 9
+  },
+  "2. Division 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 42
+  },
+  "Liga 3 2026-2027": {
+   "partite_completate": 25,
+   "giocatori": 599,
+   "da_fare": 71
+  },
+  "Liga II 2026-2027": {
+   "partite_completate": 65,
+   "giocatori": 1146,
+   "da_fare": 122
+  },
+  "K League 2 2026": {
+   "partite_completate": 1,
+   "giocatori": 29,
+   "da_fare": 1
+  },
+  "NB II 2026-2027": {
+   "partite_completate": 48,
+   "giocatori": 692,
+   "da_fare": 87
+  },
+  "Segunda Division 2026": {
+   "partite_completate": 62,
+   "giocatori": 1106,
+   "da_fare": 211
+  },
+  "Second League 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 119
+  },
+  "Primera B 2026": {
+   "partite_completate": 180,
+   "giocatori": 5211,
+   "da_fare": 270
   }
  },
  "codici_it_visti": {
-  "4": 7040,
-  "5": 7040,
-  "36": 1549,
-  "37": 138,
-  "38": 31,
-  "39": 38,
-  "43": 274,
-  "44": 51,
-  "45": 172,
-  "62": 1
+  "4": 8333,
+  "5": 8335,
+  "36": 2197,
+  "37": 172,
+  "38": 25,
+  "39": 44,
+  "43": 949,
+  "44": 48,
+  "45": 194,
+  "47": 10,
+  "63": 361
  },
  "partite_completate_in_questo_giro": 1500
 }
