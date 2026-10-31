@@ -41,6 +41,7 @@ def livescore(date, home, away, tag):
     e = {}
     st, b = get(f"https://prod-cdn-public-api.livescore.com/v1/api/app/date/soccer/{date}/1?countryCode=GB&locale=en&MD=1")
     e["scoreboard_status"] = st
+    b0 = b
     ev = None
     try:
         j0 = json.loads(b)
@@ -61,6 +62,13 @@ def livescore(date, home, away, tag):
                     ev = (x.get("Eid"), s.get("Snm"), s.get("Scd"), s.get("Ccd"))
     except Exception as ex:
         e["scoreboard_err"] = str(ex)[:100] + " " + str(b)[:120]
+    if not ev:
+        try:
+            x = json.loads(b0)["Stages"][0]
+            ev = (x["Events"][0]["Eid"], x.get("Snm"), x.get("Scd"), x.get("Ccd"))
+            e["evento_di_ripiego"] = True
+        except Exception as ex:
+            e["ripiego_err"] = str(ex)[:80]
     e["evento"] = ev
     if ev:
         eid = ev[0]
