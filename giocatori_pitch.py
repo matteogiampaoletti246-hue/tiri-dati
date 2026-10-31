@@ -90,6 +90,36 @@ def find_player(name, idx):
     return None
 
 
+def team_index(fm, sk, d, arch):
+    """id squadra FotMob -> {nome normalizzato: id FotMob}: da tutte le formazioni FotMob della stagione, dalle classifiche stagionali e dalla rosa (solo id FotMob veri)."""
+    out = {}
+    def add(tid, name, pid):
+        if tid is None or pid is None or not name or int(pid) < 0:
+            return
+        out.setdefault(str(tid), {})[" ".join(norm(name))] = str(pid)
+    for m in (d.get("m") or {}).values():
+        for side in ("h", "a"):
+            sd = m.get(side) or {}
+            for r in (sd.get("st") or []) + (sd.get("sb") or []):
+                if r:
+                    add(sd.get("id"), r[1], r[0])
+    try:
+        st = json.load(open(f"arch/{fm}/{sk}_s.json"))
+        for rows in (st.get("players") or {}).values():
+            for r in rows or []:
+                add(r[2], r[1], r[0])
+    except Exception:
+        pass
+    for tid in {str(r[2]) for r in (arch.get("fix") or [])} | {str(r[3]) for r in (arch.get("fix") or [])}:
+        try:
+            ro = json.load(open(f"rosa/{int(tid) % 100}.json")).get(tid) or {}
+        except Exception:
+            continue
+        for r in ro.get("p") or []:
+            add(tid, r[1], r[0])
+    return out
+
+
 def load_gz(p):
     with gzip.open(p, "rt", encoding="utf-8") as f:
         return json.load(f)
@@ -127,12 +157,9 @@ def main():
                 continue
             todo = {}
             fix = {str(r[0]): r for r in (arch.get("fix") or [])}
-            for mid, m in (d.get("m") or {}).items():
-                if m.get("p") or not m.get("h") or not m.get("a") or mid not in fix:
-                    continue
-                r = fix[mid]
-                if not r[5]:
-                    continue  # senza risultato = non finita
+            for mid, r in fix.items():
+                if not r[5] or (d.get("m") or {}).get(mid, {}).get("p"):
+                    continue  # senza risultato = non finita; con `p` gia' completa
                 todo[mid] = r
             if not todo:
                 continue
@@ -150,6 +177,8 @@ def main():
                 print("errore lega", lab, str(ex)[:100]); continue
             pms = [x for x in pms if x.get("status") == "finished"]
             teams = arch.get("teams") or {}
+            tidx = team_index(fm, sk, d, arch)
+            d.setdefault("m", {})
             n_ok = n_pl = n_miss = 0
             for mid, r in todo.items():
                 if (time.time() - T0) / 60 > MAX_MIN or done_m >= MAX_MATCH:
@@ -167,10 +196,12 @@ def main():
                 time.sleep(PAUSE)
                 done_m += 1
                 lst = res.get("players") if isinstance(res, dict) else res
-                m = d["m"][mid]
-                hidx, aidx = lineup_index(m["h"]), lineup_index(m["a"])
+                m = d["m"].setdefault(mid, {})
                 htid = (pm.get("home_team") or {}).get("id")
+                hidx = {**tidx.get(str(r[2]), {}), **lineup_index(m.get("h") or {})}
+                aidx = {**tidx.get(str(r[3]), {}), **lineup_index(m.get("a") or {})}
                 out = {}
+                pn = {}
                 for x in lst or []:
                     pl = x.get("player") or {}
                     nm = pl.get("name") if isinstance(pl, dict) else pl
@@ -179,9 +210,12 @@ def main():
                     stt = compact(x.get("stats"))
                     if fid and stt:
                         out[fid] = stt
+                        pn[fid] = [nm, "h" if side_idx is hidx else "a", str(r[2] if side_idx is hidx else r[3])]
                 if out:
                     m["p"] = out
                     m["px"] = "pitchapi"
+                    if not m.get("h") or not m.get("a"):
+                        m["pn"] = pn  # nomi e squadra dei giocatori quando FotMob non ha le formazioni
                     n_ok += 1
                     n_pl += len(out)
                 else:

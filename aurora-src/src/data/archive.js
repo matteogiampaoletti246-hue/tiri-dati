@@ -335,6 +335,8 @@ export const statsFromMatches = (lid, sk, part = 'tot') => once(`sfm/${lid}/${sk
       if (!side || !side.id) return;
       Object.values(side).forEach((list) => { if (Array.isArray(list)) list.forEach((r) => { if (Array.isArray(r) && r[0] != null) { who[String(r[0])] = [String(side.id), r[1] || '']; ids.add(String(r[0])); } }); });
     });
+    // partite PitchAPI senza formazioni FotMob: nome e squadra dei giocatori in `pn` (id -> [nome, lato, squadra])
+    Object.entries((m && m.pn) || {}).forEach(([pid, r]) => { who[pid] = [String(r[2]), r[0] || '']; (r[1] === 'h' ? homeIds : awayIds).add(pid); });
     Object.entries((m && m.p) || {}).forEach(([pid, v]) => {
       const mins = Number(v.minutes_played) || 0;
       if (!mins) return;
