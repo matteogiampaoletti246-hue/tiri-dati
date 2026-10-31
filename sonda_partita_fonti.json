@@ -1,0 +1,31 @@
+{
+ "livescore_fa_cup": {
+  "scoreboard_status": 200,
+  "evento": null
+ },
+ "livescore_copa": {
+  "scoreboard_status": 200,
+  "evento": null
+ },
+ "onefootball_fa_cup": {
+  "ricerca_status": 200,
+  "ricerca_chiavi": [
+   "competitions",
+   "teams",
+   "players",
+   "news"
+  ],
+  "ricerca_partite": [
+   "/teams[]/images[]/url=\"https://images.onefootball.com/icons/teams/164/21.png\"",
+   "/teams[]/url=\"/en/team/manchester-united-21\"",
+   "/teams[]/images[]/url=\"https://images.onefootball.com/icons/teams/164/9.png\"",
+   "/teams[]/url=\"/en/team/chelsea-9\"",
+   "/teams[]/images[]/url=\"https://images.onefootball.com/icons/teams/164/209.png\"",
+   "/teams[]/url=\"/en/team/manchester-city-209\"",
+   "/news[]/url=\"https://onefootball.com/editorial/42884708?language=en\"",
+   "/news[]/relative_url=\"/en/news/a-manchester-city-winger-had-his-moment-in-the-fa-",
+   "/news[]/image_url=\"https://image-service.onefootball.com/crop/face?h=800&image",
+   "/news[]/url=\"https://onefootball.com/editorial/42882063?language=en\""
+  ]
+ }
+}
