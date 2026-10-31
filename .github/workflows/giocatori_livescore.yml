@@ -1,0 +1,37 @@
+name: Statistiche giocatori da LiveScore (livello 4 della gerarchia)
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "53 */3 * * *"
+concurrency:
+  group: partite-main
+  cancel-in-progress: false
+permissions:
+  contents: write
+  actions: write
+jobs:
+  pitch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python giocatori_livescore.py
+        env:
+          MAX_MIN: "40"
+      - run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add partite livescore_giocatori.json livescore_stato.json
+          git diff --staged --quiet || git commit -m "Statistiche giocatori da LiveScore"
+          for i in 1 2 3 4 5; do git pull --rebase -X theirs && git push && break; sleep $((i*4)); done
+      # all'infinito: se questo giro ha completato partite si rilancia da solo, finche' non c'e' piu' nulla da fare
+      - name: Rilancio
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          N=$(python3 -c "import json;print(json.load(open('livescore_giocatori.json')).get('partite_completate_in_questo_giro',0))")
+          echo "completate: $N"
+          if [ "$N" -gt 0 ]; then gh workflow run giocatori_livescore.yml --ref main; fi
