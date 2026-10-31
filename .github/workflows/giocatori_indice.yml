@@ -19,6 +19,10 @@ jobs:
         with:
           python-version: "3.12"
       - run: python giocatori_indice.py
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT: 344b4f68fd540269085abbf16851253c
+          CF_NAMESPACE: 02759a8a953d423dbd19c58fb8241c34
       # controllo: ogni squadra della stagione in corso ha Statistiche e Giocatori (elenco delle vuote e motivo)
       - run: python controllo_squadre.py
       - name: Salva i risultati

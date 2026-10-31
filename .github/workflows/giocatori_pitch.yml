@@ -22,10 +22,13 @@ jobs:
         env:
           PITCHAPI_KEY: ${{ secrets.PITCHAPI_KEY }}
           MAX_MIN: "40"
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT: 344b4f68fd540269085abbf16851253c
+          CF_NAMESPACE: 02759a8a953d423dbd19c58fb8241c34
       - run: |
           git config user.name "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
-          git add partite pitch_giocatori.json pitch_stato.json
+          git add pitch_giocatori.json pitch_stato.json
           git diff --staged --quiet || git commit -m "Statistiche giocatori da PitchAPI"
           for i in 1 2 3 4 5; do git pull --rebase -X theirs && git push && break; sleep $((i*4)); done
       # all'infinito: se questo giro ha completato partite si rilancia da solo, finche' non c'e' piu' nulla da fare

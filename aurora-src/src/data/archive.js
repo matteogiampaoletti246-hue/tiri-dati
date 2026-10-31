@@ -253,7 +253,21 @@ export const loadSeasonStats = (lid, sk) => archIndex().then(() => json(`arch/${
   if (!d.__w && isWomenComp(lid, e && e.n)) { d.__w = true; Object.values(d.teams || {}).forEach((l) => (l || []).forEach((r) => { if (r && r[1]) r[1] = womenName(r[1]); })); }
   return d;
 });
-export const loadSeasonMatches = (lid, sk) => gz(`partite/${lid}/${sk}.json.gz`);
+// Statistiche di PitchAPI/LiveScore: dati di terzi, mai nel repository (e' pubblico) ma su Cloudflare KV (`kvstats.py`, worker `/r?k=idx:ps/...`).
+// Si uniscono alle partite dove FotMob non ha `p` (indice `idx:ps/index` = elenco delle stagioni che ce l'hanno: nessuna richiesta inutile).
+const kvSlug = (sk) => String(sk).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const kvIndex = () => { if (!cache.has('kv-ps-index')) cache.set('kv-ps-index', fetch(`${WORKER}/r?k=idx:ps/index`).then((r) => (r.ok ? r.json() : Promise.reject(new Error('kv')))).then((a) => new Set(a)).catch(() => { cache.delete('kv-ps-index'); return new Set(); })); return cache.get('kv-ps-index'); };
+export const loadSeasonMatches = (lid, sk) => once(`ps/${lid}/${sk}.gz`, async () => {
+  const [d, idx] = await Promise.all([gz(`partite/${lid}/${sk}.json.gz`), kvIndex()]);
+  const k = `${lid}/${kvSlug(sk)}`;
+  if (!d || !d.m || !idx.has(k)) return d;
+  try {
+    const r = await fetch(`${WORKER}/r?k=idx:ps/${k}`);
+    const ov = r.ok ? await r.json() : null;
+    Object.entries(ov || {}).forEach(([mid, v]) => { const m = d.m[mid] || (d.m[mid] = {}); if (!m.p) Object.assign(m, v); });
+  } catch (e) { /* senza KV restano i dati di FotMob */ }
+  return d;
+});
 
 export const teamLogo = (id) => `https://images.fotmob.com/image_resources/logo/teamlogo/${id}.png`;
 export const playerFace = (id) => `https://images.fotmob.com/image_resources/playerimages/${id}.png`;

@@ -8,6 +8,7 @@ import json, os, re, sys, time, gzip, unicodedata, urllib.parse
 from difflib import SequenceMatcher
 from datetime import datetime
 from update_data import api, PAUSE, KEY
+import kvstats
 
 MAX_MIN = float(os.environ.get("MAX_MIN", "40"))
 MAX_MATCH = int(os.environ.get("MAX_MATCH", "1500"))
@@ -135,6 +136,8 @@ def dump_gz(p, o):
 def main():
     if not KEY:
         sys.exit("Manca PITCHAPI_KEY")
+    if not kvstats.ON:
+        sys.exit("Manca CLOUDFLARE_API_TOKEN: le statistiche di fonti terze vanno solo su KV")
     idx = json.load(open("arch/index.json"))
     state = json.load(open(STATE)) if os.path.exists(STATE) else {}
     leagues = [l for l in (api("/v1/leagues") or {}).get("leagues", []) if not SKIP.search(l.get("name", ""))]
@@ -168,9 +171,10 @@ def main():
             except Exception:
                 continue
             todo = {}
+            kv = kvstats.load(fm, sk)   # dati di fonti terze: solo su Cloudflare KV, mai nel repository
             fix = {str(r[0]): r for r in (arch.get("fix") or [])}
             for mid, r in fix.items():
-                if not r[5] or (d.get("m") or {}).get(mid, {}).get("p"):
+                if not r[5] or (d.get("m") or {}).get(mid, {}).get("p") or mid in kv:
                     continue  # senza risultato = non finita; con `p` gia' completa
                 todo[mid] = r
             if not todo:
@@ -191,7 +195,6 @@ def main():
             pms = [x for x in pms if x.get("status") == "finished"]
             teams = arch.get("teams") or {}
             tidx = team_index(fm, sk, d, arch)
-            d.setdefault("m", {})
             n_ok = n_pl = n_miss = 0
             fail = set(stt.get("fail") or []) if time.time() - stt.get("t", 0) < RETRY_DAYS * 86400 else set()
             for mid, r in todo.items():
@@ -213,7 +216,7 @@ def main():
                 time.sleep(PAUSE)
                 done_m += 1
                 lst = res.get("players") if isinstance(res, dict) else res
-                m = d["m"].setdefault(mid, {})
+                m = d["m"].get(mid) or {}
                 htid = (pm.get("home_team") or {}).get("id")
                 hidx = {**tidx.get(str(r[2]), {}), **lineup_index(m.get("h") or {})}
                 aidx = {**tidx.get(str(r[3]), {}), **lineup_index(m.get("a") or {})}
@@ -229,18 +232,18 @@ def main():
                         out[fid] = stt
                         pn[fid] = [nm, "h" if side_idx is hidx else "a", str(r[2] if side_idx is hidx else r[3])]
                 if out:
-                    m["p"] = out
-                    m["px"] = "pitchapi"
+                    rec = {"p": out, "px": "pitchapi"}
                     if not m.get("h") or not m.get("a"):
-                        m["pn"] = pn  # nomi e squadra dei giocatori quando FotMob non ha le formazioni
+                        rec["pn"] = pn  # nomi e squadra dei giocatori quando FotMob non ha le formazioni
+                    kv[mid] = rec
                     n_ok += 1
                     n_pl += len(out)
                 else:
                     n_miss += 1
                     fail.add(mid)
             state[stk] = {"t": time.time(), "nolega": False, "fail": sorted(fail)}
-            if n_ok:
-                dump_gz(path, d)
+            if n_ok and not kvstats.save([(fm, sk, kv)]):
+                print("scrittura KV fallita", lab); sys.exit(1)
             rep["competizioni"][lab] = {"lega_pitch": lg.get("name"), "partite_completate": n_ok, "giocatori": n_pl, "senza_abbinamento": n_miss, "da_fare": len(todo)}
             print(lab, rep["competizioni"][lab])
     rep["partite_completate_in_questo_giro"] = done_m

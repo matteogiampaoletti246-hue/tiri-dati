@@ -7,6 +7,7 @@ Abbinamento: evento LiveScore per data (+-1 giorno) e id squadra FotMob dallo st
 giocatore per nome dentro le formazioni/rose FotMob della squadra. Referto: livescore_giocatori.json."""
 import json, os, re, sys, time, urllib.request
 from datetime import datetime, timedelta, timezone
+import kvstats
 from giocatori_pitch import norm, same_team, parse_ts, lineup_index, find_player, team_index, load_gz, dump_gz, TOP, SKIP
 
 MAX_MIN = float(os.environ.get("MAX_MIN", "40"))
@@ -113,6 +114,8 @@ def build(eid):
 
 
 def main():
+    if not kvstats.ON:
+        sys.exit('Manca CLOUDFLARE_API_TOKEN: le statistiche di fonti terze vanno solo su KV')
     idx = json.load(open("arch/index.json"))
     state = json.load(open(STATE)) if os.path.exists(STATE) else {}
     pst = json.load(open("pitch_stato.json")) if os.path.exists("pitch_stato.json") else {}
@@ -144,10 +147,11 @@ def main():
         except Exception:
             continue
         pfail = set(pp.get("fail") or [])
+        kv = kvstats.load(fm, sk)   # dati di fonti terze: solo su Cloudflare KV, mai nel repository
         todo = {}
         for r in arch.get("fix") or []:
             mid = str(r[0])
-            if not r[5] or (d.get("m") or {}).get(mid, {}).get("p"):
+            if not r[5] or (d.get("m") or {}).get(mid, {}).get("p") or mid in kv:
                 continue
             if pp.get("nolega") or mid in pfail:
                 todo[mid] = r
@@ -158,7 +162,6 @@ def main():
             continue
         teams = arch.get("teams") or {}
         tidx = team_index(fm, sk, d, arch)
-        d.setdefault("m", {})
         n_ok = n_pl = 0
         for mid, r in todo.items():
             if (time.time() - T0) / 60 > MAX_MIN or done_m >= MAX_MATCH:
@@ -173,7 +176,7 @@ def main():
             time.sleep(0.3)
             if not P:
                 fail.add(mid); continue
-            m = d["m"].setdefault(mid, {})
+            m = d["m"].get(mid) or {}
             hidx = {**tidx.get(str(r[2]), {}), **lineup_index(m.get("h") or {})}
             aidx = {**tidx.get(str(r[3]), {}), **lineup_index(m.get("a") or {})}
             out, pn = {}, {}
@@ -193,16 +196,16 @@ def main():
                     out[fid] = v
                     pn[fid] = [x["n"], "h" if side == 1 else "a", str(tid)]
             if out:
-                m["p"], m["px"] = out, "livescore"
+                kv[mid] = {"p": out, "px": "livescore"}
                 if not m.get("h") or not m.get("a"):
-                    m["pn"] = pn
+                    kv[mid]["pn"] = pn
                 n_ok += 1
                 n_pl += len(out)
             else:
                 fail.add(mid)
         state[stk] = {"t": time.time(), "fine": False, "fail": sorted(fail)}
-        if n_ok:
-            dump_gz(path, d)
+        if n_ok and not kvstats.save([(fm, sk, kv)]):
+            print("scrittura KV fallita", fm, sk); sys.exit(1)
         rep["competizioni"][f"{e.get('n')} {sk}"] = {"partite_completate": n_ok, "giocatori": n_pl, "da_fare": len(todo)}
         print(e.get("n"), sk, rep["competizioni"][f"{e.get('n')} {sk}"])
     rep["partite_completate_in_questo_giro"] = done_m

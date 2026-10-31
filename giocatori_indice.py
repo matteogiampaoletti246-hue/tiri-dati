@@ -1,6 +1,7 @@
 """Indice giocatori: per ogni giocatore FotMob, tutte le competizioni/stagioni in cui ha giocato.
 Legge arch/<fm>/<stagione>_s.json e scrive pidx/<pid%100>.json = {pid: [[fm, stagione, tid, presenze, minuti, nome?]]}."""
 import gzip, json, os, re, sys
+import kvstats
 ROOT = os.path.dirname(os.path.abspath(__file__))
 src = open(os.path.join(ROOT, 'aurora-src/src/data/archive.js'), encoding='utf-8').read()
 FMS = sorted({int(x) for x in re.findall(r"'?[\w-]+'?:\s*(\d+)", re.search(r'FM_ID\s*=\s*\{(.*?)\}', src, re.S).group(1))})
@@ -37,6 +38,7 @@ for fm in FMS:
         if os.path.exists(mp):
             try: det = json.load(gzip.open(mp, 'rt', encoding='utf-8')).get('m') or {}
             except Exception: det = {}
+            det = kvstats.overlay(fm, sk, {'m': det})['m']   # statistiche di PitchAPI/LiveScore: solo su Cloudflare KV
             acc = {}
             for m in det.values():
                 if not m: continue
@@ -46,6 +48,7 @@ for fm in FMS:
                         if isinstance(v, list):
                             for r in v:
                                 if isinstance(r, list) and r and r[0] is not None and len(r) > 1 and isinstance(r[1], str): who[str(r[0])] = (side.get('id'), r[1])
+                for pid, r in (m.get('pn') or {}).items(): who[str(pid)] = (r[2], r[0])
                 for pid, v in (m.get('p') or {}).items():
                     mins = (v or {}).get('minutes_played') or 0
                     if not mins or str(pid) not in who: continue
