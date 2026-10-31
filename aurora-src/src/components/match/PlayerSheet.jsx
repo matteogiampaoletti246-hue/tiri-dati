@@ -265,6 +265,25 @@ export default function PlayerSheetHost() {
   const live = useRef({});
   live.current = { c, sheet };
   useModalLock(!!sheet); // pagina sotto immobile, niente swipe di giorni/schede/indietro mentre la finestra e' aperta
+  // iPhone: con la pagina live che cresce Safari a volte accorcia il riquadro degli elementi fissi (finestra a meta' schermo, pagina non oscurata sotto):
+  // la finestra si misura sullo schermo vero (visualViewport) e si rimisura se cambia
+  const [vbox, setVbox] = useState(null);
+  useEffect(() => {
+    if (!sheet) return undefined;
+    const vv = window.visualViewport;
+    if (!vv) return undefined;
+    const upd = () => {
+      const a = document.activeElement;
+      if (a && /^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName)) return;
+      const h = Math.round(vv.height);
+      const t = Math.round(vv.offsetTop);
+      setVbox((o) => (o && o.h === h && o.t === t ? o : { h, t }));
+    };
+    upd();
+    vv.addEventListener('resize', upd);
+    vv.addEventListener('scroll', upd);
+    return () => { vv.removeEventListener('resize', upd); vv.removeEventListener('scroll', upd); setVbox(null); };
+  }, [!!sheet]);
 
   useEffect(() => {
     if (!sheet) return undefined;
@@ -394,12 +413,12 @@ export default function PlayerSheetHost() {
 
   return createPortal(
     sheet && c ? (
-      <div data-no-back="1" role="dialog" aria-modal="true" className="fixed inset-0 z-[80]" style={{ touchAction: 'none' }}>
+      <div data-no-back="1" role="dialog" aria-modal="true" className="fixed inset-x-0 z-[80]" style={vbox ? { top: vbox.t, height: vbox.h, touchAction: 'none' } : { top: 0, bottom: 0, touchAction: 'none' }}>
         <div ref={backdropRef} aria-hidden="true" className="absolute inset-0" style={{ background: 'rgba(0,0,0,.55)', animation: 'slfade .25s ease' }} onClick={close} onTouchMove={(e) => { if (e.cancelable) e.preventDefault(); }} />
         <div
           ref={sheetRef}
           className="absolute inset-x-0 bottom-0 mx-auto flex w-full max-w-[var(--sheet-w)] flex-col overflow-hidden rounded-t-[28px]"
-          style={{ height: '92dvh', background: `linear-gradient(180deg, ${c.team ? c.team.colors[0] : '#2a3a66'}88, transparent 230px), var(--sky-2)`, border: '1px solid var(--glass-border)', boxShadow: '0 -20px 60px rgba(0,0,0,.5)', animation: 'slup .34s cubic-bezier(.22,.8,.24,1)', touchAction: 'pan-y' }}
+          style={{ height: vbox ? Math.round(vbox.h * 0.92) : '92dvh', background: `linear-gradient(180deg, ${c.team ? c.team.colors[0] : '#2a3a66'}88, transparent 230px), var(--sky-2)`, border: '1px solid var(--glass-border)', boxShadow: '0 -20px 60px rgba(0,0,0,.5)', animation: 'slup .34s cubic-bezier(.22,.8,.24,1)', touchAction: 'pan-y' }}
         >
           <div className="shrink-0 pb-1 pt-2.5">
             <span className="mx-auto block h-[5px] w-10 rounded-full" style={{ background: 'var(--hair)' }} />
