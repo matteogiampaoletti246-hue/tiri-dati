@@ -1,0 +1,130 @@
+{
+ "leghe_totali": 77,
+ "prove": {
+  "FA Cup": {
+   "trovate": []
+  },
+  "EFL Championship": {
+   "trovate": [
+    [
+     "l_4DWyTT",
+     "Championship"
+    ]
+   ],
+   "stagioni": "['2021/2022', '2022/2023', '2023/2024', '2024/2025', '2025/2026', '2026/2027']",
+   "partite": 145,
+   "finite": 145,
+   "giocatori_partita": 40,
+   "esempio": "[{\"key\": \"top_stats\", \"stats\": {\"Accurate passes\": {\"key\": \"accurate_passes\", \"stat\": {\"total\": 18, \"type\": \"fractionWithPercentage\", \"value\": 15}}, \"Assists\": {\"key\": \"assists\", \"stat\": {\"type\": \"integer\", \"value\": 0}}, \"Chances created\": {\"key\": \"chances_created\", \"stat\": {\"type\": \"integer\", \"value\": 0}}, \"Defensive actions\": {\"key\": \"defensive_actions\", \"stat\": {\"type\": \"integer\", \"value\": 1}}, \"Expected assists (xA)\": {\"key\": \"expected_assists\", \"stat\": {\"type\": \"double\", \"value\": 0.02}}, \"Expected goals (xG)\": {\"key\": \"expected_goals\", \"stat\": {\"type\": \"double\", \"value\": 0.17}}, \"Expected goals on target (xGOT)\": {\"key\": \"expected_goals_on_target_variant\", \"stat\": {\"type\": \"double\", \"value\": 0.6}}, \"Goals\": {\"key\": \"goals\", \"stat\": {\"type\": \"integer\", \"value\": 0}}, \"Minutes played\": {\"key\": \"minutes_played\", \"stat\": {\"type\": \"integer\", \"value\": 69}}, \"Rating\": {\"key\": \"rating_title\"",
+   "ha_tiri": true
+  },
+  "League One": {
+   "trovate": [
+    [
+     "l_0ahLw8",
+     "League One"
+    ]
+   ],
+   "stagioni": "['2022/2023', '2023/2024', '2024/2025', '2025/2026', '2026/2027']",
+   "partite": 143,
+   "finite": 143,
+   "giocatori_partita": 36,
+   "esempio": "{\"player\": {\"id\": \"p_35CgZd\", \"name\": \"Simon Eastwood\", \"position_id\": null, \"image_url\": \"https://cdn.pitchapi.dev/images/players/7d9dfda0083249dc1ee3f4685f8bba67868d4572f18751142e225c4286778693.webp\"}, \"team_id\": \"t_2Z7uep\", \"stats\": []}",
+   "ha_tiri": true
+  },
+  "Copa del Rey": {
+   "trovate": []
+  },
+  "Coupe de France": {
+   "trovate": []
+  },
+  "DFB Pokal": {
+   "trovate": []
+  },
+  "Coppa Italia": {
+   "trovate": []
+  },
+  "Scottish Premiership": {
+   "trovate": [
+    [
+     "l_1LMdEO",
+     "Premiership"
+    ]
+   ],
+   "stagioni": "['2021/2022', '2022/2023', '2023/2024', '2024/2025', '2025/2026', '2026/2027']",
+   "partite": 65,
+   "finite": 65,
+   "giocatori_partita": 40,
+   "esempio": "[{\"key\": \"top_stats\", \"stats\": {\"Goals\": {\"key\": \"goals\", \"stat\": {\"type\": \"integer\", \"value\": 0}}, \"Rating\": {\"key\": \"rating_title\", \"stat\": {\"type\": \"double\", \"value\": 6.74}}, \"Assists\": {\"key\": \"assists\", \"stat\": {\"type\": \"integer\", \"value\": 0}}, \"Shotmap\": {\"key\": \"\", \"stat\": {\"type\": \"boolean\", \"value\": 0}}, \"xG + xA\": {\"key\": \"xg_and_xa\", \"stat\": {\"type\": \"double\", \"value\": 0.02}}, \"Minutes played\": {\"key\": \"minutes_played\", \"stat\": {\"type\": \"integer\", \"value\": 57}}, \"Accurate passes\": {\"key\": \"accurate_passes\", \"stat\": {\"type\": \"fractionWithPercentage\", \"total\": 31, \"value\": 21}}, \"Chances created\": {\"key\": \"chances_created\", \"stat\": {\"type\": \"integer\", \"value\": 1}}, \"Defensive actions\": {\"key\": \"defensive_actions\", \"stat\": {\"type\": \"integer\", \"value\": 3}}, \"Expected assists (xA)\": {\"key\": \"expected_assists\", \"stat\": {\"type\": \"double\", \"value\": 0.02}}}, \"title\": \"Top stats\"}, {\"ke",
+   "ha_tiri": true
+  },
+  "MLS": {
+   "trovate": [
+    [
+     "l_0eg6C9",
+     "MLS"
+    ]
+   ],
+   "stagioni": "['2021', '2022', '2023', '2024', '2025', '2026']",
+   "partite": 480,
+   "finite": 480,
+   "giocatori_partita": 40,
+   "esempio": "[{\"key\": \"top_stats\", \"stats\": {\"Goals\": {\"key\": \"goals\", \"stat\": {\"type\": \"integer\", \"value\": 0}}, \"Rating\": {\"key\": \"rating_title\", \"stat\": {\"type\": \"double\", \"value\": 6.06}}, \"Assists\": {\"key\": \"assists\", \"stat\": {\"type\": \"integer\", \"value\": 0}}, \"Shotmap\": {\"key\": \"\", \"stat\": {\"type\": \"boolean\", \"value\": 0}}, \"Minutes played\": {\"key\": \"minutes_played\", \"stat\": {\"type\": \"integer\", \"value\": 16}}, \"Accurate passes\": {\"key\": \"accurate_passes\", \"stat\": {\"type\": \"fractionWithPercentage\", \"total\": 11, \"value\": 6}}, \"Chances created\": {\"key\": \"chances_created\", \"stat\": {\"type\": \"integer\", \"value\": 0}}, \"Defensive actions\": {\"key\": \"defensive_actions\", \"stat\": {\"type\": \"integer\", \"value\": 0}}}, \"title\": \"Top stats\"}, {\"key\": \"attack\", \"stats\": {\"Corners\": {\"key\": \"corners\", \"stat\": {\"type\": \"integer\", \"value\": 2}}, \"Touches\": {\"key\": \"touches\", \"stat\": {\"type\": \"integer\", \"value\": 15}}, \"Disp",
+   "ha_tiri": true
+  },
+  "Brasileirao": {
+   "trovate": [
+    [
+     "l_1D8Xrl",
+     "Serie A"
+    ]
+   ],
+   "stagioni": "['2023', '2024', '2025', '2026']",
+   "partite": 289,
+   "finite": 289,
+   "giocatori_partita": 46,
+   "esempio": "[{\"key\": \"top_stats\", \"stats\": {\"Goals\": {\"key\": \"goals\", \"stat\": {\"type\": \"integer\", \"value\": 0}}, \"Rating\": {\"key\": \"rating_title\", \"stat\": {\"type\": \"double\", \"value\": 8.37}}, \"Assists\": {\"key\": \"assists\", \"stat\": {\"type\": \"integer\", \"value\": 0}}, \"Shotmap\": {\"key\": \"\", \"stat\": {\"type\": \"boolean\", \"value\": 0}}, \"xG + xA\": {\"key\": \"xg_and_xa\", \"stat\": {\"type\": \"double\", \"value\": 0.2}}, \"Minutes played\": {\"key\": \"minutes_played\", \"stat\": {\"type\": \"integer\", \"value\": 90}}, \"Accurate passes\": {\"key\": \"accurate_passes\", \"stat\": {\"type\": \"fractionWithPercentage\", \"total\": 91, \"value\": 86}}, \"Chances created\": {\"key\": \"chances_created\", \"stat\": {\"type\": \"integer\", \"value\": 3}}, \"Defensive actions\": {\"key\": \"defensive_actions\", \"stat\": {\"type\": \"integer\", \"value\": 11}}, \"Big chances created\": {\"key\": \"big_chance_created_team_title\", \"stat\": {\"type\": \"integer\", \"value\": 1}}, \"Expected assists (",
+   "ha_tiri": true
+  },
+  "Liga Argentina": {
+   "trovate": [
+    [
+     "l_45VZuL",
+     "Liga Profesional"
+    ]
+   ],
+   "stagioni": "['2023', '2024', '2025', '2026']",
+   "partite": 469,
+   "finite": 469,
+   "giocatori_partita": 46,
+   "esempio": "[{\"key\": \"top_stats\", \"stats\": {\"Accurate long balls\": {\"key\": \"long_balls_accurate\", \"stat\": {\"total\": 11, \"type\": \"fractionWithPercentage\", \"value\": 8}}, \"Accurate passes\": {\"key\": \"accurate_passes\", \"stat\": {\"total\": 23, \"type\": \"fractionWithPercentage\", \"value\": 20}}, \"Acted as sweeper\": {\"key\": \"keeper_sweeper\", \"stat\": {\"type\": \"integer\", \"value\": 2}}, \"Clearances\": {\"key\": \"clearances\", \"stat\": {\"type\": \"integer\", \"value\": 3}}, \"Defensive actions\": {\"key\": \"defensive_actions\", \"stat\": {\"type\": \"integer\", \"value\": 3}}, \"Diving save\": {\"key\": \"keeper_diving_save\", \"stat\": {\"type\": \"integer\", \"value\": 0}}, \"Expected assists (xA)\": {\"key\": \"expected_assists\", \"stat\": {\"type\": \"double\", \"value\": 0.01}}, \"Fouls committed\": {\"key\": \"fouls\", \"stat\": {\"type\": \"integer\", \"value\": 0}}, \"Goals conceded\": {\"key\": \"goals_conceded\", \"stat\": {\"type\": \"integer\", \"value\": 2}}, \"Goals prevented\": {\"",
+   "ha_tiri": true
+  },
+  "Conference League": {
+   "trovate": [
+    [
+     "l_2WZ2tt",
+     "Conference League"
+    ]
+   ],
+   "stagioni": "['2021/2022', '2022/2023', '2023/2024', '2024/2025', '2025/2026', '2026/2027']",
+   "partite": 36,
+   "finite": 36,
+   "giocatori_partita": 44,
+   "esempio": "[{\"key\": \"top_stats\", \"stats\": {\"Accurate long balls\": {\"key\": \"long_balls_accurate\", \"stat\": {\"total\": 13, \"type\": \"fractionWithPercentage\", \"value\": 2}}, \"Accurate passes\": {\"key\": \"accurate_passes\", \"stat\": {\"total\": 28, \"type\": \"fractionWithPercentage\", \"value\": 17}}, \"Acted as sweeper\": {\"key\": \"keeper_sweeper\", \"stat\": {\"type\": \"integer\", \"value\": 0}}, \"Clearances\": {\"key\": \"clearances\", \"stat\": {\"type\": \"integer\", \"value\": 0}}, \"Defensive actions\": {\"key\": \"defensive_actions\", \"stat\": {\"type\": \"integer\", \"value\": 0}}, \"Diving save\": {\"key\": \"keeper_diving_save\", \"stat\": {\"type\": \"integer\", \"value\": 4}}, \"Fouls committed\": {\"key\": \"fouls\", \"stat\": {\"type\": \"integer\", \"value\": 0}}, \"Goals conceded\": {\"key\": \"goals_conceded\", \"stat\": {\"type\": \"integer\", \"value\": 1}}, \"Goals prevented\": {\"key\": \"goals_prevented\", \"stat\": {\"type\": \"double\", \"value\": -0.17}}, \"High claim\": {\"key\": \"keep",
+   "ha_tiri": true
+  }
+ },
+ "esempio_lega": {
+  "id": "l_1rPvVD",
+  "name": "1. Division",
+  "country_code": "DEN",
+  "image_url": "https://cdn.pitchapi.dev/images/leagues/cdfff4a56eb558a5ab0a34ffe779ae5f23e727b1c52b3dfff3b5ed9534e726a4.webp",
+  "seasons": [
+   "2024/2025",
+   "2025/2026",
+   "2026/2027"
+  ],
+  "is_free": true
+ }
+}
