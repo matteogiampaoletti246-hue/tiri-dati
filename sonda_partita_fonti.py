@@ -84,6 +84,8 @@ def livescore(date, home, away, tag):
                 r["tiri"] = keys_with(j, r"shot|sot|ontarget|rating|xg", out=[])[:12]
             except Exception:
                 r["head"] = str(b)[:150]
+            if nm in ("lineups", "incidents"):
+                r["corpo"] = (b or "")[:3500]
             e[nm] = r
         slug = (ev[1] or "x").lower().replace(" ", "-")
         for url in [f"https://www.livescore.com/en/football/{(ev[3] or 'x')}/{(ev[2] or 'x')}/{home}-vs-{away}/{eid}/lineups/"]:
