@@ -234,7 +234,75 @@
    "Pid"
   ],
   "evento_esempio": "{\"Eid\": \"1765480\", \"Pids\": {\"8\": \"1765480\"}, \"Inc-f\": {\"2\": [{\"IT\": 1037, \"Nm\": 1, \"Sc\": [2, 1]}]}, \"Tr1\": \"3\", \"Tr2\": \"1\", \"Trh1\": \"1\", \"Trh2\": \"1\", \"Tr1OR\": \"3\", \"Tr2OR\": \"1\", \"T1\": [{\"ID\": \"4700\", \"Nm\": \"Celtic\", \"Img\": \"enet/9925.png\", \"NewsTag\": \"/team/celtic-2021020913320920836-863/\", \"Abr\": \"CEL\", \"Fc\": \"018749\", \"Sc\": \"FDFDFD\"}], \"T2\": [{\"ID\": \"4669\", \"Nm\": \"Hearts\", \"Img\": \"enet/9860.png\", \"NewsTag\": \"/team/hearts-2022062716001253418-883/\", \"Abr\": \"HOM\", \"Fc\": \"800910\", \"Sc\": \"FDFDFD\"}]",
-  "evento": null
+  "evento_di_ripiego": true,
+  "evento": [
+   "1765480",
+   "Premiership: Championship Group",
+   "premiership-championship-group",
+   "scotland"
+  ],
+  "lineups": {
+   "status": 200,
+   "bytes": 10599,
+   "chiavi": [
+    "Eid",
+    "Lu",
+    "Subs"
+   ],
+   "tiri": []
+  },
+  "stats": {
+   "status": null,
+   "bytes": 25,
+   "head": "HTTP Error 404: Not Found"
+  },
+  "scoreboard": {
+   "status": 200,
+   "bytes": 3561,
+   "chiavi": [
+    "Eid",
+    "Pids",
+    "Sids",
+    "Media",
+    "Tr1",
+    "Tr2",
+    "Trh1",
+    "Trh2",
+    "Tr1OR",
+    "Tr2OR",
+    "T1",
+    "T2",
+    "Venue",
+    "Eps",
+    "Esid",
+    "Epr",
+    "Ecov",
+    "ErnInf",
+    "Ewt",
+    "Et"
+   ],
+   "tiri": []
+  },
+  "incidents": {
+   "status": 200,
+   "bytes": 2951,
+   "chiavi": [
+    "Eid",
+    "Tr1",
+    "Tr2",
+    "Trh1",
+    "Trh2",
+    "Tr1OR",
+    "Tr2OR",
+    "Incs"
+   ],
+   "tiri": []
+  },
+  "pagina_lineups": {
+   "status": null,
+   "next_data": false,
+   "tiri": null
+  }
  },
  "livescore_copa": {
   "scoreboard_status": 200,
@@ -470,7 +538,75 @@
    "Pid"
   ],
   "evento_esempio": "{\"Eid\": \"1529076\", \"Pids\": {\"8\": \"1529076\"}, \"Tr1\": \"0\", \"Tr2\": \"0\", \"Trh1\": \"0\", \"Trh2\": \"0\", \"Tr1OR\": \"0\", \"Tr2OR\": \"0\", \"T1\": [{\"ID\": \"3928\", \"Nm\": \"AFC Bournemouth\", \"Img\": \"enet/8678.png\", \"NewsTag\": \"/team/bournemouth-2021020913320920836-123/\", \"Abr\": \"BOU\", \"Fc\": \"DA291C\", \"Sc\": \"000000\"}], \"T2\": [{\"ID\": \"2865\", \"Nm\": \"Brentford\", \"Img\": \"enet/9937.png\", \"NewsTag\": \"/team/brentford-2021020913320920836-136/\", \"Abr\": \"BRE\", \"Fc\": \"e30613\", \"Sc\": \"FDFDFD\"}], \"Eps\": \"FT\", \"Esid\": 6, \"Epr\": 2,",
-  "evento": null
+  "evento_di_ripiego": true,
+  "evento": [
+   "1529076",
+   "Premier League 25/26",
+   "premier-league-2025-2026",
+   "england"
+  ],
+  "lineups": {
+   "status": 200,
+   "bytes": 11567,
+   "chiavi": [
+    "Eid",
+    "Lu",
+    "Subs"
+   ],
+   "tiri": []
+  },
+  "stats": {
+   "status": null,
+   "bytes": 25,
+   "head": "HTTP Error 404: Not Found"
+  },
+  "scoreboard": {
+   "status": 200,
+   "bytes": 3442,
+   "chiavi": [
+    "Eid",
+    "Pids",
+    "Sids",
+    "Media",
+    "Tr1",
+    "Tr2",
+    "Trh1",
+    "Trh2",
+    "Tr1OR",
+    "Tr2OR",
+    "T1",
+    "T2",
+    "Venue",
+    "Eps",
+    "Esid",
+    "Epr",
+    "Ecov",
+    "ErnInf",
+    "Ewt",
+    "Et"
+   ],
+   "tiri": []
+  },
+  "incidents": {
+   "status": 200,
+   "bytes": 621,
+   "chiavi": [
+    "Eid",
+    "Tr1",
+    "Tr2",
+    "Trh1",
+    "Trh2",
+    "Tr1OR",
+    "Tr2OR",
+    "Incs"
+   ],
+   "tiri": []
+  },
+  "pagina_lineups": {
+   "status": 200,
+   "next_data": true,
+   "tiri": []
+  }
  },
  "onefootball_fa_cup": {
   "ricerca_status": 200,
