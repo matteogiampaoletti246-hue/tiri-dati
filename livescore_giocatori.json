@@ -1,99 +1,471 @@
 {
  "competizioni": {
-  "Primera B Metropolitana & Torneo Federal A 2026": {
-   "partite_completate": 181,
-   "giocatori": 3905,
-   "da_fare": 440
-  },
-  "FA Trophy 2026-2027": {
+  "WE League 2026-2027": {
    "partite_completate": 0,
    "giocatori": 0,
-   "da_fare": 31
+   "da_fare": 25
   },
-  "Copa Argentina 2026": {
-   "partite_completate": 24,
-   "giocatori": 833,
-   "da_fare": 31
+  "The Atlantic Cup 2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 9
   },
-  "Azadegan League 2026-2027": {
+  "Belarusian Cup 2025-2026": {
+   "partite_completate": 3,
+   "giocatori": 80,
+   "da_fare": 5
+  },
+  "Løgmanssteypið 2026": {
+   "partite_completate": 1,
+   "giocatori": 26,
+   "da_fare": 1
+  },
+  "Coupe de Luxembourg 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "K League 3 2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 168
+  },
+  "Highland / Lowland 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 326
+  },
+  "Chinese FA Cup 2026": {
+   "partite_completate": 22,
+   "giocatori": 658,
+   "da_fare": 56
+  },
+  "Cup 2026": {
+   "partite_completate": 7,
+   "giocatori": 196,
+   "da_fare": 55
+  },
+  "Super Cup 2025": {
+   "partite_completate": 1,
+   "giocatori": 24,
+   "da_fare": 1
+  },
+  "Première Ligue Féminine 2026-2027": {
+   "partite_completate": 1,
+   "giocatori": 26,
+   "da_fare": 1
+  },
+  "CONCACAF Central American Cup 2026": {
    "partite_completate": 0,
    "giocatori": 0,
    "da_fare": 56
   },
-  "Irish Cup 2025-2026": {
-   "partite_completate": 23,
-   "giocatori": 269,
+  "Southeast Asian Games 2025": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 13
+  },
+  "UEFA Nations League C 2026-2027": {
+   "partite_completate": 1,
+   "giocatori": 44,
+   "da_fare": 1
+  },
+  "Asian Games 2026": {
+   "partite_completate": 7,
+   "giocatori": 136,
+   "da_fare": 29
+  },
+  "COSAFA Cup 2025": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 22
+  },
+  "Liga MX Femenil 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 110
+  },
+  "President's Cup 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 8
+  },
+  "Copa de la Liga Profesional 2024": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Copa Ecuador 2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 28
+  },
+  "Torneo de Verano 2023": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 7
+  },
+  "League Cup 2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Recopa Gaúcha 2025": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "NISA 2025": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 15
+  },
+  "Superkupa e Shqipërisë 2024-2025": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Super Cup 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "2. Deild 2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 132
+  },
+  "Copa Paraguay 2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 28
+  },
+  "League Cup 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 8
+  },
+  "MLS Next Pro 2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Goiano 2026": {
+   "partite_completate": 39,
+   "giocatori": 628,
+   "da_fare": 70
+  },
+  "Copa Uruguay 2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 11
+  },
+  "Supercopa 2025": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Liga Revelação 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 256
+  },
+  "Arab Club Champions Cup 2023": {
+   "partite_completate": 0,
+   "giocatori": 0,
    "da_fare": 31
   },
-  "Copa do Nordeste 2026": {
-   "partite_completate": 45,
-   "giocatori": 1252,
+  "African Football League 2023": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 14
+  },
+  "Norgesmesterskapet Kvalifisering 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 63
+  },
+  "Northern Super League 2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "QSL Cup 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 18
+  },
+  "SWPL Cup 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 3
+  },
+  "SWF Scottish Cup 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 12
+  },
+  "Copa Libertadores Femenina 2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 2
+  },
+  "Coupe de France Féminine 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 51
+  },
+  "Super Cup 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Second Division 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 4
+  },
+  "Supercopa de Ecuador 2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Japan 2/3 2026": {
+   "partite_completate": 400,
+   "giocatori": 14846,
+   "da_fare": 400
+  },
+  "Copa Paulista 2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 70
+  },
+  "MLS All-Star Game 2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "FIFA ASEAN Cup 2026": {
+   "partite_completate": 4,
+   "giocatori": 123,
+   "da_fare": 21
+  },
+  "Championship 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 180
+  },
+  "FA Cup 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 42
+  },
+  "Copa del Rey 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 28
+  },
+  "Coppa Italia 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 4
+  },
+  "Super League 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "National League 2025-2026": {
+   "partite_completate": 5,
+   "giocatori": 167,
+   "da_fare": 559
+  },
+  "Premier League 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 135
+  },
+  "2. Liga 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 210
+  },
+  "League One 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 180
+  },
+  "League Two 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 180
+  },
+  "Coupe de France 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 299
+  },
+  "1. Division 2025-2026": {
+   "partite_completate": 58,
+   "giocatori": 2170,
+   "da_fare": 240
+  },
+  "Scottish Cup 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 100
+  },
+  "Greece Cup 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 51
+  },
+  "Serie C 2025-2026": {
+   "partite_completate": 31,
+   "giocatori": 523,
+   "da_fare": 1146
+  },
+  "Belgian Cup 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 28
+  },
+  "Turkish Cup 2025-2026": {
+   "partite_completate": 10,
+   "giocatori": 244,
+   "da_fare": 95
+  },
+  "Liga AUF Uruguaya 2025": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 300
+  },
+  "Challenge League 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Swiss Cup 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
    "da_fare": 60
   },
-  "Super Cup 2025": {
+  "Superettan 2025": {
    "partite_completate": 0,
    "giocatori": 0,
-   "da_fare": 1
+   "da_fare": 240
   },
-  "Open Cup 2026": {
+  "Ettan 2025": {
    "partite_completate": 0,
    "giocatori": 0,
-   "da_fare": 1
+   "da_fare": 480
   },
-  "Serie D 2026": {
+  "Svenska Cupen 2025-2026": {
+   "partite_completate": 55,
+   "giocatori": 1817,
+   "da_fare": 119
+  },
+  "Slovenia Cup 2025-2026": {
    "partite_completate": 0,
    "giocatori": 0,
-   "da_fare": 610
+   "da_fare": 15
   },
-  "CAF Confed Cup 2026-2027": {
+  "Challenge Cup 2025-2026": {
    "partite_completate": 0,
    "giocatori": 0,
-   "da_fare": 75
+   "da_fare": 121
   },
-  "AFC Champions League Two 2026-2027": {
-   "partite_completate": 15,
-   "giocatori": 460,
-   "da_fare": 19
-  },
-  "AFC Challenge League 2026-2027": {
-   "partite_completate": 20,
-   "giocatori": 673,
-   "da_fare": 27
-  },
-  "Paulista A2 2026": {
+  "League Cup 2025-2026": {
    "partite_completate": 0,
    "giocatori": 0,
-   "da_fare": 150
+   "da_fare": 95
   },
-  "Super Cup 2026": {
+  "Premiership playoff 2024-2025": {
    "partite_completate": 0,
    "giocatori": 0,
-   "da_fare": 1
+   "da_fare": 6
   },
-  "Copa Colombia 2026": {
-   "partite_completate": 47,
-   "giocatori": 1238,
-   "da_fare": 67
-  },
-  "WE League 2026-2027": {
+  "Liga Portugal 2 2025-2026": {
    "partite_completate": 0,
    "giocatori": 0,
-   "da_fare": 37
+   "da_fare": 306
+  },
+  "Taça de Portugal 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 99
+  },
+  "Cupa României 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 43
+  },
+  "Russian Cup 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 88
+  },
+  "I Liga 2025-2026": {
+   "partite_completate": 2,
+   "giocatori": 41,
+   "da_fare": 309
+  },
+  "Puchar Polski 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 69
+  },
+  "OBOS-ligaen 2025": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 240
+  },
+  "2. divisjon 2025": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 364
+  },
+  "Norsk Tipping-ligaen 2025": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1092
+  },
+  "Norgesmesterskapet 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 79
+  },
+  "Nemzeti Bajnokság I 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 198
+  },
+  "Premier League 2025": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 182
+  },
+  "National Division 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 114
   }
  },
  "codici_it_visti": {
-  "4": 3219,
-  "5": 3219,
-  "36": 789,
-  "37": 49,
-  "39": 14,
-  "40": 10,
-  "41": 23,
-  "43": 227,
-  "44": 12,
-  "45": 65,
-  "47": 8,
-  "63": 42
+  "4": 6047,
+  "5": 6047,
+  "36": 1614,
+  "37": 76,
+  "38": 12,
+  "39": 37,
+  "40": 265,
+  "41": 871,
+  "43": 1554,
+  "44": 29,
+  "45": 53,
+  "47": 20,
+  "57": 3,
+  "63": 639
  },
  "partite_completate_in_questo_giro": 1500
 }
