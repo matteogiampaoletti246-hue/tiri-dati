@@ -1,5 +1,5 @@
 name: Prova fonti (raggiungibilita dal runner)
-# Controlla se LiveScore e OneFootball hanno la rosa nella pagina squadra (MC Alger). Referto nel ramo probe-out.
+# Cerca un elenco dei campionati di LiveScore (robots.txt, sitemap). Referto (solo conteggi e indirizzi) nel ramo rose-out.
 on: workflow_dispatch
 permissions:
   contents: write
@@ -7,21 +7,14 @@ jobs:
   prova:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
       - name: Prova
         run: |
           mkdir -p /tmp/po
           UA='Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 Mobile Safari/604.1'
-          g() { curl -sS -m 25 -L -A "$UA" -H 'Accept-Language: en' -o "$2" -w "%{http_code} %{size_download} $1\n" "$1" 2>&1 | tail -1 | tee -a /tmp/po/referto.txt; }
-          g "https://www.livescore.com/en/football/team/mc-alger/3274/" /tmp/po/ls_team.html
-          g "https://www.livescore.com/en/football/team/mc-alger/3274/squad/" /tmp/po/ls_squad.html
-          g "https://www.livescore.com/en/football/team/mc-alger/3274/players/" /tmp/po/ls_players.html
-          g "https://onefootball.com/en/team/mc-alger" /tmp/po/of_team.html
-          g "https://onefootball.com/en/search?q=mc%20alger" /tmp/po/of_search.html
-          g "https://onefootball.com/en/team/manchester-city-9/squad" /tmp/po/of_city.html
-          for f in ls_team ls_squad ls_players of_team of_search of_city; do python3 tools/prova_sq.py "$f" | tee -a /tmp/po/referto.txt; done
-      - name: Salva
-        run: |
-          cd /tmp/po && for f in *.html; do head -c 200000 "$f" > "$f.cut" && mv "$f.cut" "$f"; done
-          git init -q -b probe-out && git config user.name github-actions && git config user.email github-actions@users.noreply.github.com
-          git add -A && git commit -qm "Referto fonti" && git push -qf "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" probe-out
+          for u in https://www.livescore.com/robots.txt https://www.livescore.com/sitemap.xml https://www.livescore.com/sitemap-index.xml https://www.livescore.com/sitemap_index.xml https://www.livescore.com/en/sitemap.xml; do
+            c=$(curl -sS -m 25 -L -A "$UA" -o /tmp/b.txt -w '%{http_code} %{size_download}' "$u" 2>&1 | tail -1)
+            echo "$c $u" | tee -a /tmp/po/referto.txt
+            grep -oiE 'https?://[^ <"]*sitemap[^ <"]*' /tmp/b.txt | sort -u | head -12 | tee -a /tmp/po/referto.txt
+          done
+          git init -q -b rose-out /tmp/po && cd /tmp/po && git config user.name github-actions && git config user.email github-actions@users.noreply.github.com
+          git add -A && git commit -qm "Referto" && git push -qf "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" rose-out
