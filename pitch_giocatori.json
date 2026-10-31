@@ -7,20 +7,6 @@
    "senza_abbinamento": 0,
    "da_fare": 1
   },
-  "Ligue 1 (FRA) 2026-2027": {
-   "lega_pitch": "Ligue 1",
-   "partite_completate": 0,
-   "giocatori": 0,
-   "senza_abbinamento": 0,
-   "da_fare": 1
-  },
-  "Premiership (SCO) 2026-2027": {
-   "lega_pitch": "Premiership",
-   "partite_completate": 0,
-   "giocatori": 0,
-   "senza_abbinamento": 0,
-   "da_fare": 1
-  },
   "LaLiga (ESP) 2026-2027": {
    "lega_pitch": "LaLiga",
    "partite_completate": 0,
@@ -33,26 +19,19 @@
    "partite_completate": 0,
    "giocatori": 0,
    "senza_abbinamento": 0,
-   "da_fare": 2
-  },
-  "MLS (USA) 2026": {
-   "lega_pitch": "MLS",
-   "partite_completate": 0,
-   "giocatori": 0,
-   "senza_abbinamento": 0,
-   "da_fare": 3
-  },
-  "Série A (BRA) 2026": {
-   "lega_pitch": "Serie A",
-   "partite_completate": 0,
-   "giocatori": 0,
-   "senza_abbinamento": 0,
    "da_fare": 1
   },
   "Eerste Divisie (NED) 2026-2027": {
    "lega_pitch": "Eerste Divisie",
    "partite_completate": 0,
    "giocatori": 0,
+   "senza_abbinamento": 0,
+   "da_fare": 1
+  },
+  "A-League (AUS) 2026-2027": {
+   "lega_pitch": "A-League",
+   "partite_completate": 1,
+   "giocatori": 30,
    "senza_abbinamento": 0,
    "da_fare": 1
   },
@@ -63,12 +42,12 @@
    "senza_abbinamento": 0,
    "da_fare": 1
   },
-  "Liga de Primera (CHI) 2026": {
-   "lega_pitch": "Liga de Primera",
-   "partite_completate": 0,
-   "giocatori": 0,
+  "Primera Division (BOL) 2026": {
+   "lega_pitch": "Primera Division",
+   "partite_completate": 1,
+   "giocatori": 28,
    "senza_abbinamento": 0,
-   "da_fare": 2
+   "da_fare": 1
   },
   "Primera Division (VEN) 2026": {
    "lega_pitch": "Primera Division",
@@ -77,40 +56,47 @@
    "senza_abbinamento": 0,
    "da_fare": 1
   },
-  "Série B (BRA) 2026": {
-   "lega_pitch": "Serie B",
-   "partite_completate": 0,
-   "giocatori": 0,
-   "senza_abbinamento": 0,
-   "da_fare": 1
-  },
   "USL Championship (USA) 2026": {
    "lega_pitch": "USL Championship",
+   "partite_completate": 4,
+   "giocatori": 125,
+   "senza_abbinamento": 0,
+   "da_fare": 4
+  },
+  "K League 1 (KOR) 2026": {
+   "lega_pitch": "K League 1",
    "partite_completate": 0,
    "giocatori": 0,
-   "senza_abbinamento": 0,
-   "da_fare": 2
+   "senza_abbinamento": 1,
+   "da_fare": 1
   },
   "K League 2 (KOR) 2026": {
    "lega_pitch": "K League 2",
-   "partite_completate": 0,
-   "giocatori": 0,
+   "partite_completate": 1,
+   "giocatori": 32,
+   "senza_abbinamento": 1,
+   "da_fare": 2
+  },
+  "USL League One (USA) 2026": {
+   "lega_pitch": "USL League One",
+   "partite_completate": 2,
+   "giocatori": 61,
    "senza_abbinamento": 0,
-   "da_fare": 1
+   "da_fare": 2
   },
   "AFC Challenge League (INT) 2026-2027": {
    "lega_pitch": "Challenge League",
    "partite_completate": 0,
    "giocatori": 0,
    "senza_abbinamento": 0,
-   "da_fare": 27
+   "da_fare": 7
   },
   "MLS Next Pro (USA) 2026": {
    "lega_pitch": "MLS Next Pro",
-   "partite_completate": 0,
-   "giocatori": 0,
+   "partite_completate": 1,
+   "giocatori": 30,
    "senza_abbinamento": 0,
-   "da_fare": 1
+   "da_fare": 2
   },
   "Championship (ENG) 2025-2026": {
    "lega_pitch": "Championship",
@@ -138,7 +124,7 @@
    "partite_completate": 0,
    "giocatori": 0,
    "senza_abbinamento": 0,
-   "da_fare": 41
+   "da_fare": 37
   },
   "USL Championship (USA) 2025": {
    "lega_pitch": "USL Championship",
@@ -152,7 +138,7 @@
    "partite_completate": 0,
    "giocatori": 0,
    "senza_abbinamento": 0,
-   "da_fare": 40
+   "da_fare": 10
   },
   "Saudi First Division (KSA) 2025-2026": {
    "lega_pitch": "Saudi First Division",
@@ -302,6 +288,13 @@
    "da_fare": 3
   }
  },
- "senza_lega_pitch": [],
- "partite_completate_in_questo_giro": 0
+ "senza_lega_pitch": [
+  [
+   "223",
+   "J. League (JPN) 2026-2027",
+   3,
+   0
+  ]
+ ],
+ "partite_completate_in_questo_giro": 10
 }
