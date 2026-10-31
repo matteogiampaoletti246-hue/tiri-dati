@@ -1,101 +1,140 @@
 {
  "competizioni": {
-  "Nemzeti Bajnokság I 2026-2027": {
-   "partite_completate": 43,
-   "giocatori": 1855,
-   "da_fare": 43
+  "Regular Season 2026": {
+   "partite_completate": 85,
+   "giocatori": 2663,
+   "da_fare": 168
   },
-  "1. Deild 2026": {
-   "partite_completate": 91,
-   "giocatori": 2000,
-   "da_fare": 137
-  },
-  "Icelandic Cup 2026": {
-   "partite_completate": 15,
-   "giocatori": 522,
-   "da_fare": 31
-  },
-  "First Division 2026": {
-   "partite_completate": 168,
-   "giocatori": 3317,
-   "da_fare": 184
-  },
-  "FAI Cup 2026": {
-   "partite_completate": 23,
-   "giocatori": 372,
-   "da_fare": 42
-  },
-  "J. League Cup 2026-2027": {
-   "partite_completate": 52,
-   "giocatori": 1170,
-   "da_fare": 52
+  "Prva Liga 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 55
   },
   "Premier League 2026": {
-   "partite_completate": 146,
-   "giocatori": 2380,
-   "da_fare": 232
+   "partite_completate": 160,
+   "giocatori": 3100,
+   "da_fare": 209
   },
-  "Toplyga 2026": {
-   "partite_completate": 100,
-   "giocatori": 1756,
-   "da_fare": 136
+  "Ykkosliiga 2026": {
+   "partite_completate": 60,
+   "giocatori": 1583,
+   "da_fare": 135
   },
-  "National Division 2026-2027": {
+  "FNL 2026-2027": {
+   "partite_completate": 31,
+   "giocatori": 926,
+   "da_fare": 98
+  },
+  "Czech Cup 2026-2027": {
+   "partite_completate": 18,
+   "giocatori": 441,
+   "da_fare": 48
+  },
+  "A-Liga 2026-2027": {
+   "partite_completate": 38,
+   "giocatori": 1000,
+   "da_fare": 60
+  },
+  "Kategoria Superiore 2026-2027": {
+   "partite_completate": 27,
+   "giocatori": 544,
+   "da_fare": 45
+  },
+  "Premier League 2026-2027": {
+   "partite_completate": 16,
+   "giocatori": 609,
+   "da_fare": 78
+  },
+  "First Division B 2026-2027": {
    "partite_completate": 2,
-   "giocatori": 24,
-   "da_fare": 64
+   "giocatori": 61,
+   "da_fare": 2
   },
-  "1. CFL 2026-2027": {
-   "partite_completate": 39,
-   "giocatori": 607,
-   "da_fare": 63
+  "First Professional League 2026-2027": {
+   "partite_completate": 85,
+   "giocatori": 3241,
+   "da_fare": 85
   },
-  "KNVB Cup 2026-2027": {
-   "partite_completate": 23,
-   "giocatori": 563,
-   "da_fare": 26
+  "Bulgarian Cup 2026-2027": {
+   "partite_completate": 2,
+   "giocatori": 2,
+   "da_fare": 16
   },
-  "2. Division 2026-2027": {
+  "Super Cup 2025-2026": {
+   "partite_completate": 1,
+   "giocatori": 27,
+   "da_fare": 1
+  },
+  "Liga de Primera 2026": {
+   "partite_completate": 2,
+   "giocatori": 69,
+   "da_fare": 2
+  },
+  "Croatian Cup 2026-2027": {
+   "partite_completate": 1,
+   "giocatori": 30,
+   "da_fare": 35
+  },
+  "Austrian Cup 2026-2027": {
+   "partite_completate": 21,
+   "giocatori": 492,
+   "da_fare": 56
+  },
+  "Maurice Revello Tournament  2026": {
    "partite_completate": 0,
    "giocatori": 0,
-   "da_fare": 80
+   "da_fare": 22
   },
-  "3. Division 2026-2027": {
+  "Cyprus Cup 2026-2027": {
+   "partite_completate": 5,
+   "giocatori": 108,
+   "da_fare": 6
+  },
+  "Toppserien 2026": {
+   "partite_completate": 120,
+   "giocatori": 3580,
+   "da_fare": 120
+  },
+  "Liga Nacional 2026-2027": {
+   "partite_completate": 6,
+   "giocatori": 122,
+   "da_fare": 102
+  },
+  "1. Division 2026-2027": {
    "partite_completate": 0,
    "giocatori": 0,
-   "da_fare": 79
+   "da_fare": 138
   },
-  "Danmarksserien 2026-2027": {
+  "Primera Division 2026": {
    "partite_completate": 0,
    "giocatori": 0,
-   "da_fare": 241
+   "da_fare": 1
   },
-  "DBU Pokalen 2026-2027": {
-   "partite_completate": 59,
-   "giocatori": 980,
-   "da_fare": 90
+  "Finland Cup 2026": {
+   "partite_completate": 5,
+   "giocatori": 111,
+   "da_fare": 33
   },
-  "Regular Season 2026": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 170
+  "Erovnuli Liga 2026": {
+   "partite_completate": 96,
+   "giocatori": 1753,
+   "da_fare": 150
   }
  },
  "codici_it_visti": {
-  "4": 6971,
-  "5": 6967,
-  "36": 2268,
-  "37": 163,
-  "38": 6,
-  "39": 52,
-  "40": 14,
-  "41": 33,
-  "43": 481,
-  "44": 28,
-  "45": 121,
-  "47": 30,
-  "57": 3,
-  "63": 76,
+  "4": 8046,
+  "5": 8046,
+  "36": 2683,
+  "37": 161,
+  "38": 12,
+  "39": 69,
+  "43": 1362,
+  "44": 36,
+  "45": 112,
+  "47": 16,
+  "62": 17,
+  "63": 424,
+  "64": 1,
   "70": 1
  },
  "partite_completate_in_questo_giro": 1500
