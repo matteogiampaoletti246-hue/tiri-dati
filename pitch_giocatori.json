@@ -46,7 +46,7 @@
    "lega_pitch": "Serie A",
    "partite_completate": 0,
    "giocatori": 0,
-   "senza_abbinamento": 1,
+   "senza_abbinamento": 0,
    "da_fare": 1
   },
   "Eerste Divisie (NED) 2026-2027": {
@@ -79,16 +79,16 @@
   },
   "Série B (BRA) 2026": {
    "lega_pitch": "Serie B",
-   "partite_completate": 1,
-   "giocatori": 31,
+   "partite_completate": 0,
+   "giocatori": 0,
    "senza_abbinamento": 0,
-   "da_fare": 2
+   "da_fare": 1
   },
   "USL Championship (USA) 2026": {
    "lega_pitch": "USL Championship",
    "partite_completate": 0,
    "giocatori": 0,
-   "senza_abbinamento": 1,
+   "senza_abbinamento": 0,
    "da_fare": 2
   },
   "K League 2 (KOR) 2026": {
@@ -303,5 +303,5 @@
   }
  },
  "senza_lega_pitch": [],
- "partite_completate_in_questo_giro": 1
+ "partite_completate_in_questo_giro": 0
 }
