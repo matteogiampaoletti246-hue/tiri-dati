@@ -5,7 +5,8 @@ import { useLiveTable, applyLive } from '@/data/liveTable';
 import { FM_ID } from '@/data/archive';
 import Crest from './Crest';
 import FormDots from './FormDots';
-import { teamById, teamByFm } from '@/data/teams';
+import { teamById, teamByFm, teamByName } from '@/data/teams';
+import { sameSquad } from '@/data/teamMatch';
 import { standings, zoneOf } from '@/data/standings';
 
 const COLS = { table: '18px 1fr 22px 20px 20px 20px 36px 28px', forma: '18px 1fr 92px 30px' };
@@ -22,7 +23,7 @@ export default function StandingsTable({ leagueId, mode = 'total', highlight = [
     if (!src || !src.length) return base;
     const out = [];
     for (const r of applyLive(src, lt.live, md)) {
-      const t = teamByFm(r.id);
+      const t = teamByFm(r.id) || teamByName(r.name) || teamByName(r.shortName) || base.map((x) => teamById(x.teamId)).find((x) => x && sameSquad(x.name, r.name));
       if (!t) return base;
       const b = base.find((x) => x.teamId === t.id);
       const m = /^(\d+)\D+(\d+)$/.exec(String(r.scoresStr || ''));
