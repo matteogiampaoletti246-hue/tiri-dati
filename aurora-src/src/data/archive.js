@@ -373,12 +373,38 @@ export const loadTeamStats = async (lid, sk) => {
   return teamPartStats(lid, sk, 'tot');
 };
 // stesse statistiche ma per un giocatore preciso: se non e' nelle classifiche ufficiali (hanno solo i primi di ogni voce) si usano quelle calcolate dalle partite
+const MERGED = new Map();
+// nomi delle voci nelle partite -> nomi delle classifiche stagionali (le due fonti FotMob usano chiavi diverse)
+const MATCH_TO_SEASON = { total_shots: 'total_scoring_att', ShotsOnTarget: 'ontarget_scoring_att', assists: 'goal_assist', chances_created: 'total_att_assist', accurate_passes: 'accurate_pass', interceptions: 'interception', recoveries: 'ball_recovery' };
 export const loadPlayerStatsFor = async (lid, sk, pid) => {
   const st = await loadPlayerStats(lid, sk);
-  const has = (s) => !!(s && s.players && Object.keys(s.players).some((k) => !k.startsWith('_') && (s.players[k] || []).some((r) => String(r[0]) === String(pid))));
-  if (has(st)) return st;
+  const rowOf = (s, k) => ((s && s.players && s.players[k]) || []).find((r) => String(r[0]) === String(pid)) || null;
+  const has = (s) => !!(s && s.players && Object.keys(s.players).some((k) => !k.startsWith('_') && rowOf(s, k)));
+  const official = !!(st && !st.fromMatches);
+  if (has(st) && !(official && !rowOf(st, 'total_scoring_att') && rowOf(st, 'mins_played'))) return st;
   const fm = await statsFromMatches(lid, sk);
-  return has(fm) ? fm : st;
+  if (!has(fm)) return st;
+  if (!has(st)) return fm;
+  // Gerarchia dei dati (regola fissa): 1) classifiche ufficiali FotMob; 2) quando la classifica ufficiale non ha il giocatore su una voce (le classifiche hanno
+  // solo chi supera una soglia: es. Diarra in Champions con 56' non era nei tiri) la voce si completa con la somma delle sue partite FotMob; 3) fonti esterne (vedi CLAUDE.md)
+  const ck = `${lid}|${sk}|${pid}`;
+  const hit = lruGet(MERGED, ck);
+  if (hit) return hit;
+  const players = { ...st.players };
+  Object.keys(fm.players).forEach((mk) => {
+    const k = MATCH_TO_SEASON[mk] || mk;
+    if (k.startsWith('_') || !st.players[k] || rowOf(st, k)) return;
+    const mine = rowOf(fm, mk);
+    if (!mine) return;
+    const list = [...players[k]];
+    let i = list.findIndex((r) => r[3] < mine[3]);
+    if (i < 0) i = list.length;
+    list.splice(i, 0, mine);
+    players[k] = list;
+  });
+  const out = { ...st, players, filled: true };
+  lruSet(MERGED, ck, out, 40);
+  return out;
 };
 // presenze, minuti, gol, assist e voto di un giocatore in una stagione e competizione: un solo calcolo per Profilo e Statistiche
 export const playerSeasonLine = async (lid, sk, pid) => {
