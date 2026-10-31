@@ -13,6 +13,8 @@ MAX_MIN = float(os.environ.get("MAX_MIN", "40"))
 MAX_MATCH = int(os.environ.get("MAX_MATCH", "1500"))
 T0 = time.time()
 REPORT = "pitch_giocatori.json"
+STATE = "pitch_stato.json"   # {fm|stagione: {t: ultimo controllo, nolega: bool, fail: [partite senza abbinamento]}}
+RETRY_DAYS = 7
 SKIP = re.compile(r"women|femin|vrouwen|frauen|kvinner|\bu\d\d\b|youth|reserve", re.I)
 
 
@@ -134,16 +136,26 @@ def main():
     if not KEY:
         sys.exit("Manca PITCHAPI_KEY")
     idx = json.load(open("arch/index.json"))
+    state = json.load(open(STATE)) if os.path.exists(STATE) else {}
     leagues = [l for l in (api("/v1/leagues") or {}).get("leagues", []) if not SKIP.search(l.get("name", ""))]
     rep = {"competizioni": {}, "senza_lega_pitch": []}
     done_m = 0
-    for fm, e in sorted(idx.items(), key=lambda kv: (0 if str(kv[0]) in TOP else 1, kv[0])):
-        if (time.time() - T0) / 60 > MAX_MIN or done_m >= MAX_MATCH:
-            break
+    # tutte le stagioni di tutte le competizioni: prima le piu' recenti di ognuna, poi le precedenti (giro dopo giro si arriva al 2010)
+    jobs = []
+    for fm, e in idx.items():
         if SKIP.search(e.get("n", "")):
             continue
-        sks = sorted(e.get("s") or [], reverse=True)[:2]  # stagione in corso e precedente
-        for sk in sks:
+        for rank, sk in enumerate(sorted(e.get("s") or [], reverse=True)):
+            jobs.append((rank, 0 if str(fm) in TOP else 1, int(fm), fm, e, sk))
+    jobs.sort(key=lambda j: j[:3])
+    for _, _, _, fm, e, sk in jobs:
+        if (time.time() - T0) / 60 > MAX_MIN or done_m >= MAX_MATCH:
+            break
+        if True:
+            stk = f"{fm}|{sk}"
+            stt = state.get(stk) or {}
+            if stt.get("nolega") and time.time() - stt.get("t", 0) < RETRY_DAYS * 86400:
+                continue
             path = f"partite/{fm}/{sk}.json.gz"
             if not os.path.exists(path):
                 continue
@@ -169,6 +181,7 @@ def main():
             lab = f"{e.get('n')} ({cc}) {sk}"
             if len(cand) != 1:
                 rep["senza_lega_pitch"].append([fm, lab, len(todo), len(cand)])
+                state[stk] = {"t": time.time(), "nolega": True}
                 continue
             lg = cand[0]
             try:
@@ -180,7 +193,10 @@ def main():
             tidx = team_index(fm, sk, d, arch)
             d.setdefault("m", {})
             n_ok = n_pl = n_miss = 0
+            fail = set(stt.get("fail") or []) if time.time() - stt.get("t", 0) < RETRY_DAYS * 86400 else set()
             for mid, r in todo.items():
+                if mid in fail:
+                    continue
                 if (time.time() - T0) / 60 > MAX_MIN or done_m >= MAX_MATCH:
                     break
                 hn, an, ts = teams.get(str(r[2])) or teams.get(r[2]), teams.get(str(r[3])) or teams.get(r[3]), parse_ts(r[4])
@@ -188,6 +204,7 @@ def main():
                            and same_team(hn, (x.get("home_team") or {}).get("name")) and same_team(an, (x.get("away_team") or {}).get("name"))), None)
                 if not pm:
                     n_miss += 1
+                    fail.add(mid)
                     continue
                 try:
                     res = api(f"/v1/matches/{pm['id']}/players")
@@ -220,11 +237,14 @@ def main():
                     n_pl += len(out)
                 else:
                     n_miss += 1
+                    fail.add(mid)
+            state[stk] = {"t": time.time(), "nolega": False, "fail": sorted(fail)}
             if n_ok:
                 dump_gz(path, d)
             rep["competizioni"][lab] = {"lega_pitch": lg.get("name"), "partite_completate": n_ok, "giocatori": n_pl, "senza_abbinamento": n_miss, "da_fare": len(todo)}
             print(lab, rep["competizioni"][lab])
     rep["partite_completate_in_questo_giro"] = done_m
+    json.dump(state, open(STATE, "w"), separators=(",", ":"))
     json.dump(rep, open(REPORT, "w"), ensure_ascii=False, indent=1)
 
 

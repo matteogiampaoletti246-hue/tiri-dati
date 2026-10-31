@@ -8,6 +8,7 @@ concurrency:
   cancel-in-progress: false
 permissions:
   contents: write
+  actions: write
 jobs:
   pitch:
     runs-on: ubuntu-latest
@@ -24,6 +25,14 @@ jobs:
       - run: |
           git config user.name "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
-          git add partite pitch_giocatori.json
+          git add partite pitch_giocatori.json pitch_stato.json
           git diff --staged --quiet || git commit -m "Statistiche giocatori da PitchAPI"
           for i in 1 2 3 4 5; do git pull --rebase -X theirs && git push && break; sleep $((i*4)); done
+      # all'infinito: se questo giro ha completato partite si rilancia da solo, finche' non c'e' piu' nulla da fare
+      - name: Rilancio
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          N=$(python3 -c "import json;print(json.load(open('pitch_giocatori.json')).get('partite_completate_in_questo_giro',0))")
+          echo "completate: $N"
+          if [ "$N" -gt 0 ]; then gh workflow run giocatori_pitch.yml --ref main; fi
