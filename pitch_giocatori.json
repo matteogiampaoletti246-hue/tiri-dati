@@ -28,24 +28,10 @@
    "senza_abbinamento": 0,
    "da_fare": 1
   },
-  "A-League (AUS) 2026-2027": {
-   "lega_pitch": "A-League",
-   "partite_completate": 1,
-   "giocatori": 30,
-   "senza_abbinamento": 0,
-   "da_fare": 1
-  },
   "Liga 1 (PER) 2026": {
    "lega_pitch": "Liga 1",
    "partite_completate": 0,
    "giocatori": 0,
-   "senza_abbinamento": 0,
-   "da_fare": 1
-  },
-  "Primera Division (BOL) 2026": {
-   "lega_pitch": "Primera Division",
-   "partite_completate": 1,
-   "giocatori": 28,
    "senza_abbinamento": 0,
    "da_fare": 1
   },
@@ -56,33 +42,19 @@
    "senza_abbinamento": 0,
    "da_fare": 1
   },
-  "USL Championship (USA) 2026": {
-   "lega_pitch": "USL Championship",
-   "partite_completate": 4,
-   "giocatori": 125,
-   "senza_abbinamento": 0,
-   "da_fare": 4
-  },
   "K League 1 (KOR) 2026": {
    "lega_pitch": "K League 1",
    "partite_completate": 0,
    "giocatori": 0,
-   "senza_abbinamento": 1,
+   "senza_abbinamento": 0,
    "da_fare": 1
   },
   "K League 2 (KOR) 2026": {
    "lega_pitch": "K League 2",
-   "partite_completate": 1,
-   "giocatori": 32,
-   "senza_abbinamento": 1,
-   "da_fare": 2
-  },
-  "USL League One (USA) 2026": {
-   "lega_pitch": "USL League One",
-   "partite_completate": 2,
-   "giocatori": 61,
+   "partite_completate": 0,
+   "giocatori": 0,
    "senza_abbinamento": 0,
-   "da_fare": 2
+   "da_fare": 1
   },
   "AFC Challenge League (INT) 2026-2027": {
    "lega_pitch": "Challenge League",
@@ -93,10 +65,10 @@
   },
   "MLS Next Pro (USA) 2026": {
    "lega_pitch": "MLS Next Pro",
-   "partite_completate": 1,
-   "giocatori": 30,
+   "partite_completate": 0,
+   "giocatori": 0,
    "senza_abbinamento": 0,
-   "da_fare": 2
+   "da_fare": 1
   },
   "Championship (ENG) 2025-2026": {
    "lega_pitch": "Championship",
@@ -288,13 +260,6 @@
    "da_fare": 3
   }
  },
- "senza_lega_pitch": [
-  [
-   "223",
-   "J. League (JPN) 2026-2027",
-   3,
-   0
-  ]
- ],
- "partite_completate_in_questo_giro": 10
+ "senza_lega_pitch": [],
+ "partite_completate_in_questo_giro": 0
 }
