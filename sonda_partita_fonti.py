@@ -43,10 +43,20 @@ def livescore(date, home, away, tag):
     e["scoreboard_status"] = st
     ev = None
     try:
+        j0 = json.loads(b)
+        e["chiavi"] = list(j0.keys())[:12]
+        stg = j0.get("Stages", [])
+        e["n_stages"] = len(stg)
+        e["stage_nomi"] = [(x.get("Snm"), x.get("Cnm"), len(x.get("Events", []))) for x in stg[:40]]
+        e["evento_chiavi"] = list((stg[0].get("Events") or [{}])[0].keys())[:30] if stg else None
+        e["evento_esempio"] = json.dumps((stg[0].get("Events") or [{}])[0])[:500] if stg else None
+    except Exception as ex:
+        e["parse_err"] = str(ex)[:100] + " " + str(b)[:200]
+    try:
         j = json.loads(b)
         for s in j.get("Stages", []):
             for x in s.get("Events", []):
-                names = (x.get("T1", [{}])[0].get("Nm", "") + "|" + x.get("T2", [{}])[0].get("Nm", "")).lower()
+                names = json.dumps(x).lower()
                 if home in names and away in names:
                     ev = (x.get("Eid"), s.get("Snm"), s.get("Scd"), s.get("Ccd"))
     except Exception as ex:
