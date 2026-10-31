@@ -28,13 +28,6 @@
    "senza_abbinamento": 0,
    "da_fare": 1
   },
-  "A-League (AUS) 2026-2027": {
-   "lega_pitch": "A-League",
-   "partite_completate": 1,
-   "giocatori": 31,
-   "senza_abbinamento": 0,
-   "da_fare": 1
-  },
   "Liga 1 (PER) 2026": {
    "lega_pitch": "Liga 1",
    "partite_completate": 0,
@@ -53,14 +46,14 @@
    "lega_pitch": "K League 1",
    "partite_completate": 0,
    "giocatori": 0,
-   "senza_abbinamento": 1,
+   "senza_abbinamento": 0,
    "da_fare": 1
   },
   "K League 2 (KOR) 2026": {
    "lega_pitch": "K League 2",
    "partite_completate": 0,
    "giocatori": 0,
-   "senza_abbinamento": 2,
+   "senza_abbinamento": 0,
    "da_fare": 3
   },
   "AFC Challenge League (INT) 2026-2027": {
@@ -268,5 +261,5 @@
   }
  },
  "senza_lega_pitch": [],
- "partite_completate_in_questo_giro": 2
+ "partite_completate_in_questo_giro": 0
 }
