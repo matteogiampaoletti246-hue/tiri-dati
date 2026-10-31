@@ -1,4 +1,138 @@
 {
+ "campionati_6_20_e_coppe": {
+  "pro-league": {
+   "tot": 598,
+   "senza_anagrafica": 12,
+   "senza_stagioni": 45,
+   "senza_carriera": 12
+  },
+  "eredivisie": {
+   "tot": 575,
+   "senza_anagrafica": 6,
+   "senza_stagioni": 37,
+   "senza_carriera": 6
+  },
+  "liga-portugal": {
+   "tot": 575,
+   "senza_anagrafica": 9,
+   "senza_stagioni": 32,
+   "senza_carriera": 9
+  },
+  "super-lig": {
+   "tot": 562,
+   "senza_anagrafica": 5,
+   "senza_stagioni": 57,
+   "senza_carriera": 5
+  },
+  "scottish-premiership": {
+   "tot": 364,
+   "senza_anagrafica": 3,
+   "senza_stagioni": 7,
+   "senza_carriera": 3
+  },
+  "aut-bundesliga": {
+   "tot": 345,
+   "senza_anagrafica": 2,
+   "senza_stagioni": 23,
+   "senza_carriera": 2
+  },
+  "nor-eliteserien": {
+   "tot": 508,
+   "senza_anagrafica": 51,
+   "senza_stagioni": 7,
+   "senza_carriera": 51
+  },
+  "gre-super-league-1": {
+   "tot": 462,
+   "senza_anagrafica": 1,
+   "senza_stagioni": 28,
+   "senza_carriera": 1
+  },
+  "championship": {
+   "tot": 673,
+   "senza_anagrafica": 15,
+   "senza_stagioni": 3,
+   "senza_carriera": 15
+  },
+  "serie-b": {
+   "tot": 639,
+   "senza_anagrafica": 2,
+   "senza_stagioni": 83,
+   "senza_carriera": 2
+  },
+  "bundesliga-2": {
+   "tot": 564,
+   "senza_anagrafica": 7,
+   "senza_stagioni": 33,
+   "senza_carriera": 7
+  },
+  "laliga-2": {
+   "tot": 712,
+   "senza_anagrafica": 8,
+   "senza_stagioni": 50,
+   "senza_carriera": 8
+  },
+  "ligue-2": {
+   "tot": 551,
+   "senza_anagrafica": 7,
+   "senza_stagioni": 42,
+   "senza_carriera": 7
+  },
+  "liga-portugal-2": {
+   "tot": 549,
+   "senza_anagrafica": 3,
+   "senza_stagioni": 63,
+   "senza_carriera": 4
+  },
+  "eerste-divisie": {
+   "tot": 837,
+   "senza_anagrafica": 8,
+   "senza_stagioni": 112,
+   "senza_carriera": 8
+  },
+  "brasileirao": {
+   "tot": 1011,
+   "senza_anagrafica": 36,
+   "senza_stagioni": 180,
+   "senza_carriera": 36
+  },
+  "arg-liga-profesional": {
+   "tot": 1247,
+   "senza_anagrafica": 102,
+   "senza_stagioni": 159,
+   "senza_carriera": 102
+  },
+  "mls": {
+   "tot": 1001,
+   "senza_anagrafica": 55,
+   "senza_stagioni": 4,
+   "senza_carriera": 55
+  },
+  "liga-mx": {
+   "tot": 0,
+   "senza_anagrafica": 0,
+   "senza_stagioni": 0,
+   "senza_carriera": 0
+  },
+  "champions-league": {
+   "tot": 1025,
+   "senza_anagrafica": 221,
+   "senza_stagioni": 31,
+   "senza_carriera": 221
+  },
+  "europa-league": {
+   "tot": 1109,
+   "senza_anagrafica": 428,
+   "senza_stagioni": 57,
+   "senza_carriera": 428
+  },
+  "conference-league": {
+   "tot": 1074,
+   "senza_anagrafica": 689,
+   "senza_stagioni": 69,
+   "senza_carriera": 689
+  }
+ },
  "campionati": {
   "premier-league": {
    "tot": 447,
@@ -398,6 +532,288 @@
    [
     "senza anagrafica",
     "senza carriera"
+   ]
+  ]
+ ],
+ "casi_6_20": [
+  [
+   "pro-league",
+   "Parfait Guiagon",
+   [
+    "senza anagrafica"
+   ]
+  ],
+  [
+   "pro-league",
+   "Ibrahima Diaby",
+   [
+    "senza anagrafica"
+   ]
+  ],
+  [
+   "pro-league",
+   "Anthony Philips",
+   [
+    "senza anagrafica"
+   ]
+  ],
+  [
+   "pro-league",
+   "Loïc Mbe Soh",
+   [
+    "senza anagrafica"
+   ]
+  ],
+  [
+   "pro-league",
+   "Zalán Vancsa",
+   [
+    "senza anagrafica"
+   ]
+  ],
+  [
+   "pro-league",
+   "Moussa N'Diaye",
+   [
+    "senza anagrafica"
+   ]
+  ],
+  [
+   "pro-league",
+   "Bryan Adinany",
+   [
+    "senza anagrafica"
+   ]
+  ],
+  [
+   "pro-league",
+   "Lars Beirinckx",
+   [
+    "senza anagrafica"
+   ]
+  ],
+  [
+   "pro-league",
+   "Karol Borys",
+   [
+    "senza anagrafica"
+   ]
+  ],
+  [
+   "pro-league",
+   "Dante Rigo",
+   [
+    "senza anagrafica"
+   ]
+  ],
+  [
+   "pro-league",
+   "Dennis Egel",
+   [
+    "senza anagrafica"
+   ]
+  ],
+  [
+   "pro-league",
+   "Samuel Gueulette",
+   [
+    "senza anagrafica"
+   ]
+  ],
+  [
+   "pro-league",
+   "Sam Behaeghe",
+   [
+    "senza stagioni (pidx)"
+   ]
+  ],
+  [
+   "pro-league",
+   "Louis Colman",
+   [
+    "senza stagioni (pidx)"
+   ]
+  ],
+  [
+   "pro-league",
+   "Xander Martlé",
+   [
+    "senza stagioni (pidx)"
+   ]
+  ],
+  [
+   "pro-league",
+   "Elhadji Koné",
+   [
+    "senza stagioni (pidx)"
+   ]
+  ],
+  [
+   "pro-league",
+   "Lukas Rocha Torres",
+   [
+    "senza stagioni (pidx)"
+   ]
+  ],
+  [
+   "pro-league",
+   "Tom Poitoux",
+   [
+    "senza stagioni (pidx)"
+   ]
+  ],
+  [
+   "pro-league",
+   "Belmin Dizdarević",
+   [
+    "senza stagioni (pidx)"
+   ]
+  ],
+  [
+   "pro-league",
+   "Matteo Godfroid",
+   [
+    "senza stagioni (pidx)"
+   ]
+  ],
+  [
+   "pro-league",
+   "Quentin Durka",
+   [
+    "senza stagioni (pidx)"
+   ]
+  ],
+  [
+   "pro-league",
+   "Jordi Makiese",
+   [
+    "senza stagioni (pidx)"
+   ]
+  ],
+  [
+   "pro-league",
+   "Noah Sy",
+   [
+    "senza stagioni (pidx)"
+   ]
+  ],
+  [
+   "pro-league",
+   "Arthur Cremer",
+   [
+    "senza stagioni (pidx)"
+   ]
+  ],
+  [
+   "pro-league",
+   "Rafael Teugels",
+   [
+    "senza stagioni (pidx)"
+   ]
+  ],
+  [
+   "pro-league",
+   "Boubakar Dembaga",
+   [
+    "senza stagioni (pidx)"
+   ]
+  ],
+  [
+   "pro-league",
+   "Mory Kera",
+   [
+    "senza stagioni (pidx)"
+   ]
+  ],
+  [
+   "pro-league",
+   "Matteo Noto",
+   [
+    "senza stagioni (pidx)"
+   ]
+  ],
+  [
+   "pro-league",
+   "Noa Vandenabeele",
+   [
+    "senza stagioni (pidx)"
+   ]
+  ],
+  [
+   "pro-league",
+   "Giorgi Kavlashvili",
+   [
+    "senza stagioni (pidx)"
+   ]
+  ],
+  [
+   "pro-league",
+   "Keo Boets",
+   [
+    "senza stagioni (pidx)"
+   ]
+  ],
+  [
+   "pro-league",
+   "Youssef Hamoutahar",
+   [
+    "senza stagioni (pidx)"
+   ]
+  ],
+  [
+   "pro-league",
+   "Tijn Van Ingelgom",
+   [
+    "senza stagioni (pidx)"
+   ]
+  ],
+  [
+   "pro-league",
+   "Axel Willockx",
+   [
+    "senza stagioni (pidx)"
+   ]
+  ],
+  [
+   "pro-league",
+   "Lukas Baert",
+   [
+    "senza stagioni (pidx)"
+   ]
+  ],
+  [
+   "pro-league",
+   "Amine Ouahabi",
+   [
+    "senza stagioni (pidx)"
+   ]
+  ],
+  [
+   "pro-league",
+   "Ahmad Abu Rasen",
+   [
+    "senza stagioni (pidx)"
+   ]
+  ],
+  [
+   "pro-league",
+   "Yanis Ngoy",
+   [
+    "senza stagioni (pidx)"
+   ]
+  ],
+  [
+   "pro-league",
+   "Rune Verheyden",
+   [
+    "senza stagioni (pidx)"
+   ]
+  ],
+  [
+   "pro-league",
+   "Illyès Benachour",
+   [
+    "senza stagioni (pidx)"
    ]
   ]
  ]

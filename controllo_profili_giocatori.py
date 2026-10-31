@@ -94,8 +94,34 @@ for r in stats['players']:
         if not (rec.get('car') or old.get('car')): o['senza_carriera'] += 1; why.append('senza carriera')
         if len(shard('pidx', int(pid) % 100).get(pid) or []) < 2: o['senza_stagioni'] += 1; why.append('senza stagioni (pidx)')
     if why and len(casi) < 400: casi.append([lg, r[ix['n']], r[ix['t']], why])
-res = {'campionati': out, 'totale': sum(v['tot'] for v in out.values()),
-       'problemi': {k: sum(v[k] for v in out.values()) for k in ('senza_id', 'senza_anagrafica', 'senza_stagioni', 'senza_carriera')}, 'casi': casi[:40]}
+# ---- campionati dal 6 al 20 e coppe europee: giocatori dalle classifiche della stagione in corso + rose delle loro squadre ----
+EXT = {40: 'pro-league', 57: 'eredivisie', 61: 'liga-portugal', 71: 'super-lig', 64: 'scottish-premiership', 38: 'aut-bundesliga', 59: 'nor-eliteserien',
+       135: 'gre-super-league-1', 48: 'championship', 86: 'serie-b', 146: 'bundesliga-2', 140: 'laliga-2', 110: 'ligue-2', 185: 'liga-portugal-2',
+       111: 'eerste-divisie', 268: 'brasileirao', 112: 'arg-liga-profesional', 130: 'mls', 230: 'liga-mx', 42: 'champions-league', 73: 'europa-league', 10216: 'conference-league'}
+ext = {}
+casi2 = []
+for fm, lid in EXT.items():
+    o = ext[lid] = {'tot': 0, 'senza_anagrafica': 0, 'senza_stagioni': 0, 'senza_carriera': 0}
+    seen = {}; teams = set()
+    for k, rows in board(fm).items():
+        if k.startswith('_'): continue
+        for x in rows:
+            seen[str(x[0])] = x[1]
+            if len(x) > 2 and isinstance(x[2], int): teams.add(x[2])
+    for t in teams:
+        for q in (shard('rosa', t % 100).get(str(t)) or {}).get('p', []):
+            if q[0] > 0: seen.setdefault(str(q[0]), q[1])
+    for pid, name in seen.items():
+        o['tot'] += 1
+        rec = shard('car', int(pid) % 100).get(pid) or {}
+        why = []
+        if not (rec.get('b') and rec.get('c')): o['senza_anagrafica'] += 1; why.append('senza anagrafica')
+        if not rec.get('car'): o['senza_carriera'] += 1
+        if len(shard('pidx', int(pid) % 100).get(pid) or []) < 2: o['senza_stagioni'] += 1; why.append('senza stagioni (pidx)')
+        if why and len(casi2) < 40: casi2.append([lid, name, why])
+res = {'campionati_6_20_e_coppe': ext, 'campionati': out, 'totale': sum(v['tot'] for v in out.values()),
+       'problemi': {k: sum(v[k] for v in out.values()) for k in ('senza_id', 'senza_anagrafica', 'senza_stagioni', 'senza_carriera')}, 'casi': casi[:40], 'casi_6_20': casi2}
 json.dump(res, open(os.path.join(ROOT, 'controllo_profili_giocatori.json'), 'w'), ensure_ascii=False, indent=1)
 print(res['totale'], res['problemi'])
+print('--- 6-20 + coppe'); [print(l, v) for l, v in ext.items()]
 for lg, v in sorted(out.items(), key=lambda x: -x[1]['senza_id'])[:12]: print(lg, dict(v))

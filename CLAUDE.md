@@ -367,3 +367,5 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 - `resolvePid` (`data/playerIndex.js`): carriere.json, rose.json, poi la rosa completa `rosa/` (rose.json puo' avere la squadra vuota: caso Hudson-Odoi), nomi con lettere speciali (ı, ø, ł) e ordine diverso, cognome unico; infine le classifiche. Senza id niente anagrafica ne' stagioni.
 - Il Voto del Profilo non si mostra se manca (mai "—"). `carriere_extra.py` scarica prima chi e' in una rosa attuale e ha giocato di recente.
 - Controllo: `controllo_profili_giocatori.py` -> `controllo_profili_giocatori.json` (per campionato: senza id, senza anagrafica, senza stagioni, senza carriera).
+
+- Il controllo copre anche i campionati dal 6 al 20 e Champions/Europa/Conference (giocatori dalle classifiche della stagione in corso + rose delle loro squadre): `campionati_6_20_e_coppe` in `controllo_profili_giocatori.json`. `carriere_extra.py` scarica prima chi compare in quelle classifiche. Senza stagioni (`pidx`) = chi e' solo in rosa e non ha mai giocato: non e' un errore.

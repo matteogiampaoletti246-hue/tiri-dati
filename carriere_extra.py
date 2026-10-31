@@ -116,8 +116,18 @@ def main():
                     if p and p[0] and p[0] > 0: inrosa.add(str(p[0]))
         except Exception:
             continue
-    tier = lambda k: 0 if k in base else 1 if (k in recent and k in inrosa) else 2 if k in recent else 3 if k in inrosa else 4
-    prio = lambda k: (tier(k), int(k) % 100 if tier(k) > 1 else 0, int(k))
+    # chi compare nelle classifiche della stagione in corso dei top 20 campionati e delle coppe europee: subito dopo le rose di base
+    top = set()
+    for fm in (55, 47, 87, 54, 53, 42, 73, 10216, 40, 57, 61, 71, 64, 38, 59, 135, 48, 86, 146, 140, 110, 185, 111, 268, 112, 130, 230):
+        try:
+            sk = sorted(f[:-7] for f in os.listdir(os.path.join(ROOT, 'arch', str(fm))) if f.endswith('_s.json'))[-1]
+            for rws in (json.load(open(os.path.join(ROOT, 'arch', str(fm), sk + '_s.json'), encoding='utf-8')).get('players') or {}).values():
+                for x in rws:
+                    if x: top.add(str(x[0]))
+        except Exception:
+            continue
+    tier = lambda k: 0 if k in base else 1 if k in top else 2 if (k in recent and k in inrosa) else 3 if k in recent else 4 if k in inrosa else 5
+    prio = lambda k: (tier(k), int(k) % 100 if tier(k) > 2 else 0, int(k))
     todo = sorted(ids - have, key=prio)
     print(len(ids), 'giocatori,', len(have), 'gia\' presenti,', len(todo), 'da scaricare', flush=True)
     done = [0]
