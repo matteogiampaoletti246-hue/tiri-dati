@@ -1,0 +1,228 @@
+catalogo LiveScore: 640 campionati in 103 paesi
+crawl: 640 campionati LiveScore, 2203 stemmi
+NO Albania/Kategoria Superiore
+OK algeria/ligue-1: 13 squadre, 379 giocatori
+OK argentina/primera-division: 12 squadre, 459 giocatori
+NO Argentina/Primera B Nacional
+OK argentina/federal-a: 18 squadre, 664 giocatori
+OK argentina/primera-division-2023: 15 squadre, 552 giocatori
+NO Armenia/Premier League
+OK australia/a-league: 10 squadre, 331 giocatori
+NO Australia/Australia Championship
+OK austria/bundesliga-23-24: 12 squadre, 337 giocatori
+OK austria/2-liga: 16 squadre, 468 giocatori
+NO Azerbaijan/Premier League
+NO Belarus/Premier League
+NO Belarus/Belarusian Cup
+NO Belarus/Super Cup
+OK belgium/belgian-pro-league: 12 squadre, 402 giocatori
+OK belgium/challenger-pro-league: 12 squadre, 380 giocatori
+OK belgium/cup: 19 squadre, 620 giocatori
+NO Bolivia/Primera Division
+NO Bosnia-Herzegovina/Premier League
+OK brazil/serie-a: 11 squadre, 418 giocatori
+OK brazil/serie-b: 11 squadre, 439 giocatori
+NO Brazil/Série C
+OK brazil/copa-do-noreste-2025: 14 squadre, 498 giocatori
+NO Brazil/Carioca
+NO Brazil/Copa Paulista
+NO Brazil/Gaúcho
+NO Brazil/Goiano
+OK brazil/mineiro: 12 squadre, 338 giocatori
+NO Brazil/Paulista A1
+NO Brazil/Paulista A2
+OK brazil/serie-a-2021: 20 squadre, 792 giocatori
+OK bulgaria/parva-liga: 11 squadre, 322 giocatori
+NO Bulgaria/Second Professional League
+OK bulgaria/cup: 18 squadre, 533 giocatori
+NO Canada/Premier League
+NO Canada/Canadian Championship
+NO Canada/Northern Super League
+OK chile/primera-division: 11 squadre, 354 giocatori
+NO Chile/Liga de Ascenso
+OK china/super-league: 15 squadre, 589 giocatori
+NO China/China League One
+OK colombia/primera-a-clausura: 11 squadre, 377 giocatori
+OK italy/serie-a: 12 squadre, 366 giocatori
+OK italy/serie-b: 17 squadre, 553 giocatori
+OK italy/serie-c: 30 squadre, 1105 giocatori
+OK italy/serie-a-2020-2021: 14 squadre, 436 giocatori
+OK england/premier-league: 19 squadre, 533 giocatori
+OK england/championship: 24 squadre, 700 giocatori
+OK england/league-1: 23 squadre, 654 giocatori
+OK england/league-2: 24 squadre, 727 giocatori
+OK england/national-league: 24 squadre, 737 giocatori
+OK england/national-league-north: 17 squadre, 539 giocatori
+OK england/isthmian-league: 18 squadre, 661 giocatori
+OK spain/laliga: 13 squadre, 339 giocatori
+OK spain/laliga-2: 12 squadre, 377 giocatori
+NO Spain/Primera Federación
+NO Spain/Segunda Federación
+OK spain/primera-division-women: 12 squadre, 326 giocatori
+OK spain/copa-del-rey: 42 squadre, 1184 giocatori
+OK germany/bundesliga: 14 squadre, 434 giocatori
+OK germany/2-bundesliga: 13 squadre, 407 giocatori
+OK germany/3-liga: 17 squadre, 579 giocatori
+OK germany/2-bundesliga-23-24: 18 squadre, 566 giocatori
+NO Germany/Regionalliga
+OK germany/bundesliga-2022-2023: 18 squadre, 554 giocatori
+NO Germany/DFB Pokal Frauen
+NO Germany/Supercup der Frauen
+OK france/ligue-1: 11 squadre, 310 giocatori
+OK france/ligue-2: 17 squadre, 504 giocatori
+NO France/Ligue 3
+NO France/Coupe de France
+OK france/division-1-women: 12 squadre, 329 giocatori
+OK portugal/primeira-liga: 10 squadre, 308 giocatori
+OK portugal/segunda-liga: 13 squadre, 400 giocatori
+OK portugal/portugal-cup: 45 squadre, 1231 giocatori
+NO Portugal/Liga Revelação
+OK netherlands/eredivisie: 14 squadre, 436 giocatori
+OK netherlands/eerste-divisie: 13 squadre, 509 giocatori
+OK netherlands/tweede-divisie: 17 squadre, 675 giocatori
+OK netherlands/eredivisie-2020-2021: 18 squadre, 599 giocatori
+OK netherlands/knvb-beker: 39 squadre, 1294 giocatori
+OK turkiye/super-lig: 11 squadre, 330 giocatori
+OK turkiye/1st-lig: 13 squadre, 598 giocatori
+OK turkiye/super-lig-2025-2026: 13 squadre, 417 giocatori
+OK scotland/premiership: 12 squadre, 355 giocatori
+OK scotland/championship: 10 squadre, 262 giocatori
+OK scotland/challenge-cup: 39 squadre, 898 giocatori
+OK scotland/scottish-cup: 7 squadre, 58 giocatori
+OK scotland/league-1: 9 squadre, 258 giocatori
+OK usa/major-league-soccer: 26 squadre, 791 giocatori
+OK usa/usl-cup: 24 squadre, 736 giocatori
+NO United States/MLS Next Pro
+NO United States/NISA
+OK mexico/liga-mx: 14 squadre, 458 giocatori
+NO Mexico/Liga MX Femenil
+OK mexico/liga-de-expansion-mx-apertura: 12 squadre, 393 giocatori
+NO Colombia/Primera B
+OK uruguay/primera-division-clausura: 12 squadre, 510 giocatori
+NO Uruguay/Segunda Division
+OK switzerland/super-league: 12 squadre, 378 giocatori
+OK switzerland/challenge-league-2023-2024: 10 squadre, 347 giocatori
+OK switzerland/super-league-2022-2023: 10 squadre, 320 giocatori
+OK greece/super-league-26-27: 10 squadre, 329 giocatori
+NO Greece/Super League 2
+OK greece/super-league-25-26: 10 squadre, 350 giocatori
+OK greece/super-league-24-25: 14 squadre, 458 giocatori
+NO Russia/Premier League
+NO Russia/Russian Cup
+NO Russia/Super Cup
+NO Russia/1. Division
+NO Russia/Second League
+OK ukraine/premier-league: 11 squadre, 378 giocatori
+OK denmark/superliga: 11 squadre, 295 giocatori
+OK denmark/1-division: 10 squadre, 274 giocatori
+OK denmark/2nd-division: 10 squadre, 241 giocatori
+OK denmark/3rd-division: 12 squadre, 283 giocatori
+NO Denmark/A-Liga
+NO Denmark/Danmarksserien
+OK sweden/allsvenskan: 14 squadre, 382 giocatori
+NO Sweden/Superettan
+NO Sweden/Ettan
+OK norway/eliteserien-2024: 16 squadre, 441 giocatori
+NO Norway/OBOS-ligaen
+OK norway/2-divisjon: 28 squadre, 1013 giocatori
+OK norway/eliteserien-2023: 15 squadre, 419 giocatori
+NO Norway/1. Division Kvinner
+OK norway/3-divisjon-2025: 39 squadre, 682 giocatori
+NO Norway/Norgesmesterskapet Kvinner
+OK norway/3-divisjon: 15 squadre, 275 giocatori
+OK poland/ekstraklasa: 13 squadre, 396 giocatori
+OK poland/i-liga: 11 squadre, 374 giocatori
+OK poland/ii-liga: 16 squadre, 550 giocatori
+OK czech-republic/1st-league: 14 squadre, 473 giocatori
+NO Czechia/FNL
+NO Croatia/HNL
+NO Croatia/Croatian Cup
+NO Serbia/Super Liga
+NO Serbia/Kup Srbije
+OK romania/liga-1: 10 squadre, 343 giocatori
+NO Romania/Liga II
+OK romania/romanian-cup: 24 squadre, 839 giocatori
+NO Costa Rica/Primera Division
+NO Costa Rica/Super Cup
+NO Cyprus/1. Division
+NO Cyprus/2. Division
+NO Cyprus/Cyprus Cup
+NO Cyprus/Super Cup
+NO Ecuador/Copa Ecuador
+NO Ecuador/Serie A
+NO Ecuador/Supercopa de Ecuador
+OK egypt/premier-league: 16 squadre, 571 giocatori
+NO El Salvador/Primera Division
+NO Estonia/Regular Season
+NO Estonia/Super Cup
+NO Faroe Islands/Løgmanssteypið
+NO Faroe Islands/Premier League
+OK finland/veikkausliiga-2023: 13 squadre, 409 giocatori
+NO Finland/Ykkosliiga
+OK finland/ykkonen: 12 squadre, 518 giocatori
+NO Georgia/Erovnuli Liga
+NO Ghana/Premier League
+NO Guatemala/Liga Nacional
+NO Honduras/Liga Nacional
+OK hungary/nb-i: 11 squadre, 373 giocatori
+NO Hungary/NB II
+NO Iceland/Besta deildin
+NO Iceland/1. Deild
+NO Iceland/Icelandic Cup
+NO Iceland/Super Cup
+NO Iceland/2. Deild
+NO Iceland/League Cup
+OK iran/persian-gulf-pro-league-25-26: 11 squadre, 354 giocatori
+NO Iran/Azadegan League
+OK ireland/league-of-ireland-premier-division: 10 squadre, 334 giocatori
+NO Ireland/First Division
+NO Israel/Ligat ha'Al
+OK israel/liga-leumit: 16 squadre, 576 giocatori
+NO Israel/Super Cup
+NO Israel/Toto Cup Leumit
+OK japan/j-league: 18 squadre, 635 giocatori
+OK japan/j2-league: 24 squadre, 808 giocatori
+NO Japan/WE League
+NO Kazakhstan/Premier League
+NO Kazakhstan/Super Cup
+NO Latvia/Virsliga
+NO Latvia/Super Cup
+OK lithuania/a-lyga-2023: 10 squadre, 350 giocatori
+NO Luxembourg/National Division
+NO Luxembourg/Coupe de Luxembourg
+NO North Macedonia/Prva Liga
+NO North Macedonia/Macedonian Cup
+NO Moldova/National Division
+NO Moldova/Cupa Moldova
+NO Montenegro/1. CFL
+NO Morocco/Botola Pro
+OK nigeria/npfl-25-26: 7 squadre, 219 giocatori
+OK northern-ireland/premiership: 12 squadre, 447 giocatori
+NO Panama/LPF
+NO Paraguay/Division Profesional
+NO Paraguay/Copa Paraguay
+NO Paraguay/Supercopa
+NO Peru/Liga 1
+OK qatar/qatar-stars-league: 12 squadre, 337 giocatori
+NO Qatar/Second Division
+OK saudi-arabia/saudi-professional-league: 13 squadre, 442 giocatori
+OK saudi-arabia/saudi-professional-league-2023-2024: 18 squadre, 572 giocatori
+NO Saudi Arabia/Saudi First Division
+OK slovakia/super-liga-23-24: 12 squadre, 404 giocatori
+NO Slovakia/2. Liga
+NO Slovenia/Prva Liga
+NO Slovenia/Slovenia Cup
+OK south-africa/premier-league: 16 squadre, 670 giocatori
+OK republic-of-korea/k-league-1: 12 squadre, 464 giocatori
+NO South Korea/K League 2
+NO South Korea/K League 3
+NO Tunisia/Ligue I
+NO United Arab Emirates/League Cup
+NO United Arab Emirates/President's Cup
+NO United Arab Emirates/Pro League
+NO United Arab Emirates/Super Cup
+NO Venezuela/Primera Division
+NO Venezuela/Supercopa
+OK wales/cymru-premier: 16 squadre, 424 giocatori
+mappa: 190 campionati, 1326 squadre
+totale OK 106 NO 118
