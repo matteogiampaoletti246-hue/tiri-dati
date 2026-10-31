@@ -1,23 +1,5 @@
 {
- "competizioni": {
-  "J. League 2026-2027": {
-   "partite_completate": 3,
-   "giocatori": 117,
-   "da_fare": 3
-  },
-  "K League 1 2026": {
-   "partite_completate": 1,
-   "giocatori": 28,
-   "da_fare": 1
-  }
- },
- "codici_it_visti": {
-  "4": 42,
-  "5": 40,
-  "36": 9,
-  "43": 11,
-  "45": 1,
-  "63": 7
- },
- "partite_completate_in_questo_giro": 4
+ "competizioni": {},
+ "codici_it_visti": {},
+ "partite_completate_in_questo_giro": 0
 }
