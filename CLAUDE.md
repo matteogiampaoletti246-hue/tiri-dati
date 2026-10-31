@@ -378,3 +378,6 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 
 ## Home nativa: finestre con molte partite (regola fissa)
 - Aprendo una finestra (paese o campionato) le righe si montano a pezzi (`useChunk` in `native/App.js`: 8 subito, poi 10 ogni 40 ms): la tendina risponde al tocco anche con 120 partite (Inghilterra). `LayoutAnimation` solo sotto le 14 righe: su liste grandi animava tutto il layout e dava scatti, in apertura e in chiusura (che ora e' immediata).
+
+## App nativa: ritorno dal background (regola fissa)
+- Entro 10 minuti in background l'app si ritrova com'era; oltre 10 minuti riparte da zero (`App` rimonta `Screen` con `gen`, `onReset`). Tornando entro 10 minuti la pagina web riceve un ping (`pong`): se non risponde entro 1,5 s, o iOS ha terminato il suo processo (`onContentProcessDidTerminate`), o aprendo una pagina la rotta non arriva in 4 s, la WebView si ricrea gia' sulla rotta giusta (`recover`, `webKey`, `lastRoute`). Prima la WebView ricaricata riapriva l'ultima rotta fissata all'avvio (Calcolatore) e ignorava il tocco sulla partita.

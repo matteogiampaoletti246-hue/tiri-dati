@@ -341,7 +341,7 @@ function LivePill({ value, onChange }) {
   );
 }
 
-function Screen({ onTheme }) {
+function Screen({ onTheme, onReset }) {
   const { C, s } = useT();
   const insets = useSafeAreaInsets();
   const [view, setView] = useState(null); // { dates, keys, data } cambiano insieme: mai date nuove con partite vecchie
@@ -368,6 +368,10 @@ function Screen({ onTheme }) {
   const pendingHash = useRef(null);
   const startRoute = useRef('/linee-guida');
   const bootUri = useRef(null);
+  const [webKey, setWebKey] = useState(0); // cambia = la pagina web si ricrea (processo di WebView terminato da iOS)
+  const lastRoute = useRef('/linee-guida');
+  const pongAt = useRef(0);
+  const bgAt = useRef(0);
   const strip = useRef(null); const pos = useRef({}); const webRef = useRef(null);
   const lastCenter = useRef(0);
   const curRef = useRef(cur); curRef.current = cur;
@@ -507,17 +511,39 @@ function Screen({ onTheme }) {
     if (h && webRef.current) webRef.current.injectJavaScript(`if(location.hash!==${JSON.stringify(h)})location.hash=${JSON.stringify(h)};true;`);
     setReady(true);
   }, []);
+  // La pagina web e' morta (iOS termina il processo della WebView in background): si ricrea gia' sulla rotta giusta (l'ultima disegnata se la finestra e' aperta, altrimenti la pagina di partenza).
+  const recover = useCallback(() => {
+    const r = awaitRoute.current ? lastRoute.current : openRef.current ? (webPath.current || lastRoute.current) : '/linee-guida';
+    readyRef.current = false; pendingHash.current = null; webPath.current = '';
+    bootUri.current = `${SITE}aurora/#${r}`;
+    setReady(false); setWebKey((k) => k + 1);
+  }, []);
+  // Tornando dal background: oltre 10 minuti l'app riparte da zero (come appena aperta); entro 10 minuti resta com'era e, se la pagina web
+  // non risponde (processo terminato), si ricrea sulla stessa rotta.
+  useEffect(() => {
+    const sub = AppState.addEventListener('change', (st) => {
+      if (st === 'background') { bgAt.current = Date.now(); return; }
+      if (st !== 'active' || !bgAt.current) return;
+      const gap = Date.now() - bgAt.current; bgAt.current = 0;
+      if (gap > 10 * 60 * 1000) { if (onReset) onReset(); return; }
+      if (!readyRef.current || !webRef.current) return;
+      const t0 = Date.now();
+      webRef.current.injectJavaScript("try{window.ReactNativeWebView.postMessage('pong')}catch(e){};true;");
+      setTimeout(() => { if (pongAt.current < t0 && readyRef.current) recover(); }, 1500);
+    });
+    return () => sub.remove();
+  }, [onReset, recover]);
   const openRoute = useCallback((route) => {
-    openRef.current = true; setWebOpen(true); setDepth(0); setBarOn(isTabRoute(route));
+    openRef.current = true; lastRoute.current = route; setWebOpen(true); setDepth(0); setBarOn(isTabRoute(route));
     if (!readyRef.current) { startRoute.current = route; setWarm(true); }
     const path = route.split('?')[0];
     if (webPath.current !== path) { // la pagina web e' gia' su questa rotta (riapertura veloce): niente attesa
       awaitRoute.current = path; setBusy(true);
-      clearTimeout(busyTimer.current); busyTimer.current = setTimeout(endBusy, 4000); // rete di sicurezza: mai rotella infinita
+      clearTimeout(busyTimer.current); busyTimer.current = setTimeout(() => { if (awaitRoute.current) recover(); endBusy(); }, 4000); // rete di sicurezza: mai rotella infinita; se la pagina non ha risposto e' morta: si ricrea sulla rotta chiesta
     }
     hashTo(`#${route}`);
     ov.value = withTiming(0, { duration: 260, easing: Easing.out(Easing.cubic) });
-  }, [hashTo, ov, endBusy]);
+  }, [hashTo, ov, endBusy, recover]);
   const afterClose = useCallback(() => { hashTo('#/linee-guida'); setDepth(0); }, [hashTo]);
   const closeWeb = useCallback(() => { openRef.current = false; setWebOpen(false); ov.value = withTiming(W, { duration: 240, easing: Easing.out(Easing.cubic) }, (done) => { if (done) runOnJS(afterClose)(); }); }, [afterClose, ov]);
   const openMatch = useCallback((m) => {
@@ -529,6 +555,7 @@ function Screen({ onTheme }) {
   const onMsg = useCallback((e) => {
     const t = e && e.nativeEvent && e.nativeEvent.data;
     if (t === 'dark' || t === 'light') onTheme(t);
+    else if (t === 'pong') pongAt.current = Date.now();
     else if (typeof t === 'string' && t.startsWith('route:')) { webPath.current = t.slice(6); setWebRoute(webPath.current); setBarOn(isTabRoute(webPath.current)); if (awaitRoute.current === webPath.current) endBusy(); } // la pagina web ha disegnato questa rotta
     else if (typeof t === 'string' && t.startsWith('depth:')) setDepth(Number(t.slice(6)) || 0);
     else if (typeof t === 'string' && t.startsWith('drag:')) { const d = Number(t.slice(5)); ov.value = d < 0 ? withTiming(0, { duration: 180 }) : withTiming(d, { duration: 90, easing: Easing.linear }); } // swipe indietro partito dentro la pagina web (prima pagina dopo la Home)
@@ -596,7 +623,7 @@ function Screen({ onTheme }) {
         <View style={{ paddingTop: insets.top, flex: 1 }}>
           <Pressable onPress={closeWeb} style={s.back}><Ionicons name="chevron-back" size={20} color={C.accent} /><Text style={{ color: C.accent, fontSize: 16 }}>Home</Text></Pressable>
           <View style={{ flex: 1 }}>
-            {warm ? <WebView ref={webRef} source={{ uri: bootUri.current }} onLoadEnd={onWebLoaded} style={{ flex: 1, backgroundColor: C.bg }} injectedJavaScriptBeforeContentLoaded={NO_LAUNCH} injectedJavaScript={THEME_JS} onMessage={onMsg} decelerationRate={0.998} contentInsetAdjustmentBehavior="never" automaticallyAdjustContentInsets={false} directionalLockEnabled={false} allowsLinkPreview={false} /> : null}
+            {warm ? <WebView key={webKey} ref={webRef} onContentProcessDidTerminate={recover} onRenderProcessGone={recover} source={{ uri: bootUri.current }} onLoadEnd={onWebLoaded} style={{ flex: 1, backgroundColor: C.bg }} injectedJavaScriptBeforeContentLoaded={NO_LAUNCH} injectedJavaScript={THEME_JS} onMessage={onMsg} decelerationRate={0.998} contentInsetAdjustmentBehavior="never" automaticallyAdjustContentInsets={false} directionalLockEnabled={false} allowsLinkPreview={false} /> : null}
             {!ready || busy ? <View pointerEvents="auto" style={[StyleSheet.absoluteFill, { backgroundColor: C.bg, alignItems: 'center', justifyContent: 'center' }]}><ActivityIndicator size="large" color={C.accent} /></View> : null}
           </View>
         </View>
@@ -609,10 +636,12 @@ function Screen({ onTheme }) {
 
 export default function App() {
   const [theme, setTheme] = useState('dark');
+  const [gen, setGen] = useState(0); // nuova generazione = tutta l'app riparte (dopo piu' di 10 minuti in background)
+  const onReset = useCallback(() => setGen((g) => g + 1), []);
   useEffect(() => { AsyncStorage.getItem('sl-theme').then((v) => { if (v === 'light' || v === 'dark') setTheme(v); }).catch(() => {}); }, []);
   const onTheme = useCallback((t) => { setTheme(t); AsyncStorage.setItem('sl-theme', t).catch(() => {}); }, []);
   const T = THEMES[theme];
-  return <GestureHandlerRootView style={{ flex: 1, backgroundColor: T.C.bg }}><TCtx.Provider value={T}><SafeAreaProvider><Screen onTheme={onTheme} /></SafeAreaProvider></TCtx.Provider></GestureHandlerRootView>;
+  return <GestureHandlerRootView style={{ flex: 1, backgroundColor: T.C.bg }}><TCtx.Provider value={T}><SafeAreaProvider><Screen key={gen} onTheme={onTheme} onReset={onReset} /></SafeAreaProvider></TCtx.Provider></GestureHandlerRootView>;
 }
 
 const makeStyles = (C) => StyleSheet.create({
