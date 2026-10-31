@@ -1,26 +1,5 @@
-partite 60
-struttura stats: {"period": "All", "group_keys": ["group_name", "items"], "stat0": "<class 'NoneType'>"}
-periodi stats {"All": 58, "FirstHalf": 58, "SecondHalf": 58}
-chiavi stats (0): 
-tiri: id {"str": 1482}
-tiri: player {"dict": 1482}
-tiri: team_id {"str": 1482}
-tiri: x {"float": 1445, "int": 37} range [5.79, 104.72]
-tiri: y {"float": 1450, "int": 32} range [7.41, 67.66]
-tiri: expected_goals {"float": 1477, "int": 5} range [0, 0.96]
-tiri: expected_goals_on_target {"int": 942, "float": 503} range [0, 1]
-tiri: is_on_target {"bool": 1482}
-tiri: goal_crossed_y {"float": 1435, "int": 43} range [0.33, 67.86]
-tiri: goal_crossed_z {"float": 1475, "int": 3} range [0.04, 7.36]
-tiri: is_inside_box {"bool": 1482}
-tiri: shot_type {"str:RightFoot": 773, "str:LeftFoot": 457, "str:Header": 247, "str:OtherBodyParts": 5}
-tiri: situation {"str:RegularPlay": 925, "str:FromCorner": 249, "str:FastBreak": 119, "str:SetPiece": 87, "str:ThrowInSetPiece": 51, "str:FreeKick": 30, "str:Penalty": 13, "str:IndividualPlay": 8}
-tiri: minute {"int": 1482} range [1, 90]
-tiri: event_type {"str:AttemptSaved": 715, "str:Miss": 571, "str:Goal": 171, "str:Post": 25}
-tiri: blocked_x {"float": 807, "int": 23} range [64.58, 105]
-tiri: blocked_y {"float": 811, "int": 19} range [0, 68]
-tiri: is_blocked {"bool": 371}
-tiri: minute_added {"int": 146} range [0, 9]
-tiri: keeper {"dict": 344}
-tiri: is_saved_off_line {"bool": 8}
-tiri: is_own_goal {"bool": 3}
+partite 25
+gruppi {"Defence": 25, "Discipline": 25, "Duels": 25, "Expected goals (xG)": 24, "Passes": 25, "Shots": 25, "Top stats": 25}
+campi voce {"title:str": 1059, "key:str": 1059, "home:str": 1059, "away:str": 1059, "format_type:str": 1059}
+esempi {"title": "Clearances", "key": "clearances", "home": "str", "away": "str", "format_type": "str"} | {"title": "Interceptions", "key": "interceptions", "home": "str", "away": "str", "format_type": "str"} | {"title": "Keeper saves", "key": "keeper_saves", "home": "str", "away": "str", "format_type": "str"} | {"title": "Tackles", "key": "matchstats.headers.tackles", "home": "str", "away": "str", "format_type": "str"} | {"title": "Blocks", "key": "shot_blocks", "home": "str", "away": "str", "format_type": "str"} | {"title": "Fouls committed", "key": "fouls", "home": "str", "away": "str", "format_type": "str"}
+chiavi (37): yellow_cards, accurate_passes, touches_opp_box, ShotsOnTarget, total_shots, expected_goals, clearances, interceptions, keeper_saves, matchstats.headers.tackles, shot_blocks, fouls, red_cards, aerials_won, dribbles_succeeded, duel_won, ground_duels_won, Offsides, accurate_crosses, long_balls_accurate, opposition_half_passes, own_half_passes, passes, player_throws, ShotsOffTarget, blocked_shots, shots_inside_box, shots_outside_box, BallPossesion, big_chance, big_chance_missed_title, corners, expected_goals_non_penalty, expected_goals_on_target, expected_goals_open_play, expected_goals_set_play, shots_woodwork
