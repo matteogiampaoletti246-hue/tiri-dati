@@ -1,5 +1,187 @@
 {
- "competizioni": {},
- "codici_it_visti": {},
- "partite_completate_in_questo_giro": 0
+ "competizioni": {
+  "Championship 2026-2027": {
+   "partite_completate": 48,
+   "giocatori": 1823,
+   "da_fare": 60
+  },
+  "Ligue 1 2026-2027": {
+   "partite_completate": 1,
+   "giocatori": 40,
+   "da_fare": 1
+  },
+  "Premiership 2026-2027": {
+   "partite_completate": 75,
+   "giocatori": 1247,
+   "da_fare": 77
+  },
+  "LaLiga 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "League One 2026-2027": {
+   "partite_completate": 60,
+   "giocatori": 2321,
+   "da_fare": 60
+  },
+  "MLS 2026": {
+   "partite_completate": 3,
+   "giocatori": 117,
+   "da_fare": 3
+  },
+  "EFL Cup 2026-2027": {
+   "partite_completate": 6,
+   "giocatori": 174,
+   "da_fare": 8
+  },
+  "Copa del Rey 2026-2027": {
+   "partite_completate": 30,
+   "giocatori": 401,
+   "da_fare": 40
+  },
+  "Coppa Italia 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 4
+  },
+  "Série A 2026": {
+   "partite_completate": 1,
+   "giocatori": 38,
+   "da_fare": 1
+  },
+  "Copa Libertadores 2026": {
+   "partite_completate": 1,
+   "giocatori": 43,
+   "da_fare": 1
+  },
+  "Eerste Divisie 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Cymru Premier 2026-2027": {
+   "partite_completate": 111,
+   "giocatori": 1701,
+   "da_fare": 117
+  },
+  "National League 2026-2027": {
+   "partite_completate": 179,
+   "giocatori": 6237,
+   "da_fare": 179
+  },
+  "Premier League 2026-2027": {
+   "partite_completate": 43,
+   "giocatori": 698,
+   "da_fare": 68
+  },
+  "2. Liga 2026-2027": {
+   "partite_completate": 82,
+   "giocatori": 2861,
+   "da_fare": 82
+  },
+  "Primera Division 2026-2027": {
+   "partite_completate": 64,
+   "giocatori": 2048,
+   "da_fare": 65
+  },
+  "League Two 2026-2027": {
+   "partite_completate": 55,
+   "giocatori": 2061,
+   "da_fare": 55
+  },
+  "Leumit League 2026-2027": {
+   "partite_completate": 56,
+   "giocatori": 613,
+   "da_fare": 92
+  },
+  "Liga 1 2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Coupe de France 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 153
+  },
+  "1. Division 2026-2027": {
+   "partite_completate": 50,
+   "giocatori": 2030,
+   "da_fare": 50
+  },
+  "Scottish Cup 2026-2027": {
+   "partite_completate": 3,
+   "giocatori": 3,
+   "da_fare": 47
+  },
+  "EFL Trophy 2026-2027": {
+   "partite_completate": 1,
+   "giocatori": 23,
+   "da_fare": 4
+  },
+  "Suomen Cup 2026": {
+   "partite_completate": 30,
+   "giocatori": 589,
+   "da_fare": 59
+  },
+  "Greece Cup 2026-2027": {
+   "partite_completate": 6,
+   "giocatori": 256,
+   "da_fare": 17
+  },
+  "Serie C 2026-2027": {
+   "partite_completate": 2,
+   "giocatori": 48,
+   "da_fare": 4
+  },
+  "Belgian Cup 2026-2027": {
+   "partite_completate": 12,
+   "giocatori": 337,
+   "da_fare": 16
+  },
+  "Turkish Cup 2026-2027": {
+   "partite_completate": 10,
+   "giocatori": 95,
+   "da_fare": 34
+  },
+  "Liga AUF Uruguaya 2026": {
+   "partite_completate": 168,
+   "giocatori": 5483,
+   "da_fare": 273
+  },
+  "Swiss Cup 2026-2027": {
+   "partite_completate": 12,
+   "giocatori": 206,
+   "da_fare": 48
+  },
+  "1. Lig 2026-2027": {
+   "partite_completate": 1,
+   "giocatori": 29,
+   "da_fare": 1
+  },
+  "Superettan 2026": {
+   "partite_completate": 16,
+   "giocatori": 511,
+   "da_fare": 225
+  }
+ },
+ "codici_it_visti": {
+  "4": 9643,
+  "5": 9643,
+  "36": 3129,
+  "37": 254,
+  "38": 46,
+  "39": 65,
+  "40": 12,
+  "41": 35,
+  "43": 2188,
+  "44": 80,
+  "45": 204,
+  "47": 17,
+  "57": 4,
+  "63": 562,
+  "70": 1
+ },
+ "partite_completate_in_questo_giro": 1500
 }
