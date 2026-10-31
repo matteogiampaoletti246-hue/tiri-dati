@@ -1,0 +1,33 @@
+name: Eventi delle partite finite da PitchAPI (KV, dopo LiveScore)
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "47 */3 * * *"
+concurrency:
+  group: partite-main
+  cancel-in-progress: false
+permissions:
+  contents: write
+  actions: write
+jobs:
+  pitch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python eventi_pitch.py
+        env:
+          MAX_MIN: "40"
+          PITCHAPI_KEY: ${{ secrets.PITCHAPI_KEY }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT: 344b4f68fd540269085abbf16851253c
+          CF_NAMESPACE: 02759a8a953d423dbd19c58fb8241c34
+      - run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add eventi_pitch.json eventi_pitch_stato.json
+          git diff --staged --quiet || git commit -m "Eventi partite da PitchAPI"
+          for i in 1 2 3 4 5; do git pull --rebase -X theirs && git push && break; sleep $((i*4)); done
