@@ -11,10 +11,8 @@ jobs:
         run: |
           mkdir -p /tmp/po
           UA='Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 Mobile Safari/604.1'
-          for u in https://www.livescore.com/robots.txt https://www.livescore.com/sitemap.xml https://www.livescore.com/sitemap-index.xml https://www.livescore.com/sitemap_index.xml https://www.livescore.com/en/sitemap.xml; do
-            c=$(curl -sS -m 25 -L -A "$UA" -o /tmp/b.txt -w '%{http_code} %{size_download}' "$u" 2>&1 | tail -1)
-            echo "$c $u" | tee -a /tmp/po/referto.txt
-            grep -oiE 'https?://[^ <"]*sitemap[^ <"]*' /tmp/b.txt | sort -u | head -12 | tee -a /tmp/po/referto.txt
+          for u in https://www.livescore.com/sitemap.xml https://www.livescore.com/en/sitemap.xml; do
+            curl -sS -m 25 -L -A "$UA" "$u" | head -c 3000 | tee -a /tmp/po/referto.txt; echo | tee -a /tmp/po/referto.txt
           done
           git init -q -b rose-out /tmp/po && cd /tmp/po && git config user.name github-actions && git config user.email github-actions@users.noreply.github.com
           git add -A && git commit -qm "Referto" && git push -qf "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" rose-out
