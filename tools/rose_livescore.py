@@ -47,8 +47,17 @@ def kv_put(items):
     body = json.dumps([{'key': k, 'value': json.dumps(v, ensure_ascii=False, separators=(',', ':'))} for k, v in items]).encode()
     req = urllib.request.Request(f'https://api.cloudflare.com/client/v4/accounts/{acc}/storage/kv/namespaces/{ns}/bulk', data=body, method='PUT',
                                  headers={'Authorization': 'Bearer ' + tok, 'Content-Type': 'application/json'})
-    r = json.loads(urllib.request.urlopen(req, timeout=60).read())
-    if not r.get('success'): raise SystemExit('KV: ' + json.dumps(r)[:300])
+    for i in range(3):
+        try:
+            r = json.loads(urllib.request.urlopen(req, timeout=60).read())
+            if r.get('success'): return True
+            print('KV risposta:', json.dumps(r)[:300], flush=True)
+        except urllib.error.HTTPError as e:
+            print('KV HTTP', e.code, e.read()[:300], flush=True)
+        except Exception as e:
+            print('KV errore', str(e)[:200], flush=True)
+        time.sleep(3)
+    return False
 
 
 def main(country, comp):
