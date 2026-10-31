@@ -16,7 +16,7 @@ export const THRESHOLDS = [
 
 const MIN_VOTE = 7.75;
 const MAX_PER_DAY = 80;
-const DOMESTIC = DOMESTIC_KEYS; // top 5 + campionati aggiunti con Affidabilita'
+const DOMESTIC = [...DOMESTIC_KEYS, ...CUPS]; // top 5 + campionati aggiunti con Affidabilita' + Champions ed Europa League
 
 const pois = (k, l) => {
   let s = 0;
