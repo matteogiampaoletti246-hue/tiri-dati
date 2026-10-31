@@ -1,0 +1,1372 @@
+{
+ "competizioni": {
+  "MLS Next Pro (USA) 2026": {
+   "lega_pitch": "MLS Next Pro",
+   "partite_completate": 1,
+   "giocatori": 31,
+   "senza_abbinamento": 1,
+   "da_fare": 2
+  },
+  "Saudi First Division (KSA) 2025-2026": {
+   "lega_pitch": "Saudi First Division",
+   "partite_completate": 0,
+   "giocatori": 0,
+   "senza_abbinamento": 2,
+   "da_fare": 2
+  },
+  "Ligat ha'Al (ISR) 2026-2027": {
+   "lega_pitch": "Ligat ha'Al",
+   "partite_completate": 1,
+   "giocatori": 29,
+   "senza_abbinamento": 0,
+   "da_fare": 1
+  },
+  "Challenge League (SUI) 2025-2026": {
+   "lega_pitch": "Challenge League",
+   "partite_completate": 0,
+   "giocatori": 0,
+   "senza_abbinamento": 1,
+   "da_fare": 1
+  },
+  "3. Liga (GER) 2026-2027": {
+   "lega_pitch": "3. Liga",
+   "partite_completate": 3,
+   "giocatori": 91,
+   "senza_abbinamento": 0,
+   "da_fare": 3
+  },
+  "Liga de Primera (CHI) 2026": {
+   "lega_pitch": "Liga de Primera",
+   "partite_completate": 0,
+   "giocatori": 0,
+   "senza_abbinamento": 2,
+   "da_fare": 2
+  },
+  "Primera Division (VEN) 2026": {
+   "lega_pitch": "Primera Division",
+   "partite_completate": 0,
+   "giocatori": 0,
+   "senza_abbinamento": 1,
+   "da_fare": 1
+  },
+  "AFC Challenge League (INT) 2026-2027": {
+   "lega_pitch": "Challenge League",
+   "partite_completate": 0,
+   "giocatori": 0,
+   "senza_abbinamento": 27,
+   "da_fare": 27
+  },
+  "AFC Challenge League (INT) 2025-2026": {
+   "lega_pitch": "Challenge League",
+   "partite_completate": 0,
+   "giocatori": 0,
+   "senza_abbinamento": 40,
+   "da_fare": 40
+  }
+ },
+ "senza_lega_pitch": [
+  [
+   "132",
+   "FA Cup (ENG) 2025-2026",
+   38,
+   0
+  ],
+  [
+   "138",
+   "Copa del Rey (ESP) 2025-2026",
+   25,
+   0
+  ],
+  [
+   "141",
+   "Coppa Italia (ITA) 2026-2027",
+   4,
+   0
+  ],
+  [
+   "141",
+   "Coppa Italia (ITA) 2025-2026",
+   2,
+   0
+  ],
+  [
+   "10007",
+   "Copa de la Liga Profesional (ARG) 2024",
+   1,
+   0
+  ],
+  [
+   "10053",
+   "Trofeo de Campeones (ARG) 2024",
+   1,
+   0
+  ],
+  [
+   "10075",
+   "Torneo de Verano (ARG) 2023",
+   2,
+   0
+  ],
+  [
+   "10075",
+   "Torneo de Verano (ARG) 2022",
+   3,
+   0
+  ],
+  [
+   "10077",
+   "Supercopa do Brasil (BRA) 2024",
+   1,
+   0
+  ],
+  [
+   "10078",
+   "Recopa Gaúcha (BRA) 2025",
+   1,
+   0
+  ],
+  [
+   "10078",
+   "Recopa Gaúcha (BRA) 2024",
+   1,
+   0
+  ],
+  [
+   "10084",
+   "NISA (USA) 2025",
+   9,
+   0
+  ],
+  [
+   "10084",
+   "NISA (USA) 2024",
+   71,
+   0
+  ],
+  [
+   "10223",
+   "Super Cup (CRC) 2025-2026",
+   1,
+   0
+  ],
+  [
+   "10242",
+   "FIFA Arab Cup (INT) 2021",
+   25,
+   0
+  ],
+  [
+   "10270",
+   "League Cup (EGY) 2026-2027",
+   3,
+   0
+  ],
+  [
+   "10270",
+   "League Cup (EGY) 2025-2026",
+   26,
+   0
+  ],
+  [
+   "10272",
+   "Carioca (BRA) 2025",
+   71,
+   0
+  ],
+  [
+   "10273",
+   "Mineiro (BRA) 2025",
+   46,
+   0
+  ],
+  [
+   "10274",
+   "Gaúcho (BRA) 2025",
+   58,
+   0
+  ],
+  [
+   "10290",
+   "Baiano (BRA) 2026",
+   46,
+   0
+  ],
+  [
+   "10291",
+   "Goiano (BRA) 2026",
+   70,
+   0
+  ],
+  [
+   "10291",
+   "Goiano (BRA) 2025",
+   9,
+   0
+  ],
+  [
+   "10342",
+   "Copa Uruguay (URU) 2025",
+   5,
+   0
+  ],
+  [
+   "10343",
+   "Supercopa (URU) 2025",
+   1,
+   0
+  ],
+  [
+   "10474",
+   "Arab Club Champions Cup (INT) 2023",
+   31,
+   0
+  ],
+  [
+   "10651",
+   "Copa de la Reina (ESP) 2025-2026",
+   13,
+   0
+  ],
+  [
+   "10705",
+   "National League Cup (ENG) 2025-2026",
+   23,
+   0
+  ],
+  [
+   "10776",
+   "Supercopa Femenina (ESP) 2024-2025",
+   2,
+   0
+  ],
+  [
+   "11019",
+   "SWPL Cup (SCO) 2026-2027",
+   2,
+   0
+  ],
+  [
+   "11029",
+   "Super Cup (NED) 2026-2027",
+   1,
+   0
+  ],
+  [
+   "11029",
+   "Super Cup (NED) 2025-2026",
+   1,
+   0
+  ],
+  [
+   "11035",
+   "Supercopa de Ecuador (ECU) 2026",
+   1,
+   0
+  ],
+  [
+   "11499",
+   "Japan 2/3 (JPN) 2026",
+   400,
+   0
+  ],
+  [
+   "11527",
+   "OFC Pro League (INT) 2026",
+   72,
+   0
+  ],
+  [
+   "11646",
+   "Copa Paulista (BRA) 2026",
+   1,
+   0
+  ],
+  [
+   "117",
+   "National League (ENG) 2026-2027",
+   147,
+   0
+  ],
+  [
+   "117",
+   "National League (ENG) 2025-2026",
+   462,
+   0
+  ],
+  [
+   "118",
+   "Premier League (ARM) 2025-2026",
+   16,
+   0
+  ],
+  [
+   "119",
+   "2. Liga (AUT) 2026-2027",
+   80,
+   0
+  ],
+  [
+   "119",
+   "2. Liga (AUT) 2025-2026",
+   210,
+   0
+  ],
+  [
+   "121",
+   "Primera Division (CRC) 2026-2027",
+   64,
+   0
+  ],
+  [
+   "123",
+   "Championship (SCO) 2026-2027",
+   57,
+   0
+  ],
+  [
+   "123",
+   "Championship (SCO) 2025-2026",
+   177,
+   0
+  ],
+  [
+   "124",
+   "League One (SCO) 2026-2027",
+   58,
+   0
+  ],
+  [
+   "124",
+   "League One (SCO) 2025-2026",
+   180,
+   0
+  ],
+  [
+   "125",
+   "League Two (SCO) 2026-2027",
+   55,
+   0
+  ],
+  [
+   "125",
+   "League Two (SCO) 2025-2026",
+   175,
+   0
+  ],
+  [
+   "128",
+   "Leumit League (ISR) 2026-2027",
+   15,
+   0
+  ],
+  [
+   "13169",
+   "MLS All-Star Game (INT) 2026",
+   1,
+   0
+  ],
+  [
+   "13169",
+   "MLS All-Star Game (INT) 2025",
+   1,
+   0
+  ],
+  [
+   "13287",
+   "FIFA ASEAN Cup (INT) 2026",
+   21,
+   0
+  ],
+  [
+   "134",
+   "Coupe de France (FRA) 2025-2026",
+   44,
+   0
+  ],
+  [
+   "136",
+   "1. Division (CYP) 2026-2027",
+   49,
+   0
+  ],
+  [
+   "136",
+   "1. Division (CYP) 2025-2026",
+   240,
+   0
+  ],
+  [
+   "137",
+   "Scottish Cup (SCO) 2025-2026",
+   20,
+   0
+  ],
+  [
+   "143",
+   "Suomen Cup (FIN) 2026",
+   53,
+   0
+  ],
+  [
+   "145",
+   "Greece Cup (GRE) 2026-2027",
+   11,
+   0
+  ],
+  [
+   "145",
+   "Greece Cup (GRE) 2025-2026",
+   51,
+   0
+  ],
+  [
+   "147",
+   "Serie C (ITA) 2025-2026",
+   23,
+   0
+  ],
+  [
+   "149",
+   "Belgian Cup (BEL) 2026-2027",
+   16,
+   0
+  ],
+  [
+   "149",
+   "Belgian Cup (BEL) 2025-2026",
+   28,
+   0
+  ],
+  [
+   "151",
+   "Turkish Cup (TUR) 2025-2026",
+   95,
+   0
+  ],
+  [
+   "161",
+   "Liga AUF Uruguaya (URU) 2026",
+   273,
+   0
+  ],
+  [
+   "161",
+   "Liga AUF Uruguaya (URU) 2025",
+   300,
+   0
+  ],
+  [
+   "164",
+   "Swiss Cup (SUI) 2026-2027",
+   48,
+   0
+  ],
+  [
+   "164",
+   "Swiss Cup (SUI) 2025-2026",
+   37,
+   0
+  ],
+  [
+   "168",
+   "Superettan (SWE) 2026",
+   223,
+   0
+  ],
+  [
+   "168",
+   "Superettan (SWE) 2025",
+   240,
+   0
+  ],
+  [
+   "169",
+   "Ettan (SWE) 2026",
+   448,
+   0
+  ],
+  [
+   "169",
+   "Ettan (SWE) 2025",
+   480,
+   0
+  ],
+  [
+   "171",
+   "Svenska Cupen (SWE) 2026-2027",
+   3,
+   0
+  ],
+  [
+   "171",
+   "Svenska Cupen (SWE) 2025-2026",
+   69,
+   0
+  ],
+  [
+   "173",
+   "Prva Liga (SVN) 2026-2027",
+   3,
+   0
+  ],
+  [
+   "174",
+   "Slovenia Cup (SVN) 2025-2026",
+   1,
+   0
+  ],
+  [
+   "180",
+   "League Cup (SCO) 2026-2027",
+   16,
+   0
+  ],
+  [
+   "180",
+   "League Cup (SCO) 2025-2026",
+   15,
+   0
+  ],
+  [
+   "181",
+   "Premiership playoff (SCO) 2025-2026",
+   6,
+   0
+  ],
+  [
+   "181",
+   "Premiership playoff (SCO) 2024-2025",
+   6,
+   0
+  ],
+  [
+   "185",
+   "Liga Portugal 2 (POR) 2026-2027",
+   17,
+   0
+  ],
+  [
+   "185",
+   "Liga Portugal 2 (POR) 2025-2026",
+   306,
+   0
+  ],
+  [
+   "186",
+   "Taça de Portugal (POR) 2026-2027",
+   27,
+   0
+  ],
+  [
+   "186",
+   "Taça de Portugal (POR) 2025-2026",
+   51,
+   0
+  ],
+  [
+   "190",
+   "Cupa României (ROU) 2026-2027",
+   13,
+   0
+  ],
+  [
+   "190",
+   "Cupa României (ROU) 2025-2026",
+   43,
+   0
+  ],
+  [
+   "192",
+   "Supercupa (ROU) 2025-2026",
+   1,
+   0
+  ],
+  [
+   "193",
+   "Russian Cup (RUS) 2026-2027",
+   24,
+   0
+  ],
+  [
+   "193",
+   "Russian Cup (RUS) 2025-2026",
+   51,
+   0
+  ],
+  [
+   "197",
+   "I Liga (POL) 2025-2026",
+   6,
+   0
+  ],
+  [
+   "198",
+   "Puchar Polski (POL) 2026-2027",
+   4,
+   0
+  ],
+  [
+   "198",
+   "Puchar Polski (POL) 2025-2026",
+   16,
+   0
+  ],
+  [
+   "203",
+   "OBOS-ligaen (NOR) 2026",
+   224,
+   0
+  ],
+  [
+   "203",
+   "OBOS-ligaen (NOR) 2025",
+   240,
+   0
+  ],
+  [
+   "204",
+   "2. divisjon (NOR) 2026",
+   350,
+   0
+  ],
+  [
+   "204",
+   "2. divisjon (NOR) 2025",
+   364,
+   0
+  ],
+  [
+   "205",
+   "Norsk Tipping-ligaen (NOR) 2025",
+   23,
+   0
+  ],
+  [
+   "206",
+   "Norgesmesterskapet (NOR) 2026-2027",
+   96,
+   0
+  ],
+  [
+   "206",
+   "Norgesmesterskapet (NOR) 2025-2026",
+   30,
+   0
+  ],
+  [
+   "212",
+   "Nemzeti Bajnokság I (HUN) 2026-2027",
+   65,
+   0
+  ],
+  [
+   "212",
+   "Nemzeti Bajnokság I (HUN) 2025-2026",
+   198,
+   0
+  ],
+  [
+   "217",
+   "Icelandic Cup (ISL) 2026",
+   15,
+   0
+  ],
+  [
+   "219",
+   "FAI Cup (IRL) 2026",
+   8,
+   0
+  ],
+  [
+   "224",
+   "J. League Cup (JPN) 2026-2027",
+   52,
+   0
+  ],
+  [
+   "225",
+   "Premier League (KAZ) 2026",
+   11,
+   0
+  ],
+  [
+   "225",
+   "Premier League (KAZ) 2025",
+   18,
+   0
+  ],
+  [
+   "235",
+   "KNVB Cup (NED) 2025-2026",
+   1,
+   0
+  ],
+  [
+   "242",
+   "DBU Pokalen (DEN) 2026-2027",
+   36,
+   0
+  ],
+  [
+   "242",
+   "DBU Pokalen (DEN) 2025-2026",
+   35,
+   0
+  ],
+  [
+   "248",
+   "Regular Season (EST) 2026",
+   1,
+   0
+  ],
+  [
+   "250",
+   "Premier League (FRO) 2026",
+   130,
+   0
+  ],
+  [
+   "251",
+   "Ykkosliiga (FIN) 2025",
+   75,
+   0
+  ],
+  [
+   "254",
+   "Czech Cup (CZE) 2026-2027",
+   41,
+   0
+  ],
+  [
+   "254",
+   "Czech Cup (CZE) 2025-2026",
+   55,
+   0
+  ],
+  [
+   "256",
+   "A-Liga (DEN) 2026-2027",
+   60,
+   0
+  ],
+  [
+   "256",
+   "A-Liga (DEN) 2025-2026",
+   86,
+   0
+  ],
+  [
+   "262",
+   "Premier League (AZE) 2026-2027",
+   2,
+   0
+  ],
+  [
+   "262",
+   "Premier League (AZE) 2025-2026",
+   23,
+   0
+  ],
+  [
+   "264",
+   "First Division B (BEL) 2025-2026",
+   1,
+   0
+  ],
+  [
+   "267",
+   "Premier League (BIH) 2025-2026",
+   2,
+   0
+  ],
+  [
+   "270",
+   "First Professional League (BUL) 2026-2027",
+   81,
+   0
+  ],
+  [
+   "270",
+   "First Professional League (BUL) 2025-2026",
+   293,
+   0
+  ],
+  [
+   "271",
+   "Bulgarian Cup (BUL) 2026-2027",
+   2,
+   0
+  ],
+  [
+   "271",
+   "Bulgarian Cup (BUL) 2025-2026",
+   4,
+   0
+  ],
+  [
+   "272",
+   "Super Cup (BUL) 2025-2026",
+   1,
+   0
+  ],
+  [
+   "272",
+   "Super Cup (BUL) 2024-2025",
+   1,
+   0
+  ],
+  [
+   "275",
+   "Croatian Cup (CRO) 2025-2026",
+   1,
+   0
+  ],
+  [
+   "278",
+   "Austrian Cup (AUT) 2026-2027",
+   2,
+   0
+  ],
+  [
+   "278",
+   "Austrian Cup (AUT) 2025-2026",
+   18,
+   0
+  ],
+  [
+   "305",
+   "Maurice Revello Tournament  (INT) 2026",
+   9,
+   0
+  ],
+  [
+   "330",
+   "Cyprus Cup (CYP) 2026-2027",
+   4,
+   0
+  ],
+  [
+   "330",
+   "Cyprus Cup (CYP) 2025-2026",
+   21,
+   0
+  ],
+  [
+   "331",
+   "Toppserien (NOR) 2026",
+   120,
+   0
+  ],
+  [
+   "331",
+   "Toppserien (NOR) 2025",
+   133,
+   0
+  ],
+  [
+   "338",
+   "1. Division (RUS) 2026-2027",
+   136,
+   0
+  ],
+  [
+   "338",
+   "1. Division (RUS) 2025-2026",
+   305,
+   0
+  ],
+  [
+   "342",
+   "Finland Cup (FIN) 2025",
+   1,
+   0
+  ],
+  [
+   "441",
+   "Premier League (UKR) 2026-2027",
+   75,
+   0
+  ],
+  [
+   "441",
+   "Premier League (UKR) 2025-2026",
+   225,
+   0
+  ],
+  [
+   "442",
+   "Ukraine Cup (UKR) 2026-2027",
+   3,
+   0
+  ],
+  [
+   "442",
+   "Ukraine Cup (UKR) 2025-2026",
+   15,
+   0
+  ],
+  [
+   "45",
+   "Copa Libertadores (INT) 2026",
+   1,
+   0
+  ],
+  [
+   "512",
+   "Regionalliga (GER) 2026-2027",
+   637,
+   0
+  ],
+  [
+   "512",
+   "Regionalliga (GER) 2025-2026",
+   1521,
+   0
+  ],
+  [
+   "516",
+   "Ligue 1 (ALG) 2025-2026",
+   7,
+   0
+  ],
+  [
+   "521",
+   "Super Cup (CYP) 2025-2026",
+   1,
+   0
+  ],
+  [
+   "523",
+   "Persian Gulf (IRN) 2026-2027",
+   80,
+   0
+  ],
+  [
+   "523",
+   "Persian Gulf (IRN) 2025-2026",
+   180,
+   0
+  ],
+  [
+   "530",
+   "Botola Pro (MAR) 2026-2027",
+   35,
+   0
+  ],
+  [
+   "530",
+   "Botola Pro (MAR) 2025-2026",
+   236,
+   0
+  ],
+  [
+   "544",
+   "Ligue I (TUN) 2026-2027",
+   35,
+   0
+  ],
+  [
+   "8815",
+   "Super League 2 (GRE) 2026-2027",
+   7,
+   0
+  ],
+  [
+   "8815",
+   "Super League 2 (GRE) 2025-2026",
+   1,
+   0
+  ],
+  [
+   "8816",
+   "Super Cup (GRE) 2025-2026",
+   1,
+   0
+  ],
+  [
+   "8935",
+   "II Liga (POL) 2026-2027",
+   1,
+   0
+  ],
+  [
+   "8938",
+   "Australia Championship (AUS) 2025",
+   15,
+   0
+  ],
+  [
+   "8944",
+   "National North & South (ENG) 2026-2027",
+   297,
+   0
+  ],
+  [
+   "8944",
+   "National North & South (ENG) 2025-2026",
+   1114,
+   0
+  ],
+  [
+   "8947",
+   "Premier Division (ENG) 2026-2027",
+   3,
+   0
+  ],
+  [
+   "8947",
+   "Premier Division (ENG) 2025-2026",
+   6,
+   0
+  ],
+  [
+   "8965",
+   "Primera B Nacional (ARG) 2026",
+   630,
+   0
+  ],
+  [
+   "8965",
+   "Primera B Nacional (ARG) 2025",
+   633,
+   0
+  ],
+  [
+   "8968",
+   "Primera Federación (ESP) 2026-2027",
+   8,
+   0
+  ],
+  [
+   "8968",
+   "Primera Federación (ESP) 2025-2026",
+   68,
+   0
+  ],
+  [
+   "8970",
+   "Ligue 3 (FRA) 2026-2027",
+   90,
+   0
+  ],
+  [
+   "8970",
+   "Ligue 3 (FRA) 2025-2026",
+   272,
+   0
+  ],
+  [
+   "8971",
+   "Série C (BRA) 2026",
+   2,
+   0
+  ],
+  [
+   "8971",
+   "Série C (BRA) 2025",
+   1,
+   0
+  ],
+  [
+   "8973",
+   "2. Liga (SVK) 2026-2027",
+   1,
+   0
+  ],
+  [
+   "8974",
+   "J. League 2 (JPN) 2026-2027",
+   130,
+   0
+  ],
+  [
+   "8976",
+   "Liga de Expansión MX (MEX) 2026-2027",
+   112,
+   0
+  ],
+  [
+   "8976",
+   "Liga de Expansión MX (MEX) 2025-2026",
+   240,
+   0
+  ],
+  [
+   "9011",
+   "Emperor's Cup (JPN) 2026",
+   1,
+   0
+  ],
+  [
+   "9011",
+   "Emperor's Cup (JPN) 2025",
+   10,
+   0
+  ],
+  [
+   "9067",
+   "Copa do Brasil (BRA) 2025",
+   50,
+   0
+  ],
+  [
+   "9091",
+   "Copa Chile (CHI) 2026",
+   88,
+   0
+  ],
+  [
+   "9091",
+   "Copa Chile (CHI) 2025",
+   3,
+   0
+  ],
+  [
+   "9097",
+   "State Cup (ISR) 2025-2026",
+   10,
+   0
+  ],
+  [
+   "9098",
+   "Toto Cup Leumit (ISR) 2026",
+   5,
+   0
+  ],
+  [
+   "9112",
+   "Liga 3 (POR) 2026-2027",
+   15,
+   0
+  ],
+  [
+   "9112",
+   "Liga 3 (POR) 2025-2026",
+   296,
+   0
+  ],
+  [
+   "9123",
+   "Second League (RUS) 2026",
+   8,
+   0
+  ],
+  [
+   "9125",
+   "Primera B (COL) 2026",
+   266,
+   0
+  ],
+  [
+   "9125",
+   "Primera B (COL) 2025",
+   154,
+   0
+  ],
+  [
+   "9126",
+   "Liga de Ascenso (CHI) 2025",
+   2,
+   0
+  ],
+  [
+   "9136",
+   "J. League 3 (JPN) 2026-2027",
+   106,
+   0
+  ],
+  [
+   "9137",
+   "China League One (CHN) 2026",
+   3,
+   0
+  ],
+  [
+   "9138",
+   "Segunda Federación (ESP) 2026-2027",
+   11,
+   0
+  ],
+  [
+   "9138",
+   "Segunda Federación (ESP) 2025-2026",
+   62,
+   0
+  ],
+  [
+   "9265",
+   "ASEAN Championship (INT) 2024",
+   7,
+   0
+  ],
+  [
+   "9305",
+   "Copa Argentina (ARG) 2026",
+   30,
+   0
+  ],
+  [
+   "9305",
+   "Copa Argentina (ARG) 2025",
+   30,
+   0
+  ],
+  [
+   "9428",
+   "African Nations Championship (INT) 2022",
+   19,
+   0
+  ],
+  [
+   "9431",
+   "Super Cup (IRL) 2025",
+   1,
+   0
+  ],
+  [
+   "9464",
+   "Serie D (BRA) 2026",
+   5,
+   0
+  ],
+  [
+   "9464",
+   "Serie D (BRA) 2025",
+   10,
+   0
+  ],
+  [
+   "9468",
+   "CAF Confed Cup (INT) 2026-2027",
+   4,
+   0
+  ],
+  [
+   "9471",
+   "Australia Cup (AUS) 2025",
+   2,
+   0
+  ],
+  [
+   "9486",
+   "Super Cup (LVA) 2026",
+   1,
+   0
+  ],
+  [
+   "9490",
+   "Copa Colombia (COL) 2026",
+   16,
+   0
+  ],
+  [
+   "9490",
+   "Copa Colombia (COL) 2025",
+   37,
+   0
+  ],
+  [
+   "9491",
+   "Super Cup (CHN) 2025",
+   1,
+   0
+  ],
+  [
+   "9491",
+   "Super Cup (CHN) 2024",
+   1,
+   0
+  ],
+  [
+   "9500",
+   "WE League (JPN) 2026-2027",
+   3,
+   0
+  ],
+  [
+   "9514",
+   "The Atlantic Cup (INT) 2026",
+   4,
+   0
+  ],
+  [
+   "9514",
+   "The Atlantic Cup (INT) 2025",
+   4,
+   0
+  ],
+  [
+   "9545",
+   "Highland / Lowland (SCO) 2026-2027",
+   318,
+   0
+  ],
+  [
+   "9545",
+   "Highland / Lowland (SCO) 2025-2026",
+   612,
+   0
+  ],
+  [
+   "9550",
+   "Chinese FA Cup (CHN) 2026",
+   52,
+   0
+  ],
+  [
+   "9550",
+   "Chinese FA Cup (CHN) 2025",
+   8,
+   0
+  ],
+  [
+   "9551",
+   "Cup (KOR) 2026",
+   12,
+   0
+  ],
+  [
+   "9682",
+   "CONCACAF Central American Cup (INT) 2026",
+   6,
+   0
+  ],
+  [
+   "9808",
+   "UEFA Nations League C (INT) 2026-2027",
+   1,
+   0
+  ],
+  [
+   "9833",
+   "Asian Games (INT) 2026",
+   12,
+   0
+  ],
+  [
+   "9833",
+   "Asian Games (INT) 2022",
+   6,
+   0
+  ],
+  [
+   "9849",
+   "COSAFA Cup (INT) 2025",
+   22,
+   0
+  ],
+  [
+   "9876",
+   "SAFF Championship (INT) 2023",
+   13,
+   0
+  ],
+  [
+   "9943",
+   "President's Cup (UAE) 2026-2027",
+   3,
+   0
+  ]
+ ],
+ "partite_completate_in_questo_giro": 5
+}
