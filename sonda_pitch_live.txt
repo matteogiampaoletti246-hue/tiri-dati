@@ -1,0 +1,20 @@
+BASE https://api.pitchapi.dev
+/v1/matches?date=2026-10-31 404 0.28 
+/v1/matches/live 400 0.17 
+/v1/live 404 0.18 
+/v1/matches?status=live 404 0.17 
+leghe 77 chiavi lega: {id:str, name:str, country_code:str, image_url:str, seasons:[3×str], is_free:num}
+partite 77 chiavi partita: {id:str, date:str, time_utc:str, status:str, home_team:{id:str, name:str, image_url:str}, away_team:{id:str, name:str, image_url:str}, score_home:num, score_away:num}
+stati: Counter({'finished': 77})
+partita scelta stato: finished
+/ 200 0.39 {id:str, league:{id:str, name:str, image_url:str}, season:str, home_team:{id:str, name:str, image_url:str}, away_team:{id:str, name:str, image_url:str}, date:str, time_utc:str, status:str, score_home:num, score_away:num, round_name:str, has_playoff:num, referee:str, stadium:str}
+/players 200 0.17 [39×{player:{id:str, name:str, position_id:NoneType, image_url:str}, team_id:str, stats:[4×{key:…, stats:…, title:…}]}]
+/lineups 200 0.15 {match_id:str, home_team:{id:str, name:str, image_url:str}, away_team:{id:str, name:str, image_url:str}, home:{formation:str, confirmed:num, lineup_type:str, coach:{name:str}, starters:[11×{player_id:…, name:…, shirt_number:…, position_id:…, is_captain:…, pitch_x:…, pitch_y:…}], subs:[9×{player_id:…, name:…, shirt_number:…, position_id:…, is_captain:…, pitch_x:…, pitch_y:…}]}, away:{formation:str, confirmed:num, lineup_type:str, coach:{name:str}, starters:[11×{player_id:…, name:…, shirt_number:…, position_id:…, is_captain:…, pitch_x:…, pitch_y:…}], subs:[9×{player_id:…, name:…, shirt_number:…, position_id:…, is_captain:…, pitch_x:…, pitch_y:…}]}}
+/events 200 0.19 {match_id:str, events:[19×{event_type:str, minute:num, minute_added:num, period:str, team_id:str, player:{id:…, name:…, position_id:…, image_url:…}, score_home:num, score_away:num, is_own_goal:num, is_penalty:num}]}
+/stats 200 0.17 {match_id:str, home_team:{id:str, name:str, image_url:str}, away_team:{id:str, name:str, image_url:str}, periods:[3×{period:str, groups:[7×…]}]}
+/statistics 404 0.16 
+/timeline 404 0.17 
+/shots 200 0.16 {match_id:str, periods:[2×{period:str, shots:[17×…]}]}
+/commentary 404 0.16 
+/odds 404 0.14 
+players invariati dopo 60s: True
