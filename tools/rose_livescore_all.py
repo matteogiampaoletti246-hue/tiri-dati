@@ -53,27 +53,59 @@ def catalog():
     print('catalogo LiveScore:', len(urls), 'campionati in', len(CATALOG), 'paesi', flush=True)
 
 
-def pick(cn, nm):
-    toks = lambda t: set(t.split('-')) - {'league', 'liga', 'division', 'de', 'la', 'the'}
-    for c in ALIAS.get(cn, [cn]):
-        cands = CATALOG.get(c)
-        if not cands: continue
-        if nm in cands: return c, nm
-        best = max(cands, key=lambda k: len(toks(k) & toks(nm)) / max(1, len(toks(k) | toks(nm))))
-        sc = len(toks(best) & toks(nm)) / max(1, len(toks(best) | toks(nm)))
-        if sc >= 0.5: return c, best
-    return None, nm
+import difflib
+TEAMS = {}
+STOP = {'fc', 'cf', 'sc', 'ac', 'afc', 'club', 'de', 'the', 'cd', 'sk', 'fk', 'if', 'bk', 'ud', 'sd', 'as', 'us', 'ss', 'cs', 'ca'}
+
+
+def norm(n):
+    return ' '.join(w for w in slug(n).split('-') if w and w not in STOP)
+
+
+def fm_teams(k, e):
+    for sk in e['s']:
+        f = f'arch/{k}/{sk}.json'
+        if os.path.exists(f):
+            t = json.load(open(f)).get('teams') or {}
+            if t: return {int(i): n for i, n in t.items()}
+    return {}
+
+
+def ls_teams(c, nm):
+    if (c, nm) not in TEAMS: TEAMS[(c, nm)] = teams_of(c, nm) or []
+    return TEAMS[(c, nm)]
+
+
+def countries(cn):
+    out = list(ALIAS.get(cn, [cn]))
+    if not any(c in CATALOG for c in out):
+        out = difflib.get_close_matches(cn, list(CATALOG), n=2, cutoff=0.75)
+    return [c for c in out if c in CATALOG]
+
+
+def score(ts, fmt):
+    if not ts or not fmt: return 0.0
+    ids = set(fmt); names = {norm(n) for n in fmt.values()}
+    hit = 0
+    for t in ts:
+        m = re.search(r'enet/(\d+)', t.get('teamBadge') or '')
+        if (m and int(m.group(1)) in ids) or norm(t['name']) in names: hit += 1
+    return hit / max(1, min(len(ts), len(fmt)))
 
 
 def one(k_e):
     k, e = k_e
     cn = slug(e.get('cn') or ''); nm = slug(e['n'])
-    c, nm2 = pick(cn, nm)
-    if c:
-        ts = teams_of(c, nm2)
-        if ts:
-            with ThreadPoolExecutor(3) as ex: sq = list(ex.map(squad, ts))
-            return k, c, nm2, [t for t in sq if t['p']]
+    fmt = fm_teams(k, e)
+    best = (0.0, None, None, None)
+    for c in countries(cn):
+        for cand in sorted(CATALOG[c]):
+            ts = ls_teams(c, cand)
+            sc = score(ts, fmt) + (0.05 if cand == nm else 0)
+            if sc > best[0]: best = (sc, c, cand, ts)
+    if best[0] >= 0.4:
+        with ThreadPoolExecutor(3) as ex: sq = list(ex.map(squad, best[3]))
+        return k, best[1], best[2], [t for t in sq if t['p']]
     return k, None, nm, []
 
 
