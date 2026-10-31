@@ -2,3 +2,7 @@ name = "scalperlab-live"
 main = "index.js"
 compatibility_date = "2026-10-01"
 # v2
+
+[[kv_namespaces]]
+binding = "ROSE"
+id = "02759a8a953d423dbd19c58fb8241c34"
