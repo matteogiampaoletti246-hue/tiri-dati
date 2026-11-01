@@ -694,3 +694,8 @@
 .tp-out a { animation: tp-out .24s ease-in forwards; }
 @keyframes tp-out { to { transform: translate3d(18px, 0, 0); opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .tp-in, .tp-out a { animation: none; } }
+
+/* Scheda giocatore, Affidabilita': onda di luce sui riquadri al cambio statistica (transizione C) */
+.rel-sweep { position: absolute; inset: 0; pointer-events: none; transform: translateX(-110%); animation: rel-sweep .7s ease-in-out both; background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent) 32%, transparent), transparent); }
+@keyframes rel-sweep { to { transform: translateX(110%); } }
+@media (prefers-reduced-motion: reduce) { .rel-sweep { display: none; } }

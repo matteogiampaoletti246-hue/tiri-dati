@@ -237,17 +237,55 @@ export function loadBestFouls(day, threshold, stat) {
 export { domesticKey };
 
 // Affidabilità di un giocatore in una partita (tiri totali, soglia over): stesso calcolo del Calcolatore.
-export function playerReliability(p, dateIso, line = 0.5, keepInjured = false) {
+export function playerReliability(p, dateIso, line = 0.5, keepInjured = false, family = 'totali') {
   if (!p) return null;
   if (!keepInjured && isOutOn(p.id, dateIso)) return null;
   const list = ((RAW.giocatori && RAW.giocatori.fix) || {})[p.teamName] || [];
   const f = list.find((x) => romeDay(new Date(x[0]).getTime()) === dateIso);
   if (!f) return null;
   const opp = teamByName(f[1]);
-  const r = calcReliability(p, { ts: new Date(f[0]).getTime(), opp: f[1], home: f[2] === 1, comp: f[3], cup: CUPS.includes(f[3]) }, line, 'over', 'totali');
+  const r = calcReliability(p, { ts: new Date(f[0]).getTime(), opp: f[1], home: f[2] === 1, comp: f[3], cup: CUPS.includes(f[3]) }, line, 'over', family);
   if (!r) return null;
-  const t = lambdaOf(p, f, 0);
+  const t = lambdaOf(p, f, family === 'inPorta' ? 1 : 0);
   return { voto: Math.max(0, Math.min(10, r.voto)), lam: r.lam, minuti: t ? t.mn : null, opp };
+}
+
+// Scheda giocatore (Statistiche): voti Over di un giocatore per la sua prossima partita, per falli commessi / subiti.
+// Stesso calcolo di `loadBestFouls` e del Calcolatore (senza duello); ricordato in LRU. Restituisce un voto (0-10) per linea, null se mancano i dati.
+const PFOULS = new Map();
+export function loadPlayerFouls(p, dateIso, lines, stat) {
+  const ck = `${p && p.id}|${dateIso}|${stat}|${lines.join(',')}`;
+  const hit = lruGet(PFOULS, ck);
+  if (hit) return hit;
+  const job = (async () => {
+    const list = ((RAW.giocatori && RAW.giocatori.fix) || {})[p.teamName] || [];
+    const f = list.find((x) => romeDay(new Date(x[0]).getTime()) === dateIso);
+    if (!f) return lines.map(() => null);
+    const base = fillFrom({ ...initialForm(), line: '0,5', lineType: 'over' }, p, 'totali', fxOf(f));
+    const team = teamById(base.team.id);
+    const opp = teamById(base.opp.id);
+    const keys = foulKeys([team && team.name, opp && opp.name], [base.team.leagueId, base.opp.leagueId]);
+    const loaded = await Promise.all(keys.map(loadFouls));
+    const fd = {};
+    keys.forEach((k, i) => { if (loaded[i]) fd[k] = loaded[i]; });
+    const fmPid = await resolvePid(p).catch(() => null);
+    if (!fmPid) return lines.map(() => null);
+    const pf = playerFouls(fd, fmPid, team && domesticKey(team.name), stat);
+    if (!pf || !pf.last5.length) return lines.map(() => null);
+    const ownStats = teamFoulStats(fd, fmTeamIn(fd, team), base.team.leagueId, team && team.name, stat);
+    const oppStats = teamFoulStats(fd, fmTeamIn(fd, opp), base.opp.leagueId, opp && opp.name, stat === 'fc' ? 'fs' : 'fc');
+    if (!ownStats || !oppStats) return lines.map(() => null);
+    const season = { campionato: { tiri: '', minuti: '' }, coppa: { tiri: '', minuti: '' }, nations: { tiri: '', minuti: '' }, qualificazioni: { tiri: '', minuti: '' } };
+    ['campionato', 'coppa'].forEach((k) => { if (pf[k]) season[k] = { tiri: comma(Math.round(pf[k].v * 100) / 100, 2), minuti: String(Math.round(pf[k].min)) }; });
+    const last5 = pf.last5.join('-');
+    return lines.map((line) => {
+      const fo = { last5, min5: pf.min5.join('-'), season, duel: [], team: comma(ownStats.v, 2), opp: comma(oppStats.v, 2), hitRate: hitFromValues(parseDash(last5), line, 'over') };
+      const r = resultFromFouls({ ...base, line: String(line).replace('.', ','), stat, f: fo }, null, null, ownStats.avg, oppStats.avg);
+      return r.score === null || r.score === undefined ? null : Math.max(0, Math.min(10, r.score));
+    });
+  })().catch(() => lines.map(() => null));
+  lruSet(PFOULS, ck, job, 30);
+  return job;
 }
 
 // Affidabilita' partite non iniziate: solo i giocatori con voto >= 7,00

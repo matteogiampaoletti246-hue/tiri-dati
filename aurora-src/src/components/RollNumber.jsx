@@ -7,14 +7,14 @@ const ease = (t) => 1 - Math.pow(1 - t, 3);
 // Numero che scorre fluido da un valore all'altro (cifre e colore insieme), senza scatti.
 // `from`: valore di partenza al primo disegno (es. 0 = il voto sale da zero); `pop`: piccolo ingrandimento alla fine della salita.
 const reduced = () => typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-export default function RollNumber({ value, delay = 0, duration = 950, className = '', style, from, pop = false }) {
+export default function RollNumber({ value, delay = 0, duration = 950, className = '', style, from, pop = false, dec = 1 }) {
   const el = useRef(null);
   const shown = useRef(from !== undefined && from !== null && !reduced() ? from : value);
   const raf = useRef(0);
 
   useLayoutEffect(() => {
     const node = el.current;
-    if (node) { node.textContent = comma(shown.current, 1); node.style.color = scoreColorSmooth(shown.current); }
+    if (node) { node.textContent = comma(shown.current, dec); node.style.color = scoreColorSmooth(shown.current); }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -22,7 +22,7 @@ export default function RollNumber({ value, delay = 0, duration = 950, className
     const node = el.current;
     if (!node) return undefined;
     const paint = (v) => {
-      node.textContent = comma(v, 1);
+      node.textContent = comma(v, dec);
       node.style.color = scoreColorSmooth(v);
     };
     const from = shown.current;

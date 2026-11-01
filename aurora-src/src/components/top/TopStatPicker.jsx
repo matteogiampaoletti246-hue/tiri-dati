@@ -6,7 +6,7 @@ import { usePopFit, popScroll } from '@/lib/popFit';
 
 // Migliori Giocatori, tendina della statistica (concept A): pillola in vetro alta come i tasti delle linee,
 // icona + nome breve + freccia; lista allineata a destra, voce scelta evidenziata con la spunta.
-export default function TopStatPicker({ options, value, onChange }) {
+export default function TopStatPicker({ options, value, onChange, bar = false }) {
   const [open, setOpen] = useState(false);
   const [shown, setShown] = useState(false);
   const ref = useRef(null);
@@ -20,25 +20,27 @@ export default function TopStatPicker({ options, value, onChange }) {
   }, [open]);
 
   return (
-    <div ref={ref} className="relative flex-none" data-no-swipe="true" style={open ? { zIndex: 96 } : undefined}>
+    <div ref={ref} className={bar ? 'relative w-full' : 'relative flex-none'} data-no-swipe="true" style={open ? { zIndex: 96 } : undefined}>
       <button
         type="button"
         aria-label="Statistica"
         aria-expanded={open}
         onClick={() => setOpen((o) => !o)}
-        className="glass-flat press flex h-[40px] items-center gap-[5px] whitespace-nowrap rounded-full pl-[10px] pr-[9px] text-[12.5px] font-extrabold"
+        className={bar
+          ? 'glass-flat press flex h-[46px] w-full items-center gap-[10px] whitespace-nowrap rounded-full px-4 text-[14px] font-extrabold'
+          : 'glass-flat press flex h-[40px] items-center gap-[5px] whitespace-nowrap rounded-full pl-[10px] pr-[9px] text-[12.5px] font-extrabold'}
         style={{ color: 'var(--ink)' }}
       >
-        <span className="flex" style={{ color: 'var(--accent)' }}><StatIcon k={cur.icon} size={17} /></span>
-        <span>{cur.short}</span>
-        <ChevronDown size={13} strokeWidth={2.6} style={{ color: 'var(--ink-3)', transform: open ? 'rotate(180deg)' : 'none', transition: 'transform .25s' }} />
+        <span className="flex" style={{ color: 'var(--accent)' }}><StatIcon k={cur.icon} size={bar ? 19 : 17} /></span>
+        <span className={bar ? 'flex-1 text-left' : ''}>{bar ? cur.label : cur.short}</span>
+        <ChevronDown size={bar ? 15 : 13} strokeWidth={2.6} style={{ color: 'var(--ink-3)', transform: open ? 'rotate(180deg)' : 'none', transition: 'transform .25s' }} />
       </button>
       {open ? <MenuBackdrop onClose={() => setOpen(false)} /> : null}
       {open ? (
         <div
           data-pop-scroll
           role="listbox"
-          className={`hide-sb absolute right-0 ${room.up ? 'bottom-[calc(100%+8px)]' : 'top-[calc(100%+8px)]'} z-50 w-[222px] rounded-[22px] p-1.5`}
+          className={`hide-sb absolute ${bar ? 'left-0 right-0' : 'right-0 w-[222px]'} ${room.up ? 'bottom-[calc(100%+8px)]' : 'top-[calc(100%+8px)]'} z-50 rounded-[22px] p-1.5`}
           style={{
             ...popScroll(room),
             opacity: shown ? 1 : 0,

@@ -9,7 +9,9 @@ import { comma } from '@/lib/format';
 import { POS_IT, POS_PL, percentiles, ratingColor, dateIt, rankOf, statValue, roleAverage, standing, bandColor, bandOf, BAND_COLORS, GROUPS } from './playerCalc';
 import { per90, EX_COLS } from '@/data/players';
 import { upcomingMatches } from '@/data/extras';
-import { playerReliability } from '@/data/topPlayers';
+import { playerReliability, loadPlayerFouls, TOP_STATS, isFoulStat } from '@/data/topPlayers';
+import TopStatPicker from '@/components/top/TopStatPicker';
+import RollNumber from '@/components/RollNumber';
 import { scoreColor } from '@/lib/calc';
 import { teamById } from '@/data/teams';
 import { teamByName } from '@/data/teams';
@@ -17,7 +19,7 @@ import CompSelect from '@/components/CompSelect';
 import { teamCompetitions } from '@/data/competitions';
 import { leagueById } from '@/data/leagues';
 import { MATCHES } from '@/data/matches';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { teamGrad } from '@/lib/tint';
 import CompSeasonBar from '@/components/CompSeasonBar';
 import PastStats from '@/components/past/PastStats';
@@ -300,9 +302,30 @@ export function PartitePanel({ player, concept }) {
 const f1 = (v, d = 1) => (v === null || v === undefined || !Number.isFinite(v) ? '–' : comma(Math.round(v * 10 ** d) / 10 ** d, d));
 const CARD = { backgroundColor: 'var(--panel-solid, rgba(255,255,255,.04))', border: '1px solid var(--hair-2)', borderRadius: 18 };
 
+// Affidabilita' prossima partita: tendina a barra (concept B) con Tiri / Tiri in porta / Falli commessi / Falli subiti;
+// al cambio i voti ripartono da 0 con onda di luce, colore e "pop" (transizione C). Stesso calcolo del Calcolatore e di Migliori Giocatori.
+const REL_LINES = [['Over 0,5', 0.5], ['Over 1,5', 1.5], ['Over 2,5', 2.5]];
 function Affidabilita({ player, team, comp }) {
+  const [stat, setStat] = useState('tiri');
+  const [anim, setAnim] = useState(false);
+  const [fouls, setFouls] = useState(null);
   const next = upcomingMatches(player.teamId, 40).find((m) => !comp || m.leagueId === comp);
   const opp = next ? teamById(next.homeId === player.teamId ? next.awayId : next.homeId) : null;
+  const isF = isFoulStat(stat);
+  const fk = next ? `${player.id}|${next.date}|${stat}` : '';
+  useEffect(() => {
+    if (!isF || !next) return undefined;
+    let on = true;
+    loadPlayerFouls(player, next.date, REL_LINES.map((x) => x[1]), stat).then((v) => { if (on) setFouls({ k: fk, v }); });
+    return () => { on = false; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fk, isF]);
+  const vals = REL_LINES.map(([, ln], i) => {
+    if (!next) return null;
+    if (isF) return fouls && fouls.k === fk ? fouls.v[i] : undefined; // undefined = sta caricando
+    const r = playerReliability(player, next.date, ln, true, stat === 'porta' ? 'inPorta' : 'totali');
+    return r ? r.voto : null;
+  });
   return (
     <section className="px-0">
       <div className="club-card rounded-2xl px-4 py-3.5" style={CARD}>
@@ -314,15 +337,22 @@ function Affidabilita({ player, team, comp }) {
             </span>
           ) : <span className="ml-auto text-[12px]" style={{ color: 'var(--ink-3)' }}>nessuna partita</span>}
         </div>
+        <div className="mb-3">
+          <TopStatPicker bar options={TOP_STATS} value={stat} onChange={(k) => { setAnim(true); setStat(k); }} />
+        </div>
         <div className="grid grid-cols-3 gap-2.5">
-          {[['Over 0,5', 0.5], ['Over 1,5', 1.5], ['Over 2,5', 2.5]].map(([k, ln]) => {
-            const r = next ? playerReliability(player, next.date, ln, true) : null;
-            const col = r ? scoreColor(r.voto) : 'var(--ink-3)';
+          {REL_LINES.map(([k], i) => {
+            const v = vals[i];
             return (
-            <div key={k} className="rounded-xl py-3 text-center" style={{ background: 'rgba(127,160,200,.1)' }}>
-              <p className="tnum text-[22px] font-semibold" style={{ color: col }}>{r ? comma(r.voto, 2) : '—'}</p>
-              <p style={L}>{k}</p>
-            </div>
+              <div key={k} className="relative overflow-hidden rounded-xl py-3 text-center" style={{ background: 'rgba(127,160,200,.1)' }}>
+                {anim ? <span key={`sw-${stat}`} className="rel-sweep" style={{ animationDelay: `${i * 110}ms` }} /> : null}
+                <p className="tnum text-[22px] font-semibold" style={{ color: 'var(--ink-3)' }}>
+                  {typeof v === 'number'
+                    ? (anim ? <RollNumber key={`${stat}-${i}`} value={v} from={0} pop dec={2} delay={i * 110} duration={700} /> : <RollNumber value={v} dec={2} duration={0} />)
+                    : v === undefined ? '' : '—'}
+                </p>
+                <p style={L}>{k}</p>
+              </div>
             );
           })}
         </div>
