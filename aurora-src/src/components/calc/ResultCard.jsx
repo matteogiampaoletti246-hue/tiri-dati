@@ -1,5 +1,6 @@
 import { comma, num } from '@/lib/format';
 import { fmtLine, fmtPct } from '@/lib/calc';
+import { useMemo } from 'react';
 import Gauge from './Gauge';
 
 function Metric({ label, value, strong = false }) {
@@ -26,10 +27,19 @@ export default function ResultCard({ result, kind = 'player' }) {
           ? 'Inserisci la quota per calcolare lo stake'
           : 'Inserisci le statistiche per calcolare lo stake';
 
+  const bars = useMemo(() => [
+    result.probModel !== null && result.probModel !== undefined ? { label: 'Probabilità modello', value: result.probModel } : null,
+    result.hitRate !== null && result.hitRate !== undefined ? { label: 'Hit rate', value: result.hitRate } : null,
+    result.probFinal !== null && result.probFinal !== undefined ? { label: 'Probabilità finale', value: result.probFinal } : null,
+  ].filter(Boolean), [result.probModel, result.hitRate, result.probFinal]);
+  const verdict = result.line !== null && result.line !== undefined && result.score !== null && result.score !== undefined
+    ? { left: `${result.lineType === 'under' ? 'Under' : 'Over'} ${fmtLine(result.line)}`, right: result.probFinal > 0 ? `Quota giusta ≥ ${comma(1 / result.probFinal, 2)}` : null }
+    : null;
+
   return (
     <div className="panel overflow-hidden">
       <div className="px-5 pb-5 pt-6">
-        <Gauge score={result.score} />
+        <Gauge score={result.score} bars={bars} verdict={verdict} />
         <p className="mt-3 text-center text-[14px]" style={{ color: 'var(--ink-2)' }}>
           {result.reliability.label}
         </p>

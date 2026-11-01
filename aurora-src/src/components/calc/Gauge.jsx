@@ -4,10 +4,10 @@ import { scoreColorSmooth } from '@/lib/calc';
 
 const reduced = () => typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// Indicatore semicircolare del punteggio di affidabilità (0-10).
+// Pannello risultato (concept A): anello del voto (0-10) con tre barre a destra e il verdetto sotto.
 // La prima volta che entra nello schermo (scorrendo) la ruota si carica da 0 al voto: voto e colore cambiano insieme lungo la scala
 // (rosso, arancio, giallo, verde...); dopo, ogni cambio di voto scorre piu' veloce dal valore mostrato al nuovo.
-export default function Gauge({ score }) {
+export default function Gauge({ score, bars = [], verdict = null }) {
   const has = score !== null && score !== undefined && !Number.isNaN(score);
   const target = has ? Math.max(0, Math.min(10, score)) : 0;
   const box = useRef(null);
@@ -45,22 +45,44 @@ export default function Gauge({ score }) {
     return () => cancelAnimationFrame(raf.current);
   }, [inView, target]);
 
-  const length = Math.PI * 74;
+  const R = 50;
+  const length = 2 * Math.PI * R;
   const pct = Math.max(0, Math.min(1, shown / 10));
   const color = has ? scoreColorSmooth(shown) : 'var(--ink-3)';
+  const prog = target > 0 ? Math.min(1, shown / target) : 0; // avanzamento della carica, 0 -> 1: le barre salgono insieme all'anello
 
   return (
-    <div ref={box} className="relative mx-auto w-[180px]">
-      <svg viewBox="0 0 176 100" className="w-full" aria-hidden="true">
-        <path d="M14 92 A74 74 0 0 1 162 92" fill="none" stroke="var(--hair-2)" strokeWidth="8" strokeLinecap="round" />
-        <path d="M14 92 A74 74 0 0 1 162 92" fill="none" stroke={color} strokeWidth="8" strokeLinecap="round" strokeDasharray={length} strokeDashoffset={length * (1 - pct)} />
-      </svg>
-      <div className="absolute inset-x-0 bottom-0 text-center">
-        <p className="title-xl tnum text-[36px]" style={{ color }}>
-          {has ? comma(inView ? shown : 0, 2) : '—'}
-        </p>
-        <p className="label-sm mt-1">su 10</p>
+    <div ref={box}>
+      <div className="flex items-center gap-5">
+        <div className="relative h-[132px] w-[132px] shrink-0">
+          <svg viewBox="0 0 120 120" className="h-full w-full -rotate-90" aria-hidden="true">
+            <circle cx="60" cy="60" r={R} fill="none" stroke="var(--hair-2)" strokeWidth="10" />
+            <circle cx="60" cy="60" r={R} fill="none" stroke={color} strokeWidth="10" strokeLinecap="round" strokeDasharray={length} strokeDashoffset={length * (1 - pct)} />
+          </svg>
+          <div className="absolute inset-0 grid place-items-center text-center">
+            <div>
+              <p className="title-xl tnum text-[34px] leading-none" style={{ color }}>{has ? comma(inView ? shown : 0, 2) : '—'}</p>
+              <p className="label-sm mt-1">su 10</p>
+            </div>
+          </div>
+        </div>
+        <div className="flex min-w-0 flex-1 flex-col gap-3">
+          {bars.map((b) => (
+            <div key={b.label}>
+              <p className="label-sm">{b.label}</p>
+              <div className="mt-1 h-[6px] overflow-hidden rounded-full" style={{ background: 'var(--hair)' }}>
+                <div className="h-full rounded-full" style={{ width: `${Math.max(0, Math.min(1, b.value)) * prog * 100}%`, background: scoreColorSmooth(b.value * 10 * prog) }} />
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
+      {verdict ? (
+        <div className="mt-4 flex flex-wrap items-baseline justify-between gap-2 pt-3" style={{ borderTop: '1px solid var(--hair-2)' }}>
+          <span className="text-[14px]" style={{ color: 'var(--ink-2)' }}>{verdict.left}</span>
+          {verdict.right ? <b className="tnum text-[14px]" style={{ color }}>{verdict.right}</b> : null}
+        </div>
+      ) : null}
     </div>
   );
 }
