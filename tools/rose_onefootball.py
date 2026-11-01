@@ -35,7 +35,15 @@ DBG = {'nopage': 0, 'nonext': 0, 'nolinks': 0, 'ok': 0}
 
 def squad(url):
     h = get(f'{OF}/en/team/{url}/squad')
-    if not h: DBG['nopage'] += 1; return []
+    if not h:
+        DBG['nopage'] += 1
+        if DBG['nopage'] <= 6:
+            import urllib.request, urllib.error
+            try: c = urllib.request.urlopen(urllib.request.Request(f'{OF}/en/team/{url}/squad', headers={'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 Mobile Safari/604.1'}), timeout=25).status
+            except urllib.error.HTTPError as e: c = e.code
+            except Exception as e: c = repr(e)[:80]
+            print('DEBUG', url, c, flush=True)
+        return []
     m = re.search(r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>', h, re.S)
     if not m: DBG['nonext'] += 1; return []
     out = []
