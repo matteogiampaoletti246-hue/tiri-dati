@@ -9,6 +9,9 @@ on:
     - cron: '35 4 * * *'
 permissions:
   contents: write
+concurrency:
+  group: rose-kv
+  cancel-in-progress: false
 jobs:
   rose:
     runs-on: ubuntu-latest
