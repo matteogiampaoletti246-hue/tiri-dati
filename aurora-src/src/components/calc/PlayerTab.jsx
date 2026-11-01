@@ -10,7 +10,7 @@ import { domesticKey } from '@/data/calcData';
 import { fmTeamIn, foulKeys, leaguePlayerAvg, playerFouls, rosterFouls, teamFoulStats, useFouls } from '@/data/calcFouls';
 import { resolvePid } from '@/data/playerIndex';
 import { comma } from '@/lib/format';
-import { parseDash } from '@/lib/calc';
+import { foulLineHint, parseDash } from '@/lib/calc';
 import DuelPicker from './DuelPicker';
 import FoulsTeamBlock from './FoulsTeamBlock';
 import {
@@ -182,7 +182,7 @@ export default function PlayerTab({ onSave }) {
         set={vset}
         player={player}
         onSelectPlayer={selectPlayer}
-        hint={lineHintText(result.lambda, line)}
+        hint={fouls ? foulLineHint(result.lambda, line) : lineHintText(result.lambda, line)}
         stat={form.stat || 'tiri'}
         onStat={onStat}
       />

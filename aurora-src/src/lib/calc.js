@@ -248,6 +248,14 @@ export const lineHintText = (lambda, line) => {
   return `${label} · atteso ${comma(lambda, 2)}`;
 };
 
+// difficolta' della linea sui falli (scala propria: i falli sono meno dei tiri). Con lambda: linea meno atteso; senza: dalla sola linea (0,5 molto facile, 1,5 medio, 2,5 difficile)
+export const foulLineHint = (lambda, line) => {
+  if (line === null || line === undefined) return 'Scegli la linea per stimare la difficoltà';
+  const d = lambda === null || lambda === undefined ? line - 1.1 : line - lambda;
+  const label = d < -0.5 ? 'molto facile' : d < 0 ? 'facile' : d < 0.75 ? 'media' : d < 1.5 ? 'difficile' : 'molto difficile';
+  return `Linea ${label}${lambda === null || lambda === undefined ? '' : ` · atteso ${comma(lambda, 2)}`}`;
+};
+
 /* ── Risultato completo: giocatore ─────────────────────────────────── */
 export function computePlayerResult({
   season = [],
