@@ -1,72 +1,43 @@
 {
  "competizioni": {
-  "Bundesliga 2026-2027": {
+  "Paulista A1 2026": {
    "partite_con_eventi": 1,
    "da_fare": 1
   },
-  "Premier League 2026-2027": {
-   "partite_con_eventi": 3,
+  "MLS Next Pro 2026": {
+   "partite_con_eventi": 1,
+   "da_fare": 1
+  },
+  "Saudi First Division 2026-2027": {
+   "partite_con_eventi": 2,
+   "da_fare": 2
+  },
+  "Championship 2025-2026": {
+   "partite_con_eventi": 0,
    "da_fare": 3
   },
-  "Championship 2026-2027": {
-   "partite_con_eventi": 2,
-   "da_fare": 2
-  },
-  "Eredivisie 2026-2027": {
-   "partite_con_eventi": 2,
-   "da_fare": 2
-  },
-  "Süper Lig 2026-2027": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
-  },
-  "League One 2026-2027": {
-   "partite_con_eventi": 2,
-   "da_fare": 2
-  },
-  "League Two 2026-2027": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
-  },
-  "Super League 1 2026-2027": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
-  },
-  "Ekstraklasa 2026-2027": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
-  },
-  "Série A 2026": {
-   "partite_con_eventi": 2,
-   "da_fare": 2
-  },
-  "Primera Division 2026": {
+  "Ligue 1 2025-2026": {
    "partite_con_eventi": 0,
    "da_fare": 1
   },
-  "Qatar Stars League 2026-2027": {
-   "partite_con_eventi": 1,
+  "Super League 2025-2026": {
+   "partite_con_eventi": 0,
    "da_fare": 1
   },
-  "Saudi Pro League 2026-2027": {
-   "partite_con_eventi": 3,
-   "da_fare": 3
+  "Challenge League 2025-2026": {
+   "partite_con_eventi": 10,
+   "da_fare": 10
   },
-  "Premier Soccer League 2026-2027": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
-  },
-  "K League 2 2026": {
-   "partite_con_eventi": 2,
-   "da_fare": 2
+  "Super Liga 2025-2026": {
+   "partite_con_eventi": 8,
+   "da_fare": 8
   }
  },
  "tipi_visti": {
-  "substitution": 242,
-  "yellowcard": 99,
-  "goal": 83,
-  "redcard": 2
+  "yellowcard": 94,
+  "substitution": 186,
+  "goal": 4
  },
- "partite_in_questo_giro": 26,
+ "partite_in_questo_giro": 23,
  "orientamento_cambi": "player esce"
 }
