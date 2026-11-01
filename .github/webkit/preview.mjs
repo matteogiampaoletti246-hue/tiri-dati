@@ -1778,6 +1778,30 @@ await step('affidabilita campionati aggiunti: ricerca nel Calcolatore, scheda in
   await shot('migliori-giocatori-campionati-aggiunti');
 });
 
+await step('migliori giocatori: tendina statistica (tiri, in porta, falli), entrata animata, giorni da oggi', async () => {
+  await go('#/migliori-giocatori', 5000);
+  const hdr = await pg.evaluate(() => document.querySelector('header').innerText);
+  ok('migliori giocatori: si parte da Oggi, niente Ieri', /Oggi/.test(hdr) && !/\bIeri\b/.test(hdr));
+  const pick = await pg.evaluate(() => { const b = document.querySelector('[aria-label="Statistica"]'); return b ? b.innerText.trim() : ''; });
+  ok('migliori giocatori: tendina statistica su Tiri all\'apertura', pick === 'Tiri', { pick });
+  const anim = await pg.evaluate(() => document.querySelectorAll('a.tp-in').length);
+  ok('migliori giocatori: banner con entrata animata all\'apertura', anim > 0, { anim });
+  for (const s of ['Tiri in porta', 'Falli commessi', 'Falli subiti']) {
+    await pg.click('[aria-label="Statistica"]');
+    await wait(350);
+    await pg.locator('[role=option]', { hasText: s }).click();
+    await pg.waitForFunction(() => document.querySelectorAll('a[href*="giocatore"]').length > 0 || /Nessun giocatore/.test(document.body.innerText), null, { timeout: 60000 }).catch(() => {});
+    await wait(1600);
+    const n = await pg.evaluate(() => document.querySelectorAll('a[href*="giocatore"]').length);
+    const again = await pg.evaluate(() => document.querySelectorAll('a.tp-in').length);
+    ok(`migliori giocatori: ${s} con classifica e stessa entrata`, n > 0 && again > 0, { n, again });
+    await shot(`migliori-giocatori-${s.replace(/ /g, '-')}`);
+  }
+  await go('#/migliori-matchup', 4000);
+  const mh = await pg.evaluate(() => document.querySelector('header').innerText);
+  ok('migliori matchup: si parte da Oggi, niente Ieri', /Oggi/.test(mh) && !/\bIeri\b/.test(mh));
+});
+
 report.passed = report.checks.filter((c) => c.pass).length;
 report.total = report.checks.length;
 fs.writeFileSync(`${OUT}/report.json`, JSON.stringify(report, null, 2));

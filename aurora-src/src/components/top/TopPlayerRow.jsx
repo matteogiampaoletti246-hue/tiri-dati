@@ -8,6 +8,12 @@ import { Image } from '@/components/ui/image';
 import { teamById } from '@/data/teams';
 import { matchesByDate } from '@/data/matches';
 import { romeDay } from '@/data/util';
+import { TOP_KEEP } from '@/data/topPlayers';
+
+// entrata (concept A): a cascata, 75 ms tra un banner e l'altro; il voto parte poco dopo il suo banner
+export const ENTER_STAG = 75;
+// nell'app nativa la pagina si scopre un attimo dopo il primo disegno (rotella dell'app): l'entrata parte poco dopo
+const BASE = typeof window !== 'undefined' && window.ReactNativeWebView ? 120 : 0;
 
 const RK = ['#F5C84C', '#C5CEDB', '#D98F5C'];
 
@@ -21,7 +27,7 @@ const when = (match) => {
   return real && real.kickoff ? `${wd} ${real.kickoff}` : cap;
 };
 
-export default memo(function TopPlayerRow({ row, rank, threshold, delay = 0 }) {
+export default memo(function TopPlayerRow({ row, rank, threshold, delay = 0, stat = 'tiri', enter = -1 }) {
   const { player, match } = row;
   const nav = useNavigate();
   const team = teamById(player.teamId);
@@ -33,14 +39,18 @@ export default memo(function TopPlayerRow({ row, rank, threshold, delay = 0 }) {
   const openCalc = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    nav('/calcolatore', { state: { calc: { playerId: player.id, line: threshold, ts: match ? match.ts : null } } });
+    TOP_KEEP.child = Date.now();
+    nav('/calcolatore', { state: { calc: { playerId: player.id, line: threshold, ts: match ? match.ts : null, stat } } });
   };
+  // entrata da sinistra (index.css .tp-in) solo per i banner visibili all'apertura / al cambio statistica
+  const anim = enter >= 0;
 
   return (
     <Link
       to={`/giocatore/${player.id}`}
-      className="press mx-4 mb-2.5 flex items-center gap-3 rounded-[24px] p-3"
-      style={{ background: `linear-gradient(100deg, ${c1}55, rgba(255,255,255,.03) 70%)`, border: '1px solid var(--glass-border)' }}
+      onClick={() => { TOP_KEEP.child = Date.now(); }}
+      className={`press mx-4 mb-2.5 flex items-center gap-3 rounded-[24px] p-3${anim ? ' tp-in' : ''}`}
+      style={{ background: `linear-gradient(100deg, ${c1}55, rgba(255,255,255,.03) 70%)`, border: '1px solid var(--glass-border)', ...(anim ? { animationDelay: `${BASE + enter * ENTER_STAG}ms` } : null) }}
     >
       <span className="relative flex-none">
         <span className="avatar h-[50px] w-[50px] text-[13px]">
@@ -68,7 +78,9 @@ export default memo(function TopPlayerRow({ row, rank, threshold, delay = 0 }) {
       </span>
 
       <span className="flex flex-none flex-col items-center gap-1.5">
-        <RollNumber value={row.voto} delay={delay} className="text-[25px] font-extrabold leading-none" />
+        {anim
+          ? <RollNumber value={row.voto} from={0} pop delay={BASE + enter * ENTER_STAG + 160} duration={950} className="text-[25px] font-extrabold leading-none" />
+          : <RollNumber value={row.voto} delay={delay} className="text-[25px] font-extrabold leading-none" />}
         <button type="button" onClick={openCalc} aria-label="Apri nel calcolatore" className="glass press flex h-[27px] w-[27px] items-center justify-center rounded-full" style={{ color: 'var(--accent)' }}>
           <Calculator size={14} strokeWidth={2} />
         </button>

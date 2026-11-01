@@ -50,7 +50,9 @@ export default function PlayerTab({ onSave }) {
     if (!p) return;
     const hasLine = st.line !== undefined && st.line !== null;
     const fx = (st.ts && fixtureAt(p.teamName, st.ts)) || nextFixture(p.teamName);
-    setForm((f) => fillFrom(hasLine ? { ...f, line: String(st.line).replace('.', ',') } : f, p, f.tipoTiri, fx));
+    // statistica scelta in Migliori Giocatori (tiri, tiri in porta, falli commessi/subiti)
+    const withStat = (f) => (st.stat ? { ...f, stat: st.stat, tipoTiri: st.stat === 'porta' ? 'inPorta' : 'totali', lineType: 'over' } : f);
+    setForm((f) => { const g = withStat(hasLine ? { ...f, line: String(st.line).replace('.', ',') } : f); return fillFrom(g, p, g.tipoTiri, fx); });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

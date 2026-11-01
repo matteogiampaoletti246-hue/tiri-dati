@@ -4,7 +4,11 @@ import { PLAYERS } from './players';
 import { teamById, teamByName } from './teams';
 import { blendTeam, domesticKey, pickLeagueKey, CUPS, DOMESTIC_KEYS } from './calcData';
 import { romeDay } from './util';
-import { calcReliability } from './calcPlayer';
+import { calcReliability, fillFrom, hitFromValues, initialForm, resultFromFouls } from './calcPlayer';
+import { fmTeamIn, foulKeys, loadFouls, playerFouls, teamFoulStats } from './calcFouls';
+import { resolvePid } from './playerIndex';
+import { comma } from '@/lib/format';
+import { parseDash } from '@/lib/calc';
 import { isOutOn } from './injuries';
 import { lruGet, lruSet } from '@/lib/lru';
 
@@ -13,6 +17,17 @@ export const THRESHOLDS = [
   { key: '1.5', label: 'Over 1,5' },
   { key: '2.5', label: 'Over 2,5' },
 ];
+
+// Statistiche della classifica (tendina in alto): tiri e tiri in porta col calcolo dei tiri, falli col calcolo dei falli del Calcolatore
+export const TOP_STATS = [
+  { key: 'tiri', label: 'Tiri', short: 'Tiri', icon: 'shots' },
+  { key: 'porta', label: 'Tiri in porta', short: 'In porta', icon: 'sot' },
+  { key: 'fc', label: 'Falli commessi', short: 'Commessi', icon: 'fc' },
+  { key: 'fs', label: 'Falli subiti', short: 'Subiti', icon: 'fs' },
+];
+export const isFoulStat = (s) => s === 'fc' || s === 'fs';
+// stato della pagina: resta tornando da un giocatore o dal calcolatore aperti da una riga
+export const TOP_KEEP = { day: null, thr: '0.5', stat: 'tiri', stamp: '', child: 0 };
 
 const MIN_VOTE = 7.75;
 const MAX_PER_DAY = 80;
@@ -103,40 +118,120 @@ let ORDER = null;
 let ORDER_N = -1;
 const playerOrder = () => { if (ORDER_N !== PLAYERS.length) { ORDER = new Map(PLAYERS.map((p, i) => [p, i])); ORDER_N = PLAYERS.length; } return ORDER; };
 const CACHE = new Map();
-export function bestPlayers(day, threshold) {
-  const line = parseFloat(threshold);
-  const ck = `${day}|${line}`;
-  const hit = lruGet(CACHE, ck);
-  if (hit) return hit;
+const fxOf = (f) => ({ ts: new Date(f[0]).getTime(), opp: f[1], home: f[2] === 1, comp: f[3], cup: CUPS.includes(f[3]) });
+const rowOf = (p, f, voto, lam, t) => {
+  const opp = teamByName(f[1]);
+  const own = teamById(p.teamId);
+  return {
+    player: p,
+    voto,
+    mediaAttesa: lam,
+    minutiMedi: t ? t.mn : null,
+    ultime5: t ? t.l5 : null,
+    stagione90: t ? t.sea : null,
+    match: { ts: new Date(f[0]).getTime(), homeId: f[2] === 1 ? own?.id : opp?.id, awayId: f[2] === 1 ? opp?.id : own?.id, oppName: f[1], home: f[2] === 1, comp: f[3] },
+  };
+};
+// giocatori del giorno che possono entrare in classifica (stesse regole di sempre: presenze, minuti, dati delle squadre)
+const candidates = (day) => {
   const bd = fixturesByDay().byDay[day] || {};
   const out = [];
   Object.keys(bd).forEach((teamName) => playersOf(teamName).forEach((p) => {
     const f = bd[p.teamName];
     if (!DOMESTIC.includes(f[3])) return;
     if (isOutOn(p.id, day)) return; // infortunato fino al rientro
-    const t = lambdaOf(p, f, 0);
-    if (!t) return;
-    const rr = calcReliability(p, { ts: new Date(f[0]).getTime(), opp: f[1], home: f[2] === 1, comp: f[3], cup: CUPS.includes(f[3]) }, line, 'over', 'totali');
-    const voto = rr ? Math.max(0, Math.min(10, rr.voto)) : 0;
-    if (voto < MIN_VOTE) return;
-    const opp = teamByName(f[1]);
-    const own = teamById(p.teamId);
-    out.push({
-      player: p,
-      voto,
-      mediaAttesa: t.lam,
-      minutiMedi: t.mn,
-      ultime5: t.l5,
-      stagione90: t.sea,
-      match: { ts: new Date(f[0]).getTime(), homeId: f[2] === 1 ? own?.id : opp?.id, awayId: f[2] === 1 ? opp?.id : own?.id, oppName: f[1], home: f[2] === 1, comp: f[3] },
-    });
+    out.push([p, f]);
   }));
+  return out;
+};
+const finish = (out) => {
   // a parita' di voto e media vale l'ordine dell'elenco giocatori (come quando si scorrevano tutti)
   const pos = playerOrder();
-  out.sort((a, b) => b.voto - a.voto || b.mediaAttesa - a.mediaAttesa || pos.get(a.player) - pos.get(b.player));
-  const top = out.slice(0, MAX_PER_DAY);
-  lruSet(CACHE, ck, top, 30);
+  out.sort((a, b) => b.voto - a.voto || (b.mediaAttesa || 0) - (a.mediaAttesa || 0) || pos.get(a.player) - pos.get(b.player));
+  return out.slice(0, MAX_PER_DAY);
+};
+
+// Tiri (totali) e tiri in porta: sincrono, stesso voto del Calcolatore
+export function bestPlayers(day, threshold, stat = 'tiri') {
+  if (isFoulStat(stat)) return lruGet(CACHE, `${day}|${parseFloat(threshold)}|${stat}`) || null;
+  const line = parseFloat(threshold);
+  const ck = `${day}|${line}|${stat}`;
+  const hit = lruGet(CACHE, ck);
+  if (hit) return hit;
+  const porta = stat === 'porta';
+  const out = [];
+  candidates(day).forEach(([p, f]) => {
+    const t = lambdaOf(p, f, porta ? 1 : 0);
+    if (!t) return;
+    const rr = calcReliability(p, fxOf(f), line, 'over', porta ? 'inPorta' : 'totali');
+    const voto = rr ? Math.max(0, Math.min(10, rr.voto)) : 0;
+    if (voto < MIN_VOTE) return;
+    out.push(rowOf(p, f, voto, t.lam, t));
+  });
+  const top = finish(out);
+  lruSet(CACHE, ck, top, 40);
   return top;
+}
+
+// Falli commessi / subiti: stesso calcolo del Calcolatore (PlayerTab) senza duello avversario.
+// I dati arrivano dalle partite della stagione (calcFouls), quindi la classifica si prepara a parte e si ricorda (LRU).
+const PENDING = new Map();
+const pause = () => new Promise((r) => setTimeout(r, 0));
+export function loadBestFouls(day, threshold, stat) {
+  const line = parseFloat(threshold);
+  const ck = `${day}|${line}|${stat}`;
+  const hit = lruGet(CACHE, ck);
+  if (hit) return Promise.resolve(hit);
+  const run = lruGet(PENDING, ck);
+  if (run) return run;
+  const job = (async () => {
+    const lineStr = String(line).replace('.', ',');
+    const oppStat = stat === 'fc' ? 'fs' : 'fc';
+    // stessi filtri dei tiri: almeno 3 presenze e minuti medi sufficienti
+    const list = candidates(day).filter(([p, f]) => lambdaOf(p, f, 0)).map(([p, f]) => {
+      const base = fillFrom({ ...initialForm(), line: lineStr, lineType: 'over' }, p, 'totali', fxOf(f));
+      const team = teamById(base.team.id);
+      const opp = teamById(base.opp.id);
+      return { p, f, base, team, opp, keys: foulKeys([team && team.name, opp && opp.name], [base.team.leagueId, base.opp.leagueId]) };
+    });
+    const all = [...new Set(list.flatMap((x) => x.keys))];
+    const loaded = await Promise.all(all.map(loadFouls));
+    const DATA = {};
+    all.forEach((k, i) => { if (loaded[i]) DATA[k] = loaded[i]; });
+    const out = [];
+    for (let i = 0; i < list.length; i += 1) {
+      if (i % 25 === 24) await pause(); // la pagina resta reattiva mentre si calcola
+      const { p, f, base, team, opp, keys } = list[i];
+      const fd = {};
+      keys.forEach((k) => { if (DATA[k]) fd[k] = DATA[k]; });
+      const fmPid = await resolvePid(p).catch(() => null);
+      if (!fmPid) continue;
+      const pf = playerFouls(fd, fmPid, team && domesticKey(team.name), stat);
+      if (!pf || !pf.last5.length) continue;
+      const ownStats = teamFoulStats(fd, fmTeamIn(fd, team), base.team.leagueId, team && team.name, stat);
+      const oppStats = teamFoulStats(fd, fmTeamIn(fd, opp), base.opp.leagueId, opp && opp.name, oppStat);
+      if (!ownStats || !oppStats) continue;
+      const season = { campionato: { tiri: '', minuti: '' }, coppa: { tiri: '', minuti: '' }, nations: { tiri: '', minuti: '' }, qualificazioni: { tiri: '', minuti: '' } };
+      ['campionato', 'coppa'].forEach((k) => { if (pf[k]) season[k] = { tiri: comma(Math.round(pf[k].v * 100) / 100, 2), minuti: String(Math.round(pf[k].min)) }; });
+      const last5 = pf.last5.join('-');
+      const fo = {
+        last5, min5: pf.min5.join('-'), season, duel: [],
+        team: comma(ownStats.v, 2), opp: comma(oppStats.v, 2),
+        hitRate: hitFromValues(parseDash(last5), line, 'over'),
+      };
+      const r = resultFromFouls({ ...base, stat, f: fo }, null, null, ownStats.avg, oppStats.avg);
+      if (r.score === null || r.score === undefined) continue;
+      const voto = Math.max(0, Math.min(10, r.score));
+      if (voto < MIN_VOTE) continue;
+      out.push(rowOf(p, f, voto, r.lambda, null));
+    }
+    const top = finish(out);
+    lruSet(CACHE, ck, top, 40);
+    PENDING.delete(ck);
+    return top;
+  })().catch(() => { PENDING.delete(ck); return []; });
+  lruSet(PENDING, ck, job, 12);
+  return job;
 }
 
 export { domesticKey };

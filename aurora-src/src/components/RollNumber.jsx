@@ -5,14 +5,16 @@ import { comma } from '@/lib/format';
 const ease = (t) => 1 - Math.pow(1 - t, 3);
 
 // Numero che scorre fluido da un valore all'altro (cifre e colore insieme), senza scatti.
-export default function RollNumber({ value, delay = 0, duration = 950, className = '', style }) {
+// `from`: valore di partenza al primo disegno (es. 0 = il voto sale da zero); `pop`: piccolo ingrandimento alla fine della salita.
+const reduced = () => typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+export default function RollNumber({ value, delay = 0, duration = 950, className = '', style, from, pop = false }) {
   const el = useRef(null);
-  const shown = useRef(value);
+  const shown = useRef(from !== undefined && from !== null && !reduced() ? from : value);
   const raf = useRef(0);
 
   useLayoutEffect(() => {
     const node = el.current;
-    if (node) { node.textContent = comma(value, 1); node.style.color = scoreColorSmooth(value); }
+    if (node) { node.textContent = comma(shown.current, 1); node.style.color = scoreColorSmooth(shown.current); }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -35,6 +37,7 @@ export default function RollNumber({ value, delay = 0, duration = 950, className
       const v = from + (to - from) * ease(p);
       shown.current = v;
       paint(v);
+      if (pop) node.style.transform = p > 0.85 && p < 1 ? `scale(${1 + Math.sin(((p - 0.85) / 0.15) * Math.PI) * 0.14})` : '';
       if (p < 1) raf.current = requestAnimationFrame(tick);
     };
     raf.current = requestAnimationFrame(tick);
@@ -43,6 +46,6 @@ export default function RollNumber({ value, delay = 0, duration = 950, className
   }, [value]);
 
   return (
-    <span ref={el} className={`tnum ${className}`} style={style} />
+    <span ref={el} className={`tnum ${pop ? 'inline-block ' : ''}${className}`} style={style} />
   );
 }

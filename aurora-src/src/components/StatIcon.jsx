@@ -45,6 +45,21 @@ export default function StatIcon({ k, size = 22 }) {
       </svg>
     );
   }
+  // falli commessi (freccia rossa in giu') e subiti (freccia verde in su): fischietto + freccia
+  if (k === 'fc' || k === 'fs') {
+    return (
+      <svg {...p}>
+        <g stroke="currentColor" strokeWidth="1.5">
+          <path d="M3.6 11h8.7a4.2 4.2 0 0 1 0 8.4H8.2A4.6 4.6 0 0 1 3.6 14.8V11Z" />
+          <path d="M16.5 12.2h3.9v2.6h-3.9" />
+          <circle cx="9.5" cy="15.2" r="1.6" />
+        </g>
+        {k === 'fc'
+          ? <path d="M18 3.5v5.2M15.6 6.3 18 8.7l2.4-2.4" stroke="#E5484D" strokeWidth="1.8" />
+          : <path d="M18 8.7V3.5M15.6 5.9 18 3.5l2.4 2.4" stroke="#1FA45B" strokeWidth="1.8" />}
+      </svg>
+    );
+  }
   if (k === 'fouls') {
     return (
       <svg {...p}>

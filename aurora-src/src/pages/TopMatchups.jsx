@@ -14,9 +14,9 @@ import useInitialLoad from '@/hooks/useInitialLoad';
 import { matchupRows, MATCHUP_TYPES } from '@/data/matchups';
 import { DATES, TODAY_INDEX, isoDate } from '@/data/matches';
 
-// Il calendario parte da ieri: i giorni piu' vecchi non servono (oggi e' il secondo giorno della striscia)
-const DAYS = DATES.slice(Math.max(0, TODAY_INDEX - 1));
-const TODAY_I = TODAY_INDEX - Math.max(0, TODAY_INDEX - 1);
+// Il calendario parte da oggi: i giorni passati non servono
+const DAYS = DATES.slice(TODAY_INDEX);
+const TODAY_I = 0;
 
 const keyOfRow = (row) => row.id;
 const renderRow = (row) => <MatchupRow row={row} />;

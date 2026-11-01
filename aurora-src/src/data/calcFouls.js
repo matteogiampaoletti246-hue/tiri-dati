@@ -52,7 +52,7 @@ export const loadFouls = (key) => {
   const hit = lruGet(LG, key);
   if (hit) return hit;
   const p = build(key).catch(() => null);
-  lruSet(LG, key, p, 8);
+  lruSet(LG, key, p, 16); // Migliori Giocatori (falli) legge tutti i campionati del giorno insieme
   return p;
 };
 

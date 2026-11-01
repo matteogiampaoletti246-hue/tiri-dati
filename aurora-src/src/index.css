@@ -682,3 +682,15 @@
 .tint-sweep.still { animation: none; }
 @keyframes tint-sweep { from { transform: scaleX(0); } to { transform: none; } }
 @media (prefers-reduced-motion: reduce) { .tint-sweep { animation: none; } }
+
+/* Migliori Giocatori (concept A): i banner entrano da sinistra a cascata con un piccolo rimbalzo; al cambio statistica i vecchi escono a destra.
+   "backwards": finita l'entrata il banner torna normale (resta l'effetto del tocco di .press). */
+.tp-in { animation: tp-in .56s cubic-bezier(.34, 1.32, .64, 1) backwards; }
+@keyframes tp-in {
+  0% { transform: translate3d(-112%, 0, 0); opacity: 0; }
+  60% { opacity: 1; }
+  100% { transform: translate3d(0, 0, 0); opacity: 1; }
+}
+.tp-out a { animation: tp-out .24s ease-in forwards; }
+@keyframes tp-out { to { transform: translate3d(18px, 0, 0); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .tp-in, .tp-out a { animation: none; } }
