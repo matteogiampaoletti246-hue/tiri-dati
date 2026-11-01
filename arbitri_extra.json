@@ -724,9 +724,74 @@
 "src": "api-football",
 "at": "2026-11-01T01:14+00:00"
 },
+"5868517": {
+"n": "Ojaos Valera",
+"src": "api-football",
+"at": "2026-11-01T04:56+00:00"
+},
+"5868515": {
+"n": "Rafael Sanchez Lopez",
+"src": "api-football",
+"at": "2026-11-01T04:56+00:00"
+},
+"5868523": {
+"n": "Manuel Angel Perez Hernandez",
+"src": "api-football",
+"at": "2026-11-01T04:56+00:00"
+},
+"5887671": {
+"n": "Bruno Pires Costa",
+"src": "api-football",
+"at": "2026-11-01T04:56+00:00"
+},
+"5887667": {
+"n": "Helder Carvalho",
+"src": "api-football",
+"at": "2026-11-01T04:56+00:00"
+},
+"5943281": {
+"n": "Alexandros Katsikogiannis",
+"src": "api-football",
+"at": "2026-11-01T04:56+00:00"
+},
+"5943282": {
+"n": "Christos Vergetis",
+"src": "api-football",
+"at": "2026-11-01T04:56+00:00"
+},
+"5803305": {
+"n": "Vincent",
+"src": "api-football",
+"at": "2026-11-01T04:56+00:00"
+},
+"5803306": {
+"n": "Remi Landry",
+"src": "api-football",
+"at": "2026-11-01T04:56+00:00"
+},
+"5888094": {
+"n": "Joao Afonso",
+"src": "api-football",
+"at": "2026-11-01T04:56+00:00"
+},
+"5908687": {
+"n": "Yigit Arslan",
+"src": "api-football",
+"at": "2026-11-01T04:56+00:00"
+},
+"1000019610": {
+"n": "Pablo Dovalo",
+"src": "api-football",
+"at": "2026-11-01T04:56+00:00"
+},
+"1000019605": {
+"n": "Sebastian Nicolas Martinez",
+"src": "api-football",
+"at": "2026-11-01T04:56+00:00"
+},
 "_err": [
 "2026-11-03: {\"plan\": \"Free plans do not have access to this date, try from 2026-10-31 to 2026-11-02.\"}",
 "2026-11-04: {\"plan\": \"Free plans do not have access to this date, try from 2026-10-31 to 2026-11-02.\"}"
 ],
-"_at": "2026-11-01T01:14+00:00"
+"_at": "2026-11-01T04:56+00:00"
 }
