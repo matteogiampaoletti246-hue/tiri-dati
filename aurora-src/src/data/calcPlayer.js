@@ -1,12 +1,22 @@
 // Calcolo unico dell'affidabilità di un giocatore: lo usano sia il Calcolatore sia la Home / schede giocatore.
 import { teamByName } from './teams';
 import { nextFixture, pickLeagueKey, prefillShots, teamShots } from './calcData';
-import { HIT_OPTIONS, SEASON_COMPETITIONS, computePlayerResult, parseDash, parseNum } from '@/lib/calc';
+import { HIT_OPTIONS, SEASON_COMPETITIONS, computeFoulsResult, computePlayerResult, parseDash, parseNum } from '@/lib/calc';
 import { teamById } from './teams';
 
 export const emptyBlock = () => ({ leagueId: 'serie-a', id: null, totali: '', inPorta: '' });
 
+// falli: dati a parte, cosi' i tiri non cambiano (stat: tiri | porta | fc | fs)
+export const emptyFouls = () => ({
+  last5: '', min5: '', hitRate: '',
+  season: { campionato: { tiri: '', minuti: '' }, coppa: { tiri: '', minuti: '' }, nations: { tiri: '', minuti: '' }, qualificazioni: { tiri: '', minuti: '' } },
+  team: '', opp: '', duel: [],
+});
+export const isFouls = (form) => form.stat === 'fc' || form.stat === 'fs';
+
 export const initialForm = () => ({
+  stat: 'tiri',
+  f: emptyFouls(),
   playerId: null,
   tipoTiri: 'totali',
   lineType: 'over',
@@ -99,6 +109,43 @@ export function resultFromForm(form) {
     oppConceded: parseNum(form.opp[family]),
     oppAvg: oppStats ? oppStats.avg.against[family] : null,
     oppStrength: oppStats?.strength ?? null,
+  });
+}
+
+// hit rate (opzione piu' vicina) dai valori delle ultime partite rispetto alla linea; stessa regola dei tiri (4/5+ se la partita mancata e' a un solo tiro/fallo dalla linea)
+export function hitFromValues(vals, line, lineType) {
+  const rows = (vals || []).slice(0, 5);
+  if (rows.length < 3 || line === null || line === undefined) return '';
+  const ok = (v) => (lineType === 'under' ? v < line : v > line);
+  const hit = rows.filter(ok).length;
+  let fixed = String(hit === 0 ? '0' : [0, 0.2, 0.4, 0.6, 0.8, 1][Math.min(5, Math.round((hit / rows.length) * 5))]);
+  if (rows.length === 5 && hit === 4) {
+    const need = Math.floor(line) + 1;
+    const miss = rows.find((v) => !ok(v));
+    if (miss !== undefined && miss === (lineType === 'under' ? need : need - 1)) fixed = '0.9';
+  }
+  return fixed;
+}
+
+// risultato dei falli: valori gia' nel modulo (precompilati dai dati, modificabili) + media dei duelli scelti
+export function resultFromFouls(form, duelAvg, duelLeagueAvg, teamAvg, oppAvg) {
+  const f = form.f || emptyFouls();
+  const hitRate = f.hitRate === '' ? null : parseNum(f.hitRate);
+  const hitLabel = HIT_OPTIONS.find((o) => o.value === f.hitRate)?.label ?? null;
+  return computeFoulsResult({
+    season: SEASON_COMPETITIONS.map((c) => ({ shots: parseNum(f.season[c.key].tiri) ?? 0, minutes: parseNum(f.season[c.key].minuti) ?? 0 })),
+    last5: { shots: parseDash(f.last5), minutes: parseDash(f.min5) },
+    line: parseNum(form.line),
+    lineType: form.lineType,
+    odds: parseNum(form.odds),
+    hitRate,
+    hitLabel,
+    teamVal: parseNum(f.team),
+    teamAvg,
+    oppVal: parseNum(f.opp),
+    oppAvg,
+    duelAvg,
+    duelLeagueAvg,
   });
 }
 

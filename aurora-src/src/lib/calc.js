@@ -338,3 +338,33 @@ export function computeTeamResult({ teamFor: rawFor = null, teamOpp: rawOpp = nu
     ready: stake.stake !== null,
   };
 }
+
+/* ── Falli (commessi / subiti) ─────────────────────────────────────────
+   Stesso schema dei tiri (tasso a 90' mescolato, Poisson, hit rate al 40%) ma con fattori moltiplicativi a gerarchia:
+   1) giocatore (con hit rate), 2) duello avversario (media dei 3 scelti al massimo), 3) squadra avversaria, 4) squadra del giocatore.
+   Casa/Trasferta e handicap dei campionati minori non hanno effetto sui falli. I tiri non usano nulla di questo. */
+export const FOUL_EXP = { duel: 0.5, opp: 0.35, own: 0.15, oppSolo: 0.6, ownSolo: 0.2 };
+const ratioPow = (v, avg, e) => (v === null || v === undefined || !avg || !(v > 0) ? null : Math.pow(v / avg, e));
+export function computeFoulsResult({
+  season = [], last5 = { shots: [], minutes: [] }, line = null, lineType = 'over', odds = null, hitRate = null, hitLabel = null,
+  teamVal = null, teamAvg = null, oppVal = null, oppAvg = null, duelAvg = null, duelLeagueAvg = null,
+} = {}) {
+  const rateSeason = seasonRate90(season);
+  const rateLast5 = last5Rate90(last5.shots, last5.minutes);
+  const rate90 = mixRate90(rateSeason, rateLast5);
+  const hasDuel = duelAvg !== null && duelAvg !== undefined && duelLeagueAvg > 0;
+  const duelFactor = hasDuel ? ratioPow(Math.max(duelAvg, 0.05), duelLeagueAvg, FOUL_EXP.duel) : null;
+  const oppFactor = ratioPow(oppVal, oppAvg, hasDuel ? FOUL_EXP.opp : FOUL_EXP.oppSolo);
+  const creationFactor = ratioPow(teamVal, teamAvg, hasDuel ? FOUL_EXP.own : FOUL_EXP.ownSolo);
+  const lambda = rate90 !== null && oppFactor !== null && creationFactor !== null ? rate90 * oppFactor * creationFactor * (duelFactor ?? 1) : null;
+  const prob = probModel(lambda, line, lineType);
+  const probFinal = prob === null ? null : hitRate === null ? prob : prob * 0.6 + hitRate * 0.4;
+  const score = probFinal === null ? null : probFinal * 10;
+  const tier = quotaTier(odds);
+  const stake = stakeCalc(score, odds);
+  return {
+    kind: 'player', rateSeason, rateLast5, rate90, oppFactor, creationFactor, duelFactor, sedeFactor: 1, lambda, line, lineType,
+    probModel: prob, probFinal, score, reliability: reliability(score), impliedProb: odds ? 1 / odds : null, tier,
+    combo: comboScore(score, tier.value), note: valueNoteOf(probFinal, odds), stake, hitRate, hitLabel, ready: stake.stake !== null,
+  };
+}

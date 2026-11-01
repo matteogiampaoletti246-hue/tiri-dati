@@ -8,7 +8,7 @@ import PanelTitle from '@/components/PanelTitle';
 import TextFilter from '@/components/TextFilter';
 import { PLAYERS } from '@/data/players';
 import { teamById } from '@/data/teams';
-import { COMPETITION_OPTIONS, HIT_OPTIONS, LINE_OPTIONS, SEDE_OPTIONS, SHOTS_OPTIONS } from '@/lib/calc';
+import { COMPETITION_OPTIONS, HIT_OPTIONS, LINE_OPTIONS, SEDE_OPTIONS } from '@/lib/calc';
 import FieldRow from './FieldRow';
 import NumInput from './NumInput';
 import PickerSheet from './PickerSheet';
@@ -16,9 +16,10 @@ import MiniSelect from './MiniSelect';
 import Crest from '@/components/Crest';
 import { PlayerFace } from '@/components/SearchOverlay';
 import SelectRow from './SelectRow';
+import CalcStatSelect from './CalcStatSelect';
 
 // Impostazioni di base della giocata su un giocatore.
-export default function PlayerPickPanel({ form, set, player, hint, onSelectPlayer }) {
+export default function PlayerPickPanel({ form, set, player, hint, onSelectPlayer, stat = 'tiri', onStat }) {
   const navigate = useNavigate();
   const [picker, setPicker] = useState(null);
   const hitLabel = HIT_OPTIONS.find((o) => o.value === form.hitRate)?.label ?? null;
@@ -77,9 +78,7 @@ export default function PlayerPickPanel({ form, set, player, hint, onSelectPlaye
             onClick={() => { primeKeyboard(); setPicker('player'); }}
           />
         )}
-        <FieldRow label="Tipo tiri" noSwipe>
-          <TextFilter options={SHOTS_OPTIONS} value={form.tipoTiri} onChange={(v) => set('tipoTiri', v)} />
-        </FieldRow>
+        <CalcStatSelect value={stat} onChange={onStat} />
         <FieldRow label="Tipo linea" noSwipe>
           <TextFilter options={LINE_OPTIONS} value={form.lineType} onChange={(v) => set('lineType', v)} />
         </FieldRow>

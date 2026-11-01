@@ -5,14 +5,14 @@ import FieldRow from './FieldRow';
 import NumInput from './NumInput';
 
 // Medie stagione per competizione (tiri + minuti) e tasso normalizzato a 90'.
-export default function PlayerSeasonPanel({ season, onChange, rate90 }) {
+export default function PlayerSeasonPanel({ season, onChange, rate90, label = 'Tiri' }) {
   return (
     <section>
       <PanelTitle>Medie stagione</PanelTitle>
       <div className="panel overflow-hidden">
         <div className="flex items-center gap-2 px-5 py-2.5">
           <p className="label-sm">Competizione</p>
-          <p className="label-sm ml-auto w-[72px] text-center">Tiri</p>
+          <p className="label-sm ml-auto w-[72px] text-center">{label}</p>
           <p className="label-sm w-[72px] text-center">Minuti</p>
         </div>
         {SEASON_COMPETITIONS.map((c) => (
@@ -21,7 +21,7 @@ export default function PlayerSeasonPanel({ season, onChange, rate90 }) {
               value={season[c.key].tiri}
               onChange={(v) => onChange(c.key, { tiri: v })}
               width={72}
-              ariaLabel={`Tiri ${c.label}`}
+              ariaLabel={`${label} ${c.label}`}
             />
             <NumInput
               value={season[c.key].minuti}

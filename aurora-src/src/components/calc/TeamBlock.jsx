@@ -71,11 +71,7 @@ export default function TeamBlock({ title, mode = 'for', family = 'totali', bloc
               </div>
             ) : null}
           </div>
-        ) : (
-          <p className="px-5 pb-5 pt-2 text-[11.5px] leading-snug" style={{ color: 'var(--ink-3)' }}>
-            Seleziona la squadra per medie, posizione in classifica e riquadri casa / trasferta.
-          </p>
-        )}
+        ) : null}
       </div>
 
       <PickerSheet

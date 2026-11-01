@@ -1,11 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { CALC_KEEP } from '@/data/calcKeep';
 import { useLocation } from 'react-router-dom';
 import PanelTitle from '@/components/PanelTitle';
 import { playerById } from '@/data/players';
 import { teamById } from '@/data/teams';
 import { fixtureAt, nextFixture, prefillShots, teamShots } from '@/data/calcData';
-import { fillFrom, initialForm, resultFromForm } from '@/data/calcPlayer';
+import { emptyFouls, fillFrom, hitFromValues, initialForm, isFouls, resultFromForm, resultFromFouls } from '@/data/calcPlayer';
+import { domesticKey } from '@/data/calcData';
+import { fmTeamIn, foulKeys, leaguePlayerAvg, playerFouls, rosterFouls, teamFoulStats, useFouls } from '@/data/calcFouls';
+import { resolvePid } from '@/data/playerIndex';
+import { comma } from '@/lib/format';
+import { parseDash } from '@/lib/calc';
+import DuelPicker from './DuelPicker';
+import FoulsTeamBlock from './FoulsTeamBlock';
 import {
   COMPETITION_OPTIONS,
   HIT_OPTIONS,
@@ -24,7 +31,7 @@ const extra = { dashTarget: 'shots' };
 const initial = () => ({ ...initialForm(), ...extra });
 
 export default function PlayerTab({ onSave }) {
-  const [form, setForm] = useState(() => CALC_KEEP.player || initial());
+  const [form, setForm] = useState(() => (CALC_KEEP.player ? { stat: 'tiri', f: emptyFouls(), ...CALC_KEEP.player } : initial()));
   CALC_KEEP.player = form;
   const [saved, setSaved] = useState(false);
 
@@ -60,8 +67,62 @@ export default function PlayerTab({ onSave }) {
   const line = parseNum(form.line);
   const odds = parseNum(form.odds);
 
-  const result = resultFromForm(form);
-  const hitLabel = HIT_OPTIONS.find((o) => o.value === form.hitRate)?.label ?? null;
+  // ── falli: dati a parte, i tiri restano quelli di sempre ──
+  const fouls = isFouls(form);
+  const f = form.f || emptyFouls();
+  const setF = (patch) => setForm((x) => ({ ...x, f: { ...(x.f || emptyFouls()), ...patch } }));
+  const oppStat = form.stat === 'fc' ? 'fs' : 'fc'; // la statistica dell'avversario e' l'opposta
+  const keys = useMemo(() => (fouls ? foulKeys([team && team.name, opp && opp.name], [form.team.leagueId, form.opp.leagueId]) : []), [fouls, team, opp, form.team.leagueId, form.opp.leagueId]);
+  const fd = useFouls(keys);
+  const fmOf = (t) => fmTeamIn(fd, t);
+  const [fmPid, setFmPid] = useState(null);
+  useEffect(() => {
+    let live = true;
+    setFmPid(null);
+    if (fouls && player) resolvePid(player).then((x) => { if (live) setFmPid(x); });
+    return () => { live = false; };
+  }, [fouls, form.playerId]); // eslint-disable-line react-hooks/exhaustive-deps
+  const ownStats = fouls ? teamFoulStats(fd, fmOf(team), form.team.leagueId, team && team.name, form.stat) : null;
+  const oppStats = fouls ? teamFoulStats(fd, fmOf(opp), form.opp.leagueId, opp && opp.name, oppStat) : null;
+  const oppDom = opp ? domesticKey(opp.name) : null;
+  const roster = fouls && oppDom ? rosterFouls(fd, oppDom, fmOf(opp), oppStat) : [];
+  const duelSel = (f.duel || []).map((id) => roster.find((r) => r.id === id)).filter(Boolean);
+  const duelAvg = duelSel.length ? duelSel.reduce((a, r) => a + r.avg90, 0) / duelSel.length : null;
+  const duelLeagueAvg = fouls && oppDom ? leaguePlayerAvg(fd, oppDom, oppStat) : null;
+
+  // precompila i falli dai dati (ultime 5, medie stagione, medie squadre) quando cambiano giocatore, squadre o statistica
+  useEffect(() => {
+    if (!fouls || !fd || !player || !fmPid) return;
+    const pf = playerFouls(fd, fmPid, team && domesticKey(team.name), form.stat);
+    const season = { campionato: { tiri: '', minuti: '' }, coppa: { tiri: '', minuti: '' }, nations: { tiri: '', minuti: '' }, qualificazioni: { tiri: '', minuti: '' } };
+    ['campionato', 'coppa'].forEach((k) => { if (pf && pf[k]) season[k] = { tiri: comma(Math.round(pf[k].v * 100) / 100, 2), minuti: String(Math.round(pf[k].min)) }; });
+    setF({
+      last5: pf ? pf.last5.join('-') : '',
+      min5: pf ? pf.min5.join('-') : '',
+      season,
+      team: ownStats ? comma(ownStats.v, 2) : '',
+      opp: oppStats ? comma(oppStats.v, 2) : '',
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fouls, fd, fmPid, form.stat, form.playerId, form.team.id, form.team.leagueId, form.opp.id, form.opp.leagueId]);
+  // hit rate dalle ultime 5 e dalla linea
+  useEffect(() => {
+    if (!fouls) return;
+    setF({ hitRate: hitFromValues(parseDash(f.last5), parseNum(form.line), form.lineType) });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fouls, f.last5, form.line, form.lineType]);
+  // cambiando squadra avversaria o statistica il duello riparte vuoto
+  useEffect(() => { setF({ duel: [] }); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [form.opp.id, form.stat, form.playerId]);
+
+  const result = fouls ? resultFromFouls(form, duelAvg, duelLeagueAvg, ownStats && ownStats.avg, oppStats && oppStats.avg) : resultFromForm(form);
+  const hitLabel = fouls ? (HIT_OPTIONS.find((o) => o.value === f.hitRate)?.label ?? null) : (HIT_OPTIONS.find((o) => o.value === form.hitRate)?.label ?? null);
+  const statName = { tiri: 'tiri', porta: 'tiri in porta', fc: 'falli commessi', fs: 'falli subiti' }[form.stat || 'tiri'];
+  const statTitle = form.stat === 'fc' ? 'Falli commessi' : 'Falli subiti';
+  const oppTitle = oppStat === 'fc' ? 'Falli commessi' : 'Falli subiti';
+  const onStat = (v) => setForm((x) => ({ ...x, stat: v, tipoTiri: v === 'porta' ? 'inPorta' : v === 'tiri' ? 'totali' : x.tipoTiri }));
+  // negli schermi dei falli l'hit rate letto/scritto dal pannello di base e' quello dei falli
+  const vform = fouls ? { ...form, hitRate: f.hitRate } : form;
+  const vset = (key, value) => (fouls && key === 'hitRate' ? setF({ hitRate: value }) : set(key, value));
 
   const selectPlayer = (id) => {
     const p = playerById(id);
@@ -92,7 +153,7 @@ export default function PlayerTab({ onSave }) {
       date: new Date().toISOString(),
       kind: 'player',
       title: player ? player.name : 'Giocatore',
-      subtitle: `${form.lineType === 'under' ? 'Under' : 'Over'} ${fmtLine(line)} ${family === 'inPorta' ? 'tiri in porta' : 'tiri'} · ${competitionLabel} · ${sedeLabel}`,
+      subtitle: `${form.lineType === 'under' ? 'Under' : 'Over'} ${fmtLine(line)} ${fouls ? statName : family === 'inPorta' ? 'tiri in porta' : 'tiri'} · ${competitionLabel}${fouls ? '' : ` · ${sedeLabel}`}`,
       score: result.score,
       probModel: result.probModel,
       probFinal: result.probFinal,
@@ -107,6 +168,7 @@ export default function PlayerTab({ onSave }) {
       line,
       lineType: form.lineType,
       hitLabel,
+      stat: form.stat || 'tiri',
       note: result.note.text,
       sede: form.sede,
     });
@@ -116,24 +178,48 @@ export default function PlayerTab({ onSave }) {
   return (
     <div className="px-5 pb-8 pt-5">
       <PlayerPickPanel
-        form={form}
-        set={set}
+        form={vform}
+        set={vset}
         player={player}
         onSelectPlayer={selectPlayer}
         hint={lineHintText(result.lambda, line)}
+        stat={form.stat || 'tiri'}
+        onStat={onStat}
       />
-      <div className="mt-7">
-        <PlayerLast5Panel form={form} set={set} />
-      </div>
-      <div className="mt-7">
-        <PlayerSeasonPanel season={form.season} onChange={setSeason} rate90={result.rate90} />
-      </div>
-      <div className="mt-7">
-        <TeamBlock title="Squadra del giocatore" mode="for" family={family} block={form.team} onChange={(p) => setBlock('team', p)} />
-      </div>
-      <div className="mt-7">
-        <TeamBlock title="Squadra avversaria" mode="against" family={family} block={form.opp} onChange={(p) => setBlock('opp', p)} />
-      </div>
+      {fouls ? (
+        <>
+          <div className="mt-7">
+            <PlayerLast5Panel form={{ shots5: f.last5, minutes5: f.min5 }} set={(k, v) => setF(k === 'shots5' ? { last5: v } : { min5: v })} label={statTitle} />
+          </div>
+          <div className="mt-7">
+            <PlayerSeasonPanel season={f.season} onChange={(k, patch) => setF({ season: { ...f.season, [k]: { ...f.season[k], ...patch } } })} rate90={result.rate90} label={form.stat === 'fc' ? 'Commessi' : 'Subiti'} />
+          </div>
+          <div className="mt-7">
+            <FoulsTeamBlock title="Squadra del giocatore" statLabel={statTitle} block={form.team} stats={ownStats} value={f.team} onValue={(v) => setF({ team: v })} onChange={(p) => setBlock('team', p)} />
+          </div>
+          <div className="mt-7">
+            <DuelPicker team={opp} roster={roster} picked={f.duel || []} onChange={(d) => setF({ duel: d })} statLabel={oppTitle} />
+          </div>
+          <div className="mt-7">
+            <FoulsTeamBlock title="Squadra avversaria" statLabel={oppTitle} block={form.opp} stats={oppStats} value={f.opp} onValue={(v) => setF({ opp: v })} onChange={(p) => setBlock('opp', p)} />
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="mt-7">
+            <PlayerLast5Panel form={form} set={set} />
+          </div>
+          <div className="mt-7">
+            <PlayerSeasonPanel season={form.season} onChange={setSeason} rate90={result.rate90} />
+          </div>
+          <div className="mt-7">
+            <TeamBlock title="Squadra del giocatore" mode="for" family={family} block={form.team} onChange={(p) => setBlock('team', p)} />
+          </div>
+          <div className="mt-7">
+            <TeamBlock title="Squadra avversaria" mode="against" family={family} block={form.opp} onChange={(p) => setBlock('opp', p)} />
+          </div>
+        </>
+      )}
       <div className="mt-7">
         <PanelTitle>Risultato</PanelTitle>
         <p className="mb-3 text-[11.5px] leading-snug" style={{ color: 'var(--ink-3)' }}>
