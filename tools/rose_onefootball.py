@@ -83,7 +83,7 @@ def main(limit):
             if c and len(c) == 1: hit[i] = (n, next(iter(c)))
         if not fmt or len(hit) < max(3, len(fmt) // 2):
             no += 1; print(f'NO {e["cn"]}/{e["n"]} ({len(hit)}/{len(fmt)} nomi univoci)', flush=True); continue
-        with ThreadPoolExecutor(3) as ex: sq = list(ex.map(lambda it: squad(it[1][0]), hit.items()))
+        with ThreadPoolExecutor(3) as ex: sq = list(ex.map(lambda it: squad(it[1][1][0]), hit.items()))
         teams = []
         for (i, (n, (url, tid))), p in zip(hit.items(), sq):
             if p: teams.append({'lsId': None, 'ofId': tid, 'n': n, 'fm': i, 'co': [], 'p': p})
