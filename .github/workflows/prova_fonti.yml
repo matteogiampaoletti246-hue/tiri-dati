@@ -1,5 +1,5 @@
 name: Prova fonti (raggiungibilita dal runner)
-# Cerca un elenco dei campionati di LiveScore (robots.txt, sitemap). Referto (solo conteggi e indirizzi) nel ramo rose-out.
+# OneFootball: elenco competizioni e struttura pagina squadra. Referto (solo conteggi/indirizzi) nel ramo rose-out.
 on: workflow_dispatch
 permissions:
   contents: write
@@ -11,8 +11,31 @@ jobs:
         run: |
           mkdir -p /tmp/po
           UA='Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 Mobile Safari/604.1'
-          for u in https://www.livescore.com/sitemap.xml https://www.livescore.com/en/sitemap.xml; do
-            curl -sS --compressed -m 25 -L -A "$UA" "$u" | head -c 2500 | tee -a /tmp/po/referto.txt; echo | tee -a /tmp/po/referto.txt
-          done
-          git init -q -b rose-out /tmp/po && cd /tmp/po && git config user.name github-actions && git config user.email github-actions@users.noreply.github.com
+          g() { curl -sS --compressed -m 30 -L -A "$UA" -H 'Accept-Language: en' -o "$2" -w "%{http_code} %{size_download} $1\n" "$1" 2>&1 | tail -1 | tee -a /tmp/po/referto.txt; }
+          g https://onefootball.com/robots.txt /tmp/po/robots.txt
+          grep -i sitemap /tmp/po/robots.txt | head -10 | tee -a /tmp/po/referto.txt
+          for u in https://onefootball.com/sitemap.xml https://onefootball.com/sitemap-index.xml https://onefootball.com/en/sitemap.xml; do g "$u" /tmp/po/sm.xml; head -c 1500 /tmp/po/sm.xml | grep -oE '<loc>[^<]*</loc>' | head -15 | tee -a /tmp/po/referto.txt; done
+          g https://onefootball.com/en/competition/premier-league-9 /tmp/po/c1.html
+          g https://onefootball.com/en/team/chelsea-9/squad /tmp/po/t1.html
+          python3 - <<'PY' | tee -a /tmp/po/referto.txt
+          import re,json
+          for f in ('c1','t1'):
+              s=open('/tmp/po/'+f+'.html',encoding='utf8',errors='ignore').read()
+              m=re.search(r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>',s,re.S)
+              if not m: print(f,'senza NEXT_DATA'); continue
+              t=m.group(1); print(f,'NEXT_DATA',len(t))
+              print(' links team:',sorted(set(re.findall(r'"/en/team/[a-z0-9-]+',t)))[:6])
+              print(' links competition:',sorted(set(re.findall(r'"/en/competition/[a-z0-9-]+',t)))[:6])
+              j=json.loads(t); 
+              def keys(o,p='',d=0):
+                  if d>5: return
+                  if isinstance(o,dict):
+                      for k,v in o.items():
+                          if k in ('players','squad','items','teams') or (isinstance(v,list) and v and isinstance(v[0],dict) and 'name' in v[0] and len(v)>10):
+                              print('  ',p+'/'+k,type(v).__name__,len(v) if hasattr(v,'__len__') else '', json.dumps(v[0],ensure_ascii=False)[:300] if isinstance(v,list) and v else '')
+                          keys(v,p+'/'+k,d+1)
+                  elif isinstance(o,list) and o: keys(o[0],p+'[0]',d+1)
+              keys(j['props'])
+          PY
+          git init -q -b rose-out /tmp/po-out && cp /tmp/po/referto.txt /tmp/po-out/ && cd /tmp/po-out && git config user.name github-actions && git config user.email github-actions@users.noreply.github.com
           git add -A && git commit -qm "Referto" && git push -qf "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" rose-out
