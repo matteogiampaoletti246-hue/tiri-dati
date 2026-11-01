@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-31T23:32:00+00:00",
+ "updated_at": "2026-11-01T05:41:15+00:00",
  "window": {
   "nlast": 0,
   "min_games": 1,
@@ -2038,59 +2038,6 @@
      ]
     },
     {
-     "id": "m_1PHYqG",
-     "date": "2026-11-01",
-     "time": "2026-11-01",
-     "league": "Serie A",
-     "home": "Lazio",
-     "away": "Cagliari",
-     "corners_home": 5.7,
-     "corners_away": 4.0,
-     "gap": 1.7,
-     "games": [
-      4,
-      5
-     ],
-     "tiri_home": 17.1,
-     "tiri_away": 11.9,
-     "tiri_gap": 5.2,
-     "tiri_games": [
-      4,
-      5
-     ],
-     "sot_home": 5.0,
-     "sot_away": 4.8,
-     "sot_gap": 0.2,
-     "sot_games": [
-      4,
-      5
-     ],
-     "falli_home": 10.3,
-     "falli_away": 11.4,
-     "falli_gap": 1.1,
-     "falli_games": [
-      9,
-      9
-     ],
-     "off_home": 1.3,
-     "off_away": 2.5,
-     "off_gap": 1.2,
-     "off_games": [
-      9,
-      9
-     ],
-     "cards": 3.1,
-     "cards_1t": 1.2,
-     "cards_home": 1.7,
-     "cards_away": 1.4,
-     "cards_1t_home": 0.9,
-     "cards_1t_away": 0.3,
-     "games_k": [
-      9,
-      9
-     ]
-    },
-    {
      "id": "m_2mVrHa",
      "date": "2026-11-01",
      "time": "2026-11-01",
@@ -2138,6 +2085,59 @@
      "cards_away": 0.9,
      "cards_1t_home": 1.0,
      "cards_1t_away": 0.4,
+     "games_k": [
+      9,
+      9
+     ]
+    },
+    {
+     "id": "m_1PHYqG",
+     "date": "2026-11-01",
+     "time": "2026-11-01",
+     "league": "Serie A",
+     "home": "Lazio",
+     "away": "Cagliari",
+     "corners_home": 5.7,
+     "corners_away": 4.0,
+     "gap": 1.7,
+     "games": [
+      4,
+      5
+     ],
+     "tiri_home": 17.1,
+     "tiri_away": 11.9,
+     "tiri_gap": 5.2,
+     "tiri_games": [
+      4,
+      5
+     ],
+     "sot_home": 5.0,
+     "sot_away": 4.8,
+     "sot_gap": 0.2,
+     "sot_games": [
+      4,
+      5
+     ],
+     "falli_home": 10.3,
+     "falli_away": 11.4,
+     "falli_gap": 1.1,
+     "falli_games": [
+      9,
+      9
+     ],
+     "off_home": 1.3,
+     "off_away": 2.5,
+     "off_gap": 1.2,
+     "off_games": [
+      9,
+      9
+     ],
+     "cards": 3.1,
+     "cards_1t": 1.2,
+     "cards_home": 1.7,
+     "cards_away": 1.4,
+     "cards_1t_home": 0.9,
+     "cards_1t_away": 0.3,
      "games_k": [
       9,
       9
@@ -2674,59 +2674,6 @@
      ]
     },
     {
-     "id": "m_1IGE7o",
-     "date": "2026-11-01",
-     "time": "2026-11-01",
-     "league": "Ligue 1",
-     "home": "Lyon",
-     "away": "Angers",
-     "corners_home": 4.8,
-     "corners_away": 6.5,
-     "gap": 1.7,
-     "games": [
-      5,
-      3
-     ],
-     "tiri_home": 16.2,
-     "tiri_away": 11.2,
-     "tiri_gap": 5.0,
-     "tiri_games": [
-      5,
-      3
-     ],
-     "sot_home": 6.6,
-     "sot_away": 3.7,
-     "sot_gap": 2.9,
-     "sot_games": [
-      5,
-      3
-     ],
-     "falli_home": 11.4,
-     "falli_away": 12.3,
-     "falli_gap": 0.9,
-     "falli_games": [
-      11,
-      8
-     ],
-     "off_home": 1.5,
-     "off_away": 1.5,
-     "off_gap": 0.0,
-     "off_games": [
-      11,
-      8
-     ],
-     "cards": 3.1,
-     "cards_1t": 1.0,
-     "cards_home": 1.5,
-     "cards_away": 1.6,
-     "cards_1t_home": 0.5,
-     "cards_1t_away": 0.5,
-     "games_k": [
-      11,
-      8
-     ]
-    },
-    {
      "id": "m_18Uw0k",
      "date": "2026-11-01",
      "time": "2026-11-01",
@@ -2776,6 +2723,59 @@
      "cards_1t_away": 0.4,
      "games_k": [
       8,
+      8
+     ]
+    },
+    {
+     "id": "m_1IGE7o",
+     "date": "2026-11-01",
+     "time": "2026-11-01",
+     "league": "Ligue 1",
+     "home": "Lyon",
+     "away": "Angers",
+     "corners_home": 4.8,
+     "corners_away": 6.5,
+     "gap": 1.7,
+     "games": [
+      5,
+      3
+     ],
+     "tiri_home": 16.2,
+     "tiri_away": 11.2,
+     "tiri_gap": 5.0,
+     "tiri_games": [
+      5,
+      3
+     ],
+     "sot_home": 6.6,
+     "sot_away": 3.7,
+     "sot_gap": 2.9,
+     "sot_games": [
+      5,
+      3
+     ],
+     "falli_home": 11.4,
+     "falli_away": 12.3,
+     "falli_gap": 0.9,
+     "falli_games": [
+      11,
+      8
+     ],
+     "off_home": 1.5,
+     "off_away": 1.5,
+     "off_gap": 0.0,
+     "off_games": [
+      11,
+      8
+     ],
+     "cards": 3.1,
+     "cards_1t": 1.0,
+     "cards_home": 1.5,
+     "cards_away": 1.6,
+     "cards_1t_home": 0.5,
+     "cards_1t_away": 0.5,
+     "games_k": [
+      11,
       8
      ]
     },
@@ -20227,59 +20227,6 @@
      ]
     },
     {
-     "id": "m_2CEago",
-     "date": "2026-11-08",
-     "time": "2026-11-08",
-     "league": "Serie A",
-     "home": "Genoa",
-     "away": "Milan",
-     "corners_home": 4.5,
-     "corners_away": 5.2,
-     "gap": 0.7,
-     "games": [
-      6,
-      7
-     ],
-     "tiri_home": 12.0,
-     "tiri_away": 15.1,
-     "tiri_gap": 3.2,
-     "tiri_games": [
-      6,
-      7
-     ],
-     "sot_home": 3.7,
-     "sot_away": 5.1,
-     "sot_gap": 1.4,
-     "sot_games": [
-      6,
-      7
-     ],
-     "falli_home": 11.2,
-     "falli_away": 10.9,
-     "falli_gap": 0.3,
-     "falli_games": [
-      9,
-      13
-     ],
-     "off_home": 2.1,
-     "off_away": 1.4,
-     "off_gap": 0.6,
-     "off_games": [
-      9,
-      13
-     ],
-     "cards": 4.1,
-     "cards_1t": 1.1,
-     "cards_home": 2.2,
-     "cards_away": 1.8,
-     "cards_1t_home": 0.4,
-     "cards_1t_away": 0.6,
-     "games_k": [
-      9,
-      13
-     ]
-    },
-    {
      "id": "m_2Cwjmd",
      "date": "2026-11-08",
      "time": "2026-11-08",
@@ -20330,6 +20277,59 @@
      "games_k": [
       10,
       9
+     ]
+    },
+    {
+     "id": "m_2CEago",
+     "date": "2026-11-08",
+     "time": "2026-11-08",
+     "league": "Serie A",
+     "home": "Genoa",
+     "away": "Milan",
+     "corners_home": 4.5,
+     "corners_away": 5.2,
+     "gap": 0.7,
+     "games": [
+      6,
+      7
+     ],
+     "tiri_home": 12.0,
+     "tiri_away": 15.1,
+     "tiri_gap": 3.2,
+     "tiri_games": [
+      6,
+      7
+     ],
+     "sot_home": 3.7,
+     "sot_away": 5.1,
+     "sot_gap": 1.4,
+     "sot_games": [
+      6,
+      7
+     ],
+     "falli_home": 11.2,
+     "falli_away": 10.9,
+     "falli_gap": 0.3,
+     "falli_games": [
+      9,
+      13
+     ],
+     "off_home": 2.1,
+     "off_away": 1.4,
+     "off_gap": 0.6,
+     "off_games": [
+      9,
+      13
+     ],
+     "cards": 4.1,
+     "cards_1t": 1.1,
+     "cards_home": 2.2,
+     "cards_away": 1.8,
+     "cards_1t_home": 0.4,
+     "cards_1t_away": 0.6,
+     "games_k": [
+      9,
+      13
      ]
     },
     {
