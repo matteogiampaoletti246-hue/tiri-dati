@@ -16,15 +16,17 @@ async function build(key) {
   const [d, season] = await Promise.all([loadSeasonMatches(fm, sk), loadSeason(fm, sk).catch(() => null)]);
   if (!d || !d.m) return null;
   const when = {};
-  ((season && season.fix) || []).forEach((r) => { when[String(r[0])] = Date.parse(r[4]) || 0; });
+  const fxTeams = {};
+  ((season && season.fix) || []).forEach((r) => { when[String(r[0])] = Date.parse(r[4]) || 0; fxTeams[String(r[0])] = [r[2], r[3]]; });
   const teams = {};
   const players = {};
   Object.entries(d.m).forEach(([mid, m]) => {
     if (!m) return;
     const ts = when[mid] || 0;
     const f = m.s && m.s.fouls;
-    const hid = m.h && m.h.id;
-    const aid = m.a && m.a.id;
+    // partite arrivate solo da PitchAPI (KV) non hanno `h`/`a`: le squadre si leggono dal calendario
+    const hid = (m.h && m.h.id) || (fxTeams[mid] && fxTeams[mid][0]);
+    const aid = (m.a && m.a.id) || (fxTeams[mid] && fxTeams[mid][1]);
     if (Array.isArray(f) && hid && aid && Number.isFinite(Number(f[0])) && Number.isFinite(Number(f[1]))) {
       (teams[hid] = teams[hid] || []).push({ ts, home: true, fc: Number(f[0]), fs: Number(f[1]) });
       (teams[aid] = teams[aid] || []).push({ ts, home: false, fc: Number(f[1]), fs: Number(f[0]) });
@@ -34,13 +36,16 @@ async function build(key) {
       if (!s || !s.id) return;
       Object.values(s).forEach((list) => { if (Array.isArray(list)) list.forEach((r) => { if (Array.isArray(r) && r[0] != null) side[String(r[0])] = [k, String(s.id), r[1] || '', r[3]]; }); });
     });
+    // partite PitchAPI senza formazioni FotMob: nome, lato e squadra dei giocatori in `pn` (id -> [nome, lato, squadra]); senza questo le partite spariscono dalle medie
+    Object.entries(m.pn || {}).forEach(([pid, r]) => { if (!side[pid] && Array.isArray(r)) side[pid] = [r[1], String(r[2]), r[0] || '', undefined]; });
     Object.entries(m.p || {}).forEach(([pid, v]) => {
       const min = Number(v.minutes_played) || 0;
       const w = side[pid];
       if (!min || !w) return;
       const e = (players[pid] = players[pid] || { id: pid, n: w[2], team: w[1], g: [], gk: true });
       e.team = w[1];
-      if (w[3] !== 11) e.gk = false; // portiere: sempre nel ruolo 11 delle formazioni
+      // portiere: ruolo 11 delle formazioni; senza formazioni, chi ha parate nelle statistiche della partita
+      if (w[3] === undefined ? !Object.keys(v).some((k) => /save/i.test(k)) : w[3] !== 11) e.gk = false;
       e.g.push({ ts, min, fc: Number(v.fouls) || 0, fs: Number(v.was_fouled) || 0, home: w[0] === 'h' });
     });
   });

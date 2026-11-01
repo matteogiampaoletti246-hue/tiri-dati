@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import usePageTabKey, { tabIndexOf } from '@/hooks/usePageTabKey';
 import { useParams, useLocation, Navigate } from 'react-router-dom';
-import { openPlayer } from '@/data/playerSheet';
+import { findInMatch, openPlayer } from '@/data/playerSheet';
 import PageShell from '@/components/PageShell';
 import TopBar from '@/components/TopBar';
 import MatchHero from '@/components/MatchHero';
@@ -84,7 +84,7 @@ export default function Match() {
       bump((n) => n + 1);
       if (wantPlayer && opened.current !== id && matchById(id) && matchById(id).lineup) {
         opened.current = id;
-        setTimeout(() => openPlayer({ matchId: id, name: wantPlayer.name }), 250);
+        setTimeout(() => openPlayer({ matchId: id, name: wantPlayer.name, fmId: wantPlayer.fmId }), 250);
       }
     };
     const cap = setTimeout(() => { if (on) setOkId(id); }, 7000);
@@ -105,8 +105,17 @@ export default function Match() {
     };
   }, [id]);
 
+  // formazioni arrivate dopo il primo disegno (partite d'archivio o appena aggiornate): la tendina del giocatore si apre comunque
+  useEffect(() => {
+    const m = matchById(id);
+    if (wantPlayer && ready && opened.current !== id && m && m.lineup && findInMatch(m, wantPlayer.name, wantPlayer.fmId)) {
+      opened.current = id;
+      setTimeout(() => openPlayer({ matchId: id, name: wantPlayer.name, fmId: wantPlayer.fmId }), 150);
+    }
+  });
+
   const raw = matchById(id);
-  if (raw && raw.href) return <Navigate to={raw.href} replace />;
+  if (raw && raw.href) return <Navigate to={raw.href} state={loc.state} replace />;
   if (!ready) return <Loader />;
   if (!raw) {
     return (

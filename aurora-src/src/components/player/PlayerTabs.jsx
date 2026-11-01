@@ -242,6 +242,9 @@ export function ProfiloPanel({ player: player0, team, concept }) {
 }
 
 /* ---------- PARTITE ---------- */
+// ogni partita aperta dalla scheda giocatore va in Formazioni con la tendina di quel giocatore aperta
+export const openPlayerState = (name, fmId) => ({ openPlayer: { name, fmId: fmId || null } });
+export const pickLineups = (matchId) => { try { sessionStorage.setItem(`sl-tabk-match-${matchId}`, 'lineups'); } catch (e) { /* ignore */ } };
 export function PartitePanel({ player, concept }) {
   const rows = player.recent || [];
   const car = usePlayerCareer(player);
@@ -249,6 +252,8 @@ export function PartitePanel({ player, concept }) {
   // tutte le competizioni e stagioni in cui ha giocato, dalla piu' recente
   const items = car.rows.filter((r) => leagueById(Object.keys(FM_ID).find((k) => FM_ID[k] === r[0]))).map((r) => [r[0], r[1]]);
   const seasons = items;
+  // le partite gia' nell'elenco in alto non si ripetono nelle stagioni sotto (stesso giorno = stessa partita)
+  const skipDays = new Set(rows.map((m) => String(m.date || '').slice(0, 10)).filter(Boolean));
   if (!rows.length && !(fmPid && items.length)) {
     return null;
   }
@@ -279,14 +284,14 @@ export function PartitePanel({ player, concept }) {
             ? { background: 'var(--panel-solid, rgba(255,255,255,.04))', borderRadius: 16, padding: '12px 14px' }
             : { borderTop: i ? '1px solid var(--hair-2)' : 'none' };
           return m.matchId ? (
-            <Link key={i} to={`/match/${m.matchId}`} state={{ openPlayer: { name: player.name } }} onClick={() => { try { sessionStorage.setItem(`sl-tab-match-${m.matchId}`, '2'); } catch (e) { /* ignore */ } }} className={cls} style={st}>{body}</Link>
+            <Link key={i} to={`/match/${m.matchId}`} state={openPlayerState(player.name, fmPid)} onClick={() => pickLineups(m.matchId)} className={cls} style={st}>{body}</Link>
           ) : (
             <div key={i} className={cls} style={st}>{body}</div>
           );
         })}
       </div>
     </div>
-    {fmPid && items.length ? <PastPlayerMatches key={fmPid} items={items} fmPid={fmPid} /> : null}
+    {fmPid && items.length ? <PastPlayerMatches key={fmPid} items={items} fmPid={fmPid} playerName={player.name} skipDays={skipDays} /> : null}
     </div>
   );
 }

@@ -5,7 +5,7 @@ import { TeamLogo } from '@/components/FmImg';
 import { loadSeason, loadSeasonStats, loadSeasonMatches, seasonLabel } from '@/data/archive';
 import { ArchRow, fmtDate, dayKey } from '@/components/archive/parts';
 import { tintGrad } from '@/lib/tint';
-import { RatingPill } from '@/components/player/PlayerTabs';
+import { RatingPill, openPlayerState, pickLineups } from '@/components/player/PlayerTabs';
 import { leagueById } from '@/data/leagues';
 import { FM_ID } from '@/data/archive';
 
@@ -78,7 +78,8 @@ export function PastTeamMatches({ fm, seasons, teamName, tint, teamIdByName }) {
 }
 
 // partite di un giocatore nelle stagioni passate (dai dettagli delle partite archiviate)
-export function PastPlayerMatches({ fm: fm0, seasons, fmPid, items }) {
+const romeDayOf = (iso) => { try { return new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Rome' }).format(new Date(iso)); } catch (e) { return String(iso).slice(0, 10); } };
+export function PastPlayerMatches({ fm: fm0, seasons, fmPid, items, playerName, skipDays }) {
   // items: [[fm, stagione]] di tutte le competizioni giocate; senza, solo il campionato fm0
   const list = (items || seasons.map((sk) => [fm0, sk])).map(([f, sk]) => `${f}|${sk}`);
   const { parts: parts0, busy, done, box } = useOlder(list, async (key) => {
@@ -95,6 +96,7 @@ export function PastPlayerMatches({ fm: fm0, seasons, fmPid, items }) {
       const p = x.p && x.p[fmPid];
       if (!p || !(p.minutes_played > 0)) return;
       const f = fx[mid];
+      if (skipDays && f && skipDays.has(romeDayOf(f[4]))) return;
       const hid = String((x.h && x.h.id) || (f && f[2]) || '');
       const aid = String((x.a && x.a.id) || (f && f[3]) || '');
       const home = myTeam ? myTeam === hid : false;
@@ -112,7 +114,7 @@ export function PastPlayerMatches({ fm: fm0, seasons, fmPid, items }) {
           <div className="mb-2 mt-5 text-[11px] font-extrabold uppercase tracking-wider" style={{ color: 'var(--ink-3)' }}>{items ? `${(leagueById(LID_BY_FM[fm]) || {}).name || ''} · ` : ''}Stagione {seasonLabel(sk)}</div>
           <div className="flex flex-col gap-2.5">
             {res.rows.map((m) => (
-              <Link key={m.mid} to={`/match/a-${fm}-${sk}-${m.mid}`} className="club-card flex items-center gap-3 rounded-2xl px-3.5 py-3 active:opacity-60" style={{ background: 'var(--panel-solid, rgba(255,255,255,.04))' }}>
+              <Link key={m.mid} to={`/match/a-${fm}-${sk}-${m.mid}`} state={openPlayerState(playerName, fmPid)} onClick={() => pickLineups(`a-${fm}-${sk}-${m.mid}`)} className="club-card flex items-center gap-3 rounded-2xl px-3.5 py-3 active:opacity-60" style={{ background: 'var(--panel-solid, rgba(255,255,255,.04))' }}>
                 <TeamLogo id={m.opp} name={m.oppName} size={26} />
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-[13.5px]">vs {m.oppName || '—'} <span className="tnum" style={{ color: 'var(--ink-3)' }}>{m.score}</span></p>
