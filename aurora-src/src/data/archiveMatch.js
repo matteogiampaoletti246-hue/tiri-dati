@@ -6,7 +6,9 @@ import { isPureCup } from './bracket';
 import { mapShots } from './fotmob';
 import { teamHistory, teamFmId } from './teamIndex';
 import { MATCH_BY_ID } from './matches';
-import { ensureTeam, teamById } from './teams';
+import { ensureTeam, teamById, teamByFm, TEAMS } from './teams';
+import { findAppTeam, acr, norm as tnorm } from './teamMatch';
+import { playersByTeam } from './players';
 import { leagueById, LEAGUES, CUP_IDS } from './leagues';
 import { romeDay, romeTime, slug, norm } from './util';
 
@@ -40,6 +42,22 @@ function teamsOf(season, fm, sk, leagueId) {
   Object.entries(season.teams || {}).forEach(([tid, name]) => {
     const uid = `fm-${tid}`;
     let t = teamById(uid);
+    // una squadra fm-<id> senza giocatori puo' essere la stessa di una squadra dell'app con altro nome ("Köln" = "1. FC Köln"): si cerca quella vera
+    const orphan = !t || (/^fm-/.test(t.id) && !playersByTeam(t.id).length);
+    if (orphan) {
+      // stessa squadra, stessa scheda: l'id FotMob (campo o stemma) trova la squadra vera con i suoi giocatori ("Man United" = "Manchester United")
+      const byFm = teamByFm(tid);
+      let real = byFm && !/^fm-/.test(byFm.id) ? byFm : null;
+      // nomi corti di FotMob ("PSG"): sigla/nome contenuto tra le squadre con giocatori (coppe: tutte; campionato: solo quel campionato), solo se e' una sola
+      if (!real) {
+        const pool = TEAMS.filter((x) => x.leagueId && !CUP_IDS.has(x.leagueId) && (cup || x.leagueId === leagueId) && playersByTeam(x.id).length);
+        const nn0 = tnorm(name);
+        const hit = findAppTeam(name, pool, () => true) || (() => { const c = nn0.length >= 3 ? pool.filter((x) => acr(x.name) === nn0) : []; return c.length === 1 ? c[0] : null; })();
+        // nel campionato l'id dell'archivio e' quello giusto (un fmId diverso era un abbinamento sbagliato, es. "1. FC Köln" con Viktoria Köln); in coppa un fmId diverso blocca l'unione
+        if (hit && (!cup || !hit.fmId || String(hit.fmId) === String(tid))) { real = hit; if (!cup) hit.fmId = String(tid); }
+      }
+      if (real) t = real;
+    }
     if (!t) {
       const known = teamById(slug(name));
       if (known && (cup ? known.leagueId : known.leagueId === leagueId)) t = known;
@@ -48,6 +66,7 @@ function teamsOf(season, fm, sk, leagueId) {
       t = ensureTeam(name, leagueId, teamLogo(tid), tid, uid);
       t.href = `/storico/${fm}/${sk}/squadra/${tid}`;
     }
+    if (t && !t.fmId && !/^fm-/.test(t.id)) t.fmId = String(tid);
     map[tid] = t;
   });
   return map;
