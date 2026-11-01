@@ -1,43 +1,15 @@
 {
  "competizioni": {
-  "Paulista A1 2026": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
-  },
-  "MLS Next Pro 2026": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
-  },
-  "Saudi First Division 2026-2027": {
-   "partite_con_eventi": 2,
-   "da_fare": 2
-  },
-  "Championship 2025-2026": {
-   "partite_con_eventi": 0,
-   "da_fare": 3
-  },
-  "Ligue 1 2025-2026": {
-   "partite_con_eventi": 0,
-   "da_fare": 1
-  },
-  "Super League 2025-2026": {
-   "partite_con_eventi": 0,
-   "da_fare": 1
-  },
-  "Challenge League 2025-2026": {
-   "partite_con_eventi": 10,
-   "da_fare": 10
-  },
-  "Super Liga 2025-2026": {
-   "partite_con_eventi": 8,
-   "da_fare": 8
+  "Premier Soccer League 2025-2026": {
+   "partite_con_eventi": 23,
+   "da_fare": 67
   }
  },
  "tipi_visti": {
-  "yellowcard": 94,
-  "substitution": 186,
-  "goal": 4
+  "goal": 63,
+  "redcard": 2,
+  "yellowcard": 1
  },
- "partite_in_questo_giro": 23,
- "orientamento_cambi": "player esce"
+ "partite_in_questo_giro": 27,
+ "orientamento_cambi": "non verificato"
 }
