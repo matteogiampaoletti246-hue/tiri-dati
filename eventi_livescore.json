@@ -1,12 +1,12 @@
 {
  "competizioni": {
   "Bundesliga 2026-2027": {
-   "partite_con_eventi": 2,
-   "da_fare": 2
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "First Division A 2026-2027": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
+   "partite_con_eventi": 2,
+   "da_fare": 2
   },
   "Champions League 2026-2027": {
    "partite_con_eventi": 0,
@@ -25,8 +25,8 @@
    "da_fare": 1
   },
   "Premier League 2026-2027": {
-   "partite_con_eventi": 5,
-   "da_fare": 8
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "Championship 2026-2027": {
    "partite_con_eventi": 0,
@@ -41,20 +41,20 @@
    "da_fare": 0
   },
   "Serie A 2026-2027": {
-   "partite_con_eventi": 2,
-   "da_fare": 2
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "Eredivisie 2026-2027": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "Eliteserien 2026": {
-   "partite_con_eventi": 3,
-   "da_fare": 3
-  },
-  "Liga Portugal 2026-2027": {
    "partite_con_eventi": 1,
    "da_fare": 1
+  },
+  "Liga Portugal 2026-2027": {
+   "partite_con_eventi": 2,
+   "da_fare": 2
   },
   "Premiership 2026-2027": {
    "partite_con_eventi": 0,
@@ -65,16 +65,16 @@
    "da_fare": 0
   },
   "Allsvenskan 2026": {
-   "partite_con_eventi": 3,
-   "da_fare": 3
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "Super League 2026-2027": {
-   "partite_con_eventi": 1,
-   "da_fare": 2
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "Süper Lig 2026-2027": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "Europa League 2026-2027": {
    "partite_con_eventi": 0,
@@ -94,11 +94,11 @@
   },
   "1. Division 2026-2027": {
    "partite_con_eventi": 0,
-   "da_fare": 1
+   "da_fare": 0
   },
   "Serie B 2026-2027": {
-   "partite_con_eventi": 4,
-   "da_fare": 4
+   "partite_con_eventi": 0,
+   "da_fare": 1
   },
   "LaLiga 2026-2027": {
    "partite_con_eventi": 1,
@@ -121,8 +121,8 @@
    "da_fare": 0
   },
   "Liga Profesional 2026 - Clausura": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "A-League 2026-2027": {
    "partite_con_eventi": 0,
@@ -145,20 +145,20 @@
    "da_fare": 0
   },
   "Primera Division 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "1. Liga 2026-2027": {
-   "partite_con_eventi": 2,
-   "da_fare": 2
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "Premier Division 2026": {
    "partite_con_eventi": 0,
    "da_fare": 0
   },
   "Ligat ha'Al 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "Leumit League 2026-2027": {
    "partite_con_eventi": 0,
@@ -185,8 +185,8 @@
    "da_fare": 0
   },
   "Super League 1 2026-2027": {
-   "partite_con_eventi": 3,
-   "da_fare": 3
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "Scottish Cup 2026-2027": {
    "partite_con_eventi": 0,
@@ -229,8 +229,8 @@
    "da_fare": 0
   },
   "Serie C 2026-2027": {
-   "partite_con_eventi": 5,
-   "da_fare": 7
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "Belgian Cup 2026-2027": {
    "partite_con_eventi": 0,
@@ -253,8 +253,8 @@
    "da_fare": 0
   },
   "1. Lig 2026-2027": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "Super Cup 2024-2025": {
    "partite_con_eventi": 0,
@@ -265,8 +265,8 @@
    "da_fare": 0
   },
   "Ettan 2026": {
-   "partite_con_eventi": 6,
-   "da_fare": 7
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "Svenska Cupen 2026-2027": {
    "partite_con_eventi": 0,
@@ -301,16 +301,16 @@
    "da_fare": 0
   },
   "Super Liga 2026-2027": {
-   "partite_con_eventi": 3,
-   "da_fare": 3
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "Kup Srbije 2025-2026": {
    "partite_con_eventi": 0,
    "da_fare": 0
   },
   "Liga Portugal 2 2026-2027": {
-   "partite_con_eventi": 1,
-   "da_fare": 2
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "Taça de Portugal 2026-2027": {
    "partite_con_eventi": 0,
@@ -321,7 +321,7 @@
    "da_fare": 0
   },
   "Liga I 2026-2027": {
-   "partite_con_eventi": 1,
+   "partite_con_eventi": 0,
    "da_fare": 1
   },
   "Cupa României 2026-2027": {
@@ -357,8 +357,8 @@
    "da_fare": 0
   },
   "OBOS-ligaen 2026": {
-   "partite_con_eventi": 6,
-   "da_fare": 6
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "2. divisjon 2026": {
    "partite_con_eventi": 0,
@@ -401,8 +401,8 @@
    "da_fare": 0
   },
   "First Division 2026": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "FAI Cup 2026": {
    "partite_con_eventi": 0,
@@ -421,8 +421,8 @@
    "da_fare": 0
   },
   "Premier League 2026": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "Virsliga 2026": {
    "partite_con_eventi": 0,
@@ -433,8 +433,8 @@
    "da_fare": 0
   },
   "National Division 2026-2027": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "Liga MX 2026-2027 - Apertura": {
    "partite_con_eventi": 0,
@@ -442,7 +442,7 @@
   },
   "1. CFL 2026-2027": {
    "partite_con_eventi": 0,
-   "da_fare": 1
+   "da_fare": 0
   },
   "KNVB Cup 2026-2027": {
    "partite_con_eventi": 0,
@@ -486,7 +486,7 @@
   },
   "FNL 2026-2027": {
    "partite_con_eventi": 0,
-   "da_fare": 1
+   "da_fare": 0
   },
   "Czech Cup 2026-2027": {
    "partite_con_eventi": 0,
@@ -494,11 +494,11 @@
   },
   "A-Liga 2026-2027": {
    "partite_con_eventi": 0,
-   "da_fare": 1
+   "da_fare": 0
   },
   "Kategoria Superiore 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 2
   },
   "First Division B 2026-2027": {
    "partite_con_eventi": 1,
@@ -517,8 +517,8 @@
    "da_fare": 0
   },
   "Liga de Primera 2026": {
-   "partite_con_eventi": 2,
-   "da_fare": 2
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "Primera A 2026 - Clausura": {
    "partite_con_eventi": 0,
@@ -573,8 +573,8 @@
    "da_fare": 0
   },
   "Liga Nacional 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "Liga Nacional 2026-2027 - Apertura": {
    "partite_con_eventi": 0,
@@ -585,8 +585,8 @@
    "da_fare": 0
   },
   "Erovnuli Liga 2026": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "Ukraine Cup 2026-2027": {
    "partite_con_eventi": 0,
@@ -598,7 +598,7 @@
   },
   "Regionalliga 2026-2027": {
    "partite_con_eventi": 1,
-   "da_fare": 2
+   "da_fare": 1
   },
   "Persian Gulf 2026-2027": {
    "partite_con_eventi": 0,
@@ -614,11 +614,11 @@
   },
   "Botola Pro 2026-2027": {
    "partite_con_eventi": 1,
-   "da_fare": 1
+   "da_fare": 2
   },
   "Professional Football League 2026-2027": {
-   "partite_con_eventi": 7,
-   "da_fare": 8
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "Qatar Stars League 2026-2027": {
    "partite_con_eventi": 0,
@@ -641,12 +641,12 @@
    "da_fare": 0
   },
   "Série B 2026": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "Super League 2 2026-2027": {
    "partite_con_eventi": 0,
-   "da_fare": 1
+   "da_fare": 0
   },
   "II Liga 2026-2027": {
    "partite_con_eventi": 0,
@@ -670,7 +670,7 @@
   },
   "Primera Federación 2026-2027": {
    "partite_con_eventi": 2,
-   "da_fare": 3
+   "da_fare": 2
   },
   "Ykkonen 2026": {
    "partite_con_eventi": 0,
@@ -693,8 +693,8 @@
    "da_fare": 0
   },
   "Liga de Expansión MX 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "Emperor's Cup 2026": {
    "partite_con_eventi": 0,
@@ -705,8 +705,8 @@
    "da_fare": 0
   },
   "Copa do Brasil 2026": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "K League 1 2026": {
    "partite_con_eventi": 0,
@@ -729,8 +729,8 @@
    "da_fare": 0
   },
   "Liga 3 2026-2027": {
-   "partite_con_eventi": 3,
-   "da_fare": 3
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "Liga II 2026-2027": {
    "partite_con_eventi": 0,
@@ -741,11 +741,11 @@
    "da_fare": 0
   },
   "NB II 2026-2027": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "Segunda Division 2026": {
-   "partite_con_eventi": 1,
+   "partite_con_eventi": 0,
    "da_fare": 1
   },
   "Second League 2026-2027": {
@@ -754,7 +754,7 @@
   },
   "Primera B 2026": {
    "partite_con_eventi": 0,
-   "da_fare": 0
+   "da_fare": 1
   },
   "Liga de Ascenso 2026": {
    "partite_con_eventi": 0,
@@ -769,16 +769,16 @@
    "da_fare": 0
   },
   "Segunda Federación 2026-2027": {
-   "partite_con_eventi": 12,
-   "da_fare": 15
+   "partite_con_eventi": 3,
+   "da_fare": 4
   },
   "Tweede Divisie 2026-2027": {
    "partite_con_eventi": 0,
    "da_fare": 0
   },
   "Primera B Metropolitana & Torneo Federal A 2026": {
-   "partite_con_eventi": 2,
-   "da_fare": 2
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "FA Trophy 2026-2027": {
    "partite_con_eventi": 0,
@@ -953,12 +953,12 @@
    "da_fare": 0
   },
   "Liga MX Femenil 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "Liga F 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "King's Cup 2026-2027": {
    "partite_con_eventi": 0,
@@ -1098,7 +1098,7 @@
   },
   "Saudi First Division 2026-2027": {
    "partite_con_eventi": 0,
-   "da_fare": 3
+   "da_fare": 0
   },
   "Supercopa Femenina 2025-2026": {
    "partite_con_eventi": 0,
@@ -1134,7 +1134,7 @@
   },
   "SWPL Cup 2026-2027": {
    "partite_con_eventi": 0,
-   "da_fare": 2
+   "da_fare": 0
   },
   "SWF Scottish Cup 2026-2027": {
    "partite_con_eventi": 0,
@@ -2145,5 +2145,5 @@
    "da_fare": 0
   }
  },
- "partite_in_questo_giro": 140
+ "partite_in_questo_giro": 46
 }
