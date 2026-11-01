@@ -1,15 +1,11 @@
 {
  "competizioni": {
-  "Premier Soccer League 2025-2026": {
-   "partite_con_eventi": 23,
-   "da_fare": 67
+  "USL Championship 2025": {
+   "partite_con_eventi": 0,
+   "da_fare": 1
   }
  },
- "tipi_visti": {
-  "goal": 63,
-  "redcard": 2,
-  "yellowcard": 1
- },
- "partite_in_questo_giro": 27,
+ "tipi_visti": {},
+ "partite_in_questo_giro": 0,
  "orientamento_cambi": "non verificato"
 }
