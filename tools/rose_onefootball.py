@@ -30,10 +30,14 @@ def teams_index():
     return idx
 
 
+DBG = {'nopage': 0, 'nonext': 0, 'nolinks': 0, 'ok': 0}
+
+
 def squad(url):
     h = get(f'{OF}/en/team/{url}/squad')
-    m = re.search(r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>', h or '', re.S)
-    if not m: return []
+    if not h: DBG['nopage'] += 1; return []
+    m = re.search(r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>', h, re.S)
+    if not m: DBG['nonext'] += 1; return []
     out = []
     for c in json.loads(m.group(1))['props']['pageProps'].get('containers', []):
         nav = (((c.get('type') or {}).get('fullWidth') or {}).get('component') or {}).get('contentType') or {}
@@ -43,6 +47,7 @@ def squad(url):
             mm = re.match(r'^(.*?)(?: \((\d+)\))?$', l.get('title', ''))
             pid = re.search(r'-(\d+)$', l.get('urlPath', ''))
             if role and mm and mm.group(1): out.append([int(pid.group(1)) if pid else None, mm.group(1), role, int(mm.group(2)) if mm.group(2) else None, None])
+    DBG['ok' if out else 'nolinks'] += 1
     return out
 
 
@@ -74,7 +79,7 @@ def main(limit):
         teams = []
         for (i, (n, (url, tid))), p in zip(hit.items(), sq):
             if p: teams.append({'lsId': None, 'ofId': tid, 'n': n, 'fm': i, 'co': [], 'p': p})
-        if not teams: no += 1; print(f'NO {e["cn"]}/{e["n"]} (rose vuote)', flush=True); continue
+        if not teams: no += 1; print(f'NO {e["cn"]}/{e["n"]} (rose vuote) {DBG}', flush=True); continue
         key = f'of/{k}'
         out.append((f'idx:lg/{key}', {'fmLeague': int(k), 'src': 'onefootball', 'at': int(time.time()), 't': teams}))
         mp['l'][str(k)] = key
