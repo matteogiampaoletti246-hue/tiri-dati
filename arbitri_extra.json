@@ -104,11 +104,6 @@
 "src": "api-football",
 "at": "2026-10-30T01:05+00:00"
 },
-"5781788": {
-"n": "Serdar Gozubuyuk",
-"src": "api-football",
-"at": "2026-10-30T01:05+00:00"
-},
 "5846011": {
 "n": "Julian Schnur",
 "src": "api-football",
@@ -694,9 +689,44 @@
 "src": "api-football",
 "at": "2026-10-31T12:55+00:00"
 },
+"5868519": {
+"n": "Iosu Galech Apezteguia",
+"src": "api-football",
+"at": "2026-11-01T01:14+00:00"
+},
+"5904789": {
+"n": "F. Tokail",
+"src": "api-football",
+"at": "2026-11-01T01:14+00:00"
+},
+"5103698": {
+"n": "E. Batista",
+"src": "api-football",
+"at": "2026-11-01T01:14+00:00"
+},
+"5071483": {
+"n": "Ricardo Montero Araya",
+"src": "api-football",
+"at": "2026-11-01T01:14+00:00"
+},
+"5071482": {
+"n": "Joseph Dickerson",
+"src": "api-football",
+"at": "2026-11-01T01:14+00:00"
+},
+"5071484": {
+"n": "Drew Fischer",
+"src": "api-football",
+"at": "2026-11-01T01:14+00:00"
+},
+"1000014633": {
+"n": "Jesus Rafael Lopez Valle",
+"src": "api-football",
+"at": "2026-11-01T01:14+00:00"
+},
 "_err": [
-"2026-11-02: {\"plan\": \"Free plans do not have access to this date, try from 2026-10-30 to 2026-11-01.\"}",
-"2026-11-03: {\"plan\": \"Free plans do not have access to this date, try from 2026-10-30 to 2026-11-01.\"}"
+"2026-11-03: {\"plan\": \"Free plans do not have access to this date, try from 2026-10-31 to 2026-11-02.\"}",
+"2026-11-04: {\"plan\": \"Free plans do not have access to this date, try from 2026-10-31 to 2026-11-02.\"}"
 ],
-"_at": "2026-10-31T20:43+00:00"
+"_at": "2026-11-01T01:14+00:00"
 }
