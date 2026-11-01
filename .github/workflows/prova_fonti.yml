@@ -12,25 +12,16 @@ jobs:
           mkdir -p /tmp/po
           UA='Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 Mobile Safari/604.1'
           g() { curl -sS --compressed -m 30 -L -A "$UA" -H 'Accept-Language: en' -o "$2" -w "%{http_code} %{size_download} $1\n" "$1" 2>&1 | tail -1 | tee -a /tmp/po/referto.txt; }
-          g https://onefootball.com/sitemaps.xml /tmp/po/sm.xml
-          grep -oE '<loc>[^<]*</loc>' /tmp/po/sm.xml | head -40 | tee -a /tmp/po/referto.txt
+          for n in competitions teams; do g https://onefootball.com/sitemaps/$n.xml /tmp/po/$n.xml; echo "righe $n: $(grep -c '<loc>' /tmp/po/$n.xml)" | tee -a /tmp/po/referto.txt; grep -oE '<loc>[^<]*</loc>' /tmp/po/$n.xml | head -4 | tee -a /tmp/po/referto.txt; done
+          grep -oE '<loc>[^<]*(armenia|algeria|norway|denmark)[^<]*</loc>' /tmp/po/competitions.xml | head -12 | tee -a /tmp/po/referto.txt
           g https://onefootball.com/en/team/chelsea-9/squad /tmp/po/t1.html
           python3 - <<'PY' | tee -a /tmp/po/referto.txt
           import re,json
           s=open('/tmp/po/t1.html',encoding='utf8',errors='ignore').read()
-          t=re.search(r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>',s,re.S).group(1)
-          j=json.loads(t)
-          def walk(o,p='',d=0):
-              if d>9: return
-              if isinstance(o,dict):
-                  for k,v in o.items():
-                      if re.search(r'(?i)player|squad|position|containers|component',k): print(p+'/'+k, type(v).__name__, (len(v) if hasattr(v,'__len__') else v))
-                      walk(v,p+'/'+k,d+1)
-              elif isinstance(o,list):
-                  for i,x in enumerate(o[:3]): walk(x,p+'['+str(i)+']',d+1)
-          walk(j['props']['pageProps'])
-          i=t.find('"position')
-          print('ESEMPIO', t[max(0,i-500):i+500])
+          j=json.loads(re.search(r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>',s,re.S).group(1))
+          for i,c in enumerate(j['props']['pageProps']['containers']):
+              comp=c['type']['fullWidth']['component']
+              print(i, list(comp.keys()), json.dumps(comp)[:700])
           PY
           git init -q -b rose-out /tmp/po-out && cp /tmp/po/referto.txt /tmp/po-out/ && cd /tmp/po-out && git config user.name github-actions && git config user.email github-actions@users.noreply.github.com
           git add -A && git commit -qm "Referto" && git push -qf "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" rose-out
