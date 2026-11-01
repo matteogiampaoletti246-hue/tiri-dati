@@ -1,13 +1,15 @@
 import PanelTitle from '@/components/PanelTitle';
 import FieldRow from './FieldRow';
 import ChipInput from './ChipInput';
+import TintSweep from './TintSweep';
 
 // Tiri e minuti delle ultime 5 partite (dalla più recente), una pillola per partita.
-export default function PlayerLast5Panel({ form, set, label = 'Tiri' }) {
+export default function PlayerLast5Panel({ form, set, label = 'Tiri', tint }) {
   return (
     <section>
       <PanelTitle>{label} e minuti ultime 5</PanelTitle>
-      <div className="panel overflow-hidden">
+      <div className="panel has-tint overflow-hidden">
+        <TintSweep tint={tint} />
         <FieldRow first label={label}>
           <ChipInput value={form.shots5} onChange={(v) => set('shots5', v)} ariaLabel={`${label} ultime 5`} />
         </FieldRow>

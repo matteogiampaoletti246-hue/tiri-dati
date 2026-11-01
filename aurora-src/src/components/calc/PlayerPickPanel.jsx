@@ -17,9 +17,10 @@ import Crest from '@/components/Crest';
 import { PlayerFace } from '@/components/SearchOverlay';
 import SelectRow from './SelectRow';
 import CalcStatSelect from './CalcStatSelect';
+import TintSweep from './TintSweep';
 
 // Impostazioni di base della giocata su un giocatore.
-export default function PlayerPickPanel({ form, set, player, hint, onSelectPlayer, stat = 'tiri', onStat }) {
+export default function PlayerPickPanel({ form, set, player, hint, onSelectPlayer, stat = 'tiri', onStat, tint }) {
   const navigate = useNavigate();
   const [picker, setPicker] = useState(null);
   const hitLabel = HIT_OPTIONS.find((o) => o.value === form.hitRate)?.label ?? null;
@@ -49,12 +50,14 @@ export default function PlayerPickPanel({ form, set, player, hint, onSelectPlaye
   return (
     <section>
       <PanelTitle>Giocatore</PanelTitle>
-      <div className="panel relative z-10">
+      <div className="panel has-tint relative z-10">
+        <TintSweep tint={tint} strength={14} />
         {player ? (
           <div
-            className="flex w-full items-center gap-3 px-4 py-3.5"
-            style={{ background: team ? `linear-gradient(110deg, ${team.colors[0]}8c, ${team.colors[1]}40 70%, transparent)` : undefined, borderRadius: 'inherit', borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }}
+            className="has-tint relative flex w-full items-center gap-3 px-4 py-3.5"
+            style={{ borderRadius: 'inherit', borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }}
           >
+            <TintSweep tint={tint && { ...tint, color: team ? team.colors[0] : tint.color }} strength={55} />
             {/* banner e volto aprono la scheda del giocatore; per cambiare giocatore c'e' il tasto Cambia */}
             <button type="button" onClick={() => navigate(`/giocatore/${player.id}`)} className="press flex min-w-0 flex-1 items-center gap-3 text-left" aria-label={`Apri la scheda di ${player.name}`}>
               <PlayerFace p={player} size={56} />

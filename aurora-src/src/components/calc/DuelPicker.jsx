@@ -1,3 +1,4 @@
+import TintSweep from './TintSweep';
 import { useEffect, useState } from 'react';
 import { ChevronDown, Check } from 'lucide-react';
 import Crest from '@/components/Crest';
@@ -15,7 +16,7 @@ const lum = (hex) => {
 };
 
 // Duello avversario (concept A): elenco della rosa avversaria con volto, minuti e media a 90' su ogni riga; fino a 3 giocatori.
-export default function DuelPicker({ team, roster, picked, onChange, statLabel }) {
+export default function DuelPicker({ team, roster, picked, onChange, statLabel, tint }) {
   const [open, setOpen] = useState(false);
   useEffect(() => { setOpen(false); }, [team && team.id]);
   const c0 = (team && team.colors && team.colors[0]) || '#2C3E66';
@@ -35,7 +36,8 @@ export default function DuelPicker({ team, roster, picked, onChange, statLabel }
   return (
     <section data-no-swipe="true">
       <PanelTitle>Duello avversario</PanelTitle>
-      <div className="panel overflow-hidden">
+      <div className="panel has-tint overflow-hidden">
+        <TintSweep tint={tint} />
         <button type="button" onClick={() => setOpen((v) => !v)} aria-expanded={open} className="press flex w-full items-center gap-3 px-4 py-3.5 text-left">
           {sel.length ? (
             <span className="flex shrink-0">

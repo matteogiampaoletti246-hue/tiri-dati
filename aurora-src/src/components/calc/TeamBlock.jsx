@@ -8,11 +8,12 @@ import NumInput from './NumInput';
 import PickerSheet from './PickerSheet';
 import SelectRow from './SelectRow';
 import StatBox from './StatBox';
+import TintSweep from './TintSweep';
 import { bandColor } from '@/components/player/playerCalc';
 
 // Blocco squadra riusato nel calcolo: campionato, squadra, tiri (totali e in porta),
 // nota di posizione e riquadri casa / trasferta.
-export default function TeamBlock({ title, mode = 'for', family = 'totali', block, onChange }) {
+export default function TeamBlock({ title, mode = 'for', family = 'totali', block, onChange, tint }) {
   const [picker, setPicker] = useState(null);
   const team = teamById(block.id);
   const stats = teamShots(block.id, block.leagueId);
@@ -34,7 +35,8 @@ export default function TeamBlock({ title, mode = 'for', family = 'totali', bloc
   return (
     <section>
       <PanelTitle right={<span className="label-sm">Nel calcolo: {family === 'inPorta' ? 'In porta' : 'Totali'}</span>}>{title}</PanelTitle>
-      <div className="panel overflow-hidden">
+      <div className="panel has-tint overflow-hidden">
+        <TintSweep tint={tint} />
         <SelectRow first label="Campionato" value={leagueName(block.leagueId)} onClick={() => setPicker('league')} />
         <SelectRow
           label="Squadra"

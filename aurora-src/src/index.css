@@ -671,3 +671,14 @@
 @keyframes liveBlink { 0%, 100% { opacity: 1; } 50% { opacity: .58; } }
 .live-pill { animation: liveBlink 1.6s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce) { .live-pill { animation: none; } }
+
+/* Calcolatore: onda di colore dietro i pannelli (TintSweep, concept B) */
+.has-tint { isolation: isolate; }
+.tint-sweep {
+  position: absolute; inset: 0; z-index: -1; pointer-events: none; border-radius: inherit; transform-origin: left center;
+  background: linear-gradient(100deg, color-mix(in srgb, var(--tc) var(--ts), transparent), color-mix(in srgb, var(--tc) 8%, transparent) 78%, transparent);
+  animation: tint-sweep .9s var(--td, 0ms) cubic-bezier(.6, 0, .2, 1) both;
+}
+.tint-sweep.still { animation: none; }
+@keyframes tint-sweep { from { transform: scaleX(0); } to { transform: none; } }
+@media (prefers-reduced-motion: reduce) { .tint-sweep { animation: none; } }

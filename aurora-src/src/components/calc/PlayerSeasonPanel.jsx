@@ -3,13 +3,15 @@ import { SEASON_COMPETITIONS } from '@/lib/calc';
 import { comma } from '@/lib/format';
 import FieldRow from './FieldRow';
 import NumInput from './NumInput';
+import TintSweep from './TintSweep';
 
 // Medie stagione per competizione (tiri + minuti) e tasso normalizzato a 90'.
-export default function PlayerSeasonPanel({ season, onChange, rate90, label = 'Tiri' }) {
+export default function PlayerSeasonPanel({ season, onChange, rate90, label = 'Tiri', tint }) {
   return (
     <section>
       <PanelTitle>Medie stagione</PanelTitle>
-      <div className="panel overflow-hidden">
+      <div className="panel has-tint overflow-hidden">
+        <TintSweep tint={tint} />
         <div className="flex items-center gap-2 px-5 py-2.5">
           <p className="label-sm">Competizione</p>
           <p className="label-sm ml-auto w-[72px] text-center">{label}</p>

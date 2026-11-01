@@ -1,3 +1,4 @@
+import TintSweep from './TintSweep';
 import { useState } from 'react';
 import Crest from '@/components/Crest';
 import PanelTitle from '@/components/PanelTitle';
@@ -11,7 +12,7 @@ import SelectRow from './SelectRow';
 import StatBox from './StatBox';
 
 // Squadra nel calcolo dei falli: campionato, squadra, media della statistica scelta (con posizione) e riquadri casa / trasferta.
-export default function FoulsTeamBlock({ title, statLabel, block, stats, value, onValue, onChange }) {
+export default function FoulsTeamBlock({ title, statLabel, block, stats, value, onValue, onChange, tint }) {
   const [picker, setPicker] = useState(null);
   const team = teamById(block.id);
   const leagueOptions = calcLeagues().map((l) => ({ value: l.id, label: l.name, sub: l.cup ? 'Coppa europea' : '' }));
@@ -24,7 +25,8 @@ export default function FoulsTeamBlock({ title, statLabel, block, stats, value, 
   return (
     <section>
       <PanelTitle>{title}</PanelTitle>
-      <div className="panel overflow-hidden">
+      <div className="panel has-tint overflow-hidden">
+        <TintSweep tint={tint} />
         <SelectRow first label="Campionato" value={leagueName(block.leagueId)} onClick={() => setPicker('league')} />
         <SelectRow label="Squadra" value={team ? team.name : null} avatar={team ? <Crest team={team} size={22} /> : null} onClick={() => setPicker('team')} />
         <FieldRow label={statLabel}>

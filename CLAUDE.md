@@ -401,3 +401,7 @@ Queste regole sono state chieste dall'utente e vanno applicate a TUTTO ciò che 
 ## Calcolatore: peso della linea e tasto dal profilo (regola fissa)
 - Peso della linea (`LINE_ADJ`, `lineAdjust` in `lib/calc.js`), in punti di probabilita' sul risultato finale, per tiri e falli: Over 0,5 +0,02 (agevolata), 1,5 neutra, 2,5 -0,03, 3,5 -0,06; per le Under il segno si inverte. Calcolo interno: sotto "Valore linea" niente scritta (nessun "Linea molto facile"). Vale anche per Migliori giocatori (stesso calcolo).
 - Scheda giocatore: tasto rotondo azzurro con la calcolatrice, fisso in basso a destra (`components/player/CalcFab.jsx`, portale come "Vai a"), apre `/calcolatore` con quel giocatore (`state.calc.playerId`; la linea resta com'era).
+
+## Calcolatore: colori e animazioni (regola fissa, concept scelti dall'utente)
+- Scelto un giocatore (o cambiata la squadra avversaria) i pannelli si tingono con un'onda da sinistra (`TintSweep.jsx`, concept B, `.tint-sweep` in `index.css`), a scaglioni di ~120 ms: banner e pannello Giocatore, ultime 5, medie stagione, squadra del giocatore nei colori della sua squadra; Duello avversario e Squadra avversaria nei colori dell'avversaria. Alla prima apertura della scheda i pannelli sono gia' colorati, senza animazione.
+- Ruota del voto (`Gauge.jsx`, concept A): parte solo quando entra nello schermo scorrendo (soglia 70%); il voto sale da 0 e il colore cambia lungo la scala (`scoreColorSmooth`, rosso -> arancio -> giallo -> verde); dopo, ogni cambio di voto scorre in 450 ms. Con `prefers-reduced-motion` salta al valore.

@@ -62,6 +62,9 @@ export default function PlayerTab({ onSave }) {
   const team = teamById(form.team.id);
   const opp = teamById(form.opp.id);
   const family = form.tipoTiri;
+  // colori: pannelli del giocatore nei colori della sua squadra, pannelli dell'avversario nei colori dell'avversaria; l'onda riparte cambiando giocatore o avversaria
+  const tOwn = (delay) => (player && team ? { k: `p${player.id}`, color: team.colors[0], delay } : null);
+  const tOpp = (delay) => (player && opp ? { k: `o${player.id}-${opp.id}`, color: opp.colors[0], delay } : null);
 
   const line = parseNum(form.line);
   const odds = parseNum(form.odds);
@@ -183,38 +186,39 @@ export default function PlayerTab({ onSave }) {
         onSelectPlayer={selectPlayer}
         stat={form.stat || 'tiri'}
         onStat={onStat}
+        tint={tOwn(0)}
       />
       {fouls ? (
         <>
           <div className="mt-7">
-            <PlayerLast5Panel form={{ shots5: f.last5, minutes5: f.min5 }} set={(k, v) => setF(k === 'shots5' ? { last5: v } : { min5: v })} label={statTitle} />
+            <PlayerLast5Panel form={{ shots5: f.last5, minutes5: f.min5 }} set={(k, v) => setF(k === 'shots5' ? { last5: v } : { min5: v })} label={statTitle} tint={tOwn(120)} />
           </div>
           <div className="mt-7">
-            <PlayerSeasonPanel season={f.season} onChange={(k, patch) => setF({ season: { ...f.season, [k]: { ...f.season[k], ...patch } } })} rate90={result.rate90} label={form.stat === 'fc' ? 'Commessi' : 'Subiti'} />
+            <PlayerSeasonPanel season={f.season} onChange={(k, patch) => setF({ season: { ...f.season, [k]: { ...f.season[k], ...patch } } })} rate90={result.rate90} label={form.stat === 'fc' ? 'Commessi' : 'Subiti'} tint={tOwn(240)} />
           </div>
           <div className="mt-7">
-            <FoulsTeamBlock title="Squadra del giocatore" statLabel={statTitle} block={form.team} stats={ownStats} value={f.team} onValue={(v) => setF({ team: v })} onChange={(p) => setBlock('team', p)} />
+            <FoulsTeamBlock title="Squadra del giocatore" statLabel={statTitle} block={form.team} stats={ownStats} value={f.team} onValue={(v) => setF({ team: v })} onChange={(p) => setBlock('team', p)} tint={tOwn(360)} />
           </div>
           <div className="mt-7">
-            <DuelPicker team={opp} roster={roster} picked={f.duel || []} onChange={(d) => setF({ duel: d })} statLabel={oppTitle} />
+            <DuelPicker team={opp} roster={roster} picked={f.duel || []} onChange={(d) => setF({ duel: d })} statLabel={oppTitle} tint={tOpp(480)} />
           </div>
           <div className="mt-7">
-            <FoulsTeamBlock title="Squadra avversaria" statLabel={oppTitle} block={form.opp} stats={oppStats} value={f.opp} onValue={(v) => setF({ opp: v })} onChange={(p) => setBlock('opp', p)} />
+            <FoulsTeamBlock title="Squadra avversaria" statLabel={oppTitle} block={form.opp} stats={oppStats} value={f.opp} onValue={(v) => setF({ opp: v })} onChange={(p) => setBlock('opp', p)} tint={tOpp(600)} />
           </div>
         </>
       ) : (
         <>
           <div className="mt-7">
-            <PlayerLast5Panel form={form} set={set} />
+            <PlayerLast5Panel form={form} set={set} tint={tOwn(120)} />
           </div>
           <div className="mt-7">
-            <PlayerSeasonPanel season={form.season} onChange={setSeason} rate90={result.rate90} />
+            <PlayerSeasonPanel season={form.season} onChange={setSeason} rate90={result.rate90} tint={tOwn(240)} />
           </div>
           <div className="mt-7">
-            <TeamBlock title="Squadra del giocatore" mode="for" family={family} block={form.team} onChange={(p) => setBlock('team', p)} />
+            <TeamBlock title="Squadra del giocatore" mode="for" family={family} block={form.team} onChange={(p) => setBlock('team', p)} tint={tOwn(360)} />
           </div>
           <div className="mt-7">
-            <TeamBlock title="Squadra avversaria" mode="against" family={family} block={form.opp} onChange={(p) => setBlock('opp', p)} />
+            <TeamBlock title="Squadra avversaria" mode="against" family={family} block={form.opp} onChange={(p) => setBlock('opp', p)} tint={tOpp(480)} />
           </div>
         </>
       )}
