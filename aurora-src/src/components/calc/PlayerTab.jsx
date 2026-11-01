@@ -10,7 +10,7 @@ import { domesticKey } from '@/data/calcData';
 import { fmTeamIn, foulKeys, leaguePlayerAvg, playerFouls, rosterFouls, teamFoulStats, useFouls } from '@/data/calcFouls';
 import { resolvePid } from '@/data/playerIndex';
 import { comma } from '@/lib/format';
-import { foulLineHint, parseDash } from '@/lib/calc';
+import { parseDash } from '@/lib/calc';
 import DuelPicker from './DuelPicker';
 import FoulsTeamBlock from './FoulsTeamBlock';
 import {
@@ -18,7 +18,6 @@ import {
   HIT_OPTIONS,
   SEDE_OPTIONS,
   fmtLine,
-  lineHintText,
   parseNum,
 } from '@/lib/calc';
 import PlayerLast5Panel from './PlayerLast5Panel';
@@ -49,9 +48,9 @@ export default function PlayerTab({ onSave }) {
     CALC_KEEP.stKey = loc.key;
     const p = playerById(st.playerId);
     if (!p) return;
-    const lineStr = String(st.line).replace('.', ',');
+    const hasLine = st.line !== undefined && st.line !== null;
     const fx = (st.ts && fixtureAt(p.teamName, st.ts)) || nextFixture(p.teamName);
-    setForm((f) => fillFrom({ ...f, line: lineStr }, p, f.tipoTiri, fx));
+    setForm((f) => fillFrom(hasLine ? { ...f, line: String(st.line).replace('.', ',') } : f, p, f.tipoTiri, fx));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -182,7 +181,6 @@ export default function PlayerTab({ onSave }) {
         set={vset}
         player={player}
         onSelectPlayer={selectPlayer}
-        hint={fouls ? foulLineHint(result.lambda, line) : lineHintText(result.lambda, line)}
         stat={form.stat || 'tiri'}
         onStat={onStat}
       />

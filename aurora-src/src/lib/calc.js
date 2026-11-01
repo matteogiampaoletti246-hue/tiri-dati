@@ -31,6 +31,16 @@ export const parseDash = (text) =>
 export const fmtLine = (line) => (line === null || line === undefined ? '—' : comma(line, Number.isInteger(line) ? 0 : 1));
 export const fmtPct = (v) => (v === null || v === undefined ? '—' : `${comma(v * 100, 1)}%`);
 
+/* ── Peso della linea (tiri e falli) ──────────────────────────────────
+   Piccolo aggiustamento in punti di probabilita' sul risultato finale, per le Over: 0,5 un po' agevolata, 1,5 neutra, 2,5 un po' penalizzata, 3,5 piu' penalizzata.
+   Per le Under il segno si inverte. Calcolo interno, non si mostra. */
+export const LINE_ADJ = { 0.5: 0.02, 1.5: 0, 2.5: -0.03, 3.5: -0.06 };
+export const lineAdjust = (line, lineType) => {
+  const a = LINE_ADJ[line] ?? 0;
+  return lineType === 'under' ? -a : a;
+};
+const withLine = (p, line, lineType) => (p === null ? null : Math.min(1, Math.max(0, p + lineAdjust(line, lineType))));
+
 /* ── Poisson ───────────────────────────────────────────────────────── */
 const FACT = [1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800, 39916800, 479001600];
 
@@ -283,7 +293,7 @@ export function computePlayerResult({
 
   const lambda = rate90 !== null && oppFactor !== null && creationFactor !== null ? rate90 * oppFactor * creationFactor * sedeFactor : null;
   const prob = probModel(lambda, line, lineType);
-  const probFinal = prob === null ? null : hitRate === null ? prob : prob * 0.6 + hitRate * 0.4;
+  const probFinal = withLine(prob === null ? null : hitRate === null ? prob : prob * 0.6 + hitRate * 0.4, line, lineType);
   const score = probFinal === null ? null : probFinal * 10;
   const tier = quotaTier(odds);
   const stake = stakeCalc(score, odds);
@@ -366,7 +376,7 @@ export function computeFoulsResult({
   const creationFactor = ratioPow(teamVal, teamAvg, hasDuel ? FOUL_EXP.own : FOUL_EXP.ownSolo);
   const lambda = rate90 !== null && oppFactor !== null && creationFactor !== null ? rate90 * oppFactor * creationFactor * (duelFactor ?? 1) : null;
   const prob = probModel(lambda, line, lineType);
-  const probFinal = prob === null ? null : hitRate === null ? prob : prob * 0.6 + hitRate * 0.4;
+  const probFinal = withLine(prob === null ? null : hitRate === null ? prob : prob * 0.6 + hitRate * 0.4, line, lineType);
   const score = probFinal === null ? null : probFinal * 10;
   const tier = quotaTier(odds);
   const stake = stakeCalc(score, odds);

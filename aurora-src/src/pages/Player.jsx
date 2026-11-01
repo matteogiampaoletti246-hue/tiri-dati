@@ -20,6 +20,7 @@ import { loadCarriere, careerByFm, carriereOf } from '@/data/carriere';
 import { POS_IT } from '@/components/player/playerCalc';
 import { ProfiloPanel, PartitePanel, StatistichePanel, CarrieraPanel, playerHasCurStats } from '@/components/player/PlayerTabs';
 import { usePlayerCareer } from '@/data/playerIndex';
+import CalcFab from '@/components/player/CalcFab';
 
 const TABS = [
   { key: 'profilo', label: 'Profilo' },
@@ -133,6 +134,7 @@ function PlayerView({ id }) {
       ) : (
         <SwipeTabs fixedBar tabs={tabs} panels={panels} index={Math.min(tab, tabs.length - 1)} onChange={change} className="pt-0" />
       )}
+      <CalcFab playerId={player.id} />
     </PageShell>
   );
 }
