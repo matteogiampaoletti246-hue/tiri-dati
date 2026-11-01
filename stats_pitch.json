@@ -1,41 +1,11 @@
 {
  "competizioni": {
-  "Bundesliga 2026-2027": {
-   "con_statistiche": 1,
-   "con_mappa_tiri": 1,
-   "da_fare": 1
-  },
   "First Division A 2026-2027": {
-   "con_statistiche": 1,
-   "con_mappa_tiri": 1,
-   "da_fare": 1
+   "con_statistiche": 2,
+   "con_mappa_tiri": 2,
+   "da_fare": 2
   },
   "Superligaen 2026-2027": {
-   "con_statistiche": 1,
-   "con_mappa_tiri": 1,
-   "da_fare": 1
-  },
-  "Ligue 1 2026-2027": {
-   "con_statistiche": 2,
-   "con_mappa_tiri": 2,
-   "da_fare": 2
-  },
-  "Serie A 2026-2027": {
-   "con_statistiche": 2,
-   "con_mappa_tiri": 2,
-   "da_fare": 2
-  },
-  "Eredivisie 2026-2027": {
-   "con_statistiche": 3,
-   "con_mappa_tiri": 3,
-   "da_fare": 3
-  },
-  "Eliteserien 2026": {
-   "con_statistiche": 3,
-   "con_mappa_tiri": 3,
-   "da_fare": 4
-  },
-  "Liga Portugal 2026-2027": {
    "con_statistiche": 1,
    "con_mappa_tiri": 1,
    "da_fare": 1
@@ -45,47 +15,47 @@
    "con_mappa_tiri": 1,
    "da_fare": 1
   },
-  "Allsvenskan 2026": {
-   "con_statistiche": 3,
-   "con_mappa_tiri": 3,
-   "da_fare": 3
+  "Ligue 1 2026-2027": {
+   "con_statistiche": 1,
+   "con_mappa_tiri": 1,
+   "da_fare": 1
   },
-  "Super League 2026-2027": {
+  "Bundesliga 2026-2027": {
+   "con_statistiche": 1,
+   "con_mappa_tiri": 1,
+   "da_fare": 1
+  },
+  "Serie A 2026-2027": {
+   "con_statistiche": 1,
+   "con_mappa_tiri": 1,
+   "da_fare": 1
+  },
+  "Eliteserien 2026": {
+   "con_statistiche": 1,
+   "con_mappa_tiri": 1,
+   "da_fare": 1
+  },
+  "Liga Portugal 2026-2027": {
    "con_statistiche": 2,
    "con_mappa_tiri": 2,
    "da_fare": 2
   },
-  "Süper Lig 2026-2027": {
-   "con_statistiche": 1,
-   "con_mappa_tiri": 1,
-   "da_fare": 1
-  },
-  "1. Division 2026-2027": {
-   "con_statistiche": 1,
-   "con_mappa_tiri": 1,
-   "da_fare": 1
-  },
   "Serie B 2026-2027": {
-   "con_statistiche": 4,
-   "con_mappa_tiri": 4,
-   "da_fare": 4
+   "con_statistiche": 1,
+   "con_mappa_tiri": 1,
+   "da_fare": 1
   },
   "LaLiga 2026-2027": {
    "con_statistiche": 1,
    "con_mappa_tiri": 1,
    "da_fare": 1
   },
-  "League One 2026-2027": {
-   "con_statistiche": 0,
-   "con_mappa_tiri": 0,
-   "da_fare": 1
-  },
-  "Eerste Divisie 2026-2027": {
+  "1. Liga 2026-2027": {
    "con_statistiche": 1,
    "con_mappa_tiri": 1,
    "da_fare": 1
   },
-  "1. Liga 2026-2027": {
+  "Ligat ha'Al 2026-2027": {
    "con_statistiche": 1,
    "con_mappa_tiri": 1,
    "da_fare": 1
@@ -105,15 +75,15 @@
    "con_mappa_tiri": 1,
    "da_fare": 1
   },
+  "Primera Division 2026": {
+   "con_statistiche": 0,
+   "con_mappa_tiri": 0,
+   "da_fare": 1
+  },
   "1. liga 2026-2027": {
    "con_statistiche": 1,
    "con_mappa_tiri": 1,
    "da_fare": 1
-  },
-  "Super Liga 2026-2027": {
-   "con_statistiche": 3,
-   "con_mappa_tiri": 3,
-   "da_fare": 3
   },
   "Liga I 2026-2027": {
    "con_statistiche": 1,
@@ -121,7 +91,7 @@
    "da_fare": 1
   },
   "3. Liga 2026-2027": {
-   "con_statistiche": 0,
+   "con_statistiche": 1,
    "con_mappa_tiri": 0,
    "da_fare": 1
   },
@@ -131,20 +101,30 @@
    "da_fare": 1
   },
   "HNL 2026-2027": {
+   "con_statistiche": 0,
+   "con_mappa_tiri": 0,
+   "da_fare": 1
+  },
+  "Liga de Primera 2026": {
    "con_statistiche": 1,
    "con_mappa_tiri": 1,
    "da_fare": 1
   },
-  "Liga de Primera 2026": {
-   "con_statistiche": 2,
-   "con_mappa_tiri": 2,
-   "da_fare": 2
+  "Série B 2026": {
+   "con_statistiche": 1,
+   "con_mappa_tiri": 1,
+   "da_fare": 1
+  },
+  "Premier League 2026": {
+   "con_statistiche": 1,
+   "con_mappa_tiri": 1,
+   "da_fare": 1
   },
   "Saudi First Division 2026-2027": {
-   "con_statistiche": 2,
-   "con_mappa_tiri": 2,
-   "da_fare": 2
+   "con_statistiche": 1,
+   "con_mappa_tiri": 1,
+   "da_fare": 1
   }
  },
- "partite_in_questo_giro": 47
+ "partite_in_questo_giro": 27
 }
