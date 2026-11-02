@@ -5,8 +5,9 @@ import Crest from '@/components/Crest';
 import TeamLink from '@/components/TeamLink';
 import TextFilter from '@/components/TextFilter';
 import MatchShotMap from './MatchShotMap';
-import PreMatchStats, { preStatsOk } from './PreMatchStats';
-import PredictedStats from './PredictedStats';
+import PreMatchStats, { preStatsOk, preTableOk } from './PreMatchStats';
+import PredictedStats, { predictedRows } from './PredictedStats';
+import AnimatedTabs from '@/components/AnimatedTabs';
 import { comma, num } from '@/lib/format';
 
 const LIVE_STATS = [
@@ -32,13 +33,27 @@ export function hasMatchStats(match, view, home, away, pre) {
 
 export default function MatchStatsPanel({ match, view, home, away, pre }) {
   const [period, setPeriod] = useState('all');
+  const [preTab, setPreTab] = useState('pred');
   const cs = 'd';
 
   if (pre) {
+    // tre pillole: squadra di casa, squadra in trasferta, Previste (predefinita); un blocco alla volta, solo quelli con dati
+    const nm = (t) => (t.name.length <= 10 ? t.name : t.short || t.name);
+    const tab = (t) => <><Crest team={t} size={18} /><span className="truncate">{nm(t)}</span></>;
+    const opts = [
+      home && away && preTableOk(match, home, away, 'home') ? { value: 'home', label: tab(home) } : null,
+      home && away && preTableOk(match, home, away, 'away') ? { value: 'away', label: tab(away) } : null,
+      predictedRows(home, away, match).length ? { value: 'pred', label: 'Previste' } : null,
+    ].filter(Boolean);
+    if (!opts.length) return null;
+    const cur = opts.some((o) => o.value === preTab) ? preTab : opts[opts.length - 1].value;
     return (
-      <div>
-        <PreMatchStats home={home} away={away} match={match} />
-        <PredictedStats home={home} away={away} match={match} />
+      <div className="pt-3">
+        <AnimatedTabs label="Statistiche" options={opts} value={cur} onChange={setPreTab}>
+          {(v) => (v === 'pred'
+            ? <div className="pt-3"><PredictedStats home={home} away={away} match={match} /></div>
+            : <PreMatchStats home={home} away={away} match={match} only={v} />)}
+        </AnimatedTabs>
       </div>
     );
   }

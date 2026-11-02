@@ -2,7 +2,7 @@ import PlayerPhoto from '@/components/PlayerPhoto';
 import { teamGrad } from '@/lib/tint';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import TextFilter from '@/components/TextFilter';
+import AnimatedTabs from '@/components/AnimatedTabs';
 import Crest from '@/components/Crest';
 import { Image } from '@/components/ui/image';
 import { matchReliability } from '@/data/topPlayers';
@@ -27,15 +27,14 @@ import RollNumber from '@/components/RollNumber';
 // Affidabilità dei giocatori nelle partite non ancora iniziate (tiri totali, soglia over).
 export default function MatchReliabilityList({ match, home, away }) {
   const [line, setLine] = useState(0.5);
-  const [side, setSide] = useState('all');
-  const list = matchReliability(match, line).filter((r) => side === 'all' || r.side === side);
+  // giocatori di entrambe le squadre (come la vecchia voce "Tutti"); la pillola sceglie solo la linea
+  const listOf = (l) => matchReliability(match, l);
 
   return (
     <div className="flex flex-col gap-3 pb-6 pt-3">
-      <div className="flex flex-col gap-2 px-4">
-        <TextFilter options={[{ value: 0.5, label: 'Over 0,5' }, { value: 1.5, label: 'Over 1,5' }, { value: 2.5, label: 'Over 2,5' }]} value={line} onChange={setLine} />
-        <TextFilter options={[{ value: 'all', label: 'Tutti' }, { value: 'home', label: home ? home.short || home.name : 'Casa' }, { value: 'away', label: away ? away.short || away.name : 'Trasferta' }]} value={side} onChange={setSide} />
-      </div>
+      <AnimatedTabs label="Linea" options={[{ value: 0.5, label: 'Over 0,5' }, { value: 1.5, label: 'Over 1,5' }, { value: 2.5, label: 'Over 2,5' }]} value={line} onChange={setLine} blur={4}>
+      {(shownLine) => { const list = listOf(shownLine); return (
+      <div className="pt-3">
       {list.length ? (
         <div>
           {list.slice(0, 40).map((r, i) => {
@@ -59,6 +58,9 @@ export default function MatchReliabilityList({ match, home, away }) {
           })}
         </div>
       ) : null}
+      </div>
+      ); }}
+      </AnimatedTabs>
     </div>
   );
 }

@@ -29,8 +29,9 @@ const lift = (c) => `color-mix(in srgb, ${c} 62%, white)`;
 const pick = (t, i = 0) => hex(t && t.colors && t.colors[i]) || '#4A78F0';
 const bright = (c) => { const x = [1, 3, 5].map((i) => parseInt(c.slice(i, i + 2), 16)); return 0.299 * x[0] + 0.587 * x[1] + 0.114 * x[2]; };
 
-export default function PredictedStats({ home, away, match }) {
-  if (!home || !away) return null;
+// righe delle statistiche previste (vuoto = la card non si mostra); usata anche per decidere se mostrare la pillola "Previste"
+export function predictedRows(home, away, match) {
+  if (!home || !away) return [];
   const am = match && match.archive ? archiveMetrics(match) : null;
   const val = (team, key) => (am ? am.value(team.id === home.id ? match.archive.hid : match.archive.aid, key) : metricOf(team.id, key));
   const rows = ROWS.map(([label, own, conc, hf]) => {
@@ -42,6 +43,11 @@ export default function PredictedStats({ home, away, match }) {
     if (!(h + a > 0)) return null;
     return { label, h, a, hf };
   }).filter(Boolean);
+  return rows;
+}
+
+export default function PredictedStats({ home, away, match }) {
+  const rows = predictedRows(home, away, match);
   if (!rows.length) return null;
 
   let ch = pick(home);

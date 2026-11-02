@@ -172,21 +172,33 @@ export function preStatsOk(match, home, away) {
   return hasMetrics(home.id) && hasMetrics(away.id);
 }
 
-export default function PreMatchStats({ home, away, match, concept = cptOf() }) {
+const ctxOf = (match, home) => {
+  if (!(match && match.archive)) return null;
+  const am = archiveMetrics(match);
+  return am ? { am, tid: (t) => (t.id === home.id ? match.archive.hid : match.archive.aid) } : null;
+};
+
+// c'e' la tabella della squadra di casa ('home') o di quella in trasferta ('away')? (stesse condizioni di TeamTable)
+export function preTableOk(match, home, away, side) {
+  if (!home || !away) return false;
+  const ctx = ctxOf(match, home);
+  const [me, op] = side === 'away' ? [away, home] : [home, away];
+  if (!(ctx ? ctx.am.has(ctx.tid(me)) && ctx.am.has(ctx.tid(op)) : hasMetrics(me.id) && hasMetrics(op.id))) return false;
+  return build(me, op, ctx).rows.length > 0;
+}
+
+// only: 'home' | 'away' = una sola tabella (schede animate delle Statistiche), altrimenti entrambe come sempre
+export default function PreMatchStats({ home, away, match, concept = cptOf(), only = null }) {
   const [, force] = useState(0);
   void force;
   if (!home || !away) return null;
-  let ctx = null;
-  if (match && match.archive) {
-    const am = archiveMetrics(match);
-    if (am) ctx = { am, tid: (t) => (t.id === home.id ? match.archive.hid : match.archive.aid) };
-  }
+  const ctx = ctxOf(match, home);
   const ok = ctx ? ctx.am.has(ctx.tid(home)) && ctx.am.has(ctx.tid(away)) : hasMetrics(home.id) && hasMetrics(away.id);
   if (!ok) return null;
   return (
     <div className="flex flex-col gap-5 pb-4 pt-3">
-      <TeamTable me={home} op={away} concept={concept} side="In casa" ctx={ctx} />
-      <TeamTable me={away} op={home} concept={concept} side="In trasferta" ctx={ctx} />
+      {only !== 'away' ? <TeamTable me={home} op={away} concept={concept} side="In casa" ctx={ctx} /> : null}
+      {only !== 'home' ? <TeamTable me={away} op={home} concept={concept} side="In trasferta" ctx={ctx} /> : null}
     </div>
   );
 }
