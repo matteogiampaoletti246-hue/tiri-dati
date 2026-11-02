@@ -165,8 +165,8 @@
    "da_fare": 0
   },
   "MLS 2026": {
-   "partite_con_eventi": 2,
-   "da_fare": 2
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "Liga 1 2026": {
    "partite_con_eventi": 0,
@@ -573,8 +573,8 @@
    "da_fare": 0
   },
   "Liga Nacional 2026-2027": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "Liga Nacional 2026-2027 - Apertura": {
    "partite_con_eventi": 0,
@@ -685,8 +685,8 @@
    "da_fare": 0
   },
   "USL Championship 2026": {
-   "partite_con_eventi": 2,
-   "da_fare": 2
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "J. League 2 2026-2027": {
    "partite_con_eventi": 0,
@@ -2145,5 +2145,5 @@
    "da_fare": 0
   }
  },
- "partite_in_questo_giro": 5
+ "partite_in_questo_giro": 0
 }
