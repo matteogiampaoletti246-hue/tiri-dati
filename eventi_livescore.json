@@ -201,8 +201,8 @@
    "da_fare": 0
   },
   "LaLiga2 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "Coppa Italia 2026-2027": {
    "partite_con_eventi": 0,
@@ -273,8 +273,8 @@
    "da_fare": 0
   },
   "Prva Liga 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 2,
+   "da_fare": 3
   },
   "Slovenia Cup 2026-2027": {
    "partite_con_eventi": 0,
@@ -441,8 +441,8 @@
    "da_fare": 0
   },
   "1. CFL 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 2,
+   "da_fare": 2
   },
   "KNVB Cup 2026-2027": {
    "partite_con_eventi": 0,
@@ -497,8 +497,8 @@
    "da_fare": 0
   },
   "Kategoria Superiore 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "First Division B 2026-2027": {
    "partite_con_eventi": 0,
@@ -646,7 +646,7 @@
   },
   "Super League 2 2026-2027": {
    "partite_con_eventi": 0,
-   "da_fare": 0
+   "da_fare": 1
   },
   "II Liga 2026-2027": {
    "partite_con_eventi": 0,
@@ -717,8 +717,8 @@
    "da_fare": 0
   },
   "Second Professional League 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "State Cup 2026-2027": {
    "partite_con_eventi": 0,
@@ -769,8 +769,8 @@
    "da_fare": 0
   },
   "Segunda Federación 2026-2027": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "Tweede Divisie 2026-2027": {
    "partite_con_eventi": 0,
@@ -797,8 +797,8 @@
    "da_fare": 0
   },
   "Azadegan League 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 3
   },
   "Supercopa Argentina 2026": {
    "partite_con_eventi": 0,
@@ -1098,7 +1098,7 @@
   },
   "Saudi First Division 2026-2027": {
    "partite_con_eventi": 0,
-   "da_fare": 0
+   "da_fare": 2
   },
   "Supercopa Femenina 2025-2026": {
    "partite_con_eventi": 0,
@@ -2145,5 +2145,5 @@
    "da_fare": 0
   }
  },
- "partite_in_questo_giro": 1
+ "partite_in_questo_giro": 16
 }
