@@ -1,15 +1,23 @@
 {
  "competizioni": {
+  "Veikkausliiga 2026": {
+   "partite_con_eventi": 2,
+   "da_fare": 2
+  },
+  "Premier League 2026-2027": {
+   "partite_con_eventi": 1,
+   "da_fare": 1
+  },
   "Saudi First Division 2026-2027": {
    "partite_con_eventi": 2,
    "da_fare": 2
   }
  },
  "tipi_visti": {
-  "yellowcard": 8,
-  "substitution": 17,
-  "goal": 4
+  "goal": 18,
+  "yellowcard": 19,
+  "substitution": 44
  },
- "partite_in_questo_giro": 2,
+ "partite_in_questo_giro": 5,
  "orientamento_cambi": "player esce"
 }
