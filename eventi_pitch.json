@@ -1,19 +1,15 @@
 {
  "competizioni": {
-  "Ligue 1 2026-2027": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
-  },
-  "Premier League 2026": {
+  "USL League One 2026": {
    "partite_con_eventi": 1,
    "da_fare": 1
   }
  },
  "tipi_visti": {
-  "goal": 5,
-  "substitution": 16,
-  "yellowcard": 6
+  "yellowcard": 4,
+  "goal": 6,
+  "substitution": 9
  },
- "partite_in_questo_giro": 2,
+ "partite_in_questo_giro": 1,
  "orientamento_cambi": "player esce"
 }
