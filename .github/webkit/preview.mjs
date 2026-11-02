@@ -1802,6 +1802,26 @@ await step('migliori giocatori: tendina statistica (tiri, in porta, falli), entr
   ok('migliori matchup: si parte da Oggi, niente Ieri', /Oggi/.test(mh) && !/\bIeri\b/.test(mh));
 });
 
+await step('ritorno dal background: finestra giocatore a tutta altezza, nessun blocco acceso', async () => {
+  await go('#/match/a-54-2026-2027-5881213', 6000);
+  await clickText('Formazioni');
+  await wait(1500);
+  await pg.evaluate(() => { const e = [...document.querySelectorAll('*')].find((x) => x.children.length === 0 && /^Mala$/.test(x.textContent.trim())); if (e) e.click(); });
+  await wait(2500);
+  const hs = () => pg.evaluate(() => { const d = document.querySelector('[role="dialog"]'); return d ? { root: Math.round(d.getBoundingClientRect().height), inner: innerHeight } : null; });
+  const before = await hs();
+  // viewport rimasto corto (tastiera chiusa mentre l'app era in background) + ritorno nell'app
+  await pg.evaluate(() => { Object.defineProperty(window.visualViewport, 'height', { get: () => 417, configurable: true }); window.visualViewport.dispatchEvent(new Event('resize')); });
+  await wait(900);
+  await pg.evaluate(() => { const set = (v) => Object.defineProperty(document, 'visibilityState', { get: () => v, configurable: true }); set('hidden'); document.dispatchEvent(new Event('visibilitychange')); set('visible'); document.dispatchEvent(new Event('visibilitychange')); });
+  await wait(1500);
+  const after = await hs();
+  ok('ritorno dal background: finestra giocatore non accorciata', before && after && after.root >= after.inner - 2, { before, after });
+  await pg.locator('button[aria-label="Chiudi"]').click();
+  await wait(700);
+  ok('ritorno dal background: chiusa la finestra non resta nessun blocco', await pg.evaluate(() => !document.documentElement.dataset.modal));
+});
+
 report.passed = report.checks.filter((c) => c.pass).length;
 report.total = report.checks.length;
 fs.writeFileSync(`${OUT}/report.json`, JSON.stringify(report, null, 2));

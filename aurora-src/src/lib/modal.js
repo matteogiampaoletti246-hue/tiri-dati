@@ -4,6 +4,13 @@ import { useEffect } from 'react';
 // e nessuno swipe di pagina (giorni, schede, indietro) parte.
 let open = 0;
 export const modalOpen = () => open > 0;
+// Tornando dal background un blocco rimasto acceso (finestra gia' chiusa) fermerebbe ogni swipe e tocco di pagina: se non c'e' nessuna finestra aperta si azzera.
+export function resetModalLockIfIdle() {
+  if (open > 0 && !document.querySelector('[role="dialog"],[role="listbox"],[aria-modal="true"]')) {
+    open = 0;
+    delete document.documentElement.dataset.modal;
+  }
+}
 
 export function useModalLock(active) {
   useEffect(() => {

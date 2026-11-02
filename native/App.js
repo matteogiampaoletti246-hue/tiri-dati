@@ -526,13 +526,18 @@ function Screen({ onTheme, onReset }) {
       if (st !== 'active' || !bgAt.current) return;
       const gap = Date.now() - bgAt.current; bgAt.current = 0;
       if (gap > 10 * 60 * 1000) { if (onReset) onReset(); return; }
+      // animazioni native fermate a meta' dal sistema: la pagina web torna dov'e' (aperta = 0, chiusa = fuori schermo) e nessuna rotella resta accesa senza una pagina in arrivo
+      try { ov.value = openRef.current ? 0 : W; } catch (e) { /* ignora */ }
+      if (!awaitRoute.current) setBusy(false);
       if (!readyRef.current || !webRef.current) return;
+      // la pagina web si rimette in sesto da sola (animazioni a meta', blocchi accesi, schermo rimisurato)
+      webRef.current.injectJavaScript("try{window.dispatchEvent(new Event('sl-native-resume'))}catch(e){};true;");
       const t0 = Date.now();
       webRef.current.injectJavaScript("try{window.ReactNativeWebView.postMessage('pong')}catch(e){};true;");
       setTimeout(() => { if (pongAt.current < t0 && readyRef.current) recover(); }, 1500);
     });
     return () => sub.remove();
-  }, [onReset, recover]);
+  }, [onReset, recover, ov]);
   const openRoute = useCallback((route) => {
     openRef.current = true; lastRoute.current = route; setWebOpen(true); setDepth(0); setBarOn(isTabRoute(route));
     if (!readyRef.current) { startRoute.current = route; setWarm(true); }

@@ -275,14 +275,18 @@ export default function PlayerSheetHost() {
     const upd = () => {
       const a = document.activeElement;
       if (a && /^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName)) return;
-      const h = Math.round(vv.height);
+      // senza tastiera lo schermo e' almeno alto quanto il riquadro della pagina: un visualViewport rimasto corto (tastiera chiusa mentre l'app era in background) non accorcia la finestra
+      const h = Math.max(Math.round(vv.height), Math.round(window.innerHeight || 0));
       const t = Math.round(vv.offsetTop);
       setVbox((o) => (o && o.h === h && o.t === t ? o : { h, t }));
     };
     upd();
     vv.addEventListener('resize', upd);
     vv.addEventListener('scroll', upd);
-    return () => { vv.removeEventListener('resize', upd); vv.removeEventListener('scroll', upd); setVbox(null); };
+    window.addEventListener('resize', upd);
+    window.addEventListener('sl-resume', upd);
+    const iv = setInterval(upd, 700);
+    return () => { vv.removeEventListener('resize', upd); vv.removeEventListener('scroll', upd); window.removeEventListener('resize', upd); window.removeEventListener('sl-resume', upd); clearInterval(iv); setVbox(null); };
   }, [!!sheet]);
 
   useEffect(() => {
