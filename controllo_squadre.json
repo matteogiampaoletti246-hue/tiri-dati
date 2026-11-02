@@ -11018,8 +11018,8 @@
  "rose_per_ruolo": {
   "squadre": 5202,
   "prima": 4401,
-  "dopo": 1185,
-  "giocate_dopo": 1021,
+  "dopo": 1182,
+  "giocate_dopo": 1018,
   "elenco": [
    {
     "squadra": "1. BFK Frýdlant nad Ostravici",
@@ -22958,17 +22958,6 @@
     ]
    },
    {
-    "squadra": "Cruzeiro",
-    "id": "2251486",
-    "giocatori": 7,
-    "competizioni": [
-     "Copa Libertadores Femenina 2026"
-    ],
-    "motivo": [
-     "7 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 7"
-    ]
-   },
-   {
     "squadra": "Doma United",
     "id": "1428850",
     "giocatori": 7,
@@ -23268,17 +23257,6 @@
     ]
    },
    {
-    "squadra": "Hafia FC",
-    "id": "164920",
-    "giocatori": 8,
-    "competizioni": [
-     "CAF Confed Cup 2026-2027"
-    ],
-    "motivo": [
-     "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
-    ]
-   },
-   {
     "squadra": "Havant and Waterlooville",
     "id": "1767",
     "giocatori": 8,
@@ -23551,6 +23529,17 @@
     "giocatori": 9,
     "competizioni": [
      "Turkish Cup 2026-2027"
+    ],
+    "motivo": [
+     "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
+    ]
+   },
+   {
+    "squadra": "Cruzeiro",
+    "id": "2251486",
+    "giocatori": 9,
+    "competizioni": [
+     "Copa Libertadores Femenina 2026"
     ],
     "motivo": [
      "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
@@ -23972,17 +23961,6 @@
     ]
    },
    {
-    "squadra": "NK Vardarac",
-    "id": "1891208",
-    "giocatori": 10,
-    "competizioni": [
-     "Croatian Cup 2026-2027"
-    ],
-    "motivo": [
-     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
-    ]
-   },
-   {
     "squadra": "Naft Bandar Abbas",
     "id": "1675873",
     "giocatori": 10,
@@ -24084,17 +24062,6 @@
     ]
    },
    {
-    "squadra": "Tomislav Donji Andrijevci",
-    "id": "2096652",
-    "giocatori": 10,
-    "competizioni": [
-     "Croatian Cup 2026-2027"
-    ],
-    "motivo": [
-     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
-    ]
-   },
-   {
     "squadra": "Trefelin BGC",
     "id": "1265280",
     "giocatori": 10,
@@ -24134,10 +24101,10 @@
   "coppie_squadra_competizione": 23610,
   "con_frase_prima": 11672,
   "squadre_con_frase_prima": 5786,
-  "con_frase_e_dati_ora_visibili": 6633,
+  "con_frase_e_dati_ora_visibili": 6540,
   "con_frase_dopo": 0,
-  "competizioni_senza_dati_tolte_dalla_tendina": 12485,
-  "squadre_senza_scheda_giocatori": 7029,
+  "competizioni_senza_dati_tolte_dalla_tendina": 12642,
+  "squadre_senza_scheda_giocatori": 7063,
   "senza_scheda": [
    {
     "squadra": "Threave Rovers",
@@ -24466,6 +24433,10 @@
    {
     "squadra": "Le Poire Sur Vie",
     "id": "108899"
+   },
+   {
+    "squadra": "Homs Al Fidaa",
+    "id": "155699"
    },
    {
     "squadra": "FK Sloboda Užice",
@@ -25334,10 +25305,6 @@
    {
     "squadra": "Al-Khuraitiat",
     "id": "154190"
-   },
-   {
-    "squadra": "Ethnikos Assia",
-    "id": "154790"
    }
   ]
  },
