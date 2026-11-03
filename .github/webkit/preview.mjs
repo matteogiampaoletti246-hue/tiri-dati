@@ -1833,8 +1833,9 @@ await step('fix-dati: Europa League con 36 squadre e giocatori di tutte le squad
   const teams = await pg.evaluate((k) => { const s = document.getElementById(k); return s ? new Set([...s.querySelectorAll('a[href*="squadra"]')].map((a) => a.getAttribute('href'))).size : 0; }, first);
   ok('fix-dati: Europa League, classifica statistiche squadre con 36 squadre', teams === 36, { teams, first });
   await shot('fixdati-el-squadre');
-  await tabClick('Giocatori'); await wait(5000);
-  await expand('st-mins_played');
+  await tabClick('Giocatori');
+  await pg.waitForFunction(() => { const s = document.getElementById('st-mins_played'); return s && [...s.querySelectorAll('button')].some((x) => /^Mostra tutti/.test(x.textContent.trim())); }, null, { timeout: 30000 }).catch(() => {});
+  await expand('st-mins_played'); await wait(1300);
   const t = await pg.evaluate(() => { const s = document.getElementById('st-mins_played'); return s ? s.innerText : document.getElementById('sl-shell').innerText; });
   ok('fix-dati: Europa League, Jota Silva (Olympiacos) nelle classifiche giocatori', /Jota Silva/.test(t), { snippet: t.slice(0, 160) });
   await shot('fixdati-el-giocatori');
