@@ -728,3 +728,32 @@
   .atabs-pill { transition: none; }
   .atabs-body.in, .atabs-body.out { animation: none; }
 }
+
+/* Card stadio (Panoramica e Riepilogo di ogni partita): foto con nome dello stadio e squadra di casa, sotto Meteo | Arbitro.
+   Sopra la foto il testo e' sempre chiaro su sfumatura scura (in entrambi i temi). Senza foto: sfumatura col colore della squadra. */
+:root {
+  --stad-shade: linear-gradient(180deg, rgba(5, 7, 13, 0) 30%, rgba(5, 7, 13, .78) 100%);
+  --stad-ink: #FFFFFF;
+  --stad-ink-2: rgba(255, 255, 255, .82);
+  --stad-fallback: #1B2740;
+  --stad-credit: rgba(5, 7, 13, .42);
+}
+.dark {
+  --stad-shade: linear-gradient(180deg, rgba(5, 7, 13, 0) 30%, rgba(5, 7, 13, .8) 100%);
+  --stad-fallback: #0E1626;
+}
+.stad-card { overflow: hidden; padding: 6px; }
+.stad-photo { position: relative; height: 172px; overflow: hidden; border-radius: 20px; background: linear-gradient(135deg, color-mix(in srgb, var(--tint, #2C3E66) 70%, var(--stad-fallback)), var(--stad-fallback)); }
+.stad-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .35s ease; }
+.stad-photo img.on { opacity: 1; }
+.stad-shade { position: absolute; inset: 0; background: var(--stad-shade); }
+.stad-text { position: absolute; left: 16px; right: 16px; bottom: 13px; display: flex; flex-direction: column; gap: 2px; color: var(--stad-ink); text-shadow: 0 1px 8px rgba(0, 0, 0, .35); }
+.stad-text b { font-size: 21px; font-weight: 800; line-height: 1.12; letter-spacing: -.01em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
+.stad-text span { font-size: 12.5px; font-weight: 600; color: var(--stad-ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.stad-credit { position: absolute; top: 8px; right: 10px; max-width: 72%; padding: 2px 7px; border-radius: 999px; background: var(--stad-credit); color: var(--stad-ink-2); font-size: 8.5px; line-height: 1.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.stad-cols { display: flex; align-items: stretch; padding: 12px 6px 8px; }
+.stad-col { display: flex; flex: 1 1 0; min-width: 0; flex-direction: column; gap: 5px; padding: 0 12px; }
+.stad-sep { width: 1px; align-self: stretch; background: var(--hair-2); }
+.stad-lab { display: flex; align-items: center; gap: 6px; font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); }
+.stad-val { font-size: 14px; font-weight: 700; color: var(--ink); overflow-wrap: anywhere; }
+@media (prefers-reduced-motion: reduce) { .stad-photo img { transition: none; } }
