@@ -874,9 +874,39 @@
 "src": "api-football",
 "at": "2026-11-02T09:11+00:00"
 },
+"5811786": {
+"n": "B. Van Driessche",
+"src": "api-football",
+"at": "2026-11-03T01:09+00:00"
+},
+"5836919": {
+"n": "Edward Duckworth",
+"src": "api-football",
+"at": "2026-11-03T01:09+00:00"
+},
+"5836921": {
+"n": "Oliver Langford",
+"src": "api-football",
+"at": "2026-11-03T01:09+00:00"
+},
+"5103700": {
+"n": "F. Mendes",
+"src": "api-football",
+"at": "2026-11-03T01:09+00:00"
+},
+"5103701": {
+"n": "R. Abatti",
+"src": "api-football",
+"at": "2026-11-03T01:09+00:00"
+},
+"5103694": {
+"n": "P. Zanovelli",
+"src": "api-football",
+"at": "2026-11-03T01:09+00:00"
+},
 "_err": [
-"2026-11-04: {\"plan\": \"Free plans do not have access to this date, try from 2026-11-01 to 2026-11-03.\"}",
-"2026-11-05: {\"plan\": \"Free plans do not have access to this date, try from 2026-11-01 to 2026-11-03.\"}"
+"2026-11-05: {\"plan\": \"Free plans do not have access to this date, try from 2026-11-02 to 2026-11-04.\"}",
+"2026-11-06: {\"plan\": \"Free plans do not have access to this date, try from 2026-11-02 to 2026-11-04.\"}"
 ],
-"_at": "2026-11-02T20:51+00:00"
+"_at": "2026-11-03T01:09+00:00"
 }
