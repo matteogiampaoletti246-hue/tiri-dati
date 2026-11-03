@@ -18,7 +18,6 @@ import { useBioPid, usePlayerCareer } from '@/data/playerIndex';
 import { money } from '@/data/carriere';
 import { resetSel } from '@/components/past/PastBits';
 import { StatistichePanel, playerHasCurStats, useBio } from './PlayerTabs';
-import { POS_IT } from './playerCalc';
 
 // Pannello giocatore da destra (partite non ancora iniziate): foto e Informazioni del Profilo, tasto Profilo, sotto solo le Statistiche.
 // Meccanica del componente "information drawer" (GSAP): velo, pannello che scorre, contenuto che appare dopo l'apertura.
@@ -112,21 +111,52 @@ function Scaled({ children }) {
   );
 }
 
-function Info({ player }) {
+// Informazioni del pannello (solo qui, il Profilo resta com'e'): nazionalita', ruolo, piede e valore in quattro riquadri 2x2
+function useFields(player) {
   const { c, cells } = useBio(player);
-  const shown = cells.filter(([, v]) => v !== '—');
+  const m = Object.fromEntries(cells.filter(([, v]) => v !== '—'));
+  return { m, mv: c.mv ? money(c.mv) : null };
+}
+const Cell = ({ k, v, gold }) => (
+  <div className="min-w-0">
+    <p style={{ ...L, fontSize: 8.5 }}>{k}</p>
+    <p className={`tnum mt-0.5 truncate ${gold ? 'text-[13px]' : 'text-[12px]'} font-medium leading-tight`} style={{ color: gold ? '#e0a528' : 'var(--ink)' }}>{v}</p>
+  </div>
+);
+const Shirt = ({ n }) => (n ? <span className="tnum text-[26px] font-extrabold leading-none" style={{ color: 'var(--ink)', letterSpacing: '-.04em' }}><span className="text-[13px] font-bold" style={{ color: 'var(--ink-3)' }}>#</span>{n}</span> : null);
+
+// foto in alto a sinistra con accanto nome, squadra, maglia e tasto Profilo (piccolo come le tendine); sotto i riquadri
+function Head({ player, team, photo, onProfile }) {
+  const { m, mv } = useFields(player);
+  const tiles = [
+    m['Nazionalità'] ? ['Nazionalità', m['Nazionalità']] : null,
+    m.Ruolo ? ['Ruolo', m.Ruolo] : null,
+    m.Piede ? ['Piede', m.Piede] : null,
+    mv ? ['Valore', mv, true] : null,
+  ].filter(Boolean);
   return (
-    <div className="flex min-w-0 flex-col gap-2.5 pt-1">
-      {shown.map(([k, v]) => (
-        <div key={k} className="min-w-0">
-          <p style={L}>{k}</p>
-          <p className="mt-0.5 text-[12.5px] leading-snug" style={{ color: 'var(--ink)' }}>{v}</p>
+    <div className="safe-top px-4 pb-3.5 pt-3">
+      <div className="flex items-end gap-3 pr-8">
+        <div className="relative aspect-square w-[40%] shrink-0" style={{ WebkitMaskImage: PHOTO_FADE, maskImage: PHOTO_FADE }}>
+          <PlayerPhoto src={photo} alt={player.name} cover={false} className="absolute inset-0 h-full w-full" />
         </div>
-      ))}
-      {c.mv ? (
-        <div className="min-w-0">
-          <p style={L}>Valore di mercato</p>
-          <p className="tnum mt-0.5 text-[14px] font-medium" style={{ color: '#e0a528' }}>{money(c.mv)}</p>
+        <div className="min-w-0 flex-1 pb-1">
+          <h2 className="title-lg text-[17px] leading-tight" style={{ color: 'var(--ink)', letterSpacing: '-.03em' }}>{player.name}</h2>
+          <p className="mt-1 flex min-w-0 items-center gap-1.5 text-[11.5px]" style={{ color: 'var(--ink-3)' }}>
+            {team ? <Crest team={team} size={15} /> : null}
+            <span className="truncate">{team ? team.name : player.teamName}</span>
+          </p>
+          <div className="mt-2.5 flex items-center gap-2">
+            <Shirt n={m.Maglia} />
+            <button type="button" className="press rounded-full px-4 py-[6px] text-[12px] font-extrabold leading-none" style={{ background: 'var(--accent)', color: '#fff' }} onClick={onProfile}>Profilo</button>
+          </div>
+        </div>
+      </div>
+      {tiles.length ? (
+        <div className="mt-2.5 grid grid-cols-2 gap-1.5">
+          {tiles.map(([k, v, g]) => (
+            <div key={k} className="min-w-0 rounded-lg px-2 py-1.5" style={{ background: 'var(--hair-2)' }}><Cell k={k} v={v} gold={g} /></div>
+          ))}
         </div>
       ) : null}
     </div>
@@ -145,25 +175,7 @@ function Body({ player, onProfile, showStats }) {
   return (
     <>
       <div className="relative" style={{ backgroundImage: `radial-gradient(120% 120% at 0% 0%, ${tint(53)} 0%, transparent 62%), radial-gradient(90% 70% at 25% 85%, ${tint(45)} 0%, transparent 70%)`, borderBottom: `2px solid ${c0 || 'var(--accent)'}` }}>
-        <div className="safe-top px-4 pt-3">
-          <div className="pr-10">
-            <h2 className="title-lg text-[19px] leading-tight" style={{ color: 'var(--ink)', letterSpacing: '-.03em' }}>{player.name}</h2>
-            <p className="mt-1 flex min-w-0 items-center gap-1.5 text-[11.5px]" style={{ color: 'var(--ink-3)' }}>
-              {team ? <Crest team={team} size={15} /> : null}
-              <span className="truncate">{[team ? team.name : player.teamName, POS_IT[player.position]].filter(Boolean).join(' · ')}</span>
-            </p>
-          </div>
-          <div className="mt-3 flex items-center gap-3 pb-4">
-            {/* sotto il volto il tasto Profilo, piccolo come le tendine di campionato e stagione */}
-            <div className="flex w-[47%] shrink-0 flex-col items-center gap-2">
-              <div className="relative aspect-square w-full" style={{ WebkitMaskImage: PHOTO_FADE, maskImage: PHOTO_FADE }}>
-                <PlayerPhoto src={photo} alt={player.name} cover={false} className="absolute inset-0 h-full w-full" />
-              </div>
-              <button type="button" className="press rounded-full px-4 py-[6px] text-[12px] font-extrabold leading-none" style={{ background: 'var(--accent)', color: '#fff' }} onClick={onProfile}>Profilo</button>
-            </div>
-            <div className="min-w-0 flex-1"><Info player={player} /></div>
-          </div>
-        </div>
+        <Head player={player} team={team} photo={photo} onProfile={onProfile} />
       </div>
       {inj ? (
         <div className="mx-4 mt-3 flex items-center gap-2.5 rounded-2xl px-3 py-2.5" style={{ background: 'rgba(229,72,77,.12)', border: '1px solid rgba(229,72,77,.4)' }}>
@@ -175,7 +187,7 @@ function Body({ player, onProfile, showStats }) {
         </div>
       ) : null}
       {hasStats && showStats ? (
-        <div className="club-scope" style={{ '--club': c0 || 'var(--accent)', '--club-a': '16%' }}>
+        <div className="club-scope pt-2" style={{ '--club': c0 || 'var(--accent)', '--club-a': '16%' }}>
           <Scaled><StatistichePanel player={player} team={team} /></Scaled>
         </div>
       ) : null}

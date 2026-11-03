@@ -312,7 +312,8 @@ await step('pannello giocatore da destra (partite non iniziate)', async () => {
   ok('pannello giocatore: nessun "non disponibile"', !!info && !ND.test(info.txt), { nd: info && (info.txt.match(ND) || [])[0] });
   ok('pannello giocatore: pagina sotto ferma', !!info && info.ov === 'hidden');
   await pg.mouse.click(30, 400);
-  await wait(2000);
+  await pg.waitForFunction(() => !document.querySelector('[role="dialog"]'), null, { timeout: 5000 }).catch(() => {});
+  await wait(300);
   const after = await pg.evaluate(() => ({ d: !!document.querySelector('[role="dialog"]'), ov: document.body.style.overflow, m: document.documentElement.dataset.modal || '' }));
   ok('pannello giocatore: il velo lo chiude e sblocca la pagina', !after.d && !after.ov && !after.m, after);
 });
