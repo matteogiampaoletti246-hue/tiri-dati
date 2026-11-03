@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-02T23:35:37+00:00",
+ "updated_at": "2026-11-03T05:49:14+00:00",
  "window": {
   "nlast": 0,
   "min_games": 1,
@@ -15370,56 +15370,56 @@
      ]
     },
     {
-     "id": "m_2hOf3a",
+     "id": "m_4Ct268",
      "date": "2026-11-08",
      "time": "2026-11-08",
      "league": "Premier League",
-     "home": "Sunderland",
-     "away": "Chelsea",
-     "corners_home": 5.5,
-     "corners_away": 5.3,
-     "gap": 0.2,
+     "home": "Crystal Palace",
+     "away": "Liverpool",
+     "corners_home": 4.1,
+     "corners_away": 5.8,
+     "gap": 1.7,
      "games": [
       5,
-      4
+      5
      ],
-     "tiri_home": 13.2,
-     "tiri_away": 13.3,
-     "tiri_gap": 0.1,
+     "tiri_home": 12.4,
+     "tiri_away": 17.7,
+     "tiri_gap": 5.3,
      "tiri_games": [
       5,
-      4
+      5
      ],
-     "sot_home": 5.2,
-     "sot_away": 4.0,
-     "sot_gap": 1.2,
+     "sot_home": 3.9,
+     "sot_away": 6.0,
+     "sot_gap": 2.1,
      "sot_games": [
       5,
-      4
+      5
      ],
-     "falli_home": 12.5,
-     "falli_away": 11.6,
-     "falli_gap": 0.9,
+     "falli_home": 10.2,
+     "falli_away": 11.0,
+     "falli_gap": 0.8,
      "falli_games": [
       12,
-      9
+      12
      ],
-     "off_home": 1.7,
-     "off_away": 1.1,
-     "off_gap": 0.6,
+     "off_home": 2.5,
+     "off_away": 1.8,
+     "off_gap": 0.7,
      "off_games": [
       12,
-      9
+      12
      ],
-     "cards": 3.8,
-     "cards_1t": 1.7,
-     "cards_home": 1.9,
+     "cards": 3.5,
+     "cards_1t": 1.1,
+     "cards_home": 1.6,
      "cards_away": 1.9,
-     "cards_1t_home": 0.9,
-     "cards_1t_away": 0.8,
+     "cards_1t_home": 0.5,
+     "cards_1t_away": 0.6,
      "games_k": [
       12,
-      9
+      12
      ]
     },
     {
@@ -15476,6 +15476,59 @@
      ]
     },
     {
+     "id": "m_2hOf3a",
+     "date": "2026-11-08",
+     "time": "2026-11-08",
+     "league": "Premier League",
+     "home": "Sunderland",
+     "away": "Chelsea",
+     "corners_home": 5.5,
+     "corners_away": 5.3,
+     "gap": 0.2,
+     "games": [
+      5,
+      4
+     ],
+     "tiri_home": 13.2,
+     "tiri_away": 13.3,
+     "tiri_gap": 0.1,
+     "tiri_games": [
+      5,
+      4
+     ],
+     "sot_home": 5.2,
+     "sot_away": 4.0,
+     "sot_gap": 1.2,
+     "sot_games": [
+      5,
+      4
+     ],
+     "falli_home": 12.5,
+     "falli_away": 11.6,
+     "falli_gap": 0.9,
+     "falli_games": [
+      12,
+      9
+     ],
+     "off_home": 1.7,
+     "off_away": 1.1,
+     "off_gap": 0.6,
+     "off_games": [
+      12,
+      9
+     ],
+     "cards": 3.8,
+     "cards_1t": 1.7,
+     "cards_home": 1.9,
+     "cards_away": 1.9,
+     "cards_1t_home": 0.9,
+     "cards_1t_away": 0.8,
+     "games_k": [
+      12,
+      9
+     ]
+    },
+    {
      "id": "m_0sKilh",
      "date": "2026-11-08",
      "time": "2026-11-08",
@@ -15525,59 +15578,6 @@
      "cards_1t_away": 1.2,
      "games_k": [
       9,
-      12
-     ]
-    },
-    {
-     "id": "m_4Ct268",
-     "date": "2026-11-08",
-     "time": "2026-11-08",
-     "league": "Premier League",
-     "home": "Crystal Palace",
-     "away": "Liverpool",
-     "corners_home": 4.1,
-     "corners_away": 5.8,
-     "gap": 1.7,
-     "games": [
-      5,
-      5
-     ],
-     "tiri_home": 12.4,
-     "tiri_away": 17.7,
-     "tiri_gap": 5.3,
-     "tiri_games": [
-      5,
-      5
-     ],
-     "sot_home": 3.9,
-     "sot_away": 6.0,
-     "sot_gap": 2.1,
-     "sot_games": [
-      5,
-      5
-     ],
-     "falli_home": 10.2,
-     "falli_away": 11.0,
-     "falli_gap": 0.8,
-     "falli_games": [
-      12,
-      12
-     ],
-     "off_home": 2.5,
-     "off_away": 1.8,
-     "off_gap": 0.7,
-     "off_games": [
-      12,
-      12
-     ],
-     "cards": 3.5,
-     "cards_1t": 1.1,
-     "cards_home": 1.6,
-     "cards_away": 1.9,
-     "cards_1t_home": 0.5,
-     "cards_1t_away": 0.6,
-     "games_k": [
-      12,
       12
      ]
     },
