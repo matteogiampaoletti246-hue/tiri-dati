@@ -6,6 +6,7 @@ import ArchiveMatch from '@/pages/ArchiveMatch';
 import ArchiveTeam from '@/pages/ArchiveTeam';
 import ArchivePlayer from '@/pages/ArchivePlayer';
 import { bootData } from '@/data';
+import { installNativeBridge } from '@/lib/search';
 import { installFixedGuard } from '@/lib/fixedGuard';
 import { installBackSnaps } from '@/lib/carousel';
 import LaunchScreen from '@/components/LaunchScreen';
@@ -81,6 +82,7 @@ export default function App() {
   useEffect(() => {
     installFixedGuard();
     installBackSnaps();
+    installNativeBridge();
     bootData().finally(() => setReady(true));
   }, []);
 

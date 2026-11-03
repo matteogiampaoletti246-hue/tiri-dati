@@ -22,6 +22,7 @@ App calcio: Home nativa Expo (`native/`), sito React in WebView (`aurora-src/`, 
 - **Foto giocatori**: solo `PlayerPhoto` (sagoma se manca). **Icone gol/assist**: `BallIcon`/`BootIcon`, mai emoji. Liste di partite sempre "vs".
 - **Stagione/competizione scelte** restano finche' la scheda e' nella pila; aprendo da zero si riparte da "Attuale".
 - **Fonti dati**: FotMob prima, poi PitchAPI, LiveScore, OneFootball, API-Football; mai formazioni, nomi o zone inventate.
+- **Riga in alto della Home**: logo, barra di ricerca, Calendario, menu; ricerca e menu sono tendine (mai pagine), risultati solo da `lib/search.js` (`app-nativa.md`).
 - **Home e Matchup/Giocatori** partono da Oggi (niente giorni passati in Migliori Giocatori e Migliori Matchup).
 
 ## Indice delle regole (docs/regole/)
@@ -45,7 +46,7 @@ Sezioni: Giocatori: competizioni e stagioni · Giocatori di tutti i campionati �
 Sezioni: Affidabilita' e arbitri · Affidabilita' per Eredivisie, Pro League, Superliga (Danimarca), Super League (Grecia), Primeira Liga, Super Lig · Migliori giocatori e Migliori matchup (fluidita') · Migliori giocatori: riga squadre (concept B, regola fissa) · Handicap dei campionati minori · Migliori giocatori: anche Champions ed Europa League · Calcolatore: falli commessi e subiti · Calcolatore: peso della linea e tasto dal profilo · Calcolatore: colori e animazioni · Migliori Giocatori: statistiche, tendina e animazioni · Hit Rate: partite da almeno 50 minuti, stagione in corso poi passata · Partite del giocatore: un'unica lista.
 
 **`app-nativa.md`**: app Expo/React Native (Home nativa, barra, swipe, background, pubblicazione).
-Sezioni: App nativa (Expo / React Native, cartella `native/`) · App nativa: Home concept B · App nativa: tocco prima che la pagina web sia pronta · App nativa: apertura veloce delle schede e rotella · Home nativa (Expo Go): ritorni, ricerca, storico, ordine · Pubblicazione app nativa (Expo) · App nativa: barra unica e swipe indietro veloce · Home nativa: il risultato accanto a LIVE · Barra nativa solo nelle 4 voci · Home nativa: finestre con molte partite · App nativa: ritorno dal background.
+Sezioni: App nativa (Expo / React Native, cartella `native/`) · App nativa: Home concept B · App nativa: tocco prima che la pagina web sia pronta · App nativa: apertura veloce delle schede e rotella · Home nativa (Expo Go): ritorni, ricerca, storico, ordine · Pubblicazione app nativa (Expo) · App nativa: barra unica e swipe indietro veloce · Home nativa: il risultato accanto a LIVE · Barra nativa solo nelle 4 voci · Home nativa: finestre con molte partite · App nativa: ritorno dal background · Riga in alto della Home: ricerca e menu a tendina.
 
 ## Dove sta cosa (percorsi utili)
 - Sito: `aurora-src/src/{pages,components,data,lib,hooks}`; prove WebKit in `.github/webkit/preview.mjs` (`ONLY=regex` per un passo solo); server locale `node .github/webkit/serve.mjs <radice> 8080`.

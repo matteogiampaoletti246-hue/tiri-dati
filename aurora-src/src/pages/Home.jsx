@@ -3,7 +3,8 @@ import { memo, useEffect, useRef, useState } from 'react';
 import { growBox } from '@/components/DayPager';
 import { flushSync } from 'react-dom';
 import { CalendarDays } from 'lucide-react';
-import { useNavigationType } from 'react-router-dom';
+import { useLocation, useNavigate, useNavigationType } from 'react-router-dom';
+import { openMenu } from '@/components/MenuDrawer';
 import { primeKeyboard } from '@/lib/keyboard';
 import { carousel, finishCarousel } from '@/lib/carousel';
 import PageShell from '@/components/PageShell';
@@ -149,6 +150,16 @@ export default function Home() {
   useEffect(() => { if (filter === 'live' && iso !== isoDate(new Date())) setFilter('all'); }, [iso, filter]);
   const custom = dayIdx < 0 ? iso : null;
   const [searchOpen, setSearchOpen] = useState(false);
+  // vecchi link /cerca e /menu: la Home si apre con la tendina gia' aperta (una volta sola, poi lo stato si toglie)
+  const loc = useLocation();
+  const nav = useNavigate();
+  useEffect(() => {
+    const o = loc.state && loc.state.open;
+    if (!o) return undefined;
+    nav('/', { replace: true, state: null });
+    const id = setTimeout(() => { if (o === 'search') setSearchOpen(true); else if (o === 'menu') openMenu(); }, 0);
+    return () => clearTimeout(id);
+  }, [loc.state]); // eslint-disable-line react-hooks/exhaustive-deps
   const loading = useInitialLoad();
   // il minuto live si aggiorna ogni 10 s solo se c'e' una partita live; altrimenti ogni minuto (niente ridisegno di centinaia di righe per nulla)
   const tick = useTicker(MATCHES.some((m) => m.status === 'live') ? 5000 : 60000);
@@ -365,7 +376,23 @@ export default function Home() {
   return (
     <PageShell swipeBack={false}>
       <div className="glass-head sticky top-0 z-30">
-        <HomeHeader onSearch={() => { primeKeyboard(); setSearchOpen(true); }} />
+        <HomeHeader onSearch={() => { primeKeyboard(); setSearchOpen(true); }} calendar={
+          <label className="glass press relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full" aria-label="Calendario">
+            <CalendarDays size={16} strokeWidth={1.9} style={{ color: custom ? 'var(--accent)' : 'var(--ink)' }} />
+            <input
+              type="date"
+              className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+              value={iso}
+              onChange={(e) => {
+                const v = e.target.value;
+                if (!v) return;
+                e.target.blur();
+                dayReady(v).then(() => setIso(v));
+              }}
+              aria-label="Scegli data"
+            />
+          </label>
+        } />
         <DayStrip dates={DATES} todayIndex={TODAY_INDEX} value={custom ? -1 : dayIdx}
           onChange={goDay}
         />
@@ -373,22 +400,6 @@ export default function Home() {
 
       <div className="flex items-center px-5 pb-1 pt-1">
         <LivePill value={filter} onChange={setFilter} />
-        <div className="ml-auto" />
-        <label className="glass press relative flex h-9 w-9 items-center justify-center rounded-full" aria-label="Calendario">
-          <CalendarDays size={16} strokeWidth={1.9} style={{ color: custom ? 'var(--accent)' : 'var(--ink)' }} />
-          <input
-            type="date"
-            className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
-            value={iso}
-            onChange={(e) => {
-              const v = e.target.value;
-              if (!v) return;
-              e.target.blur();
-              dayReady(v).then(() => setIso(v));
-            }}
-            aria-label="Scegli data"
-          />
-        </label>
       </div>
 
       <div style={{ overflow: 'clip' }}>

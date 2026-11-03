@@ -58,6 +58,7 @@
   --hair-2: rgba(15, 23, 42, .06);
   --sky-1: #FBFCFE;
   --sky-2: #F7F9FC;
+  --scrim: rgba(15, 23, 42, .28);
   --sky-3: #FFFFFF;
   --sky-glow: rgba(230, 240, 255, 1);
   --panel: rgba(255, 255, 255, .6);
@@ -124,6 +125,7 @@
   --hair-2: rgba(255, 255, 255, .07);
   --sky-1: #05070D;
   --sky-2: #070A12;
+  --scrim: rgba(0, 0, 0, .5);
   --sky-3: #0A0E19;
   --sky-glow: rgba(14, 31, 58, 1);
   --panel: rgba(255, 255, 255, .06);

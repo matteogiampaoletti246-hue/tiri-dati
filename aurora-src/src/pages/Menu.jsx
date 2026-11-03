@@ -1,6 +1,7 @@
 import { primeKeyboard } from '@/lib/keyboard';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { isNative } from '@/lib/carousel';
 import { ChevronRight, Search } from 'lucide-react';
 import PageShell from '@/components/PageShell';
 import TopBar from '@/components/TopBar';
@@ -18,7 +19,18 @@ const ITEMS = [
   { label: 'Linee guida', to: '/linee-guida' },
 ];
 
+// Vecchi link alla pagina menu: aprono la Home con il menu a tendina aperto (nell'app nativa la Home e il menu sono nativi).
 export default function Menu() {
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (isNative()) { try { window.ReactNativeWebView.postMessage('home'); window.ReactNativeWebView.postMessage('ui:menu'); } catch (e) { /* ignora */ } return; }
+    navigate('/', { replace: true, state: { open: 'menu' } });
+  }, [navigate]);
+  return null;
+}
+
+// vecchia pagina menu (tenuta, non piu' aperta dai link)
+export function MenuPage() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [perf, setPerfState] = useState(perfEnabled());
 

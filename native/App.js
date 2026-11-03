@@ -1,10 +1,10 @@
 // ScalperLab nativa - Home (React Native). Stesse regole della Home web: finestre per paese, top campionati in alto,
 // colori e loghi delle competizioni, righe partita. Metadati da meta.json (generato da data/leagues.js e data/countries.js).
 import React, { createContext, memo, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { View, Text, FlatList, Pressable, ScrollView, StatusBar, Dimensions, StyleSheet, ActivityIndicator, LayoutAnimation, Platform, UIManager, AppState, Modal } from 'react-native';
+import { View, Text, FlatList, Pressable, ScrollView, StatusBar, Dimensions, StyleSheet, ActivityIndicator, LayoutAnimation, Platform, UIManager, AppState, Modal, TextInput, Keyboard, BackHandler, useWindowDimensions } from 'react-native';
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Image } from 'expo-image';
-import Animated, { useSharedValue, useAnimatedStyle, useAnimatedReaction, withTiming, cancelAnimation, runOnJS, Easing, interpolateColor } from 'react-native-reanimated';
+import Animated, { useSharedValue, useAnimatedStyle, useAnimatedReaction, withTiming, cancelAnimation, runOnJS, Easing, interpolateColor, Keyframe } from 'react-native-reanimated';
 import { SafeAreaProvider, SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
@@ -16,8 +16,8 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
 
 const SITE = 'https://matteogiampaoletti246-hue.github.io/tiri-dati/';
 const W = Dimensions.get('window').width;
-const DARK = { dark: true, bg: '#05070D', ink: '#F1F5FB', ink2: '#A9B6CC', ink3: '#6D7A91', hair: 'rgba(255,255,255,.10)', border: 'rgba(255,255,255,.12)', accent: '#4DA8FF', live: '#FF6464', chip: 'rgba(255,255,255,.08)', wash: 'rgba(255,255,255,0.03)', card1: 'rgba(255,255,255,0.10)', card2: 'rgba(255,255,255,0.035)', sheet: '#0E1626' };
-const LIGHT = { dark: false, bg: '#F3F6FB', ink: '#0F172A', ink2: '#475569', ink3: '#8592A6', hair: 'rgba(15,23,42,.08)', border: 'rgba(15,23,42,.10)', accent: '#1F6BEF', live: '#E5484D', chip: 'rgba(15,23,42,.06)', wash: 'rgba(255,255,255,0.85)', card1: 'rgba(255,255,255,0.95)', card2: 'rgba(255,255,255,0.8)', sheet: '#FFFFFF' };
+const DARK = { dark: true, bg: '#05070D', ink: '#F1F5FB', ink2: '#A9B6CC', ink3: '#6D7A91', hair: 'rgba(255,255,255,.10)', border: 'rgba(255,255,255,.12)', accent: '#4DA8FF', live: '#FF6464', chip: 'rgba(255,255,255,.08)', wash: 'rgba(255,255,255,0.03)', card1: 'rgba(255,255,255,0.10)', card2: 'rgba(255,255,255,0.035)', sheet: '#0E1626', scrim: 'rgba(0,0,0,.5)' };
+const LIGHT = { dark: false, bg: '#F3F6FB', ink: '#0F172A', ink2: '#475569', ink3: '#8592A6', hair: 'rgba(15,23,42,.08)', border: 'rgba(15,23,42,.10)', accent: '#1F6BEF', live: '#E5484D', chip: 'rgba(15,23,42,.06)', wash: 'rgba(255,255,255,0.85)', card1: 'rgba(255,255,255,0.95)', card2: 'rgba(255,255,255,0.8)', sheet: '#FFFFFF', scrim: 'rgba(15,23,42,.28)' };
 const WORKER = 'https://scalperlab-live.matteo-giampaoletti04.workers.dev';
 const NAMES = META.names || {};
 const nm = (id, n) => NAMES[String(id)] || n;
@@ -226,16 +226,261 @@ const Day = memo(({ iso, rows, filter, onOpen, onLeague }) => {
   );
 });
 
+// Marchio ScalperLab (lente con il campo dentro) disegnato con viste: stesso disegno del logo del sito (viewBox 100).
+const Logo = memo(({ size = 30 }) => {
+  const { C } = useT();
+  const k = size / 100;
+  const ab = (l, t, w, h, st) => ({ position: 'absolute', left: l * k, top: t * k, width: w * k, height: h * k, ...st });
+  return (
+    <View style={{ width: size, height: size }}>
+      <View style={ab(8, 8, 68, 68, { borderRadius: 34 * k, borderWidth: 8 * k, borderColor: C.ink })} />
+      <View style={ab(40.25, 14, 3.5, 56, { backgroundColor: C.accent, borderRadius: 2 * k })} />
+      <View style={ab(30.25, 30.25, 23.5, 23.5, { borderRadius: 12 * k, borderWidth: 3.5 * k, borderColor: C.accent })} />
+      <View style={ab(13, 31, 7, 22, { borderWidth: 3 * k, borderLeftWidth: 0, borderColor: C.accent, opacity: 0.7 })} />
+      <View style={ab(64, 31, 7, 22, { borderWidth: 3 * k, borderRightWidth: 0, borderColor: C.accent, opacity: 0.7 })} />
+      <View style={ab(55, 71, 43, 11, { borderRadius: 5.5 * k, backgroundColor: C.accent, transform: [{ rotate: '45deg' }] })} />
+      <View style={ab(38, 38, 8, 8, { borderRadius: 4 * k, backgroundColor: C.ink })} />
+    </View>
+  );
+});
+
+// Riga in alto: logo, barra di ricerca (tutto lo spazio che resta), Calendario, menu. Una riga sola anche su iPhone stretti.
 function Header({ onSearch, onMenu, onCal }) {
   const { C, s } = useT();
   return (
     <View style={s.header}>
-      <Text style={s.brand}>Scalper<Text style={{ color: C.accent }}>Lab</Text></Text>
-      <View style={{ flexDirection: 'row', gap: 8 }}>
-        <Pressable onPress={onCal} style={s.iconBtn}><Ionicons name="calendar-outline" size={16} color={C.ink} /></Pressable>
-        <Pressable onPress={onSearch} style={s.iconBtn}><Ionicons name="search" size={16} color={C.ink} /></Pressable>
-        <Pressable onPress={onMenu} style={s.iconBtn}><Ionicons name="menu" size={17} color={C.ink} /></Pressable>
+      <Logo size={30} />
+      <Pressable onPress={onSearch} style={s.sBar} accessibilityLabel="Cerca">
+        <Ionicons name="search" size={16} color={C.ink3} />
+        <Text numberOfLines={1} style={s.sBarTx}>Cerca giocatori, squadre…</Text>
+      </Pressable>
+      <Pressable onPress={onCal} style={s.iconBtn} accessibilityLabel="Calendario"><Ionicons name="calendar-outline" size={16} color={C.ink} /></Pressable>
+      <Pressable onPress={onMenu} style={s.iconBtn} accessibilityLabel="Menu"><Ionicons name="menu" size={17} color={C.ink} /></Pressable>
+    </View>
+  );
+}
+
+// ---------- tendina di ricerca e menu a tendina ----------
+const SBAR = 52;
+const OUT_EASE = Easing.bezier(0.22, 1, 0.36, 1);
+const MONO_DARK = new Set(['premier-league', 'champions-league', 'ligue-1', 'conference-league']);
+const hexA = (c, a) => (typeof c === 'string' && /^#[0-9a-f]{6}$/i.test(c) ? c + a : null);
+// voci che entrano a cascata (dal basso nella ricerca, da destra nel menu): solo le voci nuove, quelle gia' presenti restano ferme
+const cascade = (i, dx, dy, base, step) => new Keyframe({
+  0: { opacity: 0, transform: [{ translateX: dx }, { translateY: dy }] },
+  100: { opacity: 1, transform: [{ translateX: 0 }, { translateY: 0 }], easing: Easing.out(Easing.cubic) },
+}).duration(dx ? 260 : 300).delay(base + Math.min(i, 10) * step);
+
+function useKeyboardH() {
+  const [h, setH] = useState(0);
+  useEffect(() => {
+    const ios = Platform.OS === 'ios';
+    const a = Keyboard.addListener(ios ? 'keyboardWillShow' : 'keyboardDidShow', (e) => setH(e.endCoordinates ? e.endCoordinates.height : 0));
+    const b = Keyboard.addListener(ios ? 'keyboardWillHide' : 'keyboardDidHide', () => setH(0));
+    return () => { a.remove(); b.remove(); };
+  }, []);
+  return h;
+}
+
+// Foto del giocatore: sagoma se manca o non si carica (mai l'icona rotta)
+const Face = memo(({ uri, color, size }) => {
+  const { C } = useT();
+  const [bad, setBad] = useState(false);
+  const c = color || C.hair;
+  return (
+    <View style={{ width: size, height: size, borderRadius: size / 2, borderWidth: 2, borderColor: c, backgroundColor: c, overflow: 'hidden' }}>
+      {uri && !bad ? <Image source={{ uri }} style={{ width: '100%', height: '100%' }} contentFit="cover" contentPosition="top" cachePolicy="memory-disk" onError={() => setBad(true)} /> : (
+        <View style={{ flex: 1, alignItems: 'center' }}>
+          <View style={{ width: size * 0.36, height: size * 0.36, borderRadius: size, backgroundColor: 'rgba(0,0,0,.42)', marginTop: size * 0.2 }} />
+          <View style={{ width: size * 0.74, height: size * 0.5, borderRadius: size, backgroundColor: 'rgba(0,0,0,.42)', marginTop: size * 0.06 }} />
+        </View>
+      )}
+    </View>
+  );
+});
+
+// stemma o logo con le iniziali se manca
+const Mark = ({ uri, size, initials, tint }) => {
+  const { s } = useT();
+  const [bad, setBad] = useState(false);
+  if (uri && !bad) return <Image source={{ uri }} style={{ width: size, height: size }} contentFit="contain" cachePolicy="memory-disk" tintColor={tint || undefined} onError={() => setBad(true)} />;
+  return <View style={[s.crestPh, { width: size, height: size, borderRadius: size / 2 }]}><Text style={s.crestTx}>{initials || ''}</Text></View>;
+};
+
+// Banner giocatore compatto (stesso disegno del banner della ricerca del sito, in piccolo)
+const PlayerBannerS = memo(({ p, onPress }) => {
+  const { C, s } = useT();
+  const g = hexA(p.color, '66');
+  return (
+    <Pressable onPress={onPress} style={({ pressed }) => [s.pb, pressed && { opacity: 0.6 }]}>
+      <LinearGradient colors={[g || C.card1, C.card2]} locations={[0, 0.72]} start={{ x: 0, y: 0.5 }} end={{ x: 1, y: 0.5 }} style={StyleSheet.absoluteFill} />
+      <Face uri={p.photo} color={p.color} size={36} />
+      <View style={{ flex: 1, minWidth: 0 }}>
+        <Text numberOfLines={1} style={s.pbName}>{p.name}</Text>
+        <View style={s.pbSub}>
+          {p.crest ? <Mark uri={p.crest} size={14} /> : null}
+          <Text numberOfLines={1} style={s.pbTeam}>{p.team}</Text>
+        </View>
       </View>
+    </Pressable>
+  );
+});
+
+// Ricerca a tendina (aspetto: la barra si allarga in un pannello unico; animazione: il pannello scende dalla barra e i risultati arrivano a cascata).
+// Si chiude toccando fuori, con X, con il tasto indietro (Android) o scegliendo un risultato. La Home dietro non si muove.
+function SearchPanel({ open, onClose, onPick, ask, res, ready, top }) {
+  const { C, s } = useT();
+  const { height: winH } = useWindowDimensions();
+  const kb = useKeyboardH();
+  const [mounted, setMounted] = useState(open);
+  const [q, setQ] = useState('');
+  const [contentH, setContentH] = useState(0);
+  const h = useSharedValue(SBAR); const op = useSharedValue(0); const sc = useSharedValue(0);
+  const maxH = Math.max(SBAR + 80, winH - top - kb - 12);
+  const data = q.trim() && res ? res : null;
+  const has = !!data && (data.leagues.length + data.teams.length + data.players.length + data.referees.length) > 0;
+  const target = Math.min(SBAR + (has ? contentH : 0), maxH);
+  useEffect(() => {
+    if (open) {
+      setMounted(true); setQ(''); setContentH(0);
+      h.value = SBAR; op.value = 0.4;
+      op.value = withTiming(1, { duration: 400, easing: OUT_EASE });
+      sc.value = withTiming(1, { duration: 260 });
+      return undefined;
+    }
+    Keyboard.dismiss();
+    sc.value = withTiming(0, { duration: 180 });
+    op.value = withTiming(0, { duration: 180 }, (done) => { if (done) runOnJS(setMounted)(false); });
+    return undefined;
+  }, [open]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => { if (open) h.value = withTiming(target, { duration: 400, easing: OUT_EASE }); }, [open, target, h]);
+  // filtro con debounce (~200 ms); si richiede di nuovo quando la pagina web diventa pronta
+  useEffect(() => { if (!open) return undefined; const t = setTimeout(() => ask(q), 200); return () => clearTimeout(t); }, [q, open, ready, ask]);
+  useEffect(() => {
+    if (!open) return undefined;
+    const sub = BackHandler.addEventListener('hardwareBackPress', () => { onClose(); return true; });
+    return () => sub.remove();
+  }, [open, onClose]);
+  const pStyle = useAnimatedStyle(() => ({ height: h.value, opacity: op.value }));
+  const scStyle = useAnimatedStyle(() => ({ opacity: sc.value }));
+  if (!mounted) return null;
+  let n = 0;
+  const ent = () => cascade(n++, 0, 14, 60, 45);
+  const logoOf = (l) => (C.dark && l.logoDark ? l.logoDark : l.logo);
+  const mono = (l) => (C.dark && !l.logoDark && MONO_DARK.has(l.id) ? '#FFFFFF' : null);
+  return (
+    <View style={StyleSheet.absoluteFill} pointerEvents={open ? 'auto' : 'none'}>
+      <Animated.View style={[StyleSheet.absoluteFill, { backgroundColor: C.scrim }, scStyle]}><Pressable style={{ flex: 1 }} onPress={onClose} /></Animated.View>
+      <Animated.View style={[s.sPanel, { top }, pStyle]}>
+        <View style={[s.sRow, has && { borderBottomColor: C.hair }]}>
+          <Ionicons name="search" size={18} color={C.ink3} />
+          <TextInput value={q} onChangeText={setQ} autoFocus placeholder="Cerca giocatori, squadre…" placeholderTextColor={C.ink3} style={s.sInput} returnKeyType="search" autoCorrect={false} autoCapitalize="none" keyboardAppearance={C.dark ? 'dark' : 'light'} selectionColor={C.accent} />
+          <Pressable onPress={onClose} style={s.iconBtn} accessibilityLabel="Chiudi"><Ionicons name="close" size={17} color={C.ink} /></Pressable>
+        </View>
+        <ScrollView style={{ height: maxH - SBAR }} keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag" showsVerticalScrollIndicator={false} bounces={false} overScrollMode="never">
+          <View onLayout={(e) => setContentH(Math.ceil(e.nativeEvent.layout.height))} style={{ paddingHorizontal: 10, paddingBottom: 10 }}>
+            {has && data.leagues.length ? (<View key="L"><Animated.Text entering={ent()} style={s.sSec}>Campionati</Animated.Text>
+              {data.leagues.map((l) => (<Animated.View key={`l${l.id}`} entering={ent()}><Pressable onPress={() => onPick(l.path)} style={s.sItem}>
+                <Mark uri={logoOf(l)} size={26} tint={mono(l)} initials={l.name.slice(0, 2).toUpperCase()} />
+                <Text numberOfLines={1} style={[s.sName, { flex: 1 }]}>{l.name}</Text>
+                {l.country ? <Text style={s.sMeta}>{l.country}</Text> : null}
+              </Pressable></Animated.View>))}
+              <Animated.View key="lall" entering={ent()}><Pressable onPress={() => onPick('/competizioni')} style={s.sItem}><Text style={[s.sName, { color: C.accent, fontWeight: '700', fontSize: 13.5 }]}>Tutte le competizioni per paese</Text></Pressable></Animated.View>
+            </View>) : null}
+            {has && data.teams.length ? (<View key="T"><Animated.Text entering={ent()} style={s.sSec}>Squadre</Animated.Text>
+              {data.teams.map((t) => (<Animated.View key={`t${t.id}`} entering={ent()}><Pressable onPress={() => onPick(t.path)} style={s.sItem}>
+                <Mark uri={t.crest} size={28} initials={t.initials} />
+                <Text numberOfLines={1} style={[s.sName, { fontWeight: '700', flexShrink: 1 }]}>{t.name}</Text>
+                <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', gap: 5, minWidth: 0 }}>
+                  {t.logo ? <Mark uri={t.logo} size={14} /> : null}
+                  <Text numberOfLines={1} style={[s.sMeta, { flexShrink: 1 }]}>{t.sub}</Text>
+                </View>
+              </Pressable></Animated.View>))}
+            </View>) : null}
+            {has && data.players.length ? (<View key="P"><Animated.Text entering={ent()} style={s.sSec}>Giocatori</Animated.Text>
+              {data.players.map((p) => (<Animated.View key={`p${p.id}`} entering={ent()} style={{ paddingBottom: 6 }}><PlayerBannerS p={p} onPress={() => onPick(p.path)} /></Animated.View>))}
+            </View>) : null}
+            {has && data.referees.length ? (<View key="R"><Animated.Text entering={ent()} style={s.sSec}>Arbitri</Animated.Text>
+              {data.referees.map((x) => (<Animated.View key={`r${x.id}`} entering={ent()}><Pressable onPress={() => onPick(x.path)} style={s.sItem}>
+                <View style={[s.crestPh, { width: 26, height: 26, borderRadius: 13 }]}><Text style={s.crestTx}>{x.initials}</Text></View>
+                <Text numberOfLines={1} style={[s.sName, { flex: 1 }]}>{x.name}</Text>
+              </Pressable></Animated.View>))}
+            </View>) : null}
+          </View>
+        </ScrollView>
+      </Animated.View>
+    </View>
+  );
+}
+
+const MENU = [['Home', '/', 'home-outline'], ['Competizioni', '/competizioni', 'trophy-outline'], ['Calcolatore di Affidabilità', '/calcolatore', 'speedometer-outline'], ['Migliori Giocatori', '/migliori-giocatori', 'star-outline'], ['Migliori Matchup', '/migliori-matchup', 'swap-horizontal-outline'], ['Linee guida', '/linee-guida', 'book-outline']];
+const THEME_OPTS = [['light', 'Chiaro'], ['dark', 'Scuro'], ['auto', 'Auto']];
+
+// Menu a tendina da destra: stesse voci della vecchia pagina menu, con icone, che entrano a cascata. Tema e diagnostica sono quelli del sito
+// (si leggono e si cambiano nella pagina web, messaggio `ui:state`) e compaiono solo quando la pagina web li ha comunicati.
+function MenuPanel({ open, onClose, onGo, ui, onCmd, top, bottom }) {
+  const { C, s } = useT();
+  const PW = Math.max(236, Math.min(W * 0.78, 300));
+  const [mounted, setMounted] = useState(open);
+  const tx = useSharedValue(PW); const sc = useSharedValue(0);
+  useEffect(() => {
+    if (open) {
+      setMounted(true); onCmd('state');
+      tx.value = PW; tx.value = withTiming(0, { duration: 420, easing: OUT_EASE });
+      sc.value = withTiming(1, { duration: 380 });
+      return undefined;
+    }
+    sc.value = withTiming(0, { duration: 300 });
+    tx.value = withTiming(PW, { duration: 300, easing: OUT_EASE }, (done) => { if (done) runOnJS(setMounted)(false); });
+    return undefined;
+  }, [open]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    if (!open) return undefined;
+    const sub = BackHandler.addEventListener('hardwareBackPress', () => { onClose(); return true; });
+    return () => sub.remove();
+  }, [open, onClose]);
+  const pStyle = useAnimatedStyle(() => ({ transform: [{ translateX: tx.value }] }));
+  const scStyle = useAnimatedStyle(() => ({ opacity: sc.value }));
+  if (!mounted) return null;
+  const ent = (i) => cascade(i, 16, 0, 150, 35);
+  return (
+    <View style={StyleSheet.absoluteFill} pointerEvents={open ? 'auto' : 'none'}>
+      <Animated.View style={[StyleSheet.absoluteFill, { backgroundColor: C.scrim }, scStyle]}><Pressable style={{ flex: 1 }} onPress={onClose} /></Animated.View>
+      <Animated.View style={[s.mPanel, { width: PW, paddingTop: top + 14 }, pStyle]}>
+        <ScrollView showsVerticalScrollIndicator={false} bounces={false} overScrollMode="never" contentContainerStyle={{ paddingBottom: bottom + 40 }}>
+          <View style={s.mHead}>
+            <Logo size={26} />
+            <Text style={s.mBrand}>ScalperLab</Text>
+            <Pressable onPress={onClose} style={[s.iconBtn, { marginLeft: 'auto' }]} accessibilityLabel="Chiudi"><Ionicons name="close" size={17} color={C.ink} /></Pressable>
+          </View>
+          {MENU.map(([label, route, icon], i) => (
+            <Animated.View key={route} entering={ent(i)}>
+              <Pressable onPress={() => onGo(route)} style={({ pressed }) => [s.mItem, pressed && { opacity: 0.5 }]}>
+                <Ionicons name={icon} size={19} color={C.accent} />
+                <Text numberOfLines={1} style={s.mTx}>{label}</Text>
+                <Ionicons name="chevron-forward" size={15} color={C.ink3} style={{ marginLeft: 'auto' }} />
+              </Pressable>
+            </Animated.View>
+          ))}
+          {ui ? (
+            <Animated.View entering={ent(MENU.length)}>
+              <Text style={[s.sSec, { paddingHorizontal: 0, marginTop: 22 }]}>Tema</Text>
+              <View style={{ flexDirection: 'row', gap: 6 }}>
+                {THEME_OPTS.map(([v, l]) => (
+                  <Pressable key={v} onPress={() => onCmd('theme', v)} style={[s.mOpt, ui.theme === v && { backgroundColor: C.ink }]}>
+                    <Text style={[s.mOptTx, ui.theme === v && { color: C.bg }]}>{l}</Text>
+                  </Pressable>
+                ))}
+              </View>
+              <Text style={[s.sSec, { paddingHorizontal: 0, marginTop: 22 }]}>Diagnostica</Text>
+              <Pressable onPress={() => onCmd('perf', ui.perf ? 0 : 1)} style={[s.mItem, { justifyContent: 'space-between' }]}>
+                <Text style={[s.mTx, { fontSize: 14 }]}>Pannello diagnosi</Text>
+                <Text style={{ fontSize: 12.5, fontWeight: '700', color: ui.perf ? C.accent : C.ink3 }}>{ui.perf ? 'Attivo' : 'Spento'}</Text>
+              </Pressable>
+            </Animated.View>
+          ) : null}
+        </ScrollView>
+      </Animated.View>
     </View>
   );
 }
@@ -347,6 +592,11 @@ function Screen({ onTheme, onReset }) {
   const [view, setView] = useState(null); // { dates, keys, data } cambiano insieme: mai date nuove con partite vecchie
   const [center, setCenter] = useState(0); // giorno al centro della striscia (0 = oggi)
   const [cal, setCal] = useState(false);
+  const [srch, setSrch] = useState(false);   // tendina di ricerca (nativa)
+  const [menu, setMenu] = useState(false);   // menu a tendina (nativo): mai aperti insieme
+  const [srchRes, setSrchRes] = useState(null);
+  const [ui, setUi] = useState(null);        // tema e diagnostica del sito, per il menu
+  const srchSeq = useRef(0);
   const [cur, setCur] = useState(TODAY_INDEX);
   const [filter, setFilter] = useState('all');
   const [warm, setWarm] = useState(false);
@@ -561,12 +811,28 @@ function Screen({ onTheme, onReset }) {
     const t = e && e.nativeEvent && e.nativeEvent.data;
     if (t === 'dark' || t === 'light') onTheme(t);
     else if (t === 'pong') pongAt.current = Date.now();
+    else if (typeof t === 'string' && t.startsWith('srch:')) { const k = t.indexOf(':', 5); if (Number(t.slice(5, k)) === srchSeq.current) { try { setSrchRes(JSON.parse(t.slice(k + 1))); } catch (err) { /* ignora */ } } } // risultati della ricerca (calcolati dalla pagina web: stessi del sito)
+    else if (typeof t === 'string' && t.startsWith('ui:state:')) { const [th, pf] = t.slice(9).split(':'); setUi({ theme: th, perf: pf === '1' }); }
+    else if (t === 'ui:search' || t === 'ui:menu') { if (openRef.current) closeWeb(); setMenu(t === 'ui:menu'); setSrch(t === 'ui:search'); } // vecchi link /cerca e /menu: Home con la tendina aperta
     else if (typeof t === 'string' && t.startsWith('route:')) { webPath.current = t.slice(6); setWebRoute(webPath.current); setBarOn(isTabRoute(webPath.current)); if (awaitRoute.current === webPath.current) endBusy(); } // la pagina web ha disegnato questa rotta
     else if (typeof t === 'string' && t.startsWith('depth:')) setDepth(Number(t.slice(6)) || 0);
     else if (typeof t === 'string' && t.startsWith('drag:')) { const d = Number(t.slice(5)); ov.value = d < 0 ? withTiming(0, { duration: 180 }) : withTiming(d, { duration: 90, easing: Easing.linear }); } // swipe indietro partito dentro la pagina web (prima pagina dopo la Home)
     else if (t === 'home' && openRef.current) closeWeb(); // il tasto indietro del sito e' tornato alla pagina di partenza: si torna alla Home
   }, [onTheme, closeWeb, ov, endBusy]);
   const pick = useCallback((diff) => { setCal(false); setCenter(diff); }, []);
+  // ricerca: la pagina web (gia' caricata, con tutti i dati) calcola i risultati e li manda indietro (`srch:<n>:<json>`)
+  const askSearch = useCallback((q) => {
+    const n = ++srchSeq.current;
+    if (!String(q || '').trim()) { setSrchRes(null); return; }
+    if (readyRef.current && webRef.current) webRef.current.injectJavaScript(`window.__slSearch&&window.__slSearch(${JSON.stringify(q)},${n});true;`);
+  }, []);
+  const uiCmd = useCallback((cmd, v) => { if (readyRef.current && webRef.current) webRef.current.injectJavaScript(`window.__slCmd&&window.__slCmd(${JSON.stringify(cmd)},${JSON.stringify(v === undefined ? null : v)});true;`); }, []);
+  const openSearch = useCallback(() => { setMenu(false); setSrchRes(null); setSrch(true); }, []);
+  const openMenuP = useCallback(() => { setSrch(false); setMenu(true); }, []);
+  const closeSrch = useCallback(() => setSrch(false), []);
+  const closeMenu = useCallback(() => setMenu(false), []);
+  const pickSrch = useCallback((route) => { setSrch(false); openRoute(route); }, [openRoute]);
+  const goMenu = useCallback((route) => { setMenu(false); if (route !== '/') openRoute(route); }, [openRoute]);
 
   const centre = useCallback((i) => { const p = pos.current[i]; if (p && strip.current) strip.current.scrollTo({ x: Math.max(0, p.x - W / 2 + p.w / 2), animated: true }); }, []);
   useEffect(() => { centre(cur); }, [cur, centre, view]);
@@ -604,7 +870,7 @@ function Screen({ onTheme, onReset }) {
   return (
     <View style={[s.root, { paddingTop: insets.top }]}>
       <StatusBar barStyle={C.dark ? 'light-content' : 'dark-content'} />
-      <Header onSearch={() => openRoute('/cerca')} onMenu={() => openRoute('/menu')} onCal={() => setCal(true)} />
+      <Header onSearch={openSearch} onMenu={openMenuP} onCal={() => setCal(true)} />
       <ScrollView ref={strip} horizontal showsHorizontalScrollIndicator={false} style={{ flexGrow: 0 }} contentContainerStyle={s.strip}>
         {dates.map((d, i) => (
           <Pressable key={keys[i]} onPress={() => go(i)} onLayout={(e) => { pos.current[i] = { x: e.nativeEvent.layout.x, w: e.nativeEvent.layout.width }; if (i === cur) centre(i); }}>
@@ -635,6 +901,9 @@ function Screen({ onTheme, onReset }) {
         <GestureDetector gesture={edge}><View pointerEvents={depth > 0 ? 'none' : 'auto'} style={[s.edge, { width: EDGE_W, top: insets.top + 98 }]} /></GestureDetector>
       </Animated.View>
       {!webOpen || barOn ? <TabBar onOpen={openRoute} onHome={closeWeb} active={webOpen ? (TABS.find(([, , r]) => r && webRoute.startsWith(r)) || [])[2] || '' : null} bottom={insets.bottom} /> : null}
+      {/* tendine della riga in alto: sopra la Home e sopra la barra (la barra non cambia) */}
+      <SearchPanel open={srch} onClose={closeSrch} onPick={pickSrch} ask={askSearch} res={srchRes} ready={ready} top={insets.top + 4} />
+      <MenuPanel open={menu} onClose={closeMenu} onGo={goMenu} ui={ui} onCmd={uiCmd} top={insets.top} bottom={insets.bottom} />
     </View>
   );
 }
@@ -651,7 +920,27 @@ export default function App() {
 
 const makeStyles = (C) => StyleSheet.create({
   root: { flex: 1, backgroundColor: C.bg },
-  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 20, paddingVertical: 10 },
+  header: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 16, paddingVertical: 10 },
+  sBar: { flex: 1, minWidth: 0, height: 36, borderRadius: 18, flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 12, backgroundColor: C.chip, borderWidth: 1, borderColor: C.border },
+  sBarTx: { flex: 1, color: C.ink3, fontSize: 14.5 },
+  sPanel: { position: 'absolute', left: 12, right: 12, borderRadius: 26, overflow: 'hidden', backgroundColor: C.sheet, borderWidth: 1, borderColor: C.border, shadowColor: '#000', shadowOpacity: 0.35, shadowRadius: 30, shadowOffset: { width: 0, height: 18 }, elevation: 18 },
+  sRow: { height: SBAR, flexDirection: 'row', alignItems: 'center', gap: 10, paddingLeft: 16, paddingRight: 8, borderBottomWidth: 1, borderBottomColor: 'transparent' },
+  sInput: { flex: 1, minWidth: 0, color: C.ink, fontSize: 17, paddingVertical: 0 },
+  sSec: { color: C.ink3, fontSize: 11, fontWeight: '800', letterSpacing: 0.9, textTransform: 'uppercase', paddingHorizontal: 6, paddingTop: 12, paddingBottom: 6 },
+  sItem: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 6, paddingVertical: 8 },
+  sName: { color: C.ink, fontSize: 14.5 },
+  sMeta: { color: C.ink3, fontSize: 11.5 },
+  pb: { flexDirection: 'row', alignItems: 'center', gap: 10, borderRadius: 14, paddingHorizontal: 10, paddingVertical: 7, borderWidth: 1, borderColor: C.border, overflow: 'hidden' },
+  pbName: { color: C.ink, fontSize: 14.5, fontWeight: '800' },
+  pbSub: { flexDirection: 'row', alignItems: 'center', gap: 5, marginTop: 1 },
+  pbTeam: { color: C.ink2, fontSize: 12, flexShrink: 1 },
+  mPanel: { position: 'absolute', right: 0, top: 0, bottom: 0, paddingHorizontal: 18, backgroundColor: C.sheet, borderLeftWidth: 1, borderLeftColor: C.border, shadowColor: '#000', shadowOpacity: 0.35, shadowRadius: 30, shadowOffset: { width: -14, height: 0 }, elevation: 20 },
+  mHead: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingBottom: 8 },
+  mBrand: { color: C.ink, fontSize: 17, fontWeight: '800', letterSpacing: -0.6 },
+  mItem: { flexDirection: 'row', alignItems: 'center', gap: 14, paddingVertical: 13, borderBottomWidth: 1, borderBottomColor: C.hair },
+  mTx: { color: C.ink, fontSize: 15, flexShrink: 1 },
+  mOpt: { flex: 1, alignItems: 'center', paddingVertical: 8, borderRadius: 12, backgroundColor: C.chip, borderWidth: 1, borderColor: C.border },
+  mOptTx: { color: C.ink, fontSize: 13, fontWeight: '700' },
   brand: { color: C.ink, fontSize: 24, fontWeight: '800', letterSpacing: -1 },
   iconBtn: { width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center', backgroundColor: C.chip, borderWidth: 1, borderColor: C.border },
   strip: { paddingHorizontal: 20, paddingVertical: 8, gap: 24, alignItems: 'center' },

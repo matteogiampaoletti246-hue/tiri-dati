@@ -1,23 +1,15 @@
 import PlayerPhoto from '@/components/PlayerPhoto';
 import { useModalLock } from '@/lib/modal';
 import { teamGrad } from '@/lib/tint';
-import { useEffect, useRef, useState } from 'react';
+import { searchAll } from '@/lib/search';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { Search, X } from 'lucide-react';
 import Crest from './Crest';
 import LeagueBadge from './LeagueBadge';
-import { TEAMS } from '@/data/teams';
-import { LEAGUES } from '@/data/leagues';
-import { PLAYERS } from '@/data/players';
-import { REFEREES } from '@/data/referees';
 import { teamById } from '@/data/teams';
 import { leagueById } from '@/data/leagues';
-
-const norm = (s) =>
-  String(s)
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '');
 
 const ring = (t) => (t && t.colors && t.colors[0]) || 'var(--hair)';
 
@@ -32,34 +24,65 @@ export function PlayerFace({ p, size }) {
   );
 }
 
+// Banner giocatore della ricerca: riga nel colore della squadra, volto, nome, stemma e squadra. `compact` = versione piccola della tendina.
+export function PlayerBanner({ p, onClick, compact = false }) {
+  const t = teamById(p.teamId);
+  return (
+    <button type="button" onClick={onClick} className={`glass press flex w-full items-center text-left ${compact ? 'gap-2.5 rounded-[14px] px-2.5 py-[7px]' : 'gap-3.5 rounded-[20px] px-4 py-3'}`} style={{ background: teamGrad(t, compact ? 0x66 : 0x55) }}>
+      <PlayerFace p={p} size={compact ? 36 : 52} />
+      <span className="min-w-0">
+        <span className={`block truncate font-extrabold ${compact ? 'text-[14.5px]' : 'text-[16px]'}`} style={{ color: 'var(--ink)' }}>{p.name}</span>
+        <span className={`flex items-center gap-1.5 text-[12px] ${compact ? 'mt-px' : 'mt-0.5'}`} style={{ color: 'var(--ink-3)' }}>
+          {t ? <Crest team={t} size={14} /> : null}
+          <span className="truncate">{t ? t.name : p.teamName}</span>
+        </span>
+      </span>
+    </button>
+  );
+}
+
 const countryOf = (t) => {
   const l = leagueById(t.leagueId);
   return l ? l.country : '';
 };
 
-export default function SearchOverlay({ open, onClose, page }) {
+const EASE = [0.22, 1, 0.36, 1];
+const BAR = 52;
+
+// Ricerca a tendina: la barra si allarga in un pannello unico in cima allo schermo e i risultati scendono a cascata.
+// Si chiude toccando fuori, con X / ESC o scegliendo un risultato; la pagina sotto non si muove.
+export default function SearchOverlay({ open, onClose }) {
   const [q, setQ] = useState('');
+  const [dq, setDq] = useState('');
   const navigate = useNavigate();
   const inputRef = useRef(null);
+  const reduce = useReducedMotion();
 
   useEffect(() => {
     if (open) {
       setQ('');
+      setDq('');
       const id = setTimeout(() => inputRef.current && inputRef.current.focus(), 60);
       return () => clearTimeout(id);
     }
     return undefined;
   }, [open]);
+  // filtro con debounce (~200 ms)
+  useEffect(() => {
+    const id = setTimeout(() => setDq(q), 200);
+    return () => clearTimeout(id);
+  }, [q]);
 
   useEffect(() => {
+    if (!open) return undefined;
     const onKey = (e) => {
       if (e.key === 'Escape') onClose();
     };
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
-  }, [onClose]);
+  }, [open, onClose]);
   useModalLock(!!open);
-  // altezza visibile (sopra la tastiera): la lista arriva fino alla tastiera e si puo' scorrere tutta; la pagina sotto non si muove
+  // altezza visibile (sopra la tastiera): il pannello arriva al massimo fino alla tastiera e scorre al suo interno
   const [vh, setVh] = useState(() => (typeof window !== 'undefined' ? (window.visualViewport ? window.visualViewport.height : window.innerHeight) : 800));
   useEffect(() => {
     if (!open) return undefined;
@@ -72,137 +95,104 @@ export default function SearchOverlay({ open, onClose, page }) {
   }, [open]);
   const hideKb = () => { const el = inputRef.current; if (el && document.activeElement === el) el.blur(); };
 
-  if (!open) return null;
-
-  const needle = norm(q);
-  const rank = (n) => { const x = norm(n); return x.startsWith(needle) ? 0 : x.split(' ').some((w) => w.startsWith(needle)) ? 1 : 2; };
-  const byRel = (a, b) => rank(a.name) - rank(b.name);
-  const teams = needle ? TEAMS.filter((t) => norm(t.name).includes(needle)).sort(byRel).slice(0, 8) : [];
-  // competizioni: per nome o per paese ("danimarca" = tutte le danesi), prima quelle dell'app, poi l'archivio (fino a 30)
-  const leagues = needle ? LEAGUES.filter((l) => norm(l.name).includes(needle) || norm(l.country || '').includes(needle))
-    .sort((a, b) => (a.arch ? 1 : 0) - (b.arch ? 1 : 0) || (norm(a.name).includes(needle) ? 0 : 1) - (norm(b.name).includes(needle) ? 0 : 1)).slice(0, 30) : [];
-  const players = needle ? PLAYERS.filter((p) => norm(p.name).includes(needle)).sort(byRel).slice(0, 8) : [];
-  const referees = needle ? REFEREES.filter((r) => norm(r.name).includes(needle)).slice(0, 8) : [];
+  const { needle, leagues, teams, players, referees } = useMemo(() => searchAll(dq), [dq]);
+  const any = leagues.length + teams.length + players.length + referees.length > 0;
 
   const go = (path) => {
-    if (!page) onClose();
+    onClose();
     navigate(path);
   };
 
-  const Section = ({ title, children }) => (
-    <div className="mt-6">
-      <p className="label-sm px-5">{title}</p>
-      <div className="mt-2">{children}</div>
+  // entrata a cascata: ogni voce nuova scende dal basso con un piccolo ritardo (le voci gia' presenti non si ridisegnano)
+  let n = 0;
+  const anim = () => {
+    const i = n++;
+    return reduce ? {} : { initial: { opacity: 0, y: 14 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.3, delay: 0.06 + Math.min(i, 10) * 0.045, ease: EASE } };
+  };
+  const section = (title, body) => (
+    <div className="pt-2">
+      <motion.p key={`t-${title}`} {...anim()} className="label-sm px-2 pb-1.5 pt-1">{title}</motion.p>
+      {body}
     </div>
   );
-
-  const Row = ({ children, onClick }) => (
-    <button
-      type="button"
-      onClick={onClick}
-      className="flex w-full items-center gap-3 px-5 py-2.5 text-left transition-opacity active:opacity-50"
-    >
+  const row = (key, onClick, children) => (
+    <motion.button key={key} {...anim()} type="button" onClick={onClick} className="flex w-full items-center gap-3 px-2 py-2 text-left active:opacity-50">
       {children}
-    </button>
+    </motion.button>
   );
 
   return (
-    <div className="fixed inset-x-0 top-0 z-50 fade-in" style={{ height: vh, overscrollBehavior: 'none', background: 'color-mix(in srgb, var(--sky-2) 92%, transparent)', backdropFilter: 'blur(24px)' }}>
-      <div className="mx-auto w-full max-w-[var(--app-w)]">
-        <div className="flex items-center gap-3 px-5 py-4" style={{ touchAction: 'none' }}>
-          <Search size={18} strokeWidth={1.25} style={{ color: 'var(--ink-3)' }} />
-          <input
-            ref={inputRef}
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-            placeholder="Cerca"
-            className="w-full bg-transparent text-[17px] font-light outline-none"
-            style={{ color: 'var(--ink)' }}
+    <AnimatePresence>
+      {open ? (
+        <div key="srch" className="fixed inset-0 z-[220]" role="dialog" aria-modal="true" aria-label="Cerca">
+          <motion.div
+            className="absolute inset-0"
+            style={{ background: 'var(--scrim)', touchAction: 'none' }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, transition: { duration: 0.18 } }}
+            transition={{ duration: 0.26 }}
+            onClick={onClose}
           />
-          <button type="button" className="icon-btn" aria-label="Chiudi" onClick={onClose}>
-            <X size={20} strokeWidth={1.25} />
-          </button>
-        </div>
+          <motion.div
+            className="absolute left-0 right-0 mx-auto overflow-hidden rounded-[26px]"
+            style={{ top: 'calc(env(safe-area-inset-top) + 6px)', width: 'calc(min(100%, var(--app-w, 100%)) - 24px)', background: 'var(--sky-2)', border: '1px solid var(--hair)', boxShadow: '0 24px 60px var(--scrim)' }}
+            initial={reduce ? { opacity: 0 } : { clipPath: `inset(0px 0px calc(100% - ${BAR}px) 0px round 26px)`, opacity: 0.4 }}
+            animate={reduce ? { opacity: 1 } : { clipPath: 'inset(0px 0px 0% 0px round 26px)', opacity: 1 }}
+            exit={{ opacity: 0, transition: { duration: 0.18 } }}
+            transition={{ duration: 0.4, ease: EASE }}
+          >
+            <div className="flex items-center gap-2.5 pl-4 pr-2" style={{ height: BAR, borderBottom: needle && any ? '1px solid var(--hair)' : '1px solid transparent', touchAction: 'none' }}>
+              <Search size={18} strokeWidth={1.75} className="shrink-0" style={{ color: 'var(--ink-3)' }} />
+              <input
+                ref={inputRef}
+                value={q}
+                onChange={(e) => setQ(e.target.value)}
+                placeholder="Cerca giocatori, squadre…"
+                enterKeyHint="search"
+                className="min-w-0 flex-1 bg-transparent text-[17px] outline-none"
+                style={{ color: 'var(--ink)' }}
+              />
+              <button type="button" className="glass press flex h-9 w-9 shrink-0 items-center justify-center rounded-full" aria-label="Chiudi" onClick={onClose}>
+                <X size={16} strokeWidth={2} />
+              </button>
+            </div>
 
-        <div className="hide-sb overflow-y-auto pb-16" style={{ height: Math.max(120, vh - 64), overscrollBehavior: 'contain', WebkitOverflowScrolling: 'touch' }} onScroll={hideKb} onTouchMove={hideKb} onTouchStart={(e) => { if (!e.target.closest('button')) hideKb(); }}>
-          {!needle ? null : (
-            <>
-              {leagues.length ? (
-                <Section title="Campionati">
-                  {leagues.map((l) => (
-                    <Row key={l.id} onClick={() => go(`/campionato/${l.id}`)}>
-                      <LeagueBadge league={l} size={26} />
-                      <span className="min-w-0 flex-1 truncate text-[14.5px]" style={{ color: 'var(--ink)' }}>
-                        {l.name}
-                      </span>
-                      {l.country ? <span className="shrink-0 text-[11.5px]" style={{ color: 'var(--ink-3)' }}>{l.country}</span> : null}
-                    </Row>
-                  ))}
-                  <Row key="all" onClick={() => go('/competizioni')}>
-                    <span className="text-[13.5px] font-bold" style={{ color: 'var(--accent)' }}>Tutte le competizioni per paese</span>
-                  </Row>
-                </Section>
-              ) : null}
-              {teams.length ? (
-                <Section title="Squadre">
-                  {teams.map((t) => {
-                    const l = leagueById(t.leagueId);
-                    const sub = (
-                      <span className="mt-0.5 flex items-center gap-1.5 text-[12px]" style={{ color: 'var(--ink-3)' }}>
-                        {l ? <LeagueBadge league={l} size={14} /> : null}
-                        <span className="truncate">{countryOf(t)}{countryOf(t) && l ? ' · ' : ''}{l ? l.name : ''}</span>
-                      </span>
-                    );
-                    return (
-                      <div key={t.id} className="px-4 py-1">
-                        <button type="button" onClick={() => go(`/squadra/${t.id}`)} className="glass press flex w-full items-center gap-3.5 rounded-[20px] px-4 py-3 text-left">
-                          <Crest team={t} size={52} />
-                          <span className="min-w-0"><span className="block truncate text-[16px] font-extrabold" style={{ color: 'var(--ink)' }}>{t.name}</span>{sub}</span>
-                        </button>
-                      </div>
-                    );
-                  })}
-                </Section>
-              ) : null}
-              {players.length ? (
-                <Section title="Giocatori">
-                  {players.map((p) => {
-                    const t = teamById(p.teamId);
-                    const sub = (
-                      <span className="mt-0.5 flex items-center gap-1.5 text-[12px]" style={{ color: 'var(--ink-3)' }}>
-                        {t ? <Crest team={t} size={14} /> : null}
-                        <span className="truncate">{t ? t.name : p.teamName}</span>
-                      </span>
-                    );
-                    return (
-                      <div key={p.id} className="px-4 py-1">
-                        <button type="button" onClick={() => go(`/giocatore/${p.id}`)} className="glass press flex w-full items-center gap-3.5 rounded-[20px] px-4 py-3 text-left" style={{ background: teamGrad(t, 0x55) }}>
-                          <PlayerFace p={p} size={52} />
-                          <span className="min-w-0"><span className="block truncate text-[16px] font-extrabold" style={{ color: 'var(--ink)' }}>{p.name}</span>{sub}</span>
-                        </button>
-                      </div>
-                    );
-                  })}
-                </Section>
-              ) : null}
-              {referees.length ? (
-                <Section title="Arbitri">
-                  {referees.map((r) => (
-                    <Row key={r.id} onClick={() => go(`/arbitro/${r.id}`)}>
-                      <span className="avatar h-[26px] w-[26px] text-[10px]">
-                        {r.name.split(' ').map((w) => w[0]).join('').slice(0, 2).toUpperCase()}
-                      </span>
-                      <span className="text-[14.5px]" style={{ color: 'var(--ink)' }}>
-                        {r.name}
-                      </span>
-                    </Row>
-                  ))}
-                </Section>
-              ) : null}
-            </>
-          )}
+            {needle && any ? (
+              <div className="hide-sb overflow-y-auto px-2.5 pb-2.5" style={{ maxHeight: `calc(${Math.round(vh)}px - env(safe-area-inset-top) - ${BAR + 18}px)`, overscrollBehavior: 'contain', WebkitOverflowScrolling: 'touch' }} onScroll={hideKb} onTouchMove={hideKb} onTouchStart={(e) => { if (!e.target.closest('button')) hideKb(); }}>
+                {leagues.length ? section('Campionati', <>
+                  {leagues.map((l) => row(`l-${l.id}`, () => go(`/campionato/${l.id}`), <>
+                    <LeagueBadge league={l} size={26} />
+                    <span className="min-w-0 flex-1 truncate text-[14.5px]" style={{ color: 'var(--ink)' }}>{l.name}</span>
+                    {l.country ? <span className="shrink-0 text-[11.5px]" style={{ color: 'var(--ink-3)' }}>{l.country}</span> : null}
+                  </>))}
+                  {row('l-all', () => go('/competizioni'), <span className="text-[13.5px] font-bold" style={{ color: 'var(--accent)' }}>Tutte le competizioni per paese</span>)}
+                </>) : null}
+                {teams.length ? section('Squadre', teams.map((t) => {
+                  const l = leagueById(t.leagueId);
+                  return row(`t-${t.id}`, () => go(`/squadra/${t.id}`), <>
+                    <Crest team={t} size={28} />
+                    <span className="min-w-0 shrink-0 truncate text-[14.5px] font-bold" style={{ color: 'var(--ink)', maxWidth: '55%' }}>{t.name}</span>
+                    <span className="ml-auto flex min-w-0 items-center gap-1.5 text-[11.5px]" style={{ color: 'var(--ink-3)' }}>
+                      {l ? <LeagueBadge league={l} size={14} /> : null}
+                      <span className="truncate">{countryOf(t)}{countryOf(t) && l ? ' · ' : ''}{l ? l.name : ''}</span>
+                    </span>
+                  </>);
+                })) : null}
+                {players.length ? section('Giocatori', players.map((p) => (
+                  <motion.div key={`p-${p.id}`} {...anim()} className="pb-1.5">
+                    <PlayerBanner p={p} compact onClick={() => go(`/giocatore/${p.id}`)} />
+                  </motion.div>
+                ))) : null}
+                {referees.length ? section('Arbitri', referees.map((x) => row(`r-${x.id}`, () => go(`/arbitro/${x.id}`), <>
+                  <span className="avatar h-[26px] w-[26px] text-[10px]">{x.name.split(' ').map((w) => w[0]).join('').slice(0, 2).toUpperCase()}</span>
+                  <span className="truncate text-[14.5px]" style={{ color: 'var(--ink)' }}>{x.name}</span>
+                </>))) : null}
+              </div>
+            ) : null}
+          </motion.div>
         </div>
-      </div>
-    </div>
+      ) : null}
+    </AnimatePresence>
   );
 }

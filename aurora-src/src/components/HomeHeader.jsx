@@ -12,21 +12,9 @@ const launched = () => {
   }
 };
 
-function IconButton({ onClick, label, to, children }) {
-  const cls = 'glass press flex h-9 w-9 items-center justify-center rounded-full';
-  return to ? (
-    <Link to={to} aria-label={label} className={cls}>
-      {children}
-    </Link>
-  ) : (
-    <button type="button" onClick={onClick} aria-label={label} className={cls}>
-      {children}
-    </button>
-  );
-}
-
-// Intestazione: il logo con la scritta arriva qui dall'animazione di avvio.
-export default function HomeHeader({ onSearch }) {
+// Intestazione della Home in una riga sola: logo, barra di ricerca (tutto lo spazio che resta), Calendario, menu.
+// Il logo arriva qui dall'animazione di avvio.
+export default function HomeHeader({ onSearch, calendar }) {
   const [ready, setReady] = useState(launched);
 
   useEffect(() => {
@@ -37,27 +25,29 @@ export default function HomeHeader({ onSearch }) {
 
   return (
     <header>
-      <div className="flex items-center justify-between gap-3 px-5 py-3">
+      <div className="flex items-center gap-2 px-4 py-2.5">
         <Link
           to="/"
           id="sl-brand"
-          className={`flex items-center transition-opacity duration-300 ${ready ? 'opacity-100' : 'opacity-0'}`}
-          style={{ gap: 11 * (28 / 64), color: 'var(--ink)' }}
+          className={`flex shrink-0 items-center transition-opacity duration-300 ${ready ? 'opacity-100' : 'opacity-0'}`}
+          style={{ color: 'var(--ink)' }}
           aria-label="ScalperLab"
         >
-          <Logo size={28} />
-          <span className="title-lg" style={{ fontSize: 34 * (28 / 64), letterSpacing: '-.04em' }}>
-            Scalper<span style={{ color: 'var(--accent)' }}>Lab</span>
-          </span>
+          <Logo size={30} />
         </Link>
-        <div className="flex items-center gap-2">
-          <IconButton onClick={onSearch} label="Cerca">
-            <Search size={16} strokeWidth={2} />
-          </IconButton>
-          <IconButton onClick={openMenu} label="Menu">
-            <MenuIcon size={16} strokeWidth={2} />
-          </IconButton>
-        </div>
+        <button
+          type="button"
+          onClick={onSearch}
+          aria-label="Cerca"
+          className="glass press flex h-9 min-w-0 flex-1 items-center gap-2 rounded-full px-3 text-left"
+        >
+          <Search size={16} strokeWidth={2} className="shrink-0" style={{ color: 'var(--ink-3)' }} />
+          <span className="truncate text-[14.5px]" style={{ color: 'var(--ink-3)' }}>Cerca giocatori, squadre…</span>
+        </button>
+        {calendar}
+        <button type="button" onClick={openMenu} aria-label="Menu" className="glass press flex h-9 w-9 shrink-0 items-center justify-center rounded-full">
+          <MenuIcon size={16} strokeWidth={2} />
+        </button>
       </div>
     </header>
   );

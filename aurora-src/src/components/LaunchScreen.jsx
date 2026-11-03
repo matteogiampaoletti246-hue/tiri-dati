@@ -51,7 +51,7 @@ export default function LaunchScreen({ ready = true }) {
           const from = logoBox.current && logoBox.current.getBoundingClientRect();
           const brand = document.getElementById('sl-brand');
           const to = brand && brand.getBoundingClientRect();
-          if (from && to) setDelta({ x: to.left - from.left, y: to.top - from.top, s: 28 / LOGO });
+          if (from && to) setDelta({ x: to.left - from.left, y: to.top - from.top, s: 30 / LOGO });
           setFly(true);
         })
       );
