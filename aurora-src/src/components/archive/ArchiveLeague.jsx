@@ -10,7 +10,7 @@ import useAsync from '@/hooks/useAsync';
 import useArchFresh from '@/hooks/useArchFresh';
 import { RefereesView } from '@/components/league/LeagueRefereesPanel';
 import { RAW } from '@/data/load';
-import { currentSeason, refsAllSeasons, refsAllowed, loadSeason, loadTeamStats, loadLeaguePlayerStats, loadSeasonMatches, SEASON_STAT_IT, STAT_IT, STAT_GROUPS, prettyKey } from '@/data/archive';
+import { currentSeason, refsAllSeasons, refsAllowed, loadSeason, loadTeamStats, loadPlayerStats, loadLeaguePlayerStats, loadSeasonMatches, statsFromMatches, SEASON_STAT_IT, STAT_IT, STAT_GROUPS, prettyKey } from '@/data/archive';
 import { tintGrad } from '@/lib/tint';
 import ClassificaSwitch from '@/components/bracket/ClassificaSwitch';
 import Bracket from '@/components/bracket/Bracket';
@@ -127,8 +127,24 @@ export const ORDER = ['Attacco', 'Rendimento', 'Passaggi', 'Difesa', 'Disciplina
 
 // Classifiche statistiche: stesso componente delle statistiche del campionato attuale
 export const MIN_MIN = 180;
+// Voci delle classifiche stagionali FotMob che sono GIA' "ogni 90'" (nei titoli FotMob: "Fouls committed per 90", "Shots per 90", "Tackles per 90"...):
+// il valore non va moltiplicato per 90/minuti. Il totale vero si somma dalle partite (chiave nelle partite); senza partite il totale non si mostra.
+const exactAgrees = (ex, official) => {
+  const by = new Map(ex.map((r) => [String(r[0]), r]));
+  let n = 0;
+  let g = 0;
+  (official || []).forEach((r) => { const e = by.get(String(r[0])); if (!e || !(e[4] > 0)) return; n += 1; if (Math.abs((e[3] * 90) / e[4] - r[3]) <= 0.06) g += 1; });
+  return n >= 8 && g / n >= 0.95;
+};
+export const P90_OFFICIAL = {
+  fouls: 'fouls', total_scoring_att: 'total_shots', ontarget_scoring_att: 'ShotsOnTarget', accurate_pass: 'accurate_passes',
+  accurate_long_balls: 'long_balls_accurate', lbp_total: 'line_breaking_passes', won_contest: 'dribbles_succeeded',
+  defensive_contributions: 'defensive_actions', total_tackle: 'matchstats.headers.tackles', interception: 'interceptions',
+  effective_clearance: 'clearances', outfielder_block: 'shot_blocks', ball_recovery: 'recoveries', saves: 'saves',
+  goals_conceded: 'goals_conceded', total_high_claim: 'keeper_high_claim', total_keeper_sweeper: 'keeper_sweeper', poss_won_att_3rd: null,
+};
 const NO90 = /rating|mins_played|percentage|^_|per_90|clean_sheet|matches|appear/i;
-export function statSections(stats, kind, names, col, fm, sk, mode = 'tot', onlyTeam = null) {
+export function statSections(stats, kind, names, col, fm, sk, mode = 'tot', onlyTeam = null, exact = null) {
   const lists = stats && stats[kind];
   if (!lists) return [];
   const isP = kind === 'players';
@@ -142,7 +158,23 @@ export function statSections(stats, kind, names, col, fm, sk, mode = 'tot', only
     if (!list || !list.length || k.startsWith('_')) return;
     let title = SEASON_STAT_IT[k] || prettyKey(k);
     let kk = k;
-    if (isP) {
+    if (isP && !stats.fromMatches && k in P90_OFFICIAL) {
+      // i totali/medie dalle partite si usano solo se concordano con la classifica ufficiale FotMob (partite complete); altrimenti vale FotMob
+      const exAll = P90_OFFICIAL[k] && exact && exact.players && exact.players[P90_OFFICIAL[k]];
+      let ex = exAll && exactAgrees(exAll, lists[k]) ? exAll : null;
+      if (ex && onlyTeam) ex = ex.filter((r) => String(r[2]) === String(onlyTeam));
+      if (ex && !onlyTeam) ex = ex.filter((r) => Number(r[4]) >= MIN_MIN);
+      if (p90) {
+        if (ex && ex.length) list = ex.filter((r) => Number(r[4]) > 0).map((r) => [r[0], r[1], r[2], (Number(r[3]) * 90) / r[4], r[4], r[5], r[6]]);
+        else list = list.filter((r) => r[3] != null && (onlyTeam || Number(r[4]) >= MIN_MIN));
+        list.sort((x, y) => y[3] - x[3]);
+        title = `${title} / 90'`;
+        kk = `${k}_per_90`;
+      } else {
+        if (!ex || !ex.length) return; // FotMob da' solo la media ogni 90': nessun totale inventato
+        list = ex;
+      }
+    } else if (isP) {
       const isRate = /per_90/.test(k);
       if (p90) {
         if (isRate) { /* gia' ogni 90' */ } else if (NO90.test(k)) return;
@@ -177,7 +209,8 @@ export function statSections(stats, kind, names, col, fm, sk, mode = 'tot', only
 
 export function ArchStatPanel({ stats, kind, names, col, fm, sk }) {
   const [mode, setMode] = useState('tot');
-  const sections = statSections(stats, kind, names, col, fm, sk, mode);
+  const { data: exact } = useAsync(() => (kind === 'players' ? statsFromMatches(fm, sk) : null), [fm, sk, kind]);
+  const sections = statSections(stats, kind, names, col, fm, sk, mode, null, exact);
   if (!sections.length) return null;
   const controls = kind === 'players'
     ? <TextFilter options={[{ value: 'tot', label: 'Totale' }, { value: 'p90', label: "Ogni 90'" }]} value={mode} onChange={setMode} />
@@ -281,17 +314,6 @@ function refsOf(det) {
     if (f) r.fo += (Number(f[0]) || 0) + (Number(f[1]) || 0);
   });
   return Object.values(by).map((r) => ({ ...r, y: r.y / r.n, r: r.r / r.n, fo: r.fo / r.n, pen: r.pen / r.n }));
-}
-
-// Champions ed Europa League, stagione in corso: classifiche giocatori della coppa (archivio FotMob, tutte le squadre). Prima la scheda
-// leggeva le statistiche di campionato dei soli top 5 (stats.json): mancavano i giocatori delle altre squadre (es. Jota Silva, Olympiacos)
-export function CupPlayersTab({ fm }) {
-  const { data: sk } = useAsync(() => currentSeason(fm), [fm]);
-  const { data: season } = useAsync(() => (sk ? loadSeason(fm, sk) : null), [fm, sk]);
-  const { data: pstats, loading } = useAsync(() => (sk ? loadLeaguePlayerStats(fm, sk) : null), [fm, sk]);
-  const col = useTeamColors();
-  if (!sk || !season || loading) return <Loading />;
-  return <ArchStatPanel stats={pstats} kind="players" names={season.teams || {}} col={col} fm={fm} sk={sk} />;
 }
 
 export default function ArchiveLeague({ fm, sk, tab, setTab, tint }) {

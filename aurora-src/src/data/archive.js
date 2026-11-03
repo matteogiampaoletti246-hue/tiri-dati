@@ -444,6 +444,10 @@ export const loadPlayerStats = async (lid, sk) => {
 // mancavano 831 giocatori con almeno 180', es. Serie C 263): ogni voce si completa con chi manca, sommando le sue partite (stessa
 // gerarchia di loadPlayerStatsFor, per tutti i giocatori)
 const LEAGUE_P = new Map();
+// voci ufficiali gia' "ogni 90'" (P90_OFFICIAL in ArchiveLeague.jsx): i totali li calcola il pannello dalle partite, qui non si aggiungono
+const OFFICIAL_P90 = new Set(['fouls', 'total_scoring_att', 'ontarget_scoring_att', 'accurate_pass', 'accurate_long_balls', 'lbp_total', 'won_contest',
+  'defensive_contributions', 'total_tackle', 'interception', 'effective_clearance', 'outfielder_block', 'ball_recovery', 'saves', 'goals_conceded',
+  'total_high_claim', 'total_keeper_sweeper', 'poss_won_att_3rd']);
 export const loadLeaguePlayerStats = async (lid, sk) => {
   const st = await loadPlayerStats(lid, sk);
   if (!st || st.fromMatches || !st.players) return st;
@@ -460,7 +464,7 @@ export const loadLeaguePlayerStats = async (lid, sk) => {
     const add = fm.players[mk].filter((r) => !have.has(String(r[0])));
     if (!add.length) return;
     // valori per partita (voto) o rapporti non si sommano: si completano solo le voci di conteggio come quelle dell'archivio
-    if (k === 'rating' || /per_90|percentage|accuracy/.test(k)) return;
+    if (k === 'rating' || /per_90|percentage|accuracy/.test(k) || OFFICIAL_P90.has(k)) return;
     players[k] = [...players[k], ...add].sort((x, y) => y[3] - x[3]);
   });
   const out = { ...st, players, filled: true };

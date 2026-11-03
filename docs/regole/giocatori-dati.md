@@ -80,6 +80,10 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 
 ## Classifiche delle competizioni: tutte le squadre e tutti i giocatori (regola fissa)
 - Stat. squadre della stagione attuale (`LeagueTeamsPanel`): statistiche della competizione aperta (`hasMetrics(t.id, leagueId)`), mai quelle di campionato della squadra (in Europa League restavano 18 squadre su 36).
-- Giocatori di Champions ed Europa League (stagione attuale): dall'archivio della coppa (`CupPlayersTab`), non da `stats.json` (solo top 5 e solo campionato: mancava Jota Silva).
-- Classifiche giocatori dell'archivio: `loadLeaguePlayerStats` completa ogni voce ufficiale con chi manca, sommando le sue partite (831 giocatori da 180' mancavano in 47 competizioni).
+- Giocatori di Champions ed Europa League (stagione attuale): `LeagueArchPlayersPanel` (sezione sotto) con `loadLeaguePlayerStats`, non `stats.json` (solo top 5 e solo campionato: mancava Jota Silva).
+- Classifiche giocatori dell'archivio: `loadLeaguePlayerStats` completa ogni voce ufficiale con chi manca, sommando le sue partite (831 giocatori da 180' mancavano in 47 competizioni); mai nelle voci ufficiali gia' ogni 90' (`OFFICIAL_P90`, totali dal pannello).
 - Stat. squadre dell'archivio senza statistiche di partita: gol fatti/subiti di tutte le squadre dai risultati e sotto le classifiche ufficiali (che hanno solo una parte delle squadre).
+
+## Classifiche giocatori di coppe e campionati non top 5 (regola fissa, novembre 2026)
+- La scheda Giocatori di Champions/Europa League e di ogni competizione che non e' uno dei top 5 usa le statistiche FotMob DELLA COMPETIZIONE (`LeagueArchPlayersPanel`, stesso pannello delle stagioni passate), mai `stats.json` (che sono i numeri del campionato nazionale: Ueda in Champions mostrava i 3,17 falli/90 della Ligue 1). I top 5 usano `stats.json` (verificato uguale a FotMob: falli/minuti di tutte e 5 le leghe).
+- Nelle classifiche stagionali FotMob le voci "per 90" (`P90_OFFICIAL` in `ArchiveLeague.jsx`: fouls, total_scoring_att, accurate_pass, total_tackle, ...) sono GIA' medie ogni 90': mai moltiplicarle per 90/minuti. Totale e media esatta si sommano dalle partite (`statsFromMatches`) solo se concordano (>=95%) con la classifica ufficiale; senza partite il Totale non si mostra, l'Ogni 90' resta il valore FotMob.

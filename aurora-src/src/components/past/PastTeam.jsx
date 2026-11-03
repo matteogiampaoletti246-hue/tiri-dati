@@ -127,10 +127,11 @@ export function PastTeamPlayers({ fm, sk, team, part, onPart, cat, onCat, split 
   const { tid, loading, season } = useTeamSeason(fm, sk, team);
   const byMatch = part === 'home' || part === 'away';
   const { data: stats, loading: l2 } = useAsync(() => (!tid ? Promise.resolve(null) : byMatch ? statsFromMatches(fm, sk, part) : loadTeamPlayerStats(fm, sk, tid)), [fm, sk, tid, part]);
+  const { data: exact } = useAsync(() => statsFromMatches(fm, sk), [fm, sk]);
   // cambiando pillola restano visibili i dati di prima finche' arrivano i nuovi: nessun salto
   if (loading || (l2 && !stats)) return <Msg>Carico la stagione {seasonLabel(sk)}…</Msg>;
   if (!season || !tid) return null;
-  const secs = statSections(stats, 'players', season.teams || {}, col, fm, sk, part === 'p90' ? 'p90' : 'tot', tid);
+  const secs = statSections(stats, 'players', season.teams || {}, col, fm, sk, part === 'p90' ? 'p90' : 'tot', tid, exact);
   const has = [...new Set(secs.map((x) => playerCat(x.group)))];
   const sections = cat === 'all' || !has.includes(cat) ? secs : secs.filter((x) => playerCat(x.group) === cat);
   if (!sections.length && part === 'tot') return null;

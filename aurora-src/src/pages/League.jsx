@@ -10,8 +10,9 @@ import LeagueMatchesPanel from '@/components/league/LeagueMatchesPanel';
 import LeagueStandingsPanel from '@/components/league/LeagueStandingsPanel';
 import LeagueTeamsPanel from '@/components/league/LeagueTeamsPanel';
 import LeaguePlayersPanel from '@/components/league/LeaguePlayersPanel';
+import LeagueArchPlayersPanel from '@/components/league/LeagueArchPlayersPanel';
 import LeagueRefereesPanel, { leagueReferees } from '@/components/league/LeagueRefereesPanel';
-import ArchiveLeague, { CupPlayersTab } from '@/components/archive/ArchiveLeague';
+import ArchiveLeague from '@/components/archive/ArchiveLeague';
 import { useEntityScope, useSel } from '@/components/past/PastBits';
 import SeasonDrop from '@/components/archive/SeasonDrop';
 import useAsync from '@/hooks/useAsync';
@@ -23,8 +24,7 @@ import { leagueById, initialsOf, leagueTint } from '@/data/leagues';
 import { teamsOf } from '@/data/teams';
 import { matchesForLeague } from '@/data/matches';
 
-// coppe europee: i giocatori di tutte le squadre vengono dall'archivio della coppa (stats.json ha solo i top 5 e solo il campionato)
-const CUP_LIVE = new Set(['champions-league', 'europa-league']);
+const TOP5_LG = ['premier-league', 'serie-a', 'la-liga', 'bundesliga', 'ligue-1'];
 const TABS = [
   { key: 'matches', label: 'Partite' },
   { key: 'standings', label: 'Classifica' },
@@ -90,7 +90,8 @@ export default function League() {
     <LeagueMatchesPanel key="matches" leagueId={league.id} />,
     <LeagueStandingsPanel key="standings" leagueId={league.id} />,
     <LeagueTeamsPanel key="teams" leagueId={league.id} />,
-    CUP_LIVE.has(league.id) && fm ? <CupPlayersTab key="players" fm={fm} /> : <LeaguePlayersPanel key="players" leagueId={league.id} />,
+    // top 5 campionati: stats.json (verificato uguale a FotMob); coppe europee e altre competizioni: statistiche FotMob della competizione stessa
+    fm && !TOP5_LG.includes(league.id) ? <LeagueArchPlayersPanel key="players" fm={fm} sk={curKey} /> : <LeaguePlayersPanel key="players" leagueId={league.id} />,
     <LeagueRefereesPanel key="referees" leagueId={league.id} />,
   ];
 

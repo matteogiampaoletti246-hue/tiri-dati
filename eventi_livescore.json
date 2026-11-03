@@ -121,8 +121,8 @@
    "da_fare": 0
   },
   "Liga Profesional 2026 - Clausura": {
-   "partite_con_eventi": 2,
-   "da_fare": 2
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "A-League 2026-2027": {
    "partite_con_eventi": 0,
@@ -242,7 +242,7 @@
   },
   "Liga AUF Uruguaya 2026": {
    "partite_con_eventi": 0,
-   "da_fare": 1
+   "da_fare": 0
   },
   "Challenge League 2026-2027": {
    "partite_con_eventi": 0,
@@ -506,7 +506,7 @@
   },
   "Série A 2026": {
    "partite_con_eventi": 0,
-   "da_fare": 1
+   "da_fare": 0
   },
   "First Professional League 2026-2027": {
    "partite_con_eventi": 0,
@@ -517,12 +517,12 @@
    "da_fare": 0
   },
   "Liga de Primera 2026": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "Primera A 2026 - Clausura": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "Croatian Cup 2026-2027": {
    "partite_con_eventi": 0,
@@ -605,8 +605,8 @@
    "da_fare": 0
   },
   "AFC Champions League Elite 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "CAF Champions League 2025-2026": {
    "partite_con_eventi": 0,
@@ -641,8 +641,8 @@
    "da_fare": 0
   },
   "Série B 2026": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "Super League 2 2026-2027": {
    "partite_con_eventi": 0,
@@ -689,8 +689,8 @@
    "da_fare": 0
   },
   "J. League 2 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 10,
+   "da_fare": 10
   },
   "Liga de Expansión MX 2026-2027": {
    "partite_con_eventi": 0,
@@ -753,16 +753,16 @@
    "da_fare": 0
   },
   "Primera B 2026": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "Liga de Ascenso 2026": {
    "partite_con_eventi": 0,
    "da_fare": 0
   },
   "J. League 3 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 9,
+   "da_fare": 9
   },
   "China League One 2026": {
    "partite_con_eventi": 0,
@@ -953,8 +953,8 @@
    "da_fare": 0
   },
   "Liga MX Femenil 2026-2027": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "Liga F 2026-2027": {
    "partite_con_eventi": 0,
@@ -2145,5 +2145,5 @@
    "da_fare": 0
   }
  },
- "partite_in_questo_giro": 9
+ "partite_in_questo_giro": 20
 }
