@@ -23,13 +23,14 @@ import { useEffect, useState } from 'react';
 import { teamGrad } from '@/lib/tint';
 import CompSeasonBar from '@/components/CompSeasonBar';
 import PastStats from '@/components/past/PastStats';
-import { PastPlayerMatches } from '@/components/past/PastMatches';
+import { PlayerAllMatches } from '@/components/past/PastMatches';
 import { useSeasonList, initSeason, useSel, useCompIn } from '@/components/past/PastBits';
 import { usePlayerCareer, useArchivePct, useBioPid, resolvePid, usePlayerSeason } from '@/data/playerIndex';
 import { rosePlayer } from '@/data/rose';
 import useAsync from '@/hooks/useAsync';
 import { currentSeason, loadPlayerStatsFor, sortSeasons } from '@/data/archive';
-import { FM_ID } from '@/data/archive';
+import { FM_ID, LID_BY_FM } from '@/data/archive';
+import { RAW } from '@/data/load';
 import { fixedColors } from '@/data/teamColorFix';
 import FlagDot from '@/components/FlagDot';
 import { carriereOf, careerByFm, countryIt, flagCode, FOOT, dateLong, ageOf, money, monthIt } from '@/data/carriere';
@@ -64,20 +65,24 @@ function Bars({ values, color }) {
 
 const avg = (a) => (a.length ? a.reduce((x, y) => x + y, 0) / a.length : null);
 
+// posizione FotMob (car/) -> ruolo dell'app, per chi non ha il ruolo nei dati PitchAPI
+const PS_POS = { GK: 'GK', CB: 'DEF', LB: 'DEF', RB: 'DEF', LWB: 'DEF', RWB: 'DEF', DM: 'MID', CDM: 'MID', CM: 'MID', AM: 'MID', CAM: 'MID', LM: 'MID', RM: 'MID', LW: 'ATT', RW: 'ATT', ST: 'ATT', CF: 'ATT' };
 function BioCard({ player, team }) {
   const c0 = carriereOf(player.id) || {};
   const pidB = useBioPid(player);
   const rp = pidB ? rosePlayer(pidB) : null;
   const R = rp ? rp.r : null;
+  // carriera per id FotMob (car/, carriere_extra.py): anagrafica di chi non e' in carriere.json (es. Dani Rodriguez, Dinamo Zagreb)
+  const { data: cf } = useAsync(() => (pidB && !c0.b ? careerByFm(pidB) : Promise.resolve(null)), [pidB]);
   // senza scheda carriere (campionati minori, appena arrivati): nazionalita', eta', altezza e maglia dalla rosa FotMob
-  const c = { ...(R ? { c: R[4], h: R[6], n: R[3] } : {}), ...c0 };
+  const c = { ...(R ? { c: R[4], h: R[6], n: R[3] } : {}), ...(cf || {}), ...c0 };
   const age = ageOf(c.b) || (R && R[5]) || null;
   const cells = [
     ['Nazionalità', c.c ? <span className="inline-flex items-center gap-2"><FlagDot name={c.c} size={20} />{countryIt(c.c)}</span> : '—'],
     ['Nato il', c.b ? `${dateLong(c.b)}${age ? ` · ${age} anni` : ''}` : age ? `${age} anni` : '—'],
     ['Altezza', c.h ? `${c.h} cm` : '—'],
     ['Piede', FOOT[c.f] || '—'],
-    ['Ruolo', POS_IT[player.position] || '—'],
+    ['Ruolo', POS_IT[player.position] || POS_IT[PS_POS[c.ps]] || (R && POS_IT[R[2]]) || '—'],
     ['Maglia', c.n || player.number || '—'],
   ];
   return (
@@ -247,53 +252,22 @@ export function ProfiloPanel({ player: player0, team, concept }) {
 // ogni partita aperta dalla scheda giocatore va in Formazioni con la tendina di quel giocatore aperta
 export const openPlayerState = (name, fmId) => ({ openPlayer: { name, fmId: fmId || null } });
 export const pickLineups = (matchId) => { try { sessionStorage.setItem(`sl-tabk-match-${matchId}`, 'lineups'); } catch (e) { /* ignore */ } };
-export function PartitePanel({ player, concept }) {
-  const rows = player.recent || [];
+export function PartitePanel({ player }) {
   const car = usePlayerCareer(player);
   const fmPid = car.pid || (carriereOf(player.id) || {}).fm;
-  // tutte le competizioni e stagioni in cui ha giocato, dalla piu' recente
-  const items = car.rows.filter((r) => leagueById(Object.keys(FM_ID).find((k) => FM_ID[k] === r[0]))).map((r) => [r[0], r[1]]);
-  const seasons = items;
-  // le partite gia' nell'elenco in alto non si ripetono nelle stagioni sotto (stesso giorno = stessa partita)
-  const skipDays = new Set(rows.map((m) => String(m.date || '').slice(0, 10)).filter(Boolean));
-  if (!rows.length && !(fmPid && items.length)) {
-    return null;
-  }
+  // tutte le competizioni e stagioni in cui ha giocato (campionato e coppe insieme), un'unica lista dalla piu' recente
+  const items = car.rows.filter((r) => leagueById(LID_BY_FM[r[0]])).map((r) => [r[0], r[1]]);
+  const IM = {};
+  ((RAW.indice && RAW.indice.m) || []).forEach((m) => { IM[m[0]] = m; });
+  const recent = (player.recent || []).filter((m) => m.matchId).map((m) => ({
+    key: `r-${m.matchId}`, to: `/match/${m.matchId}`, day: String(m.date || '').slice(0, 10), date: m.date, dateText: dateIt(m.date),
+    league: IM[m.matchId] ? leagueById(IM[m.matchId][1]) : null, score: IM[m.matchId] && IM[m.matchId][5] != null ? `${IM[m.matchId][5]} - ${IM[m.matchId][6]}` : '',
+    oppTeam: teamByName(m.opp), oppName: m.opp, minutes: m.minutes, goals: m.goals, assists: m.assists, rating: m.rating,
+  }));
+  if (!recent.length && !(fmPid && items.length)) return null;
   return (
     <div className="pb-8">
-    <div className="px-5 pt-5">
-      <div className={concept === 'b' ? 'flex flex-col gap-2.5' : 'panel-solid rounded-2xl px-4 py-1'}>
-        {rows.map((m, i) => {
-          const opp = teamByName(m.opp);
-          const body = (
-            <>
-              <Crest team={opp} size={26} />
-              <div className="min-w-0 flex-1">
-                <p className="truncate text-[13.5px]" style={{ color: 'var(--ink)' }}>
-                  vs {m.opp}
-                </p>
-                <p className="mt-0.5 text-[11px]" style={{ color: 'var(--ink-3)' }}>
-                  {dateIt(m.date)} · {m.minutes}&apos;
-                  {m.goals ? <span className="inline-flex items-center gap-0.5 align-middle"> · <BallIcon size={12} />{m.goals}</span> : null}
-                  {m.assists ? <span className="inline-flex items-center gap-0.5 align-middle"> · <BootIcon size={12} />{m.assists}</span> : null}
-                </p>
-              </div>
-              <RatingPill r={m.rating} big={concept === 'c'} />
-            </>
-          );
-          const cls = 'flex items-center gap-3 py-3 active:opacity-60';
-          const st = concept === 'b'
-            ? { background: 'var(--panel-solid, rgba(255,255,255,.04))', borderRadius: 16, padding: '12px 14px' }
-            : { borderTop: i ? '1px solid var(--hair-2)' : 'none' };
-          return m.matchId ? (
-            <Link key={i} to={`/match/${m.matchId}`} state={openPlayerState(player.name, fmPid)} onClick={() => pickLineups(m.matchId)} className={cls} style={st}>{body}</Link>
-          ) : (
-            <div key={i} className={cls} style={st}>{body}</div>
-          );
-        })}
-      </div>
-    </div>
-    {fmPid && items.length ? <PastPlayerMatches key={fmPid} items={items} fmPid={fmPid} playerName={player.name} skipDays={skipDays} /> : null}
+      <PlayerAllMatches key={fmPid || player.id} items={fmPid ? items : []} fmPid={fmPid} playerName={player.name} recent={recent} />
     </div>
   );
 }
@@ -507,7 +481,7 @@ export function StatistichePanel({ player, team }) {
   const car = usePlayerCareer(p);
   const baseComps = (() => {
     const c = teamCompetitions(p.teamId);
-    const l = p.archive && p.leagueId ? leagueById(p.leagueId) : null;
+    const l = p.archive && p.leagueId ? leagueById(p.leagueId) : p.domFm ? leagueById(LID_BY_FM[p.domFm]) : null;
     return l ? [l, ...c.filter((x) => x.id !== l.id)] : c;
   })();
   // tutte le competizioni in cui ha giocato (indice giocatori), oltre a quelle della squadra attuale; in tendina solo quelle con dati

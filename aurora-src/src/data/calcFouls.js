@@ -153,8 +153,10 @@ export function rosterFouls(data, key, fmTeam, stat) {
     .sort((a, b) => b.min - a.min);
 }
 
-// giocatore: medie stagionali (campionato e coppa europea) e ultime 5 partite in tutte le competizioni
-export function playerFouls(data, fmPid, domKey, stat) {
+// giocatore: medie stagionali (campionato e coppa europea) e partite per l'Hit Rate in tutte le competizioni (regola fissa: almeno 50',
+// dalla piu' recente). `hit` = righe dell'Hit Rate del giocatore (profili.py: stagione in corso poi passata, con i falli di ogni partita):
+// se tutte hanno i falli si usano quelle, altrimenti le partite della stagione in corso con almeno 50'
+export function playerFouls(data, fmPid, domKey, stat, hit = null) {
   if (!data || !fmPid) return null;
   const pid = String(fmPid);
   const camp = domKey && data[domKey] && data[domKey].players[pid];
@@ -164,9 +166,12 @@ export function playerFouls(data, fmPid, domKey, stat) {
     if (!g.length) return null;
     return { v: g.reduce((a, x) => a + x[stat], 0) / g.length, min: g.reduce((a, x) => a + x.min, 0) / g.length, n: g.length };
   };
-  const all = [camp, ...cups].filter(Boolean).flatMap((p) => p.g).sort((a, b) => b.ts - a.ts);
+  const res = { campionato: camp ? sum([camp]) : null, coppa: cups.length ? sum(cups) : null };
+  const ki = stat === 'fs' ? 4 : 3;
+  if (hit && hit.length && hit.every((x) => x[ki] !== null && x[ki] !== undefined)) return { ...res, last5: hit.map((x) => x[ki]), min5: hit.map((x) => x[2]) };
+  const all = [camp, ...cups].filter(Boolean).flatMap((p) => p.g).filter((x) => x.min >= 50).sort((a, b) => b.ts - a.ts);
   const last5 = all.slice(0, 5);
-  return { campionato: camp ? sum([camp]) : null, coppa: cups.length ? sum(cups) : null, last5: last5.map((x) => x[stat]), min5: last5.map((x) => x.min) };
+  return { ...res, last5: last5.map((x) => x[stat]), min5: last5.map((x) => x.min) };
 }
 
 // id FotMob di una squadra dell'app: prima quello noto o dello stemma, poi il nome tra le squadre degli archivi caricati (lo stemma dei top campionati non sempre ha l'id)

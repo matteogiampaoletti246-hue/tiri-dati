@@ -1,7 +1,7 @@
 import { useSyncExternalStore } from 'react';
 import { MATCH_BY_ID } from './matches';
 import { teamById, } from './teams';
-import { playersByTeam } from './players';
+import { playersByTeam, playerByFm } from './players';
 import { norm } from './util';
 import { FM_ID, curSeasonSync } from './archive';
 import { archiveId } from './archivePlayer';
@@ -51,6 +51,9 @@ export function ourPlayerId(match, name, fmId) {
     }
   }
   if (!pid) return null;
+  // stesso giocatore gia' nell'elenco principale (id FotMob collegato da profili.py): un solo profilo, niente scheda d'archivio doppia
+  const main = playerByFm(pid);
+  if (main && !main.lite) return main.id;
   // prima il campionato della squadra (banner e statistiche di campionato), poi la competizione della partita
   const team = (f && f.team) || teams[0];
   const cands = [team && team.leagueId, match && match.leagueId].filter(Boolean);

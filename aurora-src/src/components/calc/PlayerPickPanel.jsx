@@ -24,6 +24,8 @@ export default function PlayerPickPanel({ form, set, player, hint, onSelectPlaye
   const navigate = useNavigate();
   const [picker, setPicker] = useState(null);
   const hitLabel = HIT_OPTIONS.find((o) => o.value === form.hitRate)?.label ?? null;
+  // partite con almeno 50' usate per l'Hit Rate: meno di 5 (anche con la stagione passata) -> "su N partite"
+  const hitTitle = form.playerId && form.hitN > 0 && form.hitN < 5 ? `Hit rate su ${form.hitN} ${form.hitN === 1 ? 'partita' : 'partite'}` : 'Hit rate ultime 5';
   const team = player ? teamById(player.teamId) : null;
 
   const playerOptions = useMemo(
@@ -104,9 +106,9 @@ export default function PlayerPickPanel({ form, set, player, hint, onSelectPlaye
         <FieldRow label="Competizione" noSwipe>
           <TextFilter options={COMPETITION_OPTIONS} value={form.competizione} onChange={(v) => set('competizione', v)} />
         </FieldRow>
-        <FieldRow label="Hit rate ultime 5">
+        <FieldRow label={hitTitle}>
           <MiniSelect
-            ariaLabel="Hit rate ultime 5"
+            ariaLabel={hitTitle}
             width={124}
             value={form.hitRate}
             placeholder="Nessuna"

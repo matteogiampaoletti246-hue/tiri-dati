@@ -2,6 +2,11 @@ name: Indice giocatori
 on:
   schedule:
     - cron: "50 5 * * *"
+  # subito dopo ogni giro delle partite (00:41, 06:41, 12:41, 18:41 UTC): le partite della sera entrano nell'indice nella notte
+  workflow_run:
+    workflows: ["Partite storiche"]
+    types: [completed]
+    branches: [main]
   workflow_dispatch:
   push:
     paths:
@@ -9,6 +14,9 @@ on:
       - controllo_squadre.py
 permissions:
   contents: write
+concurrency:
+  group: giocatori-indice
+  cancel-in-progress: false
 jobs:
   indice:
     runs-on: ubuntu-latest

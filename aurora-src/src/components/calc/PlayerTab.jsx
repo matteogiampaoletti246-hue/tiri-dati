@@ -5,7 +5,7 @@ import PanelTitle from '@/components/PanelTitle';
 import { playerById } from '@/data/players';
 import { teamById } from '@/data/teams';
 import { fixtureAt, nextFixture, prefillShots, teamShots } from '@/data/calcData';
-import { emptyFouls, fillFrom, hitFromValues, initialForm, isFouls, resultFromForm, resultFromFouls } from '@/data/calcPlayer';
+import { emptyFouls, fillFrom, hitFromValues, hitRows, initialForm, isFouls, resultFromForm, resultFromFouls } from '@/data/calcPlayer';
 import { domesticKey } from '@/data/calcData';
 import { fmTeamIn, foulKeys, leaguePlayerAvg, playerFouls, rosterFouls, teamFoulStats, useFouls } from '@/data/calcFouls';
 import { resolvePid } from '@/data/playerIndex';
@@ -97,7 +97,7 @@ export default function PlayerTab({ onSave }) {
   // precompila i falli dai dati (ultime 5, medie stagione, medie squadre) quando cambiano giocatore, squadre o statistica
   useEffect(() => {
     if (!fouls || !fd || !player || !fmPid) return;
-    const pf = playerFouls(fd, fmPid, team && domesticKey(team.name), form.stat);
+    const pf = playerFouls(fd, fmPid, team && domesticKey(team.name), form.stat, player.hn != null ? hitRows(player) : null);
     const season = { campionato: { tiri: '', minuti: '' }, coppa: { tiri: '', minuti: '' }, nations: { tiri: '', minuti: '' }, qualificazioni: { tiri: '', minuti: '' } };
     ['campionato', 'coppa'].forEach((k) => { if (pf && pf[k]) season[k] = { tiri: comma(Math.round(pf[k].v * 100) / 100, 2), minuti: String(Math.round(pf[k].min)) }; });
     setF({
@@ -125,7 +125,8 @@ export default function PlayerTab({ onSave }) {
   const oppTitle = oppStat === 'fc' ? 'Falli commessi' : 'Falli subiti';
   const onStat = (v) => setForm((x) => ({ ...x, stat: v, tipoTiri: v === 'porta' ? 'inPorta' : v === 'tiri' ? 'totali' : x.tipoTiri }));
   // negli schermi dei falli l'hit rate letto/scritto dal pannello di base e' quello dei falli
-  const vform = fouls ? { ...form, hitRate: f.hitRate } : form;
+  // partite usate per l'Hit Rate (meno di 5: il pannello lo scrive, es. "su 3 partite")
+  const vform = fouls ? { ...form, hitRate: f.hitRate, hitN: form.playerId ? parseDash(f.last5).length : null } : form;
   const vset = (key, value) => (fouls && key === 'hitRate' ? setF({ hitRate: value }) : set(key, value));
 
   const selectPlayer = (id) => {
@@ -141,7 +142,7 @@ export default function PlayerTab({ onSave }) {
     if (!p) return;
     setForm((f) => {
       const g = fillFrom(f, p, f.tipoTiri, null);
-      return { ...f, shots5: g.shots5, minutes5: g.minutes5, hitRate: g.hitRate, season: g.season,
+      return { ...f, shots5: g.shots5, minutes5: g.minutes5, hitRate: g.hitRate, hitN: g.hitN, season: g.season,
         team: { ...f.team, ...prefillShots(teamShots(f.team.id, f.team.leagueId), 'for') },
         opp: { ...f.opp, ...prefillShots(teamShots(f.opp.id, f.opp.leagueId), 'against') } };
     });

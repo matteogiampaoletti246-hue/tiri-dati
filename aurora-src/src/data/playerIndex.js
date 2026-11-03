@@ -29,6 +29,8 @@ export const resolvePid = (player) => {
   if (!player) return Promise.resolve(null);
   if (!PID[player.id]) {
     PID[player.id] = (async () => {
+      // id FotMob gia' collegato dai dati (profili.py): niente ricerca per nome
+      if (player.fmId) return String(player.fmId);
       await Promise.all([loadCarriere(), loadRose()]);
       const c = carriereOf(player.id);
       if (c && c.fm) return String(c.fm);
@@ -94,7 +96,7 @@ export function useArchivePct(player, enabled) {
     const pid = await resolvePid(player);
     if (!pid) return null;
     const lid = player.archive ? player.leagueId : (teamById(player.teamId) || {}).leagueId;
-    const fm = FM_ID[lid];
+    const fm = (!player.archive && player.domFm) || FM_ID[lid];
     if (!fm) return null;
     const sk = player.archive && player.sk ? player.sk : await currentSeason(fm);
     const st = sk ? await loadPlayerStatsFor(fm, sk, pid) : null;
@@ -110,7 +112,8 @@ export function usePlayerSeason(player) {
     const pid = await resolvePid(player);
     if (!pid) return null;
     const lid = player.archive ? player.leagueId : (teamById(player.teamId) || {}).leagueId || player.leagueId;
-    const fm = FM_ID[lid];
+    // campionato nazionale della squadra (profili.py) prima della coppa in cui la squadra compare nell'app
+    const fm = (!player.archive && player.domFm) || FM_ID[lid];
     if (!fm) return null;
     const sk = player.archive && player.sk ? player.sk : await currentSeason(fm);
     return sk ? playerSeasonLine(fm, sk, pid) : null;

@@ -440,6 +440,33 @@ export const loadPlayerStats = async (lid, sk) => {
   if (st && st.players && Object.keys(st.players).length) return st;
   return statsFromMatches(lid, sk);
 };
+// classifiche giocatori di una competizione: quelle ufficiali FotMob hanno solo chi supera una soglia su ogni voce (in 47 competizioni
+// mancavano 831 giocatori con almeno 180', es. Serie C 263): ogni voce si completa con chi manca, sommando le sue partite (stessa
+// gerarchia di loadPlayerStatsFor, per tutti i giocatori)
+const LEAGUE_P = new Map();
+export const loadLeaguePlayerStats = async (lid, sk) => {
+  const st = await loadPlayerStats(lid, sk);
+  if (!st || st.fromMatches || !st.players) return st;
+  const ck = `${lid}|${sk}`;
+  const hit = lruGet(LEAGUE_P, ck);
+  if (hit) return hit;
+  const fm = await statsFromMatches(lid, sk).catch(() => null);
+  if (!fm || !fm.players) return st;
+  const players = { ...st.players };
+  Object.keys(fm.players).forEach((mk) => {
+    const k = MATCH_TO_SEASON[mk] || mk;
+    if (k.startsWith('_') || !players[k]) return;
+    const have = new Set(players[k].map((r) => String(r[0])));
+    const add = fm.players[mk].filter((r) => !have.has(String(r[0])));
+    if (!add.length) return;
+    // valori per partita (voto) o rapporti non si sommano: si completano solo le voci di conteggio come quelle dell'archivio
+    if (k === 'rating' || /per_90|percentage|accuracy/.test(k)) return;
+    players[k] = [...players[k], ...add].sort((x, y) => y[3] - x[3]);
+  });
+  const out = { ...st, players, filled: true };
+  lruSet(LEAGUE_P, ck, out, 12);
+  return out;
+};
 // statistiche giocatori per il pannello di una squadra: le classifiche ufficiali hanno solo i primi di ogni voce (una squadra piccola puo' non esserci
 // o avere pochi nomi), quindi sotto 11 giocatori si guardano anche quelle calcolate dalle partite e vale la fonte con piu' giocatori della squadra
 export const loadTeamPlayerStats = async (lid, sk, tid) => {

@@ -7,6 +7,7 @@ BUDGET = float(os.environ.get("BUDGET_MIN", "320")) * 60
 SHARD = int(os.environ.get("SHARD", "0")); NSHARD = int(os.environ.get("NSHARD", "1"))
 CAP_MB = float(os.environ.get("CAP_MB", "130"))
 T0 = time.time()
+RECENT_YEAR = time.gmtime().tm_year - 1   # stagioni "2025-2026" e "2026", "2026-2027": possono avere ancora partite da aggiungere
 def get(i, tries=3):
     for k in range(tries):
         try:
@@ -100,8 +101,8 @@ def run():
         for lid, v in ix.items():
             for s in v["s"]:
                 if s[:4] == str(y) and not storico_ridotto(lid, v.get("c"), s): units.append((lid, s))
-    # prima i campionati gia' presenti nell'app, poi il resto (ordine per anno invariato)
-    units.sort(key=lambda u: 0 if int(u[0]) in {57, 71, 61, 40, 64, 38, 59, 135, 48, 86, 146, 140, 110, 185, 111, 165, 268, 112, 130, 230, 141, 209, 134, 186, 133, 149, 278, 180, 9067} else 1)
+    # prima le stagioni in corso e la precedente di tutte le competizioni, tra queste prima quelle dell'app; poi lo storico
+    units.sort(key=lambda u: (int(u[1][:4]) < RECENT_YEAR, 0 if int(u[0]) in {42, 73, 10216, 55, 47, 87, 54, 53, 57, 71, 61, 40, 64, 38, 59, 135, 48, 86, 146, 140, 110, 185, 111, 165, 268, 112, 130, 230, 141, 209, 134, 186, 133, 149, 278, 180, 9067} else 1))
     mine = [u for i, u in enumerate(units) if i % NSHARD == SHARD]
     capped = False
     fails = 0
@@ -112,10 +113,20 @@ def run():
         if not os.path.exists(src): continue
         p = f"partite/{lid}/{sk}.json.gz"
         cur = load(p) if os.path.exists(p) else {"done": False, "m": {}}
-        if cur["done"]: continue
-        if os.path.exists("partite") and folder_mb("partite") > CAP_MB * NSHARD: print("tetto di spazio raggiunto"); capped = True; break
-        fx = [m for m in json.load(open(src))["fix"] if m[6] and not m[8]]
+        # stagione in corso (o appena finita): si ricontrolla sempre. Prima "done" restava vero dopo il primo giro completo e le
+        # partite finite dopo non entravano piu' (es. Feyenoord-Fortuna Sittard del 31/10: mancava l'intera giornata).
+        recente = int(s[:4]) >= RECENT_YEAR
+        if cur["done"] and not recente: continue
+        allfx = json.load(open(src))["fix"]
+        fx = [m for m in allfx if m[7] and not m[8]]      # solo partite finite (m[6] = iniziata: una partita in corso restava a meta')
+        aperta = any(not m[7] and not m[8] for m in allfx)
         todo = [m for m in fx if str(m[0]) not in cur["m"]]
+        if cur["done"] and not todo and not aperta: continue
+        if not todo:
+            if cur["done"] == (not aperta): continue
+            cur["done"] = not aperta; dump(p, cur); continue
+        # il tetto di spazio vale solo per lo storico: la stagione in corso si aggiorna sempre (a 399 MB il tetto fermava tutto)
+        if not recente and os.path.exists("partite") and folder_mb("partite") > CAP_MB * NSHARD: print("tetto di spazio raggiunto"); capped = True; break
         n = 0
         for m in todo:
             if time.time() - T0 > BUDGET: break
@@ -131,7 +142,7 @@ def run():
             except Exception as e: cur["m"][str(m[0])] = {}
             n += 1
         else:
-            cur["done"] = True
+            cur["done"] = not aperta     # chiusa solo quando il calendario non ha piu' partite da giocare
         dump(p, cur)
         print(lid, s, len(fx), "partite", n, "nuove", flush=True)
     if not capped and time.time() - T0 <= BUDGET:

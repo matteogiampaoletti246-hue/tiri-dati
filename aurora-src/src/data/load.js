@@ -49,8 +49,10 @@ function mergeCalcExtra() {
   const G = RAW.giocatori;
   const byId = new Map();
   (G.players || []).forEach((p) => byId.set(p.i, p));
-  (X.upd || []).forEach((u) => { const p = byId.get(u.i); if (p) { p.l = u.l; p.r = u.r; p.h = u.h; } });
+  // l, r, h e partite per l'Hit Rate (hn, hp) di profili.py: si copia tutto quello che c'e'
+  (X.upd || []).forEach((u) => { const p = byId.get(u.i); if (p) Object.assign(p, u); });
   G.players = (G.players || []).concat(X.players || []);
+  if (X.al) G.al = { ...(G.al || {}), ...X.al };
   G.fix = G.fix || {};
   Object.entries(X.fix || {}).forEach(([t, lst]) => { G.fix[t] = lst; });
 }

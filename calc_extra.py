@@ -97,9 +97,12 @@ def main():
     taken = set()
     out = {"leagues": {}, "players": [], "upd": [], "fix": {}}
     OLD = {}
+    BY_F = {}       # id FotMob gia' collegato da profili.py: lo stesso giocatore non diventa un secondo profilo
     try:
-        for p in json.load(open("giocatori.json")).get("players", []):
+        for p in json.load(open("giocatori.json", encoding="utf-8")).get("players", []):
             OLD.setdefault(p["t"], []).append(p)
+            if p.get("f"):
+                BY_F[str(p["f"])] = p
     except Exception:
         pass
     old_fix = {}
@@ -109,8 +112,11 @@ def main():
         pass
     used = set()
 
-    def find_old(team, name):
-        """Giocatore gia' nei dati API-Football: stesso nome, altrimenti stesso cognome e stessa iniziale (uno solo)."""
+    def find_old(team, name, fid=None):
+        """Giocatore gia' nei dati API-Football: stesso id FotMob, poi stesso nome, altrimenti stesso cognome e stessa iniziale (uno solo)."""
+        if fid is not None and str(fid) in BY_F and BY_F[str(fid)]["i"] not in used:
+            used.add(BY_F[str(fid)]["i"])
+            return BY_F[str(fid)]
         lst = [p for p in OLD.get(team, []) if p["i"] not in used]
         k = nk(name)
         hit = [p for p in lst if nk(p["n"]) == k]
@@ -189,7 +195,7 @@ def main():
             tot = [len(ms), float(sum(x[1] for x in ms)), sum(x[2] for x in ms), float(sum(x[3] for x in ms))]
             last = [[x[1], x[2], x[3]] for x in ms[:5]]
             hit = [[x[1], x[2], x[3]] for x in [y for y in ms if y[3] >= MIN_HIT][:5]]
-            old = find_old(tn, p["n"])
+            old = find_old(tn, p["n"], pid)
             if old:
                 out["upd"].append({"i": old["i"], "l": tot, "r": last, "h": hit})
                 n_upd += 1

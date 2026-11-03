@@ -4,7 +4,7 @@ import { PLAYERS } from './players';
 import { teamById, teamByName } from './teams';
 import { blendTeam, domesticKey, pickLeagueKey, CUPS, DOMESTIC_KEYS } from './calcData';
 import { romeDay } from './util';
-import { calcReliability, fillFrom, hitFromValues, initialForm, resultFromFouls } from './calcPlayer';
+import { calcReliability, fillFrom, hitFromValues, hitRows, initialForm, resultFromFouls } from './calcPlayer';
 import { fmTeamIn, foulKeys, loadFouls, playerFouls, teamFoulStats } from './calcFouls';
 import { resolvePid } from './playerIndex';
 import { comma } from '@/lib/format';
@@ -45,7 +45,8 @@ const pois = (k, l) => {
 
 const pickKey = pickLeagueKey;
 
-const lastRows = (p) => (p.h && p.h.length >= 5 ? p.h : p.r || []);
+// stesse partite dell'Hit Rate del Calcolatore (almeno 50', stagione in corso poi passata)
+const lastRows = (p) => hitRows(p);
 
 // media di tiri attesa del giocatore in quella partita; idx 0 = tiri totali, 1 = tiri in porta
 function lambdaOf(p, f, idx) {
@@ -206,7 +207,7 @@ export function loadBestFouls(day, threshold, stat) {
       keys.forEach((k) => { if (DATA[k]) fd[k] = DATA[k]; });
       const fmPid = await resolvePid(p).catch(() => null);
       if (!fmPid) continue;
-      const pf = playerFouls(fd, fmPid, team && domesticKey(team.name), stat);
+      const pf = playerFouls(fd, fmPid, team && domesticKey(team.name), stat, p.hn != null ? hitRows(p) : null);
       if (!pf || !pf.last5.length) continue;
       const ownStats = teamFoulStats(fd, fmTeamIn(fd, team), base.team.leagueId, team && team.name, stat);
       const oppStats = teamFoulStats(fd, fmTeamIn(fd, opp), base.opp.leagueId, opp && opp.name, oppStat);
@@ -270,7 +271,7 @@ export function loadPlayerFouls(p, dateIso, lines, stat) {
     keys.forEach((k, i) => { if (loaded[i]) fd[k] = loaded[i]; });
     const fmPid = await resolvePid(p).catch(() => null);
     if (!fmPid) return lines.map(() => null);
-    const pf = playerFouls(fd, fmPid, team && domesticKey(team.name), stat);
+    const pf = playerFouls(fd, fmPid, team && domesticKey(team.name), stat, p.hn != null ? hitRows(p) : null);
     if (!pf || !pf.last5.length) return lines.map(() => null);
     const ownStats = teamFoulStats(fd, fmTeamIn(fd, team), base.team.leagueId, team && team.name, stat);
     const oppStats = teamFoulStats(fd, fmTeamIn(fd, opp), base.opp.leagueId, opp && opp.name, stat === 'fc' ? 'fs' : 'fc');

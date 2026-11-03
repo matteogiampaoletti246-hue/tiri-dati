@@ -27,6 +27,7 @@ export const initialForm = () => ({
   hitRate: '',
   shots5: '',
   minutes5: '',
+  hitN: null,
   season: {
     campionato: { tiri: '', minuti: '' },
     coppa: { tiri: '', minuti: '' },
@@ -37,10 +38,15 @@ export const initialForm = () => ({
   opp: emptyBlock(),
 });
 
+// Partite per l'Hit Rate (regola fissa, tutte le competizioni): solo partite con ALMENO 50', dalla piu' recente; se nella stagione in
+// corso sono meno di 5 si completa con la stagione passata, sempre a ritroso (`h` di profili.py, `hn` = quante). Senza 5 si usano
+// quelle che ci sono e il Calcolatore lo dice ("su 3 partite"). Dati senza `hn` (vecchio formato): come prima.
+export const hitRows = (p) => ((p && p.hn !== null && p.hn !== undefined ? p.h : p && p.h && p.h.length >= 5 ? p.h : p && p.r) || []).slice(0, 5);
+
 // precompila i campi dal giocatore reale (media stagionale, ultime 5, squadre, prossima partita)
 export function fillFrom(f, p, fam, fx) {
   const k = fam === 'inPorta' ? 1 : 0;
-  const rows = ((p.h && p.h.length >= 5 ? p.h : p.r) || []).slice(0, 5);
+  const rows = hitRows(p);
   const lineV = parseNum(f.line) ?? 0;
   const hit = rows.filter((x) => (f.lineType === 'under' ? (x[k] || 0) < lineV : (x[k] || 0) > lineV)).length;
   const season = { ...f.season, campionato: { tiri: '', minuti: '' }, coppa: { tiri: '', minuti: '' } };
@@ -76,6 +82,7 @@ export function fillFrom(f, p, fam, fx) {
     shots5: rows.map((x) => x[k] || 0).join('-'),
     minutes5: rows.map((x) => x[2] || 0).join('-'),
     hitRate: fixed,
+    hitN: rows.length,
     season,
     team,
     opp,

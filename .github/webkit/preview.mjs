@@ -1822,6 +1822,81 @@ await step('ritorno dal background: finestra giocatore a tutta altezza, nessun b
   ok('ritorno dal background: chiusa la finestra non resta nessun blocco', await pg.evaluate(() => !document.documentElement.dataset.modal));
 });
 
+// Dati (ramo fix-dati): classifiche delle coppe con tutte le squadre, profili PitchAPI collegati a FotMob, partite in un'unica lista,
+// Hit Rate del Calcolatore solo su partite da almeno 50' (stagione in corso, poi passata) con "su N partite"
+await step('fix-dati: Europa League con 36 squadre e giocatori di tutte le squadre (Jota Silva)', async () => {
+  const expand = async (id) => { await pg.evaluate((k) => { const s = document.getElementById(k); if (s) s.scrollIntoView(); const b = s && [...s.querySelectorAll('button')].find((x) => /^Mostra tutti/.test(x.textContent.trim())); if (b) b.click(); }, id); await wait(700); };
+  await go('#/campionato/europa-league', 6000); await ready();
+  await tabClick('Stat. squadre'); await wait(2500);
+  const first = await pg.evaluate(() => { const s = [...document.querySelectorAll('section[id^="st-"]')].find((x) => { const r = x.getBoundingClientRect(); return r.width > 0 && r.left > -5 && r.left < innerWidth - 5; }); return s ? s.id : null; });
+  if (first) await expand(first);
+  const teams = await pg.evaluate((k) => { const s = document.getElementById(k); return s ? new Set([...s.querySelectorAll('a[href*="squadra"]')].map((a) => a.getAttribute('href'))).size : 0; }, first);
+  ok('fix-dati: Europa League, classifica statistiche squadre con 36 squadre', teams === 36, { teams, first });
+  await shot('fixdati-el-squadre');
+  await tabClick('Giocatori'); await wait(5000);
+  await expand('st-mins_played');
+  const t = await pg.evaluate(() => { const s = document.getElementById('st-mins_played'); return s ? s.innerText : document.getElementById('sl-shell').innerText; });
+  ok('fix-dati: Europa League, Jota Silva (Olympiacos) nelle classifiche giocatori', /Jota Silva/.test(t), { snippet: t.slice(0, 160) });
+  await shot('fixdati-el-giocatori');
+});
+
+await step('fix-dati: Dani Rodriguez (Dinamo Zagreb) un solo profilo con anagrafica e campionato', async () => {
+  const G = await getJson('giocatori.json');
+  const p = G && G.players.find((x) => x.n === 'Dani Rodríguez' && x.t === 'Dinamo Zagreb');
+  ok('fix-dati: Dani Rodriguez collegato all\'id FotMob con campionato HNL', !!p && p.f === 1367049 && p.dl === 252, { p: p && { f: p.f, dl: p.dl, l: p.l, c: p.c } });
+  if (!p) return;
+  await go(`#/giocatore/${p.i}`, 6000); await ready(); await wait(2500);
+  const t = await pg.evaluate(() => document.getElementById('sl-shell').innerText);
+  ok('fix-dati: Dani Rodriguez, anagrafica presente (nazionalita, altezza, piede)', /175\s*cm/.test(t) && /sinistro/i.test(t) && /spagna/i.test(t), { snippet: t.slice(0, 400) });
+  await shot('fixdati-dani-profilo');
+});
+
+await step('fix-dati: Nacho Ferri, Partite in un\'unica lista dalla piu\' recente con Feyenoord-Fortuna Sittard', async () => {
+  const G = await getJson('giocatori.json');
+  const p = G && G.players.find((x) => x.n === 'Nacho Ferri');
+  if (!p) { ok('fix-dati: Nacho Ferri nei dati', false); return; }
+  await go(`#/giocatore/${p.i}`, 6000); await ready();
+  await tabClick('Partite'); await wait(5000);
+  const cards = await pg.evaluate(() => [...document.querySelectorAll('a.club-card')].filter((a) => { const r = a.getBoundingClientRect(); return r.width > 0 && r.left > -5 && r.left < innerWidth - 5; }).map((a) => a.innerText.replace(/\s+/g, ' ')));
+  ok('fix-dati: Nacho Ferri, la partita con il Fortuna Sittard c\'e\'', cards.some((c) => /Sittard/.test(c)), { first: cards.slice(0, 4) });
+  ok('fix-dati: Nacho Ferri, campionato e coppa nella stessa lista con il nome della competizione', cards.some((c) => /Eredivisie/.test(c)) && cards.some((c) => /Champions League/.test(c)), { n: cards.length });
+  const titles = await pg.evaluate(() => [...document.querySelectorAll('div')].filter((d) => /^(Stagione|.* · Stagione) \d/.test(d.textContent.trim()) && d.children.length === 0).length);
+  ok('fix-dati: Nacho Ferri, niente blocchi separati per competizione', titles === 0, { titles });
+  await shot('fixdati-ferri-partite');
+});
+
+await step('fix-dati: Calcolatore, Hit Rate su partite da almeno 50 minuti e "su N partite"', async () => {
+  const G = await getJson('giocatori.json');
+  const ST = await getJson('report/profili_stato.json');
+  const names = {};
+  (G ? G.players : []).forEach((x) => { names[x.n] = (names[x.n] || 0) + 1; });
+  const pick = (f) => (G ? G.players.find((x) => names[x.n] === 1 && f(x) && x.n.split(' ').length >= 2) : null);
+  const cases = [
+    ['5+ in stagione', pick((x) => x.hn === 5 && !x.hp && x.l && x.l[0] >= 8)],
+    ['con la stagione passata', pick((x) => x.hn === 5 && x.hp >= 2)],
+    ['meno di 5', pick((x) => x.hn === 3)],
+  ];
+  const res = {};
+  for (const [lab, p] of cases) {
+    if (!p) { res[lab] = 'nessun giocatore'; continue; }
+    await go('#/calcolatore', 3500);
+    await pg.waitForFunction(() => [...document.querySelectorAll('button')].some((x) => /Cerca e seleziona/.test(x.textContent)), null, { timeout: 25000 }).catch(() => {});
+    await pg.evaluate(() => { const b = [...document.querySelectorAll('button')].find((x) => /Cerca e seleziona/.test(x.textContent)); if (b) b.click(); });
+    await wait(900);
+    await pg.keyboard.type(p.n, { delay: 25 }); await wait(1300);
+    await pg.evaluate((n) => { const b = [...document.querySelectorAll('button')].find((x) => x.textContent.includes(n)); if (b) b.click(); }, p.n);
+    const want = (p.hn < 5 ? `Hit rate su ${p.hn} partite` : 'Hit rate ultime 5').toLowerCase();
+    let t = '';
+    for (let k = 0; k < 16 && !t.includes(want); k++) { await wait(500); t = (await pg.evaluate(() => document.getElementById('sl-shell').innerText)).toLowerCase(); }
+    const mins = (p.h || []).map((r) => r[2]);
+    res[lab] = { n: p.n, hn: p.hn, hp: p.hp, mins, label: t.includes(want), tutteDa50: mins.every((m) => m >= 50), date: ((ST && ST.partite_hit_rate && ST.partite_hit_rate[p.i]) || []).map((r) => r[0]) };
+    await shot(`fixdati-calc-${lab.replace(/\W+/g, '-')}`);
+  }
+  const all = Object.values(res).filter((x) => typeof x === 'object');
+  ok('fix-dati: Calcolatore, partite dell\'Hit Rate tutte da almeno 50 minuti e in ordine dalla piu\' recente', all.length === 3 && all.every((x) => x.tutteDa50 && x.date.every((d, i, a) => !i || a[i - 1] >= d)), res);
+  ok('fix-dati: Calcolatore, scritta giusta ("ultime 5" o "su N partite")', all.length === 3 && all.every((x) => x.label), res);
+});
+
 report.passed = report.checks.filter((c) => c.pass).length;
 report.total = report.checks.length;
 fs.writeFileSync(`${OUT}/report.json`, JSON.stringify(report, null, 2));

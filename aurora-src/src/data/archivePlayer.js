@@ -57,7 +57,7 @@ export async function makeArchivePlayer(fm, sk, pid) {
     shots5: [], sot5: [], minutes5: [], recent: [], ratings5: [],
   };
   // giocatore dei campionati aggiunti: tiri e ultime partite per l'Affidabilita' restano (la scheda completa sostituisce solo il resto)
-  if (lite && lite.lite) Object.assign(p, { l: lite.l, c: lite.c, r: lite.r, h: lite.h, shots5: lite.shots5, sot5: lite.sot5, minutes5: lite.minutes5, recent: lite.recent, ratings5: lite.ratings5, leagueId: lite.leagueId || p.leagueId, teamId: p.teamId || lite.teamId });
+  if (lite && lite.lite) Object.assign(p, { l: lite.l, c: lite.c, r: lite.r, h: lite.h, hn: lite.hn, hp: lite.hp, shots5: lite.shots5, sot5: lite.sot5, minutes5: lite.minutes5, recent: lite.recent, ratings5: lite.ratings5, leagueId: lite.leagueId || p.leagueId, teamId: p.teamId || lite.teamId });
   registerPlayer(p);
   // carriera ricostruita dalle stagioni in cui ha giocato questa competizione
   let car = [];

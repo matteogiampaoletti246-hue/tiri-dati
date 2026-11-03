@@ -10,12 +10,14 @@ import { comma } from '@/lib/format';
 // Classifiche delle statistiche di squadra (medie a partita), come nella vecchia app.
 export default function LeagueTeamsPanel({ leagueId }) {
   const [part, setPart] = useState(0);
-  const teams = teamsOf(leagueId).filter((t) => hasMetrics(t.id));
+  // statistiche della competizione aperta (in Europa League quelle di coppa): prima si leggevano quelle del campionato di ogni
+  // squadra, cosi' sparivano le squadre dei campionati senza statistiche (18 su 36) e le altre mostravano i numeri di campionato
+  const teams = teamsOf(leagueId).filter((t) => hasMetrics(t.id, leagueId));
   const sections = [];
   CATEGORY_DEFS.forEach((cat) =>
     cat.metrics.forEach((mt) => {
       const rows = teams
-        .map((t) => ({ t, v: metricOf(t.id, mt.key, part) }))
+        .map((t) => ({ t, v: metricOf(t.id, mt.key, part, leagueId) }))
         .sort((a, b) => b.v - a.v)
         .map(({ t, v }) => ({ id: t.id, to: `/squadra/${t.id}`, left: <Crest team={t} size={24} />, name: t.name, bg: teamGrad(t, 0x55), value: comma(v, 2) }));
       sections.push({ id: mt.key, group: cat.title, title: mt.label, rows });

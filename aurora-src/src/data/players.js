@@ -11,6 +11,7 @@ export const COACHES = {};
 const BY_ID = {};
 const BY_KEY = {};
 const BY_TEAM = {};
+const BY_FM = {};
 
 const POS = { P: 'GK', D: 'DEF', C: 'MID', A: 'ATT' };
 
@@ -23,6 +24,8 @@ const initialsOf = (name) =>
     .toUpperCase();
 
 export const playerById = (id) => BY_ID[id] || null;
+// giocatore dell'elenco principale con quell'id FotMob (null se non c'e')
+export const playerByFm = (fid) => (fid ? BY_FM[String(fid)] || BY_FM[Number(fid)] || null : null);
 // giocatori dell'archivio (non nell'elenco attuale): si aggiungono solo per la scheda
 export const registerPlayer = (p) => { BY_ID[p.id] = p; };
 export const playersByTeam = (teamId) => BY_TEAM[teamId] || [];
@@ -42,6 +45,7 @@ export function buildPlayers() {
   Object.keys(BY_ID).forEach((k) => delete BY_ID[k]);
   Object.keys(BY_KEY).forEach((k) => delete BY_KEY[k]);
   Object.keys(BY_TEAM).forEach((k) => delete BY_TEAM[k]);
+  Object.keys(BY_FM).forEach((k) => delete BY_FM[k]);
 
   const ST = {};
   const STAT_ROWS = (RAW.stats && RAW.stats.players) || [];
@@ -96,9 +100,13 @@ export function buildPlayers() {
       initials: initialsOf(name),
       number: null,
       position: s ? POS[s[ix.pos]] || null : null,
-      photo: g && g.fm ? `https://images.fotmob.com/image_resources/playerimages/${g.fm}.png` : photoOf(g ? g.i : s[ix.id]),
+      photo: g && g.fm ? `https://images.fotmob.com/image_resources/playerimages/${g.fm}.png` : photoOf(g ? g.i : s[ix.id]) || (g && g.f ? faceUrl(g.f) : null),
       // giocatore dei campionati aggiunti (calc_extra.py): solo tiri e minuti per l'Affidabilita'; la scheda completa si costruisce dall'archivio
       lite: !!(g && g.fm),
+      // id FotMob del giocatore (profili.py: stesso giocatore delle formazioni e dell'archivio, un solo profilo) e campionato nazionale
+      // della squadra quando non e' tra quelli dell'app (es. Dinamo Zagreb: HNL, non Europa League)
+      fmId: g ? g.f || g.fm || null : null,
+      domFm: g && g.dl ? g.dl : null,
       hasStats: !!s,
       rating: ex && ex[exIx.rat] ? r2(ex[exIx.rat]) : null,
       // stessa misura per tutti: il campionato (le coppe hanno le loro statistiche). I gol di chi non e' in stats.json arrivano dall'archivio (usePlayerSeason)
@@ -124,6 +132,9 @@ export function buildPlayers() {
       c: cup,
       r: rows,
       h: g ? g.h || [] : [],
+      // partite per l'Hit Rate (profili.py): quante (hn, null = dati vecchi) e quante della stagione passata (hp)
+      hn: g && g.hn !== undefined ? g.hn : null,
+      hp: g ? g.hp || 0 : 0,
       shots5: rows.slice(0, 5).map((x) => x[0]),
       sot5: rows.slice(0, 5).map((x) => x[1]),
       minutes5: rows.slice(0, 5).map((x) => x[2]),
@@ -132,6 +143,7 @@ export function buildPlayers() {
     p.ratings5 = p.recent.slice(0, 5).map((x) => x.rating).filter((v) => v !== null && v !== undefined);
     PLAYERS.push(p);
     BY_ID[p.id] = p;
+    if (p.fmId && (!BY_FM[p.fmId] || BY_FM[p.fmId].lite)) BY_FM[p.fmId] = p;
     if (!p.lite) {
       BY_KEY[`${norm(name)}|${team.id}`] = p;
       (BY_TEAM[team.id] = BY_TEAM[team.id] || []).push(p);
@@ -143,6 +155,9 @@ export function buildPlayers() {
   STAT_ROWS.forEach((s) => {
     if (!seen.has(s[ix.id])) make(null, s);
   });
+
+  // profili doppi uniti da profili.py: il vecchio id porta allo stesso giocatore (link e calcoli salvati)
+  Object.entries((RAW.giocatori && RAW.giocatori.al) || {}).forEach(([a, b]) => { if (BY_ID[b] && !BY_ID[a]) BY_ID[a] = BY_ID[b]; });
 
   // Ruolo reale dalle formazioni: un "centrocampista" che gioca davanti (punta/seconda punta) diventa attaccante
   const RUOLI = RAW.ruoli || {};

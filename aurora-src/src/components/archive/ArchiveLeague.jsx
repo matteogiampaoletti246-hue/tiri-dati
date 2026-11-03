@@ -10,7 +10,7 @@ import useAsync from '@/hooks/useAsync';
 import useArchFresh from '@/hooks/useArchFresh';
 import { RefereesView } from '@/components/league/LeagueRefereesPanel';
 import { RAW } from '@/data/load';
-import { currentSeason, refsAllSeasons, refsAllowed, loadSeason, loadTeamStats, loadPlayerStats, loadSeasonMatches, SEASON_STAT_IT, STAT_IT, STAT_GROUPS, prettyKey } from '@/data/archive';
+import { currentSeason, refsAllSeasons, refsAllowed, loadSeason, loadTeamStats, loadLeaguePlayerStats, loadSeasonMatches, SEASON_STAT_IT, STAT_IT, STAT_GROUPS, prettyKey } from '@/data/archive';
 import { tintGrad } from '@/lib/tint';
 import ClassificaSwitch from '@/components/bracket/ClassificaSwitch';
 import Bracket from '@/components/bracket/Bracket';
@@ -223,7 +223,10 @@ function ArchTeamStatPanel({ season, det, stats, names, col, fm, sk }) {
   const [part, setPart] = useState(0);
   const acc = useMemo(() => (season && det && det.m ? teamAverages(season, det) : null), [season, det]);
   const has = acc && Object.keys(acc).length > 0 && Object.values(acc).some((t) => Object.keys(t[0]).some((k) => k !== 'goals_for' && k !== 'goals_against'));
-  if (!has) return <ArchStatPanel stats={stats} kind="teams" names={names} col={col} fm={fm} sk={sk} />;
+  // senza statistiche di partita: gol fatti e subiti di TUTTE le squadre (dai risultati) e sotto le classifiche ufficiali (che hanno solo
+  // una parte delle squadre: es. KNVB Cup 18 su 52)
+  const official = has ? [] : statSections(stats, 'teams', names, col, fm, sk, 'tot');
+  if (!acc || Object.keys(acc).length < 2) return official.length ? <ArchStatPanel stats={stats} kind="teams" names={names} col={col} fm={fm} sk={sk} /> : null;
   const sections = [];
   const groupOfKey = (k) => (TS_KEYS.find((x) => x[0] === k) || [null, 'Altro'])[1];
   const keys = new Set(['goals_for', 'goals_against']);
@@ -252,6 +255,7 @@ function ArchTeamStatPanel({ season, det, stats, names, col, fm, sk }) {
   });
   const order = ['Principali', ...STAT_GROUPS.map((g) => g[0]).filter((g) => g !== 'Principali'), 'Altro'];
   sections.sort((a, b) => order.indexOf(a.group) - order.indexOf(b.group));
+  sections.push(...official);
   if (!sections.length) return <ArchStatPanel stats={stats} kind="teams" names={names} col={col} fm={fm} sk={sk} />;
   return (
     <StatLists
@@ -279,11 +283,22 @@ function refsOf(det) {
   return Object.values(by).map((r) => ({ ...r, y: r.y / r.n, r: r.r / r.n, fo: r.fo / r.n, pen: r.pen / r.n }));
 }
 
+// Champions ed Europa League, stagione in corso: classifiche giocatori della coppa (archivio FotMob, tutte le squadre). Prima la scheda
+// leggeva le statistiche di campionato dei soli top 5 (stats.json): mancavano i giocatori delle altre squadre (es. Jota Silva, Olympiacos)
+export function CupPlayersTab({ fm }) {
+  const { data: sk } = useAsync(() => currentSeason(fm), [fm]);
+  const { data: season } = useAsync(() => (sk ? loadSeason(fm, sk) : null), [fm, sk]);
+  const { data: pstats, loading } = useAsync(() => (sk ? loadLeaguePlayerStats(fm, sk) : null), [fm, sk]);
+  const col = useTeamColors();
+  if (!sk || !season || loading) return <Loading />;
+  return <ArchStatPanel stats={pstats} kind="players" names={season.teams || {}} col={col} fm={fm} sk={sk} />;
+}
+
 export default function ArchiveLeague({ fm, sk, tab, setTab, tint }) {
   useArchFresh(fm, sk); // risultati nuovi della stagione in corso: si ridisegna con le righe aggiornate
   const { data: season, loading } = useAsync(() => loadSeason(fm, sk), [fm, sk]);
   const { data: stats, loading: l3 } = useAsync(() => loadTeamStats(fm, sk), [fm, sk]);
-  const { data: pstats, loading: l5 } = useAsync(() => loadPlayerStats(fm, sk), [fm, sk]);
+  const { data: pstats, loading: l5 } = useAsync(() => loadLeaguePlayerStats(fm, sk), [fm, sk]);
   const { data: det, loading: l2 } = useAsync(() => loadSeasonMatches(fm, sk), [fm, sk]);
   const col = useTeamColors();
   const pure = isPureCup(fm);
