@@ -1,17 +1,16 @@
-import { useNavigate } from 'react-router-dom';
 import { openPlayer, ourPlayerId } from '@/data/playerSheet';
+import { matchStarted, openPanel } from '@/data/playerPanel';
 
-// Nome cliccabile: partita iniziata o finita → tendina del giocatore; altrimenti → scheda giocatore.
+// Nome cliccabile: partita iniziata o finita → tendina del giocatore dal basso; non ancora iniziata → pannello giocatore da destra.
 export default function PlayerLink({ match, name, fmId, className = '', style, children }) {
-  const navigate = useNavigate();
   if (!name || /^\(?\s*(tbd|tba|n\/a|unknown)\s*\)?$/i.test(String(name).trim())) return <span className={className} style={style}>{children}</span>;
   const onClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    if (match && match.status !== 'scheduled') openPlayer({ matchId: match.id, name, fmId });
+    if (matchStarted(match)) openPlayer({ matchId: match.id, name, fmId });
     else {
       const id = ourPlayerId(match, name, fmId);
-      if (id) navigate(`/giocatore/${id}`);
+      if (id) openPanel(id);
     }
   };
   return (

@@ -21,6 +21,7 @@ export const hasReliability = (match) => {
 import { teamById } from '@/data/teams';
 import { comma } from '@/lib/format';
 import RollNumber from '@/components/RollNumber';
+import { matchStarted, openPanel } from '@/data/playerPanel';
 
 
 
@@ -44,6 +45,7 @@ export default function MatchReliabilityList({ match, home, away }) {
               <Link
                 key={r.player.id}
                 to={`/giocatore/${r.player.id}`}
+                onClick={(e) => { if (!matchStarted(match)) { e.preventDefault(); openPanel(r.player.id); } }}
                 className="press mx-4 mb-2 flex items-center gap-2.5 rounded-[20px] px-2.5 py-2"
                 style={{ background: teamGrad(t, 0x66), border: '1px solid var(--glass-border)' }}
               >

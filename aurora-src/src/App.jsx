@@ -11,6 +11,7 @@ import { installBackSnaps } from '@/lib/carousel';
 import LaunchScreen from '@/components/LaunchScreen';
 import ScrollToTop from '@/components/ScrollToTop';
 import PlayerSheetHost from '@/components/match/PlayerSheet';
+import PlayerPanelHost from '@/components/player/PlayerPanel';
 import { applyTheme, getTheme } from '@/lib/theme';
 import Guidelines from '@/pages/Guidelines';
 import NativeHomeGuard from '@/components/NativeHomeGuard';
@@ -91,6 +92,7 @@ export default function App() {
       <CalcKeepGuard />
       <ScrollToTop />
       <PlayerSheetHost />
+      <PlayerPanelHost />
       <MenuDrawer />
       {ready ? (
       <Routes>

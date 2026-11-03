@@ -9,6 +9,7 @@ import { teamById } from '@/data/teams';
 import { matchesByDate } from '@/data/matches';
 import { romeDay } from '@/data/util';
 import { TOP_KEEP } from '@/data/topPlayers';
+import { matchStarted, openPanel } from '@/data/playerPanel';
 
 // entrata (concept A): a cascata, 75 ms tra un banner e l'altro; il voto parte poco dopo il suo banner
 export const ENTER_STAG = 75;
@@ -48,7 +49,11 @@ export default memo(function TopPlayerRow({ row, rank, threshold, delay = 0, sta
   return (
     <Link
       to={`/giocatore/${player.id}`}
-      onClick={() => { TOP_KEEP.child = Date.now(); }}
+      onClick={(e) => {
+        TOP_KEEP.child = Date.now();
+        // partita non ancora iniziata: pannello giocatore da destra (il tasto Profilo apre la scheda)
+        if (!matchStarted(match)) { e.preventDefault(); openPanel(player.id); }
+      }}
       className={`press mx-4 mb-2.5 flex items-center gap-3 rounded-[24px] p-3${anim ? ' tp-in' : ''}`}
       style={{ background: `linear-gradient(100deg, ${c1}55, rgba(255,255,255,.03) 70%)`, border: '1px solid var(--glass-border)', ...(anim ? { animationDelay: `${BASE + enter * ENTER_STAG}ms` } : null) }}
     >

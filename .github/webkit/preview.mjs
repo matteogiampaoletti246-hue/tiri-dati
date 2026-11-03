@@ -292,6 +292,31 @@ await step('barra in basso resta ferma scorrendo', async () => {
   await shot('barra-dopo-scroll');
 });
 
+// partita non ancora iniziata: il tocco su un giocatore apre il pannello da destra (circa 2/3 dello schermo), non la scheda; il velo lo chiude
+await step('pannello giocatore da destra (partite non iniziate)', async () => {
+  await go('#/migliori-giocatori', 3000);
+  await pg.waitForSelector('a[href*="giocatore/"]', { timeout: 45000 }).catch(() => {});
+  await wait(1500);
+  // domani: partite di sicuro non ancora iniziate
+  await pg.evaluate(() => { const e = [...document.querySelectorAll('button')].find((x) => /^Domani/.test(x.textContent.trim())); if (e) e.click(); });
+  await wait(3500);
+  const pt = await pg.evaluate(() => { const r = [...document.querySelectorAll('a[href*="giocatore/"]')].map((x) => x.getBoundingClientRect()).find((r) => r.left >= 0 && r.right <= innerWidth + 1 && r.top > 120 && r.bottom < innerHeight - 100); return r ? { x: r.left + r.width * 0.4, y: r.top + r.height / 2 } : null; });
+  if (!pt) { ok('pannello giocatore: una riga da toccare', false); return; }
+  await pg.mouse.click(pt.x, pt.y);
+  await wait(4500);
+  await shot('pannello-giocatore');
+  const info = await pg.evaluate(() => { const d = document.querySelector('[role="dialog"]'); const p = d && d.querySelector('.pointer-events-auto'); return d ? { hash: location.hash, w: p ? p.getBoundingClientRect().width / innerWidth : 0, left: p ? p.getBoundingClientRect().left : -1, txt: d.innerText, ov: document.body.style.overflow } : null; });
+  ok('pannello giocatore: si apre senza cambiare pagina', !!info && /migliori-giocatori/.test(info.hash), { hash: info && info.hash });
+  ok('pannello giocatore: copre circa 2/3 dello schermo', !!info && info.w > 0.6 && info.w < 0.75 && info.left > 0, { w: info && info.w });
+  ok('pannello giocatore: tasto Profilo', !!info && /Profilo/.test(info.txt));
+  ok('pannello giocatore: nessun "non disponibile"', !!info && !ND.test(info.txt), { nd: info && (info.txt.match(ND) || [])[0] });
+  ok('pannello giocatore: pagina sotto ferma', !!info && info.ov === 'hidden');
+  await pg.mouse.click(30, 400);
+  await wait(2000);
+  const after = await pg.evaluate(() => ({ d: !!document.querySelector('[role="dialog"]'), ov: document.body.style.overflow, m: document.documentElement.dataset.modal || '' }));
+  ok('pannello giocatore: il velo lo chiude e sblocca la pagina', !after.d && !after.ov && !after.m, after);
+});
+
 await step('migliori giocatori e matchup: calendario da ieri', async () => {
   await go('#/migliori-giocatori', 3500);
   const t = await texts();

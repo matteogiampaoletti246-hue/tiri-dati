@@ -33,7 +33,7 @@ export function useSeasonList(fm, teamName, pid) {
 // Si ricordano finche' la scheda resta "nella pila" (apro un giocatore e torno indietro: la stagione c'e' ancora).
 // Aprendo una scheda da zero (o dopo averla chiusa) si riparte da "stagione attuale".
 const SEL = new Map();
-const resetSel = (entity) => { [...SEL.keys()].forEach((k) => { if (k.startsWith(`${entity}|`)) SEL.delete(k); }); };
+export const resetSel = (entity) => { [...SEL.keys()].forEach((k) => { if (k.startsWith(`${entity}|`)) SEL.delete(k); }); };
 export function useEntityScope(entity) {
   const nav = useNavigationType();
   const done = useRef(null);

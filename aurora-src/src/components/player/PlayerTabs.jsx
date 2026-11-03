@@ -67,7 +67,8 @@ const avg = (a) => (a.length ? a.reduce((x, y) => x + y, 0) / a.length : null);
 
 // posizione FotMob (car/) -> ruolo dell'app, per chi non ha il ruolo nei dati PitchAPI
 const PS_POS = { GK: 'GK', CB: 'DEF', LB: 'DEF', RB: 'DEF', LWB: 'DEF', RWB: 'DEF', DM: 'MID', CDM: 'MID', CM: 'MID', AM: 'MID', CAM: 'MID', LM: 'MID', RM: 'MID', LW: 'ATT', RW: 'ATT', ST: 'ATT', CF: 'ATT' };
-function BioCard({ player, team }) {
+// campi del riquadro Informazioni (Profilo e pannello giocatore da destra)
+export function useBio(player) {
   const c0 = carriereOf(player.id) || {};
   const pidB = useBioPid(player);
   const rp = pidB ? rosePlayer(pidB) : null;
@@ -85,6 +86,11 @@ function BioCard({ player, team }) {
     ['Ruolo', POS_IT[player.position] || POS_IT[PS_POS[c.ps]] || (R && POS_IT[R[2]]) || '—'],
     ['Maglia', c.n || player.number || '—'],
   ];
+  return { c, cells };
+}
+
+function BioCard({ player, team }) {
+  const { c, cells } = useBio(player);
   return (
     <section>
       <PanelTitle>Informazioni</PanelTitle>

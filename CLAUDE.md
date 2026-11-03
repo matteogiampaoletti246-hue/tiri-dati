@@ -18,6 +18,7 @@ App calcio: Home nativa Expo (`native/`), sito React in WebView (`aurora-src/`, 
 - **Niente "non disponibile"**: statistica, riquadro, pillola, voce o scheda senza dati non si mostra (mai "non disponibile", "in arrivo", "nessun dato", riquadri vuoti, "—"); la pagina parte dal primo elemento con dati. Mai dati inventati. (Due eccezioni per le statistiche giocatore: vedi `giocatori-dati.md`.)
 - **Swipe indietro**: sempre a scorrimento con la pagina di destinazione sotto (`pageDrag`/`pageBack` in `lib/carousel.js`), mai schermo nero, mai salti. Ogni punto che torna indietro passa da li'.
 - **Tendine e finestre**: `usePopFit`/`popScroll`, `MenuBackdrop`, `useModalLock`; scorre solo la lista; con una finestra aperta nessuno swipe di pagina.
+- **Giocatore toccato in una partita non iniziata** (formazioni, Migliori Giocatori, Affidabilita'): pannello da destra `PlayerPanel` (dettagli in `swipe-interfaccia.md`); iniziata/finita: tendina dal basso. Il controllo e' solo `matchStarted` (`data/playerPanel.js`).
 - **Foto giocatori**: solo `PlayerPhoto` (sagoma se manca). **Icone gol/assist**: `BallIcon`/`BootIcon`, mai emoji. Liste di partite sempre "vs".
 - **Stagione/competizione scelte** restano finche' la scheda e' nella pila; aprendo da zero si riparte da "Attuale".
 - **Fonti dati**: FotMob prima, poi PitchAPI, LiveScore, OneFootball, API-Football; mai formazioni, nomi o zone inventate.
