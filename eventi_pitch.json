@@ -1,22 +1,19 @@
 {
  "competizioni": {
-  "Süper Lig 2026-2027": {
+  "Premier League 2026-2027": {
    "partite_con_eventi": 1,
    "da_fare": 1
   },
-  "Eerste Divisie 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 1
-  },
-  "Super League 1 2026-2027": {
+  "Liga 1 2026": {
    "partite_con_eventi": 1,
    "da_fare": 1
   }
  },
  "tipi_visti": {
-  "goal": 7,
-  "yellowcard": 7,
-  "substitution": 18
+  "yellowcard": 14,
+  "goal": 6,
+  "substitution": 16,
+  "redcard": 1
  },
  "partite_in_questo_giro": 2,
  "orientamento_cambi": "player esce"
