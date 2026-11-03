@@ -23,6 +23,7 @@ App calcio: Home nativa Expo (`native/`), sito React in WebView (`aurora-src/`, 
 - **Stagione/competizione scelte** restano finche' la scheda e' nella pila; aprendo da zero si riparte da "Attuale".
 - **Fonti dati**: FotMob prima, poi PitchAPI, LiveScore, OneFootball, API-Football; mai formazioni, nomi o zone inventate.
 - **Riga in alto della Home**: logo, barra di ricerca, Calendario, menu; ricerca e menu sono tendine (mai pagine), risultati solo da `lib/search.js` (`app-nativa.md`).
+- **Dock in basso**: stesso dock in nativo e nel sito, voce evidenziata al tocco, ritocco = in cima; regole in `app-nativa.md`.
 - **Home e Matchup/Giocatori** partono da Oggi (niente giorni passati in Migliori Giocatori e Migliori Matchup).
 
 ## Indice delle regole (docs/regole/)

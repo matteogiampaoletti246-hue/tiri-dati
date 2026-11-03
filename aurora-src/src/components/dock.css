@@ -1,0 +1,39 @@
+/* Dock in basso (concept C): colori solo dalle variabili del tema (Light / Night), stessa forma della barra nativa. */
+.dock {
+  background: color-mix(in srgb, var(--sky-2) 80%, transparent);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  backdrop-filter: blur(20px) saturate(160%);
+  box-shadow: inset 0 0 0 1px var(--glass-border), var(--shadow-1);
+}
+.dock-sep { width: 1px; height: 26px; background: var(--glass-border); flex: none; }
+.dock-tile {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: 46px;
+  min-width: 46px;
+  border-radius: 16px;
+  color: var(--ink-2);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--pill-active) 70%, transparent), color-mix(in srgb, var(--pill-active) 25%, transparent));
+  box-shadow: inset 0 0 0 1px var(--glass-border);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  transition: transform .12s ease, opacity .12s ease;
+}
+.dock-tile:active { transform: scale(.92); opacity: .85; }
+.dock-on {
+  padding: 0 16px 0 13px;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 15%, transparent);
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--accent) 60%, transparent), 0 8px 22px -8px color-mix(in srgb, var(--accent) 60%, transparent);
+}
+@media (hover: hover) {
+  .dock-tile:not(.dock-on):hover { transform: translateY(-2px) scale(1.04); color: var(--ink); }
+}
+.dock-lab { white-space: nowrap; font-size: 13.5px; font-weight: 800; animation: dock-lab-in .18s ease-out both; }
+@keyframes dock-lab-in { from { opacity: 0; } to { opacity: 1; } }

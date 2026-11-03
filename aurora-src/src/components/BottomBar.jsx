@@ -1,8 +1,9 @@
-import { memo } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { isNative } from '@/lib/carousel';
 import { Home as HomeIcon, Calculator, Users, Swords } from 'lucide-react';
+import './dock.css';
 
 const ITEMS = [
   { to: '/', label: 'Home', icon: HomeIcon, exact: true },
@@ -10,50 +11,58 @@ const ITEMS = [
   { to: '/migliori-giocatori', label: 'Giocatori', icon: Users },
   { to: '/migliori-matchup', label: 'Matchup', icon: Swords },
 ];
+const T = { duration: 0.22, ease: [0.22, 1, 0.36, 1] };
 
-// Barra in basso: vetro, l'indicatore scivola da una voce all'altra.
+// Dock in basso (concept C "isola compatta", uguale alla barra nativa): vetro sfocato, tasselli 46 px, la voce attiva si allarga
+// in pillola con il nome. Toccata di nuovo, la voce attiva riporta la pagina in cima.
 function BottomBar() {
   const { pathname } = useLocation();
-  const isActive = (item) => (item.exact ? pathname === item.to : pathname.startsWith(item.to));
+  // voce toccata: si evidenzia nell'istante del tocco, senza aspettare che la pagina nuova sia disegnata (poi segue la rotta vera)
+  const [want, setWant] = useState(null);
+  useEffect(() => { setWant(null); }, [pathname]);
+  const cur = want || pathname;
+  const isActive = (item) => (item.exact ? cur === item.to : cur.startsWith(item.to));
 
   return (
-    // layoutRoot: l'animazione dell'indicatore non tiene conto dello scorrimento della pagina (la barra e' fissa),
-    // cosi' non puo' staccarsi e finire a meta' schermo dopo aver scrollato. Livello proprio per evitare artefatti di Safari.
+    // layoutRoot: le animazioni non tengono conto dello scorrimento della pagina (il dock e' fisso). Livello proprio per evitare artefatti di Safari.
     <motion.nav
       layoutRoot
-      className="safe-bottom fixed inset-x-0 bottom-0 z-40"
+      className="dock-nav safe-bottom fixed inset-x-0 bottom-0 z-40 flex justify-center px-3.5 pt-2 pb-2"
       style={{
-        background: 'linear-gradient(to top, hsl(var(--background)) 62%, transparent)',
         transform: 'translate3d(0,0,0)',
         WebkitTransform: 'translate3d(0,0,0)',
         willChange: 'transform',
         contain: 'layout',
-        // app nativa: la barra in basso e' quella nativa (sempre sopra la pagina), questa resta invisibile
+        // app nativa: il dock e' quello nativo (sempre sopra la pagina), questo resta invisibile
         ...(isNative() ? { visibility: 'hidden', pointerEvents: 'none' } : null),
       }}
     >
-      <div className="mx-auto w-full max-w-[var(--app-w)] px-4 pt-2">
-        <div className="flex rounded-[26px] p-1.5" style={{ background: 'var(--sky-2)', border: '1px solid var(--glass-border)', boxShadow: 'var(--glass-shadow)' }}>
-          {ITEMS.map(({ to, label, icon: Icon, exact }) => {
-            const active = isActive({ to, exact });
-            return (
-              <Link key={to} to={to} aria-label={label} onClick={to === '/' && isNative() ? (e) => { e.preventDefault(); try { window.ReactNativeWebView.postMessage('home'); } catch (err) { /* ignora */ } } : undefined} className="press relative flex flex-1 flex-col items-center gap-1 rounded-[20px] py-2">
-                {active ? (
-                  <motion.span
-                    layoutId="nav-indicator"
-                    className="absolute inset-0 rounded-[20px]"
-                    style={{ background: 'var(--pill-active)' }}
-                    transition={{ type: 'spring', stiffness: 420, damping: 34 }}
-                  />
-                ) : null}
-                <Icon size={19} strokeWidth={1.7} className="relative" style={{ color: active ? 'var(--accent)' : 'var(--ink-3)' }} />
-                <span className="relative text-[10px] font-bold tracking-wide" style={{ color: active ? 'var(--ink)' : 'var(--ink-3)' }}>
-                  {label}
-                </span>
-              </Link>
-            );
-          })}
-        </div>
+      <div className="dock flex items-center gap-2 rounded-[26px] p-2">
+        {ITEMS.map(({ to, label, icon: Icon, exact }, j) => {
+          const active = isActive({ to, exact });
+          const onClick = (e) => {
+            if (to === '/' && isNative()) { e.preventDefault(); try { window.ReactNativeWebView.postMessage('home'); } catch (err) { /* ignora */ } return; }
+            if (exact ? pathname === to : pathname.startsWith(to)) { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
+            setWant(to);
+          };
+          return (
+            <span key={to} className="contents">
+              {j === 1 ? <span className="dock-sep" aria-hidden="true" /> : null}
+              <motion.span layout transition={T} className="block">
+                <Link
+                  to={to}
+                  aria-label={label}
+                  aria-current={active ? 'page' : undefined}
+                  onClick={onClick}
+                  className={`dock-tile ${active ? 'dock-on' : ''}`}
+                >
+                  <Icon size={21} strokeWidth={2} />
+                  {active ? <span className="dock-lab">{label}</span> : null}
+                </Link>
+              </motion.span>
+            </span>
+          );
+        })}
       </div>
     </motion.nav>
   );

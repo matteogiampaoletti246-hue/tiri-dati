@@ -4,7 +4,8 @@ import React, { createContext, memo, useCallback, useContext, useEffect, useMemo
 import { View, Text, FlatList, Pressable, ScrollView, StatusBar, Dimensions, StyleSheet, ActivityIndicator, LayoutAnimation, Platform, UIManager, AppState, Modal, TextInput, Keyboard, BackHandler, useWindowDimensions } from 'react-native';
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Image } from 'expo-image';
-import Animated, { useSharedValue, useAnimatedStyle, useAnimatedReaction, withTiming, cancelAnimation, runOnJS, Easing, interpolateColor, Keyframe } from 'react-native-reanimated';
+import Animated, { useSharedValue, useAnimatedStyle, useAnimatedReaction, withTiming, cancelAnimation, runOnJS, Easing, interpolateColor, Keyframe, LinearTransition, FadeIn } from 'react-native-reanimated';
+import { BlurView } from 'expo-blur';
 import { SafeAreaProvider, SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
@@ -16,8 +17,8 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
 
 const SITE = 'https://matteogiampaoletti246-hue.github.io/tiri-dati/';
 const W = Dimensions.get('window').width;
-const DARK = { dark: true, bg: '#05070D', ink: '#F1F5FB', ink2: '#A9B6CC', ink3: '#6D7A91', hair: 'rgba(255,255,255,.10)', border: 'rgba(255,255,255,.12)', accent: '#4DA8FF', live: '#FF6464', chip: 'rgba(255,255,255,.08)', wash: 'rgba(255,255,255,0.03)', card1: 'rgba(255,255,255,0.10)', card2: 'rgba(255,255,255,0.035)', sheet: '#0E1626', scrim: 'rgba(0,0,0,.5)' };
-const LIGHT = { dark: false, bg: '#F3F6FB', ink: '#0F172A', ink2: '#475569', ink3: '#8592A6', hair: 'rgba(15,23,42,.08)', border: 'rgba(15,23,42,.10)', accent: '#1F6BEF', live: '#E5484D', chip: 'rgba(15,23,42,.06)', wash: 'rgba(255,255,255,0.85)', card1: 'rgba(255,255,255,0.95)', card2: 'rgba(255,255,255,0.8)', sheet: '#FFFFFF', scrim: 'rgba(15,23,42,.28)' };
+const DARK = { dark: true, bg: '#05070D', ink: '#F1F5FB', ink2: '#A9B6CC', ink3: '#6D7A91', hair: 'rgba(255,255,255,.10)', border: 'rgba(255,255,255,.12)', accent: '#4DA8FF', live: '#FF6464', chip: 'rgba(255,255,255,.08)', wash: 'rgba(255,255,255,0.03)', card1: 'rgba(255,255,255,0.10)', card2: 'rgba(255,255,255,0.035)', sheet: '#0E1626', scrim: 'rgba(0,0,0,.5)', dockBg: 'rgba(14,22,38,0.62)', tile1: 'rgba(255,255,255,0.08)', accTint: 'rgba(77,168,255,0.16)', accRing: 'rgba(77,168,255,0.6)' };
+const LIGHT = { dark: false, bg: '#F3F6FB', ink: '#0F172A', ink2: '#475569', ink3: '#8592A6', hair: 'rgba(15,23,42,.08)', border: 'rgba(15,23,42,.10)', accent: '#1F6BEF', live: '#E5484D', chip: 'rgba(15,23,42,.06)', wash: 'rgba(255,255,255,0.85)', card1: 'rgba(255,255,255,0.95)', card2: 'rgba(255,255,255,0.8)', sheet: '#FFFFFF', scrim: 'rgba(15,23,42,.28)', dockBg: 'rgba(255,255,255,0.6)', tile1: 'rgba(255,255,255,0.9)', accTint: 'rgba(31,107,239,0.12)', accRing: 'rgba(31,107,239,0.55)' };
 const WORKER = 'https://scalperlab-live.matteo-giampaoletti04.workers.dev';
 const NAMES = META.names || {};
 const nm = (id, n) => NAMES[String(id)] || n;
@@ -214,14 +215,18 @@ const CountryGroup = memo(({ iso, p, forceOpen, onOpen, onLeague }) => {
   );
 });
 
-const Day = memo(({ iso, rows, filter, onOpen, onLeague }) => {
+const Day = memo(({ iso, rows, filter, onOpen, onLeague, top, isCur }) => {
   const { s } = useT();
+  const list = useRef(null);
+  // tasto Home toccato in Home: torna in cima solo il giorno mostrato (gli altri e quelli montati dopo non si muovono)
+  const seen = useRef(top); const curR = useRef(isCur); curR.current = isCur;
+  useEffect(() => { if (top !== seen.current) { seen.current = top; if (curR.current && list.current) list.current.scrollToOffset({ offset: 0, animated: true }); } }, [top]);
   const items = useMemo(() => groupsOf(rows, filter), [rows, filter]);
   const render = useCallback(({ item }) => (item.g ? <LeagueGroup iso={iso} g={item.g} forceOpen={filter === 'live'} onOpen={onOpen} onLeague={onLeague} /> : <CountryGroup iso={iso} p={item.p} forceOpen={filter === 'live'} onOpen={onOpen} onLeague={onLeague} />), [iso, filter, onOpen, onLeague]);
   if (!items.length) return <View style={{ width: W }}><Text style={s.empty}>Nessuna partita</Text></View>;
   return (
     <View style={{ width: W }}>
-      <FlatList data={items} renderItem={render} keyExtractor={(i) => i.key} initialNumToRender={4} maxToRenderPerBatch={3} updateCellsBatchingPeriod={60} windowSize={5} contentContainerStyle={{ paddingBottom: 140 }} />
+      <FlatList ref={list} data={items} renderItem={render} keyExtractor={(i) => i.key} initialNumToRender={4} maxToRenderPerBatch={3} updateCellsBatchingPeriod={60} windowSize={5} contentContainerStyle={{ paddingBottom: 140 }} />
     </View>
   );
 });
@@ -541,23 +546,37 @@ const SWIPE_GAIN = 2.2; // la pagina corre piu' veloce del dito: uno swipe legge
 const THEME_JS = "(function(){try{var send=function(){window.ReactNativeWebView.postMessage(document.documentElement.classList.contains('dark')?'dark':'light');};send();new MutationObserver(send).observe(document.documentElement,{attributes:true,attributeFilter:['class']});}catch(e){}})();true;";
 const scoreStr = (sc) => { const x = /(\d+)\s*-\s*(\d+)/.exec(String(sc || '')); return x ? `${x[1]}-${x[2]}` : null; };
 
-// barra in basso come nel sito (stesse icone): Home, Calcolatore, Giocatori, Matchup. Componente a parte e memoizzato: non si ridisegna
-// quando la Home cambia giorno o scorre; le altre pagine sono nella pagina web, che ha la sua barra.
+// Dock in basso (concept C "isola compatta", stesso disegno nel sito): Home, Calcolatore, Giocatori, Matchup. Vetro sfocato, tasselli 46 px,
+// la voce attiva si allarga in pillola con il nome. Componente a parte e memoizzato: non si ridisegna quando la Home cambia giorno o scorre.
 const isTabRoute = (r) => TABS.some(([, , x]) => x && String(r || '').startsWith(x));
 const TABS = [['Home', 'home-outline', null], ['Calcolatore', 'calculator-outline', '/calcolatore'], ['Giocatori', 'people-outline', '/migliori-giocatori'], ['Matchup', 'sword-cross', '/migliori-matchup']];
-const TabBar = memo(({ onOpen, onHome, active, bottom }) => {
+const tabOf = (r) => (TABS.find(([, , x]) => x && String(r || '').startsWith(x)) || [])[2] || '';
+const DOCK_T = LinearTransition.duration(220).easing(Easing.out(Easing.cubic));
+// voce gia' attiva toccata di nuovo: la pagina torna in cima (onTop). `live`: partite live di oggi (badge su Home, solo se ce ne sono)
+const TabBar = memo(({ onOpen, onHome, onTop, active, bottom, live }) => {
   const { C, s } = useT();
   return (
     <View pointerEvents="box-none" style={[s.tabWrap, { paddingBottom: Math.max(bottom, 8) }]}>
-      <View style={s.tabBar}>
-        {TABS.map(([label, icon, route]) => {
+      <View style={s.dock}>
+        <View pointerEvents="none" style={s.dockGlass}><BlurView intensity={40} tint={C.dark ? 'dark' : 'light'} style={StyleSheet.absoluteFill} /></View>
+        {TABS.map(([label, icon, route], j) => {
           const Ic = icon === 'sword-cross' ? MaterialCommunityIcons : Ionicons;
           const on = active === route;
           return (
-            <Pressable key={label} onPress={() => (route ? onOpen(route) : onHome())} style={[s.tabItem, on && s.tabOn]} accessibilityLabel={label}>
-              <Ic name={icon} size={21} color={on ? C.accent : C.ink3} />
-              <Text style={[s.tabTxt, on && { color: C.accent }]}>{label}</Text>
-            </Pressable>
+            <React.Fragment key={label}>
+              {j === 1 ? <View style={s.dockSep} /> : null}
+              <Animated.View layout={DOCK_T}>
+                <Pressable
+                  onPress={() => (on ? onTop(route) : route ? onOpen(route) : onHome())}
+                  accessibilityRole="button" accessibilityLabel={label} accessibilityState={{ selected: on }}
+                  style={({ pressed }) => [s.dockTile, on && s.dockOn, pressed && s.dockPressed]}
+                >
+                  <Ic name={icon} size={21} color={on ? C.accent : C.ink2} />
+                  {on ? <Animated.Text entering={FadeIn.duration(180)} numberOfLines={1} style={s.dockTxt}>{label}</Animated.Text> : null}
+                  {!route && live > 0 ? <View style={s.dockBadge}><Text style={s.dockBadgeTxt}>{live > 99 ? '99+' : live}</Text></View> : null}
+                </Pressable>
+              </Animated.View>
+            </React.Fragment>
           );
         })}
       </View>
@@ -609,7 +628,8 @@ function Screen({ onTheme, onReset }) {
   const readyRef = useRef(false);
   const [webOpen, setWebOpen] = useState(false);   // la pagina web e' sopra la Home (la barra in basso e' sempre quella nativa)
   const [barOn, setBarOn] = useState(false);       // la barra nativa si vede solo in Home e nelle tre schede (Calcolatore, Giocatori, Matchup)
-  const [webRoute, setWebRoute] = useState('');     // rotta mostrata dalla pagina web (per evidenziare la voce giusta)
+  const [tab, setTab] = useState('');               // voce della barra scelta: si evidenzia nell'istante del tocco (poi segue `route:` della pagina)
+  const [homeTop, setHomeTop] = useState(0);        // tasto Home toccato in Home: la lista del giorno torna in cima
   const [busy, setBusy] = useState(false); // apertura in corso: rotella al posto della pagina vecchia
   const webPath = useRef('');               // percorso che la pagina web dice di mostrare (messaggio `route:`)
   const awaitRoute = useRef(null);
@@ -789,17 +809,33 @@ function Screen({ onTheme, onReset }) {
     return () => sub.remove();
   }, [onReset, recover, ov]);
   const openRoute = useCallback((route) => {
-    openRef.current = true; lastRoute.current = route; setWebOpen(true); setDepth(0); setBarOn(isTabRoute(route));
+    openRef.current = true; lastRoute.current = route; setWebOpen(true); setDepth(0); setBarOn(isTabRoute(route)); setTab(tabOf(route));
     if (!readyRef.current) { startRoute.current = route; setWarm(true); }
     const path = route.split('?')[0];
-    if (webPath.current !== path) { // la pagina web e' gia' su questa rotta (riapertura veloce): niente attesa
+    // la pagina web e' gia' su questa rotta (riapertura veloce, o tocco che torna alla pagina mostrata prima che l'altra arrivasse): niente attesa.
+    // Prima l'attesa della rotta precedente restava accesa: rotella per 4 s e poi pagina web ricaricata da zero.
+    if (webPath.current === path) endBusy();
+    else {
       awaitRoute.current = path; setBusy(true);
-      clearTimeout(busyTimer.current); busyTimer.current = setTimeout(() => { if (awaitRoute.current) recover(); endBusy(); }, 4000); // rete di sicurezza: mai rotella infinita; se la pagina non ha risposto e' morta: si ricrea sulla rotta chiesta
+      // rete di sicurezza: mai rotella infinita. Dopo 4 s si chiede alla pagina se e' viva: se risponde e' solo lenta (si mostra com'e'),
+      // se tace e' morta e si ricrea sulla rotta chiesta. Prima si ricreava sempre: una pagina lenta veniva ricaricata da zero.
+      clearTimeout(busyTimer.current);
+      busyTimer.current = setTimeout(() => {
+        if (!awaitRoute.current) return;
+        const t0 = Date.now();
+        try { webRef.current.injectJavaScript("try{window.ReactNativeWebView.postMessage('pong')}catch(e){};true;"); } catch (e) { /* ignora */ }
+        busyTimer.current = setTimeout(() => { if (awaitRoute.current && pongAt.current < t0) recover(); endBusy(); }, 1200);
+      }, 4000);
     }
     hashTo(`#${route}`);
     ov.value = withTiming(0, { duration: 260, easing: Easing.out(Easing.cubic) });
   }, [hashTo, ov, endBusy, recover]);
-  const afterClose = useCallback(() => { hashTo('#/linee-guida'); setDepth(0); }, [hashTo]);
+  // la pagina web lascia la scheda mostrata: riaprendo la stessa voce si aspetta il suo disegno (niente Linee guida intraviste)
+  const afterClose = useCallback(() => { webPath.current = ''; hashTo('#/linee-guida'); setDepth(0); }, [hashTo]);
+  const onTop = useCallback((route) => {
+    if (!route) { setHomeTop((n) => n + 1); return; }
+    if (readyRef.current && webRef.current) webRef.current.injectJavaScript("try{window.scrollTo({top:0,behavior:'smooth'})}catch(e){};true;");
+  }, []);
   const closeWeb = useCallback(() => { openRef.current = false; setWebOpen(false); ov.value = withTiming(W, { duration: 240, easing: Easing.out(Easing.cubic) }, (done) => { if (done) runOnJS(afterClose)(); }); }, [afterClose, ov]);
   const openMatch = useCallback((m) => {
     // sempre la scheda d'archivio della stagione in corso: il percorso del feed (x-) trova la partita solo se il sito ha gia' caricato
@@ -814,7 +850,7 @@ function Screen({ onTheme, onReset }) {
     else if (typeof t === 'string' && t.startsWith('srch:')) { const k = t.indexOf(':', 5); if (Number(t.slice(5, k)) === srchSeq.current) { try { setSrchRes(JSON.parse(t.slice(k + 1))); } catch (err) { /* ignora */ } } } // risultati della ricerca (calcolati dalla pagina web: stessi del sito)
     else if (typeof t === 'string' && t.startsWith('ui:state:')) { const [th, pf] = t.slice(9).split(':'); setUi({ theme: th, perf: pf === '1' }); }
     else if (t === 'ui:search' || t === 'ui:menu') { if (openRef.current) closeWeb(); setMenu(t === 'ui:menu'); setSrch(t === 'ui:search'); } // vecchi link /cerca e /menu: Home con la tendina aperta
-    else if (typeof t === 'string' && t.startsWith('route:')) { webPath.current = t.slice(6); setWebRoute(webPath.current); setBarOn(isTabRoute(webPath.current)); if (awaitRoute.current === webPath.current) endBusy(); } // la pagina web ha disegnato questa rotta
+    else if (typeof t === 'string' && t.startsWith('route:')) { webPath.current = t.slice(6); if (!awaitRoute.current || awaitRoute.current === webPath.current) { setTab(tabOf(webPath.current)); setBarOn(isTabRoute(webPath.current)); } if (awaitRoute.current === webPath.current) endBusy(); } // la pagina web ha disegnato questa rotta
     else if (typeof t === 'string' && t.startsWith('depth:')) setDepth(Number(t.slice(6)) || 0);
     else if (typeof t === 'string' && t.startsWith('drag:')) { const d = Number(t.slice(5)); ov.value = d < 0 ? withTiming(0, { duration: 180 }) : withTiming(d, { duration: 90, easing: Easing.linear }); } // swipe indietro partito dentro la pagina web (prima pagina dopo la Home)
     else if (t === 'home' && openRef.current) closeWeb(); // il tasto indietro del sito e' tornato alla pagina di partenza: si torna alla Home
@@ -866,6 +902,7 @@ function Screen({ onTheme, onReset }) {
 
   if (!data) return <View style={[s.root, { alignItems: 'center', justifyContent: 'center' }]}><ActivityIndicator color={C.accent} /></View>;
   if (warm && !bootUri.current) bootUri.current = `${SITE}aurora/#${startRoute.current}`; // fissato al primo montaggio: cambiarlo dopo ricaricherebbe la pagina
+  const tIdx = keys.indexOf(todayKey); const liveN = tIdx >= 0 ? data[tIdx].reduce((n, m) => n + (m[8] === 'l' ? 1 : 0), 0) : 0; // badge del dock: partite live di oggi
   const shown = [cur - 2, cur - 1, cur, cur + 1, cur + 2].filter((i) => i >= 0 && i < N);
   return (
     <View style={[s.root, { paddingTop: insets.top }]}>
@@ -884,7 +921,7 @@ function Screen({ onTheme, onReset }) {
       </View>
       <GestureDetector gesture={pan}>
         <View style={{ flex: 1, overflow: 'hidden' }}>
-          {shown.map((i) => <Pane key={i} idx={i} x={x}><Day iso={keys[i]} rows={data[i]} filter={filter === 'live' && keys[i] === todayKey ? 'live' : 'all'} onOpen={openMatch} onLeague={openRoute} /></Pane>)}
+          {shown.map((i) => <Pane key={i} idx={i} x={x}><Day iso={keys[i]} rows={data[i]} filter={filter === 'live' && keys[i] === todayKey ? 'live' : 'all'} onOpen={openMatch} onLeague={openRoute} top={homeTop} isCur={i === cur} /></Pane>)}
         </View>
       </GestureDetector>
       <Calendar visible={cal} selected={dates[cur] || new Date()} onClose={() => setCal(false)} onPick={pick} />
@@ -900,7 +937,7 @@ function Screen({ onTheme, onReset }) {
         </View>
         <GestureDetector gesture={edge}><View pointerEvents={depth > 0 ? 'none' : 'auto'} style={[s.edge, { width: EDGE_W, top: insets.top + 98 }]} /></GestureDetector>
       </Animated.View>
-      {!webOpen || barOn ? <TabBar onOpen={openRoute} onHome={closeWeb} active={webOpen ? (TABS.find(([, , r]) => r && webRoute.startsWith(r)) || [])[2] || '' : null} bottom={insets.bottom} /> : null}
+      {!webOpen || barOn ? <TabBar onOpen={openRoute} onHome={closeWeb} onTop={onTop} active={webOpen ? tab : null} bottom={insets.bottom} live={liveN} /> : null}
       {/* tendine della riga in alto: sopra la Home e sopra la barra (la barra non cambia) */}
       <SearchPanel open={srch} onClose={closeSrch} onPick={pickSrch} ask={askSearch} res={srchRes} ready={ready} top={insets.top + 4} />
       <MenuPanel open={menu} onClose={closeMenu} onGo={goMenu} ui={ui} onCmd={uiCmd} top={insets.top} bottom={insets.bottom} />
@@ -950,11 +987,16 @@ const makeStyles = (C) => StyleSheet.create({
   filters: { paddingHorizontal: 20, paddingVertical: 6 },
   fBtn: { color: C.ink3, fontSize: 13.5, fontWeight: '500' },
   fOn: { color: C.ink, fontWeight: '700' },
-  tabWrap: { position: 'absolute', left: 0, right: 0, bottom: 0, paddingHorizontal: 16, paddingTop: 8 },
-  tabBar: { flexDirection: 'row', padding: 6, borderRadius: 26, backgroundColor: C.sheet, borderWidth: 1, borderColor: C.border },
-  tabItem: { flex: 1, alignItems: 'center', gap: 3, paddingVertical: 8, borderRadius: 20 },
-  tabOn: { backgroundColor: C.chip },
-  tabTxt: { color: C.ink3, fontSize: 10.5, fontWeight: '700' },
+  tabWrap: { position: 'absolute', left: 0, right: 0, bottom: 0, paddingHorizontal: 14, paddingTop: 8, alignItems: 'center' },
+  dock: { flexDirection: 'row', alignItems: 'center', gap: 8, padding: 8, borderRadius: 26, backgroundColor: C.dockBg, borderWidth: 1, borderColor: C.border, shadowColor: '#000', shadowOpacity: C.dark ? 0.6 : 0.18, shadowRadius: 18, shadowOffset: { width: 0, height: 10 } },
+  dockGlass: { ...StyleSheet.absoluteFillObject, borderRadius: 26, overflow: 'hidden' },
+  dockSep: { width: StyleSheet.hairlineWidth * 2, height: 26, backgroundColor: C.border },
+  dockTile: { height: 46, minWidth: 46, borderRadius: 16, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7, backgroundColor: C.tile1, borderWidth: 1, borderColor: C.border },
+  dockOn: { paddingLeft: 13, paddingRight: 16, backgroundColor: C.accTint, borderWidth: 1.5, borderColor: C.accRing },
+  dockPressed: { transform: [{ scale: 0.92 }], opacity: 0.85 },
+  dockTxt: { color: C.accent, fontSize: 13.5, fontWeight: '800' },
+  dockBadge: { position: 'absolute', top: -5, right: -5, minWidth: 18, height: 18, paddingHorizontal: 4, borderRadius: 9, backgroundColor: C.live, alignItems: 'center', justifyContent: 'center', borderWidth: 2, borderColor: C.bg },
+  dockBadgeTxt: { color: '#FFFFFF', fontSize: 10, fontWeight: '800' },
   fLive: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   liveDot: { width: 5, height: 5, borderRadius: 3, backgroundColor: C.live },
   card: { marginHorizontal: 16, marginTop: 16, borderRadius: 26, overflow: 'hidden', borderWidth: 1, borderColor: C.border },
