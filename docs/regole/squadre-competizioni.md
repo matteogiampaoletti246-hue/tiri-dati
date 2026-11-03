@@ -7,6 +7,7 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 - Giocatori: tutti (attuali, ritirati, stagioni passate) usano la scheda `pages/Player.jsx` con Profilo / Partite / Statistiche / Carriera. Chi non è nell'elenco attuale si costruisce da `data/archivePlayer.js` (id `fm~<lega>~<stagione>~<id FotMob>`).
 - Rose: gruppi per ruolo con volti; per i minori i dati arrivano da `rose.json` (`update_rose.py`, giornaliero). Spaziatura: stessa distanza sopra il primo giocatore, tra i giocatori e sotto l'ultimo.
 - Allenatore nel banner squadra: da `rose.json` (FotMob), poi dalle formazioni.
+- Banner di campionato, squadra e giocatore (`EntityBanner.jsx`, un solo componente, concept 3B): freccia piccola senza cerchio, nome in grassetto senza logo accanto; a destra, dietro, lo stemma grande (il volto per i giocatori, `PlayerPhoto`) che sfuma verso sinistra con `mask-image`, mai una copertura sopra. Tendina stagione larga quanto il contenuto (`SeasonDrop`).
 
 ## Stagioni e competizioni
 - Il tasto stagione elenca SOLO le stagioni in cui squadra/giocatore ha davvero giocato quella competizione (`useSeasonList`, `teamSeasons`, `playerSeasons`).

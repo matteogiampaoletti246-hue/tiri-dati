@@ -33,7 +33,7 @@ export default function SeasonDrop({ seasons, value, currentLabel, onSelect }) {
   const close = () => setOpen(false);
   return (
     <>
-      <button ref={btn} type="button" data-no-swipe="true" onClick={() => setOpen((o) => !o)} className="glass press flex min-w-[150px] items-center justify-between gap-2 rounded-[14px] py-1.5 pl-3.5 pr-3 text-[13px] font-bold" style={{ color: 'var(--ink)' }}>
+      <button ref={btn} type="button" data-no-swipe="true" onClick={() => setOpen((o) => !o)} className="glass press inline-flex items-center gap-1.5 rounded-[14px] py-1.5 pl-3 pr-2.5 text-[13px] font-bold" style={{ color: 'var(--ink)' }}>
         <span className="tnum">{label(value)}</span>
         <ChevronDown size={15} strokeWidth={2.2} style={{ color: 'var(--ink-3)', transform: open ? 'rotate(180deg)' : 'none', transition: 'transform .3s' }} />
       </button>
