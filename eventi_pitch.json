@@ -1,14 +1,14 @@
 {
  "competizioni": {
-  "Saudi First Division 2026-2027": {
+  "League One 2026-2027": {
    "partite_con_eventi": 1,
    "da_fare": 1
   }
  },
  "tipi_visti": {
-  "goal": 1,
-  "yellowcard": 6,
-  "substitution": 7
+  "substitution": 7,
+  "yellowcard": 1,
+  "goal": 2
  },
  "partite_in_questo_giro": 1,
  "orientamento_cambi": "player esce"
