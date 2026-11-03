@@ -1,7 +1,6 @@
 import PlayerPhoto from '@/components/PlayerPhoto';
-import { useModalLock } from '@/lib/modal';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { createPortal } from 'react-dom';
+import { useMemo, useRef } from 'react';
+import Drawer from '@/components/ui/Drawer';
 import { useNavigate } from 'react-router-dom';
 import { X, ChevronRight } from 'lucide-react';
 import Crest from '@/components/Crest';
@@ -257,56 +256,14 @@ export default function PlayerSheetHost() {
   const c = useCard(sheet);
   const concept = 'a'; // scelto: mappa tiri A + statistiche A
   const navigate = useNavigate();
-  const sheetRef = useRef(null);
+  const drawerRef = useRef(null);
   const slideRef = useRef(null);
   const scroller = useRef(null);
-  const backdropRef = useRef(null);
   const busy = useRef(false);
   const live = useRef({});
   live.current = { c, sheet };
-  useModalLock(!!sheet); // pagina sotto immobile, niente swipe di giorni/schede/indietro mentre la finestra e' aperta
-  // iPhone: con la pagina live che cresce Safari a volte accorcia il riquadro degli elementi fissi (finestra a meta' schermo, pagina non oscurata sotto):
-  // la finestra si misura sullo schermo vero (visualViewport) e si rimisura se cambia
-  const [vbox, setVbox] = useState(null);
-  useEffect(() => {
-    if (!sheet) return undefined;
-    const vv = window.visualViewport;
-    if (!vv) return undefined;
-    const upd = () => {
-      const a = document.activeElement;
-      if (a && /^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName)) return;
-      // senza tastiera lo schermo e' almeno alto quanto il riquadro della pagina: un visualViewport rimasto corto (tastiera chiusa mentre l'app era in background) non accorcia la finestra
-      const h = Math.max(Math.round(vv.height), Math.round(window.innerHeight || 0));
-      const t = Math.round(vv.offsetTop);
-      setVbox((o) => (o && o.h === h && o.t === t ? o : { h, t }));
-    };
-    upd();
-    vv.addEventListener('resize', upd);
-    vv.addEventListener('scroll', upd);
-    window.addEventListener('resize', upd);
-    window.addEventListener('sl-resume', upd);
-    const iv = setInterval(upd, 700);
-    return () => { vv.removeEventListener('resize', upd); vv.removeEventListener('scroll', upd); window.removeEventListener('resize', upd); window.removeEventListener('sl-resume', upd); clearInterval(iv); setVbox(null); };
-  }, [!!sheet]);
 
-  useEffect(() => {
-    if (!sheet) return undefined;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => { document.body.style.overflow = prev; };
-  }, [sheet]);
-
-  const close = () => {
-    const el = sheetRef.current;
-    const bd = backdropRef.current;
-    if (!el || busy.current) { closePlayer(); return; }
-    busy.current = true;
-    el.style.transition = 'transform .3s cubic-bezier(.4,0,.6,1)';
-    el.style.transform = 'translate3d(0,105%,0)';
-    if (bd) { bd.style.transition = 'opacity .3s ease'; bd.style.opacity = '0'; }
-    setTimeout(() => { busy.current = false; closePlayer(); }, 300);
-  };
-  live.current.close = close;
+  const close = () => { if (drawerRef.current) drawerRef.current.close(); else closePlayer(); };
 
   const go = (d) => {
     const { c: cc } = live.current;
@@ -325,125 +282,67 @@ export default function PlayerSheetHost() {
     carousel(slideRef.current, dx0, d, () => {
       openPlayer({ matchId: sh.matchId, name: to.name, fmId: to.fmId });
       if (scroller.current) scroller.current.scrollTop = 0;
-    }, () => { busy.current = false; }, 300, sheetRef.current);
+    }, () => { busy.current = false; }, 300, drawerRef.current && drawerRef.current.el);
     return true;
   }
 
-  // gesti con eventi touch nativi: swipe laterale tra compagni, trascinamento verso il basso per chiudere
-  useEffect(() => {
-    const root = sheetRef.current;
-    if (!root || !sheet) return undefined;
-    let st = null;
-    const onStart = (e) => {
-      finishCarousel();
-      if (busy.current || e.touches.length !== 1) { st = null; return; }
-      const tgt = e.target;
-      const inScroller = scroller.current && scroller.current.contains(tgt);
-      st = {
-        x: e.touches[0].clientX,
-        y: e.touches[0].clientY,
-        t: Date.now(),
-        axis: null,
-        noH: !!(tgt.closest && tgt.closest('[data-no-swipe]')),
-        top: !inScroller || scroller.current.scrollTop <= 0,
-      };
-    };
-    const onMove = (e) => {
-      if (!st) return;
-      const dx = e.touches[0].clientX - st.x;
-      const dy = e.touches[0].clientY - st.y;
-      if (!st.axis) {
-        if (Math.abs(dx) < 9 && Math.abs(dy) < 9) return;
-        if (Math.abs(dx) > Math.abs(dy) * 1.2) st.axis = st.noH ? 'none' : 'x';
-        else if (dy > 0 && st.top) st.axis = 'y';
-        else st.axis = 'none';
+  // swipe laterale tra compagni (il drawer gestisce il verticale)
+  const swipeX = useRef(null);
+  swipeX.current = swipeX.current || {
+    start: () => finishCarousel(),
+    move: (dx) => {
+      const el = slideRef.current;
+      const cc = live.current.c;
+      const edge = !cc || cc.idx < 0 || (dx > 0 && cc.idx === 0) || (dx < 0 && cc.idx === cc.roster.length - 1);
+      live.current.dragDx = edge ? dx * 0.25 : dx;
+      if (el) {
+        el.style.transition = 'none';
+        el.style.transform = `translate3d(${edge ? dx * 0.25 : dx}px,0,0)`;
+        el.style.opacity = String(Math.max(0.5, 1 - Math.abs(dx) / 600));
       }
-      if (st.axis === 'none') return;
-      if (e.cancelable) e.preventDefault();
-      if (st.axis === 'x') {
-        const el = slideRef.current;
-        const cc = live.current.c;
-        const edge = !cc || cc.idx < 0 || (dx > 0 && cc.idx === 0) || (dx < 0 && cc.idx === cc.roster.length - 1);
-        live.current.dragDx = edge ? dx * 0.25 : dx;
-        if (el) {
-          el.style.transition = 'none';
-          el.style.transform = `translate3d(${edge ? dx * 0.25 : dx}px,0,0)`;
-          el.style.opacity = String(Math.max(0.5, 1 - Math.abs(dx) / 600));
-        }
-      } else {
-        root.style.transition = 'none';
-        root.style.transform = `translate3d(0,${Math.max(0, dy) * 0.95}px,0)`;
-        if (backdropRef.current) backdropRef.current.style.opacity = String(Math.max(0.3, 1 - dy / 500));
+    },
+    end: (dx, cancel, ms) => {
+      const el = slideRef.current;
+      if (!cancel && (Math.abs(dx) > 70 || Math.abs(dx) / Math.max(80, ms) > 0.45) && go(dx < 0 ? 1 : -1)) return;
+      live.current.dragDx = 0;
+      if (el) {
+        el.style.transition = 'transform .25s cubic-bezier(.22,.8,.24,1), opacity .25s ease';
+        el.style.transform = 'translate3d(0,0,0)';
+        el.style.opacity = '1';
+        setTimeout(() => { el.style.transition = ''; el.style.transform = ''; }, 270);
       }
-    };
-    const onEnd = (e) => {
-      const d = st;
-      st = null;
-      if (!d || !d.axis || d.axis === 'none') return;
-      const t = (e.changedTouches && e.changedTouches[0]) || { clientX: d.x, clientY: d.y };
-      const dx = t.clientX - d.x;
-      const dy = t.clientY - d.y;
-      const v = Math.max(80, Date.now() - d.t);
-      if (d.axis === 'x') {
-        const el = slideRef.current;
-        if ((Math.abs(dx) > 70 || Math.abs(dx) / v > 0.45) && go(dx < 0 ? 1 : -1)) return;
-        live.current.dragDx = 0;
-        if (el) {
-          el.style.transition = 'transform .25s cubic-bezier(.22,.8,.24,1), opacity .25s ease';
-          el.style.transform = 'translate3d(0,0,0)';
-          el.style.opacity = '1';
-          setTimeout(() => { el.style.transition = ''; el.style.transform = ''; }, 270);
-        }
-      } else if (dy > 110 || dy / v > 0.6) {
-        live.current.close();
-      } else {
-        root.style.transition = 'transform .28s cubic-bezier(.22,.8,.24,1)';
-        root.style.transform = 'translate3d(0,0,0)';
-        if (backdropRef.current) backdropRef.current.style.opacity = '1';
-        setTimeout(() => { root.style.transition = ''; root.style.transform = ''; }, 300);
-      }
-    };
-    root.addEventListener('touchstart', onStart, { passive: true });
-    root.addEventListener('touchmove', onMove, { passive: false });
-    root.addEventListener('touchend', onEnd, { passive: true });
-    root.addEventListener('touchcancel', onEnd, { passive: true });
-    return () => {
-      root.removeEventListener('touchstart', onStart);
-      root.removeEventListener('touchmove', onMove);
-      root.removeEventListener('touchend', onEnd);
-      root.removeEventListener('touchcancel', onEnd);
-    };
-  }, [!!sheet && !!c]);
+    },
+  };
 
-  return createPortal(
-    sheet && c ? (
-      <div data-no-back="1" role="dialog" aria-modal="true" className="fixed inset-x-0 z-[80]" style={vbox ? { top: vbox.t, height: vbox.h, touchAction: 'none' } : { top: 0, bottom: 0, touchAction: 'none' }}>
-        <div ref={backdropRef} aria-hidden="true" className="absolute inset-0" style={{ background: 'rgba(0,0,0,.55)', animation: 'slfade .25s ease' }} onClick={close} onTouchMove={(e) => { if (e.cancelable) e.preventDefault(); }} />
-        <div
-          ref={sheetRef}
-          className="absolute inset-x-0 bottom-0 mx-auto flex w-full max-w-[var(--sheet-w)] flex-col overflow-hidden rounded-t-[28px]"
-          style={{ height: vbox ? Math.round(vbox.h * 0.92) : '92dvh', background: `linear-gradient(180deg, ${c.team ? c.team.colors[0] : '#2a3a66'}88, transparent 230px), var(--sky-2)`, border: '1px solid var(--glass-border)', boxShadow: '0 -20px 60px rgba(0,0,0,.5)', animation: 'slup .34s cubic-bezier(.22,.8,.24,1)', touchAction: 'pan-y' }}
-        >
-          <div className="shrink-0 pb-1 pt-2.5">
-            <span className="mx-auto block h-[5px] w-10 rounded-full" style={{ background: 'var(--hair)' }} />
-          </div>
-          <div ref={slideRef} className="flex min-h-0 flex-1 flex-col">
-            <div className="shrink-0"><Header c={c} concept={concept} onOpen={c.ourId ? () => { closePlayer(); navigate(`/giocatore/${c.ourId}`); } : null} /></div>
-            <div ref={scroller} className="min-h-0 flex-1 overflow-y-auto overscroll-contain" style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-y', overscrollBehavior: 'contain' }}>
-              <Body c={c} concept={concept} onOpen={(to, d) => switchTo(to, d)} />
-              <div style={{ height: 84 }} />
-            </div>
-          </div>
-          <div className="absolute inset-x-0 bottom-0 flex items-center gap-3 px-5 pb-[max(14px,env(safe-area-inset-bottom))] pt-3" style={{ background: 'linear-gradient(to top, var(--sky-2) 70%, transparent)' }}>
-            <button type="button" onClick={close} aria-label="Chiudi" className="press flex h-12 w-12 items-center justify-center rounded-full" style={{ background: 'var(--pill-bg)', border: '1px solid var(--glass-border)' }}><X size={20} /></button>
-            <span className="flex-1" />
-            {c.ourId ? (
-              <button type="button" className="press rounded-full px-6 py-3 text-[14px] font-extrabold" style={{ background: 'var(--accent)', color: '#fff' }} onClick={() => { closePlayer(); navigate(`/giocatore/${c.ourId}`); }}>Profilo</button>
-            ) : null}
-          </div>
+  if (!sheet || !c) return null;
+  const toProfile = c.ourId ? () => { closePlayer(); navigate(`/giocatore/${c.ourId}`); } : null;
+  return (
+    <Drawer
+      ref={drawerRef}
+      onClose={closePlayer}
+      snapPoints={[0.55, 0.92]}
+      label={c.name}
+      scrollRef={scroller}
+      onSwipeX={swipeX.current}
+      isBusy={() => busy.current}
+      style={{ background: `linear-gradient(180deg, ${c.team ? c.team.colors[0] : '#2a3a66'}88, transparent 230px), var(--sky-2)` }}
+      footer={(
+        <div className="flex items-center gap-3 px-5 pb-[max(14px,env(safe-area-inset-bottom))] pt-3" style={{ background: 'linear-gradient(to top, var(--sky-2) 70%, transparent)' }}>
+          <button type="button" onClick={close} aria-label="Chiudi" className="press flex h-12 w-12 items-center justify-center rounded-full" style={{ background: 'var(--pill-bg)', border: '1px solid var(--glass-border)' }}><X size={20} /></button>
+          <span className="flex-1" />
+          {toProfile ? (
+            <button type="button" className="press rounded-full px-6 py-3 text-[14px] font-extrabold" style={{ background: 'var(--accent)', color: '#fff' }} onClick={toProfile}>Profilo</button>
+          ) : null}
+        </div>
+      )}
+    >
+      <div ref={slideRef} className="flex min-h-0 flex-1 flex-col">
+        <div className="shrink-0"><Header c={c} concept={concept} onOpen={toProfile} /></div>
+        <div ref={scroller} className="min-h-0 flex-1 overflow-y-auto overscroll-contain" style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-y', overscrollBehavior: 'contain' }}>
+          <Body c={c} concept={concept} onOpen={(to, d) => switchTo(to, d)} />
+          <div style={{ height: 'calc(84px + env(safe-area-inset-bottom))' }} />
         </div>
       </div>
-    ) : null,
-    document.body,
+    </Drawer>
   );
 }
