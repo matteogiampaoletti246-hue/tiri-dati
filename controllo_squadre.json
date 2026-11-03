@@ -6004,16 +6004,8 @@
  "rose": {
   "squadre": 5202,
   "senza_rosa_prima": 4333,
-  "senza_rosa_dopo": 622,
+  "senza_rosa_dopo": 592,
   "senza_rosa": [
-   {
-    "squadra": "12 Bingölspor",
-    "id": "581800",
-    "competizioni": [
-     "Turkish Cup 2026-2027"
-    ],
-    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
-   },
    {
     "squadra": "1A",
     "id": "1870",
@@ -6499,14 +6491,6 @@
     "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
-    "squadra": "Adana Adaletgucu SF",
-    "id": "2355223",
-    "competizioni": [
-     "Turkish Cup 2026-2027"
-    ],
-    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
-   },
-   {
     "squadra": "Ain Sud Foot",
     "id": "238963",
     "competizioni": [
@@ -6643,14 +6627,6 @@
     "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
-    "squadra": "Anadolu Üniversitesi",
-    "id": "1687780",
-    "competizioni": [
-     "Turkish Cup 2026-2027"
-    ],
-    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
-   },
-   {
     "squadra": "Angevin",
     "id": "497142",
     "competizioni": [
@@ -6687,14 +6663,6 @@
     "id": "2386907",
     "competizioni": [
      "Coupe de France 2026-2027"
-    ],
-    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
-   },
-   {
-    "squadra": "Army Rockets",
-    "id": "1899969",
-    "competizioni": [
-     "Nedbank Cup 2025-2026"
     ],
     "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
@@ -6755,22 +6723,6 @@
     "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
-    "squadra": "Atletico Calatayud",
-    "id": "190104",
-    "competizioni": [
-     "Copa del Rey 2026-2027"
-    ],
-    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
-   },
-   {
-    "squadra": "Atletico Pinatarense",
-    "id": "2341166",
-    "competizioni": [
-     "Copa del Rey 2026-2027"
-    ],
-    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
-   },
-   {
     "squadra": "Atomic Ngome",
     "id": "2161016",
     "competizioni": [
@@ -6825,14 +6777,6 @@
      "Second League 2026-2027"
     ],
     "motivo": "nessuna partita giocata nella stagione in corso"
-   },
-   {
-    "squadra": "Bangor 1876",
-    "id": "1503255",
-    "competizioni": [
-     "Welsh Cup 2025-2026"
-    ],
-    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
     "squadra": "Banos",
@@ -7087,14 +7031,6 @@
     "id": "238688",
     "competizioni": [
      "Coupe de France 2026-2027"
-    ],
-    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
-   },
-   {
-    "squadra": "Bursa Yıldırımspor",
-    "id": "1088447",
-    "competizioni": [
-     "Turkish Cup 2026-2027"
     ],
     "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
@@ -7635,22 +7571,6 @@
     "motivo": "nessuna partita giocata nella stagione in corso"
    },
    {
-    "squadra": "Düzcespor",
-    "id": "162992",
-    "competizioni": [
-     "Turkish Cup 2026-2027"
-    ],
-    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
-   },
-   {
-    "squadra": "Düzyurtspor",
-    "id": "468166",
-    "competizioni": [
-     "Turkish Cup 2026-2027"
-    ],
-    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
-   },
-   {
     "squadra": "EC São Bernardo",
     "id": "581896",
     "competizioni": [
@@ -7947,14 +7867,6 @@
     "motivo": "nessuna partita giocata nella stagione in corso"
    },
    {
-    "squadra": "FC Masar",
-    "id": "1786755",
-    "competizioni": [
-     "Egypt Cup 2025-2026"
-    ],
-    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
-   },
-   {
     "squadra": "FC Montlouis",
     "id": "402254",
     "competizioni": [
@@ -8211,14 +8123,6 @@
     "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
-    "squadra": "Gemlik Sumerbey Spor",
-    "id": "2355143",
-    "competizioni": [
-     "Turkish Cup 2026-2027"
-    ],
-    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
-   },
-   {
     "squadra": "Generation Emblavez Jeunes",
     "id": "2386897",
     "competizioni": [
@@ -8291,14 +8195,6 @@
     "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
-    "squadra": "Hakkari Zap Spor",
-    "id": "2355111",
-    "competizioni": [
-     "Turkish Cup 2026-2027"
-    ],
-    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
-   },
-   {
     "squadra": "Hallingdal FK",
     "id": "428159",
     "competizioni": [
@@ -8333,22 +8229,6 @@
    {
     "squadra": "Hapoel Arad",
     "id": "2357782",
-    "competizioni": [
-     "State Cup 2026-2027"
-    ],
-    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
-   },
-   {
-    "squadra": "Hapoel Azor",
-    "id": "1420906",
-    "competizioni": [
-     "State Cup 2026-2027"
-    ],
-    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
-   },
-   {
-    "squadra": "Hapoel Bnei Jisr az-Zarqa",
-    "id": "2260743",
     "competizioni": [
      "State Cup 2026-2027"
     ],
@@ -8439,14 +8319,6 @@
     "id": "1863830",
     "competizioni": [
      "Coupe de France Féminine 2025-2026"
-    ],
-    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
-   },
-   {
-    "squadra": "Highbury",
-    "id": "1899971",
-    "competizioni": [
-     "Nedbank Cup 2025-2026"
     ],
     "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
@@ -8683,26 +8555,10 @@
     "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
-    "squadra": "Kahramanmaras Istiklalspor",
-    "id": "1784548",
-    "competizioni": [
-     "Turkish Cup 2026-2027"
-    ],
-    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
-   },
-   {
     "squadra": "Kanazawa Seiryo University",
     "id": "941016",
     "competizioni": [
      "Emperor's Cup 2026"
-    ],
-    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
-   },
-   {
-    "squadra": "Kars 36 Spor",
-    "id": "1088990",
-    "competizioni": [
-     "Turkish Cup 2026-2027"
     ],
     "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
@@ -9252,14 +9108,6 @@
     "motivo": "nessuna partita giocata nella stagione in corso"
    },
    {
-    "squadra": "Novyi Rozdil",
-    "id": "2260427",
-    "competizioni": [
-     "Ukraine Cup 2026-2027"
-    ],
-    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
-   },
-   {
     "squadra": "Nueillaubiers",
     "id": "1103481",
     "competizioni": [
@@ -9537,22 +9385,6 @@
     "id": "1688161",
     "competizioni": [
      "Coupe de France 2026-2027"
-    ],
-    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
-   },
-   {
-    "squadra": "Rhyl 1879",
-    "id": "1914729",
-    "competizioni": [
-     "Welsh Cup 2025-2026"
-    ],
-    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
-   },
-   {
-    "squadra": "Ribadesella CF",
-    "id": "189591",
-    "competizioni": [
-     "Copa del Rey 2026-2027"
     ],
     "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
@@ -9838,14 +9670,6 @@
     "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
-    "squadra": "Sebatspor",
-    "id": "2167",
-    "competizioni": [
-     "Turkish Cup 2026-2027"
-    ],
-    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
-   },
-   {
     "squadra": "Sevastopol",
     "id": "566806",
     "competizioni": [
@@ -9965,22 +9789,6 @@
      "League Cup 2026-2027"
     ],
     "motivo": "nessuna partita giocata nella stagione in corso"
-   },
-   {
-    "squadra": "Sporting Hortaleza",
-    "id": "2360741",
-    "competizioni": [
-     "Copa del Rey 2026-2027"
-    ],
-    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
-   },
-   {
-    "squadra": "Sporting de Alcazar",
-    "id": "190128",
-    "competizioni": [
-     "Copa del Rey 2026-2027"
-    ],
-    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
     "squadra": "Sportive Gueretoise",
@@ -10272,14 +10080,6 @@
     "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
-    "squadra": "UB Lebrijana",
-    "id": "477697",
-    "competizioni": [
-     "Copa del Rey 2026-2027"
-    ],
-    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
-   },
-   {
     "squadra": "UDIB",
     "id": "2161026",
     "competizioni": [
@@ -10456,14 +10256,6 @@
     "motivo": "nessuna partita giocata nella stagione in corso"
    },
    {
-    "squadra": "VPV Purmersteijn",
-    "id": "1780635",
-    "competizioni": [
-     "KNVB Cup 2026-2027"
-    ],
-    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
-   },
-   {
     "squadra": "VRI",
     "id": "461336",
     "competizioni": [
@@ -10613,14 +10405,6 @@
     "id": "8107",
     "competizioni": [
      "DBU Pokalen 2026-2027"
-    ],
-    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
-   },
-   {
-    "squadra": "WE SC",
-    "id": "101765",
-    "competizioni": [
-     "Egypt Cup 2025-2026"
     ],
     "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
@@ -10888,28 +10672,6 @@
     "motivo": "nessuna partita giocata nella stagione in corso"
    },
    {
-    "squadra": "Winner Semi-final 1",
-    "id": "2",
-    "competizioni": [
-     "ASEAN Club Championship 2026-2027",
-     "Copa Libertadores Femenina 2026",
-     "King's Cup 2026",
-     "OFC Pro League 2027"
-    ],
-    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
-   },
-   {
-    "squadra": "Winner Semi-final 2",
-    "id": "1",
-    "competizioni": [
-     "ASEAN Club Championship 2026-2027",
-     "Copa Libertadores Femenina 2026",
-     "King's Cup 2026",
-     "OFC Pro League 2027"
-    ],
-    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
-   },
-   {
     "squadra": "Wormatia Worms (W)",
     "id": "2061642",
     "competizioni": [
@@ -11002,14 +10764,6 @@
     "id": "92005",
     "competizioni": [
      "Norgesmesterskapet Kvalifisering 2025-2026"
-    ],
-    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
-   },
-   {
-    "squadra": "Çorluspor 1947",
-    "id": "1559131",
-    "competizioni": [
-     "Turkish Cup 2026-2027"
     ],
     "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    }
