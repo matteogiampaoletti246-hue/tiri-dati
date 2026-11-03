@@ -209,8 +209,8 @@
    "da_fare": 0
   },
   "EFL Trophy 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 2
   },
   "Suomen Cup 2026": {
    "partite_con_eventi": 0,
@@ -289,8 +289,8 @@
    "da_fare": 0
   },
   "Challenge Cup 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 14,
+   "da_fare": 14
   },
   "League Cup 2026-2027": {
    "partite_con_eventi": 0,
@@ -445,8 +445,8 @@
    "da_fare": 0
   },
   "1. CFL 2026-2027": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "KNVB Cup 2026-2027": {
    "partite_con_eventi": 0,
@@ -530,7 +530,7 @@
   },
   "Croatian Cup 2026-2027": {
    "partite_con_eventi": 0,
-   "da_fare": 1
+   "da_fare": 0
   },
   "Austrian Cup 2026-2027": {
    "partite_con_eventi": 0,
@@ -565,8 +565,8 @@
    "da_fare": 0
   },
   "Cyprus Cup 2026-2027": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "Toppserien 2026": {
    "partite_con_eventi": 0,
@@ -609,8 +609,8 @@
    "da_fare": 0
   },
   "AFC Champions League Elite 2026-2027": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "CAF Champions League 2025-2026": {
    "partite_con_eventi": 0,
@@ -665,8 +665,8 @@
    "da_fare": 0
   },
   "Premier Division 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 2,
+   "da_fare": 2
   },
   "Primera B Nacional 2026": {
    "partite_con_eventi": 0,
@@ -845,8 +845,8 @@
    "da_fare": 0
   },
   "AFC Champions League Two 2026-2027": {
-   "partite_con_eventi": 2,
-   "da_fare": 2
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "AFC Challenge League 2026-2027": {
    "partite_con_eventi": 0,
@@ -1121,12 +1121,12 @@
    "da_fare": 0
   },
   "National League Cup 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 4,
+   "da_fare": 6
   },
   "Saudi First Division 2026-2027": {
    "partite_con_eventi": 0,
-   "da_fare": 1
+   "da_fare": 0
   },
   "Supercopa Femenina 2025-2026": {
    "partite_con_eventi": 0,
@@ -2373,5 +2373,5 @@
    "da_fare": 0
   }
  },
- "partite_in_questo_giro": 9
+ "partite_in_questo_giro": 29
 }
