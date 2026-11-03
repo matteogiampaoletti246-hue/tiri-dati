@@ -1,40 +1,4 @@
 {
- "competizioni": {
-  "Veikkausliiga 2026": {
-   "con_statistiche": 2,
-   "con_mappa_tiri": 2,
-   "da_fare": 2
-  },
-  "Premier League 2026-2027": {
-   "con_statistiche": 1,
-   "con_mappa_tiri": 1,
-   "da_fare": 1
-  },
-  "Liga 1 2026": {
-   "con_statistiche": 1,
-   "con_mappa_tiri": 1,
-   "da_fare": 1
-  },
-  "Super League 1 2026-2027": {
-   "con_statistiche": 1,
-   "con_mappa_tiri": 1,
-   "da_fare": 1
-  },
-  "LaLiga2 2026-2027": {
-   "con_statistiche": 1,
-   "con_mappa_tiri": 1,
-   "da_fare": 1
-  },
-  "Liga I 2026-2027": {
-   "con_statistiche": 1,
-   "con_mappa_tiri": 1,
-   "da_fare": 1
-  },
-  "Saudi First Division 2026-2027": {
-   "con_statistiche": 2,
-   "con_mappa_tiri": 2,
-   "da_fare": 2
-  }
- },
- "partite_in_questo_giro": 9
+ "competizioni": {},
+ "partite_in_questo_giro": 0
 }

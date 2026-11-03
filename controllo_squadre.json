@@ -18933,17 +18933,6 @@
     ]
    },
    {
-    "squadra": "KMKM FC",
-    "id": "558370",
-    "giocatori": 1,
-    "competizioni": [
-     "CAF Confed Cup 2026-2027"
-    ],
-    "motivo": [
-     "1 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 1"
-    ]
-   },
-   {
     "squadra": "Kabuscorp Palanca",
     "id": "114403",
     "giocatori": 1,
@@ -21054,6 +21043,17 @@
     ]
    },
    {
+    "squadra": "KMKM FC",
+    "id": "558370",
+    "giocatori": 3,
+    "competizioni": [
+     "CAF Confed Cup 2026-2027"
+    ],
+    "motivo": [
+     "3 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 3"
+    ]
+   },
+   {
     "squadra": "Laos U22",
     "id": "1463799",
     "giocatori": 3,
@@ -21446,17 +21446,6 @@
     "giocatori": 4,
     "competizioni": [
      "Czech Cup 2026-2027"
-    ],
-    "motivo": [
-     "4 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 4"
-    ]
-   },
-   {
-    "squadra": "Caracas FC",
-    "id": "597639",
-    "giocatori": 4,
-    "competizioni": [
-     "Copa Libertadores Femenina 2026"
     ],
     "motivo": [
      "4 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 4"
@@ -23218,6 +23207,17 @@
     "competizioni": [
      "Primera Federación 2026-2027",
      "Copa del Rey 2026-2027"
+    ],
+    "motivo": [
+     "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
+    ]
+   },
+   {
+    "squadra": "Caracas FC",
+    "id": "597639",
+    "giocatori": 8,
+    "competizioni": [
+     "Copa Libertadores Femenina 2026"
     ],
     "motivo": [
      "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"

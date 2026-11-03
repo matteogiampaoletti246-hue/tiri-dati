@@ -1,15 +1,6 @@
 {
- "competizioni": {
-  "Saudi First Division 2026-2027": {
-   "partite_con_eventi": 2,
-   "da_fare": 2
-  }
- },
- "tipi_visti": {
-  "yellowcard": 8,
-  "substitution": 17,
-  "goal": 4
- },
- "partite_in_questo_giro": 2,
- "orientamento_cambi": "player esce"
+ "competizioni": {},
+ "tipi_visti": {},
+ "partite_in_questo_giro": 0,
+ "orientamento_cambi": "non verificato"
 }

@@ -1077,10 +1077,10 @@
    "country": "ESP",
    "label": "LaLiga",
    "league_avg": {
-    "sotAgainst": 4.661,
-    "sotFor": 4.662,
-    "totalAgainst": 13.464,
-    "totalFor": 13.46
+    "sotAgainst": 4.664,
+    "sotFor": 4.664,
+    "totalAgainst": 13.473,
+    "totalFor": 13.489
    },
    "logo": "https://cdn.pitchapi.dev/images/leagues/4a840c09a3b5d1b2150eeba66e2c31d83d23503c0df04b3ddd04341f9c7b2b48.webp",
    "logos": {
@@ -1105,7 +1105,7 @@
     "Valencia": "https://cdn.pitchapi.dev/images/teams/798571c3b79c5fbf5e97ebefe2a17884f1e74c3c6d5186e04736f6c482a3c12d.webp",
     "Villarreal": "https://cdn.pitchapi.dev/images/teams/9cd74c38ef6d75a878041878ed6f18da3fb9e6cf81baae23d266a64821a63a71.webp"
    },
-   "matches": 108,
+   "matches": 109,
    "matches_without_stats": 0,
    "name": "LaLiga",
    "restricted": false,
@@ -1141,11 +1141,11 @@
      "totalFor": 9.818
     },
     "Deportivo A Coruña": {
-     "games": 10,
-     "sotAgainst": 4.3,
-     "sotFor": 4.4,
-     "totalAgainst": 13.3,
-     "totalFor": 12.0
+     "games": 11,
+     "sotAgainst": 4.091,
+     "sotFor": 4.636,
+     "totalAgainst": 13.091,
+     "totalFor": 12.545
     },
     "Deportivo Alavés": {
      "games": 11,
@@ -1190,11 +1190,11 @@
      "totalFor": 10.818
     },
     "Osasuna": {
-     "games": 10,
-     "sotAgainst": 4.2,
-     "sotFor": 4.1,
-     "totalAgainst": 13.6,
-     "totalFor": 10.7
+     "games": 11,
+     "sotAgainst": 4.455,
+     "sotFor": 3.909,
+     "totalAgainst": 14.0,
+     "totalFor": 10.727
     },
     "Racing Santander": {
      "games": 11,
@@ -1259,10 +1259,10 @@
    "handicap": 0.85,
    "label": "Liga Portugal",
    "league_avg": {
-    "sotAgainst": 2.384,
-    "sotFor": 6.218,
-    "totalAgainst": 9.083,
-    "totalFor": 17.042
+    "sotAgainst": 2.445,
+    "sotFor": 6.148,
+    "totalAgainst": 9.074,
+    "totalFor": 16.852
    },
    "logo": "https://cdn.pitchapi.dev/images/leagues/77c078948ff67bf4bf3b7f156f4dbbd4c46d6eb043a3563098a11b432aa39117.webp",
    "logos": {
@@ -1270,7 +1270,7 @@
     "FC Porto": "https://cdn.pitchapi.dev/images/teams/32b58b1949ae598ee4f05086017e0bf309cbc15846c63a60955beccf41726790.webp",
     "Sporting CP": "https://cdn.pitchapi.dev/images/teams/5817bbd34cd3f72b924b6fe60740c7176bc383aa030a4d10832bffab27318dd9.webp"
    },
-   "matches": 25,
+   "matches": 26,
    "matches_without_stats": 0,
    "name": "Liga Portugal",
    "restricted": true,
@@ -1278,11 +1278,11 @@
    "size": 3,
    "teams": {
     "Benfica": {
-     "games": 8,
-     "sotAgainst": 2.375,
-     "sotFor": 5.875,
-     "totalAgainst": 8.25,
-     "totalFor": 18.125
+     "games": 9,
+     "sotAgainst": 2.556,
+     "sotFor": 5.667,
+     "totalAgainst": 8.222,
+     "totalFor": 17.556
     },
     "FC Porto": {
      "games": 9,
@@ -1304,10 +1304,10 @@
    "country": "FRA",
    "label": "Ligue 1",
    "league_avg": {
-    "sotAgainst": 4.803,
-    "sotFor": 4.809,
-    "totalAgainst": 13.375,
-    "totalFor": 13.387
+    "sotAgainst": 4.778,
+    "sotFor": 4.778,
+    "totalAgainst": 13.389,
+    "totalFor": 13.389
    },
    "logo": "https://cdn.pitchapi.dev/images/leagues/60132b94cec9376428f59561ef11650b8a69b097d492642f9b737dc76f45cf94.webp",
    "logos": {
@@ -1330,7 +1330,7 @@
     "Toulouse": "https://cdn.pitchapi.dev/images/teams/1f5139af48bf869cbecf3c4444a0761f443e5feaf6ff3b8a559c6d0bc1631d8f.webp",
     "Troyes": "https://cdn.pitchapi.dev/images/teams/a805183b27f376ca106faf014559528f32f291be0a93b621357697efc173aeeb.webp"
    },
-   "matches": 80,
+   "matches": 81,
    "matches_without_stats": 0,
    "name": "Ligue 1",
    "restricted": false,
@@ -1352,11 +1352,11 @@
      "totalFor": 11.556
     },
     "Brest": {
-     "games": 8,
-     "sotAgainst": 4.0,
-     "sotFor": 6.0,
-     "totalAgainst": 11.625,
-     "totalFor": 16.875
+     "games": 9,
+     "sotAgainst": 3.556,
+     "sotFor": 5.778,
+     "totalAgainst": 12.0,
+     "totalFor": 16.333
     },
     "Le Havre": {
      "games": 9,
@@ -1387,11 +1387,11 @@
      "totalFor": 11.778
     },
     "Lorient": {
-     "games": 8,
+     "games": 9,
      "sotAgainst": 4.0,
-     "sotFor": 3.125,
-     "totalAgainst": 13.125,
-     "totalFor": 9.875
+     "sotFor": 2.778,
+     "totalAgainst": 13.0,
+     "totalFor": 10.444
     },
     "Lyon": {
      "games": 9,
@@ -1515,10 +1515,10 @@
    "country": "ENG",
    "label": "Premier League",
    "league_avg": {
-    "sotAgainst": 4.213,
-    "sotFor": 4.206,
-    "totalAgainst": 13.677,
-    "totalFor": 13.642
+    "sotAgainst": 4.2,
+    "sotFor": 4.2,
+    "totalAgainst": 13.683,
+    "totalFor": 13.683
    },
    "logo": "https://cdn.pitchapi.dev/images/leagues/91b2d9475023f0a6197af3d0d9295809f8a2ba871e9a8dc538da6a3d5604bb3e.webp",
    "logos": {
@@ -1543,7 +1543,7 @@
     "Sunderland": "https://cdn.pitchapi.dev/images/teams/c7480c6686f3054f22a90d172989397e9e1716ac05bd71149b2853a7fb86c28c.webp",
     "Tottenham Hotspur": "https://cdn.pitchapi.dev/images/teams/00b0e0e6c36a26b40a6526b0a180ff5b136c5a6b6510bd3d73e2e17d38c9aa9d.webp"
    },
-   "matches": 89,
+   "matches": 90,
    "matches_without_stats": 0,
    "name": "Premier League",
    "restricted": false,
@@ -1607,11 +1607,11 @@
      "totalFor": 10.0
     },
     "Everton": {
-     "games": 8,
-     "sotAgainst": 4.25,
-     "sotFor": 4.75,
-     "totalAgainst": 14.5,
-     "totalFor": 13.625
+     "games": 9,
+     "sotAgainst": 4.0,
+     "sotFor": 4.778,
+     "totalAgainst": 14.778,
+     "totalFor": 13.889
     },
     "Fulham": {
      "games": 9,
@@ -1663,11 +1663,11 @@
      "totalFor": 18.556
     },
     "Newcastle United": {
-     "games": 8,
-     "sotAgainst": 5.125,
-     "sotFor": 3.375,
-     "totalAgainst": 17.375,
-     "totalFor": 12.0
+     "games": 9,
+     "sotAgainst": 5.111,
+     "sotFor": 3.222,
+     "totalAgainst": 17.222,
+     "totalFor": 12.556
     },
     "Nottingham Forest": {
      "games": 9,
@@ -1772,10 +1772,10 @@
    "country": "ITA",
    "label": "Serie A",
    "league_avg": {
-    "sotAgainst": 4.94,
-    "sotFor": 4.912,
-    "totalAgainst": 14.566,
-    "totalFor": 14.504
+    "sotAgainst": 4.905,
+    "sotFor": 4.905,
+    "totalAgainst": 14.47,
+    "totalFor": 14.47
    },
    "logo": "https://cdn.pitchapi.dev/images/leagues/1e6b2d0d7b14ef10ae27b51a6a7f536b32fdceea229d84c475be346978232f22.webp",
    "logos": {
@@ -1800,7 +1800,7 @@
     "Udinese": "https://cdn.pitchapi.dev/images/teams/bf074b2992c5c0d8bb4fefdf71b549070c402656ac2e6405a52e8ee9ef6c8801.webp",
     "Venezia": "https://cdn.pitchapi.dev/images/teams/ef4cf59b13e1d9d130d304bad00d700783a9783ba1c0469952db26a8a76a5b38.webp"
    },
-   "matches": 98,
+   "matches": 100,
    "matches_without_stats": 0,
    "name": "Serie A",
    "restricted": false,
@@ -1808,11 +1808,11 @@
    "size": 20,
    "teams": {
     "Atalanta": {
-     "games": 9,
-     "sotAgainst": 6.111,
-     "sotFor": 5.111,
-     "totalAgainst": 19.556,
-     "totalFor": 13.889
+     "games": 10,
+     "sotAgainst": 5.8,
+     "sotFor": 5.2,
+     "totalAgainst": 18.2,
+     "totalFor": 14.5
     },
     "Bologna": {
      "games": 10,
@@ -1836,11 +1836,11 @@
      "totalFor": 20.2
     },
     "Fiorentina": {
-     "games": 9,
-     "sotAgainst": 6.0,
-     "sotFor": 4.889,
-     "totalAgainst": 14.222,
-     "totalFor": 16.556
+     "games": 10,
+     "sotAgainst": 5.6,
+     "sotFor": 5.0,
+     "totalAgainst": 13.5,
+     "totalFor": 16.4
     },
     "Frosinone": {
      "games": 10,
@@ -1906,11 +1906,11 @@
      "totalFor": 15.7
     },
     "Parma": {
-     "games": 9,
-     "sotAgainst": 5.222,
-     "sotFor": 3.333,
-     "totalAgainst": 17.778,
-     "totalFor": 10.333
+     "games": 10,
+     "sotAgainst": 5.3,
+     "sotFor": 3.3,
+     "totalAgainst": 18.0,
+     "totalFor": 9.9
     },
     "Roma": {
      "games": 10,
@@ -1920,11 +1920,11 @@
      "totalFor": 18.5
     },
     "Sassuolo": {
-     "games": 9,
-     "sotAgainst": 6.667,
-     "sotFor": 5.111,
-     "totalAgainst": 15.556,
-     "totalFor": 14.0
+     "games": 10,
+     "sotAgainst": 6.6,
+     "sotFor": 4.8,
+     "totalAgainst": 15.5,
+     "totalFor": 13.3
     },
     "Torino": {
      "games": 10,
@@ -2027,5 +2027,5 @@
   }
  },
  "season_start": "2026",
- "updated_at": "2026-11-02T05:55:22+00:00"
+ "updated_at": "2026-11-03T05:48:23+00:00"
 }
