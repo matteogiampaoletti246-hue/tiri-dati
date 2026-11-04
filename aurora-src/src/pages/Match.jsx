@@ -111,7 +111,7 @@ export default function Match() {
     return (
       <PageShell>
         <div style={raw ? { '--tint': matchTint(raw.leagueId, raw.leagueObj) } : undefined}>
-          {raw ? <div data-back-banner="1"><MatchHero match={raw} view={viewMatch(raw)} league={leagueById(raw.leagueId) || raw.leagueObj || null} home={teamById(raw.homeId)} away={teamById(raw.awayId)} /></div> : <div className="sk-delay"><SkMatchHero /></div>}
+          {raw ? <div data-back-banner="1"><MatchHero match={raw} view={viewMatch(raw)} league={leagueById(raw.leagueId) || raw.leagueObj || null} home={teamById(raw.homeId)} away={teamById(raw.awayId)} pending /></div> : <div className="sk-delay"><SkMatchHero /></div>}
           <SkMatchBody />
         </div>
       </PageShell>

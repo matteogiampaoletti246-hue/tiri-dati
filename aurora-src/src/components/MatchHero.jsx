@@ -9,6 +9,7 @@ import TeamLink from './TeamLink';
 import LeagueLink from './LeagueLink';
 import { teamForm } from '@/data/matches';
 import { longDate } from '@/lib/format';
+import { SkText } from './PageSkeletons';
 
 // "Robin Fellhauer" → "R. Fellhauer"
 const short = (n) => {
@@ -16,6 +17,16 @@ const short = (n) => {
   const p = String(n || '').trim().split(/\s+/);
   return p.length < 2 ? p[0] || '' : `${p[0][0]}. ${p.slice(1).join(' ')}`;
 };
+
+// partita in preparazione: i marcatori arrivano con i dettagli, intanto una riga grigia per gol (dal risultato) cosi' l'intestazione non cresce dopo
+function ScorersSkeleton({ n, align }) {
+  if (!n) return null;
+  return (
+    <div className={`mt-2 flex w-full flex-col gap-[3px] ${align === 'right' ? 'items-end' : 'items-start'}`}>
+      {Array.from({ length: Math.min(n, 9) }, (_, i) => <SkText key={i} className="text-[11.5px] leading-tight" w="100%" style={{ width: 92 }} />)}
+    </div>
+  );
+}
 
 function Scorers({ events, side, align }) {
   const goals = (events || []).filter((e) => e.type === 'goal' && e.team === side);
@@ -33,7 +44,7 @@ function Scorers({ events, side, align }) {
   );
 }
 
-export default function MatchHero({ match, view, league, home, away }) {
+export default function MatchHero({ match, view, league, home, away, pending = false }) {
   const navigate = useNavigate();
   const live = match.status === 'live';
   const finished = match.status === 'finished';
@@ -107,6 +118,11 @@ export default function MatchHero({ match, view, league, home, away }) {
           <div className="mt-1 flex gap-3">
             <div className="min-w-0 flex-1"><Scorers events={view.events} side="home" align="left" /></div>
             <div className="min-w-0 flex-1"><Scorers events={view.events} side="away" align="right" /></div>
+          </div>
+        ) : (live || finished) && pending && view.score && (+view.score[0] || +view.score[1]) ? (
+          <div className="mt-1 flex gap-3" aria-hidden="true">
+            <div className="min-w-0 flex-1"><ScorersSkeleton n={+view.score[0] || 0} align="left" /></div>
+            <div className="min-w-0 flex-1"><ScorersSkeleton n={+view.score[1] || 0} align="right" /></div>
           </div>
         ) : null}
       </div>

@@ -1079,6 +1079,10 @@ await step('scheletri: al posto della rotella, alti come la pagina vera', async 
   await wait(3000);
   const href = await pg.evaluate(() => { const a = [...document.querySelectorAll('a[href*="/match/"]')]; return a.length ? a[Math.min(6, a.length - 1)].getAttribute('href') : null; });
   if (href) await one('partita', () => pg.evaluate((h) => { location.hash = h.replace(/^.*#/, '#'); }, href));
+  // partita finita con gol (marcatori che arrivano con i dettagli): l'intestazione non deve crescere
+  let fin = await pg.evaluate((skip) => { const a = [...document.querySelectorAll('a[href*="/match/"]')].find((x) => x.getAttribute('href') !== skip && /(?!0\s*[-–]\s*0\D)\d+\s*[-–]\s*\d+/.test(x.textContent)); return a ? a.getAttribute('href') : null; }, href);
+  if (!fin) { await pg.evaluate(() => { const d = [...document.querySelectorAll('button')].find((x) => /^Ieri/.test(x.textContent.trim())); if (d) d.click(); }); await wait(3000); fin = await pg.evaluate(() => { const a = [...document.querySelectorAll('a[href*="/match/"]')].find((x) => { const r = x.getBoundingClientRect(); return r.left >= 0 && r.left < innerWidth && /(?!0\s*[-–]\s*0\D)\d+\s*[-–]\s*\d+/.test(x.textContent); }); return a ? a.getAttribute('href') : null; }); }
+  if (fin) await one('partita finita', () => pg.evaluate((h) => { location.hash = h.replace(/^.*#/, '#'); }, fin));
   const s71 = await getJson('arch/71/2025-2026.json');
   const tid = s71 && s71.teams && Object.keys(s71.teams)[0];
   if (tid) await one('squadra', () => pg.evaluate((h) => { location.hash = h; }, `#/storico/71/2025-2026/squadra/${tid}`));
