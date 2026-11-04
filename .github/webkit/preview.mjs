@@ -1049,6 +1049,49 @@ await step('partita senza momentum (Austrian Cup): il Riepilogo parte dal primo 
   await shot('austrian-cup-riepilogo');
 });
 
+// scheletro al posto della rotella: rete trattenuta finche' non si e' misurato lo scheletro, poi la pagina vera;
+// la barra delle schede deve stare nello stesso punto (niente salti all'arrivo dei dati), mai rotella ne' "Carico..."
+await step('scheletri: al posto della rotella, alti come la pagina vera', async () => {
+  let hold = false;
+  const held = async (route) => { while (hold) await new Promise((z) => setTimeout(z, 100)); await route.fallback(); };
+  await ctx.route('**/*.workers.dev/**', held);
+  await ctx.route(/\/(arch\/[^/]+\/[^/]+\.json|tidx\/\d+\.json)$/, held);
+  const meas = () => pg.evaluate(() => {
+    const tab = [...document.querySelectorAll('.tab-btn')].find((e) => { const r = e.getBoundingClientRect(); return r.width > 0 && r.left >= -2 && r.left < innerWidth; });
+    return { tab: tab ? Math.round(tab.getBoundingClientRect().top) : null, spin: !!document.querySelector('.spin, .animate-spin'), carico: /Carico/.test(document.getElementById('sl-shell') ? document.getElementById('sl-shell').innerText : '') };
+  });
+  const res = {};
+  const one = async (name, open) => {
+    hold = true;
+    await open();
+    const seen = await pg.waitForFunction(() => !!document.querySelector('[role="status"] .sk'), null, { timeout: 30000, polling: 100 }).then(() => true).catch(() => false);
+    await wait(400);
+    const s = await meas();
+    await shot('scheletro-' + name);
+    hold = false;
+    await pg.waitForFunction(() => !document.querySelector('[role="status"]') && document.querySelectorAll('.tab-btn').length > 0, null, { timeout: 40000, polling: 200 }).catch(() => {});
+    await wait(1500);
+    const r = await meas();
+    res[name] = { seen, s, r };
+  };
+  await go('', 3000);
+  await pg.waitForFunction(() => document.querySelectorAll('a[href*="/match/"]').length > 6, null, { timeout: 40000 }).catch(() => {});
+  await wait(3000);
+  const href = await pg.evaluate(() => { const a = [...document.querySelectorAll('a[href*="/match/"]')]; return a.length ? a[Math.min(6, a.length - 1)].getAttribute('href') : null; });
+  if (href) await one('partita', () => pg.evaluate((h) => { location.hash = h.replace(/^.*#/, '#'); }, href));
+  const s71 = await getJson('arch/71/2025-2026.json');
+  const tid = s71 && s71.teams && Object.keys(s71.teams)[0];
+  if (tid) await one('squadra', () => pg.evaluate((h) => { location.hash = h; }, `#/storico/71/2025-2026/squadra/${tid}`));
+  hold = false;
+  await ctx.unroute('**/*.workers.dev/**', held);
+  await ctx.unroute(/\/(arch\/[^/]+\/[^/]+\.json|tidx\/\d+\.json)$/, held);
+  report.scheletri = res;
+  const all = Object.values(res);
+  ok('scheletri: lo scheletro compare durante il caricamento', all.length > 0 && all.every((x) => x.seen), res);
+  ok('scheletri: mai rotella ne\' "Carico..."', all.every((x) => !x.s.spin && !x.s.carico && !x.r.spin && !x.r.carico), res);
+  ok('scheletri: barra delle schede nello stesso punto (scheletro = pagina vera, +/-1 px)', all.every((x) => x.s.tab !== null && x.r.tab !== null && Math.abs(x.s.tab - x.r.tab) <= 1), res);
+});
+
 const ready = () => pg.waitForFunction(() => document.querySelectorAll('.tab-btn').length > 0, null, { timeout: 30000 }).catch(() => {});
 const tabClick = (t) => pg.evaluate((t) => { const vis = (x) => { const r = x.getBoundingClientRect(); if (r.width <= 0 || r.height <= 0) return false; const t = document.elementFromPoint(Math.min(Math.max(r.left + r.width / 2, 1), innerWidth - 1), Math.min(Math.max(r.top + r.height / 2, 1), innerHeight - 1)); return !!t && (x === t || x.contains(t)); }; const e = [...document.querySelectorAll('.tab-btn')].filter(vis).find((x) => x.textContent.trim() === t); if (e) e.click(); return !!e; }, t);
 

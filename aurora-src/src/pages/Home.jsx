@@ -13,10 +13,7 @@ import DayStrip, { dragDays } from '@/components/DayStrip';
 import LivePill from '@/components/LivePill';
 import LeagueGroup, { CountryGroup } from '@/components/LeagueGroup';
 import { useEntityScope } from '@/components/past/PastBits';
-import MatchRowSkeleton from '@/components/MatchRowSkeleton';
-import Skeleton from '@/components/Skeleton';
 import SearchOverlay from '@/components/SearchOverlay';
-import useInitialLoad from '@/hooks/useInitialLoad';
 import useTicker from '@/hooks/useTicker';
 import { syncDayTimes, refreshStatus } from '@/data/fotmob';
 import { loadDayFeed } from '@/data/dayFeed';
@@ -160,7 +157,6 @@ export default function Home() {
     const id = setTimeout(() => { if (o === 'search') setSearchOpen(true); else if (o === 'menu') openMenu(); }, 0);
     return () => clearTimeout(id);
   }, [loc.state]); // eslint-disable-line react-hooks/exhaustive-deps
-  const loading = useInitialLoad();
   // il minuto live si aggiorna ogni 10 s solo se c'e' una partita live; altrimenti ogni minuto (niente ridisegno di centinaia di righe per nulla)
   const tick = useTicker(MATCHES.some((m) => m.status === 'live') ? 5000 : 60000);
 
@@ -408,30 +404,14 @@ export default function Home() {
         style={{ minHeight: '55vh', position: 'relative', display: 'grid' }}
         onClickCapture={(e) => { if (moved.current) { e.preventDefault(); e.stopPropagation(); moved.current = false; } }}
       >
-        {loading ? (
-          <>
-            {[0, 1].map((i) => (
-              <div key={i} className="pt-4">
-                <div className="flex items-center gap-2.5 px-5 pb-2">
-                  <Skeleton className="h-[22px] w-[22px] rounded-full" />
-                  <Skeleton className="h-3 w-24 rounded-md" />
-                </div>
-                {[0, 1, 2].map((j) => (
-                  <MatchRowSkeleton key={j} />
-                ))}
-              </div>
-            ))}
-          </>
-        ) : (
-          panes.map(({ sl, k, role }) => (
-            <div
-              key={sl}
-              style={{ gridArea: '1 / 1', minWidth: 0, display: 'flow-root', ...(role ? { transform: `translateX(${role * 100}%)`, height: 0 } : null) }}
-            >
-              {k ? <DayPane key={k} iso={k} filter={filter} ver={sigs[k]} tick={role === 0 ? tick + 1 : 0} lead={role === 0} need={peek === k ? (deepPeek ? Infinity : FIRST) : 0} /> : null}
-            </div>
-          ))
-        )}
+        {panes.map(({ sl, k, role }) => (
+          <div
+            key={sl}
+            style={{ gridArea: '1 / 1', minWidth: 0, display: 'flow-root', ...(role ? { transform: `translateX(${role * 100}%)`, height: 0 } : null) }}
+          >
+            {k ? <DayPane key={k} iso={k} filter={filter} ver={sigs[k]} tick={role === 0 ? tick + 1 : 0} lead={role === 0} need={peek === k ? (deepPeek ? Infinity : FIRST) : 0} /> : null}
+          </div>
+        ))}
       </div>
       </div>
       <div aria-hidden="true" style={{ height: 'calc(56px + env(safe-area-inset-bottom))' }} />

@@ -1,3 +1,5 @@
-export default function Skeleton({ className = '' }) {
-  return <div className={`shimmer rounded-xl ${className}`} aria-hidden="true" />;
+import LoaderSkeleton from './LoaderSkeleton';
+
+export default function Skeleton({ className = '', ...props }) {
+  return <LoaderSkeleton className={`rounded-xl ${className}`} {...props} />;
 }

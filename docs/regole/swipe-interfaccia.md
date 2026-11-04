@@ -59,9 +59,15 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 
 ## Fluidita' (priorita' massima)
 - Partite d'archivio: appena compare una lista (`ArchRow`) il file della stagione (`partite/<fm>/<stagione>.json.gz`) si scarica a riposo, al tocco della riga parte `prepareMatch`.
-- Una partita si mostra solo quando e' pronta: `data/prepare.js` (`prepareMatch`, una promessa per partita, avviata al tocco della riga in `MatchRow`), spinner unico in `pages/Match.jsx`; niente riepilogo/momentum/statistiche che arrivano dopo.
+- Una partita si mostra solo quando e' pronta: `data/prepare.js` (`prepareMatch`, una promessa per partita, avviata al tocco della riga in `MatchRow`), scheletro unico in `pages/Match.jsx` (intestazione vera se la partita e' gia' nota); niente riepilogo/momentum/statistiche che arrivano dopo.
 - Cambio giorno dal calendario: `dayReady` aspetta gli orari reali; la riga dell'orario e' sempre riservata (niente salti di altezza).
 - La fotografia per lo swipe indietro (`cloneVisible` in `lib/carousel.js`) copia solo la parte visibile.
+
+## Scheletro al posto della rotella (regola fissa, concept C)
+- Mai rotella ne' "Carico...": ogni attesa mostra uno scheletro con la forma della pagina vera (`components/PageSkeletons.jsx`: `SkMatchHero`/`SkMatchBody` partita, `EntitySkeleton` squadra/giocatore/campionato con `kind`, `PanelSkeleton` pannelli, `SkList`/`SkRow`/`SkCard`/`SkTabs` pezzi comuni). Barra base: `LoaderSkeleton.jsx` (`.sk` in `index.css`).
+- Stile C: la cornice resta vera e toccabile (freccia indietro, intestazione della partita se gia' nota, barra in basso); il grigio solo dove arrivano i dati. Testi finti con le stesse classi del testo vero e lettere invisibili (`SkText`): stessa altezza di riga. Misurato: barra delle schede scheletro = pagina vera (partita 245 px, squadra 153, giocatore 101, campionato 138). Prova: "scheletri: al posto della rotella..." in `preview.mjs`.
+- Colori solo dai temi (`--sk-base`, `--sk-hi`, `--sk-panel` in `:root`/`.dark`); riflesso solo `transform` in CSS (niente JS per fotogramma); `prefers-reduced-motion`: fermo. Compare dopo 150 ms (`.sk-delay`): un'attesa piu' corta non lampeggia. Negli elenchi solo le righe che entrano nello schermo (`fill`).
+- Dati gia' visti: nessuno scheletro (`useAsync`, `once`, LRU). Niente attese finte: tolto `useInitialLoad` (320 ms di scheletro anche con i dati pronti). Precarico al tocco (`lib/prefetch.js`, `pointerdown` sui link): squadre dell'indice, squadre e giocatori d'archivio; le partite gia' con `prepareMatch`.
 
 ## Memoria (l'app resta fluida anche dopo molte pagine)
 - Capienza fissa (`lib/lru.js`): fotografie dello swipe indietro ultime 5 (mai quelle "avanti"), file grandi dell'archivio (partite .gz 10, statistiche 30), dettagli FotMob 12, partite pronte 30 (uscendo liberano `det`/`moreDet` e si ricostruiscono se riaperte), tabelloni 16, `useAsync` 120. Ogni cache nuova va limitata allo stesso modo. Prova: "memoria: 40+ pagine..." in `preview.mjs`.

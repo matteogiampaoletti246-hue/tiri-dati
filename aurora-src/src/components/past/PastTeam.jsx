@@ -2,7 +2,7 @@ import { useState } from 'react';
 import useAsync from '@/hooks/useAsync';
 import TextFilter from '@/components/TextFilter';
 import StatLists from '@/components/stats/StatLists';
-import { loadSeason, loadTeamPlayerStats, statsFromMatches, teamPartStats, teamIdByName, seasonLabel } from '@/data/archive';
+import { loadSeason, loadTeamPlayerStats, statsFromMatches, teamPartStats, teamIdByName } from '@/data/archive';
 import { teamFmId } from '@/data/teamIndex';
 import { Link } from 'react-router-dom';
 import Crest from '@/components/Crest';
@@ -13,6 +13,7 @@ import { teamById } from '@/data/teams';
 import { StandingsPanel, useTeamColors } from '@/components/archive/parts';
 import { statSections } from '@/components/archive/ArchiveLeague';
 import PastStats from './PastStats';
+import { PanelSkeleton } from '@/components/PageSkeletons';
 
 const Msg = ({ children }) => <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>{children}</p>;
 
@@ -86,7 +87,7 @@ export function PastTeamStats({ fm, sk, team, comp, cur }) {
   const [part, setPart] = useState('tot');
   const [cat, setCat] = useState('all');
   const { tid, loading, season } = useTeamSeason(fm, sk, team);
-  if (loading) return <Msg>Carico la stagione {seasonLabel(sk)}…</Msg>;
+  if (loading) return <PanelSkeleton />;
   if (!season || !tid) return null;
   return (
     <div>
@@ -103,7 +104,7 @@ export function PastTeamStats({ fm, sk, team, comp, cur }) {
 
 export function PastTeamStandings({ fm, sk, team }) {
   const { tid, loading, season } = useTeamSeason(fm, sk, team);
-  if (loading) return <Msg>Carico la stagione {seasonLabel(sk)}…</Msg>;
+  if (loading) return <PanelSkeleton />;
   if (!season) return null;
   return <StandingsPanel season={season} fm={fm} sk={sk} highlight={tid} />;
 }
@@ -129,7 +130,7 @@ export function PastTeamPlayers({ fm, sk, team, part, onPart, cat, onCat, split 
   const { data: stats, loading: l2 } = useAsync(() => (!tid ? Promise.resolve(null) : byMatch ? statsFromMatches(fm, sk, part) : loadTeamPlayerStats(fm, sk, tid)), [fm, sk, tid, part]);
   const { data: exact } = useAsync(() => statsFromMatches(fm, sk), [fm, sk]);
   // cambiando pillola restano visibili i dati di prima finche' arrivano i nuovi: nessun salto
-  if (loading || (l2 && !stats)) return <Msg>Carico la stagione {seasonLabel(sk)}…</Msg>;
+  if (loading || (l2 && !stats)) return <PanelSkeleton kind="cards" />;
   if (!season || !tid) return null;
   const secs = statSections(stats, 'players', season.teams || {}, col, fm, sk, part === 'p90' ? 'p90' : 'tot', tid, exact);
   const has = [...new Set(secs.map((x) => playerCat(x.group)))];

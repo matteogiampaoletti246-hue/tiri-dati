@@ -19,6 +19,7 @@ App calcio: Home nativa Expo (`native/`), sito React in WebView (`aurora-src/`, 
 - **Swipe indietro**: sempre a scorrimento con la pagina di destinazione sotto (`pageDrag`/`pageBack` in `lib/carousel.js`), mai schermo nero, mai salti. Ogni punto che torna indietro passa da li'.
 - **Tendine e finestre**: `usePopFit`/`popScroll`, `MenuBackdrop`, `useModalLock`; scorre solo la lista; con una finestra aperta nessuno swipe di pagina.
 - **Giocatore toccato in una partita non iniziata** (formazioni, Migliori Giocatori, Affidabilita'): pannello da destra `PlayerPanel` (dettagli in `swipe-interfaccia.md`); iniziata/finita: tendina dal basso. Il controllo e' solo `matchStarted` (`data/playerPanel.js`).
+- **Caricamenti**: mai rotella ne' "Carico…": scheletro con la forma della pagina vera (`PageSkeletons.jsx`; nativo `SkBox`/`SkBar`), cornice vera e toccabile, colori dai temi, visibile dopo 150 ms; mai attese finte con i dati gia' pronti.
 - **Foto giocatori**: solo `PlayerPhoto` (sagoma se manca). **Icone gol/assist**: `BallIcon`/`BootIcon`, mai emoji. Liste di partite sempre "vs".
 - **Stagione/competizione scelte** restano finche' la scheda e' nella pila; aprendo da zero si riparte da "Attuale".
 - **Fonti dati**: FotMob prima, poi PitchAPI, LiveScore, OneFootball, API-Football; mai formazioni, nomi o zone inventate.
@@ -29,7 +30,7 @@ App calcio: Home nativa Expo (`native/`), sito React in WebView (`aurora-src/`, 
 ## Indice delle regole (docs/regole/)
 
 **`swipe-interfaccia.md`**: swipe indietro e tra giorni/schede, tendine e finestre, fluidita', memoria, testi tagliati.
-Sezioni: Interfaccia · Swipe per tornare indietro · Swipe indietro su iPhone · Swipe tra giorni / schede · Swipe indietro: la pagina vera prima della fotografia · Swipe indietro: dove parte · Scroll indipendente tra le pagine · Tendine e finestre · Tendina delle stagioni nel banner · Finestra giocatore su iPhone: altezza dallo schermo vero · Testi tagliati · Niente salti all'arrivo · Fluidita' · Memoria (l'app resta fluida anche dopo molte pagine) · Fluidita' della Home.
+Sezioni: Interfaccia · Swipe per tornare indietro · Swipe indietro su iPhone · Swipe tra giorni / schede · Swipe indietro: la pagina vera prima della fotografia · Swipe indietro: dove parte · Scroll indipendente tra le pagine · Tendine e finestre · Tendina delle stagioni nel banner · Finestra giocatore su iPhone: altezza dallo schermo vero · Testi tagliati · Niente salti all'arrivo · Fluidita' · Scheletro al posto della rotella · Memoria (l'app resta fluida anche dopo molte pagine) · Fluidita' della Home.
 
 **`home-live.md`**: Home (finestre per paese, stato/risultati veri), live, classifica live, risultati, giornate, colori partita.
 Sezioni: Home: stato e risultato sempre quelli veri · Risultati sempre aggiornati · Giornate dalle date (competizioni aggiunte e d'archivio) · Tutte le competizioni in Home e una scheda per ogni squadra · Home: finestre per paese (concept Sofascore, regola fissa) · Colore delle schede partita, tabellone, riepilogo live, minuti live · Tasto Tutte | Live: pillola unica · Risultato live veloce quanto le statistiche · Live: mappa tiri, barre e risultato insieme · Live e riepiloghi: FotMob poi LiveScore · Classifica sempre fresca e classifica live.

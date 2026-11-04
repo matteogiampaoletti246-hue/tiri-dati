@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom';
 import PageShell from '@/components/PageShell';
 import TopBar from '@/components/TopBar';
 import SwipeTabs from '@/components/SwipeTabs';
-import Skeleton from '@/components/Skeleton';
 import EntityBanner from '@/components/EntityBanner';
 import LeagueMatchesPanel from '@/components/league/LeagueMatchesPanel';
 import LeagueStandingsPanel from '@/components/league/LeagueStandingsPanel';
@@ -18,11 +17,11 @@ import SeasonDrop from '@/components/archive/SeasonDrop';
 import useAsync from '@/hooks/useAsync';
 import { FM_ID, archIndex, seasonLabel, sortSeasons, firstSeasonWithData } from '@/data/archive';
 import useDark from '@/hooks/useDark';
-import useInitialLoad from '@/hooks/useInitialLoad';
 import { RAW } from '@/data/load';
 import { leagueById, initialsOf, leagueTint } from '@/data/leagues';
 import { teamsOf } from '@/data/teams';
 import { matchesForLeague } from '@/data/matches';
+import { EntitySkeleton } from '@/components/PageSkeletons';
 
 const TOP5_LG = ['premier-league', 'serie-a', 'la-liga', 'bundesliga', 'ligue-1'];
 const TABS = [
@@ -36,7 +35,6 @@ const TABS = [
 export default function League() {
   const { id } = useParams();
   const [tab, setTab] = usePageTab('league', id);
-  const loading = useInitialLoad(280);
   const dark = useDark();
   const league = leagueById(id);
   useEntityScope(`lg-${FM_ID[id] || id}`);
@@ -51,9 +49,8 @@ export default function League() {
 
   if ((!league && isArch && !aidx) || (isArch && archS.length && !fsd)) {
     return (
-      <PageShell bar={false}>
-        <TopBar title="Campionato" />
-        <div className="px-5 pt-8"><Skeleton className="h-[52px] w-full" /></div>
+      <PageShell>
+        <EntitySkeleton kind="league" />
       </PageShell>
     );
   }
@@ -125,15 +122,6 @@ export default function League() {
 
       {inArchive ? (
         <ArchiveLeague key={seasonEff} fm={fm} sk={seasonEff} tab={aTab} setTab={setATab} tint={leagueTint(league.id)} />
-      ) : loading ? (
-        <div className="px-5 pt-8">
-          <Skeleton className="h-[42px] w-full" />
-          <div className="mt-6 space-y-4">
-            {[0, 1, 2, 3, 4].map((i) => (
-              <Skeleton key={i} className="h-[52px] w-full" />
-            ))}
-          </div>
-        </div>
       ) : (
         <SwipeTabs fixedBar tabs={liveTabs} panels={livePanels} index={Math.min(tab, liveTabs.length - 1)} onChange={setTab} className="pt-0" />
       )}

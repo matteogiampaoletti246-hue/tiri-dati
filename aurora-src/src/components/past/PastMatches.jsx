@@ -10,6 +10,7 @@ import { leagueById } from '@/data/leagues';
 import { LID_BY_FM } from '@/data/archive';
 import Crest from '@/components/Crest';
 import LeagueBadge from '@/components/LeagueBadge';
+import { PanelSkeleton } from '@/components/PageSkeletons';
 
 // Carica a una a una le stagioni precedenti quando si scorre in fondo all'elenco delle partite.
 function useOlder(seasons, build) {
@@ -39,8 +40,8 @@ function useOlder(seasons, build) {
 }
 
 const Foot = ({ box, busy, done, empty }) => (
-  <div ref={box} className="px-5 py-6 text-center text-[11.5px]" style={{ color: 'var(--ink-3)', minHeight: 40 }}>
-    {busy ? 'Carico la stagione precedente…' : done ? (empty ? 'Nessuna partita precedente' : 'Fine delle partite disponibili') : ''}
+  <div ref={box} className={busy ? '' : 'px-5 py-6 text-center text-[11.5px]'} style={{ color: 'var(--ink-3)', minHeight: 40 }}>
+    {busy ? <PanelSkeleton top={560} rowH={64} /> : done ? (empty ? 'Nessuna partita precedente' : 'Fine delle partite disponibili') : ''}
   </div>
 );
 

@@ -7,7 +7,6 @@ import { teamFromIndex, teamPlayerHistory } from '@/data/teamIndex';
 import PageShell from '@/components/PageShell';
 import TopBar from '@/components/TopBar';
 import SwipeTabs from '@/components/SwipeTabs';
-import Skeleton from '@/components/Skeleton';
 import EntityBanner from '@/components/EntityBanner';
 import FormDots from '@/components/FormDots';
 import TeamMatchesPanel from '@/components/team/TeamMatchesPanel';
@@ -16,7 +15,6 @@ import TeamRosterPanel from '@/components/team/TeamRosterPanel';
 import TeamStandingsPanel from '@/components/team/TeamStandingsPanel';
 import TeamPlayersPanel from '@/components/team/TeamPlayersPanel';
 import TeamStatsPanel from '@/components/team/TeamStatsPanel';
-import useInitialLoad from '@/hooks/useInitialLoad';
 import { teamById } from '@/data/teams';
 import { leagueById } from '@/data/leagues';
 import { teamRow } from '@/data/standings';
@@ -25,6 +23,7 @@ import { allTeamMatches } from '@/data/extras';
 import { coachOf } from '@/data/players';
 import { loadRose, roseOf, seasonRoster, roseLoaded } from '@/data/rose';
 import { playersByTeam } from '@/data/players';
+import { EntitySkeleton } from '@/components/PageSkeletons';
 
 const TABS = [
   { key: 'matches', label: 'Partite' },
@@ -44,7 +43,6 @@ export default function Team() {
     window.addEventListener('sl-comp', h);
     return () => window.removeEventListener('sl-comp', h);
   }, [id]);
-  const loading = useInitialLoad(280);
   // squadre di tutte le competizioni (/squadra/fm-<id FotMob>): la scheda si costruisce dall'indice tidx
   const fmRoute = /^fm-(\d+)$/.exec(String(id));
   const { data: idxTeam, loading: idxLoading } = useAsync(() => (fmRoute && !teamById(id) ? teamFromIndex(fmRoute[1]) : null), [id]);
@@ -62,7 +60,7 @@ export default function Team() {
 
   if (team && team.id !== id) return <Navigate replace to={`/squadra/${team.id}`} />;
   if (!team && fmRoute && idxLoading) {
-    return <PageShell bar={false}><TopBar title="Squadra" /><div className="px-5 pt-8"><Skeleton className="h-[52px] w-full" /></div></PageShell>;
+    return <PageShell><EntitySkeleton /></PageShell>;
   }
 
   if (!team) {
@@ -126,18 +124,7 @@ export default function Team() {
         tall
       />
 
-      {loading ? (
-        <div className="px-5 pt-8">
-          <Skeleton className="h-[42px] w-full" />
-          <div className="mt-6 space-y-4">
-            {[0, 1, 2, 3, 4].map((i) => (
-              <Skeleton key={i} className="h-[52px] w-full" />
-            ))}
-          </div>
-        </div>
-      ) : (
-        <SwipeTabs fixedBar tabs={tabs} panels={shownPanels} index={Math.max(0, tabs.findIndex((t) => t.key === (TABS[tab] || TABS[0]).key))} onChange={(i) => setTab(TABS.findIndex((t) => t.key === tabs[i].key))} className="pt-0" />
-      )}
+      <SwipeTabs fixedBar tabs={tabs} panels={shownPanels} index={Math.max(0, tabs.findIndex((t) => t.key === (TABS[tab] || TABS[0]).key))} onChange={(i) => setTab(TABS.findIndex((t) => t.key === tabs[i].key))} className="pt-0" />
     </PageShell>
   );
 }

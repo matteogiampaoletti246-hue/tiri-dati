@@ -7,9 +7,7 @@ import { useParams } from 'react-router-dom';
 import PageShell from '@/components/PageShell';
 import TopBar from '@/components/TopBar';
 import SwipeTabs from '@/components/SwipeTabs';
-import Skeleton from '@/components/Skeleton';
 import EntityBanner from '@/components/EntityBanner';
-import useInitialLoad from '@/hooks/useInitialLoad';
 import { playerById } from '@/data/players';
 import { parseArchiveId, makeArchivePlayer } from '@/data/archivePlayer';
 import { useEntityScope } from '@/components/past/PastBits';
@@ -21,6 +19,7 @@ import { POS_IT } from '@/components/player/playerCalc';
 import { ProfiloPanel, PartitePanel, StatistichePanel, CarrieraPanel, playerHasCurStats } from '@/components/player/PlayerTabs';
 import { usePlayerCareer } from '@/data/playerIndex';
 import CalcFab from '@/components/player/CalcFab';
+import { EntitySkeleton } from '@/components/PageSkeletons';
 
 const TABS = [
   { key: 'profilo', label: 'Profilo' },
@@ -38,14 +37,11 @@ export default function Player() {
   const arc = parseArchiveId(id);
   const { data, loading } = useAsync(() => (arc && needArchive(id) ? makeArchivePlayer(arc.fm, arc.sk, arc.pid) : Promise.resolve(null)), [id]);
   if (arc && needArchive(id)) {
+    if (loading || data) return <PageShell><EntitySkeleton kind="person" /></PageShell>;
     return (
       <PageShell bar={false}>
         <TopBar title="Giocatore" />
-        {loading || data ? (
-          <div className="px-5 pt-8"><Skeleton className="h-[80px] w-full" /></div>
-        ) : (
-          <p className="px-5 py-16 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Giocatore non trovato</p>
-        )}
+        <p className="px-5 py-16 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Giocatore non trovato</p>
       </PageShell>
     );
   }
@@ -54,7 +50,6 @@ export default function Player() {
 
 function PlayerView({ id }) {
   useEntityScope(id);
-  const loading = useInitialLoad(280);
   const player = playerById(id);
   // stessa foto delle formazioni: quella del giocatore, altrimenti dall'id FotMob risolto (resolvePid)
   const pid = useBioPid(player);
@@ -127,13 +122,7 @@ function PlayerView({ id }) {
         person
         initials={player.initials}
       />
-      {loading ? (
-        <div className="px-5 pt-8 space-y-4">
-          {[0, 1, 2, 3].map((i) => <Skeleton key={i} className="h-[80px] w-full" />)}
-        </div>
-      ) : (
-        <SwipeTabs fixedBar tabs={tabs} panels={panels} index={Math.min(tab, tabs.length - 1)} onChange={change} className="pt-0" />
-      )}
+      <SwipeTabs fixedBar tabs={tabs} panels={panels} index={Math.min(tab, tabs.length - 1)} onChange={change} className="pt-0" />
       <CalcFab playerId={player.id} />
     </PageShell>
   );

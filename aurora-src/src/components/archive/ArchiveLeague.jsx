@@ -4,7 +4,6 @@ import { ChevronUp } from 'lucide-react';
 import SwipeTabs from '@/components/SwipeTabs';
 import TextFilter from '@/components/TextFilter';
 import StatLists from '@/components/stats/StatLists';
-import Skeleton from '@/components/Skeleton';
 import { TeamLogo, PlayerFace } from '@/components/FmImg';
 import useAsync from '@/hooks/useAsync';
 import useArchFresh from '@/hooks/useArchFresh';
@@ -17,6 +16,7 @@ import Bracket from '@/components/bracket/Bracket';
 import { isPureCup, loadBracket } from '@/data/bracket';
 import { roundBlocks, blockTag, currentBlock } from '@/data/rounds';
 import { ArchRow, StandingsPanel, fmtDate, dayKey, useTeamColors, rowBg } from './parts';
+import { SkTabs, SkList } from '@/components/PageSkeletons';
 
 const TABS = [
   { key: 'matches', label: 'Partite' },
@@ -30,9 +30,9 @@ const Empty = ({ children }) => (
   <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>{children}</p>
 );
 const Loading = () => (
-  <div className="px-5 pt-8">
-    <Skeleton className="h-[42px] w-full" />
-    <div className="mt-6 space-y-4">{[0, 1, 2, 3, 4].map((i) => <Skeleton key={i} className="h-[52px] w-full" />)}</div>
+  <div className="sk-delay" role="status" aria-label="Caricamento">
+    <SkTabs labels={TABS.slice(0, 4).map((t) => t.label)} />
+    <SkList className="px-5 pt-3" />
   </div>
 );
 

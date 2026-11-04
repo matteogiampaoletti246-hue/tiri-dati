@@ -17,6 +17,7 @@ import { teamById } from '@/data/teams';
 import { DATES, TODAY_INDEX, isoDate } from '@/data/matches';
 import { dayLabel, longDate } from '@/lib/format';
 import { tintGrad } from '@/lib/tint';
+import { PanelSkeleton } from '@/components/PageSkeletons';
 
 const CUP_FMS = [42, 73, 10216];
 const LID_BY_FM = Object.fromEntries(Object.entries(FM_ID).map(([k, v]) => [v, k]));
@@ -91,7 +92,7 @@ function PastSeason({ team, comp, sk, filter }) {
     const l = (data || []).map(now).filter((it) => (filter === 'all' ? true : filter === 'results' ? it.played : !it.played));
     return l.sort((a, b) => (filter === 'upcoming' ? a.date.localeCompare(b.date) : b.date.localeCompare(a.date)));
   }, [data, filter, ver]);
-  if (loading) return <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Carico le partite…</p>;
+  if (loading) return <PanelSkeleton rowH={64} />;
   if (!list.length) return <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Nessuna partita</p>;
   return <Pills items={list} dayHead={(d) => fmtDate(d)} row={(it) => <ArchRow m={it.m} names={it.names} fm={it.fm} sk={sk} tid={it.tid} />} />;
 }
@@ -163,7 +164,7 @@ function CurrentSeason({ teamId, comp, filter }) {
     if (el) { const d = el.getBoundingClientRect().top - a.top; if (Math.abs(d) > 0.5) window.scrollBy(0, d); }
   }, [more]);
   // partite d'archivio ancora in arrivo: mai "Nessuna partita" prima del tempo
-  if (!list.length && !arch) return <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Carico le partite…</p>;
+  if (!list.length && !arch) return <PanelSkeleton rowH={64} />;
   if (!list.length) return <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Nessuna partita</p>;
   const shown = filter === 'all' && !more ? list.slice(hidden) : list;
   const open = () => {

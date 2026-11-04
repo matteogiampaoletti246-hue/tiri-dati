@@ -68,6 +68,9 @@
   --pill-bg: rgba(255, 255, 255, .55);
   --shadow-1: 0 8px 18px -14px rgba(15, 23, 42, .3);
   --shadow-2: 0 6px 14px -12px rgba(15, 23, 42, .26);
+  --sk-base: rgba(15, 23, 42, .085);
+  --sk-hi: rgba(255, 255, 255, .8);
+  --sk-panel: rgba(255, 255, 255, .78);
 
   --accent: #1F6BEF;
   --accent-soft: rgba(37, 99, 235, .10);
@@ -135,6 +138,9 @@
   --pill-bg: rgba(255, 255, 255, .06);
   --shadow-1: 0 26px 60px -32px rgba(0, 0, 0, .95);
   --shadow-2: 0 14px 30px -24px rgba(0, 0, 0, .85);
+  --sk-base: rgba(255, 255, 255, .075);
+  --sk-hi: rgba(255, 255, 255, .1);
+  --sk-panel: rgba(255, 255, 255, .045);
 
   --accent: #4DA8FF;
   --accent-soft: rgba(56, 152, 255, .16);
@@ -513,25 +519,37 @@
     }
   }
 
-  .shimmer {
+  /* scheletro di caricamento (LoaderSkeleton): barra grigia con riflesso che scorre, solo transform */
+  .shimmer, .sk {
     position: relative;
     overflow: hidden;
-    background: var(--panel-2);
+    background: var(--sk-base);
   }
 
-  .shimmer::after {
+  .shimmer::after, .sk::after {
     content: '';
     position: absolute;
     inset: 0;
     transform: translateX(-100%);
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .10), transparent);
-    animation: shimmer 1.5s ease-in-out infinite;
+    background: linear-gradient(90deg, transparent, var(--sk-hi), transparent);
+    animation: shimmer var(--sk-dur, 1.5s) ease-in-out infinite;
+    will-change: transform;
   }
 
   @keyframes shimmer {
     100% {
       transform: translateX(100%);
     }
+  }
+
+  /* scheletro di una pagina o di un pannello: compare solo dopo 150 ms (un caricamento piu' corto non lampeggia) */
+  .sk-delay { animation: sk-in .16s ease-out .15s both; }
+  @keyframes sk-in { from { opacity: 0; } to { opacity: 1; } }
+  .sk-card { background: var(--sk-panel); border: 1px solid var(--hair-2); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .shimmer::after, .sk::after { animation: none; opacity: 0; }
+    .sk-delay { animation: none; }
   }
 
   .rise {

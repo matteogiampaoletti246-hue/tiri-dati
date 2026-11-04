@@ -6,6 +6,7 @@ import { useTeamColors } from '@/components/archive/parts';
 import { groupOf, fmtVal, ORDER } from '@/components/archive/ArchiveLeague';
 import { TeamLogo } from '@/components/FmImg';
 import { CARD, BarRow, standingOf } from './PastBits';
+import { PanelSkeleton } from '@/components/PageSkeletons';
 
 // categorie come nella stagione attuale: Attacco / Difesa / Disciplina / Gioco
 const catOfMatchKey = (k) => (/yellow|red_cards|fouls|Offsides/.test(k) ? 'Disciplina' : /tackles|interceptions|shot_blocks|clearances|keeper_saves/.test(k) ? 'Difesa' : /expected_goals|shots|ShotsOn|ShotsOff|big_chance|corners|touches_opp_box|woodwork/.test(k) ? 'Attacco' : 'Gioco');
@@ -37,7 +38,7 @@ export default function PastStats({ kind, id, fm, sk, current = false, teamName 
   const byMatch = res ? res.byMatch : wantMatch;
   const { data: season } = useAsync(() => loadSeason(fm, sk), [fm, sk]);
   // cambiando Casa/Trasferta il contenuto resta al suo posto e le barre scorrono ai nuovi valori (niente scomparsa e riapparizione)
-  if (loading && !stats) return <Msg>Carico la stagione {seasonLabel(sk)}…</Msg>;
+  if (loading && !stats) return <PanelSkeleton kind="cards" />;
   const lists = stats && stats[kind];
   const isP = kind === 'players';
   // giocatore senza dati in questa stagione (ne ha in altre: le tendine portano li'): un solo messaggio, niente riquadri vuoti

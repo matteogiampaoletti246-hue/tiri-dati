@@ -5,9 +5,7 @@ import ListHeader from '@/components/ListHeader';
 import DayStrip from '@/components/DayStrip';
 import TextFilter from '@/components/TextFilter';
 import MatchDayList from '@/components/MatchDayList';
-import MatchRowSkeleton from '@/components/MatchRowSkeleton';
 import SearchOverlay from '@/components/SearchOverlay';
-import useInitialLoad from '@/hooks/useInitialLoad';
 import useTicker from '@/hooks/useTicker';
 import { DATES, TODAY_INDEX, isoDate, matchesByDate } from '@/data/matches';
 
@@ -29,7 +27,6 @@ export default function Partite() {
   const [dayIdx, setDayIdx] = useState(TODAY_INDEX);
   const [filter, setFilter] = useState('all');
   const [searchOpen, setSearchOpen] = useState(false);
-  const loading = useInitialLoad();
   useTicker(30000);
 
   const shown = matchesByDate(isoDate(DATES[dayIdx])).filter(MATCH[filter]);
@@ -47,13 +44,7 @@ export default function Partite() {
         </span>
       </div>
 
-      {loading ? (
-        <div className="space-y-3 px-5 pt-4">
-          {[0, 1, 2, 3, 4, 5].map((i) => (
-            <MatchRowSkeleton key={i} />
-          ))}
-        </div>
-      ) : shown.length ? (
+      {shown.length ? (
         <MatchDayList matches={shown} focusToday={false} />
       ) : (
         <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>

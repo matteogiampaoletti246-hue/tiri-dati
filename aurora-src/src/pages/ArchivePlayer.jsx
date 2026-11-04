@@ -5,10 +5,10 @@ import { loadCarriere } from '@/data/carriere';
 import { NAV } from '@/components/past/PastBits';
 import PageShell from '@/components/PageShell';
 import TopBar from '@/components/TopBar';
-import Skeleton from '@/components/Skeleton';
 import useAsync from '@/hooks/useAsync';
 import { loadPlayerStatsFor } from '@/data/archive';
 import { archiveId } from '@/data/archivePlayer';
+import { EntitySkeleton } from '@/components/PageSkeletons';
 
 // Scheda del giocatore in quella stagione: tutte le statistiche in cui compare, con la sua posizione in classifica
 export default function ArchivePlayer() {
@@ -25,7 +25,7 @@ export default function ArchivePlayer() {
       return <Navigate replace to={`/giocatore/${appId}`} />;
     }
   }
-  if (car === undefined || loading) return <PageShell bar={false}><TopBar title="Giocatore" /><div className="px-5 pt-8"><Skeleton className="h-[52px] w-full" /></div></PageShell>;
+  if (car === undefined || loading) return <PageShell><EntitySkeleton kind="person" /></PageShell>;
   const lists = (stats && stats.players) || {};
   const found = Object.keys(lists).some((k) => !k.startsWith('_') && lists[k].some((r) => String(r[0]) === pid));
   if (!found) return <PageShell bar={false}><TopBar title="Giocatore" /><p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Giocatore non trovato</p></PageShell>;

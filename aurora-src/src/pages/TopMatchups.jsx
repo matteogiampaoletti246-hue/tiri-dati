@@ -7,10 +7,8 @@ import DayStrip from '@/components/DayStrip';
 import StatPicker from '@/components/top/StatPicker';
 import SearchOverlay from '@/components/SearchOverlay';
 import DayPager from '@/components/DayPager';
-import Skeleton from '@/components/Skeleton';
 import MatchupRow from '@/components/top/MatchupRow';
 import ChunkRows from '@/components/top/ChunkRows';
-import useInitialLoad from '@/hooks/useInitialLoad';
 import { matchupRows, MATCHUP_TYPES } from '@/data/matchups';
 import { DATES, TODAY_INDEX, isoDate } from '@/data/matches';
 
@@ -32,7 +30,6 @@ export default function TopMatchups() {
   KEEP.day = dayIdx;
   KEEP.type = typeKey;
   const [searchOpen, setSearchOpen] = useState(false);
-  const loading = useInitialLoad();
 
   return (
     <PageShell swipeBack={isNative()}>
@@ -45,28 +42,20 @@ export default function TopMatchups() {
       </header>
       <div className="h-2" />
 
-      {loading ? (
-        <div className="space-y-3 px-5 pt-4">
-          {[0, 1, 2, 3, 4, 5].map((i) => (
-            <Skeleton key={i} className="h-[150px] w-full rounded-[24px]" />
-          ))}
-        </div>
-      ) : (
-        <DayPager
-          backEdge={isNative()}
-          index={dayIdx}
-          count={DAYS.length}
-          onChange={setDayIdx}
-          render={(i, active) => {
-            const rows = matchupRows(isoDate(DAYS[i]), typeKey);
-            return rows.length ? (
-              <ChunkRows key={`${i}|${typeKey}`} rows={rows} active={active} rowH={190} keyOf={keyOfRow} renderRow={renderRow} />
-            ) : (
-              <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Nessuna partita</p>
-            );
-          }}
-        />
-      )}
+      <DayPager
+        backEdge={isNative()}
+        index={dayIdx}
+        count={DAYS.length}
+        onChange={setDayIdx}
+        render={(i, active) => {
+          const rows = matchupRows(isoDate(DAYS[i]), typeKey);
+          return rows.length ? (
+            <ChunkRows key={`${i}|${typeKey}`} rows={rows} active={active} rowH={190} keyOf={keyOfRow} renderRow={renderRow} />
+          ) : (
+            <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Nessuna partita</p>
+          );
+        }}
+      />
 
       <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
     </PageShell>

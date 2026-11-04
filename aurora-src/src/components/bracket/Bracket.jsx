@@ -10,6 +10,7 @@ import { teamByName } from '@/data/teams';
 import { LEAGUES, leagueTint } from '@/data/leagues';
 import { matchTint } from '@/data/matchTint';
 import { FM_ID } from '@/data/archive';
+import { PanelSkeleton } from '@/components/PageSkeletons';
 
 // Tabellone: due fasi per schermata, le pillole delle fasi fanno scorrere il tabellone da un lato all'altro.
 // Le posizioni sono calcolate a ogni fotogramma (niente componenti ricreati): si muovono solo i transform.
@@ -330,7 +331,7 @@ export default function Bracket({ fm, sk }) {
     return () => { on = false; };
   }, [ver, fm, sk]); // eslint-disable-line react-hooks/exhaustive-deps
   const data = (fresh && fresh.k === `${fm}-${sk}` && fresh.d) || d0 || hit;
-  if (loading && !data) return <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Carico il tabellone…</p>;
+  if (loading && !data) return <PanelSkeleton kind="cards" />;
   if (!data || !data.rounds || !data.rounds.length) {
     return null;
   }

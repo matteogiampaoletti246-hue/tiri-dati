@@ -2,11 +2,11 @@ import { Link } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
 import PageShell from '@/components/PageShell';
 import TopBar from '@/components/TopBar';
-import Skeleton from '@/components/Skeleton';
 import LeagueBadge from '@/components/LeagueBadge';
 import useAsync from '@/hooks/useAsync';
 import { archIndex } from '@/data/archive';
 import { LEAGUES } from '@/data/leagues';
+import { SkList } from '@/components/PageSkeletons';
 
 // Tutte le competizioni (app + archivio, 371) raggruppate per paese: internazionali, paesi principali, poi gli altri in ordine alfabetico.
 // Raggiungibile dal Menu e dalla ricerca; ogni riga apre la stessa scheda campionato.
@@ -30,7 +30,7 @@ export default function Competitions() {
     <PageShell>
       <TopBar title="Competizioni" />
       {!data ? (
-        <div className="space-y-4 px-5 pt-6">{[0, 1, 2, 3, 4].map((i) => <Skeleton key={i} className="h-[44px] w-full" />)}</div>
+        <div className="sk-delay px-5 pt-5" role="status" aria-label="Caricamento"><SkList rowH={47} top={120} className="" /></div>
       ) : groups().map((g) => (
         <section key={g.c} className="px-5 pt-5" style={{ contentVisibility: 'auto', containIntrinsicSize: `auto ${40 + g.list.length * 52}px` }}>
           <p className="label-sm pb-1">{g.c}</p>

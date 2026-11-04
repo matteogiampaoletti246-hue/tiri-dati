@@ -34,6 +34,7 @@ import { RAW } from '@/data/load';
 import { fixedColors } from '@/data/teamColorFix';
 import FlagDot from '@/components/FlagDot';
 import { carriereOf, careerByFm, countryIt, flagCode, FOOT, dateLong, ageOf, money, monthIt } from '@/data/carriere';
+import { PanelSkeleton } from '@/components/PageSkeletons';
 
 const L = { fontSize: 9.5, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--ink-3)' };
 
@@ -471,7 +472,7 @@ function CupCurrent({ p, fm, fmPid, team }) {
     const st = sk ? await loadPlayerStatsFor(fm, sk, fmPid) : null;
     return { sk, st };
   }, [fm, fmPid]);
-  if (loading && !data) return <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Carico le statistiche…</p>;
+  if (loading && !data) return <PanelSkeleton kind="cards" />;
   if (data && data.sk && data.st && fmPid) return <PastStats kind="players" id={fmPid} fm={fm} sk={data.sk} current teamName={team && team.name} />;
   if (!(p.c && p.c[0])) return <NoData />;
   return <div className="px-5 pb-10 pt-4"><CupSummary p={p} /></div>;

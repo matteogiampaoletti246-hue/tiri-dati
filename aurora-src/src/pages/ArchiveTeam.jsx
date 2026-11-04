@@ -5,7 +5,6 @@ import { NAV } from '@/components/past/PastBits';
 import PageShell from '@/components/PageShell';
 import TopBar from '@/components/TopBar';
 import SwipeTabs from '@/components/SwipeTabs';
-import Skeleton from '@/components/Skeleton';
 import EntityBanner from '@/components/EntityBanner';
 import StatLists from '@/components/stats/StatLists';
 import { PlayerFace } from '@/components/FmImg';
@@ -15,6 +14,7 @@ import { FM_ID, LID_BY_FM, loadSeason, loadPlayerStats, seasonLabel, teamLogo, S
 import { leagueById, leagueTint } from '@/data/leagues';
 import { tintGrad } from '@/lib/tint';
 import { ArchRow, StandingsPanel, fmtDate, dayKey, useTeamColors } from '@/components/archive/parts';
+import { EntitySkeleton } from '@/components/PageSkeletons';
 
 const TABS = [
   { key: 'matches', label: 'Partite' },
@@ -65,7 +65,7 @@ export default function ArchiveTeam() {
   useArchFresh(fm, sk); // risultati nuovi della stagione in corso
   const { data: stats } = useAsync(() => loadPlayerStats(fm, sk), [fm, sk]);
   const name = season && season.teams && season.teams[tid];
-  if (loading) return <PageShell bar={false}><TopBar title="Squadra" /><div className="px-5 pt-8"><Skeleton className="h-[52px] w-full" /></div></PageShell>;
+  if (loading) return <PageShell><EntitySkeleton /></PageShell>;
   if (!season || !name) return <PageShell bar={false}><TopBar title="Squadra" /><Empty>Squadra non trovata</Empty></PageShell>;
   // squadra presente nell'app: si apre la scheda unica della squadra, con la stagione scelta
   // (prima per id FotMob, in qualunque competizione; poi per nome uguale nella sua competizione)

@@ -8,10 +8,10 @@ import TextFilter from '@/components/TextFilter';
 import SearchOverlay from '@/components/SearchOverlay';
 import DayPager from '@/components/DayPager';
 import Skeleton from '@/components/Skeleton';
+import { fill } from '@/components/PageSkeletons';
 import TopPlayerRow from '@/components/top/TopPlayerRow';
 import TopStatPicker from '@/components/top/TopStatPicker';
 import ChunkRows from '@/components/top/ChunkRows';
-import useInitialLoad from '@/hooks/useInitialLoad';
 import { bestPlayers, isFoulStat, loadBestFouls, THRESHOLDS, TOP_KEEP, TOP_STATS } from '@/data/topPlayers';
 import { DATES, TODAY_INDEX, isoDate } from '@/data/matches';
 
@@ -46,8 +46,8 @@ function DayList({ day, thr, stat, active, takeAnim }) {
   const rows = useDayRows(day, thr, stat, active);
   if (!rows) {
     return (
-      <div className="space-y-3 px-5 pt-2">
-        {[0, 1, 2, 3, 4].map((i) => <Skeleton key={i} className="h-[96px] w-full rounded-[24px]" />)}
+      <div className="sk-delay space-y-3 px-5 pt-2" role="status" aria-label="Caricamento">
+        {Array.from({ length: fill(108, 220, 7) }, (_, i) => <Skeleton key={i} className="h-[96px] w-full rounded-[24px]" />)}
       </div>
     );
   }
@@ -86,7 +86,6 @@ export default function TopPlayers() {
   TOP_KEEP.thr = threshold;
   TOP_KEEP.stat = shown;
   const [searchOpen, setSearchOpen] = useState(false);
-  const loading = useInitialLoad();
 
   const dThr = useDeferredValue(threshold);
   const takeAnim = () => {
@@ -119,25 +118,17 @@ export default function TopPlayers() {
       </header>
       <div className="h-2" />
 
-      {loading ? (
-        <div className="space-y-3 px-5 pt-4">
-          {[0, 1, 2, 3, 4, 5].map((i) => (
-            <Skeleton key={i} className="h-[96px] w-full rounded-[24px]" />
-          ))}
-        </div>
-      ) : (
-        <div className={leaving ? 'tp-out' : undefined}>
-          <DayPager
-            backEdge={isNative()}
-            index={dayIdx}
-            count={DAYS.length}
-            onChange={setDayIdx}
-            render={(i, active) => (
-              <DayList key={`${i}|${shown}|${dThr}`} day={isoDate(DAYS[i])} thr={dThr} stat={shown} active={active} takeAnim={takeAnim} />
-            )}
-          />
-        </div>
-      )}
+      <div className={leaving ? 'tp-out' : undefined}>
+        <DayPager
+          backEdge={isNative()}
+          index={dayIdx}
+          count={DAYS.length}
+          onChange={setDayIdx}
+          render={(i, active) => (
+            <DayList key={`${i}|${shown}|${dThr}`} day={isoDate(DAYS[i])} thr={dThr} stat={shown} active={active} takeAnim={takeAnim} />
+          )}
+        />
+      </div>
 
       <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
     </PageShell>

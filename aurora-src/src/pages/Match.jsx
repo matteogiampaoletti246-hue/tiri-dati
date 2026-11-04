@@ -6,6 +6,7 @@ import PageShell from '@/components/PageShell';
 import TopBar from '@/components/TopBar';
 import MatchHero from '@/components/MatchHero';
 import SwipeTabs from '@/components/SwipeTabs';
+import { SkMatchHero, SkMatchBody } from '@/components/PageSkeletons';
 import MatchOverviewPanel from '@/components/match/MatchOverviewPanel';
 import MatchSummaryPanel from '@/components/match/MatchSummaryPanel';
 import MatchStatsPanel from '@/components/match/MatchStatsPanel';
@@ -48,17 +49,6 @@ const PLAYED_TABS = [
   { key: 'lineups', label: 'Formazioni' },
   { key: 'standings', label: 'Classifica' },
 ];
-
-function Loader({ title = 'Partita' }) {
-  return (
-    <PageShell bar={false}>
-      <TopBar title={title} />
-      <div className="flex items-center justify-center" style={{ minHeight: '60vh' }} role="status" aria-label="Caricamento">
-        <span className="spin" style={{ width: 30, height: 30, borderRadius: '50%', border: '3px solid var(--hair-2)', borderTopColor: 'var(--ink-2)', display: 'block' }} />
-      </div>
-    </PageShell>
-  );
-}
 
 function StandingsOrBracket({ raw, cup }) {
   return cup ? <Bracket fm={raw.archive.fm} sk={raw.archive.sk} /> : <MatchStandingsPanel match={raw} />;
@@ -116,7 +106,17 @@ export default function Match() {
 
   const raw = matchById(id);
   if (raw && raw.href) return <Navigate to={raw.href} state={loc.state} replace />;
-  if (!ready) return <Loader />;
+  // in preparazione: intestazione vera se la partita e' gia' nota (stessa posizione della pagina pronta), scheletro sotto
+  if (!ready) {
+    return (
+      <PageShell>
+        <div style={raw ? { '--tint': matchTint(raw.leagueId, raw.leagueObj) } : undefined}>
+          {raw ? <div data-back-banner="1"><MatchHero match={raw} view={viewMatch(raw)} league={leagueById(raw.leagueId) || raw.leagueObj || null} home={teamById(raw.homeId)} away={teamById(raw.awayId)} /></div> : <div className="sk-delay"><SkMatchHero /></div>}
+          <SkMatchBody />
+        </div>
+      </PageShell>
+    );
+  }
   if (!raw) {
     return (
       <PageShell bar={false}>
