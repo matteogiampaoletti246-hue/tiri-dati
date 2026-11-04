@@ -10772,8 +10772,8 @@
  "rose_per_ruolo": {
   "squadre": 5202,
   "prima": 4401,
-  "dopo": 1182,
-  "giocate_dopo": 1018,
+  "dopo": 1167,
+  "giocate_dopo": 1003,
   "elenco": [
    {
     "squadra": "1. BFK Frýdlant nad Ostravici",
@@ -10781,17 +10781,6 @@
     "giocatori": 0,
     "competizioni": [
      "Czech Cup 2026-2027"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
-    "squadra": "12 Bingölspor",
-    "id": "581800",
-    "giocatori": 0,
-    "competizioni": [
-     "Turkish Cup 2026-2027"
     ],
     "motivo": [
      "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
@@ -11459,17 +11448,6 @@
     ]
    },
    {
-    "squadra": "Adana Adaletgucu SF",
-    "id": "2355223",
-    "giocatori": 0,
-    "competizioni": [
-     "Turkish Cup 2026-2027"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
     "squadra": "Ain Sud Foot",
     "id": "238963",
     "giocatori": 0,
@@ -11657,17 +11635,6 @@
     ]
    },
    {
-    "squadra": "Anadolu Üniversitesi",
-    "id": "1687780",
-    "giocatori": 0,
-    "competizioni": [
-     "Turkish Cup 2026-2027"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
     "squadra": "Angevin",
     "id": "497142",
     "giocatori": 0,
@@ -11822,28 +11789,6 @@
     ]
    },
    {
-    "squadra": "Atletico Calatayud",
-    "id": "190104",
-    "giocatori": 0,
-    "competizioni": [
-     "Copa del Rey 2026-2027"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
-    "squadra": "Atletico Pinatarense",
-    "id": "2341166",
-    "giocatori": 0,
-    "competizioni": [
-     "Copa del Rey 2026-2027"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
     "squadra": "Atomic Ngome",
     "id": "2161016",
     "giocatori": 0,
@@ -11929,17 +11874,6 @@
     ],
     "motivo": [
      "0 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
-    ]
-   },
-   {
-    "squadra": "Bangor 1876",
-    "id": "1503255",
-    "giocatori": 0,
-    "competizioni": [
-     "Welsh Cup 2025-2026"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
     ]
    },
    {
@@ -12311,17 +12245,6 @@
     "giocatori": 0,
     "competizioni": [
      "DBU Pokalen 2026-2027"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
-    "squadra": "Bursa Yıldırımspor",
-    "id": "1088447",
-    "giocatori": 0,
-    "competizioni": [
-     "Turkish Cup 2026-2027"
     ],
     "motivo": [
      "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
@@ -13098,28 +13021,6 @@
     ]
    },
    {
-    "squadra": "Düzcespor",
-    "id": "162992",
-    "giocatori": 0,
-    "competizioni": [
-     "Turkish Cup 2026-2027"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
-    "squadra": "Düzyurtspor",
-    "id": "468166",
-    "giocatori": 0,
-    "competizioni": [
-     "Turkish Cup 2026-2027"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
     "squadra": "EC São Bernardo",
     "id": "581896",
     "giocatori": 0,
@@ -13582,17 +13483,6 @@
     ]
    },
    {
-    "squadra": "FC Masar",
-    "id": "1786755",
-    "giocatori": 0,
-    "competizioni": [
-     "Egypt Cup 2025-2026"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
     "squadra": "FC Montlouis",
     "id": "402254",
     "giocatori": 0,
@@ -13989,17 +13879,6 @@
     ]
    },
    {
-    "squadra": "Gemlik Sumerbey Spor",
-    "id": "2355143",
-    "giocatori": 0,
-    "competizioni": [
-     "Turkish Cup 2026-2027"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
     "squadra": "Generation Emblavez Jeunes",
     "id": "2386897",
     "giocatori": 0,
@@ -14099,17 +13978,6 @@
     ]
    },
    {
-    "squadra": "Hakkari Zap Spor",
-    "id": "2355111",
-    "giocatori": 0,
-    "competizioni": [
-     "Turkish Cup 2026-2027"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
     "squadra": "Hallingdal FK",
     "id": "428159",
     "giocatori": 0,
@@ -14156,28 +14024,6 @@
    {
     "squadra": "Hapoel Arad",
     "id": "2357782",
-    "giocatori": 0,
-    "competizioni": [
-     "State Cup 2026-2027"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
-    "squadra": "Hapoel Azor",
-    "id": "1420906",
-    "giocatori": 0,
-    "competizioni": [
-     "State Cup 2026-2027"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
-    "squadra": "Hapoel Bnei Jisr az-Zarqa",
-    "id": "2260743",
     "giocatori": 0,
     "competizioni": [
      "State Cup 2026-2027"
@@ -14302,17 +14148,6 @@
     "giocatori": 0,
     "competizioni": [
      "Coupe de France Féminine 2025-2026"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
-    "squadra": "Highbury",
-    "id": "1899971",
-    "giocatori": 0,
-    "competizioni": [
-     "Nedbank Cup 2025-2026"
     ],
     "motivo": [
      "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
@@ -14660,33 +14495,11 @@
     ]
    },
    {
-    "squadra": "Kahramanmaras Istiklalspor",
-    "id": "1784548",
-    "giocatori": 0,
-    "competizioni": [
-     "Turkish Cup 2026-2027"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
     "squadra": "Kanazawa Seiryo University",
     "id": "941016",
     "giocatori": 0,
     "competizioni": [
      "Emperor's Cup 2026"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
-    "squadra": "Kars 36 Spor",
-    "id": "1088990",
-    "giocatori": 0,
-    "competizioni": [
-     "Turkish Cup 2026-2027"
     ],
     "motivo": [
      "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
@@ -15475,17 +15288,6 @@
     ]
    },
    {
-    "squadra": "Novyi Rozdil",
-    "id": "2260427",
-    "giocatori": 0,
-    "competizioni": [
-     "Ukraine Cup 2026-2027"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
     "squadra": "Nueillaubiers",
     "id": "1103481",
     "giocatori": 0,
@@ -15905,17 +15707,6 @@
     ]
    },
    {
-    "squadra": "Rhyl 1879",
-    "id": "1914729",
-    "giocatori": 0,
-    "competizioni": [
-     "Welsh Cup 2025-2026"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
     "squadra": "Ribadesella CF",
     "id": "189591",
     "giocatori": 0,
@@ -16324,17 +16115,6 @@
     ]
    },
    {
-    "squadra": "Sebatspor",
-    "id": "2167",
-    "giocatori": 0,
-    "competizioni": [
-     "Turkish Cup 2026-2027"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
     "squadra": "Sevastopol",
     "id": "566806",
     "giocatori": 0,
@@ -16503,17 +16283,6 @@
    {
     "squadra": "Sporting Hortaleza",
     "id": "2360741",
-    "giocatori": 0,
-    "competizioni": [
-     "Copa del Rey 2026-2027"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
-    "squadra": "Sporting de Alcazar",
-    "id": "190128",
     "giocatori": 0,
     "competizioni": [
      "Copa del Rey 2026-2027"
@@ -16931,17 +16700,6 @@
     ]
    },
    {
-    "squadra": "UB Lebrijana",
-    "id": "477697",
-    "giocatori": 0,
-    "competizioni": [
-     "Copa del Rey 2026-2027"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
     "squadra": "UDIB",
     "id": "2161026",
     "giocatori": 0,
@@ -17195,17 +16953,6 @@
     ]
    },
    {
-    "squadra": "VPV Purmersteijn",
-    "id": "1780635",
-    "giocatori": 0,
-    "competizioni": [
-     "KNVB Cup 2026-2027"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
     "squadra": "VRI",
     "id": "461336",
     "giocatori": 0,
@@ -17421,17 +17168,6 @@
     "giocatori": 0,
     "competizioni": [
      "DBU Pokalen 2026-2027"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
-    "squadra": "WE SC",
-    "id": "101765",
-    "giocatori": 0,
-    "competizioni": [
-     "Egypt Cup 2025-2026"
     ],
     "motivo": [
      "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
@@ -17977,17 +17713,6 @@
     ]
    },
    {
-    "squadra": "Çorluspor 1947",
-    "id": "1559131",
-    "giocatori": 0,
-    "competizioni": [
-     "Turkish Cup 2026-2027"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
     "squadra": "1 de Marzo Pilar",
     "id": "2132317",
     "giocatori": 1,
@@ -18019,18 +17744,6 @@
     "motivo": [
      "1 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 1",
      "nessun ruolo noto: FotMob senza rosa, formazioni e schede giocatore senza posizione"
-    ]
-   },
-   {
-    "squadra": "AEP Polemidion",
-    "id": "2181835",
-    "giocatori": 1,
-    "competizioni": [
-     "2. Division 2026-2027",
-     "Cyprus Cup 2026-2027"
-    ],
-    "motivo": [
-     "1 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 1"
     ]
    },
    {
@@ -18135,6 +17848,28 @@
     ]
    },
    {
+    "squadra": "Atletico Calatayud",
+    "id": "190104",
+    "giocatori": 1,
+    "competizioni": [
+     "Copa del Rey 2026-2027"
+    ],
+    "motivo": [
+     "1 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 1"
+    ]
+   },
+   {
+    "squadra": "Atletico Pinatarense",
+    "id": "2341166",
+    "giocatori": 1,
+    "competizioni": [
+     "Copa del Rey 2026-2027"
+    ],
+    "motivo": [
+     "1 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 1"
+    ]
+   },
+   {
     "squadra": "BOHFS St. Louis",
     "id": "1912763",
     "giocatori": 1,
@@ -18151,6 +17886,17 @@
     "giocatori": 1,
     "competizioni": [
      "Coupe de France 2026-2027"
+    ],
+    "motivo": [
+     "1 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 1"
+    ]
+   },
+   {
+    "squadra": "Bangor 1876",
+    "id": "1503255",
+    "giocatori": 1,
+    "competizioni": [
+     "Welsh Cup 2025-2026"
     ],
     "motivo": [
      "1 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 1"
@@ -18217,17 +17963,6 @@
     "giocatori": 1,
     "competizioni": [
      "Emperor's Cup 2026"
-    ],
-    "motivo": [
-     "1 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 1"
-    ]
-   },
-   {
-    "squadra": "Broadmeadow Magic",
-    "id": "162253",
-    "giocatori": 1,
-    "competizioni": [
-     "Australia Championship 2026"
     ],
     "motivo": [
      "1 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 1"
@@ -18367,6 +18102,17 @@
     ]
    },
    {
+    "squadra": "Düzcespor",
+    "id": "162992",
+    "giocatori": 1,
+    "competizioni": [
+     "Turkish Cup 2026-2027"
+    ],
+    "motivo": [
+     "1 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 1"
+    ]
+   },
+   {
     "squadra": "Erith Town",
     "id": "879809",
     "giocatori": 1,
@@ -18386,6 +18132,18 @@
     ],
     "motivo": [
      "1 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 1"
+    ]
+   },
+   {
+    "squadra": "FC Masar",
+    "id": "1786755",
+    "giocatori": 1,
+    "competizioni": [
+     "Egypt Cup 2025-2026"
+    ],
+    "motivo": [
+     "1 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 1",
+     "nessun ruolo noto: FotMob senza rosa, formazioni e schede giocatore senza posizione"
     ]
    },
    {
@@ -18511,28 +18269,6 @@
     ]
    },
    {
-    "squadra": "Gebzespor",
-    "id": "8386",
-    "giocatori": 1,
-    "competizioni": [
-     "Turkish Cup 2026-2027"
-    ],
-    "motivo": [
-     "1 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 1"
-    ]
-   },
-   {
-    "squadra": "Gomora United",
-    "id": "1899967",
-    "giocatori": 1,
-    "competizioni": [
-     "Nedbank Cup 2025-2026"
-    ],
-    "motivo": [
-     "1 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 1"
-    ]
-   },
-   {
     "squadra": "Grand-Quevilly FC",
     "id": "801449",
     "giocatori": 1,
@@ -18560,6 +18296,17 @@
     "giocatori": 1,
     "competizioni": [
      "Scottish Cup 2026-2027"
+    ],
+    "motivo": [
+     "1 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 1"
+    ]
+   },
+   {
+    "squadra": "Hakkari Zap Spor",
+    "id": "2355111",
+    "giocatori": 1,
+    "competizioni": [
+     "Turkish Cup 2026-2027"
     ],
     "motivo": [
      "1 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 1"
@@ -18709,6 +18456,17 @@
     ]
    },
    {
+    "squadra": "Kars 36 Spor",
+    "id": "1088990",
+    "giocatori": 1,
+    "competizioni": [
+     "Turkish Cup 2026-2027"
+    ],
+    "motivo": [
+     "1 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 1"
+    ]
+   },
+   {
     "squadra": "Kerzers",
     "id": "2096419",
     "giocatori": 1,
@@ -18771,17 +18529,6 @@
     "giocatori": 1,
     "competizioni": [
      "Danmarksserien 2026-2027"
-    ],
-    "motivo": [
-     "1 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 1"
-    ]
-   },
-   {
-    "squadra": "Lerumo Lions",
-    "id": "1704816",
-    "giocatori": 1,
-    "competizioni": [
-     "Nedbank Cup 2025-2026"
     ],
     "motivo": [
      "1 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 1"
@@ -18903,17 +18650,6 @@
     "giocatori": 1,
     "competizioni": [
      "Australia Cup 2026"
-    ],
-    "motivo": [
-     "1 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 1"
-    ]
-   },
-   {
-    "squadra": "Mazıdağı Fosfat Spor",
-    "id": "1406158",
-    "giocatori": 1,
-    "competizioni": [
-     "Turkish Cup 2026-2027"
     ],
     "motivo": [
      "1 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 1"
@@ -19118,6 +18854,17 @@
     ]
    },
    {
+    "squadra": "Rhyl 1879",
+    "id": "1914729",
+    "giocatori": 1,
+    "competizioni": [
+     "Welsh Cup 2025-2026"
+    ],
+    "motivo": [
+     "1 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 1"
+    ]
+   },
+   {
     "squadra": "River Valley Rangers",
     "id": "1738935",
     "giocatori": 1,
@@ -19229,17 +18976,6 @@
     ]
    },
    {
-    "squadra": "Soweto Super United",
-    "id": "1899972",
-    "giocatori": 1,
-    "competizioni": [
-     "Nedbank Cup 2025-2026"
-    ],
-    "motivo": [
-     "1 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 1"
-    ]
-   },
-   {
     "squadra": "St Amand FC",
     "id": "402284",
     "giocatori": 1,
@@ -19344,17 +19080,6 @@
     "giocatori": 1,
     "competizioni": [
      "Norgesmesterskapet 2026-2027"
-    ],
-    "motivo": [
-     "1 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 1"
-    ]
-   },
-   {
-    "squadra": "Upington City",
-    "id": "1528633",
-    "giocatori": 1,
-    "competizioni": [
-     "Nedbank Cup 2025-2026"
     ],
     "motivo": [
      "1 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 1"
@@ -19516,17 +19241,6 @@
     ]
    },
    {
-    "squadra": "Wanderers Durazno",
-    "id": "1545885",
-    "giocatori": 1,
-    "competizioni": [
-     "Copa Uruguay 2026"
-    ],
-    "motivo": [
-     "1 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 1"
-    ]
-   },
-   {
     "squadra": "Wiked Luzino",
     "id": "1790683",
     "giocatori": 1,
@@ -19582,6 +19296,18 @@
     ]
    },
    {
+    "squadra": "AEP Polemidion",
+    "id": "2181835",
+    "giocatori": 2,
+    "competizioni": [
+     "2. Division 2026-2027",
+     "Cyprus Cup 2026-2027"
+    ],
+    "motivo": [
+     "2 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 2"
+    ]
+   },
+   {
     "squadra": "AS Cotonou",
     "id": "1421037",
     "giocatori": 2,
@@ -19626,17 +19352,6 @@
     ]
    },
    {
-    "squadra": "Adelaide City",
-    "id": "162276",
-    "giocatori": 2,
-    "competizioni": [
-     "Australia Championship 2026"
-    ],
-    "motivo": [
-     "2 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 2"
-    ]
-   },
-   {
     "squadra": "Andernach (W)",
     "id": "1638044",
     "giocatori": 2,
@@ -19664,17 +19379,6 @@
     "giocatori": 2,
     "competizioni": [
      "Emperor's Cup 2026"
-    ],
-    "motivo": [
-     "2 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 2"
-    ]
-   },
-   {
-    "squadra": "Avondale FC",
-    "id": "534804",
-    "giocatori": 2,
-    "competizioni": [
-     "Australia Championship 2026"
     ],
     "motivo": [
      "2 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 2"
@@ -20013,6 +19717,17 @@
     ]
    },
    {
+    "squadra": "Hapoel Azor",
+    "id": "1420906",
+    "giocatori": 2,
+    "competizioni": [
+     "State Cup 2026-2027"
+    ],
+    "motivo": [
+     "2 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 2"
+    ]
+   },
+   {
     "squadra": "Högaborgs BK",
     "id": "2019",
     "giocatori": 2,
@@ -20068,17 +19783,6 @@
     ]
    },
    {
-    "squadra": "JOS Watergraafsmeer",
-    "id": "576192",
-    "giocatori": 2,
-    "competizioni": [
-     "KNVB Cup 2026-2027"
-    ],
-    "motivo": [
-     "2 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 2"
-    ]
-   },
-   {
     "squadra": "Kaluga",
     "id": "198158",
     "giocatori": 2,
@@ -20096,17 +19800,6 @@
     "giocatori": 2,
     "competizioni": [
      "State Cup 2026-2027"
-    ],
-    "motivo": [
-     "2 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 2"
-    ]
-   },
-   {
-    "squadra": "Küçükçekmece Sinop Spor",
-    "id": "1559139",
-    "giocatori": 2,
-    "competizioni": [
-     "Turkish Cup 2026-2027"
     ],
     "motivo": [
      "2 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 2"
@@ -20201,33 +19894,11 @@
     ]
    },
    {
-    "squadra": "Marconi Stallions",
-    "id": "162240",
-    "giocatori": 2,
-    "competizioni": [
-     "Australia Championship 2026"
-    ],
-    "motivo": [
-     "2 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 2"
-    ]
-   },
-   {
     "squadra": "Meppen (W)",
     "id": "1172323",
     "giocatori": 2,
     "competizioni": [
      "DFB Pokal Frauen 2026-2027"
-    ],
-    "motivo": [
-     "2 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 2"
-    ]
-   },
-   {
-    "squadra": "Mkhambathi",
-    "id": "1433743",
-    "giocatori": 2,
-    "competizioni": [
-     "Nedbank Cup 2025-2026"
     ],
     "motivo": [
      "2 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 2"
@@ -20355,6 +20026,17 @@
     ]
    },
    {
+    "squadra": "Sebatspor",
+    "id": "2167",
+    "giocatori": 2,
+    "competizioni": [
+     "Turkish Cup 2026-2027"
+    ],
+    "motivo": [
+     "2 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 2"
+    ]
+   },
+   {
     "squadra": "Skjold Birkerød",
     "id": "9966",
     "giocatori": 2,
@@ -20377,11 +20059,11 @@
     ]
    },
    {
-    "squadra": "South Hobart",
-    "id": "162295",
+    "squadra": "Sporting de Alcazar",
+    "id": "190128",
     "giocatori": 2,
     "competizioni": [
-     "Australia Championship 2026"
+     "Copa del Rey 2026-2027"
     ],
     "motivo": [
      "2 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 2"
@@ -20393,17 +20075,6 @@
     "giocatori": 2,
     "competizioni": [
      "Norgesmesterskapet Kvinner 2026-2027"
-    ],
-    "motivo": [
-     "2 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 2"
-    ]
-   },
-   {
-    "squadra": "Sutherland Sharks",
-    "id": "162232",
-    "giocatori": 2,
-    "competizioni": [
-     "Australia Championship 2026"
     ],
     "motivo": [
      "2 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 2"
@@ -20455,6 +20126,17 @@
     ]
    },
    {
+    "squadra": "UB Lebrijana",
+    "id": "477697",
+    "giocatori": 2,
+    "competizioni": [
+     "Copa del Rey 2026-2027"
+    ],
+    "motivo": [
+     "2 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 2"
+    ]
+   },
+   {
     "squadra": "US Salinieres Aigues Mortes",
     "id": "402258",
     "giocatori": 2,
@@ -20471,17 +20153,6 @@
     "giocatori": 2,
     "competizioni": [
      "Australia Cup 2026"
-    ],
-    "motivo": [
-     "2 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 2"
-    ]
-   },
-   {
-    "squadra": "Wollongong Wolves",
-    "id": "162233",
-    "giocatori": 2,
-    "competizioni": [
-     "Australia Championship 2026"
     ],
     "motivo": [
      "2 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 2"
@@ -20510,11 +20181,33 @@
     ]
    },
    {
+    "squadra": "Adana Adaletgucu SF",
+    "id": "2355223",
+    "giocatori": 3,
+    "competizioni": [
+     "Turkish Cup 2026-2027"
+    ],
+    "motivo": [
+     "3 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 3"
+    ]
+   },
+   {
     "squadra": "Al-Hilal",
     "id": "655323",
     "giocatori": 3,
     "competizioni": [
      "CAF Confed Cup 2026-2027"
+    ],
+    "motivo": [
+     "3 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 3"
+    ]
+   },
+   {
+    "squadra": "Avondale FC",
+    "id": "534804",
+    "giocatori": 3,
+    "competizioni": [
+     "Australia Championship 2026"
     ],
     "motivo": [
      "3 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 3"
@@ -20581,17 +20274,6 @@
     "giocatori": 3,
     "competizioni": [
      "Taça de Portugal 2026-2027"
-    ],
-    "motivo": [
-     "3 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 3"
-    ]
-   },
-   {
-    "squadra": "Etimesgut Spor Kulubu",
-    "id": "1807216",
-    "giocatori": 3,
-    "competizioni": [
-     "Turkish Cup 2026-2027"
     ],
     "motivo": [
      "3 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 3"
@@ -20864,11 +20546,33 @@
     ]
    },
    {
+    "squadra": "Marconi Stallions",
+    "id": "162240",
+    "giocatori": 3,
+    "competizioni": [
+     "Australia Championship 2026"
+    ],
+    "motivo": [
+     "3 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 3"
+    ]
+   },
+   {
     "squadra": "Mattersburg",
     "id": "10020",
     "giocatori": 3,
     "competizioni": [
      "Austrian Cup 2026-2027"
+    ],
+    "motivo": [
+     "3 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 3"
+    ]
+   },
+   {
+    "squadra": "Mkhambathi",
+    "id": "1433743",
+    "giocatori": 3,
+    "competizioni": [
+     "Nedbank Cup 2025-2026"
     ],
     "motivo": [
      "3 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 3"
@@ -20969,6 +20673,39 @@
     "giocatori": 3,
     "competizioni": [
      "Austrian Cup 2026-2027"
+    ],
+    "motivo": [
+     "3 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 3"
+    ]
+   },
+   {
+    "squadra": "South Hobart",
+    "id": "162295",
+    "giocatori": 3,
+    "competizioni": [
+     "Australia Championship 2026"
+    ],
+    "motivo": [
+     "3 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 3"
+    ]
+   },
+   {
+    "squadra": "Soweto Super United",
+    "id": "1899972",
+    "giocatori": 3,
+    "competizioni": [
+     "Nedbank Cup 2025-2026"
+    ],
+    "motivo": [
+     "3 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 3"
+    ]
+   },
+   {
+    "squadra": "Sutherland Sharks",
+    "id": "162232",
+    "giocatori": 3,
+    "competizioni": [
+     "Australia Championship 2026"
     ],
     "motivo": [
      "3 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 3"
@@ -21107,6 +20844,28 @@
     ]
    },
    {
+    "squadra": "Wanderers Durazno",
+    "id": "1545885",
+    "giocatori": 3,
+    "competizioni": [
+     "Copa Uruguay 2026"
+    ],
+    "motivo": [
+     "3 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 3"
+    ]
+   },
+   {
+    "squadra": "Wollongong Wolves",
+    "id": "162233",
+    "giocatori": 3,
+    "competizioni": [
+     "Australia Championship 2026"
+    ],
+    "motivo": [
+     "3 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 3"
+    ]
+   },
+   {
     "squadra": "Zuerich City SC",
     "id": "1657089",
     "giocatori": 3,
@@ -21151,6 +20910,17 @@
     ]
    },
    {
+    "squadra": "Adelaide City",
+    "id": "162276",
+    "giocatori": 4,
+    "competizioni": [
+     "Australia Championship 2026"
+    ],
+    "motivo": [
+     "4 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 4"
+    ]
+   },
+   {
     "squadra": "Blau-Gelb Marburg (W)",
     "id": "2061640",
     "giocatori": 4,
@@ -21178,6 +20948,17 @@
     "giocatori": 4,
     "competizioni": [
      "Coupe de France 2026-2027"
+    ],
+    "motivo": [
+     "4 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 4"
+    ]
+   },
+   {
+    "squadra": "Broadmeadow Magic",
+    "id": "162253",
+    "giocatori": 4,
+    "competizioni": [
+     "Australia Championship 2026"
     ],
     "motivo": [
      "4 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 4"
@@ -21340,6 +21121,17 @@
     ]
    },
    {
+    "squadra": "Gemlik Sumerbey Spor",
+    "id": "2355143",
+    "giocatori": 4,
+    "competizioni": [
+     "Turkish Cup 2026-2027"
+    ],
+    "motivo": [
+     "4 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 4"
+    ]
+   },
+   {
     "squadra": "Guangdong Shudihong",
     "id": "1617872",
     "giocatori": 4,
@@ -21373,22 +21165,11 @@
     ]
    },
    {
-    "squadra": "Hungry Lions FC",
-    "id": "1124841",
+    "squadra": "JOS Watergraafsmeer",
+    "id": "576192",
     "giocatori": 4,
     "competizioni": [
-     "Nedbank Cup 2025-2026"
-    ],
-    "motivo": [
-     "4 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 4"
-    ]
-   },
-   {
-    "squadra": "Jacksa Spears",
-    "id": "429860",
-    "giocatori": 4,
-    "competizioni": [
-     "Nedbank Cup 2025-2026"
+     "KNVB Cup 2026-2027"
     ],
     "motivo": [
      "4 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 4"
@@ -21466,6 +21247,17 @@
     "giocatori": 4,
     "competizioni": [
      "Czech Cup 2026-2027"
+    ],
+    "motivo": [
+     "4 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 4"
+    ]
+   },
+   {
+    "squadra": "Mazıdağı Fosfat Spor",
+    "id": "1406158",
+    "giocatori": 4,
+    "competizioni": [
+     "Turkish Cup 2026-2027"
     ],
     "motivo": [
      "4 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 4"
@@ -21759,17 +21551,6 @@
     ]
    },
    {
-    "squadra": "Araz PFK",
-    "id": "485832",
-    "giocatori": 5,
-    "competizioni": [
-     "Premier League 2026-2027"
-    ],
-    "motivo": [
-     "5 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 5"
-    ]
-   },
-   {
     "squadra": "Atlante (W)",
     "id": "2105856",
     "giocatori": 5,
@@ -21825,18 +21606,6 @@
     ]
    },
    {
-    "squadra": "CF Calamocha",
-    "id": "2066167",
-    "giocatori": 5,
-    "competizioni": [
-     "Segunda Federación 2026-2027",
-     "Copa del Rey 2026-2027"
-    ],
-    "motivo": [
-     "5 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 5"
-    ]
-   },
-   {
     "squadra": "CSL Ștefănești",
     "id": "405357",
     "giocatori": 5,
@@ -21875,17 +21644,6 @@
     "giocatori": 5,
     "competizioni": [
      "Copa Paraguay 2026"
-    ],
-    "motivo": [
-     "5 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 5"
-    ]
-   },
-   {
-    "squadra": "Debibi",
-    "id": "2103811",
-    "giocatori": 5,
-    "competizioni": [
-     "Premier League 2026-2027"
     ],
     "motivo": [
      "5 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 5"
@@ -22047,6 +21805,17 @@
     ]
    },
    {
+    "squadra": "Jacksa Spears",
+    "id": "429860",
+    "giocatori": 5,
+    "competizioni": [
+     "Nedbank Cup 2025-2026"
+    ],
+    "motivo": [
+     "5 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 5"
+    ]
+   },
+   {
     "squadra": "Korona Kielce ll",
     "id": "585631",
     "giocatori": 5,
@@ -22135,17 +21904,6 @@
     ]
    },
    {
-    "squadra": "RC Deportivo Fabril",
-    "id": "161745",
-    "giocatori": 5,
-    "competizioni": [
-     "Primera Federación 2026-2027"
-    ],
-    "motivo": [
-     "5 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 5"
-    ]
-   },
-   {
     "squadra": "Ristozi",
     "id": "1912767",
     "giocatori": 5,
@@ -22212,17 +21970,6 @@
     ]
    },
    {
-    "squadra": "Soma Spor Dernegi",
-    "id": "1075468",
-    "giocatori": 5,
-    "competizioni": [
-     "Turkish Cup 2026-2027"
-    ],
-    "motivo": [
-     "5 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 5"
-    ]
-   },
-   {
     "squadra": "Tennessee Tempo",
     "id": "1437472",
     "giocatori": 5,
@@ -22256,22 +22003,33 @@
     ]
    },
    {
-    "squadra": "Atletico Independiente",
-    "id": "2096906",
+    "squadra": "Anadolu Üniversitesi",
+    "id": "1687780",
     "giocatori": 6,
     "competizioni": [
-     "Liga Nacional 2026-2027 - Apertura"
+     "Turkish Cup 2026-2027"
     ],
     "motivo": [
      "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
     ]
    },
    {
-    "squadra": "Ballymacash Rangers",
-    "id": "1408342",
+    "squadra": "Araz PFK",
+    "id": "485832",
     "giocatori": 6,
     "competizioni": [
-     "Irish Cup 2025-2026"
+     "Premier League 2026-2027"
+    ],
+    "motivo": [
+     "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
+    ]
+   },
+   {
+    "squadra": "Atletico Independiente",
+    "id": "2096906",
+    "giocatori": 6,
+    "competizioni": [
+     "Liga Nacional 2026-2027 - Apertura"
     ],
     "motivo": [
      "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
@@ -22300,11 +22058,11 @@
     ]
    },
    {
-    "squadra": "CA Antoniano",
-    "id": "277430",
+    "squadra": "Bursa Yıldırımspor",
+    "id": "1088447",
     "giocatori": 6,
     "competizioni": [
-     "Segunda Federación 2026-2027"
+     "Turkish Cup 2026-2027"
     ],
     "motivo": [
      "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
@@ -22316,17 +22074,6 @@
     "giocatori": 6,
     "competizioni": [
      "Taça de Portugal 2026-2027"
-    ],
-    "motivo": [
-     "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
-    ]
-   },
-   {
-    "squadra": "CR Temouchent",
-    "id": "319205",
-    "giocatori": 6,
-    "competizioni": [
-     "Ligue 1 2026-2027"
     ],
     "motivo": [
      "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
@@ -22355,11 +22102,44 @@
     ]
    },
    {
+    "squadra": "Debibi",
+    "id": "2103811",
+    "giocatori": 6,
+    "competizioni": [
+     "Premier League 2026-2027"
+    ],
+    "motivo": [
+     "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
+    ]
+   },
+   {
+    "squadra": "Düzyurtspor",
+    "id": "468166",
+    "giocatori": 6,
+    "competizioni": [
+     "Turkish Cup 2026-2027"
+    ],
+    "motivo": [
+     "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
+    ]
+   },
+   {
     "squadra": "Fremantle City FC",
     "id": "1539569",
     "giocatori": 6,
     "competizioni": [
      "Australia Cup 2026"
+    ],
+    "motivo": [
+     "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
+    ]
+   },
+   {
+    "squadra": "Gomora United",
+    "id": "1899967",
+    "giocatori": 6,
+    "competizioni": [
+     "Nedbank Cup 2025-2026"
     ],
     "motivo": [
      "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
@@ -22382,18 +22162,6 @@
     "giocatori": 6,
     "competizioni": [
      "Chinese FA Cup 2026"
-    ],
-    "motivo": [
-     "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
-    ]
-   },
-   {
-    "squadra": "Halesowen Town FC",
-    "id": "2260",
-    "giocatori": 6,
-    "competizioni": [
-     "Premier Division 2026-2027",
-     "FA Trophy 2026-2027"
     ],
     "motivo": [
      "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
@@ -22444,23 +22212,34 @@
     ]
    },
    {
-    "squadra": "MFK Bytca",
-    "id": "1678933",
+    "squadra": "Küçükçekmece Sinop Spor",
+    "id": "1559139",
     "giocatori": 6,
     "competizioni": [
-     "2. Liga 2026-2027",
-     "Slovak Cup 2026-2027"
+     "Turkish Cup 2026-2027"
     ],
     "motivo": [
      "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
     ]
    },
    {
-    "squadra": "Malatya Yesilyurt Belediyespor",
-    "id": "1088482",
+    "squadra": "Lerumo Lions",
+    "id": "1704816",
     "giocatori": 6,
     "competizioni": [
-     "Turkish Cup 2026-2027"
+     "Nedbank Cup 2025-2026"
+    ],
+    "motivo": [
+     "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
+    ]
+   },
+   {
+    "squadra": "MFK Bytca",
+    "id": "1678933",
+    "giocatori": 6,
+    "competizioni": [
+     "2. Liga 2026-2027",
+     "Slovak Cup 2026-2027"
     ],
     "motivo": [
      "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
@@ -22489,17 +22268,6 @@
     ]
    },
    {
-    "squadra": "Ranchers Bees",
-    "id": "184464",
-    "giocatori": 6,
-    "competizioni": [
-     "Professional Football League 2026-2027"
-    ],
-    "motivo": [
-     "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
-    ]
-   },
-   {
     "squadra": "Raufoss (W)",
     "id": "199520",
     "giocatori": 6,
@@ -22511,35 +22279,11 @@
     ]
    },
    {
-    "squadra": "Reus",
-    "id": "96927",
-    "giocatori": 6,
-    "competizioni": [
-     "Segunda Federación 2026-2027",
-     "Copa del Rey 2026-2027"
-    ],
-    "motivo": [
-     "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
-    ]
-   },
-   {
     "squadra": "Ringmahon Rangers",
     "id": "733938",
     "giocatori": 6,
     "competizioni": [
      "FAI Cup 2026"
-    ],
-    "motivo": [
-     "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
-    ]
-   },
-   {
-    "squadra": "Rohda Raalte",
-    "id": "1818779",
-    "giocatori": 6,
-    "competizioni": [
-     "Tweede Divisie 2026-2027",
-     "KNVB Cup 2026-2027"
     ],
     "motivo": [
      "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
@@ -22579,17 +22323,6 @@
     ]
    },
    {
-    "squadra": "Shahin Bandar Ameri",
-    "id": "1320147",
-    "giocatori": 6,
-    "competizioni": [
-     "Azadegan League 2026-2027"
-    ],
-    "motivo": [
-     "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
-    ]
-   },
-   {
     "squadra": "Shkendija Haracine",
     "id": "2009441",
     "giocatori": 6,
@@ -22623,11 +22356,33 @@
     ]
    },
    {
+    "squadra": "VPV Purmersteijn",
+    "id": "1780635",
+    "giocatori": 6,
+    "competizioni": [
+     "KNVB Cup 2026-2027"
+    ],
+    "motivo": [
+     "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
+    ]
+   },
+   {
     "squadra": "Vision FC",
     "id": "1665708",
     "giocatori": 6,
     "competizioni": [
      "Premier League 2026-2027"
+    ],
+    "motivo": [
+     "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
+    ]
+   },
+   {
+    "squadra": "WE SC",
+    "id": "101765",
+    "giocatori": 6,
+    "competizioni": [
+     "Egypt Cup 2025-2026"
     ],
     "motivo": [
      "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
@@ -22667,6 +22422,17 @@
     ]
    },
    {
+    "squadra": "Ballymacash Rangers",
+    "id": "1408342",
+    "giocatori": 7,
+    "competizioni": [
+     "Irish Cup 2025-2026"
+    ],
+    "motivo": [
+     "7 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 7"
+    ]
+   },
+   {
     "squadra": "Bendel Insurance",
     "id": "102053",
     "giocatori": 7,
@@ -22689,23 +22455,22 @@
     ]
    },
    {
-    "squadra": "Ciudad Lucena",
-    "id": "627898",
+    "squadra": "CR Temouchent",
+    "id": "319205",
     "giocatori": 7,
     "competizioni": [
-     "Segunda Federación 2026-2027",
-     "Copa del Rey 2026-2027"
+     "Ligue 1 2026-2027"
     ],
     "motivo": [
      "7 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 7"
     ]
    },
    {
-    "squadra": "Doma United",
-    "id": "1428850",
+    "squadra": "Hapoel Bnei Jisr az-Zarqa",
+    "id": "2260743",
     "giocatori": 7,
     "competizioni": [
-     "Professional Football League 2026-2027"
+     "State Cup 2026-2027"
     ],
     "motivo": [
      "7 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 7"
@@ -22734,11 +22499,22 @@
     ]
    },
    {
-    "squadra": "Isparta 32 Spor",
-    "id": "1181205",
+    "squadra": "Highbury",
+    "id": "1899971",
     "giocatori": 7,
     "competizioni": [
-     "Turkish Cup 2026-2027"
+     "Nedbank Cup 2025-2026"
+    ],
+    "motivo": [
+     "7 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 7"
+    ]
+   },
+   {
+    "squadra": "Hungry Lions FC",
+    "id": "1124841",
+    "giocatori": 7,
+    "competizioni": [
+     "Nedbank Cup 2025-2026"
     ],
     "motivo": [
      "7 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 7"
@@ -22790,11 +22566,34 @@
     ]
    },
    {
-    "squadra": "Real Oviedo B",
-    "id": "209008",
+    "squadra": "RC Deportivo Fabril",
+    "id": "161745",
     "giocatori": 7,
     "competizioni": [
-     "Segunda Federación 2026-2027"
+     "Primera Federación 2026-2027"
+    ],
+    "motivo": [
+     "7 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 7"
+    ]
+   },
+   {
+    "squadra": "Ranchers Bees",
+    "id": "184464",
+    "giocatori": 7,
+    "competizioni": [
+     "Professional Football League 2026-2027"
+    ],
+    "motivo": [
+     "7 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 7"
+    ]
+   },
+   {
+    "squadra": "Reus",
+    "id": "96927",
+    "giocatori": 7,
+    "competizioni": [
+     "Segunda Federación 2026-2027",
+     "Copa del Rey 2026-2027"
     ],
     "motivo": [
      "7 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 7"
@@ -22812,22 +22611,22 @@
     ]
    },
    {
-    "squadra": "Sogndal (W)",
-    "id": "1353875",
+    "squadra": "Shahin Bandar Ameri",
+    "id": "1320147",
     "giocatori": 7,
     "competizioni": [
-     "Norgesmesterskapet Kvinner 2026-2027"
+     "Azadegan League 2026-2027"
     ],
     "motivo": [
      "7 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 7"
     ]
    },
    {
-    "squadra": "Sparta Nijkerk",
-    "id": "8594",
+    "squadra": "Sogndal (W)",
+    "id": "1353875",
     "giocatori": 7,
     "competizioni": [
-     "KNVB Cup 2026-2027"
+     "Norgesmesterskapet Kvinner 2026-2027"
     ],
     "motivo": [
      "7 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 7"
@@ -22900,28 +22699,6 @@
     ]
    },
    {
-    "squadra": "Aberdeen B",
-    "id": "1273052",
-    "giocatori": 8,
-    "competizioni": [
-     "Challenge Cup 2026-2027"
-    ],
-    "motivo": [
-     "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
-    ]
-   },
-   {
-    "squadra": "Atletico Madrid C",
-    "id": "189673",
-    "giocatori": 8,
-    "competizioni": [
-     "Segunda Federación 2026-2027"
-    ],
-    "motivo": [
-     "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
-    ]
-   },
-   {
     "squadra": "Baladiyat El Mahalla SC",
     "id": "101764",
     "giocatori": 8,
@@ -22944,23 +22721,11 @@
     ]
    },
    {
-    "squadra": "Bracknell Town",
-    "id": "626250",
+    "squadra": "CA Antoniano",
+    "id": "277430",
     "giocatori": 8,
     "competizioni": [
-     "Premier Division 2026-2027"
-    ],
-    "motivo": [
-     "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
-    ]
-   },
-   {
-    "squadra": "CD Extremadura",
-    "id": "1686598",
-    "giocatori": 8,
-    "competizioni": [
-     "Primera Federación 2026-2027",
-     "Copa del Rey 2026-2027"
+     "Segunda Federación 2026-2027"
     ],
     "motivo": [
      "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
@@ -22989,6 +22754,17 @@
     ]
    },
    {
+    "squadra": "Doma United",
+    "id": "1428850",
+    "giocatori": 8,
+    "competizioni": [
+     "Professional Football League 2026-2027"
+    ],
+    "motivo": [
+     "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
+    ]
+   },
+   {
     "squadra": "FK Spišská Nová Ves",
     "id": "45299",
     "giocatori": 8,
@@ -23005,6 +22781,29 @@
     "giocatori": 8,
     "competizioni": [
      "Slovak Cup 2026-2027"
+    ],
+    "motivo": [
+     "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
+    ]
+   },
+   {
+    "squadra": "Gebzespor",
+    "id": "8386",
+    "giocatori": 8,
+    "competizioni": [
+     "Turkish Cup 2026-2027"
+    ],
+    "motivo": [
+     "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
+    ]
+   },
+   {
+    "squadra": "Halesowen Town FC",
+    "id": "2260",
+    "giocatori": 8,
+    "competizioni": [
+     "Premier Division 2026-2027",
+     "FA Trophy 2026-2027"
     ],
     "motivo": [
      "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
@@ -23055,33 +22854,11 @@
     ]
    },
    {
-    "squadra": "Karaköprü Belediyespor",
-    "id": "888878",
-    "giocatori": 8,
-    "competizioni": [
-     "Turkish Cup 2026-2027"
-    ],
-    "motivo": [
-     "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
-    ]
-   },
-   {
     "squadra": "MFK Vranov nad Topľou",
     "id": "562320",
     "giocatori": 8,
     "competizioni": [
      "Slovak Cup 2026-2027"
-    ],
-    "motivo": [
-     "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
-    ]
-   },
-   {
-    "squadra": "Maccabi Yavne",
-    "id": "346692",
-    "giocatori": 8,
-    "competizioni": [
-     "State Cup 2026-2027"
     ],
     "motivo": [
      "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
@@ -23132,11 +22909,11 @@
     ]
    },
    {
-    "squadra": "Real Sireți",
-    "id": "1900141",
+    "squadra": "Real Oviedo B",
+    "id": "209008",
     "giocatori": 8,
     "competizioni": [
-     "National Division 2026-2027"
+     "Segunda Federación 2026-2027"
     ],
     "motivo": [
      "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
@@ -23172,6 +22949,18 @@
     "competizioni": [
      "CAF Champions League 2025-2026",
      "Professional Football League 2026-2027"
+    ],
+    "motivo": [
+     "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
+    ]
+   },
+   {
+    "squadra": "Rohda Raalte",
+    "id": "1818779",
+    "giocatori": 8,
+    "competizioni": [
+     "Tweede Divisie 2026-2027",
+     "KNVB Cup 2026-2027"
     ],
     "motivo": [
      "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
@@ -23234,6 +23023,17 @@
     ]
    },
    {
+    "squadra": "Upington City",
+    "id": "1528633",
+    "giocatori": 8,
+    "competizioni": [
+     "Nedbank Cup 2025-2026"
+    ],
+    "motivo": [
+     "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
+    ]
+   },
+   {
     "squadra": "Venezuela U20",
     "id": "169439",
     "giocatori": 8,
@@ -23242,6 +23042,17 @@
     ],
     "motivo": [
      "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
+    ]
+   },
+   {
+    "squadra": "Aberdeen B",
+    "id": "1273052",
+    "giocatori": 9,
+    "competizioni": [
+     "Challenge Cup 2026-2027"
+    ],
+    "motivo": [
+     "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
     ]
    },
    {
@@ -23267,6 +23078,17 @@
     ]
    },
    {
+    "squadra": "Atletico Madrid C",
+    "id": "189673",
+    "giocatori": 9,
+    "competizioni": [
+     "Segunda Federación 2026-2027"
+    ],
+    "motivo": [
+     "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
+    ]
+   },
+   {
     "squadra": "Ayvalikgücü Belediyespor",
     "id": "468175",
     "giocatori": 9,
@@ -23283,6 +23105,17 @@
     "giocatori": 9,
     "competizioni": [
      "Turkish Cup 2026-2027"
+    ],
+    "motivo": [
+     "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
+    ]
+   },
+   {
+    "squadra": "Bracknell Town",
+    "id": "626250",
+    "giocatori": 9,
+    "competizioni": [
+     "Premier Division 2026-2027"
     ],
     "motivo": [
      "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
@@ -23322,11 +23155,11 @@
     ]
    },
    {
-    "squadra": "Estrella Roja",
-    "id": "2096910",
+    "squadra": "Etimesgut Spor Kulubu",
+    "id": "1807216",
     "giocatori": 9,
     "competizioni": [
-     "Liga Nacional 2026-2027 - Apertura"
+     "Turkish Cup 2026-2027"
     ],
     "motivo": [
      "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
@@ -23349,18 +23182,6 @@
     "giocatori": 9,
     "competizioni": [
      "Chinese FA Cup 2026"
-    ],
-    "motivo": [
-     "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
-    ]
-   },
-   {
-    "squadra": "Iraklis Gerolakkou",
-    "id": "1793837",
-    "giocatori": 9,
-    "competizioni": [
-     "2. Division 2026-2027",
-     "Cyprus Cup 2026-2027"
     ],
     "motivo": [
      "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
@@ -23395,6 +23216,17 @@
     "giocatori": 9,
     "competizioni": [
      "Norsk Tipping-ligaen 2026"
+    ],
+    "motivo": [
+     "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
+    ]
+   },
+   {
+    "squadra": "Maccabi Yavne",
+    "id": "346692",
+    "giocatori": 9,
+    "competizioni": [
+     "State Cup 2026-2027"
     ],
     "motivo": [
      "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
@@ -23447,6 +23279,17 @@
     ]
    },
    {
+    "squadra": "Real Sireți",
+    "id": "1900141",
+    "giocatori": 9,
+    "competizioni": [
+     "National Division 2026-2027"
+    ],
+    "motivo": [
+     "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
+    ]
+   },
+   {
     "squadra": "Renaissance Mons",
     "id": "584006",
     "giocatori": 9,
@@ -23458,33 +23301,11 @@
     ]
    },
    {
-    "squadra": "TSV Landsberg",
-    "id": "557350",
-    "giocatori": 9,
-    "competizioni": [
-     "Regionalliga 2026-2027"
-    ],
-    "motivo": [
-     "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
-    ]
-   },
-   {
     "squadra": "Tai'an Tiankuang",
     "id": "1477054",
     "giocatori": 9,
     "competizioni": [
      "Chinese FA Cup 2026"
-    ],
-    "motivo": [
-     "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
-    ]
-   },
-   {
-    "squadra": "Threave Rovers",
-    "id": "1777",
-    "giocatori": 9,
-    "competizioni": [
-     "Scottish Cup 2026-2027"
     ],
     "motivo": [
      "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
@@ -23524,8 +23345,8 @@
     ]
    },
    {
-    "squadra": "Adana 01 FK",
-    "id": "1559141",
+    "squadra": "12 Bingölspor",
+    "id": "581800",
     "giocatori": 10,
     "competizioni": [
      "Turkish Cup 2026-2027"
@@ -23540,18 +23361,6 @@
     "giocatori": 10,
     "competizioni": [
      "Premier League 2026-2027"
-    ],
-    "motivo": [
-     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
-    ]
-   },
-   {
-    "squadra": "Banbury United",
-    "id": "161841",
-    "giocatori": 10,
-    "competizioni": [
-     "Premier Division 2026-2027",
-     "FA Trophy 2026-2027"
     ],
     "motivo": [
      "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
@@ -23581,11 +23390,34 @@
     ]
    },
    {
+    "squadra": "CF Calamocha",
+    "id": "2066167",
+    "giocatori": 10,
+    "competizioni": [
+     "Segunda Federación 2026-2027",
+     "Copa del Rey 2026-2027"
+    ],
+    "motivo": [
+     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
+    ]
+   },
+   {
     "squadra": "Cetatea Suceava",
     "id": "188193",
     "giocatori": 10,
     "competizioni": [
      "Liga II 2026-2027"
+    ],
+    "motivo": [
+     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
+    ]
+   },
+   {
+    "squadra": "Estrella Roja",
+    "id": "2096910",
+    "giocatori": 10,
+    "competizioni": [
+     "Liga Nacional 2026-2027 - Apertura"
     ],
     "motivo": [
      "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
@@ -23614,18 +23446,6 @@
     ]
    },
    {
-    "squadra": "Gosport Borough",
-    "id": "282356",
-    "giocatori": 10,
-    "competizioni": [
-     "Premier Division 2026-2027",
-     "FA Trophy 2026-2027"
-    ],
-    "motivo": [
-     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
-    ]
-   },
-   {
     "squadra": "Gualaceo SC",
     "id": "618246",
     "giocatori": 10,
@@ -23648,11 +23468,12 @@
     ]
    },
    {
-    "squadra": "Ikorodu City",
-    "id": "1661097",
+    "squadra": "Iraklis Gerolakkou",
+    "id": "1793837",
     "giocatori": 10,
     "competizioni": [
-     "Professional Football League 2026-2027"
+     "2. Division 2026-2027",
+     "Cyprus Cup 2026-2027"
     ],
     "motivo": [
      "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
@@ -23738,34 +23559,11 @@
     ]
    },
    {
-    "squadra": "RSD Alcalá",
-    "id": "8316",
-    "giocatori": 10,
-    "competizioni": [
-     "Segunda Federación 2026-2027",
-     "Copa del Rey 2026-2027"
-    ],
-    "motivo": [
-     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
-    ]
-   },
-   {
     "squadra": "RSV Eintracht 1949",
     "id": "585157",
     "giocatori": 10,
     "competizioni": [
      "Regionalliga 2026-2027"
-    ],
-    "motivo": [
-     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
-    ]
-   },
-   {
-    "squadra": "Racing Club Warwick",
-    "id": "960127",
-    "giocatori": 10,
-    "competizioni": [
-     "Premier Division 2026-2027"
     ],
     "motivo": [
      "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
@@ -23794,11 +23592,33 @@
     ]
    },
    {
+    "squadra": "Soma Spor Dernegi",
+    "id": "1075468",
+    "giocatori": 10,
+    "competizioni": [
+     "Turkish Cup 2026-2027"
+    ],
+    "motivo": [
+     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
+    ]
+   },
+   {
     "squadra": "Sporting Lagos",
     "id": "1533792",
     "giocatori": 10,
     "competizioni": [
      "Professional Football League 2026-2027"
+    ],
+    "motivo": [
+     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
+    ]
+   },
+   {
+    "squadra": "TSV Landsberg",
+    "id": "557350",
+    "giocatori": 10,
+    "competizioni": [
+     "Regionalliga 2026-2027"
     ],
     "motivo": [
      "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
@@ -23847,6 +23667,17 @@
     "motivo": [
      "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
     ]
+   },
+   {
+    "squadra": "Çorluspor 1947",
+    "id": "1559131",
+    "giocatori": 10,
+    "competizioni": [
+     "Turkish Cup 2026-2027"
+    ],
+    "motivo": [
+     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
+    ]
    }
   ]
  },
@@ -23855,10 +23686,10 @@
   "coppie_squadra_competizione": 23610,
   "con_frase_prima": 11672,
   "squadre_con_frase_prima": 5786,
-  "con_frase_e_dati_ora_visibili": 6540,
+  "con_frase_e_dati_ora_visibili": 6582,
   "con_frase_dopo": 0,
-  "competizioni_senza_dati_tolte_dalla_tendina": 12642,
-  "squadre_senza_scheda_giocatori": 7063,
+  "competizioni_senza_dati_tolte_dalla_tendina": 12573,
+  "squadre_senza_scheda_giocatori": 7047,
   "senza_scheda": [
    {
     "squadra": "Threave Rovers",
