@@ -1,16 +1,24 @@
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import PageShell from '@/components/PageShell';
 import TopBar from '@/components/TopBar';
 import RefereeHero from '@/components/referee/RefereeHero';
 import RefereeStatsPanel from '@/components/referee/RefereeStatsPanel';
 import RefereeMatchesPanel from '@/components/referee/RefereeMatchesPanel';
-import { refereeById } from '@/data/referees';
+import { refereeById, refGames } from '@/data/referees';
 import { leagueById } from '@/data/leagues';
 import { matchesByReferee } from '@/data/extras';
 
 export default function Referee() {
   const { id } = useParams();
   const referee = refereeById(id);
+  const [two, setTwo] = useState(null);
+  useEffect(() => {
+    let on = true;
+    setTwo(null);
+    if (referee) refGames(referee.name).then((g) => on && setTwo(g && g.n > 0 ? g : null));
+    return () => { on = false; };
+  }, [id]);
 
   if (!referee) {
     return (
@@ -28,11 +36,11 @@ export default function Referee() {
 
   return (
     <PageShell>
-      <RefereeHero referee={referee} league={league} matchCount={count} />
+      <RefereeHero referee={referee} league={league} matchCount={count} two={two} />
 
       <div className="mt-6 flex flex-col gap-7">
-        <RefereeStatsPanel referee={referee} />
-        <RefereeMatchesPanel refereeId={referee.id} />
+        <RefereeStatsPanel referee={referee} two={two} />
+        <RefereeMatchesPanel referee={referee} />
       </div>
     </PageShell>
   );

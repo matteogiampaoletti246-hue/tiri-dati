@@ -12,7 +12,7 @@ const initialsOf = (name) =>
     .slice(0, 2)
     .toUpperCase();
 
-export default function RefereeHero({ referee, league, matchCount }) {
+export default function RefereeHero({ referee, league, matchCount, two }) {
   const navigate = useNavigate();
   const p = useCollapse(140);
 
@@ -62,7 +62,7 @@ export default function RefereeHero({ referee, league, matchCount }) {
               {referee.name}
             </h1>
             <p className="mt-1 truncate text-[11.5px]" style={{ color: 'var(--ink-3)' }}>
-              {referee.country} · {referee.games} gare arbitrate
+              {referee.country} · {two ? `${two.n} gare nelle ultime 2 stagioni` : `${referee.games} gare arbitrate`}
             </p>
           </div>
         </div>

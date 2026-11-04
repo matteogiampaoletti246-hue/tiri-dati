@@ -7,7 +7,6 @@ import { refereeById } from '@/data/referees';
 import { teamById } from '@/data/teams';
 import { teamColor } from '@/lib/tint';
 import MAPPA from '../../stadi/mappa.json';
-import CREDITI from '../../stadi/crediti.json';
 
 const WEATHER = {
   sun: { icon: Sun, label: 'Sereno' },
@@ -21,9 +20,10 @@ const FILES = import.meta.glob('../../stadi/*.webp',{ eager: true, query: '?url'
 const URL_OF = Object.fromEntries(Object.entries(FILES).map(([p, u]) => [p.split('/').pop(), u]));
 const norm = (s) => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
 const BY_NAME = new Map(Object.entries(MAPPA).map(([k, f]) => [norm(k), f]));
-const photoOf = (name) => {
-  const f = BY_NAME.get(norm(name));
-  return f && URL_OF[f] ? { src: URL_OF[f], credit: CREDITI[f] || null } : null;
+// Chiave "stadio squadra" prima (per i nomi di sponsor uguali in citta' diverse, es. Allianz), poi solo il nome dello stadio.
+const photoOf = (name, team) => {
+  const f = (team && BY_NAME.get(norm(`${name} ${team}`))) || BY_NAME.get(norm(name));
+  return f && URL_OF[f] ? { src: URL_OF[f] } : null;
 };
 
 const CELL = 'flex flex-1 flex-col items-center gap-2 px-2 text-center';
@@ -75,14 +75,13 @@ function ClassicBand({ match, wx, w, rf, refName }) {
 }
 
 function Photo({ name, team }) {
-  const ph = photoOf(name);
+  const ph = photoOf(name, team && team.name);
   const [state, setState] = useState('wait'); // wait | ok | err
   const show = ph && state !== 'err';
   return (
     <div className="stad-photo" style={{ '--tint': teamColor(team) }}>
       {show ? <img src={ph.src} alt="" loading="lazy" decoding="async" className={state === 'ok' ? 'on' : ''} onLoad={() => setState('ok')} onError={() => setState('err')} /> : null}
       <div className="stad-shade" />
-      {show && state === 'ok' && ph.credit ? <span className="stad-credit">Foto: {ph.credit.autore} · {ph.credit.licenza}</span> : null}
       <div className="stad-text">
         <b>{name}</b>
         {team ? <span>{team.name}</span> : null}
@@ -107,7 +106,7 @@ export default function InfoBand({ match }) {
   const ref = match.refereeId ? refereeById(match.refereeId) : null;
   const refName = ref ? ref.name : match.refereeName;
   const home = teamById(match.homeId);
-  if (!match.stadium || !photoOf(match.stadium)) return <ClassicBand match={match} wx={wx} w={w} rf={ref} refName={refName} />;
+  if (!match.stadium || !photoOf(match.stadium, home && home.name)) return <ClassicBand match={match} wx={wx} w={w} rf={ref} refName={refName} />;
 
   const cols = [];
   if (w) {

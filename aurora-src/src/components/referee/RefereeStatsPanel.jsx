@@ -1,3 +1,4 @@
+import UnderBar from '@/components/referee/UnderBar';
 import PanelTitle from '@/components/PanelTitle';
 import { comma } from '@/lib/format';
 import { RefBar } from '@/components/match/RefereeCard';
@@ -19,11 +20,32 @@ const ROWS = [
 
 const COLS = '1fr 44px 54px';
 
-export default function RefereeStatsPanel({ referee }) {
+// Ultime due stagioni (tutte le competizioni): gare, cartellini, medie. Dati di arbitri3/ (arbitri_gare.py).
+function TwoSeasons({ two }) {
+  const cards = two.m.reduce((a, x) => a + (x[8] || 0), 0);
+  const tiles = [['Gare', two.n], ['Cartellini', cards], ['Cart. / gara', two.y != null ? comma(two.y, 2) : null], ['Falli / gara', two.fo != null ? comma(two.fo, 1) : null]].filter((t) => t[1] != null);
+  return (
+    <section className="px-5">
+      <div className="grid gap-3" style={{ gridTemplateColumns: `repeat(${tiles.length}, 1fr)` }}>
+        {tiles.map(([l, v]) => (
+          <div key={l}>
+            <p className="text-[9.5px] uppercase tracking-[.1em]" style={{ color: 'var(--ink-3)' }}>{l}</p>
+            <p className="tnum mt-1 text-[20px] font-light" style={{ color: 'var(--ink)' }}>{v}</p>
+          </div>
+        ))}
+      </div>
+      <p className="mt-2 text-[10px]" style={{ color: 'var(--ink-3)' }}>Ultime 2 stagioni, tutte le competizioni.</p>
+      <div className="glass mt-4 rounded-[24px]"><UnderBar games={two.m} /></div>
+    </section>
+  );
+}
+
+export default function RefereeStatsPanel({ referee, two }) {
   const per = (value) => comma(referee.games ? value / referee.games : null, 2);
 
   const lg = referee.leagueId ? leagueRefAvg(referee.leagueId) : null;
   const st = lg ? refStatsIn(referee, referee.leagueId) : null;
+  if (two) return <TwoSeasons two={two} />;
   return (
     <div className="flex flex-col gap-7">
       <section className="px-5">

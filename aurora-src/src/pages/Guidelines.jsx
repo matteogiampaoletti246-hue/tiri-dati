@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import PageShell from '@/components/PageShell';
 import TopBar from '@/components/TopBar';
+import CREDITI_STADI from '@/data/creditiStadi';
 
 const SECTIONS = [
   {
@@ -22,6 +23,14 @@ const SECTIONS = [
       'Ogni totale di stagione viene diviso per le partite giocate dalla squadra, così il valore resta confrontabile anche tra club con calendari diversi.',
       'L’xG misura la qualità delle conclusioni: è la somma delle probabilità di gol di ogni tiro. Il divario tra due squadre è la differenza tra i valori attesi, calcolata per angoli, cartellini, tiri, falli e fuorigioco.',
       'Le partite usate indicano quante gare di campionato sono entrate nel calcolo per la squadra di casa e per quella in trasferta.',
+    ],
+  },
+  {
+    id: 'crediti-foto',
+    title: 'Crediti foto stadi',
+    body: [
+      'Le foto degli stadi provengono da Wikimedia Commons e sono pubblicate con licenze libere (Creative Commons). Autori e licenze:',
+      CREDITI_STADI,
     ],
   },
 ];

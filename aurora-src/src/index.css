@@ -54,6 +54,12 @@
   --ink: #0F172A;
   --ink-2: #475569;
   --ink-3: #8592A6;
+  --yellow-card: #E8B100;
+  --u-g1: #15803D;
+  --u-g2: #4ADE80;
+  --u-y: #EAB308;
+  --u-r2: #FB923C;
+  --u-r1: #DC2626;
   --hair: rgba(15, 23, 42, .08);
   --hair-2: rgba(15, 23, 42, .06);
   --sky-1: #FBFCFE;
@@ -124,6 +130,12 @@
   --ink: #F1F5FB;
   --ink-2: #A9B6CC;
   --ink-3: #6D7A91;
+  --yellow-card: #F5C542;
+  --u-g1: #16A34A;
+  --u-g2: #86EFAC;
+  --u-y: #FACC15;
+  --u-r2: #FB923C;
+  --u-r1: #EF4444;
   --hair: rgba(255, 255, 255, .10);
   --hair-2: rgba(255, 255, 255, .07);
   --sky-1: #05070D;

@@ -62,15 +62,6 @@
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Allianzcoupdenvoi.jpg"
  },
- "allianz-stadium.webp": {
-  "stadio": "Allianz Stadium",
-  "voce": "Sydney Football Stadium (2022)",
-  "file": "File:SydneyFootballStadium_Aug2022_Pre-open.jpg",
-  "autore": "Frigginawesomeimontv",
-  "licenza": "CC BY-SA 4.0",
-  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:SydneyFootballStadium_Aug2022_Pre-open.jpg"
- },
  "allwyn-arena.webp": {
   "stadio": "ALLWYN Arena",
   "voce": "Olympic Stadium (Athens)",
@@ -467,15 +458,6 @@
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:20011019_CD_Estoril_Praia_(2).JPG"
  },
- "estadio-benito-villamarin.webp": {
-  "stadio": "Estadio Benito Villamarín",
-  "voce": "Estadio Benito Villamarín",
-  "file": "File:Estadio_Benito_Villamarín_2018001.jpg",
-  "autore": "Anual",
-  "licenza": "CC BY-SA 4.0",
-  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Estadio_Benito_Villamar%C3%ADn_2018001.jpg"
- },
  "estadio-bernabeu.webp": {
   "stadio": "Estadio Bernabéu",
   "voce": "Bernabéu (stadium)",
@@ -809,15 +791,6 @@
   "licenzaUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
   "fonte": "https://commons.wikimedia.org/wiki/File:Beveren.jpg"
  },
- "gain-park-stadium.webp": {
-  "stadio": "GAIN Park Stadium",
-  "voce": "Ellis Park Stadium disaster",
-  "file": "File:FIFA_World_Cup_2010_Slovakia_Italy.jpg",
-  "autore": "George Groutas",
-  "licenza": "CC BY 2.0",
-  "licenzaUrl": "https://creativecommons.org/licenses/by/2.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:FIFA_World_Cup_2010_Slovakia_Italy.jpg"
- },
  "gaziantep-stadyumu.webp": {
   "stadio": "Gaziantep Stadyumu",
   "voce": "Gaziantep Stadium",
@@ -835,15 +808,6 @@
   "licenza": "CC BY-SA 4.0",
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Goffertstadion_N.E.C._Nijmegen.jpg"
- },
- "gradski-stadion.webp": {
-  "stadio": "Gradski Stadion",
-  "voce": "Gradski Stadion Kratovo",
-  "file": "File:Gradski stadion Banja Luka, Septembre 2012.jpg",
-  "autore": "NektarBL",
-  "licenza": "CC BY-SA 3.0",
-  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Gradski_stadion_Banja_Luka,_Septembre_2012.jpg"
  },
  "groupama-arena.webp": {
   "stadio": "Groupama Aréna",
@@ -943,15 +907,6 @@
   "licenza": "CC0",
   "licenzaUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
   "fonte": "https://commons.wikimedia.org/wiki/File:Arena,_Ajax_stadion,_Amsterdam.JPG"
- },
- "kaz-m-karabekir-stadyumu.webp": {
-  "stadio": "Kazım Karabekir Stadyumu",
-  "voce": "Kazım Karabekir Stadium",
-  "file": "File:Galatasaray-FB_Skupa.jpg",
-  "autore": "Ultraslansi",
-  "licenza": "CC BY-SA 3.0",
-  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Galatasaray-FB_Skupa.jpg"
  },
  "king-power-at-den-dreef-stadion.webp": {
   "stadio": "King Power at Den Dreef Stadion",
@@ -1889,15 +1844,6 @@
   "licenzaUrl": "https://creativecommons.org/licenses/by/2.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Tynecastle_before_the_Sky_Sports_Cup_Final_-_53607560077.jpg"
  },
- "u-power-stadium.webp": {
-  "stadio": "U-Power Stadium",
-  "voce": "U.S. Bank Stadium",
-  "file": "File:U.S._Bank_Stadium_(cropped).jpg",
-  "autore": "Lectrician2",
-  "licenza": "CC BY-SA 4.0",
-  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:U.S._Bank_Stadium_(cropped).jpg"
- },
  "unipol-domus.webp": {
   "stadio": "Unipol Domus",
   "voce": "Unipol Domus",
@@ -1996,5 +1942,14 @@
   "licenza": "CC BY-SA 4.0",
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Germany_augsburg_stadium_wwk_arena.jpg"
+ },
+ "estadio-benito-villamarin.webp": {
+  "stadio": "Estadio Benito Villamarín",
+  "voce": "Estadio Benito Villamarín",
+  "file": "File:Estadio_Benito_Villamarín_2018001.jpg",
+  "autore": "Anual",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Estadio_Benito_Villamar%C3%ADn_2018001.jpg"
  }
 }

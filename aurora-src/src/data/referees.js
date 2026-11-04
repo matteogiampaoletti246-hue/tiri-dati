@@ -144,8 +144,27 @@ const loadTwo = (fm) => {
   return p;
 };
 const firstLast = (n) => { const t = norm(n).split(/\s+/).filter(Boolean); return t.length ? `${t[0]} ${t[t.length - 1]}` : ''; };
+// Chiave del file arbitri3/<chiave>.json (stessa regola di arbitri_gare.py: primo e ultimo nome, senza accenti)
+export const refKey = (name) => {
+  const t = String(name || '').replace(/ı/g, 'i').replace(/ł/g, 'l').normalize('NFD').replace(/[^\x00-\x7f]/g, '').toLowerCase().replace(/[^a-z ]+/g, ' ').split(/\s+/).filter(Boolean);
+  return !t.length ? null : t.length === 1 ? t[0] : `${t[0]}-${t[t.length - 1]}`;
+};
+// Tutte le gare dell'arbitro nelle ultime due stagioni, di ogni competizione (arbitri3/, arbitri_gare.py):
+// { n, y, fo, m: [[data, fm, stagione, id, casa, trasferta, gc, gt, cartellini, 1T, 2T]] }
+const GAMES = new Map();
+export function refGames(name) {
+  const k = refKey(name);
+  if (!k) return Promise.resolve(null);
+  const hit = lruGet(GAMES, k);
+  if (hit) return hit;
+  const p = fetch(`${BASE}arbitri3/${k}.json`).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  lruSet(GAMES, k, p, 24);
+  return p;
+}
+// Media della competizione (arbitri2) + gare vere dell'arbitro in tutte le competizioni delle ultime due stagioni (arbitri3)
 export async function refTwoSeasons(fm, name) {
-  const d = fm && name ? await loadTwo(fm) : null;
+  const [g, d] = await Promise.all([name ? refGames(name) : null, fm ? loadTwo(fm) : null]);
+  if (g && g.n > 0) return { n: g.n, y: g.y, fo: g.fo, lg: d && d.lg, seasons: 2, m: g.m };
   if (!d || !d.ref) return null;
   const k = firstLast(name);
   const key = Object.keys(d.ref).find((x) => norm(x) === norm(name)) || Object.keys(d.ref).find((x) => firstLast(x) === k);
