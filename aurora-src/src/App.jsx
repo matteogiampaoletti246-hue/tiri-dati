@@ -1,7 +1,7 @@
 import MenuDrawer from '@/components/MenuDrawer';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { HashRouter, Route, Routes, useLocation, useNavigate, useNavigationType } from 'react-router-dom';
-import { BACK } from '@/lib/carousel';
+import { BACK, isNative } from '@/lib/carousel';
 import ArchiveMatch from '@/pages/ArchiveMatch';
 import ArchiveTeam from '@/pages/ArchiveTeam';
 import ArchivePlayer from '@/pages/ArchivePlayer';
@@ -42,7 +42,9 @@ function NavGuard() {
   const prev = useRef(null);
   useLayoutEffect(() => {
     const p = prev.current;
-    if (type === 'POP' && p && ROOTS.has(p) && Date.now() - BACK.t > 1500) {
+    // Nell'app nativa le schede le cambia solo la barra in basso (cambio di rotta dell'app = POP): mai annullarlo, altrimenti dopo
+    // una navigazione interna (es. scelta di un giocatore nel Calcolatore) ogni tasto della barra riportava alla scheda di prima.
+    if (!isNative() && type === 'POP' && p && ROOTS.has(p) && Date.now() - BACK.t > 1500) {
       navigate(p, { replace: true });
       return;
     }
