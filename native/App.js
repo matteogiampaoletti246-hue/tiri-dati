@@ -1,7 +1,7 @@
 // ScalperLab nativa - Home (React Native). Stesse regole della Home web: finestre per paese, top campionati in alto,
 // colori e loghi delle competizioni, righe partita. Metadati da meta.json (generato da data/leagues.js e data/countries.js).
 import React, { createContext, memo, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { View, Text, FlatList, Pressable, ScrollView, StatusBar, Dimensions, StyleSheet, ActivityIndicator, LayoutAnimation, Platform, UIManager, AppState, Modal, TextInput, Keyboard, BackHandler, useWindowDimensions } from 'react-native';
+import { View, Text, FlatList, Pressable, ScrollView, StatusBar, Dimensions, StyleSheet, Animated as RNAnimated, AccessibilityInfo, LayoutAnimation, Platform, UIManager, AppState, Modal, TextInput, Keyboard, BackHandler, useWindowDimensions } from 'react-native';
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Image } from 'expo-image';
 import Animated, { useSharedValue, useAnimatedStyle, useAnimatedReaction, withTiming, cancelAnimation, runOnJS, Easing, interpolateColor, Keyframe, LinearTransition, FadeIn } from 'react-native-reanimated';
@@ -17,8 +17,8 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
 
 const SITE = 'https://matteogiampaoletti246-hue.github.io/tiri-dati/';
 const W = Dimensions.get('window').width;
-const DARK = { dark: true, bg: '#05070D', ink: '#F1F5FB', ink2: '#A9B6CC', ink3: '#6D7A91', hair: 'rgba(255,255,255,.10)', border: 'rgba(255,255,255,.12)', accent: '#4DA8FF', live: '#FF6464', chip: 'rgba(255,255,255,.08)', wash: 'rgba(255,255,255,0.03)', card1: 'rgba(255,255,255,0.10)', card2: 'rgba(255,255,255,0.035)', sheet: '#0E1626', scrim: 'rgba(0,0,0,.5)', dockBg: 'rgba(14,22,38,0.62)', tile1: 'rgba(255,255,255,0.08)', accTint: 'rgba(77,168,255,0.16)', accRing: 'rgba(77,168,255,0.6)' };
-const LIGHT = { dark: false, bg: '#F3F6FB', ink: '#0F172A', ink2: '#475569', ink3: '#8592A6', hair: 'rgba(15,23,42,.08)', border: 'rgba(15,23,42,.10)', accent: '#1F6BEF', live: '#E5484D', chip: 'rgba(15,23,42,.06)', wash: 'rgba(255,255,255,0.85)', card1: 'rgba(255,255,255,0.95)', card2: 'rgba(255,255,255,0.8)', sheet: '#FFFFFF', scrim: 'rgba(15,23,42,.28)', dockBg: 'rgba(255,255,255,0.6)', tile1: 'rgba(255,255,255,0.9)', accTint: 'rgba(31,107,239,0.12)', accRing: 'rgba(31,107,239,0.55)' };
+const DARK = { dark: true, bg: '#05070D', ink: '#F1F5FB', ink2: '#A9B6CC', ink3: '#6D7A91', hair: 'rgba(255,255,255,.10)', border: 'rgba(255,255,255,.12)', accent: '#4DA8FF', live: '#FF6464', chip: 'rgba(255,255,255,.08)', wash: 'rgba(255,255,255,0.03)', card1: 'rgba(255,255,255,0.10)', card2: 'rgba(255,255,255,0.035)', sheet: '#0E1626', scrim: 'rgba(0,0,0,.5)', dockBg: 'rgba(14,22,38,0.62)', tile1: 'rgba(255,255,255,0.08)', accTint: 'rgba(77,168,255,0.16)', accRing: 'rgba(77,168,255,0.6)', skBase: 'rgba(255,255,255,0.075)', skHi: 'rgba(255,255,255,0.10)', skHi0: 'rgba(255,255,255,0)' };
+const LIGHT = { dark: false, bg: '#F3F6FB', ink: '#0F172A', ink2: '#475569', ink3: '#8592A6', hair: 'rgba(15,23,42,.08)', border: 'rgba(15,23,42,.10)', accent: '#1F6BEF', live: '#E5484D', chip: 'rgba(15,23,42,.06)', wash: 'rgba(255,255,255,0.85)', card1: 'rgba(255,255,255,0.95)', card2: 'rgba(255,255,255,0.8)', sheet: '#FFFFFF', scrim: 'rgba(15,23,42,.28)', dockBg: 'rgba(255,255,255,0.6)', tile1: 'rgba(255,255,255,0.9)', accTint: 'rgba(31,107,239,0.12)', accRing: 'rgba(31,107,239,0.55)', skBase: 'rgba(15,23,42,0.085)', skHi: 'rgba(255,255,255,0.8)', skHi0: 'rgba(255,255,255,0)' };
 const WORKER = 'https://scalperlab-live.matteo-giampaoletti04.workers.dev';
 const NAMES = META.names || {};
 const nm = (id, n) => NAMES[String(id)] || n;
@@ -605,6 +605,103 @@ function LivePill({ value, onChange }) {
   );
 }
 
+// Scheletro di caricamento (al posto della rotella): barre grigie del tema con un riflesso che scorre.
+// Un solo valore animato per tutte le barre, driver nativo (nessun lavoro JS per fotogramma); con "Riduci movimento" resta fermo.
+// Compare dopo 150 ms: un caricamento piu' corto non lampeggia.
+const SkCtx = createContext(null);
+function SkBox({ children, style }) {
+  const v = useRef(new RNAnimated.Value(0)).current;
+  const op = useRef(new RNAnimated.Value(0)).current;
+  useEffect(() => {
+    let on = true; let loop = null;
+    RNAnimated.timing(op, { toValue: 1, delay: 150, duration: 160, useNativeDriver: true }).start();
+    AccessibilityInfo.isReduceMotionEnabled().then((still) => {
+      if (!on || still) return;
+      loop = RNAnimated.loop(RNAnimated.timing(v, { toValue: 1, duration: 1500, useNativeDriver: true }));
+      loop.start();
+    }).catch(() => {});
+    return () => { on = false; if (loop) loop.stop(); };
+  }, [v, op]);
+  return <SkCtx.Provider value={v}><RNAnimated.View pointerEvents="none" style={[{ opacity: op }, style]}>{children}</RNAnimated.View></SkCtx.Provider>;
+}
+const SkBar = ({ w, h = 12, r = 6, style }) => {
+  const { C } = useT();
+  const v = useContext(SkCtx);
+  const tx = v ? v.interpolate({ inputRange: [0, 1], outputRange: [-w, w] }) : 0;
+  return (
+    <View style={[{ width: w, height: h, borderRadius: r, backgroundColor: C.skBase, overflow: 'hidden' }, style]}>
+      <RNAnimated.View style={[StyleSheet.absoluteFill, { transform: [{ translateX: tx }] }]}>
+        <LinearGradient colors={[C.skHi0, C.skHi, C.skHi0]} start={{ x: 0, y: 0.5 }} end={{ x: 1, y: 0.5 }} style={{ flex: 1 }} />
+      </RNAnimated.View>
+    </View>
+  );
+};
+const SkCard = ({ h, children }) => {
+  const { C } = useT();
+  return <View style={{ height: h, marginHorizontal: 16, marginBottom: 12, borderRadius: 24, padding: 16, backgroundColor: C.card2, borderWidth: StyleSheet.hairlineWidth, borderColor: C.hair, overflow: 'hidden' }}>{children}</View>;
+};
+const SkLines = ({ n = 3 }) => (
+  <>
+    {Array.from({ length: n }, (_, i) => <SkBar key={i} w={i ? (W - 64) * (i % 2 ? 0.7 : 0.55) : (W - 64) * 0.38} h={i ? 9 : 11} style={{ marginBottom: 10 }} />)}
+  </>
+);
+// righe di partite dentro una finestra (logo, nome, orario, nome, logo): solo quante ne entrano nello schermo
+const SkMatchRows = ({ n }) => (
+  <>
+    {Array.from({ length: n }, (_, i) => (
+      <View key={i} style={{ flexDirection: 'row', alignItems: 'center', height: 44 }}>
+        <SkBar w={(W - 64) * 0.3} h={10} />
+        <SkBar w={22} h={22} r={11} style={{ marginLeft: 8 }} />
+        <View style={{ flex: 1, alignItems: 'center' }}><SkBar w={34} h={10} /></View>
+        <SkBar w={22} h={22} r={11} style={{ marginRight: 8 }} />
+        <SkBar w={(W - 64) * 0.3} h={10} />
+      </View>
+    ))}
+  </>
+);
+// Home ancora senza dati: giorni, pillola Tutte/Live e finestre dei paesi
+function SkHome() {
+  const rows = Math.max(3, Math.min(8, Math.floor((Dimensions.get('window').height - 300) / 44)));
+  return (
+    <SkBox style={{ paddingTop: 16 }}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 16, marginBottom: 18 }}>
+        {[0, 1, 2, 3, 4].map((i) => <SkBar key={i} w={44} h={12} />)}
+      </View>
+      <SkBar w={150} h={36} r={18} style={{ marginLeft: 16, marginBottom: 18 }} />
+      <SkCard h={70 + rows * 44}><SkBar w={(W - 64) * 0.4} h={12} style={{ marginBottom: 16 }} /><SkMatchRows n={rows} /></SkCard>
+      <SkCard h={56}><SkBar w={(W - 64) * 0.5} h={12} /></SkCard>
+      <SkCard h={56}><SkBar w={(W - 64) * 0.45} h={12} /></SkCard>
+    </SkBox>
+  );
+}
+// pagina web in apertura: stessa forma della pagina (schede della barra: elenco di riquadri; altre: banner, schede, riquadri)
+function SkWeb({ route }) {
+  const { C } = useT();
+  const list = /^\/(migliori-giocatori|migliori-matchup)/.test(route || '');
+  const n = Math.max(3, Math.min(7, Math.ceil((Dimensions.get('window').height - 200) / 108)));
+  if (list) {
+    return (
+      <SkBox style={[StyleSheet.absoluteFill, { backgroundColor: C.bg, paddingTop: 18 }]}>
+        <SkBar w={190} h={20} style={{ marginLeft: 20, marginBottom: 16 }} />
+        <View style={{ flexDirection: 'row', paddingHorizontal: 20, marginBottom: 18 }}>{[0, 1, 2, 3, 4].map((i) => <SkBar key={i} w={44} h={12} style={{ marginRight: 18 }} />)}</View>
+        {Array.from({ length: n }, (_, i) => <SkCard key={i} h={96}><SkLines n={3} /></SkCard>)}
+      </SkBox>
+    );
+  }
+  return (
+    <SkBox style={[StyleSheet.absoluteFill, { backgroundColor: C.bg, paddingTop: 20 }]}>
+      <View style={{ paddingLeft: 40, marginBottom: 30 }}>
+        <SkBar w={W * 0.5} h={14} style={{ marginBottom: 10 }} />
+        <SkBar w={W * 0.3} h={10} />
+      </View>
+      <View style={{ flexDirection: 'row', paddingHorizontal: 20, marginBottom: 22 }}>{[62, 58, 70, 60].map((w, i) => <SkBar key={i} w={w} h={12} style={{ marginRight: 24 }} />)}</View>
+      <SkCard h={134}><SkLines n={3} /></SkCard>
+      <SkCard h={240}><SkLines n={3} /></SkCard>
+      <SkCard h={180}><SkLines n={3} /></SkCard>
+    </SkBox>
+  );
+}
+
 function Screen({ onTheme, onReset }) {
   const { C, s } = useT();
   const insets = useSafeAreaInsets();
@@ -900,7 +997,7 @@ function Screen({ onTheme, onReset }) {
     }), [ov, ovStart, afterClose, markClosed]);
   const ovStyle = useAnimatedStyle(() => ({ transform: [{ translateX: ov.value }] }));
 
-  if (!data) return <View style={[s.root, { alignItems: 'center', justifyContent: 'center' }]}><ActivityIndicator color={C.accent} /></View>;
+  if (!data) return <View style={[s.root, { paddingTop: insets.top }]}><SkHome /></View>;
   if (warm && !bootUri.current) bootUri.current = `${SITE}aurora/#${startRoute.current}`; // fissato al primo montaggio: cambiarlo dopo ricaricherebbe la pagina
   const tIdx = keys.indexOf(todayKey); const liveN = tIdx >= 0 ? data[tIdx].reduce((n, m) => n + (m[8] === 'l' ? 1 : 0), 0) : 0; // badge del dock: partite live di oggi
   const shown = [cur - 2, cur - 1, cur, cur + 1, cur + 2].filter((i) => i >= 0 && i < N);
@@ -932,7 +1029,7 @@ function Screen({ onTheme, onReset }) {
           <Pressable onPress={closeWeb} style={s.back}><Ionicons name="chevron-back" size={20} color={C.accent} /><Text style={{ color: C.accent, fontSize: 16 }}>Home</Text></Pressable>
           <View style={{ flex: 1 }}>
             {warm ? <WebView key={webKey} ref={webRef} onContentProcessDidTerminate={recover} onRenderProcessGone={recover} source={{ uri: bootUri.current }} onLoadEnd={onWebLoaded} style={{ flex: 1, backgroundColor: C.bg }} injectedJavaScriptBeforeContentLoaded={NO_LAUNCH} injectedJavaScript={THEME_JS} onMessage={onMsg} decelerationRate={0.998} contentInsetAdjustmentBehavior="never" automaticallyAdjustContentInsets={false} directionalLockEnabled={false} allowsLinkPreview={false} /> : null}
-            {!ready || busy ? <View pointerEvents="auto" style={[StyleSheet.absoluteFill, { backgroundColor: C.bg, alignItems: 'center', justifyContent: 'center' }]}><ActivityIndicator size="large" color={C.accent} /></View> : null}
+            {!ready || busy ? <View pointerEvents="auto" style={StyleSheet.absoluteFill}><SkWeb route={awaitRoute.current || lastRoute.current} /></View> : null}
           </View>
         </View>
         <GestureDetector gesture={edge}><View pointerEvents={depth > 0 ? 'none' : 'auto'} style={[s.edge, { width: EDGE_W, top: insets.top + 98 }]} /></GestureDetector>
