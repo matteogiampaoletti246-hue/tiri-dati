@@ -77,8 +77,8 @@
    "da_fare": 0
   },
   "Europa League 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "UEFA Super Cup 2025-2026": {
    "partite_con_eventi": 0,
@@ -285,8 +285,8 @@
    "da_fare": 0
   },
   "Slovak Cup 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "Challenge Cup 2026-2027": {
    "partite_con_eventi": 0,
@@ -565,8 +565,8 @@
    "da_fare": 0
   },
   "Cyprus Cup 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "Toppserien 2026": {
    "partite_con_eventi": 0,
@@ -621,8 +621,8 @@
    "da_fare": 0
   },
   "Professional Football League 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "Qatar Stars League 2026-2027": {
    "partite_con_eventi": 0,
@@ -749,8 +749,8 @@
    "da_fare": 0
   },
   "NB II 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "Segunda Division 2026": {
    "partite_con_eventi": 0,
@@ -845,8 +845,8 @@
    "da_fare": 0
   },
   "AFC Champions League Two 2026-2027": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
+   "partite_con_eventi": 2,
+   "da_fare": 2
   },
   "AFC Challenge League 2026-2027": {
    "partite_con_eventi": 0,
@@ -2373,5 +2373,5 @@
    "da_fare": 0
   }
  },
- "partite_in_questo_giro": 1
+ "partite_in_questo_giro": 8
 }
