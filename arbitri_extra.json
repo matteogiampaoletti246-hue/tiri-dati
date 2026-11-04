@@ -1,19 +1,4 @@
 {
-"5103689": {
-"n": "Raphael Claus",
-"src": "api-football",
-"at": "2026-10-29T08:59+00:00"
-},
-"5103685": {
-"n": "Bruno Arleu",
-"src": "api-football",
-"at": "2026-10-29T08:59+00:00"
-},
-"6275369": {
-"n": "Farai Hallam",
-"src": "api-football",
-"at": "2026-10-29T08:59+00:00"
-},
 "5846013": {
 "n": "Isa Simsek",
 "src": "api-football",
@@ -904,9 +889,24 @@
 "src": "api-football",
 "at": "2026-11-03T01:09+00:00"
 },
+"5103695": {
+"n": "L. Casagrande",
+"src": "api-football",
+"at": "2026-11-04T01:10+00:00"
+},
+"5103696": {
+"n": "R. Claus",
+"src": "api-football",
+"at": "2026-11-04T01:10+00:00"
+},
+"5103697": {
+"n": "W. Sampaio",
+"src": "api-football",
+"at": "2026-11-04T01:10+00:00"
+},
 "_err": [
-"2026-11-05: {\"plan\": \"Free plans do not have access to this date, try from 2026-11-02 to 2026-11-04.\"}",
-"2026-11-06: {\"plan\": \"Free plans do not have access to this date, try from 2026-11-02 to 2026-11-04.\"}"
+"2026-11-06: {\"plan\": \"Free plans do not have access to this date, try from 2026-11-03 to 2026-11-05.\"}",
+"2026-11-07: {\"plan\": \"Free plans do not have access to this date, try from 2026-11-03 to 2026-11-05.\"}"
 ],
-"_at": "2026-11-03T20:56+00:00"
+"_at": "2026-11-04T01:10+00:00"
 }
