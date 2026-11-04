@@ -539,7 +539,7 @@ const Pane = ({ idx, x, children }) => {
   return <Animated.View style={[StyleSheet.absoluteFill, st]}>{children}</Animated.View>;
 };
 
-const NO_LAUNCH = "try{sessionStorage.setItem('sl-launched','1')}catch(e){};" + "(function(){var n=0;window.__slDepth=0;var send=function(){window.__slDepth=n;try{window.ReactNativeWebView.postMessage('depth:'+n)}catch(e){}};var P=history.pushState,R=history.replaceState;history.pushState=function(s,t,u){n++;var st=Object.assign({},s||{});st.__sln=n;var r=P.call(this,st,t,u);send();return r;};history.replaceState=function(s,t,u){var st=Object.assign({},s||{});st.__sln=n;return R.call(this,st,t,u);};window.addEventListener('popstate',function(){var st=history.state;if(st&&typeof st.__sln==='number'){n=st.__sln;}else{n=0;}send();if(location.hash==='#/linee-guida'){try{window.ReactNativeWebView.postMessage('home')}catch(e){}}});})();true;";
+const NO_LAUNCH = "try{sessionStorage.setItem('sl-launched','1')}catch(e){};" + "(function(){var n=0;window.__slDepth=0;var send=function(){window.__slDepth=n;try{window.ReactNativeWebView.postMessage('depth:'+n)}catch(e){}};var P=history.pushState,R=history.replaceState;history.pushState=function(s,t,u){n++;var st=Object.assign({},s||{});st.__sln=n;var r=P.call(this,st,t,u);send();return r;};history.replaceState=function(s,t,u){var st=Object.assign({},s||{});st.__sln=n;return R.call(this,st,t,u);};window.addEventListener('popstate',function(){var st=history.state;if(st&&typeof st.__sln==='number'){n=st.__sln;}else{n=0;}send();if(location.hash==='#/linee-guida'&&!(window.__slQ>Date.now())){try{window.ReactNativeWebView.postMessage('home')}catch(e){}}});})();true;";
 const EDGE_W = 16; // striscia nativa sul bordo (swipe fluido sul thread UI). Stretta: piu' larga copriva i tasti a sinistra (Riepilogo) e ne mangiava il tocco.
 const SWIPE_GAIN = 2.2; // la pagina corre piu' veloce del dito: uno swipe leggero (~23% dello schermo) la porta oltre la meta'. Stesso valore in lib/carousel.js
 
@@ -867,15 +867,16 @@ function Screen({ onTheme, onReset }) {
   }, [!!data, refresh]);
 
   const markClosed = useCallback(() => { openRef.current = false; setWebOpen(false); }, []);
+  // Ogni cambio di rotta deciso dall'app porta `__slQ`: la pagina web non risponde con 'home' al ritorno alla pagina di partenza (era l'eco che, arrivando in ritardo, richiudeva la pagina appena aperta dal tocco dopo).
   const hashTo = useCallback((h) => {
-    if (readyRef.current && webRef.current) { pendingHash.current = null; webRef.current.injectJavaScript(`location.hash=${JSON.stringify(h)};true;`); }
+    if (readyRef.current && webRef.current) { pendingHash.current = null; webRef.current.injectJavaScript(`window.__slQ=Date.now()+1500;location.hash=${JSON.stringify(h)};true;`); }
     else pendingHash.current = h; // pagina non ancora caricata: si applica appena pronta
   }, []);
   const onWebLoaded = useCallback(() => {
     readyRef.current = true;
     const h = pendingHash.current;
     pendingHash.current = null;
-    if (h && webRef.current) webRef.current.injectJavaScript(`if(location.hash!==${JSON.stringify(h)})location.hash=${JSON.stringify(h)};true;`);
+    if (h && webRef.current) webRef.current.injectJavaScript(`window.__slQ=Date.now()+1500;if(location.hash!==${JSON.stringify(h)})location.hash=${JSON.stringify(h)};true;`);
     setReady(true);
   }, []);
   // La pagina web e' morta (iOS termina il processo della WebView in background): si ricrea gia' sulla rotta giusta (l'ultima disegnata se la finestra e' aperta, altrimenti la pagina di partenza).

@@ -57,3 +57,7 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 - Dock "isola compatta" (concept C) uguale in nativo (`TabBar`) e nel sito (`BottomBar` + `components/dock.css`): vetro sfocato, tasselli 46 px, separatore dopo Home, la voce attiva si allarga in pillola col nome; badge rosso su Home con le partite live di oggi (solo se ce ne sono). Colori solo dai temi (`DARK`/`LIGHT`, variabili CSS); z-index sotto le tendine.
 - La voce toccata si evidenzia subito (`tab` in nativo, `want` nel sito), non quando la pagina e' disegnata. Toccare la voce gia' attiva riporta in cima.
 - Causa del "cambio pagina che non va": l'attesa di `route:` restava accesa se si tornava alla pagina gia' mostrata prima che l'altra arrivasse, e dopo 4 s l'app ricaricava da zero la pagina web anche se era solo lenta. Ora: rotta gia' mostrata = attesa chiusa; dopo 4 s ping (`pong`): si ricrea solo se la pagina non risponde.
+
+## App nativa: tocchi che riportano all'ultima sezione (regola fissa)
+- Causa: dopo ogni chiusura l'app rimette la pagina web su `#/linee-guida` (`afterClose`) e la pagina rispondeva `home`; con l'app lenta (ritorno da un'altra app) il messaggio arrivava dopo il tocco successivo e `closeWeb` richiudeva la pagina appena aperta (la pagina "faceva capolino" e tornava via, e il tocco dopo ripartiva uguale).
+- Ora ogni cambio di rotta deciso dall'app (`hashTo`, `onWebLoaded`) imposta `window.__slQ` (1,5 s) e il caricatore `NO_LAUNCH` non manda `home` mentre e' attivo; `home` resta per il vero ritorno indietro (gesto/tasto del sito).
