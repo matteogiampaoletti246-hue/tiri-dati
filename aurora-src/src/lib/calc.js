@@ -266,6 +266,23 @@ export const foulLineHint = (lambda, line) => {
   return `Linea ${label}${lambda === null || lambda === undefined ? '' : ` · atteso ${comma(lambda, 2)}`}`;
 };
 
+/* ── Peso di modello (media tiri/falli del giocatore) e hit rate nel risultato finale ──────────
+   Le formule restano tutte qui. Per tornare a quella vecchia basta cambiare FORMULA_ATTIVA in 'v1'
+   (lo stesso vale per tiri, tiri in porta e falli, e quindi anche per Migliori Giocatori).
+   v1 = formula originale (fino al 4 novembre 2026): modello 60% + hit rate 40%.
+   v2 = formula attuale: meno peso all'hit rate, piu' alla media del giocatore (modello 65% + hit rate 35%). */
+export const FORMULE = {
+  v1: { modello: 0.6, hitRate: 0.4 },
+  v2: { modello: 0.65, hitRate: 0.35 },
+};
+export const FORMULA_ATTIVA = 'v2';
+const probAndHit = (prob, hitRate) => {
+  if (prob === null) return null;
+  if (hitRate === null) return prob;
+  const w = FORMULE[FORMULA_ATTIVA];
+  return prob * w.modello + hitRate * w.hitRate;
+};
+
 /* ── Risultato completo: giocatore ─────────────────────────────────── */
 export function computePlayerResult({
   season = [],
@@ -293,7 +310,7 @@ export function computePlayerResult({
 
   const lambda = rate90 !== null && oppFactor !== null && creationFactor !== null ? rate90 * oppFactor * creationFactor * sedeFactor : null;
   const prob = probModel(lambda, line, lineType);
-  const probFinal = withLine(prob === null ? null : hitRate === null ? prob : prob * 0.6 + hitRate * 0.4, line, lineType);
+  const probFinal = withLine(probAndHit(prob, hitRate), line, lineType);
   const score = probFinal === null ? null : probFinal * 10;
   const tier = quotaTier(odds);
   const stake = stakeCalc(score, odds);
@@ -358,7 +375,7 @@ export function computeTeamResult({ teamFor: rawFor = null, teamOpp: rawOpp = nu
 }
 
 /* ── Falli (commessi / subiti) ─────────────────────────────────────────
-   Stesso schema dei tiri (tasso a 90' mescolato, Poisson, hit rate al 40%) ma con fattori moltiplicativi a gerarchia:
+   Stesso schema dei tiri (tasso a 90' mescolato, Poisson, hit rate col peso di FORMULE[FORMULA_ATTIVA]) ma con fattori moltiplicativi a gerarchia:
    1) giocatore (con hit rate), 2) duello avversario (media dei 3 scelti al massimo), 3) squadra avversaria, 4) squadra del giocatore.
    Casa/Trasferta e handicap dei campionati minori non hanno effetto sui falli. I tiri non usano nulla di questo. */
 export const FOUL_EXP = { duel: 0.5, opp: 0.35, own: 0.15, oppSolo: 0.6, ownSolo: 0.2 };
@@ -376,7 +393,7 @@ export function computeFoulsResult({
   const creationFactor = ratioPow(teamVal, teamAvg, hasDuel ? FOUL_EXP.own : FOUL_EXP.ownSolo);
   const lambda = rate90 !== null && oppFactor !== null && creationFactor !== null ? rate90 * oppFactor * creationFactor * (duelFactor ?? 1) : null;
   const prob = probModel(lambda, line, lineType);
-  const probFinal = withLine(prob === null ? null : hitRate === null ? prob : prob * 0.6 + hitRate * 0.4, line, lineType);
+  const probFinal = withLine(probAndHit(prob, hitRate), line, lineType);
   const score = probFinal === null ? null : probFinal * 10;
   const tier = quotaTier(odds);
   const stake = stakeCalc(score, odds);
