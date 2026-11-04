@@ -270,10 +270,10 @@ export const foulLineHint = (lambda, line) => {
    Le formule restano tutte qui. Per tornare a quella vecchia basta cambiare FORMULA_ATTIVA in 'v1'
    (lo stesso vale per tiri, tiri in porta e falli, e quindi anche per Migliori Giocatori).
    v1 = formula originale (fino al 4 novembre 2026): modello 60% + hit rate 40%.
-   v2 = formula attuale: meno peso all'hit rate, piu' alla media del giocatore (modello 65% + hit rate 35%). */
+   v2 = formula attuale: meno peso all'hit rate, piu' alla media del giocatore (modello 70% + hit rate 30%). */
 export const FORMULE = {
   v1: { modello: 0.6, hitRate: 0.4 },
-  v2: { modello: 0.65, hitRate: 0.35 },
+  v2: { modello: 0.7, hitRate: 0.3 },
 };
 export const FORMULA_ATTIVA = 'v2';
 const probAndHit = (prob, hitRate) => {

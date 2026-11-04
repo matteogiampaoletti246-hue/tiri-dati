@@ -64,4 +64,4 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 
 ## Formula del risultato: peso di modello e hit rate (regola fissa)
 - Probabilita' finale = modello (media tiri/falli del giocatore: tasso a 90' stagione + ultime 5, Poisson, fattori squadre) x peso modello + hit rate x peso hit rate. Pesi in `FORMULE` (`lib/calc.js`), scelti da `FORMULA_ATTIVA`; vale per tiri, tiri in porta, falli e quindi anche per Migliori Giocatori. Senza hit rate la probabilita' finale e' il solo modello.
-- `v1` = formula originale (60% modello + 40% hit rate), conservata. `v2` = attuale dal 4 novembre 2026 (65% modello + 35% hit rate, voluta dall'utente: meno peso all'hit rate, piu' alla media). Per tornare indietro basta cambiare `FORMULA_ATTIVA` in `'v1'` (l'utente lo chiede a Claude).
+- `v1` = formula originale (60% modello + 40% hit rate), conservata. `v2` = attuale dal 4 novembre 2026 (70% modello + 30% hit rate, voluta dall'utente: meno peso all'hit rate, piu' alla media). Per tornare indietro basta cambiare `FORMULA_ATTIVA` in `'v1'` (l'utente lo chiede a Claude).
