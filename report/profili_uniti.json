@@ -1,7 +1,7 @@
 {
 "nota": "unioni di profili doppi (stesso giocatore con piu' id) e collegamenti PitchAPI -> FotMob",
-"doppi_uniti": 16,
-"collegati": 5906,
+"doppi_uniti": 17,
+"collegati": 5980,
 "unioni": [
 {
 "nome": "Adrián Martín Ugarriza Tello",
@@ -90,6 +90,17 @@
 ],
 "tenuto": "p_3TDC0X",
 "motivo": "stesso id FotMob (cognome e iniziale + date 100%; nome uguale + date 100%): PitchAPI aveva due profili"
+},
+{
+"nome": "Leo Hofstädter",
+"squadra": "Slovan Bratislava",
+"id_uniti": [
+"p_1N4d3G",
+"p_0Gn6Wb",
+"fm:2093218"
+],
+"tenuto": "p_1N4d3G",
+"motivo": "stesso id FotMob (nome uguale + date 100%; nome uguale + date 100%): PitchAPI aveva due profili"
 },
 {
 "nome": "Mohammad Kna'an",
@@ -633,6 +644,17 @@
 "tipo": "collegato"
 },
 {
+"nome": "Abdul Rahman Baba",
+"squadra": "PAOK Thessaloniki",
+"id_uniti": [
+"p_0aRJMI",
+"fm:324910"
+],
+"tenuto": "p_0aRJMI",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
 "nome": "Abdulakh Khaybulaev",
 "squadra": "Sabah FK",
 "id_uniti": [
@@ -816,7 +838,7 @@
 "fm:770881"
 ],
 "tenuto": "p_4QqLFm",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -1267,7 +1289,7 @@
 "fm:690516"
 ],
 "tenuto": "p_3YQnUi",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -2169,7 +2191,7 @@
 "fm:1184694"
 ],
 "tenuto": "p_0ZIPCl",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -2290,7 +2312,7 @@
 "fm:1254166"
 ],
 "tenuto": "p_1VZIVK",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 80%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -2323,7 +2345,7 @@
 "fm:288406"
 ],
 "tenuto": "p_0wLs3b",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -2444,7 +2466,7 @@
 "fm:1072191"
 ],
 "tenuto": "p_3Kbz0l",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 86%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -2455,7 +2477,7 @@
 "fm:1410437"
 ],
 "tenuto": "p_0sopAH",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 83%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -2503,6 +2525,17 @@
 "tipo": "collegato"
 },
 {
+"nome": "Aleksandre Narimanidze",
+"squadra": "Žilina",
+"id_uniti": [
+"p_1OCsQO",
+"fm:1661578"
+],
+"tenuto": "p_1OCsQO",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
 "nome": "Aleksey Batrakov",
 "squadra": "Galatasaray",
 "id_uniti": [
@@ -2532,7 +2565,7 @@
 "fm:1437941"
 ],
 "tenuto": "p_0va92y",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome contenuto + date 93%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome contenuto + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -2554,7 +2587,7 @@
 "fm:949092"
 ],
 "tenuto": "p_3qgIOi",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 94%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -2642,7 +2675,7 @@
 "fm:461357"
 ],
 "tenuto": "p_3nHSjm",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -2719,7 +2752,7 @@
 "fm:1338696"
 ],
 "tenuto": "p_1RXD54",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -2983,7 +3016,7 @@
 "fm:440330"
 ],
 "tenuto": "p_00UbRg",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 80%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -3148,7 +3181,7 @@
 "fm:1557209"
 ],
 "tenuto": "p_0s7CGS",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -3581,6 +3614,17 @@
 "tipo": "collegato"
 },
 {
+"nome": "Allen Obando",
+"squadra": "Nacional",
+"id_uniti": [
+"p_0bAATC",
+"fm:1482775"
+],
+"tenuto": "p_0bAATC",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
 "nome": "Almeida",
 "squadra": "Sabah FK",
 "id_uniti": [
@@ -3643,7 +3687,7 @@
 "fm:751202"
 ],
 "tenuto": "p_3f0h7I",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -3709,7 +3753,7 @@
 "fm:1656860"
 ],
 "tenuto": "p_3FRiNW",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -3720,7 +3764,7 @@
 "fm:1070052"
 ],
 "tenuto": "p_220Dot",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 86%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -4248,7 +4292,7 @@
 "fm:338136"
 ],
 "tenuto": "p_1efdDy",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -4358,7 +4402,7 @@
 "fm:615292"
 ],
 "tenuto": "p_08adNQ",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -4446,6 +4490,17 @@
 "fm:1336714"
 ],
 "tenuto": "p_1qQjyC",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
+"nome": "Andrei Florea",
+"squadra": "Žilina",
+"id_uniti": [
+"p_0E8rGY",
+"fm:1684565"
+],
+"tenuto": "p_0E8rGY",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -4611,6 +4666,17 @@
 "fm:1156913"
 ],
 "tenuto": "p_4R1vlk",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
+"nome": "Andrija Živković",
+"squadra": "PAOK Thessaloniki",
+"id_uniti": [
+"p_2nfO1A",
+"fm:463268"
+],
+"tenuto": "p_2nfO1A",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -4787,7 +4853,7 @@
 "fm:688449"
 ],
 "tenuto": "p_0STvGG",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -4908,7 +4974,7 @@
 "fm:1199383"
 ],
 "tenuto": "p_0CgEhq",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -4996,7 +5062,7 @@
 "fm:1576876"
 ],
 "tenuto": "p_1XctKT",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -5216,7 +5282,7 @@
 "fm:906937"
 ],
 "tenuto": "p_0vTa4b",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -5579,6 +5645,17 @@
 "fm:1561078"
 ],
 "tenuto": "p_3BbK7l",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
+"nome": "Antonis Tsiftsis",
+"squadra": "PAOK Thessaloniki",
+"id_uniti": [
+"p_0tTWW1",
+"fm:873265"
+],
+"tenuto": "p_0tTWW1",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -5997,6 +6074,17 @@
 "fm:1679978"
 ],
 "tenuto": "p_0ciaaB",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
+"nome": "Aritz Elustondo",
+"squadra": "PAOK Thessaloniki",
+"id_uniti": [
+"p_4Jfzxw",
+"fm:607148"
+],
+"tenuto": "p_4Jfzxw",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -6811,7 +6899,7 @@
 "fm:1559639"
 ],
 "tenuto": "p_1GSpKo",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 83%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -6921,7 +7009,7 @@
 "fm:479020"
 ],
 "tenuto": "p_3NMweX",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -7603,7 +7691,7 @@
 "fm:148830"
 ],
 "tenuto": "p_2GWcsC",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -7680,7 +7768,7 @@
 "fm:611223"
 ],
 "tenuto": "p_2kOM3b",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 80%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -7845,7 +7933,7 @@
 "fm:815912"
 ],
 "tenuto": "p_4VTJDP",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -8307,7 +8395,7 @@
 "fm:816325"
 ],
 "tenuto": "p_2zceWU",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -8582,7 +8670,7 @@
 "fm:1821727"
 ],
 "tenuto": "p_1lg3HR",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 50%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -8681,7 +8769,7 @@
 "fm:422685"
 ],
 "tenuto": "p_0pG7uM",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -8802,7 +8890,7 @@
 "fm:299799"
 ],
 "tenuto": "p_3Y4AaF",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -8857,7 +8945,7 @@
 "fm:923312"
 ],
 "tenuto": "p_48E2Ui",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -9176,7 +9264,7 @@
 "fm:622137"
 ],
 "tenuto": "p_1lenFW",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -9352,7 +9440,7 @@
 "fm:940829"
 ],
 "tenuto": "p_1CN9vl",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -9363,7 +9451,7 @@
 "fm:1352713"
 ],
 "tenuto": "p_2P8nZm",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 86%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -9407,7 +9495,7 @@
 "fm:1841906"
 ],
 "tenuto": "p_1u10eK",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 88%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -9473,7 +9561,7 @@
 "fm:1395964"
 ],
 "tenuto": "p_1hL7KK",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -9781,7 +9869,7 @@
 "fm:952057"
 ],
 "tenuto": "p_2EHgUI",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -9939,6 +10027,17 @@
 "tipo": "collegato"
 },
 {
+"nome": "Cherif Ndiaye",
+"squadra": "PAOK Thessaloniki",
+"id_uniti": [
+"p_0bqBkq",
+"fm:819972"
+],
+"tenuto": "p_0bqBkq",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
 "nome": "Cherno Saho",
 "squadra": "Rudeš",
 "id_uniti": [
@@ -9990,6 +10089,17 @@
 "fm:666954"
 ],
 "tenuto": "p_0vURJJ",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
+"nome": "Chiheb Labidi",
+"squadra": "Nacional",
+"id_uniti": [
+"p_2cXCHH",
+"fm:1242656"
+],
+"tenuto": "p_2cXCHH",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -10419,7 +10529,7 @@
 "fm:1232205"
 ],
 "tenuto": "p_13BUAE",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -10584,6 +10694,17 @@
 "fm:1157237"
 ],
 "tenuto": "p_4NUmpH",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
+"nome": "Christos Zafeiris",
+"squadra": "PAOK Thessaloniki",
+"id_uniti": [
+"p_1mVddI",
+"fm:1124529"
+],
+"tenuto": "p_1mVddI",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -11046,7 +11167,7 @@
 "fm:727101"
 ],
 "tenuto": "p_3iNB3G",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -11145,7 +11266,7 @@
 "fm:888966"
 ],
 "tenuto": "p_3TrSgu",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -11200,6 +11321,17 @@
 "fm:621515"
 ],
 "tenuto": "p_41m5O0",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
+"nome": "Daiki Hashioka",
+"squadra": "Borussia Mönchengladbach",
+"id_uniti": [
+"p_3oN9D2",
+"fm:878296"
+],
+"tenuto": "p_3oN9D2",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -11512,6 +11644,17 @@
 "tipo": "collegato"
 },
 {
+"nome": "Daniel",
+"squadra": "Nacional",
+"id_uniti": [
+"p_0PHrSD",
+"fm:1336918"
+],
+"tenuto": "p_0PHrSD",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
 "nome": "Daniel Adu-Adjei",
 "squadra": "Rijeka",
 "id_uniti": [
@@ -11574,6 +11717,17 @@
 "fm:1359647"
 ],
 "tenuto": "p_3sONAY",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
+"nome": "Daniel Batz",
+"squadra": "Borussia Mönchengladbach",
+"id_uniti": [
+"p_1kHHU7",
+"fm:212873"
+],
+"tenuto": "p_1kHHU7",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -11706,7 +11860,7 @@
 "fm:1383070"
 ],
 "tenuto": "p_1eJWYn",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 80%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -11992,7 +12146,7 @@
 "fm:1386006"
 ],
 "tenuto": "p_0TYoEy",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -12476,7 +12630,7 @@
 "fm:1830689"
 ],
 "tenuto": "p_383jue",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 50%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -12619,6 +12773,17 @@
 "fm:1070798"
 ],
 "tenuto": "p_0u4r3S",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
+"nome": "David Herold",
+"squadra": "Borussia Mönchengladbach",
+"id_uniti": [
+"p_3oVDaM",
+"fm:1356589"
+],
+"tenuto": "p_3oVDaM",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -13224,7 +13389,7 @@
 "fm:658554"
 ],
 "tenuto": "p_1NIzYq",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -13290,6 +13455,17 @@
 "fm:783806"
 ],
 "tenuto": "p_16Nfr7",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
+"nome": "Deivison",
+"squadra": "Nacional",
+"id_uniti": [
+"p_0OrnZr",
+"fm:1791597"
+],
+"tenuto": "p_0OrnZr",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -13763,7 +13939,7 @@
 "fm:1186685"
 ],
 "tenuto": "p_02fNFc",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale (rosa))",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -13774,7 +13950,7 @@
 "fm:1180321"
 ],
 "tenuto": "p_0MNvVq",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -13818,6 +13994,17 @@
 "fm:1321562"
 ],
 "tenuto": "p_1jpVA4",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
+"nome": "Diego Costa",
+"squadra": "PAOK Thessaloniki",
+"id_uniti": [
+"p_21YcL5",
+"fm:1090333"
+],
+"tenuto": "p_21YcL5",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -13939,7 +14126,7 @@
 "fm:1079539"
 ],
 "tenuto": "p_2YABdx",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -14071,7 +14258,7 @@
 "fm:751550"
 ],
 "tenuto": "p_27ZA8v",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -14214,7 +14401,7 @@
 "fm:894803"
 ],
 "tenuto": "p_46aZYY",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 83%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -14775,7 +14962,7 @@
 "fm:660301"
 ],
 "tenuto": "p_3lf3TC",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -15138,7 +15325,7 @@
 "fm:727897"
 ],
 "tenuto": "p_4VErTb",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -15175,6 +15362,17 @@
 "tipo": "collegato"
 },
 {
+"nome": "Dávid Šípoš",
+"squadra": "Žilina",
+"id_uniti": [
+"p_4EXe9k",
+"fm:862124"
+],
+"tenuto": "p_4EXe9k",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
 "nome": "Désiré Doué",
 "squadra": "Paris Saint-Germain",
 "id_uniti": [
@@ -15182,7 +15380,7 @@
 "fm:1339208"
 ],
 "tenuto": "p_4bGFWS",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -16018,7 +16216,7 @@
 "fm:1800491"
 ],
 "tenuto": "p_3v5Ciw",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 88%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -16150,7 +16348,7 @@
 "fm:610184"
 ],
 "tenuto": "p_49VLdA",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -17338,7 +17536,7 @@
 "fm:787242"
 ],
 "tenuto": "p_3SsoXK",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -17562,6 +17760,17 @@
 "tipo": "collegato"
 },
 {
+"nome": "Fabian Bzdyl",
+"squadra": "Žilina",
+"id_uniti": [
+"p_0NBFuw",
+"fm:1610892"
+],
+"tenuto": "p_0NBFuw",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
 "nome": "Fabian Gmeiner",
 "squadra": "Austria Lustenau",
 "id_uniti": [
@@ -17705,6 +17914,17 @@
 "tipo": "collegato"
 },
 {
+"nome": "Fabio Chiarodia",
+"squadra": "Borussia Mönchengladbach",
+"id_uniti": [
+"p_3x3K0r",
+"fm:1276331"
+],
+"tenuto": "p_3x3K0r",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
 "nome": "Fabio Ferraro",
 "squadra": "Westerlo",
 "id_uniti": [
@@ -17734,7 +17954,7 @@
 "fm:605654"
 ],
 "tenuto": "p_31z06m",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -17954,7 +18174,7 @@
 "fm:605224"
 ],
 "tenuto": "p_44VTDO",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -18130,7 +18350,7 @@
 "fm:1404415"
 ],
 "tenuto": "p_4foizb",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -18218,7 +18438,7 @@
 "fm:881771"
 ],
 "tenuto": "p_01Prno",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -18992,6 +19212,17 @@
 "tipo": "collegato"
 },
 {
+"nome": "Florian Neuhaus",
+"squadra": "Borussia Mönchengladbach",
+"id_uniti": [
+"p_3vyOJM",
+"fm:764507"
+],
+"tenuto": "p_3vyOJM",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
 "nome": "Florian Sotoca",
 "squadra": "Lens",
 "id_uniti": [
@@ -19252,7 +19483,7 @@
 "fm:1367618"
 ],
 "tenuto": "p_1byU8g",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -19300,6 +19531,17 @@
 "tipo": "collegato"
 },
 {
+"nome": "Francisco Gonçalves",
+"squadra": "Nacional",
+"id_uniti": [
+"p_4YPzFP",
+"fm:1523092"
+],
+"tenuto": "p_4YPzFP",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
 "nome": "Francisco Moura",
 "squadra": "FC Porto",
 "id_uniti": [
@@ -19329,6 +19571,17 @@
 "fm:930288"
 ],
 "tenuto": "p_436TdG",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
+"nome": "Franck Honorat",
+"squadra": "Borussia Mönchengladbach",
+"id_uniti": [
+"p_1OZygd",
+"fm:501543"
+],
+"tenuto": "p_1OZygd",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -19461,6 +19714,17 @@
 "fm:1459265"
 ],
 "tenuto": "p_3n6Rmo",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
+"nome": "František Kóša",
+"squadra": "Žilina",
+"id_uniti": [
+"p_0ar9hL",
+"fm:1574205"
+],
+"tenuto": "p_0ar9hL",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -19615,7 +19879,7 @@
 "fm:630228"
 ],
 "tenuto": "p_48Z0sr",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -19736,7 +20000,7 @@
 "fm:1281021"
 ],
 "tenuto": "p_3eT7EU",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -19758,7 +20022,18 @@
 "fm:638622"
 ],
 "tenuto": "p_0CKDCO",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 67%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
+"nome": "Fritz Fleck",
+"squadra": "Borussia Mönchengladbach",
+"id_uniti": [
+"p_3ZusJn",
+"fm:1838513"
+],
+"tenuto": "p_3ZusJn",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -19945,7 +20220,7 @@
 "fm:576165"
 ],
 "tenuto": "p_04XyTw",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -20253,7 +20528,7 @@
 "fm:1279040"
 ],
 "tenuto": "p_0XxRdx",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 88%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -20286,7 +20561,7 @@
 "fm:708435"
 ],
 "tenuto": "p_2nA59j",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 88%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -20429,7 +20704,7 @@
 "fm:1117069"
 ],
 "tenuto": "p_3aIoTV",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -20605,7 +20880,7 @@
 "fm:1598982"
 ],
 "tenuto": "p_4bqUUI",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -20781,7 +21056,7 @@
 "fm:588687"
 ],
 "tenuto": "p_4BWuYl",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -20891,6 +21166,17 @@
 "fm:780816"
 ],
 "tenuto": "p_2PXTXX",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
+"nome": "Giannis Michailidis",
+"squadra": "PAOK Thessaloniki",
+"id_uniti": [
+"p_1PjUhc",
+"fm:1076939"
+],
+"tenuto": "p_1PjUhc",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -21276,7 +21562,7 @@
 "fm:1226147"
 ],
 "tenuto": "p_30Vkvz",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -21309,7 +21595,7 @@
 "fm:1351133"
 ],
 "tenuto": "p_0M4NEz",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -21331,7 +21617,7 @@
 "fm:1523822"
 ],
 "tenuto": "p_258ckp",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -21562,6 +21848,17 @@
 "fm:448812"
 ],
 "tenuto": "p_3pdgMZ",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
+"nome": "Greg Taylor",
+"squadra": "PAOK Thessaloniki",
+"id_uniti": [
+"p_2zfQyl",
+"fm:744907"
+],
+"tenuto": "p_2zfQyl",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -22123,7 +22420,7 @@
 "fm:215158"
 ],
 "tenuto": "p_2E7Gmk",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -22134,7 +22431,7 @@
 "fm:304733"
 ],
 "tenuto": "p_2aTQn7",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -22475,7 +22772,7 @@
 "fm:194165"
 ],
 "tenuto": "p_4SOI8C",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -22486,7 +22783,7 @@
 "fm:255610"
 ],
 "tenuto": "p_1G9fcc",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -22717,7 +23014,7 @@
 "fm:73167"
 ],
 "tenuto": "p_2bGPNs",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 88%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -22937,6 +23234,17 @@
 "fm:1639792"
 ],
 "tenuto": "p_0pmq5s",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
+"nome": "Hugo Bolin",
+"squadra": "Borussia Mönchengladbach",
+"id_uniti": [
+"p_0D2xEn",
+"fm:1351569"
+],
+"tenuto": "p_0D2xEn",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -23190,7 +23498,7 @@
 "fm:1044470"
 ],
 "tenuto": "p_0gSTWv",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -23337,6 +23645,17 @@
 "tipo": "collegato"
 },
 {
+"nome": "Iaia Manco Danfa",
+"squadra": "Borussia Mönchengladbach",
+"id_uniti": [
+"p_3JPUU7",
+"fm:1904630"
+],
+"tenuto": "p_3JPUU7",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
 "nome": "Ian Luccas",
 "squadra": "Alverca",
 "id_uniti": [
@@ -23355,7 +23674,7 @@
 "fm:966026"
 ],
 "tenuto": "p_05Kbzt",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 88%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -23465,7 +23784,7 @@
 "fm:1593857"
 ],
 "tenuto": "p_3xRkyt",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -24059,7 +24378,7 @@
 "fm:1140003"
 ],
 "tenuto": "p_3jDkWb",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 86%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -24213,7 +24532,7 @@
 "fm:1680590"
 ],
 "tenuto": "p_1450qM",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 67%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -24246,6 +24565,17 @@
 "fm:1130991"
 ],
 "tenuto": "p_08EVJg",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
+"nome": "Isac Lidberg",
+"squadra": "Borussia Mönchengladbach",
+"id_uniti": [
+"p_05Loay",
+"fm:655095"
+],
+"tenuto": "p_05Loay",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -26417,6 +26747,17 @@
 "tipo": "collegato"
 },
 {
+"nome": "Jan Leszczyński",
+"squadra": "Borussia Mönchengladbach",
+"id_uniti": [
+"p_2wSo0n",
+"fm:1660228"
+],
+"tenuto": "p_2wSo0n",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
 "nome": "Jan Matoušek",
 "squadra": "Bohemians 1905",
 "id_uniti": [
@@ -26446,7 +26787,7 @@
 "fm:177126"
 ],
 "tenuto": "p_1Uce97",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -26853,7 +27194,7 @@
 "fm:1159181"
 ],
 "tenuto": "p_1o7fTy",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -27319,6 +27660,17 @@
 "tipo": "collegato"
 },
 {
+"nome": "Jens Castrop",
+"squadra": "Borussia Mönchengladbach",
+"id_uniti": [
+"p_14Sa87",
+"fm:1185902"
+],
+"tenuto": "p_14Sa87",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
 "nome": "Jens Hjertø-Dahl",
 "squadra": "Hull City",
 "id_uniti": [
@@ -27348,7 +27700,7 @@
 "fm:741397"
 ],
 "tenuto": "p_4Lc1eb",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -27392,7 +27744,7 @@
 "fm:1876640"
 ],
 "tenuto": "p_2hYIGG",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 67%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -27876,7 +28228,7 @@
 "fm:1167220"
 ],
 "tenuto": "p_4EUcyF",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -28206,7 +28558,7 @@
 "fm:1520063"
 ],
 "tenuto": "p_4WMacA",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 88%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -28338,7 +28690,7 @@
 "fm:356406"
 ],
 "tenuto": "p_3gdecS",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -28734,7 +29086,7 @@
 "fm:939569"
 ],
 "tenuto": "p_2iNGnn",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -28811,7 +29163,7 @@
 "fm:469700"
 ],
 "tenuto": "p_3C3Tne",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -28822,6 +29174,17 @@
 "fm:1379196"
 ],
 "tenuto": "p_36yout",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
+"nome": "Jonjoe Kenny",
+"squadra": "PAOK Thessaloniki",
+"id_uniti": [
+"p_2ZzwwS",
+"fm:605252"
+],
+"tenuto": "p_2ZzwwS",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -29262,7 +29625,7 @@
 "fm:772168"
 ],
 "tenuto": "p_3t1fPL",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -29306,6 +29669,17 @@
 "fm:1807301"
 ],
 "tenuto": "p_3ZLN67",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
+"nome": "Joseph Scally",
+"squadra": "Borussia Mönchengladbach",
+"id_uniti": [
+"p_2Z3wOh",
+"fm:959696"
+],
+"tenuto": "p_2Z3wOh",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -29405,7 +29779,7 @@
 "fm:460632"
 ],
 "tenuto": "p_2OnWUq",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -29548,7 +29922,7 @@
 "fm:950824"
 ],
 "tenuto": "p_1LKkXi",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -29581,7 +29955,7 @@
 "fm:540929"
 ],
 "tenuto": "p_3ZF2ft",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 83%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -29801,7 +30175,7 @@
 "fm:361757"
 ],
 "tenuto": "p_3nNvXJ",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -29823,7 +30197,7 @@
 "fm:1174672"
 ],
 "tenuto": "p_179WVr",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -29911,7 +30285,7 @@
 "fm:1342757"
 ],
 "tenuto": "p_0hSwTd",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -30593,7 +30967,7 @@
 "fm:974753"
 ],
 "tenuto": "p_16jERU",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -30934,6 +31308,17 @@
 "fm:1027324"
 ],
 "tenuto": "p_3fhJaG",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
+"nome": "Ján Minárik",
+"squadra": "Žilina",
+"id_uniti": [
+"p_4Un1Po",
+"fm:796573"
+],
+"tenuto": "p_4Un1Po",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -31418,7 +31803,7 @@
 "fm:940976"
 ],
 "tenuto": "p_3fhVKD",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -31737,7 +32122,7 @@
 "fm:1029360"
 ],
 "tenuto": "p_0GZHIZ",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -31957,6 +32342,17 @@
 "fm:315814"
 ],
 "tenuto": "p_0Uqzmo",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
+"nome": "Kenan Bilalović",
+"squadra": "Žilina",
+"id_uniti": [
+"p_2iOytu",
+"fm:1416594"
+],
+"tenuto": "p_2iOytu",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -32181,6 +32577,17 @@
 "tipo": "collegato"
 },
 {
+"nome": "Kevin Diks",
+"squadra": "Borussia Mönchengladbach",
+"id_uniti": [
+"p_0Bo9R6",
+"fm:566158"
+],
+"tenuto": "p_0Bo9R6",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
 "nome": "Kevin Kelsy",
 "squadra": "Rangers",
 "id_uniti": [
@@ -32291,6 +32698,17 @@
 "tipo": "collegato"
 },
 {
+"nome": "Kevin Stöger",
+"squadra": "Borussia Mönchengladbach",
+"id_uniti": [
+"p_1Wzmm5",
+"fm:276739"
+],
+"tenuto": "p_1Wzmm5",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
 "nome": "Kevin Sánchez",
 "squadra": "Deportivo A Coruña",
 "id_uniti": [
@@ -32331,7 +32749,7 @@
 "fm:264221"
 ],
 "tenuto": "p_21hOx4",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -32698,6 +33116,17 @@
 "tipo": "collegato"
 },
 {
+"nome": "Ko Itakura",
+"squadra": "Borussia Mönchengladbach",
+"id_uniti": [
+"p_11CQM3",
+"fm:620917"
+],
+"tenuto": "p_11CQM3",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
 "nome": "Kobbie Mainoo",
 "squadra": "Manchester United",
 "id_uniti": [
@@ -32705,7 +33134,7 @@
 "fm:1292810"
 ],
 "tenuto": "p_3qHFXs",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -32760,7 +33189,7 @@
 "fm:184533"
 ],
 "tenuto": "p_2lXsMf",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -32826,7 +33255,7 @@
 "fm:526827"
 ],
 "tenuto": "p_33nea3",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -33105,6 +33534,17 @@
 "tipo": "collegato"
 },
 {
+"nome": "Kristijan Jakić",
+"squadra": "PAOK Thessaloniki",
+"id_uniti": [
+"p_1UXX5i",
+"fm:643448"
+],
+"tenuto": "p_1UXX5i",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
 "nome": "Kristián Vallo",
 "squadra": "Dukla Banská Bystrica",
 "id_uniti": [
@@ -33193,6 +33633,17 @@
 "tipo": "collegato"
 },
 {
+"nome": "Krisztián Bari",
+"squadra": "Žilina",
+"id_uniti": [
+"p_1y5LPj",
+"fm:1104440"
+],
+"tenuto": "p_1y5LPj",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
 "nome": "Krisztián Lisztes",
 "squadra": "Ferencváros",
 "id_uniti": [
@@ -33233,7 +33684,7 @@
 "fm:1118147"
 ],
 "tenuto": "p_1MDQHn",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -33530,7 +33981,7 @@
 "fm:1467236"
 ],
 "tenuto": "p_2e0FPo",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -34036,7 +34487,7 @@
 "fm:1737700"
 ],
 "tenuto": "p_0qf1Qf",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -34102,7 +34553,7 @@
 "fm:1358581"
 ],
 "tenuto": "p_44aGGb",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -34223,7 +34674,7 @@
 "fm:343748"
 ],
 "tenuto": "p_27qlxE",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 83%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -34267,7 +34718,7 @@
 "fm:958464"
 ],
 "tenuto": "p_4bOPjk",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -34722,6 +35173,17 @@
 "tipo": "collegato"
 },
 {
+"nome": "Lion Schweers",
+"squadra": "Borussia Mönchengladbach",
+"id_uniti": [
+"p_2CXEsG",
+"fm:658794"
+],
+"tenuto": "p_2CXEsG",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
 "nome": "Lionel Mpasi-Nzau",
 "squadra": "Le Havre",
 "id_uniti": [
@@ -34762,7 +35224,7 @@
 "fm:847983"
 ],
 "tenuto": "p_2yEWgp",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -35521,7 +35983,7 @@
 "fm:1255209"
 ],
 "tenuto": "p_0r8J6e",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -35664,7 +36126,7 @@
 "fm:504606"
 ],
 "tenuto": "p_3YVC50",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -35928,7 +36390,7 @@
 "fm:1256180"
 ],
 "tenuto": "p_3wyYt0",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -36434,7 +36896,7 @@
 "fm:1156883"
 ],
 "tenuto": "p_1abAtZ",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -36544,6 +37006,17 @@
 "fm:446363"
 ],
 "tenuto": "p_1anGm4",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
+"nome": "Lukas Ullrich",
+"squadra": "Borussia Mönchengladbach",
+"id_uniti": [
+"p_2ExKFC",
+"fm:1398483"
+],
+"tenuto": "p_2ExKFC",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -37065,6 +37538,17 @@
 "tipo": "collegato"
 },
 {
+"nome": "Léo Santos",
+"squadra": "Nacional",
+"id_uniti": [
+"p_2oxd9M",
+"fm:756255"
+],
+"tenuto": "p_2oxd9M",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
 "nome": "M'Bala Nzola",
 "squadra": "Cagliari",
 "id_uniti": [
@@ -37193,7 +37677,7 @@
 "fm:1305618"
 ],
 "tenuto": "p_0qZnWU",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -37820,7 +38304,7 @@
 "fm:521318"
 ],
 "tenuto": "p_1I3UQU",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -37864,7 +38348,7 @@
 "fm:27299"
 ],
 "tenuto": "p_0LPRxj",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 86%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -37952,7 +38436,7 @@
 "fm:1573126"
 ],
 "tenuto": "p_2BDI7G",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -38018,7 +38502,7 @@
 "fm:1323897"
 ],
 "tenuto": "p_1k6sEZ",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -38436,7 +38920,7 @@
 "fm:602563"
 ],
 "tenuto": "p_0q8Vir",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -38568,7 +39052,7 @@
 "fm:621562"
 ],
 "tenuto": "p_0KvUBa",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -38623,6 +39107,17 @@
 "fm:1326862"
 ],
 "tenuto": "p_0Itacl",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
+"nome": "Marek Okál",
+"squadra": "Žilina",
+"id_uniti": [
+"p_2Scijp",
+"fm:1845192"
+],
+"tenuto": "p_2Scijp",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -38788,7 +39283,7 @@
 "fm:671203"
 ],
 "tenuto": "p_20JjbV",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -39320,6 +39815,17 @@
 "tipo": "collegato"
 },
 {
+"nome": "Marko Roginić",
+"squadra": "Žilina",
+"id_uniti": [
+"p_3UvEG6",
+"fm:1079866"
+],
+"tenuto": "p_3UvEG6",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
 "nome": "Marko Soldo",
 "squadra": "Sigma Olomouc",
 "id_uniti": [
@@ -39349,6 +39855,17 @@
 "fm:1699520"
 ],
 "tenuto": "p_0yvBmw",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
+"nome": "Markus Gustav Jensen",
+"squadra": "Nacional",
+"id_uniti": [
+"p_3r2jWi",
+"fm:1367941"
+],
+"tenuto": "p_3r2jWi",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -39448,7 +39965,7 @@
 "fm:198559"
 ],
 "tenuto": "p_0ehdlc",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -40031,7 +40548,7 @@
 "fm:750032"
 ],
 "tenuto": "p_41dGxP",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 88%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -40086,6 +40603,17 @@
 "fm:732901"
 ],
 "tenuto": "p_3vHCD2",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
+"nome": "Matchoi",
+"squadra": "Nacional",
+"id_uniti": [
+"p_1MhFvD",
+"fm:1069628"
+],
+"tenuto": "p_1MhFvD",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -40405,7 +40933,18 @@
 "fm:863098"
 ],
 "tenuto": "p_12r3tb",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
+"nome": "Matheus Dias",
+"squadra": "Nacional",
+"id_uniti": [
+"p_1oJMC4",
+"fm:1380814"
+],
+"tenuto": "p_1oJMC4",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -40574,6 +41113,17 @@
 "tipo": "collegato"
 },
 {
+"nome": "Mathieu Nguefack",
+"squadra": "Borussia Mönchengladbach",
+"id_uniti": [
+"p_2JFJo9",
+"fm:1975572"
+],
+"tenuto": "p_2JFJo9",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
 "nome": "Mathis Albert",
 "squadra": "Borussia Dortmund",
 "id_uniti": [
@@ -40713,7 +41263,7 @@
 "fm:1280082"
 ],
 "tenuto": "p_0rkEPN",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -40790,7 +41340,7 @@
 "fm:630494"
 ],
 "tenuto": "p_3wLT1f",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 67%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -41197,7 +41747,7 @@
 "fm:769895"
 ],
 "tenuto": "p_4NlGzs",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 50%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -41296,7 +41846,7 @@
 "fm:729731"
 ],
 "tenuto": "p_4XqTah",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -41329,7 +41879,7 @@
 "fm:800880"
 ],
 "tenuto": "p_2Hn7OB",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -41692,7 +42242,7 @@
 "fm:1070404"
 ],
 "tenuto": "p_3E4Pfw",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -42165,7 +42715,7 @@
 "fm:1108604"
 ],
 "tenuto": "p_4dKa6o",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -42462,7 +43012,7 @@
 "fm:1029063"
 ],
 "tenuto": "p_2HDCEW",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -42539,6 +43089,17 @@
 "fm:1901630"
 ],
 "tenuto": "p_1vQUqB",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
+"nome": "Michal Faško",
+"squadra": "Žilina",
+"id_uniti": [
+"p_3BWOnd",
+"fm:250393"
+],
+"tenuto": "p_3BWOnd",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -42829,6 +43390,17 @@
 "tipo": "collegato"
 },
 {
+"nome": "Miguel Baeza",
+"squadra": "Nacional",
+"id_uniti": [
+"p_3wp55t",
+"fm:1088053"
+],
+"tenuto": "p_3wp55t",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
 "nome": "Miguel Cardoso",
 "squadra": "Erzurumspor FK",
 "id_uniti": [
@@ -43045,7 +43617,7 @@
 "fm:1396372"
 ],
 "tenuto": "p_2BrVbu",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -43056,7 +43628,7 @@
 "fm:1225450"
 ],
 "tenuto": "p_1R7Po6",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -43518,7 +44090,7 @@
 "fm:828159"
 ],
 "tenuto": "p_1AGOyg",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 88%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -43551,6 +44123,17 @@
 "fm:759817"
 ],
 "tenuto": "p_2aicI8",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
+"nome": "Miroslav Káčer",
+"squadra": "Žilina",
+"id_uniti": [
+"p_4UTFsO",
+"fm:340815"
+],
+"tenuto": "p_4UTFsO",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -44105,6 +44688,17 @@
 "tipo": "collegato"
 },
 {
+"nome": "Moritz Nicolas",
+"squadra": "Borussia Mönchengladbach",
+"id_uniti": [
+"p_0xaArS",
+"fm:784146"
+],
+"tenuto": "p_0xaArS",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
 "nome": "Moritz Oswald",
 "squadra": "WSG Tirol",
 "id_uniti": [
@@ -44178,7 +44772,7 @@
 "fm:1366348"
 ],
 "tenuto": "p_1Bejc6",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -44662,7 +45256,7 @@
 "fm:1382019"
 ],
 "tenuto": "p_3kB6VQ",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -44882,7 +45476,7 @@
 "fm:1252070"
 ],
 "tenuto": "p_1UiUYB",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -44970,7 +45564,7 @@
 "fm:1395447"
 ],
 "tenuto": "p_30DGd9",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -45322,7 +45916,7 @@
 "fm:1428153"
 ],
 "tenuto": "p_35500X",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -45355,7 +45949,7 @@
 "fm:1451196"
 ],
 "tenuto": "p_443NWo",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -45597,7 +46191,7 @@
 "fm:1197347"
 ],
 "tenuto": "p_3giUjN",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -45652,7 +46246,7 @@
 "fm:575735"
 ],
 "tenuto": "p_4BqgCG",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -45696,6 +46290,17 @@
 "fm:1383058"
 ],
 "tenuto": "p_0jm582",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
+"nome": "Nicolas-Gerrit Kühn",
+"squadra": "Borussia Mönchengladbach",
+"id_uniti": [
+"p_4Purrl",
+"fm:888745"
+],
+"tenuto": "p_4Purrl",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -45762,7 +46367,7 @@
 "fm:541820"
 ],
 "tenuto": "p_1wC8F4",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -45927,7 +46532,7 @@
 "fm:625360"
 ],
 "tenuto": "p_0FhSfv",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -46488,7 +47093,7 @@
 "fm:1449716"
 ],
 "tenuto": "p_0XorwA",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -47269,7 +47874,7 @@
 "fm:917774"
 ],
 "tenuto": "p_2DaqGz",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -47361,6 +47966,17 @@
 "tipo": "collegato"
 },
 {
+"nome": "Ognjen Ugrešić",
+"squadra": "PAOK Thessaloniki",
+"id_uniti": [
+"p_357SBy",
+"fm:1574188"
+],
+"tenuto": "p_357SBy",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
 "nome": "Ogulcan Ülgün",
 "squadra": "Gençlerbirliği",
 "id_uniti": [
@@ -47434,7 +48050,7 @@
 "fm:837066"
 ],
 "tenuto": "p_2yER81",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -47467,7 +48083,7 @@
 "fm:1086551"
 ],
 "tenuto": "p_0ofY58",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -47731,7 +48347,7 @@
 "fm:46469"
 ],
 "tenuto": "p_1cjL14",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -48160,7 +48776,7 @@
 "fm:988160"
 ],
 "tenuto": "p_2ZpAw9",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 83%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -48622,7 +49238,7 @@
 "fm:1228273"
 ],
 "tenuto": "p_2bk2dW",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -48721,7 +49337,7 @@
 "fm:1338192"
 ],
 "tenuto": "p_4TgwEn",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -48868,6 +49484,17 @@
 "tipo": "collegato"
 },
 {
+"nome": "Pablo Ruan",
+"squadra": "Nacional",
+"id_uniti": [
+"p_1EWYYf",
+"fm:1536269"
+],
+"tenuto": "p_1EWYYf",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
 "nome": "Paco Cortés",
 "squadra": "Levante",
 "id_uniti": [
@@ -48956,6 +49583,17 @@
 "tipo": "collegato"
 },
 {
+"nome": "Pantelis Hatzidiakos",
+"squadra": "PAOK Thessaloniki",
+"id_uniti": [
+"p_37YgUU",
+"fm:660132"
+],
+"tenuto": "p_37YgUU",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
 "nome": "Panutche Camará",
 "squadra": "Dundee United",
 "id_uniti": [
@@ -49040,7 +49678,7 @@
 "fm:844544"
 ],
 "tenuto": "p_06e99R",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -49183,7 +49821,7 @@
 "fm:530635"
 ],
 "tenuto": "p_0jfRin",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -49513,7 +50151,7 @@
 "fm:1532137"
 ],
 "tenuto": "p_1L7aow",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -49524,7 +50162,7 @@
 "fm:1531887"
 ],
 "tenuto": "p_3mCMTf",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -49535,7 +50173,7 @@
 "fm:792645"
 ],
 "tenuto": "p_0QgSKb",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -49788,7 +50426,7 @@
 "fm:1083323"
 ],
 "tenuto": "p_2WCkgQ",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -50217,7 +50855,7 @@
 "fm:1382000"
 ],
 "tenuto": "p_4Q4B4i",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -50305,7 +50943,7 @@
 "fm:951951"
 ],
 "tenuto": "p_0ah1cR",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -50448,6 +51086,17 @@
 "fm:803558"
 ],
 "tenuto": "p_3zhqF4",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
+"nome": "Philipp Sander",
+"squadra": "Borussia Mönchengladbach",
+"id_uniti": [
+"p_32OwZz",
+"fm:951918"
+],
+"tenuto": "p_32OwZz",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -50613,7 +51262,7 @@
 "fm:362212"
 ],
 "tenuto": "p_16dMSN",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -50833,7 +51482,7 @@
 "fm:151001"
 ],
 "tenuto": "p_2iOf4E",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -50877,7 +51526,7 @@
 "fm:1699549"
 ],
 "tenuto": "p_3xDV9Z",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 67%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -51493,7 +52142,7 @@
 "fm:696679"
 ],
 "tenuto": "p_2DQMAL",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -51959,6 +52608,17 @@
 "tipo": "collegato"
 },
 {
+"nome": "Renato Marin",
+"squadra": "Nacional",
+"id_uniti": [
+"p_1SWml1",
+"fm:1602252"
+],
+"tenuto": "p_1SWml1",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
 "nome": "Renato Nhaga",
 "squadra": "Galatasaray",
 "id_uniti": [
@@ -51977,7 +52637,7 @@
 "fm:1343750"
 ],
 "tenuto": "p_04fOLn",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -52527,7 +53187,7 @@
 "fm:939430"
 ],
 "tenuto": "p_3ix076",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -52663,6 +53323,17 @@
 "tipo": "collegato"
 },
 {
+"nome": "Robin Hack",
+"squadra": "Borussia Mönchengladbach",
+"id_uniti": [
+"p_04BrJG",
+"fm:884919"
+],
+"tenuto": "p_04BrJG",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
 "nome": "Robin Hranác",
 "squadra": "Hoffenheim",
 "id_uniti": [
@@ -52692,7 +53363,7 @@
 "fm:609516"
 ],
 "tenuto": "p_2AwkCR",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -52857,7 +53528,7 @@
 "fm:675088"
 ],
 "tenuto": "p_0Qmeai",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -52923,7 +53594,7 @@
 "fm:1419969"
 ],
 "tenuto": "p_3wdoC7",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 83%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -52934,7 +53605,7 @@
 "fm:1525065"
 ],
 "tenuto": "p_17AyLi",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -53418,7 +54089,7 @@
 "fm:215384"
 ],
 "tenuto": "p_3COnIt",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -54012,7 +54683,7 @@
 "fm:1034808"
 ],
 "tenuto": "p_1Ecohe",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 67%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -54056,7 +54727,7 @@
 "fm:1513367"
 ],
 "tenuto": "p_0EPuRA",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 67%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -54386,7 +55057,7 @@
 "fm:1188855"
 ],
 "tenuto": "p_1M8Hi6",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -54540,7 +55211,7 @@
 "fm:949877"
 ],
 "tenuto": "p_4H4fdZ",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -54859,7 +55530,7 @@
 "fm:1045565"
 ],
 "tenuto": "p_0mGIEV",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -54936,7 +55607,7 @@
 "fm:671865"
 ],
 "tenuto": "p_4Fy22s",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -54969,7 +55640,7 @@
 "fm:1282008"
 ],
 "tenuto": "p_2uzN8N",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -55024,7 +55695,7 @@
 "fm:1407468"
 ],
 "tenuto": "p_3TIZe2",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -55079,7 +55750,7 @@
 "fm:426726"
 ],
 "tenuto": "p_3UDaE3",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -55145,7 +55816,7 @@
 "fm:858198"
 ],
 "tenuto": "p_1wOGwW",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -55552,7 +56223,7 @@
 "fm:947898"
 ],
 "tenuto": "p_2jdUeD",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 88%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -55629,7 +56300,7 @@
 "fm:1178602"
 ],
 "tenuto": "p_1AcwFG",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -55651,7 +56322,7 @@
 "fm:1574189"
 ],
 "tenuto": "p_1oz2X0",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 83%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -55750,7 +56421,7 @@
 "fm:1059657"
 ],
 "tenuto": "p_1xh7uk",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -56058,7 +56729,7 @@
 "fm:1436260"
 ],
 "tenuto": "p_4TqeoO",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 80%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -56128,6 +56799,17 @@
 "tipo": "collegato"
 },
 {
+"nome": "Shola Shoretire",
+"squadra": "PAOK Thessaloniki",
+"id_uniti": [
+"p_4HZPc8",
+"fm:1189627"
+],
+"tenuto": "p_4HZPc8",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
 "nome": "Show",
 "squadra": "Kocaelispor",
 "id_uniti": [
@@ -56179,6 +56861,17 @@
 "fm:1874113"
 ],
 "tenuto": "p_2wJT2G",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
+"nome": "Shuto Machino",
+"squadra": "Borussia Mönchengladbach",
+"id_uniti": [
+"p_457GpL",
+"fm:915111"
+],
+"tenuto": "p_457GpL",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -56366,6 +57059,17 @@
 "fm:960700"
 ],
 "tenuto": "p_119w06",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
+"nome": "Simon Banza",
+"squadra": "PAOK Thessaloniki",
+"id_uniti": [
+"p_0Jv9cJ",
+"fm:696932"
+],
+"tenuto": "p_0Jv9cJ",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -56685,7 +57389,7 @@
 "fm:1160076"
 ],
 "tenuto": "p_1yx9qG",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -56707,7 +57411,7 @@
 "fm:540975"
 ],
 "tenuto": "p_0rm6Mp",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -56784,7 +57488,7 @@
 "fm:1684579"
 ],
 "tenuto": "p_3fzDMR",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 83%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -57059,6 +57763,17 @@
 "fm:1333454"
 ],
 "tenuto": "p_1vRbr9",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
+"nome": "Stavros Gavriel",
+"squadra": "Nacional",
+"id_uniti": [
+"p_2rhH8f",
+"fm:1178054"
+],
+"tenuto": "p_2rhH8f",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -57598,7 +58313,7 @@
 "fm:1206542"
 ],
 "tenuto": "p_2voPug",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -57675,7 +58390,7 @@
 "fm:922722"
 ],
 "tenuto": "p_2GGH19",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -57932,6 +58647,17 @@
 "tipo": "collegato"
 },
 {
+"nome": "Taison",
+"squadra": "PAOK Thessaloniki",
+"id_uniti": [
+"p_2KEXFM",
+"fm:130589"
+],
+"tenuto": "p_2KEXFM",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
 "nome": "Taiwo Awoniyi",
 "squadra": "Coventry City",
 "id_uniti": [
@@ -57950,7 +58676,7 @@
 "fm:1026135"
 ],
 "tenuto": "p_0cVeyV",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -58071,7 +58797,7 @@
 "fm:749661"
 ],
 "tenuto": "p_3uKlNG",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 88%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -58104,7 +58830,7 @@
 "fm:1070617"
 ],
 "tenuto": "p_4A1zbC",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 80%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -58126,7 +58852,7 @@
 "fm:1338740"
 ],
 "tenuto": "p_0MONrE",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -58599,7 +59325,7 @@
 "fm:1553376"
 ],
 "tenuto": "p_2GqKtk",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 88%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -59050,7 +59776,7 @@
 "fm:552700"
 ],
 "tenuto": "p_21QCV4",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -59153,6 +59879,17 @@
 "tipo": "collegato"
 },
 {
+"nome": "Tim Kleindienst",
+"squadra": "Borussia Mönchengladbach",
+"id_uniti": [
+"p_0KREnA",
+"fm:442728"
+],
+"tenuto": "p_0KREnA",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
 "nome": "Tim Lemperle",
 "squadra": "Hoffenheim",
 "id_uniti": [
@@ -59193,6 +59930,17 @@
 "fm:785739"
 ],
 "tenuto": "p_3zexbq",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
+"nome": "Timotej Hranica",
+"squadra": "Žilina",
+"id_uniti": [
+"p_2CAbJb",
+"fm:1552487"
+],
+"tenuto": "p_2CAbJb",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -59336,7 +60084,7 @@
 "fm:1336731"
 ],
 "tenuto": "p_1ShWl1",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -59545,7 +60293,7 @@
 "fm:1692856"
 ],
 "tenuto": "p_0IC1Ey",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -59622,7 +60370,7 @@
 "fm:1286183"
 ],
 "tenuto": "p_2WiZ4D",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -60381,7 +61129,7 @@
 "fm:1023887"
 ],
 "tenuto": "p_1eBEfH",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -60612,7 +61360,7 @@
 "fm:310763"
 ],
 "tenuto": "p_1M4ad7",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -61426,7 +62174,7 @@
 "fm:258269"
 ],
 "tenuto": "p_4U79m4",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -62163,7 +62911,7 @@
 "fm:1061249"
 ],
 "tenuto": "p_0QyXN7",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -62174,6 +62922,17 @@
 "fm:1215057"
 ],
 "tenuto": "p_2aXR2P",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
+"nome": "Wael Mohya",
+"squadra": "Borussia Mönchengladbach",
+"id_uniti": [
+"p_3wTvlQ",
+"fm:1793874"
+],
+"tenuto": "p_3wTvlQ",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -62273,7 +63032,18 @@
 "fm:1320176"
 ],
 "tenuto": "p_3mEnyI",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
+"nome": "Wesley",
+"squadra": "Nacional",
+"id_uniti": [
+"p_4SGeit",
+"fm:887683"
+],
+"tenuto": "p_4SGeit",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -62486,6 +63256,17 @@
 "tipo": "collegato"
 },
 {
+"nome": "William Kokolo",
+"squadra": "Nacional",
+"id_uniti": [
+"p_0BC6wL",
+"fm:982245"
+],
+"tenuto": "p_0BC6wL",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
 "nome": "William Osula",
 "squadra": "Newcastle United",
 "id_uniti": [
@@ -62504,7 +63285,7 @@
 "fm:1137670"
 ],
 "tenuto": "p_2lkyxD",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -62812,7 +63593,18 @@
 "fm:979963"
 ],
 "tenuto": "p_4aJr07",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
+"nome": "Xavier Rodrigue Adang Mveng",
+"squadra": "Žilina",
+"id_uniti": [
+"p_26B4nb",
+"fm:1481496"
+],
+"tenuto": "p_26B4nb",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome contenuto + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -63054,7 +63846,7 @@
 "fm:889535"
 ],
 "tenuto": "p_1smHPQ",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -63648,7 +64440,7 @@
 "fm:465960"
 ],
 "tenuto": "p_448O9n",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -63747,6 +64539,17 @@
 "fm:1134467"
 ],
 "tenuto": "p_0xLJJb",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
+"nome": "Yukhym Konoplya",
+"squadra": "Borussia Mönchengladbach",
+"id_uniti": [
+"p_1LVouP",
+"fm:1054026"
+],
+"tenuto": "p_1LVouP",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -63912,7 +64715,7 @@
 "fm:1254266"
 ],
 "tenuto": "p_0dPAja",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -64202,6 +65005,17 @@
 "tipo": "collegato"
 },
 {
+"nome": "Zento Uno",
+"squadra": "Borussia Mönchengladbach",
+"id_uniti": [
+"p_46YNcm",
+"fm:1337143"
+],
+"tenuto": "p_46YNcm",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
 "nome": "Zhirayr Shaghoyan",
 "squadra": "Ararat Armenia",
 "id_uniti": [
@@ -64275,7 +65089,7 @@
 "fm:1053679"
 ],
 "tenuto": "p_3YwFnk",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -64411,6 +65225,17 @@
 "tipo": "collegato"
 },
 {
+"nome": "Zé Vítor",
+"squadra": "Nacional",
+"id_uniti": [
+"p_1WBt9f",
+"fm:1256692"
+],
+"tenuto": "p_1WBt9f",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
 "nome": "Ádin Molnár",
 "squadra": "Raków Częstochowa",
 "id_uniti": [
@@ -64484,7 +65309,7 @@
 "fm:942372"
 ],
 "tenuto": "p_0yP3MQ",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {

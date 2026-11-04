@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-03T23:38:08+00:00",
+ "updated_at": "2026-11-04T05:54:10+00:00",
  "window": {
   "nlast": 0,
   "min_games": 1,
@@ -13441,59 +13441,6 @@
      ]
     },
     {
-     "id": "m_4ChvE9",
-     "date": "2026-11-08",
-     "time": "2026-11-08",
-     "league": "LaLiga",
-     "home": "Villarreal",
-     "away": "Getafe",
-     "corners_home": 5.4,
-     "corners_away": 3.4,
-     "gap": 2.0,
-     "games": [
-      7,
-      5
-     ],
-     "tiri_home": 16.8,
-     "tiri_away": 9.7,
-     "tiri_gap": 7.1,
-     "tiri_games": [
-      7,
-      5
-     ],
-     "sot_home": 5.6,
-     "sot_away": 3.2,
-     "sot_gap": 2.4,
-     "sot_games": [
-      7,
-      5
-     ],
-     "falli_home": 12.2,
-     "falli_away": 13.3,
-     "falli_gap": 1.0,
-     "falli_games": [
-      15,
-      11
-     ],
-     "off_home": 2.1,
-     "off_away": 1.5,
-     "off_gap": 0.6,
-     "off_games": [
-      15,
-      11
-     ],
-     "cards": 6.0,
-     "cards_1t": 2.2,
-     "cards_home": 2.3,
-     "cards_away": 3.6,
-     "cards_1t_home": 0.7,
-     "cards_1t_away": 1.5,
-     "games_k": [
-      15,
-      11
-     ]
-    },
-    {
      "id": "m_1wSi73",
      "date": "2026-11-08",
      "time": "2026-11-08",
@@ -13543,6 +13490,59 @@
      "cards_1t_away": 0.5,
      "games_k": [
       14,
+      11
+     ]
+    },
+    {
+     "id": "m_4ChvE9",
+     "date": "2026-11-08",
+     "time": "2026-11-08",
+     "league": "LaLiga",
+     "home": "Villarreal",
+     "away": "Getafe",
+     "corners_home": 5.4,
+     "corners_away": 3.4,
+     "gap": 2.0,
+     "games": [
+      7,
+      5
+     ],
+     "tiri_home": 16.8,
+     "tiri_away": 9.7,
+     "tiri_gap": 7.1,
+     "tiri_games": [
+      7,
+      5
+     ],
+     "sot_home": 5.6,
+     "sot_away": 3.2,
+     "sot_gap": 2.4,
+     "sot_games": [
+      7,
+      5
+     ],
+     "falli_home": 12.2,
+     "falli_away": 13.3,
+     "falli_gap": 1.0,
+     "falli_games": [
+      15,
+      11
+     ],
+     "off_home": 2.1,
+     "off_away": 1.5,
+     "off_gap": 0.6,
+     "off_games": [
+      15,
+      11
+     ],
+     "cards": 6.0,
+     "cards_1t": 2.2,
+     "cards_home": 2.3,
+     "cards_away": 3.6,
+     "cards_1t_home": 0.7,
+     "cards_1t_away": 1.5,
+     "games_k": [
+      15,
       11
      ]
     },
@@ -13653,59 +13653,6 @@
      ]
     },
     {
-     "id": "m_0BcQYa",
-     "date": "2026-11-08",
-     "time": "2026-11-08",
-     "league": "Ligue 1",
-     "home": "Le Havre",
-     "away": "Lorient",
-     "corners_home": 5.8,
-     "corners_away": 3.8,
-     "gap": 2.0,
-     "games": [
-      5,
-      4
-     ],
-     "tiri_home": 13.9,
-     "tiri_away": 11.7,
-     "tiri_gap": 2.2,
-     "tiri_games": [
-      5,
-      4
-     ],
-     "sot_home": 4.9,
-     "sot_away": 4.3,
-     "sot_gap": 0.6,
-     "sot_games": [
-      5,
-      4
-     ],
-     "falli_home": 14.6,
-     "falli_away": 12.1,
-     "falli_gap": 2.5,
-     "falli_games": [
-      9,
-      9
-     ],
-     "off_home": 1.7,
-     "off_away": 1.6,
-     "off_gap": 0.2,
-     "off_games": [
-      9,
-      9
-     ],
-     "cards": 2.9,
-     "cards_1t": 1.1,
-     "cards_home": 1.8,
-     "cards_away": 1.1,
-     "cards_1t_home": 0.7,
-     "cards_1t_away": 0.4,
-     "games_k": [
-      9,
-      9
-     ]
-    },
-    {
      "id": "m_1fpHlF",
      "date": "2026-11-08",
      "time": "2026-11-08",
@@ -13753,59 +13700,6 @@
      "cards_away": 2.4,
      "cards_1t_home": 0.4,
      "cards_1t_away": 0.6,
-     "games_k": [
-      9,
-      9
-     ]
-    },
-    {
-     "id": "m_3osflk",
-     "date": "2026-11-08",
-     "time": "2026-11-08",
-     "league": "Ligue 1",
-     "home": "Le Mans",
-     "away": "Monaco",
-     "corners_home": 3.0,
-     "corners_away": 4.7,
-     "gap": 1.7,
-     "games": [
-      4,
-      5
-     ],
-     "tiri_home": 13.2,
-     "tiri_away": 13.5,
-     "tiri_gap": 0.3,
-     "tiri_games": [
-      4,
-      5
-     ],
-     "sot_home": 5.2,
-     "sot_away": 4.3,
-     "sot_gap": 0.9,
-     "sot_games": [
-      4,
-      5
-     ],
-     "falli_home": 13.1,
-     "falli_away": 11.8,
-     "falli_gap": 1.3,
-     "falli_games": [
-      9,
-      9
-     ],
-     "off_home": 1.8,
-     "off_away": 1.9,
-     "off_gap": 0.2,
-     "off_games": [
-      9,
-      9
-     ],
-     "cards": 4.9,
-     "cards_1t": 0.8,
-     "cards_home": 2.7,
-     "cards_away": 2.2,
-     "cards_1t_home": 0.4,
-     "cards_1t_away": 0.3,
      "games_k": [
       9,
       9
@@ -13862,6 +13756,112 @@
      "games_k": [
       9,
       12
+     ]
+    },
+    {
+     "id": "m_0BcQYa",
+     "date": "2026-11-08",
+     "time": "2026-11-08",
+     "league": "Ligue 1",
+     "home": "Le Havre",
+     "away": "Lorient",
+     "corners_home": 5.8,
+     "corners_away": 3.8,
+     "gap": 2.0,
+     "games": [
+      5,
+      4
+     ],
+     "tiri_home": 13.9,
+     "tiri_away": 11.7,
+     "tiri_gap": 2.2,
+     "tiri_games": [
+      5,
+      4
+     ],
+     "sot_home": 4.9,
+     "sot_away": 4.3,
+     "sot_gap": 0.6,
+     "sot_games": [
+      5,
+      4
+     ],
+     "falli_home": 14.6,
+     "falli_away": 12.1,
+     "falli_gap": 2.5,
+     "falli_games": [
+      9,
+      9
+     ],
+     "off_home": 1.7,
+     "off_away": 1.6,
+     "off_gap": 0.2,
+     "off_games": [
+      9,
+      9
+     ],
+     "cards": 2.9,
+     "cards_1t": 1.1,
+     "cards_home": 1.8,
+     "cards_away": 1.1,
+     "cards_1t_home": 0.7,
+     "cards_1t_away": 0.4,
+     "games_k": [
+      9,
+      9
+     ]
+    },
+    {
+     "id": "m_3osflk",
+     "date": "2026-11-08",
+     "time": "2026-11-08",
+     "league": "Ligue 1",
+     "home": "Le Mans",
+     "away": "Monaco",
+     "corners_home": 3.0,
+     "corners_away": 4.7,
+     "gap": 1.7,
+     "games": [
+      4,
+      5
+     ],
+     "tiri_home": 13.2,
+     "tiri_away": 13.5,
+     "tiri_gap": 0.3,
+     "tiri_games": [
+      4,
+      5
+     ],
+     "sot_home": 5.2,
+     "sot_away": 4.3,
+     "sot_gap": 0.9,
+     "sot_games": [
+      4,
+      5
+     ],
+     "falli_home": 13.1,
+     "falli_away": 11.8,
+     "falli_gap": 1.3,
+     "falli_games": [
+      9,
+      9
+     ],
+     "off_home": 1.8,
+     "off_away": 1.9,
+     "off_gap": 0.2,
+     "off_games": [
+      9,
+      9
+     ],
+     "cards": 4.9,
+     "cards_1t": 0.8,
+     "cards_home": 2.7,
+     "cards_away": 2.2,
+     "cards_1t_home": 0.4,
+     "cards_1t_away": 0.3,
+     "games_k": [
+      9,
+      9
      ]
     },
     {
