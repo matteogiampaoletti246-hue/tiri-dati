@@ -1,189 +1,246 @@
-import { useEffect, useRef, useState } from 'react';
-import Crest from '@/components/Crest';
-import LeagueBadge from '@/components/LeagueBadge';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import PlayerPhoto from '@/components/PlayerPhoto';
+import useAsync from '@/hooks/useAsync';
 import { teamById } from '@/data/teams';
 import { leagueById } from '@/data/leagues';
 import { matchKeyNumbers } from '@/data/extras';
+import { matchKeyPlayers } from '@/data/keyPlayers';
 import { comma } from '@/lib/format';
+import { cn } from '@/lib/utils';
 
-const EASE = 'transform .42s cubic-bezier(.22,.8,.24,1)';
-const GAP = 12;
+const DUR = 5500; // durata di una scheda
+const HOLD_MS = 180; // tenuto premuto oltre questo = pausa, non tocco
+const SWIPE_PX = 40;
 
+// Numeri da tenere d'occhio, stile storie (concept C): barrette in alto, avanzamento automatico, tocco a destra/sinistra,
+// tenuto premuto = pausa, swipe di lato. Schede di squadra con lo stemma sfocato di sfondo, schede giocatore col volto.
+// La barretta si muove con un requestAnimationFrame che scrive solo il suo transform (nessun nuovo disegno della pagina);
+// fermo quando il riquadro non si vede, l'app e' in background o il telefono chiede meno animazioni.
 export default function MatchKeyNumbers({ match }) {
-  const cards = matchKeyNumbers(match);
-  const league = leagueById(match.leagueId);
+  const teamCards = matchKeyNumbers(match);
+  const { data: playerCards } = useAsync(() => matchKeyPlayers(match), [match]);
+  const cards = useMemo(() => {
+    const ref = teamCards.filter((c) => c.side === 'ref');
+    const T = teamCards.filter((c) => c.side !== 'ref');
+    const P = [...(playerCards || [])];
+    const out = [];
+    while (T.length || P.length) { if (T.length) out.push(T.shift()); if (P.length) out.push(P.shift()); }
+    return [...out, ...ref];
+  }, [teamCards, playerCards]);
+  const n = cards.length;
+  if (!n) return null;
+  return (
+    <section>
+      <h3 className="px-5 pb-2 text-[12.5px] font-extrabold uppercase tracking-wider">Numeri da tenere d&apos;occhio</h3>
+      <Story match={match} cards={cards} />
+    </section>
+  );
+}
+
+function Story({ match, cards }) {
+  const n = cards.length;
   const home = teamById(match.homeId);
   const away = teamById(match.awayId);
-
-  const wrapRef = useRef(null);
-  const drag = useRef(null);
-  const [width, setWidth] = useState(0);
+  const league = leagueById(match.leagueId);
   const [idx, setIdx] = useState(0);
-  const [dx, setDx] = useState(0);
-  const [prog, setProg] = useState(0);
-  const heldRef = useRef(false);
-  const idxRef = useRef(0);
-  const n = cards.length;
-  idxRef.current = idx;
-  const DUR = 5500;
+  const [prev, setPrev] = useState(-1);
+  const boxRef = useRef(null);
+  const fillRefs = useRef([]);
+  const st = useRef({ acc: 0, held: false, visible: true, raf: 0, last: 0, down: null, holdT: 0, reduce: false, idx: 0, n });
+  st.current.n = n;
+  st.current.idx = idx;
 
-  // avanzamento automatico: 5,5 s per statistica, in pausa solo mentre il dito e' appoggiato
-  useEffect(() => {
-    if (!n) return undefined;
-    let last = performance.now();
-    let acc = 0;
-    let raf = 0;
-    const tick = (now) => {
-      const dt = Math.min(1000, now - last);
-      last = now;
-      if (!heldRef.current && !document.hidden) acc += dt;
-      if (acc >= DUR) {
-        acc = 0;
-        setIdx((i) => (i + 1) % n);
-        setProg(0);
-      } else setProg(acc / DUR);
-      raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    const reset = () => { acc = 0; };
-    window.__kmReset = reset;
-    return () => { cancelAnimationFrame(raf); if (window.__kmReset === reset) window.__kmReset = null; };
-  }, [n]);
-
-  const setHeld = (v) => {
-    heldRef.current = v;
-    if (v) setTimeout(() => { heldRef.current = false; }, 6000); // sicurezza: non resta mai bloccato
+  const go = (i) => {
+    const s = st.current;
+    const next = ((i % s.n) + s.n) % s.n;
+    s.acc = 0;
+    setPrev(s.idx);
+    setIdx(next);
   };
+  const goRef = useRef(go);
+  goRef.current = go;
+
+  // nuove schede (giocatori arrivati dopo): si resta sulla scheda corrente se c'e' ancora
+  useEffect(() => { if (idx >= n) { st.current.acc = 0; setIdx(0); } }, [n, idx]);
+
+  // barrette: le precedenti piene, le successive vuote; la corrente la muove il ciclo qui sotto
+  useEffect(() => {
+    fillRefs.current.forEach((f, j) => { if (f) f.style.transform = `scaleX(${j < idx || (st.current.reduce && j === idx) ? 1 : 0})`; });
+  }, [idx, n]);
+
+  // la scheda che esce resta visibile solo per la dissolvenza, poi non si disegna piu'
+  useEffect(() => {
+    if (prev < 0) return undefined;
+    const t = setTimeout(() => setPrev(-1), 420);
+    return () => clearTimeout(t);
+  }, [prev, idx]);
 
   useEffect(() => {
-    const el = wrapRef.current;
-    if (!el) return undefined;
-    const measure = () => setWidth(el.clientWidth);
-    measure();
-    const ro = new ResizeObserver(measure);
-    ro.observe(el);
-    return () => ro.disconnect();
+    const s = st.current;
+    const el = boxRef.current;
+    const mq = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
+    s.reduce = !!(mq && mq.matches);
+    const playing = () => !s.held && s.visible && !document.hidden && !s.reduce;
+    const tick = (now) => {
+      s.raf = 0;
+      if (!playing()) return;
+      s.acc += Math.min(500, now - (s.last || now)); // limite: un frame lento non fa saltare la scheda
+      s.last = now;
+      if (s.acc >= DUR) { goRef.current(s.idx + 1); s.acc = 0; }
+      const f = fillRefs.current[s.idx];
+      if (f) f.style.transform = `scaleX(${Math.min(1, s.acc / DUR)})`;
+      s.raf = requestAnimationFrame(tick);
+    };
+    const kick = () => { if (!s.raf && playing()) { s.last = 0; s.raf = requestAnimationFrame(tick); } };
+    s.kick = kick;
+    const io = new IntersectionObserver(([e]) => { s.visible = e.isIntersecting; kick(); }, { threshold: 0.35 });
+    if (el) io.observe(el);
+    const vis = () => kick();
+    const onMq = () => { s.reduce = !!(mq && mq.matches); kick(); };
+    document.addEventListener('visibilitychange', vis);
+    if (mq && mq.addEventListener) mq.addEventListener('change', onMq);
+    kick();
+    return () => {
+      io.disconnect();
+      document.removeEventListener('visibilitychange', vis);
+      if (mq && mq.removeEventListener) mq.removeEventListener('change', onMq);
+      if (s.raf) cancelAnimationFrame(s.raf);
+      s.raf = 0;
+      clearTimeout(s.holdT);
+    };
   }, []);
 
-  const go = (i) => { setIdx(((i % n) + n) % n); setProg(0); if (window.__kmReset) window.__kmReset(); };
+  const setHeld = (v) => {
+    const s = st.current;
+    s.held = v;
+    if (boxRef.current) boxRef.current.classList.toggle('km-hold', v);
+    if (!v && s.kick) s.kick();
+  };
+  const cur = () => boxRef.current && boxRef.current.querySelector('.km-slide.on');
 
   const onDown = (e) => {
-    drag.current = { x: e.clientX, moved: false };
-    setHeld(true);
+    const s = st.current;
+    s.down = { x: e.clientX, y: e.clientY, t: performance.now(), drag: false };
+    clearTimeout(s.holdT);
+    s.holdT = setTimeout(() => setHeld(true), HOLD_MS);
   };
-
   const onMove = (e) => {
-    const d = drag.current;
+    const d = st.current.down;
     if (!d) return;
-    const delta = e.clientX - d.x;
-    if (Math.abs(delta) > 6) d.moved = true;
-    setDx(delta);
+    const dx = e.clientX - d.x;
+    if (!d.drag && Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(e.clientY - d.y)) { d.drag = true; clearTimeout(st.current.holdT); setHeld(true); }
+    if (d.drag) { const c = cur(); if (c) { c.style.transition = 'none'; c.style.transform = `translate3d(${dx * 0.35}px,0,0)`; } }
   };
-
+  const reset = () => { const c = cur(); if (c) { c.style.transition = ''; c.style.transform = ''; } };
   const onUp = (e) => {
-    const d = drag.current;
-    drag.current = null;
+    const s = st.current;
+    const d = s.down;
+    s.down = null;
+    clearTimeout(s.holdT);
+    const wasHeld = s.held;
+    reset();
     setHeld(false);
-    const w = (width || 1) + GAP;
-    if (d && d.moved) {
-      const delta = e.clientX - d.x;
-      if (Math.abs(delta) > w * 0.25) go(delta < 0 ? idx + 1 : idx - 1);
-    } else {
-      const rect = e.currentTarget.getBoundingClientRect();
-      const local = e.clientX - rect.left - idx * w;
-      go(local < (width || 1) / 2 ? idx - 1 : idx + 1);
-    }
-    setDx(0);
+    if (!d) return;
+    const dx = e.clientX - d.x;
+    if (d.drag) { if (Math.abs(dx) > SWIPE_PX) go(dx < 0 ? s.idx + 1 : s.idx - 1); return; }
+    if (wasHeld && performance.now() - d.t > HOLD_MS) return; // tenuto premuto = solo pausa
+    const r = e.currentTarget.getBoundingClientRect();
+    go(e.clientX - r.left < r.width / 3 ? s.idx - 1 : s.idx + 1);
   };
-
-  const artFor = (side) => {
-    const team = side === 'home' ? home : side === 'away' ? away : null;
-    return team ? <Crest team={team} size={148} /> : league ? <LeagueBadge league={league} size={148} /> : null;
-  };
-
-  const colorsFor = (side) => {
-    const team = side === 'home' ? home : side === 'away' ? away : null;
-    if (team) return team.colors;
-    return league ? league.colors : ['#1E4BD8', '#7FB6E8'];
-  };
-
-  if (!n) return null;
+  const onCancel = () => { const s = st.current; s.down = null; clearTimeout(s.holdT); reset(); setHeld(false); };
 
   return (
     <div className="px-5">
-      <div ref={wrapRef} className="overflow-hidden">
-        <div
-          className="flex"
-          data-no-swipe
-          style={{
-            gap: GAP,
-            transform: `translate3d(${-(idx * ((width || 1) + GAP)) + dx}px,0,0)`,
-            transition: drag.current ? 'none' : EASE,
-            touchAction: 'pan-y',
-          }}
-          onPointerDown={onDown}
-          onPointerMove={onMove}
-          onPointerUp={onUp}
-          onPointerCancel={onUp}
-        >
-          {cards.map((card, i) => {
-            const colors = colorsFor(card.side);
-            return (
-              <article
-                key={`${card.side}-${i}`}
-                className="relative h-[186px] flex-none overflow-hidden rounded-[22px]"
-                style={{
-                  width: width || '100%',
-                  background: `linear-gradient(150deg, ${colors[0]} 0%, ${colors[1]} 100%)`,
-                  boxShadow: '0 22px 46px -30px rgba(12,38,84,.55)',
-                }}
-              >
-                <span
-                  className="pointer-events-none absolute inset-0"
-                  style={{ background: 'radial-gradient(78% 68% at 86% 6%, rgba(255,255,255,.22), transparent 64%)' }}
-                />
-                <span
-                  className="pointer-events-none absolute inset-0"
-                  style={{ background: 'linear-gradient(150deg, rgba(8,14,28,.30) 0%, rgba(8,14,28,.08) 62%, rgba(8,14,28,0) 100%)' }}
-                />
-                <span className="pointer-events-none absolute" style={{ right: '-14%', bottom: '-22%', opacity: 0.16 }} aria-hidden="true">
-                  {artFor(card.side)}
-                </span>
-
-                <div className="relative flex h-full flex-col px-4 pb-4 pt-3">
-                  <div className="flex gap-1.5">
-                    {cards.map((_, j) => (
-                      <span
-                        key={j}
-                        className="h-[2px] flex-1 overflow-hidden rounded-full"
-                        style={{ background: 'rgba(255,255,255,.32)' }}
-                      >
-                        {j < i ? (
-                          <span className="block h-full w-full" style={{ background: 'rgba(255,255,255,.92)' }} />
-                        ) : null}
-                        {j === i ? (
-                          <span className="block h-full" style={{ width: `${Math.round(prog * 1000) / 10}%`, background: 'rgba(255,255,255,.92)' }} />
-                        ) : null}
-                      </span>
-                    ))}
-                  </div>
-
-                  <span className="title-xl tnum mt-7 text-[40px] leading-none" style={{ color: '#fff' }}>
-                    {comma(card.value, card.digits)}
-                    {card.unit || ''}
-                  </span>
-                  <span className="mt-2 text-[13px]" style={{ color: 'rgba(255,255,255,.88)' }}>
-                    {card.label}
-                  </span>
-                  <span className="mt-auto text-[10.5px] uppercase tracking-[.12em]" style={{ color: 'rgba(255,255,255,.72)' }}>
-                    {card.note}
-                  </span>
-                </div>
-              </article>
-            );
-          })}
+      <div
+        ref={boxRef}
+        className="km-story"
+        data-no-swipe
+        onPointerDown={onDown}
+        onPointerMove={onMove}
+        onPointerUp={onUp}
+        onPointerCancel={onCancel}
+        onContextMenu={(e) => e.preventDefault()}
+        role="group"
+        aria-roledescription="carosello"
+        aria-label="Numeri da tenere d'occhio"
+      >
+        <div className="km-bars" aria-hidden="true">
+          {cards.map((c, j) => (
+            <i key={`b-${j}`}><b ref={(r) => { fillRefs.current[j] = r; }} /></i>
+          ))}
         </div>
+        <span className="km-paused" aria-hidden="true">PAUSA</span>
+        {cards.map((c, j) => {
+          const team = c.side === 'home' ? home : c.side === 'away' ? away : null;
+          const shown = j === idx || j === prev;
+          return (
+            <div
+              key={`${c.kind || 'team'}-${c.side}-${c.pid || j}`}
+              className={cn('km-slide', j === idx && 'on')}
+              style={{ visibility: shown ? 'visible' : 'hidden', ...colorsVar(team, league) }}
+              aria-hidden={j !== idx}
+            >
+              {c.kind === 'player' ? <PlayerSlide card={c} team={team} /> : <TeamSlide card={c} team={team} league={league} />}
+            </div>
+          );
+        })}
       </div>
     </div>
+  );
+}
+
+const colorsVar = (team, league) => {
+  const c = (team && team.colors) || (league && league.colors) || [];
+  return { '--km-c1': c[0] || 'var(--story-base)', '--km-c2': c[1] || c[0] || 'var(--story-base)' };
+};
+
+const artOf = (team, league) => (team ? team.crest : league ? league.logo : null) || null;
+
+function Who({ src, children }) {
+  return (
+    <span className="km-who">
+      {src ? <img src={src} alt="" width={20} height={20} decoding="async" /> : null}
+      {children}
+    </span>
+  );
+}
+
+function TeamSlide({ card, team, league }) {
+  const art = artOf(team, league);
+  const who = team ? team.name : league ? league.name : '';
+  return (
+    <>
+      {art ? <img className="km-blur" src={art} alt="" decoding="async" /> : null}
+      {art ? <img className="km-bigcrest" src={art} alt="" decoding="async" /> : null}
+      <span className="km-scrim" />
+      <div className="km-in">
+        {who ? <Who src={art}>{who}</Who> : null}
+        <span className="km-val tnum">{comma(card.value, card.digits)}{card.unit || ''}</span>
+        <span className="km-lab">{card.label}</span>
+        {card.note ? <div className="km-row"><span className="km-pill">{card.note}</span></div> : null}
+      </div>
+    </>
+  );
+}
+
+function PlayerSlide({ card, team }) {
+  const art = team ? team.crest : null;
+  return (
+    <>
+      {art ? <img className="km-blur" src={art} alt="" decoding="async" /> : null}
+      <span className="km-ghost tnum" aria-hidden="true">{card.rank}°</span>
+      <span className="km-face"><PlayerPhoto src={card.photo} alt={card.name} /></span>
+      <span className="km-scrim" />
+      <div className="km-in">
+        <Who src={art}>{card.stat} ogni 90&apos;</Who>
+        <span className="km-name">{card.name}</span>
+        <span className="km-val tnum">{comma(card.p90, 2)}</span>
+        {card.tot != null ? <span className="km-lab tnum">{card.tot} {card.unit} in totale</span> : null}
+        <div className="km-row">
+          <span className="km-pill">{card.rank}° in {card.comp}</span>
+          {card.also.length ? <span className="km-sub">anche {card.also.map((a) => `${a.rank}° ${a.label.toLowerCase()}`).join(', ')}</span> : null}
+        </div>
+      </div>
+    </>
   );
 }

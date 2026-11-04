@@ -1703,6 +1703,44 @@ await step('statistiche pre-partita: nessuna posizione 0°', async () => {
   ok('statistiche pre-partita: nessuna riga con posizione 0°', !bad.length, { provate: links.length, bad });
 });
 
+// Numeri da tenere d'occhio in stile storie: altezza fissa, tocco avanti/indietro, pausa tenendo premuto, swipe senza cambiare pagina,
+// schede giocatore solo per chi e' tra i primi 10 della competizione (mai schede vuote)
+await step('numeri da tenere d occhio: storie con schede giocatore', async () => {
+  await go('#/campionato/serie-a', 6000); await ready(); await wait(2000);
+  const links = await pg.evaluate(() => [...new Set([...document.querySelectorAll('a[href*="/match/"]')].map((a) => a.getAttribute('href')))].slice(0, 6));
+  const st = () => pg.evaluate(() => { const k = document.querySelector('.km-story'); if (!k) return null; const sl = [...k.querySelectorAll('.km-slide')]; const r = k.getBoundingClientRect(); const i = sl.findIndex((x) => x.classList.contains('on')); return { idx: i, n: sl.length, h: Math.round(r.height), x: r.left, w: r.width, cy: r.top + r.height / 2, fill: (k.querySelectorAll('.km-bars b')[i] || {}).style?.transform || '', hash: location.hash, hold: k.classList.contains('km-hold') }; });
+  let found = null; const bad = []; let players = 0;
+  for (const h of links) {
+    await go(h, 6000); await ready(); await wait(2500);
+    const r = await pg.evaluate(() => { const k = document.querySelector('.km-story'); if (!k) return null; return [...k.querySelectorAll('.km-slide')].filter((s) => s.querySelector('.km-face')).map((s) => [...s.querySelectorAll('.km-in > *')].map((x) => x.textContent).join(' | ')); });
+    if (!r) continue;
+    if (!found) found = h;
+    players += r.length;
+    r.forEach((t) => { const m = /\| (\d+)° in /.exec(t); if (!m || +m[1] > 10 || /non disponibile|—|NaN|undefined/.test(t)) bad.push(t); });
+    if (r.length) { found = h; break; }
+  }
+  ok('numeri da tenere d\'occhio: carosello presente in una partita di Serie A', !!found, { links });
+  ok('numeri da tenere d\'occhio: schede giocatore con posizione 1-10 e valori veri', !bad.length, { players, bad });
+  if (!found) return;
+  await pg.evaluate(() => document.querySelector('.km-story').scrollIntoView({ block: 'center' })); await wait(500);
+  const s0 = await st();
+  await pg.mouse.click(s0.x + s0.w * 0.8, s0.cy); await wait(300); const a = await st();
+  await pg.mouse.click(s0.x + s0.w * 0.1, s0.cy); await wait(300); const b2 = await st();
+  ok('numeri da tenere d\'occhio: tocco a destra avanti, a sinistra indietro', s0.n < 2 || (a.idx === (s0.idx + 1) % s0.n && b2.idx === s0.idx), { s0: s0.idx, a: a.idx, b: b2.idx, n: s0.n });
+  await pg.mouse.move(s0.x + s0.w / 2, s0.cy); await pg.mouse.down(); await wait(400); const h1 = await st(); await wait(1500); const h2 = await st(); await pg.mouse.up(); await wait(200);
+  ok('numeri da tenere d\'occhio: tenendo premuto la barretta si ferma', h1.hold && h1.fill === h2.fill && h1.idx === h2.idx, { h1, h2 });
+  const w0 = await st();
+  await pg.mouse.move(s0.x + s0.w * 0.7, s0.cy); await pg.mouse.down();
+  for (let i = 1; i <= 10; i++) { await pg.mouse.move(s0.x + s0.w * 0.7 - i * 14, s0.cy + 2); await wait(16); }
+  await pg.mouse.up(); await wait(400);
+  const w1 = await st();
+  ok('numeri da tenere d\'occhio: swipe di lato cambia scheda e non la pagina', w0.n < 2 || (w1.idx === (w0.idx + 1) % w0.n && w1.hash === w0.hash), { w0, w1 });
+  const hs = new Set();
+  for (let i = 0; i < Math.min(w1.n, 8); i++) { const q = await st(); hs.add(q.h); await pg.mouse.click(q.x + q.w * 0.8, q.cy); await wait(150); }
+  ok('numeri da tenere d\'occhio: altezza fissa su tutte le schede', hs.size === 1, { h: [...hs] });
+  await shot('numeri-storie');
+});
+
 await step('statistiche previste: pannello al posto del confronto completo', async () => {
   await go('#/', 7000);
   const links = await pg.evaluate(() => [...document.querySelectorAll('a[href*="/match/"]')].filter((a) => /\d{1,2}:\d{2}/.test(a.textContent)).slice(0, 8).map((a) => a.getAttribute('href')));
