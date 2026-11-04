@@ -761,8 +761,8 @@
    "da_fare": 0
   },
   "Primera B 2026": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "Liga de Ascenso 2026": {
    "partite_con_eventi": 0,
@@ -846,7 +846,7 @@
   },
   "AFC Champions League Two 2026-2027": {
    "partite_con_eventi": 0,
-   "da_fare": 0
+   "da_fare": 1
   },
   "AFC Challenge League 2026-2027": {
    "partite_con_eventi": 0,
