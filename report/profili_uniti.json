@@ -1,7 +1,7 @@
 {
 "nota": "unioni di profili doppi (stesso giocatore con piu' id) e collegamenti PitchAPI -> FotMob",
 "doppi_uniti": 17,
-"collegati": 5962,
+"collegati": 5930,
 "unioni": [
 {
 "nome": "Adrián Martín Ugarriza Tello",
@@ -12,7 +12,7 @@
 "fm:547722"
 ],
 "tenuto": "p_4AlYY9",
-"motivo": "stesso id FotMob (nome contenuto + date 100%; nome uguale + date 100%): PitchAPI aveva due profili"
+"motivo": "stesso id FotMob (nome contenuto + date 100%; nome uguale + date 67%): PitchAPI aveva due profili"
 },
 {
 "nome": "Baboucarr Faal",
@@ -45,7 +45,7 @@
 "fm:1348062"
 ],
 "tenuto": "p_3zK1nD",
-"motivo": "stesso id FotMob (nome uguale + date 100%; nome uguale + date 100%): PitchAPI aveva due profili"
+"motivo": "stesso id FotMob (nome uguale + date 100%; nome uguale + date 67%): PitchAPI aveva due profili"
 },
 {
 "nome": "Guy Mizrahi",
@@ -56,7 +56,7 @@
 "fm:1238236"
 ],
 "tenuto": "p_4A8eW6",
-"motivo": "stesso id FotMob (nome uguale + date 100%; nome uguale + date 100%): PitchAPI aveva due profili"
+"motivo": "stesso id FotMob (nome uguale + date 100%; nome uguale + date 75%): PitchAPI aveva due profili"
 },
 {
 "nome": "Igor Zlatanović",
@@ -67,7 +67,7 @@
 "fm:805779"
 ],
 "tenuto": "p_41elXi",
-"motivo": "stesso id FotMob (nome uguale + date 100%; nome uguale + date 100%): PitchAPI aveva due profili"
+"motivo": "stesso id FotMob (nome uguale + date 100%; nome uguale + date 75%): PitchAPI aveva due profili"
 },
 {
 "nome": "Itay Rotman",
@@ -89,7 +89,7 @@
 "fm:919525"
 ],
 "tenuto": "p_3TDC0X",
-"motivo": "stesso id FotMob (cognome e iniziale + date 100%; nome uguale + date 100%): PitchAPI aveva due profili"
+"motivo": "stesso id FotMob (cognome e iniziale + date 100%; nome uguale + date 75%): PitchAPI aveva due profili"
 },
 {
 "nome": "Leo Hofstädter",
@@ -111,7 +111,7 @@
 "fm:1109151"
 ],
 "tenuto": "p_3qpIiL",
-"motivo": "stesso id FotMob (date e minuti uguali in 8/8 partite; nome uguale + date 100%): PitchAPI aveva due profili"
+"motivo": "stesso id FotMob (date e minuti uguali in 8/8 partite; nome uguale + date 67%): PitchAPI aveva due profili"
 },
 {
 "nome": "Muhammad Abu Rumi",
@@ -122,7 +122,7 @@
 "fm:1497826"
 ],
 "tenuto": "p_3DNAlc",
-"motivo": "stesso id FotMob (cognome e iniziale + date 100%; nome uguale + date 100%): PitchAPI aveva due profili"
+"motivo": "stesso id FotMob (cognome e iniziale + date 100%; nome uguale + date 67%): PitchAPI aveva due profili"
 },
 {
 "nome": "Mubarak Emmanuel Suleiman",
@@ -144,7 +144,7 @@
 "fm:1605895"
 ],
 "tenuto": "p_3vfX8l",
-"motivo": "stesso id FotMob (nome uguale + date 100%; nome uguale + date 100%): PitchAPI aveva due profili"
+"motivo": "stesso id FotMob (nome uguale + date 100%; nome uguale + date 75%): PitchAPI aveva due profili"
 },
 {
 "nome": "Stefan Pirgić",
@@ -155,7 +155,7 @@
 "fm:1621131"
 ],
 "tenuto": "p_0ydsOm",
-"motivo": "stesso id FotMob (nome uguale + date 100%; nome uguale + date 100%): PitchAPI aveva due profili"
+"motivo": "stesso id FotMob (nome uguale + date 100%; nome uguale + date 75%): PitchAPI aveva due profili"
 },
 {
 "nome": "Tobiáš Pališčák",
@@ -166,7 +166,7 @@
 "fm:1676861"
 ],
 "tenuto": "p_4JgZcp",
-"motivo": "stesso id FotMob (nome uguale + date 100%; nome uguale + date 100%): PitchAPI aveva due profili"
+"motivo": "stesso id FotMob (nome uguale + date 100%; nome uguale + date 67%): PitchAPI aveva due profili"
 },
 {
 "nome": "Viktor Tamás Vitályos",
@@ -188,7 +188,7 @@
 "fm:1202240"
 ],
 "tenuto": "p_0QYxoI",
-"motivo": "stesso id FotMob (nome uguale + date 100%; nome uguale + date 100%): PitchAPI aveva due profili"
+"motivo": "stesso id FotMob (nome uguale + date 100%; nome uguale + date 75%): PitchAPI aveva due profili"
 }
 ],
 "collegamenti": [
@@ -750,7 +750,7 @@
 "fm:1060604"
 ],
 "tenuto": "p_1BMpWA",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
 "tipo": "collegato"
 },
 {
@@ -816,7 +816,7 @@
 "fm:1220043"
 ],
 "tenuto": "p_2zEsEy",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -827,7 +827,7 @@
 "fm:604348"
 ],
 "tenuto": "p_2leHHr",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -915,7 +915,7 @@
 "fm:1353000"
 ],
 "tenuto": "p_2XLZ9K",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -926,7 +926,7 @@
 "fm:1198713"
 ],
 "tenuto": "p_26OI9Q",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
 "tipo": "collegato"
 },
 {
@@ -1124,7 +1124,7 @@
 "fm:160447"
 ],
 "tenuto": "p_2VIcoo",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -1168,7 +1168,7 @@
 "fm:1296650"
 ],
 "tenuto": "p_0lX8fQ",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -1278,7 +1278,7 @@
 "fm:972406"
 ],
 "tenuto": "p_04Ix2E",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
 "tipo": "collegato"
 },
 {
@@ -1531,7 +1531,7 @@
 "fm:352879"
 ],
 "tenuto": "p_2XBFj4",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -1553,7 +1553,7 @@
 "fm:1177358"
 ],
 "tenuto": "p_0RcuGx",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -1652,7 +1652,7 @@
 "fm:1367047"
 ],
 "tenuto": "p_0lnf8c",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -1773,7 +1773,7 @@
 "fm:1185294"
 ],
 "tenuto": "p_4SY9XT",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 86%)",
 "tipo": "collegato"
 },
 {
@@ -1850,7 +1850,7 @@
 "fm:675600"
 ],
 "tenuto": "p_2eAqiE",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -2257,7 +2257,7 @@
 "fm:1355723"
 ],
 "tenuto": "p_2quADG",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -2279,7 +2279,7 @@
 "fm:671686"
 ],
 "tenuto": "p_3Sayg0",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
 "tipo": "collegato"
 },
 {
@@ -2290,7 +2290,7 @@
 "fm:642551"
 ],
 "tenuto": "p_4WAkVm",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -2301,7 +2301,7 @@
 "fm:1393916"
 ],
 "tenuto": "p_1P3f5H",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -2335,6 +2335,17 @@
 ],
 "tenuto": "p_2wEmeT",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
+"nome": "Alejandro Gomes Rodríguez",
+"squadra": "Lyon",
+"id_uniti": [
+"p_3N3Gin",
+"fm:1603531"
+],
+"tenuto": "p_3N3Gin",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale (rosa))",
 "tipo": "collegato"
 },
 {
@@ -2488,7 +2499,7 @@
 "fm:1098041"
 ],
 "tenuto": "p_38Ojkk",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 88%)",
 "tipo": "collegato"
 },
 {
@@ -2521,17 +2532,6 @@
 "fm:586388"
 ],
 "tenuto": "p_3wF6jX",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
-"nome": "Aleksandre Narimanidze",
-"squadra": "Žilina",
-"id_uniti": [
-"p_1OCsQO",
-"fm:1661578"
-],
-"tenuto": "p_1OCsQO",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -2620,7 +2620,7 @@
 "fm:1318686"
 ],
 "tenuto": "p_01vZNW",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 88%)",
 "tipo": "collegato"
 },
 {
@@ -2972,7 +2972,7 @@
 "fm:554534"
 ],
 "tenuto": "p_0qyDnS",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -2983,7 +2983,7 @@
 "fm:1027194"
 ],
 "tenuto": "p_0wj6oP",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 83%)",
 "tipo": "collegato"
 },
 {
@@ -3049,7 +3049,7 @@
 "fm:1478281"
 ],
 "tenuto": "p_2ou82J",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -3126,7 +3126,7 @@
 "fm:784878"
 ],
 "tenuto": "p_4GJHBU",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 67%)",
 "tipo": "collegato"
 },
 {
@@ -3401,7 +3401,7 @@
 "fm:1693008"
 ],
 "tenuto": "p_280xLA",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -3614,17 +3614,6 @@
 "tipo": "collegato"
 },
 {
-"nome": "Allen Obando",
-"squadra": "Nacional",
-"id_uniti": [
-"p_0bAATC",
-"fm:1482775"
-],
-"tenuto": "p_0bAATC",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
 "nome": "Almeida",
 "squadra": "Sabah FK",
 "id_uniti": [
@@ -3676,7 +3665,7 @@
 "fm:1445650"
 ],
 "tenuto": "p_1Dxzry",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -3863,7 +3852,7 @@
 "fm:1300385"
 ],
 "tenuto": "p_4FNet4",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 94%)",
 "tipo": "collegato"
 },
 {
@@ -3929,7 +3918,7 @@
 "fm:1079557"
 ],
 "tenuto": "p_1mdbQV",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 83%)",
 "tipo": "collegato"
 },
 {
@@ -3984,7 +3973,7 @@
 "fm:844437"
 ],
 "tenuto": "p_1xJbWg",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -4006,7 +3995,7 @@
 "fm:492157"
 ],
 "tenuto": "p_2hpBWX",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome contenuto + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome contenuto + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -4050,7 +4039,7 @@
 "fm:1414052"
 ],
 "tenuto": "p_3nqcko",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -4061,7 +4050,7 @@
 "fm:643635"
 ],
 "tenuto": "p_1IS3YC",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -4116,7 +4105,7 @@
 "fm:861728"
 ],
 "tenuto": "p_3FXJJ9",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 86%)",
 "tipo": "collegato"
 },
 {
@@ -4160,7 +4149,7 @@
 "fm:1477878"
 ],
 "tenuto": "p_0KFCEf",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -4226,7 +4215,7 @@
 "fm:1022350"
 ],
 "tenuto": "p_4QtEwg",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -4237,7 +4226,7 @@
 "fm:1002618"
 ],
 "tenuto": "p_1EvcZJ",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -4259,7 +4248,7 @@
 "fm:1161870"
 ],
 "tenuto": "p_3TKa1z",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -4303,7 +4292,7 @@
 "fm:1078846"
 ],
 "tenuto": "p_4TpB9g",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
 "tipo": "collegato"
 },
 {
@@ -4358,7 +4347,7 @@
 "fm:300618"
 ],
 "tenuto": "p_4CE4AN",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -4457,7 +4446,7 @@
 "fm:1228558"
 ],
 "tenuto": "p_01UkEq",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -4494,17 +4483,6 @@
 "tipo": "collegato"
 },
 {
-"nome": "Andrei Florea",
-"squadra": "Žilina",
-"id_uniti": [
-"p_0E8rGY",
-"fm:1684565"
-],
-"tenuto": "p_0E8rGY",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
 "nome": "Andrei Rațiu",
 "squadra": "Rayo Vallecano",
 "id_uniti": [
@@ -4534,7 +4512,7 @@
 "fm:173461"
 ],
 "tenuto": "p_1iJGKA",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -4864,7 +4842,7 @@
 "fm:1732791"
 ],
 "tenuto": "p_09g5wU",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -4919,7 +4897,7 @@
 "fm:863359"
 ],
 "tenuto": "p_3r80MJ",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
 "tipo": "collegato"
 },
 {
@@ -5040,7 +5018,7 @@
 "fm:1413301"
 ],
 "tenuto": "p_0TvJR5",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 50%)",
 "tipo": "collegato"
 },
 {
@@ -5502,7 +5480,7 @@
 "fm:1227397"
 ],
 "tenuto": "p_3LuSKl",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
 "tipo": "collegato"
 },
 {
@@ -5799,7 +5777,7 @@
 "fm:1161614"
 ],
 "tenuto": "p_1XZf19",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
 "tipo": "collegato"
 },
 {
@@ -5843,7 +5821,7 @@
 "fm:857618"
 ],
 "tenuto": "p_1Q5ldj",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -5975,7 +5953,7 @@
 "fm:1163219"
 ],
 "tenuto": "p_2KJhq5",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -6096,7 +6074,7 @@
 "fm:1515122"
 ],
 "tenuto": "p_36l5nx",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
 "tipo": "collegato"
 },
 {
@@ -6140,7 +6118,7 @@
 "fm:1312274"
 ],
 "tenuto": "p_1ybwnB",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -6206,7 +6184,7 @@
 "fm:1023017"
 ],
 "tenuto": "p_0mwZx1",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -6415,7 +6393,7 @@
 "fm:1281972"
 ],
 "tenuto": "p_0elaA8",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -6536,7 +6514,7 @@
 "fm:1300497"
 ],
 "tenuto": "p_3Nlj0w",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -6712,7 +6690,7 @@
 "fm:643975"
 ],
 "tenuto": "p_4aEZAZ",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 67%)",
 "tipo": "collegato"
 },
 {
@@ -6943,7 +6921,7 @@
 "fm:1615528"
 ],
 "tenuto": "p_18xtPM",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 83%)",
 "tipo": "collegato"
 },
 {
@@ -6987,7 +6965,7 @@
 "fm:1656600"
 ],
 "tenuto": "p_3EGFFh",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -7141,7 +7119,7 @@
 "fm:979752"
 ],
 "tenuto": "p_4Y6EBi",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 86%)",
 "tipo": "collegato"
 },
 {
@@ -7229,7 +7207,7 @@
 "fm:1133802"
 ],
 "tenuto": "p_4W781V",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -7383,7 +7361,7 @@
 "fm:1715680"
 ],
 "tenuto": "p_3yfaAQ",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -7493,7 +7471,7 @@
 "fm:1385185"
 ],
 "tenuto": "p_0Vt5J1",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
 "tipo": "collegato"
 },
 {
@@ -7537,7 +7515,7 @@
 "fm:1324871"
 ],
 "tenuto": "p_3x8RjE",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
 "tipo": "collegato"
 },
 {
@@ -7746,7 +7724,7 @@
 "fm:931605"
 ],
 "tenuto": "p_3yhil7",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -7801,7 +7779,7 @@
 "fm:266992"
 ],
 "tenuto": "p_1rvIZO",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -7845,7 +7823,7 @@
 "fm:783643"
 ],
 "tenuto": "p_06APsP",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -7944,7 +7922,7 @@
 "fm:637716"
 ],
 "tenuto": "p_1CsJrA",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -8043,7 +8021,7 @@
 "fm:1338361"
 ],
 "tenuto": "p_2n9xXR",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -8263,7 +8241,7 @@
 "fm:768118"
 ],
 "tenuto": "p_473jU0",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 80%)",
 "tipo": "collegato"
 },
 {
@@ -8340,7 +8318,7 @@
 "fm:1071487"
 ],
 "tenuto": "p_0EuvCu",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
 "tipo": "collegato"
 },
 {
@@ -8659,7 +8637,7 @@
 "fm:940446"
 ],
 "tenuto": "p_49QBCH",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
 "tipo": "collegato"
 },
 {
@@ -8780,7 +8758,7 @@
 "fm:861642"
 ],
 "tenuto": "p_20vwtt",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 86%)",
 "tipo": "collegato"
 },
 {
@@ -8868,7 +8846,7 @@
 "fm:540414"
 ],
 "tenuto": "p_1vA8TI",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (cognome e iniziale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (cognome e iniziale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -8934,7 +8912,7 @@
 "fm:147594"
 ],
 "tenuto": "p_2jdcXz",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -9055,7 +9033,7 @@
 "fm:1187227"
 ],
 "tenuto": "p_0mNb7V",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -9077,7 +9055,7 @@
 "fm:1165547"
 ],
 "tenuto": "p_101TBn",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 67%)",
 "tipo": "collegato"
 },
 {
@@ -9110,7 +9088,7 @@
 "fm:1793498"
 ],
 "tenuto": "p_2eypYE",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 50%)",
 "tipo": "collegato"
 },
 {
@@ -9165,7 +9143,7 @@
 "fm:111060"
 ],
 "tenuto": "p_19Ke15",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -9187,7 +9165,7 @@
 "fm:1416581"
 ],
 "tenuto": "p_2h1W6i",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
 "tipo": "collegato"
 },
 {
@@ -9242,7 +9220,7 @@
 "fm:800624"
 ],
 "tenuto": "p_4Cd0jw",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -9286,7 +9264,7 @@
 "fm:643589"
 ],
 "tenuto": "p_0a6qLy",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
 "tipo": "collegato"
 },
 {
@@ -9319,7 +9297,7 @@
 "fm:1576597"
 ],
 "tenuto": "p_2XE7yv",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -9968,7 +9946,7 @@
 "fm:1225210"
 ],
 "tenuto": "p_0qZU2i",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -10093,17 +10071,6 @@
 "tipo": "collegato"
 },
 {
-"nome": "Chiheb Labidi",
-"squadra": "Nacional",
-"id_uniti": [
-"p_2cXCHH",
-"fm:1242656"
-],
-"tenuto": "p_2cXCHH",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
 "nome": "Chilohem Onuoha",
 "squadra": "Hartberg",
 "id_uniti": [
@@ -10188,7 +10155,7 @@
 "fm:950829"
 ],
 "tenuto": "p_4amRGx",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -10199,7 +10166,7 @@
 "fm:1327319"
 ],
 "tenuto": "p_4FRH3D",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
 "tipo": "collegato"
 },
 {
@@ -10419,7 +10386,7 @@
 "fm:839088"
 ],
 "tenuto": "p_2yxyMc",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -10485,7 +10452,7 @@
 "fm:688295"
 ],
 "tenuto": "p_1yrqYA",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
 "tipo": "collegato"
 },
 {
@@ -10507,7 +10474,7 @@
 "fm:1572337"
 ],
 "tenuto": "p_4bXvEO",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -10551,7 +10518,7 @@
 "fm:1184444"
 ],
 "tenuto": "p_4f58OI",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -10826,7 +10793,7 @@
 "fm:1486264"
 ],
 "tenuto": "p_1skJAA",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 83%)",
 "tipo": "collegato"
 },
 {
@@ -10881,7 +10848,7 @@
 "fm:1436850"
 ],
 "tenuto": "p_3jcKka",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -10991,7 +10958,7 @@
 "fm:1663615"
 ],
 "tenuto": "p_17AaX0",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -11024,7 +10991,7 @@
 "fm:208699"
 ],
 "tenuto": "p_4ME47B",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -11090,7 +11057,7 @@
 "fm:473852"
 ],
 "tenuto": "p_3Ogl1G",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -11134,7 +11101,7 @@
 "fm:1184693"
 ],
 "tenuto": "p_1xIOgw",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
 "tipo": "collegato"
 },
 {
@@ -11321,7 +11288,7 @@
 "fm:621515"
 ],
 "tenuto": "p_41m5O0",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -11442,7 +11409,7 @@
 "fm:1188420"
 ],
 "tenuto": "p_3VYXRr",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -11497,7 +11464,7 @@
 "fm:1249915"
 ],
 "tenuto": "p_07kunw",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
 "tipo": "collegato"
 },
 {
@@ -11633,17 +11600,6 @@
 "tipo": "collegato"
 },
 {
-"nome": "Daniel",
-"squadra": "Nacional",
-"id_uniti": [
-"p_0PHrSD",
-"fm:1336918"
-],
-"tenuto": "p_0PHrSD",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
 "nome": "Daniel Adu-Adjei",
 "squadra": "Rijeka",
 "id_uniti": [
@@ -11673,7 +11629,7 @@
 "fm:799044"
 ],
 "tenuto": "p_0C14xr",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -11695,7 +11651,7 @@
 "fm:1763613"
 ],
 "tenuto": "p_4Y7d7k",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -11893,7 +11849,7 @@
 "fm:1031428"
 ],
 "tenuto": "p_4V6Lbg",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
 "tipo": "collegato"
 },
 {
@@ -12289,7 +12245,7 @@
 "fm:1246713"
 ],
 "tenuto": "p_0v956Z",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -12322,7 +12278,7 @@
 "fm:955572"
 ],
 "tenuto": "p_3L37F5",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -12443,7 +12399,7 @@
 "fm:817821"
 ],
 "tenuto": "p_0Phlmv",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 88%)",
 "tipo": "collegato"
 },
 {
@@ -12465,7 +12421,7 @@
 "fm:1619293"
 ],
 "tenuto": "p_4VtbLy",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 50%)",
 "tipo": "collegato"
 },
 {
@@ -12476,7 +12432,7 @@
 "fm:1052861"
 ],
 "tenuto": "p_4TgOXp",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -12520,7 +12476,7 @@
 "fm:1329007"
 ],
 "tenuto": "p_1gE7Gs",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 83%)",
 "tipo": "collegato"
 },
 {
@@ -12531,7 +12487,7 @@
 "fm:1389199"
 ],
 "tenuto": "p_4CKrh4",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -12630,7 +12586,7 @@
 "fm:674014"
 ],
 "tenuto": "p_1U8xoJ",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 86%)",
 "tipo": "collegato"
 },
 {
@@ -12641,7 +12597,7 @@
 "fm:191785"
 ],
 "tenuto": "p_3yCxos",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 67%)",
 "tipo": "collegato"
 },
 {
@@ -12839,7 +12795,7 @@
 "fm:1667974"
 ],
 "tenuto": "p_4XSEP4",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 67%)",
 "tipo": "collegato"
 },
 {
@@ -13169,7 +13125,7 @@
 "fm:1385856"
 ],
 "tenuto": "p_4DKMvq",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
 "tipo": "collegato"
 },
 {
@@ -13345,7 +13301,7 @@
 "fm:1664716"
 ],
 "tenuto": "p_3lo2st",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 80%)",
 "tipo": "collegato"
 },
 {
@@ -13367,7 +13323,7 @@
 "fm:719330"
 ],
 "tenuto": "p_0T4t92",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 80%)",
 "tipo": "collegato"
 },
 {
@@ -13422,17 +13378,6 @@
 "fm:783806"
 ],
 "tenuto": "p_16Nfr7",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
-"nome": "Deivison",
-"squadra": "Nacional",
-"id_uniti": [
-"p_0OrnZr",
-"fm:1791597"
-],
-"tenuto": "p_0OrnZr",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -13576,7 +13521,7 @@
 "fm:442602"
 ],
 "tenuto": "p_0qI12J",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 83%)",
 "tipo": "collegato"
 },
 {
@@ -13763,7 +13708,7 @@
 "fm:1114874"
 ],
 "tenuto": "p_3UN15e",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 83%)",
 "tipo": "collegato"
 },
 {
@@ -13774,7 +13719,7 @@
 "fm:1232229"
 ],
 "tenuto": "p_0prmU5",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -14038,7 +13983,7 @@
 "fm:1342754"
 ],
 "tenuto": "p_0BtZrR",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
 "tipo": "collegato"
 },
 {
@@ -14148,7 +14093,7 @@
 "fm:723574"
 ],
 "tenuto": "p_09Ewcy",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
 "tipo": "collegato"
 },
 {
@@ -14302,7 +14247,7 @@
 "fm:1186606"
 ],
 "tenuto": "p_3ZA2cl",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -14434,7 +14379,7 @@
 "fm:1316534"
 ],
 "tenuto": "p_1YvntQ",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 88%)",
 "tipo": "collegato"
 },
 {
@@ -14533,7 +14478,7 @@
 "fm:688876"
 ],
 "tenuto": "p_0yZ1Tq",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -14665,7 +14610,7 @@
 "fm:651910"
 ],
 "tenuto": "p_43i3j0",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
 "tipo": "collegato"
 },
 {
@@ -14720,7 +14665,7 @@
 "fm:873557"
 ],
 "tenuto": "p_0o7ctl",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
 "tipo": "collegato"
 },
 {
@@ -14962,7 +14907,7 @@
 "fm:787350"
 ],
 "tenuto": "p_30diFO",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -15127,7 +15072,7 @@
 "fm:924935"
 ],
 "tenuto": "p_0zzA9Q",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 80%)",
 "tipo": "collegato"
 },
 {
@@ -15138,7 +15083,7 @@
 "fm:94267"
 ],
 "tenuto": "p_2hkkvM",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
 "tipo": "collegato"
 },
 {
@@ -15149,7 +15094,7 @@
 "fm:737857"
 ],
 "tenuto": "p_0M0VTT",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
 "tipo": "collegato"
 },
 {
@@ -15160,7 +15105,7 @@
 "fm:939542"
 ],
 "tenuto": "p_0oxg7h",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
 "tipo": "collegato"
 },
 {
@@ -15171,7 +15116,7 @@
 "fm:1499651"
 ],
 "tenuto": "p_1pyxN1",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 86%)",
 "tipo": "collegato"
 },
 {
@@ -15329,17 +15274,6 @@
 "tipo": "collegato"
 },
 {
-"nome": "Dávid Šípoš",
-"squadra": "Žilina",
-"id_uniti": [
-"p_4EXe9k",
-"fm:862124"
-],
-"tenuto": "p_4EXe9k",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
 "nome": "Désiré Doué",
 "squadra": "Paris Saint-Germain",
 "id_uniti": [
@@ -15490,7 +15424,7 @@
 "fm:1190510"
 ],
 "tenuto": "p_0p9IeR",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -15523,7 +15457,7 @@
 "fm:789914"
 ],
 "tenuto": "p_3tfsBj",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -15534,7 +15468,7 @@
 "fm:1632055"
 ],
 "tenuto": "p_1T5VBc",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -15633,7 +15567,7 @@
 "fm:860920"
 ],
 "tenuto": "p_3ubYGy",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -15963,7 +15897,7 @@
 "fm:1466557"
 ],
 "tenuto": "p_3TjeNG",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -16370,7 +16304,7 @@
 "fm:873855"
 ],
 "tenuto": "p_1jK3dy",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
 "tipo": "collegato"
 },
 {
@@ -16392,7 +16326,7 @@
 "fm:1114979"
 ],
 "tenuto": "p_30Vunq",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -16711,7 +16645,7 @@
 "fm:1033342"
 ],
 "tenuto": "p_4JM7Gz",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 88%)",
 "tipo": "collegato"
 },
 {
@@ -16788,7 +16722,7 @@
 "fm:1352923"
 ],
 "tenuto": "p_2EmEdq",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 80%)",
 "tipo": "collegato"
 },
 {
@@ -16832,7 +16766,7 @@
 "fm:1049999"
 ],
 "tenuto": "p_1OVq56",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -16887,7 +16821,7 @@
 "fm:1199959"
 ],
 "tenuto": "p_4BYN00",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -16986,7 +16920,7 @@
 "fm:627559"
 ],
 "tenuto": "p_4aUVXO",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -17206,7 +17140,7 @@
 "fm:1251666"
 ],
 "tenuto": "p_3Fw6O0",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 83%)",
 "tipo": "collegato"
 },
 {
@@ -17250,7 +17184,7 @@
 "fm:1681526"
 ],
 "tenuto": "p_3qcarm",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
 "tipo": "collegato"
 },
 {
@@ -17536,7 +17470,7 @@
 "fm:1098096"
 ],
 "tenuto": "p_2Wusbu",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -17591,7 +17525,7 @@
 "fm:1344892"
 ],
 "tenuto": "p_29q79g",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -17613,7 +17547,7 @@
 "fm:535942"
 ],
 "tenuto": "p_02CpcK",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -17724,17 +17658,6 @@
 ],
 "tenuto": "p_4LF7Nh",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 86%)",
-"tipo": "collegato"
-},
-{
-"nome": "Fabian Bzdyl",
-"squadra": "Žilina",
-"id_uniti": [
-"p_0NBFuw",
-"fm:1610892"
-],
-"tenuto": "p_0NBFuw",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -17881,17 +17804,6 @@
 "tipo": "collegato"
 },
 {
-"nome": "Fabio Chiarodia",
-"squadra": "Borussia Mönchengladbach",
-"id_uniti": [
-"p_3x3K0r",
-"fm:1276331"
-],
-"tenuto": "p_3x3K0r",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
 "nome": "Fabio Ferraro",
 "squadra": "Westerlo",
 "id_uniti": [
@@ -17976,7 +17888,7 @@
 "fm:812652"
 ],
 "tenuto": "p_4HN6xF",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -18152,7 +18064,7 @@
 "fm:1189288"
 ],
 "tenuto": "p_2HxsKn",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 88%)",
 "tipo": "collegato"
 },
 {
@@ -18207,7 +18119,7 @@
 "fm:951498"
 ],
 "tenuto": "p_3GO77q",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -18394,7 +18306,7 @@
 "fm:1102732"
 ],
 "tenuto": "p_3N4jSS",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -18537,7 +18449,7 @@
 "fm:502931"
 ],
 "tenuto": "p_1RP66q",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -18724,7 +18636,7 @@
 "fm:1016606"
 ],
 "tenuto": "p_1QGUcy",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
 "tipo": "collegato"
 },
 {
@@ -18735,7 +18647,7 @@
 "fm:1357694"
 ],
 "tenuto": "p_2gTMJM",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
 "tipo": "collegato"
 },
 {
@@ -18944,7 +18856,7 @@
 "fm:1163501"
 ],
 "tenuto": "p_0rmv7m",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 80%)",
 "tipo": "collegato"
 },
 {
@@ -19065,7 +18977,7 @@
 "fm:1219540"
 ],
 "tenuto": "p_364KMH",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
 "tipo": "collegato"
 },
 {
@@ -19208,7 +19120,7 @@
 "fm:1514693"
 ],
 "tenuto": "p_4IpzNX",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -19241,7 +19153,7 @@
 "fm:531047"
 ],
 "tenuto": "p_0hHpmD",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -19318,7 +19230,7 @@
 "fm:1229526"
 ],
 "tenuto": "p_2cKpTP",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
 "tipo": "collegato"
 },
 {
@@ -19428,7 +19340,7 @@
 "fm:1554575"
 ],
 "tenuto": "p_0g6xVH",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 83%)",
 "tipo": "collegato"
 },
 {
@@ -19483,17 +19395,6 @@
 "fm:1185336"
 ],
 "tenuto": "p_3QhZtA",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
-"nome": "Francisco Gonçalves",
-"squadra": "Nacional",
-"id_uniti": [
-"p_4YPzFP",
-"fm:1523092"
-],
-"tenuto": "p_4YPzFP",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -19659,18 +19560,7 @@
 "fm:1459265"
 ],
 "tenuto": "p_3n6Rmo",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
-"nome": "František Kóša",
-"squadra": "Žilina",
-"id_uniti": [
-"p_0ar9hL",
-"fm:1574205"
-],
-"tenuto": "p_0ar9hL",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
 "tipo": "collegato"
 },
 {
@@ -19725,7 +19615,7 @@
 "fm:988846"
 ],
 "tenuto": "p_3b5RW4",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome contenuto + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome contenuto + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -19780,7 +19670,7 @@
 "fm:1166287"
 ],
 "tenuto": "p_4QAWt2",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
 "tipo": "collegato"
 },
 {
@@ -19835,7 +19725,7 @@
 "fm:310768"
 ],
 "tenuto": "p_1CLQC2",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
 "tipo": "collegato"
 },
 {
@@ -19857,7 +19747,7 @@
 "fm:120432"
 ],
 "tenuto": "p_0rCAde",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -19967,17 +19857,6 @@
 "fm:638622"
 ],
 "tenuto": "p_0CKDCO",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
-"nome": "Fritz Fleck",
-"squadra": "Borussia Mönchengladbach",
-"id_uniti": [
-"p_3ZusJn",
-"fm:1838513"
-],
-"tenuto": "p_3ZusJn",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -20143,7 +20022,7 @@
 "fm:1525033"
 ],
 "tenuto": "p_17SjC1",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 88%)",
 "tipo": "collegato"
 },
 {
@@ -20396,7 +20275,7 @@
 "fm:1607324"
 ],
 "tenuto": "p_1tBliX",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 86%)",
 "tipo": "collegato"
 },
 {
@@ -20528,7 +20407,7 @@
 "fm:1251029"
 ],
 "tenuto": "p_43R4P5",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 67%)",
 "tipo": "collegato"
 },
 {
@@ -20594,7 +20473,7 @@
 "fm:214972"
 ],
 "tenuto": "p_19ifLP",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 88%)",
 "tipo": "collegato"
 },
 {
@@ -20792,7 +20671,7 @@
 "fm:1192398"
 ],
 "tenuto": "p_4RR7xB",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
 "tipo": "collegato"
 },
 {
@@ -21012,7 +20891,7 @@
 "fm:1363660"
 ],
 "tenuto": "p_4SANmN",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -21144,7 +21023,7 @@
 "fm:1398146"
 ],
 "tenuto": "p_2e8AcN",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 86%)",
 "tipo": "collegato"
 },
 {
@@ -21364,7 +21243,7 @@
 "fm:916949"
 ],
 "tenuto": "p_0Xig2G",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 86%)",
 "tipo": "collegato"
 },
 {
@@ -21496,7 +21375,7 @@
 "fm:990989"
 ],
 "tenuto": "p_4TKRiX",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
 "tipo": "collegato"
 },
 {
@@ -21551,7 +21430,7 @@
 "fm:1382325"
 ],
 "tenuto": "p_2Iq92o",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
 "tipo": "collegato"
 },
 {
@@ -21584,7 +21463,7 @@
 "fm:857269"
 ],
 "tenuto": "p_0ntBCy",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -21628,7 +21507,7 @@
 "fm:1082954"
 ],
 "tenuto": "p_0HUWtB",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -21683,7 +21562,7 @@
 "fm:536455"
 ],
 "tenuto": "p_0g6YLw",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -21738,7 +21617,7 @@
 "fm:940087"
 ],
 "tenuto": "p_0krO56",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -21782,7 +21661,7 @@
 "fm:207236"
 ],
 "tenuto": "p_0lgYNJ",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -21881,7 +21760,7 @@
 "fm:538501"
 ],
 "tenuto": "p_06JU0P",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -21936,7 +21815,7 @@
 "fm:1630298"
 ],
 "tenuto": "p_2X3qjH",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -21958,7 +21837,7 @@
 "fm:1307981"
 ],
 "tenuto": "p_0aQ4Xt",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -22002,7 +21881,7 @@
 "fm:614169"
 ],
 "tenuto": "p_1t6m0W",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
 "tipo": "collegato"
 },
 {
@@ -22068,7 +21947,7 @@
 "fm:1280665"
 ],
 "tenuto": "p_28ifWc",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -22079,7 +21958,7 @@
 "fm:1196237"
 ],
 "tenuto": "p_0DtkmM",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 83%)",
 "tipo": "collegato"
 },
 {
@@ -22332,7 +22211,7 @@
 "fm:660135"
 ],
 "tenuto": "p_3YIWRn",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 67%)",
 "tipo": "collegato"
 },
 {
@@ -22354,7 +22233,7 @@
 "fm:971787"
 ],
 "tenuto": "p_2splSo",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -22640,7 +22519,7 @@
 "fm:388903"
 ],
 "tenuto": "p_2VTjli",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -22948,7 +22827,7 @@
 "fm:1263493"
 ],
 "tenuto": "p_1ZK45U",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
 "tipo": "collegato"
 },
 {
@@ -23025,7 +22904,7 @@
 "fm:695405"
 ],
 "tenuto": "p_17mnJL",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -23113,7 +22992,7 @@
 "fm:956659"
 ],
 "tenuto": "p_0NfdNU",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -23135,7 +23014,7 @@
 "fm:1669629"
 ],
 "tenuto": "p_03KKY6",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 80%)",
 "tipo": "collegato"
 },
 {
@@ -23201,7 +23080,7 @@
 "fm:1825995"
 ],
 "tenuto": "p_2chQF1",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
 "tipo": "collegato"
 },
 {
@@ -23267,7 +23146,7 @@
 "fm:1213413"
 ],
 "tenuto": "p_4dH3zv",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (cognome e iniziale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (cognome e iniziale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -23322,7 +23201,7 @@
 "fm:1764021"
 ],
 "tenuto": "p_2DFc1K",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 94%)",
 "tipo": "collegato"
 },
 {
@@ -23377,7 +23256,7 @@
 "fm:1308414"
 ],
 "tenuto": "p_1nwcrb",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -23399,7 +23278,7 @@
 "fm:1044299"
 ],
 "tenuto": "p_3MUOwL",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -23586,18 +23465,7 @@
 "fm:174472"
 ],
 "tenuto": "p_2Yeva6",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
-"nome": "Iaia Manco Danfa",
-"squadra": "Borussia Mönchengladbach",
-"id_uniti": [
-"p_3JPUU7",
-"fm:1904630"
-],
-"tenuto": "p_3JPUU7",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -23718,7 +23586,7 @@
 "fm:1457626"
 ],
 "tenuto": "p_2sQv0j",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
 "tipo": "collegato"
 },
 {
@@ -23894,7 +23762,7 @@
 "fm:899188"
 ],
 "tenuto": "p_1UfRSz",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 86%)",
 "tipo": "collegato"
 },
 {
@@ -24059,7 +23927,7 @@
 "fm:1265963"
 ],
 "tenuto": "p_39lB4p",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -24103,7 +23971,7 @@
 "fm:698653"
 ],
 "tenuto": "p_1CvGXp",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
 "tipo": "collegato"
 },
 {
@@ -24158,7 +24026,7 @@
 "fm:1109046"
 ],
 "tenuto": "p_4U0h8j",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -24169,7 +24037,7 @@
 "fm:1869291"
 ],
 "tenuto": "p_3Q6ye8",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 80%)",
 "tipo": "collegato"
 },
 {
@@ -24422,7 +24290,7 @@
 "fm:681213"
 ],
 "tenuto": "p_3dDD9t",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -25544,7 +25412,7 @@
 "fm:1587610"
 ],
 "tenuto": "p_10TbMN",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (cognome e iniziale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (cognome e iniziale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -25676,7 +25544,7 @@
 "fm:1317096"
 ],
 "tenuto": "p_3mnhqL",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -26171,7 +26039,7 @@
 "fm:1390258"
 ],
 "tenuto": "p_2Guigf",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 94%)",
 "tipo": "collegato"
 },
 {
@@ -26314,7 +26182,7 @@
 "fm:185566"
 ],
 "tenuto": "p_42O7Cm",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
 "tipo": "collegato"
 },
 {
@@ -26336,7 +26204,7 @@
 "fm:959407"
 ],
 "tenuto": "p_1K5UI6",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -26523,7 +26391,7 @@
 "fm:680905"
 ],
 "tenuto": "p_3pBVyu",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -26941,7 +26809,7 @@
 "fm:1107620"
 ],
 "tenuto": "p_2DtX5S",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
 "tipo": "collegato"
 },
 {
@@ -26952,7 +26820,7 @@
 "fm:824747"
 ],
 "tenuto": "p_060HKh",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -26974,7 +26842,7 @@
 "fm:249063"
 ],
 "tenuto": "p_0NoNSk",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -27150,7 +27018,7 @@
 "fm:1435439"
 ],
 "tenuto": "p_1csmRK",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
 "tipo": "collegato"
 },
 {
@@ -27161,7 +27029,7 @@
 "fm:1310440"
 ],
 "tenuto": "p_1CyYzy",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -27183,7 +27051,7 @@
 "fm:886809"
 ],
 "tenuto": "p_1uz28E",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -27293,7 +27161,7 @@
 "fm:1664722"
 ],
 "tenuto": "p_1fcfdC",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -27326,7 +27194,7 @@
 "fm:1898992"
 ],
 "tenuto": "p_0xSypg",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -27403,7 +27271,7 @@
 "fm:769168"
 ],
 "tenuto": "p_31NhOS",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -27447,7 +27315,7 @@
 "fm:706297"
 ],
 "tenuto": "p_1gjdst",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 83%)",
 "tipo": "collegato"
 },
 {
@@ -27506,6 +27374,17 @@
 "tipo": "collegato"
 },
 {
+"nome": "Jeff Ekhator",
+"squadra": "Juventus",
+"id_uniti": [
+"p_4BzsC7",
+"fm:1669628"
+],
+"tenuto": "p_4BzsC7",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale (rosa))",
+"tipo": "collegato"
+},
+{
 "nome": "Jeff Hardeveld",
 "squadra": "Telstar",
 "id_uniti": [
@@ -27535,7 +27414,7 @@
 "fm:687868"
 ],
 "tenuto": "p_1BE6pd",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -27711,7 +27590,7 @@
 "fm:1624587"
 ],
 "tenuto": "p_3kOouU",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -27843,7 +27722,7 @@
 "fm:958335"
 ],
 "tenuto": "p_2MJyJ2",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 86%)",
 "tipo": "collegato"
 },
 {
@@ -27931,7 +27810,7 @@
 "fm:573756"
 ],
 "tenuto": "p_0jcZK3",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome contenuto + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome contenuto + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -27975,7 +27854,7 @@
 "fm:1088066"
 ],
 "tenuto": "p_4Mfns9",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
 "tipo": "collegato"
 },
 {
@@ -27986,7 +27865,7 @@
 "fm:860913"
 ],
 "tenuto": "p_0jRR3O",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -28195,7 +28074,7 @@
 "fm:1724551"
 ],
 "tenuto": "p_1U2g7s",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
 "tipo": "collegato"
 },
 {
@@ -28371,7 +28250,7 @@
 "fm:672803"
 ],
 "tenuto": "p_3ENMZy",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (cognome e iniziale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (cognome e iniziale + date 94%)",
 "tipo": "collegato"
 },
 {
@@ -28701,7 +28580,7 @@
 "fm:1249284"
 ],
 "tenuto": "p_1GSk7x",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
 "tipo": "collegato"
 },
 {
@@ -28712,7 +28591,7 @@
 "fm:446392"
 ],
 "tenuto": "p_2LzDNK",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -28723,7 +28602,7 @@
 "fm:1323827"
 ],
 "tenuto": "p_21gBpO",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -28745,7 +28624,7 @@
 "fm:1523234"
 ],
 "tenuto": "p_4cIb4C",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -28833,7 +28712,7 @@
 "fm:331542"
 ],
 "tenuto": "p_1rFbES",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 86%)",
 "tipo": "collegato"
 },
 {
@@ -28943,7 +28822,7 @@
 "fm:737073"
 ],
 "tenuto": "p_4LEh3t",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 94%)",
 "tipo": "collegato"
 },
 {
@@ -29042,7 +28921,7 @@
 "fm:763214"
 ],
 "tenuto": "p_2VrrpA",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -29053,7 +28932,7 @@
 "fm:1668003"
 ],
 "tenuto": "p_1O0b9m",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 67%)",
 "tipo": "collegato"
 },
 {
@@ -29163,7 +29042,7 @@
 "fm:643771"
 ],
 "tenuto": "p_4ctmBA",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 80%)",
 "tipo": "collegato"
 },
 {
@@ -29240,7 +29119,7 @@
 "fm:209384"
 ],
 "tenuto": "p_2ozTge",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
 "tipo": "collegato"
 },
 {
@@ -29263,6 +29142,17 @@
 ],
 "tenuto": "p_2h6u99",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
+"nome": "Jorge Aguirre",
+"squadra": "Torreense",
+"id_uniti": [
+"p_0hrXms",
+"fm:1203824"
+],
+"tenuto": "p_0hrXms",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale (rosa))",
 "tipo": "collegato"
 },
 {
@@ -29724,7 +29614,7 @@
 "fm:1419287"
 ],
 "tenuto": "p_1hWkms",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
 "tipo": "collegato"
 },
 {
@@ -29757,7 +29647,7 @@
 "fm:1296660"
 ],
 "tenuto": "p_4FTBVS",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -29790,7 +29680,7 @@
 "fm:344093"
 ],
 "tenuto": "p_15Qzvm",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -30065,7 +29955,7 @@
 "fm:1185314"
 ],
 "tenuto": "p_0xvdWn",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -30131,7 +30021,7 @@
 "fm:1428671"
 ],
 "tenuto": "p_3gPs61",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -30197,7 +30087,7 @@
 "fm:524434"
 ],
 "tenuto": "p_4fGcvR",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -30351,7 +30241,7 @@
 "fm:1216019"
 ],
 "tenuto": "p_2QtMCb",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome contenuto + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome contenuto + date 50%)",
 "tipo": "collegato"
 },
 {
@@ -30373,7 +30263,7 @@
 "fm:739736"
 ],
 "tenuto": "p_2Sqk1I",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -30395,7 +30285,7 @@
 "fm:1083562"
 ],
 "tenuto": "p_1JYfTE",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -30615,7 +30505,7 @@
 "fm:1811265"
 ],
 "tenuto": "p_0WuH1F",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -30736,7 +30626,7 @@
 "fm:1368304"
 ],
 "tenuto": "p_2HTnmO",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 80%)",
 "tipo": "collegato"
 },
 {
@@ -30802,7 +30692,7 @@
 "fm:1358655"
 ],
 "tenuto": "p_1h9Zsq",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 67%)",
 "tipo": "collegato"
 },
 {
@@ -30967,7 +30857,7 @@
 "fm:1264368"
 ],
 "tenuto": "p_0D1FC7",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -31187,7 +31077,7 @@
 "fm:1858963"
 ],
 "tenuto": "p_49BnDd",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 50%)",
 "tipo": "collegato"
 },
 {
@@ -31213,17 +31103,6 @@
 "tipo": "collegato"
 },
 {
-"nome": "Ján Minárik",
-"squadra": "Žilina",
-"id_uniti": [
-"p_4Un1Po",
-"fm:796573"
-],
-"tenuto": "p_4Un1Po",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
 "nome": "Jérémie Boga",
 "squadra": "Juventus",
 "id_uniti": [
@@ -31231,7 +31110,7 @@
 "fm:643229"
 ],
 "tenuto": "p_3fy5rW",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
 "tipo": "collegato"
 },
 {
@@ -31319,7 +31198,7 @@
 "fm:861777"
 ],
 "tenuto": "p_3HDSc4",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -31550,7 +31429,7 @@
 "fm:813429"
 ],
 "tenuto": "p_2LoiA5",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
 "tipo": "collegato"
 },
 {
@@ -31561,7 +31440,7 @@
 "fm:1177738"
 ],
 "tenuto": "p_3xJUJL",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 94%)",
 "tipo": "collegato"
 },
 {
@@ -31594,7 +31473,7 @@
 "fm:1417095"
 ],
 "tenuto": "p_4KGHU6",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -31638,7 +31517,7 @@
 "fm:728478"
 ],
 "tenuto": "p_30AbQq",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 88%)",
 "tipo": "collegato"
 },
 {
@@ -31759,7 +31638,7 @@
 "fm:1366623"
 ],
 "tenuto": "p_36AmvJ",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 67%)",
 "tipo": "collegato"
 },
 {
@@ -31770,7 +31649,7 @@
 "fm:453044"
 ],
 "tenuto": "p_3lCLOR",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (cognome e iniziale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (cognome e iniziale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -31814,7 +31693,7 @@
 "fm:1293688"
 ],
 "tenuto": "p_0hdSeu",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
 "tipo": "collegato"
 },
 {
@@ -32034,7 +31913,7 @@
 "fm:934960"
 ],
 "tenuto": "p_1Iw4MJ",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -32045,7 +31924,7 @@
 "fm:1387194"
 ],
 "tenuto": "p_4Zewu7",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
 "tipo": "collegato"
 },
 {
@@ -32111,7 +31990,7 @@
 "fm:1896949"
 ],
 "tenuto": "p_3JDbsM",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -32122,7 +32001,7 @@
 "fm:1712064"
 ],
 "tenuto": "p_3CwLvA",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 80%)",
 "tipo": "collegato"
 },
 {
@@ -32144,7 +32023,7 @@
 "fm:1417581"
 ],
 "tenuto": "p_3WDi9X",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 86%)",
 "tipo": "collegato"
 },
 {
@@ -32199,7 +32078,7 @@
 "fm:887704"
 ],
 "tenuto": "p_1vRs7e",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
 "tipo": "collegato"
 },
 {
@@ -32221,7 +32100,7 @@
 "fm:1843428"
 ],
 "tenuto": "p_00XO9k",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 80%)",
 "tipo": "collegato"
 },
 {
@@ -32247,17 +32126,6 @@
 "tipo": "collegato"
 },
 {
-"nome": "Kenan Bilalović",
-"squadra": "Žilina",
-"id_uniti": [
-"p_2iOytu",
-"fm:1416594"
-],
-"tenuto": "p_2iOytu",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
 "nome": "Kenan Karaman",
 "squadra": "Schalke 04",
 "id_uniti": [
@@ -32276,7 +32144,7 @@
 "fm:574623"
 ],
 "tenuto": "p_1pBTm2",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -32375,7 +32243,7 @@
 "fm:1684401"
 ],
 "tenuto": "p_1N8Mw6",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -32463,7 +32331,7 @@
 "fm:754126"
 ],
 "tenuto": "p_0b4FaA",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 88%)",
 "tipo": "collegato"
 },
 {
@@ -32496,7 +32364,7 @@
 "fm:1896583"
 ],
 "tenuto": "p_3d4F8l",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
 "tipo": "collegato"
 },
 {
@@ -32573,7 +32441,7 @@
 "fm:1421270"
 ],
 "tenuto": "p_0u9XsY",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 86%)",
 "tipo": "collegato"
 },
 {
@@ -32705,7 +32573,7 @@
 "fm:1793640"
 ],
 "tenuto": "p_14FWfs",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 88%)",
 "tipo": "collegato"
 },
 {
@@ -32738,7 +32606,7 @@
 "fm:1010733"
 ],
 "tenuto": "p_1yhz2j",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
 "tipo": "collegato"
 },
 {
@@ -32782,7 +32650,7 @@
 "fm:582499"
 ],
 "tenuto": "p_2FXlqO",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -32991,7 +32859,7 @@
 "fm:1533544"
 ],
 "tenuto": "p_2yioNs",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 80%)",
 "tipo": "collegato"
 },
 {
@@ -33068,7 +32936,7 @@
 "fm:727817"
 ],
 "tenuto": "p_2Tpbmq",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
 "tipo": "collegato"
 },
 {
@@ -33101,7 +32969,7 @@
 "fm:1200630"
 ],
 "tenuto": "p_4Od8Cv",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -33332,7 +33200,7 @@
 "fm:1240425"
 ],
 "tenuto": "p_3gB0Ry",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -33354,7 +33222,7 @@
 "fm:702896"
 ],
 "tenuto": "p_0yUHAR",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -33486,7 +33354,7 @@
 "fm:532097"
 ],
 "tenuto": "p_02JEdP",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -33497,17 +33365,6 @@
 "fm:861991"
 ],
 "tenuto": "p_0hYMtR",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
-"nome": "Krisztián Bari",
-"squadra": "Žilina",
-"id_uniti": [
-"p_1y5LPj",
-"fm:1104440"
-],
-"tenuto": "p_1y5LPj",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -33915,7 +33772,7 @@
 "fm:889167"
 ],
 "tenuto": "p_2k0AjW",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
 "tipo": "collegato"
 },
 {
@@ -34245,7 +34102,7 @@
 "fm:1290484"
 ],
 "tenuto": "p_1j9TgK",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
 "tipo": "collegato"
 },
 {
@@ -34278,7 +34135,7 @@
 "fm:318615"
 ],
 "tenuto": "p_18tZcX",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -34399,7 +34256,7 @@
 "fm:1242314"
 ],
 "tenuto": "p_1KCOyH",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 50%)",
 "tipo": "collegato"
 },
 {
@@ -34432,7 +34289,7 @@
 "fm:822402"
 ],
 "tenuto": "p_2eiT9A",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -34509,7 +34366,7 @@
 "fm:1478148"
 ],
 "tenuto": "p_3nOX6f",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -34784,7 +34641,7 @@
 "fm:562724"
 ],
 "tenuto": "p_12VIvb",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -34872,7 +34729,7 @@
 "fm:1329774"
 ],
 "tenuto": "p_2Vn16K",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -34938,7 +34795,7 @@
 "fm:782705"
 ],
 "tenuto": "p_0GvdQQ",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -35041,17 +34898,6 @@
 "tipo": "collegato"
 },
 {
-"nome": "Lion Schweers",
-"squadra": "Borussia Mönchengladbach",
-"id_uniti": [
-"p_2CXEsG",
-"fm:658794"
-],
-"tenuto": "p_2CXEsG",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
 "nome": "Lionel Mpasi-Nzau",
 "squadra": "Le Havre",
 "id_uniti": [
@@ -35136,7 +34982,7 @@
 "fm:819215"
 ],
 "tenuto": "p_28clpa",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 88%)",
 "tipo": "collegato"
 },
 {
@@ -35268,7 +35114,7 @@
 "fm:543172"
 ],
 "tenuto": "p_0uYkEZ",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -35345,7 +35191,7 @@
 "fm:1642393"
 ],
 "tenuto": "p_3qxxzQ",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 50%)",
 "tipo": "collegato"
 },
 {
@@ -35455,7 +35301,7 @@
 "fm:1178319"
 ],
 "tenuto": "p_2tufKP",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -35554,7 +35400,7 @@
 "fm:949216"
 ],
 "tenuto": "p_2sP9jG",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 88%)",
 "tipo": "collegato"
 },
 {
@@ -35576,7 +35422,7 @@
 "fm:412068"
 ],
 "tenuto": "p_3bfamv",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -35620,7 +35466,7 @@
 "fm:541825"
 ],
 "tenuto": "p_0DbABv",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -35829,7 +35675,7 @@
 "fm:1698675"
 ],
 "tenuto": "p_1cSvS0",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -36093,7 +35939,7 @@
 "fm:921208"
 ],
 "tenuto": "p_4HYCQ1",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 67%)",
 "tipo": "collegato"
 },
 {
@@ -36236,7 +36082,7 @@
 "fm:359193"
 ],
 "tenuto": "p_0CBqTa",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
 "tipo": "collegato"
 },
 {
@@ -36346,7 +36192,7 @@
 "fm:281857"
 ],
 "tenuto": "p_1EXXzi",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
 "tipo": "collegato"
 },
 {
@@ -36434,7 +36280,7 @@
 "fm:881626"
 ],
 "tenuto": "p_1GEuwJ",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -36456,7 +36302,7 @@
 "fm:1526177"
 ],
 "tenuto": "p_4Ad9jU",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 67%)",
 "tipo": "collegato"
 },
 {
@@ -36533,7 +36379,7 @@
 "fm:688297"
 ],
 "tenuto": "p_33ThkR",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
 "tipo": "collegato"
 },
 {
@@ -36621,7 +36467,7 @@
 "fm:31097"
 ],
 "tenuto": "p_3SdDFg",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -36665,7 +36511,7 @@
 "fm:1358149"
 ],
 "tenuto": "p_4gTp9P",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -36676,7 +36522,7 @@
 "fm:959597"
 ],
 "tenuto": "p_3qk3tO",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -36786,7 +36632,7 @@
 "fm:1254292"
 ],
 "tenuto": "p_2RPQTN",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -36973,7 +36819,7 @@
 "fm:1412656"
 ],
 "tenuto": "p_3J9eQY",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -37094,7 +36940,7 @@
 "fm:1151313"
 ],
 "tenuto": "p_1rICp7",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 94%)",
 "tipo": "collegato"
 },
 {
@@ -37270,7 +37116,7 @@
 "fm:630495"
 ],
 "tenuto": "p_4Pt7nC",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 67%)",
 "tipo": "collegato"
 },
 {
@@ -37281,7 +37127,7 @@
 "fm:1584085"
 ],
 "tenuto": "p_2TIMh6",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome contenuto + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome contenuto + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -37391,18 +37237,7 @@
 "fm:708457"
 ],
 "tenuto": "p_0ogQTM",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
-"nome": "Léo Santos",
-"squadra": "Nacional",
-"id_uniti": [
-"p_2oxd9M",
-"fm:756255"
-],
-"tenuto": "p_2oxd9M",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -37468,7 +37303,7 @@
 "fm:1081025"
 ],
 "tenuto": "p_0ZJMGy",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -37655,7 +37490,7 @@
 "fm:1614747"
 ],
 "tenuto": "p_18JNuk",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -37798,7 +37633,7 @@
 "fm:1364069"
 ],
 "tenuto": "p_0W9SKZ",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
 "tipo": "collegato"
 },
 {
@@ -37875,7 +37710,7 @@
 "fm:1126058"
 ],
 "tenuto": "p_2mC5N2",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
 "tipo": "collegato"
 },
 {
@@ -37985,7 +37820,7 @@
 "fm:1426170"
 ],
 "tenuto": "p_1YUsYU",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
 "tipo": "collegato"
 },
 {
@@ -38150,7 +37985,7 @@
 "fm:1198071"
 ],
 "tenuto": "p_0YUZPC",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 80%)",
 "tipo": "collegato"
 },
 {
@@ -38216,7 +38051,7 @@
 "fm:1219562"
 ],
 "tenuto": "p_09dfIh",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -38645,7 +38480,7 @@
 "fm:1076974"
 ],
 "tenuto": "p_2Ldj6x",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -38733,7 +38568,7 @@
 "fm:196169"
 ],
 "tenuto": "p_1xnBHz",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -38898,7 +38733,7 @@
 "fm:789630"
 ],
 "tenuto": "p_3GKfdy",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -38968,17 +38803,6 @@
 "tipo": "collegato"
 },
 {
-"nome": "Marek Okál",
-"squadra": "Žilina",
-"id_uniti": [
-"p_2Scijp",
-"fm:1845192"
-],
-"tenuto": "p_2Scijp",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
 "nome": "Marek Ujlaky",
 "squadra": "Spartak Trnava",
 "id_uniti": [
@@ -39019,7 +38843,7 @@
 "fm:888809"
 ],
 "tenuto": "p_2FT4g2",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -39118,7 +38942,7 @@
 "fm:1106074"
 ],
 "tenuto": "p_3kcY1i",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
 "tipo": "collegato"
 },
 {
@@ -39151,7 +38975,7 @@
 "fm:280262"
 ],
 "tenuto": "p_20j7XX",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 67%)",
 "tipo": "collegato"
 },
 {
@@ -39239,7 +39063,7 @@
 "fm:1219672"
 ],
 "tenuto": "p_47XqEj",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 83%)",
 "tipo": "collegato"
 },
 {
@@ -39459,7 +39283,7 @@
 "fm:330643"
 ],
 "tenuto": "p_1f4jtm",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
 "tipo": "collegato"
 },
 {
@@ -39514,7 +39338,7 @@
 "fm:1283000"
 ],
 "tenuto": "p_4N0kc4",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -39558,7 +39382,7 @@
 "fm:463284"
 ],
 "tenuto": "p_3Cfmz7",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 67%)",
 "tipo": "collegato"
 },
 {
@@ -39672,17 +39496,6 @@
 "tipo": "collegato"
 },
 {
-"nome": "Marko Roginić",
-"squadra": "Žilina",
-"id_uniti": [
-"p_3UvEG6",
-"fm:1079866"
-],
-"tenuto": "p_3UvEG6",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
 "nome": "Marko Soldo",
 "squadra": "Sigma Olomouc",
 "id_uniti": [
@@ -39712,17 +39525,6 @@
 "fm:1699520"
 ],
 "tenuto": "p_0yvBmw",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
-"nome": "Markus Gustav Jensen",
-"squadra": "Nacional",
-"id_uniti": [
-"p_3r2jWi",
-"fm:1367941"
-],
-"tenuto": "p_3r2jWi",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -39811,7 +39613,7 @@
 "fm:1255785"
 ],
 "tenuto": "p_4fIMdh",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
 "tipo": "collegato"
 },
 {
@@ -40141,7 +39943,7 @@
 "fm:1310253"
 ],
 "tenuto": "p_0f4Mkf",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -40438,7 +40240,7 @@
 "fm:1670317"
 ],
 "tenuto": "p_3ncQRx",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -40449,7 +40251,7 @@
 "fm:809171"
 ],
 "tenuto": "p_0JNiVv",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 86%)",
 "tipo": "collegato"
 },
 {
@@ -40460,17 +40262,6 @@
 "fm:732901"
 ],
 "tenuto": "p_3vHCD2",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
-"nome": "Matchoi",
-"squadra": "Nacional",
-"id_uniti": [
-"p_1MhFvD",
-"fm:1069628"
-],
-"tenuto": "p_1MhFvD",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -40614,7 +40405,7 @@
 "fm:1302796"
 ],
 "tenuto": "p_3zE3X0",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
 "tipo": "collegato"
 },
 {
@@ -40625,7 +40416,7 @@
 "fm:857667"
 ],
 "tenuto": "p_0Xuj02",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -40713,7 +40504,7 @@
 "fm:630036"
 ],
 "tenuto": "p_1xN2F9",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 94%)",
 "tipo": "collegato"
 },
 {
@@ -40735,7 +40526,7 @@
 "fm:1042022"
 ],
 "tenuto": "p_3Ew1RH",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -40790,17 +40581,6 @@
 "fm:863098"
 ],
 "tenuto": "p_12r3tb",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
-"nome": "Matheus Dias",
-"squadra": "Nacional",
-"id_uniti": [
-"p_1oJMC4",
-"fm:1380814"
-],
-"tenuto": "p_1oJMC4",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -41241,7 +41021,7 @@
 "fm:1445416"
 ],
 "tenuto": "p_39lD9y",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
 "tipo": "collegato"
 },
 {
@@ -41417,7 +41197,7 @@
 "fm:1628516"
 ],
 "tenuto": "p_0iTS3g",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
 "tipo": "collegato"
 },
 {
@@ -41747,7 +41527,7 @@
 "fm:1437308"
 ],
 "tenuto": "p_4FuvFN",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -41923,7 +41703,7 @@
 "fm:1202883"
 ],
 "tenuto": "p_0TBgIE",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -42242,7 +42022,7 @@
 "fm:864840"
 ],
 "tenuto": "p_2dvZCJ",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 67%)",
 "tipo": "collegato"
 },
 {
@@ -42462,7 +42242,7 @@
 "fm:842427"
 ],
 "tenuto": "p_3VWEz3",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -42517,7 +42297,7 @@
 "fm:873560"
 ],
 "tenuto": "p_1t68jD",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 88%)",
 "tipo": "collegato"
 },
 {
@@ -42528,7 +42308,7 @@
 "fm:1398949"
 ],
 "tenuto": "p_1S2iaH",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 67%)",
 "tipo": "collegato"
 },
 {
@@ -42627,7 +42407,7 @@
 "fm:1199113"
 ],
 "tenuto": "p_04Wul1",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -42737,7 +42517,7 @@
 "fm:1321125"
 ],
 "tenuto": "p_2NyWHJ",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -42950,17 +42730,6 @@
 "tipo": "collegato"
 },
 {
-"nome": "Michal Faško",
-"squadra": "Žilina",
-"id_uniti": [
-"p_3BWOnd",
-"fm:250393"
-],
-"tenuto": "p_3BWOnd",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
 "nome": "Michal Frydrych",
 "squadra": "Baník Ostrava",
 "id_uniti": [
@@ -43078,7 +42847,7 @@
 "fm:1437855"
 ],
 "tenuto": "p_1ODsrb",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 94%)",
 "tipo": "collegato"
 },
 {
@@ -43188,7 +42957,7 @@
 "fm:766062"
 ],
 "tenuto": "p_0zoCZx",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 50%)",
 "tipo": "collegato"
 },
 {
@@ -43247,17 +43016,6 @@
 "tipo": "collegato"
 },
 {
-"nome": "Miguel Baeza",
-"squadra": "Nacional",
-"id_uniti": [
-"p_3wp55t",
-"fm:1088053"
-],
-"tenuto": "p_3wp55t",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
 "nome": "Miguel Cardoso",
 "squadra": "Erzurumspor FK",
 "id_uniti": [
@@ -43298,7 +43056,7 @@
 "fm:942379"
 ],
 "tenuto": "p_2LXwxk",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
 "tipo": "collegato"
 },
 {
@@ -43419,7 +43177,7 @@
 "fm:1480699"
 ],
 "tenuto": "p_3d92aT",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -43430,7 +43188,7 @@
 "fm:737045"
 ],
 "tenuto": "p_1vKo5P",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -43452,7 +43210,7 @@
 "fm:1329169"
 ],
 "tenuto": "p_43neRW",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -43606,7 +43364,7 @@
 "fm:678234"
 ],
 "tenuto": "p_2q4Vsi",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -43870,7 +43628,7 @@
 "fm:1252806"
 ],
 "tenuto": "p_0Djxkw",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -43984,17 +43742,6 @@
 "tipo": "collegato"
 },
 {
-"nome": "Miroslav Káčer",
-"squadra": "Žilina",
-"id_uniti": [
-"p_4UTFsO",
-"fm:340815"
-],
-"tenuto": "p_4UTFsO",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
 "nome": "Miroslav Sovič",
 "squadra": "Košice",
 "id_uniti": [
@@ -44013,7 +43760,7 @@
 "fm:184595"
 ],
 "tenuto": "p_2V7b12",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
 "tipo": "collegato"
 },
 {
@@ -44123,7 +43870,7 @@
 "fm:1695868"
 ],
 "tenuto": "p_1nnzXV",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -44468,6 +44215,17 @@
 "tipo": "collegato"
 },
 {
+"nome": "Montrell Culbreath",
+"squadra": "Bayer Leverkusen",
+"id_uniti": [
+"p_1zU5sD",
+"fm:1793199"
+],
+"tenuto": "p_1zU5sD",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale (rosa))",
+"tipo": "collegato"
+},
+{
 "nome": "Mor Siman Tov",
 "squadra": "Ironi Kiryat Shmona",
 "id_uniti": [
@@ -44541,7 +44299,7 @@
 "fm:1494521"
 ],
 "tenuto": "p_06Ruzv",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -44882,7 +44640,7 @@
 "fm:1319208"
 ],
 "tenuto": "p_38AUVZ",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -45014,7 +44772,7 @@
 "fm:1094989"
 ],
 "tenuto": "p_2pvZYR",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -45421,7 +45179,7 @@
 "fm:1899713"
 ],
 "tenuto": "p_4SS2tB",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 50%)",
 "tipo": "collegato"
 },
 {
@@ -45443,7 +45201,7 @@
 "fm:617310"
 ],
 "tenuto": "p_0am1ep",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -45498,7 +45256,7 @@
 "fm:391064"
 ],
 "tenuto": "p_0vOqKs",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -45850,7 +45608,7 @@
 "fm:1106563"
 ],
 "tenuto": "p_49TKtA",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -46180,7 +45938,7 @@
 "fm:195750"
 ],
 "tenuto": "p_12ooLm",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -46345,7 +46103,7 @@
 "fm:1186446"
 ],
 "tenuto": "p_4UunzZ",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -46378,7 +46136,7 @@
 "fm:430838"
 ],
 "tenuto": "p_1JjqVw",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -46521,7 +46279,7 @@
 "fm:1190350"
 ],
 "tenuto": "p_3Ds1aP",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -46708,7 +46466,7 @@
 "fm:1225435"
 ],
 "tenuto": "p_07Hqtf",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -46906,7 +46664,7 @@
 "fm:1287010"
 ],
 "tenuto": "p_189Ovm",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -47181,7 +46939,7 @@
 "fm:1368710"
 ],
 "tenuto": "p_37JxPI",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -47203,7 +46961,7 @@
 "fm:1359649"
 ],
 "tenuto": "p_4QO3W8",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -47368,7 +47126,7 @@
 "fm:1668203"
 ],
 "tenuto": "p_1TRH8f",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 86%)",
 "tipo": "collegato"
 },
 {
@@ -47522,7 +47280,7 @@
 "fm:1366049"
 ],
 "tenuto": "p_1cJjpG",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -47797,7 +47555,7 @@
 "fm:487334"
 ],
 "tenuto": "p_33TCg2",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -48017,7 +47775,7 @@
 "fm:1021082"
 ],
 "tenuto": "p_0e7zBC",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -48039,7 +47797,7 @@
 "fm:178778"
 ],
 "tenuto": "p_287FwH",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -48259,7 +48017,7 @@
 "fm:751998"
 ],
 "tenuto": "p_10c5bX",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 86%)",
 "tipo": "collegato"
 },
 {
@@ -48347,7 +48105,7 @@
 "fm:1215652"
 ],
 "tenuto": "p_1NFLRa",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
 "tipo": "collegato"
 },
 {
@@ -48567,7 +48325,7 @@
 "fm:935409"
 ],
 "tenuto": "p_07dJuY",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
 "tipo": "collegato"
 },
 {
@@ -48600,7 +48358,7 @@
 "fm:1097229"
 ],
 "tenuto": "p_3Sy6aW",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -48930,7 +48688,7 @@
 "fm:1328540"
 ],
 "tenuto": "p_27xr5Q",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
 "tipo": "collegato"
 },
 {
@@ -49051,7 +48809,7 @@
 "fm:1673762"
 ],
 "tenuto": "p_4Zh0ln",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
 "tipo": "collegato"
 },
 {
@@ -49150,7 +48908,7 @@
 "fm:845990"
 ],
 "tenuto": "p_3vWbZA",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -49194,7 +48952,7 @@
 "fm:1322858"
 ],
 "tenuto": "p_0wecLh",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
 "tipo": "collegato"
 },
 {
@@ -49282,7 +49040,7 @@
 "fm:1293912"
 ],
 "tenuto": "p_1p7zq2",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -49315,7 +49073,7 @@
 "fm:1100266"
 ],
 "tenuto": "p_2H97eK",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 94%)",
 "tipo": "collegato"
 },
 {
@@ -49326,17 +49084,6 @@
 "fm:664226"
 ],
 "tenuto": "p_2izbnu",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
-"nome": "Pablo Ruan",
-"squadra": "Nacional",
-"id_uniti": [
-"p_1EWYYf",
-"fm:1536269"
-],
-"tenuto": "p_1EWYYf",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -49381,7 +49128,7 @@
 "fm:1477702"
 ],
 "tenuto": "p_3oS5OW",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -49469,7 +49216,7 @@
 "fm:1690821"
 ],
 "tenuto": "p_4SJqBV",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (cognome e iniziale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (cognome e iniziale + date 67%)",
 "tipo": "collegato"
 },
 {
@@ -49535,7 +49282,7 @@
 "fm:1107280"
 ],
 "tenuto": "p_2RKBhY",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
 "tipo": "collegato"
 },
 {
@@ -49876,7 +49623,7 @@
 "fm:351661"
 ],
 "tenuto": "p_3MjiiF",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 94%)",
 "tipo": "collegato"
 },
 {
@@ -49909,7 +49656,7 @@
 "fm:540097"
 ],
 "tenuto": "p_0mvFmY",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -49931,7 +49678,7 @@
 "fm:1134825"
 ],
 "tenuto": "p_189RDt",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 94%)",
 "tipo": "collegato"
 },
 {
@@ -50151,7 +49898,7 @@
 "fm:1002670"
 ],
 "tenuto": "p_1ulpsj",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -50294,7 +50041,7 @@
 "fm:923481"
 ],
 "tenuto": "p_1DJPCK",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -50503,7 +50250,7 @@
 "fm:915415"
 ],
 "tenuto": "p_40OAal",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -50635,7 +50382,7 @@
 "fm:726127"
 ],
 "tenuto": "p_3IOrLE",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -50965,7 +50712,7 @@
 "fm:773831"
 ],
 "tenuto": "p_0G3mU9",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 80%)",
 "tipo": "collegato"
 },
 {
@@ -51020,7 +50767,7 @@
 "fm:1131217"
 ],
 "tenuto": "p_3Uhvog",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -51053,7 +50800,7 @@
 "fm:266523"
 ],
 "tenuto": "p_0YWX8c",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
 "tipo": "collegato"
 },
 {
@@ -51075,7 +50822,7 @@
 "fm:757630"
 ],
 "tenuto": "p_1qllWI",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 67%)",
 "tipo": "collegato"
 },
 {
@@ -51163,7 +50910,7 @@
 "fm:625168"
 ],
 "tenuto": "p_2aEZgE",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
 "tipo": "collegato"
 },
 {
@@ -51207,7 +50954,7 @@
 "fm:1220633"
 ],
 "tenuto": "p_3eJmrH",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
 "tipo": "collegato"
 },
 {
@@ -51383,7 +51130,7 @@
 "fm:970563"
 ],
 "tenuto": "p_3VClyw",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
 "tipo": "collegato"
 },
 {
@@ -51438,7 +51185,7 @@
 "fm:412981"
 ],
 "tenuto": "p_2XGuWG",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -51504,7 +51251,7 @@
 "fm:477023"
 ],
 "tenuto": "p_3e0fDM",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
 "tipo": "collegato"
 },
 {
@@ -51845,7 +51592,7 @@
 "fm:823825"
 ],
 "tenuto": "p_0AGbKr",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -52087,7 +51834,7 @@
 "fm:1478295"
 ],
 "tenuto": "p_0m1dKR",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -52362,7 +52109,7 @@
 "fm:1174631"
 ],
 "tenuto": "p_2zOPWp",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -52384,7 +52131,7 @@
 "fm:600524"
 ],
 "tenuto": "p_1KYRdF",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -52406,7 +52153,7 @@
 "fm:1471333"
 ],
 "tenuto": "p_3bfVAb",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -52439,17 +52186,6 @@
 "fm:1072702"
 ],
 "tenuto": "p_0zUA1X",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
-"nome": "Renato Marin",
-"squadra": "Nacional",
-"id_uniti": [
-"p_1SWml1",
-"fm:1602252"
-],
-"tenuto": "p_1SWml1",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -52934,7 +52670,7 @@
 "fm:1352213"
 ],
 "tenuto": "p_0GSVYp",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -52978,7 +52714,7 @@
 "fm:411851"
 ],
 "tenuto": "p_2w9oIZ",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 88%)",
 "tipo": "collegato"
 },
 {
@@ -53000,7 +52736,7 @@
 "fm:731338"
 ],
 "tenuto": "p_0d3aHz",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
 "tipo": "collegato"
 },
 {
@@ -53231,7 +52967,7 @@
 "fm:1125720"
 ],
 "tenuto": "p_3hkfJ1",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -53396,7 +53132,7 @@
 "fm:980264"
 ],
 "tenuto": "p_3EPPwB",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 94%)",
 "tipo": "collegato"
 },
 {
@@ -53671,7 +53407,7 @@
 "fm:769342"
 ],
 "tenuto": "p_1eLatk",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -53924,7 +53660,7 @@
 "fm:768266"
 ],
 "tenuto": "p_1mOnsY",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 67%)",
 "tipo": "collegato"
 },
 {
@@ -53990,7 +53726,7 @@
 "fm:162743"
 ],
 "tenuto": "p_2D5ybN",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
 "tipo": "collegato"
 },
 {
@@ -54001,7 +53737,7 @@
 "fm:1125076"
 ],
 "tenuto": "p_1VEqfS",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 88%)",
 "tipo": "collegato"
 },
 {
@@ -54166,7 +53902,7 @@
 "fm:439369"
 ],
 "tenuto": "p_2JaKpD",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -54441,7 +54177,7 @@
 "fm:992071"
 ],
 "tenuto": "p_1r4wFr",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
 "tipo": "collegato"
 },
 {
@@ -54617,7 +54353,7 @@
 "fm:738064"
 ],
 "tenuto": "p_41ZgZo",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -54716,7 +54452,7 @@
 "fm:280287"
 ],
 "tenuto": "p_2oMtJ1",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 83%)",
 "tipo": "collegato"
 },
 {
@@ -54826,7 +54562,7 @@
 "fm:1293671"
 ],
 "tenuto": "p_0oJctT",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 94%)",
 "tipo": "collegato"
 },
 {
@@ -55376,7 +55112,7 @@
 "fm:477205"
 ],
 "tenuto": "p_04r7RU",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -55420,7 +55156,7 @@
 "fm:1669433"
 ],
 "tenuto": "p_2VXO6P",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 83%)",
 "tipo": "collegato"
 },
 {
@@ -55475,7 +55211,7 @@
 "fm:962014"
 ],
 "tenuto": "p_2DT2gc",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
 "tipo": "collegato"
 },
 {
@@ -55893,7 +55629,7 @@
 "fm:921919"
 ],
 "tenuto": "p_19WuX4",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -56157,7 +55893,7 @@
 "fm:955407"
 ],
 "tenuto": "p_3yJqZP",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 67%)",
 "tipo": "collegato"
 },
 {
@@ -56256,7 +55992,7 @@
 "fm:1665435"
 ],
 "tenuto": "p_30L9Ol",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
 "tipo": "collegato"
 },
 {
@@ -56311,7 +56047,7 @@
 "fm:1106742"
 ],
 "tenuto": "p_3Mqj9i",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -56322,7 +56058,7 @@
 "fm:844477"
 ],
 "tenuto": "p_4VLeP8",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -56949,7 +56685,7 @@
 "fm:1385123"
 ],
 "tenuto": "p_2GxJVx",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -57059,7 +56795,7 @@
 "fm:849404"
 ],
 "tenuto": "p_3gUpQ4",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 86%)",
 "tipo": "collegato"
 },
 {
@@ -57114,7 +56850,7 @@
 "fm:554930"
 ],
 "tenuto": "p_3FGvzs",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 88%)",
 "tipo": "collegato"
 },
 {
@@ -57356,7 +57092,7 @@
 "fm:1079500"
 ],
 "tenuto": "p_0mostE",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 83%)",
 "tipo": "collegato"
 },
 {
@@ -57455,7 +57191,7 @@
 "fm:1429598"
 ],
 "tenuto": "p_1iYyWQ",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 67%)",
 "tipo": "collegato"
 },
 {
@@ -57580,17 +57316,6 @@
 "tipo": "collegato"
 },
 {
-"nome": "Stavros Gavriel",
-"squadra": "Nacional",
-"id_uniti": [
-"p_2rhH8f",
-"fm:1178054"
-],
-"tenuto": "p_2rhH8f",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
 "nome": "Stavros Pilios",
 "squadra": "AEK Athens",
 "id_uniti": [
@@ -57708,7 +57433,7 @@
 "fm:571388"
 ],
 "tenuto": "p_4EIeap",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 50%)",
 "tipo": "collegato"
 },
 {
@@ -57961,7 +57686,7 @@
 "fm:843275"
 ],
 "tenuto": "p_1MpRKY",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
 "tipo": "collegato"
 },
 {
@@ -58005,7 +57730,7 @@
 "fm:1799656"
 ],
 "tenuto": "p_1viYDu",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 50%)",
 "tipo": "collegato"
 },
 {
@@ -58027,7 +57752,7 @@
 "fm:653982"
 ],
 "tenuto": "p_2bXNbb",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 86%)",
 "tipo": "collegato"
 },
 {
@@ -58093,7 +57818,7 @@
 "fm:1049395"
 ],
 "tenuto": "p_2BHyQ6",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 83%)",
 "tipo": "collegato"
 },
 {
@@ -58174,7 +57899,7 @@
 "tipo": "collegato"
 },
 {
-"nome": "Sven Sunta",
+"nome": "Sven Šunta",
 "squadra": "Dinamo Zagreb",
 "id_uniti": [
 "p_4WMaCs",
@@ -58192,7 +57917,7 @@
 "fm:1037768"
 ],
 "tenuto": "p_0JDKGn",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -58214,7 +57939,7 @@
 "fm:1284555"
 ],
 "tenuto": "p_4RHftS",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -58324,7 +58049,7 @@
 "fm:1355837"
 ],
 "tenuto": "p_1mWL3V",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -58346,7 +58071,7 @@
 "fm:1306211"
 ],
 "tenuto": "p_3NPyKQ",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -58390,7 +58115,7 @@
 "fm:1814264"
 ],
 "tenuto": "p_0MALck",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -58676,7 +58401,7 @@
 "fm:1057433"
 ],
 "tenuto": "p_1QJNCa",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -58687,7 +58412,7 @@
 "fm:560564"
 ],
 "tenuto": "p_1SvCgC",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -58742,7 +58467,7 @@
 "fm:1436306"
 ],
 "tenuto": "p_2DoT3f",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
 "tipo": "collegato"
 },
 {
@@ -58753,7 +58478,7 @@
 "fm:307446"
 ],
 "tenuto": "p_2wB3te",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -58852,7 +58577,7 @@
 "fm:1375810"
 ],
 "tenuto": "p_4VAeHS",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
 "tipo": "collegato"
 },
 {
@@ -58885,7 +58610,7 @@
 "fm:866516"
 ],
 "tenuto": "p_4PRy5v",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -58907,7 +58632,7 @@
 "fm:784493"
 ],
 "tenuto": "p_3dq721",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -58984,7 +58709,7 @@
 "fm:1033314"
 ],
 "tenuto": "p_2xYK0x",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -59237,7 +58962,7 @@
 "fm:168832"
 ],
 "tenuto": "p_2E2PZp",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -59259,7 +58984,7 @@
 "fm:277771"
 ],
 "tenuto": "p_1jsMHW",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
 "tipo": "collegato"
 },
 {
@@ -59435,7 +59160,7 @@
 "fm:866358"
 ],
 "tenuto": "p_4VbtqE",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
 "tipo": "collegato"
 },
 {
@@ -59666,7 +59391,7 @@
 "fm:1562902"
 ],
 "tenuto": "p_2Mascb",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
 "tipo": "collegato"
 },
 {
@@ -59699,7 +59424,7 @@
 "fm:1124825"
 ],
 "tenuto": "p_2K7IbC",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
 "tipo": "collegato"
 },
 {
@@ -59732,17 +59457,6 @@
 "fm:785739"
 ],
 "tenuto": "p_3zexbq",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
-"nome": "Timotej Hranica",
-"squadra": "Žilina",
-"id_uniti": [
-"p_2CAbJb",
-"fm:1552487"
-],
-"tenuto": "p_2CAbJb",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -59798,7 +59512,7 @@
 "fm:889536"
 ],
 "tenuto": "p_3NiOx3",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -59908,7 +59622,7 @@
 "fm:117541"
 ],
 "tenuto": "p_1ilVAh",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -59952,7 +59666,7 @@
 "fm:1250673"
 ],
 "tenuto": "p_0mfBIC",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -60139,7 +59853,7 @@
 "fm:1353104"
 ],
 "tenuto": "p_3fhAMF",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 88%)",
 "tipo": "collegato"
 },
 {
@@ -60381,7 +60095,7 @@
 "fm:1187283"
 ],
 "tenuto": "p_0AChNm",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -60458,7 +60172,7 @@
 "fm:791677"
 ],
 "tenuto": "p_47WJvO",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -60722,7 +60436,7 @@
 "fm:1112499"
 ],
 "tenuto": "p_4HXGFv",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 67%)",
 "tipo": "collegato"
 },
 {
@@ -60788,7 +60502,7 @@
 "fm:1067763"
 ],
 "tenuto": "p_3xATbK",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -60964,7 +60678,7 @@
 "fm:729769"
 ],
 "tenuto": "p_1KRwwa",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -61041,7 +60755,7 @@
 "fm:1120224"
 ],
 "tenuto": "p_3KCRIp",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -61118,7 +60832,7 @@
 "fm:520979"
 ],
 "tenuto": "p_1rUpdW",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
 "tipo": "collegato"
 },
 {
@@ -61283,7 +60997,7 @@
 "fm:1217043"
 ],
 "tenuto": "p_4GlcIn",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 80%)",
 "tipo": "collegato"
 },
 {
@@ -61448,7 +61162,7 @@
 "fm:1332217"
 ],
 "tenuto": "p_3dpeP3",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
 "tipo": "collegato"
 },
 {
@@ -61525,7 +61239,7 @@
 "fm:1646944"
 ],
 "tenuto": "p_2RsJ94",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
 "tipo": "collegato"
 },
 {
@@ -61591,7 +61305,7 @@
 "fm:1422124"
 ],
 "tenuto": "p_3qjwem",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
 "tipo": "collegato"
 },
 {
@@ -61822,7 +61536,7 @@
 "fm:940735"
 ],
 "tenuto": "p_24qmHp",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 67%)",
 "tipo": "collegato"
 },
 {
@@ -61899,7 +61613,7 @@
 "fm:1224534"
 ],
 "tenuto": "p_4dWMM4",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 67%)",
 "tipo": "collegato"
 },
 {
@@ -62548,7 +62262,7 @@
 "fm:1184041"
 ],
 "tenuto": "p_14vEio",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome contenuto + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome contenuto + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -62570,7 +62284,7 @@
 "fm:791597"
 ],
 "tenuto": "p_01xYSB",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -62581,7 +62295,7 @@
 "fm:623540"
 ],
 "tenuto": "p_2buHl2",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -62827,17 +62541,6 @@
 "tipo": "collegato"
 },
 {
-"nome": "Wesley",
-"squadra": "Nacional",
-"id_uniti": [
-"p_4SGeit",
-"fm:887683"
-],
-"tenuto": "p_4SGeit",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
 "nome": "Wesley Fofana",
 "squadra": "Chelsea",
 "id_uniti": [
@@ -62856,7 +62559,7 @@
 "fm:465628"
 ],
 "tenuto": "p_3ziGkO",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 80%)",
 "tipo": "collegato"
 },
 {
@@ -63047,17 +62750,6 @@
 "tipo": "collegato"
 },
 {
-"nome": "William Kokolo",
-"squadra": "Nacional",
-"id_uniti": [
-"p_0BC6wL",
-"fm:982245"
-],
-"tenuto": "p_0BC6wL",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
 "nome": "William Osula",
 "squadra": "Newcastle United",
 "id_uniti": [
@@ -63087,7 +62779,7 @@
 "fm:1272740"
 ],
 "tenuto": "p_32XImW",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -63098,7 +62790,7 @@
 "fm:774237"
 ],
 "tenuto": "p_1tdqww",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
 "tipo": "collegato"
 },
 {
@@ -63131,7 +62823,7 @@
 "fm:887703"
 ],
 "tenuto": "p_4TrA2q",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
 "tipo": "collegato"
 },
 {
@@ -63241,7 +62933,7 @@
 "fm:947884"
 ],
 "tenuto": "p_3xsPMX",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
 "tipo": "collegato"
 },
 {
@@ -63263,7 +62955,7 @@
 "fm:1307387"
 ],
 "tenuto": "p_11rxVw",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -63396,17 +63088,6 @@
 ],
 "tenuto": "p_4aJr07",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
-"nome": "Xavier Rodrigue Adang Mveng",
-"squadra": "Žilina",
-"id_uniti": [
-"p_26B4nb",
-"fm:1481496"
-],
-"tenuto": "p_26B4nb",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome contenuto + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -63582,7 +63263,7 @@
 "fm:730901"
 ],
 "tenuto": "p_45SSkP",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -63703,7 +63384,7 @@
 "fm:1307326"
 ],
 "tenuto": "p_44kYN1",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 94%)",
 "tipo": "collegato"
 },
 {
@@ -63901,7 +63582,7 @@
 "fm:938023"
 ],
 "tenuto": "p_0fgpCw",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -64088,7 +63769,7 @@
 "fm:534764"
 ],
 "tenuto": "p_0RoKkZ",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -64143,7 +63824,7 @@
 "fm:1578176"
 ],
 "tenuto": "p_1RdgwV",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -64154,7 +63835,7 @@
 "fm:929781"
 ],
 "tenuto": "p_1aSWef",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 83%)",
 "tipo": "collegato"
 },
 {
@@ -64176,7 +63857,7 @@
 "fm:940453"
 ],
 "tenuto": "p_3TY14c",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 93%)",
 "tipo": "collegato"
 },
 {
@@ -64363,7 +64044,7 @@
 "fm:934952"
 ],
 "tenuto": "p_1sHqE9",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 90%)",
 "tipo": "collegato"
 },
 {
@@ -64407,7 +64088,7 @@
 "fm:1137272"
 ],
 "tenuto": "p_2A2i0G",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -64605,7 +64286,7 @@
 "fm:1047676"
 ],
 "tenuto": "p_2xoong",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -64616,7 +64297,7 @@
 "fm:1595629"
 ],
 "tenuto": "p_4SXEB4",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 91%)",
 "tipo": "collegato"
 },
 {
@@ -64807,17 +64488,6 @@
 "tipo": "collegato"
 },
 {
-"nome": "Zento Uno",
-"squadra": "Borussia Mönchengladbach",
-"id_uniti": [
-"p_46YNcm",
-"fm:1337143"
-],
-"tenuto": "p_46YNcm",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
 "nome": "Zhirayr Shaghoyan",
 "squadra": "Ararat Armenia",
 "id_uniti": [
@@ -64825,7 +64495,7 @@
 "fm:1065537"
 ],
 "tenuto": "p_2h2kcZ",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -64847,7 +64517,7 @@
 "fm:824659"
 ],
 "tenuto": "p_15tRCH",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 67%)",
 "tipo": "collegato"
 },
 {
@@ -64902,7 +64572,7 @@
 "fm:655165"
 ],
 "tenuto": "p_3fT5bb",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
 "tipo": "collegato"
 },
 {
@@ -65027,17 +64697,6 @@
 "tipo": "collegato"
 },
 {
-"nome": "Zé Vítor",
-"squadra": "Nacional",
-"id_uniti": [
-"p_1WBt9f",
-"fm:1256692"
-],
-"tenuto": "p_1WBt9f",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
 "nome": "Ádin Molnár",
 "squadra": "Raków Częstochowa",
 "id_uniti": [
@@ -65067,7 +64726,7 @@
 "fm:1735841"
 ],
 "tenuto": "p_4ej5qY",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 67%)",
 "tipo": "collegato"
 },
 {
@@ -65078,7 +64737,7 @@
 "fm:643986"
 ],
 "tenuto": "p_3VPul5",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -65243,7 +64902,7 @@
 "fm:1327406"
 ],
 "tenuto": "p_2X0uve",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 89%)",
 "tipo": "collegato"
 },
 {
@@ -65485,7 +65144,7 @@
 "fm:952095"
 ],
 "tenuto": "p_2iiFw9",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 83%)",
 "tipo": "collegato"
 },
 {
@@ -65562,7 +65221,7 @@
 "fm:1642084"
 ],
 "tenuto": "p_44N1Ww",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 92%)",
 "tipo": "collegato"
 },
 {
@@ -65596,17 +65255,6 @@
 ],
 "tenuto": "p_2VR2lC",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
-"nome": "Łukasz Bejger",
-"squadra": "NK Celje",
-"id_uniti": [
-"p_3FwDXt",
-"fm:1208886"
-],
-"tenuto": "p_3FwDXt",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (date e minuti uguali in 3/3 partite)",
 "tipo": "collegato"
 },
 {
@@ -65760,7 +65408,7 @@
 "fm:540903"
 ],
 "tenuto": "p_2ENp0B",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -65771,7 +65419,7 @@
 "fm:1239563"
 ],
 "tenuto": "p_0CNJm7",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 }
 ]
