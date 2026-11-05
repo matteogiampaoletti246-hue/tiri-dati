@@ -658,7 +658,7 @@
   },
   "Australia Championship 2026": {
    "partite_con_eventi": 0,
-   "da_fare": 0
+   "da_fare": 1
   },
   "National North & South 2026-2027": {
    "partite_con_eventi": 0,
@@ -845,8 +845,8 @@
    "da_fare": 0
   },
   "AFC Champions League Two 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 2,
+   "da_fare": 2
   },
   "AFC Challenge League 2026-2027": {
    "partite_con_eventi": 0,
@@ -973,8 +973,8 @@
    "da_fare": 0
   },
   "SAFF Championship 2026": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "Liga MX Femenil 2026-2027": {
    "partite_con_eventi": 0,
@@ -2373,5 +2373,5 @@
    "da_fare": 0
   }
  },
- "partite_in_questo_giro": 0
+ "partite_in_questo_giro": 4
 }
