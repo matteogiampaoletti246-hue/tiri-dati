@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import PlayerPhoto from '@/components/PlayerPhoto';
 import Crest from '@/components/Crest';
 import { teamColor } from '@/lib/tint';
@@ -8,7 +8,11 @@ import { Image } from '@/components/ui/image';
 import PlayerLink from './PlayerLink';
 import { SubIcon, BallIcon, BootIcon } from './EventIcons';
 import { playerById } from '@/data/players';
-import { playerReliability } from '@/data/topPlayers';
+import { playerReliability, loadPlayerFouls, TOP_STATS } from '@/data/topPlayers';
+import { isOutOn } from '@/data/injuries';
+import TopStatPicker from '@/components/top/TopStatPicker';
+import LinePicker from './LinePicker';
+import VoteBadge from './VoteBadge';
 import FlagDot from '@/components/FlagDot';
 import { flagCodeOf } from '@/data/referees';
 import { comma } from '@/lib/format';
@@ -58,7 +62,7 @@ function Badge({ v }) {
   return <span className="tnum absolute left-1/2 -translate-x-1/2 rounded-full px-[6px] py-[1px] text-[10.5px] font-extrabold leading-[13px] text-white" style={{ bottom: -7, background: tone(v), border: '1.5px solid rgba(0,0,0,.4)' }}>{comma(v, 1)}</span>;
 }
 
-function PitchNode({ p, team, val, match, compact, mvp }) {
+function PitchNode({ p, team, val, match, compact, mvp, pre }) {
   const size = compact ? 40 : 46;
   const ic = compact ? 14 : 16;
   return (
@@ -66,7 +70,7 @@ function PitchNode({ p, team, val, match, compact, mvp }) {
       <span className="relative">
         <Face p={p} team={team} size={size} ring={mvp} />
         <Events p={p} size={ic} mvp={mvp} />
-        <Badge v={val} />
+        {pre ? <VoteBadge v={val} /> : <Badge v={val} />}
         {match.status === 'scheduled' && p.playerId && injuryOf(p.playerId) ? <span className="absolute -left-1 -top-1"><InjuryIcon size={14} /></span> : null}
       </span>
       <span className="mt-[11px] max-w-full truncate rounded-full px-1.5 text-center text-[10.5px] font-bold leading-[15px] text-white" style={{ background: 'rgba(0,0,0,.32)', textShadow: '0 1px 2px rgba(0,0,0,.6)' }}>{last(p.name)}</span>
@@ -87,7 +91,7 @@ function rowsOf(lineup) {
 }
 
 // Campo unico: casa in alto (specchiata: la sua ala destra sta a sinistra dello schermo), ospite in basso.
-function DualPitch({ lh, la, home, away, valOf, match, mvpId }) {
+function DualPitch({ lh, la, home, away, valOf, match, mvpId, pre }) {
   const rh = lh ? rowsOf(lh).map((r) => [...r].reverse()) : [];
   const ra = la ? rowsOf(la).reverse() : [];
   const ROW = 86;
@@ -98,13 +102,13 @@ function DualPitch({ lh, la, home, away, valOf, match, mvpId }) {
     <div className="flex flex-col justify-between" style={{ height: rows.length * ROW }}>
       {rows.map((row, ri) => (
         <div key={ri} className="flex items-start justify-around gap-1" style={{ height: ROW }}>
-          {row.map((p) => <PitchNode key={p.playerId || p.name} match={match} p={p} team={team} val={valOf(p)} compact={row.length >= 5} mvp={!!mvpId && p.playerId === mvpId} />)}
+          {row.map((p) => <PitchNode key={p.playerId || p.name} match={match} p={p} team={team} val={valOf(p)} compact={row.length >= 5} mvp={!!mvpId && p.playerId === mvpId} pre={pre} />)}
         </div>
       ))}
     </div>
   );
   return (
-    <div className="relative overflow-hidden rounded-[24px] px-1.5" style={{ height: h, paddingTop: 26, background: 'linear-gradient(180deg,#12301f,#0f2a1b)', border: '1px solid rgba(255,255,255,.12)' }}>
+    <div data-pitch="1" className="relative overflow-hidden rounded-[24px] px-1.5" style={{ height: h, paddingTop: 26, background: 'linear-gradient(180deg,#12301f,#0f2a1b)', border: '1px solid rgba(255,255,255,.12)' }}>
       <span className="pointer-events-none absolute left-1/2 top-0 h-[86px] w-[56%] -translate-x-1/2 rounded-b-[10px]" style={{ border: `1.5px solid ${line}`, borderTop: 'none' }} />
       <span className="pointer-events-none absolute bottom-0 left-1/2 h-[86px] w-[56%] -translate-x-1/2 rounded-t-[10px]" style={{ border: `1.5px solid ${line}`, borderBottom: 'none' }} />
       <span className="pointer-events-none absolute inset-x-0 top-1/2 h-px" style={{ background: line }} />
@@ -139,7 +143,7 @@ function CoachPill({ lineup, team }) {
 }
 
 // Panchina in colonna (una riga per giocatore)
-function Bench({ lineup, team, valOf, match }) {
+function Bench({ lineup, team, valOf, match, pre }) {
   if (!lineup || !lineup.bench || !lineup.bench.length) return null;
   return (
     <section className="glass tint-card overflow-hidden rounded-[24px] px-4 py-3" style={{ '--tint': teamColor(team) }}>
@@ -153,7 +157,7 @@ function Bench({ lineup, team, valOf, match }) {
               <span className="block truncate text-[13.5px] font-bold"><span className="tnum" style={{ color: 'var(--ink-3)' }}>{p.number} </span>{p.name}</span>
               {p.subIn ? <span className="flex items-center gap-1 text-[10.5px]" style={{ color: 'var(--good)' }}><SubIcon size={11} />{p.subIn}&apos;</span> : null}
             </span>
-            {v != null ? <span className="tnum rounded-full px-2 py-[1px] text-[11px] font-extrabold text-white" style={{ background: tone(v) }}>{comma(v, 1)}</span> : null}
+            {pre ? <VoteBadge inline v={v} /> : v != null ? <span className="tnum rounded-full px-2 py-[1px] text-[11px] font-extrabold text-white" style={{ background: tone(v) }}>{comma(v, 1)}</span> : null}
           </PlayerLink>
         );
       })}
@@ -165,7 +169,7 @@ const hasSide = (l) => !!(l && (l.coach || (l.bench && l.bench.length)));
 
 // Selettore squadra sotto il campo (concept Sofascore): due pillole a meta' larghezza, casa a sinistra e ospite a destra;
 // la squadra scelta mostra allenatore e panchina, il passaggio e' uno scorrimento orizzontale (niente componenti ricreati).
-function SidePicker({ lh, la, home, away, valOf, match }) {
+function SidePicker({ lh, la, home, away, valOf, match, pre }) {
   const sides = [[lh, home], [la, away]].map(([l, t], i) => ({ l, t, i })).filter((x) => hasSide(x.l));
   const [sel, setSel] = useState(0);
   const boxes = useRef([]);
@@ -200,7 +204,7 @@ function SidePicker({ lh, la, home, away, valOf, match }) {
           {sides.map((x, k) => (
             <div key={x.i} ref={(el) => { boxes.current[k] = el; }} className="flex flex-col gap-3" style={{ width: `${100 / sides.length}%` }} aria-hidden={cur !== k}>
               <CoachPill lineup={x.l} team={x.t} />
-              <Bench lineup={x.l} team={x.t} valOf={valOf} match={match} />
+              <Bench lineup={x.l} team={x.t} valOf={valOf} match={match} pre={pre} />
             </div>
           ))}
         </div>
@@ -217,19 +221,57 @@ export const hasLineups = (view) => {
   return (okSide(l.home) && okSide(l.away)) || [l.home, l.away].some((x) => x && (x.coach || (x.bench && x.bench.length)));
 };
 
+// Linee disponibili per statistica: i tiri arrivano a Over 3,5, le altre a Over 2,5
+const LINES = { tiri: [0.5, 1.5, 2.5, 3.5], porta: [0.5, 1.5, 2.5], fc: [0.5, 1.5, 2.5], fs: [0.5, 1.5, 2.5] };
+const FOUL_LINES = [0.5, 1.5, 2.5];
+
 export default function MatchLineupsPanel({ match, view, home, away, pre }) {
   const lh = view.lineup ? view.lineup.home : null;
   const la = view.lineup ? view.lineup.away : null;
   const okH = okSide(lh);
   const okA = okSide(la);
+  // Prima del fischio: statistica e linea scelte dalle due tendine accanto al titolo (si parte da Tiri, Over 1,5)
+  const [stat, setStat] = useState('tiri');
+  const [line, setLine] = useState(1.5);
+  const [fouls, setFouls] = useState({});
+  const isF = stat === 'fc' || stat === 'fs';
+  const last = useRef({});
+  const players = [lh, la].flatMap((l) => (l ? [...(l.xi || []), ...(l.bench || [])] : []));
+  const pk = players.map((p) => p.playerId).join(',');
+  useEffect(() => {
+    if (!pre || !isF || fouls[stat]) return undefined;
+    let on = true;
+    Promise.all(players.map((p) => {
+      const pl = playerById(p.playerId);
+      return pl && !isOutOn(pl.id, match.date) ? loadPlayerFouls(pl, match.date, FOUL_LINES, stat) : Promise.resolve(null);
+    })).then((rows) => {
+      if (!on) return;
+      const m = {};
+      players.forEach((p, i) => { m[p.playerId] = rows[i]; });
+      setFouls((f) => ({ ...f, [stat]: m }));
+    });
+    return () => { on = false; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stat, pre, pk]);
   const valOf = (p) => {
     const pl = playerById(p.playerId);
     if (pre) {
-      const r = pl && playerReliability(pl, match.date, 1.5);
+      if (!pl) return null;
+      if (isF) {
+        const tab = fouls[stat];
+        if (!tab) return last.current[p.playerId] === undefined ? null : last.current[p.playerId]; // in caricamento: restano i voti di prima
+        const row = tab[p.playerId];
+        const v = row ? row[FOUL_LINES.indexOf(line)] : null;
+        last.current[p.playerId] = v == null ? null : v;
+        return v == null ? null : v;
+      }
+      const r = playerReliability(pl, match.date, line, false, stat === 'porta' ? 'inPorta' : 'totali');
+      last.current[p.playerId] = r ? r.voto : null;
       return r ? r.voto : null;
     }
     return p.rating;
   };
+  const onStat = (k) => { setStat(k); setLine((l) => (LINES[k].includes(l) ? l : 2.5)); };
   // ufficiale solo se FotMob la dà come tale ("standard"); "lastStarting11" e' l'ultima formazione schierata = probabile
   const official = (okH || okA) && (lh || la).confirmed !== false && view.lineupType !== undefined && /^(standard|official|confirm)/i.test(String(view.lineupType || ''));
   // migliore in campo (stella): voto piu' alto tra tutti, solo a partita giocata
@@ -244,20 +286,35 @@ export default function MatchLineupsPanel({ match, view, home, away, pre }) {
     <div className="flex flex-col gap-5 pb-6 pt-3">
       {okH && okA ? (
         <div className="px-4">
-          <div className="mb-3 text-center">
-            <p className="text-[15px] font-extrabold">{title}</p>
-            <p className="mt-1 text-[13px] font-extrabold">
-              <span style={{ color: tcol(home) }}>{lh.formation.label}</span>
-              <span className="mx-2" style={{ color: 'var(--ink-3)' }}>·</span>
-              <span style={{ color: tcol(away) }}>{la.formation.label}</span>
-            </p>
-          </div>
-          <DualPitch lh={lh} la={la} home={home} away={away} valOf={valOf} match={match} mvpId={mvpId} />
-          <p className="mt-2 text-center text-[10.5px]" style={{ color: 'var(--ink-3)' }}>{pre ? 'Voto = affidabilità tiri (over 1,5)' : 'Voto = prestazione in partita'}</p>
+          {pre ? (
+            <div className="mb-3 grid items-center gap-1.5" style={{ gridTemplateColumns: 'minmax(0,1fr) auto minmax(0,1fr)' }}>
+              <div className="flex justify-start"><TopStatPicker side="left" tight options={TOP_STATS} value={stat} onChange={onStat} /></div>
+              <div className="text-center">
+                <p className="text-[13.5px] font-extrabold">{title}</p>
+                <p className="mt-1 text-[12.5px] font-extrabold">
+                  <span style={{ color: tcol(home) }}>{lh.formation.label}</span>
+                  <span className="mx-2" style={{ color: 'var(--ink-3)' }}>·</span>
+                  <span style={{ color: tcol(away) }}>{la.formation.label}</span>
+                </p>
+              </div>
+              <div className="flex justify-end"><LinePicker lines={LINES[stat]} value={line} onChange={setLine} /></div>
+            </div>
+          ) : (
+            <div className="mb-3 text-center">
+              <p className="text-[15px] font-extrabold">{title}</p>
+              <p className="mt-1 text-[13px] font-extrabold">
+                <span style={{ color: tcol(home) }}>{lh.formation.label}</span>
+                <span className="mx-2" style={{ color: 'var(--ink-3)' }}>·</span>
+                <span style={{ color: tcol(away) }}>{la.formation.label}</span>
+              </p>
+            </div>
+          )}
+          <DualPitch lh={lh} la={la} home={home} away={away} valOf={valOf} match={match} mvpId={mvpId} pre={pre} />
+          {pre ? null : <p className="mt-2 text-center text-[10.5px]" style={{ color: 'var(--ink-3)' }}>Voto = prestazione in partita</p>}
         </div>
       ) : null}
 
-      <SidePicker lh={lh} la={la} home={home} away={away} valOf={valOf} match={match} />
+      <SidePicker lh={lh} la={la} home={home} away={away} valOf={valOf} match={match} pre={pre} />
     </div>
   );
 }
