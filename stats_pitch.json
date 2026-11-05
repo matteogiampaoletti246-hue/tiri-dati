@@ -1,4 +1,35 @@
 {
- "competizioni": {},
- "partite_in_questo_giro": 0
+ "competizioni": {
+  "First Division A 2026-2027": {
+   "con_statistiche": 1,
+   "con_mappa_tiri": 1,
+   "da_fare": 1
+  },
+  "Champions League 2026-2027": {
+   "con_statistiche": 6,
+   "con_mappa_tiri": 6,
+   "da_fare": 7
+  },
+  "Championship 2026-2027": {
+   "con_statistiche": 2,
+   "con_mappa_tiri": 2,
+   "da_fare": 3
+  },
+  "League One 2026-2027": {
+   "con_statistiche": 1,
+   "con_mappa_tiri": 1,
+   "da_fare": 1
+  },
+  "Série A 2026": {
+   "con_statistiche": 1,
+   "con_mappa_tiri": 1,
+   "da_fare": 1
+  },
+  "Primera Division 2026": {
+   "con_statistiche": 1,
+   "con_mappa_tiri": 1,
+   "da_fare": 1
+  }
+ },
+ "partite_in_questo_giro": 12
 }
