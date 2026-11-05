@@ -9,8 +9,9 @@ const fmt = (n) => String(n).replace('.', ',');
 
 // Under cartellini: % delle gare arbitrate nelle ultime 2 stagioni con meno cartellini della linea, per 1T o totale.
 export default function UnderBar({ games }) {
-  const [time, setTime] = useState('t');
-  const [line, setLine] = useState(3.5);
+  // si parte sempre da Under 2,5 sul 1T; poi si cambia a mano con le tendine
+  const [time, setTime] = useState('1');
+  const [line, setLine] = useState(2.5);
   const idx = time === 't' ? 8 : 9;
   const rows = (games || []).filter((x) => typeof x[idx] === 'number');
   if (rows.length < 5) return null;
@@ -24,7 +25,7 @@ export default function UnderBar({ games }) {
       <div className="flex items-center justify-between gap-2">
         <p className="text-[10.5px] font-bold uppercase tracking-wider" style={{ color: 'var(--ink-3)' }}>Under cartellini</p>
         <div className="flex items-center gap-2">
-          <MiniSelect width={96} ariaLabel="Tempo" value={time} options={TIMES} onChange={(v) => { setTime(v); setLine(v === 't' ? 3.5 : 1.5); }} />
+          <MiniSelect width={96} ariaLabel="Tempo" value={time} options={TIMES} onChange={(v) => { setTime(v); setLine(v === 't' ? 3.5 : 2.5); }} />
           <MiniSelect width={88} ariaLabel="Linea" value={ln} options={lines.map((l) => ({ value: l, label: fmt(l) }))} onChange={(v) => setLine(Number(v))} />
         </div>
       </div>

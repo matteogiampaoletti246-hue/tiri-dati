@@ -65,3 +65,4 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 
 ## Mappa tiri: pali e traverse (regola fissa)
 - FotMob li da' come `eventType: Post` (con `isOnTarget` spesso falso): in `mapShots` (`data/fotmob.js`), `data/matches.js` ed `extras.js` diventano esito "Palo" con `onTarget` vero, quindi pallino pieno come un tiro in porta in ogni mappa. Nel conteggio "tiri in porta" (`MiniShotMap`, `ShotExplorer`) il palo non conta.
+- Scheda arbitro in Panoramica: la barra "Under cartellini" sta FUORI dal link all'arbitro (`RefereeCard.jsx`), cosi' tendine Tempo e linea si usano senza aprire il profilo; parte sempre da 1T / 2,5 (`UnderBar.jsx`), poi si cambia a mano. Storico dell'arbitro (`RefereeMatchesPanel.jsx`): ogni riquadro partita ha lo sfondo col colore della competizione (`matchTint` + `tintGrad`) e il logo (`LeagueBadge`) accanto alla data.

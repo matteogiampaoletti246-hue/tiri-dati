@@ -84,8 +84,14 @@ export default function RefereeCard({ match, concept = 'b' }) {
           <p className="flex items-center gap-2 px-4 pb-3 text-[10.5px]" style={{ color: 'var(--ink-3)' }}><span style={{ display: 'inline-block', height: 12, borderLeft: concept === 'b' ? '2px dashed var(--ink)' : '2px solid var(--ink)', opacity: 0.85 }} />{two ? `media ${two.seasons > 1 ? 'ultime 2 stagioni' : 'stagione'} arbitri` : 'media stagionale arbitri'} {(leagueById(match.leagueId) || match.leagueObj || {}).name || ''}</p>
         </div>
       ) : null}
-      {two && two.m ? <UnderBar games={two.m} /> : null}
     </>
   );
-  return r ? <Link to={`/arbitro/${r.id}`} className="glass tint-card press mx-4 block rounded-[24px]">{inner}</Link> : <div className="glass mx-4 rounded-[24px]">{inner}</div>;
+  // la barra Under cartellini sta fuori dal link: tendine e linea si usano dalla Panoramica senza aprire l'arbitro
+  const under = two && two.m ? <UnderBar games={two.m} /> : null;
+  return (
+    <div className={`glass mx-4 rounded-[24px]${r ? ' tint-card' : ''}`}>
+      {r ? <Link to={`/arbitro/${r.id}`} className="press block rounded-[24px]">{inner}</Link> : inner}
+      {under}
+    </div>
+  );
 }

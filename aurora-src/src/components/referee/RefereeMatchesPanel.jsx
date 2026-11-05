@@ -4,7 +4,11 @@ import PanelTitle from '@/components/PanelTitle';
 import { TeamLogo } from '@/components/FmImg';
 import { WhistleIcon } from '@/components/LineIcons';
 import { refGames } from '@/data/referees';
-import { archIndex } from '@/data/archive';
+import { archIndex, LID_BY_FM } from '@/data/archive';
+import { leagueById } from '@/data/leagues';
+import { matchTint } from '@/data/matchTint';
+import { tintGrad } from '@/lib/tint';
+import LeagueBadge from '@/components/LeagueBadge';
 
 const dateOf = (iso) => new Date(`${iso}T12:00:00`).toLocaleDateString('it-IT', { day: 'numeric', month: 'short', year: '2-digit' });
 
@@ -22,9 +26,12 @@ function Cards({ n, big = false }) {
 
 function Row({ m, comp }) {
   const [date, fm, sk, mid, home, away, hg, ag, tot, c1, c2, hid, aid] = m;
+  // colori e logo della competizione (stessa regola delle schede partita)
+  const lg = leagueById(LID_BY_FM[Number(fm)]);
+  const bg = lg ? tintGrad(matchTint(lg.id, lg), 0x38) : undefined;
   return (
-    <Link to={`/storico/${fm}/${sk}/${mid}`} className="press block px-5 py-3 text-center" style={{ borderTop: '1px solid var(--hair-2)' }}>
-      <p className="text-[10.5px]" style={{ color: 'var(--ink-3)' }}>{dateOf(date)}{comp ? ` · ${comp}` : ''}</p>
+    <Link to={`/storico/${fm}/${sk}/${mid}`} className="press block px-5 py-3 text-center" style={{ borderTop: '1px solid var(--hair-2)', background: bg }}>
+      <p className="flex items-center justify-center gap-1.5 text-[10.5px]" style={{ color: 'var(--ink-3)' }}>{lg ? <LeagueBadge league={lg} size={16} /> : null}<span>{dateOf(date)}{comp ? ` · ${comp}` : ''}</span></p>
       <div className="mt-1.5 flex items-center justify-center gap-2 text-[13px]" style={{ color: 'var(--ink)' }}>
         <span className="min-w-0 flex-1 truncate text-right">{home}</span>
         <TeamLogo id={hid} name={home} size={20} />
