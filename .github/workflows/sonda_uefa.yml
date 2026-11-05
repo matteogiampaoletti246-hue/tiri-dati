@@ -1,0 +1,28 @@
+name: Sonda UEFA
+on:
+  workflow_dispatch:
+  push:
+    branches: [prova-uefa]
+    paths:
+      - sonda_uefa.py
+permissions:
+  contents: write
+jobs:
+  sonda:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python sonda_uefa.py
+      - name: Salva
+        if: always()
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add sonda_uefa.json 2>/dev/null || true
+          git diff --staged --quiet || git commit -m "Sonda UEFA"
+          git pull --rebase origin prova-uefa || true
+          git push origin HEAD:prova-uefa
