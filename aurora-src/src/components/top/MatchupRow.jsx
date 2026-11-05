@@ -22,7 +22,7 @@ function Side({ team, name, value }) {
 }
 
 // Scheda del matchup: bordi nei colori delle due squadre, divario in oro al centro.
-export default memo(function MatchupRow({ row }) {
+export default memo(function MatchupRow({ row, both }) {
   const home = teamById(row.homeId);
   const away = teamById(row.awayId);
   const found = matchesByDate(row.date).find((m) => m.homeId === row.homeId && m.awayId === row.awayId);
@@ -32,26 +32,36 @@ export default memo(function MatchupRow({ row }) {
   return (
     <Wrap
       {...props}
-      className="press mx-4 mb-2.5 block rounded-[24px] px-3 pb-3 pt-2.5"
+      className="press relative mx-4 mb-2.5 mt-2 block rounded-[24px] px-3 pb-3 pt-2.5"
       style={{
+        boxShadow: both ? `0 0 0 1.5px ${GOLD}, 0 0 20px rgba(245,200,76,.28)` : undefined,
         background: `linear-gradient(90deg, color-mix(in srgb, ${teamColor(home)} 55%, transparent) 0%, transparent 40%, transparent 60%, color-mix(in srgb, ${teamColor(away)} 50%, transparent) 100%), var(--glass-bg)`,
-        border: '1px solid var(--glass-border)',
+        border: `1px solid ${both ? GOLD : 'var(--glass-border)'}`,
       }}
     >
+      {both ? (
+        <span className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-full px-2.5 py-[3px] text-[9.5px] font-extrabold uppercase tracking-[.08em]" style={{ background: GOLD, color: '#1a1405' }}>
+          {both}
+        </span>
+      ) : null}
       <p className="mb-2 truncate text-center text-[10.5px] font-bold uppercase tracking-[.08em]" style={{ color: 'var(--ink-3)' }}>
         {row.league}{found ? ` · ${found.kickoff}` : ''}
       </p>
       <div className="grid items-start" style={{ gridTemplateColumns: '1fr 88px 1fr' }}>
         <Side team={home} name={row.homeName} value={row.home} />
         <div className="flex flex-col items-center pt-2">
-          <span className="text-[9.5px] font-bold uppercase tracking-[.12em]" style={{ color: 'var(--ink-3)' }}>{row.type.centerLabel || 'Divario'}</span>
-          <span className="tnum text-[30px] font-extrabold leading-none" style={{ color: GOLD }}>{comma(row.divario, 1)}</span>
-          <span className="mt-2 text-[10px]" style={{ color: 'var(--ink-3)' }}>{row.type.label}</span>
+          <span className="text-[9.5px] font-bold uppercase tracking-[.12em]" style={{ color: 'var(--ink-3)' }}>{row.centerLabel}</span>
+          <span className="tnum text-[30px] font-extrabold leading-none" style={{ color: GOLD }}>{comma(row.center, 1)}</span>
+          {row.referee ? (
+            <span className="mt-1.5 line-clamp-2 w-full text-center text-[10px] font-bold leading-tight" style={{ color: 'var(--ink-2, var(--ink-3))' }}>{row.referee.name}</span>
+          ) : (
+            <span className="mt-2 text-[10px]" style={{ color: 'var(--ink-3)' }}>{row.type.label}</span>
+          )}
         </div>
         <Side team={away} name={row.awayName} value={row.away} />
       </div>
       <p className="tnum mt-2 text-center text-[10px]" style={{ color: 'var(--ink-3)' }}>
-        Partite usate {row.playedHome ?? '—'} / {row.playedAway ?? '—'}
+        {row.referee ? `Gare arbitro ${row.referee.n}` : `Partite usate ${row.playedHome ?? '—'} / ${row.playedAway ?? '—'}`}
       </p>
     </Wrap>
   );

@@ -1,3 +1,4 @@
+import { WhistleIcon } from '@/components/LineIcons';
 const Y = '#F5C84C';
 const R = '#E5484D';
 
@@ -21,6 +22,7 @@ export default function StatIcon({ k, size = 22 }) {
       </svg>
     );
   }
+  if (k === 'referees') return <WhistleIcon size={size} strokeWidth={1.4} />;
   if (k === 'shots') {
     const id = `sb${size}`;
     return (
@@ -61,13 +63,16 @@ export default function StatIcon({ k, size = 22 }) {
     );
   }
   if (k === 'fouls') {
+    // cerotto: striscia inclinata con il tampone al centro
     return (
       <svg {...p}>
-        <g stroke="currentColor" strokeWidth="1.3">
-          <path d="M3.6 11h8.7a4.2 4.2 0 0 1 0 8.4H8.2A4.6 4.6 0 0 1 3.6 14.8V11Z" />
-          <path d="M16.5 12.2h3.9v2.6h-3.9" />
-          <circle cx="9.5" cy="15.2" r="1.6" />
-          <path d="M6 7.8 4.8 5.6M9.5 7 9.2 4.4M13 7.8l1.2-2.2" />
+        <g transform="rotate(-45 12 12)">
+          <rect x="2.2" y="7.6" width="19.6" height="8.8" rx="4.4" fill={Y} fillOpacity=".9" stroke="currentColor" strokeWidth="1.3" />
+          <rect x="8.4" y="7.6" width="7.2" height="8.8" fill="currentColor" fillOpacity=".25" stroke="currentColor" strokeWidth="1.1" />
+          <circle cx="10.6" cy="10.8" r=".7" fill="currentColor" />
+          <circle cx="13.4" cy="10.8" r=".7" fill="currentColor" />
+          <circle cx="10.6" cy="13.2" r=".7" fill="currentColor" />
+          <circle cx="13.4" cy="13.2" r=".7" fill="currentColor" />
         </g>
       </svg>
     );

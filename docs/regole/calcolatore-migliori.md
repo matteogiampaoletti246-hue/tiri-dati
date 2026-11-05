@@ -65,3 +65,9 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 ## Formula del risultato: peso di modello e hit rate (regola fissa)
 - Probabilita' finale = modello (media tiri/falli del giocatore: tasso a 90' stagione + ultime 5, Poisson, fattori squadre) x peso modello + hit rate x peso hit rate. Pesi in `FORMULE` (`lib/calc.js`), scelti da `FORMULA_ATTIVA`; vale per tiri, tiri in porta, falli e quindi anche per Migliori Giocatori. Senza hit rate la probabilita' finale e' il solo modello.
 - `v1` = formula originale (60% modello + 40% hit rate), conservata. `v2` = attuale dal 4 novembre 2026 (70% modello + 30% hit rate, voluta dall'utente: meno peso all'hit rate, piu' alla media). Per tornare indietro basta cambiare `FORMULA_ATTIVA` in `'v1'` (l'utente lo chiede a Claude).
+
+## Migliori Matchup: Over / Under / Divario e Arbitri
+- Tendina a destra, sulla stessa riga della statistica: Over (somma delle medie attese delle due squadre piu' alta), Under (piu' bassa), Divario (differenza piu' grande). Prime 5 partite del giorno, calcolate dall'app da `angoli.json` -> `days[data].tutte` (`data/matchups.js`).
+- Cartellini: la tendina ha Over/Under/Divario per Totale e 1T (niente piu' voce "Cartellini 1T" nelle statistiche). Voce di partenza: Under Totale; cambiando statistica si tiene la voce se esiste.
+- Arbitri (statistica nuova): partite del giorno con arbitro designato, ordinate per media cartellini dell'arbitro (Over/Under, Totale/1T) dalle gare vere delle ultime due stagioni (`arbitri3/`, minimo 5 gare con il dato). Arbitro da FotMob (`loadFm`) o `arbitri_extra.json`; senza arbitro designato la partita non compare (`data/refMatchup.js`).
+- Partita presente sia tra i Cartellini sia tra gli Arbitri con la stessa voce (Over o Under, Totale o 1T): contorno dorato e etichetta "Over/Under cartellini + arbitro" (non per il Divario).
