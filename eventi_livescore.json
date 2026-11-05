@@ -145,8 +145,8 @@
    "da_fare": 0
   },
   "Primera Division 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "1. Liga 2026-2027": {
    "partite_con_eventi": 0,
@@ -525,8 +525,8 @@
    "da_fare": 0
   },
   "Primera A 2026 - Clausura": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "Croatian Cup 2026-2027": {
    "partite_con_eventi": 0,
@@ -573,8 +573,8 @@
    "da_fare": 0
   },
   "Primera Division 2026-2027 - Apertura": {
-   "partite_con_eventi": 2,
-   "da_fare": 2
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "Liga Nacional 2026-2027": {
    "partite_con_eventi": 0,
@@ -1186,7 +1186,7 @@
   },
   "Second Division 2026-2027": {
    "partite_con_eventi": 0,
-   "da_fare": 0
+   "da_fare": 3
   },
   "Supercopa de Ecuador 2026": {
    "partite_con_eventi": 0,
@@ -2373,5 +2373,5 @@
    "da_fare": 0
   }
  },
- "partite_in_questo_giro": 3
+ "partite_in_questo_giro": 4
 }
