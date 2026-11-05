@@ -6004,7 +6004,7 @@
  "rose": {
   "squadre": 5202,
   "senza_rosa_prima": 4333,
-  "senza_rosa_dopo": 592,
+  "senza_rosa_dopo": 591,
   "senza_rosa": [
    {
     "squadra": "1A",
@@ -8073,14 +8073,6 @@
      "Throne Cup 2024-2025"
     ],
     "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
-   },
-   {
-    "squadra": "Ferro Carril",
-    "id": "1545989",
-    "competizioni": [
-     "Copa Uruguay 2026"
-    ],
-    "motivo": "nessuna partita giocata nella stagione in corso"
    },
    {
     "squadra": "Foolad Hormozgan",
@@ -10773,7 +10765,7 @@
   "squadre": 5202,
   "prima": 4401,
   "dopo": 1167,
-  "giocate_dopo": 1004,
+  "giocate_dopo": 1005,
   "elenco": [
    {
     "squadra": "1. BFK Frýdlant nad Ostravici",
@@ -13820,7 +13812,7 @@
      "Copa Uruguay 2026"
     ],
     "motivo": [
-     "0 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
     ]
    },
    {
@@ -25109,7 +25101,7 @@
  },
  "forma": {
   "squadre_senza_forma_prima": 4030,
-  "squadre_senza_forma_dopo": 201,
+  "squadre_senza_forma_dopo": 200,
   "motivo_dopo": "nessuna partita giocata nella stagione in corso: niente riquadro"
  }
 }
