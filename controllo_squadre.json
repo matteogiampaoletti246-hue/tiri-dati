@@ -7064,7 +7064,7 @@
     "competizioni": [
      "Copa Uruguay 2026"
     ],
-    "motivo": "nessuna partita giocata nella stagione in corso"
+    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
     "squadra": "CD Argual (W)",
@@ -10765,7 +10765,7 @@
   "squadre": 5202,
   "prima": 4401,
   "dopo": 1167,
-  "giocate_dopo": 1005,
+  "giocate_dopo": 1006,
   "elenco": [
    {
     "squadra": "1. BFK Frýdlant nad Ostravici",
@@ -12283,7 +12283,7 @@
      "Copa Uruguay 2026"
     ],
     "motivo": [
-     "0 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
     ]
    },
    {
@@ -25102,7 +25102,7 @@
  },
  "forma": {
   "squadre_senza_forma_prima": 4030,
-  "squadre_senza_forma_dopo": 199,
+  "squadre_senza_forma_dopo": 197,
   "motivo_dopo": "nessuna partita giocata nella stagione in corso: niente riquadro"
  }
 }
