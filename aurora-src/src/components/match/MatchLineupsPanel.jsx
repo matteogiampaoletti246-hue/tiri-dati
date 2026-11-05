@@ -16,6 +16,16 @@ import VoteBadge from './VoteBadge';
 import FlagDot from '@/components/FlagDot';
 import { flagCodeOf } from '@/data/referees';
 import { comma } from '@/lib/format';
+import usePullRefresh from '@/hooks/usePullRefresh';
+import { prepareMatch } from '@/data/prepare';
+
+// rotella piccola accanto al titolo mentre si aggiorna (tira giu' per aggiornare, concept C)
+const MiniSpin = () => (
+  <svg width="14" height="14" viewBox="0 0 34 34" className="pl-spin absolute right-full top-1/2 mr-2 -mt-[7px]" aria-hidden="true">
+    <circle cx="17" cy="17" r="13" fill="none" stroke="var(--line, rgba(128,128,128,.3))" strokeWidth="4" />
+    <path d="M17 4a13 13 0 0 1 13 13" fill="none" stroke="#4aa8ff" strokeWidth="4" strokeLinecap="round" />
+  </svg>
+);
 
 const last = (n) => String(n || '').split(' ').slice(-1)[0];
 const tone = (v) => (v == null ? 'var(--hair)' : v >= 7.5 ? '#1FA45B' : v >= 7 ? '#5DBB3F' : v >= 6.5 ? '#E0B400' : v >= 6 ? '#E8892B' : '#E5484D');
@@ -91,7 +101,7 @@ function rowsOf(lineup) {
 }
 
 // Campo unico: casa in alto (specchiata: la sua ala destra sta a sinistra dello schermo), ospite in basso.
-function DualPitch({ lh, la, home, away, valOf, match, mvpId, pre }) {
+function DualPitch({ lh, la, home, away, valOf, match, mvpId, pre, wave }) {
   const rh = lh ? rowsOf(lh).map((r) => [...r].reverse()) : [];
   const ra = la ? rowsOf(la).reverse() : [];
   const ROW = 86;
@@ -109,6 +119,7 @@ function DualPitch({ lh, la, home, away, valOf, match, mvpId, pre }) {
   );
   return (
     <div data-pitch="1" className="relative overflow-hidden rounded-[24px] px-1.5" style={{ height: h, paddingTop: 26, background: 'linear-gradient(180deg,#12301f,#0f2a1b)', border: '1px solid rgba(255,255,255,.12)' }}>
+      {wave ? <span key={wave} className="pitch-wave pointer-events-none absolute left-1/2 top-1/2 z-10" /> : null}
       <span className="pointer-events-none absolute left-1/2 top-0 h-[86px] w-[56%] -translate-x-1/2 rounded-b-[10px]" style={{ border: `1.5px solid ${line}`, borderTop: 'none' }} />
       <span className="pointer-events-none absolute bottom-0 left-1/2 h-[86px] w-[56%] -translate-x-1/2 rounded-t-[10px]" style={{ border: `1.5px solid ${line}`, borderBottom: 'none' }} />
       <span className="pointer-events-none absolute inset-x-0 top-1/2 h-px" style={{ background: line }} />
@@ -226,6 +237,17 @@ const LINES = { tiri: [0.5, 1.5, 2.5, 3.5], porta: [0.5, 1.5, 2.5], fc: [0.5, 1.
 const FOUL_LINES = [0.5, 1.5, 2.5];
 
 export default function MatchLineupsPanel({ match, view, home, away, pre }) {
+  const wrapRef = useRef(null);
+  const bodyRef = useRef(null);
+  const arcRef = useRef(null);
+  const [busy, setBusy] = useState(false);
+  const [wave, setWave] = useState(0);
+  const [, bump] = useState(0);
+  usePullRefresh({
+    wrapRef, bodyRef, arcRef,
+    onRefresh: () => prepareMatch(match.id, true).then(() => bump((n) => n + 1)),
+    onBusy: (b, done) => { setBusy(b); if (done) setWave((n) => n + 1); },
+  });
   const lh = view.lineup ? view.lineup.home : null;
   const la = view.lineup ? view.lineup.away : null;
   const okH = okSide(lh);
@@ -283,14 +305,18 @@ export default function MatchLineupsPanel({ match, view, home, away, pre }) {
   const title = pre ? (official ? 'Formazione ufficiale' : 'Formazione probabile') : 'Formazioni';
 
   return (
-    <div className="flex flex-col gap-5 pb-6 pt-3">
+    <div ref={wrapRef} className="relative">
+    <div className="pointer-events-none absolute left-4 right-4 top-0.5 z-10 h-[3px] overflow-hidden rounded" style={{ background: 'var(--line, rgba(128,128,128,.15))' }}>
+      <i ref={arcRef} className="block h-full" style={{ width: 0, background: 'linear-gradient(90deg,#2f6bff,#4aa8ff)' }} />
+    </div>
+    <div ref={bodyRef} className="flex flex-col gap-5 pb-6 pt-3">
       {okH && okA ? (
         <div className="px-4">
           {pre ? (
             <div className="mb-3 grid items-center gap-1.5" style={{ gridTemplateColumns: 'minmax(0,1fr) auto minmax(0,1fr)' }}>
               <div className="flex justify-start"><TopStatPicker side="left" tight options={TOP_STATS} value={stat} onChange={onStat} /></div>
               <div className="text-center">
-                <p className="text-[13.5px] font-extrabold">{title}</p>
+                <p className="text-[13.5px] font-extrabold"><span className="relative">{busy ? <MiniSpin /> : null}{title}</span></p>
                 <p className="mt-1 text-[12.5px] font-extrabold">
                   <span style={{ color: tcol(home) }}>{lh.formation.label}</span>
                   <span className="mx-2" style={{ color: 'var(--ink-3)' }}>·</span>
@@ -301,7 +327,7 @@ export default function MatchLineupsPanel({ match, view, home, away, pre }) {
             </div>
           ) : (
             <div className="mb-3 text-center">
-              <p className="text-[15px] font-extrabold">{title}</p>
+              <p className="text-[15px] font-extrabold"><span className="relative">{busy ? <MiniSpin /> : null}{title}</span></p>
               <p className="mt-1 text-[13px] font-extrabold">
                 <span style={{ color: tcol(home) }}>{lh.formation.label}</span>
                 <span className="mx-2" style={{ color: 'var(--ink-3)' }}>·</span>
@@ -309,12 +335,13 @@ export default function MatchLineupsPanel({ match, view, home, away, pre }) {
               </p>
             </div>
           )}
-          <DualPitch lh={lh} la={la} home={home} away={away} valOf={valOf} match={match} mvpId={mvpId} pre={pre} />
+          <DualPitch lh={lh} la={la} home={home} away={away} valOf={valOf} match={match} mvpId={mvpId} pre={pre} wave={wave} />
           {pre ? null : <p className="mt-2 text-center text-[10.5px]" style={{ color: 'var(--ink-3)' }}>Voto = prestazione in partita</p>}
         </div>
       ) : null}
 
       <SidePicker lh={lh} la={la} home={home} away={away} valOf={valOf} match={match} pre={pre} />
+    </div>
     </div>
   );
 }

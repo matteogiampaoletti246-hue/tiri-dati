@@ -88,6 +88,70 @@ async function lsMerge(out, startIso) {
   } catch (e) { /* mai rompere /fx: si resta su FotMob */ }
 }
 
+
+// ---- Formazioni ufficiali dalla UEFA (Champions, Europa League, Conference League): escono prima che su FotMob.
+// Dati pubblici letti al volo e mai salvati. Coordinate verificate su 10 squadre contro FotMob: profondita' = y/1000, laterale = 1 - x/1000.
+const UEFA = "https://match.uefa.com/v5/";
+const UEFA_COMP = { ucl: 1, uel: 14, uecl: 2019 };
+const UH = { "User-Agent": "ScalperLab/1.0", "Accept": "application/json" };
+async function uefaGet(path, ttl) {
+  const ctl = new AbortController();
+  const t = setTimeout(() => ctl.abort(), 4000);
+  try {
+    const r = await fetch(UEFA + path, { headers: UH, signal: ctl.signal, cf: { cacheTtl: ttl, cacheEverything: true } });
+    return r.ok ? await r.json() : null;
+  } catch (e) { return null; } finally { clearTimeout(t); }
+}
+const uNorm = (s) => String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9 ]/g, "").replace(/\b(fc|ac|as|sc|afc|fk|cf|ssc|us|rc|sk|ks|bk|if|sv|vfl|vfb|tsg|1|ogc|rb|og|de|cd|ca|ud|nk|hnk|fcsb)\b/g, " ").replace(/\s+/g, " ").trim();
+const uSame = (a, b) => {
+  const x = uNorm(a), y = uNorm(b);
+  if (!x || !y) return false;
+  if (x === y || x.includes(y) || y.includes(x)) return true;
+  const tx = x.split(" ").filter((t) => t.length > 3), ty = y.split(" ");
+  return tx.some((t) => ty.includes(t));
+};
+// Partita UEFA da squadre e data (la lista della competizione si tiene in cache 5 minuti)
+async function uefaFind(lg, h, a, koIso) {
+  const comp = UEFA_COMP[lg], d = new Date(koIso);
+  if (!comp || isNaN(d.getTime())) return null;
+  const year = d.getUTCFullYear() + (d.getUTCMonth() >= 6 ? 1 : 0);
+  let all = [];
+  for (let off = 0; off < 400; off += 200) {
+    const part = await uefaGet("matches?competitionId=" + comp + "&seasonYear=" + year + "&limit=200&offset=" + off + "&order=ASC", 300);
+    if (!Array.isArray(part)) break;
+    all = all.concat(part);
+    if (part.length < 200) break;
+  }
+  const hit = all.find((m) => {
+    const t = m.kickOffTime && m.kickOffTime.dateTime ? new Date(m.kickOffTime.dateTime).getTime() : 0;
+    return Math.abs(t - d.getTime()) < 6 * 3600000 && uSame(m.homeTeam && m.homeTeam.internationalName, h) && uSame(m.awayTeam && m.awayTeam.internationalName, a);
+  });
+  return hit ? hit.id : null;
+}
+// Formazione UEFA -> stessa forma di FotMob ([nome, n., profondita', laterale, capitano, foto, voto, id]); nomi, id e foto di FotMob se il numero di maglia coincide
+function uefaTeam(t, fmT) {
+  const field = (t && t.field) || [];
+  if (field.length !== 11) return null;
+  const byNum = {};
+  [...((fmT && fmT.starters) || []), ...((fmT && fmT.subs) || [])].forEach((p) => { if (p && p.shirtNumber != null) byNum[String(p.shirtNumber)] = p; });
+  const nm = (pl) => (pl.translations && pl.translations.displayName && (pl.translations.displayName.EN || Object.values(pl.translations.displayName)[0])) || pl.internationalName || "";
+  const ph = (id) => id ? "https://images.fotmob.com/image_resources/playerimages/" + id + ".png" : null;
+  const mk = (e, x, y) => {
+    const f = byNum[String(e.jerseyNumber)];
+    return [f && f.name ? f.name : nm(e.player), e.jerseyNumber, x, y, e.type === "CAPTAIN", f ? ph(f.id) : null, null, f ? f.id : null];
+  };
+  const gk = field.filter((e) => e.fieldCoordinate.y <= 100);
+  const rows = {};
+  field.filter((e) => e.fieldCoordinate.y > 100).forEach((e) => { rows[e.fieldCoordinate.y] = (rows[e.fieldCoordinate.y] || 0) + 1; });
+  const f = Object.keys(rows).map(Number).sort((a, b) => a - b).map((k) => rows[k]).join("-");
+  const co = ((t.coaches || [])[0] || {}).person;
+  return {
+    f, s: field.map((e) => mk(e, e.fieldCoordinate.y / 1000, Math.round((1 - e.fieldCoordinate.x / 1000) * 1000) / 1000)),
+    b: (t.bench || []).map((e) => mk(e, 0, 0)),
+    co: co ? { id: null, n: nm(co) || co.internationalName || null, cc: co.countryCode || null } : null, gk: gk.length,
+  };
+}
+
 function cors(req, extra) {
   const o = req.headers.get("Origin");
   const h = { "Content-Type": "application/json; charset=utf-8", "Cache-Control": "public, max-age=" + TTL, ...extra };
@@ -194,6 +258,19 @@ export default {
           } catch (e) { err = (err ? err + " | " : "") + String(e); }
         }
         return new Response(JSON.stringify({ t: Date.now(), ev, src, ...(dbg ? { err, n: ev.length } : {}) }), { headers: cors(req, { "Cache-Control": "public, max-age=300" }) });
+      }
+      if (u.pathname === "/lu") { // formazione ufficiale UEFA: ?lg=ucl|uel|uecl&h=<casa>&a=<ospite>&ko=<ISO>&id=<id FotMob, facoltativo>
+        const lg = u.searchParams.get("lg"), h = u.searchParams.get("h"), a = u.searchParams.get("a"), ko = u.searchParams.get("ko"), id = u.searchParams.get("id");
+        if (!UEFA_COMP[lg] || !h || !a || !ko) return new Response("{}", { status: 400, headers: cors(req) });
+        const uid = await uefaFind(lg, h, a, ko);
+        if (!uid) return new Response(JSON.stringify({ t: Date.now(), ok: 0 }), { headers: cors(req, { "Cache-Control": "public, max-age=3" }) });
+        const [lu, fmj] = await Promise.all([
+          uefaGet("matches/" + uid + "/lineups", 2),
+          /^\d{5,10}$/.test(id || "") ? fetch("https://www.fotmob.com/api/data/matchDetails?matchId=" + id, { headers: FMH, cf: { cacheTtl: 3, cacheEverything: true } }).then((r) => (r.ok ? r.json() : null)).catch(() => null) : null,
+        ]);
+        const fl = (fmj && fmj.content && fmj.content.lineup) || {};
+        const hT = lu && lu.lineupStatus !== "NOT_AVAILABLE" ? uefaTeam(lu.homeTeam, fl.homeTeam) : null, aT = lu && lu.lineupStatus !== "NOT_AVAILABLE" ? uefaTeam(lu.awayTeam, fl.awayTeam) : null;
+        return new Response(JSON.stringify({ t: Date.now(), ok: hT && aT ? 1 : 0, uid, ty: "standard", h: hT, a: aT }), { headers: cors(req, { "Cache-Control": "public, max-age=2" }) });
       }
       if (u.pathname === "/fx") {
         const id = u.searchParams.get("id");

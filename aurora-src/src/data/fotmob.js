@@ -8,6 +8,10 @@ import { teamById } from './teams';
 import { same } from './live';
 import { slug } from './util';
 import { applyRefExtra } from './archiveMatch';
+import { lineupWindowMs, lineupIsOfficial } from './lineupWindow';
+
+// Coppe europee: la formazione ufficiale esce prima dal sito UEFA (worker /lu) che da FotMob; FotMob la sostituisce appena la pubblica
+const UEFA_LG = { 'champions-league': 'ucl', 'europa-league': 'uel', 'conference-league': 'uecl' };
 
 const dayCache = {};
 // dettagli FotMob (pesanti): solo gli ultimi 12
@@ -309,7 +313,17 @@ export async function loadFm(m, playerLookup, force = false) {
     let d;
     if (c && Date.now() - c.at < 3000) d = c.d;
     else {
+      const home = teamById(m.homeId);
+      const away = teamById(m.awayId);
+      const wantUefa = UEFA_LG[m.leagueId] && home && away && m.status === 'scheduled' && m.ts - Date.now() <= lineupWindowMs(m);
+      const lu = wantUefa
+        ? jget(`${WORKER}/lu?lg=${UEFA_LG[m.leagueId]}&h=${encodeURIComponent(home.name)}&a=${encodeURIComponent(away.name)}&ko=${encodeURIComponent(new Date(m.ts).toISOString())}&id=${id}`).catch(() => null)
+        : null;
       d = await jget(`${WORKER}/fx?id=${id}`);
+      if (lu && !lineupIsOfficial({ lineupType: d.ty })) {
+        const u = await lu;
+        if (u && u.ok && u.h && u.a) d = { ...d, h: u.h, a: u.a, ty: 'standard' };
+      }
       fxCache[id] = { at: Date.now(), d };
       fxKeep(id);
     }

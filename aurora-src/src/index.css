@@ -828,3 +828,10 @@
 .km-pill { flex: none; font-size: 11px; font-weight: 800; padding: 5px 10px; border-radius: 999px; background: var(--story-pill-bg); color: var(--story-pill-ink); }
 .km-sub { font-size: 11px; font-weight: 700; color: var(--story-ink-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; text-shadow: 0 1px 6px rgba(0, 0, 0, .4); }
 @media (prefers-reduced-motion: reduce) { .km-slide, .km-paused { transition: none; } }
+
+/* Tira giu' per aggiornare le formazioni (concept C): rotella nel titolo e onda dal centro del campo */
+@keyframes plSpin { to { transform: rotate(360deg); } }
+.pl-spin { animation: plSpin .8s linear infinite; }
+@keyframes pitchWave { 0% { transform: translate(-50%, -50%) scale(.1); opacity: .6; } 100% { transform: translate(-50%, -50%) scale(1); opacity: 0; } }
+.pitch-wave { width: 150%; aspect-ratio: 1; border-radius: 9999px; border: 3px solid rgba(74, 168, 255, .9); box-shadow: 0 0 24px rgba(74, 168, 255, .6); animation: pitchWave .9s ease-out forwards; }
+@media (prefers-reduced-motion: reduce) { .pl-spin, .pitch-wave { animation: none; } .pitch-wave { display: none; } }

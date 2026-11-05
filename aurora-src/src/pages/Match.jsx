@@ -21,6 +21,7 @@ import { hasReliability } from '@/components/match/MatchReliabilityList';
 import useTicker from '@/hooks/useTicker';
 import { matchById, viewMatch } from '@/data/matches';
 import { prepareMatch, isReady } from '@/data/prepare';
+import { lineupBeat, lineupWindowMs, lineupIsOfficial } from '@/data/lineupWindow';
 import { teamById } from '@/data/teams';
 import { leagueById } from '@/data/leagues';
 import { matchTint } from '@/data/matchTint';
@@ -79,15 +80,16 @@ export default function Match() {
     };
     const cap = setTimeout(() => { if (on) setOkId(id); }, 7000);
     prepareMatch(id).then(() => { clearTimeout(cap); done(); });
-    // ogni 5 secondi: partita live o vicina; formazioni probabili piu' lontane ogni minuto
+    // live: ogni 5 secondi. Prima del fischio: ogni 5 secondi solo dentro la finestra delle formazioni (76' coppe europee e Premier, 61' gli altri), prima una volta al minuto
     let n = 0;
     const t = setInterval(() => {
       n += 1;
-      const m = matchById(id);
-      if (!m) return;
-      const to = m.ts - Date.now();
-      if (m.status === 'live' || (m.status === 'scheduled' && to < 3 * 3600000) || (m.status === 'scheduled' && to < 96 * 3600000 && n % 12 === 0)) prepareMatch(id, true).then(() => on && bump((x) => x + 1));
+      const beat = lineupBeat(matchById(id));
+      if (beat && n % beat === 0) prepareMatch(id, true).then(() => on && bump((x) => x + 1));
     }, 5000);
+    // aperta dentro la finestra: controllo subito, senza aspettare il primo battito
+    const m0 = matchById(id);
+    if (m0 && m0.status === 'scheduled' && m0.ts - Date.now() <= lineupWindowMs(m0) && !lineupIsOfficial(m0)) prepareMatch(id, true).then(() => on && bump((x) => x + 1));
     return () => {
       on = false;
       clearTimeout(cap);
