@@ -34,6 +34,15 @@ export const recentMatches = (teamId, n = 5) => MATCHES.filter((m) => finished(m
 
 export const upcomingMatches = (teamId, n = 5) => MATCHES.filter((m) => m.status !== 'finished' && involves(teamId)(m)).sort((a, b) => a.ts - b.ts).slice(0, n);
 
+// Prossima partita di una squadra in una competizione. Una stessa squadra puo' avere due schede con lo stesso nome (es. quella dei dati dei giocatori e quella
+// creata dal feed di oggi, id "fm-..."): si riconosce anche dal nome, cosi' la partita di stasera non viene saltata a favore di quella successiva.
+export function nextMatchOf(teamId, comp, n = 60) {
+  const t = teamById(teamId);
+  const nm = t && t.name;
+  const same = (id) => id === teamId || (!!nm && (teamById(id) || {}).name === nm);
+  return MATCHES.filter((m) => m.status !== 'finished' && (same(m.homeId) || same(m.awayId)) && (!comp || m.leagueId === comp)).sort((a, b) => a.ts - b.ts).slice(0, n)[0] || null;
+}
+
 export const allTeamMatches = (teamId) => MATCHES.filter(involves(teamId)).sort((a, b) => a.ts - b.ts);
 
 export function matchesByReferee(refereeId) {
