@@ -13805,17 +13805,6 @@
     ]
    },
    {
-    "squadra": "Ferro Carril",
-    "id": "1545989",
-    "giocatori": 0,
-    "competizioni": [
-     "Copa Uruguay 2026"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
     "squadra": "Foolad Hormozgan",
     "id": "1693135",
     "giocatori": 0,
@@ -18202,6 +18191,18 @@
     ],
     "motivo": [
      "1 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 1"
+    ]
+   },
+   {
+    "squadra": "Ferro Carril",
+    "id": "1545989",
+    "giocatori": 1,
+    "competizioni": [
+     "Copa Uruguay 2026"
+    ],
+    "motivo": [
+     "1 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 1",
+     "nessun ruolo noto: FotMob senza rosa, formazioni e schede giocatore senza posizione"
     ]
    },
    {
