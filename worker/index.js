@@ -140,15 +140,17 @@ function uefaTeam(t, fmT) {
     const f = byNum[String(e.jerseyNumber)];
     return [f && f.name ? f.name : nm(e.player), e.jerseyNumber, x, y, e.type === "CAPTAIN", f ? ph(f.id) : null, null, f ? f.id : null];
   };
-  const gk = field.filter((e) => e.fieldCoordinate.y <= 100);
-  const rows = {};
-  field.filter((e) => e.fieldCoordinate.y > 100).forEach((e) => { rows[e.fieldCoordinate.y] = (rows[e.fieldCoordinate.y] || 0) + 1; });
-  const f = Object.keys(rows).map(Number).sort((a, b) => a - b).map((k) => rows[k]).join("-");
+  // righe: le posizioni UEFA possono essere leggermente sfalsate (4-2-3-1 con y 248/251/252...): si raggruppano le profondita' vicine (< 0.06) e si portano alla media
+  const out = field.filter((e) => e.fieldCoordinate.y > 100).map((e) => e.fieldCoordinate.y / 1000).sort((x, y) => x - y);
+  const cl = [];
+  out.forEach((v) => { const c = cl[cl.length - 1]; if (c && v - c[c.length - 1] < 0.06) c.push(v); else cl.push([v]); });
+  const snap = (d) => { if (d <= 0.1) return d; const c = cl.find((q) => d >= q[0] - 1e-9 && d <= q[q.length - 1] + 1e-9); return Math.round((c.reduce((x, y) => x + y, 0) / c.length) * 1000) / 1000; };
+  const f = cl.map((c) => c.length).join("-");
   const co = ((t.coaches || [])[0] || {}).person;
   return {
-    f, s: field.map((e) => mk(e, e.fieldCoordinate.y / 1000, Math.round((1 - e.fieldCoordinate.x / 1000) * 1000) / 1000)),
+    f, s: field.map((e) => mk(e, snap(e.fieldCoordinate.y / 1000), Math.round((1 - e.fieldCoordinate.x / 1000) * 1000) / 1000)),
     b: (t.bench || []).map((e) => mk(e, 0, 0)),
-    co: co ? { id: null, n: nm(co) || co.internationalName || null, cc: co.countryCode || null } : null, gk: gk.length,
+    co: co ? { id: null, n: nm(co) || co.internationalName || null, cc: co.countryCode || null } : null,
   };
 }
 
