@@ -12,6 +12,8 @@ import { resolvePid } from '@/data/playerIndex';
 import { comma } from '@/lib/format';
 import { parseDash } from '@/lib/calc';
 import DuelPicker from './DuelPicker';
+import RolesPanel from './RolesPanel';
+import { FALLI_KEYS, autoDuelIds, playerRoles, roleBreakdown, useFalli } from '@/data/calcRoles';
 import FoulsTeamBlock from './FoulsTeamBlock';
 import {
   COMPETITION_OPTIONS,
@@ -93,6 +95,11 @@ export default function PlayerTab({ onSave }) {
   const duelSel = (f.duel || []).map((id) => roster.find((r) => r.id === id)).filter(Boolean);
   const duelAvg = duelSel.length ? duelSel.reduce((a, r) => a + r.avg90, 0) / duelSel.length : null;
   const duelLeagueAvg = fouls && oppDom ? leaguePlayerAvg(fd, oppDom, oppStat) : null;
+  // ruoli avversari e duello automatico (ruolo con la % piu' alta; anche il secondo se dista al massimo 5 punti)
+  const fl = useFalli(fouls ? FALLI_KEYS : []);
+  const rb = fouls && fl && fmPid ? roleBreakdown(fl, FALLI_KEYS, fmPid, form.stat) : null;
+  const roles = useMemo(() => playerRoles(fl, FALLI_KEYS), [fl]);
+  const autoSig = (rb && roster.length ? autoDuelIds(rb, roster, roles) : []).join(',');
 
   // precompila i falli dai dati (ultime 5, medie stagione, medie squadre) quando cambiano giocatore, squadre o statistica
   useEffect(() => {
@@ -116,7 +123,13 @@ export default function PlayerTab({ onSave }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fouls, f.last5, form.line, form.lineType]);
   // cambiando squadra avversaria o statistica il duello riparte vuoto
-  useEffect(() => { setF({ duel: [] }); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [form.opp.id, form.stat, form.playerId]);
+  useEffect(() => { setF({ duel: [], duelManual: false }); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [form.opp.id, form.stat, form.playerId]);
+  // il duello automatico viene dopo il ripristino: stesse dipendenze, ordine degli effetti
+  useEffect(() => {
+    if (!fouls || f.duelManual) return;
+    setF({ duel: autoSig ? autoSig.split(',') : [] });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fouls, autoSig, f.duelManual, form.opp.id, form.stat, form.playerId]);
 
   const result = fouls ? resultFromFouls(form, duelAvg, duelLeagueAvg, ownStats && ownStats.avg, oppStats && oppStats.avg) : resultFromForm(form);
   const hitLabel = fouls ? (HIT_OPTIONS.find((o) => o.value === f.hitRate)?.label ?? null) : (HIT_OPTIONS.find((o) => o.value === form.hitRate)?.label ?? null);
@@ -202,8 +215,13 @@ export default function PlayerTab({ onSave }) {
           <div className="mt-7">
             <FoulsTeamBlock title="Squadra del giocatore" statLabel={statTitle} block={form.team} stats={ownStats} value={f.team} onValue={(v) => setF({ team: v })} onChange={(p) => setBlock('team', p)} tint={tOwn(360)} />
           </div>
+          {rb ? (
+            <div className="mt-7">
+              <RolesPanel rb={rb} title={form.stat === 'fc' ? 'Ruoli avversari · falli commessi' : 'Ruoli avversari · falli subiti'} tint={tOpp(420)} runKey={`${form.playerId}-${form.stat}`} />
+            </div>
+          ) : null}
           <div className="mt-7">
-            <DuelPicker team={opp} roster={roster} picked={f.duel || []} onChange={(d) => setF({ duel: d })} statLabel={oppTitle} tint={tOpp(480)} />
+            <DuelPicker team={opp} roster={roster} picked={f.duel || []} onChange={(d) => setF({ duel: d, duelManual: true })} statLabel={oppTitle} tint={tOpp(480)} />
           </div>
           <div className="mt-7">
             <FoulsTeamBlock title="Squadra avversaria" statLabel={oppTitle} block={form.opp} stats={oppStats} value={f.opp} onValue={(v) => setF({ opp: v })} onChange={(p) => setBlock('opp', p)} tint={tOpp(600)} />

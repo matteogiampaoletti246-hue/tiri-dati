@@ -10,7 +10,7 @@ export const emptyBlock = () => ({ leagueId: 'serie-a', id: null, totali: '', in
 export const emptyFouls = () => ({
   last5: '', min5: '', hitRate: '',
   season: { campionato: { tiri: '', minuti: '' }, coppa: { tiri: '', minuti: '' }, nations: { tiri: '', minuti: '' }, qualificazioni: { tiri: '', minuti: '' } },
-  team: '', opp: '', duel: [],
+  team: '', opp: '', duel: [], duelManual: false,
 });
 export const isFouls = (form) => form.stat === 'fc' || form.stat === 'fs';
 

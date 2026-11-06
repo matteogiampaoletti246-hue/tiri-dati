@@ -1,4 +1,5 @@
 // Migliori giocatori del giorno: stessa formula dell'app originale (Poisson sulla media tiri attesa).
+import { FALLI_KEYS, autoDuel, loadFalli } from './calcRoles';
 import { RAW } from './load';
 import { PLAYERS } from './players';
 import { teamById, teamByName } from './teams';
@@ -174,7 +175,7 @@ export function bestPlayers(day, threshold, stat = 'tiri') {
   return top;
 }
 
-// Falli commessi / subiti: stesso calcolo del Calcolatore (PlayerTab) senza duello avversario.
+// Falli commessi / subiti: stesso calcolo del Calcolatore (PlayerTab) con il duello avversario automatico (data/calcRoles.js).
 // I dati arrivano dalle partite della stagione (calcFouls), quindi la classifica si prepara a parte e si ricorda (LRU).
 const PENDING = new Map();
 const pause = () => new Promise((r) => setTimeout(r, 0));
@@ -199,6 +200,9 @@ export function loadBestFouls(day, threshold, stat) {
     const loaded = await Promise.all(all.map(loadFouls));
     const DATA = {};
     all.forEach((k, i) => { if (loaded[i]) DATA[k] = loaded[i]; });
+    const loadedFl = await Promise.all(FALLI_KEYS.map(loadFalli));
+    const FLD = {};
+    FALLI_KEYS.forEach((k, i) => { if (loadedFl[i]) FLD[k] = loadedFl[i]; });
     const out = [];
     for (let i = 0; i < list.length; i += 1) {
       if (i % 25 === 24) await pause(); // la pagina resta reattiva mentre si calcola
@@ -220,7 +224,9 @@ export function loadBestFouls(day, threshold, stat) {
         team: comma(ownStats.v, 2), opp: comma(oppStats.v, 2),
         hitRate: hitFromValues(parseDash(last5), line, 'over'),
       };
-      const r = resultFromFouls({ ...base, stat, f: fo }, null, null, ownStats.avg, oppStats.avg);
+      // duello automatico: i 2 avversari con la media piu' alta nei ruoli con la % piu' alta
+      const du = autoDuel(fd, FLD, FALLI_KEYS, fmPid, stat, opp && domesticKey(opp.name), fmTeamIn(fd, opp));
+      const r = resultFromFouls({ ...base, stat, f: fo }, du ? du.avg : null, du ? du.leagueAvg : null, ownStats.avg, oppStats.avg);
       if (r.score === null || r.score === undefined) continue;
       const voto = Math.max(0, Math.min(10, r.score));
       if (voto < MIN_VOTE) continue;
@@ -252,7 +258,7 @@ export function playerReliability(p, dateIso, line = 0.5, keepInjured = false, f
 }
 
 // Scheda giocatore (Statistiche): voti Over di un giocatore per la sua prossima partita, per falli commessi / subiti.
-// Stesso calcolo di `loadBestFouls` e del Calcolatore (senza duello); ricordato in LRU. Restituisce un voto (0-10) per linea, null se mancano i dati.
+// Stesso calcolo di `loadBestFouls` e del Calcolatore (con duello automatico); ricordato in LRU. Restituisce un voto (0-10) per linea, null se mancano i dati.
 const PFOULS = new Map();
 export function loadPlayerFouls(p, dateIso, lines, stat) {
   const ck = `${p && p.id}|${dateIso}|${stat}|${lines.join(',')}`;
@@ -269,6 +275,9 @@ export function loadPlayerFouls(p, dateIso, lines, stat) {
     const loaded = await Promise.all(keys.map(loadFouls));
     const fd = {};
     keys.forEach((k, i) => { if (loaded[i]) fd[k] = loaded[i]; });
+    const loadedFl = await Promise.all(FALLI_KEYS.map(loadFalli));
+    const fl = {};
+    FALLI_KEYS.forEach((k, i) => { if (loadedFl[i]) fl[k] = loadedFl[i]; });
     const fmPid = await resolvePid(p).catch(() => null);
     if (!fmPid) return lines.map(() => null);
     const pf = playerFouls(fd, fmPid, team && domesticKey(team.name), stat, p.hn != null ? hitRows(p) : null);
@@ -279,9 +288,10 @@ export function loadPlayerFouls(p, dateIso, lines, stat) {
     const season = { campionato: { tiri: '', minuti: '' }, coppa: { tiri: '', minuti: '' }, nations: { tiri: '', minuti: '' }, qualificazioni: { tiri: '', minuti: '' } };
     ['campionato', 'coppa'].forEach((k) => { if (pf[k]) season[k] = { tiri: comma(Math.round(pf[k].v * 100) / 100, 2), minuti: String(Math.round(pf[k].min)) }; });
     const last5 = pf.last5.join('-');
+    const du = autoDuel(fd, fl, FALLI_KEYS, fmPid, stat, opp && domesticKey(opp.name), fmTeamIn(fd, opp));
     return lines.map((line) => {
       const fo = { last5, min5: pf.min5.join('-'), season, duel: [], team: comma(ownStats.v, 2), opp: comma(oppStats.v, 2), hitRate: hitFromValues(parseDash(last5), line, 'over') };
-      const r = resultFromFouls({ ...base, line: String(line).replace('.', ','), stat, f: fo }, null, null, ownStats.avg, oppStats.avg);
+      const r = resultFromFouls({ ...base, line: String(line).replace('.', ','), stat, f: fo }, du ? du.avg : null, du ? du.leagueAvg : null, ownStats.avg, oppStats.avg);
       return r.score === null || r.score === undefined ? null : Math.max(0, Math.min(10, r.score));
     });
   })().catch(() => lines.map(() => null));
