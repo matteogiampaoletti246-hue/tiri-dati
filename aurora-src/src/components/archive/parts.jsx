@@ -137,7 +137,7 @@ function StandingsTable({ t: t0, legendSrc, title, mode, fm5, fm, sk, highlight,
   const t = fg ? fg.t : t0;
   const rows = forma
     ? (t.all || []).map((r) => { const f = (fm5[r.id] || []).slice(-5); return { ...r, f, fp: f.reduce((x, c) => x + (c === 'V' ? 3 : c === 'S' ? 1 : 0), 0) }; }).sort((a, b) => b.fp - a.fp || b.pts - a.pts)
-    : orderRows(fg ? applyLive(t[mode] || t.all || [], lt.live, mode === 'all' ? 'all' : mode) : (t[mode] || t.all || []));
+    : orderRows(fg ? applyLive(t[mode] || t.all || [], fg.live || lt.live, mode === 'all' ? 'all' : mode) : (t[mode] || t.all || []));
   if (!rows.length) return null;
   // la leggenda c'e' solo se le righe hanno davvero le lineette colorate
   const legend = (t.all || []).some((r) => r.qualColor) ? (legendSrc || []) : [];

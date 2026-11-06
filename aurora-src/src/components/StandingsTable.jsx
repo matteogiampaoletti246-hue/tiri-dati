@@ -22,7 +22,7 @@ export default function StandingsTable({ leagueId, mode = 'total', highlight = [
     const src = lt.groups[0].t[md];
     if (!src || !src.length) return base;
     const out = [];
-    for (const r of applyLive(src, lt.live, md)) {
+    for (const r of applyLive(src, lt.groups[0].live || lt.live, md)) {
       const t = teamByFm(r.id) || teamByName(r.name) || teamByName(r.shortName) || base.map((x) => teamById(x.teamId)).find((x) => x && sameSquad(x.name, r.name));
       if (!t) return base;
       const b = base.find((x) => x.teamId === t.id);

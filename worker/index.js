@@ -387,9 +387,10 @@ export default {
           const lt = st.liveTime || {};
           live.push([m.id, m.home && m.home.id, m.away && m.away.id, sc[0], sc[1], lt.short || lt.long || ""]);
         });
-        // FotMob durante la diretta mette gia' la partita in corso nella tabella (Venezia 11 partite invece di 10, 6 nov): l'app la aggiunge col
-        // risultato provvisorio (`applyLive`), quindi qui si toglie da ogni riga che la contiene gia' (partite giocate > partite finite), per tutte
-        // le competizioni e per le tabelle totale, casa e trasferta. Cosi' la partita live si conta una volta sola.
+        // FotMob durante la diretta mette gia' la partita in corso nella tabella (Venezia 11 partite invece di 10, 6 nov) e lo segna con `ongoing`
+        // (id, risultato usato, fase "Clausura - Round 16"). L'app la aggiunge col risultato provvisorio (`applyLive`), quindi qui si toglie da ogni
+        // riga che la contiene gia', e ogni gruppo riceve solo le sue partite live (`g.live`): Apertura/Clausura, gironi. Vale per ogni competizione
+        // e per le tabelle totale, casa e trasferta: la partita live si conta una volta sola e solo nella fase giusta.
         if (live.length) {
           const fin = { all: {}, home: {}, away: {} };
           ((j.fixtures && j.fixtures.allMatches) || []).forEach((m) => {
@@ -399,11 +400,34 @@ export default {
             fin.all[h] = (fin.all[h] || 0) + 1; fin.all[a] = (fin.all[a] || 0) + 1;
             fin.home[h] = (fin.home[h] || 0) + 1; fin.away[a] = (fin.away[a] || 0) + 1;
           });
-          const sub = (rows, md) => (rows || []).forEach((r) => {
+          const stage = {};
+          groups.forEach((g) => ["all", "home", "away"].forEach((md) => (g.t[md] || []).forEach((r) => { if (r.og && r.og.id && r.og.stage) stage[String(r.og.id)] = String(r.og.stage); })));
+          const norm = (x) => String(x || "").toLowerCase().replace(/\s+/g, " ").trim();
+          // gruppo della partita: quello il cui nome e' l'inizio della fase FotMob (il piu' lungo); senza fase, ogni gruppo con le due squadre
+          const owner = {};
+          live.forEach((m) => {
+            const sg = norm(stage[String(m[0])]);
+            let best = null;
+            if (sg) groups.forEach((g, gi) => { const n = norm(g.n); if (n && sg.startsWith(n) && (best === null || n.length > norm(groups[best].n).length)) best = gi; });
+            owner[String(m[0])] = best;
+          });
+          const mine = (g, gi, m) => {
+            const ids = new Set((g.t.all || []).map((r) => String(r.id)));
+            if (!ids.has(String(m[1])) || !ids.has(String(m[2]))) return false;
+            const o = owner[String(m[0])];
+            return o === null || o === undefined || o === gi;
+          };
+          const sub = (rows, md, gl) => (rows || []).forEach((r) => {
             const tid = String(r.id);
-            const lm = live.find((x) => (md !== "away" && String(x[1]) === tid) || (md !== "home" && String(x[2]) === tid));
-            if (!lm || !((r.played || 0) > (fin[md][tid] || 0))) return;
-            const home = String(lm[1]) === tid, us = home ? lm[3] : lm[4], them = home ? lm[4] : lm[3];
+            const lm = gl.find((x) => (md !== "away" && String(x[1]) === tid) || (md !== "home" && String(x[2]) === tid));
+            if (!lm) return;
+            const og = r.og && String(r.og.id) === String(lm[0]) ? r.og : null;
+            // dentro se FotMob la segna (`ongoing`); se il campo manca, se le partite giocate superano quelle finite
+            const inside = r.og !== undefined && r.og !== null ? !!og : (r.played || 0) > (fin[md][tid] || 0);
+            if (!inside) return;
+            const home = String(lm[1]) === tid;
+            const hs = og && og.hScore != null ? Number(og.hScore) : lm[3], as = og && og.aScore != null ? Number(og.aScore) : lm[4];
+            const us = home ? hs : as, them = home ? as : hs;
             const sc = /^(\d+)\D+(\d+)$/.exec(String(r.scoresStr || ""));
             const gf = sc ? Number(sc[1]) - us : 0, ga = sc ? Number(sc[2]) - them : 0;
             r.played -= 1;
@@ -411,14 +435,18 @@ export default {
             if (sc) { r.scoresStr = gf + "-" + ga; r.goalConDiff = gf - ga; }
           });
           const cmp = (a, b) => (b.pts || 0) - (a.pts || 0) || (b.goalConDiff || 0) - (a.goalConDiff || 0) || (parseInt(b.scoresStr, 10) || 0) - (parseInt(a.scoresStr, 10) || 0) || (a.idx || 0) - (b.idx || 0);
-          groups.forEach((g) => ["all", "home", "away"].forEach((md) => {
-            const rows = g.t[md];
-            if (!rows || !rows.length) return;
-            sub(rows, md);
-            const zones = rows.slice().sort((a, b) => (a.idx || 0) - (b.idx || 0)).map((r) => r.qualColor);
-            rows.sort(cmp).forEach((r, i) => { r.idx = i + 1; r.qualColor = zones[i]; });
-          }));
+          groups.forEach((g, gi) => {
+            g.live = live.filter((m) => mine(g, gi, m));
+            ["all", "home", "away"].forEach((md) => {
+              const rows = g.t[md];
+              if (!rows || !rows.length) return;
+              sub(rows, md, g.live);
+              const zones = rows.slice().sort((a, b) => (a.idx || 0) - (b.idx || 0)).map((r) => r.qualColor);
+              rows.sort(cmp).forEach((r, i) => { r.idx = i + 1; r.qualColor = zones[i]; });
+            });
+          });
         }
+        groups.forEach((g) => ["all", "home", "away"].forEach((md) => (g.t[md] || []).forEach((r) => { delete r.og; })));
         return new Response(JSON.stringify({ t: Date.now(), groups, live }), { headers: cors(req, { "Cache-Control": "public, max-age=5" }) });
       }
       if (u.pathname === "/fs") {

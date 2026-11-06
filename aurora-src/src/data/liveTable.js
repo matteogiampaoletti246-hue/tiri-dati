@@ -56,6 +56,8 @@ export function freshGroup(lt, t) {
   return (lt.groups || []).find((g) => g.t && g.t.all && g.t.all.length === t.all.length && g.t.all.every((r) => ids.has(String(r.id)))) || null;
 }
 
+// Il worker toglie gia' dalla tabella FotMob la partita in corso (FotMob la include durante la diretta) e da' a ogni gruppo le sue partite
+// live (`g.live`, fase giusta per Apertura/Clausura e gironi): qui si passa sempre `g.live` se c'e', cosi' la partita si conta una volta sola.
 // righe FotMob + partite live -> righe con `lv` (partita in corso), `mv` (posti guadagnati/persi), `dp` (punti provvisori)
 export function applyLive(rows, live, mode = 'all') {
   const base = rows.map((r) => ({ ...r }));
