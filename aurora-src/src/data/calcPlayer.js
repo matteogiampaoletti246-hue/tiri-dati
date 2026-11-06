@@ -1,6 +1,6 @@
 // Calcolo unico dell'affidabilità di un giocatore: lo usano sia il Calcolatore sia la Home / schede giocatore.
 import { teamByName } from './teams';
-import { nextFixture, pickLeagueKey, prefillShots, teamShots } from './calcData';
+import { NATIONS_KEYS, nextFixture, pickLeagueKey, prefillShots, teamShots } from './calcData';
 import { HIT_OPTIONS, SEASON_COMPETITIONS, computeFoulsResult, computePlayerResult, parseDash, parseNum } from '@/lib/calc';
 import { teamById } from './teams';
 
@@ -12,6 +12,8 @@ export const emptyFouls = () => ({
   season: { campionato: { tiri: '', minuti: '' }, coppa: { tiri: '', minuti: '' }, nations: { tiri: '', minuti: '' }, qualificazioni: { tiri: '', minuti: '' } },
   team: '', opp: '', duel: [], duelManual: false,
 });
+// profilo con cui si calcola: scegliendo Nations League un giocatore di club usa quello della nazionale (squadra, partita, statistiche)
+export const viewFor = (p, competizione) => (p && p.natView && competizione === 'nations' ? p.natView : p);
 export const isFouls = (form) => form.stat === 'fc' || form.stat === 'fs';
 
 export const initialForm = () => ({
@@ -66,7 +68,7 @@ export function fillFrom(f, p, fam, fx) {
     opp = { leagueId: oKey || 'serie-a', id: o ? o.id : null, totali: '', inPorta: '' };
     if (o && oKey) Object.assign(opp, prefillShots(teamShots(o.id, oKey), 'against'));
     sede = fx.home ? 'casa' : 'trasferta';
-    competizione = fx.cup ? 'coppa' : 'campionato';
+    competizione = NATIONS_KEYS.includes(fx.comp) ? 'nations' : fx.cup ? 'coppa' : 'campionato';
   }
   let fixed = rows.length >= 3 ? String(hit === 0 ? '0' : [0, 0.2, 0.4, 0.6, 0.8, 1][Math.min(5, Math.round((hit / rows.length) * 5))]) : '';
   // 4/5 con l'unica partita mancata per un solo tiro dalla linea → 4/5+ (90%)

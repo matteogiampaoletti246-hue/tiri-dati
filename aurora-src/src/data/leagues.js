@@ -5,6 +5,11 @@ import { RAW } from './load';
 
 // Colori scelti dall'utente per i campionati/coppe aggiunti: [scuro, vivace] per i banner e colore delle pillole in Home.
 export const PALETTE = {
+  'fm-77': { colors: ['#2A2200', '#F5C518'], tint: '#F5C518' },
+  'fm-9806': { colors: ['#06202A', '#0AA7B8'], tint: '#34D1E0' },
+  'fm-9807': { colors: ['#06202A', '#0AA7B8'], tint: '#34D1E0' },
+  'fm-9808': { colors: ['#06202A', '#0AA7B8'], tint: '#34D1E0' },
+  'fm-9809': { colors: ['#06202A', '#0AA7B8'], tint: '#34D1E0' },
   'coppa-italia': { colors: ['#0A2A6E', '#1E5AC8'], tint: '#2F6FE0' },
   'dfb-pokal': { colors: ['#0B3B1E', '#C9A227'], tint: '#2FA85A' },
   'coupe-de-france': { colors: ['#0A1F5E', '#3C6AE0'], tint: '#3C6AE0' },

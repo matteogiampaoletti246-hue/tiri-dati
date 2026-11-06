@@ -10,7 +10,7 @@ import { useSel } from '@/components/past/PastBits';
 
 // Partono aperti i top 5 campionati e le coppe europee; tutti gli altri (e le finestre dei paesi) partono chiusi.
 // Ogni campionato ha la sua tendina: lo stato vale solo per il giorno mostrato (cambiando giorno si riparte dal predefinito).
-const OPEN_AT_START = new Set([...TOP5, 'champions-league', 'europa-league', 'conference-league']);
+const OPEN_AT_START = new Set([...TOP5, 'champions-league', 'europa-league', 'conference-league', 'fm-9806', 'fm-9807', 'fm-9808', 'fm-9809']);
 
 // Apertura / chiusura con transizione morbida (altezza + dissolvenza).
 function Collapse({ open, children }) {

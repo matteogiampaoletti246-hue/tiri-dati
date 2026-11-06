@@ -12,7 +12,9 @@ ESPN = "https://site.api.espn.com/apis/site/v2/sports/soccer/"
 LEGHE = {"serie-a": ("ita.1", 55), "premier-league": ("eng.1", 47), "la-liga": ("esp.1", 87), "bundesliga": ("ger.1", 54),
          "ligue-1": ("fra.1", 53), "champions-league": ("uefa.champions", 42), "europa-league": ("uefa.europa", 73),
          "conference-league": ("uefa.europa.conf", 10216), "coppa-italia": ("ita.coppa_italia", 141), "dfb-pokal": ("ger.dfb_pokal", 209),
-         "coupe-de-france": ("fra.coupe_de_france", 134), "efl-cup": ("eng.league_cup", 133)}
+         "coupe-de-france": ("fra.coupe_de_france", 134), "efl-cup": ("eng.league_cup", 133),
+         # Nations League (nazionali): stessa competizione ESPN per le quattro leghe, si abbina per data e nomi delle squadre
+         "fm-9806": ("uefa.nations", 9806), "fm-9807": ("uefa.nations", 9807), "fm-9808": ("uefa.nations", 9808), "fm-9809": ("uefa.nations", 9809)}
 PAUSA = float(os.environ.get("PAUSA", "0.15"))
 
 

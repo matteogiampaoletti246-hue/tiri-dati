@@ -12,6 +12,7 @@ const BY_ID = {};
 const BY_KEY = {};
 const BY_TEAM = {};
 const BY_FM = {};
+const NAT_FM = {}; // id FotMob -> profilo con la sola nazionale (Nations League)
 
 const POS = { P: 'GK', D: 'DEF', C: 'MID', A: 'ATT' };
 
@@ -46,6 +47,7 @@ export function buildPlayers() {
   Object.keys(BY_KEY).forEach((k) => delete BY_KEY[k]);
   Object.keys(BY_TEAM).forEach((k) => delete BY_TEAM[k]);
   Object.keys(BY_FM).forEach((k) => delete BY_FM[k]);
+  Object.keys(NAT_FM).forEach((k) => delete NAT_FM[k]);
 
   const ST = {};
   const STAT_ROWS = (RAW.stats && RAW.stats.players) || [];
@@ -103,6 +105,8 @@ export function buildPlayers() {
       photo: g && g.fm ? `https://images.fotmob.com/image_resources/playerimages/${g.fm}.png` : photoOf(g ? g.i : s[ix.id]) || (g && g.f ? faceUrl(g.f) : null),
       // giocatore dei campionati aggiunti (calc_extra.py): solo tiri e minuti per l'Affidabilita'; la scheda completa si costruisce dall'archivio
       lite: !!(g && g.fm),
+      // profilo della nazionale (Nations League, calc_extra.py): squadra = nazionale, stesse statistiche di tiri e minuti del campionato
+      nat: !!(g && g.nat),
       // id FotMob del giocatore (profili.py: stesso giocatore delle formazioni e dell'archivio, un solo profilo) e campionato nazionale
       // della squadra quando non e' tra quelli dell'app (es. Dinamo Zagreb: HNL, non Europa League)
       fmId: g ? g.f || g.fm || null : null,
@@ -143,7 +147,7 @@ export function buildPlayers() {
     p.ratings5 = p.recent.slice(0, 5).map((x) => x.rating).filter((v) => v !== null && v !== undefined);
     PLAYERS.push(p);
     BY_ID[p.id] = p;
-    if (p.fmId && (!BY_FM[p.fmId] || BY_FM[p.fmId].lite)) BY_FM[p.fmId] = p;
+    if (p.nat) { if (p.fmId) NAT_FM[String(p.fmId)] = p; } else if (p.fmId && (!BY_FM[p.fmId] || BY_FM[p.fmId].lite)) BY_FM[p.fmId] = p;
     if (!p.lite) {
       BY_KEY[`${norm(name)}|${team.id}`] = p;
       (BY_TEAM[team.id] = BY_TEAM[team.id] || []).push(p);
@@ -154,6 +158,13 @@ export function buildPlayers() {
   source.forEach((g) => make(g, ST[g.i] || null));
   STAT_ROWS.forEach((s) => {
     if (!seen.has(s[ix.id])) make(null, s);
+  });
+
+  // giocatore di club con la sua nazionale: un solo profilo per la ricerca (club + nazionale), l'altro serve alle partite di Nations League
+  PLAYERS.forEach((p) => {
+    if (p.nat) return;
+    const v = p.fmId ? NAT_FM[String(p.fmId)] : null;
+    if (v) { p.natView = v; v.club = p; }
   });
 
   // profili doppi uniti da profili.py: il vecchio id porta allo stesso giocatore (link e calcoli salvati)

@@ -5,7 +5,7 @@ import PanelTitle from '@/components/PanelTitle';
 import { playerById } from '@/data/players';
 import { teamById } from '@/data/teams';
 import { fixtureAt, nextFixture, prefillShots, teamShots } from '@/data/calcData';
-import { emptyFouls, fillFrom, hitFromValues, hitRows, initialForm, isFouls, resultFromForm, resultFromFouls } from '@/data/calcPlayer';
+import { emptyFouls, fillFrom, hitFromValues, hitRows, initialForm, isFouls, resultFromForm, resultFromFouls, viewFor } from '@/data/calcPlayer';
 import { domesticKey } from '@/data/calcData';
 import { fmTeamIn, foulKeys, leaguePlayerAvg, playerFouls, rosterFouls, teamFoulStats, useFouls } from '@/data/calcFouls';
 import { resolvePid } from '@/data/playerIndex';
@@ -13,10 +13,11 @@ import { comma } from '@/lib/format';
 import { parseDash } from '@/lib/calc';
 import DuelPicker from './DuelPicker';
 import RolesPanel from './RolesPanel';
-import { FALLI_KEYS, autoDuelIds, playerRoles, roleBreakdown, useFalli } from '@/data/calcRoles';
+import { FALLI_KEYS, autoDuelIds, falliKeysFor, playerRoles, roleBreakdown, useFalli } from '@/data/calcRoles';
 import FoulsTeamBlock from './FoulsTeamBlock';
 import {
   COMPETITION_OPTIONS,
+  NATIONS_OPTION,
   HIT_OPTIONS,
   SEDE_OPTIONS,
   fmtLine,
@@ -96,15 +97,17 @@ export default function PlayerTab({ onSave }) {
   const duelAvg = duelSel.length ? duelSel.reduce((a, r) => a + r.avg90, 0) / duelSel.length : null;
   const duelLeagueAvg = fouls && oppDom ? leaguePlayerAvg(fd, oppDom, oppStat) : null;
   // ruoli avversari e duello automatico (ruolo con la % piu' alta; anche il secondo se dista al massimo 5 punti)
+  const roleKeys = falliKeysFor(form.competizione === 'nations');
   const fl = useFalli(fouls ? FALLI_KEYS : []);
-  const rb = fouls && fl && fmPid ? roleBreakdown(fl, FALLI_KEYS, fmPid, form.stat) : null;
-  const roles = useMemo(() => playerRoles(fl, FALLI_KEYS), [fl]);
+  const rb = fouls && fl && fmPid ? roleBreakdown(fl, roleKeys, fmPid, form.stat) : null;
+  const roles = useMemo(() => playerRoles(fl, roleKeys), [fl, form.competizione]); // eslint-disable-line react-hooks/exhaustive-deps
   const autoSig = (rb && roster.length ? autoDuelIds(rb, roster, roles) : []).join(',');
 
   // precompila i falli dai dati (ultime 5, medie stagione, medie squadre) quando cambiano giocatore, squadre o statistica
   useEffect(() => {
     if (!fouls || !fd || !player || !fmPid) return;
-    const pf = playerFouls(fd, fmPid, team && domesticKey(team.name), form.stat, player.hn != null ? hitRows(player) : null);
+    const pv = viewFor(player, form.competizione);
+    const pf = playerFouls(fd, fmPid, team && domesticKey(team.name), form.stat, pv.hn != null ? hitRows(pv) : null);
     const season = { campionato: { tiri: '', minuti: '' }, coppa: { tiri: '', minuti: '' }, nations: { tiri: '', minuti: '' }, qualificazioni: { tiri: '', minuti: '' } };
     ['campionato', 'coppa'].forEach((k) => { if (pf && pf[k]) season[k] = { tiri: comma(Math.round(pf[k].v * 100) / 100, 2), minuti: String(Math.round(pf[k].min)) }; });
     setF({
@@ -140,19 +143,28 @@ export default function PlayerTab({ onSave }) {
   // negli schermi dei falli l'hit rate letto/scritto dal pannello di base e' quello dei falli
   // partite usate per l'Hit Rate (meno di 5: il pannello lo scrive, es. "su 3 partite")
   const vform = fouls ? { ...form, hitRate: f.hitRate, hitN: form.playerId ? parseDash(f.last5).length : null } : form;
-  const vset = (key, value) => (fouls && key === 'hitRate' ? setF({ hitRate: value }) : set(key, value));
+  const vset = (key, value) => (fouls && key === 'hitRate' ? setF({ hitRate: value }) : key === 'competizione' ? setCompetition(value) : set(key, value));
 
   const selectPlayer = (id) => {
     const p = playerById(id);
     if (!p) return;
-    setForm((f) => fillFrom(f, p, f.tipoTiri, nextFixture(p.teamName)));
+    // un giocatore di sola nazionale (senza profilo di club) parte da Nations League; gli altri dalla squadra di club
+    setForm((f) => { const v = p.nat ? p : viewFor(p, f.competizione); return fillFrom(f, v, f.tipoTiri, nextFixture(v.teamName)); });
+  };
+  // Nations League <-> campionato/coppa: stesso giocatore, squadra / prossima partita / statistiche dell'altro profilo
+  const setCompetition = (value) => {
+    const p = playerById(form.playerId);
+    if (!p || !p.natView) { set('competizione', value); return; }
+    const v = viewFor(p, value);
+    setForm((f) => ({ ...fillFrom(f, v, f.tipoTiri, nextFixture(v.teamName)), competizione: value }));
   };
 
   // cambio famiglia (totali / in porta) o linea: ricalcola i dati del giocatore scelto
   useEffect(() => {
     if (!form.playerId) return;
-    const p = playerById(form.playerId);
-    if (!p) return;
+    const p0 = playerById(form.playerId);
+    if (!p0) return;
+    const p = p0.nat ? p0 : viewFor(p0, form.competizione);
     setForm((f) => {
       const g = fillFrom(f, p, f.tipoTiri, null);
       return { ...f, shots5: g.shots5, minutes5: g.minutes5, hitRate: g.hitRate, hitN: g.hitN, season: g.season,
@@ -165,7 +177,7 @@ export default function PlayerTab({ onSave }) {
   const play = () => {
     if (!result.ready) return;
     const sedeLabel = SEDE_OPTIONS.find((o) => o.value === form.sede)?.label ?? '';
-    const competitionLabel = COMPETITION_OPTIONS.find((o) => o.value === form.competizione)?.label ?? '';
+    const competitionLabel = [...COMPETITION_OPTIONS, NATIONS_OPTION].find((o) => o.value === form.competizione)?.label ?? '';
     onSave({
       id: `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
       date: new Date().toISOString(),

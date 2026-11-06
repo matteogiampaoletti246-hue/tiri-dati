@@ -8,11 +8,13 @@ import { romeDay } from './util';
 
 // Campionati disponibili nel calcolatore, nell'ordine in cui compaiono nei menu.
 // Campionati aggiunti (dall'archivio FotMob, calc_extra.py): hanno Affidabilita' in partita, Migliori giocatori e Calcolatore come i top 5
-export const EXTRA_KEYS = ['eredivisie', 'pro-league', 'fm-46', 'gre-super-league-1', 'liga-portugal', 'super-lig'];
+export const EXTRA_KEYS = ['eredivisie', 'pro-league', 'fm-46', 'gre-super-league-1', 'liga-portugal', 'super-lig', 'fm-9806', 'fm-9807', 'fm-9808', 'fm-9809'];
 export const CALC_KEYS = ['serie-a', 'premier-league', 'bundesliga', 'la-liga', 'ligue-1', ...EXTRA_KEYS, 'champions-league', 'europa-league'];
+// Nations League (leghe A-D): le squadre sono nazionali, il giocatore di club ha un profilo collegato con le sole statistiche della nazionale
+export const NATIONS_KEYS = ['fm-9806', 'fm-9807', 'fm-9808', 'fm-9809'];
 export const CUPS = ['champions-league', 'europa-league'];
 export const DOMESTIC_KEYS = CALC_KEYS.filter((k) => !CUPS.includes(k));
-const LABELS = { 'serie-a': 'Serie A', 'premier-league': 'Premier League', bundesliga: 'Bundesliga', 'la-liga': 'LaLiga', 'ligue-1': 'Ligue 1', 'champions-league': 'Champions League', 'europa-league': 'Europa League', eredivisie: 'Eredivisie', 'pro-league': 'Pro League', 'fm-46': 'Superliga Danimarca', 'gre-super-league-1': 'Super League Grecia', 'liga-portugal': 'Primeira Liga', 'super-lig': 'Süper Lig' };
+const LABELS = { 'serie-a': 'Serie A', 'premier-league': 'Premier League', bundesliga: 'Bundesliga', 'la-liga': 'LaLiga', 'ligue-1': 'Ligue 1', 'champions-league': 'Champions League', 'europa-league': 'Europa League', eredivisie: 'Eredivisie', 'pro-league': 'Pro League', 'fm-46': 'Superliga Danimarca', 'gre-super-league-1': 'Super League Grecia', 'liga-portugal': 'Primeira Liga', 'super-lig': 'Süper Lig', 'fm-9806': 'Nations League A', 'fm-9807': 'Nations League B', 'fm-9808': 'Nations League C', 'fm-9809': 'Nations League D' };
 
 const LD = {};
 export const calcLeagues = () => CALC_KEYS.filter((k) => LD[k]).map((k) => ({ id: k, name: LABELS[k] || LD[k].label, cup: CUPS.includes(k) }));

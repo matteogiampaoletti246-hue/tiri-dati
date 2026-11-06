@@ -4,12 +4,12 @@ import { lruSet } from '@/lib/lru';
 // basta aggiungere l'id FotMob in CUP_FM. Ogni turno e' formato da "sfide" (andata+ritorno o gara unica).
 import { loadSeason, loadSeasonMatches, teamLogo } from './archive';
 
-export const CUP_FM = new Set([42, 73, 10216, 141, 209, 134, 186, 133, 149, 278, 180, 9067]);
+export const CUP_FM = new Set([77, 50, 44, 289, 290, 298, 9806, 9807, 9808, 9809, 42, 73, 10216, 141, 209, 134, 186, 133, 149, 278, 180, 9067]);
 export const hasCup = (fm) => CUP_FM.has(Number(fm));
 // coppe nazionali: solo tabellone (niente classifica)
 export const PURE_CUP_FM = new Set([141, 209, 134, 186, 133, 149, 278, 180, 9067]);
 export const isPureCup = (fm) => PURE_CUP_FM.has(Number(fm));
-export const CUP_NAME = { 42: 'UEFA Champions League', 73: 'UEFA Europa League', 10216: 'UEFA Conference League', 141: 'Coppa Italia', 209: 'DFB Pokal', 134: 'Coupe de France', 186: 'Taça de Portugal', 133: 'EFL Cup', 149: 'Belgian Cup', 278: 'Austrian Cup', 180: 'Scottish League Cup', 9067: 'Copa do Brasil' };
+export const CUP_NAME = { 77: 'FIFA World Cup', 50: 'UEFA EURO', 44: 'Copa América', 289: 'Africa Cup of Nations', 290: 'AFC Asian Cup', 298: 'CONCACAF Gold Cup', 9806: 'UEFA Nations League A', 9807: 'UEFA Nations League B', 9808: 'UEFA Nations League C', 9809: 'UEFA Nations League D', 42: 'UEFA Champions League', 73: 'UEFA Europa League', 10216: 'UEFA Conference League', 141: 'Coppa Italia', 209: 'DFB Pokal', 134: 'Coupe de France', 186: 'Taça de Portugal', 133: 'EFL Cup', 149: 'Belgian Cup', 278: 'Austrian Cup', 180: 'Scottish League Cup', 9067: 'Copa do Brasil' };
 
 const ROUND_ORDER = ['playoff', '1/64', '1/32', '1/16', '1/8', '1/4', '1/2', 'final'];
 // i turni arrivano con nomi diversi a seconda della competizione ("2", "1st Round", "8th Finals", "Quarter-finals"...): si portano a una forma unica

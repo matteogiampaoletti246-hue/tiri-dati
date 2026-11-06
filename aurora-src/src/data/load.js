@@ -51,7 +51,8 @@ function mergeCalcExtra() {
   (G.players || []).forEach((p) => byId.set(p.i, p));
   // l, r, h e partite per l'Hit Rate (hn, hp) di profili.py: si copia tutto quello che c'e'
   (X.upd || []).forEach((u) => { const p = byId.get(u.i); if (p) Object.assign(p, u); });
-  G.players = (G.players || []).concat(X.players || []);
+  // nazionali (Nations League): profili a parte con le sole statistiche della nazionale; players.js li lega al giocatore di club
+  G.players = (G.players || []).concat(X.players || [], X.nat || []);
   if (X.al) G.al = { ...(G.al || {}), ...X.al };
   G.fix = G.fix || {};
   Object.entries(X.fix || {}).forEach(([t, lst]) => { G.fix[t] = lst; });

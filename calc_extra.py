@@ -24,6 +24,12 @@ LEGHE = {
     135: ("gre-super-league-1", "Super League", 0.80),
     61: ("liga-portugal", "Liga Portugal", 0.85),
     71: ("super-lig", "Super Lig", 0.80),
+    # Nations League (nazionali): il giocatore ha gia' il suo profilo di club; le sue statistiche con la nazionale vanno in "nat" (mai in "upd"/"players",
+    # altrimenti sostituirebbero quelle del club). Quinto valore True = nazionali.
+    9806: ("fm-9806", "Nations League A", 1.0, True),
+    9807: ("fm-9807", "Nations League B", 0.9, True),
+    9808: ("fm-9808", "Nations League C", 0.8, True),
+    9809: ("fm-9809", "Nations League D", 0.7, True),
 }
 OUT = "calc_extra.json"
 MIN_HIT = 50          # minuti minimi perche' una partita conti per l'hit rate (come update_giocatori.py)
@@ -95,7 +101,7 @@ def main():
     idx = json.load(open("arch/index.json"))
     by = universe()
     taken = set()
-    out = {"leagues": {}, "players": [], "upd": [], "fix": {}}
+    out = {"leagues": {}, "players": [], "upd": [], "fix": {}, "nat": []}
     OLD = {}
     BY_F = {}       # id FotMob gia' collegato da profili.py: lo stesso giocatore non diventa un secondo profilo
     try:
@@ -130,7 +136,8 @@ def main():
         return None
 
     today = datetime.now(ROME).strftime("%Y-%m-%d")
-    for fm, (key, label, handi) in LEGHE.items():
+    for fm, (key, label, handi, *_nat) in LEGHE.items():
+        nat = bool(_nat and _nat[0])
         e = idx.get(str(fm))
         if not e or not e.get("s"):
             print(f"{label}: non nell'indice")
@@ -143,7 +150,8 @@ def main():
         cal, par = load(cal_p), load(par_p).get("m", {})
         tname = {}
         for tid, n in (cal.get("teams") or {}).items():
-            tname[str(tid)] = same_name(n, by, taken)
+            # le nazionali tengono il nome di FotMob: mai unite a un club (Armenia non e' "Ararat Armenia")
+            tname[str(tid)] = n if nat else same_name(n, by, taken)
             taken.add(tname[str(tid)])
         T = {n: {"for": [], "ag": [], "sf": [], "sa": []} for n in tname.values()}
         rows = {}
@@ -195,13 +203,30 @@ def main():
             tot = [len(ms), float(sum(x[1] for x in ms)), sum(x[2] for x in ms), float(sum(x[3] for x in ms))]
             last = [[x[1], x[2], x[3]] for x in ms[:5]]
             hit = [[x[1], x[2], x[3]] for x in [y for y in ms if y[3] >= MIN_HIT][:5]]
-            old = find_old(tn, p["n"], pid)
-            if old:
+            old = None if nat else find_old(tn, p["n"], pid)
+            if nat:
+                out["nat"].append({"i": f"nat~{fm}~{sk}~{pid}", "n": p["n"], "t": tn, "fm": int(pid), "lg": key, "nat": 1, "l": tot, "r": last, "h": hit})
+                n_new += 1
+            elif old:
                 out["upd"].append({"i": old["i"], "l": tot, "r": last, "h": hit})
                 n_upd += 1
             else:
                 out["players"].append({"i": f"fm~{fm}~{sk}~{pid}", "n": p["n"], "t": tn, "fm": int(pid), "lg": key, "l": tot, "r": last, "h": hit})
                 n_new += 1
+        if nat:
+            # rose delle nazionali (rosa/<id%100>.json): chi non ha ancora minuti in Nations League e' comunque raggiungibile (ricerca, Calcolatore),
+            # con le statistiche vuote; se ha un profilo di club il collegamento e' per id FotMob (app: players.js)
+            have = {x["fm"] for x in out["nat"] if x["lg"] == key}
+            for tid, tn in tname.items():
+                try:
+                    sh = json.load(open(f"rosa/{int(tid) % 100}.json"))
+                except Exception:
+                    continue
+                for r in ((sh.get(str(tid)) or {}).get("p") or []):
+                    if not r or r[0] is None or r[0] in have or not r[1] or (isinstance(r[0], int) and r[0] < 0):
+                        continue
+                    have.add(r[0])
+                    out["nat"].append({"i": f"nat~{fm}~{sk}~{r[0]}", "n": r[1], "t": tn, "fm": int(r[0]), "lg": key, "nat": 1, "l": [0, 0.0, 0, 0.0], "r": [], "h": []})
         nxt = {}
         for r in cal.get("fix") or []:
             hid, aid, utc, started, canc = str(r[2]), str(r[3]), r[4], r[6], r[8]

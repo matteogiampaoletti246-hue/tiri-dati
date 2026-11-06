@@ -9,6 +9,7 @@ import { comma } from '@/lib/format';
 import { POS_IT, POS_PL, percentiles, ratingColor, dateIt, rankOf, statValue, roleAverage, standing, bandColor, bandOf, BAND_COLORS, GROUPS } from './playerCalc';
 import { per90, EX_COLS } from '@/data/players';
 import { nextMatchOf } from '@/data/extras';
+import { NATIONS_KEYS } from '@/data/calcData';
 import { playerReliability, loadPlayerFouls, TOP_STATS, isFoulStat } from '@/data/topPlayers';
 import TopStatPicker from '@/components/top/TopStatPicker';
 import RollNumber from '@/components/RollNumber';
@@ -286,7 +287,9 @@ const CARD = { backgroundColor: 'var(--panel-solid, rgba(255,255,255,.04))', bor
 // Affidabilita' prossima partita: tendina a barra (concept B) con Tiri / Tiri in porta / Falli commessi / Falli subiti;
 // al cambio i voti ripartono da 0 con onda di luce, colore e "pop" (transizione C). Stesso calcolo del Calcolatore e di Migliori Giocatori.
 const REL_LINES = [['Over 0,5', 0.5], ['Over 1,5', 1.5], ['Over 2,5', 2.5]];
-function Affidabilita({ player, team, comp }) {
+function Affidabilita({ player: club, team, comp }) {
+  // Nations League: squadra, prossima partita e statistiche sono quelle della nazionale (profilo collegato al giocatore di club)
+  const player = club.natView && NATIONS_KEYS.includes(comp) ? club.natView : club;
   const [stat, setStat] = useState('tiri');
   const [anim, setAnim] = useState(false);
   const [fouls, setFouls] = useState(null);
@@ -486,17 +489,20 @@ export const playerHasCurStats = (p) => !!p && ((p.appearances || 0) > 0 || (p.m
 export function StatistichePanel({ player, team }) {
   const p = player;
   const car = usePlayerCareer(p);
+  // giocatore convocato in una nazionale di Nations League: la competizione c'e' sempre, come una coppa della sua squadra (prossima partita e Affidabilita')
+  const natLg = p.natView ? leagueById(p.natView.leagueId) : null;
   const baseComps = (() => {
     const c = teamCompetitions(p.teamId);
     const l = p.archive && p.leagueId ? leagueById(p.leagueId) : p.domFm ? leagueById(LID_BY_FM[p.domFm]) : null;
-    return l ? [l, ...c.filter((x) => x.id !== l.id)] : c;
+    const b = l ? [l, ...c.filter((x) => x.id !== l.id)] : c;
+    return natLg && !b.some((x) => x.id === natLg.id) ? [...b, natLg] : b;
   })();
   // tutte le competizioni in cui ha giocato (indice giocatori), oltre a quelle della squadra attuale; in tendina solo quelle con dati
   // (la prima, quella di partenza, resta sempre: senza dati mostra "Dati non disponibili")
   const hasCurApp = (p.appearances || 0) > 0 || (p.minutes || 0) > 0;
   const withData = (id, i) => i === 0 || !!(car.bySeason[id] && car.bySeason[id].length) || (baseComps.some((c) => c.id === id) && !!(p.c && p.c[0]));
   const comps = [...baseComps, ...car.order.filter((id) => !baseComps.some((c) => c.id === id)).map(leagueById).filter(Boolean)]
-    .filter((c, i) => car.loading || withData(c.id, i));
+    .filter((c, i) => car.loading || withData(c.id, i) || (natLg && c.id === natLg.id));
   const [comp, setComp] = useSel(p.id, 'sc', comps.length ? comps[0].id : null);
   const [season, setSeason] = useSel(p.id, 'ss', () => (p.archive ? p.sk : initSeason(FM_ID[comps.length ? comps[0].id : null])));
   const fmL = FM_ID[comp];

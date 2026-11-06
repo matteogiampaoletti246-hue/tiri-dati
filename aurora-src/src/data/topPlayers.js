@@ -1,9 +1,9 @@
 // Migliori giocatori del giorno: stessa formula dell'app originale (Poisson sulla media tiri attesa).
-import { FALLI_KEYS, autoDuel, loadFalli } from './calcRoles';
+import { FALLI_KEYS, autoDuel, falliKeysFor, loadFalli } from './calcRoles';
 import { RAW } from './load';
 import { PLAYERS } from './players';
 import { teamById, teamByName } from './teams';
-import { blendTeam, domesticKey, pickLeagueKey, CUPS, DOMESTIC_KEYS } from './calcData';
+import { blendTeam, domesticKey, pickLeagueKey, CUPS, DOMESTIC_KEYS, NATIONS_KEYS } from './calcData';
 import { romeDay } from './util';
 import { calcReliability, fillFrom, hitFromValues, hitRows, initialForm, resultFromFouls } from './calcPlayer';
 import { fmTeamIn, foulKeys, loadFouls, playerFouls, teamFoulStats } from './calcFouls';
@@ -225,7 +225,7 @@ export function loadBestFouls(day, threshold, stat) {
         hitRate: hitFromValues(parseDash(last5), line, 'over'),
       };
       // duello automatico: i 2 avversari con la media piu' alta nei ruoli con la % piu' alta
-      const du = autoDuel(fd, FLD, FALLI_KEYS, fmPid, stat, opp && domesticKey(opp.name), fmTeamIn(fd, opp));
+      const du = autoDuel(fd, FLD, falliKeysFor(NATIONS_KEYS.includes(f[3])), fmPid, stat, opp && domesticKey(opp.name), fmTeamIn(fd, opp));
       const r = resultFromFouls({ ...base, stat, f: fo }, du ? du.avg : null, du ? du.leagueAvg : null, ownStats.avg, oppStats.avg);
       if (r.score === null || r.score === undefined) continue;
       const voto = Math.max(0, Math.min(10, r.score));
@@ -288,7 +288,7 @@ export function loadPlayerFouls(p, dateIso, lines, stat) {
     const season = { campionato: { tiri: '', minuti: '' }, coppa: { tiri: '', minuti: '' }, nations: { tiri: '', minuti: '' }, qualificazioni: { tiri: '', minuti: '' } };
     ['campionato', 'coppa'].forEach((k) => { if (pf[k]) season[k] = { tiri: comma(Math.round(pf[k].v * 100) / 100, 2), minuti: String(Math.round(pf[k].min)) }; });
     const last5 = pf.last5.join('-');
-    const du = autoDuel(fd, fl, FALLI_KEYS, fmPid, stat, opp && domesticKey(opp.name), fmTeamIn(fd, opp));
+    const du = autoDuel(fd, fl, falliKeysFor(NATIONS_KEYS.includes(f[3])), fmPid, stat, opp && domesticKey(opp.name), fmTeamIn(fd, opp));
     return lines.map((line) => {
       const fo = { last5, min5: pf.min5.join('-'), season, duel: [], team: comma(ownStats.v, 2), opp: comma(oppStats.v, 2), hitRate: hitFromValues(parseDash(last5), line, 'over') };
       const r = resultFromFouls({ ...base, line: String(line).replace('.', ','), stat, f: fo }, du ? du.avg : null, du ? du.leagueAvg : null, ownStats.avg, oppStats.avg);

@@ -8,7 +8,7 @@ import PanelTitle from '@/components/PanelTitle';
 import TextFilter from '@/components/TextFilter';
 import { PLAYERS } from '@/data/players';
 import { teamById } from '@/data/teams';
-import { COMPETITION_OPTIONS, HIT_OPTIONS, LINE_OPTIONS, SEDE_OPTIONS } from '@/lib/calc';
+import { COMPETITION_OPTIONS, HIT_OPTIONS, LINE_OPTIONS, NATIONS_OPTION, SEDE_OPTIONS } from '@/lib/calc';
 import FieldRow from './FieldRow';
 import NumInput from './NumInput';
 import PickerSheet from './PickerSheet';
@@ -104,7 +104,7 @@ export default function PlayerPickPanel({ form, set, player, hint, onSelectPlaye
           <TextFilter options={SEDE_OPTIONS} value={form.sede} onChange={(v) => set('sede', v)} />
         </FieldRow>
         <FieldRow label="Competizione" noSwipe>
-          <TextFilter options={COMPETITION_OPTIONS} value={form.competizione} onChange={(v) => set('competizione', v)} />
+          <TextFilter options={player && (player.natView || player.nat) ? [...COMPETITION_OPTIONS, NATIONS_OPTION] : COMPETITION_OPTIONS} value={form.competizione} onChange={(v) => set('competizione', v)} />
         </FieldRow>
         <FieldRow label={hitTitle}>
           <MiniSelect

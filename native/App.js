@@ -325,6 +325,13 @@ const PlayerBannerS = memo(({ p, onPress }) => {
         <View style={s.pbSub}>
           {p.crest ? <Mark uri={p.crest} size={14} /> : null}
           <Text numberOfLines={1} style={s.pbTeam}>{p.team}</Text>
+          {p.nat ? (
+            <>
+              <View style={{ width: 1, height: 14, backgroundColor: C.dim || '#5b678f', opacity: 0.5 }} />
+              <Image source={{ uri: `${SITE}native-link/flags/${p.nat.fc}.png` }} style={{ width: 14, height: 14, borderRadius: 7 }} contentFit="cover" cachePolicy="memory-disk" transition={0} />
+              <Text numberOfLines={1} style={s.pbTeam}>{p.nat.name}</Text>
+            </>
+          ) : null}
         </View>
       </View>
     </Pressable>

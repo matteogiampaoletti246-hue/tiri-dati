@@ -7,6 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { Search, X } from 'lucide-react';
 import Crest from './Crest';
+import FlagDot from './FlagDot';
+import { countryIt } from '@/data/carriere';
 import LeagueBadge from './LeagueBadge';
 import { teamById } from '@/data/teams';
 import { leagueById } from '@/data/leagues';
@@ -33,8 +35,16 @@ export function PlayerBanner({ p, onClick, compact = false }) {
       <span className="min-w-0">
         <span className={`block truncate font-extrabold ${compact ? 'text-[14.5px]' : 'text-[16px]'}`} style={{ color: 'var(--ink)' }}>{p.name}</span>
         <span className={`flex items-center gap-1.5 text-[12px] ${compact ? 'mt-px' : 'mt-0.5'}`} style={{ color: 'var(--ink-3)' }}>
-          {t ? <Crest team={t} size={14} /> : null}
-          <span className="truncate">{t ? t.name : p.teamName}</span>
+          {p.nat ? <FlagDot name={p.teamName} size={14} /> : t ? <Crest team={t} size={14} /> : null}
+          <span className="truncate">{p.nat ? countryIt(p.teamName) : t ? t.name : p.teamName}</span>
+          {/* giocatore di club che gioca anche in Nations League: la nazionale a destra del club, separata da una linea */}
+          {p.natView ? (
+            <>
+              <span className="h-3.5 w-px shrink-0" style={{ background: 'var(--ink-4, var(--ink-3))', opacity: 0.5 }} />
+              <FlagDot name={p.natView.teamName} size={14} />
+              <span className="truncate">{countryIt(p.natView.teamName)}</span>
+            </>
+          ) : null}
         </span>
       </span>
     </button>

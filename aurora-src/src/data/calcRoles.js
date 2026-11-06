@@ -10,7 +10,11 @@ const FL = new Map();
 export const GAP = 5; // punti percentuali: entro questa distanza anche il secondo ruolo conta
 export const DUEL_N = 2;
 // competizioni con le coppie di falli: top 5 campionati, coppe europee e coppe nazionali dei top 5
-export const FALLI_KEYS = ['serie-a', 'premier-league', 'la-liga', 'bundesliga', 'ligue-1', 'champions-league', 'europa-league', 'conference-league', 'coppa-italia', 'dfb-pokal', 'coupe-de-france', 'efl-cup'];
+export const NATION_FALLI_KEYS = ['fm-9806', 'fm-9807', 'fm-9808', 'fm-9809'];
+export const CLUB_FALLI_KEYS = ['serie-a', 'premier-league', 'la-liga', 'bundesliga', 'ligue-1', 'champions-league', 'europa-league', 'conference-league', 'coppa-italia', 'dfb-pokal', 'coupe-de-france', 'efl-cup'];
+export const FALLI_KEYS = [...CLUB_FALLI_KEYS, ...NATION_FALLI_KEYS];
+// ruoli e duello: con le nazionali (Nations League) solo le loro partite, con i club solo le partite di club (un giocatore puo' avere un ruolo diverso)
+export const falliKeysFor = (nation) => (nation ? NATION_FALLI_KEYS : CLUB_FALLI_KEYS);
 
 export const loadFalli = (key) => {
   const fm = FM_ID[key];

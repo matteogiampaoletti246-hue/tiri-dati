@@ -85,3 +85,8 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 
 ## Squadre di coppa con nome FotMob: una sola scheda (regola fissa)
 - Le partite d'archivio di Champions/Europa League (`teamsOf` in `data/archiveMatch.js`) usano nomi FotMob corti ("PSG", "Man United", "Köln"): senza unione nascevano squadre `fm-<id>` senza giocatori e quindi senza Affidabilita' nelle formazioni e nel Calcolatore. Ora una squadra `fm-` senza giocatori si unisce alla squadra vera: prima per id FotMob (`teamByFm`), poi per nome/sigla tra le squadre con giocatori (coppe: tutte; campionato: solo quel campionato) solo se e' una sola; nel campionato l'id dell'archivio corregge un `fmId` sbagliato (era "1. FC Köln" con l'id di Viktoria Köln). Controllo fatto: tutte le 72 squadre di CL/EL 2026/27 hanno giocatori e medie.
+
+## Nazionali: colori, tabelloni, qualificazioni
+- Colori delle nazionali = colori storici delle federazioni (`NAT_LIST` in `data/teamColorFix.js`; Italia blu, Spagna rossa, Francia blu, Portogallo rosso, Irlanda verde...). Competizioni: Mondiali giallo, Nations League turchese (`PALETTE` in `data/leagues.js`, applicata anche alle competizioni d'archivio), qualificazioni rosso.
+- Tabellone (`CUP_FM` in `data/bracket.js`): Mondiali, Europei, Copa America, Coppa d'Africa, Asian Cup, Gold Cup, Nations League (A-D, le passate; B-D senza fase finale non lo mostrano). Qualificazioni: `qualificazioni.py` le aggiunge a `selezione.json`.
+- Banner giocatore in ricerca: club + linea sottile + bandiera e nazionale a destra (sito e nativo).

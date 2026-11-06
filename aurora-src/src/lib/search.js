@@ -3,6 +3,7 @@ import { LEAGUES, leagueById } from '@/data/leagues';
 import { PLAYERS } from '@/data/players';
 import { REFEREES } from '@/data/referees';
 import { bootData } from '@/data';
+import { countryIt, flagCode } from '@/data/carriere';
 import { getTheme, setTheme } from '@/lib/theme';
 import { perfEnabled, setPerf } from '@/lib/perfMon';
 
@@ -22,7 +23,8 @@ export function searchAll(q) {
   // competizioni: per nome o per paese ("danimarca" = tutte le danesi), prima quelle dell'app, poi l'archivio (fino a 30)
   const leagues = LEAGUES.filter((l) => norm(l.name).includes(needle) || norm(l.country || '').includes(needle))
     .sort((a, b) => (a.arch ? 1 : 0) - (b.arch ? 1 : 0) || (norm(a.name).includes(needle) ? 0 : 1) - (norm(b.name).includes(needle) ? 0 : 1)).slice(0, 30);
-  const players = PLAYERS.filter((p) => norm(p.name).includes(needle)).sort(byRel).slice(0, 8);
+  // il profilo della nazionale di un giocatore di club non e' un risultato a parte: compare sotto il club
+  const players = PLAYERS.filter((p) => !(p.nat && p.club) && norm(p.name).includes(needle)).sort(byRel).slice(0, 8);
   const referees = REFEREES.filter((r) => norm(r.name).includes(needle)).slice(0, 8);
   return { needle, leagues, teams, players, referees };
 }
@@ -42,7 +44,7 @@ function forNative(q) {
     }),
     players: r.players.map((p) => {
       const t = teamById(p.teamId);
-      return { id: p.id, name: p.name, photo: p.photo || null, team: t ? t.name : p.teamName || '', crest: t ? t.crest || null : null, color: color(t), color2: t && t.colors ? t.colors[1] || null : null, path: `/giocatore/${p.id}` };
+      return { id: p.id, name: p.name, photo: p.photo || null, team: t ? t.name : p.teamName || '', crest: t ? t.crest || null : null, color: color(t), color2: t && t.colors ? t.colors[1] || null : null, nat: p.natView ? { name: countryIt(p.natView.teamName), fc: flagCode(p.natView.teamName) } : p.nat ? { name: countryIt(p.teamName), fc: flagCode(p.teamName) } : null, path: `/giocatore/${p.id}` };
     }),
     referees: r.referees.map((x) => ({ id: x.id, name: x.name, initials: initials(x.name), path: `/arbitro/${x.id}` })),
   };

@@ -115,6 +115,8 @@ export const COMPETITION_OPTIONS = [
   { value: 'campionato', label: 'Campionato' },
   { value: 'coppa', label: 'Coppa europea' },
 ];
+// con un giocatore convocato in una nazionale di Nations League compare anche la sua competizione
+export const NATIONS_OPTION = { value: 'nations', label: 'Nations League' };
 export const SEASON_COMPETITIONS = [
   { key: 'campionato', label: 'Campionato' },
   { key: 'coppa', label: 'Coppa europea' },
