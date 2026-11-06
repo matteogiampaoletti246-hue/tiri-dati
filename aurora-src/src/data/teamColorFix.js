@@ -173,4 +173,7 @@ const NAT_LIST = [
 ];
 NAT_LIST.forEach(([names, a, b]) => names.forEach((n) => { FIX[norm(fold(n))] = [C[a], C[b]]; }));
 
+export const NAT_NAMES = new Set();
+NAT_LIST.forEach(([names]) => names.forEach((n) => NAT_NAMES.add(norm(fold(n)))));
+export const isNationName = (name) => NAT_NAMES.has(norm(fold(name)));
 export const fixedColors = (name) => FIX[norm(fold(name))] || null;

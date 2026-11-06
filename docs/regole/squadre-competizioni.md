@@ -90,3 +90,4 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 - Colori delle nazionali = colori storici delle federazioni (`NAT_LIST` in `data/teamColorFix.js`; Italia blu, Spagna rossa, Francia blu, Portogallo rosso, Irlanda verde...). Competizioni: Mondiali giallo, Nations League turchese (`PALETTE` in `data/leagues.js`, applicata anche alle competizioni d'archivio), qualificazioni rosso.
 - Tabellone (`CUP_FM` in `data/bracket.js`): Mondiali, Europei, Copa America, Coppa d'Africa, Asian Cup, Gold Cup, Nations League (A-D, le passate; B-D senza fase finale non lo mostrano). Qualificazioni: `qualificazioni.py` le aggiunge a `selezione.json`.
 - Banner giocatore in ricerca: club + linea sottile + bandiera e nazionale a destra (sito e nativo).
+- Banner nazionali (concept A): bandiera intera a destra, nitida, sfuma verso sinistra (`flag` in `EntityBanner`, `isNationName`).

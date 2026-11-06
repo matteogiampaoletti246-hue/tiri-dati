@@ -6,6 +6,7 @@ import PageShell from '@/components/PageShell';
 import TopBar from '@/components/TopBar';
 import SwipeTabs from '@/components/SwipeTabs';
 import EntityBanner from '@/components/EntityBanner';
+import { isNationName } from '@/data/teamColorFix';
 import StatLists from '@/components/stats/StatLists';
 import { PlayerFace } from '@/components/FmImg';
 import useAsync from '@/hooks/useAsync';
@@ -97,6 +98,7 @@ export default function ArchiveTeam() {
         meta={row ? <span className="tnum text-[11.5px]" style={{ color: 'var(--ink-2)' }}>{row.idx}° · {row.pts} pt · {row.played} gare</span> : null}
         colors={colors}
         logoUrl={teamLogo(tid)}
+        flag={isNationName(name)}
         initials={name.slice(0, 3).toUpperCase()}
         tall
       />

@@ -9,9 +9,10 @@ import { ChevronLeft } from 'lucide-react';
 
 // Banner di campionato / squadra / giocatore: fisso in alto, sempre visibile, base scura con alone del colore della squadra o del campionato.
 // Niente logo accanto al nome: a destra, dietro, lo stemma (o il volto del giocatore) grande e acceso che sfuma verso sinistra con una maschera.
+const FADE_FLAG = 'linear-gradient(to left, #000 35%, transparent 100%)';
 const FADE = 'linear-gradient(to left, #000 20%, transparent 85%)';
 
-export default function EntityBanner({ name, subtitle, meta, colors = ['#1E4BD8', '#7FB6E8'], logoUrl = null, liveCount = 0, logoFilter, tall = false, nameExtra = null, below = null, person = false }) {
+export default function EntityBanner({ name, subtitle, meta, colors = ['#1E4BD8', '#7FB6E8'], logoUrl = null, liveCount = 0, logoFilter, tall = false, nameExtra = null, below = null, person = false, flag = false }) {
   const navigate = useNavigate();
   const ref = useRef(null);
   // spazio riservato sotto il banner: misurato prima del disegno e partendo dall'ultima altezza vista (niente pagina che scende all'arrivo)
@@ -50,6 +51,11 @@ export default function EntityBanner({ name, subtitle, meta, colors = ['#1E4BD8'
         // volto intero: riquadro quadrato poco più alto del banner, appoggiato in basso (si taglia solo la cima dei capelli)
         <span aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 block w-[60%]" style={{ WebkitMaskImage: FADE, maskImage: FADE }}>
           <span className="absolute bottom-0 right-3 block aspect-square h-[118%]" style={{ filter: 'saturate(1.15)' }}><PlayerPhoto src={logoUrl} className="h-full w-full" /></span>
+        </span>
+      ) : logoUrl && flag ? (
+        // nazionali: bandiera intera sul lato destro, nitida, che sfuma verso sinistra (concept A)
+        <span aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 block w-[78%]" style={{ WebkitMaskImage: FADE_FLAG, maskImage: FADE_FLAG }}>
+          <img src={logoUrl} alt="" decoding="async" onError={(e) => { e.currentTarget.style.display = 'none'; }} style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.85 }} />
         </span>
       ) : logoUrl ? (
         <span

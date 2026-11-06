@@ -8,6 +8,7 @@ import PageShell from '@/components/PageShell';
 import TopBar from '@/components/TopBar';
 import SwipeTabs from '@/components/SwipeTabs';
 import EntityBanner from '@/components/EntityBanner';
+import { isNationName } from '@/data/teamColorFix';
 import FormDots from '@/components/FormDots';
 import TeamMatchesPanel from '@/components/team/TeamMatchesPanel';
 import StandingsTable from '@/components/StandingsTable';
@@ -119,6 +120,7 @@ export default function Team() {
         below={below}
         colors={team.colors}
         logoUrl={team.crest}
+        flag={isNationName(team.name)}
         initials={team.initials}
         liveCount={liveCount}
         tall
