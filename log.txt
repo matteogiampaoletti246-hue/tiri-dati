@@ -1,0 +1,63 @@
+Node.js v20.20.2 is deprecated. A future release of EAS CLI will require Node.js 22 or newer.
+- Exporting...
+[expo-cli] --non-interactive is not supported, use $CI=1 instead
+[expo-cli] Node.js (v20.20.2) is outdated and unsupported. Please update to a newer Node.js LTS version (required: >=22.13.0)
+[expo-cli] Go to: https://nodejs.org/en/download
+[expo-cli] Starting Metro Bundler
+[expo-cli] iOS Bundled 27164ms index.js (1234 modules)
+[expo-cli] Android Bundled 34828ms index.js (1233 modules)
+[expo-cli] Creating asset map
+[expo-cli] 
+[expo-cli] › Assets (19):
+[expo-cli] node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/AntDesign.ttf (130KB)
+[expo-cli] node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Entypo.ttf (66KB)
+[expo-cli] node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/EvilIcons.ttf (13KB)
+[expo-cli] node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Feather.ttf (56KB)
+[expo-cli] node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/FontAwesome.ttf (166KB)
+[expo-cli] node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf (134KB)
+[expo-cli] node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf (34KB)
+[expo-cli] node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf (203KB)
+[expo-cli] node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/FontAwesome6_Brands.ttf (209KB)
+[expo-cli] node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/FontAwesome6_Regular.ttf (68KB)
+[expo-cli] node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/FontAwesome6_Solid.ttf (424KB)
+[expo-cli] node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Fontisto.ttf (314KB)
+[expo-cli] node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Foundation.ttf (57KB)
+[expo-cli] node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Ionicons.ttf (390KB)
+[expo-cli] node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf (1.3MB)
+[expo-cli] node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/MaterialIcons.ttf (357KB)
+[expo-cli] node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Octicons.ttf (69KB)
+[expo-cli] node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/SimpleLineIcons.ttf (54KB)
+[expo-cli] node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Zocial.ttf (26KB)
+[expo-cli] 
+[expo-cli] › ios bundles (2):
+[expo-cli] _expo/static/js/ios/index-007316b0a31af7dbeb9a6d5eb8b560a2.hbc (3MB)
+[expo-cli] _expo/static/js/ios/index-007316b0a31af7dbeb9a6d5eb8b560a2.hbc.map (6.2MB)
+[expo-cli] › android bundles (2):
+[expo-cli] _expo/static/js/android/index-5809479fa62e2825d45f7645711bd788.hbc (3MB)
+[expo-cli] _expo/static/js/android/index-5809479fa62e2825d45f7645711bd788.hbc.map (6.2MB)
+[expo-cli] › Files (2):
+[expo-cli] assetmap.json (11KB)
+[expo-cli] metadata.json (2.6KB)
+[expo-cli] 
+[expo-cli] Exported: dist
+✔ Exported bundle(s)
+- Uploading...
+- Uploading assetmap.json (0 / 11.2 KB)
+✔ Uploaded assetmap.json 
+✔ Uploaded 2 app bundles
+✔ Uploading assets skipped - no new assets found
+ℹ 20 iOS assets, 20 Android assets (maximum: 2000 total per update). Learn more about asset limits: https://expo.fyi/eas-update-asset-limits
+- Computing project fingerprints
+✔ Computed project fingerprints
+- Publishing...
+✔ Published!
+Branch             main
+Runtime version    1.0.0
+Platform           android, ios
+Update group ID    1ec87000-c329-4c60-afdb-ccfcc90d8bac
+Android update ID  01a1b15f-18dd-70a8-87e4-fbf001420ffb
+iOS update ID      01a1b15f-18dd-798a-966d-5646d3ce51c3
+Message            Home di prova nativa f399033eb3f4399d3146c7bbe584d7aca0c0f662
+Commit             f399033eb3f4399d3146c7bbe584d7aca0c0f662*
+EAS Dashboard      https://expo.dev/accounts/lozellatos-team/projects/app/updates/1ec87000-c329-4c60-afdb-ccfcc90d8bac
+

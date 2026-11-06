@@ -1,0 +1,3 @@
+https://nodejs.org/en/download
+https://expo.fyi/eas-update-asset-limits
+https://expo.dev/accounts/lozellatos-team/projects/app/updates/1ec87000-c329-4c60-afdb-ccfcc90d8bac
