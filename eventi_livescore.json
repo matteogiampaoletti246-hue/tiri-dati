@@ -77,8 +77,8 @@
    "da_fare": 0
   },
   "Europa League 2026-2027": {
-   "partite_con_eventi": 2,
-   "da_fare": 2
+   "partite_con_eventi": 6,
+   "da_fare": 7
   },
   "UEFA Super Cup 2025-2026": {
    "partite_con_eventi": 0,
@@ -349,8 +349,8 @@
    "da_fare": 0
   },
   "Division Profesional 2026 - Clausura": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "Superpuchar Polski 2025-2026": {
    "partite_con_eventi": 0,
@@ -581,8 +581,8 @@
    "da_fare": 0
   },
   "Liga Nacional 2026-2027 - Apertura": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "Finland Cup 2026": {
    "partite_con_eventi": 0,
@@ -681,8 +681,8 @@
    "da_fare": 0
   },
   "Ligue 3 2026-2027": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "Série C 2026": {
    "partite_con_eventi": 0,
@@ -721,8 +721,8 @@
    "da_fare": 0
   },
   "Copa Chile 2026": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "Second Professional League 2026-2027": {
    "partite_con_eventi": 0,
@@ -978,7 +978,7 @@
   },
   "Liga MX Femenil 2026-2027": {
    "partite_con_eventi": 0,
-   "da_fare": 0
+   "da_fare": 1
   },
   "Liga F 2026-2027": {
    "partite_con_eventi": 0,
@@ -1037,8 +1037,8 @@
    "da_fare": 0
   },
   "Conference League 2026-2027": {
-   "partite_con_eventi": 6,
-   "da_fare": 7
+   "partite_con_eventi": 2,
+   "da_fare": 2
   },
   "2. Deild 2026": {
    "partite_con_eventi": 0,
@@ -1086,7 +1086,7 @@
   },
   "Copa Uruguay 2026": {
    "partite_con_eventi": 0,
-   "da_fare": 0
+   "da_fare": 1
   },
   "Copa America Femenina 2025 Ecuador": {
    "partite_con_eventi": 0,
@@ -1186,7 +1186,7 @@
   },
   "Second Division 2026-2027": {
    "partite_con_eventi": 0,
-   "da_fare": 0
+   "da_fare": 2
   },
   "Supercopa de Ecuador 2026": {
    "partite_con_eventi": 0,
@@ -2373,5 +2373,5 @@
    "da_fare": 0
   }
  },
- "partite_in_questo_giro": 10
+ "partite_in_questo_giro": 16
 }
