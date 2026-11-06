@@ -8,7 +8,7 @@ def get(u):
     try: r = gzip.decompress(r)
     except Exception: pass
     return json.loads(r)
-d = get("https://www.fotmob.com/api/allLeagues")
+d = get("https://www.fotmob.com/api/data/allLeagues?locale=en")
 found = []
 def walk(o):
     if isinstance(o, dict):

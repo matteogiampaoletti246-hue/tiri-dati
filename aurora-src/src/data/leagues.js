@@ -5,6 +5,16 @@ import { RAW } from './load';
 
 // Colori scelti dall'utente per i campionati/coppe aggiunti: [scuro, vivace] per i banner e colore delle pillole in Home.
 export const PALETTE = {
+  'fm-10195': { colors: ['#2A0A0E', '#D81E2B'], tint: '#E5484D' },
+  'fm-10196': { colors: ['#2A0A0E', '#D81E2B'], tint: '#E5484D' },
+  'fm-10197': { colors: ['#2A0A0E', '#D81E2B'], tint: '#E5484D' },
+  'fm-10198': { colors: ['#2A0A0E', '#D81E2B'], tint: '#E5484D' },
+  'fm-10199': { colors: ['#2A0A0E', '#D81E2B'], tint: '#E5484D' },
+  'fm-10200': { colors: ['#2A0A0E', '#D81E2B'], tint: '#E5484D' },
+  'fm-10201': { colors: ['#2A0A0E', '#D81E2B'], tint: '#E5484D' },
+  'fm-10607': { colors: ['#2A0A0E', '#D81E2B'], tint: '#E5484D' },
+  'fm-10608': { colors: ['#2A0A0E', '#D81E2B'], tint: '#E5484D' },
+  'fm-10609': { colors: ['#2A0A0E', '#D81E2B'], tint: '#E5484D' },
   'fm-77': { colors: ['#2A2200', '#F5C518'], tint: '#F5C518' },
   'fm-9806': { colors: ['#06202A', '#0AA7B8'], tint: '#34D1E0' },
   'fm-9807': { colors: ['#06202A', '#0AA7B8'], tint: '#34D1E0' },

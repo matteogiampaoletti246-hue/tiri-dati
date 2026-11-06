@@ -4,7 +4,7 @@ import { lruSet } from '@/lib/lru';
 // basta aggiungere l'id FotMob in CUP_FM. Ogni turno e' formato da "sfide" (andata+ritorno o gara unica).
 import { loadSeason, loadSeasonMatches, teamLogo } from './archive';
 
-export const CUP_FM = new Set([77, 50, 44, 289, 290, 298, 9806, 9807, 9808, 9809, 42, 73, 10216, 141, 209, 134, 186, 133, 149, 278, 180, 9067]);
+export const CUP_FM = new Set([10195, 10607, 77, 50, 44, 289, 290, 298, 9806, 9807, 9808, 9809, 42, 73, 10216, 141, 209, 134, 186, 133, 149, 278, 180, 9067]);
 export const hasCup = (fm) => CUP_FM.has(Number(fm));
 // coppe nazionali: solo tabellone (niente classifica)
 export const PURE_CUP_FM = new Set([141, 209, 134, 186, 133, 149, 278, 180, 9067]);
