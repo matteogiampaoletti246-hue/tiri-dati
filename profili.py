@@ -368,15 +368,22 @@ def main():
 
     # --- 3/4. statistiche complete e partite per l'Hit Rate ---
     def dom_league(fid, tid):
+        # 1) campionato della squadra ATTUALE (chi si e' trasferito a stagione in corso non resta nel vecchio campionato: es. Ure Sirius -> Sevilla)
         cnt = Counter()
-        for x in frows_of(fid):
-            if is_league(x[1], CUR.get(x[1], "")):
-                cnt[x[1]] += 1
-        if not cnt and tid:
+        if tid:
             for fm, n in team_comp_n.get(str(tid), {}).items():
                 if is_league(fm, CUR.get(fm, "")):
                     cnt[fm] += n
-        return cnt.most_common(1)[0][0] if cnt else None
+        if cnt:
+            return cnt.most_common(1)[0][0]
+        # 2) campionato dell'ultima partita di campionato giocata (la piu' recente = squadra attuale)
+        last = None
+        for x in frows_of(fid):
+            if is_league(x[1], CUR.get(x[1], "")) and (last is None or str(x[0]) > str(last[0])):
+                last = x
+        if last:
+            return last[1]
+        return None
 
     _prev_cache = {}
 
