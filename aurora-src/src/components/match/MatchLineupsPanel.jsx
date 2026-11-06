@@ -7,7 +7,7 @@ import { injuryOf } from '@/data/injuries';
 import { Image } from '@/components/ui/image';
 import PlayerLink from './PlayerLink';
 import { SubIcon, BallIcon, BootIcon } from './EventIcons';
-import { playerById } from '@/data/players';
+import { playerById, playerByFm } from '@/data/players';
 import { playerReliability, loadPlayerFouls, TOP_STATS } from '@/data/topPlayers';
 import { isOutOn } from '@/data/injuries';
 import TopStatPicker from '@/components/top/TopStatPicker';
@@ -29,6 +29,9 @@ const MiniSpin = () => (
 
 const last = (n) => String(n || '').split(' ').slice(-1)[0];
 const tone = (v) => (v == null ? 'var(--hair)' : v >= 7.5 ? '#1FA45B' : v >= 7 ? '#5DBB3F' : v >= 6.5 ? '#E0B400' : v >= 6 ? '#E8892B' : '#E5484D');
+
+// giocatore dell'app per una riga di formazione: per id app, altrimenti per id FotMob (campionati minori: il nome FotMob e' diverso da quello dell'elenco)
+const plOf = (p) => playerById(p.playerId) || (p.fmId ? playerByFm(p.fmId) : null);
 
 // Concept A: voto a pillola sul bordo basso del volto; cartellino in alto a sinistra, gol e assist in colonna in alto a destra, cambio (solo le due freccette, senza sfondo ne' minuto) in basso a sinistra, capitano in basso a destra, stella (migliore) in alto.
 // Ogni icona ha il suo posto fisso (colonne ai lati del volto): non si coprono tra loro ne' con il voto.
@@ -264,7 +267,7 @@ export default function MatchLineupsPanel({ match, view, home, away, pre }) {
     if (!pre || !isF || fouls[stat]) return undefined;
     let on = true;
     Promise.all(players.map((p) => {
-      const pl = playerById(p.playerId);
+      const pl = plOf(p);
       return pl && !isOutOn(pl.id, match.date) ? loadPlayerFouls(pl, match.date, FOUL_LINES, stat) : Promise.resolve(null);
     })).then((rows) => {
       if (!on) return;
@@ -276,7 +279,7 @@ export default function MatchLineupsPanel({ match, view, home, away, pre }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stat, pre, pk]);
   const valOf = (p) => {
-    const pl = playerById(p.playerId);
+    const pl = plOf(p);
     if (pre) {
       if (!pl) return null;
       if (isF) {
