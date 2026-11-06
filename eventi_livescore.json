@@ -125,8 +125,8 @@
    "da_fare": 0
   },
   "A-League 2026-2027": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "Cymru Premier 2026-2027": {
    "partite_con_eventi": 0,
@@ -161,8 +161,8 @@
    "da_fare": 0
   },
   "Leumit League 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "MLS 2026": {
    "partite_con_eventi": 0,
@@ -658,7 +658,7 @@
   },
   "Australia Championship 2026": {
    "partite_con_eventi": 0,
-   "da_fare": 1
+   "da_fare": 0
   },
   "National North & South 2026-2027": {
    "partite_con_eventi": 0,
@@ -2373,5 +2373,5 @@
    "da_fare": 0
   }
  },
- "partite_in_questo_giro": 2
+ "partite_in_questo_giro": 1
 }
