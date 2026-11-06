@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-05T23:42:10+00:00",
+ "updated_at": "2026-11-06T05:55:01+00:00",
  "window": {
   "nlast": 0,
   "min_games": 1,
@@ -7482,112 +7482,6 @@
      ]
     },
     {
-     "id": "m_4Ct268",
-     "date": "2026-11-08",
-     "time": "2026-11-08",
-     "league": "Premier League",
-     "home": "Crystal Palace",
-     "away": "Liverpool",
-     "corners_home": 4.2,
-     "corners_away": 6.2,
-     "gap": 2.1,
-     "games": [
-      6,
-      6
-     ],
-     "tiri_home": 12.8,
-     "tiri_away": 17.8,
-     "tiri_gap": 5.0,
-     "tiri_games": [
-      6,
-      6
-     ],
-     "sot_home": 4.2,
-     "sot_away": 5.9,
-     "sot_gap": 1.8,
-     "sot_games": [
-      6,
-      6
-     ],
-     "falli_home": 10.4,
-     "falli_away": 11.2,
-     "falli_gap": 0.8,
-     "falli_games": [
-      13,
-      13
-     ],
-     "off_home": 2.4,
-     "off_away": 1.8,
-     "off_gap": 0.7,
-     "off_games": [
-      13,
-      13
-     ],
-     "cards": 3.7,
-     "cards_1t": 1.1,
-     "cards_home": 1.8,
-     "cards_away": 1.8,
-     "cards_1t_home": 0.5,
-     "cards_1t_away": 0.5,
-     "games_k": [
-      13,
-      13
-     ]
-    },
-    {
-     "id": "m_0CUyUv",
-     "date": "2026-11-08",
-     "time": "2026-11-08",
-     "league": "Premier League",
-     "home": "Brighton & Hove Albion",
-     "away": "Brentford",
-     "corners_home": 4.9,
-     "corners_away": 4.2,
-     "gap": 0.6,
-     "games": [
-      4,
-      4
-     ],
-     "tiri_home": 17.4,
-     "tiri_away": 11.2,
-     "tiri_gap": 6.1,
-     "tiri_games": [
-      4,
-      4
-     ],
-     "sot_home": 5.8,
-     "sot_away": 3.1,
-     "sot_gap": 2.6,
-     "sot_games": [
-      4,
-      4
-     ],
-     "falli_home": 11.3,
-     "falli_away": 11.7,
-     "falli_gap": 0.3,
-     "falli_games": [
-      9,
-      9
-     ],
-     "off_home": 2.1,
-     "off_away": 1.8,
-     "off_gap": 0.3,
-     "off_games": [
-      9,
-      9
-     ],
-     "cards": 4.8,
-     "cards_1t": 1.7,
-     "cards_home": 2.3,
-     "cards_away": 2.4,
-     "cards_1t_home": 1.0,
-     "cards_1t_away": 0.7,
-     "games_k": [
-      9,
-      9
-     ]
-    },
-    {
      "id": "m_2hOf3a",
      "date": "2026-11-08",
      "time": "2026-11-08",
@@ -7691,6 +7585,112 @@
      "games_k": [
       9,
       13
+     ]
+    },
+    {
+     "id": "m_4Ct268",
+     "date": "2026-11-08",
+     "time": "2026-11-08",
+     "league": "Premier League",
+     "home": "Crystal Palace",
+     "away": "Liverpool",
+     "corners_home": 4.2,
+     "corners_away": 6.2,
+     "gap": 2.1,
+     "games": [
+      6,
+      6
+     ],
+     "tiri_home": 12.8,
+     "tiri_away": 17.8,
+     "tiri_gap": 5.0,
+     "tiri_games": [
+      6,
+      6
+     ],
+     "sot_home": 4.2,
+     "sot_away": 5.9,
+     "sot_gap": 1.8,
+     "sot_games": [
+      6,
+      6
+     ],
+     "falli_home": 10.4,
+     "falli_away": 11.2,
+     "falli_gap": 0.8,
+     "falli_games": [
+      13,
+      13
+     ],
+     "off_home": 2.4,
+     "off_away": 1.8,
+     "off_gap": 0.7,
+     "off_games": [
+      13,
+      13
+     ],
+     "cards": 3.7,
+     "cards_1t": 1.1,
+     "cards_home": 1.8,
+     "cards_away": 1.8,
+     "cards_1t_home": 0.5,
+     "cards_1t_away": 0.5,
+     "games_k": [
+      13,
+      13
+     ]
+    },
+    {
+     "id": "m_0CUyUv",
+     "date": "2026-11-08",
+     "time": "2026-11-08",
+     "league": "Premier League",
+     "home": "Brighton & Hove Albion",
+     "away": "Brentford",
+     "corners_home": 4.9,
+     "corners_away": 4.2,
+     "gap": 0.6,
+     "games": [
+      4,
+      4
+     ],
+     "tiri_home": 17.4,
+     "tiri_away": 11.2,
+     "tiri_gap": 6.1,
+     "tiri_games": [
+      4,
+      4
+     ],
+     "sot_home": 5.8,
+     "sot_away": 3.1,
+     "sot_gap": 2.6,
+     "sot_games": [
+      4,
+      4
+     ],
+     "falli_home": 11.3,
+     "falli_away": 11.7,
+     "falli_gap": 0.3,
+     "falli_games": [
+      9,
+      9
+     ],
+     "off_home": 2.1,
+     "off_away": 1.8,
+     "off_gap": 0.3,
+     "off_games": [
+      9,
+      9
+     ],
+     "cards": 4.8,
+     "cards_1t": 1.7,
+     "cards_home": 2.3,
+     "cards_away": 2.4,
+     "cards_1t_home": 1.0,
+     "cards_1t_away": 0.7,
+     "games_k": [
+      9,
+      9
      ]
     },
     {
