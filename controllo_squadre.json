@@ -6002,9 +6002,9 @@
  "competizioni_senza_dati": [],
  "squadre_controllate": 1483,
  "rose": {
-  "squadre": 5202,
-  "senza_rosa_prima": 4333,
-  "senza_rosa_dopo": 591,
+  "squadre": 5236,
+  "senza_rosa_prima": 4367,
+  "senza_rosa_dopo": 592,
   "senza_rosa": [
    {
     "squadra": "1A",
@@ -6583,6 +6583,14 @@
     "id": "1570213",
     "competizioni": [
      "Coupe de France 2026-2027"
+    ],
+    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
+   },
+   {
+    "squadra": "American Samoa",
+    "id": "287879",
+    "competizioni": [
+     "World Cup Qualification OFC 2024-2025"
     ],
     "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
@@ -10762,10 +10770,10 @@
   ]
  },
  "rose_per_ruolo": {
-  "squadre": 5202,
-  "prima": 4401,
-  "dopo": 1167,
-  "giocate_dopo": 1008,
+  "squadre": 5236,
+  "prima": 4435,
+  "dopo": 1186,
+  "giocate_dopo": 1027,
   "elenco": [
    {
     "squadra": "1. BFK Frýdlant nad Ostravici",
@@ -11440,6 +11448,18 @@
     ]
    },
    {
+    "squadra": "Afghanistan",
+    "id": "95796",
+    "giocatori": 0,
+    "competizioni": [
+     "World Cup Qualification AFC 2023-2025",
+     "Asian Cup Qualification Playoff 2025-2026"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
+    ]
+   },
+   {
     "squadra": "Ain Sud Foot",
     "id": "238963",
     "giocatori": 0,
@@ -11566,6 +11586,17 @@
     "giocatori": 0,
     "competizioni": [
      "Coupe de France 2026-2027"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
+    ]
+   },
+   {
+    "squadra": "American Samoa",
+    "id": "287879",
+    "giocatori": 0,
+    "competizioni": [
+     "World Cup Qualification OFC 2024-2025"
     ],
     "motivo": [
      "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
@@ -12496,6 +12527,18 @@
     ]
    },
    {
+    "squadra": "Chad",
+    "id": "4432",
+    "giocatori": 0,
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
+    ]
+   },
+   {
     "squadra": "Charleville",
     "id": "591120",
     "giocatori": 0,
@@ -12699,6 +12742,17 @@
     "giocatori": 0,
     "competizioni": [
      "Coupe de France 2026-2027"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
+    ]
+   },
+   {
+    "squadra": "Cook Islands",
+    "id": "287880",
+    "giocatori": 0,
+    "competizioni": [
+     "World Cup Qualification OFC 2024-2025"
     ],
     "motivo": [
      "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
@@ -12933,6 +12987,18 @@
     ],
     "motivo": [
      "0 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
+    ]
+   },
+   {
+    "squadra": "Djibouti",
+    "id": "121285",
+    "giocatori": 0,
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
     ]
    },
    {
@@ -13227,6 +13293,17 @@
     "giocatori": 0,
     "competizioni": [
      "Coupe de France 2026-2027"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
+    ]
+   },
+   {
+    "squadra": "Eritrea",
+    "id": "6011",
+    "giocatori": 0,
+    "competizioni": [
+     "Africa Cup of Nations Qualification 2026-2027"
     ],
     "motivo": [
      "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
@@ -14774,6 +14851,18 @@
     ]
    },
    {
+    "squadra": "Liberia",
+    "id": "5804",
+    "giocatori": 0,
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
+    ]
+   },
+   {
     "squadra": "Ližnjan",
     "id": "2096648",
     "giocatori": 0,
@@ -15247,6 +15336,18 @@
     ]
    },
    {
+    "squadra": "New Caledonia",
+    "id": "101595",
+    "giocatori": 0,
+    "competizioni": [
+     "World Cup Qualification OFC 2024-2025",
+     "World Cup Qualification Inter-confederation 2026"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
+    ]
+   },
+   {
     "squadra": "Newmarket Town",
     "id": "580405",
     "giocatori": 0,
@@ -15385,6 +15486,17 @@
     "giocatori": 0,
     "competizioni": [
      "CAF Confed Cup 2026-2027"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
+    ]
+   },
+   {
+    "squadra": "Papua New Guinea",
+    "id": "287876",
+    "giocatori": 0,
+    "competizioni": [
+     "World Cup Qualification OFC 2024-2025"
     ],
     "motivo": [
      "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
@@ -16052,6 +16164,17 @@
     ]
    },
    {
+    "squadra": "Samoa",
+    "id": "287878",
+    "giocatori": 0,
+    "competizioni": [
+     "World Cup Qualification OFC 2024-2025"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
+    ]
+   },
+   {
     "squadra": "San Antonio",
     "id": "1616269",
     "giocatori": 0,
@@ -16068,6 +16191,18 @@
     "giocatori": 0,
     "competizioni": [
      "Liga Revelação 2025-2026"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
+    ]
+   },
+   {
+    "squadra": "Sao Tome and Principe",
+    "id": "287979",
+    "giocatori": 0,
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
     ],
     "motivo": [
      "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
@@ -16104,6 +16239,18 @@
     ],
     "motivo": [
      "0 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
+    ]
+   },
+   {
+    "squadra": "Seychelles",
+    "id": "121274",
+    "giocatori": 0,
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
     ]
    },
    {
@@ -16190,6 +16337,41 @@
     "giocatori": 0,
     "competizioni": [
      "Slovak Cup 2026-2027"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
+    ]
+   },
+   {
+    "squadra": "Solomon Islands",
+    "id": "6319",
+    "giocatori": 0,
+    "competizioni": [
+     "World Cup Qualification OFC 2024-2025"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
+    ]
+   },
+   {
+    "squadra": "Somalia",
+    "id": "287978",
+    "giocatori": 0,
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
+    ]
+   },
+   {
+    "squadra": "South Sudan",
+    "id": "408231",
+    "giocatori": 0,
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
     ],
     "motivo": [
      "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
@@ -16438,6 +16620,17 @@
     ]
    },
    {
+    "squadra": "Tahiti",
+    "id": "5927",
+    "giocatori": 0,
+    "competizioni": [
+     "World Cup Qualification OFC 2024-2025"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
+    ]
+   },
+   {
     "squadra": "Takeley",
     "id": "879822",
     "giocatori": 0,
@@ -16543,6 +16736,17 @@
     "giocatori": 0,
     "competizioni": [
      "Slovak Cup 2026-2027"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
+    ]
+   },
+   {
+    "squadra": "Tonga",
+    "id": "287881",
+    "giocatori": 0,
+    "competizioni": [
+     "World Cup Qualification OFC 2024-2025"
     ],
     "motivo": [
      "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
@@ -16972,6 +17176,17 @@
     "giocatori": 0,
     "competizioni": [
      "Coupe de France 2026-2027"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
+    ]
+   },
+   {
+    "squadra": "Vanuatu",
+    "id": "5926",
+    "giocatori": 0,
+    "competizioni": [
+     "World Cup Qualification OFC 2024-2025"
     ],
     "motivo": [
      "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
@@ -20721,6 +20936,18 @@
     "giocatori": 3,
     "competizioni": [
      "Slovak Cup 2026-2027"
+    ],
+    "motivo": [
+     "3 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 3"
+    ]
+   },
+   {
+    "squadra": "Togo",
+    "id": "7740",
+    "giocatori": 3,
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
     ],
     "motivo": [
      "3 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 3"
@@ -24887,14 +25114,16 @@
   ]
  },
  "partite_stagione": {
-  "squadre_con_partite_mancanti_prima": 4528,
-  "squadre_con_partite_mancanti_dopo": 26,
+  "squadre_con_partite_mancanti_prima": 4562,
+  "squadre_con_partite_mancanti_dopo": 217,
   "mancanti_dopo": [
    {
     "squadra": "Morocco",
     "id": "6262",
     "competizioni": [
-     "FIFA Arab Cup 2025 Qatar"
+     "FIFA Arab Cup 2025 Qatar",
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
     ],
     "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
    },
@@ -24902,7 +25131,45 @@
     "squadra": "Comoros",
     "id": "230692",
     "competizioni": [
-     "FIFA Arab Cup 2025 Qatar"
+     "FIFA Arab Cup 2025 Qatar",
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Mali",
+    "id": "5815",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Zambia",
+    "id": "6277",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "South Africa",
+    "id": "6316",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Angola",
+    "id": "6712",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
     ],
     "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
    },
@@ -24910,7 +25177,73 @@
     "squadra": "Egypt",
     "id": "10255",
     "competizioni": [
-     "FIFA Arab Cup 2025 Qatar"
+     "FIFA Arab Cup 2025 Qatar",
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Zimbabwe",
+    "id": "6290",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "DR Congo",
+    "id": "6321",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "World Cup Qualification Inter-confederation 2026",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Benin",
+    "id": "5883",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Senegal",
+    "id": "6395",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Botswana",
+    "id": "5887",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Nigeria",
+    "id": "6346",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Tanzania",
+    "id": "7941",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
     ],
     "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
    },
@@ -24918,7 +25251,36 @@
     "squadra": "Tunisia",
     "id": "6719",
     "competizioni": [
-     "FIFA Arab Cup 2025 Qatar"
+     "FIFA Arab Cup 2025 Qatar",
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Uganda",
+    "id": "5890",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Burkina Faso",
+    "id": "6323",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Equatorial Guinea",
+    "id": "8323",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
     ],
     "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
    },
@@ -24926,7 +25288,9 @@
     "squadra": "Algeria",
     "id": "6317",
     "competizioni": [
-     "FIFA Arab Cup 2025 Qatar"
+     "FIFA Arab Cup 2025 Qatar",
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
     ],
     "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
    },
@@ -24934,7 +25298,196 @@
     "squadra": "Sudan",
     "id": "5805",
     "competizioni": [
-     "FIFA Arab Cup 2025 Qatar"
+     "FIFA Arab Cup 2025 Qatar",
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Ivory Coast",
+    "id": "6709",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Mozambique",
+    "id": "5965",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Cameroon",
+    "id": "6629",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Gabon",
+    "id": "5889",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Kenya",
+    "id": "5884",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Madagascar",
+    "id": "5809",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Mauritania",
+    "id": "68374",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Niger",
+    "id": "121281",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Guinea",
+    "id": "6289",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Congo",
+    "id": "5801",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Central African Republic",
+    "id": "230693",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Cambodia",
+    "id": "6332",
+    "competizioni": [
+     "World Cup Qualification AFC 2023-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Singapore",
+    "id": "5825",
+    "competizioni": [
+     "World Cup Qualification AFC 2023-2025",
+     "Asian Cup Qualification Playoff 2025-2026"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Timor-Leste",
+    "id": "95801",
+    "competizioni": [
+     "World Cup Qualification AFC 2023-2025",
+     "Asian Cup Qualification Playoff 2025-2026"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Vietnam",
+    "id": "5894",
+    "competizioni": [
+     "World Cup Qualification AFC 2023-2025",
+     "Asian Cup Qualification Playoff 2025-2026"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Myanmar",
+    "id": "8307",
+    "competizioni": [
+     "World Cup Qualification AFC 2023-2025",
+     "Asian Cup Qualification Playoff 2025-2026"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Malaysia",
+    "id": "5823",
+    "competizioni": [
+     "World Cup Qualification AFC 2023-2025",
+     "Asian Cup Qualification Playoff 2025-2026"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Laos",
+    "id": "5891",
+    "competizioni": [
+     "World Cup Qualification AFC 2023-2025",
+     "Asian Cup Qualification Playoff 2025-2026"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Thailand",
+    "id": "5788",
+    "competizioni": [
+     "World Cup Qualification AFC 2023-2025",
+     "Asian Cup Qualification Playoff 2025-2026"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Indonesia",
+    "id": "6324",
+    "competizioni": [
+     "World Cup Qualification AFC 2023-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Philippines",
+    "id": "230139",
+    "competizioni": [
+     "World Cup Qualification AFC 2023-2025",
+     "Asian Cup Qualification Playoff 2025-2026"
     ],
     "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
    },
@@ -24942,7 +25495,8 @@
     "squadra": "Saudi Arabia",
     "id": "7795",
     "competizioni": [
-     "FIFA Arab Cup 2025 Qatar"
+     "FIFA Arab Cup 2025 Qatar",
+     "World Cup Qualification AFC 2023-2025"
     ],
     "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
    },
@@ -24950,7 +25504,8 @@
     "squadra": "Palestine",
     "id": "6333",
     "competizioni": [
-     "FIFA Arab Cup 2025 Qatar"
+     "FIFA Arab Cup 2025 Qatar",
+     "World Cup Qualification AFC 2023-2025"
     ],
     "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
    },
@@ -24958,7 +25513,16 @@
     "squadra": "Bahrain",
     "id": "5901",
     "competizioni": [
-     "FIFA Arab Cup 2025 Qatar"
+     "FIFA Arab Cup 2025 Qatar",
+     "World Cup Qualification AFC 2023-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "North Korea",
+    "id": "6330",
+    "competizioni": [
+     "World Cup Qualification AFC 2023-2025"
     ],
     "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
    },
@@ -24966,7 +25530,8 @@
     "squadra": "Kuwait",
     "id": "5821",
     "competizioni": [
-     "FIFA Arab Cup 2025 Qatar"
+     "FIFA Arab Cup 2025 Qatar",
+     "World Cup Qualification AFC 2023-2025"
     ],
     "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
    },
@@ -24974,7 +25539,16 @@
     "squadra": "Oman",
     "id": "5824",
     "competizioni": [
-     "FIFA Arab Cup 2025 Qatar"
+     "FIFA Arab Cup 2025 Qatar",
+     "World Cup Qualification AFC 2023-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Uzbekistan",
+    "id": "8700",
+    "competizioni": [
+     "World Cup Qualification AFC 2023-2025"
     ],
     "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
    },
@@ -24982,7 +25556,32 @@
     "squadra": "Jordan",
     "id": "5816",
     "competizioni": [
-     "FIFA Arab Cup 2025 Qatar"
+     "FIFA Arab Cup 2025 Qatar",
+     "World Cup Qualification AFC 2023-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Australia",
+    "id": "6716",
+    "competizioni": [
+     "World Cup Qualification AFC 2023-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Iran",
+    "id": "6711",
+    "competizioni": [
+     "World Cup Qualification AFC 2023-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "China",
+    "id": "5822",
+    "competizioni": [
+     "World Cup Qualification AFC 2023-2025"
     ],
     "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
    },
@@ -24990,7 +25589,43 @@
     "squadra": "Syria",
     "id": "6320",
     "competizioni": [
-     "FIFA Arab Cup 2025 Qatar"
+     "FIFA Arab Cup 2025 Qatar",
+     "World Cup Qualification AFC 2023-2025",
+     "Asian Cup Qualification Playoff 2025-2026"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Kyrgyzstan",
+    "id": "5893",
+    "competizioni": [
+     "World Cup Qualification AFC 2023-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "South Korea",
+    "id": "7804",
+    "competizioni": [
+     "World Cup Qualification AFC 2023-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Yemen",
+    "id": "5892",
+    "competizioni": [
+     "World Cup Qualification AFC 2023-2025",
+     "Asian Cup Qualification Playoff 2025-2026"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Tajikistan",
+    "id": "5898",
+    "competizioni": [
+     "World Cup Qualification AFC 2023-2025",
+     "Asian Cup Qualification Playoff 2025-2026"
     ],
     "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
    },
@@ -24998,7 +25633,17 @@
     "squadra": "Iraq",
     "id": "5819",
     "competizioni": [
-     "FIFA Arab Cup 2025 Qatar"
+     "FIFA Arab Cup 2025 Qatar",
+     "World Cup Qualification AFC 2023-2025",
+     "World Cup Qualification Inter-confederation 2026"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Japan",
+    "id": "6715",
+    "competizioni": [
+     "World Cup Qualification AFC 2023-2025"
     ],
     "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
    },
@@ -25006,7 +25651,8 @@
     "squadra": "UAE",
     "id": "5789",
     "competizioni": [
-     "FIFA Arab Cup 2025 Qatar"
+     "FIFA Arab Cup 2025 Qatar",
+     "World Cup Qualification AFC 2023-2025"
     ],
     "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
    },
@@ -25014,7 +25660,347 @@
     "squadra": "Qatar",
     "id": "5902",
     "competizioni": [
-     "FIFA Arab Cup 2025 Qatar"
+     "FIFA Arab Cup 2025 Qatar",
+     "World Cup Qualification AFC 2023-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Dominican Republic",
+    "id": "262134",
+    "competizioni": [
+     "World Cup Qualification CONCACAF 2024-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Trinidad and Tobago",
+    "id": "7724",
+    "competizioni": [
+     "World Cup Qualification CONCACAF 2024-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Haiti",
+    "id": "5934",
+    "competizioni": [
+     "World Cup Qualification CONCACAF 2024-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Costa Rica",
+    "id": "6705",
+    "competizioni": [
+     "World Cup Qualification CONCACAF 2024-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Suriname",
+    "id": "127411",
+    "competizioni": [
+     "World Cup Qualification CONCACAF 2024-2025",
+     "World Cup Qualification Inter-confederation 2026"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Panama",
+    "id": "5922",
+    "competizioni": [
+     "World Cup Qualification CONCACAF 2024-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Jamaica",
+    "id": "5806",
+    "competizioni": [
+     "World Cup Qualification CONCACAF 2024-2025",
+     "World Cup Qualification Inter-confederation 2026"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Guatemala",
+    "id": "5858",
+    "competizioni": [
+     "World Cup Qualification CONCACAF 2024-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Curacao",
+    "id": "287981",
+    "competizioni": [
+     "World Cup Qualification CONCACAF 2024-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "El Salvador",
+    "id": "6327",
+    "competizioni": [
+     "World Cup Qualification CONCACAF 2024-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Honduras",
+    "id": "5808",
+    "competizioni": [
+     "World Cup Qualification CONCACAF 2024-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Turks and Caicos Islands",
+    "id": "262137",
+    "competizioni": [
+     "World Cup Qualification CONCACAF 2024-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Montserrat",
+    "id": "262133",
+    "competizioni": [
+     "World Cup Qualification CONCACAF 2024-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Bahamas",
+    "id": "73596",
+    "competizioni": [
+     "World Cup Qualification CONCACAF 2024-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Aruba",
+    "id": "262131",
+    "competizioni": [
+     "World Cup Qualification CONCACAF 2024-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Antigua and Barbuda",
+    "id": "6101",
+    "competizioni": [
+     "World Cup Qualification CONCACAF 2024-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Puerto Rico",
+    "id": "5756",
+    "competizioni": [
+     "World Cup Qualification CONCACAF 2024-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Guyana",
+    "id": "6222",
+    "competizioni": [
+     "World Cup Qualification CONCACAF 2024-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Nicaragua",
+    "id": "5807",
+    "competizioni": [
+     "World Cup Qualification CONCACAF 2024-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Cayman Islands",
+    "id": "287982",
+    "competizioni": [
+     "World Cup Qualification CONCACAF 2024-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Dominica",
+    "id": "287980",
+    "competizioni": [
+     "World Cup Qualification CONCACAF 2024-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Bermuda",
+    "id": "5943",
+    "competizioni": [
+     "World Cup Qualification CONCACAF 2024-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Grenada",
+    "id": "6548",
+    "competizioni": [
+     "World Cup Qualification CONCACAF 2024-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Cuba",
+    "id": "5857",
+    "competizioni": [
+     "World Cup Qualification CONCACAF 2024-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Barbados",
+    "id": "5886",
+    "competizioni": [
+     "World Cup Qualification CONCACAF 2024-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Saint Lucia",
+    "id": "127408",
+    "competizioni": [
+     "World Cup Qualification CONCACAF 2024-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "St. Kitts and Nevis",
+    "id": "5924",
+    "competizioni": [
+     "World Cup Qualification CONCACAF 2024-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "British Virgin Islands",
+    "id": "262135",
+    "competizioni": [
+     "World Cup Qualification CONCACAF 2024-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "U.S. Virgin Islands",
+    "id": "262136",
+    "competizioni": [
+     "World Cup Qualification CONCACAF 2024-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Saint Vincent and The Grenadines",
+    "id": "5923",
+    "competizioni": [
+     "World Cup Qualification CONCACAF 2024-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Anguilla",
+    "id": "262132",
+    "competizioni": [
+     "World Cup Qualification CONCACAF 2024-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Belize",
+    "id": "127409",
+    "competizioni": [
+     "World Cup Qualification CONCACAF 2024-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Argentina",
+    "id": "6706",
+    "competizioni": [
+     "World Cup Qualification CONMEBOL 2023-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Peru",
+    "id": "5798",
+    "competizioni": [
+     "World Cup Qualification CONMEBOL 2023-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Chile",
+    "id": "9762",
+    "competizioni": [
+     "World Cup Qualification CONMEBOL 2023-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Ecuador",
+    "id": "6707",
+    "competizioni": [
+     "World Cup Qualification CONMEBOL 2023-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Venezuela",
+    "id": "5800",
+    "competizioni": [
+     "World Cup Qualification CONMEBOL 2023-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Bolivia",
+    "id": "5797",
+    "competizioni": [
+     "World Cup Qualification CONMEBOL 2023-2025",
+     "World Cup Qualification Inter-confederation 2026"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Uruguay",
+    "id": "5796",
+    "competizioni": [
+     "World Cup Qualification CONMEBOL 2023-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Colombia",
+    "id": "8258",
+    "competizioni": [
+     "World Cup Qualification CONMEBOL 2023-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Paraguay",
+    "id": "6724",
+    "competizioni": [
+     "World Cup Qualification CONMEBOL 2023-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Brazil",
+    "id": "8256",
+    "competizioni": [
+     "World Cup Qualification CONMEBOL 2023-2025"
     ],
     "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
    },
@@ -25097,12 +26083,933 @@
      "Copa America Femenina 2025 Ecuador"
     ],
     "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Mauritius",
+    "id": "5750",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Malawi",
+    "id": "6020",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Lesotho",
+    "id": "4167",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Namibia",
+    "id": "5802",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Eswatini",
+    "id": "4433",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Brunei",
+    "id": "178671",
+    "competizioni": [
+     "World Cup Qualification AFC 2023-2025",
+     "Asian Cup Qualification Playoff 2025-2026"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Bangladesh",
+    "id": "95797",
+    "competizioni": [
+     "World Cup Qualification AFC 2023-2025",
+     "Asian Cup Qualification Playoff 2025-2026"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Pakistan",
+    "id": "5910",
+    "competizioni": [
+     "World Cup Qualification AFC 2023-2025",
+     "Asian Cup Qualification Playoff 2025-2026"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Hong Kong",
+    "id": "6322",
+    "competizioni": [
+     "World Cup Qualification AFC 2023-2025",
+     "Asian Cup Qualification Playoff 2025-2026"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Spain",
+    "id": "6720",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "India",
+    "id": "6329",
+    "competizioni": [
+     "World Cup Qualification AFC 2023-2025",
+     "Asian Cup Qualification Playoff 2025-2026"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Bhutan",
+    "id": "95800",
+    "competizioni": [
+     "World Cup Qualification AFC 2023-2025",
+     "Asian Cup Qualification Playoff 2025-2026"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Maldives",
+    "id": "5899",
+    "competizioni": [
+     "World Cup Qualification AFC 2023-2025",
+     "Asian Cup Qualification Playoff 2025-2026"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Sri Lanka",
+    "id": "5895",
+    "competizioni": [
+     "World Cup Qualification AFC 2023-2025",
+     "Asian Cup Qualification Playoff 2025-2026"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Netherlands",
+    "id": "6708",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Germany",
+    "id": "8570",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Norway",
+    "id": "8492",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Denmark",
+    "id": "8238",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Portugal",
+    "id": "8361",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Wales",
+    "id": "5790",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Serbia",
+    "id": "8205",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Greece",
+    "id": "6383",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Italy",
+    "id": "8204",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Belgium",
+    "id": "8263",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Turkiye",
+    "id": "6595",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "France",
+    "id": "6723",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Czechia",
+    "id": "8496",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Croatia",
+    "id": "10155",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "England",
+    "id": "8491",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Austria",
+    "id": "8255",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Israel",
+    "id": "8567",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Kosovo",
+    "id": "430156",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Ireland",
+    "id": "5791",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Georgia",
+    "id": "8268",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Northern Ireland",
+    "id": "10259",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Hungary",
+    "id": "8565",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Ukraine",
+    "id": "6718",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Poland",
+    "id": "8568",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Bosnia and Herzegovina",
+    "id": "10106",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Sweden",
+    "id": "8520",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Romania",
+    "id": "9730",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Slovenia",
+    "id": "5787",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Scotland",
+    "id": "8498",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "North Macedonia",
+    "id": "8260",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Switzerland",
+    "id": "6717",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Armenia",
+    "id": "6583",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Latvia",
+    "id": "5795",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Montenegro",
+    "id": "49437",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Cyprus",
+    "id": "5793",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Bulgaria",
+    "id": "10150",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Luxembourg",
+    "id": "5792",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Faroe Islands",
+    "id": "8269",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Kazakhstan",
+    "id": "8265",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Iceland",
+    "id": "8536",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Estonia",
+    "id": "8261",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "San Marino",
+    "id": "6035",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Finland",
+    "id": "7871",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Albania",
+    "id": "10024",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Belarus",
+    "id": "10057",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Slovakia",
+    "id": "8497",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Moldova",
+    "id": "5794",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Andorra",
+    "id": "10045",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Malta",
+    "id": "8495",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Liechtenstein",
+    "id": "5799",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Lithuania",
+    "id": "8254",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Azerbaijan",
+    "id": "8566",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Gibraltar",
+    "id": "507764",
+    "competizioni": [
+     "World Cup Qualification UEFA 2025-2026",
+     "EURO Qualification 2023"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Cape Verde",
+    "id": "5888",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "New Zealand",
+    "id": "5820",
+    "competizioni": [
+     "World Cup Qualification OFC 2024-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Ghana",
+    "id": "6714",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Rwanda",
+    "id": "5885",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Ethiopia",
+    "id": "121282",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Sierra Leone",
+    "id": "5803",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Burundi",
+    "id": "121284",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Gambia",
+    "id": "5979",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Somalia",
+    "id": "287978",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Djibouti",
+    "id": "121285",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Togo",
+    "id": "7740",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Libya",
+    "id": "6328",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Liberia",
+    "id": "5804",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Guinea-Bissau",
+    "id": "230700",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Seychelles",
+    "id": "121274",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Chad",
+    "id": "4432",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Sao Tome and Principe",
+    "id": "287979",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "South Sudan",
+    "id": "408231",
+    "competizioni": [
+     "World Cup Qualification CAF 2023-2025",
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Macao",
+    "id": "4175",
+    "competizioni": [
+     "World Cup Qualification AFC 2023-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Chinese Taipei",
+    "id": "5896",
+    "competizioni": [
+     "World Cup Qualification AFC 2023-2025",
+     "Asian Cup Qualification Playoff 2025-2026"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Guam",
+    "id": "95798",
+    "competizioni": [
+     "World Cup Qualification AFC 2023-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Nepal",
+    "id": "95799",
+    "competizioni": [
+     "World Cup Qualification AFC 2023-2025",
+     "Asian Cup Qualification Playoff 2025-2026"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Afghanistan",
+    "id": "95796",
+    "competizioni": [
+     "World Cup Qualification AFC 2023-2025",
+     "Asian Cup Qualification Playoff 2025-2026"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Mongolia",
+    "id": "95971",
+    "competizioni": [
+     "World Cup Qualification AFC 2023-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Lebanon",
+    "id": "5897",
+    "competizioni": [
+     "World Cup Qualification AFC 2023-2025",
+     "Asian Cup Qualification Playoff 2025-2026"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Turkmenistan",
+    "id": "5900",
+    "competizioni": [
+     "World Cup Qualification AFC 2023-2025",
+     "Asian Cup Qualification Playoff 2025-2026"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Cook Islands",
+    "id": "287880",
+    "competizioni": [
+     "World Cup Qualification OFC 2024-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Tonga",
+    "id": "287881",
+    "competizioni": [
+     "World Cup Qualification OFC 2024-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "American Samoa",
+    "id": "287879",
+    "competizioni": [
+     "World Cup Qualification OFC 2024-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Samoa",
+    "id": "287878",
+    "competizioni": [
+     "World Cup Qualification OFC 2024-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "New Caledonia",
+    "id": "101595",
+    "competizioni": [
+     "World Cup Qualification OFC 2024-2025",
+     "World Cup Qualification Inter-confederation 2026"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Papua New Guinea",
+    "id": "287876",
+    "competizioni": [
+     "World Cup Qualification OFC 2024-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Solomon Islands",
+    "id": "6319",
+    "competizioni": [
+     "World Cup Qualification OFC 2024-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Fiji",
+    "id": "5925",
+    "competizioni": [
+     "World Cup Qualification OFC 2024-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Tahiti",
+    "id": "5927",
+    "competizioni": [
+     "World Cup Qualification OFC 2024-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Vanuatu",
+    "id": "5926",
+    "competizioni": [
+     "World Cup Qualification OFC 2024-2025"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "Eritrea",
+    "id": "6011",
+    "competizioni": [
+     "Africa Cup of Nations Qualification 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
    }
   ]
  },
  "forma": {
-  "squadre_senza_forma_prima": 4030,
-  "squadre_senza_forma_dopo": 195,
+  "squadre_senza_forma_prima": 4064,
+  "squadre_senza_forma_dopo": 189,
   "motivo_dopo": "nessuna partita giocata nella stagione in corso: niente riquadro"
  }
 }
