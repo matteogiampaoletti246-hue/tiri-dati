@@ -215,6 +215,7 @@ export default function PlayerTab({ onSave }) {
         stat={form.stat || 'tiri'}
         onStat={onStat}
         tint={tOwn(0)}
+        role={fouls && fmPid ? roles[String(fmPid)] : null}
       />
       {fouls ? (
         <>
@@ -233,7 +234,7 @@ export default function PlayerTab({ onSave }) {
             </div>
           ) : null}
           <div className="mt-7">
-            <DuelPicker team={opp} roster={roster} picked={f.duel || []} onChange={(d) => setF({ duel: d, duelManual: true })} statLabel={oppTitle} tint={tOpp(480)} />
+            <DuelPicker team={opp} roster={roster} picked={f.duel || []} onChange={(d) => setF({ duel: d, duelManual: true })} statLabel={oppTitle} tint={tOpp(480)} roles={roles} />
           </div>
           <div className="mt-7">
             <FoulsTeamBlock title="Squadra avversaria" statLabel={oppTitle} block={form.opp} stats={oppStats} value={f.opp} onValue={(v) => setF({ opp: v })} onChange={(p) => setBlock('opp', p)} tint={tOpp(600)} />

@@ -394,7 +394,7 @@ export const loadTeamStats = async (lid, sk) => {
 const MERGED = new Map();
 // nomi delle voci nelle partite -> nomi delle classifiche stagionali (le due fonti FotMob usano chiavi diverse)
 const MATCH_TO_SEASON = { total_shots: 'total_scoring_att', ShotsOnTarget: 'ontarget_scoring_att', assists: 'goal_assist', chances_created: 'total_att_assist', accurate_passes: 'accurate_pass', interceptions: 'interception', recoveries: 'ball_recovery' };
-export const loadPlayerStatsFor = async (lid, sk, pid) => {
+const loadPlayerStatsFor0 = async (lid, sk, pid) => {
   const st = await loadPlayerStats(lid, sk);
   const rowOf = (s, k) => ((s && s.players && s.players[k]) || []).find((r) => String(r[0]) === String(pid)) || null;
   const has = (s) => !!(s && s.players && Object.keys(s.players).some((k) => !k.startsWith('_') && rowOf(s, k)));
@@ -423,6 +423,22 @@ export const loadPlayerStatsFor = async (lid, sk, pid) => {
   const out = { ...st, players, filled: true };
   lruSet(MERGED, ck, out, 40);
   return out;
+};
+// Falli subiti ogni 90': le classifiche stagionali FotMob non hanno la voce, i dati di ogni partita FotMob si'. Si somma dalle partite (stessa soglia dei 180' delle classifiche),
+// cosi' Disciplina ha i falli subiti con barra, media e posizione come i falli commessi, per ogni giocatore e competizione. Una voce ufficiale, se arrivasse, ha la precedenza.
+const fouledList = (lid, sk) => once(`wf/${lid}/${sk}`, async () => {
+  const fm = await statsFromMatches(lid, sk);
+  const L = fm && fm.players && fm.players.was_fouled;
+  if (!L) return null;
+  const rows = L.filter((r) => Number(r[4]) >= 180).map((r) => [r[0], r[1], r[2], (Number(r[3]) * 90) / r[4], r[4], r[5], null]).sort((x, y) => y[3] - x[3]);
+  return rows.length >= 8 ? rows : null;
+});
+export const loadPlayerStatsFor = async (lid, sk, pid) => {
+  const st = await loadPlayerStatsFor0(lid, sk, pid);
+  if (!st || !st.players || st.fromMatches || st.players.was_fouled) return st;
+  const wf = await fouledList(lid, sk).catch(() => null);
+  if (!wf) return st;
+  return { ...st, players: { ...st.players, was_fouled: wf }, filledFouled: true };
 };
 // presenze, minuti, gol, assist e voto di un giocatore in una stagione e competizione: un solo calcolo per Profilo e Statistiche
 export const playerSeasonLine = async (lid, sk, pid) => {

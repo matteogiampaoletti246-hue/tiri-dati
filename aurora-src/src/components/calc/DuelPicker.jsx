@@ -1,4 +1,5 @@
 import TintSweep from './TintSweep';
+import RoleBadge from './RoleBadge';
 import { useEffect, useState } from 'react';
 import { ChevronDown, Check } from 'lucide-react';
 import Crest from '@/components/Crest';
@@ -16,7 +17,7 @@ const lum = (hex) => {
 };
 
 // Duello avversario (concept A): elenco della rosa avversaria con volto, minuti e media a 90' su ogni riga; fino a 3 giocatori.
-export default function DuelPicker({ team, roster, picked, onChange, statLabel, tint }) {
+export default function DuelPicker({ team, roster, picked, onChange, statLabel, tint, roles }) {
   const [open, setOpen] = useState(false);
   useEffect(() => { setOpen(false); }, [team && team.id]);
   const c0 = (team && team.colors && team.colors[0]) || '#2C3E66';
@@ -63,7 +64,10 @@ export default function DuelPicker({ team, roster, picked, onChange, statLabel, 
                 const dis = !on && picked.length >= MAX;
                 return (
                   <button key={r.id} type="button" disabled={dis} onClick={() => toggle(r.id)} className="flex w-full items-center gap-3 px-4 py-2.5 text-left" style={{ borderBottom: '1px solid var(--hair-2)', opacity: dis ? 0.4 : 1, background: on ? `linear-gradient(90deg, ${c1}29, transparent)` : 'transparent' }}>
-                    <Face id={r.id} size={40} />
+                    <span className="relative shrink-0">
+                      <Face id={r.id} size={40} />
+                      <RoleBadge role={roles && roles[r.id]} />
+                    </span>
                     <span className="min-w-0 flex-1">
                       <span className="block truncate text-[14px] font-bold">{r.name}</span>
                       <span className="block text-[11px]" style={{ color: 'var(--ink-3)' }}>{r.n} partite · {Math.round(r.min)}&apos;</span>

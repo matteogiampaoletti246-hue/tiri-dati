@@ -319,7 +319,24 @@ const initials = (name) =>
     .slice(0, 2)
     .toUpperCase();
 
-// Righe del campo: i giocatori con la stessa "profondità" (x) formano una fila.
+// Righe del campo dai giocatori: stessa "profondita'" (x) = una fila. Se le file cosi' ottenute non coincidono col modulo scritto (es. 5-4-1 con i due esterni
+// a una profondita' diversa dai tre centrali = finto 3-2-4-1), si seguono i numeri del modulo come fa FotMob: i giocatori di movimento in ordine di profondita'
+// riempiono le file del modulo (difesa a 5 tutta su una riga), ogni fila da sinistra a destra.
+export function lineupRows(list, label) {
+  const depths = [...new Set(list.map((p) => p.x))].sort((a, b) => a - b);
+  const gk = list.filter((p) => p.x === depths[0]);
+  let rows = depths.slice(1).map((x) => list.filter((p) => p.x === x).sort((a, b) => a.y - b.y)); // sinistra->destra come in campo (FotMob: y cresce verso destra)
+  const nums = String(label || '').split('-').map(Number);
+  const outfield = rows.reduce((a, r) => a + r.length, 0);
+  const valid = nums.length >= 3 && nums.every((n) => n > 0) && nums.reduce((a, b) => a + b, 0) === outfield;
+  if (valid && (rows.length !== nums.length || rows.some((r, i) => r.length !== nums[i]))) {
+    const sorted = rows.flat();
+    let i = 0;
+    rows = nums.map((n) => { const r = sorted.slice(i, i + n).sort((a, b) => a.y - b.y); i += n; return r; });
+  }
+  return { gk, rows };
+}
+
 export function buildLineup(side, raw, detail, team, playerLookup) {
   if (!raw) return null;
   const starters = raw.st || raw.s || [];
@@ -328,10 +345,7 @@ export function buildLineup(side, raw, detail, team, playerLookup) {
   const norm = (e) => (isOld ? { name: e[0], number: e[1], x: e[3], y: e[4], pid: null } : { name: e[0], number: e[1], x: e[2], y: e[3], pid: e[5] || null });
 
   const list = starters.map(norm);
-  const depths = [...new Set(list.map((p) => p.x))].sort((a, b) => a - b);
-  const rowsDepth = depths.slice(1); // la prima profondità è il portiere
-  const rows = rowsDepth.map((x) => list.filter((p) => p.x === x).sort((a, b) => a.y - b.y)); // sinistra->destra come in campo (FotMob: y cresce verso destra)
-  const gk = list.filter((p) => p.x === depths[0]);
+  const { gk, rows } = lineupRows(list, raw.f);
   const ordered = [...gk, ...rows.flat()];
 
   const ratingOf = {};

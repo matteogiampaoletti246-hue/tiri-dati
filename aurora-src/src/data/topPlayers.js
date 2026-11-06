@@ -33,6 +33,9 @@ export const TOP_KEEP = { day: null, thr: '0.5', stat: 'tiri', stamp: '', child:
 const MIN_VOTE = 7.75;
 const MAX_PER_DAY = 80;
 const DOMESTIC = [...DOMESTIC_KEYS, ...CUPS]; // top 5 + campionati aggiunti con Affidabilita' + Champions ed Europa League
+// Falli commessi/subiti: solo top 5 campionati, coppe europee, coppe nazionali e competizioni delle nazionali (= le competizioni coi dati dei falli, `FALLI_KEYS`);
+// niente campionati minori (Eredivisie, Pro League, Super Lig...). Le coppe e le nazionali entrano quando le loro partite sono nelle prossime partite (`fix` di giocatori.json).
+const FOUL_COMPS = FALLI_KEYS;
 
 const pois = (k, l) => {
   let s = 0;
@@ -135,12 +138,12 @@ const rowOf = (p, f, voto, lam, t) => {
   };
 };
 // giocatori del giorno che possono entrare in classifica (stesse regole di sempre: presenze, minuti, dati delle squadre)
-const candidates = (day) => {
+const candidates = (day, fouls = false) => {
   const bd = fixturesByDay().byDay[day] || {};
   const out = [];
   Object.keys(bd).forEach((teamName) => playersOf(teamName).forEach((p) => {
     const f = bd[p.teamName];
-    if (!DOMESTIC.includes(f[3])) return;
+    if (!(fouls ? FOUL_COMPS : DOMESTIC).includes(f[3])) return;
     if (isOutOn(p.id, day)) return; // infortunato fino al rientro
     out.push([p, f]);
   }));
@@ -190,7 +193,7 @@ export function loadBestFouls(day, threshold, stat) {
     const lineStr = String(line).replace('.', ',');
     const oppStat = stat === 'fc' ? 'fs' : 'fc';
     // stessi filtri dei tiri: almeno 3 presenze e minuti medi sufficienti
-    const list = candidates(day).filter(([p, f]) => lambdaOf(p, f, 0)).map(([p, f]) => {
+    const list = candidates(day, true).filter(([p, f]) => lambdaOf(p, f, 0)).map(([p, f]) => {
       const base = fillFrom({ ...initialForm(), line: lineStr, lineType: 'over' }, p, 'totali', fxOf(f));
       const team = teamById(base.team.id);
       const opp = teamById(base.opp.id);

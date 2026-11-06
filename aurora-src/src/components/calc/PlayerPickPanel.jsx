@@ -18,9 +18,10 @@ import { PlayerFace } from '@/components/SearchOverlay';
 import SelectRow from './SelectRow';
 import CalcStatSelect from './CalcStatSelect';
 import TintSweep from './TintSweep';
+import RoleBadge from './RoleBadge';
 
 // Impostazioni di base della giocata su un giocatore.
-export default function PlayerPickPanel({ form, set, player, hint, onSelectPlayer, stat = 'tiri', onStat, tint }) {
+export default function PlayerPickPanel({ form, set, player, hint, onSelectPlayer, stat = 'tiri', onStat, tint, role }) {
   const navigate = useNavigate();
   const [picker, setPicker] = useState(null);
   const hitLabel = HIT_OPTIONS.find((o) => o.value === form.hitRate)?.label ?? null;
@@ -62,7 +63,10 @@ export default function PlayerPickPanel({ form, set, player, hint, onSelectPlaye
             <TintSweep tint={tint && { ...tint, color: team ? team.colors[0] : tint.color }} strength={55} />
             {/* banner e volto aprono la scheda del giocatore; per cambiare giocatore c'e' il tasto Cambia */}
             <button type="button" onClick={() => navigate(`/giocatore/${player.id}`)} className="press flex min-w-0 flex-1 items-center gap-3 text-left" aria-label={`Apri la scheda di ${player.name}`}>
-              <PlayerFace p={player} size={56} />
+              <span className="relative block shrink-0" style={{ width: 56, height: 56 }}>
+                <PlayerFace p={player} size={56} />
+                <RoleBadge role={role} size="lg" />
+              </span>
               <span className="min-w-0 flex-1">
                 <span className="flex items-center gap-1.5 text-[17px] font-extrabold"><span className="truncate">{player.name}</span>{injuryOf(player.id) ? <InjuryIcon size={17} /> : null}</span>
                 <span className="mt-0.5 flex items-center gap-1.5 text-[12.5px]" style={{ color: 'var(--ink-3)' }}>

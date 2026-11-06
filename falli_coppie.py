@@ -73,15 +73,12 @@ def ruoli_modulo(modulo):
         return None
     # centrocampo e trequarti
     n = len(mezzo)
-    ultimo_2_1 = n >= 1 and mezzo[-1] == 2 and att == 1  # moduli che finiscono con 2-1
     for i, k in enumerate(mezzo):
         ultima_linea = i == n - 1
         if ultima_linea and att > 0 and i >= 1 and k <= 3:
-            # linea dietro l'attacco: 3 -> AD CO AS ; 2 e finale 2-1 -> AD AS ; altrimenti CO
+            # linea dietro l'attacco: 3 -> AD CO AS ; 2 (moduli che finiscono con 2-1) -> CO CO, come FotMob ; altrimenti CO
             if k == 3:
                 out += ["AD", "CO", "AS"]
-            elif k == 2 and ultimo_2_1:
-                out += ["AD", "AS"]
             else:
                 out += ["CO"] * k
         elif ultima_linea and att > 0 and i >= 1 and k == 3:
@@ -200,6 +197,21 @@ def coppie_partita(summ, m):
     return out, rmap, mancati
 
 
+def ricalcola_ruoli(ris, d):
+    """Riscrive i ruoli (r) delle partite gia' salvate con le regole attuali (stesso modulo e sostituzioni dei dati partita); le coppie non cambiano. Ritorna quante partite sono cambiate."""
+    cambiate = 0
+    for mid, voce in ris.items():
+        m = d.get(mid)
+        if not m or not m.get("h") or not m.get("a"):
+            continue
+        rmap = {pid: [ro, 0] for pid, ro in ruoli_partita(m["h"], sostituzioni(m, "h")).items()}
+        rmap.update({pid: [ro, 1] for pid, ro in ruoli_partita(m["a"], sostituzioni(m, "a")).items()})
+        if rmap and rmap != voce.get("r"):
+            voce["r"] = rmap
+            cambiate += 1
+    return cambiate
+
+
 def main():
     chiavi = sys.argv[1].split(",") if len(sys.argv) > 1 else list(LEGHE)
     for k in chiavi:
@@ -221,6 +233,9 @@ def main():
             ris = json.load(gzip.open(out_f))
         except Exception:
             ris = {}
+        camb = ricalcola_ruoli(ris, d)
+        if camb:
+            print(f"{k}: ruoli aggiornati in {camb} partite", flush=True)
         tot = tot_m = n_part = 0
         for mid, m in d.items():
             if not m or not m.get("h") or not m.get("a") or mid in ris:
