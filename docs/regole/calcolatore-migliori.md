@@ -83,3 +83,6 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 - Leghe A-D = competizioni d'archivio `fm-9806..9809`, fissate in alto in Home e aperte (`TOP_SOLO`, `OPEN_AT_START`, `native/tools/gen_meta.mjs`). Chiavi del Calcolatore in `EXTRA_KEYS`/`NATIONS_KEYS` (`data/calcData.js`); `calc_extra.py` (LEGHE con quinto valore True) scrive medie, prossime partite e, in `nat`, i profili delle nazionali (anche chi e' solo in rosa, statistiche vuote). Le nazionali tengono il nome FotMob (mai unite a un club).
 - `data/players.js`: il profilo `nat` si lega al giocatore di club per id FotMob (`natView`/`club`): un solo risultato in ricerca (club con stemma, sotto nazionale con bandiera); chi non ha club e' solo nazionale. Scegliendo Nations League (Calcolatore: `viewFor`, scheda giocatore: `Affidabilita`) squadra, partita e statistiche sono quelle della nazionale.
 - Falli e ruoli: `falli_coppie.py` (`uefa.nations`); con le nazionali ruoli e duello usano solo le partite di Nations League (`falliKeysFor`). Bandiere mancanti aggiunte in `public/flags`.
+
+## Migliori Giocatori: minimo 180 minuti (regola fissa)
+- `lambdaOf` (`data/topPlayers.js`) esclude chi ha meno di 180 minuti in stagione (stesso `MIN_MIN` delle classifiche giocatori), oltre a 3 presenze e 35' medi nelle ultime 5; vale per tiri, in porta e falli.

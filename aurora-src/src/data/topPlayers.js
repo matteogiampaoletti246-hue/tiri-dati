@@ -53,10 +53,12 @@ const pickKey = pickLeagueKey;
 const lastRows = (p) => hitRows(p);
 
 // media di tiri attesa del giocatore in quella partita; idx 0 = tiri totali, 1 = tiri in porta
+const MIN_SEASON_MIN = 180;
 function lambdaOf(p, f, idx) {
   const g = p.l[0] + p.c[0];
   const mi = p.l[3] + p.c[3];
-  if (g < 3 || mi <= 0) return null;
+  // stesso limite delle classifiche giocatori (docs/regole/giocatori-dati.md): almeno 180 minuti in stagione
+  if (g < 3 || mi < MIN_SEASON_MIN) return null;
   const lr = lastRows(p).slice(0, 5);
   if (lr.length < 3) return null;
   let sh = 0;
