@@ -19289,18 +19289,6 @@
     ]
    },
    {
-    "squadra": "AEP Polemidion",
-    "id": "2181835",
-    "giocatori": 2,
-    "competizioni": [
-     "2. Division 2026-2027",
-     "Cyprus Cup 2026-2027"
-    ],
-    "motivo": [
-     "2 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 2"
-    ]
-   },
-   {
     "squadra": "AS Cotonou",
     "id": "1421037",
     "giocatori": 2,
@@ -20171,6 +20159,18 @@
     ],
     "motivo": [
      "2 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 2"
+    ]
+   },
+   {
+    "squadra": "AEP Polemidion",
+    "id": "2181835",
+    "giocatori": 3,
+    "competizioni": [
+     "2. Division 2026-2027",
+     "Cyprus Cup 2026-2027"
+    ],
+    "motivo": [
+     "3 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 3"
     ]
    },
    {
@@ -21313,17 +21313,6 @@
     ]
    },
    {
-    "squadra": "Oakleigh Cannons",
-    "id": "162311",
-    "giocatori": 4,
-    "competizioni": [
-     "Australia Championship 2026"
-    ],
-    "motivo": [
-     "4 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 4"
-    ]
-   },
-   {
     "squadra": "Penicuik Athletic",
     "id": "1088195",
     "giocatori": 4,
@@ -22018,17 +22007,6 @@
     ]
    },
    {
-    "squadra": "Atletico Independiente",
-    "id": "2096906",
-    "giocatori": 6,
-    "competizioni": [
-     "Liga Nacional 2026-2027 - Apertura"
-    ],
-    "motivo": [
-     "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
-    ]
-   },
-   {
     "squadra": "Baník Most-Souš",
     "id": "1181566",
     "giocatori": 6,
@@ -22250,6 +22228,17 @@
     ]
    },
    {
+    "squadra": "Oakleigh Cannons",
+    "id": "162311",
+    "giocatori": 6,
+    "competizioni": [
+     "Australia Championship 2026"
+    ],
+    "motivo": [
+     "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
+    ]
+   },
+   {
     "squadra": "Peninsula Power",
     "id": "582214",
     "giocatori": 6,
@@ -22409,6 +22398,17 @@
     "giocatori": 7,
     "competizioni": [
      "Turkish Cup 2026-2027"
+    ],
+    "motivo": [
+     "7 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 7"
+    ]
+   },
+   {
+    "squadra": "Atletico Independiente",
+    "id": "2096906",
+    "giocatori": 7,
+    "competizioni": [
+     "Liga Nacional 2026-2027 - Apertura"
     ],
     "motivo": [
      "7 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 7"
@@ -23679,10 +23679,10 @@
   "coppie_squadra_competizione": 23610,
   "con_frase_prima": 11672,
   "squadre_con_frase_prima": 5786,
-  "con_frase_e_dati_ora_visibili": 6582,
+  "con_frase_e_dati_ora_visibili": 6586,
   "con_frase_dopo": 0,
-  "competizioni_senza_dati_tolte_dalla_tendina": 12573,
-  "squadre_senza_scheda_giocatori": 7047,
+  "competizioni_senza_dati_tolte_dalla_tendina": 12569,
+  "squadre_senza_scheda_giocatori": 7044,
   "senza_scheda": [
    {
     "squadra": "Threave Rovers",
