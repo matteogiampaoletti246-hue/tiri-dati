@@ -387,6 +387,38 @@ export default {
           const lt = st.liveTime || {};
           live.push([m.id, m.home && m.home.id, m.away && m.away.id, sc[0], sc[1], lt.short || lt.long || ""]);
         });
+        // FotMob durante la diretta mette gia' la partita in corso nella tabella (Venezia 11 partite invece di 10, 6 nov): l'app la aggiunge col
+        // risultato provvisorio (`applyLive`), quindi qui si toglie da ogni riga che la contiene gia' (partite giocate > partite finite), per tutte
+        // le competizioni e per le tabelle totale, casa e trasferta. Cosi' la partita live si conta una volta sola.
+        if (live.length) {
+          const fin = { all: {}, home: {}, away: {} };
+          ((j.fixtures && j.fixtures.allMatches) || []).forEach((m) => {
+            const st = m.status || {};
+            if (!st.finished || st.cancelled) return;
+            const h = String(m.home && m.home.id), a = String(m.away && m.away.id);
+            fin.all[h] = (fin.all[h] || 0) + 1; fin.all[a] = (fin.all[a] || 0) + 1;
+            fin.home[h] = (fin.home[h] || 0) + 1; fin.away[a] = (fin.away[a] || 0) + 1;
+          });
+          const sub = (rows, md) => (rows || []).forEach((r) => {
+            const tid = String(r.id);
+            const lm = live.find((x) => (md !== "away" && String(x[1]) === tid) || (md !== "home" && String(x[2]) === tid));
+            if (!lm || !((r.played || 0) > (fin[md][tid] || 0))) return;
+            const home = String(lm[1]) === tid, us = home ? lm[3] : lm[4], them = home ? lm[4] : lm[3];
+            const sc = /^(\d+)\D+(\d+)$/.exec(String(r.scoresStr || ""));
+            const gf = sc ? Number(sc[1]) - us : 0, ga = sc ? Number(sc[2]) - them : 0;
+            r.played -= 1;
+            if (us > them) { r.wins -= 1; r.pts -= 3; } else if (us === them) { r.draws -= 1; r.pts -= 1; } else r.losses -= 1;
+            if (sc) { r.scoresStr = gf + "-" + ga; r.goalConDiff = gf - ga; }
+          });
+          const cmp = (a, b) => (b.pts || 0) - (a.pts || 0) || (b.goalConDiff || 0) - (a.goalConDiff || 0) || (parseInt(b.scoresStr, 10) || 0) - (parseInt(a.scoresStr, 10) || 0) || (a.idx || 0) - (b.idx || 0);
+          groups.forEach((g) => ["all", "home", "away"].forEach((md) => {
+            const rows = g.t[md];
+            if (!rows || !rows.length) return;
+            sub(rows, md);
+            const zones = rows.slice().sort((a, b) => (a.idx || 0) - (b.idx || 0)).map((r) => r.qualColor);
+            rows.sort(cmp).forEach((r, i) => { r.idx = i + 1; r.qualColor = zones[i]; });
+          }));
+        }
         return new Response(JSON.stringify({ t: Date.now(), groups, live }), { headers: cors(req, { "Cache-Control": "public, max-age=5" }) });
       }
       if (u.pathname === "/fs") {
