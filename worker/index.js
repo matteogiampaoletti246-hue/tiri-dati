@@ -371,7 +371,7 @@ export default {
         const r = await fetch("https://www.fotmob.com/api/data/leagues?id=" + id + "&ccode3=ITA", { headers: FMH, cf: { cacheTtl: 5, cacheEverything: true } });
         if (!r.ok) throw new Error("FotMob " + r.status);
         const j = await r.json();
-        const cut = (x) => (x || []).map((q) => ({ id: q.id, name: q.name, shortName: q.shortName, idx: q.idx, played: q.played, wins: q.wins, draws: q.draws, losses: q.losses, scoresStr: q.scoresStr, goalConDiff: q.goalConDiff, pts: q.pts, qualColor: q.qualColor }));
+        const cut = (x) => (x || []).map((q) => ({ id: q.id, name: q.name, shortName: q.shortName, idx: q.idx, played: q.played, wins: q.wins, draws: q.draws, losses: q.losses, scoresStr: q.scoresStr, goalConDiff: q.goalConDiff, pts: q.pts, qualColor: q.qualColor, og: q.ongoing || null }));
         const groups = [];
         (j.table || []).forEach((tb) => {
           const d = tb.data || {};
