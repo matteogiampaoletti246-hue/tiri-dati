@@ -1,4 +1,5 @@
-// Infortuni (FotMob, via GitHub Action): { idGiocatore: { r: motivo inglese, ed: data rientro ISO, e: testo rientro } }
+// Infortunati, squalificati e assenti (infortuni.py, 3 volte al giorno): FotMob nel file infortuni.json, decisione completa
+// con LiveScore su KV (RAW.infortuniKv, worker /r?k=idx:inj). Voce: { k: inj|sus|abs, r: motivo inglese, ed: rientro ISO|null, e: rientro testo, n: partite saltate }
 import { RAW } from './load';
 
 const IT = [
@@ -42,10 +43,32 @@ function parseReturn(v) {
   return { ed: v.ed || null, text: v.e || null };
 }
 
+const itText = (e) => {
+  const t = String(e || '').trim();
+  if (!t) return null;
+  const m = t.toLowerCase().match(/^(early|mid|late)?[\s-]*(january|february|march|april|may|june|july|august|september|october|november|december)\s*(\d{4})?$/);
+  if (m) {
+    const pre = { early: 'Inizio', mid: 'Metà', late: 'Fine' }[m[1]] || '';
+    return `${pre ? `${pre} ` : ''}${MESI[MONTHS_EN.indexOf(m[2])]}${m[3] ? ` ${m[3]}` : ''}`;
+  }
+  const rel = [[/few days/i, 'Pochi giorni'], [/about a week/i, 'Circa una settimana'], [/1-2 weeks|1 2 weeks/i, '1-2 settimane circa'], [/2-3 weeks/i, '2-3 settimane circa'], [/few weeks/i, 'Alcune settimane'], [/season/i, 'Fuori per la stagione']];
+  const hit = rel.find(([re]) => re.test(t));
+  return hit ? hit[1] : null;
+};
+const fmtIso = (iso) => { const [y, m, d] = iso.split('-').map(Number); return `${d} ${MESI[m - 1]} ${y}`; };
+
+const injMap = () => (RAW.infortuniKv && RAW.infortuniKv.p) || (RAW.infortuni && RAW.infortuni.p) || null;
+
 export function injuryOf(playerId) {
-  const d = RAW.infortuni && RAW.infortuni.p;
+  const d = injMap();
   const v = d && d[playerId];
   if (!v) return null;
+  if (v.k) {
+    if (v.ed && v.ed <= new Date().toISOString().slice(0, 10)) return null; // rientro previsto gia' arrivato
+    if (v.k === 'abs') return { reason: `Fuori dai convocati da ${v.n || 2} partite`, ed: null, label: null, kind: 'abs' };
+    if (v.k === 'sus') return { reason: 'Squalificato', ed: v.ed || null, label: null, kind: 'sus' };
+    return { reason: reasonIt(v.r), ed: v.ed || null, label: itText(v.e) || (v.ed ? fmtIso(v.ed) : null), kind: 'inj' };
+  }
   const { ed, text } = parseReturn(v);
   if (ed && ed < new Date().toISOString().slice(0, 10)) return null; // rientro previsto già passato
   const label = text || null;

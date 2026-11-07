@@ -58,12 +58,19 @@ function mergeCalcExtra() {
   Object.entries(X.fix || {}).forEach(([t, lst]) => { G.fix[t] = lst; });
 }
 
+// Infortunati con LiveScore (dati di terzi: solo su KV, mai nel repository). Al massimo 2,5 s: senza risposta vale infortuni.json.
+const kvInjuries = () => Promise.race([
+  fetch(`${WORKER}/r?k=idx:inj`).then((r) => (r.ok ? r.json() : null)).catch(() => null),
+  new Promise((res) => setTimeout(() => res(null), 2500)),
+]);
+
 export async function loadRaw() {
-  await Promise.all(
-    Object.entries(FILES).map(async ([key, file]) => {
+  await Promise.all([
+    ...Object.entries(FILES).map(async ([key, file]) => {
       RAW[key] = await get(file);
     }),
-  );
+    kvInjuries().then((j) => { RAW.infortuniKv = j && j.p ? j : null; }),
+  ]);
   mergeCalcExtra();
   return RAW;
 }
