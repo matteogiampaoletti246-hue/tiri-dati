@@ -1408,7 +1408,7 @@ await step('formazioni: selettore squadra sotto il campo (allenatore e panchina 
 // Formazioni senza coordinate FotMob (07/11/2026): Ligue 3 da LiveScore (modulo + posti), Serie C brasiliana dai ruoli FotMob ("simple"),
 // Liga MX Femenil / Scottish Cup / Concacaf Central American Cup da ESPN; Liga Portugal 2 con i soli nomi ufficiali = elenco a due colonne.
 await step('formazioni da altre fonti: campo completo, mai il solo portiere', async () => {
-  const cases = [['a-8970-2026-2027-5886576', true], ['a-8971-2026-1000022404', true], ['a-9906-2026-2027-5977410', true], ['a-137-2026-2027-6385237', true], ['a-9682-2026-6281882', true], ['a-185-2026-2027-5888103', false]];
+  const cases = [['a-8970-2026-2027-5886576', true], ['a-8971-2026-1000022404', true], ['a-9906-2026-2027-5977410', true], ['a-137-2026-2027-6385237', true], ['a-9682-2026-6281882', true], ['a-185-2026-2027-5888094', false], ['a-197-2026-2027-5861967', false]];
   for (const [id, want] of cases) {
     await go(`#/match/${id}`, 3000); await ready(); await wait(1500);
     const has = await tabClick('Formazioni');
