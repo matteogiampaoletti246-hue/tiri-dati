@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-06T23:35:01+00:00",
+ "updated_at": "2026-11-07T05:44:13+00:00",
  "window": {
   "nlast": 0,
   "min_games": 1,
@@ -2462,56 +2462,56 @@
      ]
     },
     {
-     "id": "m_2zGfLM",
+     "id": "m_2X8YYk",
      "date": "2026-11-07",
      "time": "2026-11-07",
      "league": "Bundesliga",
-     "home": "Borussia Dortmund",
-     "away": "Elversberg",
-     "corners_home": 7.1,
-     "corners_away": 3.8,
-     "gap": 3.3,
+     "home": "Mainz 05",
+     "away": "Bayern München",
+     "corners_home": 5.1,
+     "corners_away": 6.5,
+     "gap": 1.4,
      "games": [
-      6,
-      4
+      4,
+      6
      ],
-     "tiri_home": 17.6,
-     "tiri_away": 9.7,
-     "tiri_gap": 7.9,
+     "tiri_home": 14.5,
+     "tiri_away": 17.9,
+     "tiri_gap": 3.4,
      "tiri_games": [
-      6,
-      4
+      4,
+      6
      ],
-     "sot_home": 5.7,
-     "sot_away": 3.4,
-     "sot_gap": 2.3,
+     "sot_home": 4.3,
+     "sot_away": 6.1,
+     "sot_gap": 1.8,
      "sot_games": [
-      6,
-      4
+      4,
+      6
      ],
-     "falli_home": 12.4,
-     "falli_away": 11.6,
-     "falli_gap": 0.8,
+     "falli_home": 11.6,
+     "falli_away": 9.8,
+     "falli_gap": 1.8,
      "falli_games": [
-      12,
-      8
+      8,
+      12
      ],
-     "off_home": 2.0,
-     "off_away": 2.3,
+     "off_home": 1.6,
+     "off_away": 1.9,
      "off_gap": 0.3,
      "off_games": [
-      12,
-      8
+      8,
+      12
      ],
-     "cards": 3.8,
-     "cards_1t": 1.5,
-     "cards_home": 2.0,
-     "cards_away": 1.8,
-     "cards_1t_home": 0.8,
-     "cards_1t_away": 0.6,
+     "cards": 3.6,
+     "cards_1t": 1.0,
+     "cards_home": 2.5,
+     "cards_away": 1.1,
+     "cards_1t_home": 0.9,
+     "cards_1t_away": 0.2,
      "games_k": [
-      12,
-      8
+      8,
+      12
      ]
     },
     {
@@ -2568,56 +2568,56 @@
      ]
     },
     {
-     "id": "m_2X8YYk",
+     "id": "m_2zGfLM",
      "date": "2026-11-07",
      "time": "2026-11-07",
      "league": "Bundesliga",
-     "home": "Mainz 05",
-     "away": "Bayern München",
-     "corners_home": 5.1,
-     "corners_away": 6.5,
-     "gap": 1.4,
+     "home": "Borussia Dortmund",
+     "away": "Elversberg",
+     "corners_home": 7.1,
+     "corners_away": 3.8,
+     "gap": 3.3,
      "games": [
-      4,
-      6
+      6,
+      4
      ],
-     "tiri_home": 14.5,
-     "tiri_away": 17.9,
-     "tiri_gap": 3.4,
+     "tiri_home": 17.6,
+     "tiri_away": 9.7,
+     "tiri_gap": 7.9,
      "tiri_games": [
-      4,
-      6
+      6,
+      4
      ],
-     "sot_home": 4.3,
-     "sot_away": 6.1,
-     "sot_gap": 1.8,
+     "sot_home": 5.7,
+     "sot_away": 3.4,
+     "sot_gap": 2.3,
      "sot_games": [
-      4,
-      6
+      6,
+      4
      ],
-     "falli_home": 11.6,
-     "falli_away": 9.8,
-     "falli_gap": 1.8,
+     "falli_home": 12.4,
+     "falli_away": 11.6,
+     "falli_gap": 0.8,
      "falli_games": [
-      8,
-      12
+      12,
+      8
      ],
-     "off_home": 1.6,
-     "off_away": 1.9,
+     "off_home": 2.0,
+     "off_away": 2.3,
      "off_gap": 0.3,
      "off_games": [
-      8,
-      12
+      12,
+      8
      ],
-     "cards": 3.6,
-     "cards_1t": 1.0,
-     "cards_home": 2.5,
-     "cards_away": 1.1,
-     "cards_1t_home": 0.9,
-     "cards_1t_away": 0.2,
+     "cards": 3.8,
+     "cards_1t": 1.5,
+     "cards_home": 2.0,
+     "cards_away": 1.8,
+     "cards_1t_home": 0.8,
+     "cards_1t_away": 0.6,
      "games_k": [
-      8,
-      12
+      12,
+      8
      ]
     },
     {
@@ -5767,59 +5767,6 @@
      ]
     },
     {
-     "id": "m_4ChvE9",
-     "date": "2026-11-08",
-     "time": "2026-11-08",
-     "league": "LaLiga",
-     "home": "Villarreal",
-     "away": "Getafe",
-     "corners_home": 5.4,
-     "corners_away": 3.4,
-     "gap": 2.0,
-     "games": [
-      7,
-      5
-     ],
-     "tiri_home": 16.8,
-     "tiri_away": 9.7,
-     "tiri_gap": 7.1,
-     "tiri_games": [
-      7,
-      5
-     ],
-     "sot_home": 5.6,
-     "sot_away": 3.2,
-     "sot_gap": 2.4,
-     "sot_games": [
-      7,
-      5
-     ],
-     "falli_home": 12.2,
-     "falli_away": 13.3,
-     "falli_gap": 1.0,
-     "falli_games": [
-      15,
-      11
-     ],
-     "off_home": 2.1,
-     "off_away": 1.5,
-     "off_gap": 0.6,
-     "off_games": [
-      15,
-      11
-     ],
-     "cards": 6.0,
-     "cards_1t": 2.2,
-     "cards_home": 2.3,
-     "cards_away": 3.6,
-     "cards_1t_home": 0.7,
-     "cards_1t_away": 1.5,
-     "games_k": [
-      15,
-      11
-     ]
-    },
-    {
      "id": "m_1wSi73",
      "date": "2026-11-08",
      "time": "2026-11-08",
@@ -5867,6 +5814,59 @@
      "cards_away": 1.4,
      "cards_1t_home": 0.4,
      "cards_1t_away": 0.5,
+     "games_k": [
+      15,
+      11
+     ]
+    },
+    {
+     "id": "m_4ChvE9",
+     "date": "2026-11-08",
+     "time": "2026-11-08",
+     "league": "LaLiga",
+     "home": "Villarreal",
+     "away": "Getafe",
+     "corners_home": 5.4,
+     "corners_away": 3.4,
+     "gap": 2.0,
+     "games": [
+      7,
+      5
+     ],
+     "tiri_home": 16.8,
+     "tiri_away": 9.7,
+     "tiri_gap": 7.1,
+     "tiri_games": [
+      7,
+      5
+     ],
+     "sot_home": 5.6,
+     "sot_away": 3.2,
+     "sot_gap": 2.4,
+     "sot_games": [
+      7,
+      5
+     ],
+     "falli_home": 12.2,
+     "falli_away": 13.3,
+     "falli_gap": 1.0,
+     "falli_games": [
+      15,
+      11
+     ],
+     "off_home": 2.1,
+     "off_away": 1.5,
+     "off_gap": 0.6,
+     "off_games": [
+      15,
+      11
+     ],
+     "cards": 6.0,
+     "cards_1t": 2.2,
+     "cards_home": 2.3,
+     "cards_away": 3.6,
+     "cards_1t_home": 0.7,
+     "cards_1t_away": 1.5,
      "games_k": [
       15,
       11
