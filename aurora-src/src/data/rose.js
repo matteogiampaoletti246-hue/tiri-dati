@@ -98,9 +98,10 @@ export const seasonRoster = async (team) => {
   const sk = fm ? await currentSeason(fm) : null;
   // prima la rosa scaricata (per ruolo); le competizioni servono solo per aprire i giocatori
   if (R && R.p && R.p.length && !rosePoor(R)) return { fm, sk, p: R.p, co: R.co, ci: R.ci };
-  // rosa FotMob assente o povera: rosa di LiveScore (per ruolo) se ne ha di piu'
-  const L = await lsRoster(team, fm).catch(() => null);
-  if (L && L.p.length > ((R && R.p) || []).length) return { fm, sk, p: L.p, co: L.co || (R && R.co), ci: R && R.ci };
+  // nessuna rosa in rosa/: rosa di LiveScore (per ruolo). Mai al posto di una rosa di rosa/, anche corta: quella e' gia' passata dal
+  // controllo "e' ancora qui?" (rose_tutte.py), la lista grezza di LiveScore tiene anche chi e' passato dalla squadra anni fa.
+  const L = R && R.p && R.p.length ? null : await lsRoster(team, fm).catch(() => null);
+  if (L && L.p.length) return { fm, sk, p: L.p, co: L.co || (R && R.co), ci: R && R.ci };
   if (R && R.p && R.p.length) return { fm, sk, p: R.p, co: R.co, ci: R.ci };
   if (!fm || !sk) return null;
   const safe = (p) => p.catch(() => null);

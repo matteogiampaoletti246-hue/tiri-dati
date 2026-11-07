@@ -50,6 +50,10 @@ AF_KEY = os.environ.get("API_FOOTBALL_KEY", "")
 AF_BUDGET = [int(os.environ.get("AF_BUDGET", "80"))]
 AF_POS = {"Goalkeeper": "GK", "Defender": "DEF", "Midfielder": "MID", "Attacker": "ATT"}
 PLAYER_BUDGET = [int(os.environ.get("ROSE_GIOCATORI", "4000"))]
+# controllo "e' ancora qui?": schede FotMob lette per giro (ricordate in rosa/_attivi.json, si rileggono ogni ATT_DAYS)
+ATT_BUDGET = [int(os.environ.get("ROSE_ATTIVI", "12000"))]
+ATT_DAYS = 30
+ATT = {}
 
 
 def get(url):
@@ -347,6 +351,68 @@ def fotmob_id_by_name(name, tid):
     return None
 
 
+def season_end(name):
+    """'2025/2026' -> 2026, '2026' -> 2026."""
+    ys = [int(y) for y in re.findall(r"(?:19|20)\d\d", str(name or ""))]
+    return max(ys) if ys else 0
+
+
+def fetch_activity(pid):
+    """Scheda FotMob: [data controllo, ultimo anno con presenze, squadra attuale (voce attiva della carriera), anno d'arrivo li']."""
+    j = get("https://www.fotmob.com/api/data/playerData?id=%d" % pid)
+    if not isinstance(j, dict):
+        return None
+    last = max([season_end(x.get("seasonName")) for x in j.get("statSeasons") or []] or [0])
+    cur, start = 0, 0
+    for e in (((j.get("careerHistory") or {}).get("careerItems") or {}).get("senior") or {}).get("teamEntries") or []:
+        if e.get("active"):
+            cur, start = int(e.get("teamId") or 0), season_end(str(e.get("startDate") or "")[:4])
+            break
+    return [TODAY, last, cur, start]
+
+
+def still_here(pid, tid):
+    """Il giocatore e' davvero nella squadra adesso? Le rose esterne (LiveScore, OneFootball) e alcune rose FotMob di squadre minori
+    tengono anche chi e' passato di li' anni fa (Casertana: 9 portieri, Benassi del 2017). Si tiene solo chi:
+    - non e' tesserato ora per un'altra squadra (prestiti compresi), e
+    - ha presenze nella stagione in corso o nella precedente, oppure e' arrivato qui da poco (nuovo acquisto senza presenze).
+    Scheda non ancora letta = si tiene (verra' letta nei giri successivi)."""
+    a = ATT.get(str(pid))
+    if not a:
+        return True
+    now = dt.date.today()
+    min_year = now.year if now.month >= 7 else now.year - 1
+    _, last, cur, start = a
+    if cur and str(cur) != str(tid):
+        return False
+    if last >= min_year:
+        return True
+    return bool(cur) and start >= min_year - 1
+
+
+def check_activity(pids):
+    """Legge (entro il tetto del giro) le schede dei giocatori da controllare che non sono in _attivi.json o sono vecchie."""
+    today = dt.date.today()
+    todo = []
+    for pid in dict.fromkeys(int(p) for p in pids if p and int(p) > 0):
+        a = ATT.get(str(pid))
+        if not a or (today - dt.date.fromisoformat(a[0])).days >= ATT_DAYS:
+            todo.append(pid)
+    todo = todo[:ATT_BUDGET[0]]
+    ATT_BUDGET[0] -= len(todo)
+    t1 = time.time()
+    with ThreadPoolExecutor(max_workers=int(os.environ.get("ROSE_ATT_THREADS", "6"))) as ex:
+        for pid, a in zip(todo, ex.map(fetch_activity, todo)):
+            if a:
+                ATT[str(pid)] = a
+    print("schede giocatori controllate", len(todo), int(time.time() - t1), "s", flush=True)
+
+
+def suspicious(rows):
+    """Rosa FotMob troppo lunga per essere vera (vecchi tesserati mai tolti): da controllare giocatore per giocatore."""
+    return len(rows) > 40 or sum(1 for x in rows if x[2] == "GK") >= 6
+
+
 def external_fill(data, tidx, country_of, is_current, stato):
     """Squadre con meno di 11 giocatori o con ruoli mancanti: LiveScore, poi OneFootball. Risultati ricordati in rosa/_esterne.json."""
     path = os.path.join(OUT, "_esterne.json")
@@ -393,12 +459,15 @@ def external_fill(data, tidx, country_of, is_current, stato):
             found += 1 if got else 0
     print("fonti esterne: trovate", found, "su", len(todo), int(time.time() - t1), "s", flush=True)
     # unione: per nome ai giocatori gia' noti (il ruolo della rosa esterna vale per chi non ne ha); gli altri si aggiungono
-    n_id, n_add = 0, 0
+    n_id, n_add, n_old = 0, 0, 0
+    # prima si leggono le schede FotMob di chi verrebbe aggiunto (id gia' noti dalle rose esterne)
+    check_activity([e[6] for tid, x in ext.items() if tid in tidx for e in (x.get("p") or []) if len(e) > 6 and e[6]])
     for tid, x in ext.items():
         if tid not in tidx or not x.get("p"):
             continue
         cur = data.setdefault(tid, {"p": []})
         rows = cur.setdefault("p", [])
+        sure = sum(1 for r in rows if r[0] and r[0] > 0)
         if not cur.get("co") and x.get("co"):
             cur["co"] = x["co"]
         add = []
@@ -412,8 +481,7 @@ def external_fill(data, tidx, country_of, is_current, stato):
                         old[i] = v
             else:
                 add.append(e)
-        if add:
-            cur["src"] = sorted(set((cur.get("src") or []) + [x.get("src")]))
+        added = 0
         for e in add:
             pid = e[6] if len(e) > 6 else None
             if pid is None and PLAYER_BUDGET[0] > 0:
@@ -424,13 +492,43 @@ def external_fill(data, tidx, country_of, is_current, stato):
                 while len(e) < 6:
                     e.append(None)
                 e.append(pid or 0)  # ricordato: una sola ricerca per giocatore
+            if pid and not still_here(pid, tid):
+                n_old += 1  # passato di qui in un'altra stagione o tesserato altrove: non e' della rosa
+                continue
             if not pid:
+                if sure >= MIN_ROSA:
+                    n_old += 1  # nessun modo di sapere se e' ancora qui e la squadra ha gia' una rosa certa
+                    continue
                 # senza id FotMob: id negativo stabile dal nome, riga senza collegamento e con la sagoma
                 pid = -(abs(hash_name(e[0])) % 10 ** 9) - 1
             rows.append([pid, e[0], e[1], e[2], e[3], e[4], e[5], None, 0, 0, 0, 0])
             n_add += 1
-    print("fonti esterne: giocatori aggiunti", n_add, "con id FotMob ritrovato", n_id, flush=True)
+            added += 1
+        if added:
+            cur["src"] = sorted(set((cur.get("src") or []) + [x.get("src")]))
+    print("fonti esterne: giocatori aggiunti", n_add, "con id FotMob ritrovato", n_id, "scartati (altre stagioni/squadre)", n_old, flush=True)
     json.dump(ext, open(path, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"), sort_keys=True)
+
+
+def to_check(v):
+    """Righe da verificare di una squadra: chi non ha minuti nell'archivio, se la rosa viene da fonti esterne o e' una rosa FotMob sospetta."""
+    rows = v.get("p") or []
+    src = v.get("src") or []
+    if "fotmob" in src and not suspicious(rows):
+        return []  # rosa ufficiale FotMob di dimensioni normali: si tiene com'e' (anche i giovani senza presenze)
+    return [r for r in rows if r[0] and r[0] > 0 and not r[11]]
+
+
+def prune(data):
+    """Toglie da ogni rosa chi e' di un'altra stagione o di un'altra squadra (still_here). Vale anche per le squadre non riscaricate oggi."""
+    check_activity([r[0] for v in data.values() for r in to_check(v)])
+    gone = 0
+    for tid, v in data.items():
+        bad = {id(r) for r in to_check(v) if not still_here(r[0], tid)}
+        if bad:
+            v["p"] = [r for r in v["p"] if id(r) not in bad]
+            gone += len(bad)
+    print("rose: tolti giocatori di altre stagioni o squadre", gone, flush=True)
 
 
 def hash_name(s):
@@ -446,6 +544,7 @@ def main():
     data = shards_load()
     stato = load(os.path.join(OUT, "_stato.json"), default={}) or {}
     ruoli = load(os.path.join(OUT, "_ruoli.json"), default={}) or {}
+    ATT.update(load(os.path.join(OUT, "_attivi.json"), default={}) or {})
     now_year = dt.date.today().year
     arch_idx = load(os.path.join(ROOT, "arch", "index.json"), default={}) or {}
 
@@ -574,6 +673,7 @@ def main():
                 x[2] = role
 
     external_fill(data, tidx, country_of, is_current, stato)
+    prune(data)
     # solo le squadre con qualcosa da mostrare (niente righe vuote: l'app ripiega da sola)
     for tid in list(data):
         v = data[tid]
@@ -587,6 +687,7 @@ def main():
     shards_save(data)
     json.dump(stato, open(os.path.join(OUT, "_stato.json"), "w", encoding="utf-8"), separators=(",", ":"), sort_keys=True)
     json.dump({k: v for k, v in sorted(ruoli.items())}, open(os.path.join(OUT, "_ruoli.json"), "w", encoding="utf-8"), separators=(",", ":"))
+    json.dump(dict(sorted(ATT.items(), key=lambda x: int(x[0]))), open(os.path.join(OUT, "_attivi.json"), "w", encoding="utf-8"), separators=(",", ":"))
     tot = Counter()
     for v in data.values():
         p = v.get("p") or []
@@ -599,5 +700,17 @@ def main():
     print(dict(tot), sum(os.path.getsize(os.path.join(OUT, f)) for f in os.listdir(OUT)) // 1024, "KB", int(time.time() - T0), "s", flush=True)
 
 
+def only_prune():
+    """--pulizia: legge le schede e pulisce le rose gia' salvate, senza riscaricarle."""
+    ATT.update(load(os.path.join(OUT, "_attivi.json"), default={}) or {})
+    data = shards_load()
+    prune(data)
+    for tid in list(data):
+        if not data[tid].get("p") and not data[tid].get("co"):
+            del data[tid]
+    shards_save(data)
+    json.dump(dict(sorted(ATT.items(), key=lambda x: int(x[0]))), open(os.path.join(OUT, "_attivi.json"), "w", encoding="utf-8"), separators=(",", ":"))
+
+
 if __name__ == "__main__":
-    sys.exit(main())
+    sys.exit(only_prune() if "--pulizia" in sys.argv else main())
