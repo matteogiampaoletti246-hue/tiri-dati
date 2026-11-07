@@ -171,7 +171,12 @@ def fm_team(tid):
                 past.append((d, f.get("id")))
         elif not st.get("cancelled") and TODAY <= d <= add(TODAY, 6):
             nxt.append((d, f.get("id")))
-    return {"past": sorted(past), "next": sorted(nxt)[:1]}
+    inj = {}   # rosa FotMob: "injured" con rientro previsto (seconda conferma FotMob, anche se playerData non lo riporta)
+    for g in (((j or {}).get("squad") or {}).get("squad") or []):
+        for m in g.get("members") or []:
+            if m.get("injured") and m.get("id"):
+                inj[int(m["id"])] = str((m.get("injury") or {}).get("expectedReturn") or "")
+    return {"past": sorted(past), "next": sorted(nxt)[:1], "inj": inj}
 
 
 def fm_next_match(mid, tid):
@@ -275,6 +280,10 @@ def decide(P, F, T, N, L, use_ls):
         cands = []
         if f.get("inj"):
             cands.append(dict(f["inj"]))
+        if not f.get("inj") and fm in (team.get("inj") or {}):
+            e = team["inj"][fm]
+            ed, dub = ret_text(e, TODAY)
+            cands.append({"r": "Injury", "k": "inj", "ed": ed, "e": e or None, "s": add(last_sq, 1) if last_sq else TODAY, "dub": dub, "src": "fm-squad"})
         u = (nm.get("unav") or {}).get(fm)
         if u:
             ed, dub = ret_text(u.get("e"), TODAY)
@@ -304,6 +313,14 @@ def decide(P, F, T, N, L, use_ls):
                 continue
             live.append(c)
         sure = [c for c in live if not c["dub"]]
+        # "In dubbio" / "Back in training" da solo non esclude; ma se dopo la notizia il club ha giocato almeno 2 partite
+        # (coperte da formazioni) e lui non e' mai tornato in distinta, e' ancora fuori (caso Alex Scott, ottobre 2026)
+        if live and not sure:
+            cov_d = set(team.get("cov") or []) | (set(ls.get("cov") or []) if use_ls else set())
+            for c in live:
+                since = [d for d, _ in team["past"] if d >= (c.get("s") or TODAY) and d in cov_d and (last_sq is None or d > last_sq)]
+                if len(since) >= 2:
+                    sure.append(dict(c, dub=False, src="dub+abs"))
         if live and not sure:
             stat["dubbi"] += 1
         res = None
@@ -312,7 +329,7 @@ def decide(P, F, T, N, L, use_ls):
             dated = [c for c in sure if c["ed"]]
             best = max(dated, key=lambda c: c["ed"]) if dated else sure[0]
             res = {"k": best["k"], "r": best["r"], "ed": best["ed"], "e": best.get("e"), "s": best["s"], "src": sorted({c["src"] for c in sure})}
-        elif not live and not in_next_lineup:
+        if not res and not in_next_lineup:
             # nessuna fonte lo dichiara: fuori dalla distinta del club da almeno 2 partite di fila e da almeno 10 giorni
             cov = set(team.get("cov") or [])
             if use_ls:

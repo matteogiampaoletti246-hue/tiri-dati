@@ -51,7 +51,7 @@ const itText = (e) => {
     const pre = { early: 'Inizio', mid: 'Metà', late: 'Fine' }[m[1]] || '';
     return `${pre ? `${pre} ` : ''}${MESI[MONTHS_EN.indexOf(m[2])]}${m[3] ? ` ${m[3]}` : ''}`;
   }
-  const rel = [[/few days/i, 'Pochi giorni'], [/about a week/i, 'Circa una settimana'], [/1-2 weeks|1 2 weeks/i, '1-2 settimane circa'], [/2-3 weeks/i, '2-3 settimane circa'], [/few weeks/i, 'Alcune settimane'], [/season/i, 'Fuori per la stagione']];
+  const rel = [[/few days/i, 'Pochi giorni'], [/about a week/i, 'Circa una settimana'], [/1-2 weeks|1 2 weeks/i, '1-2 settimane circa'], [/2-3 weeks/i, '2-3 settimane circa'], [/few weeks/i, 'Alcune settimane'], [/season/i, 'Fuori per la stagione'], [/back in training/i, 'Di nuovo in gruppo, non ancora convocato'], [/doubt/i, 'In dubbio']];
   const hit = rel.find(([re]) => re.test(t));
   return hit ? hit[1] : null;
 };
