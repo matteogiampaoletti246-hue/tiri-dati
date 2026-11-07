@@ -524,18 +524,25 @@ await step('giocatore dell\'archivio: stessa scheda a 4 schede', async () => {
 });
 
 await step('statistiche giocatore: medie ogni 90 come FotMob', async () => {
-  // Spalt: 3. Liga 6 falli in 289' = 1,87/90 (prima 6), Bundesliga 3 falli in 56' = 4,82/90 (prima 3)
+  // Spalt: Bundesliga 3 falli in 56' = 4,82/90 (prima 3); 3. Liga 6 falli in 289' = 1,87/90 (prima 6), scelta dalla tendina competizioni
   const res = {};
-  for (const [fm, want] of [[208, ['1,87', '2,80', '0,93', '4,05']], [54, ['4,82', '1,61']]]) {
-    await go(`#/storico/${fm}/2026-2027/giocatore/1793638`, 7000);
-    await clickText('Statistiche'); await wait(3500);
-    const t = await pg.evaluate(() => document.body.innerText);
-    res[fm] = want.filter((w) => !t.includes(w));
-    await shot(`spalt-${fm}-statistiche`);
-    await clickText('Disciplina'); await wait(1200);
-    await shot(`spalt-${fm}-disciplina`);
-  }
-  ok('statistiche giocatore: falli, falli subiti, intercetti, recuperi ogni 90 (uguali a FotMob)', Object.values(res).every((m) => !m.length), res);
+  const body = () => pg.evaluate(() => document.body.innerText);
+  await go('#/storico/54/2026-2027/giocatore/1793638', 7000);
+  await clickText('Statistiche'); await wait(3500);
+  let t = await body();
+  res.bundesliga = ['4,82', '1,61'].filter((w) => !t.includes(w));
+  await shot('spalt-bundesliga-statistiche');
+  const opened = await pg.evaluate(() => { const e = [...document.querySelectorAll('button')].find((x) => /Bundesliga/.test(x.textContent) && x.getBoundingClientRect().top < 400); if (e) e.click(); return !!e; });
+  await wait(900);
+  await shot('spalt-tendina-competizioni');
+  const picked = await pg.evaluate(() => { const e = [...document.querySelectorAll('button,[role="option"],li,a')].reverse().find((x) => /^3\.\s*Liga$/.test(x.textContent.trim())); if (e) e.click(); return !!e; });
+  await wait(4000);
+  t = await body();
+  res.terzaLiga = ['1,87', '2,80', '0,93', '4,05'].filter((w) => !t.includes(w));
+  await shot('spalt-3liga-statistiche');
+  await clickText('Disciplina'); await wait(1200);
+  await shot('spalt-3liga-disciplina');
+  ok('statistiche giocatore: falli, falli subiti, intercetti, recuperi ogni 90 (uguali a FotMob)', opened && picked && !res.bundesliga.length && !res.terzaLiga.length, { opened, picked, ...res });
 });
 
 await step('nuovi campionati: scheda con statistiche', async () => {
