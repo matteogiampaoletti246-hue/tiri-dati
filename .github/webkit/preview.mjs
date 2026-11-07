@@ -523,6 +523,21 @@ await step('giocatore dell\'archivio: stessa scheda a 4 schede', async () => {
   ok('archivio: nessun "non disponibile" in carriera', !ND.test(c));
 });
 
+await step('statistiche giocatore: medie ogni 90 come FotMob', async () => {
+  // Spalt: 3. Liga 6 falli in 289' = 1,87/90 (prima 6), Bundesliga 3 falli in 56' = 4,82/90 (prima 3)
+  const res = {};
+  for (const [fm, want] of [[208, ['1,87', '2,80', '0,93', '4,05']], [54, ['4,82', '1,61']]]) {
+    await go(`#/storico/${fm}/2026-2027/giocatore/1793638`, 7000);
+    await clickText('Statistiche'); await wait(3500);
+    const t = await pg.evaluate(() => document.body.innerText);
+    res[fm] = want.filter((w) => !t.includes(w));
+    await shot(`spalt-${fm}-statistiche`);
+    await clickText('Disciplina'); await wait(1200);
+    await shot(`spalt-${fm}-disciplina`);
+  }
+  ok('statistiche giocatore: falli, falli subiti, intercetti, recuperi ogni 90 (uguali a FotMob)', Object.values(res).every((m) => !m.length), res);
+});
+
 await step('nuovi campionati: scheda con statistiche', async () => {
   for (const lg of ['serie-b', 'mls', 'championship', 'coppa-italia']) {
     await go(`#/campionato/${lg}`, 6000);
