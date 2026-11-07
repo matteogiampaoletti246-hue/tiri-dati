@@ -11,7 +11,7 @@ const IT = [
   [/shoulder/i, 'Problema alla spalla'], [/elbow/i, 'Problema al gomito'], [/hand/i, 'Problema alla mano'], [/foot/i, 'Problema al piede'], [/heel/i, 'Problema al tallone'],
   [/shin/i, 'Problema alla tibia'], [/hip/i, 'Problema all\'anca'], [/back/i, 'Problema alla schiena'], [/concussion/i, 'Commozione cerebrale'], [/head/i, 'Trauma alla testa'],
   [/eye/i, 'Problema all\'occhio'], [/leg/i, 'Problema alla gamba'], [/tendon/i, 'Problema al tendine'], [/illness/i, 'Malattia'], [/gastro/i, 'Problema gastrointestinale'],
-  [/knock/i, 'Colpo'], [/discomfort/i, 'Fastidio fisico'], [/fitness/i, 'Non al meglio della forma'], [/injur/i, 'Infortunio'],
+  [/^unknown/i, 'Infortunio'], [/knock/i, 'Colpo'], [/discomfort/i, 'Fastidio fisico'], [/fitness/i, 'Non al meglio della forma'], [/injur/i, 'Infortunio'],
 ];
 const MESI = ['gennaio', 'febbraio', 'marzo', 'aprile', 'maggio', 'giugno', 'luglio', 'agosto', 'settembre', 'ottobre', 'novembre', 'dicembre'];
 

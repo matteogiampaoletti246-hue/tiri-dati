@@ -7,7 +7,8 @@ import { injuryOf } from '@/data/injuries';
 import { Image } from '@/components/ui/image';
 import PlayerLink from './PlayerLink';
 import { SubIcon, BallIcon, BootIcon } from './EventIcons';
-import { playerById, playerByFm } from '@/data/players';
+import { playerById, playerByFm, playersByTeam } from '@/data/players';
+import { openPanel } from '@/data/playerPanel';
 import { playerReliability, loadPlayerFouls, TOP_STATS } from '@/data/topPlayers';
 import { isOutOn } from '@/data/injuries';
 import TopStatPicker from '@/components/top/TopStatPicker';
@@ -179,12 +180,48 @@ function Bench({ lineup, team, valOf, match, pre }) {
   );
 }
 
+// Infortunati della squadra (formazioni prima del fischio): sotto l'allenatore, tutti i giocatori dell'app fuori alla data della partita
+// (stessi dati e stessa croce rossa della scheda giocatore). Nessun infortunato = niente riquadro.
+function injuredOf(team, lineup, match) {
+  if (!team) return [];
+  const seen = new Set();
+  const out = [];
+  const add = (pl) => {
+    if (!pl || seen.has(pl.id) || pl.teamId !== team.id) return;
+    seen.add(pl.id);
+    if (!isOutOn(pl.id, match.date)) return;
+    const i = injuryOf(pl.id);
+    if (i) out.push({ pl, i });
+  };
+  playersByTeam(team.id).forEach(add);
+  if (lineup) [...(lineup.xi || []), ...(lineup.bench || [])].forEach((p) => add(plOf(p)));
+  return out.sort((a, b) => (b.pl.minutes || 0) - (a.pl.minutes || 0));
+}
+
+function Injured({ list, team }) {
+  if (!list.length) return null;
+  return (
+    <section data-injured="1" className="glass tint-card overflow-hidden rounded-[24px] px-4 py-3" style={{ '--tint': teamColor(team) }}>
+      <p className="mb-1 flex items-center gap-2 text-[12.5px] font-extrabold uppercase tracking-wider"><InjuryIcon size={18} />Infortunati</p>
+      {list.map(({ pl, i }, k) => (
+        <button key={pl.id} type="button" onClick={(e) => { e.preventDefault(); e.stopPropagation(); openPanel(pl.id); }} className="press flex w-full items-center gap-3 py-2" style={{ borderTop: k ? '1px solid var(--hair-2)' : 'none', textAlign: 'left', color: 'inherit', font: 'inherit' }}>
+          <span className="relative"><Face p={pl} team={team} size={36} /></span>
+          <span className="min-w-0 flex-1">
+            <span className="block truncate text-[13.5px] font-bold">{pl.name}</span>
+            <span className="block truncate text-[11px]" style={{ color: 'var(--ink-3)' }}>{i.reason}{i.label ? ` · Rientro: ${i.label}` : ''}</span>
+          </span>
+        </button>
+      ))}
+    </section>
+  );
+}
+
 const hasSide = (l) => !!(l && (l.coach || (l.bench && l.bench.length)));
 
 // Selettore squadra sotto il campo (concept Sofascore): due pillole a meta' larghezza, casa a sinistra e ospite a destra;
 // la squadra scelta mostra allenatore e panchina, il passaggio e' uno scorrimento orizzontale (niente componenti ricreati).
 function SidePicker({ lh, la, home, away, valOf, match, pre }) {
-  const sides = [[lh, home], [la, away]].map(([l, t], i) => ({ l, t, i })).filter((x) => hasSide(x.l));
+  const sides = [[lh, home], [la, away]].map(([l, t], i) => ({ l, t, i, inj: pre ? injuredOf(t, l, match) : [] })).filter((x) => hasSide(x.l) || x.inj.length);
   const [sel, setSel] = useState(0);
   const boxes = useRef([]);
   const [h, setH] = useState(null);
@@ -218,6 +255,7 @@ function SidePicker({ lh, la, home, away, valOf, match, pre }) {
           {sides.map((x, k) => (
             <div key={x.i} ref={(el) => { boxes.current[k] = el; }} className="flex flex-col gap-3" style={{ width: `${100 / sides.length}%` }} aria-hidden={cur !== k}>
               <CoachPill lineup={x.l} team={x.t} />
+              <Injured list={x.inj} team={x.t} />
               <Bench lineup={x.l} team={x.t} valOf={valOf} match={match} pre={pre} />
             </div>
           ))}
