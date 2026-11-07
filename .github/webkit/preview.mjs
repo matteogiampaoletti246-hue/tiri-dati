@@ -2112,6 +2112,30 @@ await step('calcolatore: prossima partita e valori conservati al ritorno', async
   await shot('calcolatore-stato-conservato');
 });
 
+// Formazioni prima del fischio: il riquadro Infortunati sta dopo la Panchina (richiesta utente 07/11/2026)
+await step('formazioni: infortunati dopo la panchina', async () => {
+  const res = {};
+  await go('#/', 6000);
+  const cand = await pg.evaluate(() => [...document.querySelectorAll('a[href*="#/match/"]')].map((a) => a.getAttribute('href').split('#/match/')[1]).slice(0, 40));
+  for (const id of cand) {
+    if (Object.keys(res).length >= 4) break;
+    await go('#/match/' + id, 4500);
+    const has = await pg.evaluate(() => { const b = [...document.querySelectorAll('button,a')].find((x) => x.textContent.trim() === 'Formazioni'); if (b) b.click(); return !!b; });
+    if (!has) continue;
+    await wait(2500);
+    const r = await pg.evaluate(() => {
+      const inj = document.querySelector('[data-injured]');
+      if (!inj) return null;
+      const col = inj.parentElement;
+      const kids = [...col.children].map((x) => (x.querySelector('p') || {}).textContent || '').map((t) => t.trim().toUpperCase());
+      const ib = kids.findIndex((t) => t.startsWith('PANCHINA')); const ii = kids.findIndex((t) => t.startsWith('INFORTUNATI'));
+      return { ib, ii };
+    });
+    if (r && r.ib >= 0) res[id] = r;
+  }
+  ok('formazioni: Infortunati dopo la Panchina', Object.values(res).every((r) => r.ii > r.ib), res);
+});
+
 report.passed = report.checks.filter((c) => c.pass).length;
 report.total = report.checks.length;
 fs.writeFileSync(`${OUT}/report.json`, JSON.stringify(report, null, 2));

@@ -180,7 +180,7 @@ function Bench({ lineup, team, valOf, match, pre }) {
   );
 }
 
-// Infortunati della squadra (formazioni prima del fischio): sotto l'allenatore, tutti i giocatori dell'app fuori alla data della partita
+// Infortunati della squadra (formazioni prima del fischio): dopo la panchina, tutti i giocatori dell'app fuori alla data della partita
 // (stessi dati e stessa croce rossa della scheda giocatore). Nessun infortunato = niente riquadro.
 function injuredOf(team, lineup, match) {
   if (!team) return [];
@@ -255,8 +255,8 @@ function SidePicker({ lh, la, home, away, valOf, match, pre }) {
           {sides.map((x, k) => (
             <div key={x.i} ref={(el) => { boxes.current[k] = el; }} className="flex flex-col gap-3" style={{ width: `${100 / sides.length}%` }} aria-hidden={cur !== k}>
               <CoachPill lineup={x.l} team={x.t} />
-              <Injured list={x.inj} team={x.t} />
               <Bench lineup={x.l} team={x.t} valOf={valOf} match={match} pre={pre} />
+              <Injured list={x.inj} team={x.t} />
             </div>
           ))}
         </div>
