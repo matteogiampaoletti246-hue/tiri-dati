@@ -1,0 +1,441 @@
+{
+  "when": "2026-11-07T16:19:14.401Z",
+  "checks": [
+    {
+      "name": "x-9067-1000019470: scheda Riepilogo (le altre solo se hanno dati)",
+      "pass": true,
+      "tabs": [
+        "Riepilogo",
+        "Statistiche",
+        "Formazioni",
+        "Tabellone"
+      ]
+    },
+    {
+      "name": "x-9067-1000019470: nessuna scheda Giocatori",
+      "pass": true
+    },
+    {
+      "name": "x-9067-1000019470: riepilogo senza testi \"non disponibile\"",
+      "pass": true
+    },
+    {
+      "name": "x-9067-1000019470: riepilogo con almeno un riquadro",
+      "pass": true,
+      "snippet": "\n\nCOPA DO BRASIL\n\n\nPalmeiras\n1 – 0\nFinita\n\nVasco da Gama\n24' Mauricio\nRiepilogo\n"
+    },
+    {
+      "name": "x-9067-1000019470: forma recente",
+      "pass": true
+    },
+    {
+      "name": "x-9067-1000019470: Totale / 1° tempo / 2° tempo",
+      "pass": true
+    },
+    {
+      "name": "x-9067-1000019470: mappa tiri",
+      "pass": true
+    },
+    {
+      "name": "x-9067-1000019470: formazione sul campo verde",
+      "pass": true
+    },
+    {
+      "name": "x-9067-1000019470: cambio senza riquadro ne' minuto",
+      "pass": true,
+      "subBox": 0
+    },
+    {
+      "name": "x-9067-1000019470: due squadre evidenziate in classifica",
+      "pass": true,
+      "evidenziate": 0
+    },
+    {
+      "name": "tabellone: da fermo un solo livello (niente will-change su ogni riquadro)",
+      "pass": true,
+      "layers": 1
+    },
+    {
+      "name": "tabellone: lo swipe verso il Tabellone non e' piu' lento dello swipe tra schede leggere",
+      "pass": true,
+      "base": {
+        "n": 20,
+        "p50": 99,
+        "p95": 192,
+        "tab": "Statistiche"
+      },
+      "br": {
+        "n": 20,
+        "p50": 99,
+        "p95": 189,
+        "tab": "Tabellone"
+      }
+    },
+    {
+      "name": "formazioni x-230-1000014635: due pillole larghe quanto il campo, la scelta cambia allenatore e panchina",
+      "pass": true,
+      "pk": true,
+      "n": 2,
+      "w": 358,
+      "pw": null,
+      "sel": "true",
+      "changed": true
+    },
+    {
+      "name": "formazioni m_4Qe0mW: due pillole larghe quanto il campo, la scelta cambia allenatore e panchina",
+      "pass": true,
+      "pk": true,
+      "n": 2,
+      "w": 358,
+      "pw": null,
+      "sel": "true",
+      "changed": true
+    },
+    {
+      "name": "formazioni: selettore squadra presente",
+      "pass": true,
+      "ids": [
+        "x-230-1000014635",
+        "m_4Qe0mW"
+      ]
+    },
+    {
+      "name": "x-9067-1000019460: scheda Riepilogo (le altre solo se hanno dati)",
+      "pass": true,
+      "tabs": [
+        "Riepilogo",
+        "Statistiche",
+        "Formazioni",
+        "Tabellone"
+      ]
+    },
+    {
+      "name": "x-9067-1000019460: nessuna scheda Giocatori",
+      "pass": true
+    },
+    {
+      "name": "x-9067-1000019460: riepilogo senza testi \"non disponibile\"",
+      "pass": true
+    },
+    {
+      "name": "x-9067-1000019460: riepilogo con almeno un riquadro",
+      "pass": true,
+      "snippet": "\n\nCOPA DO BRASIL\n\n\nGrêmio\n3 – 1\nFinita\n\nInternacional\n14' C. Vinícius\n22' C. Vin"
+    },
+    {
+      "name": "x-9067-1000019460: forma recente",
+      "pass": true
+    },
+    {
+      "name": "x-9067-1000019460: Totale / 1° tempo / 2° tempo",
+      "pass": true
+    },
+    {
+      "name": "x-9067-1000019460: mappa tiri",
+      "pass": true
+    },
+    {
+      "name": "x-9067-1000019460: formazione sul campo verde",
+      "pass": true
+    },
+    {
+      "name": "x-9067-1000019460: cambio senza riquadro ne' minuto",
+      "pass": true,
+      "subBox": 0
+    },
+    {
+      "name": "x-9067-1000019460: due squadre evidenziate in classifica",
+      "pass": true,
+      "evidenziate": 0
+    },
+    {
+      "name": "a-71-2025-2026-4842620: scheda Riepilogo (le altre solo se hanno dati)",
+      "pass": true,
+      "tabs": [
+        "Riepilogo",
+        "Statistiche",
+        "Formazioni",
+        "Classifica"
+      ]
+    },
+    {
+      "name": "a-71-2025-2026-4842620: nessuna scheda Giocatori",
+      "pass": true
+    },
+    {
+      "name": "a-71-2025-2026-4842620: riepilogo senza testi \"non disponibile\"",
+      "pass": true
+    },
+    {
+      "name": "a-71-2025-2026-4842620: riepilogo con almeno un riquadro",
+      "pass": true,
+      "snippet": "\n\nSÜPER LIG · 2025/26\n\n\nTrabzonspor\n0 – 3\nFinita\nDomenica 17 mag\n\nGençlerbirliği"
+    },
+    {
+      "name": "a-71-2025-2026-4842620: forma recente",
+      "pass": true
+    },
+    {
+      "name": "a-71-2025-2026-4842620: Totale / 1° tempo / 2° tempo",
+      "pass": true
+    },
+    {
+      "name": "a-71-2025-2026-4842620: mappa tiri",
+      "pass": true
+    },
+    {
+      "name": "a-71-2025-2026-4842620: formazione sul campo verde",
+      "pass": true
+    },
+    {
+      "name": "a-71-2025-2026-4842620: cambio senza riquadro ne' minuto",
+      "pass": true,
+      "subBox": 0
+    },
+    {
+      "name": "a-71-2025-2026-4842620: due squadre evidenziate in classifica",
+      "pass": true,
+      "evidenziate": 2
+    },
+    {
+      "name": "austrian cup: nessun \"non disponibile\"",
+      "pass": true
+    },
+    {
+      "name": "austrian cup: il primo riquadro ha dati (Momentum solo se c'e')",
+      "pass": false,
+      "first": null
+    },
+    {
+      "name": "x-230: la finestra giocatore ha il tasto Profilo",
+      "pass": true
+    },
+    {
+      "name": "x-230: Profilo apre la scheda completa",
+      "pass": true,
+      "tabs": [
+        "Profilo",
+        "Partite",
+        "Statistiche",
+        "Carriera",
+        "Riepilogo",
+        "Statistiche",
+        "Formazioni",
+        "Classifica"
+      ]
+    },
+    {
+      "name": "formazioni a-8970-2026-2027-5886576: 11 + 11 sul campo, piu' file per squadra, niente fuori dal campo",
+      "pass": true,
+      "pitch": true,
+      "rows": [
+        [
+          1,
+          5,
+          3,
+          2
+        ],
+        [
+          2,
+          4,
+          4,
+          1
+        ]
+      ],
+      "players": 22,
+      "out": 0,
+      "mods": "5-3-2·4-4-2"
+    },
+    {
+      "name": "formazioni a-8971-2026-1000022404: 11 + 11 sul campo, piu' file per squadra, niente fuori dal campo",
+      "pass": true,
+      "pitch": true,
+      "rows": [
+        [
+          1,
+          3,
+          4,
+          3
+        ],
+        [
+          3,
+          3,
+          4,
+          1
+        ]
+      ],
+      "players": 22,
+      "out": 0,
+      "mods": ""
+    },
+    {
+      "name": "formazioni a-9906-2026-2027-5977410: 11 + 11 sul campo, piu' file per squadra, niente fuori dal campo",
+      "pass": true,
+      "pitch": true,
+      "rows": [
+        [
+          1,
+          5,
+          4,
+          1
+        ],
+        [
+          1,
+          4,
+          1,
+          4,
+          1
+        ]
+      ],
+      "players": 22,
+      "out": 0,
+      "mods": "5-4-1·4-1-4-1"
+    },
+    {
+      "name": "formazioni a-137-2026-2027-6385237: 11 + 11 sul campo, piu' file per squadra, niente fuori dal campo",
+      "pass": true,
+      "pitch": true,
+      "rows": [
+        [
+          1,
+          4,
+          4,
+          2
+        ],
+        [
+          2,
+          4,
+          4,
+          1
+        ]
+      ],
+      "players": 22,
+      "out": 0,
+      "mods": "4-4-2·4-4-2"
+    },
+    {
+      "name": "formazioni a-9682-2026-6281882: 11 + 11 sul campo, piu' file per squadra, niente fuori dal campo",
+      "pass": true,
+      "pitch": true,
+      "rows": [
+        [
+          1,
+          4,
+          4,
+          2
+        ],
+        [
+          3,
+          3,
+          4,
+          1
+        ]
+      ],
+      "players": 22,
+      "out": 0,
+      "mods": "4-4-2·4-3-3"
+    },
+    {
+      "name": "formazioni a-185-2026-2027-5888103: senza formazioni vere niente scheda",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "console": [
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ],
+  "failed": [
+    "austrian cup: il primo riquadro ha dati (Momentum solo se c'e')"
+  ],
+  "shards": 2,
+  "matchIds": [
+    "x-9067-1000019460",
+    "x-9067-1000019470",
+    "a-71-2025-2026-4842620",
+    "x-9067-1000019460",
+    "x-9067-1000019470",
+    "a-71-2025-2026-4842620"
+  ],
+  "testata_x-9067-1000019470": " | COPA DO BRASIL | Palmeiras | 1 – 0 | Finita | Vasco da Gama | 24' Mauricio | Riepilogo | Statistiche | Formazioni | Tabellone | Formazioni | 3-4-2-1·4-1-4-1 | PALMEIRASVASCO DA GAMA | 7,6 | Miguel | 7,7 | Murilo | C7,5 | Gómez | 7,1 | Barboza | 7,7 | Giay |",
+  "eflFrames": {
+    "riepilogoStatistiche": {
+      "n": 20,
+      "p50": 99,
+      "p95": 192,
+      "tab": "Statistiche"
+    },
+    "formazioniTabellone": {
+      "n": 20,
+      "p50": 99,
+      "p95": 189,
+      "tab": "Tabellone"
+    },
+    "layers": 1
+  },
+  "passed": 44,
+  "total": 45,
+  "testata_x-9067-1000019460": " | COPA DO BRASIL | Grêmio | 3 – 1 | Finita | Internacional | 14' C. Vinícius | 22' C. Vinícius | 68' F. Krovinović | 79' Vitinho | Riepilogo | Statistiche | Formazioni | Tabellone | Formazioni | 4-1-4-1·4-1-4-1 | GRÊMIOINTERNACIONAL | 7,9 | Weverton | 7,1 | C",
+  "testata_a-71-2025-2026-4842620": " | SÜPER LIG · 2025/26 | Trabzonspor | 0 – 3 | Finita | Domenica 17 mag | Gençlerbirliği | 45' A. Traoré | 88' F. Tongya | 90+3' M. Mimaroglu | Riepilogo | Statistiche | Formazioni | Classifica | Totale | Casa | Trasferta | Forma | # | SQUADRA | PG | V | N | P"
+}
