@@ -12,7 +12,7 @@ let HEAD_H = 44;
 const idle = (fn) => (window.requestIdleCallback ? window.requestIdleCallback(fn, { timeout: 1800 }) : setTimeout(fn, 60));
 const cancelIdle = (id) => (window.cancelIdleCallback ? window.cancelIdleCallback(id) : clearTimeout(id));
 
-export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, className = '', stickyTop = 'var(--ent-h, 0px)', fixedBar = false, edgeBack = true, hideBar = false }) {
+export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, className = '', stickyTop = 'var(--ent-h, 0px)', fixedBar = false, edgeBack = true, hideBar = false, eager = false }) {
   const navigate = useNavigate();
   const loc = useLocation();
   const wrapRef = useRef(null);
@@ -25,7 +25,9 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
   const peekRef = useRef(null);
   const peekTop = useRef(0);
   // schede vicine gia' costruite (nascoste): al primo movimento del dito non c'e' nulla da montare, quindi niente scatti
-  const [warm, setWarm] = useState([]);
+  // eager: le schede vicine si montano subito insieme a quella attiva. Montate dopo 220 ms, i loro pannelli in vetro (backdrop-filter)
+  // facevano ricomporre la pagina su iPhone: un lampo chiaro sui pannelli tornando al Calcolatore (video utente)
+  const [warm, setWarm] = useState(() => (eager ? [index - 1, index + 1].filter((k) => k >= 0 && k < tabs.length && panels[k]) : []));
   // bordo basso della testata fissa/appiccicosa: da li' in giu' si vede il contenuto
   const visibleTop = () => (headRef.current ? headRef.current.getBoundingClientRect().bottom : 0);
   const showPeek = (v) => {

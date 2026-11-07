@@ -58,6 +58,7 @@ export default function ReliabilityCalculator() {
       </header>
       <SwipeTabs
         hideBar
+        eager
         tabs={TABS}
         index={index}
         onChange={setIndex}
