@@ -111,10 +111,12 @@ async function espnLineups(out, g2) {
       const t = setTimeout(() => ctl.abort(), 4000);
       try { const r = await fetch(u, { signal: ctl.signal, cf: { cacheTtl: ttl, cacheEverything: true } }); return r.ok ? await r.json() : null; } catch (e) { return null; } finally { clearTimeout(t); }
     };
-    const ymd = when.toISOString().slice(0, 10).replace(/-/g, "");
-    const sb = await get(E + "scoreboard?dates=" + ymd, 60);
+    // ESPN raggruppa le partite per giorno americano: una gara alle 02:00 UTC sta nel giorno prima
+    const day = (d) => d.toISOString().slice(0, 10).replace(/-/g, "");
+    const sbs = await Promise.all([day(when), day(new Date(when.getTime() - 86400000))].map((d) => get(E + "scoreboard?dates=" + d, 60)));
     const hn = g2.homeTeam && g2.homeTeam.name, an = g2.awayTeam && g2.awayTeam.name;
-    const ev = ((sb && sb.events) || []).find((e) => {
+    const ev = sbs.flatMap((sb) => (sb && sb.events) || []).find((e) => {
+      if (Math.abs(new Date(e.date).getTime() - when.getTime()) > 6 * 3600000) return false;
       const c = ((e.competitions || [])[0] || {}).competitors || [];
       const H = c.find((q) => q.homeAway === "home"), A = c.find((q) => q.homeAway === "away");
       return H && A && uSame(H.team && H.team.displayName, hn) && uSame(A.team && A.team.displayName, an);
