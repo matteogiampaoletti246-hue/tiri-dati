@@ -12,6 +12,11 @@ on:
       - .github/workflows/aurora_preview.yml
       - data-trigger.preview
   workflow_dispatch:
+    inputs:
+      only:
+        description: 'Solo i passi con questo nome (regex), vuoto = tutti'
+        required: false
+        default: ''
 concurrency:
   group: aurora-preview
   cancel-in-progress: true
@@ -63,7 +68,7 @@ jobs:
           cd /tmp/wk && npm init -y >/dev/null && npm i playwright@1.47.2 --no-audit --no-fund >/dev/null
           node serve.mjs "$GITHUB_WORKSPACE" 8080 &
           sleep 2
-          cd /tmp/wk && SHARD=${{ matrix.shard }} NSHARD=2 BASE=http://localhost:8080/ node preview.mjs || true
+          cd /tmp/wk && ONLY="${{ github.event.inputs.only }}" SHARD=${{ matrix.shard }} NSHARD=2 BASE=http://localhost:8080/ node preview.mjs || true
           cp -r /tmp/wk/preview-out "$GITHUB_WORKSPACE/preview-out" || true
       - uses: actions/upload-artifact@v4
         if: always()

@@ -2074,6 +2074,8 @@ await step('fix-dati: Calcolatore, Hit Rate su partite da almeno 50 minuti e "su
 // Calcolatore: tasto "Prossima partita" e stato conservato tornando da partita, scheda giocatore, barra e pagina ricreata (top e minori)
 await step('calcolatore: prossima partita e valori conservati al ritorno', async () => {
   const snap = () => pg.evaluate(() => { const sh = document.getElementById('sl-shell') || document.body; const sec = sh.querySelector('section'); return JSON.stringify({ ins: [...sh.querySelectorAll('input')].map((i) => i.value), head: sec ? sec.innerText.replace(/\s+/g, ' ') : '' }); });
+  // i dati live (orari, stato) possono arrivare qualche istante dopo: si aspetta fino a 12 s che torni uguale, e si salva la differenza
+  const same = async (s0, key, r) => { let s = ''; for (let k = 0; k < 24; k++) { s = await snap(); if (s === s0) return true; await wait(500); } r[key + 'Diff'] = { prima: s0.slice(0, 900), dopo: s.slice(0, 900) }; return false; };
   const res = {};
   for (const name of ['Aleksandar Stanković', 'Achraf Hakimi', 'Abdul Fatawu', 'Anis Hadj Moussa', 'Andreas Helmersen', 'Aaron Bibout']) {
     const r = res[name] = {};
@@ -2093,12 +2095,12 @@ await step('calcolatore: prossima partita e valori conservati al ritorno', async
     await wait(700);
     const s0 = await snap();
     r.button = await pg.evaluate(() => { const b = [...document.querySelectorAll('button')].find((x) => /Prossima partita/.test(x.textContent)); if (b) b.click(); return !!b; });
-    if (r.button) { await wait(2500); r.match = /#\/match\//.test(await pg.evaluate(() => location.hash)); await pg.goBack(); await wait(2200); r.afterMatch = (await snap()) === s0; }
+    if (r.button) { await wait(2500); r.match = /#\/match\//.test(await pg.evaluate(() => location.hash)); await pg.goBack(); await wait(2200); r.afterMatch = await same(s0, 'match', r); }
     await pg.evaluate(() => { const b = document.querySelector('button[aria-label^="Apri la scheda di"]'); if (b) b.click(); }); await wait(2500);
-    await pg.goBack(); await wait(2200); r.afterPlayer = (await snap()) === s0;
+    await pg.goBack(); await wait(2200); r.afterPlayer = await same(s0, 'player', r);
     await pg.evaluate(() => { const b = document.querySelector('button[aria-label^="Apri la scheda di"]'); if (b) b.click(); }); await wait(2000);
-    await pg.evaluate(() => { location.hash = '#/calcolatore'; }); await wait(2200); r.afterDock = (await snap()) === s0;
-    await go('#/calcolatore', 3500); r.afterReload = (await snap()) === s0;
+    await pg.evaluate(() => { location.hash = '#/calcolatore'; }); await wait(2200); r.afterDock = await same(s0, 'dock', r);
+    await go('#/calcolatore', 3500); r.afterReload = await same(s0, 'reload', r);
   }
   const all = Object.values(res);
   ok('calcolatore: tasto Prossima partita apre la partita', all.every((r) => r.found && r.button && r.match), res);
