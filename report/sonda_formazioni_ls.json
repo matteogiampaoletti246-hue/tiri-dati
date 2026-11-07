@@ -1,0 +1,8824 @@
+{
+"116": {
+"n": "Cymru Premier",
+"c": "Wales",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+19,
+18
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pon",
+"Pos",
+"PosA",
+"Snm"
+],
+"np": [
+19,
+17
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pon",
+"Pos",
+"PosA",
+"Snm"
+],
+"np": [
+19,
+18
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+}
+]
+},
+"118": {
+"n": "Premier League",
+"c": "Armenia",
+"m": [
+{
+"eid": 0
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm"
+],
+"np": [
+23,
+24
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 0
+}
+]
+},
+"128": {
+"n": "Leumit League",
+"c": "Israel",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pon",
+"Pos",
+"PosA",
+"Snm"
+],
+"np": [
+21,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+21,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+21,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+}
+]
+},
+"129": {
+"n": "Premiership",
+"c": "Northern Ireland",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+19,
+19
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+19,
+19
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+19,
+19
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+}
+]
+},
+"134": {
+"n": "Coupe de France",
+"c": "France",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu"
+],
+"teams": 1,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Fn",
+"Ln",
+"Pid",
+"Pon",
+"Pos",
+"PosA",
+"Snm"
+],
+"np": [
+1
+],
+"v_Pos": [
+"10"
+],
+"v_Pon": [
+"COACH"
+]
+},
+{
+"eid": 0
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu"
+],
+"teams": 1,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Fn",
+"Ln",
+"Pid",
+"Pon",
+"Pos",
+"PosA",
+"Snm"
+],
+"np": [
+1
+],
+"v_Pos": [
+"10"
+],
+"v_Pon": [
+"COACH"
+]
+}
+]
+},
+"136": {
+"n": "1. Division",
+"c": "Cyprus",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Cn",
+"Fn",
+"Ln",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+24,
+23
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Cn",
+"Fn",
+"Ln",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+24,
+24
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Cn",
+"Fn",
+"Ln",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+24,
+24
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+}
+]
+},
+"137": {
+"n": "Scottish Cup",
+"c": "Scotland",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"143": {
+"n": "Suomen Cup",
+"c": "Finland",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+21,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Cn",
+"Fn",
+"Ln",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+21,
+19
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+19,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+}
+]
+},
+"149": {
+"n": "Belgian Cup",
+"c": "Belgium",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+21,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+20,
+21
+],
+"v_Pos": [
+"0",
+"5"
+],
+"v_Pon": [
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+21,
+20
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+}
+]
+},
+"164": {
+"n": "Swiss Cup",
+"c": "Switzerland",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu"
+],
+"teams": 1,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Fn",
+"Ln",
+"Pid",
+"Pon",
+"Pos",
+"PosA",
+"Snm"
+],
+"np": [
+1
+],
+"v_Pos": [
+"10"
+],
+"v_Pon": [
+"COACH"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Cn",
+"Fn",
+"Ln",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA"
+],
+"np": [
+1,
+1
+],
+"v_Pos": [
+"10"
+],
+"v_Pon": [
+"COACH"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Fn",
+"Ln",
+"Pid",
+"Pon",
+"Pos",
+"PosA",
+"Snm"
+],
+"np": [
+1,
+1
+],
+"v_Pos": [
+"10"
+],
+"v_Pon": [
+"COACH"
+]
+}
+]
+},
+"169": {
+"n": "Ettan",
+"c": "Sweden",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"PosS",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+18,
+17
+],
+"v_Pos": [
+"1",
+"14",
+"5"
+],
+"v_Pon": [
+"Defender",
+"Forward",
+"Goalkeeper",
+"Midfielder",
+"STARTER"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"PosS",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+17,
+18
+],
+"v_Pos": [
+"1",
+"14",
+"5"
+],
+"v_Pon": [
+"Defender",
+"Forward",
+"Goalkeeper",
+"Midfielder",
+"STARTER"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"PosS",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+13,
+17
+],
+"v_Pos": [
+"1",
+"14",
+"5"
+],
+"v_Pon": [
+"Defender",
+"Goalkeeper",
+"STARTER"
+]
+}
+]
+},
+"171": {
+"n": "Svenska Cupen",
+"c": "Sweden",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+19,
+19
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+21,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+21,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+}
+]
+},
+"173": {
+"n": "Prva Liga",
+"c": "Slovenia",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+23,
+23
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Cn",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+19,
+24
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Cn",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+23,
+22
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+}
+]
+},
+"177": {
+"n": "Slovak Cup",
+"c": "Slovakia",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+21,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+21,
+20
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pon",
+"Pos",
+"PosA",
+"Snm"
+],
+"np": [
+20,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+}
+]
+},
+"179": {
+"n": "Challenge Cup",
+"c": "Scotland",
+"m": [
+{
+"eid": 0
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Fo",
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Fp",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"PosS",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+21,
+20
+],
+"v_Pos": [
+"1",
+"10",
+"2",
+"3",
+"4",
+"5"
+],
+"v_Fp": [
+"1:1",
+"2:1",
+"2:2",
+"2:3",
+"2:4",
+"3:1",
+"3:2",
+"3:3",
+"4:1",
+"4:2",
+"4:3",
+"None"
+],
+"v_Pon": [
+"COACH",
+"Defender",
+"Forward",
+"Goalkeeper",
+"Midfielder"
+],
+"t_Fo": "[4, 3, 3]"
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Fo",
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Fp",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"PosS",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+16,
+21
+],
+"v_Pos": [
+"1",
+"2",
+"3",
+"4",
+"5"
+],
+"v_Fp": [
+"1:1",
+"2:1",
+"2:2",
+"2:3",
+"2:4",
+"3:1",
+"3:2",
+"3:3",
+"4:1",
+"4:2",
+"4:3",
+"None"
+],
+"v_Pon": [
+"Defender",
+"Forward",
+"Goalkeeper",
+"Midfielder"
+],
+"t_Fo": "[4, 3, 3]"
+}
+]
+},
+"183": {
+"n": "Kup Srbije",
+"c": "Serbia",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+23,
+23
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"Snu"
+],
+"np": [
+23,
+23
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"Snu"
+],
+"np": [
+23,
+23
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+}
+]
+},
+"185": {
+"n": "Liga Portugal 2",
+"c": "Portugal",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Cn",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+24,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+}
+]
+},
+"186": {
+"n": "Taça de Portugal",
+"c": "Portugal",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+21,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+21,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"Snu"
+],
+"np": [
+20,
+21
+],
+"v_Pos": [
+"0",
+"5"
+],
+"v_Pon": [
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+}
+]
+},
+"190": {
+"n": "Cupa României",
+"c": "Romania",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pon",
+"Pos",
+"PosA",
+"Snm"
+],
+"np": [
+21,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+21,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+21,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+}
+]
+},
+"193": {
+"n": "Russian Cup",
+"c": "Russia",
+"m": [
+{
+"eid": 0
+},
+{
+"eid": 0
+},
+{
+"eid": 0
+}
+]
+},
+"197": {
+"n": "I Liga",
+"c": "Poland",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+21,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+21,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Cn",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+21,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+}
+]
+},
+"198": {
+"n": "Puchar Polski",
+"c": "Poland",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+20,
+21
+],
+"v_Pos": [
+"0",
+"5"
+],
+"v_Pon": [
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+21,
+19
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Cn",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+21,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+}
+]
+},
+"204": {
+"n": "2. divisjon",
+"c": "Norway",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+20,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Cn",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+21,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Cn",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+21,
+20
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+}
+]
+},
+"205": {
+"n": "Norsk Tipping-ligaen",
+"c": "Norway",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"213": {
+"n": "Magyar Kupa",
+"c": "Hungary",
+"m": [
+{
+"eid": 0
+},
+{
+"eid": 0
+},
+{
+"eid": 0
+}
+]
+},
+"216": {
+"n": "1. Deild",
+"c": "Iceland",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pon",
+"Pos",
+"PosA",
+"Snm"
+],
+"np": [
+19,
+19
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pon",
+"Pos",
+"PosA",
+"Snm"
+],
+"np": [
+19,
+19
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+}
+]
+},
+"217": {
+"n": "Icelandic Cup",
+"c": "Iceland",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"PosS",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+20,
+20
+],
+"v_Pos": [
+"1",
+"14",
+"5"
+],
+"v_Pon": [
+"Defender",
+"Forward",
+"Goalkeeper",
+"Midfielder",
+"STARTER",
+"Substitute player"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Fn",
+"Ln",
+"Pid",
+"Pon",
+"Pos",
+"PosA",
+"Snm"
+],
+"np": [
+21,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Cn",
+"Fn",
+"Ln",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+20,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+}
+]
+},
+"218": {
+"n": "First Division",
+"c": "Ireland",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+21,
+18
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm"
+],
+"np": [
+21,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+}
+]
+},
+"219": {
+"n": "FAI Cup",
+"c": "Ireland",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+21,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+}
+]
+},
+"225": {
+"n": "Premier League",
+"c": "Kazakhstan",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+23,
+24
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+22,
+24
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+}
+]
+},
+"228": {
+"n": "Toplyga",
+"c": "Lithuania",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+24,
+22
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+24,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+}
+]
+},
+"229": {
+"n": "National Division",
+"c": "Luxembourg",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+12,
+12
+],
+"v_Pos": [
+"0",
+"10"
+],
+"v_Pon": [
+"COACH",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+12,
+12
+],
+"v_Pos": [
+"0",
+"10"
+],
+"v_Pon": [
+"COACH",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pon",
+"Pos",
+"PosA",
+"Snm"
+],
+"np": [
+12,
+12
+],
+"v_Pos": [
+"0",
+"10"
+],
+"v_Pon": [
+"COACH",
+"UNKNOWN_PERSON_TYPE"
+]
+}
+]
+},
+"231": {
+"n": "National Division",
+"c": "Moldova",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"232": {
+"n": "1. CFL",
+"c": "Montenegro",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"239": {
+"n": "2. Division",
+"c": "Denmark",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"240": {
+"n": "3. Division",
+"c": "Denmark",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"241": {
+"n": "Danmarksserien",
+"c": "Denmark",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"248": {
+"n": "Regular Season",
+"c": "Estonia",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Cn",
+"Fn",
+"Ln",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+23,
+23
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+23,
+23
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"249": {
+"n": "Prva Liga",
+"c": "North Macedonia",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"250": {
+"n": "Premier League",
+"c": "Faroe Islands",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"PosS",
+"Snm",
+"Snu"
+],
+"np": [
+18,
+18
+],
+"v_Pos": [
+"1",
+"14",
+"5"
+],
+"v_Pon": [
+"Defender",
+"Goalkeeper",
+"Midfielder",
+"STARTER"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Fn",
+"Ln",
+"Pid",
+"Pon",
+"Pos",
+"PosA",
+"Snm"
+],
+"np": [
+19,
+19
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"PosS",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+18,
+18
+],
+"v_Pos": [
+"1",
+"14",
+"5"
+],
+"v_Pon": [
+"Defender",
+"Forward",
+"Goalkeeper",
+"Midfielder",
+"STARTER"
+]
+}
+]
+},
+"251": {
+"n": "Ykkosliiga",
+"c": "Finland",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"Snu"
+],
+"np": [
+19,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+20,
+20
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+}
+]
+},
+"253": {
+"n": "FNL",
+"c": "Czechia",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 0
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Cn",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+12,
+12
+],
+"v_Pos": [
+"0",
+"10"
+],
+"v_Pon": [
+"COACH",
+"UNKNOWN_PERSON_TYPE"
+]
+}
+]
+},
+"254": {
+"n": "Czech Cup",
+"c": "Czechia",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Cn",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+23,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+22,
+22
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+23,
+23
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+}
+]
+},
+"256": {
+"n": "A-Liga",
+"c": "Denmark",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"PosS",
+"Snm",
+"Snu"
+],
+"np": [
+18,
+18
+],
+"v_Pos": [
+"1",
+"14",
+"5"
+],
+"v_Pon": [
+"Defender",
+"Forward",
+"Goalkeeper",
+"Midfielder",
+"STARTER"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"PosS",
+"Snm",
+"Snu"
+],
+"np": [
+18,
+18
+],
+"v_Pos": [
+"1",
+"14",
+"5"
+],
+"v_Pon": [
+"Defender",
+"Forward",
+"Goalkeeper",
+"Midfielder",
+"STARTER"
+]
+},
+{
+"eid": 0
+}
+]
+},
+"260": {
+"n": "Kategoria Superiore",
+"c": "Albania",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 0
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+23,
+24
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+}
+]
+},
+"262": {
+"n": "Premier League",
+"c": "Azerbaijan",
+"m": [
+{
+"eid": 0
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Fo",
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Fp",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"PosS",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+23,
+24
+],
+"v_Pos": [
+"1",
+"10",
+"2",
+"3",
+"4",
+"5"
+],
+"v_Fp": [
+"1:1",
+"2:1",
+"2:2",
+"2:3",
+"2:4",
+"3:1",
+"4:1",
+"4:2",
+"4:3",
+"4:4",
+"5:1",
+"None"
+],
+"v_Pon": [
+"COACH",
+"Defender",
+"Forward",
+"Goalkeeper",
+"Midfielder"
+],
+"t_Fo": "[4, 1, 4, 1]"
+},
+{
+"eid": 0
+}
+]
+},
+"263": {
+"n": "Premier League",
+"c": "Belarus",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Fo",
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Fp",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"PosS",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+21,
+22
+],
+"v_Pos": [
+"1",
+"10",
+"2",
+"3",
+"4",
+"5"
+],
+"v_Fp": [
+"1:1",
+"2:1",
+"2:2",
+"2:3",
+"2:4",
+"3:1",
+"3:2",
+"4:1",
+"4:2",
+"4:3",
+"5:1",
+"None"
+],
+"v_Pon": [
+"COACH",
+"Defender",
+"Forward",
+"Goalkeeper",
+"Midfielder"
+],
+"t_Fo": "[4, 2, 3, 1]"
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Fo",
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Fn",
+"Fp",
+"Ln",
+"Mo",
+"Pid",
+"Pon",
+"Pos",
+"PosA",
+"PosS",
+"Snm",
+"Snu"
+],
+"np": [
+21,
+22
+],
+"v_Pos": [
+"1",
+"10",
+"2",
+"3",
+"4",
+"5"
+],
+"v_Fp": [
+"1:1",
+"2:1",
+"2:2",
+"2:3",
+"3:1",
+"3:2",
+"3:3",
+"3:4",
+"3:5",
+"4:1",
+"4:2",
+"None"
+],
+"v_Pon": [
+"COACH",
+"Defender",
+"Forward",
+"Goalkeeper",
+"Midfielder"
+],
+"t_Fo": "[3, 5, 2]"
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Fo",
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Fn",
+"Fp",
+"Ln",
+"Mo",
+"Pid",
+"Pon",
+"Pos",
+"PosA",
+"PosS",
+"Snm",
+"Snu"
+],
+"np": [
+22,
+21
+],
+"v_Pos": [
+"1",
+"10",
+"2",
+"3",
+"4",
+"5"
+],
+"v_Fp": [
+"1:1",
+"2:1",
+"2:2",
+"2:3",
+"2:4",
+"2:5",
+"3:1",
+"3:2",
+"3:3",
+"3:4",
+"4:1",
+"None"
+],
+"v_Pon": [
+"COACH",
+"Defender",
+"Forward",
+"Goalkeeper",
+"Midfielder"
+],
+"t_Fo": "[5, 4, 1]"
+}
+]
+},
+"267": {
+"n": "Premier League",
+"c": "Bosnia-Herzegovina",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu"
+],
+"teams": 1,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Fn",
+"Ln",
+"Pid",
+"Pon",
+"Pos",
+"PosA",
+"Snm"
+],
+"np": [
+1
+],
+"v_Pos": [
+"10"
+],
+"v_Pon": [
+"COACH"
+]
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"271": {
+"n": "Bulgarian Cup",
+"c": "Bulgaria",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Cn",
+"Fn",
+"Ln",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA"
+],
+"np": [
+1,
+1
+],
+"v_Pos": [
+"10"
+],
+"v_Pon": [
+"COACH"
+]
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu"
+],
+"teams": 1,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Cn",
+"Fn",
+"Ln",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA"
+],
+"np": [
+1
+],
+"v_Pos": [
+"10"
+],
+"v_Pon": [
+"COACH"
+]
+}
+]
+},
+"275": {
+"n": "Croatian Cup",
+"c": "Croatia",
+"m": [
+{
+"eid": 0
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+21,
+20
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"278": {
+"n": "Austrian Cup",
+"c": "Austria",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Fo",
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Cn",
+"Fn",
+"Fp",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"PosS",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+21,
+21
+],
+"v_Pos": [
+"1",
+"10",
+"2",
+"3",
+"4",
+"5"
+],
+"v_Fp": [
+"1:1",
+"2:1",
+"2:2",
+"2:3",
+"2:4",
+"3:1",
+"3:2",
+"3:3",
+"4:1",
+"4:2",
+"4:3",
+"None"
+],
+"v_Pon": [
+"COACH",
+"Defender",
+"Forward",
+"Goalkeeper",
+"Midfielder"
+],
+"t_Fo": "[4, 3, 3]"
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Fo",
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Cn",
+"Fn",
+"Fp",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"PosS",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+21,
+21
+],
+"v_Pos": [
+"1",
+"10",
+"2",
+"3",
+"4",
+"5"
+],
+"v_Fp": [
+"1:1",
+"2:1",
+"2:2",
+"2:3",
+"3:1",
+"4:1",
+"4:2",
+"4:3",
+"4:4",
+"5:1",
+"5:2",
+"None"
+],
+"v_Pon": [
+"COACH",
+"Defender",
+"Forward",
+"Goalkeeper",
+"Midfielder"
+],
+"t_Fo": "[3, 1, 4, 2]"
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Fo",
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Fp",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"PosS",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+21,
+21
+],
+"v_Pos": [
+"1",
+"10",
+"2",
+"3",
+"4",
+"5"
+],
+"v_Fp": [
+"1:1",
+"2:1",
+"2:2",
+"2:3",
+"2:4",
+"3:1",
+"3:2",
+"4:1",
+"4:2",
+"4:3",
+"5:1",
+"None"
+],
+"v_Pon": [
+"COACH",
+"Defender",
+"Forward",
+"Goalkeeper",
+"Midfielder"
+],
+"t_Fo": "[4, 2, 3, 1]"
+}
+]
+},
+"300": {
+"n": "East Asian Championship",
+"c": "Internazionale",
+"m": [
+{
+"eid": 0
+},
+{
+"eid": 0
+},
+{
+"eid": 0
+}
+]
+},
+"305": {
+"n": "Maurice Revello Tournament ",
+"c": "Internazionale",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"330": {
+"n": "Cyprus Cup",
+"c": "Cyprus",
+"m": [
+{
+"eid": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"332": {
+"n": "1. Division Kvinner",
+"c": "Norway",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"333": {
+"n": "Norgesmesterskapet Kvinner",
+"c": "Norway",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu"
+],
+"teams": 1,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Fn",
+"Ln",
+"Pid",
+"Pon",
+"Pos",
+"PosA",
+"Snm"
+],
+"np": [
+1
+],
+"v_Pos": [
+"10"
+],
+"v_Pon": [
+"COACH"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu"
+],
+"teams": 1,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Fn",
+"Ln",
+"Pid",
+"Pon",
+"Pos",
+"PosA",
+"Snm"
+],
+"np": [
+1
+],
+"v_Pos": [
+"10"
+],
+"v_Pon": [
+"COACH"
+]
+},
+{
+"eid": 0
+}
+]
+},
+"335": {
+"n": "Primera Division",
+"c": "El Salvador",
+"m": [
+{
+"eid": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm"
+],
+"np": [
+12,
+12
+],
+"v_Pos": [
+"0",
+"10"
+],
+"v_Pon": [
+"COACH",
+"UNKNOWN_PERSON_TYPE"
+]
+}
+]
+},
+"336": {
+"n": "Liga Nacional",
+"c": "Guatemala",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"337": {
+"n": "Liga Nacional",
+"c": "Honduras",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm"
+],
+"np": [
+24,
+24
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 0
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pon",
+"Pos",
+"PosA",
+"Snm"
+],
+"np": [
+23,
+24
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+}
+]
+},
+"338": {
+"n": "1. Division",
+"c": "Russia",
+"m": [
+{
+"eid": 0
+},
+{
+"eid": 0
+},
+{
+"eid": 0
+}
+]
+},
+"342": {
+"n": "Finland Cup",
+"c": "Finland",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"439": {
+"n": "Erovnuli Liga",
+"c": "Georgia",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+21,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 0
+},
+{
+"eid": 0
+}
+]
+},
+"442": {
+"n": "Ukraine Cup",
+"c": "Ukraine",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Cn",
+"Fn",
+"Ln",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+24,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 0
+},
+{
+"eid": 0
+}
+]
+},
+"490": {
+"n": "Super Cup",
+"c": "Armenia",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Cn",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+24,
+24
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+}
+]
+},
+"512": {
+"n": "Regionalliga",
+"c": "Germany",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"516": {
+"n": "Ligue 1",
+"c": "Algeria",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"521": {
+"n": "Super Cup",
+"c": "Cyprus",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+24,
+24
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+}
+]
+},
+"522": {
+"n": "Premier League",
+"c": "Ghana",
+"m": [
+{
+"eid": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"523": {
+"n": "Persian Gulf",
+"c": "Iran",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 0
+}
+]
+},
+"533": {
+"n": "Professional Football League",
+"c": "Nigeria",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"544": {
+"n": "Ligue I",
+"c": "Tunisia",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 0
+}
+]
+},
+"8815": {
+"n": "Super League 2",
+"c": "Greece",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 0
+},
+{
+"eid": 0
+}
+]
+},
+"8935": {
+"n": "II Liga",
+"c": "Poland",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"8938": {
+"n": "Australia Championship",
+"c": "Australia",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"8944": {
+"n": "National North & South",
+"c": "England",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+19,
+19
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 0
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Cn",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+17,
+19
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+}
+]
+},
+"8947": {
+"n": "Premier Division",
+"c": "England",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"8968": {
+"n": "Primera Federación",
+"c": "Spain",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Fo",
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Fp",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"PosS",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+21,
+21
+],
+"v_Pos": [
+"1",
+"10",
+"2",
+"3",
+"4",
+"5"
+],
+"v_Fp": [
+"1:1",
+"2:1",
+"2:2",
+"2:3",
+"2:4",
+"3:1",
+"3:2",
+"3:3",
+"4:1",
+"4:2",
+"4:3",
+"None"
+],
+"v_Pon": [
+"COACH",
+"Defender",
+"Forward",
+"Goalkeeper",
+"Midfielder"
+],
+"t_Fo": "[4, 3, 3]"
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Fo",
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Fp",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"PosS",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+20,
+21
+],
+"v_Pos": [
+"1",
+"10",
+"2",
+"3",
+"4",
+"5"
+],
+"v_Fp": [
+"1:1",
+"2:1",
+"2:2",
+"2:3",
+"3:1",
+"3:2",
+"3:3",
+"3:4",
+"4:1",
+"4:2",
+"4:3",
+"None"
+],
+"v_Pon": [
+"COACH",
+"Defender",
+"Forward",
+"Goalkeeper",
+"Midfielder"
+],
+"t_Fo": "[3, 4, 3]"
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Fo",
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Fp",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"PosS",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+22,
+24
+],
+"v_Pos": [
+"1",
+"10",
+"2",
+"3",
+"4",
+"5"
+],
+"v_Fp": [
+"1:1",
+"2:1",
+"2:2",
+"2:3",
+"2:4",
+"3:1",
+"3:2",
+"3:3",
+"3:4",
+"4:1",
+"4:2",
+"None"
+],
+"v_Pon": [
+"COACH",
+"Defender",
+"Forward",
+"Goalkeeper",
+"Midfielder"
+],
+"t_Fo": "[4, 4, 2]"
+}
+]
+},
+"8969": {
+"n": "Ykkonen",
+"c": "Finland",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"8970": {
+"n": "Ligue 3",
+"c": "France",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Fo",
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Fp",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"PosS",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+19,
+18
+],
+"v_Pos": [
+"1",
+"10",
+"2",
+"3",
+"4",
+"5"
+],
+"v_Fp": [
+"1:1",
+"2:1",
+"2:2",
+"2:3",
+"2:4",
+"3:1",
+"3:2",
+"3:3",
+"3:4",
+"4:1",
+"4:2",
+"None"
+],
+"v_Pon": [
+"COACH",
+"Defender",
+"Forward",
+"Goalkeeper",
+"Midfielder"
+],
+"t_Fo": "[4, 4, 2]"
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Fo",
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Fp",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"PosS",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+19,
+19
+],
+"v_Pos": [
+"1",
+"10",
+"2",
+"3",
+"4",
+"5"
+],
+"v_Fp": [
+"1:1",
+"2:1",
+"2:2",
+"2:3",
+"2:4",
+"3:1",
+"3:2",
+"4:1",
+"4:2",
+"4:3",
+"5:1",
+"None"
+],
+"v_Pon": [
+"COACH",
+"Defender",
+"Forward",
+"Goalkeeper",
+"Midfielder"
+],
+"t_Fo": "[4, 2, 3, 1]"
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Fo",
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Fp",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"PosS",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+19,
+19
+],
+"v_Pos": [
+"1",
+"10",
+"2",
+"3",
+"4",
+"5"
+],
+"v_Fp": [
+"1:1",
+"2:1",
+"2:2",
+"2:3",
+"2:4",
+"2:5",
+"3:1",
+"3:2",
+"3:3",
+"4:1",
+"4:2",
+"None"
+],
+"v_Pon": [
+"COACH",
+"Defender",
+"Forward",
+"Goalkeeper",
+"Midfielder"
+],
+"t_Fo": "[5, 3, 2]"
+}
+]
+},
+"8971": {
+"n": "Série C",
+"c": "Brazil",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Cn",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+24,
+24
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+24,
+24
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Cn",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+24,
+24
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+}
+]
+},
+"8973": {
+"n": "2. Liga",
+"c": "Slovakia",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"8978": {
+"n": "League Cup",
+"c": "Northern Ireland",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 0
+}
+]
+},
+"9011": {
+"n": "Emperor's Cup",
+"c": "Japan",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Cn",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+21,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Cn",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+21,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"Snu"
+],
+"np": [
+21,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+}
+]
+},
+"9039": {
+"n": "LPF",
+"c": "Panama",
+"m": [
+{
+"eid": 0
+},
+{
+"eid": 0
+},
+{
+"eid": 0
+}
+]
+},
+"9069": {
+"n": "Super Cup",
+"c": "Estonia",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"9096": {
+"n": "Second Professional League",
+"c": "Bulgaria",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"9097": {
+"n": "State Cup",
+"c": "Israel",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 0
+},
+{
+"eid": 0
+}
+]
+},
+"9098": {
+"n": "Toto Cup Leumit",
+"c": "Israel",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+21,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+21,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+21,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+}
+]
+},
+"9100": {
+"n": "2. Division",
+"c": "Cyprus",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"9112": {
+"n": "Liga 3",
+"c": "Portugal",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Cn",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+12,
+12
+],
+"v_Pos": [
+"0",
+"10"
+],
+"v_Pon": [
+"COACH",
+"UNKNOWN_PERSON_TYPE"
+]
+}
+]
+},
+"9113": {
+"n": "Liga II",
+"c": "Romania",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"9117": {
+"n": "NB II",
+"c": "Hungary",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"9122": {
+"n": "Segunda Division",
+"c": "Uruguay",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+22,
+22
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"9123": {
+"n": "Second League",
+"c": "Russia",
+"m": [
+{
+"eid": 0
+},
+{
+"eid": 0
+},
+{
+"eid": 0
+}
+]
+},
+"9125": {
+"n": "Primera B",
+"c": "Colombia",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+21,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Cn",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+21,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"9126": {
+"n": "Liga de Ascenso",
+"c": "Chile",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+19,
+19
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+19,
+19
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+}
+]
+},
+"9137": {
+"n": "China League One",
+"c": "China",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Fo",
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Fp",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"PosS",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+24,
+19
+],
+"v_Pos": [
+"1",
+"10",
+"2",
+"3",
+"4",
+"5"
+],
+"v_Fp": [
+"1:1",
+"2:1",
+"2:2",
+"2:3",
+"2:4",
+"2:5",
+"3:1",
+"3:2",
+"3:3",
+"3:4",
+"4:1",
+"None"
+],
+"v_Pon": [
+"COACH",
+"Defender",
+"Forward",
+"Goalkeeper",
+"Midfielder"
+],
+"t_Fo": "[5, 4, 1]"
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Fo",
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Fp",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"PosS",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+24,
+24
+],
+"v_Pos": [
+"1",
+"10",
+"2",
+"3",
+"4",
+"5"
+],
+"v_Fp": [
+"1:1",
+"2:1",
+"2:2",
+"2:3",
+"3:1",
+"3:2",
+"3:3",
+"3:4",
+"4:1",
+"4:2",
+"4:3",
+"None"
+],
+"v_Pon": [
+"COACH",
+"Defender",
+"Forward",
+"Goalkeeper",
+"Midfielder"
+],
+"t_Fo": "[3, 4, 3]"
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Fo",
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Fp",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"PosS",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+24,
+19
+],
+"v_Pos": [
+"1",
+"10",
+"2",
+"3",
+"4",
+"5"
+],
+"v_Fp": [
+"1:1",
+"2:1",
+"2:2",
+"2:3",
+"3:1",
+"3:2",
+"3:3",
+"3:4",
+"4:1",
+"4:2",
+"4:3",
+"None"
+],
+"v_Pon": [
+"COACH",
+"Defender",
+"Forward",
+"Goalkeeper",
+"Midfielder"
+],
+"t_Fo": "[3, 4, 3]"
+}
+]
+},
+"9138": {
+"n": "Segunda Federación",
+"c": "Spain",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+21,
+18
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm"
+],
+"np": [
+20,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pon",
+"Pos",
+"PosA",
+"Snm"
+],
+"np": [
+21,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+}
+]
+},
+"9166": {
+"n": "Welsh Cup",
+"c": "Wales",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pon",
+"Pos",
+"PosA",
+"Snm"
+],
+"np": [
+19,
+19
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm"
+],
+"np": [
+19,
+19
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+}
+]
+},
+"9195": {
+"n": "Tweede Divisie",
+"c": "Netherlands",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Fo",
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Fp",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"PosS",
+"Snm",
+"Snu"
+],
+"np": [
+19,
+19
+],
+"v_Pos": [
+"1",
+"10",
+"2",
+"3",
+"4",
+"5"
+],
+"v_Fp": [
+"1:1",
+"2:1",
+"2:2",
+"2:3",
+"2:4",
+"2:5",
+"3:1",
+"3:2",
+"3:3",
+"4:1",
+"4:2",
+"None"
+],
+"v_Pon": [
+"COACH",
+"Defender",
+"Forward",
+"Goalkeeper",
+"Midfielder"
+],
+"t_Fo": "[5, 3, 2]"
+},
+{
+"eid": 0
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Fo",
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Fn",
+"Fp",
+"Ln",
+"Mo",
+"Pid",
+"Pon",
+"Pos",
+"PosA",
+"PosS",
+"Snm",
+"Snu"
+],
+"np": [
+19,
+19
+],
+"v_Pos": [
+"1",
+"10",
+"2",
+"3",
+"4",
+"5"
+],
+"v_Fp": [
+"1:1",
+"2:1",
+"2:2",
+"2:3",
+"2:4",
+"3:1",
+"3:2",
+"4:1",
+"4:2",
+"4:3",
+"5:1",
+"None"
+],
+"v_Pon": [
+"COACH",
+"Defender",
+"Forward",
+"Goalkeeper",
+"Midfielder"
+],
+"t_Fo": "[4, 2, 3, 1]"
+}
+]
+},
+"9213": {
+"n": "Primera B Metropolitana & Torneo Federal A",
+"c": "Argentina",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pon",
+"Pos",
+"PosA",
+"Snm"
+],
+"np": [
+21,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pon",
+"Pos",
+"PosA",
+"Snm"
+],
+"np": [
+21,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pon",
+"Pos",
+"PosA",
+"Snm"
+],
+"np": [
+21,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+}
+]
+},
+"9253": {
+"n": "FA Trophy",
+"c": "England",
+"m": [
+{
+"eid": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"9372": {
+"n": "Azadegan League",
+"c": "Iran",
+"m": [
+{
+"eid": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"9389": {
+"n": "Irish Cup",
+"c": "Northern Ireland",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+19,
+19
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+19,
+19
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+19,
+19
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+}
+]
+},
+"9429": {
+"n": "Copa do Nordeste",
+"c": "Brazil",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+24,
+24
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Cn",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+24,
+23
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"Snu"
+],
+"np": [
+24,
+24
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+}
+]
+},
+"9464": {
+"n": "Serie D",
+"c": "Brazil",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"9468": {
+"n": "CAF Confed Cup",
+"c": "Internazionale",
+"m": [
+{
+"eid": 0
+},
+{
+"eid": 0
+},
+{
+"eid": 0
+}
+]
+},
+"9483": {
+"n": "Paulista A2",
+"c": "Brazil",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"9487": {
+"n": "Hazfi Cup",
+"c": "Iran",
+"m": [
+{
+"eid": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"9490": {
+"n": "Copa Colombia",
+"c": "Colombia",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Cn",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+21,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+21,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 0
+}
+]
+},
+"9493": {
+"n": "Super Cup",
+"c": "Lithuania",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"9504": {
+"n": "Super Cup",
+"c": "Kazakhstan",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"9514": {
+"n": "The Atlantic Cup",
+"c": "Internazionale",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"9521": {
+"n": "Belarusian Cup",
+"c": "Belarus",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+22,
+22
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+22,
+20
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"9523": {
+"n": "Løgmanssteypið",
+"c": "Faroe Islands",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Cn",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm"
+],
+"np": [
+19,
+19
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+}
+]
+},
+"9527": {
+"n": "Coupe de Luxembourg",
+"c": "Luxembourg",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"9528": {
+"n": "Macedonian Cup",
+"c": "North Macedonia",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pon",
+"Pos",
+"PosA",
+"Snm"
+],
+"np": [
+12,
+12
+],
+"v_Pos": [
+"0",
+"10"
+],
+"v_Pon": [
+"COACH",
+"UNKNOWN_PERSON_TYPE"
+]
+}
+]
+},
+"9530": {
+"n": "Cupa Moldova",
+"c": "Moldova",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"9537": {
+"n": "K League 3",
+"c": "South Korea",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"9551": {
+"n": "Cup",
+"c": "South Korea",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"Snu"
+],
+"np": [
+21,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Cn",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+21,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Cn",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"Snu"
+],
+"np": [
+21,
+21
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+}
+]
+},
+"9658": {
+"n": "Super Cup",
+"c": "Belarus",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"9682": {
+"n": "CONCACAF Central American Cup",
+"c": "Internazionale",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"9690": {
+"n": "Southeast Asian Games",
+"c": "Internazionale",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"9833": {
+"n": "Asian Games",
+"c": "Internazionale",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"9906": {
+"n": "Liga MX Femenil",
+"c": "Mexico",
+"m": [
+{
+"eid": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"9943": {
+"n": "President's Cup",
+"c": "United Arab Emirates",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"10009": {
+"n": "Super Cup",
+"c": "Iceland",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Fo",
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Fp",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"PosS",
+"Snm",
+"Snu",
+"imageUrl"
+],
+"np": [
+21,
+19
+],
+"v_Pos": [
+"1",
+"10",
+"2",
+"3",
+"4",
+"5"
+],
+"v_Fp": [
+"1:1",
+"2:1",
+"2:2",
+"2:3",
+"2:4",
+"3:1",
+"3:2",
+"3:3",
+"4:1",
+"4:2",
+"4:3",
+"None"
+],
+"v_Pon": [
+"COACH",
+"Defender",
+"Forward",
+"Goalkeeper",
+"Midfielder",
+"Substitute player"
+],
+"t_Fo": "[4, 3, 3]"
+}
+]
+},
+"10046": {
+"n": "Copa Ecuador",
+"c": "Ecuador",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"10075": {
+"n": "Torneo de Verano",
+"c": "Argentina",
+"m": [
+{
+"eid": 0
+},
+{
+"eid": 0
+},
+{
+"eid": 0
+}
+]
+},
+"10076": {
+"n": "League Cup",
+"c": "Iceland",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"10078": {
+"n": "Recopa Gaúcha",
+"c": "Brazil",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"10084": {
+"n": "NISA",
+"c": "United States",
+"m": [
+{
+"eid": 0
+},
+{
+"eid": 0
+},
+{
+"eid": 0
+}
+]
+},
+"10175": {
+"n": "Superkupa e Shqipërisë",
+"c": "Albania",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"10223": {
+"n": "Super Cup",
+"c": "Costa Rica",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"10226": {
+"n": "2. Deild",
+"c": "Iceland",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"10230": {
+"n": "Copa Paraguay",
+"c": "Paraguay",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"10270": {
+"n": "League Cup",
+"c": "Egypt",
+"m": [
+{
+"eid": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"10288": {
+"n": "Super Cup",
+"c": "Iran",
+"m": [
+{
+"eid": 0
+}
+]
+},
+"10291": {
+"n": "Goiano",
+"c": "Brazil",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pon",
+"Pos",
+"PosA",
+"Snm"
+],
+"np": [
+19,
+23
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"10342": {
+"n": "Copa Uruguay",
+"c": "Uruguay",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+},
+{
+"eid": 0
+},
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"10343": {
+"n": "Supercopa",
+"c": "Uruguay",
+"m": [
+{
+"eid": 1,
+"keys": [],
+"teams": 0
+}
+]
+},
+"10448": {
+"n": "Liga Revelação",
+"c": "Portugal",
+"m": [
+{
+"eid": 0
+},
+{
+"eid": 0
+},
+{
+"eid": 0
+}
+]
+},
+"10508": {
+"n": "African Football League",
+"c": "Internazionale",
+"m": [
+{
+"eid": 0
+},
+{
+"eid": 0
+},
+{
+"eid": 0
+}
+]
+},
+"10609": {
+"n": "Asian Cup Qualification Playoff",
+"c": "Internazionale",
+"m": [
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+24,
+24
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+},
+{
+"eid": 0
+},
+{
+"eid": 1,
+"keys": [
+"Eid",
+"Lu",
+"Subs"
+],
+"teams": 2,
+"tkeys": [
+"Ps",
+"Tnb"
+],
+"pkeys": [
+"Aid",
+"Fn",
+"Ln",
+"Mo",
+"Pid",
+"Pnt",
+"Pon",
+"Pos",
+"PosA",
+"Snm",
+"imageUrl"
+],
+"np": [
+24,
+23
+],
+"v_Pos": [
+"0",
+"10",
+"5"
+],
+"v_Pon": [
+"COACH",
+"Substitute player",
+"UNKNOWN_PERSON_TYPE"
+]
+}
+]
+},
+"10628": {
+"n": "Norgesmesterskapet Kvalifisering",
+"c": "Norway",
+"m": [
+{
+"eid": 0
+},
+{
+"eid": 0
+},
+{
+"eid": 0
+}
+]
+},
+"10650": {
+"n": "DFB Pokal Frauen",
+"c": "Germany",
+"m": [
+{
+"eid": 0
+},
+{
+"eid": 0
+},
+{
+"eid": 0
+}
+]
+},
+"11017": {
+"n": "QSL Cup",
+"c": "Qatar",
+"m": [
+{
+"eid": 0
+},
+{
+"eid": 0
+},
+{
+"eid": 0
+}
+]
+},
+"11020": {
+"n": "SWF Scottish Cup",
+"c": "Scotland",
+"m": [
+{
+"eid": 0
+},
+{
+"eid": 0
+},
+{
+"eid": 0
+}
+]
+},
+"11646": {
+"n": "Copa Paulista",
+"c": "Brazil",
+"m": [
+{
+"eid": 0
+},
+{
+"eid": 0
+},
+{
+"eid": 0
+}
+]
+},
+"11840": {
+"n": "Throne Cup",
+"c": "Morocco",
+"m": [
+{
+"eid": 0
+},
+{
+"eid": 0
+},
+{
+"eid": 0
+}
+]
+}
+}
