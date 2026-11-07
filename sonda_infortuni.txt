@@ -1,29 +1,29 @@
 == LIVESCORE
-eventi Ipswich {'20261031': 'Watford W v Ipswich Town W', '20261108': 'Ipswich Town W v Bristol City W'}
--- evento 20261031 Watford W v Ipswich Town W chiavi evento: {Eid:str, Pids:{8:str}, Tr1:str, Tr2:str, Trh1:str, Trh2:str, Tr1OR:str, Tr2OR:str, T1:[1×{ID:str, Nm:str, Img:str, Abr:str, Fc:str, Sc:str}], T2:[1×{ID:str, Nm:str, Img:str, Abr:str}], Eps:str, Esid:num, Epr:num, Ecov:num, ErnInf:str, Ewt:num, Et:num, Esd:num, EO:num, EOX:num, Spid:num, Pid:num}
-  lineups 200 {}
+eventi Ipswich {'20261031': 'Hull City v Ipswich Town', '20261108': 'Ipswich Town v AFC Bournemouth'}
+-- evento 20261031 Hull City v Ipswich Town chiavi evento: {Eid:str, Pids:{112:str, 8:str}, Media:{112:[5×{eventId:…, provider:…, type:…, thumbnail:…, allowedCountries:…}]}, Tr1:str, Tr2:str, Trh1:str, Trh2:str, Tr1OR:str, Tr2OR:str, T1:[1×{ID:str, Nm:str, Img:str, NewsTag:str, Abr:str, Fc:str, Sc:str}], T2:[1×{ID:str, Nm:str, Img:str, NewsTag:str, Abr:str, Fc:str, Sc:str}], Eps:str, Esid:num, Epr:num, Ecov:num, ErnInf:str, Ewt:num, Et:num, Esd:num, EO:num, EOX:num, Spid:num, Pid:num}
+  lineups 200 {Eid:str, Lu:[2×{Tnb:num, Ps:[21×…], IS:[7×…], Fo:[3×…]}], Subs:{2:[20×{Min:…, Nm:…, Aid:…, ID:…, Fn:…, Ln:…, Pnt:…, Pnum:…, Pn:…, IDo:…, AIDo:…, PnumO:…, IT:…, Sor:…}]}}
+     Lukic nella risposta: True
+  scoreboard 200 {Eid:str, Pids:{1:str, 100:str, 101:str, 102:str, 103:str, 104:str, 112:str, 28:str, 33:str, 36:str, 37:str, 8:str}, Sids:{1:str, 112:str, 28:str, 30:str, 33:str, 36:str, 37:str, 8:str}, Media:{33:[1×{type:…, deniedCountries:…, entryId:…}], 112:[5×{eventId:…, provider:…, type:…, thumbnail:…, allowedCountries:…}], 37:[5×{type:…, thumbnail:…, allowedCountries:…, entryId:…, storyUrl:…, creationTimePeriod:…}], 8:[2×{type:…, allowedCountries:…}]}, Tr1:str, Tr2:str, Trh1:str, Trh2:str, Tr1OR:str, Tr2OR:str, T1:[1×{Nm:str, ID:str, Img:str, NewsTag:str, Abr:str, tbd:num, Gd:num, Pids:{33:…, 1:…, 12:…, 112:…, 36:…, 37:…, 6:…, 28:…, 8:…, 30:…}, CoNm:str, CoId:str, HasVideo:num, TO:num, tsImg:str, firs
      Lukic nella risposta: False
-  scoreboard 200 {Eid:str, Pids:{1:str, 8:str}, Sids:{1:str, 112:str, 8:str}, Tr1:str, Tr2:str, Trh1:str, Trh2:str, Tr1OR:str, Tr2OR:str, T1:[1×{Nm:str, ID:str, Img:str, Abr:str, tbd:num, Gd:num, Pids:{33:…, 1:…, 12:…, 112:…, 36:…, 6:…, 8:…}, CoNm:str, CoId:str, HasVideo:num, TO:num, firstColor:str, secondColor:str, aG:num, Spid:num}], T2:[1×{Nm:str, ID:str, Img:str, Abr:str, tbd:num, Gd:num, Pids:{33:…, 1:…, 112:…, 36:…, 6:…, 8:…}, CoNm:str, CoId:str, HasVideo:num, TO:num, aG:num, Spid:num}], Venue:{Vnm:str, Vneut:num, Vcy:str}, Eps:str, Esid:num, Epr:num, Ecov:num, ErnInf:str, Ewt:num, Et:num, Esd:num, Edf:num, Eact:num, EO:num, EOX:num, LuC:num}
+  incidents 200 {Eid:str, Tr1:str, Tr2:str, Trh1:str, Trh2:str, Tr1OR:str, Tr2OR:str, Incs:{1:[2×{Min:…, Nm:…, Sc:…, Sor:…, Incs:…}], 2:[8×{Min:…, Nm:…, PosA:…, Aid:…, ID:…, Fn:…, Ln:…, Pnt:…, Pnum:…, Pn:…, IT:…, NoP:…, Sor:…}]}}
      Lukic nella risposta: False
-  incidents 200 {Eid:str, Tr1:str, Tr2:str, Trh1:str, Trh2:str, Tr1OR:str, Tr2OR:str, Incs:{1:[2×{Min:…, Nm:…, ID:…, Pn:…, IT:…, Sc:…, Sor:…}], 2:[3×{Min:…, Nm:…, ID:…, Pn:…, IT:…, Sc:…, Sor:…}]}}
+  info 200 {Eid:str, Esd:num, Vnm:str, VCnm:str, Vsp:num, Vneut:num, Vcy:str, Refs:[1×{Nm:str, Cid:str, Cn:str, Kn:num}]}
      Lukic nella risposta: False
-  info 200 {Eid:str, Esd:num, Vnm:str, VCnm:str, Vneut:num, Vcy:str}
-     Lukic nella risposta: False
-  statistics 200 {}
+  statistics 200 {Eid:str, Stat:[2×{Tnb:num, Fls:num, Ths:num, Ofs:num, Crs:num, Ycs:num, Rcs:num, YRcs:num, Shof:num, Shwd:num, Shbl:num, Att:num, Gks:num, Goa:num, Pss:num, Cos:num, Shon:num, Xg:num}], shotsMap:{1:[2×{Tnb:…, shots:…}], 2:[2×{Tnb:…, shots:…}]}, PStat:[2×{1:{Tnb:…, Fls:…, Ths:…, Ofs:…, Crs:…, Ycs:…, Rcs:…, YRcs:…, Shof:…, Shwd:…, Shbl:…, Att:…, Gks:…, Goa:…, Pss:…, Cos:…, Shon:…, Xg:…}, 2:{Tnb:…, Fls:…, Ths:…, Ofs:…, Crs:…, Ycs:…, Rcs:…, YRcs:…, Shof:…, Shwd:…, Shbl:…, Att:…, Gks:…, Goa:…, Pss:…, Cos:…, Shon:…, Xg:…}}]}
      Lukic nella risposta: False
   h2h 404 
   missing 404 
   injuries 404 
   sidelined 404 
   prematch 404 
--- evento 20261108 Ipswich Town W v Bristol City W chiavi evento: {Eid:str, Pids:{112:str, 8:str}, Media:{112:[1×{eventId:…, provider:…, type:…, allowedCountries:…}]}, T1:[1×{ID:str, Nm:str, Img:str, Abr:str}], T2:[1×{ID:str, Nm:str, Img:str, NewsTag:str, Abr:str, Fc:str, Sc:str}], Eps:str, Esid:num, Epr:num, Ecov:num, ErnInf:str, Et:num, Esd:num, EO:num, EOX:num, Spid:num, Pid:num}
-  lineups 200 {}
+-- evento 20261108 Ipswich Town v AFC Bournemouth chiavi evento: {Eid:str, Pids:{112:str, 8:str}, Media:{112:[7×{eventId:…, provider:…, type:…, thumbnail:…, allowedCountries:…}]}, T1:[1×{ID:str, Nm:str, Img:str, NewsTag:str, Abr:str, Fc:str, Sc:str}], T2:[1×{ID:str, Nm:str, Img:str, NewsTag:str, Abr:str, Fc:str, Sc:str}], Eps:str, Esid:num, Epr:num, Ecov:num, ErnInf:str, Et:num, Esd:num, EO:num, EOX:num, Spid:num, Pid:num}
+  lineups 200 {Eid:str, Lu:[2×{Tnb:num, Ps:[12×…], Fo:[4×…]}]}
      Lukic nella risposta: False
-  scoreboard 200 {Eid:str, Pids:{33:str, 1:str, 112:str, 36:str, 8:str}, Sids:{33:str, 1:str, 112:str, 36:str, 8:str}, Media:{112:[1×{eventId:…, provider:…, type:…, allowedCountries:…}]}, T1:[1×{Nm:str, ID:str, Img:str, Abr:str, tbd:num, Gd:num, Pids:{33:…, 1:…, 112:…, 36:…, 6:…, 8:…}, CoNm:str, CoId:str, HasVideo:num, TO:num, aG:num, Spid:num}], T2:[1×{Nm:str, ID:str, Img:str, NewsTag:str, Abr:str, tbd:num, Gd:num, Pids:{33:…, 1:…, 12:…, 112:…, 36:…, 6:…, 8:…}, CoNm:str, CoId:str, HasVideo:num, TO:num, firstColor:str, secondColor:str, aG:num, Spid:num}], Eps:str, Esid:num, Epr:num, Ecov:num, ErnInf:str, Et:num, Esd:num, Eact:num, EO:num, EOX:num, LuC:num, Ehid:num, Spid:num, Stg:{Sid:str, Snm:str, Scd:str, 
+  scoreboard 200 {Eid:str, Pids:{1:str, 112:str, 28:str, 30:str, 33:str, 36:str, 37:str, 8:str}, Sids:{1:str, 112:str, 28:str, 30:str, 33:str, 36:str, 37:str, 8:str}, Media:{33:[1×{type:…, deniedCountries:…, entryId:…}], 112:[7×{eventId:…, provider:…, type:…, thumbnail:…, allowedCountries:…}], 37:[1×{type:…, thumbnail:…, allowedCountries:…, entryId:…, storyUrl:…, creationTimePeriod:…}]}, T1:[1×{Nm:str, ID:str, Img:str, NewsTag:str, Abr:str, tbd:num, Gd:num, Pids:{33:…, 1:…, 12:…, 112:…, 15:…, 37:…, 6:…, 28:…, 8:…, 30:…}, CoNm:str, CoId:str, HasVideo:num, TO:num, tsImg:str, firstColor:str, secondColor:str, aG:num, Spid:num}], T2:[1×{Nm:str, ID:str, Img:str, NewsTag:str, Abr:str, tbd:num, Gd:num, Pids:{33:…, 1
      Lukic nella risposta: False
   incidents 200 {}
      Lukic nella risposta: False
-  info 200 {Eid:str, Esd:num, Refs:[1×{Nm:str, Kn:num}]}
+  info 200 {Eid:str, Esd:num, Vnm:str, VCnm:str, Vneut:num, Vcy:str, Refs:[1×{Nm:str, Cid:str, Cn:str, Kn:num}]}
      Lukic nella risposta: False
   statistics 200 {}
      Lukic nella risposta: False
@@ -39,6 +39,8 @@ web /en/football/team/ipswich-town/2786/squad/ 200 next_data Lukic:True
      KEY .props.pageProps.meta.about:str
      KEY .props.pageProps.externalAppConfig.ads.mpu.artificialDelays[].timeout:num
      KEY .props.pageProps.externalAppConfig.ads.mpu.artificialDelays[].timeout:num
+     initialData: {squad:{coach:[1×{id:…, name:…, countryName:…, regionImage:…}], goalkeeper:[5×{id:…, name:…, countryName:…, regionImage:…, nameSlug:…, shirtNumber:…}], defender:[6×{id:…, name:…, countryName:…, regionImage:…, nameSlug:…, shirtNumber:…}], midfielder:[10×{id:…, name:…, countryName:…, regionImage:…, nameSlug:…, shirtNumber:…}], forward:[8×{id:…, name:…, countryName:…, regionImage:…, nameSlug:…, shirtNumber:…}]}, header:{id:str, name:str, country:str, badge:str, firstColor:str}, tabs:[7×{id:str, name:str, href:str, isDisabled:num}]}
+     voce Lukic (solo chiavi e valori non testuali): {'id': '15980', 'name': 'Saša Lukić', 'countryName': 'Serbia', 'regionImage': 'serbia', 'nameSlug': 'sasa-lukic', 'shirtNumber': 23}
 web /en/football/team/x/2786/overview/ 200 next_data Lukic:False
      KEY .props.pageProps.layoutContext:{leftMenuLinks:{football:{teams:[5×…], stages:[5×…], categories:[5×…], players:[5×…]}}, page:str, activeHeaderId:str, metaParams:{team1:str}, isHorizontalNavigationVisible:num}
      KEY .props.pageProps.initialData.nextOrCurrentMatch.isOutdated:num
@@ -55,32 +57,27 @@ web /en/football/team/x/2786/overview/ 200 next_data Lukic:False
      KEY .props.pageProps.pageLocaleDictionaries.matchDetail.aboutThisCompetition:str
      KEY .props.pageProps.pageLocaleDictionaries.matchScore.penaltyShootOut:str
      KEY .props.pageProps.pageLocaleDictionaries.matchScore.penaltyShootOutShort:str
-web /en/football/england/premier-league/ipswich-town-vs-afc-bournemouth/1850509/lineups/ 200 next_data Lukic:False
-     KEY .props.pageProps.layoutContext:{leftMenuLinks:{football:{teams:[5×…], stages:[5×…], categories:[5×…], players:[5×…]}}, meta:{alternativeLinks:{en:str, nl:str, es:str, pt:str, bg:str, th:str, id:str, de:str, fr:str, it:str, ms:str, 
+     initialData: {statsCompetitionIds:{playersStatsCompetitionId:str, teamsStatsCompetitionId:str}, nextOrCurrentMatch:{id:str, media:{33:[1×…], 37:[1×…], 112:[7×…]}, providerIds:{12:[1×…], 15:[1×…], 112:[1×…]}, scores:{homeTeamName:str, awayTeamName:str, homeTeamId:str, awayTeamId:str, homeTeamNameEn:str, awayTeamNameEn:str, homeOvertimeScore:str, awayOvertimeScore:str, homeTeamScore:str, awayTeamScore:str, penaltyHomeScore:str, penaltyAwayScore:str, statusInt:NoneType, eventId:str, matchStatusDetails:{isNotStarted:…, isInProgress:…, isFinished:…, status:…, liveTime:…}, scoresByPeriod:[4×…], aggregateHomeScore:str, aggregateAwayScore:str}, status:str, warning:num, startDateTimeString:str, stageCode:str, stageId:str, stageName:str, categoryTransliteratedName:str, isOutdated:num, activeSport:str, eventStatus:str, statusDescription:str, homeTeamName:str, awayTeamName:str, homeTeamScore:str, awayTeamScore:str, awayTeamId:str, awayTeamBadge:str, homeTeamId:str, homeTeamBadge:str, homeTeamImgSlug:str, awayTeamImgSlug:str}, results:[5×{id:str, media:{8:…, 33:…, 37:…, 112:…}, providerIds:{12:…, 15:…, 112:…}, scores:{homeTeamName:…, awayTeamName:…, homeTeamId:…, awayTeamId:…, homeTeamNameEn:…, awayTeamNameEn:…, homeOvertimeScore:…, awayOvertimeScore:…, homeTeamScore:…, awayTeamScore:…, penaltyHomeScore:…, penaltyAwayScore:…, statusInt:…, eventId:…, matchStatusDetails:…, scoresByPeriod:…, aggregateHomeScore:…, aggregateAwayScore:…}, status:str, winner:str, warning:num, startDateTimeString:str, stageCo
+web /en/football/england/premier-league/ipswich-town-vs-afc-bournemouth/1793603/lineups/ 200 next_data Lukic:False
+     KEY .props.pageProps.layoutContext:{leftMenuLinks:{football:{teams:[5×…], stages:[5×…], categories:[5×…], players:[5×…]}}, meta:{noFollow:num, noIndex:num}, metaParams:{category:str, stage:str, team1:str, team2:str}, activeHeaderId:str
      KEY .props.pageProps.initialEventData.event.isOutdated:num
      KEY .props.pageProps.initialEventData.event.isEventOutdated:num
-     KEY .props.pageProps.initialEventData.event.tabs:[8×{id:str, name:str, href:str}]
+     KEY .props.pageProps.initialEventData.event.tabs:[9×{id:str, name:str, href:str}]
      KEY .props.pageProps.meta.about:str
      KEY .props.pageProps.externalAppConfig.ads.mpu.artificialDelays[].timeout:num
      KEY .props.pageProps.externalAppConfig.ads.mpu.artificialDelays[].timeout:num
      KEY .props.pageProps.pageLocaleDictionaries.matchDetail.aboutThisCompetition:str
-     KEY .props.pageProps.pageLocaleDictionaries.matchSummary.wickets-ABSENT:str
-     KEY .props.pageProps.pageLocaleDictionaries.matchSummary.wickets-CATCH_OUT:str
-     KEY .props.pageProps.pageLocaleDictionaries.matchSummary.wickets-LBW_OUT:str
-     KEY .props.pageProps.pageLocaleDictionaries.matchSummary.wickets-NOT_OUT:str
-     KEY .props.pageProps.pageLocaleDictionaries.matchSummary.wickets-OUT_STUMPED:str
-     KEY .props.pageProps.pageLocaleDictionaries.matchSummary.wickets-RUN_OUT:str
-     KEY .props.pageProps.pageLocaleDictionaries.matchSummary.wickets-TIMED_OUT:str
+     KEY .props.pageProps.pageLocaleDictionaries.lineups.injuredSuspendedPlayers:str
      KEY .props.pageProps.pageLocaleDictionaries.streaming.youtubeAddress:str
      KEY .props.pageProps.pageLocaleDictionaries.streaming.youtubeTitle:str
      KEY .props.pageProps.pageLocaleDictionaries.streaming.youtubeWatch:str
      KEY .props.pageProps.pageLocaleDictionaries.matchTabs:{Betting:str, Commentary:str, Events:str, H2H:str, Highlights:str, Info:str, Lineups:str, News:str, Odds:str, Prediction:str, Scorecard:str, Standings:str, Statistics:str, Summary:str, Table:str, Team
-     KEY .props.pageProps.pageLocaleDictionaries.matchEvents.FootballGoalMiss:str
-     KEY .props.pageProps.pageLocaleDictionaries.matchEvents.FootballGoalPenMiss:str
-     KEY .props.pageProps.pageLocaleDictionaries.matchEvents.HockeyGoalMiss:str
-     KEY .props.pageProps.pageLocaleDictionaries.matchEvents.HockeyGoalPenMiss:str
      KEY .props.pageProps.pageLocaleDictionaries.matchScore.penaltyShootOut:str
      KEY .props.pageProps.pageLocaleDictionaries.matchScore.penaltyShootOutShort:str
+     initialData: {isError:num, event:{id:str, startDateTimeString:str, eventStatus:str, statusDescription:str, overallStatusId:num, homeTeamScore:str, awayTeamScore:str, homeTeamName:str, awayTeamName:str, homeTeamTshirtSlug:str, awayTeamTshirtSlug:str, homeTeamFirstColor:str, awayTeamFirstColor:str, homeTeamSecondColor:str, awayTeamSecondColor:str, homeTeamAbr:str, awayTeamAbr:str, sportId:str, stageName:str, competitionId:str, categoryName:str, competitionName:str, competitionDescription:str, competitionSubTitle:str, competitionUrlName:str}}
+     parola injur 1
+     parola Injur 1
+     parola Suspend 1
 == PITCHAPI
 BASE https://api.pitchapi.dev chiave True
 leghe 77 EPL True
@@ -91,10 +88,11 @@ leghe 77 EPL True
 /v1/leagues/l_46aZMC/injuries 404 
 /v1/leagues/l_46aZMC/sidelined 404 
 /v1/leagues/l_46aZMC/teams 404 
+esempio date ['2026-08-21', '2026-08-21', '2026-08-21'] ['finished', 'finished', 'finished']
 partite EPL 80 chiavi: {id:str, date:str, time_utc:str, status:str, home_team:{id:str, name:str, image_url:str}, away_team:{id:str, name:str, image_url:str}, score_home:num, score_away:num}
 == ESPN
 /apis/common/v3/sports/soccer/eng.1/athletes/222300 200 {athlete:{id:str, uid:str, guid:str, type:str, firstName:str, lastName:str, displayName:str, fullName:str, jersey:str, links:[14×{language:…, rel:…, href:…, text:…, shortText:…, isExternal:…, isPremium:…}], position:{id:str, name:str, displayName:str, abbreviation:str, leaf:num, slug:str}, team:{id:str, uid:str, guid:str, slug:str, location:str, name:str, nickname:str, abbreviation:str, displayNam
 /apis/common/v3/sports/soccer/eng.1/athletes/222300/overview 200 {statistics:{labels:[10×str], names:[10×str], displayNames:[10×str], filters:[1×{name:…, displayName:…, options:…}], splits:[4×{displayName:…, teamId:…, teamSlug:…, leagueId:…, leagueSlug:…, stats:…}]}, news:[13×{headline:str, lastModified:str, root:str, premium:num, links:{api:…, mobile:…, web:…}, type:str, section:str, id:num, linkText:str, categorized:str, description:str, nowId:str, allowComme
 /apis/site/v2/sports/soccer/eng.1/teams/373/injuries 200 {}
 /v2/sports/soccer/leagues/eng.1/athletes/222300/injuries 404 
-fine 2026-11-07T17:57:05.818903+00:00
+fine 2026-11-07T17:58:49.781045+00:00
