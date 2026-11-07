@@ -4,7 +4,7 @@ name: Anteprima app (iPhone)
 # I controlli si dividono tra 2 job in parallelo (SHARD/NSHARD in preview.mjs): stessi controlli, meta' del tempo.
 on:
   push:
-    branches: [dev]
+    branches: [dev, prova-formazioni]
     paths:
       - aurora-src/**
       - .github/webkit/preview.mjs
@@ -63,7 +63,7 @@ jobs:
           cd /tmp/wk && npm init -y >/dev/null && npm i playwright@1.47.2 --no-audit --no-fund >/dev/null
           node serve.mjs "$GITHUB_WORKSPACE" 8080 &
           sleep 2
-          cd /tmp/wk && SHARD=${{ matrix.shard }} NSHARD=2 BASE=http://localhost:8080/ node preview.mjs || true
+          cd /tmp/wk && ONLY="formazioni da altre fonti" SHARD=${{ matrix.shard }} NSHARD=2 BASE=http://localhost:8080/ node preview.mjs || true
           cp -r /tmp/wk/preview-out "$GITHUB_WORKSPACE/preview-out" || true
       - uses: actions/upload-artifact@v4
         if: always()
