@@ -619,11 +619,6 @@
 "src": "api-football",
 "at": "2026-11-06T20:53+00:00"
 },
-"5887674": {
-"n": "Jose Bessa",
-"src": "api-football",
-"at": "2026-11-07T01:05+00:00"
-},
 "5887678": {
 "n": "Diogo Rosa",
 "src": "api-football",
@@ -889,8 +884,33 @@
 "src": "api-football",
 "at": "2026-11-07T04:57+00:00"
 },
+"5781800": {
+"n": "Jeroen Manschot",
+"src": "api-football",
+"at": "2026-11-07T20:45+00:00"
+},
+"1000014637": {
+"n": "Fernando Hernandez Gomez",
+"src": "api-football",
+"at": "2026-11-07T20:45+00:00"
+},
+"1000014638": {
+"n": "Ismael Rosario Lopez Penuelas",
+"src": "api-football",
+"at": "2026-11-07T20:45+00:00"
+},
+"1000014639": {
+"n": "Daniel Quintero Huitron",
+"src": "api-football",
+"at": "2026-11-07T20:45+00:00"
+},
+"1000014640": {
+"n": "Cesar Arturo Ramos",
+"src": "api-football",
+"at": "2026-11-07T20:45+00:00"
+},
 "_err": [
 "2026-11-09: {\"plan\": \"Free plans do not have access to this date, try from 2026-11-06 to 2026-11-08.\"}"
 ],
-"_at": "2026-11-07T16:47+00:00"
+"_at": "2026-11-07T20:45+00:00"
 }
