@@ -49,7 +49,7 @@ for ymd in ("20261031", "20261108"):
     for st in (j or {}).get("Stages", []) if isinstance(j, dict) else []:
         for x in st.get("Events", []):
             n = (x.get("T1") or [{}])[0].get("Nm", "") + " v " + (x.get("T2") or [{}])[0].get("Nm", "")
-            if "Ipswich" in n:
+            if "Ipswich Town v" in n or n.endswith("v Ipswich Town"):
                 evs[ymd] = (x.get("Eid"), n, x)
 P("eventi Ipswich", {k: v[1] for k, v in evs.items()})
 for ymd, (eid, n, x) in evs.items():
@@ -76,6 +76,18 @@ for path in ([f"https://www.livescore.com/en/football/team/ipswich-town/{tid}/sq
         try:
             nd = json.loads(m.group(1))
             for hk in keyhits(nd): P("     KEY", hk)
+            idt = nd.get("props", {}).get("pageProps", {}).get("initialData") or nd.get("props", {}).get("pageProps", {}).get("initialEventData")
+            P("     initialData:", tree(idt)[:1500])
+            def findp(o, acc):
+                if isinstance(o, dict):
+                    if "Luki" in json.dumps(o, ensure_ascii=False)[:400] and len(json.dumps(o)) < 1500: acc.append(o)
+                    else:
+                        for v in o.values(): findp(v, acc)
+                elif isinstance(o, list):
+                    for v in o: findp(v, acc)
+                return acc
+            for o in findp(idt, [])[:2]:
+                P("     voce Lukic (solo chiavi e valori non testuali):", {k: (v if not isinstance(v, str) or len(v) < 40 else "str") for k, v in o.items()})
         except Exception as e:
             P("     nd err", e)
     if isinstance(h, str):
@@ -106,8 +118,9 @@ for p in ("/v1/injuries", "/v1/sidelined", "/v1/players/injuries", "/v1/injuries
 if EPL:
     s, j = raw(BASE + f"/v1/leagues/{EPL['id']}/matches?season=2026%2F2027", PH)
     M = ((j or {}).get("data") or {}).get("matches", []) if isinstance(j, dict) else []
-    nxt = next((m for m in M if "Ipswich" in json.dumps(m) and str(m.get("date") or m.get("kickoff") or m.get("start") or "")[:10] >= "2026-11-08"), None)
-    last = [m for m in M if "Ipswich" in json.dumps(m) and str(m.get("date") or m.get("kickoff") or m.get("start") or "")[:10] <= "2026-11-01"]
+    P("esempio date", [m.get("date") for m in M[:3]], [m.get("status") for m in M[:3]])
+    nxt = next((m for m in M if "Ipswich" in json.dumps(m) and m.get("status") not in ("finished", "FT", "ended")), None)
+    last = [m for m in M if "Ipswich" in json.dumps(m) and m.get("status") in ("finished", "FT", "ended")]
     P("partite EPL", len(M), "chiavi:", tree(M[0])[:400] if M else "")
     tm = None
     for m in [nxt] + last[-1:]:
