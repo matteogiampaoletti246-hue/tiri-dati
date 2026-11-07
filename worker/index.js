@@ -166,18 +166,27 @@ async function lsLineups(out, startIso) {
     }
     if (!eid) return;
     const ln = await lsGet(LSB + "lineups/soccer/" + eid + "?locale=en", 30);
+    const nm = (p) => ((p.Fn || "") + " " + (p.Ln || "")).trim() || p.Snm || "";
+    const mk = (p, xy) => [nm(p), p.Snu != null ? +p.Snu || p.Snu : null, xy ? xy[0] : null, xy ? xy[1] : null, false, null, null, null, null];
+    // solo i nomi ufficiali (niente Fo/Fp): 11 titolari = chi non e' panchina (Pos 5) ne' allenatore (Pos 10); niente posti in campo
+    const names = (nb) => {
+      const t = ((ln && ln.Lu) || []).find((q) => q.Tnb === nb);
+      const ps = (t && t.Ps) || [];
+      const st = ps.filter((p) => p.Pos !== 5 && p.Pos !== 10 && nm(p));
+      if (st.length !== 11) return null;
+      const coach = ps.find((p) => p.Pos === 10);
+      return { f: null, l: 1, s: st.map((p) => mk(p, null)), b: ps.filter((p) => p.Pos === 5 && nm(p)).map((p) => mk(p, null)), co: coach && nm(coach) ? { id: null, n: nm(coach), cc: null } : null };
+    };
     const side = (nb) => {
       const t = ((ln && ln.Lu) || []).find((q) => q.Tnb === nb);
       if (!t || !Array.isArray(t.Fo) || !t.Fo.length) return null;
       const ps = t.Ps || [];
-      const nm = (p) => ((p.Fn || "") + " " + (p.Ln || "")).trim() || p.Snm || "";
       const st = ps.filter((p) => /^\d+:\d+$/.test(String(p.Fp || "")));
       if (st.length !== 11 || t.Fo.reduce((a, b) => a + b, 0) !== 10) return null;
       const R = t.Fo.length + 1;
       const per = {};
       st.forEach((p) => { const r = +String(p.Fp).split(":")[0]; per[r] = (per[r] || 0) + 1; });
       if (per[1] !== 1 || t.Fo.some((n, i) => per[i + 2] !== n)) return null;
-      const mk = (p, xy) => [nm(p), p.Snu != null ? +p.Snu || p.Snu : null, xy ? xy[0] : null, xy ? xy[1] : null, false, null, null, null, null];
       const s = st.map((p) => {
         const [r, c] = String(p.Fp).split(":").map(Number);
         return mk(p, [0.05 + ((r - 1) / (R - 1)) * 0.8, 1 - c / (per[r] + 1)]);
@@ -186,8 +195,40 @@ async function lsLineups(out, startIso) {
       return { f: t.Fo.join("-"), s, b: ps.filter((p) => p.Pos === 5 && nm(p)).map((p) => mk(p, null)), co: coach && nm(coach) ? { id: null, n: nm(coach), cc: null } : null };
     };
     const h = side(1), a = side(2);
-    if (h && a) { out.h = h; out.a = a; out.luSrc = "livescore"; if (!out.ty) out.ty = "standard"; }
+    if (h && a) { out.h = h; out.a = a; out.luSrc = "livescore"; if (!out.ty) out.ty = "standard"; return; }
+    const hl = names(1), al = names(2);
+    if (hl && al) { out.h = hl; out.a = al; out.luSrc = "livescore"; out.luList = 1; if (!out.ty) out.ty = "standard"; }
   } catch (e) { /* mai rompere /fx */ }
+}
+
+// Formazione a soli nomi: portiere e numeri di maglia dalla rosa della squadra (rosa/ sul sito, dati FotMob/fonti gia' verificati).
+// Portiere segnato (p[8] = 0) solo se tra gli 11 ce n'e' esattamente uno con ruolo GK; numero solo se la fonte non lo da'. Mai indovinati.
+const SITE = "https://matteogiampaoletti246-hue.github.io/tiri-dati/";
+const nKey = (s) => String(s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z ]/g, " ").split(/\s+/).filter(Boolean);
+function samePerson(a, b) {
+  const x = nKey(a), y = nKey(b);
+  if (!x.length || !y.length) return false;
+  const X = new Set(x), Y = new Set(y);
+  const inn = (A, B) => [...A].every((t) => B.has(t));
+  if ((inn(X, Y) || inn(Y, X)) && Math.min(X.size, Y.size) >= 2) return true;
+  if (x.join(" ") === y.join(" ")) return true;
+  // "R. Teixeira" / "Rui Teixeira": stesso cognome e stessa iniziale
+  return x[x.length - 1] === y[y.length - 1] && x[0][0] === y[0][0] && x[x.length - 1].length > 2;
+}
+async function rosaMark(t, tid) {
+  try {
+    if (!t || !tid) return t;
+    const r = await fetch(SITE + "rosa/" + (Number(tid) % 100) + ".json", { cf: { cacheTtl: 3600, cacheEverything: true } });
+    if (!r.ok) return t;
+    const rows = (((await r.json()) || {})[String(tid)] || {}).p || [];
+    const find = (n) => { const hit = rows.filter((q) => samePerson(q[1], n)); return hit.length === 1 ? hit[0] : null; };
+    const fix = (p) => { const q = find(p[0]); const o = p.slice(); if (q && o[1] == null && q[3] != null) o[1] = q[3]; if (q && q[0] > 0 && !o[7]) { o[7] = q[0]; o[5] = o[5] || "https://images.fotmob.com/image_resources/playerimages/" + q[0] + ".png"; } o._r = q ? q[2] : null; return o; };
+    const s = t.s.map(fix), b = (t.b || []).map(fix);
+    const gks = s.filter((p) => p._r === "GK");
+    if (gks.length === 1) gks[0][8] = 0;
+    const clean = (p) => p.slice(0, 9);
+    return { ...t, s: s.map(clean), b: b.map(clean) };
+  } catch (e) { return t; }
 }
 
 // ---- Formazioni ufficiali dalla UEFA (Champions, Europa League, Conference League): escono prima che su FotMob.
@@ -456,8 +497,13 @@ export default {
           const alt = { hi: out.hi, ai: out.ai };
           await espnLineups(alt, g2);
           if (!alt.h) await lsLineups(alt, g2.matchTimeUTCDate || stt.utcTime);
-          if (alt.h && alt.a) {
+          if (alt.h && alt.a && !alt.luList) {
             out.h = fmFill(alt.h, fmH); out.a = fmFill(alt.a, fmA); out.luSrc = alt.luSrc;
+            if (!out.ty || out.ty === "unavailable") out.ty = alt.ty;
+          } else if (alt.h && alt.a && !fmH && !fmA) {
+            // soli nomi ufficiali (nessuna fonte con i posti in campo): elenco in colonna
+            [out.h, out.a] = await Promise.all([rosaMark(alt.h, out.hi), rosaMark(alt.a, out.ai)]);
+            out.luSrc = alt.luSrc; out.luList = 1;
             if (!out.ty || out.ty === "unavailable") out.ty = alt.ty;
           }
         }

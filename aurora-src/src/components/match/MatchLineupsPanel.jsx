@@ -229,12 +229,65 @@ function SidePicker({ lh, la, home, away, valOf, match, pre }) {
 
 // la scheda Formazioni compare solo se c'e' almeno un campo, un allenatore o una panchina
 const okSide = (l) => !!(l && l.xi && l.xi.length && l.formation);
+const okList = (l) => !!(l && l.list && l.list.length === 11);
 export const hasLineups = (view) => {
   const l = view.lineup;
   if (!l) return false;
-  // servono i due undici veri: solo allenatore o panchina (o un campo a meta') non bastano = niente scheda
-  return okSide(l.home) && okSide(l.away);
+  // servono i due undici veri (sul campo o, con i soli nomi ufficiali, in elenco): solo allenatore o panchina non bastano = niente scheda
+  return (okSide(l.home) && okSide(l.away)) || (okList(l.home) && okList(l.away));
 };
+
+// ---- Formazione a soli nomi (concept A scelto il 07/11/2026): due colonne affiancate, maglietta nel colore della squadra con il numero
+// dentro (senza numero se la fonte non lo da'), portiere per primo con la maglietta da portiere (colore evidenziatore dei temi).
+const rgbOf = (c) => {
+  const m = /^#?([0-9a-f]{3}|[0-9a-f]{6})$/i.exec(String(c || '').trim());
+  if (m) { const h = m[1].length === 3 ? m[1].split('').map((x) => x + x).join('') : m[1]; return [0, 2, 4].map((i) => parseInt(h.slice(i, i + 2), 16)); }
+  const r = /rgba?\((\d+)[ ,]+(\d+)[ ,]+(\d+)/i.exec(String(c || ''));
+  return r ? [+r[1], +r[2], +r[3]] : null;
+};
+const lumOf = (rgb) => (rgb ? (0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2]) / 255 : 0);
+// squadra che gioca in giallo/verde chiaro: il portiere passa al secondo colore evidenziatore
+const yellowish = (rgb) => !!rgb && rgb[0] > 150 && rgb[1] > 150 && rgb[2] < 120;
+
+function Shirt({ fill, ink, n, size = 26 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 32 30" aria-hidden="true" className="shrink-0">
+      <path d="M8 3 L12 1 Q16 4 20 1 L24 3 L29 9 L25 13 L23 11 L23 28 L9 28 L9 11 L7 13 L3 9 Z" fill={fill} stroke="rgba(0,0,0,.25)" strokeWidth="0.8" />
+      {n != null && n !== '' ? <text x="16" y="21" textAnchor="middle" fontSize={String(n).length > 2 ? 8 : 10} fontWeight="800" fill={ink}>{n}</text> : null}
+    </svg>
+  );
+}
+
+function ListColumn({ lineup, team, match, right }) {
+  const c = (team && team.colors && team.colors[0]) || '#1B2C4E';
+  const rgb = rgbOf(c);
+  const ink = lumOf(rgb) > 0.6 ? '#111' : '#fff';
+  const gkFill = yellowish(rgb) ? 'var(--gk-shirt-alt)' : 'var(--gk-shirt)';
+  return (
+    <div className="min-w-0">
+      <div className={`mb-1.5 flex items-center gap-1.5 ${right ? 'justify-end' : 'justify-start'}`}>
+        {right ? null : <Crest team={team} size={20} />}
+        <span className="truncate text-[11.5px] font-extrabold uppercase tracking-wider" style={{ color: tcol(team), textAlign: right ? 'right' : 'left' }}>{team ? team.name : ''}</span>
+        {right ? <Crest team={team} size={20} /> : null}
+      </div>
+      {lineup.list.map((p, i) => (
+        <PlayerLink key={p.name + i} match={match} name={p.name} fmId={p.fmId} className="flex w-full items-center gap-2 py-[7px]" style={{ borderTop: i ? '1px solid var(--hair-2)' : 'none' }}>
+          <Shirt fill={p.gk ? gkFill : c} ink={p.gk ? 'var(--gk-shirt-ink)' : ink} n={p.number} />
+          <span className="min-w-0 truncate text-[13px] font-bold">{p.name}</span>
+        </PlayerLink>
+      ))}
+    </div>
+  );
+}
+
+function ListLineups({ lh, la, home, away, match }) {
+  return (
+    <div data-lineup-list="1" className="glass grid gap-3 rounded-[24px] px-3 py-3" style={{ gridTemplateColumns: 'minmax(0,1fr) minmax(0,1fr)' }}>
+      <ListColumn lineup={lh} team={home} match={match} />
+      <ListColumn lineup={la} team={away} match={match} right />
+    </div>
+  );
+}
 
 // Linee disponibili per statistica: i tiri arrivano a Over 3,5, le altre a Over 2,5
 const LINES = { tiri: [0.5, 1.5, 2.5, 3.5], porta: [0.5, 1.5, 2.5], fc: [0.5, 1.5, 2.5], fs: [0.5, 1.5, 2.5] };
@@ -345,6 +398,13 @@ export default function MatchLineupsPanel({ match, view, home, away, pre }) {
           )}
           <DualPitch lh={lh} la={la} home={home} away={away} valOf={valOf} match={match} mvpId={mvpId} pre={pre} wave={wave} />
           {pre ? null : <p className="mt-2 text-center text-[10.5px]" style={{ color: 'var(--ink-3)' }}>Voto = prestazione in partita</p>}
+        </div>
+      ) : okList(lh) && okList(la) ? (
+        <div className="px-4">
+          <div className="mb-3 text-center">
+            <p className="text-[15px] font-extrabold"><span className="relative">{busy ? <MiniSpin /> : null}{pre ? 'Formazione ufficiale' : 'Formazioni'}</span></p>
+          </div>
+          <ListLineups lh={lh} la={la} home={home} away={away} match={match} />
         </div>
       ) : null}
 

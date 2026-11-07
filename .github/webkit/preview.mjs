@@ -1406,13 +1406,28 @@ await step('formazioni: selettore squadra sotto il campo (allenatore e panchina 
   ok('formazioni: selettore squadra presente', seen > 0, { ids });
 });
 // Formazioni senza coordinate FotMob (07/11/2026): Ligue 3 da LiveScore (modulo + posti), Serie C brasiliana dai ruoli FotMob ("simple"),
-// Liga MX Femenil / Scottish Cup / Concacaf Central American Cup da ESPN; Liga Portugal 2 senza formazioni vere = niente scheda.
+// Liga MX Femenil / Scottish Cup / Concacaf Central American Cup da ESPN; Liga Portugal 2 con i soli nomi ufficiali = elenco a due colonne.
 await step('formazioni da altre fonti: campo completo, mai il solo portiere', async () => {
   const cases = [['a-8970-2026-2027-5886576', true], ['a-8971-2026-1000022404', true], ['a-9906-2026-2027-5977410', true], ['a-137-2026-2027-6385237', true], ['a-9682-2026-6281882', true], ['a-185-2026-2027-5888103', false]];
   for (const [id, want] of cases) {
     await go(`#/match/${id}`, 3000); await ready(); await wait(1500);
     const has = await tabClick('Formazioni');
-    if (!want) { ok(`formazioni ${id}: senza formazioni vere niente scheda`, !has); continue; }
+    if (!want) {
+      // soli nomi ufficiali (LiveScore senza posti in campo): elenco a due colonne, 11 + 11, portiere per primo se riconosciuto
+      if (!has) { ok(`formazioni ${id}: elenco dei nomi ufficiali`, false); continue; }
+      await wait(2500);
+      const L = await pg.evaluate(() => {
+        const box = document.querySelector('[data-lineup-list]');
+        if (!box) return { box: false };
+        const br = box.getBoundingClientRect();
+        const cols = [...box.children].map((c) => ({ n: c.querySelectorAll('button').length, head: (c.firstElementChild || {}).textContent || '', crestLeft: c.firstElementChild && c.firstElementChild.firstElementChild && c.firstElementChild.firstElementChild.tagName !== 'SPAN', }));
+        const out = [...box.querySelectorAll('button')].filter((b) => { const r = b.getBoundingClientRect(); return r.left < br.left - 1 || r.right > br.right + 1; }).length;
+        return { box: true, cols, out, pitch: !!document.querySelector('[data-pitch]') };
+      });
+      await shot(`formazioni-elenco-${id}`);
+      ok(`formazioni ${id}: elenco a due colonne 11 + 11, niente campo, niente fuori riquadro`, L.box && L.cols.length === 2 && L.cols.every((c) => c.n === 11) && !L.pitch && L.out === 0, L);
+      continue;
+    }
     if (!has) { ok(`formazioni ${id}: scheda presente`, false); continue; }
     await wait(2500);
     const r = await pg.evaluate(() => {
