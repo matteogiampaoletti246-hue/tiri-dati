@@ -344,7 +344,9 @@ export const statsFromMatches = (lid, sk, part = 'tot') => once(`sfm/${lid}/${sk
   const tot = {};
   const acc = {};
   const who = {}; // id giocatore -> [squadra, nome] dalle formazioni della partita (titolari e panchina)
+  const wfZero = {}; // falli subiti: FotMob non scrive lo 0; nelle partite che hanno la voce chi ha giocato senza subire falli conta 0 (cosi' ha la sua media)
   Object.values(d.m).forEach((m) => {
+    const hasWf = Object.values((m && m.p) || {}).some((v) => v && typeof v.was_fouled === 'number');
     const homeIds = new Set();
     const awayIds = new Set();
     [[m && m.h, homeIds], [m && m.a, awayIds]].forEach(([side, ids]) => {
@@ -360,6 +362,7 @@ export const statsFromMatches = (lid, sk, part = 'tot') => once(`sfm/${lid}/${sk
       const t = (tot[pid] = tot[pid] || { min: 0, n: 0 });
       t.min += mins;
       t.n += 1;
+      if (hasWf) wfZero[pid] = true;
       Object.entries(v).forEach(([k, val]) => {
         if (typeof val !== 'number' || SKIP_KEY.test(k) || HIDDEN_STAT.test(k)) return;
         const a = ((acc[k] = acc[k] || {})[pid] = acc[k][pid] || { s: 0, n: 0 });
@@ -368,12 +371,14 @@ export const statsFromMatches = (lid, sk, part = 'tot') => once(`sfm/${lid}/${sk
       });
     });
   });
+  if (acc.was_fouled) Object.keys(wfZero).forEach((pid) => { if (!acc.was_fouled[pid]) acc.was_fouled[pid] = { s: 0, n: 0 }; });
   const players = {};
   Object.entries(acc).forEach(([k, per]) => {
     const isRating = k === 'rating_title';
+    const keepZero = k === 'was_fouled';
     const rows = Object.entries(per)
       .map(([pid, a]) => [pid, (who[pid] || [])[1] || '', (who[pid] || [])[0] || null, isRating ? a.s / a.n : a.s, tot[pid].min, tot[pid].n, null])
-      .filter((r) => (isRating ? r[4] >= 90 : r[3] > 0));
+      .filter((r) => (isRating ? r[4] >= 90 : keepZero ? r[4] > 0 : r[3] > 0));
     if (rows.length < 3) return;
     rows.sort((x, y) => y[3] - x[3]);
     players[k] = rows;
@@ -458,15 +463,24 @@ const fouledList = (lid, sk) => once(`wf/${lid}/${sk}`, async () => {
   const fm = await statsFromMatches(lid, sk);
   const L = fm && fm.players && fm.players.was_fouled;
   if (!L) return null;
-  const rows = L.filter((r) => Number(r[4]) >= 180).map((r) => [r[0], r[1], r[2], (Number(r[3]) * 90) / r[4], r[4], r[5], null]).sort((x, y) => y[3] - x[3]);
-  return rows.length >= 8 ? rows : null;
+  const conv = L.filter((r) => Number(r[4]) > 0).map((r) => [r[0], r[1], r[2], (Number(r[3]) * 90) / r[4], r[4], r[5], null]).sort((x, y) => y[3] - x[3]);
+  // classifica e media: chi ha almeno 180' (a inizio stagione 45', come playerViewLists)
+  let rows = conv.filter((r) => Number(r[4]) >= 180);
+  if (rows.length < 8) rows = conv.filter((r) => Number(r[4]) >= 45);
+  return rows.length >= 3 ? { rows, all: conv } : null;
 });
 export const loadPlayerStatsFor = async (lid, sk, pid) => {
   const st = await loadPlayerStatsFor0(lid, sk, pid);
   if (!st || !st.players || st.fromMatches || st.players.was_fouled) return st;
   const wf = await fouledList(lid, sk).catch(() => null);
   if (!wf) return st;
-  return { ...st, players: { ...st.players, was_fouled: wf }, filledFouled: true };
+  // il giocatore stesso c'e' sempre, anche sotto la soglia dei minuti (Spalt: 56', 3 falli subiti, prima non aveva la voce)
+  let list = wf.rows;
+  if (pid != null && !list.some((r) => String(r[0]) === String(pid))) {
+    const me = wf.all.find((r) => String(r[0]) === String(pid));
+    if (me) list = [...list, me].sort((x, y) => y[3] - x[3]);
+  }
+  return { ...st, players: { ...st.players, was_fouled: list }, filledFouled: true };
 };
 // presenze, minuti, gol, assist e voto di un giocatore in una stagione e competizione: un solo calcolo per Profilo e Statistiche
 export const playerSeasonLine = async (lid, sk, pid) => {
