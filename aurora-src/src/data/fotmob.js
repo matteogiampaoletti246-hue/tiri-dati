@@ -389,9 +389,9 @@ function applyStatus(m, { fin, st, sc, clk, ht }) {
     const mm = parseInt(String(clk || ''), 10);
     if (Number.isFinite(mm)) m.liveMinute = mm;
     m.liveHalf = !!ht || /^HT$/i.test(String(clk || ''));
-  } else if (!fin && !st && m.status === 'live') {
-    // FotMob dice "non iniziata" (rinvio o ritardo): non e' live
-    m.status = 'scheduled'; m.liveScore = null;
+  } else if (!fin && !st && (m.status === 'live' || (m.status === 'finished' && !m.score))) {
+    // FotMob dice "non iniziata" (rinvio, ritardo o "finita" solo per l'orologio senza risultato): e' ancora da giocare
+    m.status = 'scheduled'; m.liveScore = null; m.minute = null;
   }
   m.statusAt = Date.now();
   return before !== `${m.status}|${m.score}|${m.liveScore}|${m.liveMinute}`;

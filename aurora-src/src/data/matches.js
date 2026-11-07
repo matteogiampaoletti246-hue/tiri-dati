@@ -30,12 +30,18 @@ const finalize = (m) => {
   if (m.status !== 'finished' && m.status !== 'live') {
     // stato in base all'orologio: la partita in corso è "live" finché non arriva il risultato
     const now = Date.now();
+    // orario non ancora noto (calendario squadra): oggi e nei giorni futuri resta "da giocare" finché la fonte non dice live/finita,
+    // cosi' la partita di oggi non sparisce a meta' pomeriggio a favore della successiva (si chiude da sola solo dal giorno dopo)
+    if (m.timeKnown === false && m.date >= romeDay(now)) return finalizeRest(m, home);
     if (m.ts <= now && now - m.ts < LIVE_WINDOW) m.status = 'live';
     else if (m.ts <= now) m.status = 'finished';
   }
+  return finalizeRest(m, home);
+};
+function finalizeRest(m, home) {
   if (!m.stadium && home && RAW.stadi && RAW.stadi[home.name]) m.stadium = RAW.stadi[home.name].s;
   return m;
-};
+}
 
 const baseMatch = (o) => ({
   id: null,

@@ -8,7 +8,7 @@ import Radar from './Radar';
 import { comma } from '@/lib/format';
 import { POS_IT, POS_PL, percentiles, ratingColor, dateIt, rankOf, statValue, roleAverage, standing, bandColor, bandOf, BAND_COLORS, GROUPS } from './playerCalc';
 import { per90, EX_COLS } from '@/data/players';
-import { nextMatchOf } from '@/data/extras';
+import useNextMatch from '@/hooks/useNextMatch';
 import { NATIONS_KEYS } from '@/data/calcData';
 import { playerReliability, loadPlayerFouls, TOP_STATS, isFoulStat } from '@/data/topPlayers';
 import TopStatPicker from '@/components/top/TopStatPicker';
@@ -293,7 +293,7 @@ function Affidabilita({ player: club, team, comp }) {
   const [stat, setStat] = useState('tiri');
   const [anim, setAnim] = useState(false);
   const [fouls, setFouls] = useState(null);
-  const next = nextMatchOf(player.teamId, comp);
+  const next = useNextMatch(player.teamId, comp);
   const opp = next ? teamById(next.homeId === player.teamId ? next.awayId : next.homeId) : null;
   const isF = isFoulStat(stat);
   const fk = next ? `${player.id}|${next.date}|${stat}` : '';

@@ -3,7 +3,7 @@ import TextFilter from '@/components/TextFilter';
 import PanelTitle from '@/components/PanelTitle';
 import { CATEGORY_DEFS, TILE_METRICS, metricOf as metricOf0, teamsInComp, hasMetrics as hasMetrics0 } from '@/data/standings';
 import { teamById } from '@/data/teams';
-import { nextMatchOf } from '@/data/extras';
+import useNextMatch from '@/hooks/useNextMatch';
 import Crest from '@/components/Crest';
 import { Link } from 'react-router-dom';
 import { comma } from '@/lib/format';
@@ -54,7 +54,7 @@ function DomesticStats({ team, comp }) {
   const cats = CATEGORY_DEFS.filter((c) => cat === 'all' || c.key === cat);
   const concept = 'c';
   const [vsOn, setVsOn] = useState(() => { try { return localStorage.getItem('sl-vs-on') !== '0'; } catch { return true; } });
-  const next = nextMatchOf(team.id, comp);
+  const next = useNextMatch(team.id, comp);
   const opp = next ? teamById(next.homeId === team.id ? next.awayId : next.homeId) : null;
   const isHome = next ? next.homeId === team.id : true;
   const oppOk = opp && hasMetrics(opp.id) && hasMetrics(team.id);

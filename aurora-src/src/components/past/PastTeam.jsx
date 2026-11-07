@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import Crest from '@/components/Crest';
 import { comma } from '@/lib/format';
 import { bandColor } from '@/components/player/playerCalc';
-import { nextMatchOf } from '@/data/extras';
+import useNextMatch from '@/hooks/useNextMatch';
 import { teamById } from '@/data/teams';
 import { StandingsPanel, useTeamColors } from '@/components/archive/parts';
 import { statSections } from '@/components/archive/ArchiveLeague';
@@ -53,7 +53,7 @@ function useTiles(fm, sk, tid) {
 }
 
 function NextRow({ team, comp }) {
-  const next = nextMatchOf(team.id, comp);
+  const next = useNextMatch(team.id, comp);
   if (!next) return null; // nessuna prossima partita in questa competizione: la riga non c'e'
   const opp = teamById(next.homeId === team.id ? next.awayId : next.homeId);
   if (!opp) return null;
