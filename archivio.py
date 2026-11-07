@@ -42,6 +42,8 @@ TOP20 = {47,87,55,54,53,57,61,48,86,146,71,40,64,268,112,130,230,38,59,135}
 def storico_ridotto(lid, c, sk):
     return int(lid) not in TOP20 and c != "INT" and int(str(sk)[:4]) < 2020
 MINYEAR = int(os.environ.get("MINYEAR", "2010"))
+# competizioni delle nazionali: storico completo (FotMob arriva al 1930)
+NAZ_IDS = {77, 50, 44, 289, 290, 298, 66, 114, 9428, 300, 329, 9265, 9833, 9876, 9849, 10242, 9690, 9821, 10304, 9806, 9807, 9808, 9809, 10195, 10196, 10197, 10198, 10199, 10200, 10201, 10607, 10608, 10609, 10717, 10718, 10719}
 # ordine di priorità: top campionati e paesi principali prima, poi il resto
 PRIO = ["ITA", "ENG", "ESP", "GER", "FRA", "POR", "NED", "TUR", "BEL", "SCO", "BRA", "ARG", "USA", "MEX", "COL", "CHI", "URU", "AUT", "SUI", "GRE", "RUS", "UKR", "DEN", "SWE", "NOR", "POL", "CZE", "CRO", "SRB", "ROU"]
 # campionati gia' aggiunti all'app (src/data/leagues.js, extra: true): hanno la precedenza su tutto
@@ -57,6 +59,11 @@ def run():
         for v in idx.values():
             if isinstance(v, dict): v.pop("done", None)
         open(INDEX + ".sv2", "w").write("1")
+    # nazionali: storico fino al 1930, una volta sola si riaprono le competizioni gia' chiuse
+    if not os.path.exists(INDEX + ".naz1"):
+        for k in NAZ_IDS:
+            if isinstance(idx.get(str(k)), dict): idx[str(k)].pop("done", None)
+        open(INDEX + ".naz1", "w").write("1")
     for L in leghe:
         lid = str(L["id"])
         if time.time() - T0 > BUDGET: print("budget finito"); break
@@ -70,7 +77,7 @@ def run():
             idx[lid] = e; dump(INDEX, idx)
             continue
         seasons = base.get("allAvailableSeasons") or [x for x in [base.get("details", {}).get("selectedSeason")] if x]
-        seasons = [s for s in seasons if str(s)[:4].isdigit() and int(str(s)[:4]) >= MINYEAR]
+        seasons = [s for s in seasons if str(s)[:4].isdigit() and int(str(s)[:4]) >= (1900 if int(lid) in NAZ_IDS else MINYEAR)]
         det = base.get("details", {})
         e.update(color=det.get("leagueColor"), type=det.get("type"), tabs=[t for t in base.get("tabs", [])][:8])
         e.pop("fail", None)
