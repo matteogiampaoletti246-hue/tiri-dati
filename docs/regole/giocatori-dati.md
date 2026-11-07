@@ -23,9 +23,12 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 
 ## Statistiche giocatore (regola fissa, con due eccezioni a "niente non disponibile")
 - Eccezione 1: giocatore con statistiche in almeno una stagione/competizione ma non in quella di partenza: la scheda Statistiche resta e mostra un solo messaggio "Dati non disponibili" (`NoData` in `PlayerTabs.jsx`, anche in `PastStats` per i giocatori), niente riquadri vuoti ne' "–"; le tendine portano alle stagioni/competizioni con dati (in tendina solo quelle con dati, piu' quella di partenza).
-- Eccezione 2: giocatore senza statistiche in nessuna stagione e competizione (dati dell'app `playerHasCurStats` o righe `pidx`): la scheda Statistiche non c'e' (`Player.jsx`), come la Carriera senza dati.
+- Eccezione 2: giocatore senza statistiche in nessuna stagione e competizione (dati dell'app `playerHasCurStats` o righe `pidx`): la scheda Statistiche non c'e' (`Player.jsx`), come la Carriera senza dati. Vale anche per chi ha presenze nei dati dell'app ma nessuna competizione in cui mostrarle (squadra senza competizioni, es. avversari di una squadra di coppa in un campionato non seguito): `playerHasCurStats` lo controlla.
 - `pidx` (`giocatori_indice.py`) segue le stesse regole dell'app: solo `_s.json` v2 e mai le liste con chiave che inizia per `_`; `statsFromMatches` da' a chiunque abbia giocato almeno la voce `mins_played` (presenze e minuti). Cosi' ogni riga dell'indice ha statistiche visibili.
 - Controllo: `controllo_statistiche_giocatori.py [n] [--app-vecchia]` -> `controllo_statistiche_giocatori.json` (righe competizione/stagione senza statistiche e motivo). Prova: "statistiche giocatore: dati solo nel passato, nella stagione attuale, nessun dato" in `preview.mjs`.
+
+## Falli subiti in Disciplina (regola fissa)
+- Ogni giocatore che ha la voce ha i falli subiti ogni 90', anche sotto i 180' (media e posizione sui giocatori da 180', a inizio stagione 45'). FotMob non scrive lo 0: nelle partite con la voce chi ha giocato senza subire falli conta 0 (`statsFromMatches`, `fouledList` in `data/archive.js`).
 
 ## Classifiche giocatori: tutti con almeno 180 minuti (regola fissa, ogni competizione presente e futura)
 - Nelle classifiche delle statistiche dei giocatori di un campionato (`LeaguePlayersPanel`, `statSections` in `ArchiveLeague.jsx`, `MIN_MIN` = 180) compaiono TUTTI i giocatori con almeno 180 minuti in stagione, in ogni modalita' (Totale e Ogni 90'): niente limite ai primi 50, niente soglia piu' alta (prima 450' in "Ogni 90'"). Nella squadra restano tutti quelli che hanno giocato.
