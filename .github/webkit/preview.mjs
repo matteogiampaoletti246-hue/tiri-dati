@@ -1390,6 +1390,31 @@ await step('formazioni: selettore squadra sotto il campo (allenatore e panchina 
   }
   ok('formazioni: selettore squadra presente', seen > 0, { ids });
 });
+// Formazioni senza coordinate FotMob (07/11/2026): Ligue 3 da LiveScore (modulo + posti), Serie C brasiliana dai ruoli FotMob ("simple"),
+// Liga MX Femenil / Scottish Cup / Concacaf Central American Cup da ESPN; Liga Portugal 2 senza formazioni vere = niente scheda.
+await step('formazioni da altre fonti: campo completo, mai il solo portiere', async () => {
+  const cases = [['a-8970-2026-2027-5886576', true], ['a-8971-2026-1000022404', true], ['a-9906-2026-2027-5977410', true], ['a-137-2026-2027-6385237', true], ['a-9682-2026-6281882', true], ['a-185-2026-2027-5888103', false]];
+  for (const [id, want] of cases) {
+    await go(`#/match/${id}`, 3000); await ready(); await wait(1500);
+    const has = await tabClick('Formazioni');
+    if (!want) { ok(`formazioni ${id}: senza formazioni vere niente scheda`, !has); continue; }
+    if (!has) { ok(`formazioni ${id}: scheda presente`, false); continue; }
+    await wait(2500);
+    const r = await pg.evaluate(() => {
+      const pitch = document.querySelector('[data-pitch]');
+      if (!pitch) return { pitch: false };
+      const pr = pitch.getBoundingClientRect();
+      const halves = [...pitch.querySelectorAll(':scope > div.relative > div.flex-col')];
+      const rows = halves.map((h) => [...h.children].map((r) => r.children.length));
+      const nodes = [...pitch.querySelectorAll('button')].map((b) => b.getBoundingClientRect());
+      const out = nodes.filter((b) => b.left < pr.left - 1 || b.right > pr.right + 1).length;
+      return { pitch: true, rows, players: nodes.length, out, mods: (document.querySelector('#sl-shell .text-center p + p') || {}).textContent || '' };
+    });
+    await shot(`formazioni-fonti-${id}`);
+    const per = (r.rows || []).map((x) => x.reduce((a, b) => a + b, 0));
+    ok(`formazioni ${id}: 11 + 11 sul campo, piu' file per squadra, niente fuori dal campo`, r.pitch && per.length === 2 && per.every((n) => n === 11) && r.rows.every((x) => x.length >= 3) && r.out === 0, r);
+  }
+});
 await step('classifiche a gironi/conference dalla fonte (MLS 2015: Eastern e Western con zone)', async () => {
   await go('#/campionato/mls', 6000); await ready(); await wait(1500);
   const ok1 = await pg.evaluate(async () => { const b = [...document.querySelectorAll('button')].find((x) => /^\d{4}( |$)|Stagione|^2026$/.test(x.textContent.trim()) && x.querySelector('svg')); if (!b) return false; b.click(); await new Promise((r) => setTimeout(r, 800)); const o = [...document.querySelectorAll('button,li,[role=option]')].find((x) => x.textContent.trim() === '2015'); if (o) o.click(); return !!o; });
