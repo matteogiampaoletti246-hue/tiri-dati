@@ -73,8 +73,8 @@
    "da_fare": 0
   },
   "Süper Lig 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "Europa League 2026-2027": {
    "partite_con_eventi": 0,
@@ -125,8 +125,8 @@
    "da_fare": 0
   },
   "A-League 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 2,
+   "da_fare": 2
   },
   "Cymru Premier 2026-2027": {
    "partite_con_eventi": 0,
@@ -253,8 +253,8 @@
    "da_fare": 0
   },
   "1. Lig 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 2,
+   "da_fare": 2
   },
   "Super Cup 2024-2025": {
    "partite_con_eventi": 0,
@@ -273,8 +273,8 @@
    "da_fare": 0
   },
   "Prva Liga 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "Slovenia Cup 2026-2027": {
    "partite_con_eventi": 0,
@@ -417,8 +417,8 @@
    "da_fare": 0
   },
   "J. League 2026-2027": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "J. League Cup 2026-2027": {
    "partite_con_eventi": 0,
@@ -477,8 +477,8 @@
    "da_fare": 0
   },
   "Regular Season 2026": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 5,
+   "da_fare": 5
   },
   "Ykkosliiga 2026": {
    "partite_con_eventi": 0,
@@ -590,7 +590,7 @@
   },
   "Erovnuli Liga 2026": {
    "partite_con_eventi": 0,
-   "da_fare": 0
+   "da_fare": 1
   },
   "Ukraine Cup 2026-2027": {
    "partite_con_eventi": 0,
@@ -717,8 +717,8 @@
    "da_fare": 0
   },
   "K League 1 2026": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "Copa Chile 2026": {
    "partite_con_eventi": 0,
@@ -741,12 +741,12 @@
    "da_fare": 0
   },
   "Liga II 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 5,
+   "da_fare": 7
   },
   "K League 2 2026": {
-   "partite_con_eventi": 2,
-   "da_fare": 2
+   "partite_con_eventi": 3,
+   "da_fare": 3
   },
   "NB II 2026-2027": {
    "partite_con_eventi": 0,
@@ -882,7 +882,7 @@
   },
   "WE League 2026-2027": {
    "partite_con_eventi": 0,
-   "da_fare": 1
+   "da_fare": 0
   },
   "The Atlantic Cup 2026": {
    "partite_con_eventi": 0,
@@ -910,7 +910,7 @@
   },
   "K League 3 2026": {
    "partite_con_eventi": 0,
-   "da_fare": 1
+   "da_fare": 0
   },
   "Highland / Lowland 2026-2027": {
    "partite_con_eventi": 0,
@@ -2389,5 +2389,5 @@
    "da_fare": 0
   }
  },
- "partite_in_questo_giro": 6
+ "partite_in_questo_giro": 25
 }
