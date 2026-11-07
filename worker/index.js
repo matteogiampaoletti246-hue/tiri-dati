@@ -89,6 +89,15 @@ async function lsMerge(out, startIso) {
 }
 
 
+// Righe di un'altra fonte + dati FotMob della stessa partita (formazione "simple"): stesso numero di maglia = stesso giocatore
+function fmFill(t, fm) {
+  if (!fm) return t;
+  const byNum = {};
+  [...(fm.s || []), ...(fm.b || [])].forEach((p) => { if (p[1] != null) byNum[String(p[1])] = p; });
+  const fix = (p) => { const f = p[1] != null ? byNum[String(p[1])] : null; return f ? [f[0], p[1], p[2], p[3], f[4], f[5], f[6], f[7], f[8]] : p; };
+  return { f: t.f, s: t.s.map(fix), b: (t.b || []).map(fix), co: fm.co || t.co };
+}
+
 // ---- Formazioni da ESPN dove FotMob non le ha (verificato il 07/11/2026: ESPN da' modulo, titolari con ruolo e lato, panchina).
 // Competizioni FotMob -> ESPN controllate una per una; si aggiungono solo dopo aver visto le formazioni vere.
 const ESPN_LU = { 9682: "concacaf.central.american.cup", 137: "sco.tennents", 179: "sco.challenge", 9906: "mex.w.1" };
@@ -134,6 +143,50 @@ async function espnLineups(out, g2) {
     };
     const h = side("home"), a = side("away");
     if (h && a) { out.h = h; out.a = a; out.luSrc = "espn"; if (!out.ty) out.ty = "standard"; }
+  } catch (e) { /* mai rompere /fx */ }
+}
+
+// ---- Formazioni da LiveScore dove FotMob ed ESPN non le hanno. Solo il formato completo: modulo (Fo, es. [4,4,2]) e posto in campo di
+// ogni titolare (Fp "riga:colonna", riga 1 = portiere). Verificato il 07/11/2026 su 23 partite contro FotMob: modulo uguale 39 volte su 46,
+// colonne numerate da destra a sinistra (108 file su 131), quindi y = 1 - colonna/(n+1). Senza Fo/Fp (solo nomi) nessun campo: mai posti inventati.
+async function lsLineups(out, startIso) {
+  try {
+    if (!out.hi || !out.ai) return;
+    const d = startIso ? new Date(startIso) : null;
+    if (!d || isNaN(d.getTime())) return;
+    const ymd = d.toISOString().slice(0, 10).replace(/-/g, "");
+    const day = await lsGet(LSB + "date/soccer/" + ymd + "/1?countryCode=GB&locale=en&MD=1", 60);
+    let eid = null;
+    for (const st of (day && day.Stages) || []) {
+      for (const x of st.Events || []) {
+        const a = ((x.T1 || [{}])[0].Img || "").match(/enet\/(\d+)\.png/), b = ((x.T2 || [{}])[0].Img || "").match(/enet\/(\d+)\.png/);
+        if (a && b && +a[1] === +out.hi && +b[1] === +out.ai) { eid = x.Eid; break; }
+      }
+      if (eid) break;
+    }
+    if (!eid) return;
+    const ln = await lsGet(LSB + "lineups/soccer/" + eid + "?locale=en", 30);
+    const side = (nb) => {
+      const t = ((ln && ln.Lu) || []).find((q) => q.Tnb === nb);
+      if (!t || !Array.isArray(t.Fo) || !t.Fo.length) return null;
+      const ps = t.Ps || [];
+      const nm = (p) => ((p.Fn || "") + " " + (p.Ln || "")).trim() || p.Snm || "";
+      const st = ps.filter((p) => /^\d+:\d+$/.test(String(p.Fp || "")));
+      if (st.length !== 11 || t.Fo.reduce((a, b) => a + b, 0) !== 10) return null;
+      const R = t.Fo.length + 1;
+      const per = {};
+      st.forEach((p) => { const r = +String(p.Fp).split(":")[0]; per[r] = (per[r] || 0) + 1; });
+      if (per[1] !== 1 || t.Fo.some((n, i) => per[i + 2] !== n)) return null;
+      const mk = (p, xy) => [nm(p), p.Snu != null ? +p.Snu || p.Snu : null, xy ? xy[0] : null, xy ? xy[1] : null, false, null, null, null, null];
+      const s = st.map((p) => {
+        const [r, c] = String(p.Fp).split(":").map(Number);
+        return mk(p, [0.05 + ((r - 1) / (R - 1)) * 0.8, 1 - c / (per[r] + 1)]);
+      });
+      const coach = ps.find((p) => p.Pos === 10);
+      return { f: t.Fo.join("-"), s, b: ps.filter((p) => p.Pos === 5 && nm(p)).map((p) => mk(p, null)), co: coach && nm(coach) ? { id: null, n: nm(coach), cc: null } : null };
+    };
+    const h = side(1), a = side(2);
+    if (h && a) { out.h = h; out.a = a; out.luSrc = "livescore"; if (!out.ty) out.ty = "standard"; }
   } catch (e) { /* mai rompere /fx */ }
 }
 
@@ -395,7 +448,19 @@ export default {
         const shs = ((c.shotmap || {}).shots || []).map((x) => [x.min, x.minAdded, x.teamId, x.playerName, x.x, x.y, x.eventType, x.isBlocked ? 1 : 0, x.isOnTarget ? 1 : 0, x.blockedX, x.blockedY, x.goalCrossedY, x.goalCrossedZ, x.expectedGoals, x.expectedGoalsOnTarget, x.shotType, x.situation, x.isOwnGoal ? 1 : 0, x.period]);
         const mo = ((c.momentum || {}).main || {}).data || null;
         const out = { t: Date.now(), hi: g2.homeTeam && g2.homeTeam.id, ai: g2.awayTeam && g2.awayTeam.id, sh: shs, mo: mo && mo.length ? mo.map((q) => ({ minute: q.minute, value: q.value })) : null, ty: lu.lineupType || null, started: !!g2.started, fin: !!g2.finished, st: live, sc: tm.length > 1 ? [tm[0].score, tm[1].score] : null, clk: clean(lt.short), ht, ev, stats, pl, h: team(lu.homeTeam), a: team(lu.awayTeam), ref };
-        if (!out.h && !out.a) await espnLineups(out, g2);
+        // FotMob senza formazioni o con la sola versione "simple" (ruoli, niente posti in campo): ESPN, poi LiveScore; se una delle due
+        // ha il campo completo prende il posto di FotMob, tenendo di FotMob nome, foto, voto e id (stesso numero di maglia)
+        const noXY = (t) => !t || (t.s || []).some((p) => p[2] == null);
+        if (noXY(out.h) || noXY(out.a)) {
+          const fmH = out.h, fmA = out.a;
+          const alt = { hi: out.hi, ai: out.ai };
+          await espnLineups(alt, g2);
+          if (!alt.h) await lsLineups(alt, g2.matchTimeUTCDate || stt.utcTime);
+          if (alt.h && alt.a) {
+            out.h = fmFill(alt.h, fmH); out.a = fmFill(alt.a, fmA); out.luSrc = alt.luSrc;
+            if (!out.ty || out.ty === "unavailable") out.ty = alt.ty;
+          }
+        }
         await lsMerge(out, g2.matchTimeUTCDate || stt.utcTime);
         return new Response(JSON.stringify(out), { headers: cors(req, { "Cache-Control": "public, max-age=3" }) });
       }
