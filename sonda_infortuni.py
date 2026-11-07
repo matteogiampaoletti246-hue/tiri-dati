@@ -60,6 +60,39 @@ for ymd, (eid, n, x) in evs.items():
         if isinstance(j, (dict, list)):
             for h in keyhits(j): P("     KEY", h)
             P("     Lukic nella risposta:", has(j, "Luki"))
+# dettaglio lineups: Ps / IS
+for ymd, (eid, n, x) in evs.items():
+    s_, j = raw(B + f"lineups/soccer/{eid}?locale=en")
+    for t in (j or {}).get("Lu") or []:
+        ps, isl = t.get("Ps") or [], t.get("IS") or []
+        P("LU", ymd, "squadra", t.get("Tnb"), "Ps", len(ps), "IS", len(isl), "Lukic in Ps", any("Luki" in json.dumps(p, ensure_ascii=False) for p in ps), "in IS", any("Luki" in json.dumps(p, ensure_ascii=False) for p in isl))
+        if ps: P("   chiavi Ps", sorted(ps[0].keys()), "Pos/Sts esempi", [(p.get("Pos"), p.get("Psts"), p.get("Fp")) for p in ps[:3]])
+        for p in isl[:7]:
+            P("   IS voce", {k: (v if not isinstance(v, str) or k not in ("Fn", "Ln", "Pn", "Snm") else "nome") for k, v in p.items()})
+# altre partite EPL finite di recente: quanto spesso c'e' IS
+cnt = [0, 0]
+for ymd in ("20261101", "20261102", "20261025", "20261026"):
+    s_, j = raw(B + f"date/soccer/{ymd}/1?countryCode=GB&locale=en&MD=1")
+    for st in (j or {}).get("Stages", []) if isinstance(j, dict) else []:
+        if st.get("Snm") not in ("Premier League", "Serie A", "LaLiga", "Bundesliga", "Ligue 1", "Eredivisie", "Super Lig"): continue
+        for x in st.get("Events", [])[:4]:
+            s2, l2 = raw(B + f"lineups/soccer/{x['Eid']}?locale=en")
+            for t in (l2 or {}).get("Lu") or []:
+                cnt[0] += 1; cnt[1] += bool(t.get("IS"))
+P("squadre con IS", cnt[1], "su", cnt[0])
+# prossime partite di domani: IS gia' presente prima del calcio d'inizio?
+pre = [0, 0]
+for ymd in ("20261108", "20261109"):
+    s_, j = raw(B + f"date/soccer/{ymd}/1?countryCode=GB&locale=en&MD=1")
+    for st in (j or {}).get("Stages", []) if isinstance(j, dict) else []:
+        if st.get("Snm") not in ("Premier League", "Serie A", "LaLiga", "Bundesliga", "Ligue 1"): continue
+        for x in st.get("Events", [])[:5]:
+            s2, l2 = raw(B + f"lineups/soccer/{x['Eid']}?locale=en")
+            for t in (l2 or {}).get("Lu") or []:
+                pre[0] += 1; pre[1] += bool(t.get("IS"))
+P("prossime: squadre con IS", pre[1], "su", pre[0])
+import sys
+open("sonda_infortuni.txt", "w").write("\n".join(OUT)); sys.exit(0)
 # pagina web della squadra e della partita (dati __NEXT_DATA__)
 s, j = raw("https://prod-cdn-search-api.livescore.com/api/v2/search/soccer/team?query=Ipswich&limit=5")
 tid = None
