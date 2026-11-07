@@ -8,7 +8,7 @@ Fonti, tutte incrociate per ogni giocatore:
      probabile/ufficiale (chi c'e' e' disponibile);
   3) LiveScore lineups: elenco `IS` (Injured/Suspended, motivo + rientro previsto) della prossima partita o dell'ultima giocata,
      e `Ps` (distinta) delle ultime partite: chi e' in distinta dopo un infortunio e' rientrato;
-  4) assenza: fuori dalla distinta del club in almeno 2 partite di fila (e da almeno 10 giorni) anche se nessuna fonte lo dichiara.
+  4) assenza: fuori dalla distinta del club in 3 partite di fila (e da 14 giorni) o in 2 ma da almeno 3 settimane anche se nessuna fonte lo dichiara.
   PitchAPI ed ESPN non pubblicano infortuni del calcio (verificato con sonda: endpoint 404 / elenchi sempre vuoti).
 
 Uscite:
@@ -318,8 +318,9 @@ def decide(P, F, T, N, L, use_ls):
             if use_ls:
                 cov |= set(ls.get("cov") or [])
             missed = [d for d, mid in team["past"] if (last_sq is None or d > last_sq) and (d in cov)]
-            if len(missed) >= 2 and (last_sq is None or last_sq <= add(TODAY, -10)) and team["past"]:
-                if last_sq is not None or len(missed) >= 3:
+            # fuori da 3 partite di fila (e da 14 giorni) o da 2 ma da almeno 3 settimane: una sola rotazione in coppa non basta
+            if team["past"] and ((len(missed) >= 3 and (last_sq is None or last_sq <= add(TODAY, -14))) or (len(missed) >= 2 and last_sq is not None and last_sq <= add(TODAY, -21))):
+                if True:
                     res = {"k": "abs", "r": None, "ed": None, "e": None, "s": missed[0], "n": len(missed), "ul": last_sq, "src": ["fm-abs"]}
         if res:
             stat[res["k"]] += 1
