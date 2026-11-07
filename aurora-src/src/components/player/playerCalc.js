@@ -1,4 +1,5 @@
 import { PLAYERS, per90, EX_COLS } from '@/data/players';
+import { statTotal } from '@/data/archive';
 
 export const POS_IT = { GK: 'Portiere', DEF: 'Difensore', MID: 'Centrocampista', WNG: 'Ala', ATT: 'Attaccante' };
 export const POS_PL = { GK: 'portieri', DEF: 'difensori', MID: 'centrocampisti', WNG: 'ali', ATT: 'attaccanti' };
@@ -189,7 +190,8 @@ export function archivePercentiles(st, pid) {
   if (pool.length < 5) return null;
   const val = (key, id) => { const r = (L[AKEY[key]] || []).find((x) => String(x[0]) === String(id)); return r ? Number(r[3]) || 0 : 0; };
   const idx = {};
-  Object.keys(AKEY).forEach((k) => { idx[k] = {}; (L[AKEY[k]] || []).forEach((r) => { idx[k][String(r[0])] = Number(r[3]) || 0; }); });
+  // voci ufficiali gia' ogni 90' (tiri, falli...): qui serve il totale, che poi si porta ogni 90' coi minuti (prima venivano divise due volte)
+  Object.keys(AKEY).forEach((k) => { idx[k] = {}; (L[AKEY[k]] || []).forEach((r) => { idx[k][String(r[0])] = statTotal(st, AKEY[k], r); }); });
   return METRICS.map((m) => {
     const total = idx[m.key][String(pid)] || 0;
     const v = per90(total, me[4]);

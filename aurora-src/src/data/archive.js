@@ -399,12 +399,13 @@ const loadPlayerStatsFor0 = async (lid, sk, pid) => {
   const rowOf = (s, k) => ((s && s.players && s.players[k]) || []).find((r) => String(r[0]) === String(pid)) || null;
   const has = (s) => !!(s && s.players && Object.keys(s.players).some((k) => !k.startsWith('_') && rowOf(s, k)));
   const official = !!(st && !st.fromMatches);
-  if (has(st) && !(official && !rowOf(st, 'total_scoring_att') && rowOf(st, 'mins_played'))) return st;
-  const fm = await statsFromMatches(lid, sk);
+  if (!official) return st;
+  const fm = await statsFromMatches(lid, sk).catch(() => null);
   if (!has(fm)) return st;
   if (!has(st)) return fm;
   // Gerarchia dei dati (regola fissa): 1) classifiche ufficiali FotMob; 2) quando la classifica ufficiale non ha il giocatore su una voce (le classifiche hanno
   // solo chi supera una soglia: es. Diarra in Champions con 56' non era nei tiri) la voce si completa con la somma delle sue partite FotMob; 3) fonti esterne (vedi CLAUDE.md)
+  // Nelle voci ufficiali "ogni 90'" (OFFICIAL_P90) la riga aggiunta va convertita ogni 90': prima entrava il TOTALE (Spalt: 6 falli in 3. Liga al posto di 1,87/90)
   const ck = `${lid}|${sk}|${pid}`;
   const hit = lruGet(MERGED, ck);
   if (hit) return hit;
@@ -412,8 +413,12 @@ const loadPlayerStatsFor0 = async (lid, sk, pid) => {
   Object.keys(fm.players).forEach((mk) => {
     const k = MATCH_TO_SEASON[mk] || mk;
     if (k.startsWith('_') || !st.players[k] || rowOf(st, k)) return;
-    const mine = rowOf(fm, mk);
+    let mine = rowOf(fm, mk);
     if (!mine) return;
+    if (OFFICIAL_P90.has(k)) {
+      if (!(Number(mine[4]) > 0)) return;
+      mine = [mine[0], mine[1], mine[2], (Number(mine[3]) * 90) / mine[4], mine[4], mine[5], mine[6]];
+    }
     const list = [...players[k]];
     let i = list.findIndex((r) => r[3] < mine[3]);
     if (i < 0) i = list.length;
@@ -422,6 +427,29 @@ const loadPlayerStatsFor0 = async (lid, sk, pid) => {
   });
   const out = { ...st, players, filled: true };
   lruSet(MERGED, ck, out, 40);
+  return out;
+};
+// Voci che nella scheda giocatore sono SEMPRE medie ogni 90' (come FotMob): quelle ufficiali gia' ogni 90' e, per le statistiche sommate
+// dalle partite, ogni voce di conteggio tranne gli eventi rari che restano totali (gol, assist, xG, cartellini, rigori...).
+const TOTAL_KEY = /^_|^(goals|assists|goal_assist|chances_created|total_att_assist|clean_sheet|mins_played|minutes_played|owngoal|errors_led_to_goal|clearance_off_the_line|last_man_tackle|shots_woodwork|missed_penalty|saved_penalties|penalties_won|penalty_won|penalty_conceded|conceded_penalties|yellow_card|red_card)$|^expected_|^big_chance|rating|percentage|accuracy|per_90/;
+// valore di una riga sempre ogni 90' o totale, qualunque sia la fonte (ufficiale ogni 90' o somma delle partite)
+const isP90Row = (st, k) => !!(st && !st.fromMatches && (OFFICIAL_P90.has(k) || (k === 'was_fouled' && st.filledFouled)));
+export const statTotal = (st, k, r) => (r ? (isP90Row(st, k) ? Math.round((Number(r[3]) * Number(r[4] || 0)) / 90) : Number(r[3]) || 0) : 0);
+export const playerStatIsP90 = (st, k) => isP90Row(st, k) || (!!st && !!st.fromMatches && !TOTAL_KEY.test(k));
+// liste per la scheda Statistiche del giocatore: voci di conteggio sommate dalle partite convertite ogni 90' e ordinate; nella classifica
+// (posizione, media del campionato) entrano i giocatori con almeno 180' (o 45' a inizio stagione) piu' il giocatore stesso
+export const playerViewLists = (st, pid) => {
+  const P = (st && st.players) || {};
+  if (!st || !st.fromMatches) return P;
+  const out = {};
+  Object.keys(P).forEach((k) => {
+    if (!playerStatIsP90(st, k)) { out[k] = P[k]; return; }
+    const conv = (P[k] || []).filter((r) => Number(r[4]) > 0).map((r) => [r[0], r[1], r[2], (Number(r[3]) * 90) / r[4], r[4], r[5], r[6]]);
+    const me = (r) => String(r[0]) === String(pid);
+    let list = conv.filter((r) => Number(r[4]) >= 180 || me(r));
+    if (list.length < 8) list = conv.filter((r) => Number(r[4]) >= 45 || me(r));
+    out[k] = list.sort((x, y) => y[3] - x[3]);
+  });
   return out;
 };
 // Falli subiti ogni 90': le classifiche stagionali FotMob non hanno la voce, i dati di ogni partita FotMob si'. Si somma dalle partite (stessa soglia dei 180' delle classifiche),

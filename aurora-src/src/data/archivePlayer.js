@@ -1,6 +1,6 @@
 // Giocatori che non sono nell'elenco attuale (ritirati, stagioni passate, altri campionati):
 // si costruisce lo stesso oggetto giocatore dai dati dell'archivio, cosi' la scheda e' identica per tutti.
-import { loadPlayerStatsFor, loadSeason, playerSeasons, playerFace, FM_ID } from './archive';
+import { loadPlayerStatsFor, statTotal, loadSeason, playerSeasons, playerFace, FM_ID } from './archive';
 import { registerPlayer, playerById } from './players';
 import { ensureTeam } from './teams';
 import { loadCarriere, setCarriere } from './carriere';
@@ -46,13 +46,15 @@ export async function makeArchivePlayer(fm, sk, pid) {
   const teamName = (season && season.teams && season.teams[me[2]]) || (rp ? rp.team : '');
   const team = teamName ? ensureTeam(teamName, lid) : null;
   const v = (k) => (by[k] ? by[k][3] : null);
+  // totali veri anche dove la classifica ufficiale e' ogni 90' (tiri, tiri in porta, falli)
+  const tot = (k) => (by[k] ? statTotal(st, k, by[k]) : 0);
   const initials = String(me[1]).split(' ').map((w) => w[0]).join('').slice(0, 2).toUpperCase();
   const p = {
     id, teamId: team ? team.id : null, teamName, leagueId: lid, name: me[1], initials, number: R ? R[3] : null, position: R ? R[2] : null,
     photo: playerFace(pid), hasStats: false, archive: true, sk,
     rating: v('rating') || (R && R[7]) || null, appearances: me[5] || 0, minutes: me[4] || 0, goals: v('goals') || (R && R[8]) || 0, assists: v('goal_assist') || (R && R[9]) || 0,
-    shots: v('total_scoring_att') || 0, shotsOnTarget: v('ontarget_scoring_att') || 0, xg: v('expected_goals') || null,
-    exS: null, exL5: null, l5g: 0, l5min: 0, l5y: 0, l5r: 0, foulsCommitted: v('fouls') || 0, foulsDrawn: 0, offsides: 0,
+    shots: tot('total_scoring_att'), shotsOnTarget: tot('ontarget_scoring_att'), xg: v('expected_goals') || null,
+    exS: null, exL5: null, l5g: 0, l5min: 0, l5y: 0, l5r: 0, foulsCommitted: tot('fouls'), foulsDrawn: 0, offsides: 0,
     yellows: v('yellow_card') || 0, reds: v('red_card') || 0, l: [0, 0, 0, 0], c: [0, 0, 0, 0], r: [], h: [],
     shots5: [], sot5: [], minutes5: [], recent: [], ratings5: [],
   };

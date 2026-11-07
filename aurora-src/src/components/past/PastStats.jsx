@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import useAsync from '@/hooks/useAsync';
 import TextFilter from '@/components/TextFilter';
-import { loadSeason, statsFromMatches, loadPlayerStatsFor, loadTeamStats, teamPartStats, teamIdByName, PLAYER_STAT_IT, SEASON_STAT_IT, STAT_IT, prettyKey, seasonLabel } from '@/data/archive';
+import { loadSeason, statsFromMatches, loadPlayerStatsFor, playerViewLists, playerStatIsP90, loadTeamStats, teamPartStats, teamIdByName, PLAYER_STAT_IT, SEASON_STAT_IT, STAT_IT, prettyKey, seasonLabel } from '@/data/archive';
 import { useTeamColors } from '@/components/archive/parts';
 import { groupOf, fmtVal, ORDER } from '@/components/archive/ArchiveLeague';
 import { TeamLogo } from '@/components/FmImg';
@@ -39,8 +39,9 @@ export default function PastStats({ kind, id, fm, sk, current = false, teamName 
   const { data: season } = useAsync(() => loadSeason(fm, sk), [fm, sk]);
   // cambiando Casa/Trasferta il contenuto resta al suo posto e le barre scorrono ai nuovi valori (niente scomparsa e riapparizione)
   if (loading && !stats) return <PanelSkeleton kind="cards" />;
-  const lists = stats && stats[kind];
   const isP = kind === 'players';
+  // giocatore: falli, tiri, passaggi, azioni difensive... sempre ogni 90' (come FotMob), da qualunque fonte arrivino
+  const lists = stats && (isP ? playerViewLists(stats, id) : stats[kind]);
   // giocatore senza dati in questa stagione (ne ha in altre: le tendine portano li'): un solo messaggio, niente riquadri vuoti
   const pills = isP ? (
     <div className="flex flex-col gap-2 px-5 pt-3" data-no-swipe="true">
@@ -60,7 +61,7 @@ export default function PastStats({ kind, id, fm, sk, current = false, teamName 
     me = me || list[idx];
     const g = byMatch ? catOfMatchKey(k) : kind === 'teams' ? catOfSeasonGroup(groupOf(k.replace(/_team$/, ''))) : groupOf(k.replace(/_team$/, ''));
     if (cat !== 'all' && (kind === 'teams' ? g : catOfSeasonGroup(g)) !== cat) return;
-    (groups[g] = groups[g] || []).push({ k, st: standingOf(list, idx, k), title: byMatch ? (STAT_IT[k] || prettyKey(k)) : (SEASON_STAT_IT[k] || PLAYER_STAT_IT[k] || prettyKey(k)) });
+    (groups[g] = groups[g] || []).push({ k, p90: isP && playerStatIsP90(stats, k), st: standingOf(list, idx, k), title: byMatch ? (STAT_IT[k] || prettyKey(k)) : (SEASON_STAT_IT[k] || PLAYER_STAT_IT[k] || prettyKey(k)) });
   });
   if (!me) return isP ? <>{pills}<Msg>Dati non disponibili</Msg></> : <Msg>Nessuna presenza in questa stagione</Msg>;
   const tid = isP ? (me[2] || (teamName ? teamIdByName(names, teamName) : null)) : id;
@@ -98,11 +99,11 @@ export default function PastStats({ kind, id, fm, sk, current = false, teamName 
                 first={i === 0}
                 label={r.title}
                 value={r.st.v}
-                fmt={(v) => (byMatch ? (/BallPossesion/.test(r.k) ? `${Math.round(v)}%` : Number(v).toFixed(Number.isInteger(v) ? 0 : 2).replace('.', ',')) : fmtVal(r.k, v))}
+                fmt={(v) => (r.p90 ? Number(v).toFixed(2).replace('.', ',') : byMatch ? (/BallPossesion/.test(r.k) ? `${Math.round(v)}%` : Number(v).toFixed(Number.isInteger(v) ? 0 : 2).replace('.', ',')) : fmtVal(r.k, v))}
                 frac={r.st.frac}
                 width={r.st.width}
                 avgPos={r.st.avgPos}
-                avgText={byMatch ? Number(r.st.avg).toFixed(2).replace('.', ',') : fmtVal(r.k, r.st.avg)}
+                avgText={byMatch || r.p90 ? Number(r.st.avg).toFixed(2).replace('.', ',') : fmtVal(r.k, r.st.avg)}
                 rank={r.st.rank}
                 delay={Math.min(i, 8) * 40}
               />
