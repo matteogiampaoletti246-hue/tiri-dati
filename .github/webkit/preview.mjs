@@ -2064,6 +2064,41 @@ await step('fix-dati: Calcolatore, Hit Rate su partite da almeno 50 minuti e "su
   ok('fix-dati: Calcolatore, scritta giusta ("ultime 5" o "su N partite")', all.length === 3 && all.every((x) => x.label), res);
 });
 
+// Calcolatore: tasto "Prossima partita" e stato conservato tornando da partita, scheda giocatore, barra e pagina ricreata (top e minori)
+await step('calcolatore: prossima partita e valori conservati al ritorno', async () => {
+  const snap = () => pg.evaluate(() => { const sh = document.getElementById('sl-shell') || document.body; const sec = sh.querySelector('section'); return JSON.stringify({ ins: [...sh.querySelectorAll('input')].map((i) => i.value), head: sec ? sec.innerText.replace(/\s+/g, ' ') : '' }); });
+  const res = {};
+  for (const name of ['Aleksandar Stanković', 'Achraf Hakimi', 'Abdul Fatawu', 'Anis Hadj Moussa', 'Andreas Helmersen', 'Aaron Bibout']) {
+    const r = res[name] = {};
+    await go('#/migliori-matchup', 2500);
+    await pg.evaluate(() => { location.hash = '#/calcolatore'; }); await wait(2500);
+    await pg.evaluate(() => { const b = [...document.querySelectorAll('button')].find((x) => /Cerca e seleziona/.test(x.textContent)); if (b) b.click(); });
+    await wait(800); await pg.keyboard.type(name, { delay: 20 }); await wait(1200);
+    r.found = await pg.evaluate((n) => { const b = [...document.querySelectorAll('button')].find((x) => x.textContent.includes(n) && !/Cerca/.test(x.textContent)); if (b) b.click(); return !!b; }, name);
+    if (!r.found) continue;
+    await wait(2500);
+    await pg.locator('#sl-shell input[aria-label="Quota"]').first().fill('1,85').catch(() => {});
+    await pg.evaluate(() => { ['Trasferta', 'Under'].forEach((t) => { const b = [...document.querySelectorAll('#sl-shell button')].find((x) => x.textContent.trim() === t); if (b) b.click(); }); });
+    await wait(400);
+    const vals = await pg.evaluate(() => [...document.querySelectorAll('#sl-shell input')].filter((i) => { const q = i.getBoundingClientRect(); return q.width > 0 && q.left >= 0 && q.left < innerWidth; }).map((i, k) => { i.setAttribute('data-t', k); return i.value; }));
+    let last = -1; vals.forEach((v, i) => { if (v && !/-/.test(v)) last = i; });
+    if (last >= 0) await pg.locator(`[data-t="${last}"]`).fill('7,77').catch(() => {});
+    await wait(700);
+    const s0 = await snap();
+    r.button = await pg.evaluate(() => { const b = [...document.querySelectorAll('button')].find((x) => /Prossima partita/.test(x.textContent)); if (b) b.click(); return !!b; });
+    if (r.button) { await wait(2500); r.match = /#\/match\//.test(await pg.evaluate(() => location.hash)); await pg.goBack(); await wait(2200); r.afterMatch = (await snap()) === s0; }
+    await pg.evaluate(() => { const b = document.querySelector('button[aria-label^="Apri la scheda di"]'); if (b) b.click(); }); await wait(2500);
+    await pg.goBack(); await wait(2200); r.afterPlayer = (await snap()) === s0;
+    await pg.evaluate(() => { const b = document.querySelector('button[aria-label^="Apri la scheda di"]'); if (b) b.click(); }); await wait(2000);
+    await pg.evaluate(() => { location.hash = '#/calcolatore'; }); await wait(2200); r.afterDock = (await snap()) === s0;
+    await go('#/calcolatore', 3500); r.afterReload = (await snap()) === s0;
+  }
+  const all = Object.values(res);
+  ok('calcolatore: tasto Prossima partita apre la partita', all.every((r) => r.found && r.button && r.match), res);
+  ok('calcolatore: giocatore e valori a mano restano (partita, scheda, barra, pagina ricreata)', all.every((r) => r.afterMatch && r.afterPlayer && r.afterDock && r.afterReload), res);
+  await shot('calcolatore-stato-conservato');
+});
+
 report.passed = report.checks.filter((c) => c.pass).length;
 report.total = report.checks.length;
 fs.writeFileSync(`${OUT}/report.json`, JSON.stringify(report, null, 2));

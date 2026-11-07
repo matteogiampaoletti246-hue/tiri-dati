@@ -86,3 +86,9 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 
 ## Migliori Giocatori: minimo 180 minuti (regola fissa)
 - `lambdaOf` (`data/topPlayers.js`) esclude chi ha meno di 180 minuti in stagione (stesso `MIN_MIN` delle classifiche giocatori), oltre a 3 presenze e 35' medi nelle ultime 5; vale per tiri, in porta e falli.
+
+## Calcolatore: tasto "Prossima partita" e stato conservato (regola fissa)
+- Sotto nome e squadra del banner c'e' il tasto "Prossima partita" (`NextMatchButton` in `components/calc/PlayerPickPanel.jsx`): apre `/match/:id` sopra il Calcolatore. Partita = quella contro l'avversaria scelta nel Calcolatore se e' entro 3 giorni dalla prossima vera della squadra (`nextMatchVs` in `data/extras.js`), altrimenti la prossima della squadra (`useNextMatch`). Senza partita il tasto non si mostra.
+- Tornando dal tasto, dal banner (scheda giocatore), dalla barra in basso o con la pagina web ricreata dall'app nativa, il Calcolatore e' identico: giocatore, statistica, linea, quota, sede, competizione, hit rate, valori cambiati a mano, duello falli, scheda attiva e scheda squadra. `CALC_KEEP` (`data/calcKeep.js`) ha una copia in localStorage (scade dopo 60 minuti senza modifiche); in `PlayerTab` i ricalcoli automatici non ripartono al rimontaggio (`skipRestore`, firma `f.sig` per i falli): ripartono solo quando si cambia davvero qualcosa. Si azzera solo con Cambia o entrando in Home, Migliori giocatori, Migliori matchup (`CalcKeepGuard`).
+- Prova: passo "calcolatore: prossima partita e valori conservati al ritorno" in `preview.mjs` (Serie A, Ligue 1, Inghilterra, Eredivisie, Eliteserien, Pro League).
+

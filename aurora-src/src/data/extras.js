@@ -43,6 +43,12 @@ export function nextMatchOf(teamId, comp, n = 60) {
   return MATCHES.filter((m) => m.status !== 'finished' && (same(m.homeId) || same(m.awayId)) && (!comp || m.leagueId === comp)).sort((a, b) => a.ts - b.ts).slice(0, n)[0] || null;
 }
 
+// Prossima partita tra due squadre (per il tasto del Calcolatore: la partita contro l'avversaria gia' scelta)
+export function nextMatchVs(teamId, oppId) {
+  const same = (a, b) => a === b || (!!teamById(a) && !!teamById(b) && teamById(a).name === teamById(b).name);
+  return MATCHES.filter((m) => m.status !== 'finished' && ((same(m.homeId, teamId) && same(m.awayId, oppId)) || (same(m.awayId, teamId) && same(m.homeId, oppId)))).sort((a, b) => a.ts - b.ts)[0] || null;
+}
+
 export const allTeamMatches = (teamId) => MATCHES.filter(involves(teamId)).sort((a, b) => a.ts - b.ts);
 
 export function matchesByReferee(refereeId) {

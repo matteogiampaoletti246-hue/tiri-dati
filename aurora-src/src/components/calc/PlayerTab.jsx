@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from 'react';
-import { CALC_KEEP } from '@/data/calcKeep';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { CALC_KEEP, saveCalcKeep } from '@/data/calcKeep';
 import { useLocation } from 'react-router-dom';
 import PanelTitle from '@/components/PanelTitle';
 import { playerById } from '@/data/players';
@@ -33,8 +33,14 @@ const extra = { dashTarget: 'shots' };
 const initial = () => ({ ...initialForm(), ...extra });
 
 export default function PlayerTab({ onSave }) {
+  // ritorno al Calcolatore (dalla scheda del giocatore, dalla partita, da un'altra scheda): i ricalcoli automatici non partono
+  // al rimontaggio, cosi' i valori cambiati a mano restano; ripartono solo quando si cambia davvero qualcosa
+  const restored = useRef(CALC_KEEP.player != null);
+  const ran = useRef(new Set());
+  const skipRestore = (name) => { if (!restored.current || ran.current.has(name)) return false; ran.current.add(name); return true; };
   const [form, setForm] = useState(() => (CALC_KEEP.player ? { stat: 'tiri', f: emptyFouls(), ...CALC_KEEP.player } : initial()));
   CALC_KEEP.player = form;
+  useEffect(() => { saveCalcKeep(); }, [form]);
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
@@ -48,7 +54,7 @@ export default function PlayerTab({ onSave }) {
   useEffect(() => {
     const st = loc.state && loc.state.calc;
     if (!st || CALC_KEEP.stKey === loc.key) return; // tornando indietro dalla scheda del giocatore non si rifa' il riempimento
-    CALC_KEEP.stKey = loc.key;
+    CALC_KEEP.stKey = loc.key; saveCalcKeep();
     const p = playerById(st.playerId);
     if (!p) return;
     const hasLine = st.line !== undefined && st.line !== null;
@@ -106,6 +112,8 @@ export default function PlayerTab({ onSave }) {
   // precompila i falli dai dati (ultime 5, medie stagione, medie squadre) quando cambiano giocatore, squadre o statistica
   useEffect(() => {
     if (!fouls || !fd || !player || !fmPid) return;
+    const sig = [form.stat, form.playerId, form.team.id, form.team.leagueId, form.opp.id, form.opp.leagueId].join('|');
+    if (restored.current && f.sig === sig) return; // stessi giocatore, squadre e statistica di prima: restano i valori com'erano
     const pv = viewFor(player, form.competizione);
     const pf = playerFouls(fd, fmPid, team && domesticKey(team.name), form.stat, pv.hn != null ? hitRows(pv) : null);
     const season = { campionato: { tiri: '', minuti: '' }, coppa: { tiri: '', minuti: '' }, nations: { tiri: '', minuti: '' }, qualificazioni: { tiri: '', minuti: '' } };
@@ -116,17 +124,18 @@ export default function PlayerTab({ onSave }) {
       season,
       team: ownStats ? comma(ownStats.v, 2) : '',
       opp: oppStats ? comma(oppStats.v, 2) : '',
+      sig,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fouls, fd, fmPid, form.stat, form.playerId, form.team.id, form.team.leagueId, form.opp.id, form.opp.leagueId]);
   // hit rate dalle ultime 5 e dalla linea
   useEffect(() => {
-    if (!fouls) return;
+    if (skipRestore('hit') || !fouls) return;
     setF({ hitRate: hitFromValues(parseDash(f.last5), parseNum(form.line), form.lineType) });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fouls, f.last5, form.line, form.lineType]);
   // cambiando squadra avversaria o statistica il duello riparte vuoto
-  useEffect(() => { setF({ duel: [], duelManual: false }); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [form.opp.id, form.stat, form.playerId]);
+  useEffect(() => { if (skipRestore('duel')) return; setF({ duel: [], duelManual: false }); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [form.opp.id, form.stat, form.playerId]);
   // il duello automatico viene dopo il ripristino: stesse dipendenze, ordine degli effetti
   useEffect(() => {
     if (!fouls || f.duelManual) return;
@@ -161,7 +170,7 @@ export default function PlayerTab({ onSave }) {
 
   // cambio famiglia (totali / in porta) o linea: ricalcola i dati del giocatore scelto
   useEffect(() => {
-    if (!form.playerId) return;
+    if (skipRestore('fam') || !form.playerId) return;
     const p0 = playerById(form.playerId);
     if (!p0) return;
     const p = p0.nat ? p0 : viewFor(p0, form.competizione);
