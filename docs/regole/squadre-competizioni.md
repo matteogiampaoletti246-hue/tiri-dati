@@ -92,3 +92,4 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 - Tabellone (`CUP_FM` in `data/bracket.js`): Mondiali, Europei, Copa America, Coppa d'Africa, Asian Cup, Gold Cup, Nations League (A-D, le passate; B-D senza fase finale non lo mostrano). Qualificazioni: `qualificazioni.py` le aggiunge a `selezione.json`.
 - Banner giocatore in ricerca: club + linea sottile + bandiera e nazionale a destra (sito e nativo).
 - Banner nazionali (concept A): bandiera intera a destra, nitida, sfuma verso sinistra (`flag` in `EntityBanner`, `isNationName`).
+- Storico nazionali: `NAZ_IDS` in `archivio.py` = competizioni delle nazionali scaricate per intero (Mondiali dal 1930, Europei dal 1960, amichevoli `114`, qualificazioni, Nations League); stagioni e statistiche per ogni edizione, schede squadra via `tidx` (`squadre_indice.yml`). FotMob ha le amichevoli solo dell'anno in corso.
