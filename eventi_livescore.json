@@ -441,8 +441,8 @@
    "da_fare": 0
   },
   "Liga MX 2026-2027 - Apertura": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "1. CFL 2026-2027": {
    "partite_con_eventi": 0,
@@ -577,8 +577,8 @@
    "da_fare": 0
   },
   "Liga Nacional 2026-2027": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "Liga Nacional 2026-2027 - Apertura": {
    "partite_con_eventi": 0,
@@ -658,7 +658,7 @@
   },
   "Australia Championship 2026": {
    "partite_con_eventi": 0,
-   "da_fare": 2
+   "da_fare": 1
   },
   "National North & South 2026-2027": {
    "partite_con_eventi": 0,
@@ -706,7 +706,7 @@
   },
   "LPF 2026": {
    "partite_con_eventi": 0,
-   "da_fare": 2
+   "da_fare": 0
   },
   "Copa do Brasil 2026": {
    "partite_con_eventi": 0,
@@ -745,8 +745,8 @@
    "da_fare": 0
   },
   "K League 2 2026": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 2,
+   "da_fare": 2
   },
   "NB II 2026-2027": {
    "partite_con_eventi": 0,
@@ -882,7 +882,7 @@
   },
   "WE League 2026-2027": {
    "partite_con_eventi": 0,
-   "da_fare": 0
+   "da_fare": 1
   },
   "The Atlantic Cup 2026": {
    "partite_con_eventi": 0,
@@ -910,7 +910,7 @@
   },
   "K League 3 2026": {
    "partite_con_eventi": 0,
-   "da_fare": 0
+   "da_fare": 1
   },
   "Highland / Lowland 2026-2027": {
    "partite_con_eventi": 0,
@@ -978,7 +978,7 @@
   },
   "Liga MX Femenil 2026-2027": {
    "partite_con_eventi": 0,
-   "da_fare": 1
+   "da_fare": 0
   },
   "Liga F 2026-2027": {
    "partite_con_eventi": 0,
@@ -2389,5 +2389,5 @@
    "da_fare": 0
   }
  },
- "partite_in_questo_giro": 8
+ "partite_in_questo_giro": 6
 }
