@@ -371,6 +371,20 @@ def fetch_activity(pid):
     return [TODAY, last, cur, start]
 
 
+COVER = {}  # squadra -> FotMob registra le presenze dei suoi giocatori? (calcolato in prune)
+
+
+def min_year():
+    now = dt.date.today()
+    return now.year if now.month >= 7 else now.year - 1
+
+
+def covered(rows):
+    """La competizione della squadra ha le presenze su FotMob: almeno 5 giocatori con minuti nell'archivio.
+    Senza (dilettanti inglesi, campionati minori) le presenze mancano per tutti, anche per chi gioca davvero: li' decide la carriera."""
+    return sum(1 for r in rows if len(r) > 11 and r[11]) >= 5
+
+
 def still_here(pid, tid):
     """Il giocatore e' davvero nella squadra adesso? Le rose esterne (LiveScore, OneFootball) e alcune rose FotMob di squadre minori
     tengono anche chi e' passato di li' anni fa (Casertana: 9 portieri, Benassi del 2017). Si tiene solo chi:
@@ -380,14 +394,16 @@ def still_here(pid, tid):
     a = ATT.get(str(pid))
     if not a:
         return True
-    now = dt.date.today()
-    min_year = now.year if now.month >= 7 else now.year - 1
+    my = min_year()
     _, last, cur, start = a
     if cur and str(cur) != str(tid):
         return False
-    if last >= min_year:
+    if last >= my:
         return True
-    return bool(cur) and start >= min_year - 1
+    if COVER.get(str(tid), True):
+        return bool(cur) and start >= my - 1
+    # competizione senza presenze su FotMob: vale la carriera (tesserato qui adesso), ma non chi ha presenze solo in stagioni vecchie
+    return bool(cur) and not last
 
 
 def check_activity(pids):
@@ -468,6 +484,7 @@ def external_fill(data, tidx, country_of, is_current, stato):
         cur = data.setdefault(tid, {"p": []})
         rows = cur.setdefault("p", [])
         sure = sum(1 for r in rows if r[0] and r[0] > 0)
+        COVER[str(tid)] = covered(rows)
         if not cur.get("co") and x.get("co"):
             cur["co"] = x["co"]
         add = []
@@ -519,9 +536,20 @@ def to_check(v):
     return [r for r in rows if r[0] and r[0] > 0 and not r[11]]
 
 
-def prune(data):
-    """Toglie da ogni rosa chi e' di un'altra stagione o di un'altra squadra (still_here). Vale anche per le squadre non riscaricate oggi."""
-    check_activity([r[0] for v in data.values() for r in to_check(v)])
+def prune(data, tidx):
+    """Toglie da ogni rosa chi e' di un'altra stagione o di un'altra squadra (still_here). Vale anche per le squadre non riscaricate oggi,
+    ma solo per le squadre della stagione in corso: chi non gioca piu' nessuna competizione dell'app tiene la rosa della sua ultima stagione."""
+    now = dt.date.today().year
+    check_activity([r[0] for t, v in data.items() for r in to_check(v)])
+
+    def here_now(t, v):
+        # squadra viva: stagione recente nell'indice, oppure FotMob da' almeno 5 suoi giocatori tesserati li' adesso (Padova in Serie B)
+        if t in tidx and any(year_of(sk) >= now - 1 for _, sk in last_season(tidx[t])):
+            return True
+        return sum(1 for r in v.get("p") or [] if r[0] and r[0] > 0 and str((ATT.get(str(r[0])) or [0, 0, 0])[2]) == str(t)) >= 5
+    data = {t: v for t, v in data.items() if here_now(t, v)}
+    for tid, v in data.items():
+        COVER[str(tid)] = covered(v.get("p") or [])
     gone = 0
     for tid, v in data.items():
         bad = {id(r) for r in to_check(v) if not still_here(r[0], tid)}
@@ -673,7 +701,7 @@ def main():
                 x[2] = role
 
     external_fill(data, tidx, country_of, is_current, stato)
-    prune(data)
+    prune(data, tidx)
     # solo le squadre con qualcosa da mostrare (niente righe vuote: l'app ripiega da sola)
     for tid in list(data):
         v = data[tid]
@@ -704,7 +732,7 @@ def only_prune():
     """--pulizia: legge le schede e pulisce le rose gia' salvate, senza riscaricarle."""
     ATT.update(load(os.path.join(OUT, "_attivi.json"), default={}) or {})
     data = shards_load()
-    prune(data)
+    prune(data, team_index())
     for tid in list(data):
         if not data[tid].get("p") and not data[tid].get("co"):
             del data[tid]
