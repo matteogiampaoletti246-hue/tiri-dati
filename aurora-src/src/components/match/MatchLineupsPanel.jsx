@@ -79,7 +79,7 @@ function PitchNode({ p, team, val, match, compact, mvp, pre }) {
   const size = compact ? 40 : 46;
   const ic = compact ? 14 : 16;
   return (
-    <PlayerLink match={match} name={p.name} fmId={p.fmId} className="flex w-[72px] flex-col items-center">
+    <PlayerLink match={match} name={p.name} fmId={p.fmId} className="flex min-w-0 max-w-[72px] flex-1 basis-0 flex-col items-center">
       <span className="relative">
         <Face p={p} team={team} size={size} ring={mvp} />
         <Events p={p} size={ic} mvp={mvp} />
@@ -232,7 +232,8 @@ const okSide = (l) => !!(l && l.xi && l.xi.length && l.formation);
 export const hasLineups = (view) => {
   const l = view.lineup;
   if (!l) return false;
-  return (okSide(l.home) && okSide(l.away)) || [l.home, l.away].some((x) => x && (x.coach || (x.bench && x.bench.length)));
+  // servono i due undici veri: solo allenatore o panchina (o un campo a meta') non bastano = niente scheda
+  return okSide(l.home) && okSide(l.away);
 };
 
 // Linee disponibili per statistica: i tiri arrivano a Over 3,5, le altre a Over 2,5
@@ -320,22 +321,26 @@ export default function MatchLineupsPanel({ match, view, home, away, pre }) {
               <div className="flex justify-start"><TopStatPicker side="left" tight options={TOP_STATS} value={stat} onChange={onStat} /></div>
               <div className="text-center">
                 <p className="text-[13.5px] font-extrabold"><span className="relative">{busy ? <MiniSpin /> : null}{title}</span></p>
-                <p className="mt-1 text-[12.5px] font-extrabold">
-                  <span style={{ color: tcol(home) }}>{lh.formation.label}</span>
-                  <span className="mx-2" style={{ color: 'var(--ink-3)' }}>·</span>
-                  <span style={{ color: tcol(away) }}>{la.formation.label}</span>
-                </p>
+                {lh.formation.label || la.formation.label ? (
+                  <p className="mt-1 text-[12.5px] font-extrabold">
+                    <span style={{ color: tcol(home) }}>{lh.formation.label}</span>
+                    {lh.formation.label && la.formation.label ? <span className="mx-2" style={{ color: 'var(--ink-3)' }}>·</span> : null}
+                    <span style={{ color: tcol(away) }}>{la.formation.label}</span>
+                  </p>
+                ) : null}
               </div>
               <div className="flex justify-end"><LinePicker lines={LINES[stat]} value={line} onChange={setLine} /></div>
             </div>
           ) : (
             <div className="mb-3 text-center">
               <p className="text-[15px] font-extrabold"><span className="relative">{busy ? <MiniSpin /> : null}{title}</span></p>
-              <p className="mt-1 text-[13px] font-extrabold">
-                <span style={{ color: tcol(home) }}>{lh.formation.label}</span>
-                <span className="mx-2" style={{ color: 'var(--ink-3)' }}>·</span>
-                <span style={{ color: tcol(away) }}>{la.formation.label}</span>
-              </p>
+              {lh.formation.label || la.formation.label ? (
+                <p className="mt-1 text-[13px] font-extrabold">
+                  <span style={{ color: tcol(home) }}>{lh.formation.label}</span>
+                  {lh.formation.label && la.formation.label ? <span className="mx-2" style={{ color: 'var(--ink-3)' }}>·</span> : null}
+                  <span style={{ color: tcol(away) }}>{la.formation.label}</span>
+                </p>
+              ) : null}
             </div>
           )}
           <DualPitch lh={lh} la={la} home={home} away={away} valOf={valOf} match={match} mvpId={mvpId} pre={pre} wave={wave} />

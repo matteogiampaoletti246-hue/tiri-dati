@@ -337,6 +337,20 @@ export function lineupRows(list, label) {
   return { gk, rows };
 }
 
+// Formazioni "simple" di FotMob (Ligue 3, Serie C brasiliana, Regionalliga...): titolari senza coordinate ma col ruolo in p[8]
+// (0 portiere, 1 difesa, 2 centrocampo, 3 attacco). Le file del campo vengono dal ruolo, nell'ordine della fonte; niente modulo inventato.
+// Senza coordinate e senza ruolo per tutti = nessun campo (meglio nessuna formazione che una sbagliata).
+export function withRoleXY(starters) {
+  if (!starters || !starters.length || starters.every((p) => p[2] != null)) return starters || [];
+  const role = (p) => (p[8] == null ? null : Number(p[8]));
+  if (starters.some((p) => role(p) == null || !(role(p) >= 0 && role(p) <= 3))) return [];
+  const by = [0, 1, 2, 3].map((r) => starters.filter((p) => role(p) === r));
+  if (by[0].length !== 1) return [];
+  const out = [];
+  by.forEach((grp, r) => grp.forEach((p, i) => { const q = p.slice(); q[2] = [0.05, 0.3, 0.55, 0.82][r]; q[3] = (i + 1) / (grp.length + 1); out.push(q); }));
+  return out;
+}
+
 export function buildLineup(side, raw, detail, team, playerLookup) {
   if (!raw) return null;
   const starters = raw.st || raw.s || [];
@@ -344,7 +358,8 @@ export function buildLineup(side, raw, detail, team, playerLookup) {
   const isOld = !!raw.st; // dettaglio partita: [nome, n°, ?, x, y, flag]; formazione prevista: [nome, n°, x, y, flag, id]
   const norm = (e) => (isOld ? { name: e[0], number: e[1], x: e[3], y: e[4], pid: null } : { name: e[0], number: e[1], x: e[2], y: e[3], pid: e[5] || null });
 
-  const list = starters.map(norm);
+  // titolari senza coordinate (fonte incompleta): nessun campo, mai un campo con il solo portiere
+  const list = starters.length === 11 && starters.map(norm).every((p) => p.x != null && p.y != null) ? starters.map(norm) : [];
   const { gk, rows } = lineupRows(list, raw.f);
   const ordered = [...gk, ...rows.flat()];
 

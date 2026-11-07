@@ -2,7 +2,7 @@
 // mappa tiri, momentum e formazioni. Vale per partite live, di oggi e anche per quelle passate.
 import { dayFile } from './archive';
 import { WORKER } from './load';
-import { buildLineup, MATCHES } from './matches';
+import { buildLineup, MATCHES, withRoleXY } from './matches';
 import { romeTime } from './util';
 import { teamById } from './teams';
 import { same } from './live';
@@ -263,7 +263,7 @@ export function applyFm(m, d, playerLookup) {
       const pl = [];
       [...raw.s, ...(raw.b || [])].forEach((p) => pl.push([p[0], side, p[6] == null ? null : Math.round(p[6] * 10) / 10, null, goalsBy[`${side}|${p[0]}`] || 0, assistsBy[`${side}|${p[0]}`] || 0]));
       const pseudo = { ev: evRows, pl };
-      const lu = buildLineup(side, { f: raw.f, s: raw.s.map((p) => [p[0], p[1], p[2], p[3], p[4], null]), b: (raw.b || []).map((p) => [p[0], p[1], 0, 0, false, null]), co: raw.co && raw.co.n, c: /^(standard|official|confirm)/i.test(String(d.ty || '')) || !!d.started || !!d.fin }, pseudo, team, playerLookup);
+      const lu = buildLineup(side, { f: raw.f, s: withRoleXY(raw.s).map((p) => [p[0], p[1], p[2], p[3], p[4], null]), b: (raw.b || []).map((p) => [p[0], p[1], 0, 0, false, null]), co: raw.co && raw.co.n, c: /^(standard|official|confirm)/i.test(String(d.ty || '')) || !!d.started || !!d.fin }, pseudo, team, playerLookup);
       const byName = {};
       [...raw.s, ...(raw.b || [])].forEach((p) => { byName[p[0]] = p; });
       const fix = (e) => {

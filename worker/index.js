@@ -89,6 +89,52 @@ async function lsMerge(out, startIso) {
 }
 
 
+// ---- Formazioni da ESPN dove FotMob non le ha (verificato il 07/11/2026: ESPN da' modulo, titolari con ruolo e lato, panchina).
+// Competizioni FotMob -> ESPN controllate una per una; si aggiungono solo dopo aver visto le formazioni vere.
+const ESPN_LU = { 9682: "concacaf.central.american.cup", 137: "sco.tennents", 179: "sco.challenge", 9906: "mex.w.1" };
+// profondita' dal ruolo ESPN (G, CD-L, LB, DM, CM, LM, AM, F, CF-R...), lato da L/R: stesse coordinate 0-1 di FotMob
+function espnXY(ab) {
+  const a = String(ab || "").toUpperCase();
+  const core = a.replace(/-(L|R)$/, "");
+  const x = core === "G" ? 0.05 : /^(CD|CB|LB|RB|SW|D)$/.test(core) ? 0.25 : /^(LWB|RWB|WB)$/.test(core) ? 0.32 : /^(DM|LDM|RDM)$/.test(core) ? 0.42 : /^(CM|LM|RM|M)$/.test(core) ? 0.55 : /^(AM|LAM|RAM|CAM)$/.test(core) ? 0.68 : 0.85;
+  const y = /-L$/.test(a) ? 0.35 : /-R$/.test(a) ? 0.65 : /^L/.test(core) ? 0.12 : /^R/.test(core) ? 0.88 : 0.5;
+  return [x, y];
+}
+async function espnLineups(out, g2) {
+  try {
+    const lg = ESPN_LU[g2.parentLeagueId] || ESPN_LU[g2.leagueId];
+    const when = g2.matchTimeUTCDate ? new Date(g2.matchTimeUTCDate) : null;
+    if (!lg || !when || isNaN(when.getTime())) return;
+    const E = "https://site.api.espn.com/apis/site/v2/sports/soccer/" + lg + "/";
+    const get = async (u, ttl) => {
+      const ctl = new AbortController();
+      const t = setTimeout(() => ctl.abort(), 4000);
+      try { const r = await fetch(u, { signal: ctl.signal, cf: { cacheTtl: ttl, cacheEverything: true } }); return r.ok ? await r.json() : null; } catch (e) { return null; } finally { clearTimeout(t); }
+    };
+    const ymd = when.toISOString().slice(0, 10).replace(/-/g, "");
+    const sb = await get(E + "scoreboard?dates=" + ymd, 60);
+    const hn = g2.homeTeam && g2.homeTeam.name, an = g2.awayTeam && g2.awayTeam.name;
+    const ev = ((sb && sb.events) || []).find((e) => {
+      const c = ((e.competitions || [])[0] || {}).competitors || [];
+      const H = c.find((q) => q.homeAway === "home"), A = c.find((q) => q.homeAway === "away");
+      return H && A && uSame(H.team && H.team.displayName, hn) && uSame(A.team && A.team.displayName, an);
+    });
+    if (!ev) return;
+    const sm = await get(E + "summary?event=" + ev.id, 20);
+    const side = (ha) => {
+      const r = ((sm && sm.rosters) || []).find((q) => q.homeAway === ha);
+      const ro = (r && r.roster) || [];
+      const st = ro.filter((p) => p.starter);
+      if (st.length !== 11) return null;
+      const nm = (p) => (p.athlete && (p.athlete.displayName || p.athlete.fullName)) || "";
+      const mk = (p, xy) => [nm(p), p.jersey != null ? +p.jersey || p.jersey : null, xy ? xy[0] : null, xy ? xy[1] : null, false, null, null, null, null];
+      return { f: r.formation || null, s: st.map((p) => mk(p, espnXY(p.position && p.position.abbreviation))), b: ro.filter((p) => !p.starter && nm(p)).map((p) => mk(p, null)), co: null };
+    };
+    const h = side("home"), a = side("away");
+    if (h && a) { out.h = h; out.a = a; out.luSrc = "espn"; if (!out.ty) out.ty = "standard"; }
+  } catch (e) { /* mai rompere /fx */ }
+}
+
 // ---- Formazioni ufficiali dalla UEFA (Champions, Europa League, Conference League): escono prima che su FotMob.
 // Dati pubblici letti al volo e mai salvati. Coordinate verificate su 10 squadre contro FotMob: profondita' = y/1000, laterale = 1 - x/1000.
 const UEFA = "https://match.uefa.com/v5/";
@@ -283,7 +329,8 @@ export default {
         const ph = (pid) => pid ? "https://images.fotmob.com/image_resources/playerimages/" + pid + ".png" : null;
         const team = (t) => {
           if (!t || !(t.starters || []).length) return null;
-          const mp = (p) => [p.name, p.shirtNumber != null ? +p.shirtNumber || p.shirtNumber : null, p.horizontalLayout ? p.horizontalLayout.x : null, p.horizontalLayout ? p.horizontalLayout.y : null, !!p.isCaptain, ph(p.id), p.performance && p.performance.rating ? p.performance.rating : null, p.id];
+          // [8] = ruolo FotMob (0 portiere, 1 difesa, 2 centrocampo, 3 attacco): le formazioni "simple" dei campionati minori non hanno coordinate
+          const mp = (p) => [p.name, p.shirtNumber != null ? +p.shirtNumber || p.shirtNumber : null, p.horizontalLayout ? p.horizontalLayout.x : null, p.horizontalLayout ? p.horizontalLayout.y : null, !!p.isCaptain, ph(p.id), p.performance && p.performance.rating ? p.performance.rating : null, p.id, p.positionId != null ? p.positionId : p.usualPlayingPositionId != null ? p.usualPlayingPositionId : null];
           const cc = t.coach;
           return { f: t.formation, s: t.starters.map(mp), b: (t.subs || []).map(mp), co: cc ? { id: cc.id, n: cc.name, cc: cc.countryCode } : null };
         };
@@ -346,6 +393,7 @@ export default {
         const shs = ((c.shotmap || {}).shots || []).map((x) => [x.min, x.minAdded, x.teamId, x.playerName, x.x, x.y, x.eventType, x.isBlocked ? 1 : 0, x.isOnTarget ? 1 : 0, x.blockedX, x.blockedY, x.goalCrossedY, x.goalCrossedZ, x.expectedGoals, x.expectedGoalsOnTarget, x.shotType, x.situation, x.isOwnGoal ? 1 : 0, x.period]);
         const mo = ((c.momentum || {}).main || {}).data || null;
         const out = { t: Date.now(), hi: g2.homeTeam && g2.homeTeam.id, ai: g2.awayTeam && g2.awayTeam.id, sh: shs, mo: mo && mo.length ? mo.map((q) => ({ minute: q.minute, value: q.value })) : null, ty: lu.lineupType || null, started: !!g2.started, fin: !!g2.finished, st: live, sc: tm.length > 1 ? [tm[0].score, tm[1].score] : null, clk: clean(lt.short), ht, ev, stats, pl, h: team(lu.homeTeam), a: team(lu.awayTeam), ref };
+        if (!out.h && !out.a) await espnLineups(out, g2);
         await lsMerge(out, g2.matchTimeUTCDate || stt.utcTime);
         return new Response(JSON.stringify(out), { headers: cors(req, { "Cache-Control": "public, max-age=3" }) });
       }
