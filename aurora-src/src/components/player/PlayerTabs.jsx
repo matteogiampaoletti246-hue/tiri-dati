@@ -484,7 +484,10 @@ function CupCurrent({ p, fm, fmPid, team }) {
 // un solo messaggio ordinato quando la stagione scelta non ha dati (le tendine portano alle stagioni che li hanno)
 export const NoData = () => <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Dati non disponibili</p>;
 // statistiche della stagione in corso nei dati dell'app (top campionati): presenze o minuti, oppure una coppa con presenze
-export const playerHasCurStats = (p) => !!p && ((p.appearances || 0) > 0 || (p.minutes || 0) > 0 || !!(p.c && p.c[0]));
+// e una competizione in cui mostrarle: chi ha giocato solo contro una squadra di coppa in un campionato che l'app non segue (es. Maccabi Petah Tikva,
+// Hearts, PAOK: squadra senza competizioni) non ha dove mostrarle -> niente scheda Statistiche invece di "Dati non disponibili" (eccezione 2)
+export const playerHasCurStats = (p) => !!p && ((p.appearances || 0) > 0 || (p.minutes || 0) > 0 || !!(p.c && p.c[0]))
+  && (teamCompetitions(p.teamId).length > 0 || !!(p.archive && p.leagueId) || !!p.domFm || !!p.natView);
 
 export function StatistichePanel({ player, team }) {
   const p = player;
