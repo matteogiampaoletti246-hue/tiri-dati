@@ -33,6 +33,7 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 ## Statistiche a 0: barra solo se il dato e' ricavabile (regola fissa, ogni giocatore e competizione)
 - Le classifiche hanno solo chi supera 0. Se il giocatore non ha la voce ma ha giocato partite archiviate in cui quella voce era registrata (FotMob non scrive gli zeri; cartellini dagli eventi della partita), la voce c'e' con 0 (0,00 se ogni 90'), barra vuota, lineetta della media del campionato e nessuna posizione (`zeroFor` in `data/archive.js`, `zeroStandingOf` in `PastBits.jsx`). Colore: verde dove 0 e' il meglio (falli, cartellini, palle perse...), rosso per il resto.
 - Voci da portiere (parate, gol subiti, uscite...): lo 0 solo per i portieri. Valutazioni e percentuali mai a 0.
+- Media del campionato (lineetta) contando anche chi e' a 0 (`poolAvg`): somma della classifica diviso tutti i giocatori sopra la stessa soglia di minuti che hanno il dato. Prima contava solo chi superava 0 (rossi Serie A: media 1 invece di 0,02). Vale per tutti i giocatori, non solo per chi e' a 0.
 - Dato non ricavabile (nessuna partita con quella voce): la voce non si mostra. Prova: "zeri con barra" in `preview.mjs` (Boga: falli e cartellini 0).
 
 ## Partite del giocatore: risultato dal suo lato
