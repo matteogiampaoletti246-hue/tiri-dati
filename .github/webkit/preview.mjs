@@ -2141,6 +2141,31 @@ await step('calcolatore: sede, competizione a banner, icone, medie, squadra e ca
   ok('calcolatore: giocatore di sola nazionale trovato, competizione Nations League', res.onlyNat && /Nations League/.test(res.o.comp || ''), { found: res.onlyNat, comp: res.o.comp });
 });
 
+// Calcolatore: niente riga coppa europea per chi non gioca Champions/Europa League (es. Matanovic, Freiburg) e scelta della nazionale a banner
+await step('calcolatore: coppa solo se la gioca e nazionali a banner', async () => {
+  await go('#/calcolatore', 3500);
+  await pg.waitForFunction(() => [...document.querySelectorAll('button')].some((x) => /Cerca e seleziona|^\s*Cambia\s*$/.test(x.textContent)), null, { timeout: 25000 }).catch(() => {});
+  await pg.evaluate(() => { const b = [...document.querySelectorAll('button')].find((x) => /Cerca e seleziona|^\s*Cambia\s*$/.test(x.textContent)); if (b) b.click(); });
+  await wait(900); await pg.keyboard.type('Igor Matanović', { delay: 25 }); await wait(1300);
+  await pg.evaluate(() => { const b = [...document.querySelectorAll('button')].find((x) => x.textContent.includes('Igor Matanović')); if (b) b.click(); });
+  await wait(2500);
+  const rows = () => pg.evaluate(() => [...document.querySelectorAll('[data-season-row]')].map((r) => r.dataset.seasonRow));
+  const r = {};
+  r.campRows = await rows();
+  await pg.evaluate(() => document.querySelector('[aria-label="Competizione"]').click()); await wait(600);
+  r.opts = await pg.evaluate(() => [...document.querySelectorAll('[data-comp-option]')].map((b) => b.dataset.compOption));
+  await pg.evaluate(() => { const b = document.querySelector('[data-comp-option="nations"]'); if (b) b.click(); }); await wait(2500);
+  r.natRows = await rows();
+  await pg.evaluate(() => { const x = document.querySelector('[data-season-row]'); if (x) x.scrollIntoView({ block: 'center' }); }); await wait(500);
+  await shot('calc-matanovic-medie');
+  await pg.evaluate(() => { const b = document.querySelector('[aria-label="Cambia squadra"]'); if (b) { b.scrollIntoView({ block: 'center' }); b.click(); } }); await wait(900);
+  r.natBanners = await pg.evaluate(() => document.querySelectorAll('[data-team-banner]').length);
+  await shot('calc-nazionali-banner');
+  await pg.evaluate(() => { const b = [...document.querySelectorAll('button')].find((x) => x.getAttribute('aria-label') === 'Chiudi'); if (b) b.click(); }); await wait(400);
+  ok('calcolatore: senza Champions/Europa League niente riga coppa (Matanovic)', !r.campRows.includes('coppa') && !r.natRows.includes('coppa') && !r.opts.includes('coppa') && r.natRows.includes('campionato') && r.natRows.includes('nations'), r);
+  ok('calcolatore: scelta della nazionale a banner', r.natBanners >= 8, { natBanners: r.natBanners });
+});
+
 // Calcolatore: badge del ruolo sempre visibile (nessuna statistica, tiri, tiri in porta, falli), per giocatori di campionati diversi
 await step('calcolatore: badge del ruolo con ogni statistica', async () => {
   const G = await getJson('giocatori.json');

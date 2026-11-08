@@ -30,6 +30,7 @@ import PlayerPickPanel from './PlayerPickPanel';
 import PlayerSeasonPanel from './PlayerSeasonPanel';
 import ResultCard from './ResultCard';
 import TeamBlock from './TeamBlock';
+import { playerComps } from './calcComp';
 import { cupOf } from '@/data/calcData';
 
 const extra = { dashTarget: 'shots' };
@@ -141,7 +142,8 @@ export default function PlayerTab({ onSave }) {
     const pv = player.nat && player.club ? player.club : player; // hit rate dei falli: ultime partite del giocatore in generale (club, tutte le competizioni), anche in Nations League
     const pf = playerFouls(fd, fmPid, team && domesticKey(team.name), form.stat, pv.hn != null ? hitRows(pv) : null);
     const season = { campionato: { tiri: '', minuti: '' }, coppa: { tiri: '', minuti: '' }, nations: { tiri: '', minuti: '' }, qualificazioni: { tiri: '', minuti: '' } };
-    ['campionato', 'coppa'].forEach((k) => { if (pf && pf[k]) season[k] = { tiri: comma(Math.round(pf[k].v * 100) / 100, 2), minuti: String(Math.round(pf[k].min)) }; });
+    const cupOk = playerComps(player).some((o) => o.value === 'coppa'); // falli di coppa solo se la squadra gioca Champions / Europa League
+    ['campionato', 'coppa'].forEach((k) => { if (k === 'coppa' && !cupOk) return; if (pf && pf[k]) season[k] = { tiri: comma(Math.round(pf[k].v * 100) / 100, 2), minuti: String(Math.round(pf[k].min)) }; });
     setF({
       last5: pf ? pf.last5.join('-') : '',
       min5: pf ? pf.min5.join('-') : '',

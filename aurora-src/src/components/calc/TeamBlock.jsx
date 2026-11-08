@@ -4,7 +4,7 @@ import { teamRow } from '@/data/standings';
 import { NextMatchButton } from './PlayerPickPanel';
 import Crest from '@/components/Crest';
 import PanelTitle from '@/components/PanelTitle';
-import { CUPS, calcTeamsOf, leagueName, prefillShots, rankNote, splitBoxes, teamShots } from '@/data/calcData';
+import { CUPS, calcTeamsOf, leagueName, prefillShots, rankNote, splitBoxes, teamShots, NATIONS_KEYS } from '@/data/calcData';
 import { teamById, teamByName } from '@/data/teams';
 import PickerSheet from './PickerSheet';
 import StatBox from './StatBox';
@@ -42,11 +42,13 @@ export default function TeamBlock({ title, mode = 'for', family = 'totali', bloc
   const rankSot = rk(mode === 'against' ? stats?.rankSotAgainst : stats?.rankSotFor);
 
   const leagueOptions = calcLeagueOptions();
+  // nazionali (Nations League): scelta a banner come i campionati (concept A), nei colori della nazionale con la bandiera
+  const natBanners = NATIONS_KEYS.includes(block.leagueId);
   const teamOptions = calcTeamsOf(block.leagueId)
     .map((n) => teamByName(n))
     .filter(Boolean)
     .sort((a, b) => a.name.localeCompare(b.name))
-    .map((t) => ({ value: t.id, label: t.name, sub: leagueName(block.leagueId), avatar: <Crest team={t} size={26} /> }));
+    .map((t) => ({ value: t.id, label: t.name, sub: leagueName(block.leagueId), avatar: <Crest team={t} size={26} />, ...(natBanners ? { team: t, sub: leagueName(block.leagueId).toUpperCase() } : null) }));
 
   return (
     <section>
@@ -105,6 +107,7 @@ export default function TeamBlock({ title, mode = 'for', family = 'totali', bloc
       <PickerSheet
         open={picker === 'team'}
         title="Squadra"
+        banners={natBanners}
         placeholder="Cerca squadra"
         options={teamOptions}
         onSelect={(o) => onChange({ id: o.value, ...prefillShots(teamShots(o.value, block.leagueId), mode) })}

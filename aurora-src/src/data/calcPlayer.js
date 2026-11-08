@@ -1,6 +1,6 @@
 // Calcolo unico dell'affidabilità di un giocatore: lo usano sia il Calcolatore sia la Home / schede giocatore.
 import { teamByName } from './teams';
-import { NATIONS_KEYS, nextFixture, pickLeagueKey, prefillShots, teamShots } from './calcData';
+import { NATIONS_KEYS, nextFixture, pickLeagueKey, prefillShots, teamCupKey, teamShots } from './calcData';
 import { HIT_OPTIONS, SEASON_COMPETITIONS, computeFoulsResult, computePlayerResult, parseDash, parseNum } from '@/lib/calc';
 import { teamById } from './teams';
 
@@ -57,7 +57,12 @@ export function fillFrom(f, p, fam, fx) {
   const season = { ...f.season, campionato: { tiri: '', minuti: '' }, coppa: { tiri: '', minuti: '' }, nations: { tiri: '', minuti: '' } };
   // Nations League: campionato e coppa europea dal profilo di club, la riga Nations League dalla nazionale
   const src = p.nat ? [['campionato', club && club.l], ['coppa', club && club.c], ['nations', p.l]] : [['campionato', p.l], ['coppa', p.c], ['nations', p.natView && p.natView.l]]; // con campionato/coppa la riga della nazionale si vede ma non pesa
+  // coppa europea solo se la squadra di club gioca Champions o Europa League in questa stagione (mai altre coppe ne' stagioni passate)
+  const clubP = p.nat ? club : p;
+  const clubT = clubP ? teamByName(clubP.teamName) : null;
+  const hasCup = !!(clubP && teamCupKey(clubP.teamName, clubT ? clubT.id : null));
   src.forEach(([key, a]) => {
+    if (key === 'coppa' && !hasCup) return;
     if (a && a[0] > 0 && a[3] > 0) season[key] = { tiri: String(Math.round((a[1 + k] / a[0]) * 100) / 100), minuti: String(Math.round(a[3] / a[0])) };
   });
   const own = teamByName(p.teamName);

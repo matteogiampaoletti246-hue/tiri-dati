@@ -204,3 +204,7 @@ export function fixtureAt(teamName, ts) {
 
 // per le liste di giocatori (stessa logica dell'app originale)
 export { lgAvg as leagueAvgOf, domesticKey, domesticKey as domesticKeyOf, blend as blendTeam, LD as CALC_DATA };
+
+// coppa europea del Calcolatore (Champions / Europa League) giocata dalla squadra in questa stagione, altrimenti null.
+// Senza coppa la riga "coppa" delle Medie stagione non si mostra e non entra nel calcolo (es. Conference League: niente medie nel Calcolatore).
+export const teamCupKey = (teamName, teamId = null) => CUPS.find((c) => calcTeamsOf(c).some((n) => n === teamName || (teamId && ((teamByName(n) || {}).id === teamId)))) || null;

@@ -20,7 +20,7 @@ export default function PlayerSeasonPanel({ season, onChange, rate90, label = 'T
   const opts = playerComps(player);
   const byVal = Object.fromEntries(opts.map((o) => [o.value, o]));
   const nations = comp === 'nations';
-  const rows = SEASON_COMPETITIONS.filter((c) => (player ? byVal[c.key] || filled(season[c.key]) : c.key === 'campionato' || c.key === 'coppa'));
+  const rows = SEASON_COMPETITIONS.filter((c) => (player ? byVal[c.key] || (c.key === 'qualificazioni' && filled(season[c.key])) : c.key === 'campionato' || c.key === 'coppa'));
 
   return (
     <section>

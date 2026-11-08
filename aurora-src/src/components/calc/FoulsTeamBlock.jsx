@@ -2,7 +2,7 @@ import TintSweep from './TintSweep';
 import { useState } from 'react';
 import Crest from '@/components/Crest';
 import PanelTitle from '@/components/PanelTitle';
-import { calcTeamsOf, leagueName } from '@/data/calcData';
+import { calcTeamsOf, leagueName, NATIONS_KEYS } from '@/data/calcData';
 import TeamCompCard from './TeamCompCard';
 import { calcLeagueOptions } from './calcComp';
 import { teamById, teamByName } from '@/data/teams';
@@ -15,11 +15,13 @@ export default function FoulsTeamBlock({ title, statLabel, block, stats, value, 
   const [picker, setPicker] = useState(null);
   const team = teamById(block.id);
   const leagueOptions = calcLeagueOptions();
+  // nazionali (Nations League): scelta a banner come i campionati (concept A), nei colori della nazionale con la bandiera
+  const natBanners = NATIONS_KEYS.includes(block.leagueId);
   const teamOptions = calcTeamsOf(block.leagueId)
     .map((n) => teamByName(n))
     .filter(Boolean)
     .sort((a, b) => a.name.localeCompare(b.name))
-    .map((t) => ({ value: t.id, label: t.name, sub: leagueName(block.leagueId), avatar: <Crest team={t} size={26} /> }));
+    .map((t) => ({ value: t.id, label: t.name, sub: leagueName(block.leagueId), avatar: <Crest team={t} size={26} />, ...(natBanners ? { team: t, sub: leagueName(block.leagueId).toUpperCase() } : null) }));
   const boxes = stats ? [['Casa', stats.casa], ['Trasferta', stats.trasferta]].filter((b) => b[1] !== null && b[1] !== undefined) : [];
   return (
     <section>
@@ -41,7 +43,8 @@ export default function FoulsTeamBlock({ title, statLabel, block, stats, value, 
         ) : null}
       </div>
       <PickerSheet open={picker === 'league'} title="Campionato" banners options={leagueOptions} onSelect={(o) => onChange({ leagueId: o.value, id: null })} onClose={() => setPicker(null)} />
-      <PickerSheet open={picker === 'team'} title="Squadra" placeholder="Cerca squadra" options={teamOptions} onSelect={(o) => onChange({ id: o.value })} onClose={() => setPicker(null)} />
+      <PickerSheet open={picker === 'team'} title="Squadra"
+        banners={natBanners} placeholder="Cerca squadra" options={teamOptions} onSelect={(o) => onChange({ id: o.value })} onClose={() => setPicker(null)} />
     </section>
   );
 }

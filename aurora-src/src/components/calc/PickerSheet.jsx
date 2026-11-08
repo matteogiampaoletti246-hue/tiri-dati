@@ -3,6 +3,13 @@ import { useEffect, useRef, useState } from 'react';
 import { Search, X } from 'lucide-react';
 import { CompLogo } from './CompBannerSelect';
 import { compBg } from './calcComp';
+import Crest from '@/components/Crest';
+
+const teamBannerBg = (t) => {
+  const c0 = (t.colors && t.colors[0]) || 'var(--accent)';
+  const c1 = (t.colors && t.colors[1]) || c0;
+  return `linear-gradient(120deg, color-mix(in srgb, ${c0} 58%, var(--banner-neutral)) 0%, color-mix(in srgb, ${c1} 34%, var(--banner-neutral)) 100%)`;
+};
 
 const norm = (s) =>
   String(s ?? '')
@@ -64,7 +71,26 @@ export default function PickerSheet({ open, title, options = [], placeholder = '
 
         <div className="hide-sb min-h-0 flex-1 overflow-y-auto overscroll-contain pb-24">
           {list.length ? (
-            list.map((o) => (banners && o.comp ? (
+            list.map((o) => (banners && o.team ? (
+              // nazionali a banner (come i campionati): colori della nazionale scuriti (testo sempre leggibile), bandiera su cerchio chiaro
+              <div key={o.value} className="px-4 py-1">
+                <button
+                  type="button"
+                  data-team-banner={o.value}
+                  onClick={() => { onSelect(o); onClose(); }}
+                  className="press flex w-full items-center gap-3 rounded-[14px] px-3.5 py-3 text-left"
+                  style={{ background: teamBannerBg(o.team) }}
+                >
+                  <span className="flex shrink-0 items-center justify-center rounded-full" style={{ width: 36, height: 36, background: 'var(--banner-chip)' }}>
+                    <Crest team={o.team} size={26} />
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block truncate text-[16px] font-bold" style={{ color: 'var(--on-banner)' }}>{o.label}</span>
+                    {o.sub ? <span className="mt-0.5 block truncate text-[11px] font-semibold tracking-[.08em]" style={{ color: 'var(--on-banner-2)' }}>{o.sub}</span> : null}
+                  </span>
+                </button>
+              </div>
+            ) : banners && o.comp ? (
               // competizioni a banner (concept A): colori della competizione, logo su cerchio chiaro, nome e paese
               <div key={o.value} className="px-4 py-1">
                 <button
