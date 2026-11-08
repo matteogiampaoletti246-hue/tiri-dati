@@ -155,14 +155,20 @@ SUFF = {"filho", "junior", "júnior", "neto", "sobrinho", "jr", "jr."}
 PART = {"de", "da", "do", "das", "dos", "del", "della", "di", "van", "von", "der", "den", "la", "le", "y", "e"}
 
 
-def short(lab):
-    """Etichette lunghe (nome completo all'anagrafe) -> nome + cognome: "Alexsandro Amorim de Freitas Filho" -> "Alexsandro Freitas Filho"."""
+def short(lab, luso):
+    """Etichette lunghe (nome completo all'anagrafe) -> nome + cognome. Portoghesi e brasiliani: l'ultimo cognome
+    ("Alexsandro Amorim de Freitas Filho" -> "Alexsandro Freitas Filho"); spagnoli e ispanici: il primo dei due cognomi
+    ("José Ángel Esmorís Tasende" -> "José Esmorís")."""
     w = lab.split()
     if len(w) <= 3:
         return lab
-    last = [w[-1]]
-    if w[-1].lower() in SUFF and len(w) > 2:
-        last = [w[-2], w[-1]]
+    if luso:
+        last = [w[-2], w[-1]] if w[-1].lower() in SUFF else [w[-1]]
+    else:
+        k = len(w) - 2
+        while k > 1 and w[k - 1].lower() in PART:
+            k -= 1
+        last = [x for x in w[k:-1]] if w[-2].lower() not in PART else [w[-2], w[-1]]
     return " ".join([w[0]] + last)
 
 
@@ -185,7 +191,7 @@ def resolve(nick, born, country):
     qid, e = next(iter(found.items()))
     lab = label(e)
     if lab and len(lab.split()) >= 2 and norm(lab) != norm(nick) and "(" not in lab:
-        return short(lab), qid
+        return short(lab, country in LUSO), qid
     given, fam = claim_ids(e, "P735"), claim_ids(e, "P734")
     if not given or not fam:
         return None, qid
