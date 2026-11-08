@@ -20,6 +20,10 @@ export default function PlayerSeasonPanel({ season, onChange, rate90, label = 'T
   const opts = playerComps(player);
   const byVal = Object.fromEntries(opts.map((o) => [o.value, o]));
   const nations = comp === 'nations';
+  // pesi mostrati = pesi usati davvero: ridistribuiti sulle competizioni con minuti (es. senza coppa: campionato 33%, nazionale 67%)
+  const wk = (k) => (k === 'qualificazioni' ? 'nations' : k);
+  const live = new Set(SEASON_COMPETITIONS.filter((c) => NATIONS_WEIGHTS[wk(c.key)] && parseFloat(String(season[c.key].minuti).replace(',', '.')) > 0).map((c) => wk(c.key)));
+  const wTot = [...live].reduce((a, k) => a + NATIONS_WEIGHTS[k], 0);
   const rows = SEASON_COMPETITIONS.filter((c) => (player ? byVal[c.key] || (c.key === 'qualificazioni' && filled(season[c.key])) : c.key === 'campionato' || c.key === 'coppa'));
 
   return (
@@ -38,7 +42,7 @@ export default function PlayerSeasonPanel({ season, onChange, rate90, label = 'T
               const o = byVal[c.key];
               const nat = c.key === 'nations' || c.key === 'qualificazioni';
               const out = !nations && nat;
-              const w = nations ? NATIONS_WEIGHTS[c.key === 'qualificazioni' ? 'nations' : c.key] : null;
+              const w = nations && wTot > 0 && live.has(wk(c.key)) ? NATIONS_WEIGHTS[wk(c.key)] / wTot : null;
               const sub = out ? 'Non nel calcolo' : w ? `${KIND[c.key]} · ${pct(w)}` : KIND[c.key];
               const on = c.key === comp;
               const name = o ? o.comp.name : GENERIC[c.key];

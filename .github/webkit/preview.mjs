@@ -2156,13 +2156,14 @@ await step('calcolatore: coppa solo se la gioca e nazionali a banner', async () 
   r.opts = await pg.evaluate(() => [...document.querySelectorAll('[data-comp-option]')].map((b) => b.dataset.compOption));
   await pg.evaluate(() => { const b = document.querySelector('[data-comp-option="nations"]'); if (b) b.click(); }); await wait(2500);
   r.natRows = await rows();
+  r.pesi = await pg.evaluate(() => [...document.querySelectorAll('[data-season-row]')].map((x) => x.innerText.replace(/\s+/g, ' ').trim()));
   await pg.evaluate(() => { const x = document.querySelector('[data-season-row]'); if (x) x.scrollIntoView({ block: 'center' }); }); await wait(500);
   await shot('calc-matanovic-medie');
   await pg.evaluate(() => { const b = document.querySelector('[aria-label="Cambia squadra"]'); if (b) { b.scrollIntoView({ block: 'center' }); b.click(); } }); await wait(900);
   r.natBanners = await pg.evaluate(() => document.querySelectorAll('[data-team-banner]').length);
   await shot('calc-nazionali-banner');
   await pg.evaluate(() => { const b = [...document.querySelectorAll('button')].find((x) => x.getAttribute('aria-label') === 'Chiudi'); if (b) b.click(); }); await wait(400);
-  ok('calcolatore: senza Champions/Europa League niente riga coppa (Matanovic)', !r.campRows.includes('coppa') && !r.natRows.includes('coppa') && !r.opts.includes('coppa') && r.natRows.includes('campionato') && r.natRows.includes('nations'), r);
+  ok('calcolatore: senza Champions/Europa League niente riga coppa (Matanovic)', !r.campRows.includes('coppa') && !r.natRows.includes('coppa') && !r.opts.includes('coppa') && r.natRows.includes('campionato') && r.natRows.includes('nations') && r.pesi.some((t) => /33%/.test(t)) && r.pesi.some((t) => /67%/.test(t)), r);
   ok('calcolatore: scelta della nazionale a banner', r.natBanners >= 8, { natBanners: r.natBanners });
 });
 
