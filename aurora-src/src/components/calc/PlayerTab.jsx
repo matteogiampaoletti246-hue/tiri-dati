@@ -24,8 +24,8 @@ import {
   parseNum,
 } from '@/lib/calc';
 import PlayerLast5Panel from './PlayerLast5Panel';
-import { carriereOf, loadCarriere } from '@/data/carriere';
-import { rosePlayer } from '@/data/rose';
+import { careerByFm, carriereOf, loadCarriere } from '@/data/carriere';
+import { loadRose, rosePlayer } from '@/data/rose';
 import PlayerPickPanel from './PlayerPickPanel';
 import PlayerSeasonPanel from './PlayerSeasonPanel';
 import ResultCard from './ResultCard';
@@ -111,13 +111,21 @@ export default function PlayerTab({ onSave }) {
   const roles = useMemo(() => playerRoles(fl, roleKeys), [fl, form.competizione]); // eslint-disable-line react-hooks/exhaustive-deps
   // ruolo dalla scheda giocatore per chi non ce l'ha nei falli
   const [ps, setPs] = useState(undefined);
+  const [roseOk, setRoseOk] = useState(false);
   useEffect(() => {
     let live = true;
     setPs(undefined); // undefined = carriere non ancora lette
-    if (player) loadCarriere().then(() => { const c = carriereOf(player.id); if (live) setPs((c && c.ps) || null); });
+    if (player && fmPid !== null) {
+      // come il riquadro "Ruolo" della scheda: carriere.json, poi carriera per id FotMob (car/), poi rosa
+      Promise.all([loadCarriere(), loadRose()]).then(async () => {
+        const c = carriereOf(player.id);
+        const cf = c && c.ps ? null : fmPid ? await careerByFm(fmPid).catch(() => null) : null;
+        if (live) { setRoseOk(true); setPs((c && c.ps) || (cf && cf.ps) || null); }
+      });
+    }
     return () => { live = false; };
-  }, [form.playerId]); // eslint-disable-line react-hooks/exhaustive-deps
-  const rp = fmPid ? rosePlayer(fmPid) : null;
+  }, [form.playerId, fmPid]); // eslint-disable-line react-hooks/exhaustive-deps
+  const rp = fmPid && roseOk ? rosePlayer(fmPid) : null;
   const myRole = (fmPid && roles[String(fmPid)]) || (player && fmPid !== null && ps !== undefined && (fl || !fmPid) ? cardRole(player.position, ps, rp && rp.r ? rp.r[2] : null) : null);
   const autoSig = (rb && roster.length ? autoDuelIds(rb, roster, roles) : []).join(',');
 
