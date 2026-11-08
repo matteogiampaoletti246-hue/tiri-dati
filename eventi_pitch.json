@@ -1,28 +1,36 @@
 {
  "competizioni": {
-  "Bundesliga 2026-2027": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
-  },
-  "Eredivisie 2026-2027": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
-  },
   "Premier League 2026-2027": {
    "partite_con_eventi": 1,
    "da_fare": 1
   },
-  "Saudi First Division 2025-2026": {
+  "Premiership 2026-2027": {
    "partite_con_eventi": 0,
+   "da_fare": 1
+  },
+  "Serie B 2026-2027": {
+   "partite_con_eventi": 1,
+   "da_fare": 1
+  },
+  "Super League 1 2026-2027": {
+   "partite_con_eventi": 1,
+   "da_fare": 1
+  },
+  "Qatar Stars League 2026-2027": {
+   "partite_con_eventi": 1,
+   "da_fare": 1
+  },
+  "Saudi First Division 2026-2027": {
+   "partite_con_eventi": 2,
    "da_fare": 2
   }
  },
  "tipi_visti": {
-  "goal": 10,
-  "yellowcard": 15,
-  "substitution": 27,
-  "redcard": 1
+  "yellowcard": 49,
+  "goal": 23,
+  "substitution": 67,
+  "redcard": 2
  },
- "partite_in_questo_giro": 3,
+ "partite_in_questo_giro": 8,
  "orientamento_cambi": "player esce"
 }
