@@ -8,7 +8,8 @@ FotMob da' solo il nome d'uso; il nome vero viene da Wikidata (CC0, nessuna chia
   4) nome = etichetta Wikidata se ha almeno due parole ed e' diversa dal soprannome (Pote -> "Pedro Gonçalves"); altrimenti
      primo nome (P735) + cognome (P734): il primo cognome per gli spagnoli e ispanici, l'ultimo per portoghesi e brasiliani (Pedri -> "Pedro González").
 Senza corrispondenza sicura il giocatore resta col suo nome. nomi.json: {id FotMob: [nome vero o null, data controllo, Qid o null, soprannome]}.
-Chi resta senza si riprova dopo RIPROVA_GIORNI. Giro a tempo (NOMI_MIN, default 40 minuti): i successivi riprendono da dove resta."""
+Chi resta senza si riprova dopo RIPROVA_GIORNI. Date di nascita FotMob ricordate in nomi_nascite.json; Wikidata con una richiesta SPARQL
+ogni 50 date (tutti i calciatori nati in quei giorni), il soprannome deve essere tra etichette e alias. Giro a tempo (NOMI_MIN, default 40)."""
 import datetime as dt
 import glob
 import json
@@ -208,45 +209,132 @@ def resolve(nick, born, country):
     return full, qid
 
 
+SPARQL = "https://query.wikidata.org/sparql"
+
+
+def sparql(q):
+    for k in range(4):
+        try:
+            data = urllib.parse.urlencode({"query": q, "format": "json"}).encode()
+            req = urllib.request.Request(SPARQL, data=data, headers={**UA_WD, "Content-Type": "application/x-www-form-urlencoded", "Accept": "application/sparql-results+json"})
+            with urllib.request.urlopen(req, timeout=90) as r:
+                return json.loads(r.read().decode("utf-8"))["results"]["bindings"]
+        except Exception as e:
+            print("sparql errore", str(e)[:120], flush=True)
+            time.sleep(5 + 10 * k)
+    return None
+
+
+def by_dates(dates):
+    """Calciatori (P106 = Q937857) nati in quelle date: {data: {Qid: {"lab": etichetta, "names": set di etichette e alias}}}."""
+    vals = " ".join(f'"{d}T00:00:00Z"^^xsd:dateTime' for d in dates)
+    q = ("SELECT ?item ?bd ?l ?a WHERE { VALUES ?bd { " + vals + " } ?item wdt:P569 ?bd ; wdt:P106 wd:Q937857 . "
+         'OPTIONAL { ?item rdfs:label ?l FILTER(LANG(?l) IN ("en","pt","es","it","fr","de")) } '
+         'OPTIONAL { ?item skos:altLabel ?a FILTER(LANG(?a) IN ("en","pt","es","it","fr","de")) } }')
+    rows = sparql(q)
+    if rows is None:
+        return None
+    out = {}
+    for r in rows:
+        d = r["bd"]["value"][:10]
+        qid = r["item"]["value"].rsplit("/", 1)[-1]
+        e = out.setdefault(d, {}).setdefault(qid, {"lab": {}, "names": set()})
+        for key in ("l", "a"):
+            if key in r:
+                v = r[key]["value"]
+                e["names"].add(norm(v))
+                if key == "l":
+                    e["lab"][r[key].get("xml:lang", "")] = v
+    return out
+
+
+def compose(qid, e, nick, country):
+    lab = None
+    for lg in ("en", "it", "pt", "es", "fr", "de"):
+        if lg in e["lab"]:
+            lab = e["lab"][lg]
+            break
+    if lab and len(lab.split()) >= 2 and norm(lab) != norm(nick) and "(" not in lab:
+        return short(lab, country in LUSO)
+    ent = wd_entities([qid]).get(qid) or {}
+    given, fam = claim_ids(ent, "P735"), claim_ids(ent, "P734")
+    if not given or not fam:
+        return None
+    labs = wd_entities(set([given[0]] + fam), "labels")
+    g = label(labs.get(given[0], {}))
+    fams = [x for x in (label(labs.get(f, {})) for f in fam) if x]
+    if not g or not fams:
+        return None
+    full = f"{g} {fams[-1] if country in LUSO else fams[0]}"
+    return None if norm(full) == norm(nick) else full
+
+
 def main():
     try:
         db = json.load(open(OUT))
     except Exception:
         db = {}
+    try:
+        births = json.load(open(os.path.join(ROOT, "nomi_nascite.json")))
+    except Exception:
+        births = {}
     cands = candidates()
-    print(f"candidati: {len(cands)}, gia' in archivio: {len(db)}", flush=True)
     todo = []
     for fid, nick in cands:
         r = db.get(str(fid))
         if r and r[3] == nick and (r[0] or (dt.date.fromisoformat(TODAY) - dt.date.fromisoformat(r[1])).days < RIPROVA_GIORNI):
             continue
         todo.append((fid, nick))
-    print(f"da controllare: {len(todo)}", flush=True)
+    print(f"candidati: {len(cands)}, da controllare: {len(todo)}", flush=True)
 
-    def one(c):
-        fid, nick = c
+    # 1) data di nascita e paese da FotMob (ricordati in nomi_nascite.json)
+    need = [(fid, nick) for fid, nick in todo if str(fid) not in births]
+
+    def fm(c):
+        if (time.time() - T0) / 60 > MIN_RUN * 0.6:
+            return None
+        b, cn = fotmob(c[0])
+        return c[0], b, cn
+    with ThreadPoolExecutor(8) as ex:
+        for res in ex.map(fm, need):
+            if res and res[1]:
+                births[str(res[0])] = [res[1], res[2]]
+    json.dump(births, open(os.path.join(ROOT, "nomi_nascite.json"), "w"), ensure_ascii=False, separators=(",", ":"), sort_keys=True)
+    print(f"date di nascita: {len(births)}", flush=True)
+
+    # 2) Wikidata: tutti i calciatori nati in quelle date (50 date per richiesta), soprannome tra etichette e alias
+    ready = [(fid, nick) for fid, nick in todo if str(fid) in births]
+    dates = sorted({births[str(fid)][0] for fid, _ in ready})
+    pool = {}
+    for i in range(0, len(dates), 50):
         if (time.time() - T0) / 60 > MIN_RUN:
-            return None
-        try:
-            born, country = fotmob(fid)
-            full, qid = (resolve(nick, born, country) if born else (None, None))
-        except Exception:
-            return None
-        return fid, nick, full, qid
-
+            break
+        got = by_dates(dates[i:i + 50])
+        if got is None:
+            continue
+        for d in dates[i:i + 50]:
+            pool[d] = got.get(d, {})
+        time.sleep(1)
     done = found = 0
-    with ThreadPoolExecutor(6) as ex:
-        for res in ex.map(one, todo):
-            if not res:
-                continue
-            fid, nick, full, qid = res
-            db[str(fid)] = [full, TODAY, qid, nick]
-            done += 1
-            if full:
-                found += 1
-                print(f"{nick} -> {full} ({qid})", flush=True)
-            if done % 100 == 0:
-                json.dump(db, open(OUT, "w"), ensure_ascii=False, separators=(",", ":"), sort_keys=True)
+    for fid, nick in ready:
+        if (time.time() - T0) / 60 > MIN_RUN:
+            break
+        b, cn = births[str(fid)]
+        if b not in pool:
+            continue
+        hits = [(q, e) for q, e in pool[b].items() if norm(nick) in e["names"]]
+        full = qid = None
+        if len(hits) == 1:
+            qid = hits[0][0]
+            try:
+                full = compose(qid, hits[0][1], nick, cn)
+            except Exception:
+                full = None
+        db[str(fid)] = [full, TODAY, qid, nick]
+        done += 1
+        if full:
+            found += 1
+            print(f"{nick} -> {full} ({qid})", flush=True)
     json.dump(db, open(OUT, "w"), ensure_ascii=False, separators=(",", ":"), sort_keys=True)
     tot = sum(1 for v in db.values() if v[0])
     print(f"controllati ora: {done}, trovati ora: {found}, nomi veri in archivio: {tot}/{len(db)}", flush=True)
