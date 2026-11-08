@@ -2088,19 +2088,21 @@ await step('calcolatore: badge del ruolo con ogni statistica', async () => {
   };
   for (const nm of picks) {
     await go('#/calcolatore', 3500);
-    await pg.waitForFunction(() => [...document.querySelectorAll('button')].some((x) => /Cerca e seleziona/.test(x.textContent)), null, { timeout: 25000 }).catch(() => {});
-    await pg.evaluate(() => { const b = [...document.querySelectorAll('button')].find((x) => /Cerca e seleziona/.test(x.textContent)); if (b) b.click(); });
+    await pg.waitForFunction(() => [...document.querySelectorAll('button')].some((x) => /Cerca e seleziona|^\s*Cambia\s*$/.test(x.textContent)), null, { timeout: 25000 }).catch(() => {});
+    await pg.evaluate(() => { const b = [...document.querySelectorAll('button')].find((x) => /Cerca e seleziona|^\s*Cambia\s*$/.test(x.textContent)); if (b) b.click(); });
     await wait(900);
     await pg.keyboard.type(nm, { delay: 25 }); await wait(1300);
     await pg.evaluate((n) => { const b = [...document.querySelectorAll('button')].find((x) => x.textContent.includes(n)); if (b) b.click(); }, nm);
+    await pg.waitForFunction((n) => document.getElementById('sl-shell').innerText.includes(n), nm, { timeout: 8000 }).catch(() => {});
+    const shown = await pg.evaluate((n) => document.getElementById('sl-shell').innerText.includes(n), nm);
     let r0 = null; for (let k = 0; k < 16 && !r0; k++) { await wait(400); r0 = await badge(); }
-    const r = { iniziale: r0, tiri: await pickStat('Tiri'), porta: await pickStat('Tiri in Porta'), fs: await pickStat('Falli Subiti'), fc: await pickStat('Falli Commessi') };
+    const r = { shown, iniziale: r0, tiri: await pickStat('Tiri'), porta: await pickStat('Tiri in Porta'), fs: await pickStat('Falli Subiti'), fc: await pickStat('Falli Commessi') };
     await pickStat('Tiri in Porta');
     await shot(`calc-ruolo-${nm.replace(/\W+/g, '-')}`);
     res[nm] = r;
   }
   const withRole = Object.values(res).filter((r) => r.fs);
-  ok('calcolatore: il ruolo resta uguale con ogni statistica (anche senza statistica scelta)', withRole.length >= 3 && withRole.every((r) => r.iniziale === r.fs && r.tiri === r.fs && r.porta === r.fs && r.fc === r.fs) && res['Nick Woltemade'] && res['Nick Woltemade'].porta, res);
+  ok('calcolatore: il ruolo resta uguale con ogni statistica (anche senza statistica scelta)', withRole.length >= 3 && new Set(withRole.map((r) => r.fs)).size >= 2 && Object.values(res).every((r) => r.shown) && withRole.every((r) => r.iniziale === r.fs && r.tiri === r.fs && r.porta === r.fs && r.fc === r.fs) && res['Nick Woltemade'] && res['Nick Woltemade'].porta, res);
 });
 
 // Calcolatore: tasto "Prossima partita" e stato conservato tornando da partita, scheda giocatore, barra e pagina ricreata (top e minori)
