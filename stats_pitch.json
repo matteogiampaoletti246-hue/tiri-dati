@@ -1,80 +1,10 @@
 {
  "competizioni": {
-  "First Division A 2026-2027": {
-   "con_statistiche": 2,
-   "con_mappa_tiri": 2,
-   "da_fare": 2
-  },
-  "Ligue 1 2026-2027": {
-   "con_statistiche": 0,
-   "con_mappa_tiri": 0,
-   "da_fare": 1
-  },
-  "Serie A 2026-2027": {
-   "con_statistiche": 1,
-   "con_mappa_tiri": 1,
-   "da_fare": 1
-  },
-  "Eredivisie 2026-2027": {
-   "con_statistiche": 1,
-   "con_mappa_tiri": 1,
-   "da_fare": 1
-  },
-  "Liga Portugal 2026-2027": {
-   "con_statistiche": 1,
-   "con_mappa_tiri": 1,
-   "da_fare": 1
-  },
-  "Premiership 2026-2027": {
-   "con_statistiche": 1,
-   "con_mappa_tiri": 1,
-   "da_fare": 1
-  },
-  "Super League 2026-2027": {
-   "con_statistiche": 1,
-   "con_mappa_tiri": 1,
-   "da_fare": 1
-  },
-  "LaLiga 2026-2027": {
-   "con_statistiche": 1,
-   "con_mappa_tiri": 1,
-   "da_fare": 1
-  },
-  "MLS 2026": {
-   "con_statistiche": 6,
-   "con_mappa_tiri": 6,
-   "da_fare": 8
-  },
   "Liga 1 2026": {
-   "con_statistiche": 1,
-   "con_mappa_tiri": 1,
-   "da_fare": 1
-  },
-  "Primera Division 2026": {
-   "con_statistiche": 1,
-   "con_mappa_tiri": 1,
-   "da_fare": 1
-  },
-  "2. Bundesliga 2026-2027": {
-   "con_statistiche": 1,
-   "con_mappa_tiri": 1,
-   "da_fare": 1
-  },
-  "Serie A 2026": {
-   "con_statistiche": 1,
-   "con_mappa_tiri": 1,
-   "da_fare": 1
-  },
-  "Liga de Primera 2026": {
-   "con_statistiche": 1,
-   "con_mappa_tiri": 1,
-   "da_fare": 1
-  },
-  "Premier League 2026": {
    "con_statistiche": 1,
    "con_mappa_tiri": 1,
    "da_fare": 1
   }
  },
- "partite_in_questo_giro": 20
+ "partite_in_questo_giro": 1
 }
