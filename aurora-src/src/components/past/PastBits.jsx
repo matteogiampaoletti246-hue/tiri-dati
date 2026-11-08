@@ -211,12 +211,13 @@ export function BarRow({ label, value, fmt, frac, width, avgPos, avgText, rank, 
 }
 
 // da una lista ordinata di classifica ricava posizione, frazione (1 = migliore), larghezza barra e media
-export function standingOf(list, idx, key) {
+// avgIn: media che conta anche chi e' a 0 (poolAvg), quando ricavabile
+export function standingOf(list, idx, key, avgIn = null) {
   const n = list.length;
   const v = Number(list[idx][3]);
   const neg = NEG_RE.test(key);
   const best = Math.max(...list.slice(0, 5).map((r) => Number(r[3]) || 0), 0.0001);
-  const avg = list.reduce((a, r) => a + (Number(r[3]) || 0), 0) / n;
+  const avg = avgIn != null ? avgIn : list.reduce((a, r) => a + (Number(r[3]) || 0), 0) / n;
   const top = Math.max(best * 1.05, avg * 1.6, v, 0.0001);
   const rank = neg ? n - idx : idx + 1;
   const frac = n > 1 ? (neg ? idx / (n - 1) : 1 - idx / (n - 1)) : 1;
@@ -225,11 +226,11 @@ export function standingOf(list, idx, key) {
 
 // voce a 0 (dato ricavabile ma il giocatore non e' nella classifica, che ha solo i valori sopra 0): barra vuota, media del campionato,
 // colore come la classifica (0 e' il migliore per falli, cartellini, palle perse...; il peggiore per il resto), nessuna posizione (pari merito)
-export function zeroStandingOf(list, key) {
+export function zeroStandingOf(list, key, avgIn = null) {
   const n = list.length;
   const neg = NEG_RE.test(key);
   const best = Math.max(...list.slice(0, 5).map((r) => Number(r[3]) || 0), 0.0001);
-  const avg = list.reduce((a, r) => a + (Number(r[3]) || 0), 0) / n;
+  const avg = avgIn != null ? avgIn : list.reduce((a, r) => a + (Number(r[3]) || 0), 0) / n;
   const top = Math.max(best * 1.05, avg * 1.6, 0.0001);
   return { v: 0, rank: null, frac: neg ? 1 : 0, width: 0, avg, avgPos: Math.min(100, (avg / top) * 100) };
 }

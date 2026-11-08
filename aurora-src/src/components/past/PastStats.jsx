@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import useAsync from '@/hooks/useAsync';
 import TextFilter from '@/components/TextFilter';
-import { loadSeason, statsFromMatches, zeroFor, loadPlayerStatsFor, playerViewLists, playerStatIsP90, loadTeamStats, teamPartStats, teamIdByName, PLAYER_STAT_IT, SEASON_STAT_IT, STAT_IT, prettyKey, seasonLabel } from '@/data/archive';
+import { loadSeason, statsFromMatches, zeroFor, poolAvg, loadPlayerStatsFor, playerViewLists, playerStatIsP90, loadTeamStats, teamPartStats, teamIdByName, PLAYER_STAT_IT, SEASON_STAT_IT, STAT_IT, prettyKey, seasonLabel } from '@/data/archive';
 import { useTeamColors } from '@/components/archive/parts';
 import { groupOf, fmtVal, ORDER } from '@/components/archive/ArchiveLeague';
 import { TeamLogo } from '@/components/FmImg';
@@ -63,7 +63,7 @@ export default function PastStats({ kind, id, fm, sk, current = false, teamName 
     if (idx >= 0) me = me || list[idx];
     const g = byMatch ? catOfMatchKey(k) : kind === 'teams' ? catOfSeasonGroup(groupOf(k.replace(/_team$/, ''))) : groupOf(k.replace(/_team$/, ''));
     if (cat !== 'all' && (kind === 'teams' ? g : catOfSeasonGroup(g)) !== cat) return;
-    (groups[g] = groups[g] || []).push({ k, p90: isP && playerStatIsP90(stats, k), st: zero ? zeroStandingOf(list, k) : standingOf(list, idx, k), title: byMatch ? (STAT_IT[k] || prettyKey(k)) : (SEASON_STAT_IT[k] || PLAYER_STAT_IT[k] || prettyKey(k)) });
+    (groups[g] = groups[g] || []).push({ k, p90: isP && playerStatIsP90(stats, k), st: zero ? zeroStandingOf(list, k, poolAvg(stats, k, list, id)) : standingOf(list, idx, k, isP ? poolAvg(stats, k, list, id) : null), title: byMatch ? (STAT_IT[k] || prettyKey(k)) : (SEASON_STAT_IT[k] || PLAYER_STAT_IT[k] || prettyKey(k)) });
   });
   if (!me && isP && Object.keys(groups).length) me = ((stats.players && stats.players.mins_played) || []).find((r) => String(r[0]) === String(id)) || null;
   if (!me) return isP ? <>{pills}<Msg>Dati non disponibili</Msg></> : <Msg>Nessuna presenza in questa stagione</Msg>;

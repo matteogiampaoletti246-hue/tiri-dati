@@ -2180,6 +2180,9 @@ await step('statistiche giocatore: zeri con barra e risultato dal lato del gioca
   const bars = (disc.match(/media /g) || []).length;
   await shot('boga-disciplina-zeri');
   ok('Disciplina: le voci a 0 hanno la barra (Boga: falli e cartellini)', bars >= 3 && /0,00|\b0\b/.test(disc), { bars, disc: disc.slice(0, 400) });
+  // media che conta anche chi e' a 0: i rossi non possono avere media 1 (solo chi ne ha preso almeno uno)
+  const red = (disc.match(/Cartellini rossi\n[^\n]*\n(media [^\n]*)/) || [])[1] || '';
+  ok('Disciplina: media dei cartellini con gli zeri (rossi sotto 0,5)', /^media 0/.test(red), { red });
   await go('#/giocatore/p_3mmPQC', 6000); // Alex Scott: Croazia-Inghilterra 0-7
   await clickText('Partite'); await wait(4000);
   const t = await pg.evaluate(() => document.body.innerText);

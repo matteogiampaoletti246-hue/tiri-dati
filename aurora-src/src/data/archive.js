@@ -409,13 +409,31 @@ const GK_KEY = /saves|goals_conceded|keeper|punches|player_throws|on_target_face
 const SEASON_TO_MATCH = { total_scoring_att: 'total_shots', ontarget_scoring_att: 'ShotsOnTarget', goal_assist: 'assists', total_att_assist: 'chances_created', accurate_pass: 'accurate_passes', interception: 'interceptions', ball_recovery: 'recoveries', total_tackle: 'matchstats.headers.tackles', effective_clearance: 'clearances', outfielder_block: 'shot_blocks', won_contest: 'dribbles_succeeded', accurate_long_balls: 'long_balls_accurate', big_chance_missed: 'big_chance_missed_title', penalty_conceded: 'conceded_penalties', penalty_won: 'penalties_won', penalty_save: 'saved_penalties', total_high_claim: 'keeper_high_claim', total_keeper_sweeper: 'keeper_sweeper', expected_goalsontarget: 'expected_goals_on_target_variant' };
 // il giocatore ha 0 su questa voce (dato ricavabile: ha giocato partite in cui la voce era registrata, e non ce l'ha)? Senza dati: false, la voce non si mostra.
 export const zeroFor = (st, k, pid) => {
-  const rec = st && st.rec;
-  if (!rec || pid == null) return false;
-  if (k === 'was_fouled' || k === 'mins_played' || k.startsWith('_')) return false;
-  if (/rating|percentage|accuracy/.test(k)) return false;
-  const base = k.replace(/_per_90$/, '');
-  const set = rec[SEASON_TO_MATCH[base] || base] || rec[base];
+  if (pid == null) return false;
+  const set = recSet(st, k);
   return !!(set && set.has(String(pid)));
+};
+// giocatori con il dato ricavabile su una voce (hanno giocato partite in cui era registrata), o null
+const recSet = (st, k) => {
+  const rec = st && st.rec;
+  if (!rec || k === 'was_fouled' || k === 'mins_played' || k.startsWith('_') || /rating|percentage|accuracy/.test(k)) return null;
+  const base = k.replace(/_per_90$/, '');
+  return rec[SEASON_TO_MATCH[base] || base] || rec[base] || null;
+};
+// media del campionato su una voce CONTANDO GLI ZERI: le classifiche hanno solo chi supera 0 (la media dei rossi veniva 1).
+// Somma dei valori della lista diviso tutti i giocatori sopra la stessa soglia di minuti della lista che hanno il dato (lista + zeri).
+// Senza dati per contare gli zeri: null (resta la media della lista).
+export const poolAvg = (st, k, list, selfId) => {
+  const set = recSet(st, k);
+  const mins = st && st.players && st.players.mins_played;
+  if (!set || !mins || !list || !list.length) return null;
+  const others = list.filter((r) => String(r[0]) !== String(selfId));
+  const thr = others.length ? Math.min(...others.map((r) => Number(r[4]) || 0)) : 0;
+  const ids = new Set(list.map((r) => String(r[0])));
+  let n = ids.size;
+  mins.forEach((r) => { const id = String(r[0]); if (!ids.has(id) && set.has(id) && Number(r[3]) >= thr && id !== String(selfId)) n += 1; });
+  const sum = list.reduce((a, r) => a + (Number(r[3]) || 0), 0);
+  return n ? sum / n : null;
 };
 // statistiche squadre di una stagione: quelle ufficiali se ci sono, altrimenti le medie a partita dalle partite archiviate
 // (stagione in corso dei campionati aggiunti: il file ufficiale esiste ma e' ancora vuoto)
