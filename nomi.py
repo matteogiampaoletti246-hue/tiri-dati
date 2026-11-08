@@ -39,15 +39,16 @@ def norm(s):
     return re.sub(r"[^a-z0-9 ]", "", s).strip()
 
 
-def get(url, headers, tries=3):
+def get(url, headers, tries=5):
     for k in range(tries):
         try:
-            with urllib.request.urlopen(urllib.request.Request(url, headers=headers), timeout=25) as r:
+            with urllib.request.urlopen(urllib.request.Request(url, headers=headers), timeout=40) as r:
                 return json.loads(r.read().decode("utf-8"))
         except urllib.error.HTTPError as e:
             if e.code in (404, 400):
                 return None
-            time.sleep(2 + 3 * k)
+            ra = e.headers.get("Retry-After") if e.headers else None
+            time.sleep(int(ra) if ra and ra.isdigit() else 3 + 5 * k)
         except Exception:
             time.sleep(2 + 3 * k)
     return None
@@ -364,7 +365,7 @@ def main():
         return fid, nick, full, qid
 
     done = found = 0
-    with ThreadPoolExecutor(3) as ex:
+    with ThreadPoolExecutor(1) as ex:
         for res in ex.map(one, ready):
             if not res:
                 continue
