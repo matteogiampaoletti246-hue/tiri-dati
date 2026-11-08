@@ -79,12 +79,13 @@ export function useFouls(keys) {
       if (!live) return;
       const o = {};
       arr.forEach((x, i) => { if (x) o[keys[i]] = x; });
-      setData(o);
+      setData({ sig, o });
     });
     return () => { live = false; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sig]);
-  return data;
+  // solo i dati degli archivi chiesti ora: cambiando giocatore/squadre non si calcola con quelli di prima (medie vuote)
+  return data && data.sig === sig ? data.o : null;
 }
 
 // media a partita di una squadra in un archivio: 'fc' falli commessi, 'fs' falli subiti

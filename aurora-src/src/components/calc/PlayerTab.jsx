@@ -90,11 +90,14 @@ export default function PlayerTab({ onSave }) {
   const keys = useMemo(() => (fouls ? foulKeys([team && team.name, opp && opp.name], [form.team.leagueId, form.opp.leagueId]) : []), [fouls, team, opp, form.team.leagueId, form.opp.leagueId]);
   const fd = useFouls(keys);
   const fmOf = (t) => fmTeamIn(fd, t);
-  const [fmPid, setFmPid] = useState(null);
+  // id FotMob legato al giocatore per cui e' stato cercato: cambiando giocatore non si usa mai l'id del precedente
+  // (prima le medie stagione si calcolavano con l'id del giocatore di prima e restavano vuote o sbagliate)
+  const [fmRes, setFmRes] = useState({ p: null, v: null });
+  const fmPid = fmRes.p === form.playerId ? fmRes.v : null;
   useEffect(() => {
     let live = true;
-    setFmPid(null);
-    if (player) resolvePid(player).then((x) => { if (live) setFmPid(x || 0); }, () => { if (live) setFmPid(0); }); // 0 = cercato ma senza id FotMob // anche per i tiri e senza statistica: serve al badge del ruolo
+    const pid = form.playerId;
+    if (player) resolvePid(player).then((x) => { if (live) setFmRes({ p: pid, v: x || 0 }); }, () => { if (live) setFmRes({ p: pid, v: 0 }); }); // 0 = cercato ma senza id FotMob // anche per i tiri e senza statistica: serve al badge del ruolo
     return () => { live = false; };
   }, [form.playerId]); // eslint-disable-line react-hooks/exhaustive-deps
   const ownStats = fouls ? teamFoulStats(fd, fmOf(team), form.team.leagueId, team && team.name, form.stat) : null;
@@ -132,7 +135,7 @@ export default function PlayerTab({ onSave }) {
   // precompila i falli dai dati (ultime 5, medie stagione, medie squadre) quando cambiano giocatore, squadre o statistica
   useEffect(() => {
     if (!fouls || !fd || !player || !fmPid) return;
-    const sig = [form.stat, form.playerId, form.team.id, form.team.leagueId, form.opp.id, form.opp.leagueId].join('|');
+    const sig = ['v2', form.stat, form.playerId, form.team.id, form.team.leagueId, form.opp.id, form.opp.leagueId].join('|');
     if (restored.current && f.sig === sig) return; // stessi giocatore, squadre e statistica di prima: restano i valori com'erano
     const pv = viewFor(player, form.competizione);
     const pf = playerFouls(fd, fmPid, team && domesticKey(team.name), form.stat, pv.hn != null ? hitRows(pv) : null);
