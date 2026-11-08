@@ -13,7 +13,7 @@ import { comma } from '@/lib/format';
 import { parseDash } from '@/lib/calc';
 import DuelPicker from './DuelPicker';
 import RolesPanel from './RolesPanel';
-import { FALLI_KEYS, autoDuelIds, falliKeysFor, playerRoles, roleBreakdown, useFalli } from '@/data/calcRoles';
+import { FALLI_KEYS, cardRole, autoDuelIds, falliKeysFor, playerRoles, roleBreakdown, useFalli } from '@/data/calcRoles';
 import FoulsTeamBlock from './FoulsTeamBlock';
 import {
   COMPETITION_OPTIONS,
@@ -24,6 +24,8 @@ import {
   parseNum,
 } from '@/lib/calc';
 import PlayerLast5Panel from './PlayerLast5Panel';
+import { carriereOf, loadCarriere } from '@/data/carriere';
+import { rosePlayer } from '@/data/rose';
 import PlayerPickPanel from './PlayerPickPanel';
 import PlayerSeasonPanel from './PlayerSeasonPanel';
 import ResultCard from './ResultCard';
@@ -92,7 +94,7 @@ export default function PlayerTab({ onSave }) {
   useEffect(() => {
     let live = true;
     setFmPid(null);
-    if (player) resolvePid(player).then((x) => { if (live) setFmPid(x); }); // anche per i tiri e senza statistica: serve al badge del ruolo
+    if (player) resolvePid(player).then((x) => { if (live) setFmPid(x || 0); }, () => { if (live) setFmPid(0); }); // 0 = cercato ma senza id FotMob // anche per i tiri e senza statistica: serve al badge del ruolo
     return () => { live = false; };
   }, [form.playerId]); // eslint-disable-line react-hooks/exhaustive-deps
   const ownStats = fouls ? teamFoulStats(fd, fmOf(team), form.team.leagueId, team && team.name, form.stat) : null;
@@ -107,6 +109,16 @@ export default function PlayerTab({ onSave }) {
   const fl = useFalli(player ? FALLI_KEYS : []); // sempre (non solo falli): da qui viene il ruolo del giocatore
   const rb = fouls && fl && fmPid ? roleBreakdown(fl, roleKeys, fmPid, form.stat) : null;
   const roles = useMemo(() => playerRoles(fl, roleKeys), [fl, form.competizione]); // eslint-disable-line react-hooks/exhaustive-deps
+  // ruolo dalla scheda giocatore per chi non ce l'ha nei falli
+  const [ps, setPs] = useState(undefined);
+  useEffect(() => {
+    let live = true;
+    setPs(undefined); // undefined = carriere non ancora lette
+    if (player) loadCarriere().then(() => { const c = carriereOf(player.id); if (live) setPs((c && c.ps) || null); });
+    return () => { live = false; };
+  }, [form.playerId]); // eslint-disable-line react-hooks/exhaustive-deps
+  const rp = fmPid ? rosePlayer(fmPid) : null;
+  const myRole = (fmPid && roles[String(fmPid)]) || (player && fmPid !== null && ps !== undefined && (fl || !fmPid) ? cardRole(player.position, ps, rp && rp.r ? rp.r[2] : null) : null);
   const autoSig = (rb && roster.length ? autoDuelIds(rb, roster, roles) : []).join(',');
 
   // precompila i falli dai dati (ultime 5, medie stagione, medie squadre) quando cambiano giocatore, squadre o statistica
@@ -224,7 +236,7 @@ export default function PlayerTab({ onSave }) {
         stat={form.stat || 'tiri'}
         onStat={onStat}
         tint={tOwn(0)}
-        role={fmPid ? roles[String(fmPid)] : null}
+        role={myRole}
       />
       {fouls ? (
         <>

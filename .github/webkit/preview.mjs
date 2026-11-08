@@ -2102,6 +2102,7 @@ await step('calcolatore: badge del ruolo con ogni statistica', async () => {
     res[nm] = r;
   }
   const withRole = Object.values(res).filter((r) => r.fs);
+  ok('calcolatore: badge del ruolo per tutti (dai falli o dalla scheda, anche portieri)', Object.values(res).every((r) => r.iniziale && r.porta), res);
   ok('calcolatore: il ruolo resta uguale con ogni statistica (anche senza statistica scelta)', withRole.length >= 3 && new Set(withRole.map((r) => r.fs)).size >= 2 && Object.values(res).every((r) => r.shown) && withRole.every((r) => r.iniziale === r.fs && r.tiri === r.fs && r.porta === r.fs && r.fc === r.fs) && res['Nick Woltemade'] && res['Nick Woltemade'].porta, res);
 });
 
