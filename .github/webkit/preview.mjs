@@ -2071,6 +2071,75 @@ await step('fix-dati: Calcolatore, Hit Rate su partite da almeno 50 minuti e "su
   ok('fix-dati: Calcolatore, scritta giusta ("ultime 5" o "su N partite")', all.length === 3 && all.every((x) => x.label), res);
 });
 
+// Calcolatore estetica 8/11 (concept 1A 2B 3A 4B 5B 6A) + Nations League: medie 50/25/25, hit rate sulle ultime partite generali, giocatori di sola nazionale
+await step('calcolatore: sede, competizione a banner, icone, medie, squadra e campionati', async () => {
+  const G = await getJson('giocatori.json');
+  const club = (G ? G.players : []).find((x) => x.n === 'Nicolò Barella');
+  const pick = async (nm) => {
+    await go('#/calcolatore', 3500);
+    await pg.waitForFunction(() => [...document.querySelectorAll('button')].some((x) => /Cerca e seleziona|^\s*Cambia\s*$/.test(x.textContent)), null, { timeout: 25000 }).catch(() => {});
+    await pg.evaluate(() => { const b = [...document.querySelectorAll('button')].find((x) => /Cerca e seleziona|^\s*Cambia\s*$/.test(x.textContent)); if (b) b.click(); });
+    await wait(900);
+    await pg.keyboard.type(nm, { delay: 25 }); await wait(1300);
+    const found = await pg.evaluate((n) => { const b = [...document.querySelectorAll('button')].find((x) => x.textContent.includes(n)); if (b) b.click(); return !!b; }, nm);
+    await wait(2500);
+    return found;
+  };
+  const info = () => pg.evaluate(() => {
+    const sh = document.getElementById('sl-shell') || document.body;
+    const sede = sh.querySelector('[role="radiogroup"][aria-label="Sede"]');
+    const labels = [...sh.querySelectorAll('.label-sm')].map((x) => x.textContent.trim());
+    const rows = [...sh.querySelectorAll('[data-season-row]')].map((r) => ({ k: r.dataset.seasonRow, t: r.innerText.replace(/\s+/g, ' ').trim(), v: [...r.querySelectorAll('input')].map((i) => i.value) }));
+    const comp = sh.querySelector('[aria-label="Competizione"]');
+    const l5in = sh.querySelector('input[aria-label="Tiri ultime 5"]');
+    const last5 = l5in ? { value: ((l5in.closest(".flex-col") || l5in.parentElement).innerText.match(/\d+/g) || []).join('-') } : null;
+    return { sede: sede ? [...sede.querySelectorAll('button')].map((b) => b.textContent.trim() + (b.querySelector('svg') ? '+icona' : '')) : null, sedeLabel: labels.includes('Sede'), comp: comp ? comp.innerText.trim() : null, rows, pills: sh.querySelectorAll('[data-league-pill]').length, shots5: last5 ? last5.value : null };
+  });
+  const res = {};
+  res.found = await pick('Nicolò Barella');
+  res.a = await info();
+  // tendina competizione
+  await pg.evaluate(() => document.querySelector('[aria-label="Competizione"]').click()); await wait(700);
+  res.compOpts = await pg.evaluate(() => [...document.querySelectorAll('[data-comp-option]')].map((b) => b.dataset.compOption + ':' + b.innerText.replace(/\s+/g, ' ').trim()));
+  await shot('calc-estetica-competizione');
+  await pg.evaluate(() => { const b = document.querySelector('[data-comp-option="nations"]'); if (b) b.click(); }); await wait(2500);
+  res.n = await info();
+  await pg.evaluate(() => { const r = document.querySelector('[data-season-row]'); if (r) r.scrollIntoView({ block: 'center' }); }); await wait(600);
+  await shot('calc-estetica-medie-nations');
+  // hit rate / ultime 5 in Nations League = ultime partite del giocatore in generale (club)
+  res.clubH = club && club.h ? club.h.slice(0, 5).map((x) => x[0]).join('-') : null;
+  // statistiche con icone
+  await pg.evaluate(() => document.querySelector('[aria-label="Statistiche"]').scrollIntoView({ block: 'center' })); await wait(400);
+  await pg.evaluate(() => document.querySelector('[aria-label="Statistiche"]').click()); await wait(700);
+  res.statIcons = await pg.evaluate(() => [...document.querySelectorAll('[data-pop-scroll] button')].map((b) => b.textContent.trim() + (b.querySelector('svg') ? '+icona' : '')));
+  await shot('calc-estetica-statistiche');
+  await pg.evaluate(() => document.querySelector('[aria-label="Statistiche"]').click()); await wait(500);
+  // torna al campionato: la nazionale non conta
+  await pg.evaluate(() => document.querySelector('[aria-label="Competizione"]').click()); await wait(600);
+  await pg.evaluate(() => { const b = document.querySelector('[data-comp-option="campionato"]'); if (b) b.click(); }); await wait(2500);
+  res.c = await info();
+  // scheda squadra e scelta campionato a banner
+  await pg.evaluate(() => { const b = document.querySelector('[data-league-pill]'); if (b) b.scrollIntoView({ block: 'center' }); }); await wait(600);
+  await shot('calc-estetica-squadra');
+  await pg.evaluate(() => document.querySelector('[data-league-pill]').click()); await wait(900);
+  res.banners = await pg.evaluate(() => document.querySelectorAll('[data-league-banner]').length);
+  await shot('calc-estetica-campionati');
+  await pg.evaluate(() => { const b = [...document.querySelectorAll('button')].find((x) => x.getAttribute('aria-label') === 'Chiudi'); if (b) b.click(); }); await wait(500);
+  // giocatore di sola nazionale (campionato minore)
+  res.onlyNat = await pick('Áki Samuelsen');
+  res.o = await info();
+  await shot('calc-estetica-sola-nazionale');
+  const nRows = (res.n.rows || []).map((r) => r.k);
+  ok('calcolatore: tre tasti sede con icona, senza scritta Sede', res.a.sede && res.a.sede.length === 3 && res.a.sede.every((x) => x.endsWith('+icona')) && !res.a.sedeLabel, res.a.sede);
+  ok('calcolatore: tendina competizione con le competizioni del giocatore', res.compOpts.some((x) => x.startsWith('campionato:Serie A')) && res.compOpts.some((x) => x.startsWith('nations:Nations League')), res.compOpts);
+  ok('calcolatore: icone nella tendina statistiche', res.statIcons.length === 4 && res.statIcons.every((x) => x.endsWith('+icona')), res.statIcons);
+  ok('calcolatore: medie Nations League con campionato, coppa e nazionale e pesi', nRows.includes('campionato') && nRows.includes('nations') && res.n.rows.some((r) => /peso 50%/.test(r.t)) && res.n.rows.some((r) => /Serie A/.test(r.t)), res.n.rows);
+  ok('calcolatore: in Nations League ultime 5 = ultime partite del giocatore in generale', !res.clubH || res.n.shots5 === res.clubH, { shots5: res.n.shots5, club: res.clubH });
+  ok('calcolatore: con campionato la nazionale non conta', (res.c.rows || []).filter((r) => r.k === 'nations').every((r) => /Non nel calcolo/.test(r.t)), res.c.rows);
+  ok('calcolatore: pillola campionato e scelta campionato a banner', res.c.pills >= 2 && res.banners >= 10, { pills: res.c.pills, banners: res.banners });
+  ok('calcolatore: giocatore di sola nazionale trovato, competizione Nations League', res.onlyNat && /Nations League/.test(res.o.comp || ''), { found: res.onlyNat, comp: res.o.comp });
+});
+
 // Calcolatore: badge del ruolo sempre visibile (nessuna statistica, tiri, tiri in porta, falli), per giocatori di campionati diversi
 await step('calcolatore: badge del ruolo con ogni statistica', async () => {
   const G = await getJson('giocatori.json');

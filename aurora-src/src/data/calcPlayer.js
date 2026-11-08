@@ -48,11 +48,16 @@ export const hitRows = (p) => ((p && p.hn !== null && p.hn !== undefined ? p.h :
 // precompila i campi dal giocatore reale (media stagionale, ultime 5, squadre, prossima partita)
 export function fillFrom(f, p, fam, fx) {
   const k = fam === 'inPorta' ? 1 : 0;
-  const rows = hitRows(p);
+  // profilo della nazionale (Nations League): hit rate e ultime 5 = ultime partite del giocatore in generale (club, tutte le competizioni),
+  // non solo quelle con la nazionale; senza profilo di club restano quelle della nazionale
+  const club = p.nat && p.club ? p.club : null;
+  const rows = club && hitRows(club).length ? hitRows(club) : hitRows(p);
   const lineV = parseNum(f.line) ?? 0;
   const hit = rows.filter((x) => (f.lineType === 'under' ? (x[k] || 0) < lineV : (x[k] || 0) > lineV)).length;
-  const season = { ...f.season, campionato: { tiri: '', minuti: '' }, coppa: { tiri: '', minuti: '' } };
-  [['campionato', p.l], ['coppa', p.c]].forEach(([key, a]) => {
+  const season = { ...f.season, campionato: { tiri: '', minuti: '' }, coppa: { tiri: '', minuti: '' }, nations: { tiri: '', minuti: '' } };
+  // Nations League: campionato e coppa europea dal profilo di club, la riga Nations League dalla nazionale
+  const src = p.nat ? [['campionato', club && club.l], ['coppa', club && club.c], ['nations', p.l]] : [['campionato', p.l], ['coppa', p.c]];
+  src.forEach(([key, a]) => {
     if (a && a[0] > 0 && a[3] > 0) season[key] = { tiri: String(Math.round((a[1 + k] / a[0]) * 100) / 100), minuti: String(Math.round(a[3] / a[0])) };
   });
   const own = teamByName(p.teamName);
@@ -101,7 +106,9 @@ export function resultFromForm(form) {
   const hitRate = form.hitRate === '' ? null : parseNum(form.hitRate);
   const hitLabel = HIT_OPTIONS.find((o) => o.value === form.hitRate)?.label ?? null;
   return computePlayerResult({
+    comp: form.competizione,
     season: SEASON_COMPETITIONS.map((c) => ({
+      key: c.key,
       shots: parseNum(form.season[c.key].tiri) ?? 0,
       minutes: parseNum(form.season[c.key].minuti) ?? 0,
     })),
@@ -142,7 +149,8 @@ export function resultFromFouls(form, duelAvg, duelLeagueAvg, teamAvg, oppAvg) {
   const hitRate = f.hitRate === '' ? null : parseNum(f.hitRate);
   const hitLabel = HIT_OPTIONS.find((o) => o.value === f.hitRate)?.label ?? null;
   return computeFoulsResult({
-    season: SEASON_COMPETITIONS.map((c) => ({ shots: parseNum(f.season[c.key].tiri) ?? 0, minutes: parseNum(f.season[c.key].minuti) ?? 0 })),
+    comp: form.competizione,
+    season: SEASON_COMPETITIONS.map((c) => ({ key: c.key, shots: parseNum(f.season[c.key].tiri) ?? 0, minutes: parseNum(f.season[c.key].minuti) ?? 0 })),
     last5: { shots: parseDash(f.last5), minutes: parseDash(f.min5) },
     line: parseNum(form.line),
     lineType: form.lineType,

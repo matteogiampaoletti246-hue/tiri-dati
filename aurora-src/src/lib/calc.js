@@ -64,10 +64,29 @@ export const poissonCDF = (k, lambda) => {
 };
 
 /* ── Tassi a 90' ───────────────────────────────────────────────────── */
-export const seasonRate90 = (entries = []) => {
+export const seasonRate90 = (entries = [], comp = null) => {
+  // entries con `key` (campionato, coppa, nations, qualificazioni) e competizione scelta:
+  // - Nations League: media pesata dei tassi a 90' -> nazionale 50%, campionato 25%, coppa europea 25% (pesi ridistribuiti su quelle con minuti)
+  // - campionato / coppa europea: la nazionale non si conta (solo campionato + coppa, per minuti giocati)
+  const keyed = entries.some((e) => e && e.key);
+  if (keyed && comp === 'nations') {
+    const W = { nations: 0.5, campionato: 0.25, coppa: 0.25 };
+    const by = {};
+    entries.forEach(({ key, shots: s = 0, minutes: m = 0 }) => {
+      const k = key === 'qualificazioni' ? 'nations' : key;
+      if (!W[k] || !(m > 0)) return;
+      by[k] = by[k] || { s: 0, m: 0 };
+      by[k].s += s; by[k].m += m;
+    });
+    const ks = Object.keys(by);
+    if (!ks.length) return null;
+    const wt = ks.reduce((a, k) => a + W[k], 0);
+    return ks.reduce((a, k) => a + (W[k] / wt) * (by[k].s / by[k].m) * 90, 0);
+  }
   let shots = 0;
   let minutes = 0;
-  entries.forEach(({ shots: s = 0, minutes: m = 0 }) => {
+  entries.forEach(({ key, shots: s = 0, minutes: m = 0 }) => {
+    if (keyed && comp && (key === 'nations' || key === 'qualificazioni')) return;
     if (m > 0) {
       shots += s;
       minutes += m;
@@ -75,6 +94,9 @@ export const seasonRate90 = (entries = []) => {
   });
   return minutes > 0 ? (shots / minutes) * 90 : null;
 };
+
+// pesi mostrati nelle Medie stagione con Nations League (stessi di seasonRate90)
+export const NATIONS_WEIGHTS = { nations: 0.5, campionato: 0.25, coppa: 0.25 };
 
 export const last5Rate90 = (shots = [], minutes = []) => {
   // come nell'app originale: massimo 5 partite; senza minuti si contano 90 a partita
@@ -100,7 +122,7 @@ export const SEDE_TEAM = { casa: 1.12, trasferta: 0.88, neutro: 1 };
 
 export const SEDE_OPTIONS = [
   { value: 'casa', label: 'Casa' },
-  { value: 'neutro', label: 'Nessun effetto' },
+  { value: 'neutro', label: 'Neutro' },
   { value: 'trasferta', label: 'Trasferta' },
 ];
 export const LINE_OPTIONS = [
@@ -301,8 +323,9 @@ export function computePlayerResult({
   oppConceded = null,
   oppAvg = null,
   oppStrength = null,
+  comp = null,
 } = {}) {
-  const rateSeason = seasonRate90(season);
+  const rateSeason = seasonRate90(season, comp);
   const rateLast5 = last5Rate90(last5.shots, last5.minutes);
   const rate90 = mixRate90(rateSeason, rateLast5);
 
@@ -384,9 +407,9 @@ export const FOUL_EXP = { duel: 0.5, opp: 0.35, own: 0.15, oppSolo: 0.6, ownSolo
 const ratioPow = (v, avg, e) => (v === null || v === undefined || !avg || !(v > 0) ? null : Math.pow(v / avg, e));
 export function computeFoulsResult({
   season = [], last5 = { shots: [], minutes: [] }, line = null, lineType = 'over', odds = null, hitRate = null, hitLabel = null,
-  teamVal = null, teamAvg = null, oppVal = null, oppAvg = null, duelAvg = null, duelLeagueAvg = null,
+  teamVal = null, teamAvg = null, oppVal = null, oppAvg = null, duelAvg = null, duelLeagueAvg = null, comp = null,
 } = {}) {
-  const rateSeason = seasonRate90(season);
+  const rateSeason = seasonRate90(season, comp);
   const rateLast5 = last5Rate90(last5.shots, last5.minutes);
   const rate90 = mixRate90(rateSeason, rateLast5);
   const hasDuel = duelAvg !== null && duelAvg !== undefined && duelLeagueAvg > 0;

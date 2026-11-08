@@ -8,8 +8,11 @@ import PanelTitle from '@/components/PanelTitle';
 import TextFilter from '@/components/TextFilter';
 import { PLAYERS } from '@/data/players';
 import { teamById } from '@/data/teams';
-import { COMPETITION_OPTIONS, HIT_OPTIONS, LINE_OPTIONS, NATIONS_OPTION, SEDE_OPTIONS } from '@/lib/calc';
+import { HIT_OPTIONS, LINE_OPTIONS } from '@/lib/calc';
+import CompBannerSelect from './CompBannerSelect';
+import { playerComps } from './calcComp';
 import FieldRow from './FieldRow';
+import SedeButtons from './SedeButtons';
 import NumInput from './NumInput';
 import PickerSheet from './PickerSheet';
 import MiniSelect from './MiniSelect';
@@ -68,6 +71,7 @@ export default function PlayerPickPanel({ form, set, player, hint, onSelectPlaye
   // partite con almeno 50' usate per l'Hit Rate: meno di 5 (anche con la stagione passata) -> "su N partite"
   const hitTitle = form.playerId && form.hitN > 0 && form.hitN < 5 ? `Hit rate su ${form.hitN} ${form.hitN === 1 ? 'partita' : 'partite'}` : 'Hit rate ultime 5';
   const team = player ? teamById(player.teamId) : null;
+  const compOptions = useMemo(() => playerComps(player), [player]);
 
   const playerOptions = useMemo(
     () =>
@@ -148,12 +152,12 @@ export default function PlayerPickPanel({ form, set, player, hint, onSelectPlaye
         <FieldRow label="Quota">
           <NumInput value={form.odds} onChange={(v) => set('odds', v)} ariaLabel="Quota" />
         </FieldRow>
-        <FieldRow label="Sede" noSwipe>
-          <TextFilter options={SEDE_OPTIONS} value={form.sede} onChange={(v) => set('sede', v)} />
-        </FieldRow>
-        <FieldRow label="Competizione" noSwipe>
-          <TextFilter options={player && (player.natView || player.nat) ? [...COMPETITION_OPTIONS, NATIONS_OPTION] : COMPETITION_OPTIONS} value={form.competizione} onChange={(v) => set('competizione', v)} />
-        </FieldRow>
+        <SedeButtons value={form.sede} onChange={(v) => set('sede', v)} />
+        {compOptions.length ? (
+          <FieldRow label="Competizione" noSwipe>
+            <CompBannerSelect value={form.competizione} options={compOptions} onChange={(v) => set('competizione', v)} />
+          </FieldRow>
+        ) : null}
         <FieldRow label={hitTitle}>
           <MiniSelect
             ariaLabel={hitTitle}

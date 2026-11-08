@@ -66,6 +66,13 @@
   --hair-2: rgba(15, 23, 42, .06);
   --sky-1: #FBFCFE;
   --sky-2: #F7F9FC;
+  /* banner nei colori di una competizione (Calcolatore): testo e cerchio del logo, uguali in chiaro e scuro */
+  --on-banner: #FFFFFF;
+  --on-banner-2: rgba(255, 255, 255, .72);
+  --banner-chip: rgba(255, 255, 255, .92);
+  --banner-field: rgba(255, 255, 255, .12);
+  --banner-field-line: rgba(255, 255, 255, .24);
+  --banner-neutral: #1E2433;
   --scrim: rgba(15, 23, 42, .28);
   --sky-3: #FFFFFF;
   --sky-glow: rgba(230, 240, 255, 1);
@@ -144,6 +151,13 @@
   --hair-2: rgba(255, 255, 255, .07);
   --sky-1: #05070D;
   --sky-2: #070A12;
+  /* banner nei colori di una competizione (Calcolatore): testo e cerchio del logo, uguali in chiaro e scuro */
+  --on-banner: #FFFFFF;
+  --on-banner-2: rgba(255, 255, 255, .72);
+  --banner-chip: rgba(255, 255, 255, .92);
+  --banner-field: rgba(255, 255, 255, .12);
+  --banner-field-line: rgba(255, 255, 255, .24);
+  --banner-neutral: #1E2433;
   --scrim: rgba(0, 0, 0, .5);
   --sky-3: #0A0E19;
   --sky-glow: rgba(14, 31, 58, 1);

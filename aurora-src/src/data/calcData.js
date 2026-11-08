@@ -201,4 +201,4 @@ export function fixtureAt(teamName, ts) {
 }
 
 // per le liste di giocatori (stessa logica dell'app originale)
-export { lgAvg as leagueAvgOf, domesticKey, blend as blendTeam, LD as CALC_DATA };
+export { lgAvg as leagueAvgOf, domesticKey, domesticKey as domesticKeyOf, blend as blendTeam, LD as CALC_DATA };

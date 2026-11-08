@@ -6,6 +6,7 @@ import { teamShots } from '@/data/calcData';
 import { teamById } from '@/data/teams';
 import { LINE_OPTIONS, SEDE_OPTIONS, SHOTS_OPTIONS, computeTeamResult, fmtLine, lineHintText, parseNum } from '@/lib/calc';
 import FieldRow from './FieldRow';
+import SedeButtons from './SedeButtons';
 import NumInput from './NumInput';
 import ResultCard from './ResultCard';
 import TeamBlock from './TeamBlock';
@@ -110,9 +111,7 @@ export default function TeamTab({ onSave }) {
           <FieldRow label="Quota">
             <NumInput value={form.odds} onChange={(v) => set('odds', v)} ariaLabel="Quota" />
           </FieldRow>
-          <FieldRow label="Sede" noSwipe>
-            <TextFilter options={SEDE_OPTIONS} value={form.sede} onChange={(v) => set('sede', v)} />
-          </FieldRow>
+          <SedeButtons value={form.sede} onChange={(v) => set('sede', v)} />
         </div>
       </div>
 

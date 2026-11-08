@@ -1,6 +1,8 @@
 import { useModalLock } from '@/lib/modal';
 import { useEffect, useRef, useState } from 'react';
 import { Search, X } from 'lucide-react';
+import { CompLogo } from './CompBannerSelect';
+import { compBg } from './calcComp';
 
 const norm = (s) =>
   String(s ?? '')
@@ -9,7 +11,7 @@ const norm = (s) =>
     .replace(/[̀-ͯ]/g, '');
 
 // Elenco a tutto schermo con ricerca: usato per giocatori, squadre e campionati.
-export default function PickerSheet({ open, title, options = [], placeholder = 'Cerca', hint, emptyLabel = 'Nessun risultato', cards = false, requireQuery = false, onSelect, onClose }) {
+export default function PickerSheet({ open, title, options = [], placeholder = 'Cerca', hint, emptyLabel = 'Nessun risultato', cards = false, banners = false, requireQuery = false, onSelect, onClose }) {
   const [q, setQ] = useState('');
   const inputRef = useRef(null);
 
@@ -62,7 +64,26 @@ export default function PickerSheet({ open, title, options = [], placeholder = '
 
         <div className="hide-sb min-h-0 flex-1 overflow-y-auto overscroll-contain pb-24">
           {list.length ? (
-            list.map((o) => (cards ? (
+            list.map((o) => (banners && o.comp ? (
+              // competizioni a banner (concept A): colori della competizione, logo su cerchio chiaro, nome e paese
+              <div key={o.value} className="px-4 py-1">
+                <button
+                  type="button"
+                  data-league-banner={o.value}
+                  onClick={() => { onSelect(o); onClose(); }}
+                  className="press flex w-full items-center gap-3 rounded-[14px] px-3.5 py-3 text-left"
+                  style={{ background: compBg(o.comp) }}
+                >
+                  <span className="flex shrink-0 items-center justify-center rounded-full" style={{ width: 36, height: 36, background: 'var(--banner-chip)' }}>
+                    <CompLogo comp={o.comp} size={24} />
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block truncate text-[16px] font-bold" style={{ color: 'var(--on-banner)' }}>{o.label}</span>
+                    {o.sub ? <span className="mt-0.5 block truncate text-[11px] font-semibold tracking-[.08em]" style={{ color: 'var(--on-banner-2)' }}>{o.sub}</span> : null}
+                  </span>
+                </button>
+              </div>
+            ) : cards ? (
               <div key={o.value} className="px-4 py-1">
                 <button
                   type="button"

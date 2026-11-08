@@ -137,7 +137,7 @@ export default function PlayerTab({ onSave }) {
     if (!fouls || !fd || !player || !fmPid) return;
     const sig = ['v2', form.stat, form.playerId, form.team.id, form.team.leagueId, form.opp.id, form.opp.leagueId].join('|');
     if (restored.current && f.sig === sig) return; // stessi giocatore, squadre e statistica di prima: restano i valori com'erano
-    const pv = viewFor(player, form.competizione);
+    const pv = player.nat && player.club ? player.club : player; // hit rate dei falli: ultime partite del giocatore in generale (club, tutte le competizioni), anche in Nations League
     const pf = playerFouls(fd, fmPid, team && domesticKey(team.name), form.stat, pv.hn != null ? hitRows(pv) : null);
     const season = { campionato: { tiri: '', minuti: '' }, coppa: { tiri: '', minuti: '' }, nations: { tiri: '', minuti: '' }, qualificazioni: { tiri: '', minuti: '' } };
     ['campionato', 'coppa'].forEach((k) => { if (pf && pf[k]) season[k] = { tiri: comma(Math.round(pf[k].v * 100) / 100, 2), minuti: String(Math.round(pf[k].min)) }; });
@@ -185,7 +185,9 @@ export default function PlayerTab({ onSave }) {
   };
   // Nations League <-> campionato/coppa: stesso giocatore, squadra / prossima partita / statistiche dell'altro profilo
   const setCompetition = (value) => {
-    const p = playerById(form.playerId);
+    const p0 = playerById(form.playerId);
+    // dal profilo della nazionale si torna a quello di club (campionato / coppa) e viceversa
+    const p = p0 && p0.nat && p0.club ? p0.club : p0;
     if (!p || !p.natView) { set('competizione', value); return; }
     const v = viewFor(p, value);
     setForm((f) => ({ ...fillFrom(f, v, f.tipoTiri, nextFixture(v.teamName)), competizione: value }));
@@ -196,7 +198,8 @@ export default function PlayerTab({ onSave }) {
     if (skipRestore('fam') || !form.playerId) return;
     const p0 = playerById(form.playerId);
     if (!p0) return;
-    const p = p0.nat ? p0 : viewFor(p0, form.competizione);
+    const base = p0.nat && p0.club ? p0.club : p0;
+    const p = base.nat ? base : viewFor(base, form.competizione);
     setForm((f) => {
       const g = fillFrom(f, p, f.tipoTiri, null);
       return { ...f, shots5: g.shots5, minutes5: g.minutes5, hitRate: g.hitRate, hitN: g.hitN, season: g.season,
@@ -255,7 +258,7 @@ export default function PlayerTab({ onSave }) {
             <PlayerLast5Panel form={{ shots5: f.last5, minutes5: f.min5 }} set={(k, v) => setF(k === 'shots5' ? { last5: v } : { min5: v })} label={statTitle} tint={tOwn(120)} />
           </div>
           <div className="mt-7">
-            <PlayerSeasonPanel season={f.season} onChange={(k, patch) => setF({ season: { ...f.season, [k]: { ...f.season[k], ...patch } } })} rate90={result.rate90} label={form.stat === 'fc' ? 'Commessi' : 'Subiti'} tint={tOwn(240)} />
+            <PlayerSeasonPanel season={f.season} onChange={(k, patch) => setF({ season: { ...f.season, [k]: { ...f.season[k], ...patch } } })} rate90={result.rate90} label={form.stat === 'fc' ? 'Commessi' : 'Subiti'} tint={tOwn(240)} player={player} comp={form.competizione} />
           </div>
           <div className="mt-7">
             <FoulsTeamBlock title="Squadra del giocatore" statLabel={statTitle} block={form.team} stats={ownStats} value={f.team} onValue={(v) => setF({ team: v })} onChange={(p) => setBlock('team', p)} tint={tOwn(360)} />
@@ -278,7 +281,7 @@ export default function PlayerTab({ onSave }) {
             <PlayerLast5Panel form={form} set={set} tint={tOwn(120)} />
           </div>
           <div className="mt-7">
-            <PlayerSeasonPanel season={form.season} onChange={setSeason} rate90={result.rate90} tint={tOwn(240)} />
+            <PlayerSeasonPanel season={form.season} onChange={setSeason} rate90={result.rate90} tint={tOwn(240)} player={player} comp={form.competizione} />
           </div>
           <div className="mt-7">
             <TeamBlock title="Squadra del giocatore" mode="for" family={family} block={form.team} vsId={form.opp && form.opp.id} matchComp={form.competizione === 'coppa' ? cupOf(teamById(form.team && form.team.id)) : null} onChange={(p) => setBlock('team', p)} tint={tOwn(360)} />

@@ -28,7 +28,7 @@ export default function MiniSelect({ value, options, onChange, placeholder = 'Se
         className="tnum flex h-10 w-full items-center justify-between gap-1 rounded-xl px-3 text-[15px] outline-none transition-opacity active:opacity-60"
         style={{ background: 'var(--panel-2)', border: '1px solid var(--hair)', color: cur ? 'var(--ink)' : 'var(--ink-3)' }}
       >
-        <span className="truncate">{cur ? cur.label : placeholder}</span>
+        <span className="flex min-w-0 items-center gap-2">{cur && cur.icon ? <span className="flex shrink-0">{cur.icon}</span> : null}<span className="truncate">{cur ? cur.label : placeholder}</span></span>
         <ChevronDown size={16} strokeWidth={1.5} style={{ color: 'var(--ink-3)', transform: open ? 'rotate(180deg)' : 'none', transition: 'transform .25s' }} />
       </button>
       {open ? <MenuBackdrop onClose={() => setOpen(false)} /> : null}
@@ -48,7 +48,7 @@ export default function MiniSelect({ value, options, onChange, placeholder = 'Se
                 className="tnum flex w-full items-center justify-between gap-3 whitespace-nowrap px-3.5 py-2.5 text-left text-[14.5px] transition-opacity active:opacity-50"
                 style={{ color: on ? 'var(--accent)' : 'var(--ink)', fontWeight: on ? 700 : 400 }}
               >
-                {o.label}
+                <span className="flex items-center gap-2.5">{o.icon ? <span className="flex shrink-0" style={{ color: 'var(--ink)' }}>{o.icon}</span> : null}{o.label}</span>
                 {on ? <Check size={15} strokeWidth={2} /> : null}
               </button>
             );

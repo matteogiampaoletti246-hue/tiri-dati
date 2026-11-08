@@ -1,12 +1,27 @@
 import PanelTitle from '@/components/PanelTitle';
-import { SEASON_COMPETITIONS } from '@/lib/calc';
+import { NATIONS_WEIGHTS, SEASON_COMPETITIONS } from '@/lib/calc';
 import { comma } from '@/lib/format';
 import FieldRow from './FieldRow';
 import NumInput from './NumInput';
 import TintSweep from './TintSweep';
+import { CompLogo } from './CompBannerSelect';
+import { compAccent, compBg, playerComps } from './calcComp';
 
-// Medie stagione per competizione (tiri + minuti) e tasso normalizzato a 90'.
-export default function PlayerSeasonPanel({ season, onChange, rate90, label = 'Tiri', tint }) {
+const GENERIC = { campionato: 'Campionato', coppa: 'Coppa europea', nations: 'Nations League', qualificazioni: 'Qualificazioni Mondiali' };
+const KIND = { campionato: 'Campionato', coppa: 'Coppa europea', nations: 'Nazionale', qualificazioni: 'Nazionale' };
+const filled = (x) => x && ((x.tiri !== '' && x.tiri != null) || (x.minuti !== '' && x.minuti != null));
+const pct = (w) => `${Math.round(w * 100)}%`;
+
+// Medie stagione (concept B, scelto dall'utente l'8/11/2026): ogni competizione del giocatore e' un mini banner nei suoi colori, con
+// logo e nome veri (es. "Süper Lig", "Europa League", "Nations League A") al posto di "Campionato" / "Coppa europea".
+// Nel calcolo (seasonRate90): con Nations League scelta pesano nazionale 50%, campionato 25%, coppa europea 25%; con campionato o coppa
+// la nazionale non si conta (riga attenuata, "Non nel calcolo"). Righe senza competizione e senza valori non si mostrano.
+export default function PlayerSeasonPanel({ season, onChange, rate90, label = 'Tiri', tint, player = null, comp = 'campionato' }) {
+  const opts = playerComps(player);
+  const byVal = Object.fromEntries(opts.map((o) => [o.value, o]));
+  const nations = comp === 'nations';
+  const rows = SEASON_COMPETITIONS.filter((c) => (player ? byVal[c.key] || filled(season[c.key]) : c.key === 'campionato' || c.key === 'coppa'));
+
   return (
     <section>
       <PanelTitle>Medie stagione</PanelTitle>
@@ -14,25 +29,47 @@ export default function PlayerSeasonPanel({ season, onChange, rate90, label = 'T
         <TintSweep tint={tint} />
         <div className="flex items-center gap-2 px-5 py-2.5">
           <p className="label-sm">Competizione</p>
-          <p className="label-sm ml-auto w-[72px] text-center">{label}</p>
-          <p className="label-sm w-[72px] text-center">Minuti</p>
+          <p className="label-sm ml-auto w-[64px] text-center">{label}</p>
+          <p className="label-sm w-[64px] text-center">Minuti</p>
         </div>
-        {SEASON_COMPETITIONS.map((c) => (
-          <FieldRow key={c.key} label={c.label}>
-            <NumInput
-              value={season[c.key].tiri}
-              onChange={(v) => onChange(c.key, { tiri: v })}
-              width={72}
-              ariaLabel={`${label} ${c.label}`}
-            />
-            <NumInput
-              value={season[c.key].minuti}
-              onChange={(v) => onChange(c.key, { minuti: v })}
-              width={72}
-              ariaLabel={`Minuti ${c.label}`}
-            />
-          </FieldRow>
-        ))}
+        {player ? (
+          <div className="flex flex-col gap-1.5 px-3 pb-2">
+            {rows.map((c) => {
+              const o = byVal[c.key];
+              const nat = c.key === 'nations' || c.key === 'qualificazioni';
+              const out = !nations && nat;
+              const w = nations ? NATIONS_WEIGHTS[c.key === 'qualificazioni' ? 'nations' : c.key] : null;
+              const sub = out ? 'Non nel calcolo' : w ? `${KIND[c.key]} · peso ${pct(w)}` : KIND[c.key];
+              const on = c.key === comp;
+              const name = o ? o.comp.name : GENERIC[c.key];
+              return (
+                <div
+                  key={c.key}
+                  data-season-row={c.key}
+                  className="flex items-center gap-2.5 rounded-xl py-2 pl-2.5 pr-2"
+                  style={{ background: compBg(o ? o.comp : null), border: `1.5px solid ${on ? compAccent(o ? o.comp : null) : 'transparent'}`, opacity: out ? 0.55 : 1, transition: 'opacity .25s ease, border-color .25s ease' }}
+                >
+                  <span className="flex shrink-0 items-center justify-center rounded-full" style={{ width: 30, height: 30, background: 'var(--banner-chip)' }}>
+                    {o ? <CompLogo comp={o.comp} size={20} /> : <span className="text-[10px] font-extrabold" style={{ color: 'var(--banner-neutral)' }}>{name.slice(0, 2).toUpperCase()}</span>}
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block truncate text-[14px] font-bold" style={{ color: 'var(--on-banner)' }}>{name}</span>
+                    <span className="block truncate text-[11px]" style={{ color: 'var(--on-banner-2)' }}>{sub}</span>
+                  </span>
+                  <NumInput onBanner value={season[c.key].tiri} onChange={(v) => onChange(c.key, { tiri: v })} width={64} ariaLabel={`${label} ${name}`} />
+                  <NumInput onBanner value={season[c.key].minuti} onChange={(v) => onChange(c.key, { minuti: v })} width={64} ariaLabel={`Minuti ${name}`} />
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          rows.map((c) => (
+            <FieldRow key={c.key} label={GENERIC[c.key]}>
+              <NumInput value={season[c.key].tiri} onChange={(v) => onChange(c.key, { tiri: v })} width={64} ariaLabel={`${label} ${GENERIC[c.key]}`} />
+              <NumInput value={season[c.key].minuti} onChange={(v) => onChange(c.key, { minuti: v })} width={64} ariaLabel={`Minuti ${GENERIC[c.key]}`} />
+            </FieldRow>
+          ))
+        )}
         <div className="flex items-baseline gap-3 px-5 py-3.5" style={{ borderTop: '1px solid var(--hair-2)' }}>
           <p className="label-sm min-w-0 leading-tight">Tasso normalizzato a 90&apos;</p>
           <p className="tnum ml-auto text-[15px]" style={{ color: 'var(--ink)' }}>
