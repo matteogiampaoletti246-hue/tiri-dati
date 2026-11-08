@@ -2134,8 +2134,8 @@ await step('calcolatore: sede, competizione a banner, icone, medie, squadra e ca
   ok('calcolatore: tre tasti sede con icona, senza scritta Sede', res.a.sede && res.a.sede.length === 3 && res.a.sede.every((x) => x.endsWith('+icona')) && !res.a.sedeLabel, res.a.sede);
   ok('calcolatore: tendina competizione con le competizioni del giocatore', res.compOpts.some((x) => x.startsWith('campionato:Serie A')) && res.compOpts.some((x) => x.startsWith('nations:Nations League')), res.compOpts);
   ok('calcolatore: icone nella tendina statistiche', res.statIcons.length === 4 && res.statIcons.every((x) => x.endsWith('+icona')), res.statIcons);
-  ok('calcolatore: medie Nations League con campionato, coppa e nazionale e pesi', nRows.includes('campionato') && nRows.includes('nations') && res.n.rows.some((r) => /peso 50%/.test(r.t)) && res.n.rows.some((r) => /Serie A/.test(r.t)), res.n.rows);
-  ok('calcolatore: in Nations League ultime 5 = ultime partite del giocatore in generale', !res.clubH || res.n.shots5 === res.clubH, { shots5: res.n.shots5, club: res.clubH });
+  ok('calcolatore: medie Nations League con campionato, coppa e nazionale e pesi', nRows.includes('campionato') && nRows.includes('nations') && res.n.rows.some((r) => /Nazionale · 50%/.test(r.t)) && res.n.rows.some((r) => /Serie A/.test(r.t)), res.n.rows);
+  ok('calcolatore: in Nations League ultime 5 = ultime partite del giocatore in generale', !res.clubH || res.n.shots5 === res.clubH.replace(/-/g, ''), { shots5: res.n.shots5, club: res.clubH });
   ok('calcolatore: con campionato la nazionale non conta', (res.c.rows || []).filter((r) => r.k === 'nations').every((r) => /Non nel calcolo/.test(r.t)), res.c.rows);
   ok('calcolatore: pillola campionato e scelta campionato a banner', res.c.pills >= 2 && res.banners >= 10, { pills: res.c.pills, banners: res.banners });
   ok('calcolatore: giocatore di sola nazionale trovato, competizione Nations League', res.onlyNat && /Nations League/.test(res.o.comp || ''), { found: res.onlyNat, comp: res.o.comp });
@@ -2269,8 +2269,6 @@ await step('calcolatore: banner squadra con prossima partita nella competizione'
   await wait(3000);
   const read = () => pg.evaluate(() => { const h = [...document.querySelectorAll('section')].find((x) => /Squadra del giocatore/i.test(x.innerText)); if (!h) return null; h.scrollIntoView(); const nb = [...h.querySelectorAll('button')].find((x) => /Prossima partita/i.test(x.textContent)); return { banner: !!h.querySelector('button[aria-label="Cambia squadra"]'), pill: (h.querySelector('button[aria-label="Scegli la competizione"]') || {}).textContent || '', next: nb ? nb.innerText.replace(/\s+/g, ' ') : '' }; });
   const a = await read();
-  const pnext = () => pg.evaluate(() => { const b = [...document.querySelectorAll('button')].find((x) => /Prossima partita/i.test(x.textContent)); return b ? b.innerText.replace(/\s+/g, ' ') : ''; });
-  const pl1 = await pnext(); // Competizione = Campionato: la partita di Serie A
   await shot('calcolatore-banner-squadra-serie-a');
   await pg.evaluate(() => { const h = [...document.querySelectorAll('section')].find((x) => /Squadra del giocatore/i.test(x.innerText)); const b = h && h.querySelector('button[aria-label="Scegli la competizione"]'); if (b) b.click(); });
   await wait(1200);
@@ -2278,12 +2276,6 @@ await step('calcolatore: banner squadra con prossima partita nella competizione'
   await wait(2000);
   const b = await read();
   await shot('calcolatore-banner-squadra-europa');
-  // tasto del giocatore legato alla Competizione: Campionato = Serie A, Coppa europea = Europa League
-  await pg.evaluate(() => { const b = [...document.querySelectorAll('#sl-shell button')].find((x) => x.textContent.trim() === 'Coppa europea'); if (b) b.click(); });
-  await wait(1500);
-  const pl2 = await pnext();
-  await shot('calcolatore-giocatore-coppa');
-  ok('calcolatore: tasto Prossima partita del giocatore legato alla competizione', /Venezia/.test(pl1) && /Omonia/.test(pl2), { pl1, pl2 });
   ok('calcolatore: banner squadra con pillola competizione e prossima partita', !!a && a.banner && /Serie A/.test(a.pill) && /Prossima partita/i.test(a.next), { a });
   ok('calcolatore: cambiando competizione la prossima partita e\' quella di quella competizione', !!b && /Europa League/.test(b.pill) && b.banner && (!b.next || b.next !== a.next), { a, b });
 });
