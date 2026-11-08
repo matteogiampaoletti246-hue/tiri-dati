@@ -17,6 +17,8 @@ import NumInput from './NumInput';
 import PickerSheet from './PickerSheet';
 import MiniSelect from './MiniSelect';
 import Crest from '@/components/Crest';
+import ClubNatLine from '@/components/ClubNatLine';
+import { countryIt } from '@/data/carriere';
 import { PlayerFace } from '@/components/SearchOverlay';
 import SelectRow from './SelectRow';
 import CalcStatSelect from './CalcStatSelect';
@@ -64,6 +66,7 @@ export function NextMatchButton({ ownId, oppId, onOpen, comp, glass = false }) {
   );
 }
 
+
 // Impostazioni di base della giocata su un giocatore.
 export default function PlayerPickPanel({ form, set, player, hint, onSelectPlayer, stat = 'tiri', onStat, tint, role }) {
   const navigate = useNavigate();
@@ -71,26 +74,24 @@ export default function PlayerPickPanel({ form, set, player, hint, onSelectPlaye
   const hitLabel = HIT_OPTIONS.find((o) => o.value === form.hitRate)?.label ?? null;
   // partite con almeno 50' usate per l'Hit Rate: meno di 5 (anche con la stagione passata) -> "su N partite"
   const hitTitle = form.playerId && form.hitN > 0 && form.hitN < 5 ? `Hit rate su ${form.hitN} ${form.hitN === 1 ? 'partita' : 'partite'}` : 'Hit rate ultime 5';
-  const team = player ? teamById(player.teamId) : null;
+  const team = player ? teamById((player.nat && player.club ? player.club : player).teamId) : null;
   const compOptions = useMemo(() => playerComps(player), [player]);
 
   const playerOptions = useMemo(
     () =>
-      [...PLAYERS].sort((a, b) => a.name.localeCompare(b.name)).map((p) => {
-        const t = teamById(p.teamId);
+      // il profilo della nazionale di un giocatore di club non e' un risultato a parte: sta nello stesso banner del club
+      [...PLAYERS].filter((p) => !(p.nat && p.club)).sort((a, b) => a.name.localeCompare(b.name)).map((p) => {
+        const club = p.nat ? null : p;
+        const t = club ? teamById(club.teamId) : null;
+        const ct = p.nat && p.clubName ? p.clubName : '';
         return {
           value: p.id,
           label: p.name,
           alias: p.nick || '',
-          sub: t ? t.name : p.teamName || '',
+          sub: [t ? t.name : p.teamName || '', ct, p.natView ? `${p.natView.teamName} ${countryIt(p.natView.teamName)}` : p.nat ? countryIt(p.teamName) : ''].filter(Boolean).join(' '),
           avatar: <PlayerFace p={p} size={52} />,
-          bg: teamGrad(t, 0x55),
-          subNode: (
-            <span className="mt-0.5 flex items-center gap-1.5 text-[12px]" style={{ color: 'var(--ink-3)' }}>
-              {t ? <Crest team={t} size={14} /> : null}
-              <span className="truncate">{t ? t.name : p.teamName}</span>
-            </span>
-          ),
+          bg: teamGrad(t || teamById(p.teamId), 0x55),
+          subNode: <ClubNatLine p={p} className="mt-0.5 text-[12px]" />,
         };
       }),
     [],
@@ -109,17 +110,14 @@ export default function PlayerPickPanel({ form, set, player, hint, onSelectPlaye
             <TintSweep tint={tint && { ...tint, color: team ? team.colors[0] : tint.color }} strength={55} />
             <div className="relative flex w-full items-center gap-3">
             {/* banner e volto aprono la scheda del giocatore; per cambiare giocatore c'e' il tasto Cambia */}
-            <button type="button" onClick={() => navigate(`/giocatore/${player.id}`)} className="press flex min-w-0 flex-1 items-center gap-3 text-left" aria-label={`Apri la scheda di ${player.name}`}>
+            <button type="button" onClick={() => navigate(`/giocatore/${(player.nat && player.club ? player.club : player).id}`)} className="press flex min-w-0 flex-1 items-center gap-3 text-left" aria-label={`Apri la scheda di ${player.name}`}>
               <span className="relative block shrink-0" style={{ width: 56, height: 56 }}>
                 <PlayerFace p={player} size={56} />
                 <RoleBadge role={role} size="lg" />
               </span>
               <span className="min-w-0 flex-1">
                 <span className="flex items-center gap-1.5 text-[17px] font-extrabold"><span className="truncate">{player.name}</span>{injuryOf(player.id) ? <InjuryIcon size={17} /> : null}</span>
-                <span className="mt-0.5 flex items-center gap-1.5 text-[12.5px]" style={{ color: 'var(--ink-3)' }}>
-                  {team ? <Crest team={team} size={15} /> : null}
-                  <span className="truncate">{team ? team.name : player.teamName}</span>
-                </span>
+                <ClubNatLine p={player} size={15} className="mt-0.5 text-[12.5px]" />
               </span>
             </button>
             <button type="button" onClick={() => { primeKeyboard(); setPicker('player'); }} className="press shrink-0 rounded-full px-3.5 py-2 text-[12.5px] font-bold text-white" style={{ background: 'var(--accent)' }}>Cambia</button>

@@ -246,9 +246,59 @@ def main():
         print(f"{label}: {sk}, {n_fin} partite, {len(teams)} squadre, {n_upd} giocatori aggiornati, {n_new} nuovi")
         if ren:
             print("   nomi unificati:", ", ".join(f"{a} -> {b}" for a, b in ren))
+    nat_clubs(out)
     json.dump(out, open(OUT, "w"), ensure_ascii=False, separators=(",", ":"))
     print("scritto", OUT, round(os.path.getsize(OUT) / 1024), "KB")
 
 
+def nat_clubs(out):
+    """Banner unico giocatore: ogni profilo della nazionale porta il suo club.
+    - "cl": id del profilo di club quando questo non ha l'id FotMob (stesso nome, unico): l'app li unisce in un solo banner
+    - "ct"/"cf": club attuale (nome, id FotMob squadra) dalle carriere car/ per chi non ha un profilo di club nel Calcolatore"""
+    try:
+        gioc = load("giocatori.json") or {}
+    except Exception:
+        gioc = {}
+    clubs = (gioc.get("players") or []) + (out.get("players") or [])
+    by_fm = {str(p.get("f") or p.get("fm")) for p in clubs if p.get("f") or p.get("fm")}
+    by_name = {}
+    for p in clubs:
+        by_name.setdefault(nk(p["n"]), []).append(p)
+    today = datetime.now(ROME).strftime("%Y-%m")
+    shards = {}
+    n_cl = n_ct = 0
+    for x in out.get("nat") or []:
+        for k in ("cl", "ct", "cf"):
+            x.pop(k, None)
+        if str(x["fm"]) in by_fm:
+            continue
+        same = [p for p in by_name.get(nk(x["n"]), []) if not (p.get("f") or p.get("fm"))]
+        if len(same) == 1 and len(by_name.get(nk(x["n"]), [])) == 1:
+            x["cl"] = same[0]["i"]
+            n_cl += 1
+            continue
+        sh = x["fm"] % 100
+        if sh not in shards:
+            try:
+                shards[sh] = json.load(open(f"car/{sh}.json"))
+            except Exception:
+                shards[sh] = {}
+        car = ((shards[sh].get(str(x["fm"])) or {}).get("car")) or []
+        cur = [r for r in car if r and r[1] and r[1][:7] <= today and (not r[2] or r[2][:7] >= today)]
+        if cur:
+            r = cur[0]
+            x["ct"] = r[0]
+            if r[-1]:
+                x["cf"] = int(r[-1])
+            n_ct += 1
+    print(f"nazionali: {n_cl} uniti al club per nome, {n_ct} con il club dalle carriere")
+
+
 if __name__ == "__main__":
-    main()
+    import sys
+    if "--solo-club" in sys.argv:  # solo il club dei profili delle nazionali, sul file gia' scritto
+        _o = json.load(open(OUT))
+        nat_clubs(_o)
+        json.dump(_o, open(OUT, "w"), ensure_ascii=False, separators=(",", ":"))
+    else:
+        main()

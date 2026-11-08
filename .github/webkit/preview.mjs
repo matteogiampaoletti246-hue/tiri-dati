@@ -2071,6 +2071,69 @@ await step('fix-dati: Calcolatore, Hit Rate su partite da almeno 50 minuti e "su
   ok('fix-dati: Calcolatore, scritta giusta ("ultime 5" o "su N partite")', all.length === 3 && all.every((x) => x.label), res);
 });
 
+// Calcolatore e ricerca: un solo banner per giocatore (club + nazionale), competizione di partenza = prossima partita vera.
+// Un giocatore per OGNI nazionale presente (casi: profilo di club per id FotMob, per nome "cl", club dalle carriere "ct", senza club).
+await step('calcolatore: banner unico club e nazionale, competizione dalla prossima partita', async () => {
+  const G = await getJson('giocatori.json');
+  const X = await getJson('calc_extra.json');
+  const all = (G ? G.players : []).concat((X && X.players) || []);
+  const byFm = {}; all.forEach((p) => { const f = p.f || p.fm; if (f) byFm[f] = p; });
+  const byId = {}; all.forEach((p) => { byId[p.i] = p; });
+  const fix = { ...((G && G.fix) || {}), ...((X && X.fix) || {}) };
+  const today = new Date(Date.now() + 3600e3).toISOString().slice(0, 10);
+  const nx = (t) => (fix[t] || []).find((x) => x[0] > today) || null;
+  const nat = (X && X.nat) || [];
+  const uniq = (n) => /^[A-Za-zÀ-ž' .-]+$/.test(n.n) && n.n.includes(' ') && all.concat(nat).filter((q) => q.n === n.n).length <= 2;
+  const mk = (n) => { const c = byFm[n.fm] || (n.cl && byId[n.cl]) || null; return { n: n.n, club: c ? c.t : n.ct || null, nat: n.t, kind: byFm[n.fm] ? 'fm' : n.cl ? 'cl' : n.ct ? 'ct' : 'solo', fc: c ? nx(c.t) : null, fn: nx(n.t) }; };
+  const cases = []; const seen = new Set();
+  ['Lamine Yamal', 'Igor Matanović', 'Nadiem Amiri', 'Cristiano Ronaldo', 'Michele Cevoli'].forEach((nm) => { const n = nat.find((q) => q.n === nm); if (n) { cases.push(mk(n)); seen.add(n.t); } });
+  nat.forEach((n) => { if (seen.has(n.t) || !uniq(n)) return; seen.add(n.t); cases.push(mk(n)); });
+  const LIMIT = Number(process.env.NAT_LIMIT || 0);
+  const list = LIMIT ? cases.slice(0, LIMIT) : cases;
+  const res = [];
+  for (const c of list) {
+    await go('#/calcolatore', 2500);
+    await pg.waitForFunction(() => [...document.querySelectorAll('button')].some((x) => /Cerca e seleziona|^\s*Cambia\s*$/.test(x.textContent)), null, { timeout: 25000 }).catch(() => {});
+    await pg.evaluate(() => { const b = [...document.querySelectorAll('button')].find((x) => /Cerca e seleziona|^\s*Cambia\s*$/.test(x.textContent)); if (b) b.click(); });
+    await wait(700);
+    const q = c.n.split(' ').slice(-1)[0].slice(0, 6);
+    await pg.keyboard.type(q, { delay: 15 }); await wait(900);
+    const cards = await pg.evaluate((n) => [...document.querySelectorAll('button')].filter((b) => b.textContent.includes(n) && b.querySelector('img,span')).map((b) => b.innerText.replace(/\s+/g, ' ').trim()), c.n);
+    if (/Yamal|Ronaldo/.test(c.n)) await shot(`calc-banner-unico-ricerca-${c.n.split(' ').pop()}`);
+    await pg.evaluate((n) => { const b = [...document.querySelectorAll('button')].find((x) => x.textContent.includes(n)); if (b) b.click(); }, c.n);
+    await wait(1600);
+    const sel = await pg.evaluate(() => {
+      const sh = document.getElementById('sl-shell') || document.body;
+      const ban = [...sh.querySelectorAll('button')].find((b) => /Apri la scheda di/.test(b.getAttribute('aria-label') || ''));
+      const comp = sh.querySelector('[aria-label="Competizione"]');
+      return { ban: ban ? ban.innerText.replace(/\s+/g, ' ').trim() : null, comp: comp ? comp.innerText.replace(/\s+/g, ' ').trim() : null };
+    });
+    if (/Yamal|Ronaldo/.test(c.n)) await shot(`calc-banner-unico-scelto-${c.n.split(' ').pop()}`);
+    const wantNat = !!c.fn && (!c.fc || c.fn[0] < c.fc[0]);
+    res.push({ ...c, cards, sel, wantNat });
+  }
+  const bad1 = res.filter((r) => r.cards.length !== 1);
+  // nel banner: prima il club (se noto), poi la nazionale
+  const clubFirst = (r) => { if (!r.sel.ban) return false; if (!r.club) return true; const t = r.sel.ban; const i = t.indexOf(r.club.split(' ')[0]); return i >= 0; };
+  const bad2 = res.filter((r) => !clubFirst(r));
+  const bad3 = res.filter((r) => r.kind !== 'ct' && r.kind !== 'solo' && r.sel.comp && (r.wantNat ? !/Nations League/.test(r.sel.comp) : /Nations League/.test(r.sel.comp)));
+  ok(`calcolatore: un solo banner per giocatore nella ricerca (${res.length} nazionali provate)`, res.length >= 5 && !bad1.length, { bad: bad1.map((r) => [r.n, r.kind, r.cards]) });
+  ok('calcolatore: nel banner prima la squadra di club, poi la nazionale', !bad2.length, { bad: bad2.map((r) => [r.n, r.kind, r.club, r.sel.ban]), esempi: res.slice(0, 6).map((r) => [r.kind, r.sel.ban]) });
+  ok('calcolatore: competizione di partenza = quella della prossima partita', !bad3.length, { bad: bad3.map((r) => [r.n, r.wantNat, r.sel.comp, r.fc && r.fc[0], r.fn && r.fn[0]]) });
+  // ricerca della Home (stessa funzione della Home nativa): un solo risultato con club e bandiera
+  const home = [];
+  for (const c of list.slice(0, 12)) {
+    await go('#/', 2500);
+    await pg.evaluate(() => { const b = document.querySelector('[aria-label="Cerca"]'); if (b) b.click(); }); await wait(700);
+    await pg.keyboard.type(c.n.split(' ').slice(-1)[0].slice(0, 6), { delay: 15 }); await wait(1000);
+    const cards = await pg.evaluate((n) => [...document.querySelectorAll('button')].filter((b) => b.textContent.includes(n)).map((b) => b.innerText.replace(/\s+/g, ' ').trim()), c.n);
+    if (/Yamal/.test(c.n)) await shot('home-ricerca-banner-unico-Yamal');
+    home.push({ n: c.n, kind: c.kind, cards });
+  }
+  const bad4 = home.filter((h) => h.cards.length !== 1);
+  ok('ricerca Home: un solo banner per giocatore con club e nazionale', home.length && !bad4.length, { bad: bad4, esempi: home.slice(0, 5) });
+});
+
 // Calcolatore estetica 8/11 (concept 1A 2B 3A 4B 5B 6A) + Nations League: medie 50/25/25, hit rate sulle ultime partite generali, giocatori di sola nazionale
 await step('calcolatore: sede, competizione a banner, icone, medie, squadra e campionati', async () => {
   const G = await getJson('giocatori.json');

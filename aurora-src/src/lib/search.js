@@ -1,4 +1,4 @@
-import { TEAMS, teamById } from '@/data/teams';
+import { TEAMS, teamById, teamByFm } from '@/data/teams';
 import { LEAGUES, leagueById } from '@/data/leagues';
 import { PLAYERS } from '@/data/players';
 import { REFEREES } from '@/data/referees';
@@ -43,6 +43,16 @@ function forNative(q) {
       return { id: t.id, name: t.name, crest: t.crest || null, initials: t.initials || initials(t.name), sub: `${c}${c && l ? ' · ' : ''}${l ? l.name : ''}`, logo: l ? l.logo || null : null, path: `/squadra/${t.id}` };
     }),
     players: r.players.map((p) => {
+      // un solo banner: prima stemma e club, poi bandiera e nazionale. Chi ha solo il profilo della nazionale: club dalle carriere
+      // (calc_extra.py); senza club noto la bandiera prende il posto dello stemma
+      if (p.nat) {
+        const fc = flagCode(p.teamName);
+        const ct = p.clubName ? teamByFm(p.clubFm) : null;
+        const crest = ct ? ct.crest || null : p.clubFm ? `https://images.fotmob.com/image_resources/logo/teamlogo/${p.clubFm}.png` : null;
+        return p.clubName
+          ? { id: p.id, name: p.name, photo: p.photo || null, team: ct ? ct.name : p.clubName, crest, color: color(ct), color2: ct && ct.colors ? ct.colors[1] || null : null, nat: { name: countryIt(p.teamName), fc }, path: `/giocatore/${p.id}` }
+          : { id: p.id, name: p.name, photo: p.photo || null, team: countryIt(p.teamName), crest: fc ? new URL(`${import.meta.env.BASE_URL}flags/${fc}.png`, window.location.href).href : null, color: null, color2: null, nat: null, path: `/giocatore/${p.id}` };
+      }
       const t = teamById(p.teamId);
       return { id: p.id, name: p.name, photo: p.photo || null, team: t ? t.name : p.teamName || '', crest: t ? t.crest || null : null, color: color(t), color2: t && t.colors ? t.colors[1] || null : null, nat: p.natView ? { name: countryIt(p.natView.teamName), fc: flagCode(p.natView.teamName) } : p.nat ? { name: countryIt(p.teamName), fc: flagCode(p.teamName) } : null, path: `/giocatore/${p.id}` };
     }),

@@ -110,6 +110,10 @@ export function buildPlayers() {
       lite: !!(g && g.fm),
       // profilo della nazionale (Nations League, calc_extra.py): squadra = nazionale, stesse statistiche di tiri e minuti del campionato
       nat: !!(g && g.nat),
+      // club attuale di chi ha solo il profilo della nazionale (dalle carriere, calc_extra.py): nome e id FotMob della squadra
+      clubName: g && g.nat && g.ct ? g.ct : null,
+      clubFm: g && g.nat && g.cf ? g.cf : null,
+      clubLink: g && g.nat && g.cl ? g.cl : null,
       // id FotMob del giocatore (profili.py: stesso giocatore delle formazioni e dell'archivio, un solo profilo) e campionato nazionale
       // della squadra quando non e' tra quelli dell'app (es. Dinamo Zagreb: HNL, non Europa League)
       fmId: g ? g.f || g.fm || null : null,
@@ -169,6 +173,12 @@ export function buildPlayers() {
     if (p.nat) return;
     const v = p.fmId ? NAT_FM[String(p.fmId)] : null;
     if (v) { p.natView = v; v.club = p; }
+  });
+  // profilo di club senza id FotMob: calc_extra.py indica quale e' ("cl", stesso nome) e diventa un solo banner
+  PLAYERS.forEach((v) => {
+    if (!v.nat || v.club || !v.clubLink) return;
+    const p = BY_ID[v.clubLink];
+    if (p && !p.nat && !p.natView) { p.natView = v; v.club = p; }
   });
 
   // profili doppi uniti da profili.py: il vecchio id porta allo stesso giocatore (link e calcoli salvati)

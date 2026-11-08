@@ -3,7 +3,9 @@ import { CALC_KEEP, saveCalcKeep } from '@/data/calcKeep';
 import { useLocation } from 'react-router-dom';
 import PanelTitle from '@/components/PanelTitle';
 import { playerById } from '@/data/players';
-import { teamById } from '@/data/teams';
+import { teamById, teamByName } from '@/data/teams';
+import { allTeamMatches } from '@/data/extras';
+import { romeDay } from '@/data/util';
 import { fixtureAt, nextFixture, prefillShots, teamShots } from '@/data/calcData';
 import { emptyFouls, fillFrom, hitFromValues, hitRows, initialForm, isFouls, resultFromForm, resultFromFouls, viewFor } from '@/data/calcPlayer';
 import { domesticKey } from '@/data/calcData';
@@ -35,6 +37,15 @@ import { cupOf } from '@/data/calcData';
 
 const extra = { dashTarget: 'shots' };
 const initial = () => ({ ...initialForm(), ...extra });
+
+// prossima partita di una squadra per scegliere la competizione: se quella di oggi e' gia' finita (stato vero delle partite) vale la successiva
+function upcoming(teamName) {
+  const fx = nextFixture(teamName);
+  const t = teamByName(teamName);
+  if (!fx || !t || romeDay(fx.ts) !== romeDay(Date.now())) return fx;
+  const done = allTeamMatches(t.id).some((m) => m.status === 'finished' && romeDay(m.ts) === romeDay(fx.ts));
+  return done ? nextFixture(teamName, true) || fx : fx;
+}
 
 export default function PlayerTab({ onSave }) {
   // ritorno al Calcolatore (dalla scheda del giocatore, dalla partita, da un'altra scheda): i ricalcoli automatici non partono
@@ -183,8 +194,16 @@ export default function PlayerTab({ onSave }) {
   const selectPlayer = (id) => {
     const p = playerById(id);
     if (!p) return;
-    // un giocatore di sola nazionale (senza profilo di club) parte da Nations League; gli altri dalla squadra di club
-    setForm((f) => { const v = p.nat ? p : viewFor(p, f.competizione); return fillFrom(f, v, f.tipoTiri, nextFixture(v.teamName)); });
+    // un solo banner per giocatore: si parte dalla sua PROSSIMA partita vera, di club (campionato / coppa europea) o con la nazionale,
+    // quella che viene prima; la competizione si puo' poi cambiare dalla tendina. Chi ha solo la nazionale parte da Nations League.
+    const club = p.nat ? p.club || null : p;
+    const nat = p.nat ? p : p.natView || null;
+    const fxC = club ? upcoming(club.teamName) : null;
+    const fxN = nat ? upcoming(nat.teamName) : null;
+    const useNat = !!nat && (!club || (fxN && (!fxC || fxN.ts < fxC.ts)));
+    const v = useNat ? nat : club;
+    const fx = useNat ? fxN : fxC;
+    setForm((f) => { const g = fillFrom(f, v, f.tipoTiri, fx); return fx ? g : { ...g, competizione: useNat ? 'nations' : 'campionato' }; });
   };
   // Nations League <-> campionato/coppa: stesso giocatore, squadra / prossima partita / statistiche dell'altro profilo
   const setCompetition = (value) => {

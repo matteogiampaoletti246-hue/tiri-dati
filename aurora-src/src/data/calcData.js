@@ -186,10 +186,11 @@ export function pickLeagueKey(name, prefer) {
 }
 
 // prossima partita di una squadra (da giocatori.json → fix): [data ISO, avversario, 1 se in casa, competizione]
-export function nextFixture(teamName) {
+// afterToday: salta quella di oggi (gia' finita)
+export function nextFixture(teamName, afterToday = false) {
   const list = (RAW.giocatori && RAW.giocatori.fix && RAW.giocatori.fix[teamName]) || [];
   const today = romeDay(Date.now());
-  const f = list.find((x) => romeDay(new Date(x[0]).getTime()) >= today);
+  const f = list.find((x) => (afterToday ? romeDay(new Date(x[0]).getTime()) > today : romeDay(new Date(x[0]).getTime()) >= today));
   if (!f) return null;
   return { ts: new Date(f[0]).getTime(), opp: f[1], home: f[2] === 1, comp: f[3], cup: CUPS.includes(f[3]) };
 }
