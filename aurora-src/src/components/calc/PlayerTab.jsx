@@ -92,9 +92,9 @@ export default function PlayerTab({ onSave }) {
   useEffect(() => {
     let live = true;
     setFmPid(null);
-    if (fouls && player) resolvePid(player).then((x) => { if (live) setFmPid(x); });
+    if (player) resolvePid(player).then((x) => { if (live) setFmPid(x); }); // anche per i tiri e senza statistica: serve al badge del ruolo
     return () => { live = false; };
-  }, [fouls, form.playerId]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [form.playerId]); // eslint-disable-line react-hooks/exhaustive-deps
   const ownStats = fouls ? teamFoulStats(fd, fmOf(team), form.team.leagueId, team && team.name, form.stat) : null;
   const oppStats = fouls ? teamFoulStats(fd, fmOf(opp), form.opp.leagueId, opp && opp.name, oppStat) : null;
   const oppDom = opp ? domesticKey(opp.name) : null;
@@ -104,7 +104,7 @@ export default function PlayerTab({ onSave }) {
   const duelLeagueAvg = fouls && oppDom ? leaguePlayerAvg(fd, oppDom, oppStat) : null;
   // ruoli avversari e duello automatico (ruolo con la % piu' alta; anche il secondo se dista al massimo 5 punti)
   const roleKeys = falliKeysFor(form.competizione === 'nations');
-  const fl = useFalli(fouls ? FALLI_KEYS : []);
+  const fl = useFalli(player ? FALLI_KEYS : []); // sempre (non solo falli): da qui viene il ruolo del giocatore
   const rb = fouls && fl && fmPid ? roleBreakdown(fl, roleKeys, fmPid, form.stat) : null;
   const roles = useMemo(() => playerRoles(fl, roleKeys), [fl, form.competizione]); // eslint-disable-line react-hooks/exhaustive-deps
   const autoSig = (rb && roster.length ? autoDuelIds(rb, roster, roles) : []).join(',');
@@ -224,7 +224,7 @@ export default function PlayerTab({ onSave }) {
         stat={form.stat || 'tiri'}
         onStat={onStat}
         tint={tOwn(0)}
-        role={fouls && fmPid ? roles[String(fmPid)] : null}
+        role={fmPid ? roles[String(fmPid)] : null}
       />
       {fouls ? (
         <>

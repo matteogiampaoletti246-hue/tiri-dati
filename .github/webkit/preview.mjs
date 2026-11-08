@@ -2071,6 +2071,38 @@ await step('fix-dati: Calcolatore, Hit Rate su partite da almeno 50 minuti e "su
   ok('fix-dati: Calcolatore, scritta giusta ("ultime 5" o "su N partite")', all.length === 3 && all.every((x) => x.label), res);
 });
 
+// Calcolatore: badge del ruolo sempre visibile (nessuna statistica, tiri, tiri in porta, falli), per giocatori di campionati diversi
+await step('calcolatore: badge del ruolo con ogni statistica', async () => {
+  const G = await getJson('giocatori.json');
+  const names = {};
+  (G ? G.players : []).forEach((x) => { names[x.n] = (names[x.n] || 0) + 1; });
+  const pool = (G ? G.players : []).filter((x) => names[x.n] === 1 && x.hn === 5 && x.n.split(' ').length >= 2);
+  const picks = ['Nick Woltemade', ...[0, 0.2, 0.4, 0.6, 0.8].map((q) => pool[Math.floor(q * pool.length)] && pool[Math.floor(q * pool.length)].n)].filter(Boolean);
+  const res = {};
+  const badge = () => pg.evaluate(() => { const b = document.querySelector('#sl-shell [data-role-badge]'); return b ? b.textContent : null; });
+  const pickStat = async (label) => {
+    await pg.evaluate(() => { const b = document.querySelector('[aria-label="Statistiche"]'); if (b) b.click(); });
+    await wait(500);
+    await pg.evaluate((l) => { const o = [...document.querySelectorAll('button,[role="option"],li')].filter((x) => x.textContent.trim() === l).pop(); if (o) o.click(); }, label);
+    let r = null; for (let k = 0; k < 12 && !r; k++) { await wait(400); r = await badge(); } return r;
+  };
+  for (const nm of picks) {
+    await go('#/calcolatore', 3500);
+    await pg.waitForFunction(() => [...document.querySelectorAll('button')].some((x) => /Cerca e seleziona/.test(x.textContent)), null, { timeout: 25000 }).catch(() => {});
+    await pg.evaluate(() => { const b = [...document.querySelectorAll('button')].find((x) => /Cerca e seleziona/.test(x.textContent)); if (b) b.click(); });
+    await wait(900);
+    await pg.keyboard.type(nm, { delay: 25 }); await wait(1300);
+    await pg.evaluate((n) => { const b = [...document.querySelectorAll('button')].find((x) => x.textContent.includes(n)); if (b) b.click(); }, nm);
+    let r0 = null; for (let k = 0; k < 16 && !r0; k++) { await wait(400); r0 = await badge(); }
+    const r = { iniziale: r0, tiri: await pickStat('Tiri'), porta: await pickStat('Tiri in Porta'), fs: await pickStat('Falli Subiti'), fc: await pickStat('Falli Commessi') };
+    await pickStat('Tiri in Porta');
+    await shot(`calc-ruolo-${nm.replace(/\W+/g, '-')}`);
+    res[nm] = r;
+  }
+  const withRole = Object.values(res).filter((r) => r.fs);
+  ok('calcolatore: il ruolo resta uguale con ogni statistica (anche senza statistica scelta)', withRole.length >= 3 && withRole.every((r) => r.iniziale === r.fs && r.tiri === r.fs && r.porta === r.fs && r.fc === r.fs) && res['Nick Woltemade'] && res['Nick Woltemade'].porta, res);
+});
+
 // Calcolatore: tasto "Prossima partita" e stato conservato tornando da partita, scheda giocatore, barra e pagina ricreata (top e minori)
 await step('calcolatore: prossima partita e valori conservati al ritorno', async () => {
   const snap = () => pg.evaluate(() => { const sh = document.getElementById('sl-shell') || document.body; const sec = sh.querySelector('section'); return JSON.stringify({ ins: [...sh.querySelectorAll('input')].map((i) => i.value), head: sec ? sec.innerText.replace(/\s+/g, ' ') : '' }); });

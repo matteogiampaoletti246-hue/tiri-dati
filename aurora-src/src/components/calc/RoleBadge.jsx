@@ -5,6 +5,7 @@ export default function RoleBadge({ role, size = 'sm' }) {
   const big = size === 'lg';
   return (
     <span
+      data-role-badge
       className="absolute grid place-items-center font-extrabold leading-none"
       style={{
         right: big ? -8 : -6,
