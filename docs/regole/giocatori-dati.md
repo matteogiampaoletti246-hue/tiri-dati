@@ -30,6 +30,14 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 ## Falli subiti in Disciplina (regola fissa)
 - Ogni giocatore che ha la voce ha i falli subiti ogni 90', anche sotto i 180' (media e posizione sui giocatori da 180', a inizio stagione 45'). FotMob non scrive lo 0: nelle partite con la voce chi ha giocato senza subire falli conta 0 (`statsFromMatches`, `fouledList` in `data/archive.js`).
 
+## Statistiche a 0: barra solo se il dato e' ricavabile (regola fissa, ogni giocatore e competizione)
+- Le classifiche hanno solo chi supera 0. Se il giocatore non ha la voce ma ha giocato partite archiviate in cui quella voce era registrata (FotMob non scrive gli zeri; cartellini dagli eventi della partita), la voce c'e' con 0 (0,00 se ogni 90'), barra vuota, lineetta della media del campionato e nessuna posizione (`zeroFor` in `data/archive.js`, `zeroStandingOf` in `PastBits.jsx`). Colore: verde dove 0 e' il meglio (falli, cartellini, palle perse...), rosso per il resto.
+- Voci da portiere (parate, gol subiti, uscite...): lo 0 solo per i portieri. Valutazioni e percentuali mai a 0.
+- Dato non ricavabile (nessuna partita con quella voce): la voce non si mostra. Prova: "zeri con barra" in `preview.mjs` (Boga: falli e cartellini 0).
+
+## Partite del giocatore: risultato dal suo lato
+- Nella lista Partite del giocatore il risultato ha prima i gol della sua squadra (`ownFirst` in `PastMatches.jsx`): Croazia-Inghilterra 0-7 per Scott e' "vs Croatia 7 - 0".
+
 ## Classifiche giocatori: tutti con almeno 180 minuti (regola fissa, ogni competizione presente e futura)
 - Nelle classifiche delle statistiche dei giocatori di un campionato (`LeaguePlayersPanel`, `statSections` in `ArchiveLeague.jsx`, `MIN_MIN` = 180) compaiono TUTTI i giocatori con almeno 180 minuti in stagione, in ogni modalita' (Totale e Ogni 90'): niente limite ai primi 50, niente soglia piu' alta (prima 450' in "Ogni 90'"). Nella squadra restano tutti quelli che hanno giocato.
 
