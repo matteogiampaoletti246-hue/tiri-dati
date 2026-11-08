@@ -144,7 +144,12 @@ export default function Home() {
   KEEP.filter = filter;
   const dayIdx = ISO_LIST.indexOf(iso);
   // il tasto Live vale solo per oggi: cambiando giorno si torna a "Tutte" (altrimenti nei giorni passati/futuri compare "nessuna partita")
-  useEffect(() => { if (filter === 'live' && iso !== isoDate(new Date())) setFilter('all'); }, [iso, filter]);
+  // Live toccato da un altro giorno: si va a Oggi e li' si attiva il filtro (wantLive)
+  const [wantLive, setWantLive] = useState(false);
+  useEffect(() => {
+    if (iso === isoDate(new Date())) { if (wantLive) { setWantLive(false); setFilter('live'); } }
+    else if (filter === 'live') setFilter('all');
+  }, [iso, filter, wantLive]);
   const custom = dayIdx < 0 ? iso : null;
   const [searchOpen, setSearchOpen] = useState(false);
   // vecchi link /cerca e /menu: la Home si apre con la tendina gia' aperta (una volta sola, poi lo stato si toglie)
@@ -259,6 +264,7 @@ export default function Home() {
   };
 
   const goDay = (i) => {
+    if (i !== TODAY_INDEX) setWantLive(false);
     const target = ISO_LIST[i];
     if (target === iso) return;
     if (target === nextIso || target === prevIso) { finishCarousel(); glide(target); return; }
@@ -395,7 +401,10 @@ export default function Home() {
       </div>
 
       <div className="flex items-center px-5 pb-1 pt-1">
-        <LivePill value={filter} onChange={setFilter} />
+        <LivePill value={wantLive ? 'live' : filter} onChange={(v) => {
+          if (v !== 'live') { setWantLive(false); setFilter(v); return; }
+          if (iso === isoDate(new Date())) setFilter('live'); else { setWantLive(true); goDay(TODAY_INDEX); }
+        }} />
       </div>
 
       <div style={{ overflow: 'clip' }}>

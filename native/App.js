@@ -758,7 +758,12 @@ function Screen({ onTheme, onReset }) {
   const N = OFFSETS.length;
   const todayKey = rome(new Date());
   const eff = filter === 'live' && keys[cur] === todayKey ? 'live' : 'all';
-  useEffect(() => { if (filter === 'live' && keys[cur] !== todayKey) setFilter('all'); }, [cur, filter, keys, todayKey]);
+  // Live toccato da un altro giorno: si scorre a Oggi e li' si attiva il filtro (wantLive)
+  const [wantLive, setWantLive] = useState(false);
+  useEffect(() => {
+    if (keys[cur] === todayKey) { if (wantLive) { setWantLive(false); setFilter('live'); } }
+    else if (filter === 'live') setFilter('all');
+  }, [cur, filter, keys, todayKey, wantLive]);
   const x = useSharedValue(TODAY_INDEX);
   const x0 = useSharedValue(TODAY_INDEX);
   const ov = useSharedValue(W); // pagina web: W = fuori schermo a destra, 0 = aperta
@@ -960,7 +965,7 @@ function Screen({ onTheme, onReset }) {
     else if (typeof t === 'string' && t.startsWith('drag:')) { const d = Number(t.slice(5)); ov.value = d < 0 ? withTiming(0, { duration: 180 }) : withTiming(d, { duration: 90, easing: Easing.linear }); } // swipe indietro partito dentro la pagina web (prima pagina dopo la Home)
     else if (t === 'home' && openRef.current) closeWeb(); // il tasto indietro del sito e' tornato alla pagina di partenza: si torna alla Home
   }, [onTheme, closeWeb, ov, endBusy]);
-  const pick = useCallback((diff) => { setCal(false); setCenter(diff); }, []);
+  const pick = useCallback((diff) => { setCal(false); setWantLive(false); setCenter(diff); }, []);
   // ricerca: la pagina web (gia' caricata, con tutti i dati) calcola i risultati e li manda indietro (`srch:<n>:<json>`)
   const askSearch = useCallback((q) => {
     const n = ++srchSeq.current;
@@ -979,6 +984,13 @@ function Screen({ onTheme, onReset }) {
   useEffect(() => { centre(cur); }, [cur, centre, view]);
   useAnimatedReaction(() => Math.round(x.value), (r, prev) => { if (r !== prev) runOnJS(setCur)(r); });
   const go = (i) => { x.value = withTiming(i, { duration: 320, easing: Easing.out(Easing.cubic) }); };
+  const goDayBtn = (i) => { if (keys[i] !== todayKey) setWantLive(false); go(i); };
+  const onLivePill = (v) => {
+    if (v !== 'live') { setWantLive(false); setFilter(v); return; }
+    if (keys[cur] === todayKey) { setFilter('live'); return; }
+    const t = keys.indexOf(todayKey); if (t < 0) return;
+    setWantLive(true); go(t);
+  };
 
   // swipe tra i giorni: parte anche mentre la lista scorre in verticale o l'animazione precedente non e' finita
   const pan = useMemo(() => Gesture.Pan().activeOffsetX([-10, 10]).failOffsetY([-28, 28])
@@ -1015,14 +1027,14 @@ function Screen({ onTheme, onReset }) {
       <Header onSearch={openSearch} onMenu={openMenuP} onCal={() => setCal(true)} />
       <ScrollView ref={strip} horizontal showsHorizontalScrollIndicator={false} style={{ flexGrow: 0 }} contentContainerStyle={s.strip}>
         {dates.map((d, i) => (
-          <Pressable key={keys[i]} onPress={() => go(i)} onLayout={(e) => { pos.current[i] = { x: e.nativeEvent.layout.x, w: e.nativeEvent.layout.width }; if (i === cur) centre(i); }}>
+          <Pressable key={keys[i]} onPress={() => goDayBtn(i)} onLayout={(e) => { pos.current[i] = { x: e.nativeEvent.layout.x, w: e.nativeEvent.layout.width }; if (i === cur) centre(i); }}>
             <Text style={[s.dTop, i === cur && s.dOn]}>{dayLabel(d)}</Text>
             <Text style={[s.dSub, i === cur && { opacity: 0.9 }]}>{d.getDate()} {MONTHS[d.getMonth()]}</Text>
           </Pressable>
         ))}
       </ScrollView>
       <View style={s.filters}>
-        <LivePill value={eff} onChange={setFilter} />
+        <LivePill value={wantLive ? 'live' : eff} onChange={onLivePill} />
       </View>
       <GestureDetector gesture={pan}>
         <View style={{ flex: 1, overflow: 'hidden' }}>
