@@ -6004,7 +6004,7 @@
  "rose": {
   "squadre": 5237,
   "senza_rosa_prima": 4313,
-  "senza_rosa_dopo": 611,
+  "senza_rosa_dopo": 610,
   "senza_rosa": [
    {
     "squadra": "1A",
@@ -9967,14 +9967,6 @@
     "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
-    "squadra": "Stafford Rangers",
-    "id": "10222",
-    "competizioni": [
-     "FA Cup 2026-2027"
-    ],
-    "motivo": "nessuna partita giocata nella stagione in corso"
-   },
-   {
     "squadra": "Stenhousemuir",
     "id": "1822282",
     "competizioni": [
@@ -10925,7 +10917,7 @@
   "squadre": 5237,
   "prima": 4381,
   "dopo": 1435,
-  "giocate_dopo": 1274,
+  "giocate_dopo": 1275,
   "elenco": [
    {
     "squadra": "1 de Marzo Pilar",
@@ -17477,7 +17469,7 @@
      "FA Cup 2026-2027"
     ],
     "motivo": [
-     "0 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
     ]
    },
    {
@@ -28316,7 +28308,7 @@
  },
  "forma": {
   "squadre_senza_forma_prima": 4065,
-  "squadre_senza_forma_dopo": 188,
+  "squadre_senza_forma_dopo": 187,
   "motivo_dopo": "nessuna partita giocata nella stagione in corso: niente riquadro"
  }
 }
