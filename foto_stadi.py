@@ -324,20 +324,42 @@ P_EXT = ['the outside facade of a stadium building seen from the street',
          'the exterior of a sports arena with a car park in front']
 P_NEG = ['a statue or a monument', 'a sign or a logo on a wall', 'a building site with cranes', 'a portrait of a group of people',
          'a map or a diagram', 'an indoor corridor or a room', 'a city street with houses', 'a ticket office or an entrance gate',
-         'an indoor basketball or ice hockey arena', 'an athletics running track with no football']
+         'an indoor basketball or ice hockey arena', 'an athletics running track with no football',
+         'an old black and white photograph', 'a close-up of football players on the pitch', 'a team celebrating with a trophy',
+         'a close-up of stadium seats', 'a toy model or a miniature of a stadium', 'a concert stage inside a stadium',
+         'a collage of two photos one above the other', 'a person posing for a photo', 'a close-up of fans in the crowd',
+         'a ceremony with performers on the pitch seen from above']
 with torch.no_grad():
     TXT = model.encode_text(tok(P_IN + P_EXT + P_NEG))
     TXT /= TXT.norm(dim=-1, keepdim=True)
 
 
-def clip_scores(imgs):
+EMBF = os.path.join(RDIR, 'emb.npz')
+import numpy as np
+try:
+    _z = np.load(EMBF)
+    EMB = {k: _z[k] for k in _z.files}
+except Exception:
+    EMB = {}
+
+
+def embed(imgs):
     with torch.no_grad():
         x = torch.stack([prep(im.convert('RGB')) for im in imgs])
         f = model.encode_image(x)
         f /= f.norm(dim=-1, keepdim=True)
-        pr = (100 * f @ TXT.T).softmax(dim=-1)
+    return [v.numpy().astype('float16') for v in f]
+
+
+def probs(v):
+    t = torch.from_numpy(v.astype('float32'))
+    pr = (100 * t @ TXT.T).softmax(dim=-1)
     a, b = len(P_IN), len(P_IN) + len(P_EXT)
-    return [(round(float(p[:a].sum()), 3), round(float(p[a:b].sum()), 3)) for p in pr]
+    return round(float(pr[:a].sum()), 3), round(float(pr[a:b].sum()), 3)
+
+
+def clip_scores(imgs):
+    return [probs(v) for v in embed(imgs)]
 
 
 def fetch_img(url):
@@ -349,15 +371,20 @@ def fetch_img(url):
 
 
 def score_cands(cands):
+    need = [c for c in cands if c['f'] not in EMB]
     with cf.ThreadPoolExecutor(4) as ex:
-        imgs = list(ex.map(lambda c: fetch_img(c['thumb']), cands))
-    ok = [(c, im) for c, im in zip(cands, imgs) if im is not None]
-    if not ok:
-        return []
-    sc = clip_scores([im for _, im in ok])
-    for (c, _), (pin, pext) in zip(ok, sc):
-        c['in'], c['ext'] = pin, pext
-    return [c for c, _ in ok]
+        imgs = list(ex.map(lambda c: fetch_img(c['thumb']), need))
+    ok = [(c, im) for c, im in zip(need, imgs) if im is not None]
+    for i in range(0, len(ok), 32):
+        part = ok[i:i + 32]
+        for (c, _), v in zip(part, embed([im for _, im in part])):
+            EMB[c['f']] = v
+    out = []
+    for c in cands:
+        if c['f'] in EMB:
+            c['in'], c['ext'] = probs(EMB[c['f']])
+            out.append(c)
+    return out
 
 
 def pick(cands):
@@ -375,23 +402,26 @@ def pick(cands):
 # ---------------------------------------------------------------- giro su tutti gli stadi
 t0 = time.time()
 for n, (k, s) in enumerate(sorted(stadi.items())):
-    if k in cache and cache[k].get('v') == 3:
-        continue
-    q = resolve(s)
-    entry = {'v': 3, 'q': q, 'name': s['name'], 'cands': [], 'label': None}
-    if q:
-        cands, label = candidates(q)
-        entry['cands'] = score_cands(cands)
-        entry['label'] = label
+    entry = cache.get(k)
+    if not entry or entry.get('v', 0) < 3:
+        q = resolve(s)
+        entry = {'v': 3, 'q': q, 'name': s['name'], 'cands': [], 'label': None}
+        if q:
+            entry['cands'], entry['label'] = candidates(q)
+    entry['cands'] = score_cands(entry.get('cands') or [])
     if s.get('old'):  # foto attuale: punteggio per il confronto
         p = os.path.join(SDIR, s['file'])
-        if os.path.exists(p):
-            entry['cur'] = clip_scores([Image.open(p)])[0]
+        if 'cur:' + k not in EMB and os.path.exists(p):
+            EMB['cur:' + k] = embed([Image.open(p)])[0]
+        if 'cur:' + k in EMB:
+            entry['cur'] = probs(EMB['cur:' + k])
     cache[k] = entry
-    if n % 10 == 0:
+    if n % 25 == 0:
         json.dump(cache, open(CACHE, 'w', encoding='utf-8'), ensure_ascii=False)
-        print(n, len(stadi), k, q, len(entry['cands']), int(time.time() - t0), 's', flush=True)
+        np.savez_compressed(EMBF, **EMB)
+        print(n, len(stadi), k, entry.get('q'), len(entry['cands']), int(time.time() - t0), 's', flush=True)
 json.dump(cache, open(CACHE, 'w', encoding='utf-8'), ensure_ascii=False)
+np.savez_compressed(EMBF, **EMB)
 
 # ---------------------------------------------------------------- scelta e foto finali
 def final_image(c):
@@ -456,6 +486,8 @@ for k, s in sorted(stadi.items()):
     for kk in s['keys']:
         mappa[kk] = s['file']
     changes.append((k, kind))
+    if s.get('nat') and e.get('q'):
+        qfile.setdefault(e['q'], s['file'])
     review.append({'k': k, 'name': s['name'], 'kind': ('nuova ' if s.get('nat') else 'cambiata ') + kind, 'in': choice['in'], 'file': s['file']})
 
 json.dump(dict(sorted(mappa.items(), key=lambda x: x[0].lower())), open(os.path.join(SDIR, 'mappa.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
@@ -483,6 +515,33 @@ for i in range(0, len(show), COLS * ROWS):
         dr.text((x + 4, y + TH + 2), f"{i + j} {r['name'][:38]}", fill=(255, 255, 255), font=font)
         dr.text((x + 4, y + TH + 15), f"{r['kind']} in={r['in']}", fill=(150, 200, 255), font=font)
     sheet.save(os.path.join(RDIR, f'foglio_{i // (COLS * ROWS):02d}.jpg'), quality=80)
+# alternative per gli stadi indicati in stadi_alternative.json (per scegliere a mano)
+try:
+    altn = json.load(open(os.path.join(ROOT, 'stadi_alternative.json'), encoding='utf-8'))
+except Exception:
+    altn = []
+for f in glob.glob(os.path.join(RDIR, 'alt_*.jpg')):
+    os.remove(f)
+alts, rows = {}, []
+for name in altn:
+    k = next((kk for kk, s in stadi.items() if s['name'] == name or name in s['keys']), None)
+    cands = sorted((cache.get(k) or {}).get('cands') or [], key=lambda c: -c['in'])[:8]
+    alts[name] = [c['f'] for c in cands]
+    rows.append((name, cands))
+AW, AH = 220, 124
+for i in range(0, len(rows), 8):
+    sheet = Image.new('RGB', (8 * AW, 8 * (AH + 16)), (20, 20, 24))
+    dr = ImageDraw.Draw(sheet)
+    for r, (name, cands) in enumerate(rows[i:i + 8]):
+        y = r * (AH + 16)
+        with cf.ThreadPoolExecutor(4) as ex:
+            ims = list(ex.map(lambda c: fetch_img(c['thumb']), cands))
+        for j, (c, im) in enumerate(zip(cands, ims)):
+            if im is not None:
+                sheet.paste(im.convert('RGB').resize((AW - 4, AH)), (j * AW + 2, y))
+            dr.text((j * AW + 3, y + AH + 2), f"{name[:20]} #{j} in={c['in']}", fill=(255, 255, 255), font=font)
+    sheet.save(os.path.join(RDIR, f'alt_{i // 8:02d}.jpg'), quality=80)
+json.dump(alts, open(os.path.join(RDIR, 'alternative.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 json.dump(show, open(os.path.join(RDIR, 'revisione.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=0)
 print('modifiche:', len(changes), {k: sum(1 for _, x in changes if x == k) for k in set(x for _, x in changes)})
 print('foto totali:', len(crediti))
