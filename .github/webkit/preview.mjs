@@ -2170,6 +2170,22 @@ await step('formazioni: infortunati dopo la panchina', async () => {
   ok('formazioni: Infortunati dopo la Panchina', Object.values(res).every((r) => r.ii > r.ib), res);
 });
 
+// Statistiche a 0 con la barra (dato ricavabile dalle partite) e risultato dal lato del giocatore (richiesta utente 08/11/2026)
+await step('statistiche giocatore: zeri con barra e risultato dal lato del giocatore', async () => {
+  await go('#/giocatore/p_3fy5rW', 6000); // Boga (Juventus): 0 falli e 0 cartellini in Serie A
+  await clickText('Statistiche'); await wait(4000);
+  await clickText('Disciplina'); await wait(1500);
+  const disc = await pg.evaluate(() => { const t = document.body.innerText; const i = t.lastIndexOf('Disciplina'); return t.slice(i, i + 600); });
+  const bars = (disc.match(/media /g) || []).length;
+  await shot('boga-disciplina-zeri');
+  ok('Disciplina: le voci a 0 hanno la barra (Boga: falli e cartellini)', bars >= 3 && /0,00|\b0\b/.test(disc), { bars, disc: disc.slice(0, 400) });
+  await go('#/giocatore/p_3mmPQC', 6000); // Alex Scott: Croazia-Inghilterra 0-7
+  await clickText('Partite'); await wait(4000);
+  const t = await pg.evaluate(() => document.body.innerText);
+  await shot('scott-partite-risultato');
+  ok('Partite giocatore: prima i gol della sua squadra (vs Croatia 7 - 0)', /Croatia\s*7\s*-\s*0/.test(t) && !/Croatia\s*0\s*-\s*7/.test(t), { t: (t.match(/vs [^\n]*/g) || []).slice(0, 8) });
+});
+
 report.passed = report.checks.filter((c) => c.pass).length;
 report.total = report.checks.length;
 fs.writeFileSync(`${OUT}/report.json`, JSON.stringify(report, null, 2));

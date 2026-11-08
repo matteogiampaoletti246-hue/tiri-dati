@@ -223,5 +223,16 @@ export function standingOf(list, idx, key) {
   return { v, rank, frac, width: Math.max(3, Math.min(100, (v / top) * 100)), avg, avgPos: Math.min(100, (avg / top) * 100) };
 }
 
+// voce a 0 (dato ricavabile ma il giocatore non e' nella classifica, che ha solo i valori sopra 0): barra vuota, media del campionato,
+// colore come la classifica (0 e' il migliore per falli, cartellini, palle perse...; il peggiore per il resto), nessuna posizione (pari merito)
+export function zeroStandingOf(list, key) {
+  const n = list.length;
+  const neg = NEG_RE.test(key);
+  const best = Math.max(...list.slice(0, 5).map((r) => Number(r[3]) || 0), 0.0001);
+  const avg = list.reduce((a, r) => a + (Number(r[3]) || 0), 0) / n;
+  const top = Math.max(best * 1.05, avg * 1.6, 0.0001);
+  return { v: 0, rank: null, frac: neg ? 1 : 0, width: 0, avg, avgPos: Math.min(100, (avg / top) * 100) };
+}
+
 // la scheda squadra mostra nel banner la competizione scelta nelle tendine
 export const announceComp = (teamId, comp) => { try { window.dispatchEvent(new CustomEvent('sl-comp', { detail: { teamId, comp } })); } catch (e) { /* ignore */ } };

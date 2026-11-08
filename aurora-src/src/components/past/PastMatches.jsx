@@ -103,7 +103,7 @@ async function seasonRows(fm, sk, fmPid) {
     const home = inH ? true : inA ? false : side ? side === 'h' : myTeam ? myTeam === hid : false;
     const opp = home ? aid : hid;
     const date = f ? f[4] : '';
-    rows.push({ key: `a-${fm}-${sk}-${mid}`, to: `/match/a-${fm}-${sk}-${mid}`, day: date ? romeDayOf(date) : '', date, fm, oppId: opp, oppName: s.teams[opp] || '', score: f ? f[5] : '', minutes: Math.round(p.minutes_played), goals: p.goals || 0, assists: p.goal_assist || p.assists || 0, rating: p.rating_title || null });
+    rows.push({ key: `a-${fm}-${sk}-${mid}`, to: `/match/a-${fm}-${sk}-${mid}`, day: date ? romeDayOf(date) : '', date, fm, oppId: opp, oppName: s.teams[opp] || '', score: f ? ownFirst(f[5], home) : '', minutes: Math.round(p.minutes_played), goals: p.goals || 0, assists: p.goal_assist || p.assists || 0, rating: p.rating_title || null });
   });
   return rows;
 }
@@ -112,6 +112,12 @@ async function seasonRows(fm, sk, fmPid) {
 // (stemma + nome piccolo). Le stagioni si caricano a gruppi (anno di inizio) scorrendo in fondo; `recent` = ultime partite dell'app
 // (aurora_indice, con la partita dal vivo): stesso giorno = stessa partita, quella dell'archivio non si ripete.
 const yearOf = (sk) => parseInt(String(sk).slice(0, 4), 10) || 0;
+// risultato dal lato del giocatore: prima i gol della sua squadra (Inghilterra 7-0 in Croazia, non "0 - 7")
+export const ownFirst = (score, home) => {
+  const m = String(score || '').match(/^(\d+)\s*-\s*(\d+)(.*)$/);
+  if (!m) return score || '';
+  return home ? `${m[1]} - ${m[2]}${m[3]}` : `${m[2]} - ${m[1]}${m[3]}`;
+};
 export function PlayerAllMatches({ items, fmPid, playerName, recent = [] }) {
   const years = [...new Set((items || []).map(([, sk]) => yearOf(sk)))].sort((a, b) => b - a);
   const { parts, busy, done, box } = useOlder(years, async (y) => {

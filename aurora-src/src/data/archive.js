@@ -345,8 +345,20 @@ export const statsFromMatches = (lid, sk, part = 'tot') => once(`sfm/${lid}/${sk
   const acc = {};
   const who = {}; // id giocatore -> [squadra, nome] dalle formazioni della partita (titolari e panchina)
   const wfZero = {}; // falli subiti: FotMob non scrive lo 0; nelle partite che hanno la voce chi ha giocato senza subire falli conta 0 (cosi' ha la sua media)
+  // voci registrate in ogni partita (FotMob non scrive gli zeri): chi ha giocato una partita con la voce e non ce l'ha ha fatto 0.
+  // rec[voce] = giocatori con almeno una partita in cui la voce c'era; le voci da portiere valgono solo per i portieri; i cartellini dagli eventi.
+  const rec = {};
+  const isGk = {};
+  const mark = (k, pid) => { (rec[k] = rec[k] || new Set()).add(pid); };
   Object.values(d.m).forEach((m) => {
     const hasWf = Object.values((m && m.p) || {}).some((v) => v && typeof v.was_fouled === 'number');
+    const keysHere = new Set();
+    Object.values((m && m.p) || {}).forEach((v) => { if (v) Object.keys(v).forEach((k) => { if (typeof v[k] === 'number' && !SKIP_KEY.test(k) && !HIDDEN_STAT.test(k) && k !== 'rating_title') keysHere.add(k); }); });
+    [m && m.h, m && m.a].forEach((side) => { if (side) (side.st || []).concat(side.sb || []).forEach((r) => { if (Array.isArray(r) && Number(r[3]) === 11) isGk[String(r[0])] = true; }); });
+    Object.entries((m && m.p) || {}).forEach(([pid, v]) => {
+      if (!(Number(v && v.minutes_played) > 0)) return;
+      if (GK_KEY.test(Object.keys(v).join(' '))) isGk[pid] = true;
+    });
     const homeIds = new Set();
     const awayIds = new Set();
     [[m && m.h, homeIds], [m && m.a, awayIds]].forEach(([side, ids]) => {
@@ -363,6 +375,8 @@ export const statsFromMatches = (lid, sk, part = 'tot') => once(`sfm/${lid}/${sk
       t.min += mins;
       t.n += 1;
       if (hasWf) wfZero[pid] = true;
+      keysHere.forEach((k) => mark(k, pid));
+      if (Array.isArray(m.e)) { mark('yellow_card', pid); mark('red_card', pid); }
       Object.entries(v).forEach(([k, val]) => {
         if (typeof val !== 'number' || SKIP_KEY.test(k) || HIDDEN_STAT.test(k)) return;
         const a = ((acc[k] = acc[k] || {})[pid] = acc[k][pid] || { s: 0, n: 0 });
@@ -386,8 +400,23 @@ export const statsFromMatches = (lid, sk, part = 'tot') => once(`sfm/${lid}/${sk
   // minuti di chiunque abbia giocato (stessa voce delle classifiche ufficiali): anche chi ha tutti i valori a zero ha le sue statistiche
   const mins = Object.entries(tot).map(([pid, t]) => [pid, (who[pid] || [])[1] || '', (who[pid] || [])[0] || null, t.min, t.min, t.n, null]);
   if (mins.length >= 3 && !players.mins_played) players.mins_played = mins.sort((x, y) => y[3] - x[3]);
-  return Object.keys(players).length ? { v: 2, players, teams: {}, fromMatches: true } : null;
+  Object.keys(rec).forEach((k) => { if (GK_KEY.test(k)) rec[k] = new Set([...rec[k]].filter((pid) => isGk[pid])); });
+  return Object.keys(players).length ? { v: 2, players, teams: {}, fromMatches: true, rec } : null;
 });
+// voci da portiere (partite e classifiche): lo zero vale solo per i portieri
+const GK_KEY = /saves|goals_conceded|keeper|punches|player_throws|on_target_faced|goals_prevented|high_claim|clean_sheet|penalty_save|save_percentage/;
+// nomi delle classifiche stagionali -> voce nelle partite (per sapere se uno zero e' ricavabile)
+const SEASON_TO_MATCH = { total_scoring_att: 'total_shots', ontarget_scoring_att: 'ShotsOnTarget', goal_assist: 'assists', total_att_assist: 'chances_created', accurate_pass: 'accurate_passes', interception: 'interceptions', ball_recovery: 'recoveries', total_tackle: 'matchstats.headers.tackles', effective_clearance: 'clearances', outfielder_block: 'shot_blocks', won_contest: 'dribbles_succeeded', accurate_long_balls: 'long_balls_accurate', big_chance_missed: 'big_chance_missed_title', penalty_conceded: 'conceded_penalties', penalty_won: 'penalties_won', penalty_save: 'saved_penalties', total_high_claim: 'keeper_high_claim', total_keeper_sweeper: 'keeper_sweeper', expected_goalsontarget: 'expected_goals_on_target_variant' };
+// il giocatore ha 0 su questa voce (dato ricavabile: ha giocato partite in cui la voce era registrata, e non ce l'ha)? Senza dati: false, la voce non si mostra.
+export const zeroFor = (st, k, pid) => {
+  const rec = st && st.rec;
+  if (!rec || pid == null) return false;
+  if (k === 'was_fouled' || k === 'mins_played' || k.startsWith('_')) return false;
+  if (/rating|percentage|accuracy/.test(k)) return false;
+  const base = k.replace(/_per_90$/, '');
+  const set = rec[SEASON_TO_MATCH[base] || base] || rec[base];
+  return !!(set && set.has(String(pid)));
+};
 // statistiche squadre di una stagione: quelle ufficiali se ci sono, altrimenti le medie a partita dalle partite archiviate
 // (stagione in corso dei campionati aggiunti: il file ufficiale esiste ma e' ancora vuoto)
 export const loadTeamStats = async (lid, sk) => {
@@ -430,7 +459,7 @@ const loadPlayerStatsFor0 = async (lid, sk, pid) => {
     list.splice(i, 0, mine);
     players[k] = list;
   });
-  const out = { ...st, players, filled: true };
+  const out = { ...st, players, filled: true, rec: fm.rec };
   lruSet(MERGED, ck, out, 40);
   return out;
 };
@@ -527,7 +556,7 @@ export const loadLeaguePlayerStats = async (lid, sk) => {
     if (k === 'rating' || /per_90|percentage|accuracy/.test(k) || OFFICIAL_P90.has(k)) return;
     players[k] = [...players[k], ...add].sort((x, y) => y[3] - x[3]);
   });
-  const out = { ...st, players, filled: true };
+  const out = { ...st, players, filled: true, rec: fm.rec };
   lruSet(LEAGUE_P, ck, out, 12);
   return out;
 };

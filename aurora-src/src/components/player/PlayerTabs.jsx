@@ -24,7 +24,7 @@ import { useEffect, useState } from 'react';
 import { teamGrad } from '@/lib/tint';
 import CompSeasonBar from '@/components/CompSeasonBar';
 import PastStats from '@/components/past/PastStats';
-import { PlayerAllMatches } from '@/components/past/PastMatches';
+import { PlayerAllMatches, ownFirst } from '@/components/past/PastMatches';
 import { useSeasonList, initSeason, useSel, useCompIn } from '@/components/past/PastBits';
 import { usePlayerCareer, useArchivePct, useBioPid, resolvePid, usePlayerSeason } from '@/data/playerIndex';
 import { rosePlayer } from '@/data/rose';
@@ -269,7 +269,7 @@ export function PartitePanel({ player }) {
   ((RAW.indice && RAW.indice.m) || []).forEach((m) => { IM[m[0]] = m; });
   const recent = (player.recent || []).filter((m) => m.matchId).map((m) => ({
     key: `r-${m.matchId}`, to: `/match/${m.matchId}`, day: String(m.date || '').slice(0, 10), date: m.date, dateText: dateIt(m.date),
-    league: IM[m.matchId] ? leagueById(IM[m.matchId][1]) : null, score: IM[m.matchId] && IM[m.matchId][5] != null ? `${IM[m.matchId][5]} - ${IM[m.matchId][6]}` : '',
+    league: IM[m.matchId] ? leagueById(IM[m.matchId][1]) : null, score: IM[m.matchId] && IM[m.matchId][5] != null ? ownFirst(`${IM[m.matchId][5]} - ${IM[m.matchId][6]}`, m.home) : '',
     oppTeam: teamByName(m.opp), oppName: m.opp, minutes: m.minutes, goals: m.goals, assists: m.assists, rating: m.rating,
   }));
   if (!recent.length && !(fmPid && items.length)) return null;
