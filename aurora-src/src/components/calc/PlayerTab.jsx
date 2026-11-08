@@ -29,7 +29,8 @@ import { loadRose, rosePlayer } from '@/data/rose';
 import PlayerPickPanel from './PlayerPickPanel';
 import PlayerSeasonPanel from './PlayerSeasonPanel';
 import ResultCard from './ResultCard';
-import TeamBlock, { cupOf } from './TeamBlock';
+import TeamBlock from './TeamBlock';
+import { cupOf } from '@/data/calcData';
 
 const extra = { dashTarget: 'shots' };
 const initial = () => ({ ...initialForm(), ...extra });

@@ -26,6 +26,7 @@ import useNextMatch from '@/hooks/useNextMatch';
 import { nextMatchVs } from '@/data/extras';
 import { MONTHS, WEEKDAYS } from '@/lib/format';
 import { romeTime } from '@/data/util';
+import { cupOf } from '@/data/calcData';
 
 // Tasto "Prossima partita" sotto il banner: apre la partita (contro l'avversaria scelta nel Calcolatore, altrimenti la prossima
 // della squadra) sopra il Calcolatore, che resta com'era al ritorno. Senza una prossima partita il tasto non si mostra.
@@ -123,7 +124,12 @@ export default function PlayerPickPanel({ form, set, player, hint, onSelectPlaye
             </button>
             <button type="button" onClick={() => { primeKeyboard(); setPicker('player'); }} className="press shrink-0 rounded-full px-3.5 py-2 text-[12.5px] font-bold text-white" style={{ background: 'var(--accent)' }}>Cambia</button>
             </div>
-            <NextMatchButton ownId={form.team && form.team.id ? form.team.id : player.teamId} oppId={form.opp && form.opp.id} onOpen={(id) => navigate(`/match/${id}`)} />
+            {(() => {
+              // partita legata alla competizione selezionata: Coppa europea = la coppa della squadra (nessuna coppa = nessun tasto), altrimenti il campionato del blocco squadra
+              const ownId = form.team && form.team.id ? form.team.id : player.teamId;
+              const comp = form.competizione === 'coppa' ? cupOf(teamById(ownId)) || 'nessuna' : (form.team && form.team.leagueId) || undefined;
+              return <NextMatchButton ownId={ownId} oppId={form.opp && form.opp.id} comp={comp} onOpen={(id) => navigate(`/match/${id}`)} />;
+            })()}
           </div>
         ) : (
           <SelectRow

@@ -2276,6 +2276,14 @@ await step('calcolatore: banner squadra con prossima partita nella competizione'
   await wait(2000);
   const b = await read();
   await shot('calcolatore-banner-squadra-europa');
+  // tasto del giocatore legato alla Competizione: Campionato = Serie A, Coppa europea = Europa League
+  const pnext = () => pg.evaluate(() => { const b = [...document.querySelectorAll('button')].find((x) => /Prossima partita/i.test(x.textContent)); return b ? b.innerText.replace(/\s+/g, ' ') : ''; });
+  const pl1 = await pnext();
+  await pg.evaluate(() => { const b = [...document.querySelectorAll('#sl-shell button')].find((x) => x.textContent.trim() === 'Coppa europea'); if (b) b.click(); });
+  await wait(1500);
+  const pl2 = await pnext();
+  await shot('calcolatore-giocatore-coppa');
+  ok('calcolatore: tasto Prossima partita del giocatore legato alla competizione', /Venezia/.test(pl1) && /Omonia/.test(pl2), { pl1, pl2 });
   ok('calcolatore: banner squadra con pillola competizione e prossima partita', !!a && a.banner && /Serie A/.test(a.pill) && /Prossima partita/i.test(a.next), { a });
   ok('calcolatore: cambiando competizione la prossima partita e\' quella di quella competizione', !!b && /Europa League/.test(b.pill) && b.banner && (!b.next || b.next !== a.next), { a, b });
 });

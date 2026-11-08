@@ -3,7 +3,7 @@
 // tra campionato e coppa) e riquadri casa / trasferta da squadre.json.
 import { RAW } from './load';
 import { comma } from '@/lib/format';
-import { teamById } from './teams';
+import { teamById, teamByName } from './teams';
 import { romeDay } from './util';
 
 // Campionati disponibili nel calcolatore, nell'ordine in cui compaiono nei menu.
@@ -20,6 +20,8 @@ const LD = {};
 export const calcLeagues = () => CALC_KEYS.filter((k) => LD[k]).map((k) => ({ id: k, name: LABELS[k] || LD[k].label, cup: CUPS.includes(k) }));
 export const leagueName = (leagueId) => (LD[leagueId] ? LABELS[leagueId] || LD[leagueId].label : LABELS[leagueId] || '');
 export const calcTeamsOf = (leagueId) => (LD[leagueId] ? Object.keys(LD[leagueId].teams) : []);
+// coppa europea della squadra (Champions o Europa League): tasto Prossima partita con Competizione = Coppa europea
+export const cupOf = (team) => (team ? CUPS.find((c) => calcTeamsOf(c).some((n) => n === team.name || (teamByName(n) || {}).id === team.id)) || null : null);
 
 export function buildCalcData() {
   Object.keys(LD).forEach((k) => delete LD[k]);
