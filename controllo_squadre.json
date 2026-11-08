@@ -26891,554 +26891,6 @@
   "squadre_senza_scheda_giocatori": 7042,
   "senza_scheda": [
    {
-    "squadra": "Threave Rovers",
-    "id": "1777"
-   },
-   {
-    "squadra": "FC Brasov",
-    "id": "2177"
-   },
-   {
-    "squadra": "Aliados Lordelo",
-    "id": "2277"
-   },
-   {
-    "squadra": "SV Marsch Neuberg",
-    "id": "4077"
-   },
-   {
-    "squadra": "Bygdø",
-    "id": "4277"
-   },
-   {
-    "squadra": "Radøy/Manger",
-    "id": "4377"
-   },
-   {
-    "squadra": "Güngören",
-    "id": "4677"
-   },
-   {
-    "squadra": "Chatellerault",
-    "id": "6377"
-   },
-   {
-    "squadra": "Siirtspor",
-    "id": "8377"
-   },
-   {
-    "squadra": "Vicenza",
-    "id": "9877"
-   },
-   {
-    "squadra": "FC Lviv",
-    "id": "45277"
-   },
-   {
-    "squadra": "Platense FC",
-    "id": "49777"
-   },
-   {
-    "squadra": "Skarphedin F",
-    "id": "78477"
-   },
-   {
-    "squadra": "Be Quick G",
-    "id": "97477"
-   },
-   {
-    "squadra": "Vestsiden-Askøy",
-    "id": "161377"
-   },
-   {
-    "squadra": "Mayfield United",
-    "id": "173777"
-   },
-   {
-    "squadra": "SV Spielberg",
-    "id": "176477"
-   },
-   {
-    "squadra": "SV Schott Jena",
-    "id": "178477"
-   },
-   {
-    "squadra": "Meteor Prague",
-    "id": "183877"
-   },
-   {
-    "squadra": "FC Montreux-Sports",
-    "id": "238577"
-   },
-   {
-    "squadra": "Blanc Mesnil",
-    "id": "238677"
-   },
-   {
-    "squadra": "Whitstable Town",
-    "id": "282377"
-   },
-   {
-    "squadra": "Redon Atl",
-    "id": "293277"
-   },
-   {
-    "squadra": "SV Heiligenkreuz",
-    "id": "338277"
-   },
-   {
-    "squadra": "UD Barbadas",
-    "id": "355077"
-   },
-   {
-    "squadra": "Lys Lez Lannoy Stella",
-    "id": "402277"
-   },
-   {
-    "squadra": "Kerho 07",
-    "id": "425977"
-   },
-   {
-    "squadra": "Digenis Oroklinis",
-    "id": "468677"
-   },
-   {
-    "squadra": "CD Becerril",
-    "id": "477377"
-   },
-   {
-    "squadra": "FC Baldersheim",
-    "id": "497077"
-   },
-   {
-    "squadra": "Conde-sur-Vire",
-    "id": "497177"
-   },
-   {
-    "squadra": "Nardo 2",
-    "id": "515177"
-   },
-   {
-    "squadra": "Grebbestads IF",
-    "id": "517477"
-   },
-   {
-    "squadra": "Giwa FC",
-    "id": "520677"
-   },
-   {
-    "squadra": "FC KooTeePee",
-    "id": "529677"
-   },
-   {
-    "squadra": "Greater Binghamton FC Thunder",
-    "id": "540877"
-   },
-   {
-    "squadra": "Jiloviste",
-    "id": "561177"
-   },
-   {
-    "squadra": "Legnago Salus",
-    "id": "583977"
-   },
-   {
-    "squadra": "San Donato",
-    "id": "584077"
-   },
-   {
-    "squadra": "Elven",
-    "id": "591777"
-   },
-   {
-    "squadra": "Kvaløya SK",
-    "id": "614377"
-   },
-   {
-    "squadra": "Sonoma County Sol",
-    "id": "634277"
-   },
-   {
-    "squadra": "Newton Aycliffe",
-    "id": "674277"
-   },
-   {
-    "squadra": "San Nicolas FC",
-    "id": "741377"
-   },
-   {
-    "squadra": "Tydal",
-    "id": "821277"
-   },
-   {
-    "squadra": "Philadelphia Lone Star",
-    "id": "839077"
-   },
-   {
-    "squadra": "Douarnenez",
-    "id": "889577"
-   },
-   {
-    "squadra": "Pradines St Vincent",
-    "id": "889777"
-   },
-   {
-    "squadra": "Sarikamis Genclerbirligispor",
-    "id": "960577"
-   },
-   {
-    "squadra": "FC Mulhouse Portland",
-    "id": "1038477"
-   },
-   {
-    "squadra": "Olimp Khimki",
-    "id": "1066677"
-   },
-   {
-    "squadra": "Spartak Vladikavkaz",
-    "id": "1068377"
-   },
-   {
-    "squadra": "1.FC Olesnice u Bouzova",
-    "id": "1084277"
-   },
-   {
-    "squadra": "Biyala",
-    "id": "1114977"
-   },
-   {
-    "squadra": "Lipot Pekseg",
-    "id": "1117177"
-   },
-   {
-    "squadra": "RC Labourse",
-    "id": "1200277"
-   },
-   {
-    "squadra": "Shahin Bandar Ameri",
-    "id": "1235077"
-   },
-   {
-    "squadra": "FC Sarmenstorf",
-    "id": "1383877"
-   },
-   {
-    "squadra": "Vasco da Gama VF",
-    "id": "1404977"
-   },
-   {
-    "squadra": "FC Buchs",
-    "id": "1504977"
-   },
-   {
-    "squadra": "Tovarniky",
-    "id": "1557677"
-   },
-   {
-    "squadra": "Osasuna F",
-    "id": "1638077"
-   },
-   {
-    "squadra": "ESV Rot-Weiss Goettingen F",
-    "id": "1656077"
-   },
-   {
-    "squadra": "FC Aemme",
-    "id": "1657077"
-   },
-   {
-    "squadra": "Anstaing Chéreng",
-    "id": "1688177"
-   },
-   {
-    "squadra": "Masku",
-    "id": "1972477"
-   },
-   {
-    "squadra": "Stoneywood Parkvale F",
-    "id": "2279777"
-   },
-   {
-    "squadra": "Ovarense",
-    "id": "1799"
-   },
-   {
-    "squadra": "Skarphedin",
-    "id": "1999"
-   },
-   {
-    "squadra": "Cournon d'Auvergne",
-    "id": "4099"
-   },
-   {
-    "squadra": "Borgar",
-    "id": "4199"
-   },
-   {
-    "squadra": "Bjørgan",
-    "id": "4299"
-   },
-   {
-    "squadra": "Meldal FC",
-    "id": "6199"
-   },
-   {
-    "squadra": "Donegal Celtic",
-    "id": "6599"
-   },
-   {
-    "squadra": "FK Baku",
-    "id": "7999"
-   },
-   {
-    "squadra": "Berane",
-    "id": "8099"
-   },
-   {
-    "squadra": "Energie Cottbus II",
-    "id": "8399"
-   },
-   {
-    "squadra": "Roeselare",
-    "id": "9999"
-   },
-   {
-    "squadra": "FC Salyut Belgorod",
-    "id": "49699"
-   },
-   {
-    "squadra": "Le Poire Sur Vie",
-    "id": "108899"
-   },
-   {
-    "squadra": "Homs Al Fidaa",
-    "id": "155699"
-   },
-   {
-    "squadra": "FK Sloboda Užice",
-    "id": "161199"
-   },
-   {
-    "squadra": "Clarence Zebras",
-    "id": "162299"
-   },
-   {
-    "squadra": "Madura United",
-    "id": "165199"
-   },
-   {
-    "squadra": "Fana F",
-    "id": "169299"
-   },
-   {
-    "squadra": "Drita",
-    "id": "187799"
-   },
-   {
-    "squadra": "Arroyo",
-    "id": "189799"
-   },
-   {
-    "squadra": "Sarinena",
-    "id": "190099"
-   },
-   {
-    "squadra": "Volochanin-Ratmir",
-    "id": "198199"
-   },
-   {
-    "squadra": "FC Presikhaaf",
-    "id": "206299"
-   },
-   {
-    "squadra": "FC Kremin Kremenchuk",
-    "id": "229899"
-   },
-   {
-    "squadra": "Imphy-Decize",
-    "id": "238899"
-   },
-   {
-    "squadra": "Felda United FC",
-    "id": "242699"
-   },
-   {
-    "squadra": "Gallia CL",
-    "id": "291999"
-   },
-   {
-    "squadra": "Nouaille",
-    "id": "293299"
-   },
-   {
-    "squadra": "Ronneby BK",
-    "id": "358099"
-   },
-   {
-    "squadra": "FC UkrAhroKom Holovkivka",
-    "id": "394599"
-   },
-   {
-    "squadra": "Sorcy Void Vacon",
-    "id": "402199"
-   },
-   {
-    "squadra": "AS Brestoise",
-    "id": "402299"
-   },
-   {
-    "squadra": "Botev Galabovo",
-    "id": "456799"
-   },
-   {
-    "squadra": "Tempo Overijse",
-    "id": "484099"
-   },
-   {
-    "squadra": "Valenciennes Dutemple",
-    "id": "497099"
-   },
-   {
-    "squadra": "IFK Kumla",
-    "id": "546299"
-   },
-   {
-    "squadra": "PFK Piešťany",
-    "id": "576899"
-   },
-   {
-    "squadra": "Cizrespor",
-    "id": "581799"
-   },
-   {
-    "squadra": "Pays Mazametain",
-    "id": "591799"
-   },
-   {
-    "squadra": "CA Poussan",
-    "id": "592199"
-   },
-   {
-    "squadra": "Pakistan U23",
-    "id": "638899"
-   },
-   {
-    "squadra": "Kuddby IF",
-    "id": "648499"
-   },
-   {
-    "squadra": "Aarslev Boldklub",
-    "id": "654399"
-   },
-   {
-    "squadra": "Kouris Erimis",
-    "id": "675899"
-   },
-   {
-    "squadra": "Inter CDF",
-    "id": "683899"
-   },
-   {
-    "squadra": "Youngnam University",
-    "id": "739799"
-   },
-   {
-    "squadra": "US Arbedo",
-    "id": "764299"
-   },
-   {
-    "squadra": "Pajde",
-    "id": "857999"
-   },
-   {
-    "squadra": "Glenafton Athletic",
-    "id": "879299"
-   },
-   {
-    "squadra": "Diagoras Vrachnaiika",
-    "id": "885299"
-   },
-   {
-    "squadra": "Ribemont US",
-    "id": "889499"
-   },
-   {
-    "squadra": "TS Sporting",
-    "id": "953499"
-   },
-   {
-    "squadra": "Siirt Il Özel Idaresispor",
-    "id": "960699"
-   },
-   {
-    "squadra": "Soulge-sur-Ouette",
-    "id": "971199"
-   },
-   {
-    "squadra": "AJS Ouistreham",
-    "id": "973099"
-   },
-   {
-    "squadra": "Tshwane University of Technology",
-    "id": "1003199"
-   },
-   {
-    "squadra": "Fukui United FC",
-    "id": "1186199"
-   },
-   {
-    "squadra": "Kokkinou",
-    "id": "1199599"
-   },
-   {
-    "squadra": "AS Levier",
-    "id": "1309099"
-   },
-   {
-    "squadra": "North Asia University",
-    "id": "1365199"
-   },
-   {
-    "squadra": "St Julien Divatte",
-    "id": "1413599"
-   },
-   {
-    "squadra": "Hapoel Qalansawe",
-    "id": "1420899"
-   },
-   {
-    "squadra": "Braga U23",
-    "id": "1510599"
-   },
-   {
-    "squadra": "Os Sandinenses",
-    "id": "1521699"
-   },
-   {
-    "squadra": "Vistonida",
-    "id": "1526799"
-   },
-   {
-    "squadra": "Luncarty",
-    "id": "1537099"
-   },
-   {
-    "squadra": "KIA FC",
-    "id": "1602399"
-   },
-   {
-    "squadra": "Wellington Recreation",
-    "id": "1696399"
-   },
-   {
-    "squadra": "Cuenca Juniors",
-    "id": "1779099"
-   },
-   {
-    "squadra": "1. BFK Frýdlant nad Ostravici",
-    "id": "1804899"
-   },
-   {
     "squadra": "Paniliakos",
     "id": "1619"
    },
@@ -27747,348 +27199,896 @@
     "id": "2392219"
    },
    {
-    "squadra": "Herning Fremad",
-    "id": "1641"
+    "squadra": "Nyva Ternopil",
+    "id": "2146"
    },
    {
-    "squadra": "Vildbjerg SF",
-    "id": "2341"
+    "squadra": "Chur 97",
+    "id": "2446"
    },
    {
-    "squadra": "Chênois",
-    "id": "2441"
+    "squadra": "Malcantone",
+    "id": "2546"
    },
    {
-    "squadra": "Ards",
-    "id": "4141"
+    "squadra": "Kjelsås 2",
+    "id": "4246"
    },
    {
-    "squadra": "Bærum 2",
-    "id": "4241"
+    "squadra": "Syrianska IF Kerburan",
+    "id": "6146"
    },
    {
-    "squadra": "Leknes",
-    "id": "4341"
+    "squadra": "Maia",
+    "id": "7846"
    },
    {
-    "squadra": "Nybro IF",
-    "id": "4441"
+    "squadra": "Eik-Tønsberg F",
+    "id": "8246"
    },
    {
-    "squadra": "Maccabi Beer Sheva",
-    "id": "4541"
+    "squadra": "Pistoiese",
+    "id": "8546"
    },
    {
-    "squadra": "Ivancna Gorica",
-    "id": "5741"
+    "squadra": "Steinkjer",
+    "id": "9846"
    },
    {
-    "squadra": "Universitatea Craiova",
-    "id": "9741"
+    "squadra": "Rodopa Smolyan",
+    "id": "10146"
    },
    {
-    "squadra": "AD Chalatenango",
-    "id": "49741"
+    "squadra": "Isidro Metapan",
+    "id": "49746"
    },
    {
-    "squadra": "Kristiansund FK",
-    "id": "68541"
+    "squadra": "Sandefjord BK",
+    "id": "91946"
    },
    {
-    "squadra": "Alibeyköyspor",
-    "id": "95741"
+    "squadra": "Hundested IK",
+    "id": "131546"
    },
    {
-    "squadra": "KAC Kénitra",
-    "id": "102041"
+    "squadra": "KRC Mechelen",
+    "id": "149946"
    },
    {
-    "squadra": "Godøy",
-    "id": "119141"
+    "squadra": "Hellenic",
+    "id": "162246"
    },
    {
-    "squadra": "Glamsbjerg",
-    "id": "131541"
+    "squadra": "Hadsund",
+    "id": "175546"
    },
    {
-    "squadra": "GKP Gorzów Wielkopolski",
-    "id": "133541"
+    "squadra": "Llosetense",
+    "id": "189746"
    },
    {
-    "squadra": "Norborg",
-    "id": "167841"
+    "squadra": "Cumberland United",
+    "id": "196046"
    },
    {
-    "squadra": "Huk",
-    "id": "189341"
+    "squadra": "Cirencester Town",
+    "id": "207146"
    },
    {
-    "squadra": "Sancaktepe Belediye Istanbulepespor",
-    "id": "210041"
+    "squadra": "FC Drouais Dreux",
+    "id": "238946"
    },
    {
-    "squadra": "FC Ellikon Marthalen",
-    "id": "289341"
+    "squadra": "Racing Club Zürich",
+    "id": "239146"
    },
    {
-    "squadra": "CS Change",
-    "id": "292041"
+    "squadra": "Youghal United",
+    "id": "264046"
    },
    {
-    "squadra": "Anatolia FC Mulhouse",
-    "id": "292141"
+    "squadra": "Portosantense",
+    "id": "290446"
    },
    {
-    "squadra": "Savigneux-Montbrison",
-    "id": "293341"
+    "squadra": "Décines UGA",
+    "id": "293346"
    },
    {
-    "squadra": "Pernes-les-Fontaines",
-    "id": "293441"
+    "squadra": "Haisnes",
+    "id": "293446"
    },
    {
-    "squadra": "SC Bustelo",
-    "id": "361041"
+    "squadra": "CS De Volvic",
+    "id": "402246"
    },
    {
-    "squadra": "FC Montaigu",
-    "id": "402241"
+    "squadra": "Spartak Trnava B",
+    "id": "457546"
    },
    {
-    "squadra": "O Elvas",
-    "id": "474341"
+    "squadra": "Neuilly Olympique",
+    "id": "497146"
    },
    {
-    "squadra": "JSC Bellevue Nantes",
-    "id": "497141"
+    "squadra": "Foz do Iguaçu",
+    "id": "584246"
    },
    {
-    "squadra": "Ancona",
-    "id": "559641"
+    "squadra": "Gualaceo SC",
+    "id": "618246"
    },
    {
-    "squadra": "Aberdeen U20",
-    "id": "607341"
+    "squadra": "Chertanovo Moscow 2",
+    "id": "627646"
    },
    {
-    "squadra": "Slavoj Boleraz",
-    "id": "611441"
+    "squadra": "Itancourt Neuville",
+    "id": "687546"
    },
    {
-    "squadra": "Varzim B",
-    "id": "660841"
+    "squadra": "Capital TO",
+    "id": "728046"
    },
    {
-    "squadra": "St Mesmin",
-    "id": "687341"
+    "squadra": "Hainan Boying",
+    "id": "737046"
    },
    {
-    "squadra": "Victoria Highlanders FC",
-    "id": "727441"
+    "squadra": "BSC Hastedt",
+    "id": "857446"
    },
    {
-    "squadra": "Ruffec",
-    "id": "801241"
+    "squadra": "Saga University",
+    "id": "860946"
    },
    {
-    "squadra": "Foyer Barsequanais",
-    "id": "801441"
+    "squadra": "Sardar Bukan",
+    "id": "961446"
    },
    {
-    "squadra": "FC Rotor Volgograd II",
-    "id": "859741"
+    "squadra": "Pamisos Messini",
+    "id": "963846"
    },
    {
-    "squadra": "Hokuriku University",
-    "id": "860941"
+    "squadra": "ES Montcornet",
+    "id": "1103646"
    },
    {
-    "squadra": "Almyros",
-    "id": "885241"
+    "squadra": "AS Heimsbrunn",
+    "id": "1200246"
    },
    {
-    "squadra": "CA Neuville",
-    "id": "971641"
+    "squadra": "AS Grand Santi",
+    "id": "1217346"
    },
    {
-    "squadra": "SG City Nova",
-    "id": "1083541"
+    "squadra": "Kilmarnock B",
+    "id": "1381446"
    },
    {
-    "squadra": "US Quimper",
-    "id": "1103841"
+    "squadra": "FC Yadro",
+    "id": "1385346"
    },
    {
-    "squadra": "Roubaix 59",
-    "id": "1105641"
+    "squadra": "Changzhou Lanyi",
+    "id": "1477046"
    },
    {
-    "squadra": "Al Rawdhah",
-    "id": "1115141"
+    "squadra": "Karabük Idmanyurdu Spor",
+    "id": "1559146"
    },
    {
-    "squadra": "Hungry Lions FC",
-    "id": "1124841"
+    "squadra": "RC Ploumagoar",
+    "id": "1572746"
    },
    {
-    "squadra": "FC Viljandi",
-    "id": "1157441"
+    "squadra": "Nizhny Novgorod II",
+    "id": "1619646"
    },
    {
-    "squadra": "Tuapse",
-    "id": "1173341"
+    "squadra": "Cupar Hearts",
+    "id": "1677546"
    },
    {
-    "squadra": "Majang",
-    "id": "1232741"
+    "squadra": "AS Montferrand",
+    "id": "1688046"
    },
    {
-    "squadra": "FC Coffrane",
-    "id": "1273041"
+    "squadra": "SE AEM F",
+    "id": "1688146"
    },
    {
-    "squadra": "Venda",
-    "id": "1284741"
+    "squadra": "Seveux Motey",
+    "id": "1828846"
    },
    {
-    "squadra": "US Behren",
-    "id": "1308841"
+    "squadra": "Hapoel Tayibe",
+    "id": "2260746"
    },
    {
-    "squadra": "Calonne Ricouart",
-    "id": "1309041"
+    "squadra": "Lindholm",
+    "id": "1857"
    },
    {
-    "squadra": "Dollingstown",
-    "id": "1408341"
+    "squadra": "FC Kuusankoski",
+    "id": "2157"
    },
    {
-    "squadra": "Olympique de Cleon",
-    "id": "1413641"
+    "squadra": "Tervarit",
+    "id": "2357"
    },
    {
-    "squadra": "Mpheni Home Defenders",
-    "id": "1433741"
+    "squadra": "Brindisi",
+    "id": "2557"
    },
    {
-    "squadra": "Wenzhou",
-    "id": "1477041"
+    "squadra": "Stange",
+    "id": "4257"
    },
    {
-    "squadra": "Adana 01 FK",
-    "id": "1559141"
+    "squadra": "Morild",
+    "id": "4357"
    },
    {
-    "squadra": "ES Fosseenne",
-    "id": "1570341"
+    "squadra": "A.P.O.P/K. Peyias",
+    "id": "4457"
    },
    {
-    "squadra": "Bourgueil",
-    "id": "1688041"
+    "squadra": "Hakoach Amidar Ramat Gan",
+    "id": "6257"
    },
    {
-    "squadra": "Vaestboaas GoIF",
-    "id": "1748641"
+    "squadra": "Pärnu",
+    "id": "6357"
    },
    {
-    "squadra": "Hannover 96 F",
-    "id": "1798541"
+    "squadra": "Rollon",
+    "id": "6557"
    },
    {
-    "squadra": "Haute Lizaine",
-    "id": "1828841"
+    "squadra": "Hämeenlinna",
+    "id": "7957"
    },
    {
-    "squadra": "Tahiti United",
-    "id": "1896041"
+    "squadra": "Grays Athletic",
+    "id": "8157"
    },
    {
-    "squadra": "Eutingen F",
-    "id": "2061641"
+    "squadra": "Stenløse BK",
+    "id": "9957"
    },
    {
-    "squadra": "FK 05 Levoca",
-    "id": "2168341"
+    "squadra": "Total Chalaco",
+    "id": "49557"
    },
    {
-    "squadra": "Gissin Petah Tikva",
-    "id": "2260741"
+    "squadra": "Deportivo Miranda",
+    "id": "93057"
    },
    {
-    "squadra": "Stonehaven",
-    "id": "2263841"
+    "squadra": "SpVgg Bayern Hof",
+    "id": "94957"
    },
    {
-    "squadra": "Sporting Hortaleza",
-    "id": "2360741"
+    "squadra": "UR Namur",
+    "id": "100757"
    },
    {
-    "squadra": "Solothurn",
-    "id": "1590"
+    "squadra": "CAPS United",
+    "id": "102157"
    },
    {
-    "squadra": "Camacha",
-    "id": "1790"
+    "squadra": "Vityaz Podolsk",
+    "id": "113057"
    },
    {
-    "squadra": "Aurskog Finstadbru",
-    "id": "2290"
+    "squadra": "FC YPA",
+    "id": "162157"
    },
    {
-    "squadra": "Brive",
-    "id": "4090"
+    "squadra": "Yalovaspor",
+    "id": "162957"
    },
    {
-    "squadra": "Sollenau",
-    "id": "4690"
+    "squadra": "Virunga",
+    "id": "164857"
    },
    {
-    "squadra": "Lixa",
-    "id": "5990"
+    "squadra": "Baltyk Gdynia",
+    "id": "177357"
    },
    {
-    "squadra": "ASK Baumgarten",
-    "id": "7890"
+    "squadra": "Goyang FC",
+    "id": "187957"
    },
    {
-    "squadra": "Tiraspol",
-    "id": "7990"
+    "squadra": "Vieira",
+    "id": "188157"
    },
    {
-    "squadra": "Gladsaxe Hero",
-    "id": "8190"
+    "squadra": "Gubkin",
+    "id": "198157"
    },
    {
-    "squadra": "Arsinspor",
-    "id": "8390"
+    "squadra": "Lystrup IF",
+    "id": "205557"
    },
    {
-    "squadra": "Piacenza",
-    "id": "9890"
+    "squadra": "NK Dugopolje",
+    "id": "206557"
    },
    {
-    "squadra": "3 de Febrero",
-    "id": "49690"
+    "squadra": "Šumperk",
+    "id": "208557"
    },
    {
-    "squadra": "Black Leopards",
-    "id": "102090"
+    "squadra": "Baník Ruzina",
+    "id": "291157"
    },
    {
-    "squadra": "Volga Tver",
-    "id": "132290"
+    "squadra": "Grand-Croix Lorette",
+    "id": "293357"
    },
    {
-    "squadra": "Al-Khuraitiat",
-    "id": "154190"
+    "squadra": "Leforest Anciens Eleves",
+    "id": "293457"
    },
    {
-    "squadra": "Ethnikos Assia",
-    "id": "154790"
+    "squadra": "Sobradinho EC",
+    "id": "298657"
    },
    {
-    "squadra": "Karacabey Belediye Spor",
-    "id": "162990"
+    "squadra": "FC Veris",
+    "id": "354557"
+   },
+   {
+    "squadra": "FC Aarberg",
+    "id": "372957"
+   },
+   {
+    "squadra": "FU Narbonne",
+    "id": "402257"
+   },
+   {
+    "squadra": "4C",
+    "id": "442957"
+   },
+   {
+    "squadra": "Voiron",
+    "id": "497157"
+   },
+   {
+    "squadra": "Seattle Sounders FC Reserves",
+    "id": "521057"
+   },
+   {
+    "squadra": "CA Itapemirim",
+    "id": "605157"
+   },
+   {
+    "squadra": "FC Kickers Luzern",
+    "id": "673057"
+   },
+   {
+    "squadra": "Gerland FC",
+    "id": "687557"
+   },
+   {
+    "squadra": "Asteras Petriti",
+    "id": "792357"
+   },
+   {
+    "squadra": "COS Villers les Nancy",
+    "id": "801257"
+   },
+   {
+    "squadra": "Paotred Dispount",
+    "id": "801457"
+   },
+   {
+    "squadra": "FC Rielasingen-Arlen",
+    "id": "854157"
+   },
+   {
+    "squadra": "MFK Spartak Medzev",
+    "id": "888657"
+   },
+   {
+    "squadra": "FC Montlingen",
+    "id": "947757"
+   },
+   {
+    "squadra": "Dersim 62 Spor",
+    "id": "970957"
+   },
+   {
+    "squadra": "Alians",
+    "id": "1099157"
+   },
+   {
+    "squadra": "UF Lezignanais",
+    "id": "1104357"
+   },
+   {
+    "squadra": "Yeoncheon FC",
+    "id": "1150557"
+   },
+   {
+    "squadra": "Águia Vimioso",
+    "id": "1182557"
+   },
+   {
+    "squadra": "St Laurent Billere",
+    "id": "1199957"
+   },
+   {
+    "squadra": "St. Mirren B",
+    "id": "1273057"
+   },
+   {
+    "squadra": "Aetos Makrychoriou",
+    "id": "1290057"
+   },
+   {
+    "squadra": "Prémontré US",
+    "id": "1309057"
+   },
+   {
+    "squadra": "Tuntum SC",
+    "id": "1323757"
+   },
+   {
+    "squadra": "Vertfee Yaita",
+    "id": "1365157"
+   },
+   {
+    "squadra": "Tianjin Jinchengren",
+    "id": "1477057"
+   },
+   {
+    "squadra": "Beit Jann",
+    "id": "1599457"
+   },
+   {
+    "squadra": "Guangxi Bushan",
+    "id": "1617857"
+   },
+   {
+    "squadra": "Piriapolis FC",
+    "id": "1671257"
+   },
+   {
+    "squadra": "Les Enfants de Guer",
+    "id": "1688057"
+   },
+   {
+    "squadra": "ESAP Metz",
+    "id": "1688157"
+   },
+   {
+    "squadra": "Kunming City",
+    "id": "1727557"
+   },
+   {
+    "squadra": "Nazarenos",
+    "id": "1808957"
+   },
+   {
+    "squadra": "Michigan Rangers",
+    "id": "1912757"
+   },
+   {
+    "squadra": "AC Garona",
+    "id": "2392057"
+   },
+   {
+    "squadra": "Dronninglund IF",
+    "id": "1729"
+   },
+   {
+    "squadra": "Kilkisiakos",
+    "id": "1829"
+   },
+   {
+    "squadra": "Duslo Šaľa",
+    "id": "4029"
+   },
+   {
+    "squadra": "Vaulen",
+    "id": "4229"
+   },
+   {
+    "squadra": "Orduspor",
+    "id": "4529"
+   },
+   {
+    "squadra": "Grieskirchen",
+    "id": "4629"
+   },
+   {
+    "squadra": "SV Schaffhausen",
+    "id": "5729"
+   },
+   {
+    "squadra": "Arsenal Kyiv",
+    "id": "8629"
+   },
+   {
+    "squadra": "Deportiva Carmelita",
+    "id": "49729"
+   },
+   {
+    "squadra": "TuS Heeslingen",
+    "id": "94929"
+   },
+   {
+    "squadra": "Sollefteå GIF FF",
+    "id": "161429"
+   },
+   {
+    "squadra": "Perth RedStar FC",
+    "id": "162329"
+   },
+   {
+    "squadra": "Caravaca",
+    "id": "177229"
+   },
+   {
+    "squadra": "Kozara",
+    "id": "187929"
+   },
+   {
+    "squadra": "Ankaran Hrvatini",
+    "id": "215129"
+   },
+   {
+    "squadra": "Ud Sampedrense",
+    "id": "238629"
+   },
+   {
+    "squadra": "Marck",
+    "id": "238929"
+   },
+   {
+    "squadra": "Colombia F",
+    "id": "239729"
+   },
+   {
+    "squadra": "Kidsgrove Athletic",
+    "id": "282329"
+   },
+   {
+    "squadra": "FC Schattdorf",
+    "id": "289329"
+   },
+   {
+    "squadra": "Negrepelisse",
+    "id": "293329"
+   },
+   {
+    "squadra": "Borbjerg GU",
+    "id": "329229"
+   },
+   {
+    "squadra": "AE Kouklion",
+    "id": "331629"
+   },
+   {
+    "squadra": "St Pourcinois",
+    "id": "402229"
+   },
+   {
+    "squadra": "Parkvilla",
+    "id": "435129"
+   },
+   {
+    "squadra": "Stjernen",
+    "id": "457629"
+   },
+   {
+    "squadra": "Juliana 31",
+    "id": "459129"
+   },
+   {
+    "squadra": "TSV Schilksee",
+    "id": "465629"
+   },
+   {
+    "squadra": "Haskovo 2009",
+    "id": "471129"
+   },
+   {
+    "squadra": "AD Grijo",
+    "id": "474329"
+   },
+   {
+    "squadra": "Bayburt Özel Idarespor",
+    "id": "489529"
+   },
+   {
+    "squadra": "Le Mans Villaret",
+    "id": "497129"
+   },
+   {
+    "squadra": "San Simon",
+    "id": "522729"
+   },
+   {
+    "squadra": "Tomasov",
+    "id": "557329"
+   },
+   {
+    "squadra": "Haniska",
+    "id": "559829"
+   },
+   {
+    "squadra": "Estudiantes de Caracas",
+    "id": "563329"
+   },
+   {
+    "squadra": "Hittarps IK",
+    "id": "578929"
+   },
+   {
+    "squadra": "Beskid Andrychow",
+    "id": "585629"
+   },
+   {
+    "squadra": "CD Alcains",
+    "id": "588629"
+   },
+   {
+    "squadra": "Kian Bakhtiari",
+    "id": "611829"
+   },
+   {
+    "squadra": "IFK Mora FK",
+    "id": "628829"
+   },
+   {
+    "squadra": "Mthatha Bucks",
+    "id": "663029"
+   },
+   {
+    "squadra": "Deuil-Enghien",
+    "id": "687529"
+   },
+   {
+    "squadra": "Zenit Irkutsk",
+    "id": "768829"
+   },
+   {
+    "squadra": "Recques FC",
+    "id": "801429"
+   },
+   {
+    "squadra": "SK Tatran Ždírec nad Doubravou",
+    "id": "863829"
+   },
+   {
+    "squadra": "Ahrobiznes Volochysk",
+    "id": "949029"
+   },
+   {
+    "squadra": "Polonia Glubczyce",
+    "id": "956629"
+   },
+   {
+    "squadra": "Walsall Wood",
+    "id": "960129"
+   },
+   {
+    "squadra": "Kanoya University",
+    "id": "1051029"
+   },
+   {
+    "squadra": "Insutec",
+    "id": "1068029"
+   },
+   {
+    "squadra": "Malmefjorden",
+    "id": "1126529"
+   },
+   {
+    "squadra": "Oyama",
+    "id": "1256629"
+   },
+   {
+    "squadra": "FC Widnau",
+    "id": "1273029"
+   },
+   {
+    "squadra": "Kuşadasıspor",
+    "id": "1281829"
+   },
+   {
+    "squadra": "Alexandroupoli",
+    "id": "1289629"
+   },
+   {
+    "squadra": "CD Penarol",
+    "id": "1370529"
+   },
+   {
+    "squadra": "Asteras Stavros",
+    "id": "1400729"
+   },
+   {
+    "squadra": "Merpins",
+    "id": "1413329"
+   },
+   {
+    "squadra": "Portimonense U23",
+    "id": "1510629"
+   },
+   {
+    "squadra": "Sincan Belediyespor",
+    "id": "1559129"
+   },
+   {
+    "squadra": "Atlas Paillade",
+    "id": "1566529"
+   },
+   {
+    "squadra": "Montdidier",
+    "id": "1572629"
+   },
+   {
+    "squadra": "NK Ljutomer",
+    "id": "1586529"
+   },
+   {
+    "squadra": "Fortuna Köln F",
+    "id": "1638029"
+   },
+   {
+    "squadra": "Santa Elena Sumpa",
+    "id": "1659229"
+   },
+   {
+    "squadra": "TJ Spartak Kvasov",
+    "id": "1678929"
+   },
+   {
+    "squadra": "Snejbjerg SG&I",
+    "id": "1782329"
+   },
+   {
+    "squadra": "União de Leiria U23",
+    "id": "1787929"
+   },
+   {
+    "squadra": "Asptt Montpellier F",
+    "id": "1863829"
+   },
+   {
+    "squadra": "Rhyl 1879",
+    "id": "1914729"
+   },
+   {
+    "squadra": "RCF 07",
+    "id": "2386829"
+   },
+   {
+    "squadra": "Hvidovre II",
+    "id": "1637"
+   },
+   {
+    "squadra": "Winner QF 2",
+    "id": "2037"
+   },
+   {
+    "squadra": "Nehaj",
+    "id": "2237"
+   },
+   {
+    "squadra": "Egebjerg Fodbold",
+    "id": "2337"
+   },
+   {
+    "squadra": "Stryn",
+    "id": "2537"
+   },
+   {
+    "squadra": "Skjold",
+    "id": "4237"
+   },
+   {
+    "squadra": "Ishavsbyen",
+    "id": "4337"
+   },
+   {
+    "squadra": "Moslavina",
+    "id": "5737"
+   },
+   {
+    "squadra": "Penalva do Castelo",
+    "id": "47537"
+   },
+   {
+    "squadra": "TSG Neustrelitz",
+    "id": "89337"
+   },
+   {
+    "squadra": "USM Annaba",
+    "id": "101637"
+   },
+   {
+    "squadra": "Gulset IF",
+    "id": "119137"
+   },
+   {
+    "squadra": "FK Zvijezda",
+    "id": "132637"
+   },
+   {
+    "squadra": "Ifö Bromölla IF",
+    "id": "161437"
+   },
+   {
+    "squadra": "Kaohsiung County Taipower",
+    "id": "165237"
+   },
+   {
+    "squadra": "Ballymun United",
+    "id": "174537"
+   },
+   {
+    "squadra": "FC Santboia",
+    "id": "189637"
+   },
+   {
+    "squadra": "Macae",
+    "id": "198137"
+   },
+   {
+    "squadra": "Santegidiese",
+    "id": "208937"
+   },
+   {
+    "squadra": "AEL Kalloni FC",
+    "id": "214137"
+   },
+   {
+    "squadra": "FCO Firminy",
+    "id": "238937"
+   },
+   {
+    "squadra": "FC Herzogenbuchsee",
+    "id": "289337"
+   },
+   {
+    "squadra": "Kembs Reunis",
+    "id": "292137"
+   },
+   {
+    "squadra": "Rhodia Peage",
+    "id": "293337"
+   },
+   {
+    "squadra": "Nogentais",
+    "id": "294237"
+   },
+   {
+    "squadra": "Oikonomos Tsaritsani",
+    "id": "297837"
+   },
+   {
+    "squadra": "Rustad IL",
+    "id": "310737"
+   },
+   {
+    "squadra": "Vallensbæk IF",
+    "id": "329237"
+   },
+   {
+    "squadra": "Les Coqs Rouges Bordeaux",
+    "id": "402237"
+   },
+   {
+    "squadra": "Valdres FK F",
+    "id": "444637"
    }
   ]
  },
