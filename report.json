@@ -1,0 +1,266 @@
+{
+  "when": "2026-11-08T22:20:43.698Z",
+  "checks": [
+    {
+      "name": "calcolatore: tasto Prossima partita del giocatore legato alla competizione",
+      "pass": true,
+      "pl1": "PROSSIMA PARTITA vs Venezia Dom 22 nov ",
+      "pl2": "PROSSIMA PARTITA vs Omonia Nicosia Gio 26 nov "
+    },
+    {
+      "name": "calcolatore: banner squadra con pillola competizione e prossima partita",
+      "pass": true,
+      "a": {
+        "banner": true,
+        "pill": "Serie A",
+        "next": "PROSSIMA PARTITA vs Venezia Dom 22 nov "
+      }
+    },
+    {
+      "name": "calcolatore: cambiando competizione la prossima partita e' quella di quella competizione",
+      "pass": true,
+      "a": {
+        "banner": true,
+        "pill": "Serie A",
+        "next": "PROSSIMA PARTITA vs Venezia Dom 22 nov "
+      },
+      "b": {
+        "banner": true,
+        "pill": "Europa League",
+        "next": "PROSSIMA PARTITA vs Omonia Nicosia Gio 26 nov "
+      }
+    },
+    {
+      "name": "calcolatore: tasto Prossima partita apre la partita",
+      "pass": true,
+      "Aleksandar Stanković": {
+        "found": true,
+        "button": true,
+        "match": true,
+        "latePanels": 0,
+        "afterMatch": true,
+        "afterPlayer": true,
+        "afterDock": true,
+        "afterReload": true
+      },
+      "Achraf Hakimi": {
+        "found": true,
+        "button": true,
+        "match": true,
+        "latePanels": 0,
+        "afterMatch": true,
+        "afterPlayer": true,
+        "afterDock": true,
+        "afterReload": true
+      },
+      "Abdul Fatawu": {
+        "found": true,
+        "button": true,
+        "match": true,
+        "latePanels": 0,
+        "afterMatch": true,
+        "afterPlayer": true,
+        "afterDock": true,
+        "afterReload": true
+      },
+      "Anis Hadj Moussa": {
+        "found": true,
+        "button": true,
+        "match": true,
+        "latePanels": 0,
+        "afterMatch": true,
+        "afterPlayer": true,
+        "afterDock": true,
+        "afterReload": true
+      },
+      "Andreas Helmersen": {
+        "found": true,
+        "button": true,
+        "match": true,
+        "latePanels": 0,
+        "afterMatch": true,
+        "afterPlayer": true,
+        "afterDock": true,
+        "afterReload": true
+      },
+      "Aaron Bibout": {
+        "found": true,
+        "button": true,
+        "match": true,
+        "latePanels": 0,
+        "afterMatch": true,
+        "afterPlayer": true,
+        "afterDock": true,
+        "afterReload": true
+      }
+    },
+    {
+      "name": "calcolatore: nessun pannello montato in ritardo tornando dalla partita (niente lampo)",
+      "pass": true,
+      "Aleksandar Stanković": {
+        "found": true,
+        "button": true,
+        "match": true,
+        "latePanels": 0,
+        "afterMatch": true,
+        "afterPlayer": true,
+        "afterDock": true,
+        "afterReload": true
+      },
+      "Achraf Hakimi": {
+        "found": true,
+        "button": true,
+        "match": true,
+        "latePanels": 0,
+        "afterMatch": true,
+        "afterPlayer": true,
+        "afterDock": true,
+        "afterReload": true
+      },
+      "Abdul Fatawu": {
+        "found": true,
+        "button": true,
+        "match": true,
+        "latePanels": 0,
+        "afterMatch": true,
+        "afterPlayer": true,
+        "afterDock": true,
+        "afterReload": true
+      },
+      "Anis Hadj Moussa": {
+        "found": true,
+        "button": true,
+        "match": true,
+        "latePanels": 0,
+        "afterMatch": true,
+        "afterPlayer": true,
+        "afterDock": true,
+        "afterReload": true
+      },
+      "Andreas Helmersen": {
+        "found": true,
+        "button": true,
+        "match": true,
+        "latePanels": 0,
+        "afterMatch": true,
+        "afterPlayer": true,
+        "afterDock": true,
+        "afterReload": true
+      },
+      "Aaron Bibout": {
+        "found": true,
+        "button": true,
+        "match": true,
+        "latePanels": 0,
+        "afterMatch": true,
+        "afterPlayer": true,
+        "afterDock": true,
+        "afterReload": true
+      }
+    },
+    {
+      "name": "calcolatore: giocatore e valori a mano restano (partita, scheda, barra, pagina ricreata)",
+      "pass": true,
+      "Aleksandar Stanković": {
+        "found": true,
+        "button": true,
+        "match": true,
+        "latePanels": 0,
+        "afterMatch": true,
+        "afterPlayer": true,
+        "afterDock": true,
+        "afterReload": true
+      },
+      "Achraf Hakimi": {
+        "found": true,
+        "button": true,
+        "match": true,
+        "latePanels": 0,
+        "afterMatch": true,
+        "afterPlayer": true,
+        "afterDock": true,
+        "afterReload": true
+      },
+      "Abdul Fatawu": {
+        "found": true,
+        "button": true,
+        "match": true,
+        "latePanels": 0,
+        "afterMatch": true,
+        "afterPlayer": true,
+        "afterDock": true,
+        "afterReload": true
+      },
+      "Anis Hadj Moussa": {
+        "found": true,
+        "button": true,
+        "match": true,
+        "latePanels": 0,
+        "afterMatch": true,
+        "afterPlayer": true,
+        "afterDock": true,
+        "afterReload": true
+      },
+      "Andreas Helmersen": {
+        "found": true,
+        "button": true,
+        "match": true,
+        "latePanels": 0,
+        "afterMatch": true,
+        "afterPlayer": true,
+        "afterDock": true,
+        "afterReload": true
+      },
+      "Aaron Bibout": {
+        "found": true,
+        "button": true,
+        "match": true,
+        "latePanels": 0,
+        "afterMatch": true,
+        "afterPlayer": true,
+        "afterDock": true,
+        "afterReload": true
+      }
+    }
+  ],
+  "errors": [],
+  "console": [
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+  ],
+  "failed": [],
+  "shards": 2,
+  "matchIds": [
+    "x-9067-1000019470",
+    "x-9067-1000019468",
+    "a-71-2025-2026-4842620",
+    "x-9067-1000019470",
+    "x-9067-1000019468",
+    "a-71-2025-2026-4842620"
+  ],
+  "passed": 6,
+  "total": 6
+}
