@@ -19,6 +19,7 @@ import time
 import unicodedata
 import urllib.parse
 import urllib.request
+from concurrent.futures import ThreadPoolExecutor
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(ROOT, "nomi.json")
@@ -150,9 +151,24 @@ def birth(e):
     return out
 
 
+SUFF = {"filho", "junior", "júnior", "neto", "sobrinho", "jr", "jr."}
+PART = {"de", "da", "do", "das", "dos", "del", "della", "di", "van", "von", "der", "den", "la", "le", "y", "e"}
+
+
+def short(lab):
+    """Etichette lunghe (nome completo all'anagrafe) -> nome + cognome: "Alexsandro Amorim de Freitas Filho" -> "Alexsandro Freitas Filho"."""
+    w = lab.split()
+    if len(w) <= 3:
+        return lab
+    last = [w[-1]]
+    if w[-1].lower() in SUFF and len(w) > 2:
+        last = [w[-2], w[-1]]
+    return " ".join([w[0]] + last)
+
+
 def resolve(nick, born, country):
     found = {}
-    for lg in ("en", "pt", "es", "it"):
+    for lg in ("en", "pt"):
         q = urllib.parse.urlencode({"action": "wbsearchentities", "search": nick, "language": lg, "uselang": lg, "type": "item", "limit": 20, "format": "json"})
         d = get(f"{WD}?{q}", UA_WD) or {}
         ids = [x["id"] for x in d.get("search") or [] if x.get("id") not in found]
@@ -169,7 +185,7 @@ def resolve(nick, born, country):
     qid, e = next(iter(found.items()))
     lab = label(e)
     if lab and len(lab.split()) >= 2 and norm(lab) != norm(nick) and "(" not in lab:
-        return lab, qid
+        return short(lab), qid
     given, fam = claim_ids(e, "P735"), claim_ids(e, "P734")
     if not given or not fam:
         return None, qid
@@ -193,24 +209,38 @@ def main():
         db = {}
     cands = candidates()
     print(f"candidati: {len(cands)}, gia' in archivio: {len(db)}", flush=True)
-    done = found = 0
+    todo = []
     for fid, nick in cands:
-        if (time.time() - T0) / 60 > MIN_RUN:
-            print("tempo finito, riprende al prossimo giro", flush=True)
-            break
-        k = str(fid)
-        r = db.get(k)
+        r = db.get(str(fid))
         if r and r[3] == nick and (r[0] or (dt.date.fromisoformat(TODAY) - dt.date.fromisoformat(r[1])).days < RIPROVA_GIORNI):
             continue
-        born, country = fotmob(fid)
-        full, qid = (resolve(nick, born, country) if born else (None, None))
-        db[k] = [full, TODAY, qid, nick]
-        done += 1
-        if full:
-            found += 1
-            print(f"{nick} -> {full} ({qid})", flush=True)
-        if done % 50 == 0:
-            json.dump(db, open(OUT, "w"), ensure_ascii=False, separators=(",", ":"), sort_keys=True)
+        todo.append((fid, nick))
+    print(f"da controllare: {len(todo)}", flush=True)
+
+    def one(c):
+        fid, nick = c
+        if (time.time() - T0) / 60 > MIN_RUN:
+            return None
+        try:
+            born, country = fotmob(fid)
+            full, qid = (resolve(nick, born, country) if born else (None, None))
+        except Exception:
+            return None
+        return fid, nick, full, qid
+
+    done = found = 0
+    with ThreadPoolExecutor(6) as ex:
+        for res in ex.map(one, todo):
+            if not res:
+                continue
+            fid, nick, full, qid = res
+            db[str(fid)] = [full, TODAY, qid, nick]
+            done += 1
+            if full:
+                found += 1
+                print(f"{nick} -> {full} ({qid})", flush=True)
+            if done % 100 == 0:
+                json.dump(db, open(OUT, "w"), ensure_ascii=False, separators=(",", ":"), sort_keys=True)
     json.dump(db, open(OUT, "w"), ensure_ascii=False, separators=(",", ":"), sort_keys=True)
     tot = sum(1 for v in db.values() if v[0])
     print(f"controllati ora: {done}, trovati ora: {found}, nomi veri in archivio: {tot}/{len(db)}", flush=True)
