@@ -88,7 +88,7 @@ export async function loadPlayerShots(playerId, n = 14) {
       const d = await loadDetail(id);
       if (!d) return;
       (d.tr || []).forEach((t) => {
-        if (t[2] !== p.name) return;
+        if (t[2] !== p.name && t[2] !== p.nick) return;
         out.push({
           side: 'home',
           outcome: { Goal: 'Gol', AttemptSaved: 'Parato', Miss: 'Fuori', Post: 'Palo' }[t[11]] || 'Fuori',

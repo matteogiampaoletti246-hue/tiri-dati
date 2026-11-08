@@ -37,7 +37,7 @@ export const resolvePid = (player) => {
       const m = /^fm~\d+~[^~]+~(\d+)$/.exec(player.id || '');
       if (m) return m[1];
       const team = teamById(player.teamId);
-      const n = nm(player.name);
+      const n = nm(player.nick || player.name);
       const ro = team ? roseOf(team) : null;
       const hit = ro && (ro.p || []).find((r) => nm(r[1]) === n);
       if (hit) return String(hit[0]);

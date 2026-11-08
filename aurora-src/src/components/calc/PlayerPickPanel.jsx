@@ -74,6 +74,7 @@ export default function PlayerPickPanel({ form, set, player, hint, onSelectPlaye
         return {
           value: p.id,
           label: p.name,
+          alias: p.nick || '',
           sub: t ? t.name : p.teamName || '',
           avatar: <PlayerFace p={p} size={52} />,
           bg: teamGrad(t, 0x55),

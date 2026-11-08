@@ -24,7 +24,7 @@ export function searchAll(q) {
   const leagues = LEAGUES.filter((l) => norm(l.name).includes(needle) || norm(l.country || '').includes(needle))
     .sort((a, b) => (a.arch ? 1 : 0) - (b.arch ? 1 : 0) || (norm(a.name).includes(needle) ? 0 : 1) - (norm(b.name).includes(needle) ? 0 : 1)).slice(0, 30);
   // il profilo della nazionale di un giocatore di club non e' un risultato a parte: compare sotto il club
-  const players = PLAYERS.filter((p) => !(p.nat && p.club) && norm(p.name).includes(needle)).sort(byRel).slice(0, 8);
+  const players = PLAYERS.filter((p) => !(p.nat && p.club) && (norm(p.name).includes(needle) || (p.nick && norm(p.nick).includes(needle)))).sort(byRel).slice(0, 8);
   const referees = REFEREES.filter((r) => norm(r.name).includes(needle)).slice(0, 8);
   return { needle, leagues, teams, players, referees };
 }

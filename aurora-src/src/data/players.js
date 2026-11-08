@@ -3,6 +3,7 @@
 import { RAW } from './load';
 import { ensureTeam, teamByName, teamById } from './teams';
 import { norm, slug, r1, r2 } from './util';
+import { realName } from './realNames';
 
 export const PLAYERS = [];
 export const EX_COLS = [];
@@ -98,8 +99,10 @@ export function buildPlayers() {
       teamId: team.id,
       teamName,
       leagueId: s ? s[ix.lg] : (g && g.lg) || team.leagueId,
-      name,
-      initials: initialsOf(name),
+      // nome vero al posto del soprannome (nomi.json); il soprannome resta per la ricerca e gli abbinamenti
+      name: realName(g ? g.f || g.fm : null, name),
+      nick: realName(g ? g.f || g.fm : null, name) !== name ? name : null,
+      initials: initialsOf(realName(g ? g.f || g.fm : null, name)),
       number: null,
       position: s ? POS[s[ix.pos]] || null : null,
       photo: g && g.fm ? `https://images.fotmob.com/image_resources/playerimages/${g.fm}.png` : photoOf(g ? g.i : s[ix.id]) || (g && g.f ? faceUrl(g.f) : null),
@@ -150,6 +153,7 @@ export function buildPlayers() {
     if (p.nat) { if (p.fmId) NAT_FM[String(p.fmId)] = p; } else if (p.fmId && (!BY_FM[p.fmId] || BY_FM[p.fmId].lite)) BY_FM[p.fmId] = p;
     if (!p.lite) {
       BY_KEY[`${norm(name)}|${team.id}`] = p;
+      if (p.nick) BY_KEY[`${norm(p.name)}|${team.id}`] = p;
       (BY_TEAM[team.id] = BY_TEAM[team.id] || []).push(p);
     }
     seen.add(p.id);
@@ -174,7 +178,7 @@ export function buildPlayers() {
   const RUOLI = RAW.ruoli || {};
   PLAYERS.forEach((p) => {
     if (p.position !== 'MID') return;
-    if (RUOLI[`${nk(p.name)}|${nk(p.teamName)}`] === 'A') p.position = 'ATT';
+    if (RUOLI[`${nk(p.nick || p.name)}|${nk(p.teamName)}`] === 'A') p.position = 'ATT';
   });
 
   // Ali: centrocampisti/attaccanti che partono titolari larghi e avanzati (ali del 4-3-3, esterni alti del 4-2-3-1, ali del 3-4-3)
@@ -185,7 +189,7 @@ export function buildPlayers() {
   });
   PLAYERS.forEach((p) => {
     if (p.position !== 'MID' && p.position !== 'ATT') return;
-    const v = ALI[`${norm(p.name)}|${slug(p.teamName)}`];
+    const v = ALI[`${norm(p.nick || p.name)}|${slug(p.teamName)}`];
     if (v && v[1] >= 4 && v[0] / v[1] >= 0.6) {
       p.basePosition = p.position;
       p.position = 'WNG';

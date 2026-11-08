@@ -9,6 +9,7 @@ import { same } from './live';
 import { slug } from './util';
 import { applyRefExtra } from './archiveMatch';
 import { lineupWindowMs, lineupIsOfficial } from './lineupWindow';
+import { realName, renameEvents } from './realNames';
 
 // Coppe europee: la formazione ufficiale esce prima dal sito UEFA (worker /lu) che da FotMob; FotMob la sostituisce appena la pubblica
 const UEFA_LG = { 'champions-league': 'ucl', 'europa-league': 'uel', 'conference-league': 'uecl' };
@@ -267,11 +268,13 @@ export function applyFm(m, d, playerLookup) {
       const byName = {};
       [...raw.s, ...(raw.b || [])].forEach((p) => { byName[p[0]] = p; });
       const fix = (e) => {
-        const src = byName[e.name];
+        const src = byName[e.rawName || e.name];
         if (src) {
           if (!e.photo) e.photo = src[5];
           e.fmId = src[7];
           e.captain = !!src[4];
+          e.name = realName(src[7], e.name);
+          e.initials = e.name.split(' ').map((w) => w[0]).join('').slice(0, 2).toUpperCase();
         }
         return e;
       };
@@ -284,7 +287,7 @@ export function applyFm(m, d, playerLookup) {
       lu.bench = lu.bench.map(fix);
       // solo i nomi ufficiali, senza posti in campo: elenco in colonna, portiere (p[8] === 0, segnato dal worker con la rosa) per primo
       if (raw.l && raw.s.length === 11) {
-        const rows = raw.s.map((p) => ({ name: p[0], number: p[1], gk: p[8] === 0, photo: p[5] || null, fmId: p[7] || null }));
+        const rows = raw.s.map((p) => ({ name: realName(p[7], p[0]), number: p[1], gk: p[8] === 0, photo: p[5] || null, fmId: p[7] || null }));
         lu.list = [...rows.filter((r) => r.gk), ...rows.filter((r) => !r.gk)];
       }
       return lu;
@@ -301,6 +304,7 @@ export function applyFm(m, d, playerLookup) {
   }
   if (d.stad && !m.stadium) m.stadium = d.stad;
   m.lineupType = d.ty || null;
+  renameEvents(m);
   m.detail = true;
   m.fm = true;
   m.fmAt = Date.now();

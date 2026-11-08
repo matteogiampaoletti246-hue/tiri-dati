@@ -6,6 +6,7 @@ import { ensureTeam, teamById, teamByName, TEAMS } from './teams';
 import { findAppTeam } from './teamMatch';
 import { LEAGUES, leagueById, CUP_IDS } from './leagues';
 import { romeDay, romeTime, slug } from './util';
+import { realName, renameEvents } from './realNames';
 
 export const DAY_MS = 86400000;
 const OFFSETS = [-7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7];
@@ -401,8 +402,10 @@ export function buildLineup(side, raw, detail, team, playerLookup) {
     return {
       playerId: (found && found.id) || p.pid || slug(`${team.id}-${p.name}`),
       linkable: !!found,
-      name: p.name,
-      initials: initials(p.name),
+      // nome vero al posto del soprannome (nomi.json); rawName = nome della fonte, per gli abbinamenti
+      name: found && found.nick === p.name ? found.name : realName((found && found.fmId) || p.pid, p.name),
+      rawName: p.name,
+      initials: initials(found && found.nick === p.name ? found.name : realName((found && found.fmId) || p.pid, p.name)),
       number: p.number,
       photo: (found && found.photo) || null,
       position,
@@ -533,6 +536,7 @@ export function applyDetail(m, detail, playerLookup) {
       home: buildLineup('h', detail.lu.h, detail, home, playerLookup),
       away: buildLineup('a', detail.lu.a, detail, away, playerLookup),
     };
+    renameEvents(m);
   }
   m.detail = true;
   return m;

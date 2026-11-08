@@ -3,6 +3,7 @@
 import { loadPlayerStatsFor, statTotal, loadSeason, playerSeasons, playerFace, FM_ID } from './archive';
 import { registerPlayer, playerById } from './players';
 import { ensureTeam } from './teams';
+import { realName } from './realNames';
 import { loadCarriere, setCarriere } from './carriere';
 import { loadRose, rosePlayer } from './rose';
 
@@ -48,9 +49,10 @@ export async function makeArchivePlayer(fm, sk, pid) {
   const v = (k) => (by[k] ? by[k][3] : null);
   // totali veri anche dove la classifica ufficiale e' ogni 90' (tiri, tiri in porta, falli)
   const tot = (k) => (by[k] ? statTotal(st, k, by[k]) : 0);
-  const initials = String(me[1]).split(' ').map((w) => w[0]).join('').slice(0, 2).toUpperCase();
+  const shown = realName(pid, me[1]);
+  const initials = String(shown).split(' ').map((w) => w[0]).join('').slice(0, 2).toUpperCase();
   const p = {
-    id, teamId: team ? team.id : null, teamName, leagueId: lid, name: me[1], initials, number: R ? R[3] : null, position: R ? R[2] : null,
+    id, teamId: team ? team.id : null, teamName, leagueId: lid, name: shown, nick: shown !== me[1] ? me[1] : null, initials, number: R ? R[3] : null, position: R ? R[2] : null,
     photo: playerFace(pid), hasStats: false, archive: true, sk,
     rating: v('rating') || (R && R[7]) || null, appearances: me[5] || 0, minutes: me[4] || 0, goals: v('goals') || (R && R[8]) || 0, assists: v('goal_assist') || (R && R[9]) || 0,
     shots: tot('total_scoring_att'), shotsOnTarget: tot('ontarget_scoring_att'), xg: v('expected_goals') || null,

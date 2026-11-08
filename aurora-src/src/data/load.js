@@ -33,6 +33,7 @@ const FILES = {
   ali: 'ali.json',
   ruoli: 'ruoli.json',
   infortuni: 'infortuni.json',
+  nomi: 'nomi.json',
   colors: 'arch/colors.json',
 };
 

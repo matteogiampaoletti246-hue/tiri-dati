@@ -24,7 +24,7 @@ export function findInMatch(match, name, fmId) {
     const lu = match.lineup && match.lineup[side];
     if (!lu) continue;
     const all = [...(lu.xi || []), ...(lu.bench || [])];
-    const hit = all.find((p) => (fmId && String(p.fmId) === String(fmId)) || norm(p.name) === n) || all.find((p) => n && norm(p.name).split(' ').slice(-1)[0] === n.split(' ').slice(-1)[0] && norm(p.name)[0] === n[0]);
+    const hit = all.find((p) => (fmId && String(p.fmId) === String(fmId)) || norm(p.name) === n || (p.rawName && norm(p.rawName) === n)) || all.find((p) => n && norm(p.name).split(' ').slice(-1)[0] === n.split(' ').slice(-1)[0] && norm(p.name)[0] === n[0]);
     if (hit) return { side, entry: hit, team: teamById(side === 'home' ? match.homeId : match.awayId), fmId: hit.fmId || fmId || null };
   }
   return null;

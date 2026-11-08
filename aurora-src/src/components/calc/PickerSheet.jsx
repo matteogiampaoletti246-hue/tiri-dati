@@ -33,7 +33,7 @@ export default function PickerSheet({ open, title, options = [], placeholder = '
 
   const needle = norm(q);
   const rk = (n) => { const x = norm(n); return x.startsWith(needle) ? 0 : x.split(' ').some((w) => w.startsWith(needle)) ? 1 : 2; };
-  const list = (needle ? options.filter((o) => norm(o.label).includes(needle) || norm(o.sub).includes(needle)).sort((a, b) => rk(a.label) - rk(b.label)) : (requireQuery ? [] : options)).slice(0, 60);
+  const list = (needle ? options.filter((o) => norm(o.label).includes(needle) || norm(o.sub).includes(needle) || (o.alias && norm(o.alias).includes(needle))).sort((a, b) => rk(a.label) - rk(b.label)) : (requireQuery ? [] : options)).slice(0, 60);
 
   return (
     <div data-no-back="1" className="fade-in fixed inset-0 z-[60] overflow-hidden" style={{ background: 'color-mix(in srgb, var(--sky-2) 94%, transparent)', backdropFilter: 'blur(24px)' }}>
