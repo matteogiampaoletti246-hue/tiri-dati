@@ -6,7 +6,7 @@ import { teamRow } from '@/data/standings';
 import { NextMatchButton } from './PlayerPickPanel';
 import Crest from '@/components/Crest';
 import PanelTitle from '@/components/PanelTitle';
-import { calcLeagues, calcTeamsOf, leagueName, prefillShots, rankNote, splitBoxes, teamShots } from '@/data/calcData';
+import { CUPS, calcLeagues, calcTeamsOf, leagueName, prefillShots, rankNote, splitBoxes, teamShots } from '@/data/calcData';
 import { teamById, teamByName } from '@/data/teams';
 import FieldRow from './FieldRow';
 import NumInput from './NumInput';
@@ -21,7 +21,10 @@ import { bandColor } from '@/components/player/playerCalc';
 // Banner della squadra scelta (concept B, scelto dall'utente l'8/11/2026): grande nei colori della squadra, stemma grande in filigrana,
 // competizione in una pillola (apre la scelta), icona per cambiare squadra, nome che apre la scheda squadra e sotto il tasto
 // Prossima partita della squadra NELLA competizione scelta (campionato o coppa europea), che apre la partita sopra il Calcolatore.
-function TeamBanner({ team, block, mode, vsId, onLeague, onTeam }) {
+// coppa europea della squadra (Champions o Europa League), per il tasto Prossima partita con Competizione = Coppa europea
+export const cupOf = (team) => (team ? CUPS.find((c) => calcTeamsOf(c).some((n) => n === team.name || (teamByName(n) || {}).id === team.id)) || null : null);
+
+function TeamBanner({ team, block, mode, vsId, matchComp, onLeague, onTeam }) {
   const navigate = useNavigate();
   const c = teamColor(team);
   const row = teamRow(block.leagueId, team.id);
@@ -47,13 +50,14 @@ function TeamBanner({ team, block, mode, vsId, onLeague, onTeam }) {
         {sub ? <span className="mt-0.5 block truncate text-[12.5px] tnum" style={{ color: 'var(--ink-2)' }}>{sub}</span> : null}
       </button>
       <div className="relative">
-        <NextMatchButton glass ownId={team.id} oppId={vsId} comp={block.leagueId} onOpen={(id) => navigate(`/match/${id}`)} />
+        <NextMatchButton glass ownId={team.id} oppId={vsId} comp={matchComp || block.leagueId} onOpen={(id) => navigate(`/match/${id}`)} />
       </div>
     </div>
   );
 }
 
-export default function TeamBlock({ title, mode = 'for', family = 'totali', block, onChange, tint, vsId }) {
+// matchComp: competizione della prossima partita nel banner quando la decide il tasto Competizione della scheda giocatore (coppa europea)
+export default function TeamBlock({ title, mode = 'for', family = 'totali', block, onChange, tint, vsId, matchComp }) {
   const [picker, setPicker] = useState(null);
   const team = teamById(block.id);
   const stats = teamShots(block.id, block.leagueId);
@@ -78,7 +82,7 @@ export default function TeamBlock({ title, mode = 'for', family = 'totali', bloc
       <div className="panel has-tint overflow-hidden">
         <TintSweep tint={tint} />
         {team ? (
-          <TeamBanner team={team} block={block} mode={mode} vsId={vsId} onLeague={() => setPicker('league')} onTeam={() => setPicker('team')} />
+          <TeamBanner team={team} block={block} mode={mode} vsId={vsId} matchComp={matchComp} onLeague={() => setPicker('league')} onTeam={() => setPicker('team')} />
         ) : (
           <>
             <SelectRow first label="Campionato" value={leagueName(block.leagueId)} onClick={() => setPicker('league')} />
@@ -121,7 +125,11 @@ export default function TeamBlock({ title, mode = 'for', family = 'totali', bloc
         open={picker === 'league'}
         title="Campionato"
         options={leagueOptions}
-        onSelect={(o) => onChange({ leagueId: o.value, id: null, totali: '', inPorta: '' })}
+        onSelect={(o) => {
+          // la squadra resta se gioca anche nella competizione scelta (medie di quella competizione); altrimenti si riparte da zero
+          const keep = team && calcTeamsOf(o.value).some((n) => n === team.name || (teamByName(n) || {}).id === team.id);
+          onChange(keep ? { leagueId: o.value, ...prefillShots(teamShots(team.id, o.value), mode) } : { leagueId: o.value, id: null, totali: '', inPorta: '' });
+        }}
         onClose={() => setPicker(null)}
       />
       <PickerSheet
