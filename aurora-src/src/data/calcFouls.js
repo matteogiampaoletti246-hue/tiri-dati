@@ -138,7 +138,9 @@ export function leaguePlayerAvg(data, key, stat) {
   return m > 0 ? (s / m) * 90 : null;
 }
 
-// rosa di una squadra con la media a 90' della statistica (chi ha almeno 180')
+// rosa di una squadra con la media a 90' della statistica: tutti tranne i portieri (anche con pochi minuti, per inserirli a mano
+// dopo le formazioni ufficiali); `ok` = almeno DUEL_MIN_MIN minuti, gli unici che il duello automatico puo' scegliere
+export const DUEL_MIN_MIN = 180;
 export function rosterFouls(data, key, fmTeam, stat) {
   const L = data && data[key];
   if (!L || !fmTeam) return [];
@@ -147,9 +149,9 @@ export function rosterFouls(data, key, fmTeam, stat) {
     .map((p) => {
       const min = p.g.reduce((a, x) => a + x.min, 0);
       const tot = p.g.reduce((a, x) => a + x[stat], 0);
-      return { id: p.id, name: p.n, min, n: p.g.length, avg90: min > 0 ? (tot / min) * 90 : 0 };
+      return { id: p.id, name: p.n, min, n: p.g.length, avg90: min > 0 ? (tot / min) * 90 : 0, ok: min >= DUEL_MIN_MIN };
     })
-    .filter((p) => p.min >= 180)
+    .filter((p) => p.min > 0)
     .sort((a, b) => b.min - a.min);
 }
 

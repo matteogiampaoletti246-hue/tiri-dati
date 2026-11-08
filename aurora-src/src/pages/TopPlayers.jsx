@@ -14,6 +14,7 @@ import TopStatPicker from '@/components/top/TopStatPicker';
 import ChunkRows from '@/components/top/ChunkRows';
 import { bestPlayers, isFoulStat, loadBestFouls, THRESHOLDS, TOP_KEEP, TOP_STATS } from '@/data/topPlayers';
 import { DATES, TODAY_INDEX, isoDate } from '@/data/matches';
+import { syncDayTimes } from '@/data/fotmob';
 
 // Il calendario parte da oggi: i giorni passati non servono
 const DAYS = DATES.slice(TODAY_INDEX);
@@ -44,6 +45,13 @@ function DayList({ day, thr, stat, active, takeAnim }) {
   // l'animazione si decide una volta sola, quando la lista nasce (apertura o cambio statistica), mai cambiando giorno
   const [anim] = useState(() => (active ? takeAnim() : false));
   const rows = useDayRows(day, thr, stat, active);
+  // orari veri del giorno (FotMob): le partite del calendario squadra hanno solo un orario segnaposto
+  const [tv, setTv] = useState(0);
+  useEffect(() => {
+    let live = true;
+    const t = setTimeout(() => syncDayTimes(day).then((n) => { if (live && n) setTv((x) => x + 1); }).catch(() => 0), active ? 0 : 900);
+    return () => { live = false; clearTimeout(t); };
+  }, [day, active]);
   if (!rows) {
     return (
       <div className="sk-delay space-y-3 px-5 pt-2" role="status" aria-label="Caricamento">
@@ -58,7 +66,7 @@ function DayList({ day, thr, stat, active, takeAnim }) {
       active={active}
       rowH={84}
       keyOf={keyOfPlayer}
-      renderRow={(row, k) => <TopPlayerRow row={row} rank={k + 1} threshold={thr} stat={stat} enter={anim && k < ANIM_ROWS ? k : -1} delay={0} />}
+      renderRow={(row, k) => <TopPlayerRow row={row} rank={k + 1} threshold={thr} stat={stat} enter={anim && k < ANIM_ROWS ? k : -1} delay={0} tv={tv} />}
     />
   );
 }

@@ -19,16 +19,18 @@ const BASE = typeof window !== 'undefined' && window.ReactNativeWebView ? 120 : 
 const RK = ['#F5C84C', '#C5CEDB', '#D98F5C'];
 
 const FMT = new Intl.DateTimeFormat('it-IT', { timeZone: 'Europe/Rome', weekday: 'short', day: 'numeric', month: 'short' });
-// orario vero dalla partita in calendario; se non c'è, solo giorno e data
+// orario vero dalla partita in calendario (solo se la fonte lo conosce: mai l'orario segnaposto del calendario squadra);
+// se non c'e', solo giorno e data
 const when = (match) => {
   const t = FMT.format(new Date(match.ts)).replace(/\./g, '');
   const cap = t.charAt(0).toUpperCase() + t.slice(1);
   const real = matchesByDate(romeDay(match.ts)).find((m) => m.homeId === match.homeId && m.awayId === match.awayId);
   const wd = cap.split(' ')[0];
-  return real && real.kickoff ? `${wd} ${real.kickoff}` : cap;
+  return real && real.kickoff && real.timeKnown !== false ? `${wd} ${real.kickoff}` : cap;
 };
 
-export default memo(function TopPlayerRow({ row, rank, threshold, delay = 0, stat = 'tiri', enter = -1 }) {
+// `tv` cambia quando arrivano gli orari veri del giorno (syncDayTimes): la riga si ridisegna con l'orario giusto
+export default memo(function TopPlayerRow({ row, rank, threshold, delay = 0, stat = 'tiri', enter = -1, tv = 0 }) { // eslint-disable-line no-unused-vars
   const { player, match } = row;
   const nav = useNavigate();
   const team = teamById(player.teamId);
@@ -68,17 +70,32 @@ export default memo(function TopPlayerRow({ row, rank, threshold, delay = 0, sta
 
       <span className="min-w-0 flex-1">
         <span className="block truncate text-[14.5px] font-extrabold" style={{ color: 'var(--ink)' }}>{player.name}</span>
-        {/* concept B: squadra del giocatore in grassetto, sotto l'avversaria con orario; entrambe con stemma, niente nazionalita' */}
-        <span className="mt-0.5 flex items-center gap-1.5 text-[12px]" style={{ color: 'var(--ink)' }}>
-          {team ? <Crest team={team} size={15} /> : null}
-          <span className="min-w-0 truncate font-extrabold">{team ? team.name : player.teamName}</span>
-        </span>
-        {match ? (
-          <span className="mt-1 flex items-center gap-1.5 text-[11px]" style={{ color: 'var(--ink-3)' }}>
-            {opp ? <Crest team={opp} size={15} /> : null}
-            <span className="truncate">{opp ? opp.name : match.oppName} · {when(match)}</span>
-          </span>
-        ) : null}
+        {/* concept B: due righe con stemma nell'ordine casa / trasferta; la squadra del giocatore in grassetto, l'altra tenue;
+            l'orario dopo la squadra in trasferta; niente nazionalita' */}
+        {match && opp ? (
+          [teamById(match.homeId), teamById(match.awayId)].map((t, i) => {
+            const own = t && t.id === player.teamId;
+            return (
+              <span key={i} className={`flex items-center gap-1.5 ${i ? 'mt-1' : 'mt-0.5'} ${own ? 'text-[12px]' : 'text-[11px]'}`} style={{ color: own ? 'var(--ink)' : 'var(--ink-3)' }}>
+                {t ? <Crest team={t} size={15} /> : null}
+                <span className={`min-w-0 truncate${own ? ' font-extrabold' : ''}`}>{t ? t.name : (own ? player.teamName : match.oppName)}</span>
+                {i ? <span className="flex-none whitespace-nowrap" style={{ color: 'var(--ink-3)', fontSize: 11, fontWeight: 400, marginLeft: -2 }}>· {when(match)}</span> : null}
+              </span>
+            );
+          })
+        ) : (
+          <>
+            <span className="mt-0.5 flex items-center gap-1.5 text-[12px]" style={{ color: 'var(--ink)' }}>
+              {team ? <Crest team={team} size={15} /> : null}
+              <span className="min-w-0 truncate font-extrabold">{team ? team.name : player.teamName}</span>
+            </span>
+            {match ? (
+              <span className="mt-1 flex items-center gap-1.5 text-[11px]" style={{ color: 'var(--ink-3)' }}>
+                <span className="truncate">{match.oppName} · {when(match)}</span>
+              </span>
+            ) : null}
+          </>
+        )}
         <span className="mt-1.5 block h-[5px] rounded-full" style={{ background: `linear-gradient(90deg, ${c1}, ${c2})` }} />
       </span>
 

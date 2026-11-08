@@ -105,10 +105,10 @@ export function playerRoles(fl, keys) {
   return out;
 }
 
-// i 2 avversari con la media piu' alta (stessa statistica del roster) nei ruoli principali
+// i 2 avversari con la media piu' alta (stessa statistica del roster) nei ruoli principali, solo tra chi ha il minimo di minuti (`ok`)
 export function autoDuelIds(rb, roster, roles) {
   if (!rb || !roster || !roster.length) return [];
-  return roster.filter((r) => rb.main.includes(roles[r.id])).sort((a, b) => b.avg90 - a.avg90).slice(0, DUEL_N).map((r) => r.id);
+  return roster.filter((r) => r.ok && rb.main.includes(roles[r.id])).sort((a, b) => b.avg90 - a.avg90).slice(0, DUEL_N).map((r) => r.id);
 }
 
 // Duello automatico per un giocatore (usato anche da Migliori Giocatori e scheda giocatore): media dei 2 scelti e media del campionato.
