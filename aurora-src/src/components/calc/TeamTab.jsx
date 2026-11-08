@@ -90,9 +90,9 @@ export default function TeamTab({ onSave }) {
 
   return (
     <div className="px-5 pb-8 pt-5">
-      <TeamBlock title="Squadra" mode="for" family={family} block={form.team} onChange={(p) => setBlock('team', p)} />
+      <TeamBlock title="Squadra" mode="for" family={family} block={form.team} vsId={form.opp && form.opp.id} onChange={(p) => setBlock('team', p)} />
       <div className="mt-7">
-        <TeamBlock title="Avversario" mode="against" family={family} block={form.opp} onChange={(p) => setBlock('opp', p)} />
+        <TeamBlock title="Avversario" mode="against" family={family} block={form.opp} vsId={form.team && form.team.id} onChange={(p) => setBlock('opp', p)} />
       </div>
 
       <div className="mt-7">

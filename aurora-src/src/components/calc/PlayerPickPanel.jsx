@@ -26,10 +26,12 @@ import { romeTime } from '@/data/util';
 
 // Tasto "Prossima partita" sotto il banner: apre la partita (contro l'avversaria scelta nel Calcolatore, altrimenti la prossima
 // della squadra) sopra il Calcolatore, che resta com'era al ritorno. Senza una prossima partita il tasto non si mostra.
-function NextMatchButton({ ownId, oppId, onOpen }) {
-  const first = useNextMatch(ownId, undefined);
+// comp: solo partite di quella competizione (banner squadra del Calcolatore: campionato o coppa scelta); glass: dentro un banner colorato
+export function NextMatchButton({ ownId, oppId, onOpen, comp, glass = false }) {
+  const first = useNextMatch(ownId, comp);
   // la partita contro l'avversaria scelta solo se e' quella vicina (es. aperto da Migliori Giocatori per una data): se e' gia' finita vale la prossima vera
-  const vs0 = ownId && oppId ? nextMatchVs(ownId, oppId) : null;
+  const vs00 = ownId && oppId ? nextMatchVs(ownId, oppId) : null;
+  const vs0 = vs00 && (!comp || vs00.leagueId === comp) ? vs00 : null;
   const m = vs0 && (!first || Math.abs(vs0.ts - first.ts) < 3 * 864e5) ? vs0 : first;
   if (!m) return null;
   const vsId = m.homeId === ownId || (teamById(m.homeId) || {}).name === (teamById(ownId) || {}).name ? m.awayId : m.homeId;
@@ -41,7 +43,7 @@ function NextMatchButton({ ownId, oppId, onOpen }) {
       type="button"
       onClick={() => onOpen(m.id)}
       className="press relative mt-3 flex w-full items-center gap-2.5 rounded-[14px] px-3 py-2.5 text-left"
-      style={{ background: 'color-mix(in srgb, var(--ink) 7%, transparent)', border: '1px solid var(--hair)' }}
+      style={glass ? { background: 'hsl(var(--background) / .45)', border: '1px solid color-mix(in srgb, var(--ink) 14%, transparent)' } : { background: 'color-mix(in srgb, var(--ink) 7%, transparent)', border: '1px solid var(--hair)' }}
       aria-label={`Apri la prossima partita${vs ? ` contro ${vs.name}` : ''}`}
     >
       <span className="min-w-0 flex-1">

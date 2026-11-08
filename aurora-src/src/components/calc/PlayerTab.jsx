@@ -281,10 +281,10 @@ export default function PlayerTab({ onSave }) {
             <PlayerSeasonPanel season={form.season} onChange={setSeason} rate90={result.rate90} tint={tOwn(240)} />
           </div>
           <div className="mt-7">
-            <TeamBlock title="Squadra del giocatore" mode="for" family={family} block={form.team} onChange={(p) => setBlock('team', p)} tint={tOwn(360)} />
+            <TeamBlock title="Squadra del giocatore" mode="for" family={family} block={form.team} vsId={form.opp && form.opp.id} onChange={(p) => setBlock('team', p)} tint={tOwn(360)} />
           </div>
           <div className="mt-7">
-            <TeamBlock title="Squadra avversaria" mode="against" family={family} block={form.opp} onChange={(p) => setBlock('opp', p)} tint={tOpp(480)} />
+            <TeamBlock title="Squadra avversaria" mode="against" family={family} block={form.opp} vsId={form.team && form.team.id} onChange={(p) => setBlock('opp', p)} tint={tOpp(480)} />
           </div>
         </>
       )}

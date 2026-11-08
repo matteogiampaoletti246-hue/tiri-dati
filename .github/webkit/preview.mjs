@@ -2190,6 +2190,26 @@ await step('statistiche giocatore: zeri con barra e risultato dal lato del gioca
   ok('Partite giocatore: prima i gol della sua squadra (vs Croatia 7 - 0)', /Croatia\s*7\s*-\s*0/.test(t) && !/Croatia\s*0\s*-\s*7/.test(t), { t: (t.match(/vs [^\n]*/g) || []).slice(0, 8) });
 });
 
+// Banner squadra del Calcolatore (concept B, 08/11/2026): colori della squadra, competizione nella pillola, prossima partita in quella competizione
+await step('calcolatore: banner squadra con prossima partita nella competizione', async () => {
+  await go('#/calcolatore', 3500);
+  await pg.evaluate(() => { const b = [...document.querySelectorAll('button')].find((x) => /Cerca e seleziona/.test(x.textContent)); if (b) b.click(); });
+  await wait(800); await pg.keyboard.type('Jérémie Boga', { delay: 20 }); await wait(1200);
+  await pg.evaluate(() => { const b = [...document.querySelectorAll('button')].find((x) => x.textContent.includes('Jérémie Boga') && !/Cerca/.test(x.textContent)); if (b) b.click(); });
+  await wait(3000);
+  const read = () => pg.evaluate(() => { const h = [...document.querySelectorAll('section')].find((x) => /Squadra del giocatore/.test(x.innerText)); if (!h) return null; h.scrollIntoView(); const nb = [...h.querySelectorAll('button')].find((x) => /Prossima partita/.test(x.textContent)); return { banner: !!h.querySelector('button[aria-label="Cambia squadra"]'), pill: (h.querySelector('button[aria-label="Scegli la competizione"]') || {}).textContent || '', next: nb ? nb.innerText.replace(/\s+/g, ' ') : '' }; });
+  const a = await read();
+  await shot('calcolatore-banner-squadra-serie-a');
+  await pg.evaluate(() => { const h = [...document.querySelectorAll('section')].find((x) => /Squadra del giocatore/.test(x.innerText)); const b = h && h.querySelector('button[aria-label="Scegli la competizione"]'); if (b) b.click(); });
+  await wait(1200);
+  await pg.evaluate(() => { const b = [...document.querySelectorAll('button')].filter((x) => x.textContent.includes('Europa League')).pop(); if (b) b.click(); });
+  await wait(2000);
+  const b = await read();
+  await shot('calcolatore-banner-squadra-europa');
+  ok('calcolatore: banner squadra con pillola competizione e prossima partita', !!a && a.banner && /Serie A/.test(a.pill) && /Prossima partita/.test(a.next), { a });
+  ok('calcolatore: cambiando competizione la prossima partita e\' quella di quella competizione', !!b && /Europa League/.test(b.pill) && (!b.next || b.next !== a.next), { a, b });
+});
+
 report.passed = report.checks.filter((c) => c.pass).length;
 report.total = report.checks.length;
 fs.writeFileSync(`${OUT}/report.json`, JSON.stringify(report, null, 2));

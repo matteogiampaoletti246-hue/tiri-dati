@@ -1,4 +1,9 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ArrowLeftRight, ChevronDown } from 'lucide-react';
+import { teamColor } from '@/lib/tint';
+import { teamRow } from '@/data/standings';
+import { NextMatchButton } from './PlayerPickPanel';
 import Crest from '@/components/Crest';
 import PanelTitle from '@/components/PanelTitle';
 import { calcLeagues, calcTeamsOf, leagueName, prefillShots, rankNote, splitBoxes, teamShots } from '@/data/calcData';
@@ -13,7 +18,42 @@ import { bandColor } from '@/components/player/playerCalc';
 
 // Blocco squadra riusato nel calcolo: campionato, squadra, tiri (totali e in porta),
 // nota di posizione e riquadri casa / trasferta.
-export default function TeamBlock({ title, mode = 'for', family = 'totali', block, onChange, tint }) {
+// Banner della squadra scelta (concept B, scelto dall'utente l'8/11/2026): grande nei colori della squadra, stemma grande in filigrana,
+// competizione in una pillola (apre la scelta), icona per cambiare squadra, nome che apre la scheda squadra e sotto il tasto
+// Prossima partita della squadra NELLA competizione scelta (campionato o coppa europea), che apre la partita sopra il Calcolatore.
+function TeamBanner({ team, block, mode, vsId, onLeague, onTeam }) {
+  const navigate = useNavigate();
+  const c = teamColor(team);
+  const row = teamRow(block.leagueId, team.id);
+  const rank = row && row.played > 0 ? `${row.rank}° in classifica` : null;
+  const per = block.totali !== '' && block.totali != null ? `${String(block.totali).replace('.', ',')} tiri ${mode === 'against' ? 'subiti' : 'fatti'} a partita` : null;
+  const sub = [rank, per].filter(Boolean).join(' · ');
+  return (
+    <div className="relative overflow-hidden px-4 pb-3.5 pt-4" style={{ background: `linear-gradient(135deg, ${c}78, ${c}24 62%, transparent)` }}>
+      <span className="pointer-events-none absolute" style={{ right: -22, top: -18, opacity: 0.16 }} aria-hidden="true">
+        <Crest team={team} size={124} />
+      </span>
+      <div className="relative flex items-start justify-between gap-2">
+        <button type="button" onClick={onLeague} className="press flex min-w-0 items-center gap-1 rounded-full px-3 py-1.5 text-[12px] font-bold" style={{ background: 'color-mix(in srgb, var(--ink) 12%, transparent)', color: 'var(--ink)' }} aria-label="Scegli la competizione">
+          <span className="truncate">{leagueName(block.leagueId)}</span>
+          <ChevronDown size={14} strokeWidth={2} />
+        </button>
+        <button type="button" onClick={onTeam} className="press flex shrink-0 items-center justify-center rounded-full" style={{ width: 34, height: 34, background: 'color-mix(in srgb, var(--ink) 14%, transparent)', color: 'var(--ink)' }} aria-label="Cambia squadra">
+          <ArrowLeftRight size={16} strokeWidth={2} />
+        </button>
+      </div>
+      <button type="button" onClick={() => navigate(`/squadra/${team.id}`)} className="press relative mt-2.5 block max-w-full text-left" aria-label={`Apri la scheda di ${team.name}`}>
+        <span className="block truncate text-[24px] font-extrabold leading-tight" style={{ color: 'var(--ink)' }}>{team.name}</span>
+        {sub ? <span className="mt-0.5 block truncate text-[12.5px] tnum" style={{ color: 'var(--ink-2)' }}>{sub}</span> : null}
+      </button>
+      <div className="relative">
+        <NextMatchButton glass ownId={team.id} oppId={vsId} comp={block.leagueId} onOpen={(id) => navigate(`/match/${id}`)} />
+      </div>
+    </div>
+  );
+}
+
+export default function TeamBlock({ title, mode = 'for', family = 'totali', block, onChange, tint, vsId }) {
   const [picker, setPicker] = useState(null);
   const team = teamById(block.id);
   const stats = teamShots(block.id, block.leagueId);
@@ -37,13 +77,14 @@ export default function TeamBlock({ title, mode = 'for', family = 'totali', bloc
       <PanelTitle right={<span className="label-sm">Nel calcolo: {family === 'inPorta' ? 'In porta' : 'Totali'}</span>}>{title}</PanelTitle>
       <div className="panel has-tint overflow-hidden">
         <TintSweep tint={tint} />
-        <SelectRow first label="Campionato" value={leagueName(block.leagueId)} onClick={() => setPicker('league')} />
-        <SelectRow
-          label="Squadra"
-          value={team ? team.name : null}
-          avatar={team ? <Crest team={team} size={22} /> : null}
-          onClick={() => setPicker('team')}
-        />
+        {team ? (
+          <TeamBanner team={team} block={block} mode={mode} vsId={vsId} onLeague={() => setPicker('league')} onTeam={() => setPicker('team')} />
+        ) : (
+          <>
+            <SelectRow first label="Campionato" value={leagueName(block.leagueId)} onClick={() => setPicker('league')} />
+            <SelectRow label="Squadra" value={null} onClick={() => setPicker('team')} />
+          </>
+        )}
         <FieldRow label={`${shotsLabel} totali`}>
           <RankTag x={rankTot} />
           <NumInput value={block.totali} tint={rankTot ? rankTot.col : null} onChange={(v) => onChange({ totali: v })} ariaLabel={`${shotsLabel} totali`} />
