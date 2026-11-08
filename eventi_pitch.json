@@ -1,5 +1,10 @@
 {
- "competizioni": {},
+ "competizioni": {
+  "Primera Division 2026": {
+   "partite_con_eventi": 0,
+   "da_fare": 1
+  }
+ },
  "tipi_visti": {},
  "partite_in_questo_giro": 0,
  "orientamento_cambi": "non verificato"
