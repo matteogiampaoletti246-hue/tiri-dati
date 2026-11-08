@@ -1,36 +1,6 @@
 {
- "competizioni": {
-  "Premier League 2026-2027": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
-  },
-  "Premiership 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 1
-  },
-  "Serie B 2026-2027": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
-  },
-  "Super League 1 2026-2027": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
-  },
-  "Qatar Stars League 2026-2027": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
-  },
-  "Saudi First Division 2026-2027": {
-   "partite_con_eventi": 2,
-   "da_fare": 2
-  }
- },
- "tipi_visti": {
-  "yellowcard": 49,
-  "goal": 23,
-  "substitution": 67,
-  "redcard": 2
- },
- "partite_in_questo_giro": 8,
- "orientamento_cambi": "player esce"
+ "competizioni": {},
+ "tipi_visti": {},
+ "partite_in_questo_giro": 0,
+ "orientamento_cambi": "non verificato"
 }
