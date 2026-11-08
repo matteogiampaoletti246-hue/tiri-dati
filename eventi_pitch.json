@@ -1,18 +1,27 @@
 {
  "competizioni": {
-  "Süper Lig 2026-2027": {
+  "Bundesliga 2026-2027": {
    "partite_con_eventi": 1,
    "da_fare": 1
   },
-  "Super League 2026": {
-   "partite_con_eventi": 2,
+  "Eredivisie 2026-2027": {
+   "partite_con_eventi": 1,
+   "da_fare": 1
+  },
+  "Premier League 2026-2027": {
+   "partite_con_eventi": 1,
+   "da_fare": 1
+  },
+  "Saudi First Division 2025-2026": {
+   "partite_con_eventi": 0,
    "da_fare": 2
   }
  },
  "tipi_visti": {
-  "goal": 14,
-  "yellowcard": 11,
-  "substitution": 29
+  "goal": 10,
+  "yellowcard": 15,
+  "substitution": 27,
+  "redcard": 1
  },
  "partite_in_questo_giro": 3,
  "orientamento_cambi": "player esce"
