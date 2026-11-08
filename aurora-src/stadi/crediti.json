@@ -1,12 +1,48 @@
 {
+ "a-le-coq-arena.webp": {
+  "stadio": "A. Le Coq Arena",
+  "voce": "A. Le Coq Arena",
+  "file": "File:Flora vs Eintracht Frankfurt 2019.jpg",
+  "autore": "Sancos",
+  "licenza": "CC BY 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Flora_vs_Eintracht_Frankfurt_2019.jpg"
+ },
+ "aami-park.webp": {
+  "stadio": "AAMI Park",
+  "voce": "Melbourne Rectangular Stadium",
+  "file": "File:Melbourne Rectangular Stadium before Subway Socceroos vs Bangladesh - 16 November 2023.jpg",
+  "autore": "CityBoy777",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Melbourne_Rectangular_Stadium_before_Subway_Socceroos_vs_Bangladesh_-_16_November_2023.jpg"
+ },
  "abe-lenstra-stadion.webp": {
   "stadio": "Abe Lenstra Stadion",
   "voce": "Abe Lenstra Stadion",
-  "file": "File:Abe_Lenstra_Stadion_08c.JPG",
-  "autore": "Udo Ockema",
-  "licenza": "CC BY 2.5",
-  "licenzaUrl": "https://creativecommons.org/licenses/by/2.5",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Abe_Lenstra_Stadion_08c.JPG"
+  "file": "File:Abe Lenstrastadion SC Heerenveen.jpg",
+  "autore": "KSKB1935",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Abe_Lenstrastadion_SC_Heerenveen.jpg"
+ },
+ "accor-stadium.webp": {
+  "stadio": "Accor Stadium",
+  "voce": "Accor Stadium",
+  "file": "File:2025 NRL Grand Final (Stadium).jpg",
+  "autore": "Storm machine",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:2025_NRL_Grand_Final_(Stadium).jpg"
+ },
+ "accra-sports-stadium.webp": {
+  "stadio": "Accra Sports Stadium",
+  "voce": "Accra Sports Stadium",
+  "file": "File:Ohene Djan Sports Stadium, Accra.jpg",
+  "autore": "Celestinesucess",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Ohene_Djan_Sports_Stadium,_Accra.jpg"
  },
  "achter-de-kazerne.webp": {
   "stadio": "Achter De Kazerne",
@@ -20,20 +56,20 @@
  "afas-stadion.webp": {
   "stadio": "AFAS Stadion",
   "voce": "AFAS Stadion",
-  "file": "File:Vooraanzicht_AFAS_Stadion_april2022.jpg",
-  "autore": "Jesperverbruggen",
+  "file": "File:Panorama Views of AZ' hometurfs in 2019-20.jpg",
+  "autore": "Grifo",
   "licenza": "CC BY-SA 4.0",
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Vooraanzicht_AFAS_Stadion_april2022.jpg"
+  "fonte": "https://commons.wikimedia.org/wiki/File:Panorama_Views_of_AZ%27_hometurfs_in_2019-20.jpg"
  },
  "agc-arena-na-stinadlech.webp": {
   "stadio": "AGC Aréna Na Stínadlech",
   "voce": "Na Stínadlech",
-  "file": "File:Stadion Na Stínadlech (hlavní vchod).jpg",
-  "autore": "Pan Hyde",
-  "licenza": "Public domain",
-  "licenzaUrl": null,
-  "fonte": "https://commons.wikimedia.org/wiki/File:Stadion_Na_St%C3%ADnadlech_(hlavn%C3%AD_vchod).jpg"
+  "file": "File:Teplicky fotbalovy stadion (8 6 2013) 3.JPG",
+  "autore": "Safranek-interia.eu",
+  "licenza": "CC0",
+  "licenzaUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Teplicky_fotbalovy_stadion_(8_6_2013)_3.JPG"
  },
  "ail-arena.webp": {
   "stadio": "AIL Arena",
@@ -44,14 +80,86 @@
   "licenzaUrl": "https://creativecommons.org/licenses/by/4.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:The_Stadio_Cornaredo_during_reconstruction.jpg"
  },
+ "air-albania-stadium.webp": {
+  "stadio": "Air Albania Stadium",
+  "voce": "Air Albania Stadium",
+  "file": "File:Tirana National Stadium - Arena Kombëtare - October 2022.jpg",
+  "autore": "Bdx",
+  "licenza": "CC0",
+  "licenzaUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Tirana_National_Stadium_-_Arena_Komb%C3%ABtare_-_October_2022.jpg"
+ },
+ "ak-bars-arena.webp": {
+  "stadio": "Ak Bars Arena",
+  "voce": "Ak Bars Arena",
+  "file": "File:Footdall world Cup Kazan 2018.jpg",
+  "autore": "https://kazan.vperemen.com/",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Footdall_world_Cup_Kazan_2018.jpg"
+ },
+ "al-bayt-stadium.webp": {
+  "stadio": "Al Bayt Stadium",
+  "voce": "Al Bayt Stadium",
+  "file": "File:Al Bayt Stadium 2022.jpg",
+  "autore": "Mohammed Sardar/Kushared",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Al_Bayt_Stadium_2022.jpg"
+ },
+ "al-janoub-stadium.webp": {
+  "stadio": "Al Janoub Stadium",
+  "voce": "Al Janoub Stadium",
+  "file": "File:28 10 2019 Visita ao estádio de futebol Al Janoub (48977932316).jpg",
+  "autore": "Palácio do Planalto from Brasilia, Brasil",
+  "licenza": "CC BY 2.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/2.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:28_10_2019_Visita_ao_est%C3%A1dio_de_futebol_Al_Janoub_(48977932316).jpg"
+ },
+ "al-medina-stadium.webp": {
+  "stadio": "Al Medina Stadium",
+  "voce": "Al Medina Stadium",
+  "file": "File:Al Barid Stadium (Nov 25).jpg",
+  "autore": "Reda benkhadra",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Al_Barid_Stadium_(Nov_25).jpg"
+ },
+ "al-salam-stadium.webp": {
+  "stadio": "Al Salam Stadium",
+  "voce": "Al Salam Stadium",
+  "file": "File:Al Ahly WE stadium.jpg",
+  "autore": "Crosskimo",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Al_Ahly_WE_stadium.jpg"
+ },
+ "al-thumama-stadium.webp": {
+  "stadio": "Al Thumama Stadium",
+  "voce": "Al Thumama Stadium",
+  "file": "File:Al Thumama Stadium 1.jpg",
+  "autore": "En.saravanan",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Al_Thumama_Stadium_1.jpg"
+ },
  "allianz-arena.webp": {
   "stadio": "Allianz Arena",
   "voce": "Allianz Arena",
-  "file": "File:Allianz_Arena_2008-02-09.jpg",
-  "autore": "2015 Michael 2015",
+  "file": "File:Allianz Arena Bayern Mnichov vs Man.United.jpg",
+  "autore": "Povysil.martin",
   "licenza": "CC BY-SA 4.0",
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Allianz_Arena_2008-02-09.jpg"
+  "fonte": "https://commons.wikimedia.org/wiki/File:Allianz_Arena_Bayern_Mnichov_vs_Man.United.jpg"
+ },
+ "allianz-field.webp": {
+  "stadio": "Allianz Field",
+  "voce": "Allianz Field",
+  "file": "File:Allianz Field - MNUFC Minnesota United st. Paul Minnesota MLS (40636734693).jpg",
+  "autore": "Andy Witchger",
+  "licenza": "CC BY 2.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/2.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Allianz_Field_-_MNUFC_Minnesota_United_st._Paul_Minnesota_MLS_(40636734693).jpg"
  },
  "allianz-riviera.webp": {
   "stadio": "Allianz Riviera",
@@ -80,14 +188,23 @@
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Alphamega_Stadium_Limassol_Westfront.jpg"
  },
+ "amaan-stadium.webp": {
+  "stadio": "Amaan Stadium",
+  "voce": "Amaan Stadium",
+  "file": "File:Amaan Stadium Zanzibar 3.jpg",
+  "autore": "Arne Müseler",
+  "licenza": "CC BY-SA 3.0 de",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Amaan_Stadium_Zanzibar_3.jpg"
+ },
  "american-express-stadium.webp": {
   "stadio": "American Express Stadium",
-  "voce": "Falmer Stadium",
-  "file": "File:Amex_Community_Stadium.jpg",
-  "autore": "Barbara van Cleve",
-  "licenza": "CC BY-SA 4.0",
-  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Amex_Community_Stadium.jpg"
+  "voce": "Brighton Community Stadium",
+  "file": "File:American Express Community Stadium on 09-08-2011 (BHAFC v Gillingham, League Cup First Round) (3).JPG",
+  "autore": "Hassocks5489",
+  "licenza": "CC0",
+  "licenzaUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "fonte": "https://commons.wikimedia.org/wiki/File:American_Express_Community_Stadium_on_09-08-2011_(BHAFC_v_Gillingham,_League_Cup_First_Round)_(3).JPG"
  },
  "andruv-stadion.webp": {
   "stadio": "Andrův stadion",
@@ -101,29 +218,65 @@
  "anfield.webp": {
   "stadio": "Anfield",
   "voce": "Anfield",
-  "file": "File:Liverpool_anfield_road_stadium.jpg",
-  "autore": "Arne Müseler",
-  "licenza": "CC BY-SA 3.0 de",
-  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Liverpool_anfield_road_stadium.jpg"
+  "file": "File:Anfield Stadium Tour (51932249083).jpg",
+  "autore": "Daniel from Glasgow, United Kingdom",
+  "licenza": "CC BY 2.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/2.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Anfield_Stadium_Tour_(51932249083).jpg"
  },
  "arasen-stadion.webp": {
   "stadio": "Åråsen Stadion",
   "voce": "Åråsen Stadion",
-  "file": "File:Air_arasen.jpg",
-  "autore": "GAD",
+  "file": "File:Thea Bjelde and Caroline Graham Hansen at Åråsen Stadion in 2025.jpg",
+  "autore": "Premeditated",
   "licenza": "CC BY-SA 4.0",
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Air_arasen.jpg"
+  "fonte": "https://commons.wikimedia.org/wiki/File:Thea_Bjelde_and_Caroline_Graham_Hansen_at_%C3%85r%C3%A5sen_Stadion_in_2025.jpg"
  },
  "arena-giulesti.webp": {
   "stadio": "Arena Giulești",
-  "voce": "Rapid-Giulești Stadium",
-  "file": "File:Romania_bucharest_Rapid-Giulești_Stadium.jpg",
-  "autore": "Arne Müseler",
-  "licenza": "CC BY-SA 3.0 de",
-  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Romania_bucharest_Rapid-Giule%C8%99ti_Stadium.jpg"
+  "voce": "Stadionul Rapid-Giulești",
+  "file": "File:Rapid Stadium opening, March 2022 (1).jpg",
+  "autore": "@8Dodo8",
+  "licenza": "Public domain",
+  "licenzaUrl": "",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Rapid_Stadium_opening,_March_2022_(1).jpg"
+ },
+ "arena-kombetare.webp": {
+  "stadio": "Arena Kombëtare",
+  "voce": "Air Albania Stadium",
+  "file": "File:Tirana National Stadium - Arena Kombëtare - October 2022.jpg",
+  "autore": "Bdx",
+  "licenza": "CC0",
+  "licenzaUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Tirana_National_Stadium_-_Arena_Komb%C3%ABtare_-_October_2022.jpg"
+ },
+ "arena-nationala.webp": {
+  "stadio": "Arena Naţională",
+  "voce": "National Arena",
+  "file": "File:RO B National Arena Petrolul winning Cup of Romania 2013.jpg",
+  "autore": "Andrei Stroe",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:RO_B_National_Arena_Petrolul_winning_Cup_of_Romania_2013.jpg"
+ },
+ "arrowhead-stadium.webp": {
+  "stadio": "Arrowhead Stadium",
+  "voce": "Arrowhead Stadium",
+  "file": "File:Mahomes cadence - Browns at Chiefs, 2021.jpg",
+  "autore": "Conman33",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Mahomes_cadence_-_Browns_at_Chiefs,_2021.jpg"
+ },
+ "asgabat-stadiony.webp": {
+  "stadio": "Aşgabat Stadiony",
+  "voce": "Ashgabat Stadium",
+  "file": "File:Ashgabat suburbs IMG 5855 (26018615962).jpg",
+  "autore": "Juris Paiders",
+  "licenza": "CC BY 2.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/2.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Ashgabat_suburbs_IMG_5855_(26018615962).jpg"
  },
  "aspmyra-stadion.webp": {
   "stadio": "Aspmyra Stadion",
@@ -134,6 +287,42 @@
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/2.5",
   "fonte": "https://commons.wikimedia.org/wiki/File:Aspmyra_stadion.jpg"
  },
+ "astana-arena.webp": {
+  "stadio": "Astana Arena",
+  "voce": "Astana Arena",
+  "file": "File:Kazakhstan v.s. Denmark UEFA Euro 2024 qualifying (2023-03-26).jpg",
+  "autore": "Nurken",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Kazakhstan_v.s._Denmark_UEFA_Euro_2024_qualifying_(2023-03-26).jpg"
+ },
+ "at-t-stadium.webp": {
+  "stadio": "AT&T Stadium",
+  "voce": "AT&T Stadium",
+  "file": "File:2017 Cotton Bowl Classic AT&T Stadium.jpg",
+  "autore": "B. Johnson",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:2017_Cotton_Bowl_Classic_AT%26T_Stadium.jpg"
+ },
+ "audi-field.webp": {
+  "stadio": "Audi Field",
+  "voce": "Audi Field",
+  "file": "File:Audi Field, June 29 2019.jpg",
+  "autore": "PCN02WPS",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Audi_Field,_June_29_2019.jpg"
+ },
+ "aviva-stadium.webp": {
+  "stadio": "Aviva Stadium",
+  "voce": "Aviva Stadium",
+  "file": "File:Heimspiel Irland Aviva Stadion (126472289).jpeg",
+  "autore": "Dronepicr",
+  "licenza": "CC BY 3.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/3.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Heimspiel_Irland_Aviva_Stadion_(126472289).jpeg"
+ },
  "bak-olimpiya-stadionu.webp": {
   "stadio": "Bakı Olimpiya Stadionu",
   "voce": "Baku Olympic Stadium",
@@ -142,6 +331,33 @@
   "licenza": "CC BY-SA 4.0",
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Baku_Olympic_Stadium_panorama_1.JPG"
+ },
+ "bangabandhu-national-stadium.webp": {
+  "stadio": "Bangabandhu National Stadium",
+  "voce": "National Stadium, Dhaka",
+  "file": "File:Bangabandhu National Stadium (2).jpg",
+  "autore": "Abu Ali Farmidi",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Bangabandhu_National_Stadium_(2).jpg"
+ },
+ "bank-of-america-stadium.webp": {
+  "stadio": "Bank of America Stadium",
+  "voce": "Bank of America Stadium",
+  "file": "File:2016 Belk Bowl.jpg",
+  "autore": "User:B",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:2016_Belk_Bowl.jpg"
+ },
+ "barclays-hampden.webp": {
+  "stadio": "Barclays Hampden",
+  "voce": "Hampden Park",
+  "file": "File:2012 Olympic Football - Honduras v Morocco (7652652620).jpg",
+  "autore": "Daniel from Glasgow, United Kingdom",
+  "licenza": "CC BY 2.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/2.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:2012_Olympic_Football_-_Honduras_v_Morocco_(7652652620).jpg"
  },
  "basaksehir-fatih-terim-stadyumu.webp": {
   "stadio": "Başakşehir Fatih Terim Stadyumu",
@@ -155,11 +371,29 @@
  "bayarena.webp": {
   "stadio": "BayArena",
   "voce": "BayArena",
-  "file": "File:Bayarena_Leverkusen_2020.jpg",
-  "autore": "Arne Müseler",
-  "licenza": "CC BY-SA 3.0 de",
-  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Bayarena_Leverkusen_2020.jpg"
+  "file": "File:BayArena in Leverkusen (2023-09-21 18-38-04).jpg",
+  "autore": "Liv Lovisa",
+  "licenza": "CC BY 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:BayArena_in_Leverkusen_(2023-09-21_18-38-04).jpg"
+ },
+ "bc-place.webp": {
+  "stadio": "BC Place",
+  "voce": "BC Place",
+  "file": "File:Vancouver Whitecaps FC vs Inter Miami CF - CCC - April 24, 2025.jpg",
+  "autore": "Aeacad",
+  "licenza": "CC0",
+  "licenzaUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Vancouver_Whitecaps_FC_vs_Inter_Miami_CF_-_CCC_-_April_24,_2025.jpg"
+ },
+ "bingu-national-stadium.webp": {
+  "stadio": "Bingu National Stadium",
+  "voce": "Bingu National Stadium",
+  "file": "File:FCB-Nyasa-Big-Bullets-were-crowned-the-2024-Airtel-Top-8-Champions-after-beating-Silver-Strikers-1-0-at-the-Bingu-National-Stadium-scaled.jpg",
+  "autore": "Innocent Chiduleni",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:FCB-Nyasa-Big-Bullets-were-crowned-the-2024-Airtel-Top-8-Champions-after-beating-Silver-Strikers-1-0-at-the-Bingu-National-Stadium-scaled.jpg"
  },
  "bluenergy-stadium.webp": {
   "stadio": "Bluenergy Stadium",
@@ -169,6 +403,33 @@
   "licenza": "CC BY-SA 4.0",
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:DaciArena.jpg"
+ },
+ "bmo-field.webp": {
+  "stadio": "BMO Field",
+  "voce": "BMO Field",
+  "file": "File:Bmo Field 2016 East Stand.jpg",
+  "autore": "Abazz",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Bmo_Field_2016_East_Stand.jpg"
+ },
+ "bmo-stadium.webp": {
+  "stadio": "BMO Stadium",
+  "voce": "Saputo Stadium",
+  "file": "File:Imfc-dc-drapeau2.jpg",
+  "autore": "Gates of Ale",
+  "licenza": "CC BY-SA 3.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Imfc-dc-drapeau2.jpg"
+ },
+ "boris-paichadze-dinamo-arena.webp": {
+  "stadio": "Boris Paichadze Dinamo Arena",
+  "voce": "Dinamo Arena",
+  "file": "File:Dinamo Arena - Georgia vs Germany (2015-03-29).JPG",
+  "autore": "BRUTE",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Dinamo_Arena_-_Georgia_vs_Germany_(2015-03-29).JPG"
  },
  "bosuilstadion.webp": {
   "stadio": "Bosuilstadion",
@@ -182,11 +443,20 @@
  "brann-stadion.webp": {
   "stadio": "Brann Stadion",
   "voce": "Brann Stadion",
-  "file": "File:Brann_stadion,_Bergen.jpg",
-  "autore": "Marius Vassnes",
+  "file": "File:SK Brann Bergen gegen FC Salzburg (2025-07-23 CL Qualifikation) 01.jpg",
+  "autore": "Werner100359",
   "licenza": "CC BY-SA 4.0",
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Brann_stadion,_Bergen.jpg"
+  "fonte": "https://commons.wikimedia.org/wiki/File:SK_Brann_Bergen_gegen_FC_Salzburg_(2025-07-23_CL_Qualifikation)_01.jpg"
+ },
+ "bukit-jalil-national-stadium.webp": {
+  "stadio": "Bukit Jalil National Stadium",
+  "voce": "National Stadium, Bukit Jalil",
+  "file": "File:National-stadium, Malaysia 1.jpg",
+  "autore": "gov.my",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:National-stadium,_Malaysia_1.jpg"
  },
  "buko-stadion.webp": {
   "stadio": "BUKO Stadion",
@@ -197,6 +467,24 @@
   "licenzaUrl": "https://creativecommons.org/licenses/by/3.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:TATA_Steel_Stadion_Telstar_-_panoramio.jpg"
  },
+ "cairo-international-stadium.webp": {
+  "stadio": "Cairo International Stadium",
+  "voce": "Cairo International Stadium",
+  "file": "File:Al Ahly Vs Sundowns 2020.jpg",
+  "autore": "Crosskimo",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Al_Ahly_Vs_Sundowns_2020.jpg"
+ },
+ "camping-world-stadium.webp": {
+  "stadio": "Camping World Stadium",
+  "voce": "Camping World Stadium",
+  "file": "File:Orlando City Game 02.jpg",
+  "autore": "Elisfkc",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Orlando_City_Game_02.jpg"
+ },
  "campos-de-sport-de-el-sardinero.webp": {
   "stadio": "Campos de Sport de El Sardinero",
   "voce": "Campos de Sport de El Sardinero",
@@ -205,6 +493,15 @@
   "licenza": "CC BY-SA 4.0",
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Fotograf%C3%ADa_Eduardo_Berm%C3%BAdez_para_los_Campos_de_Sport_de_El_Sardinero.jpg"
+ },
+ "cardiff-city-stadium.webp": {
+  "stadio": "Cardiff City Stadium",
+  "voce": "Cardiff City Stadium",
+  "file": "File:Gal·les vs Andorra Eurocopa 2016.jpg",
+  "autore": "Jon Candy",
+  "licenza": "CC BY-SA 2.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Gal%C2%B7les_vs_Andorra_Eurocopa_2016.jpg"
  },
  "cegeka-arena.webp": {
   "stadio": "Cegeka Arena",
@@ -242,6 +539,24 @@
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Randers_FC_vs_FC_K%C3%B8benhavn,_29._October_2022_(c).jpg"
  },
+ "changlimithang-stadium.webp": {
+  "stadio": "Changlimithang Stadium",
+  "voce": "Changlimithang Stadium",
+  "file": "File:Thimphu-Stadion-08-Laenderspiel Bhutan-Hongkong-2015-gje.jpg",
+  "autore": "Gerd Eichmann",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Thimphu-Stadion-08-Laenderspiel_Bhutan-Hongkong-2015-gje.jpg"
+ },
+ "children-s-mercy-park.webp": {
+  "stadio": "Children's Mercy Park",
+  "voce": "Sporting Park",
+  "file": "File:Livestrong Sporting Park (6984438298).jpg",
+  "autore": "Dave Banks",
+  "licenza": "CC BY-SA 2.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Livestrong_Sporting_Park_(6984438298).jpg"
+ },
  "chobani-stadyumu-fenerbahce-sukru-saracoglu-spor-kompleksi.webp": {
   "stadio": "Chobani Stadyumu Fenerbahçe Şükrü Saracoğlu Spor Kompleksi",
   "voce": "Şükrü Saracoğlu Stadium",
@@ -260,14 +575,68 @@
   "licenzaUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
   "fonte": "https://commons.wikimedia.org/wiki/File:20240602_123013_June_2024_in_Bia%C5%82ystok.jpg"
  },
+ "city-arena-stadion-antona-malatinskeho.webp": {
+  "stadio": "CITY ARENA – Štadión Antona Malatinského",
+  "voce": "Štadión Antona Malatinského",
+  "file": "File:City Arena - Anton Malatinský stadium in Trnava, Spartak Trnava - Häcken match, 10. 7. 2025.jpg",
+  "autore": "IngTimotej",
+  "licenza": "CC0",
+  "licenzaUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "fonte": "https://commons.wikimedia.org/wiki/File:City_Arena_-_Anton_Malatinsk%C3%BD_stadium_in_Trnava,_Spartak_Trnava_-_H%C3%A4cken_match,_10._7._2025.jpg"
+ },
+ "citypark.webp": {
+  "stadio": "CITYPARK",
+  "voce": "Energizer Park",
+  "file": "File:St. Louis City SC vs. FC Cincinnati at CityPark (20230416094626).jpg",
+  "autore": "Cornfield948",
+  "licenza": "CC BY-SA 3.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:St._Louis_City_SC_vs._FC_Cincinnati_at_CityPark_(20230416094626).jpg"
+ },
+ "clearer-twist-national-stadium-at-windsor-park.webp": {
+  "stadio": "Clearer Twist National Stadium at Windsor Park",
+  "voce": "Windsor Park",
+  "file": "File:Windsor Park Stadium, Belfast 05.jpg",
+  "autore": "Simon Burchell",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Windsor_Park_Stadium,_Belfast_05.jpg"
+ },
+ "commonwealth-stadium.webp": {
+  "stadio": "Commonwealth Stadium",
+  "voce": "Commonwealth Stadium",
+  "file": "File:Commonwealth Stadium Day.jpg",
+  "autore": "Urban Versis 32",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Commonwealth_Stadium_Day.jpg"
+ },
+ "compleho-deportivo-guillermo-prospero-trinidad.webp": {
+  "stadio": "Compleho Deportivo Guillermo Prospero Trinidad",
+  "voce": "Guillermo Prospero Trinidad Stadium",
+  "file": "File:Carnavalskoningin 1958 van aruba, Bestanddeelnr 909-3264.jpg",
+  "autore": "Anefo",
+  "licenza": "CC0",
+  "licenzaUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Carnavalskoningin_1958_van_aruba,_Bestanddeelnr_909-3264.jpg"
+ },
  "complex-sportiv-craiova.webp": {
   "stadio": "Complex Sportiv Craiova",
-  "voce": "Stadionul Ion Oblemenco (1967)",
-  "file": "File:Stadium_Ion_Oblemenco_-_inside.JPG",
-  "autore": "Christopher Voitus",
-  "licenza": "CC BY-SA 3.0",
-  "licenzaUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Stadium_Ion_Oblemenco_-_inside.JPG"
+  "voce": "Stadionul Ion Oblemenco",
+  "file": "File:Stadionul din Craiova 1972 2.jpg",
+  "autore": "Unknown authorUnknown author",
+  "licenza": "Public domain",
+  "licenzaUrl": "",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Stadionul_din_Craiova_1972_2.jpg"
+ },
+ "complexe-sportif-de-fes.webp": {
+  "stadio": "Complexe Sportif de Fès",
+  "voce": "Fez Stadium",
+  "file": "File:Complexe sportif de Fès.jpg",
+  "autore": "KSKB1935",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Complexe_sportif_de_F%C3%A8s.jpg"
  },
  "coventry-building-society-arena.webp": {
   "stadio": "Coventry Building Society Arena",
@@ -296,6 +665,33 @@
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Daio_Wasabi_Stayen_Stadium_Skybox_Aerial_View.jpg"
  },
+ "daren-sammy-cricket-ground.webp": {
+  "stadio": "Daren Sammy Cricket Ground",
+  "voce": "Daren Sammy Cricket Ground",
+  "file": "File:Beausejour Stadium Cricket St Lucia.jpg",
+  "autore": "Timothy Barton (timtranslates.com)",
+  "licenza": "CC BY-SA 3.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Beausejour_Stadium_Cricket_St_Lucia.jpg"
+ },
+ "darren-sammy-cricket-ground.webp": {
+  "stadio": "Darren Sammy Cricket Ground",
+  "voce": "Daren Sammy Cricket Ground",
+  "file": "File:Beausejour Stadium Cricket St Lucia.jpg",
+  "autore": "Timothy Barton (timtranslates.com)",
+  "licenza": "CC BY-SA 3.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Beausejour_Stadium_Cricket_St_Lucia.jpg"
+ },
+ "daugavas-stadiona.webp": {
+  "stadio": "Daugavas Stadionā",
+  "voce": "Daugava Stadium",
+  "file": "File:Dziesmu un deju svētku pasākumi 2018 (28367840647).jpg",
+  "autore": "Saeima",
+  "licenza": "CC BY-SA 2.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Dziesmu_un_deju_sv%C4%93tku_pas%C4%81kumi_2018_(28367840647).jpg"
+ },
  "de-adelaarshorst.webp": {
   "stadio": "De Adelaarshorst",
   "voce": "De Adelaarshorst",
@@ -308,11 +704,11 @@
  "de-grolsch-veste.webp": {
   "stadio": "De Grolsch Veste",
   "voce": "De Grolsch Veste",
-  "file": "File:Enschede,_de_Grolsch_veste_-_voetbalstadion_van_FC_Twenthe_IMG_8861_2021-04-26_11.11.jpg",
-  "autore": "Michielverbeek",
-  "licenza": "CC BY-SA 4.0",
-  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Enschede,_de_Grolsch_veste_-_voetbalstadion_van_FC_Twenthe_IMG_8861_2021-04-26_11.11.jpg"
+  "file": "File:Twente Stadion de Grolsch Veste (2892060025).jpg",
+  "autore": "Erno Hannink from Doetinchem, Netherlands",
+  "licenza": "CC BY-SA 2.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Twente_Stadion_de_Grolsch_Veste_(2892060025).jpg"
  },
  "decathlon-arena-stade-pierre-mauroy.webp": {
   "stadio": "Decathlon Arena - Stade Pierre-Mauroy",
@@ -325,12 +721,30 @@
  },
  "deutsche-bank-park.webp": {
   "stadio": "Deutsche Bank Park",
-  "voce": "Waldstadion (Frankfurt)",
-  "file": "File:Deutsche_bank_park.jpg",
-  "autore": "Patrik Meyer",
+  "voce": "Waldstadion",
+  "file": "File:Match Frankfurt - Marseille in November 2018.jpg",
+  "autore": "Msgarak",
   "licenza": "CC BY-SA 4.0",
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Deutsche_bank_park.jpg"
+  "fonte": "https://commons.wikimedia.org/wiki/File:Match_Frankfurt_-_Marseille_in_November_2018.jpg"
+ },
+ "dhl-cape-town-stadium.webp": {
+  "stadio": "DHL Cape Town Stadium",
+  "voce": "Cape Town Stadium",
+  "file": "File:Cape Town Stadium Inside.jpg",
+  "autore": "Nkansahrexford",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Cape_Town_Stadium_Inside.jpg"
+ },
+ "dignity-health-sports-park.webp": {
+  "stadio": "Dignity Health Sports Park",
+  "voce": "Dignity Health Sports Park",
+  "file": "File:LA Galaxy vs Minnesota United, Dignity Health Sports Park, 2024.jpg",
+  "autore": "Sander Valdre",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:LA_Galaxy_vs_Minnesota_United,_Dignity_Health_Sports_Park,_2024.jpg"
  },
  "diyarbak-r-stadyumu.webp": {
   "stadio": "Diyarbakır Stadyumu",
@@ -344,11 +758,38 @@
  "doosan-arena.webp": {
   "stadio": "Doosan Aréna",
   "voce": "Doosan Arena",
-  "file": "File:Doosan_Arena_Plzeň1.jpg",
-  "autore": "Ben Skála",
-  "licenza": "CC BY-SA 3.0",
-  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Doosan_Arena_Plze%C5%881.jpg"
+  "file": "File:Doosan Arena - hlavní tribuna.jpg",
+  "autore": "Michalkozuch",
+  "licenza": "CC0",
+  "licenzaUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Doosan_Arena_-_hlavn%C3%AD_tribuna.jpg"
+ },
+ "dr-ir-franklin-essed-stadion.webp": {
+  "stadio": "Dr. Ir. Franklin Essed Stadion",
+  "voce": "Dr. Ir. Franklin Essed Stadion",
+  "file": "File:Essedstadion2024 1.jpg",
+  "autore": "Sanoesie101",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Essedstadion2024_1.jpg"
+ },
+ "drv-pnk-stadium.webp": {
+  "stadio": "DRV PNK Stadium",
+  "voce": "Chase Stadium",
+  "file": "File:DRV PNK stadium (inside pointing right) August 2023.jpg",
+  "autore": "CubanoBoi",
+  "licenza": "CC0",
+  "licenzaUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "fonte": "https://commons.wikimedia.org/wiki/File:DRV_PNK_stadium_(inside_pointing_right)_August_2023.jpg"
+ },
+ "dwight-yorke-stadium.webp": {
+  "stadio": "Dwight Yorke Stadium",
+  "voce": "Dwight Yorke Stadium",
+  "file": "File:TT Scarborough Dwight Yorke Stadium.jpg",
+  "autore": "Grueslayer",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:TT_Scarborough_Dwight_Yorke_Stadium.jpg"
  },
  "easi-arena.webp": {
   "stadio": "Easi Arena",
@@ -358,6 +799,33 @@
   "licenza": "CC BY-SA 4.0",
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Stade_communal_de_Tivoli.jpg"
+ },
+ "eden-park.webp": {
+  "stadio": "Eden Park",
+  "voce": "Eden Park",
+  "file": "File:Blues vs Hurricanes 2020 Super Rugby Aoteraoa.jpg",
+  "autore": "AliveHuman136",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Blues_vs_Hurricanes_2020_Super_Rugby_Aoteraoa.jpg"
+ },
+ "edion-peace-wing-hiroshima.webp": {
+  "stadio": "Edion Peace Wing Hiroshima",
+  "voce": "Edion Peace Wing Hiroshima",
+  "file": "File:EdionPeaceWing-NorthStand.jpg",
+  "autore": "Bsx",
+  "licenza": "CC0",
+  "licenzaUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "fonte": "https://commons.wikimedia.org/wiki/File:EdionPeaceWing-NorthStand.jpg"
+ },
+ "ekaterinburg-arena.webp": {
+  "stadio": "Ekaterinburg Arena",
+  "voce": "Central Stadium Yekaterinburg",
+  "file": "File:20230610 Cardiogramma.jpg",
+  "autore": "MSDN.WhiteKnight",
+  "licenza": "CC0",
+  "licenzaUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "fonte": "https://commons.wikimedia.org/wiki/File:20230610_Cardiogramma.jpg"
  },
  "elbasan-arena.webp": {
   "stadio": "Elbasan Arena",
@@ -389,20 +857,29 @@
  "emirates-stadium.webp": {
   "stadio": "Emirates Stadium",
   "voce": "Emirates Stadium",
-  "file": "File:London_Emirates_Stadium_arsenal.jpg",
-  "autore": "Arne Müseler",
-  "licenza": "CC BY-SA 3.0 de",
-  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
-  "fonte": "https://commons.wikimedia.org/wiki/File:London_Emirates_Stadium_arsenal.jpg"
+  "file": "File:Arsenal v PSV 2007 Stadium (414111100).jpg",
+  "autore": "wonker from London, United Kingdom",
+  "licenza": "CC BY 2.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/2.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Arsenal_v_PSV_2007_Stadium_(414111100).jpg"
  },
  "enea-stadion.webp": {
   "stadio": "Enea Stadion",
-  "voce": "Poznań Stadium",
-  "file": "File:Stadion_Miejski_Poznan,_2011-08-23.jpg",
-  "autore": "Carte",
+  "voce": "Enea Stadion",
+  "file": "File:Lech Poznań UAM vs resPect Krobia 2022.jpg",
+  "autore": "Klapi",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Lech_Pozna%C5%84_UAM_vs_resPect_Krobia_2022.jpg"
+ },
+ "energizer-park.webp": {
+  "stadio": "Energizer Park",
+  "voce": "Energizer Park",
+  "file": "File:St. Louis City SC vs. FC Cincinnati at CityPark (20230416094626).jpg",
+  "autore": "Cornfield948",
   "licenza": "CC BY-SA 3.0",
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Stadion_Miejski_Poznan,_2011-08-23.jpg"
+  "fonte": "https://commons.wikimedia.org/wiki/File:St._Louis_City_SC_vs._FC_Cincinnati_at_CityPark_(20230416094626).jpg"
  },
  "epet-arena.webp": {
   "stadio": "epet ARENA",
@@ -412,6 +889,15 @@
   "licenza": "CC BY-SA 3.0",
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Generali_Arena-AC_Sparta_Praha.jpg"
+ },
+ "ernst-happel-stadion.webp": {
+  "stadio": "Ernst-Happel-Stadion",
+  "voce": "Ernst-Happel-Stadion",
+  "file": "File:Euro 2008 ernst happel stadium vienna 1.jpg",
+  "autore": "Arne Müseler",
+  "licenza": "CC BY-SA 3.0 de",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Euro_2008_ernst_happel_stadium_vienna_1.jpg"
  },
  "eryaman-stadyumu.webp": {
   "stadio": "Eryaman Stadyumu",
@@ -431,23 +917,59 @@
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Necmi_Kad%C4%B1o%C4%9Flu_Stadyumu_(III)_2019-08-17.jpg"
  },
- "estadio-abanca-balaidos.webp": {
-  "stadio": "Estadio Abanca-Balaídos",
-  "voce": "Balaídos Stadium",
-  "file": "File:Balaidos_hoy.jpg",
-  "autore": "BandidoBanderas",
+ "estadi-municipal-de-montilivi.webp": {
+  "stadio": "Estadi Municipal de Montilivi",
+  "voce": "Montilivi Stadium",
+  "file": "File:Primer partido2017-18.jpg",
+  "autore": "Jmsolerb",
   "licenza": "CC BY-SA 4.0",
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Balaidos_hoy.jpg"
+  "fonte": "https://commons.wikimedia.org/wiki/File:Primer_partido2017-18.jpg"
+ },
+ "estadi-nacional.webp": {
+  "stadio": "Estadi Nacional",
+  "voce": "Estadi Nacional",
+  "file": "File:Estadi Nacional d‘Andorra.jpg",
+  "autore": "Walmaul",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Estadi_Nacional_d%E2%80%98Andorra.jpg"
+ },
+ "estadio-11-de-novembro.webp": {
+  "stadio": "Estádio 11 de Novembro",
+  "voce": "Estádio 11 de Novembro",
+  "file": "File:Estadio-11Nov-Luanda 07 Pflege LWS-2011-08-NC 0998.jpg",
+  "autore": "L.Willms",
+  "licenza": "CC BY-SA 3.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Estadio-11Nov-Luanda_07_Pflege_LWS-2011-08-NC_0998.jpg"
+ },
+ "estadio-abanca-balaidos.webp": {
+  "stadio": "Estadio Abanca-Balaídos",
+  "voce": "Abanca Balaídos Stadium",
+  "file": "File:Baleares - Celta 2022 (1).jpg",
+  "autore": "Joan Gené",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Baleares_-_Celta_2022_(1).jpg"
  },
  "estadio-abanca-riazor.webp": {
   "stadio": "Estadio Abanca-Riazor",
-  "voce": "Estadio Riazor",
-  "file": "File:Estadioriazor2023.jpg",
-  "autore": "Lisímaco de Egipto",
-  "licenza": "CC0",
-  "licenzaUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Estadioriazor2023.jpg"
+  "voce": "Estadio Municipal de Abanca Riazor",
+  "file": "File:DeportivoBNavalcarnero.jpg",
+  "autore": "Mjazick",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:DeportivoBNavalcarnero.jpg"
+ },
+ "estadio-alberto-jose-armando.webp": {
+  "stadio": "Estadio Alberto José Armando",
+  "voce": "La Bombonera",
+  "file": "File:Boca Stadium (106091046).jpg",
+  "autore": "Micah MacAllen from Iringa, Tanzania",
+  "licenza": "CC BY-SA 2.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Boca_Stadium_(106091046).jpg"
  },
  "estadio-antonio-coimbra-da-mota.webp": {
   "stadio": "Estádio António Coimbra da Mota",
@@ -458,6 +980,33 @@
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:20011019_CD_Estoril_Praia_(2).JPG"
  },
+ "estadio-azteca.webp": {
+  "stadio": "Estadio Azteca",
+  "voce": "Estadio Azteca",
+  "file": "File:Tribuna lateral este 2022.jpg",
+  "autore": "Luicheto",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Tribuna_lateral_este_2022.jpg"
+ },
+ "estadio-banorte.webp": {
+  "stadio": "Estadio Banorte",
+  "voce": "Estadio Azteca",
+  "file": "File:Tribuna lateral este 2022.jpg",
+  "autore": "Luicheto",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Tribuna_lateral_este_2022.jpg"
+ },
+ "estadio-benito-villamarin.webp": {
+  "stadio": "Estadio Benito Villamarín",
+  "voce": "Estadio Benito Villamarín",
+  "file": "File:Estadio_Benito_Villamarín_2018001.jpg",
+  "autore": "Anual",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Estadio_Benito_Villamar%C3%ADn_2018001.jpg"
+ },
  "estadio-bernabeu.webp": {
   "stadio": "Estadio Bernabéu",
   "voce": "Bernabéu (stadium)",
@@ -466,6 +1015,15 @@
   "licenza": "CC0",
   "licenzaUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
   "fonte": "https://commons.wikimedia.org/wiki/File:Estadio_Santiago_Bernab%C3%A9u_%E2%80%94_Real_Madrid_Juvenil_A_-_Santiago_Wanderers_Sub-20_(Intercontinental_Sub-20_2026)_%E2%80%94_R%C3%A9cord_de_asistencia_en_un_partido_de_juveniles.jpg"
+ },
+ "estadio-centroamericano-de-mayaguez.webp": {
+  "stadio": "Estadio Centroamericano de Mayagüez",
+  "voce": "Mayagüez Athletics Stadium",
+  "file": "File:Estadio Isidoro Garcia and Estadio Centroamericano.jpg",
+  "autore": "Municipio de Mayagüez",
+  "licenza": "CC0",
+  "licenzaUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Estadio_Isidoro_Garcia_and_Estadio_Centroamericano.jpg"
  },
  "estadio-cidade-de-barcelos.webp": {
   "stadio": "Estádio Cidade de Barcelos",
@@ -493,6 +1051,33 @@
   "licenza": "CC BY-SA 4.0",
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Getafe0-0Lega2018.jpg"
+ },
+ "estadio-corregidora.webp": {
+  "stadio": "Estadio Corregidora",
+  "voce": "Corregidora Stadium",
+  "file": "File:Estadio la Corregidora.JPG",
+  "autore": "No machine-readable author provided. Gabriel monarca assumed (based on copyright claims).",
+  "licenza": "Public domain",
+  "licenzaUrl": "",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Estadio_la_Corregidora.JPG"
+ },
+ "estadio-cuauhtemoc.webp": {
+  "stadio": "Estadio Cuauhtémoc",
+  "voce": "Estadio Cuauhtémoc",
+  "file": "File:Interior del Estadio Cuauhtémoc.jpg",
+  "autore": "Poromiami",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Interior_del_Estadio_Cuauht%C3%A9moc.jpg"
+ },
+ "estadio-cuscatlan.webp": {
+  "stadio": "Estadio Cuscatlán",
+  "voce": "Estadio Cuscatlán",
+  "file": "File:San Salvador crowd crush.png",
+  "autore": "La Prensa Gráfica",
+  "licenza": "CC BY 3.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/3.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:San_Salvador_crowd_crush.png"
  },
  "estadio-da-madeira.webp": {
   "stadio": "Estádio da Madeira",
@@ -557,6 +1142,15 @@
   "licenzaUrl": "https://creativecommons.org/licenses/by/2.5/es/deed.en",
   "fonte": "https://commons.wikimedia.org/wiki/File:Estadio_de_Vallecas.jpg"
  },
+ "estadio-do-algarve.webp": {
+  "stadio": "Estádio Do Algarve",
+  "voce": "Estádio Algarve",
+  "file": "File:Gibralter V Ireland, 4 September 2015 (8).JPG",
+  "autore": "Kolforn (Kolforn) I'd appreciate if you could mail me (Kolforn@gmail.com) if you want to use this picture out of the Wik",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Gibralter_V_Ireland,_4_September_2015_(8).JPG"
+ },
  "estadio-do-dragao.webp": {
   "stadio": "Estádio Do Dragão",
   "voce": "Estádio do Dragão",
@@ -575,6 +1169,15 @@
   "licenzaUrl": null,
   "fonte": "https://commons.wikimedia.org/wiki/File:Est%C3%A1diodosBarreirosCentral.jpg"
  },
+ "estadio-do-restelo.webp": {
+  "stadio": "Estádio do Restelo",
+  "voce": "Estádio do Restelo",
+  "file": "File:Estádio do Restelo vista.jpg",
+  "autore": "Cristina Morettini 95",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Est%C3%A1dio_do_Restelo_vista.jpg"
+ },
  "estadio-do-sport-lisboa-e-benfica-da-luz.webp": {
   "stadio": "Estádio do Sport Lisboa e Benfica (da Luz)",
   "voce": "Estádio da Luz",
@@ -587,20 +1190,20 @@
  "estadio-dom-afonso-henriques.webp": {
   "stadio": "Estádio Dom Afonso Henriques",
   "voce": "Estádio D. Afonso Henriques",
-  "file": "File:Estádio Dom Afonso Henriques - Guimarães - Portugal (7911950596).jpg",
-  "autore": "Vitor Oliveira from Torres Vedras, PORTUGAL",
-  "licenza": "CC BY-SA 2.0",
-  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/2.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Est%C3%A1dio_Dom_Afonso_Henriques_-_Guimar%C3%A3es_-_Portugal_(7911950596).jpg"
+  "file": "File:Vitória SC - Arsenal FC, UEFA Europa League 02.jpg",
+  "autore": "Estevoaei",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Vit%C3%B3ria_SC_-_Arsenal_FC,_UEFA_Europa_League_02.jpg"
  },
  "estadio-dr-magalhaes-pessoa.webp": {
   "stadio": "Estádio Dr. Magalhães Pessoa",
   "voce": "Estádio Dr. Magalhães Pessoa",
-  "file": "File:Estádio_Municipal_de_Leiria.jpg",
-  "autore": "Arne Müseler",
-  "licenza": "CC BY-SA 3.0 de",
-  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Est%C3%A1dio_Municipal_de_Leiria.jpg"
+  "file": "File:Estádio Municipal Dr. Magalhães Pessoa - Leiria (Portugal) (2100019145).jpg",
+  "autore": "Vitor Oliveira from Torres Vedras, PORTUGAL",
+  "licenza": "CC BY-SA 2.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Est%C3%A1dio_Municipal_Dr._Magalh%C3%A3es_Pessoa_-_Leiria_(Portugal)_(2100019145).jpg"
  },
  "estadio-el-sadar.webp": {
   "stadio": "Estadio El Sadar",
@@ -611,6 +1214,51 @@
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Estadio_El_Sadar.jpg"
  },
+ "estadio-enrique-roca-de-murcia.webp": {
+  "stadio": "Estadio Enrique Roca de Murcia",
+  "voce": "Estadio Nueva Condomina",
+  "file": "File:Estadio Nueva Condomina.jpg",
+  "autore": "Sebasgs",
+  "licenza": "CC BY 3.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/3.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Estadio_Nueva_Condomina.jpg"
+ },
+ "estadio-francisco-morazan.webp": {
+  "stadio": "Estadio Francisco Morazán",
+  "voce": "Estadio General Francisco Morazán",
+  "file": "File:Morazan Stadium Platense Olimpia 2015.jpg",
+  "autore": "JVC3ETA",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Morazan_Stadium_Platense_Olimpia_2015.jpg"
+ },
+ "estadio-heliodoro-rodriguez-lopez.webp": {
+  "stadio": "Estadio Heliodoro Rodríguez Lopéz",
+  "voce": "Estadio Heliodoro Rodríguez López",
+  "file": "File:Gradatribuna.jpg",
+  "autore": "JUAN BLAS tenerife",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Gradatribuna.jpg"
+ },
+ "estadio-jorge-el-magico-gonzalez.webp": {
+  "stadio": "Estadio Jorge “El Mágico” Gonzalez",
+  "voce": "Estadio Jorge \"El Mágico\" González",
+  "file": "File:El-salvador san-salvador Estadio-Jorge-González 5.JPG",
+  "autore": "Arne Müseler",
+  "licenza": "CC BY-SA 3.0 de",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
+  "fonte": "https://commons.wikimedia.org/wiki/File:El-salvador_san-salvador_Estadio-Jorge-Gonz%C3%A1lez_5.JPG"
+ },
+ "estadio-jornalista-mario-filho-maracana.webp": {
+  "stadio": "Estadio Jornalista Mário Filho (Maracanã)",
+  "voce": "Maracanã Stadium",
+  "file": "File:Brasil 4 vs 0 Chile no Maracanã em 2022.jpg",
+  "autore": "Boaventuravinicius",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Brasil_4_vs_0_Chile_no_Maracan%C3%A3_em_2022.jpg"
+ },
  "estadio-jose-alvalade.webp": {
   "stadio": "Estádio José Alvalade",
   "voce": "Estádio José Alvalade",
@@ -620,6 +1268,15 @@
   "licenzaUrl": "https://creativecommons.org/licenses/by/4.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Est%C3%A1dio_Jos%C3%A9_Alvalade_antes_do_jogo_Sporting_-_Arouca.jpg"
  },
+ "estadio-jose-de-la-paz-herrera-ucles.webp": {
+  "stadio": "Estadio José de la Paz Herrera Uclés",
+  "voce": "Estadio Nacional Jose de la Paz Herrera",
+  "file": "File:Estadio Carías.jpg",
+  "autore": "Cratón",
+  "licenza": "CC BY-SA 3.0",
+  "licenzaUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Estadio_Car%C3%ADas.jpg"
+ },
  "estadio-jose-gomes.webp": {
   "stadio": "Estádio José Gomes",
   "voce": "Estádio José Gomes",
@@ -628,6 +1285,15 @@
   "licenza": "CC0",
   "licenzaUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
   "fonte": "https://commons.wikimedia.org/wiki/File:Est%C3%A1dio_Jos%C3%A9_Gomes.jpg"
+ },
+ "estadio-juan-ramon-loubriel.webp": {
+  "stadio": "Estadio Juán Rámon Loubriel",
+  "voce": "Juan Ramón Loubriel Stadium",
+  "file": "File:Orangestarsultra.jpg",
+  "autore": "Sebastian Perez",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Orangestarsultra.jpg"
  },
  "estadio-la-cartuja-de-sevilla.webp": {
   "stadio": "Estadio La Cartuja de Sevilla",
@@ -647,6 +1313,15 @@
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:IMG-20220228-WA0055.jpg"
  },
+ "estadio-manuel-felipe-carrera.webp": {
+  "stadio": "Estadio Manuel Felipe Carrera",
+  "voce": "Estadio El Trébol",
+  "file": "File:Estadio Manuel Felipe Carrera «El trébol».jpg",
+  "autore": "Rob!n Osorio",
+  "licenza": "CC0",
+  "licenzaUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Estadio_Manuel_Felipe_Carrera_%C2%ABEl_tr%C3%A9bol%C2%BB.jpg"
+ },
  "estadio-manuel-martinez-valero.webp": {
   "stadio": "Estadio Manuel Martínez Valero",
   "voce": "Estadio Martínez Valero",
@@ -656,6 +1331,24 @@
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Imagen_Estadio_Mart%C3%ADnez_Valero_(2018).jpg"
  },
+ "estadio-mario-alberto-kempes.webp": {
+  "stadio": "Estadio Mario Alberto Kempes",
+  "voce": "Mario Alberto Kempes Stadium",
+  "file": "File:Estadio Kempes luego de finalizar un partido.jpg",
+  "autore": "Alepizarro32",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Estadio_Kempes_luego_de_finalizar_un_partido.jpg"
+ },
+ "estadio-monumental.webp": {
+  "stadio": "Estadio Monumental",
+  "voce": "Monumental Stadium, Buenos Aires",
+  "file": "File:Estadio Monumental (River Plate), Buenos Aires ARG.jpg",
+  "autore": "Stefano Vigorelli",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Estadio_Monumental_(River_Plate),_Buenos_Aires_ARG.jpg"
+ },
  "estadio-municipal-22-de-junho.webp": {
   "stadio": "Estádio Municipal 22 de Junho",
   "voce": "Estádio Municipal 22 de Junho",
@@ -664,6 +1357,15 @@
   "licenza": "CC BY-SA 4.0",
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Blick_von_der_Gegentrib%C3%BCne_-_Est%C3%A1dio_Municipal_22_de_Junho.jpg"
+ },
+ "estadio-municipal-carlos-tartiere.webp": {
+  "stadio": "Estadio Municipal Carlos Tartiere",
+  "voce": "Carlos Tartiere Stadium",
+  "file": "File:EstadioCarlosTartiere.jpg",
+  "autore": "Piniellerson",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:EstadioCarlosTartiere.jpg"
  },
  "estadio-municipal-de-anoeta.webp": {
   "stadio": "Estadio Municipal de Anoeta",
@@ -692,6 +1394,15 @@
   "licenzaUrl": "https://creativecommons.org/licenses/by/2.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Eduardo_Souto_de_Moura_-_Braga_Stadium_02_(6010593292).jpg"
  },
+ "estadio-municipal-de-la-linea-de-la-concepcion.webp": {
+  "stadio": "Estadio Municipal de La Línea de la Concepción",
+  "voce": "Estadio Municipal de La Línea de la Concepción",
+  "file": "File:Estadio Municipal de La Línea de la Concepción.jpg",
+  "autore": "Michael F. Mehnert",
+  "licenza": "CC BY-SA 3.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Estadio_Municipal_de_La_L%C3%ADnea_de_la_Concepci%C3%B3n.jpg"
+ },
  "estadio-municipal-de-rio-maior.webp": {
   "stadio": "Estádio Municipal de Rio Maior",
   "voce": "Estádio Municipal de Rio Maior",
@@ -709,6 +1420,114 @@
   "licenza": "CC0",
   "licenzaUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
   "fonte": "https://commons.wikimedia.org/wiki/File:Est%C3%A1dio_Municipal_do_Fontelo,_Viseu.jpg"
+ },
+ "estadio-municipal-jose-zorrilla.webp": {
+  "stadio": "Estadio Municipal José Zorrilla",
+  "voce": "Estadio Nuevo José Zorrilla",
+  "file": "File:Valladolid 2-4Lega2018.jpg",
+  "autore": "Miguelazo84",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Valladolid_2-4Lega2018.jpg"
+ },
+ "estadio-nacional-24-de-setembro.webp": {
+  "stadio": "Estádio Nacional 24 de Setembro",
+  "voce": "Estádio 24 de Setembro",
+  "file": "File:Viagem de Bissau para Bolama, Guiné-Bissau – 2018-03-02 – DSCN0973.jpg",
+  "autore": "Helena Maria Pestana",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Viagem_de_Bissau_para_Bolama,_Guin%C3%A9-Bissau_%E2%80%93_2018-03-02_%E2%80%93_DSCN0973.jpg"
+ },
+ "estadio-nacional-chelato-ucles.webp": {
+  "stadio": "Estadio Nacional Chelato Uclés",
+  "voce": "Estadio Nacional Jose de la Paz Herrera",
+  "file": "File:Estadio Carías.jpg",
+  "autore": "Cratón",
+  "licenza": "CC BY-SA 3.0",
+  "licenzaUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Estadio_Car%C3%ADas.jpg"
+ },
+ "estadio-nacional-de-cabo-verde.webp": {
+  "stadio": "Estádio Nacional de Cabo Verde",
+  "voce": "Estádio Pelé",
+  "file": "File:Estadio Nacional de Cabo Verde.jpg",
+  "autore": "Lonzay",
+  "licenza": "CC0",
+  "licenzaUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Estadio_Nacional_de_Cabo_Verde.jpg"
+ },
+ "estadio-nacional-de-costa-rica.webp": {
+  "stadio": "Estadio Nacional de Costa Rica",
+  "voce": "Estadio Nacional de Costa Rica",
+  "file": "File:Panorama Estadio Nacional de Costa Rica.jpg",
+  "autore": "Nyarlazul",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Panorama_Estadio_Nacional_de_Costa_Rica.jpg"
+ },
+ "estadio-nacional-de-futbol-unan.webp": {
+  "stadio": "Estadio Nacional de Fútbol (UNAN)",
+  "voce": "Nicaragua National Football Stadium",
+  "file": "File:Nicaragua National Football Stadium.jpg",
+  "autore": "Agraysky",
+  "licenza": "CC BY-SA 3.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Nicaragua_National_Football_Stadium.jpg"
+ },
+ "estadio-nacional-jorge-magico-gonzalez.webp": {
+  "stadio": "Estadio Nacional Jorge Mágico González",
+  "voce": "Estadio Jorge \"El Mágico\" González",
+  "file": "File:El-salvador san-salvador Estadio-Jorge-González 5.JPG",
+  "autore": "Arne Müseler",
+  "licenza": "CC BY-SA 3.0 de",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
+  "fonte": "https://commons.wikimedia.org/wiki/File:El-salvador_san-salvador_Estadio-Jorge-Gonz%C3%A1lez_5.JPG"
+ },
+ "estadio-nacional-mateo-flores.webp": {
+  "stadio": "Estadio Nacional Mateo Flores",
+  "voce": "Estadio Doroteo Guamuch Flores",
+  "file": "File:Estadio Mateo Flores Guatemala.JPG",
+  "autore": "JMRAFFi",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Estadio_Mateo_Flores_Guatemala.JPG"
+ },
+ "estadio-nemesio-camacho-el-campin.webp": {
+  "stadio": "Estadio Nemesio Camacho El Campín",
+  "voce": "Estadio El Campín",
+  "file": "File:Nemesio Camacho el campin 2024.jpg",
+  "autore": "Nderakóre 1",
+  "licenza": "CC BY 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Nemesio_Camacho_el_campin_2024.jpg"
+ },
+ "estadio-nemesio-diez.webp": {
+  "stadio": "Estadio Nemesio Díez",
+  "voce": "Nemesio Diez Stadium",
+  "file": "File:Estadio Nemesio Diez - Clausura 2025 final (1).jpg",
+  "autore": "Morogris",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Estadio_Nemesio_Diez_-_Clausura_2025_final_(1).jpg"
+ },
+ "estadio-nuevo-arcangel.webp": {
+  "stadio": "Estadio Nuevo Arcángel",
+  "voce": "Estadio Nuevo Arcángel",
+  "file": "File:ArcangelCordoba2Lega3.jpg",
+  "autore": "Miguelazo84",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:ArcangelCordoba2Lega3.jpg"
+ },
+ "estadio-olimpico-felix-sanchez.webp": {
+  "stadio": "Estadio Olímpico Félix Sánchez",
+  "voce": "Estadio Olímpico Félix Sánchez",
+  "file": "File:Estadio Olimpico Drone.jpg",
+  "autore": "ThePapo309",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Estadio_Olimpico_Drone.jpg"
  },
  "estadio-ontime-butarque.webp": {
   "stadio": "Estadio Ontime Butarque",
@@ -728,14 +1547,41 @@
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:2022-10-25_1_Estadio_Ram%C3%B3n_S%C3%A1nchez_Pizju%C3%A1n_(Sevilla_FC).jpg"
  },
+ "estadio-ricardo-saprissa-ayma.webp": {
+  "stadio": "Estadio Ricardo Saprissa Aymá",
+  "voce": "Estadio Ricardo Saprissa Aymá",
+  "file": "File:Costa Rica - Honduras.jpg",
+  "autore": "Haakon S. Krohn",
+  "licenza": "CC BY-SA 3.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Costa_Rica_-_Honduras.jpg"
+ },
+ "estadio-rommel-fernandez-gutierrez.webp": {
+  "stadio": "Estadio Rommel Fernández Gutiérrez",
+  "voce": "Estadio Rommel Fernández",
+  "file": "File:Panamá vs México Estadio Rommel Fernández 8-9-2021.jpg",
+  "autore": "123Hollic",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Panam%C3%A1_vs_M%C3%A9xico_Estadio_Rommel_Fern%C3%A1ndez_8-9-2021.jpg"
+ },
+ "estadio-ueno-defensores-del-chaco.webp": {
+  "stadio": "Estadio ueno Defensores del Chaco",
+  "voce": "Estadio Defensores del Chaco",
+  "file": "File:Estadio Defensores del Chaco 18-11-2022 (3).jpg",
+  "autore": "Gabrielbernalv",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Estadio_Defensores_del_Chaco_18-11-2022_(3).jpg"
+ },
  "etihad-stadium.webp": {
   "stadio": "Etihad Stadium",
   "voce": "Etihad Stadium",
-  "file": "File:City_of_Manchester_Stadium_2023_cropped.jpg",
-  "autore": "Arne Müseler, cropped by Blackcat",
-  "licenza": "CC BY-SA 3.0 de",
-  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
-  "fonte": "https://commons.wikimedia.org/wiki/File:City_of_Manchester_Stadium_2023_cropped.jpg"
+  "file": "File:City of Manchester Stadium, October 2015 - 14.JPG",
+  "autore": "Little Savage",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:City_of_Manchester_Stadium,_October_2015_-_14.JPG"
  },
  "euroborg.webp": {
   "stadio": "Euroborg",
@@ -754,6 +1600,15 @@
   "licenza": "CC BY 2.0",
   "licenzaUrl": "https://creativecommons.org/licenses/by/2.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Badenova-Stadion_2011.jpg"
+ },
+ "europa-point-stadium.webp": {
+  "stadio": "Europa Point Stadium",
+  "voce": "Europa Sports Park",
+  "file": "File:Europa Point 2.jpg",
+  "autore": "Adam Cli",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Europa_Point_2.jpg"
  },
  "finep-arena.webp": {
   "stadio": "FINEP Arena",
@@ -791,6 +1646,15 @@
   "licenzaUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
   "fonte": "https://commons.wikimedia.org/wiki/File:Beveren.jpg"
  },
+ "futbal-tatran-arena.webp": {
+  "stadio": "Futbal Tatran Aréna",
+  "voce": "Futbal Tatran Aréna",
+  "file": "File:Tatran Arena 01 2025.jpg",
+  "autore": "Marek Hrabčák",
+  "licenza": "CC0",
+  "licenzaUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Tatran_Arena_01_2025.jpg"
+ },
  "gaziantep-stadyumu.webp": {
   "stadio": "Gaziantep Stadyumu",
   "voce": "Gaziantep Stadium",
@@ -800,23 +1664,59 @@
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Kalyon_Arena_(Gaziantep).jpg"
  },
- "goffertstadion.webp": {
-  "stadio": "Goffertstadion",
-  "voce": "Goffertstadion",
-  "file": "File:Goffertstadion_N.E.C._Nijmegen.jpg",
-  "autore": "Roger Veringmeier",
+ "gelora-bung-karno-stadium.webp": {
+  "stadio": "Gelora Bung Karno Stadium",
+  "voce": "Gelora Bung Karno Stadium",
+  "file": "File:Indonesie, bijeenkomst in Bung Karno Stadion Djakarta, president Soekarno spreek, Bestanddeelnr 924-8281.jpg",
+  "autore": "Fotograaf Onbekend / Anefo",
+  "licenza": "CC0",
+  "licenzaUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Indonesie,_bijeenkomst_in_Bung_Karno_Stadion_Djakarta,_president_Soekarno_spreek,_Bestanddeelnr_924-8281.jpg"
+ },
+ "godswill-akpabio-international-stadium.webp": {
+  "stadio": "Godswill Akpabio International Stadium",
+  "voce": "Godswill Akpabio International Stadium",
+  "file": "File:Long shot of Nest of champions.jpg",
+  "autore": "Harriwillz",
   "licenza": "CC BY-SA 4.0",
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Goffertstadion_N.E.C._Nijmegen.jpg"
+  "fonte": "https://commons.wikimedia.org/wiki/File:Long_shot_of_Nest_of_champions.jpg"
+ },
+ "goffertstadion.webp": {
+  "stadio": "Goffertstadion",
+  "voce": "Stadion de Goffert",
+  "file": "File:Goffertstadion tijdens een wedstrijd.jpg",
+  "autore": "Justinrtw5",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Goffertstadion_tijdens_een_wedstrijd.jpg"
+ },
+ "gradski-stadion-dubocica.webp": {
+  "stadio": "Gradski stadion Dubočica",
+  "voce": "Dubočica Stadium",
+  "file": "File:Gradski Stadion u Leskovcu.jpg",
+  "autore": "Mj12",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Gradski_Stadion_u_Leskovcu.jpg"
+ },
+ "grand-stade-de-tanger.webp": {
+  "stadio": "Grand Stade de Tanger",
+  "voce": "Tangier Grand Stadium",
+  "file": "File:Tangier Stadium.jpg",
+  "autore": "Ymax2016",
+  "licenza": "CC0",
+  "licenzaUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Tangier_Stadium.jpg"
  },
  "groupama-arena.webp": {
   "stadio": "Groupama Aréna",
-  "voce": "Ferencváros Stadion",
-  "file": "File:Groupama Arena Budapest.jpg",
-  "autore": "Michał Bulsa",
+  "voce": "Groupama Arena",
+  "file": "File:2019-05-17 Fußball, Frauen, UEFA Women's Champions League, Olympique Lyonnais - FC Barcelona StP 0013 LR10 by Stepro.jpg",
+  "autore": "Steffen Prößdorf",
   "licenza": "CC BY-SA 4.0",
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Groupama_Arena_Budapest.jpg"
+  "fonte": "https://commons.wikimedia.org/wiki/File:2019-05-17_Fu%C3%9Fball,_Frauen,_UEFA_Women%27s_Champions_League,_Olympique_Lyonnais_-_FC_Barcelona_StP_0013_LR10_by_Stepro.jpg"
  },
  "groupama-stadium.webp": {
   "stadio": "Groupama Stadium",
@@ -830,11 +1730,11 @@
  "gtech-community-stadium.webp": {
   "stadio": "Gtech Community Stadium",
   "voce": "Brentford Community Stadium",
-  "file": "File:Brentford_Community_Stadium_2020.jpg",
-  "autore": "AndyScott",
-  "licenza": "CC BY-SA 4.0",
-  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Brentford_Community_Stadium_2020.jpg"
+  "file": "File:Line-up at the Brentford v Nottingham Forest football match on 21 December 2024 at Brentford Community Stadium.jpg",
+  "autore": "Jim Linwood",
+  "licenza": "CC BY 2.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/2.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Line-up_at_the_Brentford_v_Nottingham_Forest_football_match_on_21_December_2024_at_Brentford_Community_Stadium.jpg"
  },
  "guldensporenstadion.webp": {
   "stadio": "Guldensporenstadion",
@@ -844,6 +1744,42 @@
   "licenza": "CC BY-SA 4.0",
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Guldensporenstadion.jpg"
+ },
+ "haladas-sportkomplexum.webp": {
+  "stadio": "Haladás Sportkomplexum",
+  "voce": "Haladás Sportkomplexum",
+  "file": "File:Haladás Makett1.jpg",
+  "autore": "Pan Peter12",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Halad%C3%A1s_Makett1.jpg"
+ },
+ "hampden-park.webp": {
+  "stadio": "Hampden Park",
+  "voce": "Hampden Park",
+  "file": "File:2012 Olympic Football - Honduras v Morocco (7652652620).jpg",
+  "autore": "Daniel from Glasgow, United Kingdom",
+  "licenza": "CC BY 2.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/2.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:2012_Olympic_Football_-_Honduras_v_Morocco_(7652652620).jpg"
+ },
+ "hard-rock-stadium.webp": {
+  "stadio": "Hard Rock Stadium",
+  "voce": "Hard Rock Stadium",
+  "file": "File:Cleveland Browns 17-39 Miami Dolphins (Nov 13, 2022) - Hard Rock Stadium - file 33.jpg",
+  "autore": "Elbert Hampton",
+  "licenza": "CC0",
+  "licenzaUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Cleveland_Browns_17-39_Miami_Dolphins_(Nov_13,_2022)_-_Hard_Rock_Stadium_-_file_33.jpg"
+ },
+ "helsingin-olympiastadion.webp": {
+  "stadio": "Helsingin olympiastadion",
+  "voce": "Helsinki Olympic Stadium",
+  "file": "File:Suomi Hollanti Stadion 1989.jpg",
+  "autore": "MeetMeInLasVegas",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Suomi_Hollanti_Stadion_1989.jpg"
  },
  "het-kuipje.webp": {
   "stadio": "Het Kuipje",
@@ -857,20 +1793,74 @@
  "hill-dickinson-stadium.webp": {
   "stadio": "Hill Dickinson Stadium",
   "voce": "Hill Dickinson Stadium",
-  "file": "File:Hill Dickinson Stadium South Stand 2026.jpg",
-  "autore": "TheCarStalker",
+  "file": "File:Hill Dickinson Stadium interior 2026 2.jpg",
+  "autore": "Tomsk Toffee",
+  "licenza": "CC BY 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Hill_Dickinson_Stadium_interior_2026_2.jpg"
+ },
+ "hoima-city-stadium.webp": {
+  "stadio": "Hoima City Stadium",
+  "voce": "Hoima City Stadium",
+  "file": "File:Hoima City Stadium 02.jpg",
+  "autore": "Gadlee",
   "licenza": "CC BY-SA 4.0",
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Hill_Dickinson_Stadium_South_Stand_2026.jpg"
+  "fonte": "https://commons.wikimedia.org/wiki/File:Hoima_City_Stadium_02.jpg"
  },
  "home-deluxe-arena.webp": {
   "stadio": "Home Deluxe Arena",
   "voce": "Home Deluxe Arena",
-  "file": "File:Paderborn_paragon_arena_2.jpg",
-  "autore": "Zefram",
-  "licenza": "CC BY 2.0 de",
-  "licenzaUrl": "https://creativecommons.org/licenses/by/2.0/de/deed.en",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Paderborn_paragon_arena_2.jpg"
+  "file": "File:Benteler-Arena (17107125877).jpg",
+  "autore": "Ungry Young Man from Vienna, Austria",
+  "licenza": "CC BY 2.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/2.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Benteler-Arena_(17107125877).jpg"
+ },
+ "hong-kong-stadium.webp": {
+  "stadio": "Hong Kong Stadium",
+  "voce": "Hong Kong Stadium",
+  "file": "File:Hong Kong Stadium Panorama.jpg",
+  "autore": "Geographer",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Hong_Kong_Stadium_Panorama.jpg"
+ },
+ "huntington-bank-field.webp": {
+  "stadio": "Huntington Bank Field",
+  "voce": "Huntington Bank Field",
+  "file": "File:Cleveland National Air Show (43805784984).jpg",
+  "autore": "Erik Drost",
+  "licenza": "CC BY 2.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/2.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Cleveland_National_Air_Show_(43805784984).jpg"
+ },
+ "independence-stadium.webp": {
+  "stadio": "Independence Stadium",
+  "voce": "Independence Stadium",
+  "file": "File:52nd Independence Anniversary Celebrations and Inauguration of His Excellency Mr. Adama Barrow President of the Republic of The Gambia.jpg",
+  "autore": "Chrisroberts-192",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:52nd_Independence_Anniversary_Celebrations_and_Inauguration_of_His_Excellency_Mr._Adama_Barrow_President_of_the_Republic_of_The_Gambia.jpg"
+ },
+ "indira-gandhi-athletic-stadium.webp": {
+  "stadio": "Indira Gandhi Athletic Stadium",
+  "voce": "Sarusajai Stadium (Guwahati)",
+  "file": "File:Indira Gandhi Athletic Stadium in Sawkuchi (Nalapara), Guwahati.jpg",
+  "autore": "Angsh01",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Indira_Gandhi_Athletic_Stadium_in_Sawkuchi_(Nalapara),_Guwahati.jpg"
+ },
+ "inter-co-stadium.webp": {
+  "stadio": "Inter&Co Stadium",
+  "voce": "Inter&Co Stadium",
+  "file": "File:Safe standing (33109446225).jpg",
+  "autore": "elisfkc from Orlando, FL, United States",
+  "licenza": "CC BY-SA 2.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Safe_standing_(33109446225).jpg"
  },
  "isonem-park-gursel-aksel-stadyumu.webp": {
   "stadio": "ISONEM Park Gürsel Aksel Stadyumu",
@@ -883,12 +1873,30 @@
  },
  "ista-borussia-park.webp": {
   "stadio": "ista-Borussia-Park",
-  "voce": "File:Stadion im Borussiapark 01.JPG",
-  "file": "File:Stadion im Borussiapark 01.JPG",
-  "autore": "Käthe u. Bernd Limburg, www.limburg-bernd.de",
-  "licenza": "CC BY-SA 3.0 de",
-  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Stadion_im_Borussiapark_01.JPG"
+  "voce": "ista-Borussia-Park",
+  "file": "File:Jan Metternich in Borussia Park.jpg",
+  "autore": "PeterAnders2001",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Jan_Metternich_in_Borussia_Park.jpg"
+ },
+ "istiqlol-stadioni.webp": {
+  "stadio": "Istiqlol stadioni",
+  "voce": "Istiqlol Stadium",
+  "file": "File:Uzbekiston Cup. Navbahor vs Andijan 01.jpg",
+  "autore": "AnvarxonM",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Uzbekiston_Cup._Navbahor_vs_Andijan_01.jpg"
+ },
+ "jalan-besar-stadium.webp": {
+  "stadio": "Jalan Besar Stadium",
+  "voce": "Jalan Besar Stadium",
+  "file": "File:JalanBesarStadium2022Two.jpg",
+  "autore": "Ojehto",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:JalanBesarStadium2022Two.jpg"
  },
  "jan-breydelstadion.webp": {
   "stadio": "Jan Breydelstadion",
@@ -899,14 +1907,77 @@
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Jan_Breydelstadion.JPG"
  },
+ "jawaharlal-nehru-stadium-goa.webp": {
+  "stadio": "Jawaharlal Nehru Stadium Goa",
+  "voce": "Fatorda Stadium",
+  "file": "File:East Stand of Fatorda Stadium.jpg",
+  "autore": "Donkey335",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:East_Stand_of_Fatorda_Stadium.jpg"
+ },
  "johan-cruijff-arena.webp": {
   "stadio": "Johan Cruijff ArenA",
   "voce": "Johan Cruyff Arena",
-  "file": "File:Arena,_Ajax_stadion,_Amsterdam.JPG",
-  "autore": "Alf van Beem",
+  "file": "File:AjaxArena2023-2.jpg",
+  "autore": "Vysotsky",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:AjaxArena2023-2.jpg"
+ },
+ "jordan-hare-stadium.webp": {
+  "stadio": "Jordan-Hare Stadium",
+  "voce": "Jordan–Hare Stadium",
+  "file": "File:Auburn, AL, USA - panoramio - Tom Key (6).jpg",
+  "autore": "Tom Key",
+  "licenza": "CC BY-SA 3.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Auburn,_AL,_USA_-_panoramio_-_Tom_Key_(6).jpg"
+ },
+ "kai-tak-sports-park.webp": {
+  "stadio": "Kai Tak Sports Park",
+  "voce": "Kai Tak Sports Park",
+  "file": "File:2024年10月-啟德體育園.jpg",
+  "autore": "建園春秋",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:2024%E5%B9%B410%E6%9C%88-%E5%95%9F%E5%BE%B7%E9%AB%94%E8%82%B2%E5%9C%92.jpg"
+ },
+ "kaohsiung-national-stadium.webp": {
+  "stadio": "Kaohsiung National Stadium",
+  "voce": "National Stadium",
+  "file": "File:2009-05-23 World Games Stadium, Kaohsiung.jpg",
+  "autore": "rido-lin",
+  "licenza": "CC BY 2.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/2.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:2009-05-23_World_Games_Stadium,_Kaohsiung.jpg"
+ },
+ "khalifa-international-stadium.webp": {
+  "stadio": "Khalifa International Stadium",
+  "voce": "Khalifa International Stadium",
+  "file": "File:Special Agents at the World Cup (52553123545).jpg",
+  "autore": "Diplomatic Security Service from Washington, D.C., United States of America",
+  "licenza": "Public domain",
+  "licenzaUrl": "",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Special_Agents_at_the_World_Cup_(52553123545).jpg"
+ },
+ "kigali-pele-stadium.webp": {
+  "stadio": "Kigali Pelé Stadium",
+  "voce": "Stade Régional Nyamirambo",
+  "file": "File:Kigali Pele Stadium.jpg",
+  "autore": "EmmysonB",
   "licenza": "CC0",
   "licenzaUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Arena,_Ajax_stadion,_Amsterdam.JPG"
+  "fonte": "https://commons.wikimedia.org/wiki/File:Kigali_Pele_Stadium.jpg"
+ },
+ "king-abdullah-international-stadium.webp": {
+  "stadio": "King Abdullah International Stadium",
+  "voce": "King Abdullah Stadium",
+  "file": "File:King Abdullah II Stadium, Amman, Jordan.jpg",
+  "autore": "Dzells",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:King_Abdullah_II_Stadium,_Amman,_Jordan.jpg"
  },
  "king-power-at-den-dreef-stadion.webp": {
   "stadio": "King Power at Den Dreef Stadion",
@@ -929,11 +2000,65 @@
  "kooi-stadion.webp": {
   "stadio": "Kooi Stadion",
   "voce": "Kooi Stadion",
-  "file": "File:Kooistadion2024.jpg",
-  "autore": "Dooqx",
-  "licenza": "CC0",
-  "licenzaUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Kooistadion2024.jpg"
+  "file": "File:Kooi Stadion plattegrond - Leeuwarden.jpg",
+  "autore": "Condor3d",
+  "licenza": "CC BY 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Kooi_Stadion_plattegrond_-_Leeuwarden.jpg"
+ },
+ "kosicka-futbalova-arena.webp": {
+  "stadio": "Košická futbalová aréna",
+  "voce": "Košice football arena",
+  "file": "File:KFA.jpg",
+  "autore": "Fotbalista24",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:KFA.jpg"
+ },
+ "kybunpark.webp": {
+  "stadio": "kybunpark",
+  "voce": "kybunpark",
+  "file": "File:CH-SG-St. Gallen-Kybunpark - Borussia Dortmund vs Athletic Bilbao 002.jpg",
+  "autore": "UNTERMVIERENBERGE-2",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:CH-SG-St._Gallen-Kybunpark_-_Borussia_Dortmund_vs_Athletic_Bilbao_002.jpg"
+ },
+ "kyle-field.webp": {
+  "stadio": "Kyle Field",
+  "voce": "Kyle Field",
+  "file": "File:Kyle Field, Texas A^M. College Station, TX - panoramio.jpg",
+  "autore": "Robert Barlow",
+  "licenza": "CC BY 3.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/3.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Kyle_Field,_Texas_A%5EM._College_Station,_TX_-_panoramio.jpg"
+ },
+ "lao-national-stadium-km16.webp": {
+  "stadio": "Lao National Stadium KM16",
+  "voce": "New Laos National Stadium",
+  "file": "File:Stadium Laos National Stadium.jpg",
+  "autore": "Icebooke",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Stadium_Laos_National_Stadium.jpg"
+ },
+ "laugardalsvollur.webp": {
+  "stadio": "Laugardalsvöllur",
+  "voce": "Laugardalsvöllur",
+  "file": "File:Fram - KR.jpg",
+  "autore": "Borkur Sigurbjornsson from Barcelona",
+  "licenza": "CC BY 2.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/2.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Fram_-_KR.jpg"
+ },
+ "levi-s-stadium.webp": {
+  "stadio": "Levi's Stadium",
+  "voce": "Levi's Stadium",
+  "file": "File:Levi's Stadium 2026 FIFA World Cup Australia v. Paraguay.jpg",
+  "autore": "Kaisersauce1",
+  "licenza": "CC BY 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Levi%27s_Stadium_2026_FIFA_World_Cup_Australia_v._Paraguay.jpg"
  },
  "lokotrans-arena.webp": {
   "stadio": "Lokotrans Aréna",
@@ -944,6 +2069,15 @@
   "licenzaUrl": "https://creativecommons.org/licenses/by/4.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:M%C4%9Bstsk%C3%BD_stadion_Mlad%C3%A1_Boleslav_DSC_6649.jpg"
  },
+ "los-angeles-stadium.webp": {
+  "stadio": "Los Angeles Stadium",
+  "voce": "SoFi Stadium",
+  "file": "File:2026 FIFA World Cup Match 98, Spain v Belgium (2).jpg",
+  "autore": "Alexis Doine",
+  "licenza": "CC0",
+  "licenzaUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "fonte": "https://commons.wikimedia.org/wiki/File:2026_FIFA_World_Cup_Match_98,_Spain_v_Belgium_(2).jpg"
+ },
  "lotto-park.webp": {
   "stadio": "Lotto Park",
   "voce": "Constant Vanden Stock Stadium",
@@ -953,23 +2087,59 @@
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Lotto_park_2022.jpg"
  },
+ "lusail-stadium.webp": {
+  "stadio": "Lusail Stadium",
+  "voce": "Lusail Stadium",
+  "file": "File:Brésil vs Serbie.jpg",
+  "autore": "Adnen1985",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Br%C3%A9sil_vs_Serbie.jpg"
+ },
  "lyse-arena.webp": {
   "stadio": "Lyse Arena",
-  "voce": "Viking Stadion",
-  "file": "File:Btd_viking_stadion_lr.jpg",
-  "autore": "J. Ådnanes",
-  "licenza": "CC BY-SA 2.5",
-  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/2.5",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Btd_viking_stadion_lr.jpg"
+  "voce": "Lyse Arena",
+  "file": "File:Vinking FK Stadion IMG 20230724 191901.jpg",
+  "autore": "Timmietovenaar",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Vinking_FK_Stadion_IMG_20230724_191901.jpg"
+ },
+ "m-t-bank-stadium.webp": {
+  "stadio": "M&T Bank Stadium",
+  "voce": "M&T Bank Stadium",
+  "file": "File:Ravens Vs Commanders (52318424929).jpg",
+  "autore": "Maryland GovPics",
+  "licenza": "CC BY 2.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/2.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Ravens_Vs_Commanders_(52318424929).jpg"
  },
  "mac-park-stadion.webp": {
   "stadio": "MAC³PARK Stadion",
-  "voce": "MAC3PARK Stadion",
-  "file": "File:PEC_Zwolle_2022.jpg",
-  "autore": "UserBWA",
+  "voce": "MAC³PARK stadion",
+  "file": "File:PEC Zwolle - PSV 29-09-2019.jpg",
+  "autore": "SCPEC1910",
   "licenza": "CC BY-SA 4.0",
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:PEC_Zwolle_2022.jpg"
+  "fonte": "https://commons.wikimedia.org/wiki/File:PEC_Zwolle_-_PSV_29-09-2019.jpg"
+ },
+ "malsovicka-arena.webp": {
+  "stadio": "Malšovická Aréna",
+  "voce": "Malšovická aréna",
+  "file": "File:Stadion Hradec Králové listopad 2024 02.jpg",
+  "autore": "Lukáš Nekolný",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Stadion_Hradec_Kr%C3%A1lov%C3%A9_listopad_2024_02.jpg"
+ },
+ "mandela-national-stadium.webp": {
+  "stadio": "Mandela National Stadium",
+  "voce": "Mandela National Stadium",
+  "file": "File:Namboole Stadium Sprinklers.jpg",
+  "autore": "Fiktube",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Namboole_Stadium_Sprinklers.jpg"
  },
  "mapei-stadium-citta-del-tricolore.webp": {
   "stadio": "MAPEI Stadium - Città del Tricolore",
@@ -979,6 +2149,15 @@
   "licenza": "CC BY 4.0",
   "licenzaUrl": "https://creativecommons.org/licenses/by/4.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Das_Mapei_Stadium_von_Reggio_nell%60Emilia_(2026).jpg"
+ },
+ "mardan-stadyumu.webp": {
+  "stadio": "Mardan Stadyumu",
+  "voce": "Mardan Sports Complex",
+  "file": "File:Aksu Mardan Sports Complex 6.jpg",
+  "autore": "Валерий Дед",
+  "licenza": "CC BY 3.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/3.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Aksu_Mardan_Sports_Complex_6.jpg"
  },
  "mch-arena.webp": {
   "stadio": "MCH Arena",
@@ -991,21 +2170,39 @@
  },
  "medas-konya-buyuksehir-stadyumu.webp": {
   "stadio": "Medaş Konya Büyükşehir Stadyumu",
-  "voce": "Konya Metropolitan Municipality Stadium",
-  "file": "File:TORKU_ARENA_-_panoramio.jpg",
-  "autore": "Hüseyin Öcal",
-  "licenza": "CC BY 3.0",
-  "licenzaUrl": "https://creativecommons.org/licenses/by/3.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:TORKU_ARENA_-_panoramio.jpg"
+  "voce": "Konya Büyükşehir Stadium",
+  "file": "File:Akhisar Belediyespor vs Galatasaray, 5 August 2018 (2018 Turkey Super Cup 12).jpg",
+  "autore": "Pragdon",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Akhisar_Belediyespor_vs_Galatasaray,_5_August_2018_(2018_Turkey_Super_Cup_12).jpg"
+ },
+ "mehdi-huseynzad-adina-sumqayit-s-h-r-stadionu.webp": {
+  "stadio": "Mehdi Hüseynzadə adına Sumqayıt şəhər stadionu",
+  "voce": "Mehdi Huseynzade Stadium",
+  "file": "File:Mehdi Hüseynzadə adına stadionda ilk oyun - 04.02.2024 - 2.jpg",
+  "autore": "TarPas",
+  "licenza": "CC0",
+  "licenzaUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Mehdi_H%C3%BCseynzad%C9%99_ad%C4%B1na_stadionda_ilk_oyun_-_04.02.2024_-_2.jpg"
+ },
+ "mercedes-benz-stadium.webp": {
+  "stadio": "Mercedes-Benz Stadium",
+  "voce": "Mercedes-Benz Stadium",
+  "file": "File:2017-09-10 - Atlanta United vs FC Dallas.jpg",
+  "autore": "Eric.Jason.Cross",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:2017-09-10_-_Atlanta_United_vs_FC_Dallas.jpg"
  },
  "merkur-spiel-arena.webp": {
   "stadio": "Merkur Spiel-Arena",
   "voce": "Merkur Spiel-Arena",
-  "file": "File:Merkur-Spiel-Arena.jpg",
-  "autore": "Peter Weihs",
-  "licenza": "CC BY-SA 4.0",
-  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Merkur-Spiel-Arena.jpg"
+  "file": "File:The stadium in Düsseldorf before the EURO 2024 quarter-final between England and Switzerland.jpg",
+  "autore": "Vincenzo.togni",
+  "licenza": "CC BY 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:The_stadium_in_D%C3%BCsseldorf_before_the_EURO_2024_quarter-final_between_England_and_Switzerland.jpg"
  },
  "mestsky-fotbalovy-stadion-miroslava-valenty.webp": {
   "stadio": "Městský fotbalový stadion Miroslava Valenty",
@@ -1018,30 +2215,48 @@
  },
  "mestsky-stadion-vitkovice-arena.webp": {
   "stadio": "Městský stadion - Vítkovice Aréna",
-  "voce": "Městský stadion (Ostrava)",
-  "file": "File:20190219 Městský stadion 06.jpg",
-  "autore": "Ladin",
+  "voce": "Městský stadion",
+  "file": "File:Městský stadion Ostrava - Vítkovice za deště.jpg",
+  "autore": "Pepejogi",
   "licenza": "CC BY-SA 4.0",
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:20190219_M%C4%9Bstsk%C3%BD_stadion_06.jpg"
+  "fonte": "https://commons.wikimedia.org/wiki/File:M%C4%9Bstsk%C3%BD_stadion_Ostrava_-_V%C3%ADtkovice_za_de%C5%A1t%C4%9B.jpg"
  },
  "mewa-arena.webp": {
   "stadio": "MEWA ARENA",
   "voce": "Mewa Arena",
-  "file": "File:Mewa_Arena1.jpg",
-  "autore": "Atirador",
+  "file": "File:2019-06-11 Fußball, Männer, Länderspiel, Deutschland-Estland StP 2018 LR10 by Stepro.jpg",
+  "autore": "Steffen Prößdorf",
   "licenza": "CC BY-SA 4.0",
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Mewa_Arena1.jpg"
+  "fonte": "https://commons.wikimedia.org/wiki/File:2019-06-11_Fu%C3%9Fball,_M%C3%A4nner,_L%C3%A4nderspiel,_Deutschland-Estland_StP_2018_LR10_by_Stepro.jpg"
+ },
+ "mexico-city-stadium.webp": {
+  "stadio": "Mexico City Stadium",
+  "voce": "Estadio Azteca",
+  "file": "File:Tribuna lateral este 2022.jpg",
+  "autore": "Luicheto",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Tribuna_lateral_este_2022.jpg"
  },
  "mhparena.webp": {
   "stadio": "MHPArena",
   "voce": "MHPArena",
-  "file": "File:Stuttgart_stadium.jpg",
-  "autore": "Arne Müseler",
-  "licenza": "CC BY-SA 3.0 de",
-  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Stuttgart_stadium.jpg"
+  "file": "File:The MHP Arena and the renovated main stand of the stadium during a group match of the 2024 European Championship.jpg",
+  "autore": "Vincenzo.togni",
+  "licenza": "CC BY 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:The_MHP_Arena_and_the_renovated_main_stand_of_the_stadium_during_a_group_match_of_the_2024_European_Championship.jpg"
+ },
+ "miami-stadium.webp": {
+  "stadio": "Miami Stadium",
+  "voce": "Wembley Stadium",
+  "file": "File:The Posh at Wembley - Pre match build-up - geograph.org.uk - 3912242.jpg",
+  "autore": "Richard Humphrey",
+  "licenza": "CC BY-SA 2.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:The_Posh_at_Wembley_-_Pre_match_build-up_-_geograph.org.uk_-_3912242.jpg"
  },
  "mikheil-meskhis-sakhelobis-stadioni.webp": {
   "stadio": "Mikheil Meskhis sakhelobis Stadioni",
@@ -1052,6 +2267,15 @@
   "licenzaUrl": "https://creativecommons.org/licenses/by/4.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Mikhain_Meskhi_Stadium_2024.jpg"
  },
+ "miyagi-stadium.webp": {
+  "stadio": "Miyagi Stadium",
+  "voce": "Q&A Stadium Miyagi",
+  "file": "File:MiyagiStadium.jpg",
+  "autore": "Yasukochi",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:MiyagiStadium.jpg"
+ },
  "mkm-stadium.webp": {
   "stadio": "MKM Stadium",
   "voce": "MKM Stadium",
@@ -1060,6 +2284,60 @@
   "licenza": "CC BY-SA 4.0",
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:MKM_Stadium_North_Stand_View.jpg"
+ },
+ "moi-international-sports-centre.webp": {
+  "stadio": "Moi International Sports Centre",
+  "voce": "Moi International Sports Centre",
+  "file": "File:Inside the Kasarani Stadium.jpg",
+  "autore": "Endesia94",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Inside_the_Kasarani_Stadium.jpg"
+ },
+ "moses-mabhida-stadium.webp": {
+  "stadio": "Moses Mabhida Stadium",
+  "voce": "Moses Mabhida Stadium",
+  "file": "File:Moses Mabhida Stadium, Durban, KwaZulu-Natal, South Africa (20504803572).jpg",
+  "autore": "South African Tourism from South Africa",
+  "licenza": "CC BY 2.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/2.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Moses_Mabhida_Stadium,_Durban,_KwaZulu-Natal,_South_Africa_(20504803572).jpg"
+ },
+ "mufg-stadium.webp": {
+  "stadio": "MUFG Stadium",
+  "voce": "Japan National Stadium",
+  "file": "File:Japan National Stadium - inside - 2022 March 2022 various.jpeg",
+  "autore": "Nesnad",
+  "licenza": "CC BY 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Japan_National_Stadium_-_inside_-_2022_March_2022_various.jpeg"
+ },
+ "nagyerdei-stadion.webp": {
+  "stadio": "Nagyerdei Stadion",
+  "voce": "Debrecen Stadion",
+  "file": "File:NagyerdeiStadionFotoThalerTamas3.jpg",
+  "autore": "Thaler Tamas",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:NagyerdeiStadionFotoThalerTamas3.jpg"
+ },
+ "national-football-stadium-maldives.webp": {
+  "stadio": "National Football Stadium (Maldives)",
+  "voce": "Galolhu National Stadium",
+  "file": "File:Galolhu Dhandu.jpg",
+  "autore": "ZZ47",
+  "licenza": "CC BY-SA 3.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Galolhu_Dhandu.jpg"
+ },
+ "national-football-stadium.webp": {
+  "stadio": "National Football Stadium",
+  "voce": "Galolhu National Stadium",
+  "file": "File:Galolhu Dhandu.jpg",
+  "autore": "ZZ47",
+  "licenza": "CC BY-SA 3.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Galolhu_Dhandu.jpg"
  },
  "neo-gsp.webp": {
   "stadio": "Neo GSP",
@@ -1072,21 +2350,84 @@
  },
  "new-balance-arena.webp": {
   "stadio": "New Balance Arena",
-  "voce": "Stadio di Bergamo",
-  "file": "File:The_outside_of_the_Gewiss_Stadium_in_2020.jpg",
+  "voce": "Stadio Atleti Azzurri d'Italia",
+  "file": "File:The Gewiss Stadium in 2018.jpg",
   "autore": "Vincenzo.togni",
   "licenza": "CC BY-SA 4.0",
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:The_outside_of_the_Gewiss_Stadium_in_2020.jpg"
+  "fonte": "https://commons.wikimedia.org/wiki/File:The_Gewiss_Stadium_in_2018.jpg"
+ },
+ "new-clark-city-athletics-stadium.webp": {
+  "stadio": "New Clark City Athletics Stadium",
+  "voce": "New Clark City Athletics Stadium",
+  "file": "File:Inside New Clark City Athletic Stadium.jpg",
+  "autore": "PIA-Tarlac Facebook page",
+  "licenza": "Public domain",
+  "licenzaUrl": "",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Inside_New_Clark_City_Athletic_Stadium.jpg"
+ },
+ "new-york-new-jersey-stadium.webp": {
+  "stadio": "New York New Jersey Stadium",
+  "voce": "MetLife Stadium",
+  "file": "File:General Daniel Hokanson, chief, National Guard Bureau, participates in activities commemorating the 22nd anniversary of the Sept. 11th attacks in September 11, 2023 - 55.jpg",
+  "autore": "jim.greenhill",
+  "licenza": "CC BY 2.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/2.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:General_Daniel_Hokanson,_chief,_National_Guard_Bureau,_participates_in_activities_commemorating_the_22nd_anniversary_of_the_Sept._11th_attacks_in_September_11,_2023_-_55.jpg"
+ },
+ "nissan-stadium.webp": {
+  "stadio": "Nissan Stadium",
+  "voce": "International Stadium Yokohama",
+  "file": "File:Nissan Stadium 20101123.jpg",
+  "autore": "WAKA77",
+  "licenza": "CC0",
+  "licenzaUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Nissan_Stadium_20101123.jpg"
+ },
+ "nrg-stadium.webp": {
+  "stadio": "NRG Stadium",
+  "voce": "Reliant Stadium",
+  "file": "File:Germany vs Curaçao 2026 FIFA World Cup.jpg",
+  "autore": "TheG3NERAL John 3:16",
+  "licenza": "CC0",
+  "licenzaUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Germany_vs_Cura%C3%A7ao_2026_FIFA_World_Cup.jpg"
+ },
+ "nya-ullevi.webp": {
+  "stadio": "Nya Ullevi",
+  "voce": "Ullevi",
+  "file": "File:GBG-MFF 2017.jpg",
+  "autore": "DenSportgladeSkåningen",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:GBG-MFF_2017.jpg"
+ },
+ "obed-itani-chilume-stadium.webp": {
+  "stadio": "Obed Itani Chilume Stadium",
+  "voce": "Obed Itani Chilume Stadium",
+  "file": "File:Francistown Stadium Botswana.jpg",
+  "autore": "Lamu Lameck",
+  "licenza": "CC BY-SA 2.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Francistown_Stadium_Botswana.jpg"
  },
  "old-trafford.webp": {
   "stadio": "Old Trafford",
   "voce": "Old Trafford",
-  "file": "File:2023_07_31_arne_mueseler_00060-Verbessert-RR_(53106651455).jpg",
-  "autore": "Arne Müseler from Salzburg, AT",
+  "file": "File:The Sir Bobby Charlton Stand - Old Trafford Stadium - geograph.org.uk - 5670089.jpg",
+  "autore": "Anthony Parkes",
   "licenza": "CC BY-SA 2.0",
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/2.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:2023_07_31_arne_mueseler_00060-Verbessert-RR_(53106651455).jpg"
+  "fonte": "https://commons.wikimedia.org/wiki/File:The_Sir_Bobby_Charlton_Stand_-_Old_Trafford_Stadium_-_geograph.org.uk_-_5670089.jpg"
+ },
+ "olimpijski-stadion-asim-ferhatovic-hase.webp": {
+  "stadio": "Olimpijski Stadion Asim Ferhatović Hase",
+  "voce": "Asim Ferhatović Hase Stadium",
+  "file": "File:Koševo stadium, Sarajevo (part).JPG",
+  "autore": "Pudelek (Marcin Szala)",
+  "licenza": "CC BY-SA 3.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Ko%C5%A1evo_stadium,_Sarajevo_(part).JPG"
  },
  "olympia.webp": {
   "stadio": "Olympia",
@@ -1105,6 +2446,24 @@
   "licenza": "Public domain",
   "licenzaUrl": null,
   "fonte": "https://commons.wikimedia.org/wiki/File:Panathinaikos_Inter_CL2008_09_b.jpg"
+ },
+ "olympiastadion-berlin.webp": {
+  "stadio": "Olympiastadion Berlin",
+  "voce": "Berlin Olympic Stadium",
+  "file": "File:Olympiastadion, Berlin (LRM 20240812 125600).jpg",
+  "autore": "Matti Blume",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0/deed.en",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Olympiastadion,_Berlin_(LRM_20240812_125600).jpg"
+ },
+ "opus-arena.webp": {
+  "stadio": "Opus Arena",
+  "voce": "Opus Arena",
+  "file": "File:Stadion Pampas, obilazak (3).jpg",
+  "autore": "IvanOS",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Stadion_Pampas,_obilazak_(3).jpg"
  },
  "orange-velodrome.webp": {
   "stadio": "Orange Vélodrome",
@@ -1154,11 +2513,20 @@
  "parken.webp": {
   "stadio": "Parken",
   "voce": "Parken Stadium",
-  "file": "File:Denmark_copenhagen_parken_stadium.jpg",
-  "autore": "Arne Müseler",
-  "licenza": "CC BY-SA 3.0 de",
-  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Denmark_copenhagen_parken_stadium.jpg"
+  "file": "File:Inside Parken before match 15-10-2026.jpg",
+  "autore": "Quinntropy",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Inside_Parken_before_match_15-10-2026.jpg"
+ },
+ "parnu-rannastaadion.webp": {
+  "stadio": "Pärnu Rannastaadion",
+  "voce": "Pärnu Rannastaadion",
+  "file": "File:Pärnu staadion 1939.png",
+  "autore": "Carl Sarap",
+  "licenza": "CC BY 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:P%C3%A4rnu_staadion_1939.png"
  },
  "parque-desportivo-comendador-joaquim-de-almeida-freitas.webp": {
   "stadio": "Parque Desportivo Comendador Joaquim de Almeida Freitas",
@@ -1169,32 +2537,113 @@
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Blick_auf_die_Haupttrib%C3%BCne_-_Est%C3%A1dio_Comendador_Joaquim_de_Almeida_Freitas.jpg"
  },
+ "paxtakor-markaziy-stadioni.webp": {
+  "stadio": "Paxtakor Markaziy stadioni",
+  "voce": "Pakhtakor Markaziy Stadium",
+  "file": "File:Pakhtakor Markaziy Stadium 3.jpg",
+  "autore": "Umarxon III",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Pakhtakor_Markaziy_Stadium_3.jpg"
+ },
+ "paypal-park.webp": {
+  "stadio": "PayPal Park",
+  "voce": "PayPal Park",
+  "file": "File:Avaya Stadium 2016 screenshot 06.jpg",
+  "autore": "ElectricTV on YouTube",
+  "licenza": "CC BY 3.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/3.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Avaya_Stadium_2016_screenshot_06.jpg"
+ },
  "philips-stadion.webp": {
   "stadio": "Philips Stadion",
   "voce": "Philips Stadion",
-  "file": "File:Eindhoven, het Philips Stadion IMG 8630 2019-01-20 12.22.jpg",
-  "autore": "Michielverbeek",
-  "licenza": "CC BY-SA 4.0",
-  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Eindhoven,_het_Philips_Stadion_IMG_8630_2019-01-20_12.22.jpg"
+  "file": "File:PSV tegen Ruch Chorzow 4-0 Europacup-I Van der Kuilen scoort tweede doelpunt la, Bestanddeelnr 928-2553.jpg",
+  "autore": "Bert Verhoeff for Anefo",
+  "licenza": "CC0",
+  "licenzaUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "fonte": "https://commons.wikimedia.org/wiki/File:PSV_tegen_Ruch_Chorzow_4-0_Europacup-I_Van_der_Kuilen_scoort_tweede_doelpunt_la,_Bestanddeelnr_928-2553.jpg"
  },
  "planet-group-arena.webp": {
   "stadio": "Planet Group Arena",
-  "voce": "Planet Group Arena",
-  "file": "File:Planet_Group_arena_-_aerial_night_view.jpg",
-  "autore": "Cvanuffel",
-  "licenza": "CC0",
-  "licenzaUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Planet_Group_arena_-_aerial_night_view.jpg"
+  "voce": "Planet Group arena",
+  "file": "File:EU2024BE 240222 Informal meeting of economic and financial affairs ministers Gent JNZT 0121 (53546133701).jpg",
+  "autore": "Belgian Presidency of the Council of the EU 2024 from Belgium",
+  "licenza": "CC BY 2.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/2.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:EU2024BE_240222_Informal_meeting_of_economic_and_financial_affairs_ministers_Gent_JNZT_0121_(53546133701).jpg"
  },
  "portman-road.webp": {
   "stadio": "Portman Road",
   "voce": "Portman Road",
-  "file": "File:Portman_Road_aerial_(cropped).jpg",
-  "autore": "John Fielding from Norwich, UK",
+  "file": "File:Town v Exeter, Apr 2023 (28).jpg",
+  "autore": "James Cracknell",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Town_v_Exeter,_Apr_2023_(28).jpg"
+ },
+ "pratt-whitney-stadium-at-rentschler-field.webp": {
+  "stadio": "Pratt & Whitney Stadium at Rentschler Field",
+  "voce": "Pratt & Whitney Stadium",
+  "file": "File:Pratt & Whitney stadium in 2025 USA vs Turkey.jpg",
+  "autore": "XLM Boi",
+  "licenza": "CC0",
+  "licenzaUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Pratt_%26_Whitney_stadium_in_2025_USA_vs_Turkey.jpg"
+ },
+ "prince-abdullah-al-faisal-sports-city-stadium.webp": {
+  "stadio": "Prince Abdullah Al Faisal Sports City Stadium",
+  "voce": "Prince Abdullah Al Faisal Sports City",
+  "file": "File:Prince Abdullah Al-Faisal Sports City.jpg",
+  "autore": "FIFA",
+  "licenza": "CC BY-SA 2.5",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/2.5",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Prince_Abdullah_Al-Faisal_Sports_City.jpg"
+ },
+ "prince-abdullah-bin-jalawi-stadium.webp": {
+  "stadio": "Prince Abdullah bin Jalawi Stadium",
+  "voce": "Prince Abdullah bin Jalawi Sports City",
+  "file": "File:Prince Abdullah bin Jalawi Stadium 15 April 2011.JPG",
+  "autore": "Abodi009",
+  "licenza": "CC BY-SA 3.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Prince_Abdullah_bin_Jalawi_Stadium_15_April_2011.JPG"
+ },
+ "puskas-arena.webp": {
+  "stadio": "Puskás Aréna",
+  "voce": "Puskás Aréna",
+  "file": "File:Puskás Aréna 2019-11-18.jpg",
+  "autore": "Stránczl Ákos",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Pusk%C3%A1s_Ar%C3%A9na_2019-11-18.jpg"
+ },
+ "q2-stadium.webp": {
+  "stadio": "Q2 Stadium",
+  "voce": "Q2 Stadium",
+  "file": "File:Austin FC Stadium vs. Columbus Crew.jpg",
+  "autore": "Daniel Ziegler",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Austin_FC_Stadium_vs._Columbus_Crew.jpg"
+ },
+ "queensland-country-bank-stadium.webp": {
+  "stadio": "Queensland Country Bank Stadium",
+  "voce": "Queensland Country Bank Stadium",
+  "file": "File:2021 State of Origin Game 1 Queensland Country Bank Stadium National Anthem.jpg",
+  "autore": "Kobokem2021",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:2021_State_of_Origin_Game_1_Queensland_Country_Bank_Stadium_National_Anthem.jpg"
+ },
+ "race-course-international-stadium.webp": {
+  "stadio": "Race Course International Stadium",
+  "voce": "Galle International Stadium",
+  "file": "File:Cricketers (8465485260).jpg",
+  "autore": "istolethetv",
   "licenza": "CC BY 2.0",
   "licenzaUrl": "https://creativecommons.org/licenses/by/2.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Portman_Road_aerial_(cropped).jpg"
+  "fonte": "https://commons.wikimedia.org/wiki/File:Cricketers_(8465485260).jpg"
  },
  "raiffeisen-arena.webp": {
   "stadio": "Raiffeisen Arena",
@@ -1205,6 +2654,15 @@
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Raiffeisen-Arena_Linz_01.jpg"
  },
+ "rajamangala-national-stadium.webp": {
+  "stadio": "Rajamangala National Stadium",
+  "voce": "Rajamangala Stadium",
+  "file": "File:ARMY 'Purple Ocean' during BTS Love Yourself tour in Bangkok, Thailand, 7 April 2019 01.jpg",
+  "autore": "Chris Belison",
+  "licenza": "CC BY 3.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/3.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:ARMY_%27Purple_Ocean%27_during_BTS_Love_Yourself_tour_in_Bangkok,_Thailand,_7_April_2019_01.jpg"
+ },
  "rams-park.webp": {
   "stadio": "RAMS Park",
   "voce": "Rams Park",
@@ -1213,6 +2671,15 @@
   "licenza": "CC BY-SA 4.0",
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Rams_Park_i%C3%A7_g%C3%B6r%C3%BCn%C3%BCm_2025.jpg"
+ },
+ "raymond-james-stadium.webp": {
+  "stadio": "Raymond James Stadium",
+  "voce": "Raymond James Stadium",
+  "file": "File:USF Bulls Miami Hurricanes September 2024.jpg",
+  "autore": "Trevorrrrvalent",
+  "licenza": "CC BY 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:USF_Bulls_Miami_Hurricanes_September_2024.jpg"
  },
  "rcde-stadium.webp": {
   "stadio": "RCDE Stadium",
@@ -1234,12 +2701,12 @@
  },
  "red-bull-arena.webp": {
   "stadio": "Red Bull Arena",
-  "voce": "Red Bull Arena (Leipzig)",
-  "file": "File:Leipzig_stadium.jpg",
-  "autore": "Arne Müseler",
-  "licenza": "CC BY-SA 3.0 de",
-  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Leipzig_stadium.jpg"
+  "voce": "Red Bull Arena",
+  "file": "File:RB Leipzig- Union Berlin 31, 2020 08 43 35 213000.jpeg",
+  "autore": "Berlinschneid",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:RB_Leipzig-_Union_Berlin_31,_2020_08_43_35_213000.jpeg"
  },
  "rheinenergiestadion.webp": {
   "stadio": "RheinEnergieSTADION",
@@ -1249,6 +2716,15 @@
   "licenza": "CC BY-SA 3.0",
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Cologne-Germany_RheinEnergieStadion-02.jpg"
+ },
+ "rheinpark-stadion.webp": {
+  "stadio": "Rheinpark Stadion",
+  "voce": "Rheinpark Stadion",
+  "file": "File:The Rheinpark Stadium before a UEFA Nations League match (2022).jpg",
+  "autore": "Vincenzo.togni",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:The_Rheinpark_Stadium_before_a_UEFA_Nations_League_match_(2022).jpg"
  },
  "right-to-dream-park.webp": {
   "stadio": "Right to Dream Park",
@@ -1268,6 +2744,15 @@
   "licenzaUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
   "fonte": "https://commons.wikimedia.org/wiki/File:Atleti_vs_Villarreal_-_September_2025.jpg"
  },
+ "rizal-memorial-stadium.webp": {
+  "stadio": "Rizal Memorial Stadium",
+  "voce": "Rizal Memorial Stadium",
+  "file": "File:THA 0–1 VIE Women's Football Final SEA Games 2019.jpg",
+  "autore": "hariboneagle927",
+  "licenza": "CC BY 3.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/3.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:THA_0%E2%80%931_VIE_Women%27s_Football_Final_SEA_Games_2019.jpg"
+ },
  "roazhon-park.webp": {
   "stadio": "Roazhon Park",
   "voce": "Roazhon Park",
@@ -1276,6 +2761,24 @@
   "licenza": "CC BY 4.0",
   "licenzaUrl": "https://creativecommons.org/licenses/by/4.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Roazhon_Park_20190814.jpg"
+ },
+ "rose-bowl.webp": {
+  "stadio": "Rose Bowl",
+  "voce": "Rose Bowl",
+  "file": "File:Rose Bowl Stadium Interior.png",
+  "autore": "Antecerebellum",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Rose_Bowl_Stadium_Interior.png"
+ },
+ "rostec-arena.webp": {
+  "stadio": "Rostec Arena",
+  "voce": "Rostec Arena",
+  "file": "File:Ser-Swi (4).jpg",
+  "autore": "Эдгар Брещанов",
+  "licenza": "CC BY-SA 3.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Ser-Swi_(4).jpg"
  },
  "s-dariaus-ir-s-gireno-stadionas.webp": {
   "stadio": "S. Dariaus ir S. Girėno stadionas",
@@ -1288,21 +2791,75 @@
  },
  "samsun-yeni-19-may-s-stadyumu.webp": {
   "stadio": "Samsun Yeni 19 Mayıs Stadyumu",
-  "voce": "Samsun 19 May Stadium",
-  "file": "File:Samsun_19_Mayıs_Stadyumu_(cropped).jpg",
+  "voce": "Samsun 19 Mayıs Stadium",
+  "file": "File:Samsunspor 2018-19 sezon açılışı (2).jpg",
   "autore": "Cobija",
   "licenza": "CC BY-SA 4.0",
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Samsun_19_May%C4%B1s_Stadyumu_(cropped).jpg"
+  "fonte": "https://commons.wikimedia.org/wiki/File:Samsunspor_2018-19_sezon_a%C3%A7%C4%B1l%C4%B1%C5%9F%C4%B1_(2).jpg"
+ },
+ "samuel-kanyon-doe-stadium.webp": {
+  "stadio": "Samuel Kanyon Doe Stadium",
+  "voce": "Samuel Kanyon Doe Sports Complex",
+  "file": "File:SKD Stadium, Monrovia, Liberia, 2015.jpg",
+  "autore": "Bangabandhu",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:SKD_Stadium,_Monrovia,_Liberia,_2015.jpg"
+ },
+ "san-francisco-bay-area-stadium.webp": {
+  "stadio": "San Francisco Bay Area Stadium",
+  "voce": "Levi's Stadium",
+  "file": "File:Levi's Stadium 2026 FIFA World Cup Australia v. Paraguay.jpg",
+  "autore": "Kaisersauce1",
+  "licenza": "CC BY 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Levi%27s_Stadium_2026_FIFA_World_Cup_Australia_v._Paraguay.jpg"
+ },
+ "scottsmiracle-gro-field.webp": {
+  "stadio": "ScottsMiracle-Gro Field",
+  "voce": "ScottsMiracle-Gro Field",
+  "file": "File:Lower.com Field Interior July 3 2021.jpg",
+  "autore": "Nova Crystallis",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Lower.com_Field_Interior_July_3_2021.jpg"
+ },
+ "seattle-stadium.webp": {
+  "stadio": "Seattle Stadium",
+  "voce": "Lumen Field",
+  "file": "File:2022 CONCACAF Champions League Final - View from southeast corner at night.jpg",
+  "autore": "SounderBruce",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:2022_CONCACAF_Champions_League_Final_-_View_from_southeast_corner_at_night.jpg"
  },
  "selhurst-park.webp": {
   "stadio": "Selhurst Park",
   "voce": "Selhurst Park",
-  "file": "File:2023_09_09_arne_mueseler_17_18_07_00743-Verbessert-RR_(53283239217).jpg",
-  "autore": "Arne Müseler from Salzburg, AT",
+  "file": "File:Crystal Palace vs. Norwich City (2019).jpg",
+  "autore": "FromMorningToMidnight",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Crystal_Palace_vs._Norwich_City_(2019).jpg"
+ },
+ "seoul-world-cup-stadium.webp": {
+  "stadio": "Seoul World Cup Stadium",
+  "voce": "Seoul World Cup Stadium",
+  "file": "File:Seoul World Cup Stadium (2018) 07.jpg",
+  "autore": "JukoFF",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Seoul_World_Cup_Stadium_(2018)_07.jpg"
+ },
+ "shell-energy-stadium.webp": {
+  "stadio": "Shell Energy Stadium",
+  "voce": "Shell Energy Stadium",
+  "file": "File:BBVA Compass Stadium, Post Game 5.jpg",
+  "autore": "Steve",
   "licenza": "CC BY-SA 2.0",
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/2.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:2023_09_09_arne_mueseler_17_18_07_00743-Verbessert-RR_(53283239217).jpg"
+  "fonte": "https://commons.wikimedia.org/wiki/File:BBVA_Compass_Stadium,_Post_Game_5.jpg"
  },
  "shipex-arena.webp": {
   "stadio": "ShipEx Aréna",
@@ -1316,20 +2873,38 @@
  "signal-iduna-park.webp": {
   "stadio": "SIGNAL IDUNA PARK",
   "voce": "Westfalenstadion",
-  "file": "File:Signal_iduna_park_stadium_dortmund_4.jpg",
-  "autore": "Arne Müseler / www.arne-mueseler.com",
-  "licenza": "CC BY-SA 3.0 de",
-  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Signal_iduna_park_stadium_dortmund_4.jpg"
+  "file": "File:2022-11-11 Borussia Dortund II gegen FC Erzgebirge Aue (3. Liga 2022-23) by Sandro Halank–001.jpg",
+  "autore": "Sandro Halank, Wikimedia Commons",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:2022-11-11_Borussia_Dortund_II_gegen_FC_Erzgebirge_Aue_(3._Liga_2022-23)_by_Sandro_Halank%E2%80%93001.jpg"
+ },
+ "sir-vivian-richards-stadium.webp": {
+  "stadio": "Sir Vivian Richards Stadium",
+  "voce": "Sir Vivian Richards Stadium",
+  "file": "File:Independence parade, 2024 1.jpg",
+  "autore": "Antigua and Barbuda Defence Force",
+  "licenza": "Public domain",
+  "licenzaUrl": "",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Independence_parade,_2024_1.jpg"
+ },
+ "snapdragon-stadium.webp": {
+  "stadio": "Snapdragon Stadium",
+  "voce": "Snapdragon Stadium",
+  "file": "File:Mascot Monday San Diego Legion Rugby Game (8301408).jpg",
+  "autore": "U.S. Marine Corps photo by Sgt. Jesse K. Carter-Powell",
+  "licenza": "Public domain",
+  "licenzaUrl": "",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Mascot_Monday_San_Diego_Legion_Rugby_Game_(8301408).jpg"
  },
  "snp-arena.webp": {
   "stadio": "SNP Arena",
-  "voce": "Rhein-Neckar-Arena",
-  "file": "File:PreZero_Arena_wiki.jpg",
-  "autore": "PreZero",
-  "licenza": "CC BY-SA 4.0",
-  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:PreZero_Arena_wiki.jpg"
+  "voce": "SNP Arena",
+  "file": "File:Rhein-Neckar-Arena Sinsheim 2017.jpg",
+  "autore": "Michael",
+  "licenza": "CC BY-SA 2.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Rhein-Neckar-Arena_Sinsheim_2017.jpg"
  },
  "soeverein-stadion.webp": {
   "stadio": "Soeverein Stadion",
@@ -1340,32 +2915,86 @@
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Soevereinstadion.jpg"
  },
+ "sofi-stadium.webp": {
+  "stadio": "SoFi Stadium",
+  "voce": "SoFi Stadium",
+  "file": "File:2026 FIFA World Cup Match 98, Spain v Belgium (2).jpg",
+  "autore": "Alexis Doine",
+  "licenza": "CC0",
+  "licenzaUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "fonte": "https://commons.wikimedia.org/wiki/File:2026_FIFA_World_Cup_Match_98,_Spain_v_Belgium_(2).jpg"
+ },
+ "soldier-field.webp": {
+  "stadio": "Soldier Field",
+  "voce": "Soldier Field",
+  "file": "File:Pamietnik Polski XXVIII Miedzynarodowego Kongresu Eucharystycznego 1927 (101850648).jpg",
+  "autore": "Unknown authorUnknown author",
+  "licenza": "Public domain",
+  "licenzaUrl": "",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Pamietnik_Polski_XXVIII_Miedzynarodowego_Kongresu_Eucharystycznego_1927_(101850648).jpg"
+ },
  "sparta-stadion-het-kasteel.webp": {
   "stadio": "Sparta-Stadion Het Kasteel",
   "voce": "Sparta Stadion Het Kasteel",
-  "file": "File:Rotterdam_spangen_spartastadion.jpg",
-  "autore": "FaceMePLS",
+  "file": "File:Sparta Rotterdam (7844941748).jpg",
+  "autore": "FaceMePLS from The Hague, The Netherlands",
   "licenza": "CC BY 2.0",
   "licenzaUrl": "https://creativecommons.org/licenses/by/2.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Rotterdam_spangen_spartastadion.jpg"
+  "fonte": "https://commons.wikimedia.org/wiki/File:Sparta_Rotterdam_(7844941748).jpg"
  },
  "spotify-camp-nou.webp": {
   "stadio": "Spotify Camp Nou",
   "voce": "Camp Nou",
-  "file": "File:Camp_Nou_aerial.jpg",
-  "autore": "Oh-Barcelona.com from Barcelona, Spain",
+  "file": "File:Barcelona v Sporting de Gijón (8) (7986554592).jpg",
+  "autore": "Daniel from Glasgow, United Kingdom",
   "licenza": "CC BY 2.0",
   "licenzaUrl": "https://creativecommons.org/licenses/by/2.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Camp_Nou_aerial.jpg"
+  "fonte": "https://commons.wikimedia.org/wiki/File:Barcelona_v_Sporting_de_Gij%C3%B3n_(8)_(7986554592).jpg"
+ },
+ "sree-kanteerava-stadium.webp": {
+  "stadio": "Sree Kanteerava Stadium",
+  "voce": "Sree Kanteerava Stadium",
+  "file": "File:Bengaluru FC vs Chennaiyin, 30 September 2018.jpg",
+  "autore": "Footy2000",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Bengaluru_FC_vs_Chennaiyin,_30_September_2018.jpg"
+ },
+ "st-jakob-park.webp": {
+  "stadio": "St. Jakob-Park",
+  "voce": "St. Jakob-Park",
+  "file": "File:St Jacobs Park, Basel ( Switzerland vs England ) 01.jpg",
+  "autore": "Ank Kumar",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:St_Jacobs_Park,_Basel_(_Switzerland_vs_England_)_01.jpg"
  },
  "st-james-park.webp": {
   "stadio": "St. James' Park",
-  "voce": "St James' Park",
-  "file": "File:Newcastle_st-james-park_stadium.jpg",
-  "autore": "Arne Müseler",
-  "licenza": "CC BY-SA 3.0 de",
-  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Newcastle_st-james-park_stadium.jpg"
+  "voce": "St James’ Park",
+  "file": "File:The Leazes Stand in St James' Park - geograph.org.uk - 6381298.jpg",
+  "autore": "Steve Daniels",
+  "licenza": "CC BY-SA 2.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:The_Leazes_Stand_in_St_James%27_Park_-_geograph.org.uk_-_6381298.jpg"
+ },
+ "stade-amahoro.webp": {
+  "stadio": "Stade Amahoro",
+  "voce": "Stade Amahoro",
+  "file": "File:INTERNAL SETTINGS OF AMAHORO STADIUM IN RWANDA.jpg",
+  "autore": "ROSEMURA250",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:INTERNAL_SETTINGS_OF_AMAHORO_STADIUM_IN_RWANDA.jpg"
+ },
+ "stade-ben-ahmed-el-abdi.webp": {
+  "stadio": "Stade Ben Ahmed El Abdi",
+  "voce": "Stade El Abdi",
+  "file": "File:Stade-El-Abdi-El-Jadida.png",
+  "autore": "Senuoyph",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Stade-El-Abdi-El-Jadida.png"
  },
  "stade-bollaert-delelis.webp": {
   "stadio": "Stade Bollaert-Delelis",
@@ -1385,6 +3014,42 @@
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Br%C3%A9sil_Ghana_au_Havre.jpg"
  },
+ "stade-d-agadir.webp": {
+  "stadio": "Stade d'Agadir",
+  "voce": "Adrar Stadium",
+  "file": "File:تذكرة للمباراة الكونغو وليبيا ضمن كاس امم افريقيا للمحليين المغرب 2018 تذكرة لدخول ملعب اكادير الكبير(ملعب ادرار الدولي).jpg",
+  "autore": "Ismail motahadi",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:%D8%AA%D8%B0%D9%83%D8%B1%D8%A9_%D9%84%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D8%A7%D8%A9_%D8%A7%D9%84%D9%83%D9%88%D9%86%D8%BA%D9%88_%D9%88%D9%84%D9%8A%D8%A8%D9%8A%D8%A7_%D8%B6%D9%85%D9%86_%D9%83%D8%A7%D8%B3_%D8%A7%D9%85%D9%85_%D8%A7%D9%81%D8%B1%D9%8A%D9%82%D9%8A%D8%A7_%D9%84%D9%84%D9%85%D8%AD%D9%84%D9%8A%D9%8A%D9%86_%D8%A7%D9%84%D9%85%D8%BA%D8%B1%D8%A8_2018_%D8%AA%D8%B0%D9%83%D8%B1%D8%A9_%D9%84%D8%AF%D8%AE%D9%88%D9%84_%D9%85%D9%84%D8%B9%D8%A8_%D8%A7%D9%83%D8%A7%D8%AF%D9%8A%D8%B1_%D8%A7%D9%84%D9%83%D8%A8%D9%8A%D8%B1(%D9%85%D9%84%D8%B9%D8%A8_%D8%A7%D8%AF%D8%B1%D8%A7%D8%B1_%D8%A7%D9%84%D8%AF%D9%88%D9%84%D9%8A).jpg"
+ },
+ "stade-d-honneur.webp": {
+  "stadio": "Stade d'Honneur",
+  "voce": "Stade d'Honneur",
+  "file": "File:Le stade du Football de CODEM dans un nouveau apparence.jpg",
+  "autore": "59rami",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Le_stade_du_Football_de_CODEM_dans_un_nouveau_apparence.jpg"
+ },
+ "stade-de-france.webp": {
+  "stadio": "Stade de France",
+  "voce": "Stade de France",
+  "file": "File:Autumn Nations Series 2024 - France vs New Zealand (197).jpg",
+  "autore": "Like tears in rain",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Autumn_Nations_Series_2024_-_France_vs_New_Zealand_(197).jpg"
+ },
+ "stade-de-geneve.webp": {
+  "stadio": "Stade de Genève",
+  "voce": "Stade de Genève",
+  "file": "File:The Stade de Genève during a UEFA Europa Conference League match between Servette and Viktoria Pilsen. (2023).jpg",
+  "autore": "Vincenzo.togni",
+  "licenza": "CC BY 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:The_Stade_de_Gen%C3%A8ve_during_a_UEFA_Europa_Conference_League_match_between_Servette_and_Viktoria_Pilsen._(2023).jpg"
+ },
  "stade-de-l-abbe-deschamps.webp": {
   "stadio": "Stade de l'Abbé Deschamps",
   "voce": "File:Auxerre - Stade Abbé-Deschamps (41).jpg",
@@ -1396,12 +3061,21 @@
  },
  "stade-de-l-aube.webp": {
   "stadio": "Stade de l'Aube",
-  "voce": "File:Stade de L'Aube.jpeg",
-  "file": "File:Stade de L'Aube.jpeg",
-  "autore": "User:GodOfKittens",
-  "licenza": "CC BY-SA 3.0",
-  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Stade_de_L%27Aube.jpeg"
+  "voce": "Stade de l'Aube",
+  "file": "File:Stade de l'Aube.jpg",
+  "autore": "TaraO",
+  "licenza": "CC BY 2.5",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/2.5",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Stade_de_l%27Aube.jpg"
+ },
+ "stade-de-la-beaujoire-louis-fonteneau.webp": {
+  "stadio": "Stade de la Beaujoire - Louis Fonteneau",
+  "voce": "Stade de la Beaujoire",
+  "file": "File:Fiji v Wales 2007.JPG",
+  "autore": "Gareth Wyn Jones",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Fiji_v_Wales_2007.JPG"
  },
  "stade-de-la-meinau.webp": {
   "stadio": "Stade de la Meinau",
@@ -1411,6 +3085,42 @@
   "licenza": "CC BY-SA 4.0",
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:La_Meinau_en_National.jpg"
+ },
+ "stade-de-luxembourg.webp": {
+  "stadio": "Stade de Luxembourg",
+  "voce": "Stade de Luxembourg",
+  "file": "File:Stade de Luxembourg, Luxembourg vs Azebaidjan 2021-09-01 (103).jpg",
+  "autore": "GilPe",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Stade_de_Luxembourg,_Luxembourg_vs_Azebaidjan_2021-09-01_(103).jpg"
+ },
+ "stade-des-martyrs-de-la-pentecote.webp": {
+  "stadio": "Stade des Martyrs de la Pentecôte",
+  "voce": "martyrs' stadium",
+  "file": "File:Stade des martyrs Protest.jpg",
+  "autore": "MONUSCO Photos",
+  "licenza": "CC BY-SA 2.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Stade_des_martyrs_Protest.jpg"
+ },
+ "stade-du-28-septembre.webp": {
+  "stadio": "Stade du 28 Septembre",
+  "voce": "Stade du 28 Septembre",
+  "file": "File:Stade anexe 28 septembre.jpg",
+  "autore": "Aboubacarkhoraa",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Stade_anexe_28_septembre.jpg"
+ },
+ "stade-du-4-aout.webp": {
+  "stadio": "Stade du 4 Août",
+  "voce": "Stade du 4 Août",
+  "file": "File:Stade du 4-Août B.jpg",
+  "autore": "ChéRatou",
+  "licenza": "CC0",
+  "licenzaUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Stade_du_4-Ao%C3%BBt_B.jpg"
  },
  "stade-du-moustoir-yves-allainmat.webp": {
   "stadio": "Stade du Moustoir - Yves Allainmat",
@@ -1439,14 +3149,23 @@
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Francis_Le_Bl%C3%A9_2024_-_2.jpg"
  },
+ "stade-hocine-ait-ahmed.webp": {
+  "stadio": "Stade Hocine Aït Ahmed",
+  "voce": "Hocine-Ait Ahmed Stadium",
+  "file": "File:Moi et mon père au Stade de Tizi Ouzou.jpg",
+  "autore": "Berchiche Med",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Moi_et_mon_p%C3%A8re_au_Stade_de_Tizi_Ouzou.jpg"
+ },
  "stade-jean-bouin.webp": {
   "stadio": "Stade Jean Bouin",
-  "voce": "Stade Jean-Bouin (Paris)",
-  "file": "File:Paris_Stade_Jean-Bouin_(cropped).jpg",
-  "autore": "Arne Müseler",
-  "licenza": "CC BY-SA 3.0 de",
-  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Paris_Stade_Jean-Bouin_(cropped).jpg"
+  "voce": "Stade Jean-Bouin",
+  "file": "File:2024-25 Top 14 Stade français vs ASM Clermont Auvergne (1).jpg",
+  "autore": "Like tears in rain",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:2024-25_Top_14_Stade_fran%C3%A7ais_vs_ASM_Clermont_Auvergne_(1).jpg"
  },
  "stade-joseph-marien.webp": {
   "stadio": "Stade Joseph Mariën",
@@ -1456,6 +3175,24 @@
   "licenza": "CC BY 4.0",
   "licenzaUrl": "https://creativecommons.org/licenses/by/4.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Stade_Joseph_Marien.JPG"
+ },
+ "stade-larbi-zaouli.webp": {
+  "stadio": "Stade Larbi Zaouli",
+  "voce": "Larbi Zaouli Stadium",
+  "file": "File:Raja CA - Mamelodi Sundowns 04-01-2025 (2).jpg",
+  "autore": "Oussama 499",
+  "licenza": "CC0",
+  "licenzaUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Raja_CA_-_Mamelodi_Sundowns_04-01-2025_(2).jpg"
+ },
+ "stade-laurent-pokou.webp": {
+  "stadio": "Stade Laurent Pokou",
+  "voce": "Laurent Pokou Stadium",
+  "file": "File:Stade Laurent Pokou, Match de la CAN 2023 Zambie - Tanzanie 01.jpg",
+  "autore": "Dadrik",
+  "licenza": "CC0",
+  "licenzaUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Stade_Laurent_Pokou,_Match_de_la_CAN_2023_Zambie_-_Tanzanie_01.jpg"
  },
  "stade-louis-ii.webp": {
   "stadio": "Stade Louis-II",
@@ -1484,6 +3221,87 @@
   "licenzaUrl": null,
   "fonte": "https://commons.wikimedia.org/wiki/File:Standard_Liege02.jpg"
  },
+ "stade-mohamed-v.webp": {
+  "stadio": "Stade Mohamed V",
+  "voce": "Mohammed V Stadium",
+  "file": "File:Tifo des supporters du Raja 25-01-2015 (2).jpg",
+  "autore": "mustapha ennaimi",
+  "licenza": "CC BY 2.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/2.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Tifo_des_supporters_du_Raja_25-01-2015_(2).jpg"
+ },
+ "stade-mohammed-v.webp": {
+  "stadio": "Stade Mohammed V",
+  "voce": "Mohammed V Stadium",
+  "file": "File:Tifo des supporters du Raja 25-01-2015 (2).jpg",
+  "autore": "mustapha ennaimi",
+  "licenza": "CC BY 2.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/2.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Tifo_des_supporters_du_Raja_25-01-2015_(2).jpg"
+ },
+ "stade-olympique-alassane-ouattara.webp": {
+  "stadio": "Stade Olympique Alassane Ouattara",
+  "voce": "Alassane Ouattara Stadium",
+  "file": "File:Secretary Blinken Attends Côte d’Ivoire-Equatorial Guinea Men’s Africa Cup of Nations Match.jpg",
+  "autore": "U.S. Department of State",
+  "licenza": "Public domain",
+  "licenzaUrl": "",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Secretary_Blinken_Attends_C%C3%B4te_d%E2%80%99Ivoire-Equatorial_Guinea_Men%E2%80%99s_Africa_Cup_of_Nations_Match.jpg"
+ },
+ "stade-olympique-de-rabat.webp": {
+  "stadio": "Stade Olympique de Rabat",
+  "voce": "Prince Moulay Abdellah Olympic Annex Stadium",
+  "file": "File:Olympic Stadium, Rabat (9).jpg",
+  "autore": "Reda benkhadra",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Olympic_Stadium,_Rabat_(9).jpg"
+ },
+ "stade-olympique-hammadi-agrebi.webp": {
+  "stadio": "Stade olympique Hammadi-Agrebi",
+  "voce": "Olympic Stadium of Radès",
+  "file": "File:Stade de Radés 2017 2.jpg",
+  "autore": "Walid1992soccer",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Stade_de_Rad%C3%A9s_2017_2.jpg"
+ },
+ "stade-omnisport-ahmadou-ahidjo.webp": {
+  "stadio": "Stade Omnisport Ahmadou Ahidjo",
+  "voce": "Stade Ahmadou Ahidjo",
+  "file": "File:PWD de Bamenda Finale Coupe du Cameroun 2022.jpg",
+  "autore": "Simbanematick",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:PWD_de_Bamenda_Finale_Coupe_du_Cameroun_2022.jpg"
+ },
+ "stade-omnisports-de-malouzini.webp": {
+  "stadio": "Stade Omnisports de Malouzini",
+  "voce": "Stade omnisports de Malouzini",
+  "file": "File:Entrée malouzini.jpg",
+  "autore": "TeamLVF",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Entr%C3%A9e_malouzini.jpg"
+ },
+ "stade-pere-jego.webp": {
+  "stadio": "Stade Père-Jégo",
+  "voce": "Stade Pere Jego",
+  "file": "File:Stade Pere Jego (cropped).jpg",
+  "autore": "Chnafi zakariae",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Stade_Pere_Jego_(cropped).jpg"
+ },
+ "stade-prince-moulay-abdallah.webp": {
+  "stadio": "Stade Prince Moulay Abdallah",
+  "voce": "Prince Moulay Abdellah Stadium",
+  "file": "File:Moulay Abdellah Stadium - interior.jpg",
+  "autore": "Reda benkhadra",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Moulay_Abdellah_Stadium_-_interior.jpg"
+ },
  "stade-raymond-kopa.webp": {
   "stadio": "Stade Raymond Kopa",
   "voce": "Stade Raymond Kopa",
@@ -1492,6 +3310,33 @@
   "licenza": "Public domain",
   "licenzaUrl": null,
   "fonte": "https://commons.wikimedia.org/wiki/File:Stade_Jean_Bouin_Angers_2.JPG"
+ },
+ "stade-roger-zami.webp": {
+  "stadio": "Stade Roger Zami",
+  "voce": "Stade Roger Zami",
+  "file": "File:Stade Roger-Zami 3.jpg",
+  "autore": "Enrevseluj",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Stade_Roger-Zami_3.jpg"
+ },
+ "stade-roi-baudouin.webp": {
+  "stadio": "Stade Roi Baudouin",
+  "voce": "King Baudouin Stadium",
+  "file": "File:Holy Mass at the King Baudouin Stadium (2024) (1).jpg",
+  "autore": "S. Perquin",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Holy_Mass_at_the_King_Baudouin_Stadium_(2024)_(1).jpg"
+ },
+ "stade-saputo.webp": {
+  "stadio": "Stade Saputo",
+  "voce": "Saputo Stadium",
+  "file": "File:Imfc-dc-drapeau2.jpg",
+  "autore": "Gates of Ale",
+  "licenza": "CC BY-SA 3.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Imfc-dc-drapeau2.jpg"
  },
  "stadio-artemio-franchi.webp": {
   "stadio": "Stadio Artemio Franchi",
@@ -1514,11 +3359,11 @@
  "stadio-comunale-luigi-ferraris.webp": {
   "stadio": "Stadio Comunale Luigi Ferraris",
   "voce": "Stadio Luigi Ferraris",
-  "file": "File:Stadio_Luigi_Ferraris_di_Genova_con_il_quartiere_Marassi_(cropped).jpg",
-  "autore": "Gabriel Rinaldi",
-  "licenza": "CC BY-SA 4.0",
-  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Stadio_Luigi_Ferraris_di_Genova_con_il_quartiere_Marassi_(cropped).jpg"
+  "file": "File:Autumn Nations Series '22- Italia vs Sudafrica-954 (52519137176).jpg",
+  "autore": "Stefano Delfrate",
+  "licenza": "CC BY-SA 2.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Autumn_Nations_Series_%2722-_Italia_vs_Sudafrica-954_(52519137176).jpg"
  },
  "stadio-diego-armando-maradona.webp": {
   "stadio": "Stadio Diego Armando Maradona",
@@ -1574,6 +3419,15 @@
   "licenzaUrl": "https://creativecommons.org/licenses/by/3.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Stadio_Giuseppe_Sinigaglia_-_panoramio.jpg"
  },
+ "stadio-olimpico-di-serravalle.webp": {
+  "stadio": "Stadio Olimpico di Serravalle",
+  "voce": "San Marino Stadium",
+  "file": "File:Stadio Olimpico di Serravalle (inside).jpg",
+  "autore": "Lukas Raich",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Stadio_Olimpico_di_Serravalle_(inside).jpg"
+ },
  "stadio-olimpico-grande-torino.webp": {
   "stadio": "Stadio Olimpico Grande Torino",
   "voce": "Stadio Olimpico Grande Torino",
@@ -1586,11 +3440,11 @@
  "stadio-olimpico.webp": {
   "stadio": "Stadio Olimpico",
   "voce": "Stadio Olimpico",
-  "file": "File:Stadio_Olimpico_2024.jpg",
-  "autore": "Messapi, cropped by Blackcat",
-  "licenza": "CC BY-SA 4.0",
-  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Stadio_Olimpico_2024.jpg"
+  "file": "File:Guinness Sei Nazioni 2023- Italia vs Irlanda-413.jpg",
+  "autore": "stede64",
+  "licenza": "CC BY-SA 2.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Guinness_Sei_Nazioni_2023-_Italia_vs_Irlanda-413.jpg"
  },
  "stadio-pier-luigi-penzo.webp": {
   "stadio": "Stadio Pier Luigi Penzo",
@@ -1610,14 +3464,32 @@
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Stadio_Dall%27Ara_01-02-2020.jpg"
  },
+ "stadio-toumbas.webp": {
+  "stadio": "Stadio Toumbas",
+  "voce": "Toumba Stadium",
+  "file": "File:Selfie at the football stadium.jpg",
+  "autore": "Annatsach",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Selfie_at_the_football_stadium.jpg"
+ },
  "stadion-an-der-alten-forsterei.webp": {
   "stadio": "Stadion An der Alten Försterei",
   "voce": "Stadion An der Alten Försterei",
-  "file": "File:Berlin_alte_försterei.jpg",
-  "autore": "Arne Müseler",
-  "licenza": "CC BY-SA 3.0 de",
-  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Berlin_alte_f%C3%B6rsterei.jpg"
+  "file": "File:Union Berlin Frauen 2026 01.jpg",
+  "autore": "Lear 21",
+  "licenza": "CC BY 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Union_Berlin_Frauen_2026_01.jpg"
+ },
+ "stadion-an-elko-herjavec.webp": {
+  "stadio": "Stadion Anđelko Herjavec",
+  "voce": "Stadion Varteks",
+  "file": "File:Gradski stadion Varteks - kvalifikacijska utakmica Konferenc.lige Varaždin - Jablonec 23.7.2026.jpg",
+  "autore": "Silverije",
+  "licenza": "CC0",
+  "licenzaUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Gradski_stadion_Varteks_-_kvalifikacijska_utakmica_Konferenc.lige_Vara%C5%BEdin_-_Jablonec_23.7.2026.jpg"
  },
  "stadion-arnosta-kostala.webp": {
   "stadio": "Stadion Arnošta Košťála",
@@ -1628,6 +3500,24 @@
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Letnistadion_01.jpg"
  },
+ "stadion-bilino-polje.webp": {
+  "stadio": "Stadion Bilino Polje",
+  "voce": "Bilino Polje Stadium",
+  "file": "File:Bosna i Hercegovina - Njemačka (11.10.2024) 3.jpg",
+  "autore": "Emin Tarahija",
+  "licenza": "CC0",
+  "licenzaUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Bosna_i_Hercegovina_-_Njema%C4%8Dka_(11.10.2024)_3.jpg"
+ },
+ "stadion-cracovii-im-jozefa-pilsudskiego.webp": {
+  "stadio": "Stadion Cracovii im. Józefa Piłsudskiego",
+  "voce": "Marshal Józef Piłsudski Stadium",
+  "file": "File:Stade Józef Piłsudski.jpg",
+  "autore": "Thom R.",
+  "licenza": "CC BY-SA 2.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Stade_J%C3%B3zef_Pi%C5%82sudski.jpg"
+ },
  "stadion-dolicek.webp": {
   "stadio": "Stadion Ďolíček",
   "voce": "Ďolíček",
@@ -1636,6 +3526,15 @@
   "licenza": "CC BY 4.0",
   "licenzaUrl": "https://creativecommons.org/licenses/by/4.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:%C4%8Eol%C3%AD%C4%8Dek_view_from_sektor_b.jpg"
+ },
+ "stadion-ergilio-hato.webp": {
+  "stadio": "Stadion Ergilio Hato",
+  "voce": "Ergilio Hato Stadium",
+  "file": "File:Stadion Ergilio Hato.jpg",
+  "autore": "Burgbernd",
+  "licenza": "CC BY-SA 3.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Stadion_Ergilio_Hato.jpg"
  },
  "stadion-feijenoord.webp": {
   "stadio": "Stadion Feijenoord",
@@ -1649,20 +3548,56 @@
  "stadion-galgenwaard.webp": {
   "stadio": "Stadion Galgenwaard",
   "voce": "Stadion Galgenwaard",
-  "file": "File:Galgenwaard_vanuit_de_lucht.jpg",
-  "autore": "THMS.nl at Flickr.com",
-  "licenza": "CC BY 2.0",
-  "licenzaUrl": "https://creativecommons.org/licenses/by/2.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Galgenwaard_vanuit_de_lucht.jpg"
+  "file": "File:Utrecht v Ajax 2023 Galgenwaard.jpg",
+  "autore": "FCUFAN",
+  "licenza": "CC BY 3.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/3.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Utrecht_v_Ajax_2023_Galgenwaard.jpg"
  },
  "stadion-graz-liebenau.webp": {
   "stadio": "Stadion Graz-Liebenau",
-  "voce": "Liebenauer Stadium",
-  "file": "File:UPC-Arena_Front_New.jpg",
-  "autore": "Jacktd (talk)",
-  "licenza": "CC BY 3.0",
-  "licenzaUrl": "https://creativecommons.org/licenses/by/3.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:UPC-Arena_Front_New.jpg"
+  "voce": "Merkur Arena",
+  "file": "File:UPC-Arena Panorama.jpg",
+  "autore": "Jacktd",
+  "licenza": "CC BY-SA 3.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:UPC-Arena_Panorama.jpg"
+ },
+ "stadion-hnk-rijeka.webp": {
+  "stadio": "Stadion HNK Rijeka",
+  "voce": "Stadion Rujevica",
+  "file": "File:Rujevica stadium, Rijeka, Croatia.jpg",
+  "autore": "Драган Јањушевић",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Rujevica_stadium,_Rijeka,_Croatia.jpg"
+ },
+ "stadion-hristo-botev.webp": {
+  "stadio": "Stadion Hristo Botev",
+  "voce": "Hristo Botev Stadium",
+  "file": "File:Hristo Botev Stadium Plovdiv TB.JPG",
+  "autore": "Todor Bozhinov",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Hristo_Botev_Stadium_Plovdiv_TB.JPG"
+ },
+ "stadion-im-dolena-omurzakova.webp": {
+  "stadio": "Stadion im. Dolena Omurzakova",
+  "voce": "Spartak Stadium",
+  "file": "File:Dölön-Ömürsakow-Stadion, Bishkek.jpg",
+  "autore": "Garra-chebera",
+  "licenza": "CC BY 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:D%C3%B6l%C3%B6n-%C3%96m%C3%BCrsakow-Stadion,_Bishkek.jpg"
+ },
+ "stadion-kraj-bistrice.webp": {
+  "stadio": "Stadion Kraj Bistrice",
+  "voce": "Gradski stadion",
+  "file": "File:Stadion u Niksicu nova tribina '21.jpg",
+  "autore": "Nowhere77",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Stadion_u_Niksicu_nova_tribina_%2721.jpg"
  },
  "stadion-letna.webp": {
   "stadio": "Stadion Letná",
@@ -1673,23 +3608,59 @@
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Stadion_Sparty_na_Letn%C3%A9_(srpen_2020).jpg"
  },
+ "stadion-letzigrund.webp": {
+  "stadio": "Stadion Letzigrund",
+  "voce": "Letzigrund",
+  "file": "File:Letzigrund 2024 2.jpg",
+  "autore": "Seasider53",
+  "licenza": "CC BY 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Letzigrund_2024_2.jpg"
+ },
  "stadion-maksimir.webp": {
   "stadio": "Stadion Maksimir",
-  "voce": "Maksimir Stadium",
-  "file": "File:Maksimirski stadion Zagreb.jpg",
-  "autore": "Suradnik13",
-  "licenza": "CC BY-SA 4.0",
-  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Maksimirski_stadion_Zagreb.jpg"
+  "voce": "Stadion Maksimir",
+  "file": "File:Maksimirski stadion - panoramio.jpg",
+  "autore": "Alen Ištoković",
+  "licenza": "CC BY 3.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/3.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Maksimirski_stadion_-_panoramio.jpg"
+ },
+ "stadion-miejski-legii-warszawa-im-marszalka-jozefa-pilsudskiego.webp": {
+  "stadio": "Stadion Miejski Legii Warszawa im. Marszałka Józefa Piłsudskiego",
+  "voce": "Polish Army Stadium",
+  "file": "File:Stadion Wojska Polskiego w Warszawie 2024.jpg",
+  "autore": "Adrian Grycuk",
+  "licenza": "CC BY 3.0 pl",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/3.0/pl/deed.en",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Stadion_Wojska_Polskiego_w_Warszawie_2024.jpg"
+ },
+ "stadion-narodowy.webp": {
+  "stadio": "Stadion Narodowy",
+  "voce": "Kazimierz Górski National Stadium",
+  "file": "File:National Stadium panorama.jpg",
+  "autore": "Richard Matthews",
+  "licenza": "CC BY 2.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/2.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:National_Stadium_panorama.jpg"
+ },
+ "stadion-pod-goricom.webp": {
+  "stadio": "Stadion Pod Goricom",
+  "voce": "Podgorica City Stadium",
+  "file": "File:Downtown, Podgorica, Montenegro - panoramio (1).jpg",
+  "autore": "ines lukic",
+  "licenza": "CC BY 3.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/3.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Downtown,_Podgorica,_Montenegro_-_panoramio_(1).jpg"
  },
  "stadion-poljud.webp": {
   "stadio": "Stadion Poljud",
   "voce": "Stadion Poljud",
-  "file": "File:Aerial_view_of_Poljud_Stadium_in_2024.jpg",
-  "autore": "Quintin Soloviev",
-  "licenza": "CC BY 4.0",
-  "licenzaUrl": "https://creativecommons.org/licenses/by/4.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Aerial_view_of_Poljud_Stadium_in_2024.jpg"
+  "file": "File:Hajduk Split Vs Slaven Belupo 2023 Piroshow.jpg",
+  "autore": "AndreaD'orrio",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Hajduk_Split_Vs_Slaven_Belupo_2023_Piroshow.jpg"
  },
  "stadion-rajko-mitic.webp": {
   "stadio": "Stadion Rajko Mitić",
@@ -1699,6 +3670,24 @@
   "licenza": "CC BY-SA 3.0",
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Red_Star_Belgrade_stadium_Marakana_(24.06.2012).jpg"
+ },
+ "stadion-slaski.webp": {
+  "stadio": "Stadion Śląski",
+  "voce": "Silesian Stadium",
+  "file": "File:Stadion Śląski 2.jpg",
+  "autore": "Michozord",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Stadion_%C5%9Al%C4%85ski_2.jpg"
+ },
+ "stadion-stozice.webp": {
+  "stadio": "Stadion Stožice",
+  "voce": "Stožice Stadium",
+  "file": "File:Predsednik vlade na dobrodelni nogometni tekmi v ljubljanskih Stožicah (53189043147).jpg",
+  "autore": "Žan Kolman",
+  "licenza": "Public domain",
+  "licenzaUrl": "",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Predsednik_vlade_na_dobrodelni_nogometni_tekmi_v_ljubljanskih_Sto%C5%BEicah_(53189043147).jpg"
  },
  "stadion-strelnice.webp": {
   "stadio": "Stadion Střelnice",
@@ -1712,11 +3701,11 @@
  "stadion-tehelne-pole.webp": {
   "stadio": "Štadión Tehelné pole",
   "voce": "Tehelné pole",
-  "file": "File:Slovakia_bratislava_Národný_futbalový_štadión.jpg",
-  "autore": "Arne Müseler",
-  "licenza": "CC BY-SA 3.0 de",
-  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Slovakia_bratislava_N%C3%A1rodn%C3%BD_futbalov%C3%BD_%C5%A1tadi%C3%B3n.jpg"
+  "file": "File:The Tehelné Pole stadium in 2021.jpg",
+  "autore": "Vincenzo.togni",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:The_Teheln%C3%A9_Pole_stadium_in_2021.jpg"
  },
  "stadion-u-nisy.webp": {
   "stadio": "Stadion u Nisy",
@@ -1739,11 +3728,11 @@
  "stadion-woudestein.webp": {
   "stadio": "Stadion Woudestein",
   "voce": "Stadion Woudestein",
-  "file": "File:Rotterdam_stadion_woudestein.jpg",
-  "autore": "Wikifrits",
-  "licenza": "Public domain",
-  "licenzaUrl": null,
-  "fonte": "https://commons.wikimedia.org/wiki/File:Rotterdam_stadion_woudestein.jpg"
+  "file": "File:Van Dongen de Roo Stadion.jpg",
+  "autore": "Edoderoo",
+  "licenza": "CC BY-SA 3.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Van_Dongen_de_Roo_Stadion.jpg"
  },
  "stadion-z-dezele.webp": {
   "stadio": "Stadion Z'dežele",
@@ -1763,32 +3752,140 @@
   "licenzaUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
   "fonte": "https://commons.wikimedia.org/wiki/File:Skonto_stadium_(20.10.2025.).jpg"
  },
- "stadium-de-toulouse.webp": {
-  "stadio": "Stadium de Toulouse",
-  "voce": "Stadium de Toulouse",
-  "file": "File:Piscine Nakache Stadium Toulouse 2015.jpg",
-  "autore": "Handelsgeselschaft",
+ "stadionul-ilie-oana.webp": {
+  "stadio": "Stadionul Ilie Oană",
+  "voce": "Stadionul Ilie Oană",
+  "file": "File:FC Petrolul Ploiesti vs FC Rapid Bucuresti - Liga I, 13 August 2022 (1) (cropped).jpg",
+  "autore": "@8Dodo8",
+  "licenza": "Public domain",
+  "licenzaUrl": "",
+  "fonte": "https://commons.wikimedia.org/wiki/File:FC_Petrolul_Ploiesti_vs_FC_Rapid_Bucuresti_-_Liga_I,_13_August_2022_(1)_(cropped).jpg"
+ },
+ "stadionul-steaua.webp": {
+  "stadio": "Stadionul Steaua",
+  "voce": "Stadionul Steaua",
+  "file": "File:Steaua stadium during inaugural match between Steaua Bucharend and OFK Belgrade.jpg",
+  "autore": "Becalipleaca",
   "licenza": "CC BY-SA 4.0",
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Piscine_Nakache_Stadium_Toulouse_2015.jpg"
+  "fonte": "https://commons.wikimedia.org/wiki/File:Steaua_stadium_during_inaugural_match_between_Steaua_Bucharend_and_OFK_Belgrade.jpg"
+ },
+ "stadionul-zimbru.webp": {
+  "stadio": "Stadionul Zimbru",
+  "voce": "Zimbru Stadium",
+  "file": "File:Zimbru Stadium 2023.jpg",
+  "autore": "Editor1722",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Zimbru_Stadium_2023.jpg"
+ },
+ "stadium-de-toulouse.webp": {
+  "stadio": "Stadium de Toulouse",
+  "voce": "Stadium Municipal",
+  "file": "File:Romania v Cuba WC 1938 (1).jpg",
+  "autore": "Unknown authorUnknown author",
+  "licenza": "Public domain",
+  "licenzaUrl": "",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Romania_v_Cuba_WC_1938_(1).jpg"
  },
  "stadium-of-light.webp": {
   "stadio": "Stadium of Light",
   "voce": "Stadium of Light",
-  "file": "File:Sunderland_stadium_of_light.jpg",
-  "autore": "Arne Müseler",
-  "licenza": "CC BY-SA 3.0 de",
-  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Sunderland_stadium_of_light.jpg"
+  "file": "File:Display before FA Cup tie v Newcastle United - geograph.org.uk - 7688860.jpg",
+  "autore": "Les Hull",
+  "licenza": "CC BY-SA 2.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Display_before_FA_Cup_tie_v_Newcastle_United_-_geograph.org.uk_-_7688860.jpg"
+ },
+ "stadium-sultan-hassanal-bolkiah.webp": {
+  "stadio": "Stadium Sultan Hassanal Bolkiah",
+  "voce": "Hassanal Bolkiah National Stadium",
+  "file": "File:Celebrity Football Fun Match, 25 January 2025 08.jpg",
+  "autore": "Pangalau",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Celebrity_Football_Fun_Match,_25_January_2025_08.jpg"
+ },
+ "stadium-sultan-ibrahim-larkin.webp": {
+  "stadio": "Stadium Sultan Ibrahim Larkin",
+  "voce": "Sultan Ibrahim Stadium",
+  "file": "File:Sultan Ibrahim Stadium, Iskandar Puteri.jpg",
+  "autore": "Johor Darul Ta'zim F.C.",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Sultan_Ibrahim_Stadium,_Iskandar_Puteri.jpg"
+ },
+ "stadiumi-fadil-vokrri.webp": {
+  "stadio": "Stadiumi Fadil Vokrri",
+  "voce": "Fadil Vokrri Stadium",
+  "file": "File:Fadil Vokrri Stadium 2024.jpg",
+  "autore": "ManiacOfSport",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Fadil_Vokrri_Stadium_2024.jpg"
  },
  "stamford-bridge.webp": {
   "stadio": "Stamford Bridge",
-  "voce": "Stamford Bridge (stadium)",
-  "file": "File:London_Stamford_Bridge.jpg",
-  "autore": "Arne Müseler",
-  "licenza": "CC BY-SA 3.0 de",
-  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
-  "fonte": "https://commons.wikimedia.org/wiki/File:London_Stamford_Bridge.jpg"
+  "voce": "Stamford Bridge",
+  "file": "File:Cfc v liv3.jpg",
+  "autore": "Brian Minkoff London-Pixels",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Cfc_v_liv3.jpg"
+ },
+ "state-farm-stadium.webp": {
+  "stadio": "State Farm Stadium",
+  "voce": "State Farm Stadium",
+  "file": "File:University of Phoenix Stadium, Home of the Arizona Cardinals (101301096).jpg",
+  "autore": "Ken Lund from Reno, Nevada, USA",
+  "licenza": "CC BY-SA 2.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:University_of_Phoenix_Stadium,_Home_of_the_Arizona_Cardinals_(101301096).jpg"
+ },
+ "strawberry-arena.webp": {
+  "stadio": "Strawberry Arena",
+  "voce": "Strawberry Arena",
+  "file": "File:Nationalarenan (2022-10-19 19-03-19).jpg",
+  "autore": "Liv Lovisa",
+  "licenza": "CC BY 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Nationalarenan_(2022-10-19_19-03-19).jpg"
+ },
+ "suncorp-stadium.webp": {
+  "stadio": "Suncorp Stadium",
+  "voce": "Lang Park",
+  "file": "File:Suncorp Stadium 22 April 2012 (cropped).jpg",
+  "autore": "original image: Tiger Benji rotation,crop, border: Ham105",
+  "licenza": "CC BY 2.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/2.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Suncorp_Stadium_22_April_2012_(cropped).jpg"
+ },
+ "suwon-world-cup-stadium.webp": {
+  "stadio": "Suwon World Cup Stadium",
+  "voce": "Suwon World Cup Stadium",
+  "file": "File:Suwon Samsung Bluewings fans in Suwon World Cup Stadium.jpg",
+  "autore": "Korece",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Suwon_Samsung_Bluewings_fans_in_Suwon_World_Cup_Stadium.jpg"
+ },
+ "ta-qali-national-stadium.webp": {
+  "stadio": "Ta'Qali National Stadium",
+  "voce": "Ta' Qali National Stadium",
+  "file": "File:Malta Super Cup 2024 Ħamrun Spartans-Sliema Wanderers.jpg",
+  "autore": "Fra Casa",
+  "licenza": "CC0",
+  "licenzaUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Malta_Super_Cup_2024_%C4%A6amrun_Spartans-Sliema_Wanderers.jpg"
+ },
+ "taipei-municipal-stadium.webp": {
+  "stadio": "Taipei Municipal Stadium",
+  "voce": "Taipei Municipal Stadium",
+  "file": "File:Inside Taipei Stadium, the 2022 Taipei Marathon Finish Line.jpeg",
+  "autore": "SUNSmania41",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Inside_Taipei_Stadium,_the_2022_Taipei_Marathon_Finish_Line.jpeg"
  },
  "tammelan-stadion.webp": {
   "stadio": "Tammelan stadion",
@@ -1802,20 +3899,92 @@
  "the-city-ground.webp": {
   "stadio": "The City Ground",
   "voce": "City Ground",
-  "file": "File:CityGroundFromAboveTrentBridgeCricketGround.jpg",
-  "autore": "Stadisimo",
+  "file": "File:ForestWestHam 2022.jpeg",
+  "autore": "Egghead06",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:ForestWestHam_2022.jpeg"
+ },
+ "thermoplan-arena.webp": {
+  "stadio": "thermoplan arena",
+  "voce": "thermoplan arena",
+  "file": "File:Das Stadion Allmend während der Europameisterschaft der Frauen im Sommer 2025.jpg",
+  "autore": "Vincenzo.togni",
   "licenza": "CC BY 4.0",
   "licenzaUrl": "https://creativecommons.org/licenses/by/4.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:CityGroundFromAboveTrentBridgeCricketGround.jpg"
+  "fonte": "https://commons.wikimedia.org/wiki/File:Das_Stadion_Allmend_w%C3%A4hrend_der_Europameisterschaft_der_Frauen_im_Sommer_2025.jpg"
+ },
+ "thuwunna-stadium.webp": {
+  "stadio": "Thuwunna Stadium",
+  "voce": "Thuwunna Stadium",
+  "file": "File:International football at Thuwanna Stadium 06.jpg",
+  "autore": "Go-Myanmar",
+  "licenza": "CC BY-SA 3.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:International_football_at_Thuwanna_Stadium_06.jpg"
+ },
+ "tofiq-b-hramov-adina-respublika-stadionu.webp": {
+  "stadio": "Tofiq Bəhramov adına Respublika stadionu",
+  "voce": "Tofiq Bahramov Stadium",
+  "file": "File:Qarabağ FK - BK Häcken match (2).jpg",
+  "autore": "Moses",
+  "licenza": "CC0",
+  "licenzaUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Qaraba%C4%9F_FK_-_BK_H%C3%A4cken_match_(2).jpg"
+ },
+ "toronto-stadium.webp": {
+  "stadio": "Toronto Stadium",
+  "voce": "BMO Field",
+  "file": "File:Bmo Field 2016 East Stand.jpg",
+  "autore": "Abazz",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Bmo_Field_2016_East_Stand.jpg"
+ },
+ "tose-proeski-arena.webp": {
+  "stadio": "Toše Proeski Arena",
+  "voce": "Arena ”Philip II. of Macedonia / Toše Proeski / Todor”",
+  "file": "File:FCRabotnicki-Crusaders2009.JPG",
+  "autore": "Yemc",
+  "licenza": "Public domain",
+  "licenzaUrl": "",
+  "fonte": "https://commons.wikimedia.org/wiki/File:FCRabotnicki-Crusaders2009.JPG"
  },
  "tottenham-hotspur-stadium.webp": {
   "stadio": "Tottenham Hotspur Stadium",
   "voce": "Tottenham Hotspur Stadium",
-  "file": "File:London_Tottenham_Hotspur_Stadium.jpg",
-  "autore": "Arne Müseler",
-  "licenza": "CC BY-SA 3.0 de",
-  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
-  "fonte": "https://commons.wikimedia.org/wiki/File:London_Tottenham_Hotspur_Stadium.jpg"
+  "file": "File:Tottenham v Vitesse (51656281041).jpg",
+  "autore": "Daniel from Glasgow, United Kingdom",
+  "licenza": "CC BY 2.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/2.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Tottenham_v_Vitesse_(51656281041).jpg"
+ },
+ "tql-stadium.webp": {
+  "stadio": "TQL Stadium",
+  "voce": "TQL Stadium",
+  "file": "File:TQL Stadium - USA vs. Mexico November 2021.jpg",
+  "autore": "Isaac Freeman",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:TQL_Stadium_-_USA_vs._Mexico_November_2021.jpg"
+ },
+ "true-bg-stadium.webp": {
+  "stadio": "True BG Stadium",
+  "voce": "BG Stadium",
+  "file": "File:LEO Stadium.jpg",
+  "autore": "www.thai-fussball.com",
+  "licenza": "CC BY 3.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/3.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:LEO_Stadium.jpg"
+ },
+ "tsc-arena.webp": {
+  "stadio": "TSC Arena",
+  "voce": "TSC Arena",
+  "file": "File:TSC Arena Bačka Topola.jpg",
+  "autore": "Sarkvidek",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:TSC_Arena_Ba%C4%8Dka_Topola.jpg"
  },
  "tupras-stadyumu.webp": {
   "stadio": "Tüpraş Stadyumu",
@@ -1843,6 +4012,33 @@
   "licenza": "CC BY 2.0",
   "licenzaUrl": "https://creativecommons.org/licenses/by/2.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Tynecastle_before_the_Sky_Sports_Cup_Final_-_53607560077.jpg"
+ },
+ "u-s-bank-stadium.webp": {
+  "stadio": "U.S. Bank Stadium",
+  "voce": "U.S. Bank Stadium",
+  "file": "File:BioMADE 2024 Member Meeting at the U.S. Bank Stadium (venue for the Minnesota Vikings) in Twin Cities, MN, on May 30, 2024 - 18.jpg",
+  "autore": "USDAgov",
+  "licenza": "Public domain",
+  "licenzaUrl": "",
+  "fonte": "https://commons.wikimedia.org/wiki/File:BioMADE_2024_Member_Meeting_at_the_U.S._Bank_Stadium_(venue_for_the_Minnesota_Vikings)_in_Twin_Cities,_MN,_on_May_30,_2024_-_18.jpg"
+ },
+ "ullevaal-stadion.webp": {
+  "stadio": "Ullevaal Stadion",
+  "voce": "Ullevaal Stadion",
+  "file": "File:Ullevaal Stadion Norgesmesterskapet 2015 1. runde Lyn-Vålerenga.jpg",
+  "autore": "KASwanstrom",
+  "licenza": "CC0",
+  "licenzaUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Ullevaal_Stadion_Norgesmesterskapet_2015_1._runde_Lyn-V%C3%A5lerenga.jpg"
+ },
+ "ulsan-munsu-football-stadium.webp": {
+  "stadio": "Ulsan Munsu Football Stadium",
+  "voce": "Ulsan Munsu Football Stadium",
+  "file": "File:Munsu 20121110 204310 5.jpg",
+  "autore": "Darksy07",
+  "licenza": "CC BY-SA 3.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Munsu_20121110_204310_5.jpg"
  },
  "unipol-domus.webp": {
   "stadio": "Unipol Domus",
@@ -1874,20 +4070,20 @@
  "veltins-arena.webp": {
   "stadio": "VELTINS-Arena",
   "voce": "Arena AufSchalke",
-  "file": "File:Veltins_Arena_by_Arne_Mueseler.jpg",
-  "autore": "Arne Müseler from Salzburg, AT",
-  "licenza": "CC BY-SA 2.0",
-  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/2.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Veltins_Arena_by_Arne_Mueseler.jpg"
+  "file": "File:Schalke 04 Fans 664.jpg",
+  "autore": "Orchi",
+  "licenza": "CC BY-SA 3.0",
+  "licenzaUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Schalke_04_Fans_664.jpg"
  },
  "villa-park.webp": {
   "stadio": "Villa Park",
   "voce": "Villa Park",
-  "file": "File:Birmingham_aston_villa_park_stadium.jpg",
-  "autore": "Arne Müseler",
-  "licenza": "CC BY-SA 3.0 de",
-  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Birmingham_aston_villa_park_stadium.jpg"
+  "file": "File:-2007-05-05 Aston Villa v Sheffield United, Villa Park from the Holt End (3).JPG",
+  "autore": "Kolforn (Kolforn) I'd appreciate if you could mail me (Kolforn@gmail.com) if you want to use this picture out of the Wik",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:-2007-05-05_Aston_Villa_v_Sheffield_United,_Villa_Park_from_the_Holt_End_(3).JPG"
  },
  "visana-stadion.webp": {
   "stadio": "VISANA STADION",
@@ -1907,49 +4103,85 @@
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
   "fonte": "https://commons.wikimedia.org/wiki/File:Bournemouth_v_West_Ham_2023_line_up.jpeg"
  },
+ "vivekananda-yuba-bharati-krirangan-stadium.webp": {
+  "stadio": "Vivekananda Yuba Bharati Krirangan Stadium",
+  "voce": "Salt Lake Stadium",
+  "file": "File:Salt Lake Stadium gameplay during FIFA U17 World Cup 2017.jpg",
+  "autore": "Debnathsonu1996",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Salt_Lake_Stadium_gameplay_during_FIFA_U17_World_Cup_2017.jpg"
+ },
+ "volgograd-arena.webp": {
+  "stadio": "Volgograd Arena",
+  "voce": "Volgograd Arena",
+  "file": "File:FWC 2018 - Group D - NGA v ISL - Stadium Panorama.jpg",
+  "autore": "Voltmetro",
+  "licenza": "CC BY-SA 3.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:FWC_2018_-_Group_D_-_NGA_v_ISL_-_Stadium_Panorama.jpg"
+ },
  "volksparkstadion.webp": {
   "stadio": "Volksparkstadion",
   "voce": "Volksparkstadion",
-  "file": "File:RK_1009_9831_Volksparkstadion.jpg",
-  "autore": "Reinhard Kraasch",
-  "licenza": "CC BY-SA 4.0",
-  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:RK_1009_9831_Volksparkstadion.jpg"
+  "file": "File:Hansa Rostock-Fans in Hannover 2025-05-17.jpg",
+  "autore": "André Krüger",
+  "licenza": "CC BY 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Hansa_Rostock-Fans_in_Hannover_2025-05-17.jpg"
+ },
+ "wembley-stadium.webp": {
+  "stadio": "Wembley Stadium",
+  "voce": "Wembley Stadium",
+  "file": "File:29-4-33, finale de la Coupe d'Angleterre (Everton contre Manchester City au stade Wembley) - btv1b53270614d.jpg",
+  "autore": "Agence Rol",
+  "licenza": "Public domain",
+  "licenzaUrl": "",
+  "fonte": "https://commons.wikimedia.org/wiki/File:29-4-33,_finale_de_la_Coupe_d%27Angleterre_(Everton_contre_Manchester_City_au_stade_Wembley)_-_btv1b53270614d.jpg"
  },
  "werktalent-stadion.webp": {
   "stadio": "WerkTalent Stadion",
-  "voce": "ADO Den Haag Stadium",
-  "file": "File:Cars_Jeans_Stadion_(36995264265).jpg",
-  "autore": "FaceMePLS from The Hague, The Netherlands",
-  "licenza": "CC BY 2.0",
-  "licenzaUrl": "https://creativecommons.org/licenses/by/2.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Cars_Jeans_Stadion_(36995264265).jpg"
+  "voce": "WerkTalent Stadion",
+  "file": "File:Panorama ADO Den Haag Stadium 15-8-2019.jpg",
+  "autore": "Grifo",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Panorama_ADO_Den_Haag_Stadium_15-8-2019.jpg"
  },
  "weserstadion.webp": {
   "stadio": "Weserstadion",
   "voce": "Weserstadion",
-  "file": "File:Germany_bremen_stadium.jpg",
-  "autore": "Arne Müseler",
+  "file": "File:The Weser Stadium during a Bundesliga match between Werder Bremen and VfB Stuttgart (2022).jpg",
+  "autore": "Vincenzo.togni",
   "licenza": "CC BY-SA 4.0",
   "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Germany_bremen_stadium.jpg"
+  "fonte": "https://commons.wikimedia.org/wiki/File:The_Weser_Stadium_during_a_Bundesliga_match_between_Werder_Bremen_and_VfB_Stuttgart_(2022).jpg"
+ },
+ "windsor-park-stadium.webp": {
+  "stadio": "Windsor Park Stadium",
+  "voce": "Windsor Park",
+  "file": "File:Windsor Park Stadium, Belfast 05.jpg",
+  "autore": "Simon Burchell",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Windsor_Park_Stadium,_Belfast_05.jpg"
+ },
+ "windsor-park.webp": {
+  "stadio": "Windsor Park",
+  "voce": "Windsor Park",
+  "file": "File:Windsor Park Stadium, Belfast 05.jpg",
+  "autore": "Simon Burchell",
+  "licenza": "CC BY-SA 4.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Windsor_Park_Stadium,_Belfast_05.jpg"
  },
  "wwk-arena.webp": {
   "stadio": "WWK Arena",
-  "voce": "Augsburg Arena",
-  "file": "File:Germany_augsburg_stadium_wwk_arena.jpg",
-  "autore": "Arne Müseler",
-  "licenza": "CC BY-SA 4.0",
-  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Germany_augsburg_stadium_wwk_arena.jpg"
- },
- "estadio-benito-villamarin.webp": {
-  "stadio": "Estadio Benito Villamarín",
-  "voce": "Estadio Benito Villamarín",
-  "file": "File:Estadio_Benito_Villamarín_2018001.jpg",
-  "autore": "Anual",
-  "licenza": "CC BY-SA 4.0",
-  "licenzaUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-  "fonte": "https://commons.wikimedia.org/wiki/File:Estadio_Benito_Villamar%C3%ADn_2018001.jpg"
+  "voce": "WWK Arena",
+  "file": "File:Borussia dortmund augsburg.jpg",
+  "autore": "Markus Unger",
+  "licenza": "CC BY 2.0",
+  "licenzaUrl": "https://creativecommons.org/licenses/by/2.0",
+  "fonte": "https://commons.wikimedia.org/wiki/File:Borussia_dortmund_augsburg.jpg"
  }
 }
