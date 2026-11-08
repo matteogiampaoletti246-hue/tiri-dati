@@ -834,11 +834,6 @@
 "src": "api-football",
 "at": "2026-11-08T04:58+00:00"
 },
-"5868533": {
-"n": "Eder Mallo Fernandez",
-"src": "api-football",
-"at": "2026-11-08T04:58+00:00"
-},
 "5868535": {
 "n": "Daniel Palencia Caballero",
 "src": "api-football",
@@ -854,6 +849,11 @@
 "src": "api-football",
 "at": "2026-11-08T04:58+00:00"
 },
+"5793971": {
+"n": "John Beaton",
+"src": "api-football",
+"at": "2026-11-08T16:46+00:00"
+},
 "_err": [],
-"_at": "2026-11-08T12:57+00:00"
+"_at": "2026-11-08T16:46+00:00"
 }
