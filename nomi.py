@@ -161,8 +161,14 @@ def short(lab, luso):
     ("Alexsandro Amorim de Freitas Filho" -> "Alexsandro Freitas Filho"); spagnoli e ispanici: il primo dei due cognomi
     ("José Ángel Esmorís Tasende" -> "José Esmorís")."""
     w = lab.split()
-    if len(w) <= 3:
+    if len(w) < 3:
         return lab
+    if len(w) == 3:
+        # "Rodrigo Hernández Cascante" -> "Rodrigo Hernández"; "Cassiano Dias Moreira" -> "Cassiano Moreira";
+        # restano interi con particella o suffisso ("Richarlison de Andrade", "Alexsandro Freitas Filho")
+        if w[1].lower() in PART or w[2].lower() in SUFF:
+            return lab
+        return f"{w[0]} {w[2]}" if luso else f"{w[0]} {w[1]}"
     if luso:
         last = [w[-2], w[-1]] if w[-1].lower() in SUFF else [w[-1]]
     else:
@@ -250,7 +256,18 @@ def by_dates(dates):
     return out
 
 
+def clean(full):
+    """Solo nomi fatti di parole vere (niente "/", cifre, parentesi)."""
+    if not full or re.search(r"[/\\()\[\]0-9,;]", full):
+        return None
+    return full if all(w[0].isalpha() for w in full.split()) else None
+
+
 def compose(qid, e, nick, country):
+    return clean(_compose(qid, e, nick, country))
+
+
+def _compose(qid, e, nick, country):
     lab = None
     for lg in ("en", "it", "pt", "es", "fr", "de"):
         if lg in e["lab"]:
@@ -258,7 +275,9 @@ def compose(qid, e, nick, country):
             break
     if lab and len(lab.split()) >= 2 and norm(lab) != norm(nick) and "(" not in lab:
         return short(lab, country in LUSO)
-    ent = wd_entities([qid]).get(qid) or {}
+    ent = wd_entities([qid]).get(qid)
+    if not ent:
+        raise RuntimeError("wikidata non risponde")  # si riprova al giro dopo, senza segnarlo come controllato
     luso = country in LUSO
     given, fam = claim_ids(ent, "P735"), claim_ids(ent, "P734")
     if given and fam:
@@ -327,13 +346,13 @@ def main():
         for d in dates[i:i + 50]:
             pool[d] = got.get(d, {})
         time.sleep(1)
-    done = found = 0
-    for fid, nick in ready:
+    def one(c):
+        fid, nick = c
         if (time.time() - T0) / 60 > MIN_RUN:
-            break
+            return None
         b, cn = births[str(fid)]
         if b not in pool:
-            continue
+            return None
         hits = [(q, e) for q, e in pool[b].items() if norm(nick) in e["names"]]
         full = qid = None
         if len(hits) == 1:
@@ -341,12 +360,20 @@ def main():
             try:
                 full = compose(qid, hits[0][1], nick, cn)
             except Exception:
-                full = None
-        db[str(fid)] = [full, TODAY, qid, nick]
-        done += 1
-        if full:
-            found += 1
-            print(f"{nick} -> {full} ({qid})", flush=True)
+                return None
+        return fid, nick, full, qid
+
+    done = found = 0
+    with ThreadPoolExecutor(3) as ex:
+        for res in ex.map(one, ready):
+            if not res:
+                continue
+            fid, nick, full, qid = res
+            db[str(fid)] = [full, TODAY, qid, nick]
+            done += 1
+            if full:
+                found += 1
+                print(f"{nick} -> {full} ({qid})", flush=True)
     json.dump(db, open(OUT, "w"), ensure_ascii=False, separators=(",", ":"), sort_keys=True)
     tot = sum(1 for v in db.values() if v[0])
     print(f"controllati ora: {done}, trovati ora: {found}, nomi veri in archivio: {tot}/{len(db)}", flush=True)
