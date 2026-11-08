@@ -10924,8 +10924,8 @@
  "rose_per_ruolo": {
   "squadre": 5237,
   "prima": 4381,
-  "dopo": 1453,
-  "giocate_dopo": 1292,
+  "dopo": 1435,
+  "giocate_dopo": 1274,
   "elenco": [
    {
     "squadra": "1 de Marzo Pilar",
@@ -11633,19 +11633,6 @@
     ]
    },
    {
-    "squadra": "Afghanistan",
-    "id": "95796",
-    "giocatori": 0,
-    "competizioni": [
-     "World Cup Qualification AFC 2023-2025",
-     "Asian Cup Qualification Playoff 2025-2026",
-     "Friendlies 2026"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
     "squadra": "Ain Sud Foot",
     "id": "238963",
     "giocatori": 0,
@@ -11772,18 +11759,6 @@
     "giocatori": 0,
     "competizioni": [
      "Coupe de France 2026-2027"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
-    "squadra": "American Samoa",
-    "id": "287879",
-    "giocatori": 0,
-    "competizioni": [
-     "World Cup Qualification OFC 2024-2025",
-     "Friendlies 2026"
     ],
     "motivo": [
      "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
@@ -12802,18 +12777,6 @@
     ]
    },
    {
-    "squadra": "Chad",
-    "id": "4432",
-    "giocatori": 0,
-    "competizioni": [
-     "World Cup Qualification CAF 2023-2025",
-     "Africa Cup of Nations Qualification 2026-2027"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
     "squadra": "Charleville",
     "id": "591120",
     "giocatori": 0,
@@ -13041,18 +13004,6 @@
     "giocatori": 0,
     "competizioni": [
      "Coupe de France 2026-2027"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
-    "squadra": "Cook Islands",
-    "id": "287880",
-    "giocatori": 0,
-    "competizioni": [
-     "World Cup Qualification OFC 2024-2025",
-     "Friendlies 2026"
     ],
     "motivo": [
      "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
@@ -13321,19 +13272,6 @@
     ],
     "motivo": [
      "0 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
-    ]
-   },
-   {
-    "squadra": "Djibouti",
-    "id": "121285",
-    "giocatori": 0,
-    "competizioni": [
-     "World Cup Qualification CAF 2023-2025",
-     "Africa Cup of Nations Qualification 2026-2027",
-     "Friendlies 2026"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
     ]
    },
    {
@@ -13650,17 +13588,6 @@
     "giocatori": 0,
     "competizioni": [
      "Coupe de France 2026-2027"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
-    "squadra": "Eritrea",
-    "id": "6011",
-    "giocatori": 0,
-    "competizioni": [
-     "Africa Cup of Nations Qualification 2026-2027"
     ],
     "motivo": [
      "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
@@ -15586,19 +15513,6 @@
     ]
    },
    {
-    "squadra": "Liberia",
-    "id": "5804",
-    "giocatori": 0,
-    "competizioni": [
-     "World Cup Qualification CAF 2023-2025",
-     "Africa Cup of Nations Qualification 2026-2027",
-     "Friendlies 2026"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
     "squadra": "Lidköpings FK",
     "id": "538070",
     "giocatori": 0,
@@ -16238,19 +16152,6 @@
     ]
    },
    {
-    "squadra": "New Caledonia",
-    "id": "101595",
-    "giocatori": 0,
-    "competizioni": [
-     "World Cup Qualification OFC 2024-2025",
-     "World Cup Qualification Inter-confederation 2026",
-     "Friendlies 2026"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
     "squadra": "Newmarket Town",
     "id": "580405",
     "giocatori": 0,
@@ -16446,18 +16347,6 @@
     "giocatori": 0,
     "competizioni": [
      "CAF Confed Cup 2026-2027"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
-    "squadra": "Papua New Guinea",
-    "id": "287876",
-    "giocatori": 0,
-    "competizioni": [
-     "World Cup Qualification OFC 2024-2025",
-     "Friendlies 2026"
     ],
     "motivo": [
      "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
@@ -16993,17 +16882,6 @@
     ]
    },
    {
-    "squadra": "Russia",
-    "id": "8713",
-    "giocatori": 0,
-    "competizioni": [
-     "Friendlies 2026"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
     "squadra": "Räppe GOIF",
     "id": "627678",
     "giocatori": 0,
@@ -17214,17 +17092,6 @@
     ]
    },
    {
-    "squadra": "Samoa",
-    "id": "287878",
-    "giocatori": 0,
-    "competizioni": [
-     "World Cup Qualification OFC 2024-2025"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
     "squadra": "San Antonio",
     "id": "1616269",
     "giocatori": 0,
@@ -17301,19 +17168,6 @@
     ],
     "motivo": [
      "0 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
-    ]
-   },
-   {
-    "squadra": "Seychelles",
-    "id": "121274",
-    "giocatori": 0,
-    "competizioni": [
-     "World Cup Qualification CAF 2023-2025",
-     "Africa Cup of Nations Qualification 2026-2027",
-     "Friendlies 2026"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
     ]
    },
    {
@@ -17434,30 +17288,6 @@
     "competizioni": [
      "World Cup Qualification OFC 2024-2025",
      "Friendlies 2026"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
-    "squadra": "Somalia",
-    "id": "287978",
-    "giocatori": 0,
-    "competizioni": [
-     "World Cup Qualification CAF 2023-2025",
-     "Africa Cup of Nations Qualification 2026-2027"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
-    "squadra": "South Sudan",
-    "id": "408231",
-    "giocatori": 0,
-    "competizioni": [
-     "World Cup Qualification CAF 2023-2025",
-     "Africa Cup of Nations Qualification 2026-2027"
     ],
     "motivo": [
      "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
@@ -17761,18 +17591,6 @@
     ]
    },
    {
-    "squadra": "Tahiti",
-    "id": "5927",
-    "giocatori": 0,
-    "competizioni": [
-     "World Cup Qualification OFC 2024-2025",
-     "Friendlies 2026"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
     "squadra": "Takeley",
     "id": "879822",
     "giocatori": 0,
@@ -17873,19 +17691,6 @@
     ]
    },
    {
-    "squadra": "Togo",
-    "id": "7740",
-    "giocatori": 0,
-    "competizioni": [
-     "World Cup Qualification CAF 2023-2025",
-     "Africa Cup of Nations Qualification 2026-2027",
-     "Friendlies 2026"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
     "squadra": "Tohoku University",
     "id": "941021",
     "giocatori": 0,
@@ -17913,17 +17718,6 @@
     "giocatori": 0,
     "competizioni": [
      "Slovak Cup 2026-2027"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
-    "squadra": "Tonga",
-    "id": "287881",
-    "giocatori": 0,
-    "competizioni": [
-     "World Cup Qualification OFC 2024-2025"
     ],
     "motivo": [
      "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
@@ -18012,19 +17806,6 @@
     "giocatori": 0,
     "competizioni": [
      "DFB Pokal Frauen 2026-2027"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
-    "squadra": "Turkmenistan",
-    "id": "5900",
-    "giocatori": 0,
-    "competizioni": [
-     "World Cup Qualification AFC 2023-2025",
-     "Asian Cup Qualification Playoff 2025-2026",
-     "Friendlies 2026"
     ],
     "motivo": [
      "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
@@ -18410,18 +18191,6 @@
     "giocatori": 0,
     "competizioni": [
      "DBU Pokalen 2026-2027"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
-    "squadra": "Vanuatu",
-    "id": "5926",
-    "giocatori": 0,
-    "competizioni": [
-     "World Cup Qualification OFC 2024-2025",
-     "Friendlies 2026"
     ],
     "motivo": [
      "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
@@ -19248,17 +19017,6 @@
     "giocatori": 1,
     "competizioni": [
      "DFB Pokal Frauen 2026-2027"
-    ],
-    "motivo": [
-     "1 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 1"
-    ]
-   },
-   {
-    "squadra": "AFC Rushden & Diamonds",
-    "id": "580428",
-    "giocatori": 1,
-    "competizioni": [
-     "FA Cup 2026-2027"
     ],
     "motivo": [
      "1 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 1"
@@ -21873,17 +21631,6 @@
     ]
    },
    {
-    "squadra": "Fluminense de Feira",
-    "id": "197711",
-    "giocatori": 3,
-    "competizioni": [
-     "Baiano 2027"
-    ],
-    "motivo": [
-     "3 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
-    ]
-   },
-   {
     "squadra": "Foolad Khuzestan B",
     "id": "582273",
     "giocatori": 3,
@@ -22490,17 +22237,6 @@
     ]
    },
    {
-    "squadra": "Broadmeadow Magic",
-    "id": "162253",
-    "giocatori": 4,
-    "competizioni": [
-     "Australia Championship 2026"
-    ],
-    "motivo": [
-     "4 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 4"
-    ]
-   },
-   {
     "squadra": "Brunswick Juventus FC",
     "id": "162316",
     "giocatori": 4,
@@ -22634,6 +22370,17 @@
     ]
    },
    {
+    "squadra": "Fluminense de Feira",
+    "id": "197711",
+    "giocatori": 4,
+    "competizioni": [
+     "Baiano 2027"
+    ],
+    "motivo": [
+     "4 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
+    ]
+   },
+   {
     "squadra": "Gemlik Sumerbey Spor",
     "id": "2355143",
     "giocatori": 4,
@@ -22711,17 +22458,6 @@
     ]
    },
    {
-    "squadra": "Kitara FC",
-    "id": "1212282",
-    "giocatori": 4,
-    "competizioni": [
-     "CAF Confed Cup 2026-2027"
-    ],
-    "motivo": [
-     "4 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 4"
-    ]
-   },
-   {
     "squadra": "Kyoto Sangyo University",
     "id": "1647843",
     "giocatori": 4,
@@ -22777,17 +22513,6 @@
     ]
    },
    {
-    "squadra": "Mogadishu",
-    "id": "1799374",
-    "giocatori": 4,
-    "competizioni": [
-     "CAF Confed Cup 2026-2027"
-    ],
-    "motivo": [
-     "4 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 4"
-    ]
-   },
-   {
     "squadra": "MŠK Fomat Martin",
     "id": "580295",
     "giocatori": 4,
@@ -22815,6 +22540,18 @@
     "giocatori": 4,
     "competizioni": [
      "Chinese FA Cup 2026"
+    ],
+    "motivo": [
+     "4 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 4"
+    ]
+   },
+   {
+    "squadra": "Nepal",
+    "id": "95799",
+    "giocatori": 4,
+    "competizioni": [
+     "World Cup Qualification AFC 2023-2025",
+     "Asian Cup Qualification Playoff 2025-2026"
     ],
     "motivo": [
      "4 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 4"
@@ -23075,11 +22812,35 @@
     ]
    },
    {
+    "squadra": "Bangladesh",
+    "id": "95797",
+    "giocatori": 5,
+    "competizioni": [
+     "FIFA ASEAN Cup 2026",
+     "SAFF Championship 2026",
+     "World Cup Qualification AFC 2023-2025"
+    ],
+    "motivo": [
+     "5 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 5"
+    ]
+   },
+   {
     "squadra": "Benátky nad Jizerou",
     "id": "679557",
     "giocatori": 5,
     "competizioni": [
      "Czech Cup 2026-2027"
+    ],
+    "motivo": [
+     "5 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 5"
+    ]
+   },
+   {
+    "squadra": "Broadmeadow Magic",
+    "id": "162253",
+    "giocatori": 5,
+    "competizioni": [
+     "Australia Championship 2026"
     ],
     "motivo": [
      "5 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 5"
@@ -23396,6 +23157,17 @@
     ]
    },
    {
+    "squadra": "Mogadishu",
+    "id": "1799374",
+    "giocatori": 5,
+    "competizioni": [
+     "CAF Confed Cup 2026-2027"
+    ],
+    "motivo": [
+     "5 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 5"
+    ]
+   },
+   {
     "squadra": "Molde 2",
     "id": "8519",
     "giocatori": 5,
@@ -23551,6 +23323,17 @@
     ]
    },
    {
+    "squadra": "Torvastad",
+    "id": "2321",
+    "giocatori": 5,
+    "competizioni": [
+     "Norgesmesterskapet Kvalifisering 2025-2026"
+    ],
+    "motivo": [
+     "5 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 5"
+    ]
+   },
+   {
     "squadra": "Upington City",
     "id": "1528633",
     "giocatori": 5,
@@ -23666,19 +23449,6 @@
     "giocatori": 6,
     "competizioni": [
      "Liga Nacional 2026-2027 - Apertura"
-    ],
-    "motivo": [
-     "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
-    ]
-   },
-   {
-    "squadra": "Bangladesh",
-    "id": "95797",
-    "giocatori": 6,
-    "competizioni": [
-     "FIFA ASEAN Cup 2026",
-     "SAFF Championship 2026",
-     "World Cup Qualification AFC 2023-2025"
     ],
     "motivo": [
      "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
@@ -23879,6 +23649,17 @@
     "giocatori": 6,
     "competizioni": [
      "Turkish Cup 2026-2027"
+    ],
+    "motivo": [
+     "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
+    ]
+   },
+   {
+    "squadra": "Kitara FC",
+    "id": "1212282",
+    "giocatori": 6,
+    "competizioni": [
+     "CAF Confed Cup 2026-2027"
     ],
     "motivo": [
      "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
@@ -24477,6 +24258,19 @@
     ]
    },
    {
+    "squadra": "Pakistan",
+    "id": "5910",
+    "giocatori": 7,
+    "competizioni": [
+     "FIFA ASEAN Cup 2026",
+     "SAFF Championship 2026",
+     "World Cup Qualification AFC 2023-2025"
+    ],
+    "motivo": [
+     "7 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 7"
+    ]
+   },
+   {
     "squadra": "Panthrakikos Komotini",
     "id": "104810",
     "giocatori": 7,
@@ -24581,17 +24375,6 @@
     ]
    },
    {
-    "squadra": "Salmi",
-    "id": "619281",
-    "giocatori": 7,
-    "competizioni": [
-     "Throne Cup 2024-2025"
-    ],
-    "motivo": [
-     "7 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 7"
-    ]
-   },
-   {
     "squadra": "Sarmiento de Resistencia",
     "id": "298640",
     "giocatori": 7,
@@ -24608,6 +24391,17 @@
     "giocatori": 7,
     "competizioni": [
      "Norsk Tipping-ligaen 2026"
+    ],
+    "motivo": [
+     "7 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 7"
+    ]
+   },
+   {
+    "squadra": "Schaffhausen",
+    "id": "10177",
+    "giocatori": 7,
+    "competizioni": [
+     "Swiss Cup 2026-2027"
     ],
     "motivo": [
      "7 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 7"
@@ -24714,17 +24508,6 @@
     ]
    },
    {
-    "squadra": "Bamber Bridge",
-    "id": "282395",
-    "giocatori": 8,
-    "competizioni": [
-     "Premier Division 2026-2027"
-    ],
-    "motivo": [
-     "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
-    ]
-   },
-   {
     "squadra": "Banbury United",
     "id": "161841",
     "giocatori": 8,
@@ -24754,29 +24537,6 @@
     "competizioni": [
      "Norgesmesterskapet Kvalifisering 2025-2026",
      "Norsk Tipping-ligaen 2026"
-    ],
-    "motivo": [
-     "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
-    ]
-   },
-   {
-    "squadra": "Bracknell Town",
-    "id": "626250",
-    "giocatori": 8,
-    "competizioni": [
-     "Premier Division 2026-2027"
-    ],
-    "motivo": [
-     "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
-    ]
-   },
-   {
-    "squadra": "Bromsgrove Sporting",
-    "id": "953607",
-    "giocatori": 8,
-    "competizioni": [
-     "Premier Division 2026-2027",
-     "FA Trophy 2026-2027"
     ],
     "motivo": [
      "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
@@ -24850,11 +24610,11 @@
     ]
    },
    {
-    "squadra": "Emley",
-    "id": "1532123",
+    "squadra": "Erciyes 38",
+    "id": "1559140",
     "giocatori": 8,
     "competizioni": [
-     "Premier Division 2026-2027"
+     "Turkish Cup 2026-2027"
     ],
     "motivo": [
      "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
@@ -24924,18 +24684,6 @@
     "giocatori": 8,
     "competizioni": [
      "Copa Paraguay 2026"
-    ],
-    "motivo": [
-     "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
-    ]
-   },
-   {
-    "squadra": "Halesowen Town FC",
-    "id": "2260",
-    "giocatori": 8,
-    "competizioni": [
-     "Premier Division 2026-2027",
-     "FA Trophy 2026-2027"
     ],
     "motivo": [
      "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
@@ -25450,6 +25198,29 @@
     ]
    },
    {
+    "squadra": "Bracknell Town",
+    "id": "626250",
+    "giocatori": 9,
+    "competizioni": [
+     "Premier Division 2026-2027"
+    ],
+    "motivo": [
+     "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
+    ]
+   },
+   {
+    "squadra": "Bromsgrove Sporting",
+    "id": "953607",
+    "giocatori": 9,
+    "competizioni": [
+     "Premier Division 2026-2027",
+     "FA Trophy 2026-2027"
+    ],
+    "motivo": [
+     "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
+    ]
+   },
+   {
     "squadra": "Bury Town",
     "id": "158320",
     "giocatori": 9,
@@ -25517,17 +25288,6 @@
     ]
    },
    {
-    "squadra": "Chippenham Town",
-    "id": "7962",
-    "giocatori": 9,
-    "competizioni": [
-     "Premier Division 2026-2027"
-    ],
-    "motivo": [
-     "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
-    ]
-   },
-   {
     "squadra": "Colon",
     "id": "1223580",
     "giocatori": 9,
@@ -25586,11 +25346,11 @@
     ]
    },
    {
-    "squadra": "Etoile du Sahel",
-    "id": "6366",
+    "squadra": "Emley",
+    "id": "1532123",
     "giocatori": 9,
     "competizioni": [
-     "Ligue I 2026-2027"
+     "Premier Division 2026-2027"
     ],
     "motivo": [
      "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
@@ -25695,6 +25455,18 @@
     "giocatori": 9,
     "competizioni": [
      "Coupe de France 2026-2027"
+    ],
+    "motivo": [
+     "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
+    ]
+   },
+   {
+    "squadra": "Halesowen Town FC",
+    "id": "2260",
+    "giocatori": 9,
+    "competizioni": [
+     "Premier Division 2026-2027",
+     "FA Trophy 2026-2027"
     ],
     "motivo": [
      "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
@@ -25816,6 +25588,17 @@
     ]
    },
    {
+    "squadra": "Malvern Town",
+    "id": "1508925",
+    "giocatori": 9,
+    "competizioni": [
+     "Premier Division 2026-2027"
+    ],
+    "motivo": [
+     "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
+    ]
+   },
+   {
     "squadra": "Marek Dupnitsa",
     "id": "10139",
     "giocatori": 9,
@@ -25897,17 +25680,6 @@
    {
     "squadra": "SC YF Juventus Zürich",
     "id": "1758",
-    "giocatori": 9,
-    "competizioni": [
-     "Swiss Cup 2026-2027"
-    ],
-    "motivo": [
-     "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
-    ]
-   },
-   {
-    "squadra": "Schaffhausen",
-    "id": "10177",
     "giocatori": 9,
     "competizioni": [
      "Swiss Cup 2026-2027"
@@ -26009,23 +25781,24 @@
     ]
    },
    {
-    "squadra": "Three Bridges",
-    "id": "338317",
+    "squadra": "Sydney Olympic",
+    "id": "162234",
     "giocatori": 9,
     "competizioni": [
-     "Premier Division 2026-2027",
-     "FA Trophy 2026-2027"
+     "Australia Championship 2026",
+     "Australia Cup 2026"
     ],
     "motivo": [
      "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
     ]
    },
    {
-    "squadra": "Torvastad",
-    "id": "2321",
+    "squadra": "Three Bridges",
+    "id": "338317",
     "giocatori": 9,
     "competizioni": [
-     "Norgesmesterskapet Kvalifisering 2025-2026"
+     "Premier Division 2026-2027",
+     "FA Trophy 2026-2027"
     ],
     "motivo": [
      "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
@@ -26150,18 +25923,6 @@
     "competizioni": [
      "China League One 2026",
      "Chinese FA Cup 2026"
-    ],
-    "motivo": [
-     "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
-    ]
-   },
-   {
-    "squadra": "Znicz Pruszków",
-    "id": "89469",
-    "giocatori": 9,
-    "competizioni": [
-     "Puchar Polski 2026-2027",
-     "II Liga 2026-2027"
     ],
     "motivo": [
      "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
@@ -26293,6 +26054,19 @@
     ]
    },
    {
+    "squadra": "Bhutan",
+    "id": "95800",
+    "giocatori": 10,
+    "competizioni": [
+     "SAFF Championship 2026",
+     "World Cup Qualification AFC 2023-2025",
+     "Asian Cup Qualification Playoff 2025-2026"
+    ],
+    "motivo": [
+     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
+    ]
+   },
+   {
     "squadra": "Bordeaux",
     "id": "862896",
     "giocatori": 10,
@@ -26349,18 +26123,6 @@
     ]
    },
    {
-    "squadra": "Carshalton Athletic",
-    "id": "161809",
-    "giocatori": 10,
-    "competizioni": [
-     "Premier Division 2026-2027",
-     "FA Trophy 2026-2027"
-    ],
-    "motivo": [
-     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
-    ]
-   },
-   {
     "squadra": "Castellón B",
     "id": "1784556",
     "giocatori": 10,
@@ -26385,6 +26147,17 @@
    {
     "squadra": "Chatham Town",
     "id": "282368",
+    "giocatori": 10,
+    "competizioni": [
+     "Premier Division 2026-2027"
+    ],
+    "motivo": [
+     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
+    ]
+   },
+   {
+    "squadra": "Chippenham Town",
+    "id": "7962",
     "giocatori": 10,
     "competizioni": [
      "Premier Division 2026-2027"
@@ -26469,6 +26242,17 @@
     "competizioni": [
      "2. Division 2026-2027",
      "Cyprus Cup 2026-2027"
+    ],
+    "motivo": [
+     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
+    ]
+   },
+   {
+    "squadra": "Etoile du Sahel",
+    "id": "6366",
+    "giocatori": 10,
+    "competizioni": [
+     "Ligue I 2026-2027"
     ],
     "motivo": [
      "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
@@ -26571,17 +26355,6 @@
     "competizioni": [
      "Premier Division 2026-2027",
      "FA Trophy 2026-2027"
-    ],
-    "motivo": [
-     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
-    ]
-   },
-   {
-    "squadra": "Guastatoya",
-    "id": "188303",
-    "giocatori": 10,
-    "competizioni": [
-     "Liga Nacional 2026-2027"
     ],
     "motivo": [
      "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
@@ -26756,11 +26529,13 @@
     ]
    },
    {
-    "squadra": "Malvern Town",
-    "id": "1508925",
+    "squadra": "Maldives",
+    "id": "5899",
     "giocatori": 10,
     "competizioni": [
-     "Premier Division 2026-2027"
+     "SAFF Championship 2026",
+     "World Cup Qualification AFC 2023-2025",
+     "Asian Cup Qualification Playoff 2025-2026"
     ],
     "motivo": [
      "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
@@ -26826,19 +26601,6 @@
     ]
    },
    {
-    "squadra": "Pakistan",
-    "id": "5910",
-    "giocatori": 10,
-    "competizioni": [
-     "FIFA ASEAN Cup 2026",
-     "SAFF Championship 2026",
-     "World Cup Qualification AFC 2023-2025"
-    ],
-    "motivo": [
-     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
-    ]
-   },
-   {
     "squadra": "Peña Dep. Santa Eulalia",
     "id": "8210",
     "giocatori": 10,
@@ -26889,6 +26651,17 @@
     "giocatori": 10,
     "competizioni": [
      "CAF Confed Cup 2026-2027"
+    ],
+    "motivo": [
+     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
+    ]
+   },
+   {
+    "squadra": "Real Avilés CF",
+    "id": "189594",
+    "giocatori": 10,
+    "competizioni": [
+     "Primera Federación 2026-2027"
     ],
     "motivo": [
      "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
@@ -27090,6 +26863,18 @@
     ]
    },
    {
+    "squadra": "Znicz Pruszków",
+    "id": "89469",
+    "giocatori": 10,
+    "competizioni": [
+     "Puchar Polski 2026-2027",
+     "II Liga 2026-2027"
+    ],
+    "motivo": [
+     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
+    ]
+   },
+   {
     "squadra": "ÍR Reykjavík",
     "id": "163250",
     "giocatori": 10,
@@ -27108,9 +26893,9 @@
   "coppie_squadra_competizione": 24232,
   "con_frase_prima": 12294,
   "squadre_con_frase_prima": 5811,
-  "con_frase_e_dati_ora_visibili": 6955,
+  "con_frase_e_dati_ora_visibili": 7053,
   "con_frase_dopo": 0,
-  "competizioni_senza_dati_tolte_dalla_tendina": 12822,
+  "competizioni_senza_dati_tolte_dalla_tendina": 12724,
   "squadre_senza_scheda_giocatori": 7042,
   "senza_scheda": [
    {
