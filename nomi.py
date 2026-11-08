@@ -238,11 +238,13 @@ def by_dates(dates):
     for r in rows:
         d = r["bd"]["value"][:10]
         qid = r["item"]["value"].rsplit("/", 1)[-1]
-        e = out.setdefault(d, {}).setdefault(qid, {"lab": {}, "names": set()})
+        e = out.setdefault(d, {}).setdefault(qid, {"lab": {}, "names": set(), "alias": set()})
         for key in ("l", "a"):
             if key in r:
                 v = r[key]["value"]
                 e["names"].add(norm(v))
+                if key == "a":
+                    e["alias"].add(v)
                 if key == "l":
                     e["lab"][r[key].get("xml:lang", "")] = v
     return out
@@ -257,16 +259,26 @@ def compose(qid, e, nick, country):
     if lab and len(lab.split()) >= 2 and norm(lab) != norm(nick) and "(" not in lab:
         return short(lab, country in LUSO)
     ent = wd_entities([qid]).get(qid) or {}
+    luso = country in LUSO
     given, fam = claim_ids(ent, "P735"), claim_ids(ent, "P734")
-    if not given or not fam:
-        return None
-    labs = wd_entities(set([given[0]] + fam), "labels")
-    g = label(labs.get(given[0], {}))
-    fams = [x for x in (label(labs.get(f, {})) for f in fam) if x]
-    if not g or not fams:
-        return None
-    full = f"{g} {fams[-1] if country in LUSO else fams[0]}"
-    return None if norm(full) == norm(nick) else full
+    if given and fam:
+        labs = wd_entities(set([given[0]] + fam), "labels")
+        g = label(labs.get(given[0], {}))
+        fams = [x for x in (label(labs.get(f, {})) for f in fam) if x]
+        if g and fams:
+            full = f"{g} {fams[-1] if luso else fams[0]}"
+            if norm(full) != norm(nick):
+                return full
+    # nome alla nascita (P1477), poi l'alias piu' lungo con almeno tre parole (di solito il nome all'anagrafe)
+    for c in (ent.get("claims") or {}).get("P1477", []):
+        try:
+            v = c["mainsnak"]["datavalue"]["value"]["text"]
+        except Exception:
+            continue
+        if len(v.split()) >= 2 and norm(v) != norm(nick):
+            return short(v, luso)
+    al = sorted((a for a in e.get("alias", ()) if len(a.split()) >= 3 and "(" not in a and not any(ch.isdigit() for ch in a)), key=len, reverse=True)
+    return short(al[0], luso) if al else None
 
 
 def main():
