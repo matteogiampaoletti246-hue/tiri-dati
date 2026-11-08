@@ -56,7 +56,7 @@ export function fillFrom(f, p, fam, fx) {
   const hit = rows.filter((x) => (f.lineType === 'under' ? (x[k] || 0) < lineV : (x[k] || 0) > lineV)).length;
   const season = { ...f.season, campionato: { tiri: '', minuti: '' }, coppa: { tiri: '', minuti: '' }, nations: { tiri: '', minuti: '' } };
   // Nations League: campionato e coppa europea dal profilo di club, la riga Nations League dalla nazionale
-  const src = p.nat ? [['campionato', club && club.l], ['coppa', club && club.c], ['nations', p.l]] : [['campionato', p.l], ['coppa', p.c]];
+  const src = p.nat ? [['campionato', club && club.l], ['coppa', club && club.c], ['nations', p.l]] : [['campionato', p.l], ['coppa', p.c], ['nations', p.natView && p.natView.l]]; // con campionato/coppa la riga della nazionale si vede ma non pesa
   src.forEach(([key, a]) => {
     if (a && a[0] > 0 && a[3] > 0) season[key] = { tiri: String(Math.round((a[1 + k] / a[0]) * 100) / 100), minuti: String(Math.round(a[3] / a[0])) };
   });

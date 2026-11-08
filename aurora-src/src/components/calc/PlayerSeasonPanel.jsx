@@ -8,7 +8,7 @@ import { CompLogo } from './CompBannerSelect';
 import { compAccent, compBg, playerComps } from './calcComp';
 
 const GENERIC = { campionato: 'Campionato', coppa: 'Coppa europea', nations: 'Nations League', qualificazioni: 'Qualificazioni Mondiali' };
-const KIND = { campionato: 'Campionato', coppa: 'Coppa europea', nations: 'Nazionale', qualificazioni: 'Nazionale' };
+const KIND = { campionato: 'Campionato', coppa: 'Coppa', nations: 'Nazionale', qualificazioni: 'Nazionale' };
 const filled = (x) => x && ((x.tiri !== '' && x.tiri != null) || (x.minuti !== '' && x.minuti != null));
 const pct = (w) => `${Math.round(w * 100)}%`;
 
@@ -29,8 +29,8 @@ export default function PlayerSeasonPanel({ season, onChange, rate90, label = 'T
         <TintSweep tint={tint} />
         <div className="flex items-center gap-2 px-5 py-2.5">
           <p className="label-sm">Competizione</p>
-          <p className="label-sm ml-auto w-[64px] text-center">{label}</p>
-          <p className="label-sm w-[64px] text-center">Minuti</p>
+          <p className="label-sm ml-auto text-center" style={{ width: player ? 54 : 64 }}>{label}</p>
+          <p className="label-sm text-center" style={{ width: player ? 54 : 64, marginRight: player ? 14 : 0 }}>Minuti</p>
         </div>
         {player ? (
           <div className="flex flex-col gap-1.5 px-3 pb-2">
@@ -39,25 +39,25 @@ export default function PlayerSeasonPanel({ season, onChange, rate90, label = 'T
               const nat = c.key === 'nations' || c.key === 'qualificazioni';
               const out = !nations && nat;
               const w = nations ? NATIONS_WEIGHTS[c.key === 'qualificazioni' ? 'nations' : c.key] : null;
-              const sub = out ? 'Non nel calcolo' : w ? `${KIND[c.key]} · peso ${pct(w)}` : KIND[c.key];
+              const sub = out ? 'Non nel calcolo' : w ? `${KIND[c.key]} · ${pct(w)}` : KIND[c.key];
               const on = c.key === comp;
               const name = o ? o.comp.name : GENERIC[c.key];
               return (
                 <div
                   key={c.key}
                   data-season-row={c.key}
-                  className="flex items-center gap-2.5 rounded-xl py-2 pl-2.5 pr-2"
+                  className="flex items-center gap-2 rounded-xl py-2 pl-2 pr-1.5"
                   style={{ background: compBg(o ? o.comp : null), border: `1.5px solid ${on ? compAccent(o ? o.comp : null) : 'transparent'}`, opacity: out ? 0.55 : 1, transition: 'opacity .25s ease, border-color .25s ease' }}
                 >
                   <span className="flex shrink-0 items-center justify-center rounded-full" style={{ width: 30, height: 30, background: 'var(--banner-chip)' }}>
                     {o ? <CompLogo comp={o.comp} size={20} /> : <span className="text-[10px] font-extrabold" style={{ color: 'var(--banner-neutral)' }}>{name.slice(0, 2).toUpperCase()}</span>}
                   </span>
                   <span className="min-w-0 flex-1">
-                    <span className="block truncate text-[14px] font-bold" style={{ color: 'var(--on-banner)' }}>{name}</span>
+                    <span className="block text-[13.5px] font-bold leading-tight" style={{ color: 'var(--on-banner)', overflowWrap: 'anywhere' }}>{name}</span>
                     <span className="block truncate text-[11px]" style={{ color: 'var(--on-banner-2)' }}>{sub}</span>
                   </span>
-                  <NumInput onBanner value={season[c.key].tiri} onChange={(v) => onChange(c.key, { tiri: v })} width={64} ariaLabel={`${label} ${name}`} />
-                  <NumInput onBanner value={season[c.key].minuti} onChange={(v) => onChange(c.key, { minuti: v })} width={64} ariaLabel={`Minuti ${name}`} />
+                  <NumInput onBanner value={season[c.key].tiri} onChange={(v) => onChange(c.key, { tiri: v })} width={54} ariaLabel={`${label} ${name}`} />
+                  <NumInput onBanner value={season[c.key].minuti} onChange={(v) => onChange(c.key, { minuti: v })} width={54} ariaLabel={`Minuti ${name}`} />
                 </div>
               );
             })}

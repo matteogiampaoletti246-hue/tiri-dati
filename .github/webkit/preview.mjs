@@ -2091,8 +2091,9 @@ await step('calcolatore: sede, competizione a banner, icone, medie, squadra e ca
     const labels = [...sh.querySelectorAll('.label-sm')].map((x) => x.textContent.trim());
     const rows = [...sh.querySelectorAll('[data-season-row]')].map((r) => ({ k: r.dataset.seasonRow, t: r.innerText.replace(/\s+/g, ' ').trim(), v: [...r.querySelectorAll('input')].map((i) => i.value) }));
     const comp = sh.querySelector('[aria-label="Competizione"]');
-    const l5in = sh.querySelector('input[aria-label="Tiri ultime 5"]');
-    const last5 = l5in ? { value: ((l5in.closest(".flex-col") || l5in.parentElement).innerText.match(/\d+/g) || []).join('-') } : null;
+    const l5sec = [...sh.querySelectorAll('section')].find((x) => /Tiri e minuti ultime 5/i.test(x.textContent));
+    const l5lab = l5sec ? [...l5sec.querySelectorAll('.label-sm')].find((x) => x.textContent.trim() === 'Tiri') : null;
+    const last5 = l5lab ? { value: (l5lab.parentElement.textContent.replace('Tiri', '').match(/\d+/g) || []).join('-') } : null;
     return { sede: sede ? [...sede.querySelectorAll('button')].map((b) => b.textContent.trim() + (b.querySelector('svg') ? '+icona' : '')) : null, sedeLabel: labels.includes('Sede'), comp: comp ? comp.innerText.trim() : null, rows, pills: sh.querySelectorAll('[data-league-pill]').length, shots5: last5 ? last5.value : null };
   });
   const res = {};
