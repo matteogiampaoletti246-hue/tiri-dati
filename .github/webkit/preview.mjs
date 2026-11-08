@@ -2197,10 +2197,10 @@ await step('calcolatore: banner squadra con prossima partita nella competizione'
   await wait(800); await pg.keyboard.type('Jérémie Boga', { delay: 20 }); await wait(1200);
   await pg.evaluate(() => { const b = [...document.querySelectorAll('button')].find((x) => x.textContent.includes('Jérémie Boga') && !/Cerca/.test(x.textContent)); if (b) b.click(); });
   await wait(3000);
-  const read = () => pg.evaluate(() => { const h = [...document.querySelectorAll('section')].find((x) => /Squadra del giocatore/.test(x.innerText)); if (!h) return null; h.scrollIntoView(); const nb = [...h.querySelectorAll('button')].find((x) => /Prossima partita/.test(x.textContent)); return { banner: !!h.querySelector('button[aria-label="Cambia squadra"]'), pill: (h.querySelector('button[aria-label="Scegli la competizione"]') || {}).textContent || '', next: nb ? nb.innerText.replace(/\s+/g, ' ') : '' }; });
+  const read = () => pg.evaluate(() => { const h = [...document.querySelectorAll('section')].find((x) => /Squadra del giocatore/i.test(x.innerText)); if (!h) return null; h.scrollIntoView(); const nb = [...h.querySelectorAll('button')].find((x) => /Prossima partita/.test(x.textContent)); return { banner: !!h.querySelector('button[aria-label="Cambia squadra"]'), pill: (h.querySelector('button[aria-label="Scegli la competizione"]') || {}).textContent || '', next: nb ? nb.innerText.replace(/\s+/g, ' ') : '' }; });
   const a = await read();
   await shot('calcolatore-banner-squadra-serie-a');
-  await pg.evaluate(() => { const h = [...document.querySelectorAll('section')].find((x) => /Squadra del giocatore/.test(x.innerText)); const b = h && h.querySelector('button[aria-label="Scegli la competizione"]'); if (b) b.click(); });
+  await pg.evaluate(() => { const h = [...document.querySelectorAll('section')].find((x) => /Squadra del giocatore/i.test(x.innerText)); const b = h && h.querySelector('button[aria-label="Scegli la competizione"]'); if (b) b.click(); });
   await wait(1200);
   await pg.evaluate(() => { const b = [...document.querySelectorAll('button')].filter((x) => x.textContent.includes('Europa League')).pop(); if (b) b.click(); });
   await wait(2000);
