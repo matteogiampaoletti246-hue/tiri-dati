@@ -474,7 +474,8 @@ def main():
             ms = sorted(p["ms"], key=lambda x: x[0], reverse=True)
             tot = [len(ms), float(sum(x[1] for x in ms)), sum(x[2] for x in ms), float(sum(x[3] for x in ms))]
             last = [[x[1], x[2], x[3]] for x in ms[:5]]
-            hit = [[x[1], x[2], x[3]] for x in [y for y in ms if y[3] >= MIN_HIT][:5]]
+            # nazionali: tutte le partite della stagione con almeno 50' (servono all'Hit Rate con la nazionale: "3/4", "4/5"...)
+            hit = [[x[1], x[2], x[3]] for x in [y for y in ms if y[3] >= MIN_HIT][:(12 if nat else 5)]]
             old = None if nat else find_old(tn, p["n"], pid)
             if nat:
                 out["nat"].append({"i": f"nat~{fm}~{sk}~{pid}", "n": p["n"], "t": tn, "fm": int(pid), "lg": key, "nat": 1, "l": tot, "r": last, "h": hit})

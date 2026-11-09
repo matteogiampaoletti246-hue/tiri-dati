@@ -86,6 +86,12 @@ def compact(j):
 # Primi 20 campionati per ranking (+ tutte le competizioni internazionali): storico completo dal 2010.
 # Gli altri: calendario e classifica dal 2010, statistiche e dettaglio partite solo dal 2020.
 TOP20 = {47,87,55,54,53,57,61,48,86,146,71,40,64,268,112,130,230,38,59,135}
+# Partita scaricata troppo presto: FotMob aveva gia' le statistiche dei giocatori ma non ancora minuti e tiri (es. Olympiacos-Real Madrid
+# del 4/11/2026: Camavinga senza minuti -> Hit Rate dei falli su 3 partite). Si riscarica (al massimo MAX_RT volte, `rt` nella partita).
+MAX_RT = 6
+def incompleta(x):
+    P = (x or {}).get("p") or {}
+    return bool(P) and not any((v or {}).get("minutes_played") for v in P.values())
 def storico_ridotto(lid, c, sk):
     return int(lid) not in TOP20 and c != "INT" and int(str(sk)[:4]) < 2020
 def folder_mb(path):
@@ -121,6 +127,8 @@ def run():
         fx = [m for m in allfx if m[7] and not m[8]]      # solo partite finite (m[6] = iniziata: una partita in corso restava a meta')
         aperta = any(not m[7] and not m[8] for m in allfx)
         todo = [m for m in fx if str(m[0]) not in cur["m"]]
+        if recente:
+            todo += [m for m in fx if str(m[0]) in cur["m"] and incompleta(cur["m"][str(m[0])]) and (cur["m"][str(m[0])].get("rt") or 0) < MAX_RT]
         if cur["done"] and not todo and not aperta: continue
         if not todo:
             if cur["done"] == (not aperta): continue
@@ -132,14 +140,21 @@ def run():
             if time.time() - T0 > BUDGET: break
             j = get(m[0])
             time.sleep(0.2)
-            if j == "gone": cur["m"][str(m[0])] = {}; continue
+            old = cur["m"].get(str(m[0]))
+            if j == "gone":
+                if not old: cur["m"][str(m[0])] = {}
+                continue
             if not j:
                 fails += 1
                 if fails >= 25: print("troppi errori di fila: mi fermo"); dump(p, cur); sys.exit(0)
                 continue
             fails = 0
-            try: cur["m"][str(m[0])] = compact(j)
-            except Exception as e: cur["m"][str(m[0])] = {}
+            try: new = compact(j)
+            except Exception as e: new = {}
+            if old:
+                # riscaricata: se e' ancora parziale resta quella di prima, col conto dei tentativi
+                if not new.get("p") or incompleta(new): old["rt"] = (old.get("rt") or 0) + 1; continue
+            cur["m"][str(m[0])] = new
             n += 1
         else:
             cur["done"] = not aperta     # chiusa solo quando il calendario non ha piu' partite da giocare

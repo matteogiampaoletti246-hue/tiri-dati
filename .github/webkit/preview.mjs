@@ -2220,6 +2220,53 @@ await step('calcolatore: sede, competizione a banner, icone, medie, squadra e ca
 });
 
 // Calcolatore: niente riga coppa europea per chi non gioca Champions/Europa League (es. Matanovic, Freiburg) e scelta della nazionale a banner
+// 9/11/2026: in Nations League i falli hanno la riga Nations League (prima la media della nazionale finiva nella riga del campionato e
+// l'Hit Rate scendeva a 3 partite), e compare l'Hit Rate con la nazionale ("2/2") che pesa insieme a quello normale
+await step('calcolatore: Nations League, falli e hit rate nazionale', async () => {
+  const G = await getJson('giocatori.json');
+  const X = await getJson('calc_extra.json');
+  const club = (G ? G.players : []).find((x) => x.n === 'Eduardo Camavinga');
+  const nat = ((X && X.nat) || []).find((x) => x.n === 'Eduardo Camavinga');
+  await go('#/calcolatore', 3500);
+  await pg.waitForFunction(() => [...document.querySelectorAll('button')].some((x) => /Cerca e seleziona|^\s*Cambia\s*$/.test(x.textContent)), null, { timeout: 25000 }).catch(() => {});
+  await pg.evaluate(() => { const b = [...document.querySelectorAll('button')].find((x) => /Cerca e seleziona|^\s*Cambia\s*$/.test(x.textContent)); if (b) b.click(); });
+  await wait(900);
+  await pg.keyboard.type('Camavinga', { delay: 25 }); await wait(1300);
+  await pg.evaluate(() => { const b = [...document.querySelectorAll('button')].find((x) => x.textContent.includes('Eduardo Camavinga')); if (b) b.click(); });
+  await wait(2500);
+  const setComp = async (v) => { await pg.evaluate(() => document.querySelector('[aria-label="Competizione"]').click()); await wait(600); await pg.evaluate((v) => { const b = document.querySelector(`[data-comp-option="${v}"]`); if (b) b.click(); }, v); await wait(2500); };
+  const setLine = async (v) => { await pg.evaluate(() => document.querySelector('[aria-label="Valore linea"]').click()); await wait(500); await pg.evaluate((v) => { const b = [...document.querySelectorAll('[data-pop-scroll] button')].find((x) => x.textContent.trim() === v); if (b) b.click(); }, v); await wait(1200); };
+  const setStat = async (re) => { await pg.evaluate(() => document.querySelector('[aria-label="Statistiche"]').click()); await wait(600); await pg.evaluate((re) => { const b = [...document.querySelectorAll('[data-pop-scroll] button')].find((x) => new RegExp(re).test(x.textContent)); if (b) b.click(); }, re); await wait(5000); };
+  const info = () => pg.evaluate(() => {
+    const sh = document.getElementById('sl-shell') || document.body;
+    const rows = Object.fromEntries([...sh.querySelectorAll('[data-season-row]')].map((r) => [r.dataset.seasonRow, [...r.querySelectorAll('input')].map((i) => i.value)]));
+    const labels = [...sh.querySelectorAll('.label-sm')].map((x) => x.textContent.trim());
+    const nh = sh.querySelector('[data-nat-hit]');
+    return { rows, hitTitle: labels.find((x) => /^Hit rate (su|ultime)/.test(x)) || null, natHit: nh ? nh.textContent.trim() : null, voto: (sh.innerText.match(/Hit rate\s*\n?\s*([^\n]+)/g) || []).slice(-1)[0] || null };
+  });
+  await setComp('nations');
+  await setLine('0,5');
+  const tiri = await info();
+  await shot('calc-nations-tiri');
+  await setStat('Falli Subiti');
+  const fs1 = await info();
+  await pg.evaluate(() => { const r = document.querySelector('[data-nat-hit]'); if (r) r.scrollIntoView({ block: 'center' }); }); await wait(500);
+  await shot('calc-nations-falli-hit');
+  await pg.evaluate(() => { const r = document.querySelector('[data-season-row]'); if (r) r.scrollIntoView({ block: 'center' }); }); await wait(500);
+  await shot('calc-nations-falli-medie');
+  await setComp('campionato');
+  const camp = await info();
+  const natN = nat && nat.h ? nat.h.length : 0;
+  const wantT = natN ? `${nat.h.filter((x) => x[0] > 0.5).length}/${natN}` : null;
+  const full = (r) => r && r.every((v) => v !== '' && v != null);
+  ok('calcolatore: Nations League, hit rate nazionale sui tiri = partite della nazionale', !natN || tiri.natHit === wantT, { tiri: tiri.natHit, wantT });
+  ok('calcolatore: Nations League, falli con riga Nations League piena', !natN || full(fs1.rows.nations), fs1);
+  ok('calcolatore: Nations League, la riga del campionato non e\' quella della nazionale', !natN || !full(fs1.rows.campionato) || fs1.rows.campionato.join() !== fs1.rows.nations.join(), fs1.rows);
+  ok('calcolatore: Nations League, hit rate dei falli sulle ultime 5 e hit rate nazionale', !club || club.hn < 5 || (fs1.hitTitle === 'Hit rate ultime 5' && (!natN || /^\d+\/\d+$/.test(fs1.natHit || ''))), fs1);
+  ok('calcolatore: hit rate nazionale solo con Nations League', camp.natHit === null, camp);
+  report.calcNations = { tiri, fs1, camp };
+});
+
 await step('calcolatore: coppa solo se la gioca e nazionali a banner', async () => {
   await go('#/calcolatore', 3500);
   await pg.waitForFunction(() => [...document.querySelectorAll('button')].some((x) => /Cerca e seleziona|^\s*Cambia\s*$/.test(x.textContent)), null, { timeout: 25000 }).catch(() => {});
