@@ -225,7 +225,9 @@ export async function buildArchiveMatch(fm, sk, mid) {
   // stagione in corso di un campionato aggiunto: niente etichetta; stagioni passate: "· 2019/20"
   if (isPureCup(fm)) m.moreDet = await domesticFor(fm, fx[2], fx[3]);
   try { const st = await loadSeasonStats(fm, sk); m.sTeams = (st && st.teams) || null; } catch (e) { /* ignora */ }
-  return enrich(m, fm, sk, season, det, tmap, false);
+  enrich(m, fm, sk, season, det, tmap, false);
+  await addLeagueForm(m, fm);
+  return m;
 }
 
 // partita di un campionato aggiunto già presente nell'app (id x-…): si completa con calendario e dettagli archiviati
@@ -247,40 +249,57 @@ export async function completeExtraMatch(m) {
   return m;
 }
 
-// Forma recente in tutte le competizioni: se la partita e' di una coppa (o di un'altra competizione) si aggiungono le partite
-// della stagione in corso del campionato di ciascuna squadra (calendario archiviato), unite a quelle della competizione della partita.
+// Forma recente in tutte le competizioni (regola fissa, vale per OGNI partita: campionati dell'app, aggiunti, d'archivio, nazionali):
+// alle partite della competizione della partita si aggiungono quelle di tutte le altre competizioni giocate dalla squadra (indice tidx),
+// prese dalle stagioni vicine alla DATA DELLA PARTITA (non "la stagione in corso": una partita passata guarda le stagioni di allora).
+// Le nazionali hanno Nations League, Mondiali, qualificazioni e amichevoli: senza questo la forma restava alle sole partite della Nations League.
+const startYear = (s) => Number(String(s).slice(0, 4)) || 0;
 async function addLeagueForm(m, fm) {
   const base = m.recentOf;
   const extra = {};
+  const myYear = new Date(m.ts).getFullYear();
   await Promise.all([m.homeId, m.awayId].map(async (id) => {
     try {
       const t = teamById(id);
       if (!t) return;
-      // tutte le competizioni giocate quest'anno (indice tidx) + il campionato della squadra: la forma sono le ultime 5 in ogni competizione
       const hist = (await teamHistory(t).catch(() => null)) || {};
       const lids = new Set(Object.keys(hist));
       if (t.leagueId && FM_ID[t.leagueId]) lids.add(t.leagueId);
+      const fid = teamFmId(t);
       const list = [];
-      await Promise.all([...lids].map(async (lid) => {
+      const seen = new Set();
+      // una stagione di una competizione: calendario archiviato -> partite finite della squadra prima di questa partita
+      const take = async (lid, sk) => {
         const lfm = FM_ID[lid];
-        if (!lfm) return;
-        const cur = await currentSeason(lfm);
-        if (!cur) return;
-        // stagione in corso + la precedente (a inizio stagione servono per arrivare a 5 partite); la competizione della partita ha gia' la sua in corso
-        const prev = (hist[lid] || []).find((s) => s !== cur && s < cur);
-        const curOk = !hist[lid] || hist[lid].includes(cur) || lid === t.leagueId;
-        const sks = [Number(lfm) === Number(fm) || !curOk ? null : cur, prev].filter(Boolean);
-        await Promise.all(sks.map(async (sk) => {
-          const season = await loadSeason(lfm, sk);
-          if (!season || !season.teams) return;
-          const fid = teamFmId(t);
-          const tid = teamIdByName(season.teams, t.name) || (fid && season.teams[String(fid)] ? String(fid) : null);
-          if (!tid) return;
-          const tmap = teamsOf(season, lfm, sk, t.leagueId === lid ? lid : null);
-          tmap[tid] = t;
-          list.push({ rec: recentFn(lfm, sk, season, tmap), tid });
+        const key = `${lfm}|${sk}`;
+        // la stagione di questa stessa partita e' gia' in `base`
+        if (!lfm || seen.has(key) || (Number(lfm) === Number(fm) && String(sk) === String(m.archive && m.archive.sk))) return;
+        seen.add(key);
+        const season = await loadSeason(lfm, sk);
+        if (!season || !season.teams) return;
+        const tid = teamIdByName(season.teams, t.name) || (fid && season.teams[String(fid)] ? String(fid) : null);
+        if (!tid) return;
+        const tmap = teamsOf(season, lfm, sk, t.leagueId === lid ? lid : null);
+        tmap[tid] = t;
+        list.push({ rec: recentFn(lfm, sk, season, tmap), tid });
+      };
+      // stagioni di ogni competizione dalla piu' recente, quelle iniziate fino all'anno della partita (mai dopo)
+      const seasonsOf = async (lid) => {
+        if (hist[lid]) return [...hist[lid]].filter((s) => startYear(s) <= myYear).sort((a, b) => startYear(b) - startYear(a));
+        const cur = await currentSeason(FM_ID[lid]); // competizione non nell'indice squadre (campionato della squadra): stagione in corso
+        return cur && startYear(cur) <= myYear ? [cur] : [];
+      };
+      const per = {};
+      await Promise.all([...lids].map(async (lid) => { if (FM_ID[lid]) per[lid] = await seasonsOf(lid); }));
+      // 1) le stagioni dell'anno della partita e dell'anno prima; 2) solo se non bastano 5 partite, quelle ancora piu' vecchie
+      await Promise.all(Object.entries(per).flatMap(([lid, sks]) => sks.filter((s) => startYear(s) >= myYear - 1).slice(0, 2).map((s) => take(lid, s).catch(() => null))));
+      const count = () => list.reduce((a, e) => a + e.rec(e.tid, m.ts).length, 0) + (base ? base(id).length : 0);
+      for (let round = 0; round < 2 && count() < 5; round += 1) {
+        await Promise.all(Object.entries(per).map(([lid, sks]) => {
+          const old = sks.filter((s) => startYear(s) < myYear - 1)[round];
+          return old ? take(lid, old).catch(() => null) : null;
         }));
-      }));
+      }
       if (list.length) extra[id] = list;
     } catch (e) { /* solo la competizione della partita */ }
   }));

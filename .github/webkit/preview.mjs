@@ -2384,6 +2384,14 @@ await step('calcolatore: banner squadra con prossima partita nella competizione'
   ok('calcolatore: cambiando competizione la prossima partita e\' quella di quella competizione', !!b && /Europa League/.test(b.pill) && b.banner && (!b.next || b.next !== a.next), { a, b });
 });
 
+await step('forma recente: nazionali con tutte le competizioni', async () => {
+  // Turchia-Belgio (Nations League A): oltre alle 4 partite di Nations League ci sono Mondiali e amichevoli, la forma e' sempre di 5 partite per squadra
+  await go('#/match/a-9806-2026-2027-5181796', 9000);
+  const r = await pg.evaluate(() => { const p = [...document.querySelectorAll('p')].find((e) => /^forma recente$/i.test(e.textContent.trim())); let n = p; for (let i = 0; i < 4 && n && n.parentElement; i++) { n = n.parentElement; if (/più recente/i.test(n.innerText || '')) break; } const t = n ? n.innerText : ''; return { scores: (t.match(/\d+–\d+/g) || []).length, txt: t.slice(0, 200) }; });
+  await shot('forma-nazionali');
+  ok('forma recente nazionali: 5 partite per squadra (anche Mondiali/amichevoli)', r.scores === 10, r);
+});
+
 await step('foto stadio: anche nelle partite delle nazionali (Wembley, Kocaeli)', async () => {
   for (const id of ['a-9806-2026-2027-5181850', 'a-9806-2026-2027-5181789']) {
     await go('#/match/' + id, 9000);
