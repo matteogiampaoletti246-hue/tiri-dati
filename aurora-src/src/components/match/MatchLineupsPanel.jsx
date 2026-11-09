@@ -201,7 +201,7 @@ function injuredOf(team, lineup, match) {
 function Injured({ list, team }) {
   if (!list.length) return null;
   return (
-    <section data-injured="1" className="glass tint-card overflow-hidden rounded-[24px] px-4 py-3" style={{ '--tint': teamColor(team) }}>
+    <section data-injured="1" className="alert-a overflow-hidden rounded-[24px] px-4 py-3" style={{ background: 'linear-gradient(110deg, rgba(229,72,77,.20), rgba(229,72,77,.035) 70%), hsl(var(--background))', border: '1px solid rgba(229,72,77,.40)' }}>
       <p className="mb-1 flex items-center gap-2 text-[12.5px] font-extrabold uppercase tracking-wider"><InjuryIcon size={18} />Infortunati</p>
       {list.map(({ pl, i }, k) => (
         <button key={pl.id} type="button" onClick={(e) => { e.preventDefault(); e.stopPropagation(); openPanel(pl.id); }} className="press flex w-full items-center gap-3 py-2" style={{ borderTop: k ? '1px solid var(--hair-2)' : 'none', textAlign: 'left', color: 'inherit', font: 'inherit' }}>

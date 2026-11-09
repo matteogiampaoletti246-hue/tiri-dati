@@ -181,37 +181,33 @@ export default function StatLists({ sections, controls = null, limit = 8, wide =
         );
       })}
 
-      {onScreen ? createPortal(
-        <div data-pf="1" data-fast-ok="1" style={{ position: 'fixed', left: 0, right: 0, margin: '0 auto', maxWidth: 'var(--app-w)', bottom: 'calc(env(safe-area-inset-bottom, 0px) + 96px)', height: 0, zIndex: 25, pointerEvents: 'none' }}>
-          <button type="button" onClick={() => { setLim(sections.length); setSheet(true); }} className="glass-strong press absolute flex items-center gap-1.5 rounded-full px-3.5 py-2 text-[12.5px] font-bold" style={{ right: 16, bottom: 0, pointerEvents: 'auto', background: 'var(--sky-2)', boxShadow: '0 6px 16px -6px rgba(0,0,0,.55)' }}>
-            <ListTree size={14} />
-            Vai a
-          </button>
-        </div>,
-        document.body,
-      ) : null}
-
-      {sheet ? createPortal(
-        <div data-no-back="1" className="fixed inset-0 z-[90] flex items-end justify-center" onClick={() => setSheet(false)} onTouchMove={(e) => { if (e.target === e.currentTarget && e.cancelable) e.preventDefault(); }} style={{ background: 'rgba(0,0,0,.5)', touchAction: 'none' }}>
-          <div className="max-h-[72vh] w-full max-w-[var(--sheet-w)] overflow-y-auto overscroll-contain rounded-t-[28px] p-5 pb-[max(20px,env(safe-area-inset-bottom))]" style={{ background: 'var(--sky-2)', border: '1px solid var(--glass-border)', touchAction: 'pan-y', animation: 'slup .3s cubic-bezier(.22,.8,.24,1)' }} onClick={(e) => e.stopPropagation()}>
-            <div className="mb-3 flex items-center justify-between">
-              <span className="text-[15px] font-extrabold">Vai a</span>
-              <button type="button" onClick={() => setSheet(false)} className="press" aria-label="Chiudi"><X size={18} /></button>
-            </div>
-            {groups.map((g) => (
-              <div key={g.name} className="mb-4">
-                <div className="mb-2 text-[10.5px] font-bold uppercase tracking-wider" style={{ color: 'var(--ink-3)' }}>{g.name}</div>
-                <div className="flex flex-wrap gap-2">
-                  {g.items.map((s) => (
-                    <button key={s.id} type="button" onClick={() => go(s.id)} className="glass-flat press rounded-full px-3.5 py-1.5 text-[12.5px] font-semibold">
-                      {s.title}
-                    </button>
-                  ))}
-                </div>
+      {onScreen || sheet ? createPortal(
+        <>
+          {/* tocco fuori dal riquadro aperto: si richiude */}
+          {sheet ? <div data-no-back="1" className="fixed inset-0 z-[89]" onClick={() => setSheet(false)} onTouchMove={(e) => { if (e.cancelable) e.preventDefault(); }} style={{ touchAction: 'none', background: 'rgba(0,0,0,.25)', animation: 'vai-dim .3s ease both' }} /> : null}
+          {/* Popover concept A (21st "Morphing Popover", Motion Primitives): il tasto "Vai a" si allarga e diventa l'elenco nello stesso punto,
+              scelta la voce si richiude nel tasto. Si anima il ritaglio (clip-path), il contenuto non si muove. */}
+          <div data-pf="1" data-fast-ok="1" data-no-back="1" className={`vai-pop${sheet ? ' open' : ''}`} style={{ position: 'fixed', right: 'max(16px, calc((100vw - var(--app-w)) / 2 + 16px))', bottom: 'calc(env(safe-area-inset-bottom, 0px) + 96px)', zIndex: 90 }}>
+            <div className="vai-panel" style={{ background: 'var(--sky-2)', border: '1px solid var(--glass-border)' }}>
+              <div className="vai-list overflow-y-auto overscroll-contain px-2 pb-[46px] pt-2" style={{ touchAction: 'pan-y' }}>
+                {groups.map((g) => (
+                  <div key={g.name} className="mb-1">
+                    <div className="px-2.5 pb-1 pt-2 text-[10px] font-extrabold uppercase tracking-[.12em]" style={{ color: 'var(--ink-3)' }}>{g.name}</div>
+                    {g.items.map((s) => (
+                      <button key={s.id} type="button" tabIndex={sheet ? 0 : -1} onClick={() => go(s.id)} className="press block w-full rounded-[11px] px-2.5 py-[7px] text-left text-[13px] font-semibold" style={{ color: 'var(--ink-2)' }}>
+                        {s.title}
+                      </button>
+                    ))}
+                  </div>
+                ))}
               </div>
-            ))}
+              <button type="button" onClick={() => { if (sheet) setSheet(false); else { setLim(sections.length); setSheet(true); } }} aria-expanded={sheet} className="vai-btn press absolute bottom-0 right-0 flex h-[38px] items-center gap-1.5 rounded-full px-3.5 text-[12.5px] font-bold">
+                {sheet ? <X size={14} /> : <ListTree size={14} />}
+                {sheet ? 'Chiudi' : 'Vai a'}
+              </button>
+            </div>
           </div>
-        </div>,
+        </>,
         document.body,
       ) : null}
     </div>

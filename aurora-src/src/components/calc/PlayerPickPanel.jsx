@@ -1,6 +1,7 @@
 import { teamGrad } from '@/lib/tint';
 import InjuryIcon from '@/components/InjuryIcon';
 import { injuryOf } from '@/data/injuries';
+import Alert from '@/components/Alert';
 import { primeKeyboard } from '@/lib/keyboard';
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -131,6 +132,9 @@ export default function PlayerPickPanel({ form, set, player, hint, onSelectPlaye
             </button>
             <button type="button" onClick={() => { primeKeyboard(); setPicker('player'); }} className="press shrink-0 rounded-full px-3.5 py-2 text-[12.5px] font-bold text-white" style={{ background: 'var(--accent)' }}>Cambia</button>
             </div>
+            {injuryOf(player.id) ? (
+              <Alert tone="red" className="mt-3 w-full" icon={<InjuryIcon size={18} />} title="Infortunato">{injuryOf(player.id).reason}{injuryOf(player.id).label ? ` · Rientro previsto: ${injuryOf(player.id).label}` : ''}</Alert>
+            ) : null}
             {(() => {
               // partita legata alla competizione selezionata: Coppa europea = la coppa della squadra (nessuna coppa = nessun tasto), altrimenti il campionato del blocco squadra
               const ownId = form.team && form.team.id ? form.team.id : player.teamId;

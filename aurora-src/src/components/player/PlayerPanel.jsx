@@ -12,6 +12,7 @@ import { closePanel, usePlayerPanel } from '@/data/playerPanel';
 import { playerById } from '@/data/players';
 import { teamById } from '@/data/teams';
 import { injuryOf } from '@/data/injuries';
+import Alert from '@/components/Alert';
 import { playerFace } from '@/data/archive';
 import { parseArchiveId, makeArchivePlayer } from '@/data/archivePlayer';
 import { useBioPid, usePlayerCareer } from '@/data/playerIndex';
@@ -178,13 +179,7 @@ function Body({ player, onProfile, showStats }) {
         <Head player={player} team={team} photo={photo} onProfile={onProfile} />
       </div>
       {inj ? (
-        <div className="mx-4 mt-3 flex items-center gap-2.5 rounded-2xl px-3 py-2.5" style={{ background: 'rgba(229,72,77,.12)', border: '1px solid rgba(229,72,77,.4)' }}>
-          <InjuryIcon size={20} />
-          <div className="min-w-0">
-            <p className="text-[13px] font-bold" style={{ color: '#E5484D' }}>Infortunato</p>
-            <p className="text-[11.5px]" style={{ color: 'var(--ink-2)' }}>{inj.reason}{inj.label ? ` · Rientro previsto: ${inj.label}` : ''}</p>
-          </div>
-        </div>
+        <Alert tone="red" className="mx-4 mt-3" icon={<InjuryIcon size={20} />} title="Infortunato">{inj.reason}{inj.label ? ` · Rientro previsto: ${inj.label}` : ''}</Alert>
       ) : null}
       {hasStats && showStats ? (
         <div className="club-scope pt-2" style={{ '--club': c0 || 'var(--accent)', '--club-a': '16%' }}>

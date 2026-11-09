@@ -1004,3 +1004,36 @@ html:not(.dark) .lglass {
 .gauge-ticks { animation: gauge-spin 18s linear infinite; transform-origin: 50% 50%; }
 @keyframes gauge-spin { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .gauge-ticks { animation: none; } }
+
+/* "Vai a" (Popover concept A): il tasto si apre nell'elenco ritagliando lo stesso riquadro */
+.vai-pop { width: min(280px, calc(100vw - 32px)); pointer-events: none; }
+.vai-panel { position: relative; border-radius: 22px; max-height: min(62vh, 520px); display: flex; flex-direction: column; box-shadow: 0 6px 16px -6px rgba(0,0,0,.55);
+  clip-path: inset(calc(100% - 38px) 0 0 calc(100% - 92px) round 19px); transition: clip-path .5s cubic-bezier(.22,1,.36,1), box-shadow .5s; }
+.vai-pop .vai-btn { pointer-events: auto; }
+.vai-pop.open { pointer-events: auto; }
+.vai-pop.open .vai-panel { clip-path: inset(0 0 0 0 round 22px); box-shadow: 0 24px 50px -16px rgba(0,0,0,.75), 0 0 0 1px rgba(77,168,255,.35); }
+.vai-list { opacity: 0; transition: opacity .2s; max-height: min(62vh, 520px); }
+.vai-pop.open .vai-list { opacity: 1; transition: opacity .3s .14s; }
+@keyframes vai-dim { from { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .vai-panel, .vai-list { transition: none; } }
+
+/* Linee guida (FAQ concept B): barra luminosa a sinistra, + che diventa -, apertura morbida */
+.faq-b { position: relative; border-radius: 18px; overflow: hidden; }
+.faq-b::before { content: ""; position: absolute; left: 0; top: 12px; bottom: 12px; width: 3px; border-radius: 2px; background: var(--accent); box-shadow: 0 0 12px var(--accent); transform: scaleY(0); transition: transform .45s cubic-bezier(.22,1,.36,1); }
+.faq-b.open::before { transform: scaleY(1); }
+.faq-pm { position: relative; width: 22px; height: 22px; flex: none; color: var(--ink-2); }
+.faq-pm i { position: absolute; left: 5px; top: 10px; width: 12px; height: 2px; border-radius: 1px; background: currentColor; transition: transform .4s cubic-bezier(.22,1,.36,1); }
+.faq-pm i:last-child { transform: rotate(90deg); }
+.faq-b.open .faq-pm { color: var(--accent); }
+.faq-b.open .faq-pm i:last-child { transform: rotate(0); }
+.faq-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .45s cubic-bezier(.22,1,.36,1); }
+.faq-body > div { overflow: hidden; }
+.faq-body > div > div { opacity: 0; transform: translateY(-4px); transition: opacity .3s, transform .45s cubic-bezier(.22,1,.36,1); }
+.faq-b.open .faq-body { grid-template-rows: 1fr; }
+.faq-b.open .faq-body > div > div { opacity: 1; transform: none; transition-delay: .06s; }
+@media (prefers-reduced-motion: reduce) { .faq-b::before, .faq-body, .faq-body > div > div, .faq-pm i { transition: none; } }
+
+/* Avvisi (Alerts concept A): entrata dal basso */
+.alert-a { animation: alert-in .5s cubic-bezier(.22,1,.36,1) both; }
+@keyframes alert-in { from { opacity: 0; transform: translateY(8px) scale(.98); } }
+@media (prefers-reduced-motion: reduce) { .alert-a { animation: none; } }

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { ChevronDown } from 'lucide-react';
 import PageShell from '@/components/PageShell';
 import TopBar from '@/components/TopBar';
 import CREDITI_STADI from '@/data/creditiStadi';
@@ -41,34 +40,34 @@ export default function Guidelines() {
     <PageShell>
       <TopBar title="Linee guida" subtitle="Come nascono i numeri" back={false} />
 
-      <div className="mt-2 px-5">
+      {/* FAQ concept B (21st "Accent Accordion", ai2): carte separate; aprendo una voce cresce a sinistra una barra azzurra
+          che brilla, il + ruota e diventa -, il testo scende morbido (altezza animata con grid-template-rows, niente salti). */}
+      <div className="mt-2 flex flex-col gap-2 px-4">
         {SECTIONS.map((s) => {
           const on = open === s.id;
           return (
-            <div key={s.id} style={{ borderBottom: '1px solid var(--hair-2)' }}>
+            <div key={s.id} className={`faq-b glass${on ? ' open' : ''}`}>
               <button
                 type="button"
-                className="flex w-full items-center py-5 text-left text-[16px] font-light tracking-[-.02em]"
+                aria-expanded={on}
+                className="press flex w-full items-center gap-3 py-4 pl-5 pr-4 text-left text-[15px] font-semibold tracking-[-.01em]"
                 style={{ color: 'var(--ink)' }}
                 onClick={() => setOpen(on ? null : s.id)}
               >
                 {s.title}
-                <ChevronDown
-                  size={16}
-                  strokeWidth={1.2}
-                  className="ml-auto transition-transform duration-300"
-                  style={{ transform: on ? 'rotate(180deg)' : 'none', color: 'var(--ink-3)' }}
-                />
+                <span className="faq-pm ml-auto" aria-hidden="true"><i /><i /></span>
               </button>
-              {on ? (
-                <div className="fade-in pb-6 text-[13px] leading-relaxed" style={{ color: 'var(--ink-2)' }}>
-                  {s.body.map((t, i) => (
-                    <p key={i} className={i ? 'mt-3' : ''}>
-                      {t}
-                    </p>
-                  ))}
+              <div className="faq-body">
+                <div>
+                  <div className="pb-5 pl-5 pr-4 text-[13px] leading-relaxed" style={{ color: 'var(--ink-2)' }}>
+                    {s.body.map((t, i) => (
+                      <p key={i} className={i ? 'mt-3' : ''}>
+                        {t}
+                      </p>
+                    ))}
+                  </div>
                 </div>
-              ) : null}
+              </div>
             </div>
           );
         })}

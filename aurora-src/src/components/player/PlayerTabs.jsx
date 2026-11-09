@@ -1,6 +1,7 @@
 import { BallIcon, BootIcon } from '@/components/match/EventIcons';
 import InjuryIcon from '@/components/InjuryIcon';
 import { injuryOf } from '@/data/injuries';
+import Alert from '@/components/Alert';
 import { Link } from 'react-router-dom';
 import Crest from '@/components/Crest';
 import PanelTitle from '@/components/PanelTitle';
@@ -105,13 +106,7 @@ function BioCard({ player, team }) {
           </div>
         </div>
         {injuryOf(player.id) ? (
-          <div className="mb-4 flex items-center gap-3 rounded-2xl px-3.5 py-3" style={{ background: 'rgba(229,72,77,.12)', border: '1px solid rgba(229,72,77,.4)' }}>
-            <InjuryIcon size={24} />
-            <div className="min-w-0">
-              <p className="text-[14px] font-bold" style={{ color: '#E5484D' }}>Infortunato</p>
-              <p className="text-[12px]" style={{ color: 'var(--ink-2)' }}>{injuryOf(player.id).reason}{injuryOf(player.id).label ? ` · Rientro previsto: ${injuryOf(player.id).label}` : ''}</p>
-            </div>
-          </div>
+          <Alert tone="red" className="mb-4" icon={<InjuryIcon size={22} />} title="Infortunato">{injuryOf(player.id).reason}{injuryOf(player.id).label ? ` · Rientro previsto: ${injuryOf(player.id).label}` : ''}</Alert>
         ) : null}
         <div className="grid grid-cols-2 gap-x-4 gap-y-4">
           {cells.map(([k, v]) => (
