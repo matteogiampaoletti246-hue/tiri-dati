@@ -11,9 +11,10 @@ calc_extra.json con la stessa forma dei dati dei top campionati:
 L'app unisce questo file a data.json e giocatori.json (data/load.js). Nomi squadra: se la squadra c'e' gia' nei dati
 API-Football si usa quel nome, cosi' non nascono squadre doppie. Mai dati inventati: solo partite finite con statistiche,
 tiri dei giocatori letti dalla stessa partita."""
-import gzip, json, os, re, unicodedata
+import gzip, json, os, re, sys, unicodedata
 from datetime import datetime
 from zoneinfo import ZoneInfo
+from femminili import NOT_TEAM, is_women_comp, women_name
 
 ROME = ZoneInfo("Europe/Rome")
 # fm FotMob -> (chiave del Calcolatore, nome, moltiplicatore campionati minori come update_data.handicap)
@@ -31,7 +32,8 @@ LEGHE = {
     9808: ("fm-9808", "Nations League C", 0.8, True),
     9809: ("fm-9809", "Nations League D", 0.7, True),
 }
-OUT = "calc_extra.json"
+TUTTE = "--tutte" in sys.argv   # tutte le altre competizioni di club con statistiche tiri -> calc_tutte.json (stessa forma di calc_extra.json)
+OUT = "calc_tutte.json" if TUTTE else "calc_extra.json"
 MIN_HIT = 50          # minuti minimi perche' una partita conti per l'hit rate (come update_giocatori.py)
 NEXT_FIX = 6          # prossime partite per squadra
 STOP = {"fc", "sc", "cf", "fk", "afc", "ac", "as", "sk", "bk", "kv", "sv", "vv", "ssc", "if", "bsc", "ca", "cd", "cs", "sl", "sd", "de", "da", "do", "the", "club", "kvc", "krc", "ksc", "rsc"}
@@ -95,6 +97,276 @@ def rome_day(utc):
 
 def r3(x):
     return round(x + 1e-9, 3)
+
+
+# ---------------------------------------------------------------------------------------------------------------------------------
+# Modalita' --tutte (calc_tutte.json): TUTTE le altre competizioni di club dell'archivio che hanno le statistiche tiri della stagione in corso
+# (campionati di ogni paese, coppe nazionali e continentali). Stessa forma di calc_extra.json; non tocca le competizioni gia' coperte
+# (top 5, campionati aggiunti, Champions ed Europa League, Nations League) ne' le competizioni tra nazionali (restano a parte).
+# ---------------------------------------------------------------------------------------------------------------------------------
+# id che l'app usa per i campionati con nome proprio (data/archive.js FM_ID); tutti gli altri sono fm-<id FotMob>
+SLUG = {10216: "conference-league", 48: "championship", 86: "serie-b", 146: "bundesliga-2", 140: "laliga-2", 110: "ligue-2", 185: "liga-portugal-2",
+        111: "eerste-divisie", 165: "turchia-1-lig", 268: "brasileirao", 112: "arg-liga-profesional", 130: "mls", 230: "liga-mx", 141: "coppa-italia",
+        209: "dfb-pokal", 134: "coupe-de-france", 186: "taca-de-portugal", 133: "efl-cup", 149: "belgian-cup", 278: "austrian-cup", 180: "scottish-league-cup",
+        9067: "copa-do-brasil", 64: "scottish-premiership", 38: "aut-bundesliga", 59: "nor-eliteserien"}
+GIA_COPERTE = {47, 53, 54, 55, 87, 42, 73}   # top 5 + Champions + Europa League: data.json
+# competizioni tra nazionali (Mondiale, qualificazioni, amichevoli, coppe continentali, Olimpiadi...): non sono qui, un giocatore ci appare piu' volte
+NAZIONALI = {289, 10608, 9428, 298, 9821, 44, 10368, 10242, 329, 66, 114, 77, 10201, 10195, 9265, 9876, 9849, 11648}
+CUP_RX = re.compile(r"cup|pokal|copa|coppa|coupe|ta[cç]a|beker|kupa|puchar|trophy|shield|super ?cup|supercopa|supercoppa|troph|pokalen|kupok|cupa|kubok|league cup", re.I)
+UEFA = {"ENG", "ESP", "ITA", "GER", "FRA", "NED", "POR", "BEL", "TUR", "GRE", "DEN", "SCO", "AUT", "CRO", "CZE", "POL", "ISR", "NOR", "SVK", "SUI", "SWE",
+        "BUL", "CYP", "HUN", "SRB", "ROU", "UKR", "FIN", "ISL", "IRL", "LVA", "RUS"}
+PRIO = ["ENG", "ESP", "ITA", "GER", "FRA", "NED", "POR", "BEL", "TUR", "GRE", "DEN", "SCO"]
+# handicap nelle coppe europee (come i campionati gia' presenti): top 5 nessuno; gli altri paesi UEFA il valore del loro campionato, 0,60 se non ce n'e' uno
+HANDI = {"NED": 0.85, "POR": 0.85, "BEL": 0.85, "TUR": 0.80, "GRE": 0.80, "DEN": 0.75, "POL": 0.80, "NOR": 0.75, "CZE": 0.75, "AUT": 0.65, "CRO": 0.65, "SCO": 0.65, "ISR": 0.55, "SVK": 0.50}
+NO_HANDI = {"ENG", "ESP", "ITA", "GER", "FRA"}
+MIN_PARTITE_COMP = 6    # partite finite con statistiche per tenere una competizione
+MIN_PARTITE_SQ = 3      # partite con statistiche per tenere una squadra (medie)
+
+
+# nomi brevi di FotMob -> nome dell'app (data.json: API-Football) per le squadre dei top 5 e di Champions/Europa League: "Brighton" e "Brighton & Hove Albion"
+# sono la stessa squadra anche quando compare in una coppa (Conference League, FA Cup, Coppa Italia...): si abbina per id FotMob, dentro la stessa competizione
+ALIAS_T = {"man": "manchester", "utd": "united", "nottm": "nottingham", "psg": "paris saint germain", "wolves": "wolverhampton wanderers", "spurs": "tottenham hotspur"}
+APP_COMPS = [(47, "premier-league"), (55, "serie-a"), (54, "bundesliga"), (87, "la-liga"), (53, "ligue-1"), (42, "champions-league"), (73, "europa-league")]
+
+
+def _toks(s):
+    t = nk(str(s or "").replace("M'gladbach", "Monchengladbach").replace("Mönchengladbach", "Monchengladbach")).split()
+    return {w for x in t for w in ALIAS_T.get(x, x).split()}
+
+
+def app_names_by_id(idx):
+    """id FotMob squadra -> nome che l'app (data.json) usa per quella squadra."""
+    try:
+        d = json.load(open("data.json")).get("leagues") or {}
+    except Exception:
+        return {}
+    out = {}
+    for fm, key in APP_COMPS:
+        e, L = idx.get(str(fm)), d.get(key)
+        if not e or not L or not e.get("s"):
+            continue
+        p = f"arch/{fm}/{e['s'][0]}.json"
+        if not os.path.exists(p):
+            continue
+        fmn = {str(k): v for k, v in (load(p).get("teams") or {}).items()}
+        app = set(L.get("teams") or {})
+        left = dict(fmn)
+        for tid, n in list(left.items()):
+            if n in app:
+                out[tid] = n
+                left.pop(tid)
+        free = app - set(out.values())
+        for tid, n in list(left.items()):
+            a = _toks(n)
+            hit = [x for x in free if a and (a <= _toks(x) or _toks(x) <= a)]
+            if len(hit) == 1:
+                out[tid] = hit[0]
+                free.discard(hit[0])
+    return out
+
+
+def prio(c):
+    return (PRIO.index(c) if c in PRIO else len(PRIO), c or "")
+
+
+def main_tutte():
+    idx = json.load(open("arch/index.json"))
+    by = universe()
+    skip = GIA_COPERTE | set(LEGHE) | NAZIONALI
+    ex = {}
+    try:
+        ex = json.load(open("calc_extra.json"))
+    except Exception:
+        pass
+    fixed = {}      # id FotMob squadra -> nome scelto da calc_extra (stesse squadre = stesso nome in tutta l'app)
+    for L in (ex.get("leagues") or {}).values():
+        for n, u in (L.get("logos") or {}).items():
+            m = re.search(r"teamlogo/(\d+)\.png", u or "")
+            if m:
+                fixed[m.group(1)] = n
+    for tid, n in app_names_by_id(idx).items():
+        fixed.setdefault(tid, n)
+    taken = set(fixed.values())
+    # 1) elenco competizioni e paese di ogni squadra (serve ai nomi uguali di paesi diversi: "Liverpool" inglese e uruguaiano)
+    cand = []
+    tcountry, nkc = {}, {}
+    for k, e in idx.items():
+        fm = int(k)
+        if fm in skip or e.get("skip") or not e.get("s"):
+            continue
+        sk = e["s"][0]
+        cp, pp = f"arch/{fm}/{sk}.json", f"partite/{fm}/{sk}.json.gz"
+        if not (os.path.exists(cp) and os.path.exists(pp)):
+            continue
+        cal = load(cp)
+        nfin = sum(1 for r in cal.get("fix") or [] if r[7])
+        if nfin < MIN_PARTITE_COMP:
+            continue
+        name, c = e.get("n") or str(fm), e.get("c") or ""
+        women = is_women_comp(fm, name)
+        cand.append({"fm": fm, "sk": sk, "name": name, "c": c, "cup": c == "INT" or bool(CUP_RX.search(name)), "n": nfin, "women": women, "teams": dict(cal.get("teams") or {})})
+    # paese di ogni squadra: dai campionati (poi dalle coppe nazionali); le squadre solo di coppe continentali restano senza paese
+    for d in sorted(cand, key=lambda d: (d["cup"], d["c"] == "INT")):
+        for tid in d["teams"]:
+            if d["c"] != "INT":
+                tcountry.setdefault((str(tid), d["women"]), d["c"])
+    for d in cand:
+        for tid, tn in d["teams"].items():
+            if NOT_TEAM.search(str(tn)):
+                continue
+            c = tcountry.get((str(tid), d["women"]))
+            if c:
+                nkc.setdefault(nk(women_name(tn) if d["women"] else tn), set()).add(c)
+    # prima i campionati (domesticKey dell'app cerca il primo campionato che contiene la squadra), poi le coppe nazionali, poi le continentali
+    cand.sort(key=lambda d: (d["cup"], d["c"] == "INT", prio(d["c"]), -d["n"], d["fm"]))
+    owner = {k: min(v, key=prio) for k, v in nkc.items()}
+    tmap = {}
+
+    def tutte_name(tid, n, women, cup_c):
+        key = (str(tid), women)
+        if key in tmap:
+            return tmap[key]
+        base = women_name(n) if women else n
+        c = tcountry.get(key) or ""
+        k = nk(base)
+        if str(tid) in fixed and not women:
+            nm = fixed[str(tid)]
+        elif len(nkc.get(k, ())) > 1 and c and c != owner.get(k):
+            nm = f"{base} ({c})"
+        elif c in UEFA and not women:
+            nm = same_name(base, by, taken)
+        else:
+            nm = base
+        taken.add(nm)
+        tmap[key] = nm
+        return nm
+
+    OLD, BY_F = {}, {}
+    old_fix = {}
+    try:
+        g = json.load(open("giocatori.json", encoding="utf-8"))
+        for p in g.get("players", []):
+            OLD.setdefault(p["t"], []).append(p)
+            if p.get("f"):
+                BY_F[str(p["f"])] = p
+    except Exception:
+        pass
+    used = set()
+
+    def find_old(team, name, fid=None):
+        if fid is not None and str(fid) in BY_F and BY_F[str(fid)]["i"] not in used:
+            used.add(BY_F[str(fid)]["i"])
+            return BY_F[str(fid)]
+        lst = [p for p in OLD.get(team, []) if p["i"] not in used]
+        k = nk(name)
+        hit = [p for p in lst if nk(p["n"]) == k]
+        if not hit:
+            tk = k.split()
+            if len(tk) >= 2:
+                hit = [p for p in lst if nk(p["n"]).split() and nk(p["n"]).split()[-1] == tk[-1] and nk(p["n"])[:1] == k[:1]]
+        if len(hit) == 1:
+            used.add(hit[0]["i"])
+            return hit[0]
+        return None
+
+    today = datetime.now(ROME).strftime("%Y-%m-%d")
+    out = {"leagues": {}, "players": [], "upd": [], "fix": {}, "nat": [], "order": []}
+    deferred = []      # (ordine competizione, fm, sk, chiave, id giocatore, squadra, partite)
+    nxt_all = {}
+    for pos, d in enumerate(cand):
+        fm, sk, women = d["fm"], d["sk"], d["women"]
+        key = SLUG.get(fm) or f"fm-{fm}"
+        cal, par = load(f"arch/{fm}/{sk}.json"), load(f"partite/{fm}/{sk}.json.gz").get("m", {})
+        tname = {str(tid): tutte_name(tid, n, women, d["c"]) for tid, n in (cal.get("teams") or {}).items() if not NOT_TEAM.search(str(n))}
+        T = {n: {"for": [], "ag": [], "sf": [], "sa": []} for n in tname.values()}
+        rows, n_fin = {}, 0
+        for r in cal.get("fix") or []:
+            mid, hid, aid, utc, fin = str(r[0]), str(r[2]), str(r[3]), r[4], r[7]
+            m = par.get(mid)
+            if not fin or not m or hid not in tname or aid not in tname:
+                continue
+            s = m.get("s") or {}
+            sh, so = s.get("total_shots"), s.get("ShotsOnTarget")
+            if not (isinstance(sh, list) and isinstance(so, list) and len(sh) == 2 and len(so) == 2 and None not in sh and None not in so):
+                continue
+            n_fin += 1
+            h, a = tname[hid], tname[aid]
+            T[h]["for"].append(sh[0]); T[h]["ag"].append(sh[1]); T[h]["sf"].append(so[0]); T[h]["sa"].append(so[1])
+            T[a]["for"].append(sh[1]); T[a]["ag"].append(sh[0]); T[a]["sf"].append(so[1]); T[a]["sa"].append(so[0])
+            side = {}
+            for sd, tid in (("h", hid), ("a", aid)):
+                lu = m.get(sd) or {}
+                for x in (lu.get("st") or []) + (lu.get("sb") or []):
+                    if isinstance(x, list) and x and x[0] is not None:
+                        side[str(x[0])] = (tid, x[1] if len(x) > 1 else "")
+            for pid, v in (m.get("p") or {}).items():
+                mins = v.get("minutes_played") or 0
+                if mins <= 0 or str(pid) not in side:
+                    continue
+                tid, nm = side[str(pid)]
+                p = rows.setdefault(str(pid), {"n": nm, "t": tid, "ms": []})
+                p["ms"].append((utc, int(v.get("total_shots") or 0), int(v.get("ShotsOnTarget") or 0), int(round(mins))))
+        if n_fin < MIN_PARTITE_COMP:
+            print(f"{d['name']} ({d['c']}): solo {n_fin} partite con statistiche, salto")
+            continue
+        teams, logos = {}, {}
+        fmid = {v: k for k, v in tname.items()}
+        for n, t in T.items():
+            g = len(t["for"])
+            if g < MIN_PARTITE_SQ:
+                continue
+            teams[n] = {"games": g, "totalFor": r3(sum(t["for"]) / g), "totalAgainst": r3(sum(t["ag"]) / g), "sotFor": r3(sum(t["sf"]) / g), "sotAgainst": r3(sum(t["sa"]) / g)}
+            logos[n] = f"https://images.fotmob.com/image_resources/logo/teamlogo/{fmid[n]}.png"
+        if len(teams) < 2:
+            print(f"{d['name']} ({d['c']}): meno di 2 squadre con {MIN_PARTITE_SQ} partite, salto")
+            continue
+        vals = list(teams.values())
+        avg = {k: r3(sum(v[k] for v in vals) / len(vals)) for k in ("totalFor", "totalAgainst", "sotFor", "sotAgainst")}
+        handi = None if (d["c"] in NO_HANDI or d["c"] not in UEFA or d["cup"]) else HANDI.get(d["c"], 0.60)
+        out["leagues"][key] = {"label": d["name"], "name": d["name"], "handicap": handi, "league_avg": avg, "logos": logos, "matches": n_fin, "restricted": False,
+                               "season": sk.replace("-", "/"), "size": len(teams), "teams": teams, "country": d["c"], "cup": d["cup"], "women": women}
+        out["order"].append(key)
+        for pid, p in rows.items():
+            tn = tname[p["t"]]
+            if tn in teams:
+                deferred.append((pos, fm, sk, key, pid, tn, p))
+        for r in cal.get("fix") or []:
+            hid, aid, utc, started, canc = str(r[2]), str(r[3]), r[4], r[6], r[8]
+            if started or canc or hid not in tname or aid not in tname or rome_day(utc) < today:
+                continue
+            dd = rome_day(utc)
+            nxt_all.setdefault(tname[hid], []).append((utc, [dd, tname[aid], 1, key]))
+            nxt_all.setdefault(tname[aid], []).append((utc, [dd, tname[hid], 0, key]))
+        print(f"{d['name']} ({d['c']}) -> {key}: {n_fin} partite, {len(teams)} squadre")
+    # un giocatore = un profilo: quello della prima competizione (campionato prima delle coppe) in cui ha giocato; profili.py ricalcola poi
+    # campionato, coppe, ultime 5 e hit rate su tutte le sue competizioni
+    # chi e' gia' in calc_extra.json (campionati aggiunti) resta li': stesso profilo, profili.py lo ricalcola su tutte le sue competizioni
+    ex_fm = {str(x.get("fm")) for x in ex.get("players") or []} | {str(x.get("fm")) for x in ex.get("nat") or []}
+    ex_upd = {u["i"] for u in ex.get("upd") or []}
+    seen = set(ex_fm)
+    n_new = n_upd = 0
+    for pos, fm, sk, key, pid, tn, p in sorted(deferred, key=lambda x: x[0]):
+        if pid in seen:
+            continue
+        seen.add(pid)
+        ms = sorted(p["ms"], key=lambda x: x[0], reverse=True)
+        tot = [len(ms), float(sum(x[1] for x in ms)), sum(x[2] for x in ms), float(sum(x[3] for x in ms))]
+        last = [[x[1], x[2], x[3]] for x in ms[:5]]
+        hit = [[x[1], x[2], x[3]] for x in [y for y in ms if y[3] >= MIN_HIT][:5]]
+        old = find_old(tn, p["n"], pid)
+        if old:
+            if old["i"] in ex_upd:
+                continue
+            out["upd"].append({"i": old["i"], "l": tot, "r": last, "h": hit})
+            n_upd += 1
+        else:
+            out["players"].append({"i": f"fm~{fm}~{sk}~{pid}", "n": p["n"], "t": tn, "fm": int(pid), "lg": key, "l": tot, "r": last, "h": hit})
+            n_new += 1
+    for tn, lst in nxt_all.items():
+        lst.sort(key=lambda x: x[0])
+        out["fix"][tn] = [x[1] for x in lst][:NEXT_FIX]
+    json.dump(out, open(OUT, "w"), ensure_ascii=False, separators=(",", ":"))
+    print(f"{len(out['leagues'])} competizioni, {len(out['players'])} giocatori nuovi, {n_upd} aggiornati, {len(out['fix'])} squadre con calendario; scritto {OUT} {round(os.path.getsize(OUT) / 1024)} KB")
 
 
 def main():
@@ -300,5 +572,7 @@ if __name__ == "__main__":
         _o = json.load(open(OUT))
         nat_clubs(_o)
         json.dump(_o, open(OUT, "w"), ensure_ascii=False, separators=(",", ":"))
+    elif TUTTE:
+        main_tutte()
     else:
         main()

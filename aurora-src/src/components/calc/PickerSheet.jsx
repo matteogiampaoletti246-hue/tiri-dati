@@ -17,6 +17,21 @@ const norm = (s) =>
     .normalize('NFD')
     .replace(/[̀-ͯ]/g, '');
 
+// primi 60 risultati: prima chi inizia col testo, poi chi ha una parola che inizia, poi chi lo contiene (una sola passata, con uscita anticipata)
+function pick(options, needle) {
+  const b0 = [], b1 = [], b2 = [];
+  for (let i = 0; i < options.length && b0.length < 60; i++) {
+    const o = options[i];
+    const h = o._h || (o._h = `${norm(o.label)}|${norm(o.sub)}|${o.alias ? norm(o.alias) : ''}`);
+    if (!h.includes(needle)) continue;
+    const l = o._l || (o._l = norm(o.label));
+    if (l.startsWith(needle)) b0.push(o);
+    else if (l.includes(` ${needle}`) || l.includes(`-${needle}`)) { if (b1.length < 60) b1.push(o); }
+    else if (b2.length < 60) b2.push(o);
+  }
+  return b0.concat(b1, b2).slice(0, 60);
+}
+
 // Elenco a tutto schermo con ricerca: usato per giocatori, squadre e campionati.
 export default function PickerSheet({ open, title, options = [], placeholder = 'Cerca', hint, emptyLabel = 'Nessun risultato', cards = false, banners = false, requireQuery = false, onSelect, onClose }) {
   const [q, setQ] = useState('');
@@ -41,8 +56,7 @@ export default function PickerSheet({ open, title, options = [], placeholder = '
   if (!open) return null;
 
   const needle = norm(q);
-  const rk = (n) => { const x = norm(n); return x.startsWith(needle) ? 0 : x.split(' ').some((w) => w.startsWith(needle)) ? 1 : 2; };
-  const list = (needle ? options.filter((o) => norm(o.label).includes(needle) || norm(o.sub).includes(needle) || (o.alias && norm(o.alias).includes(needle))).sort((a, b) => rk(a.label) - rk(b.label)) : (requireQuery ? [] : options)).slice(0, 60);
+  const list = needle ? pick(options, needle) : requireQuery ? [] : options.slice(0, 60);
 
   return (
     <div data-no-back="1" className="fade-in fixed inset-0 z-[60] overflow-hidden" style={{ background: 'color-mix(in srgb, var(--sky-2) 94%, transparent)', backdropFilter: 'blur(24px)' }}>

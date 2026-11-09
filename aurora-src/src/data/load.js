@@ -23,6 +23,7 @@ const FILES = {
   statsEx: 'stats_ex.json',
   giocatori: 'giocatori.json',
   calcExtra: 'calc_extra.json',
+  calcTutte: 'calc_tutte.json',
   arbitri: 'arbitri.json',
   stadi: 'stadi.json',
   angoli: 'angoli.json',
@@ -40,8 +41,16 @@ const FILES = {
 // Campionati aggiunti con Affidabilita' (calc_extra.py, dall'archivio FotMob): medie di TUTTE le squadre al posto di quelle
 // parziali di data.json, statistiche complete dei giocatori che giocatori.json ha solo in parte (upd, per id), giocatori e
 // partite che mancano. Stessa forma dei dati dei top campionati: il resto dell'app non cambia.
-function mergeCalcExtra() {
-  const X = RAW.calcExtra;
+// calc_tutte.json (calc_extra.py --tutte) ha la stessa forma e porta TUTTE le altre competizioni di club con statistiche tiri: li' i calendari
+// si sommano a quelli gia' presenti (un club gioca campionato, coppa nazionale e coppa continentale), non li sostituiscono.
+const sumFix = (a, b) => {
+  const seen = new Set();
+  return [...(a || []), ...(b || [])]
+    .filter((f) => { const k = `${f[0]}|${f[1]}|${f[3]}`; if (seen.has(k)) return false; seen.add(k); return true; })
+    .sort((x, y) => (x[0] < y[0] ? -1 : x[0] > y[0] ? 1 : 0))
+    .slice(0, 10);
+};
+function mergeCalcFile(X, add) {
   if (!X) return;
   if (!RAW.data) RAW.data = { leagues: {} };
   if (!RAW.data.leagues) RAW.data.leagues = {};
@@ -53,11 +62,14 @@ function mergeCalcExtra() {
   // l, r, h e partite per l'Hit Rate (hn, hp) di profili.py: si copia tutto quello che c'e'
   (X.upd || []).forEach((u) => { const p = byId.get(u.i); if (p) Object.assign(p, u); });
   // nazionali (Nations League): profili a parte con le sole statistiche della nazionale; players.js li lega al giocatore di club
+  // calc_tutte.json: giocatori "leggeri" (solo tiri, minuti, hit rate): players.js li costruisce senza voti, ultime partite e xG
+  if (add) (X.players || []).forEach((p) => { p.tt = 1; });
   G.players = (G.players || []).concat(X.players || [], X.nat || []);
   if (X.al) G.al = { ...(G.al || {}), ...X.al };
   G.fix = G.fix || {};
-  Object.entries(X.fix || {}).forEach(([t, lst]) => { G.fix[t] = lst; });
+  Object.entries(X.fix || {}).forEach(([t, lst]) => { G.fix[t] = add ? sumFix(G.fix[t], lst) : lst; });
 }
+const mergeCalcExtra = () => { mergeCalcFile(RAW.calcExtra, false); mergeCalcFile(RAW.calcTutte, true); };
 
 // Infortunati con LiveScore (dati di terzi: solo su KV, mai nel repository). Al massimo 2,5 s: senza risposta vale infortuni.json.
 const kvInjuries = () => Promise.race([

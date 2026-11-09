@@ -30,6 +30,29 @@ import { MONTHS, WEEKDAYS } from '@/lib/format';
 import { romeTime } from '@/data/util';
 import { cupOf } from '@/data/calcData';
 
+const EMPTY_OPTS = [];
+const nrm = (s) => String(s ?? '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+// opzione leggera: avatar, sfondo e riga club/nazionale sono getter (creati solo per le righe visibili)
+class PickOpt {
+  constructor(p, sub) { this.p = p; this.value = p.id; this.label = p.name; this.alias = p.nick || ''; this.sub = sub; this._l = nrm(p.name); this._h = `${this._l}|${nrm(sub)}|${nrm(this.alias)}`; }
+  get avatar() { return <PlayerFace p={this.p} size={52} />; }
+  get bg() { const p = this.p; return teamGrad((p.nat ? null : teamById(p.teamId)) || teamById(p.teamId), 0x55); }
+  get subNode() { return <ClubNatLine p={this.p} className="mt-0.5 text-[12px]" />; }
+}
+let optsCache = { n: -1, list: EMPTY_OPTS };
+function buildPlayerOptions() {
+  if (optsCache.n === PLAYERS.length) return optsCache.list;
+  // il profilo della nazionale di un giocatore di club non e' un risultato a parte: sta nello stesso banner del club
+  const list = PLAYERS.filter((p) => !(p.nat && p.club)).map((p) => {
+    const t = p.nat ? null : teamById(p.teamId);
+    const ct = p.nat && p.clubName ? p.clubName : '';
+    return new PickOpt(p, [t ? t.name : p.teamName || '', ct, p.natView ? `${p.natView.teamName} ${countryIt(p.natView.teamName)}` : p.nat ? countryIt(p.teamName) : ''].filter(Boolean).join(' '));
+  });
+  list.sort((a, b) => (a._l < b._l ? -1 : a._l > b._l ? 1 : 0));
+  optsCache = { n: PLAYERS.length, list };
+  return list;
+}
+
 // Tasto "Prossima partita" sotto il banner: apre la partita (contro l'avversaria scelta nel Calcolatore, altrimenti la prossima
 // della squadra) sopra il Calcolatore, che resta com'era al ritorno. Senza una prossima partita il tasto non si mostra.
 // comp: solo partite di quella competizione (banner squadra del Calcolatore: campionato o coppa scelta); glass: dentro un banner colorato
@@ -77,25 +100,9 @@ export default function PlayerPickPanel({ form, set, player, hint, onSelectPlaye
   const team = player ? teamById((player.nat && player.club ? player.club : player).teamId) : null;
   const compOptions = useMemo(() => playerComps(player), [player]);
 
-  const playerOptions = useMemo(
-    () =>
-      // il profilo della nazionale di un giocatore di club non e' un risultato a parte: sta nello stesso banner del club
-      [...PLAYERS].filter((p) => !(p.nat && p.club)).sort((a, b) => a.name.localeCompare(b.name)).map((p) => {
-        const club = p.nat ? null : p;
-        const t = club ? teamById(club.teamId) : null;
-        const ct = p.nat && p.clubName ? p.clubName : '';
-        return {
-          value: p.id,
-          label: p.name,
-          alias: p.nick || '',
-          sub: [t ? t.name : p.teamName || '', ct, p.natView ? `${p.natView.teamName} ${countryIt(p.natView.teamName)}` : p.nat ? countryIt(p.teamName) : ''].filter(Boolean).join(' '),
-          avatar: <PlayerFace p={p} size={52} />,
-          bg: teamGrad(t || teamById(p.teamId), 0x55),
-          subNode: <ClubNatLine p={p} className="mt-0.5 text-[12px]" />,
-        };
-      }),
-    [],
-  );
+  // ~36k giocatori: l'elenco si costruisce solo alla prima apertura della ricerca (le parti grafiche sono calcolate al momento, solo per le 60 righe mostrate)
+  const pickerOpen = picker === 'player';
+  const playerOptions = useMemo(() => (pickerOpen ? buildPlayerOptions() : EMPTY_OPTS), [pickerOpen, PLAYERS.length]);
 
   return (
     <section>

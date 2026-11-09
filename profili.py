@@ -157,10 +157,35 @@ def match_rows(fm, sk):
     return out, tdays
 
 
+def compatta_tutte(CT):
+    """calc_tutte.json e' grande (decine di migliaia di giocatori): niente decimali inutili, niente campi uguali al valore di default dell'app."""
+    def num(v):
+        return int(v) if isinstance(v, float) and v == int(v) else v
+    # i p_ di giocatori.json hanno gia' tutte le loro statistiche (stessi calcoli, giocatori.json): qui restano solo i giocatori che l'app non ha
+    CT["upd"] = []
+    for x in CT.get("players") or []:
+        # l'Hit Rate usa `h`; le ultime 5 di chi ha `hn` non servono ad altro (la scheda le legge dall'archivio)
+        if x.get("hn") is not None:
+            x.pop("r", None)
+        for k in ("l", "c"):
+            if isinstance(x.get(k), list):
+                x[k] = [num(v) for v in x[k]]
+        if x.get("c") == [0, 0, 0, 0]:
+            x.pop("c")
+        if not x.get("hp"):
+            x.pop("hp", None)
+        if x.get("f") == x.get("fm"):
+            x.pop("f", None)
+
+
 def main():
     G = load_json("giocatori.json")
     CACHE = load_json("cache_giocatori.json", {"m": {}, "p": {}, "t": {}})
     CX = load_json("calc_extra.json", {"players": [], "upd": []})
+    # calc_tutte.json (calc_extra.py --tutte): giocatori di tutte le altre competizioni di club, stessi calcoli; alla fine ognuno torna nel suo file
+    CT = load_json("calc_tutte.json", {"players": [], "upd": []})
+    T_IDS = {x["i"] for x in CT.get("players") or []}
+    CX["players"] = (CX.get("players") or []) + (CT.get("players") or [])
     if not G:
         sys.exit("giocatori.json mancante")
     players = G["players"]
@@ -500,7 +525,7 @@ def main():
 
     # calc_extra: aggiornamenti dei p_ (stessi calcoli, si riscrivono con quelli completi) e giocatori d'archivio non doppi
     byid = {p["i"]: p for p in new_players}
-    for u in CX.get("upd") or []:
+    for u in (CX.get("upd") or []) + (CT.get("upd") or []):
         q = byid.get(u["i"])
         if q:
             for k in ("l", "r", "h", "hn", "hp"):
@@ -561,7 +586,14 @@ def main():
         json.dump(stat, open("report/profili_stato.json", "w", encoding="utf-8"), ensure_ascii=False, indent=1)
         json.dump(G, open("giocatori.json", "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
     if "--giocatori" not in sys.argv:
+        CT["players"] = [x for x in CX["players"] if x["i"] in T_IDS]
+        CT["al"] = {a: b for a, b in cx_alias.items() if a in T_IDS}
+        CX["players"] = [x for x in CX["players"] if x["i"] not in T_IDS]
+        CX["al"] = {a: b for a, b in cx_alias.items() if a not in T_IDS}
         json.dump(CX, open("calc_extra.json", "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
+        if os.path.exists("calc_tutte.json"):
+            compatta_tutte(CT)
+            json.dump(CT, open("calc_tutte.json", "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
     print(json.dumps({k: v for k, v in stat.items() if not k.startswith("esempi") and k != "squadre_non_abbinate"}, ensure_ascii=False))
 
 

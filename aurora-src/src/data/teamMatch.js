@@ -1,10 +1,12 @@
-import { lruGet, lruSet } from '@/lib/lru';
+import { lruSet } from '@/lib/lru';
 // Confronto nomi squadra tra fonti diverse (FotMob, PitchAPI, ...): una sola regola per tutta l'app.
 const ALIAS = [[/\bmanchester\b/g, 'man'], [/\bnottingham\b/g, 'nottm'], [/\bmunchen\b/g, 'munich'], [/\bm gladbach\b|\bmonchengladbach\b|\bmgladbach\b/g, 'gladbach'], [/\bsaint\b/g, 'st'], [/\bborussia\b/g, ' '], [/\bwolverhampton wanderers\b/g, 'wolves'], [/\btottenham hotspur\b/g, 'tottenham'], [/\bsheffield\b/g, 'sheff'], [/\bunited\b/g, 'utd'], [/\bwednesday\b/g, 'wed']];
 // nomi gia' normalizzati (capienza fissa): gli abbinamenti confrontano gli stessi nomi migliaia di volte
 const NC = new Map();
 const RC = new Map();
-const memo = (map, k, f) => { const h = lruGet(map, k); if (h !== undefined) return h; const v = f(k); lruSet(map, k, v, 6000); return v; };
+// norm/reserveTag/acr sono funzioni pure: una voce gia' calcolata si rilegge senza spostarla (spostarla a ogni lettura costava piu' del calcolo: findAppTeam
+// confronta migliaia di nomi a ogni chiamata); si butta solo il piu' vecchio quando si supera la capienza
+const memo = (map, k, f) => { const h = map.get(k); if (h !== undefined) return h; const v = f(k); lruSet(map, k, v, 24000); return v; };
 export const norm = (n) => memo(NC, String(n || ''), normRaw);
 const normRaw = (n) => {
   let x = String(n || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9 ]/g, ' ').replace(/\b(fc|ac|as|ss|us|afc|cf|sc|calcio|1\w*)\b/g, ' ');

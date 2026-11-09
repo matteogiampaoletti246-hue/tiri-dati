@@ -310,7 +310,10 @@ export const okVoto = (v) => v != null && Math.round(v * 100) / 100 >= MIN_VOTO;
 
 export function matchReliability(match, line = 0.5) {
   const out = [];
-  PLAYERS.forEach((p) => {
+  // solo i giocatori delle due squadre (con decine di migliaia di giocatori non si scorre l'elenco intero a ogni disegno)
+  const ht = teamById(match.homeId);
+  const at = teamById(match.awayId);
+  [...(ht ? playersOf(ht.name) : []), ...(at && (!ht || at.name !== ht.name) ? playersOf(at.name) : [])].forEach((p) => {
     if (p.teamId !== match.homeId && p.teamId !== match.awayId) return;
     if ((p.l ? p.l[0] : 0) + (p.c ? p.c[0] : 0) < 3) return; // almeno 3 presenze
     const r = playerReliability(p, match.date, line);

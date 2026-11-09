@@ -4,6 +4,7 @@
 import { RAW } from './load';
 import { comma } from '@/lib/format';
 import { teamById, teamByName } from './teams';
+import { leagueById } from './leagues';
 import { romeDay } from './util';
 
 // Campionati disponibili nel calcolatore, nell'ordine in cui compaiono nei menu.
@@ -14,11 +15,21 @@ export const CALC_KEYS = ['serie-a', 'premier-league', 'bundesliga', 'la-liga', 
 export const NATIONS_KEYS = ['fm-9806', 'fm-9807', 'fm-9808', 'fm-9809'];
 export const CUPS = ['champions-league', 'europa-league'];
 export const DOMESTIC_KEYS = CALC_KEYS.filter((k) => !CUPS.includes(k));
+// Tutte le competizioni con statistiche tiri (calc_tutte.json): Affidabilita' in partita e nelle formazioni, Calcolatore, ricerca.
+// CALC_KEYS / DOMESTIC_KEYS restano quelli di prima: Migliori Giocatori usa solo quelli (regola dell'utente, non si tocca).
+// Ordine: campionati prima delle coppe (domesticKey e pickLeagueKey cercano la prima competizione che contiene la squadra).
+export const ALL_KEYS = [...CALC_KEYS];
 const LABELS = { 'serie-a': 'Serie A', 'premier-league': 'Premier League', bundesliga: 'Bundesliga', 'la-liga': 'LaLiga', 'ligue-1': 'Ligue 1', 'champions-league': 'Champions League', 'europa-league': 'Europa League', eredivisie: 'Eredivisie', 'pro-league': 'Pro League', 'fm-46': 'Superliga Danimarca', 'gre-super-league-1': 'Super League Grecia', 'liga-portugal': 'Primeira Liga', 'super-lig': 'Süper Lig', 'fm-9806': 'Nations League A', 'fm-9807': 'Nations League B', 'fm-9808': 'Nations League C', 'fm-9809': 'Nations League D' };
 
 const LD = {};
-export const calcLeagues = () => CALC_KEYS.filter((k) => LD[k]).map((k) => ({ id: k, name: LABELS[k] || LD[k].label, cup: CUPS.includes(k) }));
-export const leagueName = (leagueId) => (LD[leagueId] ? LABELS[leagueId] || LD[leagueId].label : LABELS[leagueId] || '');
+// nome della competizione: per le nuove quello dell'app (italiano, con il paese tra parentesi se il nome e' uguale ad altri), altrimenti quello dei dati
+const nameOfKey = (k) => {
+  if (LABELS[k]) return LABELS[k];
+  const l = leagueById(k);
+  return (l && l.arch && l.name) || (LD[k] && LD[k].label) || '';
+};
+export const calcLeagues = () => ALL_KEYS.filter((k) => LD[k]).map((k) => ({ id: k, name: nameOfKey(k), cup: CUPS.includes(k) }));
+export const leagueName = (leagueId) => (LD[leagueId] ? nameOfKey(leagueId) : LABELS[leagueId] || '');
 export const calcTeamsOf = (leagueId) => (LD[leagueId] ? Object.keys(LD[leagueId].teams) : []);
 // coppa europea della squadra (Champions o Europa League): tasto Prossima partita con Competizione = Coppa europea
 export const cupOf = (team) => (team ? CUPS.find((c) => calcTeamsOf(c).some((n) => n === team.name || (teamByName(n) || {}).id === team.id)) || null : null);
@@ -26,6 +37,7 @@ export const cupOf = (team) => (team ? CUPS.find((c) => calcTeamsOf(c).some((n) 
 export function buildCalcData() {
   Object.keys(LD).forEach((k) => delete LD[k]);
   const L = (RAW.data && RAW.data.leagues) || {};
+  ((RAW.calcTutte && RAW.calcTutte.order) || []).forEach((k) => { if (!ALL_KEYS.includes(k)) ALL_KEYS.push(k); });
   Object.entries(L).forEach(([k, src]) => {
     // le medie restano quelle vere (stesse del pannello statistiche squadra): l'handicap dei campionati minori vale SOLO nelle coppe europee
     // (squadre di campionati diversi, peso diverso) e si applica in blend(); scegliendo il campionato non c'e' mai
@@ -34,7 +46,7 @@ export function buildCalcData() {
     Object.entries(src.teams || {}).forEach(([n, t]) => {
       teams[n] = { totalFor: t.totalFor, totalAgainst: t.totalAgainst, sotFor: t.sotFor, sotAgainst: t.sotAgainst };
     });
-    LD[k] = { label: src.label || src.name || k, teams, avg: h ? src.league_avg : null, strength: 1, hcap: h, cup: CUPS.includes(k) };
+    LD[k] = { label: src.label || src.name || k, teams, avg: h ? src.league_avg : null, strength: 1, hcap: h, cup: CUPS.includes(k), dcup: !!src.cup };
   });
 }
 
@@ -63,7 +75,7 @@ const lgAvg = perLeague((k, field) => {
 const adj = (v, avg, s) => (s < 1 && avg > 0 ? avg + (v - avg) * s : v);
 
 // campionato nazionale della squadra (tra quelli del menu, esclusa la coppa)
-const domesticKey = (name) => CALC_KEYS.find((k) => !CUPS.includes(k) && LD[k] && LD[k].teams[name]) || null;
+const domesticKey = (name) => ALL_KEYS.find((k) => !CUPS.includes(k) && LD[k] && !LD[k].dcup && LD[k].teams[name]) || null;
 
 // valore squadra per un campo: in coppa è la media tra campionato (corretto per la forza del
 // campionato) e coppa, come nell'app originale.
@@ -176,10 +188,10 @@ export const adjustedValue = (value, avg, strength) => (value > 0 && strength < 
 export function pickLeagueKey(name, prefer) {
   const order = [];
   if (prefer) order.push(prefer);
-  CALC_KEYS.forEach((k) => {
+  ALL_KEYS.forEach((k) => {
     if (!order.includes(k) && !CUPS.includes(k)) order.push(k);
   });
-  CALC_KEYS.forEach((k) => {
+  ALL_KEYS.forEach((k) => {
     if (!order.includes(k)) order.push(k);
   });
   return order.find((k) => LD[k] && LD[k].teams[name]) || null;

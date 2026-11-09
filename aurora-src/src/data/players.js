@@ -88,8 +88,11 @@ export function buildPlayers() {
     const name = g ? g.n : s[ix.n];
     const teamName = g ? g.t : s[ix.t];
     const team = teamByName(teamName) || ensureTeam(teamName, s ? s[ix.lg] : null);
-    const ex = EX[`${norm(name)}|${slug(teamName)}`];
-    const rec = recent[`${name}|${teamName}`] || [];
+    // giocatori di calc_tutte.json (decine di migliaia): non hanno voto, xG ne' ultime partite con voto, si evita di cercarli
+    const light = !!(g && g.tt);
+    const ex = light ? undefined : EX[`${norm(name)}|${slug(teamName)}`];
+    const rec = (light ? null : recent[`${name}|${teamName}`]) || [];
+    const rn = realName(g ? g.f || g.fm : null, name);
     const lg = g ? g.l : [0, 0, 0, 0];
     const cup = (g && g.c) || [0, 0, 0, 0];
     const rows = g ? g.r || [] : [];
@@ -100,9 +103,9 @@ export function buildPlayers() {
       teamName,
       leagueId: s ? s[ix.lg] : (g && g.lg) || team.leagueId,
       // nome vero al posto del soprannome (nomi.json); il soprannome resta per la ricerca e gli abbinamenti
-      name: realName(g ? g.f || g.fm : null, name),
-      nick: realName(g ? g.f || g.fm : null, name) !== name ? name : null,
-      initials: initialsOf(realName(g ? g.f || g.fm : null, name)),
+      name: rn,
+      nick: rn !== name ? name : null,
+      initials: initialsOf(rn),
       number: null,
       position: s ? POS[s[ix.pos]] || null : null,
       photo: g && g.fm ? `https://images.fotmob.com/image_resources/playerimages/${g.fm}.png` : photoOf(g ? g.i : s[ix.id]) || (g && g.f ? faceUrl(g.f) : null),

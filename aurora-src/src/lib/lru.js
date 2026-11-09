@@ -9,10 +9,15 @@ export function lruGet(map, k) {
 export function lruSet(map, k, v, max, onDrop) {
   map.delete(k);
   map.set(k, v);
-  while (map.size > max) {
-    const old = map.keys().next().value;
-    const ov = map.get(old);
-    map.delete(old);
-    if (onDrop) try { onDrop(old, ov); } catch (e) { /* ignora */ }
+  if (map.size > max) {
+    // si butta un blocco di voci vecchie in un colpo solo: togliere una voce alla volta dalla testa di una Map costringe a riscorrere ogni volta
+    // le voci gia' cancellate (con migliaia di nomi diversi era il punto piu' lento dell'avvio); la capienza non supera mai `max`
+    let n = map.size - max + (max >> 3);
+    for (const old of map.keys()) {
+      const ov = onDrop ? map.get(old) : undefined;
+      map.delete(old);
+      if (onDrop) try { onDrop(old, ov); } catch (e) { /* ignora */ }
+      if (--n <= 0) break;
+    }
   }
 }
