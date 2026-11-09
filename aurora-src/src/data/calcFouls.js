@@ -3,8 +3,9 @@
 // Cache a capienza fissa (lib/lru.js).
 import { useEffect, useState } from 'react';
 import { FM_ID, currentSeason, loadSeason, loadSeasonMatches, teamIdByName } from './archive';
-import { CUPS, domesticKey } from './calcData';
+import { CUPS, NATIONS_KEYS, domesticKey } from './calcData';
 import { lruGet, lruSet } from '@/lib/lru';
+import { comma } from '@/lib/format';
 
 const LG = new Map();
 const mean = (a, f) => (a.length ? a.reduce((s, x) => s + f(x), 0) / a.length : null);
@@ -159,22 +160,53 @@ export function rosterFouls(data, key, fmTeam, stat) {
 // giocatore: medie stagionali (campionato e coppa europea) e partite per l'Hit Rate in tutte le competizioni (regola fissa: almeno 50',
 // dalla piu' recente). `hit` = righe dell'Hit Rate del giocatore (profili.py: stagione in corso poi passata, con i falli di ogni partita):
 // se tutte hanno i falli si usano quelle, altrimenti le partite della stagione in corso con almeno 50'
-export function playerFouls(data, fmPid, domKey, stat, hit = null) {
+export function playerFouls(data, fmPid, domKey, stat, hit = null, natKey = null) {
   if (!data || !fmPid) return null;
   const pid = String(fmPid);
   const camp = domKey && data[domKey] && data[domKey].players[pid];
+  const naz = natKey && data[natKey] && data[natKey].players[pid];
   const cups = CUPS.map((k) => data[k] && data[k].players[pid]).filter(Boolean);
   const sum = (list) => {
     const g = list.flatMap((p) => p.g);
     if (!g.length) return null;
     return { v: g.reduce((a, x) => a + x[stat], 0) / g.length, min: g.reduce((a, x) => a + x.min, 0) / g.length, n: g.length };
   };
-  const res = { campionato: camp ? sum([camp]) : null, coppa: cups.length ? sum(cups) : null };
+  // nazionale: media della Nations League e partite con almeno 50' di questa stagione (Hit Rate con la nazionale), dalla piu' recente
+  const natG = naz ? naz.g.filter((x) => x.min >= 50).sort((a, b) => b.ts - a.ts) : [];
+  const res = { campionato: camp ? sum([camp]) : null, coppa: cups.length ? sum(cups) : null, nations: naz ? sum([naz]) : null, natVals: natG.map((x) => x[stat]) };
   const ki = stat === 'fs' ? 4 : 3;
   if (hit && hit.length && hit.every((x) => x[ki] !== null && x[ki] !== undefined)) return { ...res, last5: hit.map((x) => x[ki]), min5: hit.map((x) => x[2]) };
-  const all = [camp, ...cups].filter(Boolean).flatMap((p) => p.g).filter((x) => x.min >= 50).sort((a, b) => b.ts - a.ts);
+  // senza profilo di club (solo nazionale) valgono le partite con la nazionale
+  const all = (camp || cups.length ? [camp, ...cups] : [naz]).filter(Boolean).flatMap((p) => p.g).filter((x) => x.min >= 50).sort((a, b) => b.ts - a.ts);
   const last5 = all.slice(0, 5);
   return { ...res, last5: last5.map((x) => x[stat]), min5: last5.map((x) => x.min) };
+}
+
+// Profili di un giocatore: quello di club e quello della nazionale (Nations League), qualunque dei due sia scelto nel Calcolatore.
+export const foulProfiles = (p) => ({ club: p && p.nat ? p.club || null : p || null, nat: p && p.nat ? p : (p && p.natView) || null });
+const natKeyOf = (nat) => (nat && NATIONS_KEYS.includes(nat.leagueId) ? nat.leagueId : null);
+// archivi da leggere: oltre a quelli delle due squadre, sempre il campionato del club e la Nations League della nazionale del giocatore
+export const foulKeysFor = (p, names, leagueIds) => {
+  const { club, nat } = foulProfiles(p);
+  return foulKeys([...names, club && club.teamName], [...(leagueIds || []), natKeyOf(nat)]);
+};
+// Falli del giocatore, uguali ovunque (Calcolatore, Migliori Giocatori, scheda giocatore): campionato = quello del CLUB (mai la nazionale:
+// prima, con Nations League scelta, le medie della nazionale finivano nella riga del campionato e la riga Nations League restava vuota),
+// coppa europea, Nations League dalla nazionale; Hit Rate dalle partite di club (`hitOf` = hitRows di calcPlayer).
+export function playerFoulsOf(data, fmPid, p, stat, hitOf) {
+  const { club, nat } = foulProfiles(p);
+  const domKey = club ? domesticKey(club.teamName) : null;
+  const hit = club && club.hn != null && hitOf ? hitOf(club) : null;
+  return playerFouls(data, fmPid, domKey, stat, hit, natKeyOf(nat));
+}
+// medie stagione dei falli per il modulo del Calcolatore
+export function foulSeasonOf(pf, cupOk = true) {
+  const season = { campionato: { tiri: '', minuti: '' }, coppa: { tiri: '', minuti: '' }, nations: { tiri: '', minuti: '' }, qualificazioni: { tiri: '', minuti: '' } };
+  ['campionato', 'coppa', 'nations'].forEach((k) => {
+    if (k === 'coppa' && !cupOk) return;
+    if (pf && pf[k]) season[k] = { tiri: comma(Math.round(pf[k].v * 100) / 100, 2), minuti: String(Math.round(pf[k].min)) };
+  });
+  return season;
 }
 
 // id FotMob di una squadra dell'app: prima quello noto o dello stemma, poi il nome tra le squadre degli archivi caricati (lo stemma dei top campionati non sempre ha l'id)

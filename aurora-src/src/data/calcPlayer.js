@@ -10,7 +10,7 @@ export const emptyBlock = () => ({ leagueId: 'serie-a', id: null, totali: '', in
 export const emptyFouls = () => ({
   last5: '', min5: '', hitRate: '',
   season: { campionato: { tiri: '', minuti: '' }, coppa: { tiri: '', minuti: '' }, nations: { tiri: '', minuti: '' }, qualificazioni: { tiri: '', minuti: '' } },
-  team: '', opp: '', duel: [], duelManual: false,
+  team: '', opp: '', duel: [], duelManual: false, natVals: [],
 });
 // profilo con cui si calcola: scegliendo Nations League un giocatore di club usa quello della nazionale (squadra, partita, statistiche)
 export const viewFor = (p, competizione) => (p && p.natView && competizione === 'nations' ? p.natView : p);
@@ -30,6 +30,7 @@ export const initialForm = () => ({
   shots5: '',
   minutes5: '',
   hitN: null,
+  natVals: [],
   season: {
     campionato: { tiri: '', minuti: '' },
     coppa: { tiri: '', minuti: '' },
@@ -45,13 +46,31 @@ export const initialForm = () => ({
 // quelle che ci sono e il Calcolatore lo dice ("su 3 partite"). Dati senza `hn` (vecchio formato): come prima.
 export const hitRows = (p) => ((p && p.hn !== null && p.hn !== undefined ? p.h : p && p.h && p.h.length >= 5 ? p.h : p && p.r) || []).slice(0, 5);
 
+// Hit Rate con la nazionale (regola dell'utente, 9/11/2026): scegliendo Nations League, oltre all'Hit Rate normale conta quello delle
+// partite giocate in Nations League in questa stagione (almeno 50', come sempre): "2/3", "4/5"... quante ne ha giocate e in quante ha
+// superato la linea. Pesa insieme all'Hit Rate normale in proporzione alle partite (5 normali + 3 con la nazionale = 8 partite); entra
+// solo la percentuale, mai la media (quella e' gia' nella riga Nations League delle Medie stagione).
+export function natHitOf(vals, line, lineType) {
+  const v = (vals || []).filter((x) => x !== null && x !== undefined);
+  if (!v.length || line === null || line === undefined) return null;
+  return { hit: v.filter((x) => (lineType === 'under' ? x < line : x > line)).length, n: v.length };
+}
+export function mixHit(hitRate, n, nat) {
+  if (!nat || !nat.n) return hitRate;
+  if (hitRate === null || hitRate === undefined) return nat.n >= 3 ? nat.hit / nat.n : null; // stessa soglia dell'Hit Rate normale: sotto 3 partite niente
+  const base = n > 0 ? n : 5;
+  return (hitRate * base + nat.hit) / (base + nat.n);
+}
+const natLabel = (label, nat) => (nat ? `${label ? `${label} + ` : ''}${nat.hit}/${nat.n}` : label);
+
 // precompila i campi dal giocatore reale (media stagionale, ultime 5, squadre, prossima partita)
 export function fillFrom(f, p, fam, fx) {
   const k = fam === 'inPorta' ? 1 : 0;
   // profilo della nazionale (Nations League): hit rate e ultime 5 = ultime partite del giocatore in generale (club, tutte le competizioni),
   // non solo quelle con la nazionale; senza profilo di club restano quelle della nazionale
   const club = p.nat && p.club ? p.club : null;
-  const rows = club && hitRows(club).length ? hitRows(club) : hitRows(p);
+  const fromClub = !!(club && hitRows(club).length);
+  const rows = fromClub ? hitRows(club) : hitRows(p);
   const lineV = parseNum(f.line) ?? 0;
   const hit = rows.filter((x) => (f.lineType === 'under' ? (x[k] || 0) < lineV : (x[k] || 0) > lineV)).length;
   const season = { ...f.season, campionato: { tiri: '', minuti: '' }, coppa: { tiri: '', minuti: '' }, nations: { tiri: '', minuti: '' } };
@@ -95,6 +114,8 @@ export function fillFrom(f, p, fam, fx) {
     minutes5: rows.map((x) => x[2] || 0).join('-'),
     hitRate: fixed,
     hitN: rows.length,
+    // partite con la nazionale (profilo `nat`: `h` = Nations League di questa stagione con almeno 50'); senza profilo di club sono gia' l'Hit Rate normale
+    natVals: fromClub ? (p.h || []).map((x) => x[k] || 0) : [],
     season,
     team,
     opp,
@@ -110,6 +131,8 @@ export function resultFromForm(form) {
   const oppStats = teamShots(form.opp.id, form.opp.leagueId);
   const hitRate = form.hitRate === '' ? null : parseNum(form.hitRate);
   const hitLabel = HIT_OPTIONS.find((o) => o.value === form.hitRate)?.label ?? null;
+  const nat = form.competizione === 'nations' ? natHitOf(form.natVals, parseNum(form.line), form.lineType) : null;
+  const hitMix = mixHit(hitRate, form.hitN, nat);
   return computePlayerResult({
     comp: form.competizione,
     season: SEASON_COMPETITIONS.map((c) => ({
@@ -122,8 +145,8 @@ export function resultFromForm(form) {
     lineType: form.lineType,
     odds: parseNum(form.odds),
     sede: form.sede,
-    hitRate,
-    hitLabel,
+    hitRate: hitMix,
+    hitLabel: hitMix === null ? hitLabel : natLabel(hitLabel, nat),
     teamShots: parseNum(form.team[family]),
     teamAvgFor: teamStats ? teamStats.avg.for[family] : null,
     teamStrength: teamStats?.strength ?? null,
@@ -153,6 +176,8 @@ export function resultFromFouls(form, duelAvg, duelLeagueAvg, teamAvg, oppAvg) {
   const f = form.f || emptyFouls();
   const hitRate = f.hitRate === '' ? null : parseNum(f.hitRate);
   const hitLabel = HIT_OPTIONS.find((o) => o.value === f.hitRate)?.label ?? null;
+  const nat = form.competizione === 'nations' ? natHitOf(f.natVals, parseNum(form.line), form.lineType) : null;
+  const hitMix = mixHit(hitRate, parseDash(f.last5).slice(0, 5).length, nat);
   return computeFoulsResult({
     comp: form.competizione,
     season: SEASON_COMPETITIONS.map((c) => ({ key: c.key, shots: parseNum(f.season[c.key].tiri) ?? 0, minutes: parseNum(f.season[c.key].minuti) ?? 0 })),
@@ -160,8 +185,8 @@ export function resultFromFouls(form, duelAvg, duelLeagueAvg, teamAvg, oppAvg) {
     line: parseNum(form.line),
     lineType: form.lineType,
     odds: parseNum(form.odds),
-    hitRate,
-    hitLabel,
+    hitRate: hitMix,
+    hitLabel: hitMix === null ? hitLabel : natLabel(hitLabel, nat),
     teamVal: parseNum(f.team),
     teamAvg,
     oppVal: parseNum(f.opp),
