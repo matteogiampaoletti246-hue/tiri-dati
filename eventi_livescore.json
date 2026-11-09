@@ -173,8 +173,8 @@
    "da_fare": 0
   },
   "Liga 1 2026": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "FA Cup 2026-2027": {
    "partite_con_eventi": 0,
@@ -445,8 +445,8 @@
    "da_fare": 0
   },
   "Liga MX 2026-2027 - Apertura": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "1. CFL 2026-2027": {
    "partite_con_eventi": 0,
@@ -585,8 +585,8 @@
    "da_fare": 0
   },
   "Liga Nacional 2026-2027 - Apertura": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "Finland Cup 2026": {
    "partite_con_eventi": 0,
@@ -2393,5 +2393,5 @@
    "da_fare": 0
   }
  },
- "partite_in_questo_giro": 2
+ "partite_in_questo_giro": 1
 }
