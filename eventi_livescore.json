@@ -278,7 +278,7 @@
   },
   "Prva Liga 2026-2027": {
    "partite_con_eventi": 0,
-   "da_fare": 0
+   "da_fare": 1
   },
   "Slovenia Cup 2026-2027": {
    "partite_con_eventi": 0,
@@ -654,7 +654,7 @@
   },
   "Super League 2 2026-2027": {
    "partite_con_eventi": 0,
-   "da_fare": 0
+   "da_fare": 1
   },
   "II Liga 2026-2027": {
    "partite_con_eventi": 0,
@@ -745,8 +745,8 @@
    "da_fare": 0
   },
   "Liga II 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "K League 2 2026": {
    "partite_con_eventi": 0,
@@ -814,7 +814,7 @@
   },
   "Azadegan League 2026-2027": {
    "partite_con_eventi": 0,
-   "da_fare": 0
+   "da_fare": 4
   },
   "Supercopa Argentina 2026": {
    "partite_con_eventi": 0,
@@ -2393,5 +2393,5 @@
    "da_fare": 0
   }
  },
- "partite_in_questo_giro": 0
+ "partite_in_questo_giro": 7
 }
