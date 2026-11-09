@@ -12,6 +12,7 @@ import { fill } from '@/components/PageSkeletons';
 import TopPlayerRow from '@/components/top/TopPlayerRow';
 import TopStatPicker from '@/components/top/TopStatPicker';
 import ChunkRows from '@/components/top/ChunkRows';
+import EmptyDay, { nextWith } from '@/components/EmptyDay';
 import { bestPlayers, isFoulStat, loadBestFouls, THRESHOLDS, TOP_KEEP, TOP_STATS } from '@/data/topPlayers';
 import { DATES, TODAY_INDEX, isoDate } from '@/data/matches';
 import { syncDayTimes } from '@/data/fotmob';
@@ -41,7 +42,7 @@ function useDayRows(day, thr, stat, active) {
   return rows;
 }
 
-function DayList({ day, thr, stat, active, takeAnim }) {
+function DayList({ day, idx, thr, stat, active, takeAnim, onGo }) {
   // l'animazione si decide una volta sola, quando la lista nasce (apertura o cambio statistica), mai cambiando giorno
   const [anim] = useState(() => (active ? takeAnim() : false));
   const rows = useDayRows(day, thr, stat, active);
@@ -59,7 +60,12 @@ function DayList({ day, thr, stat, active, takeAnim }) {
       </div>
     );
   }
-  if (!rows.length) return <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Nessun giocatore</p>;
+  if (!rows.length) {
+    // falli: la classifica dei giorni dopo si prepara a parte, per cercare il prossimo giorno bastano tiri (stesse partite)
+    const cs = isFoulStat(stat) ? 'tiri' : stat;
+    const next = nextWith(idx, DAYS.length, DAYS, (i) => (bestPlayers(isoDate(DAYS[i]), thr, cs) || []).length);
+    return <EmptyDay date={DAYS[idx]} index={idx} todayIndex={TODAY_I} title="Nessun giocatore" next={next} onGo={onGo} noun={['giocatore', 'giocatori']} />;
+  }
   return (
     <ChunkRows
       rows={rows}
@@ -133,7 +139,7 @@ export default function TopPlayers() {
           count={DAYS.length}
           onChange={setDayIdx}
           render={(i, active) => (
-            <DayList key={`${i}|${shown}|${dThr}`} day={isoDate(DAYS[i])} thr={dThr} stat={shown} active={active} takeAnim={takeAnim} />
+            <DayList key={`${i}|${shown}|${dThr}`} day={isoDate(DAYS[i])} idx={i} thr={dThr} stat={shown} active={active} takeAnim={takeAnim} onGo={setDayIdx} />
           )}
         />
       </div>

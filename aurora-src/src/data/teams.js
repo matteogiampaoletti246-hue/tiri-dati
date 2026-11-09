@@ -61,6 +61,8 @@ const TEAM_COL = { genoa: '#D4202F' };
 // id FotMob dallo stemma (…/teamlogo/1234.png): serve per trovare il colore dominante dello stemma in arch/colors.json
 const fmIdOf = (crest) => { const m = /teamlogo\/(\d+)\.png/.exec(String(crest || '')); return m ? m[1] : null; };
 const crestColor = (fmId, crest) => { const k = fmId || fmIdOf(crest); const c = k && RAW.colors && RAW.colors[String(k)]; return c || null; };
+// secondo colore dello stemma (colori2.py): bianco/nero o la seconda zona di colore ben diversa dal primo
+const crestSecond = (fmId, crest) => { const k = fmId || fmIdOf(crest); const c = k && RAW.colors2 && RAW.colors2[String(k)]; return c || null; };
 
 export function ensureTeam(name, leagueId, crest, fmId, uid) {
   if (!name) return null;
@@ -71,7 +73,7 @@ export function ensureTeam(name, leagueId, crest, fmId, uid) {
     const base = base0 ? lift(base0) : null;
     const short = shortOf(name);
     const fx = fixedColors(name);
-    t = { id, name, short, initials: short.slice(0, 3), leagueId: leagueId || null, crest: crest || null, photo: null, colors: fx || [base || '#2C3E66', shade(base || '#2C3E66', 0.55)], fixedCol: !!fx };
+    t = { id, name, short, initials: short.slice(0, 3), leagueId: leagueId || null, crest: crest || null, photo: null, colors: fx || [base || '#2C3E66', (base && crestSecond(fmId, crest)) || shade(base || '#2C3E66', 0.55)], fixedCol: !!fx };
     INDEX[id] = t;
     if (!BY_NAME[name]) BY_NAME[name] = t;
     TEAMS.push(t);
@@ -81,7 +83,7 @@ export function ensureTeam(name, leagueId, crest, fmId, uid) {
     // squadra creata prima di conoscere lo stemma: se ha ancora il blu neutro prende il colore dello stemma
     if (!t.fixedCol && t.colors && t.colors[0] === '#2C3E66') {
       const cc = crestColor(fmId, crest || t.crest);
-      if (cc) { const b = lift(cc); t.colors = [b, shade(b, 0.55)]; }
+      if (cc) { const b = lift(cc); t.colors = [b, crestSecond(fmId, crest || t.crest) || shade(b, 0.55)]; }
     }
   }
   return t;

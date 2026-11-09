@@ -448,7 +448,7 @@ await step('statistiche partita: barre con transizione (concept A/B/C)', async (
   for (const c of ['a']) {
     await go('#/match/' + id, 8000);
     await clickText('Statistiche'); await wait(2500);
-    const w = () => pg.evaluate(() => { const sp = [...document.querySelectorAll('section span')].filter((x) => /width/.test(x.style.transition || '') && x.style.width); return { n: sp.length, w: sp.slice(0, 4).map((x) => Math.round(parseFloat(getComputedStyle(x).width))), tr: sp[0] ? sp[0].style.transition.slice(0, 60) : null }; });
+    const w = () => pg.evaluate(() => { const sp = [...document.querySelectorAll('section span')].filter((x) => (/width/.test(x.style.transition || '') && x.style.width) || (/transform/.test(x.style.transition || '') && /scaleX/.test(x.style.transform || ''))); return { n: sp.length, w: sp.slice(0, 4).map((x) => Math.round(x.getBoundingClientRect().width)), tr: sp[0] ? sp[0].style.transition.slice(0, 60) : null }; });
     const w0 = await w();
     await clickText('1° tempo'); await wait(120);
     const w1 = await w(); await shot(`barre-${c}-a-meta`);

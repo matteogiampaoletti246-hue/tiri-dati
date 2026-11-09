@@ -78,6 +78,7 @@ export const curSeasonSync = (fm) => {
   return e && e.s && e.s.length ? [...e.s].sort((a, b) => String(b).localeCompare(String(a)))[0] : null;
 };
 export const loadColors = () => json('arch/colors.json');
+export const loadColors2 = () => json('arch/colors2.json');
 // Classifica ricostruita dalle partite giocate, per le stagioni in cui FotMob non ha la tabella (solo campionati nazionali).
 const CUPS = new Set([42, 73, 10216]);
 function tableFromFix(season, lid) {

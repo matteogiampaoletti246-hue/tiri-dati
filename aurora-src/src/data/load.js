@@ -37,6 +37,7 @@ const FILES = {
   infortuni: 'infortuni.json',
   nomi: 'nomi.json',
   colors: 'arch/colors.json',
+  colors2: 'arch/colors2.json',
 };
 
 // Campionati aggiunti con Affidabilita' (calc_extra.py, dall'archivio FotMob): medie di TUTTE le squadre al posto di quelle

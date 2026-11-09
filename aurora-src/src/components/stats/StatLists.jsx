@@ -19,7 +19,7 @@ function Podium({ rows, rev, total }) {
         const c = MEDAL[i];
         const body = (
           <>
-            <span className="pod-face mb-1.5 flex items-center justify-center" style={{ transform: `scale(${i === 0 ? 1.45 : 1.2})` }}>{r.left}</span>
+            <span className="pod-face mb-1.5 flex items-center justify-center" style={{ transform: `scale(${i === 0 ? 1.45 : 1.2})`, ...(r.tc ? { '--pod-tc': r.tc } : null) }}>{r.left}</span>
             <span className="block w-full truncate text-center text-[12px] font-bold leading-tight">{r.name}</span>
             <span className="tnum mt-0.5 block text-center text-[15px] font-extrabold">{r.value}</span>
             <span className="pod-bar mt-1.5 flex w-full items-start justify-center rounded-t-[12px] pt-1.5" style={{ height: H[i], background: `linear-gradient(${c}55, ${c}10)`, border: `1px solid ${c}77`, borderBottom: 0, animationDelay: `${k * 90}ms` }}>

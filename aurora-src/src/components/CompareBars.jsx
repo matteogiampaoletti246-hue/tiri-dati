@@ -1,7 +1,10 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import SlidingNumber from './SlidingNumber';
 import { statGet, statSet } from '@/lib/statMemory';
-import { shown } from '@/lib/tint';
+import { shown, inkOn } from '@/lib/tint';
+
+// barra/numero di chi perde: piu' tenue, ma un colore chiaro (bianco) resta bianco e non diventa grigio
+const dim = (c) => (inkOn(c) === '#0F172A' ? 0.8 : 0.5);
 
 // Movimento delle barre quando cambiano i valori (Totale / 1° tempo / 2° tempo): scivolano in modo morbido.
 const MOVE = { dur: 620, ease: 'cubic-bezier(.22,1,.36,1)' };
@@ -126,16 +129,16 @@ export default function CompareBars({ rows, homeColor = 'var(--accent)', awayCol
         return (
           <div key={row.label}>
             <div className="flex items-baseline gap-2 text-[13.5px]">
-              <SlidingNumber text={tx(o && o[0], ht)} className="font-extrabold" style={{ color: hWin ? hc : 'var(--ink-2)', transition: 'color .45s ease' }} />
+              <SlidingNumber text={tx(o && o[0], ht)} className="font-extrabold" style={{ color: hc, opacity: hWin ? 1 : dim(hc) + 0.2, transition: 'opacity .45s ease' }} />
               <span className="mx-auto truncate text-center text-[12px]" style={{ color: 'var(--ink-3)' }}>{row.label}</span>
-              <SlidingNumber text={tx(o && o[1], at)} className="font-extrabold" style={{ color: aWin ? ac : 'var(--ink-2)', transition: 'color .45s ease' }} />
+              <SlidingNumber text={tx(o && o[1], at)} className="font-extrabold" style={{ color: ac, opacity: aWin ? 1 : dim(ac) + 0.2, transition: 'opacity .45s ease' }} />
             </div>
             <div className="mt-1.5 flex h-[6px] gap-[4px]">
               <div className="h-full flex-1 overflow-hidden rounded-full" style={{ background: 'var(--hair-2)' }}>
-                <span className="block h-full w-full rounded-full" style={{ transformOrigin: 'right', transform: `scaleX(${vh / mx})`, background: hc, opacity: hWin ? 1 : 0.35, transition: bar }} />
+                <span className="block h-full w-full rounded-full" style={{ transformOrigin: 'right', transform: `scaleX(${vh / mx})`, background: hc, opacity: hWin ? 1 : dim(hc), transition: bar }} />
               </div>
               <div className="h-full flex-1 overflow-hidden rounded-full" style={{ background: 'var(--hair-2)' }}>
-                <span className="block h-full w-full rounded-full" style={{ transformOrigin: 'left', transform: `scaleX(${va / mx})`, background: ac, opacity: aWin ? 1 : 0.35, transition: bar }} />
+                <span className="block h-full w-full rounded-full" style={{ transformOrigin: 'left', transform: `scaleX(${va / mx})`, background: ac, opacity: aWin ? 1 : dim(ac), transition: bar }} />
               </div>
             </div>
           </div>

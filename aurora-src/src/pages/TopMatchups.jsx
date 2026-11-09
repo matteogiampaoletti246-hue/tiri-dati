@@ -10,6 +10,7 @@ import SearchOverlay from '@/components/SearchOverlay';
 import DayPager from '@/components/DayPager';
 import MatchupRow from '@/components/top/MatchupRow';
 import ChunkRows from '@/components/top/ChunkRows';
+import EmptyDay, { nextWith } from '@/components/EmptyDay';
 import ModePicker from '@/components/top/ModePicker';
 import { SkCard } from '@/components/PageSkeletons';
 import { matchupRows, MATCHUP_TYPES, modeOptions, keepMode, defaultMode } from '@/data/matchups';
@@ -25,7 +26,7 @@ const keyOfRow = (row) => row.id;
 const KEEP = { day: null, type: 'corner', mode: 'gap|total', stamp: '' };
 
 // Un giorno: classifica della statistica scelta. Cartellini e Arbitri si confrontano: la partita presente in entrambe le classifiche (stessa voce, es. Over 1T) ha il bordo dorato.
-function MatchupDay({ date, typeKey, modeKey, active }) {
+function MatchupDay({ date, idx, typeKey, modeKey, active, onGo }) {
   const isRef = typeKey === 'referees';
   const [mode, period] = modeKey.split('|');
   const crossed = isRef || (typeKey === 'cards' && mode !== 'gap');
@@ -43,7 +44,9 @@ function MatchupDay({ date, typeKey, modeKey, active }) {
       </div>
     );
   }
-  return <p className="px-5 py-14 text-center text-[13px]" style={{ color: 'var(--ink-3)' }}>Nessuna partita</p>;
+  // arbitri: si arrivano dopo, il prossimo giorno si cerca tra le partite con i cartellini (stesse partite del giorno)
+  const next = nextWith(idx, DAYS.length, DAYS, (i) => matchupRows(isoDate(DAYS[i]), isRef ? 'cards' : typeKey, modeKey).length);
+  return <EmptyDay date={DAYS[idx]} index={idx} todayIndex={TODAY_I} title="Nessuna partita" next={next} onGo={onGo} noun={['partita', 'partite']} />;
 }
 
 export default function TopMatchups() {
@@ -80,7 +83,7 @@ export default function TopMatchups() {
         index={dayIdx}
         count={DAYS.length}
         onChange={setDayIdx}
-        render={(i, active) => <MatchupDay date={isoDate(DAYS[i])} typeKey={typeKey} modeKey={modeKey} active={active} />}
+        render={(i, active) => <MatchupDay date={isoDate(DAYS[i])} idx={i} typeKey={typeKey} modeKey={modeKey} active={active} onGo={setDayIdx} />}
       />
       </div>
 

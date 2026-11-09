@@ -42,6 +42,24 @@ export function PlayerBanner({ p, onClick, compact = false, q = '' }) {
   );
 }
 
+// Squadra nella ricerca: stesso banner colorato dei giocatori (colore sociale, stemma, nome, campionato)
+export function TeamBanner({ t, onClick, q = '' }) {
+  const l = leagueById(t.leagueId);
+  const c = countryOf(t);
+  return (
+    <button type="button" onClick={onClick} className="glass press flex w-full items-center gap-2.5 rounded-[14px] px-2.5 py-[7px] text-left" style={{ background: teamGrad(t, 0x66) }}>
+      <span className="grid h-9 w-9 shrink-0 place-items-center"><Crest team={t} size={30} /></span>
+      <span className="min-w-0">
+        <span className="block truncate text-[14.5px] font-extrabold" style={{ color: 'var(--ink)' }}><Hl text={t.name} q={q} /></span>
+        <span className="mt-px flex min-w-0 items-center gap-1.5 text-[12px]" style={{ color: 'var(--ink-2)' }}>
+          {l ? <LeagueBadge league={l} size={14} /> : null}
+          <span className="truncate">{c}{c && l ? ' · ' : ''}{l ? l.name : ''}</span>
+        </span>
+      </span>
+    </button>
+  );
+}
+
 // parte del nome che corrisponde a quanto scritto, evidenziata (concept "Smart Tag Input")
 export function Hl({ text, q }) {
   const sp = q ? matchSpan(text, q) : null;
@@ -196,17 +214,11 @@ export default function SearchOverlay({ open, onClose }) {
                   </>))}
                   {row('l-all', () => go('/competizioni'), <span className="text-[13.5px] font-bold" style={{ color: 'var(--accent)' }}>Tutte le competizioni per paese</span>)}
                 </>) : null}
-                {teams.length ? section('Squadre', teams.map((t) => {
-                  const l = leagueById(t.leagueId);
-                  return row(`t-${t.id}`, () => go(`/squadra/${t.id}`), <>
-                    <Crest team={t} size={28} />
-                    <span className="min-w-0 shrink-0 truncate text-[14.5px] font-bold" style={{ color: 'var(--ink)', maxWidth: '55%' }}><Hl text={t.name} q={dq} /></span>
-                    <span className="ml-auto flex min-w-0 items-center gap-1.5 text-[11.5px]" style={{ color: 'var(--ink-3)' }}>
-                      {l ? <LeagueBadge league={l} size={14} /> : null}
-                      <span className="truncate">{countryOf(t)}{countryOf(t) && l ? ' · ' : ''}{l ? l.name : ''}</span>
-                    </span>
-                  </>);
-                })) : null}
+                {teams.length ? section('Squadre', teams.map((t) => (
+                  <motion.div key={`t-${t.id}`} {...anim()} className="pb-1.5">
+                    <TeamBanner t={t} q={dq} onClick={() => go(`/squadra/${t.id}`)} />
+                  </motion.div>
+                ))) : null}
                 {players.length ? section('Giocatori', players.map((p) => (
                   <motion.div key={`p-${p.id}`} {...anim()} className="pb-1.5">
                     <PlayerBanner p={p} compact q={dq} onClick={() => go(`/giocatore/${p.id}`)} />

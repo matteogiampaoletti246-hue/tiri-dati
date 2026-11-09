@@ -246,29 +246,46 @@ const Thumb = memo(({ t }) => {
 
 // Giorno senza partite (Empty State concept B, 21st vijayksingh): carta tratteggiata con l'icona incassata, il primo giorno
 // vicino con partite vere e i tasti per andarci (solo quelli che esistono: mai giorni o numeri inventati).
-const EmptyDay = memo(({ iso, live, near, onDay }) => {
+const EmptyDay = memo(({ iso, live, near, onDay, onJump }) => {
   const { C, s } = useT();
   const d = new Date(`${iso}T12:00:00`);
   const lab = dayLabel(d);
-  const p = near && near(-1); const n = near && near(1);
-  const tit = live ? 'Nessuna partita in diretta' : lab === 'Oggi' || lab === 'Ieri' || lab === 'Domani' ? `Nessuna partita ${lab.toLowerCase()}` : `Nessuna partita ${lab}`;
+  const p = near && near(-1); const n0 = near && near(1);
+  // nessun giorno vicino gia' caricato con partite: si chiede al feed del giorno (worker /f) dei giorni successivi, fino a 3 settimane
+  const [far, setFar] = useState(null);
+  useEffect(() => {
+    if (live || n0) return undefined;
+    let dead = false;
+    (async () => {
+      for (let k = 1; k <= 21 && !dead; k++) {
+        const t = new Date(d); t.setDate(t.getDate() + k);
+        const ki = `${t.getFullYear()}${String(t.getMonth() + 1).padStart(2, '0')}${String(t.getDate()).padStart(2, '0')}`;
+        try { const r = await fetch(`${WORKER}/f?date=${ki}`); const j = r.ok ? await r.json() : null; if (j && j.m && j.m.length) { if (!dead) setFar({ d: t, n: j.m.length }); return; } } catch (e) { /* giorno successivo */ }
+      }
+    })();
+    return () => { dead = true; };
+  }, [iso, live, !!n0]); // eslint-disable-line react-hooks/exhaustive-deps
+  const n = n0 || (far ? { label: dayLabel(far.d), n: far.n, diff: Math.round((new Date(far.d.getFullYear(), far.d.getMonth(), far.d.getDate()) - TODAY_MID) / 86400000), date: far.d } : null);
+  const tit = live ? 'Nessuna partita in diretta' : /^(Oggi|Ieri|Domani)$/.test(lab) ? `Nessuna partita ${lab.toLowerCase()}` : `Nessuna partita ${lab}`;
   const nx = n || p;
+  const dateOf = (x) => { const t = x.date || null; return t ? `${t.getDate()} ${MONTHS[t.getMonth()]}` : ''; };
+  const goNext = () => { if (!n) return; if (n.i !== undefined) onDay(n.i); else if (onJump) onJump(n.diff); };
   return (
     <Animated.View entering={FadeIn.duration(260)} style={s.emBox}>
       <View style={s.emWell}><Ionicons name={live ? 'radio-outline' : 'calendar-outline'} size={26} color={C.ink2} /></View>
       <Text style={s.emTitle}>{tit}</Text>
-      {!live && nx ? <Text style={s.emSub}>{n ? 'Prossime partite' : 'Ultime partite'}: {nx.label.toLowerCase()} · {nx.n} {nx.n === 1 ? 'partita' : 'partite'}</Text> : null}
+      {!live && nx ? <Text style={s.emSub}>{n ? 'Prossime partite' : 'Ultime partite'}: {nx.label.toLowerCase()}{dateOf(nx) ? ` ${dateOf(nx)}` : ''} · {nx.n} {nx.n === 1 ? 'partita' : 'partite'}</Text> : null}
       {!live && (p || n) ? (
         <View style={{ flexDirection: 'row', gap: 8, marginTop: 14 }}>
           {p ? <Pressable onPress={() => onDay(p.i)} style={({ pressed }) => [s.emBtn, pressed && { opacity: 0.7 }]}><Ionicons name="chevron-back" size={14} color={C.ink} /><Text style={s.emBtnTx}>{p.label}</Text></Pressable> : null}
-          {n ? <Pressable onPress={() => onDay(n.i)} style={({ pressed }) => [s.emBtn, { backgroundColor: C.accent, borderColor: C.accent }, pressed && { opacity: 0.8 }]}><Text style={[s.emBtnTx, { color: C.dark ? '#04121F' : '#fff' }]}>{n.label}</Text><Ionicons name="chevron-forward" size={14} color={C.dark ? '#04121F' : '#fff'} /></Pressable> : null}
+          {n ? <Pressable onPress={goNext} style={({ pressed }) => [s.emBtn, { backgroundColor: C.accent, borderColor: C.accent }, pressed && { opacity: 0.8 }]}><Text style={[s.emBtnTx, { color: C.dark ? '#04121F' : '#fff' }]}>{n.label}</Text><Ionicons name="chevron-forward" size={14} color={C.dark ? '#04121F' : '#fff'} /></Pressable> : null}
         </View>
       ) : null}
     </Animated.View>
   );
 });
 
-const Day = memo(({ iso, rows, filter, onOpen, onLeague, top, isCur, near, onDay }) => {
+const Day = memo(({ iso, rows, filter, onOpen, onLeague, top, isCur, near, onDay, onJump }) => {
   const { s } = useT();
   const list = useRef(null);
   // tasto Home toccato in Home: torna in cima solo il giorno mostrato (gli altri e quelli montati dopo non si muovono)
@@ -277,7 +294,7 @@ const Day = memo(({ iso, rows, filter, onOpen, onLeague, top, isCur, near, onDay
   const items = useMemo(() => groupsOf(rows, filter), [rows, filter]);
   const thumb = useThumb();
   const render = useCallback(({ item }) => (item.g ? <LeagueGroup iso={iso} g={item.g} forceOpen={filter === 'live'} onOpen={onOpen} onLeague={onLeague} /> : <CountryGroup iso={iso} p={item.p} forceOpen={filter === 'live'} onOpen={onOpen} onLeague={onLeague} />), [iso, filter, onOpen, onLeague]);
-  if (!items.length) return <View style={{ width: W }}><EmptyDay iso={iso} live={filter === 'live'} near={near} onDay={onDay} /></View>;
+  if (!items.length) return <View style={{ width: W }}><EmptyDay iso={iso} live={filter === 'live'} near={near} onDay={onDay} onJump={onJump} /></View>;
   return (
     <View style={{ width: W }}>
       <Animated.FlatList ref={list} data={items} renderItem={render} keyExtractor={(i) => i.key} initialNumToRender={4} maxToRenderPerBatch={3} updateCellsBatchingPeriod={60} windowSize={5} contentContainerStyle={{ paddingBottom: 140 }}
@@ -461,6 +478,25 @@ const PlayerBannerS = memo(({ p, onPress }) => {
   );
 });
 
+// Squadra nella ricerca: stesso banner colorato dei giocatori (colore sociale, stemma, nome, campionato)
+const TeamBannerS = memo(({ t, onPress }) => {
+  const { C, s } = useT();
+  const g = hexA(t.color, '66');
+  return (
+    <Pressable onPress={onPress} style={({ pressed }) => [s.pb, pressed && { opacity: 0.6 }]}>
+      <LinearGradient colors={[g || C.card1, C.card2]} locations={[0, 0.72]} start={{ x: 0, y: 0.5 }} end={{ x: 1, y: 0.5 }} style={StyleSheet.absoluteFill} />
+      <View style={{ width: 36, height: 36, alignItems: 'center', justifyContent: 'center' }}><Mark uri={t.crest} size={30} initials={t.initials} /></View>
+      <View style={{ flex: 1, minWidth: 0 }}>
+        <Text numberOfLines={1} style={s.pbName}><HlName text={t.name} hl={t.hl} /></Text>
+        <View style={s.pbSub}>
+          {t.logo ? <Mark uri={t.logo} size={14} /> : null}
+          <Text numberOfLines={1} style={s.pbTeam}>{t.sub}</Text>
+        </View>
+      </View>
+    </Pressable>
+  );
+});
+
 // Ricerca a tendina (aspetto: la barra si allarga in un pannello unico; animazione: il pannello scende dalla barra e i risultati arrivano a cascata).
 // Si chiude toccando fuori, con X, con il tasto indietro (Android) o scegliendo un risultato. La Home dietro non si muove.
 function SearchPanel({ open, onClose, onPick, ask, res, ready, top }) {
@@ -524,14 +560,7 @@ function SearchPanel({ open, onClose, onPick, ask, res, ready, top }) {
               <Animated.View key="lall" entering={ent()}><Pressable onPress={() => onPick('/competizioni')} style={s.sItem}><Text style={[s.sName, { color: C.accent, fontWeight: '700', fontSize: 13.5 }]}>Tutte le competizioni per paese</Text></Pressable></Animated.View>
             </View>) : null}
             {has && data.teams.length ? (<View key="T"><Animated.Text entering={ent()} style={s.sSec}>Squadre</Animated.Text>
-              {data.teams.map((t) => (<Animated.View key={`t${t.id}`} entering={ent()}><Pressable onPress={() => onPick(t.path)} style={s.sItem}>
-                <Mark uri={t.crest} size={28} initials={t.initials} />
-                <Text numberOfLines={1} style={[s.sName, { fontWeight: '700', flexShrink: 1 }]}><HlName text={t.name} hl={t.hl} /></Text>
-                <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', gap: 5, minWidth: 0 }}>
-                  {t.logo ? <Mark uri={t.logo} size={14} /> : null}
-                  <Text numberOfLines={1} style={[s.sMeta, { flexShrink: 1 }]}>{t.sub}</Text>
-                </View>
-              </Pressable></Animated.View>))}
+              {data.teams.map((t) => (<Animated.View key={`t${t.id}`} entering={ent()} style={{ paddingBottom: 6 }}><TeamBannerS t={t} onPress={() => onPick(t.path)} /></Animated.View>))}
             </View>) : null}
             {has && data.players.length ? (<View key="P"><Animated.Text entering={ent()} style={s.sSec}>Giocatori</Animated.Text>
               {data.players.map((p) => (<Animated.View key={`p${p.id}`} entering={ent()} style={{ paddingBottom: 6 }}><PlayerBannerS p={p} onPress={() => onPick(p.path)} /></Animated.View>))}
@@ -1169,7 +1198,7 @@ function Screen({ onTheme, onReset }) {
   const go = (i) => { x.value = withTiming(i, { duration: 320, easing: Easing.out(Easing.cubic) }); };
   const cancelWant = () => { wantRef.current = false; setWantLive(false); };
   // giorno vicino con partite (per la carta del giorno vuoto): al massimo 14 giorni, solo giorni gia' caricati
-  const nearDay = (i, dir) => { for (let j = i + dir; j >= 0 && j < N && Math.abs(j - i) <= 14; j += dir) { const r = data && data[j]; if (r && r.length) return { i: j, label: dayLabel(dates[j]), n: r.length }; } return null; };
+  const nearDay = (i, dir) => { for (let j = i + dir; j >= 0 && j < N && Math.abs(j - i) <= 14; j += dir) { const r = data && data[j]; if (r && r.length) return { i: j, label: dayLabel(dates[j]), n: r.length, date: dates[j] }; } return null; };
   // solo i giorni vuoti ricevono questi valori: le pagine con partite restano memoizzate (nessun ridisegno in piu')
   const nearOf = (i) => { const p = nearDay(i, -1); const n = nearDay(i, 1); return (dir) => (dir < 0 ? p : n); };
   const goDayBtn = (i) => { if (keys[i] !== todayKey) { wantRef.current = false; setWantLive(false); } go(i); };
@@ -1229,7 +1258,7 @@ function Screen({ onTheme, onReset }) {
       </View>
       <GestureDetector gesture={pan}>
         <View style={{ flex: 1, overflow: 'hidden' }}>
-          {shown.map((i) => <Pane key={i} idx={i} x={x}><Day iso={keys[i]} rows={data[i]} filter={filter === 'live' && keys[i] === todayKey ? 'live' : 'all'} onOpen={openMatch} onLeague={openRoute} top={homeTop} isCur={i === cur} {...(data[i] && data[i].length ? null : { near: nearOf(i), onDay: goDayBtn })} /></Pane>)}
+          {shown.map((i) => <Pane key={i} idx={i} x={x}><Day iso={keys[i]} rows={data[i]} filter={filter === 'live' && keys[i] === todayKey ? 'live' : 'all'} onOpen={openMatch} onLeague={openRoute} top={homeTop} isCur={i === cur} {...(data[i] && data[i].length ? null : { near: nearOf(i), onDay: goDayBtn, onJump: pick })} /></Pane>)}
         </View>
       </GestureDetector>
       <Calendar visible={cal} selected={dates[cur] || new Date()} onClose={() => setCal(false)} onPick={pick} />
@@ -1313,7 +1342,7 @@ const makeStyles = (C) => StyleSheet.create({
   dockBadgeTxt: { color: '#FFFFFF', fontSize: 10, fontWeight: '800' },
   fLive: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   liveDot: { width: 5, height: 5, borderRadius: 3, backgroundColor: C.live },
-  card: { marginHorizontal: 16, marginTop: 16, borderRadius: 26, overflow: 'hidden', borderWidth: 1, borderColor: C.border },
+  card: { marginHorizontal: 16, marginTop: 16, borderRadius: 26, overflow: 'hidden', borderWidth: 1, borderColor: C.border, backgroundColor: C.bg }, // fondo pieno: lo sfondo a fasci si vede solo fuori dalle finestre
   inner: { borderTopWidth: 1, borderTopColor: C.hair },
   headRow: { flexDirection: 'row', alignItems: 'center', paddingRight: 16, minHeight: 50 },
   lhRow: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 14, paddingLeft: 16, paddingRight: 12 },

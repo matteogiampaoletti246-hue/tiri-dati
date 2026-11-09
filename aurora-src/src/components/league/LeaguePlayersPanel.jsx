@@ -5,7 +5,7 @@ import StatLists from '@/components/stats/StatLists';
 import { Image } from '@/components/ui/image';
 import { PLAYERS } from '@/data/players';
 import { teamsOf, teamById } from '@/data/teams';
-import { teamGrad } from '@/lib/tint';
+import { teamGrad, teamColor } from '@/lib/tint';
 import { comma } from '@/lib/format';
 import { ratioColor } from '@/components/player/playerCalc';
 
@@ -73,6 +73,7 @@ export default function LeaguePlayersPanel({ leagueId, teamId, mode: modeP, cat 
         ),
         name: p.name,
         bg: teamGrad(teamById(p.teamId), 0x55),
+        tc: teamColor(teamById(p.teamId)),
         sub: p.teamName,
         value: fmt(v),
         color: m.key === 'min' || m.key === 'apps' ? null : gradeOf(m, p),

@@ -3,7 +3,7 @@ import { useEffect, useMemo } from 'react';
 import useAsync from '@/hooks/useAsync';
 import TextFilter from '@/components/TextFilter';
 import { TeamLogo } from '@/components/FmImg';
-import { loadColors, loadSeasonMatches, isCurrent } from '@/data/archive';
+import { loadColors, loadColors2, loadSeasonMatches, isCurrent } from '@/data/archive';
 import { prepareMatch } from '@/data/prepare';
 import { teamByName } from '@/data/teams';
 import { fixedColors } from '@/data/teamColorFix';
@@ -40,6 +40,7 @@ const shade = (hex, k) => {
 // colori sociali: dal file generato dagli stemmi; se manca, dalla squadra gia' presente nell'app; altrimenti un blu neutro
 export function useTeamColors() {
   const { data } = useAsync(() => loadColors(), []);
+  const { data: d2 } = useAsync(() => loadColors2(), []);
   return useMemo(() => {
     const map = data || {};
     return (id, name) => {
@@ -48,9 +49,10 @@ export function useTeamColors() {
       const t = name ? teamByName(name) : null;
       let c = t && t.colors && t.colors[0];
       if (!c || c === '#2C3E66') c = map[String(id)] || c || '#2C3E66';
-      return { colors: [c, shade(c, 0.55)] };
+      const sec = (t && !t.fixedCol && t.colors && t.colors[1] && t.colors[0] === c) ? t.colors[1] : (d2 && d2[String(id)]) || shade(c, 0.55);
+      return { colors: [c, sec] };
     };
-  }, [data]);
+  }, [data, d2]);
 }
 export const rowBg = (col, id, name, a = 0x55) => teamGrad(col(id, name), a);
 

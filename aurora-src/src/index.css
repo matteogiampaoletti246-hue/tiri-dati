@@ -103,7 +103,7 @@
   --app-bg-image:
     radial-gradient(120% 70% at 88% -8%, #E6F0FF 0%, rgba(230, 240, 255, 0) 55%),
     radial-gradient(90% 55% at -10% 105%, #EEF3FA 0%, rgba(238, 243, 250, 0) 60%);
-  --glass-bg: linear-gradient(158deg, rgba(255, 255, 255, .86) 0%, rgba(255, 255, 255, .58) 100%);
+  --glass-bg: linear-gradient(158deg, rgba(255, 255, 255, .86) 0%, rgba(255, 255, 255, .58) 100%), linear-gradient(hsl(var(--background)), hsl(var(--background)));
   --glass-bg-strong: linear-gradient(158deg, rgba(255, 255, 255, .94) 0%, rgba(255, 255, 255, .78) 100%);
   --glass-border: rgba(15, 23, 42, .07);
   --glass-inner: rgba(255, 255, 255, .95);
@@ -187,7 +187,7 @@
   --app-bg-image:
     radial-gradient(120% 70% at 88% -8%, #0E1F3A 0%, rgba(14, 31, 58, 0) 55%),
     radial-gradient(90% 55% at -10% 105%, #081222 0%, rgba(8, 18, 34, 0) 60%);
-  --glass-bg: linear-gradient(158deg, rgba(255, 255, 255, .10) 0%, rgba(255, 255, 255, .035) 100%);
+  --glass-bg: linear-gradient(158deg, rgba(255, 255, 255, .10) 0%, rgba(255, 255, 255, .035) 100%), linear-gradient(hsl(var(--background)), hsl(var(--background)));
   --glass-bg-strong: linear-gradient(158deg, rgba(255, 255, 255, .15) 0%, rgba(255, 255, 255, .05) 100%);
   --glass-border: rgba(255, 255, 255, .12);
   --glass-inner: rgba(255, 255, 255, .18);
@@ -980,3 +980,14 @@ html:not(.dark) .lglass {
 .pod-bar { transform-origin: bottom; animation: podUp .6s cubic-bezier(.3,1.3,.5,1) both; }
 @keyframes podUp { from { transform: scaleY(0); opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .pod-bar { animation: none; } }
+
+/* Giorno senza risultati (Empty State B) */
+.empty-day { border: 1.5px dashed var(--hair); background: var(--glass-bg); animation: empty-in .26s ease-out both; }
+.empty-well { background: var(--hair-2); }
+.empty-go { background: var(--accent); color: #fff; }
+.dark .empty-go { color: #04121F; }
+@keyframes empty-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .empty-day { animation: none; } }
+
+/* Podio giocatori: lo stesso cerchio di sempre, colorato con la squadra solo dove la foto non copre */
+.pod-face .avatar, .pod-face > span.rounded-full { background: var(--pod-tc, var(--panel-2)) !important; }

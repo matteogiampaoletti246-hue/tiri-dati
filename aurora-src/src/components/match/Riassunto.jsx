@@ -115,17 +115,19 @@ function Verticale({ rows, match }) {
   );
 }
 
-// A (21st "Timeline", Preet Suthar): linea verticale al centro con un pallino nel colore sociale della squadra;
+// A (21st "Timeline", Preet Suthar), al contrario: eventi recenti in alto. Linea verticale al centro con un pallino nel colore sociale della squadra;
 // squadra di casa a sinistra (testo, icona, minuto verso la linea), trasferta a destra; eventi che entrano in sequenza.
 // Scritte e icone sono quelle di sempre (Lines / EventIcon), nessuna etichetta "Gol" / "Giallo".
 function LineaA({ rows, match, home, away }) {
   const [hc, ac] = matchColors(home, away);
-  let k = 0;
+  // piu' recenti in alto, piu' vecchi in basso; la cronologia si compila dal basso verso l'alto
+  const list = [...rows].reverse();
+  const n = list.length;
   return (
     <div className="relative px-2 py-2">
       <span className="absolute bottom-3 left-1/2 top-3 w-[2px] -translate-x-1/2 rounded-full" style={{ background: 'var(--hair)' }} />
-      {rows.map((r, i) => {
-        const d = { animationDelay: `${Math.min(k++, 14) * 60}ms` };
+      {list.map((r, i) => {
+        const d = { animationDelay: `${Math.min(n - 1 - i, 16) * 60}ms` };
         if (r.mark) return <div key={i} className="tla-row relative my-2 text-center" style={d}><span className="glass-flat relative inline-block rounded-full px-3 py-1 text-[10.5px] font-extrabold tracking-wider" style={{ color: 'var(--ink-2)', background: 'hsl(var(--background))' }}>{r.mark}</span></div>;
         const isH = r.team === 'home';
         const col = shown(isH ? hc : ac);

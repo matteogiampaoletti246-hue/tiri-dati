@@ -50,7 +50,7 @@ export default function LeagueGroup({ league, matches, iso = '', forceOpen = fal
 
   return (
     // Accordion concept B (21st, Wensity): carta a se'; aperta, il bordo prende la tinta della finestra
-    <section className="mx-4 mt-4 overflow-hidden rounded-[26px] glass" style={{ background: tintGrad(leagueTint(league.id), 0x45), boxShadow: isOpen ? `inset 0 0 0 1.5px ${leagueTint(league.id)}cc` : undefined, transition: 'box-shadow .3s ease' }}>
+    <section className="mx-4 mt-4 overflow-hidden rounded-[26px] glass" style={{ background: `${tintGrad(leagueTint(league.id), 0x45)}, linear-gradient(hsl(var(--background)), hsl(var(--background)))`, boxShadow: isOpen ? `inset 0 0 0 1.5px ${leagueTint(league.id)}cc` : undefined, transition: 'box-shadow .3s ease' }}>
       <div className="flex items-center">
         {/* logo e nome: aprono la scheda del campionato */}
         <LeagueLink league={league} className="press flex min-w-0 shrink items-center gap-3 py-3.5 pl-4 pr-3">

@@ -125,7 +125,7 @@ function forNative(q) {
     teams: r.teams.map((t) => {
       const l = leagueById(t.leagueId);
       const c = l ? l.country || '' : '';
-      return { id: t.id, name: t.name, crest: t.crest || null, initials: t.initials || initials(t.name), sub: `${c}${c && l ? ' · ' : ''}${l ? l.name : ''}`, logo: l ? l.logo || null : null, path: `/squadra/${t.id}`, hl: sp(t.name) };
+      return { id: t.id, name: t.name, crest: t.crest || null, initials: t.initials || initials(t.name), sub: `${c}${c && l ? ' · ' : ''}${l ? l.name : ''}`, logo: l ? l.logo || null : null, color: color(t), path: `/squadra/${t.id}`, hl: sp(t.name) };
     }),
     players: r.players.map((p) => {
       // un solo banner: prima stemma e club, poi bandiera e nazionale. Chi ha solo il profilo della nazionale: club dalle carriere

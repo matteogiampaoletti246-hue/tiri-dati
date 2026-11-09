@@ -10,7 +10,7 @@ import useArchFresh from '@/hooks/useArchFresh';
 import { RefereesView } from '@/components/league/LeagueRefereesPanel';
 import { RAW } from '@/data/load';
 import { currentSeason, refsAllSeasons, refsAllowed, loadSeason, loadTeamStats, loadPlayerStats, loadLeaguePlayerStats, loadSeasonMatches, statsFromMatches, SEASON_STAT_IT, STAT_IT, STAT_GROUPS, prettyKey } from '@/data/archive';
-import { tintGrad } from '@/lib/tint';
+import { tintGrad, teamColor } from '@/lib/tint';
 import ClassificaSwitch from '@/components/bracket/ClassificaSwitch';
 import Bracket from '@/components/bracket/Bracket';
 import { isPureCup, loadBracket } from '@/data/bracket';
@@ -199,6 +199,7 @@ export function statSections(stats, kind, names, col, fm, sk, mode = 'tot', only
         name: r[1],
         sub: isP ? (names[r[2]] || '') : undefined,
         bg: rowBg(col, r[2], names[r[2]] || r[1], 0x55),
+        tc: isP ? teamColor(col(r[2], names[r[2]] || r[1])) : undefined,
         value: fmtVal(p90 && kk !== k ? 'per_90' : k, r[3]),
       })),
     });
