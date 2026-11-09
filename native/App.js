@@ -134,11 +134,55 @@ const Flag = memo(({ fc, tint }) => {
   );
 });
 const Chev = ({ open }) => { const { C } = useT(); return <Ionicons name="chevron-down" size={17} color={C.ink2} style={{ transform: [{ rotate: open ? '180deg' : '0deg' }] }} />; };
-const useOpen = (key, init, size = 0) => {
+const useOpen = (key, init) => {
   const [open, setOpen] = useState(() => (key in OPEN_KEY ? OPEN_KEY[key] : init));
-  // Finestre grandi: niente animazione di layout su decine di righe (era il ritardo e lo scatto).
-  const toggle = () => { if (size <= 14) LayoutAnimation.configureNext(LayoutAnimation.create(220, 'easeInEaseOut', 'opacity')); setOpen((o) => { OPEN_KEY[key] = !o; return !o; }); };
+  const toggle = () => setOpen((o) => { OPEN_KEY[key] = !o; return !o; });
   return [open, toggle];
+};
+// Tendina (Accordion B): sempre animata, anche con decine di partite. Si anima solo l'altezza di un contenitore che ritaglia
+// (thread UI, Reanimated), non le righe una per una: per questo non scatta piu' sulle finestre grandi (prima oltre 14 partite
+// l'animazione veniva saltata). L'altezza animata si ferma a uno schermo; finita l'apertura il contenitore torna libero
+// e le righe montate a pezzi lo allungano senza vincoli. Chiudendo parte da al massimo uno schermo (il resto e' gia' fuori vista).
+const SCR_H = Dimensions.get('window').height;
+const OPEN_MS = 260, CLOSE_MS = 220;
+const Collapse = ({ open, instant, children }) => {
+  const [mounted, setMounted] = useState(open);
+  const [free, setFree] = useState(open);
+  const h = useSharedValue(0);
+  const ch = useRef(0);
+  const pend = useRef(false);
+  const first = useRef(true);
+  useEffect(() => {
+    if (first.current) { first.current = false; return; }
+    if (instant) { setMounted(open); setFree(open); return; }
+    if (open) {
+      setMounted(true); setFree(false);
+      if (mounted && ch.current) grow(OPEN_MS);
+      else { h.value = 0; pend.current = true; }
+    } else if (mounted) {
+      if (free) h.value = Math.min(ch.current, SCR_H);
+      setFree(false); pend.current = false;
+      h.value = withTiming(0, { duration: CLOSE_MS, easing: OUT_EASE }, (d) => { if (d) runOnJS(setMounted)(false); });
+    }
+  }, [open]); // eslint-disable-line react-hooks/exhaustive-deps
+  const st = useAnimatedStyle(() => ({ height: h.value }));
+  const tgt = useRef(0);
+  const grow = (dur) => {
+    tgt.current = Math.min(ch.current, SCR_H);
+    h.value = withTiming(tgt.current, { duration: dur, easing: OUT_EASE }, (d) => { if (d) runOnJS(setFree)(true); });
+  };
+  const onLayout = (e) => {
+    ch.current = e.nativeEvent.layout.height;
+    if (pend.current) { pend.current = false; grow(OPEN_MS); return; }
+    // righe arrivate a pezzi mentre si apre: la tendina continua a scendere fino a loro, senza scatti
+    if (open && !free && Math.min(ch.current, SCR_H) > tgt.current + 1) grow(180);
+  };
+  if (!mounted) return null;
+  return (
+    <Animated.View style={free ? null : [{ overflow: 'hidden' }, st]}>
+      <View onLayout={onLayout}>{children}</View>
+    </Animated.View>
+  );
 };
 // Righe montate a pezzi: le prime subito (la finestra risponde al tocco), il resto a riposo, un pezzo per volta.
 const FIRST_ROWS = 8, STEP_ROWS = 10;
@@ -186,7 +230,7 @@ const LeagueHead = ({ c, size = 22, small }) => {
 
 const LeagueGroup = memo(({ iso, g, forceOpen, onOpen, onLeague }) => {
   const { s } = useT();
-  const [open, toggle] = useOpen(`${iso}|${g.fm}`, g.c.open, g.matches.length);
+  const [open, toggle] = useOpen(`${iso}|${g.fm}`, g.c.open);
   const isOpen = forceOpen || open;
   return (
     <Card tint={g.c.tint} open={isOpen}>
@@ -194,7 +238,7 @@ const LeagueGroup = memo(({ iso, g, forceOpen, onOpen, onLeague }) => {
         <Pressable onPress={() => onLeague(leagueRoute(g.c, g.fm))} style={({ pressed }) => [{ flexShrink: 1 }, pressed && { opacity: 0.6 }]}><LeagueHead c={g.c} /></Pressable>
         <Pressable onPress={toggle} hitSlop={{ top: 14, bottom: 14, right: 14 }} style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end' }}><Text style={s.cnt}>{g.matches.length}</Text><Chev open={isOpen} /></Pressable>
       </View>
-      {isOpen ? <LeagueBody g={g} onOpen={onOpen} /> : null}
+      <Collapse open={isOpen} instant={!!forceOpen}><LeagueBody g={g} onOpen={onOpen} /></Collapse>
     </Card>
   );
 });
@@ -202,7 +246,7 @@ const LeagueGroup = memo(({ iso, g, forceOpen, onOpen, onLeague }) => {
 const CountryGroup = memo(({ iso, p, forceOpen, onOpen, onLeague }) => {
   const { C, s } = useT();
   const total = p.comps.reduce((n, x) => n + x.matches.length, 0);
-  const [open, toggle] = useOpen(`${iso}|paese:${p.k}`, false, total);
+  const [open, toggle] = useOpen(`${iso}|paese:${p.k}`, false);
   const isOpen = forceOpen || open;
   return (
     <Card tint={p.tint} open={isOpen}>
@@ -211,7 +255,7 @@ const CountryGroup = memo(({ iso, p, forceOpen, onOpen, onLeague }) => {
         <Text numberOfLines={1} style={[s.lhName, { flex: 1, marginLeft: 12 }]}>{p.name}</Text>
         <Text style={s.cnt}>{total}</Text><Chev open={isOpen} />
       </Pressable>
-      {isOpen ? <CountryBody p={p} onLeague={onLeague} onOpen={onOpen} /> : null}
+      <Collapse open={isOpen} instant={!!forceOpen}><CountryBody p={p} onLeague={onLeague} onOpen={onOpen} /></Collapse>
     </Card>
   );
 });
