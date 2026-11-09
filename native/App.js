@@ -1,7 +1,7 @@
 // ScalperLab nativa - Home (React Native). Stesse regole della Home web: finestre per paese, top campionati in alto,
 // colori e loghi delle competizioni, righe partita. Metadati da meta.json (generato da data/leagues.js e data/countries.js).
 import React, { createContext, memo, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { View, Text, FlatList, Pressable, ScrollView, StatusBar, Dimensions, StyleSheet, Animated as RNAnimated, AccessibilityInfo, LayoutAnimation, Platform, UIManager, AppState, Modal, TextInput, Keyboard, BackHandler, useWindowDimensions } from 'react-native';
+import { View, Text, FlatList, Pressable, ScrollView, StatusBar, Dimensions, StyleSheet, Animated as RNAnimated, Easing as RNEasing, AccessibilityInfo, LayoutAnimation, Platform, UIManager, AppState, Modal, TextInput, Keyboard, BackHandler, useWindowDimensions } from 'react-native';
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Image } from 'expo-image';
 import Animated, { useSharedValue, useAnimatedStyle, useAnimatedReaction, useAnimatedScrollHandler, withTiming, withDelay, withRepeat, cancelAnimation, runOnJS, Easing, interpolateColor, Keyframe, LinearTransition, FadeIn } from 'react-native-reanimated';
@@ -145,32 +145,39 @@ const useOpen = (key, init) => {
 // e le righe montate a pezzi lo allungano senza vincoli. Chiudendo parte da al massimo uno schermo (il resto e' gia' fuori vista).
 const SCR_H = Dimensions.get('window').height;
 const OPEN_MS = 260, CLOSE_MS = 220;
+// Altezza animata con l'Animated di React Native (non Reanimated): togliendo lo stile a fine apertura l'altezza torna
+// davvero libera. Reti di sicurezza a tempo: la tendina si apre o si chiude comunque, anche se la misura non arriva.
+const C_EASE = RNEasing.out(RNEasing.cubic);
 const Collapse = ({ open, instant, children }) => {
   const [mounted, setMounted] = useState(open);
   const [free, setFree] = useState(open);
-  const h = useSharedValue(0);
-  const ch = useRef(0);
-  const pend = useRef(false);
-  const first = useRef(true);
-  useEffect(() => {
-    if (first.current) { first.current = false; return; }
-    if (instant) { setMounted(open); setFree(open); return; }
-    if (open) {
-      setMounted(true); setFree(false);
-      if (mounted && ch.current) grow(OPEN_MS);
-      else { h.value = 0; pend.current = true; }
-    } else if (mounted) {
-      if (free) h.value = Math.min(ch.current, SCR_H);
-      setFree(false); pend.current = false;
-      h.value = withTiming(0, { duration: CLOSE_MS, easing: OUT_EASE }, (d) => { if (d) runOnJS(setMounted)(false); });
-    }
-  }, [open]); // eslint-disable-line react-hooks/exhaustive-deps
-  const st = useAnimatedStyle(() => ({ height: h.value }));
-  const tgt = useRef(0);
+  const mRef = useRef(open), fRef = useRef(open);
+  mRef.current = mounted; fRef.current = free;
+  const h = useRef(new RNAnimated.Value(0)).current;
+  const ch = useRef(0), tgt = useRef(0), pend = useRef(false), first = useRef(true), timer = useRef(null);
+  const later = (ms, f) => { clearTimeout(timer.current); timer.current = setTimeout(f, ms); };
+  useEffect(() => () => clearTimeout(timer.current), []);
   const grow = (dur) => {
     tgt.current = Math.min(ch.current, SCR_H);
-    h.value = withTiming(tgt.current, { duration: dur, easing: OUT_EASE }, (d) => { if (d) runOnJS(setFree)(true); });
+    RNAnimated.timing(h, { toValue: tgt.current, duration: dur, easing: C_EASE, useNativeDriver: false }).start();
+    later(dur + 30, () => setFree(true));
   };
+  useEffect(() => {
+    if (first.current) { first.current = false; return; }
+    h.stopAnimation();
+    if (instant) { clearTimeout(timer.current); setMounted(open); setFree(open); return; }
+    if (open) {
+      setMounted(true); setFree(false);
+      if (mRef.current && ch.current) grow(OPEN_MS);
+      else { h.setValue(0); pend.current = true; later(OPEN_MS + 250, () => { pend.current = false; setFree(true); }); }
+    } else if (mRef.current) {
+      pend.current = false;
+      if (fRef.current) h.setValue(Math.min(ch.current, SCR_H));
+      setFree(false);
+      RNAnimated.timing(h, { toValue: 0, duration: CLOSE_MS, easing: C_EASE, useNativeDriver: false }).start();
+      later(CLOSE_MS + 30, () => setMounted(false));
+    }
+  }, [open]); // eslint-disable-line react-hooks/exhaustive-deps
   const onLayout = (e) => {
     ch.current = e.nativeEvent.layout.height;
     if (pend.current) { pend.current = false; grow(OPEN_MS); return; }
@@ -179,9 +186,9 @@ const Collapse = ({ open, instant, children }) => {
   };
   if (!mounted) return null;
   return (
-    <Animated.View style={free ? null : [{ overflow: 'hidden' }, st]}>
+    <RNAnimated.View style={free ? null : { overflow: 'hidden', height: h }}>
       <View onLayout={onLayout}>{children}</View>
-    </Animated.View>
+    </RNAnimated.View>
   );
 };
 // Righe montate a pezzi: le prime subito (la finestra risponde al tocco), il resto a riposo, un pezzo per volta.
