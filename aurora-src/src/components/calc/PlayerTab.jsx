@@ -263,7 +263,7 @@ export default function PlayerTab({ onSave }) {
   };
 
   return (
-    <div className="px-5 pb-8 pt-5">
+    <div data-casroot="" className="px-5 pb-8 pt-5">
       <PlayerPickPanel
         form={vform}
         set={vset}

@@ -1,4 +1,5 @@
-import { useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
+import { pendingSlide, slideIn } from '@/lib/tabSlide';
 import BottomBar from './BottomBar';
 import { useLocation, useNavigationType } from 'react-router-dom';
 import useSwipeBack from '@/hooks/useSwipeBack';
@@ -11,13 +12,17 @@ export default function PageShell({ children, bar = true, swipeBack = true, clas
   const lk = useLocation().key;
   const quiet = useRef(null);
   if (quiet.current === null) quiet.current = consumeQuiet();
+  // cambio scheda col dock: la pagina entra scorrendo di lato (lib/tabSlide.js) al posto della dissolvenza
+  const tab = useRef(null);
+  if (tab.current === null) tab.current = pendingSlide();
+  useLayoutEffect(() => { if (tab.current) slideIn(); }, []);
   return (
     <>
       <div className="aurora-bg" aria-hidden="true" />
       <div
         id="sl-shell"
         data-lk={lk}
-        className={`relative mx-auto min-h-screen w-full max-w-[var(--app-w)] ${quiet.current ? '' : pop ? 'shell-pop' : 'shell-in'} ${bar ? 'pb-24' : ''} ${className}`}
+        className={`relative mx-auto min-h-screen w-full max-w-[var(--app-w)] ${quiet.current || tab.current ? '' : pop ? 'shell-pop' : 'shell-in'} ${bar ? 'pb-24' : ''} ${className}`}
       >
         {children}
       </div>

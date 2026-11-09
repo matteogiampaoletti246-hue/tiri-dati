@@ -1,6 +1,7 @@
 import { primeKeyboard } from '@/lib/keyboard';
 import { isNative } from '@/lib/carousel';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import { useCascade, useFreshOpen } from '@/lib/cascade';
 import PageShell from '@/components/PageShell';
 import FixedBar from '@/components/FixedBar';
 import DayStrip from '@/components/DayStrip';
@@ -57,6 +58,9 @@ export default function TopMatchups() {
   KEEP.mode = modeKey;
   const pickType = (k) => { setTypeKey(k); setModeKey((m) => keepMode(k, m)); };
   const [searchOpen, setSearchOpen] = useState(false);
+  // entrata dei banner dall'alto (concept A) all'apertura; tornando da una partita niente animazione
+  const casRef = useRef(null);
+  useCascade(casRef, '[data-cas]', useFreshOpen());
 
   return (
     <PageShell swipeBack={isNative()}>
@@ -70,6 +74,7 @@ export default function TopMatchups() {
       </header>
       <div className="h-2" />
 
+      <div ref={casRef}>
       <DayPager
         backEdge={isNative()}
         index={dayIdx}
@@ -77,6 +82,7 @@ export default function TopMatchups() {
         onChange={setDayIdx}
         render={(i, active) => <MatchupDay date={isoDate(DAYS[i])} typeKey={typeKey} modeKey={modeKey} active={active} />}
       />
+      </div>
 
       <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
     </PageShell>

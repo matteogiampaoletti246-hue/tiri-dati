@@ -12,7 +12,7 @@ import { TOP_KEEP } from '@/data/topPlayers';
 import { matchStarted, openPanel } from '@/data/playerPanel';
 
 // entrata (concept A): a cascata, 75 ms tra un banner e l'altro; il voto parte poco dopo il suo banner
-export const ENTER_STAG = 75;
+export const ENTER_STAG = 60;
 // nell'app nativa la pagina si scopre un attimo dopo il primo disegno (rotella dell'app): l'entrata parte poco dopo
 const BASE = typeof window !== 'undefined' && window.ReactNativeWebView ? 120 : 0;
 
@@ -45,7 +45,7 @@ export default memo(function TopPlayerRow({ row, rank, threshold, delay = 0, sta
     TOP_KEEP.child = Date.now();
     nav('/calcolatore', { state: { calc: { playerId: player.id, line: threshold, ts: match ? match.ts : null, stat } } });
   };
-  // entrata da sinistra (index.css .tp-in) solo per i banner visibili all'apertura / al cambio statistica
+  // entrata dall'alto (index.css .tp-in) solo per i banner visibili all'apertura / al cambio statistica
   const anim = enter >= 0;
 
   return (

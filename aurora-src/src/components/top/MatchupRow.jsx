@@ -32,6 +32,7 @@ export default memo(function MatchupRow({ row, both }) {
   return (
     <Wrap
       {...props}
+      data-cas=""
       className="press relative mx-4 mb-2.5 mt-2 block rounded-[24px] px-3 pb-3 pt-2.5"
       style={{
         boxShadow: both ? `0 0 0 1.5px ${GOLD}, 0 0 20px rgba(245,200,76,.28)` : undefined,

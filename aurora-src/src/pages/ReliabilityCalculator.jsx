@@ -1,6 +1,7 @@
 import { isNative } from '@/lib/carousel';
 import { primeKeyboard } from '@/lib/keyboard';
 import { useRef, useState } from 'react';
+import { useCascade, useFreshOpen } from '@/lib/cascade';
 import { CALC_KEEP, saveCalcKeep } from '@/data/calcKeep';
 import FixedBar from '@/components/FixedBar';
 import SearchOverlay from '@/components/SearchOverlay';
@@ -19,17 +20,17 @@ export default function ReliabilityCalculator() {
   const setIndex = (i) => { CALC_KEEP.index = i; saveCalcKeep(); setIndexRaw(i); };
   const [searchOpen, setSearchOpen] = useState(false);
   const noop = useRef(() => {}).current;
+  // entrata dei banner dall'alto (concept A); tornando indietro niente animazione
+  const casRef = useRef(null);
+  useCascade(casRef, '[data-casroot] > *', useFreshOpen());
 
   return (
     <PageShell swipeBack={isNative()}>
       {/* testata unica: titolo e due schede grandi nello stesso blocco opaco, il contenuto non si vede passare */}
       <header className="sticky top-0 z-30" style={{ background: 'var(--sky-2)' }}>
-        <FixedBar onSearch={() => { primeKeyboard(); setSearchOpen(true); }} />
+        <FixedBar title="Calcolatore Affidabilità" onSearch={() => { primeKeyboard(); setSearchOpen(true); }} />
         <div className="px-5 pb-2.5">
-          <h1 className="title-sora whitespace-nowrap text-[23px]" style={{ color: 'var(--ink)' }}>
-            Calcolatore di Affidabilità
-          </h1>
-          <div className="relative mt-3 grid grid-cols-2 rounded-[16px] p-1" style={{ background: 'var(--panel-2)', border: '1px solid var(--hair)' }}>
+          <div className="relative mt-2 grid grid-cols-2 rounded-[16px] p-1" style={{ background: 'var(--panel-2)', border: '1px solid var(--hair)' }}>
             <span
               aria-hidden="true"
               className="absolute bottom-1 top-1 rounded-[12px]"
@@ -56,6 +57,7 @@ export default function ReliabilityCalculator() {
           </div>
         </div>
       </header>
+      <div ref={casRef}>
       <SwipeTabs
         hideBar
         eager
@@ -64,6 +66,7 @@ export default function ReliabilityCalculator() {
         onChange={setIndex}
         panels={[<PlayerTab key="player" onSave={noop} />, <TeamTab key="team" onSave={noop} />]}
       />
+      </div>
       <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
     </PageShell>
   );

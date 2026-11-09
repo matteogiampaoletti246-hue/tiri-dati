@@ -739,12 +739,11 @@
 @keyframes tint-sweep { from { transform: scaleX(0); } to { transform: none; } }
 @media (prefers-reduced-motion: reduce) { .tint-sweep { animation: none; } }
 
-/* Migliori Giocatori (concept A): i banner entrano da sinistra a cascata con un piccolo rimbalzo; al cambio statistica i vecchi escono a destra.
-   "backwards": finita l'entrata il banner torna normale (resta l'effetto del tocco di .press). */
-.tp-in { animation: tp-in .56s cubic-bezier(.34, 1.32, .64, 1) backwards; }
+/* Migliori Giocatori: i banner scendono dall'alto uno dopo l'altro con una piccola dissolvenza (concept A del 9/11/2026, come lib/cascade.js
+   per Matchup e Calcolatore); al cambio statistica i vecchi escono a destra. "backwards": finita l'entrata il banner torna normale (resta .press). */
+.tp-in { animation: tp-in .42s cubic-bezier(.22, 1, .36, 1) backwards; }
 @keyframes tp-in {
-  0% { transform: translate3d(-112%, 0, 0); opacity: 0; }
-  60% { opacity: 1; }
+  0% { transform: translate3d(0, -22px, 0); opacity: 0; }
   100% { transform: translate3d(0, 0, 0); opacity: 1; }
 }
 .tp-out a { animation: tp-out .24s ease-in forwards; }

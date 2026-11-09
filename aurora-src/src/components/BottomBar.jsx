@@ -2,6 +2,7 @@ import { memo, useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { isNative } from '@/lib/carousel';
+import { prepTab } from '@/lib/tabSlide';
 import { Home as HomeIcon, Calculator, Users, Swords } from 'lucide-react';
 import './dock.css';
 
@@ -44,6 +45,7 @@ function BottomBar() {
             if (to === '/' && isNative()) { e.preventDefault(); try { window.ReactNativeWebView.postMessage('home'); } catch (err) { /* ignora */ } return; }
             if (exact ? pathname === to : pathname.startsWith(to)) { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
             setWant(to);
+            prepTab(to); // la pagina scorre di lato verso la voce toccata
           };
           return (
             <span key={to} className="contents">

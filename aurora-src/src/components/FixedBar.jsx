@@ -1,13 +1,14 @@
 import { openMenu } from '@/components/MenuDrawer';
 import { Search, Menu as MenuIcon } from 'lucide-react';
+import RotateTitle from '@/components/RotateTitle';
 
-const btn = 'glass press flex h-9 w-9 items-center justify-center rounded-full';
+const btn = 'glass press flex h-9 w-9 flex-none items-center justify-center rounded-full';
 
-// Striscia fissa in alto: solo cerca e menu, senza logo.
+// Striscia fissa in alto: titolo animato (schede del dock) + cerca e menu. data-tabtitle: nel cambio scheda col dock questa riga resta ferma.
 export default function FixedBar({ onSearch, title }) {
   return (
-    <div className="flex items-center justify-end gap-2 px-5 pb-1 pt-3">
-      {title ? <h1 className="title-sora mr-auto min-w-0 truncate text-[24px]" style={{ color: 'var(--ink)' }}>{title}</h1> : null}
+    <div data-tabtitle={title ? '1' : undefined} className="flex items-center justify-end gap-2 px-5 pb-1 pt-3">
+      {title ? <RotateTitle title={title} /> : null}
       <button type="button" onClick={onSearch} aria-label="Cerca" className={btn}>
         <Search size={16} strokeWidth={2} />
       </button>

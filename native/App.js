@@ -887,8 +887,10 @@ function Screen({ onTheme, onReset }) {
 
   const markClosed = useCallback(() => { openRef.current = false; setWebOpen(false); }, []);
   // Ogni cambio di rotta deciso dall'app porta `__slQ`: la pagina web non risponde con 'home' al ritorno alla pagina di partenza (era l'eco che, arrivando in ritardo, richiudeva la pagina appena aperta dal tocco dopo).
-  const hashTo = useCallback((h) => {
-    if (readyRef.current && webRef.current) { pendingHash.current = null; webRef.current.injectJavaScript(`window.__slQ=Date.now()+1500;location.hash=${JSON.stringify(h)};true;`); }
+  // `slide`: cambio tra due schede del dock con la pagina gia' aperta: prima la pagina web si fotografa (`__slTabPrep`) e poi scorre di lato
+  const hashTo = useCallback((h, slide) => {
+    const prep = slide ? `try{window.__slTabPrep&&window.__slTabPrep(${JSON.stringify(h.slice(1).split('?')[0])})}catch(e){};` : '';
+    if (readyRef.current && webRef.current) { pendingHash.current = null; webRef.current.injectJavaScript(`${prep}window.__slQ=Date.now()+1500;location.hash=${JSON.stringify(h)};true;`); }
     else pendingHash.current = h; // pagina non ancora caricata: si applica appena pronta
   }, []);
   const onWebLoaded = useCallback(() => {
@@ -926,12 +928,15 @@ function Screen({ onTheme, onReset }) {
     return () => sub.remove();
   }, [onReset, recover, ov]);
   const openRoute = useCallback((route) => {
+    const path0 = route.split('?')[0];
+    // da una scheda del dock a un'altra (pagina gia' aperta e pronta): la pagina web scorre di lato da sola, niente scheletro sopra
+    const slide = openRef.current && readyRef.current && !!webRef.current && isTabRoute(webPath.current) && isTabRoute(route) && webPath.current !== path0;
     openRef.current = true; lastRoute.current = route; setWebOpen(true); setDepth(0); setBarOn(isTabRoute(route)); setTab(tabOf(route));
     if (!readyRef.current) { startRoute.current = route; setWarm(true); }
     const path = route.split('?')[0];
     // la pagina web e' gia' su questa rotta (riapertura veloce, o tocco che torna alla pagina mostrata prima che l'altra arrivasse): niente attesa.
     // Prima l'attesa della rotta precedente restava accesa: rotella per 4 s e poi pagina web ricaricata da zero.
-    if (webPath.current === path) endBusy();
+    if (webPath.current === path || slide) endBusy();
     else {
       awaitRoute.current = path; setBusy(true);
       // rete di sicurezza: mai rotella infinita. Dopo 4 s si chiede alla pagina se e' viva: se risponde e' solo lenta (si mostra com'e'),
@@ -944,7 +949,7 @@ function Screen({ onTheme, onReset }) {
         busyTimer.current = setTimeout(() => { if (awaitRoute.current && pongAt.current < t0) recover(); endBusy(); }, 1200);
       }, 4000);
     }
-    hashTo(`#${route}`);
+    hashTo(`#${route}`, slide);
     ov.value = withTiming(0, { duration: 260, easing: Easing.out(Easing.cubic) });
   }, [hashTo, ov, endBusy, recover]);
   // la pagina web lascia la scheda mostrata: riaprendo la stessa voce si aspetta il suo disegno (niente Linee guida intraviste)

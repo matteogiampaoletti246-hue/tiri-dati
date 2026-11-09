@@ -411,3 +411,6 @@ export function pageBack(dx, navigate) {
     setTimeout(() => safety(0), ms + 900);
   });
 }
+
+// usati dal cambio scheda col dock (lib/tabSlide.js): fotografia della pagina attuale e parti che si muovono con la pagina
+export { grab as grabPage, pageEls };
