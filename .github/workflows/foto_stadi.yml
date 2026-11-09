@@ -6,6 +6,7 @@ on:
       - foto_stadi.py
       - stadi_scelte.json
       - stadi_scarta.json
+      - stadi_alternative.json
       - foto_stadi.trigger
 permissions:
   contents: write
