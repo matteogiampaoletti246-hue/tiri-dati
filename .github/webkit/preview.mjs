@@ -1977,20 +1977,16 @@ await step('migliori giocatori: tendina statistica (tiri, in porta, falli), entr
 
 await step('migliori matchup: anche le nazionali (Nations League)', async () => {
   await go('#/migliori-matchup', 4000);
-  const first = await pg.evaluate(async (u) => {
-    const j = await (await fetch(u + 'matchup_nazionali.json')).json();
-    const today = new Date().toLocaleDateString('sv-SE', { timeZone: 'Europe/Rome' });
-    const d = Object.keys(j.days || {}).filter((x) => x >= today).sort()[0];
-    return d ? { d, n: j.days[d].length } : null;
-  }, APP);
-  if (!first) { ok('migliori matchup nazionali: nessuna partita in programma (prova saltata)', true); return; }
-  const dt = new Date(first.d + 'T12:00:00Z');
-  const wd = ['Dom', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'][dt.getUTCDay()];
-  await clickText(`${wd} ${dt.getUTCDate()}`);
-  await wait(1500);
-  const rows = await pg.evaluate(() => document.querySelectorAll('a.press, div.press').length);
-  const txt = await pg.evaluate(() => document.body.innerText);
-  ok(`migliori matchup ${first.d}: ci sono le partite delle nazionali`, rows > 0 && !/Nessuna partita/.test(txt), { rows, n: first.n });
+  const j = await getJson('matchup_nazionali.json');
+  const today = new Date().toLocaleDateString('sv-SE', { timeZone: 'Europe/Rome' });
+  const d = Object.keys((j && j.days) || {}).filter((x) => x >= today).sort()[0];
+  if (!d) { ok('migliori matchup nazionali: nessuna partita in programma (prova saltata)', true); return; }
+  const dt = new Date(d + 'T12:00:00Z');
+  const lab = `${['Dom', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'][dt.getUTCDay()]} ${dt.getUTCDate()}`;
+  const clicked = await pg.evaluate((l) => { const e = [...document.querySelectorAll('button')].find((x) => x.textContent.trim().startsWith(l)); if (e) e.click(); return !!e; }, lab);
+  await wait(2000);
+  const rows = await pg.evaluate(() => [...document.querySelectorAll('.press')].filter((x) => { const r = x.getBoundingClientRect(); return r.width > 200 && r.left > -5 && r.left < innerWidth; }).length);
+  ok(`migliori matchup ${d}: ci sono le partite delle nazionali`, clicked && rows > 0, { lab, clicked, rows, n: j.days[d].length });
   await shot('migliori-matchup-nazionali');
 });
 
