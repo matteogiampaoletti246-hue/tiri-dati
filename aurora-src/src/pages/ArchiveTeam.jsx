@@ -6,6 +6,7 @@ import PageShell from '@/components/PageShell';
 import TopBar from '@/components/TopBar';
 import SwipeTabs from '@/components/SwipeTabs';
 import EntityBanner from '@/components/EntityBanner';
+import { flagCode } from '@/data/carriere';
 import { isNationName } from '@/data/teamColorFix';
 import StatLists from '@/components/stats/StatLists';
 import { PlayerFace } from '@/components/FmImg';
@@ -99,6 +100,7 @@ export default function ArchiveTeam() {
         colors={colors}
         logoUrl={teamLogo(tid)}
         flag={isNationName(name)}
+        flagUrl={isNationName(name) && flagCode(name) ? `${import.meta.env.BASE_URL}flags43/${flagCode(name)}.svg` : null}
         initials={name.slice(0, 3).toUpperCase()}
         tall
       />

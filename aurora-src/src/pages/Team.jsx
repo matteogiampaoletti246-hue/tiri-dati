@@ -8,6 +8,7 @@ import PageShell from '@/components/PageShell';
 import TopBar from '@/components/TopBar';
 import SwipeTabs from '@/components/SwipeTabs';
 import EntityBanner from '@/components/EntityBanner';
+import { flagCode } from '@/data/carriere';
 import { isNationName } from '@/data/teamColorFix';
 import FormDots from '@/components/FormDots';
 import TeamMatchesPanel from '@/components/team/TeamMatchesPanel';
@@ -121,6 +122,7 @@ export default function Team() {
         colors={team.colors}
         logoUrl={team.crest}
         flag={isNationName(team.name)}
+        flagUrl={isNationName(team.name) && flagCode(team.name) ? `${import.meta.env.BASE_URL}flags43/${flagCode(team.name)}.svg` : null}
         initials={team.initials}
         liveCount={liveCount}
         tall
