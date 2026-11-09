@@ -7,13 +7,6 @@
 "file": "abe-lenstra-stadion.webp"
 },
 {
-"k": "al-janoub-stadium",
-"name": "Al Janoub Stadium",
-"kind": "cambiata interno",
-"in": 0.771,
-"file": "al-janoub-stadium.webp"
-},
-{
 "k": "arena-giulesti",
 "name": "Arena Giulești",
 "kind": "cambiata scelta a mano",
@@ -26,13 +19,6 @@
 "kind": "cambiata scelta a mano",
 "in": 0.75,
 "file": "rose-bowl.webp"
-},
-{
-"k": "soldier-field",
-"name": "Soldier Field",
-"kind": "cambiata esterno",
-"in": 0.001,
-"file": "soldier-field.webp"
 },
 {
 "k": "stade-jean-bouin",
@@ -49,11 +35,25 @@
 "file": "stadion-an-der-alten-forsterei.webp"
 },
 {
+"k": "vitality-stadium",
+"name": "Vitality Stadium",
+"kind": "cambiata scelta a mano",
+"in": 0.999,
+"file": "vitality-stadium.webp"
+},
+{
 "k": "volksparkstadion",
 "name": "Volksparkstadion",
 "kind": "cambiata scelta a mano",
 "in": 1.0,
 "file": "volksparkstadion.webp"
+},
+{
+"k": "wembley-stadium",
+"name": "Wembley Stadium",
+"kind": "cambiata scelta a mano",
+"in": 1.0,
+"file": "wembley-stadium.webp"
 },
 {
 "k": "a-le-coq-arena",
@@ -138,6 +138,13 @@
 "kind": "invariata",
 "in": 0.979,
 "file": "al-bayt-stadium.webp"
+},
+{
+"k": "al-janoub-stadium",
+"name": "Al Janoub Stadium",
+"kind": "invariata",
+"in": 0.995,
+"file": "al-janoub-stadium.webp"
 },
 {
 "k": "al-medina-stadium",
@@ -2254,6 +2261,13 @@
 "file": "soeverein-stadion.webp"
 },
 {
+"k": "soldier-field",
+"name": "Soldier Field",
+"kind": "invariata",
+"in": 0.506,
+"file": "soldier-field.webp"
+},
+{
 "k": "sparta-stadion-het-kasteel",
 "name": "Sparta-Stadion Het Kasteel",
 "kind": "invariata",
@@ -3115,13 +3129,6 @@
 "file": "visana-stadion.webp"
 },
 {
-"k": "vitality-stadium",
-"name": "Vitality Stadium",
-"kind": "invariata",
-"in": 0.139,
-"file": "vitality-stadium.webp"
-},
-{
 "k": "vivekananda-yuba-bharati-krirangan-stadium",
 "name": "Vivekananda Yuba Bharati Krirangan Stadium",
 "kind": "invariata",
@@ -3134,13 +3141,6 @@
 "kind": "invariata",
 "in": 0.994,
 "file": "volgograd-arena.webp"
-},
-{
-"k": "wembley-stadium",
-"name": "Wembley Stadium",
-"kind": "invariata",
-"in": 0.997,
-"file": "wembley-stadium.webp"
 },
 {
 "k": "werktalent-stadion",
