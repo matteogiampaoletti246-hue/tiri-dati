@@ -93,7 +93,7 @@ export function NextMatchButton({ ownId, oppId, onOpen, comp, glass = false }) {
 
 
 // Impostazioni di base della giocata su un giocatore.
-export default function PlayerPickPanel({ form, set, player, hint, onSelectPlayer, stat = 'tiri', onStat, tint, role, natHit = null }) {
+export default function PlayerPickPanel({ form, set, player, hint, onSelectPlayer, stat = 'tiri', onStat, tint, role }) {
   const navigate = useNavigate();
   const [picker, setPicker] = useState(null);
   const hitLabel = HIT_OPTIONS.find((o) => o.value === form.hitRate)?.label ?? null;
@@ -181,14 +181,6 @@ export default function PlayerPickPanel({ form, set, player, hint, onSelectPlaye
             options={[{ value: '', label: 'Nessuna' }, ...HIT_OPTIONS]}
           />
         </FieldRow>
-        {/* Nations League: Hit Rate delle partite con la nazionale in questa stagione (pesa insieme a quello normale) */}
-        {natHit ? (
-          <FieldRow label="Hit rate nazionale">
-            <span data-nat-hit="" className="tnum flex h-10 items-center rounded-xl px-3 text-[15px]" style={{ width: 124, background: 'var(--panel-2)', border: '1px solid var(--hair)', color: 'var(--ink)' }}>
-              {natHit.hit}/{natHit.n}
-            </span>
-          </FieldRow>
-        ) : null}
       </div>
 
       <PickerSheet

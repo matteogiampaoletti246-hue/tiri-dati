@@ -6,7 +6,7 @@ import { teamById, teamByName } from './teams';
 import { blendTeam, domesticKey, pickLeagueKey, CUPS, DOMESTIC_KEYS, NATIONS_KEYS } from './calcData';
 import { romeDay } from './util';
 import { calcReliability, fillFrom, hitFromValues, hitRows, initialForm, resultFromFouls } from './calcPlayer';
-import { fmTeamIn, foulKeysFor, foulSeasonOf, loadFouls, playerFoulsOf, teamFoulStats } from './calcFouls';
+import { fmTeamIn, foulKeys, loadFouls, playerFouls, teamFoulStats } from './calcFouls';
 import { resolvePid } from './playerIndex';
 import { comma } from '@/lib/format';
 import { parseDash } from '@/lib/calc';
@@ -201,7 +201,7 @@ export function loadBestFouls(day, threshold, stat) {
       const base = fillFrom({ ...initialForm(), line: lineStr, lineType: 'over' }, p, 'totali', fxOf(f));
       const team = teamById(base.team.id);
       const opp = teamById(base.opp.id);
-      return { p, f, base, team, opp, keys: foulKeysFor(p, [team && team.name, opp && opp.name], [base.team.leagueId, base.opp.leagueId]) };
+      return { p, f, base, team, opp, keys: foulKeys([team && team.name, opp && opp.name], [base.team.leagueId, base.opp.leagueId]) };
     });
     const all = [...new Set(list.flatMap((x) => x.keys))];
     const loaded = await Promise.all(all.map(loadFouls));
@@ -218,16 +218,16 @@ export function loadBestFouls(day, threshold, stat) {
       keys.forEach((k) => { if (DATA[k]) fd[k] = DATA[k]; });
       const fmPid = await resolvePid(p).catch(() => null);
       if (!fmPid) continue;
-      const pf = playerFoulsOf(fd, fmPid, p, stat, hitRows);
+      const pf = playerFouls(fd, fmPid, team && domesticKey(team.name), stat, p.hn != null ? hitRows(p) : null);
       if (!pf || !pf.last5.length) continue;
       const ownStats = teamFoulStats(fd, fmTeamIn(fd, team), base.team.leagueId, team && team.name, stat);
       const oppStats = teamFoulStats(fd, fmTeamIn(fd, opp), base.opp.leagueId, opp && opp.name, oppStat);
       if (!ownStats || !oppStats) continue;
-      const season = foulSeasonOf(pf);
-      const natVals = p.nat && p.club ? pf.natVals : [];
+      const season = { campionato: { tiri: '', minuti: '' }, coppa: { tiri: '', minuti: '' }, nations: { tiri: '', minuti: '' }, qualificazioni: { tiri: '', minuti: '' } };
+      ['campionato', 'coppa'].forEach((k) => { if (pf[k]) season[k] = { tiri: comma(Math.round(pf[k].v * 100) / 100, 2), minuti: String(Math.round(pf[k].min)) }; });
       const last5 = pf.last5.join('-');
       const fo = {
-        last5, min5: pf.min5.join('-'), season, duel: [], natVals,
+        last5, min5: pf.min5.join('-'), season, duel: [],
         team: comma(ownStats.v, 2), opp: comma(oppStats.v, 2),
         hitRate: hitFromValues(parseDash(last5), line, 'over'),
       };
@@ -278,7 +278,7 @@ export function loadPlayerFouls(p, dateIso, lines, stat) {
     const base = fillFrom({ ...initialForm(), line: '0,5', lineType: 'over' }, p, 'totali', fxOf(f));
     const team = teamById(base.team.id);
     const opp = teamById(base.opp.id);
-    const keys = foulKeysFor(p, [team && team.name, opp && opp.name], [base.team.leagueId, base.opp.leagueId]);
+    const keys = foulKeys([team && team.name, opp && opp.name], [base.team.leagueId, base.opp.leagueId]);
     const loaded = await Promise.all(keys.map(loadFouls));
     const fd = {};
     keys.forEach((k, i) => { if (loaded[i]) fd[k] = loaded[i]; });
@@ -287,17 +287,17 @@ export function loadPlayerFouls(p, dateIso, lines, stat) {
     FALLI_KEYS.forEach((k, i) => { if (loadedFl[i]) fl[k] = loadedFl[i]; });
     const fmPid = await resolvePid(p).catch(() => null);
     if (!fmPid) return lines.map(() => null);
-    const pf = playerFoulsOf(fd, fmPid, p, stat, hitRows);
+    const pf = playerFouls(fd, fmPid, team && domesticKey(team.name), stat, p.hn != null ? hitRows(p) : null);
     if (!pf || !pf.last5.length) return lines.map(() => null);
     const ownStats = teamFoulStats(fd, fmTeamIn(fd, team), base.team.leagueId, team && team.name, stat);
     const oppStats = teamFoulStats(fd, fmTeamIn(fd, opp), base.opp.leagueId, opp && opp.name, stat === 'fc' ? 'fs' : 'fc');
     if (!ownStats || !oppStats) return lines.map(() => null);
-    const season = foulSeasonOf(pf);
-    const natVals = p.nat && p.club ? pf.natVals : [];
+    const season = { campionato: { tiri: '', minuti: '' }, coppa: { tiri: '', minuti: '' }, nations: { tiri: '', minuti: '' }, qualificazioni: { tiri: '', minuti: '' } };
+    ['campionato', 'coppa'].forEach((k) => { if (pf[k]) season[k] = { tiri: comma(Math.round(pf[k].v * 100) / 100, 2), minuti: String(Math.round(pf[k].min)) }; });
     const last5 = pf.last5.join('-');
     const du = autoDuel(fd, fl, falliKeysFor(NATIONS_KEYS.includes(f[3])), fmPid, stat, opp && domesticKey(opp.name), fmTeamIn(fd, opp));
     return lines.map((line) => {
-      const fo = { last5, min5: pf.min5.join('-'), season, duel: [], natVals, team: comma(ownStats.v, 2), opp: comma(oppStats.v, 2), hitRate: hitFromValues(parseDash(last5), line, 'over') };
+      const fo = { last5, min5: pf.min5.join('-'), season, duel: [], team: comma(ownStats.v, 2), opp: comma(oppStats.v, 2), hitRate: hitFromValues(parseDash(last5), line, 'over') };
       const r = resultFromFouls({ ...base, line: String(line).replace('.', ','), stat, f: fo }, du ? du.avg : null, du ? du.leagueAvg : null, ownStats.avg, oppStats.avg);
       return r.score === null || r.score === undefined ? null : Math.max(0, Math.min(10, r.score));
     });
