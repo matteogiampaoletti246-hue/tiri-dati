@@ -8,6 +8,7 @@ on:
   push:
     paths:
       - calc_extra.py
+      - matchup_nazionali.py
       - profili.py
       - femminili.py
 concurrency:
@@ -25,6 +26,8 @@ jobs:
         with:
           python-version: "3.12"
       - run: python calc_extra.py
+      # Migliori Matchup: partite delle nazionali (Nations League) con le medie attese, dall'archivio FotMob
+      - run: python matchup_nazionali.py
       # tutte le altre competizioni con tiri (calc_tutte.json, ~6 MB): rigenerato a mano, a ogni modifica degli script e ogni 6 ore
       - id: tutte
         run: |
@@ -41,7 +44,7 @@ jobs:
       - run: |
           git config user.name "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
-          git add calc_extra.json
+          git add calc_extra.json matchup_nazionali.json
           if [ "${{ steps.tutte.outputs.agg }}" = "1" ]; then git add calc_tutte.json; else git checkout -- calc_tutte.json 2>/dev/null || true; fi
           git diff --staged --quiet || git commit -m "Affidabilita campionati aggiunti"
           for i in 1 2 3 4 5 6; do git pull --rebase && git push && break; sleep $((i*5)); done

@@ -1,7 +1,7 @@
 // Migliori matchup: classifiche calcolate dalle medie di tutte le partite del giorno (angoli.json -> days[data].tutte, aggiornato dall'Action).
 // Over = somma delle medie attese delle due squadre piu' alta, Under = piu' bassa, Divario = differenza piu' grande tra le due.
 import { RAW } from './load';
-import { teamByName } from './teams';
+import { teamByName, teamByFm } from './teams';
 import { lruGet, lruSet } from '@/lib/lru';
 
 // f = campi [casa, trasferta]; g = partite usate; modes = tendina di destra; periods = Totale / 1T (solo cartellini e arbitri)
@@ -36,7 +36,13 @@ export const defaultMode = (typeKey) => (typeKey === 'cards' || typeKey === 'ref
 // Cambiando statistica si tiene la voce se esiste anche per la nuova, altrimenti si riparte da quella di base
 export const keepMode = (typeKey, modeKey) => (modeOptions(typeKey).some((o) => o.key === modeKey) ? modeKey : defaultMode(typeKey));
 
-export const matchupDays = () => Object.keys((RAW.angoli && RAW.angoli.days) || {}).sort();
+// Partite del giorno: club (angoli.json) + nazionali di Nations League (matchup_nazionali.json, da matchup_nazionali.py)
+export const matchupList = (dateStr) => {
+  const day = RAW.angoli && RAW.angoli.days && RAW.angoli.days[dateStr];
+  const nat = RAW.matchNaz && RAW.matchNaz.days && RAW.matchNaz.days[dateStr];
+  return [...((day && day.tutte) || []), ...(nat || [])];
+};
+export const matchupDays = () => [...new Set([...Object.keys((RAW.angoli && RAW.angoli.days) || {}), ...Object.keys((RAW.matchNaz && RAW.matchNaz.days) || {})])].sort();
 
 const r1 = (x) => Math.round(x * 10) / 10;
 
@@ -44,15 +50,15 @@ const r1 = (x) => Math.round(x * 10) / 10;
 const MEMO = new Map();
 let MEMO_SRC = null;
 export function matchupRows(dateStr, typeKey, modeKey) {
-  if (MEMO_SRC !== RAW.angoli) { MEMO.clear(); MEMO_SRC = RAW.angoli; }
+  const src = `${RAW.angoli && RAW.angoli.updated_at}|${RAW.matchNaz && RAW.matchNaz.updated_at}`;
+  if (MEMO_SRC !== src) { MEMO.clear(); MEMO_SRC = src; }
   const type = typeOf(typeKey);
   if (type.referee) return [];
   const [mode, period] = (modeKey || defaultMode(typeKey)).split('|');
   const ck = `${dateStr}|${typeKey}|${mode}|${period}`;
   const hit = lruGet(MEMO, ck);
   if (hit) return hit;
-  const day = RAW.angoli && RAW.angoli.days && RAW.angoli.days[dateStr];
-  const list = (day && day.tutte) || [];
+  const list = matchupList(dateStr);
   const f = period === 'first' && type.f1 ? type.f1 : type.f;
   const all = [];
   list.forEach((m) => {
@@ -64,8 +70,8 @@ export function matchupRows(dateStr, typeKey, modeKey) {
   const key = mode === 'gap' ? 'gap' : 'sum';
   all.sort((x, y) => (mode === 'under' ? x[key] - y[key] : y[key] - x[key]));
   const out = all.slice(0, TOP).map(({ m, a, b, sum, gap }) => {
-    const home = teamByName(m.home);
-    const away = teamByName(m.away);
+    const home = teamByName(m.home) || teamByFm(m.hid);
+    const away = teamByName(m.away) || teamByFm(m.aid);
     const games = m[type.g] || [];
     return {
       id: m.id, type, mode, period, homeId: home ? home.id : null, awayId: away ? away.id : null, homeName: m.home, awayName: m.away,

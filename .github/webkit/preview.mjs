@@ -1975,6 +1975,25 @@ await step('migliori giocatori: tendina statistica (tiri, in porta, falli), entr
   ok('migliori matchup: si parte da Oggi, niente Ieri', /Oggi/.test(mh) && !/\bIeri\b/.test(mh));
 });
 
+await step('migliori matchup: anche le nazionali (Nations League)', async () => {
+  await go('#/migliori-matchup', 4000);
+  const first = await pg.evaluate(async (u) => {
+    const j = await (await fetch(u + 'matchup_nazionali.json')).json();
+    const today = new Date().toLocaleDateString('sv-SE', { timeZone: 'Europe/Rome' });
+    const d = Object.keys(j.days || {}).filter((x) => x >= today).sort()[0];
+    return d ? { d, n: j.days[d].length } : null;
+  }, APP);
+  if (!first) { ok('migliori matchup nazionali: nessuna partita in programma (prova saltata)', true); return; }
+  const dt = new Date(first.d + 'T12:00:00Z');
+  const wd = ['Dom', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'][dt.getUTCDay()];
+  await clickText(`${wd} ${dt.getUTCDate()}`);
+  await wait(1500);
+  const rows = await pg.evaluate(() => document.querySelectorAll('a.press, div.press').length);
+  const txt = await pg.evaluate(() => document.body.innerText);
+  ok(`migliori matchup ${first.d}: ci sono le partite delle nazionali`, rows > 0 && !/Nessuna partita/.test(txt), { rows, n: first.n });
+  await shot('migliori-matchup-nazionali');
+});
+
 await step('ritorno dal background: finestra giocatore a tutta altezza, nessun blocco acceso', async () => {
   await go('#/match/a-54-2026-2027-5881213', 6000);
   await clickText('Formazioni');

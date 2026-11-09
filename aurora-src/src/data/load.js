@@ -27,6 +27,7 @@ const FILES = {
   arbitri: 'arbitri.json',
   stadi: 'stadi.json',
   angoli: 'angoli.json',
+  matchNaz: 'matchup_nazionali.json',
   foto: 'foto.json',
   fotoFm: 'foto_fm.json',
   refcc: 'refcc.json',
