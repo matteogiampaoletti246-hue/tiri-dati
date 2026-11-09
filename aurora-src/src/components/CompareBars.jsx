@@ -1,10 +1,10 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import SlidingNumber from './SlidingNumber';
 import { statGet, statSet } from '@/lib/statMemory';
-import { shown, inkOn } from '@/lib/tint';
+import { shown } from '@/lib/tint';
 
-// barra/numero di chi perde: piu' tenue, ma un colore chiaro (bianco) resta bianco e non diventa grigio
-const dim = (c) => (inkOn(c) === '#0F172A' ? 0.8 : 0.5);
+// barra/numero di chi perde: piu' tenue per tutti i colori, bianco compreso (concept A: barra 50%, numero 70%)
+const dim = () => 0.5;
 
 // Movimento delle barre quando cambiano i valori (Totale / 1° tempo / 2° tempo): scivolano in modo morbido.
 // binario della barra: su iPhone (WebKit) una barra che si ridimensiona con transform esce dai bordi arrotondati di overflow-hidden;

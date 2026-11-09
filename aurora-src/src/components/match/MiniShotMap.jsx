@@ -2,14 +2,15 @@ import { useState } from 'react';
 import { comma } from '@/lib/format';
 
 // Mappetta tiri del singolo giocatore: metà campo offensiva + porta vista da davanti.
-import { ShotDot, ShotHit, BlockTrace, isBlocked, SHOT_HOME, SHOT_PITCH, SHOT_LINE, SHOT_GOALBG } from './ShotDot';
+import { ShotDot, ShotHit, BlockTrace, isBlocked, shotColor, SHOT_PITCH, SHOT_LINE, SHOT_GOALBG, SHOT_GOALLINE } from './ShotDot';
 const PITCH = SHOT_PITCH;
 const LINE = SHOT_LINE;
 const cx = (v) => Math.max(66, Math.min(104.5, v));
 const cy = (v) => Math.max(12, Math.min(54, v));
 
 
-export default function MiniShotMap({ shots }) {
+export default function MiniShotMap({ shots, colors }) {
+  const dotC = shotColor(colors);
   const [sel, setSel] = useState(null);
   const list = shots.filter((s) => s.px != null);
   const on = list.filter((s) => (s.onTarget && s.outcome !== 'Palo') || s.outcome === 'Gol').length;
@@ -38,18 +39,18 @@ export default function MiniShotMap({ shots }) {
           {list.map((s, i) => (
             <g key={i} onClick={() => setSel(i === sel ? null : i)}>
               {i === sel ? <circle cx={cx(s.px)} cy={cy(s.py)} r="3.4" fill="none" stroke="#f5a400" strokeWidth="0.7" /> : null}
-              <g transform={`translate(${cx(s.px)} ${cy(s.py)})`}><ShotHit /><ShotDot c={SHOT_HOME} goal={s.outcome === 'Gol'} on={!!s.onTarget} r={2} /></g>
+              <g transform={`translate(${cx(s.px)} ${cy(s.py)})`}><ShotHit /><ShotDot c={dotC} goal={s.outcome === 'Gol'} on={!!s.onTarget} r={2} /></g>
             </g>
           ))}
         </svg>
         <svg viewBox="0 0 60 52" className="w-full" style={{ maxHeight: 150, background: SHOT_GOALBG, borderRadius: 10 }}>
-          <line x1="2" x2="58" y1="44" y2="44" stroke="rgba(150,175,225,.5)" strokeWidth="0.5" />
-          <rect x="4" y={44 - 2.44 * W * 0.7} width={7.32 * W * 0.7} height={2.44 * W * 0.7} fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.75)" strokeWidth="1" />
+          <line x1="2" x2="58" y1="44" y2="44" stroke={SHOT_GOALLINE} strokeWidth="0.5" />
+          <rect x="4" y={44 - 2.44 * W * 0.7} width={7.32 * W * 0.7} height={2.44 * W * 0.7} fill="rgba(255,255,255,.05)" stroke="#ffffff" strokeWidth="1" />
           {list.filter((s) => s.gy != null && s.gz != null && !isBlocked(s)).map((s) => {
             const i = list.indexOf(s);
             const gx = 4 + (s.gy - 30.34) * W * 0.7;
             const gyy = 44 - Math.max(0, Math.min(s.gz, 3.4)) * W * 0.7;
-            return <g key={i} transform={`translate(${Math.max(3, Math.min(57, gx))} ${gyy})`} onClick={() => setSel(i === sel ? null : i)}><ShotHit /><ShotDot c={SHOT_HOME} goal={s.outcome === 'Gol'} on={!!s.onTarget} r={2} /></g>;
+            return <g key={i} transform={`translate(${Math.max(3, Math.min(57, gx))} ${gyy})`} onClick={() => setSel(i === sel ? null : i)}><ShotHit /><ShotDot c={dotC} goal={s.outcome === 'Gol'} on={!!s.onTarget} r={2} /></g>;
           })}
         </svg>
       </div>

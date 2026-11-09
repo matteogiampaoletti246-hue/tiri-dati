@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { comma } from '@/lib/format';
 import { situationOf, zoneOf, outcomeOf } from './MatchShotMap';
 import { seen, lum } from '@/components/player/Radar';
-import { ShotDot, ShotHit, BlockTrace, isBlocked, SHOT_HOME, SHOT_PITCH, SHOT_LINE, SHOT_GOALBG } from './ShotDot';
+import { ShotDot, ShotHit, BlockTrace, isBlocked, shotColor, SHOT_PITCH, SHOT_LINE, SHOT_GOALBG, SHOT_TRACE, SHOT_GOALLINE } from './ShotDot';
 
 const PITCH = SHOT_PITCH;
 const LINE = SHOT_LINE;
@@ -25,13 +25,13 @@ const py = (v) => Math.max(12, Math.min(54, v));
 const bodyOf = (b) => (b === 'Testa' ? 'Di testa' : b === 'Destro' ? 'Di destro' : b === 'Sinistro' ? 'Di sinistro' : '—');
 const dist = (s) => (s.px != null ? Math.round(Math.hypot(105 - s.px, 34 - s.py)) : null);
 
-function Goal({ list, sel, onSel, dim = true, h = 150, frame = 'rgba(255,255,255,.8)' }) {
+function Goal({ list, sel, onSel, dim = true, h = 150, color }) {
   const W = 11.5 * 0.9;
   const x0 = 14;
   return (
     <svg viewBox="0 0 100 52" className="w-full" style={{ maxHeight: h, background: SHOT_GOALBG, borderRadius: 10 }}>
-      <line x1="2" x2="98" y1="44" y2="44" strokeWidth="0.5" style={{ stroke: 'rgba(150,175,225,.5)' }} />
-      <rect x={x0} y={44 - 2.44 * W} width={7.32 * W} height={2.44 * W} strokeWidth="1.2" style={{ fill: 'rgba(255,255,255,.04)', stroke: '#dfe8fb' }} />
+      <line x1="2" x2="98" y1="44" y2="44" strokeWidth="0.5" style={{ stroke: SHOT_GOALLINE }} />
+      <rect x={x0} y={44 - 2.44 * W} width={7.32 * W} height={2.44 * W} strokeWidth="1.2" style={{ fill: 'rgba(255,255,255,.05)', stroke: '#ffffff' }} />
       {list.map((s, i) => {
         if (s.gy == null || s.gz == null || isBlocked(s)) return null; // la porta non mostra i tiri murati
         const cx = x0 + (s.gy - 30.34) * W;
@@ -40,7 +40,7 @@ function Goal({ list, sel, onSel, dim = true, h = 150, frame = 'rgba(255,255,255
         return (
           <g key={i} onClick={() => onSel(i)} style={{ cursor: 'pointer' }} opacity={sel == null || on || !dim ? 1 : 0.35}>
             {on ? <circle cx={Math.max(3, Math.min(97, cx))} cy={cy} r="4.2" fill="none" stroke="#f5a400" strokeWidth="0.7" /> : null}
-            <g transform={`translate(${Math.max(3, Math.min(97, cx))} ${cy})`}><ShotHit /><ShotDot c={SHOT_HOME} goal={s.outcome === 'Gol'} on={!!s.onTarget} r={2.2} /></g>
+            <g transform={`translate(${Math.max(3, Math.min(97, cx))} ${cy})`}><ShotHit /><ShotDot c={color} goal={s.outcome === 'Gol'} on={!!s.onTarget} r={2.2} /></g>
           </g>
         );
       })}
@@ -48,7 +48,7 @@ function Goal({ list, sel, onSel, dim = true, h = 150, frame = 'rgba(255,255,255
   );
 }
 
-function Half({ list, sel, onSel, h = 190, line = true }) {
+function Half({ list, sel, onSel, h = 190, line = true, color }) {
   const cur = sel != null ? list[sel] : null;
   return (
     <svg viewBox="64 10 42 46" className="w-full overflow-hidden rounded-[12px]" style={{ background: PITCH, maxHeight: h }}>
@@ -56,14 +56,14 @@ function Half({ list, sel, onSel, h = 190, line = true }) {
       <polyline points="105,13.84 88.5,13.84 88.5,54.16 105,54.16" fill="none" stroke={LINE} strokeWidth="0.5" />
       <polyline points="105,24.84 99.5,24.84 99.5,43.16 105,43.16" fill="none" stroke={LINE} strokeWidth="0.5" />
       <circle cx="94" cy="34" r="0.5" fill={LINE} />
-      {line && cur && cur.px != null ? (isBlocked(cur) ? (cur.bx != null ? <BlockTrace x1={px(cur.px)} y1={py(cur.py)} x2={px(cur.bx)} y2={py(cur.by)} /> : null) : <line x1={px(cur.px)} y1={py(cur.py)} x2="105" y2="34" stroke="#0b1a10" strokeWidth="0.45" strokeDasharray="1.3 1.1" />) : null}
+      {line && cur && cur.px != null ? (isBlocked(cur) ? (cur.bx != null ? <BlockTrace x1={px(cur.px)} y1={py(cur.py)} x2={px(cur.bx)} y2={py(cur.by)} /> : null) : <line x1={px(cur.px)} y1={py(cur.py)} x2="105" y2="34" stroke={SHOT_TRACE} strokeWidth="0.45" strokeDasharray="1.3 1.1" />) : null}
       {list.map((s, i) => {
         if (s.px == null) return null;
         const on = sel === i;
         return (
           <g key={i} onClick={() => onSel(i)} style={{ cursor: 'pointer' }} opacity={sel == null || on ? 1 : 0.35}>
             {on ? <circle cx={px(s.px)} cy={py(s.py)} r="3.6" fill="none" stroke="#f5a400" strokeWidth="0.7" /> : null}
-            <g transform={`translate(${px(s.px)} ${py(s.py)})`}><ShotHit /><ShotDot c={SHOT_HOME} goal={s.outcome === 'Gol'} on={!!s.onTarget} r={2} /></g>
+            <g transform={`translate(${px(s.px)} ${py(s.py)})`}><ShotHit /><ShotDot c={color} goal={s.outcome === 'Gol'} on={!!s.onTarget} r={2} /></g>
           </g>
         );
       })}
@@ -135,7 +135,8 @@ function Chips({ list, sel, onSel, variant, team }) {
   );
 }
 
-export default function ShotExplorer({ shots, concept, team }) {
+export default function ShotExplorer({ shots, concept, team, colors }) {
+  const dotC = shotColor(colors || team); // stesso colore dei pallini della mappa partita (verde -> secondo colore)
   const list = [...shots].filter((s) => s.px != null).sort((a, b) => (a.minute || 0) - (b.minute || 0));
   const [sel, setSel] = useState(null);
   const pick = (i) => setSel((p) => (i === p ? null : i));
@@ -161,8 +162,8 @@ export default function ShotExplorer({ shots, concept, team }) {
         <Chips list={list} sel={sel} onSel={(i) => (i === null ? setSel(null) : pick(i))} variant="b" />
         <div className="grid gap-3" style={{ gridTemplateColumns: '1fr 1fr' }}>
           <div className="flex flex-col gap-2">
-            <Goal list={list} sel={sel} onSel={pick} h={86} />
-            <Half list={list} sel={sel} onSel={pick} h={150} />
+            <Goal color={dotC} list={list} sel={sel} onSel={pick} h={86} />
+            <Half color={dotC} list={list} sel={sel} onSel={pick} h={150} />
           </div>
           <div className="flex items-center"><Details s={cur} cols={1} /></div>
         </div>
@@ -173,9 +174,9 @@ export default function ShotExplorer({ shots, concept, team }) {
     return (
       <div className="flex flex-col gap-3">
         <div className="relative rounded-[20px] p-3" style={{ background: PITCH }}>
-          <Half list={list} sel={sel} onSel={pick} h={230} />
+          <Half color={dotC} list={list} sel={sel} onSel={pick} h={230} />
           <div className="absolute right-4 top-4 w-[38%] rounded-[10px] p-1" style={{ background: 'rgba(8,16,28,.72)' }}>
-            <Goal list={list} sel={sel} onSel={pick} h={70} />
+            <Goal color={dotC} list={list} sel={sel} onSel={pick} h={70} />
           </div>
         </div>
         <Chips list={list} sel={sel} onSel={(i) => (i === null ? setSel(null) : pick(i))} variant="c" />
@@ -186,11 +187,11 @@ export default function ShotExplorer({ shots, concept, team }) {
   return (
     <div className="flex flex-col gap-3 rounded-[20px] p-3" style={{ background: 'var(--hair-2)' }}>
       <div className="rounded-[14px] px-2 pt-2" style={{ background: 'rgba(8,16,28,.55)' }}>
-        <Goal list={list} sel={sel} onSel={pick} h={130} />
+        <Goal color={dotC} list={list} sel={sel} onSel={pick} h={130} />
       </div>
-      <Chips list={list} sel={sel} onSel={(i) => (i === null ? setSel(null) : pick(i))} variant="a" team={team} />
+      <Chips list={list} sel={sel} onSel={(i) => (i === null ? setSel(null) : pick(i))} variant="a" team={dotC} />
       <div className="grid gap-3" style={{ gridTemplateColumns: '0.9fr 1.1fr' }}>
-        <Half list={list} sel={sel} onSel={pick} h={150} />
+        <Half color={dotC} list={list} sel={sel} onSel={pick} h={150} />
         <div className="flex items-center"><Details s={cur} cols={2} /></div>
       </div>
     </div>

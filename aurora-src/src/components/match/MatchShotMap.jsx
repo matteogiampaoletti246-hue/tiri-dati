@@ -5,12 +5,10 @@ import { comma } from '@/lib/format';
 import { teamGrad } from '@/lib/tint';
 import PlayerLink from './PlayerLink';
 import { findInMatch } from '@/data/playerSheet';
-import { ShotDot, ShotHit, BlockTrace, isBlocked, SHOT_HOME, SHOT_AWAY, SHOT_PITCH, SHOT_LINE, SHOT_GOALBG } from './ShotDot';
+import { ShotDot, ShotHit, BlockTrace, isBlocked, shotColors, shotText, SHOT_PITCH, SHOT_LINE, SHOT_GOALBG, SHOT_TRACE, SHOT_GOALLINE } from './ShotDot';
 
-// Mappa tiri stile "campo verde": casa attacca a sinistra, trasferta a destra.
+// Mappa tiri stile "campo verde" (concept A, colori squadra in `shotColors`): casa attacca a sinistra, trasferta a destra.
 // Sotto il campo: le due porte viste da davanti. Toccando un tiro compare la scheda con i dettagli.
-const HC = SHOT_HOME;
-const AC = SHOT_AWAY;
 const PITCH = SHOT_PITCH;
 const LINE = SHOT_LINE;
 
@@ -56,6 +54,7 @@ export default function MatchShotMap({ shots = [], home, away, match = null, lin
   const [sel, setSel] = useState(null);
   const list = shots.filter((s) => !s.own && s.px != null && (mode !== 'target' || s.onTarget));
   const cur = sel != null && list[sel] ? list[sel] : null;
+  const [HC, AC] = shotColors(home, away);
   const color = (s) => (s.side === 'home' ? HC : AC);
   const pos = (s) => (s.side === 'home' ? [105 - s.px, 68 - s.py] : [s.px, s.py]);
   const radius = () => 1.9;
@@ -90,8 +89,8 @@ export default function MatchShotMap({ shots = [], home, away, match = null, lin
     const x0 = 10;
     return (
       <svg viewBox="0 0 100 52" className="w-full" style={{ background: SHOT_GOALBG, borderRadius: 10 }}>
-        <line x1="2" x2="98" y1="44" y2="44" strokeWidth="0.5" style={{ stroke: 'rgba(150,175,225,.5)' }} />
-        <rect x={x0 + 4} y={44 - 2.44 * W * 0.9} width={7.32 * W * 0.9} height={2.44 * W * 0.9} strokeWidth="1.2" style={{ fill: 'rgba(255,255,255,.04)', stroke: '#dfe8fb' }} />
+        <line x1="2" x2="98" y1="44" y2="44" strokeWidth="0.5" style={{ stroke: SHOT_GOALLINE }} />
+        <rect x={x0 + 4} y={44 - 2.44 * W * 0.9} width={7.32 * W * 0.9} height={2.44 * W * 0.9} strokeWidth="1.2" style={{ fill: 'rgba(255,255,255,.05)', stroke: '#ffffff' }} />
         {gl.map((s) => {
           const i = list.indexOf(s);
           const cx = x0 + 4 + (s.gy - 30.34) * W * 0.9;
@@ -119,7 +118,7 @@ export default function MatchShotMap({ shots = [], home, away, match = null, lin
         <polyline points={arc(94, 34, 9.15, 127, 233)} fill="none" stroke={LINE} strokeWidth="0.5" />
         <polyline points={arc(11, 34, 9.15, -53, 53)} fill="none" stroke={LINE} strokeWidth="0.5" />
         {cur && isBlocked(cur) ? (cur.bx != null ? <BlockTrace x1={pos(cur)[0]} y1={pos(cur)[1]} x2={pos({ side: cur.side, px: cur.bx, py: cur.by })[0]} y2={pos({ side: cur.side, px: cur.bx, py: cur.by })[1]} /> : null) : cur && goalPt ? (
-          <line x1={pos(cur)[0]} y1={pos(cur)[1]} x2={goalPt.x} y2={goalPt.y} stroke="#0b1a10" strokeWidth="0.45" strokeDasharray="1.4 1.2" />
+          <line x1={pos(cur)[0]} y1={pos(cur)[1]} x2={goalPt.x} y2={goalPt.y} stroke={SHOT_TRACE} strokeWidth="0.45" strokeDasharray="1.4 1.2" />
         ) : null}
         {list.map((s, i) => {
           const [cx, cy] = pos(s);
@@ -128,8 +127,8 @@ export default function MatchShotMap({ shots = [], home, away, match = null, lin
       </svg>
 
       <div className="grid grid-cols-2 gap-2">
-        <div><p className="mb-0.5 text-[10.5px] font-bold" style={{ color: HC }}>{home ? home.short || home.name : 'Casa'}</p>{Goal({ side: 'home' })}</div>
-        <div><p className="mb-0.5 text-right text-[10.5px] font-bold" style={{ color: AC }}>{away ? away.short || away.name : 'Trasferta'}</p>{Goal({ side: 'away' })}</div>
+        <div><p className="mb-0.5 text-[10.5px] font-bold" style={{ color: shotText(HC) }}>{home ? home.short || home.name : 'Casa'}</p>{Goal({ side: 'home' })}</div>
+        <div><p className="mb-0.5 text-right text-[10.5px] font-bold" style={{ color: shotText(AC) }}>{away ? away.short || away.name : 'Trasferta'}</p>{Goal({ side: 'away' })}</div>
       </div>
 
       {cur ? (
@@ -140,9 +139,9 @@ export default function MatchShotMap({ shots = [], home, away, match = null, lin
               <div className="flex items-center justify-center gap-2">
                 {photo ? <img src={photo} alt="" decoding="async" className="h-[34px] w-[34px] shrink-0 rounded-full object-cover" style={{ background: 'var(--hair)' }} /> : null}
                 {linkNames && match ? (
-                  <PlayerLink match={match} name={cur.playerName} fmId={found && found.fmId} className="truncate text-[14px] font-extrabold" style={{ color: color(cur) }}>{cur.playerName}{cur.og ? ' (autogol)' : ''}</PlayerLink>
+                  <PlayerLink match={match} name={cur.playerName} fmId={found && found.fmId} className="truncate text-[14px] font-extrabold" style={{ color: shotText(color(cur)) }}>{cur.playerName}{cur.og ? ' (autogol)' : ''}</PlayerLink>
                 ) : (
-                  <p className="truncate text-[14px] font-extrabold" style={{ color: color(cur) }}>{cur.playerName}{cur.og ? ' (autogol)' : ''}</p>
+                  <p className="truncate text-[14px] font-extrabold" style={{ color: shotText(color(cur)) }}>{cur.playerName}{cur.og ? ' (autogol)' : ''}</p>
                 )}
               </div>
               <p className="text-[11.5px]" style={{ color: 'var(--ink-3)' }}>{team ? team.name : ''} · {cur.minute}&apos;</p>

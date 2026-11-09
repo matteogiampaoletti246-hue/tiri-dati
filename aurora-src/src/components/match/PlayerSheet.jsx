@@ -197,7 +197,7 @@ const Rows = ({ rows }) => rows.map((r, i) => (
   </div>
 ));
 
-const MapBlock = ({ c }) => (c.shots.length ? <MiniShotMap shots={c.shots} /> : (
+const MapBlock = ({ c }) => (c.shots.length ? <MiniShotMap shots={c.shots} colors={c.team ? c.team.colors : null} /> : (
   <p className="rounded-[16px] py-5 text-center text-[12.5px]" style={{ background: 'var(--hair-2)', color: 'var(--ink-3)' }}>Nessun tiro del giocatore</p>
 ));
 
@@ -217,7 +217,7 @@ function Body({ c, concept, onOpen }) {
           ))}
         </div>
       ) : null}
-      <ShotExplorer key={c.name} shots={c.shots} concept={concept} team={c.team ? c.team.colors[0] : null} />
+      <ShotExplorer key={c.name} shots={c.shots} concept={concept} team={c.team ? c.team.colors[0] : null} colors={c.team ? c.team.colors : null} />
       {noStats ? (
         null
       ) : (
