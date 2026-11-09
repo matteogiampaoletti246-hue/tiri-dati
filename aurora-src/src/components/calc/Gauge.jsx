@@ -2,6 +2,15 @@ import { useEffect, useRef, useState } from 'react';
 import { comma } from '@/lib/format';
 import { scoreColorSmooth } from '@/lib/calc';
 
+// Progress concept A (21st "Progress Ring", The Gridcn): 48 tacche attorno all'anello che girano piano (ogni quarta piu' chiara)
+// e alone del colore del voto sull'arco. Le tacche sono disegnate una volta sola (fuori dal componente).
+const TICKS = Array.from({ length: 48 }, (_, i) => {
+  const a = (i / 48) * Math.PI * 2;
+  const major = i % 4 === 0;
+  const r1 = 59.5; const r2 = major ? 56.2 : 57.4;
+  return { x1: 60 + r1 * Math.cos(a), y1: 60 + r1 * Math.sin(a), x2: 60 + r2 * Math.cos(a), y2: 60 + r2 * Math.sin(a), major };
+});
+
 const reduced = () => typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 // Pannello risultato (concept A): anello del voto (0-10) con tre barre a destra e il verdetto sotto.
@@ -46,7 +55,6 @@ export default function Gauge({ score, bars = [], verdict = null }) {
   }, [inView, target]);
 
   const R = 50;
-  const length = 2 * Math.PI * R;
   const pct = Math.max(0, Math.min(1, shown / 10));
   const color = has ? scoreColorSmooth(shown) : 'var(--ink-3)';
   const prog = target > 0 ? Math.min(1, shown / target) : 0; // avanzamento della carica, 0 -> 1: le barre salgono insieme all'anello
@@ -55,9 +63,12 @@ export default function Gauge({ score, bars = [], verdict = null }) {
     <div ref={box}>
       <div className="flex items-center gap-5">
         <div className="relative h-[132px] w-[132px] shrink-0">
-          <svg viewBox="0 0 120 120" className="h-full w-full -rotate-90" aria-hidden="true">
-            <circle cx="60" cy="60" r={R} fill="none" stroke="var(--hair-2)" strokeWidth="10" />
-            <circle cx="60" cy="60" r={R} fill="none" stroke={color} strokeWidth="10" strokeLinecap="round" strokeDasharray={length} strokeDashoffset={length * (1 - pct)} />
+          <svg viewBox="0 0 120 120" className="gauge-ticks absolute inset-0 h-full w-full" aria-hidden="true">
+            {TICKS.map((t, i) => <line key={i} x1={t.x1} y1={t.y1} x2={t.x2} y2={t.y2} stroke="var(--ink)" strokeOpacity={t.major ? 0.32 : 0.13} strokeWidth="1.1" strokeLinecap="round" />)}
+          </svg>
+          <svg viewBox="0 0 120 120" className="relative h-full w-full -rotate-90" aria-hidden="true">
+            <circle cx="60" cy="60" r={R - 4} fill="none" stroke="var(--hair-2)" strokeWidth="9" />
+            <circle cx="60" cy="60" r={R - 4} fill="none" stroke={color} strokeWidth="9" strokeLinecap="round" strokeDasharray={2 * Math.PI * (R - 4)} strokeDashoffset={2 * Math.PI * (R - 4) * (1 - pct)} style={has && pct > 0 ? { filter: `drop-shadow(0 0 5px ${color})` } : undefined} />
           </svg>
           <div className="absolute inset-0 grid place-items-center text-center">
             <div>

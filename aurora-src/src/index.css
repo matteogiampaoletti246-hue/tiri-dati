@@ -999,3 +999,8 @@ html:not(.dark) .lglass {
 
 /* Podio giocatori: lo stesso cerchio di sempre, colorato con la squadra solo dove la foto non copre */
 .pod-face .avatar, .pod-face > span.rounded-full { background: var(--pod-tc, var(--panel-2)) !important; }
+
+/* Anello del voto (Progress concept A): le tacche attorno girano piano */
+.gauge-ticks { animation: gauge-spin 18s linear infinite; transform-origin: 50% 50%; }
+@keyframes gauge-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .gauge-ticks { animation: none; } }
