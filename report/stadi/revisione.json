@@ -14,10 +14,17 @@
 "file": "arena-giulesti.webp"
 },
 {
+"k": "hard-rock-stadium",
+"name": "Hard Rock Stadium",
+"kind": "cambiata scelta a mano",
+"in": 0.848,
+"file": "hard-rock-stadium.webp"
+},
+{
 "k": "miami-stadium",
 "name": "Miami Stadium",
-"kind": "cambiata interno",
-"in": 0.997,
+"kind": "cambiata scelta a mano",
+"in": 0.848,
 "file": "miami-stadium.webp"
 },
 {
@@ -1384,13 +1391,6 @@
 "kind": "invariata",
 "in": 0.0,
 "file": "haladas-sportkomplexum.webp"
-},
-{
-"k": "hard-rock-stadium",
-"name": "Hard Rock Stadium",
-"kind": "invariata",
-"in": 0.995,
-"file": "hard-rock-stadium.webp"
 },
 {
 "k": "helsingin-olympiastadion",
