@@ -10,7 +10,7 @@
 "k": "al-janoub-stadium",
 "name": "Al Janoub Stadium",
 "kind": "cambiata interno",
-"in": 0.784,
+"in": 0.771,
 "file": "al-janoub-stadium.webp"
 },
 {
@@ -30,8 +30,8 @@
 {
 "k": "soldier-field",
 "name": "Soldier Field",
-"kind": "cambiata interno",
-"in": 0.606,
+"kind": "cambiata esterno",
+"in": 0.001,
 "file": "soldier-field.webp"
 },
 {
@@ -54,13 +54,6 @@
 "kind": "cambiata scelta a mano",
 "in": 1.0,
 "file": "volksparkstadion.webp"
-},
-{
-"k": "yongin-mireu-stadium",
-"name": "Yongin Mireu Stadium",
-"kind": "cambiata esterno",
-"in": 0.0,
-"file": "yongin-mireu-stadium.webp"
 },
 {
 "k": "a-le-coq-arena",
@@ -3169,5 +3162,12 @@
 "kind": "invariata",
 "in": 0.383,
 "file": "wwk-arena.webp"
+},
+{
+"k": "yongin-mireu-stadium",
+"name": "Yongin Mireu Stadium",
+"kind": "invariata",
+"in": 0.007,
+"file": "yongin-mireu-stadium.webp"
 }
 ]
