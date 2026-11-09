@@ -10916,8 +10916,8 @@
  "rose_per_ruolo": {
   "squadre": 5237,
   "prima": 4379,
-  "dopo": 1435,
-  "giocate_dopo": 1275,
+  "dopo": 1431,
+  "giocate_dopo": 1271,
   "elenco": [
    {
     "squadra": "1 de Marzo Pilar",
@@ -17462,17 +17462,6 @@
     ]
    },
    {
-    "squadra": "Stafford Rangers",
-    "id": "10222",
-    "giocatori": 0,
-    "competizioni": [
-     "FA Cup 2026-2027"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
     "squadra": "Stenhousemuir",
     "id": "1822282",
     "giocatori": 0,
@@ -19137,17 +19126,6 @@
     ]
    },
    {
-    "squadra": "Avondale FC",
-    "id": "534804",
-    "giocatori": 1,
-    "competizioni": [
-     "Australia Championship 2026"
-    ],
-    "motivo": [
-     "1 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 1"
-    ]
-   },
-   {
     "squadra": "BOHFS St. Louis",
     "id": "1912763",
     "giocatori": 1,
@@ -20608,6 +20586,17 @@
     "giocatori": 2,
     "competizioni": [
      "Emperor's Cup 2026"
+    ],
+    "motivo": [
+     "2 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 2"
+    ]
+   },
+   {
+    "squadra": "Avondale FC",
+    "id": "534804",
+    "giocatori": 2,
+    "competizioni": [
+     "Australia Championship 2026"
     ],
     "motivo": [
      "2 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 2"
@@ -23414,17 +23403,6 @@
     ]
    },
    {
-    "squadra": "Albacete B",
-    "id": "190118",
-    "giocatori": 6,
-    "competizioni": [
-     "Segunda Federación 2026-2027"
-    ],
-    "motivo": [
-     "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
-    ]
-   },
-   {
     "squadra": "Arnavutköy Belediyespor",
     "id": "1181150",
     "giocatori": 6,
@@ -23581,17 +23559,6 @@
     ]
    },
    {
-    "squadra": "JS El Biar",
-    "id": "2121859",
-    "giocatori": 6,
-    "competizioni": [
-     "Ligue 1 2026-2027"
-    ],
-    "motivo": [
-     "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
-    ]
-   },
-   {
     "squadra": "Jataiense",
     "id": "1232706",
     "giocatori": 6,
@@ -23707,17 +23674,6 @@
     "giocatori": 6,
     "competizioni": [
      "Regionalliga 2026-2027"
-    ],
-    "motivo": [
-     "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
-    ]
-   },
-   {
-    "squadra": "Real Oviedo B",
-    "id": "209008",
-    "giocatori": 6,
-    "competizioni": [
-     "Segunda Federación 2026-2027"
     ],
     "motivo": [
      "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
@@ -23843,6 +23799,17 @@
     ],
     "motivo": [
      "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
+    ]
+   },
+   {
+    "squadra": "Albacete B",
+    "id": "190118",
+    "giocatori": 7,
+    "competizioni": [
+     "Segunda Federación 2026-2027"
+    ],
+    "motivo": [
+     "7 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 7"
     ]
    },
    {
@@ -24148,6 +24115,17 @@
     ]
    },
    {
+    "squadra": "JS El Biar",
+    "id": "2121859",
+    "giocatori": 7,
+    "competizioni": [
+     "Ligue 1 2026-2027"
+    ],
+    "motivo": [
+     "7 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 7"
+    ]
+   },
+   {
     "squadra": "Kahramanmaras Istiklalspor",
     "id": "1784548",
     "giocatori": 7,
@@ -24327,6 +24305,17 @@
     "competizioni": [
      "Irish Cup 2025-2026",
      "League Cup 2026-2027"
+    ],
+    "motivo": [
+     "7 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 7"
+    ]
+   },
+   {
+    "squadra": "Real Oviedo B",
+    "id": "209008",
+    "giocatori": 7,
+    "competizioni": [
+     "Segunda Federación 2026-2027"
     ],
     "motivo": [
      "7 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 7"
@@ -24654,17 +24643,6 @@
     "giocatori": 8,
     "competizioni": [
      "Primera B Metropolitana & Torneo Federal A 2026"
-    ],
-    "motivo": [
-     "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
-    ]
-   },
-   {
-    "squadra": "Girona B",
-    "id": "1784557",
-    "giocatori": 8,
-    "competizioni": [
-     "Segunda Federación 2026-2027"
     ],
     "motivo": [
      "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
@@ -25179,17 +25157,6 @@
     ]
    },
    {
-    "squadra": "BSK Banja Luka",
-    "id": "187927",
-    "giocatori": 9,
-    "competizioni": [
-     "Premier League 2026-2027"
-    ],
-    "motivo": [
-     "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
-    ]
-   },
-   {
     "squadra": "Bracknell Town",
     "id": "626250",
     "giocatori": 9,
@@ -25349,17 +25316,6 @@
     ]
    },
    {
-    "squadra": "FA Šiauliai",
-    "id": "1099941",
-    "giocatori": 9,
-    "competizioni": [
-     "Toplyga 2026"
-    ],
-    "motivo": [
-     "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
-    ]
-   },
-   {
     "squadra": "FC Jazz",
     "id": "1970",
     "giocatori": 9,
@@ -25447,6 +25403,17 @@
     "giocatori": 9,
     "competizioni": [
      "Coupe de France 2026-2027"
+    ],
+    "motivo": [
+     "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
+    ]
+   },
+   {
+    "squadra": "Girona B",
+    "id": "1784557",
+    "giocatori": 9,
+    "competizioni": [
+     "Segunda Federación 2026-2027"
     ],
     "motivo": [
      "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
@@ -26024,6 +25991,28 @@
     ]
    },
    {
+    "squadra": "BSK Banja Luka",
+    "id": "187927",
+    "giocatori": 10,
+    "competizioni": [
+     "Premier League 2026-2027"
+    ],
+    "motivo": [
+     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
+    ]
+   },
+   {
+    "squadra": "Barça Atlètic",
+    "id": "161774",
+    "giocatori": 10,
+    "competizioni": [
+     "Segunda Federación 2026-2027"
+    ],
+    "motivo": [
+     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
+    ]
+   },
+   {
     "squadra": "Basingstoke",
     "id": "45807",
     "giocatori": 10,
@@ -26040,19 +26029,6 @@
     "giocatori": 10,
     "competizioni": [
      "Ligue I 2026-2027"
-    ],
-    "motivo": [
-     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
-    ]
-   },
-   {
-    "squadra": "Bhutan",
-    "id": "95800",
-    "giocatori": 10,
-    "competizioni": [
-     "SAFF Championship 2026",
-     "World Cup Qualification AFC 2023-2025",
-     "Asian Cup Qualification Playoff 2025-2026"
     ],
     "motivo": [
      "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
@@ -26171,17 +26147,6 @@
     ]
    },
    {
-    "squadra": "Compostela",
-    "id": "7860",
-    "giocatori": 10,
-    "competizioni": [
-     "Segunda Federación 2026-2027"
-    ],
-    "motivo": [
-     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
-    ]
-   },
-   {
     "squadra": "Cork City",
     "id": "2201",
     "giocatori": 10,
@@ -26210,6 +26175,17 @@
     "giocatori": 10,
     "competizioni": [
      "Primera B Metropolitana & Torneo Federal A 2026"
+    ],
+    "motivo": [
+     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
+    ]
+   },
+   {
+    "squadra": "Enugu Rangers",
+    "id": "102054",
+    "giocatori": 10,
+    "competizioni": [
+     "Professional Football League 2026-2027"
     ],
     "motivo": [
      "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
@@ -26245,6 +26221,17 @@
     "giocatori": 10,
     "competizioni": [
      "Ligue I 2026-2027"
+    ],
+    "motivo": [
+     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
+    ]
+   },
+   {
+    "squadra": "FA Šiauliai",
+    "id": "1099941",
+    "giocatori": 10,
+    "competizioni": [
+     "Toplyga 2026"
     ],
     "motivo": [
      "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
@@ -26397,18 +26384,6 @@
     ]
    },
    {
-    "squadra": "Hebar",
-    "id": "10143",
-    "giocatori": 10,
-    "competizioni": [
-     "Bulgarian Cup 2026-2027",
-     "Second Professional League 2026-2027"
-    ],
-    "motivo": [
-     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
-    ]
-   },
-   {
     "squadra": "Hellas Syros",
     "id": "1797422",
     "giocatori": 10,
@@ -26521,19 +26496,6 @@
     ]
    },
    {
-    "squadra": "Maldives",
-    "id": "5899",
-    "giocatori": 10,
-    "competizioni": [
-     "SAFF Championship 2026",
-     "World Cup Qualification AFC 2023-2025",
-     "Asian Cup Qualification Playoff 2025-2026"
-    ],
-    "motivo": [
-     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
-    ]
-   },
-   {
     "squadra": "Nanjing City FC",
     "id": "1242218",
     "giocatori": 10,
@@ -26638,6 +26600,17 @@
     ]
    },
    {
+    "squadra": "Rayo Cantabria",
+    "id": "161747",
+    "giocatori": 10,
+    "competizioni": [
+     "Segunda Federación 2026-2027"
+    ],
+    "motivo": [
+     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
+    ]
+   },
+   {
     "squadra": "Rayon Sport",
     "id": "165039",
     "giocatori": 10,
@@ -26712,17 +26685,6 @@
     "giocatori": 10,
     "competizioni": [
      "Chinese FA Cup 2026"
-    ],
-    "motivo": [
-     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
-    ]
-   },
-   {
-    "squadra": "Sloga Doboj",
-    "id": "187928",
-    "giocatori": 10,
-    "competizioni": [
-     "Premier League 2026-2027"
     ],
     "motivo": [
      "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
@@ -26830,19 +26792,6 @@
     ]
    },
    {
-    "squadra": "Wimborne Town",
-    "id": "282358",
-    "giocatori": 10,
-    "competizioni": [
-     "Premier Division 2026-2027",
-     "FA Cup 2026-2027",
-     "FA Trophy 2026-2027"
-    ],
-    "motivo": [
-     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
-    ]
-   },
-   {
     "squadra": "Zimbru",
     "id": "8039",
     "giocatori": 10,
@@ -26885,9 +26834,9 @@
   "coppie_squadra_competizione": 24232,
   "con_frase_prima": 12294,
   "squadre_con_frase_prima": 5811,
-  "con_frase_e_dati_ora_visibili": 7053,
+  "con_frase_e_dati_ora_visibili": 7057,
   "con_frase_dopo": 0,
-  "competizioni_senza_dati_tolte_dalla_tendina": 12724,
+  "competizioni_senza_dati_tolte_dalla_tendina": 12720,
   "squadre_senza_scheda_giocatori": 7042,
   "senza_scheda": [
    {
