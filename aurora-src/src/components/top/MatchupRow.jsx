@@ -25,9 +25,13 @@ function Side({ team, name, value }) {
 export default memo(function MatchupRow({ row, both }) {
   const home = teamById(row.homeId);
   const away = teamById(row.awayId);
-  const found = matchesByDate(row.date).find((m) => m.homeId === row.homeId && m.awayId === row.awayId);
-  const Wrap = found ? Link : 'div';
-  const props = found ? { to: `/match/${found.id}` } : {};
+  // la partita si trova prima per id FotMob (le nazionali non sempre hanno gli stessi id squadra), poi per le due squadre;
+  // senza partita in Home si apre quella d'archivio (Nations League: fm + stagione dal file)
+  const day = matchesByDate(row.date);
+  const found = day.find((m) => m.fmId && String(m.fmId) === String(row.id)) || day.find((m) => m.homeId === row.homeId && m.awayId === row.awayId);
+  const to = found ? `/match/${found.id}` : row.fm && row.sk ? `/match/a-${row.fm}-${row.sk}-${row.id}` : null;
+  const Wrap = to ? Link : 'div';
+  const props = to ? { to } : {};
 
   return (
     <Wrap

@@ -27,7 +27,7 @@ export default function ReliabilityCalculator() {
   return (
     <PageShell swipeBack={isNative()}>
       {/* testata unica: titolo e due schede grandi nello stesso blocco opaco, il contenuto non si vede passare */}
-      <header className="sticky top-0 z-30" style={{ background: 'var(--sky-2)' }}>
+      <header className="head-solid sticky top-0 z-30">
         <FixedBar title="Calcolatore Affidabilità" onSearch={() => { primeKeyboard(); setSearchOpen(true); }} />
         <div className="px-5 pb-2.5">
           <div className="relative mt-2 grid grid-cols-2 rounded-[16px] p-1" style={{ background: 'var(--panel-2)', border: '1px solid var(--hair)' }}>

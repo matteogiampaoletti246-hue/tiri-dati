@@ -9,7 +9,8 @@ from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
 ROME = ZoneInfo("Europe/Rome")
-COMPS = {9806: ("Nations League A", 1.0), 9807: ("Nations League B", 0.9), 9808: ("Nations League C", 0.8), 9809: ("Nations League D", 0.7)}
+# Solo Nations League A e B: C e D non servono in Migliori Matchup (richiesta del 9/11/2026)
+COMPS = {9806: ("Nations League A", 1.0), 9807: ("Nations League B", 0.9)}
 DAYS = 8
 
 
@@ -32,6 +33,21 @@ def pair(s, *keys):
 
 def rome_day(utc):
     return datetime.fromisoformat(utc.replace("Z", "+00:00")).astimezone(ROME).strftime("%Y-%m-%d")
+
+
+def cards_1t(m):
+    """Cartellini del primo tempo per (casa, trasferta) dagli eventi FotMob (tipo Card, minuto <= 45 compreso il recupero); None senza eventi."""
+    ev = m.get("e") or []
+    if not ev:
+        return None
+    h = a = 0
+    for e in ev:
+        if e.get("type") == "Card" and (e.get("time") or 0) <= 45:
+            if e.get("isHome"):
+                h += 1
+            else:
+                a += 1
+    return float(h), float(a)
 
 
 def mean(v):
@@ -68,13 +84,14 @@ def main():
                 c, y, rd = pair(s, "corners"), pair(s, "yellow_cards"), pair(s, "red_cards") or (0.0, 0.0)
                 sh, so = pair(s, "total_shots"), pair(s, "ShotsOnTarget")
                 fo, of = pair(s, "fouls"), pair(s, "Offsides")
+                k1 = cards_1t(m)
                 for side, i in (("h", 0), ("a", 1)):
                     j = 1 - i
                     g = lambda p: (p[i], p[j]) if p else (None, None)
                     hist.setdefault((hid if side == "h" else aid, side), []).append({
-                        "c": g(c), "k": (y[i] + rd[i]) if y else None, "s": g(sh), "t": g(so), "f": g(fo), "o": g(of)})
+                        "c": g(c), "k": (y[i] + rd[i]) if y else None, "k1": k1[i] if k1 and y else None, "s": g(sh), "t": g(so), "f": g(fo), "o": g(of)})
             elif not r[5] and str(today) <= d <= str(limit):
-                upcoming.append({"id": mid, "h": hid, "a": aid, "date": d, "time": utc, "league": label})
+                upcoming.append({"id": mid, "h": hid, "a": aid, "date": d, "time": utc, "league": label, "fm": fm, "sk": sk})
 
     def rows(tid, side=None):
         return hist.get((tid, "h"), []) + hist.get((tid, "a"), []) if side is None else hist.get((tid, side), [])
@@ -94,7 +111,7 @@ def main():
 
     days = {}
     for u in upcoming:
-        e = {"id": u["id"], "date": u["date"], "time": u["time"], "league": u["league"], "home": names[u["h"]], "away": names[u["a"]], "hid": u["h"], "aid": u["a"]}
+        e = {"id": u["id"], "date": u["date"], "time": u["time"], "league": u["league"], "home": names[u["h"]], "away": names[u["a"]], "hid": u["h"], "aid": u["a"], "fm": u["fm"], "sk": u["sk"]}
         for tag, key, split, use_h, gk in (("corners", "c", True, False, "games"), ("tiri", "s", True, True, "tiri_games"), ("sot", "t", True, True, "sot_games"),
                                            ("falli", "f", False, False, "falli_games"), ("off", "o", False, False, "off_games")):
             r = expect(u, key, split, use_h)
@@ -103,6 +120,9 @@ def main():
         hk, hn = mean([x["k"] for x in rows(u["h"])]); ak, an = mean([x["k"] for x in rows(u["a"])])
         if hk is not None and ak is not None:
             e.update(cards=round(hk + ak, 1), cards_home=round(hk, 1), cards_away=round(ak, 1), games_k=[hn, an])
+            h1, _ = mean([x["k1"] for x in rows(u["h"])]); a1, _ = mean([x["k1"] for x in rows(u["a"])])
+            if h1 is not None and a1 is not None:
+                e.update(cards_1t=round(h1 + a1, 1), cards_1t_home=round(h1, 1), cards_1t_away=round(a1, 1))
         if any(k in e for k in ("corners_home", "tiri_home", "sot_home", "falli_home", "off_home", "cards")):
             days.setdefault(u["date"], []).append(e)
     out = {"updated_at": datetime.now(ROME).isoformat(timespec="seconds"), "days": days}

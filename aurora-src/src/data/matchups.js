@@ -36,11 +36,14 @@ export const defaultMode = (typeKey) => (typeKey === 'cards' || typeKey === 'ref
 // Cambiando statistica si tiene la voce se esiste anche per la nuova, altrimenti si riparte da quella di base
 export const keepMode = (typeKey, modeKey) => (modeOptions(typeKey).some((o) => o.key === modeKey) ? modeKey : defaultMode(typeKey));
 
+const NAT_HIDDEN = /nations league [cd]\b/i;
+
 // Partite del giorno: club (angoli.json) + nazionali di Nations League (matchup_nazionali.json, da matchup_nazionali.py)
 export const matchupList = (dateStr) => {
   const day = RAW.angoli && RAW.angoli.days && RAW.angoli.days[dateStr];
   const nat = RAW.matchNaz && RAW.matchNaz.days && RAW.matchNaz.days[dateStr];
-  return [...((day && day.tutte) || []), ...(nat || [])];
+  // Nations League C e D non si mostrano (solo A e B), anche se il file le contenesse ancora
+  return [...((day && day.tutte) || []), ...(nat || []).filter((m) => !NAT_HIDDEN.test(m.league || ''))];
 };
 export const matchupDays = () => [...new Set([...Object.keys((RAW.angoli && RAW.angoli.days) || {}), ...Object.keys((RAW.matchNaz && RAW.matchNaz.days) || {})])].sort();
 
@@ -75,7 +78,7 @@ export function matchupRows(dateStr, typeKey, modeKey) {
     const games = m[type.g] || [];
     return {
       id: m.id, type, mode, period, homeId: home ? home.id : null, awayId: away ? away.id : null, homeName: m.home, awayName: m.away,
-      league: m.league, date: m.date, home: a, away: b, center: mode === 'gap' ? gap : sum, centerLabel: mode === 'gap' ? 'Divario' : 'Totale',
+      league: m.league, date: m.date, fm: m.fm, sk: m.sk, home: a, away: b, center: mode === 'gap' ? gap : sum, centerLabel: mode === 'gap' ? 'Divario' : 'Totale',
       playedHome: games[0], playedAway: games[1],
     };
   });

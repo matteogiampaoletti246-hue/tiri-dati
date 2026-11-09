@@ -120,7 +120,7 @@ export default function TopPlayers() {
 
   return (
     <PageShell swipeBack={isNative()}>
-      <header className="sticky top-0 z-30 pb-1" style={{ background: 'var(--sky-2)' }}>
+      <header className="head-solid sticky top-0 z-30 pb-1">
         <FixedBar title="Migliori Giocatori" onSearch={() => { primeKeyboard(); setSearchOpen(true); }} />
         <DayStrip dates={DAYS} todayIndex={TODAY_I} value={dayIdx} onChange={setDayIdx} />
         <div className="flex items-center gap-2 px-5 pt-1">
