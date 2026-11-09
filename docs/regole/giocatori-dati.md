@@ -115,6 +115,7 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 - Migliori Giocatori e Affidabilita' escludono solo chi e' fuori alla data della partita (`isOutOn`): infortunato, squalificato (fino alla partita dopo) o fuori dai convocati.
 
 ## Nomi veri al posto dei soprannomi (regola fissa, 08/11/2026)
+- ECCEZIONE (09/11/2026): chi e' conosciuto davvero col soprannome (Gavi, Pedri, Rodri, Isco, Raphinha, Endrick, Marquinhos...) o ha solo il nome di battesimo resta coi nomi soliti: elenco `TENGO` in `data/realNames.js`; se si aggiunge un giocatore famoso col soprannome, aggiungerlo li'.
 - Chi FotMob chiama con un soprannome di una parola (es. "Pote" della Fiorentina) si mostra col nome vero ("Pedro Gonçalves") in tutta l'app: schede, ricerca, Calcolatore, formazioni, eventi, rose.
 - Fonte: `nomi.py` (workflow `nomi.yml`, ogni giorno, a tempo) -> `nomi.json` {id FotMob: [nome vero o null, data, Qid Wikidata, soprannome]}. Nome vero solo da Wikidata con la STESSA data di nascita della scheda FotMob e una sola corrispondenza; etichetta Wikidata se ha almeno due parole, altrimenti primo nome + cognome (primo cognome per spagnoli/ispanici, ultimo per portoghesi/brasiliani). Mai inventato: senza corrispondenza resta il nome di FotMob.
 - App: `realName(idFotMob, nome)` (`data/realNames.js`) cambia solo il nome mostrato; il soprannome resta per abbinamenti e ricerca (`p.nick`, `rawName` nelle formazioni; `renameEvents` allinea gli eventi della partita alle formazioni).
