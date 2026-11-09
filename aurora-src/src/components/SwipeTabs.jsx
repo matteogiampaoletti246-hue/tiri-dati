@@ -305,8 +305,8 @@ export default function SwipeTabs({ tabs, index, onChange, panels, gap = 14, cla
           <span aria-hidden="true" style={{ width: 28, height: 1, flex: '0 0 28px' }} />
           <span
             ref={barRef}
-            className="absolute bottom-0 left-0 h-[2.5px] rounded-full"
-            style={{ background: 'var(--accent)', transform: 'translate3d(0,0,0)' }}
+            className="halo-bar absolute bottom-0 left-0 h-[3px] rounded-full"
+            style={{ transform: 'translate3d(0,0,0)' }}
           />
         </div>
       </div>

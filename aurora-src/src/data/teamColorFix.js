@@ -1,6 +1,7 @@
 // Colori sociali scelti a mano (hanno la precedenza su quelli calcolati dagli stemmi).
 const FIX = {
   lecce: ['#F2C500', '#C8102E'],
+  juventus: ['#F4F4F4', '#1B1B20'],
   'aston villa': ['#8A1538', '#95BFE5'],
   fulham: ['#F4F4F4', '#111111'],
   barcelona: ['#004D98', '#A50044'],

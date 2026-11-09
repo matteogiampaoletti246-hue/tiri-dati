@@ -1,5 +1,6 @@
 import PanelTitle from '@/components/PanelTitle';
 import CompareBars from '@/components/CompareBars';
+import { matchColors } from '@/lib/tint';
 import { metricOf } from '@/data/standings';
 import { comma, num } from '@/lib/format';
 
@@ -73,6 +74,8 @@ export default function MatchReliabilityPanel({ match, home, away }) {
           Fattori
         </PanelTitle>
         <CompareBars
+          homeColor={matchColors(home, away)[0]}
+          awayColor={matchColors(home, away)[1]}
           rows={FACTORS.map((f) => ({
             label: f.label,
             home: metricOf(match.homeId, f.key),

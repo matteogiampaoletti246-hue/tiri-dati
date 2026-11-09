@@ -852,3 +852,131 @@
 @keyframes pitchWave { 0% { transform: translate(-50%, -50%) scale(.1); opacity: .6; } 100% { transform: translate(-50%, -50%) scale(1); opacity: 0; } }
 .pitch-wave { width: 150%; aspect-ratio: 1; border-radius: 9999px; border: 3px solid rgba(74, 168, 255, .9); box-shadow: 0 0 24px rgba(74, 168, 255, .6); animation: pitchWave .9s ease-out forwards; }
 @media (prefers-reduced-motion: reduce) { .pl-spin, .pitch-wave { animation: none; } .pitch-wave { display: none; } }
+
+/* ── Momentum concept A: la linea si disegna, poi le aree compaiono ── */
+.mma-svg { clip-path: inset(0 100% 0 0); animation: mmaDraw 1.2s cubic-bezier(.4,0,.2,1) forwards; }
+.mma-fill { opacity: 0; animation: mmaFade .6s .55s ease forwards; }
+@keyframes mmaDraw { to { clip-path: inset(0 0 0 0); } }
+@keyframes mmaFade { to { opacity: 1; } }
+
+/* ── Cronologia concept A: linea centrale, pallino nel colore sociale, eventi che entrano in sequenza ── */
+.tla-row { opacity: 0; transform: translate3d(0, 8px, 0); animation: tlaIn .45s cubic-bezier(.2,.8,.2,1) forwards; }
+@keyframes tlaIn { to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .mma-svg, .mma-fill, .tla-row { animation: none; opacity: 1; clip-path: none; transform: none; }
+}
+
+/* ── Sfondo concept B "Beams Background" (21st, Kokonut UI): fasci di luce diagonali e sfocati che si muovono piano.
+   Solo nel fondale (.aurora-bg, sotto a tutto): banner, schede e tabelle dei campionati restano dei loro colori. ── */
+.aurora-bg { overflow: hidden; }
+.aurora-bg::before,
+.aurora-bg::after {
+  content: '';
+  position: absolute;
+  inset: -40% -60%;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, transparent 0 14%, var(--beam-1) 17%, transparent 21%,
+                            transparent 38%, var(--beam-2) 41%, transparent 44%,
+                            transparent 63%, var(--beam-1) 67%, transparent 71%,
+                            transparent 86%, var(--beam-2) 89%, transparent 92%);
+  filter: blur(18px);
+  transform: rotate(-35deg) translate3d(0, -6%, 0);
+  animation: beamDrift 14s ease-in-out infinite alternate;
+  will-change: transform;
+}
+.aurora-bg::after {
+  background:
+    linear-gradient(90deg, transparent 0 27%, var(--beam-2) 29%, transparent 32%,
+                            transparent 52%, var(--beam-1) 55%, transparent 58%,
+                            transparent 76%, var(--beam-2) 78%, transparent 81%);
+  animation-duration: 19s;
+  animation-delay: -7s;
+}
+@keyframes beamDrift { from { transform: rotate(-35deg) translate3d(-4%, -8%, 0); } to { transform: rotate(-35deg) translate3d(4%, 8%, 0); } }
+:root { --beam-1: rgba(31, 107, 239, .07); --beam-2: rgba(31, 107, 239, .045); }
+.dark { --beam-1: rgba(77, 168, 255, .11); --beam-2: rgba(77, 168, 255, .065); }
+@media (prefers-reduced-motion: reduce) { .aurora-bg::before, .aurora-bg::after { animation: none; } }
+
+/* barra di scorrimento laterale (ScrollThumb) */
+.scroll-thumb { position: fixed; top: calc(env(safe-area-inset-top) + 0px); right: max(3px, calc((100vw - var(--app-w, 430px)) / 2 + 3px)); width: 4px; border-radius: 2px; z-index: 45; pointer-events: none; opacity: 0; background: rgba(15, 23, 42, .30); transition: opacity .35s ease; will-change: transform, opacity; }
+.dark .scroll-thumb { background: rgba(255, 255, 255, .35); }
+
+/* ── Tasti concept B "Liquid Glass Button" (21st, Ali Imam): vetro liquido con riflesso in alto e ombra sotto.
+   Tasti tondi (menu, ricerca, calendario, indietro, condividi) e tasti Casa / Neutro / Trasferta. ── */
+.lglass {
+  background: linear-gradient(158deg, rgba(255, 255, 255, .20) 0%, rgba(255, 255, 255, .05) 100%) !important;
+  border: 1px solid rgba(255, 255, 255, .24) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .38), inset 0 -8px 14px rgba(0, 0, 0, .22), 0 8px 22px -6px rgba(0, 0, 0, .45) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  backdrop-filter: blur(14px) saturate(1.4);
+}
+html:not(.dark) .lglass {
+  background: linear-gradient(158deg, rgba(255, 255, 255, .95) 0%, rgba(255, 255, 255, .62) 100%) !important;
+  border: 1px solid rgba(15, 23, 42, .10) !important;
+  box-shadow: inset 0 1px 0 #fff, inset 0 -6px 12px rgba(15, 23, 42, .06), 0 8px 20px -8px rgba(15, 23, 42, .25) !important;
+}
+.lglass.lglass-on {
+  background: linear-gradient(158deg, color-mix(in srgb, var(--accent) 55%, rgba(255,255,255,.25)) 0%, color-mix(in srgb, var(--accent) 30%, transparent) 100%) !important;
+  border-color: color-mix(in srgb, var(--accent) 70%, #fff) !important;
+}
+
+/* ── Search Bar concept B "Animated Glowing Search Bar" (21st, Le Thanh): bordo con gradiente che gira, alone sotto ── */
+@property --glow-a { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+.glow-ring { position: relative; display: block; padding: 1.5px; isolation: isolate; }
+.glow-ring::before {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; z-index: -1;
+  background: conic-gradient(from var(--glow-a), transparent 0 62%, var(--accent) 78%, #7B6CFF 88%, transparent 97%), var(--glass-border);
+  animation: glowSpin 3.2s linear infinite;
+}
+.glow-ring::after {
+  content: ''; position: absolute; left: 18%; right: 18%; bottom: -6px; height: 14px; z-index: -2; border-radius: 50%;
+  background: var(--accent); filter: blur(12px); opacity: .28; pointer-events: none;
+}
+@keyframes glowSpin { to { --glow-a: 360deg; } }
+:root { --glow-in: rgba(255, 255, 255, .92); }
+.dark { --glow-in: #0a1020; }
+.glow-line { position: relative; }
+.glow-line::after {
+  content: ''; position: absolute; left: 14px; right: 14px; bottom: -1px; height: 1.5px; border-radius: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), #7B6CFF, transparent); background-size: 200% 100%;
+  animation: glowSlide 2.8s linear infinite; opacity: .9;
+}
+@keyframes glowSlide { from { background-position: 100% 0; } to { background-position: -100% 0; } }
+@media (prefers-reduced-motion: reduce) { .glow-ring::before, .glow-line::after { animation: none; } }
+
+/* ── Tendine concept B "Halo Select" (21st, cult/ui): bordo con gradiente che gira sul tasto, lista in vetro sfocato ── */
+@property --halo-a { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+.halo-trigger { position: relative; isolation: isolate; border-color: transparent !important; }
+.halo-trigger::before {
+  content: ''; position: absolute; inset: -1.5px; border-radius: inherit; z-index: -1; pointer-events: none; padding: 1.5px;
+  background: conic-gradient(from var(--halo-a), var(--accent), #7B6CFF, #00C2FF, var(--accent));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude;
+  animation: haloSpin 4s linear infinite; opacity: .9;
+}
+@keyframes haloSpin { to { --halo-a: 360deg; } }
+.halo-menu {
+  background: color-mix(in srgb, var(--sky-2) 78%, transparent) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(1.3); backdrop-filter: blur(18px) saturate(1.3);
+  border: 1px solid var(--glass-border) !important;
+}
+.halo-spin { border: 2px solid var(--accent); border-top-color: transparent; animation: haloRot .6s linear infinite; }
+@keyframes haloRot { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .halo-trigger::before, .halo-spin { animation: none; } }
+
+/* ── Schede concept C "Halo Tabs" (21st, cult/ui): sottolineatura con gradiente luminoso e alone sotto la scheda attiva;
+   nelle pillole (AnimatedTabs) la pillola prende lo stesso gradiente e bagliore ── */
+.halo-bar { background: linear-gradient(90deg, #1F6BEF, var(--accent), #7B6CFF); box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 80%, transparent), 0 0 2px var(--accent); }
+.halo-bar::after { content: ''; position: absolute; left: -30%; right: -30%; top: 3px; height: 26px; border-radius: 50%; background: radial-gradient(50% 100% at 50% 0%, color-mix(in srgb, var(--accent) 30%, transparent), transparent 75%); pointer-events: none; }
+.atabs-pill { background: linear-gradient(100deg, #1F6BEF, var(--accent) 55%, #7B6CFF) !important; box-shadow: 0 0 14px -2px color-mix(in srgb, var(--accent) 70%, transparent), inset 0 1px 0 rgba(255, 255, 255, .28) !important; }
+.atabs-tab.on { color: #fff; }
+
+/* nome della testata che compare lettera per lettera (Profile Card concept A): solo opacita' e spostamento, nessun cambio di misura */
+.pc-ch { display: inline-block; opacity: 0; transform: translate3d(0, 6px, 0); animation: pcIn .42s cubic-bezier(.2,.8,.2,1) forwards; }
+@keyframes pcIn { to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .pc-ch { animation: none; opacity: 1; transform: none; } }
+
+/* podio delle statistiche: le barre crescono dal basso con un piccolo rimbalzo */
+.pod-bar { transform-origin: bottom; animation: podUp .6s cubic-bezier(.3,1.3,.5,1) both; }
+@keyframes podUp { from { transform: scaleY(0); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .pod-bar { animation: none; } }

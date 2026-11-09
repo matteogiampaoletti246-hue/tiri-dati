@@ -35,17 +35,21 @@ export default function HomeHeader({ onSearch, calendar }) {
         >
           <Logo size={30} />
         </Link>
-        <button
-          type="button"
-          onClick={onSearch}
-          aria-label="Cerca"
-          className="glass press flex h-9 min-w-0 flex-1 items-center gap-2 rounded-full px-3 text-left"
-        >
-          <Search size={16} strokeWidth={2} className="shrink-0" style={{ color: 'var(--ink-3)' }} />
-          <span className="truncate text-[14.5px]" style={{ color: 'var(--ink-3)' }}>Cerca giocatori, squadre…</span>
-        </button>
+        {/* Search Bar concept B (21st "Animated Glowing Search Bar"): bordo luminoso che gira attorno alla barra e alone sotto */}
+        <span className="glow-ring min-w-0 flex-1 rounded-full">
+          <button
+            type="button"
+            onClick={onSearch}
+            aria-label="Cerca"
+            className="press relative flex h-9 w-full min-w-0 items-center gap-2 rounded-full px-3 text-left"
+            style={{ background: 'var(--glow-in)' }}
+          >
+            <Search size={16} strokeWidth={2.2} className="shrink-0" style={{ color: 'var(--accent)' }} />
+            <span className="truncate text-[14.5px]" style={{ color: 'var(--ink-3)' }}>Cerca giocatori, squadre…</span>
+          </button>
+        </span>
         {calendar}
-        <button type="button" onClick={openMenu} aria-label="Menu" className="glass press flex h-9 w-9 shrink-0 items-center justify-center rounded-full">
+        <button type="button" onClick={openMenu} aria-label="Menu" className="glass lglass press flex h-9 w-9 shrink-0 items-center justify-center rounded-full">
           <MenuIcon size={16} strokeWidth={2} />
         </button>
       </div>

@@ -4,6 +4,8 @@ import { Search, X } from 'lucide-react';
 import { CompLogo } from './CompBannerSelect';
 import { compBg } from './calcComp';
 import Crest from '@/components/Crest';
+import { fuzzyScore } from '@/lib/search';
+import { Hl } from '@/components/SearchOverlay';
 
 const teamBannerBg = (t) => {
   const c0 = (t.colors && t.colors[0]) || 'var(--accent)';
@@ -31,7 +33,21 @@ function pick(options, needle) {
     else if (l.includes(` ${needle}`) || l.includes(`-${needle}`)) { if (b1.length < 60) b1.push(o); }
     else if (b2.length < 60) b2.push(o);
   }
-  return b0.concat(b1, b2).slice(0, 60);
+  const out = b0.concat(b1, b2).slice(0, 60);
+  // pochi risultati: si aggiungono i nomi "quasi giusti" (una lettera sbagliata, mancante o scambiata: "romaldo" = Ronaldo)
+  if (out.length < 3 && needle.length >= 5) {
+    const seen = new Set(out);
+    const extra = [];
+    for (let i = 0; i < options.length; i++) {
+      const o = options[i];
+      if (seen.has(o)) continue;
+      const sc = fuzzyScore(o._l || (o._l = norm(o.label)), needle);
+      if (sc < 99) extra.push([sc, o]);
+    }
+    extra.sort((a, b) => a[0] - b[0]);
+    return out.concat(extra.slice(0, 20).map((e) => e[1]));
+  }
+  return out;
 }
 
 // Elenco a tutto schermo con ricerca: usato per giocatori, squadre e campionati.
@@ -101,7 +117,7 @@ export default function PickerSheet({ open, title, options = [], placeholder = '
                     <Crest team={o.team} size={26} />
                   </span>
                   <span className="min-w-0">
-                    <span className="block truncate text-[16px] font-bold" style={{ color: 'var(--on-banner)' }}>{o.label}</span>
+                    <span className="block truncate text-[16px] font-bold" style={{ color: 'var(--on-banner)' }}><Hl text={o.label} q={q} /></span>
                     {o.sub ? <span className="mt-0.5 block truncate text-[11px] font-semibold tracking-[.08em]" style={{ color: 'var(--on-banner-2)' }}>{o.sub}</span> : null}
                   </span>
                 </button>
@@ -120,7 +136,7 @@ export default function PickerSheet({ open, title, options = [], placeholder = '
                     <CompLogo comp={o.comp} size={24} />
                   </span>
                   <span className="min-w-0">
-                    <span className="block truncate text-[16px] font-bold" style={{ color: 'var(--on-banner)' }}>{o.label}</span>
+                    <span className="block truncate text-[16px] font-bold" style={{ color: 'var(--on-banner)' }}><Hl text={o.label} q={q} /></span>
                     {o.sub ? <span className="mt-0.5 block truncate text-[11px] font-semibold tracking-[.08em]" style={{ color: 'var(--on-banner-2)' }}>{o.sub}</span> : null}
                   </span>
                 </button>
@@ -135,7 +151,7 @@ export default function PickerSheet({ open, title, options = [], placeholder = '
                 >
                   {o.avatar || null}
                   <span className="min-w-0">
-                    <span className="block truncate text-[16px] font-extrabold" style={{ color: 'var(--ink)' }}>{o.label}</span>
+                    <span className="block truncate text-[16px] font-extrabold" style={{ color: 'var(--ink)' }}><Hl text={o.label} q={q} /></span>
                     {o.subNode || (o.sub ? <span className="mt-0.5 block truncate text-[12px]" style={{ color: 'var(--ink-3)' }}>{o.sub}</span> : null)}
                   </span>
                 </button>

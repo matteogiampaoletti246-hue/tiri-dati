@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { Check, ChevronDown } from 'lucide-react';
+import { Check } from 'lucide-react';
+import HaloChevron from '@/components/HaloChevron';
 import MenuBackdrop from '@/components/MenuBackdrop';
 import { popRoom, popScroll } from '@/lib/popFit';
 import { seasonLabel } from '@/data/archive';
@@ -33,16 +34,16 @@ export default function SeasonDrop({ seasons, value, currentLabel, onSelect }) {
   const close = () => setOpen(false);
   return (
     <>
-      <button ref={btn} type="button" data-no-swipe="true" onClick={() => setOpen((o) => !o)} className="glass press inline-flex items-center gap-1.5 rounded-[14px] py-1.5 pl-3 pr-2.5 text-[13px] font-bold" style={{ color: 'var(--ink)' }}>
+      <button ref={btn} type="button" data-no-swipe="true" onClick={() => setOpen((o) => !o)} className="halo-trigger glass press inline-flex items-center gap-1.5 rounded-[14px] py-1.5 pl-3 pr-2.5 text-[13px] font-bold" style={{ color: 'var(--ink)' }}>
         <span className="tnum">{label(value)}</span>
-        <ChevronDown size={15} strokeWidth={2.2} style={{ color: 'var(--ink-3)', transform: open ? 'rotate(180deg)' : 'none', transition: 'transform .3s' }} />
+        <HaloChevron open={open} value={value} size={15} strokeWidth={2.2} />
       </button>
       {open && pos ? createPortal(
         <div data-no-back="1" data-no-swipe="true" className="fixed z-[96]" style={{ left: pos.left, width: pos.w, ...(pos.up ? { bottom: pos.bottom } : { top: pos.top }) }}>
           <MenuBackdrop onClose={close} />
           <div
             data-pop-scroll
-            className="hide-sb rounded-[16px] p-1.5"
+            className="halo-menu hide-sb rounded-[16px] p-1.5"
             style={{
               ...popScroll({ max: pos.max }),
               background: 'var(--sky-2)',

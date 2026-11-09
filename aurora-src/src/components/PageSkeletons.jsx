@@ -139,7 +139,7 @@ export function SkMatchHero() {
   return (
     <section className="safe-top px-4 pb-3">
       <div className="flex items-center gap-2">
-        <button type="button" className="glass press flex h-9 w-9 items-center justify-center rounded-full" aria-label="Indietro" onClick={() => goBack(navigate)}>
+        <button type="button" className="glass lglass press flex h-9 w-9 items-center justify-center rounded-full" aria-label="Indietro" onClick={() => goBack(navigate)}>
           <ChevronLeft size={19} />
         </button>
         <Sk className="mx-auto rounded-md" width={150} height={12} />

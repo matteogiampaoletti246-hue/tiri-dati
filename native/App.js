@@ -4,7 +4,7 @@ import React, { createContext, memo, useCallback, useContext, useEffect, useMemo
 import { View, Text, FlatList, Pressable, ScrollView, StatusBar, Dimensions, StyleSheet, Animated as RNAnimated, AccessibilityInfo, LayoutAnimation, Platform, UIManager, AppState, Modal, TextInput, Keyboard, BackHandler, useWindowDimensions } from 'react-native';
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Image } from 'expo-image';
-import Animated, { useSharedValue, useAnimatedStyle, useAnimatedReaction, withTiming, cancelAnimation, runOnJS, Easing, interpolateColor, Keyframe, LinearTransition, FadeIn } from 'react-native-reanimated';
+import Animated, { useSharedValue, useAnimatedStyle, useAnimatedReaction, useAnimatedScrollHandler, withTiming, withDelay, withRepeat, cancelAnimation, runOnJS, Easing, interpolateColor, Keyframe, LinearTransition, FadeIn } from 'react-native-reanimated';
 import { BlurView } from 'expo-blur';
 import { SafeAreaProvider, SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -17,8 +17,8 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
 
 const SITE = 'https://matteogiampaoletti246-hue.github.io/tiri-dati/';
 const W = Dimensions.get('window').width;
-const DARK = { dark: true, bg: '#05070D', ink: '#F1F5FB', ink2: '#A9B6CC', ink3: '#6D7A91', hair: 'rgba(255,255,255,.10)', border: 'rgba(255,255,255,.12)', accent: '#4DA8FF', live: '#FF6464', chip: 'rgba(255,255,255,.08)', wash: 'rgba(255,255,255,0.03)', card1: 'rgba(255,255,255,0.10)', card2: 'rgba(255,255,255,0.035)', sheet: '#0E1626', scrim: 'rgba(0,0,0,.5)', dockBg: 'rgba(14,22,38,0.62)', tile1: 'rgba(255,255,255,0.08)', accTint: 'rgba(77,168,255,0.16)', accRing: 'rgba(77,168,255,0.6)', skBase: 'rgba(255,255,255,0.075)', skHi: 'rgba(255,255,255,0.10)', skHi0: 'rgba(255,255,255,0)' };
-const LIGHT = { dark: false, bg: '#F3F6FB', ink: '#0F172A', ink2: '#475569', ink3: '#8592A6', hair: 'rgba(15,23,42,.08)', border: 'rgba(15,23,42,.10)', accent: '#1F6BEF', live: '#E5484D', chip: 'rgba(15,23,42,.06)', wash: 'rgba(255,255,255,0.85)', card1: 'rgba(255,255,255,0.95)', card2: 'rgba(255,255,255,0.8)', sheet: '#FFFFFF', scrim: 'rgba(15,23,42,.28)', dockBg: 'rgba(255,255,255,0.6)', tile1: 'rgba(255,255,255,0.9)', accTint: 'rgba(31,107,239,0.12)', accRing: 'rgba(31,107,239,0.55)', skBase: 'rgba(15,23,42,0.085)', skHi: 'rgba(255,255,255,0.8)', skHi0: 'rgba(255,255,255,0)' };
+const DARK = { dark: true, bg: '#05070D', ink: '#F1F5FB', ink2: '#A9B6CC', ink3: '#6D7A91', hair: 'rgba(255,255,255,.10)', border: 'rgba(255,255,255,.12)', accent: '#4DA8FF', live: '#FF6464', chip: 'rgba(255,255,255,.08)', wash: 'rgba(255,255,255,0.03)', card1: 'rgba(255,255,255,0.10)', card2: 'rgba(255,255,255,0.035)', sheet: '#0E1626', scrim: 'rgba(0,0,0,.5)', dockBg: 'rgba(14,22,38,0.62)', tile1: 'rgba(255,255,255,0.08)', accTint: 'rgba(77,168,255,0.16)', accRing: 'rgba(77,168,255,0.6)', skBase: 'rgba(255,255,255,0.075)', skHi: 'rgba(255,255,255,0.10)', skHi0: 'rgba(255,255,255,0)', lg1: 'rgba(255,255,255,0.20)', lg2: 'rgba(255,255,255,0.05)', lgBorder: 'rgba(255,255,255,0.24)', lgHi: 'rgba(255,255,255,0.38)', beam0: 'rgba(77,168,255,0)', beam1: 'rgba(77,168,255,0.11)', beam2: 'rgba(77,168,255,0.065)' };
+const LIGHT = { dark: false, bg: '#F3F6FB', ink: '#0F172A', ink2: '#475569', ink3: '#8592A6', hair: 'rgba(15,23,42,.08)', border: 'rgba(15,23,42,.10)', accent: '#1F6BEF', live: '#E5484D', chip: 'rgba(15,23,42,.06)', wash: 'rgba(255,255,255,0.85)', card1: 'rgba(255,255,255,0.95)', card2: 'rgba(255,255,255,0.8)', sheet: '#FFFFFF', scrim: 'rgba(15,23,42,.28)', dockBg: 'rgba(255,255,255,0.6)', tile1: 'rgba(255,255,255,0.9)', accTint: 'rgba(31,107,239,0.12)', accRing: 'rgba(31,107,239,0.55)', skBase: 'rgba(15,23,42,0.085)', skHi: 'rgba(255,255,255,0.8)', skHi0: 'rgba(255,255,255,0)', lg1: 'rgba(255,255,255,0.95)', lg2: 'rgba(255,255,255,0.62)', lgBorder: 'rgba(15,23,42,0.10)', lgHi: '#FFFFFF', beam0: 'rgba(31,107,239,0)', beam1: 'rgba(31,107,239,0.07)', beam2: 'rgba(31,107,239,0.045)' };
 const WORKER = 'https://scalperlab-live.matteo-giampaoletti04.workers.dev';
 const NAMES = META.names || {};
 const nm = (id, n) => NAMES[String(id)] || n;
@@ -112,12 +112,13 @@ const Row = memo(({ m, onOpen }) => {
   );
 });
 
-// Finestra a una sola tinta (concept B): sfumatura a 135 gradi dalla tinta (.34) quasi a vuoto (.06 al 70%)
-const Card = ({ tint, style, children }) => {
+// Finestra a una sola tinta (concept B): sfumatura a 135 gradi dalla tinta (.34) quasi a vuoto (.06 al 70%).
+// Accordion concept B (21st, Wensity): ogni paese/campionato e' una carta a se'; aperta, il bordo prende la tinta della finestra.
+const Card = ({ tint, style, open, children }) => {
   const { C, s } = useT();
   const t = /^#[0-9a-f]{6}$/i.test(tint || '') ? tint : '#6D7A91';
   return (
-    <LinearGradient colors={[`${t}${C.dark ? '57' : '33'}`, `${t}${C.dark ? '0F' : '0A'}`]} locations={[0, 0.7]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={[s.card, style]}>{children}</LinearGradient>
+    <LinearGradient colors={[`${t}${C.dark ? '57' : '33'}`, `${t}${C.dark ? '0F' : '0A'}`]} locations={[0, 0.7]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={[s.card, open && { borderColor: `${t}${C.dark ? 'CC' : 'B3'}`, borderWidth: 1.5 }, style]}>{children}</LinearGradient>
   );
 };
 // Bandiera rotonda vera, con anello e alone della tinta del paese; senza bandiera, un globo
@@ -188,7 +189,7 @@ const LeagueGroup = memo(({ iso, g, forceOpen, onOpen, onLeague }) => {
   const [open, toggle] = useOpen(`${iso}|${g.fm}`, g.c.open, g.matches.length);
   const isOpen = forceOpen || open;
   return (
-    <Card tint={g.c.tint}>
+    <Card tint={g.c.tint} open={isOpen}>
       <View style={s.headRow}>
         <Pressable onPress={() => onLeague(leagueRoute(g.c, g.fm))} style={({ pressed }) => [{ flexShrink: 1 }, pressed && { opacity: 0.6 }]}><LeagueHead c={g.c} /></Pressable>
         <Pressable onPress={toggle} hitSlop={{ top: 14, bottom: 14, right: 14 }} style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end' }}><Text style={s.cnt}>{g.matches.length}</Text><Chev open={isOpen} /></Pressable>
@@ -204,7 +205,7 @@ const CountryGroup = memo(({ iso, p, forceOpen, onOpen, onLeague }) => {
   const [open, toggle] = useOpen(`${iso}|paese:${p.k}`, false, total);
   const isOpen = forceOpen || open;
   return (
-    <Card tint={p.tint}>
+    <Card tint={p.tint} open={isOpen}>
       <Pressable onPress={toggle} style={s.headRow}>
         <Flag fc={p.fc} tint={p.tint} />
         <Text numberOfLines={1} style={[s.lhName, { flex: 1, marginLeft: 12 }]}>{p.name}</Text>
@@ -215,18 +216,73 @@ const CountryGroup = memo(({ iso, p, forceOpen, onOpen, onLeague }) => {
   );
 });
 
-const Day = memo(({ iso, rows, filter, onOpen, onLeague, top, isCur }) => {
+
+// Barra di scorrimento laterale (21st "Scroll Area", concept C): sottile, compare mentre si scorre e sparisce dopo 1 s.
+// Si limita a leggere lo scorrimento sul thread UI (useAnimatedScrollHandler): velocita', inerzia e regole dello scroll restano quelle di prima.
+function useThumb() {
+  const y = useSharedValue(0); const vh = useSharedValue(1); const ch = useSharedValue(1); const op = useSharedValue(0);
+  const onScroll = useAnimatedScrollHandler({
+    onScroll: (e) => { y.value = e.contentOffset.y; op.value = withTiming(1, { duration: 120 }); },
+    onEndDrag: () => { op.value = withDelay(1000, withTiming(0, { duration: 350 })); },
+    onMomentumEnd: () => { op.value = withDelay(1000, withTiming(0, { duration: 350 })); },
+  });
+  const onLayout = useCallback((e) => { vh.value = e.nativeEvent.layout.height; }, [vh]);
+  const onSize = useCallback((w, h) => { ch.value = h; }, [ch]);
+  return useMemo(() => ({ y, vh, ch, op, onScroll, onLayout, onSize }), [y, vh, ch, op, onScroll, onLayout, onSize]);
+}
+const Thumb = memo(({ t }) => {
+  const { C } = useT();
+  const st = useAnimatedStyle(() => {
+    const track = t.vh.value - 150; // sopra il dock
+    const ratio = t.vh.value / Math.max(t.ch.value, 1);
+    const h = Math.max(36, track * Math.min(1, ratio));
+    const max = Math.max(1, t.ch.value - t.vh.value);
+    const p = Math.min(1, Math.max(0, t.y.value / max));
+    return { height: h, opacity: ratio >= 1 ? 0 : t.op.value, transform: [{ translateY: 6 + p * (track - h) }] };
+  });
+  return <Animated.View pointerEvents="none" style={[{ position: 'absolute', right: 3, top: 0, width: 4, borderRadius: 2, backgroundColor: C.dark ? 'rgba(255,255,255,0.35)' : 'rgba(15,23,42,0.30)' }, st]} />;
+});
+
+
+// Giorno senza partite (Empty State concept B, 21st vijayksingh): carta tratteggiata con l'icona incassata, il primo giorno
+// vicino con partite vere e i tasti per andarci (solo quelli che esistono: mai giorni o numeri inventati).
+const EmptyDay = memo(({ iso, live, near, onDay }) => {
+  const { C, s } = useT();
+  const d = new Date(`${iso}T12:00:00`);
+  const lab = dayLabel(d);
+  const p = near && near(-1); const n = near && near(1);
+  const tit = live ? 'Nessuna partita in diretta' : lab === 'Oggi' || lab === 'Ieri' || lab === 'Domani' ? `Nessuna partita ${lab.toLowerCase()}` : `Nessuna partita ${lab}`;
+  const nx = n || p;
+  return (
+    <Animated.View entering={FadeIn.duration(260)} style={s.emBox}>
+      <View style={s.emWell}><Ionicons name={live ? 'radio-outline' : 'calendar-outline'} size={26} color={C.ink2} /></View>
+      <Text style={s.emTitle}>{tit}</Text>
+      {!live && nx ? <Text style={s.emSub}>{n ? 'Prossime partite' : 'Ultime partite'}: {nx.label.toLowerCase()} · {nx.n} {nx.n === 1 ? 'partita' : 'partite'}</Text> : null}
+      {!live && (p || n) ? (
+        <View style={{ flexDirection: 'row', gap: 8, marginTop: 14 }}>
+          {p ? <Pressable onPress={() => onDay(p.i)} style={({ pressed }) => [s.emBtn, pressed && { opacity: 0.7 }]}><Ionicons name="chevron-back" size={14} color={C.ink} /><Text style={s.emBtnTx}>{p.label}</Text></Pressable> : null}
+          {n ? <Pressable onPress={() => onDay(n.i)} style={({ pressed }) => [s.emBtn, { backgroundColor: C.accent, borderColor: C.accent }, pressed && { opacity: 0.8 }]}><Text style={[s.emBtnTx, { color: C.dark ? '#04121F' : '#fff' }]}>{n.label}</Text><Ionicons name="chevron-forward" size={14} color={C.dark ? '#04121F' : '#fff'} /></Pressable> : null}
+        </View>
+      ) : null}
+    </Animated.View>
+  );
+});
+
+const Day = memo(({ iso, rows, filter, onOpen, onLeague, top, isCur, near, onDay }) => {
   const { s } = useT();
   const list = useRef(null);
   // tasto Home toccato in Home: torna in cima solo il giorno mostrato (gli altri e quelli montati dopo non si muovono)
   const seen = useRef(top); const curR = useRef(isCur); curR.current = isCur;
   useEffect(() => { if (top !== seen.current) { seen.current = top; if (curR.current && list.current) list.current.scrollToOffset({ offset: 0, animated: true }); } }, [top]);
   const items = useMemo(() => groupsOf(rows, filter), [rows, filter]);
+  const thumb = useThumb();
   const render = useCallback(({ item }) => (item.g ? <LeagueGroup iso={iso} g={item.g} forceOpen={filter === 'live'} onOpen={onOpen} onLeague={onLeague} /> : <CountryGroup iso={iso} p={item.p} forceOpen={filter === 'live'} onOpen={onOpen} onLeague={onLeague} />), [iso, filter, onOpen, onLeague]);
-  if (!items.length) return <View style={{ width: W }}><Text style={s.empty}>Nessuna partita</Text></View>;
+  if (!items.length) return <View style={{ width: W }}><EmptyDay iso={iso} live={filter === 'live'} near={near} onDay={onDay} /></View>;
   return (
     <View style={{ width: W }}>
-      <FlatList ref={list} data={items} renderItem={render} keyExtractor={(i) => i.key} initialNumToRender={4} maxToRenderPerBatch={3} updateCellsBatchingPeriod={60} windowSize={5} contentContainerStyle={{ paddingBottom: 140 }} />
+      <Animated.FlatList ref={list} data={items} renderItem={render} keyExtractor={(i) => i.key} initialNumToRender={4} maxToRenderPerBatch={3} updateCellsBatchingPeriod={60} windowSize={5} contentContainerStyle={{ paddingBottom: 140 }}
+        showsVerticalScrollIndicator={false} onScroll={thumb.onScroll} scrollEventThrottle={16} onLayout={thumb.onLayout} onContentSizeChange={thumb.onSize} />
+      <Thumb t={thumb} />
     </View>
   );
 });
@@ -249,18 +305,77 @@ const Logo = memo(({ size = 30 }) => {
   );
 });
 
+
+// Sfondo concept B "Beams Background" (21st, Kokonut UI): fasci di luce diagonali che scorrono piano, solo sul fondale
+// (sotto righe, finestre e tabelle, che restano dei loro colori). Thread UI, fermo con Riduci movimento.
+const BH = Dimensions.get('window').height;
+const BEAMS = [[-0.15, 70, 0], [0.18, 46, 1], [0.45, 90, 0], [0.78, 56, 1]];
+const Beam = memo(({ left, w, alt, dur, reduce }) => {
+  const { C } = useT();
+  const y = useSharedValue(-40);
+  useEffect(() => { if (!reduce) y.value = withRepeat(withTiming(40, { duration: dur, easing: Easing.inOut(Easing.sin) }), -1, true); return () => cancelAnimation(y); }, [reduce]); // eslint-disable-line react-hooks/exhaustive-deps
+  const st = useAnimatedStyle(() => ({ transform: [{ rotate: '-35deg' }, { translateY: y.value }] }));
+  const c = alt ? C.beam2 : C.beam1;
+  return (
+    <Animated.View style={[{ position: 'absolute', top: -BH * 0.4, left: W * left, width: w, height: BH * 1.8 }, st]}>
+      <LinearGradient colors={[C.beam0, c, C.beam0]} start={{ x: 0, y: 0.5 }} end={{ x: 1, y: 0.5 }} style={{ flex: 1 }} />
+    </Animated.View>
+  );
+});
+const Beams = memo(() => {
+  const [reduce, setReduce] = useState(false);
+  useEffect(() => { AccessibilityInfo.isReduceMotionEnabled().then(setReduce).catch(() => {}); }, []);
+  return (
+    <View pointerEvents="none" style={[StyleSheet.absoluteFill, { overflow: 'hidden' }]}>
+      {BEAMS.map(([l, w, a], i) => <Beam key={i} left={l} w={w} alt={a} dur={9000 + i * 2300} reduce={reduce} />)}
+    </View>
+  );
+});
+
+
+// Tasto tondo in vetro liquido (21st "Liquid Glass Button", concept B): sfumatura a 158 gradi, riflesso in alto, ombra sotto.
+const GlassBtn = ({ onPress, label, children, style }) => {
+  const { C, s } = useT();
+  return (
+    <Pressable onPress={onPress} accessibilityLabel={label} style={({ pressed }) => [s.lgBtn, style, pressed && { transform: [{ scale: 0.94 }] }]}>
+      <LinearGradient colors={[C.lg1, C.lg2]} start={{ x: 0.2, y: 0 }} end={{ x: 0.8, y: 1 }} style={StyleSheet.absoluteFill} />
+      <View pointerEvents="none" style={[s.lgHi, { backgroundColor: C.lgHi }]} />
+      {children}
+    </Pressable>
+  );
+};
+
+
+// Barra di ricerca concept B (21st "Animated Glowing Search Bar"): bordo luminoso che gira attorno alla barra (thread UI) e alone sotto
+const GlowBar = ({ children, style, radius = 18 }) => {
+  const { C } = useT();
+  const r = useSharedValue(0);
+  useEffect(() => { AccessibilityInfo.isReduceMotionEnabled().then((red) => { if (!red) r.value = withRepeat(withTiming(360, { duration: 3200, easing: Easing.linear }), -1, false); }).catch(() => {}); return () => cancelAnimation(r); }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  const st = useAnimatedStyle(() => ({ transform: [{ rotate: `${r.value}deg` }] }));
+  return (
+    <View style={[{ borderRadius: radius, padding: 1.5, overflow: 'hidden', backgroundColor: C.border, shadowColor: C.accent, shadowOpacity: 0.35, shadowRadius: 10, shadowOffset: { width: 0, height: 4 } }, style]}>
+      <Animated.View pointerEvents="none" style={[{ position: 'absolute', width: 520, height: 520, left: '50%', top: '50%', marginLeft: -260, marginTop: -260 }, st]}>
+        <LinearGradient colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0)', C.accent, '#7B6CFF', 'rgba(0,0,0,0)']} locations={[0, 0.42, 0.5, 0.56, 0.62]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ flex: 1 }} />
+      </Animated.View>
+      {children}
+    </View>
+  );
+};
+
 // Riga in alto: logo, barra di ricerca (tutto lo spazio che resta), Calendario, menu. Una riga sola anche su iPhone stretti.
 function Header({ onSearch, onMenu, onCal }) {
   const { C, s } = useT();
   return (
     <View style={s.header}>
       <Logo size={30} />
-      <Pressable onPress={onSearch} style={s.sBar} accessibilityLabel="Cerca">
-        <Ionicons name="search" size={16} color={C.ink3} />
-        <Text numberOfLines={1} style={s.sBarTx}>Cerca giocatori, squadre…</Text>
-      </Pressable>
-      <Pressable onPress={onCal} style={s.iconBtn} accessibilityLabel="Calendario"><Ionicons name="calendar-outline" size={16} color={C.ink} /></Pressable>
-      <Pressable onPress={onMenu} style={s.iconBtn} accessibilityLabel="Menu"><Ionicons name="menu" size={17} color={C.ink} /></Pressable>
+      <GlowBar style={{ flex: 1, minWidth: 0 }}>
+        <Pressable onPress={onSearch} style={[s.sBar, { borderWidth: 0, backgroundColor: C.dark ? '#0A1020' : 'rgba(255,255,255,0.96)', height: 33 }]} accessibilityLabel="Cerca">
+          <Ionicons name="search" size={16} color={C.accent} />
+          <Text numberOfLines={1} style={s.sBarTx}>Cerca giocatori, squadre…</Text>
+        </Pressable>
+      </GlowBar>
+      <GlassBtn onPress={onCal} label="Calendario"><Ionicons name="calendar-outline" size={16} color={C.ink} /></GlassBtn>
+      <GlassBtn onPress={onMenu} label="Menu"><Ionicons name="menu" size={17} color={C.ink} /></GlassBtn>
     </View>
   );
 }
@@ -313,6 +428,14 @@ const Mark = ({ uri, size, initials, tint }) => {
 };
 
 // Banner giocatore compatto (stesso disegno del banner della ricerca del sito, in piccolo)
+
+// parte del nome che corrisponde a quanto scritto, in accento (concept "Smart Tag Input"; la calcola la pagina web: `hl`)
+const HlName = ({ text, hl }) => {
+  const { C } = useT();
+  if (!hl || !Array.isArray(hl)) return text;
+  return <>{text.slice(0, hl[0])}<Text style={{ color: C.accent, fontWeight: '800' }}>{text.slice(hl[0], hl[1])}</Text>{text.slice(hl[1])}</>;
+};
+
 const PlayerBannerS = memo(({ p, onPress }) => {
   const { C, s } = useT();
   const g = hexA(p.color, '66');
@@ -321,7 +444,7 @@ const PlayerBannerS = memo(({ p, onPress }) => {
       <LinearGradient colors={[g || C.card1, C.card2]} locations={[0, 0.72]} start={{ x: 0, y: 0.5 }} end={{ x: 1, y: 0.5 }} style={StyleSheet.absoluteFill} />
       <Face uri={p.photo} color={p.color} size={36} />
       <View style={{ flex: 1, minWidth: 0 }}>
-        <Text numberOfLines={1} style={s.pbName}>{p.name}</Text>
+        <Text numberOfLines={1} style={s.pbName}><HlName text={p.name} hl={p.hl} /></Text>
         <View style={s.pbSub}>
           {p.crest ? <Mark uri={p.crest} size={14} /> : null}
           <Text numberOfLines={1} style={s.pbTeam}>{p.team}</Text>
@@ -391,10 +514,11 @@ function SearchPanel({ open, onClose, onPick, ask, res, ready, top }) {
         </View>
         <ScrollView style={{ height: maxH - SBAR }} keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag" showsVerticalScrollIndicator={false} bounces={false} overScrollMode="never">
           <View onLayout={(e) => setContentH(Math.ceil(e.nativeEvent.layout.height))} style={{ paddingHorizontal: 10, paddingBottom: 10 }}>
+            {has && data.fuzzy ? <Animated.Text key="fz" entering={ent()} style={[s.sMeta, { paddingHorizontal: 8, paddingTop: 10 }]}>Risultati simili a «{q.trim()}»</Animated.Text> : null}
             {has && data.leagues.length ? (<View key="L"><Animated.Text entering={ent()} style={s.sSec}>Campionati</Animated.Text>
               {data.leagues.map((l) => (<Animated.View key={`l${l.id}`} entering={ent()}><Pressable onPress={() => onPick(l.path)} style={s.sItem}>
                 <Mark uri={logoOf(l)} size={26} tint={mono(l)} initials={l.name.slice(0, 2).toUpperCase()} />
-                <Text numberOfLines={1} style={[s.sName, { flex: 1 }]}>{l.name}</Text>
+                <Text numberOfLines={1} style={[s.sName, { flex: 1 }]}><HlName text={l.name} hl={l.hl} /></Text>
                 {l.country ? <Text style={s.sMeta}>{l.country}</Text> : null}
               </Pressable></Animated.View>))}
               <Animated.View key="lall" entering={ent()}><Pressable onPress={() => onPick('/competizioni')} style={s.sItem}><Text style={[s.sName, { color: C.accent, fontWeight: '700', fontSize: 13.5 }]}>Tutte le competizioni per paese</Text></Pressable></Animated.View>
@@ -402,7 +526,7 @@ function SearchPanel({ open, onClose, onPick, ask, res, ready, top }) {
             {has && data.teams.length ? (<View key="T"><Animated.Text entering={ent()} style={s.sSec}>Squadre</Animated.Text>
               {data.teams.map((t) => (<Animated.View key={`t${t.id}`} entering={ent()}><Pressable onPress={() => onPick(t.path)} style={s.sItem}>
                 <Mark uri={t.crest} size={28} initials={t.initials} />
-                <Text numberOfLines={1} style={[s.sName, { fontWeight: '700', flexShrink: 1 }]}>{t.name}</Text>
+                <Text numberOfLines={1} style={[s.sName, { fontWeight: '700', flexShrink: 1 }]}><HlName text={t.name} hl={t.hl} /></Text>
                 <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', gap: 5, minWidth: 0 }}>
                   {t.logo ? <Mark uri={t.logo} size={14} /> : null}
                   <Text numberOfLines={1} style={[s.sMeta, { flexShrink: 1 }]}>{t.sub}</Text>
@@ -415,7 +539,7 @@ function SearchPanel({ open, onClose, onPick, ask, res, ready, top }) {
             {has && data.referees.length ? (<View key="R"><Animated.Text entering={ent()} style={s.sSec}>Arbitri</Animated.Text>
               {data.referees.map((x) => (<Animated.View key={`r${x.id}`} entering={ent()}><Pressable onPress={() => onPick(x.path)} style={s.sItem}>
                 <View style={[s.crestPh, { width: 26, height: 26, borderRadius: 13 }]}><Text style={s.crestTx}>{x.initials}</Text></View>
-                <Text numberOfLines={1} style={[s.sName, { flex: 1 }]}>{x.name}</Text>
+                <Text numberOfLines={1} style={[s.sName, { flex: 1 }]}><HlName text={x.name} hl={x.hl} /></Text>
               </Pressable></Animated.View>))}
             </View>) : null}
           </View>
@@ -425,10 +549,13 @@ function SearchPanel({ open, onClose, onPick, ask, res, ready, top }) {
   );
 }
 
-const MENU = [['Home', '/', 'home-outline'], ['Competizioni', '/competizioni', 'trophy-outline'], ['Calcolatore di Affidabilità', '/calcolatore', 'speedometer-outline'], ['Migliori Giocatori', '/migliori-giocatori', 'star-outline'], ['Migliori Matchup', '/migliori-matchup', 'swap-horizontal-outline'], ['Linee guida', '/linee-guida', 'book-outline']];
+// icone uguali a quelle del dock (TabBar): Home, Calcolatore, Giocatori, Matchup
+const MENU = [['Home', '/', 'home-outline'], ['Competizioni', '/competizioni', 'trophy-outline'], ['Calcolatore di Affidabilità', '/calcolatore', 'calculator-outline'], ['Migliori Giocatori', '/migliori-giocatori', 'people-outline'], ['Migliori Matchup', '/migliori-matchup', 'sword-cross'], ['Linee guida', '/linee-guida', 'book-outline']];
+const MROW = 50;
 const THEME_OPTS = [['light', 'Chiaro'], ['dark', 'Scuro'], ['auto', 'Auto']];
 
-// Menu a tendina da destra: stesse voci della vecchia pagina menu, con icone, che entrano a cascata. Tema e diagnostica sono quelli del sito
+// Menu a tendina da destra (21st "Sheet" + "Sidebar" concept A): voci con le icone del dock dentro un riquadro, un evidenziatore
+// scivola sotto la voce attiva (anche al tocco, poi si apre la pagina); swipe verso destra per chiudere. Tema e diagnostica sono quelli del sito
 // (si leggono e si cambiano nella pagina web, messaggio `ui:state`) e compaiono solo quando la pagina web li ha comunicati.
 function MenuPanel({ open, onClose, onGo, ui, onCmd, top, bottom }) {
   const { C, s } = useT();
@@ -453,27 +580,43 @@ function MenuPanel({ open, onClose, onGo, ui, onCmd, top, bottom }) {
   }, [open, onClose]);
   const pStyle = useAnimatedStyle(() => ({ transform: [{ translateX: tx.value }] }));
   const scStyle = useAnimatedStyle(() => ({ opacity: sc.value }));
+  const [hi, setHi] = useState(0);
+  const hy = useSharedValue(0);
+  useEffect(() => { if (open) { setHi(0); hy.value = 0; } }, [open]); // eslint-disable-line react-hooks/exhaustive-deps
+  const hiStyle = useAnimatedStyle(() => ({ transform: [{ translateY: hy.value }] }));
+  const pick = (i, route) => { setHi(i); hy.value = withTiming(i * MROW, { duration: 320, easing: OUT_EASE }); setTimeout(() => onGo(route), 170); };
+  // swipe verso destra: il pannello segue il dito (thread UI), oltre 90 px o con un colpo veloce si chiude
+  const pan = Gesture.Pan().activeOffsetX(12).failOffsetY([-12, 12])
+    .onUpdate((e) => { tx.value = Math.max(0, e.translationX); })
+    .onEnd((e) => { if (e.translationX > 90 || e.velocityX > 600) runOnJS(onClose)(); else tx.value = withTiming(0, { duration: 260, easing: OUT_EASE }); });
   if (!mounted) return null;
   const ent = (i) => cascade(i, 16, 0, 150, 35);
   return (
     <View style={StyleSheet.absoluteFill} pointerEvents={open ? 'auto' : 'none'}>
       <Animated.View style={[StyleSheet.absoluteFill, { backgroundColor: C.scrim }, scStyle]}><Pressable style={{ flex: 1 }} onPress={onClose} /></Animated.View>
+      <GestureDetector gesture={pan}>
       <Animated.View style={[s.mPanel, { width: PW, paddingTop: top + 14 }, pStyle]}>
         <ScrollView showsVerticalScrollIndicator={false} bounces={false} overScrollMode="never" contentContainerStyle={{ paddingBottom: bottom + 40 }}>
           <View style={s.mHead}>
             <Logo size={26} />
             <Text style={s.mBrand}>ScalperLab</Text>
-            <Pressable onPress={onClose} style={[s.iconBtn, { marginLeft: 'auto' }]} accessibilityLabel="Chiudi"><Ionicons name="close" size={17} color={C.ink} /></Pressable>
+            <GlassBtn onPress={onClose} label="Chiudi" style={{ marginLeft: 'auto' }}><Ionicons name="close" size={17} color={C.ink} /></GlassBtn>
           </View>
-          {MENU.map(([label, route, icon], i) => (
-            <Animated.View key={route} entering={ent(i)}>
-              <Pressable onPress={() => onGo(route)} style={({ pressed }) => [s.mItem, pressed && { opacity: 0.5 }]}>
-                <Ionicons name={icon} size={19} color={C.accent} />
-                <Text numberOfLines={1} style={s.mTx}>{label}</Text>
-                <Ionicons name="chevron-forward" size={15} color={C.ink3} style={{ marginLeft: 'auto' }} />
-              </Pressable>
-            </Animated.View>
-          ))}
+          <View style={s.mBox}>
+            <Animated.View pointerEvents="none" style={[s.mHi, hiStyle]} />
+            {MENU.map(([label, route, icon], i) => {
+              const Ic = icon === 'sword-cross' ? MaterialCommunityIcons : Ionicons;
+              const on = hi === i;
+              return (
+                <Animated.View key={route} entering={ent(i)}>
+                  <Pressable onPress={() => pick(i, route)} style={({ pressed }) => [s.mItem2, pressed && { opacity: 0.7 }]}>
+                    <Ic name={icon} size={21} color={on ? C.accent : C.ink2} />
+                    <Text numberOfLines={1} style={[s.mTx, { fontWeight: '700', fontSize: 14.5, color: on ? C.accent : C.ink }]}>{label}</Text>
+                  </Pressable>
+                </Animated.View>
+              );
+            })}
+          </View>
           {ui ? (
             <Animated.View entering={ent(MENU.length)}>
               <Text style={[s.sSec, { paddingHorizontal: 0, marginTop: 22 }]}>Tema</Text>
@@ -493,11 +636,14 @@ function MenuPanel({ open, onClose, onGo, ui, onCmd, top, bottom }) {
           ) : null}
         </ScrollView>
       </Animated.View>
+      </GestureDetector>
     </View>
   );
 }
 
 // Calendario: sceglie un giorno qualsiasi; la striscia dei giorni e le pagine si ricentrano su quel giorno.
+// Date Picker concept B (21st, serayudigital): griglia del mese stile iOS, si cambia mese anche con uno swipe orizzontale
+// (la griglia segue il dito sul thread UI ed entra dal lato giusto).
 const MFULL = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'];
 const WK = ['L', 'M', 'M', 'G', 'V', 'S', 'D'];
 function Calendar({ visible, selected, onClose, onPick }) {
@@ -512,27 +658,43 @@ function Calendar({ visible, selected, onClose, onPick }) {
   while (cells.length % 7) cells.push(null);
   const diffOf = (d) => Math.round((new Date(mon.getFullYear(), mon.getMonth(), d) - TODAY_MID) / 86400000);
   const selDiff = Math.round((new Date(selected.getFullYear(), selected.getMonth(), selected.getDate()) - TODAY_MID) / 86400000);
+  const gx = useSharedValue(0);
+  const step = useCallback((d) => setMon((m) => new Date(m.getFullYear(), m.getMonth() + d, 1)), []);
+  const GW = Math.min(W - 48, 360);
+  const slide = (d) => { gx.value = withTiming(-d * GW, { duration: 180, easing: Easing.in(Easing.cubic) }, (done) => { if (!done) return; runOnJS(step)(d); gx.value = d * GW; gx.value = withTiming(0, { duration: 260, easing: OUT_EASE }); }); };
+  const swipe = Gesture.Pan().activeOffsetX([-14, 14]).failOffsetY([-14, 14])
+    .onUpdate((e) => { gx.value = e.translationX; })
+    .onEnd((e) => {
+      const d = e.translationX < -60 || e.velocityX < -500 ? 1 : e.translationX > 60 || e.velocityX > 500 ? -1 : 0;
+      if (!d) { gx.value = withTiming(0, { duration: 220, easing: OUT_EASE }); return; }
+      gx.value = withTiming(-d * GW, { duration: 160, easing: Easing.out(Easing.cubic) }, (done) => { if (!done) return; runOnJS(step)(d); gx.value = d * GW; gx.value = withTiming(0, { duration: 260, easing: OUT_EASE }); });
+    });
+  const gStyle = useAnimatedStyle(() => ({ transform: [{ translateX: gx.value }], opacity: 1 - Math.min(0.6, Math.abs(gx.value) / (GW * 1.4)) }));
   return (
     <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
       <Pressable style={s.calBack} onPress={onClose}>
         <Pressable style={s.calBox} onPress={() => {}}>
           <View style={s.calHead}>
-            <Pressable hitSlop={14} onPress={() => setMon(new Date(mon.getFullYear(), mon.getMonth() - 1, 1))}><Ionicons name="chevron-back" size={20} color={C.ink} /></Pressable>
-            <Text style={s.calTitle}>{MFULL[mon.getMonth()]} {mon.getFullYear()}</Text>
-            <Pressable hitSlop={14} onPress={() => setMon(new Date(mon.getFullYear(), mon.getMonth() + 1, 1))}><Ionicons name="chevron-forward" size={20} color={C.ink} /></Pressable>
+            <Text style={s.calTitle}>{MFULL[mon.getMonth()]} <Text style={{ color: C.accent }}>{mon.getFullYear()}</Text></Text>
+            <View style={{ flexDirection: 'row', gap: 22 }}>
+              <Pressable hitSlop={14} onPress={() => slide(-1)}><Ionicons name="chevron-back" size={20} color={C.accent} /></Pressable>
+              <Pressable hitSlop={14} onPress={() => slide(1)}><Ionicons name="chevron-forward" size={20} color={C.accent} /></Pressable>
+            </View>
           </View>
           <View style={s.calRow}>{WK.map((w, i) => <Text key={i} style={s.calWk}>{w}</Text>)}</View>
-          <View style={s.calGrid}>
+          <GestureDetector gesture={swipe}>
+          <Animated.View style={[s.calGrid, gStyle]}>
             {cells.map((d, i) => {
               if (!d) return <View key={i} style={s.calCell} />;
               const df = diffOf(d); const sel = df === selDiff;
               return (
                 <Pressable key={i} onPress={() => onPick(df)} style={s.calCell}>
-                  <View style={[s.calDay, sel && s.calSel, !sel && df === 0 && s.calToday]}><Text style={[s.calTxt, sel && s.calTxtSel]}>{d}</Text></View>
+                  <View style={[s.calDay, sel && s.calSel, !sel && df === 0 && s.calToday]}><Text style={[s.calTxt, sel && s.calTxtSel, !sel && df === 0 && { color: C.accent }]}>{d}</Text></View>
                 </Pressable>
               );
             })}
-          </View>
+          </Animated.View>
+          </GestureDetector>
           <Pressable onPress={() => onPick(0)} style={s.calTodayBtn}><Text style={{ color: C.accent, fontWeight: '700', fontSize: 14 }}>Oggi</Text></Pressable>
         </Pressable>
       </Pressable>
@@ -772,6 +934,15 @@ function Screen({ onTheme, onReset }) {
     else if (filter === 'live' && !wantLive) setFilter('all');
   }, [cur, filter, keys, todayKey, wantLive]);
   const x = useSharedValue(TODAY_INDEX);
+  // Carousel concept B (21st, Motion Primitives): sottolineatura sotto il giorno che segue la pagina mentre la si trascina
+  const upos = useSharedValue([]);
+  const ulStyle = useAnimatedStyle(() => {
+    const a = upos.value; const i0 = Math.floor(x.value); const f = x.value - i0;
+    const p0 = a[i0]; const p1 = a[i0 + 1] || p0;
+    if (!p0) return { opacity: 0 };
+    const l = p0[0] + (p1[0] - p0[0]) * f; const w = p0[1] + (p1[1] - p0[1]) * f;
+    return { opacity: 1, width: w * 0.62, transform: [{ translateX: l + w * 0.19 }] };
+  });
   const x0 = useSharedValue(TODAY_INDEX);
   const ov = useSharedValue(W); // pagina web: W = fuori schermo a destra, 0 = aperta
   const ovStart = useSharedValue(0);
@@ -997,6 +1168,10 @@ function Screen({ onTheme, onReset }) {
   useAnimatedReaction(() => Math.round(x.value), (r, prev) => { if (r !== prev) runOnJS(setCur)(r); });
   const go = (i) => { x.value = withTiming(i, { duration: 320, easing: Easing.out(Easing.cubic) }); };
   const cancelWant = () => { wantRef.current = false; setWantLive(false); };
+  // giorno vicino con partite (per la carta del giorno vuoto): al massimo 14 giorni, solo giorni gia' caricati
+  const nearDay = (i, dir) => { for (let j = i + dir; j >= 0 && j < N && Math.abs(j - i) <= 14; j += dir) { const r = data && data[j]; if (r && r.length) return { i: j, label: dayLabel(dates[j]), n: r.length }; } return null; };
+  // solo i giorni vuoti ricevono questi valori: le pagine con partite restano memoizzate (nessun ridisegno in piu')
+  const nearOf = (i) => { const p = nearDay(i, -1); const n = nearDay(i, 1); return (dir) => (dir < 0 ? p : n); };
   const goDayBtn = (i) => { if (keys[i] !== todayKey) { wantRef.current = false; setWantLive(false); } go(i); };
   const onLivePill = (v) => {
     if (v !== 'live') { wantRef.current = false; setWantLive(false); setFilter(v); return; }
@@ -1037,22 +1212,24 @@ function Screen({ onTheme, onReset }) {
   const shown = [cur - 2, cur - 1, cur, cur + 1, cur + 2].filter((i) => i >= 0 && i < N);
   return (
     <View style={[s.root, { paddingTop: insets.top }]}>
+      <Beams />
       <StatusBar barStyle={C.dark ? 'light-content' : 'dark-content'} />
       <Header onSearch={openSearch} onMenu={openMenuP} onCal={() => setCal(true)} />
       <ScrollView ref={strip} horizontal showsHorizontalScrollIndicator={false} style={{ flexGrow: 0 }} contentContainerStyle={s.strip}>
         {dates.map((d, i) => (
-          <Pressable key={keys[i]} onPress={() => goDayBtn(i)} onLayout={(e) => { pos.current[i] = { x: e.nativeEvent.layout.x, w: e.nativeEvent.layout.width }; if (i === cur) centre(i); }}>
+          <Pressable key={keys[i]} onPress={() => goDayBtn(i)} onLayout={(e) => { pos.current[i] = { x: e.nativeEvent.layout.x, w: e.nativeEvent.layout.width }; const a = upos.value.slice(); a[i] = [e.nativeEvent.layout.x, e.nativeEvent.layout.width]; upos.value = a; if (i === cur) centre(i); }}>
             <Text style={[s.dTop, i === cur && s.dOn]}>{dayLabel(d)}</Text>
             <Text style={[s.dSub, i === cur && { opacity: 0.9 }]}>{d.getDate()} {MONTHS[d.getMonth()]}</Text>
           </Pressable>
         ))}
+        <Animated.View pointerEvents="none" style={[s.dUnder, ulStyle]} />
       </ScrollView>
       <View style={s.filters}>
         <LivePill value={wantLive ? 'live' : eff} onChange={onLivePill} />
       </View>
       <GestureDetector gesture={pan}>
         <View style={{ flex: 1, overflow: 'hidden' }}>
-          {shown.map((i) => <Pane key={i} idx={i} x={x}><Day iso={keys[i]} rows={data[i]} filter={filter === 'live' && keys[i] === todayKey ? 'live' : 'all'} onOpen={openMatch} onLeague={openRoute} top={homeTop} isCur={i === cur} /></Pane>)}
+          {shown.map((i) => <Pane key={i} idx={i} x={x}><Day iso={keys[i]} rows={data[i]} filter={filter === 'live' && keys[i] === todayKey ? 'live' : 'all'} onOpen={openMatch} onLeague={openRoute} top={homeTop} isCur={i === cur} {...(data[i] && data[i].length ? null : { near: nearOf(i), onDay: goDayBtn })} /></Pane>)}
         </View>
       </GestureDetector>
       <Calendar visible={cal} selected={dates[cur] || new Date()} onClose={() => setCal(false)} onPick={pick} />
@@ -1110,8 +1287,14 @@ const makeStyles = (C) => StyleSheet.create({
   mOpt: { flex: 1, alignItems: 'center', paddingVertical: 8, borderRadius: 12, backgroundColor: C.chip, borderWidth: 1, borderColor: C.border },
   mOptTx: { color: C.ink, fontSize: 13, fontWeight: '700' },
   brand: { color: C.ink, fontSize: 24, fontWeight: '800', letterSpacing: -1 },
+  mBox: { marginTop: 8, padding: 6, borderRadius: 18, backgroundColor: C.wash, borderWidth: 1, borderColor: C.hair },
+  mHi: { position: 'absolute', left: 6, right: 6, top: 6, height: MROW, borderRadius: 13, backgroundColor: C.accTint, borderWidth: 1, borderColor: C.accRing },
+  mItem2: { height: MROW, flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 12 },
+  lgBtn: { width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center', overflow: 'hidden', borderWidth: 1, borderColor: C.lgBorder, shadowColor: '#000', shadowOpacity: C.dark ? 0.45 : 0.2, shadowRadius: 10, shadowOffset: { width: 0, height: 6 } },
+  lgHi: { position: 'absolute', top: 0, left: 8, right: 8, height: 1, opacity: 0.9 },
   iconBtn: { width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center', backgroundColor: C.chip, borderWidth: 1, borderColor: C.border },
   strip: { paddingHorizontal: 20, paddingVertical: 8, gap: 24, alignItems: 'center' },
+  dUnder: { position: 'absolute', left: 0, bottom: 2, height: 2.5, borderRadius: 2, backgroundColor: C.accent },
   dTop: { color: C.ink3, fontSize: 15, fontWeight: '500' },
   dOn: { color: C.ink, fontWeight: '800' },
   dSub: { color: C.ink3, fontSize: 10.5, opacity: 0.6 },
@@ -1156,19 +1339,25 @@ const makeStyles = (C) => StyleSheet.create({
   liveRow: { flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: 3 },
   liveT: { color: C.live, fontSize: 10, fontWeight: '700' },
   empty: { color: C.ink3, textAlign: 'center', padding: 50 },
+  emBox: { marginHorizontal: 16, marginTop: 24, paddingVertical: 26, paddingHorizontal: 16, borderRadius: 22, borderWidth: 1.2, borderStyle: 'dashed', borderColor: C.border, alignItems: 'center' },
+  emWell: { width: 58, height: 58, borderRadius: 29, alignItems: 'center', justifyContent: 'center', backgroundColor: C.dark ? 'rgba(0,0,0,0.38)' : 'rgba(15,23,42,0.06)', borderWidth: 1, borderColor: C.hair },
+  emTitle: { color: C.ink, fontSize: 15.5, fontWeight: '800', marginTop: 12, textAlign: 'center' },
+  emSub: { color: C.ink2, fontSize: 12.5, marginTop: 4, textAlign: 'center' },
+  emBtn: { flexDirection: 'row', alignItems: 'center', gap: 4, height: 34, paddingHorizontal: 14, borderRadius: 17, borderWidth: 1, borderColor: C.border, backgroundColor: C.chip },
+  emBtnTx: { color: C.ink, fontSize: 12.5, fontWeight: '700' },
   back: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 12, paddingVertical: 12 },
   edge: { position: 'absolute', left: 0, top: 0, bottom: 0, width: 22 },
   calBack: { flex: 1, backgroundColor: 'rgba(0,0,0,.55)', justifyContent: 'center', padding: 24 },
-  calBox: { backgroundColor: C.sheet, borderRadius: 24, padding: 16, borderWidth: 1, borderColor: C.border },
+  calBox: { backgroundColor: C.sheet, borderRadius: 24, padding: 16, borderWidth: 1, borderColor: C.border, overflow: 'hidden' },
   calHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingBottom: 12 },
-  calTitle: { color: C.ink, fontSize: 16, fontWeight: '800' },
+  calTitle: { color: C.ink, fontSize: 19, fontWeight: '800', letterSpacing: -0.3 },
   calRow: { flexDirection: 'row' },
   calWk: { width: '14.2857%', textAlign: 'center', color: C.ink3, fontSize: 12, paddingVertical: 6 },
   calGrid: { flexDirection: 'row', flexWrap: 'wrap' },
   calCell: { width: '14.2857%', alignItems: 'center', paddingVertical: 3 },
-  calDay: { width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center' },
+  calDay: { width: 38, height: 36, borderRadius: 11, alignItems: 'center', justifyContent: 'center' },
   calSel: { backgroundColor: C.accent },
-  calToday: { borderWidth: 1, borderColor: C.accent },
+  calToday: { backgroundColor: C.accTint },
   calTxt: { color: C.ink, fontSize: 14, fontWeight: '600' },
   calTxtSel: { color: '#FFFFFF' },
   calTodayBtn: { alignSelf: 'center', paddingVertical: 10, paddingHorizontal: 20, marginTop: 6 },

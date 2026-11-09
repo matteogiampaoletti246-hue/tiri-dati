@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { Check, ChevronDown } from 'lucide-react';
+import { Check } from 'lucide-react';
+import HaloChevron from '@/components/HaloChevron';
 import MenuBackdrop from '@/components/MenuBackdrop';
 import StatIcon from '@/components/StatIcon';
 import { usePopFit, popScroll } from '@/lib/popFit';
@@ -26,23 +27,23 @@ export default function TopStatPicker({ options, value, onChange, bar = false, s
         aria-label="Statistica"
         aria-expanded={open}
         onClick={() => setOpen((o) => !o)}
-        className={bar
+        className={`halo-trigger ${bar
           ? 'glass-flat press flex h-[46px] w-full items-center gap-[10px] whitespace-nowrap rounded-full px-4 text-[14px] font-extrabold'
           : tight
           ? 'glass-flat press flex h-[36px] w-[92px] items-center justify-between gap-[3px] whitespace-nowrap rounded-full pl-[10px] pr-[6px] text-[12px] font-extrabold'
-          : 'glass-flat press flex h-[40px] items-center gap-[5px] whitespace-nowrap rounded-full pl-[10px] pr-[9px] text-[12.5px] font-extrabold'}
+          : 'glass-flat press flex h-[40px] items-center gap-[5px] whitespace-nowrap rounded-full pl-[10px] pr-[9px] text-[12.5px] font-extrabold'}`}
         style={{ color: 'var(--ink)' }}
       >
         {tight ? null : <span className="flex" style={{ color: 'var(--accent)' }}><StatIcon k={cur.icon} size={bar ? 19 : 17} /></span>}
         <span className={bar ? 'flex-1 text-left' : ''}>{bar ? cur.label : cur.short}</span>
-        <ChevronDown size={bar ? 15 : tight ? 11 : 13} strokeWidth={2.6} className="flex-none" style={{ color: 'var(--ink-3)', transform: open ? 'rotate(180deg)' : 'none', transition: 'transform .25s' }} />
+        <HaloChevron open={open} value={value} size={bar ? 15 : tight ? 11 : 13} strokeWidth={2.6} className="flex-none" />
       </button>
       {open ? <MenuBackdrop onClose={() => setOpen(false)} /> : null}
       {open ? (
         <div
           data-pop-scroll
           role="listbox"
-          className={`hide-sb absolute ${bar ? 'left-0 right-0' : `${side === 'left' ? 'left-0' : 'right-0'} w-[222px]`} ${room.up ? 'bottom-[calc(100%+8px)]' : 'top-[calc(100%+8px)]'} z-50 rounded-[22px] p-1.5`}
+          className={`halo-menu hide-sb absolute ${bar ? 'left-0 right-0' : `${side === 'left' ? 'left-0' : 'right-0'} w-[222px]`} ${room.up ? 'bottom-[calc(100%+8px)]' : 'top-[calc(100%+8px)]'} z-50 rounded-[22px] p-1.5`}
           style={{
             ...popScroll(room),
             opacity: shown ? 1 : 0,

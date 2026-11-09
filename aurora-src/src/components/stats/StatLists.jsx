@@ -6,7 +6,35 @@ import { ChevronDown, ListTree, X } from 'lucide-react';
 
 // Classifiche impilate (una per statistica) con il tasto "Vai a" per saltare a quella che serve.
 // sections: [{ id, group, title, rows: [{ id, to, left, name, sub, value }] }]
-export default function StatLists({ sections, controls = null, limit = 8, wide = false }) {
+const MEDAL = ['#F5C451', '#C9D1DC', '#D08A52'];
+// Podio (21st "Leaderboard Podium", trophyso): i primi tre della statistica sul podio (secondo, primo, terzo), poi il resto
+// della classifica. Segue i filtri (casa, trasferta, competizione) e l'ordine scelto, come la lista.
+function Podium({ rows, rev, total }) {
+  const pos = [1, 0, 2].filter((i) => rows[i]);
+  const H = [74, 56, 44];
+  return (
+    <div className="flex items-end justify-center gap-2 px-3 pb-3 pt-1">
+      {pos.map((i, k) => {
+        const r = rows[i];
+        const c = MEDAL[i];
+        const body = (
+          <>
+            <span className="pod-face mb-1.5 flex items-center justify-center" style={{ transform: `scale(${i === 0 ? 1.45 : 1.2})` }}>{r.left}</span>
+            <span className="block w-full truncate text-center text-[12px] font-bold leading-tight">{r.name}</span>
+            <span className="tnum mt-0.5 block text-center text-[15px] font-extrabold">{r.value}</span>
+            <span className="pod-bar mt-1.5 flex w-full items-start justify-center rounded-t-[12px] pt-1.5" style={{ height: H[i], background: `linear-gradient(${c}55, ${c}10)`, border: `1px solid ${c}77`, borderBottom: 0, animationDelay: `${k * 90}ms` }}>
+              <span className="tnum text-[18px] font-extrabold" style={{ color: c }}>{rev ? total - i : i + 1}</span>
+            </span>
+          </>
+        );
+        const cls = 'press flex min-w-0 flex-1 flex-col items-center';
+        return r.to ? <Link key={r.id} to={r.to} className={cls} style={{ maxWidth: 118 }}>{body}</Link> : <div key={r.id} className={cls} style={{ maxWidth: 118 }}>{body}</div>;
+      })}
+    </div>
+  );
+}
+
+export default function StatLists({ sections, controls = null, limit = 8, wide = false, podium = false }) {
   const [sheet, setSheet] = useState(false);
   useModalLock(sheet);
   const [open, setOpen] = useState({});
@@ -93,7 +121,9 @@ export default function StatLists({ sections, controls = null, limit = 8, wide =
         const r0 = !!rev[s.id];
         const flip = () => setRev({ ...rev, [s.id]: !r0 });
         const ordered = r0 ? [...s.rows].reverse() : s.rows;
-        const rows = all ? ordered : ordered.slice(0, limit);
+        const pod = podium && ordered.length >= 3;
+        const rest = pod ? ordered.slice(3) : ordered;
+        const rows = all ? rest : rest.slice(0, pod ? limit - 3 : limit);
         const arrow = r0 ? '↑' : '↓';
         return (
           <section key={s.id} id={`st-${s.id}`} className="glass mx-4 mt-4 overflow-hidden rounded-[24px]" style={{ scrollMarginTop: 150, contain: 'layout paint' }}>
@@ -105,7 +135,9 @@ export default function StatLists({ sections, controls = null, limit = 8, wide =
                 <button type="button" onClick={flip} className="press text-[10.5px] font-bold" style={{ color: 'var(--accent)' }}>{r0 ? 'Dal peggiore' : 'Dal migliore'} {arrow}</button>
               ) : <span className="text-[10.5px]" style={{ color: 'var(--ink-3)' }}>{s.group}</span>}
             </div>
-            {rows.map((r, i) => {
+            {pod ? <Podium rows={ordered} rev={r0} total={s.rows.length} /> : null}
+            {rows.map((r, i0) => {
+              const i = pod ? i0 + 3 : i0;
               const inner = (
                 <>
                   <span

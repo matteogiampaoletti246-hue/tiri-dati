@@ -25,7 +25,7 @@ export default function LeagueTeamsPanel({ leagueId }) {
   );
   if (!teams.length) return null;
   return (
-    <StatLists
+    <StatLists podium
       sections={sections}
       controls={<TextFilter options={[{ value: 0, label: 'Totale' }, { value: 1, label: 'Casa' }, { value: 2, label: 'Trasferta' }]} value={part} onChange={setPart} />}
     />

@@ -1,4 +1,5 @@
 import MenuDrawer from '@/components/MenuDrawer';
+import ScrollThumb from '@/components/ScrollThumb';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { HashRouter, Route, Routes, useLocation, useNavigate, useNavigationType } from 'react-router-dom';
 import { BACK, isNative } from '@/lib/carousel';
@@ -100,6 +101,7 @@ export default function App() {
       <PlayerSheetHost />
       <PlayerPanelHost />
       <MenuDrawer />
+      <ScrollThumb />
       {ready ? (
       <Routes>
         <Route path="/" element={<NativeHomeGuard />} />

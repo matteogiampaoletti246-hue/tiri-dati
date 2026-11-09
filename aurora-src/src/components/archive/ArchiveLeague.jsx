@@ -215,7 +215,7 @@ export function ArchStatPanel({ stats, kind, names, col, fm, sk }) {
   const controls = kind === 'players'
     ? <TextFilter options={[{ value: 'tot', label: 'Totale' }, { value: 'p90', label: "Ogni 90'" }]} value={mode} onChange={setMode} />
     : null;
-  return <StatLists sections={sections} controls={controls} />;
+  return <StatLists podium sections={sections} controls={controls} />;
 }
 
 
@@ -291,7 +291,7 @@ function ArchTeamStatPanel({ season, det, stats, names, col, fm, sk }) {
   sections.push(...official);
   if (!sections.length) return <ArchStatPanel stats={stats} kind="teams" names={names} col={col} fm={fm} sk={sk} />;
   return (
-    <StatLists
+    <StatLists podium
       sections={sections}
       controls={<TextFilter options={TEAM_PART} value={part} onChange={setPart} />}
     />

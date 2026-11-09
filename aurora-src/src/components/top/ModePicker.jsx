@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import MenuBackdrop from '@/components/MenuBackdrop';
-import { Check, ChevronDown } from 'lucide-react';
+import { Check } from 'lucide-react';
+import HaloChevron from '@/components/HaloChevron';
 import { usePopFit, popScroll } from '@/lib/popFit';
 
 // Tendina di destra (Over / Under / Divario, con Totale o 1T per cartellini e arbitri): stessa forma e animazione della tendina delle statistiche.
@@ -21,15 +22,15 @@ export default function ModePicker({ options, value, onChange }) {
 
   return (
     <div ref={ref} className="relative" data-no-swipe="true" style={open ? { zIndex: 96 } : undefined}>
-      <button type="button" onClick={() => setOpen((o) => !o)} className="glass press flex h-10 items-center gap-2 rounded-full pl-3.5 pr-3 text-[14.5px] font-bold" style={{ color: 'var(--ink)' }}>
+      <button type="button" onClick={() => setOpen((o) => !o)} className="halo-trigger glass press flex h-10 items-center gap-2 rounded-full pl-3.5 pr-3 text-[14.5px] font-bold" style={{ color: 'var(--ink)' }}>
         <span>{cur.label}</span>
-        <ChevronDown size={16} strokeWidth={2} style={{ color: 'var(--ink-3)', transform: open ? 'rotate(180deg)' : 'none', transition: 'transform .25s' }} />
+        <HaloChevron open={open} value={value} size={16} strokeWidth={2} />
       </button>
       {open ? <MenuBackdrop onClose={() => setOpen(false)} /> : null}
       {open ? (
         <div
           data-pop-scroll
-          className={`hide-sb absolute right-0 ${room.up ? 'bottom-[calc(100%+8px)]' : 'top-[calc(100%+8px)]'} z-50 min-w-[190px] rounded-[22px] py-1.5`}
+          className={`halo-menu hide-sb absolute right-0 ${room.up ? 'bottom-[calc(100%+8px)]' : 'top-[calc(100%+8px)]'} z-50 min-w-[190px] rounded-[22px] py-1.5`}
           style={{ ...popScroll(room), opacity: shown ? 1 : 0, transform: shown ? 'translateY(0) scale(1)' : `translateY(${room.up ? 6 : -6}px) scale(.97)`, transformOrigin: room.up ? 'bottom right' : 'top right', transition: 'opacity .2s ease, transform .22s cubic-bezier(.22,.8,.24,1)', background: 'var(--sky-2)', border: '1px solid var(--hair)', boxShadow: '0 18px 40px rgba(0,0,0,.5)' }}
         >
           {options.map((o) => {

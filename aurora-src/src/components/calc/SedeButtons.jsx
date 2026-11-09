@@ -1,7 +1,7 @@
 import { House, Plane, Scale } from 'lucide-react';
 
 // Sede (concept A, scelto dall'utente l'8/11/2026): tre tasti uguali senza la scritta "Sede", icona sopra il nome.
-// Casa = casetta, Neutro = bilancia, Trasferta = aereo. Il tasto scelto si accende col colore dell'app (--accent).
+// Casa = casetta, Neutro = bilancia, Trasferta = aereo. Tasti in vetro liquido (concept B); quello scelto si accende col colore dell'app.
 const ITEMS = [
   { value: 'casa', label: 'Casa', Icon: House },
   { value: 'neutro', label: 'Neutro', Icon: Scale },
@@ -20,15 +20,10 @@ export default function SedeButtons({ value, onChange }) {
             role="radio"
             aria-checked={on}
             onClick={() => onChange(v)}
-            className="press flex flex-col items-center justify-center gap-1.5 rounded-[14px] py-2.5"
-            style={{
-              background: on ? 'var(--accent-soft)' : 'var(--panel-2)',
-              border: `${on ? 1.5 : 1}px solid ${on ? 'var(--accent)' : 'var(--hair)'}`,
-              color: on ? 'var(--ink)' : 'var(--ink-3)',
-              transition: 'background .2s ease, border-color .2s ease, color .2s ease',
-            }}
+            className={`lglass press flex flex-col items-center justify-center gap-1.5 rounded-[16px] py-2.5 ${on ? 'lglass-on' : ''}`}
+            style={{ color: on ? 'var(--ink)' : 'var(--ink-3)', transition: 'color .2s ease' }}
           >
-            <Icon size={21} strokeWidth={on ? 2 : 1.6} style={{ color: on ? 'var(--accent)' : 'currentColor' }} />
+            <Icon size={21} strokeWidth={on ? 2 : 1.6} style={{ color: on ? 'var(--ink)' : 'currentColor' }} />
             <span className="text-[13px] font-semibold">{label}</span>
           </button>
         );

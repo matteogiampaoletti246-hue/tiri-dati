@@ -6,6 +6,7 @@ import MatchRow from './MatchRow';
 import { tintGrad } from '@/lib/tint';
 import { leagueTint, TOP5 } from '@/data/leagues';
 import { flagEmoji } from '@/data/countries';
+import FLAG_TINT from '@/data/flagTints.json';
 import { useSel } from '@/components/past/PastBits';
 
 // Partono aperti i top 5 campionati e le coppe europee; tutti gli altri (e le finestre dei paesi) partono chiusi.
@@ -48,7 +49,8 @@ export default function LeagueGroup({ league, matches, iso = '', forceOpen = fal
   const toggle = () => setOpen(!open);
 
   return (
-    <section className="mx-4 mt-4 overflow-hidden rounded-[26px] glass" style={{ background: tintGrad(leagueTint(league.id), 0x45) }}>
+    // Accordion concept B (21st, Wensity): carta a se'; aperta, il bordo prende la tinta della finestra
+    <section className="mx-4 mt-4 overflow-hidden rounded-[26px] glass" style={{ background: tintGrad(leagueTint(league.id), 0x45), boxShadow: isOpen ? `inset 0 0 0 1.5px ${leagueTint(league.id)}cc` : undefined, transition: 'box-shadow .3s ease' }}>
       <div className="flex items-center">
         {/* logo e nome: aprono la scheda del campionato */}
         <LeagueLink league={league} className="press flex min-w-0 shrink items-center gap-3 py-3.5 pl-4 pr-3">
@@ -89,7 +91,7 @@ export function CountryGroup({ cc, name, comps, iso = '', forceOpen = false }) {
   const total = comps.reduce((n, c) => n + c.matches.length, 0);
   return (
     // chiusa ha un'altezza fissa nota: fuori schermo il browser la salta (stile, layout e disegno) senza cambiare l'altezza della pagina
-    <section data-country={cc} className="mx-4 mt-4 overflow-hidden rounded-[26px] glass" style={isOpen ? undefined : { contentVisibility: 'auto', containIntrinsicSize: 'auto 52px' }}>
+    <section data-country={cc} className="mx-4 mt-4 overflow-hidden rounded-[26px] glass" style={isOpen ? { boxShadow: `inset 0 0 0 1.5px ${(FLAG_TINT[String(cc).toUpperCase()] || '#6D7A91')}cc` } : { contentVisibility: 'auto', containIntrinsicSize: 'auto 52px' }}>
       <button type="button" onClick={() => setOpen(!open)} aria-expanded={isOpen} aria-label={`${name}: ${isOpen ? 'chiudi' : 'apri'} competizioni`} className="press flex w-full items-center gap-3 py-3.5 pl-4 pr-4 text-left">
         <CountryFlag cc={cc} />
         <span className="min-w-0 flex-1 truncate text-[12.5px] font-extrabold uppercase tracking-wider" style={{ color: 'var(--ink)' }}>{name}</span>

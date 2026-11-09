@@ -1,4 +1,4 @@
-import { teamColor } from '@/lib/tint';
+import { matchColors } from '@/lib/tint';
 import { goBack } from '@/lib/carousel';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, Share2 } from 'lucide-react';
@@ -66,19 +66,19 @@ export default function MatchHero({ match, view, league, home, away, pending = f
   return (
     <section className="safe-top px-4 pb-3">
       <div className="flex items-center gap-2">
-        <button type="button" className="glass press flex h-9 w-9 items-center justify-center rounded-full" aria-label="Indietro" onClick={() => goBack(navigate)}>
+        <button type="button" className="glass lglass press flex h-9 w-9 items-center justify-center rounded-full" aria-label="Indietro" onClick={() => goBack(navigate)}>
           <ChevronLeft size={19} />
         </button>
         <LeagueLink league={league} className="mx-auto flex items-center gap-2 transition-opacity active:opacity-60">
           <LeagueBadge league={league} size={20} />
           <span className="text-[12px] font-extrabold uppercase tracking-wider" style={{ color: 'var(--ink-2)' }}>{league ? league.name : '—'}{match.seasonLabel ? ` · ${match.seasonLabel}` : ''}</span>
         </LeagueLink>
-        <button type="button" className="glass press flex h-9 w-9 items-center justify-center rounded-full" aria-label="Condividi" onClick={share}>
+        <button type="button" className="glass lglass press flex h-9 w-9 items-center justify-center rounded-full" aria-label="Condividi" onClick={share}>
           <Share2 size={16} />
         </button>
       </div>
 
-      <div className="glass mt-3 rounded-[28px] px-4 pb-4 pt-5" style={{ background: `linear-gradient(90deg, color-mix(in srgb, ${teamColor(home)} 55%, transparent) 0%, transparent 38%, transparent 62%, color-mix(in srgb, ${teamColor(away)} 50%, transparent) 100%), var(--glass-bg)` }}>
+      <div className="glass mt-3 rounded-[28px] px-4 pb-4 pt-5" style={{ background: `linear-gradient(90deg, color-mix(in srgb, ${matchColors(home, away)[0]} 55%, transparent) 0%, transparent 38%, transparent 62%, color-mix(in srgb, ${matchColors(home, away)[1]} 50%, transparent) 100%), var(--glass-bg)` }}>
         <div className="flex items-start">
           <div className="flex min-w-0 flex-1 flex-col items-center gap-2">
             <TeamLink team={home} className="flex flex-col items-center gap-2 transition-opacity active:opacity-60">

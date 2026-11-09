@@ -81,7 +81,7 @@ export default function LeaguePlayersPanel({ leagueId, teamId, mode: modeP, cat 
   });
   const has = catOf ? [...new Set(sections.map((s) => catOf(s.group)))] : [];
   return (
-    <StatLists
+    <StatLists podium
       wide={!!renderControls}
       sections={catOf && cat !== 'all' && has.includes(cat) ? sections.filter((s) => catOf(s.group) === cat) : sections}
       controls={renderControls ? renderControls(has) : <TextFilter options={[{ value: 'tot', label: 'Totale' }, { value: 'p90', label: "Ogni 90'" }]} value={mode} onChange={setMode} />}

@@ -1,5 +1,6 @@
 import { EventIcon, BootIcon } from './EventIcons';
 import PlayerLink from './PlayerLink';
+import { matchColors, shown } from '@/lib/tint';
 
 // "Giacomo Raspadori" -> "G. Raspadori"; gia' abbreviato resta com'e'
 export const shortName = (n) => {
@@ -55,9 +56,10 @@ const Lines = ({ e, align, match }) => (
   </span>
 );
 
-export default function Riassunto({ events = [], finished, concept, match }) {
+export default function Riassunto({ events = [], finished, concept, match, home, away }) {
   const rows = withMarks(events, finished);
   if (concept === 'c') return <Verticale rows={rows} match={match} />;
+  if (concept === 'd') return <LineaA rows={rows} match={match} home={home} away={away} />;
 
   return (
     <div>
@@ -105,6 +107,36 @@ function Verticale({ rows, match }) {
             </span>
             <div className="pl-2">
               {!home ? <div className={big ? 'glass-flat inline-block rounded-2xl px-3 py-2' : 'opacity-75'}><Lines match={match} e={r} align="left" /></div> : null}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+// A (21st "Timeline", Preet Suthar): linea verticale al centro con un pallino nel colore sociale della squadra;
+// squadra di casa a sinistra (testo, icona, minuto verso la linea), trasferta a destra; eventi che entrano in sequenza.
+// Scritte e icone sono quelle di sempre (Lines / EventIcon), nessuna etichetta "Gol" / "Giallo".
+function LineaA({ rows, match, home, away }) {
+  const [hc, ac] = matchColors(home, away);
+  let k = 0;
+  return (
+    <div className="relative px-2 py-2">
+      <span className="absolute bottom-3 left-1/2 top-3 w-[2px] -translate-x-1/2 rounded-full" style={{ background: 'var(--hair)' }} />
+      {rows.map((r, i) => {
+        const d = { animationDelay: `${Math.min(k++, 14) * 60}ms` };
+        if (r.mark) return <div key={i} className="tla-row relative my-2 text-center" style={d}><span className="glass-flat relative inline-block rounded-full px-3 py-1 text-[10.5px] font-extrabold tracking-wider" style={{ color: 'var(--ink-2)', background: 'hsl(var(--background))' }}>{r.mark}</span></div>;
+        const isH = r.team === 'home';
+        const col = shown(isH ? hc : ac);
+        return (
+          <div key={i} className="tla-row relative grid items-center py-[7px]" style={{ ...d, gridTemplateColumns: '1fr 16px 1fr' }}>
+            <div className="flex min-w-0 items-center justify-end gap-1.5 pr-1">
+              {isH ? <><Lines match={match} e={r} align="right" /><EventIcon e={r} /><span className="tnum w-[26px] shrink-0 text-right text-[12px] font-extrabold" style={{ color: 'var(--ink-2)' }}>{r.minute}&apos;</span></> : null}
+            </div>
+            <span className="relative z-10 mx-auto h-[11px] w-[11px] rounded-full" style={{ background: 'hsl(var(--background))', boxShadow: `inset 0 0 0 2.5px ${col}` }} />
+            <div className="flex min-w-0 items-center gap-1.5 pl-1">
+              {!isH ? <><span className="tnum w-[26px] shrink-0 text-[12px] font-extrabold" style={{ color: 'var(--ink-2)' }}>{r.minute}&apos;</span><EventIcon e={r} /><Lines match={match} e={r} align="left" /></> : null}
             </div>
           </div>
         );

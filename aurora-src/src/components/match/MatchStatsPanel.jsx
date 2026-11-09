@@ -9,6 +9,7 @@ import PreMatchStats, { preStatsOk, preTableOk } from './PreMatchStats';
 import PredictedStats, { predictedRows } from './PredictedStats';
 import AnimatedTabs from '@/components/AnimatedTabs';
 import { comma, num } from '@/lib/format';
+import { matchColors } from '@/lib/tint';
 
 const LIVE_STATS = [
   { key: 'possesso', label: 'Possesso', format: (v) => `${comma(v, 0)}%` },
@@ -34,7 +35,9 @@ export function hasMatchStats(match, view, home, away, pre) {
 export default function MatchStatsPanel({ match, view, home, away, pre }) {
   const [period, setPeriod] = useState('all');
   const [preTab, setPreTab] = useState('pred');
-  const cs = 'd';
+  const cs = 'a';
+  const [hcol, acol] = matchColors(home, away);
+  const mk = (k) => (match && match.id ? `${match.id}:${period}:${k}` : undefined);
 
   if (pre) {
     // tre pillole: squadra di casa, squadra in trasferta, Previste (predefinita); un blocco alla volta, solo quelli con dati
@@ -87,11 +90,11 @@ export default function MatchStatsPanel({ match, view, home, away, pre }) {
         groups.slice(0, 1).map((g) => (
           <section key={g.key} className="glass tint-card mx-4 rounded-[24px] px-4 py-4">
             <PanelTitle>{g.title}</PanelTitle>
-            <CompareBars variant={cs} rows={g.rows.map((r) => ({ label: r.label, home: r.home, away: r.away, homeText: r.homeText, awayText: r.awayText }))} />
+            <CompareBars variant={cs} homeColor={hcol} awayColor={acol} memKey={mk(g.key)} rows={g.rows.map((r) => ({ label: r.label, home: r.home, away: r.away, homeText: r.homeText, awayText: r.awayText }))} />
           </section>
         ))
       ) : fallback.length ? (
-        <section className="glass tint-card mx-4 rounded-[24px] px-4 py-4"><CompareBars variant={cs} rows={fallback} /></section>
+        <section className="glass tint-card mx-4 rounded-[24px] px-4 py-4"><CompareBars variant={cs} homeColor={hcol} awayColor={acol} memKey={mk('live')} rows={fallback} /></section>
       ) : null}
 
       {(view.shots || []).length ? (
@@ -105,7 +108,7 @@ export default function MatchStatsPanel({ match, view, home, away, pre }) {
         ? groups.slice(1).map((g) => (
             <section key={g.key} className="glass tint-card mx-4 rounded-[24px] px-4 py-4">
               <PanelTitle>{g.title}</PanelTitle>
-              <CompareBars variant={cs} rows={g.rows.map((r) => ({ label: r.label, home: r.home, away: r.away, homeText: r.homeText, awayText: r.awayText }))} />
+              <CompareBars variant={cs} homeColor={hcol} awayColor={acol} memKey={mk(g.key)} rows={g.rows.map((r) => ({ label: r.label, home: r.home, away: r.away, homeText: r.homeText, awayText: r.awayText }))} />
             </section>
           ))
         : null}

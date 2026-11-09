@@ -1,3 +1,4 @@
+import { shown } from '@/lib/tint';
 import PlayerPhoto from '@/components/PlayerPhoto';
 import { useLayoutEffect, useRef, useState } from 'react';
 
@@ -37,7 +38,9 @@ export default function EntityBanner({ name, subtitle, meta, colors = ['#1E4BD8'
   }, []);
 
   const c0 = colors[0] || '#1E4BD8';
-  const bg = `radial-gradient(120% 140% at 0% 0%, ${c0}88 0%, transparent 62%), radial-gradient(70% 120% at 100% 50%, ${c0}aa 0%, transparent 70%)`;
+  const c1 = colors[1] || c0;
+  // Profile Card concept A (21st, Isaiah): fondo sfumato nel colore del club + luce sfocata, nome che compare lettera per lettera
+  const bg = `linear-gradient(160deg, ${c0}b3 0%, ${c0}40 45%, transparent 78%), radial-gradient(70% 120% at 100% 50%, ${c0}88 0%, transparent 70%)`;
   const big = tall ? 230 : 180;
 
   const bar = (
@@ -47,6 +50,7 @@ export default function EntityBanner({ name, subtitle, meta, colors = ['#1E4BD8'
       className="fixed inset-x-0 top-0 z-40 mx-auto w-full max-w-[var(--app-w)] overflow-hidden"
       style={{ backgroundColor: 'var(--sky-2)', backgroundImage: bg, borderBottom: `2px solid ${c0}` }}
     >
+      <span aria-hidden="true" className="pointer-events-none absolute rounded-full" style={{ right: -30, top: -60, width: 200, height: 200, background: shown(c0, 150), filter: 'blur(56px)', opacity: 0.5 }} />
       {person ? (
         // volto intero: riquadro quadrato poco più alto del banner, appoggiato in basso (si taglia solo la cima dei capelli)
         <span aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 block w-[60%]" style={{ WebkitMaskImage: FADE, maskImage: FADE }}>
@@ -72,7 +76,7 @@ export default function EntityBanner({ name, subtitle, meta, colors = ['#1E4BD8'
             <ChevronLeft size={22} strokeWidth={2.4} />
           </button>
           <div className="min-w-0 flex-1">
-            <div className="flex min-w-0 items-center gap-2"><h1 className="title-lg truncate text-[22px]" style={{ color: 'var(--ink)', letterSpacing: '-.03em' }}>{name}</h1>{nameExtra}</div>
+            <div className="flex min-w-0 items-center gap-2"><h1 className="title-lg truncate text-[22px]" style={{ color: 'var(--ink)', letterSpacing: '-.03em' }} aria-label={typeof name === 'string' ? name : undefined}>{typeof name === 'string' && name.length < 40 ? name.split('').map((ch, i) => <span key={i} aria-hidden="true" className="pc-ch" style={{ animationDelay: `${120 + i * 28}ms` }}>{ch === ' ' ? '\u00a0' : ch}</span>) : name}</h1>{nameExtra}</div>
             {subtitle ? <p className="truncate text-[12px]" style={{ color: 'var(--ink-3)' }}>{subtitle}</p> : null}
             {meta ? <div className="mt-1" style={{ color: 'var(--ink-3)' }}>{meta}</div> : null}
           </div>

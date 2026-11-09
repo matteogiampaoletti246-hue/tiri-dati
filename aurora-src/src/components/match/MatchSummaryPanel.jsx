@@ -16,8 +16,8 @@ const Card = ({ title, concept, children, noPad }) => (
 );
 
 export default function MatchSummaryPanel({ match, view, home, away }) {
-  const cr = 'a';
-  const cm = 'c';
+  const cr = 'd';
+  const cm = 'a';
   const events = view.events || [];
   const hasMomentum = !!(view.momentum && view.momentum.length);
 
@@ -31,7 +31,7 @@ export default function MatchSummaryPanel({ match, view, home, away }) {
       ) : null}
       {events.length ? (
         <Card title="Riassunto" noPad>
-          <Riassunto match={match} events={events} finished={match.status === 'finished'} concept={cr} />
+          <Riassunto match={match} events={events} finished={match.status === 'finished'} concept={cr} home={home} away={away} />
         </Card>
       ) : null}
       <InfoBand match={match} />

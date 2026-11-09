@@ -379,7 +379,7 @@ export default function Home() {
     <PageShell swipeBack={false}>
       <div className="glass-head sticky top-0 z-30">
         <HomeHeader onSearch={() => { primeKeyboard(); setSearchOpen(true); }} calendar={
-          <label className="glass press relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full" aria-label="Calendario">
+          <label className="glass lglass press relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full" aria-label="Calendario">
             <CalendarDays size={16} strokeWidth={1.9} style={{ color: custom ? 'var(--accent)' : 'var(--ink)' }} />
             <input
               type="date"

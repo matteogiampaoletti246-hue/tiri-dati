@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import MenuBackdrop from '@/components/MenuBackdrop';
-import { Check, ChevronDown } from 'lucide-react';
+import { Check } from 'lucide-react';
+import HaloChevron from '@/components/HaloChevron';
 import { usePopFit, popScroll } from '@/lib/popFit';
 import LeagueBadge from '@/components/LeagueBadge';
 
@@ -27,17 +28,17 @@ export default function CompSelect({ options, value, onChange, allLabel = null, 
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="glass press inline-flex max-w-full items-center gap-2 rounded-[16px] py-2 pl-3 pr-2.5"
+        className="halo-trigger glass press inline-flex max-w-full items-center gap-2 rounded-[16px] py-2 pl-3 pr-2.5"
       >
         {cur ? <LeagueBadge league={cur} size={24} /> : null}
         <b className="truncate whitespace-nowrap text-[14px]">{cur ? cur.name : allLabel}</b>
-        <ChevronDown size={16} strokeWidth={2} style={{ color: 'var(--ink-3)', transform: open ? 'rotate(180deg)' : 'none', transition: 'transform .25s' }} />
+        <HaloChevron open={open} value={value} size={16} strokeWidth={2} />
       </button>
       {open ? <MenuBackdrop onClose={() => setOpen(false)} /> : null}
       {open ? (
         <div
           data-pop-scroll
-          className={`hide-sb absolute ${inline ? 'left-0' : 'left-4'} ${room.up ? 'bottom-[calc(100%+8px)]' : inline ? 'top-[calc(100%+8px)]' : 'top-[calc(100%-2px)]'} z-50 min-w-[250px] rounded-[18px] p-1.5`}
+          className={`halo-menu hide-sb absolute ${inline ? 'left-0' : 'left-4'} ${room.up ? 'bottom-[calc(100%+8px)]' : inline ? 'top-[calc(100%+8px)]' : 'top-[calc(100%-2px)]'} z-50 min-w-[250px] rounded-[18px] p-1.5`}
           style={{
             ...popScroll(room),
             background: 'var(--sky-2)',

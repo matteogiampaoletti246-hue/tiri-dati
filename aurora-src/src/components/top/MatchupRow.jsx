@@ -5,7 +5,7 @@ import TeamLink from '@/components/TeamLink';
 import { teamById } from '@/data/teams';
 import { matchesByDate } from '@/data/matches';
 import { comma } from '@/lib/format';
-import { teamColor } from '@/lib/tint';
+import { matchColors } from '@/lib/tint';
 
 const GOLD = '#F5C84C';
 
@@ -36,7 +36,7 @@ export default memo(function MatchupRow({ row, both }) {
       className="press relative mx-4 mb-2.5 mt-2 block rounded-[24px] px-3 pb-3 pt-2.5"
       style={{
         boxShadow: both ? `0 0 0 1.5px ${GOLD}, 0 0 20px rgba(245,200,76,.28)` : undefined,
-        background: `linear-gradient(90deg, color-mix(in srgb, ${teamColor(home)} 55%, transparent) 0%, transparent 40%, transparent 60%, color-mix(in srgb, ${teamColor(away)} 50%, transparent) 100%), var(--glass-bg)`,
+        background: `linear-gradient(90deg, color-mix(in srgb, ${matchColors(home, away)[0]} 55%, transparent) 0%, transparent 40%, transparent 60%, color-mix(in srgb, ${matchColors(home, away)[1]} 50%, transparent) 100%), var(--glass-bg)`,
         border: `1px solid ${both ? GOLD : 'var(--glass-border)'}`,
       }}
     >

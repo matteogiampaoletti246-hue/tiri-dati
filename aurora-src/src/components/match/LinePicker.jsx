@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { Check, ChevronDown } from 'lucide-react';
+import { Check } from 'lucide-react';
+import HaloChevron from '@/components/HaloChevron';
 import MenuBackdrop from '@/components/MenuBackdrop';
 import { usePopFit, popScroll } from '@/lib/popFit';
 
@@ -25,18 +26,18 @@ export default function LinePicker({ lines, value, onChange }) {
         aria-label="Linea"
         aria-expanded={open}
         onClick={() => setOpen((o) => !o)}
-        className="glass-flat press flex h-[36px] w-[92px] items-center justify-between gap-[3px] whitespace-nowrap rounded-full pl-[10px] pr-[6px] text-[12px] font-extrabold"
+        className="halo-trigger glass-flat press flex h-[36px] w-[92px] items-center justify-between gap-[3px] whitespace-nowrap rounded-full pl-[10px] pr-[6px] text-[12px] font-extrabold"
         style={{ color: 'var(--ink)' }}
       >
         <span>{label(value)}</span>
-        <ChevronDown size={11} strokeWidth={2.6} className="flex-none" style={{ color: 'var(--ink-3)', transform: open ? 'rotate(180deg)' : 'none', transition: 'transform .25s' }} />
+        <HaloChevron open={open} value={value} size={11} strokeWidth={2.6} className="flex-none" />
       </button>
       {open ? <MenuBackdrop onClose={() => setOpen(false)} /> : null}
       {open ? (
         <div
           data-pop-scroll
           role="listbox"
-          className={`hide-sb absolute right-0 w-[150px] ${room.up ? 'bottom-[calc(100%+8px)]' : 'top-[calc(100%+8px)]'} z-50 rounded-[22px] p-1.5`}
+          className={`halo-menu hide-sb absolute right-0 w-[150px] ${room.up ? 'bottom-[calc(100%+8px)]' : 'top-[calc(100%+8px)]'} z-50 rounded-[22px] p-1.5`}
           style={{
             ...popScroll(room),
             opacity: shown ? 1 : 0,

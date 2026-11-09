@@ -1,12 +1,18 @@
+import { useRef, useState } from 'react';
+import { matchColors, shown } from '@/lib/tint';
+
 // Momentum: positivo = squadra di casa. Tre versioni: A barre, B area, C periodi.
 export default function Momentum({ values = [], events = [], home, away, concept }) {
+  const [hov, setHov] = useState(null);
+  const box = useRef(null);
   if (!values || !values.length) return null;
   const n = values.length;
   const max = Math.max(40, ...values.map((v) => Math.abs(v)));
   const goals = events.filter((e) => e.type === 'goal');
   const x = (minute) => Math.min(100, (parseInt(String(minute), 10) / (n * 3)) * 100);
-  const HC = 'var(--accent)';
-  const AC = 'var(--live)';
+  const [mh, ma] = matchColors(home, away);
+  const HC = concept === 'a' ? shown(mh) : 'var(--accent)';
+  const AC = concept === 'a' ? shown(ma) : 'var(--live)';
 
   const legend = (
     <div className="mb-2 flex items-center text-[11.5px] font-bold">
@@ -21,28 +27,50 @@ export default function Momentum({ values = [], events = [], home, away, concept
   );
 
   if (concept === 'a' || !concept) {
+    // concept A "Chart Line": la linea si disegna, le due aree nei colori sociali (sopra casa, sotto trasferta),
+    // mirino che segue il dito minuto per minuto
     const W = 300;
     const H = 110;
     const mid = H / 2;
     const pts = values.map((v, i) => [(i / (n - 1 || 1)) * W, mid - (v / max) * (mid - 6)]);
     const path = pts.map((p, i) => `${i ? 'L' : 'M'}${p[0].toFixed(1)} ${p[1].toFixed(1)}`).join(' ');
+    const pick = (cx) => { const r = box.current && box.current.getBoundingClientRect(); if (!r) return; const k = Math.round(Math.min(1, Math.max(0, (cx - r.left) / r.width)) * (n - 1)); setHov(k); };
+    const hv = hov == null ? null : values[hov];
+    const minute = hov == null ? 0 : Math.round((hov / (n - 1 || 1)) * 90);
     return (
       <div>
         {legend}
-        <svg viewBox={`0 0 ${W} ${H}`} className="w-full" preserveAspectRatio="none" style={{ height: 130 }}>
-          <defs>
-            <clipPath id="up"><rect x="0" y="0" width={W} height={mid} /></clipPath>
-            <clipPath id="dn"><rect x="0" y={mid} width={W} height={mid} /></clipPath>
-          </defs>
-          <path d={`${path} L${W} ${mid} L0 ${mid} Z`} fill={HC} fillOpacity=".35" clipPath="url(#up)" />
-          <path d={`${path} L${W} ${mid} L0 ${mid} Z`} fill={AC} fillOpacity=".35" clipPath="url(#dn)" />
-          <path d={path} fill="none" stroke="var(--ink-2)" strokeWidth="1.4" vectorEffect="non-scaling-stroke" strokeLinejoin="round" />
-          <line x1="0" x2={W} y1={mid} y2={mid} stroke="var(--hair)" strokeWidth="1" vectorEffect="non-scaling-stroke" />
-          <line x1={W / 2} x2={W / 2} y1="0" y2={H} stroke="var(--hair-2)" strokeDasharray="3 3" strokeWidth="1" vectorEffect="non-scaling-stroke" />
-          {goals.map((g, i) => (
-            <circle key={i} cx={(x(g.minute) / 100) * W} cy={g.team === 'home' ? 8 : H - 8} r="3.4" fill={g.team === 'home' ? HC : AC} stroke="var(--ink)" strokeWidth="1" vectorEffect="non-scaling-stroke" />
-          ))}
-        </svg>
+        <div ref={box} className="relative" style={{ touchAction: 'pan-y' }} onPointerDown={(e) => pick(e.clientX)} onPointerMove={(e) => { if (e.buttons || e.pointerType === 'mouse') pick(e.clientX); }} onPointerLeave={() => setHov(null)} onPointerUp={() => setTimeout(() => setHov(null), 1200)}>
+          <svg viewBox={`0 0 ${W} ${H}`} className="mma-svg w-full" preserveAspectRatio="none" style={{ height: 130 }}>
+            <defs>
+              <clipPath id="mma-up"><rect x="0" y="0" width={W} height={mid} /></clipPath>
+              <clipPath id="mma-dn"><rect x="0" y={mid} width={W} height={mid} /></clipPath>
+              <linearGradient id="mma-gu" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stopColor={HC} stopOpacity=".95" /><stop offset="100%" stopColor={HC} stopOpacity=".45" /></linearGradient>
+              <linearGradient id="mma-gd" x1="0" x2="0" y1="1" y2="0"><stop offset="0%" stopColor={AC} stopOpacity=".95" /><stop offset="100%" stopColor={AC} stopOpacity=".45" /></linearGradient>
+            </defs>
+            <g className="mma-fill">
+              <path d={`${path} L${W} ${mid} L0 ${mid} Z`} fill="url(#mma-gu)" clipPath="url(#mma-up)" />
+              <path d={`${path} L${W} ${mid} L0 ${mid} Z`} fill="url(#mma-gd)" clipPath="url(#mma-dn)" />
+            </g>
+            <path d={path} fill="none" stroke="var(--ink)" strokeOpacity=".85" strokeWidth="1.5" vectorEffect="non-scaling-stroke" strokeLinejoin="round" />
+            <line x1="0" x2={W} y1={mid} y2={mid} stroke="var(--hair)" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+            <line x1={W / 2} x2={W / 2} y1="0" y2={H} stroke="var(--hair-2)" strokeDasharray="3 3" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+            {goals.map((g, i) => (
+              <circle key={i} cx={(x(g.minute) / 100) * W} cy={g.team === 'home' ? 8 : H - 8} r="3.4" fill={g.team === 'home' ? HC : AC} stroke="var(--ink)" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+            ))}
+            {hov != null ? (
+              <g>
+                <line x1={pts[hov][0]} x2={pts[hov][0]} y1="0" y2={H} stroke="var(--ink-2)" strokeDasharray="3 3" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+                <circle cx={pts[hov][0]} cy={pts[hov][1]} r="3.6" fill={hv >= 0 ? HC : AC} stroke="var(--ink)" strokeWidth="1.2" vectorEffect="non-scaling-stroke" />
+              </g>
+            ) : null}
+          </svg>
+          {hov != null ? (
+            <span className="tnum pointer-events-none absolute -top-1 rounded-full px-2 py-[2px] text-[10.5px] font-bold" style={{ left: `${(hov / (n - 1 || 1)) * 100}%`, transform: 'translate(-50%,-100%)', background: 'var(--glass-bg-strong, var(--glass-bg))', border: '1px solid var(--glass-border)', whiteSpace: 'nowrap' }}>
+              {minute}&apos; · {hv >= 0 ? (home ? home.short : 'Casa') : (away ? away.short : 'Trasferta')}
+            </span>
+          ) : null}
+        </div>
         {axis}
       </div>
     );
