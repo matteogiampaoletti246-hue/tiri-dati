@@ -2,456 +2,64 @@
 {
 "k": "abe-lenstra-stadion",
 "name": "Abe Lenstra Stadion",
-"kind": "cambiata interno",
-"in": 0.993,
+"kind": "cambiata scelta a mano",
+"in": 0.931,
 "file": "abe-lenstra-stadion.webp"
-},
-{
-"k": "aek-arena-george-karapatakis",
-"name": "AEK Arena - George Karapatakis",
-"kind": "nuova interno",
-"in": 0.999,
-"file": "aek-arena-george-karapatakis.webp"
-},
-{
-"k": "afas-stadion",
-"name": "AFAS Stadion",
-"kind": "cambiata interno",
-"in": 1.0,
-"file": "afas-stadion.webp"
 },
 {
 "k": "al-janoub-stadium",
 "name": "Al Janoub Stadium",
 "kind": "cambiata interno",
-"in": 0.883,
+"in": 0.784,
 "file": "al-janoub-stadium.webp"
-},
-{
-"k": "american-express-stadium",
-"name": "American Express Stadium",
-"kind": "cambiata interno",
-"in": 0.999,
-"file": "american-express-stadium.webp"
 },
 {
 "k": "arena-giulesti",
 "name": "Arena Giulești",
-"kind": "cambiata interno",
-"in": 0.992,
+"kind": "cambiata scelta a mano",
+"in": 1.0,
 "file": "arena-giulesti.webp"
-},
-{
-"k": "bayarena",
-"name": "BayArena",
-"kind": "cambiata interno",
-"in": 0.999,
-"file": "bayarena.webp"
-},
-{
-"k": "children-s-mercy-park",
-"name": "Children's Mercy Park",
-"kind": "cambiata interno",
-"in": 0.999,
-"file": "children-s-mercy-park.webp"
-},
-{
-"k": "complex-sportiv-craiova",
-"name": "Complex Sportiv Craiova",
-"kind": "cambiata interno",
-"in": 0.997,
-"file": "complex-sportiv-craiova.webp"
-},
-{
-"k": "daugavas-stadiona",
-"name": "Daugavas Stadionā",
-"kind": "cambiata interno",
-"in": 0.996,
-"file": "daugavas-stadiona.webp"
-},
-{
-"k": "deutsche-bank-park",
-"name": "Deutsche Bank Park",
-"kind": "cambiata interno",
-"in": 0.996,
-"file": "deutsche-bank-park.webp"
-},
-{
-"k": "ekaterinburg-arena",
-"name": "Ekaterinburg Arena",
-"kind": "nuova esterno",
-"in": 0.008,
-"file": "ekaterinburg-arena.webp"
-},
-{
-"k": "estadi-nacional",
-"name": "Estadi Nacional",
-"kind": "cambiata interno",
-"in": 0.902,
-"file": "estadi-nacional.webp"
-},
-{
-"k": "estadio-abanca-riazor",
-"name": "Estadio Abanca-Riazor",
-"kind": "cambiata interno",
-"in": 0.999,
-"file": "estadio-abanca-riazor.webp"
-},
-{
-"k": "estadio-benito-villamarin",
-"name": "Estadio Benito Villamarín",
-"kind": "cambiata interno",
-"in": 1.0,
-"file": "estadio-benito-villamarin.webp"
-},
-{
-"k": "estadio-bernabeu",
-"name": "Estadio Bernabéu",
-"kind": "cambiata interno",
-"in": 0.988,
-"file": "estadio-bernabeu.webp"
-},
-{
-"k": "estadio-cibao",
-"name": "Estadio Cibao",
-"kind": "nuova esterno",
-"in": 0.018,
-"file": "estadio-cibao.webp"
-},
-{
-"k": "estadio-de-mendizorroza",
-"name": "Estadio de Mendizorroza",
-"kind": "cambiata interno",
-"in": 0.998,
-"file": "estadio-de-mendizorroza.webp"
-},
-{
-"k": "estadio-la-cartuja-de-sevilla",
-"name": "Estadio La Cartuja de Sevilla",
-"kind": "cambiata interno",
-"in": 0.999,
-"file": "estadio-la-cartuja-de-sevilla.webp"
-},
-{
-"k": "estadio-nacional-de-cabo-verde",
-"name": "Estádio Nacional de Cabo Verde",
-"kind": "cambiata interno",
-"in": 0.999,
-"file": "estadio-nacional-de-cabo-verde.webp"
-},
-{
-"k": "estadio-nacional-do-zimpeto",
-"name": "Estádio Nacional do Zimpeto",
-"kind": "nuova esterno",
-"in": 0.023,
-"file": "estadio-nacional-do-zimpeto.webp"
-},
-{
-"k": "estadio-olimpico-felix-sanchez",
-"name": "Estadio Olímpico Félix Sánchez",
-"kind": "cambiata interno",
-"in": 0.814,
-"file": "estadio-olimpico-felix-sanchez.webp"
-},
-{
-"k": "etihad-stadium",
-"name": "Etihad Stadium",
-"kind": "cambiata interno",
-"in": 0.999,
-"file": "etihad-stadium.webp"
-},
-{
-"k": "helsingin-olympiastadion",
-"name": "Helsingin olympiastadion",
-"kind": "cambiata esterno",
-"in": 0.0,
-"file": "helsingin-olympiastadion.webp"
-},
-{
-"k": "huntington-bank-field",
-"name": "Huntington Bank Field",
-"kind": "cambiata interno",
-"in": 0.816,
-"file": "huntington-bank-field.webp"
-},
-{
-"k": "independence-stadium",
-"name": "Independence Stadium",
-"kind": "cambiata interno",
-"in": 0.967,
-"file": "independence-stadium.webp"
-},
-{
-"k": "ista-borussia-park",
-"name": "ista-Borussia-Park",
-"kind": "cambiata interno",
-"in": 1.0,
-"file": "ista-borussia-park.webp"
-},
-{
-"k": "jawaharlal-nehru-stadium",
-"name": "Jawaharlal Nehru Stadium",
-"kind": "nuova interno",
-"in": 0.993,
-"file": "jawaharlal-nehru-stadium.webp"
-},
-{
-"k": "jinnah-stadium",
-"name": "Jinnah Stadium",
-"kind": "nuova interno",
-"in": 0.775,
-"file": "jinnah-stadium.webp"
-},
-{
-"k": "kooi-stadion",
-"name": "Kooi Stadion",
-"kind": "cambiata esterno",
-"in": 0.0,
-"file": "kooi-stadion.webp"
-},
-{
-"k": "malsovicka-arena",
-"name": "Malšovická Aréna",
-"kind": "cambiata interno",
-"in": 0.614,
-"file": "malsovicka-arena.webp"
-},
-{
-"k": "medas-konya-buyuksehir-stadyumu",
-"name": "Medaş Konya Büyükşehir Stadyumu",
-"kind": "cambiata interno",
-"in": 1.0,
-"file": "medas-konya-buyuksehir-stadyumu.webp"
-},
-{
-"k": "mehdi-huseynzad-adina-sumqayit-s-h-r-stadionu",
-"name": "Mehdi Hüseynzadə adına Sumqayıt şəhər stadionu",
-"kind": "cambiata interno",
-"in": 0.996,
-"file": "mehdi-huseynzad-adina-sumqayit-s-h-r-stadionu.webp"
-},
-{
-"k": "mestsky-stadion-vitkovice-arena",
-"name": "Městský stadion - Vítkovice Aréna",
-"kind": "cambiata interno",
-"in": 0.989,
-"file": "mestsky-stadion-vitkovice-arena.webp"
-},
-{
-"k": "miami-stadium",
-"name": "Miami Stadium",
-"kind": "cambiata interno",
-"in": 1.0,
-"file": "miami-stadium.webp"
-},
-{
-"k": "parken",
-"name": "Parken",
-"kind": "cambiata interno",
-"in": 0.999,
-"file": "parken.webp"
-},
-{
-"k": "parnu-rannastaadion",
-"name": "Pärnu Rannastaadion",
-"kind": "cambiata esterno",
-"in": 0.038,
-"file": "parnu-rannastaadion.webp"
-},
-{
-"k": "queensland-country-bank-stadium",
-"name": "Queensland Country Bank Stadium",
-"kind": "cambiata interno",
-"in": 0.759,
-"file": "queensland-country-bank-stadium.webp"
-},
-{
-"k": "red-bull-arena",
-"name": "Red Bull Arena",
-"kind": "cambiata interno",
-"in": 0.996,
-"file": "red-bull-arena.webp"
 },
 {
 "k": "rose-bowl",
 "name": "Rose Bowl",
-"kind": "cambiata interno",
-"in": 0.981,
+"kind": "cambiata scelta a mano",
+"in": 0.75,
 "file": "rose-bowl.webp"
-},
-{
-"k": "san-van-ong-thai-nguyen",
-"name": "Sân vận động Thái Nguyên",
-"kind": "nuova interno",
-"in": 0.958,
-"file": "san-van-ong-thai-nguyen.webp"
-},
-{
-"k": "signal-iduna-park",
-"name": "SIGNAL IDUNA PARK",
-"kind": "cambiata interno",
-"in": 1.0,
-"file": "signal-iduna-park.webp"
 },
 {
 "k": "soldier-field",
 "name": "Soldier Field",
 "kind": "cambiata interno",
-"in": 0.813,
+"in": 0.606,
 "file": "soldier-field.webp"
-},
-{
-"k": "sparta-stadion-het-kasteel",
-"name": "Sparta-Stadion Het Kasteel",
-"kind": "cambiata interno",
-"in": 0.994,
-"file": "sparta-stadion-het-kasteel.webp"
-},
-{
-"k": "spotify-camp-nou",
-"name": "Spotify Camp Nou",
-"kind": "cambiata interno",
-"in": 0.999,
-"file": "spotify-camp-nou.webp"
-},
-{
-"k": "st-james-park",
-"name": "St. James' Park",
-"kind": "cambiata interno",
-"in": 1.0,
-"file": "st-james-park.webp"
-},
-{
-"k": "stade-des-martyrs-de-la-pentecote",
-"name": "Stade des Martyrs de la Pentecôte",
-"kind": "nuova interno",
-"in": 0.993,
-"file": "stade-des-martyrs-de-la-pentecote.webp"
-},
-{
-"k": "stade-du-28-septembre",
-"name": "Stade du 28 Septembre",
-"kind": "nuova interno",
-"in": 0.983,
-"file": "stade-du-28-septembre.webp"
-},
-{
-"k": "stade-felix-houphouet-boigny",
-"name": "Stade Félix Houphouët-Boigny",
-"kind": "nuova esterno",
-"in": 0.0,
-"file": "stade-felix-houphouet-boigny.webp"
-},
-{
-"k": "stade-hocine-ait-ahmed",
-"name": "Stade Hocine Aït Ahmed",
-"kind": "cambiata esterno",
-"in": 0.331,
-"file": "stade-hocine-ait-ahmed.webp"
 },
 {
 "k": "stade-jean-bouin",
 "name": "Stade Jean Bouin",
-"kind": "cambiata interno",
-"in": 0.99,
-"file": "stade-jean-bouin.webp"
-},
-{
-"k": "stade-municipal-pierre-aliker",
-"name": "Stade Municipal Pierre-Aliker",
-"kind": "nuova interno",
+"kind": "cambiata scelta a mano",
 "in": 1.0,
-"file": "stade-municipal-pierre-aliker.webp"
+"file": "stade-jean-bouin.webp"
 },
 {
 "k": "stadion-an-der-alten-forsterei",
 "name": "Stadion An der Alten Försterei",
-"kind": "cambiata interno",
-"in": 0.986,
+"kind": "cambiata scelta a mano",
+"in": 0.965,
 "file": "stadion-an-der-alten-forsterei.webp"
-},
-{
-"k": "stadion-feijenoord",
-"name": "Stadion Feijenoord",
-"kind": "cambiata interno",
-"in": 1.0,
-"file": "stadion-feijenoord.webp"
-},
-{
-"k": "stadion-im-dolena-omurzakova",
-"name": "Stadion im. Dolena Omurzakova",
-"kind": "cambiata interno",
-"in": 1.0,
-"file": "stadion-im-dolena-omurzakova.webp"
-},
-{
-"k": "stadion-kraj-bistrice",
-"name": "Stadion Kraj Bistrice",
-"kind": "cambiata interno",
-"in": 0.999,
-"file": "stadion-kraj-bistrice.webp"
-},
-{
-"k": "stadion-tehelne-pole",
-"name": "Štadión Tehelné pole",
-"kind": "cambiata interno",
-"in": 1.0,
-"file": "stadion-tehelne-pole.webp"
-},
-{
-"k": "stadium-of-light",
-"name": "Stadium of Light",
-"kind": "cambiata interno",
-"in": 1.0,
-"file": "stadium-of-light.webp"
-},
-{
-"k": "stamford-bridge",
-"name": "Stamford Bridge",
-"kind": "cambiata interno",
-"in": 0.998,
-"file": "stamford-bridge.webp"
-},
-{
-"k": "state-farm-stadium",
-"name": "State Farm Stadium",
-"kind": "cambiata interno",
-"in": 1.0,
-"file": "state-farm-stadium.webp"
-},
-{
-"k": "tottenham-hotspur-stadium",
-"name": "Tottenham Hotspur Stadium",
-"kind": "cambiata interno",
-"in": 1.0,
-"file": "tottenham-hotspur-stadium.webp"
-},
-{
-"k": "vitality-stadium",
-"name": "Vitality Stadium",
-"kind": "cambiata interno",
-"in": 0.999,
-"file": "vitality-stadium.webp"
 },
 {
 "k": "volksparkstadion",
 "name": "Volksparkstadion",
-"kind": "cambiata interno",
-"in": 0.971,
-"file": "volksparkstadion.webp"
-},
-{
-"k": "wwk-arena",
-"name": "WWK Arena",
-"kind": "cambiata interno",
+"kind": "cambiata scelta a mano",
 "in": 1.0,
-"file": "wwk-arena.webp"
+"file": "volksparkstadion.webp"
 },
 {
 "k": "yongin-mireu-stadium",
 "name": "Yongin Mireu Stadium",
-"kind": "nuova esterno",
-"in": 0.006,
+"kind": "cambiata esterno",
+"in": 0.0,
 "file": "yongin-mireu-stadium.webp"
 },
 {
@@ -488,6 +96,20 @@
 "kind": "invariata",
 "in": 1.0,
 "file": "achter-de-kazerne.webp"
+},
+{
+"k": "aek-arena-george-karapatakis",
+"name": "AEK Arena - George Karapatakis",
+"kind": "invariata",
+"in": 0.994,
+"file": "aek-arena-george-karapatakis.webp"
+},
+{
+"k": "afas-stadion",
+"name": "AFAS Stadion",
+"kind": "invariata",
+"in": 0.003,
+"file": "afas-stadion.webp"
 },
 {
 "k": "agc-arena-na-stinadlech",
@@ -586,6 +208,13 @@
 "kind": "invariata",
 "in": 0.997,
 "file": "amaan-stadium.webp"
+},
+{
+"k": "american-express-stadium",
+"name": "American Express Stadium",
+"kind": "invariata",
+"in": 0.004,
+"file": "american-express-stadium.webp"
 },
 {
 "k": "andruv-stadion",
@@ -698,6 +327,13 @@
 "kind": "invariata",
 "in": 0.992,
 "file": "basaksehir-fatih-terim-stadyumu.webp"
+},
+{
+"k": "bayarena",
+"name": "BayArena",
+"kind": "invariata",
+"in": 0.013,
+"file": "bayarena.webp"
 },
 {
 "k": "bc-place",
@@ -826,6 +462,13 @@
 "file": "changlimithang-stadium.webp"
 },
 {
+"k": "children-s-mercy-park",
+"name": "Children's Mercy Park",
+"kind": "invariata",
+"in": 0.001,
+"file": "children-s-mercy-park.webp"
+},
+{
 "k": "chobani-stadyumu-fenerbahce-sukru-saracoglu-spor-kompleksi",
 "name": "Chobani Stadyumu Fenerbahçe Şükrü Saracoğlu Spor Kompleksi",
 "kind": "invariata",
@@ -875,6 +518,13 @@
 "file": "compleho-deportivo-guillermo-prospero-trinidad.webp"
 },
 {
+"k": "complex-sportiv-craiova",
+"name": "Complex Sportiv Craiova",
+"kind": "invariata",
+"in": 0.602,
+"file": "complex-sportiv-craiova.webp"
+},
+{
 "k": "complexe-sportif-de-fes",
 "name": "Complexe Sportif de Fès",
 "kind": "invariata",
@@ -910,6 +560,13 @@
 "file": "daren-sammy-cricket-ground.webp"
 },
 {
+"k": "daugavas-stadiona",
+"name": "Daugavas Stadionā",
+"kind": "invariata",
+"in": 0.437,
+"file": "daugavas-stadiona.webp"
+},
+{
 "k": "de-adelaarshorst",
 "name": "De Adelaarshorst",
 "kind": "invariata",
@@ -929,6 +586,13 @@
 "kind": "invariata",
 "in": 0.82,
 "file": "decathlon-arena-stade-pierre-mauroy.webp"
+},
+{
+"k": "deutsche-bank-park",
+"name": "Deutsche Bank Park",
+"kind": "invariata",
+"in": 0.027,
+"file": "deutsche-bank-park.webp"
 },
 {
 "k": "dhl-cape-town-stadium",
@@ -1001,6 +665,13 @@
 "file": "edion-peace-wing-hiroshima.webp"
 },
 {
+"k": "ekaterinburg-arena",
+"name": "Ekaterinburg Arena",
+"kind": "invariata",
+"in": 0.007,
+"file": "ekaterinburg-arena.webp"
+},
+{
 "k": "elbasan-arena",
 "name": "Elbasan Arena",
 "kind": "invariata",
@@ -1071,6 +742,13 @@
 "file": "estadi-municipal-de-montilivi.webp"
 },
 {
+"k": "estadi-nacional",
+"name": "Estadi Nacional",
+"kind": "invariata",
+"in": 0.402,
+"file": "estadi-nacional.webp"
+},
+{
 "k": "estadio-11-de-novembro",
 "name": "Estádio 11 de Novembro",
 "kind": "invariata",
@@ -1083,6 +761,13 @@
 "kind": "invariata",
 "in": 0.0,
 "file": "estadio-abanca-balaidos.webp"
+},
+{
+"k": "estadio-abanca-riazor",
+"name": "Estadio Abanca-Riazor",
+"kind": "invariata",
+"in": 0.169,
+"file": "estadio-abanca-riazor.webp"
 },
 {
 "k": "estadio-alberto-jose-armando",
@@ -1106,11 +791,32 @@
 "file": "estadio-azteca.webp"
 },
 {
+"k": "estadio-benito-villamarin",
+"name": "Estadio Benito Villamarín",
+"kind": "invariata",
+"in": 0.999,
+"file": "estadio-benito-villamarin.webp"
+},
+{
+"k": "estadio-bernabeu",
+"name": "Estadio Bernabéu",
+"kind": "invariata",
+"in": 0.521,
+"file": "estadio-bernabeu.webp"
+},
+{
 "k": "estadio-centroamericano-de-mayaguez",
 "name": "Estadio Centroamericano de Mayagüez",
 "kind": "invariata",
 "in": 0.0,
 "file": "estadio-centroamericano-de-mayaguez.webp"
+},
+{
+"k": "estadio-cibao",
+"name": "Estadio Cibao",
+"kind": "invariata",
+"in": 0.014,
+"file": "estadio-cibao.webp"
 },
 {
 "k": "estadio-cidade-de-barcelos",
@@ -1167,6 +873,13 @@
 "kind": "invariata",
 "in": 0.995,
 "file": "estadio-de-la-ceramica.webp"
+},
+{
+"k": "estadio-de-mendizorroza",
+"name": "Estadio de Mendizorroza",
+"kind": "invariata",
+"in": 0.0,
+"file": "estadio-de-mendizorroza.webp"
 },
 {
 "k": "estadio-de-mestalla",
@@ -1316,6 +1029,13 @@
 "file": "estadio-juan-ramon-loubriel.webp"
 },
 {
+"k": "estadio-la-cartuja-de-sevilla",
+"name": "Estadio La Cartuja de Sevilla",
+"kind": "invariata",
+"in": 0.999,
+"file": "estadio-la-cartuja-de-sevilla.webp"
+},
+{
 "k": "estadio-la-rosaleda",
 "name": "Estadio La Rosaleda",
 "kind": "invariata",
@@ -1421,6 +1141,13 @@
 "file": "estadio-nacional-24-de-setembro.webp"
 },
 {
+"k": "estadio-nacional-de-cabo-verde",
+"name": "Estádio Nacional de Cabo Verde",
+"kind": "invariata",
+"in": 0.44,
+"file": "estadio-nacional-de-cabo-verde.webp"
+},
+{
 "k": "estadio-nacional-de-costa-rica",
 "name": "Estadio Nacional de Costa Rica",
 "kind": "invariata",
@@ -1433,6 +1160,13 @@
 "kind": "invariata",
 "in": 0.988,
 "file": "estadio-nacional-de-futbol-unan.webp"
+},
+{
+"k": "estadio-nacional-do-zimpeto",
+"name": "Estádio Nacional do Zimpeto",
+"kind": "invariata",
+"in": 0.146,
+"file": "estadio-nacional-do-zimpeto.webp"
 },
 {
 "k": "estadio-nacional-mateo-flores",
@@ -1461,6 +1195,13 @@
 "kind": "invariata",
 "in": 0.998,
 "file": "estadio-nuevo-arcangel.webp"
+},
+{
+"k": "estadio-olimpico-felix-sanchez",
+"name": "Estadio Olímpico Félix Sánchez",
+"kind": "invariata",
+"in": 0.032,
+"file": "estadio-olimpico-felix-sanchez.webp"
 },
 {
 "k": "estadio-ontime-butarque",
@@ -1496,6 +1237,13 @@
 "kind": "invariata",
 "in": 0.939,
 "file": "estadio-ueno-defensores-del-chaco.webp"
+},
+{
+"k": "etihad-stadium",
+"name": "Etihad Stadium",
+"kind": "invariata",
+"in": 0.002,
+"file": "etihad-stadium.webp"
 },
 {
 "k": "euroborg",
@@ -1638,6 +1386,13 @@
 "file": "hard-rock-stadium.webp"
 },
 {
+"k": "helsingin-olympiastadion",
+"name": "Helsingin olympiastadion",
+"kind": "invariata",
+"in": 0.826,
+"file": "helsingin-olympiastadion.webp"
+},
+{
 "k": "het-kuipje",
 "name": "Het Kuipje",
 "kind": "invariata",
@@ -1673,6 +1428,20 @@
 "file": "hong-kong-stadium.webp"
 },
 {
+"k": "huntington-bank-field",
+"name": "Huntington Bank Field",
+"kind": "invariata",
+"in": 0.007,
+"file": "huntington-bank-field.webp"
+},
+{
+"k": "independence-stadium",
+"name": "Independence Stadium",
+"kind": "invariata",
+"in": 0.108,
+"file": "independence-stadium.webp"
+},
+{
 "k": "indira-gandhi-athletic-stadium",
 "name": "Indira Gandhi Athletic Stadium",
 "kind": "invariata",
@@ -1692,6 +1461,13 @@
 "kind": "invariata",
 "in": 0.0,
 "file": "isonem-park-gursel-aksel-stadyumu.webp"
+},
+{
+"k": "ista-borussia-park",
+"name": "ista-Borussia-Park",
+"kind": "invariata",
+"in": 0.409,
+"file": "ista-borussia-park.webp"
 },
 {
 "k": "istiqlol-stadioni",
@@ -1715,11 +1491,25 @@
 "file": "jan-breydelstadion.webp"
 },
 {
+"k": "jawaharlal-nehru-stadium",
+"name": "Jawaharlal Nehru Stadium",
+"kind": "invariata",
+"in": 0.968,
+"file": "jawaharlal-nehru-stadium.webp"
+},
+{
 "k": "jawaharlal-nehru-stadium-goa",
 "name": "Jawaharlal Nehru Stadium Goa",
 "kind": "invariata",
 "in": 0.991,
 "file": "jawaharlal-nehru-stadium-goa.webp"
+},
+{
+"k": "jinnah-stadium",
+"name": "Jinnah Stadium",
+"kind": "invariata",
+"in": 0.076,
+"file": "jinnah-stadium.webp"
 },
 {
 "k": "johan-cruijff-arena",
@@ -1783,6 +1573,13 @@
 "kind": "invariata",
 "in": 0.936,
 "file": "koning-willem-ii-stadion.webp"
+},
+{
+"k": "kooi-stadion",
+"name": "Kooi Stadion",
+"kind": "invariata",
+"in": 0.0,
+"file": "kooi-stadion.webp"
 },
 {
 "k": "kosicka-futbalova-arena",
@@ -1876,6 +1673,13 @@
 "file": "mac-park-stadion.webp"
 },
 {
+"k": "malsovicka-arena",
+"name": "Malšovická Aréna",
+"kind": "invariata",
+"in": 0.98,
+"file": "malsovicka-arena.webp"
+},
+{
 "k": "mandela-national-stadium",
 "name": "Mandela National Stadium",
 "kind": "invariata",
@@ -1904,6 +1708,20 @@
 "file": "mch-arena.webp"
 },
 {
+"k": "medas-konya-buyuksehir-stadyumu",
+"name": "Medaş Konya Büyükşehir Stadyumu",
+"kind": "invariata",
+"in": 0.001,
+"file": "medas-konya-buyuksehir-stadyumu.webp"
+},
+{
+"k": "mehdi-huseynzad-adina-sumqayit-s-h-r-stadionu",
+"name": "Mehdi Hüseynzadə adına Sumqayıt şəhər stadionu",
+"kind": "invariata",
+"in": 0.988,
+"file": "mehdi-huseynzad-adina-sumqayit-s-h-r-stadionu.webp"
+},
+{
 "k": "mercedes-benz-stadium",
 "name": "Mercedes-Benz Stadium",
 "kind": "invariata",
@@ -1925,6 +1743,13 @@
 "file": "mestsky-fotbalovy-stadion-miroslava-valenty.webp"
 },
 {
+"k": "mestsky-stadion-vitkovice-arena",
+"name": "Městský stadion - Vítkovice Aréna",
+"kind": "invariata",
+"in": 0.0,
+"file": "mestsky-stadion-vitkovice-arena.webp"
+},
+{
 "k": "mewa-arena",
 "name": "MEWA ARENA",
 "kind": "invariata",
@@ -1937,6 +1762,13 @@
 "kind": "invariata",
 "in": 0.003,
 "file": "mhparena.webp"
+},
+{
+"k": "miami-stadium",
+"name": "Miami Stadium",
+"kind": "invariata",
+"in": 0.577,
+"file": "miami-stadium.webp"
 },
 {
 "k": "mikheil-meskhis-sakhelobis-stadioni",
@@ -2121,6 +1953,20 @@
 "file": "parc-des-princes.webp"
 },
 {
+"k": "parken",
+"name": "Parken",
+"kind": "invariata",
+"in": 0.0,
+"file": "parken.webp"
+},
+{
+"k": "parnu-rannastaadion",
+"name": "Pärnu Rannastaadion",
+"kind": "invariata",
+"in": 0.566,
+"file": "parnu-rannastaadion.webp"
+},
+{
 "k": "parque-desportivo-comendador-joaquim-de-almeida-freitas",
 "name": "Parque Desportivo Comendador Joaquim de Almeida Freitas",
 "kind": "invariata",
@@ -2198,6 +2044,13 @@
 "file": "q2-stadium.webp"
 },
 {
+"k": "queensland-country-bank-stadium",
+"name": "Queensland Country Bank Stadium",
+"kind": "invariata",
+"in": 0.751,
+"file": "queensland-country-bank-stadium.webp"
+},
+{
 "k": "race-course-international-stadium",
 "name": "Race Course International Stadium",
 "kind": "invariata",
@@ -2245,6 +2098,13 @@
 "kind": "invariata",
 "in": 0.968,
 "file": "recep-tayyip-erdogan-stadyumu.webp"
+},
+{
+"k": "red-bull-arena",
+"name": "Red Bull Arena",
+"kind": "invariata",
+"in": 0.003,
+"file": "red-bull-arena.webp"
 },
 {
 "k": "rheinenergiestadion",
@@ -2317,6 +2177,13 @@
 "file": "samuel-kanyon-doe-stadium.webp"
 },
 {
+"k": "san-van-ong-thai-nguyen",
+"name": "Sân vận động Thái Nguyên",
+"kind": "invariata",
+"in": 0.139,
+"file": "san-van-ong-thai-nguyen.webp"
+},
+{
 "k": "scottsmiracle-gro-field",
 "name": "ScottsMiracle-Gro Field",
 "kind": "invariata",
@@ -2359,6 +2226,13 @@
 "file": "shipex-arena.webp"
 },
 {
+"k": "signal-iduna-park",
+"name": "SIGNAL IDUNA PARK",
+"kind": "invariata",
+"in": 0.063,
+"file": "signal-iduna-park.webp"
+},
+{
 "k": "sir-vivian-richards-stadium",
 "name": "Sir Vivian Richards Stadium",
 "kind": "invariata",
@@ -2387,6 +2261,20 @@
 "file": "soeverein-stadion.webp"
 },
 {
+"k": "sparta-stadion-het-kasteel",
+"name": "Sparta-Stadion Het Kasteel",
+"kind": "invariata",
+"in": 0.0,
+"file": "sparta-stadion-het-kasteel.webp"
+},
+{
+"k": "spotify-camp-nou",
+"name": "Spotify Camp Nou",
+"kind": "invariata",
+"in": 0.004,
+"file": "spotify-camp-nou.webp"
+},
+{
 "k": "sree-kanteerava-stadium",
 "name": "Sree Kanteerava Stadium",
 "kind": "invariata",
@@ -2399,6 +2287,13 @@
 "kind": "invariata",
 "in": 0.984,
 "file": "st-jakob-park.webp"
+},
+{
+"k": "st-james-park",
+"name": "St. James' Park",
+"kind": "invariata",
+"in": 0.038,
+"file": "st-james-park.webp"
 },
 {
 "k": "stade-amahoro",
@@ -2485,6 +2380,13 @@
 "file": "stade-de-luxembourg.webp"
 },
 {
+"k": "stade-des-martyrs-de-la-pentecote",
+"name": "Stade des Martyrs de la Pentecôte",
+"kind": "invariata",
+"in": 0.968,
+"file": "stade-des-martyrs-de-la-pentecote.webp"
+},
+{
 "k": "stade-du-4-aout",
 "name": "Stade du 4 Août",
 "kind": "invariata",
@@ -2506,11 +2408,25 @@
 "file": "stade-du-pays-de-charleroi.webp"
 },
 {
+"k": "stade-felix-houphouet-boigny",
+"name": "Stade Félix Houphouët-Boigny",
+"kind": "invariata",
+"in": 0.0,
+"file": "stade-felix-houphouet-boigny.webp"
+},
+{
 "k": "stade-francis-le-ble",
 "name": "Stade Francis-Le Blé",
 "kind": "invariata",
 "in": 0.951,
 "file": "stade-francis-le-ble.webp"
+},
+{
+"k": "stade-hocine-ait-ahmed",
+"name": "Stade Hocine Aït Ahmed",
+"kind": "invariata",
+"in": 0.004,
+"file": "stade-hocine-ait-ahmed.webp"
 },
 {
 "k": "stade-joseph-marien",
@@ -2560,6 +2476,13 @@
 "kind": "invariata",
 "in": 1.0,
 "file": "stade-mohamed-v.webp"
+},
+{
+"k": "stade-municipal-pierre-aliker",
+"name": "Stade Municipal Pierre-Aliker",
+"kind": "invariata",
+"in": 0.998,
+"file": "stade-municipal-pierre-aliker.webp"
 },
 {
 "k": "stade-olympique-alassane-ouattara",
@@ -2772,6 +2695,13 @@
 "file": "stadion-dolicek.webp"
 },
 {
+"k": "stadion-feijenoord",
+"name": "Stadion Feijenoord",
+"kind": "invariata",
+"in": 0.0,
+"file": "stadion-feijenoord.webp"
+},
+{
 "k": "stadion-galgenwaard",
 "name": "Stadion Galgenwaard",
 "kind": "invariata",
@@ -2798,6 +2728,20 @@
 "kind": "invariata",
 "in": 0.0,
 "file": "stadion-hristo-botev.webp"
+},
+{
+"k": "stadion-im-dolena-omurzakova",
+"name": "Stadion im. Dolena Omurzakova",
+"kind": "invariata",
+"in": 0.684,
+"file": "stadion-im-dolena-omurzakova.webp"
+},
+{
+"k": "stadion-kraj-bistrice",
+"name": "Stadion Kraj Bistrice",
+"kind": "invariata",
+"in": 0.001,
+"file": "stadion-kraj-bistrice.webp"
 },
 {
 "k": "stadion-letna",
@@ -2877,6 +2821,13 @@
 "file": "stadion-strelnice.webp"
 },
 {
+"k": "stadion-tehelne-pole",
+"name": "Štadión Tehelné pole",
+"kind": "invariata",
+"in": 0.198,
+"file": "stadion-tehelne-pole.webp"
+},
+{
 "k": "stadion-u-nisy",
 "name": "Stadion u Nisy",
 "kind": "invariata",
@@ -2940,6 +2891,13 @@
 "file": "stadium-de-toulouse.webp"
 },
 {
+"k": "stadium-of-light",
+"name": "Stadium of Light",
+"kind": "invariata",
+"in": 0.033,
+"file": "stadium-of-light.webp"
+},
+{
 "k": "stadium-sultan-hassanal-bolkiah",
 "name": "Stadium Sultan Hassanal Bolkiah",
 "kind": "invariata",
@@ -2959,6 +2917,20 @@
 "kind": "invariata",
 "in": 0.966,
 "file": "stadiumi-fadil-vokrri.webp"
+},
+{
+"k": "stamford-bridge",
+"name": "Stamford Bridge",
+"kind": "invariata",
+"in": 0.077,
+"file": "stamford-bridge.webp"
+},
+{
+"k": "state-farm-stadium",
+"name": "State Farm Stadium",
+"kind": "invariata",
+"in": 0.0,
+"file": "state-farm-stadium.webp"
 },
 {
 "k": "strawberry-arena",
@@ -3036,6 +3008,13 @@
 "kind": "invariata",
 "in": 0.912,
 "file": "tose-proeski-arena.webp"
+},
+{
+"k": "tottenham-hotspur-stadium",
+"name": "Tottenham Hotspur Stadium",
+"kind": "invariata",
+"in": 0.016,
+"file": "tottenham-hotspur-stadium.webp"
 },
 {
 "k": "tql-stadium",
@@ -3143,6 +3122,13 @@
 "file": "visana-stadion.webp"
 },
 {
+"k": "vitality-stadium",
+"name": "Vitality Stadium",
+"kind": "invariata",
+"in": 0.139,
+"file": "vitality-stadium.webp"
+},
+{
 "k": "vivekananda-yuba-bharati-krirangan-stadium",
 "name": "Vivekananda Yuba Bharati Krirangan Stadium",
 "kind": "invariata",
@@ -3176,5 +3162,12 @@
 "kind": "invariata",
 "in": 0.633,
 "file": "weserstadion.webp"
+},
+{
+"k": "wwk-arena",
+"name": "WWK Arena",
+"kind": "invariata",
+"in": 0.383,
+"file": "wwk-arena.webp"
 }
 ]
