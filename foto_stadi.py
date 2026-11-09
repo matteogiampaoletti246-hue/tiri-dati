@@ -91,11 +91,23 @@ try:
 except Exception:
     scelte = {}
 have = {norm(k): f for k, f in mappa.items()}
+# Voce Wikipedia (inglese) fissata a mano per gli stadi che la ricerca per nome non trova o confonde.
+VOCI = {'Stadion Feijenoord': 'De Kuip', 'Vitality Stadium': 'Dean Court', 'Estadio de Mendizorroza': 'Mendizorrotza Stadium',
+        'Estadio La Cartuja de Sevilla': 'Estadio de La Cartuja', 'Turka Arac Muayene Kocaeli Stadyumu': 'Kocaeli Stadium',
+        'Alphamega Stadium': 'Limassol Arena', 'Gaziantep Stadyumu': 'Gaziantep Stadium', 'Estádio da Madeira': 'Estádio da Madeira'}
+# Foto da non usare mai (collage, modellini, piantine, selfie, foto storiche, muri...): si prende la migliore dopo.
+try:
+    scarta = set(json.load(open(os.path.join(ROOT, 'stadi_scarta.json'), encoding='utf-8')))
+except Exception:
+    scarta = set()
 
 stadi = {}  # chiave = nome del file webp (senza estensione)
 for f, c in crediti.items():
     stadi[f[:-5]] = {'name': c['stadio'], 'voce': c.get('voce'), 'file': f, 'keys': [k for k, v in mappa.items() if v == f],
                      'old': c.get('file'), 'teams': set(), 'comps': set()}
+for s_ in stadi.values():
+    if s_['name'] in VOCI:
+        s_['voce'] = VOCI[s_['name']]
 
 idx = json.load(open(os.path.join(ROOT, 'arch', 'index.json'), encoding='utf-8'))
 nat = {}
@@ -129,7 +141,7 @@ for st, e in nat.items():
     if k in stadi:
         stadi[k]['keys'].append(st)
         continue
-    stadi[k] = {'name': st, 'voce': None, 'file': k + '.webp', 'keys': [st], 'old': None, 'teams': e['teams'], 'comps': e['comps'], 'nat': True}
+    stadi[k] = {'name': st, 'voce': VOCI.get(st), 'file': k + '.webp', 'keys': [st], 'old': None, 'teams': e['teams'], 'comps': e['comps'], 'nat': True}
 print(len(stadi), 'stadi da controllare,', sum(1 for s in stadi.values() if s.get('nat')), 'nuovi delle nazionali', flush=True)
 
 # ---------------------------------------------------------------- cache dei candidati (secondo giro veloce)
@@ -289,10 +301,28 @@ def candidates(q):
             cats = [sl[9:]]
     for cat in cats[:1]:
         files += cat_files(cat)
-        d = api(CM, action='query', list='categorymembers', cmtitle='Category:' + cat, cmtype='subcat', cmlimit=100)
-        subs = [x['title'][9:] for x in (d.get('query') or {}).get('categorymembers', []) if SUBCAT_HINT.search(x['title'])]
-        for sc in subs[:5]:
-            files += cat_files(sc, 80)
+        todo, done = [(cat, 0)], {cat}
+        while todo and len(done) < 14:  # sottocategorie "interior", "matches at", "stands"... e le loro (es. partite per anno)
+            c0, lv = todo.pop(0)
+            d = api(CM, action='query', list='categorymembers', cmtitle='Category:' + c0, cmtype='subcat', cmlimit=100)
+            subs = [x['title'][9:] for x in (d.get('query') or {}).get('categorymembers', [])]
+            subs = [x for x in subs if SUBCAT_HINT.search(x) or (lv > 0 and re.search(r'20[12]\d', x))]
+            for sc in sorted(subs, key=lambda x: -int((re.findall(r'20[12]\d', x) or ['0'])[-1]))[:6]:
+                if sc in done:
+                    continue
+                done.add(sc)
+                files += cat_files(sc, 60)
+                if lv < 1:
+                    todo.append((sc, lv + 1))
+    # ricerca libera su Commons col nome dello stadio (foto non messe in categoria): solo titoli che contengono una parola distintiva
+    lab = en_label(e) or ''
+    words = [w for w in norm(lab).split() if w not in GENERIC and len(w) > 2]
+    if words:
+        for qq in (lab + ' interior', lab + ' match', lab):
+            d = api(CM, action='query', list='search', srsearch=qq, srnamespace=6, srlimit=40)
+            for x in (d.get('query') or {}).get('search', []):
+                if any(w in norm(x['title']) for w in words):
+                    files.append(x['title'])
     seen, out = set(), []
     for f in files:
         if f in seen or BAD_TITLE.search(f):
@@ -302,10 +332,10 @@ def candidates(q):
         pre = (2 if IN_HINT.search(f) else 0) - (2 if OUT_HINT.search(f) else 0) + (1 if f in p18 else 0) + (1 if yr and int(yr[-1]) >= 2015 else 0) - (2 if yr and int(yr[-1]) < 2005 else 0)
         out.append((pre, f))
     out.sort(key=lambda x: -x[0])
-    titles = [f for _, f in out[:60]]
+    titles = [f for _, f in out[:110]]
     info = imageinfo(titles, p18, dict((f, x) for x, f in out), strict=True)
     info.sort(key=lambda x: -x['pre'])
-    return info[:24], (en_label(e) or None)
+    return info[:36], (en_label(e) or None)
 
 
 # ---------------------------------------------------------------- CLIP
@@ -328,7 +358,8 @@ P_NEG = ['a statue or a monument', 'a sign or a logo on a wall', 'a building sit
          'an old black and white photograph', 'a close-up of football players on the pitch', 'a team celebrating with a trophy',
          'a close-up of stadium seats', 'a toy model or a miniature of a stadium', 'a concert stage inside a stadium',
          'a collage of two photos one above the other', 'a person posing for a photo', 'a close-up of fans in the crowd',
-         'a ceremony with performers on the pitch seen from above']
+         'a ceremony with performers on the pitch seen from above', 'a seating plan or a printed map of a stadium',
+         'a selfie of two people', 'a lego or cardboard model', 'a wall with painted letters']
 with torch.no_grad():
     TXT = model.encode_text(tok(P_IN + P_EXT + P_NEG))
     TXT /= TXT.norm(dim=-1, keepdim=True)
@@ -388,6 +419,7 @@ def score_cands(cands):
 
 
 def pick(cands):
+    cands = [c for c in cands if c['f'] not in scarta]
     def rank_in(c):
         return c['in'] + (0.04 if c['ts'][:4] >= '2018' else 0) + (0.02 if c['w'] >= 2000 else 0)
     ins = [c for c in cands if c['in'] >= 0.55]
@@ -403,9 +435,9 @@ def pick(cands):
 t0 = time.time()
 for n, (k, s) in enumerate(sorted(stadi.items())):
     entry = cache.get(k)
-    if not entry or entry.get('v', 0) < 3:
+    if not entry or entry.get('v', 0) < 4 or (s['name'] in VOCI and entry.get('voce') != VOCI[s['name']]):
         q = resolve(s)
-        entry = {'v': 3, 'q': q, 'name': s['name'], 'cands': [], 'label': None}
+        entry = {'v': 4, 'q': q, 'voce': s.get('voce'), 'name': s['name'], 'cands': [], 'label': None}
         if q:
             entry['cands'], entry['label'] = candidates(q)
     entry['cands'] = score_cands(entry.get('cands') or [])
@@ -457,9 +489,11 @@ for k, s in sorted(stadi.items()):
         choice, kind = pick(cands)
     cur = e.get('cur')
     if s.get('old') and not force:
-        cur_in = cur[0] if cur else 0
-        better = choice and kind == 'interno' and choice['f'] != s['old'] and (cur_in < 0.55 or choice['in'] >= cur_in + 0.25)
-        if not better:
+        cur_in = 0 if s['old'] in scarta else (cur[0] if cur else 0)
+        better = choice and (kind == 'interno' or s['old'] in scarta) and choice['f'] != s['old'] and (cur_in < 0.55 or choice['in'] >= cur_in + 0.25)
+        if not better and s['old'] in scarta:  # foto attuale sbagliata e nessuna alternativa buona: meglio nessuna foto
+            choice, force = None, ('set', None)
+        elif not better:
             review.append({'k': k, 'name': s['name'], 'kind': 'invariata', 'in': cur_in, 'file': s['file']})
             continue
     if s.get('nat') and e.get('q') in qfile and not force:  # stesso stadio gia' con foto sotto un altro nome
