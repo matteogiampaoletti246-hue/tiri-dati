@@ -27,7 +27,7 @@ STADIUM_P31 = {'Q483110', 'Q1154710', 'Q1076486', 'Q641226', 'Q2310214', 'Q75798
 DESC_RE = re.compile(r'stadium|stadion|stadio|estadio|est[aá]dio|stade|arena|ground|venue|football|soccer|sport', re.I)
 FREE_RE = re.compile(r'^(cc[ -]?by(-sa)?[ -]?[0-9.]+.*|cc0.*|public domain|pd.*|cc by(-sa)?.*)$', re.I)
 NONFREE_RE = re.compile(r'\b(nc|nd)\b|non-?commercial|no ?deriv', re.I)
-BAD_TITLE = re.compile(r'logo|map\b|mapa|karte|plan\b|diagram|ticket|badge|crest|wappen|escudo|sign\b|schild|plaque|statue|bust\b|memorial|'
+BAD_TITLE = re.compile(r'\bold stadium\b|the old\b|\bformer\b|\bhistoric(al)?\b|logo|map\b|mapa|karte|plan\b|diagram|ticket|badge|crest|wappen|escudo|sign\b|schild|plaque|statue|bust\b|memorial|'
                        r'museum|construction|bau(stelle|arbeiten)|demolition|abriss|jersey|shirt|trophy|poster|stamp|coin|\.svg$|\.gif$|\.tiff?$|\.pdf$|\.webm$|\.ogv$', re.I)
 IN_HINT = re.compile(r'interior|inside|innen|intérieur|interno|pitch|field|feld|campo|cancha|terrain|tribun|stand|grada|panorama|'
                      r' vs\.? | v\.? |match|spiel|partido|partita|derby|fans|curva|kop\b|view from|vista', re.I)
@@ -420,8 +420,9 @@ def score_cands(cands):
 
 def pick(cands):
     cands = [c for c in cands if c['f'] not in scarta]
-    def rank_in(c):
-        return c['in'] + (0.04 if c['ts'][:4] >= '2018' else 0) + (0.02 if c['w'] >= 2000 else 0)
+    def rank_in(c):  # anno nel titolo prima del 2005 = stadio com'era (spesso demolito o rifatto): in fondo
+        yr = re.findall(r'(?<!\d)(1[89]\d\d|200[0-4])(?!\d)', c['f'])
+        return c['in'] + (0.04 if c['ts'][:4] >= '2018' else 0) + (0.02 if c['w'] >= 2000 else 0) - (0.5 if yr else 0)
     ins = [c for c in cands if c['in'] >= 0.55]
     if ins:
         return max(ins, key=rank_in), 'interno'

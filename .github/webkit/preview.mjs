@@ -2384,6 +2384,23 @@ await step('calcolatore: banner squadra con prossima partita nella competizione'
   ok('calcolatore: cambiando competizione la prossima partita e\' quella di quella competizione', !!b && /Europa League/.test(b.pill) && b.banner && (!b.next || b.next !== a.next), { a, b });
 });
 
+await step('foto stadio: anche nelle partite delle nazionali (Wembley, Kocaeli)', async () => {
+  for (const id of ['a-9806-2026-2027-5181850', 'a-9806-2026-2027-5181789']) {
+    await go('#/match/' + id, 9000);
+    const r = await pg.evaluate(async () => {
+      let box = null;
+      for (let i = 0; i < 16 && !box; i++) { window.scrollTo(0, document.body.scrollHeight); document.querySelectorAll('*').forEach((el) => { if (el.scrollHeight > el.clientHeight + 50) el.scrollTop = el.scrollHeight; }); await new Promise((ok) => setTimeout(ok, 500)); box = document.querySelector('.stad-photo'); }
+      if (!box) return { box: false };
+      box.scrollIntoView({ block: 'center' });
+      await new Promise((ok) => setTimeout(ok, 2500));
+      const img = box.querySelector('img');
+      return { box: true, stadio: (box.querySelector('b') || {}).textContent, src: img ? img.getAttribute('src') : '', loaded: !!(img && img.complete && img.naturalWidth > 0) };
+    });
+    await shot('foto-stadio-' + id);
+    ok(`foto stadio ${id}: foto caricata`, r.box && r.loaded && /stadi|\.webp/.test(r.src || ''), r);
+  }
+});
+
 report.passed = report.checks.filter((c) => c.pass).length;
 report.total = report.checks.length;
 fs.writeFileSync(`${OUT}/report.json`, JSON.stringify(report, null, 2));
