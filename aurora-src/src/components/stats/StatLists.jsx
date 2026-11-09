@@ -2,7 +2,7 @@ import { useModalLock } from '@/lib/modal';
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
-import { ChevronDown, ListTree, X } from 'lucide-react';
+import { ListTree, X } from 'lucide-react';
 
 // Classifiche impilate (una per statistica) con il tasto "Vai a" per saltare a quella che serve.
 // sections: [{ id, group, title, rows: [{ id, to, left, name, sub, value }] }]
@@ -158,8 +158,11 @@ export default function StatLists({ sections, controls = null, limit = 8, wide =
                   ) : <span className="tnum text-[14.5px] font-extrabold">{r.value}</span>}
                 </>
               );
-              const cls = 'press flex items-center gap-3 px-4 py-2.5';
-              const st = r.bg ? { background: r.bg, borderRadius: 16, margin: '0 8px 6px' } : { borderTop: '1px solid var(--hair-2)' };
+              // righe aggiunte da "Mostra tutti" (Pagination concept A, 21st Load More): entrano a cascata
+              const extra = all && i0 >= (pod ? limit - 3 : limit);
+              const cls = `press flex items-center gap-3 px-4 py-2.5${extra ? ' lm-in' : ''}`;
+              const st0 = r.bg ? { background: r.bg, borderRadius: 16, margin: '0 8px 6px' } : { borderTop: '1px solid var(--hair-2)' };
+              const st = extra ? { ...st0, animationDelay: `${Math.min(i0 - (pod ? limit - 3 : limit), 12) * 35}ms` } : st0;
               return r.to ? (
                 <Link key={r.id} to={r.to} className={cls} style={st}>{inner}</Link>
               ) : (
@@ -167,15 +170,16 @@ export default function StatLists({ sections, controls = null, limit = 8, wide =
               );
             })}
             {s.rows.length > limit ? (
-              <button
-                type="button"
-                onClick={() => setOpen({ ...open, [s.id]: !all })}
-                className="press flex w-full items-center justify-center gap-1 py-3 text-[12px] font-bold"
-                style={{ borderTop: '1px solid var(--hair-2)', color: 'var(--accent)' }}
-              >
-                {all ? 'Mostra meno' : `Mostra tutti (${s.rows.length})`}
-                <ChevronDown size={14} style={{ transform: all ? 'rotate(180deg)' : 'none' }} />
-              </button>
+              <div className="flex justify-center px-4 pb-3.5 pt-2" style={{ borderTop: '1px solid var(--hair-2)' }}>
+                <button
+                  type="button"
+                  onClick={() => setOpen({ ...open, [s.id]: !all })}
+                  aria-expanded={all}
+                  className="lm-btn press flex items-center gap-2 rounded-full px-4 py-[7px] text-[12.5px] font-extrabold"
+                >
+                  {all ? 'Mostra meno' : <>Mostra tutti <span className="tnum" style={{ opacity: 0.7 }}>+{s.rows.length - rows.length - (pod ? 3 : 0)}</span></>}
+                </button>
+              </div>
             ) : null}
           </section>
         );

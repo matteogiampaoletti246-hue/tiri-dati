@@ -1,9 +1,11 @@
-import { Fragment, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { loadWeather } from '@/data/weather';
 import { Sun, Cloud, CloudRain, Wind } from 'lucide-react';
 import { StadiumIcon, WhistleIcon } from '@/components/LineIcons';
-import { refereeById } from '@/data/referees';
+import { refereeById, flagCodeOf } from '@/data/referees';
+import FlagDot from '@/components/FlagDot';
+import { Image } from '@/components/ui/image';
 import { teamById } from '@/data/teams';
 import { teamColor } from '@/lib/tint';
 import MAPPA from '../../stadi/mappa.json';
@@ -26,51 +28,67 @@ const photoOf = (name, team) => {
   return f && URL_OF[f] ? { src: URL_OF[f] } : null;
 };
 
-const CELL = 'flex flex-1 flex-col items-center gap-2 px-2 text-center';
-const ICON = { color: 'var(--ink-3)' };
-
-// Pannello classico Stadio / Meteo / Arbitro: per gli stadi senza foto (stessa fascia di sempre).
-function ClassicBand({ match, wx, w, rf, refName }) {
-  const cells = [];
-  if (match.stadium) {
-    cells.push(
-      <div key="st" className={CELL}>
-        <StadiumIcon size={16} style={ICON} />
-        <span className="label-sm">Stadio</span>
-        <span className="text-[12px]" style={{ color: 'var(--ink)' }}>{match.stadium}</span>
-      </div>,
-    );
-  }
-  if (w) {
-    const WeatherIcon = w.icon;
-    cells.push(
-      <div key="wx" className={CELL}>
-        <WeatherIcon size={16} strokeWidth={1.2} style={ICON} />
-        <span className="label-sm">Meteo</span>
-        <span className="tnum text-[12px]" style={{ color: 'var(--ink)' }}>{wx.wind != null ? `${wx.temp}° · ${wx.wind} km/h` : `${wx.temp}°`}</span>
-      </div>,
-    );
-  }
-  if (refName) {
-    const body = (
-      <>
-        <WhistleIcon size={16} style={ICON} />
-        <span className="label-sm">Arbitro</span>
-        <span className="text-[12px]" style={{ color: 'var(--ink)' }}>{refName}</span>
-      </>
-    );
-    cells.push(rf ? <Link key="rf" to={`/arbitro/${rf.id}`} className={`${CELL} transition-opacity active:opacity-60`}>{body}</Link> : <div key="rf" className={CELL}>{body}</div>);
-  }
-  if (!cells.length) return null;
+// Weather concept A (21st, Ravi Katiyar "Weather Card") in piccolo: carta col cielo del meteo vero (sole che gira piano,
+// nuvola che passa, pioggia che cade; solo transform), gradi grandi. A destra il riquadro dell'arbitro (foto, bandiera, nome).
+function WxCard({ wx, w }) {
+  const k = wx.icon && WEATHER[wx.icon] ? wx.icon : 'cloud';
   return (
-    <div className="panel tint-card mx-5 flex items-stretch px-2 py-4">
-      {cells.map((c, i) => (
-        <Fragment key={c.key}>
-          {i ? <span className="w-px self-stretch" style={{ background: 'var(--hair-2)' }} /> : null}
-          {c}
-        </Fragment>
-      ))}
+    <div className={`wx-card wx-${k}`}>
+      <div className="wx-sky" aria-hidden="true">
+        {k === 'sun' ? <span className="wx-sun" /> : null}
+        {k === 'sun' || k === 'cloud' || k === 'wind' ? <span className={`wx-cloud${k === 'sun' ? ' wx-c1' : ''}`} /> : null}
+        {k === 'cloud' || k === 'wind' ? <span className="wx-cloud wx-c2" /> : null}
+        {k === 'rain' ? Array.from({ length: 14 }, (_, i) => <i key={i} style={{ left: `${(i * 7.3) % 100}%`, animationDelay: `${(i % 7) * 0.13}s` }} />) : null}
+      </div>
+      <div className="wx-txt">
+        <span className="wx-lab">Meteo</span>
+        <span className="tnum wx-temp">{wx.temp}°</span>
+        <span className="wx-sub">{w.label}{wx.wind != null ? ` · ${wx.wind} km/h` : ''}</span>
+      </div>
     </div>
+  );
+}
+
+function RefTile({ rf, refName, cc, games }) {
+  const flag = cc ? flagCodeOf(cc) : '';
+  const body = (
+    <>
+      <span className="ref-ava">{rf && rf.photo ? <Image src={rf.photo} alt="" className="h-full w-full" fittingType="fill" /> : <WhistleIcon size={18} />}</span>
+      <span className="min-w-0 flex-1">
+        <span className="ref-lab">Arbitro</span>
+        <span className="ref-name">{flag ? <FlagDot code={flag} size={14} /> : null}<span>{refName}</span></span>
+        {games ? <span className="ref-sub">{games}</span> : null}
+      </span>
+    </>
+  );
+  return rf ? <Link to={`/arbitro/${rf.id}`} className="ref-tile press">{body}</Link> : <div className="ref-tile">{body}</div>;
+}
+
+function WxRef({ match, wx, w, rf, refName }) {
+  if (!w && !refName) return null;
+  const cc = (rf && rf.cc) || (match.refFm && match.refFm.cc) || '';
+  const two = match.refTwo;
+  return (
+    <div className="wxref">
+      {w ? <WxCard wx={wx} w={w} /> : null}
+      {refName ? <RefTile rf={rf} refName={refName} cc={cc} games={two && two.n ? `${two.n} ${two.n === 1 ? 'gara' : 'gare'} ${two.seasons > 1 ? 'in 2 stagioni' : 'in stagione'}` : ''} /> : null}
+    </div>
+  );
+}
+
+// Stadi senza foto: nome dello stadio in alto, sotto la stessa fila Meteo | Arbitro delle schede con la foto.
+function ClassicBand({ match, wx, w, rf, refName }) {
+  if (!match.stadium && !w && !refName) return null;
+  return (
+    <section className="panel stad-card tint-card mx-5">
+      {match.stadium ? (
+        <div className="flex items-center gap-2 px-3 pb-1 pt-2.5">
+          <StadiumIcon size={15} style={{ color: 'var(--ink-3)' }} />
+          <span className="truncate text-[13.5px] font-bold" style={{ color: 'var(--ink)' }}>{match.stadium}</span>
+        </div>
+      ) : null}
+      <WxRef match={match} wx={wx} w={w} rf={rf} refName={refName} />
+    </section>
   );
 }
 
@@ -108,36 +126,10 @@ export default function InfoBand({ match }) {
   const home = teamById(match.homeId);
   if (!match.stadium || !photoOf(match.stadium, home && home.name)) return <ClassicBand match={match} wx={wx} w={w} rf={ref} refName={refName} />;
 
-  const cols = [];
-  if (w) {
-    const WeatherIcon = w.icon;
-    cols.push(
-      <div key="wx" className="stad-col">
-        <span className="stad-lab"><WeatherIcon size={14} strokeWidth={1.4} />Meteo</span>
-        <span className="tnum stad-val">{wx.wind != null ? `${wx.temp}° · ${wx.wind} km/h` : `${wx.temp}°`}</span>
-      </div>,
-    );
-  }
-  if (refName) {
-    const body = (
-      <>
-        <span className="stad-lab"><WhistleIcon size={14} />Arbitro</span>
-        <span className="stad-val">{refName}</span>
-      </>
-    );
-    cols.push(ref ? <Link key="rf" to={`/arbitro/${ref.id}`} className="stad-col transition-opacity active:opacity-60">{body}</Link> : <div key="rf" className="stad-col">{body}</div>);
-  }
-
   return (
     <section className="panel stad-card mx-5" data-stadium-card="">
       <Photo key={match.stadium} name={match.stadium} team={home} />
-      {cols.length ? (
-        <div className="stad-cols">
-          {cols[0]}
-          {cols[1] ? <span className="stad-sep" aria-hidden="true" /> : null}
-          {cols[1] || null}
-        </div>
-      ) : null}
+      <WxRef match={match} wx={wx} w={w} rf={ref} refName={refName} />
     </section>
   );
 }

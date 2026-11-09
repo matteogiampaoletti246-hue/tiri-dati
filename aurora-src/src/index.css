@@ -693,16 +693,23 @@
   backdrop-filter: blur(20px) saturate(160%);
 }
 
+/* Page Transitions concept C (21st, corr "Presence Fade"): la pagina nuova appare da sfocata a fuoco, con dissolvenza
+   e un accenno di zoom. Sfocatura leggera e breve: solo all'ingresso, mai durante lo swipe indietro. */
 .shell-in {
-  animation: shell-in .32s cubic-bezier(.22, 1, .36, 1) backwards;
+  animation: shell-in .34s cubic-bezier(.22, 1, .36, 1) backwards;
 }
 
 @keyframes shell-in {
   from {
     opacity: 0;
-    transform: translate3d(14px, 0, 0);
+    transform: scale(.985);
+    filter: blur(6px);
+  }
+  to {
+    filter: blur(0);
   }
 }
+@media (prefers-reduced-motion: reduce) { .shell-in { animation: none; } }
 
 .shell-pop {
   animation: none; /* tornando indietro la pagina riappare identica, senza dissolvenza (niente effetto refresh) */
@@ -1037,3 +1044,63 @@ html:not(.dark) .lglass {
 .alert-a { animation: alert-in .5s cubic-bezier(.22,1,.36,1) both; }
 @keyframes alert-in { from { opacity: 0; transform: translateY(8px) scale(.98); } }
 @media (prefers-reduced-motion: reduce) { .alert-a { animation: none; } }
+
+/* Theme Toggle concept C: pillola a tre posizioni, cursore in vetro che scivola */
+.theme-tri { background: var(--panel-2); border: 1px solid var(--hair); }
+.theme-thumb { background: color-mix(in srgb, var(--ink) 12%, transparent); border: 1px solid color-mix(in srgb, var(--ink) 18%, transparent); box-shadow: inset 0 1px 0 color-mix(in srgb, #fff 16%, transparent); transition: transform .45s cubic-bezier(.34,1.5,.5,1); will-change: transform; }
+@media (prefers-reduced-motion: reduce) { .theme-thumb { transition: none; } }
+
+/* Pagination concept A (21st Load More): pillola "Mostra tutti +N", le righe nuove entrano a cascata */
+.lm-btn { color: var(--accent); background: var(--accent-soft); }
+.lm-in { animation: lm-in .42s cubic-bezier(.22,1,.36,1) both; }
+@keyframes lm-in { from { opacity: 0; transform: translate3d(0,8px,0); } }
+@media (prefers-reduced-motion: reduce) { .lm-in { animation: none; } }
+
+/* Countdown concept B: cifre che scorrono in verticale */
+.cd-digit { display: inline-block; height: 1.15em; line-height: 1.15em; overflow: hidden; }
+.cd-col { display: flex; flex-direction: column; transition: transform .45s cubic-bezier(.22,1,.36,1); will-change: transform; }
+.cd-col > span { height: 1.15em; }
+.cd-sep { color: var(--ink-3); margin: 0 1px; transform: translateY(-1px); }
+@media (prefers-reduced-motion: reduce) { .cd-col { transition: none; } }
+
+/* Weather concept A in piccolo + riquadro arbitro, sotto la foto dello stadio */
+:root {
+  --wx-sun: linear-gradient(140deg, #2B6CE0, #4DA8FF 55%, #9AD0FF);
+  --wx-cloud: linear-gradient(140deg, #4A5D7E, #7D8FAE 60%, #A9B7CD);
+  --wx-rain: linear-gradient(170deg, #22324F, #2E4468 60%, #3C557E);
+  --wx-wind: linear-gradient(140deg, #2F6E86, #4F95A8 60%, #8CC3CF);
+  --wx-ink: #FFFFFF;
+  --wx-ink-2: rgba(255, 255, 255, .86);
+  --wx-sunball: radial-gradient(circle, #FFE48A, #F5C451 60%, transparent 62%);
+  --wx-cloudc: rgba(255, 255, 255, .88);
+  --wx-drop: linear-gradient(transparent, #8FC6FF);
+}
+.wxref { display: flex; gap: 6px; padding-top: 6px; }
+.wxref > * { flex: 1 1 0; min-width: 0; }
+.wx-card { position: relative; overflow: hidden; border-radius: 18px; min-height: 92px; padding: 10px 12px; color: var(--wx-ink); }
+.wx-card.wx-sun { background: var(--wx-sun); }
+.wx-card.wx-cloud { background: var(--wx-cloud); }
+.wx-card.wx-rain { background: var(--wx-rain); }
+.wx-card.wx-wind { background: var(--wx-wind); }
+.wx-sky { position: absolute; inset: 0; pointer-events: none; }
+.wx-sky .wx-sun { position: absolute; right: -16px; top: -16px; width: 64px; height: 64px; border-radius: 50%; background: var(--wx-sunball); animation: wx-spin 30s linear infinite; }
+.wx-sky .wx-sun::after { content: ""; position: absolute; inset: -9px; border-radius: 50%; border: 2px dashed color-mix(in srgb, #FFE48A 60%, transparent); }
+.wx-sky .wx-cloud { position: absolute; top: 30px; left: 0; width: 42px; height: 14px; border-radius: 8px; background: var(--wx-cloudc); opacity: .9; animation: wx-drift 14s linear infinite; }
+.wx-sky .wx-cloud::before { content: ""; position: absolute; width: 20px; height: 20px; border-radius: 50%; background: inherit; left: 8px; top: -10px; }
+.wx-sky .wx-c1 { top: 22px; animation-duration: 11s; }
+.wx-sky .wx-c2 { top: 54px; transform: scale(.75); opacity: .6; animation-duration: 19s; animation-delay: -7s; }
+.wx-sky i { position: absolute; top: -14px; width: 2px; height: 11px; border-radius: 1px; background: var(--wx-drop); animation: wx-fall .9s linear infinite; }
+@keyframes wx-spin { to { transform: rotate(360deg); } }
+@keyframes wx-drift { from { transform: translate3d(-50px,0,0); } to { transform: translate3d(220px,0,0); } }
+@keyframes wx-fall { to { transform: translate3d(0,120px,0); } }
+.wx-txt { position: relative; display: flex; flex-direction: column; }
+.wx-lab { font-size: 9.5px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--wx-ink-2); }
+.wx-temp { font-size: 30px; font-weight: 800; letter-spacing: -.04em; line-height: 1.05; }
+.wx-sub { font-size: 11.5px; font-weight: 700; color: var(--wx-ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ref-tile { display: flex; align-items: center; text-align: left; gap: 10px; min-height: 92px; padding: 10px 12px; border-radius: 18px; background: linear-gradient(140deg, var(--accent-soft), transparent 70%), var(--panel-2); border: 1px solid var(--hair); }
+.ref-ava { display: flex; flex: none; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; overflow: hidden; background: var(--panel-2); border: 1.5px solid color-mix(in srgb, var(--accent) 45%, transparent); color: var(--accent); }
+.ref-lab { display: block; font-size: 9.5px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); }
+.ref-name { display: flex; align-items: center; gap: 6px; margin-top: 2px; font-size: 13.5px; font-weight: 800; color: var(--ink); line-height: 1.2; }
+.ref-name > span { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
+.ref-sub { display: block; margin-top: 3px; font-size: 10.5px; font-weight: 600; line-height: 1.25; color: var(--ink-3); }
+@media (prefers-reduced-motion: reduce) { .wx-sky .wx-sun, .wx-sky .wx-cloud, .wx-sky i { animation: none; } }

@@ -4,7 +4,7 @@ import React, { createContext, memo, useCallback, useContext, useEffect, useMemo
 import { View, Text, FlatList, Pressable, ScrollView, StatusBar, Dimensions, StyleSheet, Animated as RNAnimated, Easing as RNEasing, AccessibilityInfo, LayoutAnimation, Platform, UIManager, AppState, Modal, TextInput, Keyboard, BackHandler, useWindowDimensions } from 'react-native';
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Image } from 'expo-image';
-import Animated, { useSharedValue, useAnimatedStyle, useAnimatedReaction, useAnimatedScrollHandler, withTiming, withDelay, withRepeat, cancelAnimation, runOnJS, Easing, interpolateColor, Keyframe, LinearTransition, FadeIn } from 'react-native-reanimated';
+import Animated, { useSharedValue, useAnimatedStyle, useAnimatedReaction, useAnimatedScrollHandler, withTiming, withDelay, withRepeat, withSequence, cancelAnimation, runOnJS, Easing, interpolateColor, Keyframe, LinearTransition, FadeIn } from 'react-native-reanimated';
 import { BlurView } from 'expo-blur';
 import { SafeAreaProvider, SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -17,8 +17,8 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
 
 const SITE = 'https://matteogiampaoletti246-hue.github.io/tiri-dati/';
 const W = Dimensions.get('window').width;
-const DARK = { dark: true, bg: '#05070D', ink: '#F1F5FB', ink2: '#A9B6CC', ink3: '#6D7A91', hair: 'rgba(255,255,255,.10)', border: 'rgba(255,255,255,.12)', accent: '#4DA8FF', live: '#FF6464', chip: 'rgba(255,255,255,.08)', wash: 'rgba(255,255,255,0.03)', card1: 'rgba(255,255,255,0.10)', card2: 'rgba(255,255,255,0.035)', sheet: '#0E1626', scrim: 'rgba(0,0,0,.5)', dockBg: 'rgba(14,22,38,0.62)', tile1: 'rgba(255,255,255,0.08)', accTint: 'rgba(77,168,255,0.16)', accRing: 'rgba(77,168,255,0.6)', skBase: 'rgba(255,255,255,0.075)', skHi: 'rgba(255,255,255,0.10)', skHi0: 'rgba(255,255,255,0)', lg1: 'rgba(255,255,255,0.20)', lg2: 'rgba(255,255,255,0.05)', lgBorder: 'rgba(255,255,255,0.24)', lgHi: 'rgba(255,255,255,0.38)', beam0: 'rgba(77,168,255,0)', beam1: 'rgba(77,168,255,0.11)', beam2: 'rgba(77,168,255,0.065)' };
-const LIGHT = { dark: false, bg: '#F3F6FB', ink: '#0F172A', ink2: '#475569', ink3: '#8592A6', hair: 'rgba(15,23,42,.08)', border: 'rgba(15,23,42,.10)', accent: '#1F6BEF', live: '#E5484D', chip: 'rgba(15,23,42,.06)', wash: 'rgba(255,255,255,0.85)', card1: 'rgba(255,255,255,0.95)', card2: 'rgba(255,255,255,0.8)', sheet: '#FFFFFF', scrim: 'rgba(15,23,42,.28)', dockBg: 'rgba(255,255,255,0.6)', tile1: 'rgba(255,255,255,0.9)', accTint: 'rgba(31,107,239,0.12)', accRing: 'rgba(31,107,239,0.55)', skBase: 'rgba(15,23,42,0.085)', skHi: 'rgba(255,255,255,0.8)', skHi0: 'rgba(255,255,255,0)', lg1: 'rgba(255,255,255,0.95)', lg2: 'rgba(255,255,255,0.62)', lgBorder: 'rgba(15,23,42,0.10)', lgHi: '#FFFFFF', beam0: 'rgba(31,107,239,0)', beam1: 'rgba(31,107,239,0.07)', beam2: 'rgba(31,107,239,0.045)' };
+const DARK = { dark: true, bg: '#05070D', ink: '#F1F5FB', ink2: '#A9B6CC', ink3: '#6D7A91', hair: 'rgba(255,255,255,.10)', border: 'rgba(255,255,255,.12)', accent: '#4DA8FF', live: '#FF6464', chip: 'rgba(255,255,255,.08)', wash: 'rgba(255,255,255,0.03)', card1: 'rgba(255,255,255,0.10)', card2: 'rgba(255,255,255,0.035)', sheet: '#0E1626', scrim: 'rgba(0,0,0,.5)', dockBg: 'rgba(14,22,38,0.62)', tile1: 'rgba(255,255,255,0.08)', accTint: 'rgba(77,168,255,0.16)', accRing: 'rgba(77,168,255,0.6)', skBase: 'rgba(255,255,255,0.075)', skHi: 'rgba(255,255,255,0.10)', skHi0: 'rgba(255,255,255,0)', lg1: 'rgba(255,255,255,0.20)', lg2: 'rgba(255,255,255,0.05)', lgBorder: 'rgba(255,255,255,0.24)', lgHi: 'rgba(255,255,255,0.38)', beam0: 'rgba(77,168,255,0)', beam1: 'rgba(77,168,255,0.11)', beam2: 'rgba(77,168,255,0.065)', thumb: 'rgba(255,255,255,0.12)', thumbBd: 'rgba(255,255,255,0.18)' };
+const LIGHT = { dark: false, bg: '#F3F6FB', ink: '#0F172A', ink2: '#475569', ink3: '#8592A6', hair: 'rgba(15,23,42,.08)', border: 'rgba(15,23,42,.10)', accent: '#1F6BEF', live: '#E5484D', chip: 'rgba(15,23,42,.06)', wash: 'rgba(255,255,255,0.85)', card1: 'rgba(255,255,255,0.95)', card2: 'rgba(255,255,255,0.8)', sheet: '#FFFFFF', scrim: 'rgba(15,23,42,.28)', dockBg: 'rgba(255,255,255,0.6)', tile1: 'rgba(255,255,255,0.9)', accTint: 'rgba(31,107,239,0.12)', accRing: 'rgba(31,107,239,0.55)', skBase: 'rgba(15,23,42,0.085)', skHi: 'rgba(255,255,255,0.8)', skHi0: 'rgba(255,255,255,0)', lg1: 'rgba(255,255,255,0.95)', lg2: 'rgba(255,255,255,0.62)', lgBorder: 'rgba(15,23,42,0.10)', lgHi: '#FFFFFF', beam0: 'rgba(31,107,239,0)', beam1: 'rgba(31,107,239,0.07)', beam2: 'rgba(31,107,239,0.045)', thumb: 'rgba(15,23,42,0.08)', thumbBd: 'rgba(15,23,42,0.12)' };
 const WORKER = 'https://scalperlab-live.matteo-giampaoletti04.workers.dev';
 const NAMES = META.names || {};
 const nm = (id, n) => NAMES[String(id)] || n;
@@ -632,7 +632,29 @@ function SearchPanel({ open, onClose, onPick, ask, res, ready, top }) {
 // icone uguali a quelle del dock (TabBar): Home, Calcolatore, Giocatori, Matchup
 const MENU = [['Home', '/', 'home-outline'], ['Competizioni', '/competizioni', 'trophy-outline'], ['Calcolatore di Affidabilità', '/calcolatore', 'calculator-outline'], ['Migliori Giocatori', '/migliori-giocatori', 'people-outline'], ['Migliori Matchup', '/migliori-matchup', 'sword-cross'], ['Linee guida', '/linee-guida', 'book-outline']];
 const MROW = 50;
-const THEME_OPTS = [['light', 'Chiaro'], ['dark', 'Scuro'], ['auto', 'Auto']];
+const THEME_OPTS = [['light', 'Chiaro', 'sunny-outline'], ['dark', 'Scuro', 'moon-outline'], ['auto', 'Auto (segue il telefono)', 'phone-portrait-outline']];
+// Theme Toggle concept C (21st, Efferd): pillola a tre posizioni, il cursore in vetro scivola con una molla (thread UI).
+const TT_W = 44;
+const ThemeTri = ({ value, onPick }) => {
+  const { C } = useT();
+  const i = Math.max(0, THEME_OPTS.findIndex(([v]) => v === value));
+  const x = useSharedValue(i * TT_W);
+  useEffect(() => { x.value = withTiming(i * TT_W, { duration: 420, easing: Easing.bezier(0.34, 1.5, 0.5, 1) }); }, [i]); // eslint-disable-line react-hooks/exhaustive-deps
+  const th = useAnimatedStyle(() => ({ transform: [{ translateX: x.value }] }));
+  return (
+    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+      <View style={{ flexDirection: 'row', padding: 4, borderRadius: 999, backgroundColor: C.chip, borderWidth: 1, borderColor: C.border }}>
+        <Animated.View pointerEvents="none" style={[{ position: 'absolute', left: 4, top: 4, width: TT_W, height: 36, borderRadius: 999, backgroundColor: C.thumb, borderWidth: 1, borderColor: C.thumbBd }, th]} />
+        {THEME_OPTS.map(([v, l, ic], k) => (
+          <Pressable key={v} accessibilityRole="radio" accessibilityLabel={l} accessibilityState={{ checked: k === i }} onPress={() => onPick(v)} style={{ width: TT_W, height: 36, alignItems: 'center', justifyContent: 'center' }}>
+            <Ionicons name={ic} size={18} color={k === i ? C.ink : C.ink3} />
+          </Pressable>
+        ))}
+      </View>
+      <Text style={{ color: C.ink, fontSize: 13, fontWeight: '700' }}>{THEME_OPTS[i][1]}</Text>
+    </View>
+  );
+};
 
 // Menu a tendina da destra (21st "Sheet" + "Sidebar" concept A): voci con le icone del dock dentro un riquadro, un evidenziatore
 // scivola sotto la voce attiva (anche al tocco, poi si apre la pagina); swipe verso destra per chiudere. Tema e diagnostica sono quelli del sito
@@ -700,13 +722,7 @@ function MenuPanel({ open, onClose, onGo, ui, onCmd, top, bottom }) {
           {ui ? (
             <Animated.View entering={ent(MENU.length)}>
               <Text style={[s.sSec, { paddingHorizontal: 0, marginTop: 22 }]}>Tema</Text>
-              <View style={{ flexDirection: 'row', gap: 6 }}>
-                {THEME_OPTS.map(([v, l]) => (
-                  <Pressable key={v} onPress={() => onCmd('theme', v)} style={[s.mOpt, ui.theme === v && { backgroundColor: C.ink }]}>
-                    <Text style={[s.mOptTx, ui.theme === v && { color: C.bg }]}>{l}</Text>
-                  </Pressable>
-                ))}
-              </View>
+              <ThemeTri value={ui.theme} onPick={(v) => onCmd('theme', v)} />
               <Text style={[s.sSec, { paddingHorizontal: 0, marginTop: 22 }]}>Diagnostica</Text>
               <Pressable onPress={() => onCmd('perf', ui.perf ? 0 : 1)} style={[s.mItem, { justifyContent: 'space-between' }]}>
                 <Text style={[s.mTx, { fontSize: 14 }]}>Pannello diagnosi</Text>
@@ -818,6 +834,35 @@ const isTabRoute = (r) => TABS.some(([, , x]) => x && String(r || '').startsWith
 const TABS = [['Home', 'home-outline', null], ['Calcolatore', 'calculator-outline', '/calcolatore'], ['Giocatori', 'people-outline', '/migliori-giocatori'], ['Matchup', 'sword-cross', '/migliori-matchup']];
 const tabOf = (r) => (TABS.find(([, , x]) => x && String(r || '').startsWith(x)) || [])[2] || '';
 const DOCK_T = LinearTransition.duration(220).easing(Easing.out(Easing.cubic));
+// Notification Badge concept B (21st, ham7a311 "Bell Ring"): attorno al numero delle partite live parte un'onda continua;
+// quando ne inizia una nuova l'icona Home oscilla e il numero fa un piccolo salto. Solo transform/opacity, thread UI.
+const RM = { v: false };
+AccessibilityInfo.isReduceMotionEnabled?.().then((v) => { RM.v = !!v; }).catch(() => {});
+const BellHome = ({ icon, color, live }) => {
+  const r = useSharedValue(0);
+  const prev = useRef(live);
+  useEffect(() => {
+    if (live > prev.current && !RM.v) r.value = withSequence(withTiming(14, { duration: 130 }), withTiming(-12, { duration: 150 }), withTiming(7, { duration: 140 }), withTiming(-4, { duration: 130 }), withTiming(0, { duration: 150 }));
+    prev.current = live;
+  }, [live]); // eslint-disable-line react-hooks/exhaustive-deps
+  const st = useAnimatedStyle(() => ({ transform: [{ rotate: `${r.value}deg` }] }));
+  return <Animated.View style={st}><Ionicons name={icon} size={21} color={color} /></Animated.View>;
+};
+const LiveBadge = ({ n }) => {
+  const { s } = useT();
+  const w = useSharedValue(0), k = useSharedValue(1);
+  const prev = useRef(n);
+  useEffect(() => { if (!RM.v) w.value = withRepeat(withTiming(1, { duration: 1600, easing: Easing.out(Easing.quad) }), -1, false); return () => cancelAnimation(w); }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => { if (n !== prev.current && !RM.v) { k.value = 0.4; k.value = withTiming(1, { duration: 450, easing: Easing.bezier(0.34, 1.5, 0.5, 1) }); } prev.current = n; }, [n]); // eslint-disable-line react-hooks/exhaustive-deps
+  const wave = useAnimatedStyle(() => ({ opacity: 0.8 * (1 - w.value), transform: [{ scale: 1 + w.value * 0.8 }] }));
+  const pop = useAnimatedStyle(() => ({ transform: [{ scale: k.value }] }));
+  return (
+    <Animated.View pointerEvents="none" style={[s.dockBadge, pop]}>
+      <Animated.View style={[s.dockWave, wave]} />
+      <Text style={s.dockBadgeTxt}>{n > 99 ? '99+' : n}</Text>
+    </Animated.View>
+  );
+};
 // voce gia' attiva toccata di nuovo: la pagina torna in cima (onTop). `live`: partite live di oggi (badge su Home, solo se ce ne sono)
 const TabBar = memo(({ onOpen, onHome, onTop, active, bottom, live }) => {
   const { C, s } = useT();
@@ -837,9 +882,9 @@ const TabBar = memo(({ onOpen, onHome, onTop, active, bottom, live }) => {
                   accessibilityRole="button" accessibilityLabel={label} accessibilityState={{ selected: on }}
                   style={({ pressed }) => [s.dockTile, on && s.dockOn, pressed && s.dockPressed]}
                 >
-                  <Ic name={icon} size={21} color={on ? C.accent : C.ink2} />
+                  {route ? <Ic name={icon} size={21} color={on ? C.accent : C.ink2} /> : <BellHome icon={icon} color={on ? C.accent : C.ink2} live={live} />}
                   {on ? <Animated.Text entering={FadeIn.duration(180)} numberOfLines={1} style={s.dockTxt}>{label}</Animated.Text> : null}
-                  {!route && live > 0 ? <View style={s.dockBadge}><Text style={s.dockBadgeTxt}>{live > 99 ? '99+' : live}</Text></View> : null}
+                  {!route && live > 0 ? <LiveBadge n={live} /> : null}
                 </Pressable>
               </Animated.View>
             </React.Fragment>
@@ -1397,6 +1442,7 @@ const makeStyles = (C) => StyleSheet.create({
   dockTxt: { color: C.accent, fontSize: 13.5, fontWeight: '800' },
   dockBadge: { position: 'absolute', top: -5, right: -5, minWidth: 18, height: 18, paddingHorizontal: 4, borderRadius: 9, backgroundColor: C.live, alignItems: 'center', justifyContent: 'center', borderWidth: 2, borderColor: C.bg },
   dockBadgeTxt: { color: '#FFFFFF', fontSize: 10, fontWeight: '800' },
+  dockWave: { position: 'absolute', top: -4, left: -4, right: -4, bottom: -4, borderRadius: 13, borderWidth: 2, borderColor: C.live },
   fLive: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   liveDot: { width: 5, height: 5, borderRadius: 3, backgroundColor: C.live },
   card: { marginHorizontal: 16, marginTop: 16, borderRadius: 26, overflow: 'hidden', borderWidth: 1, borderColor: C.border, backgroundColor: C.bg }, // fondo pieno: lo sfondo a fasci si vede solo fuori dalle finestre

@@ -2,6 +2,7 @@ import { matchColors } from '@/lib/tint';
 import { goBack } from '@/lib/carousel';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, Share2 } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import Crest from './Crest';
 import FormDots from './FormDots';
 import LeagueBadge from './LeagueBadge';
@@ -9,6 +10,7 @@ import TeamLink from './TeamLink';
 import LeagueLink from './LeagueLink';
 import { teamForm } from '@/data/matches';
 import { longDate } from '@/lib/format';
+import KickoffCountdown, { showCountdown } from '@/components/match/KickoffCountdown';
 import { SkText } from './PageSkeletons';
 
 // "Robin Fellhauer" → "R. Fellhauer"
@@ -51,6 +53,17 @@ export default function MatchHero({ match, view, league, home, away, pending = f
   const date = new Date(match.ts);
   const score = view.score ? `${view.score[0]} – ${view.score[1]}` : '0 – 0';
   const statusText = finished ? 'Finita' : longDate(date);
+  // partita di oggi non ancora iniziata: conto alla rovescia (dalla mezzanotte); prima solo orario e data
+  const [cdOn, setCdOn] = useState(() => !live && !finished && showCountdown(match.ts));
+  useEffect(() => {
+    if (live || finished || cdOn || !match.ts) return undefined;
+    const d0 = new Date(match.ts); d0.setHours(0, 0, 0, 0);
+    const wait = d0.getTime() - Date.now();
+    if (wait > 864e5 || Date.now() >= match.ts) return undefined;
+    const t = setTimeout(() => setCdOn(showCountdown(match.ts)), Math.max(0, wait) + 50);
+    return () => clearTimeout(t);
+  }, [live, finished, cdOn, match.ts]);
+  const counting = cdOn && !live && !finished;
 
   const share = async () => {
     const url = window.location.href;
@@ -88,9 +101,14 @@ export default function MatchHero({ match, view, league, home, away, pending = f
             {!live && !finished ? <FormDots form={match.formOf ? match.formOf(match.homeId) : teamForm(match.homeId)} size={13} /> : null}
           </div>
 
-          <div className="flex w-[104px] flex-none flex-col items-center pt-3">
+          <div className={`flex ${counting ? 'w-[124px]' : 'w-[104px]'} flex-none flex-col items-center pt-3`}>
             {live || finished ? (
               <span className="title-xl tnum text-[32px]" style={{ color: live ? 'var(--live)' : 'var(--ink)' }}>{score}</span>
+            ) : counting ? (
+              <>
+                <span className="text-[9.5px] font-extrabold uppercase tracking-[.12em]" style={{ color: 'var(--ink-3)' }}>Calcio d&apos;inizio tra</span>
+                <KickoffCountdown ts={match.ts} onDone={() => setCdOn(false)} />
+              </>
             ) : (
               <span className="title-xl tnum text-[30px]">{match.kickoff}</span>
             )}
@@ -100,7 +118,7 @@ export default function MatchHero({ match, view, league, home, away, pending = f
                 {view.liveHalf ? 'Intervallo' : <>{view.minute}&apos;</>}
               </span>
             ) : (
-              <span className="mt-1.5 text-center text-[11px]" style={{ color: 'var(--ink-3)' }}>{statusText}</span>
+              <span className="mt-1.5 text-center text-[11px]" style={{ color: 'var(--ink-3)' }}>{counting ? `Oggi · ${match.kickoff}` : statusText}</span>
             )}
             {finished && match.seasonLabel ? <span className="tnum mt-0.5 text-center text-[10.5px]" style={{ color: 'var(--ink-3)' }}>{longDate(date)}</span> : null}
           </div>
