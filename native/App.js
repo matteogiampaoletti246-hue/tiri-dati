@@ -731,6 +731,21 @@ function Calendar({ visible, selected, onClose, onPick }) {
   );
 }
 
+// Giorno della striscia (carousel concept B): il colore e la grandezza seguono la pagina mentre si scorre (thread UI), il testo del giorno
+// scelto e' piu' marcato. Niente salto a meta' strada.
+const UL_BASE = 100;
+function DayBtn({ i, x, on, top, sub, onPress, onLayout }) {
+  const { C, s } = useT();
+  const near = useAnimatedStyle(() => { const p = Math.max(0, 1 - Math.abs(x.value - i)); return { color: interpolateColor(p, [0, 1], [C.ink3, C.ink]), transform: [{ scale: 1 + 0.07 * p }] }; }, [C]);
+  const subSt = useAnimatedStyle(() => { const p = Math.max(0, 1 - Math.abs(x.value - i)); return { opacity: 0.6 + 0.3 * p }; });
+  return (
+    <Pressable onPress={onPress} onLayout={onLayout}>
+      <Animated.Text style={[s.dTop, on && s.dOnW, near]}>{top}</Animated.Text>
+      <Animated.Text style={[s.dSub, subSt]}>{sub}</Animated.Text>
+    </Pressable>
+  );
+}
+
 // Una pagina del pager: posizione = (indice - pagina corrente) * larghezza, calcolata sul thread dell'interfaccia (mai dal JS)
 const Pane = ({ idx, x, children }) => {
   const st = useAnimatedStyle(() => ({ transform: [{ translateX: (idx - x.value) * W }] }));
@@ -963,14 +978,23 @@ function Screen({ onTheme, onReset }) {
     else if (filter === 'live' && !wantLive) setFilter('all');
   }, [cur, filter, keys, todayKey, wantLive]);
   const x = useSharedValue(TODAY_INDEX);
-  // Carousel concept B (21st, Motion Primitives): sottolineatura sotto il giorno che segue la pagina mentre la si trascina
-  const upos = useSharedValue([]);
+  // Carousel concept B (21st, Motion Primitives): la linea sotto i giorni segue la pagina mentre la si trascina e si allunga tra un giorno e
+  // l'altro (il bordo davanti corre, quello dietro ritarda). Solo `transform` (mai larghezza/layout animati: su iPhone non si vedeva);
+  // posizioni in un array denso [sinistra, larghezza] per giorno, scritte da `onLayout` di ogni giorno.
+  const upos = useSharedValue(OFFSETS.map(() => [0, 0]));
   const ulStyle = useAnimatedStyle(() => {
-    const a = upos.value; const i0 = Math.floor(x.value); const f = x.value - i0;
-    const p0 = a[i0]; const p1 = a[i0 + 1] || p0;
-    if (!p0) return { opacity: 0 };
-    const l = p0[0] + (p1[0] - p0[0]) * f; const w = p0[1] + (p1[1] - p0[1]) * f;
-    return { opacity: 1, width: w * 0.62, transform: [{ translateX: l + w * 0.19 }] };
+    const a = upos.value;
+    const n = a.length;
+    const i0 = Math.max(0, Math.min(n - 1, Math.floor(x.value)));
+    const f = Math.max(0, Math.min(1, x.value - i0));
+    const p0 = a[i0]; const p1 = a[Math.min(n - 1, i0 + 1)];
+    if (!p0 || !p1 || !p0[1]) return { opacity: 0 };
+    const l0 = p0[0] + p0[1] * 0.19; const r0 = p0[0] + p0[1] * 0.81;
+    const l1 = p1[0] + p1[1] * 0.19; const r1 = p1[0] + p1[1] * 0.81;
+    const left = l0 + (l1 - l0) * f * f;
+    const right = r0 + (r1 - r0) * (1 - (1 - f) * (1 - f));
+    const w = Math.max(4, right - left);
+    return { opacity: 1, transform: [{ translateX: left + w / 2 - UL_BASE / 2 }, { scaleX: w / UL_BASE }] };
   });
   const x0 = useSharedValue(TODAY_INDEX);
   const ov = useSharedValue(W); // pagina web: W = fuori schermo a destra, 0 = aperta
@@ -1246,10 +1270,8 @@ function Screen({ onTheme, onReset }) {
       <Header onSearch={openSearch} onMenu={openMenuP} onCal={() => setCal(true)} />
       <ScrollView ref={strip} horizontal showsHorizontalScrollIndicator={false} style={{ flexGrow: 0 }} contentContainerStyle={s.strip}>
         {dates.map((d, i) => (
-          <Pressable key={keys[i]} onPress={() => goDayBtn(i)} onLayout={(e) => { pos.current[i] = { x: e.nativeEvent.layout.x, w: e.nativeEvent.layout.width }; const a = upos.value.slice(); a[i] = [e.nativeEvent.layout.x, e.nativeEvent.layout.width]; upos.value = a; if (i === cur) centre(i); }}>
-            <Text style={[s.dTop, i === cur && s.dOn]}>{dayLabel(d)}</Text>
-            <Text style={[s.dSub, i === cur && { opacity: 0.9 }]}>{d.getDate()} {MONTHS[d.getMonth()]}</Text>
-          </Pressable>
+          <DayBtn key={keys[i]} i={i} x={x} on={i === cur} top={dayLabel(d)} sub={`${d.getDate()} ${MONTHS[d.getMonth()]}`} onPress={() => goDayBtn(i)}
+            onLayout={(e) => { const { x: lx, width } = e.nativeEvent.layout; pos.current[i] = { x: lx, w: width }; const a = upos.value.map((q) => q); a[i] = [lx, width]; upos.value = a; if (i === curRef.current) centre(i); }} />
         ))}
         <Animated.View pointerEvents="none" style={[s.dUnder, ulStyle]} />
       </ScrollView>
@@ -1323,10 +1345,10 @@ const makeStyles = (C) => StyleSheet.create({
   lgHi: { position: 'absolute', top: 0, left: 8, right: 8, height: 1, opacity: 0.9 },
   iconBtn: { width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center', backgroundColor: C.chip, borderWidth: 1, borderColor: C.border },
   strip: { paddingHorizontal: 20, paddingVertical: 8, gap: 24, alignItems: 'center' },
-  dUnder: { position: 'absolute', left: 0, bottom: 2, height: 2.5, borderRadius: 2, backgroundColor: C.accent },
+  dUnder: { position: 'absolute', left: 0, bottom: 1, width: UL_BASE, height: 3, borderRadius: 2, backgroundColor: C.accent, shadowColor: C.accent, shadowOpacity: 0.55, shadowRadius: 5, shadowOffset: { width: 0, height: 0 } },
   dTop: { color: C.ink3, fontSize: 15, fontWeight: '500' },
-  dOn: { color: C.ink, fontWeight: '800' },
-  dSub: { color: C.ink3, fontSize: 10.5, opacity: 0.6 },
+  dOnW: { fontWeight: '800' },
+  dSub: { color: C.ink3, fontSize: 10.5 },
   filters: { paddingHorizontal: 20, paddingVertical: 6 },
   fBtn: { color: C.ink3, fontSize: 13.5, fontWeight: '500' },
   fOn: { color: C.ink, fontWeight: '700' },

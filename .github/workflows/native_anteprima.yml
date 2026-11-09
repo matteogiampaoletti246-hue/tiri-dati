@@ -1,0 +1,50 @@
+name: App nativa (Expo) - ANTEPRIMA (non tocca il link normale)
+# Come native_expo.yml, ma pubblica sul ramo EAS "anteprima" e NON scrive native-link/latest.json ne' fa commit:
+# il link da aprire in Expo Go compare nel riepilogo dell'esecuzione e nel log ("ANTEPRIMA: exp://...").
+# Si avvia a mano: gh workflow run native_anteprima.yml --ref <ramo>
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: native-anteprima
+  cancel-in-progress: false
+jobs:
+  publica:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Controlla il token
+        run: |
+          if [ -z "$EXPO_TOKEN" ]; then echo "EXPO_TOKEN mancante" ; exit 1; fi
+      - name: Crea il progetto Expo con l'ultimo SDK e copia la Home di prova
+        run: |
+          npx --yes create-expo-app@latest app --template blank --no-install
+          node native/tools/gen_meta.mjs aurora-src/src app/meta.json
+          cp native/App.js app/App.js
+          cd app
+          npm install --no-audit --no-fund
+          npx expo install expo-updates expo-image @react-native-async-storage/async-storage expo-linear-gradient react-native-webview react-native-safe-area-context @expo/vector-icons react-native-gesture-handler react-native-reanimated expo-blur
+          if [ "$(node -p "parseInt(require('react-native-reanimated/package.json').version)")" -ge 4 ]; then npx expo install react-native-worklets; fi
+          node -e "const f='app.json',j=require('./'+f);j.expo.owner='lozellatos-team';require('fs').writeFileSync(f,JSON.stringify(j,null,2))"
+          npx --yes eas-cli@latest whoami
+          npx --yes eas-cli@latest init --non-interactive --force
+          npx --yes eas-cli@latest update:configure --non-interactive || true
+      - name: Pubblica
+        run: |
+          cd app
+          npx --yes eas-cli@latest update --branch anteprima --message "ANTEPRIMA $GITHUB_REF_NAME $GITHUB_SHA" --non-interactive 2>&1 | tee /tmp/update.txt
+          mkdir -p /tmp/no && grep -Eo 'https://[^ ]+' /tmp/update.txt > /tmp/no/link.txt || true
+          node -e "const a=require('./app.json').expo;console.log(JSON.stringify({slug:a.slug,id:a.extra&&a.extra.eas&&a.extra.eas.projectId,owner:a.owner}))" > /tmp/no/info.json || true
+      - name: Link dell'anteprima
+        run: |
+          G=$(grep -Eo 'Update group ID +[0-9a-f-]+' /tmp/update.txt | awk '{print $NF}')
+          ID=$(node -p "require('./app/app.json').expo.extra.eas.projectId")
+          echo "ANTEPRIMA: exp://u.expo.dev/$ID/group/$G"
+          echo "Anteprima: exp://u.expo.dev/$ID/group/$G" >> "$GITHUB_STEP_SUMMARY"

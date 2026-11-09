@@ -15,6 +15,10 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 ## App nativa: Home concept B (regola fissa)
 - Una tinta per finestra: top campionati = colore del campionato, paesi = colore dominante della bandiera (`meta.tints`, `gen_flags.mjs`); righe e campionati dentro il paese neutri. Bandiera = immagine rotonda vera (`native-link/flags/<codice>.png`, `fc` in `meta.json`) con anello e alone della tinta, mai emoji.
 
+## Home nativa: striscia dei giorni (carousel concept B, regola fissa)
+- Mentre si scorre tra i giorni la linea sotto la striscia (`ulStyle` in `native/App.js`) segue la pagina e si allunga tra un giorno e l'altro (il bordo davanti corre, quello dietro ritarda); i giorni (`DayBtn`) sfumano di colore e crescono un poco in modo continuo, mai a scatto a meta' strada. Tutto sul thread UI e SOLO con `transform`/colori: la prima versione animava la larghezza e su iPhone la linea non si vedeva. Le posizioni dei giorni stanno in un array denso `upos` ([sinistra, larghezza]) scritto da `onLayout`.
+- Anteprima prima di pubblicare: `gh workflow run native_anteprima.yml --ref <ramo>` pubblica sul ramo EAS `anteprima` e stampa il link `exp://...` nel log; non scrive `native-link/latest.json`, quindi il link normale resta com'e'.
+
 ## App nativa: tocco prima che la pagina web sia pronta (regola fissa)
 - La pagina web si monta 2,5 s dopo l'avvio e poi si carica: un tasto (barra in basso, ricerca, menu, partita, campionato) toccato prima non deve mai mostrare le Linee guida. `openRoute` ricorda la rotta (`pendingHash`), monta subito la pagina sulla rotta giusta (`bootUri`, fissato al primo montaggio: cambiare `source` dopo ricaricherebbe tutto) e la applica a fine caricamento (`onWebLoaded`); finche' non e' pronta (`ready`) sotto c'e' lo spinner.
 
