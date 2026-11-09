@@ -7,6 +7,9 @@ import { shown, inkOn } from '@/lib/tint';
 const dim = (c) => (inkOn(c) === '#0F172A' ? 0.8 : 0.5);
 
 // Movimento delle barre quando cambiano i valori (Totale / 1° tempo / 2° tempo): scivolano in modo morbido.
+// binario della barra: su iPhone (WebKit) una barra che si ridimensiona con transform esce dai bordi arrotondati di overflow-hidden;
+// clip-path + isolation la tengono dentro, e la barra e' posizionata nel binario (mai spostata in basso: "due linee")
+const TRACK = { clipPath: 'inset(0 round 999px)', isolation: 'isolate' };
 const MOVE = { dur: 620, ease: 'cubic-bezier(.22,1,.36,1)' };
 
 // Confronto squadra / squadra. Chi ha il valore più alto è in colore pieno, l'altra sbiadita.
@@ -134,11 +137,11 @@ export default function CompareBars({ rows, homeColor = 'var(--accent)', awayCol
               <SlidingNumber text={tx(o && o[1], at)} className="font-extrabold" style={{ color: ac, opacity: aWin ? 1 : dim(ac) + 0.2, transition: 'opacity .45s ease' }} />
             </div>
             <div className="mt-1.5 flex h-[6px] gap-[4px]">
-              <div className="h-full flex-1 overflow-hidden rounded-full" style={{ background: 'var(--hair-2)' }}>
-                <span className="block h-full w-full rounded-full" style={{ transformOrigin: 'right', transform: `scaleX(${vh / mx})`, background: hc, opacity: hWin ? 1 : dim(hc), transition: bar }} />
+              <div className="relative h-full flex-1 overflow-hidden rounded-full" style={{ background: 'var(--hair-2)', ...TRACK }}>
+                <span className="absolute inset-0 rounded-full" style={{ transformOrigin: 'right', transform: `scaleX(${vh / mx})`, background: hc, opacity: hWin ? 1 : dim(hc), transition: bar }} />
               </div>
-              <div className="h-full flex-1 overflow-hidden rounded-full" style={{ background: 'var(--hair-2)' }}>
-                <span className="block h-full w-full rounded-full" style={{ transformOrigin: 'left', transform: `scaleX(${va / mx})`, background: ac, opacity: aWin ? 1 : dim(ac), transition: bar }} />
+              <div className="relative h-full flex-1 overflow-hidden rounded-full" style={{ background: 'var(--hair-2)', ...TRACK }}>
+                <span className="absolute inset-0 rounded-full" style={{ transformOrigin: 'left', transform: `scaleX(${va / mx})`, background: ac, opacity: aWin ? 1 : dim(ac), transition: bar }} />
               </div>
             </div>
           </div>
