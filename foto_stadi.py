@@ -94,7 +94,7 @@ have = {norm(k): f for k, f in mappa.items()}
 # Voce Wikipedia (inglese) fissata a mano per gli stadi che la ricerca per nome non trova o confonde.
 VOCI = {'Stadion Feijenoord': 'De Kuip', 'Vitality Stadium': 'Dean Court', 'Estadio de Mendizorroza': 'Mendizorrotza Stadium',
         'Estadio La Cartuja de Sevilla': 'Estadio de La Cartuja', 'Turka Arac Muayene Kocaeli Stadyumu': 'Kocaeli Stadium',
-        'Alphamega Stadium': 'Limassol Arena', 'Gaziantep Stadyumu': 'Gaziantep Stadium', 'Estádio da Madeira': 'Estádio da Madeira'}
+        'Alphamega Stadium': 'Limassol Arena', 'Miami Stadium': 'Hard Rock Stadium', 'Arena Naţională': 'Arena Națională', 'Gaziantep Stadyumu': 'Gaziantep Stadium', 'Estádio da Madeira': 'Estádio da Madeira'}
 # Foto da non usare mai (collage, modellini, piantine, selfie, foto storiche, muri...): si prende la migliore dopo.
 try:
     scarta = set(json.load(open(os.path.join(ROOT, 'stadi_scarta.json'), encoding='utf-8')))
