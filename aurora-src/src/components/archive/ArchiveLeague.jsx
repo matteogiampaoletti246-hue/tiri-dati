@@ -112,6 +112,8 @@ export const fmtVal = (key, v) => {
   if (v == null) return '–';
   if (/rating/.test(key)) return Number(v).toFixed(2).replace('.', ',');
   if (/per_90|percentage|_team_match|expected|_diff/.test(key)) return Number(v).toFixed(2).replace('.', ',');
+  // statistiche di squadra: medie a partita con 2 decimali, come Stat. squadre del campionato (1,25 e non 1,3)
+  if (/_team$/.test(key) && !Number.isInteger(v)) return Number(v).toFixed(2).replace('.', ',');
   return Number.isInteger(v) ? String(v) : Number(v).toFixed(1).replace('.', ',');
 };
 const GROUPS = [
@@ -248,6 +250,9 @@ function teamAverages(season, det) {
         if (!Number.isFinite(n)) return;
         bump(tid, 0, k, n); bump(tid, part, k, n);
       });
+      // falli subiti: i falli commessi dall'avversario (stesso dato della scheda squadra)
+      const fs = Number(Array.isArray(d.s.fouls) ? d.s.fouls[1 - i] : NaN);
+      if (Number.isFinite(fs)) { bump(tid, 0, 'fouls_suffered', fs); bump(tid, part, 'fouls_suffered', fs); }
     });
   });
   return acc;

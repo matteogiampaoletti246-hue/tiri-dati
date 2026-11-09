@@ -93,3 +93,10 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 - Banner giocatore in ricerca: club + linea sottile + bandiera e nazionale a destra (sito e nativo).
 - Banner nazionali (concept A): bandiera intera a destra, nitida, sfuma verso sinistra (`flag` in `EntityBanner`, `isNationName`).
 - Storico nazionali: `NAZ_IDS` in `archivio.py` = competizioni delle nazionali scaricate per intero (Mondiali dal 1930, Europei dal 1960, amichevoli `114`, qualificazioni, Nations League); stagioni e statistiche per ogni edizione, schede squadra via `tidx` (`squadre_indice.yml`). FotMob ha le amichevoli solo dell'anno in corso.
+
+## Statistiche squadra: stessi numeri ovunque (regola fissa, novembre 2026)
+- Ogni statistica di squadra e' una **media a partita**, identica tra scheda squadra (Totale/Casa/Trasferta, riquadri in alto) e "Stat. squadre" del campionato.
+- Con le statistiche delle partite (`partite/`), `loadTeamStats` usa i valori calcolati dalle partite (`teamPartStats`, stesso filtro di `teamAverages`: squadre e stato dal calendario, solo partite del calendario) per tutte le voci che le partite hanno (`MATCH_FOR_TEAM_KEY`); le classifiche FotMob restano solo per voto, xG subiti, porta inviolata, rigori ecc.
+- Le classifiche squadra FotMob (`_s.json`) mescolano TOTALI stagionali (gialli, rossi, angoli, xG, xG subiti, palle gol, tocchi in area, rigori, gol da palla inattiva) e medie: `loadSeasonStats` divide i totali per le partite (`TEAM_TOTAL_KEYS`, r[5]) e ordina sempre dal valore piu' alto (i "subiti" FotMob arrivano dal piu' basso: la squadra migliore risultava ultima e rossa). La porta inviolata resta un conteggio.
+- `fk_foul_lost_team` di FotMob sono i falli **commessi** (prima etichettati "Falli subiti"); i falli subiti (`fk_foul_won_team` / `fouls_suffered`) sono i falli dell'avversario nelle stesse partite.
+- Formato: medie con 2 decimali (1,25), come in "Stat. squadre".

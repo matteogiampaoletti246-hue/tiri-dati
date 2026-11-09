@@ -74,7 +74,8 @@ export function archiveMetrics(m) {
 
 // Senza le partite archiviate (es. Eliteserien, campionato greco, Liga Portugal 2) si usano le classifiche di squadra della stagione
 // (arch/<fm>/<stagione>_s.json, "teams"): stesse chiavi del Duello in numeri, solo quelle che la fonte da' davvero.
-const LIST = { xg: 'expected_goals_team', tiriInPorta: 'ontarget_scoring_att_team', possesso: 'possession_percentage_team', corner: 'corner_taken_team', precisione: 'accurate_pass_team', gol: 'goals_team_match', golSubiti: 'goals_conceded_team_match', inviolata: 'clean_sheet_team' };
+// (valori gia' medie a partita: loadSeasonStats divide i totali FotMob per le partite; la precisione passaggi non c'e': FotMob da' solo il numero di passaggi riusciti)
+const LIST = { xg: 'expected_goals_team', tiriInPorta: 'ontarget_scoring_att_team', possesso: 'possession_percentage_team', corner: 'corner_taken_team', gol: 'goals_team_match', golSubiti: 'goals_conceded_team_match', inviolata: 'clean_sheet_team' };
 export function listMetrics(m) {
   const T = m && m.sTeams;
   if (!T) return null;

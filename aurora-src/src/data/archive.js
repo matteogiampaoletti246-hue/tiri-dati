@@ -7,7 +7,7 @@ import { isWomenComp, isWomenName, womenName } from './teamMatch';
 
 // file scaricati una volta sola; quelli grandi (partite della stagione .gz, statistiche) con capienza fissa: la memoria non cresce all'infinito
 const cache = new Map();
-const cap = (key) => (/\.gz$/.test(key) ? 10 : /_s\.json$|^(sfm|tps)\//.test(key) ? 30 : 0);
+const cap = (key) => (/\.gz$/.test(key) ? 10 : /_s\.json$|^(sfm|tps|lts)\//.test(key) ? 30 : 0);
 const BIG = new Map();
 const once = (key, fn) => {
   const c = cap(key);
@@ -247,9 +247,28 @@ if (typeof window !== 'undefined') {
 // statistiche nascoste ovunque (significato poco chiaro)
 const HIDDEN_STAT = /^poss_?won_?att_?3rd/i;
 const strip = (o) => { if (o) for (const k of Object.keys(o)) if (HIDDEN_STAT.test(k)) delete o[k]; return o; };
+// Classifiche squadra FotMob (arch/<fm>/<stagione>_s.json): alcune voci sono TOTALI della stagione (cartellini, angoli, xG, palle gol,
+// tocchi in area, rigori, gol su palla inattiva), le altre gia' medie a partita. Regola fissa: ogni statistica di squadra nell'app e' una
+// media a partita, uguale a quella ricavata dalle partite (scheda squadra = Stat. squadre del campionato). I totali si dividono per le
+// partite giocate (r[5]); una riga senza partite non si converte e non si mostra. Ordine sempre dal valore piu' alto (FotMob mette i
+// "subiti" dal piu' basso: con standingOf la squadra migliore risultava ultima e rossa). La porta inviolata resta un conteggio di partite.
+const TEAM_TOTAL_KEYS = new Set(['total_yel_card_team', 'total_red_card_team', 'corner_taken_team', 'big_chance_team', 'big_chance_missed_team', 'touches_in_opp_box_team',
+  'expected_goals_team', 'expected_goals_conceded_team', '_xg_diff_team', 'penalty_won_team', 'penalty_conceded_team', '_set_piece_goals_team', '_set_piece_goals_conceded_team']);
+const perMatchTeams = (T) => {
+  if (!T) return T;
+  Object.keys(T).forEach((k) => {
+    const l = T[k];
+    if (!Array.isArray(l)) return;
+    let rows = l;
+    if (TEAM_TOTAL_KEYS.has(k)) rows = l.filter((r) => r && r[3] != null && Number(r[5]) > 0).map((r) => [r[0], r[1], r[2], Number(r[3]) / Number(r[5]), ...r.slice(4)]);
+    T[k] = [...rows].sort((a, b) => (b[3] == null ? -Infinity : Number(b[3])) - (a[3] == null ? -Infinity : Number(a[3])));
+  });
+  return T;
+};
 export const loadSeasonStats = (lid, sk) => archIndex().then(() => json(`arch/${lid}/${sk}_s.json`)).then((d) => {
   if (!d || d.v !== 2) return null;
   strip(d.players); strip(d.teams);
+  if (!d.__pm) { d.__pm = true; perMatchTeams(d.teams); }
   const e = IDX && IDX[String(lid)];
   if (!d.__w && isWomenComp(lid, e && e.n)) { d.__w = true; Object.values(d.teams || {}).forEach((l) => (l || []).forEach((r) => { if (r && r[1]) r[1] = womenName(r[1]); })); }
   return d;
@@ -291,11 +310,11 @@ export const STAT_IT = {
   passes: 'Passaggi', own_half_passes: 'Nella propria metà', opposition_half_passes: 'Nella metà avversaria', long_balls_accurate: 'Lanci lunghi riusciti',
   accurate_crosses: 'Cross riusciti', player_throws: 'Rimesse laterali', Offsides: 'Fuorigioco', 'matchstats.headers.tackles': 'Contrasti', interceptions: 'Intercetti',
   shot_blocks: 'Tiri murati', clearances: 'Respinte', keeper_saves: 'Parate', duel_won: 'Duelli vinti', ground_duels_won: 'Duelli a terra vinti', aerials_won: 'Duelli aerei vinti',
-  dribbles_succeeded: 'Dribbling riusciti', yellow_cards: 'Cartellini gialli', red_cards: 'Cartellini rossi', fouls: 'Falli commessi', shots: 'Tiri', defense: 'Difesa', duels: 'Duelli', discipline: 'Disciplina',
+  dribbles_succeeded: 'Dribbling riusciti', yellow_cards: 'Cartellini gialli', red_cards: 'Cartellini rossi', fouls: 'Falli commessi', fouls_suffered: 'Falli subiti', shots: 'Tiri', defense: 'Difesa', duels: 'Duelli', discipline: 'Disciplina',
 };
 // gruppi di statistiche di squadra, nell'ordine di lettura
 export const STAT_GROUPS = [
-  ['Principali', ['BallPossesion', 'expected_goals', 'total_shots', 'ShotsOnTarget', 'big_chance', 'big_chance_missed_title', 'corners', 'Offsides', 'fouls', 'yellow_cards', 'red_cards']],
+  ['Principali', ['BallPossesion', 'expected_goals', 'total_shots', 'ShotsOnTarget', 'big_chance', 'big_chance_missed_title', 'corners', 'Offsides', 'fouls', 'fouls_suffered', 'yellow_cards', 'red_cards']],
   ['Tiri', ['ShotsOffTarget', 'blocked_shots', 'shots_woodwork', 'shots_inside_box', 'shots_outside_box']],
   ['Passaggi', ['accurate_passes', 'passes', 'own_half_passes', 'opposition_half_passes', 'long_balls_accurate', 'accurate_crosses', 'touches_opp_box', 'player_throws']],
   ['Difesa', ['matchstats.headers.tackles', 'interceptions', 'shot_blocks', 'clearances', 'keeper_saves']],
@@ -311,7 +330,8 @@ export const SEASON_STAT_IT = {
   clean_sheet: 'Porta inviolata', saves: 'Parate', goals_conceded: 'Gol subiti', fouls: 'Falli commessi', yellow_card: 'Cartellini gialli', red_card: 'Cartellini rossi', goals_per_90: 'Gol ogni 90\'',
   expected_goals_per_90: 'xG ogni 90\'', rating_team: 'Voto medio', goals_team_match: 'Gol a partita', goals_conceded_team_match: 'Gol subiti a partita', possession_percentage_team: 'Possesso palla',
   clean_sheet_team: 'Porta inviolata', expected_goals_team: 'Gol attesi (xG)', ontarget_scoring_att_team: 'Tiri in porta', big_chance_team: 'Palle gol', accurate_pass_team: 'Passaggi riusciti',
-  accurate_cross_team: 'Cross riusciti', corner_taken_team: 'Calci d\'angolo', total_yel_card_team: 'Cartellini gialli', total_red_card_team: 'Cartellini rossi', fk_foul_lost_team: 'Falli subiti',
+  accurate_cross_team: 'Cross riusciti', corner_taken_team: 'Calci d\'angolo', total_yel_card_team: 'Cartellini gialli', total_red_card_team: 'Cartellini rossi', fk_foul_lost_team: 'Falli commessi', fk_foul_won_team: 'Falli subiti',
+  big_chance_missed_team: 'Palle gol sbagliate', poss_won_att_3rd_team: 'Palloni recuperati nella trequarti', home_attendance_team: 'Spettatori in casa',
   saves_team: 'Parate', total_tackle_team: 'Contrasti', interception_team: 'Intercetti', penalty_won_team: 'Rigori procurati', penalty_conceded_team: 'Rigori concessi',
   touches_in_opp_box_team: 'Tocchi in area', expected_goals_conceded_team: 'xG subiti', effective_clearance_team: 'Respinte', accurate_long_balls_team: 'Lanci lunghi riusciti',
 };
@@ -438,11 +458,29 @@ export const poolAvg = (st, k, list, selfId) => {
 };
 // statistiche squadre di una stagione: quelle ufficiali se ci sono, altrimenti le medie a partita dalle partite archiviate
 // (stagione in corso dei campionati aggiunti: il file ufficiale esiste ma e' ancora vuoto)
-export const loadTeamStats = async (lid, sk) => {
-  const st = await loadSeasonStats(lid, sk);
-  if (st && st.teams && Object.keys(st.teams).length) return st;
-  return teamPartStats(lid, sk, 'tot');
+// Regola fissa (stessi numeri ovunque): dove ci sono le statistiche delle partite, le voci di squadra si calcolano da li', come Stat. squadre
+// del campionato e come Casa/Trasferta; le classifiche FotMob restano solo per le voci che le partite non hanno (voto, xG subiti, porta
+// inviolata, rigori...). Le classifiche stagionali FotMob contano anche partite senza statistiche e cartellini fuori dal campo (Boca 2021-22:
+// 28 gialli contro 17): la scheda squadra non mostrava gli stessi numeri del campionato.
+// FotMob non da' i falli subiti delle squadre (fk_foul_lost_team sono i falli COMMESSI): si prendono dalle partite (falli dell'avversario).
+const MATCH_FOR_TEAM_KEY = {
+  total_yel_card_team: 'yellow_cards', total_red_card_team: 'red_cards', fk_foul_lost_team: 'fouls', fk_foul_won_team: 'fouls_suffered', corner_taken_team: 'corners',
+  expected_goals_team: 'expected_goals', ontarget_scoring_att_team: 'ShotsOnTarget', big_chance_team: 'big_chance', big_chance_missed_team: 'big_chance_missed_title',
+  accurate_long_balls_team: 'long_balls_accurate', accurate_cross_team: 'accurate_crosses', touches_in_opp_box_team: 'touches_opp_box', interception_team: 'interceptions',
+  total_tackle_team: 'matchstats.headers.tackles', effective_clearance_team: 'clearances', saves_team: 'keeper_saves', possession_percentage_team: 'BallPossesion',
 };
+export const loadTeamStats = (lid, sk) => once(`lts/${lid}/${sk}`, async () => {
+  const st = await loadSeasonStats(lid, sk);
+  if (st && st.teams && Object.keys(st.teams).length) {
+    const fromM = await teamPartStats(lid, sk, 'tot').catch(() => null);
+    const M = fromM && fromM.teams;
+    if (!M) return st;
+    const teams = { ...st.teams };
+    Object.entries(MATCH_FOR_TEAM_KEY).forEach(([k, mk]) => { if (M[mk]) teams[k] = M[mk]; });
+    return { ...st, teams };
+  }
+  return teamPartStats(lid, sk, 'tot');
+});
 // stesse statistiche ma per un giocatore preciso: se non e' nelle classifiche ufficiali (hanno solo i primi di ogni voce) si usano quelle calcolate dalle partite
 const MERGED = new Map();
 // nomi delle voci nelle partite -> nomi delle classifiche stagionali (le due fonti FotMob usano chiavi diverse)
@@ -658,21 +696,32 @@ export const teamIdByName = (teams, name) => {
 const NUMV = (v) => { const n = parseFloat(String(v).replace(',', '.')); return Number.isFinite(n) ? n : null; };
 const TEAM_PART_KEYS = ['BallPossesion', 'expected_goals', 'total_shots', 'ShotsOnTarget', 'ShotsOffTarget', 'blocked_shots', 'shots_woodwork', 'shots_inside_box', 'shots_outside_box', 'big_chance', 'big_chance_missed_title',
   'touches_opp_box', 'corners', 'passes', 'accurate_passes', 'own_half_passes', 'opposition_half_passes', 'long_balls_accurate', 'accurate_crosses', 'player_throws', 'Offsides', 'matchstats.headers.tackles', 'interceptions',
-  'shot_blocks', 'clearances', 'keeper_saves', 'duel_won', 'ground_duels_won', 'aerials_won', 'dribbles_succeeded', 'yellow_cards', 'red_cards', 'fouls'];
+  'shot_blocks', 'clearances', 'keeper_saves', 'duel_won', 'ground_duels_won', 'aerials_won', 'dribbles_succeeded', 'yellow_cards', 'red_cards', 'fouls', 'fouls_suffered'];
 export const teamPartStats = (lid, sk, part) => once(`tps/${lid}/${sk}/${part}`, async () => {
   const d = await loadSeasonMatches(lid, sk);
   if (!d || !d.m) return null;
   const season = await loadSeason(lid, sk);
   const names = (season && season.teams) || {};
   const acc = {};
-  Object.values(d.m).forEach((m) => {
-    if (!m || !m.s || !m.h || !m.a) return;
-    [[0, m.h.id, 'home'], [1, m.a.id, 'away']].forEach(([side, tid, where]) => {
+  // squadre e stato dal calendario della stagione (come Stat. squadre del campionato): anche le partite con statistiche ma senza formazioni
+  const fx = {};
+  ((season && season.fix) || []).forEach((f) => { fx[String(f[0])] = f; });
+  const hasFix = Object.keys(fx).length > 0;
+  Object.entries(d.m).forEach(([mid, m]) => {
+    if (!m || !m.s) return;
+    const f = fx[mid];
+    if (hasFix && !f) return; // partita fuori dal calendario di questa stagione: non conta (nemmeno in Stat. squadre)
+    if (f && (!f[6] || f[8])) return;
+    const hid = f ? f[2] : m.h && m.h.id;
+    const aid = f ? f[3] : m.a && m.a.id;
+    if (hid == null || aid == null) return;
+    [[0, hid, 'home'], [1, aid, 'away']].forEach(([side, tid, where]) => {
       if (part === 'home' && where !== 'home') return;
       if (part === 'away' && where !== 'away') return;
       TEAM_PART_KEYS.forEach((k) => {
-        const arr = m.s[k];
-        const v = arr ? NUMV(arr[side]) : null;
+        // falli subiti: i falli commessi dall'avversario nella stessa partita
+        const arr = k === 'fouls_suffered' ? m.s.fouls : m.s[k];
+        const v = arr ? NUMV(arr[k === 'fouls_suffered' ? 1 - side : side]) : null;
         if (v === null) return;
         const a = ((acc[k] = acc[k] || {})[tid] = acc[k][tid] || { s: 0, n: 0 });
         a.s += v; a.n += 1;
