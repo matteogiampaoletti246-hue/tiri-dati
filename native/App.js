@@ -221,22 +221,13 @@ const Day = memo(({ iso, rows, filter, onOpen, onLeague, top, isCur }) => {
   // tasto Home toccato in Home: torna in cima solo il giorno mostrato (gli altri e quelli montati dopo non si muovono)
   const seen = useRef(top); const curR = useRef(isCur); curR.current = isCur;
   useEffect(() => { if (top !== seen.current) { seen.current = top; if (curR.current && list.current) list.current.scrollToOffset({ offset: 0, animated: true }); } }, [top]);
-  // cambio filtro: il contenuto sfuma (thread UI), la lista si ricostruisce a vista spenta e poi riappare: niente scatti visibili
-  const [fdisp, setFdisp] = useState(filter);
-  const op = useSharedValue(1);
-  const opSt = useAnimatedStyle(() => ({ opacity: op.value }));
-  useEffect(() => {
-    if (filter === fdisp) return;
-    op.value = withTiming(0, { duration: 90 }, (fin) => { if (fin) runOnJS(setFdisp)(filter); });
-  }, [filter, fdisp, op]);
-  useEffect(() => { if (fdisp !== filter) return; const t = setTimeout(() => { op.value = withTiming(1, { duration: 200 }); }, 40); return () => clearTimeout(t); }, [fdisp, filter, op]);
-  const items = useMemo(() => groupsOf(rows, fdisp), [rows, fdisp]);
-  const render = useCallback(({ item }) => (item.g ? <LeagueGroup iso={iso} g={item.g} forceOpen={fdisp === 'live'} onOpen={onOpen} onLeague={onLeague} /> : <CountryGroup iso={iso} p={item.p} forceOpen={filter === 'live'} onOpen={onOpen} onLeague={onLeague} />), [iso, filter, onOpen, onLeague]);
-  if (!items.length) return <Animated.View style={[{ width: W }, opSt]}><Text style={s.empty}>Nessuna partita</Text></Animated.View>;
+  const items = useMemo(() => groupsOf(rows, filter), [rows, filter]);
+  const render = useCallback(({ item }) => (item.g ? <LeagueGroup iso={iso} g={item.g} forceOpen={filter === 'live'} onOpen={onOpen} onLeague={onLeague} /> : <CountryGroup iso={iso} p={item.p} forceOpen={filter === 'live'} onOpen={onOpen} onLeague={onLeague} />), [iso, filter, onOpen, onLeague]);
+  if (!items.length) return <View style={{ width: W }}><Text style={s.empty}>Nessuna partita</Text></View>;
   return (
-    <Animated.View style={[{ width: W }, opSt]}>
+    <View style={{ width: W }}>
       <FlatList ref={list} data={items} renderItem={render} keyExtractor={(i) => i.key} initialNumToRender={4} maxToRenderPerBatch={3} updateCellsBatchingPeriod={60} windowSize={5} contentContainerStyle={{ paddingBottom: 140 }} />
-    </Animated.View>
+    </View>
   );
 });
 
