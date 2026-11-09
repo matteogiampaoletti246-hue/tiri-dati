@@ -14,6 +14,13 @@
 "file": "arena-giulesti.webp"
 },
 {
+"k": "miami-stadium",
+"name": "Miami Stadium",
+"kind": "cambiata interno",
+"in": 0.997,
+"file": "miami-stadium.webp"
+},
+{
 "k": "rose-bowl",
 "name": "Rose Bowl",
 "kind": "cambiata scelta a mano",
@@ -1762,13 +1769,6 @@
 "kind": "invariata",
 "in": 0.003,
 "file": "mhparena.webp"
-},
-{
-"k": "miami-stadium",
-"name": "Miami Stadium",
-"kind": "invariata",
-"in": 0.577,
-"file": "miami-stadium.webp"
 },
 {
 "k": "mikheil-meskhis-sakhelobis-stadioni",
