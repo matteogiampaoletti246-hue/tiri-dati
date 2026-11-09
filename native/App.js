@@ -731,17 +731,19 @@ function Calendar({ visible, selected, onClose, onPick }) {
   );
 }
 
-// Giorno della striscia (carousel concept B): il colore e la grandezza seguono la pagina mentre si scorre (thread UI), il testo del giorno
-// scelto e' piu' marcato. Niente salto a meta' strada.
-const UL_BASE = 100;
+// Giorno della striscia (carousel concept B, 21st Motion Primitives): colore, grandezza e LINEA SOTTO il giorno seguono la pagina mentre si
+// scorre (thread UI, `x` = pagina frazionaria): la linea del giorno che si lascia si accorcia e svanisce, quella del giorno che arriva
+// cresce, quindi sembra scivolare da un giorno all'altro. Ogni giorno ha la sua linea: niente misure ne' array condivisi, solo opacita'/scala.
 function DayBtn({ i, x, on, top, sub, onPress, onLayout }) {
   const { C, s } = useT();
   const near = useAnimatedStyle(() => { const p = Math.max(0, 1 - Math.abs(x.value - i)); return { color: interpolateColor(p, [0, 1], [C.ink3, C.ink]), transform: [{ scale: 1 + 0.07 * p }] }; }, [C]);
   const subSt = useAnimatedStyle(() => { const p = Math.max(0, 1 - Math.abs(x.value - i)); return { opacity: 0.6 + 0.3 * p }; });
+  const ul = useAnimatedStyle(() => { const p = Math.max(0, 1 - Math.abs(x.value - i)); return { opacity: Math.min(1, p * 1.5), transform: [{ scaleX: 0.2 + 0.8 * p }] }; });
   return (
-    <Pressable onPress={onPress} onLayout={onLayout}>
+    <Pressable onPress={onPress} onLayout={onLayout} style={s.dBtn}>
       <Animated.Text style={[s.dTop, on && s.dOnW, near]}>{top}</Animated.Text>
       <Animated.Text style={[s.dSub, subSt]}>{sub}</Animated.Text>
+      <Animated.View pointerEvents="none" style={[s.dUnder, ul]} />
     </Pressable>
   );
 }
@@ -978,24 +980,6 @@ function Screen({ onTheme, onReset }) {
     else if (filter === 'live' && !wantLive) setFilter('all');
   }, [cur, filter, keys, todayKey, wantLive]);
   const x = useSharedValue(TODAY_INDEX);
-  // Carousel concept B (21st, Motion Primitives): la linea sotto i giorni segue la pagina mentre la si trascina e si allunga tra un giorno e
-  // l'altro (il bordo davanti corre, quello dietro ritarda). Solo `transform` (mai larghezza/layout animati: su iPhone non si vedeva);
-  // posizioni in un array denso [sinistra, larghezza] per giorno, scritte da `onLayout` di ogni giorno.
-  const upos = useSharedValue(OFFSETS.map(() => [0, 0]));
-  const ulStyle = useAnimatedStyle(() => {
-    const a = upos.value;
-    const n = a.length;
-    const i0 = Math.max(0, Math.min(n - 1, Math.floor(x.value)));
-    const f = Math.max(0, Math.min(1, x.value - i0));
-    const p0 = a[i0]; const p1 = a[Math.min(n - 1, i0 + 1)];
-    if (!p0 || !p1 || !p0[1]) return { opacity: 0 };
-    const l0 = p0[0] + p0[1] * 0.19; const r0 = p0[0] + p0[1] * 0.81;
-    const l1 = p1[0] + p1[1] * 0.19; const r1 = p1[0] + p1[1] * 0.81;
-    const left = l0 + (l1 - l0) * f * f;
-    const right = r0 + (r1 - r0) * (1 - (1 - f) * (1 - f));
-    const w = Math.max(4, right - left);
-    return { opacity: 1, transform: [{ translateX: left + w / 2 - UL_BASE / 2 }, { scaleX: w / UL_BASE }] };
-  });
   const x0 = useSharedValue(TODAY_INDEX);
   const ov = useSharedValue(W); // pagina web: W = fuori schermo a destra, 0 = aperta
   const ovStart = useSharedValue(0);
@@ -1271,9 +1255,8 @@ function Screen({ onTheme, onReset }) {
       <ScrollView ref={strip} horizontal showsHorizontalScrollIndicator={false} style={{ flexGrow: 0 }} contentContainerStyle={s.strip}>
         {dates.map((d, i) => (
           <DayBtn key={keys[i]} i={i} x={x} on={i === cur} top={dayLabel(d)} sub={`${d.getDate()} ${MONTHS[d.getMonth()]}`} onPress={() => goDayBtn(i)}
-            onLayout={(e) => { const { x: lx, width } = e.nativeEvent.layout; pos.current[i] = { x: lx, w: width }; const a = upos.value.map((q) => q); a[i] = [lx, width]; upos.value = a; if (i === curRef.current) centre(i); }} />
+            onLayout={(e) => { const { x: lx, width } = e.nativeEvent.layout; pos.current[i] = { x: lx, w: width }; if (i === curRef.current) centre(i); }} />
         ))}
-        <Animated.View pointerEvents="none" style={[s.dUnder, ulStyle]} />
       </ScrollView>
       <View style={s.filters}>
         <LivePill value={wantLive ? 'live' : eff} onChange={onLivePill} />
@@ -1345,7 +1328,8 @@ const makeStyles = (C) => StyleSheet.create({
   lgHi: { position: 'absolute', top: 0, left: 8, right: 8, height: 1, opacity: 0.9 },
   iconBtn: { width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center', backgroundColor: C.chip, borderWidth: 1, borderColor: C.border },
   strip: { paddingHorizontal: 20, paddingVertical: 8, gap: 24, alignItems: 'center' },
-  dUnder: { position: 'absolute', left: 0, bottom: 1, width: UL_BASE, height: 3, borderRadius: 2, backgroundColor: C.accent, shadowColor: C.accent, shadowOpacity: 0.55, shadowRadius: 5, shadowOffset: { width: 0, height: 0 } },
+  dBtn: { paddingBottom: 7 },
+  dUnder: { position: 'absolute', left: '10%', right: '10%', bottom: 0, height: 3, borderRadius: 2, backgroundColor: C.accent, shadowColor: C.accent, shadowOpacity: 0.55, shadowRadius: 5, shadowOffset: { width: 0, height: 0 } },
   dTop: { color: C.ink3, fontSize: 15, fontWeight: '500' },
   dOnW: { fontWeight: '800' },
   dSub: { color: C.ink3, fontSize: 10.5 },
