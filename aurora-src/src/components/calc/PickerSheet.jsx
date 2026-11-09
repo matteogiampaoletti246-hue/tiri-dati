@@ -15,7 +15,9 @@ const norm = (s) =>
   String(s ?? '')
     .toLowerCase()
     .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '');
+    .replace(/[̀-ͯ]/g, '')
+    // lettere che NFD non scompone: si cercano con la lettera semplice (Tıknaz = tiknaz, Ødegaard = odegaard, Łukasz = lukasz)
+    .replace(/[ı]/g, 'i').replace(/[øœ]/g, 'o').replace(/ł/g, 'l').replace(/[đð]/g, 'd').replace(/æ/g, 'ae').replace(/ß/g, 'ss').replace(/þ/g, 'th');
 
 // primi 60 risultati: prima chi inizia col testo, poi chi ha una parola che inizia, poi chi lo contiene (una sola passata, con uscita anticipata)
 function pick(options, needle) {

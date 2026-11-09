@@ -184,6 +184,22 @@ export function buildPlayers() {
     if (p && !p.nat && !p.natView) { p.natView = v; v.club = p; }
   });
 
+  // stessa regola anche nell'app (non dipende da quando gira calc_extra.py): nazionale non ancora collegata + profilo di club senza id
+  // FotMob con lo stesso nome (o soprannome), unico tra quelli senza id e senza un omonimo con id FotMob diverso -> un solo banner
+  const byNk = {};
+  PLAYERS.forEach((p) => {
+    if (p.nat) return;
+    [p.name, p.nick].filter(Boolean).forEach((n) => { const k = nk(n); (byNk[k] = byNk[k] || new Set()).add(p); });
+  });
+  PLAYERS.forEach((v) => {
+    if (!v.nat || v.club) return;
+    const all = new Set();
+    [v.name, v.nick].filter(Boolean).forEach((n) => (byNk[nk(n)] || []).forEach((p) => all.add(p)));
+    const free = [...all].filter((p) => !p.fmId && !p.natView);
+    const other = [...all].filter((p) => p.fmId && String(p.fmId) !== String(v.fmId));
+    if (free.length === 1 && !other.length) { free[0].natView = v; v.club = free[0]; }
+  });
+
   // profili doppi uniti da profili.py: il vecchio id porta allo stesso giocatore (link e calcoli salvati)
   Object.entries((RAW.giocatori && RAW.giocatori.al) || {}).forEach(([a, b]) => { if (BY_ID[b] && !BY_ID[a]) BY_ID[a] = BY_ID[b]; });
 

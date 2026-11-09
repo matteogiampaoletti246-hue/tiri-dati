@@ -538,6 +538,7 @@ def nat_clubs(out):
         by_name.setdefault(nk(p["n"]), []).append(p)
     today = datetime.now(ROME).strftime("%Y-%m")
     shards = {}
+    pidx, tidx = {}, {}
     n_cl = n_ct = 0
     for x in out.get("nat") or []:
         for k in ("cl", "ct", "cf"):
@@ -563,6 +564,26 @@ def nat_clubs(out):
             if r[-1]:
                 x["cf"] = int(r[-1])
             n_ct += 1
+            continue
+        # senza carriera: club della stagione in corso dall'indice presenze FotMob (pidx/ + nomi squadra da tidx/), mai la nazionale
+        if sh not in pidx:
+            try:
+                pidx[sh] = json.load(open(f"pidx/{sh}.json"))
+            except Exception:
+                pidx[sh] = {}
+        rows = [r for r in (pidx[sh].get(str(x["fm"])) or [None])[1:] if r and str(r[1])[:4] >= str(int(today[:4]) - (1 if today[5:7] < "07" else 0))]
+        for r in rows:
+            tsh = int(r[2]) % 100
+            if tsh not in tidx:
+                try:
+                    tidx[tsh] = json.load(open(f"tidx/{tsh}.json"))
+                except Exception:
+                    tidx[tsh] = {}
+            tn = (tidx[tsh].get(str(r[2])) or [None])[0]
+            if tn and tn != x["t"]:
+                x["ct"], x["cf"] = tn, int(r[2])
+                n_ct += 1
+                break
     print(f"nazionali: {n_cl} uniti al club per nome, {n_ct} con il club dalle carriere")
 
 

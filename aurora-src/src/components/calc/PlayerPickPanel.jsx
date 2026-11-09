@@ -31,10 +31,12 @@ import { romeTime } from '@/data/util';
 import { cupOf } from '@/data/calcData';
 
 const EMPTY_OPTS = [];
-const nrm = (s) => String(s ?? '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+const nrm = (s) => String(s ?? '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
+  // lettere che NFD non scompone (Tıknaz = tiknaz, Ødegaard = odegaard)
+  .replace(/[ı]/g, 'i').replace(/[øœ]/g, 'o').replace(/ł/g, 'l').replace(/[đð]/g, 'd').replace(/æ/g, 'ae').replace(/ß/g, 'ss').replace(/þ/g, 'th');
 // opzione leggera: avatar, sfondo e riga club/nazionale sono getter (creati solo per le righe visibili)
 class PickOpt {
-  constructor(p, sub) { this.p = p; this.value = p.id; this.label = p.name; this.alias = p.nick || ''; this.sub = sub; this._l = nrm(p.name); this._h = `${this._l}|${nrm(sub)}|${nrm(this.alias)}`; }
+  constructor(p, sub) { this.p = p; this.value = p.id; this.label = p.name; this.alias = [p.nick, p.natView && p.natView.name !== p.name ? p.natView.name : null, p.natView ? p.natView.nick : null].filter(Boolean).join(' '); /* anche il nome come nel profilo della nazionale */ this.sub = sub; this._l = nrm(p.name); this._h = `${this._l}|${nrm(sub)}|${nrm(this.alias)}`; }
   get avatar() { return <PlayerFace p={this.p} size={52} />; }
   get bg() { const p = this.p; return teamGrad((p.nat ? null : teamById(p.teamId)) || teamById(p.teamId), 0x55); }
   get subNode() { return <ClubNatLine p={this.p} className="mt-0.5 text-[12px]" />; }
