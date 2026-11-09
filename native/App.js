@@ -139,67 +139,75 @@ const useOpen = (key, init) => {
   const toggle = () => setOpen((o) => { OPEN_KEY[key] = !o; return !o; });
   return [open, toggle];
 };
-// Tendina (Accordion B): sempre animata, anche con decine di partite. Si anima solo l'altezza di un contenitore che ritaglia
-// (thread UI, Reanimated), non le righe una per una: per questo non scatta piu' sulle finestre grandi (prima oltre 14 partite
-// l'animazione veniva saltata). L'altezza animata si ferma a uno schermo; finita l'apertura il contenitore torna libero
-// e le righe montate a pezzi lo allungano senza vincoli. Chiudendo parte da al massimo uno schermo (il resto e' gia' fuori vista).
+// Tendina (Accordion B): sempre animata, in apertura e in chiusura, anche con decine di partite. Si anima solo l'altezza massima di un
+// contenitore che ritaglia, sul thread UI (Reanimated): le righe non si animano una per una.
+// Causa dell'apertura bloccata e senza animazione (9/11/2026): l'altezza era animata dal thread JS (Animated di React Native con
+// useNativeDriver false) proprio mentre lo stesso thread montava le righe a pezzi; i fotogrammi non partivano, la tendina restava ferma
+// e dopo la rete di sicurezza compariva gia' aperta. In chiusura non si monta niente, per questo funzionava. Ora l'animazione gira sul
+// thread UI e le righe oltre le prime si montano solo ad apertura finita (`OpenCtx` -> `useChunk`).
+// Fine apertura: l'altezza massima diventa FREE_H (nessun vincolo: le righe montate dopo allungano la tendina) senza togliere lo stile.
+// Chiudendo parte da al massimo uno schermo (il resto e' gia' fuori vista).
 const SCR_H = Dimensions.get('window').height;
-const OPEN_MS = 260, CLOSE_MS = 220;
-// Altezza animata con l'Animated di React Native (non Reanimated): togliendo lo stile a fine apertura l'altezza torna
-// davvero libera. Reti di sicurezza a tempo: la tendina si apre o si chiude comunque, anche se la misura non arriva.
-const C_EASE = RNEasing.out(RNEasing.cubic);
+const OPEN_MS = 260, CLOSE_MS = 220, FREE_H = 100000;
+const OpenCtx = createContext(true); // true = apertura finita (o tendina gia' aperta): si possono montare le righe rimaste
 const Collapse = ({ open, instant, children }) => {
   const [mounted, setMounted] = useState(open);
-  const [free, setFree] = useState(open);
-  const mRef = useRef(open), fRef = useRef(open);
-  mRef.current = mounted; fRef.current = free;
-  const h = useRef(new RNAnimated.Value(0)).current;
-  const ch = useRef(0), tgt = useRef(0), pend = useRef(false), first = useRef(true), timer = useRef(null);
+  const [done, setDone] = useState(open);
+  const mRef = useRef(open);
+  mRef.current = mounted;
+  const mh = useSharedValue(open ? FREE_H : 0);
+  const ch = useRef(0), pend = useRef(false), first = useRef(true), timer = useRef(null), seq = useRef(0);
   const later = (ms, f) => { clearTimeout(timer.current); timer.current = setTimeout(f, ms); };
   useEffect(() => () => clearTimeout(timer.current), []);
-  const grow = (dur) => {
-    tgt.current = Math.min(ch.current, SCR_H);
-    RNAnimated.timing(h, { toValue: tgt.current, duration: dur, easing: C_EASE, useNativeDriver: false }).start();
-    later(dur + 30, () => setFree(true));
+  const opened = (n) => { if (n !== seq.current) return; clearTimeout(timer.current); mh.value = FREE_H; setDone(true); };
+  const closed = (n) => { if (n !== seq.current) return; clearTimeout(timer.current); setMounted(false); };
+  const grow = () => {
+    const n = seq.current;
+    const to = Math.max(1, Math.min(ch.current, SCR_H));
+    mh.value = withTiming(to, { duration: OPEN_MS, easing: Easing.out(Easing.cubic) }, (fin) => { if (fin) runOnJS(opened)(n); });
+    later(OPEN_MS + 200, () => opened(n)); // rete di sicurezza: aperta comunque
   };
   useEffect(() => {
     if (first.current) { first.current = false; return; }
-    h.stopAnimation();
-    if (instant) { clearTimeout(timer.current); setMounted(open); setFree(open); return; }
+    seq.current += 1;
+    const n = seq.current;
+    cancelAnimation(mh);
+    clearTimeout(timer.current);
+    pend.current = false;
+    if (instant) { mh.value = open ? FREE_H : 0; setMounted(open); setDone(open); return; }
     if (open) {
-      setMounted(true); setFree(false);
-      if (mRef.current && ch.current) grow(OPEN_MS);
-      else { h.setValue(0); pend.current = true; later(OPEN_MS + 250, () => { pend.current = false; setFree(true); }); }
+      setDone(false);
+      if (mRef.current && ch.current) { if (mh.value > SCR_H) mh.value = 0; grow(); } // riaperta mentre si chiudeva: riparte da dov'e'
+      else { mh.value = 0; setMounted(true); pend.current = true; later(OPEN_MS + 400, () => { pend.current = false; opened(n); }); }
     } else if (mRef.current) {
-      pend.current = false;
-      if (fRef.current) h.setValue(Math.min(ch.current, SCR_H));
-      setFree(false);
-      RNAnimated.timing(h, { toValue: 0, duration: CLOSE_MS, easing: C_EASE, useNativeDriver: false }).start();
-      later(CLOSE_MS + 30, () => setMounted(false));
+      setDone(false);
+      if (mh.value > SCR_H) mh.value = Math.min(ch.current || SCR_H, SCR_H);
+      mh.value = withTiming(0, { duration: CLOSE_MS, easing: Easing.out(Easing.cubic) }, (fin) => { if (fin) runOnJS(closed)(n); });
+      later(CLOSE_MS + 200, () => closed(n));
     }
   }, [open]); // eslint-disable-line react-hooks/exhaustive-deps
   const onLayout = (e) => {
     ch.current = e.nativeEvent.layout.height;
-    if (pend.current) { pend.current = false; grow(OPEN_MS); return; }
-    // righe arrivate a pezzi mentre si apre: la tendina continua a scendere fino a loro, senza scatti
-    if (open && !free && Math.min(ch.current, SCR_H) > tgt.current + 1) grow(180);
+    if (pend.current && ch.current > 0) { pend.current = false; grow(); }
   };
+  const st = useAnimatedStyle(() => ({ maxHeight: mh.value }));
   if (!mounted) return null;
   return (
-    <RNAnimated.View style={free ? null : { overflow: 'hidden', height: h }}>
-      <View onLayout={onLayout}>{children}</View>
-    </RNAnimated.View>
+    <Animated.View style={[{ overflow: 'hidden' }, st]}>
+      <View onLayout={onLayout}><OpenCtx.Provider value={done}>{children}</OpenCtx.Provider></View>
+    </Animated.View>
   );
 };
 // Righe montate a pezzi: le prime subito (la finestra risponde al tocco), il resto a riposo, un pezzo per volta.
 const FIRST_ROWS = 8, STEP_ROWS = 10;
 const useChunk = (total) => {
+  const ready = useContext(OpenCtx); // durante l'animazione di apertura non si monta altro: il thread JS resta libero
   const [n, setN] = useState(Math.min(total, FIRST_ROWS));
   useEffect(() => {
-    if (n >= total) return undefined;
+    if (!ready || n >= total) return undefined;
     const t = setTimeout(() => setN((v) => Math.min(total, v + STEP_ROWS)), 40);
     return () => clearTimeout(t);
-  }, [n, total]);
+  }, [n, total, ready]);
   return Math.min(n, total);
 };
 const LeagueBody = ({ g, onOpen }) => {
