@@ -6003,7 +6003,7 @@
  "squadre_controllate": 1483,
  "rose": {
   "squadre": 5237,
-  "senza_rosa_prima": 4313,
+  "senza_rosa_prima": 4311,
   "senza_rosa_dopo": 610,
   "senza_rosa": [
    {
@@ -10915,7 +10915,7 @@
  },
  "rose_per_ruolo": {
   "squadre": 5237,
-  "prima": 4381,
+  "prima": 4379,
   "dopo": 1435,
   "giocate_dopo": 1275,
   "elenco": [
