@@ -12,7 +12,7 @@ import TabsN from '../shared/TabsN';
 import PaneN from '../shared/PaneN';
 import { InjuryIconN } from '../shared/Icons';
 import Radar from '../shared/Radar';
-import { resetSel, useSel } from '../shared/hooks';
+import { resetSel, presetSel, useSel } from '../shared/hooks';
 import useAsync from '@/hooks/useAsync';
 import { BASE } from '@/data/load';
 import { playerById } from '@/data/players';
@@ -273,6 +273,8 @@ export default function Giocatore({ C, top, onBack, bottom = 90, openRoute, para
     let live = true;
     setSt('load');
     resetSel(id);
+    if (params && params.tab) presetSel(id, 'tab', params.tab);
+    if (params && params.sk) { presetSel(id, 'ss', params.sk); if (params.lid) presetSel(id, 'sc', params.lid); }
     (async () => {
       await bootShared();
       const arc = parseArchiveId(id);

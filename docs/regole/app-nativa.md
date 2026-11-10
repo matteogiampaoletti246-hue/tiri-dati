@@ -153,3 +153,6 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 - `/campionato/:id` e' nativo (`native/pages/Campionato.js`): banner `EntityBannerN` coi colori e il logo del campionato (logo chiaro dal tema, bianco con `logoTint` per Premier/Champions/Ligue 1 al buio), tendina stagioni (`Dropdown` nel banner), `TintProvider` col colore del campionato.
 - Schede: Partite (giornate in riquadri tinti, "Giornate precedenti" senza salto grazie a `anchor`), Classifica (+ Tabellone se la stagione ha turni a eliminazione, `ClassificaSwitchN`), Stat. squadre, Giocatori, Arbitri (solo con dati). Stagioni passate: `pages/CampionatoArch.js`, schede mostrate solo se hanno dati.
 - Elenchi per giornata: `shared/MatchdayN.js`; classifica arbitri: `shared/RefereesN.js`. Pillole e cambi di filtro come in tutta l'app (`Segmented`, `SwapN`).
+
+## Archivio, Arbitro, Competizioni nativi (11/11/2026)
+- `/storico/:fm/:sk/squadra/:tid` e `/giocatore/:pid` (`pages/ArchiveRoute.js`) aprono la scheda unica con la stagione scelta (`presetSel`, `NAV`), come il sito. `/arbitro/:id` = `pages/Arbitro.js`; `/competizioni` = `pages/Competizioni.js`.

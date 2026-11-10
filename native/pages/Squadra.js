@@ -15,7 +15,7 @@ import { teamForm } from '@/data/matches';
 import { allTeamMatches } from '@/data/extras';
 import { coachOf, playersByTeam } from '@/data/players';
 import { loadRose, roseOf, seasonRoster, roseLoaded } from '@/data/rose';
-import { resetSel, useSel } from '../shared/hooks';
+import { resetSel, presetSel, useSel } from '../shared/hooks';
 import { useBannerSel, useBannerRow } from '../shared/teamView';
 import EntityBannerN from '../shared/EntityBannerN';
 import TabsN from '../shared/TabsN';
@@ -107,7 +107,7 @@ export default function Squadra({ C, top, onBack, bottom = 90, openRoute, params
       let t = teamById(id);
       const fmRoute = /^fm-(\d+)$/.exec(String(id));
       if (!t && fmRoute) t = await teamFromIndex(fmRoute[1]);
-      if (live) { if (t) resetSel(t.id); setT0(t || null); setSt(t ? 'ok' : 'err'); }
+      if (live) { if (t) { resetSel(t.id); if (params && params.tab) presetSel(t.id, 'tab', params.tab); } setT0(t || null); setSt(t ? 'ok' : 'err'); }
     })().catch(() => { if (live) setSt('err'); });
     return () => { live = false; };
   }, [id]);

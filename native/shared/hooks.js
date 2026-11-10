@@ -2,6 +2,8 @@
 import { useState } from 'react';
 const SEL = new Map();
 export const resetSel = (entity) => { [...SEL.keys()].forEach((k) => { if (k.startsWith(`${entity}|`)) SEL.delete(k); }); };
+// imposta in anticipo una scelta (es. apertura da una stagione d'archivio sulla scheda Classifica)
+export const presetSel = (entity, slot, v) => { SEL.set(`${entity}|${slot}`, v); };
 export function useSel(entity, slot, initial) {
   const k = `${entity}|${slot}`;
   const [v, setV] = useState(() => {

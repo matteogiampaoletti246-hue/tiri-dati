@@ -132,7 +132,7 @@ const fracIn = (sorted, v) => {
   return Math.max(0, Math.min(1, (below - 1) / (sorted.length - 1)));
 };
 
-function RefBar({ C, label, v, avg, sorted }) {
+export function RefBar({ C, label, v, avg, sorted }) {
   const top = Math.max(avg * 1.7, v * 1.05, 0.0001);
   const frac = fracIn(sorted, v);
   const col = frac !== null ? BAND_COLORS[bandOf(frac)] : C.ink;
