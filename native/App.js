@@ -60,13 +60,15 @@ const dayLabel = (d) => { const diff = Math.round((new Date(d.getFullYear(), d.g
 // ---------- raggruppamento (come groupsOf della Home web) ----------
 const OPEN_KEY = {}; // aperto/chiuso ricordato per giorno e finestra
 // Giorno senza partite delle competizioni con la finestra aperta (top 5, coppe europee, Nations League): le 3 competizioni con il
-// ranking piu' alto del giorno (rank = importanza + ordine dell'indice, come le finestre dei paesi) salgono in cima, aperte, come i
-// top campionati (regola fissa 10/11/2026). Si decide su tutte le partite del giorno, anche col filtro Live.
+// ranking piu' alto del giorno salgono in cima, aperte, come i top campionati (regola fissa 10/11/2026). Ranking = ordine dell'indice
+// (pr): le coppe nazionali valgono come il loro paese (Copa del Rey prima della Bolivia), femminili/giovanili dietro.
+// Si decide su tutte le partite del giorno, anche col filtro Live.
 const PROMO_N = 3;
+const prOf = (c) => (c.pr != null ? c.pr : c.rank);
 function promoOf(rows) {
   const seen = new Set();
   for (const m of rows) { const c = META.comps[m[1]]; if (!c) continue; if (c.open) return null; seen.add(m[1]); }
-  return new Set([...seen].sort((a, b) => META.comps[a].rank - META.comps[b].rank).slice(0, PROMO_N));
+  return new Set([...seen].sort((a, b) => prOf(META.comps[a]) - prOf(META.comps[b])).slice(0, PROMO_N));
 }
 function groupsOf(rows, filter) {
   const promo = promoOf(rows);
@@ -92,7 +94,7 @@ function groupsOf(rows, filter) {
   top.sort((a, b) => a.c.solo - b.c.solo);
   const cs = [...countries.values()].sort((a, b) => a.name.localeCompare(b.name, 'it'));
   cs.forEach((x) => x.comps.sort((a, b) => a.c.rank - b.c.rank));
-  up.sort((a, b) => a.c.rank - b.c.rank);
+  up.sort((a, b) => prOf(a.c) - prOf(b.c));
   return [...up.map((g) => ({ key: `l${g.fm}`, g })), ...top.map((g) => ({ key: `l${g.fm}`, g })), ...cs.map((x) => ({ key: `p${x.k}`, p: x }))];
 }
 

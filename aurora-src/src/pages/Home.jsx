@@ -19,7 +19,7 @@ import { syncDayTimes, refreshStatus } from '@/data/fotmob';
 import { loadDayFeed } from '@/data/dayFeed';
 import { DATES, TODAY_INDEX, isoDate, matchesByDate, MATCHES } from '@/data/matches';
 import { LEAGUES, leagueById } from '@/data/leagues';
-import { countryCode, importance } from '@/data/countries';
+import { countryCode, importance, isWomenYouth } from '@/data/countries';
 
 // giorno scelto: resta in memoria mentre si naviga, cosi' tornando indietro si ritrova lo stesso giorno
 const KEEP = { iso: null, filter: 'all', stamp: '' };
@@ -55,7 +55,9 @@ const layout = () => {
   // internazionali (senza paese) subito dopo i top, nell'ordine dell'indice
   LEAGUES.forEach((L) => { if (!solo.has(L.id) && !countryCode(L)) solo.set(L.id, TOP_SOLO.length + pos.get(L.id)); });
   const rank = new Map(LEAGUES.map((L) => [L.id, importance(L) * 1e5 + pos.get(L.id)]));
-  LAYOUT = { n: LEAGUES.length, solo, rank };
+  // ranking della promozione (giorni senza competizioni aperte): ordine dell'indice, coppe come il loro paese, femminili/giovanili dietro
+  const pr = new Map(LEAGUES.map((L) => [L.id, (isWomenYouth(L) ? 1e5 : 0) + pos.get(L.id)]));
+  LAYOUT = { n: LEAGUES.length, solo, rank, pr };
   return LAYOUT;
 };
 // un calcolo per giorno/filtro/versione: i ridisegni (minuto live, giorni vicini) non rifanno raggruppamenti e ordinamenti
@@ -67,11 +69,11 @@ function groupsOf(iso, filter, ver) {
   const hit = GROUPS.get(key);
   if (hit && hit.ver === ver && hit.lg === LEAGUES.length) return hit.list;
   const dm = matchesByDate(iso);
-  const { solo, rank } = layout();
+  const { solo, rank, pr } = layout();
   // giorno senza partite delle competizioni aperte (top 5, coppe europee, Nations League): le 3 col ranking piu' alto del giorno
   // salgono in cima, aperte, come i top campionati (regola fissa 10/11/2026); si decide su tutte le partite del giorno
   const ids = [...new Set(dm.map((m) => m.leagueId))].filter((id) => leagueById(id));
-  const promo = ids.some((id) => OPEN_AT_START.has(id)) ? null : new Set(ids.sort((a, b) => rank.get(a) - rank.get(b)).slice(0, PROMO_N));
+  const promo = ids.some((id) => OPEN_AT_START.has(id)) ? null : new Set(ids.sort((a, b) => pr.get(a) - pr.get(b)).slice(0, PROMO_N));
   const up = [];
   const sh = filter === 'live' ? dm.filter((m) => m.status === 'live') : dm;
   const by = new Map();
@@ -91,7 +93,7 @@ function groupsOf(iso, filter, ver) {
   top.sort((a, b) => solo.get(a.league.id) - solo.get(b.league.id));
   const cs = [...countries.values()].sort((a, b) => a.name.localeCompare(b.name, 'it'));
   cs.forEach((c) => c.comps.sort((a, b) => rank.get(a.league.id) - rank.get(b.league.id)));
-  up.sort((a, b) => rank.get(a.league.id) - rank.get(b.league.id));
+  up.sort((a, b) => pr.get(a.league.id) - pr.get(b.league.id));
   const list = [...up.map((g) => ({ key: g.league.id, g })), ...top.map((g) => ({ key: g.league.id, g })), ...cs.map((c) => ({ key: `paese:${c.cc}`, c }))];
   GROUPS.set(key, { ver, lg: LEAGUES.length, list });
   if (GROUPS.size > 24) GROUPS.delete(GROUPS.keys().next().value);

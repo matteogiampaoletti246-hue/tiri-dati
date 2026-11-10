@@ -13,7 +13,7 @@ fs.writeFileSync(path.join(tmp, 'load.js'), 'export const RAW = {};');
 fs.writeFileSync(path.join(tmp, 'leagues.js'), fs.readFileSync(path.join(SRC, 'data/leagues.js'), 'utf8').replace("from './load'", "from './load.js'"));
 fs.writeFileSync(path.join(tmp, 'countries.js'), fs.readFileSync(path.join(SRC, 'data/countries.js'), 'utf8'));
 const { LEAGUES, leagueTint } = await import(pathToFileURL(path.join(tmp, 'leagues.js')));
-const { countryCode, importance, flagEmoji } = await import(pathToFileURL(path.join(tmp, 'countries.js')));
+const { countryCode, importance, isWomenYouth, flagEmoji } = await import(pathToFileURL(path.join(tmp, 'countries.js')));
 // codice della bandiera (cartella flag-icons): ISO2 minuscolo, Inghilterra/Scozia/Galles/Irlanda del Nord a parte
 const cSrc = fs.readFileSync(path.join(SRC, 'data/countries.js'), 'utf8');
 const ISO2 = eval('(' + /const ISO2 = (\{[\s\S]*?\});/.exec(cSrc)[1] + ')');
@@ -50,10 +50,10 @@ LEAGUES.forEach((L) => {
   const fm = L.fm || FM_ID[L.id];
   if (!fm) return;
   const cc = countryCode(L);
-  byFm[fm] = { id: L.id, name: L.name, country: L.country || '', cc: cc || '', flag: flagEmoji(cc) || '', fc: flagCode(cc), tint: leagueTint(L.id), solo: solo.has(L.id) ? solo.get(L.id) : -1, rank: importance(L) * 1e5 + pos.get(L.id), open: OPEN.has(L.id), logo: FMLOGO(fm) };
+  byFm[fm] = { id: L.id, name: L.name, country: L.country || '', cc: cc || '', flag: flagEmoji(cc) || '', fc: flagCode(cc), tint: leagueTint(L.id), solo: solo.has(L.id) ? solo.get(L.id) : -1, rank: importance(L) * 1e5 + pos.get(L.id), pr: (isWomenYouth(L) ? 1e5 : 0) + pos.get(L.id), open: OPEN.has(L.id), logo: FMLOGO(fm) };
 });
 // conferenza: nell'app e' un campionato d'archivio senza riga propria
-if (!byFm[10216]) byFm[10216] = { id: 'conference-league', name: 'Conference League', country: 'Europa', cc: '', flag: '', tint: '#2FBF71', solo: TOP_SOLO.indexOf('conference-league'), rank: 0, open: true, logo: FMLOGO(10216) };
+if (!byFm[10216]) byFm[10216] = { id: 'conference-league', name: 'Conference League', country: 'Europa', cc: '', flag: '', tint: '#2FBF71', solo: TOP_SOLO.indexOf('conference-league'), rank: 0, pr: 0, open: true, logo: FMLOGO(10216) };
 // stagione in corso di ogni competizione (per aprire la partita dall'archivio)
 const cur = {};
 Object.entries(idx).forEach(([k, e]) => { if (e && e.s && e.s.length) cur[k] = [...e.s].sort((a, b) => String(b).localeCompare(String(a)))[0]; });
