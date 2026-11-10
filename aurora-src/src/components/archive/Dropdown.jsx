@@ -3,6 +3,7 @@ import MenuBackdrop from '@/components/MenuBackdrop';
 import { Check } from 'lucide-react';
 import HaloChevron from '@/components/HaloChevron';
 import { usePopFit, popScroll } from '@/lib/popFit';
+import HaloRing from '@/components/HaloRing';
 
 // Tasto in vetro che apre un elenco (stesso stile del menu statistiche del Matchup).
 export default function Dropdown({ options, value, onChange, icon = null, width = 250 }) {
@@ -21,7 +22,7 @@ export default function Dropdown({ options, value, onChange, icon = null, width 
   if (!cur) return null;
   return (
     <div ref={ref} className="relative" data-no-swipe="true" style={open ? { zIndex: 96 } : undefined}>
-      <button type="button" onClick={() => setOpen((o) => !o)} className="halo-trigger glass press flex h-10 max-w-full items-center gap-2.5 rounded-full pl-4 pr-3 text-[14px] font-bold" style={{ color: 'var(--ink)' }}>
+      <button type="button" onClick={() => setOpen((o) => !o)} className="halo-trigger glass press flex h-10 max-w-full items-center gap-2.5 rounded-full pl-4 pr-3 text-[14px] font-bold" style={{ color: 'var(--ink)' }}><HaloRing />
         {icon}
         <span className="truncate">{cur.short || cur.label}</span>
         <HaloChevron open={open} value={value} size={16} strokeWidth={2} className="flex-none" />

@@ -3,6 +3,7 @@ import MenuBackdrop from '@/components/MenuBackdrop';
 import { Check } from 'lucide-react';
 import HaloChevron from '@/components/HaloChevron';
 import { usePopFit, popScroll } from '@/lib/popFit';
+import HaloRing from '@/components/HaloRing';
 
 // Tendina di destra (Over / Under / Divario, con Totale o 1T per cartellini e arbitri): stessa forma e animazione della tendina delle statistiche.
 export default function ModePicker({ options, value, onChange }) {
@@ -22,7 +23,7 @@ export default function ModePicker({ options, value, onChange }) {
 
   return (
     <div ref={ref} className="relative" data-no-swipe="true" style={open ? { zIndex: 96 } : undefined}>
-      <button type="button" onClick={() => setOpen((o) => !o)} className="halo-trigger glass press flex h-10 items-center gap-2 rounded-full pl-3.5 pr-3 text-[14.5px] font-bold" style={{ color: 'var(--ink)' }}>
+      <button type="button" onClick={() => setOpen((o) => !o)} className="halo-trigger glass press flex h-10 items-center gap-2 rounded-full pl-3.5 pr-3 text-[14.5px] font-bold" style={{ color: 'var(--ink)' }}><HaloRing />
         <span>{cur.label}</span>
         <HaloChevron open={open} value={value} size={16} strokeWidth={2} />
       </button>

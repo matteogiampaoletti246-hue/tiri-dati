@@ -4,6 +4,7 @@ import { Check } from 'lucide-react';
 import HaloChevron from '@/components/HaloChevron';
 import { usePopFit, popScroll } from '@/lib/popFit';
 import LeagueBadge from '@/components/LeagueBadge';
+import HaloRing from '@/components/HaloRing';
 
 // Tendina delle competizioni: logo + nome, si apre sotto il tasto.
 export default function CompSelect({ options, value, onChange, allLabel = null, inline = false }) {
@@ -29,7 +30,7 @@ export default function CompSelect({ options, value, onChange, allLabel = null, 
         type="button"
         onClick={() => setOpen((o) => !o)}
         className="halo-trigger glass press inline-flex max-w-full items-center gap-2 rounded-[16px] py-2 pl-3 pr-2.5"
-      >
+      ><HaloRing />
         {cur ? <LeagueBadge league={cur} size={24} /> : null}
         <b className="truncate whitespace-nowrap text-[14px]">{cur ? cur.name : allLabel}</b>
         <HaloChevron open={open} value={value} size={16} strokeWidth={2} />

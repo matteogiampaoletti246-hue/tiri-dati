@@ -4,6 +4,7 @@ import HaloChevron from '@/components/HaloChevron';
 import MenuBackdrop from '@/components/MenuBackdrop';
 import StatIcon from '@/components/StatIcon';
 import { usePopFit, popScroll } from '@/lib/popFit';
+import HaloRing from '@/components/HaloRing';
 
 // Migliori Giocatori, tendina della statistica (concept A): pillola in vetro alta come i tasti delle linee,
 // icona + nome breve + freccia; lista allineata a destra, voce scelta evidenziata con la spunta.
@@ -33,7 +34,7 @@ export default function TopStatPicker({ options, value, onChange, bar = false, s
           ? 'glass-flat press flex h-[36px] w-[92px] items-center justify-between gap-[3px] whitespace-nowrap rounded-full pl-[10px] pr-[6px] text-[12px] font-extrabold'
           : 'glass-flat press flex h-[40px] items-center gap-[5px] whitespace-nowrap rounded-full pl-[10px] pr-[9px] text-[12.5px] font-extrabold'}`}
         style={{ color: 'var(--ink)' }}
-      >
+      ><HaloRing />
         {tight ? null : <span className="flex" style={{ color: 'var(--accent)' }}><StatIcon k={cur.icon} size={bar ? 19 : 17} /></span>}
         <span className={bar ? 'flex-1 text-left' : ''}>{bar ? cur.label : cur.short}</span>
         <HaloChevron open={open} value={value} size={bar ? 15 : tight ? 11 : 13} strokeWidth={2.6} className="flex-none" />

@@ -373,10 +373,20 @@ const Logo = memo(({ size = 30 }) => {
 // (sotto righe, finestre e tabelle, che restano dei loro colori). Thread UI, fermo con Riduci movimento.
 const BH = Dimensions.get('window').height;
 const BEAMS = [[-0.15, 70, 0], [0.18, 46, 1], [0.45, 90, 0], [0.78, 56, 1]];
-const Beam = memo(({ left, w, alt, dur, reduce }) => {
+// FLUIDITA' (regola fissa): con la pagina web aperta sopra la Home (`ov` = 0) i fasci e il bordo luminoso della ricerca non si vedono:
+// le loro animazioni si fermano (niente lavoro sul thread UI ne' ricomposizioni sotto la pagina) e ripartono da dov'erano appena la Home ricompare.
+const Beam = memo(({ left, w, alt, dur, reduce, ov }) => {
   const { C } = useT();
   const y = useSharedValue(-40);
-  useEffect(() => { if (!reduce) y.value = withRepeat(withTiming(40, { duration: dur, easing: Easing.inOut(Easing.sin) }), -1, true); return () => cancelAnimation(y); }, [reduce]); // eslint-disable-line react-hooks/exhaustive-deps
+  useAnimatedReaction(() => (reduce ? 2 : ov && ov.value === 0 ? 1 : 0), (st, prev) => {
+    if (st === prev) return;
+    cancelAnimation(y);
+    if (st !== 0) return;
+    const ease = Easing.inOut(Easing.sin);
+    // riparte dal punto in cui era: prima arriva a +40, poi continua avanti e indietro tra +40 e -40 come sempre
+    y.value = withSequence(withTiming(40, { duration: Math.max(1, (dur * (40 - y.value)) / 80), easing: ease }), withRepeat(withTiming(-40, { duration: dur, easing: ease }), -1, true));
+  }, [reduce, dur]);
+  useEffect(() => () => cancelAnimation(y), []); // eslint-disable-line react-hooks/exhaustive-deps
   const st = useAnimatedStyle(() => ({ transform: [{ rotate: '-35deg' }, { translateY: y.value }] }));
   const c = alt ? C.beam2 : C.beam1;
   return (
@@ -385,12 +395,12 @@ const Beam = memo(({ left, w, alt, dur, reduce }) => {
     </Animated.View>
   );
 });
-const Beams = memo(() => {
+const Beams = memo(({ ov }) => {
   const [reduce, setReduce] = useState(false);
   useEffect(() => { AccessibilityInfo.isReduceMotionEnabled().then(setReduce).catch(() => {}); }, []);
   return (
     <View pointerEvents="none" style={[StyleSheet.absoluteFill, { overflow: 'hidden' }]}>
-      {BEAMS.map(([l, w, a], i) => <Beam key={i} left={l} w={w} alt={a} dur={9000 + i * 2300} reduce={reduce} />)}
+      {BEAMS.map(([l, w, a], i) => <Beam key={i} left={l} w={w} alt={a} dur={9000 + i * 2300} reduce={reduce} ov={ov} />)}
     </View>
   );
 });
@@ -410,10 +420,20 @@ const GlassBtn = ({ onPress, label, children, style }) => {
 
 
 // Barra di ricerca concept B (21st "Animated Glowing Search Bar"): bordo luminoso che gira attorno alla barra (thread UI) e alone sotto
-const GlowBar = ({ children, style, radius = 18 }) => {
+const GlowBar = ({ children, style, radius = 18, ov }) => {
   const { C } = useT();
   const r = useSharedValue(0);
-  useEffect(() => { AccessibilityInfo.isReduceMotionEnabled().then((red) => { if (!red) r.value = withRepeat(withTiming(360, { duration: 3200, easing: Easing.linear }), -1, false); }).catch(() => {}); return () => cancelAnimation(r); }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  const [go, setGo] = useState(false); // false finche' non si sa se "Riduci movimento" e' attivo
+  useEffect(() => { AccessibilityInfo.isReduceMotionEnabled().then((red) => { if (!red) setGo(true); }).catch(() => {}); return () => cancelAnimation(r); }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  // gira solo quando la Home si vede (vedi Beam): fermandosi e ripartendo continua dall'angolo in cui era
+  useAnimatedReaction(() => (go && !(ov && ov.value === 0) ? 1 : 0), (st, prev) => {
+    if (st === prev) return;
+    cancelAnimation(r);
+    if (!st) return;
+    const from = r.value % 360;
+    r.value = from;
+    r.value = withRepeat(withTiming(from + 360, { duration: 3200, easing: Easing.linear }), -1, false);
+  }, [go]);
   const st = useAnimatedStyle(() => ({ transform: [{ rotate: `${r.value}deg` }] }));
   return (
     <View style={[{ borderRadius: radius, padding: 1.5, overflow: 'hidden', backgroundColor: C.border, shadowColor: C.accent, shadowOpacity: 0.35, shadowRadius: 10, shadowOffset: { width: 0, height: 4 } }, style]}>
@@ -426,12 +446,12 @@ const GlowBar = ({ children, style, radius = 18 }) => {
 };
 
 // Riga in alto: logo, barra di ricerca (tutto lo spazio che resta), Calendario, menu. Una riga sola anche su iPhone stretti.
-function Header({ onSearch, onMenu, onCal }) {
+function Header({ onSearch, onMenu, onCal, ov }) {
   const { C, s } = useT();
   return (
     <View style={s.header}>
       <Logo size={30} />
-      <GlowBar style={{ flex: 1, minWidth: 0 }}>
+      <GlowBar ov={ov} style={{ flex: 1, minWidth: 0 }}>
         <Pressable onPress={onSearch} style={[s.sBar, { borderWidth: 0, backgroundColor: C.dark ? '#0A1020' : 'rgba(255,255,255,0.96)', height: 33 }]} accessibilityLabel="Cerca">
           <Ionicons name="search" size={16} color={C.accent} />
           <Text numberOfLines={1} style={s.sBarTx}>Cerca giocatori, squadre…</Text>
@@ -1359,9 +1379,9 @@ function Screen({ onTheme, onReset }) {
   const shown = [cur - 2, cur - 1, cur, cur + 1, cur + 2].filter((i) => i >= 0 && i < N);
   return (
     <View style={[s.root, { paddingTop: insets.top }]}>
-      <Beams />
+      <Beams ov={ov} />
       <StatusBar barStyle={C.dark ? 'light-content' : 'dark-content'} />
-      <Header onSearch={openSearch} onMenu={openMenuP} onCal={() => setCal(true)} />
+      <Header onSearch={openSearch} onMenu={openMenuP} onCal={() => setCal(true)} ov={ov} />
       <ScrollView ref={strip} horizontal showsHorizontalScrollIndicator={false} style={{ flexGrow: 0 }} contentContainerStyle={s.strip}>
         {dates.map((d, i) => (
           <DayBtn key={keys[i]} i={i} x={x} on={i === cur} top={dayLabel(d)} sub={`${d.getDate()} ${MONTHS[d.getMonth()]}`} onPress={() => goDayBtn(i)}

@@ -4,6 +4,7 @@ import { Check } from 'lucide-react';
 import HaloChevron from '@/components/HaloChevron';
 import { usePopFit, popScroll } from '@/lib/popFit';
 import StatIcon from '@/components/StatIcon';
+import HaloRing from '@/components/HaloRing';
 
 // Tasto unico in vetro: apre l'elenco delle statistiche, ognuna con la sua icona.
 export default function StatPicker({ options, value, onChange }) {
@@ -23,7 +24,7 @@ export default function StatPicker({ options, value, onChange }) {
 
   return (
     <div ref={ref} className="relative" data-no-swipe="true" style={open ? { zIndex: 96 } : undefined}>
-      <button type="button" onClick={() => setOpen((o) => !o)} className="halo-trigger glass press flex h-10 items-center gap-2.5 rounded-full pl-3.5 pr-3 text-[14.5px] font-bold" style={{ color: 'var(--ink)' }}>
+      <button type="button" onClick={() => setOpen((o) => !o)} className="halo-trigger glass press flex h-10 items-center gap-2.5 rounded-full pl-3.5 pr-3 text-[14.5px] font-bold" style={{ color: 'var(--ink)' }}><HaloRing />
         <StatIcon k={cur.key} size={20} />
         <span>{cur.label}</span>
         <HaloChevron open={open} value={value} size={16} strokeWidth={2} />

@@ -2456,6 +2456,50 @@ await step('foto stadio: anche nelle partite delle nazionali (Wembley, Kocaeli)'
   }
 });
 
+// Fluidita' (regola fissa, 10/11/2026): gli effetti sempre accesi non devono far lavorare il telefono a ogni fotogramma.
+// - ogni animazione infinita muove solo transform/opacity (mai angoli di gradiente, background-position, filtri, misure);
+// - il fondale (.aurora-bg) non ha filtri (la sfocatura dei fasci e' gia' nel gradiente);
+// - l'ingresso "a fuoco" di una pagina lavora su uno schermo (ritaglio .shell-clip) e a fine ingresso la pagina torna intera;
+// - col dito sullo schermo il fondale si ferma (.beam-hold) e poi riparte.
+await step('fluidita: effetti continui solo transform/opacity, fondale senza filtri, ingresso ritagliato', async () => {
+  const bad = [];
+  for (const h of ['#/calcolatore', '#/migliori-giocatori', '#/migliori-matchup', '#/campionato/serie-a', '#/linee-guida']) {
+    await go(h, 6000);
+    const r = await pg.evaluate(() => {
+      const out = [];
+      document.getAnimations().forEach((a) => {
+        try {
+          const t = a.effect && a.effect.getTiming();
+          if (!t || t.iterations !== Infinity || a.playState !== 'running') return;
+          const props = new Set();
+          a.effect.getKeyframes().forEach((k) => Object.keys(k).forEach((p) => { if (!['offset', 'easing', 'composite', 'computedOffset'].includes(p)) props.add(p); }));
+          const no = [...props].filter((p) => p !== 'transform' && p !== 'opacity');
+          if (no.length) out.push(`${a.animationName || '?'}: ${no.join('+')}`);
+        } catch (e) { /* ignora */ }
+      });
+      const bg = document.querySelector('.aurora-bg');
+      const flt = bg ? [getComputedStyle(bg, '::before').filter, getComputedStyle(bg, '::after').filter].filter((x) => x && x !== 'none') : [];
+      return { out, flt };
+    });
+    if (r.out.length || r.flt.length) bad.push({ h, ...r });
+  }
+  ok('fluidita: nessuna animazione infinita fuori da transform/opacity e fondale senza filtri', bad.length === 0, { bad });
+  // ingresso di una pagina aperta da un collegamento: ritaglio durante l'animazione, pagina intera subito dopo
+  await go('#/campionato/serie-a', 6000);
+  await pg.evaluate(() => {
+    window.__clip = { seen: false, hold: false };
+    const t0 = performance.now();
+    const f = () => { const s = document.getElementById('sl-shell'); if (s && s.classList.contains('shell-clip')) window.__clip.seen = true; if (document.documentElement.classList.contains('beam-hold')) window.__clip.hold = true; if (performance.now() - t0 < 1500) requestAnimationFrame(f); };
+    requestAnimationFrame(f);
+  });
+  const link = pg.locator('a[href*="#/match/"]:visible').first();
+  await link.tap({ timeout: 5000 });
+  await wait(2600);
+  const c = await pg.evaluate(() => { const s = document.getElementById('sl-shell'); return { ...window.__clip, hash: location.hash, left: !!(s && s.classList.contains('shell-clip')), h: s ? Math.round(s.getBoundingClientRect().height) : 0, doc: document.documentElement.scrollHeight, vh: innerHeight, holdNow: document.documentElement.classList.contains('beam-hold') }; });
+  ok('fluidita: ingresso pagina ritagliato allo schermo e poi pagina intera', /match/.test(c.hash) && c.seen && !c.left && c.h >= c.vh, c);
+  ok('fluidita: fondale fermo durante il tocco e ripartito dopo', c.hold && !c.holdNow, c);
+});
+
 report.passed = report.checks.filter((c) => c.pass).length;
 report.total = report.checks.length;
 fs.writeFileSync(`${OUT}/report.json`, JSON.stringify(report, null, 2));

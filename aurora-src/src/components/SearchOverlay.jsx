@@ -177,6 +177,7 @@ export default function SearchOverlay({ open, onClose }) {
             transition={{ duration: 0.4, ease: EASE }}
           >
             <div className="glow-line flex items-center gap-2.5 pl-4 pr-2" style={{ height: BAR, borderBottom: needle && any ? '1px solid var(--hair)' : '1px solid transparent', touchAction: 'none' }}>
+              <span className="glow-slide" aria-hidden="true"><i /></span>
               <Search size={18} strokeWidth={2} className="shrink-0" style={{ color: 'var(--accent)' }} />
               <span className="relative flex min-w-0 flex-1">
                 <span aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden whitespace-pre text-[17px]" style={{ lineHeight: '24px', top: 0 }}>

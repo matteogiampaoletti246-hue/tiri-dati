@@ -710,6 +710,8 @@
   }
 }
 @media (prefers-reduced-motion: reduce) { .shell-in { animation: none; } }
+/* per la durata dell'ingresso la pagina e' alta quanto lo schermo e ritagliata: la sfocatura lavora su uno schermo, non su tutta la pagina (PageShell) */
+.shell-in.shell-clip { height: 100vh; min-height: 0; max-height: 100vh; overflow: hidden; overflow: clip; }
 
 .shell-pop {
   animation: none; /* tornando indietro la pagina riappare identica, senza dissolvenza (niente effetto refresh) */
@@ -776,7 +778,7 @@
   --atabs-pill-ink: #FFFFFF;
   --atabs-shadow: rgba(0, 0, 0, .6);
 }
-.atabs { position: relative; display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); gap: 8px; padding: 4px; border-radius: 999px; background: var(--atabs-bg); border: 1px solid var(--glass-border); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+.atabs { position: relative; display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); gap: 8px; padding: 4px; border-radius: 999px; background: var(--atabs-bg); border: 1px solid var(--glass-border); }
 .atabs-pill { position: absolute; top: 4px; bottom: 4px; left: 4px; width: calc((100% - 8px - (var(--n) - 1) * 8px) / var(--n)); border-radius: 999px; transform: translate3d(calc(var(--i) * (100% + 8px)), 0, 0); transition: transform .6s cubic-bezier(.34, 1.42, .64, 1); will-change: transform; }
 /* Pillola "liquid glass" unica per TUTTI i selettori che scorrono (AnimatedTabs, TextFilter, Tutte|Live, squadre in Formazioni,
    Over|Under, Classifica|Tabellone, app nativa): vetro nel colore d'accento (o --lg-c) con riflesso in alto, ombra sotto e scorrimento
@@ -883,33 +885,30 @@
 }
 
 /* ── Sfondo concept B "Beams Background" (21st, Kokonut UI): fasci di luce diagonali e sfocati che si muovono piano.
-   Solo nel fondale (.aurora-bg, sotto a tutto): banner, schede e tabelle dei campionati restano dei loro colori. ── */
+   Solo nel fondale (.aurora-bg, sotto a tutto): banner, schede e tabelle dei campionati restano dei loro colori.
+   FLUIDITA' (regola fissa): niente `filter: blur` qui. La sfocatura di 18 px e' gia' dentro il gradiente (stessi fasci, calcolati:
+   ogni fascio = triangolo originale passato per una gaussiana), cosi' il telefono non deve risfocare due livelli piu' grandi
+   dello schermo a ogni fotogramma. Il livello e' disegnato a 1/4 e ingrandito 4 volte (un gradiente morbido non perde nulla).
+   Col dito sullo schermo o durante lo scorrimento il movimento si ferma (.beam-hold, lib/ambient.js) e riprende da dov'era. ── */
 .aurora-bg { overflow: hidden; }
 .aurora-bg::before,
 .aurora-bg::after {
   content: '';
   position: absolute;
-  inset: -40% -60%;
+  inset: 27.5% 22.5%;
   pointer-events: none;
-  background:
-    linear-gradient(90deg, transparent 0 14%, var(--beam-1) 17%, transparent 21%,
-                            transparent 38%, var(--beam-2) 41%, transparent 44%,
-                            transparent 63%, var(--beam-1) 67%, transparent 71%,
-                            transparent 86%, var(--beam-2) 89%, transparent 92%);
-  filter: blur(18px);
-  transform: rotate(-35deg) translate3d(0, -6%, 0);
+  background: linear-gradient(90deg, transparent 0, transparent 7%, color-mix(in srgb, var(--beam-1) 0.6%, transparent) 10%, color-mix(in srgb, var(--beam-1) 2.1%, transparent) 11%, color-mix(in srgb, var(--beam-1) 5.6%, transparent) 12%, color-mix(in srgb, var(--beam-1) 12.6%, transparent) 13%, color-mix(in srgb, var(--beam-1) 23.4%, transparent) 14%, color-mix(in srgb, var(--beam-1) 36.7%, transparent) 15%, color-mix(in srgb, var(--beam-1) 48.7%, transparent) 16%, color-mix(in srgb, var(--beam-1) 55%, transparent) 17%, color-mix(in srgb, var(--beam-1) 53.3%, transparent) 18%, color-mix(in srgb, var(--beam-1) 44.2%, transparent) 19%, color-mix(in srgb, var(--beam-1) 31.6%, transparent) 20%, color-mix(in srgb, var(--beam-1) 19.3%, transparent) 21%, color-mix(in srgb, var(--beam-1) 10%, transparent) 22%, color-mix(in srgb, var(--beam-1) 4.4%, transparent) 23%, color-mix(in srgb, var(--beam-1) 1.6%, transparent) 24%, color-mix(in srgb, var(--beam-1) 0.5%, transparent) 25%, transparent 28%, transparent 31%, color-mix(in srgb, var(--beam-2) 0.6%, transparent) 34%, color-mix(in srgb, var(--beam-2) 2.1%, transparent) 35%, color-mix(in srgb, var(--beam-2) 5.6%, transparent) 36%, color-mix(in srgb, var(--beam-2) 12.4%, transparent) 37%, color-mix(in srgb, var(--beam-2) 22.9%, transparent) 38%, color-mix(in srgb, var(--beam-2) 35.4%, transparent) 39%, color-mix(in srgb, var(--beam-2) 45.8%, transparent) 40%, color-mix(in srgb, var(--beam-2) 49.9%, transparent) 41%, color-mix(in srgb, var(--beam-2) 45.8%, transparent) 42%, color-mix(in srgb, var(--beam-2) 35.4%, transparent) 43%, color-mix(in srgb, var(--beam-2) 22.9%, transparent) 44%, color-mix(in srgb, var(--beam-2) 12.4%, transparent) 45%, color-mix(in srgb, var(--beam-2) 5.6%, transparent) 46%, color-mix(in srgb, var(--beam-2) 2.1%, transparent) 47%, color-mix(in srgb, var(--beam-2) 0.6%, transparent) 48%, transparent 51%, transparent 56%, color-mix(in srgb, var(--beam-1) 0.5%, transparent) 59%, color-mix(in srgb, var(--beam-1) 1.6%, transparent) 60%, color-mix(in srgb, var(--beam-1) 4.4%, transparent) 61%, color-mix(in srgb, var(--beam-1) 10%, transparent) 62%, color-mix(in srgb, var(--beam-1) 19.4%, transparent) 63%, color-mix(in srgb, var(--beam-1) 32.1%, transparent) 64%, color-mix(in srgb, var(--beam-1) 45.6%, transparent) 65%, color-mix(in srgb, var(--beam-1) 56.2%, transparent) 66%, color-mix(in srgb, var(--beam-1) 60.2%, transparent) 67%, color-mix(in srgb, var(--beam-1) 56.2%, transparent) 68%, color-mix(in srgb, var(--beam-1) 45.6%, transparent) 69%, color-mix(in srgb, var(--beam-1) 32.1%, transparent) 70%, color-mix(in srgb, var(--beam-1) 19.4%, transparent) 71%, color-mix(in srgb, var(--beam-1) 10%, transparent) 72%, color-mix(in srgb, var(--beam-1) 4.4%, transparent) 73%, color-mix(in srgb, var(--beam-1) 1.6%, transparent) 74%, color-mix(in srgb, var(--beam-1) 0.5%, transparent) 75%, transparent 78%, transparent 79%, color-mix(in srgb, var(--beam-2) 0.6%, transparent) 82%, color-mix(in srgb, var(--beam-2) 2.1%, transparent) 83%, color-mix(in srgb, var(--beam-2) 5.6%, transparent) 84%, color-mix(in srgb, var(--beam-2) 12.4%, transparent) 85%, color-mix(in srgb, var(--beam-2) 22.9%, transparent) 86%, color-mix(in srgb, var(--beam-2) 35.4%, transparent) 87%, color-mix(in srgb, var(--beam-2) 45.8%, transparent) 88%, color-mix(in srgb, var(--beam-2) 49.9%, transparent) 89%, color-mix(in srgb, var(--beam-2) 45.8%, transparent) 90%, color-mix(in srgb, var(--beam-2) 35.4%, transparent) 91%, color-mix(in srgb, var(--beam-2) 22.9%, transparent) 92%, color-mix(in srgb, var(--beam-2) 12.4%, transparent) 93%, color-mix(in srgb, var(--beam-2) 5.6%, transparent) 94%, color-mix(in srgb, var(--beam-2) 2.1%, transparent) 95%, color-mix(in srgb, var(--beam-2) 0.6%, transparent) 96%, transparent 99%);
+  transform: rotate(-35deg) translate3d(0, -24%, 0) scale(4);
   animation: beamDrift 14s ease-in-out infinite alternate;
   will-change: transform;
 }
 .aurora-bg::after {
-  background:
-    linear-gradient(90deg, transparent 0 27%, var(--beam-2) 29%, transparent 32%,
-                            transparent 52%, var(--beam-1) 55%, transparent 58%,
-                            transparent 76%, var(--beam-2) 78%, transparent 81%);
+  background: linear-gradient(90deg, transparent 0, transparent 20%, color-mix(in srgb, var(--beam-2) 0.9%, transparent) 23%, color-mix(in srgb, var(--beam-2) 2.8%, transparent) 24%, color-mix(in srgb, var(--beam-2) 7.3%, transparent) 25%, color-mix(in srgb, var(--beam-2) 15.2%, transparent) 26%, color-mix(in srgb, var(--beam-2) 26.2%, transparent) 27%, color-mix(in srgb, var(--beam-2) 36.9%, transparent) 28%, color-mix(in srgb, var(--beam-2) 43%, transparent) 29%, color-mix(in srgb, var(--beam-2) 41.5%, transparent) 30%, color-mix(in srgb, var(--beam-2) 33.2%, transparent) 31%, color-mix(in srgb, var(--beam-2) 22.1%, transparent) 32%, color-mix(in srgb, var(--beam-2) 12.1%, transparent) 33%, color-mix(in srgb, var(--beam-2) 5.5%, transparent) 34%, color-mix(in srgb, var(--beam-2) 2.1%, transparent) 35%, color-mix(in srgb, var(--beam-2) 0.6%, transparent) 36%, transparent 39%, transparent 45%, color-mix(in srgb, var(--beam-1) 0.6%, transparent) 48%, color-mix(in srgb, var(--beam-1) 2.1%, transparent) 49%, color-mix(in srgb, var(--beam-1) 5.6%, transparent) 50%, color-mix(in srgb, var(--beam-1) 12.4%, transparent) 51%, color-mix(in srgb, var(--beam-1) 22.9%, transparent) 52%, color-mix(in srgb, var(--beam-1) 35.4%, transparent) 53%, color-mix(in srgb, var(--beam-1) 45.8%, transparent) 54%, color-mix(in srgb, var(--beam-1) 49.9%, transparent) 55%, color-mix(in srgb, var(--beam-1) 45.8%, transparent) 56%, color-mix(in srgb, var(--beam-1) 35.4%, transparent) 57%, color-mix(in srgb, var(--beam-1) 22.9%, transparent) 58%, color-mix(in srgb, var(--beam-1) 12.4%, transparent) 59%, color-mix(in srgb, var(--beam-1) 5.6%, transparent) 60%, color-mix(in srgb, var(--beam-1) 2.1%, transparent) 61%, color-mix(in srgb, var(--beam-1) 0.6%, transparent) 62%, transparent 65%, transparent 69%, color-mix(in srgb, var(--beam-2) 0.9%, transparent) 72%, color-mix(in srgb, var(--beam-2) 2.8%, transparent) 73%, color-mix(in srgb, var(--beam-2) 7.3%, transparent) 74%, color-mix(in srgb, var(--beam-2) 15.2%, transparent) 75%, color-mix(in srgb, var(--beam-2) 26.2%, transparent) 76%, color-mix(in srgb, var(--beam-2) 36.9%, transparent) 77%, color-mix(in srgb, var(--beam-2) 43%, transparent) 78%, color-mix(in srgb, var(--beam-2) 41.5%, transparent) 79%, color-mix(in srgb, var(--beam-2) 33.2%, transparent) 80%, color-mix(in srgb, var(--beam-2) 22.1%, transparent) 81%, color-mix(in srgb, var(--beam-2) 12.1%, transparent) 82%, color-mix(in srgb, var(--beam-2) 5.5%, transparent) 83%, color-mix(in srgb, var(--beam-2) 2.1%, transparent) 84%, color-mix(in srgb, var(--beam-2) 0.6%, transparent) 85%, transparent 88%);
   animation-duration: 19s;
   animation-delay: -7s;
 }
-@keyframes beamDrift { from { transform: rotate(-35deg) translate3d(-4%, -8%, 0); } to { transform: rotate(-35deg) translate3d(4%, 8%, 0); } }
+@keyframes beamDrift { from { transform: rotate(-35deg) translate3d(-16%, -32%, 0) scale(4); } to { transform: rotate(-35deg) translate3d(16%, 32%, 0) scale(4); } }
+.beam-hold .aurora-bg::before, .beam-hold .aurora-bg::after { animation-play-state: paused; }
 :root { --beam-1: rgba(31, 107, 239, .07); --beam-2: rgba(31, 107, 239, .045); }
 .dark { --beam-1: rgba(77, 168, 255, .11); --beam-2: rgba(77, 168, 255, .065); }
 @media (prefers-reduced-motion: reduce) { .aurora-bg::before, .aurora-bg::after { animation: none; } }
@@ -938,39 +937,48 @@ html:not(.dark) .lglass {
 }
 
 /* ── Search Bar concept B "Animated Glowing Search Bar" (21st, Le Thanh): bordo con gradiente che gira, alone sotto ── */
-@property --glow-a { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+/* FLUIDITA' (regola fissa): i bordi luminosi girano con `transform` su un quadrato dentro un ritaglio (.glow-spin, .halo-ring),
+   mai animando l'angolo del gradiente (@property): quello ridisegnava l'elemento a ogni fotogramma sul thread principale, per sempre.
+   Il risultato a schermo e' lo stesso: un gradiente conico ruotato attorno al suo centro. */
 .glow-ring { position: relative; display: block; padding: 1.5px; isolation: isolate; }
-.glow-ring::before {
-  content: ''; position: absolute; inset: 0; border-radius: inherit; z-index: -1;
-  background: conic-gradient(from var(--glow-a), transparent 0 62%, var(--accent) 78%, #7B6CFF 88%, transparent 97%), var(--glass-border);
-  animation: glowSpin 3.2s linear infinite;
+.glow-spin { position: absolute; inset: 0; border-radius: inherit; z-index: -1; overflow: hidden; pointer-events: none; background: var(--glass-border); }
+.glow-spin > i {
+  position: absolute; left: 50%; top: 50%; width: 145%; aspect-ratio: 1;
+  background: conic-gradient(transparent 0 62%, var(--accent) 78%, #7B6CFF 88%, transparent 97%);
+  transform: translate(-50%, -50%); animation: ringTurn 3.2s linear infinite;
 }
+@keyframes ringTurn { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
 .glow-ring::after {
   content: ''; position: absolute; left: 18%; right: 18%; bottom: -6px; height: 14px; z-index: -2; border-radius: 50%;
   background: var(--accent); filter: blur(12px); opacity: .28; pointer-events: none;
 }
-@keyframes glowSpin { to { --glow-a: 360deg; } }
 :root { --glow-in: rgba(255, 255, 255, .92); }
 .dark { --glow-in: #0a1020; }
 .glow-line { position: relative; }
-.glow-line::after {
-  content: ''; position: absolute; left: 14px; right: 14px; bottom: -1px; height: 1.5px; border-radius: 2px;
-  background: linear-gradient(90deg, transparent, var(--accent), #7B6CFF, transparent); background-size: 200% 100%;
-  animation: glowSlide 2.8s linear infinite; opacity: .9;
+/* linea luminosa che scorre: due copie del gradiente affiancate che si spostano con transform (prima: background-position, ridisegno a ogni fotogramma) */
+.glow-slide { position: absolute; left: 14px; right: 14px; bottom: -1px; height: 1.5px; border-radius: 2px; overflow: hidden; opacity: .9; pointer-events: none; }
+.glow-slide > i {
+  position: absolute; top: 0; bottom: 0; left: -300%; width: 400%;
+  background: linear-gradient(90deg, transparent, var(--accent), #7B6CFF, transparent); background-size: 50% 100%;
+  animation: glowSlide 2.8s linear infinite;
 }
-@keyframes glowSlide { from { background-position: 100% 0; } to { background-position: -100% 0; } }
-@media (prefers-reduced-motion: reduce) { .glow-ring::before, .glow-line::after { animation: none; } }
+@keyframes glowSlide { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(50%, 0, 0); } }
+@media (prefers-reduced-motion: reduce) { .glow-spin > i, .glow-slide > i { animation: none; } }
 
 /* ── Tendine concept B "Halo Select" (21st, cult/ui): bordo con gradiente che gira sul tasto, lista in vetro sfocato ── */
-@property --halo-a { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
 .halo-trigger { position: relative; isolation: isolate; border-color: transparent !important; }
-.halo-trigger::before {
-  content: ''; position: absolute; inset: -1.5px; border-radius: inherit; z-index: -1; pointer-events: none; padding: 1.5px;
-  background: conic-gradient(from var(--halo-a), var(--accent), #7B6CFF, #00C2FF, var(--accent));
+/* il vecchio anello occupava ::before (e quindi sui tasti in vetro non c'era il riflesso di .glass): resta cosi', aspetto identico */
+.halo-trigger::before { content: none; }
+/* anello (components/HaloRing.jsx, primo figlio di ogni .halo-trigger): la maschera ritaglia il bordo di 1,5 px, dentro gira il quadrato col gradiente */
+.halo-ring {
+  position: absolute; inset: -1.5px; border-radius: inherit; z-index: -1; pointer-events: none; padding: 1.5px; overflow: hidden; opacity: .9;
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude;
-  animation: haloSpin 4s linear infinite; opacity: .9;
 }
-@keyframes haloSpin { to { --halo-a: 360deg; } }
+.halo-ring > i {
+  position: absolute; left: 50%; top: 50%; width: 145%; aspect-ratio: 1;
+  background: conic-gradient(var(--accent), #7B6CFF, #00C2FF, var(--accent));
+  transform: translate(-50%, -50%); animation: ringTurn 4s linear infinite;
+}
 /* Striscia in alto (Calcolatore, Migliori Matchup/Giocatori): stesso fondale dell'app (colore + aloni, dimensionati sul display e ancorati in alto come .aurora-bg) ma opaca: le schede che scorrono spariscono sotto, senza stacco di colore. */
 .head-solid {
   background-color: hsl(var(--background));
@@ -986,7 +994,7 @@ html:not(.dark) .lglass {
 }
 .halo-spin { border: 2px solid var(--accent); border-top-color: transparent; animation: haloRot .6s linear infinite; }
 @keyframes haloRot { to { transform: rotate(360deg); } }
-@media (prefers-reduced-motion: reduce) { .halo-trigger::before, .halo-spin { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .halo-ring > i, .halo-spin { animation: none; } }
 
 /* ── Schede concept C "Halo Tabs" (21st, cult/ui): sottolineatura con gradiente luminoso e alone sotto la scheda attiva;
    nelle pillole (AnimatedTabs) la pillola prende lo stesso gradiente e bagliore ── */
@@ -995,8 +1003,10 @@ html:not(.dark) .lglass {
 /* stessa pillola per tutti i selettori (TextFilter e gli altri .lg-thumb); .lg-own = colore proprio (Tutte|Live blu -> rosso) */
 .atabs-pill, .lg-thumb:not(.lg-own) { background: linear-gradient(100deg, #1F6BEF, var(--accent) 55%, #7B6CFF) !important; box-shadow: 0 0 14px -2px color-mix(in srgb, var(--accent) 70%, transparent), inset 0 1px 0 rgba(255, 255, 255, .28) !important; }
 .atabs-tab.on { color: #fff; }
+/* Niente backdrop-filter su .atabs/.tfilter: dietro c'e' solo il fondale gia' sfumato (confronto pixel per pixel: identico), ma scorrendo
+   la pagina il telefono doveva risfocarlo a ogni fotogramma. */
 /* TextFilter: stessa barra di AnimatedTabs (larga quanto la riga, voci che si dividono lo spazio; se non ci stanno scorre) */
-.tfilter { display: flex; align-items: center; gap: 4px; padding: 4px; border-radius: 999px; background: var(--atabs-bg); border: 1px solid var(--glass-border); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+.tfilter { display: flex; align-items: center; gap: 4px; padding: 4px; border-radius: 999px; background: var(--atabs-bg); border: 1px solid var(--glass-border); }
 .tfilter-tab { position: relative; flex: 1 1 0; min-width: max-content; padding: 8px 10px; border-radius: 999px; font-size: 13px; font-weight: 700; text-align: center; }
 .tfilter.fit .tfilter-tab { flex: 0 0 auto; }
 

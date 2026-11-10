@@ -37,6 +37,7 @@ export default function HomeHeader({ onSearch, calendar }) {
         </Link>
         {/* Search Bar concept B (21st "Animated Glowing Search Bar"): bordo luminoso che gira attorno alla barra e alone sotto */}
         <span className="glow-ring min-w-0 flex-1 rounded-full">
+          <span className="glow-spin" aria-hidden="true"><i /></span>
           <button
             type="button"
             onClick={onSearch}

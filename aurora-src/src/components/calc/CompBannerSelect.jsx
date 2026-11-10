@@ -5,6 +5,7 @@ import MenuBackdrop from '@/components/MenuBackdrop';
 import LeagueBadge from '@/components/LeagueBadge';
 import { usePopFit, popScroll } from '@/lib/popFit';
 import { compAccent, compBg } from './calcComp';
+import HaloRing from '@/components/HaloRing';
 
 // Competizione del giocatore (concept B, scelto dall'utente l'8/11/2026): il tasto mostra logo e nome della competizione scelta;
 // la tendina elenca SOLO le competizioni del giocatore (campionato della sua squadra, coppa europea se la gioca, Nations League della
@@ -42,7 +43,7 @@ export default function CompBannerSelect({ value, options, onChange }) {
         onClick={() => setOpen((o) => !o)}
         className="halo-trigger flex h-10 max-w-full items-center gap-2 rounded-xl pl-2 pr-3 text-[15px] outline-none transition-opacity active:opacity-60"
         style={{ background: 'var(--panel-2)', border: '1px solid var(--hair)', color: 'var(--ink)' }}
-      >
+      ><HaloRing />
         {cur ? <LeagueBadge league={cur.comp} size={22} /> : null}
         <span className="truncate">{cur ? cur.comp.name : 'Seleziona'}</span>
         <HaloChevron open={open} value={value} size={16} strokeWidth={1.5} className="shrink-0" />

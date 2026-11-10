@@ -3,6 +3,7 @@ import MenuBackdrop from '@/components/MenuBackdrop';
 import { Check } from 'lucide-react';
 import HaloChevron from '@/components/HaloChevron';
 import { usePopFit, popScroll } from '@/lib/popFit';
+import HaloRing from '@/components/HaloRing';
 
 // Tendina compatta: si apre sotto il campo senza cambiare pagina.
 export default function MiniSelect({ value, options, onChange, placeholder = 'Seleziona', width = 132, ariaLabel }) {
@@ -28,7 +29,7 @@ export default function MiniSelect({ value, options, onChange, placeholder = 'Se
         onClick={() => setOpen((o) => !o)}
         className="halo-trigger tnum flex h-10 w-full items-center justify-between gap-1 rounded-xl px-3 text-[15px] outline-none transition-opacity active:opacity-60"
         style={{ background: 'var(--panel-2)', border: '1px solid var(--hair)', color: cur ? 'var(--ink)' : 'var(--ink-3)' }}
-      >
+      ><HaloRing />
         <span className="flex min-w-0 items-center gap-2">{cur && cur.icon ? <span className="flex shrink-0">{cur.icon}</span> : null}<span className="truncate">{cur ? cur.label : placeholder}</span></span>
         <HaloChevron open={open} value={value} size={16} strokeWidth={1.5} />
       </button>

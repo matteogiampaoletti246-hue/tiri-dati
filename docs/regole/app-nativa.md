@@ -78,3 +78,6 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 ## Home nativa: testate e ricerca (regola fissa)
 - Testate di paesi e campionati: numero partite e freccia in una zona fissa a destra (`s.tail`, 52 px, numero allineato a destra): stessa posizione in tutte le testate, il nome lungo si tronca prima.
 - Ricerca: anche i campionati sono banner colorati (`LeagueBannerS`, colore del campionato da `color` della pagina web o `meta.comps[].tint`), come squadre e giocatori.
+
+## App nativa: effetti fermi quando la Home e' coperta (regola fissa)
+- Con la pagina web aperta sopra la Home (`ov` = 0) i fasci del fondale (`Beam`) e il bordo luminoso della ricerca (`GlowBar`) non si vedono: le loro animazioni si fermano (`useAnimatedReaction` su `ov`, niente lavoro sul thread UI sotto la pagina web) e ripartono dal punto in cui erano appena la Home ricompare (anche a meta' swipe indietro). Ogni effetto sempre acceso aggiunto alla Home fa lo stesso.

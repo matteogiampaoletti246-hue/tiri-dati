@@ -5,6 +5,7 @@ import HaloChevron from '@/components/HaloChevron';
 import MenuBackdrop from '@/components/MenuBackdrop';
 import { popRoom, popScroll } from '@/lib/popFit';
 import { seasonLabel } from '@/data/archive';
+import HaloRing from '@/components/HaloRing';
 
 // Tendina delle stagioni (concept A): il tasto nel banner si apre SOTTO se stesso, la lista si srotola verso il basso
 // e scorre; resta sopra la barra in basso (`popRoom`), se sotto non c'e' spazio si apre verso l'alto.
@@ -34,7 +35,7 @@ export default function SeasonDrop({ seasons, value, currentLabel, onSelect }) {
   const close = () => setOpen(false);
   return (
     <>
-      <button ref={btn} type="button" data-no-swipe="true" onClick={() => setOpen((o) => !o)} className="halo-trigger glass press inline-flex items-center gap-1.5 rounded-[14px] py-1.5 pl-3 pr-2.5 text-[13px] font-bold" style={{ color: 'var(--ink)' }}>
+      <button ref={btn} type="button" data-no-swipe="true" onClick={() => setOpen((o) => !o)} className="halo-trigger glass press inline-flex items-center gap-1.5 rounded-[14px] py-1.5 pl-3 pr-2.5 text-[13px] font-bold" style={{ color: 'var(--ink)' }}><HaloRing />
         <span className="tnum">{label(value)}</span>
         <HaloChevron open={open} value={value} size={15} strokeWidth={2.2} />
       </button>

@@ -3,6 +3,7 @@ import { Check } from 'lucide-react';
 import HaloChevron from '@/components/HaloChevron';
 import MenuBackdrop from '@/components/MenuBackdrop';
 import { usePopFit, popScroll } from '@/lib/popFit';
+import HaloRing from '@/components/HaloRing';
 
 const label = (l) => `Over ${String(l).replace('.', ',')}`;
 
@@ -28,7 +29,7 @@ export default function LinePicker({ lines, value, onChange }) {
         onClick={() => setOpen((o) => !o)}
         className="halo-trigger glass-flat press flex h-[36px] w-[92px] items-center justify-between gap-[3px] whitespace-nowrap rounded-full pl-[10px] pr-[6px] text-[12px] font-extrabold"
         style={{ color: 'var(--ink)' }}
-      >
+      ><HaloRing />
         <span>{label(value)}</span>
         <HaloChevron open={open} value={value} size={11} strokeWidth={2.6} className="flex-none" />
       </button>
