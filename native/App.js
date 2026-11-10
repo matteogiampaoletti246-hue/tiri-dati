@@ -17,16 +17,19 @@ import GuidelinesPage from './pages/Guidelines';
 import CalcolatorePage from './pages/Calcolatore';
 import GiocatorePage from './pages/Giocatore';
 import PlayerPanelHost from './shared/PlayerPanel';
-import PartitaPage from './pages/Partita'; // non ancora registrata: si attiva quando e' completa
+import PlayerSheetHost from './shared/PlayerSheet';
+import PartitaPage from './pages/Partita';
 // pagine gia' native (migrazione a tappe): la rotta si apre senza WebView
 const NATIVE_PAGES = { '/linee-guida': GuidelinesPage, '/calcolatore': CalcolatorePage };
 // pagine nostre con un parametro nel percorso (/giocatore/:id): si attivano qui solo quando la pagina e' completa
 const NATIVE_DYN = [
   [/^\/giocatore\/([^/]+)$/, GiocatorePage, 'id'],
+  [/^\/match\/([^/]+)$/, PartitaPage, 'id'],
+  [/^\/storico\/([^/]+)\/([^/]+)\/([^/]+)$/, PartitaPage, 'id', (m) => `a-${m[1]}-${m[2]}-${m[3]}`], // partita d'archivio: stesso id del sito
 ];
 const nativeOf = (path) => {
   if (NATIVE_PAGES[path]) return { Comp: NATIVE_PAGES[path], params: {} };
-  for (const [re, Comp, key] of NATIVE_DYN) { const m = re.exec(path); if (m) return { Comp, params: { [key]: m[1] } }; }
+  for (const [re, Comp, key, map] of NATIVE_DYN) { const m = re.exec(path); if (m) return { Comp, params: { [key]: map ? map(m) : m[1] } }; }
   return null;
 };
 
@@ -952,6 +955,11 @@ const scoreStr = (sc) => { const x = /(\d+)\s*-\s*(\d+)/.exec(String(sc || ''));
 // Dock in basso (concept C "isola compatta", stesso disegno nel sito): Home, Calcolatore, Giocatori, Matchup. Vetro sfocato, tasselli 46 px,
 // la voce attiva si allarga in pillola con il nome. Componente a parte e memoizzato: non si ridisegna quando la Home cambia giorno o scorre.
 const isTabRoute = (r) => TABS.some(([, , x]) => x && String(r || '').startsWith(x));
+// pila di pagine native: ognuna sta sotto la successiva (stato e scorrimento restano); scorre di lato solo quella indicata da nvIdx
+function NatLayer({ i, nv, nvIdx, hidden, children }) {
+  const st = useAnimatedStyle(() => ({ transform: [{ translateX: nvIdx.value === i ? nv.value : 0 }] }));
+  return <Animated.View pointerEvents={hidden ? 'none' : 'auto'} style={[StyleSheet.absoluteFill, { zIndex: 5 + i }, hidden ? { display: 'none' } : null, st]}>{children}</Animated.View>;
+}
 const TABS = [['Home', 'home-outline', null], ['Calcolatore', 'calculator-outline', '/calcolatore'], ['Giocatori', 'people-outline', '/migliori-giocatori'], ['Matchup', 'sword-cross', '/migliori-matchup']];
 const tabOf = (r) => (TABS.find(([, , x]) => x && String(r || '').startsWith(x)) || [])[2] || '';
 const DOCK_T = LinearTransition.duration(220).easing(Easing.out(Easing.cubic));
@@ -1174,7 +1182,10 @@ function Screen({ onTheme, onReset }) {
   const [ready, setReady] = useState(false);
   const readyRef = useRef(false);
   const [webOpen, setWebOpen] = useState(false);   // la pagina web e' sopra la Home (la barra in basso e' sempre quella nativa)
-  const [natPage, setNatPage] = useState(null);
+  const [natStack, setNatStack] = useState([]); // pagine native aperte (l'ultima e' in cima)
+  const [natHidden, setNatHidden] = useState(false); // una pagina del sito e' aperta sopra la pila
+  const natStackRef = useRef([]); const natHiddenRef = useRef(false);
+  natStackRef.current = natStack; natHiddenRef.current = natHidden;
   const [barOn, setBarOn] = useState(false);       // la barra nativa si vede solo in Home e nelle tre schede (Calcolatore, Giocatori, Matchup)
   const [tab, setTab] = useState('');               // voce della barra scelta: si evidenzia nell'istante del tocco (poi segue `route:` della pagina)
   const [homeTop, setHomeTop] = useState(0);        // tasto Home toccato in Home: la lista del giorno torna in cima
@@ -1218,6 +1229,7 @@ function Screen({ onTheme, onReset }) {
   const x0 = useSharedValue(TODAY_INDEX);
   const ov = useSharedValue(W); // pagina web: W = fuori schermo a destra, 0 = aperta
   const ovStart = useSharedValue(0);
+  const nv = useSharedValue(0); const nvIdx = useSharedValue(-1); const stackN = useSharedValue(0); const natBelow = useSharedValue(0);
 
   useEffect(() => {
     let on = true;
@@ -1383,8 +1395,20 @@ function Screen({ onTheme, onReset }) {
   }, [onReset, recover, ov]);
   const openRoute = useCallback((route) => {
     const path0 = route.split('?')[0];
-    if (nativeOf(path0)) { openRef.current = true; setNatPage(path0); setWebOpen(true); setBarOn(isTabRoute(path0)); if (isTabRoute(path0)) setTab(tabOf(path0)); setDepth(0); ov.value = withTiming(0, { duration: 260, easing: Easing.out(Easing.cubic) }); return; }
-    setNatPage(null);
+    if (nativeOf(path0)) {
+      const st = natStackRef.current;
+      if (openRef.current && st.length && !natHiddenRef.current && !isTabRoute(path0)) { // da una pagina nativa a un'altra: si impila
+        nvIdx.value = st.length; nv.value = W; stackN.value = st.length + 1; setNatStack([...st, path0]);
+        nv.value = withTiming(0, { duration: 260, easing: Easing.out(Easing.cubic) });
+        return;
+      }
+      nvIdx.value = -1; nv.value = 0; stackN.value = 1; natBelow.value = 0; setNatHidden(false); setNatStack([path0]);
+      openRef.current = true; setWebOpen(true); setBarOn(isTabRoute(path0)); if (isTabRoute(path0)) setTab(tabOf(path0)); setDepth(0); ov.value = withTiming(0, { duration: 260, easing: Easing.out(Easing.cubic) }); return;
+    }
+    if (natStackRef.current.length) { // pagina del sito sopra la pila: la pila resta sotto (il tasto indietro del sito la riporta); dal dock si riparte da zero
+      if (isTabRoute(route)) { setNatStack([]); setNatHidden(false); stackN.value = 0; natBelow.value = 0; }
+      else { setNatHidden(true); stackN.value = 0; natBelow.value = natStackRef.current.length; }
+    }
     // da una scheda del dock a un'altra (pagina gia' aperta e pronta): la pagina web scorre di lato da sola, niente scheletro sopra
     const slide = openRef.current && readyRef.current && !!webRef.current && isTabRoute(webPath.current) && isTabRoute(route) && webPath.current !== path0;
     openRef.current = true; lastRoute.current = route; setWebOpen(true); setParked(false); setDepth(0); setBarOn(isTabRoute(route)); setTab(tabOf(route));
@@ -1409,12 +1433,19 @@ function Screen({ onTheme, onReset }) {
     ov.value = withTiming(0, { duration: 260, easing: Easing.out(Easing.cubic) });
   }, [hashTo, ov, endBusy, recover]);
   // la pagina web lascia la scheda mostrata: riaprendo la stessa voce si aspetta il suo disegno (niente Linee guida intraviste)
-  const afterClose = useCallback(() => { setNatPage(null); webPath.current = ''; if (!openRef.current) setParked(true); hashTo('#/linee-guida'); setDepth(0); }, [hashTo]);
+  const afterClose = useCallback(() => { setNatStack([]); setNatHidden(false); stackN.value = 0; natBelow.value = 0; nvIdx.value = -1; nv.value = 0; webPath.current = ''; if (!openRef.current) setParked(true); hashTo('#/linee-guida'); setDepth(0); }, [hashTo, stackN, natBelow, nvIdx, nv]);
   const onTop = useCallback((route) => {
     if (!route) { setHomeTop((n) => n + 1); return; }
     if (readyRef.current && webRef.current) webRef.current.injectJavaScript("try{window.scrollTo({top:0,behavior:'smooth'})}catch(e){};true;");
   }, []);
   const closeWeb = useCallback(() => { openRef.current = false; setWebOpen(false); ov.value = withTiming(W, { duration: 240, easing: Easing.out(Easing.cubic) }, (done) => { if (done) runOnJS(afterClose)(); }); }, [afterClose, ov]);
+  const finishPop = useCallback(() => { setNatStack((q) => q.slice(0, -1)); }, []);
+  const popNat = useCallback(() => {
+    const n = natStackRef.current.length;
+    if (n > 1) { nvIdx.value = n - 1; stackN.value = n - 1; nv.value = withTiming(W, { duration: 240, easing: Easing.out(Easing.cubic) }, (d) => { if (d) runOnJS(finishPop)(); }); }
+    else closeWeb();
+  }, [closeWeb, finishPop, nv, nvIdx, stackN]);
+  const revealNat = useCallback(() => { const q = natStackRef.current; setNatHidden(false); stackN.value = q.length; natBelow.value = 0; if (q.length) setBarOn(isTabRoute(q[q.length - 1])); }, [stackN, natBelow]);
   const openMatch = useCallback((m) => {
     // sempre la scheda d'archivio della stagione in corso: il percorso del feed (x-) trova la partita solo se il sito ha gia' caricato
     // quel giorno (provato: 12 partite su 26 dei campionati minori e tutte le coppe europee davano "Partita non trovata").
@@ -1431,8 +1462,8 @@ function Screen({ onTheme, onReset }) {
     else if (typeof t === 'string' && t.startsWith('route:')) { webPath.current = t.slice(6); if (!awaitRoute.current || awaitRoute.current === webPath.current) { setTab(tabOf(webPath.current)); setBarOn(isTabRoute(webPath.current)); } if (awaitRoute.current === webPath.current) endBusy(); } // la pagina web ha disegnato questa rotta
     else if (typeof t === 'string' && t.startsWith('depth:')) setDepth(Number(t.slice(6)) || 0);
     else if (typeof t === 'string' && t.startsWith('drag:')) { const d = Number(t.slice(5)); ov.value = d < 0 ? withTiming(0, { duration: 180 }) : withTiming(d, { duration: 90, easing: Easing.linear }); } // swipe indietro partito dentro la pagina web (prima pagina dopo la Home)
-    else if (t === 'home' && openRef.current) closeWeb(); // il tasto indietro del sito e' tornato alla pagina di partenza: si torna alla Home
-  }, [onTheme, closeWeb, ov, endBusy]);
+    else if (t === 'home' && openRef.current) { if (natStackRef.current.length && natHiddenRef.current) revealNat(); else closeWeb(); } // il tasto indietro del sito e' tornato alla pagina di partenza: si torna alla Home
+  }, [onTheme, closeWeb, revealNat, ov, endBusy]);
   const pick = useCallback((diff) => { setCal(false); wantRef.current = false; setWantLive(false); setCenter(diff); }, []);
   // ricerca: la pagina web (gia' caricata, con tutti i dati) calcola i risultati e li manda indietro (`srch:<n>:<json>`)
   const askSearch = useCallback((q) => {
@@ -1484,11 +1515,14 @@ function Screen({ onTheme, onReset }) {
 
   // bordo sinistro: scorrimento indietro dalla pagina web
   const edge = useMemo(() => Gesture.Pan().activeOffsetX([6, 1000]).failOffsetY([-40, 40])
-    .onStart(() => { ovStart.value = ov.value; })
-    .onUpdate((e) => { ov.value = Math.min(W, Math.max(0, ovStart.value + e.translationX * SWIPE_GAIN)); })
+    .onStart(() => { if (stackN.value > 1) { nvIdx.value = stackN.value - 1; ovStart.value = nv.value; } else ovStart.value = ov.value; })
+    .onUpdate((e) => { const v = Math.min(W, Math.max(0, ovStart.value + e.translationX * SWIPE_GAIN)); if (stackN.value > 1) nv.value = v; else ov.value = v; })
     .onEnd((e) => {
-      if (e.translationX > W * 0.2 || e.velocityX > 300) { runOnJS(markClosed)(); ov.value = withTiming(W, { duration: 200, easing: Easing.out(Easing.cubic) }, (done) => { if (done) runOnJS(afterClose)(); }); } else ov.value = withTiming(0, { duration: 180 });
-    }), [ov, ovStart, afterClose, markClosed]);
+      const go = e.translationX > W * 0.2 || e.velocityX > 300;
+      if (stackN.value > 1) { if (go) { stackN.value = stackN.value - 1; nv.value = withTiming(W, { duration: 200, easing: Easing.out(Easing.cubic) }, (d) => { if (d) runOnJS(finishPop)(); }); } else nv.value = withTiming(0, { duration: 180 }); return; }
+      if (go && natBelow.value > 0) { runOnJS(revealNat)(); ov.value = withTiming(0, { duration: 180 }); return; }
+      if (go) { runOnJS(markClosed)(); ov.value = withTiming(W, { duration: 200, easing: Easing.out(Easing.cubic) }, (done) => { if (done) runOnJS(afterClose)(); }); } else ov.value = withTiming(0, { duration: 180 });
+    }), [ov, ovStart, nv, nvIdx, stackN, natBelow, afterClose, markClosed, finishPop, revealNat]);
   const ovStyle = useAnimatedStyle(() => ({ transform: [{ translateX: ov.value }] }));
 
   if (!data) return <View style={[s.root, { paddingTop: insets.top }]}><SkHome /></View>;
@@ -1525,8 +1559,9 @@ function Screen({ onTheme, onReset }) {
             {!ready || busy || parked ? <View pointerEvents="auto" style={[StyleSheet.absoluteFill, { backgroundColor: C.bg }]}>{parked && ready ? null : <SkWeb route={awaitRoute.current || lastRoute.current} />}</View> : null}
           </View>
         </View>
-        {natPage ? <View style={[StyleSheet.absoluteFill, { zIndex: 5 }]}>{React.createElement(nativeOf(natPage).Comp, { params: nativeOf(natPage).params, C, top: insets.top, onBack: closeWeb, bottom: insets.bottom + 90, openRoute, onSearch: () => setSrch(true) })}</View> : null}
+        {natStack.map((p, i) => { const n = nativeOf(p); if (!n) return null; return <NatLayer key={`${p}#${i}`} i={i} nv={nv} nvIdx={nvIdx} hidden={natHidden}>{React.createElement(n.Comp, { params: n.params, C, top: insets.top, onBack: popNat, bottom: insets.bottom + 90, openRoute, onSearch: () => setSrch(true) })}</NatLayer>; })}
         <PlayerPanelHost C={C} top={insets.top} bottom={insets.bottom} openRoute={openRoute} />
+        <PlayerSheetHost C={C} bottom={insets.bottom} openRoute={openRoute} />
         <GestureDetector gesture={edge}><View pointerEvents={depth > 0 ? 'none' : 'auto'} style={[s.edge, { width: EDGE_W, top: insets.top + 98 }]} /></GestureDetector>
       </Animated.View>
       {!webOpen || barOn ? <TabBar onOpen={openRoute} onHome={closeWeb} onTop={onTop} active={webOpen ? tab : null} bottom={insets.bottom} live={liveN} /> : null}

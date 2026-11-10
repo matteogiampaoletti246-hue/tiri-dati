@@ -80,6 +80,9 @@ const zoneOf = (s) => {
 };
 const outcomeOf = (s) => (s.outcome === 'Fuori' && s.onTarget ? 'Palo' : s.outcome);
 const HIT = 'rgba(0,0,0,0.01)';
+// per la tendina del giocatore (PlayerSheet.js)
+export const shotColor = (colors) => safe(colors);
+export { DotShape, situationOf, zoneOf, outcomeOf, isBlocked, HIT, PITCH, LINE, GOALBG, GOALLINE, TRACE };
 
 export default function ShotMap({ C, shots = [], home, away, match = null, openRoute }) {
   const [mode, setMode] = useState('all');

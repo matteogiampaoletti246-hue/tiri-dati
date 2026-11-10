@@ -9,7 +9,7 @@ import Svg, { Path, Text as SText } from 'react-native-svg';
 import { BASE } from '@/data/load';
 import { playerById, playerByFm, playersByTeam } from '@/data/players';
 import { openPanel, matchStarted } from '@/data/playerPanel';
-import { ourPlayerId } from '@/data/playerSheet';
+import { ourPlayerId, openPlayer } from '@/data/playerSheet';
 import { injuryOf, isOutOn } from '@/data/injuries';
 import { playerReliability, loadPlayerFouls, TOP_STATS } from '@/data/topPlayers';
 import { flagCodeOf } from '@/data/referees';
@@ -94,9 +94,9 @@ function PitchNode({ C, p, team, val, match, compact, mvp, pre, openRoute }) {
 function PlayerTap({ match, p, openRoute, style, children }) {
   const go = () => {
     if (!p.name) return;
+    if (matchStarted(match)) { openPlayer({ matchId: match.id, name: p.name, fmId: p.fmId }); return; }
     const id = ourPlayerId(match, p.name, p.fmId);
-    if (!id) return;
-    if (matchStarted(match)) openRoute('/giocatore/' + id); else openPanel(id);
+    if (id) openPanel(id);
   };
   return <Pressable onPress={go} style={style}>{children}</Pressable>;
 }

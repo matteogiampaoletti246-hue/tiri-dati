@@ -1,4 +1,5 @@
 // Panoramica della partita non iniziata (nativo): forma, numeri da tenere d'occhio (storie), giocatori migliori, duello in numeri, stadio, arbitro.
+import { openPanel, matchStarted } from '@/data/playerPanel';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { View, Text, Pressable, PanResponder, Animated } from 'react-native';
 import { Image } from 'expo-image';
@@ -182,6 +183,7 @@ export const hasBestPlayers = (match) => !!(top3(match.homeId, match.date, 1.5).
 const sur = (p) => p.name.split(' ').slice(-1)[0];
 
 function BestPlayers({ C, match, home, away, openRoute }) {
+  const tapP = (id) => { if (matchStarted(match)) openRoute('/giocatore/' + id); else openPanel(id); };
   const [line, setLine] = useState(1.5);
   const Hh = top3(match.homeId, match.date, line);
   const A = top3(match.awayId, match.date, line);
@@ -209,8 +211,8 @@ function BestPlayers({ C, match, home, away, openRoute }) {
           return (
             <View key={i} style={{ paddingVertical: 8, borderTopWidth: i ? 1 : 0, borderTopColor: C.hair }}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 8 }}>{a ? <Pressable onPress={() => openRoute('/giocatore/' + a.p.id)} style={{ flexDirection: 'row', alignItems: 'center', gap: 8, flexShrink: 1 }}><Face uri={a.p.photo} size={36} /><Text numberOfLines={1} style={{ color: C.ink, fontSize: 12.5, fontWeight: '700', flexShrink: 1 }}>{sur(a.p)}</Text></Pressable> : null}</View>
-                <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', gap: 8 }}>{b ? <Pressable onPress={() => openRoute('/giocatore/' + b.p.id)} style={{ flexDirection: 'row', alignItems: 'center', gap: 8, flexShrink: 1 }}><Text numberOfLines={1} style={{ color: C.ink, fontSize: 12.5, fontWeight: '700', flexShrink: 1 }}>{sur(b.p)}</Text><Face uri={b.p.photo} size={36} /></Pressable> : null}</View>
+                <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 8 }}>{a ? <Pressable onPress={() => tapP(a.p.id)} style={{ flexDirection: 'row', alignItems: 'center', gap: 8, flexShrink: 1 }}><Face uri={a.p.photo} size={36} /><Text numberOfLines={1} style={{ color: C.ink, fontSize: 12.5, fontWeight: '700', flexShrink: 1 }}>{sur(a.p)}</Text></Pressable> : null}</View>
+                <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', gap: 8 }}>{b ? <Pressable onPress={() => tapP(b.p.id)} style={{ flexDirection: 'row', alignItems: 'center', gap: 8, flexShrink: 1 }}><Text numberOfLines={1} style={{ color: C.ink, fontSize: 12.5, fontWeight: '700', flexShrink: 1 }}>{sur(b.p)}</Text><Face uri={b.p.photo} size={36} /></Pressable> : null}</View>
               </View>
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 6 }}>
                 <Text style={{ width: 38, color: a ? voteColor(a.v) : C.ink, fontSize: 14, fontWeight: '800' }}>{a ? comma(a.v, 2) : ''}</Text>
