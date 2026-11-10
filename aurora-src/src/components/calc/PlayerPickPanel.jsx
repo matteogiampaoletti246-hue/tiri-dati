@@ -154,7 +154,7 @@ export default function PlayerPickPanel({ form, set, player, hint, onSelectPlaye
         )}
         <CalcStatSelect value={stat} onChange={onStat} />
         <FieldRow label="Tipo linea" noSwipe>
-          <TextFilter options={LINE_OPTIONS} value={form.lineType} onChange={(v) => set('lineType', v)} />
+          <TextFilter fit options={LINE_OPTIONS} value={form.lineType} onChange={(v) => set('lineType', v)} />
         </FieldRow>
         <FieldRow label="Valore linea" hint={hint}>
           <MiniSelect

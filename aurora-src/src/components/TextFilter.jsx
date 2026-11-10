@@ -1,7 +1,8 @@
 import { useEffect, useLayoutEffect, useRef } from 'react';
 
 // Filtri in vetro: l'indicatore scivola in modo fluido da una voce all'altra (transizione CSS, non si blocca anche se la lista sotto e' pesante).
-export default function TextFilter({ options, value, onChange, className = '' }) {
+// Stessa barra e stessa pillola di AnimatedTabs: di base larga quanto la riga; fit = larga quanto le voci (dentro una riga con altro).
+export default function TextFilter({ options, value, onChange, className = '', fit = false }) {
   const box = useRef(null);
   const pill = useRef(null);
   const first = useRef(true);
@@ -42,7 +43,7 @@ export default function TextFilter({ options, value, onChange, className = '' })
   }, [value]);
 
   return (
-    <div ref={box} className={`glass-flat hide-sb relative flex w-fit max-w-full items-center gap-0.5 overflow-x-auto rounded-full p-1 ${className}`} style={{ overflowY: 'hidden', overscrollBehavior: 'contain' }}>
+    <div ref={box} className={`tfilter hide-sb relative max-w-full overflow-x-auto ${fit ? 'fit w-fit' : 'w-full'} ${className}`} style={{ overflowY: 'hidden', overscrollBehavior: 'contain' }}>
       <span ref={pill} aria-hidden="true" className="lg-thumb absolute left-0 rounded-full" style={{ top: 4, bottom: 4, width: 0, opacity: 0, willChange: 'transform' }} />
       {options.map((opt) => {
         const val = typeof opt === 'string' ? opt : opt.value;
@@ -54,9 +55,9 @@ export default function TextFilter({ options, value, onChange, className = '' })
             data-on={active ? '1' : '0'}
             type="button"
             onClick={() => onChange(val)}
-            className="press relative shrink-0 rounded-full px-[10.5px] py-[6px] text-[12.5px] font-bold"
+            className="tfilter-tab press"
           >
-            <span className="relative whitespace-nowrap" style={{ color: active ? 'var(--atabs-pill-ink)' : 'var(--ink-3)', transition: 'color .25s ease' }}>
+            <span className="relative whitespace-nowrap" style={{ color: active ? 'var(--atabs-pill-ink)' : 'var(--ink-2)', transition: 'color .3s ease' }}>
               {label}
             </span>
           </button>

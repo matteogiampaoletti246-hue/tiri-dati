@@ -100,10 +100,10 @@ export default function TeamTab({ onSave }) {
         <PanelTitle>Giocata</PanelTitle>
         <div className="panel overflow-hidden">
           <FieldRow label="Tipo tiri" first noSwipe>
-            <TextFilter options={SHOTS_OPTIONS} value={form.tipoTiri} onChange={(v) => set('tipoTiri', v)} />
+            <TextFilter fit options={SHOTS_OPTIONS} value={form.tipoTiri} onChange={(v) => set('tipoTiri', v)} />
           </FieldRow>
           <FieldRow label="Tipo linea" noSwipe>
-            <TextFilter options={LINE_OPTIONS} value={form.lineType} onChange={(v) => set('lineType', v)} />
+            <TextFilter fit options={LINE_OPTIONS} value={form.lineType} onChange={(v) => set('lineType', v)} />
           </FieldRow>
           <FieldRow label="Valore linea" hint={lineHintText(result.lambda, line)}>
             <NumInput value={form.line} onChange={(v) => set('line', v)} ariaLabel="Valore linea" />
