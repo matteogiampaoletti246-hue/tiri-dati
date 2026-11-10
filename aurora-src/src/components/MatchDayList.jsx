@@ -10,7 +10,9 @@ const dayHead = (iso) => {
   const idx = DATES.findIndex((d) => isoDate(d) === iso);
   return idx >= 0 ? dayLabel(DATES[idx], TODAY_INDEX, idx) : longDate(new Date(`${iso}T12:00:00`));
 };
-const shortDate = (iso) => new Date(`${iso}T12:00:00`).toLocaleDateString('it-IT', { day: 'numeric', month: 'short' });
+// formattatore creato una volta (stesso testo di toLocaleDateString): con centinaia di partite se ne creava uno per riga
+const SHORT_FMT = new Intl.DateTimeFormat('it-IT', { day: 'numeric', month: 'short' });
+const shortDate = (iso) => { const d = new Date(`${iso}T12:00:00`); return Number.isNaN(d.getTime()) ? 'Invalid Date' : SHORT_FMT.format(d); };
 // numero di giornata: n-esima partita di campionato della squadra (la piu' alta tra le due)
 const giornateOf = (all) => {
   const cnt = {};

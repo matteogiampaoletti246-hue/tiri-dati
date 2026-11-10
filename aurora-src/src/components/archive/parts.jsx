@@ -13,14 +13,17 @@ import FormDots from '@/components/FormDots';
 import LiveScorePill from '@/components/LiveScorePill';
 import { useLiveTable, freshGroup, applyLive } from '@/data/liveTable';
 
+// formattatori creati una volta (stesso testo di toLocaleDateString/toLocaleTimeString): prima uno nuovo per ogni riga delle liste
+const DATE_FMT = new Intl.DateTimeFormat('it-IT', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'Europe/Rome' });
+const TIME_FMT = new Intl.DateTimeFormat('it-IT', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Rome' });
 export const fmtDate = (iso) => {
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return '';
-  return d.toLocaleDateString('it-IT', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'Europe/Rome' }).replace('.', '');
+  return DATE_FMT.format(d).replace('.', '');
 };
 export const fmtTime = (iso) => {
   const d = new Date(iso);
-  return Number.isNaN(d.getTime()) ? '' : d.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Rome' });
+  return Number.isNaN(d.getTime()) ? '' : TIME_FMT.format(d);
 };
 // giorno nel fuso di Roma, lo stesso di fmtDate (una partita alle 00:30 UTC sta nel giorno che si legge)
 const DAY_FMT = new Intl.DateTimeFormat('sv-SE', { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'Europe/Rome' });

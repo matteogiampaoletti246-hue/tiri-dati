@@ -165,13 +165,15 @@ export const isCurrent = (lid, sk) => {
   return x === sk || curSeasonSync(lid) === sk;
 };
 const stale = (m, now) => !m[6] && !m[8] && Date.parse(m[4]) < now && now - Date.parse(m[4]) < 10 * DAY_MS;
-const romeDay = (iso) => new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Rome' }).format(new Date(iso));
+const ROME_DAY = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Rome' }); // creato una volta: crearlo a ogni partita costava piu' del calcolo
+const romeDay = (iso) => ROME_DAY.format(new Date(iso));
 const DAYF = new Map();
 export const dayFile = (iso) => {
   const hit = lruGet(DAYF, iso);
   if (hit && Date.now() - hit.at < 120000) return hit.p;
   const p = fetch(`${BASE}giorni/${iso}.json`, { cache: 'no-cache' }).then((r) => (r.ok ? r.json() : null)).catch(() => null);
-  lruSet(DAYF, iso, { at: Date.now(), p }, 8);
+  // capienza per tutti i giorni che la Home e i controlli dei risultati aprono insieme (con 8 si riscaricavano prima dei 2 minuti)
+  lruSet(DAYF, iso, { at: Date.now(), p }, 24);
   return p;
 };
 const FRESH = new Map(); // `${lid}/${sk}` -> {at, p}
