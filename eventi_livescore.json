@@ -622,7 +622,7 @@
   },
   "Premiership 2025-2026": {
    "partite_con_eventi": 0,
-   "da_fare": 8
+   "da_fare": 0
   },
   "Allsvenskan 2025": {
    "partite_con_eventi": 0,
@@ -690,7 +690,7 @@
   },
   "Cymru Premier 2025-2026": {
    "partite_con_eventi": 0,
-   "da_fare": 12
+   "da_fare": 0
   },
   "Super League 2025": {
    "partite_con_eventi": 0,
@@ -710,7 +710,7 @@
   },
   "Ligat ha'Al 2025-2026": {
    "partite_con_eventi": 0,
-   "da_fare": 1
+   "da_fare": 0
   },
   "MLS 2025": {
    "partite_con_eventi": 0,
@@ -762,7 +762,7 @@
   },
   "Primera Division 2025": {
    "partite_con_eventi": 0,
-   "da_fare": 2
+   "da_fare": 0
   },
   "Greece Cup 2025-2026": {
    "partite_con_eventi": 0,
@@ -810,7 +810,7 @@
   },
   "Prva Liga 2025-2026": {
    "partite_con_eventi": 0,
-   "da_fare": 14
+   "da_fare": 0
   },
   "Slovenia Cup 2025-2026": {
    "partite_con_eventi": 0,
@@ -886,7 +886,7 @@
   },
   "FAI Cup 2025": {
    "partite_con_eventi": 0,
-   "da_fare": 1
+   "da_fare": 0
   },
   "Supercoppa 2024-2025": {
    "partite_con_eventi": 0,
@@ -906,7 +906,7 @@
   },
   "Toplyga 2025": {
    "partite_con_eventi": 0,
-   "da_fare": 13
+   "da_fare": 0
   },
   "National Division 2025-2026": {
    "partite_con_eventi": 0,
@@ -918,7 +918,7 @@
   },
   "1. CFL 2025-2026": {
    "partite_con_eventi": 0,
-   "da_fare": 17
+   "da_fare": 0
   },
   "KNVB Cup 2025-2026": {
    "partite_con_eventi": 0,
@@ -926,11 +926,11 @@
   },
   "Serie A 2025": {
    "partite_con_eventi": 0,
-   "da_fare": 1
+   "da_fare": 0
   },
   "Regular Season 2025": {
    "partite_con_eventi": 0,
-   "da_fare": 180
+   "da_fare": 0
   },
   "HNL 2025-2026": {
    "partite_con_eventi": 0,
@@ -986,11 +986,11 @@
   },
   "Primera Division 2025-2026 - Clausura": {
    "partite_con_eventi": 0,
-   "da_fare": 1
+   "da_fare": 0
   },
   "Erovnuli Liga 2025": {
    "partite_con_eventi": 0,
-   "da_fare": 9
+   "da_fare": 0
   },
   "Saudi Pro League 2025-2026": {
    "partite_con_eventi": 0,
@@ -1014,7 +1014,7 @@
   },
   "LPF 2025": {
    "partite_con_eventi": 0,
-   "da_fare": 20
+   "da_fare": 0
   },
   "Copa do Brasil 2025": {
    "partite_con_eventi": 0,
@@ -1093,5 +1093,5 @@
    "da_fare": 0
   }
  },
- "partite_in_questo_giro": 297
+ "partite_in_questo_giro": 0
 }
