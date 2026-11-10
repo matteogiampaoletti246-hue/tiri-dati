@@ -1,7 +1,8 @@
 // Migliori Giocatori (nativo): giorni a scorrimento, soglia Over, statistica; righe nei colori della squadra con voto e tasto Calcolatore.
 // Stessi dati e calcoli del sito (`@/data/topPlayers`); il tocco su una riga apre pannello (partita non iniziata) o scheda giocatore.
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, Pressable, FlatList } from 'react-native';
+import { View, Text, Pressable, FlatList, StyleSheet } from 'react-native';
+import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import Animated, { FadeInUp, useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import { Ionicons } from '@expo/vector-icons';
@@ -18,6 +19,8 @@ import { comma } from '@/lib/format';
 import { Face, TeamCrest } from '../shared/ui';
 import { DayStripN, DayPagerN, EmptyDayN, nextWith } from '../shared/DayNav';
 import Dropdown from '../shared/Dropdown';
+import PageHead from '../shared/PageHead';
+import { Segmented } from '../shared/ui';
 import StatIconN from '../shared/StatIconN';
 import { CALC_IN } from '../shared/calcIn';
 
@@ -52,42 +55,50 @@ const Row = React.memo(function Row({ C, row, rank, threshold, stat, enter, tv, 
     openRoute('/calcolatore');
   };
   const sides = match ? [teamById(match.homeId), teamById(match.awayId)] : null;
+  const oppT = sides ? sides.find((t) => t && t.id !== player.teamId) : null;
+  const c2 = oppT && oppT.colors ? oppT.colors[0] : (team && team.colors && team.colors[1]) || c1;
   const body = (
-    <Pressable onPress={go} style={({ pressed }) => [{ marginHorizontal: 16, marginBottom: 10, borderRadius: 24, overflow: 'hidden', borderWidth: 1, borderColor: C.border, backgroundColor: C.card2 }, pressed && { opacity: 0.8 }]}>
-      <LinearGradient colors={[c1 + '55', 'rgba(255,255,255,0.03)']} start={{ x: 0, y: 0 }} end={{ x: 0.7, y: 0.2 }} style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }} />
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, padding: 12 }}>
-        <View>
-          <Face uri={player.photo} color={c1} size={50} />
-          <View style={{ position: 'absolute', left: -6, top: -6, minWidth: 22, height: 22, borderRadius: 11, paddingHorizontal: 4, alignItems: 'center', justifyContent: 'center', backgroundColor: rk }}>
-            <Text style={{ color: rank <= 3 ? C.goldInk : '#fff', fontSize: 12, fontWeight: '800' }}>{rank}</Text>
+    <Pressable onPress={go} style={({ pressed }) => [{ marginHorizontal: 12, marginBottom: 12 }, pressed && { opacity: 0.8 }]}>
+      <LinearGradient colors={[c1, c2]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ borderRadius: 28, padding: 1.5 }}>
+        <View style={{ borderRadius: 26.5, overflow: 'hidden', backgroundColor: C.sheet }}>
+          <LinearGradient pointerEvents="none" colors={[c1 + '66', c1 + '1A', c2 + '33']} locations={[0, 0.55, 1]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={StyleSheet.absoluteFill} />
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 14, padding: 16 }}>
+            <View>
+              <View style={{ width: 66, height: 66, borderRadius: 18, overflow: 'hidden', backgroundColor: c1 + '55', borderWidth: 1.5, borderColor: C.border }}>
+                {player.photo ? <Image source={{ uri: player.photo }} style={{ width: 63, height: 63 }} contentFit="cover" cachePolicy="memory-disk" /> : null}
+              </View>
+              <View style={{ position: 'absolute', left: -10, top: -10, minWidth: 30, height: 30, borderRadius: 15, paddingHorizontal: 5, alignItems: 'center', justifyContent: 'center', backgroundColor: rk }}>
+                <Text style={{ color: rank <= 3 ? C.goldInk : '#fff', fontSize: 16, fontWeight: '800' }}>{rank}</Text>
+              </View>
+            </View>
+            <View style={{ flex: 1, minWidth: 0 }}>
+              <Text numberOfLines={1} style={{ color: C.ink, fontSize: 19, fontWeight: '800' }}>{player.name}</Text>
+              {sides ? sides.map((t, i) => {
+                const own = t && t.id === player.teamId;
+                return (
+                  <View key={i} style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: i ? 5 : 4 }}>
+                    {t ? <TeamCrest team={t} size={24} C={C} /> : null}
+                    <Text numberOfLines={1} style={{ flexShrink: 1, color: own ? C.ink : C.ink3, fontSize: own ? 16 : 15, fontWeight: own ? '800' : '400' }}>{t ? t.name : own ? player.teamName : match.oppName}</Text>
+                    {i ? <Text numberOfLines={1} style={{ color: C.ink3, fontSize: 14 }}>· {when(match)}</Text> : null}
+                  </View>
+                );
+              }) : (
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 4 }}>
+                  {team ? <TeamCrest team={team} size={24} C={C} /> : null}
+                  <Text numberOfLines={1} style={{ color: C.ink, fontSize: 16, fontWeight: '800' }}>{team ? team.name : player.teamName}</Text>
+                </View>
+              )}
+              <LinearGradient colors={[c1, c2]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ height: 6, borderRadius: 3, marginTop: 10 }} />
+            </View>
+            <View style={{ alignItems: 'center', gap: 8 }}>
+              <Text style={{ color: scoreColorSmooth(row.voto), fontSize: 34, fontWeight: '800' }}>{comma(row.voto, 1)}</Text>
+              <Pressable onPress={calc} hitSlop={8} style={({ pressed }) => [{ width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center', backgroundColor: C.chip, borderWidth: 1.5, borderColor: C.accRing }, pressed && { opacity: 0.6 }]}>
+                <Ionicons name="calculator-outline" size={22} color={C.accent} />
+              </Pressable>
+            </View>
           </View>
         </View>
-        <View style={{ flex: 1, minWidth: 0 }}>
-          <Text numberOfLines={1} style={{ color: C.ink, fontSize: 14.5, fontWeight: '800' }}>{player.name}</Text>
-          {sides ? sides.map((t, i) => {
-            const own = t && t.id === player.teamId;
-            return (
-              <View key={i} style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: i ? 4 : 2 }}>
-                {t ? <TeamCrest team={t} size={15} C={C} /> : null}
-                <Text numberOfLines={1} style={{ flexShrink: 1, color: own ? C.ink : C.ink3, fontSize: own ? 12 : 11, fontWeight: own ? '800' : '400' }}>{t ? t.name : own ? player.teamName : match.oppName}</Text>
-                {i ? <Text style={{ color: C.ink3, fontSize: 11 }}>· {when(match)}</Text> : null}
-              </View>
-            );
-          }) : (
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 2 }}>
-              {team ? <TeamCrest team={team} size={15} C={C} /> : null}
-              <Text numberOfLines={1} style={{ color: C.ink, fontSize: 12, fontWeight: '800' }}>{team ? team.name : player.teamName}</Text>
-            </View>
-          )}
-          <LinearGradient colors={[c1, team && team.colors && team.colors[1] ? team.colors[1] : c1]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ height: 5, borderRadius: 3, marginTop: 8 }} />
-        </View>
-        <View style={{ alignItems: 'center', gap: 6 }}>
-          <Text style={{ color: scoreColorSmooth(row.voto), fontSize: 25, fontWeight: '800' }}>{comma(row.voto, 1)}</Text>
-          <Pressable onPress={calc} hitSlop={8} style={({ pressed }) => [{ width: 27, height: 27, borderRadius: 14, alignItems: 'center', justifyContent: 'center', backgroundColor: C.chip, borderWidth: 1, borderColor: C.border }, pressed && { opacity: 0.6 }]}>
-            <Ionicons name="calculator-outline" size={14} color={C.accent} />
-          </Pressable>
-        </View>
-      </View>
+      </LinearGradient>
     </Pressable>
   );
   return enter >= 0 ? <Animated.View entering={FadeInUp.delay(100 + enter * 60).duration(340)}>{body}</Animated.View> : body;
@@ -148,28 +159,23 @@ function DayList({ C, day, idx, thr, stat, active, takeAnim, onGo, openRoute, bo
   );
 }
 
-export default function TopPlayers({ C, top, onSearch, openRoute, bottom = 90 }) {
+export default function TopPlayers({ C, top, onSearch, onMenu, openRoute, bottom = 90 }) {
   const [ready, setReady] = useState(false);
   useEffect(() => { let live = true; bootShared().then(() => { if (live) setReady(true); }, () => {}); return () => { live = false; }; }, []);
   if (!ready) {
     return (
       <View style={{ flex: 1, backgroundColor: 'transparent', paddingTop: top }}>
-        <Head C={C} onSearch={onSearch} />
+        <Head C={C} onSearch={onSearch} onMenu={onMenu} />
         <Skel C={C} />
       </View>
     );
   }
-  return <Body C={C} top={top} onSearch={onSearch} openRoute={openRoute} bottom={bottom} />;
+  return <Body C={C} top={top} onSearch={onSearch} onMenu={onMenu} openRoute={openRoute} bottom={bottom} />;
 }
 
-const Head = ({ C, onSearch }) => (
-  <View style={{ flexDirection: 'row', alignItems: 'center', height: 44, paddingHorizontal: 20 }}>
-    <Text style={{ flex: 1, color: C.ink, fontSize: 22, fontWeight: '800' }}>Migliori Giocatori</Text>
-    {onSearch ? <Pressable onPress={onSearch} hitSlop={10}><Ionicons name="search" size={22} color={C.ink2} /></Pressable> : null}
-  </View>
-);
+const Head = ({ C, onSearch, onMenu }) => <PageHead C={C} title="Migliori Giocatori" onSearch={onSearch} onMenu={onMenu} />;
 
-function Body({ C, top, onSearch, openRoute, bottom }) {
+function Body({ C, top, onSearch, onMenu, openRoute, bottom }) {
   const today = isoDate(new Date());
   const [ret] = useState(() => { const b = !!TOP_KEEP.child && Date.now() - TOP_KEEP.child < CHILD_MS; TOP_KEEP.child = 0; return b; });
   const fresh = TOP_KEEP.day === null || TOP_KEEP.stamp !== today;
@@ -197,20 +203,10 @@ function Body({ C, top, onSearch, openRoute, bottom }) {
 
   return (
     <View style={{ flex: 1, backgroundColor: 'transparent', paddingTop: top }}>
-      <Head C={C} onSearch={onSearch} />
+      <Head C={C} onSearch={onSearch} onMenu={onMenu} />
       <DayStripN C={C} dates={DAYS} todayIndex={TODAY_I} x={x} value={dayIdx} onChange={setDayIdx} />
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 20, paddingTop: 4, paddingBottom: 4 }}>
-        <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 18 }}>
-          {THRESHOLDS.map((t) => {
-            const on = t.key === threshold;
-            return (
-              <Pressable key={t.key} onPress={() => setThreshold(t.key)} hitSlop={8}>
-                <Text style={{ color: on ? C.ink : C.ink3, fontSize: 15, fontWeight: on ? '800' : '600' }}>{t.label}</Text>
-                <View style={{ height: 3, borderRadius: 2, marginTop: 3, backgroundColor: on ? C.accent : 'transparent' }} />
-              </Pressable>
-            );
-          })}
-        </View>
+        <View style={{ flex: 1 }}><Segmented C={C} options={THRESHOLDS.map((t) => ({ value: t.key, label: t.label }))} value={threshold} onChange={setThreshold} /></View>
         <Dropdown C={C} options={TOP_STATS} value={stat} onChange={onStat} side="right" width={222} icon={(o, col) => <StatIconN k={o.icon} size={17} color={col} />} />
       </View>
       <Animated.View style={[{ flex: 1 }, leaveSt]}>

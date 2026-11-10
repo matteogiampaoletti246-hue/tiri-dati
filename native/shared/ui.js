@@ -5,6 +5,7 @@ import { View, Text, TextInput, Pressable, Modal, FlatList, ScrollView, StyleShe
 import Animated, { makeMutable, useSharedValue, useAnimatedStyle, withTiming, withRepeat, interpolateColor, Easing, FadeIn, FadeOut, ZoomIn } from 'react-native-reanimated';
 import { Image } from 'expo-image';
 import { Ionicons } from '@expo/vector-icons';
+import Dropdown from './Dropdown';
 
 export const TeamCrest = ({ team, size = 32, C }) => {
   const [bad, setBad] = useState(false);
@@ -25,10 +26,10 @@ export const TintProvider = ({ color, children }) => <TintCtx.Provider value={co
 const okHex = (c) => (typeof c === 'string' && /^#[0-9a-f]{6}$/i.test(c) ? c : null);
 export const tintFill = (C, color) => { const t = okHex(color); return t ? [`${t}${C.dark ? '4D' : '2E'}`, `${t}00`] : null; };
 export const TintBg = ({ C, color }) => { const g = tintFill(C, color); return g ? <LinearGradient pointerEvents="none" colors={g} locations={[0, 0.78]} start={{ x: 0, y: 0.35 }} end={{ x: 1, y: 0.65 }} style={StyleSheet.absoluteFill} /> : null; };
-export const Panel = ({ C, children, style, tint }) => {
+export const Panel = ({ C, children, style, tint, ring }) => {
   const ctx = useContext(TintCtx);
   return (
-    <View style={[{ borderRadius: 22, overflow: 'hidden', backgroundColor: C.card2, borderWidth: 1, borderColor: C.border }, style]}>
+    <View style={[{ borderRadius: 22, overflow: 'hidden', backgroundColor: C.card2, borderWidth: ring ? 1.5 : 1, borderColor: ring ? C.accRing : C.border }, style]}>
       <TintBg C={C} color={tint || ctx} />
       {children}
     </View>
@@ -48,7 +49,7 @@ export const TOUCH = { y: 0 };
 // contorno multicolore che gira (come i tasti Tutte/Live della Home e tutti i selettori del sito): un solo orologio per tutti i tasti, thread UI
 let CLOCK = null;
 const clock = () => { if (!CLOCK) { CLOCK = makeMutable(0); CLOCK.value = withRepeat(withTiming(360, { duration: 4000, easing: Easing.linear }), -1, false); } return CLOCK; };
-export function RingBox({ C, radius = 999, pad = 1.5, style, innerStyle, children }) {
+export function RingBox({ C, radius = 999, pad = 1.5, style, innerStyle, plain, children }) {
   const [sz, setSz] = useState({ w: 0, h: 0 });
   const clk = clock();
   const rot = useAnimatedStyle(() => ({ transform: [{ rotate: `${clk.value}deg` }] }));
@@ -57,7 +58,7 @@ export function RingBox({ C, radius = 999, pad = 1.5, style, innerStyle, childre
     <View onLayout={(e) => { const { width, height } = e.nativeEvent.layout; if (Math.abs(width - sz.w) > 0.5 || Math.abs(height - sz.h) > 0.5) setSz({ w: width, h: height }); }} style={[{ borderRadius: radius, overflow: 'hidden', padding: pad }, style]}>
       {sz.w ? <Animated.View pointerEvents="none" style={[{ position: 'absolute', width: d, height: d, left: (sz.w - d) / 2, top: (sz.h - d) / 2 }, rot]}><LinearGradient colors={[C.accent, '#7B6CFF', '#00C2FF', C.accent]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={StyleSheet.absoluteFill} /></Animated.View> : null}
       <View style={[{ flex: 1, borderRadius: radius - pad, overflow: 'hidden', backgroundColor: C.bg }, innerStyle]}>
-        <View pointerEvents="none" style={[StyleSheet.absoluteFill, { backgroundColor: C.chip }]} />
+        {plain ? null : <View pointerEvents="none" style={[StyleSheet.absoluteFill, { backgroundColor: C.chip }]} />}
         {children}
       </View>
     </View>
@@ -214,21 +215,12 @@ export const LeagueLogo = ({ league, size = 24, C }) => {
   return uri ? <Image source={{ uri }} style={{ width: size, height: size }} contentFit="contain" cachePolicy="memory-disk" /> : <View style={{ width: size, height: size }} />;
 };
 
-// tasto a tendina (competizione / stagione): pillola con contorno che gira, apre la tendina di scelta
-export function DropBtn({ C, label, icon, options, value, onChange, title }) {
-  const [open, setOpen] = useState(false);
+// tasto a tendina (competizione / stagione): stessa tendina inline dei filtri, sotto la pillola
+export function DropBtn({ C, label, icon, options, value, onChange }) {
+  const hasIcon = options.some((o) => o.icon);
   return (
-    <>
-      <Pressable onPress={() => setOpen(true)} style={{ maxWidth: '62%' }}>
-        <RingBox C={C} style={{ height: 41 }}>
-          <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 8, paddingLeft: 12, paddingRight: 10 }}>
-            {icon || null}
-            <Text numberOfLines={1} style={{ color: C.ink, fontSize: 13.5, fontWeight: '800', flexShrink: 1 }}>{label}</Text>
-            <Ionicons name="chevron-down" size={15} color={C.ink2} />
-          </View>
-        </RingBox>
-      </Pressable>
-      <PickerModal C={C} open={open} title={title} options={options} value={value} onSelect={(o) => onChange(o.value)} onClose={() => setOpen(false)} />
-    </>
+    <View style={{ maxWidth: '62%' }}>
+      <Dropdown C={C} options={options.map((o) => ({ ...o, key: o.value }))} value={value} onChange={onChange} side="left" width={250} minWidth={190} compact pillKey="label" icon={hasIcon ? (o) => o.icon || null : undefined} />
+    </View>
   );
 }

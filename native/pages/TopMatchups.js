@@ -1,7 +1,7 @@
 // Migliori Matchup (nativo): giorni a scorrimento, statistica (angoli, cartellini, arbitri, tiri...) e modo (Over / Under / Divario).
 // Stessi dati e calcoli del sito (`@/data/matchups`, `@/data/refMatchup`); il tocco su una scheda apre la partita.
 import React, { useEffect, useState } from 'react';
-import { View, Text, Pressable, FlatList } from 'react-native';
+import { View, Text, Pressable, FlatList, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Animated, { FadeInUp, useSharedValue } from 'react-native-reanimated';
 import { Ionicons } from '@expo/vector-icons';
@@ -16,6 +16,7 @@ import { matchColors } from '@/lib/tint';
 import { TeamCrest } from '../shared/ui';
 import { DayStripN, DayPagerN, EmptyDayN, nextWith } from '../shared/DayNav';
 import Dropdown from '../shared/Dropdown';
+import PageHead from '../shared/PageHead';
 import StatIconN from '../shared/StatIconN';
 
 const DAYS = DATES.slice(TODAY_INDEX);
@@ -25,9 +26,9 @@ const SEEN = new Set(); // schede gia' entrate con l'animazione
 
 const Side = ({ C, team, name, value }) => (
   <View style={{ flex: 1, alignItems: 'center', minWidth: 0 }}>
-    <TeamCrest team={team} size={46} C={C} />
-    <Text numberOfLines={2} style={{ color: C.ink, fontSize: 12.5, fontWeight: '800', textAlign: 'center', marginTop: 6, lineHeight: 15 }}>{name}</Text>
-    <Text style={{ color: C.ink, fontSize: 18, fontWeight: '800', marginTop: 4 }}>{value == null ? ' ' : comma(value, 1)}</Text>
+    <TeamCrest team={team} size={68} C={C} />
+    <Text numberOfLines={2} style={{ color: C.ink, fontSize: 17, fontWeight: '800', textAlign: 'center', marginTop: 8, lineHeight: 20 }}>{name}</Text>
+    <Text style={{ color: C.ink, fontSize: 26, fontWeight: '800', marginTop: 2 }}>{value == null ? ' ' : comma(value, 1)}</Text>
   </View>
 );
 
@@ -41,22 +42,26 @@ const Card = React.memo(function Card({ C, row, both, openRoute, enter }) {
   const found = day.find((m) => m.fmId && String(m.fmId) === String(row.id)) || day.find((m) => m.homeId === row.homeId && m.awayId === row.awayId);
   const to = found ? `/match/${found.id}` : row.fm && row.sk ? `/match/a-${row.fm}-${row.sk}-${row.id}` : null;
   const body = (
-    <View style={{ marginHorizontal: 16, marginTop: 14, marginBottom: 2 }}>
-      <Pressable disabled={!to} onPress={() => openRoute(to)} style={({ pressed }) => [{ borderRadius: 24, borderWidth: 1, borderColor: both ? C.medal[0] : C.border, backgroundColor: C.card2, overflow: 'hidden', paddingHorizontal: 12, paddingTop: 10, paddingBottom: 12 }, both && { shadowColor: C.medal[0], shadowOpacity: 0.3, shadowRadius: 10, shadowOffset: { width: 0, height: 0 } }, pressed && { opacity: 0.8 }]}>
-        <LinearGradient colors={[c1 + '8C', c1 + '00', c2 + '00', c2 + '80']} locations={[0, 0.4, 0.6, 1]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }} />
-        <Text numberOfLines={1} style={{ color: C.ink3, fontSize: 10.5, fontWeight: '700', letterSpacing: 0.8, textTransform: 'uppercase', textAlign: 'center', marginBottom: 8 }}>{row.league}{found ? ` · ${found.kickoff}` : ''}</Text>
+    <View style={{ marginHorizontal: 12, marginTop: 14, marginBottom: 2 }}>
+      <Pressable disabled={!to} onPress={() => openRoute(to)} style={({ pressed }) => [both && { shadowColor: C.medal[0], shadowOpacity: 0.3, shadowRadius: 10, shadowOffset: { width: 0, height: 0 } }, pressed && { opacity: 0.8 }]}>
+      <LinearGradient colors={both ? [C.medal[0], C.medal[0]] : [c1, c2]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ borderRadius: 30, padding: 1.5 }}>
+      <View style={{ borderRadius: 28.5, backgroundColor: C.sheet, overflow: 'hidden', paddingHorizontal: 12, paddingTop: 14, paddingBottom: 16 }}>
+        <LinearGradient pointerEvents="none" colors={[c1 + 'B3', c1 + '14', c2 + '14', c2 + 'B3']} locations={[0, 0.42, 0.58, 1]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={StyleSheet.absoluteFill} />
+        <Text numberOfLines={1} style={{ color: C.ink3, fontSize: 15, fontWeight: '700', letterSpacing: 1.2, textTransform: 'uppercase', textAlign: 'center', marginBottom: 10 }}>{row.league}{found ? ` · ${found.kickoff}` : ''}</Text>
         <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
           <Side C={C} team={home} name={row.homeName} value={row.home} />
-          <View style={{ width: 88, alignItems: 'center', paddingTop: 8 }}>
-            <Text style={{ color: C.ink3, fontSize: 9.5, fontWeight: '700', letterSpacing: 1.2, textTransform: 'uppercase' }}>{row.centerLabel}</Text>
-            <Text style={{ color: C.medal[0], fontSize: 30, fontWeight: '800' }}>{comma(row.center, 1)}</Text>
+          <View style={{ width: 118, alignItems: 'center', paddingTop: 10 }}>
+            <Text style={{ color: C.ink3, fontSize: 14, fontWeight: '700', letterSpacing: 1.4, textTransform: 'uppercase' }}>{row.centerLabel}</Text>
+            <Text style={{ color: C.medal[0], fontSize: 46, fontWeight: '800', marginTop: 2 }}>{comma(row.center, 1)}</Text>
             {row.referee
-              ? <Text numberOfLines={2} style={{ color: C.ink2, fontSize: 10, fontWeight: '700', textAlign: 'center', marginTop: 6 }}>{row.referee.name}</Text>
-              : <Text style={{ color: C.ink3, fontSize: 10, marginTop: 8 }}>{row.type.label}</Text>}
+              ? <Text numberOfLines={2} style={{ color: C.ink2, fontSize: 14, fontWeight: '700', textAlign: 'center', marginTop: 8 }}>{row.referee.name}</Text>
+              : <Text style={{ color: C.ink3, fontSize: 17, marginTop: 10 }}>{row.type.label}</Text>}
           </View>
           <Side C={C} team={away} name={row.awayName} value={row.away} />
         </View>
-        <Text style={{ color: C.ink3, fontSize: 10, textAlign: 'center', marginTop: 8 }}>{row.referee ? `Gare arbitro ${row.referee.n}` : `Partite usate ${row.playedHome ?? '—'} / ${row.playedAway ?? '—'}`}</Text>
+        <Text style={{ color: C.ink3, fontSize: 15, textAlign: 'center', marginTop: 12 }}>{row.referee ? `Gare arbitro ${row.referee.n}` : `Partite usate ${row.playedHome ?? '—'} / ${row.playedAway ?? '—'}`}</Text>
+      </View>
+      </LinearGradient>
       </Pressable>
       {both ? (
         <View pointerEvents="none" style={{ position: 'absolute', top: -9, left: 0, right: 0, alignItems: 'center' }}>
@@ -111,21 +116,16 @@ function MatchupDay({ C, date, idx, typeKey, modeKey, active, onGo, openRoute, b
   return <EmptyDayN C={C} date={DAYS[idx]} index={idx} todayIndex={TODAY_I} title="Nessuna partita" next={next} onGo={onGo} noun={['partita', 'partite']} />;
 }
 
-const Head = ({ C, onSearch }) => (
-  <View style={{ flexDirection: 'row', alignItems: 'center', height: 44, paddingHorizontal: 20 }}>
-    <Text style={{ flex: 1, color: C.ink, fontSize: 22, fontWeight: '800' }}>Migliori Matchup</Text>
-    {onSearch ? <Pressable onPress={onSearch} hitSlop={10}><Ionicons name="search" size={22} color={C.ink2} /></Pressable> : null}
-  </View>
-);
+const Head = ({ C, onSearch, onMenu }) => <PageHead C={C} title="Migliori Matchup" onSearch={onSearch} onMenu={onMenu} />;
 
-export default function TopMatchups({ C, top, onSearch, openRoute, bottom = 90 }) {
+export default function TopMatchups({ C, top, onSearch, onMenu, openRoute, bottom = 90 }) {
   const [ready, setReady] = useState(false);
   useEffect(() => { let live = true; bootShared().then(() => { if (live) setReady(true); }, () => {}); return () => { live = false; }; }, []);
-  if (!ready) return <View style={{ flex: 1, backgroundColor: 'transparent', paddingTop: top }}><Head C={C} onSearch={onSearch} /><Skel C={C} /></View>;
-  return <Body C={C} top={top} onSearch={onSearch} openRoute={openRoute} bottom={bottom} />;
+  if (!ready) return <View style={{ flex: 1, backgroundColor: 'transparent', paddingTop: top }}><Head C={C} onSearch={onSearch} onMenu={onMenu} /><Skel C={C} /></View>;
+  return <Body C={C} top={top} onSearch={onSearch} onMenu={onMenu} openRoute={openRoute} bottom={bottom} />;
 }
 
-function Body({ C, top, onSearch, openRoute, bottom }) {
+function Body({ C, top, onSearch, onMenu, openRoute, bottom }) {
   const today = isoDate(new Date());
   const fresh = KEEP.day === null || KEEP.stamp !== today;
   const [dayIdx, setDayIdx] = useState(fresh ? TODAY_I : Math.min(DAYS.length - 1, Math.max(0, KEEP.day)));
@@ -136,7 +136,7 @@ function Body({ C, top, onSearch, openRoute, bottom }) {
   const pickType = (k) => { setTypeKey(k); setModeKey((m) => keepMode(k, m)); };
   return (
     <View style={{ flex: 1, backgroundColor: 'transparent', paddingTop: top }}>
-      <Head C={C} onSearch={onSearch} />
+      <Head C={C} onSearch={onSearch} onMenu={onMenu} />
       <DayStripN C={C} dates={DAYS} todayIndex={TODAY_I} x={x} value={dayIdx} onChange={setDayIdx} />
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 20, paddingTop: 4 }}>
         <Dropdown C={C} options={MATCHUP_TYPES} value={typeKey} onChange={pickType} side="left" width={230} compact pillKey="label" icon={(o, col) => <StatIconN k={o.key} size={20} color={col} />} />

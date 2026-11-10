@@ -161,3 +161,9 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 - L'app non incorpora piu' il sito: tutte le pagine sono native (`NATIVE_PAGES` / `NATIVE_DYN` in `App.js`), una rotta senza pagina nativa non si apre. Ricerca = `shared/searchN.js` (usa `lib/search.js` del sito); tema = scelta Chiaro / Sistema / Scuro in `AsyncStorage` (`sl-theme`). Il pannello diagnosi del sito non c'e' piu'.
 - Il sito web (`aurora-src`) resta com'e' per il browser; il lavoro nativo non lo tocca.
 - `/tiri-squadre` e' nativa (`pages/TiriSquadre.js`). `/partite` non ha pagina a parte: e' la Home (striscia dei giorni, calendario, filtri). I dati si scaricano coi workflow/worker di sempre; l'app li legge con la stessa cadenza del sito (Home: live ogni 5 s, altrimenti 60 s).
+
+## Tendine, testata e swipe indietro (nativo)
+- **Tendine**: sempre `shared/Dropdown.js` (pillola con contorno che gira + elenco sotto con lo stesso contorno, voce scelta azzurra con spunta). Mai `PickerModal` per scelte senza ricerca (`DropBtn` e `Select` del Calcolatore la usano gia'). `PickerModal` resta solo per le ricerche (giocatore, squadra).
+- **Testata** di Calcolatore / Migliori Giocatori / Matchup: `shared/PageHead.js` (titolo con barra azzurra e due tasti tondi cerca/menu); le pagine ricevono `onMenu`.
+- **Swipe indietro**: la striscia sul bordo (`EDGE_W`) sta in `App.js` con `zIndex: 200`, SOPRA i livelli `NatLayer` (zIndex 5+i): se si abbassa, lo swipe smette di funzionare su tutte le pagine native.
+- **Riquadri del Calcolatore**: `Panel ring` (bordo azzurro 1.5).

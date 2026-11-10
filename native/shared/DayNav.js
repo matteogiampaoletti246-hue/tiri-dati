@@ -6,6 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import Animated, { useAnimatedStyle, interpolateColor, withTiming, cancelAnimation, runOnJS, useSharedValue, Easing } from 'react-native-reanimated';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { dayLabel, MONTHS, WEEKDAYS_LONG } from '@/lib/format';
+import { RingBox } from './ui';
 
 function DayBtn({ C, i, x, top, sub, onPress, onLayout }) {
   const near = useAnimatedStyle(() => { const p = Math.max(0, 1 - Math.abs(x.value - i)); return { color: interpolateColor(p, [0, 1], [C.ink3, C.ink]), transform: [{ scale: 1 + 0.07 * p }] }; }, [C]);
@@ -13,8 +14,8 @@ function DayBtn({ C, i, x, top, sub, onPress, onLayout }) {
   const ul = useAnimatedStyle(() => { const p = Math.max(0, 1 - Math.abs(x.value - i)); return { opacity: Math.min(1, p * 1.5), transform: [{ scaleX: 0.2 + 0.8 * p }] }; });
   return (
     <Pressable onPress={onPress} onLayout={onLayout} style={{ paddingBottom: 7 }}>
-      <Animated.Text style={[{ fontSize: 15, fontWeight: '700' }, near]}>{top}</Animated.Text>
-      <Animated.Text style={[{ color: C.ink3, fontSize: 10.5 }, subSt]}>{sub}</Animated.Text>
+      <Animated.Text style={[{ fontSize: 19, fontWeight: '700' }, near]}>{top}</Animated.Text>
+      <Animated.Text style={[{ color: C.ink3, fontSize: 14.5 }, subSt]}>{sub}</Animated.Text>
       <Animated.View pointerEvents="none" style={[{ position: 'absolute', left: '10%', right: '10%', bottom: 0, height: 3, borderRadius: 2, backgroundColor: C.accent, shadowColor: C.accent, shadowOpacity: 0.55, shadowRadius: 5, shadowOffset: { width: 0, height: 0 } }, ul]} />
     </Pressable>
   );
@@ -27,7 +28,7 @@ export function DayStripN({ C, dates, todayIndex = 0, x, value, onChange }) {
   const centre = (i) => { const p = pos.current[i]; if (p && sc.current) sc.current.scrollTo({ x: Math.max(0, p.x + p.w / 2 - W / 2), animated: true }); };
   useEffect(() => { centre(value); }, [value]); // eslint-disable-line react-hooks/exhaustive-deps
   return (
-    <ScrollView ref={sc} horizontal showsHorizontalScrollIndicator={false} style={{ flexGrow: 0 }} contentContainerStyle={{ paddingHorizontal: 20, paddingVertical: 8, gap: 24, alignItems: 'center' }}>
+    <ScrollView ref={sc} horizontal showsHorizontalScrollIndicator={false} style={{ flexGrow: 0 }} contentContainerStyle={{ paddingHorizontal: 20, paddingVertical: 8, gap: 26, alignItems: 'center' }}>
       {dates.map((d, i) => (
         <DayBtn key={d.toISOString()} C={C} i={i} x={x} top={dayLabel(d, todayIndex, i)} sub={`${d.getDate()} ${MONTHS[d.getMonth()]}`} onPress={() => onChange(i)}
           onLayout={(e) => { const { x: lx, width } = e.nativeEvent.layout; pos.current[i] = { x: lx, w: width }; if (i === value) centre(i); }} />
@@ -83,18 +84,22 @@ export function EmptyDayN({ C, date, index, todayIndex = 0, title, next, onGo, n
   const tit = /^(Oggi|Ieri|Domani)$/.test(lab) ? `${title} ${lab.toLowerCase()}` : `${title} ${lab}`;
   const nl = next ? dayLabel(next.date, todayIndex, next.i) : '';
   return (
-    <View style={{ marginHorizontal: 16, marginTop: 12, alignItems: 'center', borderRadius: 24, paddingHorizontal: 20, paddingVertical: 36, borderWidth: 1, borderStyle: 'dashed', borderColor: C.border, backgroundColor: C.card2 }}>
-      <View style={{ width: 56, height: 56, borderRadius: 18, alignItems: 'center', justifyContent: 'center', backgroundColor: C.chip, marginBottom: 12 }}><Ionicons name="calendar-outline" size={26} color={C.ink2} /></View>
-      <Text style={{ color: C.ink, fontSize: 15, fontWeight: '600' }}>{tit}</Text>
-      {next ? (
-        <>
-          <Text style={{ color: C.ink3, fontSize: 12.5, marginTop: 4, textAlign: 'center' }}>Prossimi risultati: {/^(Oggi|Domani)$/.test(nl) ? nl.toLowerCase() : WEEKDAYS_LONG[next.date.getDay()].toLowerCase()} {next.date.getDate()} {MONTHS[next.date.getMonth()]} · {next.n} {next.n === 1 ? noun[0] : noun[1]}</Text>
-          <Pressable onPress={() => onGo(next.i)} style={({ pressed }) => [{ marginTop: 16, flexDirection: 'row', alignItems: 'center', gap: 4, borderRadius: 999, paddingHorizontal: 16, paddingVertical: 8, backgroundColor: C.accTint }, pressed && { opacity: 0.7 }]}>
-            <Text style={{ color: C.accent, fontSize: 13, fontWeight: '700' }}>{nl}</Text>
-            <Ionicons name="chevron-forward" size={15} color={C.accent} />
-          </Pressable>
-        </>
-      ) : <Text style={{ color: C.ink3, fontSize: 12.5, marginTop: 4 }}>Nessun risultato nei prossimi giorni</Text>}
+    <View style={{ marginHorizontal: 16, marginTop: 14 }}>
+      <RingBox C={C} radius={30} plain style={{}} innerStyle={{ flex: 0, backgroundColor: C.sheet }}>
+        <View style={{ alignItems: 'center', paddingHorizontal: 20, paddingVertical: 40 }}>
+          <View style={{ width: 84, height: 84, borderRadius: 26, alignItems: 'center', justifyContent: 'center', backgroundColor: C.chip, marginBottom: 18 }}><Ionicons name="calendar-clear-outline" size={40} color={C.ink2} /></View>
+          <Text style={{ color: C.ink, fontSize: 21, fontWeight: '600' }}>{tit}</Text>
+          {next ? (
+            <>
+              <Text style={{ color: C.ink3, fontSize: 16.5, marginTop: 8, textAlign: 'center' }}>Prossimi risultati: {/^(Oggi|Domani)$/.test(nl) ? nl.toLowerCase() : WEEKDAYS_LONG[next.date.getDay()].toLowerCase()} {next.date.getDate()} {MONTHS[next.date.getMonth()]} · {next.n} {next.n === 1 ? noun[0] : noun[1]}</Text>
+              <Pressable onPress={() => onGo(next.i)} style={({ pressed }) => [{ marginTop: 22, flexDirection: 'row', alignItems: 'center', gap: 6, borderRadius: 999, paddingHorizontal: 24, paddingVertical: 14, backgroundColor: C.accent }, pressed && { opacity: 0.7 }]}>
+                <Text style={{ color: '#041225', fontSize: 18, fontWeight: '600' }}>{nl}</Text>
+                <Ionicons name="chevron-forward" size={19} color="#041225" />
+              </Pressable>
+            </>
+          ) : <Text style={{ color: C.ink3, fontSize: 16, marginTop: 8 }}>Nessun risultato nei prossimi giorni</Text>}
+        </View>
+      </RingBox>
     </View>
   );
 }

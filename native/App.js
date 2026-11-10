@@ -956,7 +956,7 @@ const Pane = ({ idx, x, children }) => {
   return <Animated.View style={[StyleSheet.absoluteFill, st]}>{children}</Animated.View>;
 };
 
-const EDGE_W = 16; // striscia nativa sul bordo (swipe fluido sul thread UI). Stretta: piu' larga copriva i tasti a sinistra (Riepilogo) e ne mangiava il tocco.
+const EDGE_W = 22; // striscia nativa sul bordo (swipe fluido sul thread UI). Stretta: piu' larga copriva i tasti a sinistra (Riepilogo) e ne mangiava il tocco.
 const SWIPE_GAIN = 2.2; // la pagina corre piu' veloce del dito: uno swipe leggero (~23% dello schermo) la porta oltre la meta'. Stesso valore in lib/carousel.js
 
 const scoreStr = (sc) => { const x = /(\d+)\s*-\s*(\d+)/.exec(String(sc || '')); return x ? `${x[1]}-${x[2]}` : null; };
@@ -1444,10 +1444,10 @@ function Screen({ onTheme, onReset, themePref }) {
 
       {/* pagina web (resto dell'app): gia' caricata, si apre scorrendo da destra */}
       <Animated.View pointerEvents="box-none" style={[StyleSheet.absoluteFill, { backgroundColor: C.bg }, ovStyle]}>
-        {natStack.map((p, i) => { const n = nativeOf(p); if (!n) return null; return <NatLayer key={`${p}#${i}`} i={i} nv={nv} nvIdx={nvIdx} hidden={natHidden} live={i === natStack.length - 1 && !natHidden}>{React.createElement(n.Comp, { params: n.params, C, top: insets.top, onBack: popNat, bottom: insets.bottom + 90, openRoute, onSearch: () => setSrch(true) })}</NatLayer>; })}
+        {natStack.map((p, i) => { const n = nativeOf(p); if (!n) return null; return <NatLayer key={`${p}#${i}`} i={i} nv={nv} nvIdx={nvIdx} hidden={natHidden} live={i === natStack.length - 1 && !natHidden}>{React.createElement(n.Comp, { params: n.params, C, top: insets.top, onBack: popNat, bottom: insets.bottom + 90, openRoute, onSearch: () => setSrch(true), onMenu: openMenuP })}</NatLayer>; })}
         <PlayerPanelHost C={C} top={insets.top} bottom={insets.bottom} openRoute={openRoute} />
         <PlayerSheetHost C={C} bottom={insets.bottom} openRoute={openRoute} />
-        <GestureDetector gesture={edge}><View pointerEvents="auto" style={[s.edge, { width: EDGE_W, top: insets.top + 98 }]} /></GestureDetector>
+        <GestureDetector gesture={edge}><View pointerEvents="auto" style={[s.edge, { width: EDGE_W, top: insets.top + 98, zIndex: 200, elevation: 200 }]} /></GestureDetector>
       </Animated.View>
       {!webOpen || barOn ? <TabBar onOpen={openRoute} onHome={closeWeb} onTop={onTop} active={webOpen ? tab : null} bottom={insets.bottom} live={liveN} /> : null}
       {/* tendine della riga in alto: sopra la Home e sopra la barra (la barra non cambia) */}

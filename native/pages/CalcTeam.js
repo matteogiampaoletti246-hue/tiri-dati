@@ -25,7 +25,7 @@ function TeamBlock({ C, title, mode, family, block, onChange }) {
   return (
     <View>
       <PanelTitle C={C} right={`Nel calcolo: ${family === 'inPorta' ? 'In porta' : 'Totali'}`}>{title}</PanelTitle>
-      <Panel C={C} tint={col}>
+      <Panel ring C={C} tint={col}>
         <View style={{ padding: 12 }}>
           <Pressable onPress={() => setPicker('league')} style={{ alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', gap: 6, paddingVertical: 6, paddingHorizontal: 12, borderRadius: 999, backgroundColor: C.accTint, borderWidth: 1, borderColor: C.accRing }}>
             <Text numberOfLines={1} style={{ color: C.ink, fontSize: 13, fontWeight: '700' }}>{leagueName(block.leagueId) || 'Campionato'}</Text>
@@ -101,7 +101,7 @@ export default function CalcTeam({ C }) {
       <TeamBlock C={C} title="Avversario" mode="against" family={family} block={form.opp} onChange={(p) => setBlock('opp', p)} />
       <View style={{ height: 28 }} />
       <PanelTitle C={C}>Giocata</PanelTitle>
-      <Panel C={C}>
+      <Panel ring C={C}>
         <FieldRow C={C} label="Tipo tiri" first><Segmented C={C} options={SHOTS_OPTIONS} value={form.tipoTiri} onChange={(v) => set('tipoTiri', v)} /></FieldRow>
         <FieldRow C={C} label="Tipo linea"><Segmented C={C} options={LINE_OPTIONS} value={form.lineType} onChange={(v) => set('lineType', v)} /></FieldRow>
         <FieldRow C={C} label="Valore linea" hint={lineHintText(result.lambda, line)}><NumInput C={C} value={form.line} onChange={(v) => set('line', v)} /></FieldRow>

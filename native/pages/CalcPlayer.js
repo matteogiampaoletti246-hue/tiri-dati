@@ -1,6 +1,6 @@
 // Calcolatore: scheda Affidabilità giocatore (nativa). Stessa logica di components/calc/PlayerTab.jsx del sito, con i dati e i calcoli condivisi.
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { View, Text, Pressable, TextInput } from 'react-native';
+import { View, Text, Pressable, TextInput, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -15,13 +15,15 @@ import { emptyFouls, fillFrom, hitFromValues, hitRows, initialForm, isFouls, nat
 import { fmTeamIn, foulKeysFor, foulSeasonOf, leaguePlayerAvg, playerFoulsOf, rosterFouls, teamFoulStats, useFouls } from '@/data/calcFouls';
 import { FALLI_KEYS, cardRole, autoDuelIds, falliKeysFor, playerRoles, roleBreakdown, useFalli } from '@/data/calcRoles';
 import { resolvePid } from '@/data/playerPid';
-import { careerByFm, carriereOf, loadCarriere } from '@/data/carriere';
+import { careerByFm, carriereOf, loadCarriere, countryIt, flagCode } from '@/data/carriere';
+const FLAG_BASE = 'https://matteogiampaoletti246-hue.github.io/tiri-dati/native-link/flags/';
 import { loadRose, rosePlayer } from '@/data/rose';
 import { playerFace } from '@/data/archive';
 import { playerComps, calcComp } from '@/components/calc/calcComp';
 import { comma } from '@/lib/format';
 import { parseDash, parseNum, fmtLine, HIT_OPTIONS, LINE_OPTIONS, SEDE_OPTIONS, COMPETITION_OPTIONS, NATIONS_OPTION, NATIONS_WEIGHTS, SEASON_COMPETITIONS, lineHintText } from '@/lib/calc';
-import { SedeButtonsN, Panel, PanelTitle, Segmented, FieldRow, NumInput, PickerModal, TeamCrest, Face } from '../shared/ui';
+import { SedeButtonsN, Panel, PanelTitle, Segmented, FieldRow, NumInput, PickerModal, TeamCrest, Face, LeagueLogo } from '../shared/ui';
+import Dropdown from '../shared/Dropdown';
 import ResultCard from '../shared/ResultCard';
 
 const STATS = [{ value: 'tiri', label: 'Tiri' }, { value: 'porta', label: 'In porta' }, { value: 'fc', label: 'Commessi' }, { value: 'fs', label: 'Subiti' }];
@@ -73,19 +75,9 @@ function ChipList({ C, value, onChange, max = 5 }) {
   );
 }
 
-// tendina a scelta (valore linea, hit rate, competizione): apre una finestra con le voci
-function Select({ C, value, options, onChange, placeholder, title }) {
-  const [open, setOpen] = useState(false);
-  const cur = options.find((o) => o.value === value);
-  return (
-    <>
-      <Pressable onPress={() => setOpen(true)} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', gap: 6, backgroundColor: C.chip, borderRadius: 12, paddingVertical: 9, paddingHorizontal: 12 }}>
-        <Text numberOfLines={1} style={{ color: cur ? C.ink : C.ink3, fontSize: 15, fontWeight: '700' }}>{cur ? cur.label : placeholder || '—'}</Text>
-        <Ionicons name="chevron-down" size={14} color={C.ink3} />
-      </Pressable>
-      <PickerModal C={C} open={open} title={title || ''} options={options} value={value} onSelect={(o) => onChange(o.value)} onClose={() => setOpen(false)} />
-    </>
-  );
+// tendina a scelta (valore linea, hit rate, competizione): si apre sotto la pillola
+function Select({ C, value, options, onChange, placeholder }) {
+  return <Dropdown C={C} fill options={options} value={value} onChange={onChange} placeholder={placeholder || '—'} pillKey="label" icon={options.some((o) => o.logo) ? (o) => (o.logo ? <LeagueLogo league={o.logo} size={24} C={C} /> : null) : undefined} />;
 }
 
 function PlayerPick({ C, form, set, player, onSelectPlayer, stat, onStat, role, natHit, openRoute, hitN }) {
@@ -94,6 +86,8 @@ function PlayerPick({ C, form, set, player, onSelectPlayer, stat, onStat, role, 
   const team = club ? teamById(club.teamId) : null;
   const col = team && team.colors ? team.colors[0] : C.accent;
   const comps = useMemo(() => playerComps(player), [player]);
+  const natName = player ? (player.natView ? player.natView.teamName : player.nat ? player.teamName : null) : null;
+  const natFc = natName ? flagCode(natName) : null;
   const hitTitle = form.playerId && hitN > 0 && hitN < 5 ? `Hit rate su ${hitN} ${hitN === 1 ? 'partita' : 'partite'}` : 'Hit rate ultime 5';
   const ownId = form.team && form.team.id ? form.team.id : club && club.teamId;
   const comp = form.competizione === 'coppa' ? cupOf(teamById(ownId)) || 'nessuna' : (form.team && form.team.leagueId) || undefined;
@@ -113,24 +107,31 @@ function PlayerPick({ C, form, set, player, onSelectPlayer, stat, onStat, role, 
   return (
     <View>
       <PanelTitle C={C}>Giocatore</PanelTitle>
-      <Panel C={C} tint={col}>
+      <Panel ring C={C} tint={col}>
         {player ? (
-          <View style={{ padding: 14, backgroundColor: col + '33' }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
-              <Pressable onPress={() => openRoute && openRoute(`/giocatore/${club.id}`)} style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 12 }}>
-                <View><Face uri={player.photo} color={col} size={56} /><RoleBadge C={C} role={role} /></View>
+          <View style={{ backgroundColor: C.sheet }}>
+            <LinearGradient pointerEvents="none" colors={[col + 'CC', col + '40', col + '14']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={StyleSheet.absoluteFill} />
+            <View style={{ padding: 16, flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+              <Pressable onPress={() => openRoute && openRoute(`/giocatore/${club.id}`)} style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 14 }}>
+                <View style={{ width: 66, height: 66 }}>
+                  <View style={{ width: 66, height: 66, borderRadius: 33, borderWidth: 3, borderColor: C.accent, overflow: 'hidden' }}><Face uri={player.photo} color={col} size={60} /></View>
+                  <RoleBadge C={C} role={role} />
+                </View>
                 <View style={{ flex: 1 }}>
-                  <Text numberOfLines={1} style={{ color: C.ink, fontSize: 17, fontWeight: '800' }}>{player.name}</Text>
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 3 }}>
-                    {team ? <TeamCrest team={team} size={15} C={C} /> : null}
-                    <Text numberOfLines={1} style={{ color: C.ink2, fontSize: 12.5, flexShrink: 1 }}>{club.teamName}{player.natView ? ` · ${player.natView.teamName}` : ''}</Text>
+                  <Text numberOfLines={1} style={{ color: C.ink, fontSize: 21, fontWeight: '800' }}>{player.name}</Text>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 7, marginTop: 5 }}>
+                    {team ? <TeamCrest team={team} size={22} C={C} /> : null}
+                    <Text numberOfLines={1} style={{ color: C.ink2, fontSize: 15, flexShrink: 1 }}>{club.teamName}</Text>
+                    {natName ? <View style={{ width: StyleSheet.hairlineWidth * 2, height: 20, backgroundColor: C.ink3 }} /> : null}
+                    {natName && natFc ? <Image source={{ uri: `${FLAG_BASE}${natFc}.png` }} style={{ width: 24, height: 24, borderRadius: 12 }} contentFit="cover" cachePolicy="memory-disk" /> : null}
+                    {natName ? <Text numberOfLines={1} style={{ color: C.ink2, fontSize: 15, flexShrink: 1 }}>{countryIt(natName)}</Text> : null}
                   </View>
                 </View>
               </Pressable>
-              <Pressable onPress={() => setPicker(true)} style={{ paddingHorizontal: 14, paddingVertical: 8, borderRadius: 999, backgroundColor: C.accent }}><Text style={{ color: '#fff', fontWeight: '800', fontSize: 12.5 }}>Cambia</Text></Pressable>
+              <Pressable onPress={() => setPicker(true)} style={{ paddingHorizontal: 18, paddingVertical: 11, borderRadius: 999, backgroundColor: C.accent }}><Text style={{ color: '#fff', fontWeight: '800', fontSize: 15 }}>Cambia</Text></Pressable>
             </View>
             {nm ? (
-              <Pressable onPress={() => openRoute && openRoute(`/match/${nm.id}`)} style={{ marginTop: 12, flexDirection: 'row', alignItems: 'center', gap: 8, borderRadius: 14, paddingHorizontal: 12, paddingVertical: 10, backgroundColor: C.chip, borderWidth: 1, borderColor: C.hair }}>
+              <Pressable onPress={() => openRoute && openRoute(`/match/${nm.id}`)} style={{ marginHorizontal: 14, marginBottom: 14, flexDirection: 'row', alignItems: 'center', gap: 8, borderRadius: 14, paddingHorizontal: 12, paddingVertical: 10, backgroundColor: C.chip, borderWidth: 1, borderColor: C.hair }}>
                 <View style={{ flex: 1 }}>
                   <Text style={{ color: C.ink3, fontSize: 10.5, fontWeight: '800', letterSpacing: 0.8 }}>PROSSIMA PARTITA</Text>
                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 2 }}>
@@ -154,7 +155,7 @@ function PlayerPick({ C, form, set, player, onSelectPlayer, stat, onStat, role, 
         <FieldRow C={C} label="Valore linea"><Select C={C} title="Valore linea" value={form.line} options={LINES.map((x) => ({ value: x, label: x }))} onChange={(v) => set('line', v)} /></FieldRow>
         <FieldRow C={C} label="Quota"><NumInput C={C} value={form.odds} onChange={(v) => set('odds', v)} /></FieldRow>
         <SedeButtonsN C={C} value={form.sede} onChange={(v) => set('sede', v)} />
-        {comps.length ? <FieldRow C={C} label="Competizione"><Select C={C} title="Competizione" value={form.competizione} options={comps.map((o) => ({ value: o.value, label: o.comp.name, sub: o.sub.toUpperCase(), color: o.comp.colors && /^#/.test(o.comp.colors[0]) ? o.comp.colors[0] : undefined }))} onChange={(v) => set('competizione', v)} /></FieldRow> : null}
+        {comps.length ? <FieldRow C={C} label="Competizione"><Select C={C} title="Competizione" value={form.competizione} options={comps.map((o) => ({ value: o.value, label: o.comp.name, sub: o.sub.toUpperCase(), logo: o.comp, color: o.comp.colors && /^#/.test(o.comp.colors[0]) ? o.comp.colors[0] : undefined }))} onChange={(v) => set('competizione', v)} /></FieldRow> : null}
         <FieldRow C={C} label={hitTitle}><Select C={C} title={hitTitle} value={form.hitRate} placeholder="Nessuna" options={[{ value: '', label: 'Nessuna' }, ...HIT_OPTIONS]} onChange={(v) => set('hitRate', v)} /></FieldRow>
         {natHit ? <FieldRow C={C} label="Hit rate nazionale"><Text style={{ color: C.ink, fontSize: 15, fontWeight: '700', textAlign: 'right' }}>{natHit.hit}/{natHit.n}</Text></FieldRow> : null}
       </Panel>
@@ -167,7 +168,7 @@ function Last5({ C, title, shots, minutes, onShots, onMinutes }) {
   return (
     <View>
       <PanelTitle C={C}>{title} e minuti ultime 5</PanelTitle>
-      <Panel C={C}>
+      <Panel ring C={C}>
         <FieldRow C={C} label={title} first><ChipList C={C} value={shots} onChange={onShots} /></FieldRow>
         <FieldRow C={C} label="Minuti"><ChipList C={C} value={minutes} onChange={onMinutes} /></FieldRow>
       </Panel>
@@ -192,7 +193,7 @@ function SeasonPanel({ C, season, onChange, rate90, label, player, comp }) {
   return (
     <View>
       <PanelTitle C={C}>Medie stagione</PanelTitle>
-      <Panel C={C}>
+      <Panel ring C={C}>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 18, paddingVertical: 10 }}>
           <Text style={{ flex: 1, color: C.ink3, fontSize: 11, fontWeight: '800' }}>COMPETIZIONE</Text>
           <Text style={{ width: 60, textAlign: 'center', color: C.ink3, fontSize: 11, fontWeight: '800' }}>{label.toUpperCase()}</Text>
@@ -271,7 +272,7 @@ function TeamCard({ C, title, right, block, team, tiles, footer, picker, setPick
   return (
     <View>
       <PanelTitle C={C} right={right}>{title}</PanelTitle>
-      <Panel C={C} tint={col}>
+      <Panel ring C={C} tint={col}>
         <View style={{ padding: 12 }}>
           <Pressable onPress={() => setPicker('league')} style={{ alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', gap: 6, paddingVertical: 6, paddingHorizontal: 12, borderRadius: 999, backgroundColor: C.accTint, borderWidth: 1, borderColor: C.accRing }}>
             <Text numberOfLines={1} style={{ color: C.ink, fontSize: 13, fontWeight: '700' }}>{leagueName(block.leagueId) || 'Campionato'}</Text>
@@ -332,7 +333,7 @@ function Roles({ C, rb, title }) {
   return (
     <View>
       <PanelTitle C={C}>{title}</PanelTitle>
-      <Panel C={C}>
+      <Panel ring C={C}>
         <View style={{ flexDirection: 'row', gap: 8, paddingHorizontal: 16, paddingTop: 12, paddingBottom: 6 }}>
           <Text style={{ width: 46, color: C.ink3, fontSize: 11, fontWeight: '700' }}>Ruolo</Text><View style={{ flex: 1 }} />
           <Text style={{ width: 28, textAlign: 'right', color: C.ink3, fontSize: 11, fontWeight: '700' }}>Falli</Text>
@@ -369,7 +370,7 @@ function Duel({ C, team, roster, picked, onChange, statLabel, roles }) {
   return (
     <View>
       <PanelTitle C={C}>Duello avversario</PanelTitle>
-      <Panel C={C}>
+      <Panel ring C={C}>
         <Pressable onPress={() => setOpen((v) => !v)} style={{ flexDirection: 'row', alignItems: 'center', gap: 12, padding: 14 }}>
           {sel.map((r, i) => <View key={r.id} style={{ marginLeft: i ? -10 : 0 }}><Face uri={playerFace(r.id)} color={c0} size={28} /></View>)}
           <Text numberOfLines={1} style={{ flex: 1, color: sel.length ? C.ink : C.ink3, fontSize: 14.5, fontWeight: sel.length ? '700' : '400' }}>{sel.length === 0 ? 'Scegli avversario' : sel.length === 1 ? sel[0].name : `${sel.length} avversari`}</Text>
