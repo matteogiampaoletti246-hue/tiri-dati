@@ -350,22 +350,14 @@ const Day = memo(({ iso, rows, filter, onOpen, onLeague, top, isCur, near, onDay
   );
 });
 
-// Marchio ScalperLab (lente con il campo dentro) disegnato con viste: stesso disegno del logo del sito (viewBox 100).
+// Marchio ScalperLab: diamante a otto facce (concept A "Facet", 10/11/2026), stesso disegno del logo del sito.
+// Immagine SVG (expo-image): lo spazio tra le facce ha il colore dello sfondo del tema.
+const GEM_P = { T0: [28, 10], T1: [50, 10], T2: [72, 10], G0: [6, 32], G1: [36, 32], G2: [64, 32], G3: [94, 32], C: [50, 86] };
+const GEM_F = [['T0 G0 G1', '#7DD3FC'], ['T0 G1 T1', '#BAE6FD'], ['T1 G1 G2', '#F0F9FF'], ['T1 G2 T2', '#93C5FD'], ['T2 G2 G3', '#3B82F6'], ['G0 G1 C', '#38BDF8'], ['G1 G2 C', '#2563EB'], ['G2 G3 C', '#1E3A8A']];
+const gemUri = (gap) => 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -2 100 100">' + GEM_F.map(([k, c]) => `<polygon points="${k.split(' ').map((n) => GEM_P[n].join(',')).join(' ')}" fill="${c}" stroke="${gap}" stroke-width="1.8" stroke-linejoin="round"/>`).join('') + '</svg>');
 const Logo = memo(({ size = 30 }) => {
   const { C } = useT();
-  const k = size / 100;
-  const ab = (l, t, w, h, st) => ({ position: 'absolute', left: l * k, top: t * k, width: w * k, height: h * k, ...st });
-  return (
-    <View style={{ width: size, height: size }}>
-      <View style={ab(8, 8, 68, 68, { borderRadius: 34 * k, borderWidth: 8 * k, borderColor: C.ink })} />
-      <View style={ab(40.25, 14, 3.5, 56, { backgroundColor: C.accent, borderRadius: 2 * k })} />
-      <View style={ab(30.25, 30.25, 23.5, 23.5, { borderRadius: 12 * k, borderWidth: 3.5 * k, borderColor: C.accent })} />
-      <View style={ab(13, 31, 7, 22, { borderWidth: 3 * k, borderLeftWidth: 0, borderColor: C.accent, opacity: 0.7 })} />
-      <View style={ab(64, 31, 7, 22, { borderWidth: 3 * k, borderRightWidth: 0, borderColor: C.accent, opacity: 0.7 })} />
-      <View style={ab(55, 71, 43, 11, { borderRadius: 5.5 * k, backgroundColor: C.accent, transform: [{ rotate: '45deg' }] })} />
-      <View style={ab(38, 38, 8, 8, { borderRadius: 4 * k, backgroundColor: C.ink })} />
-    </View>
-  );
+  return <Image source={{ uri: gemUri(C.bg) }} style={{ width: size, height: size }} contentFit="contain" />;
 });
 
 

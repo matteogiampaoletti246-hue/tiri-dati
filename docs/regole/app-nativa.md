@@ -78,3 +78,7 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 ## Home nativa: testate e ricerca (regola fissa)
 - Testate di paesi e campionati: numero partite e freccia in una zona fissa a destra (`s.tail`, 52 px, numero allineato a destra): stessa posizione in tutte le testate, il nome lungo si tronca prima.
 - Ricerca: anche i campionati sono banner colorati (`LeagueBannerS`, colore del campionato da `color` della pagina web o `meta.comps[].tint`), come squadre e giocatori.
+
+## Logo e avvio: diamante (regola fissa dal 10/11/2026)
+- Marchio = diamante a otto facce (concept A "Facet"): `Logo.jsx` nel sito, `Logo` in `native/App.js` (immagine SVG con `C.bg` negli spazi tra le facce), icone in `aurora/` (`icon.svg`, `icon-192/512.png`, `apple-touch-icon.png`). Vecchio marchio (lente) abbandonato.
+- Avvio del sito (`LaunchScreen.jsx`, concept C "Dock"): il diamante compare al centro (rimbalzo, alone, riflesso, scintilla), vola nel posto del logo dell'intestazione (`#sl-brand`), da dietro esce la scritta ScalperLab mentre la barra di ricerca resta nascosta (`sl-launch-end` la fa riapparire), poi tutto si dissolve sul logo vero.

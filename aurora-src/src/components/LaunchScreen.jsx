@@ -2,11 +2,12 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import Logo from '@/components/Logo';
 
-// Avvio: il logo si disegna al centro, la scritta ScalperLab esce da dietro il logo,
-// poi logo e scritta insieme volano in alto a sinistra, dove restano come intestazione.
-const LOGO = 64;
-const GAP = 11;
-const TEXT = 34;
+// Avvio (concept C "Dock", 10/11/2026): il diamante compare al centro con un rimbalzo, un alone e un riflesso di luce;
+// poi sale in alto a sinistra, nel posto del logo dell'intestazione, e da dietro il diamante esce la scritta ScalperLab.
+const LOGO = 116;
+const TEXT = 22;
+const MIN_POP = 1450; // tempo minimo del diamante al centro prima del volo
+const FLY = 750;
 
 const alreadyLaunched = () => {
   try {
@@ -18,68 +19,68 @@ const alreadyLaunched = () => {
 
 export default function LaunchScreen({ ready = true }) {
   const [visible, setVisible] = useState(() => !alreadyLaunched());
-  const [reveal, setReveal] = useState(false);
-  const [fly, setFly] = useState(false);
-  const [fade, setFade] = useState(false);
+  const [phase, setPhase] = useState(0); // 0 diamante al centro, 1 volo, 2 scritta, 3 dissolvenza
   const [textW, setTextW] = useState(0);
-  const [delta, setDelta] = useState({ x: 0, y: 0, s: 0.43 });
+  const [dock, setDock] = useState(null);
   const t0 = useRef(Date.now());
   const measure = useRef(null);
-  const pair = useRef(null);
   const logoBox = useRef(null);
 
   useLayoutEffect(() => {
-    const m = () => measure.current && setTextW(Math.ceil(measure.current.getBoundingClientRect().width) + 10);
+    const m = () => measure.current && setTextW(Math.ceil(measure.current.getBoundingClientRect().width) + 4);
     m();
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(m);
   }, [visible]);
 
-  // 1) il logo si disegna, 2) esce la scritta
+  // 1) dopo il tempo minimo e a dati pronti (home già disegnata sotto) il diamante vola nel posto del logo
   useEffect(() => {
-    if (!visible) return undefined;
-    const t = setTimeout(() => setReveal(true), 1700);
-    return () => clearTimeout(t);
-  }, [visible]);
-
-  // 3) dopo la scritta (e a dati pronti, con la home già disegnata sotto) parte il volo
-  useEffect(() => {
-    if (!visible || !reveal || !ready || fly) return undefined;
-    const wait = Math.max(0, 3400 - (Date.now() - t0.current)) + 350;
+    if (!visible || phase !== 0 || !ready) return undefined;
+    const wait = Math.max(0, MIN_POP - (Date.now() - t0.current));
     const t = setTimeout(() => {
       requestAnimationFrame(() =>
         requestAnimationFrame(() => {
           const from = logoBox.current && logoBox.current.getBoundingClientRect();
           const brand = document.getElementById('sl-brand');
           const to = brand && brand.getBoundingClientRect();
-          if (from && to) setDelta({ x: to.left - from.left, y: to.top - from.top, s: 30 / LOGO });
-          setFly(true);
+          if (from && to) setDock({ x: to.left - from.left, y: to.top - from.top, s: to.width / from.width, left: to.left, top: to.top, w: to.width, h: to.height });
+          setPhase(1);
         })
       );
     }, wait);
     return () => clearTimeout(t);
-  }, [visible, reveal, ready, fly]);
+  }, [visible, phase, ready]);
 
+  // 2) a volo quasi finito esce la scritta, poi tutto si dissolve sul logo vero dell'intestazione
   useEffect(() => {
-    if (!fly) return undefined;
-    const t1 = setTimeout(() => {
-      window.dispatchEvent(new Event('sl-launch-done'));
-      setFade(true);
-    }, 1150);
-    const t2 = setTimeout(() => {
-      try {
-        sessionStorage.setItem('sl-launched', '1');
-      } catch {
-        /* ignora */
-      }
-      setVisible(false);
-    }, 1700);
-    return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
-    };
-  }, [fly]);
+    if (!visible || phase < 1) return undefined;
+    const ts = [];
+    if (phase === 1) {
+      ts.push(setTimeout(() => window.dispatchEvent(new Event('sl-launch-done')), FLY));
+      ts.push(setTimeout(() => setPhase(2), FLY - 150));
+    }
+    if (phase === 2) ts.push(setTimeout(() => setPhase(3), 1250));
+    if (phase === 3) {
+      window.dispatchEvent(new Event('sl-launch-end'));
+      ts.push(
+        setTimeout(() => {
+          try {
+            sessionStorage.setItem('sl-launched', '1');
+          } catch {
+            /* ignora */
+          }
+          setVisible(false);
+        }, 450)
+      );
+    }
+    return () => ts.forEach(clearTimeout);
+  }, [visible, phase]);
 
   if (!visible) return null;
+
+  const fly = phase >= 1 && dock;
+  const textIn = phase >= 2;
+  // la scritta e il diamante restano finché dura la fase 3, poi spariscono insieme (il logo vero è già sotto)
+  const fade = phase >= 3;
 
   return (
     <div
@@ -87,7 +88,16 @@ export default function LaunchScreen({ ready = true }) {
       style={{ pointerEvents: 'none', opacity: fade ? 0 : 1, transition: 'opacity .4s ease' }}
       aria-hidden="true"
     >
-      <div className="aurora-bg" style={{ opacity: fly ? 0 : 1, transition: 'opacity .55s ease .15s', zIndex: -1 }} />
+      <div className="aurora-bg" style={{ opacity: fly ? 0 : 1, transition: 'opacity .55s ease .1s', zIndex: -1 }} />
+
+      {/* alone azzurro dietro il diamante */}
+      <motion.div
+        className="absolute rounded-full"
+        style={{ width: 300, height: 300, background: 'radial-gradient(circle, rgba(37,99,235,.42), rgba(34,211,238,.12) 45%, transparent 70%)', filter: 'blur(10px)' }}
+        initial={{ opacity: 0, scale: 0.6 }}
+        animate={fly ? { opacity: 0, scale: 0.5 } : { opacity: [0, 1, 0.8], scale: [0.6, 1, 1.05] }}
+        transition={fly ? { duration: 0.5 } : { duration: 1.4, times: [0, 0.3, 1], ease: 'easeInOut' }}
+      />
 
       <span
         ref={measure}
@@ -98,47 +108,44 @@ export default function LaunchScreen({ ready = true }) {
       </span>
 
       <div
-        ref={pair}
-        className="flex items-center"
+        ref={logoBox}
+        className="relative z-10 shrink-0"
         style={{
+          width: LOGO,
+          height: LOGO,
           transformOrigin: 'left top',
-          color: 'var(--ink)',
           willChange: 'transform',
-          transform: fly ? `translate3d(${delta.x}px, ${delta.y}px, 0) scale(${delta.s})` : 'translate3d(0, 0, 0) scale(1)',
-          transition: fly ? 'transform 1.1s cubic-bezier(.65,0,.35,1)' : 'none',
+          transform: fly ? `translate3d(${dock.x}px, ${dock.y}px, 0) scale(${dock.s})` : 'translate3d(0, 0, 0) scale(1)',
+          transition: fly ? `transform ${FLY}ms cubic-bezier(.7,0,.2,1)` : 'none',
         }}
       >
         <motion.div
-          ref={logoBox}
-          className="relative z-10 shrink-0"
           style={{ width: LOGO, height: LOGO }}
-          initial={{ scale: 0.6, rotate: -25, opacity: 0 }}
-          animate={{ scale: 1, rotate: 0, opacity: 1 }}
-          transition={{ type: 'spring', stiffness: 150, damping: 14, opacity: { duration: 0.3 } }}
+          initial={{ scale: 0.3, opacity: 0, filter: 'blur(12px)' }}
+          animate={{ scale: [0.3, 1.1, 1], opacity: 1, filter: 'blur(0px)' }}
+          transition={{ duration: 0.85, times: [0, 0.6, 1], ease: [0.34, 1.2, 0.64, 1], opacity: { duration: 0.3 }, filter: { duration: 0.5 } }}
         >
-          <Logo size={LOGO} draw />
+          <Logo size={LOGO} shine={0.8} spark={0.9} />
         </motion.div>
-        <motion.div
-          className="overflow-hidden"
-          style={{ paddingBottom: 6, marginBottom: -6 }}
-          initial={{ width: 0 }}
-          animate={{ width: reveal ? textW + GAP : 0 }}
-          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+      </div>
+
+      {/* la scritta esce da dietro il diamante, accanto al suo posto nell'intestazione */}
+      {dock ? (
+        <div
+          className="absolute overflow-hidden"
+          style={{ left: dock.left + dock.w + 4, top: dock.top, height: dock.h, width: textW + 8, display: 'flex', alignItems: 'center' }}
         >
           <motion.span
             className="title-lg block whitespace-nowrap"
-            style={{ fontSize: TEXT, letterSpacing: '-.04em', paddingLeft: GAP }}
-            initial={{ x: -(textW + GAP) }}
-            animate={{ x: reveal ? 0 : -(textW + GAP) }}
-            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+            style={{ fontSize: TEXT, letterSpacing: '-.04em', color: 'var(--ink)', paddingLeft: 4 }}
+            initial={{ x: '-105%', opacity: 0 }}
+            animate={textIn ? { x: 0, opacity: 1 } : { x: '-105%', opacity: 0 }}
+            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
           >
-            <span className="relative inline-block">
-              Scalper<span style={{ color: 'var(--accent)' }}>Lab</span>
-              {reveal ? <span className="sl-shine title-lg" aria-hidden="true">ScalperLab</span> : null}
-            </span>
+            Scalper<span style={{ color: 'var(--accent)' }}>Lab</span>
           </motion.span>
-        </motion.div>
-      </div>
+        </div>
+      ) : null}
     </div>
   );
 }

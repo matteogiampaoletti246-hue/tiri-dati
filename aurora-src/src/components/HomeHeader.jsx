@@ -16,11 +16,18 @@ const launched = () => {
 // Il logo arriva qui dall'animazione di avvio.
 export default function HomeHeader({ onSearch, calendar }) {
   const [ready, setReady] = useState(launched);
+  // durante l'avvio la barra di ricerca resta nascosta: la scritta ScalperLab esce nel suo posto e poi la barra riappare
+  const [intro, setIntro] = useState(() => !launched());
 
   useEffect(() => {
     const onDone = () => setReady(true);
+    const onEnd = () => setIntro(false);
     window.addEventListener('sl-launch-done', onDone);
-    return () => window.removeEventListener('sl-launch-done', onDone);
+    window.addEventListener('sl-launch-end', onEnd);
+    return () => {
+      window.removeEventListener('sl-launch-done', onDone);
+      window.removeEventListener('sl-launch-end', onEnd);
+    };
   }, []);
 
   return (
@@ -36,7 +43,7 @@ export default function HomeHeader({ onSearch, calendar }) {
           <Logo size={30} />
         </Link>
         {/* Search Bar concept B (21st "Animated Glowing Search Bar"): bordo luminoso che gira attorno alla barra e alone sotto */}
-        <span className="glow-ring min-w-0 flex-1 rounded-full">
+        <span className="glow-ring min-w-0 flex-1 rounded-full" style={{ opacity: intro ? 0 : 1, transition: 'opacity .45s ease' }}>
           <button
             type="button"
             onClick={onSearch}
