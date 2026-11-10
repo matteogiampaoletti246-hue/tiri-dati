@@ -423,11 +423,11 @@ const brandRef = React.createRef();
 const LOGO_OP = makeMutable(0);
 const SEARCH_OP = makeMutable(0);
 let LAUNCHED = false;
-const GEM = 116, FLY_MS = 750, MIN_POP = 1450, START_DELAY = 750;
+const GEM = 116, FLY_MS = 750, MIN_POP = 2100, START_DELAY = 750, HOME_AT = 1650;
 // alone sfumato (gradiente radiale): niente bordo netto
 const GLOW_URI = 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><radialGradient id="g"><stop offset="0" stop-color="#38BDF8" stop-opacity="0.34"/><stop offset="0.35" stop-color="#2563EB" stop-opacity="0.2"/><stop offset="0.7" stop-color="#2563EB" stop-opacity="0.05"/><stop offset="1" stop-color="#2563EB" stop-opacity="0"/></radialGradient></defs><circle cx="50" cy="50" r="50" fill="url(#g)"/></svg>');
 const SPARK_URI = 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 0L14.4 9.6L24 12L14.4 14.4L12 24L9.6 14.4L0 12L9.6 9.6Z" fill="#BAE6FD"/></svg>');
-const LaunchOverlay = memo(() => {
+const LaunchOverlay = memo(({ onPop }) => {
   const { C, s } = useT();
   const { width: W, height: H } = useWindowDimensions();
   const [gone, setGone] = useState(LAUNCHED);
@@ -443,6 +443,8 @@ const LaunchOverlay = memo(() => {
     // prima si vede lo schermo scuro vuoto (la schermata di Expo Go sparisce), poi il diamante spunta
     pop.value = withDelay(START_DELAY, withTiming(1, { duration: 850, easing: Easing.bezier(0.34, 1.2, 0.64, 1) }));
     spark.value = withDelay(START_DELAY + 900, withTiming(1, { duration: 650, easing: OUT_EASE }));
+    // la Home (pesante) si monta solo quando il diamante e' gia' comparso: cosi' il rimbalzo non va a scatti
+    ts.push(setTimeout(() => { if (onPop) onPop(); }, HOME_AT));
     const t0 = Date.now() + START_DELAY;
     const go = (x, y, w, h) => {
       started = true;
@@ -457,7 +459,7 @@ const LaunchOverlay = memo(() => {
     // dopo il tempo minimo e quando l'intestazione esiste (dati pronti) il diamante vola nel posto del suo logo
     poll = setInterval(() => {
       if (started || over) return;
-      if (Date.now() - t0 > 9000 - START_DELAY) { clearInterval(poll); finish(); return; }
+      if (Date.now() - t0 > 12000) { clearInterval(poll); finish(); return; }
       if (Date.now() - t0 < MIN_POP) return;
       const r = brandRef.current;
       if (r && r.measureInWindow) r.measureInWindow((x, y, w, h) => { if (!started && !over && w > 0) { clearInterval(poll); go(x, y, w, h); } });
@@ -1485,8 +1487,10 @@ export default function App() {
   const onReset = useCallback(() => setGen((g) => g + 1), []);
   useEffect(() => { AsyncStorage.getItem('sl-theme').then((v) => { if (v === 'light' || v === 'dark') setTheme(v); }).catch(() => {}); }, []);
   const onTheme = useCallback((t) => { setTheme(t); AsyncStorage.setItem('sl-theme', t).catch(() => {}); }, []);
+  const [homeOn, setHomeOn] = useState(LAUNCHED);
+  const onPop = useCallback(() => setHomeOn(true), []);
   const T = THEMES[theme];
-  return <GestureHandlerRootView style={{ flex: 1, backgroundColor: T.C.bg }}><TCtx.Provider value={T}><SafeAreaProvider><Screen key={gen} onTheme={onTheme} onReset={onReset} /></SafeAreaProvider><LaunchOverlay /></TCtx.Provider></GestureHandlerRootView>;
+  return <GestureHandlerRootView style={{ flex: 1, backgroundColor: T.C.bg }}><TCtx.Provider value={T}><SafeAreaProvider>{homeOn ? <Screen key={gen} onTheme={onTheme} onReset={onReset} /> : null}</SafeAreaProvider><LaunchOverlay onPop={onPop} /></TCtx.Provider></GestureHandlerRootView>;
 }
 
 const makeStyles = (C) => StyleSheet.create({
