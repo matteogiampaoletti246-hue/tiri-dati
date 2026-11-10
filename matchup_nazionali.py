@@ -2,6 +2,8 @@
 """Migliori Matchup: partite delle nazionali (Nations League A-D) dei prossimi giorni, con le medie attese di angoli, cartellini,
 tiri, tiri in porta, falli e fuorigioco. Dall'archivio FotMob (arch/ e partite/), nessuna chiave. Scrive matchup_nazionali.json
 {days: {data: [partita]}} con la stessa forma di angoli.json -> days[data].tutte (l'app le unisce).
+Storico delle medie: partite ufficiali degli ULTIMI 12 MESI (WINDOW_DAYS) di Nations League, Mondiali e qualificazioni ai Mondiali
+(HIST_COMPS); le amichevoli sono escluse. Le partite da giocare restano quelle della Nations League A e B.
 Medie come update_angoli.py: attesi casa = (fatti dalla casa + subiti dall'ospite) / 2; angoli e tiri con la sede (casa/trasferta),
 falli e fuorigioco su tutte le partite; tiri e tiri in porta col handicap della divisione (A 1.0, B 0.9, C 0.8, D 0.7, come il Calcolatore)."""
 import gzip, json, os
@@ -12,6 +14,10 @@ ROME = ZoneInfo("Europe/Rome")
 # Solo Nations League A e B: C e D non servono in Migliori Matchup (richiesta del 9/11/2026)
 COMPS = {9806: ("Nations League A", 1.0), 9807: ("Nations League B", 0.9)}
 DAYS = 8
+WINDOW_DAYS = 365   # le medie usano le partite degli ultimi 12 mesi (23/11/2026)
+# Competizioni dello storico (nessuna amichevole): Nations League A-B, Mondiali, qualificazioni ai Mondiali (UEFA, altre confederazioni, spareggi
+# intercontinentali). Le stagioni si leggono tutte dall'indice e le partite si filtrano per data.
+HIST_COMPS = {9806, 9807, 77, 10195, 10196, 10197, 10198, 10199, 10200, 10201}
 
 
 def load(p):
@@ -61,37 +67,47 @@ def main():
     limit = today + timedelta(days=DAYS)
     hist = {}      # (id squadra, 'h'|'a') -> partite giocate con le statistiche
     names, handi, upcoming = {}, {}, []
-    for fm, (label, hv) in COMPS.items():
+    since = str(today - timedelta(days=WINDOW_DAYS))
+    for fm in sorted(HIST_COMPS):
         e = idx.get(str(fm))
         if not e or not e.get("s"):
             continue
-        sk = e["s"][0]
-        cal_p, par_p = f"arch/{fm}/{sk}.json", f"partite/{fm}/{sk}.json.gz"
-        if not (os.path.exists(cal_p) and os.path.exists(par_p)):
-            continue
-        cal, par = load(cal_p), load(par_p).get("m", {})
-        for tid, n in (cal.get("teams") or {}).items():
-            names[str(tid)] = n
-            handi[str(tid)] = hv
-        for r in cal.get("fix") or []:
-            mid, hid, aid, utc, fin = str(r[0]), str(r[2]), str(r[3]), r[4], r[6] if len(r) > 6 else None
-            if str(hid) not in names or str(aid) not in names or not utc:
+        label, hv = COMPS.get(fm, (e.get("n"), None))
+        for sk in e["s"]:
+            cal_p, par_p = f"arch/{fm}/{sk}.json", f"partite/{fm}/{sk}.json.gz"
+            if not (os.path.exists(cal_p) and os.path.exists(par_p)):
                 continue
-            d = rome_day(utc)
-            m = par.get(mid)
-            if m and r[5]:
-                s = m.get("s") or {}
-                c, y, rd = pair(s, "corners"), pair(s, "yellow_cards"), pair(s, "red_cards") or (0.0, 0.0)
-                sh, so = pair(s, "total_shots"), pair(s, "ShotsOnTarget")
-                fo, of = pair(s, "fouls"), pair(s, "Offsides")
-                k1 = cards_1t(m)
-                for side, i in (("h", 0), ("a", 1)):
-                    j = 1 - i
-                    g = lambda p: (p[i], p[j]) if p else (None, None)
-                    hist.setdefault((hid if side == "h" else aid, side), []).append({
-                        "c": g(c), "k": (y[i] + rd[i]) if y else None, "k1": k1[i] if k1 and y else None, "s": g(sh), "t": g(so), "f": g(fo), "o": g(of)})
-            elif not r[5] and str(today) <= d <= str(limit):
-                upcoming.append({"id": mid, "h": hid, "a": aid, "date": d, "time": utc, "league": label, "fm": fm, "sk": sk})
+            cal = load(cal_p)
+            fixs = cal.get("fix") or []
+            # stagione troppo vecchia: nessuna partita dentro la finestra -> non si apre l'archivio partite
+            if not any(len(r) > 4 and r[4] and since <= rome_day(r[4]) <= str(limit) for r in fixs):
+                continue
+            par = load(par_p).get("m", {})
+            if fm in COMPS and sk == e["s"][0]:
+                for tid, n in (cal.get("teams") or {}).items():
+                    names[str(tid)] = n
+                    handi[str(tid)] = hv
+            for r in fixs:
+                mid, hid, aid, utc, fin = str(r[0]), str(r[2]), str(r[3]), r[4], r[6] if len(r) > 6 else None
+                if not utc:
+                    continue
+                d = rome_day(utc)
+                m = par.get(mid)
+                if m and r[5]:
+                    if d < since or d > str(today):
+                        continue
+                    s = m.get("s") or {}
+                    c, y, rd = pair(s, "corners"), pair(s, "yellow_cards"), pair(s, "red_cards") or (0.0, 0.0)
+                    sh, so = pair(s, "total_shots"), pair(s, "ShotsOnTarget")
+                    fo, of = pair(s, "fouls"), pair(s, "Offsides")
+                    k1 = cards_1t(m)
+                    for side, i in (("h", 0), ("a", 1)):
+                        j = 1 - i
+                        g = lambda p: (p[i], p[j]) if p else (None, None)
+                        hist.setdefault((hid if side == "h" else aid, side), []).append({
+                            "c": g(c), "k": (y[i] + rd[i]) if y else None, "k1": k1[i] if k1 and y else None, "s": g(sh), "t": g(so), "f": g(fo), "o": g(of)})
+                elif not r[5] and fm in COMPS and sk == e["s"][0] and str(today) <= d <= str(limit) and hid in names and aid in names:
+                    upcoming.append({"id": mid, "h": hid, "a": aid, "date": d, "time": utc, "league": label, "fm": fm, "sk": sk})
 
     def rows(tid, side=None):
         return hist.get((tid, "h"), []) + hist.get((tid, "a"), []) if side is None else hist.get((tid, side), [])
