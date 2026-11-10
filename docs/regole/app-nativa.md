@@ -131,3 +131,10 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 - Semplificazioni: niente numero del voto che sale (RollNumber), niente `content-visibility`; uscita dei banner al cambio statistica = dissolvenza.
 - Da giudicare su Expo Go: giorni (swipe e striscia), soglie Over, tendina statistica, righe, tasto calcolatrice (giocatore e linea gia' inseriti), Matchup con tutte le statistiche (Arbitri e Cartellini col bordo dorato), tocco sulla scheda.
 
+
+## Squadra nativa (tappa 4a, 10/11/2026)
+- `/squadra/:id` (anche `fm-<id>`) e' nativa (`NATIVE_DYN`): `pages/Squadra.js` (banner + posizione/punti + allenatore, schede a scorrimento) con `SquadraPartite`, `SquadraClassifica`, `SquadraRosa`, `SquadraStat`, `SquadraGiocatori`.
+- Pezzi condivisi nuovi (servono anche a Campionato/Archivio): `shared/EntityBannerN.js`, `TabsN.js` (barra + pager, pagine accanto montate dopo 320 ms, prima scheletro), `CompBarN.js` (tendine competizione/stagione), `PaneN.js` (scroll di scheda, `anchor` per "Partite precedenti"), `StatListsN.js` (classifiche con podio, "Vai a"), `MatchRowsN.js`, `statSections.js`, `appPlayerSections.js`, `teamView.js` (useTeamView, banner che segue le tendine), `fmt.js`.
+- Colori nuovi nei temi: `role` (GK/DEF/MID/ATT/UNK/COACH). CI copia anche `hooks/useArchFresh.js` e `useNextMatch.js`.
+- Semplificazioni: niente nome che compare lettera per lettera, stemma del banner senza maschera sfumata, nessuna animazione del numero nelle barre.
+- Restano: Campionato, Archivio (storico/*), Arbitro, Ricerca, poi togliere la WebView.

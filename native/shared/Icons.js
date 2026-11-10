@@ -18,3 +18,8 @@ export const BootIcon = ({ size = 18 }) => (
     <Path d="M12 33l-2 4.5M20 37.5l-2 4.5M28 41.5l-2 4.5M36 46l-2 4.5M44 50l-2 4.5" stroke="#B9810A" strokeWidth="3.2" strokeLinecap="round" />
   </Svg>
 );
+
+// icona infortunato: croce bianca su cerchio rosso
+export const InjuryIconN = ({ size = 15 }) => (
+  <Svg width={size} height={size} viewBox="0 0 16 16"><Circle cx="8" cy="8" r="8" fill="#E5484D" /><Path d="M8 3.6v8.8M3.6 8h8.8" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" /></Svg>
+);
