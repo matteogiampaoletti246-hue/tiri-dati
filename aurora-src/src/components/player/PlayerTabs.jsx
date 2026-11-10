@@ -22,7 +22,7 @@ import { teamCompetitions } from '@/data/competitions';
 import { leagueById } from '@/data/leagues';
 import { MATCHES } from '@/data/matches';
 import { useEffect, useState } from 'react';
-import { teamGrad } from '@/lib/tint';
+import { teamGrad, shown } from '@/lib/tint';
 import CompSeasonBar from '@/components/CompSeasonBar';
 import PastStats from '@/components/past/PastStats';
 import { PlayerAllMatches, ownFirst } from '@/components/past/PastMatches';
@@ -613,7 +613,7 @@ function CareerRows({ rows, national }) {
         const t = teamByName(r[0]);
         const cols = fixedColors(r[0]) || (t && t.colors) || ['#37507a', '#5a7bb0'];
         return (
-          <div key={i} className="flex items-center gap-3 rounded-2xl px-3.5 py-3" style={{ background: teamGrad({ colors: cols }, 0x55) }}>
+          <div key={i} className="halo-card flex items-center gap-3 rounded-2xl px-3.5 py-3" style={{ background: teamGrad({ colors: cols }, 0x55), '--ring-c': shown(cols[0]), '--ring-c2': shown(cols[1] || cols[0]) }}>
             {national && flagCode(natBase(r[0])) ? <NatFlag name={r[0]} /> : <Crest team={t || { name: r[0], initials: String(r[0] || '').slice(0, 2).toUpperCase(), colors: ['#37507a', '#5a7bb0'] }} size={30} />}
             <div className="min-w-0 flex-1">
               <p className="flex items-center gap-1.5 text-[14px]" style={{ color: 'var(--ink)' }}>

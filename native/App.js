@@ -132,11 +132,32 @@ const Row = memo(({ m, onOpen }) => {
 
 // Finestra a una sola tinta (concept B): sfumatura a 135 gradi dalla tinta (.34) quasi a vuoto (.06 al 70%).
 // Accordion concept B (21st, Wensity): ogni paese/campionato e' una carta a se'; aperta, il bordo prende la tinta della finestra.
+// Rotazione unica condivisa da tutti gli anelli animati (un solo valore sul thread UI)
+const RING_R = makeMutable(0);
+let ringOn = false;
+const startRing = () => { if (ringOn) return; ringOn = true; AccessibilityInfo.isReduceMotionEnabled().then((red) => { if (!red) RING_R.value = withRepeat(withTiming(360, { duration: 5000, easing: Easing.linear }), -1, false); }).catch(() => {}); };
+// Anello animato: gradiente conico finto (sfumatura che ruota) dietro al contenuto, spessore w; colori = tinta (o blu/viola)
+const Ring = ({ colors, w = 1.5, radius, style, children }) => {
+  const { C } = useT();
+  useEffect(() => { startRing(); }, []);
+  const st = useAnimatedStyle(() => ({ transform: [{ rotate: `${RING_R.value}deg` }] }));
+  const cc = colors || [C.accent, '#7B6CFF'];
+  return (
+    <View style={[{ borderRadius: radius, padding: w, overflow: 'hidden', backgroundColor: C.border }, style]}>
+      <Animated.View pointerEvents="none" style={[{ position: 'absolute', width: 900, height: 900, left: '50%', top: '50%', marginLeft: -450, marginTop: -450 }, st]}>
+        <LinearGradient colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0)', cc[0], cc[1] || cc[0], 'rgba(0,0,0,0)']} locations={[0, 0.3, 0.5, 0.62, 0.8]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ flex: 1 }} />
+      </Animated.View>
+      {children}
+    </View>
+  );
+};
 const Card = ({ tint, style, open, children }) => {
   const { C, s } = useT();
   const t = /^#[0-9a-f]{6}$/i.test(tint || '') ? tint : '#6D7A91';
   return (
-    <LinearGradient colors={[`${t}${C.dark ? '57' : '33'}`, `${t}${C.dark ? '0F' : '0A'}`]} locations={[0, 0.7]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={[s.card, open && { borderColor: `${t}${C.dark ? 'CC' : 'B3'}`, borderWidth: 1.5 }, style]}>{children}</LinearGradient>
+    <Ring colors={[t, `${t}`]} radius={26} style={s.cardRing}>
+      <LinearGradient colors={[`${t}${C.dark ? '57' : '33'}`, `${t}${C.dark ? '0F' : '0A'}`]} locations={[0, 0.7]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={[s.card, style]}>{children}</LinearGradient>
+    </Ring>
   );
 };
 // Bandiera rotonda vera, con anello e alone della tinta del paese; senza bandiera, un globo
@@ -392,11 +413,13 @@ const Beams = memo(() => {
 const GlassBtn = ({ onPress, label, children, style }) => {
   const { C, s } = useT();
   return (
-    <Pressable onPress={onPress} accessibilityLabel={label} style={({ pressed }) => [s.lgBtn, style, pressed && { transform: [{ scale: 0.94 }] }]}>
-      <LinearGradient colors={[C.lg1, C.lg2]} start={{ x: 0.2, y: 0 }} end={{ x: 0.8, y: 1 }} style={StyleSheet.absoluteFill} />
-      <View pointerEvents="none" style={[s.lgHi, { backgroundColor: C.lgHi }]} />
-      {children}
-    </Pressable>
+    <Ring radius={18} w={1.5} style={[s.lgRing, style]}>
+      <Pressable onPress={onPress} accessibilityLabel={label} style={({ pressed }) => [s.lgBtn, pressed && { transform: [{ scale: 0.94 }] }]}>
+        <LinearGradient colors={[C.lg1, C.lg2]} start={{ x: 0.2, y: 0 }} end={{ x: 0.8, y: 1 }} style={StyleSheet.absoluteFill} />
+        <View pointerEvents="none" style={[s.lgHi, { backgroundColor: C.lgHi }]} />
+        {children}
+      </Pressable>
+    </Ring>
   );
 };
 
@@ -1527,7 +1550,8 @@ const makeStyles = (C) => StyleSheet.create({
   mBox: { marginTop: 8, padding: 6, borderRadius: 18, backgroundColor: C.wash, borderWidth: 1, borderColor: C.hair },
   mHi: { position: 'absolute', left: 6, right: 6, top: 6, height: MROW, borderRadius: 13, backgroundColor: C.accTint, borderWidth: 1, borderColor: C.accRing },
   mItem2: { height: MROW, flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 12 },
-  lgBtn: { width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center', overflow: 'hidden', borderWidth: 1, borderColor: C.lgBorder, shadowColor: '#000', shadowOpacity: C.dark ? 0.45 : 0.2, shadowRadius: 10, shadowOffset: { width: 0, height: 6 } },
+  lgRing: { width: 39, height: 39, borderRadius: 19.5, shadowColor: '#000', shadowOpacity: C.dark ? 0.45 : 0.2, shadowRadius: 10, shadowOffset: { width: 0, height: 6 } },
+  lgBtn: { width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center', overflow: 'hidden', shadowColor: '#000', shadowOpacity: C.dark ? 0.45 : 0.2, shadowRadius: 10, shadowOffset: { width: 0, height: 6 } },
   lgHi: { position: 'absolute', top: 0, left: 8, right: 8, height: 1, opacity: 0.9 },
   iconBtn: { width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center', backgroundColor: C.chip, borderWidth: 1, borderColor: C.border },
   strip: { paddingHorizontal: 20, paddingVertical: 8, gap: 24, alignItems: 'center' },
@@ -1552,7 +1576,8 @@ const makeStyles = (C) => StyleSheet.create({
   dockWave: { position: 'absolute', top: -4, left: -4, right: -4, bottom: -4, borderRadius: 13, borderWidth: 2, borderColor: C.live },
   fLive: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   liveDot: { width: 5, height: 5, borderRadius: 3, backgroundColor: C.live },
-  card: { marginHorizontal: 16, marginTop: 16, borderRadius: 26, overflow: 'hidden', borderWidth: 1, borderColor: C.border, backgroundColor: C.bg }, // fondo pieno: lo sfondo a fasci si vede solo fuori dalle finestre
+  cardRing: { marginHorizontal: 16, marginTop: 16 },
+  card: { borderRadius: 24.5, overflow: 'hidden', backgroundColor: C.bg }, // fondo pieno: lo sfondo a fasci si vede solo fuori dalle finestre
   inner: { borderTopWidth: 1, borderTopColor: C.hair },
   headRow: { flexDirection: 'row', alignItems: 'center', paddingRight: 16, minHeight: 50 },
   lhRow: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 14, paddingLeft: 16, paddingRight: 12 },

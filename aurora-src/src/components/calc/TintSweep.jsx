@@ -15,3 +15,6 @@ export default function TintSweep({ tint, strength = 34 }) {
     />
   );
 }
+
+// Colore del bordo animato di un pannello del Calcolatore: lo stesso della sua onda (squadra del giocatore o avversaria)
+export const ringStyle = (tint) => (tint && tint.color ? { '--ring-c': tint.color } : undefined);

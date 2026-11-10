@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import TintSweep from './TintSweep';
+import TintSweep, { ringStyle } from './TintSweep';
 import PanelTitle from '@/components/PanelTitle';
 
 // Ruoli avversari (concept A): una riga per ruolo con barra che si carica a cascata, falli, % sui falli del giocatore (in evidenza)
@@ -56,7 +56,7 @@ export default function RolesPanel({ rb, title, tint, runKey }) {
   return (
     <section>
       <PanelTitle>{title}</PanelTitle>
-      <div className="panel has-tint overflow-hidden pb-2">
+      <div className="panel has-tint overflow-hidden pb-2" style={ringStyle(tint)}>
         <TintSweep tint={tint} />
         <div className="grid gap-2 px-4 pb-1.5 pt-3 text-[11px] font-bold" style={{ gridTemplateColumns: '46px 1fr 28px 44px 46px', color: 'var(--ink-3)' }}>
           <span>Ruolo</span><span />

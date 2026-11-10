@@ -1,4 +1,4 @@
-import TintSweep from './TintSweep';
+import TintSweep, { ringStyle } from './TintSweep';
 import { useState } from 'react';
 import Crest from '@/components/Crest';
 import PanelTitle from '@/components/PanelTitle';
@@ -26,7 +26,7 @@ export default function FoulsTeamBlock({ title, statLabel, block, stats, value, 
   return (
     <section>
       <PanelTitle>{title}</PanelTitle>
-      <div className="panel has-tint overflow-hidden">
+      <div className="panel has-tint overflow-hidden" style={ringStyle(tint)}>
         <TintSweep tint={tint} />
         <TeamCompCard
           leagueId={block.leagueId}

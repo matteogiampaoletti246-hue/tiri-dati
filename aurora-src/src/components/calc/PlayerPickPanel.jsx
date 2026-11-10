@@ -23,7 +23,7 @@ import { countryIt } from '@/data/carriere';
 import { PlayerFace } from '@/components/SearchOverlay';
 import SelectRow from './SelectRow';
 import CalcStatSelect from './CalcStatSelect';
-import TintSweep from './TintSweep';
+import TintSweep, { ringStyle } from './TintSweep';
 import RoleBadge from './RoleBadge';
 import useNextMatch from '@/hooks/useNextMatch';
 import { nextMatchVs } from '@/data/extras';
@@ -74,7 +74,7 @@ export function NextMatchButton({ ownId, oppId, onOpen, comp, glass = false }) {
     <button
       type="button"
       onClick={() => onOpen(m.id)}
-      className="press relative mt-3 flex w-full items-center gap-2.5 rounded-[14px] px-3 py-2.5 text-left"
+      className="halo-card press relative mt-3 flex w-full items-center gap-2.5 rounded-[14px] px-3 py-2.5 text-left"
       style={glass ? { background: 'hsl(var(--background) / .45)', border: '1px solid color-mix(in srgb, var(--ink) 14%, transparent)' } : { background: 'color-mix(in srgb, var(--ink) 7%, transparent)', border: '1px solid var(--hair)' }}
       aria-label={`Apri la prossima partita${vs ? ` contro ${vs.name}` : ''}`}
     >
@@ -110,7 +110,7 @@ export default function PlayerPickPanel({ form, set, player, hint, onSelectPlaye
   return (
     <section>
       <PanelTitle>Giocatore</PanelTitle>
-      <div className="panel has-tint relative z-10">
+      <div className="panel has-tint relative z-10" style={ringStyle(tint && { color: team ? team.colors[0] : tint.color })}>
         <TintSweep tint={tint} strength={14} />
         {player ? (
           <div

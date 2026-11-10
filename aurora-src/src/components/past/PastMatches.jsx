@@ -7,6 +7,7 @@ import { ArchRow, fmtDate, dayKey } from '@/components/archive/parts';
 import { tintGrad } from '@/lib/tint';
 import { RatingPill, openPlayerState, pickLineups } from '@/components/player/PlayerTabs';
 import { leagueById } from '@/data/leagues';
+import { matchTint } from '@/data/matchTint';
 import { LID_BY_FM } from '@/data/archive';
 import Crest from '@/components/Crest';
 import LeagueBadge from '@/components/LeagueBadge';
@@ -62,7 +63,7 @@ export function PastTeamMatches({ fm, seasons, teamName, tint, teamIdByName }) {
       {parts.map(({ sk, res }) => (res && res.list.length ? (
         <div key={sk}>
           <Head sk={sk} />
-          <section className="glass mx-4 mt-2 overflow-hidden rounded-[24px] pb-1" style={{ background: tintGrad(tint, 0x45) }}>
+          <section className="glass mx-4 mt-2 overflow-hidden rounded-[24px] pb-1" style={{ background: tintGrad(tint, 0x45), '--ring-c': tint }}>
             {res.list.map((m, i) => (
               <div key={m[0]} style={{ borderTop: i ? '1px solid var(--hair-2)' : 'none' }}>
                 {i === 0 || dayKey(res.list[i - 1][4]) !== dayKey(m[4]) ? <div className="px-4 pb-0.5 pt-2.5 text-[10.5px] font-bold uppercase tracking-wider" style={{ color: 'var(--ink-3)' }}>{fmtDate(m[4])}</div> : null}
@@ -135,7 +136,7 @@ export function PlayerAllMatches({ items, fmPid, playerName, recent = [] }) {
         {all.map((m) => {
           const lg = m.league || leagueById(LID_BY_FM[Number(m.fm)]);
           return (
-            <Link key={m.key} to={m.to} state={openPlayerState(playerName, fmPid)} onClick={() => pickLineups(m.to.slice(7))} className="club-card flex items-center gap-3 rounded-2xl px-3.5 py-3 active:opacity-60" style={{ background: 'var(--panel-solid, rgba(255,255,255,.04))' }}>
+            <Link key={m.key} to={m.to} state={openPlayerState(playerName, fmPid)} onClick={() => pickLineups(m.to.slice(7))} className="club-card halo-card flex items-center gap-3 rounded-2xl px-3.5 py-3 active:opacity-60" style={lg ? { background: 'var(--panel-solid, rgba(255,255,255,.04))', '--ring-c': matchTint(lg.id, lg) } : { background: 'var(--panel-solid, rgba(255,255,255,.04))' }}>
               {m.oppTeam ? <Crest team={m.oppTeam} size={26} /> : <TeamLogo id={m.oppId} name={m.oppName} size={26} />}
               <div className="min-w-0 flex-1">
                 <p className="truncate text-[13.5px]" style={{ color: 'var(--ink)' }}>vs {m.oppName || '—'} {m.score ? <span className="tnum" style={{ color: 'var(--ink-3)' }}>{m.score}</span> : null}</p>

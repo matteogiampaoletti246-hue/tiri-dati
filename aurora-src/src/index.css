@@ -1136,3 +1136,42 @@ html:not(.dark) .lglass {
 .ref-name > span { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
 .ref-sub { display: block; margin-top: 3px; font-size: 10.5px; font-weight: 600; line-height: 1.25; color: var(--ink-3); }
 @media (prefers-reduced-motion: reduce) { .wx-sky .wx-sun, .wx-sky .wx-cloud, .wx-sky i { animation: none; } }
+
+/* ── Bordo animato su TUTTI i riquadri e i tasti (regola fissa, 10/11/2026) ──
+   Stesso bordo blu/viola che gira dei tasti a pillola (halo-trigger). Di base blu/viola; il riquadro prende il colore della competizione
+   (--tint / --stat-tint) o della squadra (--club) del suo contesto, oppure quello scelto sul riquadro con --ring-c (+ --ring-c2 per il secondo colore).
+   Tasti, tendine e riquadri-pulsante restano sempre blu/viola. Gira solo quando il riquadro e' visibile (lib/ringVis.js). */
+:where(.glass-flat, .panel-flat, .glass-pill, .empty-day, .stat-card, .tint-card, .halo-card) { position: relative; }
+:is(.panel, .panel-solid, .panel-flat, .glass, .glass-strong, .glass-flat, .glass-pill, .glass-btn, .empty-day, .stat-card, .tint-card, .halo-card):not(.sk, .shimmer, .halo-trigger, .halo-menu) {
+  border-color: transparent !important;
+  --rc: var(--ring-c, var(--stat-tint, var(--tint, var(--club))));
+}
+:is(.glass, .glass-flat, .glass-btn, .glass-pill, .panel-flat, .lglass):is(button, a, .lglass):not(.sk, .shimmer, .halo-trigger, .halo-menu) { --rc: initial; --ring-c2: initial; }
+:is(.panel, .panel-solid, .panel-flat, .glass, .glass-strong, .glass-flat, .glass-pill, .glass-btn, .empty-day, .stat-card, .tint-card, .halo-card):not(.sk, .shimmer, .halo-trigger, .halo-menu)::after {
+  content: ''; position: absolute; inset: -1px; border-radius: inherit; padding: 1.5px; z-index: 3; pointer-events: none;
+  --h1: color-mix(in srgb, var(--rc) 86%, #fff);
+  --h2: var(--ring-c2, color-mix(in srgb, var(--rc) 52%, #fff));
+  --h3: var(--rc);
+  background: conic-gradient(from var(--halo-a), var(--h1, var(--accent)), var(--h2, #7B6CFF), var(--h3, #00C2FF), var(--h1, var(--accent)));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude;
+  will-change: transform; animation: haloSpin 6s steps(120) infinite; opacity: .92; /* 20 scatti al secondo: il giro lento sembra continuo e costa un terzo da ridisegnare */
+}
+/* ring-def: sempre blu/viola, anche dentro un riquadro colorato (campi, tasti) */
+.halo-card.ring-def, .glass.ring-def, .panel-flat.ring-def { --rc: initial; --ring-c2: initial; }
+/* riquadri con overflow nascosto: il bordo resta dentro il riquadro (altrimenti verrebbe tagliato) */
+:is(.panel, .panel-solid, .panel-flat, .glass, .glass-strong, .glass-flat, .glass-pill, .glass-btn, .empty-day, .stat-card, .tint-card, .halo-card).overflow-hidden:not(.sk, .shimmer, .halo-trigger, .halo-menu)::after { inset: 0; padding: 2px; }
+/* tendine: bordo blu/viola che gira (stesso del tasto), lista quasi opaca */
+.halo-menu {
+  --menu-fill: color-mix(in srgb, var(--sky-2) 95%, transparent);
+  border: 1.5px solid transparent !important;
+  background: linear-gradient(var(--menu-fill), var(--menu-fill)) padding-box, conic-gradient(from var(--halo-a), var(--accent), #7B6CFF, #00C2FF, var(--accent)) border-box !important;
+  -webkit-backdrop-filter: none !important; backdrop-filter: none !important;
+  animation: haloSpin 5s linear infinite;
+}
+/* fuori schermo i bordi stanno fermi (fluidita'): lib/ringVis.js mette html.ring-io e data-rv sui riquadri visibili */
+.ring-io :is(.panel, .panel-solid, .panel-flat, .glass, .glass-strong, .glass-flat, .glass-pill, .glass-btn, .empty-day, .stat-card, .tint-card, .halo-card):not([data-rv])::after,
+.ring-io .halo-trigger:not([data-rv])::before, .ring-io .halo-trigger:not([data-rv])::after,
+.ring-io .halo-menu:not([data-rv]) { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) {
+  :is(.panel, .panel-solid, .panel-flat, .glass, .glass-strong, .glass-flat, .glass-pill, .glass-btn, .empty-day, .stat-card, .tint-card, .halo-card)::after, .halo-menu { animation: none; }
+}

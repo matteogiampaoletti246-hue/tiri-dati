@@ -6,6 +6,7 @@ import Crest from '@/components/Crest';
 import RollNumber from '@/components/RollNumber';
 import { Image } from '@/components/ui/image';
 import { teamById } from '@/data/teams';
+import { shown } from '@/lib/tint';
 import { matchesByDate } from '@/data/matches';
 import { romeDay } from '@/data/util';
 import { TOP_KEEP } from '@/data/topPlayers';
@@ -56,8 +57,8 @@ export default memo(function TopPlayerRow({ row, rank, threshold, delay = 0, sta
         // partita non ancora iniziata: pannello giocatore da destra (il tasto Profilo apre la scheda)
         if (!matchStarted(match)) { e.preventDefault(); openPanel(player.id); }
       }}
-      className={`press mx-4 mb-2.5 flex items-center gap-3 rounded-[24px] p-3${anim ? ' tp-in' : ''}`}
-      style={{ background: `linear-gradient(100deg, ${c1}55, rgba(255,255,255,.03) 70%)`, border: '1px solid var(--glass-border)', ...(anim ? { animationDelay: `${BASE + enter * ENTER_STAG}ms` } : null) }}
+      className={`halo-card press mx-4 mb-2.5 flex items-center gap-3 rounded-[24px] p-3${anim ? ' tp-in' : ''}`}
+      style={{ background: `linear-gradient(100deg, ${c1}55, rgba(255,255,255,.03) 70%)`, '--ring-c': shown(c1), '--ring-c2': shown(c2), ...(anim ? { animationDelay: `${BASE + enter * ENTER_STAG}ms` } : null) }}
     >
       <span className="relative flex-none">
         <span className="avatar h-[50px] w-[50px] text-[13px]">

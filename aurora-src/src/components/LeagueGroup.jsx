@@ -52,8 +52,8 @@ export default function LeagueGroup({ league, matches, iso = '', forceOpen = fal
   const toggle = () => setOpen(!open);
 
   return (
-    // Accordion concept B (21st, Wensity): carta a se'; aperta, il bordo prende la tinta della finestra
-    <section className="mx-4 mt-4 overflow-hidden rounded-[26px] glass" style={{ background: `${tintGrad(tint, 0x45)}, linear-gradient(hsl(var(--background)), hsl(var(--background)))`, boxShadow: isOpen ? `inset 0 0 0 1.5px ${tint}cc` : undefined, transition: 'box-shadow .3s ease' }}>
+    // Accordion concept B (21st, Wensity): carta a se'; il bordo animato ha sempre il colore della competizione (--ring-c)
+    <section className="mx-4 mt-4 overflow-hidden rounded-[26px] glass" style={{ background: `${tintGrad(tint, 0x45)}, linear-gradient(hsl(var(--background)), hsl(var(--background)))`, '--ring-c': tint }}>
       <div className="flex items-center">
         {/* logo e nome: aprono la scheda del campionato */}
         <LeagueLink league={league} className="press flex min-w-0 shrink items-center gap-3 py-3.5 pl-4 pr-3">

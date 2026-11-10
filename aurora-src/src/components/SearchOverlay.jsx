@@ -169,7 +169,7 @@ export default function SearchOverlay({ open, onClose }) {
             onClick={onClose}
           />
           <motion.div
-            className="absolute left-0 right-0 mx-auto overflow-hidden rounded-[26px]"
+            className="halo-card ring-def absolute left-0 right-0 mx-auto overflow-hidden rounded-[26px]"
             style={{ top: 'calc(env(safe-area-inset-top) + 6px)', width: 'calc(min(100%, var(--app-w, 100%)) - 24px)', background: 'var(--sky-2)', border: '1px solid var(--hair)', boxShadow: '0 24px 60px var(--scrim)' }}
             initial={reduce ? { opacity: 0 } : { clipPath: `inset(0px 0px calc(100% - ${BAR}px) 0px round 26px)`, opacity: 0.4 }}
             animate={reduce ? { opacity: 1 } : { clipPath: 'inset(0px 0px 0% 0px round 26px)', opacity: 1 }}

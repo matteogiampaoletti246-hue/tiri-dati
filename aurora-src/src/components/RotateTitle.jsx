@@ -36,16 +36,35 @@ export default function RotateTitle({ title }) {
 
   useLayoutEffect(() => { setPrevTitle(title); }, [title]);
 
-  // il titolo si adatta allo spazio accanto ai due tasti (mai tagliato)
+  // il titolo si adatta allo spazio accanto ai due tasti (mai tagliato). Lo si rifa anche quando il font Sora finisce di caricarsi
+  // e quando cambia la larghezza disponibile: alla prima apertura il titolo veniva misurato col font di ripiego (piu' stretto)
+  // e poi, a font arrivato, si allargava fin sotto la lente.
   useLayoutEffect(() => {
     const el = ref.current;
-    if (!el) return;
-    let s = SIZE;
-    el.style.fontSize = `${s}px`;
-    const txt = el.firstChild;
-    const room = el.parentNode.clientWidth;
-    while (txt.offsetWidth > room && s > MIN) { s -= 1; el.style.fontSize = `${s}px`; }
-    if (bar.current) bar.current.style.width = `${Math.min(txt.offsetWidth, 120)}px`;
+    if (!el) return undefined;
+    const fit = () => {
+      const txt = el.firstChild;
+      if (!txt || !el.parentNode) return;
+      const room = el.parentNode.clientWidth;
+      let s = SIZE;
+      el.style.fontSize = `${s}px`;
+      while (txt.offsetWidth > room && s > MIN) { s -= 1; el.style.fontSize = `${s}px`; }
+      if (bar.current) bar.current.style.width = `${Math.min(txt.offsetWidth, 120)}px`;
+    };
+    fit();
+    let alive = true;
+    const again = () => { if (alive) fit(); };
+    if (document.fonts) {
+      if (document.fonts.ready) document.fonts.ready.then(again);
+      document.fonts.addEventListener && document.fonts.addEventListener('loadingdone', again);
+    }
+    let ro = null;
+    if (typeof ResizeObserver !== 'undefined' && el.parentNode) { ro = new ResizeObserver(again); ro.observe(el.parentNode); }
+    return () => {
+      alive = false;
+      if (document.fonts && document.fonts.removeEventListener) document.fonts.removeEventListener('loadingdone', again);
+      if (ro) ro.disconnect();
+    };
   }, [shown]);
 
   // uscita del titolo vecchio verso l'alto, poi il nuovo

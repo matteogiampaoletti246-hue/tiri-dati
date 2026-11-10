@@ -90,7 +90,7 @@ function DomesticStats({ team, comp }) {
           const r = rankIn(team, t.key, part);
           if (!r) return null;
           return (
-            <div key={t.key} className="glass rounded-[18px] px-2 py-2.5 text-center">
+            <div key={t.key} className="glass club-card rounded-[18px] px-2 py-2.5 text-center">
               <p className="text-[9px] font-extrabold uppercase tracking-wider" style={{ color: 'var(--ink-3)' }}>{t.label}</p>
               <p className="tnum mt-1 text-[17px] font-extrabold">{comma(metricOf(team.id, t.key, part), t.key === 'possesso' ? 0 : 1)}{t.key === 'possesso' ? '%' : ''}</p>
               <span className="tnum mt-1 inline-block rounded-full px-2 py-[1px] text-[10px] font-extrabold text-white" style={{ background: badge(r.rank, r.total, r.frac) }}>{r.rank}°</span>
@@ -99,7 +99,7 @@ function DomesticStats({ team, comp }) {
         })}
       </div>
       {opp ? (
-        <Link to={`/match/${next.id}`} className="glass press mx-4 flex items-center gap-3 rounded-[20px] px-4 py-3">
+        <Link to={`/match/${next.id}`} className="glass club-card press mx-4 flex items-center gap-3 rounded-[20px] px-4 py-3">
           <Crest team={team} size={22} />
           <span className="text-[12.5px] font-extrabold uppercase tracking-wider" style={{ color: 'var(--ink-3)' }}>Prossima</span>
           <span className="ml-auto flex items-center gap-2 text-[13.5px] font-extrabold">VS <Crest team={opp} size={22} />{opp.name}<span className="rounded-full px-2 py-[1px] text-[10.5px] font-bold" style={{ background: 'var(--hair-2)', color: 'var(--ink-2)' }}>{isHome ? 'Casa' : 'Trasferta'}</span></span>

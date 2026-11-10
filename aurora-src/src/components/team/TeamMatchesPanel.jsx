@@ -44,7 +44,7 @@ function Pills({ items, row, dayHead }) {
       {groups.map((g, gi) => {
         const lg = leagueById(g.lid);
         return (
-          <section key={`${g.lid}-${gi}-${g.items[0].key}`} className="glass mx-4 mt-4 overflow-hidden rounded-[24px]" style={{ background: tintGrad(leagueTint(g.lid), 0x45) }}>
+          <section key={`${g.lid}-${gi}-${g.items[0].key}`} className="glass mx-4 mt-4 overflow-hidden rounded-[24px]" style={{ background: tintGrad(leagueTint(g.lid), 0x45), '--ring-c': leagueTint(g.lid) }}>
             <div className="flex items-center gap-2.5 px-4 pb-1 pt-3.5">
               {lg ? <LeagueBadge league={lg} size={20} /> : null}
               <span className="flex-1 truncate text-[12px] font-extrabold uppercase tracking-wider" style={{ color: 'var(--ink)' }}>{lg ? lg.name : ''}</span>

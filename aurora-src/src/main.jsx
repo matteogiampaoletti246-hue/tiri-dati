@@ -5,8 +5,10 @@ import '@fontsource/sora/latin-700.css';
 import '@/index.css';
 import { initPerf } from '@/lib/perfMon';
 import { initResume } from '@/lib/resume';
+import { startRingVis } from '@/lib/ringVis';
 initPerf();
 initResume();
+startRingVis();
 
 // Niente zoom con due dita né doppio tocco: l'app resta ferma, si muove solo con lo scorrimento.
 const stop = (e) => e.preventDefault();
