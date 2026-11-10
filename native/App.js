@@ -139,65 +139,22 @@ const useOpen = (key, init) => {
   const toggle = () => setOpen((o) => { OPEN_KEY[key] = !o; return !o; });
   return [open, toggle];
 };
-// Tendina (Accordion B): sempre animata, anche con decine di partite. Si anima solo l'altezza di un contenitore che ritaglia
-// (thread UI, Reanimated), non le righe una per una: per questo non scatta piu' sulle finestre grandi (prima oltre 14 partite
-// l'animazione veniva saltata). L'altezza animata si ferma a uno schermo; finita l'apertura il contenitore torna libero
-// e le righe montate a pezzi lo allungano senza vincoli. Chiudendo parte da al massimo uno schermo (il resto e' gia' fuori vista).
-const SCR_H = Dimensions.get('window').height;
-const OPEN_MS = 260, CLOSE_MS = 220;
-// Altezza animata con l'Animated di React Native (non Reanimated): togliendo lo stile a fine apertura l'altezza torna
-// davvero libera. Reti di sicurezza a tempo: la tendina si apre o si chiude comunque, anche se la misura non arriva.
-const C_EASE = RNEasing.out(RNEasing.cubic);
-const Collapse = ({ open, instant, children }) => {
-  const [mounted, setMounted] = useState(open);
-  const [free, setFree] = useState(open);
-  const mRef = useRef(open), fRef = useRef(open);
-  mRef.current = mounted; fRef.current = free;
-  const h = useRef(new RNAnimated.Value(0)).current;
-  const ch = useRef(0), tgt = useRef(0), pend = useRef(false), first = useRef(true), timer = useRef(null);
-  const later = (ms, f) => { clearTimeout(timer.current); timer.current = setTimeout(f, ms); };
-  useEffect(() => () => clearTimeout(timer.current), []);
-  const grow = (dur) => {
-    tgt.current = Math.min(ch.current, SCR_H);
-    RNAnimated.timing(h, { toValue: tgt.current, duration: dur, easing: C_EASE, useNativeDriver: false }).start();
-    later(dur + 30, () => setFree(true));
-  };
-  useEffect(() => {
-    if (first.current) { first.current = false; return; }
-    h.stopAnimation();
-    if (instant) { clearTimeout(timer.current); setMounted(open); setFree(open); return; }
-    if (open) {
-      setMounted(true); setFree(false);
-      if (mRef.current && ch.current) grow(OPEN_MS);
-      else { h.setValue(0); pend.current = true; later(OPEN_MS + 250, () => { pend.current = false; setFree(true); }); }
-    } else if (mRef.current) {
-      pend.current = false;
-      if (fRef.current) h.setValue(Math.min(ch.current, SCR_H));
-      setFree(false);
-      RNAnimated.timing(h, { toValue: 0, duration: CLOSE_MS, easing: C_EASE, useNativeDriver: false }).start();
-      later(CLOSE_MS + 30, () => setMounted(false));
-    }
-  }, [open]); // eslint-disable-line react-hooks/exhaustive-deps
-  const onLayout = (e) => {
-    ch.current = e.nativeEvent.layout.height;
-    if (pend.current) { pend.current = false; grow(OPEN_MS); return; }
-    // righe arrivate a pezzi mentre si apre: la tendina continua a scendere fino a loro, senza scatti
-    if (open && !free && Math.min(ch.current, SCR_H) > tgt.current + 1) grow(180);
-  };
-  if (!mounted) return null;
-  return (
-    <RNAnimated.View style={free ? null : { overflow: 'hidden', height: h }}>
-      <View onLayout={onLayout}>{children}</View>
-    </RNAnimated.View>
-  );
-};
-// Righe montate a pezzi: le prime subito (la finestra risponde al tocco), il resto a riposo, un pezzo per volta.
+// Tendina classica (10/11/2026, regola fissa): l'animazione e' la LayoutAnimation nativa di iOS/Android, chiesta un attimo prima di
+// cambiare stato. Le righe si montano gia' alla loro altezza e il sistema anima da solo la carta che si allunga e le finestre sotto
+// che scendono; in chiusura il contrario. Niente altezze misurate ne' animate da noi (Animated o Reanimated): quelle versioni in
+// apertura restavano ferme e comparivano gia' aperte. La carta ritaglia (overflow hidden) cosi' le righe non escono mentre cresce.
+const TEND_MS = 260;
+const TEND = { duration: TEND_MS, create: { type: 'easeInEaseOut', property: 'opacity' }, update: { type: 'easeInEaseOut' }, delete: { type: 'easeInEaseOut', property: 'opacity' } };
+const tendAnim = () => LayoutAnimation.configureNext(TEND);
+const Collapse = ({ open, children }) => (open ? children : null);
+// Righe montate a pezzi: le prime subito (sono quelle che si vedono mentre la tendina si apre), il resto solo ad animazione finita
+// (un pezzo montato durante l'animazione la interromperebbe), un pezzo per volta.
 const FIRST_ROWS = 8, STEP_ROWS = 10;
 const useChunk = (total) => {
   const [n, setN] = useState(Math.min(total, FIRST_ROWS));
   useEffect(() => {
     if (n >= total) return undefined;
-    const t = setTimeout(() => setN((v) => Math.min(total, v + STEP_ROWS)), 40);
+    const t = setTimeout(() => setN((v) => Math.min(total, v + STEP_ROWS)), n <= FIRST_ROWS ? TEND_MS + 80 : 40);
     return () => clearTimeout(t);
   }, [n, total]);
   return Math.min(n, total);
@@ -243,9 +200,9 @@ const LeagueGroup = memo(({ iso, g, forceOpen, onOpen, onLeague }) => {
     <Card tint={g.c.tint} open={isOpen}>
       <View style={s.headRow}>
         <Pressable onPress={() => onLeague(leagueRoute(g.c, g.fm))} style={({ pressed }) => [{ flexShrink: 1 }, pressed && { opacity: 0.6 }]}><LeagueHead c={g.c} /></Pressable>
-        <Pressable onPress={toggle} hitSlop={{ top: 14, bottom: 14, right: 14 }} style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end' }}><Text style={s.cnt}>{g.matches.length}</Text><Chev open={isOpen} /></Pressable>
+        <Pressable onPress={() => { if (!forceOpen) tendAnim(); toggle(); }} hitSlop={{ top: 14, bottom: 14, right: 14 }} style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end' }}><Text style={s.cnt}>{g.matches.length}</Text><Chev open={isOpen} /></Pressable>
       </View>
-      <Collapse open={isOpen} instant={!!forceOpen}><LeagueBody g={g} onOpen={onOpen} /></Collapse>
+      <Collapse open={isOpen}><LeagueBody g={g} onOpen={onOpen} /></Collapse>
     </Card>
   );
 });
@@ -257,12 +214,12 @@ const CountryGroup = memo(({ iso, p, forceOpen, onOpen, onLeague }) => {
   const isOpen = forceOpen || open;
   return (
     <Card tint={p.tint} open={isOpen}>
-      <Pressable onPress={toggle} style={s.headRow}>
+      <Pressable onPress={() => { if (!forceOpen) tendAnim(); toggle(); }} style={s.headRow}>
         <Flag fc={p.fc} tint={p.tint} />
         <Text numberOfLines={1} style={[s.lhName, { flex: 1, marginLeft: 12 }]}>{p.name}</Text>
         <Text style={s.cnt}>{total}</Text><Chev open={isOpen} />
       </Pressable>
-      <Collapse open={isOpen} instant={!!forceOpen}><CountryBody p={p} onLeague={onLeague} onOpen={onOpen} /></Collapse>
+      <Collapse open={isOpen}><CountryBody p={p} onLeague={onLeague} onOpen={onOpen} /></Collapse>
     </Card>
   );
 });

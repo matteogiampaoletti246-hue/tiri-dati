@@ -46,8 +46,12 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 ## Barra nativa solo nelle 4 voci (regola fissa)
 - Nell'app nativa la barra in basso (`TabBar`) si vede SOLO in Home e nelle tre schede Calcolatore, Giocatori, Matchup (`isTabRoute`, `barOn` in `native/App.js`). Ogni altra pagina (partita, campionato, squadra, giocatore, finestre) non ha la barra: si torna con lo swipe o col tasto indietro. Mai spostare i tasti delle finestre per farli stare sopra la barra.
 
-## Home nativa: finestre con molte partite (regola fissa)
-- Aprendo una finestra (paese o campionato) le righe si montano a pezzi (`useChunk` in `native/App.js`: 8 subito, poi 10 ogni 40 ms): la tendina risponde al tocco anche con 120 partite (Inghilterra). `LayoutAnimation` solo sotto le 14 righe: su liste grandi animava tutto il layout e dava scatti, in apertura e in chiusura (che ora e' immediata).
+## Home nativa: finestre con molte partite
+- Tendine di paesi e campionati (`Collapse` in `native/App.js`): tendina classica con la `LayoutAnimation` nativa (`tendAnim()` chiamata subito prima di `toggle()`), 260 ms, in apertura e in chiusura. Regola fissa dal 10/11/2026.
+- Mai rimettere altezze misurate e animate da noi (Animated di React Native o Reanimated su `height`/`maxHeight`): in apertura la tendina restava ferma e compariva gia' aperta, due volte (9 e 10/11/2026, video dell'utente).
+- Le prime 8 righe si montano subito, le altre solo ad animazione finita (`useChunk`, primo pezzo dopo `TEND_MS + 80`): un pezzo montato durante l'animazione la interrompe.
+- La carta (`s.card`) deve restare `overflow: 'hidden'`: ritaglia le righe mentre cresce.
+- Col filtro Live (`forceOpen`) le finestre sono aperte fisse: nessuna animazione.
 
 ## App nativa: ritorno dal background (regola fissa)
 - Entro 10 minuti in background l'app si ritrova com'era; oltre 10 minuti riparte da zero (`App` rimonta `Screen` con `gen`, `onReset`). Tornando entro 10 minuti la pagina web riceve un ping (`pong`): se non risponde entro 1,5 s, o iOS ha terminato il suo processo (`onContentProcessDidTerminate`), o aprendo una pagina la rotta non arriva in 4 s, la WebView si ricrea gia' sulla rotta giusta (`recover`, `webKey`, `lastRoute`). Prima la WebView ricaricata riapriva l'ultima rotta fissata all'avvio (Calcolatore) e ignorava il tocco sulla partita.
