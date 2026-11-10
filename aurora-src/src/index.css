@@ -971,6 +971,18 @@ html:not(.dark) .lglass {
   animation: haloSpin 4s linear infinite; opacity: .9;
 }
 @keyframes haloSpin { to { --halo-a: 360deg; } }
+/* Tutte|Live: su Live il contorno e la pillola sfumano dal blu al rosso (secondo anello rosso sopra il primo, stessa rotazione) */
+.halo-live::before, .halo-live::after { transition: opacity .5s ease; }
+.halo-live::after {
+  content: ''; position: absolute; inset: -1.5px; border-radius: inherit; z-index: -1; pointer-events: none; padding: 1.5px;
+  background: conic-gradient(from var(--halo-a), var(--live), color-mix(in srgb, var(--live) 60%, #FFB020), color-mix(in srgb, var(--live) 75%, #FF2D95), var(--live));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude;
+  animation: haloSpin 4s linear infinite; opacity: 0;
+}
+.halo-live.on::before { opacity: 0; }
+.halo-live.on::after { opacity: .9; }
+.lg-live { background: linear-gradient(100deg, color-mix(in srgb, var(--live) 78%, #000), var(--live) 55%, color-mix(in srgb, var(--live) 70%, #FF2D95)); box-shadow: 0 0 14px -2px color-mix(in srgb, var(--live) 70%, transparent), inset 0 1px 0 rgba(255, 255, 255, .28); transition: opacity .5s ease; }
+@media (prefers-reduced-motion: reduce) { .halo-live::after { animation: none; } }
 /* Striscia in alto (Calcolatore, Migliori Matchup/Giocatori): stesso fondale dell'app (colore + aloni, dimensionati sul display e ancorati in alto come .aurora-bg) ma opaca: le schede che scorrono spariscono sotto, senza stacco di colore. */
 .head-solid {
   background-color: hsl(var(--background));
