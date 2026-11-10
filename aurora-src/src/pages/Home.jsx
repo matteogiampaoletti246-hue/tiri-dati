@@ -45,6 +45,7 @@ const later = (fn) => { const go = () => { if (TOUCHING || GLIDE) setTimeout(go,
 // In alto, da soli: top campionati (i 5 aperti, gli altri 4 chiusi), coppe europee, competizioni internazionali.
 // Tutte le altre competizioni stanno nella finestra del loro paese (paesi in ordine alfabetico italiano; dentro, in ordine di importanza).
 const PROMO_N = 3;
+const FRIENDLY = /friendl|amichevol/i;
 const TOP_SOLO = ['champions-league', 'europa-league', 'conference-league', 'fm-9806', 'fm-9807', 'fm-9808', 'fm-9809', 'serie-a', 'premier-league', 'la-liga', 'bundesliga', 'ligue-1', 'pro-league', 'eredivisie', 'liga-portugal', 'super-lig'];
 let LAYOUT = null;
 const layout = () => {
@@ -73,7 +74,8 @@ function groupsOf(iso, filter, ver) {
   // giorno senza partite delle competizioni aperte (top 5, coppe europee, Nations League): le 3 col ranking piu' alto del giorno
   // salgono in cima, aperte, come i top campionati (regola fissa 10/11/2026); si decide su tutte le partite del giorno
   const ids = [...new Set(dm.map((m) => m.leagueId))].filter((id) => leagueById(id));
-  const promo = ids.some((id) => OPEN_AT_START.has(id)) ? null : new Set(ids.sort((a, b) => pr.get(a) - pr.get(b)).slice(0, PROMO_N));
+  // amichevoli (nazionali e di club) mai promosse: si passa alla successiva del ranking
+  const promo = ids.some((id) => OPEN_AT_START.has(id)) ? null : new Set(ids.filter((id) => !FRIENDLY.test(leagueById(id).name || '')).sort((a, b) => pr.get(a) - pr.get(b)).slice(0, PROMO_N));
   const up = [];
   const sh = filter === 'live' ? dm.filter((m) => m.status === 'live') : dm;
   const by = new Map();

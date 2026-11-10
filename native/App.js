@@ -64,10 +64,12 @@ const OPEN_KEY = {}; // aperto/chiuso ricordato per giorno e finestra
 // (pr): le coppe nazionali valgono come il loro paese (Copa del Rey prima della Bolivia), femminili/giovanili dietro.
 // Si decide su tutte le partite del giorno, anche col filtro Live.
 const PROMO_N = 3;
+// amichevoli (nazionali e di club) mai promosse: si passa alla successiva del ranking
+const FRIENDLY = /friendl|amichevol/i;
 const prOf = (c) => (c.pr != null ? c.pr : c.rank);
 function promoOf(rows) {
   const seen = new Set();
-  for (const m of rows) { const c = META.comps[m[1]]; if (!c) continue; if (c.open) return null; seen.add(m[1]); }
+  for (const m of rows) { const c = META.comps[m[1]]; if (!c) continue; if (c.open) return null; if (!FRIENDLY.test(c.name || '')) seen.add(m[1]); }
   return new Set([...seen].sort((a, b) => prOf(META.comps[a]) - prOf(META.comps[b])).slice(0, PROMO_N));
 }
 function groupsOf(rows, filter) {
