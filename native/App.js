@@ -146,7 +146,27 @@ const useOpen = (key, init) => {
 const TEND_MS = 260;
 const TEND = { duration: TEND_MS, create: { type: 'easeInEaseOut', property: 'opacity' }, update: { type: 'easeInEaseOut' }, delete: { type: 'easeInEaseOut', property: 'opacity' } };
 const tendAnim = () => LayoutAnimation.configureNext(TEND);
-const Collapse = ({ open, children }) => (open ? children : null);
+// Apertura in due tempi: prima le righe si creano di nascosto dentro un contenitore alto zero (il lavoro pesante: viste, loghi),
+// poi, a righe pronte, si chiede l'animazione e si toglie il vincolo: quel passaggio e' leggerissimo e l'animazione parte pulita.
+// Creando le righe nello stesso passaggio dell'animazione, con piu' di 4 partite il telefono era ancora occupato e ne saltava l'inizio.
+// In chiusura si smonta subito (l'animazione l'ha gia' chiesta chi ha toccato).
+const Collapse = ({ open, instant, children }) => {
+  const [shown, setShown] = useState(open);
+  const sRef = useRef(open), t = useRef(null), raf = useRef(0);
+  const stop = () => { clearTimeout(t.current); cancelAnimationFrame(raf.current); raf.current = 0; };
+  const show = () => { stop(); if (sRef.current) return; sRef.current = true; tendAnim(); setShown(true); };
+  useEffect(() => stop, []);
+  useEffect(() => {
+    stop();
+    if (!open) { sRef.current = false; setShown(false); return; }
+    if (sRef.current) return;
+    if (instant) { sRef.current = true; setShown(true); return; }
+    t.current = setTimeout(show, 350); // rete di sicurezza: si apre comunque
+  }, [open]); // eslint-disable-line react-hooks/exhaustive-deps
+  const onLayout = () => { if (!sRef.current && !raf.current) raf.current = requestAnimationFrame(() => { raf.current = requestAnimationFrame(show); }); };
+  if (!open) return null;
+  return <View style={shown ? null : { height: 0, overflow: 'hidden' }}><View onLayout={onLayout}>{children}</View></View>;
+};
 // Righe montate a pezzi: le prime subito (sono quelle che si vedono mentre la tendina si apre), il resto solo ad animazione finita
 // (un pezzo montato durante l'animazione la interromperebbe), un pezzo per volta.
 const FIRST_ROWS = 8, STEP_ROWS = 10;
@@ -154,7 +174,7 @@ const useChunk = (total) => {
   const [n, setN] = useState(Math.min(total, FIRST_ROWS));
   useEffect(() => {
     if (n >= total) return undefined;
-    const t = setTimeout(() => setN((v) => Math.min(total, v + STEP_ROWS)), n <= FIRST_ROWS ? TEND_MS + 80 : 40);
+    const t = setTimeout(() => setN((v) => Math.min(total, v + STEP_ROWS)), n <= FIRST_ROWS ? 2 * TEND_MS + 200 : 40);
     return () => clearTimeout(t);
   }, [n, total]);
   return Math.min(n, total);
@@ -200,9 +220,9 @@ const LeagueGroup = memo(({ iso, g, forceOpen, onOpen, onLeague }) => {
     <Card tint={g.c.tint} open={isOpen}>
       <View style={s.headRow}>
         <Pressable onPress={() => onLeague(leagueRoute(g.c, g.fm))} style={({ pressed }) => [{ flex: 1, minWidth: 0 }, pressed && { opacity: 0.6 }]}><LeagueHead c={g.c} /></Pressable>
-        <Pressable onPress={() => { if (!forceOpen) tendAnim(); toggle(); }} hitSlop={{ top: 14, bottom: 14, right: 14 }} style={s.tail}><Text numberOfLines={1} style={s.cnt}>{g.matches.length}</Text><Chev open={isOpen} /></Pressable>
+        <Pressable onPress={() => { if (!forceOpen && isOpen) tendAnim(); toggle(); }} hitSlop={{ top: 14, bottom: 14, right: 14 }} style={s.tail}><Text numberOfLines={1} style={s.cnt}>{g.matches.length}</Text><Chev open={isOpen} /></Pressable>
       </View>
-      <Collapse open={isOpen}><LeagueBody g={g} onOpen={onOpen} /></Collapse>
+      <Collapse open={isOpen} instant={!!forceOpen}><LeagueBody g={g} onOpen={onOpen} /></Collapse>
     </Card>
   );
 });
@@ -214,12 +234,12 @@ const CountryGroup = memo(({ iso, p, forceOpen, onOpen, onLeague }) => {
   const isOpen = forceOpen || open;
   return (
     <Card tint={p.tint} open={isOpen}>
-      <Pressable onPress={() => { if (!forceOpen) tendAnim(); toggle(); }} style={s.headRow}>
+      <Pressable onPress={() => { if (!forceOpen && isOpen) tendAnim(); toggle(); }} style={s.headRow}>
         <Flag fc={p.fc} tint={p.tint} />
         <Text numberOfLines={1} style={[s.lhName, { flex: 1, marginLeft: 12 }]}>{p.name}</Text>
         <View style={s.tail}><Text numberOfLines={1} style={s.cnt}>{total}</Text><Chev open={isOpen} /></View>
       </Pressable>
-      <Collapse open={isOpen}><CountryBody p={p} onLeague={onLeague} onOpen={onOpen} /></Collapse>
+      <Collapse open={isOpen} instant={!!forceOpen}><CountryBody p={p} onLeague={onLeague} onOpen={onOpen} /></Collapse>
     </Card>
   );
 });
