@@ -177,8 +177,8 @@
    "da_fare": 0
   },
   "FA Cup 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "EFL Cup 2026-2027": {
    "partite_con_eventi": 0,
@@ -205,8 +205,8 @@
    "da_fare": 0
   },
   "LaLiga2 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "Coppa Italia 2026-2027": {
    "partite_con_eventi": 0,
@@ -313,8 +313,8 @@
    "da_fare": 0
   },
   "Liga Portugal 2 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "Taça de Portugal 2026-2027": {
    "partite_con_eventi": 0,
@@ -353,8 +353,8 @@
    "da_fare": 0
   },
   "Division Profesional 2026 - Clausura": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "Superpuchar Polski 2025-2026": {
    "partite_con_eventi": 0,
@@ -473,8 +473,8 @@
    "da_fare": 0
   },
   "Serie A 2026": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "Community Shield 2025-2026": {
    "partite_con_eventi": 0,
@@ -666,11 +666,11 @@
   },
   "National North & South 2026-2027": {
    "partite_con_eventi": 0,
-   "da_fare": 0
+   "da_fare": 1
   },
   "Premier Division 2026-2027": {
    "partite_con_eventi": 0,
-   "da_fare": 0
+   "da_fare": 1
   },
   "Primera B Nacional 2026": {
    "partite_con_eventi": 0,
@@ -985,8 +985,8 @@
    "da_fare": 0
   },
   "Liga F 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "Egypt Cup 2025-2026": {
    "partite_con_eventi": 0,
@@ -2393,5 +2393,5 @@
    "da_fare": 0
   }
  },
- "partite_in_questo_giro": 1
+ "partite_in_questo_giro": 9
 }
