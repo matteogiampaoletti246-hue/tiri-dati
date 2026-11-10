@@ -1,7 +1,7 @@
 // Migliori Matchup / Arbitri: medie cartellini (totali e 1T) degli arbitri designati per le partite del giorno.
-// Medie dalle gare vere delle ultime due stagioni (arbitri3/, arbitri_gare.py); arbitro designato da FotMob (loadFm) o da arbitri_extra.json.
+// Medie dalle gare vere delle ultime due stagioni (arbitri3/, arbitri_gare.py); arbitro designato da FotMob (loadFm), poi UEFA e arbitri_extra.json (arbitriDesignati.js).
 import { useEffect, useState } from 'react';
-import { BASE } from './load';
+import { designatedReferee } from './arbitriDesignati';
 import { matchesByDate } from './matches';
 import { teamByName } from './teams';
 import { loadFm } from './fotmob';
@@ -12,12 +12,6 @@ import { lruGet, lruSet } from '@/lib/lru';
 
 const MIN_GAMES = 5; // sotto le 5 gare con il dato la media dell'arbitro non e' affidabile
 const r1 = (x) => Math.round(x * 10) / 10;
-
-let EXTRA = null;
-const arbitriExtra = () => {
-  if (!EXTRA) EXTRA = fetch(`${BASE}arbitri_extra.json`, { cache: 'no-cache' }).then((r) => (r.ok ? r.json() : {})).catch(() => ({}));
-  return EXTRA;
-};
 
 // media cartellini dell'arbitro: totale e 1T (solo gare con il dato)
 const AVG = new Map();
@@ -54,11 +48,7 @@ async function nameFor(date, m) {
   if (am && !name && am.status === 'scheduled') {
     await loadFm(am, playerLookup).catch(() => null);
     name = am.refereeName || null;
-    if (!name && am.fmId) {
-      const ex = await arbitriExtra();
-      const h = ex && ex[String(am.fmId)];
-      if (h && h.n) name = h.n;
-    }
+    if (!name && am.fmId) name = await designatedReferee(am.fmId);
   }
   // senza arbitro non si memorizza: potrebbe essere designato piu' tardi
   if (name) lruSet(NAMES, k, name, 800);

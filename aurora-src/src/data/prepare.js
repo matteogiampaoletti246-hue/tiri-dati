@@ -11,11 +11,9 @@ import { loadWeather } from './weather';
 import { archIndex, FM_ID } from './archive';
 import { refTwoSeasons } from './referees';
 import { loadRose } from './rose';
-import { BASE } from './load';
+import { designatedReferee } from './arbitriDesignati';
 
 const P = new Map();
-let AR = null;
-const arbitriExtra = () => { if (!AR) AR = fetch(`${BASE}arbitri_extra.json`, { cache: 'no-cache' }).then((r) => (r.ok ? r.json() : {})).catch(() => ({})); return AR; };
 
 const fresh = (id, e) => {
   const m = matchById(id);
@@ -46,11 +44,10 @@ export function prepareMatch(id, force = false) {
       await loadFm(matchById(id), playerLookup, force);
       const mm = matchById(id);
       if (mm && mm.archive && !mm.detail) applyArchiveFallback(mm);
-      // arbitro designato da altre fonti (arbitri_extra.py) se FotMob non lo da' ancora
-      if (mm && mm.extra && !mm.refereeName && mm.fmId) {
-        const ar = await Promise.race([arbitriExtra(), new Promise((r) => setTimeout(() => r(null), 1500))]);
-        const hit = ar && ar[String(mm.fmId)];
-        if (hit && hit.n) mm.refereeName = hit.n;
+      // arbitro designato dalla UEFA o da altre fonti (arbitri_uefa.py, arbitri_extra.py) se FotMob non lo da' ancora
+      if (mm && !mm.refereeName && mm.fmId) {
+        const n = await Promise.race([designatedReferee(mm.fmId), new Promise((r) => setTimeout(() => r(null), 1500))]);
+        if (n) mm.refereeName = n;
       }
       // tabellone (coppe) e meteo pronti prima di mostrare la partita: si sa subito quali schede/voci hanno dati e niente arriva dopo
       if (mm) {
