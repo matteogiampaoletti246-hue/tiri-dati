@@ -98,3 +98,8 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 - Misure: ~13.000 righe di pagine web da portare. Giocatore dipende da `components/player/PlayerTabs.jsx` (672 righe: Profilo, Partite, Statistiche con percentili e barre, Carriera), `PlayerPanel.jsx` (421), `Radar`, `components/past/*` (PastBits/PastStats/PastMatches), `CompSeasonBar`/`CompSelect`, `archive/parts` e `ArchiveLeague`; hook `useAsync` e `playerIndex` (usePlayerCareer, usePlayerSeason, useBioPid, useArchivePct) usano `playerCalc.js` (pure, copiabile da CI).
 - Migliori Giocatori: `data/topPlayers.js` importa `resolvePid` da `./playerIndex` (cambiarlo in `./playerPid` prima di portarlo); righe -> `openPanel`/tendina/`/giocatore`.
 - Tocchi verso pagine non ancora native passano da `openRoute` (WebView) finche' la destinazione non e' nativa.
+
+### Stato Giocatore nativo (10/11/2026, sera)
+- Scritto e compilato, NON ancora registrato (in `App.js` la riga `NATIVE_DYN` e' commentata): `pages/Giocatore.js` (testata, Profilo, Carriera), `GiocatorePartite.js`, `GiocatoreStat.js`, `GiocatorePast.js`; mattoni in `shared/` (`hooks.js` useSel, `Radar.js`, `Icons.js`, `StatBars.js`, `DropBtn`/`LeagueLogo` in `ui.js`).
+- La CI copia anche `components/player/playerCalc.js` e `hooks/useAsync.js` (`playerIndex.js` li importa: `topPlayers.js` ora si porta senza cambiare `resolvePid`).
+- Manca: pannello giocatore (da destra se la partita non e' iniziata, tendina dal basso altrimenti), poi attivare `NATIVE_DYN` per `/giocatore/:id` e i tocchi dal Calcolatore.

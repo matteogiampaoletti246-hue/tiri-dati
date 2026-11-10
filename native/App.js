@@ -15,8 +15,18 @@ import META from './meta.json';
 import './shared/shim';
 import GuidelinesPage from './pages/Guidelines';
 import CalcolatorePage from './pages/Calcolatore';
+import GiocatorePage from './pages/Giocatore';
 // pagine gia' native (migrazione a tappe): la rotta si apre senza WebView
 const NATIVE_PAGES = { '/linee-guida': GuidelinesPage, '/calcolatore': CalcolatorePage };
+// pagine nostre con un parametro nel percorso (/giocatore/:id): si attivano qui solo quando la pagina e' completa
+const NATIVE_DYN = [
+  // [/^\/giocatore\/([^/]+)$/, GiocatorePage, 'id'],
+];
+const nativeOf = (path) => {
+  if (NATIVE_PAGES[path]) return { Comp: NATIVE_PAGES[path], params: {} };
+  for (const [re, Comp, key] of NATIVE_DYN) { const m = re.exec(path); if (m) return { Comp, params: { [key]: m[1] } }; }
+  return null;
+};
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) UIManager.setLayoutAnimationEnabledExperimental(true);
 
@@ -1371,7 +1381,7 @@ function Screen({ onTheme, onReset }) {
   }, [onReset, recover, ov]);
   const openRoute = useCallback((route) => {
     const path0 = route.split('?')[0];
-    if (NATIVE_PAGES[path0]) { openRef.current = true; setNatPage(path0); setWebOpen(true); setBarOn(isTabRoute(path0)); if (isTabRoute(path0)) setTab(tabOf(path0)); setDepth(0); ov.value = withTiming(0, { duration: 260, easing: Easing.out(Easing.cubic) }); return; }
+    if (nativeOf(path0)) { openRef.current = true; setNatPage(path0); setWebOpen(true); setBarOn(isTabRoute(path0)); if (isTabRoute(path0)) setTab(tabOf(path0)); setDepth(0); ov.value = withTiming(0, { duration: 260, easing: Easing.out(Easing.cubic) }); return; }
     setNatPage(null);
     // da una scheda del dock a un'altra (pagina gia' aperta e pronta): la pagina web scorre di lato da sola, niente scheletro sopra
     const slide = openRef.current && readyRef.current && !!webRef.current && isTabRoute(webPath.current) && isTabRoute(route) && webPath.current !== path0;
@@ -1513,7 +1523,7 @@ function Screen({ onTheme, onReset }) {
             {!ready || busy || parked ? <View pointerEvents="auto" style={[StyleSheet.absoluteFill, { backgroundColor: C.bg }]}>{parked && ready ? null : <SkWeb route={awaitRoute.current || lastRoute.current} />}</View> : null}
           </View>
         </View>
-        {natPage ? <View style={[StyleSheet.absoluteFill, { zIndex: 5 }]}>{React.createElement(NATIVE_PAGES[natPage], { C, top: insets.top, onBack: closeWeb, bottom: insets.bottom + 90, openRoute, onSearch: () => setSrch(true) })}</View> : null}
+        {natPage ? <View style={[StyleSheet.absoluteFill, { zIndex: 5 }]}>{React.createElement(nativeOf(natPage).Comp, { params: nativeOf(natPage).params, C, top: insets.top, onBack: closeWeb, bottom: insets.bottom + 90, openRoute, onSearch: () => setSrch(true) })}</View> : null}
         <GestureDetector gesture={edge}><View pointerEvents={depth > 0 ? 'none' : 'auto'} style={[s.edge, { width: EDGE_W, top: insets.top + 98 }]} /></GestureDetector>
       </Animated.View>
       {!webOpen || barOn ? <TabBar onOpen={openRoute} onHome={closeWeb} onTop={onTop} active={webOpen ? tab : null} bottom={insets.bottom} live={liveN} /> : null}

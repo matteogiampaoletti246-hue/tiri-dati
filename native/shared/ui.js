@@ -108,3 +108,25 @@ export function PickerModal({ C, open, title, options, onSelect, onClose, search
     </Modal>
   );
 }
+
+// logo di una competizione (chiaro/scuro dal tema)
+export const LeagueLogo = ({ league, size = 24, C }) => {
+  if (!league) return null;
+  const uri = C && C.dark && league.logoDark ? league.logoDark : league.logo;
+  return uri ? <Image source={{ uri }} style={{ width: size, height: size }} contentFit="contain" cachePolicy="memory-disk" /> : <View style={{ width: size, height: size }} />;
+};
+
+// tasto a tendina (competizione / stagione): apre la finestra di scelta
+export function DropBtn({ C, label, icon, options, value, onChange, title, top }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <Pressable onPress={() => setOpen(true)} style={{ flexDirection: 'row', alignItems: 'center', gap: 8, paddingVertical: 8, paddingLeft: 12, paddingRight: 10, borderRadius: 16, backgroundColor: C.card2, borderWidth: 1, borderColor: C.border, maxWidth: '62%' }}>
+        {icon || null}
+        <Text numberOfLines={1} style={{ color: C.ink, fontSize: 14, fontWeight: '800', flexShrink: 1 }}>{label}</Text>
+        <Ionicons name="chevron-down" size={15} color={C.accent} />
+      </Pressable>
+      <PickerModal C={C} open={open} title={title} options={options} onSelect={(o) => onChange(o.value)} onClose={() => setOpen(false)} top={top} />
+    </>
+  );
+}
