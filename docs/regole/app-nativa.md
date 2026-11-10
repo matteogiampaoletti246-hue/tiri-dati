@@ -160,3 +160,4 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 ## WebView rimossa (11/11/2026)
 - L'app non incorpora piu' il sito: tutte le pagine sono native (`NATIVE_PAGES` / `NATIVE_DYN` in `App.js`), una rotta senza pagina nativa non si apre. Ricerca = `shared/searchN.js` (usa `lib/search.js` del sito); tema = scelta Chiaro / Sistema / Scuro in `AsyncStorage` (`sl-theme`). Il pannello diagnosi del sito non c'e' piu'.
 - Il sito web (`aurora-src`) resta com'e' per il browser; il lavoro nativo non lo tocca.
+- `/tiri-squadre` e' nativa (`pages/TiriSquadre.js`). `/partite` non ha pagina a parte: e' la Home (striscia dei giorni, calendario, filtri). I dati si scaricano coi workflow/worker di sempre; l'app li legge con la stessa cadenza del sito (Home: live ogni 5 s, altrimenti 60 s).

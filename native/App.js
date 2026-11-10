@@ -25,11 +25,12 @@ import SquadraPage from './pages/Squadra';
 import CampionatoPage from './pages/Campionato';
 import ArbitroPage from './pages/Arbitro';
 import CompetizioniPage from './pages/Competizioni';
+import TiriSquadrePage from './pages/TiriSquadre';
 import { searchN } from './shared/searchN';
 import { bootShared } from './shared/boot';
 import { ArchTeamRoute, ArchPlayerRoute } from './pages/ArchiveRoute';
 // pagine gia' native (migrazione a tappe): la rotta si apre senza WebView
-const NATIVE_PAGES = { '/linee-guida': GuidelinesPage, '/calcolatore': CalcolatorePage, '/migliori-giocatori': TopPlayersPage, '/migliori-matchup': TopMatchupsPage, '/competizioni': CompetizioniPage };
+const NATIVE_PAGES = { '/linee-guida': GuidelinesPage, '/calcolatore': CalcolatorePage, '/migliori-giocatori': TopPlayersPage, '/migliori-matchup': TopMatchupsPage, '/competizioni': CompetizioniPage, '/tiri-squadre': TiriSquadrePage };
 // pagine nostre con un parametro nel percorso (/giocatore/:id): si attivano qui solo quando la pagina e' completa
 const NATIVE_DYN = [
   [/^\/giocatore\/([^/]+)$/, GiocatorePage, 'id'],
