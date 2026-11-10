@@ -108,3 +108,7 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 - `/giocatore/:id` e' nativa (`NATIVE_DYN` in `native/App.js`); `native/shared/PlayerPanel.js` e' il pannello da destra (68%, velo, swipe/tasto chiudi, Profilo -> scheda) montato nella radice di App.js; si apre con `openPanel(id)` da `@/data/playerPanel` (lo useranno Partita, Migliori Giocatori, Affidabilita' quando saranno native).
 - Scroll Partite: `onScroll` -> `emitNearEnd`. Errore di caricamento: torna indietro da solo.
 - Manca ancora: tendina dal basso per partite iniziate/finite (con Partita), swipe dal bordo per le pagine native.
+
+## Partita nativa: a pezzi (10/11/2026, sera) - NON registrata
+- Fatti: `pages/Partita.js` (preparazione dati, live, tab), `PartitaHero.js` (testata, `FormDots`), `shared/Standings.js` (classifica campionato + archivio/gironi), `PartitaPanels.js` (mappa `PANELS`; `hasPanel` nasconde le schede non portate). Temi: aggiunti `good`/`bad`.
+- Da fare, in quest'ordine: Riepilogo (Momentum, Riassunto, InfoBand, Arbitro, FormCard) · Statistiche (+ mappa tiri) · Formazioni (Pitch, PlayerSheet = tendina dal basso) · Panoramica (KeyNumbers, Idea, BestPlayers) · Affidabilita' · Tabellone coppe (Bracket; ora `hasPanel` lo nasconde). Poi registrare `/match/:id` e `/storico/:fm/:sk/:mid` in `NATIVE_DYN`, collegare `openPanel`/tendina dai giocatori e le righe Giocatore->Partita.
