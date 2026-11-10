@@ -423,7 +423,9 @@ const brandRef = React.createRef();
 const LOGO_OP = makeMutable(0);
 const SEARCH_OP = makeMutable(0);
 let LAUNCHED = false;
-const GEM = 116, FLY_MS = 750, MIN_POP = 1450;
+const GEM = 116, FLY_MS = 750, MIN_POP = 1450, START_DELAY = 750;
+// alone sfumato (gradiente radiale): niente bordo netto
+const GLOW_URI = 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><radialGradient id="g"><stop offset="0" stop-color="#38BDF8" stop-opacity="0.34"/><stop offset="0.35" stop-color="#2563EB" stop-opacity="0.2"/><stop offset="0.7" stop-color="#2563EB" stop-opacity="0.05"/><stop offset="1" stop-color="#2563EB" stop-opacity="0"/></radialGradient></defs><circle cx="50" cy="50" r="50" fill="url(#g)"/></svg>');
 const SPARK_URI = 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 0L14.4 9.6L24 12L14.4 14.4L12 24L9.6 14.4L0 12L9.6 9.6Z" fill="#BAE6FD"/></svg>');
 const LaunchOverlay = memo(() => {
   const { C, s } = useT();
@@ -438,9 +440,10 @@ const LaunchOverlay = memo(() => {
     let over = false, started = false, poll = null;
     const ts = [];
     const finish = () => { if (over) return; over = true; LAUNCHED = true; LOGO_OP.value = 1; SEARCH_OP.value = 1; setGone(true); };
-    pop.value = withTiming(1, { duration: 850, easing: Easing.bezier(0.34, 1.2, 0.64, 1) });
-    spark.value = withDelay(900, withTiming(1, { duration: 650, easing: OUT_EASE }));
-    const t0 = Date.now();
+    // prima si vede lo schermo scuro vuoto (la schermata di Expo Go sparisce), poi il diamante spunta
+    pop.value = withDelay(START_DELAY, withTiming(1, { duration: 850, easing: Easing.bezier(0.34, 1.2, 0.64, 1) }));
+    spark.value = withDelay(START_DELAY + 900, withTiming(1, { duration: 650, easing: OUT_EASE }));
+    const t0 = Date.now() + START_DELAY;
     const go = (x, y, w, h) => {
       started = true;
       setDock({ x, y, w, h });
@@ -454,7 +457,7 @@ const LaunchOverlay = memo(() => {
     // dopo il tempo minimo e quando l'intestazione esiste (dati pronti) il diamante vola nel posto del suo logo
     poll = setInterval(() => {
       if (started || over) return;
-      if (Date.now() - t0 > 9000) { clearInterval(poll); finish(); return; }
+      if (Date.now() - t0 > 9000 - START_DELAY) { clearInterval(poll); finish(); return; }
       if (Date.now() - t0 < MIN_POP) return;
       const r = brandRef.current;
       if (r && r.measureInWindow) r.measureInWindow((x, y, w, h) => { if (!started && !over && w > 0) { clearInterval(poll); go(x, y, w, h); } });
@@ -474,7 +477,9 @@ const LaunchOverlay = memo(() => {
   return (
     <Animated.View pointerEvents="none" style={[StyleSheet.absoluteFill, { zIndex: 999, elevation: 999 }, rootSt]}>
       <Animated.View style={[StyleSheet.absoluteFill, { backgroundColor: C.bg }, bgSt]} />
-      <Animated.View style={[{ position: 'absolute', left: cx - 150, top: cy - 150, width: 300, height: 300, borderRadius: 150, backgroundColor: 'rgba(37,99,235,0.16)', shadowColor: '#22D3EE', shadowOpacity: 0.5, shadowRadius: 60 }, glowSt]} />
+      <Animated.View style={[{ position: 'absolute', left: cx - 190, top: cy - 190, width: 380, height: 380 }, glowSt]}>
+        <Image source={{ uri: GLOW_URI }} style={{ width: 380, height: 380 }} contentFit="contain" />
+      </Animated.View>
       <Animated.View style={[{ position: 'absolute', left: cx - GEM / 2, top: cy - GEM / 2, width: GEM, height: GEM }, gemSt]}>
         <Image source={{ uri: gemUri(C.bg) }} style={{ width: GEM, height: GEM }} contentFit="contain" />
         <Animated.View style={[{ position: 'absolute', left: GEM * 0.8, top: -GEM * 0.04, width: 22, height: 22 }, sparkSt]}>
