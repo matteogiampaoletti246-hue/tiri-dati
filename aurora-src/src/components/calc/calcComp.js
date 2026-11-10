@@ -7,6 +7,7 @@ import { teamById, teamByName } from '@/data/teams';
 
 const FM_LOGO = (fm) => `https://images.fotmob.com/image_resources/logo/leaguelogo/${fm}.png`;
 const FM_LOGO_DARK = (fm) => `https://images.fotmob.com/image_resources/logo/leaguelogo/dark/${fm}.png`;
+const CUP_FM = { 'champions-league': 42, 'europa-league': 73, 'conference-league': 10216 }; // logo FotMob se data.json non ha ancora portato quello della coppa
 const MEMO = new Map();
 
 export function calcComp(key) {
@@ -20,8 +21,8 @@ export function calcComp(key) {
     id: key,
     name: leagueName(key) || (l && l.name) || key,
     colors,
-    logo: (l && l.logo) || (fm ? FM_LOGO(fm[1]) : null),
-    logoDark: (l && l.logoDark) || (fm ? FM_LOGO_DARK(fm[1]) : null),
+    logo: (l && l.logo) || (fm ? FM_LOGO(fm[1]) : CUP_FM[key] ? FM_LOGO(CUP_FM[key]) : null),
+    logoDark: (l && l.logoDark) || (fm ? FM_LOGO_DARK(fm[1]) : CUP_FM[key] ? FM_LOGO_DARK(CUP_FM[key]) : null),
     country: NATIONS_KEYS.includes(key) ? 'Nazionali' : CUPS.includes(key) ? 'Europa' : (l && l.country) || '',
     kind: NATIONS_KEYS.includes(key) ? 'Nazionale' : CUPS.includes(key) ? 'Coppa europea' : 'Campionato',
   };

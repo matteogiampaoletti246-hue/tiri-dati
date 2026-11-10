@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { View, Text, TextInput, Pressable, Modal, FlatList, ScrollView, StyleSheet, useWindowDimensions } from 'react-native';
 import Animated, { makeMutable, useSharedValue, useAnimatedStyle, withTiming, withRepeat, interpolateColor, Easing, FadeIn, FadeOut, ZoomIn } from 'react-native-reanimated';
 import { Image } from 'expo-image';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import Dropdown from './Dropdown';
 
 export const TeamCrest = ({ team, size = 32, C }) => {
@@ -23,13 +23,15 @@ export const Face = ({ uri, color, size = 44 }) => (
 // colore della scheda (squadra o campionato): le tabelle e i riquadri della pagina prendono la sfumatura di questo colore, ferma (mai animata)
 export const TintCtx = createContext(null);
 export const TintProvider = ({ color, children }) => <TintCtx.Provider value={color || null}>{children}</TintCtx.Provider>;
+export const mixHex = (a, b, t) => { const p = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16)); const x = p(a); const y = p(b || a); return `#${x.map((v, i) => Math.round(v * (1 - t) + y[i] * t).toString(16).padStart(2, '0')).join('')}`; };
 const okHex = (c) => (typeof c === 'string' && /^#[0-9a-f]{6}$/i.test(c) ? c : null);
 export const tintFill = (C, color) => { const t = okHex(color); return t ? [`${t}${C.dark ? '4D' : '2E'}`, `${t}00`] : null; };
 export const TintBg = ({ C, color }) => { const g = tintFill(C, color); return g ? <LinearGradient pointerEvents="none" colors={g} locations={[0, 0.78]} start={{ x: 0, y: 0.35 }} end={{ x: 1, y: 0.65 }} style={StyleSheet.absoluteFill} /> : null; };
 export const Panel = ({ C, children, style, tint, ring }) => {
   const ctx = useContext(TintCtx);
+  const t = okHex(tint || ctx);
   return (
-    <View style={[{ borderRadius: 22, overflow: 'hidden', backgroundColor: C.card2, borderWidth: ring ? 1.5 : 1, borderColor: ring ? C.accRing : C.border }, style]}>
+    <View style={[{ borderRadius: 22, overflow: 'hidden', backgroundColor: C.card2, borderWidth: ring ? 1.5 : 1, borderColor: ring ? (t ? `${t}B3` : C.accRing) : C.border }, style]}>
       <TintBg C={C} color={tint || ctx} />
       {children}
     </View>
@@ -78,7 +80,7 @@ function SegItem({ C, label, on, onPress, onLayout, flex }) {
     </Pressable>
   );
 }
-export const Segmented = ({ C, options, value, onChange }) => {
+export const Segmented = ({ C, options, value, onChange, hug }) => {
   const [cur, setCur] = useState(value);
   useEffect(() => { setCur(value); }, [value]);
   const pos = useRef({});
@@ -99,7 +101,7 @@ export const Segmented = ({ C, options, value, onChange }) => {
   const th = useAnimatedStyle(() => ({ width: tw.value, transform: [{ translateX: tx.value }] }));
   const press = (v) => { if (v === cur) return; setCur(v); setTimeout(() => onChange(v), 60); };
   const items = options.map((o) => (
-    <SegItem key={String(o.value)} C={C} label={o.label} on={o.value === cur} flex={!scroll} onPress={() => press(o.value)}
+    <SegItem key={String(o.value)} C={C} label={o.label} on={o.value === cur} flex={!scroll && !hug} onPress={() => press(o.value)}
       onLayout={(e) => { const { x, width } = e.nativeEvent.layout; pos.current[String(o.value)] = { x, w: width }; if (String(o.value) === String(cur)) place(cur, false); }} />
   ));
   const thumb = (
@@ -108,18 +110,18 @@ export const Segmented = ({ C, options, value, onChange }) => {
     </Animated.View>
   );
   return (
-    <RingBox C={C} style={{ height: 41 }}>
+    <RingBox C={C} style={[{ height: 41 }, hug && { alignSelf: 'flex-start' }]}>
       {scroll ? (
         <ScrollView ref={scroller} horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ flexDirection: 'row' }}>{thumb}{items}</ScrollView>
       ) : (
-        <View style={{ flex: 1, flexDirection: 'row' }}>{thumb}{items}</View>
+        <View style={{ flex: hug ? 0 : 1, flexDirection: 'row' }}>{thumb}{items}</View>
       )}
     </RingBox>
   );
 };
 
 // Sede: tre tasti uguali in vetro liquido, icona sopra il nome (Casa = casetta, Neutro = bilancia, Trasferta = aereo); quello scelto si accende
-const SEDE = [['casa', 'Casa', 'home-outline'], ['neutro', 'Neutro', 'scale-outline'], ['trasferta', 'Trasferta', 'airplane-outline']];
+const SEDE = [['casa', 'Casa', 'home-outline'], ['neutro', 'Neutro', 'scale-balance'], ['trasferta', 'Trasferta', 'airplane-outline']];
 export const SedeButtonsN = ({ C, value, onChange }) => (
   <View style={{ flexDirection: 'row', gap: 8, paddingHorizontal: 18, paddingVertical: 12, borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: C.hair }}>
     {SEDE.map(([v, label, icon]) => {
@@ -127,7 +129,7 @@ export const SedeButtonsN = ({ C, value, onChange }) => (
       return (
         <Pressable key={v} onPress={() => onChange(v)} style={({ pressed }) => [{ flex: 1, borderRadius: 16, overflow: 'hidden', paddingVertical: 11, alignItems: 'center', gap: 6, borderWidth: 1, borderColor: on ? C.accRing : C.lgBorder, backgroundColor: on ? C.accTint : C.chip }, pressed && { opacity: 0.7 }]}>
           <LinearGradient pointerEvents="none" colors={[C.lg1, C.lg2]} start={{ x: 0.2, y: 0 }} end={{ x: 0.8, y: 1 }} style={StyleSheet.absoluteFill} />
-          <Ionicons name={icon} size={21} color={on ? C.ink : C.ink3} />
+          {icon === 'scale-balance' ? <MaterialCommunityIcons name="scale-balance" size={23} color={on ? C.ink : C.ink3} /> : <Ionicons name={icon} size={21} color={on ? C.ink : C.ink3} />}
           <Text style={{ color: on ? C.ink : C.ink3, fontSize: 13, fontWeight: '600' }}>{label}</Text>
         </Pressable>
       );
@@ -139,27 +141,30 @@ export const FieldRow = ({ C, label, hint, first, children }) => (
   <View style={{ paddingHorizontal: 18, paddingVertical: 12, borderTopWidth: first ? 0 : StyleSheet.hairlineWidth, borderTopColor: C.hair }}>
     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
       <Text style={{ color: C.ink2, fontSize: 13, fontWeight: '600' }}>{label}</Text>
-      <View style={{ flex: 1, maxWidth: 220 }}>{children}</View>
+      <View style={{ flex: 1, alignItems: 'flex-end' }}>{children}</View>
     </View>
     {hint ? <Text style={{ color: C.ink3, fontSize: 11.5, marginTop: 6 }}>{hint}</Text> : null}
   </View>
 );
 
-export const NumInput = ({ C, value, onChange, placeholder, style }) => (
-  <TextInput
-    value={value}
-    onChangeText={(t) => onChange(String(t).replace('.', ',').replace(/[^0-9,]/g, ''))}
-    keyboardType="decimal-pad"
-    placeholder={placeholder || '—'}
-    placeholderTextColor={C.ink3}
-    style={[{ color: C.ink, backgroundColor: C.chip, borderRadius: 12, paddingVertical: 8, paddingHorizontal: 12, fontSize: 16, fontWeight: '700', textAlign: 'right' }, style]}
-  />
-);
+export const NumInput = ({ C, value, onChange, placeholder, style, ring, width }) => {
+  const inp = (
+    <TextInput
+      value={value}
+      onChangeText={(t) => onChange(String(t).replace('.', ',').replace(/[^0-9,]/g, ''))}
+      keyboardType="decimal-pad"
+      placeholder={placeholder || '—'}
+      placeholderTextColor={C.ink3}
+      style={[{ color: C.ink, backgroundColor: ring ? 'transparent' : C.chip, borderRadius: 12, paddingVertical: 8, paddingHorizontal: 12, fontSize: 16, fontWeight: '700', textAlign: ring ? 'center' : 'right' }, ring && { flex: 1, paddingVertical: 0 }, style]}
+    />
+  );
+  return ring ? <RingBox C={C} radius={20} style={{ height: 41, width: width || 112 }}>{inp}</RingBox> : inp;
+};
 
 // finestra di scelta con ricerca (campionato, squadra, giocatore): scorre solo la lista
 const nrm = (s) => String(s ?? '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[ı]/g, 'i').replace(/[øœ]/g, 'o').replace(/ł/g, 'l').replace(/[đð]/g, 'd').replace(/æ/g, 'ae').replace(/ß/g, 'ss');
 // requireQuery: elenchi enormi (36mila giocatori): niente righe finche' non si scrive, poi al massimo 60 risultati
-export function PickerModal({ C, open, title, options, onSelect, onClose, searchable, placeholder, requireQuery, value }) {
+export function PickerModal({ C, open, title, options, onSelect, onClose, searchable, placeholder, requireQuery, value, banners }) {
   const [q, setQ] = useState('');
   const [picked, setPicked] = useState(null);
   const { width: W, height: H } = useWindowDimensions();
@@ -189,6 +194,20 @@ export function PickerModal({ C, open, title, options, onSelect, onClose, search
               contentContainerStyle={{ padding: 6 }}
               renderItem={({ item: o }) => {
                 const on = picked != null ? o.value === picked : o.value === value;
+                if (banners && okHex(o.color)) {
+                  const c0 = o.color; const c1 = okHex(o.color2) || c0;
+                  return (
+                    <Pressable onPress={() => choose(o)} style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', gap: 12, minHeight: 62, marginBottom: 6, paddingVertical: 9, paddingHorizontal: 12, borderRadius: 16, overflow: 'hidden', borderWidth: 1.5, borderColor: on ? c1 : 'transparent' }, pressed && { opacity: 0.7 }]}>
+                      <LinearGradient pointerEvents="none" colors={[c0, mixHex(c0, c1, 0.38)]} start={{ x: 0, y: 0.2 }} end={{ x: 1, y: 0.8 }} style={StyleSheet.absoluteFill} />
+                      <View style={{ width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255,255,255,.92)' }}>{o.icon || (o.face ? <Face uri={o.face} color={o.color} size={36} /> : null)}</View>
+                      <View style={{ flex: 1 }}>
+                        <Text numberOfLines={1} style={{ color: '#fff', fontSize: 16.5, fontWeight: '800' }}>{o.label}</Text>
+                        {o.sub ? <Text numberOfLines={1} style={{ color: 'rgba(255,255,255,.78)', fontSize: 12.5, marginTop: 1, letterSpacing: o.sub === o.sub.toUpperCase() ? 0.6 : 0 }}>{o.sub}</Text> : null}
+                      </View>
+                      {on ? <Ionicons name="checkmark" size={20} color="#fff" /> : null}
+                    </Pressable>
+                  );
+                }
                 return (
                   <Pressable onPress={() => choose(o)} style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', gap: 12, minHeight: 48, paddingVertical: 8, paddingHorizontal: 12, borderRadius: 16, backgroundColor: on ? C.thumb : 'transparent' }, pressed && { opacity: 0.6 }]}>
                     {o.icon || (o.face ? <Face uri={o.face} color={o.color} size={36} /> : null)}

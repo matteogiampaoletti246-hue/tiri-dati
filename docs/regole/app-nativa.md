@@ -167,3 +167,6 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 - **Testata** di Calcolatore / Migliori Giocatori / Matchup: `shared/PageHead.js` (titolo con barra azzurra e due tasti tondi cerca/menu); le pagine ricevono `onMenu`.
 - **Swipe indietro**: la striscia sul bordo (`EDGE_W`) sta in `App.js` con `zIndex: 200`, SOPRA i livelli `NatLayer` (zIndex 5+i): se si abbassa, lo swipe smette di funzionare su tutte le pagine native.
 - **Riquadri del Calcolatore**: `Panel ring` (bordo azzurro 1.5).
+- **Banner colorati** (competizioni, squadre): `Dropdown` con opzioni che hanno `color`/`logoNode` si apre come elenco di banner (gradiente `mixHex`, logo in cerchio bianco); `PickerModal banners` per le ricerche. Pillola competizione = banner con logo (`compLogoN`), mai pillola piatta.
+- **Calcolatore**: pannelli e riquadri nel colore della squadra del giocatore (`TintProvider`, `Panel ring`); `NumInput ring` per le quote (piccolo, 3-4 cifre); `ShotsTeam` e' la scheda squadra unica (giocatore, squadra, avversario) con rango `r°/n` nelle tessere.
+- **Migliori Giocatori**: righe basse (~97 pt), a tutta larghezza, margini 10; soglie `Segmented hug`.

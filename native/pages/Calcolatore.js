@@ -31,7 +31,7 @@ export default function Calcolatore({ C, top, onSearch, onMenu, openRoute, botto
       <View style={{ paddingHorizontal: 20, paddingBottom: 6, paddingTop: 6 }}><Segmented C={C} options={TABS} value={index} onChange={setIndex} /></View>
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         <ScrollView keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag" contentContainerStyle={{ paddingBottom: bottom + 20 }}>
-          {ready ? (index === 0 ? <CalcPlayer C={C} openRoute={openRoute} /> : <CalcTeam C={C} />) : err ? null : <Skel C={C} />}
+          {ready ? (index === 0 ? <CalcPlayer C={C} openRoute={openRoute} /> : <CalcTeam C={C} openRoute={openRoute} />) : err ? null : <Skel C={C} />}
         </ScrollView>
       </KeyboardAvoidingView>
     </View>
