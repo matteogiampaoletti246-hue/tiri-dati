@@ -6,7 +6,7 @@ import { CALC_KEEP, saveCalcKeep } from '@/data/calcKeep';
 import { teamShots, prefillShots, splitBoxes, calcTeamsOf, calcLeagues, leagueName } from '@/data/calcData';
 import { teamById, teamByName } from '@/data/teams';
 import { LINE_OPTIONS, SEDE_OPTIONS, SHOTS_OPTIONS, computeTeamResult, lineHintText, parseNum } from '@/lib/calc';
-import { Panel, PanelTitle, Segmented, FieldRow, NumInput, PickerModal, TeamCrest } from '../shared/ui';
+import { SedeButtonsN, Panel, PanelTitle, Segmented, FieldRow, NumInput, PickerModal, TeamCrest } from '../shared/ui';
 import ResultCard from '../shared/ResultCard';
 
 const emptyBlock = () => ({ leagueId: 'serie-a', id: null, totali: '', inPorta: '' });
@@ -106,7 +106,7 @@ export default function CalcTeam({ C }) {
         <FieldRow C={C} label="Tipo linea"><Segmented C={C} options={LINE_OPTIONS} value={form.lineType} onChange={(v) => set('lineType', v)} /></FieldRow>
         <FieldRow C={C} label="Valore linea" hint={lineHintText(result.lambda, line)}><NumInput C={C} value={form.line} onChange={(v) => set('line', v)} /></FieldRow>
         <FieldRow C={C} label="Quota"><NumInput C={C} value={form.odds} onChange={(v) => set('odds', v)} /></FieldRow>
-        <FieldRow C={C} label="Sede"><Segmented C={C} options={SEDE_OPTIONS} value={form.sede} onChange={(v) => set('sede', v)} /></FieldRow>
+        <SedeButtonsN C={C} value={form.sede} onChange={(v) => set('sede', v)} />
       </Panel>
       <View style={{ height: 28 }} />
       <PanelTitle C={C}>Risultato</PanelTitle>

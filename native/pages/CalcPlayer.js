@@ -2,6 +2,8 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { View, Text, Pressable, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { Image } from 'expo-image';
+import { LinearGradient } from 'expo-linear-gradient';
 import { CALC_KEEP, saveCalcKeep } from '@/data/calcKeep';
 import { CALC_IN } from '../shared/calcIn';
 import { PLAYERS, playerById } from '@/data/players';
@@ -19,7 +21,7 @@ import { playerFace } from '@/data/archive';
 import { playerComps, calcComp } from '@/components/calc/calcComp';
 import { comma } from '@/lib/format';
 import { parseDash, parseNum, fmtLine, HIT_OPTIONS, LINE_OPTIONS, SEDE_OPTIONS, COMPETITION_OPTIONS, NATIONS_OPTION, NATIONS_WEIGHTS, SEASON_COMPETITIONS, lineHintText } from '@/lib/calc';
-import { Panel, PanelTitle, Segmented, FieldRow, NumInput, PickerModal, TeamCrest, Face } from '../shared/ui';
+import { SedeButtonsN, Panel, PanelTitle, Segmented, FieldRow, NumInput, PickerModal, TeamCrest, Face } from '../shared/ui';
 import ResultCard from '../shared/ResultCard';
 
 const STATS = [{ value: 'tiri', label: 'Tiri' }, { value: 'porta', label: 'In porta' }, { value: 'fc', label: 'Commessi' }, { value: 'fs', label: 'Subiti' }];
@@ -81,7 +83,7 @@ function Select({ C, value, options, onChange, placeholder, title }) {
         <Text numberOfLines={1} style={{ color: cur ? C.ink : C.ink3, fontSize: 15, fontWeight: '700' }}>{cur ? cur.label : placeholder || '—'}</Text>
         <Ionicons name="chevron-down" size={14} color={C.ink3} />
       </Pressable>
-      <PickerModal C={C} open={open} title={title || ''} options={options} onSelect={(o) => onChange(o.value)} onClose={() => setOpen(false)} />
+      <PickerModal C={C} open={open} title={title || ''} options={options} value={value} onSelect={(o) => onChange(o.value)} onClose={() => setOpen(false)} />
     </>
   );
 }
@@ -151,7 +153,7 @@ function PlayerPick({ C, form, set, player, onSelectPlayer, stat, onStat, role, 
         <FieldRow C={C} label="Tipo linea"><Segmented C={C} options={LINE_OPTIONS} value={form.lineType} onChange={(v) => set('lineType', v)} /></FieldRow>
         <FieldRow C={C} label="Valore linea"><Select C={C} title="Valore linea" value={form.line} options={LINES.map((x) => ({ value: x, label: x }))} onChange={(v) => set('line', v)} /></FieldRow>
         <FieldRow C={C} label="Quota"><NumInput C={C} value={form.odds} onChange={(v) => set('odds', v)} /></FieldRow>
-        <FieldRow C={C} label="Sede"><Segmented C={C} options={SEDE_OPTIONS} value={form.sede} onChange={(v) => set('sede', v)} /></FieldRow>
+        <SedeButtonsN C={C} value={form.sede} onChange={(v) => set('sede', v)} />
         {comps.length ? <FieldRow C={C} label="Competizione"><Select C={C} title="Competizione" value={form.competizione} options={comps.map((o) => ({ value: o.value, label: o.comp.name, sub: o.sub.toUpperCase(), color: o.comp.colors && /^#/.test(o.comp.colors[0]) ? o.comp.colors[0] : undefined }))} onChange={(v) => set('competizione', v)} /></FieldRow> : null}
         <FieldRow C={C} label={hitTitle}><Select C={C} title={hitTitle} value={form.hitRate} placeholder="Nessuna" options={[{ value: '', label: 'Nessuna' }, ...HIT_OPTIONS]} onChange={(v) => set('hitRate', v)} /></FieldRow>
         {natHit ? <FieldRow C={C} label="Hit rate nazionale"><Text style={{ color: C.ink, fontSize: 15, fontWeight: '700', textAlign: 'right' }}>{natHit.hit}/{natHit.n}</Text></FieldRow> : null}
@@ -177,6 +179,7 @@ const GENERIC = { campionato: 'Campionato', coppa: 'Coppa europea', nations: 'Na
 const KIND = { campionato: 'Campionato', coppa: 'Coppa', nations: 'Nazionale', qualificazioni: 'Nazionale' };
 const filled = (x) => x && ((x.tiri !== '' && x.tiri != null) || (x.minuti !== '' && x.minuti != null));
 const hexOr = (c, d) => (c && /^#/.test(c) ? c : d);
+const mixHex = (a, b, t) => { const p = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16)); const x = p(a); const y = p(b || a); return `#${x.map((v, i) => Math.round(v * (1 - t) + y[i] * t).toString(16).padStart(2, '0')).join('')}`; }; // t = quota del secondo colore
 
 function SeasonPanel({ C, season, onChange, rate90, label, player, comp }) {
   const opts = playerComps(player);
@@ -203,12 +206,18 @@ function SeasonPanel({ C, season, onChange, rate90, label, player, comp }) {
             const w = nations && wTot > 0 && live.has(wk(c.key)) ? NATIONS_WEIGHTS[wk(c.key)] / wTot : null;
             const sub = out ? 'Non nel calcolo' : w ? `${KIND[c.key]} · ${Math.round(w * 100)}%` : KIND[c.key];
             const name = o ? o.comp.name : GENERIC[c.key];
-            const bg = hexOr(o && o.comp.colors[0], C.chip);
+            const c0 = hexOr(o && o.comp.colors[0], null);
+            const c1 = hexOr(o && (o.comp.colors[1] || o.comp.colors[0]), c0);
+            const ink = c0 ? '#FFFFFF' : C.ink;
             return (
-              <View key={c.key} style={{ flexDirection: 'row', alignItems: 'center', gap: 8, borderRadius: 14, paddingVertical: 8, paddingLeft: 10, paddingRight: 6, backgroundColor: bg + (bg === C.chip ? '' : '55'), borderWidth: 1.5, borderColor: c.key === comp ? hexOr(o && o.comp.colors[1], C.accent) : 'transparent', opacity: out ? 0.55 : 1 }}>
+              <View key={c.key} style={{ flexDirection: 'row', alignItems: 'center', gap: 8, borderRadius: 14, overflow: 'hidden', paddingVertical: 8, paddingLeft: 8, paddingRight: 6, backgroundColor: c0 ? c0 : C.chip, borderWidth: 1.5, borderColor: c.key === comp ? (c1 || C.accent) : 'transparent', opacity: out ? 0.55 : 1 }}>
+                {c0 ? <LinearGradient pointerEvents="none" colors={[c0, mixHex(c0, c1, 0.38)]} start={{ x: 0, y: 0.2 }} end={{ x: 1, y: 0.8 }} style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }} /> : null}
+                <View style={{ width: 30, height: 30, borderRadius: 15, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255,255,255,.92)' }}>
+                  {o && o.comp.logo ? <Image source={{ uri: o.comp.logo }} style={{ width: 20, height: 20 }} contentFit="contain" cachePolicy="memory-disk" /> : <Text style={{ color: c0 || C.ink2, fontSize: 10, fontWeight: '800' }}>{String(name).slice(0, 2).toUpperCase()}</Text>}
+                </View>
                 <View style={{ flex: 1 }}>
-                  <Text style={{ color: C.ink, fontSize: 13.5, fontWeight: '700' }}>{name}</Text>
-                  <Text numberOfLines={1} style={{ color: C.ink2, fontSize: 11 }}>{sub}</Text>
+                  <Text style={{ color: ink, fontSize: 13.5, fontWeight: '700' }}>{name}</Text>
+                  <Text numberOfLines={1} style={{ color: c0 ? 'rgba(255,255,255,.78)' : C.ink2, fontSize: 11 }}>{sub}</Text>
                 </View>
                 <NumInput C={C} value={String(season[c.key].tiri ?? '')} onChange={(v) => onChange(c.key, { tiri: v })} style={{ width: 60, textAlign: 'center', paddingHorizontal: 4 }} />
                 <NumInput C={C} value={String(season[c.key].minuti ?? '')} onChange={(v) => onChange(c.key, { minuti: v })} style={{ width: 60, textAlign: 'center', paddingHorizontal: 4 }} />

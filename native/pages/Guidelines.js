@@ -31,7 +31,7 @@ export default function Guidelines({ C, top, onBack }) {
     setOpen(open === id ? null : id);
   };
   return (
-    <View style={{ flex: 1, backgroundColor: C.bg, paddingTop: top }}>
+    <View style={{ flex: 1, backgroundColor: 'transparent', paddingTop: top }}>
       <Pressable onPress={onBack} style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 12, height: 40 }}>
         <Ionicons name="chevron-back" size={20} color={C.accent} /><Text style={{ color: C.accent, fontSize: 16 }}>Home</Text>
       </Pressable>

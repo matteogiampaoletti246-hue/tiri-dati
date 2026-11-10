@@ -121,7 +121,7 @@ const Head = ({ C, onSearch }) => (
 export default function TopMatchups({ C, top, onSearch, openRoute, bottom = 90 }) {
   const [ready, setReady] = useState(false);
   useEffect(() => { let live = true; bootShared().then(() => { if (live) setReady(true); }, () => {}); return () => { live = false; }; }, []);
-  if (!ready) return <View style={{ flex: 1, backgroundColor: C.bg, paddingTop: top }}><Head C={C} onSearch={onSearch} /><Skel C={C} /></View>;
+  if (!ready) return <View style={{ flex: 1, backgroundColor: 'transparent', paddingTop: top }}><Head C={C} onSearch={onSearch} /><Skel C={C} /></View>;
   return <Body C={C} top={top} onSearch={onSearch} openRoute={openRoute} bottom={bottom} />;
 }
 
@@ -135,7 +135,7 @@ function Body({ C, top, onSearch, openRoute, bottom }) {
   KEEP.stamp = today; KEEP.day = dayIdx; KEEP.type = typeKey; KEEP.mode = modeKey;
   const pickType = (k) => { setTypeKey(k); setModeKey((m) => keepMode(k, m)); };
   return (
-    <View style={{ flex: 1, backgroundColor: C.bg, paddingTop: top }}>
+    <View style={{ flex: 1, backgroundColor: 'transparent', paddingTop: top }}>
       <Head C={C} onSearch={onSearch} />
       <DayStripN C={C} dates={DAYS} todayIndex={TODAY_I} x={x} value={dayIdx} onChange={setDayIdx} />
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 20, paddingTop: 4 }}>

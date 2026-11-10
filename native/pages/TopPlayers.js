@@ -153,7 +153,7 @@ export default function TopPlayers({ C, top, onSearch, openRoute, bottom = 90 })
   useEffect(() => { let live = true; bootShared().then(() => { if (live) setReady(true); }, () => {}); return () => { live = false; }; }, []);
   if (!ready) {
     return (
-      <View style={{ flex: 1, backgroundColor: C.bg, paddingTop: top }}>
+      <View style={{ flex: 1, backgroundColor: 'transparent', paddingTop: top }}>
         <Head C={C} onSearch={onSearch} />
         <Skel C={C} />
       </View>
@@ -196,7 +196,7 @@ function Body({ C, top, onSearch, openRoute, bottom }) {
   const leaveSt = useAnimatedStyle(() => ({ opacity: leave.value }));
 
   return (
-    <View style={{ flex: 1, backgroundColor: C.bg, paddingTop: top }}>
+    <View style={{ flex: 1, backgroundColor: 'transparent', paddingTop: top }}>
       <Head C={C} onSearch={onSearch} />
       <DayStripN C={C} dates={DAYS} todayIndex={TODAY_I} x={x} value={dayIdx} onChange={setDayIdx} />
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 20, paddingTop: 4, paddingBottom: 4 }}>

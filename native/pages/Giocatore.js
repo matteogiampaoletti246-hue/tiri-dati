@@ -6,9 +6,13 @@ import { Image } from 'expo-image';
 import Svg, { Circle } from 'react-native-svg';
 import './../shared/shim';
 import { bootShared } from '../shared/boot';
-import { Face, TeamCrest, Panel, PanelTitle } from '../shared/ui';
+import { Face, TeamCrest, Panel, PanelTitle, TintProvider } from '../shared/ui';
+import EntityBannerN from '../shared/EntityBannerN';
+import TabsN from '../shared/TabsN';
+import PaneN from '../shared/PaneN';
+import { InjuryIconN } from '../shared/Icons';
 import Radar from '../shared/Radar';
-import { resetSel, emitNearEnd } from '../shared/hooks';
+import { resetSel, useSel } from '../shared/hooks';
 import useAsync from '@/hooks/useAsync';
 import { BASE } from '@/data/load';
 import { playerById } from '@/data/players';
@@ -225,57 +229,40 @@ function Skel({ C }) {
   return <View style={{ paddingHorizontal: 20, paddingTop: 12 }}><View style={{ flexDirection: 'row', gap: 20, marginBottom: 16 }}>{b(84, 84, 42)}<View style={{ flex: 1 }}>{b(22, 160)}{b(12, 110)}{b(14, 200)}</View></View>{b(40)}{b(120)}{b(180)}</View>;
 }
 
-function Body({ C, player, openRoute, onBack, bottom }) {
+const TAB_LBL = { profilo: 'Profilo', partite: 'Partite', stat: 'Statistiche', carriera: 'Carriera' };
+
+function Body({ C, player, openRoute, onBack, bottom, top }) {
   const team = teamById(player.teamId);
   const pid = useBioPid(player);
   const photo = player.photo || (pid ? playerFace(pid) : null);
-  const colors = team ? team.colors : ['#1E4BD8', '#7FB6E8'];
+  const colors = team && team.colors ? team.colors : ['#1E4BD8', '#7FB6E8'];
   const car = usePlayerCareer(player);
   const parts = usePartiteItems(player, car);
   const careerL = useCareerLists(player);
   const hasStats = playerHasCurStats(player) || !!car.loading || car.rows.length > 0;
-  const tabs = [['profilo', 'Profilo', true], ['partite', 'Partite', parts.has], ['stat', 'Statistiche', hasStats], ['carriera', 'Carriera', !!(careerL && careerL.any)]].filter((t) => t[2]);
-  const [tab, setTab] = useState('profilo');
-  const cur = tabs.some((t) => t[0] === tab) ? tab : 'profilo';
-  const r5 = player.ratings5 || [];
+  const tabs = [['profilo', true], ['partite', parts.has], ['stat', hasStats], ['carriera', !!(careerL && careerL.any)]].filter((t) => t[1]).map((t) => ({ key: t[0], label: TAB_LBL[t[0]] }));
+  const [tabKey, setTabKey] = useSel(player.id, 'tab', 'profilo');
+  const idx = Math.max(0, tabs.findIndex((t) => t.key === tabKey));
+  const inj = injuryOf(player.id);
+  const sub = [team ? team.name : player.teamName, POS[player.position] || player.position].filter(Boolean).join(' · ');
   return (
-    <>
-      <View style={{ paddingHorizontal: 20, paddingTop: 4 }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', height: 40 }}>
-          <Pressable onPress={onBack} hitSlop={12}><Ionicons name="chevron-back" size={24} color={C.ink} /></Pressable>
-          <Pressable onPress={() => player.teamId && openRoute && openRoute(`/squadra/${player.teamId}`)} style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
-            <TeamCrest team={team} size={18} C={C} />
-            <Text style={[LBL, { color: C.ink2 }]}>{team ? team.name : ''}</Text>
-          </Pressable>
-          <View style={{ width: 24 }} />
-        </View>
-        <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 20, marginTop: 12 }}>
-          <View style={{ width: 84, height: 84, borderRadius: 42, overflow: 'hidden', backgroundColor: colors[0] }}><Face uri={photo} color={colors[0]} size={84} /></View>
-          <View style={{ flex: 1, paddingTop: 4 }}>
-            <Text style={{ color: C.ink, fontSize: 21, fontWeight: '800', lineHeight: 25 }}>{player.name}</Text>
-            <Text numberOfLines={1} style={{ color: C.ink3, fontSize: 11.5, marginTop: 4 }}>{[POS[player.position] || player.position, player.number].filter(Boolean).join(' · ')}</Text>
-            {player.rating ? (
-              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 12 }}>
-                <Text style={{ color: C.ink, fontSize: 14, fontWeight: '500' }}>{comma(player.rating, 2)}</Text>
-                <Text style={[LBL, { color: C.ink3 }]}>voto stagione</Text>
-                {r5.length ? <Text style={{ marginLeft: 'auto', color: C.ink2, fontSize: 11.5 }}>{comma(avg(r5), 2)} ultime {r5.length}</Text> : null}
-              </View>
-            ) : null}
-          </View>
-        </View>
-      </View>
-      <View style={{ flexDirection: 'row', marginTop: 16, paddingHorizontal: 12, borderBottomWidth: 1, borderBottomColor: C.border }}>
-        {tabs.map(([k, l]) => (
-          <Pressable key={k} onPress={() => setTab(k)} style={{ flex: 1, alignItems: 'center', paddingVertical: 12, borderBottomWidth: 2, borderBottomColor: cur === k ? C.accent : 'transparent' }}>
-            <Text style={{ color: cur === k ? C.accent : C.ink3, fontSize: 13.5, fontWeight: cur === k ? '800' : '500' }}>{l}</Text>
-          </Pressable>
-        ))}
-      </View>
-      {cur === 'profilo' ? <Profilo C={C} player={player} team={team} /> : null}
-      {cur === 'partite' ? <GiocatorePartite C={C} player={player} parts={parts} openRoute={openRoute} /> : null}
-      {cur === 'stat' ? <GiocatoreStat C={C} player={player} team={team} car={car} openRoute={openRoute} /> : null}
-      {cur === 'carriera' && careerL ? <Carriera C={C} lists={careerL} /> : null}
-    </>
+    <View style={{ flex: 1, backgroundColor: 'transparent' }}>
+      <EntityBannerN C={C} top={top} onBack={onBack} name={player.name} subtitle={sub} colors={colors} photoUrl={photo} nameExtra={inj ? <InjuryIconN size={20} /> : null}
+        below={player.rating ? <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}><Text style={{ color: C.ink, fontSize: 14, fontWeight: '500' }}>{comma(player.rating, 2)}</Text><Text style={[LBL, { color: C.ink3 }]}>voto stagione</Text></View> : null} />
+      <TintProvider color={colors[0]}>
+        <TabsN C={C} tabs={tabs} index={idx} onIndex={(i) => setTabKey(tabs[i].key)} render={(i) => {
+          const k = tabs[i].key;
+          return (
+            <PaneN key={k} bottom={bottom}>
+              {k === 'profilo' ? <Profilo C={C} player={player} team={team} /> : null}
+              {k === 'partite' ? <GiocatorePartite C={C} player={player} parts={parts} openRoute={openRoute} /> : null}
+              {k === 'stat' ? <GiocatoreStat C={C} player={player} team={team} car={car} openRoute={openRoute} /> : null}
+              {k === 'carriera' && careerL ? <Carriera C={C} lists={careerL} /> : null}
+            </PaneN>
+          );
+        }} />
+      </TintProvider>
+    </View>
   );
 }
 
@@ -297,16 +284,13 @@ export default function Giocatore({ C, top, onBack, bottom = 90, openRoute, para
   }, [id]);
   const player = st === 'ok' ? playerById(id) : null;
   useEffect(() => { if (st === 'err') onBack && onBack(); }, [st]);
-  return (
-    <View style={{ flex: 1, backgroundColor: C.bg, paddingTop: top }}>
-      <ScrollView scrollEventThrottle={120} onScroll={(e) => { const { contentOffset: o, contentSize: c, layoutMeasurement: l } = e.nativeEvent; if (o.y + l.height > c.height - 600) emitNearEnd(); }} contentContainerStyle={{ paddingBottom: bottom + 20 }}>
-        {player ? <Body C={C} player={player} openRoute={openRoute} onBack={onBack} bottom={bottom} /> : (
-          <>
-            <Pressable onPress={onBack} hitSlop={12} style={{ paddingHorizontal: 20, height: 44, justifyContent: 'center' }}><Ionicons name="chevron-back" size={24} color={C.ink} /></Pressable>
-            {st === 'load' ? <Skel C={C} /> : null}
-          </>
-        )}
-      </ScrollView>
-    </View>
-  );
+  if (!player) {
+    return (
+      <View style={{ flex: 1, backgroundColor: 'transparent', paddingTop: top }}>
+        <Pressable onPress={onBack} hitSlop={12} style={{ paddingHorizontal: 20, height: 44, justifyContent: 'center' }}><Ionicons name="chevron-back" size={24} color={C.ink} /></Pressable>
+        {st === 'load' ? <Skel C={C} /> : null}
+      </View>
+    );
+  }
+  return <Body C={C} player={player} openRoute={openRoute} onBack={onBack} bottom={bottom} top={top} />;
 }

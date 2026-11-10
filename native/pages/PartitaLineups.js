@@ -46,21 +46,21 @@ function Face({ C, p, size = 46, team, ring }) {
 }
 
 // Eventi attorno al volto: cartellino in alto a sinistra, gol e assist a destra, cambio a sinistra in basso, capitano, stella.
-function Events({ p, size, mvp }) {
+function Events({ p, size, mvp, fs }) {
   const ab = { position: 'absolute' };
   const num = (n) => (n > 1 ? <Text style={{ color: '#fff', fontSize: 10, fontWeight: '800' }}>{n}</Text> : null);
   return (
     <>
       {p.card ? <View style={[ab, { left: -7, top: -5, width: size * 0.62, height: size * 0.82, borderRadius: 2.5, backgroundColor: p.card === 'red' ? '#E5484D' : '#F2C230', borderWidth: 1, borderColor: 'rgba(0,0,0,.35)' }]} /> : null}
       {p.goals || p.assists ? (
-        <View style={[ab, { left: '100%', top: -5, marginLeft: -2, gap: 2 }]}>
+        <View style={[ab, { left: fs - 2, top: -5, gap: 2 }]}>
           {p.goals ? <View style={{ flexDirection: 'row', alignItems: 'center' }}><BallIcon size={size} />{num(p.goals)}</View> : null}
           {p.assists ? <View style={{ flexDirection: 'row', alignItems: 'center' }}><BootIcon size={size} />{num(p.assists)}</View> : null}
         </View>
       ) : null}
-      {p.subOut ? <View style={[ab, { right: '100%', marginRight: -6, bottom: 2 }]}><SubIcon size={size} /></View> : null}
-      {p.captain ? <View style={[ab, { left: '100%', marginLeft: -3, bottom: 3, width: size * 0.95, height: size * 0.95, borderRadius: size, backgroundColor: '#F2C230', alignItems: 'center', justifyContent: 'center' }]}><Text style={{ fontSize: size * 0.58, fontWeight: '800', color: '#222' }}>C</Text></View> : null}
-      {mvp ? <Text style={[ab, { left: '50%', top: -13, marginLeft: -7, color: '#FFC83D', fontSize: 14 }]}>★</Text> : null}
+      {p.subOut ? <View style={[ab, { left: -size + 6, bottom: 2 }]}><SubIcon size={size} /></View> : null}
+      {p.captain ? <View style={[ab, { left: fs - 3, bottom: 3, width: size * 0.95, height: size * 0.95, borderRadius: size, backgroundColor: '#F2C230', alignItems: 'center', justifyContent: 'center' }]}><Text style={{ fontSize: size * 0.58, fontWeight: '800', color: '#222' }}>C</Text></View> : null}
+      {mvp ? <Text style={[ab, { left: fs / 2 - 7, top: -13, color: '#FFC83D', fontSize: 14 }]}>★</Text> : null}
     </>
   );
 }
@@ -79,9 +79,9 @@ function PitchNode({ C, p, team, val, match, compact, mvp, pre, openRoute }) {
   const ic = compact ? 14 : 16;
   return (
     <PlayerTap match={match} p={p} openRoute={openRoute} style={{ flex: 1, maxWidth: 72, alignItems: 'center' }}>
-      <View>
+      <View style={{ width: size, height: size }}>
         <Face C={C} p={p} team={team} size={size} ring={mvp} />
-        <Events p={p} size={ic} mvp={mvp} />
+        <Events p={p} size={ic} fs={size} mvp={mvp} />
         <Badge v={val} pre={pre} />
         {match.status === 'scheduled' && p.playerId && injuryOf(p.playerId) ? <View style={{ position: 'absolute', left: -4, top: -4, width: 14, height: 14, borderRadius: 7, backgroundColor: '#E5484D', alignItems: 'center', justifyContent: 'center' }}><Ionicons name="add" size={11} color="#fff" /></View> : null}
       </View>

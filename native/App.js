@@ -8,6 +8,7 @@ import Animated, { makeMutable, interpolate, useSharedValue, useAnimatedStyle, u
 import { BlurView } from 'expo-blur';
 import { SafeAreaProvider, SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
+import { TOUCH } from './shared/ui';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { WebView } from 'react-native-webview';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -414,8 +415,9 @@ const Beam = memo(({ left, w, alt, dur, reduce }) => {
     </Animated.View>
   );
 });
-const Beams = memo(() => {
-  const [reduce, setReduce] = useState(false);
+const Beams = memo(({ still }) => {
+  const [reduce0, setReduce] = useState(false);
+  const reduce = reduce0 || !!still;
   useEffect(() => { AccessibilityInfo.isReduceMotionEnabled().then(setReduce).catch(() => {}); }, []);
   return (
     <View pointerEvents="none" style={[StyleSheet.absoluteFill, { overflow: 'hidden' }]}>
@@ -960,9 +962,10 @@ const scoreStr = (sc) => { const x = /(\d+)\s*-\s*(\d+)/.exec(String(sc || ''));
 // la voce attiva si allarga in pillola con il nome. Componente a parte e memoizzato: non si ridisegna quando la Home cambia giorno o scorre.
 const isTabRoute = (r) => TABS.some(([, , x]) => x && String(r || '').startsWith(x));
 // pila di pagine native: ognuna sta sotto la successiva (stato e scorrimento restano); scorre di lato solo quella indicata da nvIdx
-function NatLayer({ i, nv, nvIdx, hidden, children }) {
+function NatLayer({ i, nv, nvIdx, hidden, live, children }) {
+  const { C } = useT();
   const st = useAnimatedStyle(() => ({ transform: [{ translateX: nvIdx.value === i ? nv.value : 0 }] }));
-  return <Animated.View pointerEvents={hidden ? 'none' : 'auto'} style={[StyleSheet.absoluteFill, { zIndex: 5 + i }, hidden ? { display: 'none' } : null, st]}>{children}</Animated.View>;
+  return <Animated.View pointerEvents={hidden ? 'none' : 'auto'} style={[StyleSheet.absoluteFill, { zIndex: 5 + i, backgroundColor: C.bg }, hidden ? { display: 'none' } : null, st]}><Beams still={!live} />{children}</Animated.View>;
 }
 const TABS = [['Home', 'home-outline', null], ['Calcolatore', 'calculator-outline', '/calcolatore'], ['Giocatori', 'people-outline', '/migliori-giocatori'], ['Matchup', 'sword-cross', '/migliori-matchup']];
 const tabOf = (r) => (TABS.find(([, , x]) => x && String(r || '').startsWith(x)) || [])[2] || '';
@@ -1518,15 +1521,23 @@ function Screen({ onTheme, onReset }) {
     }), [x, x0, N]);
 
   // bordo sinistro: scorrimento indietro dalla pagina web
+  const edgeOn = useSharedValue(0); // 1 mentre il dito trascina: onFinalize chiude comunque il gesto se onEnd non arriva (gesto interrotto da un'altra scheda/scroll)
+  const edgeSettle = (e) => {
+    'worklet';
+    if (!edgeOn.value) return;
+    edgeOn.value = 0;
+    const multi = stackN.value > 1;
+    const cur = multi ? nv.value : ov.value;
+    const go = cur > W * 0.38 || e.velocityX > 300;
+    if (multi) { if (go) { stackN.value = stackN.value - 1; nv.value = withTiming(W, { duration: 200, easing: Easing.out(Easing.cubic) }, (d) => { if (d) runOnJS(finishPop)(); }); } else nv.value = withTiming(0, { duration: 180 }); return; }
+    if (go && natBelow.value > 0) { runOnJS(revealNat)(); ov.value = withTiming(0, { duration: 180 }); return; }
+    if (go) { runOnJS(markClosed)(); ov.value = withTiming(W, { duration: 200, easing: Easing.out(Easing.cubic) }, (done) => { if (done) runOnJS(afterClose)(); }); } else ov.value = withTiming(0, { duration: 180 });
+  };
   const edge = useMemo(() => Gesture.Pan().activeOffsetX([6, 1000]).failOffsetY([-40, 40])
-    .onStart(() => { if (stackN.value > 1) { nvIdx.value = stackN.value - 1; ovStart.value = nv.value; } else ovStart.value = ov.value; })
+    .onStart(() => { cancelAnimation(ov); cancelAnimation(nv); edgeOn.value = 1; if (stackN.value > 1) { nvIdx.value = stackN.value - 1; ovStart.value = nv.value; } else ovStart.value = ov.value; })
     .onUpdate((e) => { const v = Math.min(W, Math.max(0, ovStart.value + e.translationX * SWIPE_GAIN)); if (stackN.value > 1) nv.value = v; else ov.value = v; })
-    .onEnd((e) => {
-      const go = e.translationX > W * 0.2 || e.velocityX > 300;
-      if (stackN.value > 1) { if (go) { stackN.value = stackN.value - 1; nv.value = withTiming(W, { duration: 200, easing: Easing.out(Easing.cubic) }, (d) => { if (d) runOnJS(finishPop)(); }); } else nv.value = withTiming(0, { duration: 180 }); return; }
-      if (go && natBelow.value > 0) { runOnJS(revealNat)(); ov.value = withTiming(0, { duration: 180 }); return; }
-      if (go) { runOnJS(markClosed)(); ov.value = withTiming(W, { duration: 200, easing: Easing.out(Easing.cubic) }, (done) => { if (done) runOnJS(afterClose)(); }); } else ov.value = withTiming(0, { duration: 180 });
-    }), [ov, ovStart, nv, nvIdx, stackN, natBelow, afterClose, markClosed, finishPop, revealNat]);
+    .onEnd((e) => { edgeSettle(e); })
+    .onFinalize((e) => { edgeSettle(e); }), [ov, ovStart, nv, nvIdx, stackN, natBelow, afterClose, markClosed, finishPop, revealNat, edgeOn]); // eslint-disable-line react-hooks/exhaustive-deps
   const ovStyle = useAnimatedStyle(() => ({ transform: [{ translateX: ov.value }] }));
 
   if (!data) return <View style={[s.root, { paddingTop: insets.top }]}><SkHome /></View>;
@@ -1534,7 +1545,7 @@ function Screen({ onTheme, onReset }) {
   const tIdx = keys.indexOf(todayKey); const liveN = tIdx >= 0 ? data[tIdx].reduce((n, m) => n + (m[8] === 'l' ? 1 : 0), 0) : 0; // badge del dock: partite live di oggi
   const shown = [cur - 2, cur - 1, cur, cur + 1, cur + 2].filter((i) => i >= 0 && i < N);
   return (
-    <View style={[s.root, { paddingTop: insets.top }]}>
+    <View style={[s.root, { paddingTop: insets.top }]} onTouchStart={(e) => { TOUCH.y = e.nativeEvent.pageY; }}>
       <Beams />
       <StatusBar barStyle={C.dark ? 'light-content' : 'dark-content'} />
       <Header onSearch={openSearch} onMenu={openMenuP} onCal={() => setCal(true)} />
@@ -1563,7 +1574,7 @@ function Screen({ onTheme, onReset }) {
             {!ready || busy || parked ? <View pointerEvents="auto" style={[StyleSheet.absoluteFill, { backgroundColor: C.bg }]}>{parked && ready ? null : <SkWeb route={awaitRoute.current || lastRoute.current} />}</View> : null}
           </View>
         </View>
-        {natStack.map((p, i) => { const n = nativeOf(p); if (!n) return null; return <NatLayer key={`${p}#${i}`} i={i} nv={nv} nvIdx={nvIdx} hidden={natHidden}>{React.createElement(n.Comp, { params: n.params, C, top: insets.top, onBack: popNat, bottom: insets.bottom + 90, openRoute, onSearch: () => setSrch(true) })}</NatLayer>; })}
+        {natStack.map((p, i) => { const n = nativeOf(p); if (!n) return null; return <NatLayer key={`${p}#${i}`} i={i} nv={nv} nvIdx={nvIdx} hidden={natHidden} live={i === natStack.length - 1 && !natHidden}>{React.createElement(n.Comp, { params: n.params, C, top: insets.top, onBack: popNat, bottom: insets.bottom + 90, openRoute, onSearch: () => setSrch(true) })}</NatLayer>; })}
         <PlayerPanelHost C={C} top={insets.top} bottom={insets.bottom} openRoute={openRoute} />
         <PlayerSheetHost C={C} bottom={insets.bottom} openRoute={openRoute} />
         <GestureDetector gesture={edge}><View pointerEvents={depth > 0 ? 'none' : 'auto'} style={[s.edge, { width: EDGE_W, top: insets.top + 98 }]} /></GestureDetector>

@@ -1,6 +1,7 @@
 // Righe con valore a pillola colorata e barra con la media (stesso aspetto del sito per stagione attuale e passate).
 import React, { useEffect, useRef } from 'react';
-import { View, Text, Animated, Easing } from 'react-native';
+import { View, Text } from 'react-native';
+import Animated, { useSharedValue, useAnimatedStyle, withTiming, withDelay, Easing } from 'react-native-reanimated';
 import { bandColor } from '@/components/player/playerCalc';
 
 export const NEG_RE = /conceded|card|^fouls$|lost|dispossess|miss|offside|dribbled_past|error|faced|owngoal/i;
@@ -46,13 +47,20 @@ export function zeroStandingOf(list, key, avgIn = null) {
 
 // barra che cresce da sinistra e scorre quando cambia il valore; lineetta tratteggiata con la media del campionato
 export function Bar({ C, width, col, avgPos, avgText, delay = 0, grow = true }) {
-  const a = useRef(new Animated.Value(grow ? 0 : width)).current;
-  useEffect(() => { Animated.timing(a, { toValue: width, duration: 900, delay, easing: Easing.bezier(0.22, 0.8, 0.24, 1), useNativeDriver: false }).start(); }, [width]); // eslint-disable-line
-  const w = a.interpolate({ inputRange: [0, 100], outputRange: ['0%', '100%'], extrapolate: 'clamp' });
+  // barra di caricamento: a ogni cambio di valore (nuova statistica, tasto toccato) riparte da zero e scorre piano fino al valore (thread UI, niente scatti)
+  const p = useSharedValue(grow ? 0 : width);
+  const first = useRef(true);
+  useEffect(() => {
+    if (first.current && !grow) { first.current = false; return; }
+    first.current = false;
+    p.value = 0;
+    p.value = withDelay(delay, withTiming(width, { duration: 900, easing: Easing.bezier(0.22, 0.8, 0.24, 1) }));
+  }, [width]); // eslint-disable-line
+  const w = useAnimatedStyle(() => ({ width: `${Math.max(0, Math.min(100, p.value))}%` }));
   return (
     <View style={{ marginTop: 20, height: 9 }}>
       <View style={{ ...absFill, borderRadius: 99, backgroundColor: C.border, overflow: 'hidden' }}>
-        <Animated.View style={{ height: '100%', width: w, borderRadius: 99, backgroundColor: col }} />
+        <Animated.View style={[{ height: '100%', borderRadius: 99, backgroundColor: col }, w]} />
       </View>
       {avgText ? (
         <>

@@ -19,6 +19,7 @@ import { resetSel, useSel } from '../shared/hooks';
 import { useBannerSel, useBannerRow } from '../shared/teamView';
 import EntityBannerN from '../shared/EntityBannerN';
 import TabsN from '../shared/TabsN';
+import { TintProvider } from '../shared/ui';
 import { FormDots } from './PartitaHero';
 import SquadraPartite from './SquadraPartite';
 import SquadraClassifica from './SquadraClassifica';
@@ -37,7 +38,7 @@ const TABS = [
 function Skel({ C, top, onBack }) {
   const b = (h, w, r = 18) => <View style={{ height: h, width: w || '100%', borderRadius: r, backgroundColor: C.skBase, marginBottom: 12 }} />;
   return (
-    <View style={{ flex: 1, backgroundColor: C.bg }}>
+    <View style={{ flex: 1, backgroundColor: 'transparent' }}>
       <View style={{ paddingTop: top + 10, paddingHorizontal: 12, paddingBottom: 22, backgroundColor: C.sheet }}>
         <Pressable onPress={onBack} hitSlop={12} style={{ width: 32, height: 38, justifyContent: 'center' }}><Ionicons name="chevron-back" size={24} color={C.ink} /></Pressable>
         <View style={{ paddingLeft: 6 }}>{b(24, 180, 8)}{b(12, 120, 6)}</View>
@@ -84,10 +85,12 @@ function Body({ C, top, onBack, bottom, openRoute, team, srT }) {
   const props = { C, teamId: team.id, openRoute, bottom };
   const panel = { matches: SquadraPartite, standings: SquadraClassifica, roster: SquadraRosa, stats: SquadraStat, players: SquadraGiocatori };
   return (
-    <View style={{ flex: 1, backgroundColor: C.bg }}>
+    <View style={{ flex: 1, backgroundColor: 'transparent' }}>
       <EntityBannerN C={C} top={top} onBack={onBack} name={team.name} subtitle={shownLg ? shownLg.name : ''} meta={<FormDots C={C} form={teamForm(team.id)} size={14} />} below={below}
         colors={team.colors} logoUrl={fc ? null : team.crest} flagUrl={fc ? `${BASE}flags/${fc}.png` : null} liveCount={liveCount} />
+      <TintProvider color={team.colors && team.colors[0]}>
       <TabsN C={C} tabs={tabs} index={idx} onIndex={(i) => setTabKey(tabs[i].key)} render={(i) => { const P = panel[tabs[i].key]; return <P key={tabs[i].key} {...props} />; }} />
+      </TintProvider>
     </View>
   );
 }

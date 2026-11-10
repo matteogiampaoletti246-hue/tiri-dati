@@ -25,7 +25,7 @@ export default function Calcolatore({ C, top, onSearch, openRoute, bottom = 90 }
   const setIndex = (i) => { CALC_KEEP.index = i; saveCalcKeep(); setIndexRaw(i); };
   useEffect(() => { let live = true; bootShared().then(() => { if (live) setReady(true); }, () => { if (live) setErr(true); }); return () => { live = false; }; }, []);
   return (
-    <View style={{ flex: 1, backgroundColor: C.bg, paddingTop: top }}>
+    <View style={{ flex: 1, backgroundColor: 'transparent', paddingTop: top }}>
       <View style={{ flexDirection: 'row', alignItems: 'center', height: 44, paddingHorizontal: 20 }}>
         <Text style={{ flex: 1, color: C.ink, fontSize: 22, fontWeight: '800' }}>Calcolatore Affidabilità</Text>
         {onSearch ? <Pressable onPress={onSearch} hitSlop={10}><Ionicons name="search" size={22} color={C.ink2} /></Pressable> : null}

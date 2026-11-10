@@ -1,15 +1,16 @@
 // Confronto squadra / squadra (concept A "Paired Bars"): barre a specchio dal centro nei colori sociali; chi prevale ha il colore pieno.
 import React, { useEffect, useRef } from 'react';
-import { View, Text, Animated, Easing } from 'react-native';
+import { View, Text } from 'react-native';
+import Animated, { useSharedValue, useAnimatedStyle, withTiming, Easing } from 'react-native-reanimated';
 import { shown } from '@/lib/tint';
 
 function Half({ C, v, mx, col, win, side }) {
-  const a = useRef(new Animated.Value(0)).current;
-  useEffect(() => { Animated.timing(a, { toValue: mx ? v / mx : 0, duration: 620, easing: Easing.bezier(0.22, 1, 0.36, 1), useNativeDriver: false }).start(); }, [v, mx]); // eslint-disable-line
-  const w = a.interpolate({ inputRange: [0, 1], outputRange: ['0%', '100%'], extrapolate: 'clamp' });
+  const p = useSharedValue(0);
+  useEffect(() => { p.value = 0; p.value = withTiming(mx ? (v / mx) * 100 : 0, { duration: 700, easing: Easing.bezier(0.22, 1, 0.36, 1) }); }, [v, mx]); // eslint-disable-line
+  const w = useAnimatedStyle(() => ({ width: `${Math.max(0, Math.min(100, p.value))}%` }));
   return (
     <View style={{ flex: 1, height: 6, borderRadius: 3, backgroundColor: C.hair, overflow: 'hidden', flexDirection: 'row', justifyContent: side === 'home' ? 'flex-end' : 'flex-start' }}>
-      <Animated.View style={{ width: w, height: '100%', borderRadius: 3, backgroundColor: col, opacity: win ? 1 : 0.5 }} />
+      <Animated.View style={[{ height: '100%', borderRadius: 3, backgroundColor: col, opacity: win ? 1 : 0.5 }, w]} />
     </View>
   );
 }

@@ -55,7 +55,7 @@ export default function Partita({ C, top, onBack, bottom = 90, openRoute, params
   const raw = ok ? matchById(id) : null;
   // coppe e partite d'archivio: stesse regole del sito
   useEffect(() => { if (ok && !raw) onBack && onBack(); }, [ok, raw]);
-  if (!raw) return <View style={{ flex: 1, backgroundColor: C.bg, paddingTop: top }}><Pressable onPress={onBack} hitSlop={12} style={{ paddingHorizontal: 20, height: 44, justifyContent: 'center' }}><Ionicons name="chevron-back" size={24} color={C.ink} /></Pressable><Skel C={C} /></View>;
+  if (!raw) return <View style={{ flex: 1, backgroundColor: 'transparent', paddingTop: top }}><Pressable onPress={onBack} hitSlop={12} style={{ paddingHorizontal: 20, height: 44, justifyContent: 'center' }}><Ionicons name="chevron-back" size={24} color={C.ink} /></Pressable><Skel C={C} /></View>;
   const view = viewMatch(raw);
   const home = teamById(raw.homeId);
   const away = teamById(raw.awayId);
@@ -68,7 +68,7 @@ export default function Partita({ C, top, onBack, bottom = 90, openRoute, params
   const cur = tabs.some((t) => t[0] === tab) ? tab : (tabs[0] ? tabs[0][0] : '');
   const Panel = PANELS[cur];
   return (
-    <View style={{ flex: 1, backgroundColor: C.bg }}>
+    <View style={{ flex: 1, backgroundColor: 'transparent' }}>
       <ScrollView contentContainerStyle={{ paddingTop: top, paddingBottom: bottom + 20 }} showsVerticalScrollIndicator={false}>
         <PartitaHero C={C} match={raw} view={view} league={league} home={home} away={away} onBack={onBack} openRoute={openRoute} />
         <View style={{ flexDirection: 'row', paddingHorizontal: 12, borderBottomWidth: 1, borderBottomColor: C.border }}>
