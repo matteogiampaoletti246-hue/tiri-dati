@@ -138,3 +138,13 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 - Colori nuovi nei temi: `role` (GK/DEF/MID/ATT/UNK/COACH). CI copia anche `hooks/useArchFresh.js` e `useNextMatch.js`.
 - Semplificazioni: niente nome che compare lettera per lettera, stemma del banner senza maschera sfumata, nessuna animazione del numero nelle barre.
 - Restano: Campionato, Archivio (storico/*), Arbitro, Ricerca, poi togliere la WebView.
+
+## Grafica nativa uguale al sito (11/11/2026, dopo il giudizio dell'utente)
+- **Sfondo**: ogni pagina nativa e' dentro `NatLayer` (App.js) che mette `C.bg` + `<Beams />` (stessi fasci della Home; si muovono solo nella pagina in cima). Le pagine hanno la radice `transparent`, mai `C.bg`.
+- **Riquadri colorati**: `Panel` (shared/ui.js) prende la sfumatura ferma (mai animata) dal colore della scheda: `TintProvider color` attorno alle schede (Squadra, Giocatore, Partita = squadra di casa) oppure `tint` sul singolo `Panel` (Calcolatore).
+- **Schede con swipe laterale**: pagine di entita' (Squadra, Giocatore) = `EntityBannerN` fisso + `TabsN` con una `PaneN` per scheda. La Partita scorre tutta insieme: `TabBarN` sticky + `SwipeBodyN` (scheda attiva montata, entra da lato).
+- **Tasti**: `Segmented`, `Dropdown`, `DropBtn` = pillola liquid glass come Tutte/Live (`RingBox`: contorno multicolore che gira con un solo orologio condiviso, indicatore blu-viola che scorre con rimbalzo). Sede del Calcolatore = `SedeButtonsN` (Casa/Neutro/Trasferta con icone).
+- **Tendine**: `PickerModal` e `Dropdown` si aprono vicino al tocco (`TOUCH.y`), mai pagina intera; voce scelta con spunta verde `C.good` che compare prima di chiudere; il contenuto nuovo entra con `SwapN` (dissolvenza, mai schermo nero).
+- **Barre**: `Bar` e `CompareBars` ripartono da zero e scorrono sul thread UI (reanimated), niente `Animated` JS.
+- **Swipe indietro**: `edgeSettle` in App.js e' chiamato sia da `onEnd` sia da `onFinalize`: la pagina non resta mai a meta'.
+- **Formazioni**: icone eventi con offset in pixel rispetto al volto (mai percentuali).

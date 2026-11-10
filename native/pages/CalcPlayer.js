@@ -113,7 +113,7 @@ function PlayerPick({ C, form, set, player, onSelectPlayer, stat, onStat, role, 
   return (
     <View>
       <PanelTitle C={C}>Giocatore</PanelTitle>
-      <Panel C={C}>
+      <Panel C={C} tint={col}>
         {player ? (
           <View style={{ padding: 14, backgroundColor: col + '33' }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
@@ -271,7 +271,7 @@ function TeamCard({ C, title, right, block, team, tiles, footer, picker, setPick
   return (
     <View>
       <PanelTitle C={C} right={right}>{title}</PanelTitle>
-      <Panel C={C}>
+      <Panel C={C} tint={col}>
         <View style={{ padding: 12 }}>
           <Pressable onPress={() => setPicker('league')} style={{ alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', gap: 6, paddingVertical: 6, paddingHorizontal: 12, borderRadius: 999, backgroundColor: C.accTint, borderWidth: 1, borderColor: C.accRing }}>
             <Text numberOfLines={1} style={{ color: C.ink, fontSize: 13, fontWeight: '700' }}>{leagueName(block.leagueId) || 'Campionato'}</Text>

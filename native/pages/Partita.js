@@ -7,6 +7,10 @@ import './../shared/shim';
 import { bootShared } from '../shared/boot';
 import { resetSel } from '../shared/hooks';
 import PartitaHero from './PartitaHero';
+import { useSharedValue } from 'react-native-reanimated';
+import { TabBarN } from '../shared/TabsN';
+import SwipeBodyN from '../shared/SwipeBodyN';
+import { TintProvider } from '../shared/ui';
 import { PANELS, hasPanel } from './PartitaPanels';
 import { matchById, viewMatch } from '@/data/matches';
 import { prepareMatch, isReady } from '@/data/prepare';
@@ -52,6 +56,7 @@ export default function Partita({ C, top, onBack, bottom = 90, openRoute, params
     return () => { on = false; clearInterval(t); };
   }, [id]);
 
+  const pos = useSharedValue(0);
   const raw = ok ? matchById(id) : null;
   // coppe e partite d'archivio: stesse regole del sito
   useEffect(() => { if (ok && !raw) onBack && onBack(); }, [ok, raw]);
@@ -67,18 +72,19 @@ export default function Partita({ C, top, onBack, bottom = 90, openRoute, params
     .filter(([k]) => hasPanel(k, raw, view, home, away, pre, cup));
   const cur = tabs.some((t) => t[0] === tab) ? tab : (tabs[0] ? tabs[0][0] : '');
   const Panel = PANELS[cur];
+  const idx = Math.max(0, tabs.findIndex((t) => t[0] === cur));
+  const tabsN = tabs.map(([k, l]) => ({ key: k, label: l }));
+  const homeC = home && home.colors ? home.colors[0] : null;
   return (
     <View style={{ flex: 1, backgroundColor: 'transparent' }}>
-      <ScrollView contentContainerStyle={{ paddingTop: top, paddingBottom: bottom + 20 }} showsVerticalScrollIndicator={false}>
+      <ScrollView stickyHeaderIndices={[1]} style={{ paddingTop: top }} contentContainerStyle={{ paddingBottom: bottom + 20 }} showsVerticalScrollIndicator={false}>
         <PartitaHero C={C} match={raw} view={view} league={league} home={home} away={away} onBack={onBack} openRoute={openRoute} />
-        <View style={{ flexDirection: 'row', paddingHorizontal: 12, borderBottomWidth: 1, borderBottomColor: C.border }}>
-          {tabs.map(([k, l]) => (
-            <Pressable key={k} onPress={() => { TAB_MEM.set(id, k); setTab(k); }} style={{ flex: 1, alignItems: 'center', paddingVertical: 12, borderBottomWidth: 2, borderBottomColor: cur === k ? C.accent : 'transparent' }}>
-              <Text numberOfLines={1} style={{ color: cur === k ? C.accent : C.ink3, fontSize: 12.5, fontWeight: cur === k ? '800' : '500' }}>{l}</Text>
-            </Pressable>
-          ))}
-        </View>
-        {Panel ? <Panel key={cur} C={C} match={raw} view={view} home={home} away={away} pre={pre} cup={cup} openRoute={openRoute} /> : null}
+        <TabBarN C={C} tabs={tabsN} x={pos} onIndex={(i) => { TAB_MEM.set(id, tabs[i][0]); setTab(tabs[i][0]); }} />
+        <TintProvider color={homeC}>
+          <SwipeBodyN index={idx} count={tabs.length} pos={pos} onIndex={(i) => { TAB_MEM.set(id, tabs[i][0]); setTab(tabs[i][0]); }}>
+            {Panel ? <Panel key={cur} C={C} match={raw} view={view} home={home} away={away} pre={pre} cup={cup} openRoute={openRoute} /> : null}
+          </SwipeBodyN>
+        </TintProvider>
       </ScrollView>
     </View>
   );

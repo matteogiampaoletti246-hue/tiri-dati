@@ -11,6 +11,7 @@ import { teamById } from '@/data/teams';
 import { LeagueStandings, ArchiveStandings } from '../shared/Standings';
 import { useTeamView, useAnnounceComp } from '../shared/teamView';
 import CompBarN from '../shared/CompBarN';
+import SwapN from '../shared/SwapN';
 import PaneN from '../shared/PaneN';
 import { PanelSkN } from '../shared/TabsN';
 import Tabellone from './PartitaBracket';
@@ -33,9 +34,11 @@ export default function SquadraClassifica({ C, teamId, openRoute, bottom }) {
   return (
     <PaneN bottom={bottom}>
       <CompBarN C={C} comps={comps} comp={comp} onComp={tap(setComp)} seasons={seasons} season={season} onSeason={tap(setSeason)} noCur={noCur} />
+      <SwapN k={`${comp}|${eff}`}>
       {pure && eff !== 'cur' ? <View style={{ paddingTop: 12 }}><Tabellone C={C} match={{ archive: { fm, sk: eff } }} openRoute={openRoute} /></View>
         : eff !== 'cur' && fm ? <PastTeamStandings C={C} fm={fm} sk={eff} team={team} openRoute={openRoute} />
           : <View style={{ paddingTop: 12 }}>{has ? <LeagueStandings C={C} leagueId={comp} highlight={[team.id]} openRoute={openRoute} /> : null}</View>}
+      </SwapN>
     </PaneN>
   );
 }

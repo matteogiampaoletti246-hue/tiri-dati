@@ -25,7 +25,7 @@ function TeamBlock({ C, title, mode, family, block, onChange }) {
   return (
     <View>
       <PanelTitle C={C} right={`Nel calcolo: ${family === 'inPorta' ? 'In porta' : 'Totali'}`}>{title}</PanelTitle>
-      <Panel C={C}>
+      <Panel C={C} tint={col}>
         <View style={{ padding: 12 }}>
           <Pressable onPress={() => setPicker('league')} style={{ alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', gap: 6, paddingVertical: 6, paddingHorizontal: 12, borderRadius: 999, backgroundColor: C.accTint, borderWidth: 1, borderColor: C.accRing }}>
             <Text numberOfLines={1} style={{ color: C.ink, fontSize: 13, fontWeight: '700' }}>{leagueName(block.leagueId) || 'Campionato'}</Text>

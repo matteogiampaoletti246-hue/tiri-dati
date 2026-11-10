@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
 import useAsync from '@/hooks/useAsync';
 import { Panel, Segmented, DropBtn, LeagueLogo, TeamCrest } from '../shared/ui';
+import SwapN from '../shared/SwapN';
 import { useSel } from '../shared/hooks';
 import GiocatorePast, { SkCards, Msg } from './GiocatorePast';
 import { comma } from '@/lib/format';
@@ -260,7 +261,7 @@ export default function GiocatoreStat({ C, player: p, team, car }) {
         {comps.length ? <DropBtn C={C} title="Competizione" label={curLg ? curLg.name : ''} icon={<LeagueLogo league={curLg} size={24} C={C} />} options={comps.map((c) => ({ value: c.id, label: c.name, icon: <LeagueLogo league={c} size={26} C={C} /> }))} value={comp} onChange={(c) => { setComp(c); setSeason('cur'); }} /> : null}
         {sOpts ? <DropBtn C={C} title="Stagione" label={sLabel} options={sOpts} value={seasonEff || 'cur'} onChange={setSeason} /> : null}
       </View>
-      {body}
+      <SwapN k={`${comp}|${seasonEff}`}>{body}</SwapN>
     </View>
   );
 }

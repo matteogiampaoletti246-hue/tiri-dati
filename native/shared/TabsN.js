@@ -19,6 +19,18 @@ export function PanelSkN({ C }) {
   return <View style={{ paddingHorizontal: 16, paddingTop: 16 }}>{b(40, 16)}{b(64)}{b(64)}{b(64)}{b(64)}</View>;
 }
 
+export function TabBarN({ C, tabs, x, onIndex }) {
+  const { width: W } = useWindowDimensions();
+  const w = W / tabs.length;
+  const line = useAnimatedStyle(() => ({ transform: [{ translateX: x.value * w + w * 0.2 }] }));
+  return (
+    <View style={{ flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: C.border, backgroundColor: C.sheet }}>
+      {tabs.map((t, i) => <Tab key={t.key} C={C} i={i} x={x} w={w} label={t.label} onPress={() => onIndex(i)} />)}
+      <Animated.View pointerEvents="none" style={[{ position: 'absolute', bottom: -1, left: 0, width: w * 0.6, height: 2.5, borderRadius: 2, backgroundColor: C.accent }, line]} />
+    </View>
+  );
+}
+
 export default function TabsN({ C, tabs, index, onIndex, render }) {
   const { width: W } = useWindowDimensions();
   const x = useSharedValue(index);

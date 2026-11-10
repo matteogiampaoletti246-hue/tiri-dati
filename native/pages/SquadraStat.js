@@ -15,6 +15,7 @@ import { Segmented, TeamCrest } from '../shared/ui';
 import { Bar, BarRow, groupOf, fmtVal, standingOf } from '../shared/StatBars';
 import { useTeamView, useAnnounceComp } from '../shared/teamView';
 import CompBarN from '../shared/CompBarN';
+import SwapN from '../shared/SwapN';
 import PaneN from '../shared/PaneN';
 import { PanelSkN } from '../shared/TabsN';
 
@@ -257,7 +258,9 @@ export default function SquadraStat({ C, teamId, openRoute, bottom }) {
   return (
     <PaneN bottom={bottom}>
       <CompBarN C={C} comps={comps} comp={comp} onComp={tap(setComp)} seasons={seasons} season={season} onSeason={tap(setSeason)} noCur={noCur} />
+      <SwapN k={`${comp}|${eff}`}>
       {eff !== 'cur' && fm ? <PastTeamStats C={C} fm={fm} sk={eff} team={team} comp={comp} cur={season === 'cur'} openRoute={openRoute} /> : <DomesticStats key={comp} C={C} team={team} comp={comp} openRoute={openRoute} />}
+      </SwapN>
     </PaneN>
   );
 }
