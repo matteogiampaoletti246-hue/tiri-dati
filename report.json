@@ -1,0 +1,1146 @@
+{
+  "when": "2026-11-10T11:00:41.088Z",
+  "checks": [
+    {
+      "name": "home: ogni campionato ha la sua tendina",
+      "pass": true,
+      "n": 10
+    },
+    {
+      "name": "home: top 5 e coppe partono aperti",
+      "pass": false,
+      "top": []
+    },
+    {
+      "name": "home: i campionati minori partono chiusi",
+      "pass": false,
+      "aperti": [
+        "COPA DEL REY",
+        "EFL TROPHY",
+        "PRIMERA DIVISION (BOLIVIA)"
+      ]
+    },
+    {
+      "name": "home: toccando il nome si apre la scheda del campionato",
+      "pass": true,
+      "hash": "#/campionato/fm-138"
+    },
+    {
+      "name": "home: toccando il nome la tendina non cambia",
+      "pass": true
+    },
+    {
+      "name": "home: la tendina di un top campionato si chiude a richiesta",
+      "pass": true
+    },
+    {
+      "name": "home: si riapre",
+      "pass": true
+    },
+    {
+      "name": "home: tornando da una partita le tendine restano come le avevo lasciate",
+      "pass": true,
+      "prima": "COPA DEL REY:true,EFL TROPHY:true,PRIMERA DIVISION (BOLIVIA):true,PRIMERA A:true,:false,:false,:false,:false,:false,:false",
+      "dopo": "COPA DEL REY:true,EFL TROPHY:true,PRIMERA DIVISION (BOLIVIA):true,PRIMERA A:true,:false,:false,:false,:false,:false,:false"
+    },
+    {
+      "name": "barra in basso: sempre agganciata al fondo",
+      "pass": true,
+      "res": [
+        {
+          "top": 586,
+          "bottom": 664,
+          "vh": 664,
+          "sy": 300
+        },
+        {
+          "top": 586,
+          "bottom": 664,
+          "vh": 664,
+          "sy": 900
+        },
+        {
+          "top": 586,
+          "bottom": 664,
+          "vh": 664,
+          "sy": 1505
+        },
+        {
+          "top": 586,
+          "bottom": 664,
+          "vh": 664,
+          "sy": 1505
+        },
+        {
+          "top": 586,
+          "bottom": 664,
+          "vh": 664,
+          "sy": 586
+        },
+        {
+          "top": 586,
+          "bottom": 664,
+          "vh": 664,
+          "sy": 0
+        }
+      ]
+    },
+    {
+      "name": "barra in basso: dopo il cambio scheda resta al suo posto",
+      "pass": true,
+      "bottom": 664,
+      "vh": 664,
+      "indTop": null,
+      "navTop": 586
+    },
+    {
+      "name": "Mostra tutti + scroll veloce: barra sempre in basso",
+      "pass": true,
+      "res": [
+        {
+          "bottom": 664,
+          "vh": 664,
+          "vvTop": 0
+        },
+        {
+          "bottom": 664,
+          "vh": 664,
+          "vvTop": 0
+        },
+        {
+          "bottom": 664,
+          "vh": 664,
+          "vvTop": 0
+        },
+        {
+          "bottom": 664,
+          "vh": 664,
+          "vvTop": 0
+        },
+        {
+          "bottom": 664,
+          "vh": 664,
+          "vvTop": 0
+        },
+        {
+          "bottom": 664,
+          "vh": 664,
+          "vvTop": 0
+        }
+      ]
+    },
+    {
+      "name": "Partite: competizioni e stagione sulla stessa riga",
+      "pass": true,
+      "rows": [
+        197,
+        196,
+        197
+      ]
+    },
+    {
+      "name": "PSG: piu di 2 stagioni in tendina",
+      "pass": true,
+      "n": 16
+    },
+    {
+      "name": "Statistiche passate: pillole Casa/Trasferta e categorie",
+      "pass": true
+    },
+    {
+      "name": "Partite attuale: tasto partite precedenti",
+      "pass": true
+    },
+    {
+      "name": "swipe squadra: nella fotografia nessuna copia segnata data-pf",
+      "pass": true,
+      "pf": 0
+    },
+    {
+      "name": "swipe squadra: il banner nella fotografia resta fermo dentro di essa",
+      "pass": false,
+      "banner": 143,
+      "n": 2,
+      "fuori": []
+    },
+    {
+      "name": "swipe squadra: mai un fotogramma senza pagina (nero)",
+      "pass": false,
+      "neri": []
+    },
+    {
+      "name": "swipe squadra: si torna alla squadra",
+      "pass": false
+    },
+    {
+      "name": "giocatore: tendina competizioni con almeno 2 voci",
+      "pass": true,
+      "opts": [
+        "Bundesliga",
+        "Bundesliga",
+        "DFB Pokal",
+        "Europa League",
+        "3. Liga",
+        "Attuale",
+        "Tiri",
+        "Totale",
+        "Casa",
+        "Trasferta",
+        "Tutte",
+        "Attacco",
+        "Difesa",
+        "Disciplina",
+        "Gioco",
+        "Profilo",
+        "Partite",
+        "Statistiche",
+        "Carriera"
+      ]
+    },
+    {
+      "name": "giocatore: lista partite presente",
+      "pass": true,
+      "len": 3420
+    },
+    {
+      "name": "giocatore: profilo con anagrafica e radar",
+      "pass": true,
+      "poly": 5
+    },
+    {
+      "name": "tabellone: cliccando l'ultima pillola entra e resta visibile",
+      "pass": true,
+      "res": {
+        "n": 4,
+        "left": 251,
+        "right": 324,
+        "vw": 390
+      }
+    },
+    {
+      "name": "tendina stagioni: aperta",
+      "pass": true,
+      "m": {
+        "top": 239,
+        "bottom": 558,
+        "navTop": 586,
+        "sh": 463,
+        "ch": 327,
+        "ov": "contain",
+        "sy": 0,
+        "right": 333,
+        "vw": 390
+      }
+    },
+    {
+      "name": "tendina stagioni: finisce sopra la barra in basso",
+      "pass": true,
+      "m": {
+        "top": 239,
+        "bottom": 558,
+        "navTop": 586,
+        "sh": 463,
+        "ch": 327,
+        "ov": "contain",
+        "sy": 0,
+        "right": 333,
+        "vw": 390
+      }
+    },
+    {
+      "name": "tendina stagioni: dentro lo schermo a destra",
+      "pass": true,
+      "m": {
+        "top": 239,
+        "bottom": 558,
+        "navTop": 586,
+        "sh": 463,
+        "ch": 327,
+        "ov": "contain",
+        "sy": 0,
+        "right": 333,
+        "vw": 390
+      }
+    },
+    {
+      "name": "tendina stagioni: scorre solo la lista (overscroll contain)",
+      "pass": true,
+      "m": {
+        "top": 239,
+        "bottom": 558,
+        "navTop": 586,
+        "sh": 463,
+        "ch": 327,
+        "ov": "contain",
+        "sy": 0,
+        "right": 333,
+        "vw": 390
+      }
+    },
+    {
+      "name": "tendina stagioni: l'ultima stagione si raggiunge e la pagina dietro non si muove",
+      "pass": true,
+      "last": {
+        "txt": "2014",
+        "inside": true,
+        "sy": 0
+      }
+    },
+    {
+      "name": "tendina stagioni: si chiude scegliendo una voce",
+      "pass": true
+    },
+    {
+      "name": "lazio: tornando indietro le pillole Totale/Casa/Trasferta restano ferme",
+      "pass": true,
+      "href": "#/giocatore/p_2u2pcX",
+      "jump": 0,
+      "n": 2
+    },
+    {
+      "name": "feyenoord: tornando indietro le pillole Totale/Casa/Trasferta restano ferme",
+      "pass": true,
+      "href": "#/giocatore/p_1ShWl1",
+      "jump": 0,
+      "n": 2
+    },
+    {
+      "name": "wacker innsbruck: in tendina anche la Bundesliga austriaca giocata anni fa",
+      "pass": true,
+      "names": [
+        "2. Liga (Austria)",
+        "Austrian Cup",
+        "Bundesliga Austria"
+      ]
+    },
+    {
+      "name": "memoria: dopo 44 pagine le copie nascoste delle pagine non si accumulano",
+      "pass": true,
+      "hosts": 1
+    },
+    {
+      "name": "memoria: swipe indietro con la pagina sotto visibile (mai nero)",
+      "pass": true,
+      "black": 0,
+      "checked": 7
+    },
+    {
+      "name": "memoria: fotogrammi a fine giro simili all'inizio",
+      "pass": true,
+      "t0": null,
+      "t1": {
+        "n": 14,
+        "p50": 680,
+        "p95": 718,
+        "tab": "Riepilogo"
+      },
+      "nodes": 3638
+    },
+    {
+      "name": "competizioni: con una stagione passata la tendina ha le stesse voci",
+      "pass": true,
+      "cur": [
+        "Serie A",
+        "Coppa Italia",
+        "Supercoppa",
+        "Europa League",
+        "Champions League"
+      ],
+      "past": [
+        "Serie A",
+        "Coppa Italia",
+        "Supercoppa",
+        "Europa League",
+        "Champions League"
+      ]
+    },
+    {
+      "name": "fluidita: swipe tra schede ripetuti senza peggiorare",
+      "pass": true,
+      "t0": {
+        "n": 14,
+        "p50": 532,
+        "p95": 629,
+        "tab": "Squadra"
+      },
+      "t1": {
+        "n": 14,
+        "p50": 743,
+        "p95": 760,
+        "tab": "Giocatori"
+      }
+    },
+    {
+      "name": "fluidita: indietro dopo gli swipe torna alla Home",
+      "pass": true,
+      "h": "#/"
+    },
+    {
+      "10": "#/",
+      "30": "#/",
+      "45": "#/",
+      "120": "#/",
+      "name": "swipe indietro: dal bordo e fino a 45 px si torna indietro",
+      "pass": true
+    },
+    {
+      "10": "#/",
+      "30": "#/",
+      "45": "#/",
+      "120": "#/",
+      "name": "swipe indietro: dalla prima scheda (a sinistra non c'e' nulla) parte anche dal centro",
+      "pass": true
+    },
+    {
+      "name": "giocatori: squadra senza statistiche = niente scheda Giocatori",
+      "pass": true,
+      "squadra": "ND Triglav",
+      "tabs": [
+        "Partite",
+        "Classifica",
+        "Squadra",
+        "Statistiche"
+      ]
+    },
+    {
+      "name": "pannello giocatore: una riga da toccare",
+      "pass": false
+    },
+    {
+      "name": "home: la pagina è abbastanza lunga da scorrere per la prova",
+      "pass": true,
+      "pre": {
+        "id": "#/match/m_264TKg",
+        "top": 168,
+        "sy": 1518
+      },
+      "best": {
+        "n": 24,
+        "t": "Dom 88 n"
+      }
+    },
+    {
+      "name": "home: la fotografia sotto lo swipe mostra la riga dove stava (nessun salto al cambio pagina)",
+      "pass": true,
+      "pre": {
+        "id": "#/match/m_264TKg",
+        "top": 168,
+        "sy": 1518
+      },
+      "giorno": {
+        "n": 24,
+        "t": "Dom 88 n"
+      },
+      "dc": 0,
+      "campioni": [
+        168,
+        168,
+        168,
+        168,
+        168,
+        168
+      ]
+    },
+    {
+      "name": "home: la pagina vera rimette la riga dove stava",
+      "pass": true,
+      "pre": {
+        "id": "#/match/m_264TKg",
+        "top": 168,
+        "sy": 1518
+      },
+      "giorno": {
+        "n": 24,
+        "t": "Dom 88 n"
+      },
+      "dr": 1,
+      "campioni": [
+        169,
+        169,
+        169,
+        169,
+        169,
+        169
+      ]
+    },
+    {
+      "name": "swipe indietro: la pagina di destinazione e' visibile sotto",
+      "pass": true
+    },
+    {
+      "name": "swipe indietro: si torna al campionato",
+      "pass": true,
+      "opened": true,
+      "inMatch": true,
+      "h": "#/campionato/serie-a",
+      "drove": true
+    },
+    {
+      "name": "home: nella fotografia il giorno scelto e' dove sta nella pagina vera",
+      "pass": false,
+      "real": 195,
+      "cs": [
+        195,
+        195
+      ]
+    },
+    {
+      "name": "home: swipe indietro mai nero",
+      "pass": false,
+      "neri": []
+    },
+    {
+      "name": "giocatore minore: profilo con anagrafica",
+      "pass": false,
+      "len": 176
+    },
+    {
+      "name": "giocatore minore: radar",
+      "pass": false,
+      "poly": 0
+    },
+    {
+      "name": "giocatore minore: statistiche con tendina competizione",
+      "pass": true,
+      "len": 176
+    },
+    {
+      "name": "giocatore minore: partite presenti",
+      "pass": true,
+      "len": 263
+    },
+    {
+      "name": "swipe indietro: rilasciato prima di meta' resta sulla partita",
+      "pass": true,
+      "h1": "#/match/f-2026-11-21-como-cagliari"
+    },
+    {
+      "name": "swipe indietro: oltre meta' si torna al campionato",
+      "pass": true,
+      "h2": "#/campionato/serie-a"
+    },
+    {
+      "name": "finestra giocatore: si apre con il tasto Profilo",
+      "pass": false,
+      "opened": "#/match/x-59-5105046",
+      "face": false,
+      "n0": null
+    },
+    {
+      "name": "finestra giocatore: lo swipe passa al giocatore successivo",
+      "pass": false,
+      "n0": null,
+      "n1": null
+    },
+    {
+      "name": "finestra giocatore: la pagina sotto non si muove e la fotografia dietro non compare",
+      "pass": false,
+      "s1": null
+    },
+    {
+      "name": "finestra giocatore: dal bordo sinistro non parte lo swipe indietro",
+      "pass": false,
+      "h0": "#/match/x-59-5105046",
+      "h1": "#/match/x-59-5105046"
+    },
+    {
+      "name": "scheletri: lo scheletro compare durante il caricamento",
+      "pass": true,
+      "partita": {
+        "seen": true,
+        "s": {
+          "tab": 216,
+          "spin": false,
+          "carico": false
+        },
+        "r": {
+          "tab": 229,
+          "spin": false,
+          "carico": false
+        }
+      },
+      "partita finita": {
+        "seen": true,
+        "s": {
+          "tab": 229,
+          "spin": false,
+          "carico": false
+        },
+        "r": {
+          "tab": 256,
+          "spin": false,
+          "carico": false
+        }
+      },
+      "squadra": {
+        "seen": true,
+        "s": {
+          "tab": 153,
+          "spin": false,
+          "carico": false
+        },
+        "r": {
+          "tab": 153,
+          "spin": false,
+          "carico": false
+        }
+      }
+    },
+    {
+      "name": "scheletri: mai rotella ne' \"Carico...\"",
+      "pass": true,
+      "partita": {
+        "seen": true,
+        "s": {
+          "tab": 216,
+          "spin": false,
+          "carico": false
+        },
+        "r": {
+          "tab": 229,
+          "spin": false,
+          "carico": false
+        }
+      },
+      "partita finita": {
+        "seen": true,
+        "s": {
+          "tab": 229,
+          "spin": false,
+          "carico": false
+        },
+        "r": {
+          "tab": 256,
+          "spin": false,
+          "carico": false
+        }
+      },
+      "squadra": {
+        "seen": true,
+        "s": {
+          "tab": 153,
+          "spin": false,
+          "carico": false
+        },
+        "r": {
+          "tab": 153,
+          "spin": false,
+          "carico": false
+        }
+      }
+    },
+    {
+      "name": "scheletri: barra delle schede nello stesso punto (scheletro = pagina vera, +/-1 px)",
+      "pass": false,
+      "partita": {
+        "seen": true,
+        "s": {
+          "tab": 216,
+          "spin": false,
+          "carico": false
+        },
+        "r": {
+          "tab": 229,
+          "spin": false,
+          "carico": false
+        }
+      },
+      "partita finita": {
+        "seen": true,
+        "s": {
+          "tab": 229,
+          "spin": false,
+          "carico": false
+        },
+        "r": {
+          "tab": 256,
+          "spin": false,
+          "carico": false
+        }
+      },
+      "squadra": {
+        "seen": true,
+        "s": {
+          "tab": 153,
+          "spin": false,
+          "carico": false
+        },
+        "r": {
+          "tab": 153,
+          "spin": false,
+          "carico": false
+        }
+      }
+    },
+    {
+      "name": "tabellone: da fermo un solo livello (niente will-change su ogni riquadro)",
+      "pass": true,
+      "layers": 1
+    },
+    {
+      "name": "tabellone: lo swipe verso il Tabellone non e' piu' lento dello swipe tra schede leggere",
+      "pass": true,
+      "base": {
+        "n": 14,
+        "p50": 671,
+        "p95": 692,
+        "tab": "Riepilogo"
+      },
+      "br": {
+        "n": 15,
+        "p50": 602,
+        "p95": 649,
+        "tab": "Tabellone"
+      }
+    },
+    {
+      "name": "swipe indietro veloce: nessun fotogramma nero",
+      "pass": true,
+      "frames": 28,
+      "black": 0
+    },
+    {
+      "name": "fluidita: dopo 6 giorni avanti e 6 indietro si torna al giorno di partenza",
+      "pass": true,
+      "d0": "Oggi10 nov",
+      "d1": "Oggi10 nov",
+      "d2": "Oggi10 nov"
+    },
+    {
+      "name": "fluidita: i nodi della Home non crescono con gli swipe",
+      "pass": true,
+      "n0": 845,
+      "n1": 845,
+      "n2": 845
+    },
+    {
+      "name": "fluidita: swipe veloci non peggiori di quelli lenti (niente accumulo)",
+      "pass": true,
+      "lento": {
+        "frames": 97,
+        "p50": 695,
+        "p95": 816,
+        "max": 835,
+        "persi": 4068
+      },
+      "veloce": {
+        "frames": 97,
+        "p50": 691,
+        "p95": 806,
+        "max": 840,
+        "persi": 4047
+      }
+    },
+    {
+      "name": "home (Oggi): tornando con lo swipe la partita non ricompare sopra la Home",
+      "pass": false,
+      "n": 4,
+      "bad": [],
+      "headOk": true
+    },
+    {
+      "name": "home (Oggi): la testata della Home e' al suo posto appena si vede la pagina vera",
+      "pass": true,
+      "n": 4,
+      "bad": [],
+      "headOk": true
+    },
+    {
+      "name": "home (Domani): tornando con lo swipe la partita non ricompare sopra la Home",
+      "pass": false,
+      "n": 4,
+      "bad": [],
+      "headOk": true
+    },
+    {
+      "name": "home (Domani): la testata della Home e' al suo posto appena si vede la pagina vera",
+      "pass": true,
+      "n": 4,
+      "bad": [],
+      "headOk": true
+    },
+    {
+      "name": "swipe indietro: scheda con altre a sinistra, dal centro resta sulla pagina",
+      "pass": true,
+      "centro": "#/squadra/feyenoord"
+    },
+    {
+      "name": "swipe indietro: scheda con altre a sinistra, dal bordo torna indietro",
+      "pass": true,
+      "bordo": "#/"
+    },
+    {
+      "name": "swipe indietro: scheda con altre a sinistra, dal banner torna indietro",
+      "pass": true,
+      "banner": "#/"
+    },
+    {
+      "name": "migliori giocatori: si parte da Oggi, niente Ieri",
+      "pass": true
+    },
+    {
+      "name": "migliori giocatori: tendina statistica su Tiri all'apertura",
+      "pass": true,
+      "pick": "Tiri"
+    },
+    {
+      "name": "migliori giocatori: banner con entrata animata all'apertura",
+      "pass": false,
+      "anim": 0
+    },
+    {
+      "name": "migliori giocatori: Tiri in porta con classifica e stessa entrata",
+      "pass": false,
+      "n": 0,
+      "again": 0
+    },
+    {
+      "name": "migliori giocatori: Falli commessi con classifica e stessa entrata",
+      "pass": false,
+      "n": 0,
+      "again": 0
+    },
+    {
+      "name": "migliori giocatori: Falli subiti con classifica e stessa entrata",
+      "pass": false,
+      "n": 0,
+      "again": 0
+    },
+    {
+      "name": "migliori matchup: si parte da Oggi, niente Ieri",
+      "pass": true
+    },
+    {
+      "name": "ritorno dal background: finestra giocatore non accorciata",
+      "pass": true,
+      "before": {
+        "root": 664,
+        "inner": 664
+      },
+      "after": {
+        "root": 664,
+        "inner": 664
+      }
+    },
+    {
+      "name": "ritorno dal background: chiusa la finestra non resta nessun blocco",
+      "pass": true
+    },
+    {
+      "name": "Disciplina: le voci a 0 hanno la barra (Boga: falli e cartellini)",
+      "pass": true,
+      "bars": 5,
+      "disc": "Disciplina\nFalli commessi\n0,38\n19°\nmedia 0,97\nCartellini gialli\n0\nmedia 0,6\nCartellini rossi\n0\nmedia 0,0\nFalli subiti\n1,91\n43°\nmedia 0,95\nLa lineetta con il numero è la media del campionato. Colori: rosso = parte bassa della classifica, giallo = metà, verde = parte alta.\n\n\n\n\nJérémie Boga\nJuventus · Centrocampista\nProfilo\nPartite\nStatistiche\nCarriera\n"
+    },
+    {
+      "name": "Disciplina: media dei cartellini con gli zeri (rossi sotto 0,5)",
+      "pass": true,
+      "red": "media 0,0"
+    },
+    {
+      "name": "Partite giocatore: prima i gol della sua squadra (vs Croatia 7 - 0)",
+      "pass": true,
+      "t": [
+        "vs Croatia 7 - 0",
+        "vs Czechia 2 - 0",
+        "vs Liverpool 0 - 1",
+        "vs Real Sociedad 2 - 1",
+        "vs Brentford 2 - 2",
+        "vs Newcastle United 2 - 2",
+        "vs Everton 1 - 1",
+        "vs Manchester City 1 - 2"
+      ]
+    }
+  ],
+  "errors": [
+    "Fetch API cannot load https: /scalperlab-live.matteo-giampaoletti04.workers.dev/s due to access control checks."
+  ],
+  "console": [
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+  ],
+  "failed": [
+    "home: top 5 e coppe partono aperti",
+    "home: i campionati minori partono chiusi",
+    "swipe squadra: il banner nella fotografia resta fermo dentro di essa",
+    "swipe squadra: mai un fotogramma senza pagina (nero)",
+    "swipe squadra: si torna alla squadra",
+    "pannello giocatore: una riga da toccare",
+    "home: nella fotografia il giorno scelto e' dove sta nella pagina vera",
+    "home: swipe indietro mai nero",
+    "giocatore minore: profilo con anagrafica",
+    "giocatore minore: radar",
+    "finestra giocatore: si apre con il tasto Profilo",
+    "finestra giocatore: lo swipe passa al giocatore successivo",
+    "finestra giocatore: la pagina sotto non si muove e la fotografia dietro non compare",
+    "finestra giocatore: dal bordo sinistro non parte lo swipe indietro",
+    "scheletri: barra delle schede nello stesso punto (scheletro = pagina vera, +/-1 px)",
+    "home (Oggi): tornando con lo swipe la partita non ricompare sopra la Home",
+    "home (Domani): tornando con lo swipe la partita non ricompare sopra la Home",
+    "migliori giocatori: banner con entrata animata all'apertura",
+    "migliori giocatori: Tiri in porta con classifica e stessa entrata",
+    "migliori giocatori: Falli commessi con classifica e stessa entrata",
+    "migliori giocatori: Falli subiti con classifica e stessa entrata"
+  ],
+  "shards": 2,
+  "groups": [
+    {
+      "name": "COPA DEL REY",
+      "open": true
+    },
+    {
+      "name": "EFL TROPHY",
+      "open": true
+    },
+    {
+      "name": "PRIMERA DIVISION (BOLIVIA)",
+      "open": true
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    },
+    {
+      "name": "",
+      "open": false
+    }
+  ],
+  "bottomBar": [
+    {
+      "top": 586,
+      "bottom": 664,
+      "vh": 664,
+      "sy": 300
+    },
+    {
+      "top": 586,
+      "bottom": 664,
+      "vh": 664,
+      "sy": 900
+    },
+    {
+      "top": 586,
+      "bottom": 664,
+      "vh": 664,
+      "sy": 1505
+    },
+    {
+      "top": 586,
+      "bottom": 664,
+      "vh": 664,
+      "sy": 1505
+    },
+    {
+      "top": 586,
+      "bottom": 664,
+      "vh": 664,
+      "sy": 586
+    },
+    {
+      "top": 586,
+      "bottom": 664,
+      "vh": 664,
+      "sy": 0
+    }
+  ],
+  "matchIds": [
+    "x-9067-1000019468",
+    "x-9067-1000019469",
+    "a-71-2025-2026-4842620",
+    "x-9067-1000019468",
+    "x-9067-1000019469",
+    "a-71-2025-2026-4842620"
+  ],
+  "bracketCards": 0,
+  "memoria": {
+    "inizio": null,
+    "fine": {
+      "n": 14,
+      "p50": 680,
+      "p95": 718,
+      "tab": "Riepilogo"
+    },
+    "hosts": 1,
+    "nodes": 3638,
+    "black": 0,
+    "checked": 7
+  },
+  "fluiditaSchede": {
+    "t0": {
+      "n": 14,
+      "p50": 532,
+      "p95": 629,
+      "tab": "Squadra"
+    },
+    "t1": {
+      "n": 14,
+      "p50": 743,
+      "p95": 760,
+      "tab": "Giocatori"
+    }
+  },
+  "rosePerRuolo": {
+    "prima": 4379,
+    "dopo": 1431
+  },
+  "giocatoriComp": {
+    "frasePrima": 12294,
+    "senzaScheda": 7042
+  },
+  "passed": 66,
+  "total": 87,
+  "scheletri": {
+    "partita": {
+      "seen": true,
+      "s": {
+        "tab": 216,
+        "spin": false,
+        "carico": false
+      },
+      "r": {
+        "tab": 229,
+        "spin": false,
+        "carico": false
+      }
+    },
+    "partita finita": {
+      "seen": true,
+      "s": {
+        "tab": 229,
+        "spin": false,
+        "carico": false
+      },
+      "r": {
+        "tab": 256,
+        "spin": false,
+        "carico": false
+      }
+    },
+    "squadra": {
+      "seen": true,
+      "s": {
+        "tab": 153,
+        "spin": false,
+        "carico": false
+      },
+      "r": {
+        "tab": 153,
+        "spin": false,
+        "carico": false
+      }
+    }
+  },
+  "eflFrames": {
+    "riepilogoStatistiche": {
+      "n": 14,
+      "p50": 671,
+      "p95": 692,
+      "tab": "Riepilogo"
+    },
+    "formazioniTabellone": {
+      "n": 15,
+      "p50": 602,
+      "p95": 649,
+      "tab": "Tabellone"
+    },
+    "layers": 1
+  },
+  "fluidita": {
+    "lento": {
+      "frames": 97,
+      "p50": 695,
+      "p95": 816,
+      "max": 835,
+      "persi": 4068
+    },
+    "veloce": {
+      "frames": 97,
+      "p50": 691,
+      "p95": 806,
+      "max": 840,
+      "persi": 4047
+    },
+    "nodi": [
+      845,
+      845,
+      845
+    ]
+  }
+}
