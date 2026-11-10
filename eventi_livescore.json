@@ -181,8 +181,8 @@
    "da_fare": 0
   },
   "Copa del Rey 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "Supercopa de España 2025-2026": {
    "partite_con_eventi": 0,
@@ -197,8 +197,8 @@
    "da_fare": 0
   },
   "EFL Trophy 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 4,
+   "da_fare": 4
   },
   "Primera Division 2026": {
    "partite_con_eventi": 0,
@@ -528,6 +528,26 @@
    "partite_con_eventi": 0,
    "da_fare": 0
   },
+  "World Cup Qualification CAF 2023-2025": {
+   "partite_con_eventi": 1,
+   "da_fare": 66
+  },
+  "World Cup Qualification AFC 2023-2025": {
+   "partite_con_eventi": 0,
+   "da_fare": 45
+  },
+  "World Cup Qualification CONCACAF 2024-2025": {
+   "partite_con_eventi": 0,
+   "da_fare": 3
+  },
+  "World Cup Qualification CONMEBOL 2023-2025": {
+   "partite_con_eventi": 0,
+   "da_fare": 0
+  },
+  "World Cup Qualification OFC 2024-2025": {
+   "partite_con_eventi": 0,
+   "da_fare": 0
+  },
   "World Cup Qualification Inter-confederation 2026": {
    "partite_con_eventi": 0,
    "da_fare": 0
@@ -540,6 +560,10 @@
    "partite_con_eventi": 0,
    "da_fare": 0
   },
+  "EURO Qualification 2023": {
+   "partite_con_eventi": 0,
+   "da_fare": 0
+  },
   "Africa Cup of Nations Qualification 2026-2027": {
    "partite_con_eventi": 0,
    "da_fare": 0
@@ -549,6 +573,18 @@
    "da_fare": 0
   },
   "FIFA Intercontinental Cup 2026": {
+   "partite_con_eventi": 0,
+   "da_fare": 0
+  },
+  "UEFA Nations League A Qualification 2024-2025": {
+   "partite_con_eventi": 0,
+   "da_fare": 0
+  },
+  "UEFA Nations League B Qualification 2024-2025": {
+   "partite_con_eventi": 0,
+   "da_fare": 0
+  },
+  "UEFA Nations League C Qualification 2024-2025": {
    "partite_con_eventi": 0,
    "da_fare": 0
   },
@@ -836,6 +872,10 @@
    "partite_con_eventi": 0,
    "da_fare": 0
   },
+  "Kup Srbije 2024-2025": {
+   "partite_con_eventi": 0,
+   "da_fare": 1
+  },
   "Liga Portugal 2 2025-2026": {
    "partite_con_eventi": 0,
    "da_fare": 0
@@ -849,6 +889,10 @@
    "da_fare": 0
   },
   "Cupa României 2025-2026": {
+   "partite_con_eventi": 0,
+   "da_fare": 0
+  },
+  "Supercupa 2024-2025": {
    "partite_con_eventi": 0,
    "da_fare": 0
   },
@@ -1072,6 +1116,14 @@
    "partite_con_eventi": 0,
    "da_fare": 0
   },
+  "World Cup Qualification OFC 2022": {
+   "partite_con_eventi": 0,
+   "da_fare": 0
+  },
+  "World Cup Qualification Inter-confederation 2021-2022": {
+   "partite_con_eventi": 0,
+   "da_fare": 0
+  },
   "Conference League 2025-2026": {
    "partite_con_eventi": 0,
    "da_fare": 0
@@ -1079,6 +1131,18 @@
   "Finalissima 2022": {
    "partite_con_eventi": 0,
    "da_fare": 0
+  },
+  "EURO Qualification 2022-2023": {
+   "partite_con_eventi": 0,
+   "da_fare": 0
+  },
+  "Africa Cup of Nations Qualification 2024-2025": {
+   "partite_con_eventi": 0,
+   "da_fare": 9
+  },
+  "Asian Cup Qualification Playoff 2024": {
+   "partite_con_eventi": 0,
+   "da_fare": 1
   },
   "FIFA Intercontinental Cup 2025": {
    "partite_con_eventi": 0,
@@ -1093,5 +1157,5 @@
    "da_fare": 0
   }
  },
- "partite_in_questo_giro": 0
+ "partite_in_questo_giro": 130
 }
