@@ -8,6 +8,7 @@ import { CALC_KEEP, saveCalcKeep } from '@/data/calcKeep';
 import { Segmented } from '../shared/ui';
 import CalcPlayer from './CalcPlayer';
 import CalcTeam from './CalcTeam';
+import { CALC_IN } from '../shared/calcIn';
 
 const TABS = [{ value: 0, label: 'Giocatore' }, { value: 1, label: 'Squadra' }];
 
@@ -20,7 +21,7 @@ const Skel = ({ C }) => {
 export default function Calcolatore({ C, top, onSearch, openRoute, bottom = 90 }) {
   const [ready, setReady] = useState(false);
   const [err, setErr] = useState(false);
-  const [index, setIndexRaw] = useState(CALC_KEEP.index || 0);
+  const [index, setIndexRaw] = useState(CALC_IN.v ? 0 : CALC_KEEP.index || 0);
   const setIndex = (i) => { CALC_KEEP.index = i; saveCalcKeep(); setIndexRaw(i); };
   useEffect(() => { let live = true; bootShared().then(() => { if (live) setReady(true); }, () => { if (live) setErr(true); }); return () => { live = false; }; }, []);
   return (

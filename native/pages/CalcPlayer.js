@@ -3,6 +3,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { View, Text, Pressable, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { CALC_KEEP, saveCalcKeep } from '@/data/calcKeep';
+import { CALC_IN } from '../shared/calcIn';
 import { PLAYERS, playerById } from '@/data/players';
 import { teamById, teamByName } from '@/data/teams';
 import { allTeamMatches, nextMatchOf, nextMatchVs } from '@/data/extras';
@@ -408,6 +409,19 @@ export default function CalcPlayer({ C, openRoute }) {
   useEffect(() => { saveCalcKeep(); }, [form]);
   const [saved, setSaved] = useState(false);
   useEffect(() => { if (!saved) return undefined; const id = setTimeout(() => setSaved(false), 2600); return () => clearTimeout(id); }, [saved]);
+
+  // arrivo da Migliori Giocatori: giocatore, linea, partita e statistica gia' inseriti (una volta sola)
+  useEffect(() => {
+    const st = CALC_IN.v;
+    if (!st) return;
+    CALC_IN.v = null;
+    const p = playerById(st.playerId);
+    if (!p) return;
+    const hasLine = st.line !== undefined && st.line !== null;
+    const fx = (st.ts && fixtureAt(p.teamName, st.ts)) || nextFixture(p.teamName);
+    const withStat = (f) => (st.stat ? { ...f, stat: st.stat, tipoTiri: st.stat === 'porta' ? 'inPorta' : 'totali', lineType: 'over' } : f);
+    setForm((f) => { const g = withStat(hasLine ? { ...f, line: String(st.line).replace('.', ',') } : f); return fillFrom(g, p, g.tipoTiri, fx); });
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const set = (key, value) => setForm((f) => ({ ...f, [key]: value }));
   const setSeason = (key, patch) => setForm((f) => ({ ...f, season: { ...f.season, [key]: { ...f.season[key], ...patch } } }));

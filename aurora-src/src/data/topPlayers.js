@@ -7,7 +7,7 @@ import { blendTeam, domesticKey, pickLeagueKey, CUPS, DOMESTIC_KEYS, NATIONS_KEY
 import { romeDay } from './util';
 import { calcReliability, fillFrom, hitFromValues, hitRows, initialForm, resultFromFouls } from './calcPlayer';
 import { fmTeamIn, foulKeysFor, foulSeasonOf, loadFouls, playerFoulsOf, teamFoulStats } from './calcFouls';
-import { resolvePid } from './playerIndex';
+import { resolvePid } from './playerPid';
 import { comma } from '@/lib/format';
 import { parseDash } from '@/lib/calc';
 import { isOutOn } from './injuries';
