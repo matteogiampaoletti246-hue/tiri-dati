@@ -11,6 +11,12 @@ export const TeamCrest = ({ team, size = 32, C }) => {
   return <View style={{ width: size, height: size, alignItems: 'center', justifyContent: 'center' }}><Text style={{ color: C.ink2, fontSize: Math.max(10, size * 0.4), fontWeight: '700' }}>{team.initials}</Text></View>;
 };
 
+export const Face = ({ uri, color, size = 44 }) => (
+  <View style={{ width: size, height: size, borderRadius: size / 2, overflow: 'hidden', backgroundColor: color || 'rgba(128,128,128,.25)' }}>
+    {uri ? <Image source={{ uri }} style={{ width: size, height: size }} contentFit="cover" cachePolicy="memory-disk" /> : null}
+  </View>
+);
+
 export const Panel = ({ C, children, style }) => (
   <View style={[{ borderRadius: 22, overflow: 'hidden', backgroundColor: C.card2, borderWidth: 1, borderColor: C.border }, style]}>{children}</View>
 );
@@ -58,12 +64,21 @@ export const NumInput = ({ C, value, onChange, placeholder, style }) => (
 );
 
 // finestra di scelta con ricerca (campionato, squadra, giocatore): scorre solo la lista
-export function PickerModal({ C, open, title, options, onSelect, onClose, searchable, placeholder, top = 0 }) {
+const nrm = (s) => String(s ?? '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[ı]/g, 'i').replace(/[øœ]/g, 'o').replace(/ł/g, 'l').replace(/[đð]/g, 'd').replace(/æ/g, 'ae').replace(/ß/g, 'ss');
+// requireQuery: elenchi enormi (36mila giocatori): niente righe finche' non si scrive, poi al massimo 60 risultati
+export function PickerModal({ C, open, title, options, onSelect, onClose, searchable, placeholder, requireQuery, top = 0 }) {
   const [q, setQ] = useState('');
   const list = useMemo(() => {
-    const t = q.trim().toLowerCase();
-    return t ? options.filter((o) => (o.label + ' ' + (o.sub || '')).toLowerCase().includes(t)) : options;
-  }, [q, options]);
+    const t = nrm(q.trim());
+    if (!t) return requireQuery ? [] : options;
+    const out = [];
+    for (let i = 0; i < options.length && (!requireQuery || out.length < 60); i += 1) {
+      const o = options[i];
+      if (!o._h) o._h = nrm(o.label + ' ' + (o.sub || '') + ' ' + (o.alias || ''));
+      if (o._h.includes(t)) out.push(o);
+    }
+    return out;
+  }, [q, options, requireQuery]);
   return (
     <Modal visible={open} animationType="slide" presentationStyle="pageSheet" onRequestClose={onClose} onDismiss={() => setQ('')}>
       <View style={{ flex: 1, backgroundColor: C.sheet }}>
@@ -81,7 +96,7 @@ export function PickerModal({ C, open, title, options, onSelect, onClose, search
           contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 40 }}
           renderItem={({ item: o }) => (
             <Pressable onPress={() => { setQ(''); onSelect(o); onClose(); }} style={{ flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 8, padding: 12, borderRadius: 16, backgroundColor: o.color ? o.color + '33' : C.card2, borderWidth: 1, borderColor: C.border }}>
-              {o.icon || null}
+              {o.icon || (o.face ? <Face uri={o.face} color={o.color} size={44} /> : null)}
               <View style={{ flex: 1 }}>
                 <Text numberOfLines={1} style={{ color: C.ink, fontSize: 16, fontWeight: '700' }}>{o.label}</Text>
                 {o.sub ? <Text numberOfLines={1} style={{ color: C.ink3, fontSize: 11, marginTop: 2, letterSpacing: 0.6 }}>{o.sub}</Text> : null}

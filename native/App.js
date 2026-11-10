@@ -12,16 +12,18 @@ import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { WebView } from 'react-native-webview';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import META from './meta.json';
+import './shared/shim';
 import GuidelinesPage from './pages/Guidelines';
+import CalcolatorePage from './pages/Calcolatore';
 // pagine gia' native (migrazione a tappe): la rotta si apre senza WebView
-const NATIVE_PAGES = { '/linee-guida': GuidelinesPage };
+const NATIVE_PAGES = { '/linee-guida': GuidelinesPage, '/calcolatore': CalcolatorePage };
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) UIManager.setLayoutAnimationEnabledExperimental(true);
 
 const SITE = 'https://matteogiampaoletti246-hue.github.io/tiri-dati/';
 const W = Dimensions.get('window').width;
-const DARK = { dark: true, bg: '#05070D', ink: '#F1F5FB', ink2: '#A9B6CC', ink3: '#6D7A91', hair: 'rgba(255,255,255,.10)', border: 'rgba(255,255,255,.12)', accent: '#4DA8FF', live: '#FF6464', liveLo: '#C93B3B', liveHi: '#FF5C8A', liveWarm: '#FF9A4D', chip: 'rgba(255,255,255,.08)', wash: 'rgba(255,255,255,0.03)', card1: 'rgba(255,255,255,0.10)', card2: 'rgba(255,255,255,0.035)', sheet: '#0E1626', scrim: 'rgba(0,0,0,.5)', dockBg: 'rgba(14,22,38,0.62)', tile1: 'rgba(255,255,255,0.08)', accTint: 'rgba(77,168,255,0.16)', accRing: 'rgba(77,168,255,0.6)', skBase: 'rgba(255,255,255,0.075)', skHi: 'rgba(255,255,255,0.10)', skHi0: 'rgba(255,255,255,0)', lg1: 'rgba(255,255,255,0.20)', lg2: 'rgba(255,255,255,0.05)', lgBorder: 'rgba(255,255,255,0.24)', lgHi: 'rgba(255,255,255,0.38)', beam0: 'rgba(77,168,255,0)', beam1: 'rgba(77,168,255,0.11)', beam2: 'rgba(77,168,255,0.065)', thumb: 'rgba(255,255,255,0.12)', thumbBd: 'rgba(255,255,255,0.18)', pillHi: 'rgba(255,255,255,0.34)', pillMid: 'rgba(255,255,255,0)', pillLo: 'rgba(0,0,0,0.16)' };
-const LIGHT = { dark: false, bg: '#F3F6FB', ink: '#0F172A', ink2: '#475569', ink3: '#8592A6', hair: 'rgba(15,23,42,.08)', border: 'rgba(15,23,42,.10)', accent: '#1F6BEF', live: '#E5484D', liveLo: '#B5262B', liveHi: '#F0457A', liveWarm: '#F08A3C', chip: 'rgba(15,23,42,.06)', wash: 'rgba(255,255,255,0.85)', card1: 'rgba(255,255,255,0.95)', card2: 'rgba(255,255,255,0.8)', sheet: '#FFFFFF', scrim: 'rgba(15,23,42,.28)', dockBg: 'rgba(255,255,255,0.6)', tile1: 'rgba(255,255,255,0.9)', accTint: 'rgba(31,107,239,0.12)', accRing: 'rgba(31,107,239,0.55)', skBase: 'rgba(15,23,42,0.085)', skHi: 'rgba(255,255,255,0.8)', skHi0: 'rgba(255,255,255,0)', lg1: 'rgba(255,255,255,0.95)', lg2: 'rgba(255,255,255,0.62)', lgBorder: 'rgba(15,23,42,0.10)', lgHi: '#FFFFFF', beam0: 'rgba(31,107,239,0)', beam1: 'rgba(31,107,239,0.07)', beam2: 'rgba(31,107,239,0.045)', thumb: 'rgba(15,23,42,0.08)', thumbBd: 'rgba(15,23,42,0.12)', pillHi: 'rgba(255,255,255,0.40)', pillMid: 'rgba(255,255,255,0)', pillLo: 'rgba(0,0,0,0.12)' };
+const DARK = { dark: true, gold: '#F2C14E', bg: '#05070D', ink: '#F1F5FB', ink2: '#A9B6CC', ink3: '#6D7A91', hair: 'rgba(255,255,255,.10)', border: 'rgba(255,255,255,.12)', accent: '#4DA8FF', live: '#FF6464', liveLo: '#C93B3B', liveHi: '#FF5C8A', liveWarm: '#FF9A4D', chip: 'rgba(255,255,255,.08)', wash: 'rgba(255,255,255,0.03)', card1: 'rgba(255,255,255,0.10)', card2: 'rgba(255,255,255,0.035)', sheet: '#0E1626', scrim: 'rgba(0,0,0,.5)', dockBg: 'rgba(14,22,38,0.62)', tile1: 'rgba(255,255,255,0.08)', accTint: 'rgba(77,168,255,0.16)', accRing: 'rgba(77,168,255,0.6)', skBase: 'rgba(255,255,255,0.075)', skHi: 'rgba(255,255,255,0.10)', skHi0: 'rgba(255,255,255,0)', lg1: 'rgba(255,255,255,0.20)', lg2: 'rgba(255,255,255,0.05)', lgBorder: 'rgba(255,255,255,0.24)', lgHi: 'rgba(255,255,255,0.38)', beam0: 'rgba(77,168,255,0)', beam1: 'rgba(77,168,255,0.11)', beam2: 'rgba(77,168,255,0.065)', thumb: 'rgba(255,255,255,0.12)', thumbBd: 'rgba(255,255,255,0.18)', pillHi: 'rgba(255,255,255,0.34)', pillMid: 'rgba(255,255,255,0)', pillLo: 'rgba(0,0,0,0.16)' };
+const LIGHT = { dark: false, gold: '#C58A00', bg: '#F3F6FB', ink: '#0F172A', ink2: '#475569', ink3: '#8592A6', hair: 'rgba(15,23,42,.08)', border: 'rgba(15,23,42,.10)', accent: '#1F6BEF', live: '#E5484D', liveLo: '#B5262B', liveHi: '#F0457A', liveWarm: '#F08A3C', chip: 'rgba(15,23,42,.06)', wash: 'rgba(255,255,255,0.85)', card1: 'rgba(255,255,255,0.95)', card2: 'rgba(255,255,255,0.8)', sheet: '#FFFFFF', scrim: 'rgba(15,23,42,.28)', dockBg: 'rgba(255,255,255,0.6)', tile1: 'rgba(255,255,255,0.9)', accTint: 'rgba(31,107,239,0.12)', accRing: 'rgba(31,107,239,0.55)', skBase: 'rgba(15,23,42,0.085)', skHi: 'rgba(255,255,255,0.8)', skHi0: 'rgba(255,255,255,0)', lg1: 'rgba(255,255,255,0.95)', lg2: 'rgba(255,255,255,0.62)', lgBorder: 'rgba(15,23,42,0.10)', lgHi: '#FFFFFF', beam0: 'rgba(31,107,239,0)', beam1: 'rgba(31,107,239,0.07)', beam2: 'rgba(31,107,239,0.045)', thumb: 'rgba(15,23,42,0.08)', thumbBd: 'rgba(15,23,42,0.12)', pillHi: 'rgba(255,255,255,0.40)', pillMid: 'rgba(255,255,255,0)', pillLo: 'rgba(0,0,0,0.12)' };
 const WORKER = 'https://scalperlab-live.matteo-giampaoletti04.workers.dev';
 const NAMES = META.names || {};
 const nm = (id, n) => NAMES[String(id)] || n;
@@ -1369,7 +1371,7 @@ function Screen({ onTheme, onReset }) {
   }, [onReset, recover, ov]);
   const openRoute = useCallback((route) => {
     const path0 = route.split('?')[0];
-    if (NATIVE_PAGES[path0]) { openRef.current = true; setNatPage(path0); setWebOpen(true); setBarOn(false); setDepth(0); ov.value = withTiming(0, { duration: 260, easing: Easing.out(Easing.cubic) }); return; }
+    if (NATIVE_PAGES[path0]) { openRef.current = true; setNatPage(path0); setWebOpen(true); setBarOn(isTabRoute(path0)); if (isTabRoute(path0)) setTab(tabOf(path0)); setDepth(0); ov.value = withTiming(0, { duration: 260, easing: Easing.out(Easing.cubic) }); return; }
     setNatPage(null);
     // da una scheda del dock a un'altra (pagina gia' aperta e pronta): la pagina web scorre di lato da sola, niente scheletro sopra
     const slide = openRef.current && readyRef.current && !!webRef.current && isTabRoute(webPath.current) && isTabRoute(route) && webPath.current !== path0;
@@ -1511,7 +1513,7 @@ function Screen({ onTheme, onReset }) {
             {!ready || busy || parked ? <View pointerEvents="auto" style={[StyleSheet.absoluteFill, { backgroundColor: C.bg }]}>{parked && ready ? null : <SkWeb route={awaitRoute.current || lastRoute.current} />}</View> : null}
           </View>
         </View>
-        {natPage ? <View style={[StyleSheet.absoluteFill, { zIndex: 5 }]}>{React.createElement(NATIVE_PAGES[natPage], { C, top: insets.top, onBack: closeWeb })}</View> : null}
+        {natPage ? <View style={[StyleSheet.absoluteFill, { zIndex: 5 }]}>{React.createElement(NATIVE_PAGES[natPage], { C, top: insets.top, onBack: closeWeb, bottom: insets.bottom + 90, openRoute, onSearch: () => setSrch(true) })}</View> : null}
         <GestureDetector gesture={edge}><View pointerEvents={depth > 0 ? 'none' : 'auto'} style={[s.edge, { width: EDGE_W, top: insets.top + 98 }]} /></GestureDetector>
       </Animated.View>
       {!webOpen || barOn ? <TabBar onOpen={openRoute} onHome={closeWeb} onTop={onTop} active={webOpen ? tab : null} bottom={insets.bottom} live={liveN} /> : null}

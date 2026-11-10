@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths: ['native/**', 'aurora-src/src/data/**', 'aurora-src/src/lib/**']
+    paths: ['native/**', 'aurora-src/src/data/**', 'aurora-src/src/lib/**', 'aurora-src/src/components/calc/calcComp.js']
 permissions:
   contents: write
 concurrency:
@@ -35,7 +35,7 @@ jobs:
           cp -r native/pages app/pages
           cp -r native/shared app/shared
           cp native/metro.config.js app/metro.config.js
-          mkdir -p app/src && cp -r aurora-src/src/data aurora-src/src/lib app/src/
+          mkdir -p app/src/components/calc && cp -r aurora-src/src/data aurora-src/src/lib app/src/ && cp aurora-src/src/components/calc/calcComp.js app/src/components/calc/
           cd app
           npm install --no-audit --no-fund
           npx expo install expo-updates expo-image @react-native-async-storage/async-storage expo-linear-gradient react-native-webview react-native-safe-area-context @expo/vector-icons react-native-gesture-handler react-native-reanimated expo-blur react-native-svg

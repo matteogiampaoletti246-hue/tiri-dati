@@ -1,5 +1,7 @@
 // Campionati. I colori dei banner sono scelti qui; i loghi arrivano da data.json.
 // Per aggiungere un campionato alla Home basta una riga in LEAGUES.
+// Vite da' il percorso base; nell'app nativa import.meta.env non esiste (si usa '/')
+const BASE_URL = (() => { try { return import.meta.env.BASE_URL || '/'; } catch (e) { return '/'; } })();
 import { RAW } from './load';
 
 
@@ -147,8 +149,8 @@ export function buildLeagues() {
   // Europa League: coppa disegnata, bianca di notte e nera di giorno
   const el = LEAGUES.find((l) => l.id === 'europa-league');
   if (el) {
-    el.logo = `${import.meta.env.BASE_URL}el-light.png`;
-    el.logoDark = `${import.meta.env.BASE_URL}el-night.png`;
+    el.logo = `${BASE_URL}el-light.png`;
+    el.logoDark = `${BASE_URL}el-night.png`;
   }
   CALC_LEAGUES.length = 0;
   Object.keys(L)

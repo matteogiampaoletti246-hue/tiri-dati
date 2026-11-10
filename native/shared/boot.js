@@ -1,12 +1,16 @@
-// Avvio dei dati condivisi per le pagine native (una sola volta, a richiesta): stessi file e stesse regole del sito.
+// Avvio dei dati condivisi col sito (stessa sequenza di data/index.js, senza live e senza feed della Home).
 import './shim';
 import { loadRaw } from '@/data/load';
 import { buildLeagues } from '@/data/leagues';
 import { buildTeams } from '@/data/teams';
 import { buildCalcData } from '@/data/calcData';
+import { buildReferees } from '@/data/referees';
+import { buildMatches } from '@/data/matches';
+import { buildPlayers } from '@/data/players';
+import { resetStandingsCache } from '@/data/standings';
 
 let p = null;
 export const bootShared = () => {
-  if (!p) p = loadRaw().then(() => { buildLeagues(); buildTeams(); buildCalcData(); return true; }).catch((e) => { p = null; throw e; });
+  if (!p) p = loadRaw().then(() => { buildLeagues(); buildTeams(); buildCalcData(); buildReferees(); buildMatches(); buildPlayers(); resetStandingsCache(); return true; }).catch((e) => { p = null; throw e; });
   return p;
 };
