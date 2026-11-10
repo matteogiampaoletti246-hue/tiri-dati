@@ -4,7 +4,7 @@ import React, { createContext, memo, useCallback, useContext, useEffect, useMemo
 import { View, Text, FlatList, Pressable, ScrollView, StatusBar, Dimensions, StyleSheet, Animated as RNAnimated, Easing as RNEasing, AccessibilityInfo, LayoutAnimation, Platform, UIManager, AppState, Modal, TextInput, Keyboard, BackHandler, useWindowDimensions } from 'react-native';
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Image } from 'expo-image';
-import Animated, { useSharedValue, useAnimatedStyle, useAnimatedReaction, useAnimatedScrollHandler, withTiming, withDelay, withRepeat, withSequence, cancelAnimation, runOnJS, Easing, interpolateColor, Keyframe, LinearTransition, FadeIn } from 'react-native-reanimated';
+import Animated, { makeMutable, interpolate, useSharedValue, useAnimatedStyle, useAnimatedReaction, useAnimatedScrollHandler, withTiming, withDelay, withRepeat, withSequence, cancelAnimation, runOnJS, Easing, interpolateColor, Keyframe, LinearTransition, FadeIn } from 'react-native-reanimated';
 import { BlurView } from 'expo-blur';
 import { SafeAreaProvider, SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -408,22 +408,97 @@ const GlowBar = ({ children, style, radius = 18 }) => {
   useEffect(() => { AccessibilityInfo.isReduceMotionEnabled().then((red) => { if (!red) r.value = withRepeat(withTiming(360, { duration: 3200, easing: Easing.linear }), -1, false); }).catch(() => {}); return () => cancelAnimation(r); }, []); // eslint-disable-line react-hooks/exhaustive-deps
   const st = useAnimatedStyle(() => ({ transform: [{ rotate: `${r.value}deg` }] }));
   return (
-    <View style={[{ borderRadius: radius, padding: 1.5, overflow: 'hidden', backgroundColor: C.border, shadowColor: C.accent, shadowOpacity: 0.35, shadowRadius: 10, shadowOffset: { width: 0, height: 4 } }, style]}>
+    <Animated.View style={[{ borderRadius: radius, padding: 1.5, overflow: 'hidden', backgroundColor: C.border, shadowColor: C.accent, shadowOpacity: 0.35, shadowRadius: 10, shadowOffset: { width: 0, height: 4 } }, style]}>
       <Animated.View pointerEvents="none" style={[{ position: 'absolute', width: 520, height: 520, left: '50%', top: '50%', marginLeft: -260, marginTop: -260 }, st]}>
         <LinearGradient colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0)', C.accent, '#7B6CFF', 'rgba(0,0,0,0)']} locations={[0, 0.42, 0.5, 0.56, 0.62]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ flex: 1 }} />
       </Animated.View>
       {children}
-    </View>
+    </Animated.View>
   );
 };
+
+// Avvio (concept C "Dock", 10/11/2026): il diamante compare al centro (rimbalzo, alone, scintilla), vola nel posto del logo
+// dell'intestazione, da dietro esce la scritta ScalperLab mentre la ricerca resta nascosta, poi tutto si dissolve sul logo vero.
+const brandRef = React.createRef();
+const LOGO_OP = makeMutable(0);
+const SEARCH_OP = makeMutable(0);
+let LAUNCHED = false;
+const GEM = 116, FLY_MS = 750, MIN_POP = 1450;
+const SPARK_URI = 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 0L14.4 9.6L24 12L14.4 14.4L12 24L9.6 14.4L0 12L9.6 9.6Z" fill="#BAE6FD"/></svg>');
+const LaunchOverlay = memo(() => {
+  const { C, s } = useT();
+  const { width: W, height: H } = useWindowDimensions();
+  const [gone, setGone] = useState(LAUNCHED);
+  const [dock, setDock] = useState(null);
+  const pop = useSharedValue(0), fly = useSharedValue(0), txt = useSharedValue(0), fade = useSharedValue(1), spark = useSharedValue(0);
+  const to = useSharedValue({ x: 0, y: 0, s: 1 });
+  const cx = W / 2, cy = H / 2 - 12;
+  useEffect(() => {
+    if (gone) return undefined;
+    let over = false, started = false, poll = null;
+    const ts = [];
+    const finish = () => { if (over) return; over = true; LAUNCHED = true; LOGO_OP.value = 1; SEARCH_OP.value = 1; setGone(true); };
+    pop.value = withTiming(1, { duration: 850, easing: Easing.bezier(0.34, 1.2, 0.64, 1) });
+    spark.value = withDelay(900, withTiming(1, { duration: 650, easing: OUT_EASE }));
+    const t0 = Date.now();
+    const go = (x, y, w, h) => {
+      started = true;
+      setDock({ x, y, w, h });
+      to.value = { x: x + w / 2 - cx, y: y + h / 2 - cy, s: w / GEM };
+      fly.value = withTiming(1, { duration: FLY_MS, easing: Easing.bezier(0.7, 0, 0.2, 1) });
+      ts.push(setTimeout(() => { txt.value = withTiming(1, { duration: 650, easing: OUT_EASE }); }, FLY_MS - 150));
+      ts.push(setTimeout(() => { LOGO_OP.value = withTiming(1, { duration: 200 }); }, FLY_MS));
+      ts.push(setTimeout(() => { SEARCH_OP.value = withTiming(1, { duration: 450 }); fade.value = withTiming(0, { duration: 400 }); }, FLY_MS - 150 + 1250));
+      ts.push(setTimeout(finish, FLY_MS - 150 + 1250 + 480));
+    };
+    // dopo il tempo minimo e quando l'intestazione esiste (dati pronti) il diamante vola nel posto del suo logo
+    poll = setInterval(() => {
+      if (started || over) return;
+      if (Date.now() - t0 > 9000) { clearInterval(poll); finish(); return; }
+      if (Date.now() - t0 < MIN_POP) return;
+      const r = brandRef.current;
+      if (r && r.measureInWindow) r.measureInWindow((x, y, w, h) => { if (!started && !over && w > 0) { clearInterval(poll); go(x, y, w, h); } });
+    }, 120);
+    return () => { clearInterval(poll); ts.forEach(clearTimeout); };
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  const rootSt = useAnimatedStyle(() => ({ opacity: fade.value }));
+  const bgSt = useAnimatedStyle(() => ({ opacity: 1 - Math.min(1, fly.value * 1.8) }));
+  const glowSt = useAnimatedStyle(() => ({ opacity: Math.min(1, pop.value * 3) * (1 - Math.min(1, fly.value * 2)), transform: [{ scale: 0.8 + 0.25 * pop.value }] }));
+  const gemSt = useAnimatedStyle(() => {
+    const k = to.value;
+    return { opacity: Math.min(1, pop.value * 4), transform: [{ translateX: k.x * fly.value }, { translateY: k.y * fly.value }, { scale: interpolate(pop.value, [0, 0.6, 1], [0.3, 1.1, 1]) * (1 + (k.s - 1) * fly.value) }] };
+  });
+  const sparkSt = useAnimatedStyle(() => ({ opacity: Math.min(1, spark.value * 5) * (1 - Math.min(1, fly.value * 2)), transform: [{ scale: interpolate(spark.value, [0, 0.65, 1], [0, 1.35, 1]) }, { rotate: `${interpolate(spark.value, [0, 0.65, 1], [-120, 15, 0])}deg` }] }));
+  const txtSt = useAnimatedStyle(() => ({ opacity: txt.value, transform: [{ translateX: (1 - txt.value) * -150 }] }));
+  if (gone) return null;
+  return (
+    <Animated.View pointerEvents="none" style={[StyleSheet.absoluteFill, { zIndex: 999, elevation: 999 }, rootSt]}>
+      <Animated.View style={[StyleSheet.absoluteFill, { backgroundColor: C.bg }, bgSt]} />
+      <Animated.View style={[{ position: 'absolute', left: cx - 150, top: cy - 150, width: 300, height: 300, borderRadius: 150, backgroundColor: 'rgba(37,99,235,0.16)', shadowColor: '#22D3EE', shadowOpacity: 0.5, shadowRadius: 60 }, glowSt]} />
+      <Animated.View style={[{ position: 'absolute', left: cx - GEM / 2, top: cy - GEM / 2, width: GEM, height: GEM }, gemSt]}>
+        <Image source={{ uri: gemUri(C.bg) }} style={{ width: GEM, height: GEM }} contentFit="contain" />
+        <Animated.View style={[{ position: 'absolute', left: GEM * 0.8, top: -GEM * 0.04, width: 22, height: 22 }, sparkSt]}>
+          <Image source={{ uri: SPARK_URI }} style={{ width: 22, height: 22 }} contentFit="contain" />
+        </Animated.View>
+      </Animated.View>
+      {dock ? (
+        <View style={{ position: 'absolute', left: dock.x + dock.w + 4, top: dock.y, height: dock.h, width: 150, overflow: 'hidden', justifyContent: 'center' }}>
+          <Animated.Text numberOfLines={1} style={[s.mBrand, { fontSize: 22, letterSpacing: -0.9, paddingLeft: 4 }, txtSt]}>Scalper<Text style={{ color: C.accent }}>Lab</Text></Animated.Text>
+        </View>
+      ) : null}
+    </Animated.View>
+  );
+});
 
 // Riga in alto: logo, barra di ricerca (tutto lo spazio che resta), Calendario, menu. Una riga sola anche su iPhone stretti.
 function Header({ onSearch, onMenu, onCal }) {
   const { C, s } = useT();
+  const logoSt = useAnimatedStyle(() => ({ opacity: LOGO_OP.value }));
+  const searchSt = useAnimatedStyle(() => ({ opacity: SEARCH_OP.value }));
   return (
     <View style={s.header}>
-      <Logo size={30} />
-      <GlowBar style={{ flex: 1, minWidth: 0 }}>
+      <View ref={brandRef} collapsable={false}><Animated.View style={logoSt}><Logo size={30} /></Animated.View></View>
+      <GlowBar style={[{ flex: 1, minWidth: 0 }, searchSt]}>
         <Pressable onPress={onSearch} style={[s.sBar, { borderWidth: 0, backgroundColor: C.dark ? '#0A1020' : 'rgba(255,255,255,0.96)', height: 33 }]} accessibilityLabel="Cerca">
           <Ionicons name="search" size={16} color={C.accent} />
           <Text numberOfLines={1} style={s.sBarTx}>Cerca giocatori, squadre…</Text>
@@ -1406,7 +1481,7 @@ export default function App() {
   useEffect(() => { AsyncStorage.getItem('sl-theme').then((v) => { if (v === 'light' || v === 'dark') setTheme(v); }).catch(() => {}); }, []);
   const onTheme = useCallback((t) => { setTheme(t); AsyncStorage.setItem('sl-theme', t).catch(() => {}); }, []);
   const T = THEMES[theme];
-  return <GestureHandlerRootView style={{ flex: 1, backgroundColor: T.C.bg }}><TCtx.Provider value={T}><SafeAreaProvider><Screen key={gen} onTheme={onTheme} onReset={onReset} /></SafeAreaProvider></TCtx.Provider></GestureHandlerRootView>;
+  return <GestureHandlerRootView style={{ flex: 1, backgroundColor: T.C.bg }}><TCtx.Provider value={T}><SafeAreaProvider><Screen key={gen} onTheme={onTheme} onReset={onReset} /></SafeAreaProvider><LaunchOverlay /></TCtx.Provider></GestureHandlerRootView>;
 }
 
 const makeStyles = (C) => StyleSheet.create({
