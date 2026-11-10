@@ -49,7 +49,7 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 ## Home nativa: finestre con molte partite
 - Tendine di paesi e campionati (`Collapse` in `native/App.js`): tendina classica con la `LayoutAnimation` nativa (`tendAnim()` chiamata subito prima di `toggle()`), 260 ms, in apertura e in chiusura. Regola fissa dal 10/11/2026.
 - Mai rimettere altezze misurate e animate da noi (Animated di React Native o Reanimated su `height`/`maxHeight`): in apertura la tendina restava ferma e compariva gia' aperta, due volte (9 e 10/11/2026, video dell'utente).
-- Le prime 8 righe si montano subito, le altre solo ad animazione finita (`useChunk`, primo pezzo dopo `TEND_MS + 80`): un pezzo montato durante l'animazione la interrompe.
+- Apertura in due tempi: le prime 8 righe si creano di nascosto in un contenitore alto zero, poi a righe pronte (`onLayout` + 2 fotogrammi) parte `tendAnim()` e si toglie il vincolo. Mai creare le righe nello stesso passaggio dell'animazione: con piu' di 4 partite ne saltava l'inizio (10/11/2026). Le righe oltre le prime 8 arrivano ad animazione finita (`useChunk`). In chiusura `tendAnim()` la chiama chi tocca e la tendina si smonta subito.
 - La carta (`s.card`) deve restare `overflow: 'hidden'`: ritaglia le righe mentre cresce.
 - Col filtro Live (`forceOpen`) le finestre sono aperte fisse: nessuna animazione.
 
