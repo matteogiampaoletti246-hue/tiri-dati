@@ -15,9 +15,9 @@ const launched = () => {
 // Intestazione della Home in una riga sola: logo, barra di ricerca (tutto lo spazio che resta), Calendario, menu.
 // Il logo arriva qui dall'animazione di avvio.
 export default function HomeHeader({ onSearch, calendar }) {
-  const [ready, setReady] = useState(launched);
+  const [ready, setReady] = useState(() => launched() || !!window.__slDone);
   // durante l'avvio la barra di ricerca resta nascosta: la scritta ScalperLab esce nel suo posto e poi la barra riappare
-  const [intro, setIntro] = useState(() => !launched());
+  const [intro, setIntro] = useState(() => !(launched() || window.__slEnd));
 
   useEffect(() => {
     const onDone = () => setReady(true);

@@ -55,11 +55,17 @@ export default function LaunchScreen({ ready = true }) {
     if (!visible || phase < 1) return undefined;
     const ts = [];
     if (phase === 1) {
-      ts.push(setTimeout(() => window.dispatchEvent(new Event('sl-launch-done')), FLY));
+      ts.push(
+        setTimeout(() => {
+          window.__slDone = true; // l'intestazione può nascere dopo l'evento: legge anche questo
+          window.dispatchEvent(new Event('sl-launch-done'));
+        }, FLY)
+      );
       ts.push(setTimeout(() => setPhase(2), FLY - 150));
     }
     if (phase === 2) ts.push(setTimeout(() => setPhase(3), 1250));
     if (phase === 3) {
+      window.__slEnd = true;
       window.dispatchEvent(new Event('sl-launch-end'));
       ts.push(
         setTimeout(() => {
