@@ -12,11 +12,68 @@ const BY_NAME = {};
 export const teamById = (id) => INDEX[id] || null;
 export const teamsOf = (leagueId) => TEAMS_BY_LEAGUE[leagueId] || [];
 export const teamByName = (name) => BY_NAME[name] || null;
+// Indice per teamByFm: id FotMob -> posizione della PRIMA squadra in TEAMS con quel fmId, e con quello stemma (teamlogo/<id>.png).
+// Stesso risultato della ricerca su tutto l'elenco (aprendo una partita si cercavano centinaia di squadre tra migliaia: secondi di lavoro).
+// TEAMS cresce solo in coda (ensureTeam): le squadre nuove si aggiungono all'indice alla ricerca dopo; fmId e stemma di una squadra gia'
+// presente si cambiano solo con setTeamFm / setTeamCrest, che tengono l'indice allineato.
+let FMX = null; // { n: squadre indicizzate, fm: Map, cr: Map, pos: Map squadra -> posizione }
+const isLine = (ch) => ch === '\n' || ch === '\r' || ch === ' ' || ch === ' ';
+// tutti gli id numerici k per cui /teamlogo\/k\.png/ trova lo stemma c (il punto della RegExp vale qualunque carattere tranne a capo)
+const crestKeys = (c, out) => {
+  for (let p = c.indexOf('teamlogo/'); p !== -1; p = c.indexOf('teamlogo/', p + 1)) {
+    const s0 = p + 9;
+    let j = s0;
+    while (j < c.length && c.charCodeAt(j) >= 48 && c.charCodeAt(j) <= 57) j += 1;
+    for (let q = s0 + 1; q <= j && q < c.length; q += 1) if (!isLine(c[q]) && c.startsWith('png', q + 1)) out.push(c.slice(s0, q));
+  }
+  return out;
+};
+const fmKey = (t) => (t.fmId ? String(t.fmId) : '');
+const putMin = (map, k, i) => { const o = map.get(k); if (o === undefined || o > i) map.set(k, i); };
+const indexTeams = () => {
+  if (!FMX) FMX = { n: 0, fm: new Map(), cr: new Map(), pos: new Map() };
+  for (let i = FMX.n; i < TEAMS.length; i += 1) {
+    const t = TEAMS[i];
+    FMX.pos.set(t, i);
+    const k = fmKey(t);
+    if (k) putMin(FMX.fm, k, i);
+    if (t.crest) crestKeys(String(t.crest), []).forEach((x) => putMin(FMX.cr, x, i));
+  }
+  FMX.n = TEAMS.length;
+};
+// cambio dell'id FotMob di una squadra gia' creata (al posto di `t.fmId = v`)
+export const setTeamFm = (t, v) => {
+  const old = fmKey(t);
+  t.fmId = v;
+  const k = fmKey(t);
+  const i = FMX ? FMX.pos.get(t) : undefined;
+  if (i === undefined || k === old) return; // non ancora indicizzata (entrera' con il valore nuovo) o id uguale
+  if (old && FMX.fm.get(old) === i) { FMX = null; return; } // era la prima con il vecchio id: si ricostruisce (raro)
+  if (k) putMin(FMX.fm, k, i);
+};
+// stemma di una squadra gia' creata (al posto di `t.crest = c`)
+export const setTeamCrest = (t, c) => {
+  const old = t.crest;
+  t.crest = c;
+  const i = FMX ? FMX.pos.get(t) : undefined;
+  if (i === undefined) return;
+  if (old) { FMX = null; return; }
+  if (c) crestKeys(String(c), []).forEach((x) => putMin(FMX.cr, x, i));
+};
 // squadra dall'id FotMob (quello noto o quello dello stemma teamlogo/<id>.png): l'abbinamento piu' sicuro tra le fonti
 export const teamByFm = (fid) => {
   if (!fid) return null;
   const k = String(fid);
-  return TEAMS.find((t) => String(t.fmId || '') === k) || TEAMS.find((t) => new RegExp(`teamlogo/${k}\\.png`).test(String(t.crest || ''))) || null;
+  if (/^\d+$/.test(k)) {
+    indexTeams();
+    const i = FMX.fm.get(k);
+    if (i !== undefined) return TEAMS[i];
+    const j = FMX.cr.get(k);
+    return j !== undefined ? TEAMS[j] : null;
+  }
+  // id non numerico (mai visto nei dati): ricerca completa come sempre
+  const re = new RegExp(`teamlogo/${k}\\.png`);
+  return TEAMS.find((t) => String(t.fmId || '') === k) || TEAMS.find((t) => re.test(String(t.crest || ''))) || null;
 };
 export const teamIdOf = (name) => slug(name);
 
@@ -78,7 +135,7 @@ export function ensureTeam(name, leagueId, crest, fmId, uid) {
     if (!BY_NAME[name]) BY_NAME[name] = t;
     TEAMS.push(t);
   } else {
-    if (crest && !t.crest) t.crest = crest;
+    if (crest && !t.crest) setTeamCrest(t, crest);
     if (leagueId && !t.leagueId) t.leagueId = leagueId;
     // squadra creata prima di conoscere lo stemma: se ha ancora il blu neutro prende il colore dello stemma
     if (!t.fixedCol && t.colors && t.colors[0] === '#2C3E66') {

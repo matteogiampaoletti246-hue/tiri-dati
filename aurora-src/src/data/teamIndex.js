@@ -1,7 +1,7 @@
 // Indice squadre (tidx/<id%100>.json, squadre_indice.py): per ogni id FotMob tutte le competizioni e stagioni giocate dal 2010.
 import { BASE } from './load';
 import { FM_ID, LID_BY_FM, archIndex, teamLogo } from './archive';
-import { ensureTeam, teamByFm } from './teams';
+import { ensureTeam, teamByFm, setTeamFm } from './teams';
 import { leagueById } from './leagues';
 import { isWomenComp, isWomenName, womenName } from './teamMatch';
 
@@ -30,7 +30,7 @@ export const teamFromIndex = async (fid) => {
   // squadra che gioca solo competizioni femminili: stesso nome delle schede ("Barcelona F"), anche con un indice ancora vecchio
   const women = comps.length > 0 && comps.every(([fm]) => isWomenComp(fm, idx && idx[String(fm)] && idx[String(fm)].n));
   const t = ensureTeam(women || isWomenName(name) ? womenName(name) : name, best ? LID_BY_FM[best[0]] : null, teamLogo(fid), String(fid), `fm-${fid}`);
-  if (t && !t.fmId) t.fmId = String(fid);
+  if (t && !t.fmId) setTeamFm(t, String(fid));
   return t;
 };
 

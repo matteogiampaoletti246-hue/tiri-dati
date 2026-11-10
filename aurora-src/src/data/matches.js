@@ -2,7 +2,7 @@
 // calendario squadra da teams.json. Il dettaglio (eventi, statistiche, tiri, formazioni)
 // si scarica solo quando si apre la partita.
 import { RAW, loadDetail } from './load';
-import { ensureTeam, teamById, teamByName, TEAMS } from './teams';
+import { ensureTeam, teamById, teamByName, TEAMS, setTeamFm, setTeamCrest } from './teams';
 import { findAppTeam } from './teamMatch';
 import { LEAGUES, leagueById, CUP_IDS } from './leagues';
 import { romeDay, romeTime, slug } from './util';
@@ -176,11 +176,11 @@ export function buildMatches() {
       if (!hit) hit = findAppTeam(name, TEAMS, sameCountry);
       // squadre delle competizioni dell'archivio: id fm-<id FotMob> (la scheda si ricostruisce anche aprendo il link da zero)
       const t = hit || ensureTeam(name, lg, crest, fmId, uidFm && fmId ? `fm-${fmId}` : byNorm[nn(name)] ? `${slug(name)}-${fmId}` : undefined);
-      if (t && !t.crest) t.crest = crest;
+      if (t && !t.crest) setTeamCrest(t, crest);
       // una squadra che compare prima in una coppa prende come campionato quello nazionale
       if (t && !hit && CUP_IDS.has(t.leagueId) && !CUP_IDS.has(lg)) t.leagueId = lg;
       if (t && CUP_IDS.has(t.leagueId) && !CUP_IDS.has(lg) && hit) t.leagueId = lg;
-      if (t && fmId) { byFm[fmId] = t; if (!t.fmId) t.fmId = fmId; }
+      if (t && fmId) { byFm[fmId] = t; if (!t.fmId) setTeamFm(t, fmId); }
       return t;
     };
     extraTeam = team;

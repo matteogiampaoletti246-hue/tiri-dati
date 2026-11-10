@@ -6,7 +6,7 @@ import { isPureCup } from './bracket';
 import { mapShots } from './fotmob';
 import { teamHistory, teamFmId } from './teamIndex';
 import { MATCH_BY_ID } from './matches';
-import { ensureTeam, teamById, teamByFm, TEAMS } from './teams';
+import { ensureTeam, teamById, teamByFm, TEAMS, setTeamFm } from './teams';
 import { findAppTeam, acr, norm as tnorm } from './teamMatch';
 import { playersByTeam } from './players';
 import { leagueById, LEAGUES, CUP_IDS } from './leagues';
@@ -39,6 +39,9 @@ export async function leagueForFm(fm) {
 function teamsOf(season, fm, sk, leagueId) {
   const map = {};
   const cup = !leagueId || /champions|europa|conference/.test(leagueId);
+  // squadre con giocatori del campionato (o di tutti, per le coppe): uguali per tutta la stagione (le squadre create qui sotto non hanno giocatori),
+  // quindi si calcolano una volta sola al primo bisogno e non per ogni squadra (era un giro su tutte le squadre dell'app a ogni nome)
+  let pool0 = null;
   Object.entries(season.teams || {}).forEach(([tid, name]) => {
     const uid = `fm-${tid}`;
     let t = teamById(uid);
@@ -50,11 +53,12 @@ function teamsOf(season, fm, sk, leagueId) {
       let real = byFm && !/^fm-/.test(byFm.id) ? byFm : null;
       // nomi corti di FotMob ("PSG"): sigla/nome contenuto tra le squadre con giocatori (coppe: tutte; campionato: solo quel campionato), solo se e' una sola
       if (!real) {
-        const pool = TEAMS.filter((x) => x.leagueId && !CUP_IDS.has(x.leagueId) && (cup || x.leagueId === leagueId) && playersByTeam(x.id).length);
+        if (!pool0) pool0 = TEAMS.filter((x) => x.leagueId && !CUP_IDS.has(x.leagueId) && (cup || x.leagueId === leagueId) && playersByTeam(x.id).length);
+        const pool = pool0;
         const nn0 = tnorm(name);
         const hit = findAppTeam(name, pool, () => true) || (() => { const c = nn0.length >= 3 ? pool.filter((x) => acr(x.name) === nn0) : []; return c.length === 1 ? c[0] : null; })();
         // nel campionato l'id dell'archivio e' quello giusto (un fmId diverso era un abbinamento sbagliato, es. "1. FC Köln" con Viktoria Köln); in coppa un fmId diverso blocca l'unione
-        if (hit && (!cup || !hit.fmId || String(hit.fmId) === String(tid))) { real = hit; if (!cup) hit.fmId = String(tid); }
+        if (hit && (!cup || !hit.fmId || String(hit.fmId) === String(tid))) { real = hit; if (!cup) setTeamFm(hit, String(tid)); }
       }
       if (real) t = real;
     }
@@ -66,7 +70,7 @@ function teamsOf(season, fm, sk, leagueId) {
       t = ensureTeam(name, leagueId, teamLogo(tid), tid, uid);
       t.href = `/storico/${fm}/${sk}/squadra/${tid}`;
     }
-    if (t && !t.fmId && !/^fm-/.test(t.id)) t.fmId = String(tid);
+    if (t && !t.fmId && !/^fm-/.test(t.id)) setTeamFm(t, String(tid));
     map[tid] = t;
   });
   return map;
