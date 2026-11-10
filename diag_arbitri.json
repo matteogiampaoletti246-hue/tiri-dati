@@ -1,0 +1,436 @@
+{
+ "uefa": {
+  "status": "ok",
+  "trovati": {
+   "2026-11-12 England-Croatia (UEFA Nations League)": [
+    "ASSISTANT_VIDEO_ASSISTANT_REFEREE:Jakob Kehlet",
+    "REFEREE:Morten Krogh",
+    "UEFA_DELEGATE:Peadar Ryan",
+    "VIDEO_ASSISTANT_REFEREE:Bastian Dankert",
+    "ASSISTANT_REFEREE_ONE:Victor Skytte",
+    "ASSISTANT_REFEREE_TWO:Steffen Bramsen",
+    "REFEREE_OBSERVER:Markus Nobs",
+    "FOURTH_OFFICIAL:Jens Maae"
+   ],
+   "2026-11-12 Italy-France (UEFA Nations League)": [
+    "ASSISTANT_REFEREE_ONE:Mihai Marica",
+    "FOURTH_OFFICIAL:Szabolcs Kovacs",
+    "ASSISTANT_VIDEO_ASSISTANT_REFEREE:Cătălin Popa",
+    "REFEREE:István Kovács",
+    "REFEREE_OBSERVER:Costas Kapitanis",
+    "UEFA_DELEGATE:Charles Schaack",
+    "ASSISTANT_REFEREE_TWO:Ferencz Tunyogi",
+    "VIDEO_ASSISTANT_REFEREE:Dennis Higler"
+   ],
+   "2026-11-12 San Marino-Belarus (UEFA Nations League)": [
+    "REFEREE_OBSERVER:Ante Vučemilović",
+    "UEFA_DELEGATE:Hayri Çavuşoğlu",
+    "VIDEO_ASSISTANT_REFEREE:Koba Revazashvili",
+    "REFEREE:Goga Kikacheishvili",
+    "ASSISTANT_REFEREE_TWO:Davit Gabisonia",
+    "FOURTH_OFFICIAL:Irakli Kherkhadze",
+    "ASSISTANT_REFEREE_ONE:David Akhvlediani",
+    "ASSISTANT_VIDEO_ASSISTANT_REFEREE:Angelos Evangelou"
+   ],
+   "2026-11-12 Montenegro-Latvia (UEFA Nations League)": [
+    "REFEREE_OBSERVER:Luc Wouters",
+    "ASSISTANT_VIDEO_ASSISTANT_REFEREE:Benoît Millot",
+    "VIDEO_ASSISTANT_REFEREE:Nicolas Rainville",
+    "REFEREE:Jérôme Brisard",
+    "ASSISTANT_REFEREE_ONE:Aurélien Berthomieu",
+    "ASSISTANT_REFEREE_TWO:Hicham Zakrani",
+    "FOURTH_OFFICIAL:Bastien Dechepy",
+    "UEFA_DELEGATE:Milan Jankovic"
+   ],
+   "2026-11-12 Albania-Finland (UEFA Nations League)": [
+    "ASSISTANT_REFEREE_ONE:Luciano Maia",
+    "FOURTH_OFFICIAL:João Gonçalves",
+    "REFEREE:João Pinheiro",
+    "ASSISTANT_REFEREE_TWO:Hugo Marques",
+    "REFEREE_OBSERVER:Sascha Amhof",
+    "ASSISTANT_VIDEO_ASSISTANT_REFEREE:Bruno Esteves",
+    "UEFA_DELEGATE:Peter Palencik",
+    "VIDEO_ASSISTANT_REFEREE:Tiago Martins"
+   ],
+   "2026-11-12 Czechia-Spain (UEFA Nations League)": [
+    "VIDEO_ASSISTANT_REFEREE:Tomasz Kwiatkowski",
+    "FOURTH_OFFICIAL:Nikola Cvijović",
+    "REFEREE:Nikola Dabanović",
+    "ASSISTANT_REFEREE_TWO:Vladan Todorović",
+    "REFEREE_OBSERVER:Vladimir Petrov",
+    "UEFA_DELEGATE:Christian Kofoed",
+    "ASSISTANT_REFEREE_ONE:Srđan Jovanović",
+    "ASSISTANT_VIDEO_ASSISTANT_REFEREE:Piotr Lasyk"
+   ],
+   "2026-11-12 Barcelona-Arsenal (UEFA Women's Champions League)": [
+    "REFEREE:Ivana Martinčić",
+    "ASSISTANT_REFEREE_ONE:Maja Petravić",
+    "FOURTH_OFFICIAL:Jelena Kumer",
+    "UEFA_DELEGATE:Outi Saarinen",
+    "ASSISTANT_VIDEO_ASSISTANT_REFEREE:Milica Milovanović",
+    "ASSISTANT_REFEREE_TWO:Ivona Pejić",
+    "VIDEO_ASSISTANT_REFEREE:Fran Jović",
+    "REFEREE_OBSERVER:Teodora Albon"
+   ],
+   "2026-11-12 Malta-Eswatini (Friendly Matches)": [
+    "ASSISTANT_REFEREE_TWO:Tiago Costa",
+    "REFEREE:Gustavo Correia",
+    "ASSISTANT_REFEREE_ONE:Andre Filipe Nogueira Dias",
+    "FOURTH_OFFICIAL:Matthew De Gabriele"
+   ],
+   "2026-11-12 Lithuania-Surinam (Friendly Matches)": [
+    "REFEREE:Andris Treimanis",
+    "ASSISTANT_REFEREE_TWO:Raimonds Tatriks",
+    "FOURTH_OFFICIAL:Manfredas Lukjančukas",
+    "ASSISTANT_REFEREE_ONE:Haralds Gudermanis"
+   ],
+   "2026-11-12 Armenia-Cyprus (UEFA Nations League)": [
+    "ASSISTANT_VIDEO_ASSISTANT_REFEREE:Eli Hacmon",
+    "ASSISTANT_REFEREE_TWO:Idan Yarkoni",
+    "ASSISTANT_REFEREE_ONE:Roy Hassan",
+    "REFEREE:Orel Grinfeeld",
+    "VIDEO_ASSISTANT_REFEREE:Daniel Bar Natan",
+    "REFEREE_OBSERVER:Dimitar Meckarovski",
+    "FOURTH_OFFICIAL:Gal Leibovitz",
+    "UEFA_DELEGATE:Ilona Tkach "
+   ],
+   "2026-11-12 Türki̇ye-Belgium (UEFA Nations League)": [
+    "REFEREE_OBSERVER:Domagoj Vučkov",
+    "UEFA_DELEGATE:Duško Grabovac",
+    "ASSISTANT_REFEREE_TWO:Jonas Erni",
+    "FOURTH_OFFICIAL:Mirel Turkes",
+    "REFEREE:Sandro Schärer",
+    "ASSISTANT_VIDEO_ASSISTANT_REFEREE:Luca Cibelli",
+    "ASSISTANT_REFEREE_ONE:Stéphane De Almeida",
+    "VIDEO_ASSISTANT_REFEREE:Lukas Fähndrich"
+   ],
+   "2026-11-12 Iceland-Greece (European Under-21 Championship)": [
+    "REFEREE_OBSERVER:Gerard Perry",
+    "ASSISTANT_REFEREE_TWO:Maarten Toeback",
+    "FOURTH_OFFICIAL:Wesli De Cremer",
+    "REFEREE:Nathan Verboomen",
+    "ASSISTANT_REFEREE_ONE:Mathias Hillaert",
+    "UEFA_DELEGATE:Rasmus Brandhof"
+   ],
+   "2026-11-13 Slovenia-Switzerland (UEFA Nations League)": [
+    "UEFA_DELEGATE:Claude Runavot"
+   ],
+   "2026-11-13 Scotland-North Macedonia (UEFA Nations League)": [
+    "UEFA_DELEGATE:Danny Meenan"
+   ],
+   "2026-11-13 Serbia-Germany (UEFA Nations League)": [
+    "UEFA_DELEGATE:Metin Kazancioglu"
+   ],
+   "2026-11-13 Netherlands-Greece (UEFA Nations League)": [
+    "UEFA_DELEGATE:Maurice Johnston"
+   ],
+   "2026-11-13 Liechtenstein-Azerbaijan (UEFA Nations League)": [
+    "UEFA_DELEGATE:Fródi Danielsen"
+   ],
+   "2026-11-13 Andorra-Gibraltar (UEFA Nations League)": [
+    "UEFA_DELEGATE:Engli Kokona"
+   ],
+   "2026-11-13 Bulgaria-Iceland (UEFA Nations League)": [
+    "UEFA_DELEGATE:Renata Tomasova"
+   ],
+   "2026-11-13 Luxembourg-Estonia (UEFA Nations League)": [
+    "UEFA_DELEGATE:Mario Duran"
+   ],
+   "2026-11-13 Slovakia-Faroe Islands (UEFA Nations League)": [
+    "UEFA_DELEGATE:Oleg Harlamov"
+   ],
+   "2026-11-13 Switzerland-Portugal (European Women's Under-17 Championship)": [
+    "UEFA_DELEGATE:Ingrida Siliuniene"
+   ],
+   "2026-11-13 Denmark-Netherlands (European Under-21 Championship)": [
+    "UEFA_DELEGATE:Maria Mifsud"
+   ],
+   "2026-11-13 Moldova-Kazakhstan (UEFA Nations League)": [
+    "UEFA_DELEGATE:Sergei Hohlov-Simson"
+   ],
+   "2026-11-13 Finland-Republic of Ireland (European Under-21 Championship)": [
+    "UEFA_DELEGATE:Rens Elbertsen"
+   ],
+   "2026-11-13 Türki̇ye-Czechia (European Under-21 Championship)": [
+    "UEFA_DELEGATE:Aurel Ionescu"
+   ],
+   "2026-11-13 Spain-Belgium (European Women's Under-17 Championship)": [
+    "UEFA_DELEGATE:Ingrida Siliuniene"
+   ],
+   "2026-11-14 Northern Ireland-Ukraine (UEFA Nations League)": [
+    "UEFA_DELEGATE:Jacques Antenen"
+   ],
+   "2026-11-14 Austria-Republic of Ireland (UEFA Nations League)": [
+    "UEFA_DELEGATE:Jirí Novák"
+   ],
+   "2026-11-14 Portugal-Denmark (UEFA Nations League)": [
+    "UEFA_DELEGATE:Jonathan Leese"
+   ],
+   "2026-11-14 Romania-Poland (UEFA Nations League)": [
+    "UEFA_DELEGATE:Hristo Zapryanov"
+   ],
+   "2026-11-14 Sweden-Bosnia and Herzegovina (UEFA Nations League)": [
+    "UEFA_DELEGATE:Neil Morrow"
+   ],
+   "2026-11-14 Scotland-Kosovo (European Under-19 Championship)": [
+    "UEFA_DELEGATE:Manuela Costa"
+   ],
+   "2026-11-14 Montenegro-Ukraine (European Under-17 Championship)": [
+    "UEFA_DELEGATE:Marc Van Craen"
+   ],
+   "2026-11-14 Austria-Slovenia (European Under-19 Championship)": [
+    "UEFA_DELEGATE:Desislava Ralkova"
+   ],
+   "2026-11-14 Portugal-Germany (European Under-19 Championship)": [
+    "UEFA_DELEGATE:Marvin Robinson"
+   ],
+   "2026-11-14 France-Republic of Ireland (European Under-19 Championship)": [
+    "UEFA_DELEGATE:Vakhtang Bzikadze"
+   ],
+   "2026-11-14 Georgia-Hungary (UEFA Nations League)": [
+    "UEFA_DELEGATE:Ronit Glasman"
+   ],
+   "2026-11-14 Norway-Wales (UEFA Nations League)": [
+    "UEFA_DELEGATE:Gerard Kennedy"
+   ],
+   "2026-11-14 Denmark-Estonia (European Under-17 Championship)": [
+    "UEFA_DELEGATE:Borja Bilbao"
+   ],
+   "2026-11-14 Denmark-San Marino (European Under-19 Championship)": [
+    "UEFA_DELEGATE:Ian Atkins"
+   ],
+   "2026-11-14 Northern Ireland-Azerbaijan (European Under-17 Championship)": [
+    "UEFA_DELEGATE:Rachid SIDI YAKOUB"
+   ],
+   "2026-11-14 Serbia-Azerbaijan (European Under-19 Championship)": [
+    "UEFA_DELEGATE:Philippe Prudhon"
+   ],
+   "2026-11-14 Finland-Iceland (European Under-19 Championship)": [
+    "UEFA_DELEGATE:Alain Sars"
+   ],
+   "2026-11-14 Belgium-Kazakhstan (European Under-19 Championship)": [
+    "UEFA_DELEGATE:Manuela Costa"
+   ],
+   "2026-11-14 Portugal-Bulgaria (European Under-17 Championship)": [
+    "UEFA_DELEGATE:Styrbjörn Oskarsson"
+   ],
+   "2026-11-14 Italy-Ukraine (European Under-19 Championship)": [
+    "UEFA_DELEGATE:Jan Korinek"
+   ],
+   "2026-11-14 Bulgaria-Latvia (European Under-19 Championship)": [
+    "UEFA_DELEGATE:Kadri Jägel"
+   ],
+   "2026-11-14 Greece-Norway (European Under-19 Championship)": [
+    "UEFA_DELEGATE:Marco Borg"
+   ],
+   "2026-11-14 Kosovo-Israel (UEFA Nations League)": [
+    "UEFA_DELEGATE:Kris Bellon"
+   ],
+   "2026-11-14 Poland-England (European Under-17 Championship)": [
+    "UEFA_DELEGATE:Marc Van Craen"
+   ],
+   "2026-11-14 Sweden-Finland (European Under-17 Championship)": [
+    "UEFA_DELEGATE:Michael Johansen"
+   ],
+   "2026-11-14 Norway-Malta (European Under-17 Championship)": [
+    "UEFA_DELEGATE:Aristeidis Stavropoulos"
+   ],
+   "2026-11-14 Estonia-Türki̇ye (European Under-19 Championship)": [
+    "UEFA_DELEGATE:Alima Zhukenova"
+   ],
+   "2026-11-14 Hungary-Netherlands (European Under-19 Championship)": [
+    "UEFA_DELEGATE:Halis Özkahya"
+   ],
+   "2026-11-14 Sweden-Lithuania (European Under-19 Championship)": [
+    "UEFA_DELEGATE:Marvin Robinson"
+   ],
+   "2026-11-14 Scotland-Albania (European Under-17 Championship)": [
+    "UEFA_DELEGATE:Yuriy Barbash"
+   ],
+   "2026-11-14 Moldova-Gibraltar (European Under-19 Championship)": [
+    "UEFA_DELEGATE:Charalampos Kalogeropoulos"
+   ],
+   "2026-11-14 Armenia-Albania (European Under-19 Championship)": [
+    "UEFA_DELEGATE:Miroslaw Ryszka"
+   ],
+   "2026-11-14 Spain-Wales (European Under-19 Championship)": [
+    "UEFA_DELEGATE:Meta Römers"
+   ],
+   "2026-11-14 Northern Ireland-Malta (European Under-19 Championship)": [
+    "UEFA_DELEGATE:Aleksei Kulbakov"
+   ],
+   "2026-11-14 Switzerland-North Macedonia (European Under-19 Championship)": [
+    "UEFA_DELEGATE:Péter Kézdi"
+   ],
+   "2026-11-14 England-Belarus (European Under-19 Championship)": [
+    "UEFA_DELEGATE:Desislava Ralkova"
+   ],
+   "2026-11-14 Türkiye-Hungary (European Under-17 Championship)": [
+    "UEFA_DELEGATE:Nikoloz Jgarkava"
+   ],
+   "2026-11-14 Belgium-Latvia (European Under-17 Championship)": [
+    "UEFA_DELEGATE:Augustus Constantin"
+   ],
+   "2026-11-14 Luxembourg-Andorra (European Under-19 Championship)": [
+    "UEFA_DELEGATE:Emin Jafarov"
+   ],
+   "2026-11-14 Czechia-Croatia (European Under-19 Championship)": [
+    "UEFA_DELEGATE:Theano Rasouli"
+   ],
+   "2026-11-14 Israel-Romania (European Under-19 Championship)": [
+    "UEFA_DELEGATE:Vlado Svilokos"
+   ],
+   "2026-11-14 Italy-Armenia (European Under-17 Championship)": [
+    "UEFA_DELEGATE:Mihai Marius Andrieş"
+   ],
+   "2026-11-14 Serbia-Andorra (European Under-17 Championship)": [
+    "UEFA_DELEGATE:Vadims Direktorenko"
+   ],
+   "2026-11-14 Republic of Ireland-Wales (European Under-17 Championship)": [
+    "UEFA_DELEGATE:Borja Bilbao"
+   ],
+   "2026-11-14 Slovakia-Liechtenstein (European Under-19 Championship)": [
+    "UEFA_DELEGATE:Alima Zhukenova"
+   ],
+   "2026-11-14 Bosnia and Herzegovina-Georgia (European Under-19 Championship)": [
+    "UEFA_DELEGATE:Ian Atkins"
+   ],
+   "2026-11-14 Montenegro-Faroe Islands (European Under-19 Championship)": [
+    "UEFA_DELEGATE:Philippe Prudhon"
+   ],
+   "2026-11-14 Kazakhstan-Austria (European Under-17 Championship)": [
+    "UEFA_DELEGATE:Octavian Goga"
+   ],
+   "2026-11-14 Croatia-Kosovo (European Under-17 Championship)": [
+    "UEFA_DELEGATE:Loukas Siotropos"
+   ],
+   "2026-11-14 Slovakia-Netherlands (European Under-17 Championship)": [
+    "UEFA_DELEGATE:Aristeidis Stavropoulos"
+   ],
+   "2026-11-14 Germany-Lithuania (European Under-17 Championship)": [
+    "UEFA_DELEGATE:Rachid SIDI YAKOUB"
+   ],
+   "2026-11-14 North Macedonia-San Marino (European Under-17 Championship)": [
+    "UEFA_DELEGATE:Babak Guliyev"
+   ],
+   "2026-11-14 France-Luxembourg (European Under-17 Championship)": [
+    "UEFA_DELEGATE:Dejan Jakimovksi"
+   ],
+   "2026-11-15 Spain-England (UEFA Nations League)": [
+    "UEFA_DELEGATE:Michal Mertinyák"
+   ],
+   "2026-11-15 Croatia-Czechia (UEFA Nations League)": [
+    "UEFA_DELEGATE:Armen Minasyan"
+   ],
+   "2026-11-15 Belgium-Italy (UEFA Nations League)": [
+    "UEFA_DELEGATE:Peter Elsworth"
+   ],
+   "2026-11-15 France-Türki̇ye (UEFA Nations League)": [
+    "UEFA_DELEGATE:Victor Marius Radu"
+   ],
+   "2026-11-15 Belarus-Albania (UEFA Nations League)": [
+    "UEFA_DELEGATE:Froso Ppekri"
+   ],
+   "2026-11-15 Finland-San Marino (UEFA Nations League)": [
+    "UEFA_DELEGATE:Malgorzata Sedzimir-pszowska"
+   ],
+   "2026-11-15 Cyprus-Montenegro (UEFA Nations League)": [
+    "UEFA_DELEGATE:David McDowell"
+   ],
+   "2026-11-15 Latvia-Armenia (UEFA Nations League)": [
+    "UEFA_DELEGATE:Tammo Beishuizen"
+   ]
+  },
+  "note": "12 partite il 2026-11-12; esempio chiavi ['awayTeam', 'behindClosedDoors', 'competition', 'competitionPhase', 'group', 'homeTeam', 'id', 'kickOffTime', 'lineupStatus', 'matchday', 'referees', 'round']"
+ },
+ "sofascore": {
+  "status": "errore",
+  "trovati": {},
+  "note": "HTTPError: HTTP Error 403: Forbidden"
+ },
+ "livescore": {
+  "status": "ok",
+  "trovati": {},
+  "note": ""
+ },
+ "fotmob": {
+  "status": "ok",
+  "trovati": {
+   "Turkiye-Belgium": "/Referee={'text': '', 'countryCode': '', 'country': ''}",
+   "Italy-France": "/Referee={'text': '', 'countryCode': '', 'country': ''}",
+   "Czechia-Spain": "/Referee={'text': '', 'countryCode': '', 'country': ''}",
+   "England-Croatia": "/Referee={'text': '', 'countryCode': '', 'country': ''}",
+   "Armenia-Cyprus": "/Referee={'text': '', 'countryCode': '', 'country': ''}",
+   "Montenegro-Latvia": "/Referee={'text': '', 'countryCode': '', 'country': ''}",
+   "Albania-Finland": "/Referee={'text': '', 'countryCode': '', 'country': ''}",
+   "San Marino-Belarus": "/Referee={'text': '', 'countryCode': '', 'country': ''}",
+   "Cayman Islands-Guyana": "/Referee={'text': '', 'countryCode': '', 'country': ''}",
+   "Barbados-Guadeloupe": "/Referee={'text': '', 'countryCode': '', 'country': ''}",
+   "Bonaire-Cuba": "/Referee={'text': '', 'countryCode': '', 'country': ''}",
+   "Aruba-Martinique": "/Referee={'text': '', 'countryCode': '', 'country': ''}"
+  },
+  "note": "12 partite NL il 12/11"
+ },
+ "365scores": {
+  "status": "ok",
+  "trovati": {},
+  "note": "106 partite"
+ },
+ "espn": {
+  "status": "ok",
+  "trovati": {},
+  "note": "8 partite"
+ },
+ "transfermarkt": {
+  "status": "ok",
+  "trovati": {},
+  "note": "pagina 2411 caratteri, 'Referee' presente: False"
+ },
+ "wikipedia": {
+  "status": "ok",
+  "trovati": {
+   "campo referee #0": "[[Daniel Siebert (referee)",
+   "campo referee #1": "[[Felix Zwayer]] ([[German Football Association",
+   "campo referee #2": "[[Rade Obrenović]] ([[Football Association of Slovenia",
+   "campo referee #3": "[[Michael Oliver (referee)",
+   "campo referee #4": "[[Rohit Saggi]] ([[Norwegian Football Federation",
+   "campo referee #5": "[[Jesús Gil Manzano]] ([[Royal Spanish Football Federation",
+   "campo referee #6": "[[Nick Walsh (referee)",
+   "campo referee #7": "[[Szymon Marciniak]] ([[Polish Football Association",
+   "campo referee #8": "}}<section end=G1-9 />",
+   "campo referee #9": "}}<section end=G1-10 />",
+   "campo referee #10": "}}<section end=G1-11 />",
+   "campo referee #11": "}}<section end=G1-12 />",
+   "campo referee #12": "[[Alejandro Hernández Hernández]] ([[Royal Spanish Football Federation",
+   "campo referee #13": "[[Glenn Nyberg]] ([[Swedish Football Association",
+   "campo referee #14": "[[Szymon Marciniak]] ([[Polish Football Association",
+   "campo referee #15": "[[Chris Kavanagh (referee)",
+   "campo referee #16": "[[Espen Eskås]] ([[Norwegian Football Federation",
+   "campo referee #17": "[[Marco Guida]] ([[Italian Football Federation",
+   "campo referee #18": "[[Clément Turpin]] ([[French Football Federation",
+   "campo referee #19": "[[Donatas Rumšas]] ([[Lithuanian Football Federation",
+   "campo referee #20": "}}<section end=G2-9 />",
+   "campo referee #21": "}}<section end=G2-10 />",
+   "campo referee #22": "}}<section end=G2-11 />",
+   "campo referee #23": "}}<section end=G2-12 />",
+   "campo referee #24": "[[Simone Sozza]] ([[Italian Football Federation",
+   "campo referee #25": "[[Davide Massa]] ([[Italian Football Federation",
+   "campo referee #26": "[[Halil Umut Meler]] ([[Turkish Football Federation",
+   "campo referee #27": "[[Serdar Gözübüyük]] ([[Royal Dutch Football Association",
+   "campo referee #28": "[[Sven Jablonski]] ([[German Football Association",
+   "campo referee #29": "[[Vassilis Fotias]] ([[Hellenic Football Federation",
+   "campo referee #30": "[[Erik Lambrechts]] ([[Royal Belgian Football Association",
+   "campo referee #31": "[[Serdar Gözübüyük]] ([[Royal Dutch Football Association",
+   "campo referee #32": "}}<section end=G3-9 />",
+   "campo referee #33": "}}<section end=G3-10 />",
+   "campo referee #34": "}}<section end=G3-11 />",
+   "campo referee #35": "}}<section end=G3-12 />",
+   "campo referee #36": "[[Tobias Stieler]] ([[German Football Association",
+   "campo referee #37": "[[Donatas Rumšas]] ([[Lithuanian Football Federation",
+   "campo referee #38": "[[Willy Delajod]] ([[French Football Federation",
+   "campo referee #39": "[[François Letexier]] ([[French Football Federation"
+  },
+  "note": "56 campi referee"
+ },
+ "_quando": "2026-11-10T13:34:15.137710Z"
+}
