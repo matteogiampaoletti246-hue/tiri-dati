@@ -148,3 +148,8 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 - **Barre**: `Bar` e `CompareBars` ripartono da zero e scorrono sul thread UI (reanimated), niente `Animated` JS.
 - **Swipe indietro**: `edgeSettle` in App.js e' chiamato sia da `onEnd` sia da `onFinalize`: la pagina non resta mai a meta'.
 - **Formazioni**: icone eventi con offset in pixel rispetto al volto (mai percentuali).
+
+## Campionato nativo (11/11/2026)
+- `/campionato/:id` e' nativo (`native/pages/Campionato.js`): banner `EntityBannerN` coi colori e il logo del campionato (logo chiaro dal tema, bianco con `logoTint` per Premier/Champions/Ligue 1 al buio), tendina stagioni (`Dropdown` nel banner), `TintProvider` col colore del campionato.
+- Schede: Partite (giornate in riquadri tinti, "Giornate precedenti" senza salto grazie a `anchor`), Classifica (+ Tabellone se la stagione ha turni a eliminazione, `ClassificaSwitchN`), Stat. squadre, Giocatori, Arbitri (solo con dati). Stagioni passate: `pages/CampionatoArch.js`, schede mostrate solo se hanno dati.
+- Elenchi per giornata: `shared/MatchdayN.js`; classifica arbitri: `shared/RefereesN.js`. Pillole e cambi di filtro come in tutta l'app (`Segmented`, `SwapN`).

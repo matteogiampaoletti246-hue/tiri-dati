@@ -23,6 +23,7 @@ import PlayerPanelHost from './shared/PlayerPanel';
 import PlayerSheetHost from './shared/PlayerSheet';
 import PartitaPage from './pages/Partita';
 import SquadraPage from './pages/Squadra';
+import CampionatoPage from './pages/Campionato';
 // pagine gia' native (migrazione a tappe): la rotta si apre senza WebView
 const NATIVE_PAGES = { '/linee-guida': GuidelinesPage, '/calcolatore': CalcolatorePage, '/migliori-giocatori': TopPlayersPage, '/migliori-matchup': TopMatchupsPage };
 // pagine nostre con un parametro nel percorso (/giocatore/:id): si attivano qui solo quando la pagina e' completa
@@ -30,6 +31,7 @@ const NATIVE_DYN = [
   [/^\/giocatore\/([^/]+)$/, GiocatorePage, 'id'],
   [/^\/match\/([^/]+)$/, PartitaPage, 'id'],
   [/^\/squadra\/([^/]+)$/, SquadraPage, 'id'],
+  [/^\/campionato\/([^/]+)$/, CampionatoPage, 'id'],
   [/^\/storico\/([^/]+)\/([^/]+)\/([^/]+)$/, PartitaPage, 'id', (m) => `a-${m[1]}-${m[2]}-${m[3]}`], // partita d'archivio: stesso id del sito
 ];
 const nativeOf = (path) => {
