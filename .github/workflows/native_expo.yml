@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths: ['native/**']
+    paths: ['native/**', 'aurora-src/src/data/**', 'aurora-src/src/lib/**']
 permissions:
   contents: write
 concurrency:
@@ -33,9 +33,12 @@ jobs:
           node native/tools/gen_flags.mjs app/meta.json native-link/flags
           cp native/App.js app/App.js
           cp -r native/pages app/pages
+          cp -r native/shared app/shared
+          cp native/metro.config.js app/metro.config.js
+          mkdir -p app/src && cp -r aurora-src/src/data aurora-src/src/lib app/src/
           cd app
           npm install --no-audit --no-fund
-          npx expo install expo-updates expo-image @react-native-async-storage/async-storage expo-linear-gradient react-native-webview react-native-safe-area-context @expo/vector-icons react-native-gesture-handler react-native-reanimated expo-blur
+          npx expo install expo-updates expo-image @react-native-async-storage/async-storage expo-linear-gradient react-native-webview react-native-safe-area-context @expo/vector-icons react-native-gesture-handler react-native-reanimated expo-blur react-native-svg
           if [ "$(node -p "parseInt(require('react-native-reanimated/package.json').version)")" -ge 4 ]; then npx expo install react-native-worklets; fi
           node -e "const f='app.json',j=require('./'+f);j.expo.owner='lozellatos-team';require('fs').writeFileSync(f,JSON.stringify(j,null,2))"
           npx --yes eas-cli@latest whoami
