@@ -59,7 +59,18 @@ const dayLabel = (d) => { const diff = Math.round((new Date(d.getFullYear(), d.g
 
 // ---------- raggruppamento (come groupsOf della Home web) ----------
 const OPEN_KEY = {}; // aperto/chiuso ricordato per giorno e finestra
+// Giorno senza partite delle competizioni con la finestra aperta (top 5, coppe europee, Nations League): le 3 competizioni con il
+// ranking piu' alto del giorno (rank = importanza + ordine dell'indice, come le finestre dei paesi) salgono in cima, aperte, come i
+// top campionati (regola fissa 10/11/2026). Si decide su tutte le partite del giorno, anche col filtro Live.
+const PROMO_N = 3;
+function promoOf(rows) {
+  const seen = new Set();
+  for (const m of rows) { const c = META.comps[m[1]]; if (!c) continue; if (c.open) return null; seen.add(m[1]); }
+  return new Set([...seen].sort((a, b) => META.comps[a].rank - META.comps[b].rank).slice(0, PROMO_N));
+}
 function groupsOf(rows, filter) {
+  const promo = promoOf(rows);
+  const up = [];
   const by = new Map();
   rows.forEach((m) => {
     if (filter === 'live' && m[8] !== 'l') return;
@@ -71,6 +82,8 @@ function groupsOf(rows, filter) {
     const c = META.comps[fm];
     if (!c) return;
     const g = { fm, c, matches: ms.sort((a, b) => (a[2] < b[2] ? -1 : 1)) };
+    // promossa: aperta, con la tinta della sua finestra (bandiera del paese, come la pagina partita)
+    if (promo && promo.has(fm)) { up.push({ ...g, open: true, tint: (c.solo < 0 && META.tints && META.tints[c.fc]) || c.tint }); return; }
     if (c.solo >= 0) { top.push(g); return; }
     const k = c.cc || `N:${c.country}`;
     if (!countries.has(k)) countries.set(k, { k, flag: c.flag, fc: c.fc || '', tint: (META.tints && META.tints[c.fc]) || '', name: c.country || '', comps: [] });
@@ -79,7 +92,8 @@ function groupsOf(rows, filter) {
   top.sort((a, b) => a.c.solo - b.c.solo);
   const cs = [...countries.values()].sort((a, b) => a.name.localeCompare(b.name, 'it'));
   cs.forEach((x) => x.comps.sort((a, b) => a.c.rank - b.c.rank));
-  return [...top.map((g) => ({ key: `l${g.fm}`, g })), ...cs.map((x) => ({ key: `p${x.k}`, p: x }))];
+  up.sort((a, b) => a.c.rank - b.c.rank);
+  return [...up.map((g) => ({ key: `l${g.fm}`, g })), ...top.map((g) => ({ key: `l${g.fm}`, g })), ...cs.map((x) => ({ key: `p${x.k}`, p: x }))];
 }
 
 // ---------- componenti ----------
@@ -214,10 +228,10 @@ const LeagueHead = ({ c, size = 22, small }) => {
 
 const LeagueGroup = memo(({ iso, g, forceOpen, onOpen, onLeague }) => {
   const { s } = useT();
-  const [open, toggle] = useOpen(`${iso}|${g.fm}`, g.c.open);
+  const [open, toggle] = useOpen(`${iso}|${g.fm}`, g.open || g.c.open);
   const isOpen = forceOpen || open;
   return (
-    <Card tint={g.c.tint} open={isOpen}>
+    <Card tint={g.tint || g.c.tint} open={isOpen}>
       <View style={s.headRow}>
         <Pressable onPress={() => onLeague(leagueRoute(g.c, g.fm))} style={({ pressed }) => [{ flex: 1, minWidth: 0 }, pressed && { opacity: 0.6 }]}><LeagueHead c={g.c} /></Pressable>
         <Pressable onPress={() => { if (!forceOpen && isOpen) tendAnim(); toggle(); }} hitSlop={{ top: 14, bottom: 14, right: 14 }} style={s.tail}><Text numberOfLines={1} style={s.cnt}>{g.matches.length}</Text><Chev open={isOpen} /></Pressable>

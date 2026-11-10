@@ -11,7 +11,7 @@ import PageShell from '@/components/PageShell';
 import HomeHeader from '@/components/HomeHeader';
 import DayStrip, { dragDays } from '@/components/DayStrip';
 import LivePill from '@/components/LivePill';
-import LeagueGroup, { CountryGroup } from '@/components/LeagueGroup';
+import LeagueGroup, { CountryGroup, OPEN_AT_START } from '@/components/LeagueGroup';
 import { useEntityScope } from '@/components/past/PastBits';
 import SearchOverlay from '@/components/SearchOverlay';
 import useTicker from '@/hooks/useTicker';
@@ -44,6 +44,7 @@ const later = (fn) => { const go = () => { if (TOUCHING || GLIDE) setTimeout(go,
 
 // In alto, da soli: top campionati (i 5 aperti, gli altri 4 chiusi), coppe europee, competizioni internazionali.
 // Tutte le altre competizioni stanno nella finestra del loro paese (paesi in ordine alfabetico italiano; dentro, in ordine di importanza).
+const PROMO_N = 3;
 const TOP_SOLO = ['champions-league', 'europa-league', 'conference-league', 'fm-9806', 'fm-9807', 'fm-9808', 'fm-9809', 'serie-a', 'premier-league', 'la-liga', 'bundesliga', 'ligue-1', 'pro-league', 'eredivisie', 'liga-portugal', 'super-lig'];
 let LAYOUT = null;
 const layout = () => {
@@ -67,6 +68,11 @@ function groupsOf(iso, filter, ver) {
   if (hit && hit.ver === ver && hit.lg === LEAGUES.length) return hit.list;
   const dm = matchesByDate(iso);
   const { solo, rank } = layout();
+  // giorno senza partite delle competizioni aperte (top 5, coppe europee, Nations League): le 3 col ranking piu' alto del giorno
+  // salgono in cima, aperte, come i top campionati (regola fissa 10/11/2026); si decide su tutte le partite del giorno
+  const ids = [...new Set(dm.map((m) => m.leagueId))].filter((id) => leagueById(id));
+  const promo = ids.some((id) => OPEN_AT_START.has(id)) ? null : new Set(ids.sort((a, b) => rank.get(a) - rank.get(b)).slice(0, PROMO_N));
+  const up = [];
   const sh = filter === 'live' ? dm.filter((m) => m.status === 'live') : dm;
   const by = new Map();
   sh.forEach((m) => { if (!by.has(m.leagueId)) by.set(m.leagueId, []); by.get(m.leagueId).push(m); });
@@ -76,6 +82,7 @@ function groupsOf(iso, filter, ver) {
     const league = leagueById(id);
     if (!league) return;
     const g = { league, matches: ms.sort((a, b) => a.ts - b.ts) };
+    if (promo && promo.has(id)) { up.push({ ...g, promo: true }); return; }
     if (solo.has(id)) { top.push(g); return; }
     const cc = countryCode(league);
     if (!countries.has(cc)) countries.set(cc, { cc, name: league.country || '', comps: [] });
@@ -84,7 +91,8 @@ function groupsOf(iso, filter, ver) {
   top.sort((a, b) => solo.get(a.league.id) - solo.get(b.league.id));
   const cs = [...countries.values()].sort((a, b) => a.name.localeCompare(b.name, 'it'));
   cs.forEach((c) => c.comps.sort((a, b) => rank.get(a.league.id) - rank.get(b.league.id)));
-  const list = [...top.map((g) => ({ key: g.league.id, g })), ...cs.map((c) => ({ key: `paese:${c.cc}`, c }))];
+  up.sort((a, b) => rank.get(a.league.id) - rank.get(b.league.id));
+  const list = [...up.map((g) => ({ key: g.league.id, g })), ...top.map((g) => ({ key: g.league.id, g })), ...cs.map((c) => ({ key: `paese:${c.cc}`, c }))];
   GROUPS.set(key, { ver, lg: LEAGUES.length, list });
   if (GROUPS.size > 24) GROUPS.delete(GROUPS.keys().next().value);
   return list;
@@ -130,7 +138,7 @@ function DayPaneBody({ iso, filter, ver, lead, need }) {
   }
   const live = filter === 'live';
   return items.slice(0, eff).map((it) => (it.g
-    ? <LeagueGroup key={`${iso}|${it.key}`} league={it.g.league} matches={it.g.matches} iso={iso} forceOpen={live} />
+    ? <LeagueGroup key={`${iso}|${it.key}`} league={it.g.league} matches={it.g.matches} iso={iso} forceOpen={live} promo={!!it.g.promo} />
     : <CountryGroup key={`${iso}|${it.key}`} cc={it.c.cc} name={it.c.name} comps={it.c.comps} iso={iso} forceOpen={live} />));
 }
 

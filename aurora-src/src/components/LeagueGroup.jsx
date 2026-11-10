@@ -5,13 +5,14 @@ import LeagueLink from './LeagueLink';
 import MatchRow from './MatchRow';
 import { tintGrad } from '@/lib/tint';
 import { leagueTint, TOP5 } from '@/data/leagues';
+import { matchTint } from '@/data/matchTint';
 import { flagEmoji } from '@/data/countries';
 import FLAG_TINT from '@/data/flagTints.json';
 import { useSel } from '@/components/past/PastBits';
 
 // Partono aperti i top 5 campionati e le coppe europee; tutti gli altri (e le finestre dei paesi) partono chiusi.
 // Ogni campionato ha la sua tendina: lo stato vale solo per il giorno mostrato (cambiando giorno si riparte dal predefinito).
-const OPEN_AT_START = new Set([...TOP5, 'champions-league', 'europa-league', 'conference-league', 'fm-9806', 'fm-9807', 'fm-9808', 'fm-9809']);
+export const OPEN_AT_START = new Set([...TOP5, 'champions-league', 'europa-league', 'conference-league', 'fm-9806', 'fm-9807', 'fm-9808', 'fm-9809']);
 
 // Apertura / chiusura con transizione morbida (altezza + dissolvenza).
 function Collapse({ open, children }) {
@@ -42,15 +43,17 @@ function Collapse({ open, children }) {
   );
 }
 
-export default function LeagueGroup({ league, matches, iso = '', forceOpen = false }) {
+// promo: competizione salita in cima in un giorno senza competizioni aperte (Home.jsx): parte aperta, tinta della sua finestra (bandiera)
+export default function LeagueGroup({ league, matches, iso = '', forceOpen = false, promo = false }) {
   // la tendina resta com'e' finche' si resta nel giro della Home (apro una partita e torno indietro); cambiando sezione si riparte da zero
-  const [open, setOpen] = useSel('home', `${iso}|${league.id}`, () => OPEN_AT_START.has(league.id));
+  const [open, setOpen] = useSel('home', `${iso}|${league.id}`, () => promo || OPEN_AT_START.has(league.id));
+  const tint = promo ? matchTint(league.id, league) : leagueTint(league.id);
   const isOpen = forceOpen || open;
   const toggle = () => setOpen(!open);
 
   return (
     // Accordion concept B (21st, Wensity): carta a se'; aperta, il bordo prende la tinta della finestra
-    <section className="mx-4 mt-4 overflow-hidden rounded-[26px] glass" style={{ background: `${tintGrad(leagueTint(league.id), 0x45)}, linear-gradient(hsl(var(--background)), hsl(var(--background)))`, boxShadow: isOpen ? `inset 0 0 0 1.5px ${leagueTint(league.id)}cc` : undefined, transition: 'box-shadow .3s ease' }}>
+    <section className="mx-4 mt-4 overflow-hidden rounded-[26px] glass" style={{ background: `${tintGrad(tint, 0x45)}, linear-gradient(hsl(var(--background)), hsl(var(--background)))`, boxShadow: isOpen ? `inset 0 0 0 1.5px ${tint}cc` : undefined, transition: 'box-shadow .3s ease' }}>
       <div className="flex items-center">
         {/* logo e nome: aprono la scheda del campionato */}
         <LeagueLink league={league} className="press flex min-w-0 shrink items-center gap-3 py-3.5 pl-4 pr-3">

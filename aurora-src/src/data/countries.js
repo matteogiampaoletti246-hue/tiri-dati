@@ -33,5 +33,5 @@ export const flagEmoji = (cc) => {
 
 // importanza dentro un paese: campionati maschili (prima la serie maggiore, ordine dell'indice), poi femminili/giovanili, poi coppe e supercoppe
 const CUP = /\b(cup|coppa|copa|coupe|pokal|ta[cç]a|beker|kupa|cupa|puchar|pohar|kup|kupen|cupen|supercopa|supercoppa|supercup|super cup|shield|trophy|troph[ée]e|recopa|campe[oó]n de campeones|community|league cup|open cup|emperor)\b/i;
-const WOMEN_YOUTH = /(women|femen|f[ée]minin|frauen|femminile|\bwe league|liga f\b|damallsvenskan|toppserien|wsl|\bu-?\d{2}\b|primavera|youth|juvenil|reserve|next pro|\bii\b)/i;
+const WOMEN_YOUTH = /(women|femen|f[ée]minin|frauen|femminile|\bwe league|liga f\b|damallsvenskan|vrouwen|swpl|northern super league|\ba-liga\b|toppserien|wsl|\bu-?\d{2}\b|primavera|youth|juvenil|reserve|next pro|\bii\b)/i;
 export const importance = (L) => (CUP.test(L.name || '') ? 2 : WOMEN_YOUTH.test(L.name || '') ? 1 : 0);
