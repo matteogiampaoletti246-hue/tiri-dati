@@ -43,7 +43,8 @@ export default function TextFilter({ options, value, onChange, className = '', f
   }, [value]);
 
   return (
-    <div ref={box} className={`tfilter hide-sb relative max-w-full overflow-x-auto ${fit ? 'fit w-fit' : 'w-full'} ${className}`} style={{ overflowY: 'hidden', overscrollBehavior: 'contain' }}>
+    <div className={`halo-trigger min-w-0 max-w-full rounded-full ${fit ? 'w-fit' : 'w-full'} ${className}`}>
+    <div ref={box} className={`tfilter hide-sb relative w-full overflow-x-auto${fit ? ' fit' : ''}`} style={{ overflowY: 'hidden', overscrollBehavior: 'contain' }}>
       <span ref={pill} aria-hidden="true" className="lg-thumb absolute left-0 rounded-full" style={{ top: 4, bottom: 4, width: 0, opacity: 0, willChange: 'transform' }} />
       {options.map((opt) => {
         const val = typeof opt === 'string' ? opt : opt.value;
@@ -63,6 +64,7 @@ export default function TextFilter({ options, value, onChange, className = '', f
           </button>
         );
       })}
+    </div>
     </div>
   );
 }

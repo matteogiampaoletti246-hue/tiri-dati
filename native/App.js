@@ -904,7 +904,7 @@ const TabBar = memo(({ onOpen, onHome, onTop, active, bottom, live }) => {
 });
 
 
-// pillola unica Tutte | Live: l'indicatore scorre da meta' a meta' e passa dal blu al rosso (stesso movimento e colore nel sito)
+// pillola unica Tutte | Live: l'indicatore scorre da meta' a meta' con lo stesso gradiente blu-viola e lo stesso contorno che gira di tutti i selettori del sito
 // pillola "liquid glass" unica (come nel sito: AnimatedTabs, TextFilter): riflesso in alto, ombra sotto, scorrimento con leggero rimbalzo
 const PILL_EASE = Easing.bezier(0.34, 1.42, 0.64, 1);
 const PILL_MS = 600;
@@ -919,15 +919,23 @@ function LivePill({ value, onChange }) {
     p.value = withTiming(v === 'live' ? 1 : 0, { duration: PILL_MS, easing: PILL_EASE });
     setTimeout(() => onChange(v), 60);
   };
-  const th = useAnimatedStyle(() => ({ transform: [{ translateX: p.value * half }], backgroundColor: interpolateColor(Math.min(1, Math.max(0, p.value)), [0, 1], [C.accent, C.live]) }), [half, C]);
+  const th = useAnimatedStyle(() => ({ transform: [{ translateX: p.value * half }] }), [half]);
   const t1 = useAnimatedStyle(() => ({ color: interpolateColor(p.value, [0, 1], ['#FFFFFF', C.ink3]) }), [C]);
   const t2 = useAnimatedStyle(() => ({ color: interpolateColor(p.value, [0, 1], [C.ink3, '#FFFFFF']) }), [C]);
   const dot = useAnimatedStyle(() => ({ backgroundColor: interpolateColor(p.value, [0, 1], [C.live, '#FFFFFF']) }), [C]);
+  // contorno multicolore che gira (come le tendine e tutti i selettori del sito): un gradiente piu' grande della pillola ruota dietro, se ne vede solo il bordo
+  const rot = useSharedValue(0);
+  useEffect(() => { rot.value = withRepeat(withTiming(360, { duration: 4000, easing: Easing.linear }), -1, false); return () => cancelAnimation(rot); }, [rot]);
+  const ring = useAnimatedStyle(() => ({ transform: [{ rotate: `${rot.value}deg` }] }));
   return (
-    <View onLayout={(e) => setW(e.nativeEvent.layout.width)} style={{ width: 160, height: 38, borderRadius: 19, overflow: 'hidden', flexDirection: 'row', backgroundColor: C.chip, borderWidth: 1, borderColor: C.border }}>
-      {w ? <Animated.View pointerEvents="none" style={[{ position: 'absolute', top: 0, bottom: 0, left: 0, width: half, borderRadius: 19, overflow: 'hidden', shadowColor: '#000', shadowOpacity: 0.3, shadowRadius: 8, shadowOffset: { width: 0, height: 4 } }, th]}><LinearGradient colors={[C.pillHi, C.pillMid, C.pillLo]} locations={[0, 0.46, 1]} start={{ x: 0.2, y: 0 }} end={{ x: 0.8, y: 1 }} style={StyleSheet.absoluteFill} /></Animated.View> : null}
-      <Pressable onPress={() => press('all')} style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><Animated.Text style={[{ fontSize: 13.5, fontWeight: '600' }, t1]}>Tutte</Animated.Text></Pressable>
-      <Pressable onPress={() => press('live')} style={{ flex: 1, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', gap: 6 }}><Animated.View style={[{ width: 7, height: 7, borderRadius: 4 }, dot]} /><Animated.Text style={[{ fontSize: 13.5, fontWeight: '600' }, t2]}>Live</Animated.Text></Pressable>
+    <View style={{ width: 163, height: 41, borderRadius: 20.5, overflow: 'hidden', padding: 1.5 }}>
+      <Animated.View pointerEvents="none" style={[{ position: 'absolute', width: 180, height: 180, left: -8.5, top: -69.5 }, ring]}><LinearGradient colors={[C.accent, '#7B6CFF', '#00C2FF', C.accent]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ flex: 1 }} /></Animated.View>
+      <View onLayout={(e) => setW(e.nativeEvent.layout.width)} style={{ flex: 1, borderRadius: 19, overflow: 'hidden', flexDirection: 'row', backgroundColor: C.bg }}>
+        <View pointerEvents="none" style={[StyleSheet.absoluteFill, { backgroundColor: C.chip }]} />
+        {w ? <Animated.View pointerEvents="none" style={[{ position: 'absolute', top: 0, bottom: 0, left: 0, width: half, borderRadius: 19, overflow: 'hidden' }, th]}><LinearGradient colors={['#1F6BEF', C.accent, '#7B6CFF']} locations={[0, 0.55, 1]} start={{ x: 0, y: 0.4 }} end={{ x: 1, y: 0.6 }} style={StyleSheet.absoluteFill} /></Animated.View> : null}
+        <Pressable onPress={() => press('all')} style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><Animated.Text style={[{ fontSize: 13.5, fontWeight: '600' }, t1]}>Tutte</Animated.Text></Pressable>
+        <Pressable onPress={() => press('live')} style={{ flex: 1, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', gap: 6 }}><Animated.View style={[{ width: 7, height: 7, borderRadius: 4 }, dot]} /><Animated.Text style={[{ fontSize: 13.5, fontWeight: '600' }, t2]}>Live</Animated.Text></Pressable>
+      </View>
     </View>
   );
 }

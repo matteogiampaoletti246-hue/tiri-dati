@@ -992,11 +992,11 @@ html:not(.dark) .lglass {
    nelle pillole (AnimatedTabs) la pillola prende lo stesso gradiente e bagliore ── */
 .halo-bar { background: linear-gradient(90deg, #1F6BEF, var(--accent), #7B6CFF); box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 80%, transparent), 0 0 2px var(--accent); }
 .halo-bar::after { content: ''; position: absolute; left: -30%; right: -30%; top: 3px; height: 26px; border-radius: 50%; background: radial-gradient(50% 100% at 50% 0%, color-mix(in srgb, var(--accent) 30%, transparent), transparent 75%); pointer-events: none; }
-/* stessa pillola per tutti i selettori (TextFilter e gli altri .lg-thumb); .lg-own = colore proprio (Tutte|Live blu -> rosso) */
-.atabs-pill, .lg-thumb:not(.lg-own) { background: linear-gradient(100deg, #1F6BEF, var(--accent) 55%, #7B6CFF) !important; box-shadow: 0 0 14px -2px color-mix(in srgb, var(--accent) 70%, transparent), inset 0 1px 0 rgba(255, 255, 255, .28) !important; }
+/* stessa pillola per tutti i selettori (TextFilter, Tutte|Live e gli altri .lg-thumb); il contorno che gira e' .halo-trigger sulla cornice */
+.atabs-pill, .lg-thumb { background: linear-gradient(100deg, #1F6BEF, var(--accent) 55%, #7B6CFF) !important; box-shadow: 0 0 14px -2px color-mix(in srgb, var(--accent) 70%, transparent), inset 0 1px 0 rgba(255, 255, 255, .28) !important; }
 .atabs-tab.on { color: #fff; }
 /* TextFilter: stessa barra di AnimatedTabs (larga quanto la riga, voci che si dividono lo spazio; se non ci stanno scorre) */
-.tfilter { display: flex; align-items: center; gap: 4px; padding: 4px; border-radius: 999px; background: var(--atabs-bg); border: 1px solid var(--glass-border); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+.tfilter { display: flex; align-items: center; gap: 4px; padding: 4px; border-radius: 999px; background: var(--atabs-bg); border: 1px solid transparent; -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
 .tfilter-tab { position: relative; flex: 1 1 0; min-width: max-content; padding: 8px 10px; border-radius: 999px; font-size: 13px; font-weight: 700; text-align: center; }
 .tfilter.fit .tfilter-tab { flex: 0 0 auto; }
 

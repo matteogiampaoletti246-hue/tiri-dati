@@ -67,7 +67,7 @@ export default function ClassificaSwitch({ fm, sk, children }) {
   return (
     <div>
       <div className="px-4 pt-3">
-        <div className="glass-flat relative flex w-fit items-center gap-0.5 rounded-full p-1">
+        <div className="halo-trigger glass-flat relative flex w-fit items-center gap-0.5 rounded-full p-1">
           <span ref={ind} aria-hidden="true" className="lg-thumb absolute left-0 rounded-full" style={{ top: 4, bottom: 4, width: 0, opacity: 0, willChange: 'transform' }} />
           {OPTS.map((o, i) => (
             <button key={o} ref={(el) => { btn.current[i] = el; }} type="button" onClick={() => go(i)} className="press relative shrink-0 rounded-full px-[14px] py-[6px] text-[12.5px] font-bold">

@@ -30,7 +30,7 @@ export default function ReliabilityCalculator() {
       <header className="head-solid sticky top-0 z-30">
         <FixedBar title="Calcolatore Affidabilità" onSearch={() => { primeKeyboard(); setSearchOpen(true); }} />
         <div className="px-5 pb-2.5">
-          <div className="relative mt-2 grid grid-cols-2 rounded-full p-1" style={{ background: 'var(--panel-2)', border: '1px solid var(--hair)' }}>
+          <div className="halo-trigger relative mt-2 grid grid-cols-2 rounded-full p-1" style={{ background: 'var(--panel-2)', border: '1px solid var(--hair)' }}>
             {/* stessa pillola liquid glass di tutti i selettori (lg-thumb, lg-move in index.css) */}
             <span
               aria-hidden="true"

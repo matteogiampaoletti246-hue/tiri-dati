@@ -27,7 +27,7 @@ export default function AnimatedTabs({ options, value, onChange, children, blur 
 
   return (
     <div>
-      <div className="atabs mx-4" role="tablist" aria-label={label} style={{ '--n': options.length, '--i': idx }}>
+      <div className="atabs halo-trigger mx-4" role="tablist" aria-label={label} style={{ '--n': options.length, '--i': idx }}>
         <span className="atabs-pill" aria-hidden="true" />
         {options.map((o) => {
           const on = o.value === value;

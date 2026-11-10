@@ -240,7 +240,7 @@ function SidePicker({ lh, la, home, away, valOf, match, pre }) {
   return (
     <div className="px-4">
       {sides.length > 1 ? (
-        <div className="glass relative mb-3 flex rounded-full p-1" role="tablist" data-side-picker="1">
+        <div className="halo-trigger glass relative mb-3 flex rounded-full p-1" role="tablist" data-side-picker="1">
           <span aria-hidden="true" className="lg-thumb lg-move absolute bottom-1 left-1 top-1 rounded-full" style={{ width: 'calc(50% - 4px)', transform: `translate3d(${cur ? '100%' : '0'},0,0)` }} />
           {sides.map((x, k) => (
             <button key={x.i} type="button" role="tab" aria-selected={cur === k} onClick={() => setSel(k)} className="press relative z-[1] flex min-w-0 flex-1 items-center justify-center gap-2 rounded-full px-3 py-2">
