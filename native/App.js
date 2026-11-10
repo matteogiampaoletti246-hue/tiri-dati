@@ -132,21 +132,13 @@ const Row = memo(({ m, onOpen }) => {
 
 // Finestra a una sola tinta (concept B): sfumatura a 135 gradi dalla tinta (.34) quasi a vuoto (.06 al 70%).
 // Accordion concept B (21st, Wensity): ogni paese/campionato e' una carta a se'; aperta, il bordo prende la tinta della finestra.
-// Rotazione unica condivisa da tutti gli anelli animati (un solo valore sul thread UI)
-const RING_R = makeMutable(0);
-let ringOn = false;
-const startRing = () => { if (ringOn) return; ringOn = true; AccessibilityInfo.isReduceMotionEnabled().then((red) => { if (!red) RING_R.value = withRepeat(withTiming(360, { duration: 5000, easing: Easing.linear }), -1, false); }).catch(() => {}); };
-// Anello animato: gradiente conico finto (sfumatura che ruota) dietro al contenuto, spessore w; colori = tinta (o blu/viola)
+// Anello (bordo colorato) FERMO (10/11/2026): niente movimento dei colori; sfumatura fissa tinta -> secondo colore
 const Ring = ({ colors, w = 1.5, radius, style, children }) => {
   const { C } = useT();
-  useEffect(() => { startRing(); }, []);
-  const st = useAnimatedStyle(() => ({ transform: [{ rotate: `${RING_R.value}deg` }] }));
   const cc = colors || [C.accent, '#7B6CFF'];
   return (
     <View style={[{ borderRadius: radius, padding: w, overflow: 'hidden', backgroundColor: C.border }, style]}>
-      <Animated.View pointerEvents="none" style={[{ position: 'absolute', width: 900, height: 900, left: '50%', top: '50%', marginLeft: -450, marginTop: -450 }, st]}>
-        <LinearGradient colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0)', cc[0], cc[1] || cc[0], 'rgba(0,0,0,0)']} locations={[0, 0.3, 0.5, 0.62, 0.8]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ flex: 1 }} />
-      </Animated.View>
+      <LinearGradient pointerEvents="none" colors={[cc[0], cc[1] || cc[0]]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={StyleSheet.absoluteFill} />
       {children}
     </View>
   );
@@ -443,9 +435,9 @@ const GlowBar = ({ children, style, radius = 18 }) => {
 // Avvio (concept C "Dock", 10/11/2026): il diamante compare al centro (rimbalzo, alone, scintilla), vola nel posto del logo
 // dell'intestazione, da dietro esce la scritta ScalperLab mentre la ricerca resta nascosta, poi tutto si dissolve sul logo vero.
 const brandRef = React.createRef();
-const LOGO_OP = makeMutable(0);
-const SEARCH_OP = makeMutable(0);
-let LAUNCHED = false;
+const LOGO_OP = makeMutable(1);
+const SEARCH_OP = makeMutable(1);
+let LAUNCHED = true; // intro del logo tolta (10/11/2026): la Home parte subito
 const GEM = 116, FLY_MS = 750, MIN_POP = 2100, START_DELAY = 750, HOME_AT = 1650;
 // alone sfumato (gradiente radiale): niente bordo netto
 const GLOW_URI = 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><radialGradient id="g"><stop offset="0" stop-color="#38BDF8" stop-opacity="0.34"/><stop offset="0.35" stop-color="#2563EB" stop-opacity="0.2"/><stop offset="0.7" stop-color="#2563EB" stop-opacity="0.05"/><stop offset="1" stop-color="#2563EB" stop-opacity="0"/></radialGradient></defs><circle cx="50" cy="50" r="50" fill="url(#g)"/></svg>');

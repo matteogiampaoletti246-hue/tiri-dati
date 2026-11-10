@@ -11,7 +11,6 @@ import { installNativeBridge } from '@/lib/search';
 import { installFixedGuard } from '@/lib/fixedGuard';
 import { installBackSnaps } from '@/lib/carousel';
 import { installPrefetch } from '@/lib/prefetch';
-import LaunchScreen from '@/components/LaunchScreen';
 import ScrollToTop from '@/components/ScrollToTop';
 import PlayerSheetHost from '@/components/match/PlayerSheet';
 import PlayerPanelHost from '@/components/player/PlayerPanel';
@@ -93,7 +92,6 @@ export default function App() {
 
   return (
     <HashRouter>
-      <LaunchScreen ready={ready} />
       <NavGuard />
       <NativeSignal ready={ready} />
       <CalcKeepGuard />

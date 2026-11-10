@@ -942,8 +942,8 @@ html:not(.dark) .lglass {
 .glow-ring { position: relative; display: block; padding: 1.5px; isolation: isolate; }
 .glow-ring::before {
   content: ''; position: absolute; inset: 0; border-radius: inherit; z-index: -1;
-  background: conic-gradient(from var(--glow-a), transparent 0 62%, var(--accent) 78%, #7B6CFF 88%, transparent 97%), var(--glass-border);
-  animation: glowSpin 3.2s linear infinite;
+  background: conic-gradient(from 0deg, var(--accent), #7B6CFF, var(--accent));
+  
 }
 .glow-ring::after {
   content: ''; position: absolute; left: 18%; right: 18%; bottom: -6px; height: 14px; z-index: -2; border-radius: 50%;
@@ -968,7 +968,7 @@ html:not(.dark) .lglass {
   content: ''; position: absolute; inset: -1.5px; border-radius: inherit; z-index: -1; pointer-events: none; padding: 1.5px;
   background: conic-gradient(from var(--halo-a), var(--accent), #7B6CFF, #00C2FF, var(--accent));
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude;
-  animation: haloSpin 4s linear infinite; opacity: .9;
+  opacity: .9;
 }
 @keyframes haloSpin { to { --halo-a: 360deg; } }
 /* Tutte|Live: su Live il contorno e la pillola sfumano dal blu al rosso (secondo anello rosso sopra il primo, stessa rotazione) */
@@ -977,7 +977,7 @@ html:not(.dark) .lglass {
   content: ''; position: absolute; inset: -1.5px; border-radius: inherit; z-index: -1; pointer-events: none; padding: 1.5px;
   background: conic-gradient(from var(--halo-a), var(--live), color-mix(in srgb, var(--live) 60%, #FFB020), color-mix(in srgb, var(--live) 75%, #FF2D95), var(--live));
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude;
-  animation: haloSpin 4s linear infinite; opacity: 0;
+  opacity: 0;
 }
 .halo-live.on::before { opacity: 0; }
 .halo-live.on::after { opacity: .9; }
@@ -1154,7 +1154,7 @@ html:not(.dark) .lglass {
   --h3: var(--rc);
   background: conic-gradient(from var(--halo-a), var(--h1, var(--accent)), var(--h2, #7B6CFF), var(--h3, #00C2FF), var(--h1, var(--accent)));
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude;
-  will-change: transform; animation: haloSpin 6s steps(120) infinite; opacity: .92; /* 20 scatti al secondo: il giro lento sembra continuo e costa un terzo da ridisegnare */
+  opacity: .92; /* 20 scatti al secondo: il giro lento sembra continuo e costa un terzo da ridisegnare */
 }
 /* ring-def: sempre blu/viola, anche dentro un riquadro colorato (campi, tasti) */
 .halo-card.ring-def, .glass.ring-def, .panel-flat.ring-def { --rc: initial; --ring-c2: initial; }
@@ -1166,7 +1166,6 @@ html:not(.dark) .lglass {
   border: 1.5px solid transparent !important;
   background: linear-gradient(var(--menu-fill), var(--menu-fill)) padding-box, conic-gradient(from var(--halo-a), var(--accent), #7B6CFF, #00C2FF, var(--accent)) border-box !important;
   -webkit-backdrop-filter: none !important; backdrop-filter: none !important;
-  animation: haloSpin 5s linear infinite;
 }
 /* fuori schermo i bordi stanno fermi (fluidita'): lib/ringVis.js mette html.ring-io e data-rv sui riquadri visibili */
 .ring-io :is(.panel, .panel-solid, .panel-flat, .glass, .glass-strong, .glass-flat, .glass-pill, .glass-btn, .empty-day, .stat-card, .tint-card, .halo-card):not([data-rv])::after,

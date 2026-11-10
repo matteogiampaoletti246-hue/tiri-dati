@@ -1,34 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, Menu as MenuIcon } from 'lucide-react';
 import Logo from '@/components/Logo';
 import { openMenu } from '@/components/MenuDrawer';
 
-const launched = () => {
-  try {
-    return !!sessionStorage.getItem('sl-launched');
-  } catch {
-    return true;
-  }
-};
-
 // Intestazione della Home in una riga sola: logo, barra di ricerca (tutto lo spazio che resta), Calendario, menu.
 // Il logo arriva qui dall'animazione di avvio.
 export default function HomeHeader({ onSearch, calendar }) {
-  const [ready, setReady] = useState(() => launched() || !!window.__slDone);
+  const [ready] = useState(true); // intro del logo tolta (10/11/2026)
   // durante l'avvio la barra di ricerca resta nascosta: la scritta ScalperLab esce nel suo posto e poi la barra riappare
-  const [intro, setIntro] = useState(() => !(launched() || window.__slEnd));
-
-  useEffect(() => {
-    const onDone = () => setReady(true);
-    const onEnd = () => setIntro(false);
-    window.addEventListener('sl-launch-done', onDone);
-    window.addEventListener('sl-launch-end', onEnd);
-    return () => {
-      window.removeEventListener('sl-launch-done', onDone);
-      window.removeEventListener('sl-launch-end', onEnd);
-    };
-  }, []);
+  const intro = false;
 
   return (
     <header>
