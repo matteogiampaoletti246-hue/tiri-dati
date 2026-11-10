@@ -3,6 +3,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { LeagueStandings, ArchiveStandings } from '../shared/Standings';
 import { peekBracket } from '@/data/bracket';
+import Riepilogo from './PartitaRiepilogo';
 
 function Classifica({ C, match, openRoute }) {
   if (match.archive && match.season) {
@@ -12,7 +13,7 @@ function Classifica({ C, match, openRoute }) {
   return <View style={{ paddingTop: 12 }}><LeagueStandings C={C} leagueId={match.leagueId} highlight={[match.homeId, match.awayId]} openRoute={openRoute} /></View>;
 }
 
-export const PANELS = { standings: Classifica };
+export const PANELS = { summary: Riepilogo, standings: Classifica };
 
 export function hasPanel(key, raw, view, home, away, pre, cup) {
   if (!PANELS[key]) return false; // scheda non ancora portata

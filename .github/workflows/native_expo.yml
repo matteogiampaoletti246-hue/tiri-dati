@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths: ['native/**', 'aurora-src/src/data/**', 'aurora-src/src/lib/**', 'aurora-src/src/components/calc/calcComp.js', 'aurora-src/src/components/player/playerCalc.js', 'aurora-src/src/hooks/useAsync.js']
+    paths: ['native/**', 'aurora-src/src/data/**', 'aurora-src/src/lib/**', 'aurora-src/src/components/calc/calcComp.js', 'aurora-src/src/components/player/playerCalc.js', 'aurora-src/src/hooks/useAsync.js', 'aurora-src/stadi/mappa.json']
 permissions:
   contents: write
 concurrency:
@@ -33,7 +33,7 @@ jobs:
           node native/tools/gen_flags.mjs app/meta.json native-link/flags
           cp native/App.js app/App.js
           cp -r native/pages app/pages
-          cp -r native/shared app/shared
+          cp -r native/shared app/shared && cp aurora-src/stadi/mappa.json app/shared/stadiMappa.json
           cp native/metro.config.js app/metro.config.js
           mkdir -p app/src/components/calc && cp -r aurora-src/src/data aurora-src/src/lib app/src/ && cp aurora-src/src/components/calc/calcComp.js app/src/components/calc/ && mkdir -p app/src/components/player app/src/hooks && cp aurora-src/src/components/player/playerCalc.js app/src/components/player/ && cp aurora-src/src/hooks/useAsync.js app/src/hooks/
           cd app
