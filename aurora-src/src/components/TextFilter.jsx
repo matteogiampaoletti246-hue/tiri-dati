@@ -11,7 +11,7 @@ export default function TextFilter({ options, value, onChange, className = '' })
     const el = b && b.querySelector('[data-on="1"]');
     const p = pill.current;
     if (!b || !el || !p) return;
-    p.style.transition = animate ? 'transform .34s cubic-bezier(.22,.8,.24,1), width .34s cubic-bezier(.22,.8,.24,1)' : 'none';
+    p.style.transition = animate ? 'transform .6s cubic-bezier(.34,1.42,.64,1), width .6s cubic-bezier(.34,1.42,.64,1)' : 'none'; // stesso rimbalzo della pillola liquid glass (AnimatedTabs)
     p.style.width = `${el.offsetWidth}px`;
     p.style.transform = `translate3d(${el.offsetLeft}px,0,0)`;
     p.style.opacity = '1';
@@ -43,7 +43,7 @@ export default function TextFilter({ options, value, onChange, className = '' })
 
   return (
     <div ref={box} className={`glass-flat hide-sb relative flex w-fit max-w-full items-center gap-0.5 overflow-x-auto rounded-full p-1 ${className}`} style={{ overflowY: 'hidden', overscrollBehavior: 'contain' }}>
-      <span ref={pill} aria-hidden="true" className="absolute left-0 rounded-full" style={{ top: 4, bottom: 4, width: 0, opacity: 0, background: 'var(--pill-active)', boxShadow: 'var(--shadow-2)', willChange: 'transform' }} />
+      <span ref={pill} aria-hidden="true" className="lg-thumb absolute left-0 rounded-full" style={{ top: 4, bottom: 4, width: 0, opacity: 0, willChange: 'transform' }} />
       {options.map((opt) => {
         const val = typeof opt === 'string' ? opt : opt.value;
         const label = typeof opt === 'string' ? opt : opt.label;
@@ -56,7 +56,7 @@ export default function TextFilter({ options, value, onChange, className = '' })
             onClick={() => onChange(val)}
             className="press relative shrink-0 rounded-full px-[10.5px] py-[6px] text-[12.5px] font-bold"
           >
-            <span className="relative whitespace-nowrap" style={{ color: active ? 'var(--ink)' : 'var(--ink-3)', transition: 'color .25s ease' }}>
+            <span className="relative whitespace-nowrap" style={{ color: active ? 'var(--atabs-pill-ink)' : 'var(--ink-3)', transition: 'color .25s ease' }}>
               {label}
             </span>
           </button>

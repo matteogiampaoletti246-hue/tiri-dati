@@ -1,5 +1,5 @@
 import { TEAMS, teamById, teamByFm } from '@/data/teams';
-import { LEAGUES, leagueById } from '@/data/leagues';
+import { LEAGUES, leagueById, leagueTint } from '@/data/leagues';
 import { PLAYERS } from '@/data/players';
 import { REFEREES } from '@/data/referees';
 import { bootData } from '@/data';
@@ -121,7 +121,7 @@ function forNative(q) {
   const sp = (n) => matchSpan(n, q);
   return {
     fuzzy: r.fuzzy,
-    leagues: r.leagues.map((l) => ({ id: l.id, name: l.name, country: l.country || '', logo: l.logo || null, logoDark: l.logoDark || null, path: `/campionato/${l.id}`, hl: sp(l.name) })),
+    leagues: r.leagues.map((l) => ({ id: l.id, name: l.name, country: l.country || '', logo: l.logo || null, logoDark: l.logoDark || null, color: leagueTint(l.id), path: `/campionato/${l.id}`, hl: sp(l.name) })),
     teams: r.teams.map((t) => {
       const l = leagueById(t.leagueId);
       const c = l ? l.country || '' : '';

@@ -68,10 +68,10 @@ export default function ClassificaSwitch({ fm, sk, children }) {
     <div>
       <div className="px-4 pt-3">
         <div className="glass-flat relative flex w-fit items-center gap-0.5 rounded-full p-1">
-          <span ref={ind} aria-hidden="true" className="absolute left-0 rounded-full" style={{ top: 4, bottom: 4, width: 0, opacity: 0, background: 'var(--pill-active)', boxShadow: 'var(--shadow-2)', willChange: 'transform' }} />
+          <span ref={ind} aria-hidden="true" className="lg-thumb absolute left-0 rounded-full" style={{ top: 4, bottom: 4, width: 0, opacity: 0, willChange: 'transform' }} />
           {OPTS.map((o, i) => (
             <button key={o} ref={(el) => { btn.current[i] = el; }} type="button" onClick={() => go(i)} className="press relative shrink-0 rounded-full px-[14px] py-[6px] text-[12.5px] font-bold">
-              <span className="whitespace-nowrap" style={{ color: view === i ? 'var(--ink)' : 'var(--ink-3)', transition: 'color .25s ease' }}>{o}</span>
+              <span className="whitespace-nowrap" style={{ color: view === i ? 'var(--atabs-pill-ink)' : 'var(--ink-3)', transition: 'color .25s ease' }}>{o}</span>
             </button>
           ))}
         </div>

@@ -8,7 +8,7 @@ import useAsync from '@/hooks/useAsync';
 import { useArchAny } from '@/hooks/useArchFresh';
 import { allTeamMatches } from '@/data/extras';
 import { teamCompetitions } from '@/data/competitions';
-import { announceComp, useTeamView, useSel, useCompIn, curSkOf } from '@/components/past/PastBits';
+import { useAnnounceComp, useTeamView, useSel, useCompIn, curSkOf } from '@/components/past/PastBits';
 import { teamHistory, teamFmId } from '@/data/teamIndex';
 import { ArchRow, fmtDate, dayKey } from '@/components/archive/parts';
 import { FM_ID, loadSeason, teamIdByName, teamSeasons, sortSeasons, archIndex } from '@/data/archive';
@@ -189,6 +189,7 @@ export default function TeamMatchesPanel({ teamId }) {
   const team = teamById(teamId);
   const [filter, setFilter] = useSel(teamId, 'mf', 'all');
   const { comp, setComp, season: sk, setSeason, comps, seasons, noCur } = useTeamView(team, 'mt', teamCompetitions(teamId), 'all', true);
+  const tap = useAnnounceComp(teamId, comp, sk); // il banner segue competizione e stagione scelte
   const anim = useCompIn(`${comp}|${sk}|${filter}`);
 
   return (
@@ -197,10 +198,10 @@ export default function TeamMatchesPanel({ teamId }) {
         comps={comps}
         comp={comp}
         allLabel="Tutte le competizioni"
-        onComp={(c) => { setComp(c); announceComp(teamId, c); }}
+        onComp={tap(setComp)}
         seasons={seasons}
         season={sk}
-        onSeason={setSeason}
+        onSeason={tap(setSeason)}
         noCur={noCur}
       />
       <div className="px-5 pt-2">

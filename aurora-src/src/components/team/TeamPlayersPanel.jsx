@@ -2,7 +2,7 @@ import { useState } from 'react';
 import LeaguePlayersPanel from '@/components/league/LeaguePlayersPanel';
 import CompSeasonBar from '@/components/CompSeasonBar';
 import { PastTeamPlayers, PlayerPills, playerCat } from '@/components/past/PastTeam';
-import { useTeamView, announceComp, curSkOf } from '@/components/past/PastBits';
+import { useTeamView, useAnnounceComp, curSkOf } from '@/components/past/PastBits';
 import { teamCompetitions } from '@/data/competitions';
 import { playersByTeam } from '@/data/players';
 
@@ -11,6 +11,7 @@ import { playersByTeam } from '@/data/players';
 export default function TeamPlayersPanel({ team }) {
   const hasApp = playersByTeam(team.id).some((p) => p.hasStats);
   const { comp, setComp, season, eff, setSeason, comps, seasons, fm, noCur, noSplit } = useTeamView(team, 'pl', teamCompetitions(team.id), team.leagueId, false, { hasApp });
+  const tap = useAnnounceComp(team.id, comp, season); // il banner segue competizione e stagione scelte
   const [part, setPart] = useState('tot');
   const [cat, setCat] = useState('all');
   const sk = eff === 'cur' ? curSkOf(comp) : eff;
@@ -20,7 +21,7 @@ export default function TeamPlayersPanel({ team }) {
   const appList = eff === 'cur' && comp === team.leagueId && hasApp && usePart !== 'home' && usePart !== 'away';
   return (
     <div>
-      <CompSeasonBar comps={comps} comp={comp} onComp={(c) => { setComp(c); announceComp(team.id, c); }} seasons={seasons} season={season} onSeason={setSeason} noCur={noCur} />
+      <CompSeasonBar comps={comps} comp={comp} onComp={tap(setComp)} seasons={seasons} season={season} onSeason={tap(setSeason)} noCur={noCur} />
       {appList ? (
         <LeaguePlayersPanel leagueId={team.leagueId} teamId={team.id} mode={usePart === 'p90' ? 'p90' : 'tot'} cat={cat} catOf={playerCat} renderControls={(has) => <PlayerPills part={usePart} onPart={setPart} cat={cat} onCat={setCat} split={split} has={has} />} />
       ) : fm && sk ? <PastTeamPlayers fm={fm} sk={sk} team={team} part={usePart} onPart={setPart} cat={cat} onCat={setCat} split={split} /> : null}

@@ -17,8 +17,8 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
 
 const SITE = 'https://matteogiampaoletti246-hue.github.io/tiri-dati/';
 const W = Dimensions.get('window').width;
-const DARK = { dark: true, bg: '#05070D', ink: '#F1F5FB', ink2: '#A9B6CC', ink3: '#6D7A91', hair: 'rgba(255,255,255,.10)', border: 'rgba(255,255,255,.12)', accent: '#4DA8FF', live: '#FF6464', chip: 'rgba(255,255,255,.08)', wash: 'rgba(255,255,255,0.03)', card1: 'rgba(255,255,255,0.10)', card2: 'rgba(255,255,255,0.035)', sheet: '#0E1626', scrim: 'rgba(0,0,0,.5)', dockBg: 'rgba(14,22,38,0.62)', tile1: 'rgba(255,255,255,0.08)', accTint: 'rgba(77,168,255,0.16)', accRing: 'rgba(77,168,255,0.6)', skBase: 'rgba(255,255,255,0.075)', skHi: 'rgba(255,255,255,0.10)', skHi0: 'rgba(255,255,255,0)', lg1: 'rgba(255,255,255,0.20)', lg2: 'rgba(255,255,255,0.05)', lgBorder: 'rgba(255,255,255,0.24)', lgHi: 'rgba(255,255,255,0.38)', beam0: 'rgba(77,168,255,0)', beam1: 'rgba(77,168,255,0.11)', beam2: 'rgba(77,168,255,0.065)', thumb: 'rgba(255,255,255,0.12)', thumbBd: 'rgba(255,255,255,0.18)' };
-const LIGHT = { dark: false, bg: '#F3F6FB', ink: '#0F172A', ink2: '#475569', ink3: '#8592A6', hair: 'rgba(15,23,42,.08)', border: 'rgba(15,23,42,.10)', accent: '#1F6BEF', live: '#E5484D', chip: 'rgba(15,23,42,.06)', wash: 'rgba(255,255,255,0.85)', card1: 'rgba(255,255,255,0.95)', card2: 'rgba(255,255,255,0.8)', sheet: '#FFFFFF', scrim: 'rgba(15,23,42,.28)', dockBg: 'rgba(255,255,255,0.6)', tile1: 'rgba(255,255,255,0.9)', accTint: 'rgba(31,107,239,0.12)', accRing: 'rgba(31,107,239,0.55)', skBase: 'rgba(15,23,42,0.085)', skHi: 'rgba(255,255,255,0.8)', skHi0: 'rgba(255,255,255,0)', lg1: 'rgba(255,255,255,0.95)', lg2: 'rgba(255,255,255,0.62)', lgBorder: 'rgba(15,23,42,0.10)', lgHi: '#FFFFFF', beam0: 'rgba(31,107,239,0)', beam1: 'rgba(31,107,239,0.07)', beam2: 'rgba(31,107,239,0.045)', thumb: 'rgba(15,23,42,0.08)', thumbBd: 'rgba(15,23,42,0.12)' };
+const DARK = { dark: true, bg: '#05070D', ink: '#F1F5FB', ink2: '#A9B6CC', ink3: '#6D7A91', hair: 'rgba(255,255,255,.10)', border: 'rgba(255,255,255,.12)', accent: '#4DA8FF', live: '#FF6464', chip: 'rgba(255,255,255,.08)', wash: 'rgba(255,255,255,0.03)', card1: 'rgba(255,255,255,0.10)', card2: 'rgba(255,255,255,0.035)', sheet: '#0E1626', scrim: 'rgba(0,0,0,.5)', dockBg: 'rgba(14,22,38,0.62)', tile1: 'rgba(255,255,255,0.08)', accTint: 'rgba(77,168,255,0.16)', accRing: 'rgba(77,168,255,0.6)', skBase: 'rgba(255,255,255,0.075)', skHi: 'rgba(255,255,255,0.10)', skHi0: 'rgba(255,255,255,0)', lg1: 'rgba(255,255,255,0.20)', lg2: 'rgba(255,255,255,0.05)', lgBorder: 'rgba(255,255,255,0.24)', lgHi: 'rgba(255,255,255,0.38)', beam0: 'rgba(77,168,255,0)', beam1: 'rgba(77,168,255,0.11)', beam2: 'rgba(77,168,255,0.065)', thumb: 'rgba(255,255,255,0.12)', thumbBd: 'rgba(255,255,255,0.18)', pillHi: 'rgba(255,255,255,0.34)', pillMid: 'rgba(255,255,255,0)', pillLo: 'rgba(0,0,0,0.16)' };
+const LIGHT = { dark: false, bg: '#F3F6FB', ink: '#0F172A', ink2: '#475569', ink3: '#8592A6', hair: 'rgba(15,23,42,.08)', border: 'rgba(15,23,42,.10)', accent: '#1F6BEF', live: '#E5484D', chip: 'rgba(15,23,42,.06)', wash: 'rgba(255,255,255,0.85)', card1: 'rgba(255,255,255,0.95)', card2: 'rgba(255,255,255,0.8)', sheet: '#FFFFFF', scrim: 'rgba(15,23,42,.28)', dockBg: 'rgba(255,255,255,0.6)', tile1: 'rgba(255,255,255,0.9)', accTint: 'rgba(31,107,239,0.12)', accRing: 'rgba(31,107,239,0.55)', skBase: 'rgba(15,23,42,0.085)', skHi: 'rgba(255,255,255,0.8)', skHi0: 'rgba(255,255,255,0)', lg1: 'rgba(255,255,255,0.95)', lg2: 'rgba(255,255,255,0.62)', lgBorder: 'rgba(15,23,42,0.10)', lgHi: '#FFFFFF', beam0: 'rgba(31,107,239,0)', beam1: 'rgba(31,107,239,0.07)', beam2: 'rgba(31,107,239,0.045)', thumb: 'rgba(15,23,42,0.08)', thumbBd: 'rgba(15,23,42,0.12)', pillHi: 'rgba(255,255,255,0.40)', pillMid: 'rgba(255,255,255,0)', pillLo: 'rgba(0,0,0,0.12)' };
 const WORKER = 'https://scalperlab-live.matteo-giampaoletti04.workers.dev';
 const NAMES = META.names || {};
 const nm = (id, n) => NAMES[String(id)] || n;
@@ -199,8 +199,8 @@ const LeagueGroup = memo(({ iso, g, forceOpen, onOpen, onLeague }) => {
   return (
     <Card tint={g.c.tint} open={isOpen}>
       <View style={s.headRow}>
-        <Pressable onPress={() => onLeague(leagueRoute(g.c, g.fm))} style={({ pressed }) => [{ flexShrink: 1 }, pressed && { opacity: 0.6 }]}><LeagueHead c={g.c} /></Pressable>
-        <Pressable onPress={() => { if (!forceOpen) tendAnim(); toggle(); }} hitSlop={{ top: 14, bottom: 14, right: 14 }} style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end' }}><Text style={s.cnt}>{g.matches.length}</Text><Chev open={isOpen} /></Pressable>
+        <Pressable onPress={() => onLeague(leagueRoute(g.c, g.fm))} style={({ pressed }) => [{ flex: 1, minWidth: 0 }, pressed && { opacity: 0.6 }]}><LeagueHead c={g.c} /></Pressable>
+        <Pressable onPress={() => { if (!forceOpen) tendAnim(); toggle(); }} hitSlop={{ top: 14, bottom: 14, right: 14 }} style={s.tail}><Text numberOfLines={1} style={s.cnt}>{g.matches.length}</Text><Chev open={isOpen} /></Pressable>
       </View>
       <Collapse open={isOpen}><LeagueBody g={g} onOpen={onOpen} /></Collapse>
     </Card>
@@ -217,7 +217,7 @@ const CountryGroup = memo(({ iso, p, forceOpen, onOpen, onLeague }) => {
       <Pressable onPress={() => { if (!forceOpen) tendAnim(); toggle(); }} style={s.headRow}>
         <Flag fc={p.fc} tint={p.tint} />
         <Text numberOfLines={1} style={[s.lhName, { flex: 1, marginLeft: 12 }]}>{p.name}</Text>
-        <Text style={s.cnt}>{total}</Text><Chev open={isOpen} />
+        <View style={s.tail}><Text numberOfLines={1} style={s.cnt}>{total}</Text><Chev open={isOpen} /></View>
       </Pressable>
       <Collapse open={isOpen}><CountryBody p={p} onLeague={onLeague} onOpen={onOpen} /></Collapse>
     </Card>
@@ -505,6 +505,23 @@ const TeamBannerS = memo(({ t, onPress }) => {
   );
 });
 
+// Campionato nella ricerca: stesso banner colorato di squadre e giocatori (colore del campionato, logo, nome, paese)
+const COMP_TINT = {}; Object.values(META.comps || {}).forEach((c) => { if (c && c.id && c.tint && !COMP_TINT[c.id]) COMP_TINT[c.id] = c.tint; });
+const LeagueBannerS = memo(({ l, uri, tint, onPress }) => {
+  const { C, s } = useT();
+  const g = hexA(l.color || COMP_TINT[l.id], '66');
+  return (
+    <Pressable onPress={onPress} style={({ pressed }) => [s.pb, pressed && { opacity: 0.6 }]}>
+      <LinearGradient colors={[g || C.card1, C.card2]} locations={[0, 0.72]} start={{ x: 0, y: 0.5 }} end={{ x: 1, y: 0.5 }} style={StyleSheet.absoluteFill} />
+      <View style={{ width: 36, height: 36, alignItems: 'center', justifyContent: 'center' }}><Mark uri={uri} size={28} tint={tint} initials={l.name.slice(0, 2).toUpperCase()} /></View>
+      <View style={{ flex: 1, minWidth: 0 }}>
+        <Text numberOfLines={1} style={s.pbName}><HlName text={l.name} hl={l.hl} /></Text>
+        {l.country ? <View style={s.pbSub}><Text numberOfLines={1} style={s.pbTeam}>{l.country}</Text></View> : null}
+      </View>
+    </Pressable>
+  );
+});
+
 // Ricerca a tendina (aspetto: la barra si allarga in un pannello unico; animazione: il pannello scende dalla barra e i risultati arrivano a cascata).
 // Si chiude toccando fuori, con X, con il tasto indietro (Android) o scegliendo un risultato. La Home dietro non si muove.
 function SearchPanel({ open, onClose, onPick, ask, res, ready, top }) {
@@ -560,11 +577,7 @@ function SearchPanel({ open, onClose, onPick, ask, res, ready, top }) {
           <View onLayout={(e) => setContentH(Math.ceil(e.nativeEvent.layout.height))} style={{ paddingHorizontal: 10, paddingBottom: 10 }}>
             {has && data.fuzzy ? <Animated.Text key="fz" entering={ent()} style={[s.sMeta, { paddingHorizontal: 8, paddingTop: 10 }]}>Risultati simili a «{q.trim()}»</Animated.Text> : null}
             {has && data.leagues.length ? (<View key="L"><Animated.Text entering={ent()} style={s.sSec}>Campionati</Animated.Text>
-              {data.leagues.map((l) => (<Animated.View key={`l${l.id}`} entering={ent()}><Pressable onPress={() => onPick(l.path)} style={s.sItem}>
-                <Mark uri={logoOf(l)} size={26} tint={mono(l)} initials={l.name.slice(0, 2).toUpperCase()} />
-                <Text numberOfLines={1} style={[s.sName, { flex: 1 }]}><HlName text={l.name} hl={l.hl} /></Text>
-                {l.country ? <Text style={s.sMeta}>{l.country}</Text> : null}
-              </Pressable></Animated.View>))}
+              {data.leagues.map((l) => (<Animated.View key={`l${l.id}`} entering={ent()} style={{ paddingBottom: 6 }}><LeagueBannerS l={l} uri={logoOf(l)} tint={mono(l)} onPress={() => onPick(l.path)} /></Animated.View>))}
               <Animated.View key="lall" entering={ent()}><Pressable onPress={() => onPick('/competizioni')} style={s.sItem}><Text style={[s.sName, { color: C.accent, fontWeight: '700', fontSize: 13.5 }]}>Tutte le competizioni per paese</Text></Pressable></Animated.View>
             </View>) : null}
             {has && data.teams.length ? (<View key="T"><Animated.Text entering={ent()} style={s.sSec}>Squadre</Animated.Text>
@@ -854,24 +867,27 @@ const TabBar = memo(({ onOpen, onHome, onTop, active, bottom, live }) => {
 
 
 // pillola unica Tutte | Live: l'indicatore scorre da meta' a meta' e passa dal blu al rosso (stesso movimento e colore nel sito)
+// pillola "liquid glass" unica (come nel sito: AnimatedTabs, TextFilter): riflesso in alto, ombra sotto, scorrimento con leggero rimbalzo
+const PILL_EASE = Easing.bezier(0.34, 1.42, 0.64, 1);
+const PILL_MS = 600;
 function LivePill({ value, onChange }) {
   const { C } = useT();
   const [w, setW] = useState(0);
   const p = useSharedValue(value === 'live' ? 1 : 0);
-  useEffect(() => { p.value = withTiming(value === 'live' ? 1 : 0, { duration: 420, easing: Easing.inOut(Easing.cubic) }); }, [value, p]);
+  useEffect(() => { p.value = withTiming(value === 'live' ? 1 : 0, { duration: PILL_MS, easing: PILL_EASE }); }, [value, p]);
   const half = w / 2;
   // l'indicatore parte subito (thread UI, non aspetta il rendering della lista); il filtro cambia un istante dopo, a pillola gia' in moto
   const press = (v) => {
-    p.value = withTiming(v === 'live' ? 1 : 0, { duration: 420, easing: Easing.inOut(Easing.cubic) });
+    p.value = withTiming(v === 'live' ? 1 : 0, { duration: PILL_MS, easing: PILL_EASE });
     setTimeout(() => onChange(v), 60);
   };
-  const th = useAnimatedStyle(() => ({ transform: [{ translateX: p.value * half }], backgroundColor: interpolateColor(p.value, [0, 1], [C.accent, C.live]) }), [half, C]);
+  const th = useAnimatedStyle(() => ({ transform: [{ translateX: p.value * half }], backgroundColor: interpolateColor(Math.min(1, Math.max(0, p.value)), [0, 1], [C.accent, C.live]) }), [half, C]);
   const t1 = useAnimatedStyle(() => ({ color: interpolateColor(p.value, [0, 1], ['#FFFFFF', C.ink3]) }), [C]);
   const t2 = useAnimatedStyle(() => ({ color: interpolateColor(p.value, [0, 1], [C.ink3, '#FFFFFF']) }), [C]);
   const dot = useAnimatedStyle(() => ({ backgroundColor: interpolateColor(p.value, [0, 1], [C.live, '#FFFFFF']) }), [C]);
   return (
     <View onLayout={(e) => setW(e.nativeEvent.layout.width)} style={{ width: 160, height: 38, borderRadius: 19, overflow: 'hidden', flexDirection: 'row', backgroundColor: C.chip, borderWidth: 1, borderColor: C.border }}>
-      {w ? <Animated.View pointerEvents="none" style={[{ position: 'absolute', top: 0, bottom: 0, left: 0, width: half, borderRadius: 19 }, th]} /> : null}
+      {w ? <Animated.View pointerEvents="none" style={[{ position: 'absolute', top: 0, bottom: 0, left: 0, width: half, borderRadius: 19, overflow: 'hidden', shadowColor: '#000', shadowOpacity: 0.3, shadowRadius: 8, shadowOffset: { width: 0, height: 4 } }, th]}><LinearGradient colors={[C.pillHi, C.pillMid, C.pillLo]} locations={[0, 0.46, 1]} start={{ x: 0.2, y: 0 }} end={{ x: 0.8, y: 1 }} style={StyleSheet.absoluteFill} /></Animated.View> : null}
       <Pressable onPress={() => press('all')} style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><Animated.Text style={[{ fontSize: 13.5, fontWeight: '600' }, t1]}>Tutte</Animated.Text></Pressable>
       <Pressable onPress={() => press('live')} style={{ flex: 1, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', gap: 6 }}><Animated.View style={[{ width: 7, height: 7, borderRadius: 4 }, dot]} /><Animated.Text style={[{ fontSize: 13.5, fontWeight: '600' }, t2]}>Live</Animated.Text></Pressable>
     </View>
@@ -882,19 +898,19 @@ function LivePill({ value, onChange }) {
 // Un solo valore animato per tutte le barre, driver nativo (nessun lavoro JS per fotogramma); con "Riduci movimento" resta fermo.
 // Compare dopo 150 ms: un caricamento piu' corto non lampeggia.
 const SkCtx = createContext(null);
-function SkBox({ children, style }) {
+function SkBox({ children, style, delay = 150 }) {
   const v = useRef(new RNAnimated.Value(0)).current;
   const op = useRef(new RNAnimated.Value(0)).current;
   useEffect(() => {
     let on = true; let loop = null;
-    RNAnimated.timing(op, { toValue: 1, delay: 150, duration: 160, useNativeDriver: true }).start();
+    RNAnimated.timing(op, { toValue: 1, delay, duration: 160, useNativeDriver: true }).start();
     AccessibilityInfo.isReduceMotionEnabled().then((still) => {
       if (!on || still) return;
       loop = RNAnimated.loop(RNAnimated.timing(v, { toValue: 1, duration: 1500, useNativeDriver: true }));
       loop.start();
     }).catch(() => {});
     return () => { on = false; if (loop) loop.stop(); };
-  }, [v, op]);
+  }, [v, op, delay]);
   return <SkCtx.Provider value={v}><RNAnimated.View pointerEvents="none" style={[{ opacity: op }, style]}>{children}</RNAnimated.View></SkCtx.Provider>;
 }
 const SkBar = ({ w, h = 12, r = 6, style }) => {
@@ -954,7 +970,7 @@ function SkWeb({ route }) {
   const n = Math.max(3, Math.min(7, Math.ceil((Dimensions.get('window').height - 200) / 108)));
   if (list) {
     return (
-      <SkBox style={[StyleSheet.absoluteFill, { backgroundColor: C.bg, paddingTop: 18 }]}>
+      <SkBox delay={0} style={[StyleSheet.absoluteFill, { backgroundColor: C.bg, paddingTop: 18 }]}>
         <SkBar w={190} h={20} style={{ marginLeft: 20, marginBottom: 16 }} />
         <View style={{ flexDirection: 'row', paddingHorizontal: 20, marginBottom: 18 }}>{[0, 1, 2, 3, 4].map((i) => <SkBar key={i} w={44} h={12} style={{ marginRight: 18 }} />)}</View>
         {Array.from({ length: n }, (_, i) => <SkCard key={i} h={96}><SkLines n={3} /></SkCard>)}
@@ -962,7 +978,7 @@ function SkWeb({ route }) {
     );
   }
   return (
-    <SkBox style={[StyleSheet.absoluteFill, { backgroundColor: C.bg, paddingTop: 20 }]}>
+    <SkBox delay={0} style={[StyleSheet.absoluteFill, { backgroundColor: C.bg, paddingTop: 20 }]}>
       <View style={{ paddingLeft: 40, marginBottom: 30 }}>
         <SkBar w={W * 0.5} h={14} style={{ marginBottom: 10 }} />
         <SkBar w={W * 0.3} h={10} />
@@ -1000,7 +1016,10 @@ function Screen({ onTheme, onReset }) {
   const [barOn, setBarOn] = useState(false);       // la barra nativa si vede solo in Home e nelle tre schede (Calcolatore, Giocatori, Matchup)
   const [tab, setTab] = useState('');               // voce della barra scelta: si evidenzia nell'istante del tocco (poi segue `route:` della pagina)
   const [homeTop, setHomeTop] = useState(0);        // tasto Home toccato in Home: la lista del giorno torna in cima
-  const [busy, setBusy] = useState(false); // apertura in corso: rotella al posto della pagina vecchia
+  const [busy, setBusy] = useState(false); // apertura in corso: scheletro al posto della pagina vecchia
+  // pagina web chiusa e parcheggiata su /linee-guida: resta coperta da un fondo pieno, cosi' aprendo una scheda il primo fotogramma
+  // dello scorrimento non mostra mai le Linee guida (prima la copertura arrivava dopo il disegno JS + 150 ms: ~1 s di pannello fantasma)
+  const [parked, setParked] = useState(true);
   const webPath = useRef('');               // percorso che la pagina web dice di mostrare (messaggio `route:`)
   const awaitRoute = useRef(null);
   const busyTimer = useRef(null);
@@ -1192,7 +1211,7 @@ function Screen({ onTheme, onReset }) {
     const path0 = route.split('?')[0];
     // da una scheda del dock a un'altra (pagina gia' aperta e pronta): la pagina web scorre di lato da sola, niente scheletro sopra
     const slide = openRef.current && readyRef.current && !!webRef.current && isTabRoute(webPath.current) && isTabRoute(route) && webPath.current !== path0;
-    openRef.current = true; lastRoute.current = route; setWebOpen(true); setDepth(0); setBarOn(isTabRoute(route)); setTab(tabOf(route));
+    openRef.current = true; lastRoute.current = route; setWebOpen(true); setParked(false); setDepth(0); setBarOn(isTabRoute(route)); setTab(tabOf(route));
     if (!readyRef.current) { startRoute.current = route; setWarm(true); }
     const path = route.split('?')[0];
     // la pagina web e' gia' su questa rotta (riapertura veloce, o tocco che torna alla pagina mostrata prima che l'altra arrivasse): niente attesa.
@@ -1214,7 +1233,7 @@ function Screen({ onTheme, onReset }) {
     ov.value = withTiming(0, { duration: 260, easing: Easing.out(Easing.cubic) });
   }, [hashTo, ov, endBusy, recover]);
   // la pagina web lascia la scheda mostrata: riaprendo la stessa voce si aspetta il suo disegno (niente Linee guida intraviste)
-  const afterClose = useCallback(() => { webPath.current = ''; hashTo('#/linee-guida'); setDepth(0); }, [hashTo]);
+  const afterClose = useCallback(() => { webPath.current = ''; if (!openRef.current) setParked(true); hashTo('#/linee-guida'); setDepth(0); }, [hashTo]);
   const onTop = useCallback((route) => {
     if (!route) { setHomeTop((n) => n + 1); return; }
     if (readyRef.current && webRef.current) webRef.current.injectJavaScript("try{window.scrollTo({top:0,behavior:'smooth'})}catch(e){};true;");
@@ -1327,7 +1346,7 @@ function Screen({ onTheme, onReset }) {
           <Pressable onPress={closeWeb} style={s.back}><Ionicons name="chevron-back" size={20} color={C.accent} /><Text style={{ color: C.accent, fontSize: 16 }}>Home</Text></Pressable>
           <View style={{ flex: 1 }}>
             {warm ? <WebView key={webKey} ref={webRef} onContentProcessDidTerminate={recover} onRenderProcessGone={recover} source={{ uri: bootUri.current }} onLoadEnd={onWebLoaded} style={{ flex: 1, backgroundColor: C.bg }} injectedJavaScriptBeforeContentLoaded={NO_LAUNCH} injectedJavaScript={THEME_JS} onMessage={onMsg} decelerationRate={0.998} contentInsetAdjustmentBehavior="never" automaticallyAdjustContentInsets={false} directionalLockEnabled={false} allowsLinkPreview={false} /> : null}
-            {!ready || busy ? <View pointerEvents="auto" style={StyleSheet.absoluteFill}><SkWeb route={awaitRoute.current || lastRoute.current} /></View> : null}
+            {!ready || busy || parked ? <View pointerEvents="auto" style={[StyleSheet.absoluteFill, { backgroundColor: C.bg }]}>{parked && ready ? null : <SkWeb route={awaitRoute.current || lastRoute.current} />}</View> : null}
           </View>
         </View>
         <GestureDetector gesture={edge}><View pointerEvents={depth > 0 ? 'none' : 'auto'} style={[s.edge, { width: EDGE_W, top: insets.top + 98 }]} /></GestureDetector>
@@ -1408,7 +1427,9 @@ const makeStyles = (C) => StyleSheet.create({
   lhRow: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 14, paddingLeft: 16, paddingRight: 12 },
   lhName: { color: C.ink, fontSize: 12.5, fontWeight: '800', letterSpacing: 0.9, textTransform: 'uppercase', flexShrink: 1 },
   hairTop: { },
-  cnt: { color: C.ink2, fontSize: 11, fontWeight: '500', marginRight: 8 },
+  cnt: { color: C.ink2, fontSize: 11, fontWeight: '500', width: 28, marginRight: 6, textAlign: 'right' },
+  // numero e freccia: zona fissa a destra, stessa posizione in tutte le testate (nome lungo troncato prima)
+  tail: { width: 52, alignSelf: 'stretch', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', flexShrink: 0 },
   flag: { width: 30, height: 30, borderRadius: 15, marginLeft: 16, alignItems: 'center', justifyContent: 'center', backgroundColor: C.chip, borderWidth: 2, shadowOpacity: 0.35, shadowRadius: 7, shadowOffset: { width: 0, height: 0 } },
   flagImg: { width: 26, height: 26, borderRadius: 13 },
   body: { borderTopWidth: 1, borderTopColor: C.hair },

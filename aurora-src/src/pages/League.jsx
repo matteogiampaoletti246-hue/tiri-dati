@@ -120,11 +120,14 @@ export default function League() {
         tall
       />
 
-      {inArchive ? (
-        <ArchiveLeague key={seasonEff} fm={fm} sk={seasonEff} tab={aTab} setTab={setATab} tint={leagueTint(league.id)} />
-      ) : (
-        <SwipeTabs fixedBar tabs={liveTabs} panels={livePanels} index={Math.min(tab, liveTabs.length - 1)} onChange={setTab} className="pt-0" />
-      )}
+      {/* --stat-tint: card delle statistiche sfumate nel colore del campionato */}
+      <div style={{ display: 'contents', '--stat-tint': leagueTint(league.id) }}>
+        {inArchive ? (
+          <ArchiveLeague key={seasonEff} fm={fm} sk={seasonEff} tab={aTab} setTab={setATab} tint={leagueTint(league.id)} />
+        ) : (
+          <SwipeTabs fixedBar tabs={liveTabs} panels={livePanels} index={Math.min(tab, liveTabs.length - 1)} onChange={setTab} className="pt-0" />
+        )}
+      </div>
     </PageShell>
   );
 }

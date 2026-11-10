@@ -236,4 +236,11 @@ export function zeroStandingOf(list, key, avgIn = null) {
 }
 
 // la scheda squadra mostra nel banner la competizione scelta nelle tendine
-export const announceComp = (teamId, comp) => { try { window.dispatchEvent(new CustomEvent('sl-comp', { detail: { teamId, comp } })); } catch (e) { /* ignore */ } };
+export const announceComp = (teamId, comp, sk) => { try { window.dispatchEvent(new CustomEvent('sl-comp', { detail: { teamId, comp, sk } })); } catch (e) { /* ignore */ } };
+// avvisa il banner della squadra quando nella tendina cambiano competizione o stagione (non all'apertura: li' vale il campionato della squadra)
+// (solo dopo un tocco nella tendina: la competizione effettiva puo' cambiare da sola mentre arrivano i dati, e li' il banner non si muove)
+export function useAnnounceComp(teamId, comp, season) {
+  const touched = useRef(false);
+  useEffect(() => { if (touched.current) announceComp(teamId, comp, season); }, [teamId, comp, season]);
+  return (fn) => (v) => { touched.current = true; fn(v); };
+}

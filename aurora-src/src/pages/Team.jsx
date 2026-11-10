@@ -19,7 +19,7 @@ import TeamPlayersPanel from '@/components/team/TeamPlayersPanel';
 import TeamStatsPanel from '@/components/team/TeamStatsPanel';
 import { teamById } from '@/data/teams';
 import { leagueById } from '@/data/leagues';
-import { teamRow } from '@/data/standings';
+import useBannerRow, { useBannerSel } from '@/components/team/useBannerRow';
 import { teamForm } from '@/data/matches';
 import { allTeamMatches } from '@/data/extras';
 import { coachOf } from '@/data/players';
@@ -39,12 +39,6 @@ export default function Team() {
   const { id } = useParams();
   useEntityScope(id);
   const [tab, setTab] = usePageTab('team', id);
-  const [bComp, setBComp] = useState(null);
-  useEffect(() => {
-    const h = (e) => { if (e.detail && e.detail.teamId === id) setBComp(e.detail.comp); };
-    window.addEventListener('sl-comp', h);
-    return () => window.removeEventListener('sl-comp', h);
-  }, [id]);
   // squadre di tutte le competizioni (/squadra/fm-<id FotMob>): la scheda si costruisce dall'indice tidx
   const fmRoute = /^fm-(\d+)$/.exec(String(id));
   const { data: idxTeam, loading: idxLoading } = useAsync(() => (fmRoute && !teamById(id) ? teamFromIndex(fmRoute[1]) : null), [id]);
@@ -59,6 +53,10 @@ export default function Team() {
   // scheda "Giocatori" solo se la squadra ha statistiche giocatori in almeno una competizione/stagione (dati dell'app o indice tidx)
   const { data: plH, loading: plL } = useAsync(() => (team ? teamPlayerHistory(team) : Promise.resolve(null)), [team && team.id]);
   const hasPlayers = !team || plL || playersByTeam(team.id).some((p) => p.hasStats) || !!(plH && Object.keys(plH.seasons).length);
+  // posizione e punti nella competizione (e stagione) scelta nelle tendine: stessi numeri della tabella Classifica
+  const sel = useBannerSel(team);
+  const bComp = sel ? sel.comp : null;
+  const row = useBannerRow(team, bComp, sel ? sel.sk : 'cur');
 
   if (team && team.id !== id) return <Navigate replace to={`/squadra/${team.id}`} />;
   if (!team && fmRoute && idxLoading) {
@@ -77,17 +75,15 @@ export default function Team() {
   }
 
   const league = leagueById(team.leagueId);
-  const row = teamRow(team.leagueId, team.id);
   const liveCount = allTeamMatches(team.id).filter((m) => m.status === 'live').length;
 
   const shownLg = bComp && bComp !== 'all' ? leagueById(bComp) : league;
-  const isHome = !bComp || bComp === 'all' || bComp === team.leagueId;
   const meta = <FormDots form={teamForm(team.id)} size={14} />;
   // allenatore solo se noto (mai "All. —")
   const coach = (roseOf(team) || {}).co || (coachOf(team.id) !== '—' ? coachOf(team.id) : null) || (srT && srT.co) || null;
-  const below = (isHome && row) || coach ? (
+  const below = row || coach ? (
     <div className="flex min-w-0 items-center gap-2.5 text-[12.5px]">
-      {isHome && row ? (
+      {row ? (
         <>
           <b className="tnum text-[16px]" style={{ color: 'var(--ink)' }}>{row.rank}°</b>
           <span className="tnum" style={{ color: 'var(--ink-2)' }}>{row.points} pt</span>
@@ -99,7 +95,7 @@ export default function Team() {
   ) : null;
 
   const club = team.colors && team.colors[0];
-  const wrap = (a, n) => <div key={n.key} className="club-scope" style={{ '--club': club, '--club-a': a }}>{n}</div>;
+  const wrap = (a, n) => <div key={n.key} className="club-scope" style={{ '--club': club, '--club-a': a, '--stat-tint': club }}>{n}</div>;
   const panels = [
     wrap('22%', <TeamMatchesPanel key="matches" teamId={team.id} />),
     wrap('24%', <TeamStandingsPanel key="standings" team={team} />),

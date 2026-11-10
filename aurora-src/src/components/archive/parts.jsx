@@ -132,6 +132,21 @@ function orderRows(rows) {
   return [...rows].sort((a, b) => (b.pts || 0) - (a.pts || 0) || (gf(b)[0] - gf(b)[1]) - (gf(a)[0] - gf(a)[1]) || gf(b)[0] - gf(a)[0]).map((r, i) => ({ ...r, idx: i + 1 }));
 }
 
+// posizione e punti di una squadra nella classifica della stagione, con gli stessi calcoli della tabella (girone giusto se a gironi)
+export function seasonTeamRow(season, tid, lt) {
+  if (!season || tid == null) return null;
+  const tables = Array.isArray(season.groups) && season.groups.length ? season.groups.map((g) => g.table) : [season.table];
+  for (const t of tables) {
+    if (!t || !t.all || !t.all.some((r) => String(r.id) === String(tid))) continue;
+    const fg = freshGroup(lt, t);
+    const rows = orderRows(fg ? applyLive(fg.t.all || [], fg.live || lt.live, 'all') : t.all);
+    const i = rows.findIndex((r) => String(r.id) === String(tid));
+    if (i < 0) return null;
+    return { rank: rows[i].idx || i + 1, points: rows[i].pts || 0, played: rows[i].played || 0 };
+  }
+  return null;
+}
+
 function StandingsTable({ t: t0, legendSrc, title, mode, fm5, fm, sk, highlight, lt }) {
   const forma = mode === 'form';
   // classifica FotMob fresca + partite live (stagione in corso): righe con `lv` (risultato provvisorio), `mv` (posti), `dp` (punti)

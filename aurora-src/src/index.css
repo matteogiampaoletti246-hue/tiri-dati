@@ -777,7 +777,16 @@
   --atabs-shadow: rgba(0, 0, 0, .6);
 }
 .atabs { position: relative; display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); gap: 8px; padding: 4px; border-radius: 999px; background: var(--atabs-bg); border: 1px solid var(--glass-border); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
-.atabs-pill { position: absolute; top: 4px; bottom: 4px; left: 4px; width: calc((100% - 8px - (var(--n) - 1) * 8px) / var(--n)); border-radius: 999px; background: var(--atabs-pill); box-shadow: 0 6px 16px -8px var(--atabs-shadow), inset 0 1px 0 rgba(255, 255, 255, .22); transform: translate3d(calc(var(--i) * (100% + 8px)), 0, 0); transition: transform .6s cubic-bezier(.34, 1.42, .64, 1); will-change: transform; }
+.atabs-pill { position: absolute; top: 4px; bottom: 4px; left: 4px; width: calc((100% - 8px - (var(--n) - 1) * 8px) / var(--n)); border-radius: 999px; transform: translate3d(calc(var(--i) * (100% + 8px)), 0, 0); transition: transform .6s cubic-bezier(.34, 1.42, .64, 1); will-change: transform; }
+/* Pillola "liquid glass" unica per TUTTI i selettori che scorrono (AnimatedTabs, TextFilter, Tutte|Live, squadre in Formazioni,
+   Over|Under, Classifica|Tabellone, app nativa): vetro nel colore d'accento (o --lg-c) con riflesso in alto, ombra sotto e scorrimento
+   con leggero rimbalzo (.6s). Testo attivo: --atabs-pill-ink. */
+.atabs-pill, .lg-thumb {
+  background: linear-gradient(158deg, color-mix(in srgb, var(--lg-c, var(--atabs-pill)) 72%, #fff) 0%, var(--lg-c, var(--atabs-pill)) 46%, color-mix(in srgb, var(--lg-c, var(--atabs-pill)) 84%, #000) 100%);
+  box-shadow: 0 6px 16px -8px var(--atabs-shadow), inset 0 1px 0 rgba(255, 255, 255, .38), inset 0 -5px 10px rgba(0, 0, 0, .16);
+}
+.lg-move { transition: transform .6s cubic-bezier(.34, 1.42, .64, 1), width .6s cubic-bezier(.34, 1.42, .64, 1), background-color .42s ease; }
+@media (prefers-reduced-motion: reduce) { .lg-move { transition: none; } }
 .atabs-tab { position: relative; z-index: 1; display: flex; min-width: 0; align-items: center; justify-content: center; gap: 6px; padding: 8px 6px; border-radius: 999px; font-size: 13px; font-weight: 700; color: var(--ink-2); transition: color .3s ease; }
 .atabs-tab.on { color: var(--atabs-pill-ink); }
 .atabs-tab > span { min-width: 0; }
@@ -1004,7 +1013,13 @@ html:not(.dark) .lglass {
 @keyframes empty-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .empty-day { animation: none; } }
 
-/* Podio giocatori: lo stesso cerchio di sempre, colorato con la squadra solo dove la foto non copre */
+/* Card delle classifiche statistiche: sfondo e bordo sfumati nel colore del campionato (o della squadra), dato dalla pagina con --stat-tint.
+   Le righe colorate delle squadre restano come sono: la tinta si vede solo dove non coprono. */
+.stat-card {
+  background-image: linear-gradient(100deg, color-mix(in srgb, var(--stat-tint, transparent) 27%, transparent), rgba(255,255,255,.03) 70%);
+  border-color: color-mix(in srgb, var(--stat-tint, transparent) 45%, var(--glass-border));
+}
+/* Podio giocatori (e righe sotto il podio): lo stesso cerchio di sempre, colorato con la squadra solo dove la foto non copre */
 .pod-face .avatar, .pod-face > span.rounded-full { background: var(--pod-tc, var(--panel-2)) !important; }
 
 /* Anello del voto (Progress concept A): le tacche attorno girano piano */

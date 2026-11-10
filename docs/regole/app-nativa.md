@@ -71,3 +71,10 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 - Causa: dopo ogni chiusura l'app rimette la pagina web su `#/linee-guida` (`afterClose`) e la pagina rispondeva `home`; con l'app lenta (ritorno da un'altra app) il messaggio arrivava dopo il tocco successivo e `closeWeb` richiudeva la pagina appena aperta (la pagina "faceva capolino" e tornava via, e il tocco dopo ripartiva uguale).
 - Ora ogni cambio di rotta deciso dall'app (`hashTo`, `onWebLoaded`) imposta `window.__slQ` (1,5 s) e il caricatore `NO_LAUNCH` non manda `home` mentre e' attivo; `home` resta per il vero ritorno indietro (gesto/tasto del sito).
 - Seconda causa (stessa famiglia): `NavGuard` (`App.jsx`) annullava ogni cambio di rotta "all'indietro" partito da una scheda principale (Calcolatore, Giocatori, Matchup) per bloccare lo swipe del sistema nel browser. Dopo una navigazione interna della pagina (es. scelta di un giocatore nel Calcolatore) anche il cambio di scheda dalla barra in basso contava come "indietro" e veniva annullato: ogni tasto riportava al Calcolatore. Ora nell'app nativa il guardiano non agisce mai (le schede le cambia solo la barra); resta nel browser. Provato con la riproduzione: navigazione interna + tasti della barra in sequenza.
+
+## App nativa: niente Linee guida durante l'apertura (regola fissa)
+- La pagina web chiusa resta su `/linee-guida` ma coperta da un fondo pieno (`parked` in `native/App.js`): aprendo partita, squadra o campionato il primo fotogramma dello scorrimento e' gia' il fondo, poi lo scheletro (`SkWeb`, `SkBox delay={0}`) fino al messaggio `route:`. Prima la copertura arrivava dopo il disegno JS e 150 ms: si vedeva ~1 s il pannello delle Linee guida.
+
+## Home nativa: testate e ricerca (regola fissa)
+- Testate di paesi e campionati: numero partite e freccia in una zona fissa a destra (`s.tail`, 52 px, numero allineato a destra): stessa posizione in tutte le testate, il nome lungo si tronca prima.
+- Ricerca: anche i campionati sono banner colorati (`LeagueBannerS`, colore del campionato da `color` della pagina web o `meta.comps[].tint`), come squadre e giocatori.

@@ -15,7 +15,7 @@ import useArchFresh from '@/hooks/useArchFresh';
 import { FM_ID, LID_BY_FM, loadSeason, loadPlayerStats, seasonLabel, teamLogo, SEASON_STAT_IT, prettyKey } from '@/data/archive';
 import { leagueById, leagueTint } from '@/data/leagues';
 import { tintGrad } from '@/lib/tint';
-import { ArchRow, StandingsPanel, fmtDate, dayKey, useTeamColors } from '@/components/archive/parts';
+import { ArchRow, StandingsPanel, fmtDate, dayKey, useTeamColors, seasonTeamRow } from '@/components/archive/parts';
 import { EntitySkeleton } from '@/components/PageSkeletons';
 
 const TABS = [
@@ -84,19 +84,19 @@ export default function ArchiveTeam() {
   const lid = Object.keys(FM_ID).find((k) => String(FM_ID[k]) === String(fm));
   const league = lid ? leagueById(lid) : null;
   const tint = lid ? leagueTint(lid) : '#38A2FF';
-  const row = ((season.table && season.table.all) || []).find((r) => String(r.id) === tid);
+  const row = seasonTeamRow(season, tid, null); // stessa riga della Classifica (girone giusto nelle competizioni a gironi)
   const colors = col(tid, name).colors;
   const panels = [
     <TeamMatches key="m" season={season} tid={tid} fm={fm} sk={sk} tint={tint} />,
     <StandingsPanel key="s" season={season} fm={fm} sk={sk} highlight={tid} />,
-    <TeamPlayers key="p" stats={stats} tid={tid} season={season} fm={fm} sk={sk} />,
+    <div key="p" style={{ display: 'contents', '--stat-tint': colors && colors[0] }}><TeamPlayers stats={stats} tid={tid} season={season} fm={fm} sk={sk} /></div>,
   ];
   return (
     <PageShell>
       <EntityBanner
         name={name}
         subtitle={`${league ? league.name : ''}${league ? ' · ' : ''}${seasonLabel(sk)}`}
-        meta={row ? <span className="tnum text-[11.5px]" style={{ color: 'var(--ink-2)' }}>{row.idx}° · {row.pts} pt · {row.played} gare</span> : null}
+        meta={row ? <span className="tnum text-[11.5px]" style={{ color: 'var(--ink-2)' }}>{row.rank}° · {row.points} pt · {row.played} gare</span> : null}
         colors={colors}
         logoUrl={teamLogo(tid)}
         flag={isNationName(name)}

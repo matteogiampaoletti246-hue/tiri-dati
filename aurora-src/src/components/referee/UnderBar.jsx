@@ -21,9 +21,9 @@ const SIDES = [{ value: 'o', label: 'Over' }, { value: 'u', label: 'Under' }];
 function Seg({ value, onChange, w = 132 }) {
   return (
     <div className="relative flex h-[38px] flex-none rounded-full p-[3px]" style={{ width: w, background: 'var(--hair-2)' }} role="group" aria-label="Over o Under">
-      <span className="absolute top-[3px] h-[32px] rounded-full" style={{ width: (w - 6) / 2, left: 3, transform: `translateX(${value === 'o' ? 0 : 100}%)`, background: 'var(--accent)', transition: 'transform .3s cubic-bezier(.22,.8,.24,1)' }} />
+      <span className="lg-thumb lg-move absolute top-[3px] h-[32px] rounded-full" style={{ width: (w - 6) / 2, left: 3, transform: `translateX(${value === 'o' ? 0 : 100}%)` }} />
       {SIDES.map((o) => (
-        <button key={o.value} type="button" onClick={() => onChange(o.value)} className="relative z-10 flex-1 rounded-full text-[14px] font-bold" style={{ color: value === o.value ? '#fff' : 'var(--ink-2, var(--ink-3))', transition: 'color .25s' }}>{o.label}</button>
+        <button key={o.value} type="button" onClick={() => onChange(o.value)} className="relative z-10 flex-1 rounded-full text-[14px] font-bold" style={{ color: value === o.value ? 'var(--atabs-pill-ink)' : 'var(--ink-2, var(--ink-3))', transition: 'color .25s' }}>{o.label}</button>
       ))}
     </div>
   );

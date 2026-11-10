@@ -126,7 +126,7 @@ export default function StatLists({ sections, controls = null, limit = 8, wide =
         const rows = all ? rest : rest.slice(0, pod ? limit - 3 : limit);
         const arrow = r0 ? '↑' : '↓';
         return (
-          <section key={s.id} id={`st-${s.id}`} className="glass mx-4 mt-4 overflow-hidden rounded-[24px]" style={{ scrollMarginTop: 150, contain: 'layout paint' }}>
+          <section key={s.id} id={`st-${s.id}`} className="glass stat-card mx-4 mt-4 overflow-hidden rounded-[24px]" style={{ scrollMarginTop: 150, contain: 'layout paint' }}>
             <div className="flex items-baseline justify-between px-4 pb-2 pt-3.5">
               {concept === 'a' ? (
                 <button type="button" onClick={flip} className="press text-left text-[12.5px] font-extrabold uppercase tracking-wider"><h3 className="inline">{s.title}</h3> <span style={{ color: 'var(--accent)' }}>{arrow}</span></button>
@@ -145,7 +145,7 @@ export default function StatLists({ sections, controls = null, limit = 8, wide =
                     style={{ color: concept === 'c' ? 'var(--accent)' : 'var(--ink-3)' }}
                     onClick={concept === 'c' ? (e) => { e.preventDefault(); e.stopPropagation(); flip(); } : undefined}
                   >{r0 ? s.rows.length - i : i + 1}{concept === 'c' && i === 0 ? <span className="text-[8px]">{arrow}</span> : null}</span>
-                  {r.left}
+                  {r.tc ? <span className="pod-face flex shrink-0" style={{ '--pod-tc': r.tc }}>{r.left}</span> : r.left}
                   <span className="min-w-0 flex-1">
                     <span className="block truncate text-[13.5px] font-semibold">{r.name}</span>
                     {r.sub ? <span className="block truncate text-[10.5px]" style={{ color: 'var(--ink-3)' }}>{r.sub}</span> : null}

@@ -30,18 +30,12 @@ export default function ReliabilityCalculator() {
       <header className="head-solid sticky top-0 z-30">
         <FixedBar title="Calcolatore Affidabilità" onSearch={() => { primeKeyboard(); setSearchOpen(true); }} />
         <div className="px-5 pb-2.5">
-          <div className="relative mt-2 grid grid-cols-2 rounded-[16px] p-1" style={{ background: 'var(--panel-2)', border: '1px solid var(--hair)' }}>
+          <div className="relative mt-2 grid grid-cols-2 rounded-full p-1" style={{ background: 'var(--panel-2)', border: '1px solid var(--hair)' }}>
+            {/* stessa pillola liquid glass di tutti i selettori (lg-thumb, lg-move in index.css) */}
             <span
               aria-hidden="true"
-              className="absolute bottom-1 top-1 rounded-[12px]"
-              style={{
-                left: 4,
-                width: 'calc(50% - 4px)',
-                transform: `translateX(${index * 100}%)`,
-                transition: 'transform .34s cubic-bezier(.22,.8,.24,1)',
-                background: 'color-mix(in srgb, var(--accent) 22%, transparent)',
-                border: '1px solid color-mix(in srgb, var(--accent) 45%, transparent)',
-              }}
+              className="lg-thumb lg-move absolute bottom-1 top-1 rounded-full"
+              style={{ left: 4, width: 'calc(50% - 4px)', transform: `translateX(${index * 100}%)` }}
             />
             {TABS.map((t, i) => (
               <button
@@ -49,7 +43,7 @@ export default function ReliabilityCalculator() {
                 type="button"
                 onClick={() => setIndex(i)}
                 className="relative z-10 py-3 text-[14px] font-bold transition-colors"
-                style={{ color: i === index ? 'var(--ink)' : 'var(--ink-3)' }}
+                style={{ color: i === index ? 'var(--atabs-pill-ink)' : 'var(--ink-3)' }}
               >
                 {t.label}
               </button>

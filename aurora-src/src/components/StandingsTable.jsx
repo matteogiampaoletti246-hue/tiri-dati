@@ -11,7 +11,8 @@ import { standings, zoneOf } from '@/data/standings';
 
 const COLS = { table: '18px 1fr 22px 20px 20px 20px 36px 28px', forma: '18px 1fr 92px 30px' };
 
-export default function StandingsTable({ leagueId, mode = 'total', highlight = [] }) {
+// righe mostrate dalla tabella (classifica calcolata + FotMob fresca + live): le usa anche il banner della squadra (stessi numeri)
+export function useStandingRows(leagueId, mode = 'total') {
   const base = standings(leagueId, mode);
   const fm = FM_ID[leagueId];
   const lt = useLiveTable(fm, !!fm && mode !== 'forma');
@@ -33,6 +34,11 @@ export default function StandingsTable({ leagueId, mode = 'total', highlight = [
     }
     return out;
   }, [lt, base, mode]);
+  return rows;
+}
+
+export default function StandingsTable({ leagueId, mode = 'total', highlight = [] }) {
+  const rows = useStandingRows(leagueId, mode);
   if (!rows.length) return null;
   const forma = mode === 'forma';
   const cols = forma ? COLS.forma : COLS.table;
