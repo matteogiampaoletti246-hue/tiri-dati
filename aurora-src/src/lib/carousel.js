@@ -255,12 +255,8 @@ const buildHost = (g) => {
 const warmOff = () => { if (WARM) { WARM.host.remove(); WARM = null; } };
 // Fotografia "in caldo" (invisibile, dietro la pagina): le sue animazioni infinite (bordi che girano, fasci sfocati dello sfondo, rotelle)
 // stanno ferme finche' lo swipe non la scopre; prima giravano di continuo su ogni pagina senza che nessuno le vedesse.
-// Le animazioni d'ingresso (una volta sola) non si toccano: scoprendo la fotografia non si ripetono.
-const loops = (host) => {
-  try { return typeof host.getAnimations === 'function' ? host.getAnimations({ subtree: true }).filter((a) => a.effect && a.effect.getTiming().iterations === Infinity) : []; } catch (e) { return []; }
-};
-const warmFreeze = (w) => { w.frozen = loops(w.host); w.frozen.forEach((a) => { try { a.pause(); } catch (e) { /* ignore */ } }); };
-const warmWake = (w) => { (w.frozen || []).forEach((a) => { try { a.play(); } catch (e) { /* ignore */ } }); w.frozen = null; };
+// Le ferma la regola [data-warm] di index.css (solo le animazioni infinite: quelle d'ingresso non si ripetono scoprendola);
+// togliendo l'attributo all'inizio dello swipe tutto torna come prima (anche i bordi fuori schermo restano fermi come sempre).
 // Dopo ogni cambio pagina, a riposo, si prepara la fotografia della pagina precedente (dietro quella attuale, a opacita' minima).
 let warmTimer = 0;
 const warmLater = () => {
@@ -275,9 +271,9 @@ const warmLater = () => {
       if (!g) return;
       const w = buildHost(g);
       w.host.style.opacity = '0.01'; w.host.style.zIndex = '-1';
+      w.host.setAttribute('data-warm', ''); // prima di inserirla: gli stili nascono gia' fermi
       document.body.appendChild(w.host);
       WARM = { ...w, idx };
-      warmFreeze(WARM);
     } catch (e) { /* ignore */ }
   }, 220);
 };
@@ -285,7 +281,7 @@ const behindOn = () => {
   if (BEHIND) return BEHIND;
   const idx = histIdx() - 1;
   let w = null;
-  if (WARM && WARM.idx === idx) { w = WARM; WARM = null; warmWake(w); w.host.style.opacity = ''; w.host.style.zIndex = '1'; }
+  if (WARM && WARM.idx === idx) { w = WARM; WARM = null; w.host.removeAttribute('data-warm'); w.host.style.opacity = ''; w.host.style.zIndex = '1'; }
   else {
     warmOff();
     const g = SNAPS.get(idx);

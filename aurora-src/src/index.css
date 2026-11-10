@@ -1172,6 +1172,12 @@ html:not(.dark) .lglass {
 .ring-io :is(.panel, .panel-solid, .panel-flat, .glass, .glass-strong, .glass-flat, .glass-pill, .glass-btn, .empty-day, .stat-card, .tint-card, .halo-card):not([data-rv])::after,
 .ring-io .halo-trigger:not([data-rv])::before, .ring-io .halo-trigger:not([data-rv])::after,
 .ring-io .halo-menu:not([data-rv]) { animation-play-state: paused; }
+/* fotografia "in caldo" dello swipe (lib/carousel.js, invisibile dietro la pagina): ferme tutte le animazioni infinite finche' lo swipe non la scopre.
+   Le animazioni d'ingresso non sono in elenco: scoprendo la fotografia non ripartono. */
+[data-warm] :is(.panel, .panel-solid, .panel-flat, .glass, .glass-strong, .glass-flat, .glass-pill, .glass-btn, .empty-day, .stat-card, .tint-card, .halo-card, .shimmer, .sk, .glow-line, .aurora-bg, .halo-trigger, .wx-sun)::after,
+[data-warm] :is(.aurora-bg, .glow-ring, .halo-trigger, .wx-cloud)::before,
+[data-warm] :is(.live-dot, .spin, .live-pill, .pl-spin, .halo-spin, .halo-menu, .gauge-ticks, .wx-sun, .wx-cloud),
+[data-warm] .wx-sky i { animation-play-state: paused !important; }
 @media (prefers-reduced-motion: reduce) {
   :is(.panel, .panel-solid, .panel-flat, .glass, .glass-strong, .glass-flat, .glass-pill, .glass-btn, .empty-day, .stat-card, .tint-card, .halo-card)::after, .halo-menu { animation: none; }
 }
