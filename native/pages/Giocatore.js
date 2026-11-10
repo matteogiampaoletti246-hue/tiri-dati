@@ -8,7 +8,7 @@ import './../shared/shim';
 import { bootShared } from '../shared/boot';
 import { Face, TeamCrest, Panel, PanelTitle } from '../shared/ui';
 import Radar from '../shared/Radar';
-import { resetSel } from '../shared/hooks';
+import { resetSel, emitNearEnd } from '../shared/hooks';
 import useAsync from '@/hooks/useAsync';
 import { BASE } from '@/data/load';
 import { playerById } from '@/data/players';
@@ -296,9 +296,10 @@ export default function Giocatore({ C, top, onBack, bottom = 90, openRoute, para
     return () => { live = false; };
   }, [id]);
   const player = st === 'ok' ? playerById(id) : null;
+  useEffect(() => { if (st === 'err') onBack && onBack(); }, [st]);
   return (
     <View style={{ flex: 1, backgroundColor: C.bg, paddingTop: top }}>
-      <ScrollView contentContainerStyle={{ paddingBottom: bottom + 20 }}>
+      <ScrollView scrollEventThrottle={120} onScroll={(e) => { const { contentOffset: o, contentSize: c, layoutMeasurement: l } = e.nativeEvent; if (o.y + l.height > c.height - 600) emitNearEnd(); }} contentContainerStyle={{ paddingBottom: bottom + 20 }}>
         {player ? <Body C={C} player={player} openRoute={openRoute} onBack={onBack} bottom={bottom} /> : (
           <>
             <Pressable onPress={onBack} hitSlop={12} style={{ paddingHorizontal: 20, height: 44, justifyContent: 'center' }}><Ionicons name="chevron-back" size={24} color={C.ink} /></Pressable>

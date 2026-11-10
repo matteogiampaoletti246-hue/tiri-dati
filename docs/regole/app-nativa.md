@@ -103,3 +103,8 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 - Scritto e compilato, NON ancora registrato (in `App.js` la riga `NATIVE_DYN` e' commentata): `pages/Giocatore.js` (testata, Profilo, Carriera), `GiocatorePartite.js`, `GiocatoreStat.js`, `GiocatorePast.js`; mattoni in `shared/` (`hooks.js` useSel, `Radar.js`, `Icons.js`, `StatBars.js`, `DropBtn`/`LeagueLogo` in `ui.js`).
 - La CI copia anche `components/player/playerCalc.js` e `hooks/useAsync.js` (`playerIndex.js` li importa: `topPlayers.js` ora si porta senza cambiare `resolvePid`).
 - Manca: pannello giocatore (da destra se la partita non e' iniziata, tendina dal basso altrimenti), poi attivare `NATIVE_DYN` per `/giocatore/:id` e i tocchi dal Calcolatore.
+
+## Giocatore nativo attivo (10/11/2026, sera)
+- `/giocatore/:id` e' nativa (`NATIVE_DYN` in `native/App.js`); `native/shared/PlayerPanel.js` e' il pannello da destra (68%, velo, swipe/tasto chiudi, Profilo -> scheda) montato nella radice di App.js; si apre con `openPanel(id)` da `@/data/playerPanel` (lo useranno Partita, Migliori Giocatori, Affidabilita' quando saranno native).
+- Scroll Partite: `onScroll` -> `emitNearEnd`. Errore di caricamento: torna indietro da solo.
+- Manca ancora: tendina dal basso per partite iniziate/finite (con Partita), swipe dal bordo per le pagine native.

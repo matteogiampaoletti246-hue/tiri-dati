@@ -16,11 +16,12 @@ import './shared/shim';
 import GuidelinesPage from './pages/Guidelines';
 import CalcolatorePage from './pages/Calcolatore';
 import GiocatorePage from './pages/Giocatore';
+import PlayerPanelHost from './shared/PlayerPanel';
 // pagine gia' native (migrazione a tappe): la rotta si apre senza WebView
 const NATIVE_PAGES = { '/linee-guida': GuidelinesPage, '/calcolatore': CalcolatorePage };
 // pagine nostre con un parametro nel percorso (/giocatore/:id): si attivano qui solo quando la pagina e' completa
 const NATIVE_DYN = [
-  // [/^\/giocatore\/([^/]+)$/, GiocatorePage, 'id'],
+  [/^\/giocatore\/([^/]+)$/, GiocatorePage, 'id'],
 ];
 const nativeOf = (path) => {
   if (NATIVE_PAGES[path]) return { Comp: NATIVE_PAGES[path], params: {} };
@@ -1524,6 +1525,7 @@ function Screen({ onTheme, onReset }) {
           </View>
         </View>
         {natPage ? <View style={[StyleSheet.absoluteFill, { zIndex: 5 }]}>{React.createElement(nativeOf(natPage).Comp, { params: nativeOf(natPage).params, C, top: insets.top, onBack: closeWeb, bottom: insets.bottom + 90, openRoute, onSearch: () => setSrch(true) })}</View> : null}
+        <PlayerPanelHost C={C} top={insets.top} bottom={insets.bottom} openRoute={openRoute} />
         <GestureDetector gesture={edge}><View pointerEvents={depth > 0 ? 'none' : 'auto'} style={[s.edge, { width: EDGE_W, top: insets.top + 98 }]} /></GestureDetector>
       </Animated.View>
       {!webOpen || barOn ? <TabBar onOpen={openRoute} onHome={closeWeb} onTop={onTop} active={webOpen ? tab : null} bottom={insets.bottom} live={liveN} /> : null}
