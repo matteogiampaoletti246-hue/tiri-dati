@@ -12,6 +12,9 @@ import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { WebView } from 'react-native-webview';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import META from './meta.json';
+import GuidelinesPage from './pages/Guidelines';
+// pagine gia' native (migrazione a tappe): la rotta si apre senza WebView
+const NATIVE_PAGES = { '/linee-guida': GuidelinesPage };
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) UIManager.setLayoutAnimationEnabledExperimental(true);
 
@@ -1157,6 +1160,7 @@ function Screen({ onTheme, onReset }) {
   const [ready, setReady] = useState(false);
   const readyRef = useRef(false);
   const [webOpen, setWebOpen] = useState(false);   // la pagina web e' sopra la Home (la barra in basso e' sempre quella nativa)
+  const [natPage, setNatPage] = useState(null);
   const [barOn, setBarOn] = useState(false);       // la barra nativa si vede solo in Home e nelle tre schede (Calcolatore, Giocatori, Matchup)
   const [tab, setTab] = useState('');               // voce della barra scelta: si evidenzia nell'istante del tocco (poi segue `route:` della pagina)
   const [homeTop, setHomeTop] = useState(0);        // tasto Home toccato in Home: la lista del giorno torna in cima
@@ -1365,6 +1369,8 @@ function Screen({ onTheme, onReset }) {
   }, [onReset, recover, ov]);
   const openRoute = useCallback((route) => {
     const path0 = route.split('?')[0];
+    if (NATIVE_PAGES[path0]) { openRef.current = true; setNatPage(path0); setWebOpen(true); setBarOn(false); setDepth(0); ov.value = withTiming(0, { duration: 260, easing: Easing.out(Easing.cubic) }); return; }
+    setNatPage(null);
     // da una scheda del dock a un'altra (pagina gia' aperta e pronta): la pagina web scorre di lato da sola, niente scheletro sopra
     const slide = openRef.current && readyRef.current && !!webRef.current && isTabRoute(webPath.current) && isTabRoute(route) && webPath.current !== path0;
     openRef.current = true; lastRoute.current = route; setWebOpen(true); setParked(false); setDepth(0); setBarOn(isTabRoute(route)); setTab(tabOf(route));
@@ -1389,7 +1395,7 @@ function Screen({ onTheme, onReset }) {
     ov.value = withTiming(0, { duration: 260, easing: Easing.out(Easing.cubic) });
   }, [hashTo, ov, endBusy, recover]);
   // la pagina web lascia la scheda mostrata: riaprendo la stessa voce si aspetta il suo disegno (niente Linee guida intraviste)
-  const afterClose = useCallback(() => { webPath.current = ''; if (!openRef.current) setParked(true); hashTo('#/linee-guida'); setDepth(0); }, [hashTo]);
+  const afterClose = useCallback(() => { setNatPage(null); webPath.current = ''; if (!openRef.current) setParked(true); hashTo('#/linee-guida'); setDepth(0); }, [hashTo]);
   const onTop = useCallback((route) => {
     if (!route) { setHomeTop((n) => n + 1); return; }
     if (readyRef.current && webRef.current) webRef.current.injectJavaScript("try{window.scrollTo({top:0,behavior:'smooth'})}catch(e){};true;");
@@ -1505,6 +1511,7 @@ function Screen({ onTheme, onReset }) {
             {!ready || busy || parked ? <View pointerEvents="auto" style={[StyleSheet.absoluteFill, { backgroundColor: C.bg }]}>{parked && ready ? null : <SkWeb route={awaitRoute.current || lastRoute.current} />}</View> : null}
           </View>
         </View>
+        {natPage ? <View style={[StyleSheet.absoluteFill, { zIndex: 5 }]}>{React.createElement(NATIVE_PAGES[natPage], { C, top: insets.top, onBack: closeWeb })}</View> : null}
         <GestureDetector gesture={edge}><View pointerEvents={depth > 0 ? 'none' : 'auto'} style={[s.edge, { width: EDGE_W, top: insets.top + 98 }]} /></GestureDetector>
       </Animated.View>
       {!webOpen || barOn ? <TabBar onOpen={openRoute} onHome={closeWeb} onTop={onTop} active={webOpen ? tab : null} bottom={insets.bottom} live={liveN} /> : null}

@@ -32,6 +32,7 @@ jobs:
           (cd native/tools && npm install sharp --no-save --no-audit --no-fund)
           node native/tools/gen_flags.mjs app/meta.json native-link/flags
           cp native/App.js app/App.js
+          cp -r native/pages app/pages
           cd app
           npm install --no-audit --no-fund
           npx expo install expo-updates expo-image @react-native-async-storage/async-storage expo-linear-gradient react-native-webview react-native-safe-area-context @expo/vector-icons react-native-gesture-handler react-native-reanimated expo-blur
