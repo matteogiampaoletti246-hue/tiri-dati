@@ -450,17 +450,24 @@ const LaunchOverlay = memo(({ onPop }) => {
       started = true;
       setDock({ x, y, w, h });
       to.value = { x: x + w / 2 - cx, y: y + h / 2 - cy, s: w / GEM };
-      fly.value = withTiming(1, { duration: FLY_MS, easing: Easing.bezier(0.7, 0, 0.2, 1) });
-      ts.push(setTimeout(() => { txt.value = withTiming(1, { duration: 650, easing: OUT_EASE }); }, FLY_MS - 150));
-      ts.push(setTimeout(() => { LOGO_OP.value = withTiming(1, { duration: 200 }); }, FLY_MS));
-      ts.push(setTimeout(() => { SEARCH_OP.value = withTiming(1, { duration: 450 }); fade.value = withTiming(0, { duration: 400 }); }, FLY_MS - 150 + 1250));
-      ts.push(setTimeout(finish, FLY_MS - 150 + 1250 + 480));
+      // il volo parte solo dopo che il testo e' montato (altrimenti il primo tratto salta)
+      ts.push(setTimeout(() => { fly.value = withTiming(1, { duration: FLY_MS, easing: Easing.bezier(0.7, 0, 0.2, 1) }); }, 90));
+      const D = 90;
+      ts.push(setTimeout(() => { txt.value = withTiming(1, { duration: 650, easing: OUT_EASE }); }, D + FLY_MS - 150));
+      ts.push(setTimeout(() => { LOGO_OP.value = withTiming(1, { duration: 200 }); }, D + FLY_MS));
+      ts.push(setTimeout(() => { SEARCH_OP.value = withTiming(1, { duration: 450 }); fade.value = withTiming(0, { duration: 400 }); }, D + FLY_MS - 150 + 1250));
+      ts.push(setTimeout(finish, D + FLY_MS - 150 + 1250 + 480));
     };
     // dopo il tempo minimo e quando l'intestazione esiste (dati pronti) il diamante vola nel posto del suo logo
+    // il volo parte solo quando la Home ha finito di montarsi/caricare (3 giri di timer senza ritardo): cosi' il tragitto resta fluido
+    let last = Date.now(), calm = 0;
     poll = setInterval(() => {
+      const now = Date.now(), drift = now - last - 120; last = now;
+      calm = drift < 35 ? calm + 1 : 0;
       if (started || over) return;
-      if (Date.now() - t0 > 12000) { clearInterval(poll); finish(); return; }
-      if (Date.now() - t0 < MIN_POP) return;
+      if (now - t0 > 12000) { clearInterval(poll); finish(); return; }
+      if (now - t0 < MIN_POP) return;
+      if (calm < 3 && now - t0 < MIN_POP + 3000) return;
       const r = brandRef.current;
       if (r && r.measureInWindow) r.measureInWindow((x, y, w, h) => { if (!started && !over && w > 0) { clearInterval(poll); go(x, y, w, h); } });
     }, 120);
@@ -479,10 +486,10 @@ const LaunchOverlay = memo(({ onPop }) => {
   return (
     <Animated.View pointerEvents="none" style={[StyleSheet.absoluteFill, { zIndex: 999, elevation: 999 }, rootSt]}>
       <Animated.View style={[StyleSheet.absoluteFill, { backgroundColor: C.bg }, bgSt]} />
-      <Animated.View style={[{ position: 'absolute', left: cx - 190, top: cy - 190, width: 380, height: 380 }, glowSt]}>
+      <Animated.View shouldRasterizeIOS renderToHardwareTextureAndroid style={[{ position: 'absolute', left: cx - 190, top: cy - 190, width: 380, height: 380 }, glowSt]}>
         <Image source={{ uri: GLOW_URI }} style={{ width: 380, height: 380 }} contentFit="contain" />
       </Animated.View>
-      <Animated.View style={[{ position: 'absolute', left: cx - GEM / 2, top: cy - GEM / 2, width: GEM, height: GEM }, gemSt]}>
+      <Animated.View shouldRasterizeIOS renderToHardwareTextureAndroid style={[{ position: 'absolute', left: cx - GEM / 2, top: cy - GEM / 2, width: GEM, height: GEM }, gemSt]}>
         <Image source={{ uri: gemUri(C.bg) }} style={{ width: GEM, height: GEM }} contentFit="contain" />
         <Animated.View style={[{ position: 'absolute', left: GEM * 0.8, top: -GEM * 0.04, width: 22, height: 22 }, sparkSt]}>
           <Image source={{ uri: SPARK_URI }} style={{ width: 22, height: 22 }} contentFit="contain" />
