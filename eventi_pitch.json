@@ -1,18 +1,5 @@
 {
- "competizioni": {
-  "Ligat ha'Al 2025-2026": {
-   "partite_con_eventi": 0,
-   "da_fare": 1
-  },
-  "Serie A 2025": {
-   "partite_con_eventi": 0,
-   "da_fare": 1
-  },
-  "Primera Division 2025": {
-   "partite_con_eventi": 0,
-   "da_fare": 2
-  }
- },
+ "competizioni": {},
  "tipi_visti": {},
  "partite_in_questo_giro": 0,
  "orientamento_cambi": "non verificato"
