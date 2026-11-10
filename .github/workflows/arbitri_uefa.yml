@@ -1,0 +1,26 @@
+name: Arbitri UEFA
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "7 */2 * * *"
+permissions:
+  contents: write
+concurrency:
+  group: arbitri-uefa
+  cancel-in-progress: false
+jobs:
+  arbitri:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python arbitri_uefa.py
+      - run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add arbitri_uefa.json
+          git diff --staged --quiet || git commit -m "Arbitri UEFA"
+          for i in 1 2 3 4 5; do git pull --rebase && git push && break; sleep $((i*4)); done
