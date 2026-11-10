@@ -103,3 +103,8 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 
 ## Banner squadra/nazionale: posizione e punti della tabella (regola fissa)
 - Il banner mostra posizione e punti della competizione (e stagione) scelta nella tendina dei pannelli (`useAnnounceComp` -> evento `sl-comp` -> `useBannerSel`), all'apertura il campionato della squadra e "Attuale". I numeri vengono dalla stessa fonte e dagli stessi calcoli della tabella Classifica (`components/team/useBannerRow.js`: `useStandingRows` per i campionati dell'app, `seasonTeamRow` sull'archivio della stagione per gli aggiunti, FotMob fresca e live sopra). Competizioni a gironi: posizione nel girone. Coppa a eliminazione (Tabellone) o squadra assente: niente numeri. Prima il banner usava la classifica calcolata dalle sole partite caricate (CD FAS "1 pt") e unica per tutti i gironi (Turchia "15°").
+
+## Competizioni rimosse (10/11/2026, regola fissa)
+- `competizioni_rimosse.json` elenca le competizioni minori tolte su richiesta dell'utente (ids + nomi). Non si scaricano piu' (fuori da `selezione.json`), non compaiono in `arch/index.json` e le cartelle `arch/<id>/` e `partite/<id>/` sono cancellate. Non rimetterle senza che l'utente lo chieda.
+- Le carriere dei giocatori mantengono il banner della squadra anche se il campionato e' rimosso; il banner di carriera non e' toccabile, quindi non apre nessuna scheda (squadra senza pagina = nessun tocco).
+- Si tolgono solo le competizioni indicate dall'utente: le altre (es. Colombia Primera B, Conference League) restano.
