@@ -1,4 +1,4 @@
-import TintSweep from './TintSweep';
+import TintSweep, { ringStyle } from './TintSweep';
 import RoleBadge from './RoleBadge';
 import { useEffect, useState } from 'react';
 import { ChevronDown, Check } from 'lucide-react';
@@ -37,7 +37,7 @@ export default function DuelPicker({ team, roster, picked, onChange, statLabel, 
   return (
     <section data-no-swipe="true">
       <PanelTitle>Duello avversario</PanelTitle>
-      <div className="panel has-tint overflow-hidden">
+      <div className="panel has-tint overflow-hidden" style={ringStyle(tint)}>
         <TintSweep tint={tint} />
         <button type="button" onClick={() => setOpen((v) => !v)} aria-expanded={open} className="press flex w-full items-center gap-3 px-4 py-3.5 text-left">
           {sel.length ? (

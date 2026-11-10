@@ -86,7 +86,7 @@ function MatchesPanel({ fm, sk, season, tint }) {
             list.forEach((m) => { const k = dayKey(m[4]); const l = days[days.length - 1]; if (l && l.k === k) l.m.push(m); else days.push({ k, m: [m] }); });
             const range = days.length > 1 ? `${fmtDate(days[0].m[0][4])} – ${fmtDate(days[days.length - 1].m[0][4])}` : fmtDate(days[0].m[0][4]);
             return (
-              <section key={b.key} data-round={b.rec ? 'rec' : String(b.r)} className="glass mx-4 mt-5 overflow-hidden rounded-[24px] pb-1" style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 420px', ...(tint ? { background: tintGrad(tint, 0x45) } : null) }}>
+              <section key={b.key} data-round={b.rec ? 'rec' : String(b.r)} className="glass mx-4 mt-5 overflow-hidden rounded-[24px] pb-1" style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 420px', ...(tint ? { background: tintGrad(tint, 0x45), '--ring-c': tint } : null) }}>
                 <div className="flex items-center gap-2 px-4 pb-1 pt-3.5">
                   <h3 className="text-[15px] font-extrabold">{b.rec ? 'Recuperi' : roundTitle(b.r)}</h3>
                   <span className="rounded-full px-2 py-[2px] text-[9.5px] font-extrabold uppercase tracking-wider" style={{ background: tag === 'Conclusa' ? 'var(--hair-2)' : 'var(--accent-soft)', color: tag === 'Conclusa' ? 'var(--ink-3)' : 'var(--accent)' }}>{tag}</span>

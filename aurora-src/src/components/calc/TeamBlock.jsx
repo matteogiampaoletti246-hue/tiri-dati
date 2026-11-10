@@ -8,7 +8,7 @@ import { CUPS, calcTeamsOf, leagueName, prefillShots, rankNote, splitBoxes, team
 import { teamById, teamByName } from '@/data/teams';
 import PickerSheet from './PickerSheet';
 import StatBox from './StatBox';
-import TintSweep from './TintSweep';
+import TintSweep, { ringStyle } from './TintSweep';
 import TeamCompCard from './TeamCompCard';
 import { calcLeagueOptions } from './calcComp';
 import { bandColor } from '@/components/player/playerCalc';
@@ -53,7 +53,7 @@ export default function TeamBlock({ title, mode = 'for', family = 'totali', bloc
   return (
     <section>
       <PanelTitle right={<span className="label-sm">Nel calcolo: {family === 'inPorta' ? 'In porta' : 'Totali'}</span>}>{title}</PanelTitle>
-      <div className="panel has-tint overflow-hidden">
+      <div className="panel has-tint overflow-hidden" style={ringStyle(tint)}>
         <TintSweep tint={tint} />
         <TeamCompCard
           leagueId={block.leagueId}

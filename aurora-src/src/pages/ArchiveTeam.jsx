@@ -32,7 +32,7 @@ export function TeamMatches({ season, tid, fm, sk, tint }) {
   list.forEach((m) => { const k = dayKey(m[4]); const l = days[days.length - 1]; if (l && l.k === k) l.m.push(m); else days.push({ k, m: [m] }); });
   return (
     <div className="pb-4 pt-2">
-      <section className="glass mx-4 mt-3 overflow-hidden rounded-[24px] pb-1" style={{ background: tintGrad(tint, 0x45) }}>
+      <section className="glass mx-4 mt-3 overflow-hidden rounded-[24px] pb-1" style={{ background: tintGrad(tint, 0x45), '--ring-c': tint }}>
         {days.map((d, i) => (
           <div key={d.k}>
             <div className="px-4 pb-0.5 pt-2.5 text-[10.5px] font-bold uppercase tracking-wider" style={{ color: 'var(--ink-3)', borderTop: i ? '1px solid var(--hair-2)' : 'none' }}>{fmtDate(d.m[0][4])}</div>

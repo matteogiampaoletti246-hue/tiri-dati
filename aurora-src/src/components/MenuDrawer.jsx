@@ -86,7 +86,7 @@ export default function MenuDrawer() {
           <span className="title-lg text-[17px] tracking-[-.04em]" style={{ color: 'var(--ink)' }}>ScalperLab</span>
           <button type="button" aria-label="Chiudi" onClick={() => setOpen(false)} className="glass lglass press ml-auto flex h-9 w-9 shrink-0 items-center justify-center rounded-full"><X size={16} strokeWidth={2} /></button>
         </div>
-        <div className="relative mt-2 rounded-[18px] p-1.5" style={{ background: 'var(--wash, rgba(255,255,255,.03))', border: '1px solid var(--hair-2)' }}>
+        <div className="halo-card ring-def relative mt-2 rounded-[18px] p-1.5" style={{ background: 'var(--wash, rgba(255,255,255,.03))' }}>
           <span aria-hidden="true" className="absolute left-1.5 right-1.5 top-1.5 rounded-[13px]" style={{ height: ROW, background: 'var(--accent-soft)', boxShadow: 'inset 0 0 0 1px color-mix(in srgb, var(--accent) 35%, transparent)', opacity: hi >= 0 && shown ? 1 : 0, transform: `translate3d(0,${Math.max(0, hi) * ROW}px,0)`, transition: `transform ${ms(320)} ${EASE}, opacity ${ms(200)} ease` }} />
           {ITEMS.map(({ label, to, Icon }, i) => (
             <button type="button" key={to} onClick={() => pick(i, to)} className="relative flex w-full items-center gap-3 px-3 text-left active:opacity-70" style={{ height: ROW, ...stag(i) }}>

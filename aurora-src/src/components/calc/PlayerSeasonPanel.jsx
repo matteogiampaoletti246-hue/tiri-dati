@@ -3,7 +3,7 @@ import { NATIONS_WEIGHTS, SEASON_COMPETITIONS } from '@/lib/calc';
 import { comma } from '@/lib/format';
 import FieldRow from './FieldRow';
 import NumInput from './NumInput';
-import TintSweep from './TintSweep';
+import TintSweep, { ringStyle } from './TintSweep';
 import { CompLogo } from './CompBannerSelect';
 import { compAccent, compBg, playerComps } from './calcComp';
 
@@ -29,7 +29,7 @@ export default function PlayerSeasonPanel({ season, onChange, rate90, label = 'T
   return (
     <section>
       <PanelTitle>Medie stagione</PanelTitle>
-      <div className="panel has-tint overflow-hidden">
+      <div className="panel has-tint overflow-hidden" style={ringStyle(tint)}>
         <TintSweep tint={tint} />
         <div className="flex items-center gap-2 px-5 py-2.5">
           <p className="label-sm">Competizione</p>
