@@ -1,7 +1,7 @@
 // Campionati. I colori dei banner sono scelti qui; i loghi arrivano da data.json.
 // Per aggiungere un campionato alla Home basta una riga in LEAGUES.
 // Vite da' il percorso base; nell'app nativa import.meta.env non esiste (si usa '/')
-const BASE_URL = (() => { try { return import.meta.env.BASE_URL || '/'; } catch (e) { return '/'; } })();
+const BASE_URL = (() => { try { return import.meta.env.BASE_URL || '/'; } catch (e) { return 'https://matteogiampaoletti246-hue.github.io/tiri-dati/'; } })();
 import { RAW } from './load';
 
 

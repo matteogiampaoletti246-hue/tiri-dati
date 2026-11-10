@@ -3,12 +3,14 @@
 // e scelta del campionato: stessi colori e loghi ovunque.
 import { PALETTE, leagueById } from '@/data/leagues';
 import { CUPS, NATIONS_KEYS, calcLeagues, calcTeamsOf, domesticKeyOf, leagueName } from '@/data/calcData';
+import { LOGO_COLORS } from '@/data/compColors';
 import { teamById, teamByName } from '@/data/teams';
 
 const FM_LOGO = (fm) => `https://images.fotmob.com/image_resources/logo/leaguelogo/${fm}.png`;
 const FM_LOGO_DARK = (fm) => `https://images.fotmob.com/image_resources/logo/leaguelogo/dark/${fm}.png`;
 const CUP_FM = { 'champions-league': 42, 'europa-league': 73, 'conference-league': 10216 }; // logo FotMob se data.json non ha ancora portato quello della coppa
 const MEMO = new Map();
+const abs = (u) => (typeof u === 'string' && /^https?:/.test(u) ? u : null); // logo locale (es. Europa League in nativo senza base URL): si usa quello FotMob
 
 export function calcComp(key) {
   if (!key) return null;
@@ -16,13 +18,13 @@ export function calcComp(key) {
   const l = leagueById(key);
   const fm = /^fm-(\d+)$/.exec(key);
   const pal = PALETTE[key];
-  const colors = (pal && pal.colors) || (l && l.colors) || ['var(--banner-neutral)', 'var(--accent)'];
+  const colors = (pal && pal.colors) || (l && l.colors) || LOGO_COLORS[key] || ['var(--banner-neutral)', 'var(--accent)'];
   const out = {
     id: key,
     name: leagueName(key) || (l && l.name) || key,
     colors,
-    logo: (l && l.logo) || (fm ? FM_LOGO(fm[1]) : CUP_FM[key] ? FM_LOGO(CUP_FM[key]) : null),
-    logoDark: (l && l.logoDark) || (fm ? FM_LOGO_DARK(fm[1]) : CUP_FM[key] ? FM_LOGO_DARK(CUP_FM[key]) : null),
+    logo: abs(l && l.logo) || (fm ? FM_LOGO(fm[1]) : CUP_FM[key] ? FM_LOGO(CUP_FM[key]) : null),
+    logoDark: abs(l && l.logoDark) || (fm ? FM_LOGO_DARK(fm[1]) : CUP_FM[key] ? FM_LOGO_DARK(CUP_FM[key]) : null),
     country: NATIONS_KEYS.includes(key) ? 'Nazionali' : CUPS.includes(key) ? 'Europa' : (l && l.country) || '',
     kind: NATIONS_KEYS.includes(key) ? 'Nazionale' : CUPS.includes(key) ? 'Coppa europea' : 'Campionato',
   };

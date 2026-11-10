@@ -170,3 +170,6 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 - **Banner colorati** (competizioni, squadre): `Dropdown` con opzioni che hanno `color`/`logoNode` si apre come elenco di banner (gradiente `mixHex`, logo in cerchio bianco); `PickerModal banners` per le ricerche. Pillola competizione = banner con logo (`compLogoN`), mai pillola piatta.
 - **Calcolatore**: pannelli e riquadri nel colore della squadra del giocatore (`TintProvider`, `Panel ring`); `NumInput ring` per le quote (piccolo, 3-4 cifre); `ShotsTeam` e' la scheda squadra unica (giocatore, squadra, avversario) con rango `r°/n` nelle tessere.
 - **Migliori Giocatori**: righe basse (~97 pt), a tutta larghezza, margini 10; soglie `Segmented hug`.
+- **Scelte a pagina intera** (Calcolatore): ricerca giocatore `shared/PlayerSearch.js`, campionato/squadra `shared/FullPicker.js` (barra di ricerca in alto, banner grandi colorati con logo). Le tendine piccole restano solo per scelte corte.
+- **Colori competizioni**: `data/compColors.js` (colore dominante del logo) per le competizioni senza palette; ogni competizione ha sempre un banner colorato e un logo assoluto (mai percorsi relativi in nativo).
+- **Prossima partita**: `NextMatchBtn` nel banner giocatore e in ogni scheda squadra; pesi dei testi nelle righe di Migliori Giocatori: 700 massimo.

@@ -110,7 +110,7 @@ export const Segmented = ({ C, options, value, onChange, hug }) => {
     </Animated.View>
   );
   return (
-    <RingBox C={C} style={[{ height: 41 }, hug && { alignSelf: 'flex-start' }]}>
+    <RingBox C={C} style={[{ height: 41 }, hug && { alignSelf: hug === 'end' ? 'flex-end' : 'flex-start' }]}>
       {scroll ? (
         <ScrollView ref={scroller} horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ flexDirection: 'row' }}>{thumb}{items}</ScrollView>
       ) : (

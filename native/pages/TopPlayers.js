@@ -68,30 +68,30 @@ const Row = React.memo(function Row({ C, row, rank, threshold, stat, enter, tv, 
                 {player.photo ? <Image source={{ uri: player.photo }} style={{ width: 51, height: 51 }} contentFit="cover" cachePolicy="memory-disk" /> : null}
               </View>
               <View style={{ position: 'absolute', left: -9, top: -9, minWidth: 24, height: 24, borderRadius: 12, paddingHorizontal: 5, alignItems: 'center', justifyContent: 'center', backgroundColor: rk }}>
-                <Text style={{ color: rank <= 3 ? C.goldInk : '#fff', fontSize: 13, fontWeight: '800' }}>{rank}</Text>
+                <Text style={{ color: rank <= 3 ? C.goldInk : '#fff', fontSize: 13, fontWeight: '700' }}>{rank}</Text>
               </View>
             </View>
             <View style={{ flex: 1, minWidth: 0 }}>
-              <Text numberOfLines={1} style={{ color: C.ink, fontSize: 16, fontWeight: '800' }}>{player.name}</Text>
+              <Text numberOfLines={1} style={{ color: C.ink, fontSize: 16, fontWeight: '700' }}>{player.name}</Text>
               {sides ? sides.map((t, i) => {
                 const own = t && t.id === player.teamId;
                 return (
                   <View key={i} style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: i ? 2 : 3 }}>
                     {t ? <TeamCrest team={t} size={19} C={C} /> : null}
-                    <Text numberOfLines={1} style={{ flexShrink: 1, color: own ? C.ink : C.ink3, fontSize: own ? 13.5 : 12.5, fontWeight: own ? '800' : '400' }}>{t ? t.name : own ? player.teamName : match.oppName}</Text>
+                    <Text numberOfLines={1} style={{ flexShrink: 1, color: own ? C.ink : C.ink3, fontSize: own ? 13.5 : 12.5, fontWeight: own ? '700' : '400' }}>{t ? t.name : own ? player.teamName : match.oppName}</Text>
                     {i ? <Text numberOfLines={1} style={{ color: C.ink3, fontSize: 12 }}>· {when(match)}</Text> : null}
                   </View>
                 );
               }) : (
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 3 }}>
                   {team ? <TeamCrest team={team} size={19} C={C} /> : null}
-                  <Text numberOfLines={1} style={{ color: C.ink, fontSize: 13.5, fontWeight: '800' }}>{team ? team.name : player.teamName}</Text>
+                  <Text numberOfLines={1} style={{ color: C.ink, fontSize: 13.5, fontWeight: '700' }}>{team ? team.name : player.teamName}</Text>
                 </View>
               )}
               <LinearGradient colors={[c1, c2]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ height: 4, borderRadius: 2, marginTop: 7 }} />
             </View>
             <View style={{ alignItems: 'center', gap: 4 }}>
-              <Text style={{ color: scoreColorSmooth(row.voto), fontSize: 28, fontWeight: '800' }}>{comma(row.voto, 1)}</Text>
+              <Text style={{ color: scoreColorSmooth(row.voto), fontSize: 28, fontWeight: '700' }}>{comma(row.voto, 1)}</Text>
               <Pressable onPress={calc} hitSlop={8} style={({ pressed }) => [{ width: 34, height: 34, borderRadius: 17, alignItems: 'center', justifyContent: 'center', backgroundColor: C.chip, borderWidth: 1.5, borderColor: C.accRing }, pressed && { opacity: 0.6 }]}>
                 <Ionicons name="calculator-outline" size={18} color={C.accent} />
               </Pressable>

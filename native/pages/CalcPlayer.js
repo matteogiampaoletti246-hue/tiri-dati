@@ -22,10 +22,13 @@ import { playerFace } from '@/data/archive';
 import { playerComps, calcComp } from '@/components/calc/calcComp';
 import { comma } from '@/lib/format';
 import { parseDash, parseNum, fmtLine, HIT_OPTIONS, LINE_OPTIONS, SEDE_OPTIONS, COMPETITION_OPTIONS, NATIONS_OPTION, NATIONS_WEIGHTS, SEASON_COMPETITIONS, lineHintText } from '@/lib/calc';
+import { MATCHES } from '@/data/matches';
 import { teamRow } from '@/data/standings';
 import { BAND_COLORS, bandOf } from '@/components/player/playerCalc';
 import { mixHex, SedeButtonsN, Panel, PanelTitle, Segmented, FieldRow, NumInput, PickerModal, TeamCrest, Face, TintProvider } from '../shared/ui';
 import Dropdown from '../shared/Dropdown';
+import FullPicker from '../shared/FullPicker';
+import PlayerSearch from '../shared/PlayerSearch';
 import StatIconN from '../shared/StatIconN';
 import ResultCard from '../shared/ResultCard';
 
@@ -95,6 +98,33 @@ function Select({ C, value, options, onChange, placeholder }) {
     icon={options.some((o) => o.ic) ? (o, col) => (o.ic ? <StatIconN k={o.ic} size={20} color={col} /> : null) : rich ? (o) => <View style={{ width: 26, height: 26, borderRadius: 13, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255,255,255,.92)' }}>{logo(o, 20)}</View> : undefined} />;
 }
 
+function NextMatchBtn({ C, ownId, oppId, comp, col, openRoute, style }) {
+  const nm = useMemo(() => {
+    if (!ownId) return null;
+    const first = nextMatchOf(ownId, comp);
+    const vs0 = oppId ? nextMatchVs(ownId, oppId) : null;
+    const vs = vs0 && (!comp || vs0.leagueId === comp) ? vs0 : null;
+    return vs && (!first || Math.abs(vs.ts - first.ts) < 3 * 864e5) ? vs : first;
+  }, [ownId, oppId, comp, MATCHES.length]);
+  if (!nm) return null;
+  const me = teamById(ownId);
+  const opp = teamById(nm.homeId === ownId || (teamById(nm.homeId) || {}).name === (me || {}).name ? nm.awayId : nm.homeId);
+  return (
+    <Pressable onPress={() => openRoute && openRoute(`/match/${nm.id}`)} style={[{ flexDirection: 'row', alignItems: 'center', gap: 8, borderRadius: 16, paddingHorizontal: 14, paddingVertical: 10, backgroundColor: col + '22', borderWidth: 1.5, borderColor: col + 'B3' }, style]}>
+      <View style={{ flex: 1 }}>
+        <Text style={{ color: C.ink3, fontSize: 10.5, fontWeight: '700', letterSpacing: 1 }}>PROSSIMA PARTITA</Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 3 }}>
+          <Text style={{ color: C.ink3, fontSize: 13.5, fontWeight: '600' }}>vs</Text>
+          {opp ? <TeamCrest team={opp} size={18} C={C} /> : null}
+          <Text numberOfLines={1} style={{ color: C.ink, fontSize: 14.5, fontWeight: '700', flexShrink: 1 }}>{opp ? opp.name : ''}</Text>
+        </View>
+      </View>
+      {nm.ts ? <Text style={{ color: C.ink2, fontSize: 12.5 }}>{whenOf(nm.ts)}</Text> : null}
+      <Ionicons name="chevron-forward" size={16} color={C.ink2} />
+    </Pressable>
+  );
+}
+
 function PlayerPick({ C, form, set, player, onSelectPlayer, stat, onStat, role, natHit, openRoute, hitN }) {
   const [picker, setPicker] = useState(false);
   const club = player ? (player.nat && player.club ? player.club : player) : null;
@@ -106,19 +136,6 @@ function PlayerPick({ C, form, set, player, onSelectPlayer, stat, onStat, role, 
   const hitTitle = form.playerId && hitN > 0 && hitN < 5 ? `Hit rate su ${hitN} ${hitN === 1 ? 'partita' : 'partite'}` : 'Hit rate ultime 5';
   const ownId = form.team && form.team.id ? form.team.id : club && club.teamId;
   const comp = form.competizione === 'coppa' ? cupOf(teamById(ownId)) || 'nessuna' : (form.team && form.team.leagueId) || undefined;
-  const nm = useMemo(() => {
-    if (!ownId) return null;
-    const first = nextMatchOf ? nextMatchOf(ownId, comp) : null;
-    const vs0 = form.opp && form.opp.id ? nextMatchVs(ownId, form.opp.id) : null;
-    const vs = vs0 && (!comp || vs0.leagueId === comp) ? vs0 : null;
-    return vs && (!first || Math.abs(vs.ts - first.ts) < 3 * 864e5) ? vs : first;
-  }, [ownId, comp, form.opp && form.opp.id, form.playerId]);
-  const options = useMemo(() => (picker ? PLAYERS.filter((p) => !(p.nat && p.club)).map((p) => {
-    const t = p.nat ? null : teamById(p.teamId);
-    const sub = [t ? t.name : p.teamName || '', p.nat && p.clubName ? p.clubName : '', p.natView ? p.natView.teamName : p.nat ? p.teamName : ''].filter(Boolean).join(' · ');
-    return { value: p.id, label: p.name, sub, color: t && t.colors && t.colors[0], face: p.photo, alias: [p.nick, p.natView && p.natView.name !== p.name ? p.natView.name : null].filter(Boolean).join(' ') };
-  }) : []), [picker]);
-  const opp = nm ? teamById(nm.homeId === ownId || (teamById(nm.homeId) || {}).name === (teamById(ownId) || {}).name ? nm.awayId : nm.homeId) : null;
   return (
     <View>
       <PanelTitle C={C}>Giocatore</PanelTitle>
@@ -126,39 +143,26 @@ function PlayerPick({ C, form, set, player, onSelectPlayer, stat, onStat, role, 
         {player ? (
           <View style={{ backgroundColor: C.sheet }}>
             <LinearGradient pointerEvents="none" colors={[col + 'CC', col + '40', col + '14']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={StyleSheet.absoluteFill} />
-            <View style={{ padding: 16, flexDirection: 'row', alignItems: 'center', gap: 12 }}>
-              <Pressable onPress={() => openRoute && openRoute(`/giocatore/${club.id}`)} style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 14 }}>
-                <View style={{ width: 60, height: 60 }}>
-                  <View style={{ width: 60, height: 60, borderRadius: 30, borderWidth: 2.5, borderColor: col, overflow: 'hidden' }}><Face uri={player.photo} color={col} size={55} /></View>
+            <View style={{ padding: 14, flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+              <Pressable onPress={() => openRoute && openRoute(`/giocatore/${club.id}`)} style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+                <View style={{ width: 56, height: 56 }}>
+                  <View style={{ width: 56, height: 56, borderRadius: 28, borderWidth: 2.5, borderColor: col, overflow: 'hidden' }}><Face uri={player.photo} color={col} size={51} /></View>
                   <RoleBadge C={C} role={role} />
                 </View>
                 <View style={{ flex: 1 }}>
                   <Text numberOfLines={1} style={{ color: C.ink, fontSize: 18, fontWeight: '800' }}>{player.name}</Text>
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 7, marginTop: 5 }}>
-                    {team ? <TeamCrest team={team} size={17} C={C} /> : null}
-                    <Text numberOfLines={1} style={{ color: C.ink2, fontSize: 13.5, flexShrink: 1 }}>{club.teamName}</Text>
-                    {natName ? <View style={{ width: StyleSheet.hairlineWidth * 2, height: 20, backgroundColor: C.ink3 }} /> : null}
-                    {natName && natFc ? <Image source={{ uri: `${FLAG_BASE}${natFc}.png` }} style={{ width: 18, height: 18, borderRadius: 9 }} contentFit="cover" cachePolicy="memory-disk" /> : null}
-                    {natName ? <Text numberOfLines={1} style={{ color: C.ink2, fontSize: 13.5, flexShrink: 1 }}>{countryIt(natName)}</Text> : null}
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5, marginTop: 4 }}>
+                    {team ? <TeamCrest team={team} size={16} C={C} /> : null}
+                    <Text numberOfLines={1} style={{ color: C.ink2, fontSize: 12.5, flexShrink: 1 }}>{club.teamName}</Text>
+                    {natName ? <View style={{ width: StyleSheet.hairlineWidth * 2, height: 16, backgroundColor: C.ink3 }} /> : null}
+                    {natName && natFc ? <Image source={{ uri: `${FLAG_BASE}${natFc}.png` }} style={{ width: 16, height: 16, borderRadius: 8 }} contentFit="cover" cachePolicy="memory-disk" /> : null}
+                    {natName ? <Text numberOfLines={1} style={{ color: C.ink2, fontSize: 12.5, flexShrink: 1 }}>{countryIt(natName)}</Text> : null}
                   </View>
                 </View>
               </Pressable>
-              <Pressable onPress={() => setPicker(true)} style={{ paddingHorizontal: 16, paddingVertical: 9, borderRadius: 999, backgroundColor: C.accent }}><Text style={{ color: '#fff', fontWeight: '800', fontSize: 14 }}>Cambia</Text></Pressable>
+              <Pressable onPress={() => setPicker(true)} style={{ paddingHorizontal: 12, paddingVertical: 7, borderRadius: 999, backgroundColor: C.accent }}><Text style={{ color: '#fff', fontWeight: '700', fontSize: 12.5 }}>Cambia</Text></Pressable>
             </View>
-            {nm ? (
-              <Pressable onPress={() => openRoute && openRoute(`/match/${nm.id}`)} style={{ marginHorizontal: 14, marginBottom: 14, flexDirection: 'row', alignItems: 'center', gap: 8, borderRadius: 16, paddingHorizontal: 14, paddingVertical: 10, backgroundColor: col + '22', borderWidth: 1.5, borderColor: col + 'B3' }}>
-                <View style={{ flex: 1 }}>
-                  <Text style={{ color: C.ink3, fontSize: 11, fontWeight: '800', letterSpacing: 1 }}>PROSSIMA PARTITA</Text>
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 3 }}>
-                    <Text style={{ color: C.ink3, fontSize: 14, fontWeight: '600' }}>vs</Text>
-                    {opp ? <TeamCrest team={opp} size={19} C={C} /> : null}
-                    <Text numberOfLines={1} style={{ color: C.ink, fontSize: 15, fontWeight: '800', flexShrink: 1 }}>{opp ? opp.name : ''}</Text>
-                  </View>
-                </View>
-                {nm.ts ? <Text style={{ color: C.ink2, fontSize: 13 }}>{whenOf(nm.ts)}</Text> : null}
-                <Ionicons name="chevron-forward" size={16} color={C.ink2} />
-              </Pressable>
-            ) : null}
+            <NextMatchBtn C={C} ownId={ownId} oppId={form.opp && form.opp.id} comp={comp} col={col} openRoute={openRoute} style={{ marginHorizontal: 14, marginBottom: 14 }} />
           </View>
         ) : (
           <Pressable onPress={() => setPicker(true)} style={{ padding: 18, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -167,7 +171,7 @@ function PlayerPick({ C, form, set, player, onSelectPlayer, stat, onStat, role, 
           </Pressable>
         )}
         <FieldRow C={C} label="Statistiche"><Select C={C} title="Statistiche" value={stat} options={STATS} onChange={onStat} /></FieldRow>
-        <FieldRow C={C} label="Tipo linea"><Segmented hug C={C} options={LINE_OPTIONS} value={form.lineType} onChange={(v) => set('lineType', v)} /></FieldRow>
+        <FieldRow C={C} label="Tipo linea"><Segmented hug="end" C={C} options={LINE_OPTIONS} value={form.lineType} onChange={(v) => set('lineType', v)} /></FieldRow>
         <FieldRow C={C} label="Valore linea"><Select C={C} title="Valore linea" value={form.line} options={LINES.map((x) => ({ value: x, label: x }))} onChange={(v) => set('line', v)} /></FieldRow>
         <FieldRow C={C} label="Quota"><NumInput ring C={C} value={form.odds} onChange={(v) => set('odds', v)} /></FieldRow>
         <SedeButtonsN C={C} value={form.sede} onChange={(v) => set('sede', v)} />
@@ -175,7 +179,7 @@ function PlayerPick({ C, form, set, player, onSelectPlayer, stat, onStat, role, 
         <FieldRow C={C} label={hitTitle}><Select C={C} title={hitTitle} value={form.hitRate} placeholder="Nessuna" options={[{ value: '', label: 'Nessuna' }, ...HIT_OPTIONS]} onChange={(v) => set('hitRate', v)} /></FieldRow>
         {natHit ? <FieldRow C={C} label="Hit rate nazionale"><Text style={{ color: C.ink, fontSize: 15, fontWeight: '700', textAlign: 'right' }}>{natHit.hit}/{natHit.n}</Text></FieldRow> : null}
       </Panel>
-      <PickerModal C={C} open={picker} title="Giocatore" searchable requireQuery placeholder="Cerca giocatore o squadra" options={options} onClose={() => setPicker(false)} onSelect={(o) => onSelectPlayer(o.value)} />
+      <PlayerSearch C={C} open={picker} onClose={() => setPicker(false)} onSelect={onSelectPlayer} />
     </View>
   );
 }
@@ -251,7 +255,7 @@ function SeasonPanel({ C, season, onChange, rate90, label, player, comp }) {
 }
 
 // squadra con i tiri (Tiri fatti / subiti, totali e in porta)
-export function ShotsTeam({ C, title, mode, family, block, onChange, openRoute }) {
+export function ShotsTeam({ C, title, mode, family, block, onChange, openRoute, vsId, matchComp }) {
   const [picker, setPicker] = useState(null);
   const team = teamById(block.id);
   const stats = teamShots(block.id, block.leagueId);
@@ -261,7 +265,7 @@ export function ShotsTeam({ C, title, mode, family, block, onChange, openRoute }
   const row = team ? teamRow(block.leagueId, team.id) : null;
   const tiles = [['tot', `${sl} totali`, block.totali, (v) => onChange({ totali: v }), rk(mode === 'against' ? stats && stats.rankAgainst : stats && stats.rankFor)], ['sot', `${sl} in porta`, block.inPorta, (v) => onChange({ inPorta: v }), rk(mode === 'against' ? stats && stats.rankSotAgainst : stats && stats.rankSotFor)]];
   return (
-    <TeamCard C={C} openRoute={openRoute} sub={row && row.played > 0 ? `${row.rank}° in classifica` : null} title={title} right={`Nel calcolo: ${family === 'inPorta' ? 'In porta' : 'Totali'}`} block={block} team={team} tiles={tiles}
+    <TeamCard C={C} openRoute={openRoute} oppId={vsId} matchComp={matchComp} sub={row && row.played > 0 ? `${row.rank}° in classifica` : null} title={title} right={`Nel calcolo: ${family === 'inPorta' ? 'In porta' : 'Totali'}`} block={block} team={team} tiles={tiles}
       footer={stats && boxes.length ? (
         <View style={{ paddingHorizontal: 20, paddingBottom: 18, paddingTop: 2 }}>
           {stats.strength < 1 ? <Text style={{ color: C.ink3, fontSize: 11.5 }}>Campionato meno prestigioso: lo scarto dalla media pesa ×{String(stats.strength).replace('.', ',')}.</Text> : null}
@@ -285,14 +289,14 @@ function compLogoN(cc, size, C) {
   return cc && cc.logo ? <Image source={{ uri: cc.logo }} style={{ width: size, height: size }} contentFit="contain" cachePolicy="memory-disk" /> : <Text style={{ color: C.ink2, fontSize: 10, fontWeight: '800' }}>{String((cc && cc.name) || '').slice(0, 2).toUpperCase()}</Text>;
 }
 
-function TeamCard({ C, title, right, block, team, sub, tiles, footer, picker, setPicker, onLeague, onTeam, openRoute }) {
+function TeamCard({ C, title, right, block, team, sub, tiles, matchComp, oppId, footer, picker, setPicker, onLeague, onTeam, openRoute }) {
   const col = team && team.colors && hexOr(team.colors[0]) ? team.colors[0] : C.accent;
   const cc = calcComp(block.leagueId);
   const c0 = hexOr(cc && cc.colors[0], null);
   const c1 = hexOr(cc && (cc.colors[1] || cc.colors[0]), c0);
-  const leagueOptions = calcLeagues().map((l) => { const x = calcComp(l.id); return { value: l.id, label: x.name, sub: (x.country || x.kind).toUpperCase(), color: hexOr(x.colors[0]), color2: hexOr(x.colors[1]), icon: compLogoN(x, 28, C) }; });
+  const leagueOptions = calcLeagues().map((l) => { const x = calcComp(l.id); return { value: l.id, label: x.name, sub: (x.country || x.kind).toUpperCase(), color: hexOr(x.colors[0]), color2: hexOr(x.colors[1]), icon: compLogoN(x, 44, C) }; });
   const teamOptions = calcTeamsOf(block.leagueId).map((n) => teamByName(n)).filter(Boolean).sort((a, b) => a.name.localeCompare(b.name))
-    .map((t) => ({ value: t.id, label: t.name, sub: leagueName(block.leagueId).toUpperCase(), color: hexOr(t.colors && t.colors[0]), color2: hexOr(t.colors && t.colors[1]), icon: <TeamCrest team={t} size={28} C={C} /> }));
+    .map((t) => ({ value: t.id, label: t.name, sub: leagueName(block.leagueId).toUpperCase(), color: hexOr(t.colors && t.colors[0]), color2: hexOr(t.colors && t.colors[1]), icon: <TeamCrest team={t} size={46} C={C} /> }));
   return (
     <View>
       <PanelTitle C={C} right={right}>{title}</PanelTitle>
@@ -333,6 +337,7 @@ function TeamCard({ C, title, right, block, team, sub, tiles, footer, picker, se
                   </View>
                 ))}
               </View>
+              <NextMatchBtn C={C} ownId={team.id} oppId={oppId} comp={matchComp || block.leagueId} col={col} openRoute={openRoute} style={{ marginTop: 12 }} />
             </View>
           ) : (
             <Pressable onPress={() => setPicker('team')} style={{ borderRadius: 16, padding: 16, backgroundColor: C.chip, borderWidth: 1, borderColor: C.hair, alignItems: 'center' }}>
@@ -342,18 +347,18 @@ function TeamCard({ C, title, right, block, team, sub, tiles, footer, picker, se
         </View>
         {footer}
       </Panel>
-      <PickerModal C={C} banners open={picker === 'league'} title="Campionato" value={block.leagueId} options={leagueOptions} onClose={() => setPicker(null)} onSelect={onLeague} />
-      <PickerModal C={C} banners open={picker === 'team'} title="Squadra" searchable placeholder="Cerca squadra" value={block.id} options={teamOptions} onClose={() => setPicker(null)} onSelect={onTeam} />
+      <FullPicker C={C} open={picker === 'league'} title="Campionato" value={block.leagueId} options={leagueOptions} onClose={() => setPicker(null)} onSelect={onLeague} />
+      <FullPicker C={C} open={picker === 'team'} title="Squadra" placeholder="Cerca squadra" value={block.id} options={teamOptions} onClose={() => setPicker(null)} onSelect={onTeam} />
     </View>
   );
 }
 
-function FoulsTeam({ C, title, statLabel, block, stats, value, onValue, onChange, openRoute }) {
+function FoulsTeam({ C, title, statLabel, block, stats, value, onValue, onChange, openRoute, vsId, matchComp }) {
   const [picker, setPicker] = useState(null);
   const team = teamById(block.id);
   const boxes = stats ? [['Casa', stats.casa], ['Trasferta', stats.trasferta]].filter((b) => b[1] !== null && b[1] !== undefined) : [];
   return (
-    <TeamCard C={C} openRoute={openRoute} title={title} block={block} team={team} tiles={[['f', statLabel, value, onValue, stats && stats.rank ? { r: stats.rank.r, size: stats.rank.size, col: null } : null]]}
+    <TeamCard C={C} openRoute={openRoute} oppId={vsId} matchComp={matchComp} title={title} block={block} team={team} tiles={[['f', statLabel, value, onValue, stats && stats.rank ? { r: stats.rank.r, size: stats.rank.size, col: null } : null]]}
       footer={stats ? (
         <View style={{ paddingHorizontal: 20, paddingBottom: 18, paddingTop: 2 }}>
           {stats.mix ? <Text style={{ color: C.ink3, fontSize: 11.5 }}>Media tra campionato ({comma(stats.mix[0].v, 2)}) e coppa ({comma(stats.mix[1].v, 2)})</Text> : null}
@@ -479,6 +484,7 @@ export default function CalcPlayer({ C, openRoute }) {
   const player = playerById(form.playerId);
   const team = teamById(form.team.id);
   const opp = teamById(form.opp.id);
+  const mcomp = form.competizione === 'coppa' ? cupOf(team) || 'nessuna' : undefined;
   const family = form.tipoTiri;
   const line = parseNum(form.line);
   const odds = parseNum(form.odds);
@@ -611,12 +617,12 @@ export default function CalcPlayer({ C, openRoute }) {
           <Gap />
           <SeasonPanel C={C} season={f.season} onChange={(k, patch) => setF({ season: { ...f.season, [k]: { ...f.season[k], ...patch } } })} rate90={result.rate90} label={form.stat === 'fc' ? 'Commessi' : 'Subiti'} player={player} comp={form.competizione} />
           <Gap />
-          <FoulsTeam C={C} openRoute={openRoute} title="Squadra del giocatore" statLabel={statTitle} block={form.team} stats={ownStats} value={f.team} onValue={(v) => setF({ team: v })} onChange={(p) => setBlock('team', p)} />
+          <FoulsTeam C={C} openRoute={openRoute} vsId={form.opp.id} matchComp={mcomp} title="Squadra del giocatore" statLabel={statTitle} block={form.team} stats={ownStats} value={f.team} onValue={(v) => setF({ team: v })} onChange={(p) => setBlock('team', p)} />
           {rb ? <><Gap /><Roles C={C} rb={rb} title={form.stat === 'fc' ? 'Ruoli avversari · falli commessi' : 'Ruoli avversari · falli subiti'} /></> : null}
           <Gap />
           <Duel C={C} team={opp} roster={roster} picked={f.duel || []} onChange={(d) => setF({ duel: d, duelManual: true })} statLabel={oppTitle} roles={roles} />
           <Gap />
-          <FoulsTeam C={C} openRoute={openRoute} title="Squadra avversaria" statLabel={oppTitle} block={form.opp} stats={oppStats} value={f.opp} onValue={(v) => setF({ opp: v })} onChange={(p) => setBlock('opp', p)} />
+          <FoulsTeam C={C} openRoute={openRoute} vsId={form.team.id} title="Squadra avversaria" statLabel={oppTitle} block={form.opp} stats={oppStats} value={f.opp} onValue={(v) => setF({ opp: v })} onChange={(p) => setBlock('opp', p)} />
         </>
       ) : (
         <>
@@ -624,9 +630,9 @@ export default function CalcPlayer({ C, openRoute }) {
           <Gap />
           <SeasonPanel C={C} season={form.season} onChange={setSeason} rate90={result.rate90} label="Tiri" player={player} comp={form.competizione} />
           <Gap />
-          <ShotsTeam C={C} openRoute={openRoute} title="Squadra del giocatore" mode="for" family={family} block={form.team} onChange={(p) => setBlock('team', p)} />
+          <ShotsTeam C={C} openRoute={openRoute} vsId={form.opp.id} matchComp={mcomp} title="Squadra del giocatore" mode="for" family={family} block={form.team} onChange={(p) => setBlock('team', p)} />
           <Gap />
-          <ShotsTeam C={C} openRoute={openRoute} title="Squadra avversaria" mode="against" family={family} block={form.opp} onChange={(p) => setBlock('opp', p)} />
+          <ShotsTeam C={C} openRoute={openRoute} vsId={form.team.id} title="Squadra avversaria" mode="against" family={family} block={form.opp} onChange={(p) => setBlock('opp', p)} />
         </>
       )}
       <Gap />

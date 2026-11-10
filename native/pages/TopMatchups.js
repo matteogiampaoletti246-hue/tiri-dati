@@ -27,8 +27,8 @@ const SEEN = new Set(); // schede gia' entrate con l'animazione
 const Side = ({ C, team, name, value }) => (
   <View style={{ flex: 1, alignItems: 'center', minWidth: 0 }}>
     <TeamCrest team={team} size={68} C={C} />
-    <Text numberOfLines={2} style={{ color: C.ink, fontSize: 17, fontWeight: '800', textAlign: 'center', marginTop: 8, lineHeight: 20 }}>{name}</Text>
-    <Text style={{ color: C.ink, fontSize: 26, fontWeight: '800', marginTop: 2 }}>{value == null ? ' ' : comma(value, 1)}</Text>
+    <Text numberOfLines={2} style={{ color: C.ink, fontSize: 17, fontWeight: '700', textAlign: 'center', marginTop: 8, lineHeight: 20 }}>{name}</Text>
+    <Text style={{ color: C.ink, fontSize: 26, fontWeight: '700', marginTop: 2 }}>{value == null ? ' ' : comma(value, 1)}</Text>
   </View>
 );
 
@@ -52,7 +52,7 @@ const Card = React.memo(function Card({ C, row, both, openRoute, enter }) {
           <Side C={C} team={home} name={row.homeName} value={row.home} />
           <View style={{ width: 118, alignItems: 'center', paddingTop: 10 }}>
             <Text style={{ color: C.ink3, fontSize: 14, fontWeight: '700', letterSpacing: 1.4, textTransform: 'uppercase' }}>{row.centerLabel}</Text>
-            <Text style={{ color: C.medal[0], fontSize: 46, fontWeight: '800', marginTop: 2 }}>{comma(row.center, 1)}</Text>
+            <Text style={{ color: C.medal[0], fontSize: 46, fontWeight: '700', marginTop: 2 }}>{comma(row.center, 1)}</Text>
             {row.referee
               ? <Text numberOfLines={2} style={{ color: C.ink2, fontSize: 14, fontWeight: '700', textAlign: 'center', marginTop: 8 }}>{row.referee.name}</Text>
               : <Text style={{ color: C.ink3, fontSize: 17, marginTop: 10 }}>{row.type.label}</Text>}
@@ -65,7 +65,7 @@ const Card = React.memo(function Card({ C, row, both, openRoute, enter }) {
       </Pressable>
       {both ? (
         <View pointerEvents="none" style={{ position: 'absolute', top: -9, left: 0, right: 0, alignItems: 'center' }}>
-          <Text style={{ backgroundColor: C.medal[0], color: C.goldInk, fontSize: 9.5, fontWeight: '800', letterSpacing: 0.8, textTransform: 'uppercase', paddingHorizontal: 10, paddingVertical: 3, borderRadius: 999, overflow: 'hidden' }}>{both}</Text>
+          <Text style={{ backgroundColor: C.medal[0], color: C.goldInk, fontSize: 9.5, fontWeight: '700', letterSpacing: 0.8, textTransform: 'uppercase', paddingHorizontal: 10, paddingVertical: 3, borderRadius: 999, overflow: 'hidden' }}>{both}</Text>
         </View>
       ) : null}
     </View>

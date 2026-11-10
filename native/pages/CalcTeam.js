@@ -32,9 +32,9 @@ export default function CalcTeam({ C, openRoute }) {
   });
   return (
     <View style={{ paddingHorizontal: 20, paddingTop: 16, paddingBottom: 40 }}>
-      <TeamBlock C={C} openRoute={openRoute} title="Squadra" mode="for" family={family} block={form.team} onChange={(p) => setBlock('team', p)} />
+      <TeamBlock C={C} openRoute={openRoute} vsId={form.opp.id} title="Squadra" mode="for" family={family} block={form.team} onChange={(p) => setBlock('team', p)} />
       <View style={{ height: 28 }} />
-      <TeamBlock C={C} openRoute={openRoute} title="Avversario" mode="against" family={family} block={form.opp} onChange={(p) => setBlock('opp', p)} />
+      <TeamBlock C={C} openRoute={openRoute} vsId={form.team.id} title="Avversario" mode="against" family={family} block={form.opp} onChange={(p) => setBlock('opp', p)} />
       <View style={{ height: 28 }} />
       <PanelTitle C={C}>Giocata</PanelTitle>
       <Panel ring C={C}>
