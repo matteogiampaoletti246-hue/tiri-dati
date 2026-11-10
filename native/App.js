@@ -1,7 +1,7 @@
 // ScalperLab nativa - Home (React Native). Stesse regole della Home web: finestre per paese, top campionati in alto,
 // colori e loghi delle competizioni, righe partita. Metadati da meta.json (generato da data/leagues.js e data/countries.js).
 import React, { createContext, memo, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { View, Text, FlatList, Pressable, ScrollView, StatusBar, Dimensions, StyleSheet, Animated as RNAnimated, Easing as RNEasing, AccessibilityInfo, LayoutAnimation, Platform, UIManager, AppState, Modal, TextInput, Keyboard, BackHandler, useWindowDimensions } from 'react-native';
+import { View, Text, FlatList, Pressable, ScrollView, StatusBar, Dimensions, useColorScheme, StyleSheet, Animated as RNAnimated, Easing as RNEasing, AccessibilityInfo, LayoutAnimation, Platform, UIManager, AppState, Modal, TextInput, Keyboard, BackHandler, useWindowDimensions } from 'react-native';
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Image } from 'expo-image';
 import Animated, { makeMutable, interpolate, useSharedValue, useAnimatedStyle, useAnimatedReaction, useAnimatedScrollHandler, withTiming, withDelay, withRepeat, withSequence, cancelAnimation, runOnJS, Easing, interpolateColor, Keyframe, LinearTransition, FadeIn } from 'react-native-reanimated';
@@ -10,7 +10,6 @@ import { SafeAreaProvider, SafeAreaView, useSafeAreaInsets } from 'react-native-
 import { LinearGradient } from 'expo-linear-gradient';
 import { TOUCH } from './shared/ui';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { WebView } from 'react-native-webview';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import META from './meta.json';
 import './shared/shim';
@@ -26,6 +25,8 @@ import SquadraPage from './pages/Squadra';
 import CampionatoPage from './pages/Campionato';
 import ArbitroPage from './pages/Arbitro';
 import CompetizioniPage from './pages/Competizioni';
+import { searchN } from './shared/searchN';
+import { bootShared } from './shared/boot';
 import { ArchTeamRoute, ArchPlayerRoute } from './pages/ArchiveRoute';
 // pagine gia' native (migrazione a tappe): la rotta si apre senza WebView
 const NATIVE_PAGES = { '/linee-guida': GuidelinesPage, '/calcolatore': CalcolatorePage, '/migliori-giocatori': TopPlayersPage, '/migliori-matchup': TopMatchupsPage, '/competizioni': CompetizioniPage };
@@ -861,11 +862,6 @@ function MenuPanel({ open, onClose, onGo, ui, onCmd, top, bottom }) {
             <Animated.View entering={ent(MENU.length)}>
               <Text style={[s.sSec, { paddingHorizontal: 0, marginTop: 22 }]}>Tema</Text>
               <ThemeTri value={ui.theme} onPick={(v) => onCmd('theme', v)} />
-              <Text style={[s.sSec, { paddingHorizontal: 0, marginTop: 22 }]}>Diagnostica</Text>
-              <Pressable onPress={() => onCmd('perf', ui.perf ? 0 : 1)} style={[s.mItem, { justifyContent: 'space-between' }]}>
-                <Text style={[s.mTx, { fontSize: 14 }]}>Pannello diagnosi</Text>
-                <Text style={{ fontSize: 12.5, fontWeight: '700', color: ui.perf ? C.accent : C.ink3 }}>{ui.perf ? 'Attivo' : 'Spento'}</Text>
-              </Pressable>
             </Animated.View>
           ) : null}
         </ScrollView>
@@ -959,11 +955,9 @@ const Pane = ({ idx, x, children }) => {
   return <Animated.View style={[StyleSheet.absoluteFill, st]}>{children}</Animated.View>;
 };
 
-const NO_LAUNCH = "try{sessionStorage.setItem('sl-launched','1')}catch(e){};" + "(function(){var n=0;window.__slDepth=0;var send=function(){window.__slDepth=n;try{window.ReactNativeWebView.postMessage('depth:'+n)}catch(e){}};var P=history.pushState,R=history.replaceState;history.pushState=function(s,t,u){n++;var st=Object.assign({},s||{});st.__sln=n;var r=P.call(this,st,t,u);send();return r;};history.replaceState=function(s,t,u){var st=Object.assign({},s||{});st.__sln=n;return R.call(this,st,t,u);};window.addEventListener('popstate',function(){var st=history.state;if(st&&typeof st.__sln==='number'){n=st.__sln;}else{n=0;}send();if(location.hash==='#/linee-guida'&&!(window.__slQ>Date.now())){try{window.ReactNativeWebView.postMessage('home')}catch(e){}}});})();true;";
 const EDGE_W = 16; // striscia nativa sul bordo (swipe fluido sul thread UI). Stretta: piu' larga copriva i tasti a sinistra (Riepilogo) e ne mangiava il tocco.
 const SWIPE_GAIN = 2.2; // la pagina corre piu' veloce del dito: uno swipe leggero (~23% dello schermo) la porta oltre la meta'. Stesso valore in lib/carousel.js
 
-const THEME_JS = "(function(){try{var send=function(){window.ReactNativeWebView.postMessage(document.documentElement.classList.contains('dark')?'dark':'light');};send();new MutationObserver(send).observe(document.documentElement,{attributes:true,attributeFilter:['class']});}catch(e){}})();true;";
 const scoreStr = (sc) => { const x = /(\d+)\s*-\s*(\d+)/.exec(String(sc || '')); return x ? `${x[1]}-${x[2]}` : null; };
 
 // Dock in basso (concept C "isola compatta", stesso disegno nel sito): Home, Calcolatore, Giocatori, Matchup. Vetro sfocato, tasselli 46 px,
@@ -1148,34 +1142,8 @@ function SkHome() {
   );
 }
 // pagina web in apertura: stessa forma della pagina (schede della barra: elenco di riquadri; altre: banner, schede, riquadri)
-function SkWeb({ route }) {
-  const { C } = useT();
-  const list = /^\/(migliori-giocatori|migliori-matchup)/.test(route || '');
-  const n = Math.max(3, Math.min(7, Math.ceil((Dimensions.get('window').height - 200) / 108)));
-  if (list) {
-    return (
-      <SkBox delay={0} style={[StyleSheet.absoluteFill, { backgroundColor: C.bg, paddingTop: 18 }]}>
-        <SkBar w={190} h={20} style={{ marginLeft: 20, marginBottom: 16 }} />
-        <View style={{ flexDirection: 'row', paddingHorizontal: 20, marginBottom: 18 }}>{[0, 1, 2, 3, 4].map((i) => <SkBar key={i} w={44} h={12} style={{ marginRight: 18 }} />)}</View>
-        {Array.from({ length: n }, (_, i) => <SkCard key={i} h={96}><SkLines n={3} /></SkCard>)}
-      </SkBox>
-    );
-  }
-  return (
-    <SkBox delay={0} style={[StyleSheet.absoluteFill, { backgroundColor: C.bg, paddingTop: 20 }]}>
-      <View style={{ paddingLeft: 40, marginBottom: 30 }}>
-        <SkBar w={W * 0.5} h={14} style={{ marginBottom: 10 }} />
-        <SkBar w={W * 0.3} h={10} />
-      </View>
-      <View style={{ flexDirection: 'row', paddingHorizontal: 20, marginBottom: 22 }}>{[62, 58, 70, 60].map((w, i) => <SkBar key={i} w={w} h={12} style={{ marginRight: 24 }} />)}</View>
-      <SkCard h={134}><SkLines n={3} /></SkCard>
-      <SkCard h={240}><SkLines n={3} /></SkCard>
-      <SkCard h={180}><SkLines n={3} /></SkCard>
-    </SkBox>
-  );
-}
 
-function Screen({ onTheme, onReset }) {
+function Screen({ onTheme, onReset, themePref }) {
   const { C, s } = useT();
   const insets = useSafeAreaInsets();
   const [view, setView] = useState(null); // { dates, keys, data } cambiano insieme: mai date nuove con partite vecchie
@@ -1184,18 +1152,14 @@ function Screen({ onTheme, onReset }) {
   const [srch, setSrch] = useState(false);   // tendina di ricerca (nativa)
   const [menu, setMenu] = useState(false);   // menu a tendina (nativo): mai aperti insieme
   const [srchRes, setSrchRes] = useState(null);
-  const [ui, setUi] = useState(null);        // tema e diagnostica del sito, per il menu
+  const ui = useMemo(() => ({ theme: themePref }), [themePref]); // tema scelto, per il menu
   const srchSeq = useRef(0);
   const [cur, setCur] = useState(TODAY_INDEX);
   const [filter, setFilter] = useState('all');
-  const [warm, setWarm] = useState(false);
-  const [depth, setDepth] = useState(0); // pagine aperte nella WebView dopo la prima (0 = la prima: lo swipe indietro e' dell'app)
   const openRef = useRef(false);
   // La pagina web si prepara a riposo (2,5 s dopo l'avvio) e poi ci mette un po' a caricarsi. Un tocco prima che sia pronta
   // (tasto in basso, ricerca, menu, partita) non puo' cambiare l'hash di una pagina che non c'e' ancora: la rotta si ricorda
   // (`pendingHash`), la pagina si monta subito gia' sulla rotta giusta (`bootUri`) e al termine del caricamento si applica.
-  const [ready, setReady] = useState(false);
-  const readyRef = useRef(false);
   const [webOpen, setWebOpen] = useState(false);   // la pagina web e' sopra la Home (la barra in basso e' sempre quella nativa)
   const [natStack, setNatStack] = useState([]); // pagine native aperte (l'ultima e' in cima)
   const [natHidden, setNatHidden] = useState(false); // una pagina del sito e' aperta sopra la pila
@@ -1204,23 +1168,10 @@ function Screen({ onTheme, onReset }) {
   const [barOn, setBarOn] = useState(false);       // la barra nativa si vede solo in Home e nelle tre schede (Calcolatore, Giocatori, Matchup)
   const [tab, setTab] = useState('');               // voce della barra scelta: si evidenzia nell'istante del tocco (poi segue `route:` della pagina)
   const [homeTop, setHomeTop] = useState(0);        // tasto Home toccato in Home: la lista del giorno torna in cima
-  const [busy, setBusy] = useState(false); // apertura in corso: scheletro al posto della pagina vecchia
   // pagina web chiusa e parcheggiata su /linee-guida: resta coperta da un fondo pieno, cosi' aprendo una scheda il primo fotogramma
   // dello scorrimento non mostra mai le Linee guida (prima la copertura arrivava dopo il disegno JS + 150 ms: ~1 s di pannello fantasma)
-  const [parked, setParked] = useState(true);
-  const webPath = useRef('');               // percorso che la pagina web dice di mostrare (messaggio `route:`)
-  const awaitRoute = useRef(null);
-  const busyTimer = useRef(null);
-  const endBusy = useCallback(() => { clearTimeout(busyTimer.current); awaitRoute.current = null; setBusy(false); }, []);
-  const pendingHash = useRef(null);
-  const startRoute = useRef('/linee-guida');
-  const bootUri = useRef(null);
-  const [sleep, setSleep] = useState(false); // in background con la pagina web chiusa: il suo processo si libera (meno memoria = iOS non chiude Expo Go)
-  const [webKey, setWebKey] = useState(0); // cambia = la pagina web si ricrea (processo di WebView terminato da iOS)
-  const lastRoute = useRef('/linee-guida');
-  const pongAt = useRef(0);
   const bgAt = useRef(0);
-  const strip = useRef(null); const pos = useRef({}); const webRef = useRef(null);
+  const strip = useRef(null); const pos = useRef({});
   const lastCenter = useRef(0);
   const curRef = useRef(cur); curRef.current = cur;
   // il tasto Live vale solo per oggi: cambiando giorno (swipe o calendario) si torna a "Tutte"
@@ -1271,8 +1222,6 @@ function Screen({ onTheme, onReset }) {
     })();
     return () => { on = false; };
   }, [center, x]);
-  // la pagina web si prepara a riposo (leggera) cosi' aprire una partita non ricarica niente
-  useEffect(() => { if (!data) return undefined; const t = setTimeout(() => setWarm(true), 700); return () => clearTimeout(t); }, [!!data]);
 
   // stato, risultato e minuto live veri (come la Home web): /f del giorno per top campionati e coppe europee, /fx per le altre partite
   // iniziate da meno di 5 ore, giorni/<data>.json per quelle piu' vecchie. Mai "live" per una partita finita.
@@ -1356,102 +1305,34 @@ function Screen({ onTheme, onReset }) {
   }, [!!data, refresh]);
 
   const markClosed = useCallback(() => { openRef.current = false; setWebOpen(false); }, []);
-  // Ogni cambio di rotta deciso dall'app porta `__slQ`: la pagina web non risponde con 'home' al ritorno alla pagina di partenza (era l'eco che, arrivando in ritardo, richiudeva la pagina appena aperta dal tocco dopo).
-  // `slide`: cambio tra due schede del dock con la pagina gia' aperta: prima la pagina web si fotografa (`__slTabPrep`) e poi scorre di lato
-  const hashTo = useCallback((h, slide) => {
-    const prep = slide ? `try{window.__slTabPrep&&window.__slTabPrep(${JSON.stringify(h.slice(1).split('?')[0])})}catch(e){};` : '';
-    if (readyRef.current && webRef.current) { pendingHash.current = null; webRef.current.injectJavaScript(`${prep}window.__slQ=Date.now()+1500;location.hash=${JSON.stringify(h)};true;`); }
-    else pendingHash.current = h; // pagina non ancora caricata: si applica appena pronta
-  }, []);
-  const onWebLoaded = useCallback(() => {
-    readyRef.current = true;
-    const h = pendingHash.current;
-    pendingHash.current = null;
-    if (h && webRef.current) webRef.current.injectJavaScript(`window.__slQ=Date.now()+1500;if(location.hash!==${JSON.stringify(h)})location.hash=${JSON.stringify(h)};true;`);
-    setReady(true);
-  }, []);
-  // La pagina web e' morta (iOS termina il processo della WebView in background): si ricrea gia' sulla rotta giusta (l'ultima disegnata se la finestra e' aperta, altrimenti la pagina di partenza).
-  const recover = useCallback(() => {
-    const r = awaitRoute.current ? lastRoute.current : openRef.current ? (webPath.current || lastRoute.current) : '/linee-guida';
-    readyRef.current = false; pendingHash.current = null; webPath.current = '';
-    bootUri.current = `${SITE}aurora/#${r}`;
-    setReady(false); setWebKey((k) => k + 1);
-  }, []);
-  // Tornando dal background: oltre 10 minuti l'app riparte da zero (come appena aperta); entro 10 minuti resta com'era e, se la pagina web
-  // non risponde (processo terminato), si ricrea sulla stessa rotta.
+  // Tornando dal background: oltre 10 minuti l'app riparte da zero (come appena aperta); entro 10 minuti resta com'era.
   useEffect(() => {
     const sub = AppState.addEventListener('change', (st) => {
-      if (st === 'background') {
-        bgAt.current = Date.now();
-        try { Image.clearMemoryCache(); } catch (e) { /* ignora */ }
-        // Home visibile (pagina web chiusa): si smonta la WebView per liberare memoria; al ritorno si ricrea da sola sulla pagina di partenza
-        if (!openRef.current && !awaitRoute.current && readyRef.current) {
-          readyRef.current = false; pendingHash.current = null; webPath.current = '';
-          bootUri.current = `${SITE}aurora/#/linee-guida`;
-          setReady(false); setSleep(true);
-        }
-        return;
-      }
-      if (st === 'active') setSleep(false);
+      if (st === 'background') { bgAt.current = Date.now(); try { Image.clearMemoryCache(); } catch (e) { /* ignora */ } return; }
       if (st !== 'active' || !bgAt.current) return;
       const gap = Date.now() - bgAt.current; bgAt.current = 0;
       if (gap > 10 * 60 * 1000) { if (onReset) onReset(); return; }
-      // animazioni native fermate a meta' dal sistema: la pagina web torna dov'e' (aperta = 0, chiusa = fuori schermo) e nessuna rotella resta accesa senza una pagina in arrivo
+      // animazioni native fermate a meta' dal sistema: la pila torna dov'e' (aperta = 0, chiusa = fuori schermo)
       try { ov.value = openRef.current ? 0 : W; } catch (e) { /* ignora */ }
-      if (!awaitRoute.current) setBusy(false);
-      if (!readyRef.current || !webRef.current) return;
-      // la pagina web si rimette in sesto da sola (animazioni a meta', blocchi accesi, schermo rimisurato)
-      webRef.current.injectJavaScript("try{window.dispatchEvent(new Event('sl-native-resume'))}catch(e){};true;");
-      const t0 = Date.now();
-      webRef.current.injectJavaScript("try{window.ReactNativeWebView.postMessage('pong')}catch(e){};true;");
-      setTimeout(() => { if (pongAt.current < t0 && readyRef.current) recover(); }, 1500);
     });
     return () => sub.remove();
-  }, [onReset, recover, ov]);
+  }, [onReset, ov]);
   const openRoute = useCallback((route) => {
     const path0 = route.split('?')[0];
-    if (nativeOf(path0)) {
-      const st = natStackRef.current;
-      if (openRef.current && st.length && !natHiddenRef.current && !isTabRoute(path0)) { // da una pagina nativa a un'altra: si impila
-        nvIdx.value = st.length; nv.value = W; stackN.value = st.length + 1; setNatStack([...st, path0]);
-        nv.value = withTiming(0, { duration: 260, easing: Easing.out(Easing.cubic) });
-        return;
-      }
-      nvIdx.value = -1; nv.value = 0; stackN.value = 1; natBelow.value = 0; setNatHidden(false); setNatStack([path0]);
-      openRef.current = true; setWebOpen(true); setBarOn(isTabRoute(path0)); if (isTabRoute(path0)) setTab(tabOf(path0)); setDepth(0); ov.value = withTiming(0, { duration: 260, easing: Easing.out(Easing.cubic) }); return;
+    if (!nativeOf(path0)) return; // pagina senza versione nativa (mai usata dall'app)
+    const st = natStackRef.current;
+    if (openRef.current && st.length && !natHiddenRef.current && !isTabRoute(path0)) { // da una pagina a un'altra: si impila
+      nvIdx.value = st.length; nv.value = W; stackN.value = st.length + 1; setNatStack([...st, path0]);
+      nv.value = withTiming(0, { duration: 260, easing: Easing.out(Easing.cubic) });
+      return;
     }
-    if (natStackRef.current.length) { // pagina del sito sopra la pila: la pila resta sotto (il tasto indietro del sito la riporta); dal dock si riparte da zero
-      if (isTabRoute(route)) { setNatStack([]); setNatHidden(false); stackN.value = 0; natBelow.value = 0; }
-      else { setNatHidden(true); stackN.value = 0; natBelow.value = natStackRef.current.length; }
-    }
-    // da una scheda del dock a un'altra (pagina gia' aperta e pronta): la pagina web scorre di lato da sola, niente scheletro sopra
-    const slide = openRef.current && readyRef.current && !!webRef.current && isTabRoute(webPath.current) && isTabRoute(route) && webPath.current !== path0;
-    openRef.current = true; lastRoute.current = route; setWebOpen(true); setParked(false); setDepth(0); setBarOn(isTabRoute(route)); setTab(tabOf(route));
-    if (!readyRef.current) { startRoute.current = route; setWarm(true); }
-    const path = route.split('?')[0];
-    // la pagina web e' gia' su questa rotta (riapertura veloce, o tocco che torna alla pagina mostrata prima che l'altra arrivasse): niente attesa.
-    // Prima l'attesa della rotta precedente restava accesa: rotella per 4 s e poi pagina web ricaricata da zero.
-    if (webPath.current === path || slide) endBusy();
-    else {
-      awaitRoute.current = path; setBusy(true);
-      // rete di sicurezza: mai rotella infinita. Dopo 4 s si chiede alla pagina se e' viva: se risponde e' solo lenta (si mostra com'e'),
-      // se tace e' morta e si ricrea sulla rotta chiesta. Prima si ricreava sempre: una pagina lenta veniva ricaricata da zero.
-      clearTimeout(busyTimer.current);
-      busyTimer.current = setTimeout(() => {
-        if (!awaitRoute.current) return;
-        const t0 = Date.now();
-        try { webRef.current.injectJavaScript("try{window.ReactNativeWebView.postMessage('pong')}catch(e){};true;"); } catch (e) { /* ignora */ }
-        busyTimer.current = setTimeout(() => { if (awaitRoute.current && pongAt.current < t0) recover(); endBusy(); }, 1200);
-      }, 4000);
-    }
-    hashTo(`#${route}`, slide);
-    ov.value = withTiming(0, { duration: 260, easing: Easing.out(Easing.cubic) });
-  }, [hashTo, ov, endBusy, recover]);
+    nvIdx.value = -1; nv.value = 0; stackN.value = 1; natBelow.value = 0; setNatHidden(false); setNatStack([path0]);
+    openRef.current = true; setWebOpen(true); setBarOn(isTabRoute(path0)); if (isTabRoute(path0)) setTab(tabOf(path0)); ov.value = withTiming(0, { duration: 260, easing: Easing.out(Easing.cubic) });
+  }, [ov, nv, nvIdx, stackN, natBelow]);
   // la pagina web lascia la scheda mostrata: riaprendo la stessa voce si aspetta il suo disegno (niente Linee guida intraviste)
-  const afterClose = useCallback(() => { setNatStack([]); setNatHidden(false); stackN.value = 0; natBelow.value = 0; nvIdx.value = -1; nv.value = 0; webPath.current = ''; if (!openRef.current) setParked(true); hashTo('#/linee-guida'); setDepth(0); }, [hashTo, stackN, natBelow, nvIdx, nv]);
+  const afterClose = useCallback(() => { setNatStack([]); setNatHidden(false); stackN.value = 0; natBelow.value = 0; nvIdx.value = -1; nv.value = 0; }, [stackN, natBelow, nvIdx, nv]);
   const onTop = useCallback((route) => {
     if (!route) { setHomeTop((n) => n + 1); return; }
-    if (readyRef.current && webRef.current) webRef.current.injectJavaScript("try{window.scrollTo({top:0,behavior:'smooth'})}catch(e){};true;");
   }, []);
   const closeWeb = useCallback(() => { openRef.current = false; setWebOpen(false); ov.value = withTiming(W, { duration: 240, easing: Easing.out(Easing.cubic) }, (done) => { if (done) runOnJS(afterClose)(); }); }, [afterClose, ov]);
   const finishPop = useCallback(() => { setNatStack((q) => q.slice(0, -1)); }, []);
@@ -1467,26 +1348,14 @@ function Screen({ onTheme, onReset }) {
     const sk = m[11] || META.cur[String(m[1])];
     openRoute(sk ? `/match/a-${m[1]}-${sk}-${m[0]}` : `/match/x-${m[1]}-${m[0]}`);
   }, [openRoute]);
-  const onMsg = useCallback((e) => {
-    const t = e && e.nativeEvent && e.nativeEvent.data;
-    if (t === 'dark' || t === 'light') onTheme(t);
-    else if (t === 'pong') pongAt.current = Date.now();
-    else if (typeof t === 'string' && t.startsWith('srch:')) { const k = t.indexOf(':', 5); if (Number(t.slice(5, k)) === srchSeq.current) { try { setSrchRes(JSON.parse(t.slice(k + 1))); } catch (err) { /* ignora */ } } } // risultati della ricerca (calcolati dalla pagina web: stessi del sito)
-    else if (typeof t === 'string' && t.startsWith('ui:state:')) { const [th, pf] = t.slice(9).split(':'); setUi({ theme: th, perf: pf === '1' }); }
-    else if (t === 'ui:search' || t === 'ui:menu') { if (openRef.current) closeWeb(); setMenu(t === 'ui:menu'); setSrch(t === 'ui:search'); } // vecchi link /cerca e /menu: Home con la tendina aperta
-    else if (typeof t === 'string' && t.startsWith('route:')) { webPath.current = t.slice(6); if (!awaitRoute.current || awaitRoute.current === webPath.current) { setTab(tabOf(webPath.current)); setBarOn(isTabRoute(webPath.current)); } if (awaitRoute.current === webPath.current) endBusy(); } // la pagina web ha disegnato questa rotta
-    else if (typeof t === 'string' && t.startsWith('depth:')) setDepth(Number(t.slice(6)) || 0);
-    else if (typeof t === 'string' && t.startsWith('drag:')) { const d = Number(t.slice(5)); ov.value = d < 0 ? withTiming(0, { duration: 180 }) : withTiming(d, { duration: 90, easing: Easing.linear }); } // swipe indietro partito dentro la pagina web (prima pagina dopo la Home)
-    else if (t === 'home' && openRef.current) { if (natStackRef.current.length && natHiddenRef.current) revealNat(); else closeWeb(); } // il tasto indietro del sito e' tornato alla pagina di partenza: si torna alla Home
-  }, [onTheme, closeWeb, revealNat, ov, endBusy]);
   const pick = useCallback((diff) => { setCal(false); wantRef.current = false; setWantLive(false); setCenter(diff); }, []);
-  // ricerca: la pagina web (gia' caricata, con tutti i dati) calcola i risultati e li manda indietro (`srch:<n>:<json>`)
+  // ricerca nativa: stessi risultati del sito (lib/search.js), calcolati qui
   const askSearch = useCallback((q) => {
     const n = ++srchSeq.current;
     if (!String(q || '').trim()) { setSrchRes(null); return; }
-    if (readyRef.current && webRef.current) webRef.current.injectJavaScript(`window.__slSearch&&window.__slSearch(${JSON.stringify(q)},${n});true;`);
+    bootShared().then(() => { if (n === srchSeq.current) setSrchRes(searchN(q)); }).catch(() => {});
   }, []);
-  const uiCmd = useCallback((cmd, v) => { if (readyRef.current && webRef.current) webRef.current.injectJavaScript(`window.__slCmd&&window.__slCmd(${JSON.stringify(cmd)},${JSON.stringify(v === undefined ? null : v)});true;`); }, []);
+  const uiCmd = useCallback((cmd, v) => { if (cmd === 'theme') onTheme(v); }, [onTheme]);
   const openSearch = useCallback(() => { setMenu(false); setSrchRes(null); setSrch(true); }, []);
   const openMenuP = useCallback(() => { setSrch(false); setMenu(true); }, []);
   const closeSrch = useCallback(() => setSrch(false), []);
@@ -1549,7 +1418,6 @@ function Screen({ onTheme, onReset }) {
   const ovStyle = useAnimatedStyle(() => ({ transform: [{ translateX: ov.value }] }));
 
   if (!data) return <View style={[s.root, { paddingTop: insets.top }]}><SkHome /></View>;
-  if (warm && !bootUri.current) bootUri.current = `${SITE}aurora/#${startRoute.current}`; // fissato al primo montaggio: cambiarlo dopo ricaricherebbe la pagina
   const tIdx = keys.indexOf(todayKey); const liveN = tIdx >= 0 ? data[tIdx].reduce((n, m) => n + (m[8] === 'l' ? 1 : 0), 0) : 0; // badge del dock: partite live di oggi
   const shown = [cur - 2, cur - 1, cur, cur + 1, cur + 2].filter((i) => i >= 0 && i < N);
   return (
@@ -1575,36 +1443,31 @@ function Screen({ onTheme, onReset }) {
 
       {/* pagina web (resto dell'app): gia' caricata, si apre scorrendo da destra */}
       <Animated.View pointerEvents="box-none" style={[StyleSheet.absoluteFill, { backgroundColor: C.bg }, ovStyle]}>
-        <View style={{ paddingTop: insets.top, flex: 1 }}>
-          <Pressable onPress={closeWeb} style={s.back}><Ionicons name="chevron-back" size={20} color={C.accent} /><Text style={{ color: C.accent, fontSize: 16 }}>Home</Text></Pressable>
-          <View style={{ flex: 1 }}>
-            {warm && !sleep ? <WebView key={webKey} ref={webRef} onContentProcessDidTerminate={recover} onRenderProcessGone={recover} source={{ uri: bootUri.current }} onLoadEnd={onWebLoaded} style={{ flex: 1, backgroundColor: C.bg }} injectedJavaScriptBeforeContentLoaded={NO_LAUNCH} injectedJavaScript={THEME_JS} onMessage={onMsg} decelerationRate={0.998} contentInsetAdjustmentBehavior="never" automaticallyAdjustContentInsets={false} directionalLockEnabled={false} allowsLinkPreview={false} /> : null}
-            {!ready || busy || parked ? <View pointerEvents="auto" style={[StyleSheet.absoluteFill, { backgroundColor: C.bg }]}>{parked && ready ? null : <SkWeb route={awaitRoute.current || lastRoute.current} />}</View> : null}
-          </View>
-        </View>
         {natStack.map((p, i) => { const n = nativeOf(p); if (!n) return null; return <NatLayer key={`${p}#${i}`} i={i} nv={nv} nvIdx={nvIdx} hidden={natHidden} live={i === natStack.length - 1 && !natHidden}>{React.createElement(n.Comp, { params: n.params, C, top: insets.top, onBack: popNat, bottom: insets.bottom + 90, openRoute, onSearch: () => setSrch(true) })}</NatLayer>; })}
         <PlayerPanelHost C={C} top={insets.top} bottom={insets.bottom} openRoute={openRoute} />
         <PlayerSheetHost C={C} bottom={insets.bottom} openRoute={openRoute} />
-        <GestureDetector gesture={edge}><View pointerEvents={depth > 0 ? 'none' : 'auto'} style={[s.edge, { width: EDGE_W, top: insets.top + 98 }]} /></GestureDetector>
+        <GestureDetector gesture={edge}><View pointerEvents="auto" style={[s.edge, { width: EDGE_W, top: insets.top + 98 }]} /></GestureDetector>
       </Animated.View>
       {!webOpen || barOn ? <TabBar onOpen={openRoute} onHome={closeWeb} onTop={onTop} active={webOpen ? tab : null} bottom={insets.bottom} live={liveN} /> : null}
       {/* tendine della riga in alto: sopra la Home e sopra la barra (la barra non cambia) */}
-      <SearchPanel open={srch} onClose={closeSrch} onPick={pickSrch} ask={askSearch} res={srchRes} ready={ready} top={insets.top + 4} />
+      <SearchPanel open={srch} onClose={closeSrch} onPick={pickSrch} ask={askSearch} res={srchRes} ready top={insets.top + 4} />
       <MenuPanel open={menu} onClose={closeMenu} onGo={goMenu} ui={ui} onCmd={uiCmd} top={insets.top} bottom={insets.bottom} />
     </View>
   );
 }
 
 export default function App() {
-  const [theme, setTheme] = useState('dark');
+  const [pref, setPref] = useState('dark'); // scelta nel menu: light | dark | system
+  const sysScheme = useColorScheme();
   const [gen, setGen] = useState(0); // nuova generazione = tutta l'app riparte (dopo piu' di 10 minuti in background)
   const onReset = useCallback(() => setGen((g) => g + 1), []);
-  useEffect(() => { AsyncStorage.getItem('sl-theme').then((v) => { if (v === 'light' || v === 'dark') setTheme(v); }).catch(() => {}); }, []);
-  const onTheme = useCallback((t) => { setTheme(t); AsyncStorage.setItem('sl-theme', t).catch(() => {}); }, []);
+  useEffect(() => { AsyncStorage.getItem('sl-theme').then((v) => { if (v === 'light' || v === 'dark' || v === 'system') setPref(v); }).catch(() => {}); }, []);
+  const onTheme = useCallback((t) => { setPref(t); AsyncStorage.setItem('sl-theme', t).catch(() => {}); }, []);
   const [homeOn, setHomeOn] = useState(LAUNCHED);
   const onPop = useCallback(() => setHomeOn(true), []);
+  const theme = pref === 'system' ? (sysScheme === 'light' ? 'light' : 'dark') : pref;
   const T = THEMES[theme];
-  return <GestureHandlerRootView style={{ flex: 1, backgroundColor: T.C.bg }}><TCtx.Provider value={T}><SafeAreaProvider>{homeOn ? <Screen key={gen} onTheme={onTheme} onReset={onReset} /> : null}</SafeAreaProvider><LaunchOverlay onPop={onPop} /></TCtx.Provider></GestureHandlerRootView>;
+  return <GestureHandlerRootView style={{ flex: 1, backgroundColor: T.C.bg }}><TCtx.Provider value={T}><SafeAreaProvider>{homeOn ? <Screen key={gen} onTheme={onTheme} onReset={onReset} themePref={pref} /> : null}</SafeAreaProvider><LaunchOverlay onPop={onPop} /></TCtx.Provider></GestureHandlerRootView>;
 }
 
 const makeStyles = (C) => StyleSheet.create({

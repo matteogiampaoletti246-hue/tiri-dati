@@ -1,11 +1,7 @@
-import { TEAMS, teamById, teamByFm } from '@/data/teams';
-import { LEAGUES, leagueById, leagueTint } from '@/data/leagues';
+import { TEAMS } from '@/data/teams';
+import { LEAGUES } from '@/data/leagues';
 import { PLAYERS } from '@/data/players';
 import { REFEREES } from '@/data/referees';
-import { bootData } from '@/data';
-import { countryIt, flagCode } from '@/data/carriere';
-import { getTheme, setTheme } from '@/lib/theme';
-import { perfEnabled, setPerf } from '@/lib/perfMon';
 
 // Ricerca unica (tendina della Home del sito e Home nativa): stessi risultati, stesso ordine, stesse sezioni.
 export const norm = (s) =>
@@ -110,50 +106,4 @@ export function matchSpan(name, q) {
   let at = 0; let best = null;
   for (const w of n.split(' ')) { const d = Math.min(dist(needle, w.slice(0, needle.length), 2), dist(needle, w, 2)); if (d <= 2 && (!best || d < best[2])) best = [at, at + Math.min(w.length, needle.length), d]; at += w.length + 1; }
   return best ? [best[0], best[1]] : null;
-}
-
-const initials = (name) => String(name).split(' ').map((w) => w[0]).join('').slice(0, 2).toUpperCase();
-
-// risultati in forma semplice per la Home nativa (solo cio' che serve a disegnare e aprire)
-function forNative(q) {
-  const r = searchAll(q);
-  const color = (t) => (t && t.colors && t.colors[0]) || null;
-  const sp = (n) => matchSpan(n, q);
-  return {
-    fuzzy: r.fuzzy,
-    leagues: r.leagues.map((l) => ({ id: l.id, name: l.name, country: l.country || '', logo: l.logo || null, logoDark: l.logoDark || null, color: leagueTint(l.id), path: `/campionato/${l.id}`, hl: sp(l.name) })),
-    teams: r.teams.map((t) => {
-      const l = leagueById(t.leagueId);
-      const c = l ? l.country || '' : '';
-      return { id: t.id, name: t.name, crest: t.crest || null, initials: t.initials || initials(t.name), sub: `${c}${c && l ? ' · ' : ''}${l ? l.name : ''}`, logo: l ? l.logo || null : null, color: color(t), path: `/squadra/${t.id}`, hl: sp(t.name) };
-    }),
-    players: r.players.map((p) => {
-      // un solo banner: prima stemma e club, poi bandiera e nazionale. Chi ha solo il profilo della nazionale: club dalle carriere
-      // (calc_extra.py); senza club noto la bandiera prende il posto dello stemma
-      if (p.nat) {
-        const fc = flagCode(p.teamName);
-        const ct = p.clubName ? teamByFm(p.clubFm) : null;
-        const crest = ct ? ct.crest || null : p.clubFm ? `https://images.fotmob.com/image_resources/logo/teamlogo/${p.clubFm}.png` : null;
-        return p.clubName
-          ? { hl: sp(p.name), id: p.id, name: p.name, photo: p.photo || null, team: ct ? ct.name : p.clubName, crest, color: color(ct), color2: ct && ct.colors ? ct.colors[1] || null : null, nat: { name: countryIt(p.teamName), fc }, path: `/giocatore/${p.id}` }
-          : { hl: sp(p.name), id: p.id, name: p.name, photo: p.photo || null, team: countryIt(p.teamName), crest: fc ? new URL(`${import.meta.env.BASE_URL}flags/${fc}.png`, window.location.href).href : null, color: null, color2: null, nat: null, path: `/giocatore/${p.id}` };
-      }
-      const t = teamById(p.teamId);
-      return { hl: sp(p.name), id: p.id, name: p.name, photo: p.photo || null, team: t ? t.name : p.teamName || '', crest: t ? t.crest || null : null, color: color(t), color2: t && t.colors ? t.colors[1] || null : null, nat: p.natView ? { name: countryIt(p.natView.teamName), fc: flagCode(p.natView.teamName) } : p.nat ? { name: countryIt(p.teamName), fc: flagCode(p.teamName) } : null, path: `/giocatore/${p.id}` };
-    }),
-    referees: r.referees.map((x) => ({ id: x.id, name: x.name, initials: initials(x.name), path: `/arbitro/${x.id}`, hl: sp(x.name) })),
-  };
-}
-
-const post = (m) => { try { window.ReactNativeWebView.postMessage(m); } catch (e) { /* ignora */ } };
-
-// comandi della Home nativa: ricerca (`srch:<seq>:<json>`), tema e diagnostica del menu a tendina (`ui:state:<tema>:<0|1>`)
-export function installNativeBridge() {
-  if (typeof window === 'undefined' || !window.ReactNativeWebView) return;
-  window.__slSearch = (q, seq) => { bootData().then(() => post(`srch:${seq}:${JSON.stringify(forNative(q))}`)).catch(() => {}); };
-  window.__slCmd = (cmd, v) => {
-    if (cmd === 'theme') setTheme(v);
-    else if (cmd === 'perf') setPerf(!!v);
-    post(`ui:state:${getTheme()}:${perfEnabled() ? 1 : 0}`);
-  };
 }

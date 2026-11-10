@@ -156,3 +156,7 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 
 ## Archivio, Arbitro, Competizioni nativi (11/11/2026)
 - `/storico/:fm/:sk/squadra/:tid` e `/giocatore/:pid` (`pages/ArchiveRoute.js`) aprono la scheda unica con la stagione scelta (`presetSel`, `NAV`), come il sito. `/arbitro/:id` = `pages/Arbitro.js`; `/competizioni` = `pages/Competizioni.js`.
+
+## WebView rimossa (11/11/2026)
+- L'app non incorpora piu' il sito: tutte le pagine sono native (`NATIVE_PAGES` / `NATIVE_DYN` in `App.js`), una rotta senza pagina nativa non si apre. Ricerca = `shared/searchN.js` (usa `lib/search.js` del sito); tema = scelta Chiaro / Sistema / Scuro in `AsyncStorage` (`sl-theme`). Il pannello diagnosi del sito non c'e' piu'.
+- Il sito web (`aurora-src`) resta com'e' per il browser; il lavoro nativo non lo tocca.
