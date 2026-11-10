@@ -54,16 +54,17 @@ export default function LaunchScreen({ ready = true }) {
   useEffect(() => {
     if (!visible || phase < 1) return undefined;
     const ts = [];
-    if (phase === 1) {
+    if (phase === 1) ts.push(setTimeout(() => setPhase(2), FLY - 150));
+    if (phase === 2) {
+      // volo finito: il logo vero dell'intestazione compare sotto il diamante; la scritta resta un attimo, poi si dissolve
       ts.push(
         setTimeout(() => {
           window.__slDone = true; // l'intestazione può nascere dopo l'evento: legge anche questo
           window.dispatchEvent(new Event('sl-launch-done'));
-        }, FLY)
+        }, 150)
       );
-      ts.push(setTimeout(() => setPhase(2), FLY - 150));
+      ts.push(setTimeout(() => setPhase(3), 1250));
     }
-    if (phase === 2) ts.push(setTimeout(() => setPhase(3), 1250));
     if (phase === 3) {
       window.__slEnd = true;
       window.dispatchEvent(new Event('sl-launch-end'));
