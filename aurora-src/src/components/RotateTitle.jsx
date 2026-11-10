@@ -48,7 +48,19 @@ export default function RotateTitle({ title }) {
       const room = el.parentNode.clientWidth;
       let s = SIZE;
       el.style.fontSize = `${s}px`;
-      while (txt.offsetWidth > room && s > MIN) { s -= 1; el.style.fontSize = `${s}px`; }
+      // stessa misura finale di prima (la piu' grande che entra, tra MIN e SIZE), ma partendo da una stima proporzionale:
+      // 2-3 misure invece di una per ogni pixel (ogni misura dopo un cambio di font obbliga il browser a rifare l'impaginazione)
+      const w0 = txt.offsetWidth;
+      if (w0 > room) {
+        const size = (v) => { el.style.fontSize = `${v}px`; };
+        s = Math.max(MIN, Math.min(SIZE - 1, Math.floor((SIZE * room) / w0)));
+        size(s);
+        if (txt.offsetWidth <= room) {
+          while (s + 1 < SIZE) { size(s + 1); if (txt.offsetWidth > room) { size(s); break; } s += 1; }
+        } else {
+          while (txt.offsetWidth > room && s > MIN) { s -= 1; size(s); }
+        }
+      }
       if (bar.current) bar.current.style.width = `${Math.min(txt.offsetWidth, 120)}px`;
     };
     fit();
