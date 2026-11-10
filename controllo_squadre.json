@@ -24672,18 +24672,6 @@
     ]
    },
    {
-    "squadra": "Ironi Modiin",
-    "id": "1691612",
-    "giocatori": 8,
-    "competizioni": [
-     "Leumit League 2026-2027",
-     "State Cup 2026-2027"
-    ],
-    "motivo": [
-     "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
-    ]
-   },
-   {
     "squadra": "Jedinstvo Ub",
     "id": "585084",
     "giocatori": 8,
@@ -25484,6 +25472,18 @@
     "competizioni": [
      "2. Division 2026-2027",
      "Cyprus Cup 2026-2027"
+    ],
+    "motivo": [
+     "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
+    ]
+   },
+   {
+    "squadra": "Ironi Modiin",
+    "id": "1691612",
+    "giocatori": 9,
+    "competizioni": [
+     "Leumit League 2026-2027",
+     "State Cup 2026-2027"
     ],
     "motivo": [
      "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
@@ -26834,9 +26834,9 @@
   "coppie_squadra_competizione": 24232,
   "con_frase_prima": 12294,
   "squadre_con_frase_prima": 5811,
-  "con_frase_e_dati_ora_visibili": 7057,
+  "con_frase_e_dati_ora_visibili": 7060,
   "con_frase_dopo": 0,
-  "competizioni_senza_dati_tolte_dalla_tendina": 12720,
+  "competizioni_senza_dati_tolte_dalla_tendina": 12715,
   "squadre_senza_scheda_giocatori": 7042,
   "senza_scheda": [
    {
