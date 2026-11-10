@@ -5,6 +5,8 @@ import { LeagueStandings, ArchiveStandings } from '../shared/Standings';
 import { peekBracket } from '@/data/bracket';
 import Riepilogo from './PartitaRiepilogo';
 import Formazioni, { hasLineups } from './PartitaLineups';
+import Panoramica from './PartitaPanoramica';
+import { preStatsOk } from './PartitaPre';
 import Statistiche, { hasPlayedStats } from './PartitaStats';
 
 function Classifica({ C, match, openRoute }) {
@@ -15,11 +17,11 @@ function Classifica({ C, match, openRoute }) {
   return <View style={{ paddingTop: 12 }}><LeagueStandings C={C} leagueId={match.leagueId} highlight={[match.homeId, match.awayId]} openRoute={openRoute} /></View>;
 }
 
-export const PANELS = { summary: Riepilogo, stats: Statistiche, lineups: Formazioni, standings: Classifica };
+export const PANELS = { summary: Riepilogo, overview: Panoramica, stats: Statistiche, lineups: Formazioni, standings: Classifica };
 
 export function hasPanel(key, raw, view, home, away, pre, cup) {
   if (!PANELS[key]) return false; // scheda non ancora portata
-  if (key === 'stats') return pre ? false : hasPlayedStats(view); // non iniziate: Previste e tabelle (PartitaPre, da portare)
+  if (key === 'stats') return pre ? preStatsOk(raw, home, away) : hasPlayedStats(view);
   if (key === 'lineups') return hasLineups(view);
   if (key === 'standings') return cup ? !!((peekBracket(raw.archive.fm, raw.archive.sk) || {}).rounds || []).length && false : !raw.archive || !!(raw.season && (raw.season.table || (raw.season.groups && raw.season.groups.length)));
   return true;

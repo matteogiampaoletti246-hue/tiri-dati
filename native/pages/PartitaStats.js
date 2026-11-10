@@ -6,6 +6,7 @@ import CompareBars from '../shared/CompareBars';
 import ShotMap from '../shared/ShotMap';
 import { matchColors } from '@/lib/tint';
 import { comma, num } from '@/lib/format';
+import StatistichePre from './PartitaPre';
 
 const LIVE_STATS = [
   { key: 'possesso', label: 'Possesso', format: (v) => `${comma(v, 0)}%` },
@@ -27,7 +28,8 @@ export function hasPlayedStats(view) {
   return !!((periods && (periods.all || Object.keys(periods).length)) || LIVE_STATS.some((s) => stats[s.key]) || (view.shots || []).length);
 }
 
-export default function Statistiche({ C, match, view, home, away, openRoute }) {
+export default function Statistiche({ C, match, view, home, away, pre, openRoute }) {
+  if (pre) return <StatistichePre C={C} match={match} home={home} away={away} openRoute={openRoute} />;
   const [period, setPeriod] = useState('all');
   const [hcol, acol] = matchColors(home, away);
   const periods = view.statPeriods;
