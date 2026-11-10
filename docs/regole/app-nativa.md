@@ -56,6 +56,8 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 ## App nativa: ritorno dal background (regola fissa)
 - Entro 10 minuti in background l'app si ritrova com'era; oltre 10 minuti riparte da zero (`App` rimonta `Screen` con `gen`, `onReset`). Tornando entro 10 minuti la pagina web riceve un ping (`pong`): se non risponde entro 1,5 s, o iOS ha terminato il suo processo (`onContentProcessDidTerminate`), o aprendo una pagina la rotta non arriva in 4 s, la WebView si ricrea gia' sulla rotta giusta (`recover`, `webKey`, `lastRoute`). Prima la WebView ricaricata riapriva l'ultima rotta fissata all'avvio (Calcolatore) e ignorava il tocco sulla partita.
 
+- Memoria in background (10/11/2026): Expo Go veniva chiuso da iOS per la memoria. Andando in background si svuota la cache immagini (`Image.clearMemoryCache`) e, se la pagina web e' chiusa (Home), si smonta la WebView (`sleep`); al ritorno si ricrea sulla pagina di partenza. Con una pagina aperta la WebView resta (si perderebbe la posizione).
+
 ## Riga in alto della Home: ricerca e menu a tendina (regola fissa)
 - Riga unica: logo (solo il marchio), barra di ricerca che prende lo spazio libero, Calendario, menu. Uguale nel sito (`HomeHeader`) e nel nativo (`Header` in `native/App.js`).
 - Ricerca: la barra si allarga in un pannello unico in cima (aspetto concept B); il pannello scende dalla barra e le voci arrivano a cascata (animazione concept A). Banner giocatore compatto (`PlayerBanner compact` nel sito, `PlayerBannerS` nel nativo). Altezza massima fino alla tastiera, scorre solo la lista. Risultati sempre da `lib/search.js` (`searchAll`): nel nativo li calcola la pagina web (`window.__slSearch` -> messaggio `srch:<n>:<json>`), mai un secondo elenco nell'app.

@@ -1179,6 +1179,7 @@ function Screen({ onTheme, onReset }) {
   const pendingHash = useRef(null);
   const startRoute = useRef('/linee-guida');
   const bootUri = useRef(null);
+  const [sleep, setSleep] = useState(false); // in background con la pagina web chiusa: il suo processo si libera (meno memoria = iOS non chiude Expo Go)
   const [webKey, setWebKey] = useState(0); // cambia = la pagina web si ricrea (processo di WebView terminato da iOS)
   const lastRoute = useRef('/linee-guida');
   const pongAt = useRef(0);
@@ -1343,7 +1344,18 @@ function Screen({ onTheme, onReset }) {
   // non risponde (processo terminato), si ricrea sulla stessa rotta.
   useEffect(() => {
     const sub = AppState.addEventListener('change', (st) => {
-      if (st === 'background') { bgAt.current = Date.now(); return; }
+      if (st === 'background') {
+        bgAt.current = Date.now();
+        try { Image.clearMemoryCache(); } catch (e) { /* ignora */ }
+        // Home visibile (pagina web chiusa): si smonta la WebView per liberare memoria; al ritorno si ricrea da sola sulla pagina di partenza
+        if (!openRef.current && !awaitRoute.current && readyRef.current) {
+          readyRef.current = false; pendingHash.current = null; webPath.current = '';
+          bootUri.current = `${SITE}aurora/#/linee-guida`;
+          setReady(false); setSleep(true);
+        }
+        return;
+      }
+      if (st === 'active') setSleep(false);
       if (st !== 'active' || !bgAt.current) return;
       const gap = Date.now() - bgAt.current; bgAt.current = 0;
       if (gap > 10 * 60 * 1000) { if (onReset) onReset(); return; }
@@ -1497,7 +1509,7 @@ function Screen({ onTheme, onReset }) {
         <View style={{ paddingTop: insets.top, flex: 1 }}>
           <Pressable onPress={closeWeb} style={s.back}><Ionicons name="chevron-back" size={20} color={C.accent} /><Text style={{ color: C.accent, fontSize: 16 }}>Home</Text></Pressable>
           <View style={{ flex: 1 }}>
-            {warm ? <WebView key={webKey} ref={webRef} onContentProcessDidTerminate={recover} onRenderProcessGone={recover} source={{ uri: bootUri.current }} onLoadEnd={onWebLoaded} style={{ flex: 1, backgroundColor: C.bg }} injectedJavaScriptBeforeContentLoaded={NO_LAUNCH} injectedJavaScript={THEME_JS} onMessage={onMsg} decelerationRate={0.998} contentInsetAdjustmentBehavior="never" automaticallyAdjustContentInsets={false} directionalLockEnabled={false} allowsLinkPreview={false} /> : null}
+            {warm && !sleep ? <WebView key={webKey} ref={webRef} onContentProcessDidTerminate={recover} onRenderProcessGone={recover} source={{ uri: bootUri.current }} onLoadEnd={onWebLoaded} style={{ flex: 1, backgroundColor: C.bg }} injectedJavaScriptBeforeContentLoaded={NO_LAUNCH} injectedJavaScript={THEME_JS} onMessage={onMsg} decelerationRate={0.998} contentInsetAdjustmentBehavior="never" automaticallyAdjustContentInsets={false} directionalLockEnabled={false} allowsLinkPreview={false} /> : null}
             {!ready || busy || parked ? <View pointerEvents="auto" style={[StyleSheet.absoluteFill, { backgroundColor: C.bg }]}>{parked && ready ? null : <SkWeb route={awaitRoute.current || lastRoute.current} />}</View> : null}
           </View>
         </View>
