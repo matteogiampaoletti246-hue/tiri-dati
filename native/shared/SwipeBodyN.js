@@ -19,7 +19,7 @@ export default function SwipeBodyN({ index, count, onIndex, pos, children }) {
       pos.value = withTiming(index, { duration: 260, easing: Easing.out(Easing.cubic) });
     }
   }, [index]); // eslint-disable-line react-hooks/exhaustive-deps
-  const pan = Gesture.Pan().activeOffsetX([-18, 18]).failOffsetY([-14, 14])
+  const pan = Gesture.Pan().hitSlop({ left: -28 }).activeOffsetX([-18, 18]).failOffsetY([-14, 14])
     .onUpdate((e) => {
       let v = e.translationX;
       if ((index === 0 && v > 0) || (index === count - 1 && v < 0)) v *= 0.25;

@@ -28,10 +28,18 @@ export const isReady = (id) => {
   return !!(e && (e.done || e.was));
 };
 
+// solo i dati principali (dettaglio + FotMob): dopo questi la pagina nativa e' gia' utilizzabile
+export function prepareMatchCore(id) {
+  const p = prepareMatch(id);
+  const e = P.get(id);
+  return e && e.core && !e.done ? e.core : p;
+}
+
 export function prepareMatch(id, force = false) {
   const e = P.get(id);
   if (!force && e && (!e.done || fresh(id, e))) return e.p;
-  const entry = { at: Date.now(), done: false, p: null, was: !!(e && (e.done || e.was)) };
+  let resolveCore = () => {};
+  const entry = { at: Date.now(), done: false, p: null, was: !!(e && (e.done || e.was)), core: new Promise((r) => { resolveCore = r; }) };
   const t0 = performance.now();
   perfLog(`partita: preparo ${String(id).slice(0, 18)}`);
   entry.p = (async () => {
@@ -44,6 +52,7 @@ export function prepareMatch(id, force = false) {
       await loadFm(matchById(id), playerLookup, force);
       const mm = matchById(id);
       if (mm && mm.archive && !mm.detail) applyArchiveFallback(mm);
+      resolveCore(); // dati principali pronti: la pagina nativa si mostra subito, meteo/arbitro/rose arrivano dopo
       // arbitro designato dalla UEFA o da altre fonti (arbitri_uefa.py, arbitri_extra.py) se FotMob non lo da' ancora
       if (mm && !mm.refereeName && mm.fmId) {
         const n = await Promise.race([designatedReferee(mm.fmId), new Promise((r) => setTimeout(() => r(null), 1500))]);
@@ -63,6 +72,7 @@ export function prepareMatch(id, force = false) {
       }
     } catch { /* si mostra comunque cio' che c'e' */ }
     perfTime('partita pronta in', t0);
+    resolveCore();
     entry.done = true;
     entry.at = Date.now();
     return matchById(id);

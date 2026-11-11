@@ -8,6 +8,7 @@ import { CALC_KEEP, saveCalcKeep } from '@/data/calcKeep';
 import { CALC_IN } from '../shared/calcIn';
 import { PLAYERS, playerById } from '@/data/players';
 import { teamById, teamByName } from '@/data/teams';
+import { useUpcoming } from '../shared/useUpcoming';
 import { allTeamMatches, nextMatchOf, nextMatchVs } from '@/data/extras';
 import { romeDay } from '@/data/util';
 import { calcTeamsOf, calcLeagues, leagueName, cupOf, domesticKey, nextFixture, fixtureAt, prefillShots, splitBoxes, teamShots } from '@/data/calcData';
@@ -101,6 +102,7 @@ function Select({ C, value, options, onChange, placeholder }) {
 }
 
 function NextMatchBtn({ C, ownId, oppId, comp, col, openRoute, style, altId }) {
+  useUpcoming(!!ownId); // le partite delle nazionali (Nations League…) arrivano dai file dei giorni: senza, la prossima partita risultava quella del club
   const nm = useMemo(() => {
     if (!ownId) return null;
     // senza partite nella competizione scelta (es. Nations League) vale la prossima del club: ogni giocatore ha la sua

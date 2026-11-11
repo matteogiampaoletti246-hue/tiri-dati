@@ -21,8 +21,8 @@ import TopMatchupsPage from './pages/TopMatchups';
 import GiocatorePage from './pages/Giocatore';
 import PlayerPanelHost from './shared/PlayerPanel';
 import PlayerSheetHost from './shared/PlayerSheet';
-import { usePlayerSheet } from '@/data/playerSheet';
-import { usePlayerPanel } from '@/data/playerPanel';
+import { usePlayerSheet, closePlayer } from '@/data/playerSheet';
+import { usePlayerPanel, closePanel } from '@/data/playerPanel';
 import PartitaPage from './pages/Partita';
 import SquadraPage from './pages/Squadra';
 import CampionatoPage from './pages/Campionato';
@@ -1323,8 +1323,8 @@ function Screen({ onTheme, onReset, themePref }) {
   // Tornando dal background: oltre 10 minuti l'app riparte da zero (come appena aperta); entro 10 minuti resta com'era.
   useEffect(() => {
     const sub = AppState.addEventListener('change', (st) => {
-      if (st === 'background') { bgAt.current = Date.now(); try { Image.clearMemoryCache(); } catch (e) { /* ignora */ } return; } // in background l'app pesa il meno possibile: il sistema chiude per prime le app pesanti
-      if (st === 'active') { setEpoch((e) => e + 1); try { Keyboard.dismiss(); } catch (e) { /* ignora */ } }
+      if (st === 'background') { bgAt.current = Date.now(); return; } // in background l'app pesa il meno possibile: il sistema chiude per prime le app pesanti
+      if (st === 'active') { setTimeout(() => setEpoch((e) => e + 1), 900); try { Keyboard.dismiss(); } catch (e) { /* ignora */ } }
       if (st === 'active') globalThis.__resumeUntil = Date.now() + 5000; // dati in background fermi per 5 s: l'app torna subito al tocco
       if (st !== 'active' || !bgAt.current) return;
       const gap = Date.now() - bgAt.current; bgAt.current = 0;
@@ -1463,16 +1463,24 @@ function Screen({ onTheme, onReset, themePref }) {
       {/* pagina web (resto dell'app): gia' caricata, si apre scorrendo da destra */}
       <Animated.View pointerEvents="box-none" style={[StyleSheet.absoluteFill, { backgroundColor: C.bg }, ovStyle]}>
         {natStack.map((p, i) => { const n = nativeOf(p); if (!n) return null; return <NatLayer key={`${p}#${i}`} i={i} nv={nv} nvIdx={nvIdx} hidden={natHidden} live={i === natStack.length - 1 && !natHidden}>{React.createElement(n.Comp, { params: n.params, C, top: insets.top, onBack: popNat, bottom: insets.bottom + 90, openRoute, onSearch: () => setSrch(true), onMenu: openMenuP })}</NatLayer>; })}
-        <PlayerPanelHost C={C} top={insets.top} bottom={insets.bottom} openRoute={openRoute} />
-        <PlayerSheetHost C={C} bottom={insets.bottom} openRoute={openRoute} />
+        <Guard autoReset key={`gp${epoch}`} onError={() => closePanel()}><PlayerPanelHost C={C} top={insets.top} bottom={insets.bottom} openRoute={openRoute} /></Guard>
+        <Guard autoReset key={`gs${epoch}`} onError={() => closePlayer()}><PlayerSheetHost C={C} bottom={insets.bottom} openRoute={openRoute} /></Guard>
         <GestureDetector gesture={edge}><View pointerEvents="auto" style={[s.edge, { width: EDGE_W, top: insets.top + 98, zIndex: 200, elevation: 200 }]} /></GestureDetector>
       </Animated.View>
-      {(!webOpen || barOn) && !sheetOpen ? <TabBar onOpen={openRoute} onHome={closeWeb} onTop={onTop} active={webOpen ? tab : null} bottom={insets.bottom} live={liveN} /> : null}
+      {!webOpen || barOn ? <View pointerEvents={sheetOpen ? 'none' : 'box-none'} style={[StyleSheet.absoluteFill, sheetOpen && { opacity: 0, transform: [{ translateY: 200 }] }]}><TabBar onOpen={openRoute} onHome={closeWeb} onTop={onTop} active={webOpen ? tab : null} bottom={insets.bottom} live={liveN} /></View> : null}
       {/* tendine della riga in alto: sopra la Home e sopra la barra (la barra non cambia) */}
       <SearchPanel open={srch} onClose={closeSrch} onPick={pickSrch} ask={askSearch} res={srchRes} ready top={insets.top + 4} />
       <MenuPanel open={menu} onClose={closeMenu} onGo={goMenu} ui={ui} onCmd={uiCmd} top={insets.top} bottom={insets.bottom} />
     </View>
   );
+}
+
+// rete di sicurezza: un errore di disegno in un pezzo (tendina giocatore, pannello) non deve lasciare lo schermo bianco
+class Guard extends React.Component {
+  state = { err: null };
+  static getDerivedStateFromError(err) { return { err }; }
+  componentDidCatch(err) { try { globalThis.__lastErr = String((err && err.stack) || err).slice(0, 600); if (this.props.onError) this.props.onError(err); if (this.props.autoReset) setTimeout(() => this.setState({ err: null }), 300); } catch (e) { /* ignora */ } }
+  render() { return this.state.err ? null : this.props.children; }
 }
 
 export default function App() {
@@ -1487,7 +1495,7 @@ export default function App() {
   const onPop = useCallback(() => setHomeOn(true), []);
   const theme = pref === 'system' ? (sysScheme === 'light' ? 'light' : 'dark') : pref;
   const T = THEMES[theme];
-  return <GestureHandlerRootView style={{ flex: 1, backgroundColor: T.C.bg }}><TCtx.Provider value={T}><SafeAreaProvider>{homeOn ? <Screen key={gen} onTheme={onTheme} onReset={onReset} themePref={pref} /> : null}</SafeAreaProvider><LaunchOverlay onPop={onPop} /></TCtx.Provider></GestureHandlerRootView>;
+  return <GestureHandlerRootView style={{ flex: 1, backgroundColor: T.C.bg }}><TCtx.Provider value={T}><SafeAreaProvider>{homeOn ? <Guard key={gen} onError={() => setTimeout(onReset, 50)}><Screen onTheme={onTheme} onReset={onReset} themePref={pref} /></Guard> : null}</SafeAreaProvider><LaunchOverlay onPop={onPop} /></TCtx.Provider></GestureHandlerRootView>;
 }
 
 const makeStyles = (C) => StyleSheet.create({

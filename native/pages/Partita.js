@@ -13,7 +13,7 @@ import SwipeBodyN from '../shared/SwipeBodyN';
 import { TintProvider } from '../shared/ui';
 import { PANELS, hasPanel } from './PartitaPanels';
 import { matchById, viewMatch } from '@/data/matches';
-import { prepareMatch, isReady } from '@/data/prepare';
+import { prepareMatch, prepareMatchCore, isReady } from '@/data/prepare';
 import { lineupBeat, lineupWindowMs, lineupIsOfficial } from '@/data/lineupWindow';
 import { teamById } from '@/data/teams';
 import { leagueById } from '@/data/leagues';
@@ -42,10 +42,12 @@ export default function Partita({ C, top, onBack, bottom = 90, openRoute, params
     setOk(false);
     (async () => {
       await bootShared();
-      const cap = setTimeout(() => on && setOk(true), 7000); // max 7 s: la pagina compare comunque
-      await prepareMatch(id);
+      const cap = setTimeout(() => on && setOk(true), 2500); // max 2,5 s: la pagina compare comunque
+      await prepareMatchCore(id); // appena pronti i dati principali la pagina si apre; meteo, arbitro e rose arrivano subito dopo
       clearTimeout(cap);
       if (on) { setOk(true); bump((n) => n + 1); }
+      await prepareMatch(id);
+      if (on) bump((n) => n + 1);
     })().catch(() => on && setOk(true));
     // live: ogni 5 s; prima del fischio solo dentro la finestra delle formazioni
     let n = 0;
@@ -81,7 +83,7 @@ export default function Partita({ C, top, onBack, bottom = 90, openRoute, params
   const homeC = league ? matchTint(league.id, league) : (home && home.colors ? home.colors[0] : null);
   return (
     <View style={{ flex: 1, backgroundColor: 'transparent' }}>
-      <ScrollView stickyHeaderIndices={[1]} style={{ paddingTop: top }} contentContainerStyle={{ paddingBottom: bottom + 20 }} showsVerticalScrollIndicator={false}>
+      <ScrollView style={{ paddingTop: top }} contentContainerStyle={{ paddingBottom: bottom + 20 }} showsVerticalScrollIndicator={false}>
         <PartitaHero C={C} match={raw} view={view} league={league} home={home} away={away} onBack={onBack} openRoute={openRoute} />
         <TabBarN C={C} tabs={tabsN} x={pos} onIndex={(i) => { TAB_MEM.set(id, tabs[i][0]); setTab(tabs[i][0]); }} />
         <TintProvider color={homeC}>

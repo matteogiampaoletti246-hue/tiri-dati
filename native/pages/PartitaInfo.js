@@ -34,8 +34,20 @@ const f1 = (v) => (v == null ? '' : (Math.round(v * 10) / 10).toString().replace
 const norm = (s) => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
 const BY_NAME = new Map(Object.entries(MAPPA).map(([k, f]) => [norm(k), f]));
 const PHOTO = 'https://raw.githubusercontent.com/matteogiampaoletti246-hue/tiri-dati/main/aurora-src/stadi/';
+const ALIAS = { 'san siro': 'Stadio Giuseppe Meazza', 'giuseppe meazza': 'Stadio Giuseppe Meazza', 'stadio olimpico di roma': 'Stadio Olimpico', 'camp nou': 'Spotify Camp Nou', 'allianz arena munich': 'Allianz Arena' };
+const GENERIC = new Set(['stadium', 'stadion', 'stadio', 'stade', 'estadio', 'arena', 'park', 'de', 'di', 'del', 'the', 'fc', 'sports', 'ground', 'complex']);
+const KEYS = [...BY_NAME.keys()].map((k) => [k, new Set(k.split(' '))]);
 const photoOf = (name, team) => {
-  const f = (team && BY_NAME.get(norm(`${name} ${team}`))) || BY_NAME.get(norm(name));
+  const n = norm(name);
+  let f = (team && BY_NAME.get(norm(`${name} ${team}`))) || BY_NAME.get(n) || (ALIAS[n] && BY_NAME.get(norm(ALIAS[n])));
+  if (!f) { // nome diverso da quello in archivio (es. "San Siro" / "Giuseppe Meazza"): stessi termini caratteristici
+    const toks = n.split(' ').filter((t) => t.length > 2 && !GENERIC.has(t));
+    if (toks.length) {
+      const hits = KEYS.filter(([, ks]) => toks.every((t) => ks.has(t)));
+      if (hits.length === 1) f = BY_NAME.get(hits[0][0]);
+      else if (hits.length > 1 && team) { const t = norm(team); const h = hits.find(([k]) => k.includes(t)); if (h) f = BY_NAME.get(h[0]); }
+    }
+  }
   return f ? PHOTO + f : null;
 };
 const WEATHER = { sun: ['sun', 'Sereno'], cloud: ['cloud', 'Nuvoloso'], rain: ['cloud-rain', 'Pioggia'], wind: ['wind', 'Ventoso'] };

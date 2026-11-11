@@ -216,3 +216,9 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 - Tendina giocatore (`PlayerSheet`) si apre al 72% dell'altezza; il Dock sparisce mentre tendina o pannello giocatore sono aperti e riappare alla chiusura (`sheetOpen` in App.js).
 - Ritorno dal background: i gesti (`pan`, `edge`) vengono ricreati (`epoch`) per sbloccare i tasti.
 - Ricerca/scheda giocatore: bandiera nazionalita' sempre, via `useNatFor` (carriera lazy).
+- Dock: nascosto con opacita'/translate (mai smontato: i layout Reanimated del Dock smontati davano schermo bianco). `Guard` (App.js) protegge tendina/pannello giocatore e radice: un errore di disegno non lascia piu' lo schermo bianco.
+- Partita: pagina aperta appena pronti i dati principali (`prepareMatchCore`, max 2,5 s), meteo/arbitro/rose dopo; schede (Panoramica…) non fisse in alto; swipe a schede esclude i 28 px sul bordo sinistro (lo swipe indietro vince).
+- Stadio: foto anche con nome diverso (San Siro → Giuseppe Meazza) via alias/termini caratteristici.
+- Bandiere: `flagCode` copre tutte le nazioni FotMob (`EXTRA_ISO2`), PNG per ogni codice in `aurora-src/public/flags` e `native-link/flags`.
+- Calcolatore: `NextMatchBtn` carica le partite dei prossimi giorni (`useUpcoming`) cosi' la nazionale mostra la sua partita e non quella del club.
+- Ritorno dal background: nessuno svuotamento delle immagini (causava il "refresh"); svuotamento solo su memory warning o dopo 10 minuti.
