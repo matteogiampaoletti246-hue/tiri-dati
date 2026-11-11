@@ -1,7 +1,7 @@
 // Scheda Campionato nativa (/campionato/:id): banner con i colori del campionato, tendina stagioni e schede
 // Partite / Classifica / Stat. squadre / Giocatori / Arbitri. Stagione in corso dai dati dell'app, stagioni passate dall'archivio.
 import React, { useDeferredValue, useEffect, useMemo, useRef, useState } from 'react';
-import { View, Text, Pressable, InteractionManager } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import './../shared/shim';
 import { bootShared } from '../shared/boot';
@@ -165,7 +165,7 @@ function Body({ C, top, onBack, bottom, openRoute, league, fm, past, fsd }) {
 }
 
 // la pagina vera si monta solo a tendina finita: durante lo scorrimento resta lo scheletro leggero (niente scatti, tocco subito preso)
-const afterSlide = () => new Promise((res) => { setTimeout(() => InteractionManager.runAfterInteractions(() => res()), 300); });
+const afterSlide = () => new Promise((res) => { setTimeout(res, 300); }); // solo timer: le animazioni continue (sfondo) tengono occupato InteractionManager e non scatterebbe mai
 export default function Campionato({ C, top, onBack, bottom = 90, openRoute, params }) {
   const id = params && params.id ? decodeURIComponent(params.id) : null;
   const [st, setSt] = useState('load');

@@ -1,6 +1,6 @@
 // Scheda Squadra nativa (/squadra/:id): banner, posizione e punti, e le schede Partite / Classifica / Squadra / Statistiche / Giocatori.
 import React, { useEffect, useState } from 'react';
-import { View, Text, Pressable, InteractionManager } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import './../shared/shim';
 import { bootShared } from '../shared/boot';
@@ -96,7 +96,7 @@ function Body({ C, top, onBack, bottom, openRoute, team, srT }) {
 }
 
 // la pagina vera si monta solo a tendina finita: durante lo scorrimento resta lo scheletro leggero (niente scatti, tocco subito preso)
-const afterSlide = () => new Promise((res) => { setTimeout(() => InteractionManager.runAfterInteractions(() => res()), 300); });
+const afterSlide = () => new Promise((res) => { setTimeout(res, 300); }); // solo timer: le animazioni continue (sfondo) tengono occupato InteractionManager e non scatterebbe mai
 export default function Squadra({ C, top, onBack, bottom = 90, openRoute, params }) {
   const id = params && params.id ? decodeURIComponent(params.id) : null;
   const [st, setSt] = useState('load');
