@@ -56,8 +56,11 @@ function Affidabilita({ C, player: club, comp }) {
     return r ? r.voto : null;
   });
   if (!next) return null;
+  // bordo e interno sfumato nei colori della squadra del giocatore (nazionale se la competizione e' di nazionali)
+  const myTeam = teamById(player.teamId);
+  const tint = myTeam && myTeam.colors && myTeam.colors[0] ? myTeam.colors[0] : undefined;
   return (
-    <Panel C={C} style={{ borderRadius: 18, padding: 16 }}>
+    <Panel C={C} tint={tint} vivid style={{ borderRadius: 18, padding: 16 }}>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 12 }}>
         <Text style={{ color: C.ink, fontSize: 13.5, fontWeight: '600', flex: 1 }}>Affidabilità prossima partita</Text>
         {opp ? <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}><Text style={{ color: C.ink2, fontSize: 12 }}>VS</Text><TeamCrest team={opp} size={18} C={C} /><Text numberOfLines={1} style={{ color: C.ink2, fontSize: 12, maxWidth: 110 }}>{opp.name}</Text></View> : null}

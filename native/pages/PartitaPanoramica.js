@@ -44,7 +44,6 @@ function Slide({ C, card, home, away, league }) {
           <Text style={{ position: 'absolute', right: 12, top: 22, zIndex: 2, fontSize: 84, fontWeight: '800', letterSpacing: -5, color: 'rgba(255,255,255,.18)' }}>{card.rank}°</Text>
           <View style={{ position: 'absolute', right: 0, bottom: 0, width: '57%', height: '92%', zIndex: 1 }}>
             {card.photo ? <Image source={{ uri: card.photo }} style={{ width: '100%', height: '100%' }} contentFit="cover" contentPosition="top" /> : null}
-            <LinearGradient colors={[c1, 'rgba(0,0,0,0)']} start={{ x: 0, y: 0 }} end={{ x: 0.45, y: 0 }} style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }} />
           </View>
         </>
       ) : null}

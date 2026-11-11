@@ -275,3 +275,9 @@ Come nel sito: il filtro delle linee (`Segmented fit pad={10}`) prende lo spazio
 - `node native/tools/smoke.cjs` impacchetta `native/App.js` e lo esegue in Node con i pacchetti nativi finti: trova import mancanti e codice che gira troppo presto ("Property 'document'/'SITE' doesn't exist"). Gira anche in CI (`native_expo.yml`) prima di pubblicare: se fallisce, nulla va sul telefono.
 - `import './shared/shim'` deve restare la PRIMA riga di import di `native/App.js`: il livello dati del sito (`load.js`) legge `document.baseURI` appena viene importato.
 - Ogni file nuovo/modificato: anche `npx eslint` con `no-undef` sul file toccato (da qualsiasi finestra di lavoro).
+
+## Tasti a pillola ("pillola liquid glass") e riquadri colorati
+- Ogni selettore a 2-3 voci (Tutte | Live, Italia | Francia | Previste…) usa `Segmented` di `native/shared/ui.js` (indicatore azzurro-viola che scorre); supporta `icon` per gli stemmi. Si chiama "pillola liquid glass".
+- Banner "Numeri da tenere d'occhio": solo giocatore sullo sfondo bandiera/stemma, niente sfumature sopra la foto.
+- Logo Ligue 1 (53) in versione piena e' opaco: in scuro si usa la variante `/leaguelogo/dark/53.png` senza tinta.
+- "Affidabilita' prossima partita": `Panel` con `tint` + `vivid` nei colori della squadra del giocatore.

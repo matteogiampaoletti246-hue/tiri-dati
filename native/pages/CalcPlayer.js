@@ -478,7 +478,7 @@ function SeasonPanel({ C, season, onChange, rate90, label, player, comp }) {
         {rate90 === null || rate90 === undefined ? null : (
           <View style={{ alignItems: 'center', paddingHorizontal: 18, paddingTop: 16, paddingBottom: 18, borderTopWidth: 1, borderTopColor: C.hair }}>
             <Text style={{ color: C.ink3, fontSize: 12.5, fontWeight: '800', letterSpacing: 2.8, textTransform: 'uppercase', marginBottom: 4 }}>Ogni 90'</Text>
-            <Text style={{ color: C.gold, fontSize: 48, fontWeight: '900', textShadowColor: `${C.gold}73`, textShadowRadius: 18, textShadowOffset: { width: 0, height: 0 } }}>{comma(rate90, 2)}</Text>
+            <Text style={{ color: C.gold, fontSize: 48, fontWeight: '900', includeFontPadding: false }}>{comma(rate90, 2)}</Text>
             <LinearGradient colors={['transparent', C.gold, 'transparent']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ width: 64, height: 2, marginTop: 8 }} />
           </View>
         )}

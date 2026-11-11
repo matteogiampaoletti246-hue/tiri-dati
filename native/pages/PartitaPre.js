@@ -7,7 +7,7 @@ import { hasMetrics, metricOf } from '@/data/standings';
 import { archiveMetrics } from '@/data/archiveMetrics';
 import { bandColor } from '@/components/player/playerCalc';
 import { comma } from '@/lib/format';
-import { Panel, TeamCrest } from '../shared/ui';
+import { Panel, TeamCrest, Segmented } from '../shared/ui';
 
 // ── Previste: per ogni squadra (fatti suoi + subiti dall'avversaria) / 2; fattore casa +15% / -15% solo su tiri, in porta, corner.
 const HOME_F = 1.15;
@@ -180,13 +180,8 @@ export default function StatistichePre({ C, match, home, away, openRoute }) {
   const ctx = ctxOf(match, home);
   return (
     <View style={{ paddingTop: 12, paddingBottom: 16, gap: 12 }}>
-      <View style={{ flexDirection: 'row', backgroundColor: C.chip, borderRadius: 999, padding: 4, marginHorizontal: 16 }}>
-        {opts.map((o) => (
-          <Pressable key={o.value} onPress={() => setTab(o.value)} style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, paddingVertical: 8, paddingHorizontal: 8, borderRadius: 999, backgroundColor: cur === o.value ? C.thumb : 'transparent', borderWidth: cur === o.value ? 1 : 0, borderColor: C.thumbBd }}>
-            {o.team ? <TeamCrest team={o.team} size={18} C={C} /> : null}
-            <Text numberOfLines={1} style={{ color: cur === o.value ? C.ink : C.ink3, fontSize: 12.5, fontWeight: '700', flexShrink: 1 }}>{o.team ? (o.team.name.length <= 10 ? o.team.name : o.team.short || o.team.name) : o.label}</Text>
-          </Pressable>
-        ))}
+      <View style={{ marginHorizontal: 16 }}>
+        <Segmented C={C} value={cur} onChange={setTab} options={opts.map((o) => ({ value: o.value, label: o.team ? (o.team.name.length <= 10 ? o.team.name : o.team.short || o.team.name) : o.label, icon: o.team ? <TeamCrest team={o.team} size={18} C={C} /> : null }))} />
       </View>
       {cur === 'pred' ? <Predicted C={C} home={home} away={away} match={match} openRoute={openRoute} />
         : cur === 'home' ? <TeamTable C={C} me={home} op={away} side="In casa" ctx={ctx} openRoute={openRoute} />

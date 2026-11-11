@@ -94,13 +94,14 @@ export function RingBox({ C, radius = 999, pad = 1.5, style, innerStyle, plain, 
 // pillola "liquid glass" (stessa del tasto Tutte | Live della Home): l'indicatore blu-viola scorre con un leggero rimbalzo da una voce all'altra
 const PILL_EASE = Easing.bezier(0.34, 1.42, 0.64, 1);
 const PILL_MS = 600;
-function SegItem({ C, label, on, onPress, onLayout, flex, tight, pad, grow }) {
+function SegItem({ C, label, icon, on, onPress, onLayout, flex, tight, pad, grow }) {
   const a = useSharedValue(on ? 1 : 0);
   useEffect(() => { a.value = withTiming(on ? 1 : 0, { duration: 300 }); }, [on, a]);
   const tx = useAnimatedStyle(() => ({ color: interpolateColor(a.value, [0, 1], [C.ink2, '#FFFFFF']) }), [C]);
   return (
-    <Pressable onPress={onPress} onLayout={onLayout} style={{ flex: flex ? 1 : undefined, flexGrow: grow ? 1 : undefined, flexShrink: grow ? 0 : undefined, minWidth: grow ? undefined : 0, paddingHorizontal: pad != null ? pad : tight ? 4 : 14, height: 38, alignItems: 'center', justifyContent: 'center' }}>
-      <Animated.Text numberOfLines={1} style={[{ fontSize: tight ? 13 : 13.5, fontWeight: '600' }, tx]}>{label}</Animated.Text>
+    <Pressable onPress={onPress} onLayout={onLayout} style={{ flex: flex ? 1 : undefined, flexGrow: grow ? 1 : undefined, flexShrink: grow ? 0 : undefined, minWidth: grow ? undefined : 0, paddingHorizontal: pad != null ? pad : tight ? 4 : 14, height: 38, flexDirection: 'row', gap: icon ? 6 : 0, alignItems: 'center', justifyContent: 'center' }}>
+      {icon || null}
+      <Animated.Text numberOfLines={1} style={[{ fontSize: tight ? 13 : 13.5, fontWeight: '600', flexShrink: 1 }, tx]}>{label}</Animated.Text>
     </Pressable>
   );
 }
@@ -125,7 +126,7 @@ export const Segmented = ({ C, options, value, onChange, hug, pad, fit }) => {
   const th = useAnimatedStyle(() => ({ width: tw.value, transform: [{ translateX: tx.value }] }));
   const press = (v) => { if (v === cur) return; setCur(v); setTimeout(() => onChange(v), 60); };
   const items = options.map((o) => (
-    <SegItem key={String(o.value)} C={C} label={o.label} on={o.value === cur} tight={options.length === 5} pad={pad} grow={!!fit} flex={!scroll && !hug} onPress={() => press(o.value)}
+    <SegItem key={String(o.value)} C={C} label={o.label} icon={o.icon} on={o.value === cur} tight={options.length === 5} pad={pad} grow={!!fit} flex={!scroll && !hug} onPress={() => press(o.value)}
       onLayout={(e) => { const { x, width } = e.nativeEvent.layout; pos.current[String(o.value)] = { x, w: width }; if (String(o.value) === String(cur)) place(cur, false); }} />
   ));
   const thumb = (
@@ -260,6 +261,8 @@ export const logoSrc = (uri, dark) => {
   if (!uri) return { uri: null, tint: undefined };
   const m = DARK_FM.test(uri);
   const base = uri.replace('/leaguelogo/dark/', '/leaguelogo/');
+  // il 53 (Ligue 1) in versione piena e' opaco (quadrato): in scuro si usa la variante trasparente, senza tinta
+  if (/\/53\.png/.test(uri)) return { uri: dark ? base.replace('/leaguelogo/', '/leaguelogo/dark/') : base, tint: undefined };
   if (m) return { uri: base, tint: dark ? '#FFFFFF' : undefined };
   return { uri, tint: undefined };
 };
