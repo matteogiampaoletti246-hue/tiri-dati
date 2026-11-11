@@ -25,7 +25,7 @@ import RefereesN, { leagueReferees } from '../shared/RefereesN';
 import { MatchdayListN, MATCH_FILTERS, APP_PASS } from '../shared/MatchdayN';
 import { appPlayerSections } from '../shared/appPlayerSections';
 import { LeagueStandings } from '../shared/Standings';
-import { Segmented, TeamCrest, TintProvider } from '../shared/ui';
+import { Segmented, TeamCrest, TintProvider, isDarkLogo } from '../shared/ui';
 import ArchiveLeagueN, { ArchPlayersN, ClassificaSwitchN } from './CampionatoArch';
 import { useTeamColors } from './GiocatorePast';
 
@@ -152,7 +152,7 @@ function Body({ C, top, onBack, bottom, openRoute, league, fm, past, fsd }) {
   return (
     <View style={{ flex: 1, backgroundColor: 'transparent' }}>
       <EntityBannerN C={C} top={top} onBack={onBack} name={league.name} subtitle={`${league.country} · ${inArchive ? seasonLabel(seasonEff) : league.season}`} meta={meta}
-        colors={league.colors} logoUrl={dark && league.logoDark ? league.logoDark : league.logo} logoTint={dark && !league.logoDark && INVERT_DARK.includes(league.id) ? '#FFFFFF' : null} liveCount={inArchive ? 0 : liveCount} />
+        colors={league.colors} logoUrl={dark && league.logoDark ? league.logoDark : league.logo} logoTint={isDarkLogo(league.logo) ? '#FFFFFF' : null} liveCount={inArchive ? 0 : liveCount} />
       <TintProvider color={tint}>
         {inArchive
           ? <ArchiveLeagueN key={seasonEff} C={C} fm={fm} sk={seasonEff} tint={tint} tabKey={tabKey} onTab={setTabKey} openRoute={openRoute} bottom={bottom} />

@@ -8,7 +8,7 @@ import Animated, { makeMutable, interpolate, useSharedValue, useAnimatedStyle, u
 import { BlurView } from 'expo-blur';
 import { SafeAreaProvider, SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
-import { TOUCH } from './shared/ui';
+import { TOUCH, CompLogo, logoSrc } from './shared/ui';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useAutoUpdate } from './shared/AutoUpdate';
@@ -21,6 +21,8 @@ import TopMatchupsPage from './pages/TopMatchups';
 import GiocatorePage from './pages/Giocatore';
 import PlayerPanelHost from './shared/PlayerPanel';
 import PlayerSheetHost from './shared/PlayerSheet';
+import { usePlayerSheet } from '@/data/playerSheet';
+import { usePlayerPanel } from '@/data/playerPanel';
 import PartitaPage from './pages/Partita';
 import SquadraPage from './pages/Squadra';
 import CampionatoPage from './pages/Campionato';
@@ -28,7 +30,7 @@ import ArbitroPage from './pages/Arbitro';
 import CompetizioniPage from './pages/Competizioni';
 import TiriSquadrePage from './pages/TiriSquadre';
 import { searchN } from './shared/searchN';
-import { FlagN } from './shared/FlagN';
+import { FlagN, useNatFor } from './shared/FlagN';
 import { bootShared } from './shared/boot';
 import { ArchTeamRoute, ArchPlayerRoute } from './pages/ArchiveRoute';
 // pagine gia' native (migrazione a tappe): la rotta si apre senza WebView
@@ -271,10 +273,9 @@ const CountryBody = ({ p, onLeague, onOpen }) => {
 const leagueRoute = (c, fm) => `/campionato/${c.id || `fm-${fm}`}`;
 const LeagueHead = ({ c, size = 22, small }) => {
   const { C, s } = useT();
-  const uri = c.logoFm === EL_FM || /\/leaguelogo\/73\.png/.test(c.logo || '') ? `${SITE}aurora/${C.dark ? 'el-night' : 'el-light'}.png` : (C.dark ? darkLogo(c.logo) : c.logo);
   return (
     <View style={[s.lhRow, small && { paddingVertical: 12 }]}>
-      <Image source={{ uri }} style={{ width: size, height: size }} contentFit="contain" cachePolicy="memory-disk" transition={0} />
+      <CompLogo uri={c.logoFm === EL_FM || /\/leaguelogo\/73\.png/.test(c.logo || '') ? `${SITE}aurora/${C.dark ? 'el-night' : 'el-light'}.png` : (C.dark ? darkLogo(c.logo) : c.logo)} size={size} C={C} />
       <Text numberOfLines={1} style={[s.lhName, small && { fontSize: 12, fontWeight: '700' }]}>{c.name}</Text>
     </View>
   );
@@ -617,8 +618,9 @@ const Face = memo(({ uri, color, size }) => {
 });
 
 // stemma o logo con le iniziali se manca
-const Mark = ({ uri, size, initials, tint }) => {
-  const { s } = useT();
+const Mark = ({ uri: uri0, size, initials, tint: tint0 }) => {
+  const { s, C } = useT();
+  const lg = logoSrc(uri0, C.dark); const uri = lg.uri || uri0; const tint = tint0 || lg.tint;
   const [bad, setBad] = useState(false);
   if (uri && !bad) return <Image source={{ uri }} style={{ width: size, height: size }} contentFit="contain" cachePolicy="memory-disk" tintColor={tint || undefined} onError={() => setBad(true)} />;
   return <View style={[s.crestPh, { width: size, height: size, borderRadius: size / 2 }]}><Text style={s.crestTx}>{initials || ''}</Text></View>;
@@ -635,6 +637,7 @@ const HlName = ({ text, hl }) => {
 
 const PlayerBannerS = memo(({ p, onPress }) => {
   const { C, s } = useT();
+  const nat = useNatFor(p);
   const g = hexA(p.color, '57');
   const ring = hexA(p.color, 'F2');
   return (
@@ -647,11 +650,11 @@ const PlayerBannerS = memo(({ p, onPress }) => {
         <View style={s.pbSub}>
           {p.crest ? <Mark uri={p.crest} size={14} /> : null}
           <Text numberOfLines={1} style={s.pbTeam}>{p.team}</Text>
-          {p.nat ? (
+          {nat ? (
             <>
               <View style={{ width: 1, height: 14, backgroundColor: C.dim || '#5b678f', opacity: 0.5 }} />
-              <FlagN code={p.nat.fc} size={14} C={C} />
-              <Text numberOfLines={1} style={s.pbTeam}>{p.nat.name}</Text>
+              <FlagN code={nat.fc} size={14} C={C} />
+              <Text numberOfLines={1} style={s.pbTeam}>{nat.name}</Text>
             </>
           ) : null}
         </View>
@@ -1174,6 +1177,8 @@ function Screen({ onTheme, onReset, themePref }) {
   const [natHidden, setNatHidden] = useState(false); // una pagina del sito e' aperta sopra la pila
   const natStackRef = useRef([]); const natHiddenRef = useRef(false);
   natStackRef.current = natStack; natHiddenRef.current = natHidden;
+  const [epoch, setEpoch] = useState(0);          // ricrea i gesti dopo il background: un gesto rimasto 'a meta'' bloccava i tasti (lo scroll nativo andava)
+  const sheetOpen = !!usePlayerSheet() || !!usePlayerPanel(); // Dock nascosto mentre una tendina/pannello giocatore e' aperta
   const [barOn, setBarOn] = useState(false);       // la barra nativa si vede solo in Home e nelle tre schede (Calcolatore, Giocatori, Matchup)
   const [tab, setTab] = useState('');               // voce della barra scelta: si evidenzia nell'istante del tocco (poi segue `route:` della pagina)
   const [homeTop, setHomeTop] = useState(0);        // tasto Home toccato in Home: la lista del giorno torna in cima
@@ -1319,6 +1324,7 @@ function Screen({ onTheme, onReset, themePref }) {
   useEffect(() => {
     const sub = AppState.addEventListener('change', (st) => {
       if (st === 'background') { bgAt.current = Date.now(); try { Image.clearMemoryCache(); } catch (e) { /* ignora */ } return; } // in background l'app pesa il meno possibile: il sistema chiude per prime le app pesanti
+      if (st === 'active') { setEpoch((e) => e + 1); try { Keyboard.dismiss(); } catch (e) { /* ignora */ } }
       if (st === 'active') globalThis.__resumeUntil = Date.now() + 5000; // dati in background fermi per 5 s: l'app torna subito al tocco
       if (st !== 'active' || !bgAt.current) return;
       const gap = Date.now() - bgAt.current; bgAt.current = 0;
@@ -1408,7 +1414,7 @@ function Screen({ onTheme, onReset, themePref }) {
       t = Math.max(base - 1, Math.min(base + 1, t));
       t = Math.max(0, Math.min(N - 1, t));
       x.value = withTiming(t, { duration: 240, easing: Easing.out(Easing.cubic) });
-    }), [x, x0, N]);
+    }), [x, x0, N, epoch]);
 
   // bordo sinistro: scorrimento indietro dalla pagina web
   const edgeOn = useSharedValue(0); // 1 mentre il dito trascina: onFinalize chiude comunque il gesto se onEnd non arriva (gesto interrotto da un'altra scheda/scroll)
@@ -1427,7 +1433,7 @@ function Screen({ onTheme, onReset, themePref }) {
     .onStart(() => { cancelAnimation(ov); cancelAnimation(nv); edgeOn.value = 1; if (stackN.value > 1) { nvIdx.value = stackN.value - 1; ovStart.value = nv.value; } else ovStart.value = ov.value; })
     .onUpdate((e) => { const v = Math.min(W, Math.max(0, ovStart.value + e.translationX * SWIPE_GAIN)); if (stackN.value > 1) nv.value = v; else ov.value = v; })
     .onEnd((e) => { edgeSettle(e); })
-    .onFinalize((e) => { edgeSettle(e); }), [ov, ovStart, nv, nvIdx, stackN, natBelow, afterClose, markClosed, finishPop, revealNat, edgeOn]); // eslint-disable-line react-hooks/exhaustive-deps
+    .onFinalize((e) => { edgeSettle(e); }), [ov, ovStart, nv, nvIdx, stackN, natBelow, afterClose, markClosed, finishPop, revealNat, edgeOn, epoch]); // eslint-disable-line react-hooks/exhaustive-deps
   const ovStyle = useAnimatedStyle(() => ({ transform: [{ translateX: ov.value }] }));
 
   if (!data) return <View style={[s.root, { paddingTop: insets.top }]}><SkHome /></View>;
@@ -1461,7 +1467,7 @@ function Screen({ onTheme, onReset, themePref }) {
         <PlayerSheetHost C={C} bottom={insets.bottom} openRoute={openRoute} />
         <GestureDetector gesture={edge}><View pointerEvents="auto" style={[s.edge, { width: EDGE_W, top: insets.top + 98, zIndex: 200, elevation: 200 }]} /></GestureDetector>
       </Animated.View>
-      {!webOpen || barOn ? <TabBar onOpen={openRoute} onHome={closeWeb} onTop={onTop} active={webOpen ? tab : null} bottom={insets.bottom} live={liveN} /> : null}
+      {(!webOpen || barOn) && !sheetOpen ? <TabBar onOpen={openRoute} onHome={closeWeb} onTop={onTop} active={webOpen ? tab : null} bottom={insets.bottom} live={liveN} /> : null}
       {/* tendine della riga in alto: sopra la Home e sopra la barra (la barra non cambia) */}
       <SearchPanel open={srch} onClose={closeSrch} onPick={pickSrch} ask={askSearch} res={srchRes} ready top={insets.top + 4} />
       <MenuPanel open={menu} onClose={closeMenu} onGo={goMenu} ui={ui} onCmd={uiCmd} top={insets.top} bottom={insets.bottom} />

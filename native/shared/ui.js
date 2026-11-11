@@ -10,7 +10,18 @@ import Dropdown from './Dropdown';
 export const TeamCrest = ({ team, size = 32, C }) => {
   const [bad, setBad] = useState(false);
   if (!team) return null;
-  if (team.crest && !bad) return <Image source={{ uri: team.crest }} style={{ width: size, height: size }} contentFit="contain" cachePolicy="memory-disk" onError={() => setBad(true)} />;
+  if (team.crest && !bad) {
+    const img = <Image source={{ uri: team.crest }} style={{ width: size, height: size }} contentFit="contain" cachePolicy="memory-disk" onError={() => setBad(true)} />;
+    if (!(C && C.dark)) return img;
+    // Night: contorno bianco sottile attorno allo stemma (copie bianche sfalsate dietro)
+    const o = size >= 40 ? 1.5 : 1;
+    return (
+      <View style={{ width: size, height: size }}>
+        {[[o, 0], [-o, 0], [0, o], [0, -o]].map(([x, y], i) => <Image key={i} source={{ uri: team.crest }} pointerEvents="none" style={{ position: 'absolute', width: size, height: size, left: x, top: y, opacity: 0.9 }} contentFit="contain" cachePolicy="memory-disk" tintColor="#FFFFFF" />)}
+        {img}
+      </View>
+    );
+  }
   return <View style={{ width: size, height: size, alignItems: 'center', justifyContent: 'center' }}><Text style={{ color: C.ink2, fontSize: Math.max(10, size * 0.4), fontWeight: '700' }}>{team.initials}</Text></View>;
 };
 
@@ -245,10 +256,24 @@ export function PickerModal({ C, open, title, options, onSelect, onClose, search
 }
 
 // logo di una competizione (chiaro/scuro dal tema)
+// loghi scuri (Premier, Ligue 1, Champions, Europa, Conference…): Night = bianchi, Light = scuri originali
+const DARK_FM = /\/leaguelogo\/(?:dark\/)?(47|53|42|73|848|10216|132|114)\.png/;
+export const logoSrc = (uri, dark) => {
+  if (!uri) return { uri: null, tint: undefined };
+  const m = DARK_FM.test(uri);
+  const base = uri.replace('/leaguelogo/dark/', '/leaguelogo/');
+  if (m) return { uri: base, tint: dark ? '#FFFFFF' : undefined };
+  return { uri, tint: undefined };
+};
+export const isDarkLogo = (uri) => !!uri && DARK_FM.test(uri);
+export const CompLogo = ({ uri, size = 24, C, style }) => {
+  const r = logoSrc(uri, !!(C && C.dark));
+  return r.uri ? <Image source={{ uri: r.uri }} style={[{ width: size, height: size }, style]} contentFit="contain" cachePolicy="memory-disk" tintColor={r.tint} /> : <View style={{ width: size, height: size }} />;
+};
 export const LeagueLogo = ({ league, size = 24, C }) => {
   if (!league) return null;
   const uri = C && C.dark && league.logoDark ? league.logoDark : league.logo;
-  return uri ? <Image source={{ uri }} style={{ width: size, height: size }} contentFit="contain" cachePolicy="memory-disk" /> : <View style={{ width: size, height: size }} />;
+  return <CompLogo uri={uri} size={size} C={C} />;
 };
 
 // tasto a tendina (competizione / stagione): stessa tendina inline dei filtri, sotto la pillola

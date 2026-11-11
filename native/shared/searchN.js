@@ -39,7 +39,7 @@ export function searchN(q) {
           : { hl: sp(p.name), id: p.id, name: p.name, photo: p.photo || null, team: countryIt(p.teamName), crest: fc ? `${SITE}native-link/flags/${fc}.png` : null, color: null, color2: null, nat: null, path: `/giocatore/${p.id}` };
       }
       const t = teamById(p.teamId);
-      return { hl: sp(p.name), id: p.id, name: p.name, photo: p.photo || null, team: t ? t.name : p.teamName || '', crest: t ? t.crest || null : null, color: color(t), color2: t && t.colors ? t.colors[1] || null : null, nat: natFor(p), path: `/giocatore/${p.id}` };
+      return { hl: sp(p.name), id: p.id, name: p.name, photo: p.photo || null, team: t ? t.name : p.teamName || '', crest: t ? t.crest || null : null, color: color(t), color2: t && t.colors ? t.colors[1] || null : null, nat: natFor(p), fmId: p.fmId || null, path: `/giocatore/${p.id}` };
     }),
     referees: r.referees.map((x) => ({ id: x.id, name: x.name, initials: initials(x.name), path: `/arbitro/${x.id}`, hl: sp(x.name) })),
   };

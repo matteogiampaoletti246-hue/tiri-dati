@@ -18,7 +18,7 @@ const HEAD = { fontSize: 9.5, fontWeight: '700', letterSpacing: 1, textTransform
 export function TeamLogoN({ id, name, size = 22, C }) {
   const [bad, setBad] = useState(false);
   if (!id || bad) return <View style={{ width: size, height: size, borderRadius: size / 2, alignItems: 'center', justifyContent: 'center', backgroundColor: C.chip }}><Text style={{ color: C.ink2, fontSize: Math.max(8, size * 0.36), fontWeight: '800' }}>{String(name || '?').split(/\s+/).map((w) => w[0]).join('').slice(0, 3).toUpperCase()}</Text></View>;
-  return <Image source={{ uri: teamLogo(id) }} style={{ width: size, height: size }} contentFit="contain" cachePolicy="memory-disk" onError={() => setBad(true)} />;
+  return <TeamCrest team={{ crest: teamLogo(id), initials: '' }} size={size} C={C} />;
 }
 
 function LivePill({ C, lv }) {

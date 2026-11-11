@@ -209,3 +209,10 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 - **Stadio**: se manca dalle altre fonti si prende da ESPN (`shared/espnStadium.js`, solo per quelle partite).
 - **Calcolatore**: handicap dei campionati minori applicato a meta' forza alla media "Campionato" del giocatore, solo nel calcolo Nations League (`playerLeagueHcap`); le medie mostrate restano vere.
 - **Partita**: i timer (formazioni, storie) si fermano in background e per 5 s dopo il ritorno.
+
+## App nativa: loghi per tema, tendina giocatore, ritorno dal background
+- Loghi competizione scuri (Premier, Ligue 1, Champions, Europa, Conference…): `CompLogo`/`logoSrc` in `shared/ui.js`; Night = bianchi (tintColor), Light = originali scuri. Ogni logo competizione nuovo passa da `CompLogo`/`LeagueLogo`/`Mark`, mai `Image` diretta.
+- Stemmi squadra (`TeamCrest`, `TeamLogoN`): in Night contorno bianco sottile.
+- Tendina giocatore (`PlayerSheet`) si apre al 72% dell'altezza; il Dock sparisce mentre tendina o pannello giocatore sono aperti e riappare alla chiusura (`sheetOpen` in App.js).
+- Ritorno dal background: i gesti (`pan`, `edge`) vengono ricreati (`epoch`) per sbloccare i tasti.
+- Ricerca/scheda giocatore: bandiera nazionalita' sempre, via `useNatFor` (carriera lazy).

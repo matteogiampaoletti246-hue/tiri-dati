@@ -307,7 +307,7 @@ export default function PlayerSheetHost({ C, bottom = 0, openRoute }) {
   const c = useCard(sheet);
   const { height: H } = useWindowDimensions();
   const SH = Math.round(H * 0.92);
-  const HALF = Math.round(SH - H * 0.55); // distanza dalla posizione aperta al 55%
+  const HALF = Math.round(SH - H * 0.72); // distanza dalla posizione aperta al 72%
   const y = useRef(new Animated.Value(SH)).current; // 0 = alto, HALF = 55%, SH = chiusa
   const fade = useRef(new Animated.Value(1)).current;
   const slide = useRef(new Animated.Value(0)).current;

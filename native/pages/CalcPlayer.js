@@ -27,7 +27,7 @@ import { parseDash, parseNum, fmtLine, HIT_OPTIONS, LINE_OPTIONS, SEDE_OPTIONS, 
 import { MATCHES } from '@/data/matches';
 import { teamRow } from '@/data/standings';
 import { BAND_COLORS, bandOf } from '@/components/player/playerCalc';
-import { mixHex, SedeButtonsN, Panel, PanelTitle, Segmented, FieldRow, NumInput, PickerModal, TeamCrest, Face, TintProvider } from '../shared/ui';
+import { mixHex, SedeButtonsN, Panel, PanelTitle, Segmented, FieldRow, NumInput, PickerModal, TeamCrest, Face, TintProvider, CompLogo } from '../shared/ui';
 import Dropdown from '../shared/Dropdown';
 import FullPicker from '../shared/FullPicker';
 import PlayerSearch from '../shared/PlayerSearch';
@@ -94,7 +94,7 @@ function ChipList({ C, value, onChange, max = 5 }) {
 // tendina a scelta (valore linea, hit rate, competizione): si apre sotto la pillola
 function Select({ C, value, options, onChange, placeholder }) {
   const rich = options.some((o) => o.comp);
-  const logo = (o, size) => (o.comp && o.comp.logo ? <Image source={{ uri: o.comp.logo }} style={{ width: size, height: size }} contentFit="contain" cachePolicy="memory-disk" /> : <Text style={{ color: o.color || C.ink2, fontSize: 11, fontWeight: '700' }}>{String(o.label).slice(0, 2).toUpperCase()}</Text>);
+  const logo = (o, size) => (o.comp && o.comp.logo ? <CompLogo uri={o.comp.logo} size={size} C={C} /> : <Text style={{ color: o.color || C.ink2, fontSize: 11, fontWeight: '700' }}>{String(o.label).slice(0, 2).toUpperCase()}</Text>);
   const opts = rich ? options.map((o) => ({ ...o, logoNode: logo(o, 28) })) : options;
   return <Dropdown C={C} fill options={opts} value={value} onChange={onChange} placeholder={placeholder || '—'} pillKey="label"
     icon={options.some((o) => o.ic) ? (o, col) => (o.ic ? <StatIconN k={o.ic} size={20} color={col} /> : null) : rich ? (o) => <View style={{ width: 26, height: 26, borderRadius: 13, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255,255,255,.92)' }}>{logo(o, 20)}</View> : undefined} />;
@@ -236,7 +236,7 @@ function SeasonPanel({ C, season, onChange, rate90, label, player, comp }) {
               <View key={c.key} style={{ flexDirection: 'row', alignItems: 'center', gap: 8, borderRadius: 14, overflow: 'hidden', paddingVertical: 8, paddingLeft: 8, paddingRight: 6, backgroundColor: c0 ? c0 : C.chip, borderWidth: 1.5, borderColor: c.key === comp ? (c1 || C.accent) : 'transparent', opacity: out ? 0.55 : 1 }}>
                 {c0 ? <LinearGradient pointerEvents="none" colors={[c0, mixHex(c0, c1, 0.38)]} start={{ x: 0, y: 0.2 }} end={{ x: 1, y: 0.8 }} style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }} /> : null}
                 <View style={{ width: 30, height: 30, borderRadius: 15, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255,255,255,.92)' }}>
-                  {o && o.comp.logo ? <Image source={{ uri: o.comp.logo }} style={{ width: 20, height: 20 }} contentFit="contain" cachePolicy="memory-disk" /> : <Text style={{ color: c0 || C.ink2, fontSize: 10, fontWeight: '700' }}>{String(name).slice(0, 2).toUpperCase()}</Text>}
+                  {o && o.comp.logo ? <CompLogo uri={o.comp.logo} size={20} /> : <Text style={{ color: c0 || C.ink2, fontSize: 10, fontWeight: '700' }}>{String(name).slice(0, 2).toUpperCase()}</Text>}
                 </View>
                 <View style={{ flex: 1 }}>
                   <Text style={{ color: ink, fontSize: 13.5, fontWeight: '700' }}>{name}</Text>
@@ -289,7 +289,7 @@ const Box = ({ C, label, value }) => (
 );
 
 function compLogoN(cc, size, C) {
-  return cc && cc.logo ? <Image source={{ uri: cc.logo }} style={{ width: size, height: size }} contentFit="contain" cachePolicy="memory-disk" /> : <Text style={{ color: C.ink2, fontSize: 10, fontWeight: '700' }}>{String((cc && cc.name) || '').slice(0, 2).toUpperCase()}</Text>;
+  return cc && cc.logo ? <CompLogo uri={cc.logo} size={size} C={C} /> : <Text style={{ color: C.ink2, fontSize: 10, fontWeight: '700' }}>{String((cc && cc.name) || '').slice(0, 2).toUpperCase()}</Text>;
 }
 
 function TeamCard({ C, title, right, block, team, sub, tiles, matchComp, oppId, footer, picker, setPicker, onLeague, onTeam, openRoute }) {

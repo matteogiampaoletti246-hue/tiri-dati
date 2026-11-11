@@ -1,9 +1,9 @@
 // Bandiera tonda come nel sito (FlagDot): immagine che riempie il cerchio, anello del colore della bandiera; mai emoji.
 // Prova prima la cartella della Home nativa, poi quella del sito.
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
 import { Image } from 'expo-image';
-import { carriereOf, countryIt, flagCode } from '@/data/carriere';
+import { carriereOf, careerByFm, countryIt, flagCode } from '@/data/carriere';
 
 const SITE = 'https://matteogiampaoletti246-hue.github.io/tiri-dati/';
 const SRC = [`${SITE}native-link/flags/`, `${SITE}aurora/flags/`];
@@ -39,3 +39,16 @@ export const ClubNatN = ({ C, team, teamName, nat, size = 15, style, own }) => (
     {nat ? <Text numberOfLines={1} style={{ flexShrink: 1, color: own || C.ink2, fontSize: 12.5 }}>{nat.name}</Text> : null}
   </View>
 );
+
+// nazionalita' di un risultato di ricerca: se non c'e' gia', si legge dalla carriera FotMob del giocatore (un file piccolo, ricordato)
+export function useNatFor(p) {
+  const [n, setN] = useState(p.nat || null);
+  useEffect(() => {
+    if (p.nat) { setN(p.nat); return undefined; }
+    if (!p.fmId) return undefined;
+    let on = true;
+    careerByFm(p.fmId).then((c) => { const fc = c && c.c ? flagCode(c.c) : ''; if (on && fc) setN({ name: countryIt(c.c), fc }); }).catch(() => {});
+    return () => { on = false; };
+  }, [p.id]);
+  return n;
+}

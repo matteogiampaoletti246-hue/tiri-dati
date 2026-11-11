@@ -8,7 +8,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { searchN } from './searchN';
 import { RingBox } from './ui';
 
-import { FlagN } from './FlagN';
+import { FlagN, useNatFor } from './FlagN';
 const SITE = 'https://matteogiampaoletti246-hue.github.io/tiri-dati/';
 const okHex = (c) => (typeof c === 'string' && /^#[0-9a-fA-F]{6}$/.test(c) ? c : null);
 
@@ -19,6 +19,7 @@ const Hl = ({ C, text, hl, style }) => {
 
 const Row = memo(({ C, p, onPress }) => {
   const c0 = okHex(p.color) || C.accent;
+  const nat = useNatFor(p);
   return (
     <Pressable onPress={onPress} style={({ pressed }) => [{ marginHorizontal: 16, marginBottom: 10 }, pressed && { opacity: 0.7 }]}>
       <View style={{ borderRadius: 22, borderWidth: 1.5, borderColor: c0 + 'F2', overflow: 'hidden', backgroundColor: C.sheet }}>
@@ -33,9 +34,9 @@ const Row = memo(({ C, p, onPress }) => {
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5, marginTop: 3 }}>
                 {p.crest ? <Image source={{ uri: p.crest }} style={{ width: 16, height: 16 }} contentFit="contain" cachePolicy="memory-disk" /> : null}
                 <Text numberOfLines={1} style={{ color: C.ink2, fontSize: 12.5, flexShrink: 1 }}>{p.team}</Text>
-                {p.nat ? <View style={{ width: 1, height: 14, backgroundColor: C.ink3, opacity: 0.6 }} /> : null}
-                {p.nat && p.nat.fc ? <FlagN code={p.nat.fc} size={16} C={C} /> : null}
-                {p.nat ? <Text numberOfLines={1} style={{ color: C.ink2, fontSize: 12.5, flexShrink: 1 }}>{p.nat.name}</Text> : null}
+                {nat ? <View style={{ width: 1, height: 14, backgroundColor: C.ink3, opacity: 0.6 }} /> : null}
+                {nat && nat.fc ? <FlagN code={nat.fc} size={16} C={C} /> : null}
+                {nat ? <Text numberOfLines={1} style={{ color: C.ink2, fontSize: 12.5, flexShrink: 1 }}>{nat.name}</Text> : null}
               </View>
             </View>
           </View>
