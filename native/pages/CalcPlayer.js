@@ -289,11 +289,11 @@ function useHitGames(player, key2, vals, mins) {
           if (!se || !se.fix) continue; // eslint-disable-line no-continue
           for (const d of days) {
             const f = se.fix.find((x) => String(x[4]).slice(0, 10) === d && (isMine(se.teams[x[2]]) || isMine(se.teams[x[3]])));
-            if (f) { const oppName = isMine(se.teams[f[2]]) ? se.teams[f[3]] : se.teams[f[2]]; found = { opp: oppName, id: `a-${r[6]}-${sk}-${f[0]}` }; break; }
+            if (f) { const oppFm = isMine(se.teams[f[2]]) ? f[3] : f[2]; const oppName = se.teams[oppFm]; found = { opp: oppName, oppId: oppFm, id: `a-${r[6]}-${sk}-${f[0]}` }; break; }
           }
           if (found) break;
         }
-        if (found && on) setExt((e) => ({ ...e, [i]: gameOf({ opp: found.opp, matchId: found.id }) }));
+        if (found && on) setExt((e) => ({ ...e, [i]: gameOf({ opp: found.opp, oppId: found.oppId, matchId: found.id }) }));
       }
     })().catch(() => {});
     return () => { on = false; };
@@ -338,9 +338,10 @@ function useCompGames(player, key2) {
             const inH = x.h && [...(x.h.st || []), ...(x.h.sb || [])].some((r) => String(r[0]) === String(pid));
             const inA = x.a && [...(x.a.st || []), ...(x.a.sb || [])].some((r) => String(r[0]) === String(pid));
             if (!inH && !inA) return;
-            const opp = se.teams[inH ? aid : hid];
+            const oppId = inH ? aid : hid;
+            const opp = se.teams[oppId];
             if (!opp) return;
-            got.push({ date: String(f[4]), v: Number(key2 === 'sot' ? pl.ShotsOnTarget : pl.total_shots) || 0, opp, matchId: `a-${fm}-${sk}-${mid}` });
+            got.push({ date: String(f[4]), v: Number(key2 === 'sot' ? pl.ShotsOnTarget : pl.total_shots) || 0, opp, oppId, matchId: `a-${fm}-${sk}-${mid}` });
           });
           if (got.length >= 5) break;
         }
@@ -355,7 +356,7 @@ function useCompGames(player, key2) {
 }
 
 const CUP_IDS = ['champions-league', 'europa-league', 'conference-league'];
-const SHORT_OPP = { 'borussia dortmund': 'BVB 09', 'atletico madrid': 'ATL. Madrid', 'atlético madrid': 'ATL. Madrid', 'paris saint-germain': 'PSG', 'paris saint germain': 'PSG', 'manchester united': 'Man Utd', 'manchester city': 'Man City', 'bayer leverkusen': 'Leverkusen', 'bayer 04 leverkusen': 'Leverkusen', 'eintracht frankfurt': 'Frankfurt', "borussia m'gladbach": "M'gladbach", 'borussia monchengladbach': "M'gladbach", 'tottenham hotspur': 'Tottenham', 'newcastle united': 'Newcastle', 'west ham united': 'West Ham', 'wolverhampton wanderers': 'Wolves', 'brighton & hove albion': 'Brighton', 'athletic club': 'Athletic', 'real sociedad': 'R. Sociedad', 'inter milan': 'Inter', 'internazionale': 'Inter', 'bayern munich': 'Bayern', 'bayern münchen': 'Bayern', 'sporting cp': 'Sporting', 'sporting lisbon': 'Sporting' };
+const SHORT_OPP = { 'borussia dortmund': 'BVB 09', dortmund: 'BVB 09', atletico: 'ATL. Madrid', 'paris sg': 'PSG', 'man city': 'Man City', 'man utd': 'Man Utd', 'atletico madrid': 'ATL. Madrid', 'atlético madrid': 'ATL. Madrid', 'paris saint-germain': 'PSG', 'paris saint germain': 'PSG', 'manchester united': 'Man Utd', 'manchester city': 'Man City', 'bayer leverkusen': 'Leverkusen', 'bayer 04 leverkusen': 'Leverkusen', 'eintracht frankfurt': 'Frankfurt', "borussia m'gladbach": "M'gladbach", 'borussia monchengladbach': "M'gladbach", 'tottenham hotspur': 'Tottenham', 'newcastle united': 'Newcastle', 'west ham united': 'West Ham', 'wolverhampton wanderers': 'Wolves', 'brighton & hove albion': 'Brighton', 'athletic club': 'Athletic', 'real sociedad': 'R. Sociedad', 'inter milan': 'Inter', 'internazionale': 'Inter', 'bayern munich': 'Bayern', 'bayern münchen': 'Bayern', 'sporting cp': 'Sporting', 'sporting lisbon': 'Sporting' };
 const shortOpp = (n) => {
   const k = String(n || '').toLowerCase().trim();
   if (SHORT_OPP[k]) return SHORT_OPP[k];
@@ -366,8 +367,10 @@ const shortOpp = (n) => {
   return w[w.length - 1].length >= 4 ? w[w.length - 1] : t;
 };
 const gameOf = (m) => {
-  const t = teamByName(m.opp);
-  return { opp: m.opp, label: shortOpp(m.opp), matchId: m.matchId || null, team: t || { name: m.opp, initials: String(m.opp).split(' ').map((w) => w[0]).join('').slice(0, 3).toUpperCase() } };
+  const ini = String(m.opp).split(' ').map((w) => w[0]).join('').slice(0, 3).toUpperCase();
+  // stemma: squadra dell'app per nome; se manca (nome corto dell'archivio, es. "Dortmund") quello FotMob dell'id squadra
+  const t = teamByName(m.opp) || { name: m.opp, initials: ini, crest: m.oppId ? `https://images.fotmob.com/image_resources/logo/teamlogo/${m.oppId}.png` : null };
+  return { opp: m.opp, label: shortOpp(m.opp), matchId: m.matchId || null, team: t };
 };
 
 // pagine del grafico: la prima e' sempre "Tutte le competizioni" (le ultime 5 del calcolo); poi una per competizione (scelta per prima).
