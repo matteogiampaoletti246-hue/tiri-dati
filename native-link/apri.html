@@ -6,7 +6,7 @@
 <script>
 (async()=>{
  try{
-  let j;try{const r=await fetch('https://raw.githubusercontent.com/matteogiampaoletti246-hue/tiri-dati/main/native-link/latest.json?'+Date.now(),{cache:'no-store'});j=await r.json();}catch(e){const r=await fetch('latest.json?'+Date.now(),{cache:'no-store'});j=await r.json();}
+  let j;try{const r=await fetch('https://api.github.com/repos/matteogiampaoletti246-hue/tiri-dati/contents/native-link/latest.json?ref=main&t='+Date.now(),{cache:'no-store',headers:{Accept:'application/vnd.github.raw+json'}});if(!r.ok)throw 0;j=await r.json();}catch(e){try{const r=await fetch('https://raw.githubusercontent.com/matteogiampaoletti246-hue/tiri-dati/main/native-link/latest.json?t='+Date.now(),{cache:'no-store'});j=await r.json();}catch(e2){const r=await fetch('latest.json?t='+Date.now(),{cache:'no-store'});j=await r.json();}}
   const u='exp://u.expo.dev/'+j.id+'/group/'+j.group;
   const b=document.getElementById('b');b.href=u;b.style.display='inline-block';
   document.getElementById('s').textContent='Versione del '+j.at;
