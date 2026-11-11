@@ -13,14 +13,8 @@ export const TeamCrest = ({ team, size = 32, C }) => {
   if (team.crest && !bad) {
     const img = <Image source={{ uri: team.crest }} style={{ width: size, height: size }} contentFit="contain" cachePolicy="memory-disk" onError={() => setBad(true)} />;
     if (!(C && C.dark)) return img;
-    // Night: contorno bianco sottile attorno allo stemma (copie bianche sfalsate dietro)
-    const o = size >= 40 ? 1.5 : 1;
-    return (
-      <View style={{ width: size, height: size }}>
-        {[[o, 0], [-o, 0], [0, o], [0, -o]].map(([x, y], i) => <Image key={i} source={{ uri: team.crest }} pointerEvents="none" style={{ position: 'absolute', width: size, height: size, left: x, top: y, opacity: 0.9 }} contentFit="contain" cachePolicy="memory-disk" tintColor="#FFFFFF" />)}
-        {img}
-      </View>
-    );
+    // Night: contorno bianco sottile che segue la forma (ombra bianca senza sfocatura forte: mai riquadri)
+    return <View style={{ width: size, height: size, shadowColor: '#FFFFFF', shadowOpacity: 0.95, shadowRadius: size >= 40 ? 1.6 : 1.1, shadowOffset: { width: 0, height: 0 } }}>{img}</View>;
   }
   return <View style={{ width: size, height: size, alignItems: 'center', justifyContent: 'center' }}><Text style={{ color: C.ink2, fontSize: Math.max(10, size * 0.4), fontWeight: '700' }}>{team.initials}</Text></View>;
 };

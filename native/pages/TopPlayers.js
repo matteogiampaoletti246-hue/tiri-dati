@@ -77,20 +77,20 @@ const Row = React.memo(function Row({ C, row, rank, threshold, stat, enter, tv, 
                 const own = t && t.id === player.teamId;
                 return (
                   <View key={i} style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: i ? 2 : 3 }}>
-                    {t ? <TeamCrest team={t} size={19} C={C} /> : null}
+                    {t ? <TeamCrest team={t} size={15} C={C} /> : null}
                     <Text numberOfLines={1} style={{ flexShrink: 1, color: own ? C.ink : C.ink3, fontSize: own ? 13.5 : 12.5, fontWeight: own ? '600' : '400' }}>{t ? t.name : own ? player.teamName : match.oppName}</Text>
                     {own && nat ? <View style={{ width: 1, height: 13, backgroundColor: C.ink3, opacity: 0.5 }} /> : null}
-                    {own && nat ? <FlagN code={nat.code} size={16} C={C} /> : null}
+                    {own && nat ? <FlagN code={nat.code} size={13} C={C} /> : null}
                     {own && nat ? <Text numberOfLines={1} style={{ flexShrink: 1, color: C.ink2, fontSize: 12.5 }}>{nat.name}</Text> : null}
                     {i ? <Text numberOfLines={1} style={{ color: C.ink3, fontSize: 12 }}>· {when(match)}</Text> : null}
                   </View>
                 );
               }) : (
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 3 }}>
-                  {team ? <TeamCrest team={team} size={19} C={C} /> : null}
+                  {team ? <TeamCrest team={team} size={15} C={C} /> : null}
                   <Text numberOfLines={1} style={{ color: C.ink, fontSize: 13.5, fontWeight: '600' }}>{team ? team.name : player.teamName}</Text>
                   {nat ? <View style={{ width: 1, height: 13, backgroundColor: C.ink3, opacity: 0.5 }} /> : null}
-                  {nat ? <FlagN code={nat.code} size={16} C={C} /> : null}
+                  {nat ? <FlagN code={nat.code} size={13} C={C} /> : null}
                   {nat ? <Text numberOfLines={1} style={{ flexShrink: 1, color: C.ink2, fontSize: 12.5 }}>{nat.name}</Text> : null}
                 </View>
               )}
@@ -217,9 +217,9 @@ function Body({ C, top, onSearch, onMenu, openRoute, bottom }) {
     <View style={{ flex: 1, backgroundColor: 'transparent', paddingTop: top }}>
       <Head C={C} onSearch={onSearch} onMenu={onMenu} />
       <DayStripN C={C} dates={DAYS} todayIndex={TODAY_I} x={x} value={dayIdx} onChange={setDayIdx} />
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 20, paddingTop: 4, paddingBottom: 4 }}>
-        <View><Segmented hug C={C} options={THRESHOLDS.map((t) => ({ value: t.key, label: t.label }))} value={threshold} onChange={onThr} /></View>
-        <Dropdown C={C} options={TOP_STATS} value={stat} onChange={onStat} side="right" width={222} icon={(o, col) => <StatIconN k={o.icon} size={17} color={col} />} />
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8, paddingHorizontal: 20, paddingTop: 4, paddingBottom: 4 }}>
+        <View style={{ flexShrink: 0 }}><Segmented hug C={C} options={THRESHOLDS.map((t) => ({ value: t.key, label: t.label }))} value={threshold} onChange={onThr} /></View>
+        <Dropdown C={C} options={TOP_STATS} value={stat} onChange={onStat} side="right" width={222} compact style={{ flexShrink: 1, minWidth: 0 }} icon={(o, col) => <StatIconN k={o.icon} size={17} color={col} />} />
       </View>
       <Animated.View style={[{ flex: 1 }, leaveSt]}>
         <DayPagerN count={DAYS.length} index={dayIdx} onIndex={setDayIdx} x={x}
