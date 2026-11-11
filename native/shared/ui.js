@@ -2,7 +2,7 @@
 import React, { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { View, Text, TextInput, Pressable, Modal, FlatList, ScrollView, StyleSheet, useWindowDimensions } from 'react-native';
-import Animated, { makeMutable, useSharedValue, useAnimatedStyle, withTiming, withRepeat, interpolateColor, Easing, FadeIn, FadeOut, ZoomIn } from 'react-native-reanimated';
+import Animated, { makeMutable, useSharedValue, useAnimatedStyle, withTiming, withSequence, withRepeat, interpolateColor, Easing, FadeIn, FadeOut, ZoomIn } from 'react-native-reanimated';
 import { Image } from 'expo-image';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import Dropdown from './Dropdown';
@@ -100,24 +100,34 @@ function SegItem({ C, label, on, onPress, onLayout, flex, tight }) {
     </Pressable>
   );
 }
-export const Segmented = ({ C, options, value, onChange, hug }) => {
+export const Segmented = ({ C, options, value, onChange, hug, liquid }) => {
   const [cur, setCur] = useState(value);
   useEffect(() => { setCur(value); }, [value]);
   const pos = useRef({});
   const tx = useSharedValue(0);
   const tw = useSharedValue(0);
   const first = useRef(true);
+  const lastCur = useRef(value);
   const scroller = useRef(null);
   const scroll = options.length > 5; // fino a 5 voci stanno tutte nella pillola (Tutte, Attacco, Difesa, Disciplina, Gioco)
   const place = (v, animate) => {
     const r = pos.current[String(v)];
     if (!r) return;
     if (first.current || !animate) { tx.value = r.x; tw.value = r.w; first.current = false; return; }
-    tx.value = withTiming(r.x, { duration: PILL_MS, easing: PILL_EASE });
-    tw.value = withTiming(r.w, { duration: PILL_MS, easing: PILL_EASE });
+    if (liquid) {
+      // scivolo liquido (concept A): la pillola si allunga verso il tasto nuovo e poi si ritira, senza rimbalzo
+      const x0 = tx.value; const w0 = tw.value;
+      const left = Math.min(x0, r.x); const right = Math.max(x0 + w0, r.x + r.w);
+      const e = Easing.bezier(0.4, 0, 0.2, 1);
+      tx.value = withSequence(withTiming(left, { duration: 290, easing: e }), withTiming(r.x, { duration: 350, easing: e }));
+      tw.value = withSequence(withTiming(right - left, { duration: 290, easing: e }), withTiming(r.w, { duration: 350, easing: e }));
+    } else {
+      tx.value = withTiming(r.x, { duration: PILL_MS, easing: PILL_EASE });
+      tw.value = withTiming(r.w, { duration: PILL_MS, easing: PILL_EASE });
+    }
     if (scroll && scroller.current) scroller.current.scrollTo({ x: Math.max(0, r.x - 40), animated: true });
   };
-  useEffect(() => { place(cur, true); }); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => { if (liquid) { if (lastCur.current === cur) return; lastCur.current = cur; } place(cur, true); }); // eslint-disable-line react-hooks/exhaustive-deps
   const th = useAnimatedStyle(() => ({ width: tw.value, transform: [{ translateX: tx.value }] }));
   const press = (v) => { if (v === cur) return; setCur(v); setTimeout(() => onChange(v), 60); };
   const items = options.map((o) => (

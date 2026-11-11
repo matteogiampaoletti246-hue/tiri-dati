@@ -44,7 +44,7 @@ export default function Statistiche({ C, match, view, home, away, pre, openRoute
   return (
     <View style={{ gap: 20, paddingTop: 12, paddingBottom: 16 }}>
       <View style={{ paddingHorizontal: 16 }}>
-        <Segmented C={C} value={period} onChange={setPeriod} options={[{ value: 'all', label: 'Totale' }, { value: 'first', label: '1° tempo' }, { value: 'second', label: '2° tempo' }]} />
+        <Segmented C={C} liquid value={period} onChange={setPeriod} options={[{ value: 'all', label: 'Totale' }, { value: 'first', label: '1° tempo' }, { value: 'second', label: '2° tempo' }]} />
       </View>
       <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20, gap: 8 }}>
         <Pressable onPress={() => home && openRoute('/squadra/' + home.id)} style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 8 }}><TeamCrest team={home} size={20} C={C} /><Text numberOfLines={1} style={{ color: C.ink, fontSize: 12.5, fontWeight: '600', flexShrink: 1 }}>{home ? home.name : ''}</Text></Pressable>

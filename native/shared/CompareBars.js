@@ -5,8 +5,10 @@ import Animated, { useSharedValue, useAnimatedStyle, withTiming, Easing } from '
 import { shown } from '@/lib/tint';
 
 function Half({ C, v, mx, col, win, side }) {
-  const p = useSharedValue(0);
-  useEffect(() => { p.value = 0; p.value = withTiming(mx ? (v / mx) * 100 : 0, { duration: 700, easing: Easing.bezier(0.22, 1, 0.36, 1) }); }, [v, mx]); // eslint-disable-line
+  // parte gia' dal valore vero e, quando cambia (Totale / 1° tempo / 2° tempo, live), scorre direttamente dal valore attuale al nuovo: mai da zero
+  const target = mx ? (v / mx) * 100 : 0;
+  const p = useSharedValue(target);
+  useEffect(() => { p.value = withTiming(target, { duration: 700, easing: Easing.bezier(0.22, 1, 0.36, 1) }); }, [target]); // eslint-disable-line
   const w = useAnimatedStyle(() => ({ width: `${Math.max(0, Math.min(100, p.value))}%` }));
   return (
     <View style={{ flex: 1, height: 6, borderRadius: 3, backgroundColor: C.hair, overflow: 'hidden', flexDirection: 'row', justifyContent: side === 'home' ? 'flex-end' : 'flex-start' }}>

@@ -247,3 +247,6 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 ### App nativa: swipe indietro nella partita (regola fissa)
 - Dalla testata della partita (risultato, squadre) e dalla barra delle schede lo swipe indietro funziona sempre, su qualunque scheda; dentro il corpo delle schede, dalla seconda in poi, lo swipe a destra torna alla scheda precedente (`useBackGate(blocking, true)` + `pagerTouch` in `shared/backGate.js`).
 - I riquadri con gesto proprio (momentum, storie della Panoramica) non devono prendersi i trascinamenti orizzontali veloci: il mirino segue il dito solo dopo una breve pressione.
+
+## Nativo: barre e selettore dei periodi (statistiche partita)
+`native/shared/CompareBars.js`: la barra parte gia' dal valore vero e scorre dal valore attuale al nuovo, mai `value = 0` prima di animare. `Segmented` ha la prop `liquid` (scivolo liquido, concept A) usata in `PartitaStats.js`.
