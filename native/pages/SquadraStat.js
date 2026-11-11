@@ -11,7 +11,7 @@ import { loadSeason, teamIdByName, loadTeamStats, teamPartStats, SEASON_STAT_IT,
 import { teamFmId } from '@/data/teamIndex';
 import { comma } from '@/lib/format';
 import { bandColor } from '@/components/player/playerCalc';
-import { Segmented, TeamCrest, RingBox } from '../shared/ui';
+import { Segmented, TeamCrest, Panel } from '../shared/ui';
 import { Bar, BarRow, groupOf, fmtVal, standingOf } from '../shared/StatBars';
 import { useTeamView, useAnnounceComp } from '../shared/teamView';
 import CompBarN from '../shared/CompBarN';
@@ -47,12 +47,15 @@ const CATS_S = [{ value: 'all', label: 'Tutte' }, { value: 'Attacco', label: 'At
 const f2 = (v) => Number(v).toFixed(2).replace('.', ',');
 
 function Tile({ C, label, value, rank, col }) {
+  // riquadro in evidenza: interno liquid glass sfumato nel colore del banner della squadra, contorno dello stesso colore ma vivo e definito
   return (
-    <RingBox C={C} radius={18} style={{ flex: 1 }} innerStyle={{ flex: 0, alignItems: 'center', paddingHorizontal: 6, paddingVertical: 10, backgroundColor: C.card2 }}>
-      <Text numberOfLines={1} style={{ color: C.ink3, fontSize: 9, fontWeight: '800', letterSpacing: 1, textTransform: 'uppercase' }}>{label}</Text>
-      <Text style={{ color: C.ink, fontSize: 17, fontWeight: '800', marginTop: 4, fontVariant: ['tabular-nums'] }}>{value}</Text>
-      <View style={{ marginTop: 4, borderRadius: 99, paddingHorizontal: 8, paddingVertical: 1, backgroundColor: col }}><Text style={{ color: '#fff', fontSize: 10, fontWeight: '800' }}>{rank}°</Text></View>
-    </RingBox>
+    <Panel C={C} vivid style={{ flex: 1, borderRadius: 18 }}>
+      <View style={{ alignItems: 'center', paddingHorizontal: 6, paddingVertical: 10 }}>
+        <Text numberOfLines={1} style={{ color: C.ink2, fontSize: 9, fontWeight: '800', letterSpacing: 1, textTransform: 'uppercase' }}>{label}</Text>
+        <Text style={{ color: C.ink, fontSize: 17, fontWeight: '800', marginTop: 4, fontVariant: ['tabular-nums'] }}>{value}</Text>
+        <View style={{ marginTop: 4, borderRadius: 99, paddingHorizontal: 8, paddingVertical: 1, backgroundColor: col }}><Text style={{ color: '#fff', fontSize: 10, fontWeight: '800' }}>{rank}°</Text></View>
+      </View>
+    </Panel>
   );
 }
 

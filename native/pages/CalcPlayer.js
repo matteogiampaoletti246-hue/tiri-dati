@@ -19,7 +19,7 @@ import { resolvePid } from '@/data/playerPid';
 import { careerByFm, carriereOf, loadCarriere, countryIt, flagCode } from '@/data/carriere';
 import { FlagN } from '../shared/FlagN';
 import { FLAG_COLORS } from '../shared/flagColors';
-const FLAG_BASE = 'https://matteogiampaoletti246-hue.github.io/tiri-dati/native-link/flags/';
+const FLAG_BASE = 'https://matteogiampaoletti246-hue.github.io/tiri-dati/native-link/flags43/';
 import { loadRose, rosePlayer } from '@/data/rose';
 import { playerFace } from '@/data/archive';
 import { playerComps, calcComp } from '@/components/calc/calcComp';
@@ -133,6 +133,19 @@ function NextMatchBtn({ C, ownId, oppId, comp, col, openRoute, style, altId }) {
   );
 }
 
+// colore del giocatore secondo la competizione scelta: con una competizione di nazionali il colore della nazionale (bandiera), altrimenti quello del club
+function natColorOf(player) {
+  if (!player) return null;
+  const natName = player.natView ? player.natView.teamName : player.nat ? player.teamName : null;
+  if (!natName) return null;
+  const fc = flagCode(natName);
+  const fcol = fc && FLAG_COLORS[fc] ? FLAG_COLORS[fc] : null;
+  if (fcol) return fcol[0];
+  const nt = teamByName(natName);
+  return nt && nt.colors ? nt.colors[0] : null;
+}
+const playerColor = (player, competizione, clubCol) => (competizione === 'nations' || (player && player.nat && !player.club) ? natColorOf(player) || clubCol : clubCol);
+
 // scelta giocatore: mentre la finestra di ricerca si chiude (circa 400 ms) si scaldano ruolo, carriera/rosa, dati falli e immagini
 // (foto, stemma, bandiera, loghi competizioni), cosi' il banner appare gia' completo e il telefono (anche lento o caldo) non lo disegna a pezzi
 function warmPlayer(id) {
@@ -158,7 +171,7 @@ function PlayerPick({ C, form, set, player, onSelectPlayer, stat, onStat, role, 
   const [picker, setPicker] = useState(false);
   const club = player ? (player.nat && player.club ? player.club : player) : null;
   const team = club ? teamById(club.teamId) : null;
-  const col = team && team.colors ? team.colors[0] : C.accent;
+  const col = playerColor(player, form.competizione, team && team.colors ? team.colors[0] : C.accent);
   const comps = useMemo(() => playerComps(player), [player]);
   const natName = player ? (player.natView ? player.natView.teamName : player.nat ? player.teamName : null) : null;
   const natFc = natName ? flagCode(natName) : null;
@@ -184,7 +197,7 @@ function PlayerPick({ C, form, set, player, onSelectPlayer, stat, onStat, role, 
                     {team ? <TeamCrest team={team} size={16} C={C} /> : null}
                     <Text numberOfLines={1} style={{ color: C.ink2, fontSize: 12.5, flexShrink: 1 }}>{club.teamName}</Text>
                     {natName ? <View style={{ width: StyleSheet.hairlineWidth * 2, height: 16, backgroundColor: C.ink3 }} /> : null}
-                    {natName && natFc ? <Image source={{ uri: `${FLAG_BASE}${natFc}.png` }} style={{ width: 16, height: 16, borderRadius: 8 }} contentFit="cover" cachePolicy="memory-disk" /> : null}
+                    {natName && natFc ? <Image source={{ uri: `${FLAG_BASE}${natFc}.png` }} style={{ width: 20, height: 15, borderRadius: 3 }} contentFit="cover" cachePolicy="memory-disk" /> : null}
                     {natName ? <Text numberOfLines={1} style={{ color: C.ink2, fontSize: 12.5, flexShrink: 1 }}>{countryIt(natName)}</Text> : null}
                   </View>
                 </View>
@@ -706,7 +719,7 @@ export default function CalcPlayer({ C, openRoute }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form.tipoTiri, form.line, form.lineType]);
 
-  const teamCol = (() => { const c = player ? teamById((player.nat && player.club ? player.club : player).teamId) : null; return c && c.colors ? c.colors[0] : null; })();
+  const teamCol = (() => { const c = player ? teamById((player.nat && player.club ? player.club : player).teamId) : null; return playerColor(player, form.competizione, c && c.colors ? c.colors[0] : null); })();
   return (
     <TintProvider color={teamCol}>
     <View style={{ paddingHorizontal: 20, paddingTop: 16, paddingBottom: 40 }}>

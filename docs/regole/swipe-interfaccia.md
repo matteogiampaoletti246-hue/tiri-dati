@@ -89,3 +89,9 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 ## Classifiche giocatori: liste stabili (novembre 2026)
 - Le liste passate a `StatListsN` non si ricalcolano a ogni render (`useMemo` in `SquadraGiocatori`); `StatListsN` confronta una firma (id + valori), non l'identita' dell'array: un ricalcolo con gli stessi dati non fa dissolvere le righe ne' riparte dalle prime 4 schede.
 - Scelta giocatore nel Calcolatore: `onWarm` di `PlayerSearch` scalda ruolo, rosa, dati falli e immagini mentre la finestra si chiude.
+
+## Bandiere, riquadri in evidenza, formazioni, colori Calcolatore (11 novembre 2026)
+- **Bandiere sempre rettangolari (4:3)**, mai tonde o quadrate: `FlagN`/`flagRectUrl` (`native/shared/FlagN.js`), PNG 128x96 in `native-link/flags43/` (da flag-icons 4x3); anche `TeamCrest` per le nazionali, banner squadra, Home, ricerca, allenatore nelle formazioni.
+- **Riquadri in evidenza** (Gol/Tiri/Tiri in porta): `Panel vivid` = interno liquid glass sfumato nel colore del banner squadra, contorno dello stesso colore ma vivo (`F2`).
+- **Formazioni**: campo centrato (segni con flex, non con percentuali); meta' casa allineata in alto nelle righe, meta' ospite in basso, cosi' bordi, centro e fronte sono simmetrici.
+- **Calcolatore**: il colore del giocatore (banner, bordo, pannelli) segue la competizione: nazionali = colore bandiera (`playerColor`), club = colore del club.

@@ -38,7 +38,7 @@ export function searchN(q) {
         const crest = ct ? ct.crest || null : p.clubFm ? `https://images.fotmob.com/image_resources/logo/teamlogo/${p.clubFm}.png` : null;
         return p.clubName
           ? { hl: sp(p.name), id: p.id, name: p.name, photo: p.photo || null, team: ct ? ct.name : p.clubName, crest, color: color(ct), color2: ct && ct.colors ? ct.colors[1] || null : null, nat: { name: countryIt(p.teamName), fc }, path: `/giocatore/${p.id}` }
-          : { hl: sp(p.name), id: p.id, name: p.name, photo: p.photo || null, team: countryIt(p.teamName), crest: fc ? `${SITE}native-link/flags/${fc}.png` : null, color: null, color2: null, nat: null, path: `/giocatore/${p.id}` };
+          : { hl: sp(p.name), id: p.id, name: p.name, photo: p.photo || null, team: countryIt(p.teamName), crest: fc ? `${SITE}native-link/flags43/${fc}.png` : null, color: null, color2: null, nat: null, path: `/giocatore/${p.id}` };
       }
       const t = teamById(p.teamId);
       return { hl: sp(p.name), id: p.id, name: p.name, photo: p.photo || null, team: t ? t.name : p.teamName || '', crest: t ? t.crest || null : null, color: color(t), color2: t && t.colors ? t.colors[1] || null : null, nat: natFor(p), fmId: p.fmId || null, path: `/giocatore/${p.id}` };

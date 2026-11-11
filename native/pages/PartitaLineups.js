@@ -1,5 +1,6 @@
 // Formazioni della partita (nativo): campo con le due squadre, voti (giocata) o affidabilita' (non iniziata), allenatore, panchina,
 // infortunati; formazione a soli nomi quando la fonte non da' il campo. Stessi dati del sito.
+import { FlagN } from '../shared/FlagN';
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, Pressable, Animated, Easing } from 'react-native';
 import { Image } from 'expo-image';
@@ -141,28 +142,28 @@ function DualPitch({ C, lh, la, home, away, valOf, match, mvpId, pre, openRoute 
   const ra = la ? rowsOf(la).reverse() : [];
   const h = (rh.length + ra.length) * ROW + GAP + 52;
   const line = 'rgba(255,255,255,.2)';
-  const half = (rows, team) => (
+  const half = (rows, team, bottom) => (
     <View style={{ height: rows.length * ROW, justifyContent: 'space-between' }}>
       {rows.map((row, ri) => (
-        <View key={ri} style={{ height: ROW, flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-around', gap: 4 }}>
+        <View key={ri} style={{ height: ROW, flexDirection: 'row', alignItems: bottom ? 'flex-end' : 'flex-start', justifyContent: 'space-around', gap: 4 }}>
           {row.map((p) => <PitchNode key={p.playerId || p.name} C={C} match={match} p={p} team={team} val={valOf(p)} compact={row.length >= 5} mvp={!!mvpId && p.playerId === mvpId} pre={pre} openRoute={openRoute} />)}
         </View>
       ))}
     </View>
   );
   return (
-    <View style={{ height: h, paddingTop: 26, paddingHorizontal: 6, borderRadius: 24, overflow: 'hidden', borderWidth: 1, borderColor: 'rgba(255,255,255,.12)' }}>
+    <View style={{ height: h, paddingTop: 26, borderRadius: 24, overflow: 'hidden', borderWidth: 1, borderColor: 'rgba(255,255,255,.12)' }}>
       <LinearGradient colors={['#12301f', '#0f2a1b']} style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }} />
-      <View pointerEvents="none" style={{ position: 'absolute', top: 0, left: '22%', width: '56%', height: 86, borderWidth: 1.5, borderTopWidth: 0, borderColor: line, borderBottomLeftRadius: 10, borderBottomRightRadius: 10 }} />
-      <View pointerEvents="none" style={{ position: 'absolute', bottom: 0, left: '22%', width: '56%', height: 86, borderWidth: 1.5, borderBottomWidth: 0, borderColor: line, borderTopLeftRadius: 10, borderTopRightRadius: 10 }} />
+      <View pointerEvents="none" style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, alignItems: 'center' }}><View style={{ width: '56%', height: 86, borderWidth: 1.5, borderTopWidth: 0, borderColor: line, borderBottomLeftRadius: 10, borderBottomRightRadius: 10 }} /></View>
+      <View pointerEvents="none" style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, alignItems: 'center', justifyContent: 'flex-end' }}><View style={{ width: '56%', height: 86, borderWidth: 1.5, borderBottomWidth: 0, borderColor: line, borderTopLeftRadius: 10, borderTopRightRadius: 10 }} /></View>
       <View pointerEvents="none" style={{ position: 'absolute', left: 0, right: 0, top: '50%', height: 1, backgroundColor: line }} />
-      <View pointerEvents="none" style={{ position: 'absolute', left: '50%', top: '50%', width: 92, height: 92, marginLeft: -46, marginTop: -46, borderRadius: 46, borderWidth: 1.5, borderColor: line }} />
+      <View pointerEvents="none" style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, alignItems: 'center', justifyContent: 'center' }}><View style={{ width: 92, height: 92, borderRadius: 46, borderWidth: 1.5, borderColor: line }} /></View>
       <Text numberOfLines={1} style={{ position: 'absolute', left: 12, top: 10, maxWidth: '60%', zIndex: 2, color: tcol(home), fontSize: 11.5, fontWeight: '800', letterSpacing: 1, textTransform: 'uppercase' }}>{home ? home.name : ''}</Text>
       <Text numberOfLines={1} style={{ position: 'absolute', right: 12, bottom: 10, maxWidth: '60%', zIndex: 2, color: tcol(away), fontSize: 11.5, fontWeight: '800', letterSpacing: 1, textTransform: 'uppercase' }}>{away ? away.name : ''}</Text>
-      <View>
+      <View style={{ paddingHorizontal: 6 }}>
         {half(rh, home)}
         <View style={{ height: GAP }} />
-        {half(ra, away)}
+        {half(ra, away, true)}
       </View>
     </View>
   );
@@ -182,7 +183,7 @@ function CoachPill({ C, lineup, team }) {
         <Text style={{ color: 'rgba(255,255,255,.75)', fontSize: 10.5, fontWeight: '800', letterSpacing: 1, textTransform: 'uppercase' }}>Allenatore</Text>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
           <Text numberOfLines={1} style={{ color: '#fff', fontSize: 15, fontWeight: '800', flexShrink: 1 }}>{lineup.coach}</Text>
-          {cc ? <Image source={{ uri: `${BASE}flags/${cc}.png` }} style={{ width: 16, height: 16, borderRadius: 8 }} contentFit="cover" /> : null}
+          {cc ? <FlagN code={cc} size={18} /> : null}
         </View>
       </View>
     </View>

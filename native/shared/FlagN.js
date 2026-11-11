@@ -1,21 +1,17 @@
-// Bandiera tonda come nel sito (FlagDot): immagine che riempie il cerchio, anello del colore della bandiera; mai emoji.
-// Prova prima la cartella della Home nativa, poi quella del sito.
-import React, { useEffect, useState } from 'react';
-import { View, Text } from 'react-native';
-import { Image } from 'expo-image';
-import { carriereOf, careerByFm, countryIt, flagCode } from '@/data/carriere';
-
-const SITE = 'https://matteogiampaoletti246-hue.github.io/tiri-dati/';
-const SRC = [`${SITE}native-link/flags/`, `${SITE}aurora/flags/`];
+// Bandiera RETTANGOLARE (4:3) come le bandiere vere, mai tonda ne' quadrata: PNG 128x96 da flag-icons in native-link/flags43/.
+// `size` e' la larghezza (come prima il diametro): l'altezza e' i 3/4. Mai emoji.
+export const FLAG_RECT = `${SITE}native-link/flags43/`;
+export const flagRectUrl = (code) => (code ? `${FLAG_RECT}${code}.png` : null);
 
 export const FlagN = ({ code, name, size = 15, C, bare }) => {
   const c = code || flagCode(name);
-  const [k, setK] = useState(0);
   if (!c) return null;
+  const h = Math.round(size * 0.75 * 10) / 10;
+  const r = Math.max(2, Math.round(size / 8));
   return (
-    <View style={{ width: size, height: size, borderRadius: size / 2, overflow: 'hidden', backgroundColor: C ? C.chip : 'rgba(128,128,128,.25)' }}>
-      {k < SRC.length ? <Image source={{ uri: `${SRC[k]}${c}.png` }} style={{ position: 'absolute', left: 0, top: 0, width: size, height: size }} contentFit="cover" cachePolicy="memory-disk" transition={0} onError={() => setK(k + 1)} /> : null}
-      {bare ? null : <View pointerEvents="none" style={{ position: 'absolute', left: 0, top: 0, right: 0, bottom: 0, borderRadius: size / 2, borderWidth: 1, borderColor: 'rgba(255,255,255,.28)' }} />}
+    <View style={{ width: size, height: h, borderRadius: r, overflow: 'hidden', backgroundColor: C ? C.chip : 'rgba(128,128,128,.25)' }}>
+      <Image source={{ uri: flagRectUrl(c) }} style={{ position: 'absolute', left: 0, top: 0, width: size, height: h }} contentFit="cover" cachePolicy="memory-disk" transition={0} />
+      {bare ? null : <View pointerEvents="none" style={{ position: 'absolute', left: 0, top: 0, right: 0, bottom: 0, borderRadius: r, borderWidth: 1, borderColor: 'rgba(255,255,255,.28)' }} />}
     </View>
   );
 };

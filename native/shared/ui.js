@@ -10,6 +10,8 @@ import Dropdown from './Dropdown';
 export const TeamCrest = ({ team, size = 32, C }) => {
   const [bad, setBad] = useState(false);
   if (!team) return null;
+  const nf = isNationName(team.name) ? flagCode(team.name) : '';
+  if (nf) return <View style={{ width: size, height: size, alignItems: 'center', justifyContent: 'center' }}><Image source={{ uri: `https://matteogiampaoletti246-hue.github.io/tiri-dati/native-link/flags43/${nf}.png` }} style={{ width: size, height: Math.round(size * 0.75), borderRadius: Math.max(2, Math.round(size / 8)) }} contentFit="cover" cachePolicy="memory-disk" /></View>;
   if (team.crest && !bad) {
     const img = <Image source={{ uri: team.crest }} style={{ width: size, height: size }} contentFit="contain" cachePolicy="memory-disk" onError={() => setBad(true)} />;
     if (!(C && C.dark)) return img;
@@ -52,14 +54,14 @@ const PanelRing = ({ color, w, r = 22 }) => {
   const st = useAnimatedStyle(() => ({ borderColor: interpolateColor(k.value, [0, 1], [fromC.value, toC.value]) }));
   return <Animated.View pointerEvents="none" style={[StyleSheet.absoluteFill, { borderRadius: r, borderWidth: w }, st]} />;
 };
-export const Panel = ({ C, children, style, tint, ring }) => {
+export const Panel = ({ C, children, style, tint, ring, vivid }) => {
   const ctx = useContext(TintCtx);
   const t = okHex(tint || ctx);
   return (
     <View style={[{ borderRadius: 22, overflow: 'hidden', backgroundColor: C.card2, borderWidth: ring ? 1.5 : 1, borderColor: ring ? (t ? `${t}B3` : C.accRing) : C.border }, style]}>
       <TintBg C={C} color={tint || ctx} />
       {children}
-      {t && !ring ? <PanelRing color={`${t}B3`} w={1.5} r={(StyleSheet.flatten(style) || {}).borderRadius ?? 22} /> : null}
+      {t && !ring ? <PanelRing color={vivid ? `${t}F2` : `${t}B3`} w={1.5} r={(StyleSheet.flatten(style) || {}).borderRadius ?? 22} /> : null}
     </View>
   );
 };

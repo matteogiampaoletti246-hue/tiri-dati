@@ -6,6 +6,7 @@ import './../shared/shim';
 import { bootShared } from '../shared/boot';
 import useAsync from '@/hooks/useAsync';
 import { BASE } from '@/data/load';
+import { flagRectUrl } from '../shared/FlagN';
 import { teamById } from '@/data/teams';
 import { leagueById } from '@/data/leagues';
 import { teamFromIndex, teamPlayerHistory } from '@/data/teamIndex';
@@ -87,7 +88,7 @@ function Body({ C, top, onBack, bottom, openRoute, team, srT }) {
   return (
     <View style={{ flex: 1, backgroundColor: 'transparent' }}>
       <EntityBannerN C={C} top={top} onBack={onBack} name={team.name} subtitle={shownLg ? shownLg.name : ''} meta={<FormDots C={C} form={teamForm(team.id)} size={14} />} below={below}
-        colors={team.colors} logoUrl={fc ? null : team.crest} flagUrl={fc ? `${BASE}flags/${fc}.png` : null} liveCount={liveCount} />
+        colors={team.colors} logoUrl={fc ? null : team.crest} flagUrl={fc ? flagRectUrl(fc) : null} liveCount={liveCount} />
       <TintProvider color={team.colors && team.colors[0]}>
       <TabsN C={C} tabs={tabs} index={idx} onIndex={(i) => setTabKey(tabs[i].key)} render={(i) => { const P = panel[tabs[i].key]; return <P key={tabs[i].key} {...props} />; }} />
       </TintProvider>

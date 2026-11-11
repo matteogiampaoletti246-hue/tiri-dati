@@ -199,7 +199,7 @@ const Flag = memo(({ fc, tint }) => {
   const ring = { borderColor: `${t}8C`, shadowColor: t };
   return (
     <View style={[s.flag, ring]}>
-      {fc ? <Image source={{ uri: `${SITE}native-link/flags/${fc}.png` }} style={s.flagImg} contentFit="cover" cachePolicy="memory-disk" transition={0} />
+      {fc ? <Image source={{ uri: `${SITE}native-link/flags43/${fc}.png` }} style={s.flagImg} contentFit="cover" cachePolicy="memory-disk" transition={0} />
         : <Ionicons name="globe-outline" size={18} color={C.ink2} />}
     </View>
   );
@@ -1600,8 +1600,8 @@ const makeStyles = (C) => StyleSheet.create({
   cnt: { color: C.ink2, fontSize: 11, fontWeight: '500', width: 28, marginRight: 6, textAlign: 'right' },
   // numero e freccia: zona fissa a destra, stessa posizione in tutte le testate (nome lungo troncato prima)
   tail: { width: 52, alignSelf: 'stretch', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', flexShrink: 0 },
-  flag: { width: 30, height: 30, borderRadius: 15, marginLeft: 16, alignItems: 'center', justifyContent: 'center', backgroundColor: C.chip, borderWidth: 2, shadowOpacity: 0.35, shadowRadius: 7, shadowOffset: { width: 0, height: 0 } },
-  flagImg: { width: 26, height: 26, borderRadius: 13 },
+  flag: { width: 36, height: 28, borderRadius: 7, marginLeft: 16, alignItems: 'center', justifyContent: 'center', backgroundColor: C.chip, borderWidth: 2, shadowOpacity: 0.35, shadowRadius: 7, shadowOffset: { width: 0, height: 0 } },
+  flagImg: { width: 30, height: 22, borderRadius: 4 },
   body: { borderTopWidth: 1, borderTopColor: C.hair },
   sep: { borderTopWidth: 1, borderTopColor: C.hair },
   row: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 12, gap: 8 },
