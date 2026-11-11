@@ -71,11 +71,18 @@ export default function HitChart({ C, pages, line, under, statLabel, openRoute, 
                         const ok = hasLine ? hit(v) : true;
                         const c1 = ok ? C.good : C.bad;
                         const on = sel === `${pi}:${i}`;
+                        const mn = p.minutes && p.minutes[i] != null ? Math.round(p.minutes[i]) : null;
+                        const bh = Math.max(3, yOf(v));
+                        const short = bh < 24;
+                        const sub = mn != null && mn < 90;
                         return (
                           <Pressable key={i} onPress={() => setSel((c) => (c === `${pi}:${i}` ? null : `${pi}:${i}`))} style={{ width: itemW, height: PLOT_H, alignItems: 'center', justifyContent: 'flex-end', opacity: dim && !on ? 0.28 : 1 }}>
+                            {mn != null && short ? <Text style={{ color: sub ? C.warn || '#ffb454' : C.ink3, fontSize: 9.5, fontWeight: '800', marginBottom: 1 }}>{mn}'</Text> : null}
                             <Text style={{ color: c1, fontSize: on ? 17 : 14, fontWeight: '800', marginBottom: 4 }}>{v}</Text>
-                            <View style={{ width: on ? barW + 4 : barW, height: Math.max(3, yOf(v)), borderTopLeftRadius: 12, borderTopRightRadius: 12, borderBottomLeftRadius: 4, borderBottomRightRadius: 4, shadowColor: c1, shadowOpacity: on ? 0.95 : 0.5, shadowRadius: on ? 16 : 10, shadowOffset: { width: 0, height: 0 }, borderWidth: on ? 1.5 : 0, borderColor: '#FFFFFF88' }}>
+                            <View style={{ width: on ? barW + 4 : barW, height: bh, borderTopLeftRadius: 12, borderTopRightRadius: 12, borderBottomLeftRadius: 4, borderBottomRightRadius: 4, shadowColor: c1, shadowOpacity: on ? 0.95 : 0.5, shadowRadius: on ? 16 : 10, shadowOffset: { width: 0, height: 0 }, borderWidth: on ? 1.5 : 0, borderColor: '#FFFFFF88' }}>
                               <LinearGradient colors={[c1, `${c1}AA`]} style={{ flex: 1, borderTopLeftRadius: 12, borderTopRightRadius: 12, borderBottomLeftRadius: 4, borderBottomRightRadius: 4 }} />
+                              {mn != null && !short ? <Text style={{ position: 'absolute', left: 0, right: 0, bottom: 4, textAlign: 'center', fontSize: 9.5, fontWeight: '900', color: sub ? '#FFFFFF' : 'rgba(5,30,18,.78)' }}>{mn}'</Text> : null}
+                              {mn != null && !short && sub ? <View pointerEvents="none" style={{ position: 'absolute', left: -3, right: -3, top: `${(1 - mn / 90) * 100}%`, borderTopWidth: 2, borderStyle: 'dashed', borderColor: 'rgba(255,255,255,.55)' }} /> : null}
                             </View>
                           </Pressable>
                         );

@@ -341,13 +341,13 @@ function useCompGames(player, key2) {
             const oppId = inH ? aid : hid;
             const opp = se.teams[oppId];
             if (!opp) return;
-            got.push({ date: String(f[4]), v: Number(key2 === 'sot' ? pl.ShotsOnTarget : pl.total_shots) || 0, opp, oppId, matchId: `a-${fm}-${sk}-${mid}` });
+            got.push({ date: String(f[4]), min: pl.minutes_played, v: Number(key2 === 'sot' ? pl.ShotsOnTarget : pl.total_shots) || 0, opp, oppId, matchId: `a-${fm}-${sk}-${mid}` });
           });
           if (got.length >= 5) break;
         }
         got.sort((a, b) => b.date.localeCompare(a.date));
         const top = got.slice(0, 5);
-        if (top.length && on) setData((d) => ({ ...d, [kind]: { values: top.map((m) => m.v).reverse(), games: top.map((m) => gameOf(m)).reverse() } }));
+        if (top.length && on) setData((d) => ({ ...d, [kind]: { values: top.map((m) => m.v).reverse(), minutes: top.map((m) => m.min).reverse(), games: top.map((m) => gameOf(m)).reverse() } }));
       }
     })().catch(() => {});
     return () => { on = false; };
@@ -378,7 +378,7 @@ const gameOf = (m) => {
 function hitPages(player, key2, vals, mins, comp, g, extra) {
   const opts = playerComps(player);
   const byVal = Object.fromEntries(opts.map((o) => [o.value, o]));
-  const all = { key: 'tutte', name: 'Tutte le competizioni', logo: null, values: [...vals].reverse(), games: null };
+  const all = { key: 'tutte', name: 'Tutte le competizioni', logo: null, values: [...vals].reverse(), minutes: mins.length === vals.length ? [...mins].reverse() : null, games: null };
   if (!key2) return [all];
   if (g && g.some(Boolean)) all.games = [...g].reverse();
   const IM = {};
@@ -396,7 +396,7 @@ function hitPages(player, key2, vals, mins, comp, g, extra) {
     if (extra && extra[k]) { out.push({ key: k, name: byVal[k].comp.name, logo: byVal[k].comp.logo, ...extra[k] }); return; }
     const ms = rec.filter((m) => kindOf(m) === k && Number(m.minutes) >= 50 && m[key2] != null && m.opp).slice(0, 5);
     if (!ms.length) return;
-    out.push({ key: k, name: byVal[k].comp.name, logo: byVal[k].comp.logo, values: ms.map((m) => Number(m[key2])).reverse(), games: ms.map(gameOf).reverse() });
+    out.push({ key: k, name: byVal[k].comp.name, logo: byVal[k].comp.logo, values: ms.map((m) => Number(m[key2])).reverse(), minutes: ms.map((m) => Number(m.minutes)).reverse(), games: ms.map(gameOf).reverse() });
   });
   return out;
 }
