@@ -1,5 +1,6 @@
 // Striscia dei giorni e pager a scorrimento laterale (Migliori Giocatori e Matchup), stesso comportamento della Home nativa:
 // `x` = pagina frazionaria sul thread UI; il giorno scelto sta al centro; la linea sotto il giorno segue il dito.
+import { useBackGate } from './backGate';
 import React, { useEffect, useRef } from 'react';
 import { View, Text, ScrollView, Pressable, StyleSheet, useWindowDimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
@@ -45,6 +46,7 @@ const Pane = ({ idx, x, W, children }) => {
 // Pagine dei giorni: si montano il giorno mostrato e i due vicini (quelli accanto servono per lo swipe)
 export function DayPagerN({ count, index, onIndex, x, render }) {
   const { width: W } = useWindowDimensions();
+  useBackGate(index > 0); // sulla prima scheda lo swipe verso destra e' dello swipe indietro
   const x0 = useSharedValue(index);
   const target = useSharedValue(index);
   useEffect(() => {
@@ -52,7 +54,7 @@ export function DayPagerN({ count, index, onIndex, x, render }) {
     target.value = index;
     x.value = withTiming(index, { duration: 260, easing: Easing.out(Easing.cubic) });
   }, [index]); // eslint-disable-line react-hooks/exhaustive-deps
-  const pan = React.useMemo(() => Gesture.Pan().activeOffsetX([-10, 10]).failOffsetY([-28, 28])
+  const pan = React.useMemo(() => Gesture.Pan().activeOffsetX([-10, index > 0 ? 10 : 100000]).failOffsetY([-28, 28])
     .onStart(() => { cancelAnimation(x); x0.value = x.value; })
     .onUpdate((e) => {
       let v = x0.value - e.translationX / W;
@@ -67,7 +69,7 @@ export function DayPagerN({ count, index, onIndex, x, render }) {
       target.value = t;
       x.value = withTiming(t, { duration: 240, easing: Easing.out(Easing.cubic) });
       runOnJS(onIndex)(t);
-    }), [x, x0, target, count, W, onIndex]);
+    }), [x, x0, target, count, W, onIndex, index > 0]);
   const shown = [index - 1, index, index + 1].filter((i) => i >= 0 && i < count);
   return (
     <GestureDetector gesture={pan}>

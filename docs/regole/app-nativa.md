@@ -222,3 +222,4 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 - Bandiere: `flagCode` copre tutte le nazioni FotMob (`EXTRA_ISO2`), PNG per ogni codice in `aurora-src/public/flags` e `native-link/flags`.
 - Calcolatore: `NextMatchBtn` carica le partite dei prossimi giorni (`useUpcoming`) cosi' la nazionale mostra la sua partita e non quella del club.
 - Ritorno dal background: nessuno svuotamento delle immagini (causava il "refresh"); svuotamento solo su memory warning o dopo 10 minuti.
+- Swipe indietro da qualunque punto: gesto `anyBack` (App.js) su tutta la pila nativa, attivo quando la pagina in cima e' sulla prima scheda o non ha schede (`shared/backGate.js`: `useBackGate` in DayPagerN/SwipeBodyN). Sulla prima scheda lo swipe a schede NON prende il movimento verso destra (niente pagina che si sposta). Ogni nuovo swipe a schede deve usare `useBackGate(index > 0)` e `activeOffsetX([-N, index > 0 ? N : 100000])`.

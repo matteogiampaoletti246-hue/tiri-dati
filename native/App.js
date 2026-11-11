@@ -9,6 +9,7 @@ import { BlurView } from 'expo-blur';
 import { SafeAreaProvider, SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { TOUCH, CompLogo, logoSrc } from './shared/ui';
+import { backAny, LiveLayerCtx } from './shared/backGate';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useAutoUpdate } from './shared/AutoUpdate';
@@ -979,7 +980,7 @@ const isTabRoute = (r) => TABS.some(([, , x]) => x && String(r || '').startsWith
 function NatLayer({ i, nv, nvIdx, hidden, live, children }) {
   const { C } = useT();
   const st = useAnimatedStyle(() => ({ transform: [{ translateX: nvIdx.value === i ? nv.value : 0 }] }));
-  return <Animated.View pointerEvents={hidden ? 'none' : 'auto'} style={[StyleSheet.absoluteFill, { zIndex: 5 + i, backgroundColor: C.bg }, hidden ? { display: 'none' } : null, st]}><Beams still={!live} />{children}</Animated.View>;
+  return <Animated.View pointerEvents={hidden ? 'none' : 'auto'} style={[StyleSheet.absoluteFill, { zIndex: 5 + i, backgroundColor: C.bg }, hidden ? { display: 'none' } : null, st]}><Beams still={!live} /><LiveLayerCtx.Provider value={!!live && !hidden}>{children}</LiveLayerCtx.Provider></Animated.View>;
 }
 const TABS = [['Home', 'home-outline', null], ['Calcolatore', 'calculator-outline', '/calcolatore'], ['Giocatori', 'people-outline', '/migliori-giocatori'], ['Matchup', 'sword-cross', '/migliori-matchup']];
 const tabOf = (r) => (TABS.find(([, , x]) => x && String(r || '').startsWith(x)) || [])[2] || '';
@@ -1417,6 +1418,8 @@ function Screen({ onTheme, onReset, themePref }) {
     }), [x, x0, N, epoch]);
 
   // bordo sinistro: scorrimento indietro dalla pagina web
+  const bx = useSharedValue(0); const by = useSharedValue(0); const sheetSV = useSharedValue(0);
+  useEffect(() => { sheetSV.value = sheetOpen ? 1 : 0; }, [sheetOpen, sheetSV]);
   const edgeOn = useSharedValue(0); // 1 mentre il dito trascina: onFinalize chiude comunque il gesto se onEnd non arriva (gesto interrotto da un'altra scheda/scroll)
   const edgeSettle = (e) => {
     'worklet';
@@ -1434,6 +1437,19 @@ function Screen({ onTheme, onReset, themePref }) {
     .onUpdate((e) => { const v = Math.min(W, Math.max(0, ovStart.value + e.translationX * SWIPE_GAIN)); if (stackN.value > 1) nv.value = v; else ov.value = v; })
     .onEnd((e) => { edgeSettle(e); })
     .onFinalize((e) => { edgeSettle(e); }), [ov, ovStart, nv, nvIdx, stackN, natBelow, afterClose, markClosed, finishPop, revealNat, edgeOn, epoch]); // eslint-disable-line react-hooks/exhaustive-deps
+  // swipe indietro da qualunque punto dello schermo (sulla prima scheda o nelle pagine senza schede)
+  const anyBack = useMemo(() => Gesture.Pan().manualActivation(true)
+    .onTouchesDown((e) => { const t = e.allTouches[0]; if (t) { bx.value = t.absoluteX; by.value = t.absoluteY; } })
+    .onTouchesMove((e, st) => {
+      if (!backAny.value || sheetSV.value) { st.fail(); return; }
+      const t = e.allTouches[0]; if (!t) return;
+      const dx = t.absoluteX - bx.value, dy = t.absoluteY - by.value;
+      if (dx > 12 && Math.abs(dy) < dx * 0.7) st.activate(); else if (Math.abs(dy) > 16 || dx < -12) st.fail();
+    })
+    .onStart(() => { cancelAnimation(ov); cancelAnimation(nv); edgeOn.value = 1; if (stackN.value > 1) { nvIdx.value = stackN.value - 1; ovStart.value = nv.value; } else ovStart.value = ov.value; })
+    .onUpdate((e) => { const v = Math.min(W, Math.max(0, ovStart.value + e.translationX * SWIPE_GAIN)); if (stackN.value > 1) nv.value = v; else ov.value = v; })
+    .onEnd((e) => { edgeSettle(e); })
+    .onFinalize((e) => { edgeSettle(e); }), [ov, ovStart, nv, nvIdx, stackN, natBelow, afterClose, markClosed, finishPop, revealNat, edgeOn, epoch, bx, by, sheetSV]); // eslint-disable-line react-hooks/exhaustive-deps
   const ovStyle = useAnimatedStyle(() => ({ transform: [{ translateX: ov.value }] }));
 
   if (!data) return <View style={[s.root, { paddingTop: insets.top }]}><SkHome /></View>;
@@ -1462,7 +1478,9 @@ function Screen({ onTheme, onReset, themePref }) {
 
       {/* pagina web (resto dell'app): gia' caricata, si apre scorrendo da destra */}
       <Animated.View pointerEvents="box-none" style={[StyleSheet.absoluteFill, { backgroundColor: C.bg }, ovStyle]}>
+        <GestureDetector gesture={anyBack}><View pointerEvents="box-none" style={StyleSheet.absoluteFill}>
         {natStack.map((p, i) => { const n = nativeOf(p); if (!n) return null; return <NatLayer key={`${p}#${i}`} i={i} nv={nv} nvIdx={nvIdx} hidden={natHidden} live={i === natStack.length - 1 && !natHidden}>{React.createElement(n.Comp, { params: n.params, C, top: insets.top, onBack: popNat, bottom: insets.bottom + 90, openRoute, onSearch: () => setSrch(true), onMenu: openMenuP })}</NatLayer>; })}
+        </View></GestureDetector>
         <Guard autoReset key={`gp${epoch}`} onError={() => closePanel()}><PlayerPanelHost C={C} top={insets.top} bottom={insets.bottom} openRoute={openRoute} /></Guard>
         <Guard autoReset key={`gs${epoch}`} onError={() => closePlayer()}><PlayerSheetHost C={C} bottom={insets.bottom} openRoute={openRoute} /></Guard>
         <GestureDetector gesture={edge}><View pointerEvents="auto" style={[s.edge, { width: EDGE_W, top: insets.top + 98, zIndex: 200, elevation: 200 }]} /></GestureDetector>

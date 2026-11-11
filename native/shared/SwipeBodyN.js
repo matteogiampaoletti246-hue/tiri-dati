@@ -1,5 +1,6 @@
 // Corpo a schede con swipe laterale dentro una pagina che scorre tutta insieme (Partita): il dito sposta la scheda e la linea della barra segue;
 // a fine gesto la scheda vicina entra da lato. Solo la scheda attiva e' montata. Thread UI.
+import { useBackGate } from './backGate';
 import React, { useEffect, useRef } from 'react';
 import { useWindowDimensions } from 'react-native';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming, runOnJS, Easing } from 'react-native-reanimated';
@@ -7,6 +8,7 @@ import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 
 export default function SwipeBodyN({ index, count, onIndex, pos, children }) {
   const { width: W } = useWindowDimensions();
+  useBackGate(index > 0);
   const x = useSharedValue(0);
   const prev = useRef(index);
   useEffect(() => { pos.value = index; }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -19,7 +21,7 @@ export default function SwipeBodyN({ index, count, onIndex, pos, children }) {
       pos.value = withTiming(index, { duration: 260, easing: Easing.out(Easing.cubic) });
     }
   }, [index]); // eslint-disable-line react-hooks/exhaustive-deps
-  const pan = Gesture.Pan().hitSlop({ left: -28 }).activeOffsetX([-18, 18]).failOffsetY([-14, 14])
+  const pan = Gesture.Pan().activeOffsetX([-18, index > 0 ? 18 : 100000]).failOffsetY([-14, 14])
     .onUpdate((e) => {
       let v = e.translationX;
       if ((index === 0 && v > 0) || (index === count - 1 && v < 0)) v *= 0.25;
