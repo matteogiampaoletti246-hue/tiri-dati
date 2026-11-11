@@ -183,3 +183,7 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 - **Riquadri statistiche squadra** (Calcolatore): sfondo scuro `tileBg`, campo `NumInput tint` verde/rosso secondo la fascia di classifica.
 - **Prossima partita giocatore**: se nella competizione scelta non ci sono partite (es. Nations) vale la prossima del club.
 - Al ritorno dal background la cache immagini si svuota solo dopo piu' di 10 minuti (prima a ogni uscita: al ritorno ricaricava tutto e l'app restava ferma).
+
+## App nativa: aggiornamento automatico in Expo Go
+- Il link `exp://…/group/<id>` e' fisso su una pubblicazione: riaprire dai recenti di Expo Go mostra la versione vecchia. Il segnalibro in Home e' `native-link/apri.html` (legge `latest.json` dall'API GitHub, senza cache).
+- La CI scrive `app/build.json` (`sha` del commit) dentro l'app e `sha` in `native-link/latest.json`; `shared/AutoUpdate.js` all'apertura e al ritorno dal background confronta i due e apre da solo la versione nuova (`Linking.openURL`), con blocco di 3 minuti sulla stessa versione per evitare cicli. `native/build.json` = `dev` (nessun controllo) per prove e anteprima.

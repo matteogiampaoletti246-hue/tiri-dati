@@ -11,6 +11,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { TOUCH } from './shared/ui';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useAutoUpdate } from './shared/AutoUpdate';
 import META from './meta.json';
 import './shared/shim';
 import GuidelinesPage from './pages/Guidelines';
@@ -1460,6 +1461,7 @@ function Screen({ onTheme, onReset, themePref }) {
 }
 
 export default function App() {
+  useAutoUpdate();
   const [pref, setPref] = useState('dark'); // scelta nel menu: light | dark | system
   const sysScheme = useColorScheme();
   const [gen, setGen] = useState(0); // nuova generazione = tutta l'app riparte (dopo piu' di 10 minuti in background)

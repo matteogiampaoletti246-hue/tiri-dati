@@ -28,6 +28,7 @@ jobs:
           npx --yes create-expo-app@latest app --template blank --no-install
           node native/tools/gen_meta.mjs aurora-src/src app/meta.json
           cp native/App.js app/App.js
+          cp native/build.json app/build.json
           cd app
           npm install --no-audit --no-fund
           npx expo install expo-updates expo-image @react-native-async-storage/async-storage expo-linear-gradient react-native-webview react-native-safe-area-context @expo/vector-icons react-native-gesture-handler react-native-reanimated expo-blur
