@@ -1,6 +1,6 @@
 // Scheda Campionato nativa (/campionato/:id): banner con i colori del campionato, tendina stagioni e schede
 // Partite / Classifica / Stat. squadre / Giocatori / Arbitri. Stagione in corso dai dati dell'app, stagioni passate dall'archivio.
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useDeferredValue, useEffect, useMemo, useRef, useState } from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import './../shared/shim';
@@ -87,25 +87,27 @@ function LiveStandings({ C, leagueId, openRoute, bottom }) {
 
 function LiveTeams({ C, leagueId, openRoute, bottom }) {
   const [part, setPart] = useState(0);
+  const dPart = useDeferredValue(part);
   const sections = useMemo(() => {
     const teams = teamsOf(leagueId).filter((t) => hasMetrics(t.id, leagueId));
     const out = [];
     CATEGORY_DEFS.forEach((cat) => cat.metrics.forEach((mt) => {
-      const rows = teams.map((t) => ({ t, v: metricOf(t.id, mt.key, part, leagueId) })).sort((a, b) => b.v - a.v)
+      const rows = teams.map((t) => ({ t, v: metricOf(t.id, mt.key, dPart, leagueId) })).sort((a, b) => b.v - a.v)
         .map(({ t, v }) => ({ id: t.id, to: `/squadra/${t.id}`, left: <TeamCrest team={t} size={24} C={C} />, name: t.name, bg: true, tc: hex6(t.colors && t.colors[0]), value: comma(v, 2) }));
       out.push({ id: mt.key, group: cat.title, title: mt.label, rows });
     }));
     return out;
-  }, [leagueId, part, C]);
+  }, [leagueId, dPart, C]);
   if (!sections.length) return <View />;
-  return <StatListsN C={C} sections={sections} podium openRoute={openRoute} bottom={bottom} header={<View style={{ paddingHorizontal: 16, paddingTop: 8 }}><Segmented C={C} options={[{ value: 0, label: 'Totale' }, { value: 1, label: 'Casa' }, { value: 2, label: 'Trasferta' }]} value={part} onChange={setPart} /></View>} />;
+  return <StatListsN C={C} sections={sections} pending={dPart !== part} podium openRoute={openRoute} bottom={bottom} header={<View style={{ paddingHorizontal: 16, paddingTop: 8 }}><Segmented C={C} options={[{ value: 0, label: 'Totale' }, { value: 1, label: 'Casa' }, { value: 2, label: 'Trasferta' }]} value={part} onChange={setPart} /></View>} />;
 }
 
 // top 5 campionati: giocatori dell'app; coppe europee e altre competizioni: statistiche FotMob della competizione stessa
 function AppPlayers({ C, leagueId, openRoute, bottom }) {
   const [mode, setMode] = useState('tot');
-  const sections = useMemo(() => appPlayerSections(C, leagueId, null, mode), [leagueId, mode, C]);
-  return <StatListsN C={C} sections={sections} podium openRoute={openRoute} bottom={bottom} header={<View style={{ paddingHorizontal: 16, paddingTop: 8 }}><Segmented C={C} options={[{ value: 'tot', label: 'Totale' }, { value: 'p90', label: "Ogni 90'" }]} value={mode} onChange={setMode} /></View>} />;
+  const dMode = useDeferredValue(mode);
+  const sections = useMemo(() => appPlayerSections(C, leagueId, null, dMode), [leagueId, dMode, C]);
+  return <StatListsN C={C} sections={sections} pending={dMode !== mode} podium openRoute={openRoute} bottom={bottom} header={<View style={{ paddingHorizontal: 16, paddingTop: 8 }}><Segmented C={C} options={[{ value: 'tot', label: 'Totale' }, { value: 'p90', label: "Ogni 90'" }]} value={mode} onChange={setMode} /></View>} />;
 }
 function FmPlayers({ C, fm, sk, openRoute, bottom }) {
   const { data: season } = useAsync(() => loadSeason(fm, sk), [fm, sk]);

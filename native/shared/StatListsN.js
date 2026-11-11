@@ -1,7 +1,7 @@
 // Classifiche impilate (una per statistica) con podio, "Dal migliore / dal peggiore", "Mostra tutti" e il tasto "Vai a" (come StatLists del sito).
 // sections: [{ id, group, title, rows: [{ id, to, left, name, sub, value, color, tc, bg }] }]. Occupa tutta la scheda: ha il suo scorrimento.
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, Pressable, ScrollView, Modal } from 'react-native';
+import { View, Text, Pressable, ScrollView, Modal, Animated as RNA, Easing } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import Animated, { FadeInDown } from 'react-native-reanimated';
@@ -32,7 +32,14 @@ function Podium({ C, rows, rev, total, openRoute }) {
   );
 }
 
-export default function StatListsN({ C, sections, header = null, limit = 8, podium = false, openRoute, bottom = 90 }) {
+export default function StatListsN({ C, sections, header = null, limit = 8, podium = false, openRoute, bottom = 90, pending = false }) {
+  const fade = useRef(new RNA.Value(1)).current;
+  useEffect(() => {
+    // cambio Totale/90': la lista si abbassa subito (driver nativo, anche col calcolo in corso) e torna piena a lavoro finito
+    RNA.timing(fade, { toValue: pending ? 0.35 : 1, duration: pending ? 110 : 260, easing: Easing.out(Easing.quad), useNativeDriver: true }).start();
+  }, [pending]); // eslint-disable-line react-hooks/exhaustive-deps
+  const prevSec = useRef(sections);
+  useEffect(() => { if (prevSec.current !== sections) { prevSec.current = sections; setLim(4); } }, [sections]);
   const sc = useRef(null);
   const base = useRef(0);
   const ys = useRef({});
@@ -60,7 +67,7 @@ export default function StatListsN({ C, sections, header = null, limit = 8, podi
     <View style={{ flex: 1 }}>
       <ScrollView ref={sc} scrollEventThrottle={120} onScroll={(e) => { const { contentOffset: o, contentSize: c, layoutMeasurement: l } = e.nativeEvent; if (o.y + l.height > c.height - 600) emitNearEnd(); }} contentContainerStyle={{ paddingBottom: bottom + 70 }}>
         {header}
-        <View onLayout={(e) => { base.current = e.nativeEvent.layout.y; }}>
+        <RNA.View style={{ opacity: fade }} onLayout={(e) => { base.current = e.nativeEvent.layout.y; }}>
           {sections.slice(0, lim).map((s) => {
             const all = !!open[s.id];
             const r0 = !!rev[s.id];
@@ -115,7 +122,7 @@ export default function StatListsN({ C, sections, header = null, limit = 8, podi
               </View>
             );
           })}
-        </View>
+        </RNA.View>
       </ScrollView>
       {sections.length > 3 ? (
         <Pressable onPress={() => setMenu(true)} style={({ pressed }) => [{ position: 'absolute', right: 16, bottom: bottom + 8, flexDirection: 'row', alignItems: 'center', gap: 6, height: 38, borderRadius: 999, paddingHorizontal: 14, backgroundColor: C.sheet, borderWidth: 1, borderColor: C.border, shadowColor: '#000', shadowOpacity: 0.3, shadowRadius: 12, shadowOffset: { width: 0, height: 6 }, elevation: 8 }, pressed && { opacity: 0.7 }]}>

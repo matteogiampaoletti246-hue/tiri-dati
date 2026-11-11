@@ -1,6 +1,6 @@
 // Campionato: stagioni d'archivio (e competizioni solo d'archivio). Schede Partite / Classifica (o Tabellone) / Stat. squadre / Giocatori / Arbitri,
 // mostrate solo se hanno dati. Stessi calcoli di ArchiveLeague.jsx del sito.
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useDeferredValue, useMemo, useRef, useState } from 'react';
 import { View } from 'react-native';
 import useAsync from '@/hooks/useAsync';
 import useArchFresh from '@/hooks/useArchFresh';
@@ -65,7 +65,7 @@ function teamAverages(season, det) {
   const acc = {};
   const bump = (tid, part, k, v) => {
     const t = (acc[tid] = acc[tid] || [{}, {}, {}]);
-    const x = (t[part][k] = t[part][k] || { s: 0, n: 0 });
+    const x = (t[dPart][k] = t[part][k] || { s: 0, n: 0 });
     x.s += v; x.n += 1;
   };
   (season.fix || []).forEach((f) => {
@@ -92,14 +92,16 @@ function teamAverages(season, det) {
 
 export function ArchPlayersN({ C, fm, sk, stats, names, col, openRoute, bottom }) {
   const [mode, setMode] = useState('tot');
+  const dMode = useDeferredValue(mode);
   const { data: exact } = useAsync(() => statsFromMatches(fm, sk), [fm, sk]);
-  const sections = useMemo(() => statSections(C, stats, 'players', names, col, fm, sk, mode, null, exact), [stats, mode, exact, names, col]); // eslint-disable-line react-hooks/exhaustive-deps
+  const sections = useMemo(() => statSections(C, stats, 'players', names, col, fm, sk, dMode, null, exact), [stats, dMode, exact, names, col]); // eslint-disable-line react-hooks/exhaustive-deps
   if (!sections.length && mode === 'tot') return null;
-  return <StatListsN C={C} sections={sections} podium openRoute={openRoute} bottom={bottom} header={<View style={{ paddingHorizontal: 16, paddingTop: 8 }}><Segmented C={C} options={[{ value: 'tot', label: 'Totale' }, { value: 'p90', label: "Ogni 90'" }]} value={mode} onChange={setMode} /></View>} />;
+  return <StatListsN C={C} sections={sections} pending={dMode !== mode} podium openRoute={openRoute} bottom={bottom} header={<View style={{ paddingHorizontal: 16, paddingTop: 8 }}><Segmented C={C} options={[{ value: 'tot', label: 'Totale' }, { value: 'p90', label: "Ogni 90'" }]} value={mode} onChange={setMode} /></View>} />;
 }
 
 function ArchTeamsN({ C, season, det, stats, names, col, fm, sk, openRoute, bottom }) {
   const [part, setPart] = useState(0);
+  const dPart = useDeferredValue(part);
   const acc = useMemo(() => (season && det && det.m ? teamAverages(season, det) : null), [season, det]);
   const has = !!acc && Object.keys(acc).length > 0 && Object.values(acc).some((t) => Object.keys(t[0]).some((k) => k !== 'goals_for' && k !== 'goals_against'));
   const official = useMemo(() => (has ? [] : statSections(C, stats, 'teams', names, col, fm, sk, 'tot')), [has, stats, names, col]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -120,10 +122,10 @@ function ArchTeamsN({ C, season, det, stats, names, col, fm, sk, openRoute, bott
     const order = ['Principali', ...STAT_GROUPS.map((g) => g[0]).filter((g) => g !== 'Principali'), 'Altro'];
     out.sort((a, b) => order.indexOf(a.group) - order.indexOf(b.group));
     return [...out, ...official];
-  }, [acc, part, official, names, col]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [acc, dPart, official, names, col]); // eslint-disable-line react-hooks/exhaustive-deps
   if (!sections.length) return null;
   const split = !!acc && Object.keys(acc).length >= 2;
-  return <StatListsN C={C} sections={sections} podium openRoute={openRoute} bottom={bottom} header={split ? <View style={{ paddingHorizontal: 16, paddingTop: 8 }}><Segmented C={C} options={[{ value: 0, label: 'Totale' }, { value: 1, label: 'Casa' }, { value: 2, label: 'Trasferta' }]} value={part} onChange={setPart} /></View> : null} />;
+  return <StatListsN C={C} sections={sections} pending={dPart !== part} podium openRoute={openRoute} bottom={bottom} header={split ? <View style={{ paddingHorizontal: 16, paddingTop: 8 }}><Segmented C={C} options={[{ value: 0, label: 'Totale' }, { value: 1, label: 'Casa' }, { value: 2, label: 'Trasferta' }]} value={part} onChange={setPart} /></View> : null} />;
 }
 
 // arbitri della stagione: medie dalle partite archiviate (cartellini, falli, rigori)

@@ -1,7 +1,7 @@
 // Riquadri informativi della partita (nativi): scheda stadio con meteo e arbitro, arbitro con barre e Over/Under, forma recente.
 // Si usano nel Riepilogo e nella Panoramica. Stessi dati del sito (@/data/*).
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, Pressable } from 'react-native';
+import { View, Text, Pressable, Animated, Easing } from 'react-native';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Feather, Ionicons } from '@expo/vector-icons';
@@ -15,6 +15,7 @@ import { teamColor } from '@/lib/tint';
 import { recentMatches } from '@/data/extras';
 import { BAND_COLORS, bandOf } from '@/components/player/playerCalc';
 import { Panel, Face, TeamCrest, Segmented } from '../shared/ui';
+import Dropdown from '../shared/Dropdown';
 import MAPPA from '../shared/stadiMappa.json';
 
 export const SubIcon = ({ size = 18 }) => (
@@ -52,16 +53,53 @@ const photoOf = (name, team) => {
 };
 const WEATHER = { sun: ['sun', 'Sereno'], cloud: ['cloud', 'Nuvoloso'], rain: ['cloud-rain', 'Pioggia'], wind: ['wind', 'Ventoso'] };
 
-function WxCard({ C, wx, w }) {
+const WX_BG = { sun: ['#2B6CE0', '#4DA8FF', '#9AD0FF'], cloud: ['#4A5D7E', '#7D8FAE', '#A9B7CD'], rain: ['#22324F', '#2E4468', '#3C557E'], wind: ['#2F6E86', '#4F95A8', '#8CC3CF'] };
+// animazione in loop (solo transform, driver nativo): sole che gira, nuvole che passano, pioggia che cade
+function useLoop(dur, delay = 0) {
+  const v = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    const a = Animated.loop(Animated.timing(v, { toValue: 1, duration: dur, easing: Easing.linear, useNativeDriver: true }));
+    const t = setTimeout(() => a.start(), delay);
+    return () => { clearTimeout(t); a.stop(); };
+  }, [dur, delay, v]);
+  return v;
+}
+function Sun() {
+  const v = useLoop(30000);
   return (
-    <View style={{ flex: 1, borderRadius: 16, backgroundColor: C.accTint, padding: 12, justifyContent: 'space-between', minHeight: 84 }}>
-      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Text style={{ color: C.ink3, fontSize: 10.5, fontWeight: '800', letterSpacing: 0.8, textTransform: 'uppercase' }}>Meteo</Text>
-        <Feather name={w[0]} size={18} color={C.accent} />
+    <Animated.View pointerEvents="none" style={{ position: 'absolute', right: -16, top: -16, width: 64, height: 64, borderRadius: 32, backgroundColor: '#F5C451', transform: [{ rotate: v.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg'] }) }] }}>
+      <View style={{ position: 'absolute', left: -9, top: -9, right: -9, bottom: -9, borderRadius: 41, borderWidth: 2, borderStyle: 'dashed', borderColor: 'rgba(255,228,138,.6)' }} />
+    </Animated.View>
+  );
+}
+function Cloud({ top, dur, delay = 0, scale = 1, opacity = 0.9 }) {
+  const v = useLoop(dur, delay);
+  return (
+    <Animated.View pointerEvents="none" style={{ position: 'absolute', top, left: 0, width: 42, height: 14, borderRadius: 8, backgroundColor: 'rgba(255,255,255,.88)', opacity, transform: [{ translateX: v.interpolate({ inputRange: [0, 1], outputRange: [-50, 220] }) }, { scale }] }}>
+      <View style={{ position: 'absolute', width: 20, height: 20, borderRadius: 10, backgroundColor: 'rgba(255,255,255,.95)', left: 8, top: -10 }} />
+    </Animated.View>
+  );
+}
+function Drop({ left, delay }) {
+  const v = useLoop(900, delay);
+  return <Animated.View pointerEvents="none" style={{ position: 'absolute', top: -14, left: `${left}%`, width: 2, height: 11, borderRadius: 1, backgroundColor: '#8FC6FF', transform: [{ translateY: v.interpolate({ inputRange: [0, 1], outputRange: [0, 120] }) }] }} />;
+}
+function WxCard({ C, wx, w }) {
+  const k = WX_BG[wx.icon] ? wx.icon : 'cloud';
+  return (
+    <View style={{ flex: 1, borderRadius: 18, overflow: 'hidden', padding: 10, paddingHorizontal: 12, minHeight: 92, justifyContent: 'space-between' }}>
+      <LinearGradient pointerEvents="none" colors={WX_BG[k]} locations={[0, 0.6, 1]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }} />
+      <View pointerEvents="none" style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }}>
+        {k === 'sun' ? <Sun /> : null}
+        {k === 'sun' ? <Cloud top={22} dur={11000} /> : null}
+        {k === 'cloud' || k === 'wind' ? <Cloud top={30} dur={14000} /> : null}
+        {k === 'cloud' || k === 'wind' ? <Cloud top={54} dur={19000} delay={500} scale={0.75} opacity={0.6} /> : null}
+        {k === 'rain' ? Array.from({ length: 14 }, (_, i) => <Drop key={i} left={(i * 7.3) % 100} delay={(i % 7) * 130} />) : null}
       </View>
+      <Text style={{ color: 'rgba(255,255,255,.86)', fontSize: 9.5, fontWeight: '800', letterSpacing: 1.1, textTransform: 'uppercase' }}>Meteo</Text>
       <View>
-        <Text style={{ color: C.ink, fontSize: 26, fontWeight: '800' }}>{wx.temp}°</Text>
-        <Text style={{ color: C.ink2, fontSize: 11 }}>{w[1]}{wx.wind != null ? ` · ${wx.wind} km/h` : ''}</Text>
+        <Text style={{ color: '#fff', fontSize: 30, fontWeight: '800', letterSpacing: -1 }}>{wx.temp}°</Text>
+        <Text numberOfLines={1} style={{ color: 'rgba(255,255,255,.86)', fontSize: 11.5, fontWeight: '700' }}>{w[1]}{wx.wind != null ? ` · ${wx.wind} km/h` : ''}</Text>
       </View>
     </View>
   );
@@ -71,20 +109,20 @@ function RefTile({ C, rf, name, cc, games, openRoute }) {
   const flag = cc ? flagCodeOf(cc) : '';
   const body = (
     <>
-      <View style={{ width: 40, height: 40, borderRadius: 20, overflow: 'hidden', backgroundColor: C.chip, alignItems: 'center', justifyContent: 'center' }}>
-        {rf && rf.photo ? <Image source={{ uri: rf.photo }} style={{ width: 40, height: 40 }} contentFit="cover" cachePolicy="memory-disk" /> : <Ionicons name="person" size={20} color={C.ink3} />}
+      <View style={{ width: 40, height: 40, borderRadius: 20, overflow: 'hidden', backgroundColor: C.chip, borderWidth: 1.5, borderColor: C.accent + '73', alignItems: 'center', justifyContent: 'center' }}>
+        {rf && rf.photo ? <Image source={{ uri: rf.photo }} style={{ width: 37, height: 37 }} contentFit="cover" cachePolicy="memory-disk" /> : <Ionicons name="person" size={20} color={C.accent} />}
       </View>
-      <View style={{ flex: 1 }}>
-        <Text style={{ color: C.ink3, fontSize: 10.5, fontWeight: '800', letterSpacing: 0.8, textTransform: 'uppercase' }}>Arbitro</Text>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
+      <View style={{ flex: 1, alignItems: 'center' }}>
+        <Text style={{ color: C.ink3, fontSize: 9.5, fontWeight: '800', letterSpacing: 1.1, textTransform: 'uppercase', textAlign: 'center' }}>Arbitro</Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, marginTop: 2 }}>
           {flag ? <Image source={{ uri: `${BASE}flags/${flag}.png` }} style={{ width: 14, height: 14, borderRadius: 7 }} contentFit="cover" /> : null}
-          <Text numberOfLines={1} style={{ color: C.ink, fontSize: 13.5, fontWeight: '700', flexShrink: 1 }}>{name}</Text>
+          <Text numberOfLines={2} style={{ color: C.ink, fontSize: 13.5, fontWeight: '800', flexShrink: 1, textAlign: 'center' }}>{name}</Text>
         </View>
-        {games ? <Text style={{ color: C.ink3, fontSize: 11 }}>{games}</Text> : null}
+        {games ? <Text style={{ color: C.ink3, fontSize: 10.5, fontWeight: '600', marginTop: 3, textAlign: 'center' }}>{games}</Text> : null}
       </View>
     </>
   );
-  const st = { flex: 1.5, flexDirection: 'row', alignItems: 'center', gap: 10, borderRadius: 16, backgroundColor: C.chip, padding: 12, minHeight: 84 };
+  const st = { flex: 1, flexDirection: 'row', alignItems: 'center', gap: 8, borderRadius: 18, backgroundColor: C.chip, borderWidth: 1, borderColor: C.hair, padding: 10, paddingHorizontal: 12, minHeight: 92 };
   return rf ? <Pressable onPress={() => openRoute('/arbitro/' + rf.id)} style={st}>{body}</Pressable> : <View style={st}>{body}</View>;
 }
 
@@ -93,7 +131,7 @@ function WxRef({ C, match, wx, w, rf, name, openRoute }) {
   const cc = (rf && rf.cc) || (match.refFm && match.refFm.cc) || '';
   const two = match.refTwo;
   return (
-    <View style={{ flexDirection: 'row', gap: 8, padding: 10 }}>
+    <View style={{ flexDirection: 'row', gap: 6, padding: 10 }}>
       {w ? <WxCard C={C} wx={wx} w={w} /> : null}
       {name ? <RefTile C={C} rf={rf} name={name} cc={cc} openRoute={openRoute} games={two && two.n ? `${two.n} ${two.n === 1 ? 'gara' : 'gare'} ${two.seasons > 1 ? 'in 2 stagioni' : 'in stagione'}` : ''} /> : null}
     </View>
@@ -216,16 +254,12 @@ export function UnderBar({ C, games }) {
   const col = underColor(shownP, C.dark);
   return (
     <View style={{ paddingHorizontal: 16, paddingVertical: 14, borderTopWidth: 1, borderTopColor: C.hair }}>
-      <View style={{ flexDirection: 'row', gap: 8 }}>
-        <View style={{ flex: 1 }}><Segmented C={C} value={side} onChange={setSide} options={[{ value: 'o', label: 'Over' }, { value: 'u', label: 'Under' }]} /></View>
-        <View style={{ flex: 1 }}><Segmented C={C} value={time} onChange={(v) => { setTime(v); setLine(v === 't' ? 3.5 : 2.5); }} options={[{ value: 't', label: 'Totale' }, { value: '1', label: '1T' }]} /></View>
-      </View>
-      <View style={{ flexDirection: 'row', gap: 6, marginTop: 8 }}>
-        {lines.map((l) => (
-          <Pressable key={l} onPress={() => setLine(l)} style={{ flex: 1, alignItems: 'center', paddingVertical: 7, borderRadius: 999, backgroundColor: l === ln ? C.thumb : C.chip, borderWidth: l === ln ? 1 : 0, borderColor: C.thumbBd }}>
-            <Text style={{ color: l === ln ? C.ink : C.ink3, fontSize: 12.5, fontWeight: '700' }}>{String(l).replace('.', ',')}</Text>
-          </Pressable>
-        ))}
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
+        <View style={{ width: 124 }}><Segmented C={C} value={side} onChange={setSide} options={[{ value: 'o', label: 'Over' }, { value: 'u', label: 'Under' }]} /></View>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+          <Dropdown C={C} width={110} compact side="right" pillKey="label" options={[{ value: 't', label: 'Totale' }, { value: '1', label: '1T' }]} value={time} onChange={(v) => { setTime(v); setLine(v === 't' ? 3.5 : 2.5); }} />
+          <Dropdown C={C} width={100} compact side="right" pillKey="label" options={lines.map((l) => ({ value: l, label: String(l).replace('.', ',') }))} value={ln} onChange={(v) => setLine(Number(v))} />
+        </View>
       </View>
       <View style={{ flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between', marginTop: 12 }}>
         <Text style={{ color: col, fontSize: 28, fontWeight: '800' }}>{Math.round(shownP)}%</Text>

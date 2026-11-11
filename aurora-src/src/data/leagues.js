@@ -133,17 +133,39 @@ export const initialsOf = (name) =>
     .slice(0, 2)
     .toUpperCase();
 
+// Amichevoli: nome italiano (nazionali / club / femminili / U21) e immagine del mondo al posto del logo
+const FRIENDLY_FM = new Set([114, 489, 293, 344]);
+export const friendlyName = (n) => {
+  const x = String(n || '');
+  if (/women'?s friendlies|friendlies women/i.test(x)) return 'Amichevoli femminili';
+  if (/friendlies u-?21/i.test(x)) return 'Amichevoli U21';
+  if (/club friendlies/i.test(x)) return 'Amichevoli di club';
+  if (/^friendlies$/i.test(x)) return 'Amichevoli nazionali';
+  return x;
+};
+export function friendlyFix(l) {
+  if (!l) return l;
+  if (FRIENDLY_FM.has(Number(l.fm)) || /^(club |women'?s )?friendlies/i.test(l.name || '')) {
+    l.name = friendlyName(l.name);
+    l.logo = `${BASE_URL}world.png`;
+    l.logoDark = `${BASE_URL}world.png`;
+    l.world = true;
+  }
+  return l;
+}
+
 export function buildLeagues() {
   const L = (RAW.data && RAW.data.leagues) || {};
   LEAGUES.forEach((l) => {
     const d = L[l.id];
+    friendlyFix(l);
     // campionati e coppe aggiunti: logo ufficiale FotMob (chiaro e scuro) se non c'e' nel calcolatore
-    if (l.extra && l.fm && !(d && d.logo)) {
+    if (l.extra && l.fm && !l.world && !(d && d.logo)) {
       l.logo = `https://images.fotmob.com/image_resources/logo/leaguelogo/${l.fm}.png`;
       l.logoDark = `https://images.fotmob.com/image_resources/logo/leaguelogo/dark/${l.fm}.png`;
     }
     if (!d) return;
-    if (!(l.extra && l.logo)) l.logo = d.logo || null;
+    if (!l.world && !(l.extra && l.logo)) l.logo = d.logo || null;
     l.season = l.extra ? '' : d.season || '';
   });
   // Europa League: coppa disegnata, bianca di notte e nera di giorno

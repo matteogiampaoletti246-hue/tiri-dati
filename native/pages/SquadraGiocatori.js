@@ -1,5 +1,5 @@
 // Squadra: scheda Giocatori. Campionato dell'app = classifiche dei giocatori della squadra; altre competizioni/stagioni dall'archivio.
-import React, { useState } from 'react';
+import React, { useDeferredValue, useState } from 'react';
 import { View } from 'react-native';
 import useAsync from '@/hooks/useAsync';
 import { teamCompetitions } from '@/data/competitions';
@@ -57,14 +57,15 @@ export default function SquadraGiocatori({ C, teamId, openRoute, bottom }) {
   const sk = eff === 'cur' ? curSkOf(comp) : eff;
   const split = !!fm && !!sk && !noSplit.includes(sk);
   const usePart = !split && (part === 'home' || part === 'away') ? 'tot' : part;
+  const dUse = useDeferredValue(usePart);
   const appList = eff === 'cur' && comp === team.leagueId && hasApp && usePart !== 'home' && usePart !== 'away';
   const bar = <CompBarN C={C} comps={comps} comp={comp} onComp={tap(setComp)} seasons={seasons} season={season} onSeason={tap(setSeason)} noCur={noCur} />;
   if (appList) {
-    const mode = usePart === 'p90' ? 'p90' : 'tot';
+    const mode = dUse === 'p90' ? 'p90' : 'tot';
     const secs = appPlayerSections(C, team.leagueId, team.id, mode);
     const has = [...new Set(secs.map((s) => playerCat(s.group)))];
     const sections = cat === 'all' || !has.includes(cat) ? secs : secs.filter((s) => playerCat(s.group) === cat);
-    return <StatListsN C={C} sections={sections} podium openRoute={openRoute} bottom={bottom} header={<>{bar}<Pills C={C} part={usePart} onPart={setPart} cat={cat} onCat={setCat} split={split} has={has} /></>} />;
+    return <StatListsN C={C} sections={sections} pending={dUse !== usePart} podium openRoute={openRoute} bottom={bottom} header={<>{bar}<Pills C={C} part={usePart} onPart={setPart} cat={cat} onCat={setCat} split={split} has={has} /></>} />;
   }
   if (fm && sk) return <PastPlayers C={C} fm={fm} sk={sk} team={team} part={usePart} onPart={setPart} cat={cat} onCat={setCat} split={split} header={bar} openRoute={openRoute} bottom={bottom} />;
   return <View>{bar}</View>;
