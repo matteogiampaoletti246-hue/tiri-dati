@@ -16,12 +16,20 @@ import { FM_ID, currentSeason, loadSeason } from '@/data/archive';
 import { ClassificaSwitchN } from './CampionatoArch';
 
 function Classifica({ C, match, openRoute, cup }) {
-  if (cup) return <Tabellone C={C} match={match} openRoute={openRoute} />;
+  if (cup) return match.archive ? <Tabellone C={C} match={match} openRoute={openRoute} /> : <LiveCup C={C} match={match} openRoute={openRoute} />;
   if (match.archive && match.season) {
     const { fm, sk, hid, aid } = match.archive;
     return <ArchiveStandings C={C} season={match.season} fm={fm} sk={sk} highlight={[hid, aid]} openRoute={openRoute} />;
   }
   return <LiveClassifica C={C} match={match} openRoute={openRoute} />;
+}
+
+// coppa pura in diretta (non d'archivio): tabellone della stagione in corso
+function LiveCup({ C, match, openRoute }) {
+  const fm = FM_ID[match.leagueId];
+  const { data: sk } = useAsync(() => (fm ? currentSeason(fm) : null), [fm]);
+  if (!fm || !sk) return <View style={{ height: 60 }} />;
+  return <Tabellone C={C} match={{ ...match, archive: { fm, sk } }} openRoute={openRoute} />;
 }
 
 // campionati senza classifica dell'app (minori/aggiunti): stessa scelta classifica del Campionato (FotMob)
@@ -44,6 +52,6 @@ export function hasPanel(key, raw, view, home, away, pre, cup) {
   if (key === 'stats') return pre ? preStatsOk(raw, home, away) : hasPlayedStats(view);
   if (key === 'lineups') return hasLineups(view);
   if (key === 'rel') return (!raw.archive || ALL_KEYS.includes(raw.leagueId)) && hasReliability(raw);
-  if (key === 'standings') return cup ? !!((peekBracket(raw.archive.fm, raw.archive.sk) || {}).rounds || []).length : (!raw.archive && !!FM_ID[raw.leagueId]) || !raw.archive || !!(raw.season && (raw.season.table || (raw.season.groups && raw.season.groups.length)));
+  if (key === 'standings') return cup ? true : (!raw.archive && !!FM_ID[raw.leagueId]) || !raw.archive || !!(raw.season && (raw.season.table || (raw.season.groups && raw.season.groups.length)));
   return true;
 }

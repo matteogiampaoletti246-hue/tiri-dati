@@ -18,6 +18,7 @@ import { lineupBeat, lineupWindowMs, lineupIsOfficial } from '@/data/lineupWindo
 import { teamById } from '@/data/teams';
 import { leagueById } from '@/data/leagues';
 import { matchTint } from '@/data/matchTint';
+import { FM_ID } from '@/data/archive';
 import { isPureCup } from '@/data/bracket';
 
 const PRE_TABS = [['overview', 'Panoramica'], ['stats', 'Statistiche'], ['lineups', 'Formazioni'], ['rel', 'Affidabilità'], ['standings', 'Classifica']];
@@ -87,7 +88,8 @@ export default function Partita({ C, top, onBack, bottom = 90, openRoute, params
   const away = teamById(raw.awayId);
   const league = leagueById(raw.leagueId) || raw.leagueObj || null;
   const pre = raw.status === 'scheduled';
-  const cup = !!(raw.archive && isPureCup(raw.archive.fm));
+  const fmCup = raw.archive ? raw.archive.fm : FM_ID[raw.leagueId];
+  const cup = !!(fmCup && isPureCup(fmCup));
   const tabs = (pre ? PRE_TABS : PLAYED_TABS)
     .map(([k, l]) => [k, k === 'standings' && cup ? 'Tabellone' : l])
     .filter(([k]) => hasPanel(k, raw, view, home, away, pre, cup));

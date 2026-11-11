@@ -83,3 +83,4 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 ## Barre statistiche partita: mai da zero
 Le barre di `CompareBars` compaiono subito ai valori veri (niente memoria di valori vecchi all'ingresso nella scheda). Cambiando Totale / 1° tempo / 2° tempo o con dati live, ogni barra scorre direttamente dal valore in cui sta a quello nuovo (es. 10 -> 7), mai 10 -> 0 -> 7.
 
+- Partita: la scheda Classifica (o Tabellone nelle coppe pure) c'e' sempre, anche per partite in diretta/terminate e di ogni competizione.
