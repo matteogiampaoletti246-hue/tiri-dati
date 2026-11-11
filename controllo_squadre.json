@@ -6004,7 +6004,7 @@
  "rose": {
   "squadre": 3120,
   "senza_rosa_prima": 2254,
-  "senza_rosa_dopo": 306,
+  "senza_rosa_dopo": 305,
   "senza_rosa": [
    {
     "squadra": "1A",
@@ -8009,14 +8009,6 @@
     "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
-    "squadra": "Tavernes de la Valldigna",
-    "id": "2341167",
-    "competizioni": [
-     "Copa del Rey 2026-2027"
-    ],
-    "motivo": "nessuna partita giocata nella stagione in corso"
-   },
-   {
     "squadra": "Tigar Sveta Nedelja",
     "id": "2096653",
     "competizioni": [
@@ -8463,7 +8455,7 @@
   "squadre": 3120,
   "prima": 2322,
   "dopo": 640,
-  "giocate_dopo": 555,
+  "giocate_dopo": 556,
   "elenco": [
    {
     "squadra": "1. BFK Frýdlant nad Ostravici",
@@ -11596,7 +11588,7 @@
      "Copa del Rey 2026-2027"
     ],
     "motivo": [
-     "0 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
     ]
    },
    {
@@ -16754,7 +16746,7 @@
  },
  "forma": {
   "squadre_senza_forma_prima": 1948,
-  "squadre_senza_forma_dopo": 149,
+  "squadre_senza_forma_dopo": 148,
   "motivo_dopo": "nessuna partita giocata nella stagione in corso: niente riquadro"
  }
 }
