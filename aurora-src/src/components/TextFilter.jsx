@@ -2,20 +2,42 @@ import { useEffect, useLayoutEffect, useRef } from 'react';
 
 // Filtri in vetro: l'indicatore scivola in modo fluido da una voce all'altra (transizione CSS, non si blocca anche se la lista sotto e' pesante).
 // Stessa barra e stessa pillola di AnimatedTabs: di base larga quanto la riga; fit = larga quanto le voci (dentro una riga con altro).
-export default function TextFilter({ options, value, onChange, className = '', fit = false }) {
+export default function TextFilter({ options, value, onChange, className = '', fit = false, liquid = false }) {
   const box = useRef(null);
   const pill = useRef(null);
   const first = useRef(true);
+  const prev = useRef(null);
 
   const place = (animate) => {
     const b = box.current;
     const el = b && b.querySelector('[data-on="1"]');
     const p = pill.current;
     if (!b || !el || !p) return;
+    const m = { x: el.offsetLeft, w: el.offsetWidth };
+    const f = prev.current;
+    // liquid (concept A "Scivolo liquido"): la pillola si allunga verso il tasto nuovo e poi si ritira, senza rimbalzo
+    if (animate && liquid && f && p.animate && (f.x !== m.x || f.w !== m.w)) {
+      p.getAnimations().forEach((a) => a.cancel());
+      const left = Math.min(f.x, m.x);
+      const right = Math.max(f.x + f.w, m.x + m.w);
+      p.style.transition = 'none';
+      p.style.width = `${m.w}px`;
+      p.style.transform = `translate3d(${m.x}px,0,0)`;
+      p.style.opacity = '1';
+      p.animate([
+        { transform: `translate3d(${f.x}px,0,0)`, width: `${f.w}px` },
+        { transform: `translate3d(${left}px,0,0)`, width: `${right - left}px`, offset: 0.45 },
+        { transform: `translate3d(${m.x}px,0,0)`, width: `${m.w}px` },
+      ], { duration: 640, easing: 'cubic-bezier(.4,0,.2,1)' });
+      prev.current = m;
+      return;
+    }
+    p.getAnimations && p.getAnimations().forEach((a) => a.cancel());
     p.style.transition = animate ? 'transform .6s cubic-bezier(.34,1.42,.64,1), width .6s cubic-bezier(.34,1.42,.64,1)' : 'none'; // stesso rimbalzo della pillola liquid glass (AnimatedTabs)
-    p.style.width = `${el.offsetWidth}px`;
-    p.style.transform = `translate3d(${el.offsetLeft}px,0,0)`;
+    p.style.width = `${m.w}px`;
+    p.style.transform = `translate3d(${m.x}px,0,0)`;
     p.style.opacity = '1';
+    prev.current = m;
   };
   useLayoutEffect(() => {
     place(!first.current);
