@@ -31,7 +31,7 @@ function Skel({ C }) {
   return <View style={{ paddingHorizontal: 16, paddingTop: 52 }}>{b(150, null, 28)}{b(40)}{b(160, null, 24)}{b(160, null, 24)}</View>;
 }
 
-const TAB_MEM = new Map(); // scheda scelta per partita, finche' la pagina e' nella pila
+import { TAB_MEM } from '../shared/tabMem'; // scheda scelta per partita, finche' la pagina e' nella pila
 
 export default function Partita({ C, top, onBack, bottom = 90, openRoute, params }) {
   const id = params.id;

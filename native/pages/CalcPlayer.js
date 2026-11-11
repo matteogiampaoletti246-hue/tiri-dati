@@ -31,6 +31,7 @@ import { BAND_COLORS, bandOf } from '@/components/player/playerCalc';
 import { mixHex, SedeButtonsN, Panel, PanelTitle, Segmented, FieldRow, NumInput, PickerModal, TeamCrest, Face, TintProvider, CompLogo } from '../shared/ui';
 import Dropdown from '../shared/Dropdown';
 import FullPicker from '../shared/FullPicker';
+import HitChart from '../shared/HitChart';
 import PlayerSearch from '../shared/PlayerSearch';
 import StatIconN from '../shared/StatIconN';
 import ResultCard from '../shared/ResultCard';
@@ -185,6 +186,38 @@ function PlayerPick({ C, form, set, player, onSelectPlayer, stat, onStat, role, 
         {natHit ? <FieldRow C={C} label="Hit rate nazionale"><Text style={{ color: C.ink, fontSize: 15, fontWeight: '700', textAlign: 'right' }}>{natHit.hit}/{natHit.n}</Text></FieldRow> : null}
       </Panel>
       <PlayerSearch C={C} open={picker} onClose={() => setPicker(false)} onSelect={onSelectPlayer} />
+    </View>
+  );
+}
+
+
+// ultime partite del giocatore con avversario e id partita: si abbinano ai valori dell'Hit Rate (stessi tiri/minuti, stesso ordine)
+function gamesFor(player, key, vals, mins) {
+  const prof = player && player.nat && player.club ? player.club : player;
+  const rec = (prof && prof.recent) || [];
+  const out = [];
+  let j = 0;
+  vals.forEach((v, i) => {
+    let hit = null;
+    for (let k = j; k < rec.length; k += 1) {
+      const m = rec[k];
+      if (Number(m[key]) === v && (mins[i] == null || Number(m.minutes) === mins[i])) { hit = m; j = k + 1; break; }
+    }
+    if (!hit || !hit.opp) { out.push(null); return; }
+    const t = teamByName(hit.opp);
+    out.push({ opp: hit.opp, matchId: hit.matchId || null, team: t || { name: hit.opp, initials: String(hit.opp).split(' ').map((w) => w[0]).join('').slice(0, 3).toUpperCase() } });
+  });
+  return out;
+}
+
+// Hit Rate a colonne al posto delle pillole: una colonna per partita (la piu' vecchia a sinistra)
+function HitPanel({ C, player, vals, mins, key2, line, under, label, openRoute }) {
+  const games = key2 ? gamesFor(player, key2, vals, mins) : null;
+  const rev = (a) => (a ? [...a].reverse() : a);
+  const any = games && games.some(Boolean);
+  return (
+    <View>
+      <Panel ring C={C}><HitChart C={C} values={rev(vals)} line={line} under={under} games={any ? rev(games) : null} statLabel={label} openRoute={openRoute} /></Panel>
     </View>
   );
 }
@@ -624,7 +657,7 @@ export default function CalcPlayer({ C, openRoute }) {
       <Gap />
       {fouls ? (
         <>
-          <Last5 C={C} title={statTitle} shots={f.last5} minutes={f.min5} onShots={(v) => setF({ last5: v })} onMinutes={(v) => setF({ min5: v })} />
+          {player && parseDash(f.last5).length ? <HitPanel C={C} player={player} vals={parseDash(f.last5)} mins={parseDash(f.min5)} key2={null} line={parseNum(form.line)} under={form.lineType === 'under'} label={statTitle} openRoute={openRoute} /> : <Last5 C={C} title={statTitle} shots={f.last5} minutes={f.min5} onShots={(v) => setF({ last5: v })} onMinutes={(v) => setF({ min5: v })} />}
           <Gap />
           <SeasonPanel C={C} season={f.season} onChange={(k, patch) => setF({ season: { ...f.season, [k]: { ...f.season[k], ...patch } } })} rate90={result.rate90} label={form.stat === 'fc' ? 'Commessi' : 'Subiti'} player={player} comp={form.competizione} />
           <Gap />
@@ -637,7 +670,7 @@ export default function CalcPlayer({ C, openRoute }) {
         </>
       ) : (
         <>
-          <Last5 C={C} title="Tiri" shots={form.shots5} minutes={form.minutes5} onShots={(v) => set('shots5', v)} onMinutes={(v) => set('minutes5', v)} />
+          {player && parseDash(form.shots5).length ? <HitPanel C={C} player={player} vals={parseDash(form.shots5)} mins={parseDash(form.minutes5)} key2={form.tipoTiri === 'inPorta' ? 'sot' : 'shots'} line={parseNum(form.line)} under={form.lineType === 'under'} label={form.tipoTiri === 'inPorta' ? 'Tiri in porta' : 'Tiri'} openRoute={openRoute} /> : <Last5 C={C} title="Tiri" shots={form.shots5} minutes={form.minutes5} onShots={(v) => set('shots5', v)} onMinutes={(v) => set('minutes5', v)} />}
           <Gap />
           <SeasonPanel C={C} season={form.season} onChange={setSeason} rate90={result.rate90} label="Tiri" player={player} comp={form.competizione} />
           <Gap />
