@@ -46,14 +46,14 @@ export function zeroStandingOf(list, key, avgIn = null) {
 }
 
 // barra che cresce da sinistra e scorre quando cambia il valore; lineetta tratteggiata con la media del campionato
-export function Bar({ C, width, col, avgPos, avgText, delay = 0, grow = true }) {
+export function Bar({ C, width, col, avgPos, avgText, delay = 0, grow = true, slide = false }) {
   // barra di caricamento: a ogni cambio di valore (nuova statistica, tasto toccato) riparte da zero e scorre piano fino al valore (thread UI, niente scatti)
   const p = useSharedValue(grow ? 0 : width);
   const first = useRef(true);
   useEffect(() => {
     if (first.current && !grow) { first.current = false; return; }
     first.current = false;
-    p.value = 0;
+    if (!slide) p.value = 0; // slide: scorre dal valore attuale al nuovo, senza ripartire da zero
     p.value = withDelay(delay, withTiming(width, { duration: 900, easing: Easing.bezier(0.22, 0.8, 0.24, 1) }));
   }, [width]); // eslint-disable-line
   const w = useAnimatedStyle(() => ({ width: `${Math.max(0, Math.min(100, p.value))}%` }));

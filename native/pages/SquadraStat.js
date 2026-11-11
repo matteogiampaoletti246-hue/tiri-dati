@@ -11,6 +11,7 @@ import { loadSeason, teamIdByName, loadTeamStats, teamPartStats, SEASON_STAT_IT,
 import { teamFmId } from '@/data/teamIndex';
 import { comma } from '@/lib/format';
 import { bandColor } from '@/components/player/playerCalc';
+import Animated, { useSharedValue, useAnimatedStyle, withTiming, interpolateColor, Easing } from 'react-native-reanimated';
 import { Segmented, TeamCrest, Panel } from '../shared/ui';
 import { Bar, BarRow, groupOf, fmtVal, standingOf } from '../shared/StatBars';
 import { useTeamView, useAnnounceComp } from '../shared/teamView';
@@ -39,6 +40,24 @@ const VS = {
   gialli: { opp: 'gialli', mode: 'cmp', t: 'ne ha' },
   fuorigioco: { opp: 'fuorigioco', mode: 'cmp', more: true, t: 'ne ha' },
 };
+// Interruttore "VS": acceso = statistiche subite dalla squadra (gol, xG, tiri, tiri in porta, occasioni, corner concessi, falli subiti)
+const SUB_OF = { gol: 'golSubiti', xg: 'xgSubiti', tiri: 'tiriConcessi', tiriInPorta: 'tiriInPortaConcessi', occasioni: 'occasioniConcesse', corner: 'cornerConcessi', falli: 'fallisubiti' };
+const SUB_LABEL = { gol: 'Gol subiti', xg: 'xG subiti', tiri: 'Tiri concessi', tiriInPorta: 'Tiri in porta concessi', occasioni: 'Occasioni nitide concesse', corner: 'Corner concessi', falli: 'Falli subiti' };
+const SUB_TILE = { gol: 'Gol subiti', xg: 'xG subiti', tiri: 'Tiri concessi', tiriInPorta: 'TiP concessi' };
+function VsSwitch({ C, on, onChange }) {
+  const p = useSharedValue(on ? 1 : 0);
+  React.useEffect(() => { p.value = withTiming(on ? 1 : 0, { duration: 260, easing: Easing.bezier(0.22, 0.8, 0.24, 1) }); }, [on]); // eslint-disable-line
+  const track = useAnimatedStyle(() => ({ backgroundColor: interpolateColor(p.value, [0, 1], [C.border, C.accent]) }));
+  const knob = useAnimatedStyle(() => ({ transform: [{ translateX: p.value * 22 }] }));
+  return (
+    <Pressable onPress={() => onChange(!on)} hitSlop={6} style={{ flexDirection: 'row', alignItems: 'center', gap: 8, height: 41, paddingHorizontal: 12, borderRadius: 99, backgroundColor: C.chip, borderWidth: 1, borderColor: C.border }}>
+      <Text style={{ color: on ? C.accent : C.ink2, fontSize: 14, fontWeight: '900', letterSpacing: 1 }}>VS</Text>
+      <Animated.View style={[{ width: 48, height: 26, borderRadius: 99, justifyContent: 'center', paddingHorizontal: 2 }, track]}>
+        <Animated.View style={[{ width: 22, height: 22, borderRadius: 11, backgroundColor: '#fff' }, knob]} />
+      </Animated.View>
+    </Pressable>
+  );
+}
 const hex6 = (c) => (/^#[0-9a-f]{6}$/i.test(c || '') ? c : '#2C3E66');
 let VS_ON = true; // il confronto con la prossima avversaria si ricorda finche' l'app e' aperta
 const PARTS_N = [{ value: 0, label: 'Totale' }, { value: 1, label: 'Casa' }, { value: 2, label: 'Trasferta' }];
@@ -84,13 +103,19 @@ function DomesticStats({ C, team, comp, openRoute }) {
   const rankIn = (t, k, p) => rankInC(comp, t, k, p);
   const [part, setPart] = useState(0);
   const [cat, setCat] = useState('all');
+  const [sub, setSub] = useState(false);
   const [vsOn, setVsOn0] = useState(VS_ON);
   const setVsOn = (v) => { VS_ON = v; setVsOn0(v); };
   const next = useNextMatch(team.id, comp);
   const opp = next ? teamById(next.homeId === team.id ? next.awayId : next.homeId) : null;
   const oppOk = opp && hasMetrics(opp.id) && hasMetrics(team.id);
   const tc = hex6(team.colors && team.colors[0]);
-  const cats = CATEGORY_DEFS.filter((c) => cat === 'all' || c.key === cat);
+  const catsAll = sub
+    ? CATEGORY_DEFS.map((c) => ({ ...c, title: c.key === 'attacco' ? 'Attacco subito' : c.title, metrics: c.metrics.filter((m) => SUB_OF[m.key]).map((m) => ({ key: m.key, label: SUB_LABEL[m.key], dk: SUB_OF[m.key] })) })).filter((c) => c.metrics.length)
+    : CATEGORY_DEFS;
+  const catOpts = [{ value: 'all', label: 'Tutte' }, ...catsAll.map((c) => ({ value: c.key, label: c.title === 'Attacco subito' ? 'Attacco' : c.title }))];
+  const catNow = catOpts.some((o) => o.value === cat) ? cat : 'all';
+  const cats = catsAll.filter((c) => catNow === 'all' || c.key === catNow);
   const vsOf = (key) => {
     const cfg = VS[key];
     if (!oppOk || !cfg) return null;
@@ -111,16 +136,20 @@ function DomesticStats({ C, team, comp, openRoute }) {
     <View style={{ paddingTop: 12, paddingBottom: 24, gap: 16 }}>
       <View style={{ flexDirection: 'row', gap: 8, paddingHorizontal: 16 }}>
         {TILE_METRICS.slice(0, 4).map((t) => {
-          const r = rankIn(team, t.key, part);
+          const dk = sub ? SUB_OF[t.key] || t.key : t.key;
+          const r = rankIn(team, dk, part);
           if (!r) return <View key={t.key} style={{ flex: 1 }} />;
-          return <Tile key={t.key} C={C} label={t.label} value={`${comma(metricOf(team.id, t.key, part), t.key === 'possesso' ? 0 : 1)}${t.key === 'possesso' ? '%' : ''}`} rank={r.rank} col={bandColor(r.frac)} />;
+          return <Tile key={t.key} C={C} label={sub ? SUB_TILE[t.key] || t.label : t.label} value={`${comma(metricOf(team.id, dk, part), t.key === 'possesso' ? 0 : 1)}${t.key === 'possesso' ? '%' : ''}`} rank={r.rank} col={sub ? C.accent : bandColor(r.frac)} />;
         })}
       </View>
       {opp ? <View style={{ marginTop: -12 }}><NextRow C={C} team={team} comp={comp} openRoute={openRoute} /></View> : null}
       <View style={{ paddingHorizontal: 16, gap: 8 }}>
-        <Segmented C={C} options={PARTS_N} value={part} onChange={setPart} />
-        <Segmented C={C} options={[{ value: 'all', label: 'Tutte' }, ...CATEGORY_DEFS.map((c) => ({ value: c.key, label: c.title }))]} value={cat} onChange={setCat} />
-        {oppOk ? (
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+          <View style={{ flex: 1 }}><Segmented C={C} options={PARTS_N} value={part} onChange={setPart} /></View>
+          <VsSwitch C={C} on={sub} onChange={setSub} />
+        </View>
+        <Segmented C={C} options={catOpts} value={catNow} onChange={setCat} />
+        {oppOk && !sub ? (
           <Pressable onPress={() => setVsOn(!vsOn)} style={{ alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', gap: 8, borderRadius: 99, paddingHorizontal: 14, paddingVertical: 8, backgroundColor: vsOn ? C.accent : C.chip }}>
             <TeamCrest team={opp} size={16} C={C} />
             <Text style={{ color: vsOn ? '#fff' : C.ink2, fontSize: 12.5, fontWeight: '700' }}>Confronta con {opp.short || opp.name}</Text>
@@ -128,14 +157,15 @@ function DomesticStats({ C, team, comp, openRoute }) {
         ) : null}
       </View>
       {cats.map((c) => (
-        <View key={c.key} style={{ marginHorizontal: 16, borderRadius: 24, overflow: 'hidden', backgroundColor: `${tc}1c`, borderWidth: 1, borderColor: `${tc}55` }}>
+        <View key={c.key} style={{ marginHorizontal: 16, borderRadius: 24, overflow: 'hidden', backgroundColor: sub ? `${C.accent}18` : `${tc}1c`, borderWidth: 1, borderColor: sub ? `${C.accent}66` : `${tc}55` }}>
           <Text style={{ color: C.ink, fontSize: 12.5, fontWeight: '800', letterSpacing: 1, textTransform: 'uppercase', paddingHorizontal: 16, paddingTop: 14, paddingBottom: 4 }}>{c.title}</Text>
           {c.metrics.map((mt) => {
-            const r = rankIn(team, mt.key, part);
+            const dk = mt.dk || mt.key;
+            const r = rankIn(team, dk, part);
             if (!r) return null;
-            const v = metricOf(team.id, mt.key, part);
-            const col = bandColor(r.frac);
-            const o = oppOk && vsOn ? vsOf(mt.key) : null;
+            const v = metricOf(team.id, dk, part);
+            const col = sub ? C.accent : bandColor(r.frac);
+            const o = !sub && oppOk && vsOn ? vsOf(mt.key) : null;
             const top = Math.max(r.max * 1.08, r.avg * 1.6, o ? o.v * 1.06 : 0, 0.0001);
             const w = Math.max(3, Math.min(100, (v / top) * 100));
             const ax = Math.min(100, (r.avg / top) * 100);
@@ -146,7 +176,7 @@ function DomesticStats({ C, team, comp, openRoute }) {
                   <Text style={{ color: col, backgroundColor: `${col}26`, paddingHorizontal: 9, paddingVertical: 1, borderRadius: 99, overflow: 'hidden', fontSize: 14, fontWeight: '800' }}>{comma(v, 2)}</Text>
                   <Text style={{ width: 34, textAlign: 'right', color: C.ink3, fontSize: 11, fontWeight: '700' }}>{r.rank}°</Text>
                 </View>
-                <Bar C={C} width={w} col={col} avgPos={ax} avgText={`media ${comma(r.avg, 2)}`} />
+                <Bar C={C} width={w} col={col} avgPos={ax} avgText={`media ${comma(r.avg, 2)}`} slide />
                 {o ? (
                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 8 }}>
                     <TeamCrest team={opp} size={14} C={C} />
