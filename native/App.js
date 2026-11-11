@@ -1,8 +1,8 @@
 // ScalperLab nativa - Home (React Native). Stesse regole della Home web: finestre per paese, top campionati in alto,
 // colori e loghi delle competizioni, righe partita. Metadati da meta.json (generato da data/leagues.js e data/countries.js).
 import React, { createContext, memo, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { View, Text, FlatList, Pressable, ScrollView, StatusBar, Dimensions, useColorScheme, StyleSheet, Animated as RNAnimated, Easing as RNEasing, AccessibilityInfo, LayoutAnimation, Platform, UIManager, AppState, InteractionManager, Modal, TextInput, Keyboard, BackHandler, useWindowDimensions } from 'react-native';
-import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
+import { View, Text, FlatList, Pressable as RNPressable, ScrollView, StatusBar, Dimensions, useColorScheme, StyleSheet, Animated as RNAnimated, Easing as RNEasing, AccessibilityInfo, LayoutAnimation, Platform, UIManager, AppState, InteractionManager, Modal, TextInput, Keyboard, BackHandler, useWindowDimensions } from 'react-native';
+import { Gesture, GestureDetector, GestureHandlerRootView, Pressable } from 'react-native-gesture-handler'; // tasti di Home, Dock e barre: riconoscimento nativo (come swipe e scroll), non il sistema di tocco di JS
 import { Image } from 'expo-image';
 import Animated, { makeMutable, interpolate, useSharedValue, useAnimatedStyle, useAnimatedReaction, useAnimatedScrollHandler, withTiming, withDelay, withRepeat, withSequence, cancelAnimation, runOnJS, Easing, interpolateColor, Keyframe, LinearTransition, FadeIn } from 'react-native-reanimated';
 import { BlurView } from 'expo-blur';
@@ -915,13 +915,13 @@ function Calendar({ visible, selected, onClose, onPick }) {
   const gStyle = useAnimatedStyle(() => ({ transform: [{ translateX: gx.value }], opacity: 1 - Math.min(0.6, Math.abs(gx.value) / (GW * 1.4)) }));
   return (
     <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
-      <Pressable style={s.calBack} onPress={onClose}>
-        <Pressable style={s.calBox} onPress={() => {}}>
+      <RNPressable style={s.calBack} onPress={onClose}>
+        <RNPressable style={s.calBox} onPress={() => {}}>
           <View style={s.calHead}>
             <Text style={s.calTitle}>{MFULL[mon.getMonth()]} <Text style={{ color: C.accent }}>{mon.getFullYear()}</Text></Text>
             <View style={{ flexDirection: 'row', gap: 22 }}>
-              <Pressable hitSlop={14} onPress={() => slide(-1)}><Ionicons name="chevron-back" size={20} color={C.accent} /></Pressable>
-              <Pressable hitSlop={14} onPress={() => slide(1)}><Ionicons name="chevron-forward" size={20} color={C.accent} /></Pressable>
+              <RNPressable hitSlop={14} onPress={() => slide(-1)}><Ionicons name="chevron-back" size={20} color={C.accent} /></RNPressable>
+              <RNPressable hitSlop={14} onPress={() => slide(1)}><Ionicons name="chevron-forward" size={20} color={C.accent} /></RNPressable>
             </View>
           </View>
           <View style={s.calRow}>{WK.map((w, i) => <Text key={i} style={s.calWk}>{w}</Text>)}</View>
@@ -931,16 +931,16 @@ function Calendar({ visible, selected, onClose, onPick }) {
               if (!d) return <View key={i} style={s.calCell} />;
               const df = diffOf(d); const sel = df === selDiff;
               return (
-                <Pressable key={i} onPress={() => onPick(df)} style={s.calCell}>
+                <RNPressable key={i} onPress={() => onPick(df)} style={s.calCell}>
                   <View style={[s.calDay, sel && s.calSel, !sel && df === 0 && s.calToday]}><Text style={[s.calTxt, sel && s.calTxtSel, !sel && df === 0 && { color: C.accent }]}>{d}</Text></View>
-                </Pressable>
+                </RNPressable>
               );
             })}
           </Animated.View>
           </GestureDetector>
-          <Pressable onPress={() => onPick(0)} style={s.calTodayBtn}><Text style={{ color: C.accent, fontWeight: '700', fontSize: 14 }}>Oggi</Text></Pressable>
-        </Pressable>
-      </Pressable>
+          <RNPressable onPress={() => onPick(0)} style={s.calTodayBtn}><Text style={{ color: C.accent, fontWeight: '700', fontSize: 14 }}>Oggi</Text></RNPressable>
+        </RNPressable>
+      </RNPressable>
     </Modal>
   );
 }
@@ -1170,23 +1170,8 @@ function Screen({ onTheme, onReset, themePref }) {
   const [cur, setCur] = useState(TODAY_INDEX);
   const [filter, setFilter] = useState('all');
   const openRef = useRef(false);
-  // Guardia dei tasti: dopo un ritorno dal background il tocco 'nativo' (scroll, swipe) puo' funzionare mentre i tasti (tocchi letti da JS) no.
-  // Il gesto-sonda vede ogni dito (stesso canale dello swipe): se il dito c'e' e JS non riceve nessun touchStart, e' successo 2 volte di fila, l'app riparte da zero (contenitore dei gesti compreso).
-  const jsTouch = useRef(0); const armedUntil = useRef(0); const missed = useRef(0); const healAt = useRef(0);
-  const onGhTouch = useCallback(() => {
-    const at = Date.now();
-    if (at > armedUntil.current || at < healAt.current) return;
-    setTimeout(() => {
-      if (AppState.currentState !== 'active') return;
-      if (jsTouch.current >= at - 80) { missed.current = 0; return; }
-      if (openRef.current) return; // sopra c'e' la pagina web: i suoi tocchi non passano da qui
-      missed.current += 1;
-      if (missed.current >= 2) { missed.current = 0; healAt.current = Date.now() + 8000; if (onReset) onReset(); }
-    }, 900);
-  }, [onReset]);
-  const probe = useMemo(() => Gesture.Pan().manualActivation(true).onTouchesDown((e, st) => { runOnJS(onGhTouch)(); st.fail(); }), [onGhTouch]);
   // dati condivisi (squadre, partite, giocatori ~3 MB) scaricati a riposo poco dopo l'avvio: la prima partita aperta non deve aspettarli (prima partivano al tocco e valevano la maggior parte dei 7 s)
-  useEffect(() => { const t = setTimeout(() => InteractionManager.runAfterInteractions(() => { bootShared().catch(() => {}); }), 2500); return () => clearTimeout(t); }, []);
+  useEffect(() => { const t = setTimeout(() => { bootShared().catch(() => {}); }, 2500); return () => clearTimeout(t); }, []);
   // La pagina web si prepara a riposo (2,5 s dopo l'avvio) e poi ci mette un po' a caricarsi. Un tocco prima che sia pronta
   // (tasto in basso, ricerca, menu, partita) non puo' cambiare l'hash di una pagina che non c'e' ancora: la rotta si ricorda
   // (`pendingHash`), la pagina si monta subito gia' sulla rotta giusta (`bootUri`) e al termine del caricamento si applica.
@@ -1195,7 +1180,6 @@ function Screen({ onTheme, onReset, themePref }) {
   const [natHidden, setNatHidden] = useState(false); // una pagina del sito e' aperta sopra la pila
   const natStackRef = useRef([]); const natHiddenRef = useRef(false);
   natStackRef.current = natStack; natHiddenRef.current = natHidden;
-  const [epoch, setEpoch] = useState(0);          // ricrea i gesti dopo il background: un gesto rimasto 'a meta'' bloccava i tasti (lo scroll nativo andava)
   const sheetS = usePlayerSheet(); const panelS = usePlayerPanel(); // due hook sempre chiamati: con '||' il secondo saltava quando la tendina era aperta e React rompeva tutta la schermata
   const sheetOpen = !!sheetS || !!panelS; // Dock nascosto mentre una tendina/pannello giocatore e' aperta
   const [barOn, setBarOn] = useState(false);       // la barra nativa si vede solo in Home e nelle tre schede (Calcolatore, Giocatori, Matchup)
@@ -1339,21 +1323,20 @@ function Screen({ onTheme, onReset, themePref }) {
   }, [!!data, refresh]);
 
   const markClosed = useCallback(() => { openRef.current = false; setWebOpen(false); }, []);
-  // Tornando dal background: oltre 10 minuti l'app riparte da zero (come appena aperta); entro 10 minuti resta com'era.
+  // Ritorno dal background: come tutte le app. Entro 10 minuti non si tocca niente (stessa pagina, stessi gesti, stessi tasti);
+  // oltre 10 minuti l'app riparte da zero. In background l'app non fa nulla e al ritorno i dati in rete aspettano qualche secondo.
   useEffect(() => {
     const sub = AppState.addEventListener('change', (st) => {
-      if (st === 'background') { bgAt.current = Date.now(); return; } // in background l'app pesa il meno possibile: il sistema chiude per prime le app pesanti
-      if (st === 'active') { setTimeout(() => setEpoch((e) => e + 1), 900); try { Keyboard.dismiss(); } catch (e) { /* ignora */ } }
-      if (st === 'active') { globalThis.__resumeUntil = Date.now() + 5000; if (bgAt.current && Date.now() - bgAt.current > 20000) { armedUntil.current = Date.now() + 240000; missed.current = 0; } } // dati in background fermi per 5 s: l'app torna subito al tocco
-      if (st !== 'active' || !bgAt.current) return;
-      const gap = Date.now() - bgAt.current; bgAt.current = 0;
-      if (gap > 10 * 60 * 1000) { try { Image.clearMemoryCache(); } catch (e) { /* ignora */ } if (onReset) onReset(); return; }
-      // animazioni native fermate a meta' dal sistema: la pila torna dov'e' (aperta = 0, chiusa = fuori schermo)
-      try { ov.value = openRef.current ? 0 : W; } catch (e) { /* ignora */ }
+      if (st === 'background') { bgAt.current = Date.now(); return; }
+      if (st !== 'active') return;
+      globalThis.__resumeUntil = Date.now() + 5000;
+      const gap = bgAt.current ? Date.now() - bgAt.current : 0;
+      bgAt.current = 0;
+      if (gap > 10 * 60 * 1000) { try { Image.clearMemoryCache(); } catch (e) { /* ignora */ } if (onReset) onReset(); }
     });
     const mw = AppState.addEventListener('memoryWarning', () => { try { Image.clearMemoryCache(); } catch (e) { /* ignora */ } });
     return () => { sub.remove(); mw.remove(); };
-  }, [onReset, ov]);
+  }, [onReset]);
   const openRoute = useCallback((route) => {
     const path0 = route.split('?')[0];
     if (!nativeOf(path0)) return; // pagina senza versione nativa (mai usata dall'app)
@@ -1433,7 +1416,7 @@ function Screen({ onTheme, onReset, themePref }) {
       t = Math.max(base - 1, Math.min(base + 1, t));
       t = Math.max(0, Math.min(N - 1, t));
       x.value = withTiming(t, { duration: 240, easing: Easing.out(Easing.cubic) });
-    }), [x, x0, N, epoch]);
+    }), [x, x0, N]);
 
   // bordo sinistro: scorrimento indietro dalla pagina web
   const bx = useSharedValue(0); const by = useSharedValue(0); const sheetSV = useSharedValue(0);
@@ -1454,7 +1437,7 @@ function Screen({ onTheme, onReset, themePref }) {
     .onStart(() => { cancelAnimation(ov); cancelAnimation(nv); edgeOn.value = 1; if (stackN.value > 1) { nvIdx.value = stackN.value - 1; ovStart.value = nv.value; } else ovStart.value = ov.value; })
     .onUpdate((e) => { const v = Math.min(W, Math.max(0, ovStart.value + e.translationX * SWIPE_GAIN)); if (stackN.value > 1) nv.value = v; else ov.value = v; })
     .onEnd((e) => { edgeSettle(e); })
-    .onFinalize((e) => { edgeSettle(e); }), [ov, ovStart, nv, nvIdx, stackN, natBelow, afterClose, markClosed, finishPop, revealNat, edgeOn, epoch]); // eslint-disable-line react-hooks/exhaustive-deps
+    .onFinalize((e) => { edgeSettle(e); }), [ov, ovStart, nv, nvIdx, stackN, natBelow, afterClose, markClosed, finishPop, revealNat, edgeOn]); // eslint-disable-line react-hooks/exhaustive-deps
   // swipe indietro da qualunque punto dello schermo (sulla prima scheda o nelle pagine senza schede)
   const anyBack = useMemo(() => Gesture.Pan().manualActivation(true)
     .onTouchesDown((e) => { const t = e.allTouches[0]; if (t) { bx.value = t.absoluteX; by.value = t.absoluteY; } })
@@ -1467,14 +1450,14 @@ function Screen({ onTheme, onReset, themePref }) {
     .onStart(() => { cancelAnimation(ov); cancelAnimation(nv); edgeOn.value = 1; if (stackN.value > 1) { nvIdx.value = stackN.value - 1; ovStart.value = nv.value; } else ovStart.value = ov.value; })
     .onUpdate((e) => { const v = Math.min(W, Math.max(0, ovStart.value + e.translationX * SWIPE_GAIN)); if (stackN.value > 1) nv.value = v; else ov.value = v; })
     .onEnd((e) => { edgeSettle(e); })
-    .onFinalize((e) => { edgeSettle(e); }), [ov, ovStart, nv, nvIdx, stackN, natBelow, afterClose, markClosed, finishPop, revealNat, edgeOn, epoch, bx, by, sheetSV]); // eslint-disable-line react-hooks/exhaustive-deps
+    .onFinalize((e) => { edgeSettle(e); }), [ov, ovStart, nv, nvIdx, stackN, natBelow, afterClose, markClosed, finishPop, revealNat, edgeOn, bx, by, sheetSV]); // eslint-disable-line react-hooks/exhaustive-deps
   const ovStyle = useAnimatedStyle(() => ({ transform: [{ translateX: ov.value }] }));
 
   if (!data) return <View style={[s.root, { paddingTop: insets.top }]}><SkHome /></View>;
   const tIdx = keys.indexOf(todayKey); const liveN = tIdx >= 0 ? data[tIdx].reduce((n, m) => n + (m[8] === 'l' ? 1 : 0), 0) : 0; // badge del dock: partite live di oggi
   const shown = [cur - 2, cur - 1, cur, cur + 1, cur + 2].filter((i) => i >= 0 && i < N);
   return (
-    <GestureDetector gesture={probe}><View style={[s.root, { paddingTop: insets.top }]} onTouchStart={(e) => { TOUCH.y = e.nativeEvent.pageY; jsTouch.current = Date.now(); }}>
+    <View style={[s.root, { paddingTop: insets.top }]} onTouchStart={(e) => { TOUCH.y = e.nativeEvent.pageY; }}>
       <Beams />
       <StatusBar barStyle={C.dark ? 'light-content' : 'dark-content'} />
       <Header onSearch={openSearch} onMenu={openMenuP} onCal={() => setCal(true)} />
@@ -1499,15 +1482,15 @@ function Screen({ onTheme, onReset, themePref }) {
         <GestureDetector gesture={anyBack}><View pointerEvents="box-none" style={StyleSheet.absoluteFill}>
         {natStack.map((p, i) => { const n = nativeOf(p); if (!n) return null; return <NatLayer key={`${p}#${i}`} i={i} nv={nv} nvIdx={nvIdx} hidden={natHidden} live={i === natStack.length - 1 && !natHidden}>{React.createElement(n.Comp, { params: n.params, C, top: insets.top, onBack: popNat, bottom: insets.bottom + 90, openRoute, onSearch: () => setSrch(true), onMenu: openMenuP })}</NatLayer>; })}
         </View></GestureDetector>
-        <Guard autoReset key={`gp${epoch}`} onError={() => closePanel()}><PlayerPanelHost C={C} top={insets.top} bottom={insets.bottom} openRoute={openRoute} /></Guard>
-        <Guard autoReset key={`gs${epoch}`} onError={() => closePlayer()}><PlayerSheetHost C={C} bottom={insets.bottom} openRoute={openRoute} /></Guard>
+        <Guard autoReset key="gp" onError={() => closePanel()}><PlayerPanelHost C={C} top={insets.top} bottom={insets.bottom} openRoute={openRoute} /></Guard>
+        <Guard autoReset key="gs" onError={() => closePlayer()}><PlayerSheetHost C={C} bottom={insets.bottom} openRoute={openRoute} /></Guard>
         <GestureDetector gesture={edge}><View pointerEvents="auto" style={[s.edge, { width: EDGE_W, top: insets.top + 98, zIndex: 200, elevation: 200 }]} /></GestureDetector>
       </Animated.View>
       {!webOpen || barOn ? <View pointerEvents={sheetOpen ? 'none' : 'box-none'} style={[StyleSheet.absoluteFill, sheetOpen && { opacity: 0, transform: [{ translateY: 200 }] }]}><TabBar onOpen={openRoute} onHome={closeWeb} onTop={onTop} active={webOpen ? tab : null} bottom={insets.bottom} live={liveN} /></View> : null}
       {/* tendine della riga in alto: sopra la Home e sopra la barra (la barra non cambia) */}
       <SearchPanel open={srch} onClose={closeSrch} onPick={pickSrch} ask={askSearch} res={srchRes} ready top={insets.top + 4} />
       <MenuPanel open={menu} onClose={closeMenu} onGo={goMenu} ui={ui} onCmd={uiCmd} top={insets.top} bottom={insets.bottom} />
-    </View></GestureDetector>
+    </View>
   );
 }
 

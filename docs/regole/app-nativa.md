@@ -234,4 +234,5 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 ## Tendina piena, dati in anticipo, guardia dei tasti (11 nov)
 - Tendina giocatore: si apre alla massima altezza; la X la fa scendere con animazione (la scheda resta disegnata finche' e' sotto lo schermo).
 - `bootShared()` (squadre, partite, giocatori) parte a riposo 2,5 s dopo l'avvio: prima partiva al primo tocco su una partita e valeva la maggior parte dell'attesa.
-- Guardia dei tasti (`probe` in `Screen`): dopo un background di oltre 20 s, se il dito arriva al gesto nativo ma JS non riceve nessun touchStart per 2 volte, l'app riparte da zero (Screen + `GestureHandlerRootView` con `rootKey`).
+- Ritorno dal background (riscritto): come tutte le app. Entro 10 minuti niente reset, niente gesti ricreati, niente guardie; oltre 10 minuti l'app riparte da zero (`onReset`: Screen + contenitore gesti). Unico accorgimento: dati in rete fermi 5 s dopo il ritorno (`__resumeUntil`).
+- Tasti di Home, Dock, barre, ricerca e menu (`App.js`) usano il `Pressable` di react-native-gesture-handler (riconoscimento nativo, lo stesso di swipe e scroll), non quello di JS: dopo il background i tocchi letti da JS potevano restare muti mentre scroll e swipe andavano. Dentro un `Modal` (Calendario) resta il `Pressable` di react-native (`RNPressable`): i gesti nativi li' non hanno il contenitore.
