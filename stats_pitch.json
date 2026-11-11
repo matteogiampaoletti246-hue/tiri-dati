@@ -1,45 +1,4 @@
 {
- "competizioni": {
-  "1. Liga 2024-2025": {
-   "con_statistiche": 1,
-   "con_mappa_tiri": 1,
-   "da_fare": 1
-  },
-  "Ligat ha'Al 2024-2025": {
-   "con_statistiche": 237,
-   "con_mappa_tiri": 237,
-   "da_fare": 240
-  },
-  "Liga 1 2024": {
-   "con_statistiche": 32,
-   "con_mappa_tiri": 32,
-   "da_fare": 36
-  },
-  "1. liga 2024-2025": {
-   "con_statistiche": 3,
-   "con_mappa_tiri": 3,
-   "da_fare": 3
-  },
-  "Super Liga 2024-2025": {
-   "con_statistiche": 296,
-   "con_mappa_tiri": 295,
-   "da_fare": 296
-  },
-  "Virsliga 2024": {
-   "con_statistiche": 180,
-   "con_mappa_tiri": 180,
-   "da_fare": 182
-  },
-  "Serie A 2024": {
-   "con_statistiche": 241,
-   "con_mappa_tiri": 241,
-   "da_fare": 241
-  },
-  "Primera Division 2024": {
-   "con_statistiche": 202,
-   "con_mappa_tiri": 202,
-   "da_fare": 234
-  }
- },
- "partite_in_questo_giro": 1192
+ "competizioni": {},
+ "partite_in_questo_giro": 0
 }
