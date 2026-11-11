@@ -39,6 +39,7 @@ jobs:
           mkdir -p app/src/components/calc && cp -r aurora-src/src/data aurora-src/src/lib app/src/ && cp aurora-src/src/components/calc/calcComp.js app/src/components/calc/ && mkdir -p app/src/components/player app/src/hooks && cp aurora-src/src/components/player/playerCalc.js app/src/components/player/ && cp aurora-src/src/hooks/useAsync.js aurora-src/src/hooks/useArchFresh.js aurora-src/src/hooks/useNextMatch.js app/src/hooks/
           cd app
           npm install --no-audit --no-fund
+          npm install fflate --no-audit --no-fund
           npx expo install expo-updates expo-image @react-native-async-storage/async-storage expo-linear-gradient react-native-safe-area-context @expo/vector-icons react-native-gesture-handler react-native-reanimated expo-blur react-native-svg
           if [ "$(node -p "parseInt(require('react-native-reanimated/package.json').version)")" -ge 4 ]; then npx expo install react-native-worklets; fi
           node -e "const f='app.json',j=require('./'+f);j.expo.owner='lozellatos-team';require('fs').writeFileSync(f,JSON.stringify(j,null,2))"

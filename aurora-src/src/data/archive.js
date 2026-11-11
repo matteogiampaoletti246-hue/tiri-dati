@@ -18,7 +18,13 @@ const once = (key, fn) => {
 const json = (path) => once(path, () => fetch(`${BASE}${path}`).then((r) => (r.ok ? r.json() : null)));
 const gz = (path) => once(path, async () => {
   const r = await fetch(`${BASE}${path}`);
-  if (!r.ok || !r.body || typeof DecompressionStream === 'undefined') return null;
+  if (!r.ok) return null;
+  // app nativa (Hermes): niente flusso ne' DecompressionStream; la decompressione la fornisce `native/shared/shim.js` (globalThis.__gunzip)
+  if (!r.body || typeof DecompressionStream === 'undefined') {
+    const g = globalThis.__gunzip;
+    if (!g) return null;
+    return g(new Uint8Array(await r.arrayBuffer()));
+  }
   return new Response(r.body.pipeThrough(new DecompressionStream('gzip'))).json();
 });
 

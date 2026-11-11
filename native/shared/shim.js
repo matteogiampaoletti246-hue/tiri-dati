@@ -12,3 +12,7 @@ if (typeof doc.addEventListener !== 'function') { doc.addEventListener = noop; d
 if (doc.visibilityState === undefined) doc.visibilityState = 'visible';
 if (typeof global.addEventListener !== 'function') { global.addEventListener = noop; global.removeEventListener = noop; }
 if (typeof global.dispatchEvent !== 'function') global.dispatchEvent = noop;
+
+// Decompressione dei file .json.gz (partite di stagione, falli): Hermes non ha DecompressionStream. fflate e' puro JS.
+import { gunzipSync, strFromU8 } from 'fflate';
+globalThis.__gunzip = (u8) => JSON.parse(strFromU8(gunzipSync(u8)));

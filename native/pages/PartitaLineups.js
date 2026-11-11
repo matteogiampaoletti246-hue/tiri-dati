@@ -1,7 +1,7 @@
 // Formazioni della partita (nativo): campo con le due squadre, voti (giocata) o affidabilita' (non iniziata), allenatore, panchina,
 // infortunati; formazione a soli nomi quando la fonte non da' il campo. Stessi dati del sito.
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, Pressable } from 'react-native';
+import { View, Text, Pressable, Animated, Easing } from 'react-native';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
@@ -77,11 +77,26 @@ function Events({ p, size, mvp, fs }) {
 
 // Voto in partita (colori a fasce) o affidabilita' (scala del Calcolatore, bagliore azzurro da 8,8)
 function Badge({ v, pre, inline }) {
+  const [shown, setShown] = useState(v);
+  const [prev, setPrev] = useState(v);
+  const t = useRef(new Animated.Value(1)).current;
+  const from = useRef(v);
+  useEffect(() => {
+    if (!pre || v == null) { setShown(v); setPrev(v); from.current = v; return undefined; }
+    const f = from.current == null ? v : from.current;
+    if (f === v) { setShown(v); return undefined; }
+    setPrev(f);
+    t.setValue(0);
+    const id = t.addListener(({ value }) => setShown(f + (v - f) * value));
+    Animated.timing(t, { toValue: 1, duration: 420, easing: Easing.out(Easing.cubic), useNativeDriver: false }).start(() => { from.current = v; setShown(v); });
+    return () => { t.removeListener(id); from.current = v; };
+  }, [v, pre]);
   if (v == null) return null;
-  const bg = pre ? scoreColorSmooth(v) : tone(v);
-  const glow = pre && v >= 8.8 ? { shadowColor: '#38BDF8', shadowOpacity: Math.min(0.85, (v - 8.8) / 0.4), shadowRadius: 6 } : null;
+  const cur = shown == null ? v : shown;
+  const bg = pre ? scoreColorSmooth(cur) : tone(v);
+  const glow = pre && cur >= 8.8 ? { shadowColor: '#38BDF8', shadowOpacity: Math.min(0.85, (cur - 8.8) / 0.4), shadowRadius: 6 } : null;
   const st = inline ? { borderRadius: 999, paddingHorizontal: 8, paddingVertical: 1 } : { position: 'absolute', alignSelf: 'center', bottom: -7, borderRadius: 999, paddingHorizontal: 6, paddingVertical: 1, borderWidth: 1.5, borderColor: 'rgba(0,0,0,.4)' };
-  return <View style={[st, { backgroundColor: bg }, glow]}><Text style={{ color: '#fff', fontSize: inline ? 11 : 10.5, fontWeight: '800' }}>{comma(v, 1)}</Text></View>;
+  return <View style={[st, { backgroundColor: bg }, glow]}><Text style={{ color: '#fff', fontSize: inline ? 11 : 10.5, fontWeight: '800' }}>{comma(cur, 1)}</Text></View>;
 }
 
 function PitchNode({ C, p, team, val, match, compact, mvp, pre, openRoute }) {
@@ -374,10 +389,14 @@ export default function Formazioni({ C, match, view, home, away, pre, openRoute 
         <View style={{ paddingHorizontal: 16 }}>
           {pre ? (
             <View style={{ marginBottom: 12 }}>
-              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 6 }}>
-                <Dropdown C={C} options={TOP_STATS} value={stat} onChange={onStat} side="left" width={222} compact pillKey="short" icon={(o, col) => <StatIconN k={o.icon} size={16} color={col} />} />
-                <Text numberOfLines={2} style={{ flex: 1, color: C.ink, fontSize: 14, fontWeight: '800', textAlign: 'center' }}>{title}</Text>
-                <Dropdown C={C} options={LINES[stat].map((l) => ({ value: l, label: `Over ${String(l).replace('.', ',')}`, short: String(l).replace('.', ',') }))} value={line} onChange={setLine} side="right" width={140} compact pillKey="short" />
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <View style={{ flex: 1, minWidth: 0, alignItems: 'flex-start' }}>
+                  <Dropdown C={C} options={TOP_STATS} value={stat} onChange={onStat} side="left" width={222} compact pillKey="short" style={{ maxWidth: '100%' }} icon={(o, col) => <StatIconN k={o.icon} size={16} color={col} />} />
+                </View>
+                <Text numberOfLines={2} style={{ width: 96, color: C.ink, fontSize: 14, fontWeight: '800', textAlign: 'center' }}>{title}</Text>
+                <View style={{ flex: 1, minWidth: 0, alignItems: 'flex-end' }}>
+                  <Dropdown C={C} options={LINES[stat].map((l) => ({ value: l, label: `Over ${String(l).replace('.', ',')}`, short: String(l).replace('.', ',') }))} value={line} onChange={setLine} side="right" width={140} compact pillKey="short" style={{ maxWidth: '100%' }} />
+                </View>
               </View>
               {labels}
             </View>
