@@ -82,3 +82,4 @@ export default function HitChart({ C, values, line, under, games, statLabel, ope
     </View>
   );
 }
+// pubblicato
