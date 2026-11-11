@@ -21,14 +21,17 @@ function Momentum({ C, values, events, home, away }) {
   const [hov, setHov] = useState(null);
   const wRef = useRef(0);
   const hide = useRef(null);
+  const held = useRef(false);
+  const holdT = useRef(null);
   const n = values.length;
   const pan = useRef(PanResponder.create({
     onStartShouldSetPanResponder: () => true,
-    onMoveShouldSetPanResponder: (_, g) => Math.abs(g.dx) > Math.abs(g.dy),
     onPanResponderTerminationRequest: () => true,
-    onPanResponderGrant: (e) => { clearTimeout(hide.current); pick(e.nativeEvent.locationX); },
-    onPanResponderMove: (e) => pick(e.nativeEvent.locationX),
-    onPanResponderRelease: () => { hide.current = setTimeout(() => setHov(null), 1200); },
+    // il mirino segue il dito solo dopo una breve pressione: un trascinamento veloce e' dello swipe (indietro / tra schede)
+    onPanResponderGrant: (e) => { clearTimeout(hide.current); held.current = false; clearTimeout(holdT.current); holdT.current = setTimeout(() => { held.current = true; }, 180); pick(e.nativeEvent.locationX); },
+    onPanResponderMove: (e) => { if (held.current) pick(e.nativeEvent.locationX); },
+    onPanResponderRelease: () => { clearTimeout(holdT.current); hide.current = setTimeout(() => setHov(null), 1200); },
+    onPanResponderTerminate: () => { clearTimeout(holdT.current); hide.current = setTimeout(() => setHov(null), 400); },
   })).current;
   const pick = (x) => { if (!wRef.current) return; setHov(Math.round(Math.min(1, Math.max(0, x / wRef.current)) * (n - 1))); };
   const max = Math.max(40, ...values.map((v) => Math.abs(v)));

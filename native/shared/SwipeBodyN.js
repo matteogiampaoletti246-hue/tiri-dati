@@ -1,7 +1,7 @@
 // Corpo a schede con swipe laterale dentro una pagina che scorre tutta insieme (Partita): le schede scorrono davvero col dito
 // (come lo swipe tra i giorni della Home): la scheda vicina si monta appena il dito inizia a trascinare e arriva da lato insieme a quella attuale.
 // La barra segue con `pos` (indice frazionario). Thread UI.
-import { useBackGate } from './backGate';
+import { useBackGate, pagerTouch } from './backGate';
 import React, { useEffect, useRef, useState } from 'react';
 import { View, useWindowDimensions } from 'react-native';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming, cancelAnimation, runOnJS, Easing } from 'react-native-reanimated';
@@ -14,7 +14,7 @@ function Pane({ i, pos, W, children, absolute }) {
 
 export default function SwipeBodyN({ index, count, onIndex, pos, render }) {
   const { width: W } = useWindowDimensions();
-  useBackGate(index > 0);
+  useBackGate(index > 0, true);
   const [nb, setNb] = useState(null); // indice della scheda vicina montata durante il trascinamento
   const start = useSharedValue(index);
   const dirSet = useSharedValue(0);
@@ -29,6 +29,9 @@ export default function SwipeBodyN({ index, count, onIndex, pos, render }) {
     setNb(null);
   }, [index]); // eslint-disable-line react-hooks/exhaustive-deps
   const pan = Gesture.Pan().activeOffsetX([-12, index > 0 ? 12 : 100000]).failOffsetY([-14, 14])
+    .onTouchesDown(() => { pagerTouch.value = 1; })
+    .onTouchesUp(() => { pagerTouch.value = 0; })
+    .onFinalize(() => { pagerTouch.value = 0; })
     .onStart(() => { cancelAnimation(pos); start.value = Math.round(pos.value); dirSet.value = 0; })
     .onUpdate((e) => {
       let v = start.value - e.translationX / W;

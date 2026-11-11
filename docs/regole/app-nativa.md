@@ -243,3 +243,7 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 - Cambio Totale/90' e Casa/Trasferta nelle classifiche: `useDeferredValue` + `pending` su `StatListsN` (la lista si abbassa subito e torna piena a calcolo finito), mai blocchi.
 - Amichevoli: nome italiano ("Amichevoli nazionali" / "di club" / "femminili" / "U21") e immagine del mondo (`world.png`) tramite `friendlyFix` in `leagues.js`.
 - Stemmi di notte: contorno con ombra bianca (`TeamCrest`), mai copie bianche sfalsate (facevano il riquadro bianco).
+
+### App nativa: swipe indietro nella partita (regola fissa)
+- Dalla testata della partita (risultato, squadre) e dalla barra delle schede lo swipe indietro funziona sempre, su qualunque scheda; dentro il corpo delle schede, dalla seconda in poi, lo swipe a destra torna alla scheda precedente (`useBackGate(blocking, true)` + `pagerTouch` in `shared/backGate.js`).
+- I riquadri con gesto proprio (momentum, storie della Panoramica) non devono prendersi i trascinamenti orizzontali veloci: il mirino segue il dito solo dopo una breve pressione.

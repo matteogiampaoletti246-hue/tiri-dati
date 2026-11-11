@@ -9,7 +9,7 @@ import { BlurView } from 'expo-blur';
 import { SafeAreaProvider, SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { TOUCH, CompLogo, logoSrc } from './shared/ui';
-import { backAny, LiveLayerCtx } from './shared/backGate';
+import { backAny, backScoped, pagerTouch, LiveLayerCtx } from './shared/backGate';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useAutoUpdate } from './shared/AutoUpdate';
@@ -1442,7 +1442,7 @@ function Screen({ onTheme, onReset, themePref }) {
   const anyBack = useMemo(() => Gesture.Pan().manualActivation(true)
     .onTouchesDown((e) => { const t = e.allTouches[0]; if (t) { bx.value = t.absoluteX; by.value = t.absoluteY; } })
     .onTouchesMove((e, st) => {
-      if (!backAny.value || sheetSV.value) { st.fail(); return; }
+      if (!backAny.value || (backScoped.value && pagerTouch.value) || sheetSV.value) { st.fail(); return; }
       const t = e.allTouches[0]; if (!t) return;
       const dx = t.absoluteX - bx.value, dy = t.absoluteY - by.value;
       if (dx > 12 && Math.abs(dy) < dx * 0.7) st.activate(); else if (Math.abs(dy) > 16 || dx < -12) st.fail();

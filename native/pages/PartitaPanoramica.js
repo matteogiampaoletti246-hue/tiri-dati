@@ -106,7 +106,7 @@ function Story({ C, cards, home, away, league }) {
   const width = useRef(0);
   const pan = useRef(PanResponder.create({
     onStartShouldSetPanResponder: () => true,
-    onPanResponderTerminationRequest: () => !st.current.drag,
+    onPanResponderTerminationRequest: () => true,
     onPanResponderGrant: (e) => {
       const s = st.current;
       s.down = { x: e.nativeEvent.locationX, t: Date.now() };
@@ -116,7 +116,8 @@ function Story({ C, cards, home, away, league }) {
     },
     onPanResponderMove: (_, g) => {
       const s = st.current;
-      if (!s.drag && Math.abs(g.dx) > 8 && Math.abs(g.dx) > Math.abs(g.dy)) { s.drag = true; clearTimeout(s.holdT); setHold(true); }
+      // un trascinamento orizzontale e' dello swipe di pagina (indietro / tra schede): la storia si ferma e lascia il gesto
+      if (!s.drag && Math.abs(g.dx) > 8 && Math.abs(g.dx) > Math.abs(g.dy)) { s.drag = true; clearTimeout(s.holdT); setHold(false); }
     },
     onPanResponderRelease: (_, g) => {
       const s = st.current;
@@ -126,7 +127,7 @@ function Story({ C, cards, home, away, league }) {
       setHold(false);
       s.down = null;
       if (!d) return;
-      if (s.drag) { s.drag = false; if (Math.abs(g.dx) > SWIPE_PX) go(g.dx < 0 ? s.idx + 1 : s.idx - 1); return; }
+      if (s.drag) { s.drag = false; return; }
       if (wasHeld && Date.now() - d.t > HOLD_MS) return;
       go(d.x < width.current / 3 ? s.idx - 1 : s.idx + 1);
     },

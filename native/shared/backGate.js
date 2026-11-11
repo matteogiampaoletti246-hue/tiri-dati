@@ -5,14 +5,20 @@ import React, { createContext, useContext, useEffect } from 'react';
 import { makeMutable } from 'react-native-reanimated';
 
 export const backAny = makeMutable(1);
+// Schede con swipe laterale dentro una pagina con testata (Partita): lo swipe indietro e' spento solo se il dito parte DENTRO le schede;
+// partendo dalla testata (risultato, squadre) o dalla barra delle schede torna sempre indietro.
+export const backScoped = makeMutable(0);
+export const pagerTouch = makeMutable(0);
 export const LiveLayerCtx = createContext(true);
 let blockers = 0;
-const sync = () => { backAny.value = blockers === 0 ? 1 : 0; };
-export function useBackGate(blocking) {
+let scoped = 0;
+const sync = () => { backAny.value = blockers === 0 ? 1 : 0; backScoped.value = scoped > 0 ? 1 : 0; };
+export function useBackGate(blocking, onlyInside = false) {
   const live = useContext(LiveLayerCtx);
   useEffect(() => {
     if (!live || !blocking) return undefined;
-    blockers += 1; sync();
-    return () => { blockers = Math.max(0, blockers - 1); sync(); };
-  }, [live, blocking]);
+    if (onlyInside) scoped += 1; else blockers += 1;
+    sync();
+    return () => { if (onlyInside) scoped = Math.max(0, scoped - 1); else blockers = Math.max(0, blockers - 1); sync(); };
+  }, [live, blocking, onlyInside]);
 }
