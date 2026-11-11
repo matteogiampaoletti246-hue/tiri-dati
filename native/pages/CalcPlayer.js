@@ -11,7 +11,7 @@ import { teamById, teamByName } from '@/data/teams';
 import { useUpcoming } from '../shared/useUpcoming';
 import { allTeamMatches, nextMatchOf, nextMatchVs } from '@/data/extras';
 import { romeDay } from '@/data/util';
-import { calcTeamsOf, calcLeagues, leagueName, cupOf, domesticKey, nextFixture, fixtureAt, prefillShots, splitBoxes, teamShots } from '@/data/calcData';
+import { NATIONS_KEYS, calcTeamsOf, calcLeagues, leagueName, cupOf, domesticKey, nextFixture, fixtureAt, prefillShots, splitBoxes, teamShots } from '@/data/calcData';
 import { emptyFouls, fillFrom, hitFromValues, hitRows, initialForm, isFouls, natHitOf, resultFromForm, resultFromFouls, viewFor } from '@/data/calcPlayer';
 import { fmTeamIn, foulKeysFor, foulSeasonOf, leaguePlayerAvg, playerFoulsOf, rosterFouls, teamFoulStats, useFouls } from '@/data/calcFouls';
 import { FALLI_KEYS, loadFalli, cardRole, autoDuelIds, falliKeysFor, playerRoles, roleBreakdown, useFalli } from '@/data/calcRoles';
@@ -26,6 +26,8 @@ import { playerComps, calcComp } from '@/components/calc/calcComp';
 import { comma } from '@/lib/format';
 import { parseDash, parseNum, fmtLine, HIT_OPTIONS, LINE_OPTIONS, SEDE_OPTIONS, COMPETITION_OPTIONS, NATIONS_OPTION, NATIONS_WEIGHTS, SEASON_COMPETITIONS, lineHintText } from '@/lib/calc';
 import { MATCHES } from '@/data/matches';
+import { RAW } from '@/data/load';
+import { leagueById } from '@/data/leagues';
 import { teamRow } from '@/data/standings';
 import { BAND_COLORS, bandOf } from '@/components/player/playerCalc';
 import { mixHex, SedeButtonsN, Panel, PanelTitle, Segmented, FieldRow, NumInput, PickerModal, TeamCrest, Face, TintProvider, CompLogo } from '../shared/ui';
@@ -152,7 +154,7 @@ function warmPlayer(id) {
   } catch (e) { /* il banner si completa comunque */ }
 }
 
-function PlayerPick({ C, form, set, player, onSelectPlayer, stat, onStat, role, natHit, openRoute, hitN }) {
+function PlayerPick({ C, form, set, player, onSelectPlayer, stat, onStat, role, natHit, openRoute, hitN, hitChart }) {
   const [picker, setPicker] = useState(false);
   const club = player ? (player.nat && player.club ? player.club : player) : null;
   const team = club ? teamById(club.teamId) : null;
@@ -203,7 +205,7 @@ function PlayerPick({ C, form, set, player, onSelectPlayer, stat, onStat, role, 
         <FieldRow C={C} label="Quota"><NumInput ring C={C} value={form.odds} onChange={(v) => set('odds', v)} /></FieldRow>
         <SedeButtonsN C={C} value={form.sede} onChange={(v) => set('sede', v)} />
         {comps.length ? <FieldRow C={C} label="Competizione"><Select C={C} title="Competizione" value={form.competizione} options={comps.map((o) => ({ value: o.value, label: o.comp.name, sub: o.sub, comp: o.comp, color: hexOr(o.comp.colors && o.comp.colors[0], '#1F2A44'), color2: hexOr(o.comp.colors && o.comp.colors[1], undefined) }))} onChange={(v) => set('competizione', v)} /></FieldRow> : null}
-        <FieldRow C={C} label={hitTitle}><Select C={C} title={hitTitle} value={form.hitRate} placeholder="Nessuna" options={[{ value: '', label: 'Nessuna' }, ...HIT_OPTIONS]} onChange={(v) => set('hitRate', v)} /></FieldRow>
+        {form.playerId && hitChart ? null : <FieldRow C={C} label={hitTitle}><Select C={C} title={hitTitle} value={form.hitRate} placeholder="Nessuna" options={[{ value: '', label: 'Nessuna' }, ...HIT_OPTIONS]} onChange={(v) => set('hitRate', v)} /></FieldRow>}
         {natHit ? <FieldRow C={C} label="Hit rate nazionale"><Text style={{ color: C.ink, fontSize: 15, fontWeight: '700', textAlign: 'right' }}>{natHit.hit}/{natHit.n}</Text></FieldRow> : null}
       </Panel>
       <PlayerSearch C={C} open={picker} onClose={() => setPicker(false)} onSelect={onSelectPlayer} onWarm={warmPlayer} />
@@ -231,14 +233,47 @@ function gamesFor(player, key, vals, mins) {
   return out;
 }
 
-// Hit Rate a colonne al posto delle pillole: una colonna per partita (la piu' vecchia a sinistra)
-function HitPanel({ C, player, vals, mins, key2, line, under, label, openRoute }) {
-  const games = key2 ? gamesFor(player, key2, vals, mins) : null;
-  const rev = (a) => (a ? [...a].reverse() : a);
-  const any = games && games.some(Boolean);
+const CUP_IDS = ['champions-league', 'europa-league', 'conference-league'];
+const gameOf = (m) => {
+  const t = teamByName(m.opp);
+  return { opp: m.opp, matchId: m.matchId || null, team: t || { name: m.opp, initials: String(m.opp).split(' ').map((w) => w[0]).join('').slice(0, 3).toUpperCase() } };
+};
+
+// pagine del grafico: la competizione scelta per prima (valori del calcolo), poi le altre (ultime 5 partite da almeno 50 minuti in quella competizione)
+function hitPages(player, key2, vals, mins, comp) {
+  const opts = playerComps(player);
+  const byVal = Object.fromEntries(opts.map((o) => [o.value, o]));
+  const sel = byVal[comp] ? comp : (opts[0] && opts[0].value) || 'campionato';
+  const o0 = byVal[sel];
+  const main = { key: sel, name: o0 ? o0.comp.name : GENERIC[sel], logo: o0 ? o0.comp.logo : null, values: [...vals].reverse(), games: null };
+  if (key2) { const g = gamesFor(player, key2, vals, mins); if (g.some(Boolean)) main.games = [...g].reverse(); }
+  const pages = { [sel]: main };
+  if (key2) {
+    const IM = {};
+    ((RAW.indice && RAW.indice.m) || []).forEach((m) => { IM[m[0]] = m; });
+    const srcs = [player.nat && player.club ? player.club : player, player.natView, player.nat ? player : null].filter((x) => x && x.recent);
+    const seen = new Set();
+    const rec = [];
+    srcs.forEach((x) => x.recent.forEach((m) => { if (m.matchId && !seen.has(m.matchId)) { seen.add(m.matchId); rec.push(m); } }));
+    rec.sort((a, b) => String(b.date).localeCompare(String(a.date)));
+    const kindOf = (m) => { const lid = IM[m.matchId] && IM[m.matchId][1]; if (!lid) return null; if (NATIONS_KEYS.includes(lid)) return 'nations'; if (CUP_IDS.includes(lid)) return 'coppa'; return leagueById(lid) ? 'campionato' : null; };
+    ['campionato', 'coppa', 'nations'].forEach((k) => {
+      if (k === sel || !byVal[k]) return;
+      const ms = rec.filter((m) => kindOf(m) === k && Number(m.minutes) >= 50 && m[key2] != null && m.opp).slice(0, 5);
+      if (!ms.length) return;
+      pages[k] = { key: k, name: byVal[k].comp.name, logo: byVal[k].comp.logo, values: ms.map((m) => Number(m[key2])).reverse(), games: ms.map(gameOf).reverse() };
+    });
+  }
+  return [sel, ...['campionato', 'coppa', 'nations'].filter((k) => k !== sel)].map((k) => pages[k]).filter(Boolean);
+}
+
+// Hit Rate a colonne al posto delle pillole: una colonna per partita (la piu' vecchia a sinistra), una pagina per competizione
+function HitPanel({ C, player, vals, mins, key2, line, under, label, openRoute, comp, hitSel }) {
+  const pages = useMemo(() => hitPages(player, key2, vals, mins, comp), [player, key2, vals.join(','), mins.join(','), comp]); // eslint-disable-line react-hooks/exhaustive-deps
+  const head = hitSel ? <View style={{ width: 128 }}><Dropdown C={C} slim options={[{ value: '', label: 'Nessuna' }, ...HIT_OPTIONS]} value={hitSel.value} onChange={hitSel.onChange} placeholder="Nessuna" pillKey="label" labelKey="label" width={150} /></View> : null;
   return (
     <View>
-      <Panel ring C={C}><HitChart C={C} values={rev(vals)} line={line} under={under} games={any ? rev(games) : null} statLabel={label} openRoute={openRoute} /></Panel>
+      <Panel ring C={C}><HitChart C={C} pages={pages} line={line} under={under} statLabel={label} openRoute={openRoute} headRight={head} /></Panel>
     </View>
   );
 }
@@ -304,10 +339,11 @@ function SeasonPanel({ C, season, onChange, rate90, label, player, comp }) {
             );
           })}
         </View>
-        <View style={{ flexDirection: 'row', alignItems: 'baseline', paddingHorizontal: 18, paddingVertical: 14, borderTopWidth: 1, borderTopColor: C.hair }}>
-          <Text style={{ flex: 1, color: C.ink3, fontSize: 11, fontWeight: '700' }}>TASSO NORMALIZZATO A 90'</Text>
-          <Text style={{ color: C.ink, fontSize: 15, fontWeight: '700' }}>{rate90 === null || rate90 === undefined ? '—' : comma(rate90, 2)}</Text>
-        </View>
+        {rate90 === null || rate90 === undefined ? null : (
+          <View style={{ alignItems: 'center', paddingHorizontal: 18, paddingVertical: 16, borderTopWidth: 1, borderTopColor: C.hair }}>
+            <Text style={{ color: C.ink, fontSize: 22, fontWeight: '900' }}>Media x 90' = <Text style={{ color: C.accent }}>{comma(rate90, 2)}</Text></Text>
+          </View>
+        )}
       </Panel>
     </View>
   );
@@ -674,11 +710,11 @@ export default function CalcPlayer({ C, openRoute }) {
   return (
     <TintProvider color={teamCol}>
     <View style={{ paddingHorizontal: 20, paddingTop: 16, paddingBottom: 40 }}>
-      <PlayerPick C={C} form={vform} set={vset} player={player} onSelectPlayer={selectPlayer} stat={form.stat || 'tiri'} onStat={onStat} role={myRole} natHit={natHit} openRoute={openRoute} hitN={vform.hitN} />
+      <PlayerPick C={C} form={vform} set={vset} player={player} onSelectPlayer={selectPlayer} stat={form.stat || 'tiri'} onStat={onStat} role={myRole} natHit={natHit} openRoute={openRoute} hitN={vform.hitN} hitChart={!!player && (fouls ? parseDash(f.last5).length : parseDash(form.shots5).length) > 0} />
       <Gap />
       {fouls ? (
         <>
-          {player && parseDash(f.last5).length ? <HitPanel C={C} player={player} vals={parseDash(f.last5)} mins={parseDash(f.min5)} key2={null} line={parseNum(form.line)} under={form.lineType === 'under'} label={statTitle} openRoute={openRoute} /> : <Last5 C={C} title={statTitle} shots={f.last5} minutes={f.min5} onShots={(v) => setF({ last5: v })} onMinutes={(v) => setF({ min5: v })} />}
+          {player && parseDash(f.last5).length ? <HitPanel C={C} player={player} vals={parseDash(f.last5)} mins={parseDash(f.min5)} key2={null} line={parseNum(form.line)} under={form.lineType === 'under'} label={statTitle} openRoute={openRoute} comp={form.competizione} hitSel={{ value: f.hitRate, onChange: (v) => setF({ hitRate: v }) }} /> : <Last5 C={C} title={statTitle} shots={f.last5} minutes={f.min5} onShots={(v) => setF({ last5: v })} onMinutes={(v) => setF({ min5: v })} />}
           <Gap />
           <SeasonPanel C={C} season={f.season} onChange={(k, patch) => setF({ season: { ...f.season, [k]: { ...f.season[k], ...patch } } })} rate90={result.rate90} label={form.stat === 'fc' ? 'Commessi' : 'Subiti'} player={player} comp={form.competizione} />
           <Gap />
@@ -691,7 +727,7 @@ export default function CalcPlayer({ C, openRoute }) {
         </>
       ) : (
         <>
-          {player && parseDash(form.shots5).length ? <HitPanel C={C} player={player} vals={parseDash(form.shots5)} mins={parseDash(form.minutes5)} key2={form.tipoTiri === 'inPorta' ? 'sot' : 'shots'} line={parseNum(form.line)} under={form.lineType === 'under'} label={form.tipoTiri === 'inPorta' ? 'Tiri in porta' : 'Tiri'} openRoute={openRoute} /> : <Last5 C={C} title="Tiri" shots={form.shots5} minutes={form.minutes5} onShots={(v) => set('shots5', v)} onMinutes={(v) => set('minutes5', v)} />}
+          {player && parseDash(form.shots5).length ? <HitPanel C={C} player={player} vals={parseDash(form.shots5)} mins={parseDash(form.minutes5)} key2={form.tipoTiri === 'inPorta' ? 'sot' : 'shots'} line={parseNum(form.line)} under={form.lineType === 'under'} label={form.tipoTiri === 'inPorta' ? 'Tiri in porta' : 'Tiri'} openRoute={openRoute} comp={form.competizione} hitSel={{ value: form.hitRate, onChange: (v) => set('hitRate', v) }} /> : <Last5 C={C} title="Tiri" shots={form.shots5} minutes={form.minutes5} onShots={(v) => set('shots5', v)} onMinutes={(v) => set('minutes5', v)} />}
           <Gap />
           <SeasonPanel C={C} season={form.season} onChange={setSeason} rate90={result.rate90} label="Tiri" player={player} comp={form.competizione} />
           <Gap />

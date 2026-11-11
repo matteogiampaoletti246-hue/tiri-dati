@@ -141,3 +141,9 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 - Calcolatore giocatore: al posto delle pillole "Tiri e minuti ultime 5" c'e' `HitChart` (`native/shared/HitChart.js`): una colonna per partita (la piu' vecchia a sinistra), verde se supera la linea (rossa se no; Under al contrario), linea dorata sull'asse y, numeri sull'asse e sopra le colonne, sotto "vs Avversario" con stemma.
 - Tocco su colonna o avversario: la colonna risalta, le altre si scuriscono; secondo tocco sull'avversario apre la partita sulla scheda Formazioni (`TAB_MEM` in `shared/tabMem.js`). Senza giocatore scelto restano le pillole manuali.
 - L'avversario si ricava da `player.recent` abbinando tiri e minuti; per falli commessi/subiti (senza dati per partita) il grafico non mostra gli avversari.
+
+### Hit Rate a colonne: pagine per competizione (nativo)
+- Colonne e stemmi/scritte dell'avversario stanno nella stessa riga di larghezza uguale (centrati); stemma 20 px (24 se selezionato).
+- Il tasto "Hit rate ultime 5" sta in alto a destra del grafico (non piu' tra i campi); senza grafico resta il campo.
+- Swipe laterale nel grafico (`pagerTouch` attivo, niente "indietro"): una pagina per competizione (ultime 5 partite da almeno 50' in quella competizione). La competizione scelta (Nations League compresa) e' la prima pagina, poi campionato, coppa, nazionale. Le pagine non scelte sono solo informative (nessun peso nel calcolo).
+- Medie stagione: niente striscia "Tasso normalizzato"; al centro, in risalto, "Media x 90' = valore" (nascosta senza valore).
