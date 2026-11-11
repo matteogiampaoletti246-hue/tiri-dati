@@ -25,6 +25,10 @@ jobs:
       - name: Controlla il token
         run: |
           if [ -z "$EXPO_TOKEN" ]; then echo "EXPO_TOKEN mancante" ; exit 1; fi
+      - name: Prova di avvio (errori che sul telefono fanno schermata rossa)
+        run: |
+          npm install --no-save --prefix /tmp/sm react@19 >/dev/null 2>&1
+          NODE_PATH=/tmp/sm/node_modules node native/tools/smoke.cjs
       - name: Crea il progetto Expo con l'ultimo SDK e copia la Home di prova
         run: |
           npx --yes create-expo-app@latest app --template blank --no-install

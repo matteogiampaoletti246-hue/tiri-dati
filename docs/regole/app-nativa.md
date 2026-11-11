@@ -270,3 +270,8 @@ Come nel sito: il filtro delle linee (`Segmented fit pad={10}`) prende lo spazio
 - Loghi scuri (Champions, Premier, Ligue 1, Conference) risolti alla fonte in `buildLeagues` con il file FotMob: bianchi di notte ovunque.
 - Competizioni della stessa famiglia (Nations League, World Cup, qualificazioni) usano i colori del torneo principale (`familyOf`).
 - Dock: cambio voce con carosello (concept B): Home e pagine scorrono attaccate 1:1 (260-280 ms), a destra andando avanti e a sinistra tornando; swipe indietro e pagine non-dock restano come prima.
+
+### Prova di avvio senza telefono (obbligatoria prima di ogni push in `native/`)
+- `node native/tools/smoke.cjs` impacchetta `native/App.js` e lo esegue in Node con i pacchetti nativi finti: trova import mancanti e codice che gira troppo presto ("Property 'document'/'SITE' doesn't exist"). Gira anche in CI (`native_expo.yml`) prima di pubblicare: se fallisce, nulla va sul telefono.
+- `import './shared/shim'` deve restare la PRIMA riga di import di `native/App.js`: il livello dati del sito (`load.js`) legge `document.baseURI` appena viene importato.
+- Ogni file nuovo/modificato: anche `npx eslint` con `no-undef` sul file toccato (da qualsiasi finestra di lavoro).
