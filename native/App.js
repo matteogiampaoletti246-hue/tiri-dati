@@ -1179,7 +1179,8 @@ function Screen({ onTheme, onReset, themePref }) {
   const natStackRef = useRef([]); const natHiddenRef = useRef(false);
   natStackRef.current = natStack; natHiddenRef.current = natHidden;
   const [epoch, setEpoch] = useState(0);          // ricrea i gesti dopo il background: un gesto rimasto 'a meta'' bloccava i tasti (lo scroll nativo andava)
-  const sheetOpen = !!usePlayerSheet() || !!usePlayerPanel(); // Dock nascosto mentre una tendina/pannello giocatore e' aperta
+  const sheetS = usePlayerSheet(); const panelS = usePlayerPanel(); // due hook sempre chiamati: con '||' il secondo saltava quando la tendina era aperta e React rompeva tutta la schermata
+  const sheetOpen = !!sheetS || !!panelS; // Dock nascosto mentre una tendina/pannello giocatore e' aperta
   const [barOn, setBarOn] = useState(false);       // la barra nativa si vede solo in Home e nelle tre schede (Calcolatore, Giocatori, Matchup)
   const [tab, setTab] = useState('');               // voce della barra scelta: si evidenzia nell'istante del tocco (poi segue `route:` della pagina)
   const [homeTop, setHomeTop] = useState(0);        // tasto Home toccato in Home: la lista del giorno torna in cima

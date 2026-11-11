@@ -223,3 +223,6 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 - Calcolatore: `NextMatchBtn` carica le partite dei prossimi giorni (`useUpcoming`) cosi' la nazionale mostra la sua partita e non quella del club.
 - Ritorno dal background: nessuno svuotamento delle immagini (causava il "refresh"); svuotamento solo su memory warning o dopo 10 minuti.
 - Swipe indietro da qualunque punto: gesto `anyBack` (App.js) su tutta la pila nativa, attivo quando la pagina in cima e' sulla prima scheda o non ha schede (`shared/backGate.js`: `useBackGate` in DayPagerN/SwipeBodyN). Sulla prima scheda lo swipe a schede NON prende il movimento verso destra (niente pagina che si sposta). Ogni nuovo swipe a schede deve usare `useBackGate(index > 0)` e `activeOffsetX([-N, index > 0 ? N : 100000])`.
+
+## Hook sempre chiamati (tendina giocatore)
+- Mai `usePlayerSheet() || usePlayerPanel()` o altri hook dentro `||`, `&&`, `?:` o dopo un `return`: se il primo e' vero il secondo non viene chiamato, React lancia "meno hook di prima" e l'app si resetta alla Home (schermo nero). Ogni hook in una variabile, poi si combinano i valori.
