@@ -249,7 +249,7 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 - I riquadri con gesto proprio (momentum, storie della Panoramica) non devono prendersi i trascinamenti orizzontali veloci: il mirino segue il dito solo dopo una breve pressione.
 
 ## Nativo: barre e selettore dei periodi (statistiche partita)
-`native/shared/CompareBars.js`: la barra parte gia' dal valore vero e scorre dal valore attuale al nuovo, mai `value = 0` prima di animare. `Segmented` ha la prop `liquid` (scivolo liquido, concept A) usata in `PartitaStats.js`.
+`native/shared/CompareBars.js`: la barra parte gia' dal valore vero e scorre dal valore attuale al nuovo, mai `value = 0` prima di animare. Il selettore Totale / 1° tempo / 2° tempo usa la pillola normale (stessa animazione di tutti gli altri tasti a pillola, niente scivolo liquido). `Card` di `PartitaStats.js` sta fuori dal componente: definita dentro, le barre venivano ricreate a ogni cambio e non scorrevano.
 
 ## Nativo: Migliori Giocatori, riga linee + statistica
 Come nel sito: il filtro delle linee (`Segmented fit pad={10}`) prende lo spazio che resta e, se le voci non entrano, scorre di lato; il tasto statistica (`Dropdown slim`, `flexShrink: 0`) non si tronca mai ("Commessi", "In porta" sempre interi).

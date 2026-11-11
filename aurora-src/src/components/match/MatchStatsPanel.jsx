@@ -77,7 +77,7 @@ export default function MatchStatsPanel({ match, view, home, away, pre }) {
   return (
     <div className="flex flex-col gap-5 pb-4 pt-3">
       <div className="flex items-center gap-3 px-4">
-        <TextFilter options={[{ value: 'all', label: 'Totale' }, { value: 'first', label: '1° tempo' }, { value: 'second', label: '2° tempo' }]} value={period} onChange={setPeriod} liquid />
+        <TextFilter options={[{ value: 'all', label: 'Totale' }, { value: 'first', label: '1° tempo' }, { value: 'second', label: '2° tempo' }]} value={period} onChange={setPeriod} />
       </div>
 
       <div className="flex items-center gap-2 px-5">

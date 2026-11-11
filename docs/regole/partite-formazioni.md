@@ -83,5 +83,3 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 ## Barre statistiche partita: mai da zero
 Le barre di `CompareBars` compaiono subito ai valori veri (niente memoria di valori vecchi all'ingresso nella scheda). Cambiando Totale / 1° tempo / 2° tempo o con dati live, ogni barra scorre direttamente dal valore in cui sta a quello nuovo (es. 10 -> 7), mai 10 -> 0 -> 7.
 
-## Selettore Totale / 1° tempo / 2° tempo: scivolo liquido (concept A)
-La pillola si allunga verso il tasto nuovo e poi si ritira (640 ms, senza rimbalzo): `TextFilter` con la prop `liquid`, usata nelle statistiche partita. Le barre scorrono insieme, sempre dal valore attuale al nuovo.
