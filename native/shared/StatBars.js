@@ -78,8 +78,8 @@ export function Bar({ C, width, col, avgPos, avgText, delay = 0, grow = true, sl
 const absFill = { position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 };
 
 // riga: etichetta, valore a pillola colorata, posizione, barra
-export function BarRow({ C, label, valueText, frac, width, avgPos, avgText, rank, first, delay = 0 }) {
-  const col = bandColor(frac);
+export function BarRow({ C, label, valueText, frac, width, avgPos, avgText, rank, first, delay = 0, accent = false }) {
+  const col = accent ? C.accent : bandColor(frac);
   return (
     <View style={{ paddingHorizontal: 16, paddingVertical: 10, borderTopWidth: first ? 0 : 1, borderTopColor: C.border }}>
       <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: 8 }}>

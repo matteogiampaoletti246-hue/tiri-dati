@@ -12,6 +12,14 @@ export default function EntityBannerN({ C, top = 0, onBack, name, subtitle, meta
   const hex = /^#[0-9a-f]{6}$/i.test(c0) ? c0 : '#1E4BD8';
   return (
     <View style={{ backgroundColor: C.sheet, overflow: 'hidden', borderBottomWidth: 2, borderBottomColor: hex, paddingTop: top }}>
+      {flagUrl && !photoUrl ? (
+        // bandiera nazionale (concept A, 12/11/2026): rettangolo 4:3 vero, piu' in basso a destra, poco nitido e sfumato verso sinistra e in alto; i colori della squadra le passano sopra come per lo stemma dei club
+        <View pointerEvents="none" style={{ position: 'absolute', right: -14, bottom: -26, width: 250, height: 188 }}>
+          <Image source={{ uri: flagUrl }} blurRadius={2} style={{ position: 'absolute', left: 0, top: 0, width: 250, height: 188, opacity: 0.6 }} contentFit="fill" cachePolicy="memory-disk" />
+          <LinearGradient colors={[C.sheet, `${C.sheet}00`]} start={{ x: 0, y: 0 }} end={{ x: 0.65, y: 0 }} style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }} />
+          <LinearGradient colors={[C.sheet, `${C.sheet}00`]} start={{ x: 0, y: 0 }} end={{ x: 0, y: 0.45 }} style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }} />
+        </View>
+      ) : null}
       <LinearGradient pointerEvents="none" colors={[`${hex}b3`, `${hex}40`, `${hex}00`]} start={{ x: 0, y: 0 }} end={{ x: 0.85, y: 1 }} style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }} />
       <LinearGradient pointerEvents="none" colors={[`${hex}00`, `${hex}77`]} start={{ x: 0.35, y: 0.5 }} end={{ x: 1, y: 0.5 }} style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }} />
       {photoUrl ? (
@@ -19,9 +27,7 @@ export default function EntityBannerN({ C, top = 0, onBack, name, subtitle, meta
         <View pointerEvents="none" style={{ position: 'absolute', right: 0, top, bottom: 0, width: '60%', overflow: 'hidden' }}>
           <Image source={{ uri: photoUrl }} style={{ position: 'absolute', right: 12, bottom: 0, height: '100%', aspectRatio: 1 }} contentFit="contain" contentPosition="bottom right" cachePolicy="memory-disk" />
         </View>
-      ) : flagUrl ? (
-        <Image source={{ uri: flagUrl }} pointerEvents="none" style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: '46%', opacity: 0.55 }} contentFit="cover" cachePolicy="memory-disk" />
-      ) : logoUrl ? (
+      ) : !flagUrl && logoUrl ? (
         <Image source={{ uri: logoUrl }} pointerEvents="none" style={{ position: 'absolute', right: -big * 0.14, top: '50%', marginTop: -big / 2 + (top ? top / 2 : 0), width: big, height: big, opacity: 0.55 }} contentFit="contain" tintColor={logoTint || undefined} cachePolicy="memory-disk" />
       ) : null}
       <View style={{ flexDirection: 'row', alignItems: 'flex-start', paddingLeft: 6, paddingRight: 16, paddingTop: 10, paddingBottom: tall ? 22 : 12 }}>

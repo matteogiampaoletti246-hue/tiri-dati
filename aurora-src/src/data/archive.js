@@ -708,7 +708,9 @@ const NUMV = (v) => { const n = parseFloat(String(v).replace(',', '.')); return 
 const TEAM_PART_KEYS = ['BallPossesion', 'expected_goals', 'total_shots', 'ShotsOnTarget', 'ShotsOffTarget', 'blocked_shots', 'shots_woodwork', 'shots_inside_box', 'shots_outside_box', 'big_chance', 'big_chance_missed_title',
   'touches_opp_box', 'corners', 'passes', 'accurate_passes', 'own_half_passes', 'opposition_half_passes', 'long_balls_accurate', 'accurate_crosses', 'player_throws', 'Offsides', 'matchstats.headers.tackles', 'interceptions',
   'shot_blocks', 'clearances', 'keeper_saves', 'duel_won', 'ground_duels_won', 'aerials_won', 'dribbles_succeeded', 'yellow_cards', 'red_cards', 'fouls', 'fouls_suffered'];
-export const teamPartStats = (lid, sk, part) => once(`tps/${lid}/${sk}/${part}`, async () => {
+// conc = true: statistiche SUBITE (valore dell'avversario nella stessa partita) per il tasto VS; chiavi `<k>_conceded`, falli = `fouls_suffered`, gol subiti = `goals_conceded`
+const CONC_KEYS = ['expected_goals', 'total_shots', 'ShotsOnTarget', 'ShotsOffTarget', 'shots_inside_box', 'shots_outside_box', 'big_chance', 'corners', 'fouls'];
+export const teamPartStats = (lid, sk, part, conc = false) => once(`tps/${lid}/${sk}/${part}${conc ? '/c' : ''}`, async () => {
   const d = await loadSeasonMatches(lid, sk);
   if (!d || !d.m) return null;
   const season = await loadSeason(lid, sk);
@@ -729,16 +731,29 @@ export const teamPartStats = (lid, sk, part) => once(`tps/${lid}/${sk}/${part}`,
     [[0, hid, 'home'], [1, aid, 'away']].forEach(([side, tid, where]) => {
       if (part === 'home' && where !== 'home') return;
       if (part === 'away' && where !== 'away') return;
-      TEAM_PART_KEYS.forEach((k) => {
+      (conc ? CONC_KEYS : TEAM_PART_KEYS).forEach((k) => {
         // falli subiti: i falli commessi dall'avversario nella stessa partita
         const arr = k === 'fouls_suffered' ? m.s.fouls : m.s[k];
-        const v = arr ? NUMV(arr[k === 'fouls_suffered' ? 1 - side : side]) : null;
+        const v = arr ? NUMV(arr[conc || k === 'fouls_suffered' ? 1 - side : side]) : null;
         if (v === null) return;
-        const a = ((acc[k] = acc[k] || {})[tid] = acc[k][tid] || { s: 0, n: 0 });
+        const ok = conc ? (k === 'fouls' ? 'fouls_suffered' : `${k}_conceded`) : k;
+        const a = ((acc[ok] = acc[ok] || {})[tid] = acc[ok][tid] || { s: 0, n: 0 });
         a.s += v; a.n += 1;
       });
     });
   });
+  if (conc) {
+    // gol subiti: dal calendario (tutte le partite giocate, anche senza statistiche)
+    Object.values(fx).forEach((f) => {
+      const sc = String(f[5] || '').match(/(\d+)\s*-\s*(\d+)/);
+      if (!f[6] || f[8] || !sc) return;
+      [[f[2], +sc[2], 'home'], [f[3], +sc[1], 'away']].forEach(([tid, g, where]) => {
+        if ((part === 'home' && where !== 'home') || (part === 'away' && where !== 'away')) return;
+        const a = ((acc.goals_conceded = acc.goals_conceded || {})[tid] = acc.goals_conceded[tid] || { s: 0, n: 0 });
+        a.s += g; a.n += 1;
+      });
+    });
+  }
   const teams = {};
   Object.entries(acc).forEach(([k, per]) => {
     const rows = Object.entries(per).filter(([, a]) => a.n > 0).map(([tid, a]) => [null, names[tid] || '', Number(tid), a.s / a.n, 0, a.n]);

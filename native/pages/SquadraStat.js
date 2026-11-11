@@ -195,9 +195,19 @@ function DomesticStats({ C, team, comp, openRoute }) {
 
 /* ---------- stagioni passate ---------- */
 const TILES = [['gol', 'Gol'], ['expected_goals', 'xG'], ['total_shots', 'Tiri'], ['ShotsOnTarget', 'Tiri in porta']];
-function useTiles(fm, sk, tid) {
+const TILES_SUB = [['goals_conceded', 'Gol subiti'], ['expected_goals_conceded', 'xG subiti'], ['total_shots_conceded', 'Tiri concessi'], ['ShotsOnTarget_conceded', 'TiP concessi']];
+function useTiles(fm, sk, tid, sub) {
   return useAsync(async () => {
-    const [ps, season] = await Promise.all([teamPartStats(fm, sk, 'tot').catch(() => null), loadSeason(fm, sk).catch(() => null)]);
+    const [ps, season] = await Promise.all([teamPartStats(fm, sk, 'tot', !!sub).catch(() => null), loadSeason(fm, sk).catch(() => null)]);
+    if (sub) {
+      const out = [];
+      TILES_SUB.forEach(([k, label]) => {
+        const l = ps && ps.teams && ps.teams[k]; if (!l || l.length < 3) return;
+        const i = l.findIndex((r) => String(r[2]) === String(tid)); if (i < 0) return;
+        out.push({ k, label, v: Number(l[i][3]), rank: l.length - i, total: l.length, frac: l.length > 1 ? i / (l.length - 1) : 1 });
+      });
+      return out;
+    }
     const goals = {};
     ((season && season.fix) || []).forEach((m) => {
       const sc = String(m[5] || '').match(/(\d+)\s*-\s*(\d+)/);
@@ -216,15 +226,17 @@ function useTiles(fm, sk, tid) {
       out.push({ k, label, v: Number(l[i][3]), rank: i + 1, total: l.length, frac: l.length > 1 ? 1 - i / (l.length - 1) : 1 });
     });
     return out;
-  }, [fm, sk, tid]);
+  }, [fm, sk, tid, !!sub]);
 }
 const catOfMatchKey = (k) => (/yellow|red_cards|fouls|Offsides/.test(k) ? 'Disciplina' : /tackles|interceptions|shot_blocks|clearances|keeper_saves/.test(k) ? 'Difesa' : /expected_goals|shots|ShotsOn|ShotsOff|big_chance|corners|touches_opp_box|woodwork/.test(k) ? 'Attacco' : 'Gioco');
 const catOfSeasonGroup = (g) => (['Attacco', 'Difesa', 'Disciplina'].includes(g) ? g : 'Gioco');
+const SUB_TITLE = { goals_conceded: 'Gol subiti', expected_goals_conceded: 'xG subiti', total_shots_conceded: 'Tiri concessi', ShotsOnTarget_conceded: 'Tiri in porta concessi', ShotsOffTarget_conceded: 'Tiri fuori concessi',
+  shots_inside_box_conceded: 'Tiri concessi in area', shots_outside_box_conceded: 'Tiri concessi da fuori area', big_chance_conceded: 'Palle gol concesse', corners_conceded: 'Corner concessi', fouls_suffered: 'Falli subiti' };
 const GROUP_ORDER = ['Attacco', 'Difesa', 'Disciplina', 'Gioco'];
 
-function TeamSeasonStats({ C, fm, sk, tid, part, cat, tc }) {
-  const wantMatch = part !== 'tot';
-  const { data: res, loading } = useAsync(async () => ({ byMatch: wantMatch, stats: await (wantMatch ? teamPartStats(fm, sk, part) : loadTeamStats(fm, sk)) }), [fm, sk, part]);
+function TeamSeasonStats({ C, fm, sk, tid, part, cat, tc, sub }) {
+  const wantMatch = part !== 'tot' || !!sub;
+  const { data: res, loading } = useAsync(async () => ({ byMatch: wantMatch, stats: await (wantMatch ? teamPartStats(fm, sk, part, !!sub) : loadTeamStats(fm, sk)) }), [fm, sk, part, !!sub]);
   const stats = res ? res.stats : undefined;
   const byMatch = res ? res.byMatch : wantMatch;
   if (loading && !stats) return <PanelSkN C={C} />;
@@ -239,20 +251,21 @@ function TeamSeasonStats({ C, fm, sk, tid, part, cat, tc }) {
     const idx = list.findIndex((r) => String(r[2]) === String(tid));
     if (idx < 0) return;
     me = me || list[idx];
-    const g = byMatch ? catOfMatchKey(k) : catOfSeasonGroup(groupOf(k.replace(/_team$/, '')));
+    const g = sub ? (k === 'fouls_suffered' ? 'Disciplina' : 'Attacco') : byMatch ? catOfMatchKey(k) : catOfSeasonGroup(groupOf(k.replace(/_team$/, '')));
     if (cat !== 'all' && g !== cat) return;
-    (groups[g] = groups[g] || []).push({ k, st: standingOf(list, idx, k, null), title: byMatch ? (STAT_IT[k] || prettyKey(k)) : (SEASON_STAT_IT[k] || prettyKey(k)) });
+    (groups[g] = groups[g] || []).push({ k, st: standingOf(list, idx, k, null), title: sub ? (SUB_TITLE[k] || prettyKey(k)) : byMatch ? (STAT_IT[k] || prettyKey(k)) : (SEASON_STAT_IT[k] || prettyKey(k)) });
   });
   if (!me) return <Msg>Nessuna presenza in questa stagione</Msg>;
   const order = Object.keys(groups).sort((a, b) => GROUP_ORDER.indexOf(a) - GROUP_ORDER.indexOf(b));
+  if (sub && !order.length) return null;
   return (
     <View style={{ paddingHorizontal: 20, paddingTop: 16, paddingBottom: 40, gap: 16 }}>
       {order.map((g) => (
-        <View key={g} style={{ borderRadius: 18, overflow: 'hidden', backgroundColor: `${tc}1c`, borderWidth: 1, borderColor: `${tc}55` }}>
-          <Text style={{ color: C.ink, fontSize: 14, fontWeight: '600', paddingHorizontal: 16, paddingTop: 14, paddingBottom: 6 }}>{g}</Text>
+        <View key={g} style={{ borderRadius: 18, overflow: 'hidden', backgroundColor: sub ? `${C.accent}18` : `${tc}1c`, borderWidth: 1, borderColor: sub ? `${C.accent}66` : `${tc}55` }}>
+          <Text style={{ color: C.ink, fontSize: 14, fontWeight: '600', paddingHorizontal: 16, paddingTop: 14, paddingBottom: 6 }}>{sub && g === 'Attacco' ? 'Attacco subito' : g}</Text>
           {groups[g].map((r, i) => (
             <BarRow key={r.k} C={C} first={i === 0} label={r.title} valueText={byMatch ? (/BallPossesion/.test(r.k) ? `${Math.round(r.st.v)}%` : Number(r.st.v).toFixed(Number.isInteger(r.st.v) ? 0 : 2).replace('.', ',')) : fmtVal(r.k, r.st.v)}
-              frac={r.st.frac} width={r.st.width} avgPos={r.st.avgPos} avgText={byMatch ? f2(r.st.avg) : fmtVal(r.k, r.st.avg)} rank={r.st.rank} delay={Math.min(i, 8) * 40} />
+              frac={r.st.frac} width={r.st.width} avgPos={r.st.avgPos} avgText={byMatch ? f2(r.st.avg) : fmtVal(r.k, r.st.avg)} rank={r.st.rank} delay={Math.min(i, 8) * 40} accent={!!sub} />
           ))}
         </View>
       ))}
@@ -264,22 +277,30 @@ function TeamSeasonStats({ C, fm, sk, tid, part, cat, tc }) {
 function PastTeamStats({ C, fm, sk, team, comp, cur, openRoute }) {
   const [part, setPart] = useState('tot');
   const [cat, setCat] = useState('all');
+  const [sub, setSub] = useState(false);
   const { data: season, loading } = useAsync(() => loadSeason(fm, sk), [fm, sk]);
+  const { data: subOk } = useAsync(() => teamPartStats(fm, sk, 'tot', true).then((r) => !!(r && r.teams && Object.keys(r.teams).length)).catch(() => false), [fm, sk]);
   const tc = hex6(team.colors && team.colors[0]);
   const fid = teamFmId(team);
   const tid = season ? (fid && season.teams && season.teams[fid] ? String(fid) : teamIdByName(season.teams, team.name)) : null;
-  const { data: tiles } = useTiles(fm, sk, tid);
+  const subOn = !!(sub && subOk);
+  const { data: tiles } = useTiles(fm, sk, tid, subOn);
+  const catsS = subOn ? CATS_S.filter((c) => ['all', 'Attacco', 'Disciplina'].includes(c.value)) : CATS_S;
+  const catNow = catsS.some((c) => c.value === cat) ? cat : 'all';
   if (loading) return <PanelSkN C={C} />;
   if (!season || !tid) return null;
   return (
     <View>
-      {tiles && tiles.length ? <View style={{ flexDirection: 'row', gap: 8, paddingHorizontal: 16, paddingTop: 12 }}>{tiles.map((t) => <Tile key={t.k} C={C} label={t.label} value={comma(t.v, 1)} rank={t.rank} col={bandColor(t.frac)} />)}</View> : null}
+      {tiles && tiles.length ? <View style={{ flexDirection: 'row', gap: 8, paddingHorizontal: 16, paddingTop: 12 }}>{tiles.map((t) => <Tile key={t.k} C={C} label={t.label} value={comma(t.v, 1)} rank={t.rank} col={subOn ? C.accent : bandColor(t.frac)} />)}</View> : null}
       {cur && comp ? <NextRow C={C} team={team} comp={comp} openRoute={openRoute} /> : null}
       <View style={{ paddingHorizontal: 16, paddingTop: 12, gap: 8 }}>
-        <Segmented C={C} options={PARTS_S} value={part} onChange={setPart} />
-        <Segmented C={C} options={CATS_S} value={cat} onChange={setCat} />
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+          <View style={{ flex: 1 }}><Segmented C={C} options={PARTS_S} value={part} onChange={setPart} /></View>
+          {subOk ? <VsSwitch C={C} on={subOn} onChange={setSub} /> : null}
+        </View>
+        <Segmented C={C} options={catsS} value={catNow} onChange={setCat} />
       </View>
-      <TeamSeasonStats C={C} fm={fm} sk={sk} tid={tid} part={part} cat={cat} tc={tc} />
+      <TeamSeasonStats C={C} fm={fm} sk={sk} tid={tid} part={part} cat={catNow} tc={tc} sub={subOn} />
     </View>
   );
 }
