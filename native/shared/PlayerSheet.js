@@ -304,7 +304,10 @@ const EASE = Easing.bezier(0.22, 0.8, 0.24, 1);
 
 export default function PlayerSheetHost({ C, bottom = 0, openRoute }) {
   const sheet = usePlayerSheet();
-  const c = useCard(sheet);
+  const cNow = useCard(sheet);
+  const lastC = useRef(null);
+  if (cNow) lastC.current = cNow;
+  const c = cNow || lastC.current; // durante la chiusura la scheda resta disegnata finche' la tendina non e' scesa
   const { height: H } = useWindowDimensions();
   const SH = Math.round(H * 0.92);
   const HALF = Math.round(SH - H * 0.72); // distanza dalla posizione aperta al 72%
@@ -323,14 +326,14 @@ export default function PlayerSheetHost({ C, bottom = 0, openRoute }) {
   // apertura e chiusura: se si riapre mentre sta ancora chiudendo (altra tendina subito dopo) si risale senza smontare; la fine della chiusura smonta solo se nel frattempo non si e' riaperta
   useEffect(() => {
     if (open) {
-      if (!mounted) { y.setValue(SH); setMounted(true); } else snap(base.current === 0 ? 0 : HALF);
+      if (!mounted) { y.setValue(SH); setMounted(true); } else snap(0);
       return undefined;
     }
-    if (mounted) snap(SH, () => { if (!live.current.open) setMounted(false); });
+    if (mounted) snap(SH, () => { if (!live.current.open) { setMounted(false); lastC.current = null; } });
     return undefined;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
-  useEffect(() => { if (mounted && live.current.open) snap(HALF); }, [mounted]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => { if (mounted && live.current.open) snap(0); }, [mounted]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // passaggio a un compagno / al sostituto: dissolvenza con piccolo scorrimento
   const switchTo = (to, d) => {
@@ -377,7 +380,7 @@ export default function PlayerSheetHost({ C, bottom = 0, openRoute }) {
     onPanResponderRelease: (_, g) => { if (Math.abs(g.dx) > 70 || Math.abs(g.vx) > 0.5) go(g.dx < 0 ? 1 : -1); },
   })).current;
 
-  if (!mounted || !sheet || !c) return null;
+  if (!mounted || !c) return null;
   const veil = y.interpolate({ inputRange: [0, HALF, SH], outputRange: [0.55, 0.4, 0], extrapolate: 'clamp' });
   const foot = y.interpolate({ inputRange: [0, HALF, SH], outputRange: [0, -HALF, 0], extrapolate: 'clamp' }); // la barra X/Profilo resta sul fondo dello schermo anche con la tendina a meta' (il fondo della tendina e' fuori schermo)
   const t = c.team;

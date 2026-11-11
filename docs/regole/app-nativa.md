@@ -230,3 +230,8 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 ## Tendina giocatore e apertura partita (11 nov)
 - Tendina: la barra X/Profilo sta sempre sul fondo dello schermo (compensa lo spostamento della tendina a meta') con sfumatura come il sito; riaprire durante la chiusura risale senza smontare; lo smontaggio a fine chiusura solo se nel frattempo non e' stata riaperta.
 - Partita: la testata (squadre, risultato, stato) si vede subito dai dati della Home, le schede arrivano dopo i dati principali; l'elenco FotMob del giorno parte in parallelo al dettaglio (`fmDay` in `fotmob.js`).
+
+## Tendina piena, dati in anticipo, guardia dei tasti (11 nov)
+- Tendina giocatore: si apre alla massima altezza; la X la fa scendere con animazione (la scheda resta disegnata finche' e' sotto lo schermo).
+- `bootShared()` (squadre, partite, giocatori) parte a riposo 2,5 s dopo l'avvio: prima partiva al primo tocco su una partita e valeva la maggior parte dell'attesa.
+- Guardia dei tasti (`probe` in `Screen`): dopo un background di oltre 20 s, se il dito arriva al gesto nativo ma JS non riceve nessun touchStart per 2 volte, l'app riparte da zero (Screen + `GestureHandlerRootView` con `rootKey`).

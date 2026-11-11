@@ -1170,6 +1170,23 @@ function Screen({ onTheme, onReset, themePref }) {
   const [cur, setCur] = useState(TODAY_INDEX);
   const [filter, setFilter] = useState('all');
   const openRef = useRef(false);
+  // Guardia dei tasti: dopo un ritorno dal background il tocco 'nativo' (scroll, swipe) puo' funzionare mentre i tasti (tocchi letti da JS) no.
+  // Il gesto-sonda vede ogni dito (stesso canale dello swipe): se il dito c'e' e JS non riceve nessun touchStart, e' successo 2 volte di fila, l'app riparte da zero (contenitore dei gesti compreso).
+  const jsTouch = useRef(0); const armedUntil = useRef(0); const missed = useRef(0); const healAt = useRef(0);
+  const onGhTouch = useCallback(() => {
+    const at = Date.now();
+    if (at > armedUntil.current || at < healAt.current) return;
+    setTimeout(() => {
+      if (AppState.currentState !== 'active') return;
+      if (jsTouch.current >= at - 80) { missed.current = 0; return; }
+      if (openRef.current) return; // sopra c'e' la pagina web: i suoi tocchi non passano da qui
+      missed.current += 1;
+      if (missed.current >= 2) { missed.current = 0; healAt.current = Date.now() + 8000; if (onReset) onReset(); }
+    }, 900);
+  }, [onReset]);
+  const probe = useMemo(() => Gesture.Pan().manualActivation(true).onTouchesDown((e, st) => { runOnJS(onGhTouch)(); st.fail(); }), [onGhTouch]);
+  // dati condivisi (squadre, partite, giocatori ~3 MB) scaricati a riposo poco dopo l'avvio: la prima partita aperta non deve aspettarli (prima partivano al tocco e valevano la maggior parte dei 7 s)
+  useEffect(() => { const t = setTimeout(() => InteractionManager.runAfterInteractions(() => { bootShared().catch(() => {}); }), 2500); return () => clearTimeout(t); }, []);
   // La pagina web si prepara a riposo (2,5 s dopo l'avvio) e poi ci mette un po' a caricarsi. Un tocco prima che sia pronta
   // (tasto in basso, ricerca, menu, partita) non puo' cambiare l'hash di una pagina che non c'e' ancora: la rotta si ricorda
   // (`pendingHash`), la pagina si monta subito gia' sulla rotta giusta (`bootUri`) e al termine del caricamento si applica.
@@ -1327,7 +1344,7 @@ function Screen({ onTheme, onReset, themePref }) {
     const sub = AppState.addEventListener('change', (st) => {
       if (st === 'background') { bgAt.current = Date.now(); return; } // in background l'app pesa il meno possibile: il sistema chiude per prime le app pesanti
       if (st === 'active') { setTimeout(() => setEpoch((e) => e + 1), 900); try { Keyboard.dismiss(); } catch (e) { /* ignora */ } }
-      if (st === 'active') globalThis.__resumeUntil = Date.now() + 5000; // dati in background fermi per 5 s: l'app torna subito al tocco
+      if (st === 'active') { globalThis.__resumeUntil = Date.now() + 5000; if (bgAt.current && Date.now() - bgAt.current > 20000) { armedUntil.current = Date.now() + 240000; missed.current = 0; } } // dati in background fermi per 5 s: l'app torna subito al tocco
       if (st !== 'active' || !bgAt.current) return;
       const gap = Date.now() - bgAt.current; bgAt.current = 0;
       if (gap > 10 * 60 * 1000) { try { Image.clearMemoryCache(); } catch (e) { /* ignora */ } if (onReset) onReset(); return; }
@@ -1457,7 +1474,7 @@ function Screen({ onTheme, onReset, themePref }) {
   const tIdx = keys.indexOf(todayKey); const liveN = tIdx >= 0 ? data[tIdx].reduce((n, m) => n + (m[8] === 'l' ? 1 : 0), 0) : 0; // badge del dock: partite live di oggi
   const shown = [cur - 2, cur - 1, cur, cur + 1, cur + 2].filter((i) => i >= 0 && i < N);
   return (
-    <View style={[s.root, { paddingTop: insets.top }]} onTouchStart={(e) => { TOUCH.y = e.nativeEvent.pageY; }}>
+    <GestureDetector gesture={probe}><View style={[s.root, { paddingTop: insets.top }]} onTouchStart={(e) => { TOUCH.y = e.nativeEvent.pageY; jsTouch.current = Date.now(); }}>
       <Beams />
       <StatusBar barStyle={C.dark ? 'light-content' : 'dark-content'} />
       <Header onSearch={openSearch} onMenu={openMenuP} onCal={() => setCal(true)} />
@@ -1490,7 +1507,7 @@ function Screen({ onTheme, onReset, themePref }) {
       {/* tendine della riga in alto: sopra la Home e sopra la barra (la barra non cambia) */}
       <SearchPanel open={srch} onClose={closeSrch} onPick={pickSrch} ask={askSearch} res={srchRes} ready top={insets.top + 4} />
       <MenuPanel open={menu} onClose={closeMenu} onGo={goMenu} ui={ui} onCmd={uiCmd} top={insets.top} bottom={insets.bottom} />
-    </View>
+    </View></GestureDetector>
   );
 }
 
@@ -1507,14 +1524,15 @@ export default function App() {
   const [pref, setPref] = useState('dark'); // scelta nel menu: light | dark | system
   const sysScheme = useColorScheme();
   const [gen, setGen] = useState(0); // nuova generazione = tutta l'app riparte (dopo piu' di 10 minuti in background)
-  const onReset = useCallback(() => setGen((g) => g + 1), []);
+  const [rootKey, setRootKey] = useState(0); // anche il contenitore dei gesti riparte: se il tocco nativo e' rimasto 'rotto' dopo il background, un Screen nuovo da solo non basta
+  const onReset = useCallback(() => { setGen((g) => g + 1); setRootKey((k) => k + 1); }, []);
   useEffect(() => { AsyncStorage.getItem('sl-theme').then((v) => { if (v === 'light' || v === 'dark' || v === 'system') setPref(v); }).catch(() => {}); }, []);
   const onTheme = useCallback((t) => { setPref(t); AsyncStorage.setItem('sl-theme', t).catch(() => {}); }, []);
   const [homeOn, setHomeOn] = useState(LAUNCHED);
   const onPop = useCallback(() => setHomeOn(true), []);
   const theme = pref === 'system' ? (sysScheme === 'light' ? 'light' : 'dark') : pref;
   const T = THEMES[theme];
-  return <GestureHandlerRootView style={{ flex: 1, backgroundColor: T.C.bg }}><TCtx.Provider value={T}><SafeAreaProvider>{homeOn ? <Guard key={gen} onError={() => setTimeout(onReset, 50)}><Screen onTheme={onTheme} onReset={onReset} themePref={pref} /></Guard> : null}</SafeAreaProvider><LaunchOverlay onPop={onPop} /></TCtx.Provider></GestureHandlerRootView>;
+  return <GestureHandlerRootView key={rootKey} style={{ flex: 1, backgroundColor: T.C.bg }}><TCtx.Provider value={T}><SafeAreaProvider>{homeOn ? <Guard key={gen} onError={() => setTimeout(onReset, 50)}><Screen onTheme={onTheme} onReset={onReset} themePref={pref} /></Guard> : null}</SafeAreaProvider><LaunchOverlay onPop={onPop} /></TCtx.Provider></GestureHandlerRootView>;
 }
 
 const makeStyles = (C) => StyleSheet.create({

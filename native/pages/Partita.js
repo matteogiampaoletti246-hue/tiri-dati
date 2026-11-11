@@ -42,6 +42,7 @@ export default function Partita({ C, top, onBack, bottom = 90, openRoute, params
     setOk(false);
     (async () => {
       await bootShared();
+      if (on) bump((n) => n + 1); // dati condivisi pronti: la testata compare subito, prima delle schede
       const cap = setTimeout(() => on && setOk(true), 2500); // max 2,5 s: la pagina compare comunque
       await prepareMatchCore(id); // appena pronti i dati principali la pagina si apre; meteo, arbitro e rose arrivano subito dopo
       clearTimeout(cap);
