@@ -27,7 +27,6 @@ export default function HitChart({ C, pages, line, under, statLabel, openRoute, 
   const yOf = (v) => (v / max) * PLOT_H;
   const hit = (v) => (under ? v < line : v > line);
   const cur = list[Math.min(pg, list.length - 1)];
-  const hits = hasLine ? cur.values.filter(hit).length : 0;
   const goMatch = (m) => { if (!m || !m.matchId || !openRoute) return; TAB_MEM.set(String(m.matchId), 'lineups'); openRoute(`/match/${m.matchId}`); };
   const dim = sel != null;
   const onScroll = (e) => { if (W > 0) { const i = Math.round(e.nativeEvent.contentOffset.x / W); if (i !== pg) { setPg(i); setSel(null); } } };
@@ -37,7 +36,6 @@ export default function HitChart({ C, pages, line, under, statLabel, openRoute, 
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12, paddingHorizontal: 2, gap: 10 }}>
         <View style={{ flexShrink: 1 }}>
           <Text numberOfLines={1} style={{ color: C.ink, fontSize: 15, fontWeight: '800' }}>Hit rate · {statLabel}</Text>
-          <Text numberOfLines={1} style={{ color: C.ink3, fontSize: 10.5, fontWeight: '700', letterSpacing: 0.8, textTransform: 'uppercase', marginTop: 2 }}>Ultime {cur.values.length} partite{hasLine ? ` · linea ${String(line).replace('.', ',')} · ${hits}/${cur.values.length}` : ''}</Text>
         </View>
         {headRight || null}
       </View>
@@ -61,7 +59,7 @@ export default function HitChart({ C, pages, line, under, statLabel, openRoute, 
           {W > 0 ? (
             <ScrollView ref={ref} horizontal pagingEnabled showsHorizontalScrollIndicator={false} bounces={list.length > 1} scrollEnabled={list.length > 1} onScroll={onScroll} scrollEventThrottle={16}
               onTouchStart={() => { pagerTouch.value = 1; }} onTouchEnd={release} onTouchCancel={release} onScrollEndDrag={release} onMomentumScrollEnd={release}
-              style={{ overflow: 'visible' }}>
+              style={{ overflow: 'hidden' }}>
               {list.map((p, pi) => {
                 const n = p.values.length;
                 const itemW = Math.floor(W / Math.max(n, 5));
@@ -91,7 +89,7 @@ export default function HitChart({ C, pages, line, under, statLabel, openRoute, 
                           return (
                             <Pressable key={i} onPress={() => (on ? goMatch(m) : setSel(`${pi}:${i}`))} disabled={!m} style={{ width: itemW, alignItems: 'center', gap: 3, opacity: dim && !on ? 0.28 : 1 }}>
                               {m && m.team ? <TeamCrest team={m.team} size={on ? 24 : 20} C={C} /> : null}
-                              {m ? <Text numberOfLines={2} style={{ color: on ? C.ink : C.ink2, fontSize: 9.5, fontWeight: on ? '800' : '600', textAlign: 'center', lineHeight: 11 }}>vs {m.opp}</Text> : null}
+                              {m ? <Text numberOfLines={2} style={{ color: on ? C.ink : C.ink2, fontSize: 9.5, fontWeight: on ? '800' : '600', textAlign: 'center', lineHeight: 11 }}>vs {m.label || m.opp}</Text> : null}
                               {on && m && m.matchId ? <Text style={{ color: C.accent, fontSize: 9, fontWeight: '800', marginTop: 1 }}>Partita ›</Text> : null}
                             </Pressable>
                           );

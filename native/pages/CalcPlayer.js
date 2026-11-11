@@ -219,7 +219,6 @@ function PlayerPick({ C, form, set, player, onSelectPlayer, stat, onStat, role, 
         <SedeButtonsN C={C} value={form.sede} onChange={(v) => set('sede', v)} />
         {comps.length ? <FieldRow C={C} label="Competizione"><Select C={C} title="Competizione" value={form.competizione} options={comps.map((o) => ({ value: o.value, label: o.comp.name, sub: o.sub, comp: o.comp, color: hexOr(o.comp.colors && o.comp.colors[0], '#1F2A44'), color2: hexOr(o.comp.colors && o.comp.colors[1], undefined) }))} onChange={(v) => set('competizione', v)} /></FieldRow> : null}
         {form.playerId && hitChart ? null : <FieldRow C={C} label={hitTitle}><Select C={C} title={hitTitle} value={form.hitRate} placeholder="Nessuna" options={[{ value: '', label: 'Nessuna' }, ...HIT_OPTIONS]} onChange={(v) => set('hitRate', v)} /></FieldRow>}
-        {natHit ? <FieldRow C={C} label="Hit rate nazionale"><Text style={{ color: C.ink, fontSize: 15, fontWeight: '700', textAlign: 'right' }}>{natHit.hit}/{natHit.n}</Text></FieldRow> : null}
       </Panel>
       <PlayerSearch C={C} open={picker} onClose={() => setPicker(false)} onSelect={onSelectPlayer} onWarm={warmPlayer} />
     </View>
@@ -240,50 +239,59 @@ function gamesFor(player, key, vals, mins) {
       if (Number(m[key]) === v && (mins[i] == null || Number(m.minutes) === mins[i])) { hit = m; j = k + 1; break; }
     }
     if (!hit || !hit.opp) { out.push(null); return; }
-    const t = teamByName(hit.opp);
-    out.push({ opp: hit.opp, matchId: hit.matchId || null, team: t || { name: hit.opp, initials: String(hit.opp).split(' ').map((w) => w[0]).join('').slice(0, 3).toUpperCase() } });
+    out.push(gameOf(hit));
   });
   return out;
 }
 
 const CUP_IDS = ['champions-league', 'europa-league', 'conference-league'];
+const SHORT_OPP = { 'borussia dortmund': 'BVB 09', 'atletico madrid': 'ATL. Madrid', 'atlético madrid': 'ATL. Madrid', 'paris saint-germain': 'PSG', 'paris saint germain': 'PSG', 'manchester united': 'Man Utd', 'manchester city': 'Man City', 'bayer leverkusen': 'Leverkusen', 'bayer 04 leverkusen': 'Leverkusen', 'eintracht frankfurt': 'Frankfurt', "borussia m'gladbach": "M'gladbach", 'borussia monchengladbach': "M'gladbach", 'tottenham hotspur': 'Tottenham', 'newcastle united': 'Newcastle', 'west ham united': 'West Ham', 'wolverhampton wanderers': 'Wolves', 'brighton & hove albion': 'Brighton', 'athletic club': 'Athletic', 'real sociedad': 'R. Sociedad', 'inter milan': 'Inter', 'internazionale': 'Inter', 'bayern munich': 'Bayern', 'bayern münchen': 'Bayern', 'sporting cp': 'Sporting', 'sporting lisbon': 'Sporting' };
+const shortOpp = (n) => {
+  const k = String(n || '').toLowerCase().trim();
+  if (SHORT_OPP[k]) return SHORT_OPP[k];
+  if (k.length <= 12) return n;
+  const t = String(n).replace(/^(1\. ?)?(FC|AC|AS|SC|SSC|US|VfB|VfL|TSG|SV|FK|SK|RC|CF|UD|RCD|Real|Sporting)\s+/i, '');
+  if (t.length <= 13) return t;
+  const w = t.split(' ');
+  return w[w.length - 1].length >= 4 ? w[w.length - 1] : t;
+};
 const gameOf = (m) => {
   const t = teamByName(m.opp);
-  return { opp: m.opp, matchId: m.matchId || null, team: t || { name: m.opp, initials: String(m.opp).split(' ').map((w) => w[0]).join('').slice(0, 3).toUpperCase() } };
+  return { opp: m.opp, label: shortOpp(m.opp), matchId: m.matchId || null, team: t || { name: m.opp, initials: String(m.opp).split(' ').map((w) => w[0]).join('').slice(0, 3).toUpperCase() } };
 };
 
-// pagine del grafico: la competizione scelta per prima (valori del calcolo), poi le altre (ultime 5 partite da almeno 50 minuti in quella competizione)
+// pagine del grafico: la prima e' sempre "Tutte le competizioni" (le ultime 5 del calcolo); poi una per competizione (scelta per prima).
+// Le pagine per competizione sono solo da guardare: nel calcolo conta l'Hit Rate totale (e, per le nazionali, la quota Nations League).
 function hitPages(player, key2, vals, mins, comp) {
   const opts = playerComps(player);
   const byVal = Object.fromEntries(opts.map((o) => [o.value, o]));
-  const sel = byVal[comp] ? comp : (opts[0] && opts[0].value) || 'campionato';
-  const o0 = byVal[sel];
-  const main = { key: sel, name: o0 ? o0.comp.name : GENERIC[sel], logo: o0 ? o0.comp.logo : null, values: [...vals].reverse(), games: null };
-  if (key2) { const g = gamesFor(player, key2, vals, mins); if (g.some(Boolean)) main.games = [...g].reverse(); }
-  const pages = { [sel]: main };
-  if (key2) {
-    const IM = {};
-    ((RAW.indice && RAW.indice.m) || []).forEach((m) => { IM[m[0]] = m; });
-    const srcs = [player.nat && player.club ? player.club : player, player.natView, player.nat ? player : null].filter((x) => x && x.recent);
-    const seen = new Set();
-    const rec = [];
-    srcs.forEach((x) => x.recent.forEach((m) => { if (m.matchId && !seen.has(m.matchId)) { seen.add(m.matchId); rec.push(m); } }));
-    rec.sort((a, b) => String(b.date).localeCompare(String(a.date)));
-    const kindOf = (m) => { const lid = IM[m.matchId] && IM[m.matchId][1]; if (!lid) return null; if (NATIONS_KEYS.includes(lid)) return 'nations'; if (CUP_IDS.includes(lid)) return 'coppa'; return leagueById(lid) ? 'campionato' : null; };
-    ['campionato', 'coppa', 'nations'].forEach((k) => {
-      if (k === sel || !byVal[k]) return;
-      const ms = rec.filter((m) => kindOf(m) === k && Number(m.minutes) >= 50 && m[key2] != null && m.opp).slice(0, 5);
-      if (!ms.length) return;
-      pages[k] = { key: k, name: byVal[k].comp.name, logo: byVal[k].comp.logo, values: ms.map((m) => Number(m[key2])).reverse(), games: ms.map(gameOf).reverse() };
-    });
-  }
-  return [sel, ...['campionato', 'coppa', 'nations'].filter((k) => k !== sel)].map((k) => pages[k]).filter(Boolean);
+  const all = { key: 'tutte', name: 'Tutte le competizioni', logo: null, values: [...vals].reverse(), games: null };
+  if (!key2) return [all];
+  const g = gamesFor(player, key2, vals, mins);
+  if (g.some(Boolean)) all.games = [...g].reverse();
+  const IM = {};
+  ((RAW.indice && RAW.indice.m) || []).forEach((m) => { IM[m[0]] = m; });
+  const srcs = [player.nat && player.club ? player.club : player, player.natView, player.nat ? player : null].filter((x) => x && x.recent);
+  const seen = new Set();
+  const rec = [];
+  srcs.forEach((x) => x.recent.forEach((m) => { if (m.matchId && !seen.has(m.matchId)) { seen.add(m.matchId); rec.push(m); } }));
+  rec.sort((a, b) => String(b.date).localeCompare(String(a.date)));
+  const kindOf = (m) => { const lid = IM[m.matchId] && IM[m.matchId][1]; if (!lid) return null; if (NATIONS_KEYS.includes(lid)) return 'nations'; if (CUP_IDS.includes(lid)) return 'coppa'; return leagueById(lid) ? 'campionato' : null; };
+  const order = [comp, 'campionato', 'coppa', 'nations'].filter((k, i, a) => a.indexOf(k) === i);
+  const out = [all];
+  order.forEach((k) => {
+    if (!byVal[k]) return;
+    const ms = rec.filter((m) => kindOf(m) === k && Number(m.minutes) >= 50 && m[key2] != null && m.opp).slice(0, 5);
+    if (!ms.length) return;
+    out.push({ key: k, name: byVal[k].comp.name, logo: byVal[k].comp.logo, values: ms.map((m) => Number(m[key2])).reverse(), games: ms.map(gameOf).reverse() });
+  });
+  return out;
 }
 
 // Hit Rate a colonne al posto delle pillole: una colonna per partita (la piu' vecchia a sinistra), una pagina per competizione
 function HitPanel({ C, player, vals, mins, key2, line, under, label, openRoute, comp, hitSel }) {
   const pages = useMemo(() => hitPages(player, key2, vals, mins, comp), [player, key2, vals.join(','), mins.join(','), comp]); // eslint-disable-line react-hooks/exhaustive-deps
-  const head = hitSel ? <View style={{ width: 128 }}><Dropdown C={C} slim options={[{ value: '', label: 'Nessuna' }, ...HIT_OPTIONS]} value={hitSel.value} onChange={hitSel.onChange} placeholder="Nessuna" pillKey="label" labelKey="label" width={150} /></View> : null;
+  const head = hitSel ? <View><Dropdown C={C} slim options={[{ value: '', label: 'Nessuna' }, ...HIT_OPTIONS]} value={hitSel.value} onChange={hitSel.onChange} placeholder="Nessuna" pillKey="label" labelKey="label" width={150} /></View> : null;
   return (
     <View>
       <Panel ring C={C}><HitChart C={C} pages={pages} line={line} under={under} statLabel={label} openRoute={openRoute} headRight={head} /></Panel>

@@ -143,7 +143,8 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 - L'avversario si ricava da `player.recent` abbinando tiri e minuti; per falli commessi/subiti (senza dati per partita) il grafico non mostra gli avversari.
 
 ### Hit Rate a colonne: pagine per competizione (nativo)
-- Colonne e stemmi/scritte dell'avversario stanno nella stessa riga di larghezza uguale (centrati); stemma 20 px (24 se selezionato).
-- Il tasto "Hit rate ultime 5" sta in alto a destra del grafico (non piu' tra i campi); senza grafico resta il campo.
-- Swipe laterale nel grafico (`pagerTouch` attivo, niente "indietro"): una pagina per competizione (ultime 5 partite da almeno 50' in quella competizione). La competizione scelta (Nations League compresa) e' la prima pagina, poi campionato, coppa, nazionale. Le pagine non scelte sono solo informative (nessun peso nel calcolo).
+- Colonne e stemmi/scritte dell'avversario stanno nella stessa riga di larghezza uguale (centrati); stemma 20 px; nomi lunghi abbreviati (BVB 09, ATL. Madrid, PSG...: `shortOpp` in `CalcPlayer.js`).
+- Il tasto "Hit rate ultime 5" sta in alto a destra del grafico, largo quanto il suo contenuto; niente sottotitolo "ultime 5 partite" ne' "Hit rate nazionale" (lo si vede nel grafico Nations League).
+- Swipe laterale nel grafico (`pagerTouch`, niente "indietro"; il contenuto e' ritagliato, nessuna pagina vicina visibile): prima pagina SEMPRE "Tutte le competizioni" (le ultime 5 del calcolo), poi una pagina per competizione (ultime 5 da almeno 50'), la competizione scelta per prima.
+- Calcolo: conta solo l'Hit Rate totale delle ultime 5. Con la Nations League scelta: totale 75% + Hit Rate Nations League 25% (`mixHit`). I grafici per competizione sono solo estetici.
 - Medie stagione: niente striscia "Tasso normalizzato"; al centro, in risalto, "Media x 90' = valore" (nascosta senza valore).
