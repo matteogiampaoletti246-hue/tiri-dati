@@ -13,8 +13,9 @@ export const FlagN = ({ code, name, size = 15, C, bare }) => {
   const [k, setK] = useState(0);
   if (!c) return null;
   return (
-    <View style={{ width: size, height: size, borderRadius: size / 2, overflow: 'hidden', backgroundColor: C ? C.chip : 'rgba(128,128,128,.25)', borderWidth: bare ? 0 : 1, borderColor: 'rgba(255,255,255,.28)' }}>
-      {k < SRC.length ? <Image source={{ uri: `${SRC[k]}${c}.png` }} style={{ width: size, height: size }} contentFit="cover" cachePolicy="memory-disk" transition={0} onError={() => setK(k + 1)} /> : null}
+    <View style={{ width: size, height: size, borderRadius: size / 2, overflow: 'hidden', backgroundColor: C ? C.chip : 'rgba(128,128,128,.25)' }}>
+      {k < SRC.length ? <Image source={{ uri: `${SRC[k]}${c}.png` }} style={{ position: 'absolute', left: 0, top: 0, width: size, height: size }} contentFit="cover" cachePolicy="memory-disk" transition={0} onError={() => setK(k + 1)} /> : null}
+      {bare ? null : <View pointerEvents="none" style={{ position: 'absolute', left: 0, top: 0, right: 0, bottom: 0, borderRadius: size / 2, borderWidth: 1, borderColor: 'rgba(255,255,255,.28)' }} />}
     </View>
   );
 };

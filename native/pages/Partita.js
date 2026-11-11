@@ -1,7 +1,7 @@
 // Pagina Partita nativa: preparazione dati (prepareMatch, aggiornamento live e finestra formazioni), testata, schede.
 // Ogni scheda senza dati non si mostra. Le schede stanno in PartitaPanels.js (si portano una alla volta).
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, Pressable, ScrollView } from 'react-native';
+import { View, Text, Pressable, ScrollView, AppState } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import './../shared/shim';
 import { bootShared } from '../shared/boot';
@@ -49,10 +49,13 @@ export default function Partita({ C, top, onBack, bottom = 90, openRoute, params
     })().catch(() => on && setOk(true));
     // live: ogni 5 s; prima del fischio solo dentro la finestra delle formazioni
     let n = 0;
+    let busy = false;
     const t = setInterval(() => {
+      // fermo con l'app in background e per qualche secondo dopo il ritorno: l'app deve prima tornare a rispondere al tocco; mai due richieste insieme
+      if (AppState.currentState !== 'active' || Date.now() < (globalThis.__resumeUntil || 0) || busy) return;
       n += 1;
       const beat = lineupBeat(matchById(id));
-      if (beat && n % beat === 0) prepareMatch(id, true).then(() => on && bump((x) => x + 1));
+      if (beat && n % beat === 0) { busy = true; prepareMatch(id, true).then(() => on && bump((x) => x + 1)).catch(() => {}).finally(() => { busy = false; }); }
     }, 5000);
     return () => { on = false; clearInterval(t); };
   }, [id]);

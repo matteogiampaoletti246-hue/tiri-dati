@@ -635,11 +635,12 @@ const HlName = ({ text, hl }) => {
 
 const PlayerBannerS = memo(({ p, onPress }) => {
   const { C, s } = useT();
-  const g = hexA(p.color, '3A');
+  const g = hexA(p.color, '57');
   const ring = hexA(p.color, 'F2');
   return (
     <Pressable onPress={onPress} style={({ pressed }) => [s.pb, ring ? { borderWidth: 1.5, borderColor: ring } : null, pressed && { opacity: 0.6 }]}>
-      <LinearGradient colors={[g || C.card1, C.card2]} locations={[0, 0.72]} start={{ x: 0, y: 0.5 }} end={{ x: 1, y: 0.5 }} style={StyleSheet.absoluteFill} />
+      <LinearGradient colors={[g || C.card1, hexA(p.color, '0F') || C.card2]} locations={[0, 0.85]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0.6 }} style={StyleSheet.absoluteFill} />
+      <View pointerEvents="none" style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, borderRadius: 14, borderWidth: 0.5, borderColor: 'rgba(255,255,255,.35)' }} />
       <Face uri={p.photo} color={p.color} size={36} />
       <View style={{ flex: 1, minWidth: 0 }}>
         <Text numberOfLines={1} style={s.pbName}><HlName text={p.name} hl={p.hl} /></Text>
@@ -663,7 +664,7 @@ const PlayerBannerS = memo(({ p, onPress }) => {
 const TeamBannerS = memo(({ t, onPress }) => {
   const { C, s } = useT();
   const cols = t.flagColors || [t.color, t.color2].filter(Boolean);
-  const gc = cols.map((c) => hexA(c, t.flag ? '55' : '66')).filter(Boolean);
+  const gc = cols.map((c, i) => hexA(c, i === 0 ? '57' : '33')).filter(Boolean);
   const ring = hexA(cols[0] || t.color, 'E6');
   return (
     <Pressable onPress={onPress} style={({ pressed }) => [s.pb, ring ? { borderWidth: 1.5, borderColor: ring } : null, pressed && { opacity: 0.6 }]}>

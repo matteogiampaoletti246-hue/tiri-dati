@@ -203,3 +203,9 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 - **Riquadri**: `Panel` ha il bordo nel colore della scheda (`TintProvider`: squadra o nazionale nel giocatore, competizione nella partita) e quando il colore cambia sfuma (`PanelRing`). La testata partita mostra solo il nome della competizione, centrato.
 - **Giocatore**: Partite con tendine Competizione e Stagione (contorno), tutte le partite scelte si caricano da sole; cambiando Totale/Casa/Trasferta restano i numeri di prima finche' arrivano i nuovi (la pagina non salta). Prossima partita delle competizioni d'archivio (Nations League…) dai file `giorni/` dei prossimi 12 giorni (`useUpcoming`).
 - **Formazioni (prima della partita)**: tendina statistica a sinistra e tendina linea (Over) a destra, sulla stessa riga.
+- **Vetro (concept C)**: banner piccoli (ricerca, ricerca giocatore del Calcolatore, Migliori Giocatori) = sfumatura dal colore squadra (alpha .34 -> .06), bordo 1,5 del colore squadra, filo bianco sottile; niente blur (liste lunghe).
+- **Banner con testo bianco**: colori troppo chiari (bianco…) passano da `legible()` (`shared/ui.js`); le nazionali usano la bandiera tonda senza cerchio bianco (`bare`) e i colori della bandiera.
+- **Stagioni giocatore (Partite)**: sempre "2025/2026" (stagione calcistica luglio-giugno anche per Europei, Mondiali, amichevoli), mai anni solari; la tendina Competizione ha i loghi.
+- **Stadio**: se manca dalle altre fonti si prende da ESPN (`shared/espnStadium.js`, solo per quelle partite).
+- **Calcolatore**: handicap dei campionati minori applicato a meta' forza alla media "Campionato" del giocatore, solo nel calcolo Nations League (`playerLeagueHcap`); le medie mostrate restano vere.
+- **Partita**: i timer (formazioni, storie) si fermano in background e per 5 s dopo il ritorno.

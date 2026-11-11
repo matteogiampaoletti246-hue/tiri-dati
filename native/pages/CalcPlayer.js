@@ -16,6 +16,8 @@ import { fmTeamIn, foulKeysFor, foulSeasonOf, leaguePlayerAvg, playerFoulsOf, ro
 import { FALLI_KEYS, cardRole, autoDuelIds, falliKeysFor, playerRoles, roleBreakdown, useFalli } from '@/data/calcRoles';
 import { resolvePid } from '@/data/playerPid';
 import { careerByFm, carriereOf, loadCarriere, countryIt, flagCode } from '@/data/carriere';
+import { FlagN } from '../shared/FlagN';
+import { FLAG_COLORS } from '../shared/flagColors';
 const FLAG_BASE = 'https://matteogiampaoletti246-hue.github.io/tiri-dati/native-link/flags/';
 import { loadRose, rosePlayer } from '@/data/rose';
 import { playerFace } from '@/data/archive';
@@ -297,7 +299,13 @@ function TeamCard({ C, title, right, block, team, sub, tiles, matchComp, oppId, 
   const c1 = hexOr(cc && (cc.colors[1] || cc.colors[0]), c0);
   const leagueOptions = calcLeagues().map((l) => { const x = calcComp(l.id); return { value: l.id, label: x.name, sub: (x.country || x.kind).toUpperCase(), color: hexOr(x.colors[0]), color2: hexOr(x.colors[1]), icon: compLogoN(x, 30, C) }; });
   const teamOptions = calcTeamsOf(block.leagueId).map((n) => teamByName(n)).filter(Boolean).sort((a, b) => a.name.localeCompare(b.name))
-    .map((t) => ({ value: t.id, label: t.name, sub: leagueName(block.leagueId).toUpperCase(), color: hexOr(t.colors && t.colors[0]), color2: hexOr(t.colors && t.colors[1]), icon: <TeamCrest team={t} size={32} C={C} /> }));
+    .map((t) => {
+      const fc = flagCode(t.name);
+      const fcol = fc && FLAG_COLORS[fc] ? FLAG_COLORS[fc] : null;
+      const base = { value: t.id, label: t.name, sub: leagueName(block.leagueId).toUpperCase() };
+      if (fcol && cc && cc.kind === 'Nazionale') return { ...base, bare: true, color: fcol[0], color2: fcol[1] || fcol[0], icon: <FlagN code={fc} size={40} C={C} bare /> };
+      return { ...base, color: hexOr(t.colors && t.colors[0]), color2: hexOr(t.colors && t.colors[1]), icon: <TeamCrest team={t} size={32} C={C} /> };
+    });
   return (
     <View>
       <PanelTitle C={C} right={right}>{title}</PanelTitle>

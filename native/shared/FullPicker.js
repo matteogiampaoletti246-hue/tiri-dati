@@ -4,17 +4,17 @@ import { View, Text, TextInput, Pressable, Modal, FlatList, StyleSheet } from 'r
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { mixHex } from './ui';
+import { mixHex, legible } from './ui';
 
 const okHex = (c) => (typeof c === 'string' && /^#[0-9a-fA-F]{6}$/.test(c) ? c : null);
 const nrm = (s) => String(s ?? '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
 
 const Row = memo(({ C, o, on, onPress }) => {
-  const c0 = okHex(o.color) || '#1F2A44'; const c1 = okHex(o.color2) || c0;
+  const [c0, c1] = legible(okHex(o.color) || '#1F2A44', okHex(o.color2) || okHex(o.color) || '#1F2A44');
   return (
     <Pressable onPress={onPress} style={({ pressed }) => [{ marginHorizontal: 16, marginBottom: 8, minHeight: 64, borderRadius: 20, overflow: 'hidden', flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 12, paddingVertical: 8, borderWidth: 1.5, borderColor: on ? c1 : 'transparent' }, pressed && { opacity: 0.7 }]}>
       <LinearGradient pointerEvents="none" colors={[c0, mixHex(c0, c1, 0.38)]} start={{ x: 0, y: 0.2 }} end={{ x: 1, y: 0.8 }} style={StyleSheet.absoluteFill} />
-      <View style={{ width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255,255,255,.93)' }}>{o.icon}</View>
+      <View style={{ width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center', backgroundColor: o.bare ? 'transparent' : 'rgba(255,255,255,.93)' }}>{o.icon}</View>
       <View style={{ flex: 1 }}>
         <Text numberOfLines={1} style={{ color: '#fff', fontSize: 16, fontWeight: '600' }}>{o.label}</Text>
         {o.sub ? <Text numberOfLines={1} style={{ color: 'rgba(255,255,255,.8)', fontSize: 11.5, marginTop: 2, letterSpacing: 0.6 }}>{o.sub}</Text> : null}

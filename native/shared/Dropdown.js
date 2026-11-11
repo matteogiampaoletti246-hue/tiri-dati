@@ -5,7 +5,7 @@ import React, { startTransition, useRef, useState } from 'react';
 import { View, Text, Pressable, Modal, ScrollView, StyleSheet, useWindowDimensions } from 'react-native';
 import Animated, { FadeIn, FadeOut, FadeInUp, FadeInDown } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
-import { RingBox, mixHex } from './ui';
+import { RingBox, mixHex, legible } from './ui';
 import { Ionicons } from '@expo/vector-icons';
 
 const ROW = 46;
@@ -63,11 +63,11 @@ export default function Dropdown({ C, options, value, onChange, side = 'right', 
                     const cas = (node) => <Animated.View key={String(kOf(o))} entering={(up ? FadeInDown : FadeInUp).delay(40 + Math.min(i, 9) * 32).duration(240)}>{node}</Animated.View>;
                     const on = picked != null ? kOf(o) === picked : !!cur && kOf(o) === kOf(cur);
                     if (rich && okHex(o.color)) {
-                      const c0 = o.color; const c1 = okHex(o.color2) || c0;
+                      const [c0, c1] = legible(o.color, okHex(o.color2) || o.color);
                       return cas(
                         <Pressable onPress={() => choose(o)} style={({ pressed }) => [{ height: RROW, marginBottom: 6, flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 12, borderRadius: 16, overflow: 'hidden', borderWidth: 1.5, borderColor: on ? c1 : 'transparent' }, pressed && { opacity: 0.7 }]}>
                           <LinearGradient pointerEvents="none" colors={[c0, mixHex(c0, c1, 0.38)]} start={{ x: 0, y: 0.2 }} end={{ x: 1, y: 0.8 }} style={StyleSheet.absoluteFill} />
-                          <View style={{ width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255,255,255,.92)' }}>{o.logoNode || null}</View>
+                          <View style={{ width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center', backgroundColor: o.bare ? 'transparent' : 'rgba(255,255,255,.92)' }}>{o.logoNode || null}</View>
                           <View style={{ flex: 1 }}>
                             <Text numberOfLines={1} style={{ color: '#fff', fontSize: 17, fontWeight: '700' }}>{o[labelKey]}</Text>
                             {o.sub ? <Text numberOfLines={1} style={{ color: 'rgba(255,255,255,.8)', fontSize: 13, marginTop: 1 }}>{o.sub}</Text> : null}

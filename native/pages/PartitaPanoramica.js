@@ -1,7 +1,7 @@
 // Panoramica della partita non iniziata (nativo): forma, numeri da tenere d'occhio (storie), giocatori migliori, duello in numeri, stadio, arbitro.
 import { openPanel, matchStarted } from '@/data/playerPanel';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { View, Text, Pressable, PanResponder, Animated } from 'react-native';
+import { View, Text, Pressable, PanResponder, Animated, AppState } from 'react-native';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import Svg, { Polygon, Text as SText } from 'react-native-svg';
@@ -93,7 +93,7 @@ function Story({ C, cards, home, away, league }) {
     const s = st.current;
     const tick = (now) => {
       s.raf = requestAnimationFrame(tick);
-      if (s.held) { s.last = now; return; }
+      if (s.held || AppState.currentState !== 'active') { s.last = 0; return; }
       s.acc += Math.min(500, now - (s.last || now));
       s.last = now;
       if (s.acc >= DUR) { goRef.current(s.idx + 1); return; }

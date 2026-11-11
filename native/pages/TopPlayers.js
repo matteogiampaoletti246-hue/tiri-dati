@@ -61,7 +61,7 @@ const Row = React.memo(function Row({ C, row, rank, threshold, stat, enter, tv, 
     <Pressable onPress={go} style={({ pressed }) => [{ marginHorizontal: 10, marginBottom: 8 }, pressed && { opacity: 0.8 }]}>
       <View style={{ borderRadius: 22, borderWidth: 1.5, borderColor: c1 }}>
         <View style={{ borderRadius: 20.5, overflow: 'hidden', backgroundColor: C.sheet }}>
-          <LinearGradient pointerEvents="none" colors={[c1 + '66', c1 + '22', c1 + '33']} locations={[0, 0.55, 1]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={StyleSheet.absoluteFill} />
+          <LinearGradient pointerEvents="none" colors={[c1 + '57', c1 + '22', c1 + '0F']} locations={[0, 0.55, 1]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={StyleSheet.absoluteFill} />
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 11, padding: 10, paddingLeft: 14 }}>
             <View>
               <View style={{ width: 54, height: 54, borderRadius: 15, overflow: 'hidden', backgroundColor: c1 + '55', borderWidth: 1.5, borderColor: C.border }}>

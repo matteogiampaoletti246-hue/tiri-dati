@@ -24,7 +24,15 @@ import { SubIcon } from './PartitaInfo';
 
 const last = (n) => String(n || '').split(' ').slice(-1)[0];
 const tone = (v) => (v == null ? 'rgba(128,128,128,.4)' : v >= 7.5 ? '#1FA45B' : v >= 7 ? '#5DBB3F' : v >= 6.5 ? '#E0B400' : v >= 6 ? '#E8892B' : '#E5484D');
-const plOf = (p) => playerById(p.playerId) || (p.fmId ? playerByFm(p.fmId) : null);
+const plOf = (p, match) => {
+  const x = playerById(p.playerId) || (p.fmId ? playerByFm(p.fmId) : null);
+  if (!x || !match) return x;
+  const teams = [match.homeId, match.awayId];
+  // partita tra nazionali: i numeri sono quelli della nazionale; partita di club: quelli del club
+  if (!x.nat && x.natView && !teams.includes(x.teamId) && teams.includes(x.natView.teamId)) return x.natView;
+  if (x.nat && x.club && !teams.includes(x.teamId) && teams.includes(x.club.teamId)) return x.club;
+  return x;
+};
 // colore del nome squadra leggibile sul verde scuro: schiarito verso il bianco
 const lighten = (c) => {
   const m = /^#?([0-9a-f]{6})$/i.exec(String(c || '').trim());
@@ -316,7 +324,7 @@ export default function Formazioni({ C, match, view, home, away, pre, openRoute 
     if (!pre || !isF || fouls[stat]) return undefined;
     let on = true;
     Promise.all(players.map((p) => {
-      const pl = plOf(p);
+      const pl = plOf(p, match);
       return pl && !isOutOn(pl.id, match.date) ? loadPlayerFouls(pl, match.date, FOUL_LINES, stat) : Promise.resolve(null);
     })).then((rows) => {
       if (!on) return;
@@ -328,7 +336,7 @@ export default function Formazioni({ C, match, view, home, away, pre, openRoute 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stat, pre, pk]);
   const valOf = (p) => {
-    const pl = plOf(p);
+    const pl = plOf(p, match);
     if (pre) {
       if (!pl) return null;
       if (isF) {
@@ -364,16 +372,21 @@ export default function Formazioni({ C, match, view, home, away, pre, openRoute 
     <View style={{ gap: 20, paddingTop: 12, paddingBottom: 24 }}>
       {okH && okA ? (
         <View style={{ paddingHorizontal: 16 }}>
-          <View style={{ alignItems: 'center', marginBottom: 12 }}>
-            <Text style={{ color: C.ink, fontSize: 15, fontWeight: '800' }}>{title}</Text>
-            {labels}
-          </View>
           {pre ? (
-            <View style={{ marginBottom: 12, flexDirection: 'row', gap: 10 }}>
-              <Dropdown C={C} options={TOP_STATS} value={stat} onChange={onStat} side="left" width={222} fill style={{ flex: 1.35 }} icon={(o, col) => <StatIconN k={o.icon} size={17} color={col} />} />
-              <Dropdown C={C} options={LINES[stat].map((l) => ({ value: l, label: `Over ${String(l).replace('.', ',')}` }))} value={line} onChange={setLine} side="right" width={150} fill style={{ flex: 1 }} />
+            <View style={{ marginBottom: 12 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 6 }}>
+                <Dropdown C={C} options={TOP_STATS} value={stat} onChange={onStat} side="left" width={222} compact pillKey="short" icon={(o, col) => <StatIconN k={o.icon} size={16} color={col} />} />
+                <Text numberOfLines={2} style={{ flex: 1, color: C.ink, fontSize: 14, fontWeight: '800', textAlign: 'center' }}>{title}</Text>
+                <Dropdown C={C} options={LINES[stat].map((l) => ({ value: l, label: `Over ${String(l).replace('.', ',')}`, short: String(l).replace('.', ',') }))} value={line} onChange={setLine} side="right" width={140} compact pillKey="short" />
+              </View>
+              {labels}
             </View>
-          ) : null}
+          ) : (
+            <View style={{ alignItems: 'center', marginBottom: 12 }}>
+              <Text style={{ color: C.ink, fontSize: 15, fontWeight: '800' }}>{title}</Text>
+              {labels}
+            </View>
+          )}
           <DualPitch C={C} lh={lh} la={la} home={home} away={away} valOf={valOf} match={match} mvpId={mvpId} pre={pre} openRoute={openRoute} />
           {pre ? null : <Text style={{ color: C.ink3, fontSize: 10.5, textAlign: 'center', marginTop: 8 }}>Voto = prestazione in partita</Text>}
         </View>

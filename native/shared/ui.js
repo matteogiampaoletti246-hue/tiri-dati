@@ -24,11 +24,18 @@ export const Face = ({ uri, color, size = 44 }) => (
 export const TintCtx = createContext(null);
 export const TintProvider = ({ color, children }) => <TintCtx.Provider value={color || null}>{children}</TintCtx.Provider>;
 export const mixHex = (a, b, t) => { const p = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16)); const x = p(a); const y = p(b || a); return `#${x.map((v, i) => Math.round(v * (1 - t) + y[i] * t).toString(16).padStart(2, '0')).join('')}`; };
+export const lumOf = (h) => { const n = parseInt(String(h).slice(1), 16); return (0.2126 * (n >> 16) + 0.7152 * ((n >> 8) & 255) + 0.0722 * (n & 255)) / 255; };
+// banner colorati con testo bianco: se il colore e' troppo chiaro (bianco…) si usa il secondo colore o uno scurito, cosi' il testo resta leggibile
+export const legible = (c0, c1) => {
+  const f = (c) => (lumOf(c) > 0.62 ? mixHex(c, '#1B2540', 0.62) : c);
+  const a = lumOf(c0) > 0.62 && c1 && lumOf(c1) <= 0.62 ? c1 : f(c0);
+  return [a, f(c1 || c0)];
+};
 const okHex = (c) => (typeof c === 'string' && /^#[0-9a-f]{6}$/i.test(c) ? c : null);
 export const tintFill = (C, color) => { const t = okHex(color); return t ? [`${t}${C.dark ? '4D' : '2E'}`, `${t}00`] : null; };
 export const TintBg = ({ C, color }) => { const g = tintFill(C, color); return g ? <LinearGradient pointerEvents="none" colors={g} locations={[0, 0.78]} start={{ x: 0, y: 0.35 }} end={{ x: 1, y: 0.65 }} style={StyleSheet.absoluteFill} /> : null; };
 // bordo del riquadro nel colore della scheda (squadra, nazionale o competizione); quando il colore cambia sfuma da uno all'altro
-const PanelRing = ({ color, w }) => {
+const PanelRing = ({ color, w, r = 22 }) => {
   const k = useSharedValue(1);
   const fromC = useSharedValue(color);
   const toC = useSharedValue(color);
@@ -38,7 +45,7 @@ const PanelRing = ({ color, w }) => {
     fromC.value = toC.value; toC.value = color; k.value = 0; k.value = withTiming(1, { duration: 380 });
   }, [color]);
   const st = useAnimatedStyle(() => ({ borderColor: interpolateColor(k.value, [0, 1], [fromC.value, toC.value]) }));
-  return <Animated.View pointerEvents="none" style={[StyleSheet.absoluteFill, { borderRadius: 22, borderWidth: w }, st]} />;
+  return <Animated.View pointerEvents="none" style={[StyleSheet.absoluteFill, { borderRadius: r, borderWidth: w }, st]} />;
 };
 export const Panel = ({ C, children, style, tint, ring }) => {
   const ctx = useContext(TintCtx);
@@ -47,7 +54,7 @@ export const Panel = ({ C, children, style, tint, ring }) => {
     <View style={[{ borderRadius: 22, overflow: 'hidden', backgroundColor: C.card2, borderWidth: ring ? 1.5 : 1, borderColor: ring ? (t ? `${t}B3` : C.accRing) : C.border }, style]}>
       <TintBg C={C} color={tint || ctx} />
       {children}
-      {t && !ring ? <PanelRing color={`${t}B3`} w={1.5} /> : null}
+      {t && !ring ? <PanelRing color={`${t}B3`} w={1.5} r={(StyleSheet.flatten(style) || {}).borderRadius ?? 22} /> : null}
     </View>
   );
 };
@@ -205,11 +212,11 @@ export function PickerModal({ C, open, title, options, onSelect, onClose, search
               renderItem={({ item: o }) => {
                 const on = picked != null ? o.value === picked : o.value === value;
                 if (banners && okHex(o.color)) {
-                  const c0 = o.color; const c1 = okHex(o.color2) || c0;
+                  const [c0, c1] = legible(o.color, okHex(o.color2) || o.color);
                   return (
                     <Pressable onPress={() => choose(o)} style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', gap: 12, minHeight: 62, marginBottom: 6, paddingVertical: 9, paddingHorizontal: 12, borderRadius: 16, overflow: 'hidden', borderWidth: 1.5, borderColor: on ? c1 : 'transparent' }, pressed && { opacity: 0.7 }]}>
                       <LinearGradient pointerEvents="none" colors={[c0, mixHex(c0, c1, 0.38)]} start={{ x: 0, y: 0.2 }} end={{ x: 1, y: 0.8 }} style={StyleSheet.absoluteFill} />
-                      <View style={{ width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255,255,255,.92)' }}>{o.icon || (o.face ? <Face uri={o.face} color={o.color} size={36} /> : null)}</View>
+                      <View style={{ width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center', backgroundColor: o.bare ? 'transparent' : 'rgba(255,255,255,.92)' }}>{o.icon || (o.face ? <Face uri={o.face} color={o.color} size={36} /> : null)}</View>
                       <View style={{ flex: 1 }}>
                         <Text numberOfLines={1} style={{ color: '#fff', fontSize: 16.5, fontWeight: '700' }}>{o.label}</Text>
                         {o.sub ? <Text numberOfLines={1} style={{ color: 'rgba(255,255,255,.78)', fontSize: 12.5, marginTop: 1, letterSpacing: o.sub === o.sub.toUpperCase() ? 0.6 : 0 }}>{o.sub}</Text> : null}

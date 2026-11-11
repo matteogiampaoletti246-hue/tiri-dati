@@ -88,11 +88,13 @@ function WxRef({ C, match, wx, w, rf, name, openRoute }) {
   );
 }
 
+import { loadEspnStadium } from '../shared/espnStadium';
 export function StadioCard({ C, match, openRoute }) {
   const [, bump] = useState(0);
   useEffect(() => {
     let on = true;
     loadWeather(match).then((w) => w && on && bump((n) => n + 1));
+    loadEspnStadium(match).then((ok) => ok && on && bump((n) => n + 1)).catch(() => {});
     return () => { on = false; };
   }, [match.id]);
   const wx = match.weather && match.weather.temp != null ? match.weather : null;

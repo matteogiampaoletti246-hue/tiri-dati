@@ -1,6 +1,6 @@
 // Calcolo unico dell'affidabilità di un giocatore: lo usano sia il Calcolatore sia la Home / schede giocatore.
 import { teamByName } from './teams';
-import { NATIONS_KEYS, nextFixture, pickLeagueKey, prefillShots, teamCupKey, teamShots } from './calcData';
+import { NATIONS_KEYS, nextFixture, playerLeagueHcap, pickLeagueKey, prefillShots, teamCupKey, teamShots } from './calcData';
 import { HIT_OPTIONS, SEASON_COMPETITIONS, computeFoulsResult, computePlayerResult, parseDash, parseNum } from '@/lib/calc';
 import { teamById } from './teams';
 
@@ -114,6 +114,7 @@ export function fillFrom(f, p, fam, fx) {
     minutes5: rows.map((x) => x[2] || 0).join('-'),
     hitRate: fixed,
     hitN: rows.length,
+    hcapL: clubP ? playerLeagueHcap(clubP.teamName) : 1,
     // partite con la nazionale (profilo `nat`: `h` = Nations League di questa stagione con almeno 50'); senza profilo di club sono gia' l'Hit Rate normale
     natVals: fromClub ? (p.h || []).map((x) => x[k] || 0) : [],
     season,
@@ -137,7 +138,7 @@ export function resultFromForm(form) {
     comp: form.competizione,
     season: SEASON_COMPETITIONS.map((c) => ({
       key: c.key,
-      shots: parseNum(form.season[c.key].tiri) ?? 0,
+      shots: (parseNum(form.season[c.key].tiri) ?? 0) * (c.key === 'campionato' && form.competizione === 'nations' ? form.hcapL || 1 : 1),
       minutes: parseNum(form.season[c.key].minuti) ?? 0,
     })),
     last5: { shots: parseDash(form.shots5), minutes: parseDash(form.minutes5) },

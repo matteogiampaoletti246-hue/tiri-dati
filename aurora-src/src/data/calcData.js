@@ -197,6 +197,13 @@ export function pickLeagueKey(name, prefer) {
   return order.find((k) => LD[k] && LD[k].teams[name]) || null;
 }
 
+// handicap dei campionati minori applicato alla media del GIOCATORE (solo nel calcolo, solo per la riga del suo campionato, a meta' forza): 1 = nessuno
+export const playerLeagueHcap = (teamName) => {
+  const k = pickLeagueKey(teamName);
+  const h = k && LD[k] && LD[k].hcap;
+  return h && h < 1 ? Math.round((1 - (1 - h) * 0.5) * 1000) / 1000 : 1;
+};
+
 // prossima partita di una squadra (da giocatori.json → fix): [data ISO, avversario, 1 se in casa, competizione]
 // afterToday: salta quella di oggi (gia' finita)
 export function nextFixture(teamName, afterToday = false) {

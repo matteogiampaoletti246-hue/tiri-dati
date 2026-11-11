@@ -8,6 +8,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { searchN } from './searchN';
 import { RingBox } from './ui';
 
+import { FlagN } from './FlagN';
 const SITE = 'https://matteogiampaoletti246-hue.github.io/tiri-dati/';
 const okHex = (c) => (typeof c === 'string' && /^#[0-9a-fA-F]{6}$/.test(c) ? c : null);
 
@@ -20,9 +21,9 @@ const Row = memo(({ C, p, onPress }) => {
   const c0 = okHex(p.color) || C.accent;
   return (
     <Pressable onPress={onPress} style={({ pressed }) => [{ marginHorizontal: 16, marginBottom: 10 }, pressed && { opacity: 0.7 }]}>
-      <RingBox C={C} radius={22} pad={1.5} innerStyle={{ flex: 0 }}>
-        <View style={{ borderRadius: 20.5, overflow: 'hidden', backgroundColor: C.sheet }}>
-          <LinearGradient pointerEvents="none" colors={[c0 + '88', c0 + '30', c0 + '00']} locations={[0, 0.6, 1]} start={{ x: 0, y: 0.3 }} end={{ x: 1, y: 0.7 }} style={StyleSheet.absoluteFill} />
+      <View style={{ borderRadius: 22, borderWidth: 1.5, borderColor: c0 + 'F2', overflow: 'hidden', backgroundColor: C.sheet }}>
+        <View style={{ overflow: 'hidden', backgroundColor: C.sheet }}>
+          <LinearGradient pointerEvents="none" colors={[c0 + '57', c0 + '22', c0 + '0F']} locations={[0, 0.6, 1]} start={{ x: 0, y: 0.3 }} end={{ x: 1, y: 0.7 }} style={StyleSheet.absoluteFill} />
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 10, paddingHorizontal: 12 }}>
             <View style={{ width: 52, height: 52, borderRadius: 26, borderWidth: 2, borderColor: c0, overflow: 'hidden', backgroundColor: c0 + '55' }}>
               {p.photo ? <Image source={{ uri: p.photo }} style={{ width: 48, height: 48 }} contentFit="cover" cachePolicy="memory-disk" /> : null}
@@ -33,13 +34,13 @@ const Row = memo(({ C, p, onPress }) => {
                 {p.crest ? <Image source={{ uri: p.crest }} style={{ width: 16, height: 16 }} contentFit="contain" cachePolicy="memory-disk" /> : null}
                 <Text numberOfLines={1} style={{ color: C.ink2, fontSize: 12.5, flexShrink: 1 }}>{p.team}</Text>
                 {p.nat ? <View style={{ width: 1, height: 14, backgroundColor: C.ink3, opacity: 0.6 }} /> : null}
-                {p.nat && p.nat.fc ? <Image source={{ uri: `${SITE}native-link/flags/${p.nat.fc}.png` }} style={{ width: 16, height: 16, borderRadius: 8 }} contentFit="cover" cachePolicy="memory-disk" /> : null}
+                {p.nat && p.nat.fc ? <FlagN code={p.nat.fc} size={16} C={C} /> : null}
                 {p.nat ? <Text numberOfLines={1} style={{ color: C.ink2, fontSize: 12.5, flexShrink: 1 }}>{p.nat.name}</Text> : null}
               </View>
             </View>
           </View>
         </View>
-      </RingBox>
+      </View>
     </Pressable>
   );
 });
