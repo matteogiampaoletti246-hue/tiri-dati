@@ -21,7 +21,7 @@ import { FlagN } from '../shared/FlagN';
 import { FLAG_COLORS } from '../shared/flagColors';
 const FLAG_BASE = 'https://matteogiampaoletti246-hue.github.io/tiri-dati/native-link/flags43/';
 import { loadRose, rosePlayer } from '@/data/rose';
-import { playerFace } from '@/data/archive';
+import { playerFace, archIndex, loadSeason } from '@/data/archive';
 import { playerComps, calcComp } from '@/components/calc/calcComp';
 import { comma } from '@/lib/format';
 import { parseDash, parseNum, fmtLine, HIT_OPTIONS, LINE_OPTIONS, SEDE_OPTIONS, COMPETITION_OPTIONS, NATIONS_OPTION, NATIONS_WEIGHTS, SEASON_COMPETITIONS, lineHintText } from '@/lib/calc';
@@ -138,11 +138,15 @@ function natColorOf(player) {
   if (!player) return null;
   const natName = player.natView ? player.natView.teamName : player.nat ? player.teamName : null;
   if (!natName) return null;
-  const fc = flagCode(natName);
-  const fcol = fc && FLAG_COLORS[fc] ? FLAG_COLORS[fc] : null;
-  if (fcol) return fcol[0];
+  // colore della maglia della nazionale (Belgio rosso, Turchia rosso...); la bandiera solo se manca o e' troppo scuro/chiaro
+  const lum = (h) => { const m = /^#?([0-9a-f]{6})/i.exec(String(h || '')); if (!m) return null; const n = parseInt(m[1], 16); return (0.299 * (n >> 16) + 0.587 * ((n >> 8) & 255) + 0.114 * (n & 255)) / 255; };
+  const ok = (h) => { const l = lum(h); return l !== null && l > 0.18 && l < 0.88; };
   const nt = teamByName(natName);
-  return nt && nt.colors ? nt.colors[0] : null;
+  const tc = nt && nt.colors ? nt.colors.find(ok) : null;
+  if (tc) return tc;
+  const fc = flagCode(natName);
+  const fcol = fc && FLAG_COLORS[fc] ? FLAG_COLORS[fc].find(ok) : null;
+  return fcol || null;
 }
 const playerColor = (player, competizione, clubCol) => (competizione === 'nations' || (player && player.nat && !player.club) ? natColorOf(player) || clubCol : clubCol);
 
@@ -226,22 +230,75 @@ function PlayerPick({ C, form, set, player, onSelectPlayer, stat, onStat, role, 
 }
 
 
-// ultime partite del giocatore con avversario e id partita: si abbinano ai valori dell'Hit Rate (stessi tiri/minuti, stesso ordine)
+// ultime partite del giocatore con avversario e id partita. Le righe dell'Hit Rate portano giorno e competizione (`r[5]` AAAAMMGG, `r[6]`):
+// con quelli l'abbinamento e' esatto; senza (dati vecchi) si abbina per tiri e minuti nello stesso ordine.
+const hitProf = (player) => (player && player.nat && player.club ? player.club : player);
 function gamesFor(player, key, vals, mins) {
-  const prof = player && player.nat && player.club ? player.club : player;
+  const prof = hitProf(player);
   const rec = (prof && prof.recent) || [];
+  const rows = hitRows(prof);
+  const dated = rows.length && rows.every((r) => r[5]);
   const out = [];
   let j = 0;
   vals.forEach((v, i) => {
     let hit = null;
-    for (let k = j; k < rec.length; k += 1) {
-      const m = rec[k];
-      if (Number(m[key]) === v && (mins[i] == null || Number(m.minutes) === mins[i])) { hit = m; j = k + 1; break; }
+    if (dated) {
+      const ymd = String(rows[i] && rows[i][5]);
+      hit = rec.find((m) => String(m.date || '').replace(/-/g, '').slice(0, 8) === ymd) || null;
+    } else {
+      for (let k = j; k < rec.length; k += 1) {
+        const m = rec[k];
+        if (Number(m[key]) === v && (mins[i] == null || Number(m.minutes) === mins[i])) { hit = m; j = k + 1; break; }
+      }
     }
-    if (!hit || !hit.opp) { out.push(null); return; }
-    out.push(gameOf(hit));
+    out.push(hit && hit.opp ? gameOf(hit) : null);
   });
   return out;
+}
+
+// avversari che l'indice dell'app non ha (partite piu' vecchie / altre competizioni): dall'archivio delle competizioni (calendario del giorno)
+function useHitGames(player, key2, vals, mins) {
+  const prof = hitProf(player);
+  const sig = `${prof && prof.id}|${key2}|${vals.join(',')}|${mins.join(',')}`;
+  const base = useMemo(() => (key2 ? gamesFor(player, key2, vals, mins) : null), [sig]); // eslint-disable-line react-hooks/exhaustive-deps
+  const [ext, setExt] = useState({});
+  useEffect(() => {
+    setExt({});
+    if (!key2 || !base) return undefined;
+    const rows = hitRows(prof);
+    const mine = teamById(prof && prof.teamId);
+    const isMine = (name) => { const t = teamByName(name); return !!(t && mine && t.id === mine.id) || (!!mine && String(name).toLowerCase() === String(mine.name).toLowerCase()); };
+    let on = true;
+    (async () => {
+      const idx = await archIndex();
+      for (let i = 0; i < base.length; i += 1) {
+        const r = rows[i];
+        if (base[i] || !r || !r[5] || !r[6]) continue; // eslint-disable-line no-continue
+        const ymd = String(r[5]);
+        const y = +ymd.slice(0, 4); const mo = +ymd.slice(4, 6);
+        const iso = `${ymd.slice(0, 4)}-${ymd.slice(4, 6)}-${ymd.slice(6, 8)}`;
+        const day = (d) => new Date(Date.parse(`${iso}T12:00:00Z`) + d * 864e5).toISOString().slice(0, 10);
+        const days = [iso, day(-1), day(1)];
+        const ent = idx && idx[String(r[6])];
+        if (!ent || !ent.s) continue; // eslint-disable-line no-continue
+        const st = mo >= 7 ? y : y - 1;
+        const sks = [`${st}-${st + 1}`, `${y}`, `${y - 1}-${y}`].filter((x) => ent.s.includes(x));
+        let found = null;
+        for (const sk of sks) {
+          const se = await loadSeason(r[6], sk); // eslint-disable-line no-await-in-loop
+          if (!se || !se.fix) continue; // eslint-disable-line no-continue
+          for (const d of days) {
+            const f = se.fix.find((x) => String(x[4]).slice(0, 10) === d && (isMine(se.teams[x[2]]) || isMine(se.teams[x[3]])));
+            if (f) { const oppName = isMine(se.teams[f[2]]) ? se.teams[f[3]] : se.teams[f[2]]; found = { opp: oppName, id: `a-${r[6]}-${sk}-${f[0]}` }; break; }
+          }
+          if (found) break;
+        }
+        if (found && on) setExt((e) => ({ ...e, [i]: gameOf({ opp: found.opp, matchId: found.id }) }));
+      }
+    })().catch(() => {});
+    return () => { on = false; };
+  }, [sig]); // eslint-disable-line react-hooks/exhaustive-deps
+  return useMemo(() => (base ? base.map((g, i) => g || ext[i] || null) : null), [base, ext]);
 }
 
 const CUP_IDS = ['champions-league', 'europa-league', 'conference-league'];
@@ -262,13 +319,12 @@ const gameOf = (m) => {
 
 // pagine del grafico: la prima e' sempre "Tutte le competizioni" (le ultime 5 del calcolo); poi una per competizione (scelta per prima).
 // Le pagine per competizione sono solo da guardare: nel calcolo conta l'Hit Rate totale (e, per le nazionali, la quota Nations League).
-function hitPages(player, key2, vals, mins, comp) {
+function hitPages(player, key2, vals, mins, comp, g) {
   const opts = playerComps(player);
   const byVal = Object.fromEntries(opts.map((o) => [o.value, o]));
   const all = { key: 'tutte', name: 'Tutte le competizioni', logo: null, values: [...vals].reverse(), games: null };
   if (!key2) return [all];
-  const g = gamesFor(player, key2, vals, mins);
-  if (g.some(Boolean)) all.games = [...g].reverse();
+  if (g && g.some(Boolean)) all.games = [...g].reverse();
   const IM = {};
   ((RAW.indice && RAW.indice.m) || []).forEach((m) => { IM[m[0]] = m; });
   const srcs = [player.nat && player.club ? player.club : player, player.natView, player.nat ? player : null].filter((x) => x && x.recent);
@@ -290,7 +346,8 @@ function hitPages(player, key2, vals, mins, comp) {
 
 // Hit Rate a colonne al posto delle pillole: una colonna per partita (la piu' vecchia a sinistra), una pagina per competizione
 function HitPanel({ C, player, vals, mins, key2, line, under, label, openRoute, comp, hitSel }) {
-  const pages = useMemo(() => hitPages(player, key2, vals, mins, comp), [player, key2, vals.join(','), mins.join(','), comp]); // eslint-disable-line react-hooks/exhaustive-deps
+  const games = useHitGames(player, key2, vals, mins);
+  const pages = useMemo(() => hitPages(player, key2, vals, mins, comp, games), [player, key2, vals.join(','), mins.join(','), comp, games]); // eslint-disable-line react-hooks/exhaustive-deps
   const head = hitSel ? <View><Dropdown C={C} slim options={[{ value: '', label: 'Nessuna' }, ...HIT_OPTIONS]} value={hitSel.value} onChange={hitSel.onChange} placeholder="Nessuna" pillKey="label" labelKey="label" width={150} /></View> : null;
   return (
     <View>

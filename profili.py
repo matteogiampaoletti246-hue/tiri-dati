@@ -11,7 +11,7 @@ Per ogni giocatore di giocatori.json (PitchAPI, id p_...) e calc_extra.json:
 3. statistiche complete della stagione in corso: partite PitchAPI + partite FotMob che PitchAPI non ha (stessa giornata = stessa
    partita). `l` = campionato nazionale, `c` = coppe europee, `r` = ultime 5 (tutte le competizioni).
 4. Hit Rate (regola fissa): `h` = fino a 5 partite con ALMENO 50 minuti, dalla piu' recente, tutte le competizioni; se nella stagione in
-   corso sono meno di 5 si completa con la stagione passata (sempre a ritroso). Righe [tiri, in porta, minuti, falli, falli subiti, giorno,
+   corso sono meno di 5 si completa con la stagione passata (sempre a ritroso). Righe [tiri, in porta, minuti, falli, falli subiti, giorno (AAAAMMGG),
    competizione FotMob]; `hn` = partite usate, `hp` = di cui della stagione passata. `dl` = campionato nazionale FotMob della squadra.
 Referti: report/profili_uniti.json (unioni con motivo) e report/profili_stato.json (conteggi, giocatori ancora sotto le 5 partite)."""
 import glob, gzip, json, os, re, sys, unicodedata
@@ -475,7 +475,7 @@ def main():
             return [round(a[0], 1), round(a[1], 1), round(a[2], 1), round(a[3], 1)]
 
         # righe compatte (giocatori.json si scarica all'avvio): giorno e competizione restano solo nel referto
-        row = lambda c: [int(c["sh"]), int(c["so"]), int(round(c["min"])), c["fo"], c["fs"]]
+        row = lambda c: [int(c["sh"]), int(c["so"]), int(round(c["min"])), c["fo"], c["fs"], int(c["d"].strftime("%Y%m%d")), c["fm"]]  # + giorno e competizione FotMob: servono per trovare l'avversario nel grafico Hit Rate
         hit = [row(c) for c in cur if c["min"] >= MIN_HIT][:5]
         hit_d = [(c["d"].isoformat(), c["fm"]) for c in cur if c["min"] >= MIN_HIT][:5]
         hp = 0
@@ -491,7 +491,7 @@ def main():
             for x in pv:
                 if len(hit) >= 5:
                     break
-                hit.append([int(x[4]), int(x[5]), int(round(x[3])), x[6], x[7]])
+                hit.append([int(x[4]), int(x[5]), int(round(x[3])), x[6], x[7], int(x[0].strftime("%Y%m%d")), x[1]])
                 hit_d.append((x[0].isoformat(), x[1]))
                 hp += 1
         out = dict(base)
