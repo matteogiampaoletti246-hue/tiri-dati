@@ -1,7 +1,7 @@
-// Aggiornamento automatico in Expo Go: all'apertura e al ritorno dal background confronta la versione dell'app
+// Aggiornamento automatico in Expo Go: all'apertura (solo da fredda) confronta la versione dell'app
 // (build.json, scritto dalla CI) con native-link/latest.json e, se e' uscita una versione piu' nuova, la apre da sola.
 import { useEffect } from 'react';
-import { AppState, Linking } from 'react-native';
+import { Linking } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import BUILD from '../build.json';
 
@@ -16,7 +16,7 @@ async function check() {
     const j = await r.json();
     if (!j || !j.sha || j.sha === BUILD.sha || !j.id || !j.group) return;
     const last = JSON.parse((await AsyncStorage.getItem(KEY).catch(() => null)) || '{}');
-    if (last.sha === j.sha && Date.now() - last.t < 180000) return; // niente cicli se la nuova versione non si carica
+    if (last.sha === j.sha) return; // una versione si apre una volta sola: mai cicli, mai riaperture sotto le mani
     await AsyncStorage.setItem(KEY, JSON.stringify({ sha: j.sha, t: Date.now() })).catch(() => {});
     Linking.openURL('exp://u.expo.dev/' + j.id + '/group/' + j.group).catch(() => {});
   } catch (e) { /* offline: resta questa versione */ }
@@ -24,8 +24,8 @@ async function check() {
 
 export function useAutoUpdate() {
   useEffect(() => {
-    check();
-    const sub = AppState.addEventListener('change', (st) => { if (st === 'active') check(); });
-    return () => sub.remove();
+    // solo all'avvio a freddo: al ritorno dal background non si ricarica mai l'app (prima poteva riaprirla o bloccare il tocco)
+    const t = setTimeout(check, 1500);
+    return () => clearTimeout(t);
   }, []);
 }

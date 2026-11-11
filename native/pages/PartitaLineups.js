@@ -369,9 +369,9 @@ export default function Formazioni({ C, match, view, home, away, pre, openRoute 
             {labels}
           </View>
           {pre ? (
-            <View style={{ marginBottom: 12, gap: 10 }}>
-              <View style={{ flexDirection: 'row' }}><Dropdown C={C} options={TOP_STATS} value={stat} onChange={onStat} side="right" width={222} fill style={{ flex: 1 }} icon={(o, col) => <StatIconN k={o.icon} size={17} color={col} />} /></View>
-              <Segmented C={C} options={LINES[stat].map((l) => ({ value: l, label: `Over ${String(l).replace('.', ',')}` }))} value={line} onChange={setLine} />
+            <View style={{ marginBottom: 12, flexDirection: 'row', gap: 10 }}>
+              <Dropdown C={C} options={TOP_STATS} value={stat} onChange={onStat} side="left" width={222} fill style={{ flex: 1.35 }} icon={(o, col) => <StatIconN k={o.icon} size={17} color={col} />} />
+              <Dropdown C={C} options={LINES[stat].map((l) => ({ value: l, label: `Over ${String(l).replace('.', ',')}` }))} value={line} onChange={setLine} side="right" width={150} fill style={{ flex: 1 }} />
             </View>
           ) : null}
           <DualPitch C={C} lh={lh} la={la} home={home} away={away} valOf={valOf} match={match} mvpId={mvpId} pre={pre} openRoute={openRoute} />

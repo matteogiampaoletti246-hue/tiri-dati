@@ -28,6 +28,7 @@ import ArbitroPage from './pages/Arbitro';
 import CompetizioniPage from './pages/Competizioni';
 import TiriSquadrePage from './pages/TiriSquadre';
 import { searchN } from './shared/searchN';
+import { FlagN } from './shared/FlagN';
 import { bootShared } from './shared/boot';
 import { ArchTeamRoute, ArchPlayerRoute } from './pages/ArchiveRoute';
 // pagine gia' native (migrazione a tappe): la rotta si apre senza WebView
@@ -634,9 +635,10 @@ const HlName = ({ text, hl }) => {
 
 const PlayerBannerS = memo(({ p, onPress }) => {
   const { C, s } = useT();
-  const g = hexA(p.color, '66');
+  const g = hexA(p.color, '3A');
+  const ring = hexA(p.color, 'F2');
   return (
-    <Pressable onPress={onPress} style={({ pressed }) => [s.pb, pressed && { opacity: 0.6 }]}>
+    <Pressable onPress={onPress} style={({ pressed }) => [s.pb, ring ? { borderWidth: 1.5, borderColor: ring } : null, pressed && { opacity: 0.6 }]}>
       <LinearGradient colors={[g || C.card1, C.card2]} locations={[0, 0.72]} start={{ x: 0, y: 0.5 }} end={{ x: 1, y: 0.5 }} style={StyleSheet.absoluteFill} />
       <Face uri={p.photo} color={p.color} size={36} />
       <View style={{ flex: 1, minWidth: 0 }}>
@@ -647,7 +649,7 @@ const PlayerBannerS = memo(({ p, onPress }) => {
           {p.nat ? (
             <>
               <View style={{ width: 1, height: 14, backgroundColor: C.dim || '#5b678f', opacity: 0.5 }} />
-              <Image source={{ uri: `${SITE}native-link/flags/${p.nat.fc}.png` }} style={{ width: 14, height: 14, borderRadius: 7 }} contentFit="cover" cachePolicy="memory-disk" transition={0} />
+              <FlagN code={p.nat.fc} size={14} C={C} />
               <Text numberOfLines={1} style={s.pbTeam}>{p.nat.name}</Text>
             </>
           ) : null}
@@ -660,11 +662,15 @@ const PlayerBannerS = memo(({ p, onPress }) => {
 // Squadra nella ricerca: stesso banner colorato dei giocatori (colore sociale, stemma, nome, campionato)
 const TeamBannerS = memo(({ t, onPress }) => {
   const { C, s } = useT();
-  const g = hexA(t.color, '66');
+  const cols = t.flagColors || [t.color, t.color2].filter(Boolean);
+  const gc = cols.map((c) => hexA(c, t.flag ? '55' : '66')).filter(Boolean);
+  const ring = hexA(cols[0] || t.color, 'E6');
   return (
-    <Pressable onPress={onPress} style={({ pressed }) => [s.pb, pressed && { opacity: 0.6 }]}>
-      <LinearGradient colors={[g || C.card1, C.card2]} locations={[0, 0.72]} start={{ x: 0, y: 0.5 }} end={{ x: 1, y: 0.5 }} style={StyleSheet.absoluteFill} />
-      <View style={{ width: 36, height: 36, alignItems: 'center', justifyContent: 'center' }}><Mark uri={t.crest} size={30} initials={t.initials} /></View>
+    <Pressable onPress={onPress} style={({ pressed }) => [s.pb, ring ? { borderWidth: 1.5, borderColor: ring } : null, pressed && { opacity: 0.6 }]}>
+      <LinearGradient colors={gc.length > 1 ? [...gc, C.card2] : [gc[0] || C.card1, C.card2]} locations={gc.length > 2 ? [0, 0.3, 0.55, 0.85] : gc.length > 1 ? [0, 0.4, 0.8] : [0, 0.72]} start={{ x: 0, y: 0.5 }} end={{ x: 1, y: 0.5 }} style={StyleSheet.absoluteFill} />
+      <View style={{ width: 36, height: 36, alignItems: 'center', justifyContent: 'center' }}>
+        {t.flag ? <FlagN code={t.flag} size={32} C={C} bare /> : <Mark uri={t.crest} size={30} initials={t.initials} />}
+      </View>
       <View style={{ flex: 1, minWidth: 0 }}>
         <Text numberOfLines={1} style={s.pbName}><HlName text={t.name} hl={t.hl} /></Text>
         <View style={s.pbSub}>
@@ -1311,7 +1317,7 @@ function Screen({ onTheme, onReset, themePref }) {
   // Tornando dal background: oltre 10 minuti l'app riparte da zero (come appena aperta); entro 10 minuti resta com'era.
   useEffect(() => {
     const sub = AppState.addEventListener('change', (st) => {
-      if (st === 'background') { bgAt.current = Date.now(); return; }
+      if (st === 'background') { bgAt.current = Date.now(); try { Image.clearMemoryCache(); } catch (e) { /* ignora */ } return; } // in background l'app pesa il meno possibile: il sistema chiude per prime le app pesanti
       if (st === 'active') globalThis.__resumeUntil = Date.now() + 5000; // dati in background fermi per 5 s: l'app torna subito al tocco
       if (st !== 'active' || !bgAt.current) return;
       const gap = Date.now() - bgAt.current; bgAt.current = 0;
@@ -1319,7 +1325,8 @@ function Screen({ onTheme, onReset, themePref }) {
       // animazioni native fermate a meta' dal sistema: la pila torna dov'e' (aperta = 0, chiusa = fuori schermo)
       try { ov.value = openRef.current ? 0 : W; } catch (e) { /* ignora */ }
     });
-    return () => sub.remove();
+    const mw = AppState.addEventListener('memoryWarning', () => { try { Image.clearMemoryCache(); } catch (e) { /* ignora */ } });
+    return () => { sub.remove(); mw.remove(); };
   }, [onReset, ov]);
   const openRoute = useCallback((route) => {
     const path0 = route.split('?')[0];

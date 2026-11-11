@@ -195,3 +195,11 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 - Contorni multicolore (`RingBox`) FERMI: l'animazione girevole costava un livello grafico per tasto.
 - Al ritorno dal background i dati in secondo piano (`pullLive`, `freshSeason`) restano fermi 5 s (`globalThis.__resumeUntil`).
 - Nel pannello laterale la foto non ha riquadro ne' sfumatura (volto ritagliato, appoggiato al fondo).
+
+## App nativa: ricerca, riquadri e partite (11/11)
+- **Aggiornamento automatico**: si controlla solo all'avvio a freddo e ogni versione si apre una volta sola (mai al ritorno dal background: prima poteva riaprire l'app o bloccare il tocco). In `native_expo.yml` il passo "Link fisso" riparte da `origin/main` a ogni tentativo (niente conflitti col rebase dei dati).
+- **Background**: entrando in background e a ogni `memoryWarning` si svuota la cache immagini in memoria (`Image.clearMemoryCache()`).
+- **Ricerca**: squadre nazionali = bandiera tonda senza cornice (`FlagN bare`) e banner con i colori della bandiera (`shared/flagColors.js`); giocatori = bordo nitido del colore squadra e riempimento piu' chiaro; nazionalita' (bandiera e nome) accanto alla squadra per tutti (`natFor` in `searchN.js`, anche dalla carriera).
+- **Riquadri**: `Panel` ha il bordo nel colore della scheda (`TintProvider`: squadra o nazionale nel giocatore, competizione nella partita) e quando il colore cambia sfuma (`PanelRing`). La testata partita mostra solo il nome della competizione, centrato.
+- **Giocatore**: Partite con tendine Competizione e Stagione (contorno), tutte le partite scelte si caricano da sole; cambiando Totale/Casa/Trasferta restano i numeri di prima finche' arrivano i nuovi (la pagina non salta). Prossima partita delle competizioni d'archivio (Nations League…) dai file `giorni/` dei prossimi 12 giorni (`useUpcoming`).
+- **Formazioni (prima della partita)**: tendina statistica a sinistra e tendina linea (Over) a destra, sulla stessa riga.

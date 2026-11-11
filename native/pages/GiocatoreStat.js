@@ -4,6 +4,7 @@ import { View, Text } from 'react-native';
 import useAsync from '@/hooks/useAsync';
 import { Panel, Segmented, DropBtn, LeagueLogo, TeamCrest } from '../shared/ui';
 import SwapN from '../shared/SwapN';
+import { useUpcoming } from '../shared/useUpcoming';
 import Dropdown from '../shared/Dropdown';
 import StatIconN from '../shared/StatIconN';
 import { scoreColorSmooth } from '@/lib/calc';
@@ -38,6 +39,7 @@ function Affidabilita({ C, player: club, comp }) {
   const [stat, setStat] = useState('tiri');
   const [fouls, setFouls] = useState(null);
   const next = nextMatchOf(player.teamId, comp);
+  useUpcoming(!next && String(comp || '').startsWith('fm-'));
   const opp = next ? teamById(next.homeId === player.teamId ? next.awayId : next.homeId) : null;
   const isF = isFoulStat(stat);
   const fk = next ? `${player.id}|${next.date}|${stat}` : '';

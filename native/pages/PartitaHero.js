@@ -99,7 +99,7 @@ export default function PartitaHero({ C, match, view, league, home, away, onBack
         <Pressable onPress={onBack} hitSlop={12} style={{ width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center', backgroundColor: C.chip }}><Ionicons name="chevron-back" size={20} color={C.ink} /></Pressable>
         <Pressable onPress={() => league && openRoute && openRoute(`/campionato/${league.id}`)} style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
           <LeagueLogo league={league} size={20} C={C} />
-          <Text numberOfLines={1} style={{ color: C.ink2, fontSize: 12, fontWeight: '800', letterSpacing: 1, textTransform: 'uppercase' }}>{league ? league.name : ''}{match.seasonLabel ? ` · ${match.seasonLabel}` : ''}</Text>
+          <Text numberOfLines={1} style={{ color: C.ink2, fontSize: 12, fontWeight: '800', letterSpacing: 1, textTransform: 'uppercase' }}>{league ? league.name : ''}</Text>
         </Pressable>
         <View style={{ width: 36 }} />
       </View>

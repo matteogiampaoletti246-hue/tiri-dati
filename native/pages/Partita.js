@@ -17,6 +17,7 @@ import { prepareMatch, isReady } from '@/data/prepare';
 import { lineupBeat, lineupWindowMs, lineupIsOfficial } from '@/data/lineupWindow';
 import { teamById } from '@/data/teams';
 import { leagueById } from '@/data/leagues';
+import { matchTint } from '@/data/matchTint';
 import { isPureCup } from '@/data/bracket';
 
 const PRE_TABS = [['overview', 'Panoramica'], ['stats', 'Statistiche'], ['lineups', 'Formazioni'], ['rel', 'Affidabilità'], ['standings', 'Classifica']];
@@ -74,7 +75,7 @@ export default function Partita({ C, top, onBack, bottom = 90, openRoute, params
   const Panel = PANELS[cur];
   const idx = Math.max(0, tabs.findIndex((t) => t[0] === cur));
   const tabsN = tabs.map(([k, l]) => ({ key: k, label: l }));
-  const homeC = home && home.colors ? home.colors[0] : null;
+  const homeC = league ? matchTint(league.id, league) : (home && home.colors ? home.colors[0] : null);
   return (
     <View style={{ flex: 1, backgroundColor: 'transparent' }}>
       <ScrollView stickyHeaderIndices={[1]} style={{ paddingTop: top }} contentContainerStyle={{ paddingBottom: bottom + 20 }} showsVerticalScrollIndicator={false}>

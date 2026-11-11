@@ -1,5 +1,5 @@
 // Statistiche di una stagione (attuale dall'archivio o passata) di un giocatore: stesso aspetto della stagione attuale.
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { View, Text } from 'react-native';
 import { Image } from 'expo-image';
 import useAsync from '@/hooks/useAsync';
@@ -52,7 +52,11 @@ export default function GiocatorePast({ C, id, fm, sk, current = false, teamName
   const col = useTeamColors();
   const { data: res, loading } = useAsync(async () => ({ stats: await (part === 'tot' ? loadPlayerStatsFor(fm, sk, id) : statsFromMatches(fm, sk, part)) }), [fm, sk, part, id]);
   const { data: split } = useAsync(async () => hasPlayer(await statsFromMatches(fm, sk), id), [fm, sk, id]);
-  const stats = res ? res.stats : undefined;
+  // cambiando Totale/Casa/Trasferta restano i numeri di prima (appena piu' chiari) finche' arrivano i nuovi: l'altezza non crolla e la pagina non salta
+  const lastRes = useRef(null);
+  if (res) lastRes.current = res;
+  const shown = res || lastRes.current;
+  const stats = shown ? shown.stats : undefined;
   const { data: season } = useAsync(() => loadSeason(fm, sk), [fm, sk]);
   if (loading && !stats) return <SkCards C={C} />;
   const lists = stats && playerViewLists(stats, id);

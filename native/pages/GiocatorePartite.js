@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { Image } from 'expo-image';
 import { TeamCrest, LeagueLogo } from '../shared/ui';
+import Dropdown from '../shared/Dropdown';
 import { onNearEnd } from '../shared/hooks';
 import { BallIcon, BootIcon } from '../shared/Icons';
 import { RAW } from '@/data/load';
@@ -44,7 +45,7 @@ async function seasonRows(fm, sk, fmPid) {
     const home = inH ? true : inA ? false : side ? side === 'h' : myTeam ? myTeam === hid : false;
     const opp = home ? aid : hid;
     const date = f ? f[4] : '';
-    rows.push({ key: `a-${fm}-${sk}-${mid}`, to: `/match/a-${fm}-${sk}-${mid}`, day: date ? romeDayOf(date) : '', date, fm, oppId: opp, oppName: s.teams[opp] || '', score: f ? ownFirst(f[5], home) : '', minutes: Math.round(p.minutes_played), goals: p.goals || 0, assists: p.goal_assist || p.assists || 0, rating: p.rating_title || null });
+    rows.push({ key: `a-${fm}-${sk}-${mid}`, to: `/match/a-${fm}-${sk}-${mid}`, day: date ? romeDayOf(date) : '', date, fm, sk, oppId: opp, oppName: s.teams[opp] || '', score: f ? ownFirst(f[5], home) : '', minutes: Math.round(p.minutes_played), goals: p.goals || 0, assists: p.goal_assist || p.assists || 0, rating: p.rating_title || null });
   });
   return rows;
 }
@@ -63,34 +64,58 @@ export function usePartiteItems(player, car) {
   return { has: !!(recent.length || (fmPid && items.length)), items: fmPid ? items : [], fmPid, recent };
 }
 
+const seasonOfDate = (iso, sk) => { const d = new Date(iso); if (isNaN(d)) return 0; const y = d.getUTCFullYear(); return String(sk).includes('/') ? (d.getUTCMonth() >= 6 ? y : y - 1) : y; };
+
 export default function GiocatorePartite({ C, parts: P, openRoute }) {
-  const years = [...new Set(P.items.map(([, sk]) => yearOf(sk)))].sort((a, b) => b - a);
-  const [got, setGot] = useState([]);
+  const [comp, setComp] = useState('all');
+  const [season, setSeason] = useState('all');
+  const filtered = comp !== 'all' || season !== 'all';
+  const cache = useRef(new Map());
+  const [, setVer] = useState(0);
   const [busy, setBusy] = useState(false);
-  const next = useRef(0);
   const live = useRef(true);
+  const compOpts = [{ value: 'all', label: 'Tutte le competizioni' }];
+  const seenC = new Set();
+  P.items.forEach(([fm]) => { const lg = leagueById(LID_BY_FM[fm]); if (lg && !seenC.has(lg.id)) { seenC.add(lg.id); compOpts.push({ value: lg.id, label: lg.name }); } });
+  const seasonOpts = [{ value: 'all', label: 'Tutte le stagioni' }];
+  const seenS = new Set();
+  P.items.filter(([fm]) => comp === 'all' || LID_BY_FM[fm] === comp).sort((x, y) => yearOf(y[1]) - yearOf(x[1])).forEach(([, sk]) => { if (!seenS.has(sk)) { seenS.add(sk); seasonOpts.push({ value: sk, label: seasonLabel(sk) }); } });
+  const its = P.items.filter(([fm, sk]) => (comp === 'all' || LID_BY_FM[fm] === comp) && (season === 'all' || sk === season));
+  const itsRef = useRef(its);
+  itsRef.current = its;
   const more = async () => {
-    if (busy || next.current >= years.length) return;
+    if (busy) return;
+    const todo = itsRef.current.filter(([fm, sk]) => !cache.current.has(`${fm}|${sk}`));
+    if (!todo.length) return;
+    const y = Math.max(...todo.map(([, sk]) => yearOf(sk)));
+    const grp = todo.filter(([, sk]) => yearOf(sk) === y);
     setBusy(true);
-    const y = years[next.current];
-    next.current += 1;
-    let res = [];
-    try { res = (await Promise.all(P.items.filter(([, sk]) => yearOf(sk) === y).map(([fm, sk]) => seasonRows(fm, sk, P.fmPid).catch(() => [])))).flat(); } catch (e) { res = []; }
-    if (live.current) { setGot((g) => [...g, ...res]); setBusy(false); }
+    const res = await Promise.all(grp.map(([fm, sk]) => seasonRows(fm, sk, P.fmPid).catch(() => [])));
+    if (!live.current) return;
+    grp.forEach(([fm, sk], i) => cache.current.set(`${fm}|${sk}`, res[i]));
+    setBusy(false);
+    setVer((v) => v + 1);
   };
   const moreRef = useRef(more);
   moreRef.current = more;
-  useEffect(() => { live.current = true; moreRef.current(); const off = onNearEnd(() => moreRef.current()); return () => { live.current = false; off(); }; }, []);
-  // lista corta: finche' non riempie lo schermo si carica anche il gruppo dopo (al massimo uno per volta)
-  useEffect(() => { if (!busy && got.length < 8 && next.current < years.length) moreRef.current(); }, [busy, got.length]);
-  const recentDays = new Set(P.recent.map((r) => r.day).filter(Boolean));
+  useEffect(() => { live.current = true; const off = onNearEnd(() => { if (!filtered) moreRef.current(); }); return () => { live.current = false; off(); }; }, [filtered]);
+  const got = its.flatMap(([fm, sk]) => cache.current.get(`${fm}|${sk}`) || []);
+  const pending = its.some(([fm, sk]) => !cache.current.has(`${fm}|${sk}`));
+  // senza filtro: finche' la lista e' corta si carica il gruppo dopo; con un filtro si caricano tutte le partite scelte
+  useEffect(() => { if (!busy && pending && (filtered || got.length < 8)) moreRef.current(); });
+  const recentSel = P.recent.filter((r) => (comp === 'all' || (r.league && r.league.id === comp)) && (season === 'all' || seasonOfDate(r.date, season) === yearOf(season)));
+  const recentDays = new Set(recentSel.map((r) => r.day).filter(Boolean));
   const seen = new Set();
-  const all = [...P.recent, ...got.filter((r) => !recentDays.has(r.day))]
+  const all = [...recentSel, ...got.filter((r) => !recentDays.has(r.day))]
     .filter((r) => (seen.has(r.key) ? false : (seen.add(r.key), true)))
     .sort((a, b) => b.day.localeCompare(a.day) || String(b.date).localeCompare(String(a.date)));
   const sk = (h, w) => <View style={{ height: h, width: w || '100%', borderRadius: 16, backgroundColor: C.skBase, marginBottom: 10 }} />;
   return (
     <View style={{ paddingHorizontal: 20, paddingTop: 20, paddingBottom: 30, gap: 10 }}>
+      <View style={{ flexDirection: 'row', gap: 10, marginBottom: 4 }}>
+        <Dropdown C={C} options={compOpts} value={comp} onChange={(v) => { setComp(v); setSeason('all'); }} side="left" width={240} fill style={{ flex: 1.3 }} />
+        <Dropdown C={C} options={seasonOpts} value={season} onChange={setSeason} side="right" width={190} fill style={{ flex: 1 }} />
+      </View>
       {all.map((m) => {
         const lg = m.league || leagueById(LID_BY_FM[Number(m.fm)]);
         const tint = lg ? matchTint(lg.id, lg) : null;
@@ -110,7 +135,7 @@ export default function GiocatorePartite({ C, parts: P, openRoute }) {
           </Pressable>
         );
       })}
-      {busy ? <>{sk(64)}{sk(64)}{sk(64)}</> : null}
+      {busy || (filtered && pending) ? <>{sk(64)}{sk(64)}{sk(64)}</> : null}
     </View>
   );
 }

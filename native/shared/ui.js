@@ -27,6 +27,19 @@ export const mixHex = (a, b, t) => { const p = (h) => [1, 3, 5].map((i) => parse
 const okHex = (c) => (typeof c === 'string' && /^#[0-9a-f]{6}$/i.test(c) ? c : null);
 export const tintFill = (C, color) => { const t = okHex(color); return t ? [`${t}${C.dark ? '4D' : '2E'}`, `${t}00`] : null; };
 export const TintBg = ({ C, color }) => { const g = tintFill(C, color); return g ? <LinearGradient pointerEvents="none" colors={g} locations={[0, 0.78]} start={{ x: 0, y: 0.35 }} end={{ x: 1, y: 0.65 }} style={StyleSheet.absoluteFill} /> : null; };
+// bordo del riquadro nel colore della scheda (squadra, nazionale o competizione); quando il colore cambia sfuma da uno all'altro
+const PanelRing = ({ color, w }) => {
+  const k = useSharedValue(1);
+  const fromC = useSharedValue(color);
+  const toC = useSharedValue(color);
+  const first = useRef(true);
+  useEffect(() => {
+    if (first.current) { first.current = false; return; }
+    fromC.value = toC.value; toC.value = color; k.value = 0; k.value = withTiming(1, { duration: 380 });
+  }, [color]);
+  const st = useAnimatedStyle(() => ({ borderColor: interpolateColor(k.value, [0, 1], [fromC.value, toC.value]) }));
+  return <Animated.View pointerEvents="none" style={[StyleSheet.absoluteFill, { borderRadius: 22, borderWidth: w }, st]} />;
+};
 export const Panel = ({ C, children, style, tint, ring }) => {
   const ctx = useContext(TintCtx);
   const t = okHex(tint || ctx);
@@ -34,6 +47,7 @@ export const Panel = ({ C, children, style, tint, ring }) => {
     <View style={[{ borderRadius: 22, overflow: 'hidden', backgroundColor: C.card2, borderWidth: ring ? 1.5 : 1, borderColor: ring ? (t ? `${t}B3` : C.accRing) : C.border }, style]}>
       <TintBg C={C} color={tint || ctx} />
       {children}
+      {t && !ring ? <PanelRing color={`${t}B3`} w={1.5} /> : null}
     </View>
   );
 };
