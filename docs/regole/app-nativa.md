@@ -260,3 +260,6 @@ Come nel sito: il filtro delle linee (`Segmented fit pad={10}`) prende lo spazio
 - Schermate giocatori di competizioni e squadre: solo Totale / Ogni 90' e "Vai a" (niente Casa/Trasferta ne' filtri Attacco/Difesa/Disciplina/Gioco).
 - Minuti di recupero ("45+1'") nelle pillole dei tiri: la pillola si allarga, il testo non si taglia.
 - Cambio tabella giocatori (Totale/Ogni 90'): solo sfumatura (opacita') con piccolo scarto tra le righe, su podio e righe; niente spostamenti (si bugavano).
+- Pagine native in pila dentro `Guard`: un errore in una scheda riporta indietro invece di crashare l'app. Competizioni d'archivio senza stagioni con dati: mai aprire la scheda (torna indietro).
+- Banner squadre nei selettori a pagina intera (`FullPicker`, `soft`): stesso tono scuro e sfumato dei banner dei campionati.
+- Partita di un campionato minore: la scheda Classifica usa la stagione in corso FotMob (`LiveClassifica`).

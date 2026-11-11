@@ -183,7 +183,7 @@ export default function Campionato({ C, top, onBack, bottom = 90, openRoute, par
       const archS = (idx && fm && idx[String(fm)] && idx[String(fm)].s) || (isArch && idx && idx[String(league.fm)] && idx[String(league.fm)].s) || [];
       const fmId = fm || (isArch ? league.fm : null);
       const fsd = isArch && fmId && archS.length ? await firstSeasonWithData(fmId, sortSeasons(archS)) : null;
-      if (isArch && fsd && !fsd.sk) { if (live) setSt('err'); return; }
+      if (isArch && (!fsd || !fsd.sk)) { if (live) setSt('err'); return; }
       const curKey = (league.season || '').replace('/', '-');
       const past = sortSeasons((archS || []).filter((x) => x !== curKey && !(fsd && fsd.empty.includes(x))));
       resetSel(`lg-${fmId || league.id}`);

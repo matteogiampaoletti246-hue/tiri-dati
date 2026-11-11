@@ -11,6 +11,9 @@ import Statistiche, { hasPlayedStats } from './PartitaStats';
 import Tabellone from './PartitaBracket';
 import Affidabilita, { hasReliability } from './PartitaRel';
 import { ALL_KEYS } from '@/data/calcData';
+import useAsync from '@/hooks/useAsync';
+import { FM_ID, currentSeason, loadSeason } from '@/data/archive';
+import { ClassificaSwitchN } from './CampionatoArch';
 
 function Classifica({ C, match, openRoute, cup }) {
   if (cup) return <Tabellone C={C} match={match} openRoute={openRoute} />;
@@ -18,7 +21,20 @@ function Classifica({ C, match, openRoute, cup }) {
     const { fm, sk, hid, aid } = match.archive;
     return <ArchiveStandings C={C} season={match.season} fm={fm} sk={sk} highlight={[hid, aid]} openRoute={openRoute} />;
   }
-  return <View style={{ paddingTop: 12 }}><LeagueStandings C={C} leagueId={match.leagueId} highlight={[match.homeId, match.awayId]} openRoute={openRoute} /></View>;
+  return <LiveClassifica C={C} match={match} openRoute={openRoute} />;
+}
+
+// campionati senza classifica dell'app (minori/aggiunti): stessa scelta classifica del Campionato (FotMob)
+function LiveClassifica({ C, match, openRoute }) {
+  const fm = FM_ID[match.leagueId];
+  const { data: sk } = useAsync(() => (fm ? currentSeason(fm) : null), [fm]);
+  const { data: season } = useAsync(() => (fm && sk ? loadSeason(fm, sk) : null), [fm, sk]);
+  const has = !!(season && (season.table || (season.groups && season.groups.length)));
+  const body = has
+    ? <ArchiveStandings C={C} season={season} fm={fm} sk={sk} highlight={[match.homeId, match.awayId]} openRoute={openRoute} />
+    : <View style={{ paddingTop: 12 }}><LeagueStandings C={C} leagueId={match.leagueId} highlight={[match.homeId, match.awayId]} openRoute={openRoute} /></View>;
+  if (!fm) return body;
+  return <ClassificaSwitchN C={C} fm={fm} sk={sk} openRoute={openRoute}>{body}</ClassificaSwitchN>;
 }
 
 export const PANELS = { summary: Riepilogo, overview: Panoramica, stats: Statistiche, lineups: Formazioni, rel: Affidabilita, standings: Classifica };
@@ -28,6 +44,6 @@ export function hasPanel(key, raw, view, home, away, pre, cup) {
   if (key === 'stats') return pre ? preStatsOk(raw, home, away) : hasPlayedStats(view);
   if (key === 'lineups') return hasLineups(view);
   if (key === 'rel') return (!raw.archive || ALL_KEYS.includes(raw.leagueId)) && hasReliability(raw);
-  if (key === 'standings') return cup ? !!((peekBracket(raw.archive.fm, raw.archive.sk) || {}).rounds || []).length : !raw.archive || !!(raw.season && (raw.season.table || (raw.season.groups && raw.season.groups.length)));
+  if (key === 'standings') return cup ? !!((peekBracket(raw.archive.fm, raw.archive.sk) || {}).rounds || []).length : (!raw.archive && !!FM_ID[raw.leagueId]) || !raw.archive || !!(raw.season && (raw.season.table || (raw.season.groups && raw.season.groups.length)));
   return true;
 }

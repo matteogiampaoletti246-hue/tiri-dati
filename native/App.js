@@ -1480,7 +1480,7 @@ function Screen({ onTheme, onReset, themePref }) {
       {/* pagina web (resto dell'app): gia' caricata, si apre scorrendo da destra */}
       <Animated.View pointerEvents="box-none" style={[StyleSheet.absoluteFill, { backgroundColor: C.bg }, ovStyle]}>
         <GestureDetector gesture={anyBack}><View pointerEvents="box-none" style={StyleSheet.absoluteFill}>
-        {natStack.map((p, i) => { const n = nativeOf(p); if (!n) return null; return <NatLayer key={`${p}#${i}`} i={i} nv={nv} nvIdx={nvIdx} hidden={natHidden} live={i === natStack.length - 1 && !natHidden}>{React.createElement(n.Comp, { params: n.params, C, top: insets.top, onBack: popNat, bottom: insets.bottom + 90, openRoute, onSearch: () => setSrch(true), onMenu: openMenuP })}</NatLayer>; })}
+        {natStack.map((p, i) => { const n = nativeOf(p); if (!n) return null; return <NatLayer key={`${p}#${i}`} i={i} nv={nv} nvIdx={nvIdx} hidden={natHidden} live={i === natStack.length - 1 && !natHidden}><Guard key={`g${p}`} onError={() => setTimeout(popNat, 0)}>{React.createElement(n.Comp, { params: n.params, C, top: insets.top, onBack: popNat, bottom: insets.bottom + 90, openRoute, onSearch: () => setSrch(true), onMenu: openMenuP })}</Guard></NatLayer>; })}
         </View></GestureDetector>
         <Guard autoReset key="gp" onError={() => closePanel()}><PlayerPanelHost C={C} top={insets.top} bottom={insets.bottom} openRoute={openRoute} /></Guard>
         <Guard autoReset key="gs" onError={() => closePlayer()}><PlayerSheetHost C={C} bottom={insets.bottom} openRoute={openRoute} /></Guard>

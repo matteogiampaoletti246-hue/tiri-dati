@@ -305,8 +305,8 @@ function TeamCard({ C, title, right, block, team, sub, tiles, matchComp, oppId, 
       const fc = flagCode(t.name);
       const fcol = fc && FLAG_COLORS[fc] ? FLAG_COLORS[fc] : null;
       const base = { value: t.id, label: t.name, sub: leagueName(block.leagueId).toUpperCase() };
-      if (fcol && cc && cc.kind === 'Nazionale') return { ...base, bare: true, color: fcol[0], color2: fcol[1] || fcol[0], icon: <FlagN code={fc} size={40} C={C} bare /> };
-      return { ...base, color: hexOr(t.colors && t.colors[0]), color2: hexOr(t.colors && t.colors[1]), icon: <TeamCrest team={t} size={32} C={C} /> };
+      if (fcol && cc && cc.kind === 'Nazionale') return { ...base, soft: true, bare: true, color: fcol[0], color2: fcol[1] || fcol[0], icon: <FlagN code={fc} size={40} C={C} bare /> };
+      return { ...base, soft: true, color: hexOr(t.colors && t.colors[0]), color2: hexOr(t.colors && t.colors[1]), icon: <TeamCrest team={t} size={32} C={C} /> };
     });
   return (
     <View>
