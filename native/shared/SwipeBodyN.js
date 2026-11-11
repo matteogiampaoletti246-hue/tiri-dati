@@ -1,40 +1,54 @@
-// Corpo a schede con swipe laterale dentro una pagina che scorre tutta insieme (Partita): il dito sposta la scheda e la linea della barra segue;
-// a fine gesto la scheda vicina entra da lato. Solo la scheda attiva e' montata. Thread UI.
+// Corpo a schede con swipe laterale dentro una pagina che scorre tutta insieme (Partita): le schede scorrono davvero col dito
+// (come lo swipe tra i giorni della Home): la scheda vicina si monta appena il dito inizia a trascinare e arriva da lato insieme a quella attuale.
+// La barra segue con `pos` (indice frazionario). Thread UI.
 import { useBackGate } from './backGate';
-import React, { useEffect, useRef } from 'react';
-import { useWindowDimensions } from 'react-native';
-import Animated, { useSharedValue, useAnimatedStyle, withTiming, runOnJS, Easing } from 'react-native-reanimated';
+import React, { useEffect, useRef, useState } from 'react';
+import { View, useWindowDimensions } from 'react-native';
+import Animated, { useSharedValue, useAnimatedStyle, withTiming, cancelAnimation, runOnJS, Easing } from 'react-native-reanimated';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 
-export default function SwipeBodyN({ index, count, onIndex, pos, children }) {
+function Pane({ i, pos, W, children, absolute }) {
+  const st = useAnimatedStyle(() => ({ transform: [{ translateX: (i - pos.value) * W }] }));
+  return <Animated.View style={[absolute ? { position: 'absolute', left: 0, right: 0, top: 0 } : null, st]}>{children}</Animated.View>;
+}
+
+export default function SwipeBodyN({ index, count, onIndex, pos, render }) {
   const { width: W } = useWindowDimensions();
   useBackGate(index > 0);
-  const x = useSharedValue(0);
+  const [nb, setNb] = useState(null); // indice della scheda vicina montata durante il trascinamento
+  const start = useSharedValue(index);
+  const dirSet = useSharedValue(0);
   const prev = useRef(index);
   useEffect(() => { pos.value = index; }, []); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (prev.current !== index) {
-      const dir = index > prev.current ? 1 : -1;
       prev.current = index;
-      x.value = dir * W * 0.35;
-      x.value = withTiming(0, { duration: 260, easing: Easing.out(Easing.cubic) });
+      // cambio da tasto barra: le schede scorrono dalla vecchia alla nuova
       pos.value = withTiming(index, { duration: 260, easing: Easing.out(Easing.cubic) });
     }
+    setNb(null);
   }, [index]); // eslint-disable-line react-hooks/exhaustive-deps
-  const pan = Gesture.Pan().activeOffsetX([-18, index > 0 ? 18 : 100000]).failOffsetY([-14, 14])
+  const pan = Gesture.Pan().activeOffsetX([-12, index > 0 ? 12 : 100000]).failOffsetY([-14, 14])
+    .onStart(() => { cancelAnimation(pos); start.value = Math.round(pos.value); dirSet.value = 0; })
     .onUpdate((e) => {
-      let v = e.translationX;
-      if ((index === 0 && v > 0) || (index === count - 1 && v < 0)) v *= 0.25;
-      x.value = v;
-      pos.value = index - v / W;
+      let v = start.value - e.translationX / W;
+      if (v < 0) v *= 0.25; else if (v > count - 1) v = count - 1 + (v - (count - 1)) * 0.25;
+      pos.value = v;
+      const d = v > start.value ? 1 : v < start.value ? -1 : 0;
+      if (d && d !== dirSet.value) { dirSet.value = d; const n = start.value + d; if (n >= 0 && n < count) runOnJS(setNb)(n); }
     })
     .onEnd((e) => {
-      const dir = (e.translationX < -W * 0.22 || e.velocityX < -600) ? 1 : (e.translationX > W * 0.22 || e.velocityX > 600) ? -1 : 0;
-      const n = index + dir;
-      if (!dir || n < 0 || n >= count) { x.value = withTiming(0, { duration: 200 }); pos.value = withTiming(index, { duration: 200 }); return; }
-      pos.value = withTiming(n, { duration: 180 });
-      x.value = withTiming(-dir * W * 0.6, { duration: 150 }, (d) => { if (d) runOnJS(onIndex)(n); });
+      let t = Math.round(pos.value - (e.velocityX / W) * 0.25);
+      t = Math.max(start.value - 1, Math.min(start.value + 1, t));
+      t = Math.max(0, Math.min(count - 1, t));
+      pos.value = withTiming(t, { duration: 240, easing: Easing.out(Easing.cubic) }, (d) => { if (d && t !== start.value) runOnJS(onIndex)(t); });
     });
-  const st = useAnimatedStyle(() => ({ transform: [{ translateX: x.value }], opacity: 1 - Math.min(0.6, Math.abs(x.value) / W) }));
-  return <GestureDetector gesture={pan}><Animated.View style={st}>{children}</Animated.View></GestureDetector>;
+  const shownNb = nb != null && nb !== index && nb >= 0 && nb < count ? nb : null;
+  return (
+    <GestureDetector gesture={pan}>
+      <View style={{ overflow: 'hidden' }}>
+        {(shownNb != null ? [index, shownNb] : [index]).map((i) => <Pane key={i} i={i} pos={pos} W={W} absolute={i !== index}>{render(i)}</Pane>)}
+      </View>
+    </GestureDetector>
+  );
 }

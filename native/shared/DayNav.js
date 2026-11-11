@@ -55,7 +55,7 @@ export function DayPagerN({ count, index, onIndex, x, render }) {
     x.value = withTiming(index, { duration: 260, easing: Easing.out(Easing.cubic) });
   }, [index]); // eslint-disable-line react-hooks/exhaustive-deps
   const pan = React.useMemo(() => Gesture.Pan().activeOffsetX([-10, index > 0 ? 10 : 100000]).failOffsetY([-28, 28])
-    .onStart(() => { cancelAnimation(x); x0.value = x.value; })
+    .onStart(() => { cancelAnimation(x); const r = Math.round(x.value); if (r !== target.value) { target.value = r; runOnJS(onIndex)(r); } x0.value = x.value; })
     .onUpdate((e) => {
       let v = x0.value - e.translationX / W;
       if (v < 0) v *= 0.3; else if (v > count - 1) v = count - 1 + (v - (count - 1)) * 0.3;
@@ -67,8 +67,8 @@ export function DayPagerN({ count, index, onIndex, x, render }) {
       t = Math.max(base - 1, Math.min(base + 1, t));
       t = Math.max(0, Math.min(count - 1, t));
       target.value = t;
-      x.value = withTiming(t, { duration: 240, easing: Easing.out(Easing.cubic) });
-      runOnJS(onIndex)(t);
+      // l'indice cambia a scorrimento finito: il ridisegno della scheda non pesa mai sull'animazione
+      x.value = withTiming(t, { duration: 240, easing: Easing.out(Easing.cubic) }, (fin) => { if (fin) runOnJS(onIndex)(t); });
     }), [x, x0, target, count, W, onIndex, index > 0]);
   const shown = [index - 1, index, index + 1].filter((i) => i >= 0 && i < count);
   return (

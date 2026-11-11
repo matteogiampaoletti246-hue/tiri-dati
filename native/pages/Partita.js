@@ -92,7 +92,6 @@ export default function Partita({ C, top, onBack, bottom = 90, openRoute, params
     .map(([k, l]) => [k, k === 'standings' && cup ? 'Tabellone' : l])
     .filter(([k]) => hasPanel(k, raw, view, home, away, pre, cup));
   const cur = tabs.some((t) => t[0] === tab) ? tab : (tabs[0] ? tabs[0][0] : '');
-  const Panel = PANELS[cur];
   const idx = Math.max(0, tabs.findIndex((t) => t[0] === cur));
   const tabsN = tabs.map(([k, l]) => ({ key: k, label: l }));
   const homeC = league ? matchTint(league.id, league) : (home && home.colors ? home.colors[0] : null);
@@ -102,9 +101,8 @@ export default function Partita({ C, top, onBack, bottom = 90, openRoute, params
         <PartitaHero C={C} match={raw} view={view} league={league} home={home} away={away} onBack={onBack} openRoute={openRoute} />
         <TabBarN C={C} tabs={tabsN} x={pos} onIndex={(i) => { TAB_MEM.set(id, tabs[i][0]); setTab(tabs[i][0]); }} />
         <TintProvider color={homeC}>
-          <SwipeBodyN index={idx} count={tabs.length} pos={pos} onIndex={(i) => { TAB_MEM.set(id, tabs[i][0]); setTab(tabs[i][0]); }}>
-            {Panel ? <Panel key={cur} C={C} match={raw} view={view} home={home} away={away} pre={pre} cup={cup} openRoute={openRoute} /> : null}
-          </SwipeBodyN>
+          <SwipeBodyN index={idx} count={tabs.length} pos={pos} onIndex={(i) => { TAB_MEM.set(id, tabs[i][0]); setTab(tabs[i][0]); }}
+            render={(i) => { const P = PANELS[tabs[i][0]]; return P ? <P C={C} match={raw} view={view} home={home} away={away} pre={pre} cup={cup} openRoute={openRoute} /> : null; }} />
         </TintProvider>
       </ScrollView>
     </View>

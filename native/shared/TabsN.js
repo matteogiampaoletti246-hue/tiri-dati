@@ -38,7 +38,7 @@ export default function TabsN({ C, tabs, index, onIndex, render }) {
   const [ready, setReady] = useState(false);
   const seen = useRef(new Set());
   seen.current.add(index);
-  useEffect(() => { setReady(false); const t = setTimeout(() => setReady(true), 320); return () => clearTimeout(t); }, [index]);
+  useEffect(() => { setReady(false); const t = setTimeout(() => setReady(true), 160); return () => clearTimeout(t); }, [index]);
   return (
     <View style={{ flex: 1 }}>
       <View style={{ flexDirection: 'row', gap: 24, paddingHorizontal: 20, paddingTop: 12 }}>

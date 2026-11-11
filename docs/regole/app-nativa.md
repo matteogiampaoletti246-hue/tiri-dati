@@ -236,3 +236,10 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 - `bootShared()` (squadre, partite, giocatori) parte a riposo 2,5 s dopo l'avvio: prima partiva al primo tocco su una partita e valeva la maggior parte dell'attesa.
 - Ritorno dal background (riscritto): come tutte le app. Entro 10 minuti niente reset, niente gesti ricreati, niente guardie; oltre 10 minuti l'app riparte da zero (`onReset`: Screen + contenitore gesti). Unico accorgimento: dati in rete fermi 5 s dopo il ritorno (`__resumeUntil`).
 - Tasti di Home, Dock, barre, ricerca e menu (`App.js`) usano il `Pressable` di react-native-gesture-handler (riconoscimento nativo, lo stesso di swipe e scroll), non quello di JS: dopo il background i tocchi letti da JS potevano restare muti mentre scroll e swipe andavano. Dentro un `Modal` (Calendario) resta il `Pressable` di react-native (`RNPressable`): i gesti nativi li' non hanno il contenitore.
+
+## App nativa: archivi .gz, swipe tra schede, amichevoli (regole fisse)
+- Hermes non ha `DecompressionStream`: i file `.json.gz` (archivio partite, falli) si leggono con `globalThis.__gunzip` (fflate, impostato in `native/shared/shim.js`; `npm install fflate` e' nel workflow `native_expo.yml`). Senza, storico giocatore/squadra e falli restano vuoti in silenzio.
+- Swipe tra schede (`DayPagerN`, `SwipeBodyN`): le schede scorrono col dito; la scheda vicina si monta all'inizio del trascinamento; l'indice cambia solo a scorrimento finito (mai un ridisegno pesante durante l'animazione).
+- Cambio Totale/90' e Casa/Trasferta nelle classifiche: `useDeferredValue` + `pending` su `StatListsN` (la lista si abbassa subito e torna piena a calcolo finito), mai blocchi.
+- Amichevoli: nome italiano ("Amichevoli nazionali" / "di club" / "femminili" / "U21") e immagine del mondo (`world.png`) tramite `friendlyFix` in `leagues.js`.
+- Stemmi di notte: contorno con ombra bianca (`TeamCrest`), mai copie bianche sfalsate (facevano il riquadro bianco).
