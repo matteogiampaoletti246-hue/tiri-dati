@@ -6004,7 +6004,7 @@
  "rose": {
   "squadre": 3120,
   "senza_rosa_prima": 2254,
-  "senza_rosa_dopo": 305,
+  "senza_rosa_dopo": 320,
   "senza_rosa": [
    {
     "squadra": "1A",
@@ -6297,6 +6297,14 @@
     "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
+    "squadra": "AFC Telford United",
+    "id": "6315",
+    "competizioni": [
+     "FA Trophy 2026-2027"
+    ],
+    "motivo": "nessuna partita giocata nella stagione in corso"
+   },
+   {
     "squadra": "APM Metz",
     "id": "293319",
     "competizioni": [
@@ -6513,6 +6521,14 @@
     "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
+    "squadra": "Banbury United",
+    "id": "161841",
+    "competizioni": [
+     "FA Trophy 2026-2027"
+    ],
+    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
+   },
+   {
     "squadra": "Barcelona/Atletico Madrid",
     "id": "2137090",
     "competizioni": [
@@ -6535,6 +6551,14 @@
      "Coupe de France 2026-2027"
     ],
     "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
+   },
+   {
+    "squadra": "Bedford Town",
+    "id": "8717",
+    "competizioni": [
+     "FA Trophy 2026-2027"
+    ],
+    "motivo": "nessuna partita giocata nella stagione in corso"
    },
    {
     "squadra": "Benfica/Gil Vicente",
@@ -6585,6 +6609,14 @@
     "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
+    "squadra": "Bonaire",
+    "id": "929188",
+    "competizioni": [
+     "Friendlies 2026"
+    ],
+    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
+   },
+   {
     "squadra": "Bonnyton Thistle",
     "id": "1809965",
     "competizioni": [
@@ -6629,6 +6661,14 @@
     "id": "4090",
     "competizioni": [
      "Coupe de France 2026-2027"
+    ],
+    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
+   },
+   {
+    "squadra": "Bromsgrove Sporting",
+    "id": "953607",
+    "competizioni": [
+     "FA Trophy 2026-2027"
     ],
     "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
@@ -6765,6 +6805,14 @@
     "id": "1084230",
     "competizioni": [
      "Puchar Polski 2026-2027"
+    ],
+    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
+   },
+   {
+    "squadra": "Chertsey Town",
+    "id": "282503",
+    "competizioni": [
+     "FA Trophy 2026-2027"
     ],
     "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
@@ -7217,6 +7265,14 @@
     "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
+    "squadra": "Gosport Borough",
+    "id": "282356",
+    "competizioni": [
+     "FA Trophy 2026-2027"
+    ],
+    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
+   },
+   {
     "squadra": "Górnik Zabrze II",
     "id": "585213",
     "competizioni": [
@@ -7229,6 +7285,14 @@
     "id": "292133",
     "competizioni": [
      "Coupe de France 2026-2027"
+    ],
+    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
+   },
+   {
+    "squadra": "Halesowen Town FC",
+    "id": "2260",
+    "competizioni": [
+     "FA Trophy 2026-2027"
     ],
     "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
@@ -7317,6 +7381,14 @@
     "id": "687513",
     "competizioni": [
      "Coupe de France 2026-2027"
+    ],
+    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
+   },
+   {
+    "squadra": "Kettering Town FC",
+    "id": "6647",
+    "competizioni": [
+     "FA Trophy 2026-2027"
     ],
     "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
@@ -7511,6 +7583,14 @@
      "FAI Cup 2026"
     ],
     "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
+   },
+   {
+    "squadra": "Merthyr Town",
+    "id": "5762",
+    "competizioni": [
+     "FA Trophy 2026-2027"
+    ],
+    "motivo": "nessuna partita giocata nella stagione in corso"
    },
    {
     "squadra": "Mickleover Sports",
@@ -7713,6 +7793,14 @@
     "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
+    "squadra": "Poole Town FC",
+    "id": "238635",
+    "competizioni": [
+     "FA Trophy 2026-2027"
+    ],
+    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
+   },
+   {
     "squadra": "Puissalicon Magalas",
     "id": "2392058",
     "competizioni": [
@@ -7761,12 +7849,28 @@
     "motivo": "nessuna partita giocata nella stagione in corso"
    },
    {
+    "squadra": "Redditch United",
+    "id": "161800",
+    "competizioni": [
+     "FA Trophy 2026-2027"
+    ],
+    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
+   },
+   {
     "squadra": "Reims Murigny FP",
     "id": "1688161",
     "competizioni": [
      "Coupe de France 2026-2027"
     ],
     "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
+   },
+   {
+    "squadra": "Reus",
+    "id": "96927",
+    "competizioni": [
+     "Copa del Rey 2026-2027"
+    ],
+    "motivo": "nessuna partita giocata nella stagione in corso"
    },
    {
     "squadra": "Roannais Foot 42",
@@ -7903,6 +8007,14 @@
      "Slovak Cup 2026-2027"
     ],
     "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
+   },
+   {
+    "squadra": "Spalding United",
+    "id": "580400",
+    "competizioni": [
+     "FA Trophy 2026-2027"
+    ],
+    "motivo": "nessuna partita giocata nella stagione in corso"
    },
    {
     "squadra": "Sporting BM",
@@ -8265,6 +8377,14 @@
     "motivo": "nessuna partita giocata nella stagione in corso"
    },
    {
+    "squadra": "Walton and Hersham",
+    "id": "6093",
+    "competizioni": [
+     "FA Trophy 2026-2027"
+    ],
+    "motivo": "nessuna partita giocata nella stagione in corso"
+   },
+   {
     "squadra": "Widzew Łódź II",
     "id": "1790645",
     "competizioni": [
@@ -8454,8 +8574,8 @@
  "rose_per_ruolo": {
   "squadre": 3120,
   "prima": 2322,
-  "dopo": 640,
-  "giocate_dopo": 556,
+  "dopo": 639,
+  "giocate_dopo": 551,
   "elenco": [
    {
     "squadra": "1. BFK Frýdlant nad Ostravici",
@@ -8867,6 +8987,17 @@
     ]
    },
    {
+    "squadra": "AFC Telford United",
+    "id": "6315",
+    "giocatori": 0,
+    "competizioni": [
+     "FA Trophy 2026-2027"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
+    ]
+   },
+   {
     "squadra": "APM Metz",
     "id": "293319",
     "giocatori": 0,
@@ -9098,6 +9229,18 @@
     ]
    },
    {
+    "squadra": "Anguilla",
+    "id": "262132",
+    "giocatori": 0,
+    "competizioni": [
+     "World Cup Qualification CONCACAF 2024-2025",
+     "Friendlies 2026"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
+    ]
+   },
+   {
     "squadra": "Argonay US",
     "id": "2386907",
     "giocatori": 0,
@@ -9175,6 +9318,30 @@
     ]
    },
    {
+    "squadra": "Banbury United",
+    "id": "161841",
+    "giocatori": 0,
+    "competizioni": [
+     "FA Trophy 2026-2027"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
+    ]
+   },
+   {
+    "squadra": "Bangladesh",
+    "id": "95797",
+    "giocatori": 0,
+    "competizioni": [
+     "World Cup Qualification AFC 2023-2025",
+     "Asian Cup Qualification Playoff 2025-2026",
+     "Friendlies 2026"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
+    ]
+   },
+   {
     "squadra": "Barcelona/Atletico Madrid",
     "id": "2137090",
     "giocatori": 0,
@@ -9205,6 +9372,17 @@
     ],
     "motivo": [
      "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
+    ]
+   },
+   {
+    "squadra": "Bedford Town",
+    "id": "8717",
+    "giocatori": 0,
+    "competizioni": [
+     "FA Trophy 2026-2027"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
     ]
    },
    {
@@ -9274,6 +9452,17 @@
     ]
    },
    {
+    "squadra": "Bonaire",
+    "id": "929188",
+    "giocatori": 0,
+    "competizioni": [
+     "Friendlies 2026"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
+    ]
+   },
+   {
     "squadra": "Bonnyton Thistle",
     "id": "1809965",
     "giocatori": 0,
@@ -9334,6 +9523,17 @@
     "giocatori": 0,
     "competizioni": [
      "Coupe de France 2026-2027"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
+    ]
+   },
+   {
+    "squadra": "Bromsgrove Sporting",
+    "id": "953607",
+    "giocatori": 0,
+    "competizioni": [
+     "FA Trophy 2026-2027"
     ],
     "motivo": [
      "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
@@ -9560,6 +9760,17 @@
     ]
    },
    {
+    "squadra": "Chertsey Town",
+    "id": "282503",
+    "giocatori": 0,
+    "competizioni": [
+     "FA Trophy 2026-2027"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
+    ]
+   },
+   {
     "squadra": "Chevigny Saint Sauveur",
     "id": "402251",
     "giocatori": 0,
@@ -9743,6 +9954,18 @@
     "giocatori": 0,
     "competizioni": [
      "Coupe de France 2026-2027"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
+    ]
+   },
+   {
+    "squadra": "Dominican Republic",
+    "id": "262134",
+    "giocatori": 0,
+    "competizioni": [
+     "World Cup Qualification CONCACAF 2024-2025",
+     "Friendlies 2026"
     ],
     "motivo": [
      "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
@@ -10288,6 +10511,29 @@
     ]
    },
    {
+    "squadra": "Gosport Borough",
+    "id": "282356",
+    "giocatori": 0,
+    "competizioni": [
+     "FA Trophy 2026-2027"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
+    ]
+   },
+   {
+    "squadra": "Guyana",
+    "id": "6222",
+    "giocatori": 0,
+    "competizioni": [
+     "World Cup Qualification CONCACAF 2024-2025",
+     "Friendlies 2026"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
+    ]
+   },
+   {
     "squadra": "Górnik Zabrze II",
     "id": "585213",
     "giocatori": 0,
@@ -10304,6 +10550,17 @@
     "giocatori": 0,
     "competizioni": [
      "Coupe de France 2026-2027"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
+    ]
+   },
+   {
+    "squadra": "Halesowen Town FC",
+    "id": "2260",
+    "giocatori": 0,
+    "competizioni": [
+     "FA Trophy 2026-2027"
     ],
     "motivo": [
      "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
@@ -10370,19 +10627,6 @@
     "giocatori": 0,
     "competizioni": [
      "Coupe de France 2026-2027"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
-    "squadra": "Hong Kong",
-    "id": "6322",
-    "giocatori": 0,
-    "competizioni": [
-     "World Cup Qualification AFC 2023-2025",
-     "Asian Cup Qualification Playoff 2025-2026",
-     "Friendlies 2026"
     ],
     "motivo": [
      "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
@@ -10471,6 +10715,17 @@
     "giocatori": 0,
     "competizioni": [
      "Coupe de France 2026-2027"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
+    ]
+   },
+   {
+    "squadra": "Kettering Town FC",
+    "id": "6647",
+    "giocatori": 0,
+    "competizioni": [
+     "FA Trophy 2026-2027"
     ],
     "motivo": [
      "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
@@ -10760,6 +11015,17 @@
     ],
     "motivo": [
      "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
+    ]
+   },
+   {
+    "squadra": "Merthyr Town",
+    "id": "5762",
+    "giocatori": 0,
+    "competizioni": [
+     "FA Trophy 2026-2027"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
     ]
    },
    {
@@ -11083,6 +11349,17 @@
     ]
    },
    {
+    "squadra": "Poole Town FC",
+    "id": "238635",
+    "giocatori": 0,
+    "competizioni": [
+     "FA Trophy 2026-2027"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
+    ]
+   },
+   {
     "squadra": "Puissalicon Magalas",
     "id": "2392058",
     "giocatori": 0,
@@ -11160,6 +11437,17 @@
     ]
    },
    {
+    "squadra": "Redditch United",
+    "id": "161800",
+    "giocatori": 0,
+    "competizioni": [
+     "FA Trophy 2026-2027"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
+    ]
+   },
+   {
     "squadra": "Regensdorf",
     "id": "4036",
     "giocatori": 0,
@@ -11179,6 +11467,17 @@
     ],
     "motivo": [
      "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
+    ]
+   },
+   {
+    "squadra": "Reus",
+    "id": "96927",
+    "giocatori": 0,
+    "competizioni": [
+     "Copa del Rey 2026-2027"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
     ]
    },
    {
@@ -11416,6 +11715,17 @@
     ]
    },
    {
+    "squadra": "Spalding United",
+    "id": "580400",
+    "giocatori": 0,
+    "competizioni": [
+     "FA Trophy 2026-2027"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
+    ]
+   },
+   {
     "squadra": "Sporting BM",
     "id": "889903",
     "giocatori": 0,
@@ -11575,17 +11885,6 @@
     "giocatori": 0,
     "competizioni": [
      "Czech Cup 2026-2027"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
-    "squadra": "Tavernes de la Valldigna",
-    "id": "2341167",
-    "giocatori": 0,
-    "competizioni": [
-     "Copa del Rey 2026-2027"
     ],
     "motivo": [
      "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
@@ -11938,6 +12237,17 @@
     "giocatori": 0,
     "competizioni": [
      "Czech Cup 2026-2027"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
+    ]
+   },
+   {
+    "squadra": "Walton and Hersham",
+    "id": "6093",
+    "giocatori": 0,
+    "competizioni": [
+     "FA Trophy 2026-2027"
     ],
     "motivo": [
      "0 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
@@ -13107,6 +13417,17 @@
     ]
    },
    {
+    "squadra": "Tavernes de la Valldigna",
+    "id": "2341167",
+    "giocatori": 2,
+    "competizioni": [
+     "Copa del Rey 2026-2027"
+    ],
+    "motivo": [
+     "2 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 2"
+    ]
+   },
+   {
     "squadra": "UB Lebrijana",
     "id": "477697",
     "giocatori": 2,
@@ -13388,6 +13709,18 @@
     "giocatori": 3,
     "competizioni": [
      "Austrian Cup 2026-2027"
+    ],
+    "motivo": [
+     "3 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 3"
+    ]
+   },
+   {
+    "squadra": "Saint Lucia",
+    "id": "127408",
+    "giocatori": 3,
+    "competizioni": [
+     "World Cup Qualification CONCACAF 2024-2025",
+     "Friendlies 2026"
     ],
     "motivo": [
      "3 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 3"
@@ -13824,17 +14157,6 @@
     ]
    },
    {
-    "squadra": "Śląsk Wrocław ll",
-    "id": "585484",
-    "giocatori": 4,
-    "competizioni": [
-     "Puchar Polski 2026-2027"
-    ],
-    "motivo": [
-     "4 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 4"
-    ]
-   },
-   {
     "squadra": "AD Castro Daire",
     "id": "1074308",
     "giocatori": 5,
@@ -13879,24 +14201,23 @@
     ]
    },
    {
-    "squadra": "Bangladesh",
-    "id": "95797",
+    "squadra": "Benátky nad Jizerou",
+    "id": "679557",
     "giocatori": 5,
     "competizioni": [
-     "World Cup Qualification AFC 2023-2025",
-     "Asian Cup Qualification Playoff 2025-2026",
-     "Friendlies 2026"
+     "Czech Cup 2026-2027"
     ],
     "motivo": [
      "5 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 5"
     ]
    },
    {
-    "squadra": "Benátky nad Jizerou",
-    "id": "679557",
+    "squadra": "British Virgin Islands",
+    "id": "262135",
     "giocatori": 5,
     "competizioni": [
-     "Czech Cup 2026-2027"
+     "World Cup Qualification CONCACAF 2024-2025",
+     "Friendlies 2026"
     ],
     "motivo": [
      "5 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 5"
@@ -13963,6 +14284,17 @@
     "giocatori": 5,
     "competizioni": [
      "Austrian Cup 2026-2027"
+    ],
+    "motivo": [
+     "5 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 5"
+    ]
+   },
+   {
+    "squadra": "Limavady",
+    "id": "2205",
+    "giocatori": 5,
+    "competizioni": [
+     "Premiership 2026-2027"
     ],
     "motivo": [
      "5 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 5"
@@ -14222,14 +14554,25 @@
     ]
    },
    {
-    "squadra": "Reus",
-    "id": "96927",
+    "squadra": "Mijas-Las Lagunas",
+    "id": "2066192",
     "giocatori": 6,
     "competizioni": [
      "Copa del Rey 2026-2027"
     ],
     "motivo": [
-     "6 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
+     "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
+    ]
+   },
+   {
+    "squadra": "Pyrgos AFC",
+    "id": "2076365",
+    "giocatori": 6,
+    "competizioni": [
+     "Greece Cup 2026-2027"
+    ],
+    "motivo": [
+     "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
     ]
    },
    {
@@ -14310,22 +14653,22 @@
     ]
    },
    {
-    "squadra": "Bonaire",
-    "id": "929188",
+    "squadra": "Buochs",
+    "id": "2439",
     "giocatori": 7,
     "competizioni": [
-     "Friendlies 2026"
+     "Swiss Cup 2026-2027"
     ],
     "motivo": [
      "7 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 7"
     ]
    },
    {
-    "squadra": "Buochs",
-    "id": "2439",
+    "squadra": "CF Calamocha",
+    "id": "2066167",
     "giocatori": 7,
     "competizioni": [
-     "Swiss Cup 2026-2027"
+     "Copa del Rey 2026-2027"
     ],
     "motivo": [
      "7 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 7"
@@ -14387,17 +14730,6 @@
     ]
    },
    {
-    "squadra": "Limavady",
-    "id": "2205",
-    "giocatori": 7,
-    "competizioni": [
-     "Premiership 2026-2027"
-    ],
-    "motivo": [
-     "7 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 7"
-    ]
-   },
-   {
     "squadra": "MFK Vranov nad Topľou",
     "id": "562320",
     "giocatori": 7,
@@ -14432,30 +14764,6 @@
     ]
    },
    {
-    "squadra": "Pakistan",
-    "id": "5910",
-    "giocatori": 7,
-    "competizioni": [
-     "World Cup Qualification AFC 2023-2025",
-     "Asian Cup Qualification Playoff 2025-2026",
-     "Friendlies 2026"
-    ],
-    "motivo": [
-     "7 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 7"
-    ]
-   },
-   {
-    "squadra": "Panthrakikos Komotini",
-    "id": "104810",
-    "giocatori": 7,
-    "competizioni": [
-     "Greece Cup 2026-2027"
-    ],
-    "motivo": [
-     "7 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 7"
-    ]
-   },
-   {
     "squadra": "Philippines",
     "id": "230139",
     "giocatori": 7,
@@ -14474,6 +14782,17 @@
     "giocatori": 7,
     "competizioni": [
      "FA Trophy 2026-2027"
+    ],
+    "motivo": [
+     "7 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 7"
+    ]
+   },
+   {
+    "squadra": "Rohda Raalte",
+    "id": "1818779",
+    "giocatori": 7,
+    "competizioni": [
+     "KNVB Cup 2026-2027"
     ],
     "motivo": [
      "7 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 7"
@@ -14546,14 +14865,14 @@
     ]
    },
    {
-    "squadra": "Banbury United",
-    "id": "161841",
+    "squadra": "CD Badajoz",
+    "id": "7873",
     "giocatori": 8,
     "competizioni": [
-     "FA Trophy 2026-2027"
+     "Copa del Rey 2026-2027"
     ],
     "motivo": [
-     "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
+     "8 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
     ]
    },
    {
@@ -14568,11 +14887,12 @@
     ]
    },
    {
-    "squadra": "CF Calamocha",
-    "id": "2066167",
+    "squadra": "Cayman Islands",
+    "id": "287982",
     "giocatori": 8,
     "competizioni": [
-     "Copa del Rey 2026-2027"
+     "World Cup Qualification CONCACAF 2024-2025",
+     "Friendlies 2026"
     ],
     "motivo": [
      "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
@@ -14612,28 +14932,6 @@
     ]
    },
    {
-    "squadra": "FC STK 1914 Šamorín",
-    "id": "335416",
-    "giocatori": 8,
-    "competizioni": [
-     "Slovak Cup 2026-2027"
-    ],
-    "motivo": [
-     "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
-    ]
-   },
-   {
-    "squadra": "Frome Town",
-    "id": "275029",
-    "giocatori": 8,
-    "competizioni": [
-     "FA Trophy 2026-2027"
-    ],
-    "motivo": [
-     "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
-    ]
-   },
-   {
     "squadra": "Humenné",
     "id": "103595",
     "giocatori": 8,
@@ -14650,17 +14948,6 @@
     "giocatori": 8,
     "competizioni": [
      "Kup Srbije 2025-2026"
-    ],
-    "motivo": [
-     "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
-    ]
-   },
-   {
-    "squadra": "Kerry FC",
-    "id": "1426348",
-    "giocatori": 8,
-    "competizioni": [
-     "FAI Cup 2026"
     ],
     "motivo": [
      "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
@@ -14733,44 +15020,11 @@
     ]
    },
    {
-    "squadra": "Pyrgos AFC",
-    "id": "2076365",
-    "giocatori": 8,
-    "competizioni": [
-     "Greece Cup 2026-2027"
-    ],
-    "motivo": [
-     "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
-    ]
-   },
-   {
     "squadra": "Real Sireți",
     "id": "1900141",
     "giocatori": 8,
     "competizioni": [
      "National Division 2026-2027"
-    ],
-    "motivo": [
-     "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
-    ]
-   },
-   {
-    "squadra": "Redditch United",
-    "id": "161800",
-    "giocatori": 8,
-    "competizioni": [
-     "FA Trophy 2026-2027"
-    ],
-    "motivo": [
-     "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
-    ]
-   },
-   {
-    "squadra": "Rohda Raalte",
-    "id": "1818779",
-    "giocatori": 8,
-    "competizioni": [
-     "KNVB Cup 2026-2027"
     ],
     "motivo": [
      "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
@@ -14807,28 +15061,6 @@
     ],
     "motivo": [
      "8 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
-    ]
-   },
-   {
-    "squadra": "Taunton Town",
-    "id": "282502",
-    "giocatori": 8,
-    "competizioni": [
-     "FA Trophy 2026-2027"
-    ],
-    "motivo": [
-     "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
-    ]
-   },
-   {
-    "squadra": "Trival Valderas",
-    "id": "189675",
-    "giocatori": 8,
-    "competizioni": [
-     "Copa del Rey 2026-2027"
-    ],
-    "motivo": [
-     "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
     ]
    },
    {
@@ -14887,25 +15119,37 @@
     ]
    },
    {
-    "squadra": "Bromsgrove Sporting",
-    "id": "953607",
+    "squadra": "ASU Politehnica Timișoara",
+    "id": "779488",
     "giocatori": 9,
     "competizioni": [
-     "FA Trophy 2026-2027"
+     "Cupa României 2026-2027"
     ],
     "motivo": [
      "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
     ]
    },
    {
-    "squadra": "CD Badajoz",
-    "id": "7873",
+    "squadra": "Alianza FC",
+    "id": "49740",
     "giocatori": 9,
     "competizioni": [
-     "Copa del Rey 2026-2027"
+     "Primera Division 2026-2027 - Apertura"
     ],
     "motivo": [
-     "9 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
+     "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
+    ]
+   },
+   {
+    "squadra": "Aruba",
+    "id": "262131",
+    "giocatori": 9,
+    "competizioni": [
+     "World Cup Qualification CONCACAF 2024-2025",
+     "Friendlies 2026"
+    ],
+    "motivo": [
+     "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
     ]
    },
    {
@@ -14925,28 +15169,6 @@
     "giocatori": 9,
     "competizioni": [
      "Swiss Cup 2026-2027"
-    ],
-    "motivo": [
-     "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
-    ]
-   },
-   {
-    "squadra": "Crusaders",
-    "id": "1937",
-    "giocatori": 9,
-    "competizioni": [
-     "Premiership 2026-2027"
-    ],
-    "motivo": [
-     "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
-    ]
-   },
-   {
-    "squadra": "Curzon",
-    "id": "158390",
-    "giocatori": 9,
-    "competizioni": [
-     "FA Trophy 2026-2027"
     ],
     "motivo": [
      "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
@@ -14986,17 +15208,6 @@
     ]
    },
    {
-    "squadra": "Halesowen Town FC",
-    "id": "2260",
-    "giocatori": 9,
-    "competizioni": [
-     "FA Trophy 2026-2027"
-    ],
-    "motivo": [
-     "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
-    ]
-   },
-   {
     "squadra": "Holywell Town",
     "id": "525403",
     "giocatori": 9,
@@ -15008,8 +15219,8 @@
     ]
    },
    {
-    "squadra": "Kettering Town FC",
-    "id": "6647",
+    "squadra": "Leatherhead",
+    "id": "45722",
     "giocatori": 9,
     "competizioni": [
      "FA Trophy 2026-2027"
@@ -15024,17 +15235,6 @@
     "giocatori": 9,
     "competizioni": [
      "Prva Liga 2026-2027"
-    ],
-    "motivo": [
-     "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
-    ]
-   },
-   {
-    "squadra": "Mijas-Las Lagunas",
-    "id": "2066192",
-    "giocatori": 9,
-    "competizioni": [
-     "Copa del Rey 2026-2027"
     ],
     "motivo": [
      "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
@@ -15079,17 +15279,6 @@
     "giocatori": 9,
     "competizioni": [
      "Slovak Cup 2026-2027"
-    ],
-    "motivo": [
-     "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
-    ]
-   },
-   {
-    "squadra": "Stal Rzeszów",
-    "id": "177362",
-    "giocatori": 9,
-    "competizioni": [
-     "Puchar Polski 2026-2027"
     ],
     "motivo": [
      "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
@@ -15162,44 +15351,11 @@
     ]
    },
    {
-    "squadra": "ASU Politehnica Timișoara",
-    "id": "779488",
-    "giocatori": 10,
-    "competizioni": [
-     "Cupa României 2026-2027"
-    ],
-    "motivo": [
-     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
-    ]
-   },
-   {
     "squadra": "Alfreton Town",
     "id": "6258",
     "giocatori": 10,
     "competizioni": [
      "FA Trophy 2026-2027"
-    ],
-    "motivo": [
-     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
-    ]
-   },
-   {
-    "squadra": "Alianza FC",
-    "id": "49740",
-    "giocatori": 10,
-    "competizioni": [
-     "Primera Division 2026-2027 - Apertura"
-    ],
-    "motivo": [
-     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
-    ]
-   },
-   {
-    "squadra": "Anagennisi Karditsas",
-    "id": "149647",
-    "giocatori": 10,
-    "competizioni": [
-     "Greece Cup 2026-2027"
     ],
     "motivo": [
      "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
@@ -15272,22 +15428,11 @@
     ]
    },
    {
-    "squadra": "Cleethorpes Town",
-    "id": "580402",
+    "squadra": "Evesham United",
+    "id": "158317",
     "giocatori": 10,
     "competizioni": [
      "FA Trophy 2026-2027"
-    ],
-    "motivo": [
-     "10 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
-    ]
-   },
-   {
-    "squadra": "Cork City",
-    "id": "2201",
-    "giocatori": 10,
-    "competizioni": [
-     "FAI Cup 2026"
     ],
     "motivo": [
      "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
@@ -15338,28 +15483,6 @@
     ]
    },
    {
-    "squadra": "Gosport Borough",
-    "id": "282356",
-    "giocatori": 10,
-    "competizioni": [
-     "FA Trophy 2026-2027"
-    ],
-    "motivo": [
-     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
-    ]
-   },
-   {
-    "squadra": "Hellas Syros",
-    "id": "1797422",
-    "giocatori": 10,
-    "competizioni": [
-     "Greece Cup 2026-2027"
-    ],
-    "motivo": [
-     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
-    ]
-   },
-   {
     "squadra": "Irtysh Pavlodar",
     "id": "2539",
     "giocatori": 10,
@@ -15393,11 +15516,13 @@
     ]
    },
    {
-    "squadra": "Olimpia Grudziądz",
-    "id": "177358",
+    "squadra": "Maldives",
+    "id": "5899",
     "giocatori": 10,
     "competizioni": [
-     "Puchar Polski 2026-2027"
+     "World Cup Qualification AFC 2023-2025",
+     "Asian Cup Qualification Playoff 2025-2026",
+     "Friendlies 2026"
     ],
     "motivo": [
      "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
@@ -15460,11 +15585,22 @@
     ]
    },
    {
-    "squadra": "Ruch Chorzów",
-    "id": "1601",
+    "squadra": "Renfrew FC",
+    "id": "2063860",
     "giocatori": 10,
     "competizioni": [
-     "Puchar Polski 2026-2027"
+     "Scottish Cup 2026-2027"
+    ],
+    "motivo": [
+     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
+    ]
+   },
+   {
+    "squadra": "Santarém",
+    "id": "1074312",
+    "giocatori": 10,
+    "competizioni": [
+     "Taça de Portugal 2026-2027"
     ],
     "motivo": [
      "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
@@ -15476,17 +15612,6 @@
     "giocatori": 10,
     "competizioni": [
      "KNVB Cup 2026-2027"
-    ],
-    "motivo": [
-     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
-    ]
-   },
-   {
-    "squadra": "Stourbridge",
-    "id": "161834",
-    "giocatori": 10,
-    "competizioni": [
-     "FA Trophy 2026-2027"
     ],
     "motivo": [
      "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
@@ -15513,34 +15638,19 @@
     "motivo": [
      "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
     ]
-   },
-   {
-    "squadra": "Znicz Pruszków",
-    "id": "89469",
-    "giocatori": 10,
-    "competizioni": [
-     "Puchar Polski 2026-2027"
-    ],
-    "motivo": [
-     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
-    ]
    }
   ]
  },
  "giocatori_competizioni": {
-  "squadre": 12770,
-  "coppie_squadra_competizione": 24232,
-  "con_frase_prima": 11612,
-  "squadre_con_frase_prima": 5385,
-  "con_frase_e_dati_ora_visibili": 6675,
+  "squadre": 8113,
+  "coppie_squadra_competizione": 12478,
+  "con_frase_prima": 4650,
+  "squadre_con_frase_prima": 2165,
+  "con_frase_e_dati_ora_visibili": 3164,
   "con_frase_dopo": 0,
-  "competizioni_senza_dati_tolte_dalla_tendina": 12715,
-  "squadre_senza_scheda_giocatori": 7042,
+  "competizioni_senza_dati_tolte_dalla_tendina": 6441,
+  "squadre_senza_scheda_giocatori": 4812,
   "senza_scheda": [
-   {
-    "squadra": "Paniliakos",
-    "id": "1619"
-   },
    {
     "squadra": "Douai",
     "id": "1819"
@@ -15550,32 +15660,16 @@
     "id": "4119"
    },
    {
-    "squadra": "Selbak",
-    "id": "4219"
-   },
-   {
     "squadra": "Deportivo Quevedo",
     "id": "4419"
    },
    {
-    "squadra": "Ålgård FK 2",
-    "id": "6219"
+    "squadra": "Husqvarna FF",
+    "id": "6119"
    },
    {
-    "squadra": "Ny-Krohnborg",
-    "id": "6519"
-   },
-   {
-    "squadra": "Kalundborg GB",
-    "id": "8219"
-   },
-   {
-    "squadra": "Lisleby",
-    "id": "8419"
-   },
-   {
-    "squadra": "Baune",
-    "id": "46919"
+    "squadra": "Pandurii",
+    "id": "8719"
    },
    {
     "squadra": "Universitario",
@@ -15586,14 +15680,6 @@
     "id": "80419"
    },
    {
-    "squadra": "Teie",
-    "id": "91819"
-   },
-   {
-    "squadra": "Deportivo Savio",
-    "id": "92319"
-   },
-   {
     "squadra": "Noja",
     "id": "96919"
    },
@@ -15602,36 +15688,20 @@
     "id": "104819"
    },
    {
+    "squadra": "Sandecja Nowy Sącz",
+    "id": "160419"
+   },
+   {
     "squadra": "North Ferriby United",
     "id": "161819"
-   },
-   {
-    "squadra": "Canberra Olympic",
-    "id": "162219"
-   },
-   {
-    "squadra": "Sorrento",
-    "id": "162319"
    },
    {
     "squadra": "Academia FC",
     "id": "193019"
    },
    {
-    "squadra": "FC Korsholm",
-    "id": "193819"
-   },
-   {
-    "squadra": "Arte Takasaki",
-    "id": "194019"
-   },
-   {
     "squadra": "Rio Branco",
     "id": "197419"
-   },
-   {
-    "squadra": "Sarpsborg 08 F",
-    "id": "199519"
    },
    {
     "squadra": "FC Přední",
@@ -15642,10 +15712,6 @@
     "id": "213419"
    },
    {
-    "squadra": "Mighty Jets",
-    "id": "213519"
-   },
-   {
     "squadra": "SV Post Wien",
     "id": "238619"
    },
@@ -15654,24 +15720,8 @@
     "id": "238919"
    },
    {
-    "squadra": "Alvdal",
-    "id": "246219"
-   },
-   {
-    "squadra": "FC Avangard Podolsk",
-    "id": "263219"
-   },
-   {
     "squadra": "Dayton Dutch Lions",
     "id": "267819"
-   },
-   {
-    "squadra": "Slivnishki Geroy",
-    "id": "272419"
-   },
-   {
-    "squadra": "Tobermore United",
-    "id": "274319"
    },
    {
     "squadra": "Issy FC",
@@ -15694,10 +15744,6 @@
     "id": "402219"
    },
    {
-    "squadra": "FK Sparta Sarpsborg",
-    "id": "423819"
-   },
-   {
     "squadra": "FC Veyrier Sport",
     "id": "463419"
    },
@@ -15714,24 +15760,8 @@
     "id": "489519"
    },
    {
-    "squadra": "Sportivo Patria",
-    "id": "568719"
-   },
-   {
     "squadra": "Esman",
     "id": "591219"
-   },
-   {
-    "squadra": "Florø 2",
-    "id": "608819"
-   },
-   {
-    "squadra": "Stoppen F",
-    "id": "624919"
-   },
-   {
-    "squadra": "Juticalpa",
-    "id": "655719"
    },
    {
     "squadra": "Amasyaspor 1968 FK",
@@ -15750,20 +15780,16 @@
     "id": "801219"
    },
    {
+    "squadra": "Moncarapachense",
+    "id": "882319"
+   },
+   {
     "squadra": "Vernon",
     "id": "889519"
    },
    {
-    "squadra": "Polarstjernen F",
-    "id": "920419"
-   },
-   {
     "squadra": "Newmarket Celtic",
     "id": "934719"
-   },
-   {
-    "squadra": "Komazawa University",
-    "id": "941019"
    },
    {
     "squadra": "Libertad Gran Mamore",
@@ -15798,28 +15824,8 @@
     "id": "1318919"
    },
    {
-    "squadra": "Storelva",
-    "id": "1352619"
-   },
-   {
     "squadra": "Aubussonnais",
     "id": "1413319"
-   },
-   {
-    "squadra": "Maccabi Neve Shaanan Eldad",
-    "id": "1420919"
-   },
-   {
-    "squadra": "SJK-j Apollo",
-    "id": "1474519"
-   },
-   {
-    "squadra": "Crystal Lake FC",
-    "id": "1605419"
-   },
-   {
-    "squadra": "Borussia Bocholt F",
-    "id": "1638019"
    },
    {
     "squadra": "Star Starachowice",
@@ -15834,20 +15840,8 @@
     "id": "1833619"
    },
    {
-    "squadra": "Bergerac F",
-    "id": "1863819"
-   },
-   {
-    "squadra": "Diarra",
-    "id": "2161019"
-   },
-   {
     "squadra": "Stade Orchies",
     "id": "2392219"
-   },
-   {
-    "squadra": "Nyva Ternopil",
-    "id": "2146"
    },
    {
     "squadra": "Chur 97",
@@ -15858,64 +15852,40 @@
     "id": "2546"
    },
    {
-    "squadra": "Kjelsås 2",
-    "id": "4246"
-   },
-   {
-    "squadra": "Syrianska IF Kerburan",
-    "id": "6146"
+    "squadra": "Bishop's Stortford",
+    "id": "4046"
    },
    {
     "squadra": "Maia",
     "id": "7846"
    },
    {
-    "squadra": "Eik-Tønsberg F",
-    "id": "8246"
-   },
-   {
     "squadra": "Pistoiese",
     "id": "8546"
    },
    {
-    "squadra": "Steinkjer",
-    "id": "9846"
+    "squadra": "Boston United",
+    "id": "8646"
    },
    {
-    "squadra": "Rodopa Smolyan",
-    "id": "10146"
+    "squadra": "Thisted",
+    "id": "9946"
    },
    {
     "squadra": "Isidro Metapan",
     "id": "49746"
    },
    {
-    "squadra": "Sandefjord BK",
-    "id": "91946"
-   },
-   {
-    "squadra": "Hundested IK",
-    "id": "131546"
-   },
-   {
     "squadra": "KRC Mechelen",
     "id": "149946"
    },
    {
-    "squadra": "Hellenic",
-    "id": "162246"
-   },
-   {
-    "squadra": "Hadsund",
-    "id": "175546"
+    "squadra": "Campinense",
+    "id": "165546"
    },
    {
     "squadra": "Llosetense",
     "id": "189746"
-   },
-   {
-    "squadra": "Cumberland United",
-    "id": "196046"
    },
    {
     "squadra": "Cirencester Town",
@@ -15950,10 +15920,6 @@
     "id": "402246"
    },
    {
-    "squadra": "Spartak Trnava B",
-    "id": "457546"
-   },
-   {
     "squadra": "Neuilly Olympique",
     "id": "497146"
    },
@@ -15966,10 +15932,6 @@
     "id": "618246"
    },
    {
-    "squadra": "Chertanovo Moscow 2",
-    "id": "627646"
-   },
-   {
     "squadra": "Itancourt Neuville",
     "id": "687546"
    },
@@ -15978,20 +15940,8 @@
     "id": "728046"
    },
    {
-    "squadra": "Hainan Boying",
-    "id": "737046"
-   },
-   {
     "squadra": "BSC Hastedt",
     "id": "857446"
-   },
-   {
-    "squadra": "Saga University",
-    "id": "860946"
-   },
-   {
-    "squadra": "Sardar Bukan",
-    "id": "961446"
    },
    {
     "squadra": "Pamisos Messini",
@@ -16010,16 +15960,12 @@
     "id": "1217346"
    },
    {
-    "squadra": "Kilmarnock B",
-    "id": "1381446"
+    "squadra": "Azuriz",
+    "id": "1223346"
    },
    {
-    "squadra": "FC Yadro",
-    "id": "1385346"
-   },
-   {
-    "squadra": "Changzhou Lanyi",
-    "id": "1477046"
+    "squadra": "Maguary",
+    "id": "1426346"
    },
    {
     "squadra": "Karabük Idmanyurdu Spor",
@@ -16030,10 +15976,6 @@
     "id": "1572746"
    },
    {
-    "squadra": "Nizhny Novgorod II",
-    "id": "1619646"
-   },
-   {
     "squadra": "Cupar Hearts",
     "id": "1677546"
    },
@@ -16042,68 +15984,32 @@
     "id": "1688046"
    },
    {
-    "squadra": "SE AEM F",
-    "id": "1688146"
-   },
-   {
     "squadra": "Seveux Motey",
     "id": "1828846"
-   },
-   {
-    "squadra": "Hapoel Tayibe",
-    "id": "2260746"
-   },
-   {
-    "squadra": "Lindholm",
-    "id": "1857"
-   },
-   {
-    "squadra": "FC Kuusankoski",
-    "id": "2157"
-   },
-   {
-    "squadra": "Tervarit",
-    "id": "2357"
    },
    {
     "squadra": "Brindisi",
     "id": "2557"
    },
    {
-    "squadra": "Stange",
-    "id": "4257"
-   },
-   {
-    "squadra": "Morild",
-    "id": "4357"
+    "squadra": "Rangers",
+    "id": "4057"
    },
    {
     "squadra": "A.P.O.P/K. Peyias",
     "id": "4457"
    },
    {
-    "squadra": "Hakoach Amidar Ramat Gan",
-    "id": "6257"
-   },
-   {
     "squadra": "Pärnu",
     "id": "6357"
-   },
-   {
-    "squadra": "Rollon",
-    "id": "6557"
-   },
-   {
-    "squadra": "Hämeenlinna",
-    "id": "7957"
    },
    {
     "squadra": "Grays Athletic",
     "id": "8157"
    },
    {
-    "squadra": "Stenløse BK",
-    "id": "9957"
+    "squadra": "Sportfreunde Siegen",
+    "id": "9757"
    },
    {
     "squadra": "Total Chalaco",
@@ -16114,52 +16020,20 @@
     "id": "93057"
    },
    {
-    "squadra": "SpVgg Bayern Hof",
-    "id": "94957"
-   },
-   {
     "squadra": "UR Namur",
     "id": "100757"
-   },
-   {
-    "squadra": "CAPS United",
-    "id": "102157"
-   },
-   {
-    "squadra": "Vityaz Podolsk",
-    "id": "113057"
-   },
-   {
-    "squadra": "FC YPA",
-    "id": "162157"
    },
    {
     "squadra": "Yalovaspor",
     "id": "162957"
    },
    {
-    "squadra": "Virunga",
-    "id": "164857"
-   },
-   {
     "squadra": "Baltyk Gdynia",
     "id": "177357"
    },
    {
-    "squadra": "Goyang FC",
-    "id": "187957"
-   },
-   {
     "squadra": "Vieira",
     "id": "188157"
-   },
-   {
-    "squadra": "Gubkin",
-    "id": "198157"
-   },
-   {
-    "squadra": "Lystrup IF",
-    "id": "205557"
    },
    {
     "squadra": "NK Dugopolje",
@@ -16206,10 +16080,6 @@
     "id": "497157"
    },
    {
-    "squadra": "Seattle Sounders FC Reserves",
-    "id": "521057"
-   },
-   {
     "squadra": "CA Itapemirim",
     "id": "605157"
    },
@@ -16250,28 +16120,12 @@
     "id": "970957"
    },
    {
-    "squadra": "Alians",
-    "id": "1099157"
-   },
-   {
     "squadra": "UF Lezignanais",
     "id": "1104357"
    },
    {
-    "squadra": "Yeoncheon FC",
-    "id": "1150557"
-   },
-   {
-    "squadra": "Águia Vimioso",
-    "id": "1182557"
-   },
-   {
     "squadra": "St Laurent Billere",
     "id": "1199957"
-   },
-   {
-    "squadra": "St. Mirren B",
-    "id": "1273057"
    },
    {
     "squadra": "Aetos Makrychoriou",
@@ -16286,36 +16140,12 @@
     "id": "1323757"
    },
    {
-    "squadra": "Vertfee Yaita",
-    "id": "1365157"
-   },
-   {
-    "squadra": "Tianjin Jinchengren",
-    "id": "1477057"
-   },
-   {
-    "squadra": "Beit Jann",
-    "id": "1599457"
-   },
-   {
-    "squadra": "Guangxi Bushan",
-    "id": "1617857"
-   },
-   {
-    "squadra": "Piriapolis FC",
-    "id": "1671257"
-   },
-   {
     "squadra": "Les Enfants de Guer",
     "id": "1688057"
    },
    {
     "squadra": "ESAP Metz",
     "id": "1688157"
-   },
-   {
-    "squadra": "Kunming City",
-    "id": "1727557"
    },
    {
     "squadra": "Nazarenos",
@@ -16330,20 +16160,12 @@
     "id": "2392057"
    },
    {
-    "squadra": "Dronninglund IF",
-    "id": "1729"
-   },
-   {
     "squadra": "Kilkisiakos",
     "id": "1829"
    },
    {
     "squadra": "Duslo Šaľa",
     "id": "4029"
-   },
-   {
-    "squadra": "Vaulen",
-    "id": "4229"
    },
    {
     "squadra": "Orduspor",
@@ -16358,6 +16180,10 @@
     "id": "5729"
    },
    {
+    "squadra": "Polkowice",
+    "id": "8029"
+   },
+   {
     "squadra": "Arsenal Kyiv",
     "id": "8629"
    },
@@ -16370,12 +16196,8 @@
     "id": "94929"
    },
    {
-    "squadra": "Sollefteå GIF FF",
-    "id": "161429"
-   },
-   {
-    "squadra": "Perth RedStar FC",
-    "id": "162329"
+    "squadra": "Witton Albion",
+    "id": "161829"
    },
    {
     "squadra": "Caravaca",
@@ -16386,8 +16208,16 @@
     "id": "187929"
    },
    {
+    "squadra": "Saint Louis FC",
+    "id": "197329"
+   },
+   {
     "squadra": "Ankaran Hrvatini",
     "id": "215129"
+   },
+   {
+    "squadra": "Oratório",
+    "id": "215629"
    },
    {
     "squadra": "Ud Sampedrense",
@@ -16398,8 +16228,8 @@
     "id": "238929"
    },
    {
-    "squadra": "Colombia F",
-    "id": "239729"
+    "squadra": "Frome Town",
+    "id": "275029"
    },
    {
     "squadra": "Kidsgrove Athletic",
@@ -16414,10 +16244,6 @@
     "id": "293329"
    },
    {
-    "squadra": "Borbjerg GU",
-    "id": "329229"
-   },
-   {
     "squadra": "AE Kouklion",
     "id": "331629"
    },
@@ -16430,24 +16256,8 @@
     "id": "435129"
    },
    {
-    "squadra": "Stjernen",
-    "id": "457629"
-   },
-   {
-    "squadra": "Juliana 31",
-    "id": "459129"
-   },
-   {
-    "squadra": "TSV Schilksee",
-    "id": "465629"
-   },
-   {
     "squadra": "Haskovo 2009",
     "id": "471129"
-   },
-   {
-    "squadra": "AD Grijo",
-    "id": "474329"
    },
    {
     "squadra": "Bayburt Özel Idarespor",
@@ -16466,16 +16276,8 @@
     "id": "557329"
    },
    {
-    "squadra": "Haniska",
-    "id": "559829"
-   },
-   {
     "squadra": "Estudiantes de Caracas",
     "id": "563329"
-   },
-   {
-    "squadra": "Hittarps IK",
-    "id": "578929"
    },
    {
     "squadra": "Beskid Andrychow",
@@ -16486,24 +16288,8 @@
     "id": "588629"
    },
    {
-    "squadra": "Kian Bakhtiari",
-    "id": "611829"
-   },
-   {
-    "squadra": "IFK Mora FK",
-    "id": "628829"
-   },
-   {
-    "squadra": "Mthatha Bucks",
-    "id": "663029"
-   },
-   {
     "squadra": "Deuil-Enghien",
     "id": "687529"
-   },
-   {
-    "squadra": "Zenit Irkutsk",
-    "id": "768829"
    },
    {
     "squadra": "Recques FC",
@@ -16514,10 +16300,6 @@
     "id": "863829"
    },
    {
-    "squadra": "Ahrobiznes Volochysk",
-    "id": "949029"
-   },
-   {
     "squadra": "Polonia Glubczyce",
     "id": "956629"
    },
@@ -16526,20 +16308,8 @@
     "id": "960129"
    },
    {
-    "squadra": "Kanoya University",
-    "id": "1051029"
-   },
-   {
-    "squadra": "Insutec",
-    "id": "1068029"
-   },
-   {
-    "squadra": "Malmefjorden",
-    "id": "1126529"
-   },
-   {
-    "squadra": "Oyama",
-    "id": "1256629"
+    "squadra": "Musselburgh Athletic",
+    "id": "1215929"
    },
    {
     "squadra": "FC Widnau",
@@ -16554,20 +16324,12 @@
     "id": "1289629"
    },
    {
-    "squadra": "CD Penarol",
-    "id": "1370529"
-   },
-   {
     "squadra": "Asteras Stavros",
     "id": "1400729"
    },
    {
     "squadra": "Merpins",
     "id": "1413329"
-   },
-   {
-    "squadra": "Portimonense U23",
-    "id": "1510629"
    },
    {
     "squadra": "Sincan Belediyespor",
@@ -16586,40 +16348,16 @@
     "id": "1586529"
    },
    {
-    "squadra": "Fortuna Köln F",
-    "id": "1638029"
-   },
-   {
-    "squadra": "Santa Elena Sumpa",
-    "id": "1659229"
-   },
-   {
     "squadra": "TJ Spartak Kvasov",
     "id": "1678929"
-   },
-   {
-    "squadra": "Snejbjerg SG&I",
-    "id": "1782329"
-   },
-   {
-    "squadra": "União de Leiria U23",
-    "id": "1787929"
-   },
-   {
-    "squadra": "Asptt Montpellier F",
-    "id": "1863829"
-   },
-   {
-    "squadra": "Rhyl 1879",
-    "id": "1914729"
    },
    {
     "squadra": "RCF 07",
     "id": "2386829"
    },
    {
-    "squadra": "Hvidovre II",
-    "id": "1637"
+    "squadra": "Tacuarembo FC",
+    "id": "1837"
    },
    {
     "squadra": "Winner QF 2",
@@ -16630,24 +16368,12 @@
     "id": "2237"
    },
    {
-    "squadra": "Egebjerg Fodbold",
-    "id": "2337"
-   },
-   {
-    "squadra": "Stryn",
-    "id": "2537"
-   },
-   {
-    "squadra": "Skjold",
-    "id": "4237"
-   },
-   {
-    "squadra": "Ishavsbyen",
-    "id": "4337"
-   },
-   {
     "squadra": "Moslavina",
     "id": "5737"
+   },
+   {
+    "squadra": "Hastings",
+    "id": "6237"
    },
    {
     "squadra": "Penalva do Castelo",
@@ -16662,20 +16388,12 @@
     "id": "101637"
    },
    {
-    "squadra": "Gulset IF",
-    "id": "119137"
+    "squadra": "Quorn",
+    "id": "129937"
    },
    {
     "squadra": "FK Zvijezda",
     "id": "132637"
-   },
-   {
-    "squadra": "Ifö Bromölla IF",
-    "id": "161437"
-   },
-   {
-    "squadra": "Kaohsiung County Taipower",
-    "id": "165237"
    },
    {
     "squadra": "Ballymun United",
@@ -16684,6 +16402,10 @@
    {
     "squadra": "FC Santboia",
     "id": "189637"
+   },
+   {
+    "squadra": "Ríver AC",
+    "id": "197637"
    },
    {
     "squadra": "Macae",
@@ -16698,8 +16420,16 @@
     "id": "214137"
    },
    {
+    "squadra": "Barwell FC",
+    "id": "238637"
+   },
+   {
     "squadra": "FCO Firminy",
     "id": "238937"
+   },
+   {
+    "squadra": "Turks and Caicos Islands",
+    "id": "262137"
    },
    {
     "squadra": "FC Herzogenbuchsee",
@@ -16722,20 +16452,404 @@
     "id": "297837"
    },
    {
-    "squadra": "Rustad IL",
-    "id": "310737"
-   },
-   {
-    "squadra": "Vallensbæk IF",
-    "id": "329237"
+    "squadra": "Siarka Tarnobrzeg",
+    "id": "324237"
    },
    {
     "squadra": "Les Coqs Rouges Bordeaux",
     "id": "402237"
    },
    {
-    "squadra": "Valdres FK F",
-    "id": "444637"
+    "squadra": "Tosno",
+    "id": "462237"
+   },
+   {
+    "squadra": "Atlético Riachense",
+    "id": "474337"
+   },
+   {
+    "squadra": "AO Chalkidas",
+    "id": "488137"
+   },
+   {
+    "squadra": "Golfech St Paul d Espy",
+    "id": "497137"
+   },
+   {
+    "squadra": "SK Maria Saal",
+    "id": "583737"
+   },
+   {
+    "squadra": "RFC Warnant",
+    "id": "584037"
+   },
+   {
+    "squadra": "Cincinnati Dutch Lions",
+    "id": "584937"
+   },
+   {
+    "squadra": "Flers FC",
+    "id": "591237"
+   },
+   {
+    "squadra": "Harichovce",
+    "id": "611337"
+   },
+   {
+    "squadra": "ES La Rochelle",
+    "id": "687337"
+   },
+   {
+    "squadra": "Masny",
+    "id": "687937"
+   },
+   {
+    "squadra": "FC Golden State Force",
+    "id": "727437"
+   },
+   {
+    "squadra": "Leeside",
+    "id": "733937"
+   },
+   {
+    "squadra": "Sarayonu Belediyespor",
+    "id": "792237"
+   },
+   {
+    "squadra": "Chartres Horizon",
+    "id": "801237"
+   },
+   {
+    "squadra": "Kawina Papaic",
+    "id": "805137"
+   },
+   {
+    "squadra": "FC Ruti",
+    "id": "855837"
+   },
+   {
+    "squadra": "Ergene Velimeşe Spor",
+    "id": "863837"
+   },
+   {
+    "squadra": "Yüksekova Belediyespor",
+    "id": "874737"
+   },
+   {
+    "squadra": "Śląsk Swietochlowice",
+    "id": "956637"
+   },
+   {
+    "squadra": "Courthezon",
+    "id": "971637"
+   },
+   {
+    "squadra": "EG Rouillon",
+    "id": "1103337"
+   },
+   {
+    "squadra": "Esperance Aulnaysienne",
+    "id": "1104037"
+   },
+   {
+    "squadra": "FC Porrentruy",
+    "id": "1273037"
+   },
+   {
+    "squadra": "AE Iraklis Larissa",
+    "id": "1291837"
+   },
+   {
+    "squadra": "S. Arronches e Benfica",
+    "id": "1296837"
+   },
+   {
+    "squadra": "Neuves Maisons",
+    "id": "1308837"
+   },
+   {
+    "squadra": "AS Sautron",
+    "id": "1309437"
+   },
+   {
+    "squadra": "Maricá",
+    "id": "1328537"
+   },
+   {
+    "squadra": "MB Noyal-Pontivy",
+    "id": "1413637"
+   },
+   {
+    "squadra": "Holešov",
+    "id": "1528337"
+   },
+   {
+    "squadra": "TJD Pribelce",
+    "id": "1678937"
+   },
+   {
+    "squadra": "Roma/Hellas Verona",
+    "id": "2297937"
+   },
+   {
+    "squadra": "Biache St Vaast",
+    "id": "2392237"
+   },
+   {
+    "squadra": "FC Schötz",
+    "id": "1660"
+   },
+   {
+    "squadra": "Durrenast",
+    "id": "1760"
+   },
+   {
+    "squadra": "Halesowen Town FC",
+    "id": "2260"
+   },
+   {
+    "squadra": "Deportes Temuco",
+    "id": "4060"
+   },
+   {
+    "squadra": "Yeni Mersin Idmanyurdu",
+    "id": "5760"
+   },
+   {
+    "squadra": "Qviding FIF",
+    "id": "8360"
+   },
+   {
+    "squadra": "Lewes",
+    "id": "8660"
+   },
+   {
+    "squadra": "Deportivo Anzoátegui",
+    "id": "93060"
+   },
+   {
+    "squadra": "Resovia",
+    "id": "177360"
+   },
+   {
+    "squadra": "Eléctrico",
+    "id": "188160"
+   },
+   {
+    "squadra": "Klaipėda",
+    "id": "197860"
+   },
+   {
+    "squadra": "FC Slovan Rosice",
+    "id": "208560"
+   },
+   {
+    "squadra": "ES Uzes Pont du Gard",
+    "id": "213360"
+   },
+   {
+    "squadra": "Amicale Laique Saint-Maurice-l Exil",
+    "id": "238960"
+   },
+   {
+    "squadra": "Tianjin Tianhai",
+    "id": "256660"
+   },
+   {
+    "squadra": "SV Grödig (A)",
+    "id": "277860"
+   },
+   {
+    "squadra": "Balmazujvaros",
+    "id": "278660"
+   },
+   {
+    "squadra": "Sholing",
+    "id": "282360"
+   },
+   {
+    "squadra": "Billy-Crechy",
+    "id": "293260"
+   },
+   {
+    "squadra": "Deville Maromme",
+    "id": "293460"
+   },
+   {
+    "squadra": "AC Ponte San Pietro",
+    "id": "352360"
+   },
+   {
+    "squadra": "Silivrispor",
+    "id": "361060"
+   },
+   {
+    "squadra": "Monceenne",
+    "id": "402260"
+   },
+   {
+    "squadra": "3E",
+    "id": "442960"
+   },
+   {
+    "squadra": "Al Nahdha Dammam",
+    "id": "463260"
+   },
+   {
+    "squadra": "DVS 33",
+    "id": "484260"
+   },
+   {
+    "squadra": "US Metare St Étienne Sud Est",
+    "id": "497160"
+   },
+   {
+    "squadra": "CF Peralada",
+    "id": "561260"
+   },
+   {
+    "squadra": "Fauverney Rouvres",
+    "id": "603060"
+   },
+   {
+    "squadra": "Edenderry Town",
+    "id": "630260"
+   },
+   {
+    "squadra": "FC Morbio",
+    "id": "661860"
+   },
+   {
+    "squadra": "Middlesbrough U21",
+    "id": "773660"
+   },
+   {
+    "squadra": "RD Agueda",
+    "id": "775660"
+   },
+   {
+    "squadra": "SIMA Aguilas",
+    "id": "824160"
+   },
+   {
+    "squadra": "UL Rombas",
+    "id": "889360"
+   },
+   {
+    "squadra": "AS ET Matoury",
+    "id": "889460"
+   },
+   {
+    "squadra": "Plaintel",
+    "id": "889560"
+   },
+   {
+    "squadra": "Velay",
+    "id": "889760"
+   },
+   {
+    "squadra": "Floresta",
+    "id": "899260"
+   },
+   {
+    "squadra": "Nord Vignoble",
+    "id": "971160"
+   },
+   {
+    "squadra": "Hamel ESM",
+    "id": "971660"
+   },
+   {
+    "squadra": "RC Nevers-Challuy",
+    "id": "1104060"
+   },
+   {
+    "squadra": "SC Schöftland",
+    "id": "1179360"
+   },
+   {
+    "squadra": "Salesienne de Paris",
+    "id": "1309060"
+   },
+   {
+    "squadra": "Guarda Desportiva",
+    "id": "1404960"
+   },
+   {
+    "squadra": "Montenay",
+    "id": "1414260"
+   },
+   {
+    "squadra": "Barentin",
+    "id": "1572660"
+   },
+   {
+    "squadra": "Milan Futuro",
+    "id": "1660760"
+   },
+   {
+    "squadra": "Santa Catarina",
+    "id": "1697960"
+   },
+   {
+    "squadra": "Larchois La Feuillade",
+    "id": "1829960"
+   },
+   {
+    "squadra": "Renfrew FC",
+    "id": "2063860"
+   },
+   {
+    "squadra": "Espoir FC de la Vallee",
+    "id": "2392060"
+   },
+   {
+    "squadra": "Monaghan United",
+    "id": "1852"
+   },
+   {
+    "squadra": "Rapid Wien II",
+    "id": "1952"
+   },
+   {
+    "squadra": "Muttenz",
+    "id": "2452"
+   },
+   {
+    "squadra": "Lisburn",
+    "id": "4452"
+   },
+   {
+    "squadra": "Veria 1960",
+    "id": "6052"
+   },
+   {
+    "squadra": "St Leu la Foret",
+    "id": "6252"
+   },
+   {
+    "squadra": "SC Toulon",
+    "id": "9852"
+   },
+   {
+    "squadra": "Skive",
+    "id": "9952"
+   },
+   {
+    "squadra": "RFC Wetteren",
+    "id": "96952"
+   },
+   {
+    "squadra": "Auchinleck Talbot",
+    "id": "183952"
+   },
+   {
+    "squadra": "Pobla Mafumet",
+    "id": "189652"
+   },
+   {
+    "squadra": "US Ivry",
+    "id": "213352"
    }
   ]
  },
