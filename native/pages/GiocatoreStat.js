@@ -159,7 +159,7 @@ function CupSummary({ C, p }) {
   );
 }
 
-function CupCurrent({ C, p, fm, fmPid, team }) {
+function CupCurrent({ C, p, fm, fmPid, team, openRoute }) {
   const { data, loading } = useAsync(async () => {
     const sk = await currentSeason(fm);
     const st = sk ? await loadPlayerStatsFor(fm, sk, fmPid) : null;
@@ -236,7 +236,7 @@ export default function GiocatoreStat({ C, player: p, team, car, openRoute }) {
     body = (
       <View key={comp}>
         <View style={{ paddingHorizontal: 20, paddingTop: 16 }}><Affidabilita key={comp} C={C} player={p} comp={comp} /></View>
-        {comp !== dom ? <CupCurrent C={C} p={p} fm={fmL} fmPid={fmPid} team={team} /> : (
+        {comp !== dom ? <CupCurrent C={C} p={p} fm={fmL} fmPid={fmPid} team={team}  openRoute={openRoute} /> : (
           <View style={{ paddingHorizontal: 20, paddingTop: 16, paddingBottom: 40, gap: 16 }}>
             {rk.length ? (
               <Panel C={C} style={{ borderRadius: 18 }}>
