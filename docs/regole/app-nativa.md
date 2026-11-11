@@ -173,3 +173,13 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 - **Scelte a pagina intera** (Calcolatore): ricerca giocatore `shared/PlayerSearch.js`, campionato/squadra `shared/FullPicker.js` (barra di ricerca in alto, banner grandi colorati con logo). Le tendine piccole restano solo per scelte corte.
 - **Colori competizioni**: `data/compColors.js` (colore dominante del logo) per le competizioni senza palette; ogni competizione ha sempre un banner colorato e un logo assoluto (mai percorsi relativi in nativo).
 - **Prossima partita**: `NextMatchBtn` nel banner giocatore e in ogni scheda squadra; pesi dei testi nelle righe di Migliori Giocatori: 700 massimo.
+
+## App nativa: caratteri fissi, tendine, scelte a pagina intera (11 nov 2026)
+- **Caratteri a dimensione fissa**: i file dell'app importano `react-native` tramite `native/shared/rn.js` (alias in `metro.config.js`), che mette `allowFontScaling={false}` su `Text` e `TextInput`. Senza, iPhone con "Dimensione testo" grande ingrandiva tutto (banner altissimi, titoli tagliati) e il sito no. Non importare `Text` da altrove.
+- **Tendine** (`shared/Dropdown.js`): animazione "Cascata" (voci che scendono una dopo l'altra); se sotto non c'e' posto la tendina si apre verso l'alto, mai tagliata.
+- **Scelte a pagina intera** (`PlayerSearch`, `FullPicker`): righe compatte come Migliori Giocatori (foto 52, nome 16/600, squadra 12.5, bandiera e nome nazionalita'); la scelta si applica a finestra chiusa (`onDismiss`), mai durante l'animazione.
+- **Cambio linea/statistica** (Migliori Giocatori e Matchup): la lista sfuma, poi i banner entrano da sinistra a destra (`FadeInLeft`), calcolo in `startTransition`.
+- **Schede Matchup**: misure del sito (stemma 46, nome 12.5, centro 30). Pesi font: nomi 600, numeri 700, mai 800.
+- **Riquadri statistiche squadra** (Calcolatore): sfondo scuro `tileBg`, campo `NumInput tint` verde/rosso secondo la fascia di classifica.
+- **Prossima partita giocatore**: se nella competizione scelta non ci sono partite (es. Nations) vale la prossima del club.
+- Al ritorno dal background la cache immagini si svuota solo dopo piu' di 10 minuti (prima a ogni uscita: al ritorno ricaricava tutto e l'app restava ferma).

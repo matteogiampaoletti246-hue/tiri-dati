@@ -57,7 +57,7 @@ function upcoming(teamName) {
 
 const RoleBadge = ({ C, role }) => (role ? (
   <View style={{ position: 'absolute', right: -8, bottom: -4, minWidth: 30, height: 20, paddingHorizontal: 6, borderRadius: 10, alignItems: 'center', justifyContent: 'center', backgroundColor: C.gold, borderWidth: 1.5, borderColor: C.hair }}>
-    <Text style={{ color: '#2e2100', fontSize: 11, fontWeight: '800' }}>{role}</Text>
+    <Text style={{ color: '#2e2100', fontSize: 11, fontWeight: '700' }}>{role}</Text>
   </View>
 ) : null);
 
@@ -73,7 +73,7 @@ function ChipList({ C, value, onChange, max = 5 }) {
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-end', gap: 4 }}>
         {list.map((n, i) => (
           <Pressable key={i} onPress={() => commit(list.filter((_, k) => k !== i))} style={{ flexDirection: 'row', alignItems: 'center', gap: 4, height: 28, paddingHorizontal: 9, borderRadius: 14, backgroundColor: C.accTint, borderWidth: 1, borderColor: C.accRing }}>
-            <Text style={{ color: C.ink, fontSize: 13, fontWeight: '800' }}>{n}</Text>
+            <Text style={{ color: C.ink, fontSize: 13, fontWeight: '700' }}>{n}</Text>
             <Ionicons name="close" size={11} color={C.ink3} />
           </Pressable>
         ))}
@@ -82,7 +82,7 @@ function ChipList({ C, value, onChange, max = 5 }) {
       {!full ? (
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
           <TextInput value={cur} onChangeText={(t) => setCur(t.replace(/[^0-9]/g, '').slice(0, 3))} onSubmitEditing={add} keyboardType="number-pad" placeholder="0" placeholderTextColor={C.ink3} style={{ width: 56, color: C.ink, backgroundColor: C.chip, borderRadius: 12, paddingVertical: 7, textAlign: 'center', fontSize: 16, fontWeight: '700' }} />
-          <Pressable onPress={add} style={{ paddingHorizontal: 12, paddingVertical: 8, borderRadius: 12, backgroundColor: C.accent }}><Text style={{ color: '#fff', fontWeight: '800', fontSize: 13 }}>Aggiungi</Text></Pressable>
+          <Pressable onPress={add} style={{ paddingHorizontal: 12, paddingVertical: 8, borderRadius: 12, backgroundColor: C.accent }}><Text style={{ color: '#fff', fontWeight: '700', fontSize: 13 }}>Aggiungi</Text></Pressable>
         </View>
       ) : null}
     </View>
@@ -92,25 +92,26 @@ function ChipList({ C, value, onChange, max = 5 }) {
 // tendina a scelta (valore linea, hit rate, competizione): si apre sotto la pillola
 function Select({ C, value, options, onChange, placeholder }) {
   const rich = options.some((o) => o.comp);
-  const logo = (o, size) => (o.comp && o.comp.logo ? <Image source={{ uri: o.comp.logo }} style={{ width: size, height: size }} contentFit="contain" cachePolicy="memory-disk" /> : <Text style={{ color: o.color || C.ink2, fontSize: 11, fontWeight: '800' }}>{String(o.label).slice(0, 2).toUpperCase()}</Text>);
+  const logo = (o, size) => (o.comp && o.comp.logo ? <Image source={{ uri: o.comp.logo }} style={{ width: size, height: size }} contentFit="contain" cachePolicy="memory-disk" /> : <Text style={{ color: o.color || C.ink2, fontSize: 11, fontWeight: '700' }}>{String(o.label).slice(0, 2).toUpperCase()}</Text>);
   const opts = rich ? options.map((o) => ({ ...o, logoNode: logo(o, 28) })) : options;
   return <Dropdown C={C} fill options={opts} value={value} onChange={onChange} placeholder={placeholder || '—'} pillKey="label"
     icon={options.some((o) => o.ic) ? (o, col) => (o.ic ? <StatIconN k={o.ic} size={20} color={col} /> : null) : rich ? (o) => <View style={{ width: 26, height: 26, borderRadius: 13, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255,255,255,.92)' }}>{logo(o, 20)}</View> : undefined} />;
 }
 
-function NextMatchBtn({ C, ownId, oppId, comp, col, openRoute, style }) {
+function NextMatchBtn({ C, ownId, oppId, comp, col, openRoute, style, altId }) {
   const nm = useMemo(() => {
     if (!ownId) return null;
-    const first = nextMatchOf(ownId, comp);
-    const vs0 = oppId ? nextMatchVs(ownId, oppId) : null;
-    const vs = vs0 && (!comp || vs0.leagueId === comp) ? vs0 : null;
-    return vs && (!first || Math.abs(vs.ts - first.ts) < 3 * 864e5) ? vs : first;
-  }, [ownId, oppId, comp, MATCHES.length]);
+    // senza partite nella competizione scelta (es. Nations League) vale la prossima del club: ogni giocatore ha la sua
+    const own = (id, c) => { const first = nextMatchOf(id, c); const vs0 = oppId ? nextMatchVs(id, oppId) : null; const vs = vs0 && (!c || vs0.leagueId === c) ? vs0 : null; const m = vs && (!first || Math.abs(vs.ts - first.ts) < 3 * 864e5) ? vs : first; return m ? { m, id } : null; };
+    return own(ownId, comp) || (altId ? own(altId) : null);
+  }, [ownId, oppId, comp, altId, MATCHES.length]);
   if (!nm) return null;
-  const me = teamById(ownId);
-  const opp = teamById(nm.homeId === ownId || (teamById(nm.homeId) || {}).name === (me || {}).name ? nm.awayId : nm.homeId);
+  const mine = nm.id;
+  const mm = nm.m;
+  const me = teamById(mine);
+  const opp = teamById(mm.homeId === mine || (teamById(mm.homeId) || {}).name === (me || {}).name ? mm.awayId : mm.homeId);
   return (
-    <Pressable onPress={() => openRoute && openRoute(`/match/${nm.id}`)} style={[{ flexDirection: 'row', alignItems: 'center', gap: 8, borderRadius: 16, paddingHorizontal: 14, paddingVertical: 10, backgroundColor: col + '22', borderWidth: 1.5, borderColor: col + 'B3' }, style]}>
+    <Pressable onPress={() => openRoute && openRoute(`/match/${mm.id}`)} style={[{ flexDirection: 'row', alignItems: 'center', gap: 8, borderRadius: 16, paddingHorizontal: 14, paddingVertical: 10, backgroundColor: col + '22', borderWidth: 1.5, borderColor: col + 'B3' }, style]}>
       <View style={{ flex: 1 }}>
         <Text style={{ color: C.ink3, fontSize: 10.5, fontWeight: '700', letterSpacing: 1 }}>PROSSIMA PARTITA</Text>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 3 }}>
@@ -119,7 +120,7 @@ function NextMatchBtn({ C, ownId, oppId, comp, col, openRoute, style }) {
           <Text numberOfLines={1} style={{ color: C.ink, fontSize: 14.5, fontWeight: '700', flexShrink: 1 }}>{opp ? opp.name : ''}</Text>
         </View>
       </View>
-      {nm.ts ? <Text style={{ color: C.ink2, fontSize: 12.5 }}>{whenOf(nm.ts)}</Text> : null}
+      {mm.ts ? <Text style={{ color: C.ink2, fontSize: 12.5 }}>{whenOf(mm.ts)}</Text> : null}
       <Ionicons name="chevron-forward" size={16} color={C.ink2} />
     </Pressable>
   );
@@ -150,7 +151,7 @@ function PlayerPick({ C, form, set, player, onSelectPlayer, stat, onStat, role, 
                   <RoleBadge C={C} role={role} />
                 </View>
                 <View style={{ flex: 1 }}>
-                  <Text numberOfLines={1} style={{ color: C.ink, fontSize: 18, fontWeight: '800' }}>{player.name}</Text>
+                  <Text numberOfLines={1} style={{ color: C.ink, fontSize: 18, fontWeight: '700' }}>{player.name}</Text>
                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5, marginTop: 4 }}>
                     {team ? <TeamCrest team={team} size={16} C={C} /> : null}
                     <Text numberOfLines={1} style={{ color: C.ink2, fontSize: 12.5, flexShrink: 1 }}>{club.teamName}</Text>
@@ -162,7 +163,7 @@ function PlayerPick({ C, form, set, player, onSelectPlayer, stat, onStat, role, 
               </Pressable>
               <Pressable onPress={() => setPicker(true)} style={{ paddingHorizontal: 12, paddingVertical: 7, borderRadius: 999, backgroundColor: C.accent }}><Text style={{ color: '#fff', fontWeight: '700', fontSize: 12.5 }}>Cambia</Text></Pressable>
             </View>
-            <NextMatchBtn C={C} ownId={ownId} oppId={form.opp && form.opp.id} comp={comp} col={col} openRoute={openRoute} style={{ marginHorizontal: 14, marginBottom: 14 }} />
+            <NextMatchBtn C={C} ownId={ownId} altId={club && club.teamId} oppId={form.opp && form.opp.id} comp={comp} col={col} openRoute={openRoute} style={{ marginHorizontal: 14, marginBottom: 14 }} />
           </View>
         ) : (
           <Pressable onPress={() => setPicker(true)} style={{ padding: 18, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -214,9 +215,9 @@ function SeasonPanel({ C, season, onChange, rate90, label, player, comp }) {
       <PanelTitle C={C}>Medie stagione</PanelTitle>
       <Panel ring C={C}>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 18, paddingVertical: 10 }}>
-          <Text style={{ flex: 1, color: C.ink3, fontSize: 11, fontWeight: '800' }}>COMPETIZIONE</Text>
-          <Text style={{ width: 60, textAlign: 'center', color: C.ink3, fontSize: 11, fontWeight: '800' }}>{label.toUpperCase()}</Text>
-          <Text style={{ width: 60, textAlign: 'center', color: C.ink3, fontSize: 11, fontWeight: '800' }}>MINUTI</Text>
+          <Text style={{ flex: 1, color: C.ink3, fontSize: 11, fontWeight: '700' }}>COMPETIZIONE</Text>
+          <Text style={{ width: 60, textAlign: 'center', color: C.ink3, fontSize: 11, fontWeight: '700' }}>{label.toUpperCase()}</Text>
+          <Text style={{ width: 60, textAlign: 'center', color: C.ink3, fontSize: 11, fontWeight: '700' }}>MINUTI</Text>
         </View>
         <View style={{ gap: 6, paddingHorizontal: 10, paddingBottom: 8 }}>
           {rows.map((c) => {
@@ -233,7 +234,7 @@ function SeasonPanel({ C, season, onChange, rate90, label, player, comp }) {
               <View key={c.key} style={{ flexDirection: 'row', alignItems: 'center', gap: 8, borderRadius: 14, overflow: 'hidden', paddingVertical: 8, paddingLeft: 8, paddingRight: 6, backgroundColor: c0 ? c0 : C.chip, borderWidth: 1.5, borderColor: c.key === comp ? (c1 || C.accent) : 'transparent', opacity: out ? 0.55 : 1 }}>
                 {c0 ? <LinearGradient pointerEvents="none" colors={[c0, mixHex(c0, c1, 0.38)]} start={{ x: 0, y: 0.2 }} end={{ x: 1, y: 0.8 }} style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }} /> : null}
                 <View style={{ width: 30, height: 30, borderRadius: 15, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255,255,255,.92)' }}>
-                  {o && o.comp.logo ? <Image source={{ uri: o.comp.logo }} style={{ width: 20, height: 20 }} contentFit="contain" cachePolicy="memory-disk" /> : <Text style={{ color: c0 || C.ink2, fontSize: 10, fontWeight: '800' }}>{String(name).slice(0, 2).toUpperCase()}</Text>}
+                  {o && o.comp.logo ? <Image source={{ uri: o.comp.logo }} style={{ width: 20, height: 20 }} contentFit="contain" cachePolicy="memory-disk" /> : <Text style={{ color: c0 || C.ink2, fontSize: 10, fontWeight: '700' }}>{String(name).slice(0, 2).toUpperCase()}</Text>}
                 </View>
                 <View style={{ flex: 1 }}>
                   <Text style={{ color: ink, fontSize: 13.5, fontWeight: '700' }}>{name}</Text>
@@ -246,7 +247,7 @@ function SeasonPanel({ C, season, onChange, rate90, label, player, comp }) {
           })}
         </View>
         <View style={{ flexDirection: 'row', alignItems: 'baseline', paddingHorizontal: 18, paddingVertical: 14, borderTopWidth: 1, borderTopColor: C.hair }}>
-          <Text style={{ flex: 1, color: C.ink3, fontSize: 11, fontWeight: '800' }}>TASSO NORMALIZZATO A 90'</Text>
+          <Text style={{ flex: 1, color: C.ink3, fontSize: 11, fontWeight: '700' }}>TASSO NORMALIZZATO A 90'</Text>
           <Text style={{ color: C.ink, fontSize: 15, fontWeight: '700' }}>{rate90 === null || rate90 === undefined ? '—' : comma(rate90, 2)}</Text>
         </View>
       </Panel>
@@ -279,14 +280,14 @@ export function ShotsTeam({ C, title, mode, family, block, onChange, openRoute, 
 }
 
 const Box = ({ C, label, value }) => (
-  <View style={{ flex: 1, borderRadius: 12, padding: 10, backgroundColor: C.chip }}>
+  <View style={{ flex: 1, borderRadius: 12, padding: 10, backgroundColor: C.tileBg, borderWidth: 1, borderColor: C.hair }}>
     <Text style={{ color: C.ink3, fontSize: 10.5 }}>{label}</Text>
     <Text style={{ color: C.ink, fontSize: 16, fontWeight: '700', marginTop: 2 }}>{value}</Text>
   </View>
 );
 
 function compLogoN(cc, size, C) {
-  return cc && cc.logo ? <Image source={{ uri: cc.logo }} style={{ width: size, height: size }} contentFit="contain" cachePolicy="memory-disk" /> : <Text style={{ color: C.ink2, fontSize: 10, fontWeight: '800' }}>{String((cc && cc.name) || '').slice(0, 2).toUpperCase()}</Text>;
+  return cc && cc.logo ? <Image source={{ uri: cc.logo }} style={{ width: size, height: size }} contentFit="contain" cachePolicy="memory-disk" /> : <Text style={{ color: C.ink2, fontSize: 10, fontWeight: '700' }}>{String((cc && cc.name) || '').slice(0, 2).toUpperCase()}</Text>;
 }
 
 function TeamCard({ C, title, right, block, team, sub, tiles, matchComp, oppId, footer, picker, setPicker, onLeague, onTeam, openRoute }) {
@@ -294,9 +295,9 @@ function TeamCard({ C, title, right, block, team, sub, tiles, matchComp, oppId, 
   const cc = calcComp(block.leagueId);
   const c0 = hexOr(cc && cc.colors[0], null);
   const c1 = hexOr(cc && (cc.colors[1] || cc.colors[0]), c0);
-  const leagueOptions = calcLeagues().map((l) => { const x = calcComp(l.id); return { value: l.id, label: x.name, sub: (x.country || x.kind).toUpperCase(), color: hexOr(x.colors[0]), color2: hexOr(x.colors[1]), icon: compLogoN(x, 44, C) }; });
+  const leagueOptions = calcLeagues().map((l) => { const x = calcComp(l.id); return { value: l.id, label: x.name, sub: (x.country || x.kind).toUpperCase(), color: hexOr(x.colors[0]), color2: hexOr(x.colors[1]), icon: compLogoN(x, 30, C) }; });
   const teamOptions = calcTeamsOf(block.leagueId).map((n) => teamByName(n)).filter(Boolean).sort((a, b) => a.name.localeCompare(b.name))
-    .map((t) => ({ value: t.id, label: t.name, sub: leagueName(block.leagueId).toUpperCase(), color: hexOr(t.colors && t.colors[0]), color2: hexOr(t.colors && t.colors[1]), icon: <TeamCrest team={t} size={46} C={C} /> }));
+    .map((t) => ({ value: t.id, label: t.name, sub: leagueName(block.leagueId).toUpperCase(), color: hexOr(t.colors && t.colors[0]), color2: hexOr(t.colors && t.colors[1]), icon: <TeamCrest team={t} size={32} C={C} /> }));
   return (
     <View>
       <PanelTitle C={C} right={right}>{title}</PanelTitle>
@@ -318,7 +319,7 @@ function TeamCard({ C, title, right, block, team, sub, tiles, matchComp, oppId, 
                   <TeamCrest team={team} size={34} C={C} />
                   <View style={{ flex: 1 }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 2 }}>
-                      <Text numberOfLines={1} style={{ flexShrink: 1, color: C.ink, fontSize: 18, fontWeight: '800' }}>{team.name}</Text>
+                      <Text numberOfLines={1} style={{ flexShrink: 1, color: C.ink, fontSize: 18, fontWeight: '700' }}>{team.name}</Text>
                       <Ionicons name="chevron-forward" size={16} color={C.ink3} />
                     </View>
                     {sub ? <Text numberOfLines={1} style={{ color: C.ink2, fontSize: 12 }}>{sub}</Text> : null}
@@ -328,12 +329,12 @@ function TeamCard({ C, title, right, block, team, sub, tiles, matchComp, oppId, 
               </View>
               <View style={{ flexDirection: 'row', gap: 8, marginTop: 12 }}>
                 {tiles.map(([k, l, v, f, rk]) => (
-                  <View key={k} style={{ flex: 1, borderRadius: 12, padding: 10, backgroundColor: C.chip, borderWidth: 1, borderColor: C.hair }}>
+                  <View key={k} style={{ flex: 1, borderRadius: 12, padding: 10, backgroundColor: C.tileBg, borderWidth: 1, borderColor: C.hair }}>
                     <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: 4 }}>
                       <Text numberOfLines={1} style={{ flex: 1, color: C.ink2, fontSize: 11, fontWeight: '600' }}>{l}</Text>
-                      {rk ? <Text style={{ color: rk.col || C.ink, fontSize: 11, fontWeight: '800' }}>{rk.r}°<Text style={{ color: C.ink3, fontWeight: '400' }}>/{rk.size}</Text></Text> : null}
+                      {rk ? <Text style={{ color: rk.col || C.ink, fontSize: 11, fontWeight: '700' }}>{rk.r}°<Text style={{ color: C.ink3, fontWeight: '400' }}>/{rk.size}</Text></Text> : null}
                     </View>
-                    <View style={{ marginTop: 6 }}><NumInput C={C} value={v} onChange={f} ring width="100%" /></View>
+                    <View style={{ marginTop: 6 }}><NumInput C={C} value={v} onChange={f} ring tint={rk && rk.col} width="100%" /></View>
                   </View>
                 ))}
               </View>
@@ -389,10 +390,10 @@ function Roles({ C, rb, title }) {
           const col = gold ? C.gold : C.accent;
           return (
             <View key={r.role} style={{ flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 16, height: 38 }}>
-              <View style={{ width: 46, borderRadius: 6, paddingVertical: 4, alignItems: 'center', backgroundColor: col + '2B' }}><Text style={{ color: col, fontSize: 12.5, fontWeight: '800' }}>{r.role}</Text></View>
+              <View style={{ width: 46, borderRadius: 6, paddingVertical: 4, alignItems: 'center', backgroundColor: col + '2B' }}><Text style={{ color: col, fontSize: 12.5, fontWeight: '700' }}>{r.role}</Text></View>
               <View style={{ flex: 1, height: 9, borderRadius: 3, backgroundColor: C.hair, overflow: 'hidden' }}><View style={{ height: 9, borderRadius: 3, width: `${Math.max(3, (r.pct / max) * 100)}%`, backgroundColor: col }} /></View>
-              <Text style={{ width: 28, textAlign: 'right', color: C.ink, fontSize: 14, fontWeight: '800' }}>{Math.round(r.n)}</Text>
-              <Text style={{ width: 44, textAlign: 'right', color: gold ? C.gold : C.ink, fontSize: 14, fontWeight: '800' }}>{pct(r.pct)}</Text>
+              <Text style={{ width: 28, textAlign: 'right', color: C.ink, fontSize: 14, fontWeight: '700' }}>{Math.round(r.n)}</Text>
+              <Text style={{ width: 44, textAlign: 'right', color: gold ? C.gold : C.ink, fontSize: 14, fontWeight: '700' }}>{pct(r.pct)}</Text>
               <Text style={{ width: 46, textAlign: 'right', color: C.ink3, fontSize: 12.5 }}>{pct(r.rolePct)}</Text>
             </View>
           );
@@ -418,14 +419,14 @@ function Duel({ C, team, roster, picked, onChange, statLabel, roles }) {
         <Pressable onPress={() => setOpen((v) => !v)} style={{ flexDirection: 'row', alignItems: 'center', gap: 12, padding: 14 }}>
           {sel.map((r, i) => <View key={r.id} style={{ marginLeft: i ? -10 : 0 }}><Face uri={playerFace(r.id)} color={c0} size={28} /></View>)}
           <Text numberOfLines={1} style={{ flex: 1, color: sel.length ? C.ink : C.ink3, fontSize: 14.5, fontWeight: sel.length ? '700' : '400' }}>{sel.length === 0 ? 'Scegli avversario' : sel.length === 1 ? sel[0].name : `${sel.length} avversari`}</Text>
-          {avg !== null ? <Text style={{ color: C.ink, fontSize: 15, fontWeight: '800' }}>{comma(avg, 2)}</Text> : null}
+          {avg !== null ? <Text style={{ color: C.ink, fontSize: 15, fontWeight: '700' }}>{comma(avg, 2)}</Text> : null}
           <Ionicons name={open ? 'chevron-up' : 'chevron-down'} size={16} color={C.ink3} />
         </Pressable>
         {open ? (
           <View style={{ borderTopWidth: 1, borderTopColor: C.hair }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 14, paddingVertical: 10, backgroundColor: c0 + '66' }}>
               {team ? <TeamCrest team={team} size={18} C={C} /> : null}
-              <Text numberOfLines={1} style={{ flex: 1, color: C.ink, fontSize: 12, fontWeight: '800' }}>{team ? team.name.toUpperCase() : ''}</Text>
+              <Text numberOfLines={1} style={{ flex: 1, color: C.ink, fontSize: 12, fontWeight: '700' }}>{team ? team.name.toUpperCase() : ''}</Text>
               <Text style={{ color: C.ink2, fontSize: 11.5 }}>{statLabel} a 90'</Text>
             </View>
             {roster.map((r) => {
@@ -438,14 +439,14 @@ function Duel({ C, team, roster, picked, onChange, statLabel, roles }) {
                     <Text numberOfLines={1} style={{ color: C.ink, fontSize: 14, fontWeight: '700' }}>{r.name}</Text>
                     <Text style={{ color: C.ink3, fontSize: 11 }}>{r.n} partite · {Math.round(r.min)}'</Text>
                   </View>
-                  <Text style={{ color: C.ink, fontSize: 15, fontWeight: '800' }}>{comma(r.avg90, 2)}</Text>
+                  <Text style={{ color: C.ink, fontSize: 15, fontWeight: '700' }}>{comma(r.avg90, 2)}</Text>
                   <View style={{ width: 22, height: 22, borderRadius: 11, alignItems: 'center', justifyContent: 'center', backgroundColor: on ? C.accent : 'transparent', borderWidth: 2, borderColor: on ? C.accent : C.hair }}>{on ? <Ionicons name="checkmark" size={13} color="#fff" /> : null}</View>
                 </Pressable>
               );
             })}
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, padding: 14 }}>
               <Text style={{ flex: 1, color: C.ink3, fontSize: 12, fontWeight: '700' }}>{picked.length}/{MAXD} selezionati{avg !== null ? ` · media ${comma(avg, 2)}` : ''}</Text>
-              <Pressable disabled={!picked.length} onPress={() => setOpen(false)} style={{ paddingHorizontal: 20, paddingVertical: 10, borderRadius: 12, backgroundColor: C.accent, opacity: picked.length ? 1 : 0.4 }}><Text style={{ color: '#fff', fontWeight: '800', fontSize: 14 }}>Fatto</Text></Pressable>
+              <Pressable disabled={!picked.length} onPress={() => setOpen(false)} style={{ paddingHorizontal: 20, paddingVertical: 10, borderRadius: 12, backgroundColor: C.accent, opacity: picked.length ? 1 : 0.4 }}><Text style={{ color: '#fff', fontWeight: '700', fontSize: 14 }}>Fatto</Text></Pressable>
             </View>
           </View>
         ) : null}

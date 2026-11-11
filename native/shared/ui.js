@@ -40,7 +40,7 @@ export const Panel = ({ C, children, style, tint, ring }) => {
 
 export const PanelTitle = ({ C, children, right }) => (
   <View style={{ flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 8, marginTop: 4 }}>
-    <Text style={{ color: C.ink3, fontSize: 11, fontWeight: '800', letterSpacing: 1, textTransform: 'uppercase' }}>{children}</Text>
+    <Text style={{ color: C.ink3, fontSize: 11, fontWeight: '700', letterSpacing: 1, textTransform: 'uppercase' }}>{children}</Text>
     {right ? <Text style={{ color: C.ink3, fontSize: 11 }}>{right}</Text> : null}
   </View>
 );
@@ -147,7 +147,7 @@ export const FieldRow = ({ C, label, hint, first, children }) => (
   </View>
 );
 
-export const NumInput = ({ C, value, onChange, placeholder, style, ring, width }) => {
+export const NumInput = ({ C, value, onChange, placeholder, style, ring, width, tint }) => {
   const inp = (
     <TextInput
       value={value}
@@ -155,9 +155,11 @@ export const NumInput = ({ C, value, onChange, placeholder, style, ring, width }
       keyboardType="decimal-pad"
       placeholder={placeholder || '—'}
       placeholderTextColor={C.ink3}
-      style={[{ color: C.ink, backgroundColor: ring ? 'transparent' : C.chip, borderRadius: 12, paddingVertical: 8, paddingHorizontal: 12, fontSize: 16, fontWeight: '700', textAlign: ring ? 'center' : 'right' }, ring && { flex: 1, paddingVertical: 0 }, style]}
+      style={[{ color: tint || C.ink, backgroundColor: ring ? 'transparent' : C.chip, borderRadius: 12, paddingVertical: 8, paddingHorizontal: 12, fontSize: 16, fontWeight: tint ? '800' : '700', textAlign: ring ? 'center' : 'right' }, ring && { flex: 1, paddingVertical: 0 }, style]}
     />
   );
+  // tint: bordo pieno e sfondo nel colore della fascia (verde = buono, rosso = scarso), come il campo del sito
+  if (tint && ring) return <View style={{ height: 41, width: width || 112, borderRadius: 20, borderWidth: 1.5, borderColor: tint, backgroundColor: tint + '26', overflow: 'hidden' }}>{inp}</View>;
   return ring ? <RingBox C={C} radius={20} style={{ height: 41, width: width || 112 }}>{inp}</RingBox> : inp;
 };
 
@@ -183,7 +185,7 @@ export function PickerModal({ C, open, title, options, onSelect, onClose, search
         {open ? (
           <Animated.View entering={FadeIn.duration(160)} exiting={FadeOut.duration(120)} style={{ position: 'absolute', left: 14, right: 14, top, maxHeight: Math.min(H - top - (searchable ? 280 : 40), 430), borderRadius: 24, backgroundColor: C.sheet, borderWidth: 1, borderColor: C.border, overflow: 'hidden', shadowColor: '#000', shadowOpacity: 0.4, shadowRadius: 22, shadowOffset: { width: 0, height: 12 }, elevation: 12 }}>
             <Pressable onPress={() => {}}>
-              {title ? <Text style={{ color: C.ink3, fontSize: 11, fontWeight: '800', letterSpacing: 1, textTransform: 'uppercase', paddingHorizontal: 18, paddingTop: 14, paddingBottom: 4 }}>{title}</Text> : null}
+              {title ? <Text style={{ color: C.ink3, fontSize: 11, fontWeight: '700', letterSpacing: 1, textTransform: 'uppercase', paddingHorizontal: 18, paddingTop: 14, paddingBottom: 4 }}>{title}</Text> : null}
               {searchable ? <TextInput value={q} onChangeText={setQ} placeholder={placeholder || 'Cerca'} placeholderTextColor={C.ink3} autoCorrect={false} autoFocus style={{ marginHorizontal: 10, marginVertical: 6, color: C.ink, backgroundColor: C.chip, borderRadius: 14, paddingVertical: 10, paddingHorizontal: 14, fontSize: 16 }} /> : null}
             </Pressable>
             <FlatList
@@ -201,7 +203,7 @@ export function PickerModal({ C, open, title, options, onSelect, onClose, search
                       <LinearGradient pointerEvents="none" colors={[c0, mixHex(c0, c1, 0.38)]} start={{ x: 0, y: 0.2 }} end={{ x: 1, y: 0.8 }} style={StyleSheet.absoluteFill} />
                       <View style={{ width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255,255,255,.92)' }}>{o.icon || (o.face ? <Face uri={o.face} color={o.color} size={36} /> : null)}</View>
                       <View style={{ flex: 1 }}>
-                        <Text numberOfLines={1} style={{ color: '#fff', fontSize: 16.5, fontWeight: '800' }}>{o.label}</Text>
+                        <Text numberOfLines={1} style={{ color: '#fff', fontSize: 16.5, fontWeight: '700' }}>{o.label}</Text>
                         {o.sub ? <Text numberOfLines={1} style={{ color: 'rgba(255,255,255,.78)', fontSize: 12.5, marginTop: 1, letterSpacing: o.sub === o.sub.toUpperCase() ? 0.6 : 0 }}>{o.sub}</Text> : null}
                       </View>
                       {on ? <Ionicons name="checkmark" size={20} color="#fff" /> : null}

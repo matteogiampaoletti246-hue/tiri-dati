@@ -1,10 +1,10 @@
 // Migliori Giocatori (nativo): giorni a scorrimento, soglia Over, statistica; righe nei colori della squadra con voto e tasto Calcolatore.
 // Stessi dati e calcoli del sito (`@/data/topPlayers`); il tocco su una riga apre pannello (partita non iniziata) o scheda giocatore.
-import React, { useEffect, useRef, useState } from 'react';
+import React, { startTransition, useEffect, useRef, useState } from 'react';
 import { View, Text, Pressable, FlatList, StyleSheet } from 'react-native';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
-import Animated, { FadeInUp, useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
+import Animated, { FadeInUp, FadeInLeft, useSharedValue, useAnimatedStyle, withTiming, withDelay } from 'react-native-reanimated';
 import { Ionicons } from '@expo/vector-icons';
 import './../shared/shim';
 import { bootShared } from '../shared/boot';
@@ -40,7 +40,7 @@ const when = (match) => {
   return real && real.kickoff && real.timeKnown !== false ? `${wd} ${real.kickoff}` : cap;
 };
 
-const Row = React.memo(function Row({ C, row, rank, threshold, stat, enter, tv, openRoute }) { // eslint-disable-line no-unused-vars
+const Row = React.memo(function Row({ C, row, rank, threshold, stat, enter, tv, openRoute, left }) { // eslint-disable-line no-unused-vars
   const { player, match } = row;
   const team = teamById(player.teamId);
   const c1 = team && team.colors ? team.colors[0] : '#2C3E66';
@@ -72,20 +72,20 @@ const Row = React.memo(function Row({ C, row, rank, threshold, stat, enter, tv, 
               </View>
             </View>
             <View style={{ flex: 1, minWidth: 0 }}>
-              <Text numberOfLines={1} style={{ color: C.ink, fontSize: 16, fontWeight: '700' }}>{player.name}</Text>
+              <Text numberOfLines={1} style={{ color: C.ink, fontSize: 16, fontWeight: '600' }}>{player.name}</Text>
               {sides ? sides.map((t, i) => {
                 const own = t && t.id === player.teamId;
                 return (
                   <View key={i} style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: i ? 2 : 3 }}>
                     {t ? <TeamCrest team={t} size={19} C={C} /> : null}
-                    <Text numberOfLines={1} style={{ flexShrink: 1, color: own ? C.ink : C.ink3, fontSize: own ? 13.5 : 12.5, fontWeight: own ? '700' : '400' }}>{t ? t.name : own ? player.teamName : match.oppName}</Text>
+                    <Text numberOfLines={1} style={{ flexShrink: 1, color: own ? C.ink : C.ink3, fontSize: own ? 13.5 : 12.5, fontWeight: own ? '600' : '400' }}>{t ? t.name : own ? player.teamName : match.oppName}</Text>
                     {i ? <Text numberOfLines={1} style={{ color: C.ink3, fontSize: 12 }}>· {when(match)}</Text> : null}
                   </View>
                 );
               }) : (
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 3 }}>
                   {team ? <TeamCrest team={team} size={19} C={C} /> : null}
-                  <Text numberOfLines={1} style={{ color: C.ink, fontSize: 13.5, fontWeight: '700' }}>{team ? team.name : player.teamName}</Text>
+                  <Text numberOfLines={1} style={{ color: C.ink, fontSize: 13.5, fontWeight: '600' }}>{team ? team.name : player.teamName}</Text>
                 </View>
               )}
               <LinearGradient colors={[c1, c2]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ height: 4, borderRadius: 2, marginTop: 7 }} />
@@ -101,7 +101,8 @@ const Row = React.memo(function Row({ C, row, rank, threshold, stat, enter, tv, 
       </LinearGradient>
     </Pressable>
   );
-  return enter >= 0 ? <Animated.View entering={FadeInUp.delay(100 + enter * 60).duration(340)}>{body}</Animated.View> : body;
+  // all'apertura i banner salgono; cambiando linea o statistica entrano da sinistra verso destra, uno dopo l'altro
+  return enter >= 0 ? <Animated.View entering={left ? FadeInLeft.delay(30 + enter * 45).duration(300) : FadeInUp.delay(100 + enter * 60).duration(340)}>{body}</Animated.View> : body;
 });
 
 const Skel = ({ C, n = 7 }) => (
@@ -110,9 +111,9 @@ const Skel = ({ C, n = 7 }) => (
   </View>
 );
 
-function DayList({ C, day, idx, thr, stat, active, takeAnim, onGo, openRoute, bottom }) {
+function DayList({ C, day, idx, thr, stat, active, takeAnim, onGo, openRoute, bottom, left }) {
   const [anim] = useState(() => (active ? takeAnim() : false));
-  const [rows, setRows] = useState(() => bestPlayers(day, thr, stat) || null);
+  const [rows, setRows] = useState(() => (left ? null : bestPlayers(day, thr, stat) || null));
   useEffect(() => {
     let live = true;
     const run = () => {
@@ -131,7 +132,7 @@ function DayList({ C, day, idx, thr, stat, active, takeAnim, onGo, openRoute, bo
     const t = setTimeout(() => syncDayTimes(day).then((n) => { if (live && n) setTv((x) => x + 1); }).catch(() => 0), active ? 0 : 900);
     return () => { live = false; clearTimeout(t); };
   }, [day, active]);
-  if (!rows) return <Skel C={C} />;
+  if (!rows) return left ? null : <Skel C={C} />; // dopo un cambio linea/statistica la lista e' sfumata: niente scheletro che lampeggia
   if (!rows.length) {
     const cs = isFoulStat(stat) ? 'tiri' : stat;
     const next = nextWith(idx, DAYS.length, DAYS, (i) => (bestPlayers(isoDate(DAYS[i]), thr, cs) || []).length);
@@ -149,7 +150,7 @@ function DayList({ C, day, idx, thr, stat, active, takeAnim, onGo, openRoute, bo
     <FlatList
       data={rows}
       keyExtractor={(r) => String(r.player.id)}
-      renderItem={({ item, index }) => <Row C={C} row={item} rank={index + 1} threshold={thr} stat={stat} enter={enterOf(item, index)} tv={tv} openRoute={openRoute} />}
+      renderItem={({ item, index }) => <Row C={C} row={item} rank={index + 1} threshold={thr} stat={stat} enter={enterOf(item, index)} left={left} tv={tv} openRoute={openRoute} />}
       initialNumToRender={8}
       maxToRenderPerBatch={6}
       windowSize={5}
@@ -184,20 +185,21 @@ function Body({ C, top, onSearch, onMenu, openRoute, bottom }) {
   const [threshold, setThreshold] = useState(fresh ? '0.5' : TOP_KEEP.thr);
   const [stat, setStat] = useState(() => (ret && !fresh ? TOP_KEEP.stat : 'tiri'));
   const [shown, setShown] = useState(stat);
+  const [shownThr, setShownThr] = useState(threshold);
   const [anim, setAnim] = useState(ret ? 0 : 1);
   const used = useRef(0);
   const timer = useRef(0);
   const leave = useSharedValue(1);
-  TOP_KEEP.stamp = today; TOP_KEEP.day = dayIdx; TOP_KEEP.thr = threshold; TOP_KEEP.stat = shown;
+  TOP_KEEP.stamp = today; TOP_KEEP.day = dayIdx; TOP_KEEP.thr = shownThr; TOP_KEEP.stat = shown;
   const takeAnim = () => { if (anim > used.current) { used.current = anim; return true; } return false; };
   // cambio statistica: i banner escono, poi entrano quelli nuovi con l'animazione dell'apertura
-  const onStat = (v) => {
-    if (v === stat) return;
-    setStat(v);
+  const swap = (nextStat, nextThr) => {
     clearTimeout(timer.current);
-    leave.value = withTiming(0, { duration: 200 });
-    timer.current = setTimeout(() => { setShown(v); setAnim((a) => a + 1); leave.value = withTiming(1, { duration: 120 }); }, 240);
+    leave.value = withTiming(0, { duration: 180 });
+    timer.current = setTimeout(() => { startTransition(() => { setShown(nextStat); setShownThr(nextThr); setAnim((a) => a + 1); }); leave.value = withDelay(60, withTiming(1, { duration: 140 })); }, 200);
   };
+  const onStat = (v) => { if (v === stat) return; setStat(v); swap(v, threshold); };
+  const onThr = (v) => { if (v === threshold) return; setThreshold(v); swap(stat, v); };
   useEffect(() => () => clearTimeout(timer.current), []);
   const leaveSt = useAnimatedStyle(() => ({ opacity: leave.value }));
 
@@ -206,12 +208,12 @@ function Body({ C, top, onSearch, onMenu, openRoute, bottom }) {
       <Head C={C} onSearch={onSearch} onMenu={onMenu} />
       <DayStripN C={C} dates={DAYS} todayIndex={TODAY_I} x={x} value={dayIdx} onChange={setDayIdx} />
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 20, paddingTop: 4, paddingBottom: 4 }}>
-        <View><Segmented hug C={C} options={THRESHOLDS.map((t) => ({ value: t.key, label: t.label }))} value={threshold} onChange={setThreshold} /></View>
+        <View><Segmented hug C={C} options={THRESHOLDS.map((t) => ({ value: t.key, label: t.label }))} value={threshold} onChange={onThr} /></View>
         <Dropdown C={C} options={TOP_STATS} value={stat} onChange={onStat} side="right" width={222} icon={(o, col) => <StatIconN k={o.icon} size={17} color={col} />} />
       </View>
       <Animated.View style={[{ flex: 1 }, leaveSt]}>
         <DayPagerN count={DAYS.length} index={dayIdx} onIndex={setDayIdx} x={x}
-          render={(i, active) => <DayList key={`${i}|${shown}|${threshold}`} C={C} day={isoDate(DAYS[i])} idx={i} thr={threshold} stat={shown} active={active} takeAnim={takeAnim} onGo={setDayIdx} openRoute={openRoute} bottom={bottom} />} />
+          render={(i, active) => <DayList key={`${i}|${shown}|${shownThr}`} C={C} left={anim > 1} day={isoDate(DAYS[i])} idx={i} thr={shownThr} stat={shown} active={active} takeAnim={takeAnim} onGo={setDayIdx} openRoute={openRoute} bottom={bottom} />} />
       </Animated.View>
     </View>
   );
