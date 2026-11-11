@@ -4,12 +4,37 @@ import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, Pressable, ScrollView, Modal, Animated as RNA, Easing } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import Animated, { FadeInDown } from 'react-native-reanimated';
+import Animated, { FadeInDown, useSharedValue, useAnimatedStyle, withTiming, withDelay, Easing as REasing } from 'react-native-reanimated';
 import { emitNearEnd } from './hooks';
+
+
+// PROVA: 3 animazioni del cambio tabella (A scambio, B cascata, C rotazione). Si cambia col tasto "Anim" e resta quella scelta.
+const ROW_H = 58;
+const VIS = { 0: 1, 1: 0, 2: 2 };
+function Anim({ tick, variant, i, o, pod, order, children, style }) {
+  const t = useSharedValue(1);
+  useEffect(() => {
+    if (!tick) return;
+    t.value = 0;
+    const d = variant === 'B' ? Math.min(i, 10) * 22 : 0;
+    t.value = withDelay(d, withTiming(1, { duration: variant === 'B' ? 260 : variant === 'C' ? 380 : 480, easing: REasing.bezier(0.22, 1, 0.36, 1) }));
+  }, [tick]); // eslint-disable-line react-hooks/exhaustive-deps
+  const st = useAnimatedStyle(() => {
+    const k = 1 - t.value;
+    if (variant === 'B') return { opacity: t.value, transform: [{ translateY: 8 * k }] };
+    if (variant === 'C') return { opacity: t.value, transform: [{ translateY: ROW_H * 0.6 * k }, { scale: 1 - 0.04 * k }] };
+    // A: chi c'era scorre dal vecchio posto al nuovo, chi entra sale da sotto
+    if (o == null || o < 0) return { opacity: t.value, transform: [{ translateY: 26 * k }] };
+    if (pod && o < 3) return { transform: [{ translateX: (VIS[o] - VIS[i]) * 100 * k }] };
+    return { transform: [{ translateY: (pod ? (o - i) * ROW_H : (o - i) * ROW_H) * k }] };
+  });
+  return <Animated.View style={[style, st]}>{children}</Animated.View>;
+}
+let VARIANT = 'A';
 
 const okHex = (c) => (/^#[0-9a-f]{6}$/i.test(c || '') ? c : null);
 
-function Podium({ C, rows, rev, total, openRoute }) {
+function Podium({ C, rows, rev, total, openRoute, tick, variant, old }) {
   const pos = [1, 0, 2].filter((i) => rows[i]);
   const H = [74, 56, 44];
   return (
@@ -18,14 +43,14 @@ function Podium({ C, rows, rev, total, openRoute }) {
         const r = rows[i];
         const c = C.medal[i];
         return (
-          <Pressable key={r.id} onPress={() => r.to && openRoute && openRoute(r.to)} style={{ flex: 1, maxWidth: 118, alignItems: 'center' }}>
+          <Anim key={r.id} tick={tick} variant={variant} i={i} o={old ? old[r.id] : null} pod style={{ flex: 1, maxWidth: 118 }}><Pressable onPress={() => r.to && openRoute && openRoute(r.to)} style={{ alignItems: 'center' }}>
             <View style={{ marginBottom: 6, transform: [{ scale: i === 0 ? 1.25 : 1.05 }], marginTop: i === 0 ? 8 : 2 }}>{r.left}</View>
             <Text numberOfLines={1} style={{ color: C.ink, fontSize: 12, fontWeight: '700', textAlign: 'center', width: '100%' }}>{r.name}</Text>
             <Text style={{ color: C.ink, fontSize: 15, fontWeight: '800', marginTop: 2, fontVariant: ['tabular-nums'] }}>{r.value}</Text>
             <View style={{ marginTop: 6, width: '100%', height: H[i], alignItems: 'center', paddingTop: 6, borderTopLeftRadius: 12, borderTopRightRadius: 12, backgroundColor: `${c}2a`, borderWidth: 1, borderBottomWidth: 0, borderColor: `${c}77` }}>
               <Text style={{ color: c, fontSize: 18, fontWeight: '800' }}>{rev ? total - i : i + 1}</Text>
             </View>
-          </Pressable>
+          </Pressable></Anim>
         );
       })}
     </View>
@@ -38,6 +63,14 @@ export default function StatListsN({ C, sections, header = null, limit = 8, podi
     // cambio Totale/90': la lista si abbassa subito (driver nativo, anche col calcolo in corso) e torna piena a lavoro finito
     RNA.timing(fade, { toValue: pending ? 0.35 : 1, duration: pending ? 110 : 260, easing: Easing.out(Easing.quad), useNativeDriver: true }).start();
   }, [pending]); // eslint-disable-line react-hooks/exhaustive-deps
+  const hist = useRef({ cur: sections, old: null, tick: 0 });
+  const [, setVer] = useState(0);
+  if (hist.current.cur !== sections) {
+    const m = {};
+    hist.current.cur.forEach((x) => { m[x.id] = {}; x.rows.forEach((r, i) => { m[x.id][r.id] = i; }); });
+    hist.current.old = m; hist.current.cur = sections; hist.current.tick += 1;
+  }
+  const { old: oldMaps, tick } = hist.current;
   const prevSec = useRef(sections);
   useEffect(() => { if (prevSec.current !== sections) { prevSec.current = sections; setLim(4); } }, [sections]);
   const sc = useRef(null);
@@ -83,7 +116,7 @@ export default function StatListsN({ C, sections, header = null, limit = 8, podi
                   <Text style={{ color: C.ink, fontSize: 12.5, fontWeight: '800', letterSpacing: 1, textTransform: 'uppercase', flexShrink: 1 }}>{s.title}</Text>
                   <Pressable onPress={() => setRev({ ...rev, [s.id]: !r0 })} hitSlop={8}><Text style={{ color: C.accent, fontSize: 10.5, fontWeight: '700' }}>{r0 ? 'Dal peggiore' : 'Dal migliore'} {arrow}</Text></Pressable>
                 </View>
-                {pod ? <Podium C={C} rows={ordered} rev={r0} total={s.rows.length} openRoute={openRoute} /> : null}
+                {pod ? <Podium C={C} rows={ordered} rev={r0} total={s.rows.length} openRoute={openRoute} tick={tick} variant={VARIANT} old={oldMaps && oldMaps[s.id]} /> : null}
                 {rows.map((r, i0) => {
                   const i = pod ? i0 + 3 : i0;
                   const tc = okHex(r.tc);
@@ -110,7 +143,9 @@ export default function StatListsN({ C, sections, header = null, limit = 8, podi
                   ) : (
                     <Pressable onPress={() => r.to && openRoute && openRoute(r.to)} style={[rowSt, { borderTopWidth: 1, borderTopColor: C.hair }]}>{inner}</Pressable>
                   );
-                  return extra ? <Animated.View key={r.id} entering={FadeInDown.delay(Math.min(i0 - cap, 12) * 35).duration(220)}>{el}</Animated.View> : <View key={r.id}>{el}</View>;
+                  const oi = oldMaps && oldMaps[s.id] ? (oldMaps[s.id][r.id] != null ? oldMaps[s.id][r.id] : -1) : null;
+                  const wrapped = oldMaps && oldMaps[s.id] ? <Anim key={r.id} tick={tick} variant={VARIANT} i={i} o={oi}>{el}</Anim> : <View key={r.id}>{el}</View>;
+                  return extra ? <Animated.View key={r.id} entering={FadeInDown.delay(Math.min(i0 - cap, 12) * 35).duration(220)}>{el}</Animated.View> : wrapped;
                 })}
                 {s.rows.length > limit ? (
                   <View style={{ alignItems: 'center', paddingHorizontal: 16, paddingBottom: 14, paddingTop: 8, borderTopWidth: 1, borderTopColor: C.hair }}>
@@ -124,6 +159,7 @@ export default function StatListsN({ C, sections, header = null, limit = 8, podi
           })}
         </RNA.View>
       </ScrollView>
+      <Pressable onPress={() => { VARIANT = VARIANT === 'A' ? 'B' : VARIANT === 'B' ? 'C' : 'A'; const m = {}; hist.current.cur.forEach((x) => { m[x.id] = {}; x.rows.forEach((r, i) => { m[x.id][r.id] = i < 6 ? 5 - i : -1; }); }); hist.current.old = m; hist.current.tick += 1; setVer((n) => n + 1); }} style={{ position: 'absolute', left: 16, bottom: bottom + 8, height: 38, borderRadius: 999, paddingHorizontal: 14, justifyContent: 'center', backgroundColor: C.sheet, borderWidth: 1, borderColor: C.border }}><Text style={{ color: C.ink, fontSize: 12.5, fontWeight: '700' }}>Anim {VARIANT}</Text></Pressable>
       {sections.length > 3 ? (
         <Pressable onPress={() => setMenu(true)} style={({ pressed }) => [{ position: 'absolute', right: 16, bottom: bottom + 8, flexDirection: 'row', alignItems: 'center', gap: 6, height: 38, borderRadius: 999, paddingHorizontal: 14, backgroundColor: C.sheet, borderWidth: 1, borderColor: C.border, shadowColor: '#000', shadowOpacity: 0.3, shadowRadius: 12, shadowOffset: { width: 0, height: 6 }, elevation: 8 }, pressed && { opacity: 0.7 }]}>
           <Ionicons name="list" size={14} color={C.ink} /><Text style={{ color: C.ink, fontSize: 12.5, fontWeight: '700' }}>Vai a</Text>

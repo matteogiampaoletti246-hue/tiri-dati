@@ -259,3 +259,4 @@ Come nel sito: il filtro delle linee (`Segmented fit pad={10}`) prende lo spazio
 - Bandiera arbitro sempre con `FlagN` (mai `${BASE}flags/` nel nativo); nazione dal profilo, poi da FotMob, poi dal campionato (`leagueCC`).
 - Schermate giocatori di competizioni e squadre: solo Totale / Ogni 90' e "Vai a" (niente Casa/Trasferta ne' filtri Attacco/Difesa/Disciplina/Gioco).
 - Minuti di recupero ("45+1'") nelle pillole dei tiri: la pillola si allarga, il testo non si taglia.
+- PROVA in corso: `StatListsN` ha il tasto "Anim A/B/C" (scambio, cascata, rotazione) per scegliere l'animazione del cambio tabella su podio e righe; dopo la scelta si toglie il tasto e resta una sola.
