@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-11T11:43:54Z",
+ "updated_at": "2026-11-11T17:44:56Z",
  "giocatori": 6806,
  "letti_fotmob": 6806,
  "squadre": 445,
@@ -9,19 +9,19 @@
   "con_IS": 94
  },
  "solo_fotmob": {
-  "inj": 437,
+  "inj": 446,
   "sus": 1,
-  "abs": 247,
-  "rientrati": 91,
+  "abs": 240,
+  "rientrati": 85,
   "dubbi": 42
  },
  "completo": {
-  "inj": 502,
+  "inj": 506,
   "sus": 14,
-  "abs": 212,
-  "rientrati": 92,
+  "abs": 211,
+  "rientrati": 86,
   "dubbi": 34
  },
  "kv_scritto": true,
- "minuti": 11.0
+ "minuti": 10.7
 }
