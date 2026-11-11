@@ -264,3 +264,4 @@ Come nel sito: il filtro delle linee (`Segmented fit pad={10}`) prende lo spazio
 - Banner squadre nei selettori a pagina intera (`FullPicker`, `soft`): stesso tono scuro e sfumato dei banner dei campionati.
 - Partita di un campionato minore: la scheda Classifica usa la stagione in corso FotMob (`LiveClassifica`).
 - Controllo identificatori non definiti nel nativo (eslint no-undef) prima di pubblicare: un nome mancante in una scheda la chiude da sola.
+- Barra delle schede (Panoramica, Statistiche...): scorre in orizzontale e tiene visibile la voce scelta e la successiva (`TabStrip` in `TabsN.js`); nessuna voce tagliata.
