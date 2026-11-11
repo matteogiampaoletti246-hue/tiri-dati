@@ -181,7 +181,7 @@
    "da_fare": 0
   },
   "Copa del Rey 2026-2027": {
-   "partite_con_eventi": 1,
+   "partite_con_eventi": 0,
    "da_fare": 1
   },
   "Supercopa de España 2025-2026": {
@@ -197,7 +197,7 @@
    "da_fare": 0
   },
   "EFL Trophy 2026-2027": {
-   "partite_con_eventi": 4,
+   "partite_con_eventi": 3,
    "da_fare": 4
   },
   "Primera Division 2026": {
@@ -437,8 +437,8 @@
    "da_fare": 0
   },
   "Primera Division 2026-2027 - Apertura": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "Erovnuli Liga 2026": {
    "partite_con_eventi": 0,
@@ -529,16 +529,16 @@
    "da_fare": 0
   },
   "World Cup Qualification CAF 2023-2025": {
-   "partite_con_eventi": 1,
-   "da_fare": 66
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "World Cup Qualification AFC 2023-2025": {
    "partite_con_eventi": 0,
-   "da_fare": 45
+   "da_fare": 0
   },
   "World Cup Qualification CONCACAF 2024-2025": {
    "partite_con_eventi": 0,
-   "da_fare": 3
+   "da_fare": 0
   },
   "World Cup Qualification CONMEBOL 2023-2025": {
    "partite_con_eventi": 0,
@@ -874,7 +874,7 @@
   },
   "Kup Srbije 2024-2025": {
    "partite_con_eventi": 0,
-   "da_fare": 1
+   "da_fare": 0
   },
   "Liga Portugal 2 2025-2026": {
    "partite_con_eventi": 0,
@@ -1138,11 +1138,11 @@
   },
   "Africa Cup of Nations Qualification 2024-2025": {
    "partite_con_eventi": 0,
-   "da_fare": 9
+   "da_fare": 0
   },
   "Asian Cup Qualification Playoff 2024": {
    "partite_con_eventi": 0,
-   "da_fare": 1
+   "da_fare": 0
   },
   "FIFA Intercontinental Cup 2025": {
    "partite_con_eventi": 0,
@@ -1157,5 +1157,5 @@
    "da_fare": 0
   }
  },
- "partite_in_questo_giro": 130
+ "partite_in_questo_giro": 6
 }
