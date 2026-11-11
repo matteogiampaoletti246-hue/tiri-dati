@@ -147,6 +147,6 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 - Il tasto "Hit rate ultime 5" sta in alto a destra del grafico, largo quanto il suo contenuto; niente sottotitolo "ultime 5 partite" ne' "Hit rate nazionale" (lo si vede nel grafico Nations League).
 - Swipe laterale nel grafico (`pagerTouch`, niente "indietro"; il contenuto e' ritagliato, nessuna pagina vicina visibile): prima pagina SEMPRE "Tutte le competizioni" (le ultime 5 del calcolo), poi una pagina per competizione (ultime 5 da almeno 50'), la competizione scelta per prima.
 - Calcolo: conta solo l'Hit Rate totale delle ultime 5. Con la Nations League scelta: totale 75% + Hit Rate Nations League 25% (`mixHit`). I grafici per competizione sono solo estetici.
-- Medie stagione: niente striscia "Tasso normalizzato"; al centro, in risalto, "Media x 90' = valore" (nascosta senza valore).
+- Medie stagione: niente striscia "Tasso normalizzato"; al centro (concept C) "Ogni 90'" in maiuscolo spaziato, sotto il valore grande dorato con filo luminoso (nascosto senza valore).
 - Avversari sotto le colonne: le righe `h` di `giocatori.json` portano giorno (AAAAMMGG) e competizione FotMob (`profili.py`); l'abbinamento a `recent` e' per giorno, le partite che l'indice dell'app non ha si cercano nel calendario dell'archivio (`arch/<fm>/<stagione>.json`). Mai etichette per somiglianza di tiri.
 - Colore del giocatore con la Nations League: colore della maglia della nazionale (Belgio rosso...), poi la bandiera; mai il colore del club.
