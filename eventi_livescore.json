@@ -261,8 +261,8 @@
    "da_fare": 0
   },
   "Slovak Cup 2026-2027": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "League Cup 2026-2027": {
    "partite_con_eventi": 0,
@@ -1157,5 +1157,5 @@
    "da_fare": 0
   }
  },
- "partite_in_questo_giro": 1
+ "partite_in_questo_giro": 0
 }
