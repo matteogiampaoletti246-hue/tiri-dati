@@ -6,6 +6,8 @@ import Animated, { makeMutable, useSharedValue, useAnimatedStyle, withTiming, wi
 import { Image } from 'expo-image';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import Dropdown from './Dropdown';
+import { isNationName } from '@/data/teamColorFix';
+import { flagCode } from '@/data/carriere';
 
 export const TeamCrest = ({ team, size = 32, C }) => {
   const [bad, setBad] = useState(false);
