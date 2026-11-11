@@ -87,7 +87,7 @@ export default function PartitaHero({ C, match, view, league, home, away, onBack
   const Side = ({ team, id }) => (
     <View style={{ flex: 1, alignItems: 'center', gap: 8 }}>
       <Pressable onPress={() => goTeam(team)} style={{ alignItems: 'center', gap: 8 }}>
-        {darkCrest(team) ? <View style={{ width: 66, height: 66, borderRadius: 33, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255,255,255,0.9)' }}><TeamCrest team={team} size={48} C={C} /></View> : <TeamCrest team={team} size={54} C={C} />}
+        <TeamCrest team={team} size={54} C={C} />
         <Text style={{ color: C.ink, fontSize: 13, fontWeight: '600', textAlign: 'center' }}>{team ? team.name : ''}</Text>
       </Pressable>
       {!live && !finished ? <FormDots C={C} form={match.formOf ? match.formOf(id) : teamForm(id)} /> : null}
