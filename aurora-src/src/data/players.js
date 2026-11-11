@@ -4,6 +4,7 @@ import { RAW } from './load';
 import { ensureTeam, teamByName, teamById } from './teams';
 import { norm, slug, r1, r2 } from './util';
 import { realName } from './realNames';
+import { leagueById, CUP_IDS } from './leagues';
 
 export const PLAYERS = [];
 export const EX_COLS = [];
@@ -87,7 +88,7 @@ export function buildPlayers() {
   const make = (g, s) => {
     const name = g ? g.n : s[ix.n];
     const teamName = g ? g.t : s[ix.t];
-    const team = teamByName(teamName) || ensureTeam(teamName, s ? s[ix.lg] : null);
+    const team = teamByName(teamName) || ensureTeam(teamName, s ? s[ix.lg] : (g && g.lg && leagueById(g.lg) && !CUP_IDS.has(g.lg) ? g.lg : null));
     // giocatori di calc_tutte.json (decine di migliaia): non hanno voto, xG ne' ultime partite con voto, si evita di cercarli
     const light = !!(g && g.tt);
     const ex = light ? undefined : EX[`${norm(name)}|${slug(teamName)}`];

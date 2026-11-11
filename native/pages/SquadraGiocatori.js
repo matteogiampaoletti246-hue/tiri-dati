@@ -1,5 +1,5 @@
 // Squadra: scheda Giocatori. Campionato dell'app = classifiche dei giocatori della squadra; altre competizioni/stagioni dall'archivio.
-import React, { useDeferredValue, useState } from 'react';
+import React, { useDeferredValue, useMemo, useState } from 'react';
 import { View } from 'react-native';
 import useAsync from '@/hooks/useAsync';
 import { teamCompetitions } from '@/data/competitions';
@@ -37,11 +37,14 @@ function PastPlayers({ C, fm, sk, team, part, onPart, cat, onCat, split, header,
   const byMatch = part === 'home' || part === 'away';
   const { data: stats, loading: l2 } = useAsync(() => (!tid ? Promise.resolve(null) : byMatch ? statsFromMatches(fm, sk, part) : loadTeamPlayerStats(fm, sk, tid)), [fm, sk, tid, part]);
   const { data: exact } = useAsync(() => statsFromMatches(fm, sk), [fm, sk]);
+  const sections = useMemo(() => {
+    if (!season || !tid) return [];
+    const secs = statSections(C, stats, 'players', season.teams || {}, col, fm, sk, part === 'p90' ? 'p90' : 'tot', tid, exact);
+    const has = [...new Set(secs.map((x) => playerCat(x.group)))];
+    return cat === 'all' || !has.includes(cat) ? secs : secs.filter((x) => playerCat(x.group) === cat);
+  }, [C, stats, season, col, fm, sk, part, tid, exact, cat]);
   if (loading || (l2 && !stats)) return <><View>{header}</View><PanelSkN C={C} /></>;
   if (!season || !tid) return <View>{header}</View>;
-  const secs = statSections(C, stats, 'players', season.teams || {}, col, fm, sk, part === 'p90' ? 'p90' : 'tot', tid, exact);
-  const has = [...new Set(secs.map((x) => playerCat(x.group)))];
-  const sections = cat === 'all' || !has.includes(cat) ? secs : secs.filter((x) => playerCat(x.group) === cat);
   if (!sections.length && part === 'tot') return <View>{header}</View>;
   return <StatListsN C={C} sections={sections} podium openRoute={openRoute} bottom={bottom} header={<>{header}<Pills C={C} part={part} onPart={onPart} /></>} />;
 }
@@ -59,11 +62,15 @@ export default function SquadraGiocatori({ C, teamId, openRoute, bottom }) {
   const dUse = useDeferredValue(usePart);
   const appList = eff === 'cur' && comp === team.leagueId && hasApp && usePart !== 'home' && usePart !== 'away';
   const bar = <CompBarN C={C} comps={comps} comp={comp} onComp={tap(setComp)} seasons={seasons} season={season} onSeason={tap(setSeason)} noCur={noCur} />;
-  if (appList) {
-    const mode = dUse === 'p90' ? 'p90' : 'tot';
+  const mode = dUse === 'p90' ? 'p90' : 'tot';
+  const appSections = useMemo(() => {
+    if (!appList) return null;
     const secs = appPlayerSections(C, team.leagueId, team.id, mode);
-    const has = [...new Set(secs.map((s) => playerCat(s.group)))];
-    const sections = cat === 'all' || !has.includes(cat) ? secs : secs.filter((s) => playerCat(s.group) === cat);
+    const has = [...new Set(secs.map((x) => playerCat(x.group)))];
+    return cat === 'all' || !has.includes(cat) ? secs : secs.filter((x) => playerCat(x.group) === cat);
+  }, [appList, C, team.leagueId, team.id, mode, cat]);
+  if (appList) {
+    const sections = appSections;
     return <StatListsN C={C} sections={sections} pending={dUse !== usePart} podium openRoute={openRoute} bottom={bottom} header={<>{bar}<Pills C={C} part={usePart} onPart={setPart} /></>} />;
   }
   if (fm && sk) return <PastPlayers C={C} fm={fm} sk={sk} team={team} part={usePart} onPart={setPart} cat={cat} onCat={setCat} split={split} header={bar} openRoute={openRoute} bottom={bottom} />;

@@ -2,6 +2,7 @@
 import './shim';
 import { teamById, teamByFm } from '@/data/teams';
 import { leagueById, leagueTint } from '@/data/leagues';
+import { teamCompetitions } from '@/data/competitions';
 import { countryIt, flagCode, carriereOf } from '@/data/carriere';
 import { FLAG_COLORS } from './flagColors';
 import { searchAll, matchSpan } from '@/lib/search';
@@ -23,7 +24,8 @@ export function searchN(q) {
     fuzzy: r.fuzzy,
     leagues: r.leagues.map((l) => ({ id: l.id, name: l.name, country: l.country || '', logo: l.logo || null, logoDark: l.logoDark || null, color: leagueTint(l.id), path: `/campionato/${l.id}`, hl: sp(l.name) })),
     teams: r.teams.map((t) => {
-      const l = leagueById(t.leagueId);
+      let l = leagueById(t.leagueId);
+      if (!l) { try { l = teamCompetitions(t.id)[0] || null; } catch (e) { l = null; } }
       const c = l ? l.country || '' : '';
       const nf = flagCode(t.name);
       const fcol = nf && FLAG_COLORS[nf] ? FLAG_COLORS[nf] : null;

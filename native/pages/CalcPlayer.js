@@ -14,7 +14,7 @@ import { romeDay } from '@/data/util';
 import { calcTeamsOf, calcLeagues, leagueName, cupOf, domesticKey, nextFixture, fixtureAt, prefillShots, splitBoxes, teamShots } from '@/data/calcData';
 import { emptyFouls, fillFrom, hitFromValues, hitRows, initialForm, isFouls, natHitOf, resultFromForm, resultFromFouls, viewFor } from '@/data/calcPlayer';
 import { fmTeamIn, foulKeysFor, foulSeasonOf, leaguePlayerAvg, playerFoulsOf, rosterFouls, teamFoulStats, useFouls } from '@/data/calcFouls';
-import { FALLI_KEYS, cardRole, autoDuelIds, falliKeysFor, playerRoles, roleBreakdown, useFalli } from '@/data/calcRoles';
+import { FALLI_KEYS, loadFalli, cardRole, autoDuelIds, falliKeysFor, playerRoles, roleBreakdown, useFalli } from '@/data/calcRoles';
 import { resolvePid } from '@/data/playerPid';
 import { careerByFm, carriereOf, loadCarriere, countryIt, flagCode } from '@/data/carriere';
 import { FlagN } from '../shared/FlagN';
@@ -131,6 +131,27 @@ function NextMatchBtn({ C, ownId, oppId, comp, col, openRoute, style, altId }) {
   );
 }
 
+// scelta giocatore: mentre la finestra di ricerca si chiude (circa 400 ms) si scaldano ruolo, carriera/rosa, dati falli e immagini
+// (foto, stemma, bandiera, loghi competizioni), cosi' il banner appare gia' completo e il telefono (anche lento o caldo) non lo disegna a pezzi
+function warmPlayer(id) {
+  try {
+    const p = playerById(id);
+    if (!p) return;
+    const club = p.nat && p.club ? p.club : p;
+    const t = teamById(club.teamId);
+    resolvePid(p).catch(() => {});
+    loadCarriere().catch(() => {});
+    loadRose().catch(() => {});
+    falliKeysFor(!!p.nat && !p.club).forEach((k) => { try { Promise.resolve(loadFalli(k)).catch(() => {}); } catch (e) { /* ignora */ } });
+    const nn = p.natView ? p.natView.teamName : p.nat ? p.teamName : null;
+    const fc = nn ? flagCode(nn) : null;
+    const urls = [p.photo, club.photo, t && t.crest, fc ? `${FLAG_BASE}${fc}.png` : null];
+    playerComps(p).forEach((o) => { if (o.comp && o.comp.logo) urls.push(o.comp.logo); });
+    const u = urls.filter((x) => typeof x === 'string' && x);
+    if (u.length) Image.prefetch(u, 'memory-disk');
+  } catch (e) { /* il banner si completa comunque */ }
+}
+
 function PlayerPick({ C, form, set, player, onSelectPlayer, stat, onStat, role, natHit, openRoute, hitN }) {
   const [picker, setPicker] = useState(false);
   const club = player ? (player.nat && player.club ? player.club : player) : null;
@@ -185,7 +206,7 @@ function PlayerPick({ C, form, set, player, onSelectPlayer, stat, onStat, role, 
         <FieldRow C={C} label={hitTitle}><Select C={C} title={hitTitle} value={form.hitRate} placeholder="Nessuna" options={[{ value: '', label: 'Nessuna' }, ...HIT_OPTIONS]} onChange={(v) => set('hitRate', v)} /></FieldRow>
         {natHit ? <FieldRow C={C} label="Hit rate nazionale"><Text style={{ color: C.ink, fontSize: 15, fontWeight: '700', textAlign: 'right' }}>{natHit.hit}/{natHit.n}</Text></FieldRow> : null}
       </Panel>
-      <PlayerSearch C={C} open={picker} onClose={() => setPicker(false)} onSelect={onSelectPlayer} />
+      <PlayerSearch C={C} open={picker} onClose={() => setPicker(false)} onSelect={onSelectPlayer} onWarm={warmPlayer} />
     </View>
   );
 }

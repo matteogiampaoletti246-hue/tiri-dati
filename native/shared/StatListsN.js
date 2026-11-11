@@ -1,6 +1,6 @@
 // Classifiche impilate (una per statistica) con podio, "Dal migliore / dal peggiore", "Mostra tutti" e il tasto "Vai a" (come StatLists del sito).
 // sections: [{ id, group, title, rows: [{ id, to, left, name, sub, value, color, tc, bg }] }]. Occupa tutta la scheda: ha il suo scorrimento.
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { View, Text, Pressable, ScrollView, Modal, Animated as RNA, Easing } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -20,6 +20,7 @@ function Anim({ tick, i, children, style }) {
   return <Animated.View style={[style, st]}>{children}</Animated.View>;
 }
 
+const sigOf = (secs) => secs.map((x) => `${x.id}:${x.rows.length}:${x.rows.slice(0, 12).map((r) => `${r.id}=${r.value}`).join(',')}`).join(';');
 const okHex = (c) => (/^#[0-9a-f]{6}$/i.test(c || '') ? c : null);
 
 function Podium({ C, rows, rev, total, openRoute, tick }) {
@@ -51,15 +52,19 @@ export default function StatListsN({ C, sections, header = null, limit = 8, podi
     // cambio Totale/90': la lista si abbassa subito (driver nativo, anche col calcolo in corso) e torna piena a lavoro finito
     RNA.timing(fade, { toValue: pending ? 0.35 : 1, duration: pending ? 110 : 260, easing: Easing.out(Easing.quad), useNativeDriver: true }).start();
   }, [pending]); // eslint-disable-line react-hooks/exhaustive-deps
-  const hist = useRef({ cur: sections, old: null, tick: 0 });
+  const sig = useMemo(() => sigOf(sections), [sections]);
+  const hist = useRef({ cur: sections, sig, old: null, tick: 0 });
+  // una lista ricalcolata con gli stessi dati (nuovo array, stessi giocatori e valori) non e' un cambio: niente dissolvenze ne' reset delle schede
+  if (hist.current.cur !== sections && hist.current.sig === sig) hist.current.cur = sections;
   if (hist.current.cur !== sections) {
+    hist.current.sig = sig;
     const m = {};
     hist.current.cur.forEach((x) => { m[x.id] = {}; x.rows.forEach((r, i) => { m[x.id][r.id] = i; }); });
     hist.current.old = m; hist.current.cur = sections; hist.current.tick += 1;
   }
   const { old: oldMaps, tick } = hist.current;
-  const prevSec = useRef(sections);
-  useEffect(() => { if (prevSec.current !== sections) { prevSec.current = sections; setLim(4); } }, [sections]);
+  const prevSec = useRef(sig);
+  useEffect(() => { if (prevSec.current !== sig) { prevSec.current = sig; setLim(4); } }, [sig]);
   const sc = useRef(null);
   const base = useRef(0);
   const ys = useRef({});
