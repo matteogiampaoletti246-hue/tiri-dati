@@ -12,7 +12,10 @@ import TabsN from '../shared/TabsN';
 import PaneN from '../shared/PaneN';
 import { InjuryIconN } from '../shared/Icons';
 import Radar from '../shared/Radar';
-import { resetSel, presetSel, useSel } from '../shared/hooks';
+import { resetSel, presetSel, useSel, peekSel, useSelValue } from '../shared/hooks';
+import { FlagN, ClubNatN, natOf } from '../shared/FlagN';
+import { playerCtx } from '../shared/playerCtx';
+import { NATIONS_KEYS } from '@/data/calcData';
 import useAsync from '@/hooks/useAsync';
 import { BASE } from '@/data/load';
 import { playerById } from '@/data/players';
@@ -35,11 +38,7 @@ const LBL = { fontSize: 9.5, letterSpacing: 1, textTransform: 'uppercase' };
 const avg = (a) => (a.length ? a.reduce((x, y) => x + y, 0) / a.length : null);
 const hex = (c, a) => `${c}${a}`;
 
-export const Flag = ({ name, size = 20, C }) => {
-  const c = flagCode(name);
-  if (!c) return null;
-  return <View style={{ width: size, height: size, borderRadius: size / 2, overflow: 'hidden', backgroundColor: C.chip }}><Image source={{ uri: `${BASE}flags/${c}.png` }} style={{ width: size, height: size }} contentFit="cover" cachePolicy="memory-disk" /></View>;
-};
+export const Flag = ({ name, size = 20, C }) => <FlagN name={name} size={size} C={C} />;
 
 // campi del riquadro Informazioni
 export function useBio(player) {
@@ -102,7 +101,7 @@ function BioCard({ C, player, team }) {
   );
 }
 
-function Profilo({ C, player: playerV, dataP, team }) {
+function Profilo({ C, player: playerV, dataP, team, clubTeam }) {
   const player0 = dataP || playerV;
   const player = usePlayerSeason(player0);
   const pc0 = percentiles(player0);
@@ -131,7 +130,7 @@ function Profilo({ C, player: playerV, dataP, team }) {
           ))}
         </View>
       </Panel>
-      <BioCard C={C} player={player} team={team} />
+      <BioCard C={C} player={player} team={clubTeam || team} />
       {pc.some((x) => x.pct !== null) ? (
         <View>
           <PanelTitle C={C}>Profilo di gioco</PanelTitle>
@@ -163,11 +162,11 @@ function CareerRows({ C, rows, national }) {
   return (
     <View style={{ gap: 10 }}>
       {rows.map(({ r, loan, from }, i) => {
-        const t = teamByName(r[0]);
+        const t = teamByName(r[0]) || teamByName(natBase(r[0]));
         const cols = fixedColors(r[0]) || (t && t.colors) || ['#37507a', '#5a7bb0'];
         return (
           <View key={i} style={{ flexDirection: 'row', alignItems: 'center', gap: 12, borderRadius: 18, paddingHorizontal: 14, paddingVertical: 12, backgroundColor: hex(cols[0], '30'), borderWidth: 1, borderColor: hex(cols[0], '55') }}>
-            {national && flagCode(natBase(r[0])) ? <Flag name={natBase(r[0])} size={30} C={C} /> : <TeamCrest C={C} size={30} team={t || { name: r[0], initials: String(r[0] || '').slice(0, 2).toUpperCase() }} />}
+            {national && flagCode(natBase(r[0])) ? <Flag name={natBase(r[0])} size={30} C={C} /> : t ? <TeamCrest C={C} size={30} team={t} /> : <TeamCrest C={C} size={30} team={{ name: r[0], initials: String(r[0] || '').slice(0, 2).toUpperCase() }} />}
             <View style={{ flex: 1 }}>
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
                 <Text numberOfLines={1} style={{ color: C.ink, fontSize: 14, flexShrink: 1 }}>{r[0]}</Text>
@@ -233,11 +232,13 @@ function Skel({ C }) {
 const TAB_LBL = { profilo: 'Profilo', partite: 'Partite', stat: 'Statistiche', carriera: 'Carriera' };
 
 function Body({ C, player: player1, openRoute, onBack, bottom, top }) {
-  // scheda nazionale senza dati propri: radar, partite e carriera arrivano dalla scheda del club
-  const dp = player1.nat && player1.club && !(player1.recent || []).length ? player1.club : null;
-  const player = dp ? { ...player1, percentileSrc: dp, rating: player1.rating || dp.rating } : player1;
-  const dataP = dp || player1;
-  const team = teamById(player.teamId);
+  const { player, dataP, clubE, natE } = playerCtx(player1);
+  const clubTeam = teamById(clubE.teamId) || teamById(player.teamId);
+  const natTeam = natE ? teamById(natE.teamId) : null;
+  if (player1.nat && natE && peekSel(dataP.id, 'sc') === undefined) presetSel(dataP.id, 'sc', natE.leagueId);
+  const sc = useSelValue(dataP.id, 'sc');
+  const ctxNat = !!natTeam && (sc !== undefined && sc !== null ? NATIONS_KEYS.includes(sc) : !!player1.nat);
+  const team = ctxNat ? natTeam : clubTeam;
   const pid = useBioPid(player);
   const photo = player.photo || (pid ? playerFace(pid) : null);
   const colors = team && team.colors ? team.colors : ['#1E4BD8', '#7FB6E8'];
@@ -249,17 +250,18 @@ function Body({ C, player: player1, openRoute, onBack, bottom, top }) {
   const [tabKey, setTabKey] = useSel(player.id, 'tab', 'profilo');
   const idx = Math.max(0, tabs.findIndex((t) => t.key === tabKey));
   const inj = injuryOf(player.id);
-  const sub = [team ? team.name : player.teamName, POS[player.position] || player.position].filter(Boolean).join(' · ');
+  const nat = natOf(clubE) || natOf(player1);
+  const sub = POS[player.position] || player.position || null;
   return (
     <View style={{ flex: 1, backgroundColor: 'transparent' }}>
-      <EntityBannerN C={C} top={top} onBack={onBack} name={player.name} subtitle={sub} colors={colors} photoUrl={photo} nameExtra={inj ? <InjuryIconN size={20} /> : null}
-        below={player.rating ? <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}><Text style={{ color: C.ink, fontSize: 14, fontWeight: '500' }}>{comma(player.rating, 2)}</Text><Text style={[LBL, { color: C.ink3 }]}>voto stagione</Text></View> : null} />
+      <EntityBannerN C={C} top={top} onBack={onBack} name={player.name} subtitle={null} colors={colors} photoUrl={photo} nameExtra={inj ? <InjuryIconN size={20} /> : null}
+        below={<ClubNatN C={C} team={clubTeam} teamName={clubTeam ? clubTeam.name : clubE.teamName} nat={nat} size={16} />} />
       <TintProvider color={colors[0]}>
         <TabsN C={C} tabs={tabs} index={idx} onIndex={(i) => setTabKey(tabs[i].key)} render={(i) => {
           const k = tabs[i].key;
           return (
             <PaneN key={k} bottom={bottom}>
-              {k === 'profilo' ? <Profilo C={C} player={player} dataP={dataP} team={team} /> : null}
+              {k === 'profilo' ? <Profilo C={C} player={player} dataP={dataP} team={team} clubTeam={clubTeam} /> : null}
               {k === 'partite' ? <GiocatorePartite C={C} player={dataP} parts={parts} openRoute={openRoute} /> : null}
               {k === 'stat' ? <GiocatoreStat C={C} player={dataP} team={team} car={car} openRoute={openRoute} /> : null}
               {k === 'carriera' && careerL ? <Carriera C={C} lists={careerL} /> : null}

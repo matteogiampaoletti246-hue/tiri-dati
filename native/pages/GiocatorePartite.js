@@ -95,7 +95,7 @@ export default function GiocatorePartite({ C, parts: P, openRoute }) {
         const lg = m.league || leagueById(LID_BY_FM[Number(m.fm)]);
         const tint = lg ? matchTint(lg.id, lg) : null;
         return (
-          <Pressable key={m.key} onPress={() => openRoute && openRoute(m.to)} style={{ flexDirection: 'row', alignItems: 'center', gap: 12, borderRadius: 18, paddingHorizontal: 14, paddingVertical: 12, backgroundColor: C.card2, borderWidth: 1, borderColor: tint ? `${tint}66` : C.border }}>
+          <Pressable key={m.key} onPress={() => openRoute && openRoute(m.to)} style={{ flexDirection: 'row', alignItems: 'center', gap: 12, borderRadius: 18, paddingHorizontal: 14, paddingVertical: 12, backgroundColor: tint ? `${tint}22` : C.card2, borderWidth: 1.5, borderColor: tint ? `${tint}D0` : C.border }}>
             {m.oppTeam ? <TeamCrest team={m.oppTeam} size={26} C={C} /> : m.oppId ? <Image source={{ uri: teamLogo(m.oppId) }} style={{ width: 26, height: 26 }} contentFit="contain" cachePolicy="memory-disk" /> : <View style={{ width: 26 }} />}
             <View style={{ flex: 1 }}>
               <Text numberOfLines={1} style={{ color: C.ink, fontSize: 13.5 }}>vs {m.oppName || ''}{m.score ? <Text style={{ color: C.ink3 }}>  {m.score}</Text> : null}</Text>

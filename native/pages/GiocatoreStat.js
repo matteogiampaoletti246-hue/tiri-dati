@@ -4,6 +4,9 @@ import { View, Text } from 'react-native';
 import useAsync from '@/hooks/useAsync';
 import { Panel, Segmented, DropBtn, LeagueLogo, TeamCrest } from '../shared/ui';
 import SwapN from '../shared/SwapN';
+import Dropdown from '../shared/Dropdown';
+import StatIconN from '../shared/StatIconN';
+import { scoreColorSmooth } from '@/lib/calc';
 import { useSel } from '../shared/hooks';
 import GiocatorePast, { SkCards, Msg } from './GiocatorePast';
 import { comma } from '@/lib/format';
@@ -57,13 +60,13 @@ function Affidabilita({ C, player: club, comp }) {
         <Text style={{ color: C.ink, fontSize: 13.5, fontWeight: '600', flex: 1 }}>Affidabilità prossima partita</Text>
         {opp ? <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}><Text style={{ color: C.ink2, fontSize: 12 }}>VS</Text><TeamCrest team={opp} size={18} C={C} /><Text numberOfLines={1} style={{ color: C.ink2, fontSize: 12, maxWidth: 110 }}>{opp.name}</Text></View> : null}
       </View>
-      <View style={{ marginBottom: 12 }}><Segmented C={C} options={TOP_STATS.map((s) => ({ value: s.key, label: s.short }))} value={stat} onChange={setStat} /></View>
+      <View style={{ marginBottom: 12, flexDirection: 'row' }}><Dropdown C={C} options={TOP_STATS} value={stat} onChange={setStat} side="right" width={222} fill style={{ flex: 1 }} icon={(o, col) => <StatIconN k={o.icon} size={17} color={col} />} /></View>
       <View style={{ flexDirection: 'row', gap: 10 }}>
         {REL_LINES.map(([k], i) => {
           const v = vals[i];
           return (
             <View key={k} style={{ flex: 1, borderRadius: 14, paddingVertical: 12, alignItems: 'center', backgroundColor: C.chip }}>
-              <Text style={{ color: C.ink3, fontSize: 22, fontWeight: '600' }}>{typeof v === 'number' ? comma(v, 2) : v === undefined ? ' ' : '—'}</Text>
+              <Text style={{ color: typeof v === 'number' ? scoreColorSmooth(v) : C.ink3, fontSize: 22, fontWeight: '600' }}>{typeof v === 'number' ? comma(v, 2) : v === undefined ? ' ' : '—'}</Text>
               <Text style={[LBL, { color: C.ink3 }]}>{k}</Text>
             </View>
           );
@@ -221,7 +224,7 @@ export default function GiocatoreStat({ C, player: p, team, car }) {
   else if (curFm) {
     body = (
       <View key={comp}>
-        <View style={{ paddingHorizontal: 20, paddingTop: 16 }}><Affidabilita C={C} player={p} comp={comp} /></View>
+        <View style={{ paddingHorizontal: 20, paddingTop: 16 }}><Affidabilita key={comp} C={C} player={p} comp={comp} /></View>
         <GiocatorePast C={C} id={fmPid} fm={fmL} sk={car.cur[fmL]} current teamName={team && team.name} />
       </View>
     );
@@ -230,7 +233,7 @@ export default function GiocatoreStat({ C, player: p, team, car }) {
   else {
     body = (
       <View key={comp}>
-        <View style={{ paddingHorizontal: 20, paddingTop: 16 }}><Affidabilita C={C} player={p} comp={comp} /></View>
+        <View style={{ paddingHorizontal: 20, paddingTop: 16 }}><Affidabilita key={comp} C={C} player={p} comp={comp} /></View>
         {comp !== dom ? <CupCurrent C={C} p={p} fm={fmL} fmPid={fmPid} team={team} /> : (
           <View style={{ paddingHorizontal: 20, paddingTop: 16, paddingBottom: 40, gap: 16 }}>
             {rk.length ? (

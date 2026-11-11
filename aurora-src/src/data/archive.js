@@ -240,6 +240,7 @@ const firstFresh = (lid, sk) => (d) => {
 if (typeof window !== 'undefined') {
   const tick = () => {
     if (document.visibilityState === 'hidden') return;
+    if (Date.now() < (globalThis.__resumeUntil || 0)) return;
     LIVE_KEYS.forEach(({ lid, sk, d }) => { freshSeason(lid, sk, d); });
   };
   setInterval(tick, 60000);

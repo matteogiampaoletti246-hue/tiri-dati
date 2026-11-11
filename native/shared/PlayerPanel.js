@@ -8,7 +8,9 @@ import { bootShared } from './boot';
 import { TeamCrest } from './ui';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
-import { FlagN } from './FlagN';
+import { FlagN, ClubNatN, natOf } from './FlagN';
+import { playerCtx } from './playerCtx';
+import { presetSel, peekSel } from './hooks';
 import { resetSel } from './hooks';
 import { closePanel, usePlayerPanel } from '@/data/playerPanel';
 import { playerById } from '@/data/players';
@@ -30,10 +32,19 @@ const needArchive = (id) => { const p = playerById(id); return !p || !!p.lite; }
 // le Statistiche si disegnano larghe come la scheda giocatore e si riducono alla larghezza del pannello (stesso rapporto)
 function Scaled({ w, full, children }) {
   const [h, setH] = useState(0);
+  const hRef = useRef(0);
+  const tm = useRef(null);
   const k = Math.min(1, w / full);
+  // altezza: sale subito, scende dopo un attimo (cambiando categoria la lista si accorcia e lo scroll saltava per un fotogramma)
+  const onLay = (e) => {
+    const nh = e.nativeEvent.layout.height;
+    clearTimeout(tm.current);
+    if (nh >= hRef.current) { hRef.current = nh; setH(nh); } else tm.current = setTimeout(() => { hRef.current = nh; setH(nh); }, 450);
+  };
+  useEffect(() => () => clearTimeout(tm.current), []);
   return (
     <View style={{ width: w, height: h * k, overflow: 'hidden' }}>
-      <View onLayout={(e) => setH(e.nativeEvent.layout.height)} style={{ position: 'absolute', left: 0, top: 0, width: full, transform: [{ translateX: -(full - w) / 2 }, { translateY: -(h - h * k) / 2 }, { scale: k }] }}>{children}</View>
+      <View onLayout={onLay} style={{ position: 'absolute', left: 0, top: 0, width: full, transform: [{ translateX: -(full - w) / 2 }, { translateY: -(h - h * k) / 2 }, { scale: k }] }}>{children}</View>
     </View>
   );
 }
@@ -50,11 +61,15 @@ function Cell({ C, k, v, gold, flag }) {
   );
 }
 
-function Body({ C, player, onProfile, panelW, full, showStats, top }) {
+function Body({ C, player: player1, onProfile, panelW, full, showStats, top }) {
+  const { player, dataP, clubE, natE } = playerCtx(player1);
+  if (player1.nat && natE && peekSel(dataP.id, 'sc') === undefined) presetSel(dataP.id, 'sc', natE.leagueId);
   const team = teamById(player.teamId);
+  const clubTeam = teamById(clubE.teamId) || team;
+  const natI = natOf(clubE) || natOf(player1);
   const pid = useBioPid(player);
   const photo = player.photo || (pid ? playerFace(pid) : null);
-  const car = usePlayerCareer(player);
+  const car = usePlayerCareer(dataP);
   const { c, cells } = useBio(player);
   const m = Object.fromEntries(cells.filter(([, v]) => v !== '—'));
   const nat = m['Nazionalità'];
@@ -64,7 +79,7 @@ function Body({ C, player, onProfile, panelW, full, showStats, top }) {
     m.Piede ? ['Piede', m.Piede] : null,
     c.mv ? ['Valore', money(c.mv), true] : null,
   ].filter(Boolean);
-  const hasStats = playerHasCurStats(player) || !!car.loading || car.rows.length > 0;
+  const hasStats = playerHasCurStats(dataP) || !!car.loading || car.rows.length > 0;
   const c0 = team && team.colors ? team.colors[0] : C.accent;
   const inj = injuryOf(player.id);
   const shirt = m.Maglia;
@@ -77,14 +92,10 @@ function Body({ C, player, onProfile, panelW, full, showStats, top }) {
           <View style={{ flexDirection: 'row', alignItems: 'flex-end', gap: 10, paddingRight: 30 }}>
             <View style={{ width: Math.round((panelW - 28) * 0.4), aspectRatio: 1 }}>
               {photo ? <Image source={{ uri: photo }} style={{ width: '100%', height: '100%' }} contentFit="contain" contentPosition="top" cachePolicy="memory-disk" /> : null}
-              <LinearGradient pointerEvents="none" colors={['transparent', `${C.bg}B3`]} locations={[0.78, 1]} style={StyleSheet.absoluteFill} />
             </View>
             <View style={{ flex: 1, paddingBottom: 2 }}>
               <Text style={{ color: C.ink, fontSize: 17, fontWeight: '700', lineHeight: 20 }}>{player.name}</Text>
-              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5, marginTop: 4 }}>
-                <TeamCrest team={team} size={15} C={C} />
-                <Text numberOfLines={1} style={{ flex: 1, color: C.ink3, fontSize: 11.5 }}>{team ? team.name : player.teamName}</Text>
-              </View>
+              <ClubNatN C={C} team={clubTeam} teamName={clubTeam ? clubTeam.name : clubE.teamName} nat={natI} size={13} style={{ marginTop: 4, flexWrap: 'wrap', rowGap: 3 }} />
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 8 }}>
                 {shirt ? <Text style={{ color: C.ink, fontSize: 26, fontWeight: '700' }}><Text style={{ color: C.ink3, fontSize: 13 }}>#</Text>{shirt}</Text> : null}
                 <Pressable onPress={onProfile} style={{ borderRadius: 99, paddingHorizontal: 16, paddingVertical: 6, backgroundColor: C.accent }}>
@@ -106,7 +117,7 @@ function Body({ C, player, onProfile, panelW, full, showStats, top }) {
           <Text style={{ color: C.ink2, fontSize: 11.5, marginTop: 2 }}>{inj.reason}{inj.label ? ` · Rientro previsto: ${inj.label}` : ''}</Text>
         </View>
       ) : null}
-      {hasStats && showStats ? <View style={{ paddingTop: 8 }}><Scaled w={panelW} full={full}><GiocatoreStat C={C} player={player} team={team} car={car} /></Scaled></View> : null}
+      {hasStats && showStats ? <View style={{ paddingTop: 8 }}><Scaled w={panelW} full={full}><GiocatoreStat C={C} player={dataP} team={team} car={car} /></Scaled></View> : null}
     </>
   );
 }

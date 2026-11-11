@@ -1312,6 +1312,7 @@ function Screen({ onTheme, onReset, themePref }) {
   useEffect(() => {
     const sub = AppState.addEventListener('change', (st) => {
       if (st === 'background') { bgAt.current = Date.now(); return; }
+      if (st === 'active') globalThis.__resumeUntil = Date.now() + 5000; // dati in background fermi per 5 s: l'app torna subito al tocco
       if (st !== 'active' || !bgAt.current) return;
       const gap = Date.now() - bgAt.current; bgAt.current = 0;
       if (gap > 10 * 60 * 1000) { try { Image.clearMemoryCache(); } catch (e) { /* ignora */ } if (onReset) onReset(); return; }

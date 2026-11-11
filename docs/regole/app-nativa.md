@@ -187,3 +187,11 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 ## App nativa: aggiornamento automatico in Expo Go
 - Il link `exp://…/group/<id>` e' fisso su una pubblicazione: riaprire dai recenti di Expo Go mostra la versione vecchia. Il segnalibro in Home e' `native-link/apri.html` (legge `latest.json` dall'API GitHub, senza cache).
 - La CI scrive `app/build.json` (`sha` del commit) dentro l'app e `sha` in `native-link/latest.json`; `shared/AutoUpdate.js` all'apertura e al ritorno dal background confronta i due e apre da solo la versione nuova (`Linking.openURL`), con blocco di 3 minuti sulla stessa versione per evitare cicli. `native/build.json` = `dev` (nessun controllo) per prove e anteprima.
+
+## App nativa: scheda giocatore e pannello (club e nazionale)
+- Una scheda sola per giocatore: club e nazionale cambiano solo colori e squadra scelta (`shared/playerCtx.js`). Se si apre la nazionale senza dati propri, statistiche, partite e carriera arrivano dal club. Informazioni = sempre il club (mai la nazionale come squadra con contratto) con bandiera nella Nazionalita'.
+- Colore di banner, riquadri e tabelle = squadra della competizione scelta nelle Statistiche (club = colore club, Nations League = colore nazionale); aprendo dalla nazionale parte la nazionale. Sotto il nome: stemma club + nome | bandiera + nazione, per tutti i giocatori (`ClubNatN`).
+- Niente "voto stagione" nel banner. Affidabilita' prossima partita: tendina con icone (come Migliori Giocatori) e numeri colorati (`scoreColorSmooth`).
+- Contorni multicolore (`RingBox`) FERMI: l'animazione girevole costava un livello grafico per tasto.
+- Al ritorno dal background i dati in secondo piano (`pullLive`, `freshSeason`) restano fermi 5 s (`globalThis.__resumeUntil`).
+- Nel pannello laterale la foto non ha riquadro ne' sfumatura (volto ritagliato, appoggiato al fondo).

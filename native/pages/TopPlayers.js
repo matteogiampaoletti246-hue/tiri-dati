@@ -59,7 +59,7 @@ const Row = React.memo(function Row({ C, row, rank, threshold, stat, enter, tv, 
   const sides = match ? [teamById(match.homeId), teamById(match.awayId)] : null;
   const body = (
     <Pressable onPress={go} style={({ pressed }) => [{ marginHorizontal: 10, marginBottom: 8 }, pressed && { opacity: 0.8 }]}>
-      <LinearGradient colors={[c1, c1 + 'CC']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ borderRadius: 22, padding: 1.5 }}>
+      <View style={{ borderRadius: 22, borderWidth: 1.5, borderColor: c1 }}>
         <View style={{ borderRadius: 20.5, overflow: 'hidden', backgroundColor: C.sheet }}>
           <LinearGradient pointerEvents="none" colors={[c1 + '66', c1 + '22', c1 + '33']} locations={[0, 0.55, 1]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={StyleSheet.absoluteFill} />
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 11, padding: 10, paddingLeft: 14 }}>
@@ -94,7 +94,7 @@ const Row = React.memo(function Row({ C, row, rank, threshold, stat, enter, tv, 
                   {nat ? <Text numberOfLines={1} style={{ flexShrink: 1, color: C.ink2, fontSize: 12.5 }}>{nat.name}</Text> : null}
                 </View>
               )}
-              <LinearGradient colors={[c1, c1 + 'AA']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ height: 4, borderRadius: 2, marginTop: 7 }} />
+              <View style={{ height: 4, borderRadius: 2, marginTop: 7, backgroundColor: c1 }} />
             </View>
             <View style={{ alignItems: 'center', gap: 4 }}>
               <Text style={{ color: scoreColorSmooth(row.voto), fontSize: 28, fontWeight: '700' }}>{comma(row.voto, 1)}</Text>
@@ -104,7 +104,7 @@ const Row = React.memo(function Row({ C, row, rank, threshold, stat, enter, tv, 
             </View>
           </View>
         </View>
-      </LinearGradient>
+      </View>
     </Pressable>
   );
   // all'apertura i banner salgono; cambiando linea o statistica entrano da sinistra verso destra, uno dopo l'altro
@@ -157,9 +157,11 @@ function DayList({ C, day, idx, thr, stat, active, takeAnim, onGo, openRoute, bo
       data={rows}
       keyExtractor={(r) => String(r.player.id)}
       renderItem={({ item, index }) => <Row C={C} row={item} rank={index + 1} threshold={thr} stat={stat} enter={enterOf(item, index)} left={left} tv={tv} openRoute={openRoute} />}
-      initialNumToRender={8}
-      maxToRenderPerBatch={6}
-      windowSize={5}
+      initialNumToRender={7}
+      maxToRenderPerBatch={4}
+      updateCellsBatchingPeriod={60}
+      windowSize={4}
+      removeClippedSubviews
       showsVerticalScrollIndicator={false}
       contentContainerStyle={{ paddingTop: 8, paddingBottom: bottom + 20 }}
     />

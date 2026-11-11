@@ -1,6 +1,13 @@
 // Scelte (competizione, stagione) legate alla scheda aperta: restano finche' la scheda e' nella pila, aprendo da zero si riparte da "Attuale".
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 const SEL = new Map();
+const LIS = new Set();
+export const peekSel = (entity, slot) => SEL.get(`${entity}|${slot}`);
+export function useSelValue(entity, slot) {
+  const [v, setV] = useState(() => SEL.get(`${entity}|${slot}`));
+  useEffect(() => { const f = () => setV(SEL.get(`${entity}|${slot}`)); LIS.add(f); f(); return () => LIS.delete(f); }, [entity, slot]);
+  return v;
+}
 export const resetSel = (entity) => { [...SEL.keys()].forEach((k) => { if (k.startsWith(`${entity}|`)) SEL.delete(k); }); };
 // imposta in anticipo una scelta (es. apertura da una stagione d'archivio sulla scheda Classifica)
 export const presetSel = (entity, slot, v) => { SEL.set(`${entity}|${slot}`, v); };
@@ -12,7 +19,7 @@ export function useSel(entity, slot, initial) {
     SEL.set(k, x);
     return x;
   });
-  const set = (x) => { SEL.set(k, x); setV(x); };
+  const set = (x) => { SEL.set(k, x); setV(x); LIS.forEach((f) => f()); };
   return [v, set];
 }
 

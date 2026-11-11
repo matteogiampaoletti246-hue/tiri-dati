@@ -31,6 +31,7 @@ let LAST = 0;
 let timer = null;
 
 export async function pullLive() {
+  if (typeof globalThis !== 'undefined' && Date.now() < (globalThis.__resumeUntil || 0)) return false; // app appena tornata dal background (nativa): prima risponde al tocco
   try {
     const r = await fetch(`${WORKER}/s`, { cache: 'no-store' });
     if (!r.ok) return false;

@@ -17,7 +17,7 @@ export default function EntityBannerN({ C, top = 0, onBack, name, subtitle, meta
       {photoUrl ? (
         // volto intero: riquadro quadrato poco piu' alto del banner (sotto la barra di stato), appoggiato in basso; si taglia solo la cima dei capelli
         <View pointerEvents="none" style={{ position: 'absolute', right: 0, top, bottom: 0, width: '60%', overflow: 'hidden' }}>
-          <Image source={{ uri: photoUrl }} style={{ position: 'absolute', right: 12, bottom: 0, height: '118%', aspectRatio: 1 }} contentFit="contain" contentPosition="bottom right" cachePolicy="memory-disk" />
+          <Image source={{ uri: photoUrl }} style={{ position: 'absolute', right: 12, bottom: 0, height: '100%', aspectRatio: 1 }} contentFit="contain" contentPosition="bottom right" cachePolicy="memory-disk" />
         </View>
       ) : flagUrl ? (
         <Image source={{ uri: flagUrl }} pointerEvents="none" style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: '46%', opacity: 0.55 }} contentFit="cover" cachePolicy="memory-disk" />

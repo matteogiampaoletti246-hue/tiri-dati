@@ -48,17 +48,11 @@ export const PanelTitle = ({ C, children, right }) => (
 // ultimo tocco sullo schermo (App.js lo aggiorna): le tendine si aprono vicino al tasto toccato
 export const TOUCH = { y: 0 };
 
-// contorno multicolore che gira (come i tasti Tutte/Live della Home e tutti i selettori del sito): un solo orologio per tutti i tasti, thread UI
-let CLOCK = null;
-const clock = () => { if (!CLOCK) { CLOCK = makeMutable(0); CLOCK.value = withRepeat(withTiming(360, { duration: 4000, easing: Easing.linear }), -1, false); } return CLOCK; };
+// contorno multicolore FERMO (l'animazione girevole costava un livello grafico per ogni tasto e rallentava le liste)
 export function RingBox({ C, radius = 999, pad = 1.5, style, innerStyle, plain, children }) {
-  const [sz, setSz] = useState({ w: 0, h: 0 });
-  const clk = clock();
-  const rot = useAnimatedStyle(() => ({ transform: [{ rotate: `${clk.value}deg` }] }));
-  const d = Math.sqrt(sz.w * sz.w + sz.h * sz.h) + 6;
   return (
-    <View onLayout={(e) => { const { width, height } = e.nativeEvent.layout; if (Math.abs(width - sz.w) > 0.5 || Math.abs(height - sz.h) > 0.5) setSz({ w: width, h: height }); }} style={[{ borderRadius: radius, overflow: 'hidden', padding: pad }, style]}>
-      {sz.w ? <Animated.View pointerEvents="none" style={[{ position: 'absolute', width: d, height: d, left: (sz.w - d) / 2, top: (sz.h - d) / 2 }, rot]}><LinearGradient colors={[C.accent, '#7B6CFF', '#00C2FF', C.accent]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={StyleSheet.absoluteFill} /></Animated.View> : null}
+    <View style={[{ borderRadius: radius, overflow: 'hidden', padding: pad }, style]}>
+      <LinearGradient pointerEvents="none" colors={['#00C2FF', C.accent, '#7B6CFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={StyleSheet.absoluteFill} />
       <View style={[{ flex: 1, borderRadius: radius - pad, overflow: 'hidden', backgroundColor: C.bg }, innerStyle]}>
         {plain ? null : <View pointerEvents="none" style={[StyleSheet.absoluteFill, { backgroundColor: C.chip }]} />}
         {children}
