@@ -168,6 +168,9 @@ export function buildLeagues() {
     if (!l.world && !(l.extra && l.logo)) l.logo = d.logo || null;
     l.season = l.extra ? '' : d.season || '';
   });
+  // loghi originali scuri (Champions, Premier, Ligue 1, Conference): stesso file FotMob riconosciuto come scuro, bianco di notte in ogni pagina e finestra
+  const DARK_ID = { 'champions-league': 42, 'premier-league': 47, 'ligue-1': 53, 'conference-league': 10216 };
+  LEAGUES.forEach((l) => { if (DARK_ID[l.id] && !l.world) { l.logo = `https://images.fotmob.com/image_resources/logo/leaguelogo/${DARK_ID[l.id]}.png`; l.logoDark = undefined; } });
   // Europa League: coppa disegnata, bianca di notte e nera di giorno
   const el = LEAGUES.find((l) => l.id === 'europa-league');
   if (el) {

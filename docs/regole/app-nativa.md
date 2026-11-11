@@ -265,3 +265,7 @@ Come nel sito: il filtro delle linee (`Segmented fit pad={10}`) prende lo spazio
 - Partita di un campionato minore: la scheda Classifica usa la stagione in corso FotMob (`LiveClassifica`).
 - Controllo identificatori non definiti nel nativo (eslint no-undef) prima di pubblicare: un nome mancante in una scheda la chiude da sola.
 - Barra delle schede (Panoramica, Statistiche...): scorre in orizzontale e tiene visibile la voce scelta e la successiva (`TabStrip` in `TabsN.js`); nessuna voce tagliata.
+- Swipe indietro: dai banner/testate (partita, campionato, squadra, giocatore) e dalla barra delle voci torna sempre indietro; lo swipe laterale delle schede e' attivo solo dentro il contenuto sotto (`DayPagerN`/`SwipeBodyN`, `backScoped`).
+- Banner squadra nelle carriere e nelle statistiche del giocatore: toccati aprono la scheda della squadra.
+- Loghi scuri (Champions, Premier, Ligue 1, Conference) risolti alla fonte in `buildLeagues` con il file FotMob: bianchi di notte ovunque.
+- Competizioni della stessa famiglia (Nations League, World Cup, qualificazioni) usano i colori del torneo principale (`familyOf`).

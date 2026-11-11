@@ -158,14 +158,14 @@ export function mergeConsecutive(rows) {
 }
 const natBase = (n) => { let x = String(n || '').trim(); for (let i = 0; i < 3; i++) x = x.replace(/\s*\(?\b(U-?\d{2}|Women|W|Olympic|Olympics|Amateur|B)\b\)?$/i, '').trim(); return x; };
 
-function CareerRows({ C, rows, national }) {
+function CareerRows({ C, rows, national, openRoute }) {
   return (
     <View style={{ gap: 10 }}>
       {rows.map(({ r, loan, from }, i) => {
         const t = teamByName(r[0]) || teamByName(natBase(r[0]));
         const cols = fixedColors(r[0]) || (t && t.colors) || ['#37507a', '#5a7bb0'];
         return (
-          <View key={i} style={{ flexDirection: 'row', alignItems: 'center', gap: 12, borderRadius: 18, paddingHorizontal: 14, paddingVertical: 12, backgroundColor: hex(cols[0], '30'), borderWidth: 1, borderColor: hex(cols[0], '55') }}>
+          <Pressable key={i} disabled={!t || !openRoute} onPress={() => t && openRoute && openRoute(`/squadra/${t.id}`)} style={{ flexDirection: 'row', alignItems: 'center', gap: 12, borderRadius: 18, paddingHorizontal: 14, paddingVertical: 12, backgroundColor: hex(cols[0], '30'), borderWidth: 1, borderColor: hex(cols[0], '55') }}>
             {national && flagCode(natBase(r[0])) ? <Flag name={natBase(r[0])} size={30} C={C} /> : t ? <TeamCrest C={C} size={30} team={t} /> : <TeamCrest C={C} size={30} team={{ name: r[0], initials: String(r[0] || '').slice(0, 2).toUpperCase() }} />}
             <View style={{ flex: 1 }}>
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
@@ -184,7 +184,7 @@ function CareerRows({ C, rows, national }) {
                 ))}
               </View>
             ) : null}
-          </View>
+          </Pressable>
         );
       })}
     </View>
@@ -210,13 +210,13 @@ export function useCareerLists(player) {
   return { senior, nat, youth, any: !!(senior.length || nat.length || youth.length) };
 }
 
-function Carriera({ C, lists }) {
+function Carriera({ C, lists, openRoute }) {
   const T = ({ children }) => <Text style={{ color: C.ink3, fontSize: 11, fontWeight: '800', letterSpacing: 1, textTransform: 'uppercase', marginTop: 24, marginBottom: 8 }}>{children}</Text>;
   return (
     <View style={{ paddingHorizontal: 20, paddingTop: 20, paddingBottom: 30 }}>
-      {lists.senior.length ? <CareerRows C={C} rows={lists.senior} /> : null}
-      {lists.nat.length ? <><T>Nazionale</T><CareerRows C={C} rows={lists.nat} national /></> : null}
-      {lists.youth.length ? <><T>Giovanili</T><CareerRows C={C} rows={lists.youth} national /></> : null}
+      {lists.senior.length ? <CareerRows C={C} rows={lists.senior} openRoute={openRoute} /> : null}
+      {lists.nat.length ? <><T>Nazionale</T><CareerRows C={C} rows={lists.nat} national openRoute={openRoute} /></> : null}
+      {lists.youth.length ? <><T>Giovanili</T><CareerRows C={C} rows={lists.youth} national openRoute={openRoute} /></> : null}
     </View>
   );
 }
@@ -264,7 +264,7 @@ function Body({ C, player: player1, openRoute, onBack, bottom, top }) {
               {k === 'profilo' ? <Profilo C={C} player={player} dataP={dataP} team={team} clubTeam={clubTeam} /> : null}
               {k === 'partite' ? <GiocatorePartite C={C} player={dataP} parts={parts} openRoute={openRoute} /> : null}
               {k === 'stat' ? <GiocatoreStat C={C} player={dataP} team={team} car={car} openRoute={openRoute} /> : null}
-              {k === 'carriera' && careerL ? <Carriera C={C} lists={careerL} /> : null}
+              {k === 'carriera' && careerL ? <Carriera C={C} lists={careerL} openRoute={openRoute} /> : null}
             </PaneN>
           );
         }} />

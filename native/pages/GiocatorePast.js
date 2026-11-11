@@ -1,6 +1,6 @@
 // Statistiche di una stagione (attuale dall'archivio o passata) di un giocatore: stesso aspetto della stagione attuale.
 import React, { useMemo, useRef, useState } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 import { Image } from 'expo-image';
 import useAsync from '@/hooks/useAsync';
 import { loadSeason, statsFromMatches, zeroFor, poolAvg, loadPlayerStatsFor, playerViewLists, playerStatIsP90, teamIdByName, PLAYER_STAT_IT, SEASON_STAT_IT, prettyKey, seasonLabel, loadColors, loadColors2, teamLogo } from '@/data/archive';
@@ -46,7 +46,7 @@ export const SkCards = ({ C }) => (
 );
 export const Msg = ({ C, children }) => <Text style={{ color: C.ink3, fontSize: 13, textAlign: 'center', paddingVertical: 56, paddingHorizontal: 20 }}>{children}</Text>;
 
-export default function GiocatorePast({ C, id, fm, sk, current = false, teamName = '' }) {
+export default function GiocatorePast({ C, id, fm, sk, current = false, teamName = '', openRoute }) {
   const [part, setPart] = useState('tot');
   const [cat, setCat] = useState('all');
   const col = useTeamColors();
@@ -92,7 +92,7 @@ export default function GiocatorePast({ C, id, fm, sk, current = false, teamName
     <>
       {pills}
       <View style={{ paddingHorizontal: 20, paddingTop: 16, paddingBottom: 40, gap: 16 }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, borderRadius: 18, paddingHorizontal: 16, paddingVertical: 14, backgroundColor: `${club}2e`, borderWidth: 1, borderColor: `${club}66` }}>
+        <Pressable disabled={!tid || !openRoute} onPress={() => tid && openRoute && openRoute(`/squadra/fm-${tid}`)} style={{ flexDirection: 'row', alignItems: 'center', gap: 12, borderRadius: 18, paddingHorizontal: 16, paddingVertical: 14, backgroundColor: `${club}2e`, borderWidth: 1, borderColor: `${club}66` }}>
           {tid ? <Image source={{ uri: teamLogo(tid) }} style={{ width: 30, height: 30 }} contentFit="contain" cachePolicy="memory-disk" /> : null}
           <View style={{ flex: 1 }}>
             <Text numberOfLines={1} style={{ color: C.ink, fontSize: 14, fontWeight: '600' }}>{tname}</Text>
@@ -100,7 +100,7 @@ export default function GiocatorePast({ C, id, fm, sk, current = false, teamName
           </View>
           <View style={{ alignItems: 'flex-end' }}><Text style={{ color: C.ink, fontSize: 17, fontWeight: '600' }}>{me[5] || 0}</Text><Text style={{ color: C.ink3, fontSize: 9, letterSpacing: 0.8, textTransform: 'uppercase' }}>presenze</Text></View>
           <View style={{ alignItems: 'flex-end' }}><Text style={{ color: C.ink, fontSize: 17, fontWeight: '600' }}>{me[4] || 0}&apos;</Text><Text style={{ color: C.ink3, fontSize: 9, letterSpacing: 0.8, textTransform: 'uppercase' }}>minuti</Text></View>
-        </View>
+        </Pressable>
         {order.map((g) => (
           <Panel key={g} C={C} style={{ borderRadius: 18, backgroundColor: `${club}1c`, borderColor: `${club}55` }}>
             <Text style={{ color: C.ink, fontSize: 14, fontWeight: '600', paddingHorizontal: 16, paddingTop: 14, paddingBottom: 6 }}>{g}</Text>

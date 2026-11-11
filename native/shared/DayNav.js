@@ -1,6 +1,6 @@
 // Striscia dei giorni e pager a scorrimento laterale (Migliori Giocatori e Matchup), stesso comportamento della Home nativa:
 // `x` = pagina frazionaria sul thread UI; il giorno scelto sta al centro; la linea sotto il giorno segue il dito.
-import { useBackGate } from './backGate';
+import { useBackGate, pagerTouch } from './backGate';
 import React, { useEffect, useRef } from 'react';
 import { View, Text, ScrollView, Pressable, StyleSheet, useWindowDimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
@@ -46,7 +46,7 @@ const Pane = ({ idx, x, W, children }) => {
 // Pagine dei giorni: si montano il giorno mostrato e i due vicini (quelli accanto servono per lo swipe)
 export function DayPagerN({ count, index, onIndex, x, render }) {
   const { width: W } = useWindowDimensions();
-  useBackGate(index > 0); // sulla prima scheda lo swipe verso destra e' dello swipe indietro
+  useBackGate(index > 0, true); // dentro le schede (non sulla prima) lo swipe laterale e' delle schede; dalla testata/banner e dalla barra delle voci si torna sempre indietro
   const x0 = useSharedValue(index);
   const target = useSharedValue(index);
   useEffect(() => {
@@ -55,6 +55,9 @@ export function DayPagerN({ count, index, onIndex, x, render }) {
     x.value = withTiming(index, { duration: 260, easing: Easing.out(Easing.cubic) });
   }, [index]); // eslint-disable-line react-hooks/exhaustive-deps
   const pan = React.useMemo(() => Gesture.Pan().activeOffsetX([-10, index > 0 ? 10 : 100000]).failOffsetY([-28, 28])
+    .onTouchesDown(() => { pagerTouch.value = 1; })
+    .onTouchesUp(() => { pagerTouch.value = 0; })
+    .onFinalize(() => { pagerTouch.value = 0; })
     .onStart(() => { cancelAnimation(x); const r = Math.round(x.value); if (r !== target.value) { target.value = r; runOnJS(onIndex)(r); } x0.value = x.value; })
     .onUpdate((e) => {
       let v = x0.value - e.translationX / W;

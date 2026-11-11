@@ -166,12 +166,12 @@ function CupCurrent({ C, p, fm, fmPid, team }) {
     return { sk, st };
   }, [fm, fmPid]);
   if (loading && !data) return <SkCards C={C} />;
-  if (data && data.sk && data.st && fmPid) return <GiocatorePast C={C} id={fmPid} fm={fm} sk={data.sk} current teamName={team && team.name} />;
+  if (data && data.sk && data.st && fmPid) return <GiocatorePast C={C} id={fmPid} fm={fm} sk={data.sk} current teamName={team && team.name} openRoute={openRoute} />;
   if (!(p.c && p.c[0])) return null;
   return <View style={{ paddingHorizontal: 20, paddingTop: 16, paddingBottom: 40 }}><CupSummary C={C} p={p} /></View>;
 }
 
-export default function GiocatoreStat({ C, player: p, team, car }) {
+export default function GiocatoreStat({ C, player: p, team, car, openRoute }) {
   const natLg = p.natView ? leagueById(p.natView.leagueId) : null;
   const baseComps = (() => {
     const c = teamCompetitions(p.teamId);
@@ -222,12 +222,12 @@ export default function GiocatoreStat({ C, player: p, team, car }) {
 
   let body;
   if (noCur && !seasonEff) body = <Msg C={C}>Dati non disponibili</Msg>;
-  else if (seasonEff && seasonEff !== 'cur' && fmL && fmPid) body = <GiocatorePast key={`${comp}-${seasonEff}`} C={C} id={fmPid} fm={fmL} sk={seasonEff} teamName={team && team.name} />;
+  else if (seasonEff && seasonEff !== 'cur' && fmL && fmPid) body = <GiocatorePast key={`${comp}-${seasonEff}`} C={C} id={fmPid} fm={fmL} sk={seasonEff} teamName={team && team.name} openRoute={openRoute} />;
   else if (curFm) {
     body = (
       <View key={comp}>
         <View style={{ paddingHorizontal: 20, paddingTop: 16 }}><Affidabilita key={comp} C={C} player={p} comp={comp} /></View>
-        <GiocatorePast C={C} id={fmPid} fm={fmL} sk={car.cur[fmL]} current teamName={team && team.name} />
+        <GiocatorePast C={C} id={fmPid} fm={fmL} sk={car.cur[fmL]} current teamName={team && team.name} openRoute={openRoute} />
       </View>
     );
   } else if (car.loading) body = <SkCards C={C} />;

@@ -62,6 +62,8 @@ const uniqueName = (idx) => {
     return n && country && e.c !== 'INT' && (app.has(norm(n)) || cnt[norm(n)] > 1) ? `${n} (${country})` : n;
   };
 };
+// competizioni della stessa famiglia (qualificazioni, gironi, playoff) con i colori del torneo principale
+const familyOf = (n) => (/nations league/i.test(n || '') ? 'fm-9806' : /world cup/i.test(n || '') ? 'fm-77' : '');
 function addArchiveLeagues(idx) {
   const nameOf = uniqueName(idx);
   Object.entries(idx || {}).forEach(([k, e]) => {
@@ -72,7 +74,7 @@ function addArchiveLeagues(idx) {
       const col = /^#[0-9a-f]{6}$/i.test(e.color || '') ? e.color : '#38A2FF';
       const country = PAESE[e.cn] || e.cn || '';
       LEAGUES.push(friendlyFix({ id, fm, extra: true, arch: true, cc: e.c || '', name: nameOf(e, country) || `Competizione ${fm}`, country, countryUpper: country.toUpperCase(), colors: ['#0E1626', col], tint: col,
-        logo: `https://images.fotmob.com/image_resources/logo/leaguelogo/${fm}.png`, logoDark: `https://images.fotmob.com/image_resources/logo/leaguelogo/dark/${fm}.png`, season: '', ...(PALETTE[id] || {}) }));
+        logo: `https://images.fotmob.com/image_resources/logo/leaguelogo/${fm}.png`, logoDark: `https://images.fotmob.com/image_resources/logo/leaguelogo/dark/${fm}.png`, season: '', ...(PALETTE[id] || PALETTE[familyOf(e.n)] || {}) }));
     }
     FM_ID[id] = fm;
     LID_BY_FM[fm] = id;
