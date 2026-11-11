@@ -314,20 +314,23 @@ export default function PlayerSheetHost({ C, bottom = 0, openRoute }) {
   const base = useRef(HALF);
   const [mounted, setMounted] = useState(false);
   const live = useRef({});
-  live.current = { c, sheet };
   const busy = useRef(false);
 
-  const snap = (to, then) => { base.current = to; Animated.timing(y, { toValue: to, duration: DUR, easing: EASE, useNativeDriver: true }).start(({ finished }) => { if (finished && then) then(); }); };
+  const open = !!(sheet && c);
+  live.current = { c, sheet, open };
+  const [full, setFull] = useState(false); // altezza piena: niente spazio in piu' sotto la lista
+  const snap = (to, then) => { base.current = to; setFull(to === 0); y.stopAnimation(); Animated.timing(y, { toValue: to, duration: DUR, easing: EASE, useNativeDriver: true }).start(({ finished }) => { if (finished && then) then(); }); };
+  // apertura e chiusura: se si riapre mentre sta ancora chiudendo (altra tendina subito dopo) si risale senza smontare; la fine della chiusura smonta solo se nel frattempo non si e' riaperta
   useEffect(() => {
-    if (sheet && c) {
-      if (!mounted) { y.setValue(SH); setMounted(true); }
+    if (open) {
+      if (!mounted) { y.setValue(SH); setMounted(true); } else snap(base.current === 0 ? 0 : HALF);
       return undefined;
     }
-    if (!sheet && mounted) snap(SH, () => setMounted(false));
+    if (mounted) snap(SH, () => { if (!live.current.open) setMounted(false); });
     return undefined;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [!!sheet, !!c]);
-  useEffect(() => { if (mounted && sheet) snap(HALF); }, [mounted]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [open]);
+  useEffect(() => { if (mounted && live.current.open) snap(HALF); }, [mounted]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // passaggio a un compagno / al sostituto: dissolvenza con piccolo scorrimento
   const switchTo = (to, d) => {
@@ -376,6 +379,7 @@ export default function PlayerSheetHost({ C, bottom = 0, openRoute }) {
 
   if (!mounted || !sheet || !c) return null;
   const veil = y.interpolate({ inputRange: [0, HALF, SH], outputRange: [0.55, 0.4, 0], extrapolate: 'clamp' });
+  const foot = y.interpolate({ inputRange: [0, HALF, SH], outputRange: [0, -HALF, 0], extrapolate: 'clamp' }); // la barra X/Profilo resta sul fondo dello schermo anche con la tendina a meta' (il fondo della tendina e' fuori schermo)
   const t = c.team;
   const toProfile = c.ourId ? () => { closePlayer(); openRoute(`/giocatore/${c.ourId}`); } : null;
   const pos = c.idx >= 0 && c.roster.length ? `${c.idx + 1}/${c.roster.length}` : null;
@@ -398,16 +402,16 @@ export default function PlayerSheetHost({ C, bottom = 0, openRoute }) {
           </Animated.View>
         </View>
         <Animated.View {...side.panHandlers} style={{ flex: 1, opacity: fade, transform: [{ translateX: slide }] }}>
-          <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 90 + bottom }}>
+          <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 90 + bottom + (full ? 0 : HALF) }}>
             <Body C={C} c={c} onOpen={switchTo} />
           </ScrollView>
         </Animated.View>
-        <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0, flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 20, paddingTop: 12, paddingBottom: Math.max(14, bottom) }}>
+        <Animated.View style={{ position: 'absolute', left: 0, right: 0, bottom: 0, flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 20, paddingTop: 12, paddingBottom: Math.max(14, bottom), transform: [{ translateY: foot }] }}>
           <LinearGradient pointerEvents="none" colors={['rgba(0,0,0,0)', C.sheet]} locations={[0, 0.3]} style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }} />
           <Pressable onPress={() => closePlayer()} style={{ width: 48, height: 48, borderRadius: 24, alignItems: 'center', justifyContent: 'center', backgroundColor: C.chip, borderWidth: 1, borderColor: C.border }}><Ionicons name="close" size={20} color={C.ink} /></Pressable>
           <View style={{ flex: 1 }} />
           {toProfile ? <Pressable onPress={toProfile} style={{ borderRadius: 999, paddingHorizontal: 24, paddingVertical: 12, backgroundColor: C.accent }}><Text style={{ color: '#fff', fontSize: 14, fontWeight: '800' }}>Profilo</Text></Pressable> : null}
-        </View>
+        </Animated.View>
       </Animated.View>
     </View>
   );

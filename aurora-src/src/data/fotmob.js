@@ -26,12 +26,20 @@ const jget = async (url) => {
   return r.json();
 };
 
-async function fmDay(iso) {
+const dayFly = {};
+// una sola richiesta per giorno anche se partono insieme (la preparazione della partita la avvia in anticipo)
+export async function fmDay(iso) {
   const key = iso.replace(/-/g, '');
   if (dayCache[key] && Date.now() - dayCache[key].at < 25000) return dayCache[key].list;
-  const d = await jget(`${WORKER}/f?date=${key}`);
-  dayCache[key] = { at: Date.now(), list: d.m || [] };
-  return dayCache[key].list;
+  if (dayFly[key]) return dayFly[key];
+  dayFly[key] = (async () => {
+    try {
+      const d = await jget(`${WORKER}/f?date=${key}`);
+      dayCache[key] = { at: Date.now(), list: d.m || [] };
+      return dayCache[key].list;
+    } finally { delete dayFly[key]; }
+  })();
+  return dayFly[key];
 }
 
 export async function findFmId(m) {

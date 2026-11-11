@@ -226,3 +226,7 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 
 ## Hook sempre chiamati (tendina giocatore)
 - Mai `usePlayerSheet() || usePlayerPanel()` o altri hook dentro `||`, `&&`, `?:` o dopo un `return`: se il primo e' vero il secondo non viene chiamato, React lancia "meno hook di prima" e l'app si resetta alla Home (schermo nero). Ogni hook in una variabile, poi si combinano i valori.
+
+## Tendina giocatore e apertura partita (11 nov)
+- Tendina: la barra X/Profilo sta sempre sul fondo dello schermo (compensa lo spostamento della tendina a meta') con sfumatura come il sito; riaprire durante la chiusura risale senza smontare; lo smontaggio a fine chiusura solo se nel frattempo non e' stata riaperta.
+- Partita: la testata (squadre, risultato, stato) si vede subito dai dati della Home, le schede arrivano dopo i dati principali; l'elenco FotMob del giorno parte in parallelo al dettaglio (`fmDay` in `fotmob.js`).

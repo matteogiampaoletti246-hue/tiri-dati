@@ -63,9 +63,23 @@ export default function Partita({ C, top, onBack, bottom = 90, openRoute, params
   }, [id]);
 
   const pos = useSharedValue(0);
-  const raw = ok ? matchById(id) : null;
+  const rawNow = matchById(id);
+  const early = !ok && !!(rawNow && rawNow.homeId && rawNow.awayId); // la testata (squadre, risultato, stato) c'e' gia' dalla Home: si mostra subito, le schede arrivano dopo
+  const raw = ok || early ? rawNow : null;
   // coppe e partite d'archivio: stesse regole del sito
   useEffect(() => { if (ok && !raw) onBack && onBack(); }, [ok, raw]);
+  if (early) {
+    return (
+      <View style={{ flex: 1, backgroundColor: 'transparent' }}>
+        <ScrollView style={{ paddingTop: top }} contentContainerStyle={{ paddingBottom: bottom + 20 }} showsVerticalScrollIndicator={false} scrollEnabled={false}>
+          <PartitaHero C={C} match={raw} view={viewMatch(raw)} league={leagueById(raw.leagueId) || raw.leagueObj || null} home={teamById(raw.homeId)} away={teamById(raw.awayId)} onBack={onBack} openRoute={openRoute} />
+          <View style={{ paddingHorizontal: 16, paddingTop: 4 }}>
+            {[40, 160, 160].map((h, k) => <View key={k} style={{ height: h, borderRadius: k ? 24 : 20, backgroundColor: C.skBase, marginBottom: 14 }} />)}
+          </View>
+        </ScrollView>
+      </View>
+    );
+  }
   if (!raw) return <View style={{ flex: 1, backgroundColor: 'transparent', paddingTop: top }}><Pressable onPress={onBack} hitSlop={12} style={{ paddingHorizontal: 20, height: 44, justifyContent: 'center' }}><Ionicons name="chevron-back" size={24} color={C.ink} /></Pressable><Skel C={C} /></View>;
   const view = viewMatch(raw);
   const home = teamById(raw.homeId);

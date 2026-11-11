@@ -3,7 +3,7 @@ import { lruSet } from '@/lib/lru';
 // Una sola promessa per partita: la Home la avvia appena si tocca la riga, la pagina la riusa (niente caricamento a due tempi).
 import { matchById, ensureDetail } from './matches';
 import { parseArchiveId, buildArchiveMatch, completeExtraMatch, applyArchiveFallback } from './archiveMatch';
-import { loadFm } from './fotmob';
+import { loadFm, fmDay } from './fotmob';
 import { playerLookup } from './players';
 import { perfLog, perfTime } from '@/lib/perfMon';
 import { isPureCup, loadBracket } from './bracket';
@@ -46,6 +46,7 @@ export function prepareMatch(id, force = false) {
     try {
       const arch = parseArchiveId(id);
       const raw0 = matchById(id);
+      if (raw0 && raw0.date && !raw0.fmId) fmDay(raw0.date).catch(() => null); // elenco FotMob del giorno in parallelo al dettaglio: prima partiva dopo (0,5-1 s in meno)
       const needPrep = arch ? !(raw0 && raw0.archReady) : !!(raw0 && raw0.archive && !raw0.archReady);
       if (needPrep) await (arch ? buildArchiveMatch(arch.fm, arch.sk, arch.mid) : completeExtraMatch(matchById(id))).catch(() => null);
       await ensureDetail(id, playerLookup);
