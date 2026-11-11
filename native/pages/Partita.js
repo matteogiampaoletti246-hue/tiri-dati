@@ -18,8 +18,9 @@ import { lineupBeat, lineupWindowMs, lineupIsOfficial } from '@/data/lineupWindo
 import { teamById } from '@/data/teams';
 import { leagueById } from '@/data/leagues';
 import { matchTint } from '@/data/matchTint';
-import { FM_ID } from '@/data/archive';
-import { isPureCup } from '@/data/bracket';
+import { FM_ID, currentSeason, loadSeason } from '@/data/archive';
+import { isPureCup, loadBracket } from '@/data/bracket';
+import useAsync from '@/hooks/useAsync';
 
 const PRE_TABS = [['overview', 'Panoramica'], ['stats', 'Statistiche'], ['lineups', 'Formazioni'], ['rel', 'Affidabilità'], ['standings', 'Classifica']];
 const PLAYED_TABS = [['summary', 'Riepilogo'], ['stats', 'Statistiche'], ['lineups', 'Formazioni'], ['standings', 'Classifica']];
@@ -66,6 +67,16 @@ export default function Partita({ C, top, onBack, bottom = 90, openRoute, params
 
   const pos = useSharedValue(0);
   const rawNow = matchById(id);
+  // coppa o campionato: lo dicono i dati della competizione (tabellone senza classifica = coppa), non un elenco fisso
+  const fmKey = rawNow ? (rawNow.archive ? rawNow.archive.fm : FM_ID[rawNow.leagueId]) : null;
+  const skKey = rawNow && rawNow.archive ? rawNow.archive.sk : null;
+  const { data: compInfo } = useAsync(async () => {
+    if (!fmKey) return null;
+    const sk = skKey || await currentSeason(fmKey);
+    if (!sk) return null;
+    const [b, se] = await Promise.all([loadBracket(fmKey, sk).catch(() => null), loadSeason(fmKey, sk).catch(() => null)]);
+    return { bracket: !!(b && b.rounds && b.rounds.length), table: !!(se && (se.table || (se.groups && se.groups.length))) };
+  }, [fmKey, skKey]);
   const early = !ok && !!(rawNow && rawNow.homeId && rawNow.awayId); // la testata (squadre, risultato, stato) c'e' gia' dalla Home: si mostra subito, le schede arrivano dopo
   const raw = ok || early ? rawNow : null;
   // coppe e partite d'archivio: stesse regole del sito
@@ -89,7 +100,7 @@ export default function Partita({ C, top, onBack, bottom = 90, openRoute, params
   const league = leagueById(raw.leagueId) || raw.leagueObj || null;
   const pre = raw.status === 'scheduled';
   const fmCup = raw.archive ? raw.archive.fm : FM_ID[raw.leagueId];
-  const cup = !!(fmCup && isPureCup(fmCup));
+  const cup = !!(fmCup && (compInfo ? compInfo.bracket && !compInfo.table : isPureCup(fmCup)));
   const tabs = (pre ? PRE_TABS : PLAYED_TABS)
     .map(([k, l]) => [k, k === 'standings' && cup ? 'Tabellone' : l])
     .filter(([k]) => hasPanel(k, raw, view, home, away, pre, cup));
