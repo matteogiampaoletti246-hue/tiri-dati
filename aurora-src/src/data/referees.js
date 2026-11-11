@@ -20,7 +20,9 @@ export const flagOf = (c) => {
 // codice bandiera (immagine tonda) da sigla a 3 lettere o ISO2; Scozia e Inghilterra hanno la propria bandiera
 export const flagCodeOf = (c) => (c === 'ENG' ? 'gb-eng' : c === 'SCO' ? 'gb-sct' : ISO2[c] ? ISO2[c].toLowerCase() : c && c.length === 2 ? c.toLowerCase() : '');
 
-const LEAGUE_CC = { 'serie-a': 'ITA', 'premier-league': 'ENG', 'la-liga': 'ESP', 'bundesliga': 'GER', 'ligue-1': 'FRA' };
+// arbitri dei campionati nazionali: la nazionalita' e' quella del paese del campionato (se refcc.json non la dice)
+const LEAGUE_CC = { 'serie-a': 'ITA', 'premier-league': 'ENG', 'la-liga': 'ESP', 'bundesliga': 'GER', 'ligue-1': 'FRA', eredivisie: 'NED', 'super-lig': 'TUR', 'liga-portugal': 'POR', 'pro-league': 'BEL', 'scottish-premiership': 'SCO', 'aut-bundesliga': 'AUT', 'nor-eliteserien': 'NOR', 'gre-super-league-1': 'GRE', championship: 'ENG', 'serie-b': 'ITA', 'bundesliga-2': 'GER', 'laliga-2': 'ESP', 'ligue-2': 'FRA', 'liga-portugal-2': 'POR', 'eerste-divisie': 'NED', 'coppa-italia': 'ITA', 'dfb-pokal': 'GER', 'coupe-de-france': 'FRA', 'taca-de-portugal': 'POR', 'efl-cup': 'ENG' };
+export const leagueCC = (id) => LEAGUE_CC[id] || '';
 
 // stesso arbitro scritto con/senza accenti o maiuscole: unisce i dati (medie pesate sulle partite)
 const wavg = (a, na, b, nb) => ((a || 0) * na + (b || 0) * nb) / ((na + nb) || 1);

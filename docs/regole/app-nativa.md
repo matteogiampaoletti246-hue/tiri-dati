@@ -253,3 +253,9 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 
 ## Nativo: Migliori Giocatori, riga linee + statistica
 Come nel sito: il filtro delle linee (`Segmented fit pad={10}`) prende lo spazio che resta e, se le voci non entrano, scorre di lato; il tasto statistica (`Dropdown slim`, `flexShrink: 0`) non si tronca mai ("Commessi", "In porta" sempre interi).
+
+## Aperture pesanti, arbitri, giocatori (nativo)
+- Campionato e Squadra montano la pagina vera solo a tendina finita (`afterSlide`): durante lo scorrimento resta lo scheletro leggero.
+- Bandiera arbitro sempre con `FlagN` (mai `${BASE}flags/` nel nativo); nazione dal profilo, poi da FotMob, poi dal campionato (`leagueCC`).
+- Schermate giocatori di competizioni e squadre: solo Totale / Ogni 90' e "Vai a" (niente Casa/Trasferta ne' filtri Attacco/Difesa/Disciplina/Gioco).
+- Minuti di recupero ("45+1'") nelle pillole dei tiri: la pillola si allarga, il testo non si taglia.

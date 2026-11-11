@@ -188,8 +188,8 @@ function ShotExplorer({ C, shots, colors }) {
           const full = s.outcome === 'Gol' || (s.onTarget && !isBlocked(s));
           const goal = s.outcome === 'Gol';
           return (
-            <Pressable key={i} onPress={() => pick(i)} style={{ width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center', backgroundColor: full ? tc : C.sheet, borderWidth: 2.5, borderColor: tc, opacity: sel == null || sel === i ? 1 : 0.55, transform: [{ scale: sel === i ? 1.1 : 1 }], ...(goal ? { shadowColor: '#f5c542', shadowOpacity: 1, shadowRadius: 0, shadowOffset: { width: 0, height: 0 }, elevation: 0 } : null) }}>
-              <Text style={{ color: full ? onTc : C.ink, fontSize: 12, fontWeight: '800' }}>{s.minute}'</Text>
+            <Pressable key={i} onPress={() => pick(i)} style={{ minWidth: 40, paddingHorizontal: String(s.minute).length > 2 ? 10 : 0, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center', backgroundColor: full ? tc : C.sheet, borderWidth: 2.5, borderColor: tc, opacity: sel == null || sel === i ? 1 : 0.55, transform: [{ scale: sel === i ? 1.1 : 1 }], ...(goal ? { shadowColor: '#f5c542', shadowOpacity: 1, shadowRadius: 0, shadowOffset: { width: 0, height: 0 }, elevation: 0 } : null) }}>
+              <Text numberOfLines={1} style={{ color: full ? onTc : C.ink, fontSize: 12, fontWeight: '800' }}>{s.minute}'</Text>
             </Pressable>
           );
         })}

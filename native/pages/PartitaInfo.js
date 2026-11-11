@@ -8,7 +8,8 @@ import { Feather, Ionicons } from '@expo/vector-icons';
 import Svg, { Path, Rect } from 'react-native-svg';
 import { BASE } from '@/data/load';
 import { loadWeather } from '@/data/weather';
-import { refereeById, findRefereeByName, refStatsIn, leagueRefAvg, flagCodeOf } from '@/data/referees';
+import { refereeById, findRefereeByName, refStatsIn, leagueRefAvg, flagCodeOf, leagueCC } from '@/data/referees';
+import { FlagN } from '../shared/FlagN';
 import { leagueById } from '@/data/leagues';
 import { teamById } from '@/data/teams';
 import { teamColor } from '@/lib/tint';
@@ -115,7 +116,7 @@ function RefTile({ C, rf, name, cc, games, openRoute }) {
       <View style={{ flex: 1, alignItems: 'center' }}>
         <Text style={{ color: C.ink3, fontSize: 9.5, fontWeight: '800', letterSpacing: 1.1, textTransform: 'uppercase', textAlign: 'center' }}>Arbitro</Text>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, marginTop: 2 }}>
-          {flag ? <Image source={{ uri: `${BASE}flags/${flag}.png` }} style={{ width: 14, height: 14, borderRadius: 7 }} contentFit="cover" /> : null}
+          {flag ? <FlagN code={flag} size={14} C={C} /> : null}
           <Text numberOfLines={2} style={{ color: C.ink, fontSize: 13.5, fontWeight: '800', flexShrink: 1, textAlign: 'center' }}>{name}</Text>
         </View>
         {games ? <Text style={{ color: C.ink3, fontSize: 10.5, fontWeight: '600', marginTop: 3, textAlign: 'center' }}>{games}</Text> : null}
@@ -128,7 +129,7 @@ function RefTile({ C, rf, name, cc, games, openRoute }) {
 
 function WxRef({ C, match, wx, w, rf, name, openRoute }) {
   if (!w && !name) return null;
-  const cc = (rf && rf.cc) || (match.refFm && match.refFm.cc) || '';
+  const cc = (rf && rf.cc) || (match.refFm && match.refFm.cc) || leagueCC(match.leagueId) || '';
   const two = match.refTwo;
   return (
     <View style={{ flexDirection: 'row', gap: 6, padding: 10 }}>
@@ -287,7 +288,7 @@ export function RefereeCard({ C, match, openRoute }) {
   const when = two ? (two.seasons > 1 ? 'nelle ultime 2 stagioni' : "nell'ultima stagione") : 'questa stagione';
   const barY = st && lg && st.y != null && lg.y != null;
   const barF = st && lg && st.fo != null && lg.fo != null;
-  const flag = r && r.cc ? flagCodeOf(r.cc) : fmRef && fmRef.cc ? flagCodeOf(fmRef.cc) : '';
+  const flag = flagCodeOf((r && r.cc) || (fmRef && fmRef.cc) || leagueCC(match.leagueId));
   const head = (
     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 16, paddingVertical: 14 }}>
       <View style={{ width: 46, height: 46, borderRadius: 23, overflow: 'hidden', backgroundColor: C.chip, alignItems: 'center', justifyContent: 'center' }}>
@@ -295,7 +296,7 @@ export function RefereeCard({ C, match, openRoute }) {
       </View>
       <View style={{ flex: 1 }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-          {flag ? <Image source={{ uri: `${BASE}flags/${flag}.png` }} style={{ width: 18, height: 18, borderRadius: 9 }} contentFit="cover" /> : null}
+          {flag ? <FlagN code={flag} size={18} C={C} /> : null}
           <Text numberOfLines={1} style={{ color: C.ink, fontSize: 15, fontWeight: '800', flexShrink: 1 }}>{name}</Text>
         </View>
         <Text style={{ color: C.ink3, fontSize: 11.5 }}>{st ? `${st.n} ${st.n === 1 ? 'gara' : 'gare'} ${when}` : 'Arbitro'}</Text>

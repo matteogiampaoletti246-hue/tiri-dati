@@ -125,7 +125,7 @@ function ArchTeamsN({ C, season, det, stats, names, col, fm, sk, openRoute, bott
   }, [acc, dPart, official, names, col]); // eslint-disable-line react-hooks/exhaustive-deps
   if (!sections.length) return null;
   const split = !!acc && Object.keys(acc).length >= 2;
-  return <StatListsN C={C} sections={sections} pending={dPart !== part} podium openRoute={openRoute} bottom={bottom} header={split ? <View style={{ paddingHorizontal: 16, paddingTop: 8 }}><Segmented C={C} options={[{ value: 0, label: 'Totale' }, { value: 1, label: 'Casa' }, { value: 2, label: 'Trasferta' }]} value={part} onChange={setPart} /></View> : null} />;
+  return <StatListsN C={C} sections={sections} pending={dPart !== part} podium openRoute={openRoute} bottom={bottom} />;
 }
 
 // arbitri della stagione: medie dalle partite archiviate (cartellini, falli, rigori)

@@ -35,18 +35,22 @@ const dayHeadLive = (iso) => {
 
 // Partite consecutive della stessa competizione: un riquadro a pillola per gruppo, col colore della competizione
 function Pills({ C, items, row, dayHead }) {
+  const { data: idx } = useAsync(() => archIndex(), []);
   const groups = [];
   items.forEach((it) => {
     const g = groups[groups.length - 1];
-    if (g && g.lid === it.lid) g.items.push(it); else groups.push({ lid: it.lid, items: [it] });
+    const gk = it.lid || (it.fm ? `fm-${it.fm}` : '');
+    if (g && g.gk === gk) g.items.push(it); else groups.push({ gk, lid: it.lid, fm: it.fm || FM_ID[it.lid], items: [it] });
   });
   return (
     <View>
       {groups.map((g, gi) => {
-        const lg = leagueById(g.lid);
+        // competizione non in elenco (coppe e campionati d'archivio): logo FotMob (chiaro/scuro) e nome dall'indice, mai intestazione vuota
+        const ix = idx && g.fm ? idx[String(g.fm)] : null;
+        const lg = leagueById(g.lid) || (g.fm ? { id: `fm-${g.fm}`, name: (ix && ix.n) || '', logo: `https://images.fotmob.com/image_resources/logo/leaguelogo/${g.fm}.png`, logoDark: `https://images.fotmob.com/image_resources/logo/leaguelogo/dark/${g.fm}.png` } : null);
         const tint = leagueTint(g.lid);
         return (
-          <View key={`${g.lid}-${gi}-${g.items[0].key}`} style={{ marginHorizontal: 16, marginTop: 16, borderRadius: 24, overflow: 'hidden', borderWidth: 1, borderColor: `${tint}55` }}>
+          <View key={`${g.gk}-${gi}-${g.items[0].key}`} style={{ marginHorizontal: 16, marginTop: 16, borderRadius: 24, overflow: 'hidden', borderWidth: 1, borderColor: `${tint}55` }}>
             <LinearGradient pointerEvents="none" colors={[`${tint}45`, `${tint}08`]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0.4 }} style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }} />
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 16, paddingTop: 14, paddingBottom: 4 }}>
               {lg ? <LeagueLogo league={lg} size={20} C={C} /> : null}

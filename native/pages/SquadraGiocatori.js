@@ -20,12 +20,11 @@ const PARTS = [{ value: 'tot', label: 'Totale' }, { value: 'home', label: 'Casa'
 const CATS = [{ value: 'all', label: 'Tutte' }, { value: 'Attacco', label: 'Attacco' }, { value: 'Difesa', label: 'Difesa' }, { value: 'Disciplina', label: 'Disciplina' }, { value: 'Gioco', label: 'Gioco' }];
 export const playerCat = (g) => (['Attacco', 'Difesa', 'Disciplina'].includes(g) ? g : 'Gioco');
 
-function Pills({ C, part, onPart, cat, onCat, split, has }) {
-  const cats = CATS.filter((c) => c.value === 'all' || has.includes(c.value));
+function Pills({ C, part, onPart }) {
+  // solo Totale / Ogni 90': Casa/Trasferta e i filtri Tutte/Attacco/Difesa/Disciplina/Gioco non servono (per spostarsi c'e' "Vai a")
   return (
-    <View style={{ gap: 8, paddingHorizontal: 16, paddingTop: 8 }}>
-      <Segmented C={C} options={split ? PARTS : PARTS.filter((p) => p.value === 'tot' || p.value === 'p90')} value={part} onChange={onPart} />
-      {cats.length > 2 ? <Segmented C={C} options={cats} value={cats.some((c) => c.value === cat) ? cat : 'all'} onChange={onCat} /> : null}
+    <View style={{ paddingHorizontal: 16, paddingTop: 8 }}>
+      <Segmented C={C} options={PARTS.filter((p) => p.value === 'tot' || p.value === 'p90')} value={part === 'p90' ? 'p90' : 'tot'} onChange={onPart} />
     </View>
   );
 }
@@ -44,7 +43,7 @@ function PastPlayers({ C, fm, sk, team, part, onPart, cat, onCat, split, header,
   const has = [...new Set(secs.map((x) => playerCat(x.group)))];
   const sections = cat === 'all' || !has.includes(cat) ? secs : secs.filter((x) => playerCat(x.group) === cat);
   if (!sections.length && part === 'tot') return <View>{header}</View>;
-  return <StatListsN C={C} sections={sections} podium openRoute={openRoute} bottom={bottom} header={<>{header}<Pills C={C} part={part} onPart={onPart} cat={cat} onCat={onCat} split={split} has={has} /></>} />;
+  return <StatListsN C={C} sections={sections} podium openRoute={openRoute} bottom={bottom} header={<>{header}<Pills C={C} part={part} onPart={onPart} /></>} />;
 }
 
 export default function SquadraGiocatori({ C, teamId, openRoute, bottom }) {
@@ -65,7 +64,7 @@ export default function SquadraGiocatori({ C, teamId, openRoute, bottom }) {
     const secs = appPlayerSections(C, team.leagueId, team.id, mode);
     const has = [...new Set(secs.map((s) => playerCat(s.group)))];
     const sections = cat === 'all' || !has.includes(cat) ? secs : secs.filter((s) => playerCat(s.group) === cat);
-    return <StatListsN C={C} sections={sections} pending={dUse !== usePart} podium openRoute={openRoute} bottom={bottom} header={<>{bar}<Pills C={C} part={usePart} onPart={setPart} cat={cat} onCat={setCat} split={split} has={has} /></>} />;
+    return <StatListsN C={C} sections={sections} pending={dUse !== usePart} podium openRoute={openRoute} bottom={bottom} header={<>{bar}<Pills C={C} part={usePart} onPart={setPart} /></>} />;
   }
   if (fm && sk) return <PastPlayers C={C} fm={fm} sk={sk} team={team} part={usePart} onPart={setPart} cat={cat} onCat={setCat} split={split} header={bar} openRoute={openRoute} bottom={bottom} />;
   return <View>{bar}</View>;

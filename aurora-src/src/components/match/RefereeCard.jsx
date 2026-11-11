@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import FlagDot from '@/components/FlagDot';
 import UnderBar from '@/components/referee/UnderBar';
-import { refereeById, findRefereeByName, refStatsIn, leagueRefAvg, flagCodeOf } from '@/data/referees';
+import { refereeById, findRefereeByName, refStatsIn, leagueRefAvg, flagCodeOf, leagueCC } from '@/data/referees';
 import { Image } from '@/components/ui/image';
 import { WhistleIcon } from '@/components/LineIcons';
 import { conceptOf } from '@/components/match/FormCard';
@@ -65,7 +65,7 @@ export default function RefereeCard({ match, concept = 'b' }) {
   const when = two ? (two.seasons > 1 ? 'nelle ultime 2 stagioni' : "nell'ultima stagione") : 'questa stagione';
   const barY = st && lg && st.y != null && lg.y != null;
   const barF = st && lg && st.fo != null && lg.fo != null;
-  const flag = r && r.cc ? flagCodeOf(r.cc) : fmRef && fmRef.cc ? flagCodeOf(fmRef.cc) : '';
+  const flag = flagCodeOf((r && r.cc) || (fmRef && fmRef.cc) || leagueCC(match.leagueId));
   const inner = (
     <>
       <div className="flex items-center gap-3 px-4 py-3.5">

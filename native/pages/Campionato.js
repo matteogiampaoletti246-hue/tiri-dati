@@ -1,7 +1,7 @@
 // Scheda Campionato nativa (/campionato/:id): banner con i colori del campionato, tendina stagioni e schede
 // Partite / Classifica / Stat. squadre / Giocatori / Arbitri. Stagione in corso dai dati dell'app, stagioni passate dall'archivio.
 import React, { useDeferredValue, useEffect, useMemo, useRef, useState } from 'react';
-import { View, Text, Pressable } from 'react-native';
+import { View, Text, Pressable, InteractionManager } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import './../shared/shim';
 import { bootShared } from '../shared/boot';
@@ -99,7 +99,7 @@ function LiveTeams({ C, leagueId, openRoute, bottom }) {
     return out;
   }, [leagueId, dPart, C]);
   if (!sections.length) return <View />;
-  return <StatListsN C={C} sections={sections} pending={dPart !== part} podium openRoute={openRoute} bottom={bottom} header={<View style={{ paddingHorizontal: 16, paddingTop: 8 }}><Segmented C={C} options={[{ value: 0, label: 'Totale' }, { value: 1, label: 'Casa' }, { value: 2, label: 'Trasferta' }]} value={part} onChange={setPart} /></View>} />;
+  return <StatListsN C={C} sections={sections} pending={dPart !== part} podium openRoute={openRoute} bottom={bottom} />;
 }
 
 // top 5 campionati: giocatori dell'app; coppe europee e altre competizioni: statistiche FotMob della competizione stessa
@@ -164,6 +164,8 @@ function Body({ C, top, onBack, bottom, openRoute, league, fm, past, fsd }) {
   );
 }
 
+// la pagina vera si monta solo a tendina finita: durante lo scorrimento resta lo scheletro leggero (niente scatti, tocco subito preso)
+const afterSlide = () => new Promise((res) => { setTimeout(() => InteractionManager.runAfterInteractions(() => res()), 300); });
 export default function Campionato({ C, top, onBack, bottom = 90, openRoute, params }) {
   const id = params && params.id ? decodeURIComponent(params.id) : null;
   const [st, setSt] = useState('load');
@@ -185,6 +187,7 @@ export default function Campionato({ C, top, onBack, bottom = 90, openRoute, par
       const curKey = (league.season || '').replace('/', '-');
       const past = sortSeasons((archS || []).filter((x) => x !== curKey && !(fsd && fsd.empty.includes(x))));
       resetSel(`lg-${fmId || league.id}`);
+      await afterSlide();
       if (live) { setInfo({ league, fm: fmId, past, fsd }); setSt('ok'); }
     })().catch(() => { if (live) setSt('err'); });
     return () => { live = false; };
