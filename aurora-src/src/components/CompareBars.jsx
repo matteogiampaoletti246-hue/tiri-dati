@@ -1,6 +1,5 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import SlidingNumber from './SlidingNumber';
-import { statGet, statSet } from '@/lib/statMemory';
 import { shown } from '@/lib/tint';
 
 // barra/numero di chi perde: piu' tenue per tutti i colori, bianco compreso (concept A: barra 50%, numero 70%)
@@ -14,36 +13,10 @@ const MOVE = { dur: 620, ease: 'cubic-bezier(.22,1,.36,1)' };
 
 // Confronto squadra / squadra. Chi ha il valore più alto è in colore pieno, l'altra sbiadita.
 // variant: a = barre dal centro, b = barra unica divisa, c = numeri con linee sottili.
-export default function CompareBars({ rows, homeColor = 'var(--accent)', awayColor = 'var(--live)', format = (v) => v, variant = 'a', memKey }) {
-  // numeri vecchi per mezzo secondo, poi scorrono verso quelli aggiornati (memoria per partita, `statMemory`)
-  const sig = rows.map((r) => `${r.label}:${r.home}:${r.away}`).join('|');
-  const [old, setOld] = useState(null);
-  const checked = useRef(false);
-  // prima del primo disegno con i dati: se la memoria ha numeri diversi, si parte da quelli (nessun fotogramma coi nuovi)
-  useLayoutEffect(() => {
-    if (checked.current || !memKey || !rows.length) return;
-    checked.current = true;
-    const m = statGet(memKey);
-    if (m && rows.some((r) => m[r.label] && (m[r.label][0] !== r.home || m[r.label][1] !== r.away))) setOld(m);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [memKey, sig]);
+export default function CompareBars({ rows, homeColor = 'var(--accent)', awayColor = 'var(--live)', format = (v) => v, variant = 'a' }) {
+  // le barre e i numeri compaiono subito ai valori veri (mai da zero, mai da valori vecchi): quando i dati cambiano
+  // (Totale / 1° tempo / 2° tempo, aggiornamenti live) ogni barra scorre direttamente dal valore in cui sta al nuovo.
   const box = useRef(null);
-  useEffect(() => {
-    if (!memKey) return undefined;
-    const v = {};
-    rows.forEach((r) => { v[r.label] = [r.home, r.away]; });
-    statSet(memKey, v);
-    if (!old) return undefined;
-    // le schede sono gia' montate prima di essere viste: il mezzo secondo parte quando il riquadro e' davvero sullo schermo
-    const el = box.current;
-    let t = 0;
-    const go = () => { if (!t) t = setTimeout(() => setOld(null), 500); };
-    if (!el || typeof IntersectionObserver === 'undefined') { go(); return () => clearTimeout(t); }
-    const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting && e.intersectionRatio > 0.2)) { go(); io.disconnect(); } }, { threshold: [0.2] });
-    io.observe(el);
-    return () => { io.disconnect(); clearTimeout(t); };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [memKey, sig, old]);
 
   // d = stile delle statistiche partita: numeri neri, nome al centro, barra divisa azzurra / grigia (chi ha di piu' e' in evidenza)
   if (variant === 'd') {
@@ -119,22 +92,20 @@ export default function CompareBars({ rows, homeColor = 'var(--accent)', awayCol
           );
         }
         // A "Paired Bars": barre a specchio dal centro nei colori sociali; chi prevale ha il colore pieno e il numero colorato
-        const o = old && old[row.label];
-        const vh = o ? Math.abs(o[0] || 0) : h;
-        const va = o ? Math.abs(o[1] || 0) : a;
-        const mx = Math.max(vh, va) || 1;
+        const vh = h;
+        const va = a;
+        const mx = max;
         const hc = shown(homeColor);
         const ac = shown(awayColor);
         const hWin = vh >= va;
         const aWin = va >= vh;
-        const tx = (v, t) => (o ? fmt(v) : t);
         const bar = `transform ${MOVE.dur}ms ${MOVE.ease}, opacity .45s ease`;
         return (
           <div key={row.label}>
             <div className="flex items-baseline gap-2 text-[13.5px]">
-              <SlidingNumber text={tx(o && o[0], ht)} className="font-extrabold" style={{ color: hc, opacity: hWin ? 1 : dim(hc) + 0.2, transition: 'opacity .45s ease' }} />
+              <SlidingNumber text={ht} className="font-extrabold" style={{ color: hc, opacity: hWin ? 1 : dim(hc) + 0.2, transition: 'opacity .45s ease' }} />
               <span className="mx-auto truncate text-center text-[12px]" style={{ color: 'var(--ink-3)' }}>{row.label}</span>
-              <SlidingNumber text={tx(o && o[1], at)} className="font-extrabold" style={{ color: ac, opacity: aWin ? 1 : dim(ac) + 0.2, transition: 'opacity .45s ease' }} />
+              <SlidingNumber text={at} className="font-extrabold" style={{ color: ac, opacity: aWin ? 1 : dim(ac) + 0.2, transition: 'opacity .45s ease' }} />
             </div>
             <div className="mt-1.5 flex h-[6px] gap-[4px]">
               <div className="relative h-full flex-1 overflow-hidden rounded-full" style={{ background: 'var(--hair-2)', ...TRACK }}>
