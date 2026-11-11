@@ -16,7 +16,9 @@ import { flagCodeOf } from '@/data/referees';
 import { scoreColorSmooth } from '@/lib/calc';
 import { comma } from '@/lib/format';
 import { teamColor } from '@/lib/tint';
-import { TeamCrest, Panel } from '../shared/ui';
+import { TeamCrest, Panel, Segmented } from '../shared/ui';
+import Dropdown from '../shared/Dropdown';
+import StatIconN from '../shared/StatIconN';
 import { BallIcon, BootIcon } from '../shared/Icons';
 import { SubIcon } from './PartitaInfo';
 
@@ -367,9 +369,9 @@ export default function Formazioni({ C, match, view, home, away, pre, openRoute 
             {labels}
           </View>
           {pre ? (
-            <View style={{ marginBottom: 12, gap: 8 }}>
-              <View style={{ flexDirection: 'row', gap: 6, flexWrap: 'wrap', justifyContent: 'center' }}>{TOP_STATS.map((s) => <Chip key={s.key} C={C} on={stat === s.key} onPress={() => onStat(s.key)}>{s.short}</Chip>)}</View>
-              <View style={{ flexDirection: 'row', gap: 6, justifyContent: 'center' }}>{LINES[stat].map((l) => <Chip key={l} C={C} on={line === l} onPress={() => setLine(l)}>{`Over ${String(l).replace('.', ',')}`}</Chip>)}</View>
+            <View style={{ marginBottom: 12, gap: 10 }}>
+              <View style={{ flexDirection: 'row' }}><Dropdown C={C} options={TOP_STATS} value={stat} onChange={onStat} side="right" width={222} fill style={{ flex: 1 }} icon={(o, col) => <StatIconN k={o.icon} size={17} color={col} />} /></View>
+              <Segmented C={C} options={LINES[stat].map((l) => ({ value: l, label: `Over ${String(l).replace('.', ',')}` }))} value={line} onChange={setLine} />
             </View>
           ) : null}
           <DualPitch C={C} lh={lh} la={la} home={home} away={away} valOf={valOf} match={match} mvpId={mvpId} pre={pre} openRoute={openRoute} />

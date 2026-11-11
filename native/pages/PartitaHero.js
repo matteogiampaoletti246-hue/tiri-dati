@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { TeamCrest, LeagueLogo } from '../shared/ui';
 import { matchColors } from '@/lib/tint';
+import { matchTint } from '@/data/matchTint';
 import { teamForm } from '@/data/matches';
 import { longDate } from '@/lib/format';
 
@@ -12,6 +13,14 @@ const short = (n) => {
   if (/^\(?\s*(tbd|tba|n\/a|unknown)\s*\)?$/i.test(String(n || '').trim())) return '';
   const p = String(n || '').trim().split(/\s+/);
   return p.length < 2 ? p[0] || '' : `${p[0][0]}. ${p.slice(1).join(' ')}`;
+};
+const darkCrest = (t) => {
+  if (!t) return false;
+  if (/jablonec/i.test(t.name || '')) return true;
+  const c = t.colors && t.colors[0];
+  if (!/^#[0-9a-f]{6}$/i.test(c || '')) return false;
+  const [r, g, b] = [1, 3, 5].map((i) => parseInt(c.slice(i, i + 2), 16));
+  return 0.299 * r + 0.587 * g + 0.114 * b < 62;
 };
 const pad = (n) => String(n).padStart(2, '0');
 export const showCountdown = (ts, now = Date.now()) => {
@@ -73,11 +82,12 @@ export default function PartitaHero({ C, match, view, league, home, away, onBack
   }, [live, finished, cdOn, match.ts]);
   const counting = cdOn && !live && !finished;
   const [c1, c2] = matchColors(home, away);
+  const tint = league ? matchTint(league.id, league) : null;
   const goTeam = (t) => t && openRoute && openRoute(`/squadra/${t.id}`);
   const Side = ({ team, id }) => (
     <View style={{ flex: 1, alignItems: 'center', gap: 8 }}>
       <Pressable onPress={() => goTeam(team)} style={{ alignItems: 'center', gap: 8 }}>
-        <TeamCrest team={team} size={54} C={C} />
+        {darkCrest(team) ? <View style={{ width: 66, height: 66, borderRadius: 33, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255,255,255,0.9)' }}><TeamCrest team={team} size={48} C={C} /></View> : <TeamCrest team={team} size={54} C={C} />}
         <Text style={{ color: C.ink, fontSize: 13, fontWeight: '600', textAlign: 'center' }}>{team ? team.name : ''}</Text>
       </Pressable>
       {!live && !finished ? <FormDots C={C} form={match.formOf ? match.formOf(id) : teamForm(id)} /> : null}
@@ -93,13 +103,13 @@ export default function PartitaHero({ C, match, view, league, home, away, onBack
         </Pressable>
         <View style={{ width: 36 }} />
       </View>
-      <View style={{ marginTop: 12, borderRadius: 28, overflow: 'hidden', borderWidth: 1, borderColor: C.border, backgroundColor: C.card2, paddingHorizontal: 16, paddingTop: 20, paddingBottom: 16 }}>
+      <View style={{ marginTop: 12, borderRadius: 28, overflow: 'hidden', borderWidth: 2, borderColor: tint || C.border, backgroundColor: C.card2, paddingHorizontal: 16, paddingTop: 20, paddingBottom: 16 }}>
         <LinearGradient pointerEvents="none" colors={[`${c1}${C.dark ? '8C' : '59'}`, `${c1}00`, `${c2}00`, `${c2}${C.dark ? '80' : '55'}`]} locations={[0, 0.38, 0.62, 1]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }} />
         <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
           <Side team={home} id={match.homeId} />
           <View style={{ width: counting ? 124 : 104, alignItems: 'center', paddingTop: 12 }}>
             {live || finished ? <Text style={{ color: live ? C.live : C.ink, fontSize: 32, fontWeight: '800', fontVariant: ['tabular-nums'] }}>{score}</Text>
-              : counting ? (<><Text style={{ color: C.ink3, fontSize: 9.5, fontWeight: '800', letterSpacing: 1.2, textTransform: 'uppercase' }}>Calcio d&apos;inizio tra</Text><Countdown C={C} ts={match.ts} onDone={() => setCdOn(false)} /></>)
+              : counting ? (<><Text style={{ alignSelf: 'stretch', textAlign: 'center', color: C.ink3, fontSize: 9.5, fontWeight: '800', letterSpacing: 1.2, textTransform: 'uppercase', marginBottom: 2 }}>Calcio d&apos;inizio tra</Text><Countdown C={C} ts={match.ts} onDone={() => setCdOn(false)} /></>)
                 : <Text style={{ color: C.ink, fontSize: 30, fontWeight: '800' }}>{match.kickoff}</Text>}
             {live ? (
               <View style={{ marginTop: 6, flexDirection: 'row', alignItems: 'center', gap: 6 }}>
