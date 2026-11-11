@@ -1,19 +1,4 @@
 {
-"5103695": {
-"n": "L. Casagrande",
-"src": "api-football",
-"at": "2026-11-04T01:10+00:00"
-},
-"5103696": {
-"n": "R. Claus",
-"src": "api-football",
-"at": "2026-11-04T01:10+00:00"
-},
-"5103697": {
-"n": "W. Sampaio",
-"src": "api-football",
-"at": "2026-11-04T01:10+00:00"
-},
 "5781802": {
 "n": "Allard Lindhout",
 "src": "api-football",
@@ -775,8 +760,7 @@
 "at": "2026-11-09T09:19+00:00"
 },
 "_err": [
-"2026-11-12: {\"plan\": \"Free plans do not have access to this date, try from 2026-11-09 to 2026-11-11.\"}",
-"2026-11-13: {\"plan\": \"Free plans do not have access to this date, try from 2026-11-09 to 2026-11-11.\"}"
+"2026-11-13: {\"plan\": \"Free plans do not have access to this date, try from 2026-11-10 to 2026-11-12.\"}"
 ],
-"_at": "2026-11-10T20:52+00:00"
+"_at": "2026-11-11T01:12+00:00"
 }
