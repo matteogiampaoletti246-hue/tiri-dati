@@ -269,3 +269,4 @@ Come nel sito: il filtro delle linee (`Segmented fit pad={10}`) prende lo spazio
 - Banner squadra nelle carriere e nelle statistiche del giocatore: toccati aprono la scheda della squadra.
 - Loghi scuri (Champions, Premier, Ligue 1, Conference) risolti alla fonte in `buildLeagues` con il file FotMob: bianchi di notte ovunque.
 - Competizioni della stessa famiglia (Nations League, World Cup, qualificazioni) usano i colori del torneo principale (`familyOf`).
+- Dock: cambio voce con carosello (concept B): Home e pagine scorrono attaccate 1:1 (260-280 ms), a destra andando avanti e a sinistra tornando; swipe indietro e pagine non-dock restano come prima.

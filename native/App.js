@@ -977,9 +977,13 @@ const scoreStr = (sc) => { const x = /(\d+)\s*-\s*(\d+)/.exec(String(sc || ''));
 // la voce attiva si allarga in pillola con il nome. Componente a parte e memoizzato: non si ridisegna quando la Home cambia giorno o scorre.
 const isTabRoute = (r) => TABS.some(([, , x]) => x && String(r || '').startsWith(x));
 // pila di pagine native: ognuna sta sotto la successiva (stato e scorrimento restano); scorre di lato solo quella indicata da nvIdx
-function NatLayer({ i, nv, nvIdx, hidden, live, children }) {
+function NatLayer({ i, nv, nvIdx, tsOn, ts, tsDir, hidden, live, children }) {
   const { C } = useT();
-  const st = useAnimatedStyle(() => ({ transform: [{ translateX: nvIdx.value === i ? nv.value : 0 }] }));
+  // cambio voce dal dock (carosello): le due pagine scorrono attaccate, 1:1
+  const st = useAnimatedStyle(() => {
+    if (tsOn.value) return { transform: [{ translateX: i === 0 ? -tsDir.value * W * ts.value : tsDir.value * W * (1 - ts.value) }] };
+    return { transform: [{ translateX: nvIdx.value === i ? nv.value : 0 }] };
+  });
   return <Animated.View pointerEvents={hidden ? 'none' : 'auto'} style={[StyleSheet.absoluteFill, { zIndex: 5 + i, backgroundColor: C.bg }, hidden ? { display: 'none' } : null, st]}><Beams still={!live} /><LiveLayerCtx.Provider value={!!live && !hidden}>{children}</LiveLayerCtx.Provider></Animated.View>;
 }
 const TABS = [['Home', 'home-outline', null], ['Calcolatore', 'calculator-outline', '/calcolatore'], ['Giocatori', 'people-outline', '/migliori-giocatori'], ['Matchup', 'sword-cross', '/migliori-matchup']];
@@ -1212,6 +1216,7 @@ function Screen({ onTheme, onReset, themePref }) {
   const x0 = useSharedValue(TODAY_INDEX);
   const ov = useSharedValue(W); // pagina web: W = fuori schermo a destra, 0 = aperta
   const ovStart = useSharedValue(0);
+  const hx = useSharedValue(0); const ts = useSharedValue(0); const tsOn = useSharedValue(0); const tsDir = useSharedValue(1); // dock: Home e pagine scorrono insieme
   const nv = useSharedValue(0); const nvIdx = useSharedValue(-1); const stackN = useSharedValue(0); const natBelow = useSharedValue(0);
 
   useEffect(() => {
@@ -1337,11 +1342,20 @@ function Screen({ onTheme, onReset, themePref }) {
     const mw = AppState.addEventListener('memoryWarning', () => { try { Image.clearMemoryCache(); } catch (e) { /* ignora */ } });
     return () => { sub.remove(); mw.remove(); };
   }, [onReset]);
+  const finishTab = useCallback((p) => { tsOn.value = 0; ts.value = 0; stackN.value = 1; setNatStack([p]); }, [tsOn, ts, stackN]);
   const openRoute = useCallback((route) => {
     const path0 = route.split('?')[0];
     if (!nativeOf(path0)) return; // pagina senza versione nativa (mai usata dall'app)
     try { Keyboard.dismiss(); } catch (e) { /* ignora */ } // una pagina aperta da un campo in modifica (Calcolatore) non deve tenere la tastiera
     const st = natStackRef.current;
+    const TABI = (p) => TABS.findIndex(([, , x]) => x && String(p || '').startsWith(x));
+    if (openRef.current && st.length === 1 && !natHiddenRef.current && isTabRoute(path0) && isTabRoute(st[0]) && st[0] !== path0 && !tsOn.value) { // voce del dock -> altra voce: carosello
+      const dir = TABI(path0) > TABI(st[0]) ? 1 : -1;
+      tsDir.value = dir; ts.value = 0; tsOn.value = 1; stackN.value = 2; nvIdx.value = -1; nv.value = 0;
+      setNatStack([st[0], path0]); setTab(tabOf(path0)); setBarOn(true);
+      ts.value = withTiming(1, { duration: 280, easing: Easing.out(Easing.cubic) }, (d) => { if (d) runOnJS(finishTab)(path0); });
+      return;
+    }
     if (openRef.current && st.length && !natHiddenRef.current && !isTabRoute(path0)) { // da una pagina a un'altra: si impila
       nvIdx.value = st.length; nv.value = W; stackN.value = st.length + 1; setNatStack([...st, path0]);
       nv.value = withTiming(0, { duration: 260, easing: Easing.out(Easing.cubic) });
@@ -1349,13 +1363,15 @@ function Screen({ onTheme, onReset, themePref }) {
     }
     nvIdx.value = -1; nv.value = 0; stackN.value = 1; natBelow.value = 0; setNatHidden(false); setNatStack([path0]);
     openRef.current = true; setWebOpen(true); setBarOn(isTabRoute(path0)); if (isTabRoute(path0)) setTab(tabOf(path0)); ov.value = withTiming(0, { duration: 260, easing: Easing.out(Easing.cubic) });
-  }, [ov, nv, nvIdx, stackN, natBelow]);
+    if (isTabRoute(path0)) { hx.value = 0; hx.value = withTiming(-W, { duration: 260, easing: Easing.out(Easing.cubic) }); } // dalla Home: la Home esce a sinistra insieme alla pagina che entra
+  }, [ov, nv, nvIdx, stackN, natBelow, hx, ts, tsOn, tsDir, finishTab]);
   // la pagina web lascia la scheda mostrata: riaprendo la stessa voce si aspetta il suo disegno (niente Linee guida intraviste)
   const afterClose = useCallback(() => { setNatStack([]); setNatHidden(false); stackN.value = 0; natBelow.value = 0; nvIdx.value = -1; nv.value = 0; }, [stackN, natBelow, nvIdx, nv]);
   const onTop = useCallback((route) => {
     if (!route) { setHomeTop((n) => n + 1); return; }
   }, []);
-  const closeWeb = useCallback(() => { openRef.current = false; setWebOpen(false); ov.value = withTiming(W, { duration: 240, easing: Easing.out(Easing.cubic) }, (done) => { if (done) runOnJS(afterClose)(); }); }, [afterClose, ov]);
+  const closeWeb = useCallback(() => { hx.value = 0; openRef.current = false; setWebOpen(false); ov.value = withTiming(W, { duration: 240, easing: Easing.out(Easing.cubic) }, (done) => { if (done) runOnJS(afterClose)(); }); }, [afterClose, ov, hx]);
+  const dockHome = useCallback(() => { closeWeb(); hx.value = -W; hx.value = withTiming(0, { duration: 240, easing: Easing.out(Easing.cubic) }); }, [closeWeb, hx]); // Home dal dock: Home rientra da sinistra insieme alla pagina che esce
   const finishPop = useCallback(() => { setNatStack((q) => q.slice(0, -1)); }, []);
   const popNat = useCallback(() => {
     const n = natStackRef.current.length;
@@ -1434,10 +1450,10 @@ function Screen({ onTheme, onReset, themePref }) {
     if (go) { runOnJS(markClosed)(); ov.value = withTiming(W, { duration: 200, easing: Easing.out(Easing.cubic) }, (done) => { if (done) runOnJS(afterClose)(); }); } else ov.value = withTiming(0, { duration: 180 });
   };
   const edge = useMemo(() => Gesture.Pan().activeOffsetX([6, 1000]).failOffsetY([-40, 40])
-    .onStart(() => { cancelAnimation(ov); cancelAnimation(nv); edgeOn.value = 1; if (stackN.value > 1) { nvIdx.value = stackN.value - 1; ovStart.value = nv.value; } else ovStart.value = ov.value; })
+    .onStart(() => { cancelAnimation(ov); cancelAnimation(nv); edgeOn.value = 1; hx.value = 0; if (stackN.value > 1) { nvIdx.value = stackN.value - 1; ovStart.value = nv.value; } else ovStart.value = ov.value; })
     .onUpdate((e) => { const v = Math.min(W, Math.max(0, ovStart.value + e.translationX * SWIPE_GAIN)); if (stackN.value > 1) nv.value = v; else ov.value = v; })
     .onEnd((e) => { edgeSettle(e); })
-    .onFinalize((e) => { edgeSettle(e); }), [ov, ovStart, nv, nvIdx, stackN, natBelow, afterClose, markClosed, finishPop, revealNat, edgeOn]); // eslint-disable-line react-hooks/exhaustive-deps
+    .onFinalize((e) => { edgeSettle(e); }), [ov, ovStart, nv, nvIdx, stackN, natBelow, afterClose, markClosed, finishPop, revealNat, edgeOn, hx]); // eslint-disable-line react-hooks/exhaustive-deps
   // swipe indietro da qualunque punto dello schermo (sulla prima scheda o nelle pagine senza schede)
   const anyBack = useMemo(() => Gesture.Pan().manualActivation(true)
     .onTouchesDown((e) => { const t = e.allTouches[0]; if (t) { bx.value = t.absoluteX; by.value = t.absoluteY; } })
@@ -1447,10 +1463,11 @@ function Screen({ onTheme, onReset, themePref }) {
       const dx = t.absoluteX - bx.value, dy = t.absoluteY - by.value;
       if (dx > 12 && Math.abs(dy) < dx * 0.7) st.activate(); else if (Math.abs(dy) > 16 || dx < -12) st.fail();
     })
-    .onStart(() => { cancelAnimation(ov); cancelAnimation(nv); edgeOn.value = 1; if (stackN.value > 1) { nvIdx.value = stackN.value - 1; ovStart.value = nv.value; } else ovStart.value = ov.value; })
+    .onStart(() => { cancelAnimation(ov); cancelAnimation(nv); edgeOn.value = 1; hx.value = 0; if (stackN.value > 1) { nvIdx.value = stackN.value - 1; ovStart.value = nv.value; } else ovStart.value = ov.value; })
     .onUpdate((e) => { const v = Math.min(W, Math.max(0, ovStart.value + e.translationX * SWIPE_GAIN)); if (stackN.value > 1) nv.value = v; else ov.value = v; })
     .onEnd((e) => { edgeSettle(e); })
-    .onFinalize((e) => { edgeSettle(e); }), [ov, ovStart, nv, nvIdx, stackN, natBelow, afterClose, markClosed, finishPop, revealNat, edgeOn, bx, by, sheetSV]); // eslint-disable-line react-hooks/exhaustive-deps
+    .onFinalize((e) => { edgeSettle(e); }), [ov, ovStart, nv, nvIdx, stackN, natBelow, afterClose, markClosed, finishPop, revealNat, edgeOn, bx, by, sheetSV, hx]); // eslint-disable-line react-hooks/exhaustive-deps
+  const homeSt = useAnimatedStyle(() => ({ transform: [{ translateX: hx.value }] }));
   const ovStyle = useAnimatedStyle(() => ({ transform: [{ translateX: ov.value }] }));
 
   if (!data) return <View style={[s.root, { paddingTop: insets.top }]}><SkHome /></View>;
@@ -1460,6 +1477,7 @@ function Screen({ onTheme, onReset, themePref }) {
     <View style={[s.root, { paddingTop: insets.top }]} onTouchStart={(e) => { TOUCH.y = e.nativeEvent.pageY; }}>
       <Beams />
       <StatusBar barStyle={C.dark ? 'light-content' : 'dark-content'} />
+      <Animated.View style={[{ flex: 1 }, homeSt]}>
       <Header onSearch={openSearch} onMenu={openMenuP} onCal={() => setCal(true)} />
       <ScrollView ref={strip} horizontal showsHorizontalScrollIndicator={false} style={{ flexGrow: 0 }} contentContainerStyle={s.strip}>
         {dates.map((d, i) => (
@@ -1475,18 +1493,19 @@ function Screen({ onTheme, onReset, themePref }) {
           {shown.map((i) => <Pane key={i} idx={i} x={x}><Day iso={keys[i]} rows={data[i]} filter={filter === 'live' && keys[i] === todayKey ? 'live' : 'all'} onOpen={openMatch} onLeague={openRoute} top={homeTop} isCur={i === cur} {...(data[i] && data[i].length ? null : { near: nearOf(i), onDay: goDayBtn, onJump: pick })} /></Pane>)}
         </View>
       </GestureDetector>
+      </Animated.View>
       <Calendar visible={cal} selected={dates[cur] || new Date()} onClose={() => setCal(false)} onPick={pick} />
 
       {/* pagina web (resto dell'app): gia' caricata, si apre scorrendo da destra */}
       <Animated.View pointerEvents="box-none" style={[StyleSheet.absoluteFill, { backgroundColor: C.bg }, ovStyle]}>
         <GestureDetector gesture={anyBack}><View pointerEvents="box-none" style={StyleSheet.absoluteFill}>
-        {natStack.map((p, i) => { const n = nativeOf(p); if (!n) return null; return <NatLayer key={`${p}#${i}`} i={i} nv={nv} nvIdx={nvIdx} hidden={natHidden} live={i === natStack.length - 1 && !natHidden}><Guard key={`g${p}`} onError={() => setTimeout(popNat, 0)}>{React.createElement(n.Comp, { params: n.params, C, top: insets.top, onBack: popNat, bottom: insets.bottom + 90, openRoute, onSearch: () => setSrch(true), onMenu: openMenuP })}</Guard></NatLayer>; })}
+        {natStack.map((p, i) => { const n = nativeOf(p); if (!n) return null; return <NatLayer key={p} i={i} nv={nv} nvIdx={nvIdx} tsOn={tsOn} ts={ts} tsDir={tsDir} hidden={natHidden} live={i === natStack.length - 1 && !natHidden}><Guard key={`g${p}`} onError={() => setTimeout(popNat, 0)}>{React.createElement(n.Comp, { params: n.params, C, top: insets.top, onBack: popNat, bottom: insets.bottom + 90, openRoute, onSearch: () => setSrch(true), onMenu: openMenuP })}</Guard></NatLayer>; })}
         </View></GestureDetector>
         <Guard autoReset key="gp" onError={() => closePanel()}><PlayerPanelHost C={C} top={insets.top} bottom={insets.bottom} openRoute={openRoute} /></Guard>
         <Guard autoReset key="gs" onError={() => closePlayer()}><PlayerSheetHost C={C} bottom={insets.bottom} openRoute={openRoute} /></Guard>
         <GestureDetector gesture={edge}><View pointerEvents="auto" style={[s.edge, { width: EDGE_W, top: insets.top + 98, zIndex: 200, elevation: 200 }]} /></GestureDetector>
       </Animated.View>
-      {!webOpen || barOn ? <View pointerEvents={sheetOpen ? 'none' : 'box-none'} style={[StyleSheet.absoluteFill, sheetOpen && { opacity: 0, transform: [{ translateY: 200 }] }]}><TabBar onOpen={openRoute} onHome={closeWeb} onTop={onTop} active={webOpen ? tab : null} bottom={insets.bottom} live={liveN} /></View> : null}
+      {!webOpen || barOn ? <View pointerEvents={sheetOpen ? 'none' : 'box-none'} style={[StyleSheet.absoluteFill, sheetOpen && { opacity: 0, transform: [{ translateY: 200 }] }]}><TabBar onOpen={openRoute} onHome={dockHome} onTop={onTop} active={webOpen ? tab : null} bottom={insets.bottom} live={liveN} /></View> : null}
       {/* tendine della riga in alto: sopra la Home e sopra la barra (la barra non cambia) */}
       <SearchPanel open={srch} onClose={closeSrch} onPick={pickSrch} ask={askSearch} res={srchRes} ready top={insets.top + 4} />
       <MenuPanel open={menu} onClose={closeMenu} onGo={goMenu} ui={ui} onCmd={uiCmd} top={insets.top} bottom={insets.bottom} />
