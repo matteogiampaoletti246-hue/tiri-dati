@@ -218,8 +218,8 @@ function Body({ C, top, onSearch, onMenu, openRoute, bottom }) {
       <Head C={C} onSearch={onSearch} onMenu={onMenu} />
       <DayStripN C={C} dates={DAYS} todayIndex={TODAY_I} x={x} value={dayIdx} onChange={setDayIdx} />
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8, paddingHorizontal: 20, paddingTop: 4, paddingBottom: 4 }}>
-        <View style={{ flexShrink: 0 }}><Segmented hug C={C} options={THRESHOLDS.map((t) => ({ value: t.key, label: t.label }))} value={threshold} onChange={onThr} /></View>
-        <Dropdown C={C} options={TOP_STATS} value={stat} onChange={onStat} side="right" width={222} compact style={{ flexShrink: 1, minWidth: 0 }} icon={(o, col) => <StatIconN k={o.icon} size={17} color={col} />} />
+        <View style={{ flex: 1, minWidth: 0 }}><Segmented fit pad={10} C={C} options={THRESHOLDS.map((t) => ({ value: t.key, label: t.label }))} value={threshold} onChange={onThr} /></View>
+        <Dropdown C={C} options={TOP_STATS} value={stat} onChange={onStat} side="right" width={222} compact slim style={{ flexShrink: 0 }} icon={(o, col) => <StatIconN k={o.icon} size={17} color={col} />} />
       </View>
       <Animated.View style={[{ flex: 1 }, leaveSt]}>
         <DayPagerN count={DAYS.length} index={dayIdx} onIndex={setDayIdx} x={x}

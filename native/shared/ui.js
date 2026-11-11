@@ -90,17 +90,17 @@ export function RingBox({ C, radius = 999, pad = 1.5, style, innerStyle, plain, 
 // pillola "liquid glass" (stessa del tasto Tutte | Live della Home): l'indicatore blu-viola scorre con un leggero rimbalzo da una voce all'altra
 const PILL_EASE = Easing.bezier(0.34, 1.42, 0.64, 1);
 const PILL_MS = 600;
-function SegItem({ C, label, on, onPress, onLayout, flex, tight }) {
+function SegItem({ C, label, on, onPress, onLayout, flex, tight, pad, grow }) {
   const a = useSharedValue(on ? 1 : 0);
   useEffect(() => { a.value = withTiming(on ? 1 : 0, { duration: 300 }); }, [on, a]);
   const tx = useAnimatedStyle(() => ({ color: interpolateColor(a.value, [0, 1], [C.ink2, '#FFFFFF']) }), [C]);
   return (
-    <Pressable onPress={onPress} onLayout={onLayout} style={{ flex: flex ? 1 : undefined, minWidth: 0, paddingHorizontal: tight ? 4 : 14, height: 38, alignItems: 'center', justifyContent: 'center' }}>
+    <Pressable onPress={onPress} onLayout={onLayout} style={{ flex: flex ? 1 : undefined, flexGrow: grow ? 1 : undefined, flexShrink: grow ? 0 : undefined, minWidth: grow ? undefined : 0, paddingHorizontal: pad != null ? pad : tight ? 4 : 14, height: 38, alignItems: 'center', justifyContent: 'center' }}>
       <Animated.Text numberOfLines={1} style={[{ fontSize: tight ? 13 : 13.5, fontWeight: '600' }, tx]}>{label}</Animated.Text>
     </Pressable>
   );
 }
-export const Segmented = ({ C, options, value, onChange, hug, liquid }) => {
+export const Segmented = ({ C, options, value, onChange, hug, liquid, pad, fit }) => {
   const [cur, setCur] = useState(value);
   useEffect(() => { setCur(value); }, [value]);
   const pos = useRef({});
@@ -109,7 +109,7 @@ export const Segmented = ({ C, options, value, onChange, hug, liquid }) => {
   const first = useRef(true);
   const lastCur = useRef(value);
   const scroller = useRef(null);
-  const scroll = options.length > 5; // fino a 5 voci stanno tutte nella pillola (Tutte, Attacco, Difesa, Disciplina, Gioco)
+  const scroll = options.length > 5 || !!fit; // fit: occupa lo spazio che resta (come il filtro del sito) e, se le voci non entrano, scorre di lato // fino a 5 voci stanno tutte nella pillola (Tutte, Attacco, Difesa, Disciplina, Gioco)
   const place = (v, animate) => {
     const r = pos.current[String(v)];
     if (!r) return;
@@ -131,7 +131,7 @@ export const Segmented = ({ C, options, value, onChange, hug, liquid }) => {
   const th = useAnimatedStyle(() => ({ width: tw.value, transform: [{ translateX: tx.value }] }));
   const press = (v) => { if (v === cur) return; setCur(v); setTimeout(() => onChange(v), 60); };
   const items = options.map((o) => (
-    <SegItem key={String(o.value)} C={C} label={o.label} on={o.value === cur} tight={options.length === 5} flex={!scroll && !hug} onPress={() => press(o.value)}
+    <SegItem key={String(o.value)} C={C} label={o.label} on={o.value === cur} tight={options.length === 5} pad={pad} grow={!!fit} flex={!scroll && !hug} onPress={() => press(o.value)}
       onLayout={(e) => { const { x, width } = e.nativeEvent.layout; pos.current[String(o.value)] = { x, w: width }; if (String(o.value) === String(cur)) place(cur, false); }} />
   ));
   const thumb = (
@@ -142,7 +142,7 @@ export const Segmented = ({ C, options, value, onChange, hug, liquid }) => {
   return (
     <RingBox C={C} style={[{ height: 41 }, hug && { alignSelf: hug === 'end' ? 'flex-end' : 'flex-start' }]}>
       {scroll ? (
-        <ScrollView ref={scroller} horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ flexDirection: 'row' }}>{thumb}{items}</ScrollView>
+        <ScrollView ref={scroller} horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ flexDirection: 'row', flexGrow: fit ? 1 : 0 }}>{thumb}{items}</ScrollView>
       ) : (
         <View style={{ flex: hug ? 0 : 1, flexDirection: 'row' }}>{thumb}{items}</View>
       )}

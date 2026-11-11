@@ -11,7 +11,7 @@ import { Ionicons } from '@expo/vector-icons';
 const ROW = 46;
 const RROW = 66;
 const okHex = (c) => (typeof c === 'string' && /^#[0-9a-f]{6}$/i.test(c) ? c : null);
-export default function Dropdown({ C, options, value, onChange, side = 'right', icon, width = 222, minWidth, labelKey = 'label', pillKey = 'short', compact, fill, placeholder, style }) {
+export default function Dropdown({ C, options, value, onChange, side = 'right', icon, width = 222, minWidth, labelKey = 'label', pillKey = 'short', compact, fill, placeholder, style, slim }) {
   const ref = useRef(null);
   const [pos, setPos] = useState(null);
   const [picked, setPicked] = useState(null);
@@ -45,9 +45,9 @@ export default function Dropdown({ C, options, value, onChange, side = 'right', 
     <View style={style}>
       <Pressable ref={ref} onPress={open} style={({ pressed }) => pressed && { opacity: 0.75 }}>
         <RingBox C={C} radius={fill ? 20 : 999} style={{ height: 41 }}>
-          <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 8, paddingLeft: compact || fill ? 14 : 10, paddingRight: 12 }}>
+          <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: slim ? 5 : 8, paddingLeft: slim ? 10 : compact || fill ? 14 : 10, paddingRight: slim ? 9 : 12 }}>
             {icon && cur ? icon(cur, C.ink) : null}
-            <Text numberOfLines={1} style={{ flexShrink: 1, color: cur ? C.ink : C.ink3, fontSize: fill ? 15 : 13.5, fontWeight: fill ? '600' : '800' }}>{label || '—'}</Text>
+            <Text numberOfLines={1} style={{ flexShrink: slim ? 0 : 1, color: cur ? C.ink : C.ink3, fontSize: fill ? 15 : slim ? 12.5 : 13.5, fontWeight: fill ? '600' : '800' }}>{label || '—'}</Text>
             <Ionicons name={pos ? 'chevron-up' : 'chevron-down'} size={14} color={C.ink2} />
           </View>
         </RingBox>
