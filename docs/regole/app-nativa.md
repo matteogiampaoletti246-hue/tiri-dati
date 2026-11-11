@@ -263,3 +263,4 @@ Come nel sito: il filtro delle linee (`Segmented fit pad={10}`) prende lo spazio
 - Pagine native in pila dentro `Guard`: un errore in una scheda riporta indietro invece di crashare l'app. Competizioni d'archivio senza stagioni con dati: mai aprire la scheda (torna indietro).
 - Banner squadre nei selettori a pagina intera (`FullPicker`, `soft`): stesso tono scuro e sfumato dei banner dei campionati.
 - Partita di un campionato minore: la scheda Classifica usa la stagione in corso FotMob (`LiveClassifica`).
+- Controllo identificatori non definiti nel nativo (eslint no-undef) prima di pubblicare: un nome mancante in una scheda la chiude da sola.

@@ -65,7 +65,7 @@ function teamAverages(season, det) {
   const acc = {};
   const bump = (tid, part, k, v) => {
     const t = (acc[tid] = acc[tid] || [{}, {}, {}]);
-    const x = (t[dPart][k] = t[part][k] || { s: 0, n: 0 });
+    const x = (t[part][k] = t[part][k] || { s: 0, n: 0 });
     x.s += v; x.n += 1;
   };
   (season.fix || []).forEach((f) => {
