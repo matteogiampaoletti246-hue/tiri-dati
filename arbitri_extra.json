@@ -759,8 +759,48 @@
 "src": "api-football",
 "at": "2026-11-09T09:19+00:00"
 },
+"5181796": {
+"n": "Sandro Schärer",
+"src": "api-football",
+"at": "2026-11-11T05:06+00:00"
+},
+"5181857": {
+"n": "Nikola Dabanovic",
+"src": "api-football",
+"at": "2026-11-11T05:06+00:00"
+},
+"5181858": {
+"n": "Morten Krogh",
+"src": "api-football",
+"at": "2026-11-11T05:06+00:00"
+},
+"5181797": {
+"n": "Istvan Kovacs",
+"src": "api-football",
+"at": "2026-11-11T05:06+00:00"
+},
+"5181929": {
+"n": "Orel Grinfeld",
+"src": "api-football",
+"at": "2026-11-11T05:06+00:00"
+},
+"5181902": {
+"n": "Joao Pinheiro",
+"src": "api-football",
+"at": "2026-11-11T05:06+00:00"
+},
+"5181930": {
+"n": "Jerome Brisard",
+"src": "api-football",
+"at": "2026-11-11T05:06+00:00"
+},
+"5181903": {
+"n": "Goga Kikacheishvili",
+"src": "api-football",
+"at": "2026-11-11T05:06+00:00"
+},
 "_err": [
 "2026-11-13: {\"plan\": \"Free plans do not have access to this date, try from 2026-11-10 to 2026-11-12.\"}"
 ],
-"_at": "2026-11-11T01:12+00:00"
+"_at": "2026-11-11T05:06+00:00"
 }
