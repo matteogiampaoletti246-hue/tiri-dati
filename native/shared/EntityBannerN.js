@@ -15,9 +15,9 @@ export default function EntityBannerN({ C, top = 0, onBack, name, subtitle, meta
       <LinearGradient pointerEvents="none" colors={[`${hex}b3`, `${hex}40`, `${hex}00`]} start={{ x: 0, y: 0 }} end={{ x: 0.85, y: 1 }} style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }} />
       <LinearGradient pointerEvents="none" colors={[`${hex}00`, `${hex}77`]} start={{ x: 0.35, y: 0.5 }} end={{ x: 1, y: 0.5 }} style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }} />
       {photoUrl ? (
-        <View pointerEvents="none" style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: '60%' }}>
-          <Image source={{ uri: photoUrl }} style={{ position: 'absolute', right: 10, bottom: 0, width: '78%', height: '118%' }} contentFit="contain" contentPosition="bottom right" cachePolicy="memory-disk" />
-          <LinearGradient colors={[C.sheet, `${C.sheet}00`]} start={{ x: 0, y: 0.5 }} end={{ x: 0.7, y: 0.5 }} style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }} />
+        // volto intero: riquadro quadrato poco piu' alto del banner (sotto la barra di stato), appoggiato in basso; si taglia solo la cima dei capelli
+        <View pointerEvents="none" style={{ position: 'absolute', right: 0, top, bottom: 0, width: '60%', overflow: 'hidden' }}>
+          <Image source={{ uri: photoUrl }} style={{ position: 'absolute', right: 12, bottom: 0, height: '118%', aspectRatio: 1 }} contentFit="contain" contentPosition="bottom right" cachePolicy="memory-disk" />
         </View>
       ) : flagUrl ? (
         <Image source={{ uri: flagUrl }} pointerEvents="none" style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: '46%', opacity: 0.55 }} contentFit="cover" cachePolicy="memory-disk" />

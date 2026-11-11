@@ -1,9 +1,9 @@
 // Migliori Matchup (nativo): giorni a scorrimento, statistica (angoli, cartellini, arbitri, tiri...) e modo (Over / Under / Divario).
 // Stessi dati e calcoli del sito (`@/data/matchups`, `@/data/refMatchup`); il tocco su una scheda apre la partita.
-import React, { startTransition, useEffect, useRef, useState } from 'react';
-import { View, Text, Pressable, FlatList, StyleSheet } from 'react-native';
+import React, { startTransition, useEffect, useMemo, useRef, useState } from 'react';
+import { View, Text, Pressable, FlatList, StyleSheet, InteractionManager } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import Animated, { FadeInUp, FadeInLeft, useSharedValue, useAnimatedStyle, withTiming, withDelay } from 'react-native-reanimated';
+import Animated, { FadeInUp, FadeInLeft, useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import { Ionicons } from '@expo/vector-icons';
 import './../shared/shim';
 import { bootShared } from '../shared/boot';
@@ -86,11 +86,19 @@ function MatchupDay({ C, date, idx, typeKey, modeKey, active, onGo, openRoute, b
   const crossed = isRef || (typeKey === 'cards' && mode !== 'gap');
   const { map, done } = useDayReferees(date, active && crossed);
   const [live, setLive] = useState(active);
-  useEffect(() => { if (active) { setLive(true); return undefined; } const t = setTimeout(() => setLive(true), 500); return () => clearTimeout(t); }, [active]);
-  if (!live) return <Skel C={C} />;
-  const rows = isRef ? refereeRows(date, modeKey, map) : matchupRows(date, typeKey, modeKey);
-  let other = null;
-  if (crossed) other = new Set((isRef ? matchupRows(date, 'cards', modeKey) : refereeRows(date, modeKey, map)).map((r) => r.id));
+  // le pagine accanto si preparano a tutto fermo (dopo le interazioni): mai calcoli mentre l'utente tocca la tendina o scorre
+  useEffect(() => {
+    if (active) { setLive(true); return undefined; }
+    let h; const t = setTimeout(() => { h = InteractionManager.runAfterInteractions(() => setLive(true)); }, 1600);
+    return () => { clearTimeout(t); if (h && h.cancel) h.cancel(); };
+  }, [active]);
+  const { rows, other } = useMemo(() => {
+    if (!live) return { rows: null, other: null };
+    const r = isRef ? refereeRows(date, modeKey, map) : matchupRows(date, typeKey, modeKey);
+    const o = crossed ? new Set((isRef ? matchupRows(date, 'cards', modeKey) : refereeRows(date, modeKey, map)).map((x) => x.id)) : null;
+    return { rows: r, other: o };
+  }, [live, date, typeKey, modeKey, isRef, crossed, map]);
+  if (!rows) return <Skel C={C} />;
   const label = `${mode === 'over' ? 'Over' : 'Under'} cartellini + arbitro${period === 'first' ? ' 1T' : ''}`;
   if (rows.length) {
     return (
@@ -139,11 +147,13 @@ function Body({ C, top, onSearch, onMenu, openRoute, bottom }) {
   const timer = useRef(0);
   const leave = useSharedValue(1);
   const leaveSt = useAnimatedStyle(() => ({ opacity: leave.value }));
+  useEffect(() => { leave.value = 1; }, [shown]); // eslint-disable-line react-hooks/exhaustive-deps
+  // la nuova lista torna visibile solo quando e' stata disegnata (mai il vecchio contenuto che lampeggia)
   useEffect(() => () => clearTimeout(timer.current), []);
   const swap = (t, m) => {
     clearTimeout(timer.current);
     leave.value = withTiming(0, { duration: 180 });
-    timer.current = setTimeout(() => { startTransition(() => { setShown({ t, m }); setN((k) => k + 1); }); leave.value = withDelay(60, withTiming(1, { duration: 140 })); }, 200);
+    timer.current = setTimeout(() => { startTransition(() => { setShown({ t, m }); setN((k) => k + 1); }); }, 200);
   };
   const pickType = (k) => { if (k === typeKey) return; const m = keepMode(k, modeKey); setTypeKey(k); setModeKey(m); swap(k, m); };
   const pickMode = (m) => { if (m === modeKey) return; setModeKey(m); swap(typeKey, m); };

@@ -11,7 +11,7 @@ import { Ionicons } from '@expo/vector-icons';
 const ROW = 46;
 const RROW = 66;
 const okHex = (c) => (typeof c === 'string' && /^#[0-9a-f]{6}$/i.test(c) ? c : null);
-export default function Dropdown({ C, options, value, onChange, side = 'right', icon, width = 222, minWidth, labelKey = 'label', pillKey = 'short', compact, fill, placeholder }) {
+export default function Dropdown({ C, options, value, onChange, side = 'right', icon, width = 222, minWidth, labelKey = 'label', pillKey = 'short', compact, fill, placeholder, style }) {
   const ref = useRef(null);
   const [pos, setPos] = useState(null);
   const [picked, setPicked] = useState(null);
@@ -42,7 +42,7 @@ export default function Dropdown({ C, options, value, onChange, side = 'right', 
   }
   const label = cur ? cur[pillKey] || cur[labelKey] : placeholder;
   return (
-    <View>
+    <View style={style}>
       <Pressable ref={ref} onPress={open} style={({ pressed }) => pressed && { opacity: 0.75 }}>
         <RingBox C={C} radius={fill ? 20 : 999} style={{ height: 41 }}>
           <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 8, paddingLeft: compact || fill ? 14 : 10, paddingRight: 12 }}>

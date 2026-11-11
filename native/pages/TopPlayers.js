@@ -1,10 +1,10 @@
 // Migliori Giocatori (nativo): giorni a scorrimento, soglia Over, statistica; righe nei colori della squadra con voto e tasto Calcolatore.
 // Stessi dati e calcoli del sito (`@/data/topPlayers`); il tocco su una riga apre pannello (partita non iniziata) o scheda giocatore.
 import React, { startTransition, useEffect, useRef, useState } from 'react';
-import { View, Text, Pressable, FlatList, StyleSheet } from 'react-native';
+import { View, Text, Pressable, FlatList, StyleSheet, InteractionManager } from 'react-native';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
-import Animated, { FadeInUp, FadeInLeft, useSharedValue, useAnimatedStyle, withTiming, withDelay } from 'react-native-reanimated';
+import Animated, { FadeInUp, FadeInLeft, useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import { Ionicons } from '@expo/vector-icons';
 import './../shared/shim';
 import { bootShared } from '../shared/boot';
@@ -23,10 +23,11 @@ import PageHead from '../shared/PageHead';
 import { Segmented } from '../shared/ui';
 import StatIconN from '../shared/StatIconN';
 import { CALC_IN } from '../shared/calcIn';
+import { FlagN, natOf } from '../shared/FlagN';
 
 const DAYS = DATES.slice(TODAY_INDEX);
 const TODAY_I = 0;
-const ANIM_ROWS = 8;
+const ANIM_ROWS = 6;
 const CHILD_MS = 10 * 60 * 1000;
 const ENTER = new Set(); // righe gia' entrate con l'animazione: tornando a vederle sono ferme
 
@@ -54,14 +55,13 @@ const Row = React.memo(function Row({ C, row, rank, threshold, stat, enter, tv, 
     CALC_IN.v = { playerId: player.id, line: threshold, ts: match ? match.ts : null, stat };
     openRoute('/calcolatore');
   };
+  const nat = natOf(player);
   const sides = match ? [teamById(match.homeId), teamById(match.awayId)] : null;
-  const oppT = sides ? sides.find((t) => t && t.id !== player.teamId) : null;
-  const c2 = oppT && oppT.colors ? oppT.colors[0] : (team && team.colors && team.colors[1]) || c1;
   const body = (
     <Pressable onPress={go} style={({ pressed }) => [{ marginHorizontal: 10, marginBottom: 8 }, pressed && { opacity: 0.8 }]}>
-      <LinearGradient colors={[c1, c2]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ borderRadius: 22, padding: 1.5 }}>
+      <LinearGradient colors={[c1, c1 + 'CC']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ borderRadius: 22, padding: 1.5 }}>
         <View style={{ borderRadius: 20.5, overflow: 'hidden', backgroundColor: C.sheet }}>
-          <LinearGradient pointerEvents="none" colors={[c1 + '66', c1 + '1A', c2 + '33']} locations={[0, 0.55, 1]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={StyleSheet.absoluteFill} />
+          <LinearGradient pointerEvents="none" colors={[c1 + '66', c1 + '22', c1 + '33']} locations={[0, 0.55, 1]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={StyleSheet.absoluteFill} />
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 11, padding: 10, paddingLeft: 14 }}>
             <View>
               <View style={{ width: 54, height: 54, borderRadius: 15, overflow: 'hidden', backgroundColor: c1 + '55', borderWidth: 1.5, borderColor: C.border }}>
@@ -79,6 +79,9 @@ const Row = React.memo(function Row({ C, row, rank, threshold, stat, enter, tv, 
                   <View key={i} style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: i ? 2 : 3 }}>
                     {t ? <TeamCrest team={t} size={19} C={C} /> : null}
                     <Text numberOfLines={1} style={{ flexShrink: 1, color: own ? C.ink : C.ink3, fontSize: own ? 13.5 : 12.5, fontWeight: own ? '600' : '400' }}>{t ? t.name : own ? player.teamName : match.oppName}</Text>
+                    {own && nat ? <View style={{ width: 1, height: 13, backgroundColor: C.ink3, opacity: 0.5 }} /> : null}
+                    {own && nat ? <FlagN code={nat.code} size={16} C={C} /> : null}
+                    {own && nat ? <Text numberOfLines={1} style={{ flexShrink: 1, color: C.ink2, fontSize: 12.5 }}>{nat.name}</Text> : null}
                     {i ? <Text numberOfLines={1} style={{ color: C.ink3, fontSize: 12 }}>· {when(match)}</Text> : null}
                   </View>
                 );
@@ -86,9 +89,12 @@ const Row = React.memo(function Row({ C, row, rank, threshold, stat, enter, tv, 
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 3 }}>
                   {team ? <TeamCrest team={team} size={19} C={C} /> : null}
                   <Text numberOfLines={1} style={{ color: C.ink, fontSize: 13.5, fontWeight: '600' }}>{team ? team.name : player.teamName}</Text>
+                  {nat ? <View style={{ width: 1, height: 13, backgroundColor: C.ink3, opacity: 0.5 }} /> : null}
+                  {nat ? <FlagN code={nat.code} size={16} C={C} /> : null}
+                  {nat ? <Text numberOfLines={1} style={{ flexShrink: 1, color: C.ink2, fontSize: 12.5 }}>{nat.name}</Text> : null}
                 </View>
               )}
-              <LinearGradient colors={[c1, c2]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ height: 4, borderRadius: 2, marginTop: 7 }} />
+              <LinearGradient colors={[c1, c1 + 'AA']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ height: 4, borderRadius: 2, marginTop: 7 }} />
             </View>
             <View style={{ alignItems: 'center', gap: 4 }}>
               <Text style={{ color: scoreColorSmooth(row.voto), fontSize: 28, fontWeight: '700' }}>{comma(row.voto, 1)}</Text>
@@ -122,14 +128,14 @@ function DayList({ C, day, idx, thr, stat, active, takeAnim, onGo, openRoute, bo
       if (isFoulStat(stat)) loadBestFouls(day, thr, stat).then(() => { if (live) setRows(bestPlayers(day, thr, stat) || []); }).catch(() => { if (live) setRows([]); });
       else if (live) setRows([]);
     };
-    const t = setTimeout(run, active ? 20 : 900);
-    return () => { live = false; clearTimeout(t); };
+    let h; const t = setTimeout(() => { if (active) run(); else h = InteractionManager.runAfterInteractions(run); }, active ? 20 : 1600);
+    return () => { live = false; clearTimeout(t); if (h && h.cancel) h.cancel(); };
   }, [day, thr, stat, active]);
   // orari veri del giorno (FotMob): il calendario squadra ha solo un orario segnaposto
   const [tv, setTv] = useState(0);
   useEffect(() => {
     let live = true;
-    const t = setTimeout(() => syncDayTimes(day).then((n) => { if (live && n) setTv((x) => x + 1); }).catch(() => 0), active ? 0 : 900);
+    const t = setTimeout(() => syncDayTimes(day).then((n) => { if (live && n) setTv((x) => x + 1); }).catch(() => 0), active ? 1500 : 3000);
     return () => { live = false; clearTimeout(t); };
   }, [day, active]);
   if (!rows) return left ? null : <Skel C={C} />; // dopo un cambio linea/statistica la lista e' sfumata: niente scheletro che lampeggia
@@ -196,12 +202,14 @@ function Body({ C, top, onSearch, onMenu, openRoute, bottom }) {
   const swap = (nextStat, nextThr) => {
     clearTimeout(timer.current);
     leave.value = withTiming(0, { duration: 180 });
-    timer.current = setTimeout(() => { startTransition(() => { setShown(nextStat); setShownThr(nextThr); setAnim((a) => a + 1); }); leave.value = withDelay(60, withTiming(1, { duration: 140 })); }, 200);
+    timer.current = setTimeout(() => { startTransition(() => { setShown(nextStat); setShownThr(nextThr); setAnim((a) => a + 1); }); }, 200);
   };
   const onStat = (v) => { if (v === stat) return; setStat(v); swap(v, threshold); };
   const onThr = (v) => { if (v === threshold) return; setThreshold(v); swap(stat, v); };
   useEffect(() => () => clearTimeout(timer.current), []);
   const leaveSt = useAnimatedStyle(() => ({ opacity: leave.value }));
+  useEffect(() => { leave.value = 1; }, [shown, shownThr]); // eslint-disable-line react-hooks/exhaustive-deps
+  // la nuova lista torna visibile solo quando e' stata disegnata (mai il vecchio contenuto che lampeggia)
 
   return (
     <View style={{ flex: 1, backgroundColor: 'transparent', paddingTop: top }}>

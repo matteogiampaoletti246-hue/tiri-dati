@@ -102,13 +102,14 @@ function BioCard({ C, player, team }) {
   );
 }
 
-function Profilo({ C, player: player0, team }) {
+function Profilo({ C, player: playerV, dataP, team }) {
+  const player0 = dataP || playerV;
   const player = usePlayerSeason(player0);
   const pc0 = percentiles(player0);
   const ap = useArchivePct(player0, !pc0.some((x) => x.pct !== null));
   const pc = (ap || pc0).filter((x) => x.key !== 'foulsCommitted');
   const colors = team ? team.colors : ['#1E4BD8', '#7FB6E8'];
-  const rt = player.rating;
+  const rt = player.rating || playerV.rating;
   const frac = Math.max(0, Math.min(1, ((rt || 5) - 5) / 4));
   const rc = rt ? ratingColor(rt) : C.ink3;
   return (
@@ -231,14 +232,18 @@ function Skel({ C }) {
 
 const TAB_LBL = { profilo: 'Profilo', partite: 'Partite', stat: 'Statistiche', carriera: 'Carriera' };
 
-function Body({ C, player, openRoute, onBack, bottom, top }) {
+function Body({ C, player: player1, openRoute, onBack, bottom, top }) {
+  // scheda nazionale senza dati propri: radar, partite e carriera arrivano dalla scheda del club
+  const dp = player1.nat && player1.club && !(player1.recent || []).length ? player1.club : null;
+  const player = dp ? { ...player1, percentileSrc: dp, rating: player1.rating || dp.rating } : player1;
+  const dataP = dp || player1;
   const team = teamById(player.teamId);
   const pid = useBioPid(player);
   const photo = player.photo || (pid ? playerFace(pid) : null);
   const colors = team && team.colors ? team.colors : ['#1E4BD8', '#7FB6E8'];
-  const car = usePlayerCareer(player);
-  const parts = usePartiteItems(player, car);
-  const careerL = useCareerLists(player);
+  const car = usePlayerCareer(dataP);
+  const parts = usePartiteItems(dataP, car);
+  const careerL = useCareerLists(dataP);
   const hasStats = playerHasCurStats(player) || !!car.loading || car.rows.length > 0;
   const tabs = [['profilo', true], ['partite', parts.has], ['stat', hasStats], ['carriera', !!(careerL && careerL.any)]].filter((t) => t[1]).map((t) => ({ key: t[0], label: TAB_LBL[t[0]] }));
   const [tabKey, setTabKey] = useSel(player.id, 'tab', 'profilo');
@@ -254,9 +259,9 @@ function Body({ C, player, openRoute, onBack, bottom, top }) {
           const k = tabs[i].key;
           return (
             <PaneN key={k} bottom={bottom}>
-              {k === 'profilo' ? <Profilo C={C} player={player} team={team} /> : null}
-              {k === 'partite' ? <GiocatorePartite C={C} player={player} parts={parts} openRoute={openRoute} /> : null}
-              {k === 'stat' ? <GiocatoreStat C={C} player={player} team={team} car={car} openRoute={openRoute} /> : null}
+              {k === 'profilo' ? <Profilo C={C} player={player} dataP={dataP} team={team} /> : null}
+              {k === 'partite' ? <GiocatorePartite C={C} player={dataP} parts={parts} openRoute={openRoute} /> : null}
+              {k === 'stat' ? <GiocatoreStat C={C} player={dataP} team={team} car={car} openRoute={openRoute} /> : null}
               {k === 'carriera' && careerL ? <Carriera C={C} lists={careerL} /> : null}
             </PaneN>
           );

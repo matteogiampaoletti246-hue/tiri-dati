@@ -1,7 +1,7 @@
 // ScalperLab nativa - Home (React Native). Stesse regole della Home web: finestre per paese, top campionati in alto,
 // colori e loghi delle competizioni, righe partita. Metadati da meta.json (generato da data/leagues.js e data/countries.js).
 import React, { createContext, memo, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { View, Text, FlatList, Pressable, ScrollView, StatusBar, Dimensions, useColorScheme, StyleSheet, Animated as RNAnimated, Easing as RNEasing, AccessibilityInfo, LayoutAnimation, Platform, UIManager, AppState, Modal, TextInput, Keyboard, BackHandler, useWindowDimensions } from 'react-native';
+import { View, Text, FlatList, Pressable, ScrollView, StatusBar, Dimensions, useColorScheme, StyleSheet, Animated as RNAnimated, Easing as RNEasing, AccessibilityInfo, LayoutAnimation, Platform, UIManager, AppState, InteractionManager, Modal, TextInput, Keyboard, BackHandler, useWindowDimensions } from 'react-native';
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Image } from 'expo-image';
 import Animated, { makeMutable, interpolate, useSharedValue, useAnimatedStyle, useAnimatedReaction, useAnimatedScrollHandler, withTiming, withDelay, withRepeat, withSequence, cancelAnimation, runOnJS, Easing, interpolateColor, Keyframe, LinearTransition, FadeIn } from 'react-native-reanimated';
@@ -1290,7 +1290,7 @@ function Screen({ onTheme, onReset, themePref }) {
     let alive = true; let t;
     const tick = async () => {
       if (!alive) return;
-      if (AppState.currentState === 'active') {
+      if (AppState.currentState === 'active' && !openRef.current) { // con una pagina aperta sopra la Home non serve ridisegnarla
         const v = viewRef.current;
         const days = new Set([rome(new Date())]);
         if (v && v.keys[curRef.current]) days.add(v.keys[curRef.current]);
@@ -1301,7 +1301,8 @@ function Screen({ onTheme, onReset, themePref }) {
       if (alive) t = setTimeout(tick, anyLive ? 5000 : 60000);
     };
     tick();
-    const sub = AppState.addEventListener('change', (st) => { if (st === 'active') { clearTimeout(t); tick(); } });
+    // al ritorno dal background l'aggiornamento parte con calma: prima l'app deve tornare a rispondere al tocco
+    const sub = AppState.addEventListener('change', (st) => { if (st === 'active') { clearTimeout(t); t = setTimeout(() => InteractionManager.runAfterInteractions(tick), 2500); } });
     return () => { alive = false; clearTimeout(t); sub.remove(); };
   }, [!!data, refresh]);
 
