@@ -1,5 +1,6 @@
 // Bandiera RETTANGOLARE (4:3) come le bandiere vere, mai tonda ne' quadrata: PNG 128x96 da flag-icons in native-link/flags43/.
 // `size` e' la larghezza (come prima il diametro): l'altezza e' i 3/4. Mai emoji.
+const SITE = 'https://matteogiampaoletti246-hue.github.io/tiri-dati/';
 export const FLAG_RECT = `${SITE}native-link/flags43/`;
 export const flagRectUrl = (code) => (code ? `${FLAG_RECT}${code}.png` : null);
 
