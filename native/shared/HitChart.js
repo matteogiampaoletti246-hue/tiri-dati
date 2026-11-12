@@ -82,7 +82,6 @@ export default function HitChart({ C, pages, line, under, statLabel, openRoute, 
                             <View style={{ width: on ? barW + 4 : barW, height: bh, borderTopLeftRadius: 12, borderTopRightRadius: 12, borderBottomLeftRadius: 4, borderBottomRightRadius: 4, shadowColor: c1, shadowOpacity: on ? 0.95 : 0.5, shadowRadius: on ? 16 : 10, shadowOffset: { width: 0, height: 0 }, borderWidth: on ? 1.5 : 0, borderColor: '#FFFFFF88' }}>
                               <LinearGradient colors={[c1, `${c1}AA`]} style={{ flex: 1, borderTopLeftRadius: 12, borderTopRightRadius: 12, borderBottomLeftRadius: 4, borderBottomRightRadius: 4 }} />
                               {mn != null && !short ? <Text style={{ position: 'absolute', left: 0, right: 0, bottom: 4, textAlign: 'center', fontSize: 9.5, fontWeight: '900', color: sub ? '#FFFFFF' : 'rgba(5,30,18,.78)' }}>{mn}'</Text> : null}
-                              {mn != null && !short && sub ? <View pointerEvents="none" style={{ position: 'absolute', left: -3, right: -3, top: `${(1 - mn / 90) * 100}%`, borderTopWidth: 2, borderStyle: 'dashed', borderColor: 'rgba(255,255,255,.55)' }} /> : null}
                             </View>
                           </Pressable>
                         );

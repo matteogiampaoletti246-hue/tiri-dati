@@ -152,3 +152,6 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 - Colore del giocatore con la Nations League: colore della maglia della nazionale (Belgio rosso...), poi la bandiera; mai il colore del club.
 - Pagine per competizione del grafico: ordine "Tutte le competizioni", competizione scelta, poi campionato, coppa europea, nazionale. Dati dall'archivio FotMob (`partite/<fm>/<stagione>.json.gz`, `total_shots`/`ShotsOnTarget`, almeno 50', ultime 5, stagione in corso poi la precedente), non dall'indice dell'app (che ha poche partite). Una competizione senza partite da 50' non ha pagina (mai grafici vuoti).
 - Minuti giocati (concept C): dentro la colonna, in basso ("90'"); sotto i 90' il testo e' bianco con una linea tratteggiata all'altezza dei minuti; con colonne troppo basse (0 tiri) i minuti stanno sopra il numero.
+
+## Hit Rate: niente linea tratteggiata sulle colonne (12/11/2026, regola fissa)
+- Nelle colonne del grafico Hit Rate (`HitChart.js`) non va la linea tratteggiata dei minuti (partite sotto i 90'); resta solo il numero dei minuti alla base del rettangolo.
