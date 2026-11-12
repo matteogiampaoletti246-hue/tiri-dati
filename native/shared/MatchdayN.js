@@ -1,5 +1,6 @@
 // Elenchi per giornata del Campionato (nativo): riquadri col colore del campionato, una giornata per riquadro, con "Giornate precedenti".
 // Stessi calcoli del sito: MatchdayList (campionato attuale) e MatchesPanel di ArchiveLeague (stagioni d'archivio, data/rounds.js).
+import { roundIt } from '@/data/roundNames';
 import React, { useMemo, useState } from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
@@ -29,8 +30,7 @@ const giornateOf = (all) => {
   return out;
 };
 const okHex = (c) => (/^#[0-9a-f]{6}$/i.test(c || '') ? c : '#38A2FF');
-const ROUND = { final: 'Finale', playoff: 'Playoff', '1/2': 'Semifinali', '1/4': 'Quarti di finale', '1/8': 'Ottavi di finale', '1/16': 'Sedicesimi', '1/32': 'Trentaduesimi', '3rd': 'Finale 3° posto' };
-const roundTitle = (r) => { const x = String(r); return ROUND[x] || (/^\d+$/.test(x) ? `Giornata ${x}` : x.replace(/^\w/, (c) => c.toUpperCase())); };
+const roundTitle = (r) => roundIt(r);
 
 export const MATCH_FILTERS = [{ value: 'all', label: 'Tutte' }, { value: 'live', label: 'Live' }, { value: 'results', label: 'Risultati' }, { value: 'upcoming', label: 'Programmate' }];
 export const APP_PASS = { all: () => true, live: (m) => m.status === 'live', results: (m) => m.status === 'finished', upcoming: (m) => m.status === 'scheduled' };
@@ -55,12 +55,13 @@ function Block({ C, tint, title, tag, range, children }) {
   return (
     <View style={{ marginHorizontal: 16, marginTop: 20, borderRadius: 24, overflow: 'hidden', borderWidth: 1, borderColor: `${t}55`, paddingBottom: 4 }}>
       <LinearGradient pointerEvents="none" colors={[`${t}45`, `${t}08`]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0.4 }} style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }} />
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 16, paddingTop: 14, paddingBottom: 4 }}>
-        <Text style={{ color: C.ink, fontSize: 15, fontWeight: '800' }}>{title}</Text>
+      {/* titoli lunghi ("Apertura · Semifinali"): le date scendono intere sulla riga sotto, mai titolo o date spezzati a meta' */}
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', columnGap: 8, rowGap: 2, paddingHorizontal: 16, paddingTop: 14, paddingBottom: 4 }}>
+        <Text numberOfLines={1} style={{ color: C.ink, fontSize: 15, fontWeight: '800', flexShrink: 1 }}>{title}</Text>
         <View style={{ borderRadius: 99, paddingHorizontal: 8, paddingVertical: 2, backgroundColor: done ? C.hair : C.accTint }}>
           <Text style={{ color: done ? C.ink3 : C.accent, fontSize: 9.5, fontWeight: '800', letterSpacing: 0.8, textTransform: 'uppercase' }}>{tag}</Text>
         </View>
-        <Text style={{ marginLeft: 'auto', color: C.ink3, fontSize: 10.5 }}>{range}</Text>
+        <Text numberOfLines={1} style={{ marginLeft: 'auto', color: C.ink3, fontSize: 10.5 }}>{range}</Text>
       </View>
       {children}
     </View>

@@ -4,7 +4,8 @@ Una richiesta FotMob per giorno (/api/data/matches?date=) copre tutte le leghe:
 1) giorni/<YYYY-MM-DD>.json = {"t", "m": [[id, fm, utc, idCasa, idOspite, casa, ospite, punteggio|null, stato, eliminata]]}
    stato: n (da giocare) | l (in corso) | f (finita) | c (annullata/rinviata); punteggio solo a partita finita
    (il live lo da' /fx nell'app: cosi' il file cambia solo a inizio e fine partita e i commit restano pochi);
-2) arch/<fm>/<stagione in corso>.json: le righe del calendario si correggono (orario, risultato, finita, iniziata, annullata,
+2) arch/<fm>/<stagione in corso>.json: le partite del feed che mancano dal calendario si aggiungono (calendario.py, poi riga del feed),
+   le righe del calendario si correggono (orario, risultato, finita, iniziata, annullata,
    squadra eliminata ai rigori in posizione 9) e il file si riscrive solo se qualcosa e' cambiato.
 DAYS = giorni da scaricare rispetto a oggi (ora di Roma), es. "-2..1"."""
 import datetime
@@ -22,6 +23,7 @@ except Exception:  # Windows senza tzdata: basta per scegliere i giorni
     ROME = datetime.timezone(datetime.timedelta(hours=1))
 KEEP_DAYS = 10  # file giorni/ piu' vecchi di 10 giorni si cancellano (il passato sta in arch/)
 from femminili import is_women_comp, is_women_name, women_name
+import calendario
 
 def get(url):
     for k in range(3):
@@ -100,6 +102,48 @@ def main():
                 old = None
         if old != rows:
             dump(p, {"t": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds"), "m": rows})
+    # partite del feed che il calendario archiviato non ha (play-off, turni di coppa nuovi, id cambiati): prima si riscarica il
+    # calendario della competizione (calendario.py, al massimo 15 competizioni per giro), poi cio' che manca ancora entra dalla riga del feed
+    added = 0
+    asked = 0
+    for fm, by in seen.items():
+        p = "arch/%s/%s.json" % (fm, cur[fm])
+        if not os.path.exists(p):
+            continue
+        try:
+            dat = json.load(open(p, encoding="utf-8"))
+        except Exception:
+            continue
+        have = {str(m[0]) for m in dat.get("fix") or []}
+        lost = [k for k, (r, s) in by.items() if k not in have and r[8] != "c" and r[3] and r[4]]
+        if not lost:
+            continue
+        if asked < 15:
+            asked += 1
+            try:
+                ok, sk = calendario.refresh(fm, idx)
+                if ok and sk and sk != cur[fm]:
+                    cur[fm] = sorted(idx[fm]["s"])[-1]
+                    calendario.dump("arch/index.json", idx)
+                    p = "arch/%s/%s.json" % (fm, cur[fm])
+                dat = json.load(open(p, encoding="utf-8"))
+            except Exception:
+                pass
+            have = {str(m[0]) for m in dat.get("fix") or []}
+            lost = [k for k in lost if k not in have]
+        if not lost:
+            continue
+        teams = dat.setdefault("teams", {})
+        for k in lost:
+            r, s = by[k]
+            dat.setdefault("fix", []).append([k, None, str(r[3]), str(r[4]), s.get("utcTime"), s.get("scoreStr") if r[8] == "f" else None,
+                                              int(r[8] == "f"), int(r[8] in ("f", "l")), 0])
+            for tid, n in ((r[3], r[5]), (r[4], r[6])):
+                if n and str(tid) not in teams:
+                    teams[str(tid)] = n
+            added += 1
+        with open(p, "w", encoding="utf-8") as f:
+            json.dump(dat, f, ensure_ascii=False, separators=(",", ":"))
     # stagioni in corso dell'archivio: solo le righe cambiate
     fixed = 0
     files = 0
@@ -141,7 +185,7 @@ def main():
         for f in os.listdir("giorni"):
             if f.endswith(".json") and f[:10] < lim:
                 os.remove(os.path.join("giorni", f))
-    print("giorni ok", ok, "competizioni", len(seen), "righe corrette", fixed, "file", files)
+    print("giorni ok", ok, "competizioni", len(seen), "righe corrette", fixed, "file", files, "partite aggiunte al calendario", added, "calendari riscaricati", asked)
 
 
 if __name__ == "__main__":

@@ -1,6 +1,7 @@
 // Partite: elenco da aurora_indice.json (finite) + partite.json (oggi e prossimi giorni) +
 // calendario squadra da teams.json. Il dettaglio (eventi, statistiche, tiri, formazioni)
 // si scarica solo quando si apre la partita.
+import { rememberFeedRow } from './feedRows';
 import { RAW, loadDetail } from './load';
 import { ensureTeam, teamById, teamByName, TEAMS, setTeamFm, setTeamCrest } from './teams';
 import { findAppTeam } from './teamMatch';
@@ -229,7 +230,9 @@ let extraTeam = null;
 export function addFeedRows(rows, lgOf, skOf) {
   if (!extraTeam) return 0;
   let n = 0;
-  rows.forEach(([mid, fm, utc, hid, aid, hn, an, sc, st]) => {
+  rows.forEach((row) => {
+    const [mid, fm, utc, hid, aid, hn, an, sc, st] = row;
+    rememberFeedRow(row);
     if (st === 'c' || !hn || !an || !utc) return; // annullate/rinviate: non in Home (come partite_extra.json)
     const lg = lgOf(fm);
     if (!lg) return;

@@ -1,0 +1,40 @@
+name: Calendari stagione in corso
+# Calendario, squadre e classifica della stagione in corso di ogni competizione dell'archivio (calendario.py): play-off, turni di coppa
+# sorteggiati dopo, partite con id cambiato e stagioni nuove entrano in arch/<fm>/<stagione>.json. Poi l'indice squadre (schede delle squadre nuove).
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "37 */2 * * *"
+  push:
+    branches: [main]
+    paths:
+      - calendario.py
+concurrency: calendario
+permissions:
+  contents: write
+  actions: write
+jobs:
+  calendario:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: Scarica
+        run: BUDGET_MIN=25 python3 calendario.py
+      - name: Indice squadre (solo se sono entrate squadre o stagioni nuove)
+        run: |
+          if ! git diff --quiet -- arch; then python3 squadre_indice.py || true; fi
+      - name: Salva
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add arch tidx 2>/dev/null || true
+          git diff --staged --quiet && exit 0
+          git commit -m "Calendari stagione in corso"
+          for i in 1 2 3 4 5; do git pull --rebase && git push && break; sleep $((i*4)); done
+      - name: Stagione nuova - statistiche stagionali
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ ! -f arch/.complete ] || python3 -c "import json,sys; sys.exit(0 if any(isinstance(v,dict) and not v.get('done') and not v.get('skip') for v in json.load(open('arch/index.json')).values()) else 1)"; then gh workflow run archivio.yml --ref main || true; fi

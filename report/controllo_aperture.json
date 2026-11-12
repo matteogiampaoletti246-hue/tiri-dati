@@ -1,0 +1,31 @@
+{
+ "quando": "2026-11-12T19:26:49.589Z",
+ "riepilogo": {
+  "competizioni": {
+   "aperte": 171,
+   "totale": 171
+  },
+  "partite_home": {
+   "aperte": 1288,
+   "totale": 1288
+  },
+  "squadre": {
+   "aperte": 3149,
+   "totale": 3149
+  }
+ },
+ "competizioni": [],
+ "partite": [],
+ "squadre": [],
+ "file_mancanti": [
+  "arch/10608/2026-2027_s.json",
+  "arch/114/2026_s.json",
+  "arch/121/2026-2027_s.json",
+  "arch/123/2026-2027_s.json",
+  "arch/174/2026-2027_s.json",
+  "arch/177/2026-2027_s.json",
+  "arch/199/2026 - Clausura_s.json",
+  "arch/335/2026-2027 - Apertura_s.json",
+  "arch/9490/2026_s.json"
+ ]
+}

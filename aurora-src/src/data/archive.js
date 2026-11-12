@@ -68,8 +68,10 @@ function addArchiveLeagues(idx) {
   const nameOf = uniqueName(idx);
   Object.entries(idx || {}).forEach(([k, e]) => {
     const fm = Number(k);
-    if (!e || !e.s || !e.s.length || LID_BY_FM[fm] || e.skip) return;
-    const id = `fm-${fm}`;
+    // id dell'app senza scheda propria (es. 'conference-league' fuori da LEAGUES): diventa campionato d'archivio, mai una scheda che non si apre
+    if (!e || !e.s || !e.s.length || (LID_BY_FM[fm] && leagueById(LID_BY_FM[fm])) || e.skip) return;
+    // id dell'app senza scheda (es. 'conference-league'): la scheda d'archivio prende quell'id, cosi' Home, ricerca e tendine la aprono
+    const id = LID_BY_FM[fm] && !leagueById(LID_BY_FM[fm]) ? LID_BY_FM[fm] : `fm-${fm}`;
     if (!leagueById(id)) {
       const col = /^#[0-9a-f]{6}$/i.test(e.color || '') ? e.color : '#38A2FF';
       const country = PAESE[e.cn] || e.cn || '';

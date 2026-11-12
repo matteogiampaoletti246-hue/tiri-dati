@@ -34,6 +34,7 @@ import TiriSquadrePage from './pages/TiriSquadre';
 import { searchN } from './shared/searchN';
 import { FlagN, useNatFor } from './shared/FlagN';
 import { bootShared } from './shared/boot';
+import { rememberFeedRow } from '@/data/feedRows';
 import { ArchTeamRoute, ArchPlayerRoute } from './pages/ArchiveRoute';
 // pagine gia' native (migrazione a tappe): la rotta si apre senza WebView
 const NATIVE_PAGES = { '/linee-guida': GuidelinesPage, '/calcolatore': CalcolatorePage, '/migliori-giocatori': TopPlayersPage, '/migliori-matchup': TopMatchupsPage, '/competizioni': CompetizioniPage, '/tiri-squadre': TiriSquadrePage };
@@ -1383,6 +1384,7 @@ function Screen({ onTheme, onReset, themePref }) {
   const openMatch = useCallback((m) => {
     // sempre la scheda d'archivio della stagione in corso: il percorso del feed (x-) trova la partita solo se il sito ha gia' caricato
     // quel giorno (provato: 12 partite su 26 dei campionati minori e tutte le coppe europee davano "Partita non trovata").
+    rememberFeedRow(m); // la partita si apre anche se il calendario archiviato non la contiene ancora
     const sk = m[11] || META.cur[String(m[1])];
     openRoute(sk ? `/match/a-${m[1]}-${sk}-${m[0]}` : `/match/x-${m[1]}-${m[0]}`);
   }, [openRoute]);

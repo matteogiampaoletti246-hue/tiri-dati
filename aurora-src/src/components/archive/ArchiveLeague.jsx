@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { roundIt } from '@/data/roundNames';
 import { Link } from 'react-router-dom';
 import { ChevronUp } from 'lucide-react';
 import SwipeTabs from '@/components/SwipeTabs';
@@ -36,11 +37,7 @@ const Loading = () => (
   </div>
 );
 
-const ROUND = { final: 'Finale', playoff: 'Playoff', '1/2': 'Semifinali', '1/4': 'Quarti di finale', '1/8': 'Ottavi di finale', '1/16': 'Sedicesimi', '1/32': 'Trentaduesimi', '3rd': 'Finale 3° posto' };
-const roundTitle = (r) => {
-  const x = String(r);
-  return ROUND[x] || (/^\d+$/.test(x) ? `Giornata ${x}` : x.replace(/^\w/, (c) => c.toUpperCase()));
-};
+const roundTitle = (r) => roundIt(r);
 
 const MATCH = {
   all: () => true,
@@ -87,10 +84,10 @@ function MatchesPanel({ fm, sk, season, tint }) {
             const range = days.length > 1 ? `${fmtDate(days[0].m[0][4])} – ${fmtDate(days[days.length - 1].m[0][4])}` : fmtDate(days[0].m[0][4]);
             return (
               <section key={b.key} data-round={b.rec ? 'rec' : String(b.r)} className="glass mx-4 mt-5 overflow-hidden rounded-[24px] pb-1" style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 420px', ...(tint ? { background: tintGrad(tint, 0x45), '--ring-c': tint } : null) }}>
-                <div className="flex items-center gap-2 px-4 pb-1 pt-3.5">
-                  <h3 className="text-[15px] font-extrabold">{b.rec ? 'Recuperi' : roundTitle(b.r)}</h3>
+                <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 px-4 pb-1 pt-3.5">
+                  <h3 className="min-w-0 truncate text-[15px] font-extrabold">{b.rec ? 'Recuperi' : roundTitle(b.r)}</h3>
                   <span className="rounded-full px-2 py-[2px] text-[9.5px] font-extrabold uppercase tracking-wider" style={{ background: tag === 'Conclusa' ? 'var(--hair-2)' : 'var(--accent-soft)', color: tag === 'Conclusa' ? 'var(--ink-3)' : 'var(--accent)' }}>{tag}</span>
-                  <span className="ml-auto text-[10.5px]" style={{ color: 'var(--ink-3)' }}>{range}</span>
+                  <span className="ml-auto whitespace-nowrap text-[10.5px]" style={{ color: 'var(--ink-3)' }}>{range}</span>
                 </div>
                 {days.map((d) => (
                   <div key={d.k}>

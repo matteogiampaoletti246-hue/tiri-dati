@@ -92,6 +92,18 @@ MAX_RT = 6
 def incompleta(x):
     P = (x or {}).get("p") or {}
     return bool(P) and not any((v or {}).get("minutes_played") for v in P.values())
+# Partita scaricata vuota (FotMob mette statistiche e formazioni dopo, spesso per coppe e campionati minori: es. Copa del Rey,
+# Liga de Expansion MX del 12/11/2026): nelle 3 settimane dopo la partita si riprova, al massimo MAX_RT volte.
+def vuota(x):
+    x = x or {}
+    return not x.get("s") and not x.get("p") and not x.get("h")
+def da_poco(m, giorni=21):
+    try:
+        import datetime
+        t = datetime.datetime.fromisoformat(str(m[4]).replace("Z", "+00:00")).timestamp()
+        return time.time() - t < giorni * 86400
+    except Exception:
+        return False
 def storico_ridotto(lid, c, sk):
     return int(lid) not in TOP20 and c != "INT" and int(str(sk)[:4]) < 2020
 def folder_mb(path):
@@ -128,7 +140,8 @@ def run():
         aperta = any(not m[7] and not m[8] for m in allfx)
         todo = [m for m in fx if str(m[0]) not in cur["m"]]
         if recente:
-            todo += [m for m in fx if str(m[0]) in cur["m"] and incompleta(cur["m"][str(m[0])]) and (cur["m"][str(m[0])].get("rt") or 0) < MAX_RT]
+            todo += [m for m in fx if str(m[0]) in cur["m"] and (incompleta(cur["m"][str(m[0])]) or (vuota(cur["m"][str(m[0])]) and da_poco(m)))
+                     and (cur["m"][str(m[0])].get("rt") or 0) < MAX_RT]
         if cur["done"] and not todo and not aperta: continue
         if not todo:
             if cur["done"] == (not aperta): continue
@@ -151,9 +164,11 @@ def run():
             fails = 0
             try: new = compact(j)
             except Exception as e: new = {}
-            if old:
-                # riscaricata: se e' ancora parziale resta quella di prima, col conto dei tentativi
-                if not new.get("p") or incompleta(new): old["rt"] = (old.get("rt") or 0) + 1; continue
+            if old is not None and str(m[0]) in cur["m"]:
+                # riscaricata: se e' ancora parziale (o ancora vuota) resta quella di prima, col conto dei tentativi
+                if vuota(old):
+                    if vuota(new): old["rt"] = (old.get("rt") or 0) + 1; continue
+                elif not new.get("p") or incompleta(new): old["rt"] = (old.get("rt") or 0) + 1; continue
             cur["m"][str(m[0])] = new
             n += 1
         else:

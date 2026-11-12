@@ -113,7 +113,7 @@ def main():
         try:
             for t in json.load(open(os.path.join(ROOT, 'rosa', f'{i}.json'), encoding='utf-8')).values():
                 for p in (t.get('p') or []):
-                    if p and p[0] and p[0] > 0: inrosa.add(str(p[0]))
+                    if p and p[0] and p[0] > 0: inrosa.add(str(p[0])); ids.add(str(p[0]))  # anche chi e' solo nelle rose complete (prima restava senza carriera: 12/11/2026)
         except Exception:
             continue
     # chi compare nelle classifiche della stagione in corso dei top 20 campionati e delle coppe europee: subito dopo le rose di base

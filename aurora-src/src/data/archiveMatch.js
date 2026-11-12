@@ -11,6 +11,7 @@ import { findAppTeam, acr, norm as tnorm } from './teamMatch';
 import { playersByTeam } from './players';
 import { leagueById, LEAGUES, CUP_IDS } from './leagues';
 import { romeDay, romeTime, slug, norm } from './util';
+import { feedRowFor, fixFromFeed } from './feedRows';
 
 export const archiveId = (fm, sk, mid) => `a-${fm}-${sk}-${mid}`;
 export const parseArchiveId = (id) => {
@@ -207,8 +208,16 @@ export async function buildArchiveMatch(fm, sk, mid) {
   if (MATCH_BY_ID[id] && MATCH_BY_ID[id].archReady) return MATCH_BY_ID[id];
   const [season, det] = await Promise.all([loadSeason(fm, sk), loadSeasonMatches(fm, sk)]);
   if (!season) return null;
-  const fx = (season.fix || []).find((x) => String(x[0]) === String(mid));
-  if (!fx) return null;
+  let fx = (season.fix || []).find((x) => String(x[0]) === String(mid));
+  if (!fx) {
+    // non ancora nel calendario archiviato (play-off, turno di coppa nuovo, id cambiato): si costruisce dalla riga del feed del giorno
+    const fr = await feedRowFor(mid).catch(() => null);
+    if (!fr || String(fr[1]) !== String(fm)) return null;
+    fx = fixFromFeed(fr);
+    season.teams = season.teams || {};
+    [[fr[3], fr[5]], [fr[4], fr[6]]].forEach(([tid, n]) => { if (tid && n && !season.teams[tid]) season.teams[tid] = n; });
+    season.fix = [...(season.fix || []), fx];
+  }
   const league = await leagueForFm(fm);
   const tmap = teamsOf(season, fm, sk, league && !league.noPage ? league.id : null);
   const home = tmap[fx[2]];

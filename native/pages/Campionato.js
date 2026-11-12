@@ -175,11 +175,12 @@ export default function Campionato({ C, top, onBack, bottom = 90, openRoute, par
     setSt('load');
     (async () => {
       await bootShared();
-      const isArch = /^fm-\d+$/.test(String(id));
-      const idx = FM_ID[id] || isArch ? await archIndex() : null;
+      const isArch0 = /^fm-\d+$/.test(String(id));
+      const idx = FM_ID[id] || isArch0 ? await archIndex() : null;
       const fm = FM_ID[id];
       const league = leagueById(id);
       if (!league) { if (live) setSt('err'); return; }
+      const isArch = isArch0 || !!league.arch; // anche gli id dell'app che vivono solo nell'archivio (es. conference-league)
       const archS = (idx && fm && idx[String(fm)] && idx[String(fm)].s) || (isArch && idx && idx[String(league.fm)] && idx[String(league.fm)].s) || [];
       const fmId = fm || (isArch ? league.fm : null);
       const fsd = isArch && fmId && archS.length ? await firstSeasonWithData(fmId, sortSeasons(archS)) : null;

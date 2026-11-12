@@ -41,7 +41,8 @@ export default function League() {
   const [season, setSeason] = useSel(`lg-${FM_ID[id] || id}`, 'season', () => { const l = leagueById(id); const x = l && l.extra && RAW.extra && RAW.extra.sk && RAW.extra.sk[String(l.fm)]; return x || 'live'; });
   const [aTab, setATab] = useSel(`lg-${FM_ID[id] || id}`, 'atab', 0);
   // competizioni dell'archivio (fm-<id>): esistono quando l'indice e' arrivato
-  const isArch = /^fm-\d+$/.test(String(id));
+  // anche un id dell'app che vive solo nell'archivio (es. conference-league): finche' l'indice non arriva non ha ancora la scheda
+  const isArch = /^fm-\d+$/.test(String(id)) || (!!FM_ID[id] && (!leagueById(id) || !!leagueById(id).arch));
   const { data: aidx } = useAsync(() => (FM_ID[id] || isArch ? archIndex() : null), [id]);
   const fm = FM_ID[id];
   const archS = (aidx && fm && aidx[String(fm)] && aidx[String(fm)].s) || [];
