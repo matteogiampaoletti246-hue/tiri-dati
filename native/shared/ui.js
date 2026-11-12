@@ -2,11 +2,10 @@
 import React, { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { View, Text, TextInput, Pressable, Modal, FlatList, ScrollView, StyleSheet, useWindowDimensions } from 'react-native';
-import Animated, { makeMutable, useSharedValue, useAnimatedStyle, withTiming, withRepeat, withSpring, withSequence, interpolateColor, Easing, FadeIn, FadeOut, ZoomIn } from 'react-native-reanimated';
+import Animated, { makeMutable, useSharedValue, useAnimatedStyle, withTiming, withRepeat, interpolateColor, Easing, FadeIn, FadeOut, ZoomIn } from 'react-native-reanimated';
 import { Image } from 'expo-image';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import Dropdown from './Dropdown';
-import { useFx, useRipple, useBounce } from './fx';
 import { isNationName } from '@/data/teamColorFix';
 import { flagCode } from '@/data/carriere';
 
@@ -24,9 +23,9 @@ export const TeamCrest = ({ team, size = 32, C }) => {
   return <View style={{ width: size, height: size, alignItems: 'center', justifyContent: 'center' }}><Text style={{ color: C.ink2, fontSize: Math.max(10, size * 0.4), fontWeight: '700' }}>{team.initials}</Text></View>;
 };
 
-export const Face = ({ uri, color, size = 44, onReady }) => (
+export const Face = ({ uri, color, size = 44 }) => (
   <View style={{ width: size, height: size, borderRadius: size / 2, overflow: 'hidden', backgroundColor: color || 'rgba(128,128,128,.25)' }}>
-    {uri ? <Image source={{ uri }} style={{ width: size, height: size }} contentFit="cover" cachePolicy="memory-disk" transition={0} onLoad={onReady} onError={onReady} /> : null}
+    {uri ? <Image source={{ uri }} style={{ width: size, height: size }} contentFit="cover" cachePolicy="memory-disk" /> : null}
   </View>
 );
 
@@ -115,26 +114,16 @@ export const Segmented = ({ C, options, value, onChange, hug, pad, fit }) => {
   const first = useRef(true);
   const scroller = useRef(null);
   const scroll = options.length > 5 || !!fit; // fit: occupa lo spazio che resta (come il filtro del sito) e, se le voci non entrano, scorre di lato // fino a 5 voci stanno tutte nella pillola (Tutte, Attacco, Difesa, Disciplina, Gioco)
-  const { pick: fxv } = useFx();
-  const pop = useSharedValue(1);
   const place = (v, animate) => {
     const r = pos.current[String(v)];
     if (!r) return;
     if (first.current || !animate) { tx.value = r.x; tw.value = r.w; first.current = false; return; }
-    if (fxv === 'B') {
-      // B: molla, la pillola si allunga e si assesta
-      tx.value = withSpring(r.x, { damping: 12, stiffness: 190, mass: 0.7 });
-      tw.value = withSpring(r.w, { damping: 12, stiffness: 190, mass: 0.7 });
-    } else {
-      tx.value = withTiming(r.x, { duration: fxv === 'C' ? 380 : PILL_MS, easing: fxv === 'C' ? Easing.bezier(0.2, 0.8, 0.2, 1) : PILL_EASE });
-      tw.value = withTiming(r.w, { duration: fxv === 'C' ? 380 : PILL_MS, easing: fxv === 'C' ? Easing.bezier(0.2, 0.8, 0.2, 1) : PILL_EASE });
-    }
-    // C: la pillola fa un piccolo "pop" all'arrivo
-    if (fxv === 'C') pop.value = withSequence(withTiming(1.14, { duration: 160 }), withSpring(1, { damping: 6, stiffness: 240 }));
+    tx.value = withTiming(r.x, { duration: PILL_MS, easing: PILL_EASE });
+    tw.value = withTiming(r.w, { duration: PILL_MS, easing: PILL_EASE });
     if (scroll && scroller.current) scroller.current.scrollTo({ x: Math.max(0, r.x - 40), animated: true });
   };
   useEffect(() => { place(cur, true); }); // eslint-disable-line react-hooks/exhaustive-deps
-  const th = useAnimatedStyle(() => ({ width: tw.value, transform: [{ translateX: tx.value }, { scaleY: pop.value }] }));
+  const th = useAnimatedStyle(() => ({ width: tw.value, transform: [{ translateX: tx.value }] }));
   const press = (v) => { if (v === cur) return; setCur(v); setTimeout(() => onChange(v), 60); };
   const items = options.map((o) => (
     <SegItem key={String(o.value)} C={C} label={o.label} icon={o.icon} on={o.value === cur} tight={options.length === 5} pad={pad} grow={!!fit} flex={!scroll && !hug} onPress={() => press(o.value)}
@@ -158,58 +147,20 @@ export const Segmented = ({ C, options, value, onChange, hug, pad, fit }) => {
 
 // Sede: tre tasti uguali in vetro liquido, icona sopra il nome (Casa = casetta, Neutro = bilancia, Trasferta = aereo); quello scelto si accende
 const SEDE = [['casa', 'Casa', 'home-outline'], ['neutro', 'Neutro', 'scale-balance'], ['trasferta', 'Trasferta', 'airplane-outline']];
-function SedeBtn({ C, on, label, icon, variant, onPress, onLayout, flat }) {
-  const ripple = useRipple(C.accent);
-  const bounce = useBounce(variant === 'C' ? 1.12 : 1.07);
-  const ic = useSharedValue(0);
-  const icSt = useAnimatedStyle(() => ({ transform: [{ translateY: -ic.value * 5 }, { scale: 1 + ic.value * 0.18 }] }));
-  const press = (e) => {
-    if (variant === 'C' && e && e.nativeEvent) ripple.fire(e.nativeEvent.locationX || 0, e.nativeEvent.locationY || 0);
-    if (variant !== 'A') bounce.go();
-    ic.value = withSequence(withTiming(1, { duration: 130 }), withSpring(0, { damping: 7, stiffness: 220 }));
-    onPress();
-  };
-  const hi = on && !flat;
-  return (
-    <Animated.View onLayout={onLayout} style={[{ flex: 1 }, bounce.st]}>
-      <Pressable onPress={press} style={({ pressed }) => [{ borderRadius: 16, overflow: 'hidden', paddingVertical: 11, alignItems: 'center', gap: 6, borderWidth: 1, borderColor: hi ? C.accRing : C.lgBorder, backgroundColor: hi ? C.accTint : C.chip }, pressed && { opacity: 0.7 }]}>
-        <LinearGradient pointerEvents="none" colors={[C.lg1, C.lg2]} start={{ x: 0.2, y: 0 }} end={{ x: 0.8, y: 1 }} style={StyleSheet.absoluteFill} />
-        <Animated.View style={icSt}>
+export const SedeButtonsN = ({ C, value, onChange }) => (
+  <View style={{ flexDirection: 'row', gap: 8, paddingHorizontal: 18, paddingVertical: 12, borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: C.hair }}>
+    {SEDE.map(([v, label, icon]) => {
+      const on = value === v;
+      return (
+        <Pressable key={v} onPress={() => onChange(v)} style={({ pressed }) => [{ flex: 1, borderRadius: 16, overflow: 'hidden', paddingVertical: 11, alignItems: 'center', gap: 6, borderWidth: 1, borderColor: on ? C.accRing : C.lgBorder, backgroundColor: on ? C.accTint : C.chip }, pressed && { opacity: 0.7 }]}>
+          <LinearGradient pointerEvents="none" colors={[C.lg1, C.lg2]} start={{ x: 0.2, y: 0 }} end={{ x: 0.8, y: 1 }} style={StyleSheet.absoluteFill} />
           {icon === 'scale-balance' ? <MaterialCommunityIcons name="scale-balance" size={23} color={on ? C.ink : C.ink3} /> : <Ionicons name={icon} size={21} color={on ? C.ink : C.ink3} />}
-        </Animated.View>
-        <Text style={{ color: on ? C.ink : C.ink3, fontSize: 13, fontWeight: '600' }}>{label}</Text>
-        {variant === 'C' ? ripple.node : null}
-      </Pressable>
-    </Animated.View>
-  );
-}
-export const SedeButtonsN = ({ C, value, onChange }) => {
-  const { pick: fxv } = useFx();
-  const lay = useRef({});
-  const x = useSharedValue(0);
-  const y = useSharedValue(0);
-  const w = useSharedValue(0);
-  const h = useSharedValue(0);
-  const first = useRef(true);
-  const place = (v, animate) => {
-    const r = lay.current[v];
-    if (!r) return;
-    if (first.current || !animate) { x.value = r.x; y.value = r.y; w.value = r.w; h.value = r.h; first.current = false; return; }
-    x.value = withTiming(r.x, { duration: 420, easing: PILL_EASE });
-  };
-  useEffect(() => { place(value, true); }); // eslint-disable-line react-hooks/exhaustive-deps
-  const th = useAnimatedStyle(() => ({ width: w.value, height: h.value, transform: [{ translateX: x.value }, { translateY: y.value }] }));
-  return (
-    <View style={{ flexDirection: 'row', gap: 8, paddingHorizontal: 18, paddingVertical: 12, borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: C.hair }}>
-      {/* A: un'unica evidenziazione scivola da un tasto all'altro; B: il tasto scelto fa un rimbalzo con la sua icona; C: onda dal tocco, rimbalzo e icona che salta */}
-      {SEDE.map(([v, label, icon]) => (
-        <SedeBtn key={v} C={C} on={value === v} label={label} icon={icon} variant={fxv} flat={fxv === 'A'} onPress={() => onChange(v)}
-          onLayout={(e) => { const { x: lx, y: ly, width, height } = e.nativeEvent.layout; lay.current[v] = { x: lx, y: ly, w: width, h: height }; if (v === value) place(value, false); }} />
-      ))}
-      {fxv === 'A' ? <Animated.View pointerEvents="none" style={[{ position: 'absolute', left: 0, top: 0, borderRadius: 16, borderWidth: 1, borderColor: C.accRing, backgroundColor: C.accTint }, th]} /> : null}
-    </View>
-  );
-};
+          <Text style={{ color: on ? C.ink : C.ink3, fontSize: 13, fontWeight: '600' }}>{label}</Text>
+        </Pressable>
+      );
+    })}
+  </View>
+);
 
 export const FieldRow = ({ C, label, hint, first, children }) => (
   <View style={{ paddingHorizontal: 18, paddingVertical: 12, borderTopWidth: first ? 0 : StyleSheet.hairlineWidth, borderTopColor: C.hair }}>
