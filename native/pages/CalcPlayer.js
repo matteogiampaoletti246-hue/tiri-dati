@@ -192,11 +192,11 @@ function PlayerPick({ C, form, set, player, onSelectPlayer, stat, onStat, role, 
     const t = setTimeout(() => setReadyFor(pid), 900);
     return () => clearTimeout(t);
   }, [pid]); // eslint-disable-line react-hooks/exhaustive-deps
-  const club = player ? (player.nat && player.club ? player.club : player) : null;
+  const club = bp ? (bp.nat && bp.club ? bp.club : bp) : null; // dal giocatore appena scelto (bp), non da quello vecchio: alla prima scelta `player` e' ancora vuoto
   const team = club ? teamById(club.teamId) : null;
-  const col = playerColor(player, form.competizione, team && team.colors ? team.colors[0] : C.accent);
+  const col = playerColor(bp, form.competizione, team && team.colors ? team.colors[0] : C.accent);
   const comps = useMemo(() => playerComps(player), [player]);
-  const natName = player ? (player.natView ? player.natView.teamName : player.nat ? player.teamName : null) : null;
+  const natName = bp ? (bp.natView ? bp.natView.teamName : bp.nat ? bp.teamName : null) : null;
   const natFc = natName ? flagCode(natName) : null;
   const hitTitle = form.playerId && hitN > 0 && hitN < 5 ? `Hit rate su ${hitN} ${hitN === 1 ? 'partita' : 'partite'}` : 'Hit rate ultime 5';
   const ownId = pendP ? club && club.teamId : form.team && form.team.id ? form.team.id : club && club.teamId;

@@ -179,3 +179,5 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 ## Duello avversario e formazioni (12/11/2026, regola fissa)
 - Nel Calcolatore falli (commessi e subiti) da 1h15 (75') dal fischio e a partita iniziata la lista del duello e' l'undici titolare della squadra avversaria, preso dalla formazione della pagina partita (`m.lineup[...].xi[].fmId`, partita = `nextMatchVs`); il duello automatico sceglie tra i titolari. Prima dei 75' o senza formazione con id FotMob resta la rosa intera.
 - Dentro i 75' la partita si richiede ogni 5 s (`prepareMatch(id, true)`) mentre il Calcolatore e' aperto, e subito al ritorno dal background: se la formazione cambia, la lista si aggiorna da sola (le scelte a mano restano solo se ancora titolari). Solo titolari con dati falli in archivio: mai giocatori inventati.
+
+- Banner giocatore (12/11/2026, bug risolto): nel banner `club`, `natName` e colore si calcolano SEMPRE dal giocatore mostrato (`bp` = appena scelto o attuale), mai da `player`: alla prima scelta `player` e' ancora vuoto e il banner andava in errore, la rete di sicurezza (`Guard`) riavviava l'app e si tornava alla Home.
