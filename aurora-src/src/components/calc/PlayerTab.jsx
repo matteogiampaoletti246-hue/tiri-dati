@@ -15,7 +15,7 @@ import { comma } from '@/lib/format';
 import { parseDash } from '@/lib/calc';
 import DuelPicker from './DuelPicker';
 import RolesPanel from './RolesPanel';
-import { FALLI_KEYS, cardRole, autoDuelIds, falliKeysFor, playerRoles, roleBreakdown, useFalli } from '@/data/calcRoles';
+import { ROLE_KEYS, cardRole, autoDuelIds, falliKeysFor, playerRoles, roleBreakdown, useFalli } from '@/data/calcRoles';
 import FoulsTeamBlock from './FoulsTeamBlock';
 import {
   COMPETITION_OPTIONS,
@@ -122,7 +122,7 @@ export default function PlayerTab({ onSave }) {
   const duelLeagueAvg = fouls && oppDom ? leaguePlayerAvg(fd, oppDom, oppStat) : null;
   // ruoli avversari e duello automatico (ruolo con la % piu' alta; anche il secondo se dista al massimo 5 punti)
   const roleKeys = falliKeysFor(form.competizione === 'nations');
-  const fl = useFalli(player ? FALLI_KEYS : []); // sempre (non solo falli): da qui viene il ruolo del giocatore
+  const fl = useFalli(player ? ROLE_KEYS : []); // sempre (non solo falli): da qui viene il ruolo del giocatore
   const rb = fouls && fl && fmPid ? roleBreakdown(fl, roleKeys, fmPid, form.stat) : null;
   const roles = useMemo(() => playerRoles(fl, roleKeys), [fl, form.competizione]); // eslint-disable-line react-hooks/exhaustive-deps
   // ruolo dalla scheda giocatore per chi non ce l'ha nei falli

@@ -12,6 +12,11 @@ export const DUEL_N = 2;
 // competizioni con le coppie di falli: top 5 campionati, coppe europee e coppe nazionali dei top 5
 export const NATION_FALLI_KEYS = ['fm-9806', 'fm-9807', 'fm-9808', 'fm-9809'];
 export const CLUB_FALLI_KEYS = ['serie-a', 'premier-league', 'la-liga', 'bundesliga', 'ligue-1', 'champions-league', 'europa-league', 'conference-league', 'coppa-italia', 'dfb-pokal', 'coupe-de-france', 'efl-cup'];
+// Tabella "Ruoli avversari" e duello (regola dell'utente, 12/11/2026): con una competizione di club contano TUTTE le competizioni di club della stagione
+// (campionato, coppa europea, coppe nazionali...), con le nazionali TUTTE le partite con la nazionale; mai amichevoli (non sono tra le chiavi).
+// Dove ESPN non ha i falli (`falli_coppie.py`) la competizione non ha dati e non pesa.
+export const CLUB_ROLE_KEYS = [...CLUB_FALLI_KEYS, 'eredivisie', 'liga-portugal', 'fm-132', 'fm-138'];
+export const NATION_ROLE_KEYS = [...NATION_FALLI_KEYS, 'fm-77', 'fm-10195'];
 // Ruolo della scheda giocatore (stessa fonte del riquadro "Ruolo": posizione dell'app, poi posizione FotMob, poi rosa), con le sigle dei falli.
 // Si usa solo per chi non ha il ruolo nei dati dei falli (es. portieri, campionati senza coppie di falli).
 const PS_SIGLA = { GK: 'POR', CB: 'DC', LB: 'TS', RB: 'TD', LWB: 'ES', RWB: 'ED', DM: 'CC', CDM: 'CC', CM: 'CC', AM: 'CO', CAM: 'CO', LM: 'ES', RM: 'ED', LW: 'AS', RW: 'AD', ST: 'ATT', CF: 'ATT' };
@@ -22,12 +27,13 @@ export function cardRole(position, ps, rosterPos) {
   if (ps && PS_SIGLA[ps] && (!position || PS_GEN[ps] === position || (position === 'ATT' && PS_GEN[ps] === 'WNG'))) return PS_SIGLA[ps];
   return GEN_SIGLA[gen] || null;
 }
-export const FALLI_KEYS = [...CLUB_FALLI_KEYS, ...NATION_FALLI_KEYS];
+export const FALLI_KEYS = [...CLUB_FALLI_KEYS, ...NATION_FALLI_KEYS]; // competizioni per Migliori Giocatori (FOUL_COMPS)
+export const ROLE_KEYS = [...CLUB_ROLE_KEYS, ...NATION_ROLE_KEYS]; // archivi da caricare per ruoli e duello
 // ruoli e duello: con le nazionali (Nations League) solo le loro partite, con i club solo le partite di club (un giocatore puo' avere un ruolo diverso)
-export const falliKeysFor = (nation) => (nation ? NATION_FALLI_KEYS : CLUB_FALLI_KEYS);
+export const falliKeysFor = (nation) => (nation ? NATION_ROLE_KEYS : CLUB_ROLE_KEYS);
 
 export const loadFalli = (key) => {
-  const fm = FM_ID[key];
+  const fm = FM_ID[key] || Number((/^fm-(\d+)$/.exec(String(key)) || [])[1]) || 0;
   if (!key || !fm) return Promise.resolve(null);
   const hit = lruGet(FL, key);
   if (hit) return hit;

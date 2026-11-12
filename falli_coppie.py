@@ -13,6 +13,11 @@ LEGHE = {"serie-a": ("ita.1", 55), "premier-league": ("eng.1", 47), "la-liga": (
          "ligue-1": ("fra.1", 53), "champions-league": ("uefa.champions", 42), "europa-league": ("uefa.europa", 73),
          "conference-league": ("uefa.europa.conf", 10216), "coppa-italia": ("ita.coppa_italia", 141), "dfb-pokal": ("ger.dfb_pokal", 209),
          "coupe-de-france": ("fra.coupe_de_france", 134), "efl-cup": ("eng.league_cup", 133),
+         # altre competizioni di club per la tabella "Ruoli avversari" (dove ESPN non ha i falli la partita non si salva e non si mostra niente)
+         "eredivisie": ("ned.1", 57), "liga-portugal": ("por.1", 61),
+         "fm-132": ("eng.fa", 132), "fm-138": ("esp.copa_del_rey", 138),
+         # nazionali oltre alla Nations League: Mondiali e qualificazioni europee ai Mondiali (mai amichevoli)
+         "fm-77": ("fifa.world", 77), "fm-10195": ("fifa.worldq.uefa", 10195),
          # Nations League (nazionali): stessa competizione ESPN per le quattro leghe, si abbina per data e nomi delle squadre
          "fm-9806": ("uefa.nations", 9806), "fm-9807": ("uefa.nations", 9807), "fm-9808": ("uefa.nations", 9808), "fm-9809": ("uefa.nations", 9809)}
 PAUSA = float(os.environ.get("PAUSA", "0.15"))
@@ -222,7 +227,7 @@ def main():
         fix = json.load(open(f"arch/{fm}/{stag}.json"))
         nomi = fix.get("teams") or {}
         quando = {r[0]: r[4] for r in fix.get("fix") or []}
-        anni = sorted({stag[:4], stag[5:]})
+        anni = sorted({a for a in (stag[:4], stag[5:9]) if a})
         eventi = []
         for an in anni:
             sb = get(f"{ESPN}{cod}/scoreboard?dates={an}&limit=1000")

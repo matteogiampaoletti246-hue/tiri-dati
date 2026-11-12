@@ -1,5 +1,5 @@
 // Migliori giocatori del giorno: stessa formula dell'app originale (Poisson sulla media tiri attesa).
-import { FALLI_KEYS, autoDuel, falliKeysFor, loadFalli } from './calcRoles';
+import { FALLI_KEYS, ROLE_KEYS, autoDuel, falliKeysFor, loadFalli } from './calcRoles';
 import { RAW } from './load';
 import { PLAYERS } from './players';
 import { teamById, teamByName } from './teams';
@@ -207,9 +207,9 @@ export function loadBestFouls(day, threshold, stat) {
     const loaded = await Promise.all(all.map(loadFouls));
     const DATA = {};
     all.forEach((k, i) => { if (loaded[i]) DATA[k] = loaded[i]; });
-    const loadedFl = await Promise.all(FALLI_KEYS.map(loadFalli));
+    const loadedFl = await Promise.all(ROLE_KEYS.map(loadFalli));
     const FLD = {};
-    FALLI_KEYS.forEach((k, i) => { if (loadedFl[i]) FLD[k] = loadedFl[i]; });
+    ROLE_KEYS.forEach((k, i) => { if (loadedFl[i]) FLD[k] = loadedFl[i]; });
     const out = [];
     for (let i = 0; i < list.length; i += 1) {
       if (i % 25 === 24) await pause(); // la pagina resta reattiva mentre si calcola
@@ -282,9 +282,9 @@ export function loadPlayerFouls(p, dateIso, lines, stat) {
     const loaded = await Promise.all(keys.map(loadFouls));
     const fd = {};
     keys.forEach((k, i) => { if (loaded[i]) fd[k] = loaded[i]; });
-    const loadedFl = await Promise.all(FALLI_KEYS.map(loadFalli));
+    const loadedFl = await Promise.all(ROLE_KEYS.map(loadFalli));
     const fl = {};
-    FALLI_KEYS.forEach((k, i) => { if (loadedFl[i]) fl[k] = loadedFl[i]; });
+    ROLE_KEYS.forEach((k, i) => { if (loadedFl[i]) fl[k] = loadedFl[i]; });
     const fmPid = await resolvePid(p).catch(() => null);
     if (!fmPid) return lines.map(() => null);
     const pf = playerFoulsOf(fd, fmPid, p, stat, hitRows);

@@ -14,7 +14,7 @@ import { romeDay } from '@/data/util';
 import { NATIONS_KEYS, calcTeamsOf, calcLeagues, leagueName, cupOf, domesticKey, nextFixture, fixtureAt, prefillShots, splitBoxes, teamShots } from '@/data/calcData';
 import { emptyFouls, fillFrom, hitFromValues, hitRows, initialForm, isFouls, natHitOf, resultFromForm, resultFromFouls, viewFor } from '@/data/calcPlayer';
 import { fmTeamIn, foulKeysFor, foulSeasonOf, leaguePlayerAvg, playerFoulsOf, rosterFouls, teamFoulStats, useFouls } from '@/data/calcFouls';
-import { FALLI_KEYS, loadFalli, cardRole, autoDuelIds, falliKeysFor, playerRoles, roleBreakdown, useFalli } from '@/data/calcRoles';
+import { ROLE_KEYS, loadFalli, cardRole, autoDuelIds, falliKeysFor, playerRoles, roleBreakdown, useFalli } from '@/data/calcRoles';
 import { resolvePid } from '@/data/playerPid';
 import { careerByFm, carriereOf, loadCarriere, countryIt, flagCode } from '@/data/carriere';
 import { FlagN } from '../shared/FlagN';
@@ -757,7 +757,7 @@ export default function CalcPlayer({ C, openRoute }) {
   const duelAvg = duelSel.length ? duelSel.reduce((a, r) => a + r.avg90, 0) / duelSel.length : null;
   const duelLeagueAvg = fouls && oppDom ? leaguePlayerAvg(fd, oppDom, oppStat) : null;
   const roleKeys = falliKeysFor(form.competizione === 'nations');
-  const fl = useFalli(player ? FALLI_KEYS : []);
+  const fl = useFalli(player ? ROLE_KEYS : []);
   const rb = fouls && fl && fmPid ? roleBreakdown(fl, roleKeys, fmPid, form.stat) : null;
   const roles = useMemo(() => playerRoles(fl, roleKeys), [fl, form.competizione]); // eslint-disable-line react-hooks/exhaustive-deps
   const [ps, setPs] = useState(undefined);
