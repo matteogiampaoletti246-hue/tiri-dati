@@ -92,3 +92,6 @@ Le barre di `CompareBars` compaiono subito ai valori veri (niente memoria di val
 ## Falli per giocatore: banner e partite live (regola fissa)
 - Banner della lista falli: colore pieno della squadra a sinistra che sfuma verso destra nel colore della tendina (scuro/chiaro secondo il tema), come i banner dell'Affidabilita'; numero e minuti a destra col colore del tema. Titolo dei falli commessi: "<Nome> ha fatto fallo su".
 - Il caricamento ESPN (`foulsMatch.js`) non tiene mai in cache un "nessun dato": partita non finita = si riprova ogni 30 s; cerca l'evento nel giorno UTC della partita e in quelli accanto.
+
+## Riassunto: rigore sbagliato (regola fissa)
+- Nel Riassunto (nativo e sito) il rigore sbagliato in partita sta nella sua riga col minuto e il nome del rigorista, con l'icona `MissedPenIcon` (porta con una X rossa dentro, cornice neutra). Il worker `/fx` passa l'evento FotMob `MissedPenalty` (non quelli della lotteria finale), `applyFm` lo trasforma in `type: 'misspen'`. Non conta nei punteggi.

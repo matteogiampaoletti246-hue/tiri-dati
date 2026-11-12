@@ -23,7 +23,15 @@ export function CardIcon({ red = false, size = 18 }) {
     </svg>
   );
 }
-export const EventIcon = ({ e, size = 18 }) => (e.type === 'goal' ? <BallIcon size={size} /> : e.type === 'sub' ? <SubIcon size={size} /> : <CardIcon red={e.type === 'red'} size={size} />);
+export function MissedPenIcon({ size = 18 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M3.5 19.5V6.5h17v13" stroke="#9AA3B5" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M9 9.6l6 6M15 9.6l-6 6" stroke="#E5484D" strokeWidth="2.1" strokeLinecap="round" />
+    </svg>
+  );
+}
+export const EventIcon = ({ e, size = 18 }) => (e.type === 'goal' ? <BallIcon size={size} /> : e.type === 'misspen' ? <MissedPenIcon size={size} /> : e.type === 'sub' ? <SubIcon size={size} /> : <CardIcon red={e.type === 'red'} size={size} />);
 
 // Assist: scarpino dorato (glifo)
 export function BootIcon({ size = 18 }) {

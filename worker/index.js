@@ -443,10 +443,11 @@ export default {
         const ht = live && !!hf.firstHalfEnded && !hf.secondHalfStarted;
         const mf = (c.matchFacts && c.matchFacts.events && c.matchFacts.events.events) || [];
         const nm = (x) => (x && x.name) || "";
-        let ev = mf.filter((e) => ["Goal", "Card", "Substitution"].includes(e.type)).map((e) => {
+        let ev = mf.filter((e) => ["Goal", "Card", "Substitution"].includes(e.type) || (e.type === "MissedPenalty" && !e.isPenaltyShootoutEvent)).map((e) => {
           const add = e.overloadTime || 0;
           const o = { ty: e.type, t: e.time, a: add, h: !!e.isHome, ts: e.time * 100 + add };
           if (e.type === "Goal") { Object.assign(o, { n: e.player && e.player.name || e.nameStr, id: e.player && e.player.id || e.playerId, as: e.assistInput || null, aid: e.assistPlayerId || null, og: !!e.ownGoal, pen: /pen/i.test(e.goalDescription || "") || /pen/i.test(e.goalDescriptionKey || ""), sc: e.newScore || null }); }
+          else if (e.type === "MissedPenalty") { Object.assign(o, { n: e.player && e.player.name || e.nameStr, id: e.player && e.player.id || e.playerId }); }
           else if (e.type === "Card") { Object.assign(o, { n: e.player && e.player.name || e.nameStr, id: e.player && e.player.id || e.playerId, cd: e.card }); }
           else { const sw = e.swap || []; Object.assign(o, { n: nm(sw[0]), id: sw[0] && +sw[0].id || null, o: nm(sw[1]), oid: sw[1] && +sw[1].id || null }); }
           return o;

@@ -208,6 +208,7 @@ export function applyFm(m, d, playerLookup) {
     const minute = e.a ? `${e.t}+${e.a}` : e.t;
     if (e.ty === 'Goal') events.push({ minute, type: 'goal', team, name: e.n, assist: e.as, pen: !!e.pen, og: !!e.og, score: e.sc ? [e.sc[0], e.sc[1]] : null });
     else if (e.ty === 'Card') events.push({ minute, type: /red/i.test(e.cd || '') ? 'red' : 'yellow', team, name: e.n, second: /yellowred|second/i.test(e.cd || '') });
+    else if (e.ty === 'MissedPenalty') events.push({ minute, type: 'misspen', team, name: e.n });
     else if (e.ty === 'Substitution') events.push({ minute, type: 'sub', team, name: e.o, inName: e.n });
   });
   if (events.length || d.started) m.events = events;

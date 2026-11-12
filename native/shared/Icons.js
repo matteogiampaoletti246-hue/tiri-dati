@@ -10,6 +10,14 @@ export const BallIcon = ({ size = 18 }) => (
   </Svg>
 );
 
+// Rigore sbagliato: porta con una X dentro (cornice neutra visibile su tema scuro e chiaro, X rossa)
+export const MissedPenIcon = ({ size = 18 }) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    <Path d="M3.5 19.5V6.5h17v13" stroke="#9AA3B5" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
+    <Path d="M9 9.6l6 6M15 9.6l-6 6" stroke="#E5484D" strokeWidth="2.1" strokeLinecap="round" />
+  </Svg>
+);
+
 export const BootIcon = ({ size = 18 }) => (
   <Svg width={size} height={size} viewBox="0 0 64 64">
     <Defs><LinearGradient id="slg" x1="0" y1="0" x2="1" y2="1"><Stop offset="0" stopColor="#FFD966" /><Stop offset="1" stopColor="#F2B825" /></LinearGradient></Defs>

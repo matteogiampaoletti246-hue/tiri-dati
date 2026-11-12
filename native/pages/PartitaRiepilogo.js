@@ -3,7 +3,7 @@ import React, { useRef, useState } from 'react';
 import { View, Text, PanResponder } from 'react-native';
 import Svg, { Defs, ClipPath, Rect, Path, Line, Circle, LinearGradient, Stop } from 'react-native-svg';
 import { Panel } from '../shared/ui';
-import { BallIcon, BootIcon } from '../shared/Icons';
+import { BallIcon, BootIcon, MissedPenIcon } from '../shared/Icons';
 import PlayerLinkN from '../shared/PlayerLinkN';
 import { matchColors, shown } from '@/lib/tint';
 import { StadioCard, RefereeCard, FormCard, SubIcon, CardIcon } from './PartitaInfo';
@@ -112,7 +112,7 @@ function withMarks(events, finished) {
   if (finished) out.push({ mark: `FT ${gh} – ${ga}` });
   return out;
 }
-const EventIcon = ({ e, size = 18 }) => (e.type === 'goal' ? <BallIcon size={size} /> : e.type === 'sub' ? <SubIcon size={size} /> : <CardIcon red={e.type === 'red'} size={size} />);
+const EventIcon = ({ e, size = 18 }) => (e.type === 'goal' ? <BallIcon size={size} /> : e.type === 'misspen' ? <MissedPenIcon size={size} /> : e.type === 'sub' ? <SubIcon size={size} /> : <CardIcon red={e.type === 'red'} size={size} />);
 
 function Lines({ C, e, align, match, openRoute }) {
   const al = align === 'right' ? 'right' : 'left';
