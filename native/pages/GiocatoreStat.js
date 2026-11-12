@@ -10,7 +10,6 @@ import StatIconN from '../shared/StatIconN';
 import { scoreColorSmooth } from '@/lib/calc';
 import { useSel } from '../shared/hooks';
 import PlayerMapsN from '../shared/PlayerMapsN';
-import { usePlayerMaps } from '@/data/playerMaps';
 import GiocatorePast, { SkCards, Msg } from './GiocatorePast';
 import { comma } from '@/lib/format';
 import { POS_PL, rankOf, statValue, roleAverage, standing, bandColor, GROUPS } from '@/components/player/playerCalc';
@@ -205,7 +204,6 @@ export default function GiocatoreStat({ C, player: p, team, car, openRoute }) {
   const noCur = !!p.archive || !inBase;
   const seasonEff = noCur && season === 'cur' ? (seasons[0] || null) : season;
   const dom = comps.length ? comps[0].id : null;
-  const maps = usePlayerMaps(fmPid, comps.map((c) => FM_ID[c.id]));
   const rk = [['goals', 'Gol'], ['assists', 'Assist'], ['shots', 'Tiri'], ['shotsOnTarget', 'Tiri in porta'], ['xg', 'xG'], ['foulsDrawn', 'Falli subiti']]
     .map(([k, label]) => ({ k, label, r: rankOf(p, k), v: per90(p[k] || 0, p.minutes) })).filter((x) => x.r);
   const exv = (k, last) => { const arr = last ? p.exL5 : p.exS; const i = EX_COLS.indexOf(k); return arr && i >= 0 ? arr[i] : null; };
@@ -272,11 +270,11 @@ export default function GiocatoreStat({ C, player: p, team, car, openRoute }) {
   }
   return (
     <View>
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 16, paddingTop: 12, paddingBottom: 4 }}>
+      <PlayerMapsN C={C} comps={comps} fmPid={fmPid} name={p.name} color={team && team.colors ? team.colors[0] : null} openRoute={openRoute} />
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 16, paddingTop: 16, paddingBottom: 4 }}>
         {comps.length ? <DropBtn C={C} title="Competizione" label={curLg ? curLg.name : ''} icon={<LeagueLogo league={curLg} size={24} C={C} />} options={comps.map((c) => ({ value: c.id, label: c.name, icon: <LeagueLogo league={c} size={26} C={C} /> }))} value={comp} onChange={(c) => { setComp(c); setSeason('cur'); }} /> : null}
         {sOpts ? <DropBtn C={C} title="Stagione" label={sLabel} options={sOpts} value={seasonEff || 'cur'} onChange={setSeason} /> : null}
       </View>
-      <PlayerMapsN C={C} maps={maps} color={team && team.colors ? team.colors[0] : null} />
       <SwapN k={`${comp}|${seasonEff}`}>{body}</SwapN>
     </View>
   );

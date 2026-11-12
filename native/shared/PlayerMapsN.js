@@ -1,60 +1,208 @@
-// Mappe del campo del giocatore (nativo): Tiri, Tiri in porta, Falli commessi, Falli subiti, tutte le partite sommate.
-// Si scorre di lato tra una mappa e l'altra; il giocatore attacca sempre verso destra. Dati: `@/data/playerMaps`.
-import React, { useState } from 'react';
-import { View, Text, ScrollView } from 'react-native';
-import Svg, { Rect, Line, Circle } from 'react-native-svg';
-import { Panel } from './ui';
-import { shown } from '@/lib/tint';
+// Mappe del campo del giocatore (nativo): Tiri, Tiri in porta, Falli commessi, Falli subiti, partite sommate.
+// Filtri propri (competizione e stagione, diversi da quelli delle statistiche) e tendina avversari = una sola partita.
+// Pallini come nella pagina partita (DotShape), toccabili: sotto compaiono i dettagli. Il giocatore attacca sempre verso destra.
+import React, { useEffect, useMemo, useState } from 'react';
+import { View, Text, ScrollView, Pressable } from 'react-native';
+import { Image } from 'expo-image';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Ionicons } from '@expo/vector-icons';
+import Svg, { Rect, Line, Circle, Polyline, G } from 'react-native-svg';
+import { Panel, DropBtn, LeagueLogo } from './ui';
+import { DotShape, shotColor, situationOf, zoneOf, outcomeOf, isBlocked, HIT, PITCH, LINE, TRACE } from './ShotMap';
+import { FM_ID, teamLogo, playerFace, seasonLabel } from '@/data/archive';
+import { usePlayerMaps, mapSeasons } from '@/data/playerMaps';
+import { comma } from '@/lib/format';
 
-const PITCH = '#1c5a38';
-const LINE = 'rgba(255,255,255,.55)';
-const RING = 'rgba(255,255,255,.95)';
-const PAD = 2;
+const MESI = ['gen', 'feb', 'mar', 'apr', 'mag', 'giu', 'lug', 'ago', 'set', 'ott', 'nov', 'dic'];
+const dateIt = (ts) => { const d = ts ? new Date(ts) : null; return d && !Number.isNaN(d.getTime()) ? `${d.getDate()} ${MESI[d.getMonth()]} ${d.getFullYear()}` : ''; };
+const lumOf = (h) => { const m = /^#?([0-9a-f]{6})/i.exec(String(h || '')); if (!m) return 1; const n = parseInt(m[1], 16); return (0.299 * (n >> 16) + 0.587 * ((n >> 8) & 255) + 0.114 * (n & 255)) / 255; };
+const hexOk = (c) => (/^#[0-9a-f]{6}$/i.test(String(c || '')) ? c : null);
 
-function Pitch({ pts, color, goals }) {
-  const dot = pts.length > 250 ? 0.8 : pts.length > 80 ? 1.05 : 1.4;
-  const op = pts.length > 250 ? 0.45 : pts.length > 80 ? 0.6 : 0.8;
+const RIGHT = [[[105, 13.84], [88.5, 13.84], [88.5, 54.16], [105, 54.16]], [[105, 24.84], [99.5, 24.84], [99.5, 43.16], [105, 43.16]]];
+const mir = (pts) => pts.map(([x, y]) => [105 - x, y]);
+const pl = (pts) => pts.map((p) => p.join(',')).join(' ');
+
+function Pitch({ list, color, sel, onSel, kind, cur }) {
+  const big = list.length > 250;
+  const goalPt = cur && cur.gy != null ? [105, cur.gy] : null;
+  const bp = cur && isBlocked(cur) && cur.bx != null ? [cur.bx, cur.by] : null;
   return (
-    <Svg width="100%" viewBox={`${-PAD} ${-PAD} ${105 + PAD * 2} ${68 + PAD * 2}`} style={{ aspectRatio: (105 + PAD * 2) / (68 + PAD * 2) }}>
-      <Rect x={-PAD} y={-PAD} width={105 + PAD * 2} height={68 + PAD * 2} fill={PITCH} />
-      <Rect x={0} y={0} width={105} height={68} fill="none" stroke={LINE} strokeWidth={0.4} />
-      <Line x1={52.5} y1={0} x2={52.5} y2={68} stroke={LINE} strokeWidth={0.4} />
-      <Circle cx={52.5} cy={34} r={9.15} fill="none" stroke={LINE} strokeWidth={0.4} />
-      <Rect x={0} y={13.84} width={16.5} height={40.32} fill="none" stroke={LINE} strokeWidth={0.4} />
-      <Rect x={0} y={24.84} width={5.5} height={18.32} fill="none" stroke={LINE} strokeWidth={0.4} />
-      <Rect x={88.5} y={13.84} width={16.5} height={40.32} fill="none" stroke={LINE} strokeWidth={0.4} />
-      <Rect x={99.5} y={24.84} width={5.5} height={18.32} fill="none" stroke={LINE} strokeWidth={0.4} />
-      {pts.map((p, i) => <Circle key={i} cx={Math.max(0.5, Math.min(104.5, p[0]))} cy={Math.max(0.5, Math.min(67.5, p[1]))} r={dot} fill={color} fillOpacity={op} />)}
-      {goals ? pts.filter((p) => p[2] === 1).map((p, i) => <Circle key={`g${i}`} cx={Math.max(0.5, Math.min(104.5, p[0]))} cy={Math.max(0.5, Math.min(67.5, p[1]))} r={dot + 0.7} fill={color} stroke={RING} strokeWidth={0.45} />) : null}
+    <Svg width="100%" viewBox="-1 -1 107 70" style={{ aspectRatio: 107 / 70, backgroundColor: PITCH, borderRadius: 10 }}>
+      <Rect x="0" y="0" width="105" height="68" fill="none" stroke={LINE} strokeWidth="0.5" />
+      <Line x1="52.5" x2="52.5" y1="0" y2="68" stroke={LINE} strokeWidth="0.5" />
+      <Circle cx="52.5" cy="34" r="9.15" fill="none" stroke={LINE} strokeWidth="0.5" />
+      {RIGHT.map((l, i) => <Polyline key={`r${i}`} points={pl(l)} fill="none" stroke={LINE} strokeWidth="0.5" />)}
+      {RIGHT.map((l, i) => <Polyline key={`l${i}`} points={pl(mir(l))} fill="none" stroke={LINE} strokeWidth="0.5" />)}
+      {kind === 'shot' && cur ? (bp ? (
+        <>
+          <Line x1={cur.px} y1={cur.py} x2={bp[0]} y2={bp[1]} stroke={TRACE} strokeWidth="0.45" strokeDasharray="1.3 1.1" />
+          <Line x1={bp[0] - 1.5} y1={bp[1]} x2={bp[0] + 1.5} y2={bp[1]} stroke={TRACE} strokeWidth="0.9" strokeLinecap="round" />
+        </>
+      ) : goalPt && !isBlocked(cur) ? <Line x1={cur.px} y1={cur.py} x2={goalPt[0]} y2={goalPt[1]} stroke={TRACE} strokeWidth="0.45" strokeDasharray="1.4 1.2" /> : null) : null}
+      {list.map((s, i) => {
+        const cx = Math.max(1, Math.min(104, s.px)); const cy = Math.max(1, Math.min(67, s.py));
+        return (
+          <G key={i} x={cx} y={cy} onPress={() => onSel(i === sel ? null : i)}>
+            {i === sel ? <Circle r={3.6} fill="none" stroke="#f5a400" strokeWidth="0.7" /> : null}
+            <Circle r={big ? 2.4 : 4.2} fill={HIT} />
+            {big && !(kind === 'shot' && s.outcome === 'Gol') ? <Circle r={1.2} fill={color} fillOpacity={0.7} /> : <DotShape c={color} goal={kind === 'shot' && s.outcome === 'Gol'} on={kind === 'shot' ? !!s.onTarget : true} r={1.9} />}
+          </G>
+        );
+      })}
     </Svg>
   );
 }
 
-export default function PlayerMapsN({ C, maps, color }) {
-  const pages = maps ? [['Tiri', maps.tiri, true], ['Tiri in porta', maps.porta, true], ['Falli commessi', maps.fc, false], ['Falli subiti', maps.fs, false]].filter((x) => x[1].length) : [];
-  const [w, setW] = useState(0);
-  const [i, setI] = useState(0);
-  if (maps === undefined) return <View style={{ marginHorizontal: 20, marginTop: 16, height: 250, borderRadius: 22, backgroundColor: C.skBase }} />;
-  if (!pages.length) return null;
-  const col = shown(color || '#ffffff', 70);
+const Crest = ({ fid, size = 18 }) => (fid ? <Image source={{ uri: teamLogo(fid) }} style={{ width: size, height: size }} contentFit="contain" cachePolicy="memory-disk" /> : null);
+
+function Duel({ C, e, onPrev, onNext }) {
+  const cs = (e.oppTeam && e.oppTeam.colors) || ['#2a3a66', '#2a3a66'];
+  const c0 = [cs[0], cs[1], '#2a3a66'].map(hexOk).find((x) => x && lumOf(x) <= 0.72) || '#2a3a66';
+  const photo = e.other.id ? playerFace(e.other.id) : null;
+  return (
+    <View style={{ borderRadius: 18, overflow: 'hidden' }}>
+      <LinearGradient colors={[c0, `${c0}66`, `${c0}00`]} locations={[0, 0.55, 1]} start={{ x: 0, y: 0.5 }} end={{ x: 1, y: 0.5 }} style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }} />
+      <View pointerEvents="none" style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, borderRadius: 18, borderWidth: 1.2, borderColor: `${c0}66` }} />
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, padding: 12 }}>
+        <Pressable onPress={onPrev} hitSlop={10}><Ionicons name="chevron-back" size={20} color="#fff" /></Pressable>
+        <View style={{ width: 46, height: 46, borderRadius: 23, overflow: 'hidden', backgroundColor: 'rgba(255,255,255,.18)', alignItems: 'center', justifyContent: 'flex-end' }}>
+          {photo ? <Image source={{ uri: photo }} style={{ width: 46, height: 46 }} contentFit="cover" cachePolicy="memory-disk" /> : <Ionicons name="person" size={36} color="rgba(255,255,255,.7)" />}
+        </View>
+        <View style={{ flex: 1 }}>
+          <Text style={{ color: 'rgba(255,255,255,.78)', fontSize: 10.5 }}>{e.kind === 'fc' ? 'Fallo su' : 'Fallo di'}</Text>
+          <Text numberOfLines={1} style={{ color: '#fff', fontSize: 14.5, fontWeight: '800' }}>{e.other.name || '—'}</Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 2 }}>
+            {e.oppTeam ? <Crest fid={e.oppTeam.fid} size={14} /> : null}
+            <Text numberOfLines={1} style={{ flex: 1, color: 'rgba(255,255,255,.78)', fontSize: 12 }}>{e.oppTeam ? e.oppTeam.name : ''}</Text>
+          </View>
+        </View>
+        <View style={{ alignItems: 'flex-end' }}>
+          <Text style={{ color: C.ink, fontSize: 20, fontWeight: '800' }}>{e.min}&apos;</Text>
+          <Text style={{ color: C.ink2, fontSize: 11 }}>{dateIt(e.ts)}</Text>
+        </View>
+        <Pressable onPress={onNext} hitSlop={10}><Ionicons name="chevron-forward" size={20} color={C.ink} /></Pressable>
+      </View>
+    </View>
+  );
+}
+
+function ShotDetail({ C, s, onPrev, onNext }) {
+  return (
+    <View style={{ borderRadius: 18, overflow: 'hidden', backgroundColor: C.chip, padding: 14 }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+        <Pressable onPress={onPrev} hitSlop={10}><Ionicons name="chevron-back" size={20} color={C.accent} /></Pressable>
+        <View style={{ flex: 1, alignItems: 'center' }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+            {s.opp ? <Crest fid={s.opp.fid} size={18} /> : null}
+            <Text numberOfLines={1} style={{ fontSize: 14, fontWeight: '800', color: C.ink, flexShrink: 1 }}>{s.opp ? `vs ${s.opp.name}` : s.playerName}</Text>
+          </View>
+          <Text style={{ color: C.ink3, fontSize: 11.5 }}>{dateIt(s.ts)} · {s.minute}&apos;</Text>
+        </View>
+        <Pressable onPress={onNext} hitSlop={10}><Ionicons name="chevron-forward" size={20} color={C.accent} /></Pressable>
+      </View>
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginTop: 12, rowGap: 12 }}>
+        {[
+          ['xG', comma(s.xg, 2)],
+          ['xGOT', s.onTarget || s.outcome === 'Gol' ? comma(s.xgot, 2) : '—'],
+          ['Esito', outcomeOf(s)],
+          ['Situazione', situationOf(s.situation)],
+          ['Tipo di tiro', s.body === 'Testa' ? 'Colpo di testa' : s.body === 'Destro' ? 'Piede destro' : s.body === 'Sinistro' ? 'Piede sinistro' : 'Altro'],
+          ['Zona gol', zoneOf(s)],
+        ].map(([k, v]) => (
+          <View key={k} style={{ width: '33.33%', alignItems: 'center' }}>
+            <Text style={{ color: C.ink3, fontSize: 10.5 }}>{k}</Text>
+            <Text style={{ color: C.ink, fontSize: 12.5, fontWeight: '700', textAlign: 'center' }}>{v}</Text>
+          </View>
+        ))}
+      </View>
+    </View>
+  );
+}
+
+// comps: competizioni del giocatore [{id, name, logo...}]; fmPid: id FotMob del giocatore
+export default function PlayerMapsN({ C, comps, fmPid, name, color, openRoute }) {
+  const [comp, setComp] = useState('all');
+  const [season, setSeason] = useState('cur');
+  const [opp, setOpp] = useState('all');
+  const [page, setPage] = useState(0);
+  const [sel, setSel] = useState(null);
+  const [W, setW] = useState(0);
+  const [sList, setSList] = useState([]);
+  const fms = useMemo(() => (comp === 'all' ? comps.map((c) => FM_ID[c.id]) : [FM_ID[comp]]).filter(Boolean), [comp, comps]); // eslint-disable-line react-hooks/exhaustive-deps
+  const fm1 = comp === 'all' ? null : FM_ID[comp];
+  useEffect(() => {
+    let on = true;
+    setSList([]);
+    if (fm1) mapSeasons(fm1).then((l) => { if (on) setSList(l); });
+    return () => { on = false; };
+  }, [fm1]);
+  const sOpts = fm1
+    ? [{ value: 'all', label: 'Tutte le stagioni' }, ...sList.map((s, i) => ({ value: i === 0 ? 'cur' : s, label: i === 0 ? 'Stagione attuale' : seasonLabel(s) }))]
+    : [{ value: 'cur', label: 'Stagione attuale' }, { value: 'prev', label: 'Stagione scorsa' }, { value: 'all', label: 'Tutte le stagioni' }];
+  const sEff = sOpts.some((o) => o.value === season) ? season : 'cur';
+  const data = usePlayerMaps({ pid: fmPid, name, fms, seasonSel: sEff });
+  const col = shotColor([hexOk(color) || '#ffffff']);
+
+  const all = data || { shots: [], fouls: [] };
+  const opps = useMemo(() => {
+    const o = new Map();
+    [...all.shots, ...all.fouls].forEach((e) => { if (!o.has(e.mid)) o.set(e.mid, e); });
+    return [...o.values()].sort((a, b) => String(b.ts || '').localeCompare(String(a.ts || '')));
+  }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
+  const oEff = opp === 'all' || opps.some((e) => e.mid === opp) ? opp : 'all';
+  const f = (l) => (oEff === 'all' ? l : l.filter((e) => e.mid === oEff));
+  const pages = [
+    ['Tiri', f(all.shots), 'shot'],
+    ['Tiri in porta', f(all.shots).filter((s) => s.onTarget || s.outcome === 'Gol'), 'shot'],
+    ['Falli commessi', f(all.fouls.filter((e) => e.kind === 'fc')), 'fc'],
+    ['Falli subiti', f(all.fouls.filter((e) => e.kind === 'fs')), 'fs'],
+  ].filter((x) => x[1].length);
+  const sig = `${comp}|${sEff}|${oEff}|${pages.length}`;
+  useEffect(() => { setPage(0); setSel(null); }, [sig]);
+  const pi = Math.min(page, Math.max(0, pages.length - 1));
+  const cur = pages[pi];
+  const curE = cur && sel != null && cur[1][sel] ? cur[1][sel] : null;
+  const step = (d) => { if (cur) setSel((i) => (((i == null ? -1 : i) + d + cur[1].length) % cur[1].length)); };
+  const cOpts = [{ value: 'all', label: 'Tutte le competizioni' }, ...comps.map((c) => ({ value: c.id, label: c.name, icon: <LeagueLogo league={c} size={26} C={C} /> }))];
+  const cLg = comps.find((c) => c.id === comp);
+  const oOpts = [{ value: 'all', label: 'Tutti gli avversari' }, ...opps.map((e) => ({ value: e.mid, label: `${e.opp ? `vs ${e.opp.name}` : 'Partita'}${e.ts ? ` · ${dateIt(e.ts)}` : ''}`, icon: e.opp ? <Crest fid={e.opp.fid} size={24} /> : undefined }))];
+  const oLbl = (oOpts.find((o) => o.value === oEff) || oOpts[0]).label;
+  const oIcon = oEff !== 'all' ? (opps.find((e) => e.mid === oEff) || {}).opp : null;
+  if (!comps.length) return null;
+  const pw = Math.min(W - 20, 280);
   return (
     <View style={{ paddingHorizontal: 20, paddingTop: 16 }} onLayout={(e) => setW(Math.round(e.nativeEvent.layout.width))}>
-      <Panel C={C} tint={color}>
-        <View style={{ flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between', paddingHorizontal: 14, paddingTop: 12, paddingBottom: 8 }}>
-          <Text style={{ color: C.ink, fontSize: 15, fontWeight: '800' }}>{pages[Math.min(i, pages.length - 1)][0]}</Text>
-          <Text style={{ color: C.ink3, fontSize: 12 }}>{pages[Math.min(i, pages.length - 1)][1].length}</Text>
-        </View>
-        {w ? (
-          <ScrollView horizontal pagingEnabled showsHorizontalScrollIndicator={false} nestedScrollEnabled onMomentumScrollEnd={(e) => setI(Math.round(e.nativeEvent.contentOffset.x / (w - 2)))} style={{ width: w - 2 }}>
-            {pages.map(([name, pts, g]) => (
-              <View key={name} style={{ width: w - 2, paddingHorizontal: 10 }}><Pitch pts={pts} color={col} goals={g} /></View>
-            ))}
-          </ScrollView>
-        ) : null}
-        <View style={{ flexDirection: 'row', justifyContent: 'center', gap: 6, paddingVertical: 10 }}>
-          {pages.map((x, k) => <View key={x[0]} style={{ width: k === i ? 16 : 6, height: 6, borderRadius: 3, backgroundColor: k === i ? col : C.border }} />)}
-        </View>
-      </Panel>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+        <DropBtn C={C} title="Competizione" label={cLg ? cLg.name : 'Tutte le competizioni'} icon={cLg ? <LeagueLogo league={cLg} size={24} C={C} /> : undefined} options={cOpts} value={comp} onChange={(v) => { setComp(v); setSeason('cur'); setOpp('all'); }} />
+        <DropBtn C={C} title="Stagione" label={(sOpts.find((o) => o.value === sEff) || sOpts[0]).label} options={sOpts} value={sEff} onChange={(v) => { setSeason(v); setOpp('all'); }} />
+      </View>
+      {data === undefined ? <View style={{ height: 250, borderRadius: 22, backgroundColor: C.skBase }} /> : !pages.length ? null : (
+        <Panel C={C} tint={color}>
+          <View style={{ flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between', paddingHorizontal: 14, paddingTop: 12, paddingBottom: 6 }}>
+            <Text style={{ color: C.ink, fontSize: 15, fontWeight: '800' }}>{cur[0]}</Text>
+            <Text style={{ color: C.ink3, fontSize: 12 }}>{cur[1].length}</Text>
+          </View>
+          <View style={{ paddingHorizontal: 12, paddingBottom: 8 }}>
+            <DropBtn C={C} title="Avversario" label={oLbl} icon={oIcon ? <Crest fid={oIcon.fid} size={22} /> : undefined} options={oOpts} value={oEff} onChange={(v) => setOpp(v)} />
+          </View>
+          {W ? (
+            <ScrollView key={sig} horizontal pagingEnabled showsHorizontalScrollIndicator={false} nestedScrollEnabled onMomentumScrollEnd={(e) => { setPage(Math.round(e.nativeEvent.contentOffset.x / (W - 2))); setSel(null); }} style={{ width: W - 2 }}>
+              {pages.map(([nm, list, kind], k) => (
+                <View key={nm} style={{ width: W - 2, alignItems: 'center' }}>
+                  <View style={{ width: pw }}><Pitch list={list} color={col} kind={kind} sel={k === pi ? sel : null} onSel={setSel} cur={k === pi && kind === 'shot' ? curE : null} /></View>
+                </View>
+              ))}
+            </ScrollView>
+          ) : null}
+          <View style={{ flexDirection: 'row', justifyContent: 'center', gap: 6, paddingVertical: 10 }}>
+            {pages.map((x, k) => <View key={x[0]} style={{ width: k === pi ? 16 : 6, height: 6, borderRadius: 3, backgroundColor: k === pi ? col : C.border }} />)}
+          </View>
+          <View style={{ paddingHorizontal: 12, paddingBottom: 12 }}>
+            {curE ? (cur[2] === 'shot' ? <ShotDetail C={C} s={curE} onPrev={() => step(-1)} onNext={() => step(1)} /> : <Duel C={C} e={curE} onPrev={() => step(-1)} onNext={() => step(1)} />)
+              : <Text style={{ color: C.ink3, fontSize: 11.5, textAlign: 'center' }}>Tocca un pallino per vedere i dettagli</Text>}
+          </View>
+        </Panel>
+      )}
     </View>
   );
 }

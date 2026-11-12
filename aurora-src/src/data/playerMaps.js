@@ -1,68 +1,115 @@
-// Mappe del campo di un giocatore: posizione di tiri, tiri in porta, falli commessi e subiti sommati su tutte le sue partite
-// (stagione in corso e scorsa di ogni sua competizione). Tiri: `sh` delle partite (FotMob, [giocatore, x, y, esito, minuto], x 0-105 verso la porta a 105, y 0-68, specchiato come in mapShots).
-// Falli: coppie `p` di ESPN [chi commette, chi subisce, X, Y, minuto]; X/Y sono dal punto di vista di chi subisce (X=0 sulla porta che attacca, Y alto = fascia destra).
-// Uscita in coordinate campo (x 0-105 verso la porta attaccata dal giocatore, y 0-68 dall'alto): tiri e falli hanno la stessa forma.
+// Mappe del campo di un giocatore: tiri, tiri in porta, falli commessi e subiti, per competizione e stagione.
+// Tiri: `sx` delle partite (`partite.py`, stesso formato del worker `/sh` + id giocatore in coda), poi `mapShots` come nella pagina partita.
+// Falli: coppie `p` di ESPN [chi commette, chi subisce, X, Y, minuto]; X/Y dal punto di vista di chi subisce (X=0 sulla porta che attacca, 0-100;
+// Y alto = fascia destra). Tutto e' riportato in coordinate campo (x 0-105 verso la porta attaccata dal giocatore, y 0-68 dall'alto).
 import { useEffect, useState } from 'react';
-import { loadSeasonMatches, currentSeason, pastSeasons } from './archive';
-import { loadFalli, ROLE_KEYS } from './calcRoles';
-import { fmOfKey } from './calcFouls';
+import { loadSeasonMatches, loadSeason, loadFalliFile, currentSeason, pastSeasons } from './archive';
+import { mapShots } from './fotmob';
+import { teamByFm } from './teams';
 import { lruGet, lruSet } from '@/lib/lru';
 
+export const SX_FROM = 2019; // le posizioni dei tiri si scaricano dalle stagioni 2019-20
 const CACHE = new Map();
 
-export async function loadPlayerMaps(fmPid, fms) {
-  const pid = String(fmPid || '');
-  const list = [...new Set((fms || []).filter(Boolean).map(Number))];
-  if (!pid || !list.length) return null;
-  const ck = `${pid}|${list.join(',')}`;
+// stagioni di una competizione con dati (la piu' recente per prima)
+export async function mapSeasons(fm) {
+  const cur = await currentSeason(fm);
+  if (!cur) return [];
+  return [cur, ...(await pastSeasons(fm))].filter((s) => Number(String(s).slice(0, 4)) >= SX_FROM);
+}
+
+const teamInfo = (fid, names) => {
+  const t = teamByFm(fid);
+  return { fid: Number(fid), name: (t && t.name) || (names && names[fid]) || '', colors: t && t.colors ? t.colors : null };
+};
+
+async function loadOne(pid, fm, sk, name) {
+  const ck = `${pid}|${fm}|${sk}`;
   const hit = lruGet(CACHE, ck);
   if (hit) return hit;
   const run = (async () => {
-    const tiri = [];
-    const fc = [];
-    const fs = [];
-    let nShots = 0;
-    await Promise.all(list.map(async (fm) => {
-      const cur = await currentSeason(fm);
-      const past = cur ? (await pastSeasons(fm))[0] : null;
-      for (const sk of [cur, past].filter(Boolean)) {
-        const d = await loadSeasonMatches(fm, sk).catch(() => null);
-        Object.values((d && d.m) || {}).forEach((m) => {
-          if (!m || !Array.isArray(m.sh)) return;
-          let any = false;
-          m.sh.forEach((r) => { if (String(r[0]) === pid) { tiri.push([r[1], 68 - r[2], r[3]]); any = true; } });
-          if (any) nShots += 1;
-        });
-      }
-    }));
-    const keys = ROLE_KEYS.filter((k) => list.includes(fmOfKey(k)));
-    const fl = await Promise.all(keys.map((k) => loadFalli(k)));
-    fl.forEach((x) => {
-      Object.values((x && x.m) || {}).forEach((m) => {
-        ((m && m.p) || []).forEach((r) => {
-          if (r.length < 4) return;
-          const X = r[2];
-          const Y = r[3];
+    const [d, fl, arch] = await Promise.all([
+      loadSeasonMatches(fm, sk).catch(() => null),
+      loadFalliFile(fm, sk).catch(() => null),
+      loadSeason(fm, sk).catch(() => null),
+    ]);
+    const ms = (d && d.m) || {};
+    const when = {};
+    ((arch && arch.fix) || []).forEach((r) => { when[String(r[0])] = r[4]; });
+    const names = (arch && arch.teams) || {};
+    const shots = [];
+    const fouls = [];
+    const sidesOf = (m) => {
+      const hs = [...((m.h && m.h.st) || []), ...((m.h && m.h.sb) || [])];
+      const as = [...((m.a && m.a.st) || []), ...((m.a && m.a.sb) || [])];
+      return { h: hs, a: as };
+    };
+    const base = (mid, m, ownId) => {
+      const hid = m.h && m.h.id; const aid = m.a && m.a.id;
+      const oppId = ownId === hid ? aid : ownId === aid ? hid : null;
+      return { mid, fm, sk, ts: when[mid] || null, home: ownId === hid, own: ownId ? teamInfo(ownId, names) : null, opp: oppId ? teamInfo(oppId, names) : null };
+    };
+    Object.entries(ms).forEach(([mid, m]) => {
+      if (!m || !Array.isArray(m.sx)) return;
+      const mine = m.sx.filter((r) => String(r[19]) === String(pid));
+      if (!mine.length) return;
+      const own = mine[0][2];
+      const meta = base(mid, m, own);
+      mapShots(mine, null).forEach((s) => { if (s.px != null && s.py != null) shots.push({ ...s, playerName: name || s.playerName, ...meta }); });
+    });
+    Object.entries(fl || {}).forEach(([mid, v]) => {
+      const m = ms[mid];
+      ((v && v.p) || []).forEach((r) => {
+        if (r.length < 4) return;
+        const f = String(r[0]) === String(pid); const s = String(r[1]) === String(pid);
+        if (!f && !s) return;
+        if (!m) return;
+        const sd = sidesOf(m);
+        const side = (id) => (sd.h.some((p) => String(p[0]) === String(id)) ? 'h' : sd.a.some((p) => String(p[0]) === String(id)) ? 'a' : null);
+        const me = side(pid);
+        if (!me) return;
+        const otherId = f ? r[1] : r[0];
+        const oside = side(otherId);
+        const op = (oside === 'h' ? sd.h : sd.a).find((p) => String(p[0]) === String(otherId));
+        const ownId = me === 'h' ? m.h.id : m.a.id;
+        const X = r[2]; const Y = r[3];
+        const e = { ...base(mid, m, ownId), min: r[4] || 0, other: { id: otherId, name: op ? op[1] : '' },
+          oppTeam: oside ? teamInfo(oside === 'h' ? m.h.id : m.a.id, names) : null,
           // chi subisce: campo dal suo punto di vista (attacca verso destra); chi commette: dal suo, cioe' il campo girato
-          if (String(r[1]) === pid) fs.push([105 - X * 1.05, Y * 0.68, 0]);
-          if (String(r[0]) === pid) fc.push([X * 1.05, (100 - Y) * 0.68, 0]);
-        });
+          px: f ? X * 1.05 : 105 - X * 1.05, py: f ? (100 - Y) * 0.68 : Y * 0.68 };
+        (f ? fouls : fouls).push({ ...e, kind: f ? 'fc' : 'fs' });
       });
     });
-    const porta = tiri.filter((t) => t[2] === 1 || t[2] === 2);
-    return { tiri, porta, fc, fs, nShots };
-  })().catch(() => null);
-  lruSet(CACHE, ck, run, 30);
+    return { shots, fouls };
+  })().catch(() => ({ shots: [], fouls: [] }));
+  lruSet(CACHE, ck, run, 60);
   return run;
 }
 
-export function usePlayerMaps(fmPid, fms) {
-  const sig = `${fmPid}|${(fms || []).join(',')}`;
+// unione di piu' competizioni/stagioni
+export async function loadPlayerMaps({ pid, name, fms, seasonSel }) {
+  const jobs = [];
+  for (const fm of fms) {
+    let ss;
+    if (seasonSel === 'all') ss = await mapSeasons(fm);
+    else if (seasonSel === 'prev') { const l = await mapSeasons(fm); ss = l.slice(1, 2); } else if (seasonSel === 'cur') { const l = await mapSeasons(fm); ss = l.slice(0, 1); } else ss = [seasonSel];
+    ss.forEach((sk) => jobs.push(loadOne(pid, fm, sk, name)));
+  }
+  const rs = await Promise.all(jobs);
+  const shots = []; const fouls = [];
+  rs.forEach((r) => { shots.push(...r.shots); fouls.push(...r.fouls); });
+  const by = (a, b) => String(b.ts || '').localeCompare(String(a.ts || ''));
+  return { shots: shots.sort(by), fouls: fouls.sort(by) };
+}
+
+export function usePlayerMaps(args) {
+  const sig = args ? `${args.pid}|${args.fms.join(',')}|${args.seasonSel}` : '';
   const [v, setV] = useState(undefined);
   useEffect(() => {
+    if (!args || !args.pid || !args.fms.length) { setV(null); return undefined; }
     let on = true;
     setV(undefined);
-    loadPlayerMaps(fmPid, fms).then((r) => { if (on) setV(r); });
+    loadPlayerMaps(args).then((r) => { if (on) setV(r); }).catch(() => { if (on) setV(null); });
     return () => { on = false; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sig]);
