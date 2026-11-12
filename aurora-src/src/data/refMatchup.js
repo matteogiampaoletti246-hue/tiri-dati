@@ -3,11 +3,11 @@
 import { useEffect, useState } from 'react';
 import { designatedReferee } from './arbitriDesignati';
 import { matchesByDate } from './matches';
-import { teamByName } from './teams';
+import { teamByName, teamByFm } from './teams';
 import { loadFm } from './fotmob';
 import { playerLookup } from './players';
 import { refGames } from './referees';
-import { dayMatches, TOP } from './matchups';
+import { matchupList, TOP } from './matchups';
 import { lruGet, lruSet } from '@/lib/lru';
 
 const MIN_GAMES = 5; // sotto le 5 gare con il dato la media dell'arbitro non e' affidabile
@@ -50,6 +50,8 @@ async function nameFor(date, m) {
     name = am.refereeName || null;
     if (!name && am.fmId) name = await designatedReferee(am.fmId);
   }
+  // nazionali: l'id della partita e' gia' quello FotMob (la UEFA designa gli arbitri molto prima di FotMob)
+  if (!name && /^\d+$/.test(String(m.id))) name = await designatedReferee(m.id);
   // senza arbitro non si memorizza: potrebbe essere designato piu' tardi
   if (name) lruSet(NAMES, k, name, 800);
   return name;
@@ -74,7 +76,7 @@ export function useDayReferees(date, enabled) {
     if (!enabled || !date) return undefined;
     let dead = false;
     setDone(false);
-    const list = dayMatches(date);
+    const list = matchupList(date);
     (async () => {
       await pool(list, 3, async (m) => {
         const name = await nameFor(date, m);
@@ -87,7 +89,7 @@ export function useDayReferees(date, enabled) {
   }, [date, enabled]);
 
   const map = {};
-  dayMatches(date).forEach((m) => {
+  matchupList(date).forEach((m) => {
     const name = lruGet(NAMES, `${date}|${m.id}`);
     const avg = name ? lruGet(AVG, name) : null;
     if (name && avg) map[m.id] = { name, avg };
@@ -100,7 +102,7 @@ export function refereeRows(date, modeKey, refMap) {
   const [mode, period] = modeKey.split('|');
   const cards = period === 'first' ? ['cards_1t_home', 'cards_1t_away'] : ['cards_home', 'cards_away'];
   const all = [];
-  dayMatches(date).forEach((m) => {
+  matchupList(date).forEach((m) => {
     const r = refMap[m.id];
     const avg = r && r.avg[period];
     if (!avg) return;
@@ -108,13 +110,41 @@ export function refereeRows(date, modeKey, refMap) {
   });
   all.sort((x, y) => (mode === 'under' ? x.v - y.v : y.v - x.v));
   return all.slice(0, TOP).map(({ m, name, v, n }) => {
-    const home = teamByName(m.home);
-    const away = teamByName(m.away);
+    const home = teamByName(m.home) || teamByFm(m.hid);
+    const away = teamByName(m.away) || teamByFm(m.aid);
     return {
-      id: m.id, referee: { name, n }, mode, period, homeId: home ? home.id : null, awayId: away ? away.id : null, homeName: m.home, awayName: m.away,
+      id: m.id, fm: m.fm, sk: m.sk, referee: { name, n }, mode, period, homeId: home ? home.id : null, awayId: away ? away.id : null, homeName: m.home, awayName: m.away,
       league: m.league, date: m.date, home: m[cards[0]] == null ? null : m[cards[0]], away: m[cards[1]] == null ? null : m[cards[1]],
       center: r1(v), centerLabel: 'Arbitro', type: { key: 'referees', label: period === 'first' ? 'Cartellini 1T' : 'Cartellini' },
       playedHome: null, playedAway: null,
     };
   });
+}
+
+// Contorno dorato (solo Cartellini e Arbitri, Over/Under): la partita ha medie buone sia per le squadre sia per l'arbitro rispetto alla voce scelta.
+// Over = medie alte, Under = medie basse, Totale o 1T come la tendina. "Buone" = nella meta' migliore del giorno (al massimo le prime TOP) per la somma
+// dei cartellini attesi delle due squadre E per la media dell'arbitro, cosi' in un giorno con poche partite non si illumina tutto.
+export function goldIds(date, modeKey, refMap) {
+  const [mode, period] = modeKey.split('|');
+  const out = new Set();
+  if (mode === 'gap') return out;
+  const f = period === 'first' ? ['cards_1t_home', 'cards_1t_away'] : ['cards_home', 'cards_away'];
+  const dir = mode === 'under' ? 1 : -1;
+  const teams = [];
+  const refs = [];
+  matchupList(date).forEach((m) => {
+    const a = m[f[0]];
+    const b = m[f[1]];
+    const r = refMap[m.id];
+    const avg = r && r.avg[period];
+    if (a != null && b != null) teams.push({ id: m.id, v: a + b });
+    if (avg) refs.push({ id: m.id, v: avg.avg });
+  });
+  const best = (arr) => {
+    const lim = Math.min(TOP, Math.max(1, Math.ceil(arr.length / 2)));
+    return new Set(arr.sort((x, y) => dir * (x.v - y.v)).slice(0, lim).map((x) => x.id));
+  };
+  const t = best(teams);
+  best(refs).forEach((id) => { if (t.has(id)) out.add(id); });
+  return out;
 }

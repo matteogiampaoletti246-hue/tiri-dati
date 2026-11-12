@@ -46,7 +46,7 @@ export default memo(function MatchupRow({ row, both }) {
       }}
     >
       {both ? (
-        <span className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-full px-2.5 py-[3px] text-[9.5px] font-extrabold uppercase tracking-[.08em]" style={{ background: GOLD, color: '#1a1405' }}>
+        <span className="absolute left-1/2 top-0 -translate-x-1/2 whitespace-nowrap rounded-full px-2.5 py-[3px] text-[9.5px] font-extrabold uppercase tracking-[.08em]" style={{ background: GOLD, color: '#1a1405', transform: 'translate(-50%, -38%)' }}>
           {both}
         </span>
       ) : null}

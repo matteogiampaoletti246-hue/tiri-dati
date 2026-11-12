@@ -14,7 +14,7 @@ import EmptyDay, { nextWith } from '@/components/EmptyDay';
 import ModePicker from '@/components/top/ModePicker';
 import { SkCard } from '@/components/PageSkeletons';
 import { matchupRows, MATCHUP_TYPES, modeOptions, keepMode, defaultMode } from '@/data/matchups';
-import { useDayReferees, refereeRows } from '@/data/refMatchup';
+import { useDayReferees, refereeRows, goldIds } from '@/data/refMatchup';
 import { DATES, TODAY_INDEX, isoDate } from '@/data/matches';
 
 // Il calendario parte da oggi: i giorni passati non servono
@@ -25,17 +25,17 @@ const keyOfRow = (row) => row.id;
 // Giorno, statistica e tendina di destra restano quando si apre una partita e si torna indietro.
 const KEEP = { day: null, type: 'corner', mode: 'gap|total', stamp: '' };
 
-// Un giorno: classifica della statistica scelta. Cartellini e Arbitri si confrontano: la partita presente in entrambe le classifiche (stessa voce, es. Over 1T) ha il bordo dorato.
+// Un giorno: classifica della statistica scelta. Cartellini e Arbitri: la partita con medie buone sia delle squadre sia dell'arbitro (stessa voce, es. Over 1T) ha il contorno dorato.
 function MatchupDay({ date, idx, typeKey, modeKey, active, onGo }) {
   const isRef = typeKey === 'referees';
   const [mode, period] = modeKey.split('|');
   const crossed = isRef || (typeKey === 'cards' && mode !== 'gap');
   const { map, done } = useDayReferees(date, active && crossed);
   const rows = isRef ? refereeRows(date, modeKey, map) : matchupRows(date, typeKey, modeKey);
-  let other = null;
-  if (crossed) other = new Set((isRef ? matchupRows(date, 'cards', modeKey) : refereeRows(date, modeKey, map)).map((r) => r.id));
+  // il contorno dorato si decide a caricamento finito: cosi' non compare e sparisce mentre arrivano gli arbitri
+  const gold = crossed && done ? goldIds(date, modeKey, map) : null;
   const label = `${mode === 'over' ? 'Over' : 'Under'} cartellini + arbitro${period === 'first' ? ' 1T' : ''}`;
-  const renderRow = (row) => <MatchupRow row={row} both={other && other.has(row.id) ? label : null} />;
+  const renderRow = (row) => <MatchupRow row={row} both={gold && gold.has(row.id) ? label : null} />;
   if (rows.length) return <ChunkRows key={`${date}|${typeKey}|${modeKey}`} rows={rows} active={active} rowH={190} keyOf={keyOfRow} renderRow={renderRow} />;
   if (isRef && !done) {
     return (

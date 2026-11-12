@@ -85,9 +85,3 @@ export function matchupRows(dateStr, typeKey, modeKey) {
   lruSet(MEMO, ck, out, 60);
   return out;
 }
-
-// tutte le partite del giorno con le medie attese di cartellini (servono alla sezione Arbitri)
-export const dayMatches = (dateStr) => {
-  const day = RAW.angoli && RAW.angoli.days && RAW.angoli.days[dateStr];
-  return (day && day.tutte) || [];
-};
