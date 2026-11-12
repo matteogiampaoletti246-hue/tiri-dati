@@ -344,14 +344,13 @@ function FoulsPane({ C, c, kind, list, fx, W, onBack, onOpen }) {
           const cs = (tm && tm.colors) || ['#2a3a66', '#2a3a66'];
           const photo = r.who.fmId ? `https://images.fotmob.com/image_resources/playerimages/${r.who.fmId}.png` : null;
           // banner nei colori della squadra del giocatore (se il primo colore e' troppo chiaro per il testo bianco si usa il secondo)
-          const cs = (tm && tm.colors) || ['#2a3a66', '#2a3a66'];
           const dark = (x) => (x && lum(x) <= 0.72 ? x : null);
           const c0 = dark(cs[0]) || dark(cs[1]) || '#2a3a66';
           const c1 = dark(cs[1]) || c0;
           return (
             <Pressable key={r.who.fmId || r.who.name} onPress={() => onOpen({ name: r.who.name, fmId: r.who.fmId || undefined })} style={({ pressed }) => [{ borderRadius: 18, overflow: 'hidden', opacity: pressed ? 0.75 : 1 }]}>
               {/* banner nei colori della squadra del giocatore (come gli altri banner dell'app), velo scuro per leggere il testo bianco */}
-              <LinearGradient colors={[cs[0], cs[1] || cs[0]]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }} />
+              <LinearGradient colors={[c0, c1]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }} />
               <View pointerEvents="none" style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,.32)' }} />
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, padding: 12 }}>
                 <View style={{ width: 46, height: 46, borderRadius: 23, overflow: 'hidden', backgroundColor: 'rgba(255,255,255,.18)', alignItems: 'center', justifyContent: 'flex-end' }}>
