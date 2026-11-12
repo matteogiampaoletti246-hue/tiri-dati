@@ -8,11 +8,33 @@ import { lruGet, lruSet } from '@/lib/lru';
 import { comma } from '@/lib/format';
 
 const LG = new Map();
+// Duello avversario sulle stesse partite della tabella "Ruoli avversari" (regola dell'utente, 12/11/2026): con una competizione di club tutte le competizioni
+// di club della stagione in corso (campionato, coppe europee, coppe nazionali); con la nazionale stagione in corso e scorsa di tutte le competizioni
+// delle nazionali (Nations League A-D, qualificazioni europee ai Mondiali, Mondiali), mai amichevoli. `chiave@stagione` = stagione precedente.
+export const CLUB_EXTRA_KEYS = ['coppa-italia', 'dfb-pokal', 'coupe-de-france', 'efl-cup', 'fm-132', 'fm-138', 'eredivisie', 'liga-portugal'];
+export const NATION_ALL_KEYS = ['fm-9806', 'fm-9807', 'fm-9808', 'fm-9809', 'fm-77', 'fm-10195', 'fm-9806@2024-2025', 'fm-9807@2024-2025', 'fm-9808@2024-2025', 'fm-9809@2024-2025'];
+const baseKey = (k) => String(k).split('@')[0];
+export const fmOfKey = (k) => FM_ID[baseKey(k)] || Number((/^fm-(\d+)$/.exec(baseKey(k)) || [])[1]) || 0;
+const isNationKey = (k) => NATION_ALL_KEYS.includes(k);
+// giocatori di una squadra uniti tra le competizioni del gruppo (nazionali o club) presenti nei dati
+function groupPlayers(data, key, fmTeam) {
+  const keys = Object.keys(data || {}).filter((k) => (NATIONS_KEYS.includes(key) ? isNationKey(k) : !isNationKey(k)));
+  if (!keys.includes(key) && data && data[key]) keys.push(key);
+  const out = new Map();
+  keys.forEach((k) => Object.values(data[k].players).forEach((p) => {
+    if (fmTeam && String(p.team) !== String(fmTeam)) return;
+    const e = out.get(p.id) || { id: p.id, n: p.n, gk: p.gk, g: [] };
+    e.g.push(...p.g);
+    e.gk = e.gk && p.gk;
+    out.set(p.id, e);
+  }));
+  return [...out.values()];
+}
 const mean = (a, f) => (a.length ? a.reduce((s, x) => s + f(x), 0) / a.length : null);
 
 async function build(key) {
-  const fm = FM_ID[key];
-  const sk = fm ? await currentSeason(fm) : null;
+  const fm = fmOfKey(key);
+  const sk = fm ? (String(key).split('@')[1] || (await currentSeason(fm))) : null;
   if (!sk) return null;
   const [d, season] = await Promise.all([loadSeasonMatches(fm, sk), loadSeason(fm, sk).catch(() => null)]);
   if (!d || !d.m) return null;
@@ -54,11 +76,11 @@ async function build(key) {
 }
 
 export const loadFouls = (key) => {
-  if (!key || !FM_ID[key]) return Promise.resolve(null);
+  if (!key || !fmOfKey(key)) return Promise.resolve(null);
   const hit = lruGet(LG, key);
   if (hit) return hit;
   const p = build(key).catch(() => null);
-  lruSet(LG, key, p, 16); // Migliori Giocatori (falli) legge tutti i campionati del giorno insieme
+  lruSet(LG, key, p, 40); // Migliori Giocatori (falli) legge tutti i campionati del giorno insieme
   return p;
 };
 
@@ -66,9 +88,11 @@ export const loadFouls = (key) => {
 export const foulKeys = (names, leagueIds) => {
   const out = new Set();
   names.forEach((n) => { const k = n && domesticKey(n); if (k) out.add(k); });
-  (leagueIds || []).forEach((k) => { if (k && FM_ID[k]) out.add(k); });
+  (leagueIds || []).forEach((k) => { if (k && fmOfKey(k)) out.add(k); });
   CUPS.forEach((k) => out.add(k));
-  return [...out].filter((k) => FM_ID[k]);
+  // duello: con la nazionale tutte le partite delle nazionali, con un club tutte le competizioni di club
+  (leagueIds || []).some((k) => NATIONS_KEYS.includes(k)) ? NATION_ALL_KEYS.forEach((k) => out.add(k)) : CLUB_EXTRA_KEYS.forEach((k) => out.add(k));
+  return [...out].filter((k) => fmOfKey(k));
 };
 
 export function useFouls(keys) {
@@ -131,7 +155,7 @@ export function leaguePlayerAvg(data, key, stat) {
   if (!L) return null;
   let s = 0;
   let m = 0;
-  Object.values(L.players).forEach((p) => {
+  (NATIONS_KEYS.includes(key) ? groupPlayers(data, key) : Object.values(L.players)).forEach((p) => {
     const min = p.g.reduce((a, x) => a + x.min, 0);
     if (min < 450 || p.gk) return;
     s += p.g.reduce((a, x) => a + x[stat], 0);
@@ -146,8 +170,8 @@ export const DUEL_MIN_MIN = 180;
 export function rosterFouls(data, key, fmTeam, stat) {
   const L = data && data[key];
   if (!L || !fmTeam) return [];
-  return Object.values(L.players)
-    .filter((p) => String(p.team) === String(fmTeam) && !p.gk)
+  return groupPlayers(data, key, fmTeam)
+    .filter((p) => !p.gk)
     .map((p) => {
       const min = p.g.reduce((a, x) => a + x.min, 0);
       const tot = p.g.reduce((a, x) => a + x[stat], 0);

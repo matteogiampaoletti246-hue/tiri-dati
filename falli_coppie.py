@@ -217,12 +217,18 @@ def ricalcola_ruoli(ris, d):
     return cambiate
 
 
+# stagione precedente delle nazionali (regola: nazionali = stagione corrente e scorsa; vedi docs/regole/calcolatore-migliori.md)
+PRECEDENTI = ["fm-9806@2024-2025", "fm-9807@2024-2025", "fm-9808@2024-2025", "fm-9809@2024-2025"]
+
+
 def main():
-    chiavi = sys.argv[1].split(",") if len(sys.argv) > 1 else list(LEGHE)
+    chiavi = sys.argv[1].split(",") if len(sys.argv) > 1 else list(LEGHE) + PRECEDENTI
     for k in chiavi:
-        cod, fm = LEGHE[k]
+        # "fm-9806@2024-2025" = stagione precedente di una nazionale (stessa competizione, stagione indicata)
+        base, _, stag_k = k.partition("@")
+        cod, fm = LEGHE[base]
         pdir = f"partite/{fm}"
-        stag = sorted(f[:-8] for f in os.listdir(pdir) if f.endswith(".json.gz"))[-1]
+        stag = stag_k or sorted(f[:-8] for f in os.listdir(pdir) if f.endswith(".json.gz"))[-1]
         d = json.load(gzip.open(f"{pdir}/{stag}.json.gz"))["m"]
         fix = json.load(open(f"arch/{fm}/{stag}.json"))
         nomi = fix.get("teams") or {}

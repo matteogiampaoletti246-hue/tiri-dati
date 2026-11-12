@@ -2,8 +2,8 @@
 // Dati: `falli/<campionato>/<stagione>.json.gz` (falli_coppie.py): per partita `p` = coppie [chi commette, chi subisce] e `r` = ruolo e lato di ogni giocatore.
 // Ruolo con la % piu' alta (e il secondo se dista al massimo 5 punti) -> duello avversario automatico: i 2 avversari con la media piu' alta in quei ruoli.
 import { useEffect, useState } from 'react';
-import { FM_ID, currentSeason, loadFalliFile } from './archive';
-import { leaguePlayerAvg, rosterFouls } from './calcFouls';
+import { currentSeason, loadFalliFile } from './archive';
+import { CLUB_EXTRA_KEYS, NATION_ALL_KEYS, fmOfKey, leaguePlayerAvg, rosterFouls } from './calcFouls';
 import { lruGet, lruSet } from '@/lib/lru';
 
 const FL = new Map();
@@ -15,8 +15,8 @@ export const CLUB_FALLI_KEYS = ['serie-a', 'premier-league', 'la-liga', 'bundesl
 // Tabella "Ruoli avversari" e duello (regola dell'utente, 12/11/2026): con una competizione di club contano TUTTE le competizioni di club della stagione
 // (campionato, coppa europea, coppe nazionali...), con le nazionali TUTTE le partite con la nazionale; mai amichevoli (non sono tra le chiavi).
 // Dove ESPN non ha i falli (`falli_coppie.py`) la competizione non ha dati e non pesa.
-export const CLUB_ROLE_KEYS = [...CLUB_FALLI_KEYS, 'eredivisie', 'liga-portugal', 'fm-132', 'fm-138'];
-export const NATION_ROLE_KEYS = [...NATION_FALLI_KEYS, 'fm-77', 'fm-10195'];
+export const CLUB_ROLE_KEYS = [...new Set([...CLUB_FALLI_KEYS, ...CLUB_EXTRA_KEYS])];
+export const NATION_ROLE_KEYS = NATION_ALL_KEYS; // Nations League, qualificazioni e Mondiali: stagione in corso e scorsa (`chiave@stagione`)
 // Ruolo della scheda giocatore (stessa fonte del riquadro "Ruolo": posizione dell'app, poi posizione FotMob, poi rosa), con le sigle dei falli.
 // Si usa solo per chi non ha il ruolo nei dati dei falli (es. portieri, campionati senza coppie di falli).
 const PS_SIGLA = { GK: 'POR', CB: 'DC', LB: 'TS', RB: 'TD', LWB: 'ES', RWB: 'ED', DM: 'CC', CDM: 'CC', CM: 'CC', AM: 'CO', CAM: 'CO', LM: 'ES', RM: 'ED', LW: 'AS', RW: 'AD', ST: 'ATT', CF: 'ATT' };
@@ -33,12 +33,12 @@ export const ROLE_KEYS = [...CLUB_ROLE_KEYS, ...NATION_ROLE_KEYS]; // archivi da
 export const falliKeysFor = (nation) => (nation ? NATION_ROLE_KEYS : CLUB_ROLE_KEYS);
 
 export const loadFalli = (key) => {
-  const fm = FM_ID[key] || Number((/^fm-(\d+)$/.exec(String(key)) || [])[1]) || 0;
+  const fm = fmOfKey(key);
   if (!key || !fm) return Promise.resolve(null);
   const hit = lruGet(FL, key);
   if (hit) return hit;
   const p = (async () => {
-    const sk = await currentSeason(fm);
+    const sk = String(key).split('@')[1] || (await currentSeason(fm));
     const d = sk ? await loadFalliFile(fm, sk) : null;
     return d ? { key, m: d } : null;
   })().catch(() => null);
