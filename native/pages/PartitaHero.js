@@ -134,7 +134,7 @@ export default function PartitaHero({ C, match, view, league, home, away, onBack
             {live ? (
               <View style={{ marginTop: 6, flexDirection: 'row', alignItems: 'center', gap: 6 }}>
                 <View style={{ width: 7, height: 7, borderRadius: 4, backgroundColor: C.live }} />
-                {view.liveHalf ? <Text style={{ color: C.live, fontSize: 11.5, fontWeight: '700' }}>Intervallo</Text> : <LiveClock C={C} match={view} minute={view.minute} />
+                {view.liveHalf ? <Text style={{ color: C.live, fontSize: 11.5, fontWeight: '700' }}>Intervallo</Text> : <LiveClock C={C} match={view} minute={view.minute} />}
               </View>
             ) : <Text style={{ marginTop: 6, textAlign: 'center', color: C.ink3, fontSize: 11 }}>{counting ? `Oggi · ${match.kickoff}` : finished ? 'Finita' : longDate(date)}</Text>}
             {finished && match.seasonLabel ? <Text style={{ marginTop: 2, color: C.ink3, fontSize: 10.5, textAlign: 'center' }}>{longDate(date)}</Text> : null}
