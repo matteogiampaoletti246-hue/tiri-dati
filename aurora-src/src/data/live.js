@@ -55,12 +55,22 @@ export async function pullLive() {
         const mm = parseInt(String(e.clk || e.det), 10);
         m.liveMinute = e.det === 'HT' ? 45 : Number.isFinite(mm) ? mm : m.liveMinute || null;
         m.liveHalf = e.det === 'HT';
+        // cronometro di riserva (ESPN): solo se FotMob/LiveScore non hanno dato i secondi negli ultimi 25 s; il minuto "47'" copre 46:00-46:59
+        if (!m.liveClock || Date.now() - m.liveClock.at > 25000) {
+          const cm = String(e.clk || '').match(/^(\d+)'?(?:\s*\+\s*(\d+))?/);
+          if (e.det === 'HT') m.liveClock = { s: null, mx: 45, ad: 0, ht: true, src: 'espn', at: Date.now() };
+          else if (cm) {
+            const base = +cm[1], ex = +(cm[2] || 0), mx = base <= 45 ? 45 : base <= 90 ? 90 : base <= 105 ? 105 : 120;
+            m.liveClock = { s: Math.max(0, (base + ex) * 60 - 30), mx, ad: 0, ht: false, src: 'espn', at: Date.now() };
+          }
+        }
       } else if (e.st === 'post' && (m.status !== 'finished' || !m.score)) {
         m.status = 'finished';
         m.score = [sh, sa];
         m.minute = 90;
         m.liveScore = null;
         m.liveHalf = false;
+        m.liveClock = null;
       }
     });
     LAST = Date.now();

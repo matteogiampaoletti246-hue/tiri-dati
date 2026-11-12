@@ -219,6 +219,8 @@ export function applyFm(m, d, playerLookup) {
       const mm = parseInt(String(d.clk), 10);
       if (Number.isFinite(mm)) m.liveMinute = mm;
       m.liveHalf = !!d.ht;
+      // cronometro con i secondi + recupero annunciato (data/liveClock.js)
+      m.liveClock = d.lc ? { s: d.lc.s, mx: d.lc.mx, ad: d.lc.ad || 0, ht: !!d.lc.ht, src: d.lc.src, at: Date.now() } : m.liveClock;
       m.status = 'live';
     } else if (d.fin) {
       m.score = [Number(d.sc[0]), Number(d.sc[1])];
@@ -226,6 +228,7 @@ export function applyFm(m, d, playerLookup) {
       m.minute = 90;
       m.liveScore = null;
       m.liveHalf = false;
+      m.liveClock = null;
     }
   }
 

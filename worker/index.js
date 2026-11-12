@@ -508,6 +508,16 @@ export default {
           }
         }
         await lsMerge(out, g2.matchTimeUTCDate || stt.utcTime);
+        // cronometro preciso: secondi veri di FotMob (liveTime.long "mm:ss"), recupero annunciato dall'arbitro (evento AddedTime del tempo in corso);
+        // se FotMob non ha i secondi si usa il minuto di LiveScore (meno 30 s: il minuto "47'" copre 46:00-46:59)
+        if (out.st && !out.fin) {
+          const lm = String(lt.long || "").match(/^(\d+):(\d{2})/);
+          const pEnd = hf.secondExtraHalfStarted ? 120 : hf.firstExtraHalfStarted ? 105 : hf.secondHalfStarted ? 90 : 45;
+          const aev = mf.filter((e) => e.type === "AddedTime" && Number(e.time) === pEnd).pop();
+          let cs = lm ? +lm[1] * 60 + +lm[2] : null, src = "fm";
+          if (cs == null) { const cm = String(out.clk || "").match(/^(\d+)(?:\+(\d+))?/); if (cm) { cs = Math.max(0, (+cm[1] + (+cm[2] || 0)) * 60 - 30); src = "ls"; } }
+          if (cs != null || out.ht) out.lc = { s: cs, mx: pEnd, ad: aev ? Number(aev.minutesAddedInput) || 0 : 0, ht: out.ht ? 1 : 0, src };
+        }
         return new Response(JSON.stringify(out), { headers: cors(req, { "Cache-Control": "public, max-age=3" }) });
       }
       if (u.pathname === "/m") {

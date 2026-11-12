@@ -10,6 +10,7 @@ import TeamLink from './TeamLink';
 import LeagueLink from './LeagueLink';
 import { teamForm } from '@/data/matches';
 import { longDate } from '@/lib/format';
+import { clockView } from '@/data/liveClock';
 import KickoffCountdown, { showCountdown } from '@/components/match/KickoffCountdown';
 import { SkText } from './PageSkeletons';
 
@@ -44,6 +45,20 @@ function Scorers({ events, side, align }) {
       ))}
     </div>
   );
+}
+
+// Minuti:secondi che scorrono + recupero annunciato ("46:57 +2"); senza secondi dalle fonti resta il minuto semplice
+function LiveClock({ match, minute }) {
+  const [, tick] = useState(0);
+  const c = match.liveClock;
+  useEffect(() => {
+    if (!c || c.ht) return undefined;
+    const t = setInterval(() => tick((n) => n + 1), 1000);
+    return () => clearInterval(t);
+  }, [c]);
+  const v = clockView(c);
+  if (!v) return <>{minute}&apos;</>;
+  return <span className="tnum">{v.text}{v.added ? <span style={{ color: 'var(--ink-3)', marginLeft: 6 }}>+{v.added}</span> : null}</span>;
 }
 
 export default function MatchHero({ match, view, league, home, away, pending = false }) {
@@ -115,7 +130,7 @@ export default function MatchHero({ match, view, league, home, away, pending = f
             {live ? (
               <span className="mt-1.5 flex items-center gap-1.5 text-[11.5px] font-bold" style={{ color: 'var(--live)' }}>
                 <span className="live-dot" />
-                {view.liveHalf ? 'Intervallo' : <>{view.minute}&apos;</>}
+                {view.liveHalf ? 'Intervallo' : <LiveClock match={view} minute={view.minute} />}
               </span>
             ) : (
               <span className="mt-1.5 text-center text-[11px]" style={{ color: 'var(--ink-3)' }}>{counting ? `Oggi · ${match.kickoff}` : statusText}</span>

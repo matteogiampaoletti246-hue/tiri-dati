@@ -7,6 +7,7 @@ import { TeamCrest, LeagueLogo } from '../shared/ui';
 import { matchColors } from '@/lib/tint';
 import { matchTint } from '@/data/matchTint';
 import { teamForm } from '@/data/matches';
+import { clockView } from '@/data/liveClock';
 import { longDate } from '@/lib/format';
 
 const short = (n) => {
@@ -66,6 +67,25 @@ function Scorers({ C, events, side, align }) {
   );
 }
 
+// Minuti:secondi che scorrono + recupero annunciato ("46:57  +2"); senza secondi dalle fonti resta il minuto semplice
+function LiveClock({ C, match, minute }) {
+  const [, tick] = useState(0);
+  const c = match.liveClock;
+  useEffect(() => {
+    if (!c || c.ht) return undefined;
+    const t = setInterval(() => tick((n) => n + 1), 1000);
+    return () => clearInterval(t);
+  }, [c]);
+  const v = clockView(c);
+  if (!v) return <Text style={{ color: C.live, fontSize: 11.5, fontWeight: '700' }}>{`${minute}'`}</Text>;
+  return (
+    <Text style={{ color: C.live, fontSize: 11.5, fontWeight: '700', fontVariant: ['tabular-nums'] }}>
+      {v.text}
+      {v.added ? <Text style={{ color: C.ink3, fontWeight: '800' }}>{`  +${v.added}`}</Text> : null}
+    </Text>
+  );
+}
+
 export default function PartitaHero({ C, match, view, league, home, away, onBack, openRoute }) {
   const live = match.status === 'live';
   const finished = match.status === 'finished';
@@ -114,7 +134,7 @@ export default function PartitaHero({ C, match, view, league, home, away, onBack
             {live ? (
               <View style={{ marginTop: 6, flexDirection: 'row', alignItems: 'center', gap: 6 }}>
                 <View style={{ width: 7, height: 7, borderRadius: 4, backgroundColor: C.live }} />
-                <Text style={{ color: C.live, fontSize: 11.5, fontWeight: '700' }}>{view.liveHalf ? 'Intervallo' : `${view.minute}'`}</Text>
+                {view.liveHalf ? <Text style={{ color: C.live, fontSize: 11.5, fontWeight: '700' }}>Intervallo</Text> : <LiveClock C={C} match={view} minute={view.minute} />
               </View>
             ) : <Text style={{ marginTop: 6, textAlign: 'center', color: C.ink3, fontSize: 11 }}>{counting ? `Oggi · ${match.kickoff}` : finished ? 'Finita' : longDate(date)}</Text>}
             {finished && match.seasonLabel ? <Text style={{ marginTop: 2, color: C.ink3, fontSize: 10.5, textAlign: 'center' }}>{longDate(date)}</Text> : null}
