@@ -201,8 +201,13 @@ def coppie_partita(summ, m):
         mn = re.match(r"(\d+)", (c.get("time") or {}).get("displayValue") or "")
         riga = [int(idf), int(ids)]
         if isinstance(x, (int, float)) and isinstance(y, (int, float)):
-            riga += [round(x, 1), round(y, 1), int(mn.group(1)) if mn else 0]
+            riga += [x, y, int(mn.group(1)) if mn else 0]
         out.append(riga)
+    # alcune competizioni ESPN danno X/Y da 0 a 1 invece che da 0 a 100: per partita, se sono tutti <= 1 si porta a 0-100
+    pos = [r for r in out if len(r) >= 4]
+    fr = 100 if pos and max(max(r[2], r[3]) for r in pos) <= 1.0 else 1
+    for r in pos:
+        r[2], r[3] = round(r[2] * fr, 1), round(r[3] * fr, 1)
     rmap = {pid: [ro, 0] for pid, ro in ruoli["h"].items()}
     rmap.update({pid: [ro, 1] for pid, ro in ruoli["a"].items()})
     return out, rmap, mancati
@@ -256,7 +261,7 @@ def main():
         tot = tot_m = n_part = 0
         for mid, m in d.items():
             # "xy": coppie gia' salvate con posizione e minuto; le vecchie (senza) si rifanno una volta
-            if not m or not m.get("h") or not m.get("a") or (mid in ris and ris[mid].get("xy")):
+            if not m or not m.get("h") or not m.get("a") or (mid in ris and ris[mid].get("xy") == 2):
                 continue
             t0 = quando.get(mid, "")
             hn, an_ = nomi.get(str(m["h"]["id"]), ""), nomi.get(str(m["a"]["id"]), "")
@@ -276,7 +281,7 @@ def main():
                 continue
             m["h"]["name"], m["a"]["name"] = hn, an_
             coppie, rmap, manc = coppie_partita(summ, m)
-            ris[mid] = {"p": coppie, "r": rmap, "xy": 1}
+            ris[mid] = {"p": coppie, "r": rmap, "xy": 2}
             tot += len(coppie); tot_m += manc; n_part += 1
         with gzip.open(out_f, "wt", encoding="utf-8") as fh:
             json.dump(ris, fh, separators=(",", ":"))
