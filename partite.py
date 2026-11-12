@@ -73,15 +73,16 @@ def compact(j):
                 if tot and k and (k + "_t") not in d: d[k + "_t"] = tot
         if d: ps[pid] = d
     if ps: out["p"] = ps
-    # tiri con posizione (mappa del campo del giocatore): [giocatore, x, y, esito, minuto]; x/y FotMob 0-105 / 0-68, sempre verso la porta a x=105.
-    # esito: 1 gol, 2 in porta (palo/traversa compresi), 3 fuori, 4 murato. "sh" c'e' sempre (anche vuoto): cosi' la partita non si riscarica.
-    sh = []
+    # tiri con posizione (mappe del campo del giocatore): stesso formato del worker (`/sh`) + id del giocatore in coda, senza autogol:
+    # [min, minAdded, teamId, playerId, x, y, eventType, murato, inPorta, blockedX, blockedY, goalCrossedY, goalCrossedZ, xG, xGOT, shotType, situation, 0, period, playerId]
+    # "sx" c'e' sempre (anche vuota): cosi' la partita non si riscarica.
+    sx = []
     for t in ((c.get("shotmap") or {}).get("shots")) or []:
         if t.get("isOwnGoal") or not t.get("playerId") or t.get("x") is None or t.get("y") is None: continue
-        et = t.get("eventType")
-        k = 1 if et == "Goal" else 4 if t.get("isBlocked") else 2 if (t.get("isOnTarget") or et == "Post") else 3
-        sh.append([t["playerId"], round(t["x"], 1), round(t["y"], 1), k, t.get("min") or 0])
-    out["sh"] = sh
+        r2 = lambda v: round(v, 2) if isinstance(v, (int, float)) else v
+        sx.append([t.get("min"), t.get("minAdded"), t.get("teamId"), t["playerId"], r2(t["x"]), r2(t["y"]), t.get("eventType"), 1 if t.get("isBlocked") else 0, 1 if t.get("isOnTarget") else 0,
+                   r2(t.get("blockedX")), r2(t.get("blockedY")), r2(t.get("goalCrossedY")), r2(t.get("goalCrossedZ")), r2(t.get("expectedGoals")), r2(t.get("expectedGoalsOnTarget")), t.get("shotType"), t.get("situation"), 0, t.get("period"), t["playerId"]])
+    out["sx"] = sx
     mf = c.get("matchFacts") or {}; ib = mf.get("infoBox") or {}
     meta = {}
     if (ib.get("Referee") or {}).get("text"): meta["ref"] = ib["Referee"]["text"]
@@ -143,8 +144,8 @@ def run():
         # stagione in corso (o appena finita): si ricontrolla sempre. Prima "done" restava vero dopo il primo giro completo e le
         # partite finite dopo non entravano piu' (es. Feyenoord-Fortuna Sittard del 31/10: mancava l'intera giornata).
         recente = int(s[:4]) >= RECENT_YEAR
-        bf = int(s[:4]) >= RECENT_YEAR - 1          # stagione in corso e precedente: si aggiungono i tiri con posizione alle partite gia' scaricate
-        nosh = lambda x: bool(x) and not vuota(x) and "sh" not in x
+        bf = int(s[:4]) >= int(os.environ.get("SX_FROM", "2019"))   # tiri con posizione (mappe del giocatore) anche per le stagioni passate: si aggiungono alle partite gia' scaricate, prima le piu' recenti
+        nosh = lambda x: bool(x) and not vuota(x) and "sx" not in x
         if cur["done"] and not recente and not (bf and any(nosh(x) for x in cur["m"].values())): continue
         allfx = json.load(open(src))["fix"]
         fx = [m for m in allfx if m[7] and not m[8]]      # solo partite finite (m[6] = iniziata: una partita in corso restava a meta')

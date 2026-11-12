@@ -205,14 +205,14 @@ function PlayerPick({ embedded, C, form, set, player, onSelectPlayer, stat, onSt
     <View>
       {embedded ? null : <PanelTitle C={C}>Giocatore</PanelTitle>}
       <Panel ring C={C} tint={col}>
-        {embedded ? (bp ? <NextMatchBtn C={C} ownId={ownId} altId={club && club.teamId} oppId={form.opp && form.opp.id} comp={comp} col={col} openRoute={openRoute} style={{ margin: 14 }} /> : null) : bp ? (
+        {embedded ? null : bp ? (
           <BannerMorph C={C} color={col} k={pid} ready={readyFor === pid} still={initPid.current}>{(fx) => (
             <View>
               <Animated.View pointerEvents="none" style={[StyleSheet.absoluteFill, fx.bg]}>
                 <LinearGradient colors={[col + 'CC', col + '40', col + '14']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={StyleSheet.absoluteFill} />
               </Animated.View>
               <View style={{ padding: 14, flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-                <Pressable onPress={() => openRoute && openRoute(`/giocatore/${club.id}`)} style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+                <Pressable onPress={() => openRoute && openRoute(`/giocatore/${bp.id}`)} style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 10 }}>
                   <Animated.View style={[{ width: 56, height: 56 }, fx.face]}>
                     <View style={{ width: 56, height: 56, borderRadius: 28, borderWidth: 2.5, borderColor: col, overflow: 'hidden' }}><Face uri={bp.photo} color={col} size={51} onReady={() => setReadyFor(pid)} /></View>
                     <RoleBadge C={C} role={pendP ? null : role} />
@@ -242,9 +242,9 @@ function PlayerPick({ embedded, C, form, set, player, onSelectPlayer, stat, onSt
         <FieldRow C={C} label="Statistiche"><Select C={C} title="Statistiche" value={stat} options={STATS} onChange={onStat} /></FieldRow>
         <FieldRow C={C} label="Tipo linea"><Segmented hug="end" C={C} options={LINE_OPTIONS} value={form.lineType} onChange={(v) => set('lineType', v)} /></FieldRow>
         <FieldRow C={C} label="Valore linea"><Select C={C} title="Valore linea" value={form.line} options={LINES.map((x) => ({ value: x, label: x }))} onChange={(v) => set('line', v)} /></FieldRow>
-        <FieldRow C={C} label="Quota"><NumInput ring C={C} value={form.odds} onChange={(v) => set('odds', v)} /></FieldRow>
-        <SedeButtonsN C={C} value={form.sede} onChange={(v) => set('sede', v)} />
-        {comps.length ? <FieldRow C={C} label="Competizione"><Select C={C} title="Competizione" value={form.competizione} options={comps.map((o) => ({ value: o.value, label: o.comp.name, sub: o.sub, comp: o.comp, color: hexOr(o.comp.colors && o.comp.colors[0], '#1F2A44'), color2: hexOr(o.comp.colors && o.comp.colors[1], undefined) }))} onChange={(v) => set('competizione', v)} /></FieldRow> : null}
+        {embedded ? null : <FieldRow C={C} label="Quota"><NumInput ring C={C} value={form.odds} onChange={(v) => set('odds', v)} /></FieldRow>}
+        {embedded ? null : <SedeButtonsN C={C} value={form.sede} onChange={(v) => set('sede', v)} />}
+        {!embedded && comps.length ? <FieldRow C={C} label="Competizione"><Select C={C} title="Competizione" value={form.competizione} options={comps.map((o) => ({ value: o.value, label: o.comp.name, sub: o.sub, comp: o.comp, color: hexOr(o.comp.colors && o.comp.colors[0], '#1F2A44'), color2: hexOr(o.comp.colors && o.comp.colors[1], undefined) }))} onChange={(v) => set('competizione', v)} /></FieldRow> : null}
         {form.playerId && hitChart ? null : <FieldRow C={C} label={hitTitle}><Select C={C} title={hitTitle} value={form.hitRate} placeholder="Nessuna" options={[{ value: '', label: 'Nessuna' }, ...HIT_OPTIONS]} onChange={(v) => set('hitRate', v)} /></FieldRow>}
       </Panel>
       {embedded ? null : <PlayerSearch C={C} open={picker} onClose={() => setPicker(false)} onSelect={onSelectPlayer} onWarm={warmPlayer} onPicked={(id) => { if (!player || player.id !== id) setPend(id); }} />}
@@ -908,6 +908,7 @@ export default function CalcPlayer({ C, openRoute, embedId }) {
       {fouls ? (
         <>
           {player && parseDash(f.last5).length ? <HitPanel C={C} player={player} vals={parseDash(f.last5)} mins={parseDash(f.min5)} key2={form.stat === 'fs' ? 'fs' : 'fc'} line={parseNum(form.line)} under={form.lineType === 'under'} label={statTitle} openRoute={openRoute} comp={form.competizione} hitSel={{ value: f.hitRate, onChange: (v) => setF({ hitRate: v }) }} /> : <Last5 C={C} title={statTitle} shots={f.last5} minutes={f.min5} onShots={(v) => setF({ last5: v })} onMinutes={(v) => setF({ min5: v })} />}
+          {embedId ? null : <>
           <Gap />
           <SeasonPanel C={C} season={f.season} onChange={(k, patch) => setF({ season: { ...f.season, [k]: { ...f.season[k], ...patch } } })} rate90={result.rate90} label={form.stat === 'fc' ? 'Commessi' : 'Subiti'} player={player} comp={form.competizione} />
           <Gap />
@@ -917,22 +918,27 @@ export default function CalcPlayer({ C, openRoute, embedId }) {
           <Duel C={C} team={opp} roster={roster} picked={f.duel || []} onChange={(d) => setF({ duel: d, duelManual: true })} statLabel={oppTitle} roles={roles} />
           <Gap />
           <FoulsTeam C={C} openRoute={openRoute} vsId={form.team.id} title="Squadra avversaria" statLabel={oppTitle} block={form.opp} stats={oppStats} value={f.opp} onValue={(v) => setF({ opp: v })} onChange={(p) => setBlock('opp', p)} />
+          </>}
         </>
       ) : (
         <>
           {player && parseDash(form.shots5).length ? <HitPanel C={C} player={player} vals={parseDash(form.shots5)} mins={parseDash(form.minutes5)} key2={form.tipoTiri === 'inPorta' ? 'sot' : 'shots'} line={parseNum(form.line)} under={form.lineType === 'under'} label={form.tipoTiri === 'inPorta' ? 'Tiri in porta' : 'Tiri'} openRoute={openRoute} comp={form.competizione} hitSel={{ value: form.hitRate, onChange: (v) => set('hitRate', v) }} /> : <Last5 C={C} title="Tiri" shots={form.shots5} minutes={form.minutes5} onShots={(v) => set('shots5', v)} onMinutes={(v) => set('minutes5', v)} />}
+          {embedId ? null : <>
           <Gap />
           <SeasonPanel C={C} season={form.season} onChange={setSeason} rate90={result.rate90} label="Tiri" player={player} comp={form.competizione} />
           <Gap />
           <ShotsTeam C={C} openRoute={openRoute} vsId={form.opp.id} matchComp={mcomp} title="Squadra del giocatore" mode="for" family={family} block={form.team} onChange={(p) => setBlock('team', p)} />
           <Gap />
           <ShotsTeam C={C} openRoute={openRoute} vsId={form.team.id} title="Squadra avversaria" mode="against" family={family} block={form.opp} onChange={(p) => setBlock('opp', p)} />
+          </>}
         </>
       )}
+      {embedId ? null : <>
       <Gap />
       <PanelTitle C={C}>Risultato</PanelTitle>
       <Text style={{ color: C.ink3, fontSize: 11.5, marginBottom: 12 }}>{player && team && opp ? `${player.name} · ${team.name} contro ${opp.name}` : 'Completa i campi per il calcolo'}</Text>
       <ResultCard C={C} result={result} kind="player" />
+      </>}
     </View>
     </TintProvider>
   );
