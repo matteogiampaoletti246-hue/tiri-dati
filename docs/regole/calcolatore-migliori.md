@@ -185,3 +185,7 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 ## Fluidita' delle animazioni (12/11/2026, iPhone 13 Pro come riferimento)
 - Estetica invariata, solo lavoro tolto al telefono durante le animazioni: (1) scelta del giocatore: il ricalcolo pesante della scheda (`onSelect`) parte `APPLY_MS` = 1250 ms dopo il tocco (a banner quasi concluso), non piu' a 420 ms in mezzo all'animazione; (2) colonne Hit rate: l'ombra sfocata non si ridisegna mentre la colonna sale (compare nell'ultimo 12% della corsa); (3) strati di colore dei pannelli (`TintLayer`): `shouldRasterizeIOS`.
 - Regola: nelle animazioni solo `opacity` e `transform` (UI thread); niente lavoro JS pesante, ombre sfocate o altezze animate mentre scorrono, salvo l'altezza della prima entrata del banner.
+
+## Scheda giocatore: pagina Affidabilita' (regola fissa)
+- Tab "Affidabilita'" tra Statistiche e Carriera (`native/pages/GiocatoreAffid.js`): tendina competizione, pannello "Affidabilita' prossima partita" (spostato da Statistiche) e il Calcolatore vero (`CalcPlayer` con `embedId`: giocatore gia' scelto, stato proprio, niente banner/ricerca) con tutti i filtri e i grafici hit rate.
+- L'elenco competizioni e' condiviso con Statistiche (`statComps` in `GiocatoreStat.js`).

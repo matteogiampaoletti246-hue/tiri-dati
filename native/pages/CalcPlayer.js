@@ -174,7 +174,7 @@ function warmPlayer(id) {
   } catch (e) { /* il banner si completa comunque */ }
 }
 
-function PlayerPick({ C, form, set, player, onSelectPlayer, stat, onStat, role, natHit, openRoute, hitN, hitChart }) {
+function PlayerPick({ embedded, C, form, set, player, onSelectPlayer, stat, onStat, role, natHit, openRoute, hitN, hitChart }) {
   const [picker, setPicker] = useState(false);
   // entrata del banner: parte quando la foto e' gia' caricata (massimo 900 ms); alla prima apertura della scheda niente animazione
   // al tocco sul giocatore il banner parte subito con quello scelto (il ricalcolo pesante arriva dopo): `pend` = giocatore appena scelto
@@ -203,9 +203,9 @@ function PlayerPick({ C, form, set, player, onSelectPlayer, stat, onStat, role, 
   const comp = pendP ? undefined : form.competizione === 'coppa' ? cupOf(teamById(ownId)) || 'nessuna' : (form.team && form.team.leagueId) || undefined;
   return (
     <View>
-      <PanelTitle C={C}>Giocatore</PanelTitle>
+      {embedded ? null : <PanelTitle C={C}>Giocatore</PanelTitle>}
       <Panel ring C={C} tint={col}>
-        {bp ? (
+        {embedded ? (bp ? <NextMatchBtn C={C} ownId={ownId} altId={club && club.teamId} oppId={form.opp && form.opp.id} comp={comp} col={col} openRoute={openRoute} style={{ margin: 14 }} /> : null) : bp ? (
           <BannerMorph C={C} color={col} k={pid} ready={readyFor === pid} still={initPid.current}>{(fx) => (
             <View>
               <Animated.View pointerEvents="none" style={[StyleSheet.absoluteFill, fx.bg]}>
@@ -247,7 +247,7 @@ function PlayerPick({ C, form, set, player, onSelectPlayer, stat, onStat, role, 
         {comps.length ? <FieldRow C={C} label="Competizione"><Select C={C} title="Competizione" value={form.competizione} options={comps.map((o) => ({ value: o.value, label: o.comp.name, sub: o.sub, comp: o.comp, color: hexOr(o.comp.colors && o.comp.colors[0], '#1F2A44'), color2: hexOr(o.comp.colors && o.comp.colors[1], undefined) }))} onChange={(v) => set('competizione', v)} /></FieldRow> : null}
         {form.playerId && hitChart ? null : <FieldRow C={C} label={hitTitle}><Select C={C} title={hitTitle} value={form.hitRate} placeholder="Nessuna" options={[{ value: '', label: 'Nessuna' }, ...HIT_OPTIONS]} onChange={(v) => set('hitRate', v)} /></FieldRow>}
       </Panel>
-      <PlayerSearch C={C} open={picker} onClose={() => setPicker(false)} onSelect={onSelectPlayer} onWarm={warmPlayer} onPicked={(id) => { if (!player || player.id !== id) setPend(id); }} />
+      {embedded ? null : <PlayerSearch C={C} open={picker} onClose={() => setPicker(false)} onSelect={onSelectPlayer} onWarm={warmPlayer} onPicked={(id) => { if (!player || player.id !== id) setPend(id); }} />}
     </View>
   );
 }
@@ -722,18 +722,20 @@ function Duel({ C, team, roster, picked, onChange, statLabel, roles }) {
   );
 }
 
-export default function CalcPlayer({ C, openRoute }) {
-  const restored = useRef(CALC_KEEP.player != null);
+// embedId = id del giocatore: il Calcolatore dentro la pagina Affidabilita' della scheda giocatore (giocatore gia' scelto, stato proprio, senza ricerca)
+export default function CalcPlayer({ C, openRoute, embedId }) {
+  const restored = useRef(!embedId && CALC_KEEP.player != null);
   const ran = useRef(new Set());
   const skipRestore = (name) => { if (!restored.current || ran.current.has(name)) return false; ran.current.add(name); return true; };
-  const [form, setForm] = useState(() => (CALC_KEEP.player ? { stat: 'tiri', f: emptyFouls(), ...CALC_KEEP.player } : initial()));
-  CALC_KEEP.player = form;
-  useEffect(() => { saveCalcKeep(); }, [form]);
+  const [form, setForm] = useState(() => (!embedId && CALC_KEEP.player ? { stat: 'tiri', f: emptyFouls(), ...CALC_KEEP.player } : initial()));
+  if (!embedId) CALC_KEEP.player = form;
+  useEffect(() => { if (!embedId) saveCalcKeep(); }, [form]); // eslint-disable-line react-hooks/exhaustive-deps
   const [saved, setSaved] = useState(false);
   useEffect(() => { if (!saved) return undefined; const id = setTimeout(() => setSaved(false), 2600); return () => clearTimeout(id); }, [saved]);
 
   // arrivo da Migliori Giocatori: giocatore, linea, partita e statistica gia' inseriti (una volta sola)
   useEffect(() => {
+    if (embedId) return;
     const st = CALC_IN.v;
     if (!st) return;
     CALC_IN.v = null;
@@ -881,6 +883,7 @@ export default function CalcPlayer({ C, openRoute }) {
     const fx = useNat ? fxN : fxC;
     setForm((x) => { const g = fillFrom(x, v, x.tipoTiri, fx); return fx ? g : { ...g, competizione: useNat ? 'nations' : 'campionato' }; });
   };
+  useEffect(() => { if (embedId && !form.playerId) selectPlayer(embedId); }, [embedId]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (skipRestore('fam') || !form.playerId) return;
     const p0 = playerById(form.playerId);
@@ -900,7 +903,7 @@ export default function CalcPlayer({ C, openRoute }) {
   return (
     <TintProvider color={teamCol}>
     <View style={{ paddingHorizontal: 20, paddingTop: 16, paddingBottom: 40 }}>
-      <PlayerPick C={C} form={vform} set={vset} player={player} onSelectPlayer={selectPlayer} stat={form.stat || 'tiri'} onStat={onStat} role={myRole} natHit={natHit} openRoute={openRoute} hitN={vform.hitN} hitChart={!!player && (fouls ? parseDash(f.last5).length : parseDash(form.shots5).length) > 0} />
+      <PlayerPick embedded={!!embedId} C={C} form={vform} set={vset} player={player} onSelectPlayer={selectPlayer} stat={form.stat || 'tiri'} onStat={onStat} role={myRole} natHit={natHit} openRoute={openRoute} hitN={vform.hitN} hitChart={!!player && (fouls ? parseDash(f.last5).length : parseDash(form.shots5).length) > 0} />
       <Gap />
       {fouls ? (
         <>

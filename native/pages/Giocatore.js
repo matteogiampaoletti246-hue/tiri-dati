@@ -31,6 +31,7 @@ import { resolvePid } from '@/data/playerPid';
 import { POS_IT, percentiles, ratingColor } from '@/components/player/playerCalc';
 import { comma } from '@/lib/format';
 import GiocatoreStat, { playerHasCurStats } from './GiocatoreStat';
+import GiocatoreAffid from './GiocatoreAffid';
 import GiocatorePartite, { usePartiteItems } from './GiocatorePartite';
 
 const PS_POS = { GK: 'GK', CB: 'DEF', LB: 'DEF', RB: 'DEF', LWB: 'DEF', RWB: 'DEF', DM: 'MID', CDM: 'MID', CM: 'MID', AM: 'MID', CAM: 'MID', LM: 'MID', RM: 'MID', LW: 'ATT', RW: 'ATT', ST: 'ATT', CF: 'ATT' };
@@ -229,7 +230,7 @@ function Skel({ C }) {
   return <View style={{ paddingHorizontal: 20, paddingTop: 12 }}><View style={{ flexDirection: 'row', gap: 20, marginBottom: 16 }}>{b(84, 84, 42)}<View style={{ flex: 1 }}>{b(22, 160)}{b(12, 110)}{b(14, 200)}</View></View>{b(40)}{b(120)}{b(180)}</View>;
 }
 
-const TAB_LBL = { profilo: 'Profilo', partite: 'Partite', stat: 'Statistiche', carriera: 'Carriera' };
+const TAB_LBL = { profilo: 'Profilo', partite: 'Partite', stat: 'Statistiche', affid: 'Affidabilità', carriera: 'Carriera' };
 
 function Body({ C, player: player1, openRoute, onBack, bottom, top }) {
   const { player, dataP, clubE, natE } = playerCtx(player1);
@@ -246,7 +247,7 @@ function Body({ C, player: player1, openRoute, onBack, bottom, top }) {
   const parts = usePartiteItems(dataP, car);
   const careerL = useCareerLists(dataP);
   const hasStats = playerHasCurStats(player) || !!car.loading || car.rows.length > 0;
-  const tabs = [['profilo', true], ['partite', parts.has], ['stat', hasStats], ['carriera', !!(careerL && careerL.any)]].filter((t) => t[1]).map((t) => ({ key: t[0], label: TAB_LBL[t[0]] }));
+  const tabs = [['profilo', true], ['partite', parts.has], ['stat', hasStats], ['affid', hasStats && !!playerById(dataP.id)], ['carriera', !!(careerL && careerL.any)]].filter((t) => t[1]).map((t) => ({ key: t[0], label: TAB_LBL[t[0]] }));
   const [tabKey, setTabKey] = useSel(player.id, 'tab', 'profilo');
   const idx = Math.max(0, tabs.findIndex((t) => t.key === tabKey));
   const inj = injuryOf(player.id);
@@ -264,6 +265,7 @@ function Body({ C, player: player1, openRoute, onBack, bottom, top }) {
               {k === 'profilo' ? <Profilo C={C} player={player} dataP={dataP} team={team} clubTeam={clubTeam} /> : null}
               {k === 'partite' ? <GiocatorePartite C={C} player={dataP} parts={parts} openRoute={openRoute} /> : null}
               {k === 'stat' ? <GiocatoreStat C={C} player={dataP} team={team} car={car} openRoute={openRoute} /> : null}
+              {k === 'affid' ? <GiocatoreAffid C={C} player={dataP} car={car} openRoute={openRoute} /> : null}
               {k === 'carriera' && careerL ? <Carriera C={C} lists={careerL} openRoute={openRoute} /> : null}
             </PaneN>
           );

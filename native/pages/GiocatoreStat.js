@@ -1,4 +1,4 @@
-// Statistiche del giocatore (nativo): competizione e stagione, Affidabilita' prossima partita, classifica per ruolo, gruppi con barre e media.
+// Statistiche del giocatore (nativo): competizione e stagione, classifica per ruolo, gruppi con barre e media.
 import React, { useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
 import useAsync from '@/hooks/useAsync';
@@ -34,7 +34,7 @@ function useSeasonList(fm, pid) {
   return data || [];
 }
 
-function Affidabilita({ C, player: club, comp }) {
+export function Affidabilita({ C, player: club, comp }) {
   const player = club.natView && NATIONS_KEYS.includes(comp) ? club.natView : club;
   const [stat, setStat] = useState('tiri');
   const [fouls, setFouls] = useState(null);
@@ -174,7 +174,8 @@ function CupCurrent({ C, p, fm, fmPid, team, openRoute }) {
   return <View style={{ paddingHorizontal: 20, paddingTop: 16, paddingBottom: 40 }}><CupSummary C={C} p={p} /></View>;
 }
 
-export default function GiocatoreStat({ C, player: p, team, car, openRoute }) {
+// competizioni della scheda giocatore (stesso elenco per Statistiche e Affidabilita')
+export function statComps(p, car) {
   const natLg = p.natView ? leagueById(p.natView.leagueId) : null;
   const baseComps = (() => {
     const c = teamCompetitions(p.teamId);
@@ -186,6 +187,11 @@ export default function GiocatoreStat({ C, player: p, team, car, openRoute }) {
   const withData = (id, i) => i === 0 || !!(car.bySeason[id] && car.bySeason[id].length) || (baseComps.some((c) => c.id === id) && !!(p.c && p.c[0]));
   const comps = [...baseComps, ...car.order.filter((id) => !baseComps.some((c) => c.id === id)).map(leagueById).filter(Boolean)]
     .filter((c, i) => car.loading || withData(c.id, i) || (natLg && c.id === natLg.id));
+  return { natLg, baseComps, comps, hasCurApp };
+}
+
+export default function GiocatoreStat({ C, player: p, team, car, openRoute }) {
+  const { natLg, baseComps, comps, hasCurApp } = statComps(p, car);
   const [comp, setComp] = useSel(p.id, 'sc', comps.length ? comps[0].id : null);
   const [season, setSeason] = useSel(p.id, 'ss', () => (p.archive ? p.sk : 'cur'));
   const fmL = FM_ID[comp];
@@ -229,7 +235,6 @@ export default function GiocatoreStat({ C, player: p, team, car, openRoute }) {
   else if (curFm) {
     body = (
       <View key={comp}>
-        <View style={{ paddingHorizontal: 20, paddingTop: 16 }}><Affidabilita key={comp} C={C} player={p} comp={comp} /></View>
         <GiocatorePast C={C} id={fmPid} fm={fmL} sk={car.cur[fmL]} current teamName={team && team.name} openRoute={openRoute} />
       </View>
     );
@@ -238,7 +243,6 @@ export default function GiocatoreStat({ C, player: p, team, car, openRoute }) {
   else {
     body = (
       <View key={comp}>
-        <View style={{ paddingHorizontal: 20, paddingTop: 16 }}><Affidabilita key={comp} C={C} player={p} comp={comp} /></View>
         {comp !== dom ? <CupCurrent C={C} p={p} fm={fmL} fmPid={fmPid} team={team}  openRoute={openRoute} /> : (
           <View style={{ paddingHorizontal: 20, paddingTop: 16, paddingBottom: 40, gap: 16 }}>
             {rk.length ? (
