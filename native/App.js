@@ -2,7 +2,8 @@
 // colori e loghi delle competizioni, righe partita. Metadati da meta.json (generato da data/leagues.js e data/countries.js).
 import './shared/shim'; // PRIMO: il livello dati del sito (load.js) legge document.baseURI appena viene importato
 import React, { createContext, memo, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { View, Text, FlatList, Pressable as RNPressable, ScrollView, StatusBar, Dimensions, useColorScheme, StyleSheet, Animated as RNAnimated, Easing as RNEasing, AccessibilityInfo, LayoutAnimation, Platform, UIManager, AppState, InteractionManager, Modal, TextInput, Keyboard, BackHandler, useWindowDimensions } from 'react-native';
+import { View, Text, FlatList, Pressable as RNPressable, ScrollView, StatusBar, Dimensions, useColorScheme, StyleSheet, Animated as RNAnimated, Easing as RNEasing, AccessibilityInfo, LayoutAnimation, Platform, UIManager, AppState, Modal, TextInput, Keyboard, BackHandler, useWindowDimensions } from 'react-native';
+import { InteractionManager } from './shared/afterInteractions';
 import { Gesture, GestureDetector, GestureHandlerRootView, Pressable } from 'react-native-gesture-handler'; // tasti di Home, Dock e barre: riconoscimento nativo (come swipe e scroll), non il sistema di tocco di JS
 import { Image } from 'expo-image';
 import Animated, { makeMutable, interpolate, useSharedValue, useAnimatedStyle, useAnimatedReaction, useAnimatedScrollHandler, withTiming, withDelay, withRepeat, withSequence, cancelAnimation, runOnJS, Easing, interpolateColor, Keyframe, LinearTransition, FadeIn } from 'react-native-reanimated';

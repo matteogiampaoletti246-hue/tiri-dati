@@ -1,7 +1,8 @@
 // Migliori Matchup (nativo): giorni a scorrimento, statistica (angoli, cartellini, arbitri, tiri...) e modo (Over / Under / Divario).
 // Stessi dati e calcoli del sito (`@/data/matchups`, `@/data/refMatchup`); il tocco su una scheda apre la partita.
 import React, { startTransition, useEffect, useMemo, useRef, useState } from 'react';
-import { View, Text, Pressable, FlatList, StyleSheet, InteractionManager } from 'react-native';
+import { View, Text, Pressable, FlatList, StyleSheet } from 'react-native';
+import { InteractionManager } from '../shared/afterInteractions';
 import { LinearGradient } from 'expo-linear-gradient';
 import Animated, { FadeInUp, FadeInLeft, useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import { Ionicons } from '@expo/vector-icons';

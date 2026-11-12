@@ -1,7 +1,8 @@
 // Migliori Giocatori (nativo): giorni a scorrimento, soglia Over, statistica; righe nei colori della squadra con voto e tasto Calcolatore.
 // Stessi dati e calcoli del sito (`@/data/topPlayers`); il tocco su una riga apre pannello (partita non iniziata) o scheda giocatore.
 import React, { startTransition, useEffect, useRef, useState } from 'react';
-import { View, Text, Pressable, FlatList, StyleSheet, InteractionManager } from 'react-native';
+import { View, Text, Pressable, FlatList, StyleSheet } from 'react-native';
+import { InteractionManager } from '../shared/afterInteractions';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import Animated, { FadeInUp, FadeInLeft, useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
