@@ -155,3 +155,7 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 
 ## Hit Rate: niente linea tratteggiata sulle colonne (12/11/2026, regola fissa)
 - Nelle colonne del grafico Hit Rate (`HitChart.js`) non va la linea tratteggiata dei minuti (partite sotto i 90'); resta solo il numero dei minuti alla base del rettangolo.
+
+## Hit rate a colonne: stesse pagine per tiri, tiri in porta, falli commessi e subiti (regola fissa, app nativa)
+- `native/pages/CalcPlayer.js` (`HitPanel`): le quattro statistiche usano lo stesso grafico (`key2` = `shots`/`sot`/`fc`/`fs`). Pagina "Tutte le competizioni" + una pagina per ogni competizione del giocatore (campionato, coppa europea, Nations League), ultime 5 partite da almeno 50' dall'archivio (`useCompGames`: `fouls` / `was_fouled` per i falli). Sotto ogni colonna stemma e "vs squadra", tocco = colonna evidenziata, secondo tocco = partita (Formazioni).
+- Falli: le squadre sotto le colonne si abbinano solo se le colonne sono le righe `h` dell'Hit Rate (stessi valori); altrimenti nessun abbinamento sbagliato.

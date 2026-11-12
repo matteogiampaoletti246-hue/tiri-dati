@@ -238,6 +238,7 @@ function gamesFor(player, key, vals, mins) {
   const rec = (prof && prof.recent) || [];
   const rows = hitRows(prof);
   const dated = rows.length && rows.every((r) => r[5]);
+  const isF = key === 'fc' || key === 'fs';
   const out = [];
   let j = 0;
   vals.forEach((v, i) => {
@@ -245,7 +246,7 @@ function gamesFor(player, key, vals, mins) {
     if (dated) {
       const ymd = String(rows[i] && rows[i][5]);
       hit = rec.find((m) => String(m.date || '').replace(/-/g, '').slice(0, 8) === ymd) || null;
-    } else {
+    } else if (!isF) {
       for (let k = j; k < rec.length; k += 1) {
         const m = rec[k];
         if (Number(m[key]) === v && (mins[i] == null || Number(m.minutes) === mins[i])) { hit = m; j = k + 1; break; }
@@ -257,8 +258,13 @@ function gamesFor(player, key, vals, mins) {
 }
 
 // avversari che l'indice dell'app non ha (partite piu' vecchie / altre competizioni): dall'archivio delle competizioni (calendario del giorno)
-function useHitGames(player, key2, vals, mins) {
+const foulIdx = (key) => (key === 'fs' ? 4 : 3);
+function useHitGames(player, key2Raw, vals, mins) {
   const prof = hitProf(player);
+  // falli: le colonne sono le righe dell'Hit Rate (stesse partite) solo se i valori coincidono; altrimenti niente abbinamento sbagliato
+  const key2 = key2Raw && (key2Raw === 'fc' || key2Raw === 'fs')
+    ? (() => { const rr = hitRows(prof); const ki = foulIdx(key2Raw); return rr.length === vals.length && rr.every((r, i) => r[ki] === vals[i]) ? key2Raw : null; })()
+    : key2Raw;
   const sig = `${prof && prof.id}|${key2}|${vals.join(',')}|${mins.join(',')}`;
   const base = useMemo(() => (key2 ? gamesFor(player, key2, vals, mins) : null), [sig]); // eslint-disable-line react-hooks/exhaustive-deps
   const [ext, setExt] = useState({});
@@ -341,7 +347,7 @@ function useCompGames(player, key2) {
             const oppId = inH ? aid : hid;
             const opp = se.teams[oppId];
             if (!opp) return;
-            got.push({ date: String(f[4]), min: pl.minutes_played, v: Number(key2 === 'sot' ? pl.ShotsOnTarget : pl.total_shots) || 0, opp, oppId, matchId: `a-${fm}-${sk}-${mid}` });
+            got.push({ date: String(f[4]), min: pl.minutes_played, v: Number(key2 === 'sot' ? pl.ShotsOnTarget : key2 === 'fc' ? pl.fouls : key2 === 'fs' ? pl.was_fouled : pl.total_shots) || 0, opp, oppId, matchId: `a-${fm}-${sk}-${mid}` });
           });
           if (got.length >= 5) break;
         }
@@ -852,7 +858,7 @@ export default function CalcPlayer({ C, openRoute }) {
       <Gap />
       {fouls ? (
         <>
-          {player && parseDash(f.last5).length ? <HitPanel C={C} player={player} vals={parseDash(f.last5)} mins={parseDash(f.min5)} key2={null} line={parseNum(form.line)} under={form.lineType === 'under'} label={statTitle} openRoute={openRoute} comp={form.competizione} hitSel={{ value: f.hitRate, onChange: (v) => setF({ hitRate: v }) }} /> : <Last5 C={C} title={statTitle} shots={f.last5} minutes={f.min5} onShots={(v) => setF({ last5: v })} onMinutes={(v) => setF({ min5: v })} />}
+          {player && parseDash(f.last5).length ? <HitPanel C={C} player={player} vals={parseDash(f.last5)} mins={parseDash(f.min5)} key2={form.stat === 'fs' ? 'fs' : 'fc'} line={parseNum(form.line)} under={form.lineType === 'under'} label={statTitle} openRoute={openRoute} comp={form.competizione} hitSel={{ value: f.hitRate, onChange: (v) => setF({ hitRate: v }) }} /> : <Last5 C={C} title={statTitle} shots={f.last5} minutes={f.min5} onShots={(v) => setF({ last5: v })} onMinutes={(v) => setF({ min5: v })} />}
           <Gap />
           <SeasonPanel C={C} season={f.season} onChange={(k, patch) => setF({ season: { ...f.season, [k]: { ...f.season[k], ...patch } } })} rate90={result.rate90} label={form.stat === 'fc' ? 'Commessi' : 'Subiti'} player={player} comp={form.competizione} />
           <Gap />
