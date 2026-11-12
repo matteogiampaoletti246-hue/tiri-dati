@@ -1,104 +1,4 @@
 {
-"5781802": {
-"n": "Allard Lindhout",
-"src": "api-football",
-"at": "2026-11-05T01:13+00:00"
-},
-"5887675": {
-"n": "Gustavo Fernandes Correia",
-"src": "api-football",
-"at": "2026-11-05T01:13+00:00"
-},
-"5811806": {
-"n": "M. Ledda",
-"src": "api-football",
-"at": "2026-11-05T01:13+00:00"
-},
-"5846020": {
-"n": "Safak Barmaksiz",
-"src": "api-football",
-"at": "2026-11-05T01:13+00:00"
-},
-"5967139": {
-"n": "Rapuano Andrea",
-"src": "api-football",
-"at": "2026-11-05T01:13+00:00"
-},
-"5881724": {
-"n": "Michael Bacher",
-"src": "api-football",
-"at": "2026-11-05T01:13+00:00"
-},
-"5881718": {
-"n": "Timo Gansloweit",
-"src": "api-football",
-"at": "2026-11-05T01:13+00:00"
-},
-"5803308": {
-"n": "Benoit Millot",
-"src": "api-football",
-"at": "2026-11-05T01:13+00:00"
-},
-"5803310": {
-"n": "Gael Angoula",
-"src": "api-football",
-"at": "2026-11-05T01:13+00:00"
-},
-"5803311": {
-"n": "Pierre Gaillouste",
-"src": "api-football",
-"at": "2026-11-05T01:13+00:00"
-},
-"5803312": {
-"n": "Retail Pierre",
-"src": "api-football",
-"at": "2026-11-05T01:13+00:00"
-},
-"5803313": {
-"n": "Eddy Rosier",
-"src": "api-football",
-"at": "2026-11-05T01:13+00:00"
-},
-"5803314": {
-"n": "Leprodhomme·Tifenn",
-"src": "api-football",
-"at": "2026-11-05T01:13+00:00"
-},
-"5888099": {
-"n": "Flavio Miguel Gomes Azevedo Duarte",
-"src": "api-football",
-"at": "2026-11-05T01:13+00:00"
-},
-"5103699": {
-"n": "R. Klein",
-"src": "api-football",
-"at": "2026-11-05T01:13+00:00"
-},
-"5103702": {
-"n": "R. Pereira",
-"src": "api-football",
-"at": "2026-11-05T01:13+00:00"
-},
-"1000019632": {
-"n": "Dario Herrera",
-"src": "api-football",
-"at": "2026-11-05T01:13+00:00"
-},
-"1000019625": {
-"n": "Juan Pafundi",
-"src": "api-football",
-"at": "2026-11-05T01:13+00:00"
-},
-"1000019621": {
-"n": "Felipe Viola",
-"src": "api-football",
-"at": "2026-11-05T01:13+00:00"
-},
-"1000019622": {
-"n": "Andres Gariano",
-"src": "api-football",
-"at": "2026-11-05T01:13+00:00"
-},
 "5887676": {
 "n": "Pedro Miguel Torres Ramalho",
 "src": "api-football",
@@ -313,21 +213,6 @@
 "n": "Pierre Luce Lauziere",
 "src": "api-football",
 "at": "2026-11-06T01:17+00:00"
-},
-"5836927": {
-"n": "James Bell",
-"src": "api-football",
-"at": "2026-11-06T05:04+00:00"
-},
-"5908696": {
-"n": "Oguzhan Gokcen",
-"src": "api-football",
-"at": "2026-11-06T05:04+00:00"
-},
-"5908698": {
-"n": "Hakan Ulker",
-"src": "api-football",
-"at": "2026-11-06T05:04+00:00"
 },
 "5836924": {
 "n": "Lewis Smith",
@@ -800,8 +685,7 @@
 "at": "2026-11-11T05:06+00:00"
 },
 "_err": [
-"2026-11-13: {\"plan\": \"Free plans do not have access to this date, try from 2026-11-10 to 2026-11-12.\"}",
-"2026-11-14: {\"plan\": \"Free plans do not have access to this date, try from 2026-11-10 to 2026-11-12.\"}"
+"2026-11-14: {\"plan\": \"Free plans do not have access to this date, try from 2026-11-11 to 2026-11-13.\"}"
 ],
-"_at": "2026-11-11T21:42+00:00"
+"_at": "2026-11-12T01:20+00:00"
 }
