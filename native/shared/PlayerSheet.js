@@ -14,7 +14,7 @@ import { teamById } from '@/data/teams';
 import { playerFouls, useMatchFouls } from './foulsMatch';
 import { comma } from '@/lib/format';
 import { scoreColorSmooth } from '@/lib/calc';
-import { TeamCrest, Segmented } from './ui';
+import { TeamCrest, Segmented, mixHex } from './ui';
 import { BallIcon } from './Icons';
 import { CardIcon, SubIcon } from '../pages/PartitaInfo';
 import { DotShape, shotColor, situationOf, zoneOf, outcomeOf, isBlocked, HIT, PITCH, LINE, GOALBG, GOALLINE, TRACE } from './ShotMap';
@@ -334,7 +334,7 @@ function FoulsPane({ C, c, kind, list, fx, W, onBack, onOpen }) {
           <Ionicons name="arrow-back" size={20} color={C.ink} />
         </Pressable>
         <View style={{ flex: 1 }}>
-          <Text style={{ color: C.ink, fontSize: 17, fontWeight: '800' }}>{kind === 'fc' ? 'Chi ha subito fallo' : 'Chi ha commesso fallo'}</Text>
+          <Text numberOfLines={2} style={{ color: C.ink, fontSize: 17, fontWeight: '800' }}>{kind === 'fc' ? `${c.name} ha fatto fallo su` : 'Chi ha commesso fallo'}</Text>
           <Text numberOfLines={1} style={{ color: C.ink3, fontSize: 12 }}>{kind === 'fc' ? 'Falli commessi' : 'Falli subiti'} · {tot} {tot === 1 ? 'fallo' : 'falli'}</Text>
         </View>
       </View>
@@ -350,8 +350,9 @@ function FoulsPane({ C, c, kind, list, fx, W, onBack, onOpen }) {
           return (
             <Pressable key={r.who.fmId || r.who.name} onPress={() => onOpen({ name: r.who.name, fmId: r.who.fmId || undefined })} style={({ pressed }) => [{ borderRadius: 18, overflow: 'hidden', opacity: pressed ? 0.75 : 1 }]}>
               {/* banner nei colori della squadra del giocatore (come gli altri banner dell'app), velo scuro per leggere il testo bianco */}
-              <LinearGradient colors={[c0, c1]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }} />
-              <View pointerEvents="none" style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,.32)' }} />
+              {/* colore pieno a sinistra che sfuma verso destra nel colore della tendina (scurisce nel tema scuro, schiarisce nel chiaro) */}
+              <LinearGradient colors={[c0, mixHex(c0, C.sheet, 0.6), C.sheet]} locations={[0, 0.5, 1]} start={{ x: 0, y: 0.5 }} end={{ x: 1, y: 0.5 }} style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }} />
+              <View pointerEvents="none" style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, borderRadius: 18, borderWidth: 1.2, borderColor: `${c0}66` }} />
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, padding: 12 }}>
                 <View style={{ width: 46, height: 46, borderRadius: 23, overflow: 'hidden', backgroundColor: 'rgba(255,255,255,.18)', alignItems: 'center', justifyContent: 'flex-end' }}>
                   {photo ? <Image source={{ uri: photo }} style={{ width: 46, height: 46 }} contentFit="cover" cachePolicy="memory-disk" /> : <Ionicons name="person" size={36} color="rgba(255,255,255,.7)" />}
@@ -364,8 +365,8 @@ function FoulsPane({ C, c, kind, list, fx, W, onBack, onOpen }) {
                   </View>
                 </View>
                 <View style={{ alignItems: 'flex-end', maxWidth: 130 }}>
-                  <Text style={{ color: '#fff', fontSize: 20, fontWeight: '800' }}>{r.mins.length}</Text>
-                  <Text style={{ color: 'rgba(255,255,255,.82)', fontSize: 11.5, textAlign: 'right' }}>{r.mins.join(' · ')}</Text>
+                  <Text style={{ color: C.ink, fontSize: 20, fontWeight: '800' }}>{r.mins.length}</Text>
+                  <Text style={{ color: C.ink2, fontSize: 11.5, textAlign: 'right' }}>{r.mins.join(' · ')}</Text>
                 </View>
               </View>
             </Pressable>

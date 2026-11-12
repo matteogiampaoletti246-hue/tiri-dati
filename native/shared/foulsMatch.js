@@ -97,31 +97,38 @@ const parse = (summ, match) => {
 };
 
 const CACHE = new Map(); // matchId -> { at, event, p }
+const dayOf = (t) => { const d = new Date(t); return `${d.getUTCFullYear()}${String(d.getUTCMonth() + 1).padStart(2, '0')}${String(d.getUTCDate()).padStart(2, '0')}`; };
+async function findEvent(code, match) {
+  const hn = (teamById(match.homeId) || {}).name || ''; const an = (teamById(match.awayId) || {}).name || '';
+  const t0 = match.ts || Date.now();
+  // giorno UTC della partita, poi quello prima e dopo (le partite serali/notturne cambiano giorno)
+  for (const t of [t0, t0 - 86400000, t0 + 86400000]) {
+    const sb = await getJson(`${ESPN}${code}/scoreboard?dates=${dayOf(t)}&limit=300`).catch(() => null);
+    let best = null; let bs = 0;
+    ((sb && sb.events) || []).forEach((ev) => {
+      const cs = {};
+      ((ev.competitions && ev.competitions[0] && ev.competitions[0].competitors) || []).forEach((c) => { cs[c.homeAway] = c.team ? [c.team.displayName, c.team.shortDisplayName, c.team.name, c.team.location] : []; });
+      const top = (n, arr) => Math.max(0, ...(arr || []).map((x) => sim(n, x)));
+      const sc = top(hn, cs.home) + top(an, cs.away);
+      if (sc > bs) { best = ev; bs = sc; }
+    });
+    if (best && bs >= 1.3) return best.id;
+  }
+  return null;
+}
 async function load(match, fresh) {
   const code = codeOf(match);
-  if (!code || !match.ts) return null;
+  if (!code) return null;
   const hit = CACHE.get(match.id);
-  if (hit && !fresh) return hit.p;
-  let eventId = hit && hit.event;
+  // chi ha gia' i falli e la partita e' finita non si riscarica; vuoto o partita in corso: si riprova (prima restava "nessun falli" per sempre)
+  if (hit && !fresh && Date.now() - hit.at < 25000) return hit.p;
+  const eventId = hit && hit.event;
   const p = (async () => {
-    if (!eventId) {
-      const d = new Date(match.ts);
-      const day = `${d.getUTCFullYear()}${String(d.getUTCMonth() + 1).padStart(2, '0')}${String(d.getUTCDate()).padStart(2, '0')}`;
-      const sb = await getJson(`${ESPN}${code}/scoreboard?dates=${day}&limit=300`);
-      const hn = (teamById(match.homeId) || {}).name || ''; const an = (teamById(match.awayId) || {}).name || '';
-      let best = null; let bs = 0;
-      (sb.events || []).forEach((ev) => {
-        const cs = {};
-        ((ev.competitions && ev.competitions[0] && ev.competitions[0].competitors) || []).forEach((c) => { cs[c.homeAway] = c.team ? [c.team.displayName, c.team.shortDisplayName, c.team.name, c.team.location] : []; });
-        const top = (n, arr) => Math.max(0, ...(arr || []).map((x) => sim(n, x)));
-        const s = top(hn, cs.home) + top(an, cs.away);
-        if (s > bs) { best = ev; bs = s; }
-      });
-      if (!best || bs < 1.3) return null;
-      eventId = best.id;
-    }
-    const summ = await getJson(`${ESPN}${code}/summary?event=${eventId}`);
+    const id = eventId || (await findEvent(code, match));
+    if (!id) return null;
+    const summ = await getJson(`${ESPN}${code}/summary?event=${id}`);
     const list = parse(summ, match);
+    CACHE.set(match.id, { at: Date.now(), event: id, p: Promise.resolve(list.length ? list : null) });
     return list.length ? list : null;
   })().catch(() => null);
   CACHE.set(match.id, { at: Date.now(), event: eventId, p });
@@ -132,7 +139,7 @@ async function load(match, fresh) {
 export function useMatchFouls(match) {
   const [list, setList] = useState(null);
   const id = match ? match.id : null;
-  const live = !!match && match.status === 'live';
+  const live = !!match && match.status !== 'finished' && match.status !== 'scheduled';
   useEffect(() => {
     if (!match) { setList(null); return undefined; }
     let on = true;
