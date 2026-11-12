@@ -1,6 +1,8 @@
 // Calcolatore: scheda Affidabilità giocatore (nativa). Stessa logica di components/calc/PlayerTab.jsx del sito, con i dati e i calcoli condivisi.
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { View, Text, Pressable, TextInput, StyleSheet } from 'react-native';
+import Animated from 'react-native-reanimated';
+import BannerMorph from '../shared/bannerFx';
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -173,6 +175,16 @@ function warmPlayer(id) {
 
 function PlayerPick({ C, form, set, player, onSelectPlayer, stat, onStat, role, natHit, openRoute, hitN, hitChart }) {
   const [picker, setPicker] = useState(false);
+  // entrata del banner: parte quando la foto e' gia' caricata (massimo 900 ms); alla prima apertura della scheda niente animazione
+  const pid = player ? player.id : null;
+  const initPid = useRef(pid);
+  const [readyFor, setReadyFor] = useState(null);
+  useEffect(() => {
+    if (!pid) return undefined;
+    if (!player.photo) { setReadyFor(pid); return undefined; }
+    const t = setTimeout(() => setReadyFor(pid), 900);
+    return () => clearTimeout(t);
+  }, [pid]); // eslint-disable-line react-hooks/exhaustive-deps
   const club = player ? (player.nat && player.club ? player.club : player) : null;
   const team = club ? teamById(club.teamId) : null;
   const col = playerColor(player, form.competizione, team && team.colors ? team.colors[0] : C.accent);
@@ -187,29 +199,33 @@ function PlayerPick({ C, form, set, player, onSelectPlayer, stat, onStat, role, 
       <PanelTitle C={C}>Giocatore</PanelTitle>
       <Panel ring C={C} tint={col}>
         {player ? (
-          <View style={{ backgroundColor: C.sheet }}>
-            <LinearGradient pointerEvents="none" colors={[col + 'CC', col + '40', col + '14']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={StyleSheet.absoluteFill} />
-            <View style={{ padding: 14, flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-              <Pressable onPress={() => openRoute && openRoute(`/giocatore/${club.id}`)} style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-                <View style={{ width: 56, height: 56 }}>
-                  <View style={{ width: 56, height: 56, borderRadius: 28, borderWidth: 2.5, borderColor: col, overflow: 'hidden' }}><Face uri={player.photo} color={col} size={51} /></View>
-                  <RoleBadge C={C} role={role} />
-                </View>
-                <View style={{ flex: 1 }}>
-                  <Text numberOfLines={1} style={{ color: C.ink, fontSize: 18, fontWeight: '700' }}>{player.name}</Text>
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5, marginTop: 4 }}>
-                    {team ? <TeamCrest team={team} size={16} C={C} /> : null}
-                    <Text numberOfLines={1} style={{ color: C.ink2, fontSize: 12.5, flexShrink: 1 }}>{club.teamName}</Text>
-                    {natName ? <View style={{ width: StyleSheet.hairlineWidth * 2, height: 16, backgroundColor: C.ink3 }} /> : null}
-                    {natName && natFc ? <Image source={{ uri: `${FLAG_BASE}${natFc}.png` }} style={{ width: 20, height: 15, borderRadius: 3 }} contentFit="cover" cachePolicy="memory-disk" /> : null}
-                    {natName ? <Text numberOfLines={1} style={{ color: C.ink2, fontSize: 12.5, flexShrink: 1 }}>{countryIt(natName)}</Text> : null}
+          <BannerMorph C={C} color={col} k={pid} ready={readyFor === pid} still={initPid.current}>{(fx) => (
+            <View>
+              <Animated.View pointerEvents="none" style={[StyleSheet.absoluteFill, fx.bg]}>
+                <LinearGradient colors={[col + 'CC', col + '40', col + '14']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={StyleSheet.absoluteFill} />
+              </Animated.View>
+              <View style={{ padding: 14, flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                <Pressable onPress={() => openRoute && openRoute(`/giocatore/${club.id}`)} style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+                  <Animated.View style={[{ width: 56, height: 56 }, fx.face]}>
+                    <View style={{ width: 56, height: 56, borderRadius: 28, borderWidth: 2.5, borderColor: col, overflow: 'hidden' }}><Face uri={player.photo} color={col} size={51} onReady={() => setReadyFor(pid)} /></View>
+                    <RoleBadge C={C} role={role} />
+                  </Animated.View>
+                  <View style={{ flex: 1 }}>
+                    <Animated.View style={fx.n1}><Text numberOfLines={1} style={{ color: C.ink, fontSize: 18, fontWeight: '700' }}>{player.name}</Text></Animated.View>
+                    <Animated.View style={[{ flexDirection: 'row', alignItems: 'center', gap: 5, marginTop: 4 }, fx.n2]}>
+                      {team ? <TeamCrest team={team} size={16} C={C} /> : null}
+                      <Text numberOfLines={1} style={{ color: C.ink2, fontSize: 12.5, flexShrink: 1 }}>{club.teamName}</Text>
+                      {natName ? <View style={{ width: StyleSheet.hairlineWidth * 2, height: 16, backgroundColor: C.ink3 }} /> : null}
+                      {natName && natFc ? <Image source={{ uri: `${FLAG_BASE}${natFc}.png` }} style={{ width: 20, height: 15, borderRadius: 3 }} contentFit="cover" cachePolicy="memory-disk" /> : null}
+                      {natName ? <Text numberOfLines={1} style={{ color: C.ink2, fontSize: 12.5, flexShrink: 1 }}>{countryIt(natName)}</Text> : null}
+                    </Animated.View>
                   </View>
-                </View>
-              </Pressable>
-              <Pressable onPress={() => setPicker(true)} style={{ paddingHorizontal: 12, paddingVertical: 7, borderRadius: 999, backgroundColor: C.accent }}><Text style={{ color: '#fff', fontWeight: '700', fontSize: 12.5 }}>Cambia</Text></Pressable>
+                </Pressable>
+                <Animated.View style={fx.chg}><Pressable onPress={() => setPicker(true)} style={{ paddingHorizontal: 12, paddingVertical: 7, borderRadius: 999, backgroundColor: C.accent }}><Text style={{ color: '#fff', fontWeight: '700', fontSize: 12.5 }}>Cambia</Text></Pressable></Animated.View>
+              </View>
+              <Animated.View style={fx.nxt}><NextMatchBtn C={C} ownId={ownId} altId={club && club.teamId} oppId={form.opp && form.opp.id} comp={comp} col={col} openRoute={openRoute} style={{ marginHorizontal: 14, marginBottom: 14 }} /></Animated.View>
             </View>
-            <NextMatchBtn C={C} ownId={ownId} altId={club && club.teamId} oppId={form.opp && form.opp.id} comp={comp} col={col} openRoute={openRoute} style={{ marginHorizontal: 14, marginBottom: 14 }} />
-          </View>
+          )}</BannerMorph>
         ) : (
           <Pressable onPress={() => setPicker(true)} style={{ padding: 18, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
             <Text style={{ color: C.accent, fontSize: 15, fontWeight: '700' }}>Cerca e seleziona</Text>

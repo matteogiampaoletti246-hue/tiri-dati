@@ -23,9 +23,9 @@ export const TeamCrest = ({ team, size = 32, C }) => {
   return <View style={{ width: size, height: size, alignItems: 'center', justifyContent: 'center' }}><Text style={{ color: C.ink2, fontSize: Math.max(10, size * 0.4), fontWeight: '700' }}>{team.initials}</Text></View>;
 };
 
-export const Face = ({ uri, color, size = 44 }) => (
+export const Face = ({ uri, color, size = 44, onReady }) => (
   <View style={{ width: size, height: size, borderRadius: size / 2, overflow: 'hidden', backgroundColor: color || 'rgba(128,128,128,.25)' }}>
-    {uri ? <Image source={{ uri }} style={{ width: size, height: size }} contentFit="cover" cachePolicy="memory-disk" /> : null}
+    {uri ? <Image source={{ uri }} style={{ width: size, height: size }} contentFit="cover" cachePolicy="memory-disk" transition={0} onLoad={onReady} onError={onReady} /> : null}
   </View>
 );
 
