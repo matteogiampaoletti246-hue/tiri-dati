@@ -1,6 +1,6 @@
 // Calcolatore: scheda Affidabilità giocatore (nativa). Stessa logica di components/calc/PlayerTab.jsx del sito, con i dati e i calcoli condivisi.
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { View, Text, Pressable, TextInput, StyleSheet } from 'react-native';
+import { View, Text, Pressable, TextInput, StyleSheet, AppState } from 'react-native';
 import Animated from 'react-native-reanimated';
 import BannerMorph from '../shared/bannerFx';
 import { Ionicons } from '@expo/vector-icons';
@@ -12,6 +12,7 @@ import { PLAYERS, playerById } from '@/data/players';
 import { teamById, teamByName } from '@/data/teams';
 import { useUpcoming } from '../shared/useUpcoming';
 import { allTeamMatches, nextMatchOf, nextMatchVs } from '@/data/extras';
+import { prepareMatch } from '@/data/prepare';
 import { romeDay } from '@/data/util';
 import { NATIONS_KEYS, calcTeamsOf, calcLeagues, leagueName, cupOf, domesticKey, nextFixture, fixtureAt, prefillShots, splitBoxes, teamShots } from '@/data/calcData';
 import { emptyFouls, fillFrom, hitFromValues, hitRows, initialForm, isFouls, natHitOf, resultFromForm, resultFromFouls, viewFor } from '@/data/calcPlayer';
@@ -774,7 +775,30 @@ export default function CalcPlayer({ C, openRoute }) {
   const ownStats = fouls ? teamFoulStats(fd, fmOf(team), form.team.leagueId, team && team.name, form.stat) : null;
   const oppStats = fouls ? teamFoulStats(fd, fmOf(opp), form.opp.leagueId, opp && opp.name, oppStat) : null;
   const oppDom = opp ? domesticKey(opp.name) : null;
-  const roster = fouls && oppDom ? rosterFouls(fd, oppDom, fmOf(opp), oppStat) : [];
+  // Duello e formazioni: da 1h15 dal fischio (e a partita iniziata) la lista del duello e' l'undici titolare della squadra avversaria
+  // (stessa formazione della pagina partita), richiesta di nuovo ogni 5 s; prima resta la rosa intera.
+  const duelM = fouls && team && opp ? nextMatchVs(team.id, opp.id) : null;
+  const duelId = duelM ? duelM.id : null;
+  const [, luBump] = useState(0);
+  useEffect(() => {
+    if (!duelId) return undefined;
+    let on = true; let busy = false;
+    const run = () => {
+      const m = nextMatchVs(form.team.id, form.opp.id);
+      if (!on || busy || AppState.currentState !== 'active' || !m || m.ts - Date.now() > 75 * 60000 || m.status === 'finished') return;
+      busy = true;
+      prepareMatch(m.id, true).then(() => on && luBump((x) => x + 1)).catch(() => {}).finally(() => { busy = false; });
+    };
+    run();
+    const t = setInterval(run, 5000);
+    const sub = AppState.addEventListener('change', (st) => { if (st === 'active') run(); });
+    return () => { on = false; clearInterval(t); sub.remove(); };
+  }, [duelId, form.team.id, form.opp.id]); // eslint-disable-line react-hooks/exhaustive-deps
+  const sameT = (a, b) => a === b || (!!teamById(a) && !!teamById(b) && teamById(a).name === teamById(b).name);
+  const luSide = duelM && opp && duelM.ts - Date.now() <= 75 * 60000 && duelM.lineup ? (sameT(duelM.homeId, opp.id) ? duelM.lineup.home : duelM.lineup.away) : null;
+  const starters = luSide && luSide.xi && luSide.xi.length ? new Set(luSide.xi.map((p) => String(p.fmId)).filter((x) => x && x !== 'undefined')) : null;
+  const roster0 = fouls && oppDom ? rosterFouls(fd, oppDom, fmOf(opp), oppStat) : [];
+  const roster = starters && starters.size ? roster0.filter((r) => starters.has(String(r.id))) : roster0;
   const duelSel = (f.duel || []).map((id) => roster.find((r) => r.id === id)).filter(Boolean);
   const duelAvg = duelSel.length ? duelSel.reduce((a, r) => a + r.avg90, 0) / duelSel.length : null;
   const duelLeagueAvg = fouls && oppDom ? leaguePlayerAvg(fd, oppDom, oppStat) : null;

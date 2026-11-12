@@ -175,3 +175,7 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 - Hit rate (`shared/HitChart.js`): le colonne salgono dal basso (700 ms, 70 ms tra una e l'altra, valori e minuti in dissolvenza) quando il grafico entra nello schermo scorrendo (`shared/inView.js`, `scrollPing` dal ScrollView del Calcolatore) e ogni volta che dopo lo swipe arriva un'altra competizione; cambiando giocatore o statistica risalgono. La competizione non ancora raggiunta resta vuota finche' lo swipe non si ferma.
 - Dropdown "Cambio carta": velocita' aumentata di circa il 25% (12/11/2026): lista si ripiega a 340 ms, flip a 560 ms, nuovo valore a 825 ms, fine a 1275 ms.
 - Dropdown "Cambio carta": ora la meta' del tempo originale (12/11/2026): ripiego 225 ms, flip 375 ms, nuovo valore 550 ms, fine 850 ms.
+
+## Duello avversario e formazioni (12/11/2026, regola fissa)
+- Nel Calcolatore falli (commessi e subiti) da 1h15 (75') dal fischio e a partita iniziata la lista del duello e' l'undici titolare della squadra avversaria, preso dalla formazione della pagina partita (`m.lineup[...].xi[].fmId`, partita = `nextMatchVs`); il duello automatico sceglie tra i titolari. Prima dei 75' o senza formazione con id FotMob resta la rosa intera.
+- Dentro i 75' la partita si richiede ogni 5 s (`prepareMatch(id, true)`) mentre il Calcolatore e' aperto, e subito al ritorno dal background: se la formazione cambia, la lista si aggiorna da sola (le scelte a mano restano solo se ancora titolari). Solo titolari con dati falli in archivio: mai giocatori inventati.
