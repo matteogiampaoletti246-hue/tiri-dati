@@ -1,9 +1,1365 @@
 {
- "updated_at": "2026-11-11T23:46:11+00:00",
+ "updated_at": "2026-11-12T05:57:13+00:00",
  "window": {
   "nlast": 0,
   "min_games": 1,
   "days_ahead": 8
  },
- "days": {}
+ "days": {
+  "2026-11-20": {
+   "analizzate": 3,
+   "con_dati": 3,
+   "corner": [
+    {
+     "id": "m_4McNx8",
+     "date": "2026-11-20",
+     "time": "2026-11-20",
+     "league": "Bundesliga",
+     "home": "Bayern München",
+     "away": "1. FC Köln",
+     "non_coperto": [],
+     "corners_home": 6.3,
+     "corners_away": 4.2,
+     "gap": 2.1,
+     "games": [
+      6,
+      4
+     ],
+     "tiri_home": 17.9,
+     "tiri_away": 12.0,
+     "tiri_gap": 6.0,
+     "tiri_games": [
+      6,
+      4
+     ],
+     "sot_home": 8.2,
+     "sot_away": 3.6,
+     "sot_gap": 4.6,
+     "sot_games": [
+      6,
+      4
+     ],
+     "falli_home": 10.5,
+     "falli_away": 9.9,
+     "falli_gap": 0.6,
+     "falli_games": [
+      13,
+      9
+     ],
+     "off_home": 1.7,
+     "off_away": 1.2,
+     "off_gap": 0.5,
+     "off_games": [
+      13,
+      9
+     ],
+     "cards": 3.5,
+     "cards_1t": 0.8,
+     "cards_home": 1.1,
+     "cards_away": 2.4,
+     "cards_1t_home": 0.2,
+     "cards_1t_away": 0.7,
+     "games_k": [
+      13,
+      9
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/1e2afd379a7d354c930f790c1f9ab0c2b50654cf4d47f20ffb269b8cfe309bca.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/b586b79d51436583827db4053e71f243046c61dd2523b5a50d7cc05a921900ec.webp"
+    },
+    {
+     "id": "m_3rtQqb",
+     "date": "2026-11-20",
+     "time": "2026-11-20",
+     "league": "Ligue 1",
+     "home": "Troyes",
+     "away": "Le Havre",
+     "non_coperto": [],
+     "corners_home": 5.7,
+     "corners_away": 3.6,
+     "gap": 2.1,
+     "games": [
+      5,
+      4
+     ],
+     "tiri_home": 13.3,
+     "tiri_away": 13.5,
+     "tiri_gap": 0.2,
+     "tiri_games": [
+      5,
+      4
+     ],
+     "sot_home": 4.4,
+     "sot_away": 4.4,
+     "sot_gap": 0.0,
+     "sot_games": [
+      5,
+      4
+     ],
+     "falli_home": 13.7,
+     "falli_away": 13.7,
+     "falli_gap": 0.0,
+     "falli_games": [
+      10,
+      10
+     ],
+     "off_home": 2.3,
+     "off_away": 1.6,
+     "off_gap": 0.7,
+     "off_games": [
+      10,
+      10
+     ],
+     "cards": 3.5,
+     "cards_1t": 1.2,
+     "cards_home": 1.8,
+     "cards_away": 1.7,
+     "cards_1t_home": 0.6,
+     "cards_1t_away": 0.6,
+     "games_k": [
+      10,
+      10
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/a805183b27f376ca106faf014559528f32f291be0a93b621357697efc173aeeb.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/c9c565fda39bde124db002c75a5b6a34a1a464a961dccf8ae7d256c8eac59ed6.webp"
+    },
+    {
+     "id": "m_0iaTdE",
+     "date": "2026-11-20",
+     "time": "2026-11-20",
+     "league": "LaLiga",
+     "home": "Athletic Club",
+     "away": "Espanyol",
+     "non_coperto": [],
+     "corners_home": 5.8,
+     "corners_away": 3.8,
+     "gap": 1.9,
+     "games": [
+      6,
+      6
+     ],
+     "tiri_home": 16.0,
+     "tiri_away": 9.1,
+     "tiri_gap": 6.9,
+     "tiri_games": [
+      6,
+      6
+     ],
+     "sot_home": 5.3,
+     "sot_away": 2.9,
+     "sot_gap": 2.4,
+     "sot_games": [
+      6,
+      6
+     ],
+     "falli_home": 11.0,
+     "falli_away": 14.5,
+     "falli_gap": 3.4,
+     "falli_games": [
+      11,
+      12
+     ],
+     "off_home": 1.0,
+     "off_away": 2.4,
+     "off_gap": 1.4,
+     "off_games": [
+      11,
+      12
+     ],
+     "cards": 5.2,
+     "cards_1t": 1.5,
+     "cards_home": 2.0,
+     "cards_away": 3.2,
+     "cards_1t_home": 0.5,
+     "cards_1t_away": 1.1,
+     "games_k": [
+      11,
+      12
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/3df8987ea318edccd9c2d8887b27324fa47c275eea7604e9e9c8539f5a69cda3.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/f8174b3077c6d721131a0171d6e57bfbe7d65bd7583f1d0a63befc59ce9b6da0.webp"
+    }
+   ],
+   "tiri": [
+    {
+     "id": "m_0iaTdE",
+     "date": "2026-11-20",
+     "time": "2026-11-20",
+     "league": "LaLiga",
+     "home": "Athletic Club",
+     "away": "Espanyol",
+     "non_coperto": [],
+     "corners_home": 5.8,
+     "corners_away": 3.8,
+     "gap": 1.9,
+     "games": [
+      6,
+      6
+     ],
+     "tiri_home": 16.0,
+     "tiri_away": 9.1,
+     "tiri_gap": 6.9,
+     "tiri_games": [
+      6,
+      6
+     ],
+     "sot_home": 5.3,
+     "sot_away": 2.9,
+     "sot_gap": 2.4,
+     "sot_games": [
+      6,
+      6
+     ],
+     "falli_home": 11.0,
+     "falli_away": 14.5,
+     "falli_gap": 3.4,
+     "falli_games": [
+      11,
+      12
+     ],
+     "off_home": 1.0,
+     "off_away": 2.4,
+     "off_gap": 1.4,
+     "off_games": [
+      11,
+      12
+     ],
+     "cards": 5.2,
+     "cards_1t": 1.5,
+     "cards_home": 2.0,
+     "cards_away": 3.2,
+     "cards_1t_home": 0.5,
+     "cards_1t_away": 1.1,
+     "games_k": [
+      11,
+      12
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/3df8987ea318edccd9c2d8887b27324fa47c275eea7604e9e9c8539f5a69cda3.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/f8174b3077c6d721131a0171d6e57bfbe7d65bd7583f1d0a63befc59ce9b6da0.webp"
+    },
+    {
+     "id": "m_4McNx8",
+     "date": "2026-11-20",
+     "time": "2026-11-20",
+     "league": "Bundesliga",
+     "home": "Bayern München",
+     "away": "1. FC Köln",
+     "non_coperto": [],
+     "corners_home": 6.3,
+     "corners_away": 4.2,
+     "gap": 2.1,
+     "games": [
+      6,
+      4
+     ],
+     "tiri_home": 17.9,
+     "tiri_away": 12.0,
+     "tiri_gap": 6.0,
+     "tiri_games": [
+      6,
+      4
+     ],
+     "sot_home": 8.2,
+     "sot_away": 3.6,
+     "sot_gap": 4.6,
+     "sot_games": [
+      6,
+      4
+     ],
+     "falli_home": 10.5,
+     "falli_away": 9.9,
+     "falli_gap": 0.6,
+     "falli_games": [
+      13,
+      9
+     ],
+     "off_home": 1.7,
+     "off_away": 1.2,
+     "off_gap": 0.5,
+     "off_games": [
+      13,
+      9
+     ],
+     "cards": 3.5,
+     "cards_1t": 0.8,
+     "cards_home": 1.1,
+     "cards_away": 2.4,
+     "cards_1t_home": 0.2,
+     "cards_1t_away": 0.7,
+     "games_k": [
+      13,
+      9
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/1e2afd379a7d354c930f790c1f9ab0c2b50654cf4d47f20ffb269b8cfe309bca.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/b586b79d51436583827db4053e71f243046c61dd2523b5a50d7cc05a921900ec.webp"
+    },
+    {
+     "id": "m_3rtQqb",
+     "date": "2026-11-20",
+     "time": "2026-11-20",
+     "league": "Ligue 1",
+     "home": "Troyes",
+     "away": "Le Havre",
+     "non_coperto": [],
+     "corners_home": 5.7,
+     "corners_away": 3.6,
+     "gap": 2.1,
+     "games": [
+      5,
+      4
+     ],
+     "tiri_home": 13.3,
+     "tiri_away": 13.5,
+     "tiri_gap": 0.2,
+     "tiri_games": [
+      5,
+      4
+     ],
+     "sot_home": 4.4,
+     "sot_away": 4.4,
+     "sot_gap": 0.0,
+     "sot_games": [
+      5,
+      4
+     ],
+     "falli_home": 13.7,
+     "falli_away": 13.7,
+     "falli_gap": 0.0,
+     "falli_games": [
+      10,
+      10
+     ],
+     "off_home": 2.3,
+     "off_away": 1.6,
+     "off_gap": 0.7,
+     "off_games": [
+      10,
+      10
+     ],
+     "cards": 3.5,
+     "cards_1t": 1.2,
+     "cards_home": 1.8,
+     "cards_away": 1.7,
+     "cards_1t_home": 0.6,
+     "cards_1t_away": 0.6,
+     "games_k": [
+      10,
+      10
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/a805183b27f376ca106faf014559528f32f291be0a93b621357697efc173aeeb.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/c9c565fda39bde124db002c75a5b6a34a1a464a961dccf8ae7d256c8eac59ed6.webp"
+    }
+   ],
+   "tiri_sot": [
+    {
+     "id": "m_4McNx8",
+     "date": "2026-11-20",
+     "time": "2026-11-20",
+     "league": "Bundesliga",
+     "home": "Bayern München",
+     "away": "1. FC Köln",
+     "non_coperto": [],
+     "corners_home": 6.3,
+     "corners_away": 4.2,
+     "gap": 2.1,
+     "games": [
+      6,
+      4
+     ],
+     "tiri_home": 17.9,
+     "tiri_away": 12.0,
+     "tiri_gap": 6.0,
+     "tiri_games": [
+      6,
+      4
+     ],
+     "sot_home": 8.2,
+     "sot_away": 3.6,
+     "sot_gap": 4.6,
+     "sot_games": [
+      6,
+      4
+     ],
+     "falli_home": 10.5,
+     "falli_away": 9.9,
+     "falli_gap": 0.6,
+     "falli_games": [
+      13,
+      9
+     ],
+     "off_home": 1.7,
+     "off_away": 1.2,
+     "off_gap": 0.5,
+     "off_games": [
+      13,
+      9
+     ],
+     "cards": 3.5,
+     "cards_1t": 0.8,
+     "cards_home": 1.1,
+     "cards_away": 2.4,
+     "cards_1t_home": 0.2,
+     "cards_1t_away": 0.7,
+     "games_k": [
+      13,
+      9
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/1e2afd379a7d354c930f790c1f9ab0c2b50654cf4d47f20ffb269b8cfe309bca.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/b586b79d51436583827db4053e71f243046c61dd2523b5a50d7cc05a921900ec.webp"
+    },
+    {
+     "id": "m_0iaTdE",
+     "date": "2026-11-20",
+     "time": "2026-11-20",
+     "league": "LaLiga",
+     "home": "Athletic Club",
+     "away": "Espanyol",
+     "non_coperto": [],
+     "corners_home": 5.8,
+     "corners_away": 3.8,
+     "gap": 1.9,
+     "games": [
+      6,
+      6
+     ],
+     "tiri_home": 16.0,
+     "tiri_away": 9.1,
+     "tiri_gap": 6.9,
+     "tiri_games": [
+      6,
+      6
+     ],
+     "sot_home": 5.3,
+     "sot_away": 2.9,
+     "sot_gap": 2.4,
+     "sot_games": [
+      6,
+      6
+     ],
+     "falli_home": 11.0,
+     "falli_away": 14.5,
+     "falli_gap": 3.4,
+     "falli_games": [
+      11,
+      12
+     ],
+     "off_home": 1.0,
+     "off_away": 2.4,
+     "off_gap": 1.4,
+     "off_games": [
+      11,
+      12
+     ],
+     "cards": 5.2,
+     "cards_1t": 1.5,
+     "cards_home": 2.0,
+     "cards_away": 3.2,
+     "cards_1t_home": 0.5,
+     "cards_1t_away": 1.1,
+     "games_k": [
+      11,
+      12
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/3df8987ea318edccd9c2d8887b27324fa47c275eea7604e9e9c8539f5a69cda3.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/f8174b3077c6d721131a0171d6e57bfbe7d65bd7583f1d0a63befc59ce9b6da0.webp"
+    },
+    {
+     "id": "m_3rtQqb",
+     "date": "2026-11-20",
+     "time": "2026-11-20",
+     "league": "Ligue 1",
+     "home": "Troyes",
+     "away": "Le Havre",
+     "non_coperto": [],
+     "corners_home": 5.7,
+     "corners_away": 3.6,
+     "gap": 2.1,
+     "games": [
+      5,
+      4
+     ],
+     "tiri_home": 13.3,
+     "tiri_away": 13.5,
+     "tiri_gap": 0.2,
+     "tiri_games": [
+      5,
+      4
+     ],
+     "sot_home": 4.4,
+     "sot_away": 4.4,
+     "sot_gap": 0.0,
+     "sot_games": [
+      5,
+      4
+     ],
+     "falli_home": 13.7,
+     "falli_away": 13.7,
+     "falli_gap": 0.0,
+     "falli_games": [
+      10,
+      10
+     ],
+     "off_home": 2.3,
+     "off_away": 1.6,
+     "off_gap": 0.7,
+     "off_games": [
+      10,
+      10
+     ],
+     "cards": 3.5,
+     "cards_1t": 1.2,
+     "cards_home": 1.8,
+     "cards_away": 1.7,
+     "cards_1t_home": 0.6,
+     "cards_1t_away": 0.6,
+     "games_k": [
+      10,
+      10
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/a805183b27f376ca106faf014559528f32f291be0a93b621357697efc173aeeb.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/c9c565fda39bde124db002c75a5b6a34a1a464a961dccf8ae7d256c8eac59ed6.webp"
+    }
+   ],
+   "falli": [
+    {
+     "id": "m_0iaTdE",
+     "date": "2026-11-20",
+     "time": "2026-11-20",
+     "league": "LaLiga",
+     "home": "Athletic Club",
+     "away": "Espanyol",
+     "non_coperto": [],
+     "corners_home": 5.8,
+     "corners_away": 3.8,
+     "gap": 1.9,
+     "games": [
+      6,
+      6
+     ],
+     "tiri_home": 16.0,
+     "tiri_away": 9.1,
+     "tiri_gap": 6.9,
+     "tiri_games": [
+      6,
+      6
+     ],
+     "sot_home": 5.3,
+     "sot_away": 2.9,
+     "sot_gap": 2.4,
+     "sot_games": [
+      6,
+      6
+     ],
+     "falli_home": 11.0,
+     "falli_away": 14.5,
+     "falli_gap": 3.4,
+     "falli_games": [
+      11,
+      12
+     ],
+     "off_home": 1.0,
+     "off_away": 2.4,
+     "off_gap": 1.4,
+     "off_games": [
+      11,
+      12
+     ],
+     "cards": 5.2,
+     "cards_1t": 1.5,
+     "cards_home": 2.0,
+     "cards_away": 3.2,
+     "cards_1t_home": 0.5,
+     "cards_1t_away": 1.1,
+     "games_k": [
+      11,
+      12
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/3df8987ea318edccd9c2d8887b27324fa47c275eea7604e9e9c8539f5a69cda3.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/f8174b3077c6d721131a0171d6e57bfbe7d65bd7583f1d0a63befc59ce9b6da0.webp"
+    },
+    {
+     "id": "m_4McNx8",
+     "date": "2026-11-20",
+     "time": "2026-11-20",
+     "league": "Bundesliga",
+     "home": "Bayern München",
+     "away": "1. FC Köln",
+     "non_coperto": [],
+     "corners_home": 6.3,
+     "corners_away": 4.2,
+     "gap": 2.1,
+     "games": [
+      6,
+      4
+     ],
+     "tiri_home": 17.9,
+     "tiri_away": 12.0,
+     "tiri_gap": 6.0,
+     "tiri_games": [
+      6,
+      4
+     ],
+     "sot_home": 8.2,
+     "sot_away": 3.6,
+     "sot_gap": 4.6,
+     "sot_games": [
+      6,
+      4
+     ],
+     "falli_home": 10.5,
+     "falli_away": 9.9,
+     "falli_gap": 0.6,
+     "falli_games": [
+      13,
+      9
+     ],
+     "off_home": 1.7,
+     "off_away": 1.2,
+     "off_gap": 0.5,
+     "off_games": [
+      13,
+      9
+     ],
+     "cards": 3.5,
+     "cards_1t": 0.8,
+     "cards_home": 1.1,
+     "cards_away": 2.4,
+     "cards_1t_home": 0.2,
+     "cards_1t_away": 0.7,
+     "games_k": [
+      13,
+      9
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/1e2afd379a7d354c930f790c1f9ab0c2b50654cf4d47f20ffb269b8cfe309bca.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/b586b79d51436583827db4053e71f243046c61dd2523b5a50d7cc05a921900ec.webp"
+    },
+    {
+     "id": "m_3rtQqb",
+     "date": "2026-11-20",
+     "time": "2026-11-20",
+     "league": "Ligue 1",
+     "home": "Troyes",
+     "away": "Le Havre",
+     "non_coperto": [],
+     "corners_home": 5.7,
+     "corners_away": 3.6,
+     "gap": 2.1,
+     "games": [
+      5,
+      4
+     ],
+     "tiri_home": 13.3,
+     "tiri_away": 13.5,
+     "tiri_gap": 0.2,
+     "tiri_games": [
+      5,
+      4
+     ],
+     "sot_home": 4.4,
+     "sot_away": 4.4,
+     "sot_gap": 0.0,
+     "sot_games": [
+      5,
+      4
+     ],
+     "falli_home": 13.7,
+     "falli_away": 13.7,
+     "falli_gap": 0.0,
+     "falli_games": [
+      10,
+      10
+     ],
+     "off_home": 2.3,
+     "off_away": 1.6,
+     "off_gap": 0.7,
+     "off_games": [
+      10,
+      10
+     ],
+     "cards": 3.5,
+     "cards_1t": 1.2,
+     "cards_home": 1.8,
+     "cards_away": 1.7,
+     "cards_1t_home": 0.6,
+     "cards_1t_away": 0.6,
+     "games_k": [
+      10,
+      10
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/a805183b27f376ca106faf014559528f32f291be0a93b621357697efc173aeeb.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/c9c565fda39bde124db002c75a5b6a34a1a464a961dccf8ae7d256c8eac59ed6.webp"
+    }
+   ],
+   "fuorigiochi": [
+    {
+     "id": "m_0iaTdE",
+     "date": "2026-11-20",
+     "time": "2026-11-20",
+     "league": "LaLiga",
+     "home": "Athletic Club",
+     "away": "Espanyol",
+     "non_coperto": [],
+     "corners_home": 5.8,
+     "corners_away": 3.8,
+     "gap": 1.9,
+     "games": [
+      6,
+      6
+     ],
+     "tiri_home": 16.0,
+     "tiri_away": 9.1,
+     "tiri_gap": 6.9,
+     "tiri_games": [
+      6,
+      6
+     ],
+     "sot_home": 5.3,
+     "sot_away": 2.9,
+     "sot_gap": 2.4,
+     "sot_games": [
+      6,
+      6
+     ],
+     "falli_home": 11.0,
+     "falli_away": 14.5,
+     "falli_gap": 3.4,
+     "falli_games": [
+      11,
+      12
+     ],
+     "off_home": 1.0,
+     "off_away": 2.4,
+     "off_gap": 1.4,
+     "off_games": [
+      11,
+      12
+     ],
+     "cards": 5.2,
+     "cards_1t": 1.5,
+     "cards_home": 2.0,
+     "cards_away": 3.2,
+     "cards_1t_home": 0.5,
+     "cards_1t_away": 1.1,
+     "games_k": [
+      11,
+      12
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/3df8987ea318edccd9c2d8887b27324fa47c275eea7604e9e9c8539f5a69cda3.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/f8174b3077c6d721131a0171d6e57bfbe7d65bd7583f1d0a63befc59ce9b6da0.webp"
+    },
+    {
+     "id": "m_3rtQqb",
+     "date": "2026-11-20",
+     "time": "2026-11-20",
+     "league": "Ligue 1",
+     "home": "Troyes",
+     "away": "Le Havre",
+     "non_coperto": [],
+     "corners_home": 5.7,
+     "corners_away": 3.6,
+     "gap": 2.1,
+     "games": [
+      5,
+      4
+     ],
+     "tiri_home": 13.3,
+     "tiri_away": 13.5,
+     "tiri_gap": 0.2,
+     "tiri_games": [
+      5,
+      4
+     ],
+     "sot_home": 4.4,
+     "sot_away": 4.4,
+     "sot_gap": 0.0,
+     "sot_games": [
+      5,
+      4
+     ],
+     "falli_home": 13.7,
+     "falli_away": 13.7,
+     "falli_gap": 0.0,
+     "falli_games": [
+      10,
+      10
+     ],
+     "off_home": 2.3,
+     "off_away": 1.6,
+     "off_gap": 0.7,
+     "off_games": [
+      10,
+      10
+     ],
+     "cards": 3.5,
+     "cards_1t": 1.2,
+     "cards_home": 1.8,
+     "cards_away": 1.7,
+     "cards_1t_home": 0.6,
+     "cards_1t_away": 0.6,
+     "games_k": [
+      10,
+      10
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/a805183b27f376ca106faf014559528f32f291be0a93b621357697efc173aeeb.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/c9c565fda39bde124db002c75a5b6a34a1a464a961dccf8ae7d256c8eac59ed6.webp"
+    },
+    {
+     "id": "m_4McNx8",
+     "date": "2026-11-20",
+     "time": "2026-11-20",
+     "league": "Bundesliga",
+     "home": "Bayern München",
+     "away": "1. FC Köln",
+     "non_coperto": [],
+     "corners_home": 6.3,
+     "corners_away": 4.2,
+     "gap": 2.1,
+     "games": [
+      6,
+      4
+     ],
+     "tiri_home": 17.9,
+     "tiri_away": 12.0,
+     "tiri_gap": 6.0,
+     "tiri_games": [
+      6,
+      4
+     ],
+     "sot_home": 8.2,
+     "sot_away": 3.6,
+     "sot_gap": 4.6,
+     "sot_games": [
+      6,
+      4
+     ],
+     "falli_home": 10.5,
+     "falli_away": 9.9,
+     "falli_gap": 0.6,
+     "falli_games": [
+      13,
+      9
+     ],
+     "off_home": 1.7,
+     "off_away": 1.2,
+     "off_gap": 0.5,
+     "off_games": [
+      13,
+      9
+     ],
+     "cards": 3.5,
+     "cards_1t": 0.8,
+     "cards_home": 1.1,
+     "cards_away": 2.4,
+     "cards_1t_home": 0.2,
+     "cards_1t_away": 0.7,
+     "games_k": [
+      13,
+      9
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/1e2afd379a7d354c930f790c1f9ab0c2b50654cf4d47f20ffb269b8cfe309bca.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/b586b79d51436583827db4053e71f243046c61dd2523b5a50d7cc05a921900ec.webp"
+    }
+   ],
+   "cartellini": [
+    {
+     "id": "m_4McNx8",
+     "date": "2026-11-20",
+     "time": "2026-11-20",
+     "league": "Bundesliga",
+     "home": "Bayern München",
+     "away": "1. FC Köln",
+     "non_coperto": [],
+     "corners_home": 6.3,
+     "corners_away": 4.2,
+     "gap": 2.1,
+     "games": [
+      6,
+      4
+     ],
+     "tiri_home": 17.9,
+     "tiri_away": 12.0,
+     "tiri_gap": 6.0,
+     "tiri_games": [
+      6,
+      4
+     ],
+     "sot_home": 8.2,
+     "sot_away": 3.6,
+     "sot_gap": 4.6,
+     "sot_games": [
+      6,
+      4
+     ],
+     "falli_home": 10.5,
+     "falli_away": 9.9,
+     "falli_gap": 0.6,
+     "falli_games": [
+      13,
+      9
+     ],
+     "off_home": 1.7,
+     "off_away": 1.2,
+     "off_gap": 0.5,
+     "off_games": [
+      13,
+      9
+     ],
+     "cards": 3.5,
+     "cards_1t": 0.8,
+     "cards_home": 1.1,
+     "cards_away": 2.4,
+     "cards_1t_home": 0.2,
+     "cards_1t_away": 0.7,
+     "games_k": [
+      13,
+      9
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/1e2afd379a7d354c930f790c1f9ab0c2b50654cf4d47f20ffb269b8cfe309bca.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/b586b79d51436583827db4053e71f243046c61dd2523b5a50d7cc05a921900ec.webp"
+    },
+    {
+     "id": "m_3rtQqb",
+     "date": "2026-11-20",
+     "time": "2026-11-20",
+     "league": "Ligue 1",
+     "home": "Troyes",
+     "away": "Le Havre",
+     "non_coperto": [],
+     "corners_home": 5.7,
+     "corners_away": 3.6,
+     "gap": 2.1,
+     "games": [
+      5,
+      4
+     ],
+     "tiri_home": 13.3,
+     "tiri_away": 13.5,
+     "tiri_gap": 0.2,
+     "tiri_games": [
+      5,
+      4
+     ],
+     "sot_home": 4.4,
+     "sot_away": 4.4,
+     "sot_gap": 0.0,
+     "sot_games": [
+      5,
+      4
+     ],
+     "falli_home": 13.7,
+     "falli_away": 13.7,
+     "falli_gap": 0.0,
+     "falli_games": [
+      10,
+      10
+     ],
+     "off_home": 2.3,
+     "off_away": 1.6,
+     "off_gap": 0.7,
+     "off_games": [
+      10,
+      10
+     ],
+     "cards": 3.5,
+     "cards_1t": 1.2,
+     "cards_home": 1.8,
+     "cards_away": 1.7,
+     "cards_1t_home": 0.6,
+     "cards_1t_away": 0.6,
+     "games_k": [
+      10,
+      10
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/a805183b27f376ca106faf014559528f32f291be0a93b621357697efc173aeeb.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/c9c565fda39bde124db002c75a5b6a34a1a464a961dccf8ae7d256c8eac59ed6.webp"
+    },
+    {
+     "id": "m_0iaTdE",
+     "date": "2026-11-20",
+     "time": "2026-11-20",
+     "league": "LaLiga",
+     "home": "Athletic Club",
+     "away": "Espanyol",
+     "non_coperto": [],
+     "corners_home": 5.8,
+     "corners_away": 3.8,
+     "gap": 1.9,
+     "games": [
+      6,
+      6
+     ],
+     "tiri_home": 16.0,
+     "tiri_away": 9.1,
+     "tiri_gap": 6.9,
+     "tiri_games": [
+      6,
+      6
+     ],
+     "sot_home": 5.3,
+     "sot_away": 2.9,
+     "sot_gap": 2.4,
+     "sot_games": [
+      6,
+      6
+     ],
+     "falli_home": 11.0,
+     "falli_away": 14.5,
+     "falli_gap": 3.4,
+     "falli_games": [
+      11,
+      12
+     ],
+     "off_home": 1.0,
+     "off_away": 2.4,
+     "off_gap": 1.4,
+     "off_games": [
+      11,
+      12
+     ],
+     "cards": 5.2,
+     "cards_1t": 1.5,
+     "cards_home": 2.0,
+     "cards_away": 3.2,
+     "cards_1t_home": 0.5,
+     "cards_1t_away": 1.1,
+     "games_k": [
+      11,
+      12
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/3df8987ea318edccd9c2d8887b27324fa47c275eea7604e9e9c8539f5a69cda3.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/f8174b3077c6d721131a0171d6e57bfbe7d65bd7583f1d0a63befc59ce9b6da0.webp"
+    }
+   ],
+   "cartellini_1t": [
+    {
+     "id": "m_4McNx8",
+     "date": "2026-11-20",
+     "time": "2026-11-20",
+     "league": "Bundesliga",
+     "home": "Bayern München",
+     "away": "1. FC Köln",
+     "non_coperto": [],
+     "corners_home": 6.3,
+     "corners_away": 4.2,
+     "gap": 2.1,
+     "games": [
+      6,
+      4
+     ],
+     "tiri_home": 17.9,
+     "tiri_away": 12.0,
+     "tiri_gap": 6.0,
+     "tiri_games": [
+      6,
+      4
+     ],
+     "sot_home": 8.2,
+     "sot_away": 3.6,
+     "sot_gap": 4.6,
+     "sot_games": [
+      6,
+      4
+     ],
+     "falli_home": 10.5,
+     "falli_away": 9.9,
+     "falli_gap": 0.6,
+     "falli_games": [
+      13,
+      9
+     ],
+     "off_home": 1.7,
+     "off_away": 1.2,
+     "off_gap": 0.5,
+     "off_games": [
+      13,
+      9
+     ],
+     "cards": 3.5,
+     "cards_1t": 0.8,
+     "cards_home": 1.1,
+     "cards_away": 2.4,
+     "cards_1t_home": 0.2,
+     "cards_1t_away": 0.7,
+     "games_k": [
+      13,
+      9
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/1e2afd379a7d354c930f790c1f9ab0c2b50654cf4d47f20ffb269b8cfe309bca.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/b586b79d51436583827db4053e71f243046c61dd2523b5a50d7cc05a921900ec.webp"
+    },
+    {
+     "id": "m_3rtQqb",
+     "date": "2026-11-20",
+     "time": "2026-11-20",
+     "league": "Ligue 1",
+     "home": "Troyes",
+     "away": "Le Havre",
+     "non_coperto": [],
+     "corners_home": 5.7,
+     "corners_away": 3.6,
+     "gap": 2.1,
+     "games": [
+      5,
+      4
+     ],
+     "tiri_home": 13.3,
+     "tiri_away": 13.5,
+     "tiri_gap": 0.2,
+     "tiri_games": [
+      5,
+      4
+     ],
+     "sot_home": 4.4,
+     "sot_away": 4.4,
+     "sot_gap": 0.0,
+     "sot_games": [
+      5,
+      4
+     ],
+     "falli_home": 13.7,
+     "falli_away": 13.7,
+     "falli_gap": 0.0,
+     "falli_games": [
+      10,
+      10
+     ],
+     "off_home": 2.3,
+     "off_away": 1.6,
+     "off_gap": 0.7,
+     "off_games": [
+      10,
+      10
+     ],
+     "cards": 3.5,
+     "cards_1t": 1.2,
+     "cards_home": 1.8,
+     "cards_away": 1.7,
+     "cards_1t_home": 0.6,
+     "cards_1t_away": 0.6,
+     "games_k": [
+      10,
+      10
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/a805183b27f376ca106faf014559528f32f291be0a93b621357697efc173aeeb.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/c9c565fda39bde124db002c75a5b6a34a1a464a961dccf8ae7d256c8eac59ed6.webp"
+    },
+    {
+     "id": "m_0iaTdE",
+     "date": "2026-11-20",
+     "time": "2026-11-20",
+     "league": "LaLiga",
+     "home": "Athletic Club",
+     "away": "Espanyol",
+     "non_coperto": [],
+     "corners_home": 5.8,
+     "corners_away": 3.8,
+     "gap": 1.9,
+     "games": [
+      6,
+      6
+     ],
+     "tiri_home": 16.0,
+     "tiri_away": 9.1,
+     "tiri_gap": 6.9,
+     "tiri_games": [
+      6,
+      6
+     ],
+     "sot_home": 5.3,
+     "sot_away": 2.9,
+     "sot_gap": 2.4,
+     "sot_games": [
+      6,
+      6
+     ],
+     "falli_home": 11.0,
+     "falli_away": 14.5,
+     "falli_gap": 3.4,
+     "falli_games": [
+      11,
+      12
+     ],
+     "off_home": 1.0,
+     "off_away": 2.4,
+     "off_gap": 1.4,
+     "off_games": [
+      11,
+      12
+     ],
+     "cards": 5.2,
+     "cards_1t": 1.5,
+     "cards_home": 2.0,
+     "cards_away": 3.2,
+     "cards_1t_home": 0.5,
+     "cards_1t_away": 1.1,
+     "games_k": [
+      11,
+      12
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/3df8987ea318edccd9c2d8887b27324fa47c275eea7604e9e9c8539f5a69cda3.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/f8174b3077c6d721131a0171d6e57bfbe7d65bd7583f1d0a63befc59ce9b6da0.webp"
+    }
+   ],
+   "tutte": [
+    {
+     "id": "m_4McNx8",
+     "date": "2026-11-20",
+     "time": "2026-11-20",
+     "league": "Bundesliga",
+     "home": "Bayern München",
+     "away": "1. FC Köln",
+     "corners_home": 6.3,
+     "corners_away": 4.2,
+     "gap": 2.1,
+     "games": [
+      6,
+      4
+     ],
+     "tiri_home": 17.9,
+     "tiri_away": 12.0,
+     "tiri_gap": 6.0,
+     "tiri_games": [
+      6,
+      4
+     ],
+     "sot_home": 8.2,
+     "sot_away": 3.6,
+     "sot_gap": 4.6,
+     "sot_games": [
+      6,
+      4
+     ],
+     "falli_home": 10.5,
+     "falli_away": 9.9,
+     "falli_gap": 0.6,
+     "falli_games": [
+      13,
+      9
+     ],
+     "off_home": 1.7,
+     "off_away": 1.2,
+     "off_gap": 0.5,
+     "off_games": [
+      13,
+      9
+     ],
+     "cards": 3.5,
+     "cards_1t": 0.8,
+     "cards_home": 1.1,
+     "cards_away": 2.4,
+     "cards_1t_home": 0.2,
+     "cards_1t_away": 0.7,
+     "games_k": [
+      13,
+      9
+     ]
+    },
+    {
+     "id": "m_0iaTdE",
+     "date": "2026-11-20",
+     "time": "2026-11-20",
+     "league": "LaLiga",
+     "home": "Athletic Club",
+     "away": "Espanyol",
+     "corners_home": 5.8,
+     "corners_away": 3.8,
+     "gap": 1.9,
+     "games": [
+      6,
+      6
+     ],
+     "tiri_home": 16.0,
+     "tiri_away": 9.1,
+     "tiri_gap": 6.9,
+     "tiri_games": [
+      6,
+      6
+     ],
+     "sot_home": 5.3,
+     "sot_away": 2.9,
+     "sot_gap": 2.4,
+     "sot_games": [
+      6,
+      6
+     ],
+     "falli_home": 11.0,
+     "falli_away": 14.5,
+     "falli_gap": 3.4,
+     "falli_games": [
+      11,
+      12
+     ],
+     "off_home": 1.0,
+     "off_away": 2.4,
+     "off_gap": 1.4,
+     "off_games": [
+      11,
+      12
+     ],
+     "cards": 5.2,
+     "cards_1t": 1.5,
+     "cards_home": 2.0,
+     "cards_away": 3.2,
+     "cards_1t_home": 0.5,
+     "cards_1t_away": 1.1,
+     "games_k": [
+      11,
+      12
+     ]
+    },
+    {
+     "id": "m_3rtQqb",
+     "date": "2026-11-20",
+     "time": "2026-11-20",
+     "league": "Ligue 1",
+     "home": "Troyes",
+     "away": "Le Havre",
+     "corners_home": 5.7,
+     "corners_away": 3.6,
+     "gap": 2.1,
+     "games": [
+      5,
+      4
+     ],
+     "tiri_home": 13.3,
+     "tiri_away": 13.5,
+     "tiri_gap": 0.2,
+     "tiri_games": [
+      5,
+      4
+     ],
+     "sot_home": 4.4,
+     "sot_away": 4.4,
+     "sot_gap": 0.0,
+     "sot_games": [
+      5,
+      4
+     ],
+     "falli_home": 13.7,
+     "falli_away": 13.7,
+     "falli_gap": 0.0,
+     "falli_games": [
+      10,
+      10
+     ],
+     "off_home": 2.3,
+     "off_away": 1.6,
+     "off_gap": 0.7,
+     "off_games": [
+      10,
+      10
+     ],
+     "cards": 3.5,
+     "cards_1t": 1.2,
+     "cards_home": 1.8,
+     "cards_away": 1.7,
+     "cards_1t_home": 0.6,
+     "cards_1t_away": 0.6,
+     "games_k": [
+      10,
+      10
+     ]
+    }
+   ]
+  }
+ }
 }
