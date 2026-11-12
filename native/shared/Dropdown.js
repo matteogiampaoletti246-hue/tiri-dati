@@ -38,20 +38,20 @@ export default function Dropdown({ C, options, value, onChange, side = 'right', 
     if (busy.current) return;
     busy.current = true;
     setPicked(kOf(o));
-    fl.value = withTiming(1, { duration: 350 });
+    fl.value = withTiming(1, { duration: 260 });
     // 450 ms: la tendina si ripiega e il velo si schiarisce
-    setTimeout(() => { cl.value = withTiming(1, { duration: 550, easing: INOUT }); sc.value = withTiming(0, { duration: 350 }); }, 450);
+    setTimeout(() => { cl.value = withTiming(1, { duration: 410, easing: INOUT }); sc.value = withTiming(0, { duration: 260 }); }, 340);
     // 750 ms: il tasto si gira (a 90 gradi cambia la voce, poi torna con una molla)
-    setTimeout(() => { flip.value = withSequence(withTiming(90, { duration: 350, easing: Easing.in(Easing.quad) }), withTiming(-90, { duration: 0 }), withSpring(0, { damping: 9, stiffness: 140, mass: 0.9 })); }, 750);
-    setTimeout(() => { close(); }, 1020);
+    setTimeout(() => { flip.value = withSequence(withTiming(90, { duration: 260, easing: Easing.in(Easing.quad) }), withTiming(-90, { duration: 0 }), withSpring(0, { damping: 9, stiffness: 250, mass: 0.9 })); }, 560);
+    setTimeout(() => { close(); }, 765);
     setTimeout(() => {
       setOv(o);
       startTransition(() => onChange(kOf(o)));
       cancelAnimation(flash); cancelAnimation(glow);
-      flash.value = 0.45; flash.value = withTiming(0, { duration: 800 });
-      glow.value = 0; glow.value = withDelay(100, withTiming(1, { duration: 1000 }));
-    }, 1100);
-    setTimeout(() => { busy.current = false; }, 1700);
+      flash.value = 0.45; flash.value = withTiming(0, { duration: 600 });
+      glow.value = 0; glow.value = withDelay(75, withTiming(1, { duration: 750 }));
+    }, 825);
+    setTimeout(() => { busy.current = false; }, 1275);
   };
   const rich = options.some((o) => okHex(o.color));
   const wid = fill && pos ? Math.max(pos.w, minWidth || 0, rich ? 270 : 200) : Math.max(width, minWidth || 0);
