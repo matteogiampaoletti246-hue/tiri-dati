@@ -10,6 +10,8 @@ import Svg, { G, Rect, Line, Circle, Polyline } from 'react-native-svg';
 import './shim';
 import { closePlayer, openPlayer, findInMatch, matchOf, ourPlayerId, usePlayerSheet } from '@/data/playerSheet';
 import { norm } from '@/data/util';
+import { teamById } from '@/data/teams';
+import { playerFouls, useMatchFouls } from './foulsMatch';
 import { comma } from '@/lib/format';
 import { scoreColorSmooth } from '@/lib/calc';
 import { TeamCrest, Segmented } from './ui';
@@ -118,7 +120,8 @@ function tabRows(c) {
   return out;
 }
 
-function StatTabs({ C, c }) {
+const FOUL_KIND = { fouls: 'fc', was_fouled: 'fs' };
+function StatTabs({ C, c, fl, onFouls }) {
   const [i, setI] = useState(0);
   const tabs = tabRows(c).filter((t) => t.rows.length); // scheda senza righe = nascosta
   const cur = tabs[Math.min(i, tabs.length - 1)];
@@ -127,12 +130,32 @@ function StatTabs({ C, c }) {
     <View style={{ gap: 12 }}>
       <Segmented C={C} options={tabs.map((t, k) => ({ value: k, label: t.title }))} value={Math.min(i, tabs.length - 1)} onChange={setI} />
       <View style={{ borderRadius: 18, paddingHorizontal: 16, paddingVertical: 4, backgroundColor: C.chip }}>
-        {cur.rows.map((r, k) => (
-          <View key={r.k} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 10, borderTopWidth: k ? 1 : 0, borderTopColor: C.hair }}>
-            <Text style={{ color: C.ink2, fontSize: 13.5 }}>{r.label}</Text>
-            <Text style={{ color: C.ink, fontSize: 13.5, fontWeight: '700' }}>{r.text}</Text>
-          </View>
-        ))}
+        {cur.rows.map((r, k) => {
+          const kind = FOUL_KIND[r.k];
+          const n = kind && fl ? playerFouls(fl, c.name, c.fmId, kind).reduce((t, x) => t + x.mins.length, 0) : 0;
+          const row = { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 10, borderTopWidth: k ? 1 : 0, borderTopColor: C.hair };
+          // falli con i nomi (ESPN): la riga diventa un tasto che apre chi li ha fatti / subiti; senza nomi resta una riga normale
+          if (n > 0) {
+            return (
+              <Pressable key={r.k} onPress={() => onFouls(kind)} style={({ pressed }) => [row, { opacity: pressed ? 0.6 : 1 }]}>
+                <Text style={{ color: C.ink2, fontSize: 13.5 }}>{r.label}</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                  <Text style={{ color: C.ink, fontSize: 13.5, fontWeight: '700' }}>{r.text}</Text>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 2, borderRadius: 999, paddingLeft: 10, paddingRight: 6, paddingVertical: 4, backgroundColor: C.accent }}>
+                    <Text style={{ color: '#fff', fontSize: 11.5, fontWeight: '800' }}>{kind === 'fc' ? 'Su chi' : 'Da chi'}</Text>
+                    <Ionicons name="chevron-forward" size={13} color="#fff" />
+                  </View>
+                </View>
+              </Pressable>
+            );
+          }
+          return (
+            <View key={r.k} style={row}>
+              <Text style={{ color: C.ink2, fontSize: 13.5 }}>{r.label}</Text>
+              <Text style={{ color: C.ink, fontSize: 13.5, fontWeight: '700' }}>{r.text}</Text>
+            </View>
+          );
+        })}
       </View>
     </View>
   );
@@ -277,7 +300,7 @@ function Badges({ C, c, onOpen }) {
   );
 }
 
-function Body({ C, c, onOpen }) {
+function Body({ C, c, onOpen, fl, onFouls }) {
   const noStats = !c.groups.length;
   const kpi = KPI_KEYS.map((k) => ({ k, label: (c.flat[k] && c.flat[k].label) || KPI_FALLBACK[k], text: c.flat[k] ? c.flat[k].text : (k === 'minutes_played' && c.liveMins != null ? String(c.liveMins) : '—') }));
   return (
@@ -294,8 +317,52 @@ function Body({ C, c, onOpen }) {
         </View>
       ) : null}
       <ShotExplorer key={c.name} C={C} shots={c.shots} colors={c.team ? c.team.colors : null} />
-      {!noStats ? <StatTabs key={`${c.name}t`} C={C} c={c} /> : null}
+      {!noStats ? <StatTabs key={`${c.name}t`} C={C} c={c} fl={fl} onFouls={onFouls} /> : null}
     </View>
+  );
+}
+
+// ── elenco di chi ha fatto / subito i falli (si apre con swipe laterale dalla riga dei falli; indietro: freccia o swipe a destra)
+function FoulsPane({ C, c, kind, list, fx, W, onBack, onOpen }) {
+  const rows = playerFouls(list, c.name, c.fmId, kind);
+  const tot = rows.reduce((t, x) => t + x.mins.length, 0);
+  const team = (side) => teamById(side === 'home' ? c.match.homeId : c.match.awayId);
+  return (
+    <Animated.View style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, backgroundColor: C.sheet, transform: [{ translateX: fx.interpolate({ inputRange: [0, 1], outputRange: [W, 0] }) }] }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 20, paddingTop: 6, paddingBottom: 12 }}>
+        <Pressable onPress={onBack} hitSlop={10} style={{ width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center', backgroundColor: C.chip, borderWidth: 1, borderColor: C.border }}>
+          <Ionicons name="arrow-back" size={20} color={C.ink} />
+        </Pressable>
+        <View style={{ flex: 1 }}>
+          <Text style={{ color: C.ink, fontSize: 16, fontWeight: '800' }}>{kind === 'fc' ? 'Falli commessi' : 'Falli subiti'}</Text>
+          <Text numberOfLines={1} style={{ color: C.ink3, fontSize: 12 }}>{kind === 'fc' ? 'A chi ha fatto fallo' : 'Chi gli ha fatto fallo'} · {tot} {tot === 1 ? 'fallo' : 'falli'}</Text>
+        </View>
+      </View>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 120, gap: 10 }}>
+        {rows.map((r) => {
+          const tm = team(r.who.side);
+          const photo = r.who.fmId ? `https://images.fotmob.com/image_resources/playerimages/${r.who.fmId}.png` : null;
+          return (
+            <Pressable key={r.who.fmId || r.who.name} onPress={() => onOpen({ name: r.who.name, fmId: r.who.fmId || undefined })} style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', gap: 12, borderRadius: 18, padding: 12, backgroundColor: C.chip, opacity: pressed ? 0.7 : 1 }]}>
+              <View style={{ width: 46, height: 46, borderRadius: 23, overflow: 'hidden', backgroundColor: C.hair, alignItems: 'center', justifyContent: 'flex-end' }}>
+                {photo ? <Image source={{ uri: photo }} style={{ width: 46, height: 46 }} contentFit="cover" cachePolicy="memory-disk" /> : <Ionicons name="person" size={36} color="rgba(255,255,255,.55)" />}
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text numberOfLines={1} style={{ color: C.ink, fontSize: 14.5, fontWeight: '800' }}>{r.who.name}</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 2 }}>
+                  {tm ? <TeamCrest team={tm} size={14} C={C} /> : null}
+                  <Text numberOfLines={1} style={{ flex: 1, color: C.ink3, fontSize: 12 }}>{tm ? tm.name : ''}</Text>
+                </View>
+              </View>
+              <View style={{ alignItems: 'flex-end', maxWidth: 130 }}>
+                <Text style={{ color: C.ink, fontSize: 18, fontWeight: '800' }}>{r.mins.length}</Text>
+                <Text style={{ color: C.ink3, fontSize: 11.5, textAlign: 'right' }}>{r.mins.join(' · ')}</Text>
+              </View>
+            </Pressable>
+          );
+        })}
+      </ScrollView>
+    </Animated.View>
   );
 }
 
@@ -318,9 +385,17 @@ export default function PlayerSheetHost({ C, bottom = 0, openRoute }) {
   const [mounted, setMounted] = useState(false);
   const live = useRef({});
   const busy = useRef(false);
+  const fl = useMatchFouls(c ? c.match : null); // chi ha fatto/subito i falli (ESPN), per il tasto sulle righe dei falli
+  const fx = useRef(new Animated.Value(0)).current;
+  const [fv, setFv] = useState(null); // 'fc' | 'fs' = elenco falli aperto
+  const { width: Wd } = useWindowDimensions();
+  const openFouls = (kind) => { setFv(kind); fx.setValue(0); Animated.timing(fx, { toValue: 1, duration: 280, easing: EASE, useNativeDriver: true }).start(); };
+  const closeFouls = () => { Animated.timing(fx, { toValue: 0, duration: 240, easing: EASE, useNativeDriver: true }).start(({ finished }) => { if (finished) setFv(null); }); };
+  const sheetName = sheet ? sheet.name : null;
+  useEffect(() => { setFv(null); fx.setValue(0); }, [sheetName]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const open = !!(sheet && c);
-  live.current = { c, sheet, open };
+  live.current = { c, sheet, open, fv, closeFouls };
   const [full, setFull] = useState(false); // altezza piena: niente spazio in piu' sotto la lista
   const snap = (to, then) => { base.current = to; setFull(to === 0); y.stopAnimation(); Animated.timing(y, { toValue: to, duration: DUR, easing: EASE, useNativeDriver: true }).start(({ finished }) => { if (finished && then) then(); }); };
   // apertura e chiusura: se si riapre mentre sta ancora chiudendo (altra tendina subito dopo) si risale senza smontare; la fine della chiusura smonta solo se nel frattempo non si e' riaperta
@@ -377,7 +452,11 @@ export default function PlayerSheetHost({ C, bottom = 0, openRoute }) {
   // corpo: swipe laterale tra compagni
   const side = useRef(PanResponder.create({
     onMoveShouldSetPanResponder: (_, g) => Math.abs(g.dx) > 16 && Math.abs(g.dx) > Math.abs(g.dy) * 2,
-    onPanResponderRelease: (_, g) => { if (Math.abs(g.dx) > 70 || Math.abs(g.vx) > 0.5) go(g.dx < 0 ? 1 : -1); },
+    onPanResponderRelease: (_, g) => {
+      if (!(Math.abs(g.dx) > 70 || Math.abs(g.vx) > 0.5)) return;
+      if (live.current.fv) { if (g.dx > 0) live.current.closeFouls(); return; } // con l'elenco falli aperto: swipe a destra = indietro
+      go(g.dx < 0 ? 1 : -1);
+    },
   })).current;
 
   if (!mounted || !c) return null;
@@ -406,8 +485,9 @@ export default function PlayerSheetHost({ C, bottom = 0, openRoute }) {
         </View>
         <Animated.View {...side.panHandlers} style={{ flex: 1, opacity: fade, transform: [{ translateX: slide }] }}>
           <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 90 + bottom + (full ? 0 : HALF) }}>
-            <Body C={C} c={c} onOpen={switchTo} />
+            <Body C={C} c={c} onOpen={switchTo} fl={fl} onFouls={openFouls} />
           </ScrollView>
+          {fv ? <FoulsPane C={C} c={c} kind={fv} list={fl} fx={fx} W={Wd} onBack={closeFouls} onOpen={(to) => switchTo(to, 1)} /> : null}
         </Animated.View>
         <Animated.View style={{ position: 'absolute', left: 0, right: 0, bottom: 0, flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 20, paddingTop: 12, paddingBottom: Math.max(14, bottom), transform: [{ translateY: foot }] }}>
           <LinearGradient pointerEvents="none" colors={['rgba(0,0,0,0)', C.sheet]} locations={[0, 0.3]} style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }} />
