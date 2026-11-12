@@ -1,6 +1,8 @@
 // Calcolatore: scheda Affidabilità giocatore (nativa). Stessa logica di components/calc/PlayerTab.jsx del sito, con i dati e i calcoli condivisi.
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { View, Text, Pressable, TextInput, StyleSheet } from 'react-native';
+import Animated from 'react-native-reanimated';
+import { FxSwitch, BannerIn, useFx } from '../shared/fx';
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -173,6 +175,17 @@ function warmPlayer(id) {
 
 function PlayerPick({ C, form, set, player, onSelectPlayer, stat, onStat, role, natHit, openRoute, hitN, hitChart }) {
   const [picker, setPicker] = useState(false);
+  const { banner: fxBanner } = useFx();
+  // entrata del banner (prova animazioni): parte quando la foto e' gia' caricata; alla prima apertura della scheda niente animazione
+  const pid = player ? player.id : null;
+  const initPid = useRef(pid);
+  const [readyFor, setReadyFor] = useState(null);
+  useEffect(() => {
+    if (!pid) return undefined;
+    if (!player.photo) { setReadyFor(pid); return undefined; }
+    const t = setTimeout(() => setReadyFor(pid), 900);
+    return () => clearTimeout(t);
+  }, [pid]); // eslint-disable-line react-hooks/exhaustive-deps
   const club = player ? (player.nat && player.club ? player.club : player) : null;
   const team = club ? teamById(club.teamId) : null;
   const col = playerColor(player, form.competizione, team && team.colors ? team.colors[0] : C.accent);
@@ -189,12 +202,13 @@ function PlayerPick({ C, form, set, player, onSelectPlayer, stat, onStat, role, 
         {player ? (
           <View style={{ backgroundColor: C.sheet }}>
             <LinearGradient pointerEvents="none" colors={[col + 'CC', col + '40', col + '14']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={StyleSheet.absoluteFill} />
+            <BannerIn variant={fxBanner} k={pid} ready={readyFor === pid} still={initPid.current}>{(photoStyle) => (<>
             <View style={{ padding: 14, flexDirection: 'row', alignItems: 'center', gap: 8 }}>
               <Pressable onPress={() => openRoute && openRoute(`/giocatore/${club.id}`)} style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-                <View style={{ width: 56, height: 56 }}>
-                  <View style={{ width: 56, height: 56, borderRadius: 28, borderWidth: 2.5, borderColor: col, overflow: 'hidden' }}><Face uri={player.photo} color={col} size={51} /></View>
+                <Animated.View style={[{ width: 56, height: 56 }, photoStyle]}>
+                  <View style={{ width: 56, height: 56, borderRadius: 28, borderWidth: 2.5, borderColor: col, overflow: 'hidden' }}><Face uri={player.photo} color={col} size={51} onReady={() => setReadyFor(pid)} /></View>
                   <RoleBadge C={C} role={role} />
-                </View>
+                </Animated.View>
                 <View style={{ flex: 1 }}>
                   <Text numberOfLines={1} style={{ color: C.ink, fontSize: 18, fontWeight: '700' }}>{player.name}</Text>
                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5, marginTop: 4 }}>
@@ -209,6 +223,7 @@ function PlayerPick({ C, form, set, player, onSelectPlayer, stat, onStat, role, 
               <Pressable onPress={() => setPicker(true)} style={{ paddingHorizontal: 12, paddingVertical: 7, borderRadius: 999, backgroundColor: C.accent }}><Text style={{ color: '#fff', fontWeight: '700', fontSize: 12.5 }}>Cambia</Text></Pressable>
             </View>
             <NextMatchBtn C={C} ownId={ownId} altId={club && club.teamId} oppId={form.opp && form.opp.id} comp={comp} col={col} openRoute={openRoute} style={{ marginHorizontal: 14, marginBottom: 14 }} />
+            </>)}</BannerIn>
           </View>
         ) : (
           <Pressable onPress={() => setPicker(true)} style={{ padding: 18, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -854,6 +869,7 @@ export default function CalcPlayer({ C, openRoute }) {
   return (
     <TintProvider color={teamCol}>
     <View style={{ paddingHorizontal: 20, paddingTop: 16, paddingBottom: 40 }}>
+      <FxSwitch C={C} />
       <PlayerPick C={C} form={vform} set={vset} player={player} onSelectPlayer={selectPlayer} stat={form.stat || 'tiri'} onStat={onStat} role={myRole} natHit={natHit} openRoute={openRoute} hitN={vform.hitN} hitChart={!!player && (fouls ? parseDash(f.last5).length : parseDash(form.shots5).length) > 0} />
       <Gap />
       {fouls ? (
