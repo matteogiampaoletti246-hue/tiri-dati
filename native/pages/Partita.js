@@ -52,17 +52,19 @@ export default function Partita({ C, top, onBack, bottom = 90, openRoute, params
       await prepareMatch(id);
       if (on) bump((n) => n + 1);
     })().catch(() => on && setOk(true));
-    // live: ogni 5 s; prima del fischio solo dentro la finestra delle formazioni
+    // live: ogni 3 s (anche prima del fischio dentro la finestra formazioni; fuori finestra ogni 30-60 s); al ritorno dal background un giro parte subito
     let n = 0;
     let busy = false;
-    const t = setInterval(() => {
-      // fermo con l'app in background e per qualche secondo dopo il ritorno: l'app deve prima tornare a rispondere al tocco; mai due richieste insieme
-      if (AppState.currentState !== 'active' || Date.now() < (globalThis.__resumeUntil || 0) || busy) return;
+    const run = (force) => {
+      if (AppState.currentState !== 'active' || busy) return;
       n += 1;
       const beat = lineupBeat(matchById(id));
-      if (beat && n % beat === 0) { busy = true; prepareMatch(id, true).then(() => on && bump((x) => x + 1)).catch(() => {}).finally(() => { busy = false; }); }
-    }, 5000);
-    return () => { on = false; clearInterval(t); };
+      const every = beat <= 1 ? 1 : Math.round((beat * 5) / 3);
+      if (beat && (force || n % every === 0)) { busy = true; prepareMatch(id, true).then(() => on && bump((x) => x + 1)).catch(() => {}).finally(() => { busy = false; }); }
+    };
+    const t = setInterval(() => run(false), 3000);
+    const sub = AppState.addEventListener('change', (st) => { if (st === 'active') run(true); });
+    return () => { on = false; clearInterval(t); sub.remove(); };
   }, [id]);
 
   const pos = useSharedValue(0);

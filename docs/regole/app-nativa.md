@@ -193,7 +193,7 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 - Colore di banner, riquadri e tabelle = squadra della competizione scelta nelle Statistiche (club = colore club, Nations League = colore nazionale); aprendo dalla nazionale parte la nazionale. Sotto il nome: stemma club + nome | bandiera + nazione, per tutti i giocatori (`ClubNatN`).
 - Niente "voto stagione" nel banner. Affidabilita' prossima partita: tendina con icone (come Migliori Giocatori) e numeri colorati (`scoreColorSmooth`).
 - Contorni multicolore (`RingBox`) FERMI: l'animazione girevole costava un livello grafico per tasto.
-- Al ritorno dal background i dati in secondo piano (`pullLive`, `freshSeason`) restano fermi 5 s (`globalThis.__resumeUntil`).
+- Al ritorno dal background il risultato/minuto live e le statistiche si aggiornano SUBITO (Home e pagina partita, un giro immediato); `__resumeUntil` non esiste piu'.
 - Nel pannello laterale la foto non ha riquadro ne' sfumatura (volto ritagliato, appoggiato al fondo).
 
 ## App nativa: ricerca, riquadri e partite (11/11)
@@ -285,3 +285,8 @@ Come nel sito: il filtro delle linee (`Segmented fit pad={10}`) prende lo spazio
 
 ## Niente `InteractionManager` da react-native (12/11/2026, regola fissa)
 - La build Expo usa l'ULTIMO SDK (`create-expo-app@latest`): react-native 0.88 ha tolto `InteractionManager` dal core e `InteractionManager.runAfterInteractions` dava "Cannot read property 'runAfterInteractions' of undefined" aprendo Migliori Giocatori e Migliori Matchup. Usare sempre `import { InteractionManager } from '../shared/afterInteractions'` (timer, stessa interfaccia), mai da `react-native`. Prima di usare un'API di react-native nuova controllare che esista nell'ultima versione.
+
+
+## Live: ogni 3 secondi (12/11/2026)
+- Home (`refresh`) e pagina partita (`prepareMatch(id, true)`) si aggiornano ogni 3 s quando c'e' una partita live; prima del fischio dentro la finestra formazioni ogni 3 s, fuori finestra 30-60 s. Stessa fonte (worker `/f` e `/fx`), cosi' il minuto e' uguale ovunque.
+- Al ritorno dal background e alla chiusura di una pagina sopra la Home parte subito un giro (Home: `__homeLiveNow`). iOS non esegue codice in background (Expo Go): in background niente giri, ma appena l'app torna attiva i dati sono aggiornati subito.

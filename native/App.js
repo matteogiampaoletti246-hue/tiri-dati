@@ -1320,22 +1320,22 @@ function Screen({ onTheme, onReset, themePref }) {
       }
       const v3 = viewRef.current;
       const anyLive = !!v3 && v3.data.some((d) => d.some((m) => m[8] === 'l'));
-      if (alive) t = setTimeout(tick, anyLive ? 5000 : 60000);
+      if (alive) t = setTimeout(tick, anyLive ? 3000 : 60000);
     };
     tick();
+    globalThis.__homeLiveNow = () => { clearTimeout(t); t = setTimeout(tick, 0); };
     // al ritorno dal background l'aggiornamento parte con calma: prima l'app deve tornare a rispondere al tocco
-    const sub = AppState.addEventListener('change', (st) => { if (st === 'active') { clearTimeout(t); t = setTimeout(() => InteractionManager.runAfterInteractions(tick), 2500); } });
-    return () => { alive = false; clearTimeout(t); sub.remove(); };
+    const sub = AppState.addEventListener('change', (st) => { if (st === 'active') { clearTimeout(t); t = setTimeout(tick, 0); } });
+    return () => { alive = false; clearTimeout(t); sub.remove(); globalThis.__homeLiveNow = null; };
   }, [!!data, refresh]);
 
-  const markClosed = useCallback(() => { openRef.current = false; setWebOpen(false); }, []);
+  const markClosed = useCallback(() => { openRef.current = false; setWebOpen(false); if (globalThis.__homeLiveNow) globalThis.__homeLiveNow(); }, []);
   // Ritorno dal background: come tutte le app. Entro 10 minuti non si tocca niente (stessa pagina, stessi gesti, stessi tasti);
   // oltre 10 minuti l'app riparte da zero. In background l'app non fa nulla e al ritorno i dati in rete aspettano qualche secondo.
   useEffect(() => {
     const sub = AppState.addEventListener('change', (st) => {
       if (st === 'background') { bgAt.current = Date.now(); return; }
       if (st !== 'active') return;
-      globalThis.__resumeUntil = Date.now() + 5000;
       const gap = bgAt.current ? Date.now() - bgAt.current : 0;
       bgAt.current = 0;
       if (gap > 10 * 60 * 1000) { try { Image.clearMemoryCache(); } catch (e) { /* ignora */ } if (onReset) onReset(); }
@@ -1371,7 +1371,7 @@ function Screen({ onTheme, onReset, themePref }) {
   const onTop = useCallback((route) => {
     if (!route) { setHomeTop((n) => n + 1); return; }
   }, []);
-  const closeWeb = useCallback(() => { hx.value = 0; openRef.current = false; setWebOpen(false); ov.value = withTiming(W, { duration: 240, easing: Easing.out(Easing.cubic) }, (done) => { if (done) runOnJS(afterClose)(); }); }, [afterClose, ov, hx]);
+  const closeWeb = useCallback(() => { hx.value = 0; openRef.current = false; setWebOpen(false); if (globalThis.__homeLiveNow) globalThis.__homeLiveNow(); ov.value = withTiming(W, { duration: 240, easing: Easing.out(Easing.cubic) }, (done) => { if (done) runOnJS(afterClose)(); }); }, [afterClose, ov, hx]);
   const dockHome = useCallback(() => { closeWeb(); hx.value = -W; hx.value = withTiming(0, { duration: 240, easing: Easing.out(Easing.cubic) }); }, [closeWeb, hx]); // Home dal dock: Home rientra da sinistra insieme alla pagina che esce
   const finishPop = useCallback(() => { setNatStack((q) => q.slice(0, -1)); }, []);
   const popNat = useCallback(() => {
