@@ -191,7 +191,7 @@ export function statComps(p, car) {
   return { natLg, baseComps, comps, hasCurApp };
 }
 
-export default function GiocatoreStat({ C, player: p, team, car, openRoute }) {
+export default function GiocatoreStat({ C, player: p, team, car, openRoute, noMaps }) {
   const { natLg, baseComps, comps, hasCurApp } = statComps(p, car);
   const [comp, setComp] = useSel(p.id, 'sc', comps.length ? comps[0].id : null);
   const [season, setSeason] = useSel(p.id, 'ss', () => (p.archive ? p.sk : 'cur'));
@@ -270,8 +270,8 @@ export default function GiocatoreStat({ C, player: p, team, car, openRoute }) {
   }
   return (
     <View>
-      <PlayerMapsN C={C} comps={comps} fmPid={fmPid} name={p.name} color={team && team.colors ? team.colors[0] : null} openRoute={openRoute} />
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 16, paddingTop: 16, paddingBottom: 4 }}>
+      {noMaps ? null : <PlayerMapsN C={C} comps={comps} fmPid={fmPid} name={p.name} color={team && team.colors ? team.colors[0] : null} openRoute={openRoute} />}
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 16, paddingTop: noMaps ? 12 : 16, paddingBottom: 4 }}>
         {comps.length ? <DropBtn C={C} title="Competizione" label={curLg ? curLg.name : ''} icon={<LeagueLogo league={curLg} size={24} C={C} />} options={comps.map((c) => ({ value: c.id, label: c.name, icon: <LeagueLogo league={c} size={26} C={C} /> }))} value={comp} onChange={(c) => { setComp(c); setSeason('cur'); }} /> : null}
         {sOpts ? <DropBtn C={C} title="Stagione" label={sLabel} options={sOpts} value={seasonEff || 'cur'} onChange={setSeason} /> : null}
       </View>

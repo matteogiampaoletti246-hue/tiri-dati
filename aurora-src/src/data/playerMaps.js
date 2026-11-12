@@ -6,10 +6,13 @@ import { useEffect, useState } from 'react';
 import { loadSeasonMatches, loadSeason, loadFalliFile, currentSeason, pastSeasons } from './archive';
 import { mapShots } from './fotmob';
 import { teamByFm } from './teams';
+import { WORKER } from './load';
 import { lruGet, lruSet } from '@/lib/lru';
 
 export const SX_FROM = 2019; // le posizioni dei tiri si scaricano dalle stagioni 2019-20
 const CACHE = new Map();
+const nm = (x) => String(x || '').normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+const sameName = (a, b) => { const x = nm(a); const y = nm(b); return !!x && !!y && (x === y || x.includes(y) || y.includes(x)); };
 
 // stagioni di una competizione con dati (la piu' recente per prima)
 export async function mapSeasons(fm) {
@@ -39,6 +42,19 @@ async function loadOne(pid, fm, sk, name) {
     const names = (arch && arch.teams) || {};
     const shots = [];
     const fouls = [];
+    // stagione in corso: le partite non ancora passate nell'archivio (`sx` assente) si prendono dalla partita stessa (stesso formato)
+    if ((await currentSeason(fm)) === sk) {
+      const inLu = (m) => [...((m.h && m.h.st) || []), ...((m.h && m.h.sb) || []), ...((m.a && m.a.st) || []), ...((m.a && m.a.sb) || [])].find((p) => String(p[0]) === String(pid));
+      await Promise.all(Object.entries(ms).filter(([, m]) => m && !Array.isArray(m.sx) && inLu(m)).map(async ([mid, m]) => {
+        try {
+          const r = await fetch(`${WORKER}/fs?id=${mid}`);
+          const j = r.ok ? await r.json() : null;
+          const who = inLu(m)[1] || name;
+          m.sx = ((j && j.sh) || []).filter((x) => !x[17] && x[4] != null && x[5] != null).map((x) => [...x.slice(0, 3), x[3], ...x.slice(4, 19), (sameName(x[3], who) ? pid : null)]);
+          m.sx.forEach((x) => { if (x[19] != null) x[3] = pid; });
+        } catch (e) { /* la partita resta senza tiri */ }
+      }));
+    }
     const sidesOf = (m) => {
       const hs = [...((m.h && m.h.st) || []), ...((m.h && m.h.sb) || [])];
       const as = [...((m.a && m.a.st) || []), ...((m.a && m.a.sb) || [])];

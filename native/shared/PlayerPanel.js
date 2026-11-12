@@ -117,7 +117,7 @@ function Body({ C, player: player1, onProfile, panelW, full, showStats, top }) {
           <Text style={{ color: C.ink2, fontSize: 11.5, marginTop: 2 }}>{inj.reason}{inj.label ? ` · Rientro previsto: ${inj.label}` : ''}</Text>
         </View>
       ) : null}
-      {hasStats && showStats ? <View style={{ paddingTop: 8 }}><Scaled w={panelW} full={full}><GiocatoreStat C={C} player={dataP} team={team} car={car} /></Scaled></View> : null}
+      {hasStats && showStats ? <View style={{ paddingTop: 8 }}><Scaled w={panelW} full={full}><GiocatoreStat C={C} player={dataP} team={team} car={car} noMaps /></Scaled></View> : null}
     </>
   );
 }

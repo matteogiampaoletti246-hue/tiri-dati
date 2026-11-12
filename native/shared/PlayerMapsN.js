@@ -9,11 +9,12 @@ import { Ionicons } from '@expo/vector-icons';
 import Svg, { Rect, Line, Circle, Polyline, G } from 'react-native-svg';
 import { Panel, DropBtn, LeagueLogo } from './ui';
 import { DotShape, shotColor, situationOf, zoneOf, outcomeOf, isBlocked, HIT, PITCH, LINE, TRACE } from './ShotMap';
-import { FM_ID, teamLogo, playerFace, seasonLabel } from '@/data/archive';
+import { FM_ID, teamLogo, playerFace } from '@/data/archive';
 import { usePlayerMaps, mapSeasons } from '@/data/playerMaps';
 import { comma } from '@/lib/format';
 
 const MESI = ['gen', 'feb', 'mar', 'apr', 'mag', 'giu', 'lug', 'ago', 'set', 'ott', 'nov', 'dic'];
+const seasonFmt = (sk) => { const m = /^(\d{4})-(\d{4})$/.exec(String(sk)); return m ? `${m[1]}/${m[2].slice(2)}` : String(sk); };
 const dateIt = (ts) => { const d = ts ? new Date(ts) : null; return d && !Number.isNaN(d.getTime()) ? `${d.getDate()} ${MESI[d.getMonth()]} ${d.getFullYear()}` : ''; };
 const lumOf = (h) => { const m = /^#?([0-9a-f]{6})/i.exec(String(h || '')); if (!m) return 1; const n = parseInt(m[1], 16); return (0.299 * (n >> 16) + 0.587 * ((n >> 8) & 255) + 0.114 * (n & 255)) / 255; };
 const hexOk = (c) => (/^#[0-9a-f]{6}$/i.test(String(c || '')) ? c : null);
@@ -130,15 +131,15 @@ export default function PlayerMapsN({ C, comps, fmPid, name, color, openRoute })
   const [sList, setSList] = useState([]);
   const fms = useMemo(() => (comp === 'all' ? comps.map((c) => FM_ID[c.id]) : [FM_ID[comp]]).filter(Boolean), [comp, comps]); // eslint-disable-line react-hooks/exhaustive-deps
   const fm1 = comp === 'all' ? null : FM_ID[comp];
+  const fmsSig = fms.join(',');
   useEffect(() => {
     let on = true;
     setSList([]);
-    if (fm1) mapSeasons(fm1).then((l) => { if (on) setSList(l); });
+    Promise.all(fms.map((f) => mapSeasons(f))).then((ls) => { if (on) setSList([...new Set(ls.flat())].sort((a, b) => String(b).localeCompare(String(a)))); });
     return () => { on = false; };
-  }, [fm1]);
-  const sOpts = fm1
-    ? [{ value: 'all', label: 'Tutte le stagioni' }, ...sList.map((s, i) => ({ value: i === 0 ? 'cur' : s, label: i === 0 ? 'Stagione attuale' : seasonLabel(s) }))]
-    : [{ value: 'cur', label: 'Stagione attuale' }, { value: 'prev', label: 'Stagione scorsa' }, { value: 'all', label: 'Tutte le stagioni' }];
+  }, [fmsSig]); // eslint-disable-line react-hooks/exhaustive-deps
+  // tutte le stagioni, poi la stagione attuale (scelta in automatico), poi le altre in ordine cronologico inverso (2025/26, 2024/25...)
+  const sOpts = [{ value: 'all', label: 'Tutte le stagioni' }, { value: 'cur', label: 'Stagione attuale' }, ...sList.slice(1).map((s) => ({ value: s, label: seasonFmt(s) }))];
   const sEff = sOpts.some((o) => o.value === season) ? season : 'cur';
   const data = usePlayerMaps({ pid: fmPid, name, fms, seasonSel: sEff });
   const col = shotColor([hexOk(color) || '#ffffff']);
@@ -169,31 +170,30 @@ export default function PlayerMapsN({ C, comps, fmPid, name, color, openRoute })
   const oLbl = (oOpts.find((o) => o.value === oEff) || oOpts[0]).label;
   const oIcon = oEff !== 'all' ? (opps.find((e) => e.mid === oEff) || {}).opp : null;
   if (!comps.length) return null;
-  const pw = Math.min(W - 20, 280);
+  const pw = Math.max(0, Math.min(W - 24, 280));
   return (
-    <View style={{ paddingHorizontal: 20, paddingTop: 16 }} onLayout={(e) => setW(Math.round(e.nativeEvent.layout.width))}>
+    <View style={{ paddingHorizontal: 20, paddingTop: 16 }}>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 10 }}>
         <DropBtn C={C} title="Competizione" label={cLg ? cLg.name : 'Tutte le competizioni'} icon={cLg ? <LeagueLogo league={cLg} size={24} C={C} /> : undefined} options={cOpts} value={comp} onChange={(v) => { setComp(v); setSeason('cur'); setOpp('all'); }} />
         <DropBtn C={C} title="Stagione" label={(sOpts.find((o) => o.value === sEff) || sOpts[0]).label} options={sOpts} value={sEff} onChange={(v) => { setSeason(v); setOpp('all'); }} />
       </View>
       {data === undefined ? <View style={{ height: 250, borderRadius: 22, backgroundColor: C.skBase }} /> : !pages.length ? null : (
         <Panel C={C} tint={color}>
-          <View style={{ flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between', paddingHorizontal: 14, paddingTop: 12, paddingBottom: 6 }}>
-            <Text style={{ color: C.ink, fontSize: 15, fontWeight: '800' }}>{cur[0]}</Text>
-            <Text style={{ color: C.ink3, fontSize: 12 }}>{cur[1].length}</Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 10, paddingHorizontal: 12, paddingTop: 12, paddingBottom: 10 }}>
+            <Text style={{ color: C.ink, fontSize: 15, fontWeight: '800', paddingLeft: 2 }}>{cur[0]}</Text>
+            <View style={{ flexShrink: 1, minWidth: 0 }}><DropBtn C={C} title="Avversario" label={oLbl} icon={oIcon ? <Crest fid={oIcon.fid} size={22} /> : undefined} options={oOpts} value={oEff} onChange={(v) => setOpp(v)} /></View>
           </View>
-          <View style={{ paddingHorizontal: 12, paddingBottom: 8 }}>
-            <DropBtn C={C} title="Avversario" label={oLbl} icon={oIcon ? <Crest fid={oIcon.fid} size={22} /> : undefined} options={oOpts} value={oEff} onChange={(v) => setOpp(v)} />
+          <View onLayout={(e) => setW(Math.round(e.nativeEvent.layout.width))}>
+            {W ? (
+              <ScrollView key={sig} horizontal pagingEnabled showsHorizontalScrollIndicator={false} nestedScrollEnabled onMomentumScrollEnd={(e) => { setPage(Math.round(e.nativeEvent.contentOffset.x / W)); setSel(null); }} style={{ width: W }}>
+                {pages.map(([nm, list, kind], k) => (
+                  <View key={nm} style={{ width: W, alignItems: 'center' }}>
+                    <View style={{ width: pw }}><Pitch list={list} color={col} kind={kind} sel={k === pi ? sel : null} onSel={setSel} cur={k === pi && kind === 'shot' ? curE : null} /></View>
+                  </View>
+                ))}
+              </ScrollView>
+            ) : <View style={{ height: 160 }} />}
           </View>
-          {W ? (
-            <ScrollView key={sig} horizontal pagingEnabled showsHorizontalScrollIndicator={false} nestedScrollEnabled onMomentumScrollEnd={(e) => { setPage(Math.round(e.nativeEvent.contentOffset.x / (W - 2))); setSel(null); }} style={{ width: W - 2 }}>
-              {pages.map(([nm, list, kind], k) => (
-                <View key={nm} style={{ width: W - 2, alignItems: 'center' }}>
-                  <View style={{ width: pw }}><Pitch list={list} color={col} kind={kind} sel={k === pi ? sel : null} onSel={setSel} cur={k === pi && kind === 'shot' ? curE : null} /></View>
-                </View>
-              ))}
-            </ScrollView>
-          ) : null}
           <View style={{ flexDirection: 'row', justifyContent: 'center', gap: 6, paddingVertical: 10 }}>
             {pages.map((x, k) => <View key={x[0]} style={{ width: k === pi ? 16 : 6, height: 6, borderRadius: 3, backgroundColor: k === pi ? col : C.border }} />)}
           </View>

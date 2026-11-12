@@ -201,6 +201,16 @@ function PlayerPick({ embedded, C, form, set, player, onSelectPlayer, stat, onSt
   const hitTitle = form.playerId && hitN > 0 && hitN < 5 ? `Hit rate su ${hitN} ${hitN === 1 ? 'partita' : 'partite'}` : 'Hit rate ultime 5';
   const ownId = pendP ? club && club.teamId : form.team && form.team.id ? form.team.id : club && club.teamId;
   const comp = pendP ? undefined : form.competizione === 'coppa' ? cupOf(teamById(ownId)) || 'nessuna' : (form.team && form.team.leagueId) || undefined;
+  // Affidabilita' della scheda giocatore: solo i 3 tasti (statistica, over/under, linea), senza etichette
+  if (embedded) {
+    return (
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+        <View style={{ flex: 1.3, minWidth: 0 }}><Select C={C} title="Statistiche" value={stat} options={STATS} onChange={onStat} /></View>
+        <Segmented C={C} options={LINE_OPTIONS} value={form.lineType} onChange={(v) => set('lineType', v)} />
+        <View style={{ flex: 0.8, minWidth: 0 }}><Select C={C} title="Valore linea" value={form.line} options={LINES.map((x) => ({ value: x, label: x }))} onChange={(v) => set('line', v)} /></View>
+      </View>
+    );
+  }
   return (
     <View>
       {embedded ? null : <PanelTitle C={C}>Giocatore</PanelTitle>}

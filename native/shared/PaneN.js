@@ -4,6 +4,7 @@
 import React, { useRef, useState } from 'react';
 import { ScrollView } from 'react-native';
 import { emitNearEnd } from './hooks';
+import { scrollPing } from './inView';
 
 export default function PaneN({ children, bottom = 90, anchor }) {
   const sc = useRef(null);
@@ -13,8 +14,9 @@ export default function PaneN({ children, bottom = 90, anchor }) {
   const [minH, setMinH] = useState(0);
   return (
     <ScrollView ref={sc} scrollEventThrottle={16}
-      onScroll={(e) => { const { contentOffset: o, contentSize: c, layoutMeasurement: l } = e.nativeEvent; oy.current = o.y; if (o.y + l.height > c.height - 600) emitNearEnd(); }}
+      onScroll={(e) => { const { contentOffset: o, contentSize: c, layoutMeasurement: l } = e.nativeEvent; oy.current = o.y; scrollPing(); if (o.y + l.height > c.height - 600) emitNearEnd(); }}
       onContentSizeChange={(w, h) => {
+        setTimeout(scrollPing, 120); // i grafici che crescono entrando nello schermo (Hit rate) controllano se sono visibili
         const d = h - ch.current;
         ch.current = h;
         if (oy.current > 20) setMinH((m) => (h > m ? h : m)); else if (minH) setMinH(0);
