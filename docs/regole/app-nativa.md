@@ -282,3 +282,6 @@ Come nel sito: il filtro delle linee (`Segmented fit pad={10}`) prende lo spazio
 - Logo Ligue 1 (53) in versione piena e' opaco: in scuro si usa la variante `/leaguelogo/dark/53.png` senza tinta.
 - "Affidabilita' prossima partita": `Panel` con `tint` + `vivid` nei colori della squadra del giocatore.
 - Grafico hit rate: la riga nome/logo/puntini ha altezza fissa (20): col logo non deve spostare il grafico nello swipe.
+
+## Niente `InteractionManager` da react-native (12/11/2026, regola fissa)
+- La build Expo usa l'ULTIMO SDK (`create-expo-app@latest`): react-native 0.88 ha tolto `InteractionManager` dal core e `InteractionManager.runAfterInteractions` dava "Cannot read property 'runAfterInteractions' of undefined" aprendo Migliori Giocatori e Migliori Matchup. Usare sempre `import { InteractionManager } from '../shared/afterInteractions'` (timer, stessa interfaccia), mai da `react-native`. Prima di usare un'API di react-native nuova controllare che esista nell'ultima versione.
