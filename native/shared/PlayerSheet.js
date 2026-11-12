@@ -342,21 +342,27 @@ function FoulsPane({ C, c, kind, list, fx, W, onBack, onOpen }) {
         {rows.map((r) => {
           const tm = team(r.who.side);
           const photo = r.who.fmId ? `https://images.fotmob.com/image_resources/playerimages/${r.who.fmId}.png` : null;
+          // banner nei colori della squadra del giocatore (se il primo colore e' troppo chiaro per il testo bianco si usa il secondo)
+          const cs = (tm && tm.colors) || ['#2a3a66', '#2a3a66'];
+          const dark = (x) => (x && lum(x) <= 0.72 ? x : null);
+          const c0 = dark(cs[0]) || dark(cs[1]) || '#2a3a66';
+          const c1 = dark(cs[1]) || c0;
           return (
-            <Pressable key={r.who.fmId || r.who.name} onPress={() => onOpen({ name: r.who.name, fmId: r.who.fmId || undefined })} style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', gap: 12, borderRadius: 18, padding: 12, backgroundColor: C.chip, opacity: pressed ? 0.7 : 1 }]}>
+            <Pressable key={r.who.fmId || r.who.name} onPress={() => onOpen({ name: r.who.name, fmId: r.who.fmId || undefined })} style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', gap: 12, borderRadius: 18, padding: 12, overflow: 'hidden', backgroundColor: C.chip, opacity: pressed ? 0.7 : 1 }]}>
+              <LinearGradient pointerEvents="none" colors={[`${c0}f2`, `${c1}b8`]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }} />
               <View style={{ width: 46, height: 46, borderRadius: 23, overflow: 'hidden', backgroundColor: C.hair, alignItems: 'center', justifyContent: 'flex-end' }}>
                 {photo ? <Image source={{ uri: photo }} style={{ width: 46, height: 46 }} contentFit="cover" cachePolicy="memory-disk" /> : <Ionicons name="person" size={36} color="rgba(255,255,255,.55)" />}
               </View>
               <View style={{ flex: 1 }}>
-                <Text numberOfLines={1} style={{ color: C.ink, fontSize: 14.5, fontWeight: '800' }}>{r.who.name}</Text>
+                <Text numberOfLines={1} style={{ color: '#fff', fontSize: 14.5, fontWeight: '800' }}>{r.who.name}</Text>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 2 }}>
                   {tm ? <TeamCrest team={tm} size={14} C={C} /> : null}
-                  <Text numberOfLines={1} style={{ flex: 1, color: C.ink3, fontSize: 12 }}>{tm ? tm.name : ''}</Text>
+                  <Text numberOfLines={1} style={{ flex: 1, color: 'rgba(255,255,255,.78)', fontSize: 12 }}>{tm ? tm.name : ''}</Text>
                 </View>
               </View>
               <View style={{ alignItems: 'flex-end', maxWidth: 130 }}>
-                <Text style={{ color: C.ink, fontSize: 18, fontWeight: '800' }}>{r.mins.length}</Text>
-                <Text style={{ color: C.ink3, fontSize: 11.5, textAlign: 'right' }}>{r.mins.join(' · ')}</Text>
+                <Text style={{ color: '#fff', fontSize: 18, fontWeight: '800' }}>{r.mins.length}</Text>
+                <Text style={{ color: 'rgba(255,255,255,.78)', fontSize: 11.5, textAlign: 'right' }}>{r.mins.join(' · ')}</Text>
               </View>
             </Pressable>
           );
