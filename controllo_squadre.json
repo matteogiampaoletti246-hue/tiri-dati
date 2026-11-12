@@ -6004,7 +6004,7 @@
  "rose": {
   "squadre": 3120,
   "senza_rosa_prima": 2254,
-  "senza_rosa_dopo": 320,
+  "senza_rosa_dopo": 319,
   "senza_rosa": [
    {
     "squadra": "1A",
@@ -7865,14 +7865,6 @@
     "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
-    "squadra": "Reus",
-    "id": "96927",
-    "competizioni": [
-     "Copa del Rey 2026-2027"
-    ],
-    "motivo": "nessuna partita giocata nella stagione in corso"
-   },
-   {
     "squadra": "Roannais Foot 42",
     "id": "1200313",
     "competizioni": [
@@ -8574,7 +8566,7 @@
  "rose_per_ruolo": {
   "squadre": 3120,
   "prima": 2322,
-  "dopo": 639,
+  "dopo": 636,
   "giocate_dopo": 551,
   "elenco": [
    {
@@ -9567,17 +9559,6 @@
     "giocatori": 0,
     "competizioni": [
      "Coupe de France 2026-2027"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
-    "squadra": "CD Cuarte",
-    "id": "190105",
-    "giocatori": 0,
-    "competizioni": [
-     "Copa del Rey 2026-2027"
     ],
     "motivo": [
      "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
@@ -11470,17 +11451,6 @@
     ]
    },
    {
-    "squadra": "Reus",
-    "id": "96927",
-    "giocatori": 0,
-    "competizioni": [
-     "Copa del Rey 2026-2027"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
-    ]
-   },
-   {
     "squadra": "Ribadesella CF",
     "id": "189591",
     "giocatori": 0,
@@ -11745,17 +11715,6 @@
     ],
     "motivo": [
      "0 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
-    ]
-   },
-   {
-    "squadra": "Sporting Hortaleza",
-    "id": "2360741",
-    "giocatori": 0,
-    "competizioni": [
-     "Copa del Rey 2026-2027"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
     ]
    },
    {
@@ -12928,19 +12887,6 @@
     ]
    },
    {
-    "squadra": "Nigeria",
-    "id": "6346",
-    "giocatori": 1,
-    "competizioni": [
-     "Africa Cup of Nations 2025",
-     "African Nations Championship 2024",
-     "World Cup Qualification CAF 2023-2025"
-    ],
-    "motivo": [
-     "1 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 1"
-    ]
-   },
-   {
     "squadra": "OFK Dunajska Luzna",
     "id": "489301",
     "giocatori": 1,
@@ -13045,6 +12991,17 @@
     "giocatori": 1,
     "competizioni": [
      "Slovak Cup 2026-2027"
+    ],
+    "motivo": [
+     "1 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 1"
+    ]
+   },
+   {
+    "squadra": "Sporting Hortaleza",
+    "id": "2360741",
+    "giocatori": 1,
+    "competizioni": [
+     "Copa del Rey 2026-2027"
     ],
     "motivo": [
      "1 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 1"
@@ -13166,6 +13123,17 @@
     "giocatori": 2,
     "competizioni": [
      "Coupe de France 2026-2027"
+    ],
+    "motivo": [
+     "2 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 2"
+    ]
+   },
+   {
+    "squadra": "CD Cuarte",
+    "id": "190105",
+    "giocatori": 2,
+    "competizioni": [
+     "Copa del Rey 2026-2027"
     ],
     "motivo": [
      "2 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 2"
@@ -13389,17 +13357,6 @@
     "giocatori": 2,
     "competizioni": [
      "Austrian Cup 2026-2027"
-    ],
-    "motivo": [
-     "2 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 2"
-    ]
-   },
-   {
-    "squadra": "Sporting de Alcazar",
-    "id": "190128",
-    "giocatori": 2,
-    "competizioni": [
-     "Copa del Rey 2026-2027"
     ],
     "motivo": [
      "2 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 2"
@@ -13732,6 +13689,17 @@
     "giocatori": 3,
     "competizioni": [
      "Slovak Cup 2026-2027"
+    ],
+    "motivo": [
+     "3 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 3"
+    ]
+   },
+   {
+    "squadra": "Sporting de Alcazar",
+    "id": "190128",
+    "giocatori": 3,
+    "competizioni": [
+     "Copa del Rey 2026-2027"
     ],
     "motivo": [
      "3 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 3"
@@ -14466,17 +14434,6 @@
     ]
    },
    {
-    "squadra": "CS Puertollano",
-    "id": "1315045",
-    "giocatori": 6,
-    "competizioni": [
-     "Copa del Rey 2026-2027"
-    ],
-    "motivo": [
-     "6 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
-    ]
-   },
-   {
     "squadra": "Drancy",
     "id": "6086",
     "giocatori": 6,
@@ -14664,28 +14621,6 @@
     ]
    },
    {
-    "squadra": "CF Calamocha",
-    "id": "2066167",
-    "giocatori": 7,
-    "competizioni": [
-     "Copa del Rey 2026-2027"
-    ],
-    "motivo": [
-     "7 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 7"
-    ]
-   },
-   {
-    "squadra": "CR Temouchent",
-    "id": "319205",
-    "giocatori": 7,
-    "competizioni": [
-     "Ligue 1 2026-2027"
-    ],
-    "motivo": [
-     "7 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 7"
-    ]
-   },
-   {
     "squadra": "Dornbirn",
     "id": "2026",
     "giocatori": 7,
@@ -14702,17 +14637,6 @@
     "giocatori": 7,
     "competizioni": [
      "KNVB Cup 2026-2027"
-    ],
-    "motivo": [
-     "7 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 7"
-    ]
-   },
-   {
-    "squadra": "JS El Biar",
-    "id": "2121859",
-    "giocatori": 7,
-    "competizioni": [
-     "Ligue 1 2026-2027"
     ],
     "motivo": [
      "7 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 7"
@@ -14865,22 +14789,22 @@
     ]
    },
    {
-    "squadra": "CD Badajoz",
-    "id": "7873",
-    "giocatori": 8,
-    "competizioni": [
-     "Copa del Rey 2026-2027"
-    ],
-    "motivo": [
-     "8 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
-    ]
-   },
-   {
     "squadra": "CD Águila",
     "id": "49739",
     "giocatori": 8,
     "competizioni": [
      "Primera Division 2026-2027 - Apertura"
+    ],
+    "motivo": [
+     "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
+    ]
+   },
+   {
+    "squadra": "CR Temouchent",
+    "id": "319205",
+    "giocatori": 8,
+    "competizioni": [
+     "Ligue 1 2026-2027"
     ],
     "motivo": [
      "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
@@ -14937,6 +14861,17 @@
     "giocatori": 8,
     "competizioni": [
      "Slovak Cup 2026-2027"
+    ],
+    "motivo": [
+     "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
+    ]
+   },
+   {
+    "squadra": "JS El Biar",
+    "id": "2121859",
+    "giocatori": 8,
+    "competizioni": [
+     "Ligue 1 2026-2027"
     ],
     "motivo": [
      "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
@@ -15147,6 +15082,17 @@
     "competizioni": [
      "World Cup Qualification CONCACAF 2024-2025",
      "Friendlies 2026"
+    ],
+    "motivo": [
+     "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
+    ]
+   },
+   {
+    "squadra": "CF Calamocha",
+    "id": "2066167",
+    "giocatori": 9,
+    "competizioni": [
+     "Copa del Rey 2026-2027"
     ],
     "motivo": [
      "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
@@ -15523,6 +15469,17 @@
      "World Cup Qualification AFC 2023-2025",
      "Asian Cup Qualification Playoff 2025-2026",
      "Friendlies 2026"
+    ],
+    "motivo": [
+     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
+    ]
+   },
+   {
+    "squadra": "Panthrakikos Komotini",
+    "id": "104810",
+    "giocatori": 10,
+    "competizioni": [
+     "Greece Cup 2026-2027"
     ],
     "motivo": [
      "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
