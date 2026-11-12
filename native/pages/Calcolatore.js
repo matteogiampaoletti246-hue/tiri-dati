@@ -7,6 +7,7 @@ import { bootShared } from '../shared/boot';
 import { CALC_KEEP, saveCalcKeep } from '@/data/calcKeep';
 import { Segmented } from '../shared/ui';
 import PageHead from '../shared/PageHead';
+import { scrollPing } from '../shared/inView';
 import CalcPlayer from './CalcPlayer';
 import CalcTeam from './CalcTeam';
 import { CALC_IN } from '../shared/calcIn';
@@ -30,7 +31,7 @@ export default function Calcolatore({ C, top, onSearch, onMenu, openRoute, botto
       <PageHead C={C} title="Calcolatore Affidabilità" onSearch={onSearch} onMenu={onMenu} />
       <View style={{ paddingHorizontal: 20, paddingBottom: 6, paddingTop: 6 }}><Segmented C={C} options={TABS} value={index} onChange={setIndex} /></View>
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-        <ScrollView keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag" contentContainerStyle={{ paddingBottom: bottom + 20 }}>
+        <ScrollView keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag" onScroll={scrollPing} scrollEventThrottle={50} contentContainerStyle={{ paddingBottom: bottom + 20 }}>
           {ready ? (index === 0 ? <CalcPlayer C={C} openRoute={openRoute} /> : <CalcTeam C={C} openRoute={openRoute} />) : err ? null : <Skel C={C} />}
         </ScrollView>
       </KeyboardAvoidingView>

@@ -1,12 +1,36 @@
 // Hit Rate a colonne (concept B): una colonna per partita, linea dorata, verde se supera la linea e rossa altrimenti.
 // Tocco su colonna o avversario: la colonna risalta e le altre si scuriscono; secondo tocco sull'avversario: partita (scheda Formazioni).
 // Swipe laterale dentro il grafico: una pagina per competizione (la scelta nel Calcolatore per prima).
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, Pressable, ScrollView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import Animated, { useSharedValue, useAnimatedStyle, withTiming, cancelAnimation, Easing } from 'react-native-reanimated';
+import { useInView } from './inView';
 import { TeamCrest, CompLogo } from './ui';
 import { TAB_MEM } from './tabMem';
 import { pagerTouch } from './backGate';
+
+
+// Colonne che salgono dal basso (12/11/2026): quando il grafico entra nello schermo scorrendo e, dopo lo swipe, quando arriva una nuova competizione.
+// `t` va da 0 a 1; ogni colonna parte con 70 ms di ritardo dalla precedente e sale in 700 ms.
+function Grow({ show, isPage, sig, n, children }) {
+  const t = useSharedValue(0);
+  const played = useRef(null);
+  const D = 700 + Math.max(0, n - 1) * 70;
+  useEffect(() => {
+    if (!isPage) { if (played.current !== null) { cancelAnimation(t); t.value = 0; played.current = null; } return; }
+    if (show && played.current !== sig) { played.current = sig; cancelAnimation(t); t.value = 0; t.value = withTiming(1, { duration: D, easing: Easing.linear }); }
+  }, [show, isPage, sig]); // eslint-disable-line react-hooks/exhaustive-deps
+  return children(t, D);
+}
+function GBox({ t, D, i, bh, style, children }) {
+  const st = useAnimatedStyle(() => { const p = Math.min(1, Math.max(0, (t.value * D - i * 70) / 700)); return { height: bh * (1 - Math.pow(1 - p, 3)) }; }, [bh, D, i]);
+  return <Animated.View style={[style, st]}>{children}</Animated.View>;
+}
+function GFade({ t, D, i, style, children }) {
+  const st = useAnimatedStyle(() => ({ opacity: Math.min(1, Math.max(0, (t.value * D - i * 70) / 450)) }), [D, i]);
+  return <Animated.View style={[style, st]}>{children}</Animated.View>;
+}
 
 const PLOT_H = 190;
 const AXIS_W = 26;
@@ -16,6 +40,9 @@ export default function HitChart({ C, pages, line, under, statLabel, openRoute, 
   const [pg, setPg] = useState(0);
   const [W, setW] = useState(0);
   const ref = useRef(null);
+  const plotRef = useRef(null);
+  const { vis, check } = useInView(plotRef, 0.5);
+  const [act, setAct] = useState(0); // competizione ferma al centro dopo lo swipe
   const list = (pages || []).filter((p) => p.values && p.values.length);
   if (!list.length) return null;
   const hasLine = Number.isFinite(line);
@@ -31,6 +58,7 @@ export default function HitChart({ C, pages, line, under, statLabel, openRoute, 
   const dim = sel != null;
   const onScroll = (e) => { if (W > 0) { const i = Math.round(e.nativeEvent.contentOffset.x / W); if (i !== pg) { setPg(i); setSel(null); } } };
   const release = () => { pagerTouch.value = 0; };
+  const settle = (e) => { release(); if (W > 0) setAct(Math.round(e.nativeEvent.contentOffset.x / W)); };
   return (
     <View style={{ paddingHorizontal: 14, paddingTop: 16, paddingBottom: 14 }}>
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12, paddingHorizontal: 2, gap: 10 }}>
@@ -54,11 +82,11 @@ export default function HitChart({ C, pages, line, under, statLabel, openRoute, 
         <View style={{ width: AXIS_W, height: PLOT_H }}>
           {ticks.map((v) => <Text key={v} style={{ position: 'absolute', right: 6, bottom: yOf(v) - 7, color: C.ink3, fontSize: 10.5, fontVariant: ['tabular-nums'] }}>{v}</Text>)}
         </View>
-        <View style={{ flex: 1 }} onLayout={(e) => setW(Math.round(e.nativeEvent.layout.width))}>
+        <View ref={plotRef} collapsable={false} style={{ flex: 1 }} onLayout={(e) => { setW(Math.round(e.nativeEvent.layout.width)); setTimeout(check, 80); }}>
           {ticks.map((v) => <View key={v} pointerEvents="none" style={{ position: 'absolute', left: 0, right: 0, top: PLOT_H - yOf(v), height: 1, backgroundColor: C.hair }} />)}
           {W > 0 ? (
             <ScrollView ref={ref} horizontal pagingEnabled showsHorizontalScrollIndicator={false} bounces={list.length > 1} scrollEnabled={list.length > 1} onScroll={onScroll} scrollEventThrottle={16}
-              onTouchStart={() => { pagerTouch.value = 1; }} onTouchEnd={release} onTouchCancel={release} onScrollEndDrag={release} onMomentumScrollEnd={release}
+              onTouchStart={() => { pagerTouch.value = 1; }} onTouchEnd={release} onTouchCancel={release} onScrollEndDrag={release} onMomentumScrollEnd={settle}
               style={{ overflow: 'hidden' }}>
               {list.map((p, pi) => {
                 const n = p.values.length;
@@ -66,6 +94,7 @@ export default function HitChart({ C, pages, line, under, statLabel, openRoute, 
                 const barW = Math.min(34, itemW - 12);
                 return (
                   <View key={p.key} style={{ width: W }}>
+                    <Grow show={vis} isPage={act === pi} sig={p.key + ':' + p.values.join(',')} n={n}>{(t, D) => (
                     <Pressable onPress={() => setSel(null)} style={{ height: PLOT_H, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'center' }}>
                       {p.values.map((v, i) => {
                         const ok = hasLine ? hit(v) : true;
@@ -77,16 +106,17 @@ export default function HitChart({ C, pages, line, under, statLabel, openRoute, 
                         const sub = mn != null && mn < 90;
                         return (
                           <Pressable key={i} onPress={() => setSel((c) => (c === `${pi}:${i}` ? null : `${pi}:${i}`))} style={{ width: itemW, height: PLOT_H, alignItems: 'center', justifyContent: 'flex-end', opacity: dim && !on ? 0.28 : 1 }}>
-                            {mn != null && short ? <Text style={{ color: sub ? C.warn || '#ffb454' : C.ink3, fontSize: 9.5, fontWeight: '800', marginBottom: 1 }}>{mn}'</Text> : null}
-                            <Text style={{ color: c1, fontSize: on ? 17 : 14, fontWeight: '800', marginBottom: 4 }}>{v}</Text>
-                            <View style={{ width: on ? barW + 4 : barW, height: bh, borderTopLeftRadius: 12, borderTopRightRadius: 12, borderBottomLeftRadius: 4, borderBottomRightRadius: 4, shadowColor: c1, shadowOpacity: on ? 0.95 : 0.5, shadowRadius: on ? 16 : 10, shadowOffset: { width: 0, height: 0 }, borderWidth: on ? 1.5 : 0, borderColor: '#FFFFFF88' }}>
+                            {mn != null && short ? <GFade t={t} D={D} i={i}><Text style={{ color: sub ? C.warn || '#ffb454' : C.ink3, fontSize: 9.5, fontWeight: '800', marginBottom: 1 }}>{mn}'</Text></GFade> : null}
+                            <GFade t={t} D={D} i={i}><Text style={{ color: c1, fontSize: on ? 17 : 14, fontWeight: '800', marginBottom: 4 }}>{v}</Text></GFade>
+                            <GBox t={t} D={D} i={i} bh={bh} style={{ width: on ? barW + 4 : barW, borderTopLeftRadius: 12, borderTopRightRadius: 12, borderBottomLeftRadius: 4, borderBottomRightRadius: 4, shadowColor: c1, shadowOpacity: on ? 0.95 : 0.5, shadowRadius: on ? 16 : 10, shadowOffset: { width: 0, height: 0 }, borderWidth: on ? 1.5 : 0, borderColor: '#FFFFFF88' }}>
                               <LinearGradient colors={[c1, `${c1}AA`]} style={{ flex: 1, borderTopLeftRadius: 12, borderTopRightRadius: 12, borderBottomLeftRadius: 4, borderBottomRightRadius: 4 }} />
-                              {mn != null && !short ? <Text style={{ position: 'absolute', left: 0, right: 0, bottom: 4, textAlign: 'center', fontSize: 9.5, fontWeight: '900', color: sub ? '#FFFFFF' : 'rgba(5,30,18,.78)' }}>{mn}'</Text> : null}
-                            </View>
+                              {mn != null && !short ? <GFade t={t} D={D} i={i} style={{ position: 'absolute', left: 0, right: 0, bottom: 4 }}><Text style={{ textAlign: 'center', fontSize: 9.5, fontWeight: '900', color: sub ? '#FFFFFF' : 'rgba(5,30,18,.78)' }}>{mn}'</Text></GFade> : null}
+                            </GBox>
                           </Pressable>
                         );
                       })}
                     </Pressable>
+                    )}</Grow>
                     {p.games ? (
                       <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8 }}>
                         {p.values.map((_, i) => {

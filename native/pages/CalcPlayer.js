@@ -176,12 +176,18 @@ function warmPlayer(id) {
 function PlayerPick({ C, form, set, player, onSelectPlayer, stat, onStat, role, natHit, openRoute, hitN, hitChart }) {
   const [picker, setPicker] = useState(false);
   // entrata del banner: parte quando la foto e' gia' caricata (massimo 900 ms); alla prima apertura della scheda niente animazione
-  const pid = player ? player.id : null;
+  // al tocco sul giocatore il banner parte subito con quello scelto (il ricalcolo pesante arriva dopo): `pend` = giocatore appena scelto
+  const [pend, setPend] = useState(null);
+  const pendP = pend != null ? playerById(pend) : null;
+  useEffect(() => { if (pend != null && player && player.id === pend) setPend(null); }, [pend, player]);
+  useEffect(() => { if (pend == null) return undefined; const t = setTimeout(() => setPend(null), 4000); return () => clearTimeout(t); }, [pend]);
+  const bp = pendP || player;
+  const pid = bp ? bp.id : null;
   const initPid = useRef(pid);
   const [readyFor, setReadyFor] = useState(null);
   useEffect(() => {
     if (!pid) return undefined;
-    if (!player.photo) { setReadyFor(pid); return undefined; }
+    if (!bp.photo) { setReadyFor(pid); return undefined; }
     const t = setTimeout(() => setReadyFor(pid), 900);
     return () => clearTimeout(t);
   }, [pid]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -192,13 +198,13 @@ function PlayerPick({ C, form, set, player, onSelectPlayer, stat, onStat, role, 
   const natName = player ? (player.natView ? player.natView.teamName : player.nat ? player.teamName : null) : null;
   const natFc = natName ? flagCode(natName) : null;
   const hitTitle = form.playerId && hitN > 0 && hitN < 5 ? `Hit rate su ${hitN} ${hitN === 1 ? 'partita' : 'partite'}` : 'Hit rate ultime 5';
-  const ownId = form.team && form.team.id ? form.team.id : club && club.teamId;
-  const comp = form.competizione === 'coppa' ? cupOf(teamById(ownId)) || 'nessuna' : (form.team && form.team.leagueId) || undefined;
+  const ownId = pendP ? club && club.teamId : form.team && form.team.id ? form.team.id : club && club.teamId;
+  const comp = pendP ? undefined : form.competizione === 'coppa' ? cupOf(teamById(ownId)) || 'nessuna' : (form.team && form.team.leagueId) || undefined;
   return (
     <View>
       <PanelTitle C={C}>Giocatore</PanelTitle>
       <Panel ring C={C} tint={col}>
-        {player ? (
+        {bp ? (
           <BannerMorph C={C} color={col} k={pid} ready={readyFor === pid} still={initPid.current}>{(fx) => (
             <View>
               <Animated.View pointerEvents="none" style={[StyleSheet.absoluteFill, fx.bg]}>
@@ -207,11 +213,11 @@ function PlayerPick({ C, form, set, player, onSelectPlayer, stat, onStat, role, 
               <View style={{ padding: 14, flexDirection: 'row', alignItems: 'center', gap: 8 }}>
                 <Pressable onPress={() => openRoute && openRoute(`/giocatore/${club.id}`)} style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 10 }}>
                   <Animated.View style={[{ width: 56, height: 56 }, fx.face]}>
-                    <View style={{ width: 56, height: 56, borderRadius: 28, borderWidth: 2.5, borderColor: col, overflow: 'hidden' }}><Face uri={player.photo} color={col} size={51} onReady={() => setReadyFor(pid)} /></View>
-                    <RoleBadge C={C} role={role} />
+                    <View style={{ width: 56, height: 56, borderRadius: 28, borderWidth: 2.5, borderColor: col, overflow: 'hidden' }}><Face uri={bp.photo} color={col} size={51} onReady={() => setReadyFor(pid)} /></View>
+                    <RoleBadge C={C} role={pendP ? null : role} />
                   </Animated.View>
                   <View style={{ flex: 1 }}>
-                    <Animated.View style={fx.n1}><Text numberOfLines={1} style={{ color: C.ink, fontSize: 18, fontWeight: '700' }}>{player.name}</Text></Animated.View>
+                    <Animated.View style={fx.n1}><Text numberOfLines={1} style={{ color: C.ink, fontSize: 18, fontWeight: '700' }}>{bp.name}</Text></Animated.View>
                     <Animated.View style={[{ flexDirection: 'row', alignItems: 'center', gap: 5, marginTop: 4 }, fx.n2]}>
                       {team ? <TeamCrest team={team} size={16} C={C} /> : null}
                       <Text numberOfLines={1} style={{ color: C.ink2, fontSize: 12.5, flexShrink: 1 }}>{club.teamName}</Text>
@@ -240,7 +246,7 @@ function PlayerPick({ C, form, set, player, onSelectPlayer, stat, onStat, role, 
         {comps.length ? <FieldRow C={C} label="Competizione"><Select C={C} title="Competizione" value={form.competizione} options={comps.map((o) => ({ value: o.value, label: o.comp.name, sub: o.sub, comp: o.comp, color: hexOr(o.comp.colors && o.comp.colors[0], '#1F2A44'), color2: hexOr(o.comp.colors && o.comp.colors[1], undefined) }))} onChange={(v) => set('competizione', v)} /></FieldRow> : null}
         {form.playerId && hitChart ? null : <FieldRow C={C} label={hitTitle}><Select C={C} title={hitTitle} value={form.hitRate} placeholder="Nessuna" options={[{ value: '', label: 'Nessuna' }, ...HIT_OPTIONS]} onChange={(v) => set('hitRate', v)} /></FieldRow>}
       </Panel>
-      <PlayerSearch C={C} open={picker} onClose={() => setPicker(false)} onSelect={onSelectPlayer} onWarm={warmPlayer} />
+      <PlayerSearch C={C} open={picker} onClose={() => setPicker(false)} onSelect={onSelectPlayer} onWarm={warmPlayer} onPicked={(id) => { if (!player || player.id !== id) setPend(id); }} />
     </View>
   );
 }

@@ -22,20 +22,32 @@ export default function BannerMorph({ C, color, k, ready, still, children }) {
   const chg = useSharedValue(init);
   const nxt = useSharedValue(init);
   const [H, setH] = useState(0);
-  const seen = useRef(init ? k : null);
+  const lastK = useRef(init ? k : null);
+  const started = useRef(!!init);
+  const tK = useRef(Date.now());
   const had = useRef(!!init);
+  const all = [bg, ring, face, n1, n2, chg, nxt];
+  // cambio giocatore: il banner vecchio sparisce subito (resta nascosto dietro alla finestra di ricerca che si chiude)
   useEffect(() => {
-    if (!ready || seen.current === k) return;
-    seen.current = k;
-    [bg, ring, face, n1, n2, chg, nxt].forEach((v) => { cancelAnimation(v); v.value = 0; });
-    if (!had.current) { cancelAnimation(g); g.value = 0; g.value = withTiming(1, { duration: 900, easing: GROW }); had.current = true; }
-    bg.value = withDelay(200, withTiming(1, { duration: 800 }));
-    ring.value = withDelay(400, withTiming(1, { duration: 1500 }));
-    face.value = withDelay(400, withSpring(1, { damping: 11, stiffness: 150, mass: 0.9 }));
-    n1.value = withDelay(650, withTiming(1, { duration: 650, easing: OUT }));
-    n2.value = withDelay(780, withTiming(1, { duration: 650, easing: OUT }));
-    chg.value = withDelay(950, withSpring(1, { damping: 10, stiffness: 200, mass: 0.8 }));
-    nxt.value = withDelay(850, withTiming(1, { duration: 750, easing: OUT }));
+    if (lastK.current === k) return;
+    lastK.current = k; started.current = false; tK.current = Date.now();
+    all.forEach((v) => { cancelAnimation(v); v.value = 0; });
+  }, [k]); // eslint-disable-line react-hooks/exhaustive-deps
+  // l'animazione parte subito (150 ms dal tocco, mentre la finestra scende) se la foto e' gia' pronta, senza aspettare il ricalcolo
+  useEffect(() => {
+    if (!ready || started.current || lastK.current !== k) return undefined;
+    const to = setTimeout(() => {
+      started.current = true;
+      if (!had.current) { cancelAnimation(g); g.value = 0; g.value = withTiming(1, { duration: 900, easing: GROW }); had.current = true; }
+      bg.value = withDelay(200, withTiming(1, { duration: 800 }));
+      ring.value = withDelay(400, withTiming(1, { duration: 1500 }));
+      face.value = withDelay(400, withSpring(1, { damping: 11, stiffness: 150, mass: 0.9 }));
+      n1.value = withDelay(650, withTiming(1, { duration: 650, easing: OUT }));
+      n2.value = withDelay(780, withTiming(1, { duration: 650, easing: OUT }));
+      chg.value = withDelay(950, withSpring(1, { damping: 10, stiffness: 200, mass: 0.8 }));
+      nxt.value = withDelay(850, withTiming(1, { duration: 750, easing: OUT }));
+    }, Math.max(0, 150 - (Date.now() - tK.current)));
+    return () => clearTimeout(to);
   }, [ready, k]); // eslint-disable-line react-hooks/exhaustive-deps
   const box = useAnimatedStyle(() => ({ height: H ? PH + (H - PH) * g.value : init ? undefined : PH }), [H]);
   const ph = useAnimatedStyle(() => ({ opacity: Math.max(0, 1 - g.value * 3.4) }));

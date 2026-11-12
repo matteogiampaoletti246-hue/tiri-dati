@@ -46,14 +46,14 @@ const Row = memo(({ C, p, onPress }) => {
   );
 });
 
-export default function PlayerSearch({ C, open, onClose, onSelect, onWarm }) {
+export default function PlayerSearch({ C, open, onClose, onSelect, onWarm, onPicked }) {
   const insets = useSafeAreaInsets();
   const [q, setQ] = useState('');
   const list = useMemo(() => (q.trim().length >= 2 ? searchN(q).players.slice(0, 40) : []), [q]);
   // la scelta si applica a finestra chiusa (altrimenti il ricalcolo blocca l'animazione di chiusura e l'app resta ferma qualche secondo)
   const later = useRef(null);
   const run = () => { const f = later.current; later.current = null; if (f) f(); };
-  const pick = (v) => { setQ(''); later.current = () => onSelect(v); onClose(); if (onWarm) setTimeout(() => onWarm(v), 30); setTimeout(run, 420); };
+  const pick = (v) => { setQ(''); if (onPicked) onPicked(v); later.current = () => onSelect(v); onClose(); if (onWarm) setTimeout(() => onWarm(v), 30); setTimeout(run, 420); };
   const close = () => { setQ(''); onClose(); };
   return (
     <Modal visible={open} animationType="slide" onRequestClose={close} onDismiss={run} statusBarTranslucent>

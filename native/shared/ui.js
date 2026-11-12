@@ -2,7 +2,7 @@
 import React, { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { View, Text, TextInput, Pressable, Modal, FlatList, ScrollView, StyleSheet, useWindowDimensions } from 'react-native';
-import Animated, { makeMutable, useSharedValue, useAnimatedStyle, withTiming, withRepeat, interpolateColor, Easing, FadeIn, FadeOut, ZoomIn } from 'react-native-reanimated';
+import Animated, { makeMutable, useSharedValue, useAnimatedStyle, withTiming, withRepeat, withDelay, interpolateColor, Easing, FadeIn, FadeOut, ZoomIn } from 'react-native-reanimated';
 import { Image } from 'expo-image';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import Dropdown from './Dropdown';
@@ -42,7 +42,35 @@ export const legible = (c0, c1) => {
 };
 const okHex = (c) => (typeof c === 'string' && /^#[0-9a-f]{6}$/i.test(c) ? c : null);
 export const tintFill = (C, color) => { const t = okHex(color); return t ? [`${t}${C.dark ? '4D' : '2E'}`, `${t}00`] : null; };
-export const TintBg = ({ C, color }) => { const g = tintFill(C, color); return g ? <LinearGradient pointerEvents="none" colors={g} locations={[0, 0.78]} start={{ x: 0, y: 0.35 }} end={{ x: 1, y: 0.65 }} style={StyleSheet.absoluteFill} /> : null; };
+// sfondo colorato dei riquadri: quando cambia il colore (nuovo giocatore) il nuovo colore sale piano e il vecchio scende, dall'alto verso il basso (i riquadri piu' in basso partono un poco dopo)
+function TintLayer({ C, color, mode, onGone }) {
+  const ref = useRef(null);
+  const o = useSharedValue(mode === 'in' ? 0 : 1);
+  const st = useAnimatedStyle(() => ({ opacity: o.value }));
+  useEffect(() => {
+    if (mode === 'static') return undefined;
+    let to;
+    const go = (d) => { o.value = withDelay(d, withTiming(mode === 'in' ? 1 : 0, { duration: 900, easing: Easing.out(Easing.quad) })); if (mode === 'out') to = setTimeout(onGone, d + 1000); };
+    if (ref.current && ref.current.measureInWindow) ref.current.measureInWindow((x, y) => go(Math.max(0, Math.min(450, (y - 140) * 0.4))));
+    else go(0);
+    return () => clearTimeout(to);
+  }, [mode]); // eslint-disable-line react-hooks/exhaustive-deps
+  const g = tintFill(C, color);
+  return g ? <Animated.View ref={ref} collapsable={false} pointerEvents="none" style={[StyleSheet.absoluteFill, st]}><LinearGradient pointerEvents="none" colors={g} locations={[0, 0.78]} start={{ x: 0, y: 0.35 }} end={{ x: 1, y: 0.65 }} style={StyleSheet.absoluteFill} /></Animated.View> : null;
+}
+export const TintBg = ({ C, color }) => {
+  const t = okHex(color);
+  const [layers, setLayers] = useState(() => (t ? [{ id: 0, color: t, mode: 'static' }] : []));
+  const cur = useRef(t);
+  const ids = useRef(1);
+  useEffect(() => {
+    if (cur.current === t) return;
+    cur.current = t;
+    setLayers((ls) => { const out = ls.map((l) => ({ ...l, mode: 'out' })); return t ? [...out, { id: ids.current++, color: t, mode: 'in' }] : out; });
+  }, [t]);
+  const gone = (id) => setLayers((ls) => ls.filter((l) => l.id !== id));
+  return layers.map((l) => <TintLayer key={l.id} C={C} color={l.color} mode={l.mode} onGone={() => gone(l.id)} />);
+};
 // bordo del riquadro nel colore della scheda (squadra, nazionale o competizione); quando il colore cambia sfuma da uno all'altro
 const PanelRing = ({ color, w, r = 22 }) => {
   const k = useSharedValue(1);
