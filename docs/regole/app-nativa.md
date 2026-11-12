@@ -281,3 +281,4 @@ Come nel sito: il filtro delle linee (`Segmented fit pad={10}`) prende lo spazio
 - Banner "Numeri da tenere d'occhio": solo giocatore sullo sfondo bandiera/stemma, niente sfumature sopra la foto.
 - Logo Ligue 1 (53) in versione piena e' opaco: in scuro si usa la variante `/leaguelogo/dark/53.png` senza tinta.
 - "Affidabilita' prossima partita": `Panel` con `tint` + `vivid` nei colori della squadra del giocatore.
+- Grafico hit rate: la riga nome/logo/puntini ha altezza fissa (20): col logo non deve spostare il grafico nello swipe.
