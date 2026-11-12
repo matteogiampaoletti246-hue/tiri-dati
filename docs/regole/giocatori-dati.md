@@ -122,3 +122,8 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 
 ## Card delle classifiche statistiche (regola fissa)
 - Ogni card di `StatLists` (`.stat-card`) ha sfondo e bordo sfumati nel colore del campionato (pagina campionato: `--stat-tint` = `leagueTint`) o della squadra (scheda squadra / storico squadra: colore sociale). Le righe colorate restano come sono. Il cerchio della foto prende il colore della squadra (`pod-face`, `--pod-tc`) sul podio e in tutte le righe sotto, anche dopo "Mostra tutti".
+
+## Mappe del campo del giocatore (Statistiche, regola fissa)
+- In Statistiche, in cima: carosello a scorrimento di lato Tiri → Tiri in porta → Falli commessi → Falli subiti (`native/shared/PlayerMapsN.js`), tutte le partite sommate, il giocatore attacca verso destra. Pagina senza punti = non si mostra; nessuna mappa = niente riquadro. Per ogni giocatore.
+- Dati in `aurora-src/src/data/playerMaps.js`. Tiri: chiave `sh` delle partite (`partite.py`, FotMob shotmap: `[giocatore, x, y, esito, minuto]`, esito 1 gol/2 in porta/3 fuori/4 murato; sempre presente, anche vuota; recuperata per le stagioni dal 2024). Stagione in corso e scorsa di ogni competizione del giocatore.
+- Falli: coppie ESPN `[chi commette, chi subisce, X, Y, minuto]` in `falli/` (flag `xy` = partita gia' con posizioni). ESPN da' X/Y dal punto di vista di chi SUBISCE (X=0 sulla porta che attacca, Y alto = fascia destra; verificato su "attacking/defensive half" e "right/left wing"): subiti = (105-X*1.05, Y*0.68), commessi = (X*1.05, (100-Y)*0.68). Solo competizioni con falli ESPN.

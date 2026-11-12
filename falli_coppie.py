@@ -196,7 +196,13 @@ def coppie_partita(summ, m):
         if not rf or not rs:
             mancati += 1
             continue
-        out.append([int(idf), int(ids)])
+        # posizione: ESPN la da' dal punto di vista di chi subisce (X = distanza dalla porta che attacca, 0-100; Y alto = fascia destra); minuto dalla cronaca
+        x, y = pl.get("fieldPositionX"), pl.get("fieldPositionY")
+        mn = re.match(r"(\d+)", (c.get("time") or {}).get("displayValue") or "")
+        riga = [int(idf), int(ids)]
+        if isinstance(x, (int, float)) and isinstance(y, (int, float)):
+            riga += [round(x, 1), round(y, 1), int(mn.group(1)) if mn else 0]
+        out.append(riga)
     rmap = {pid: [ro, 0] for pid, ro in ruoli["h"].items()}
     rmap.update({pid: [ro, 1] for pid, ro in ruoli["a"].items()})
     return out, rmap, mancati
@@ -249,7 +255,8 @@ def main():
             print(f"{k}: ruoli aggiornati in {camb} partite", flush=True)
         tot = tot_m = n_part = 0
         for mid, m in d.items():
-            if not m or not m.get("h") or not m.get("a") or mid in ris:
+            # "xy": coppie gia' salvate con posizione e minuto; le vecchie (senza) si rifanno una volta
+            if not m or not m.get("h") or not m.get("a") or (mid in ris and ris[mid].get("xy")):
                 continue
             t0 = quando.get(mid, "")
             hn, an_ = nomi.get(str(m["h"]["id"]), ""), nomi.get(str(m["a"]["id"]), "")
@@ -269,7 +276,7 @@ def main():
                 continue
             m["h"]["name"], m["a"]["name"] = hn, an_
             coppie, rmap, manc = coppie_partita(summ, m)
-            ris[mid] = {"p": coppie, "r": rmap}
+            ris[mid] = {"p": coppie, "r": rmap, "xy": 1}
             tot += len(coppie); tot_m += manc; n_part += 1
         with gzip.open(out_f, "wt", encoding="utf-8") as fh:
             json.dump(ris, fh, separators=(",", ":"))

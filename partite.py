@@ -73,6 +73,15 @@ def compact(j):
                 if tot and k and (k + "_t") not in d: d[k + "_t"] = tot
         if d: ps[pid] = d
     if ps: out["p"] = ps
+    # tiri con posizione (mappa del campo del giocatore): [giocatore, x, y, esito, minuto]; x/y FotMob 0-105 / 0-68, sempre verso la porta a x=105.
+    # esito: 1 gol, 2 in porta (palo/traversa compresi), 3 fuori, 4 murato. "sh" c'e' sempre (anche vuoto): cosi' la partita non si riscarica.
+    sh = []
+    for t in ((c.get("shotmap") or {}).get("shots")) or []:
+        if t.get("isOwnGoal") or not t.get("playerId") or t.get("x") is None or t.get("y") is None: continue
+        et = t.get("eventType")
+        k = 1 if et == "Goal" else 4 if t.get("isBlocked") else 2 if (t.get("isOnTarget") or et == "Post") else 3
+        sh.append([t["playerId"], round(t["x"], 1), round(t["y"], 1), k, t.get("min") or 0])
+    out["sh"] = sh
     mf = c.get("matchFacts") or {}; ib = mf.get("infoBox") or {}
     meta = {}
     if (ib.get("Referee") or {}).get("text"): meta["ref"] = ib["Referee"]["text"]
@@ -134,7 +143,9 @@ def run():
         # stagione in corso (o appena finita): si ricontrolla sempre. Prima "done" restava vero dopo il primo giro completo e le
         # partite finite dopo non entravano piu' (es. Feyenoord-Fortuna Sittard del 31/10: mancava l'intera giornata).
         recente = int(s[:4]) >= RECENT_YEAR
-        if cur["done"] and not recente: continue
+        bf = int(s[:4]) >= RECENT_YEAR - 1          # stagione in corso e precedente: si aggiungono i tiri con posizione alle partite gia' scaricate
+        nosh = lambda x: bool(x) and not vuota(x) and "sh" not in x
+        if cur["done"] and not recente and not (bf and any(nosh(x) for x in cur["m"].values())): continue
         allfx = json.load(open(src))["fix"]
         fx = [m for m in allfx if m[7] and not m[8]]      # solo partite finite (m[6] = iniziata: una partita in corso restava a meta')
         aperta = any(not m[7] and not m[8] for m in allfx)
@@ -142,6 +153,8 @@ def run():
         if recente:
             todo += [m for m in fx if str(m[0]) in cur["m"] and (incompleta(cur["m"][str(m[0])]) or (vuota(cur["m"][str(m[0])]) and da_poco(m)))
                      and (cur["m"][str(m[0])].get("rt") or 0) < MAX_RT]
+        if bf:
+            todo += [m for m in fx if str(m[0]) in cur["m"] and nosh(cur["m"][str(m[0])]) and (cur["m"][str(m[0])].get("rt") or 0) < MAX_RT and m not in todo]
         if cur["done"] and not todo and not aperta: continue
         if not todo:
             if cur["done"] == (not aperta): continue
