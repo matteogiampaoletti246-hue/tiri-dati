@@ -56,7 +56,7 @@ function TintLayer({ C, color, mode, onGone }) {
     return () => clearTimeout(to);
   }, [mode]); // eslint-disable-line react-hooks/exhaustive-deps
   const g = tintFill(C, color);
-  return g ? <Animated.View ref={ref} collapsable={false} pointerEvents="none" style={[StyleSheet.absoluteFill, st]}><LinearGradient pointerEvents="none" colors={g} locations={[0, 0.78]} start={{ x: 0, y: 0.35 }} end={{ x: 1, y: 0.65 }} style={StyleSheet.absoluteFill} /></Animated.View> : null;
+  return g ? <Animated.View ref={ref} collapsable={false} shouldRasterizeIOS pointerEvents="none" style={[StyleSheet.absoluteFill, st]}><LinearGradient pointerEvents="none" colors={g} locations={[0, 0.78]} start={{ x: 0, y: 0.35 }} end={{ x: 1, y: 0.65 }} style={StyleSheet.absoluteFill} /></Animated.View> : null;
 }
 export const TintBg = ({ C, color }) => {
   const t = okHex(color);

@@ -2,7 +2,7 @@
 // Tocco su colonna o avversario: la colonna risalta e le altre si scuriscono; secondo tocco sull'avversario: partita (scheda Formazioni).
 // Swipe laterale dentro il grafico: una pagina per competizione (la scelta nel Calcolatore per prima).
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, Pressable, ScrollView } from 'react-native';
+import { View, Text, Pressable, ScrollView, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming, cancelAnimation, Easing } from 'react-native-reanimated';
 import { useInView } from './inView';
@@ -24,7 +24,9 @@ function Grow({ show, isPage, sig, n, children }) {
   return children(t, D);
 }
 function GBox({ t, D, i, bh, style, children }) {
-  const st = useAnimatedStyle(() => { const p = Math.min(1, Math.max(0, (t.value * D - i * 70) / 700)); return { height: bh * (1 - Math.pow(1 - p, 3)) }; }, [bh, D, i]);
+  const so = (StyleSheet.flatten(style) || {}).shadowOpacity || 0;
+  // l'ombra sfocata si ridisegna a ogni fotogramma: mentre la colonna sale non c'e', compare negli ultimi istanti (colonne molto piu' leggere)
+  const st = useAnimatedStyle(() => { const p = Math.min(1, Math.max(0, (t.value * D - i * 70) / 700)); return { height: bh * (1 - Math.pow(1 - p, 3)), shadowOpacity: p < 0.88 ? 0 : so * Math.min(1, (p - 0.88) / 0.12) }; }, [bh, D, i, so]);
   return <Animated.View style={[style, st]}>{children}</Animated.View>;
 }
 function GFade({ t, D, i, style, children }) {

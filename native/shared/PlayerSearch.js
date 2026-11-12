@@ -10,6 +10,8 @@ import { RingBox } from './ui';
 
 import { FlagN, useNatFor } from './FlagN';
 const SITE = 'https://matteogiampaoletti246-hue.github.io/tiri-dati/';
+// il ricalcolo pesante della scheda parte solo a banner quasi concluso: durante l'animazione il telefono non deve fare altro (fluidita')
+const APPLY_MS = 1250;
 const okHex = (c) => (typeof c === 'string' && /^#[0-9a-fA-F]{6}$/.test(c) ? c : null);
 
 const Hl = ({ C, text, hl, style }) => {
@@ -53,10 +55,10 @@ export default function PlayerSearch({ C, open, onClose, onSelect, onWarm, onPic
   // la scelta si applica a finestra chiusa (altrimenti il ricalcolo blocca l'animazione di chiusura e l'app resta ferma qualche secondo)
   const later = useRef(null);
   const run = () => { const f = later.current; later.current = null; if (f) f(); };
-  const pick = (v) => { setQ(''); if (onPicked) onPicked(v); later.current = () => onSelect(v); onClose(); if (onWarm) setTimeout(() => onWarm(v), 30); setTimeout(run, 420); };
+  const pick = (v) => { setQ(''); if (onPicked) onPicked(v); later.current = () => onSelect(v); onClose(); if (onWarm) setTimeout(() => onWarm(v), 30); setTimeout(run, APPLY_MS); };
   const close = () => { setQ(''); onClose(); };
   return (
-    <Modal visible={open} animationType="slide" onRequestClose={close} onDismiss={run} statusBarTranslucent>
+    <Modal visible={open} animationType="slide" onRequestClose={close} statusBarTranslucent>
       <View style={{ flex: 1, backgroundColor: C.bg, paddingTop: insets.top + 10 }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 20, height: 44 }}>
           <Ionicons name="search" size={18} color={C.ink3} />

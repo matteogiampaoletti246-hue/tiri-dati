@@ -181,3 +181,7 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 - Dentro i 75' la partita si richiede ogni 5 s (`prepareMatch(id, true)`) mentre il Calcolatore e' aperto, e subito al ritorno dal background: se la formazione cambia, la lista si aggiorna da sola (le scelte a mano restano solo se ancora titolari). Solo titolari con dati falli in archivio: mai giocatori inventati.
 
 - Banner giocatore (12/11/2026, bug risolto): nel banner `club`, `natName` e colore si calcolano SEMPRE dal giocatore mostrato (`bp` = appena scelto o attuale), mai da `player`: alla prima scelta `player` e' ancora vuoto e il banner andava in errore, la rete di sicurezza (`Guard`) riavviava l'app e si tornava alla Home.
+
+## Fluidita' delle animazioni (12/11/2026, iPhone 13 Pro come riferimento)
+- Estetica invariata, solo lavoro tolto al telefono durante le animazioni: (1) scelta del giocatore: il ricalcolo pesante della scheda (`onSelect`) parte `APPLY_MS` = 1250 ms dopo il tocco (a banner quasi concluso), non piu' a 420 ms in mezzo all'animazione; (2) colonne Hit rate: l'ombra sfocata non si ridisegna mentre la colonna sale (compare nell'ultimo 12% della corsa); (3) strati di colore dei pannelli (`TintLayer`): `shouldRasterizeIOS`.
+- Regola: nelle animazioni solo `opacity` e `transform` (UI thread); niente lavoro JS pesante, ombre sfocate o altezze animate mentre scorrono, salvo l'altezza della prima entrata del banner.
