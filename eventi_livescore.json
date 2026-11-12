@@ -437,8 +437,8 @@
    "da_fare": 0
   },
   "Primera Division 2026-2027 - Apertura": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "Erovnuli Liga 2026": {
    "partite_con_eventi": 0,
@@ -449,8 +449,8 @@
    "da_fare": 0
   },
   "Série B 2026": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "Primera B Nacional 2026": {
    "partite_con_eventi": 0,
@@ -1157,5 +1157,5 @@
    "da_fare": 0
   }
  },
- "partite_in_questo_giro": 2
+ "partite_in_questo_giro": 0
 }
