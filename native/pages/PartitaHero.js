@@ -9,6 +9,7 @@ import { matchTint } from '@/data/matchTint';
 import { teamForm } from '@/data/matches';
 import { clockView } from '@/data/liveClock';
 import { longDate } from '@/lib/format';
+import { groupGoals, minLabel } from '@/lib/goalsGroup';
 
 const short = (n) => {
   if (/^\(?\s*(tbd|tba|n\/a|unknown)\s*\)?$/i.test(String(n || '').trim())) return '';
@@ -58,9 +59,9 @@ function Scorers({ C, events, side, align }) {
   if (!goals.length) return <View style={{ flex: 1 }} />;
   return (
     <View style={{ flex: 1, gap: 3, alignItems: align === 'right' ? 'flex-end' : 'flex-start' }}>
-      {goals.map((g, i) => (
+      {groupGoals(goals).map((g, i) => (
         <Text key={i} numberOfLines={1} style={{ color: C.ink2, fontSize: 11.5 }}>
-          <Text style={{ color: C.ink3 }}>{g.minute}&apos;</Text> {short(g.name)}{g.pen ? ' (rig.)' : ''}{g.og ? ' (aut.)' : ''}
+          {short(g.name)} <Text style={{ color: C.ink3 }}>{g.mins.map(minLabel).join(', ')}</Text>
         </Text>
       ))}
     </View>

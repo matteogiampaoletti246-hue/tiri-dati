@@ -13,6 +13,7 @@ import { longDate } from '@/lib/format';
 import { clockView } from '@/data/liveClock';
 import KickoffCountdown, { showCountdown } from '@/components/match/KickoffCountdown';
 import { SkText } from './PageSkeletons';
+import { groupGoals, minLabel } from '@/lib/goalsGroup';
 
 // "Robin Fellhauer" → "R. Fellhauer"
 const short = (n) => {
@@ -36,11 +37,9 @@ function Scorers({ events, side, align }) {
   if (!goals.length) return null;
   return (
     <div className={`mt-2 flex w-full flex-col gap-[3px] ${align === 'right' ? 'items-end text-right' : 'items-start text-left'}`}>
-      {goals.map((g, i) => (
+      {groupGoals(goals).map((g, i) => (
         <span key={i} className="max-w-full truncate text-[11.5px] leading-tight" style={{ color: 'var(--ink-2)' }}>
-          <span className="tnum" style={{ color: 'var(--ink-3)' }}>{g.minute}&apos;</span> {short(g.name)}
-          {g.pen ? ' (rig.)' : ''}
-          {g.og ? ' (aut.)' : ''}
+          {short(g.name)} <span className="tnum" style={{ color: 'var(--ink-3)' }}>{g.mins.map(minLabel).join(', ')}</span>
         </span>
       ))}
     </div>
