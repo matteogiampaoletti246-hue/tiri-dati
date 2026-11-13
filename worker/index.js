@@ -522,6 +522,26 @@ export default {
             if (!out.ty || out.ty === "unavailable") out.ty = alt.ty;
           }
         }
+        // Nessuna fonte ha ancora la formazione (nazionali, amichevoli, campionati minori a giorni dal fischio): formazione PROBABILE = l'ultima formazione
+        // iniziale della squadra (FotMob, pagina squadra `overview.lastLineupStats`, la stessa che FotMob usa per "lastStarting11"). Dati veri, mai inventati;
+        // niente voti (sono della partita di allora). Ogni squadra a parte: se una ha la sua probabile e l'altra no, solo l'altra si completa.
+        if (!g2.started && !g2.finished && (!out.h || !out.a)) {
+          const last = async (tid) => {
+            if (!tid) return null;
+            try {
+              const r2 = await fetch("https://www.fotmob.com/api/data/teams?id=" + tid + "&ccode3=ITA", { headers: FMH, cf: { cacheTtl: 1800, cacheEverything: true } });
+              if (!r2.ok) return null;
+              const ll = ((await r2.json()).overview || {}).lastLineupStats;
+              if (!ll || (ll.starters || []).length !== 11 || ll.starters.some((q) => !q.horizontalLayout)) return null;
+              const mp2 = (q) => [q.name, q.shirtNumber != null ? +q.shirtNumber || q.shirtNumber : null, q.horizontalLayout.x, q.horizontalLayout.y, false, ph(q.id), null, q.id, q.positionId != null ? q.positionId : q.usualPlayingPositionId != null ? q.usualPlayingPositionId : null];
+              return { f: ll.formation || null, s: ll.starters.map(mp2), b: [], co: null };
+            } catch (e) { return null; }
+          };
+          const [lh, la] = await Promise.all([out.h ? null : last(out.hi), out.a ? null : last(out.ai)]);
+          if (lh) out.h = lh;
+          if (la) out.a = la;
+          if ((lh || la) && out.h && out.a) { out.ty = "lastStarting11"; out.luSrc = "ultima"; }
+        }
         await lsMerge(out, g2.matchTimeUTCDate || stt.utcTime);
         // cronometro preciso: secondi veri di FotMob (liveTime.long "mm:ss"), recupero annunciato dall'arbitro (evento AddedTime del tempo in corso);
         // se FotMob non ha i secondi si usa il minuto di LiveScore (meno 30 s: il minuto "47'" copre 46:00-46:59)
