@@ -24,7 +24,7 @@ import { FlagN } from '../shared/FlagN';
 import { FLAG_COLORS } from '../shared/flagColors';
 const FLAG_BASE = 'https://matteogiampaoletti246-hue.github.io/tiri-dati/native-link/flags43/';
 import { loadRose, rosePlayer } from '@/data/rose';
-import { playerFace, archIndex, loadSeason, loadSeasonMatches } from '@/data/archive';
+import { playerFace, archIndex, loadSeason, loadSeasonMatches, FM_ID } from '@/data/archive';
 import { playerComps, calcComp } from '@/components/calc/calcComp';
 import { comma } from '@/lib/format';
 import { parseDash, parseNum, fmtLine, HIT_OPTIONS, LINE_OPTIONS, SEDE_OPTIONS, COMPETITION_OPTIONS, NATIONS_OPTION, NATIONS_WEIGHTS, SEASON_COMPETITIONS, lineHintText } from '@/lib/calc';
@@ -312,32 +312,39 @@ function useHitGames(player, key2Raw, vals, mins) {
       const idx = await archIndex();
       for (let i = 0; i < base.length; i += 1) {
         const r = rows[i];
-        if (base[i] || !r || !r[5] || !r[6]) continue; // eslint-disable-line no-continue
+        const rc = r && (r[6] || (prof && (prof.domFm || prof.dl)) || (mine && FM_ID[mine.leagueId]) || null);
+        if ((base[i] && base[i].team && base[i].team.crest) || !r || !r[5]) continue; // eslint-disable-line no-continue
         const ymd = String(r[5]);
         const y = +ymd.slice(0, 4); const mo = +ymd.slice(4, 6);
         const iso = `${ymd.slice(0, 4)}-${ymd.slice(4, 6)}-${ymd.slice(6, 8)}`;
         const day = (d) => new Date(Date.parse(`${iso}T12:00:00Z`) + d * 864e5).toISOString().slice(0, 10);
         const days = [iso, day(-1), day(1)];
-        const ent = idx && idx[String(r[6])];
-        if (!ent || !ent.s) continue; // eslint-disable-line no-continue
+        const ent = idx && idx[String(rc)];
         const st = mo >= 7 ? y : y - 1;
-        const sks = [`${st}-${st + 1}`, `${y}`, `${y - 1}-${y}`].filter((x) => ent.s.includes(x));
+        const sks = ent && ent.s ? [`${st}-${st + 1}`, `${y}`, `${y - 1}-${y}`].filter((x) => ent.s.includes(x)) : [];
         let found = null;
         for (const sk of sks) {
-          const se = await loadSeason(r[6], sk); // eslint-disable-line no-await-in-loop
+          const se = await loadSeason(rc, sk); // eslint-disable-line no-await-in-loop
           if (!se || !se.fix) continue; // eslint-disable-line no-continue
           for (const d of days) {
             const f = se.fix.find((x) => String(x[4]).slice(0, 10) === d && (isMine(se.teams[x[2]]) || isMine(se.teams[x[3]])));
-            if (f) { const oppFm = isMine(se.teams[f[2]]) ? f[3] : f[2]; const oppName = se.teams[oppFm]; found = { opp: oppName, oppId: oppFm, id: `a-${r[6]}-${sk}-${f[0]}` }; break; }
+            if (f) { const oppFm = isMine(se.teams[f[2]]) ? f[3] : f[2]; const oppName = se.teams[oppFm]; found = { opp: oppName, oppId: oppFm, id: `a-${rc}-${sk}-${f[0]}` }; break; }
           }
           if (found) break;
         }
-        if (found && on) setExt((e) => ({ ...e, [i]: gameOf({ opp: found.opp, oppId: found.oppId, matchId: found.id }) }));
+        // partite dell'app: la squadra del giocatore ha la partita in quel giorno (giocatori con dati solo PitchAPI, senza competizione)
+        if (!found && mine) {
+          const am = allTeamMatches(mine.id).find((m) => days.includes(romeDay(m.ts)));
+          if (am) { const ot = teamById(am.homeId === mine.id ? am.awayId : am.homeId); if (ot) found = { opp: ot.name, oppId: null, id: am.id, team: ot }; }
+        }
+        // nome diverso tra archivio e app (Köln / 1. FC Köln) o competizione senza la squadra per nome: si cerca per id del giocatore
+        if (!found && rc) { const pid = await resolvePid(player).catch(() => null); found = await oppByPid(pid, rc, ymd); } // eslint-disable-line no-await-in-loop
+        if (found && on) setExt((e) => ({ ...e, [i]: found.team ? { opp: found.opp, label: shortOpp(found.opp), matchId: found.id, team: found.team } : gameOf({ opp: found.opp, oppId: found.oppId, matchId: found.id }) }));
       }
     })().catch(() => {});
     return () => { on = false; };
   }, [sig]); // eslint-disable-line react-hooks/exhaustive-deps
-  return useMemo(() => (base ? base.map((g, i) => g || ext[i] || null) : null), [base, ext]);
+  return useMemo(() => (base ? base.map((g, i) => ((g && g.team && g.team.crest) ? g : (ext[i] || g || null))) : null), [base, ext]);
 }
 
 // ultime 5 partite (almeno 50') del giocatore in ogni competizione, dall'archivio FotMob (tiri e tiri in porta di ogni partita):
@@ -405,16 +412,103 @@ const shortOpp = (n) => {
   const w = t.split(' ');
   return w[w.length - 1].length >= 4 ? w[w.length - 1] : t;
 };
+const FM_LOGO = (id) => `https://images.fotmob.com/image_resources/logo/teamlogo/${id}.png`;
 const gameOf = (m) => {
   const ini = String(m.opp).split(' ').map((w) => w[0]).join('').slice(0, 3).toUpperCase();
-  // stemma: squadra dell'app per nome; se manca (nome corto dell'archivio, es. "Dortmund") quello FotMob dell'id squadra
-  const t = teamByName(m.opp) || { name: m.opp, initials: ini, crest: m.oppId ? `https://images.fotmob.com/image_resources/logo/teamlogo/${m.oppId}.png` : null };
+  // stemma: squadra dell'app per nome; se manca (nome corto dell'archivio, es. "Köln") o non ha lo stemma, quello FotMob dell'id squadra
+  const t0 = teamByName(m.opp);
+  const t = t0 && (t0.crest || !m.oppId) ? t0 : { ...(t0 || {}), name: (t0 && t0.name) || m.opp, initials: (t0 && t0.initials) || ini, crest: m.oppId ? FM_LOGO(m.oppId) : null };
   return { opp: m.opp, label: shortOpp(m.opp), matchId: m.matchId || null, team: t };
 };
 
+// Avversario per ID (mai per nome: l'archivio scrive "Köln", l'app "1. FC Köln"): la partita dell'archivio della competizione `fm`, nel giorno
+// `ymd` (o il giorno prima/dopo per il fuso), in cui il giocatore (id FotMob `pid`) e' in rosa o ha giocato. Serve a ogni colonna dell'Hit Rate.
+const YMD_ISO = (ymd) => `${String(ymd).slice(0, 4)}-${String(ymd).slice(4, 6)}-${String(ymd).slice(6, 8)}`;
+const oppMemo = {};
+async function oppByPid(pid, fm, ymd) {
+  if (!pid || !fm || !ymd) return null;
+  const key = `${pid}|${fm}|${ymd}`;
+  if (key in oppMemo) return oppMemo[key];
+  let found = null;
+  try {
+    const idx = await archIndex();
+    const ent = idx && idx[String(fm)];
+    if (ent && ent.s) {
+      const iso = YMD_ISO(ymd);
+      const sh = (d) => new Date(Date.parse(`${iso}T12:00:00Z`) + d * 864e5).toISOString().slice(0, 10);
+      const days = [iso, sh(-1), sh(1)];
+      const y = +String(ymd).slice(0, 4); const mo = +String(ymd).slice(4, 6);
+      const st = mo >= 7 ? y : y - 1;
+      const pref = [`${st}-${st + 1}`, `${y}`, `${y - 1}-${y}`, `${y}-${y + 1}`];
+      const sks = [...pref.filter((x) => ent.s.includes(x)), ...ent.s.filter((x) => !pref.includes(x)).slice(0, 2)];
+      outer: for (const sk of sks) {
+        const se = await loadSeason(fm, sk); // eslint-disable-line no-await-in-loop
+        if (!se || !se.fix) continue; // eslint-disable-line no-continue
+        const cand = se.fix.filter((x) => days.includes(String(x[4]).slice(0, 10)));
+        if (!cand.length) continue; // eslint-disable-line no-continue
+        const det = await loadSeasonMatches(fm, sk); // eslint-disable-line no-await-in-loop
+        if (!det || !det.m) continue; // eslint-disable-line no-continue
+        for (const d of days) {
+          for (const f of cand.filter((x) => String(x[4]).slice(0, 10) === d)) {
+            const x = det.m[f[0]];
+            if (!x) continue; // eslint-disable-line no-continue
+            const inSide = (sd) => !!x[sd] && [...(x[sd].st || []), ...(x[sd].sb || [])].some((r) => r && String(r[0]) === String(pid));
+            let side = inSide('h') ? 'h' : inSide('a') ? 'a' : null;
+            if (!side && x.pn && x.pn[pid] && Array.isArray(x.pn[pid])) { const tid = String(x.pn[pid][2]); side = tid === String((x.h && x.h.id) || f[2]) ? 'h' : tid === String((x.a && x.a.id) || f[3]) ? 'a' : null; }
+            if (!side) continue; // eslint-disable-line no-continue
+            const oppId = String(side === 'h' ? ((x.a && x.a.id) || f[3]) : ((x.h && x.h.id) || f[2]));
+            found = { opp: se.teams[oppId] || oppId, oppId, id: `a-${fm}-${sk}-${f[0]}` };
+            break outer;
+          }
+        }
+      }
+    }
+  } catch (e) { found = null; }
+  oppMemo[key] = found;
+  return found;
+}
+
+// Pagine per competizione: l'avversario di ogni partita dell'indice dell'app si riconosce anche per ID (stemma e nome veri dell'archivio)
+// quando il nome dell'indice non e' una squadra dell'app o la squadra non ha lo stemma.
+const fmOfLid = (lid) => FM_ID[lid] || Number(String(lid || '').replace(/^fm-/, '')) || null;
+function useRecOpp(player, key2) {
+  const [fix, setFix] = useState({});
+  const id = player && player.id;
+  useEffect(() => {
+    setFix({});
+    if (!player || !key2) return undefined;
+    let on = true;
+    (async () => {
+      const IM = {};
+      ((RAW.indice && RAW.indice.m) || []).forEach((m) => { IM[m[0]] = m; });
+      const srcs = [player.nat && player.club ? player.club : player, player.natView, player.nat ? player : null].filter((x) => x && x.recent);
+      const seen = new Set();
+      const todo = [];
+      srcs.forEach((x) => x.recent.forEach((m) => {
+        if (!m.matchId || seen.has(m.matchId) || !m.opp || !(Number(m.minutes) >= 50)) return;
+        seen.add(m.matchId);
+        const t = teamByName(m.opp);
+        if (!t || !t.crest) todo.push(m);
+      }));
+      if (!todo.length) return;
+      const pid = await resolvePid(player).catch(() => null);
+      if (!pid) return;
+      for (const m of todo) {
+        const im = IM[m.matchId];
+        const fm = im && fmOfLid(im[1]);
+        const ymd = String(m.date || '').replace(/-/g, '').slice(0, 8);
+        const r = await oppByPid(pid, fm, ymd); // eslint-disable-line no-await-in-loop
+        if (r && on) setFix((f) => ({ ...f, [m.matchId]: { opp: typeof r.opp === 'string' && !/^\d+$/.test(r.opp) ? r.opp : m.opp, oppId: r.oppId } }));
+      }
+    })().catch(() => {});
+    return () => { on = false; };
+  }, [id, key2]); // eslint-disable-line react-hooks/exhaustive-deps
+  return fix;
+}
+
 // pagine del grafico: la prima e' sempre "Tutte le competizioni" (le ultime 5 del calcolo); poi una per competizione (scelta per prima).
 // Le pagine per competizione sono solo da guardare: nel calcolo conta l'Hit Rate totale (e, per le nazionali, la quota Nations League).
-function hitPages(player, key2, vals, mins, comp, g, extra) {
+function hitPages(player, key2, vals, mins, comp, g, extra, oppFix) {
   const opts = playerComps(player);
   const byVal = Object.fromEntries(opts.map((o) => [o.value, o]));
   const all = { key: 'tutte', name: 'Tutte le competizioni', logo: null, values: [...vals].reverse(), minutes: mins.length === vals.length ? [...mins].reverse() : null, games: null };
@@ -435,7 +529,7 @@ function hitPages(player, key2, vals, mins, comp, g, extra) {
     if (extra && extra[k]) { out.push({ key: k, name: byVal[k].comp.name, logo: byVal[k].comp.logo, ...extra[k] }); return; }
     const ms = rec.filter((m) => kindOf(m) === k && Number(m.minutes) >= 50 && m[key2] != null && m.opp).slice(0, 5);
     if (!ms.length) return;
-    out.push({ key: k, name: byVal[k].comp.name, logo: byVal[k].comp.logo, values: ms.map((m) => Number(m[key2])).reverse(), minutes: ms.map((m) => Number(m.minutes)).reverse(), games: ms.map(gameOf).reverse() });
+    out.push({ key: k, name: byVal[k].comp.name, logo: byVal[k].comp.logo, values: ms.map((m) => Number(m[key2])).reverse(), minutes: ms.map((m) => Number(m.minutes)).reverse(), games: ms.map((m) => gameOf({ ...m, ...((oppFix && oppFix[m.matchId]) || {}) })).reverse() });
   });
   return out;
 }
@@ -444,7 +538,8 @@ function hitPages(player, key2, vals, mins, comp, g, extra) {
 function HitPanel({ C, player, vals, mins, key2, line, under, label, openRoute, comp, hitSel }) {
   const games = useHitGames(player, key2, vals, mins);
   const extra = useCompGames(player, key2);
-  const pages = useMemo(() => hitPages(player, key2, vals, mins, comp, games, extra), [player, key2, vals.join(','), mins.join(','), comp, games, extra]); // eslint-disable-line react-hooks/exhaustive-deps
+  const oppFix = useRecOpp(player, key2);
+  const pages = useMemo(() => hitPages(player, key2, vals, mins, comp, games, extra, oppFix), [player, key2, vals.join(','), mins.join(','), comp, games, extra, oppFix]); // eslint-disable-line react-hooks/exhaustive-deps
   const head = hitSel ? <View><Dropdown C={C} slim options={[{ value: '', label: 'Nessuna' }, ...HIT_OPTIONS]} value={hitSel.value} onChange={hitSel.onChange} placeholder="Nessuna" pillKey="label" labelKey="label" width={150} /></View> : null;
   return (
     <View>

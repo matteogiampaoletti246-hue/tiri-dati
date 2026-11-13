@@ -62,6 +62,10 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 - Dati: `h` di `profili.py` (righe [tiri, in porta, minuti, falli, falli subiti, giorno, competizione]), `hn` partite usate, `hp` di cui della stagione passata; `hitRows` in `data/calcPlayer.js`. Falli: stesse partite quando tutte hanno i falli, altrimenti partite della stagione in corso con almeno 50' (`playerFouls`).
 - Stagione passata non nell'archivio: `partite.py` la scarica (le stagioni recenti non hanno tetto); `report/profili_stato.json` elenca le competizioni ancora mancanti (`stagione_passata_non_scaricata`).
 
+## Hit Rate: stemma e avversario di OGNI colonna (regola fissa, tutti i giocatori e tutte le competizioni)
+- Ogni colonna, in "Tutte le competizioni" e in ogni pagina per competizione, ha stemma e nome dell'avversario. Mai per nome (l'archivio scrive "Koln", l'app "1. FC Koln": il confronto dei nomi falliva e la colonna restava vuota, di solito nelle coppe): si cerca per ID FotMob del giocatore nella partita d'archivio del giorno (+-1) della competizione (`oppByPid` in `native/pages/CalcPlayer.js`), poi stemma FotMob dell'id squadra (`gameOf`, anche se la squadra dell'app esiste ma senza stemma). Righe senza competizione (solo PitchAPI): partite dell'app della squadra nel giorno (`allTeamMatches`).
+- Controllo a tappeto: script in `tools/controllo_hit_avversari.py`: per ogni riga `h` di giocatori.json, calc_extra.json e calc_tutte.json verifica che l'avversario si trovi per ID (117.346 righe, 0 senza). Da rilanciare dopo ogni rigenerazione dei dati.
+
 ## Partite del giocatore: un'unica lista (regola fissa)
 - Tab Partite (`PartitePanel` -> `PlayerAllMatches` in `PastMatches.jsx`): tutte le competizioni insieme, dalla piu' recente alla piu' vecchia, con stemma + nome piccolo della competizione nella seconda riga; stesse schede di prima. Le stagioni si caricano a gruppi per anno scorrendo; stesso giorno = stessa partita (quella dell'app con la partita dal vivo vince su quella d'archivio).
 
