@@ -139,7 +139,9 @@ def run():
                 if s[:4] == str(y) and not storico_ridotto(lid, v.get("c"), s): units.append((lid, s))
     # prima le stagioni in corso e la precedente di tutte le competizioni, tra queste prima quelle dell'app; poi lo storico
     units.sort(key=lambda u: (int(u[1][:4]) < RECENT_YEAR, 0 if int(u[0]) in {42, 73, 10216, 55, 47, 87, 54, 53, 57, 71, 61, 40, 64, 38, 59, 135, 48, 86, 146, 140, 110, 185, 111, 165, 268, 112, 130, 230, 141, 209, 134, 186, 133, 149, 278, 180, 9067} else 1))
-    mine = [u for i, u in enumerate(units) if i % NSHARD == SHARD]
+    # YEARS="2024,2023": il turno prende solo queste stagioni (gruppi di stagioni in parallelo, cartelle disgiunte); senza YEARS: divisione per indice
+    yrs = [y.strip() for y in os.environ.get("YEARS", "").split(",") if y.strip()]
+    mine = [u for u in units if u[1][:4] in yrs] if yrs else [u for i, u in enumerate(units) if i % NSHARD == SHARD]
     capped = False
     fails = 0
     for lid, s in mine:
@@ -171,7 +173,7 @@ def run():
             if cur["done"] == (not aperta): continue
             cur["done"] = not aperta; dump(p, cur); continue
         # il tetto di spazio vale solo per lo storico: la stagione in corso si aggiorna sempre (a 399 MB il tetto fermava tutto)
-        if not recente and os.path.exists("partite") and folder_mb("partite") > CAP_MB * NSHARD: print("tetto di spazio raggiunto"); capped = True; break
+        if not recente and os.path.exists("partite") and folder_mb("partite") > CAP_MB * int(os.environ.get("CAPN", NSHARD)): print("tetto di spazio raggiunto"); capped = True; break
         n = 0
         for m in todo:
             if time.time() - T0 > BUDGET: break
