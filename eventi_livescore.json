@@ -37,8 +37,8 @@
    "da_fare": 0
   },
   "Ligue 1 2026-2027": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "Serie A 2026-2027": {
    "partite_con_eventi": 0,
@@ -57,8 +57,8 @@
    "da_fare": 0
   },
   "Premiership 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 6,
+   "da_fare": 6
   },
   "Allsvenskan 2026": {
    "partite_con_eventi": 0,
@@ -126,7 +126,7 @@
   },
   "Friendlies 2026": {
    "partite_con_eventi": 0,
-   "da_fare": 2
+   "da_fare": 0
   },
   "Cymru Premier 2026-2027": {
    "partite_con_eventi": 0,
@@ -170,7 +170,7 @@
   },
   "Coupe de France 2026-2027": {
    "partite_con_eventi": 0,
-   "da_fare": 1
+   "da_fare": 0
   },
   "Super League 1 2026-2027": {
    "partite_con_eventi": 0,
@@ -181,16 +181,16 @@
    "da_fare": 0
   },
   "Copa del Rey 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "Supercopa de España 2025-2026": {
    "partite_con_eventi": 0,
    "da_fare": 0
   },
   "LaLiga2 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "Coppa Italia 2026-2027": {
    "partite_con_eventi": 0,
@@ -213,8 +213,8 @@
    "da_fare": 0
   },
   "Serie C 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 2,
+   "da_fare": 2
   },
   "Belgian Cup 2026-2027": {
    "partite_con_eventi": 0,
@@ -225,8 +225,8 @@
    "da_fare": 0
   },
   "Liga AUF Uruguaya 2026": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "Challenge League 2026-2027": {
    "partite_con_eventi": 0,
@@ -370,7 +370,7 @@
   },
   "1. CFL 2026-2027": {
    "partite_con_eventi": 0,
-   "da_fare": 1
+   "da_fare": 0
   },
   "KNVB Cup 2026-2027": {
    "partite_con_eventi": 0,
@@ -390,7 +390,7 @@
   },
   "FNL 2026-2027": {
    "partite_con_eventi": 0,
-   "da_fare": 1
+   "da_fare": 0
   },
   "Czech Cup 2026-2027": {
    "partite_con_eventi": 0,
@@ -457,8 +457,8 @@
    "da_fare": 0
   },
   "Primera Federación 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "Liga de Expansión MX 2026-2027": {
    "partite_con_eventi": 0,
@@ -505,20 +505,20 @@
    "da_fare": 0
   },
   "UEFA Nations League A 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 2,
+   "da_fare": 2
   },
   "UEFA Nations League B 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 2,
+   "da_fare": 2
   },
   "UEFA Nations League C 2026-2027": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
+   "partite_con_eventi": 2,
+   "da_fare": 3
   },
   "UEFA Nations League D 2026-2027": {
    "partite_con_eventi": 0,
-   "da_fare": 0
+   "da_fare": 2
   },
   "Supercopa do Brasil 2026": {
    "partite_con_eventi": 0,
@@ -565,12 +565,12 @@
    "da_fare": 0
   },
   "Africa Cup of Nations Qualification 2026-2027": {
-   "partite_con_eventi": 3,
-   "da_fare": 3
+   "partite_con_eventi": 1,
+   "da_fare": 13
   },
   "Asian Cup Qualification Playoff 2025-2026": {
    "partite_con_eventi": 0,
-   "da_fare": 0
+   "da_fare": 5
   },
   "FIFA Intercontinental Cup 2026": {
    "partite_con_eventi": 0,
@@ -1126,7 +1126,7 @@
   },
   "World Cup Qualification AFC 2019-2022": {
    "partite_con_eventi": 0,
-   "da_fare": 20
+   "da_fare": 0
   },
   "World Cup Qualification CONCACAF 2021-2022": {
    "partite_con_eventi": 0,
@@ -1134,7 +1134,7 @@
   },
   "World Cup Qualification CONMEBOL 2020-2022": {
    "partite_con_eventi": 0,
-   "da_fare": 1
+   "da_fare": 0
   },
   "World Cup Qualification OFC 2022": {
    "partite_con_eventi": 0,
@@ -1177,5 +1177,5 @@
    "da_fare": 0
   }
  },
- "partite_in_questo_giro": 31
+ "partite_in_questo_giro": 39
 }
