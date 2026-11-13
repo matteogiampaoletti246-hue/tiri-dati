@@ -95,3 +95,7 @@ Le barre di `CompareBars` compaiono subito ai valori veri (niente memoria di val
 
 ## Riassunto: rigore sbagliato (regola fissa)
 - Nel Riassunto (nativo e sito) il rigore sbagliato in partita sta nella sua riga col minuto e il nome del rigorista, con l'icona `MissedPenIcon` (porta con una X rossa dentro, cornice neutra). Il worker `/fx` passa l'evento FotMob `MissedPenalty` (non quelli della lotteria finale), `applyFm` lo trasforma in `type: 'misspen'`. Non conta nei punteggi.
+
+## Mappe giocatore: stagione attuale e orientamento (13/11/2026)
+- "Stagione attuale" = solo partite dal 1 agosto in poi (`seasonStart` in `playerMaps.js`), per ogni competizione (anche nazionali, la cui stagione d'archivio puo' essere un'edizione vecchia) e per tutte e 4 le mappe (tiri, tiri in porta, falli commessi, falli subiti). "Precedente" = l'agosto prima.
+- Tutte e 4 le mappe sono orientate come se la squadra del giocatore attaccasse sempre a destra. Falli ESPN: X=0 sulla porta di chi subisce, X=100 su quella che attacca (verificato sui ruoli); chi subisce `x=X`, chi commette campo girato di 180 gradi (`105-X`, `100-Y`).

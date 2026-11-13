@@ -1,6 +1,6 @@
 // Mappe del campo di un giocatore: tiri, tiri in porta, falli commessi e subiti, per competizione e stagione.
 // Tiri: `sx` delle partite (`partite.py`, stesso formato del worker `/sh` + id giocatore in coda), poi `mapShots` come nella pagina partita.
-// Falli: coppie `p` di ESPN [chi commette, chi subisce, X, Y, minuto]; X/Y dal punto di vista di chi subisce (X=0 sulla porta che attacca, 0-100;
+// Falli: coppie `p` di ESPN [chi commette, chi subisce, X, Y, minuto]; X/Y dal punto di vista di chi subisce (X=0 sulla sua porta, X=100 su quella che attacca, 0-100;
 // Y alto = fascia destra). Tutto e' riportato in coordinate campo (x 0-105 verso la porta attaccata dal giocatore, y 0-68 dall'alto).
 import { useEffect, useState } from 'react';
 import { loadSeasonMatches, loadSeason, loadFalliFile, currentSeason, pastSeasons } from './archive';
@@ -91,8 +91,10 @@ async function loadOne(pid, fm, sk, name) {
         const X = r[2]; const Y = r[3];
         const e = { ...base(mid, m, ownId), min: r[4] || 0, other: { id: otherId, name: op ? op[1] : '' },
           oppTeam: oside ? teamInfo(oside === 'h' ? m.h.id : m.a.id, names) : null,
-          // chi subisce: campo dal suo punto di vista (attacca verso destra); chi commette: dal suo, cioe' il campo girato
-          px: f ? X * 1.05 : 105 - X * 1.05, py: f ? (100 - Y) * 0.68 : Y * 0.68 };
+          // ESPN: X=0 sulla porta di chi subisce, X=100 su quella che attacca (verificato sui ruoli: attaccanti fermati ad X alta, difensori bassa).
+          // Chi subisce: campo dal suo punto di vista (attacca verso destra, x = X). Chi commette: dal suo, cioe' il campo girato di 180 gradi
+          // (anche lui attacca verso destra): cosi' tutte e 4 le mappe sono orientate come se la squadra del giocatore attaccasse sempre a destra.
+          px: f ? 105 - X * 1.05 : X * 1.05, py: f ? (100 - Y) * 0.68 : Y * 0.68 };
         (f ? fouls : fouls).push({ ...e, kind: f ? 'fc' : 'fs' });
       });
     });
@@ -102,18 +104,26 @@ async function loadOne(pid, fm, sk, name) {
   return run;
 }
 
+// "Stagione attuale" = partite da agosto in poi (1 agosto dell'anno in corso, o dell'anno scorso se siamo prima di agosto); "precedente" = l'agosto prima.
+// Vale per ogni competizione (anche le nazionali, la cui "stagione" nell'archivio puo' essere un'edizione vecchia) e per tutte e 4 le mappe.
+const seasonStart = (now = new Date()) => { const y = now.getUTCFullYear() - (now.getUTCMonth() < 7 ? 1 : 0); return Date.UTC(y, 7, 1); };
+const inRange = (ts, a, b) => { const t = ts ? Date.parse(ts) : NaN; return !Number.isNaN(t) && t >= a && t < b; };
+
 // unione di piu' competizioni/stagioni
 export async function loadPlayerMaps({ pid, name, fms, seasonSel }) {
   const jobs = [];
+  const start = seasonStart();
+  const prevStart = Date.UTC(new Date(start).getUTCFullYear() - 1, 7, 1);
   for (const fm of fms) {
     let ss;
     if (seasonSel === 'all') ss = await mapSeasons(fm);
-    else if (seasonSel === 'prev') { const l = await mapSeasons(fm); ss = l.slice(1, 2); } else if (seasonSel === 'cur') { const l = await mapSeasons(fm); ss = l.slice(0, 1); } else ss = [seasonSel];
+    else if (seasonSel === 'prev' || seasonSel === 'cur') ss = (await mapSeasons(fm)).slice(0, 3); else ss = [seasonSel];
     ss.forEach((sk) => jobs.push(loadOne(pid, fm, sk, name)));
   }
   const rs = await Promise.all(jobs);
   const shots = []; const fouls = [];
-  rs.forEach((r) => { shots.push(...r.shots); fouls.push(...r.fouls); });
+  const keep = seasonSel === 'cur' ? (e) => inRange(e.ts, start, Infinity) : seasonSel === 'prev' ? (e) => inRange(e.ts, prevStart, start) : () => true;
+  rs.forEach((r) => { shots.push(...r.shots.filter(keep)); fouls.push(...r.fouls.filter(keep)); });
   const by = (a, b) => String(b.ts || '').localeCompare(String(a.ts || ''));
   return { shots: shots.sort(by), fouls: fouls.sort(by) };
 }
