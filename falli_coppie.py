@@ -230,11 +230,29 @@ def ricalcola_ruoli(ris, d):
 
 # stagione precedente delle nazionali (regola: nazionali = stagione corrente e scorsa; vedi docs/regole/calcolatore-migliori.md)
 PRECEDENTI = ["fm-9806@2024-2025", "fm-9807@2024-2025", "fm-9808@2024-2025", "fm-9809@2024-2025"]
+DA_ANNO = int(os.environ.get("FALLI_DA", "2019"))
+
+
+def stagioni_passate():
+    """Tutte le stagioni passate (dal 2019) di ogni competizione con falli ESPN, la piu' recente per prima: chiavi "base@stagione"."""
+    out = []
+    for base, (cod, fm) in LEGHE.items():
+        pdir = f"partite/{fm}"
+        if not os.path.isdir(pdir):
+            continue
+        ss = sorted((f[:-8] for f in os.listdir(pdir) if f.endswith(".json.gz")), reverse=True)[1:]
+        out += [(s_, i, f"{base}@{s_}") for i, s_ in enumerate(ss) if int(s_[:4]) >= DA_ANNO]
+    return [k for _, _, k in sorted(out, key=lambda x: (x[0], -x[1]), reverse=True)]
 
 
 def main():
-    chiavi = sys.argv[1].split(",") if len(sys.argv) > 1 else list(LEGHE) + PRECEDENTI
+    chiavi = sys.argv[1].split(",") if len(sys.argv) > 1 else list(LEGHE) + stagioni_passate()
+    t_ini = time.time()
+    budget = float(os.environ.get("FALLI_BUDGET_MIN", "100")) * 60   # fuori tempo si salva e si riprende al giro dopo (le partite fatte non si rifanno)
     for k in chiavi:
+        if time.time() - t_ini > budget:
+            print("tempo finito: si riprende al prossimo giro", flush=True)
+            break
         # "fm-9806@2024-2025" = stagione precedente di una nazionale (stessa competizione, stagione indicata)
         base, _, stag_k = k.partition("@")
         cod, fm = LEGHE[base]
@@ -260,6 +278,8 @@ def main():
             print(f"{k}: ruoli aggiornati in {camb} partite", flush=True)
         tot = tot_m = n_part = 0
         for mid, m in d.items():
+            if time.time() - t_ini > budget:
+                break
             # "xy": coppie gia' salvate con posizione e minuto; le vecchie (senza) si rifanno una volta
             if not m or not m.get("h") or not m.get("a") or (mid in ris and ris[mid].get("xy") == 2):
                 continue
