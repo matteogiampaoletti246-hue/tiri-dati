@@ -123,7 +123,7 @@ function ShotDetail({ C, s, onPrev, onNext }) {
 // comps: competizioni del giocatore [{id, name, logo...}]; fmPid: id FotMob del giocatore
 export default function PlayerMapsN({ C, comps, fmPid, name, color, openRoute }) {
   const [comp, setComp] = useState('all');
-  const [season, setSeason] = useState('cur');
+  const [season, setSeason] = useState('l5');
   const [opp, setOpp] = useState('all');
   const [page, setPage] = useState(0);
   const [sel, setSel] = useState(null);
@@ -139,8 +139,8 @@ export default function PlayerMapsN({ C, comps, fmPid, name, color, openRoute })
     return () => { on = false; };
   }, [fmsSig]); // eslint-disable-line react-hooks/exhaustive-deps
   // tutte le stagioni, poi la stagione attuale (scelta in automatico), poi le altre in ordine cronologico inverso (2025/26, 2024/25...)
-  const sOpts = [{ value: 'all', label: 'Tutte le stagioni' }, { value: 'cur', label: 'Stagione attuale' }, ...sList.slice(1).map((s) => ({ value: s, label: seasonFmt(s) }))];
-  const sEff = sOpts.some((o) => o.value === season) ? season : 'cur';
+  const sOpts = [{ value: 'l5', label: 'Ultime 5 (Hit rate)' }, { value: 'all', label: 'Tutte le stagioni' }, { value: 'cur', label: 'Stagione attuale' }, ...sList.slice(1).map((s) => ({ value: s, label: seasonFmt(s) }))];
+  const sEff = sOpts.some((o) => o.value === season) ? season : 'l5';
   const data = usePlayerMaps({ pid: fmPid, name, fms, seasonSel: sEff });
   const col = shotColor([hexOk(color) || '#ffffff']);
 
@@ -174,7 +174,7 @@ export default function PlayerMapsN({ C, comps, fmPid, name, color, openRoute })
   return (
     <View style={{ paddingHorizontal: 20, paddingTop: 16 }}>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 10 }}>
-        <DropBtn C={C} title="Competizione" label={cLg ? cLg.name : 'Tutte le competizioni'} icon={cLg ? <LeagueLogo league={cLg} size={24} C={C} /> : undefined} options={cOpts} value={comp} onChange={(v) => { setComp(v); setSeason('cur'); setOpp('all'); }} />
+        <DropBtn C={C} title="Competizione" label={cLg ? cLg.name : 'Tutte le competizioni'} icon={cLg ? <LeagueLogo league={cLg} size={24} C={C} /> : undefined} options={cOpts} value={comp} onChange={(v) => { setComp(v); setSeason('l5'); setOpp('all'); }} />
         <DropBtn C={C} title="Stagione" label={(sOpts.find((o) => o.value === sEff) || sOpts[0]).label} options={sOpts} value={sEff} onChange={(v) => { setSeason(v); setOpp('all'); }} />
       </View>
       {data === undefined ? <View style={{ height: 250, borderRadius: 22, backgroundColor: C.skBase }} /> : !pages.length ? null : (

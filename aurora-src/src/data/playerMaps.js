@@ -21,6 +21,13 @@ export async function mapSeasons(fm) {
   return [cur, ...(await pastSeasons(fm))].filter((s) => Number(String(s).slice(0, 4)) >= SX_FROM);
 }
 
+// righe del worker `/fs` -> stesso formato di `sx` (id giocatore in coda), solo i tiri di `pid` (riconosciuto per nome)
+function fsToSx(j, who, pid) {
+  const rows = ((j && j.sh) || []).filter((x) => !x[17] && x[4] != null && x[5] != null).map((x) => [...x.slice(0, 3), x[3], ...x.slice(4, 19), (sameName(x[3], who) ? pid : null)]);
+  rows.forEach((x) => { if (x[19] != null) x[3] = pid; });
+  return rows;
+}
+
 const teamInfo = (fid, names) => {
   const t = teamByFm(fid);
   return { fid: Number(fid), name: (t && t.name) || (names && names[fid]) || '', colors: t && t.colors ? t.colors : null };
@@ -49,9 +56,7 @@ async function loadOne(pid, fm, sk, name) {
         try {
           const r = await fetch(`${WORKER}/fs?id=${mid}`);
           const j = r.ok ? await r.json() : null;
-          const who = inLu(m)[1] || name;
-          m.sx = ((j && j.sh) || []).filter((x) => !x[17] && x[4] != null && x[5] != null).map((x) => [...x.slice(0, 3), x[3], ...x.slice(4, 19), (sameName(x[3], who) ? pid : null)]);
-          m.sx.forEach((x) => { if (x[19] != null) x[3] = pid; });
+          m.sx = fsToSx(j, inLu(m)[1] || name, pid);
         } catch (e) { /* la partita resta senza tiri */ }
       }));
     }
@@ -72,6 +77,34 @@ async function loadOne(pid, fm, sk, name) {
       const own = mine[0][2];
       const meta = base(mid, m, own);
       mapShots(mine, null).forEach((s) => { if (s.px != null && s.py != null) shots.push({ ...s, playerName: name || s.playerName, ...meta }); });
+    });
+    // partite giocate (almeno 50', in formazione) = quelle dell'Hit Rate; `nosx` = di queste, le partite senza posizioni dei tiri nell'archivio
+    // (stagioni passate non ancora scaricate): per le ultime 5 i tiri si prendono dalla partita stessa, cosi' mappa e grafico coincidono
+    const played = [];
+    const nosx = [];
+    Object.entries(ms).forEach(([mid, m]) => {
+      const pl = m && m.p && m.p[pid];
+      if (!pl || !(pl.minutes_played >= 50)) return;
+      const sd = sidesOf(m);
+      const inH = sd.h.some((r) => String(r[0]) === String(pid));
+      const inA = sd.a.some((r) => String(r[0]) === String(pid));
+      if (!inH && !inA) return;
+      const ownId = inH ? m.h.id : m.a.id;
+      played.push({ mid, ts: when[mid] || null });
+      if (!Array.isArray(m.sx) && Number(pl.total_shots) > 0) {
+        let run = null;
+        const who = (sd.h.concat(sd.a).find((r) => String(r[0]) === String(pid)) || [])[1] || name;
+        nosx.push({ mid, fill: () => {
+          if (!run) {
+            run = fetch(`${WORKER}/fs?id=${mid}`).then((r) => (r.ok ? r.json() : null)).then((j) => {
+              const mine = fsToSx(j, who, pid).filter((x) => String(x[19]) === String(pid));
+              const meta = base(mid, m, mine.length ? mine[0][2] : ownId);
+              return mapShots(mine, null).filter((x) => x.px != null && x.py != null).map((x) => ({ ...x, playerName: name || x.playerName, ...meta }));
+            }).catch(() => []);
+          }
+          return run;
+        } });
+      }
     });
     Object.entries(fl || {}).forEach(([mid, v]) => {
       const m = ms[mid];
@@ -98,8 +131,8 @@ async function loadOne(pid, fm, sk, name) {
         (f ? fouls : fouls).push({ ...e, kind: f ? 'fc' : 'fs' });
       });
     });
-    return { shots, fouls };
-  })().catch(() => ({ shots: [], fouls: [] }));
+    return { shots, fouls, played, nosx };
+  })().catch(() => ({ shots: [], fouls: [], played: [], nosx: [] }));
   lruSet(CACHE, ck, run, 60);
   return run;
 }
@@ -117,6 +150,7 @@ export async function loadPlayerMaps({ pid, name, fms, seasonSel }) {
   for (const fm of fms) {
     let ss;
     if (seasonSel === 'all') ss = await mapSeasons(fm);
+    else if (seasonSel === 'l5') ss = (await mapSeasons(fm)).slice(0, 2); // come il grafico Hit Rate: stagione in corso, poi la passata
     else if (seasonSel === 'prev' || seasonSel === 'cur') {
       // solo le stagioni che possono contenere partite del periodo (una stagione AAAA-BBBB va da agosto AAAA a giugno BBBB): la piu' recente c'e' sempre
       // (edizioni vecchie delle nazionali), le altre solo se iniziano nell'anno giusto; prima si caricavano sempre 3 stagioni per ogni competizione
@@ -127,8 +161,27 @@ export async function loadPlayerMaps({ pid, name, fms, seasonSel }) {
   }
   const rs = await Promise.all(jobs);
   const shots = []; const fouls = [];
+  if (seasonSel === 'l5') {
+    // le ultime 5 partite (almeno 50') del giocatore nelle competizioni scelte: le stesse colonne del grafico Hit Rate
+    const by0 = (a, b) => String(b.ts || '').localeCompare(String(a.ts || ''));
+    const last = rs.flatMap((r) => r.played).sort(by0).slice(0, 5);
+    const set = new Set(last.map((x) => x.mid));
+    const extra = await Promise.all(rs.flatMap((r) => r.nosx).filter((x) => set.has(x.mid)).map((x) => x.fill()));
+    rs.forEach((r) => { shots.push(...r.shots.filter((e) => set.has(e.mid))); fouls.push(...r.fouls.filter((e) => set.has(e.mid))); });
+    extra.forEach((l) => shots.push(...l));
+    const by = (a, b) => String(b.ts || '').localeCompare(String(a.ts || ''));
+    return { shots: shots.sort(by), fouls: fouls.sort(by) };
+  }
   const keep = seasonSel === 'cur' ? (e) => inRange(e.ts, start, Infinity) : seasonSel === 'prev' ? (e) => inRange(e.ts, prevStart, start) : () => true;
   rs.forEach((r) => { shots.push(...r.shots.filter(keep)); fouls.push(...r.fouls.filter(keep)); });
+  // una stagione passata scelta a mano, non ancora scaricata nell'archivio: i tiri delle sue partite si prendono dalle partite stesse (a gruppi di 6, al massimo 48)
+  if (seasonSel !== 'all' && seasonSel !== 'cur' && seasonSel !== 'prev') {
+    const need = rs.flatMap((r) => r.nosx).slice(0, 48);
+    for (let i = 0; i < need.length; i += 6) {
+      // eslint-disable-next-line no-await-in-loop
+      (await Promise.all(need.slice(i, i + 6).map((x) => x.fill()))).forEach((l) => shots.push(...l));
+    }
+  }
   const by = (a, b) => String(b.ts || '').localeCompare(String(a.ts || ''));
   return { shots: shots.sort(by), fouls: fouls.sort(by) };
 }
@@ -136,7 +189,7 @@ export async function loadPlayerMaps({ pid, name, fms, seasonSel }) {
 // pre-carica le mappe della stagione attuale (tutte le competizioni) appena si apre la scheda giocatore: aprendo Statistiche i dati sono gia' in cache
 export function warmPlayerMaps({ pid, name, fms }) {
   if (!pid || !fms || !fms.length) return;
-  loadPlayerMaps({ pid, name, fms, seasonSel: 'cur' }).catch(() => {});
+  loadPlayerMaps({ pid, name, fms, seasonSel: 'l5' }).catch(() => {});
 }
 
 export function usePlayerMaps(args) {

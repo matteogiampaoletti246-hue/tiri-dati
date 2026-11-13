@@ -107,6 +107,11 @@ def incompleta(x):
 def vuota(x):
     x = x or {}
     return not x.get("s") and not x.get("p") and not x.get("h")
+# Partita finita da poco con statistiche di tiro ma shotmap vuota (FotMob a volte la mette dopo): ci si riprova per 3 giorni, al massimo 3 volte.
+# Nei campionati dove FotMob non ha mai la shotmap la partita resta com'e' (nessun dato inventato).
+def sxvuoto(x):
+    x = x or {}
+    return x.get("sx") == [] and any(((v or {}).get("total_shots") or 0) > 0 for v in (x.get("p") or {}).values())
 def da_poco(m, giorni=21):
     try:
         import datetime
@@ -157,6 +162,8 @@ def run():
         if recente:
             todo += [m for m in fx if str(m[0]) in cur["m"] and (incompleta(cur["m"][str(m[0])]) or (vuota(cur["m"][str(m[0])]) and da_poco(m)))
                      and (cur["m"][str(m[0])].get("rt") or 0) < MAX_RT]
+            todo += [m for m in fx if str(m[0]) in cur["m"] and sxvuoto(cur["m"][str(m[0])]) and da_poco(m, 3)
+                     and (cur["m"][str(m[0])].get("rt") or 0) < 3 and m not in todo]
         if bf:
             todo += [m for m in fx if str(m[0]) in cur["m"] and nosh(cur["m"][str(m[0])]) and (cur["m"][str(m[0])].get("rt") or 0) < MAX_RT and m not in todo]
         if cur["done"] and not todo and not aperta: continue
@@ -186,6 +193,7 @@ def run():
                 if vuota(old):
                     if vuota(new): old["rt"] = (old.get("rt") or 0) + 1; continue
                 elif not new.get("p") or incompleta(new): old["rt"] = (old.get("rt") or 0) + 1; continue
+                elif sxvuoto(old) and not new.get("sx"): old["rt"] = (old.get("rt") or 0) + 1; continue
             cur["m"][str(m[0])] = new
             n += 1
         else:
