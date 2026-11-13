@@ -3,6 +3,7 @@
 import './shared/shim'; // PRIMO: il livello dati del sito (load.js) legge document.baseURI appena viene importato
 import React, { createContext, memo, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { View, Text, FlatList, Pressable as RNPressable, ScrollView, StatusBar, Dimensions, useColorScheme, StyleSheet, Animated as RNAnimated, Easing as RNEasing, AccessibilityInfo, LayoutAnimation, Platform, UIManager, AppState, Modal, TextInput, Keyboard, BackHandler, useWindowDimensions } from 'react-native';
+import { onResumeCalm, justResumed } from './shared/resume';
 import { InteractionManager } from './shared/afterInteractions';
 import { Gesture, GestureDetector, GestureHandlerRootView, Pressable } from 'react-native-gesture-handler'; // tasti di Home, Dock e barre: riconoscimento nativo (come swipe e scroll), non il sistema di tocco di JS
 import { Image } from 'expo-image';
@@ -1319,7 +1320,7 @@ function Screen({ onTheme, onReset, themePref }) {
     let alive = true; let t;
     const tick = async () => {
       if (!alive) return;
-      if (AppState.currentState === 'active' && !openRef.current) { // con una pagina aperta sopra la Home non serve ridisegnarla
+      if (AppState.currentState === 'active' && !justResumed() && !openRef.current) { // con una pagina aperta sopra la Home non serve ridisegnarla
         const v = viewRef.current;
         const days = new Set([rome(new Date())]);
         if (v && v.keys[curRef.current]) days.add(v.keys[curRef.current]);
@@ -1332,7 +1333,7 @@ function Screen({ onTheme, onReset, themePref }) {
     tick();
     globalThis.__homeLiveNow = () => { clearTimeout(t); t = setTimeout(tick, 0); };
     // al ritorno dal background l'aggiornamento parte con calma: prima l'app deve tornare a rispondere al tocco
-    const sub = AppState.addEventListener('change', (st) => { if (st === 'active') { clearTimeout(t); t = setTimeout(tick, 0); } });
+    const sub = { remove: onResumeCalm(() => { clearTimeout(t); t = setTimeout(tick, 0); }) };
     return () => { alive = false; clearTimeout(t); sub.remove(); globalThis.__homeLiveNow = null; };
   }, [!!data, refresh]);
 

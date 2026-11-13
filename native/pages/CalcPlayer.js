@@ -1,6 +1,7 @@
 // Calcolatore: scheda Affidabilità giocatore (nativa). Stessa logica di components/calc/PlayerTab.jsx del sito, con i dati e i calcoli condivisi.
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { View, Text, Pressable, TextInput, StyleSheet, AppState } from 'react-native';
+import { onResumeCalm, justResumed } from '../shared/resume';
 import Animated from 'react-native-reanimated';
 import BannerMorph from '../shared/bannerFx';
 import { Ionicons } from '@expo/vector-icons';
@@ -961,13 +962,13 @@ export default function CalcPlayer({ C, openRoute, embedId }) {
     let on = true; let busy = false;
     const run = () => {
       const m = nextMatchVs(form.team.id, form.opp.id);
-      if (!on || busy || AppState.currentState !== 'active' || !m || m.ts - Date.now() > 75 * 60000 || m.status === 'finished') return;
+      if (!on || busy || AppState.currentState !== 'active' || justResumed() || !m || m.ts - Date.now() > 75 * 60000 || m.status === 'finished') return;
       busy = true;
       prepareMatch(m.id, true).then(() => on && luBump((x) => x + 1)).catch(() => {}).finally(() => { busy = false; });
     };
     run();
     const t = setInterval(run, 5000);
-    const sub = AppState.addEventListener('change', (st) => { if (st === 'active') run(); });
+    const sub = { remove: onResumeCalm(run) };
     return () => { on = false; clearInterval(t); sub.remove(); };
   }, [duelId, form.team.id, form.opp.id]); // eslint-disable-line react-hooks/exhaustive-deps
   const sameT = (a, b) => a === b || (!!teamById(a) && !!teamById(b) && teamById(a).name === teamById(b).name);

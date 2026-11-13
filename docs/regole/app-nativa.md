@@ -58,6 +58,8 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 
 - Memoria in background (10/11/2026): Expo Go veniva chiuso da iOS per la memoria. Andando in background si svuota la cache immagini (`Image.clearMemoryCache`) e, se la pagina web e' chiusa (Home), si smonta la WebView (`sleep`); al ritorno si ricrea sulla pagina di partenza. Con una pagina aperta la WebView resta (si perderebbe la posizione).
 
+- Tocco subito al ritorno (13/11): al ritorno in primo piano Home, pagina partita e Calcolatore NON aggiornano i dati per 2,5 s e poi solo dopo le interazioni (`shared/resume.js`: `onResumeCalm`, `justResumed`); prima partivano tutti a 0 ms e il thread JS occupato lasciava l'app senza risposta al tocco per 1-2 s. Ogni nuovo aggiornamento al ritorno deve passare da li', mai da `AppState` diretto.
+
 ## Riga in alto della Home: ricerca e menu a tendina (regola fissa)
 - Riga unica: logo (solo il marchio), barra di ricerca che prende lo spazio libero, Calendario, menu. Uguale nel sito (`HomeHeader`) e nel nativo (`Header` in `native/App.js`).
 - Ricerca: la barra si allarga in un pannello unico in cima (aspetto concept B); il pannello scende dalla barra e le voci arrivano a cascata (animazione concept A). Banner giocatore compatto (`PlayerBanner compact` nel sito, `PlayerBannerS` nel nativo). Altezza massima fino alla tastiera, scorre solo la lista. Risultati sempre da `lib/search.js` (`searchAll`): nel nativo li calcola la pagina web (`window.__slSearch` -> messaggio `srch:<n>:<json>`), mai un secondo elenco nell'app.

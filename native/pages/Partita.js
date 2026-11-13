@@ -2,6 +2,7 @@
 // Ogni scheda senza dati non si mostra. Le schede stanno in PartitaPanels.js (si portano una alla volta).
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, Pressable, ScrollView, AppState } from 'react-native';
+import { onResumeCalm, justResumed } from '../shared/resume';
 import { Ionicons } from '@expo/vector-icons';
 import './../shared/shim';
 import { bootShared } from '../shared/boot';
@@ -56,14 +57,14 @@ export default function Partita({ C, top, onBack, bottom = 90, openRoute, params
     let n = 0;
     let busy = false;
     const run = (force) => {
-      if (AppState.currentState !== 'active' || busy) return;
+      if (AppState.currentState !== 'active' || justResumed() || busy) return;
       n += 1;
       const beat = lineupBeat(matchById(id));
       const every = beat <= 1 ? 1 : Math.round((beat * 5) / 3);
       if (beat && (force || n % every === 0)) { busy = true; prepareMatch(id, true).then(() => on && bump((x) => x + 1)).catch(() => {}).finally(() => { busy = false; }); }
     };
     const t = setInterval(() => run(false), 3000);
-    const sub = AppState.addEventListener('change', (st) => { if (st === 'active') run(true); });
+    const sub = { remove: onResumeCalm(() => run(true)) };
     return () => { on = false; clearInterval(t); sub.remove(); };
   }, [id]);
 
