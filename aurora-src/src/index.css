@@ -84,6 +84,7 @@
   --shadow-1: 0 8px 18px -14px rgba(15, 23, 42, .3);
   --shadow-2: 0 6px 14px -12px rgba(15, 23, 42, .26);
   --sk-base: rgba(15, 23, 42, .085);
+  --sil-face: #5a6070; --sil-hair: #3f4552; --sil-shadow: #2a2e39; --sil-shirt: #1c2029; --sil-shirt2: #252a35;
   --sk-hi: rgba(255, 255, 255, .8);
   --sk-panel: rgba(255, 255, 255, .78);
 
@@ -169,6 +170,7 @@
   --shadow-1: 0 26px 60px -32px rgba(0, 0, 0, .95);
   --shadow-2: 0 14px 30px -24px rgba(0, 0, 0, .85);
   --sk-base: rgba(255, 255, 255, .075);
+  --sil-face: #555b69; --sil-hair: #3b404d; --sil-shadow: #252932; --sil-shirt: #1a1d25; --sil-shirt2: #222630;
   --sk-hi: rgba(255, 255, 255, .1);
   --sk-panel: rgba(255, 255, 255, .045);
 
