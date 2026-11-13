@@ -1340,17 +1340,20 @@ function Screen({ onTheme, onReset, themePref }) {
   const markClosed = useCallback(() => { openRef.current = false; setWebOpen(false); if (globalThis.__homeLiveNow) globalThis.__homeLiveNow(); }, []);
   // Ritorno dal background: come tutte le app. Entro 10 minuti non si tocca niente (stessa pagina, stessi gesti, stessi tasti);
   // oltre 10 minuti l'app riparte da zero. In background l'app non fa nulla e al ritorno i dati in rete aspettano qualche secondo.
+  const edgeOn = useSharedValue(0);
+  const [epoch, setEpoch] = useState(0);
   useEffect(() => {
     const sub = AppState.addEventListener('change', (st) => {
       if (st === 'background') { bgAt.current = Date.now(); return; }
       if (st !== 'active') return;
       const gap = bgAt.current ? Date.now() - bgAt.current : 0;
       bgAt.current = 0;
+      edgeOn.value = 0; setEpoch((n) => n + 1); // gesti ricreati: dopo il background un gesto fermo a meta' lasciava lo scroll vivo e i tasti morti
       if (gap > 10 * 60 * 1000) { try { Image.clearMemoryCache(); } catch (e) { /* ignora */ } if (onReset) onReset(); }
     });
     const mw = AppState.addEventListener('memoryWarning', () => { try { Image.clearMemoryCache(); } catch (e) { /* ignora */ } });
     return () => { sub.remove(); mw.remove(); };
-  }, [onReset]);
+  }, [onReset, edgeOn]);
   const finishTab = useCallback((p) => { tsOn.value = 0; ts.value = 0; stackN.value = 1; setNatStack([p]); }, [tsOn, ts, stackN]);
   const openRoute = useCallback((route) => {
     const path0 = route.split('?')[0];
@@ -1442,12 +1445,13 @@ function Screen({ onTheme, onReset, themePref }) {
       t = Math.max(base - 1, Math.min(base + 1, t));
       t = Math.max(0, Math.min(N - 1, t));
       x.value = withTiming(t, { duration: 240, easing: Easing.out(Easing.cubic) });
-    }), [x, x0, N]);
+    }), [x, x0, N, epoch]);
 
   // bordo sinistro: scorrimento indietro dalla pagina web
   const bx = useSharedValue(0); const by = useSharedValue(0); const sheetSV = useSharedValue(0);
   useEffect(() => { sheetSV.value = sheetOpen ? 1 : 0; }, [sheetOpen, sheetSV]);
-  const edgeOn = useSharedValue(0); // 1 mentre il dito trascina: onFinalize chiude comunque il gesto se onEnd non arriva (gesto interrotto da un'altra scheda/scroll)
+  // (edgeOn e' definito sopra, vicino a bgAt)
+  // 1 mentre il dito trascina: onFinalize chiude comunque il gesto se onEnd non arriva (gesto interrotto da un'altra scheda/scroll)
   const edgeSettle = (e) => {
     'worklet';
     if (!edgeOn.value) return;
@@ -1463,7 +1467,7 @@ function Screen({ onTheme, onReset, themePref }) {
     .onStart(() => { cancelAnimation(ov); cancelAnimation(nv); edgeOn.value = 1; hx.value = 0; if (stackN.value > 1) { nvIdx.value = stackN.value - 1; ovStart.value = nv.value; } else ovStart.value = ov.value; })
     .onUpdate((e) => { const v = Math.min(W, Math.max(0, ovStart.value + e.translationX * SWIPE_GAIN)); if (stackN.value > 1) nv.value = v; else ov.value = v; })
     .onEnd((e) => { edgeSettle(e); })
-    .onFinalize((e) => { edgeSettle(e); }), [ov, ovStart, nv, nvIdx, stackN, natBelow, afterClose, markClosed, finishPop, revealNat, edgeOn, hx]); // eslint-disable-line react-hooks/exhaustive-deps
+    .onFinalize((e) => { edgeSettle(e); }), [ov, ovStart, nv, nvIdx, stackN, natBelow, afterClose, markClosed, finishPop, revealNat, edgeOn, hx, epoch]); // eslint-disable-line react-hooks/exhaustive-deps
   // swipe indietro da qualunque punto dello schermo (sulla prima scheda o nelle pagine senza schede)
   const anyBack = useMemo(() => Gesture.Pan().manualActivation(true)
     .onTouchesDown((e) => { const t = e.allTouches[0]; if (t) { bx.value = t.absoluteX; by.value = t.absoluteY; } })
@@ -1476,7 +1480,7 @@ function Screen({ onTheme, onReset, themePref }) {
     .onStart(() => { cancelAnimation(ov); cancelAnimation(nv); edgeOn.value = 1; hx.value = 0; if (stackN.value > 1) { nvIdx.value = stackN.value - 1; ovStart.value = nv.value; } else ovStart.value = ov.value; })
     .onUpdate((e) => { const v = Math.min(W, Math.max(0, ovStart.value + e.translationX * SWIPE_GAIN)); if (stackN.value > 1) nv.value = v; else ov.value = v; })
     .onEnd((e) => { edgeSettle(e); })
-    .onFinalize((e) => { edgeSettle(e); }), [ov, ovStart, nv, nvIdx, stackN, natBelow, afterClose, markClosed, finishPop, revealNat, edgeOn, bx, by, sheetSV, hx]); // eslint-disable-line react-hooks/exhaustive-deps
+    .onFinalize((e) => { edgeSettle(e); }), [ov, ovStart, nv, nvIdx, stackN, natBelow, afterClose, markClosed, finishPop, revealNat, edgeOn, bx, by, sheetSV, hx, epoch]); // eslint-disable-line react-hooks/exhaustive-deps
   const homeSt = useAnimatedStyle(() => ({ transform: [{ translateX: hx.value }] }));
   const ovStyle = useAnimatedStyle(() => ({ transform: [{ translateX: ov.value }] }));
 
