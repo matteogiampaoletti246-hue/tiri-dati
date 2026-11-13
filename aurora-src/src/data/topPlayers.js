@@ -267,6 +267,7 @@ export function playerReliability(p, dateIso, line = 0.5, keepInjured = false, f
 // Scheda giocatore (Statistiche): voti Over di un giocatore per la sua prossima partita, per falli commessi / subiti.
 // Stesso calcolo di `loadBestFouls` e del Calcolatore (con duello automatico); ricordato in LRU. Restituisce un voto (0-10) per linea, null se mancano i dati.
 const PFOULS = new Map();
+const FD_MEMO = new Map();
 export function loadPlayerFouls(p, dateIso, lines, stat) {
   const ck = `${p && p.id}|${dateIso}|${stat}|${lines.join(',')}`;
   const hit = lruGet(PFOULS, ck);
@@ -279,12 +280,23 @@ export function loadPlayerFouls(p, dateIso, lines, stat) {
     const team = teamById(base.team.id);
     const opp = teamById(base.opp.id);
     const keys = foulKeysFor(p, [team && team.name, opp && opp.name], [base.team.leagueId, base.opp.leagueId]);
+    // stessi oggetti per le stesse chiavi: le memorie di calcRoles/calcFouls (WeakMap sull'oggetto dati) funzionano per tutti i giocatori della partita,
+    // non si rifanno i calcoli sui ruoli e sulle rose 40 volte (erano blocchi di 1-2 s che fermavano il tocco)
     const loaded = await Promise.all(keys.map(loadFouls));
-    const fd = {};
-    keys.forEach((k, i) => { if (loaded[i]) fd[k] = loaded[i]; });
+    const fdSig = keys.join('|');
+    let fd = FD_MEMO.get(fdSig);
+    if (!fd || keys.some((k, i) => fd[k] !== (loaded[i] || undefined))) {
+      fd = {};
+      keys.forEach((k, i) => { if (loaded[i]) fd[k] = loaded[i]; });
+      lruSet(FD_MEMO, fdSig, fd, 40);
+    }
     const loadedFl = await Promise.all(ROLE_KEYS.map(loadFalli));
-    const fl = {};
-    ROLE_KEYS.forEach((k, i) => { if (loadedFl[i]) fl[k] = loadedFl[i]; });
+    let fl = FD_MEMO.get('@roles');
+    if (!fl || ROLE_KEYS.some((k, i) => fl[k] !== (loadedFl[i] || undefined))) {
+      fl = {};
+      ROLE_KEYS.forEach((k, i) => { if (loadedFl[i]) fl[k] = loadedFl[i]; });
+      lruSet(FD_MEMO, '@roles', fl, 40);
+    }
     const fmPid = await resolvePid(p).catch(() => null);
     if (!fmPid) return lines.map(() => null);
     const pf = playerFoulsOf(fd, fmPid, p, stat, hitRows);
