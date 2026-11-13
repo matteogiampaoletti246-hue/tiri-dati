@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Controllo a tappeto 13/11/2026: per ogni giocatore e competizione, le ultime 5 partite (>=50) = colonne del grafico Hit Rate (tiri dalle statistiche)
-confrontate con i tiri con posizione (`sx`) della mappa tiri. Categorie: coincide / sx assente (stagione passata non ancora scaricata: l app li prende dalla partita) /
+confrontate con i tiri con posizione (`sx`) della mappa tiri. Seconda fonte ESPN (`sxe/`) dove FotMob non ha la mappa. Categorie: coincide / sx assente (stagione passata non ancora scaricata: l app li prende dalla partita) /
 nessuna shotmap FotMob (campionati minori: dato che non esiste) / shotmap parziale. Uso: python3 controllo_mappa_hit.py"""
 import gzip,json,os,glob,collections,sys
 # per ogni competizione: le ultime 5 partite (>=50') di ogni giocatore nelle 2 stagioni piu' recenti = pagina del grafico Hit Rate
@@ -14,9 +14,12 @@ for fmdir in sorted(os.listdir('partite')):
             a=json.load(open(f'arch/{fmdir}/{sk}.json')); d=json.load(gzip.open(f'partite/{fmdir}/{sk}.json.gz'))
         except Exception: continue
         when={str(r[0]):r[4] for r in a['fix']}
+        try: ex=json.load(gzip.open(f'sxe/{fmdir}/{sk}.json.gz'))   # seconda fonte: tiri ESPN dove FotMob non ha la mappa (tiri_espn.py)
+        except Exception: ex={}
         for mid,m in d['m'].items():
             if not m or not m.get('p') or mid not in when: continue
             sx=m.get('sx')
+            if not (isinstance(sx,list) and sx) and ex.get(mid): sx=ex[mid]
             cnt=collections.Counter(str(x[19]) for x in sx) if isinstance(sx,list) else None
             sxn=len(sx) if isinstance(sx,list) else None
             for pid,v in m['p'].items():

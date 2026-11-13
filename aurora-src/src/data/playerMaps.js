@@ -3,7 +3,7 @@
 // Falli: coppie `p` di ESPN [chi commette, chi subisce, X, Y, minuto]; X/Y dal punto di vista di chi subisce (X=0 sulla sua porta, X=100 su quella che attacca, 0-100;
 // Y alto = fascia destra). Tutto e' riportato in coordinate campo (x 0-105 verso la porta attaccata dal giocatore, y 0-68 dall'alto).
 import { useEffect, useState } from 'react';
-import { loadSeasonMatches, loadSeason, loadFalliFile, currentSeason, pastSeasons } from './archive';
+import { loadSeasonMatches, loadSeason, loadFalliFile, loadSxeFile, currentSeason, pastSeasons } from './archive';
 import { mapShots } from './fotmob';
 import { teamByFm } from './teams';
 import { WORKER } from './load';
@@ -38,10 +38,11 @@ async function loadOne(pid, fm, sk, name) {
   const hit = lruGet(CACHE, ck);
   if (hit) return hit;
   const run = (async () => {
-    const [d, fl, arch] = await Promise.all([
+    const [d, fl, arch, ex] = await Promise.all([
       loadSeasonMatches(fm, sk).catch(() => null),
       loadFalliFile(fm, sk).catch(() => null),
       loadSeason(fm, sk).catch(() => null),
+      loadSxeFile(fm, sk).catch(() => null),
     ]);
     const ms = (d && d.m) || {};
     const when = {};
@@ -60,6 +61,9 @@ async function loadOne(pid, fm, sk, name) {
         } catch (e) { /* la partita resta senza tiri */ }
       }));
     }
+    // dove FotMob non ha la mappa tiri della partita (sx vuota) si vedono i tiri di ESPN (`sxe/`, `tiri_espn.py`): la seconda fonte prende il posto della prima solo quando la prima non arriva
+    const espn = (mid) => (ex && Array.isArray(ex[mid]) && ex[mid].length ? ex[mid] : null);
+    Object.entries(ms).forEach(([mid, m]) => { if (m && !(Array.isArray(m.sx) && m.sx.length) && espn(mid)) { m.sx = espn(mid); m.sxE = true; } });
     const sidesOf = (m) => {
       const hs = [...((m.h && m.h.st) || []), ...((m.h && m.h.sb) || [])];
       const as = [...((m.a && m.a.st) || []), ...((m.a && m.a.sb) || [])];
@@ -76,7 +80,7 @@ async function loadOne(pid, fm, sk, name) {
       if (!mine.length) return;
       const own = mine[0][2];
       const meta = base(mid, m, own);
-      mapShots(mine, null).forEach((s) => { if (s.px != null && s.py != null) shots.push({ ...s, playerName: name || s.playerName, ...meta }); });
+      mapShots(mine, null).forEach((s) => { if (s.px != null && s.py != null) shots.push({ ...s, playerName: name || s.playerName, ...meta, ...(m.sxE ? { src: 'e' } : {}) }); });
     });
     // partite giocate (almeno 50', in formazione) = quelle dell'Hit Rate; `nosx` = di queste, le partite senza posizioni dei tiri nell'archivio
     // (stagioni passate non ancora scaricate): per le ultime 5 i tiri si prendono dalla partita stessa, cosi' mappa e grafico coincidono
@@ -97,9 +101,11 @@ async function loadOne(pid, fm, sk, name) {
         nosx.push({ mid, fill: () => {
           if (!run) {
             run = fetch(`${WORKER}/fs?id=${mid}`).then((r) => (r.ok ? r.json() : null)).then((j) => {
-              const mine = fsToSx(j, who, pid).filter((x) => String(x[19]) === String(pid));
+              let mine = fsToSx(j, who, pid).filter((x) => String(x[19]) === String(pid));
+              const fromE = !mine.length && espn(mid); // FotMob senza tiri per questa partita: ESPN
+              if (fromE) mine = fromE.filter((x) => String(x[19]) === String(pid));
               const meta = base(mid, m, mine.length ? mine[0][2] : ownId);
-              return mapShots(mine, null).filter((x) => x.px != null && x.py != null).map((x) => ({ ...x, playerName: name || x.playerName, ...meta }));
+              return mapShots(mine, null).filter((x) => x.px != null && x.py != null).map((x) => ({ ...x, playerName: name || x.playerName, ...meta, ...(fromE ? { src: 'e' } : {}) }));
             }).catch(() => []);
           }
           return run;

@@ -103,13 +103,14 @@ function ShotDetail({ C, s, onPrev, onNext }) {
       </View>
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginTop: 12, rowGap: 12 }}>
         {[
-          ['xG', comma(s.xg, 2)],
-          ['xGOT', s.onTarget || s.outcome === 'Gol' ? comma(s.xgot, 2) : '—'],
+          // tiri presi da ESPN (seconda fonte): niente xG/xGOT ne' zona del gol, le voci senza dato non si mostrano
+          s.src === 'e' ? null : ['xG', comma(s.xg, 2)],
+          s.src === 'e' ? null : ['xGOT', s.onTarget || s.outcome === 'Gol' ? comma(s.xgot, 2) : '—'],
           ['Esito', outcomeOf(s)],
           ['Situazione', situationOf(s.situation)],
           ['Tipo di tiro', s.body === 'Testa' ? 'Colpo di testa' : s.body === 'Destro' ? 'Piede destro' : s.body === 'Sinistro' ? 'Piede sinistro' : 'Altro'],
           ['Zona gol', zoneOf(s)],
-        ].map(([k, v]) => (
+        ].filter((x) => x && x[1] !== '—').map(([k, v]) => (
           <View key={k} style={{ width: '33.33%', alignItems: 'center' }}>
             <Text style={{ color: C.ink3, fontSize: 10.5 }}>{k}</Text>
             <Text style={{ color: C.ink, fontSize: 12.5, fontWeight: '700', textAlign: 'center' }}>{v}</Text>

@@ -1,0 +1,39 @@
+name: Tiri con posizione da ESPN (dove FotMob non ha la mappa)
+on:
+  schedule:
+    - cron: "50 */6 * * *"
+  workflow_dispatch:
+  push:
+    paths:
+      - tiri_espn.py
+concurrency:
+  group: tiri-espn
+  cancel-in-progress: false
+permissions:
+  contents: write
+  actions: write
+jobs:
+  tiri:
+    runs-on: ubuntu-latest
+    timeout-minutes: 130
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Tiri da ESPN per le partite senza mappa FotMob
+        id: tiri
+        run: python tiri_espn.py
+      - name: Salva
+        if: always()
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add sxe 2>/dev/null || true
+          git diff --staged --quiet || git commit -m "Tiri ESPN: partite senza mappa FotMob"
+          for i in 1 2 3 4 5 6; do git pull --rebase --autostash && git push && break; sleep $((i*5)); done
+      - name: Riparti subito se resta lavoro
+        if: steps.tiri.outputs.resta == '1'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X POST repos/${{ github.repository }}/actions/workflows/tiri_espn.yml/dispatches -f ref=${{ github.ref_name }}

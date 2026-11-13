@@ -292,6 +292,8 @@ const kvSlug = (sk) => String(sk).toLowerCase().replace(/[^a-z0-9]+/g, '-').repl
 const kvIndex = () => { if (!cache.has('kv-ps-index')) cache.set('kv-ps-index', fetch(`${WORKER}/r?k=idx:ps/index`).then((r) => (r.ok ? r.json() : Promise.reject(new Error('kv')))).then((a) => new Set(a)).catch(() => { cache.delete('kv-ps-index'); return new Set(); })); return cache.get('kv-ps-index'); };
 // coppie di falli (chi commette e chi subisce) con i ruoli dell'app: `falli_coppie.py`
 export const loadFalliFile = (lid, sk) => gz(`falli/${lid}/${sk}.json.gz`);
+// tiri con posizione da ESPN per le partite dove FotMob non ha la mappa (`tiri_espn.py`): stesso formato di `sx`
+export const loadSxeFile = (lid, sk) => gz(`sxe/${lid}/${sk}.json.gz`);
 export const loadSeasonMatches = (lid, sk) => once(`ps/${lid}/${sk}.gz`, async () => {
   const [d, idx] = await Promise.all([gz(`partite/${lid}/${sk}.json.gz`), kvIndex()]);
   const k = `${lid}/${kvSlug(sk)}`;

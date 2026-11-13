@@ -22,7 +22,7 @@ App calcio: Home nativa Expo (`native/`), sito React in WebView (`aurora-src/`, 
 - **Caricamenti**: mai rotella ne' "Carico…": scheletro con la forma della pagina vera (`PageSkeletons.jsx`; nativo `SkBox`/`SkBar`), cornice vera e toccabile, colori dai temi, visibile dopo 150 ms; mai attese finte con i dati gia' pronti.
 - **Foto giocatori**: solo `PlayerPhoto` (sagoma se manca). **Icone gol/assist**: `BallIcon`/`BootIcon`, mai emoji. Liste di partite sempre "vs".
 - **Stagione/competizione scelte** restano finche' la scheda e' nella pila; aprendo da zero si riparte da "Attuale".
-- **Fonti dati**: FotMob prima, poi PitchAPI, LiveScore, OneFootball, API-Football; mai formazioni, nomi o zone inventate.
+- **Fonti dati**: FotMob prima, poi PitchAPI, LiveScore, OneFootball, ESPN, API-Football; dove la prima fonte non arriva si vede la seconda (sempre, per ogni dato: es. tiri con posizione ESPN dove FotMob non ha la mappa, `tiri_espn.py`); mai formazioni, nomi o zone inventate.
 - **Riga in alto della Home**: logo, barra di ricerca, Calendario, menu; ricerca e menu sono tendine (mai pagine), risultati solo da `lib/search.js` (`app-nativa.md`).
 - **Dock in basso**: stesso dock in nativo e nel sito, voce evidenziata al tocco, ritocco = in cima; regole in `app-nativa.md`.
 - **Home e Matchup/Giocatori** partono da Oggi (niente giorni passati in Migliori Giocatori e Migliori Matchup).
