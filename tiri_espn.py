@@ -98,8 +98,13 @@ def tiri_partita(summ, m, nomi):
         mn = re.match(r"(\d+)'(?:\s*\+\s*(\d+))?", (c.get("time") or {}).get("displayValue") or "")
         minuto, extra = (int(mn.group(1)), int(mn.group(2)) if mn.group(2) else None) if mn else (0, None)
         testo = c.get("text") or ""
-        rows.append([minuto, extra, int((h if lato == "h" else a)["id"]), int(pid), x, y, tipo, 1 if tipo == "Blocked" else 0, 1 if inporta else 0, bx, by, None, None,
-                     None, None, parte(testo, t), situazione(testo, t), 0, (pl.get("period") or {}).get("number"), int(pid)])
+        try:
+            tid, pid_i = int((h if lato == "h" else a)["id"]), int(pid)
+        except (TypeError, ValueError):
+            mancati += 1
+            continue
+        rows.append([minuto, extra, tid, pid_i, x, y, tipo, 1 if tipo == "Blocked" else 0, 1 if inporta else 0, bx, by, None, None,
+                     None, None, parte(testo, t), situazione(testo, t), 0, (pl.get("period") or {}).get("number"), pid_i])
     if mancati > 0.15 * len(plays):
         return None
     return rows
