@@ -186,7 +186,19 @@ export function archivePercentiles(st, pid) {
   const me = base.find((r) => String(r[0]) === String(pid)) || Object.keys(L).map((k) => (L[k] || []).find((r) => String(r[0]) === String(pid))).find(Boolean);
   if (!me || !(me[4] > 0)) return null;
   const roles = new Set(me[6] || []);
-  const pool = base.filter((r) => r[4] >= 270 && (!roles.size || (r[6] || []).some((x) => roles.has(x))));
+  // confronto con i pari ruolo; i ruoli FotMob sono molto fini (ala destra, mezzala...): con pochi giocatori si allarga al reparto
+  // (portieri 11-19, difesa 30-59, centrocampo 60-99, attacco 100+; sigle generiche 1-4 = P D C A), poi a tutti i giocatori di movimento. Mai un grafico vuoto se i dati ci sono.
+  const grp = (x) => { const n = Number(x); if (n >= 1 && n <= 4) return ['P', 'D', 'C', 'A'][n - 1]; return n < 20 ? 'P' : n < 60 ? 'D' : n < 100 ? 'C' : 'A'; };
+  const mine = new Set([...roles].map(grp));
+  // soglia minuti: 270; a inizio stagione (pochi giocatori sopra soglia) si abbassa a 90 e poi a chi ha giocato
+  let pool = [];
+  for (const min of [270, 90, 1]) {
+    const ok = (r) => r[4] >= min;
+    pool = base.filter((r) => ok(r) && (!roles.size || (r[6] || []).some((x) => roles.has(x))));
+    if (pool.length < 5) pool = base.filter((r) => ok(r) && (r[6] || []).some((x) => mine.has(grp(x))));
+    if (pool.length < 5 && !mine.has('P')) pool = base.filter((r) => ok(r) && !(r[6] || []).every((x) => grp(x) === 'P'));
+    if (pool.length >= 5) break;
+  }
   if (pool.length < 5) return null;
   const val = (key, id) => { const r = (L[AKEY[key]] || []).find((x) => String(x[0]) === String(id)); return r ? Number(r[3]) || 0 : 0; };
   const idx = {};
