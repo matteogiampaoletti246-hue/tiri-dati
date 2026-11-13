@@ -1,0 +1,15 @@
+const R='@/data/';
+export * as L from '@/data/load.js';
+export * as LG from '@/data/leagues.js';
+export * as T from '@/data/teams.js';
+export * as M from '@/data/matches.js';
+export * as P from '@/data/players.js';
+export * as CD from '@/data/calcData.js';
+export * as CP from '@/data/calcPlayer.js';
+export * as RF from '@/data/referees.js';
+export * as TP from '@/data/topPlayers.js';
+export * as UT from '@/data/util.js';
+export * as AP from '@/data/archivePlayer.js';
+export * as AR from '@/data/archive.js';
+export * as CR from '@/data/carriere.js';
+export * as PC from '../shared/playerCtx.js';

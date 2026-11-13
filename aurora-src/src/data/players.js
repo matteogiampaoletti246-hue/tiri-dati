@@ -29,6 +29,8 @@ const initialsOf = (name) =>
 export const playerById = (id) => BY_ID[id] || null;
 // giocatore dell'elenco principale con quell'id FotMob (null se non c'e')
 export const playerByFm = (fid) => (fid ? BY_FM[String(fid)] || BY_FM[Number(fid)] || null : null);
+// profilo della sola nazionale (Nations League) con quell'id FotMob: serve a chi non ha un profilo di club nei dati
+export const natByFm = (fid) => (fid ? NAT_FM[String(fid)] || null : null);
 // giocatori dell'archivio (non nell'elenco attuale): si aggiungono solo per la scheda
 export const registerPlayer = (p) => { BY_ID[p.id] = p; };
 export const playersByTeam = (teamId) => BY_TEAM[teamId] || [];

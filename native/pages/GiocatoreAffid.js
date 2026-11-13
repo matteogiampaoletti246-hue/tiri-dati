@@ -6,19 +6,22 @@ import { DropBtn, LeagueLogo } from '../shared/ui';
 import { useSel } from '../shared/hooks';
 import { Affidabilita, statComps, useNextComp } from './GiocatoreStat';
 import CalcPlayer from './CalcPlayer';
+import { calcPlayerOf } from '../shared/playerCtx';
 
 // competizione mostrata in Affidabilita': la scelta a mano, altrimenti quella della prossima partita
-export function useAffidComp(p, car) {
+export function useAffidComp(p0, car) {
+  const p = calcPlayerOf(p0); // scheda aperta dall'archivio -> profilo attuale con tiri, ultime 5 e nazionale
   const { comps } = statComps(p, car);
-  const [sel, setSel] = useSel(p.id, 'ac', null);
+  const [sel, setSel] = useSel(p0.id, 'ac', null);
   const auto = useNextComp(p, comps);
   const comp = comps.some((c) => c.id === sel) ? sel : auto.id || (comps.length ? comps[0].id : null);
   return { comps, comp, setSel, ready: auto.ready };
 }
 
-export default function GiocatoreAffid({ C, player: p, car, openRoute }) {
-  const { comps, comp, setSel, ready } = useAffidComp(p, car);
-  const [, setSc] = useSel(p.id, 'sc', comps.length ? comps[0].id : null); // la scelta a mano vale anche per Statistiche e per i colori della testata (come prima)
+export default function GiocatoreAffid({ C, player: p0, car, openRoute }) {
+  const p = calcPlayerOf(p0);
+  const { comps, comp, setSel, ready } = useAffidComp(p0, car);
+  const [, setSc] = useSel(p0.id, 'sc', comps.length ? comps[0].id : null); // la scelta a mano vale anche per Statistiche e per i colori della testata (come prima)
   const curLg = comps.find((c) => c.id === comp) || null;
   return (
     <View>

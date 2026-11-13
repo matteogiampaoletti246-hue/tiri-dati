@@ -57,7 +57,12 @@ export function buildCalcData() {
     });
     LD[k] = { label: src.label || src.name || k, teams, avg: h ? src.league_avg : null, strength: 1, hcap: h, cup: CUPS.includes(k), dcup: !!src.cup };
   });
+  // stessa squadra con due nomi (elenco giocatori e medie squadra di fonti diverse): senza questo i suoi giocatori non trovavano campionato,
+  // medie squadra ne' competizione e l'Affidabilita' restava vuota (13/11/2026)
+  Object.entries(TEAM_ALIAS).forEach(([alias, canon]) => Object.values(LD).forEach((l) => { if (l.teams[canon] && !l.teams[alias]) Object.defineProperty(l.teams, alias, { value: l.teams[canon], enumerable: false }); })); // non enumerabile: negli elenchi squadre compare una volta sola
 }
+// nome nell'elenco giocatori -> nome nelle medie squadra
+const TEAM_ALIAS = { Hamarkameratene: 'HamKam', 'Heart of Midlothian': 'Hearts', 'DAC 1904': 'DAC 1904 Dunajska Streda', 'Maccabi Petah Tikva': 'Maccabi Petach Tikva' };
 
 // stesso campionato e stessa voce: si calcola una volta (si chiamano per ogni giocatore di ogni giorno); si rifa' se cambiano le squadre del campionato
 const perLeague = (fn) => {
@@ -219,6 +224,20 @@ export function nextFixture(teamName, afterToday = false) {
   const list = (RAW.giocatori && RAW.giocatori.fix && RAW.giocatori.fix[teamName]) || [];
   const today = romeDay(Date.now());
   const f = list.find((x) => (afterToday ? romeDay(new Date(x[0]).getTime()) > today : romeDay(new Date(x[0]).getTime()) >= today));
+  if (!f) return null;
+  return { ts: new Date(f[0]).getTime(), opp: f[1], home: f[2] === 1, comp: f[3], cup: CUPS.includes(f[3]) };
+}
+
+// prossima partita di una squadra IN UNA COMPETIZIONE dal calendario del Calcolatore (fino a 6 partite avanti, anche oltre i 12 giorni dei calendari caricati):
+// solo dal giorno dopo (quella di oggi e' gia' nei calendari caricati). `campionato` generico = campionato nazionale della squadra.
+export function nextFixtureIn(teamName, comp, afterToday = true) {
+  const list = (RAW.giocatori && RAW.giocatori.fix && RAW.giocatori.fix[teamName]) || [];
+  const today = romeDay(Date.now());
+  const dom = domesticKey(teamName);
+  const f = list.find((x) => {
+    const d = romeDay(new Date(x[0]).getTime());
+    return (afterToday ? d > today : d >= today) && (!comp || x[3] === comp || (x[3] === 'campionato' && dom === comp));
+  });
   if (!f) return null;
   return { ts: new Date(f[0]).getTime(), opp: f[1], home: f[2] === 1, comp: f[3], cup: CUPS.includes(f[3]) };
 }

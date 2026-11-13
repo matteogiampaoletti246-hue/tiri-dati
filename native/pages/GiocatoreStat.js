@@ -15,9 +15,10 @@ import { comma } from '@/lib/format';
 import { POS_PL, rankOf, statValue, roleAverage, standing, bandColor, GROUPS } from '@/components/player/playerCalc';
 import { per90, EX_COLS } from '@/data/players';
 import { nextMatchOf } from '@/data/extras';
-import { NATIONS_KEYS } from '@/data/calcData';
+import { NATIONS_KEYS, nextFixtureIn } from '@/data/calcData';
+import { romeDay } from '@/data/util';
 import { playerReliability, loadPlayerFouls, TOP_STATS, isFoulStat } from '@/data/topPlayers';
-import { teamById } from '@/data/teams';
+import { teamById, teamByName } from '@/data/teams';
 import { teamCompetitions } from '@/data/competitions';
 import { leagueById } from '@/data/leagues';
 import { carriereOf, dateLong } from '@/data/carriere';
@@ -35,12 +36,24 @@ function useSeasonList(fm, pid) {
   return data || [];
 }
 
+// Prossima partita del giocatore in una competizione: dai calendari caricati (12 giorni) e, oltre, dal calendario squadra del Calcolatore
+// (13/11/2026: prima per i campionati extra il pannello spariva se la partita era a piu' di 12 giorni, es. Saudi Pro League).
+export function nextOfComp(pl, comp) {
+  const m = nextMatchOf(pl.teamId, comp);
+  if (m) return m;
+  const f = nextFixtureIn(pl.teamName, comp, true);
+  if (!f) return null;
+  const op = teamByName(f.opp);
+  const oppId = op ? op.id : null;
+  return { id: `fx|${pl.teamId}|${f.ts}`, ts: f.ts, date: romeDay(f.ts), homeId: f.home ? pl.teamId : oppId, awayId: f.home ? oppId : pl.teamId, leagueId: comp, status: 'scheduled', fromFix: true };
+}
+
 export function Affidabilita({ C, player: club, comp }) {
   const player = club.natView && NATIONS_KEYS.includes(comp) ? club.natView : club;
   const [stat, setStat] = useState('tiri');
   const [fouls, setFouls] = useState(null);
-  const next = nextMatchOf(player.teamId, comp);
-  useUpcoming(!next && String(comp || '').startsWith('fm-'));
+  const next = nextOfComp(player, comp);
+  useUpcoming((!next || next.fromFix) && String(comp || '').startsWith('fm-'));
   const opp = next ? teamById(next.homeId === player.teamId ? next.awayId : next.homeId) : null;
   const isF = isFoulStat(stat);
   const fk = next ? `${player.id}|${next.date}|${stat}` : '';
@@ -206,7 +219,7 @@ export function useNextComp(p, comps) {
   let best = null;
   comps.forEach((c) => {
     const pl = p.natView && NATIONS_KEYS.includes(c.id) ? p.natView : p;
-    const m = nextMatchOf(pl.teamId, c.id);
+    const m = nextOfComp(pl, c.id);
     if (m && (!best || m.ts < best.ts)) best = { id: c.id, ts: m.ts };
   });
   return { id: best ? best.id : null, ready };

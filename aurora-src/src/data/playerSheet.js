@@ -8,6 +8,9 @@ import { archiveId } from './archivePlayer';
 import { roseOf } from './rose';
 import { RAW } from './load';
 
+// competizioni di nazionali: Nations League A-D, Mondiali e qualificazioni
+const isNatLg = (lid) => /^fm-(9806|9807|9808|9809|77|10195|10196|10197|10198|10199)$/.test(String(lid || ''));
+
 // Stato condiviso della tendina giocatore (si apre da formazioni, riassunto, tiri…).
 let state = null;
 const subs = new Set();
@@ -54,6 +57,9 @@ export function ourPlayerId(match, name, fmId) {
   // stesso giocatore gia' nell'elenco principale (id FotMob collegato da profili.py): un solo profilo, niente scheda d'archivio doppia
   const main = playerByFm(pid);
   if (main && !main.lite) return main.id;
+  // giocatore di una nazionale (Nations League, qualificazioni) che ha un profilo di club: si apre la scheda del club (club + nazionale, tiri e ultime partite),
+  // non una scheda d'archivio della sola nazionale senza dati (13/11/2026)
+  if (main && main.lite && (isNatLg(match && match.leagueId) || isNatLg(((f && f.team) || teams[0] || {}).leagueId))) return main.id;
   // prima il campionato della squadra (banner e statistiche di campionato), poi la competizione della partita
   const team = (f && f.team) || teams[0];
   const cands = [team && team.leagueId, match && match.leagueId].filter(Boolean);

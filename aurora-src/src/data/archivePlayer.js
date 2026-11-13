@@ -1,7 +1,7 @@
 // Giocatori che non sono nell'elenco attuale (ritirati, stagioni passate, altri campionati):
 // si costruisce lo stesso oggetto giocatore dai dati dell'archivio, cosi' la scheda e' identica per tutti.
 import { loadPlayerStatsFor, statTotal, loadSeason, playerSeasons, playerFace, FM_ID } from './archive';
-import { registerPlayer, playerById } from './players';
+import { registerPlayer, playerById, playerByFm } from './players';
 import { ensureTeam } from './teams';
 import { realName } from './realNames';
 import { loadCarriere, setCarriere } from './carriere';
@@ -61,7 +61,14 @@ export async function makeArchivePlayer(fm, sk, pid) {
     shots5: [], sot5: [], minutes5: [], recent: [], ratings5: [],
   };
   // giocatore dei campionati aggiunti: tiri e ultime partite per l'Affidabilita' restano (la scheda completa sostituisce solo il resto)
-  if (lite && lite.lite) Object.assign(p, { l: lite.l, c: lite.c, r: lite.r, h: lite.h, hn: lite.hn, hp: lite.hp, shots5: lite.shots5, sot5: lite.sot5, minutes5: lite.minutes5, recent: lite.recent, ratings5: lite.ratings5, leagueId: lite.leagueId || p.leagueId, teamId: p.teamId || lite.teamId });
+  if (lite && lite.lite) Object.assign(p, { l: lite.l, c: lite.c, r: lite.r, h: lite.h, hn: lite.hn, hp: lite.hp, shots5: lite.shots5, sot5: lite.sot5, minutes5: lite.minutes5, recent: lite.recent, ratings5: lite.ratings5, leagueId: lite.leagueId || p.leagueId, teamId: p.teamId || lite.teamId, teamName: p.teamName || lite.teamName });
+  // collegamenti del profilo "leggero" (13/11/2026): la scheda ricostruita dall'archivio deve restare collegata alla nazionale (Nations League), all'id FotMob
+  // e al campionato del club; prima li perdeva e Affidabilita' e Calcolatore restavano senza nazionale, ultime partite e club
+  p.fmId = (lite && lite.fmId) || Number(pid);
+  if (lite && lite.lite) {
+    p.domFm = lite.domFm;
+    if (lite.natView) { p.natView = lite.natView; lite.natView.club = p; }
+  }
   registerPlayer(p);
   // carriera ricostruita dalle stagioni in cui ha giocato questa competizione
   let car = [];
