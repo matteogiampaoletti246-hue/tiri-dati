@@ -349,6 +349,7 @@ export const SEASON_STAT_IT = {
   accurate_cross_team: 'Cross riusciti', corner_taken_team: 'Calci d\'angolo', total_yel_card_team: 'Cartellini gialli', total_red_card_team: 'Cartellini rossi', fk_foul_lost_team: 'Falli commessi', fk_foul_won_team: 'Falli subiti',
   big_chance_missed_team: 'Palle gol sbagliate', poss_won_att_3rd_team: 'Palloni recuperati nella trequarti', home_attendance_team: 'Spettatori in casa',
   saves_team: 'Parate', total_tackle_team: 'Contrasti', interception_team: 'Intercetti', penalty_won_team: 'Rigori procurati', penalty_conceded_team: 'Rigori concessi',
+  total_scoring_att_team: 'Tiri', shots_off_target_team: 'Tiri fuori', shots_outside_box_team: 'Tiri da fuori area', offsides_team: 'Fuorigioco',
   touches_in_opp_box_team: 'Tocchi in area', expected_goals_conceded_team: 'xG subiti', effective_clearance_team: 'Respinte', accurate_long_balls_team: 'Lanci lunghi riusciti',
 };
 export const PLAYER_STAT_IT = {
@@ -485,6 +486,7 @@ const MATCH_FOR_TEAM_KEY = {
   accurate_long_balls_team: 'long_balls_accurate', accurate_cross_team: 'accurate_crosses', touches_in_opp_box_team: 'touches_opp_box', interception_team: 'interceptions',
   total_tackle_team: 'matchstats.headers.tackles', effective_clearance_team: 'clearances', saves_team: 'keeper_saves', possession_percentage_team: 'BallPossesion',
 };
+const MATCH_EXTRA_TEAM_KEY = { total_scoring_att_team: 'total_shots', shots_off_target_team: 'ShotsOffTarget', shots_outside_box_team: 'shots_outside_box', offsides_team: 'Offsides' };
 export const loadTeamStats = (lid, sk) => once(`lts/${lid}/${sk}`, async () => {
   const st = await loadSeasonStats(lid, sk);
   if (st && st.teams && Object.keys(st.teams).length) {
@@ -493,7 +495,18 @@ export const loadTeamStats = (lid, sk) => once(`lts/${lid}/${sk}`, async () => {
     if (!M) return st;
     const teams = { ...st.teams };
     Object.entries(MATCH_FOR_TEAM_KEY).forEach(([k, mk]) => { if (M[mk]) teams[k] = M[mk]; });
-    return { ...st, teams };
+    // voci che le classifiche FotMob non hanno (tiri, tiri fuori, da fuori area, fuorigioco): dalle partite, cosi' il tabellone
+    // ha le stesse voci dei top campionati (nazionali e qualificazioni comprese). Mai al posto di una voce che FotMob ha gia'.
+    const extra = {};
+    Object.entries(MATCH_EXTRA_TEAM_KEY).forEach(([k, mk]) => { if (!teams[k] && M[mk]) extra[k] = M[mk]; });
+    if (!Object.keys(extra).length) return { ...st, teams };
+    // le voci nuove si mettono accanto a quelle gemelle (Tiri prima di Tiri in porta, ecc.), non in fondo
+    const BEFORE = { ontarget_scoring_att_team: ['total_scoring_att_team'] };
+    const AFTER = { ontarget_scoring_att_team: ['shots_off_target_team', 'shots_outside_box_team'] };
+    const out = {}; const put = (k) => { if (extra[k] && !out[k]) out[k] = extra[k]; };
+    Object.keys(teams).forEach((k) => { (BEFORE[k] || []).forEach(put); out[k] = teams[k]; (AFTER[k] || []).forEach(put); });
+    Object.keys(extra).forEach(put);
+    return { ...st, teams: out };
   }
   return teamPartStats(lid, sk, 'tot');
 });
