@@ -341,7 +341,9 @@ def main_tutte():
     # un giocatore = un profilo: quello della prima competizione (campionato prima delle coppe) in cui ha giocato; profili.py ricalcola poi
     # campionato, coppe, ultime 5 e hit rate su tutte le sue competizioni
     # chi e' gia' in calc_extra.json (campionati aggiunti) resta li': stesso profilo, profili.py lo ricalcola su tutte le sue competizioni
-    ex_fm = {str(x.get("fm")) for x in ex.get("players") or []} | {str(x.get("fm")) for x in ex.get("nat") or []}
+    # solo i profili di club di calc_extra.json: chi ha solo il profilo della nazionale (Nations League) NON ha un profilo di club qui, e il suo
+    # club (Al Hilal, West Ham in Championship...) deve entrare in calc_tutte.json, altrimenti l'Affidabilita' di Summerville, Mavropanos... non esiste
+    ex_fm = {str(x.get("fm")) for x in ex.get("players") or []}
     ex_upd = {u["i"] for u in ex.get("upd") or []}
     seen = set(ex_fm)
     n_new = n_upd = 0

@@ -19,10 +19,11 @@ import { NATIONS_KEYS } from '@/data/calcData';
 import useAsync from '@/hooks/useAsync';
 import { BASE } from '@/data/load';
 import { playerById } from '@/data/players';
-import { teamById, teamByName } from '@/data/teams';
+import { teamById, teamByName, teamByFm } from '@/data/teams';
+import { teamFromIndex } from '@/data/teamIndex';
 import { injuryOf } from '@/data/injuries';
 import { rosePlayer } from '@/data/rose';
-import { playerFace } from '@/data/archive';
+import { playerFace, teamLogo } from '@/data/archive';
 import { parseArchiveId, makeArchivePlayer } from '@/data/archivePlayer';
 import { carriereOf, careerByFm, countryIt, flagCode, FOOT, dateLong, ageOf, money, monthIt } from '@/data/carriere';
 import { fixedColors } from '@/data/teamColorFix';
@@ -48,10 +49,16 @@ export function useBio(player) {
   const rp = pidB ? rosePlayer(pidB) : null;
   const R = rp ? rp.r : null;
   const { data: cf } = useAsync(() => (pidB && !c0.b ? careerByFm(pidB) : Promise.resolve(null)), [pidB]);
-  const c = { ...(R ? { c: R[4], h: R[6], n: R[3] } : {}), ...(cf || {}), ...c0 };
+  // rose.json: nella rosa di un club R[4] e' la nazionalita' (e R[3] la maglia del club); nella rosa di una nazionale R[4] e' il CLUB e la
+  // nazionalita' e' il nome della rosa (Summerville mostrava "Al Hilal" come nazionalita'). Mai il club al posto del paese.
+  const natRoster = !!(rp && !rp.lg);
+  const fromRoster = R ? { c: natRoster ? rp.team : R[4], h: R[6], ...(natRoster ? {} : { n: R[3] }) } : {};
+  const c = { ...fromRoster, ...(cf || {}), ...c0 };
+  // ultima risorsa: la nazionale del giocatore (il profilo della nazionale o il suo collegamento), mai il club
+  const country = c.c || (player.nat ? player.teamName : player.natView ? player.natView.teamName : null);
   const age = ageOf(c.b) || (R && R[5]) || null;
   const cells = [
-    ['Nazionalità', c.c ? { flag: c.c, text: countryIt(c.c) } : '—'],
+    ['Nazionalità', country ? { flag: country, text: countryIt(country) } : '—'],
     ['Nato il', c.b ? `${dateLong(c.b)}${age ? ` · ${age} anni` : ''}` : age ? `${age} anni` : '—'],
     ['Altezza', c.h ? `${c.h} cm` : '—'],
     ['Piede', FOOT[c.f] || '—'],
@@ -82,7 +89,7 @@ function BioCard({ C, player, team }) {
           </View>
         ) : null}
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', rowGap: 16 }}>
-          {cells.map(([k, v]) => (
+          {cells.filter(([, v]) => v !== '—').map(([k, v]) => (
             <View key={k} style={{ width: '50%', paddingRight: 8 }}>
               <Text style={[LBL, { color: C.ink3 }]}>{k}</Text>
               {typeof v === 'object' ? (
@@ -159,35 +166,52 @@ export function mergeConsecutive(rows) {
 }
 const natBase = (n) => { let x = String(n || '').trim(); for (let i = 0; i < 3; i++) x = x.replace(/\s*\(?\b(U-?\d{2}|Women|W|Olympic|Olympics|Amateur|B)\b\)?$/i, '').trim(); return x; };
 
+// riga di carriera: la squadra si trova per id FotMob (r[8]) o per nome; se l'app non la conosceva (es. West Ham in Championship, club di campionati
+// non seguiti) si ricostruisce dall'indice squadre (`teamFromIndex`): stemma e pagina ci sono sempre, mai le sole iniziali se lo stemma FotMob esiste.
+function CareerRow({ C, row, national, openRoute }) {
+  const { r, loan, from } = row;
+  const fid = r[8] ? String(r[8]) : null;
+  const nf = national && flagCode(natBase(r[0]));
+  const t0 = (fid && !national ? teamByFm(fid) : null) || teamByName(r[0]) || teamByName(natBase(r[0])) || (fid ? teamByFm(fid) : null);
+  const [t1, setT1] = useState(null);
+  useEffect(() => {
+    if (t0 || !fid || nf) return undefined;
+    let on = true;
+    teamFromIndex(fid).then((x) => { if (on && x) setT1(x); }).catch(() => {});
+    return () => { on = false; };
+  }, [fid, !!t0, !!nf]);
+  const t = t0 || t1;
+  const cols = fixedColors(r[0]) || (t && t.colors) || ['#37507a', '#5a7bb0'];
+  const crestTeam = t || { name: r[0], initials: String(r[0] || '').slice(0, 2).toUpperCase(), crest: fid && !nf ? teamLogo(fid) : null };
+  const route = t ? `/squadra/${t.id}` : null;
+  return (
+    <Pressable disabled={!route || !openRoute} onPress={() => route && openRoute && openRoute(route)} style={{ flexDirection: 'row', alignItems: 'center', gap: 12, borderRadius: 18, paddingHorizontal: 14, paddingVertical: 12, backgroundColor: hex(cols[0], '30'), borderWidth: 1, borderColor: hex(cols[0], '55') }}>
+      {nf ? <Flag name={natBase(r[0])} size={30} C={C} /> : <TeamCrest C={C} size={30} team={crestTeam} />}
+      <View style={{ flex: 1 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+          <Text numberOfLines={1} style={{ color: C.ink, fontSize: 14, flexShrink: 1 }}>{r[0]}</Text>
+          {loan ? <Text style={{ color: C.ink3, fontSize: 9.5, borderWidth: 1, borderColor: C.border, borderRadius: 99, paddingHorizontal: 6 }}>PRESTITO{from ? ` · ${from}` : ''}</Text> : null}
+        </View>
+        <Text style={{ color: C.ink3, fontSize: 11, marginTop: 2 }}>{monthIt(r[1])}{monthIt(r[1]) ? ' – ' : ''}{r[7] ? 'oggi' : monthIt(r[2])}</Text>
+      </View>
+      {r[3] != null || r[4] != null || r[5] != null ? (
+        <View style={{ flexDirection: 'row', gap: 12 }}>
+          {[['Pres.', r[3]], ['Gol', r[4]], ['Ass.', r[5]]].map(([k, v]) => (
+            <View key={k} style={{ width: 32, alignItems: 'center' }}>
+              <Text style={{ color: C.ink, fontSize: 14 }}>{v || '0'}</Text>
+              <Text style={[LBL, { color: C.ink3, fontSize: 8 }]}>{k}</Text>
+            </View>
+          ))}
+        </View>
+      ) : null}
+    </Pressable>
+  );
+}
+
 function CareerRows({ C, rows, national, openRoute }) {
   return (
     <View style={{ gap: 10 }}>
-      {rows.map(({ r, loan, from }, i) => {
-        const t = teamByName(r[0]) || teamByName(natBase(r[0]));
-        const cols = fixedColors(r[0]) || (t && t.colors) || ['#37507a', '#5a7bb0'];
-        return (
-          <Pressable key={i} disabled={!t || !openRoute} onPress={() => t && openRoute && openRoute(`/squadra/${t.id}`)} style={{ flexDirection: 'row', alignItems: 'center', gap: 12, borderRadius: 18, paddingHorizontal: 14, paddingVertical: 12, backgroundColor: hex(cols[0], '30'), borderWidth: 1, borderColor: hex(cols[0], '55') }}>
-            {national && flagCode(natBase(r[0])) ? <Flag name={natBase(r[0])} size={30} C={C} /> : t ? <TeamCrest C={C} size={30} team={t} /> : <TeamCrest C={C} size={30} team={{ name: r[0], initials: String(r[0] || '').slice(0, 2).toUpperCase() }} />}
-            <View style={{ flex: 1 }}>
-              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-                <Text numberOfLines={1} style={{ color: C.ink, fontSize: 14, flexShrink: 1 }}>{r[0]}</Text>
-                {loan ? <Text style={{ color: C.ink3, fontSize: 9.5, borderWidth: 1, borderColor: C.border, borderRadius: 99, paddingHorizontal: 6 }}>PRESTITO{from ? ` · ${from}` : ''}</Text> : null}
-              </View>
-              <Text style={{ color: C.ink3, fontSize: 11, marginTop: 2 }}>{monthIt(r[1])}{monthIt(r[1]) ? ' – ' : ''}{r[7] ? 'oggi' : monthIt(r[2])}</Text>
-            </View>
-            {r[3] != null || r[4] != null || r[5] != null ? (
-              <View style={{ flexDirection: 'row', gap: 12 }}>
-                {[['Pres.', r[3]], ['Gol', r[4]], ['Ass.', r[5]]].map(([k, v]) => (
-                  <View key={k} style={{ width: 32, alignItems: 'center' }}>
-                    <Text style={{ color: C.ink, fontSize: 14 }}>{v || '0'}</Text>
-                    <Text style={[LBL, { color: C.ink3, fontSize: 8 }]}>{k}</Text>
-                  </View>
-                ))}
-              </View>
-            ) : null}
-          </Pressable>
-        );
-      })}
+      {rows.map((row, i) => <CareerRow key={i} C={C} row={row} national={national} openRoute={openRoute} />)}
     </View>
   );
 }

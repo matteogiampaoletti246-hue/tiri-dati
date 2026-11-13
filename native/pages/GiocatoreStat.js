@@ -4,7 +4,7 @@ import { View, Text } from 'react-native';
 import useAsync from '@/hooks/useAsync';
 import { Panel, Segmented, DropBtn, LeagueLogo, TeamCrest } from '../shared/ui';
 import SwapN from '../shared/SwapN';
-import { useUpcoming } from '../shared/useUpcoming';
+import { useUpcoming, loadUpcoming } from '../shared/useUpcoming';
 import Dropdown from '../shared/Dropdown';
 import StatIconN from '../shared/StatIconN';
 import { scoreColorSmooth } from '@/lib/calc';
@@ -20,7 +20,7 @@ import { playerReliability, loadPlayerFouls, TOP_STATS, isFoulStat } from '@/dat
 import { teamById } from '@/data/teams';
 import { teamCompetitions } from '@/data/competitions';
 import { leagueById } from '@/data/leagues';
-import { carriereOf } from '@/data/carriere';
+import { carriereOf, dateLong } from '@/data/carriere';
 import { currentSeason, loadPlayerStatsFor, sortSeasons, seasonLabel, pastSeasons, playerSeasons, teamSeasons, FM_ID, LID_BY_FM } from '@/data/archive';
 
 export const playerHasCurStats = (p) => !!p && ((p.appearances || 0) > 0 || (p.minutes || 0) > 0 || !!(p.c && p.c[0]))
@@ -63,7 +63,10 @@ export function Affidabilita({ C, player: club, comp }) {
   return (
     <Panel C={C} tint={tint} vivid style={{ borderRadius: 18, padding: 16 }}>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 12 }}>
-        <Text style={{ color: C.ink, fontSize: 13.5, fontWeight: '600', flex: 1 }}>Affidabilità prossima partita</Text>
+        <View style={{ flex: 1 }}>
+          <Text style={{ color: C.ink, fontSize: 13.5, fontWeight: '600' }}>Affidabilità prossima partita</Text>
+          <Text numberOfLines={1} style={{ color: C.ink3, fontSize: 11, marginTop: 2 }}>{[(leagueById(comp) || {}).name, dateLong(next.date), next.homeId === player.teamId || (teamById(next.homeId) || {}).name === (myTeam || {}).name ? 'in casa' : 'in trasferta'].filter(Boolean).join(' · ')}</Text>
+        </View>
         {opp ? <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}><Text style={{ color: C.ink2, fontSize: 12 }}>VS</Text><TeamCrest team={opp} size={18} C={C} /><Text numberOfLines={1} style={{ color: C.ink2, fontSize: 12, maxWidth: 110 }}>{opp.name}</Text></View> : null}
       </View>
       <View style={{ marginBottom: 12, flexDirection: 'row' }}><Dropdown C={C} options={TOP_STATS} value={stat} onChange={setStat} side="right" width={222} fill style={{ flex: 1 }} icon={(o, col) => <StatIconN k={o.icon} size={17} color={col} />} /></View>
@@ -189,6 +192,24 @@ export function statComps(p, car) {
   const comps = [...baseComps, ...car.order.filter((id) => !baseComps.some((c) => c.id === id)).map(leagueById).filter(Boolean)]
     .filter((c, i) => car.loading || withData(c.id, i) || (natLg && c.id === natLg.id));
   return { natLg, baseComps, comps, hasCurApp };
+}
+
+// Prossima competizione del giocatore (Affidabilita'): tra le competizioni della scheda quella della partita piu' vicina, di club o di nazionale
+// (se gioca la nazionale in Nations League la scelta automatica e' la Nations League, non il campionato). `ready` = prossime partite caricate.
+export function useNextComp(p, comps) {
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    let on = true;
+    loadUpcoming().then(() => { if (on) setReady(true); });
+    return () => { on = false; };
+  }, []);
+  let best = null;
+  comps.forEach((c) => {
+    const pl = p.natView && NATIONS_KEYS.includes(c.id) ? p.natView : p;
+    const m = nextMatchOf(pl.teamId, c.id);
+    if (m && (!best || m.ts < best.ts)) best = { id: c.id, ts: m.ts };
+  });
+  return { id: best ? best.id : null, ready };
 }
 
 export default function GiocatoreStat({ C, player: p, team, car, openRoute, noMaps }) {

@@ -189,3 +189,6 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 ## Scheda giocatore: pagina Affidabilita' (regola fissa)
 - Tab "Affidabilita'" tra Statistiche e Carriera (`native/pages/GiocatoreAffid.js`): tendina competizione, pannello "Affidabilita' prossima partita" (spostato da Statistiche) e il Calcolatore vero (`CalcPlayer` con `embedId`: giocatore gia' scelto, stato proprio, niente banner/ricerca) con tutti i filtri e i grafici hit rate.
 - L'elenco competizioni e' condiviso con Statistiche (`statComps` in `GiocatoreStat.js`).
+
+## Affidabilita' nella scheda giocatore: prossima competizione e partita in automatico (regola fissa, 13/11/2026)
+- `GiocatoreAffid.js`: la competizione e la partita mostrate sono quelle della partita piu' vicina del giocatore tra club e nazionale (`useNextComp` in `GiocatoreStat.js`, partite prossime da `loadUpcoming`): se gioca la nazionale in Nations League parte la Nations League, non il campionato. La scelta a mano (`ac`, anche in `sc`) resta finche' la scheda e' nella pila. Il riquadro mostra competizione, giorno e casa/trasferta; scheletro fino al caricamento delle partite prossime (niente salti).
