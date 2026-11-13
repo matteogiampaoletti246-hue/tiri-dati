@@ -205,9 +205,9 @@ function PlayerPick({ embedded, C, form, set, player, onSelectPlayer, stat, onSt
   if (embedded) {
     return (
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-        <View style={{ flex: 1.3, minWidth: 0 }}><Select C={C} title="Statistiche" value={stat} options={STATS} onChange={onStat} /></View>
-        <Segmented C={C} options={LINE_OPTIONS} value={form.lineType} onChange={(v) => set('lineType', v)} />
-        <View style={{ flex: 0.8, minWidth: 0 }}><Select C={C} title="Valore linea" value={form.line} options={LINES.map((x) => ({ value: x, label: x }))} onChange={(v) => set('line', v)} /></View>
+        <View style={{ flex: 1, minWidth: 0 }}><Select C={C} title="Statistiche" value={stat} options={STATS} onChange={onStat} /></View>
+        <View style={{ flexShrink: 0 }}><Segmented hug="start" pad={9} C={C} options={LINE_OPTIONS} value={form.lineType} onChange={(v) => set('lineType', v)} /></View>
+        <View style={{ width: 76, flexShrink: 0 }}><Select C={C} title="Valore linea" value={form.line} options={LINES.map((x) => ({ value: x, label: x }))} onChange={(v) => set('line', v)} /></View>
       </View>
     );
   }
