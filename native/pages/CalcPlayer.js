@@ -19,12 +19,13 @@ import { emptyFouls, fillFrom, hitFromValues, hitRows, initialForm, isFouls, nat
 import { fmTeamIn, foulKeysFor, foulSeasonOf, leaguePlayerAvg, playerFoulsOf, rosterFouls, teamFoulStats, useFouls } from '@/data/calcFouls';
 import { ROLE_KEYS, loadFalli, cardRole, autoDuelIds, falliKeysFor, playerRoles, roleBreakdown, useFalli } from '@/data/calcRoles';
 import { resolvePid } from '@/data/playerPid';
+import { loadPidx } from '@/data/playerIndex';
 import { careerByFm, carriereOf, loadCarriere, countryIt, flagCode } from '@/data/carriere';
 import { FlagN } from '../shared/FlagN';
 import { FLAG_COLORS } from '../shared/flagColors';
 const FLAG_BASE = 'https://matteogiampaoletti246-hue.github.io/tiri-dati/native-link/flags43/';
 import { loadRose, rosePlayer } from '@/data/rose';
-import { playerFace, archIndex, loadSeason, loadSeasonMatches, FM_ID } from '@/data/archive';
+import { playerFace, archIndex, loadSeason, loadSeasonMatches, FM_ID, LID_BY_FM } from '@/data/archive';
 import { playerComps, calcComp } from '@/components/calc/calcComp';
 import { comma } from '@/lib/format';
 import { parseDash, parseNum, fmtLine, HIT_OPTIONS, LINE_OPTIONS, SEDE_OPTIONS, COMPETITION_OPTIONS, NATIONS_OPTION, NATIONS_WEIGHTS, SEASON_COMPETITIONS, lineHintText } from '@/lib/calc';
@@ -401,6 +402,72 @@ function useCompGames(player, key2) {
   return data;
 }
 
+// Pagine per competizione, TUTTE quelle giocate in questa stagione (regola fissa 13/11/2026): l'elenco viene dall'indice giocatori (pidx: ogni competizione e
+// stagione giocata, coppa nazionale e Nations League comprese), non dalla sola competizione "principale". Una pagina per competizione con almeno una presenza
+// in stagione, anche con meno di 5 partite e anche sotto i 50': le presenze della stagione contano tutte (i minuti si leggono sulle colonne); fino a 5
+// colonne, completate con le stagioni passate (solo da almeno 50'). Avversario per ID dell'archivio.
+const CUR_CUT = () => { const d = new Date(); return d.getMonth() >= 6 ? d.getFullYear() : d.getFullYear() - 1; };
+const isCurSk = (sk) => (String(sk).includes('-') ? parseInt(String(sk).slice(0, 4), 10) >= CUR_CUT() : parseInt(String(sk).slice(0, 4), 10) === new Date().getFullYear());
+const STAT_OF = { sot: 'ShotsOnTarget', fc: 'fouls', fs: 'was_fouled' };
+function useCompPages(player, key2) {
+  const [pages, setPages] = useState(null);
+  const id = player && player.id;
+  useEffect(() => {
+    setPages(null);
+    if (!player || !key2) return undefined;
+    let on = true;
+    (async () => {
+      const pid = await resolvePid(player);
+      if (!pid || !on) return;
+      const rows = await loadPidx(pid); // [fm, stagione, idSquadra, presenze, minuti]
+      const idx = await archIndex();
+      const fms = [...new Set(rows.filter((r) => isCurSk(r[1]) && r[3] > 0).map((r) => r[0]))];
+      if (!fms.length || !idx) { if (on) setPages([]); return; }
+      const field = STAT_OF[key2] || 'total_shots';
+      const out = [];
+      for (const fm of fms) {
+        const ent = idx[String(fm)];
+        if (!ent || !ent.s) continue; // eslint-disable-line no-continue
+        const sks = [...new Set(rows.filter((r) => r[0] === fm).map((r) => r[1]))].filter((sk) => ent.s.includes(sk)).sort((a, b) => String(b).localeCompare(String(a)));
+        const got = [];
+        for (const sk of sks) {
+          const cur = isCurSk(sk);
+          const [se, det] = await Promise.all([loadSeason(fm, sk), loadSeasonMatches(fm, sk)]); // eslint-disable-line no-await-in-loop
+          if (!se || !det || !det.m) continue; // eslint-disable-line no-continue
+          const fx = {};
+          (se.fix || []).forEach((m) => { fx[m[0]] = m; });
+          Object.entries(det.m).forEach(([mid, x]) => {
+            const pl = x.p && x.p[pid];
+            const f = fx[mid];
+            const mn = pl && Number(pl.minutes_played);
+            if (!pl || !f || !(mn >= (cur ? 1 : 50))) return;
+            const hid = String((x.h && x.h.id) || f[2]);
+            const aid = String((x.a && x.a.id) || f[3]);
+            const inH = x.h && [...(x.h.st || []), ...(x.h.sb || [])].some((r) => String(r[0]) === String(pid));
+            const inA = x.a && [...(x.a.st || []), ...(x.a.sb || [])].some((r) => String(r[0]) === String(pid));
+            if (!inH && !inA) return;
+            const oppId = inH ? aid : hid;
+            got.push({ date: String(f[4]), min: mn, v: Number(pl[field]) || 0, opp: se.teams[oppId] || String(oppId), oppId, matchId: `a-${fm}-${sk}-${mid}`, cur });
+          });
+          if (got.length >= 5 && got.some((g) => g.cur)) break;
+        }
+        got.sort((a, b) => (a.cur === b.cur ? b.date.localeCompare(a.date) : a.cur ? -1 : 1));
+        const top = got.slice(0, 5).sort((a, b) => b.date.localeCompare(a.date));
+        if (!top.some((g) => g.cur)) continue; // eslint-disable-line no-continue
+        const lid = LID_BY_FM[fm];
+        const meta = lid ? calcComp(lid) : null;
+        out.push({ key: `fm-${fm}`, fm, last: top[0].date, name: (meta && meta.name) || ent.n, logo: (meta && meta.logo) || `https://images.fotmob.com/image_resources/logo/leaguelogo/${fm}.png`, values: top.map((m) => m.v).reverse(), minutes: top.map((m) => m.min).reverse(), games: top.map((m) => gameOf(m)).reverse() });
+      }
+      // ordine: campionato di club per primo, poi per partita piu' recente
+      const dom = (hitProf(player) || {}).domFm;
+      out.sort((a, b) => (a.fm === dom ? -1 : b.fm === dom ? 1 : b.last.localeCompare(a.last)));
+      if (on) setPages(out);
+    })().catch(() => { if (on) setPages(null); });
+    return () => { on = false; };
+  }, [id, key2]); // eslint-disable-line react-hooks/exhaustive-deps
+  return pages;
+}
+
 const CUP_IDS = ['champions-league', 'europa-league', 'conference-league'];
 const SHORT_OPP = { 'borussia dortmund': 'BVB 09', dortmund: 'BVB 09', atletico: 'ATL. Madrid', 'paris sg': 'PSG', 'man city': 'Man City', 'man utd': 'Man Utd', 'atletico madrid': 'ATL. Madrid', 'atlético madrid': 'ATL. Madrid', 'paris saint-germain': 'PSG', 'paris saint germain': 'PSG', 'manchester united': 'Man Utd', 'manchester city': 'Man City', 'bayer leverkusen': 'Leverkusen', 'bayer 04 leverkusen': 'Leverkusen', 'eintracht frankfurt': 'Frankfurt', "borussia m'gladbach": "M'gladbach", 'borussia monchengladbach': "M'gladbach", 'tottenham hotspur': 'Tottenham', 'newcastle united': 'Newcastle', 'west ham united': 'West Ham', 'wolverhampton wanderers': 'Wolves', 'brighton & hove albion': 'Brighton', 'athletic club': 'Athletic', 'real sociedad': 'R. Sociedad', 'inter milan': 'Inter', 'internazionale': 'Inter', 'bayern munich': 'Bayern', 'bayern münchen': 'Bayern', 'sporting cp': 'Sporting', 'sporting lisbon': 'Sporting' };
 const shortOpp = (n) => {
@@ -508,12 +575,13 @@ function useRecOpp(player, key2) {
 
 // pagine del grafico: la prima e' sempre "Tutte le competizioni" (le ultime 5 del calcolo); poi una per competizione (scelta per prima).
 // Le pagine per competizione sono solo da guardare: nel calcolo conta l'Hit Rate totale (e, per le nazionali, la quota Nations League).
-function hitPages(player, key2, vals, mins, comp, g, extra, oppFix) {
+function hitPages(player, key2, vals, mins, comp, g, extra, oppFix, compPages) {
   const opts = playerComps(player);
   const byVal = Object.fromEntries(opts.map((o) => [o.value, o]));
   const all = { key: 'tutte', name: 'Tutte le competizioni', logo: null, values: [...vals].reverse(), minutes: mins.length === vals.length ? [...mins].reverse() : null, games: null };
   if (!key2) return [all];
   if (g && g.some(Boolean)) all.games = [...g].reverse();
+  if (compPages && compPages.length) return [all, ...compPages];
   const IM = {};
   ((RAW.indice && RAW.indice.m) || []).forEach((m) => { IM[m[0]] = m; });
   const srcs = [player.nat && player.club ? player.club : player, player.natView, player.nat ? player : null].filter((x) => x && x.recent);
@@ -539,7 +607,8 @@ function HitPanel({ C, player, vals, mins, key2, line, under, label, openRoute, 
   const games = useHitGames(player, key2, vals, mins);
   const extra = useCompGames(player, key2);
   const oppFix = useRecOpp(player, key2);
-  const pages = useMemo(() => hitPages(player, key2, vals, mins, comp, games, extra, oppFix), [player, key2, vals.join(','), mins.join(','), comp, games, extra, oppFix]); // eslint-disable-line react-hooks/exhaustive-deps
+  const compPages = useCompPages(player, key2);
+  const pages = useMemo(() => hitPages(player, key2, vals, mins, comp, games, extra, oppFix, compPages), [player, key2, vals.join(','), mins.join(','), comp, games, extra, oppFix, compPages]); // eslint-disable-line react-hooks/exhaustive-deps
   const head = hitSel ? <View><Dropdown C={C} slim options={[{ value: '', label: 'Nessuna' }, ...HIT_OPTIONS]} value={hitSel.value} onChange={hitSel.onChange} placeholder="Nessuna" pillKey="label" labelKey="label" width={150} /></View> : null;
   return (
     <View>
