@@ -8,7 +8,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import Svg, { Rect, Line, Circle, Polyline, G } from 'react-native-svg';
 import { Panel, DropBtn, LeagueLogo } from './ui';
-import { DotShape, shotColor, situationOf, zoneOf, outcomeOf, isBlocked, HIT, PITCH, LINE, TRACE } from './ShotMap';
+import { DotShape, shotColor, situationOf, zoneOf, outcomeOf, isBlocked, HIT, PITCH, LINE, TRACE, BlockTraceN } from './ShotMap';
 import { FM_ID, teamLogo, playerFace } from '@/data/archive';
 import { usePlayerMaps, mapSeasons, loadPlayerMaps } from '@/data/playerMaps';
 import { comma } from '@/lib/format';
@@ -34,10 +34,7 @@ function Pitch({ list, color, sel, onSel, kind, cur, sk, C }) {
       {RIGHT.map((l, i) => <Polyline key={`r${i}`} points={pl(l)} fill="none" stroke={LINE} strokeWidth="0.5" />)}
       {RIGHT.map((l, i) => <Polyline key={`l${i}`} points={pl(mir(l))} fill="none" stroke={LINE} strokeWidth="0.5" />)}
       {kind === 'shot' && cur ? (bp ? (
-        <>
-          <Line x1={cur.px} y1={cur.py} x2={bp[0]} y2={bp[1]} stroke={TRACE} strokeWidth="0.45" strokeDasharray="1.3 1.1" />
-          <Line x1={bp[0] - 1.5} y1={bp[1]} x2={bp[0] + 1.5} y2={bp[1]} stroke={TRACE} strokeWidth="0.9" strokeLinecap="round" />
-        </>
+        <BlockTraceN x1={cur.px} y1={cur.py} x2={bp[0]} y2={bp[1]} />
       ) : goalPt && !isBlocked(cur) ? <Line x1={cur.px} y1={cur.py} x2={goalPt[0]} y2={goalPt[1]} stroke={TRACE} strokeWidth="0.45" strokeDasharray="1.4 1.2" /> : null) : null}
       {list.map((s, i) => {
         const cx = Math.max(1, Math.min(104, s.px)); const cy = Math.max(1, Math.min(67, s.py));

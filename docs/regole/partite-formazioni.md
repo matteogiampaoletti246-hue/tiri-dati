@@ -112,3 +112,5 @@ Le barre di `CompareBars` compaiono subito ai valori veri (niente memoria di val
 - Il filtro stagione della mappa tiri/falli parte SEMPRE da "Stagione attuale" (non da Ultime 5); NON ha "Tutte le stagioni" (rallentava troppo): Ultime 5 (solo "Ultime 5", senza "Hit rate"), Stagione attuale, poi le singole stagioni.
 - Cambio stagione entro ~2 s: appena la mappa scelta e' pronta si scarica in silenzio la stagione precedente (`PlayerMapsN.js`, `loadPlayerMaps`, memoria di `loadOne`); i tiri delle partite non ancora nell'archivio si chiedono tutti insieme (max 60), non 6 alla volta.
 - Caricamento: scheletro con la forma vera (cornice, titolo, tendina avversari, campo con le linee, pallini pagina), mai rotella.
+
+- Nativo: tutte le mappe (`ShotMap.js`, `PlayerMapsN.js`, `PlayerSheet.js`) usano `BlockTraceN` (`native/shared/ShotMap.js`): trattino perpendicolare alla traiettoria, mai orizzontale e mai assente.

@@ -17,7 +17,7 @@ import { scoreColorSmooth } from '@/lib/calc';
 import { TeamCrest, Segmented, mixHex } from './ui';
 import { BallIcon } from './Icons';
 import { CardIcon, SubIcon } from '../pages/PartitaInfo';
-import { DotShape, shotColor, situationOf, zoneOf, outcomeOf, isBlocked, HIT, PITCH, LINE, GOALBG, GOALLINE, TRACE } from './ShotMap';
+import { DotShape, shotColor, situationOf, zoneOf, outcomeOf, isBlocked, HIT, PITCH, LINE, GOALBG, GOALLINE, TRACE, BlockTraceN } from './ShotMap';
 
 const lum = (c) => { const m = /^#([0-9a-f]{6})$/i.exec(String(c || '').trim()); if (!m) return 1; const n = parseInt(m[1], 16); return (0.2126 * (n >> 16) + 0.7152 * ((n >> 8) & 255) + 0.0722 * (n & 255)) / 255; };
 const seen = (c) => (lum(c) < 0.42 ? '#ffffff' : c);
@@ -224,7 +224,7 @@ function ShotExplorer({ C, shots, colors }) {
             <Polyline points="105,13.84 88.5,13.84 88.5,54.16 105,54.16" fill="none" stroke={LINE} strokeWidth="0.5" />
             <Polyline points="105,24.84 99.5,24.84 99.5,43.16 105,43.16" fill="none" stroke={LINE} strokeWidth="0.5" />
             <Circle cx="94" cy="34" r="0.5" fill={LINE} />
-            {cur && cur.px != null ? (isBlocked(cur) ? (cur.bx != null ? <Line x1={px(cur.px)} y1={py(cur.py)} x2={px(cur.bx)} y2={py(cur.by)} stroke={TRACE} strokeWidth="0.45" strokeDasharray="1.3 1.1" /> : null) : <Line x1={px(cur.px)} y1={py(cur.py)} x2="105" y2="34" stroke={TRACE} strokeWidth="0.45" strokeDasharray="1.3 1.1" />) : null}
+            {cur && cur.px != null ? (isBlocked(cur) ? (cur.bx != null ? <BlockTraceN x1={px(cur.px)} y1={py(cur.py)} x2={px(cur.bx)} y2={py(cur.by)} /> : null) : <Line x1={px(cur.px)} y1={py(cur.py)} x2="105" y2="34" stroke={TRACE} strokeWidth="0.45" strokeDasharray="1.3 1.1" />) : null}
             {list.map((s, i) => <Dot key={i} s={s} i={i} sel={sel} cx={px(s.px)} cy={py(s.py)} r={2} color={color} onPress={() => pick(i)} />)}
           </Svg>
         </View>

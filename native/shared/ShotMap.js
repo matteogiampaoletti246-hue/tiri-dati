@@ -82,6 +82,19 @@ const outcomeOf = (s) => (s.outcome === 'Fuori' && s.onTarget ? 'Palo' : s.outco
 const HIT = 'rgba(0,0,0,0.01)';
 // per la tendina del giocatore (PlayerSheet.js)
 export const shotColor = (colors) => safe(colors);
+// Tiro murato: traiettoria tratteggiata dal pallino fino al punto in cui e' stato fermato, chiusa da un trattino PERPENDICOLARE alla traiettoria
+// (non orizzontale: segue l'angolo del tiro). Unico per tutte le mappe native (partita, giocatore, tendina giocatore).
+function BlockTraceN({ x1, y1, x2, y2, t = 1.5 }) {
+  const dx = x2 - x1; const dy = y2 - y1; const L = Math.hypot(dx, dy) || 1;
+  const nx = -dy / L; const ny = dx / L;
+  return (
+    <>
+      <Line x1={x1} y1={y1} x2={x2} y2={y2} stroke={TRACE} strokeWidth="0.45" strokeDasharray="1.3 1.1" />
+      <Line x1={x2 - nx * t} y1={y2 - ny * t} x2={x2 + nx * t} y2={y2 + ny * t} stroke={TRACE} strokeWidth="0.9" strokeLinecap="round" />
+    </>
+  );
+}
+export { BlockTraceN };
 export { DotShape, situationOf, zoneOf, outcomeOf, isBlocked, HIT, PITCH, LINE, GOALBG, GOALLINE, TRACE };
 
 export default function ShotMap({ C, shots = [], home, away, match = null, openRoute }) {
@@ -138,10 +151,7 @@ export default function ShotMap({ C, shots = [], home, away, match = null, openR
             <Polyline points={arc(94, 34, 9.15, 127, 233)} fill="none" stroke={LINE} strokeWidth="0.5" />
             <Polyline points={arc(11, 34, 9.15, -53, 53)} fill="none" stroke={LINE} strokeWidth="0.5" />
             {cur && bp ? (
-              <>
-                <Line x1={pos(cur)[0]} y1={pos(cur)[1]} x2={bp[0]} y2={bp[1]} stroke={TRACE} strokeWidth="0.45" strokeDasharray="1.3 1.1" />
-                <Line x1={bp[0] - 1.5} y1={bp[1]} x2={bp[0] + 1.5} y2={bp[1]} stroke={TRACE} strokeWidth="0.9" strokeLinecap="round" />
-              </>
+              <BlockTraceN x1={pos(cur)[0]} y1={pos(cur)[1]} x2={bp[0]} y2={bp[1]} />
             ) : cur && !isBlocked(cur) && goalPt ? (
               <Line x1={pos(cur)[0]} y1={pos(cur)[1]} x2={goalPt.x} y2={goalPt.y} stroke={TRACE} strokeWidth="0.45" strokeDasharray="1.4 1.2" />
             ) : null}
