@@ -213,3 +213,6 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 - Squadre con due nomi: `TEAM_ALIAS` in `calcData.js` (vedi la sezione sopra, "nomi squadra"). Squadre nuove senza campionato: lo script sotto le elenca (`squadreSenzaCampionato`).
 - Controllo a tappeto: `node native/tools/controllo_affidabilita.mjs` (dati veri in Node, nessun telefono): giocatori senza prossima partita (stagione finita non e' un errore), con meno di 3 righe Hit Rate, senza voto, nazionali senza club collegato. Da rifare dopo ogni cambio ai dati giocatori.
 - Limite vero dei dati (non e' un bug): 422 profili di nazionale non hanno il club collegato perche' il campionato del club non ha statistiche tiri nei dati (Qatar, Ucraina, Kazakistan, Malta, ecc.); restano le partite con la nazionale.
+
+## Formazioni: voti di affidabilita' istantanei al cambio statistica/linea (13/11/2026)
+- Tiri e tiri in porta si calcolano in ~20 ms per tutti i giocatori. I falli (commessi/subiti) caricano molti file: per questo `PartitaLineups.js` li calcola SUBITO all'apertura delle formazioni (prima la statistica scelta, poi l'altra), mai al tocco: cambiando statistica o linea i voti sono gia' pronti e si animano all'istante (`Badge`, 420 ms). Mai attese di 7-8 s al cambio.

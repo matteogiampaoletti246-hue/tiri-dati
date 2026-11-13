@@ -336,21 +336,31 @@ export default function Formazioni({ C, match, view, home, away, pre, openRoute 
   const lastV = useRef({});
   const players = [lh, la].flatMap((l) => (l ? [...(l.xi || []), ...(l.bench || [])] : []));
   const pk = players.map((p) => p.playerId).join(',');
+  // voti dei falli (commessi e subiti): si calcolano SUBITO all'apertura delle formazioni, uno dopo l'altro (prima quello scelto), non quando si cambia statistica:
+  // cambiando statistica o linea i voti sono gia' pronti e si aggiornano all'istante con l'animazione (prima 7-8 s di caricamento file e calcolo)
   useEffect(() => {
-    if (!pre || !isF || fouls[stat]) return undefined;
+    if (!pre) return undefined;
     let on = true;
-    Promise.all(players.map((p) => {
-      const pl = plOf(p, match);
-      return pl && !isOutOn(pl.id, match.date) ? loadPlayerFouls(pl, match.date, FOUL_LINES, stat) : Promise.resolve(null);
-    })).then((rows) => {
-      if (!on) return;
-      const m = {};
-      players.forEach((p, i) => { m[p.playerId] = rows[i]; });
-      setFouls((f) => ({ ...f, [stat]: m }));
-    });
+    const order = isF ? [stat, stat === 'fc' ? 'fs' : 'fc'] : ['fc', 'fs'];
+    (async () => {
+      for (const k of order) {
+        if (!on) return;
+        // eslint-disable-next-line no-await-in-loop
+        if (fouls[k]) continue;
+        // eslint-disable-next-line no-await-in-loop
+        const rows = await Promise.all(players.map((p) => {
+          const pl = plOf(p, match);
+          return pl && !isOutOn(pl.id, match.date) ? loadPlayerFouls(pl, match.date, FOUL_LINES, k).catch(() => null) : Promise.resolve(null);
+        }));
+        if (!on) return;
+        const m = {};
+        players.forEach((p, i) => { m[p.playerId] = rows[i]; });
+        setFouls((f) => ({ ...f, [k]: m }));
+      }
+    })();
     return () => { on = false; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [stat, pre, pk]);
+  }, [pre, pk, isF ? stat : '']);
   const valOf = (p) => {
     const pl = plOf(p, match);
     if (pre) {
