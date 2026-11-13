@@ -22,6 +22,7 @@ import PaneN from '../shared/PaneN';
 import { PanelSkN } from '../shared/TabsN';
 import { MatchRowN, ArchRowN } from '../shared/MatchRowsN';
 import { fmtDate, dayKey } from '../shared/fmt';
+import { logoFm } from '@/data/util';
 
 const CUP_FMS = [42, 73, 10216];
 const LID_BY_FM = Object.fromEntries(Object.entries(FM_ID).map(([k, v]) => [v, k]));
@@ -47,7 +48,7 @@ function Pills({ C, items, row, dayHead }) {
       {groups.map((g, gi) => {
         // competizione non in elenco (coppe e campionati d'archivio): logo FotMob (chiaro/scuro) e nome dall'indice, mai intestazione vuota
         const ix = idx && g.fm ? idx[String(g.fm)] : null;
-        const lg = leagueById(g.lid) || (g.fm ? { id: `fm-${g.fm}`, name: (ix && ix.n) || '', logo: `https://images.fotmob.com/image_resources/logo/leaguelogo/${g.fm}.png`, logoDark: `https://images.fotmob.com/image_resources/logo/leaguelogo/dark/${g.fm}.png` } : null);
+        const lg = leagueById(g.lid) || (g.fm ? { id: `fm-${g.fm}`, name: (ix && ix.n) || '', logo: `https://images.fotmob.com/image_resources/logo/leaguelogo/${logoFm(g.fm)}.png`, logoDark: `https://images.fotmob.com/image_resources/logo/leaguelogo/dark/${logoFm(g.fm)}.png` } : null);
         const tint = leagueTint(g.lid);
         return (
           <View key={`${g.gk}-${gi}-${g.items[0].key}`} style={{ marginHorizontal: 16, marginTop: 16, borderRadius: 24, overflow: 'hidden', borderWidth: 1, borderColor: `${tint}55` }}>

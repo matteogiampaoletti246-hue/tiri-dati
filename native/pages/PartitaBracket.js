@@ -14,6 +14,7 @@ import { fixedColors } from '@/data/teamColorFix';
 import { LEAGUES, leagueTint } from '@/data/leagues';
 import { matchTint } from '@/data/matchTint';
 import { useSel } from '../shared/hooks';
+import { logoFm } from '@/data/util';
 
 const H = 62; const U = 74; const X0 = 16; const GAP = 18; const POSTER_H = 250;
 const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
@@ -93,7 +94,7 @@ function Poster({ t, names, fm, tint, mid, name, w }) {
   return (
     <View style={{ width: w, height: POSTER_H, borderRadius: 30, overflow: 'hidden', borderWidth: 1, borderColor: 'rgba(255,255,255,.22)' }}>
       <LinearGradient colors={[tint, mid, '#050912']} locations={[0, 0.6, 1]} style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }} />
-      <Image source={{ uri: `https://images.fotmob.com/image_resources/logo/leaguelogo/dark/${fm}.png` }} style={{ position: 'absolute', left: w / 2 - 165, top: POSTER_H / 2 - 165, width: 330, height: 330, opacity: 0.14 }} contentFit="contain" />
+      <Image source={{ uri: `https://images.fotmob.com/image_resources/logo/leaguelogo/dark/${logoFm(fm)}.png` }} style={{ position: 'absolute', left: w / 2 - 165, top: POSTER_H / 2 - 165, width: 330, height: 330, opacity: 0.14 }} contentFit="contain" />
       <Text style={{ position: 'absolute', left: 0, right: 0, top: 16, textAlign: 'center', color: 'rgba(255,255,255,.8)', fontSize: 11, fontWeight: '800', letterSpacing: 1.8, textTransform: 'uppercase' }}>{name} · Finale</Text>
       <View style={{ position: 'absolute', left: 0, right: 0, top: 56, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 20 }}>
         <View style={[{ borderRadius: 999, padding: 6, backgroundColor: 'rgba(255,255,255,.1)' }, ring(t.win === 'a')]}><Image source={{ uri: teamLogo(t.a) }} style={{ width: 68, height: 68, opacity: t.win === 'b' ? 0.85 : 1 }} contentFit="contain" cachePolicy="memory-disk" /></View>

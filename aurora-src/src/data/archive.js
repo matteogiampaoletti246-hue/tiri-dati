@@ -4,6 +4,7 @@ import { lruGet, lruSet } from '@/lib/lru';
 import { BASE, RAW, WORKER } from './load';
 import { LEAGUES, leagueById, PALETTE, friendlyFix } from './leagues';
 import { isWomenComp, isWomenName, womenName } from './teamMatch';
+import { logoFm } from './util';
 
 // file scaricati una volta sola; quelli grandi (partite della stagione .gz, statistiche) con capienza fissa: la memoria non cresce all'infinito
 const cache = new Map();
@@ -76,7 +77,7 @@ function addArchiveLeagues(idx) {
       const col = /^#[0-9a-f]{6}$/i.test(e.color || '') ? e.color : '#38A2FF';
       const country = PAESE[e.cn] || e.cn || '';
       LEAGUES.push(friendlyFix({ id, fm, extra: true, arch: true, cc: e.c || '', name: nameOf(e, country) || `Competizione ${fm}`, country, countryUpper: country.toUpperCase(), colors: ['#0E1626', col], tint: col,
-        logo: `https://images.fotmob.com/image_resources/logo/leaguelogo/${fm}.png`, logoDark: `https://images.fotmob.com/image_resources/logo/leaguelogo/dark/${fm}.png`, season: '', ...(PALETTE[id] || PALETTE[familyOf(e.n)] || {}) }));
+        logo: `https://images.fotmob.com/image_resources/logo/leaguelogo/${logoFm(fm)}.png`, logoDark: `https://images.fotmob.com/image_resources/logo/leaguelogo/dark/${logoFm(fm)}.png`, season: '', ...(PALETTE[id] || PALETTE[familyOf(e.n)] || {}) }));
     }
     FM_ID[id] = fm;
     LID_BY_FM[fm] = id;

@@ -5,9 +5,10 @@ import { PALETTE, leagueById } from '@/data/leagues';
 import { CUPS, NATIONS_KEYS, calcLeagues, calcTeamsOf, domesticKeyOf, leagueName } from '@/data/calcData';
 import { LOGO_COLORS } from '@/data/compColors';
 import { teamById, teamByName } from '@/data/teams';
+import { logoFm } from '@/data/util';
 
-const FM_LOGO = (fm) => `https://images.fotmob.com/image_resources/logo/leaguelogo/${fm}.png`;
-const FM_LOGO_DARK = (fm) => `https://images.fotmob.com/image_resources/logo/leaguelogo/dark/${fm}.png`;
+const FM_LOGO = (fm) => `https://images.fotmob.com/image_resources/logo/leaguelogo/${logoFm(fm)}.png`;
+const FM_LOGO_DARK = (fm) => `https://images.fotmob.com/image_resources/logo/leaguelogo/dark/${logoFm(fm)}.png`;
 const CUP_FM = { 'champions-league': 42, 'europa-league': 73, 'conference-league': 10216 }; // logo FotMob se data.json non ha ancora portato quello della coppa
 const MEMO = new Map();
 const abs = (u) => (typeof u === 'string' && /^https?:/.test(u) ? u : null); // logo locale (es. Europa League in nativo senza base URL): si usa quello FotMob

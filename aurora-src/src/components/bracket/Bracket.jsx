@@ -11,6 +11,7 @@ import { LEAGUES, leagueTint } from '@/data/leagues';
 import { matchTint } from '@/data/matchTint';
 import { FM_ID } from '@/data/archive';
 import { PanelSkeleton } from '@/components/PageSkeletons';
+import { logoFm } from '@/data/util';
 
 // Tabellone: due fasi per schermata, le pillole delle fasi fanno scorrere il tabellone da un lato all'altro.
 // Le posizioni sono calcolate a ogni fotogramma (niente componenti ricreati): si muovono solo i transform.
@@ -82,7 +83,7 @@ function Poster({ t, names, fm, tint, mid, name }) {
   const na = names[t.a] || '—'; const nb = names[t.b] || '—';
   const wn = t.win === 'a' ? na : t.win === 'b' ? nb : null;
   const done = t.played || t.legs.some((l) => l.score);
-  const logo = `https://images.fotmob.com/image_resources/logo/leaguelogo/dark/${fm}.png`;
+  const logo = `https://images.fotmob.com/image_resources/logo/leaguelogo/dark/${logoFm(fm)}.png`;
   return (
     <div className="relative h-full w-full overflow-hidden" style={{ borderRadius: 30, background: `linear-gradient(180deg, ${tint} 0%, ${mid} 60%, #050912 100%)`, border: '1px solid rgba(255,255,255,.22)', color: '#fff' }}>
       <img src={logo} alt="" className="absolute left-1/2 top-1/2 w-[330px] -translate-x-1/2 -translate-y-1/2" style={{ opacity: 0.14 }} />

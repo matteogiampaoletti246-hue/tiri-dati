@@ -23,3 +23,7 @@ export const romeTime = (ts) => timeFmt.format(new Date(ts));
 
 export const r1 = (v) => Math.round(v * 10) / 10;
 export const r2 = (v) => Math.round(v * 100) / 100;
+
+// Logo FotMob di una competizione: FotMob non ha un logo proprio per le qualificazioni ai Mondiali (10195-10201: solo una coppa gialla generica),
+// quindi tutte usano il vero logo della FIFA World Cup (id 77)
+export const logoFm = (fm) => (Number(fm) >= 10195 && Number(fm) <= 10201 ? 77 : fm);

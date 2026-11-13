@@ -10,9 +10,11 @@ const OUT = path.resolve(process.argv[3] || 'native/meta.json');
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'meta-'));
 fs.writeFileSync(path.join(tmp, 'package.json'), '{"type":"module"}');
 fs.writeFileSync(path.join(tmp, 'load.js'), 'export const RAW = {};');
-fs.writeFileSync(path.join(tmp, 'leagues.js'), fs.readFileSync(path.join(SRC, 'data/leagues.js'), 'utf8').replace("from './load'", "from './load.js'"));
+fs.writeFileSync(path.join(tmp, 'leagues.js'), fs.readFileSync(path.join(SRC, 'data/leagues.js'), 'utf8').replace("from './load'", "from './load.js'").replace("from './util'", "from './util.js'"));
+fs.writeFileSync(path.join(tmp, 'util.js'), fs.readFileSync(path.join(SRC, 'data/util.js'), 'utf8'));
 fs.writeFileSync(path.join(tmp, 'countries.js'), fs.readFileSync(path.join(SRC, 'data/countries.js'), 'utf8'));
 const { LEAGUES, leagueTint, friendlyFix } = await import(pathToFileURL(path.join(tmp, 'leagues.js')));
+const { logoFm } = await import(pathToFileURL(path.join(tmp, 'util.js')));
 const { countryCode, importance, isWomenYouth, flagEmoji } = await import(pathToFileURL(path.join(tmp, 'countries.js')));
 // codice della bandiera (cartella flag-icons): ISO2 minuscolo, Inghilterra/Scozia/Galles/Irlanda del Nord a parte
 const cSrc = fs.readFileSync(path.join(SRC, 'data/countries.js'), 'utf8');
@@ -37,11 +39,11 @@ Object.entries(idx).forEach(([k, e]) => {
   const id = `fm-${fm}`;
   const col = /^#[0-9a-f]{6}$/i.test(e.color || '') ? e.color : '#38A2FF';
   const country = PAESE[e.cn] || e.cn || '';
-  LEAGUES.push(friendlyFix({ id, fm, extra: true, arch: true, cc: e.c || '', name: nameOf(e, country) || `Competizione ${fm}`, country, countryUpper: country.toUpperCase(), colors: ['#0E1626', col], tint: col, logo: `https://images.fotmob.com/image_resources/logo/leaguelogo/${fm}.png`, logoDark: `https://images.fotmob.com/image_resources/logo/leaguelogo/dark/${fm}.png` }));
+  LEAGUES.push(friendlyFix({ id, fm, extra: true, arch: true, cc: e.c || '', name: nameOf(e, country) || `Competizione ${fm}`, country, countryUpper: country.toUpperCase(), colors: ['#0E1626', col], tint: col, logo: `https://images.fotmob.com/image_resources/logo/leaguelogo/${logoFm(fm)}.png`, logoDark: `https://images.fotmob.com/image_resources/logo/leaguelogo/dark/${logoFm(fm)}.png` }));
 });
 const TOP_SOLO = ['champions-league', 'europa-league', 'conference-league', 'fm-9806', 'fm-9807', 'fm-9808', 'fm-9809', 'serie-a', 'premier-league', 'la-liga', 'bundesliga', 'ligue-1', 'pro-league', 'eredivisie', 'liga-portugal', 'super-lig'];
 const OPEN = new Set(['serie-a', 'premier-league', 'la-liga', 'bundesliga', 'ligue-1', 'champions-league', 'europa-league', 'conference-league', 'fm-9806', 'fm-9807', 'fm-9808', 'fm-9809']);
-const FMLOGO = (fm) => `https://images.fotmob.com/image_resources/logo/leaguelogo/${fm}.png`;
+const FMLOGO = (fm) => `https://images.fotmob.com/image_resources/logo/leaguelogo/${logoFm(fm)}.png`;
 const solo = new Map(TOP_SOLO.map((id, k) => [id, k]));
 const pos = new Map(LEAGUES.map((L, i) => [L.id, i]));
 LEAGUES.forEach((L) => { if (!solo.has(L.id) && !countryCode(L)) solo.set(L.id, TOP_SOLO.length + pos.get(L.id)); });

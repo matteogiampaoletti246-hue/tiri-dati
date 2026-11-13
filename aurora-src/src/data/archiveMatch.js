@@ -10,7 +10,7 @@ import { ensureTeam, teamById, teamByFm, TEAMS, setTeamFm } from './teams';
 import { findAppTeam, acr, norm as tnorm } from './teamMatch';
 import { playersByTeam } from './players';
 import { leagueById, LEAGUES, CUP_IDS } from './leagues';
-import { romeDay, romeTime, slug, norm } from './util';
+import { romeDay, romeTime, slug, norm, logoFm } from './util';
 import { feedRowFor, fixFromFeed } from './feedRows';
 
 export const archiveId = (fm, sk, mid) => `a-${fm}-${sk}-${mid}`;
@@ -30,7 +30,7 @@ export async function leagueForFm(fm) {
   if (pseudo[fm]) return pseudo[fm];
   const idx = await archIndex();
   const e = (idx && idx[String(fm)]) || {};
-  pseudo[fm] = { id: `fm-${fm}`, name: e.n || 'Campionato', country: e.cn || '', colors: [], logo: `https://images.fotmob.com/image_resources/logo/leaguelogo/${fm}.png`, logoDark: null, noPage: true };
+  pseudo[fm] = { id: `fm-${fm}`, name: e.n || 'Campionato', country: e.cn || '', colors: [], logo: `https://images.fotmob.com/image_resources/logo/leaguelogo/${logoFm(fm)}.png`, logoDark: null, noPage: true };
   return pseudo[fm];
 }
 

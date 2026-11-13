@@ -3,6 +3,7 @@
 // Vite da' il percorso base; nell'app nativa import.meta.env non esiste (si usa '/')
 const BASE_URL = (() => { try { return import.meta.env.BASE_URL || '/'; } catch (e) { return 'https://matteogiampaoletti246-hue.github.io/tiri-dati/aurora/'; } })();
 import { RAW } from './load';
+import { logoFm } from './util';
 
 
 // Colori scelti dall'utente per i campionati/coppe aggiunti: [scuro, vivace] per i banner e colore delle pillole in Home.
@@ -161,8 +162,8 @@ export function buildLeagues() {
     friendlyFix(l);
     // campionati e coppe aggiunti: logo ufficiale FotMob (chiaro e scuro) se non c'e' nel calcolatore
     if (l.extra && l.fm && !l.world && !(d && d.logo)) {
-      l.logo = `https://images.fotmob.com/image_resources/logo/leaguelogo/${l.fm}.png`;
-      l.logoDark = `https://images.fotmob.com/image_resources/logo/leaguelogo/dark/${l.fm}.png`;
+      l.logo = `https://images.fotmob.com/image_resources/logo/leaguelogo/${logoFm(l.fm)}.png`;
+      l.logoDark = `https://images.fotmob.com/image_resources/logo/leaguelogo/dark/${logoFm(l.fm)}.png`;
     }
     if (!d) return;
     if (!l.world && !(l.extra && l.logo)) l.logo = d.logo || null;

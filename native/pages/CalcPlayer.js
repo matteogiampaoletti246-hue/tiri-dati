@@ -14,7 +14,7 @@ import { teamById, teamByName } from '@/data/teams';
 import { useUpcoming } from '../shared/useUpcoming';
 import { allTeamMatches, nextMatchOf, nextMatchVs } from '@/data/extras';
 import { prepareMatch } from '@/data/prepare';
-import { romeDay } from '@/data/util';
+import { romeDay, logoFm } from '@/data/util';
 import { NATIONS_KEYS, calcTeamsOf, calcLeagues, leagueName, cupOf, domesticKey, nextFixture, fixtureAt, prefillShots, splitBoxes, teamShots } from '@/data/calcData';
 import { emptyFouls, fillFrom, hitFromValues, hitRows, initialForm, isFouls, natHitOf, resultFromForm, resultFromFouls, viewFor } from '@/data/calcPlayer';
 import { fmTeamIn, foulKeysFor, foulSeasonOf, leaguePlayerAvg, playerFoulsOf, rosterFouls, teamFoulStats, useFouls } from '@/data/calcFouls';
@@ -457,7 +457,7 @@ function useCompPages(player, key2) {
         if (!top.some((g) => g.cur)) continue; // eslint-disable-line no-continue
         const lid = LID_BY_FM[fm];
         const meta = lid ? calcComp(lid) : null;
-        out.push({ key: `fm-${fm}`, fm, last: top[0].date, name: (meta && meta.name) || ent.n, logo: (meta && meta.logo) || `https://images.fotmob.com/image_resources/logo/leaguelogo/${fm}.png`, values: top.map((m) => m.v).reverse(), minutes: top.map((m) => m.min).reverse(), games: top.map((m) => gameOf(m)).reverse() });
+        out.push({ key: `fm-${fm}`, fm, last: top[0].date, name: (meta && meta.name) || ent.n, logo: (meta && meta.logo) || `https://images.fotmob.com/image_resources/logo/leaguelogo/${logoFm(fm)}.png`, values: top.map((m) => m.v).reverse(), minutes: top.map((m) => m.min).reverse(), games: top.map((m) => gameOf(m)).reverse() });
       }
       // ordine: campionato di club per primo, poi per partita piu' recente
       const dom = (hitProf(player) || {}).domFm;
