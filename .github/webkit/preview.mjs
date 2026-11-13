@@ -1951,6 +1951,36 @@ await step('affidabilita campionati aggiunti: ricerca nel Calcolatore, scheda in
   await shot('migliori-giocatori-campionati-aggiunti');
 });
 
+// Amichevoli tra nazionali: medie della competizione ufficiale piu' recente di ogni nazionale (calc_extra.py, chiave fm-114)
+await step('affidabilita amichevoli: nazionali con medie della competizione ufficiale piu\' recente', async () => {
+  const X = await getJson('calc_extra.json');
+  const L = X && X.leagues && X.leagues['fm-114'];
+  ok('amichevoli: calc_extra.json ha le medie fm-114 (nazionali con competizione ufficiale)', !!L && Object.keys(L.teams).length >= 20, { n: L && Object.keys(L.teams).length });
+  if (!L) return;
+  const idx = await getJson('arch/index.json');
+  const sk = [...idx['114'].s].sort().reverse()[0];
+  const d = await getJson(`arch/114/${encodeURIComponent(sk)}.json`);
+  const now = Date.now();
+  const cand = (d.fix || []).filter((x) => !x[6] && !x[8] && Date.parse(x[4]) > now && Date.parse(x[4]) < now + 4 * 864e5 && L.teams[d.teams[x[2]]] && L.teams[d.teams[x[3]]]).slice(0, 8);
+  const res = [];
+  let first = null;
+  for (const c of cand) {
+    await go(`#/match/a-114-${encodeURIComponent(sk)}-${c[0]}`, 5500); await ready();
+    const tabs = await pg.evaluate(() => [...document.querySelectorAll('.tab-btn')].map((x) => x.textContent.trim()));
+    const has = tabs.includes('Affidabilità');
+    res.push(`${d.teams[c[2]]}-${d.teams[c[3]]}:${has ? 'si' : 'no'}`);
+    if (has && !first) first = c;
+  }
+  ok('amichevoli: le partite non iniziate tra nazionali con medie hanno la scheda Affidabilità', cand.length === 0 || res.some((r) => /:si$/.test(r)), { res });
+  if (first) {
+    await go(`#/match/a-114-${encodeURIComponent(sk)}-${first[0]}`, 5500); await ready();
+    await tabClick('Affidabilità'); await wait(1500);
+    const t = await pg.evaluate(() => document.getElementById('sl-shell').innerText);
+    ok('amichevoli: la scheda elenca giocatori con tiri attesi', /tiri attesi/.test(t), { snippet: t.slice(0, 120) });
+    await shot('affidabilita-amichevole');
+  }
+});
+
 await step('migliori giocatori: tendina statistica (tiri, in porta, falli), entrata animata, giorni da oggi', async () => {
   await go('#/migliori-giocatori', 5000);
   const hdr = await pg.evaluate(() => document.querySelector('header').innerText);

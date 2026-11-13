@@ -9,7 +9,7 @@ import { roseOf } from './rose';
 import { RAW } from './load';
 
 // competizioni di nazionali: Nations League A-D, Mondiali e qualificazioni
-const isNatLg = (lid) => /^fm-(9806|9807|9808|9809|77|10195|10196|10197|10198|10199)$/.test(String(lid || ''));
+const isNatLg = (lid) => /^fm-(9806|9807|9808|9809|114|77|10195|10196|10197|10198|10199)$/.test(String(lid || ''));
 
 // Stato condiviso della tendina giocatore (si apre da formazioni, riassunto, tiri…).
 let state = null;

@@ -521,10 +521,140 @@ def main():
         print(f"{label}: {sk}, {n_fin} partite, {len(teams)} squadre, {n_upd} giocatori aggiornati, {n_new} nuovi")
         if ren:
             print("   nomi unificati:", ", ".join(f"{a} -> {b}" for a, b in ren))
+    amichevoli(out)
     nat_clubs(out)
     nat_hits(out)
     json.dump(out, open(OUT, "w"), ensure_ascii=False, separators=(",", ":"))
     print("scritto", OUT, round(os.path.getsize(OUT) / 1024), "KB")
+
+
+# Amichevoli tra nazionali (FotMob 114): non hanno una propria stagione con medie, quindi ogni nazionale usa le medie della COMPETIZIONE UFFICIALE
+# PIU' RECENTE che ha giocato (Mondiali, qualificazioni, coppe continentali, Nations League, Finalissima); le amichevoli sono sempre escluse.
+AMICHEVOLI = 114
+KEY_AMI = "fm-114"
+UFFICIALI = [77, 10195, 10196, 10197, 10198, 10199, 10200, 10201, 9806, 9807, 9808, 9809, 50, 44, 289, 10304, 10608, 10609]
+AMI_MIN_PARTITE = 3   # se la competizione piu' recente ha meno partite con statistiche, si aggiunge la precedente
+
+
+def amichevoli(out):
+    idx = json.load(open("arch/index.json"))
+    e = idx.get(str(AMICHEVOLI))
+    if not e or not e.get("s"):
+        print("Amichevoli: non nell'indice")
+        return
+    cal = load(f"arch/{AMICHEVOLI}/{e['s'][0]}.json")
+    today = datetime.now(ROME).strftime("%Y-%m-%d")
+    names = cal.get("teams") or {}
+    nxt = {}   # id squadra -> [(utc, [giorno, avversario, casa, chiave])]
+    for r in cal.get("fix") or []:
+        hid, aid, utc, started, canc = str(r[2]), str(r[3]), r[4], r[6], r[8]
+        if started or canc or hid not in names or aid not in names or rome_day(utc) < today:
+            continue
+        d = rome_day(utc)
+        nxt.setdefault(hid, []).append((utc, [d, names[aid], 1, KEY_AMI]))
+        nxt.setdefault(aid, []).append((utc, [d, names[hid], 0, KEY_AMI]))
+    if not nxt:
+        print("Amichevoli: nessuna partita da giocare")
+        return
+    # partite ufficiali finite con statistiche, per squadra: id squadra -> {(fm, stagione): [(utc, mid, lato)]}
+    comps = {}
+    par_all = {}
+    for fm in UFFICIALI:
+        ent = idx.get(str(fm))
+        for sk in ((ent or {}).get("s") or [])[:2]:
+            cp, pp = f"arch/{fm}/{sk}.json", f"partite/{fm}/{sk}.json.gz"
+            if not (os.path.exists(cp) and os.path.exists(pp)):
+                continue
+            c, par = load(cp), load(pp).get("m", {})
+            par_all[(fm, sk)] = (par, c.get("teams") or {})
+            for r in c.get("fix") or []:
+                mid, hid, aid, utc, fin = str(r[0]), str(r[2]), str(r[3]), r[4], r[7]
+                m = par.get(mid)
+                if not fin or not m:
+                    continue
+                s = m.get("s") or {}
+                sh, so = s.get("total_shots"), s.get("ShotsOnTarget")
+                if not (isinstance(sh, list) and isinstance(so, list) and len(sh) == 2 and len(so) == 2 and None not in sh and None not in so):
+                    continue
+                for tid, lato in ((hid, 0), (aid, 1)):
+                    if tid in nxt:
+                        comps.setdefault(tid, {}).setdefault((fm, sk), []).append((utc, mid, lato, sh, so))
+    already = {x["t"] for x in out["nat"] if x.get("lg") in ("fm-9806", "fm-9807", "fm-9808", "fm-9809")}
+    teams, logos, rows_all = {}, {}, {}
+    used = {}
+    for tid, per in comps.items():
+        order = sorted(per.items(), key=lambda kv: max(x[0] for x in kv[1]), reverse=True)
+        pick = [order[0]]
+        if len(order[0][1]) < AMI_MIN_PARTITE and len(order) > 1:
+            pick.append(order[1])
+        ms = [(k, x) for k, lst in pick for x in lst]
+        g = len(ms)
+        tn = names[tid]
+        teams[tn] = {
+            "games": g,
+            "totalFor": r3(sum(x[3][x[2]] for _, x in ms) / g), "totalAgainst": r3(sum(x[3][1 - x[2]] for _, x in ms) / g),
+            "sotFor": r3(sum(x[4][x[2]] for _, x in ms) / g), "sotAgainst": r3(sum(x[4][1 - x[2]] for _, x in ms) / g),
+            "src": ", ".join(f"{(idx.get(str(k[0])) or {}).get('n', k[0])} {k[1]}" for k, _ in pick),
+        }
+        logos[tn] = f"https://images.fotmob.com/image_resources/logo/teamlogo/{tid}.png"
+        used[tid] = ms
+    if not teams:
+        print("Amichevoli: nessuna nazionale con partite ufficiali")
+        return
+    vals = list(teams.values())
+    avg = {k: r3(sum(v[k] for v in vals) / len(vals)) for k in ("totalFor", "totalAgainst", "sotFor", "sotAgainst")}
+    out["leagues"][KEY_AMI] = {"label": "Amichevoli", "name": "Amichevoli", "handicap": 1.0, "league_avg": avg, "logos": logos, "matches": sum(v["games"] for v in vals) // 2,
+                               "restricted": False, "season": e["s"][0], "size": len(teams), "teams": teams}
+    # profili delle nazionali (solo quelle senza gia' un profilo di Nations League: un giocatore ha un solo profilo nazionale): tiri e minuti nella
+    # stessa competizione ufficiale delle medie della squadra
+    n_prof = 0
+    for tid, ms in used.items():
+        tn = names[tid]
+        if tn in already:
+            continue
+        rows = {}
+        for k, x in sorted(ms, key=lambda kx: kx[1][0]):
+            par, _ = par_all[k]
+            m = par.get(x[1]) or {}
+            side = {}
+            for sd in (("h", "a")[x[2]],):
+                lu = m.get(sd) or {}
+                for y in (lu.get("st") or []) + (lu.get("sb") or []):
+                    if isinstance(y, list) and y and y[0] is not None:
+                        side[str(y[0])] = y[1] if len(y) > 1 else ""
+            for pid, v in (m.get("p") or {}).items():
+                mins = v.get("minutes_played") or 0
+                if mins <= 0 or str(pid) not in side:
+                    continue
+                p = rows.setdefault(str(pid), {"n": side[str(pid)], "ms": []})
+                p["ms"].append((x[0], int(v.get("total_shots") or 0), int(v.get("ShotsOnTarget") or 0), int(round(mins))))
+        have = set()
+        for pid, p in rows.items():
+            ms2 = sorted(p["ms"], key=lambda t: t[0], reverse=True)
+            tot = [len(ms2), float(sum(t[1] for t in ms2)), sum(t[2] for t in ms2), float(sum(t[3] for t in ms2))]
+            out["nat"].append({"i": f"nat~{AMICHEVOLI}~{e['s'][0]}~{pid}", "n": p["n"], "t": tn, "fm": int(pid), "lg": KEY_AMI, "nat": 1, "l": tot,
+                               "r": [[t[1], t[2], t[3]] for t in ms2[:5]], "h": [[t[1], t[2], t[3]] for t in [y for y in ms2 if y[3] >= MIN_HIT][:12]]})
+            have.add(int(pid))
+            n_prof += 1
+        try:
+            sh = json.load(open(f"rosa/{int(tid) % 100}.json"))
+        except Exception:
+            sh = {}
+        for r in ((sh.get(str(tid)) or {}).get("p") or []):
+            if not r or r[0] is None or r[0] in have or not r[1] or (isinstance(r[0], int) and r[0] < 0):
+                continue
+            have.add(r[0])
+            out["nat"].append({"i": f"nat~{AMICHEVOLI}~{e['s'][0]}~{r[0]}", "n": r[1], "t": tn, "fm": int(r[0]), "lg": KEY_AMI, "nat": 1, "l": [0, 0.0, 0, 0.0], "r": [], "h": []})
+            n_prof += 1
+    # calendario: le amichevoli si aggiungono alle partite gia' note della squadra (Nations League)
+    for tid, lst in nxt.items():
+        tn = names[tid]
+        if tn not in teams and tn not in already:
+            continue
+        lst.sort(key=lambda x: x[0])
+        merged = (out["fix"].get(tn) or []) + [x[1] for x in lst]
+        out["fix"][tn] = sorted(merged, key=lambda f: f[0])[:NEXT_FIX]
+    print(f"Amichevoli: {len(teams)} nazionali con medie dalla competizione ufficiale piu' recente, {n_prof} profili giocatore")
 
 
 def nat_clubs(out):
