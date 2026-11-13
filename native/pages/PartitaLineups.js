@@ -2,7 +2,7 @@
 // infortunati; formazione a soli nomi quando la fonte non da' il campo. Stessi dati del sito.
 import { FlagN } from '../shared/FlagN';
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, Pressable, Animated, Easing } from 'react-native';
+import { View, Text, Pressable, Animated, Easing, InteractionManager } from 'react-native';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
@@ -342,23 +342,30 @@ export default function Formazioni({ C, match, view, home, away, pre, openRoute 
     if (!pre) return undefined;
     let on = true;
     const order = isF ? [stat, stat === 'fc' ? 'fs' : 'fc'] : ['fc', 'fs'];
-    (async () => {
+    const start = InteractionManager.runAfterInteractions(async () => {
+      await new Promise((r) => setTimeout(r, 600));
       for (const k of order) {
         if (!on) return;
         // eslint-disable-next-line no-await-in-loop
         if (fouls[k]) continue;
-        // eslint-disable-next-line no-await-in-loop
-        const rows = await Promise.all(players.map((p) => {
-          const pl = plOf(p, match);
-          return pl && !isOutOn(pl.id, match.date) ? loadPlayerFouls(pl, match.date, FOUL_LINES, k).catch(() => null) : Promise.resolve(null);
-        }));
+        // pochi giocatori alla volta con una pausa in mezzo: il calcolo non blocca mai il tocco dei tasti (statistica e linea rispondono subito)
+        const rows = [];
+        for (let i = 0; i < players.length && on; i += 3) {
+          // eslint-disable-next-line no-await-in-loop
+          await new Promise((r) => setTimeout(r, 40));
+          // eslint-disable-next-line no-await-in-loop
+          rows.push(...(await Promise.all(players.slice(i, i + 3).map((p) => {
+            const pl = plOf(p, match);
+            return pl && !isOutOn(pl.id, match.date) ? loadPlayerFouls(pl, match.date, FOUL_LINES, k).catch(() => null) : Promise.resolve(null);
+          }))));
+        }
         if (!on) return;
         const m = {};
         players.forEach((p, i) => { m[p.playerId] = rows[i]; });
         setFouls((f) => ({ ...f, [k]: m }));
       }
-    })();
-    return () => { on = false; };
+    });
+    return () => { on = false; start.cancel(); };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pre, pk, isF ? stat : '']);
   const valOf = (p) => {

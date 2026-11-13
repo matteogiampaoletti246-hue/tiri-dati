@@ -220,3 +220,4 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 
 ## Formazioni: voti di affidabilita' istantanei al cambio statistica/linea (13/11/2026)
 - Tiri e tiri in porta si calcolano in ~20 ms per tutti i giocatori. I falli (commessi/subiti) caricano molti file: per questo `PartitaLineups.js` li calcola SUBITO all'apertura delle formazioni (prima la statistica scelta, poi l'altra), mai al tocco: cambiando statistica o linea i voti sono gia' pronti e si animano all'istante (`Badge`, 420 ms). Mai attese di 7-8 s al cambio.
+- Il precalcolo dei falli parte dopo le interazioni (`InteractionManager`) e +600 ms, 3 giocatori alla volta con pausa di 40 ms: non deve mai bloccare il tocco dei tasti statistica/linea appena si aprono le formazioni.
