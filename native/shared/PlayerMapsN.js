@@ -123,7 +123,7 @@ function ShotDetail({ C, s, onPrev, onNext }) {
 // comps: competizioni del giocatore [{id, name, logo...}]; fmPid: id FotMob del giocatore
 export default function PlayerMapsN({ C, comps, fmPid, name, color, openRoute }) {
   const [comp, setComp] = useState('all');
-  const [season, setSeason] = useState('l5');
+  const [season, setSeason] = useState('cur');
   const [opp, setOpp] = useState('all');
   const [page, setPage] = useState(0);
   const [sel, setSel] = useState(null);
@@ -146,8 +146,8 @@ export default function PlayerMapsN({ C, comps, fmPid, name, color, openRoute })
     sList.forEach((sk) => { const a = Number(String(sk).slice(0, 4)); if (!a) return; if (/^\d{4}-\d{4}$/.test(String(sk))) set.add(a); else { set.add(a - 1); set.add(a); } });
     return [...set].filter((y) => y >= 2019 && y < nowY).sort((a, b) => b - a);
   }, [sList]);
-  const sOpts = [{ value: 'l5', label: 'Ultime 5 (Hit rate)' }, { value: 'cur', label: 'Stagione attuale' }, ...ys.map((y) => ({ value: `y${y}`, label: `${y}/${String(y + 1).slice(2)}` }))];
-  const sEff = sOpts.some((o) => o.value === season) ? season : 'l5';
+  const sOpts = [{ value: 'l5', label: 'Ultime 5' }, { value: 'cur', label: 'Stagione attuale' }, ...ys.map((y) => ({ value: `y${y}`, label: `${y}/${String(y + 1).slice(2)}` }))];
+  const sEff = sOpts.some((o) => o.value === season) ? season : 'cur';
   const data = usePlayerMaps({ pid: fmPid, name, fms, seasonSel: sEff });
   const col = shotColor([hexOk(color) || '#ffffff']);
   // appena la mappa scelta e' pronta si scarica in silenzio la stagione precedente: passare da una stagione all'altra e' istantaneo

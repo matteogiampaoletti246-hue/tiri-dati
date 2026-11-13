@@ -204,7 +204,7 @@ export async function loadPlayerMaps({ pid, name, fms, seasonSel }) {
 // pre-carica le mappe della stagione attuale (tutte le competizioni) appena si apre la scheda giocatore: aprendo Statistiche i dati sono gia' in cache
 export function warmPlayerMaps({ pid, name, fms }) {
   if (!pid || !fms || !fms.length) return;
-  loadPlayerMaps({ pid, name, fms, seasonSel: 'l5' }).catch(() => {});
+  loadPlayerMaps({ pid, name, fms, seasonSel: 'cur' }).catch(() => {});
 }
 
 export function usePlayerMaps(args) {

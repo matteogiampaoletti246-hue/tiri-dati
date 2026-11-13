@@ -109,6 +109,6 @@ Le barre di `CompareBars` compaiono subito ai valori veri (niente memoria di val
 - **Meteo per ogni partita (13/11/2026, regola fissa)**: previsione nel punto dello stadio, all'ora e giorno della partita, da 5 giorni prima. Coordinate in ordine: `stadi.json`, stadio FotMob della squadra di casa, `stadi_ex.json`, **nome dello stadio** gia' noto (`stadiByName`: le nazionali giocano negli stadi dei club), poi punto esatto da OpenStreetMap (Nominatim: nome + citta'), poi geocoding Open-Meteo per nome/citta' (citta' ESPN `stadiumCity`; la citta' della squadra di casa solo per i campionati aggiunti, mai senza filtro paese). Mai meteo inventato: senza coordinate la voce non c'e'.
 
 ## Mappe giocatore: niente "Tutte le stagioni", cambio stagione veloce (13/11/2026)
-- Il filtro stagione della mappa tiri/falli NON ha "Tutte le stagioni" (rallentava troppo): Ultime 5, Stagione attuale, poi le singole stagioni.
+- Il filtro stagione della mappa tiri/falli parte SEMPRE da "Stagione attuale" (non da Ultime 5); NON ha "Tutte le stagioni" (rallentava troppo): Ultime 5 (solo "Ultime 5", senza "Hit rate"), Stagione attuale, poi le singole stagioni.
 - Cambio stagione entro ~2 s: appena la mappa scelta e' pronta si scarica in silenzio la stagione precedente (`PlayerMapsN.js`, `loadPlayerMaps`, memoria di `loadOne`); i tiri delle partite non ancora nell'archivio si chiedono tutti insieme (max 60), non 6 alla volta.
 - Caricamento: scheletro con la forma vera (cornice, titolo, tendina avversari, campo con le linee, pallini pagina), mai rotella.
