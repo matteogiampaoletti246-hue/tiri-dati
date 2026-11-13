@@ -5,7 +5,7 @@ import json, os, sys, time, gzip, urllib.request
 UA = {"User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mobile/15E148) AppleWebKit/605.1.15 Mobile Safari/604.1", "Accept": "application/json,*/*"}
 BUDGET = float(os.environ.get("BUDGET_MIN", "320")) * 60
 SHARD = int(os.environ.get("SHARD", "0")); NSHARD = int(os.environ.get("NSHARD", "1"))
-CAP_MB = float(os.environ.get("CAP_MB", "130"))
+CAP_MB = float(os.environ.get("CAP_MB", "200"))   # 130 -> 200: le posizioni dei tiri (sx) aggiungono ~100 MB alle stagioni dal 2019
 T0 = time.time()
 RECENT_YEAR = time.gmtime().tm_year - 1   # stagioni "2025-2026" e "2026", "2026-2027": possono avere ancora partite da aggiungere
 def get(i, tries=3):
@@ -122,6 +122,9 @@ def folder_mb(path):
         for f in fs: n += os.path.getsize(os.path.join(r, f))
     return n / 1e6
 def run():
+    # i segnalini del giro prima non valgono piu': se il lavoro resta, il workflow deve ripartire da solo
+    for f in (f"partite/.done{SHARD}", f"partite/.cap{SHARD}"):
+        if os.path.exists(f): os.remove(f)
     ix = json.load(open(os.environ.get("INDEX", "arch/index.json")))
     years = range(2026, int(os.environ.get("MINYEAR", "2010")) - 1, -1)
     units = []

@@ -1,13 +1,14 @@
 name: Falli (coppie e ruoli)
 on:
   schedule:
-    - cron: "20 */6 * * *"
+    - cron: "20 23 * * *"
   workflow_dispatch:
 concurrency:
   group: falli
   cancel-in-progress: false
 permissions:
   contents: write
+  actions: write
 jobs:
   falli:
     runs-on: ubuntu-latest
@@ -18,6 +19,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Coppie di falli da ESPN
+        id: falli
         run: python falli_coppie.py
       - name: Salva
         if: always()
@@ -27,3 +29,8 @@ jobs:
           git add falli
           git diff --staged --quiet || git commit -m "Falli: coppie e ruoli"
           for i in 1 2 3 4 5; do git pull --rebase --autostash && git push && break; sleep $((i*4)); done
+      - name: Riparti subito se resta lavoro
+        if: steps.falli.outputs.resta == '1'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X POST repos/${{ github.repository }}/actions/workflows/falli.yml/dispatches -f ref=${{ github.ref_name }}

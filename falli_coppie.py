@@ -248,10 +248,12 @@ def stagioni_passate():
 def main():
     chiavi = sys.argv[1].split(",") if len(sys.argv) > 1 else list(LEGHE) + stagioni_passate()
     t_ini = time.time()
+    resta = False
     budget = float(os.environ.get("FALLI_BUDGET_MIN", "100")) * 60   # fuori tempo si salva e si riprende al giro dopo (le partite fatte non si rifanno)
     for k in chiavi:
         if time.time() - t_ini > budget:
-            print("tempo finito: si riprende al prossimo giro", flush=True)
+            print("tempo finito: si riprende subito col giro dopo", flush=True)
+            resta = True
             break
         # "fm-9806@2024-2025" = stagione precedente di una nazionale (stessa competizione, stagione indicata)
         base, _, stag_k = k.partition("@")
@@ -279,6 +281,7 @@ def main():
         tot = tot_m = n_part = 0
         for mid, m in d.items():
             if time.time() - t_ini > budget:
+                resta = True
                 break
             # "xy": coppie gia' salvate con posizione e minuto; le vecchie (senza) si rifanno una volta
             if not m or not m.get("h") or not m.get("a") or (mid in ris and ris[mid].get("xy") == 2):
@@ -306,6 +309,10 @@ def main():
         with gzip.open(out_f, "wt", encoding="utf-8") as fh:
             json.dump(ris, fh, separators=(",", ":"))
         print(f"{k}: {n_part} partite nuove, {tot} coppie, {tot_m} non abbinate, totale {len(ris)} partite", flush=True)
+    # il workflow si rilancia da solo finche' resta lavoro (partite non ancora fatte per tempo finito)
+    if os.environ.get("GITHUB_OUTPUT"):
+        with open(os.environ["GITHUB_OUTPUT"], "a") as fh:
+            fh.write(f"resta={'1' if resta else '0'}\n")
 
 
 if __name__ == "__main__":
