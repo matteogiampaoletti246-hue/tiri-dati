@@ -185,13 +185,11 @@ export async function loadPlayerMaps({ pid, name, fms, seasonSel }) {
   }
   const keep = seasonSel === 'cur' ? (e) => inRange(e.ts, start, Infinity) : seasonSel === 'prev' ? (e) => inRange(e.ts, prevStart, start) : () => true;
   rs.forEach((r) => { shots.push(...r.shots.filter(keep)); fouls.push(...r.fouls.filter(keep)); });
-  // una stagione passata scelta a mano, non ancora scaricata nell'archivio: i tiri delle sue partite si prendono dalle partite stesse (a gruppi di 6, al massimo 48)
+  // una stagione passata scelta a mano, non ancora scaricata nell'archivio: i tiri delle sue partite si prendono dalle partite stesse (tutte insieme, al massimo 60)
   if (seasonSel !== 'all' && seasonSel !== 'cur' && seasonSel !== 'prev') {
-    const need = rs.flatMap((r) => r.nosx).slice(0, 48);
-    for (let i = 0; i < need.length; i += 6) {
-      // eslint-disable-next-line no-await-in-loop
-      (await Promise.all(need.slice(i, i + 6).map((x) => x.fill()))).forEach((l) => shots.push(...l));
-    }
+    // tutte insieme (prima 6 alla volta: 10-15 s per una stagione); ogni risposta resta in memoria, la seconda volta e' istantaneo
+    const need = rs.flatMap((r) => r.nosx).slice(0, 60);
+    (await Promise.all(need.map((x) => x.fill()))).forEach((l) => shots.push(...l));
   }
   const by = (a, b) => String(b.ts || '').localeCompare(String(a.ts || ''));
   return { shots: shots.sort(by), fouls: fouls.sort(by) };

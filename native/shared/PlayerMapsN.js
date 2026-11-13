@@ -10,7 +10,7 @@ import Svg, { Rect, Line, Circle, Polyline, G } from 'react-native-svg';
 import { Panel, DropBtn, LeagueLogo } from './ui';
 import { DotShape, shotColor, situationOf, zoneOf, outcomeOf, isBlocked, HIT, PITCH, LINE, TRACE } from './ShotMap';
 import { FM_ID, teamLogo, playerFace } from '@/data/archive';
-import { usePlayerMaps, mapSeasons } from '@/data/playerMaps';
+import { usePlayerMaps, mapSeasons, loadPlayerMaps } from '@/data/playerMaps';
 import { comma } from '@/lib/format';
 
 const MESI = ['gen', 'feb', 'mar', 'apr', 'mag', 'giu', 'lug', 'ago', 'set', 'ott', 'nov', 'dic'];
@@ -23,12 +23,12 @@ const RIGHT = [[[105, 13.84], [88.5, 13.84], [88.5, 54.16], [105, 54.16]], [[105
 const mir = (pts) => pts.map(([x, y]) => [105 - x, y]);
 const pl = (pts) => pts.map((p) => p.join(',')).join(' ');
 
-function Pitch({ list, color, sel, onSel, kind, cur }) {
+function Pitch({ list, color, sel, onSel, kind, cur, sk, C }) {
   const big = list.length > 250;
   const goalPt = cur && cur.gy != null ? [105, cur.gy] : null;
   const bp = cur && isBlocked(cur) && cur.bx != null ? [cur.bx, cur.by] : null;
   return (
-    <Svg width="100%" viewBox="-1 -1 107 70" style={{ aspectRatio: 107 / 70, backgroundColor: PITCH, borderRadius: 10 }}>
+    <Svg width="100%" viewBox="-1 -1 107 70" style={{ aspectRatio: 107 / 70, backgroundColor: sk ? C.skBase : PITCH, borderRadius: 10 }}>
       <Rect x="0" y="0" width="105" height="68" fill="none" stroke={LINE} strokeWidth="0.5" />
       <Line x1="52.5" x2="52.5" y1="0" y2="68" stroke={LINE} strokeWidth="0.5" />
       <Circle cx="52.5" cy="34" r="9.15" fill="none" stroke={LINE} strokeWidth="0.5" />
@@ -139,11 +139,17 @@ export default function PlayerMapsN({ C, comps, fmPid, name, color, openRoute })
     Promise.all(fms.map((f) => mapSeasons(f))).then((ls) => { if (on) setSList([...new Set(ls.flat())].sort((a, b) => String(b).localeCompare(String(a)))); });
     return () => { on = false; };
   }, [fmsSig]); // eslint-disable-line react-hooks/exhaustive-deps
-  // tutte le stagioni, poi la stagione attuale (scelta in automatico), poi le altre in ordine cronologico inverso (2025/26, 2024/25...)
-  const sOpts = [{ value: 'l5', label: 'Ultime 5 (Hit rate)' }, { value: 'all', label: 'Tutte le stagioni' }, { value: 'cur', label: 'Stagione attuale' }, ...sList.slice(1).map((s) => ({ value: s, label: seasonFmt(s) }))];
+  // niente "Tutte le stagioni" (rallentava troppo l'app): ultime 5, stagione attuale, poi le altre in ordine cronologico inverso (2025/26, 2024/25...)
+  const sOpts = [{ value: 'l5', label: 'Ultime 5 (Hit rate)' }, { value: 'cur', label: 'Stagione attuale' }, ...sList.slice(1).map((s) => ({ value: s, label: seasonFmt(s) }))];
   const sEff = sOpts.some((o) => o.value === season) ? season : 'l5';
   const data = usePlayerMaps({ pid: fmPid, name, fms, seasonSel: sEff });
   const col = shotColor([hexOk(color) || '#ffffff']);
+  // appena la mappa scelta e' pronta si scarica in silenzio la stagione precedente: passare da una stagione all'altra e' istantaneo
+  useEffect(() => {
+    if (data === undefined || !sList[1] || !fms.length) return undefined;
+    const t = setTimeout(() => { loadPlayerMaps({ pid: fmPid, name, fms, seasonSel: sList[1] }).catch(() => {}); }, 300);
+    return () => clearTimeout(t);
+  }, [data, sList[1], fmsSig]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const all = data || { shots: [], fouls: [] };
   const opps = useMemo(() => {
@@ -178,7 +184,20 @@ export default function PlayerMapsN({ C, comps, fmPid, name, color, openRoute })
         <DropBtn C={C} title="Competizione" label={cLg ? cLg.name : 'Tutte le competizioni'} icon={cLg ? <LeagueLogo league={cLg} size={24} C={C} /> : undefined} options={cOpts} value={comp} onChange={(v) => { setComp(v); setSeason('l5'); setOpp('all'); }} />
         <DropBtn C={C} title="Stagione" label={(sOpts.find((o) => o.value === sEff) || sOpts[0]).label} options={sOpts} value={sEff} onChange={(v) => { setSeason(v); setOpp('all'); }} />
       </View>
-      {data === undefined ? <View style={{ height: 250, borderRadius: 22, backgroundColor: C.skBase }} /> : !pages.length ? null : (
+      {data === undefined ? (
+        // scheletro con la forma vera: cornice, titolo, tendina avversari e il campo con le sue linee (visibile subito, nessuna rotella)
+        <Panel C={C} tint={color}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 10, paddingHorizontal: 12, paddingTop: 12, paddingBottom: 10 }}>
+            <View style={{ width: 80, height: 16, borderRadius: 8, backgroundColor: C.skBase, marginLeft: 2 }} />
+            <View style={{ width: 150, height: 40, borderRadius: 20, backgroundColor: C.skBase }} />
+          </View>
+          <View style={{ alignItems: 'center' }}><View style={{ width: '100%', maxWidth: 280 }}><Pitch list={[]} sk C={C} color={col} kind="shot" sel={null} onSel={() => {}} cur={null} /></View></View>
+          <View style={{ flexDirection: 'row', justifyContent: 'center', gap: 6, paddingVertical: 10 }}>
+            {[0, 1, 2, 3].map((k) => <View key={k} style={{ width: k ? 6 : 16, height: 6, borderRadius: 3, backgroundColor: C.border }} />)}
+          </View>
+          <View style={{ paddingHorizontal: 12, paddingBottom: 12 }}><View style={{ height: 14, borderRadius: 7, backgroundColor: C.skBase, width: '60%', alignSelf: 'center' }} /></View>
+        </Panel>
+      ) : !pages.length ? null : (
         <Panel C={C} tint={color}>
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 10, paddingHorizontal: 12, paddingTop: 12, paddingBottom: 10 }}>
             <Text style={{ color: C.ink, fontSize: 15, fontWeight: '800', paddingLeft: 2 }}>{cur[0]}</Text>
