@@ -98,7 +98,7 @@ async function loadOne(pid, fm, sk, name) {
       if (!Array.isArray(m.sx) && Number(pl.total_shots) > 0) {
         let run = null;
         const who = (sd.h.concat(sd.a).find((r) => String(r[0]) === String(pid)) || [])[1] || name;
-        nosx.push({ mid, fill: () => {
+        nosx.push({ mid, ts: when[mid] || null, fill: () => {
           if (!run) {
             run = fetch(`${WORKER}/fs?id=${mid}`).then((r) => (r.ok ? r.json() : null)).then((j) => {
               let mine = fsToSx(j, who, pid).filter((x) => String(x[19]) === String(pid));
@@ -162,7 +162,11 @@ export async function loadPlayerMaps({ pid, name, fms, seasonSel }) {
     let ss;
     if (seasonSel === 'all') ss = await mapSeasons(fm);
     else if (seasonSel === 'l5') ss = (await mapSeasons(fm)).slice(0, 2); // come il grafico Hit Rate: stagione in corso, poi la passata
-    else if (seasonSel === 'prev' || seasonSel === 'cur') {
+    else if (/^y\d{4}$/.test(String(seasonSel))) {
+      // stagione "AAAA/BB" = dal 1 agosto AAAA al 31 luglio dopo, per ogni competizione: le stagioni AAAA-BBBB di quell'anno e quelle a anno solare (AAAA e AAAA+1) che la coprono
+      const y = Number(String(seasonSel).slice(1));
+      ss = (await mapSeasons(fm)).filter((sk) => { const a = Number(String(sk).slice(0, 4)); return /^\d{4}-\d{4}$/.test(String(sk)) ? a === y : a === y || a === y + 1; });
+    } else if (seasonSel === 'prev' || seasonSel === 'cur') {
       // solo le stagioni che possono contenere partite del periodo (una stagione AAAA-BBBB va da agosto AAAA a giugno BBBB): la piu' recente c'e' sempre
       // (edizioni vecchie delle nazionali), le altre solo se iniziano nell'anno giusto; prima si caricavano sempre 3 stagioni per ogni competizione
       const from = new Date(seasonSel === 'cur' ? start : prevStart).getUTCFullYear();
@@ -183,13 +187,15 @@ export async function loadPlayerMaps({ pid, name, fms, seasonSel }) {
     const by = (a, b) => String(b.ts || '').localeCompare(String(a.ts || ''));
     return { shots: shots.sort(by), fouls: fouls.sort(by) };
   }
-  const keep = seasonSel === 'cur' ? (e) => inRange(e.ts, start, Infinity) : seasonSel === 'prev' ? (e) => inRange(e.ts, prevStart, start) : () => true;
+  const ySel = /^y\d{4}$/.test(String(seasonSel)) ? Number(String(seasonSel).slice(1)) : null;
+  const keep = seasonSel === 'cur' ? (e) => inRange(e.ts, start, Infinity) : seasonSel === 'prev' ? (e) => inRange(e.ts, prevStart, start)
+    : ySel ? (e) => inRange(e.ts, Date.UTC(ySel, 7, 1), Date.UTC(ySel + 1, 7, 1)) : () => true;
   rs.forEach((r) => { shots.push(...r.shots.filter(keep)); fouls.push(...r.fouls.filter(keep)); });
   // una stagione passata scelta a mano, non ancora scaricata nell'archivio: i tiri delle sue partite si prendono dalle partite stesse (tutte insieme, al massimo 60)
   if (seasonSel !== 'all' && seasonSel !== 'cur' && seasonSel !== 'prev') {
     // tutte insieme (prima 6 alla volta: 10-15 s per una stagione); ogni risposta resta in memoria, la seconda volta e' istantaneo
-    const need = rs.flatMap((r) => r.nosx).slice(0, 60);
-    (await Promise.all(need.map((x) => x.fill()))).forEach((l) => shots.push(...l));
+    const need = rs.flatMap((r) => r.nosx).filter((x) => keep({ ts: x.ts })).slice(0, 60);
+    (await Promise.all(need.map((x) => x.fill()))).forEach((l) => shots.push(...l.filter(keep)));
   }
   const by = (a, b) => String(b.ts || '').localeCompare(String(a.ts || ''));
   return { shots: shots.sort(by), fouls: fouls.sort(by) };

@@ -14,7 +14,6 @@ import { usePlayerMaps, mapSeasons, loadPlayerMaps } from '@/data/playerMaps';
 import { comma } from '@/lib/format';
 
 const MESI = ['gen', 'feb', 'mar', 'apr', 'mag', 'giu', 'lug', 'ago', 'set', 'ott', 'nov', 'dic'];
-const seasonFmt = (sk) => { const m = /^(\d{4})-(\d{4})$/.exec(String(sk)); return m ? `${m[1]}/${m[2].slice(2)}` : String(sk); };
 const dateIt = (ts) => { const d = ts ? new Date(ts) : null; return d && !Number.isNaN(d.getTime()) ? `${d.getDate()} ${MESI[d.getMonth()]} ${d.getFullYear()}` : ''; };
 const lumOf = (h) => { const m = /^#?([0-9a-f]{6})/i.exec(String(h || '')); if (!m) return 1; const n = parseInt(m[1], 16); return (0.299 * (n >> 16) + 0.587 * ((n >> 8) & 255) + 0.114 * (n & 255)) / 255; };
 const hexOk = (c) => (/^#[0-9a-f]{6}$/i.test(String(c || '')) ? c : null);
@@ -139,17 +138,24 @@ export default function PlayerMapsN({ C, comps, fmPid, name, color, openRoute })
     Promise.all(fms.map((f) => mapSeasons(f))).then((ls) => { if (on) setSList([...new Set(ls.flat())].sort((a, b) => String(b).localeCompare(String(a)))); });
     return () => { on = false; };
   }, [fmsSig]); // eslint-disable-line react-hooks/exhaustive-deps
-  // niente "Tutte le stagioni" (rallentava troppo l'app): ultime 5, stagione attuale, poi le altre in ordine cronologico inverso (2025/26, 2024/25...)
-  const sOpts = [{ value: 'l5', label: 'Ultime 5 (Hit rate)' }, { value: 'cur', label: 'Stagione attuale' }, ...sList.slice(1).map((s) => ({ value: s, label: seasonFmt(s) }))];
+  // stagioni sempre come 2025/26, 2024/25... (dal 1 agosto al 31 luglio, per tutte le competizioni: quelle a anno solare, tipo "2025", rientrano nelle due stagioni che coprono)
+  // niente "Tutte le stagioni" (rallentava troppo l'app): ultime 5, stagione attuale, poi le altre in ordine cronologico inverso
+  const nowY = (() => { const d = new Date(); return d.getUTCFullYear() - (d.getUTCMonth() < 7 ? 1 : 0); })();
+  const ys = useMemo(() => {
+    const set = new Set();
+    sList.forEach((sk) => { const a = Number(String(sk).slice(0, 4)); if (!a) return; if (/^\d{4}-\d{4}$/.test(String(sk))) set.add(a); else { set.add(a - 1); set.add(a); } });
+    return [...set].filter((y) => y >= 2019 && y < nowY).sort((a, b) => b - a);
+  }, [sList]);
+  const sOpts = [{ value: 'l5', label: 'Ultime 5 (Hit rate)' }, { value: 'cur', label: 'Stagione attuale' }, ...ys.map((y) => ({ value: `y${y}`, label: `${y}/${String(y + 1).slice(2)}` }))];
   const sEff = sOpts.some((o) => o.value === season) ? season : 'l5';
   const data = usePlayerMaps({ pid: fmPid, name, fms, seasonSel: sEff });
   const col = shotColor([hexOk(color) || '#ffffff']);
   // appena la mappa scelta e' pronta si scarica in silenzio la stagione precedente: passare da una stagione all'altra e' istantaneo
   useEffect(() => {
-    if (data === undefined || !sList[1] || !fms.length) return undefined;
-    const t = setTimeout(() => { loadPlayerMaps({ pid: fmPid, name, fms, seasonSel: sList[1] }).catch(() => {}); }, 300);
+    if (data === undefined || !ys[0] || !fms.length) return undefined;
+    const t = setTimeout(() => { loadPlayerMaps({ pid: fmPid, name, fms, seasonSel: `y${ys[0]}` }).catch(() => {}); }, 300);
     return () => clearTimeout(t);
-  }, [data, sList[1], fmsSig]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [data, ys[0], fmsSig]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const all = data || { shots: [], fouls: [] };
   const opps = useMemo(() => {
