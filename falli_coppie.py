@@ -199,7 +199,11 @@ def coppie_partita(summ, m):
         # posizione: ESPN la da' dal punto di vista di chi subisce (X = distanza dalla porta che attacca, 0-100; Y alto = fascia destra); minuto dalla cronaca
         x, y = pl.get("fieldPositionX"), pl.get("fieldPositionY")
         mn = re.match(r"(\d+)", (c.get("time") or {}).get("displayValue") or "")
-        riga = [int(idf), int(ids)]
+        try:
+            riga = [int(idf), int(ids)]
+        except (TypeError, ValueError):
+            mancati += 1
+            continue
         if isinstance(x, (int, float)) and isinstance(y, (int, float)):
             riga += [x, y, int(mn.group(1)) if mn else 0]
         out.append(riga)
