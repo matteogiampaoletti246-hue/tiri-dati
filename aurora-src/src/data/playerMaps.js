@@ -127,7 +127,12 @@ async function loadOne(pid, fm, sk, name) {
         const oside = side(otherId);
         const op = (oside === 'h' ? sd.h : sd.a).find((p) => String(p[0]) === String(otherId));
         const ownId = me === 'h' ? m.h.id : m.a.id;
-        const X = r[2]; const Y = r[3];
+        // ESPN ha cambiato sistema di coordinate dal 1 giugno 2026 (verificato sui ruoli: attaccanti subiscono falli vicino alla porta che attaccano, terzini destri a destra):
+        // fino al 31 maggio X alta = verso la porta che attacca chi SUBISCE e Y bassa = destra di chi subisce (si specchia Y);
+        // dal 1 giugno il campo e' dal punto di vista di chi COMMETTE (si girano X e Y rispetto a chi subisce, che poi vale come prima). Qui tutto torna al sistema dell'app:
+        // X alta = porta che attacca chi subisce, Y alta = sua destra; subiti = (X, Y), commessi = campo girato di 180 gradi (anche lui attacca a destra).
+        const A = (when[mid] || '') >= '2026-06-01';
+        const X = A ? 100 - r[2] : r[2]; const Y = A ? r[3] : 100 - r[3];
         const e = { ...base(mid, m, ownId), min: r[4] || 0, other: { id: otherId, name: op ? op[1] : '' },
           oppTeam: oside ? teamInfo(oside === 'h' ? m.h.id : m.a.id, names) : null,
           // ESPN: X=0 sulla porta di chi subisce, X=100 su quella che attacca (verificato sui ruoli: attaccanti fermati ad X alta, difensori bassa).
