@@ -1,6 +1,6 @@
 {
 "nota": "unioni di profili doppi (stesso giocatore con piu' id) e collegamenti PitchAPI -> FotMob",
-"doppi_uniti": 18,
+"doppi_uniti": 17,
 "collegati": 6175,
 "unioni": [
 {
@@ -189,16 +189,6 @@
 ],
 "tenuto": "p_0QYxoI",
 "motivo": "stesso id FotMob (nome uguale + date 100%; nome uguale + date 100%): PitchAPI aveva due profili"
-},
-{
-"nome": "Dalisson de Almeida",
-"squadra": "Hajduk Split",
-"id_uniti": [
-"p_05FkxH",
-"fm~252~2026-2027~1120854"
-],
-"tenuto": "p_05FkxH",
-"motivo": "stesso id FotMob: profilo d'archivio (calc_extra) doppio di quello PitchAPI"
 }
 ],
 "collegamenti": [
@@ -16765,7 +16755,7 @@
 "fm:1595606"
 ],
 "tenuto": "p_15cgFi",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome contenuto + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -63339,7 +63329,7 @@
 "fm:433677"
 ],
 "tenuto": "p_1tLlMD",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (stesse parole del nome + date 100%)",
 "tipo": "collegato"
 },
 {
