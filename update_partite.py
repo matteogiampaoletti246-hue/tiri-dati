@@ -13,7 +13,7 @@ TOP5 = ["serie-a", "premier-league", "la-liga", "bundesliga", "ligue-1"]
 CUPS = ["champions-league", "europa-league"]   # competizioni europee: calendario completo + partite dei prossimi giorni
 DAYS = 8            # giorni di calendario mostrati
 LINEUP_DAYS = 4     # formazioni solo per le partite dei prossimi N giorni
-WINDOW_H = 3        # modalita' --formazioni: si aggiornano le partite che iniziano entro N ore
+WINDOW_H = float(os.environ.get("WINDOW_H", "3"))   # modalita' --formazioni: si aggiornano le partite che iniziano entro N ore
 PHOTO_RETRY_DAYS = 7
 FOTO_FILE, OUT_FILE = "foto.json", "partite.json"
 

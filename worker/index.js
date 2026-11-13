@@ -90,16 +90,18 @@ async function lsMerge(out, startIso) {
 
 
 // Righe di un'altra fonte + dati FotMob della stessa partita (formazione "simple"): stesso numero di maglia = stesso giocatore
-function fmFill(t, fm) {
+function fmFill(t, fm, strict) {
   if (!fm) return t;
   const byNum = {};
   [...(fm.s || []), ...(fm.b || [])].forEach((p) => { if (p[1] != null) byNum[String(p[1])] = p; });
-  const fix = (p) => { const f = p[1] != null ? byNum[String(p[1])] : null; return f ? [f[0], p[1], p[2], p[3], f[4], f[5], f[6], f[7], f[8]] : p; };
+  const fix = (p) => { const f = p[1] != null ? byNum[String(p[1])] : null; return f && (!strict || samePerson(p[0], f[0])) ? [f[0], p[1], p[2], p[3], f[4], f[5], f[6], f[7], f[8]] : p; };
   return { f: t.f, s: t.s.map(fix), b: (t.b || []).map(fix), co: fm.co || t.co };
 }
 
 // ---- Formazioni da ESPN dove FotMob non le ha (verificato il 07/11/2026: ESPN da' modulo, titolari con ruolo e lato, panchina).
 // Competizioni FotMob -> ESPN controllate una per una; si aggiungono solo dopo aver visto le formazioni vere.
+// 14/11/2026: non piu' solo queste 4. Per ogni altra competizione si cerca la partita nel tabellone generale di ESPN ("all": nazionali, amichevoli,
+// Nations League, qualificazioni, coppe e campionati), per orario + nomi; la formazione si legge solo se ESPN ha gia' i 11 titolari (starter).
 const ESPN_LU = { 9682: "concacaf.central.american.cup", 137: "sco.tennents", 179: "sco.challenge", 9906: "mex.w.1" };
 // profondita' dal ruolo ESPN (G, CD-L, LB, DM, CM, LM, AM, F, CF-R...), lato da L/R: stesse coordinate 0-1 di FotMob
 function espnXY(ab) {
@@ -111,9 +113,9 @@ function espnXY(ab) {
 }
 async function espnLineups(out, g2) {
   try {
-    const lg = ESPN_LU[g2.parentLeagueId] || ESPN_LU[g2.leagueId];
+    const lg = ESPN_LU[g2.parentLeagueId] || ESPN_LU[g2.leagueId] || "all";
     const when = g2.matchTimeUTCDate ? new Date(g2.matchTimeUTCDate) : null;
-    if (!lg || !when || isNaN(when.getTime())) return;
+    if (!when || isNaN(when.getTime())) return;
     const E = "https://site.api.espn.com/apis/site/v2/sports/soccer/" + lg + "/";
     const get = async (u, ttl) => {
       const ctl = new AbortController();
@@ -122,14 +124,13 @@ async function espnLineups(out, g2) {
     };
     // ESPN raggruppa le partite per giorno americano: una gara alle 02:00 UTC sta nel giorno prima
     const day = (d) => d.toISOString().slice(0, 10).replace(/-/g, "");
-    const sbs = await Promise.all([day(when), day(new Date(when.getTime() - 86400000))].map((d) => get(E + "scoreboard?dates=" + d, 60)));
+    const sbs = await Promise.all([day(when), day(new Date(when.getTime() - 86400000))].map((d) => get(E + "scoreboard?limit=1000&dates=" + d, 60)));
     const hn = g2.homeTeam && g2.homeTeam.name, an = g2.awayTeam && g2.awayTeam.name;
-    const ev = sbs.flatMap((sb) => (sb && sb.events) || []).find((e) => {
-      if (Math.abs(new Date(e.date).getTime() - when.getTime()) > 6 * 3600000) return false;
-      const c = ((e.competitions || [])[0] || {}).competitors || [];
-      const H = c.find((q) => q.homeAway === "home"), A = c.find((q) => q.homeAway === "away");
-      return H && A && uSame(H.team && H.team.displayName, hn) && uSame(A.team && A.team.displayName, an);
-    });
+    const evs = sbs.flatMap((sb) => (sb && sb.events) || []);
+    const sides = (e) => { const c = ((e.competitions || [])[0] || {}).competitors || []; return [c.find((q) => q.homeAway === "home"), c.find((q) => q.homeAway === "away")]; };
+    // prima: orario vicino e nomi di casa e ospite uguali; poi: stesso orario esatto (15') e almeno una squadra uguale ("UAE" / "United Arab Emirates")
+    let ev = evs.find((e) => { const [H, A] = sides(e); return H && A && Math.abs(new Date(e.date).getTime() - when.getTime()) <= 6 * 3600000 && uSame(H.team && H.team.displayName, hn) && uSame(A.team && A.team.displayName, an); });
+    if (!ev) ev = evs.find((e) => { const [H, A] = sides(e); return H && A && Math.abs(new Date(e.date).getTime() - when.getTime()) <= 15 * 60000 && (uSame(H.team && H.team.displayName, hn) || uSame(A.team && A.team.displayName, an)) && !(uNorm(H.team && H.team.displayName) === uNorm(an)); });
     if (!ev) return;
     const sm = await get(E + "summary?event=" + ev.id, 20);
     const side = (ha) => {
@@ -143,6 +144,16 @@ async function espnLineups(out, g2) {
     };
     const h = side("home"), a = side("away");
     if (h && a) { out.h = h; out.a = a; out.luSrc = "espn"; if (!out.ty) out.ty = "standard"; }
+  } catch (e) { /* mai rompere /fx */ }
+}
+
+// ---- Formazioni da PitchAPI (14/11/2026): il worker non ha la chiave, le scrive il workflow `formazioni.yml` (formazioni_kv.py) su Cloudflare KV
+// `idx:lu/<id partita FotMob>` = { c: 1 se ufficiali, h, a } nello stesso formato di /fx (coordinate PitchAPI = quelle FotMob, verificato il 14/11/2026).
+async function pitchLineups(out, fmId, env) {
+  try {
+    if (!env || !env.ROSE || !fmId) return;
+    const v = await env.ROSE.get("idx:lu/" + fmId, "json");
+    if (v && v.c && v.h && v.a && (v.h.s || []).length === 11 && (v.a.s || []).length === 11) { out.h = v.h; out.a = v.a; out.luSrc = "pitchapi"; if (!out.ty) out.ty = "standard"; }
   } catch (e) { /* mai rompere /fx */ }
 }
 
@@ -490,17 +501,20 @@ export default {
         const shs = ((c.shotmap || {}).shots || []).map((x) => [x.min, x.minAdded, x.teamId, x.playerName, x.x, x.y, x.eventType, x.isBlocked ? 1 : 0, x.isOnTarget ? 1 : 0, x.blockedX, x.blockedY, x.goalCrossedY, x.goalCrossedZ, x.expectedGoals, x.expectedGoalsOnTarget, x.shotType, x.situation, x.isOwnGoal ? 1 : 0, x.period]);
         const mo = ((c.momentum || {}).main || {}).data || null;
         const out = { t: Date.now(), hi: g2.homeTeam && g2.homeTeam.id, ai: g2.awayTeam && g2.awayTeam.id, sh: shs, mo: mo && mo.length ? mo.map((q) => ({ minute: q.minute, value: q.value })) : null, ty: lu.lineupType || null, started: !!g2.started, fin: !!g2.finished, st: live, sc: tm.length > 1 ? [tm[0].score, tm[1].score] : null, clk: clean(lt.short), ht, ev, stats, pl, h: team(lu.homeTeam), a: team(lu.awayTeam), ref };
-        // FotMob senza formazioni o con la sola versione "simple" (ruoli, niente posti in campo): ESPN, poi LiveScore; se una delle due
-        // ha il campo completo prende il posto di FotMob, tenendo di FotMob nome, foto, voto e id (stesso numero di maglia)
+        // Catena formazioni (regola fissa 14/11/2026): vale la prima fonte che ha i DUE undici UFFICIALI. FotMob ufficiale con le coordinate resta com'e'
+        // (e' la piu' ricca); altrimenti (FotMob vuota, "probabile", "ultima formazione" o "simple") si prova ESPN, poi PitchAPI, poi LiveScore: appena una
+        // pubblica la formazione ufficiale prende il posto di quella probabile. Nome, foto, voto e id restano di FotMob dove coincide lo stesso giocatore.
         const noXY = (t) => !t || (t.s || []).some((p) => p[2] == null);
-        if (noXY(out.h) || noXY(out.a)) {
+        const fmOfficial = /^(standard|official|confirm)/i.test(String(lu.lineupType || ""));
+        if (noXY(out.h) || noXY(out.a) || (!fmOfficial && !g2.started)) {
           const fmH = out.h, fmA = out.a;
           const alt = { hi: out.hi, ai: out.ai };
           await espnLineups(alt, g2);
+          if (!alt.h) await pitchLineups(alt, id, env);
           if (!alt.h) await lsLineups(alt, g2.matchTimeUTCDate || stt.utcTime);
           if (alt.h && alt.a && !alt.luList) {
-            out.h = fmFill(alt.h, fmH); out.a = fmFill(alt.a, fmA); out.luSrc = alt.luSrc;
-            if (!out.ty || out.ty === "unavailable") out.ty = alt.ty;
+            out.h = fmFill(alt.h, fmH, !fmOfficial); out.a = fmFill(alt.a, fmA, !fmOfficial); out.luSrc = alt.luSrc;
+            if (!out.ty || out.ty === "unavailable" || !fmOfficial) out.ty = alt.ty;
           } else if (alt.h && alt.a && !fmH && !fmA) {
             // soli nomi ufficiali (nessuna fonte con i posti in campo): elenco in colonna
             [out.h, out.a] = await Promise.all([rosaMark(alt.h, out.hi), rosaMark(alt.a, out.ai)]);

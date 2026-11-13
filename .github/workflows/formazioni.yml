@@ -1,7 +1,7 @@
 name: Aggiorna formazioni
 on:
   schedule:
-    - cron: "*/20 * * * *"
+    - cron: "*/5 * * * *"
   workflow_dispatch:
 permissions:
   contents: write
@@ -21,6 +21,13 @@ jobs:
         run: python update_partite.py --formazioni
         env:
           PITCHAPI_KEY: ${{ secrets.PITCHAPI_KEY }}
+          WINDOW_H: "2"
+      - name: Formazioni ufficiali su Cloudflare KV (terza fonte del worker)
+        run: python formazioni_kv.py
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT: 344b4f68fd540269085abbf16851253c
+          CF_NAMESPACE: 02759a8a953d423dbd19c58fb8241c34
       - name: Salva
         run: |
           git config user.name "github-actions"
