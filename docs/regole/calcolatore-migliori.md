@@ -197,3 +197,9 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 
 ## Affidabilita' nella scheda giocatore: prossima competizione e partita in automatico (regola fissa, 13/11/2026)
 - `GiocatoreAffid.js`: la competizione e la partita mostrate sono quelle della partita piu' vicina del giocatore tra club e nazionale (`useNextComp` in `GiocatoreStat.js`, partite prossime da `loadUpcoming`): se gioca la nazionale in Nations League parte la Nations League, non il campionato. La scelta a mano (`ac`, anche in `sc`) resta finche' la scheda e' nella pila. Il riquadro mostra competizione, giorno e casa/trasferta; scheletro fino al caricamento delle partite prossime (niente salti).
+
+## Affidabilita' per tutti: nazionali senza club coperto e nomi squadra (13/11/2026)
+- Controllo a tappeto (harness su tutti i giocatori con una prossima partita): l'affidabilita' manca solo a portieri e a chi non ha nessuna partita con dati (mai inventare). Due cause corrette:
+  1. Nazionali il cui club non e' in una competizione dell'app (es. Mitrovic all'Al-Rayyan, Qatar) e senza minuti nella Nations League in corso: `calc_extra.py` (`nat_hits`) riempie ultime 5 (`r`) e Hit Rate (`h`) dalle partite vere di TUTTE le competizioni (pidx + partite), stagione in corso e poi a ritroso (max 2 anni solari), come per ogni giocatore.
+  2. Squadre che PitchAPI e FotMob chiamano in modo diverso (DAC 1904, Heart of Midlothian, Hamarkameratene, Maccabi Petah Tikva): `TEAM_ALIAS` in `calcData.js` (nome del giocatore -> nome nel campionato). Una squadra nuova senza campionato nel Calcolatore va aggiunta li'.
+- Stagioni nelle statistiche: ogni riga dell'indice presenze (`pidx`) ha statistiche in `partite/` o `arch/_s`, tranne l'1,8% (partite con un giocatore in formazione ma senza dettaglio FotMob, quasi tutte campionati minori da 1-2 presenze): non si mostrano, mai righe vuote.

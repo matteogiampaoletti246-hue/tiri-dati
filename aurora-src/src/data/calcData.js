@@ -34,9 +34,18 @@ export const calcTeamsOf = (leagueId) => (LD[leagueId] ? Object.keys(LD[leagueId
 // coppa europea della squadra (Champions o Europa League): tasto Prossima partita con Competizione = Coppa europea
 export const cupOf = (team) => (team ? CUPS.find((c) => calcTeamsOf(c).some((n) => n === team.name || (teamByName(n) || {}).id === team.id)) || null : null);
 
+// squadre che PitchAPI (giocatori.json) chiama in un modo e FotMob (medie del campionato) in un altro: stessa squadra, nome del giocatore -> nome del campionato.
+// Senza questo le sue medie tiri non si trovano e i suoi giocatori restano senza affidabilita'. Se compare una squadra nuova senza campionato, si aggiunge qui.
+const TEAM_ALIAS = { 'DAC 1904': 'DAC 1904 Dunajska Streda', 'Heart of Midlothian': 'Hearts', Hamarkameratene: 'HamKam', 'Maccabi Petah Tikva': 'Maccabi Petach Tikva' };
+
 export function buildCalcData() {
   Object.keys(LD).forEach((k) => delete LD[k]);
   const L = (RAW.data && RAW.data.leagues) || {};
+  Object.values(L).forEach((src) => {
+    const T = src && src.teams;
+    if (!T) return;
+    Object.entries(TEAM_ALIAS).forEach(([a, b]) => { if (T[b] && !T[a]) { T[a] = T[b]; if (src.logos && src.logos[b] && !src.logos[a]) src.logos[a] = src.logos[b]; } });
+  });
   ((RAW.calcTutte && RAW.calcTutte.order) || []).forEach((k) => { if (!ALL_KEYS.includes(k)) ALL_KEYS.push(k); });
   Object.entries(L).forEach(([k, src]) => {
     // le medie restano quelle vere (stesse del pannello statistiche squadra): l'handicap dei campionati minori vale SOLO nelle coppe europee

@@ -522,6 +522,7 @@ def main():
         if ren:
             print("   nomi unificati:", ", ".join(f"{a} -> {b}" for a, b in ren))
     nat_clubs(out)
+    nat_hits(out)
     json.dump(out, open(OUT, "w"), ensure_ascii=False, separators=(",", ":"))
     print("scritto", OUT, round(os.path.getsize(OUT) / 1024), "KB")
 
@@ -590,11 +591,72 @@ def nat_clubs(out):
     print(f"nazionali: {n_cl} uniti al club per nome, {n_ct} con il club dalle carriere")
 
 
+def nat_hits(out):
+    """Nazionali senza profilo di club e senza partite in questa Nations League (es. chi gioca in un campionato non coperto dall'app, come Mitrovic
+    all'Al-Rayyan): le ultime partite si prendono da tutte le competizioni in cui ha giocato (regola dell'Hit Rate: stagione in corso, poi a ritroso),
+    da pidx/ + partite/. `r` = ultime 5, `h` = ultime con almeno 50 minuti, nel formato [tiri, in porta, minuti]. Mai dati inventati: solo partite vere."""
+    try:
+        gioc = load("giocatori.json") or {}
+    except Exception:
+        gioc = {}
+    by_fm = {str(p.get("f") or p.get("fm")) for p in (gioc.get("players") or []) + (out.get("players") or []) if p.get("f") or p.get("fm")}
+    today = datetime.now(ROME).strftime("%Y-%m-%d")
+    cut = str(int(today[:4]) - 2)  # al piu' due anni solari indietro
+    shards, gz, fx = {}, {}, {}
+
+    def partite(fm, sk):
+        k = (fm, sk)
+        if k not in gz:
+            try:
+                with gzip.open(f"partite/{fm}/{sk}.json.gz", "rt", encoding="utf-8") as f:
+                    gz[k] = (json.load(f) or {}).get("m") or {}
+            except Exception:
+                gz[k] = {}
+        return gz[k]
+
+    def dates(fm, sk):
+        k = (fm, sk)
+        if k not in fx:
+            try:
+                fx[k] = {str(r[0]): r[4] for r in (json.load(open(f"arch/{fm}/{sk}.json")).get("fix") or [])}
+            except Exception:
+                fx[k] = {}
+        return fx[k]
+
+    n = 0
+    for x in out.get("nat") or []:
+        if x.get("h") or x.get("r") or x.get("cl") or str(x["fm"]) in by_fm:
+            continue
+        sh = x["fm"] % 100
+        if sh not in shards:
+            try:
+                shards[sh] = json.load(open(f"pidx/{sh}.json"))
+            except Exception:
+                shards[sh] = {}
+        rows = [r for r in (shards[sh].get(str(x["fm"])) or [None])[1:] if r and str(r[1])[:4] >= cut]
+        ms = []
+        for r in rows:
+            d = dates(r[0], r[1])
+            for mid, m in partite(r[0], r[1]).items():
+                v = (m.get("p") or {}).get(str(x["fm"]))
+                if not v or not (v.get("minutes_played") or 0) > 0 or mid not in d or d[mid][:10] > today:
+                    continue
+                ms.append((d[mid], int(v.get("total_shots") or 0), int(v.get("ShotsOnTarget") or 0), int(round(v.get("minutes_played") or 0))))
+        ms.sort(key=lambda t: t[0], reverse=True)
+        if not ms:
+            continue
+        x["r"] = [[t[1], t[2], t[3]] for t in ms[:5]]
+        x["h"] = [[t[1], t[2], t[3]] for t in [y for y in ms if y[3] >= MIN_HIT][:5]]
+        n += 1
+    print(f"nazionali: {n} profili vuoti riempiti con le ultime partite di tutte le competizioni")
+
+
 if __name__ == "__main__":
     import sys
     if "--solo-club" in sys.argv:  # solo il club dei profili delle nazionali, sul file gia' scritto
         _o = json.load(open(OUT))
         nat_clubs(_o)
+        nat_hits(_o)
         json.dump(_o, open(OUT, "w"), ensure_ascii=False, separators=(",", ":"))
     elif TUTTE:
         main_tutte()
