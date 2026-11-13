@@ -57,12 +57,7 @@ export function buildCalcData() {
     });
     LD[k] = { label: src.label || src.name || k, teams, avg: h ? src.league_avg : null, strength: 1, hcap: h, cup: CUPS.includes(k), dcup: !!src.cup };
   });
-  // stessa squadra con due nomi (elenco giocatori e medie squadra di fonti diverse): senza questo i suoi giocatori non trovavano campionato,
-  // medie squadra ne' competizione e l'Affidabilita' restava vuota (13/11/2026)
-  Object.entries(TEAM_ALIAS).forEach(([alias, canon]) => Object.values(LD).forEach((l) => { if (l.teams[canon] && !l.teams[alias]) Object.defineProperty(l.teams, alias, { value: l.teams[canon], enumerable: false }); })); // non enumerabile: negli elenchi squadre compare una volta sola
 }
-// nome nell'elenco giocatori -> nome nelle medie squadra
-const TEAM_ALIAS = { Hamarkameratene: 'HamKam', 'Heart of Midlothian': 'Hearts', 'DAC 1904': 'DAC 1904 Dunajska Streda', 'Maccabi Petah Tikva': 'Maccabi Petach Tikva' };
 
 // stesso campionato e stessa voce: si calcola una volta (si chiamano per ogni giocatore di ogni giorno); si rifa' se cambiano le squadre del campionato
 const perLeague = (fn) => {
