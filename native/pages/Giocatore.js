@@ -23,7 +23,7 @@ import { teamById, teamByName, teamByFm } from '@/data/teams';
 import { teamFromIndex } from '@/data/teamIndex';
 import { injuryOf } from '@/data/injuries';
 import { rosePlayer } from '@/data/rose';
-import { playerFace, teamLogo } from '@/data/archive';
+import { playerFace, teamLogo, FM_ID } from '@/data/archive';
 import { parseArchiveId, makeArchivePlayer } from '@/data/archivePlayer';
 import { carriereOf, careerByFm, countryIt, flagCode, FOOT, dateLong, ageOf, money, monthIt } from '@/data/carriere';
 import { fixedColors } from '@/data/teamColorFix';
@@ -31,7 +31,8 @@ import { usePlayerCareer, useBioPid, useArchivePct, usePlayerSeason } from '@/da
 import { resolvePid } from '@/data/playerPid';
 import { POS_IT, percentiles, ratingColor } from '@/components/player/playerCalc';
 import { comma } from '@/lib/format';
-import GiocatoreStat, { playerHasCurStats } from './GiocatoreStat';
+import GiocatoreStat, { playerHasCurStats, statComps } from './GiocatoreStat';
+import { warmPlayerMaps } from '@/data/playerMaps';
 import GiocatoreAffid from './GiocatoreAffid';
 import GiocatorePartite, { usePartiteItems } from './GiocatorePartite';
 
@@ -269,6 +270,16 @@ function Body({ C, player: player1, openRoute, onBack, bottom, top }) {
   const colors = team && team.colors ? team.colors : ['#1E4BD8', '#7FB6E8'];
   const car = usePlayerCareer(dataP);
   const parts = usePartiteItems(dataP, car);
+  // mappe del campo (Statistiche): si caricano subito all'apertura della scheda, cosi' sono pronte insieme al resto della pagina
+  const mapPid = car.pid || (carriereOf(dataP.id) || {}).fm;
+  useEffect(() => {
+    if (car.loading || !mapPid) return undefined;
+    const t = setTimeout(() => {
+      const fms = statComps(dataP, car).comps.map((c) => FM_ID[c.id]).filter(Boolean);
+      warmPlayerMaps({ pid: mapPid, name: dataP.name, fms });
+    }, 250);
+    return () => clearTimeout(t);
+  }, [car.loading, mapPid, dataP.id]); // eslint-disable-line react-hooks/exhaustive-deps
   const careerL = useCareerLists(dataP);
   const hasStats = playerHasCurStats(player) || !!car.loading || car.rows.length > 0;
   const tabs = [['profilo', true], ['partite', parts.has], ['stat', hasStats], ['affid', hasStats && !!playerById(dataP.id)], ['carriera', !!(careerL && careerL.any)]].filter((t) => t[1]).map((t) => ({ key: t[0], label: TAB_LBL[t[0]] }));

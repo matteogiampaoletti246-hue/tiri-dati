@@ -117,7 +117,12 @@ export async function loadPlayerMaps({ pid, name, fms, seasonSel }) {
   for (const fm of fms) {
     let ss;
     if (seasonSel === 'all') ss = await mapSeasons(fm);
-    else if (seasonSel === 'prev' || seasonSel === 'cur') ss = (await mapSeasons(fm)).slice(0, 3); else ss = [seasonSel];
+    else if (seasonSel === 'prev' || seasonSel === 'cur') {
+      // solo le stagioni che possono contenere partite del periodo (una stagione AAAA-BBBB va da agosto AAAA a giugno BBBB): la piu' recente c'e' sempre
+      // (edizioni vecchie delle nazionali), le altre solo se iniziano nell'anno giusto; prima si caricavano sempre 3 stagioni per ogni competizione
+      const from = new Date(seasonSel === 'cur' ? start : prevStart).getUTCFullYear();
+      ss = (await mapSeasons(fm)).filter((sk, i) => i === 0 || Number(String(sk).slice(0, 4)) >= from);
+    } else ss = [seasonSel];
     ss.forEach((sk) => jobs.push(loadOne(pid, fm, sk, name)));
   }
   const rs = await Promise.all(jobs);
@@ -126,6 +131,12 @@ export async function loadPlayerMaps({ pid, name, fms, seasonSel }) {
   rs.forEach((r) => { shots.push(...r.shots.filter(keep)); fouls.push(...r.fouls.filter(keep)); });
   const by = (a, b) => String(b.ts || '').localeCompare(String(a.ts || ''));
   return { shots: shots.sort(by), fouls: fouls.sort(by) };
+}
+
+// pre-carica le mappe della stagione attuale (tutte le competizioni) appena si apre la scheda giocatore: aprendo Statistiche i dati sono gia' in cache
+export function warmPlayerMaps({ pid, name, fms }) {
+  if (!pid || !fms || !fms.length) return;
+  loadPlayerMaps({ pid, name, fms, seasonSel: 'cur' }).catch(() => {});
 }
 
 export function usePlayerMaps(args) {
