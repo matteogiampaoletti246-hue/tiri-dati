@@ -170,7 +170,7 @@
   },
   "Coupe de France 2026-2027": {
    "partite_con_eventi": 0,
-   "da_fare": 12
+   "da_fare": 0
   },
   "Super League 1 2026-2027": {
    "partite_con_eventi": 0,
@@ -181,8 +181,8 @@
    "da_fare": 0
   },
   "Copa del Rey 2026-2027": {
-   "partite_con_eventi": 1,
-   "da_fare": 21
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "Supercopa de España 2025-2026": {
    "partite_con_eventi": 0,
@@ -201,8 +201,8 @@
    "da_fare": 0
   },
   "Primera Division 2026": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "Greece Cup 2026-2027": {
    "partite_con_eventi": 0,
@@ -221,12 +221,12 @@
    "da_fare": 0
   },
   "Turkish Cup 2026-2027": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
-  },
-  "Liga AUF Uruguaya 2026": {
    "partite_con_eventi": 0,
    "da_fare": 0
+  },
+  "Liga AUF Uruguaya 2026": {
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "Challenge League 2026-2027": {
    "partite_con_eventi": 0,
@@ -417,8 +417,8 @@
    "da_fare": 0
   },
   "Primera A 2026 - Clausura": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "Croatian Cup 2026-2027": {
    "partite_con_eventi": 0,
@@ -437,8 +437,8 @@
    "da_fare": 0
   },
   "Primera Division 2026-2027 - Apertura": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 2
   },
   "Erovnuli Liga 2026": {
    "partite_con_eventi": 0,
@@ -449,8 +449,8 @@
    "da_fare": 0
   },
   "Série B 2026": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 2,
+   "da_fare": 2
   },
   "Primera B Nacional 2026": {
    "partite_con_eventi": 0,
@@ -482,15 +482,15 @@
   },
   "FA Trophy 2026-2027": {
    "partite_con_eventi": 0,
-   "da_fare": 1
+   "da_fare": 0
   },
   "Copa Argentina 2026": {
    "partite_con_eventi": 0,
    "da_fare": 0
   },
   "Supercopa Argentina 2026": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "African Nations Championship 2024": {
    "partite_con_eventi": 0,
@@ -505,16 +505,16 @@
    "da_fare": 0
   },
   "UEFA Nations League A 2026-2027": {
-   "partite_con_eventi": 3,
-   "da_fare": 3
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "UEFA Nations League B 2026-2027": {
    "partite_con_eventi": 0,
    "da_fare": 0
   },
   "UEFA Nations League C 2026-2027": {
-   "partite_con_eventi": 2,
-   "da_fare": 3
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "UEFA Nations League D 2026-2027": {
    "partite_con_eventi": 0,
@@ -1157,5 +1157,5 @@
    "da_fare": 0
   }
  },
- "partite_in_questo_giro": 42
+ "partite_in_questo_giro": 8
 }
