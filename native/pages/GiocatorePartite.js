@@ -14,6 +14,7 @@ import { carriereOf } from '@/data/carriere';
 import { loadSeason, loadSeasonStats, loadSeasonMatches, seasonLabel, teamLogo, LID_BY_FM } from '@/data/archive';
 import { dateIt, ratingColor } from '@/components/player/playerCalc';
 import { comma } from '@/lib/format';
+import { lruGet, lruSet } from '@/lib/lru';
 
 const yearOf = (sk) => parseInt(String(sk).slice(0, 4), 10) || 0;
 const romeDayOf = (iso) => { try { return new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Rome' }).format(new Date(iso)); } catch (e) { return String(iso).slice(0, 10); } };
@@ -23,16 +24,20 @@ export const ownFirst = (score, home) => {
   return home ? `${m[1]} - ${m[2]}${m[3]}` : `${m[2]} - ${m[1]}${m[3]}`;
 };
 
-// partite giocate (minuti > 0) in una competizione e stagione dell'archivio
-async function seasonRows(fm, sk, fmPid) {
-  const [s, det, st] = await Promise.all([loadSeason(fm, sk), loadSeasonMatches(fm, sk), loadSeasonStats(fm, sk)]);
+// partite giocate (minuti > 0) in una competizione e stagione dell'archivio.
+// Le statistiche di stagione servono solo come ultima risorsa per sapere se giocava in casa: si caricano solo se manca altro (prima si aspettava sempre il file).
+async function seasonRows0(fm, sk, fmPid) {
+  const [s, det] = await Promise.all([loadSeason(fm, sk), loadSeasonMatches(fm, sk)]);
   if (!s || !det) return [];
-  let myTeam = null;
-  const lists = (st && st.players) || {};
-  Object.keys(lists).some((k) => { const r = (lists[k] || []).find((x) => String(x[0]) === String(fmPid)); if (r) { myTeam = String(r[2]); return true; } return false; });
   const fx = {};
   s.fix.forEach((m) => { fx[m[0]] = m; });
   const rows = [];
+  const later = [];
+  const build = (mid, x, f, p, home, hid, aid) => {
+    const opp = home ? aid : hid;
+    const date = f ? f[4] : '';
+    return { key: `a-${fm}-${sk}-${mid}`, to: `/match/a-${fm}-${sk}-${mid}`, day: date ? romeDayOf(date) : '', date, fm, sk, oppId: opp, oppName: s.teams[opp] || '', score: f ? ownFirst(f[5], home) : '', minutes: Math.round(p.minutes_played), goals: p.goals || 0, assists: p.goal_assist || p.assists || 0, rating: p.rating_title || null };
+  };
   Object.entries(det.m || {}).forEach(([mid, x]) => {
     const p = x.p && x.p[fmPid];
     if (!p || !(p.minutes_played > 0)) return;
@@ -42,12 +47,35 @@ async function seasonRows(fm, sk, fmPid) {
     const inH = x.h && [...(x.h.st || []), ...(x.h.sb || [])].some((r) => String(r[0]) === String(fmPid));
     const inA = x.a && [...(x.a.st || []), ...(x.a.sb || [])].some((r) => String(r[0]) === String(fmPid));
     const side = x.pn && x.pn[fmPid] ? x.pn[fmPid][1] : null;
-    const home = inH ? true : inA ? false : side ? side === 'h' : myTeam ? myTeam === hid : false;
-    const opp = home ? aid : hid;
-    const date = f ? f[4] : '';
-    rows.push({ key: `a-${fm}-${sk}-${mid}`, to: `/match/a-${fm}-${sk}-${mid}`, day: date ? romeDayOf(date) : '', date, fm, sk, oppId: opp, oppName: s.teams[opp] || '', score: f ? ownFirst(f[5], home) : '', minutes: Math.round(p.minutes_played), goals: p.goals || 0, assists: p.goal_assist || p.assists || 0, rating: p.rating_title || null });
+    if (inH || inA || side) rows.push(build(mid, x, f, p, inH ? true : inA ? false : side === 'h', hid, aid));
+    else { const i = rows.length; rows.push(null); later.push([i, mid, x, f, p, hid, aid]); }
   });
+  if (later.length) {
+    const st = await loadSeasonStats(fm, sk).catch(() => null);
+    let myTeam = null;
+    const lists = (st && st.players) || {};
+    Object.keys(lists).some((k) => { const r = (lists[k] || []).find((y) => String(y[0]) === String(fmPid)); if (r) { myTeam = String(r[2]); return true; } return false; });
+    later.forEach(([i, mid, x, f, p, hid, aid]) => { rows[i] = build(mid, x, f, p, myTeam ? myTeam === hid : false, hid, aid); });
+  }
   return rows;
+}
+
+// una sola lettura per giocatore/stagione: la scheda Partite trova gia' pronto cio' che si e' caricato in anticipo all'apertura del giocatore
+const SR = new Map();
+function seasonRows(fm, sk, fmPid) {
+  const k = `${fm}|${sk}|${fmPid}`;
+  const hit = lruGet(SR, k);
+  if (hit) return hit;
+  const pr = seasonRows0(fm, sk, fmPid).catch(() => { SR.delete(k); return []; });
+  lruSet(SR, k, pr, 24);
+  return pr;
+}
+
+// precarico (all'apertura del giocatore, a pagina ferma): l'ultimo gruppo di stagioni, quello che la scheda Partite mostra per primo
+export function prefetchPartite(P) {
+  if (!P || !P.fmPid || !P.items.length) return;
+  const y = Math.max(...P.items.map(([, sk]) => yearOf(sk)));
+  P.items.filter(([, sk]) => yearOf(sk) === y).forEach(([fm, sk]) => { seasonRows(fm, sk, P.fmPid); });
 }
 
 // competizioni/stagioni giocate + ultime partite dell'app (aurora_indice, con la partita dal vivo)
@@ -77,6 +105,8 @@ export default function GiocatorePartite({ C, parts: P, openRoute }) {
   const [, setVer] = useState(0);
   const [busy, setBusy] = useState(false);
   const live = useRef(true);
+  const got0 = useRef([]);
+  const [late, setLate] = useState(false); // lo scheletro dura al massimo 2,5 s: poi le partite compaiono man mano che arrivano
   const compOpts = [{ value: 'all', label: 'Tutte le competizioni' }];
   const seenC = new Set();
   P.items.forEach(([fm]) => { const lg = leagueById(LID_BY_FM[fm]); if (lg && !seenC.has(lg.id)) { seenC.add(lg.id); compOpts.push({ value: lg.id, label: lg.name, icon: <LeagueLogo league={lg} size={22} C={C} /> }); } });
@@ -92,8 +122,9 @@ export default function GiocatorePartite({ C, parts: P, openRoute }) {
     if (busy) return;
     const todo = itsRef.current.filter(([fm, sk]) => !cache.current.has(`${fm}|${sk}`));
     if (!todo.length) return;
-    const y = Math.max(...todo.map(([, sk]) => yearOf(sk)));
-    const grp = todo.filter(([, sk]) => yearOf(sk) === y);
+    // le due stagioni piu' recenti insieme (la prima volta la lista e' corta e le serve di solito il secondo gruppo)
+    const ysAll = [...new Set(todo.map(([, sk]) => yearOf(sk)))].sort((x, z) => z - x).slice(0, got0.current.length < 8 ? 2 : 1);
+    const grp = todo.filter(([, sk]) => ysAll.includes(yearOf(sk)));
     setBusy(true);
     const res = await Promise.all(grp.map(([fm, sk]) => seasonRows(fm, sk, P.fmPid).catch(() => [])));
     if (!live.current) return;
@@ -105,6 +136,7 @@ export default function GiocatorePartite({ C, parts: P, openRoute }) {
   moreRef.current = more;
   useEffect(() => { live.current = true; const off = onNearEnd(() => { if (!filtered) moreRef.current(); }); return () => { live.current = false; off(); }; }, [filtered]);
   const got = its.flatMap(([fm, sk]) => cache.current.get(`${fm}|${sk}`) || []);
+  got0.current = got;
   const pending = its.some(([fm, sk]) => !cache.current.has(`${fm}|${sk}`));
   // senza filtro: finche' la lista e' corta si carica il gruppo dopo; con un filtro si caricano tutte le partite scelte
   useEffect(() => { if (!busy && pending && (filtered || got.length < 8)) moreRef.current(); });
@@ -114,6 +146,8 @@ export default function GiocatorePartite({ C, parts: P, openRoute }) {
   const all = [...recentSel, ...got.filter((r) => !recentDays.has(r.day) && (season === 'all' || seasonOfDate(r.date) === Number(season)))]
     .filter((r) => (seen.has(r.key) ? false : (seen.add(r.key), true)))
     .sort((a, b) => b.day.localeCompare(a.day) || String(b.date).localeCompare(String(a.date)));
+  const waiting = busy || (filtered && pending);
+  useEffect(() => { if (!waiting) { setLate(false); return undefined; } const t = setTimeout(() => setLate(true), 2500); return () => clearTimeout(t); }, [waiting]);
   const sk = (h, w) => <View style={{ height: h, width: w || '100%', borderRadius: 16, backgroundColor: C.skBase, marginBottom: 10 }} />;
   return (
     <View style={{ paddingHorizontal: 20, paddingTop: 20, paddingBottom: 30, gap: 10 }}>
@@ -140,7 +174,7 @@ export default function GiocatorePartite({ C, parts: P, openRoute }) {
           </Pressable>
         );
       })}
-      {busy || (filtered && pending) ? <>{sk(64)}{sk(64)}{sk(64)}</> : null}
+      {waiting && !late ? <>{sk(64)}{sk(64)}{sk(64)}</> : null}
     </View>
   );
 }

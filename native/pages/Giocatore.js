@@ -23,7 +23,7 @@ import { teamById, teamByName, teamByFm } from '@/data/teams';
 import { teamFromIndex } from '@/data/teamIndex';
 import { injuryOf } from '@/data/injuries';
 import { rosePlayer } from '@/data/rose';
-import { playerFace, teamLogo, FM_ID } from '@/data/archive';
+import { playerFace, teamLogo, FM_ID, loadPlayerStatsFor } from '@/data/archive';
 import { parseArchiveId, makeArchivePlayer } from '@/data/archivePlayer';
 import { carriereOf, careerByFm, countryIt, flagCode, FOOT, dateLong, ageOf, money, monthIt } from '@/data/carriere';
 import { fixedColors } from '@/data/teamColorFix';
@@ -34,7 +34,7 @@ import { comma } from '@/lib/format';
 import GiocatoreStat, { playerHasCurStats, statComps } from './GiocatoreStat';
 import { warmPlayerMaps } from '@/data/playerMaps';
 import GiocatoreAffid from './GiocatoreAffid';
-import GiocatorePartite, { usePartiteItems } from './GiocatorePartite';
+import GiocatorePartite, { usePartiteItems, prefetchPartite } from './GiocatorePartite';
 
 const PS_POS = { GK: 'GK', CB: 'DEF', LB: 'DEF', RB: 'DEF', LWB: 'DEF', RWB: 'DEF', DM: 'MID', CDM: 'MID', CM: 'MID', AM: 'MID', CAM: 'MID', LM: 'MID', RM: 'MID', LW: 'ATT', RW: 'ATT', ST: 'ATT', CF: 'ATT' };
 const LBL = { fontSize: 9.5, letterSpacing: 1, textTransform: 'uppercase' };
@@ -272,13 +272,17 @@ function Body({ C, player: player1, openRoute, onBack, bottom, top }) {
   const parts = usePartiteItems(dataP, car);
   // mappe del campo (Statistiche): si caricano subito all'apertura della scheda, cosi' sono pronte insieme al resto della pagina
   const mapPid = car.pid || (carriereOf(dataP.id) || {}).fm;
+  // appena la carriera e' pronta si caricano in anticipo, in parallelo e senza attese, mappe e statistiche della competizione principale e le partite piu' recenti:
+  // aprendo Partite o Statistiche i dati sono gia' in memoria
   useEffect(() => {
-    if (car.loading || !mapPid) return undefined;
-    const t = setTimeout(() => {
-      const fms = statComps(dataP, car).comps.map((c) => FM_ID[c.id]).filter(Boolean);
-      warmPlayerMaps({ pid: mapPid, name: dataP.name, fms });
-    }, 250);
-    return () => clearTimeout(t);
+    if (car.loading || !mapPid) return;
+    const cs = statComps(dataP, car).comps;
+    const fms = cs.map((c) => FM_ID[c.id]).filter(Boolean);
+    warmPlayerMaps({ pid: mapPid, name: dataP.name, fms });
+    const fm0 = fms[0];
+    const sk0 = fm0 ? car.cur[fm0] : null;
+    if (fm0 && sk0) loadPlayerStatsFor(fm0, sk0, mapPid).catch(() => {});
+    prefetchPartite(parts);
   }, [car.loading, mapPid, dataP.id]); // eslint-disable-line react-hooks/exhaustive-deps
   const careerL = useCareerLists(dataP);
   const hasStats = playerHasCurStats(player) || !!car.loading || car.rows.length > 0;

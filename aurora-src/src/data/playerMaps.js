@@ -53,13 +53,17 @@ async function loadOne(pid, fm, sk, name) {
     // stagione in corso: le partite non ancora passate nell'archivio (`sx` assente) si prendono dalla partita stessa (stesso formato)
     if ((await currentSeason(fm)) === sk) {
       const inLu = (m) => [...((m.h && m.h.st) || []), ...((m.h && m.h.sb) || []), ...((m.a && m.a.st) || []), ...((m.a && m.a.sb) || [])].find((p) => String(p[0]) === String(pid));
-      await Promise.all(Object.entries(ms).filter(([, m]) => m && !Array.isArray(m.sx) && inLu(m)).map(async ([mid, m]) => {
+      // al massimo 2,5 s di attesa: le partite che non hanno ancora risposto compaiono alla prossima apertura (la risposta resta in `m.sx`)
+      const fetches = Promise.all(Object.entries(ms).filter(([, m]) => m && !Array.isArray(m.sx) && inLu(m)).map(async ([mid, m]) => {
         try {
           const r = await fetch(`${WORKER}/fs?id=${mid}`);
           const j = r.ok ? await r.json() : null;
           m.sx = fsToSx(j, inLu(m)[1] || name, pid);
         } catch (e) { /* la partita resta senza tiri */ }
       }));
+      let timedOut = false;
+      await Promise.race([fetches, new Promise((r) => setTimeout(() => { timedOut = true; r(); }, 2500))]);
+      if (timedOut) fetches.then(() => CACHE.delete(ck));
     }
     // dove FotMob non ha la mappa tiri della partita (sx vuota) si vedono i tiri di ESPN (`sxe/`, `tiri_espn.py`): la seconda fonte prende il posto della prima solo quando la prima non arriva
     const espn = (mid) => (ex && Array.isArray(ex[mid]) && ex[mid].length ? ex[mid] : null);
