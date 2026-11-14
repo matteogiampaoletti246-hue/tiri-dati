@@ -38,7 +38,7 @@
   },
   "Ligue 1 2026-2027": {
    "partite_con_eventi": 0,
-   "da_fare": 0
+   "da_fare": 1
   },
   "Serie A 2026-2027": {
    "partite_con_eventi": 0,
@@ -125,8 +125,8 @@
    "da_fare": 0
   },
   "Friendlies 2026": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "Cymru Premier 2026-2027": {
    "partite_con_eventi": 0,
@@ -169,8 +169,8 @@
    "da_fare": 0
   },
   "Coupe de France 2026-2027": {
-   "partite_con_eventi": 1,
-   "da_fare": 3
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "Super League 1 2026-2027": {
    "partite_con_eventi": 0,
@@ -225,8 +225,8 @@
    "da_fare": 0
   },
   "Liga AUF Uruguaya 2026": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "Challenge League 2026-2027": {
    "partite_con_eventi": 0,
@@ -389,8 +389,8 @@
    "da_fare": 0
   },
   "FNL 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "Czech Cup 2026-2027": {
    "partite_con_eventi": 0,
@@ -398,7 +398,7 @@
   },
   "Kategoria Superiore 2026-2027": {
    "partite_con_eventi": 0,
-   "da_fare": 0
+   "da_fare": 1
   },
   "First Division B 2026-2027": {
    "partite_con_eventi": 0,
@@ -421,8 +421,8 @@
    "da_fare": 0
   },
   "Croatian Cup 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "Austrian Cup 2026-2027": {
    "partite_con_eventi": 0,
@@ -1177,5 +1177,5 @@
    "da_fare": 0
   }
  },
- "partite_in_questo_giro": 4
+ "partite_in_questo_giro": 5
 }
