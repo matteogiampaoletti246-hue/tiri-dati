@@ -3879,6 +3879,17 @@
    ]
   },
   {
+   "lega": "coupe-de-france",
+   "fm": 134,
+   "stagione": "2026-2027",
+   "squadra": "Tefana",
+   "id": "128469",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
    "lega": "coppa-italia",
    "fm": 141,
    "stagione": "2026-2027",
@@ -6396,11 +6407,11 @@
   }
  ],
  "competizioni_senza_dati": [],
- "squadre_controllate": 1519,
+ "squadre_controllate": 1520,
  "rose": {
-  "squadre": 3149,
-  "senza_rosa_prima": 2279,
-  "senza_rosa_dopo": 333,
+  "squadre": 3150,
+  "senza_rosa_prima": 2280,
+  "senza_rosa_dopo": 334,
   "senza_rosa": [
    {
     "squadra": "1A",
@@ -8616,6 +8627,14 @@
     "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
+    "squadra": "Tefana",
+    "id": "128469",
+    "competizioni": [
+     "Coupe de France 2026-2027"
+    ],
+    "motivo": "nessuna partita giocata nella stagione in corso"
+   },
+   {
     "squadra": "Tigar Sveta Nedelja",
     "id": "2096653",
     "competizioni": [
@@ -9075,9 +9094,9 @@
   ]
  },
  "rose_per_ruolo": {
-  "squadre": 3149,
-  "prima": 2348,
-  "dopo": 627,
+  "squadre": 3150,
+  "prima": 2349,
+  "dopo": 628,
   "giocate_dopo": 541,
   "elenco": [
    {
@@ -12494,6 +12513,17 @@
     ],
     "motivo": [
      "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
+    ]
+   },
+   {
+    "squadra": "Tefana",
+    "id": "128469",
+    "giocatori": 0,
+    "competizioni": [
+     "Coupe de France 2026-2027"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
     ]
    },
    {
@@ -17232,8 +17262,8 @@
   "mancanti_dopo": []
  },
  "forma": {
-  "squadre_senza_forma_prima": 1959,
-  "squadre_senza_forma_dopo": 142,
+  "squadre_senza_forma_prima": 1960,
+  "squadre_senza_forma_dopo": 143,
   "motivo_dopo": "nessuna partita giocata nella stagione in corso: niente riquadro"
  }
 }
