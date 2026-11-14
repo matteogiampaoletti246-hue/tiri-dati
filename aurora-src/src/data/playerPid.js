@@ -14,6 +14,7 @@ export const resolvePid = (player) => {
     PID[player.id] = (async () => {
       // id FotMob gia' collegato dai dati (profili.py): niente ricerca per nome
       if (player.fmId) return String(player.fmId);
+      if (player.espn) return null; // scheda creata dai dati ESPN: FotMob non lo ha
       await Promise.all([loadCarriere(), loadRose()]);
       const c = carriereOf(player.id);
       if (c && c.fm) return String(c.fm);
@@ -23,7 +24,7 @@ export const resolvePid = (player) => {
       const n = nm(player.nick || player.name);
       const ro = team ? roseOf(team) : null;
       const hit = ro && (ro.p || []).find((r) => nm(r[1]) === n);
-      if (hit) return String(hit[0]);
+      if (hit && hit[0] > 0) return String(hit[0]);
       // rose.json puo' avere la squadra vuota (o senza di lui): rosa completa della squadra (rosa/<id%100>.json)
       const full = team ? await rosaOf(team).catch(() => null) : null;
       let hit2 = full && (full.p || []).find((r) => nm(r[1]) === n);

@@ -125,3 +125,7 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 ## Forma (ultime 5): lettere e colori (14/11/2026, regola fissa)
 - V = vittoria (verde), P = pareggio (grigio), S = sconfitta (rosso). Vale ovunque (sito e app nativa, schede partita/squadra/classifica/archivio): i dati della forma usano queste tre lettere (`'V'`, `'P'`, `'S'`), mai 'S' per il pareggio. Punti della forma: V 3, P 1, S 0.
 
+
+## Rose: ESPN completa FotMob (14/11/2026, richiesta utente, regola fissa)
+- Le rose vengono prima da FotMob; `rose_espn.py` (workflow `rose_espn.yml`, parte dopo "Rose campionati minori") legge TUTTE le squadre ESPN (tutti i campionati e le coppe del catalogo ESPN, `/teams` + `/roster`), le abbina alla squadra FotMob dai giocatori in comune (almeno 3-5, mai dal solo nome) e aggiunge a `rose.json` e `rosa/*.json` i giocatori che FotMob non ha (abbinamento per nome, nome corto, eta' +-1 e maglia; nomi quasi uguali con la stessa eta' sono la stessa persona).
+- Giocatore aggiunto: se la ricerca FotMob lo trova in quella squadra ha il suo id FotMob (scheda normale); altrimenti riga con id `-(2e9 + id ESPN)`, foto ESPN e scheda `espn~<id>` creata da `makeEspnPlayer` (`archivePlayer.js`) con i dati ESPN di `espn/<id%100>.json` (bio, statistiche di stagione): solo dati ESPN veri, niente numeri inventati. Le righe ESPN si tolgono e si rifanno a ogni giro. Controllo: `report/rose_espn_stato.json` (squadre abbinate/non abbinate, giocatori aggiunti per campionato).

@@ -2,7 +2,8 @@
 // si costruisce lo stesso oggetto giocatore dai dati dell'archivio, cosi' la scheda e' identica per tutti.
 import { loadPlayerStatsFor, statTotal, loadSeason, playerSeasons, playerFace, FM_ID } from './archive';
 import { registerPlayer, playerById, playerByFm } from './players';
-import { ensureTeam } from './teams';
+import { ensureTeam, teamByFm } from './teams';
+import { BASE } from './load';
 import { realName } from './realNames';
 import { loadCarriere, setCarriere } from './carriere';
 import { loadRose, rosePlayer } from './rose';
@@ -16,8 +17,15 @@ export const parseArchiveId = (id) => {
   let s = String(id || '');
   try { s = decodeURIComponent(s); } catch (e) { /* gia' in chiaro */ }
   const m = /^fm~(\d+)~([^~]+)~(\d+)$/.exec(s);
-  return m ? { fm: m[1], sk: m[2], pid: m[3] } : null;
+  if (m) return { fm: m[1], sk: m[2], pid: m[3] };
+  // giocatore senza scheda FotMob, creato dai dati ESPN (rose_espn.py): "espn~<id ESPN>"
+  const e = /^espn~(\d+)$/.exec(s);
+  return e ? { fm: 'espn', sk: '', pid: e[1] } : null;
 };
+export const espnPhoto = (eid) => `https://a.espncdn.com/i/headshots/soccer/players/full/${eid}.png`;
+export const espnPlayerId = (eid) => `espn~${eid}`;
+// id riga rosa ESPN-only: -(2_000_000_000 + id ESPN)
+export const espnIdOfRow = (rid) => (Number(rid) < -2e9 ? String(-2e9 - Number(rid)) : null);
 
 const rowsOf = (st, pid) => {
   const L = (st && st.players) || {};
@@ -31,7 +39,34 @@ const rowsOf = (st, pid) => {
   return me ? { me, by } : null;
 };
 
+// Scheda creata dai dati ESPN per chi FotMob non ha (stesso oggetto giocatore, solo i dati che ESPN da': nessun numero inventato)
+async function makeEspnPlayer(eid) {
+  const id = espnPlayerId(eid);
+  const have = playerById(id);
+  if (have) return have;
+  const sh = await fetch(`${BASE}espn/${Number(eid) % 100}.json`).then((r) => (r.ok ? r.json() : {})).catch(() => ({}));
+  const v = sh[String(eid)];
+  if (!v) return null;
+  const team = teamByFm(String(v.t)) || null;
+  const s = v.s || {};
+  const num = (k) => Number(s[k]) || 0;
+  const initials = String(v.n).split(' ').map((w) => w[0]).join('').slice(0, 2).toUpperCase();
+  const p = {
+    id, teamId: team ? team.id : null, teamName: team ? team.name : '', leagueId: team ? team.leagueId || null : null, name: v.n, nick: null, initials, number: v.j, position: v.p === 'UNK' ? null : v.p,
+    photo: espnPhoto(eid), hasStats: false, archive: false, espn: true,
+    rating: null, appearances: num('appearances'), minutes: 0, goals: num('totalGoals'), assists: num('goalAssists'),
+    shots: num('totalShots'), shotsOnTarget: num('shotsOnTarget'), xg: null,
+    exS: null, exL5: null, l5g: 0, l5min: 0, l5y: 0, l5r: 0, foulsCommitted: num('foulsCommitted'), foulsDrawn: num('foulsSuffered'), offsides: num('offsides'),
+    yellows: num('yellowCards'), reds: num('redCards'), l: [0, 0, 0, 0], c: [0, 0, 0, 0], r: [], h: [],
+    shots5: [], sot5: [], minutes5: [], recent: [], ratings5: [],
+  };
+  registerPlayer(p);
+  setCarriere(id, { fm: '', car: [], c: v.c || null, h: v.h || null, n: v.j || null, b: v.b || null });
+  return p;
+}
+
 export async function makeArchivePlayer(fm, sk, pid) {
+  if (fm === 'espn') return makeEspnPlayer(pid);
   const id = archiveId(fm, sk, pid);
   const lite = playerById(id);
   if (lite && !lite.lite) return lite;

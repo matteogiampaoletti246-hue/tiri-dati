@@ -28,7 +28,7 @@ function warm(r) {
     const id = decodeURIComponent(m[1]);
     const p = playerById(id);
     const arc = (!p || p.lite) && parseArchiveId(id);
-    if (arc) { loadCarriere(); loadRose(); loadSeason(arc.fm, arc.sk); }
+    if (arc && arc.fm !== 'espn') { loadCarriere(); loadRose(); loadSeason(arc.fm, arc.sk); }
   }
 }
 

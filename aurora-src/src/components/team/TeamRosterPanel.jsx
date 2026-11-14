@@ -11,7 +11,7 @@ import { loadCarriere, carriereOf, countryIt, ageOf } from '@/data/carriere';
 import { playersByTeam } from '@/data/players';
 import { loadRose, roseOf, rosePoor, seasonRoster } from '@/data/rose';
 import { FM_ID, currentSeason, playerFace } from '@/data/archive';
-import { archiveId } from '@/data/archivePlayer';
+import { archiveId, espnIdOfRow, espnPlayerId, espnPhoto } from '@/data/archivePlayer';
 import useAsync from '@/hooks/useAsync';
 
 const GROUPS = [
@@ -81,12 +81,12 @@ export default function TeamRosterPanel({ teamId }) {
             <div className="h-1.5" />
             {g.list.map((r) => {
               const bits = [r[4] ? countryIt(r[4]) : null, r[6] ? `${r[6]} cm` : null, r[5] ? `${r[5]} anni` : null].filter(Boolean);
-              const to = mine[nk(r[1])] ? `/giocatore/${mine[nk(r[1])].id}` : skR && fmR2 && r[0] > 0 ? `/giocatore/${archiveId(fmR2, skR, r[0])}` : null;
+              const to = mine[nk(r[1])] ? `/giocatore/${mine[nk(r[1])].id}` : espnIdOfRow(r[0]) ? `/giocatore/${espnPlayerId(espnIdOfRow(r[0]))}` : skR && fmR2 && r[0] > 0 ? `/giocatore/${archiveId(fmR2, skR, r[0])}` : null;
               const Row = to ? Link : 'div'; // giocatore di una fonte esterna senza id FotMob: riga senza collegamento
               return (
                 <Row key={r[0]} {...(to ? { to } : {})} className="press mx-2 mb-1.5 flex items-center gap-3 rounded-[18px] px-3 py-2" style={{ background: teamGrad(team, 0x55) }}>
                   <span className="avatar h-[38px] w-[38px] text-[11px]">
-                    <PlayerPhoto src={r[0] > 0 ? playerFace(r[0]) : null} alt={realName(r[0], r[1])} />
+                    <PlayerPhoto src={r[0] > 0 ? playerFace(r[0]) : espnIdOfRow(r[0]) ? espnPhoto(espnIdOfRow(r[0])) : null} alt={realName(r[0], r[1])} />
                   </span>
                   <span className="min-w-0 flex-1">
                     <span className="block truncate text-[14px] font-bold">{r[3] ? <span style={{ color: 'var(--accent)' }}>{r[3]} </span> : null}{realName(r[0], r[1])}{r[10] ? <> <InjuryIcon size={15} /></> : null}</span>

@@ -1,0 +1,36 @@
+name: Rose ESPN
+# ESPN completa le rose FotMob: parte appena finisce "Rose campionati minori" (che riscrive rose.json e rosa/), poi salva rose.json, rosa/ e espn/.
+on:
+  workflow_run:
+    workflows: ["Rose campionati minori"]
+    types: [completed]
+  workflow_dispatch:
+  push:
+    paths:
+      - rose_espn.py
+      - .github/workflows/rose_espn.yml
+concurrency:
+  group: rose_espn
+  cancel-in-progress: false
+permissions:
+  contents: write
+jobs:
+  rose_espn:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python rose_espn.py
+        env:
+          ESPN_MIN: "70"
+      - name: Salva
+        if: always()
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add rose.json rosa espn report/rose_espn_stato.json 2>/dev/null || true
+          git diff --staged --quiet || git commit -m "Rose completate con ESPN"
+          for i in 1 2 3 4 5; do git pull --rebase -X theirs && git push && break; sleep $((i*4)); done
