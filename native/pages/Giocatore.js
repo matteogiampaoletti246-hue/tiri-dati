@@ -15,7 +15,7 @@ import Radar from '../shared/Radar';
 import { resetSel, presetSel, useSel, peekSel, useSelValue } from '../shared/hooks';
 import { FlagN, ClubNatN, natOf } from '../shared/FlagN';
 import { playerCtx } from '../shared/playerCtx';
-import { NATIONS_KEYS } from '@/data/calcData';
+import { NATIONS_KEYS, nextFixture } from '@/data/calcData';
 import useAsync from '@/hooks/useAsync';
 import { BASE } from '@/data/load';
 import { playerById } from '@/data/players';
@@ -261,9 +261,12 @@ function Body({ C, player: player1, openRoute, onBack, bottom, top }) {
   const { player, dataP, clubE, natE } = playerCtx(player1);
   const clubTeam = teamById(clubE.teamId) || teamById(player.teamId);
   const natTeam = natE ? teamById(natE.teamId) : null;
-  if (player1.nat && natE && peekSel(dataP.id, 'sc') === undefined) presetSel(dataP.id, 'sc', natE.leagueId);
+  // colori e statistiche seguono la PROSSIMA partita del giocatore: se e' con la nazionale (prima di quella del club) si parte dal contesto nazionale
+  const nxC = nextFixture(clubE.teamName), nxN = natE ? nextFixture(natE.teamName) : null;
+  const nextIsNat = !!natE && !!nxN && (!nxC || nxN.ts < nxC.ts);
+  if (natE && (player1.nat || nextIsNat) && peekSel(dataP.id, 'sc') === undefined) presetSel(dataP.id, 'sc', natE.leagueId);
   const sc = useSelValue(dataP.id, 'sc');
-  const ctxNat = !!natTeam && (sc !== undefined && sc !== null ? NATIONS_KEYS.includes(sc) : !!player1.nat);
+  const ctxNat = !!natTeam && (sc !== undefined && sc !== null ? NATIONS_KEYS.includes(sc) : (!!player1.nat || nextIsNat));
   const team = ctxNat ? natTeam : clubTeam;
   const pid = useBioPid(player);
   const photo = player.photo || (pid ? playerFace(pid) : null);

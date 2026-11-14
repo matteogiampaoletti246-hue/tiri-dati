@@ -155,3 +155,6 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 
 ## Stagioni della mappa: sempre 2025/26, 2024/25... (regola fissa, 13/11/2026)
 - La tendina stagioni della mappa tiri/falli (`PlayerMapsN.js`) mostra solo stagioni "AAAA/BB" (dal 1 agosto al 31 luglio), uguali per tutte le competizioni del giocatore: mai "2026", "2025" o "2024" da soli. Le competizioni a anno solare (Brasile, MLS, qualificazioni, amichevoli) rientrano nelle due stagioni che le coprono, in base alla data della partita (`seasonSel 'yAAAA'` in `playerMaps.js`). Voci: Ultime 5 (Hit rate), Tutte le stagioni, Stagione attuale, poi 2025/26, 2024/25, ... fino al 2019/20.
+
+## Scheda giocatore: colori e statistiche dalla prossima partita (regola fissa)
+Banner, tinta e statistiche della scheda giocatore seguono la PROSSIMA partita del giocatore (`nextFixture` su club e nazionale, vince la data piu' vicina): se e' con la nazionale (es. Reguła → Polonia, rosso) si parte dal contesto nazionale (`sc` = lega della nazionale, se l'utente non ha gia' scelto), altrimenti dal club. Vale per tutti i giocatori; la scelta manuale della competizione resta.
