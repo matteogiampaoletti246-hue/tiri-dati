@@ -2,7 +2,7 @@
 // colori e loghi delle competizioni, righe partita. Metadati da meta.json (generato da data/leagues.js e data/countries.js).
 import './shared/shim'; // PRIMO: il livello dati del sito (load.js) legge document.baseURI appena viene importato
 import React, { createContext, memo, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { View, Text, FlatList, Pressable as RNPressable, ScrollView, StatusBar, Dimensions, useColorScheme, StyleSheet, Animated as RNAnimated, Easing as RNEasing, AccessibilityInfo, LayoutAnimation, Platform, UIManager, AppState, Modal, TextInput, Keyboard, BackHandler, useWindowDimensions } from 'react-native';
+import { Alert, View, Text, FlatList, Pressable as RNPressable, ScrollView, StatusBar, Dimensions, useColorScheme, StyleSheet, Animated as RNAnimated, Easing as RNEasing, AccessibilityInfo, LayoutAnimation, Platform, UIManager, AppState, Modal, TextInput, Keyboard, BackHandler, useWindowDimensions } from 'react-native';
 import { onResumeCalm, justResumed } from './shared/resume';
 import { InteractionManager } from './shared/afterInteractions';
 import { Gesture, GestureDetector, GestureHandlerRootView, Pressable } from 'react-native-gesture-handler'; // tasti di Home, Dock e barre: riconoscimento nativo (come swipe e scroll), non il sistema di tocco di JS
@@ -1527,11 +1527,32 @@ function Screen({ onTheme, onReset, themePref }) {
   );
 }
 
+// Errore vero a schermo (14/11/2026): quando l'app riparte da sola dalla Home (Guard) o un errore JS fuori dal disegno la fermerebbe, un avviso mostra il testo dell'errore:
+// l'utente lo manda cosi' com'e', senza video. Al massimo un avviso ogni 4 s, mai ripetuto uguale.
+let lastShown = '';
+let lastShownAt = 0;
+const showErr = (err, where) => {
+  try {
+    const t = String((err && err.stack) || err).slice(0, 700);
+    globalThis.__lastErr = t;
+    if (t === lastShown && Date.now() - lastShownAt < 60000) return;
+    if (Date.now() - lastShownAt < 4000) return;
+    lastShown = t; lastShownAt = Date.now();
+    Alert.alert(`Errore (${where})`, t);
+  } catch (e) { /* ignora */ }
+};
+if (globalThis.ErrorUtils && !globalThis.__slErrHandler) {
+  globalThis.__slErrHandler = 1;
+  const prev = globalThis.ErrorUtils.getGlobalHandler && globalThis.ErrorUtils.getGlobalHandler();
+  // errore JS fuori dal disegno (calcoli, caricamenti): si mostra e l'app resta aperta invece di chiudersi
+  globalThis.ErrorUtils.setGlobalHandler((e, fatal) => { showErr(e, fatal ? 'fatale' : 'JS'); if (__DEV__ && prev) { try { prev(e, fatal); } catch (x) { /* ignora */ } } });
+}
+
 // rete di sicurezza: un errore di disegno in un pezzo (tendina giocatore, pannello) non deve lasciare lo schermo bianco
 class Guard extends React.Component {
   state = { err: null };
   static getDerivedStateFromError(err) { return { err }; }
-  componentDidCatch(err) { try { globalThis.__lastErr = String((err && err.stack) || err).slice(0, 600); if (this.props.onError) this.props.onError(err); if (this.props.autoReset) setTimeout(() => this.setState({ err: null }), 300); } catch (e) { /* ignora */ } }
+  componentDidCatch(err) { try { globalThis.__lastErr = String((err && err.stack) || err).slice(0, 600); showErr(err, 'disegno'); if (this.props.onError) this.props.onError(err); if (this.props.autoReset) setTimeout(() => this.setState({ err: null }), 300); } catch (e) { /* ignora */ } }
   render() { return this.state.err ? null : this.props.children; }
 }
 

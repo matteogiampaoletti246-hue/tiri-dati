@@ -299,3 +299,8 @@ Come nel sito: il filtro delle linee (`Segmented fit pad={10}`) prende lo spazio
 ## Live: ogni 3 secondi (12/11/2026)
 - Home (`refresh`) e pagina partita (`prepareMatch(id, true)`) si aggiornano ogni 3 s quando c'e' una partita live; prima del fischio dentro la finestra formazioni ogni 3 s, fuori finestra 30-60 s. Stessa fonte (worker `/f` e `/fx`), cosi' il minuto e' uguale ovunque.
 - Al ritorno dal background e alla chiusura di una pagina sopra la Home parte subito un giro (Home: `__homeLiveNow`). iOS non esegue codice in background (Expo Go): in background niente giri, ma appena l'app torna attiva i dati sono aggiornati subito.
+
+## Errori a schermo (14/11/2026, regola fissa)
+- Quando l'app riparte da sola dalla Home (rete di sicurezza `Guard` in `native/App.js`, errore di disegno) o un errore JS fuori dal disegno la fermerebbe, compare un avviso "Errore (disegno | JS | fatale)" col testo dell'errore (`showErr`): l'utente lo manda cosi' com'e', senza video. Un avviso ogni 4 s al massimo, mai lo stesso entro 60 s. Gli errori JS fuori dal disegno non chiudono piu' l'app (in sviluppo resta il comportamento normale).
+- Se una chiusura non mostra nessun avviso non e' un errore di codice: e' iOS che chiude Expo Go (memoria o crash nativo).
+- Prova di disegno senza telefono: pagina nativa con `react-test-renderer` e pacchetti nativi finti (esbuild) sopra i dati veri (`bootData` in Node); serve a trovare errori di disegno, non memoria del telefono.
