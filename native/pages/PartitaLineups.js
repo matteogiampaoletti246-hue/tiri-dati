@@ -12,7 +12,8 @@ import { BASE } from '@/data/load';
 import { playerById, playerByFm, playersByTeam } from '@/data/players';
 import { openPanel, matchStarted } from '@/data/playerPanel';
 import { ourPlayerId, openPlayer } from '@/data/playerSheet';
-import { injuryOf, isOutOn } from '@/data/injuries';
+import { playerFace } from '@/data/archive';
+import { injuryOf, isOutOn, matchOuts } from '@/data/injuries';
 import { playerReliability, loadPlayerFouls, warmFouls, TOP_STATS } from '@/data/topPlayers';
 import { flagCodeOf } from '@/data/referees';
 import { scoreColorSmooth } from '@/lib/calc';
@@ -230,7 +231,15 @@ function injuredOf(team, lineup, match) {
   };
   playersByTeam(team.id).forEach(add);
   if (lineup) [...(lineup.xi || []), ...(lineup.bench || [])].forEach((p) => add(plOf(p)));
-  return out.sort((a, b) => (b.pl.minutes || 0) - (a.pl.minutes || 0));
+  const have = new Set(out.map((o) => o.pl.fmId || o.pl.fm).filter(Boolean));
+  matchOuts(team.fmId, match.date).forEach((x) => {
+    if (!x.f || have.has(x.f)) return;
+    const pl = playerByFm(x.f);
+    if (pl && seen.has(pl.id)) return;
+    have.add(x.f);
+    out.push({ pl: pl || { id: `fm${x.f}`, name: x.n, photo: playerFace(x.f), ext: true }, i: x.i, ext: !pl });
+  });
+  return out.sort((a, b) => (a.ext ? 1 : 0) - (b.ext ? 1 : 0) || (b.pl.minutes || 0) - (a.pl.minutes || 0));
 }
 
 function Injured({ C, list, team }) {
@@ -242,7 +251,7 @@ function Injured({ C, list, team }) {
         <Text style={{ color: C.ink, fontSize: 12.5, fontWeight: '800', letterSpacing: 1, textTransform: 'uppercase' }}>Infortunati</Text>
       </View>
       {list.map(({ pl, i }, k) => (
-        <Pressable key={pl.id} onPress={() => openPanel(pl.id)} style={{ flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 8, borderTopWidth: k ? 1 : 0, borderTopColor: C.hair }}>
+        <Pressable key={pl.id} onPress={() => { if (!pl.ext) openPanel(pl.id); }} style={{ flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 8, borderTopWidth: k ? 1 : 0, borderTopColor: C.hair }}>
           <Face C={C} p={pl} team={team} size={36} />
           <View style={{ flex: 1 }}>
             <Text numberOfLines={1} style={{ color: C.ink, fontSize: 13.5, fontWeight: '700' }}>{pl.name}</Text>

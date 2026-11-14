@@ -3,7 +3,8 @@ import PlayerPhoto from '@/components/PlayerPhoto';
 import Crest from '@/components/Crest';
 import { teamColor } from '@/lib/tint';
 import InjuryIcon from '@/components/InjuryIcon';
-import { injuryOf } from '@/data/injuries';
+import { playerFace } from '@/data/archive';
+import { injuryOf, matchOuts } from '@/data/injuries';
 import { Image } from '@/components/ui/image';
 import PlayerLink from './PlayerLink';
 import { SubIcon, BallIcon, BootIcon } from './EventIcons';
@@ -195,7 +196,15 @@ function injuredOf(team, lineup, match) {
   };
   playersByTeam(team.id).forEach(add);
   if (lineup) [...(lineup.xi || []), ...(lineup.bench || [])].forEach((p) => add(plOf(p)));
-  return out.sort((a, b) => (b.pl.minutes || 0) - (a.pl.minutes || 0));
+  const have = new Set(out.map((o) => o.pl.fmId || o.pl.fm).filter(Boolean));
+  matchOuts(team.fmId, match.date).forEach((x) => {
+    if (!x.f || have.has(x.f)) return;
+    const pl = playerByFm(x.f);
+    if (pl && seen.has(pl.id)) return;
+    have.add(x.f);
+    out.push({ pl: pl || { id: `fm${x.f}`, name: x.n, photo: playerFace(x.f), ext: true }, i: x.i, ext: !pl });
+  });
+  return out.sort((a, b) => (a.ext ? 1 : 0) - (b.ext ? 1 : 0) || (b.pl.minutes || 0) - (a.pl.minutes || 0));
 }
 
 function Injured({ list, team }) {
@@ -204,7 +213,7 @@ function Injured({ list, team }) {
     <section data-injured="1" className="alert-a overflow-hidden rounded-[24px] px-4 py-3" style={{ background: 'linear-gradient(110deg, rgba(229,72,77,.20), rgba(229,72,77,.035) 70%), hsl(var(--background))', border: '1px solid rgba(229,72,77,.40)' }}>
       <p className="mb-1 flex items-center gap-2 text-[12.5px] font-extrabold uppercase tracking-wider"><InjuryIcon size={18} />Infortunati</p>
       {list.map(({ pl, i }, k) => (
-        <button key={pl.id} type="button" onClick={(e) => { e.preventDefault(); e.stopPropagation(); openPanel(pl.id); }} className="press flex w-full items-center gap-3 py-2" style={{ borderTop: k ? '1px solid var(--hair-2)' : 'none', textAlign: 'left', color: 'inherit', font: 'inherit' }}>
+        <button key={pl.id} type="button" onClick={(e) => { e.preventDefault(); e.stopPropagation(); if (!pl.ext) openPanel(pl.id); }} className="press flex w-full items-center gap-3 py-2" style={{ borderTop: k ? '1px solid var(--hair-2)' : 'none', textAlign: 'left', color: 'inherit', font: 'inherit' }}>
           <span className="relative"><Face p={pl} team={team} size={36} /></span>
           <span className="min-w-0 flex-1">
             <span className="block truncate text-[13.5px] font-bold">{pl.name}</span>

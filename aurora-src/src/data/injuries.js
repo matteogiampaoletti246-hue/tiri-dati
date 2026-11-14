@@ -82,3 +82,16 @@ export function isOutOn(playerId, matchISO) {
   if (i.ed && matchISO) return matchISO < i.ed;
   return true;
 }
+
+// Infortunati / squalificati / non convocati della partita per squadra (infortuni_partite.py, FotMob): anche giocatori che non sono nel nostro database.
+// -> [{ f: id FotMob, n: nome, i: { reason, label } }] solo se l'elenco e' della partita (stessa data)
+export function matchOuts(teamFm, matchISO) {
+  const e = RAW.infortuniPartite && RAW.infortuniPartite.t && RAW.infortuniPartite.t[String(teamFm)];
+  if (!e || !matchISO || Math.abs(new Date(`${e.d}T12:00:00Z`) - new Date(`${matchISO}T12:00:00Z`)) > 864e5) return []; // data UTC contro data italiana: al massimo un giorno
+  return (e.p || []).map((x) => ({
+    f: x.f,
+    n: x.n,
+    k: x.k,
+    i: { reason: x.k === 'sus' ? 'Squalificato' : x.k === 'nc' ? 'Non convocato' : reasonIt(x.r), label: x.k === 'nc' ? null : itText(x.e) || (x.ed ? fmtIso(x.ed) : null) },
+  }));
+}

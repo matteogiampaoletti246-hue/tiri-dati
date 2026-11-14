@@ -161,6 +161,10 @@ def main():
             call |= set(last_ids)
             src = (src + "+ultima") if src else "ultima"
         mem = {int(m["id"]) for m in e["T"]["members"]}
+        # rosa FotMob della nazionale = convocati del turno (verificato: 23-28 giocatori, come la distinta): vale quando ha una dimensione da convocazione
+        if 14 <= len(mem) <= 32:
+            call |= mem
+            src = (src + "+rosa") if src else "rosa"
         e["info"] = {"pool": len(pool), "call": len(call), "rosa": len(mem), "src": src}
         e["pool"], e["call"], e["name"], e["cnt"] = pool, call, name, cnt
         if src:
