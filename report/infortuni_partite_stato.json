@@ -1,0 +1,560 @@
+{
+ "squadre": 435,
+ "nazionali": 94,
+ "club": 341,
+ "dettaglio_nazionali": {
+  "Kosovo": {
+   "pool": 36,
+   "call": 23,
+   "rosa": 26,
+   "src": "partita"
+  },
+  "Israel": {
+   "pool": 37,
+   "call": 23,
+   "rosa": 26,
+   "src": "partita"
+  },
+  "Palestine": {
+   "pool": 29,
+   "call": 18,
+   "rosa": 19,
+   "src": "partita"
+  },
+  "Iran": {
+   "pool": 41,
+   "call": 25,
+   "rosa": 26,
+   "src": "partita"
+  },
+  "Norway": {
+   "pool": 30,
+   "call": 11,
+   "rosa": 24,
+   "src": null
+  },
+  "Wales": {
+   "pool": 36,
+   "call": 11,
+   "rosa": 26,
+   "src": null
+  },
+  "Georgia": {
+   "pool": 36,
+   "call": 11,
+   "rosa": 26,
+   "src": null
+  },
+  "Hungary": {
+   "pool": 36,
+   "call": 11,
+   "rosa": 27,
+   "src": null
+  },
+  "Portugal": {
+   "pool": 32,
+   "call": 11,
+   "rosa": 28,
+   "src": null
+  },
+  "Denmark": {
+   "pool": 38,
+   "call": 11,
+   "rosa": 24,
+   "src": null
+  },
+  "Northern Ireland": {
+   "pool": 34,
+   "call": 11,
+   "rosa": 25,
+   "src": null
+  },
+  "Ukraine": {
+   "pool": 44,
+   "call": 11,
+   "rosa": 26,
+   "src": null
+  },
+  "Austria": {
+   "pool": 38,
+   "call": 11,
+   "rosa": 25,
+   "src": null
+  },
+  "Ireland": {
+   "pool": 43,
+   "call": 11,
+   "rosa": 23,
+   "src": null
+  },
+  "Romania": {
+   "pool": 43,
+   "call": 11,
+   "rosa": 26,
+   "src": null
+  },
+  "Poland": {
+   "pool": 38,
+   "call": 11,
+   "rosa": 25,
+   "src": null
+  },
+  "Sweden": {
+   "pool": 42,
+   "call": 11,
+   "rosa": 25,
+   "src": null
+  },
+  "Bosnia and Herzegovina": {
+   "pool": 33,
+   "call": 11,
+   "rosa": 26,
+   "src": null
+  },
+  "New Zealand": {
+   "pool": 38,
+   "call": 0,
+   "rosa": 27,
+   "src": null
+  },
+  "India": {
+   "pool": 52,
+   "call": 18,
+   "rosa": 0,
+   "src": "ultima"
+  },
+  "Cyprus": {
+   "pool": 39,
+   "call": 23,
+   "rosa": 28,
+   "src": "partita+ultima"
+  },
+  "Montenegro": {
+   "pool": 38,
+   "call": 22,
+   "rosa": 26,
+   "src": "partita+ultima"
+  },
+  "Latvia": {
+   "pool": 35,
+   "call": 22,
+   "rosa": 39,
+   "src": "partita+ultima"
+  },
+  "Armenia": {
+   "pool": 40,
+   "call": 23,
+   "rosa": 28,
+   "src": "partita+ultima"
+  },
+  "Suriname": {
+   "pool": 41,
+   "call": 22,
+   "rosa": 28,
+   "src": "partita+ultima"
+  },
+  "Eswatini": {
+   "pool": 22,
+   "call": 22,
+   "rosa": 0,
+   "src": "partita+ultima"
+  },
+  "Belarus": {
+   "pool": 39,
+   "call": 23,
+   "rosa": 39,
+   "src": "partita+ultima"
+  },
+  "Albania": {
+   "pool": 38,
+   "call": 23,
+   "rosa": 27,
+   "src": "partita+ultima"
+  },
+  "Finland": {
+   "pool": 37,
+   "call": 23,
+   "rosa": 25,
+   "src": "partita+ultima"
+  },
+  "San Marino": {
+   "pool": 37,
+   "call": 23,
+   "rosa": 26,
+   "src": "partita+ultima"
+  },
+  "Belgium": {
+   "pool": 36,
+   "call": 24,
+   "rosa": 26,
+   "src": "ultima"
+  },
+  "Italy": {
+   "pool": 58,
+   "call": 23,
+   "rosa": 31,
+   "src": "ultima"
+  },
+  "France": {
+   "pool": 40,
+   "call": 23,
+   "rosa": 26,
+   "src": "ultima"
+  },
+  "Turkiye": {
+   "pool": 41,
+   "call": 23,
+   "rosa": 26,
+   "src": "ultima"
+  },
+  "Croatia": {
+   "pool": 34,
+   "call": 23,
+   "rosa": 33,
+   "src": "ultima"
+  },
+  "Czechia": {
+   "pool": 50,
+   "call": 23,
+   "rosa": 24,
+   "src": "ultima"
+  },
+  "Spain": {
+   "pool": 37,
+   "call": 25,
+   "rosa": 28,
+   "src": "ultima"
+  },
+  "England": {
+   "pool": 41,
+   "call": 23,
+   "rosa": 27,
+   "src": "ultima"
+  },
+  "Faroe Islands": {
+   "pool": 35,
+   "call": 23,
+   "rosa": 25,
+   "src": "partita+ultima"
+  },
+  "Moldova": {
+   "pool": 38,
+   "call": 23,
+   "rosa": 26,
+   "src": "partita+ultima"
+  },
+  "Kazakhstan": {
+   "pool": 44,
+   "call": 23,
+   "rosa": 49,
+   "src": "partita+ultima"
+  },
+  "Slovakia": {
+   "pool": 46,
+   "call": 23,
+   "rosa": 31,
+   "src": "partita+ultima"
+  },
+  "Estonia": {
+   "pool": 38,
+   "call": 23,
+   "rosa": 25,
+   "src": "partita+ultima"
+  },
+  "Bulgaria": {
+   "pool": 42,
+   "call": 23,
+   "rosa": 26,
+   "src": "partita+ultima"
+  },
+  "Iceland": {
+   "pool": 33,
+   "call": 23,
+   "rosa": 23,
+   "src": "partita+ultima"
+  },
+  "Luxembourg": {
+   "pool": 35,
+   "call": 23,
+   "rosa": 25,
+   "src": "partita+ultima"
+  },
+  "Lithuania": {
+   "pool": 45,
+   "call": 24,
+   "rosa": 49,
+   "src": "partita+ultima"
+  },
+  "Liechtenstein": {
+   "pool": 35,
+   "call": 23,
+   "rosa": 41,
+   "src": "partita+ultima"
+  },
+  "Andorra": {
+   "pool": 33,
+   "call": 23,
+   "rosa": 23,
+   "src": "partita+ultima"
+  },
+  "Azerbaijan": {
+   "pool": 45,
+   "call": 22,
+   "rosa": 44,
+   "src": "partita+ultima"
+  },
+  "Germany": {
+   "pool": 56,
+   "call": 23,
+   "rosa": 24,
+   "src": "partita+ultima"
+  },
+  "Netherlands": {
+   "pool": 38,
+   "call": 23,
+   "rosa": 26,
+   "src": "partita+ultima"
+  },
+  "Greece": {
+   "pool": 34,
+   "call": 22,
+   "rosa": 33,
+   "src": "partita+ultima"
+  },
+  "Serbia": {
+   "pool": 49,
+   "call": 23,
+   "rosa": 26,
+   "src": "partita+ultima"
+  },
+  "North Macedonia": {
+   "pool": 42,
+   "call": 23,
+   "rosa": 26,
+   "src": "partita+ultima"
+  },
+  "Slovenia": {
+   "pool": 35,
+   "call": 23,
+   "rosa": 26,
+   "src": "partita+ultima"
+  },
+  "Switzerland": {
+   "pool": 36,
+   "call": 23,
+   "rosa": 28,
+   "src": "partita+ultima"
+  },
+  "Scotland": {
+   "pool": 42,
+   "call": 23,
+   "rosa": 27,
+   "src": "partita+ultima"
+  },
+  "Gibraltar": {
+   "pool": 35,
+   "call": 23,
+   "rosa": 24,
+   "src": "partita+ultima"
+  },
+  "Malta": {
+   "pool": 36,
+   "call": 26,
+   "rosa": 38,
+   "src": "partita+ultima"
+  },
+  "Tahiti": null,
+  "Cook Islands": null,
+  "Malaysia": {
+   "pool": 44,
+   "call": 20,
+   "rosa": 23,
+   "src": "ultima"
+  },
+  "Yemen": {
+   "pool": 24,
+   "call": 0,
+   "rosa": 26,
+   "src": null
+  },
+  "Singapore": {
+   "pool": 32,
+   "call": 24,
+   "rosa": 24,
+   "src": "ultima"
+  },
+  "Brazil": {
+   "pool": 54,
+   "call": 25,
+   "rosa": 25,
+   "src": "ultima"
+  },
+  "China": {
+   "pool": 46,
+   "call": 25,
+   "rosa": 29,
+   "src": "ultima"
+  },
+  "Bahrain": {
+   "pool": 38,
+   "call": 0,
+   "rosa": 26,
+   "src": null
+  },
+  "Kyrgyzstan": null,
+  "Vietnam": {
+   "pool": 29,
+   "call": 0,
+   "rosa": 25,
+   "src": null
+  },
+  "Kuwait": {
+   "pool": 32,
+   "call": 0,
+   "rosa": 25,
+   "src": null
+  },
+  "Honduras": {
+   "pool": 36,
+   "call": 21,
+   "rosa": 46,
+   "src": "ultima"
+  },
+  "Lebanon": {
+   "pool": 24,
+   "call": 0,
+   "rosa": 0,
+   "src": null
+  },
+  "Japan": {
+   "pool": 42,
+   "call": 26,
+   "rosa": 28,
+   "src": "ultima"
+  },
+  "Paraguay": {
+   "pool": 41,
+   "call": 25,
+   "rosa": 26,
+   "src": "ultima"
+  },
+  "Qatar": {
+   "pool": 37,
+   "call": 26,
+   "rosa": 28,
+   "src": "partita+ultima"
+  },
+  "South Korea": {
+   "pool": 44,
+   "call": 26,
+   "rosa": 27,
+   "src": "partita+ultima"
+  },
+  "Saudi Arabia": {
+   "pool": 41,
+   "call": 23,
+   "rosa": 30,
+   "src": "partita+ultima"
+  },
+  "Uzbekistan": {
+   "pool": 42,
+   "call": 26,
+   "rosa": 41,
+   "src": "partita+ultima"
+  },
+  "Jordan": {
+   "pool": 39,
+   "call": 0,
+   "rosa": 28,
+   "src": null
+  },
+  "Australia": {
+   "pool": 45,
+   "call": 24,
+   "rosa": 27,
+   "src": "ultima"
+  },
+  "UAE": {
+   "pool": 34,
+   "call": 25,
+   "rosa": 26,
+   "src": "ultima"
+  },
+  "Syria": {
+   "pool": 36,
+   "call": 0,
+   "rosa": 23,
+   "src": null
+  },
+  "Iraq": {
+   "pool": 40,
+   "call": 0,
+   "rosa": 23,
+   "src": null
+  },
+  "Russia": {
+   "pool": 42,
+   "call": 25,
+   "rosa": 0,
+   "src": "ultima"
+  },
+  "Venezuela": {
+   "pool": 46,
+   "call": 0,
+   "rosa": 0,
+   "src": null
+  },
+  "Argentina": {
+   "pool": 41,
+   "call": 26,
+   "rosa": 28,
+   "src": "partita+ultima"
+  },
+  "Costa Rica": {
+   "pool": 44,
+   "call": 21,
+   "rosa": 36,
+   "src": "partita+ultima"
+  },
+  "Ecuador": {
+   "pool": 37,
+   "call": 26,
+   "rosa": 27,
+   "src": "partita+ultima"
+  },
+  "Bolivia": {
+   "pool": 47,
+   "call": 24,
+   "rosa": 38,
+   "src": "partita+ultima"
+  },
+  "Chile": {
+   "pool": 44,
+   "call": 25,
+   "rosa": 0,
+   "src": "partita+ultima"
+  },
+  "Colombia": {
+   "pool": 50,
+   "call": 26,
+   "rosa": 41,
+   "src": "partita+ultima"
+  },
+  "Uruguay": {
+   "pool": 37,
+   "call": 26,
+   "rosa": 29,
+   "src": "ultima"
+  },
+  "Dominican Republic": {
+   "pool": 29,
+   "call": 0,
+   "rosa": 0,
+   "src": null
+  }
+ },
+ "updated_at": "2026-11-14T15:41:26Z",
+ "partite": 234,
+ "squadre_con_elenco": 147,
+ "minuti": 2.4
+}
