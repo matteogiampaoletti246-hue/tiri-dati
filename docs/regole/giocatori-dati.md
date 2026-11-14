@@ -158,3 +158,8 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 
 ## Scheda giocatore: colori e statistiche dalla prossima partita (regola fissa)
 Banner, tinta e statistiche della scheda giocatore seguono la PROSSIMA partita del giocatore (`nextFixture` su club e nazionale, vince la data piu' vicina): se e' con la nazionale (es. Reguła → Polonia, rosso) si parte dal contesto nazionale (`sc` = lega della nazionale, se l'utente non ha gia' scelto), altrimenti dal club. Vale per tutti i giocatori; la scelta manuale della competizione resta.
+
+## Dopo ogni partita: tutto si aggiorna insieme (15/11/2026, regola fissa)
+- Il cancello `dopo_partita.py` (ogni 5 min) guarda `giorni/<data>.json` (risultati.py, TUTTE le competizioni: Nations League, nazionali, campionati aggiunti, coppe), non solo le 8 del feed del Worker. Una partita finita nuova (fino a 3 giri) avvia `dopo_partita_dati.yml` con gli id delle competizioni: calendario (`calendario.py`), partite extra, archivio partite 2026 con le statistiche dei giocatori (`partite.py`, `ONLY_IDS`, turno 9 che non tocca i segnalini dei turni 0-7), `profili.py --giocatori` (giocatori.json, hit rate), `calc_extra.py`/`matchup_nazionali.py`/`profili.py --calc`, indici (`giocatori_indice.py`, `aurora_indice.py`, `update_ali.py`). Statistiche, classifiche e grafici dello stesso giocatore/squadra arrivano da questo unico giro (prima ognuno aveva il suo orario: update.yml 2 volte al giorno, partite 6 ore, calcolatore 2 ore: Turchia-Belgio del 12/11 era nei grafici dopo 2 giorni).
+- Salvataggio con `git pull --rebase -X theirs`: se un altro workflow ha scritto gli stessi file, valgono i dati appena calcolati.
+

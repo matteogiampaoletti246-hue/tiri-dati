@@ -142,6 +142,8 @@ def run():
     # YEARS="2024,2023": il turno prende solo queste stagioni (gruppi di stagioni in parallelo, cartelle disgiunte); senza YEARS: divisione per indice
     yrs = [y.strip() for y in os.environ.get("YEARS", "").split(",") if y.strip()]
     mine = [u for u in units if u[1][:4] in yrs] if yrs else [u for i, u in enumerate(units) if i % NSHARD == SHARD]
+    only = [x for x in os.environ.get("ONLY_IDS", "").split(",") if x]   # solo queste competizioni (aggiornamento dopo partita)
+    if only: mine = [u for u in mine if str(u[0]) in only]
     capped = False
     fails = 0
     for lid, s in mine:

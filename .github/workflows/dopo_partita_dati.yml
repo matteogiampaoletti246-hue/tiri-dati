@@ -1,0 +1,71 @@
+name: Dopo partita - aggiornamento completo
+# Avviato da "Aggiornamento dopo partita" quando una partita (di qualunque competizione) e' finita: calendario, archivio partite,
+# profili giocatori (hit rate), calcolatore, matchup e indici si aggiornano TUTTI insieme, subito, invece che ognuno al suo orario.
+# ids = id FotMob delle competizioni con partite appena finite (vuoto = tutte quelle della stagione in corso, con budget corto).
+on:
+  workflow_dispatch:
+    inputs:
+      ids:
+        description: "id FotMob delle competizioni (separati da virgola)"
+        required: false
+        default: ""
+concurrency:
+  group: dopo-partita-dati
+  cancel-in-progress: false
+permissions:
+  contents: write
+jobs:
+  dati:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    env:
+      IDS: ${{ github.event.inputs.ids }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CF_ACCOUNT: 344b4f68fd540269085abbf16851253c
+      CF_NAMESPACE: 02759a8a953d423dbd19c58fb8241c34
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Calendari delle competizioni
+        continue-on-error: true
+        timeout-minutes: 8
+        run: ONLY_IDS="$IDS" BUDGET_MIN=6 python3 calendario.py
+      - name: Partite extra
+        continue-on-error: true
+        timeout-minutes: 6
+        run: python extra_partite.py
+      - name: Archivio partite (dettaglio con statistiche dei giocatori)
+        continue-on-error: true
+        timeout-minutes: 15
+        run: |
+          SHARD=9 NSHARD=1 YEARS=2026 CAPN=1 BUDGET_MIN=10 ONLY_IDS="$IDS" python partite.py
+          rm -f partite/.done9 partite/.cap9
+      - name: Profili giocatori e hit rate
+        continue-on-error: true
+        timeout-minutes: 20
+        run: python profili.py --giocatori
+      - name: Calcolatore (campionati aggiunti, nazionali, matchup)
+        continue-on-error: true
+        timeout-minutes: 20
+        run: |
+          python calc_extra.py
+          python matchup_nazionali.py
+          python profili.py --calc
+      - name: Indici
+        continue-on-error: true
+        timeout-minutes: 10
+        run: |
+          python giocatori_indice.py
+          python aurora_indice.py
+          python update_ali.py
+      - name: Salva
+        if: always()
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add arch tidx partite partite_extra.json giocatori.json report/profili_uniti.json report/profili_stato.json cache_giocatori.json calc_extra.json matchup_nazionali.json pidx aurora_indice.json ali.json 2>/dev/null || true
+          git diff --staged --quiet && exit 0
+          git commit -m "Dopo partita: aggiornamento completo (${IDS:-tutte})"
+          for i in 1 2 3 4 5 6; do git pull --rebase -X theirs --autostash && git push && break; sleep $((i*5)); done

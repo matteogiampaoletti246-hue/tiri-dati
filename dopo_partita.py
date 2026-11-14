@@ -38,13 +38,32 @@ def main():
     for i in todo:
         cnt[i] = cnt.get(i, 0) + 1
     st["n"] = {i: cnt[i] for i in sorted(cnt, key=int)[-600:]}
+    # TUTTE le competizioni (Nations League, nazionali, campionati aggiunti, coppe): il feed del Worker ne ha solo 8, ma giorni/<data>.json
+    # (risultati.py, ogni 10 min) le ha tutte. Ogni partita finita nuova avvia l'aggiornamento completo (dopo_partita_dati.yml): calendario,
+    # archivio partite, profili e hit rate, indici; fino a 3 giri per partita (i fornitori mandano i dati con qualche minuto di ritardo).
+    dcnt = st.get("d") or {}
+    fin2 = {}
+    for k in (-1, 0, 1):
+        pg = f"giorni/{(now + timedelta(days=k)).date().isoformat()}.json"
+        try:
+            for r in (json.load(open(pg, encoding="utf-8")).get("m") or []):
+                if len(r) > 8 and r[8] == "f":
+                    fin2[str(r[0])] = str(r[1])
+        except Exception:
+            pass
+    todo2 = [i for i in fin2 if dcnt.get(i, 0) < 3]
+    go2 = bool(todo2)
+    lg = sorted({fin2[i] for i in todo2})[:25]
+    for i in todo2:
+        dcnt[i] = dcnt.get(i, 0) + 1
+    st["d"] = {i: dcnt[i] for i in sorted(dcnt, key=int)[-1500:]}
     st["ts"] = now.isoformat()
-    if go:
+    if go or go2:
         json.dump(st, open(STATE, "w"))
     out = os.environ.get("GITHUB_OUTPUT")
     if out:
-        open(out, "a").write(f"go={'1' if go else '0'}\n")
-    print("go =", int(go))
+        open(out, "a").write(f"go={'1' if go else '0'}\ngo2={'1' if go2 else '0'}\nlg={','.join(lg)}\n")
+    print("go =", int(go), "go2 =", int(go2), "competizioni:", ",".join(lg))
     try:
         json.dump({"ts": now.isoformat(), "finite": len(fin), "da_elaborare": len(todo), "errori": DIAG}, open("dopo_partita_diag.json", "w"))
     except Exception:

@@ -8,6 +8,7 @@ concurrency:
   cancel-in-progress: false
 permissions:
   contents: write
+  actions: write
 jobs:
   rapido:
     runs-on: ubuntu-latest
@@ -20,6 +21,14 @@ jobs:
       - name: Ci sono partite appena finite?
         id: gate
         run: python dopo_partita.py
+      # partita finita in QUALUNQUE competizione (anche Nations League, nazionali, campionati aggiunti): aggiornamento completo e unico di
+      # calendario, archivio partite, profili giocatori / hit rate, calcolatore e indici (prima ognuno aveva il suo orario: da 2 ore a un giorno)
+      - name: Avvia aggiornamento completo
+        if: steps.gate.outputs.go2 == '1'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run dopo_partita_dati.yml --ref main -f ids="${{ steps.gate.outputs.lg }}"
       - name: Partite e voti
         if: steps.gate.outputs.go == '1'
         continue-on-error: true
