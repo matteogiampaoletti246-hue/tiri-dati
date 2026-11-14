@@ -1,0 +1,16 @@
+campionati senza rose: 13
+OneFootball: 46540 squadre in elenco, 9040 nomi
+NO Belarus/Premier League (7/16 nomi univoci)
+NO Sweden/Superettan (4/16 nomi univoci)
+NO Czechia/FNL (7/16 nomi univoci)
+NO Croatia/HNL (4/10 nomi univoci)
+NO Croatia/Croatian Cup (21/48 nomi univoci)
+NO Costa Rica/Primera Division (3/10 nomi univoci)
+NO Faroe Islands/Premier League (1/10 nomi univoci)
+NO Iceland/Besta deildin (4/12 nomi univoci)
+NO Kazakhstan/Premier League (4/16 nomi univoci)
+NO Luxembourg/National Division (4/16 nomi univoci)
+NO North Macedonia/Prva Liga (0/10 nomi univoci)
+NO Panama/LPF (1/12 nomi univoci)
+NO Paraguay/Division Profesional (4/12 nomi univoci)
+totale OK 0 NO 13; mappa: 243 campionati, 2078 squadre
