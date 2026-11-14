@@ -17,7 +17,17 @@ const baseKey = (k) => String(k).split('@')[0];
 export const fmOfKey = (k) => FM_ID[baseKey(k)] || Number((/^fm-(\d+)$/.exec(baseKey(k)) || [])[1]) || 0;
 const isNationKey = (k) => NATION_ALL_KEYS.includes(k);
 // giocatori di una squadra uniti tra le competizioni del gruppo (nazionali o club) presenti nei dati
+// memorizzato per dati/competizione/squadra: ogni giocatore delle formazioni lo rifaceva da capo (e i risultati si leggono soltanto)
+const GP_MEMO = new WeakMap();
 function groupPlayers(data, key, fmTeam) {
+  if (!data || typeof data !== 'object') return groupPlayers0(data, key, fmTeam);
+  let m = GP_MEMO.get(data);
+  if (!m) { m = new Map(); GP_MEMO.set(data, m); }
+  const mk = `${key}|${fmTeam == null ? '' : fmTeam}`;
+  if (!m.has(mk)) m.set(mk, groupPlayers0(data, key, fmTeam));
+  return m.get(mk);
+}
+function groupPlayers0(data, key, fmTeam) {
   const keys = Object.keys(data || {}).filter((k) => (NATIONS_KEYS.includes(key) ? isNationKey(k) : !isNationKey(k)));
   if (!keys.includes(key) && data && data[key]) keys.push(key);
   const out = new Map();
@@ -150,9 +160,17 @@ export function teamFoulStats(data, fmTeam, leagueId, name, stat) {
 }
 
 // media a 90' del campionato per giocatori di movimento con almeno 450' (serve a pesare i duelli)
+const LA_MEMO = new WeakMap();
 export function leaguePlayerAvg(data, key, stat) {
   const L = data && data[key];
   if (!L) return null;
+  let m = LA_MEMO.get(data);
+  if (!m) { m = new Map(); LA_MEMO.set(data, m); }
+  const mk = `${key}|${stat}`;
+  if (!m.has(mk)) m.set(mk, leaguePlayerAvg0(data, key, stat, L));
+  return m.get(mk);
+}
+function leaguePlayerAvg0(data, key, stat, L) {
   let s = 0;
   let m = 0;
   (NATIONS_KEYS.includes(key) ? groupPlayers(data, key) : Object.values(L.players)).forEach((p) => {
@@ -167,9 +185,17 @@ export function leaguePlayerAvg(data, key, stat) {
 // rosa di una squadra con la media a 90' della statistica: tutti tranne i portieri (anche con pochi minuti, per inserirli a mano
 // dopo le formazioni ufficiali); `ok` = almeno DUEL_MIN_MIN minuti, gli unici che il duello automatico puo' scegliere
 export const DUEL_MIN_MIN = 180;
+const RF_MEMO = new WeakMap();
 export function rosterFouls(data, key, fmTeam, stat) {
   const L = data && data[key];
   if (!L || !fmTeam) return [];
+  let m = RF_MEMO.get(data);
+  if (!m) { m = new Map(); RF_MEMO.set(data, m); }
+  const mk = `${key}|${fmTeam}|${stat}`;
+  if (!m.has(mk)) m.set(mk, rosterFouls0(data, key, fmTeam, stat));
+  return m.get(mk);
+}
+function rosterFouls0(data, key, fmTeam, stat) {
   return groupPlayers(data, key, fmTeam)
     .filter((p) => !p.gk)
     .map((p) => {

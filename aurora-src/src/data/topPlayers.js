@@ -1,5 +1,5 @@
 // Migliori giocatori del giorno: stessa formula dell'app originale (Poisson sulla media tiri attesa).
-import { FALLI_KEYS, ROLE_KEYS, autoDuel, falliKeysFor, loadFalli } from './calcRoles';
+import { FALLI_KEYS, ROLE_KEYS, autoDuel, falliKeysFor, indexRoles, loadFalli } from './calcRoles';
 import { RAW } from './load';
 import { PLAYERS } from './players';
 import { teamById, teamByName } from './teams';
@@ -293,14 +293,17 @@ export function playerReliability(p, dateIso, line = 0.5, keepInjured = false, f
 // Stesso calcolo di `loadBestFouls` e del Calcolatore (con duello automatico); ricordato in LRU. Restituisce un voto (0-10) per linea, null se mancano i dati.
 const PFOULS = new Map();
 const FD_MEMO = new Map();
-export function loadPlayerFouls(p, dateIso, lines, stat) {
-  const ck = `${p && p.id}|${dateIso}|${stat}|${lines.join(',')}`;
-  const hit = lruGet(PFOULS, ck);
+// fase di caricamento (file dei falli e dei ruoli, partita, squadre): uguale per le due statistiche e per tutti i giocatori della partita.
+// Si puo' fare in anticipo (`warmFouls`) a pagina ferma: poi scegliendo Falli commessi/subiti restano solo i calcoli, che sono veloci.
+const PREP = new Map();
+function foulPrep(p, dateIso) {
+  const pk = `${p && p.id}|${dateIso}`;
+  const hit = lruGet(PREP, pk);
   if (hit) return hit;
   const job = (async () => {
     const list = ((RAW.giocatori && RAW.giocatori.fix) || {})[p.teamName] || [];
     const f = list.find((x) => romeDay(new Date(x[0]).getTime()) === dateIso);
-    if (!f) return lines.map(() => null);
+    if (!f) return null;
     const base = fillFrom({ ...initialForm(), line: '0,5', lineType: 'over' }, p, 'totali', fxOf(f));
     const team = teamById(base.team.id);
     const opp = teamById(base.opp.id);
@@ -326,6 +329,29 @@ export function loadPlayerFouls(p, dateIso, lines, stat) {
       roleKeys.forEach((k, i) => { if (loadedFl[i]) fl[k] = loadedFl[i]; });
       lruSet(FD_MEMO, rsig, fl, 40);
     }
+    return { f, base, team, opp, fd, fl, roleKeys };
+  })().catch(() => { PREP.delete(pk); return null; });
+  lruSet(PREP, pk, job, 120);
+  return job;
+}
+// `all`: tutti i giocatori della partita; i loro ruoli si leggono una volta sola dagli archivi (invece di una scansione completa per giocatore)
+export const warmFouls = (p, dateIso, all = []) => (p
+  ? foulPrep(p, dateIso).then(async (prep) => {
+    if (!prep || !all.length) return null;
+    const ids = await Promise.all(all.map((x) => resolvePid(x).catch(() => null)));
+    indexRoles(prep.fl, prep.roleKeys, ids.filter(Boolean));
+    return null;
+  }).catch(() => null)
+  : Promise.resolve(null));
+
+export function loadPlayerFouls(p, dateIso, lines, stat) {
+  const ck = `${p && p.id}|${dateIso}|${stat}|${lines.join(',')}`;
+  const hit = lruGet(PFOULS, ck);
+  if (hit) return hit;
+  const job = (async () => {
+    const prep = await foulPrep(p, dateIso);
+    if (!prep) return lines.map(() => null);
+    const { f, base, team, opp, fd, fl, roleKeys } = prep;
     const fmPid = await resolvePid(p).catch(() => null);
     if (!fmPid) return lines.map(() => null);
     const pf = playerFoulsOf(fd, fmPid, p, stat, hitRows);
@@ -336,14 +362,14 @@ export function loadPlayerFouls(p, dateIso, lines, stat) {
     const season = foulSeasonOf(pf);
     const natVals = p.nat && p.club ? pf.natVals : [];
     const last5 = pf.last5.join('-');
-    const du = autoDuel(fd, fl, falliKeysFor(NATIONS_KEYS.includes(f[3])), fmPid, stat, opp && domesticKey(opp.name), fmTeamIn(fd, opp));
+    const du = autoDuel(fd, fl, roleKeys, fmPid, stat, opp && domesticKey(opp.name), fmTeamIn(fd, opp));
     return lines.map((line) => {
       const fo = { last5, min5: pf.min5.join('-'), season, duel: [], natVals, team: comma(ownStats.v, 2), opp: comma(oppStats.v, 2), hitRate: hitFromValues(parseDash(last5), line, 'over') };
       const r = resultFromFouls({ ...base, line: String(line).replace('.', ','), stat, f: fo }, du ? du.avg : null, du ? du.leagueAvg : null, ownStats.avg, oppStats.avg);
       return r.score === null || r.score === undefined ? null : Math.max(0, Math.min(10, r.score));
     });
   })().catch(() => lines.map(() => null));
-  lruSet(PFOULS, ck, job, 30);
+  lruSet(PFOULS, ck, job, 120);
   return job;
 }
 

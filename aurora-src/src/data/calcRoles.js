@@ -65,6 +65,40 @@ export function useFalli(keys) {
 
 // Ripartizione per ruolo avversario dei falli di un giocatore. stat 'fs' = falli subiti (ruoli di chi gli ha fatto fallo),
 // 'fc' = falli commessi (ruoli di chi li ha subiti da lui). `pct` = quota sui falli del giocatore, `rolePct` = quota sui falli totali di quel ruolo nelle sue partite.
+// Partite dei giocatori delle formazioni, lette una sola volta per archivio (`indexRoles`): prima ogni giocatore rileggeva TUTTE le partite degli archivi
+// (decine di ms ciascuno). Si indicizzano solo i giocatori richiesti (la memoria resta quella di prima); gli altri si leggono come sempre.
+const PM_MEMO = new WeakMap();
+export function indexRoles(fl, keys, pids) {
+  if (!fl || !pids || !pids.length) return;
+  let memo = PM_MEMO.get(fl);
+  if (!memo) { memo = {}; PM_MEMO.set(fl, memo); }
+  const id = keys.join('|');
+  const ix = memo[id] || (memo[id] = { idx: new Map(), has: new Set() });
+  const want = new Set(pids.map(String).filter((x) => !ix.has.has(x)));
+  if (!want.size) return;
+  keys.forEach((k) => {
+    const L = fl[k];
+    if (!L) return;
+    Object.values(L.m).forEach((m) => {
+      if (!m || !m.r) return;
+      Object.keys(m.r).forEach((pid) => { if (!want.has(pid)) return; const l = ix.idx.get(pid); if (l) l.push(m); else ix.idx.set(pid, [m]); });
+    });
+  });
+  want.forEach((x) => ix.has.add(x));
+}
+function matchesOfPlayer(fl, keys, pid) {
+  const memo = PM_MEMO.get(fl);
+  const ix = memo && memo[keys.join('|')];
+  if (ix && ix.has.has(pid)) return ix.idx.get(pid) || [];
+  const out = [];
+  keys.forEach((k) => {
+    const L = fl[k];
+    if (!L) return;
+    Object.values(L.m).forEach((m) => { if (m && m.r && m.r[pid]) out.push(m); });
+  });
+  return out;
+}
+
 export function roleBreakdown(fl, keys, fmPid, stat) {
   if (!fl || !fmPid) return null;
   const pid = String(fmPid);
@@ -72,23 +106,18 @@ export function roleBreakdown(fl, keys, fmPid, stat) {
   const den = {};
   let tot = 0;
   let games = 0;
-  keys.forEach((k) => {
-    const L = fl[k];
-    if (!L) return;
-    Object.values(L.m).forEach((m) => {
-      const me = m && m.r && m.r[pid];
-      if (!me) return;
-      games += 1;
-      const opp = 1 - me[1];
-      (m.p || []).forEach(([a, b]) => {
-        const ra = m.r[a];
-        const rb = m.r[b];
-        if (!ra || !rb) return;
-        const other = stat === 'fs' ? ra : rb;
-        if (other[1] !== opp) return;
-        den[other[0]] = (den[other[0]] || 0) + 1;
-        if (String(stat === 'fs' ? b : a) === pid) { cnt[other[0]] = (cnt[other[0]] || 0) + 1; tot += 1; }
-      });
+  matchesOfPlayer(fl, keys, pid).forEach((m) => {
+    const me = m.r[pid];
+    games += 1;
+    const opp = 1 - me[1];
+    (m.p || []).forEach(([a, b]) => {
+      const ra = m.r[a];
+      const rb = m.r[b];
+      if (!ra || !rb) return;
+      const other = stat === 'fs' ? ra : rb;
+      if (other[1] !== opp) return;
+      den[other[0]] = (den[other[0]] || 0) + 1;
+      if (String(stat === 'fs' ? b : a) === pid) { cnt[other[0]] = (cnt[other[0]] || 0) + 1; tot += 1; }
     });
   });
   if (!tot) return null;

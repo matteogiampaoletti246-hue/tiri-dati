@@ -13,7 +13,7 @@ import { playerById, playerByFm, playersByTeam } from '@/data/players';
 import { openPanel, matchStarted } from '@/data/playerPanel';
 import { ourPlayerId, openPlayer } from '@/data/playerSheet';
 import { injuryOf, isOutOn } from '@/data/injuries';
-import { playerReliability, loadPlayerFouls, TOP_STATS } from '@/data/topPlayers';
+import { playerReliability, loadPlayerFouls, warmFouls, TOP_STATS } from '@/data/topPlayers';
 import { flagCodeOf } from '@/data/referees';
 import { scoreColorSmooth } from '@/lib/calc';
 import { comma } from '@/lib/format';
@@ -344,40 +344,58 @@ export default function Formazioni({ C, match, view, home, away, pre, openRoute 
   const foulsDone = useRef({}); // statistiche dei falli gia' calcolate per tutti i giocatori (non si rifanno cambiando statistica e tornando)
   const players = [lh, la].flatMap((l) => (l ? [...(l.xi || []), ...(l.bench || [])] : []));
   const pk = players.map((p) => p.playerId).join(',');
+  // file dei falli e dei ruoli caricati in anticipo (a pagina ferma, senza calcolare nulla) appena si apre una partita non iniziata: scegliendo Falli commessi/subiti
+  // restano solo i calcoli e i voti compaiono in 1-2 s tutti insieme
+  useEffect(() => {
+    if (!pre || !pk) return undefined;
+    let on = true;
+    let tm = 0;
+    const h = InteractionManager.runAfterInteractions(() => {
+      tm = setTimeout(() => {
+        if (!on) return;
+        const all = players.map((p) => plOf(p, match)).filter((x) => x && !isOutOn(x.id, match.date));
+        [lh, la].forEach((l, i) => {
+          const first = l ? (l.xi || []).map((p) => plOf(p, match)).find((x) => x && !isOutOn(x.id, match.date)) : null;
+          if (first) warmFouls(first, match.date, i === 0 ? all : []);
+        });
+      }, 350);
+    });
+    return () => { on = false; clearTimeout(tm); h.cancel(); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pre, pk]);
   // voti dei falli (commessi e subiti): si calcolano SUBITO all'apertura delle formazioni, uno dopo l'altro (prima quello scelto), non quando si cambia statistica:
   // cambiando statistica o linea i voti sono gia' pronti e si aggiornano all'istante con l'animazione (prima 7-8 s di caricamento file e calcolo)
   useEffect(() => {
     // solo quando si sceglie davvero Falli commessi/subiti: all'apertura (o con la pagina solo vicina) non parte nessun calcolo, la Home e i tasti restano liberi
     if (!pre || !isF) return undefined;
     let on = true;
-    const order = [stat];
+    const order = [stat, stat === 'fc' ? 'fs' : 'fc']; // prima quella scelta, poi l'altra: passando da Commessi a Subiti i voti sono gia' pronti
     const start = InteractionManager.runAfterInteractions(async () => {
-      await new Promise((r) => setTimeout(r, 50));
       for (const k of order) {
         if (!on) return;
         if (foulsDone.current[k]) continue;
-        // pochi giocatori alla volta con una pausa in mezzo: il calcolo non blocca mai il tocco dei tasti (statistica e linea rispondono subito);
-        // i voti compaiono a ogni gruppo (gli altri restano scheletri), non tutti insieme alla fine
+        // con i file gia' caricati (`warmFouls`) ogni giocatore costa pochi ms: a blocchi di 8 con una pausa breve il tocco resta libero;
+        // i voti di TUTTI i giocatori compaiono insieme (un solo aggiornamento), finche' non sono pronti restano gli scheletri
         const m = {};
         try {
-          for (let i = 0; i < players.length && on; i += 3) {
-            const grp = players.slice(i, i + 3);
+          const rows = [];
+          for (let i = 0; i < players.length && on; i += 8) {
             // eslint-disable-next-line no-await-in-loop
-            await new Promise((r) => setTimeout(r, 40));
+            await new Promise((r) => setTimeout(r, 12));
             // eslint-disable-next-line no-await-in-loop
-            const got = await Promise.all(grp.map((p) => {
+            rows.push(...(await Promise.all(players.slice(i, i + 8).map((p) => {
               const pl = plOf(p, match);
               return pl && !isOutOn(pl.id, match.date) ? loadPlayerFouls(pl, match.date, FOUL_LINES, k).catch(() => null) : Promise.resolve(null);
-            }));
-            if (!on) return;
-            grp.forEach((p, j) => { m[p.playerId] = got[j]; });
-            setFouls((f) => ({ ...f, [k]: { ...m } }));
+            }))));
           }
+          if (!on) return;
+          players.forEach((p, i) => { m[p.playerId] = rows[i]; });
+          setFouls((f) => ({ ...f, [k]: m }));
         } catch (e) {
           // calcolo fallito: gli scheletri non restano per sempre, chi non ha voto non mostra niente
           if (!on) return;
-          players.forEach((p) => { if (!(p.playerId in m)) m[p.playerId] = null; });
-          setFouls((f) => ({ ...f, [k]: { ...m } }));
+          players.forEach((p) => { m[p.playerId] = null; });
+          setFouls((f) => ({ ...f, [k]: m }));
         }
         if (!on) return;
         foulsDone.current[k] = true;
