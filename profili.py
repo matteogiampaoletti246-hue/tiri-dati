@@ -245,6 +245,9 @@ def main():
                 CLUB.add(str(tid))
             if str(tid) in team_days:
                 fteam_name[str(tid)] = v[0]
+    # 15/11/2026 (su richiesta dell'utente): nel grafico Hit Rate "Tutte le competizioni" e nelle ultime 5 entrano anche le partite con la NAZIONALE
+    # (Nations League, qualificazioni, amichevoli: righe 'o'). Medie di campionato/coppe, campionato dominante e stagione passata restano del solo club.
+    frows_all = {pid: list(v) for pid, v in frows.items()}
     for pid in list(frows):
         frows[pid] = [x for x in frows[pid] if x[2] in CLUB]
     for fm, sk in CUR.items():
@@ -453,7 +456,7 @@ def main():
             is_cup = x[1] in ("champions-league", "europa-league")
             cur.append({"d": x[0], "k": "c" if is_cup else "l", "min": x[3], "sh": x[4], "so": x[5], "fo": None, "fs": None, "fm": 42 if x[1] == "champions-league" else 73 if x[1] == "europa-league" else dl})
         if fid:
-            fr = sorted((x for x in frows_of(fid) if x[0] >= cut), key=lambda x: x[0], reverse=True)
+            fr = sorted((x for x in (frows_all.get(str(fid)) or []) if x[0] >= cut), key=lambda x: x[0], reverse=True)
             for x in fr:
                 # stessa giornata = stessa partita: dalla partita FotMob si prendono solo i falli
                 same = next((c for c in cur if abs((c["d"] - x[0]).days) <= 1 and c["fo"] is None), None)
