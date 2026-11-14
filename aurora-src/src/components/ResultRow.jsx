@@ -3,7 +3,7 @@ import TeamLink from './TeamLink';
 import { teamById } from '@/data/teams';
 import { longDate } from '@/lib/format';
 
-const RES = { V: 'badge-v', S: 'badge-s', P: 'badge-p' };
+const RES = { V: 'badge-v', P: 'badge-s', S: 'badge-p' };
 
 export default function ResultRow({ match, teamId, divider = true }) {
   const home = teamById(match.homeId);
@@ -13,7 +13,7 @@ export default function ResultRow({ match, teamId, divider = true }) {
   const done = Array.isArray(match.score);
   const gf = done ? (isHome ? match.score[0] : match.score[1]) : null;
   const ga = done ? (isHome ? match.score[1] : match.score[0]) : null;
-  const res = done ? (gf > ga ? 'V' : gf === ga ? 'S' : 'P') : null;
+  const res = done ? (gf > ga ? 'V' : gf === ga ? 'P' : 'S') : null;
   const [y, mo, da] = String(match.date).split('-').map(Number);
   const label = longDate(new Date(y, mo - 1, da));
 

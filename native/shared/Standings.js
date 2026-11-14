@@ -146,8 +146,8 @@ const formOf = (season) => {
     const sc = String(m[5] || '').split(' - ').map(Number);
     if (sc.length !== 2 || sc.some(Number.isNaN)) return;
     const [h, a] = sc;
-    (res[m[2]] = res[m[2]] || []).push(h > a ? 'V' : h === a ? 'S' : 'P');
-    (res[m[3]] = res[m[3]] || []).push(a > h ? 'V' : h === a ? 'S' : 'P');
+    (res[m[2]] = res[m[2]] || []).push(h > a ? 'V' : h === a ? 'P' : 'S');
+    (res[m[3]] = res[m[3]] || []).push(a > h ? 'V' : h === a ? 'P' : 'S');
   });
   return res;
 };
@@ -157,7 +157,7 @@ function ArchTable({ C, t: t0, legendSrc, title, mode, fm5, fm, sk, highlight, l
   const fg = freshGroup(lt, t0);
   const t = fg ? fg.t : t0;
   const src = forma
-    ? (t.all || []).map((r) => { const f = (fm5[r.id] || []).slice(-5); return { ...r, f, fp: f.reduce((x, c) => x + (c === 'V' ? 3 : c === 'S' ? 1 : 0), 0) }; }).sort((a, b) => b.fp - a.fp || b.pts - a.pts)
+    ? (t.all || []).map((r) => { const f = (fm5[r.id] || []).slice(-5); return { ...r, f, fp: f.reduce((x, c) => x + (c === 'V' ? 3 : c === 'P' ? 1 : 0), 0) }; }).sort((a, b) => b.fp - a.fp || b.pts - a.pts)
     : orderRows(fg ? applyLive(t[mode] || t.all || [], fg.live || lt.live, mode === 'all' ? 'all' : mode) : (t[mode] || t.all || []));
   const rows = src.map((r, i) => ({ key: r.id, rank: forma ? i + 1 : r.idx || i + 1, mv: r.mv, name: r.shortName || r.name, logo: <TeamLogoN id={r.id} name={r.shortName || r.name} size={22} C={C} />, played: r.played, won: r.wins, drawn: r.draws, lost: r.losses, gfga: String(r.scoresStr || '').replace('-', ':'), pts: r.pts, lv: r.lv, zone: r.qualColor || null, form: r.f, fp: r.fp, to: `/storico/${fm}/${sk}/squadra/${r.id}` }));
   const legend = (t.all || []).some((r) => r.qualColor) ? (legendSrc || []).map((l) => ({ label: l.title, color: l.color })) : [];

@@ -217,8 +217,8 @@ export function buildMatches() {
   MATCHES.filter((m) => m.status === 'finished' && m.score).forEach((m) => {
     const [sh, sa] = m.score;
     const push = (id, res) => (TEAM_FORM[id] = TEAM_FORM[id] || []).push(res);
-    push(m.homeId, sh > sa ? 'V' : sh === sa ? 'S' : 'P');
-    push(m.awayId, sa > sh ? 'V' : sh === sa ? 'S' : 'P');
+    push(m.homeId, sh > sa ? 'V' : sh === sa ? 'P' : 'S');
+    push(m.awayId, sa > sh ? 'V' : sh === sa ? 'P' : 'S');
   });
   DAY_IDX = null;
 }

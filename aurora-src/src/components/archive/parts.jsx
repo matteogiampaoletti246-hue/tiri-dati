@@ -99,9 +99,9 @@ export function ArchRow({ m, names, fm, sk, tid = null }) {
         if (hasScore) {
           const h = Number(sc[0]); const a = Number(sc[1]);
           const mine = String(m[2]) === String(tid) ? [h, a] : [a, h];
-          res = mine[0] > mine[1] ? 'V' : mine[0] === mine[1] ? 'S' : 'P';
+          res = mine[0] > mine[1] ? 'V' : mine[0] === mine[1] ? 'P' : 'S';
         }
-        const col = { V: '#1FA45B', S: '#8A93A6', P: '#E0443A' }[res];
+        const col = { V: '#1FA45B', P: '#8A93A6', S: '#E0443A' }[res];
         return <span className="flex h-[20px] w-[20px] shrink-0 items-center justify-center rounded-full text-[10.5px] font-extrabold" style={{ background: col || 'transparent', color: '#fff' }}>{res || ''}</span>;
       })() : null}
     </Link>
@@ -118,8 +118,8 @@ const formOf = (season) => {
     const sc = String(m[5] || '').split(' - ').map(Number);
     if (sc.length !== 2 || sc.some(Number.isNaN)) return;
     const [h, a] = sc;
-    (res[m[2]] = res[m[2]] || []).push(h > a ? 'V' : h === a ? 'S' : 'P');
-    (res[m[3]] = res[m[3]] || []).push(a > h ? 'V' : h === a ? 'S' : 'P');
+    (res[m[2]] = res[m[2]] || []).push(h > a ? 'V' : h === a ? 'P' : 'S');
+    (res[m[3]] = res[m[3]] || []).push(a > h ? 'V' : h === a ? 'P' : 'S');
   });
   return res;
 };
@@ -156,7 +156,7 @@ function StandingsTable({ t: t0, legendSrc, title, mode, fm5, fm, sk, highlight,
   const fg = freshGroup(lt, t0);
   const t = fg ? fg.t : t0;
   const rows = forma
-    ? (t.all || []).map((r) => { const f = (fm5[r.id] || []).slice(-5); return { ...r, f, fp: f.reduce((x, c) => x + (c === 'V' ? 3 : c === 'S' ? 1 : 0), 0) }; }).sort((a, b) => b.fp - a.fp || b.pts - a.pts)
+    ? (t.all || []).map((r) => { const f = (fm5[r.id] || []).slice(-5); return { ...r, f, fp: f.reduce((x, c) => x + (c === 'V' ? 3 : c === 'P' ? 1 : 0), 0) }; }).sort((a, b) => b.fp - a.fp || b.pts - a.pts)
     : orderRows(fg ? applyLive(t[mode] || t.all || [], fg.live || lt.live, mode === 'all' ? 'all' : mode) : (t[mode] || t.all || []));
   if (!rows.length) return null;
   // la leggenda c'e' solo se le righe hanno davvero le lineette colorate

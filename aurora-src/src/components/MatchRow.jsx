@@ -9,7 +9,7 @@ let pf = 0;
 const warm = (id) => { clearTimeout(pf); pf = setTimeout(() => prepareMatch(id), 90); };
 const cool = () => clearTimeout(pf);
 
-const RC = { V: '#1FA45B', S: '#8A93A6', P: '#E0443A' };
+const RC = { V: '#1FA45B', P: '#8A93A6', S: '#E0443A' };
 const conceptRes = () => { try { return localStorage.getItem('sl-concept-rowres') || 'a'; } catch { return 'a'; } };
 
 export default function MatchRow({ match, teamId = null, concept = 'c' }) {
@@ -24,7 +24,7 @@ export default function MatchRow({ match, teamId = null, concept = 'c' }) {
   if (teamId && finished && hasScore) {
     const gf = m.homeId === teamId ? m.score[0] : m.score[1];
     const ga = m.homeId === teamId ? m.score[1] : m.score[0];
-    res = gf > ga ? 'V' : gf === ga ? 'S' : 'P';
+    res = gf > ga ? 'V' : gf === ga ? 'P' : 'S';
   }
   const rc = res ? RC[res] : null;
   const rowStyle = !rc ? undefined : concept === 'b'

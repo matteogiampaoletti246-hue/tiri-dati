@@ -6,8 +6,8 @@ import { recentMatches } from '@/data/extras';
 import { teamById } from '@/data/teams';
 import { Link } from 'react-router-dom';
 
-const COL = { V: '#1FA45B', S: '#8A93A6', P: '#E0443A' };
-const PTS = { V: 3, S: 1, P: 0 };
+const COL = { V: '#1FA45B', P: '#8A93A6', S: '#E0443A' };
+const PTS = { V: 3, P: 1, S: 0 };
 // Forma: le ultime 5 partite della squadra in TUTTE le competizioni (non solo in quella della partita), prima di questa partita.
 // Fonti unite senza doppioni: partite in memoria (tutte le competizioni dell'app) e calendario archiviato della stagione
 // (competizione della partita e campionato della squadra: recentOf, preparato in prepareMatch). Per le partite di stagioni passate
@@ -29,13 +29,13 @@ const resOf = (m, teamId) => {
   const isHome = m.homeId === teamId;
   const gf = isHome ? m.score[0] : m.score[1];
   const ga = isHome ? m.score[1] : m.score[0];
-  return { r: gf > ga ? 'V' : gf === ga ? 'S' : 'P', gf, ga, opp: teamById(isHome ? m.awayId : m.homeId), isHome };
+  return { r: gf > ga ? 'V' : gf === ga ? 'P' : 'S', gf, ga, opp: teamById(isHome ? m.awayId : m.homeId), isHome };
 };
 
 function summary(form) {
   const v = form.filter((x) => x === 'V').length;
-  const s = form.filter((x) => x === 'S').length;
-  const p = form.filter((x) => x === 'P').length;
+  const s = form.filter((x) => x === 'P').length;
+  const p = form.filter((x) => x === 'S').length;
   return { v, s, p, pts: form.reduce((a, x) => a + (PTS[x] || 0), 0) };
 }
 

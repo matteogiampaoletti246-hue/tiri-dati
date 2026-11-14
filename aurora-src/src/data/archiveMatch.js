@@ -189,7 +189,7 @@ function enrich(m, fm, sk, season, det, tmap, cur) {
     const home = x.homeId === teamId;
     const gf = home ? x.score[0] : x.score[1];
     const ga = home ? x.score[1] : x.score[0];
-    return gf > ga ? 'V' : gf === ga ? 'S' : 'P';
+    return gf > ga ? 'V' : gf === ga ? 'P' : 'S';
   });
   const d = det && det.m && det.m[String(m.archive.mid)];
   if (d && d.i) {

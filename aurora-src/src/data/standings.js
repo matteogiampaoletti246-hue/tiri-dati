@@ -33,7 +33,7 @@ function buildTable(leagueId, mode) {
     if (mode !== 'home') apply(rows[m.awayId], sa, sh);
   });
 
-  const formPoints = (id) => teamForm(id).reduce((a, r) => a + (r === 'V' ? 3 : r === 'S' ? 1 : 0), 0);
+  const formPoints = (id) => teamForm(id).reduce((a, r) => a + (r === 'V' ? 3 : r === 'P' ? 1 : 0), 0);
   const list = Object.values(rows)
     .filter((r) => teamById(r.teamId))
     .map((row) => ({ ...row, dr: row.gf - row.ga, form: teamForm(row.teamId), formPoints: formPoints(row.teamId) }));

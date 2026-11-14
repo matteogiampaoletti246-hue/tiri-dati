@@ -35,9 +35,9 @@ export function FormDots({ C, form = [], size = 13 }) {
   return (
     <View style={{ flexDirection: 'row', gap: 5 }}>
       {form.map((r, i) => {
-        const col = r === 'V' ? C.good : r === 'P' ? C.bad : C.ink3;
+        const col = r === 'V' ? C.good : r === 'S' ? C.bad : C.ink3;
         return (
-          <View key={i} style={{ width: size, height: size, borderRadius: size / 2, alignItems: 'center', justifyContent: 'center', backgroundColor: r === 'V' ? `${C.good}2E` : r === 'P' ? `${C.bad}29` : C.chip }}>
+          <View key={i} style={{ width: size, height: size, borderRadius: size / 2, alignItems: 'center', justifyContent: 'center', backgroundColor: r === 'V' ? `${C.good}2E` : r === 'S' ? `${C.bad}29` : C.chip }}>
             <Text style={{ color: col, fontSize: Math.round(size * 0.62), fontWeight: '700' }}>{r}</Text>
           </View>
         );

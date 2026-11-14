@@ -320,7 +320,7 @@ export function RefereeCard({ C, match, openRoute }) {
 }
 
 // ── Forma: ultime 5 partite della squadra in tutte le competizioni, prima di questa partita.
-const PTS = { V: 3, S: 1, P: 0 };
+const PTS = { V: 3, P: 1, S: 0 };
 const keyOf = (m) => `${m.date}|${[m.homeId, m.awayId].sort().join('|')}`;
 const recentOfMatch = (match, id) => {
   const seen = new Set();
@@ -335,14 +335,14 @@ const resOf = (m, teamId) => {
   const isHome = m.homeId === teamId;
   const gf = isHome ? m.score[0] : m.score[1];
   const ga = isHome ? m.score[1] : m.score[0];
-  return { r: gf > ga ? 'V' : gf === ga ? 'S' : 'P', gf, ga, opp: teamById(isHome ? m.awayId : m.homeId) };
+  return { r: gf > ga ? 'V' : gf === ga ? 'P' : 'S', gf, ga, opp: teamById(isHome ? m.awayId : m.homeId) };
 };
 const MON = ['gen', 'feb', 'mar', 'apr', 'mag', 'giu', 'lug', 'ago', 'set', 'ott', 'nov', 'dic'];
 
 export function FormCard({ C, match, home, away, openRoute }) {
   const sides = [{ team: home, id: match.homeId }, { team: away, id: match.awayId }].filter(({ id }) => recentOfMatch(match, id).some((m) => resOf(m, id)));
   if (!sides.length) return null;
-  const COL = { V: C.good, S: C.ink3, P: C.bad };
+  const COL = { V: C.good, P: C.ink3, S: C.bad };
   return (
     <Panel C={C} style={{ marginHorizontal: 16, paddingHorizontal: 16, paddingVertical: 14 }}>
       <TitleRow C={C}>Forma recente</TitleRow>

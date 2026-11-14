@@ -1,4 +1,4 @@
-const CLASS = { V: 'badge-v', P: 'badge-p', S: 'badge-s' };
+const CLASS = { V: 'badge-v', P: 'badge-s', S: 'badge-p' };
 
 export default function FormDots({ form = [], size = 16 }) {
   return (

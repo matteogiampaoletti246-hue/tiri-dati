@@ -13,7 +13,7 @@ let pf = 0;
 const warm = (id) => { clearTimeout(pf); pf = setTimeout(() => prepareMatch(id), 90); };
 const cool = () => clearTimeout(pf);
 
-export const resColor = (C, r) => (r === 'V' ? C.good : r === 'P' ? C.bad : C.ink3);
+export const resColor = (C, r) => (r === 'V' ? C.good : r === 'S' ? C.bad : C.ink3);
 
 function Shell({ C, home, away, centre, res, to, openRoute, warmId }) {
   return (
@@ -43,7 +43,7 @@ export const MatchRowN = memo(({ C, match, teamId = null, openRoute }) => {
   if (teamId && finished && hasScore) {
     const gf = m.homeId === teamId ? m.score[0] : m.score[1];
     const ga = m.homeId === teamId ? m.score[1] : m.score[0];
-    res = gf > ga ? 'V' : gf === ga ? 'S' : 'P';
+    res = gf > ga ? 'V' : gf === ga ? 'P' : 'S';
   }
   const centre = (
     <>
@@ -71,7 +71,7 @@ export const ArchRowN = memo(({ C, m, names, fm, sk, tid = null, openRoute }) =>
   if (hasScore && tid != null) {
     const h = Number(sc[0]); const a = Number(sc[1]);
     const mine = String(m[2]) === String(tid) ? [h, a] : [a, h];
-    res = mine[0] > mine[1] ? 'V' : mine[0] === mine[1] ? 'S' : 'P';
+    res = mine[0] > mine[1] ? 'V' : mine[0] === mine[1] ? 'P' : 'S';
   }
   const id = `a-${fm}-${sk}-${m[0]}`;
   const centre = hasScore ? <Text style={{ color: C.ink, fontSize: 15.5, fontWeight: '800', fontVariant: ['tabular-nums'] }}>{sc[0]}<Text style={{ color: C.ink3, fontWeight: '500' }}> – </Text>{sc[1]}</Text>
