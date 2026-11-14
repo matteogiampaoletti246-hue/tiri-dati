@@ -1,67 +1,43 @@
 {
- "squadre": 435,
+ "squadre": 372,
  "nazionali": 94,
- "club": 341,
+ "club": 278,
  "dettaglio_nazionali": {
-  "Kosovo": {
-   "pool": 36,
-   "call": 26,
-   "rosa": 26,
-   "src": "partita+rosa"
-  },
-  "Israel": {
-   "pool": 37,
-   "call": 26,
-   "rosa": 26,
-   "src": "partita+rosa"
-  },
-  "Palestine": {
-   "pool": 29,
-   "call": 19,
-   "rosa": 19,
-   "src": "partita+rosa"
-  },
-  "Iran": {
-   "pool": 41,
-   "call": 36,
-   "rosa": 26,
-   "src": "partita+rosa"
-  },
   "Norway": {
-   "pool": 30,
-   "call": 24,
-   "rosa": 24,
-   "src": "rosa"
+   "pool": 33,
+   "call": 26,
+   "rosa": 26,
+   "src": "partita+ultima+rosa"
   },
   "Wales": {
-   "pool": 36,
-   "call": 26,
-   "rosa": 26,
-   "src": "rosa"
-  },
-  "Georgia": {
-   "pool": 36,
-   "call": 26,
-   "rosa": 26,
-   "src": "rosa"
-  },
-  "Hungary": {
-   "pool": 36,
+   "pool": 39,
    "call": 27,
    "rosa": 27,
-   "src": "rosa"
+   "src": "partita+ultima+rosa"
+  },
+  "Georgia": {
+   "pool": 39,
+   "call": 27,
+   "rosa": 27,
+   "src": "partita+ultima+rosa"
+  },
+  "Hungary": {
+   "pool": 40,
+   "call": 27,
+   "rosa": 27,
+   "src": "partita+ultima+rosa"
   },
   "Portugal": {
    "pool": 32,
-   "call": 28,
+   "call": 29,
    "rosa": 28,
-   "src": "rosa"
+   "src": "partita+rosa"
   },
   "Denmark": {
    "pool": 38,
    "call": 24,
    "rosa": 24,
-   "src": "rosa"
+   "src": "partita+rosa"
   },
   "Northern Ireland": {
    "pool": 34,
@@ -77,39 +53,39 @@
   },
   "Austria": {
    "pool": 38,
-   "call": 25,
+   "call": 28,
    "rosa": 25,
-   "src": "rosa"
+   "src": "partita+rosa"
   },
   "Ireland": {
    "pool": 43,
-   "call": 23,
+   "call": 24,
    "rosa": 23,
-   "src": "rosa"
+   "src": "partita+rosa"
   },
   "Romania": {
    "pool": 43,
    "call": 26,
    "rosa": 26,
-   "src": "rosa"
+   "src": "partita+rosa"
   },
   "Poland": {
    "pool": 38,
-   "call": 25,
+   "call": 26,
    "rosa": 25,
-   "src": "rosa"
+   "src": "partita+rosa"
   },
   "Sweden": {
    "pool": 42,
    "call": 25,
    "rosa": 25,
-   "src": "rosa"
+   "src": "partita+rosa"
   },
   "Bosnia and Herzegovina": {
    "pool": 33,
    "call": 26,
    "rosa": 26,
-   "src": "rosa"
+   "src": "partita+rosa"
   },
   "New Zealand": {
    "pool": 38,
@@ -426,6 +402,12 @@
    "rosa": 0,
    "src": null
   },
+  "Palestine": {
+   "pool": 32,
+   "call": 19,
+   "rosa": 19,
+   "src": "ultima+rosa"
+  },
   "Japan": {
    "pool": 42,
    "call": 28,
@@ -492,6 +474,12 @@
    "rosa": 23,
    "src": "rosa"
   },
+  "Iran": {
+   "pool": 46,
+   "call": 36,
+   "rosa": 26,
+   "src": "ultima+rosa"
+  },
   "Russia": {
    "pool": 42,
    "call": 25,
@@ -503,6 +491,18 @@
    "call": 0,
    "rosa": 0,
    "src": null
+  },
+  "Israel": {
+   "pool": 36,
+   "call": 26,
+   "rosa": 26,
+   "src": "ultima+rosa"
+  },
+  "Kosovo": {
+   "pool": 37,
+   "call": 26,
+   "rosa": 26,
+   "src": "ultima+rosa"
   },
   "Argentina": {
    "pool": 41,
@@ -553,8 +553,8 @@
    "src": null
   }
  },
- "updated_at": "2026-11-14T15:44:21Z",
- "partite": 234,
- "squadre_con_elenco": 159,
- "minuti": 1.3
+ "updated_at": "2026-11-14T19:03:23Z",
+ "partite": 199,
+ "squadre_con_elenco": 154,
+ "minuti": 2.7
 }
