@@ -126,7 +126,7 @@ function DayList({ C, day, idx, thr, stat, active, takeAnim, onGo, openRoute, bo
     const run = () => {
       const r = bestPlayers(day, thr, stat);
       if (r) { if (live) setRows(r); return; }
-      if (isFoulStat(stat)) loadBestFouls(day, thr, stat).then(() => { if (live) setRows(bestPlayers(day, thr, stat) || []); }).catch(() => { if (live) setRows([]); });
+      if (isFoulStat(stat)) loadBestFouls(day, thr, stat, active).then(() => { if (live) setRows(bestPlayers(day, thr, stat) || []); }).catch(() => { if (live) setRows([]); });
       else if (live) setRows([]);
     };
     let h; const t = setTimeout(() => { if (active) run(); else h = InteractionManager.runAfterInteractions(run); }, active ? 20 : 1600);

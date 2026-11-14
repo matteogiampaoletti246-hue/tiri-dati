@@ -186,14 +186,27 @@ export function bestPlayers(day, threshold, stat = 'tiri') {
 // I dati arrivano dalle partite della stagione (calcFouls), quindi la classifica si prepara a parte e si ricorda (LRU).
 const PENDING = new Map();
 const pause = () => new Promise((r) => setTimeout(r, 0));
-export function loadBestFouls(day, threshold, stat) {
+// un calcolo alla volta (i giorni vicini non si sommano al giorno aperto: 7 calcoli insieme riempivano la memoria dell'iPhone), quello del giorno aperto passa avanti
+const QUEUE = [];
+let BUSY = false;
+const pump = () => {
+  if (BUSY || !QUEUE.length) return;
+  BUSY = true;
+  const it = QUEUE.shift();
+  it.fn().then(it.ok, it.ko).then(() => { BUSY = false; pump(); });
+};
+export function loadBestFouls(day, threshold, stat, urgent = false) {
   const line = parseFloat(threshold);
   const ck = `${day}|${line}|${stat}`;
   const hit = lruGet(CACHE, ck);
   if (hit) return Promise.resolve(hit);
   const run = lruGet(PENDING, ck);
-  if (run) return run;
-  const job = (async () => {
+  if (run) {
+    const q = QUEUE.findIndex((x) => x.ck === ck);
+    if (urgent && q > 0) QUEUE.unshift(...QUEUE.splice(q, 1)); // gia' in coda: ora serve subito
+    return run;
+  }
+  const compute = async () => {
     const lineStr = String(line).replace('.', ',');
     const oppStat = stat === 'fc' ? 'fs' : 'fc';
     // stessi filtri dei tiri: almeno 3 presenze e minuti medi sufficienti
@@ -207,13 +220,19 @@ export function loadBestFouls(day, threshold, stat) {
     const loaded = await Promise.all(all.map(loadFouls));
     const DATA = {};
     all.forEach((k, i) => { if (loaded[i]) DATA[k] = loaded[i]; });
-    const loadedFl = await Promise.all(ROLE_KEYS.map(loadFalli));
-    const FLD = {};
-    ROLE_KEYS.forEach((k, i) => { if (loadedFl[i]) FLD[k] = loadedFl[i]; });
     const out = [];
-    for (let i = 0; i < list.length; i += 1) {
+    // ruoli e duello: club e nazionali a gruppi separati, ognuno con i soli archivi che gli servono (come `loadPlayerFouls`). Tutti i ~30 archivi insieme
+    // (file enormi, cache 16) riempivano la memoria: su iPhone il calcolo falliva e Falli commessi/subiti restavano vuoti.
+    for (const nation of [false, true]) {
+      const part = list.filter(({ f }) => NATIONS_KEYS.includes(f[3]) === nation);
+      if (!part.length) continue;
+      const roleKeys = falliKeysFor(nation);
+      const loadedFl = await Promise.all(roleKeys.map(loadFalli));
+      const FLD = {};
+      roleKeys.forEach((k, i) => { if (loadedFl[i]) FLD[k] = loadedFl[i]; });
+    for (let i = 0; i < part.length; i += 1) {
       if (i % 25 === 24) await pause(); // la pagina resta reattiva mentre si calcola
-      const { p, f, base, team, opp, keys } = list[i];
+      const { p, f, base, team, opp, keys } = part[i];
       const fd = {};
       keys.forEach((k) => { if (DATA[k]) fd[k] = DATA[k]; });
       const fmPid = await resolvePid(p).catch(() => null);
@@ -239,12 +258,18 @@ export function loadBestFouls(day, threshold, stat) {
       if (voto < MIN_VOTE) continue;
       out.push(rowOf(p, f, voto, r.lambda, null));
     }
+    }
     const top = finish(out);
     lruSet(CACHE, ck, top, 40);
     PENDING.delete(ck);
     return top;
-  })().catch(() => { PENDING.delete(ck); return []; });
-  lruSet(PENDING, ck, job, 12);
+  };
+  const job = new Promise((ok) => {
+    const it = { ck, fn: compute, ok, ko: () => { PENDING.delete(ck); ok([]); } };
+    if (urgent) QUEUE.unshift(it); else QUEUE.push(it);
+    pump();
+  });
+  lruSet(PENDING, ck, job, 40);
   return job;
 }
 
