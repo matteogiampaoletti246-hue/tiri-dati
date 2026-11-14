@@ -114,3 +114,7 @@ Le barre di `CompareBars` compaiono subito ai valori veri (niente memoria di val
 - Caricamento: scheletro con la forma vera (cornice, titolo, tendina avversari, campo con le linee, pallini pagina), mai rotella.
 
 - Nativo: tutte le mappe (`ShotMap.js`, `PlayerMapsN.js`, `PlayerSheet.js`) usano `BlockTraceN` (`native/shared/ShotMap.js`): trattino perpendicolare alla traiettoria, mai orizzontale e mai assente.
+
+## Formazioni: Falli commessi / Falli subiti senza chiudere l'app (14/11/2026, regola fissa)
+- Scegliendo Falli commessi o subiti nelle Formazioni di una partita (es. Portogallo-Danimarca) l'app si chiudeva e tornava alla Home. Causa: `loadPlayerFouls` (`data/topPlayers.js`) caricava per ogni giocatore TUTTI i 26 archivi dei ruoli (`ROLE_KEYS` = club + nazionali) con la cache `lib/lru.js` da 16: i file venivano espulsi e riletti di continuo (1295 letture, 598 MB in prova su Portogallo) invece di 77 letture e 207 MB.
+- Regola: ruoli e duello caricano solo `falliKeysFor(nazionale)`: archivi delle nazionali con una nazionale, archivi dei club con un club (come `loadBestFouls`). Mai passare `ROLE_KEYS` interi dentro un ciclo per giocatore, e mai caricare piu' archivi della capienza della loro cache. Prova di riferimento: harness Node su Portugal (26 giocatori, fc e fs) = 26/26 voti, ~4,4 s, 77 file, nessun file riletto.

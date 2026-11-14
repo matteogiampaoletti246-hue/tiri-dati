@@ -290,12 +290,16 @@ export function loadPlayerFouls(p, dateIso, lines, stat) {
       keys.forEach((k, i) => { if (loaded[i]) fd[k] = loaded[i]; });
       lruSet(FD_MEMO, fdSig, fd, 40);
     }
-    const loadedFl = await Promise.all(ROLE_KEYS.map(loadFalli));
-    let fl = FD_MEMO.get('@roles');
-    if (!fl || ROLE_KEYS.some((k, i) => fl[k] !== (loadedFl[i] || undefined))) {
+    // ruoli e duello: con una nazionale solo gli archivi delle nazionali, con un club solo quelli dei club (come `loadBestFouls`). Con tutti i 26 archivi insieme la cache (16)
+    // espelleva e ricaricava file enormi a ogni giocatore: su iPhone l'app si chiudeva scegliendo Falli commessi/subiti nelle Formazioni
+    const roleKeys = falliKeysFor(NATIONS_KEYS.includes(f[3]));
+    const rsig = `@roles|${roleKeys.length}|${roleKeys[0]}`;
+    const loadedFl = await Promise.all(roleKeys.map(loadFalli));
+    let fl = FD_MEMO.get(rsig);
+    if (!fl || roleKeys.some((k, i) => fl[k] !== (loadedFl[i] || undefined))) {
       fl = {};
-      ROLE_KEYS.forEach((k, i) => { if (loadedFl[i]) fl[k] = loadedFl[i]; });
-      lruSet(FD_MEMO, '@roles', fl, 40);
+      roleKeys.forEach((k, i) => { if (loadedFl[i]) fl[k] = loadedFl[i]; });
+      lruSet(FD_MEMO, rsig, fl, 40);
     }
     const fmPid = await resolvePid(p).catch(() => null);
     if (!fmPid) return lines.map(() => null);
