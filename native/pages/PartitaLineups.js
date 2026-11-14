@@ -83,7 +83,9 @@ function Badge({ v, pre, inline }) {
   const [prev, setPrev] = useState(v);
   const t = useRef(new Animated.Value(1)).current;
   const from = useRef(v);
+  const wait = v === 'load'; // voti dei falli ancora in calcolo: scheletro, mai i voti della statistica di prima
   useEffect(() => {
+    if (wait) { setShown(null); setPrev(null); from.current = null; return undefined; }
     if (!pre || v == null) { setShown(v); setPrev(v); from.current = v; return undefined; }
     const f = from.current == null ? v : from.current;
     if (f === v) { setShown(v); return undefined; }
@@ -93,6 +95,10 @@ function Badge({ v, pre, inline }) {
     Animated.timing(t, { toValue: 1, duration: 420, easing: Easing.out(Easing.cubic), useNativeDriver: false }).start(() => { from.current = v; setShown(v); });
     return () => { t.removeListener(id); from.current = v; };
   }, [v, pre]);
+  if (wait) {
+    const sk = inline ? { borderRadius: 999, paddingHorizontal: 8, paddingVertical: 1 } : { position: 'absolute', alignSelf: 'center', bottom: -7, borderRadius: 999, paddingHorizontal: 6, paddingVertical: 1, borderWidth: 1.5, borderColor: 'rgba(0,0,0,.4)' };
+    return <View style={[sk, { backgroundColor: 'rgba(128,128,128,.45)' }]}><Text style={{ color: 'transparent', fontSize: inline ? 11 : 10.5, fontWeight: '800' }}>0,0</Text></View>;
+  }
   if (v == null) return null;
   const cur = shown == null ? v : shown;
   const bg = pre ? scoreColorSmooth(cur) : tone(v);
@@ -335,6 +341,7 @@ export default function Formazioni({ C, match, view, home, away, pre, openRoute 
   const [fouls, setFouls] = useState({});
   const isF = stat === 'fc' || stat === 'fs';
   const lastV = useRef({});
+  const foulsDone = useRef({}); // statistiche dei falli gia' calcolate per tutti i giocatori (non si rifanno cambiando statistica e tornando)
   const players = [lh, la].flatMap((l) => (l ? [...(l.xi || []), ...(l.bench || [])] : []));
   const pk = players.map((p) => p.playerId).join(',');
   // voti dei falli (commessi e subiti): si calcolano SUBITO all'apertura delle formazioni, uno dopo l'altro (prima quello scelto), non quando si cambia statistica:
@@ -348,23 +355,32 @@ export default function Formazioni({ C, match, view, home, away, pre, openRoute 
       await new Promise((r) => setTimeout(r, 50));
       for (const k of order) {
         if (!on) return;
-        // eslint-disable-next-line no-await-in-loop
-        if (fouls[k]) continue;
-        // pochi giocatori alla volta con una pausa in mezzo: il calcolo non blocca mai il tocco dei tasti (statistica e linea rispondono subito)
-        const rows = [];
-        for (let i = 0; i < players.length && on; i += 3) {
-          // eslint-disable-next-line no-await-in-loop
-          await new Promise((r) => setTimeout(r, 40));
-          // eslint-disable-next-line no-await-in-loop
-          rows.push(...(await Promise.all(players.slice(i, i + 3).map((p) => {
-            const pl = plOf(p, match);
-            return pl && !isOutOn(pl.id, match.date) ? loadPlayerFouls(pl, match.date, FOUL_LINES, k).catch(() => null) : Promise.resolve(null);
-          }))));
+        if (foulsDone.current[k]) continue;
+        // pochi giocatori alla volta con una pausa in mezzo: il calcolo non blocca mai il tocco dei tasti (statistica e linea rispondono subito);
+        // i voti compaiono a ogni gruppo (gli altri restano scheletri), non tutti insieme alla fine
+        const m = {};
+        try {
+          for (let i = 0; i < players.length && on; i += 3) {
+            const grp = players.slice(i, i + 3);
+            // eslint-disable-next-line no-await-in-loop
+            await new Promise((r) => setTimeout(r, 40));
+            // eslint-disable-next-line no-await-in-loop
+            const got = await Promise.all(grp.map((p) => {
+              const pl = plOf(p, match);
+              return pl && !isOutOn(pl.id, match.date) ? loadPlayerFouls(pl, match.date, FOUL_LINES, k).catch(() => null) : Promise.resolve(null);
+            }));
+            if (!on) return;
+            grp.forEach((p, j) => { m[p.playerId] = got[j]; });
+            setFouls((f) => ({ ...f, [k]: { ...m } }));
+          }
+        } catch (e) {
+          // calcolo fallito: gli scheletri non restano per sempre, chi non ha voto non mostra niente
+          if (!on) return;
+          players.forEach((p) => { if (!(p.playerId in m)) m[p.playerId] = null; });
+          setFouls((f) => ({ ...f, [k]: { ...m } }));
         }
         if (!on) return;
-        const m = {};
-        players.forEach((p, i) => { m[p.playerId] = rows[i]; });
-        setFouls((f) => ({ ...f, [k]: m }));
+        foulsDone.current[k] = true;
       }
     });
     return () => { on = false; start.cancel(); };
@@ -375,11 +391,11 @@ export default function Formazioni({ C, match, view, home, away, pre, openRoute 
     if (pre) {
       if (!pl) return null;
       if (isF) {
+        if (isOutOn(pl.id, match.date)) return null;
         const tab = fouls[stat];
-        if (!tab) return lastV.current[p.playerId] === undefined ? null : lastV.current[p.playerId];
+        if (!tab || !(p.playerId in tab)) return 'load';
         const row = tab[p.playerId];
         const v = row ? row[FOUL_LINES.indexOf(line)] : null;
-        lastV.current[p.playerId] = v == null ? null : v;
         return v == null ? null : v;
       }
       const r = playerReliability(pl, match.date, line, false, stat === 'porta' ? 'inPorta' : 'totali');
