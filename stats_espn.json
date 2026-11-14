@@ -2,48 +2,78 @@
  "competizioni": {
   "Friendlies 2026": {
    "con_statistiche": 0,
-   "senza": 6,
-   "da_fare": 6
+   "senza": 8,
+   "da_fare": 8
   },
-  "Serie B 2014-2015": {
-   "con_statistiche": 0,
-   "senza": 230,
-   "da_fare": 230
+  "Primera A 2020 - Apertura": {
+   "con_statistiche": 7,
+   "senza": 2,
+   "da_fare": 9
   },
-  "Serie B 2013-2014": {
-   "con_statistiche": 0,
-   "senza": 472,
-   "da_fare": 472
-  },
-  "Serie B 2012-2013": {
-   "con_statistiche": 0,
-   "senza": 468,
-   "da_fare": 468
-  },
-  "Serie B 2011-2012": {
-   "con_statistiche": 0,
-   "senza": 470,
-   "da_fare": 470
-  },
-  "Serie B 2010-2011": {
-   "con_statistiche": 0,
-   "senza": 470,
-   "da_fare": 470
-  },
-  "Primera A 2026 - Clausura": {
-   "con_statistiche": 1,
-   "senza": 0,
-   "da_fare": 1
-  },
-  "Primera A 2022 - Apertura": {
+  "Ligue 2 2021-2022": {
    "con_statistiche": 0,
    "senza": 1,
    "da_fare": 1
   },
-  "Primera A 2020 - Apertura": {
+  "Ligue 2 2020-2021": {
    "con_statistiche": 0,
+   "senza": 1,
+   "da_fare": 1
+  },
+  "Liga de Primera 2026": {
+   "con_statistiche": 0,
+   "senza": 2,
+   "da_fare": 2
+  },
+  "Liga de Primera 2022": {
+   "con_statistiche": 0,
+   "senza": 1,
+   "da_fare": 1
+  },
+  "Super League 2022": {
+   "con_statistiche": 0,
+   "senza": 8,
+   "da_fare": 8
+  },
+  "Série A 2020": {
+   "con_statistiche": 0,
+   "senza": 1,
+   "da_fare": 1
+  },
+  "Série A 2018": {
+   "con_statistiche": 10,
    "senza": 0,
-   "da_fare": 9
+   "da_fare": 10
+  },
+  "Série A 2017": {
+   "con_statistiche": 1,
+   "senza": 0,
+   "da_fare": 1
+  },
+  "Série A 2016": {
+   "con_statistiche": 340,
+   "senza": 26,
+   "da_fare": 366
+  },
+  "Série A 2015": {
+   "con_statistiche": 357,
+   "senza": 7,
+   "da_fare": 364
+  },
+  "Série A 2014": {
+   "con_statistiche": 300,
+   "senza": 1,
+   "da_fare": 301
+  },
+  "Série A 2013": {
+   "con_statistiche": 0,
+   "senza": 380,
+   "da_fare": 380
+  },
+  "Série A 2012": {
+   "con_statistiche": 0,
+   "senza": 283,
+   "da_fare": 379
   }
  }
 }
