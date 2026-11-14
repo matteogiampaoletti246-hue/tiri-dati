@@ -6,79 +6,99 @@
    "da_fare": 10
   },
   "Eerste Divisie 2026-2027": {
-   "con_statistiche": 1,
+   "con_statistiche": 2,
    "senza": 0,
-   "da_fare": 1
-  },
-  "LaLiga2 2026-2027": {
-   "con_statistiche": 1,
-   "senza": 0,
-   "da_fare": 1
-  },
-  "League Two 2026-2027": {
-   "con_statistiche": 8,
-   "senza": 0,
-   "da_fare": 8
-  },
-  "Liga Profesional 2013-2014 - Final": {
-   "con_statistiche": 91,
-   "senza": 0,
-   "da_fare": 91
-  },
-  "Liga Profesional 2012-2013 - Inicial": {
-   "con_statistiche": 0,
-   "senza": 190,
-   "da_fare": 190
-  },
-  "Liga Profesional 2012-2013 - Final": {
-   "con_statistiche": 0,
-   "senza": 191,
-   "da_fare": 191
-  },
-  "Liga Profesional 2011-2012 - Clausura": {
-   "con_statistiche": 0,
-   "senza": 190,
-   "da_fare": 190
-  },
-  "Liga Profesional 2011-2012 - Apertura": {
-   "con_statistiche": 0,
-   "senza": 190,
-   "da_fare": 190
-  },
-  "Liga Profesional 2010-2011 - Clausura": {
-   "con_statistiche": 0,
-   "senza": 190,
-   "da_fare": 190
-  },
-  "Liga Profesional 2010-2011 - Apertura": {
-   "con_statistiche": 0,
-   "senza": 190,
-   "da_fare": 190
-  },
-  "Copa Sudamericana 2020": {
-   "con_statistiche": 45,
-   "senza": 0,
-   "da_fare": 45
-  },
-  "Copa Sudamericana 2019": {
-   "con_statistiche": 103,
-   "senza": 2,
-   "da_fare": 105
-  },
-  "Copa Sudamericana 2018": {
-   "con_statistiche": 105,
-   "senza": 1,
-   "da_fare": 106
-  },
-  "Copa Sudamericana 2017": {
-   "con_statistiche": 0,
-   "senza": 106,
-   "da_fare": 106
+   "da_fare": 2
   },
   "Copa Sudamericana 2016": {
-   "con_statistiche": 11,
+   "con_statistiche": 79,
+   "senza": 2,
+   "da_fare": 81
+  },
+  "Copa Sudamericana 2015": {
+   "con_statistiche": 92,
    "senza": 0,
    "da_fare": 92
+  },
+  "Copa Sudamericana 2014": {
+   "con_statistiche": 91,
+   "senza": 1,
+   "da_fare": 92
+  },
+  "Copa Sudamericana 2013": {
+   "con_statistiche": 0,
+   "senza": 92,
+   "da_fare": 92
+  },
+  "Copa Sudamericana 2012": {
+   "con_statistiche": 0,
+   "senza": 92,
+   "da_fare": 92
+  },
+  "Copa Sudamericana 2011": {
+   "con_statistiche": 0,
+   "senza": 76,
+   "da_fare": 76
+  },
+  "Copa Sudamericana 2010": {
+   "con_statistiche": 0,
+   "senza": 76,
+   "da_fare": 76
+  },
+  "1. Division 2021-2022": {
+   "con_statistiche": 0,
+   "senza": 192,
+   "da_fare": 192
+  },
+  "1. Division 2020-2021": {
+   "con_statistiche": 0,
+   "senza": 192,
+   "da_fare": 192
+  },
+  "Super League 1 2019-2020": {
+   "con_statistiche": 0,
+   "senza": 10,
+   "da_fare": 10
+  },
+  "Super League 1 2018-2019": {
+   "con_statistiche": 0,
+   "senza": 1,
+   "da_fare": 1
+  },
+  "Super League 1 2017-2018": {
+   "con_statistiche": 0,
+   "senza": 2,
+   "da_fare": 2
+  },
+  "Super League 1 2016-2017": {
+   "con_statistiche": 0,
+   "senza": 23,
+   "da_fare": 23
+  },
+  "Super League 1 2015-2016": {
+   "con_statistiche": 0,
+   "senza": 88,
+   "da_fare": 88
+  },
+  "Super League 1 2014-2015": {
+   "con_statistiche": 0,
+   "senza": 318,
+   "da_fare": 318
+  },
+  "Super League 1 2013-2014": {
+   "con_statistiche": 0,
+   "senza": 319,
+   "da_fare": 319
+  },
+  "Super League 1 2012-2013": {
+   "con_statistiche": 0,
+   "senza": 253,
+   "da_fare": 253
+  },
+  "Super League 1 2011-2012": {
+   "con_statistiche": 0,
+   "senza": 145,
+   "da_fare": 252
   }
  }
 }
