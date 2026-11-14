@@ -1,4 +1,90 @@
 {
- "competizioni": {},
- "partite_in_questo_giro": 0
+ "competizioni": {
+  "LaLiga 2026-2027": {
+   "con_statistiche": 0,
+   "con_mappa_tiri": 0,
+   "da_fare": 1
+  },
+  "League One 2026-2027": {
+   "con_statistiche": 3,
+   "con_mappa_tiri": 3,
+   "da_fare": 5
+  },
+  "Liga de Primera 2026": {
+   "con_statistiche": 0,
+   "con_mappa_tiri": 0,
+   "da_fare": 2
+  },
+  "Primera Division 2026": {
+   "con_statistiche": 0,
+   "con_mappa_tiri": 0,
+   "da_fare": 1
+  },
+  "Championship 2025-2026": {
+   "con_statistiche": 0,
+   "con_mappa_tiri": 0,
+   "da_fare": 3
+  },
+  "Super League 2025-2026": {
+   "con_statistiche": 0,
+   "con_mappa_tiri": 0,
+   "da_fare": 1
+  },
+  "Eliteserien 2024": {
+   "con_statistiche": 0,
+   "con_mappa_tiri": 0,
+   "da_fare": 1
+  },
+  "Primera Division 2024": {
+   "con_statistiche": 0,
+   "con_mappa_tiri": 0,
+   "da_fare": 41
+  },
+  "First Division A 2023-2024": {
+   "con_statistiche": 0,
+   "con_mappa_tiri": 0,
+   "da_fare": 1
+  },
+  "Premier League 2023-2024": {
+   "con_statistiche": 0,
+   "con_mappa_tiri": 0,
+   "da_fare": 1
+  },
+  "Ligue 1 2023-2024": {
+   "con_statistiche": 0,
+   "con_mappa_tiri": 0,
+   "da_fare": 1
+  },
+  "League One 2023-2024": {
+   "con_statistiche": 0,
+   "con_mappa_tiri": 0,
+   "da_fare": 4
+  },
+  "Championship 2022-2023": {
+   "con_statistiche": 0,
+   "con_mappa_tiri": 0,
+   "da_fare": 1
+  },
+  "Süper Lig 2022-2023": {
+   "con_statistiche": 0,
+   "con_mappa_tiri": 0,
+   "da_fare": 29
+  },
+  "League Two 2022-2023": {
+   "con_statistiche": 0,
+   "con_mappa_tiri": 0,
+   "da_fare": 1
+  },
+  "Ligue 1 2021-2022": {
+   "con_statistiche": 0,
+   "con_mappa_tiri": 0,
+   "da_fare": 2
+  },
+  "Conference League 2021-2022": {
+   "con_statistiche": 0,
+   "con_mappa_tiri": 0,
+   "da_fare": 1
+  }
+ },
+ "partite_in_questo_giro": 3
 }

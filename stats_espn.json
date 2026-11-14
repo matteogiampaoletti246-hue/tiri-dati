@@ -2,43 +2,83 @@
  "competizioni": {
   "Friendlies 2026": {
    "con_statistiche": 0,
-   "senza": 9,
-   "da_fare": 9
+   "senza": 10,
+   "da_fare": 10
   },
-  "Liga Profesional 2017-2018": {
-   "con_statistiche": 264,
-   "senza": 3,
-   "da_fare": 267
-  },
-  "Liga Profesional 2016-2017": {
-   "con_statistiche": 447,
-   "senza": 3,
-   "da_fare": 450
-  },
-  "Liga Profesional 2016 - Final": {
+  "Eerste Divisie 2026-2027": {
    "con_statistiche": 1,
    "senza": 0,
    "da_fare": 1
   },
-  "Liga Profesional 2015": {
-   "con_statistiche": 462,
-   "senza": 6,
-   "da_fare": 468
-  },
-  "Liga Profesional 2014": {
-   "con_statistiche": 190,
+  "LaLiga2 2026-2027": {
+   "con_statistiche": 1,
    "senza": 0,
-   "da_fare": 190
+   "da_fare": 1
   },
-  "Liga Profesional 2013-2014 - Inicial": {
+  "League Two 2026-2027": {
+   "con_statistiche": 8,
+   "senza": 0,
+   "da_fare": 8
+  },
+  "Liga Profesional 2013-2014 - Final": {
+   "con_statistiche": 91,
+   "senza": 0,
+   "da_fare": 91
+  },
+  "Liga Profesional 2012-2013 - Inicial": {
    "con_statistiche": 0,
    "senza": 190,
    "da_fare": 190
   },
-  "Liga Profesional 2013-2014 - Final": {
-   "con_statistiche": 11,
-   "senza": 89,
+  "Liga Profesional 2012-2013 - Final": {
+   "con_statistiche": 0,
+   "senza": 191,
    "da_fare": 191
+  },
+  "Liga Profesional 2011-2012 - Clausura": {
+   "con_statistiche": 0,
+   "senza": 190,
+   "da_fare": 190
+  },
+  "Liga Profesional 2011-2012 - Apertura": {
+   "con_statistiche": 0,
+   "senza": 190,
+   "da_fare": 190
+  },
+  "Liga Profesional 2010-2011 - Clausura": {
+   "con_statistiche": 0,
+   "senza": 190,
+   "da_fare": 190
+  },
+  "Liga Profesional 2010-2011 - Apertura": {
+   "con_statistiche": 0,
+   "senza": 190,
+   "da_fare": 190
+  },
+  "Copa Sudamericana 2020": {
+   "con_statistiche": 45,
+   "senza": 0,
+   "da_fare": 45
+  },
+  "Copa Sudamericana 2019": {
+   "con_statistiche": 103,
+   "senza": 2,
+   "da_fare": 105
+  },
+  "Copa Sudamericana 2018": {
+   "con_statistiche": 105,
+   "senza": 1,
+   "da_fare": 106
+  },
+  "Copa Sudamericana 2017": {
+   "con_statistiche": 0,
+   "senza": 106,
+   "da_fare": 106
+  },
+  "Copa Sudamericana 2016": {
+   "con_statistiche": 11,
+   "senza": 0,
+   "da_fare": 92
   }
  }
 }
