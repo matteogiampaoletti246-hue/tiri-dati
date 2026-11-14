@@ -42,6 +42,10 @@ jobs:
         run: |
           SHARD=9 NSHARD=1 YEARS=2026 CAPN=1 BUDGET_MIN=10 ONLY_IDS="$IDS" python partite.py
           rm -f partite/.done9 partite/.cap9
+      - name: Falli - file snelli (partf)
+        continue-on-error: true
+        timeout-minutes: 8
+        run: python falli_stat.py
       - name: Profili giocatori e hit rate
         continue-on-error: true
         timeout-minutes: 20
@@ -65,7 +69,7 @@ jobs:
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
-          git add arch tidx partite partite_extra.json giocatori.json report/profili_uniti.json report/profili_stato.json cache_giocatori.json calc_extra.json matchup_nazionali.json pidx aurora_indice.json ali.json 2>/dev/null || true
+          git add arch tidx partite partf partite_extra.json giocatori.json report/profili_uniti.json report/profili_stato.json cache_giocatori.json calc_extra.json matchup_nazionali.json pidx aurora_indice.json ali.json 2>/dev/null || true
           git diff --staged --quiet && exit 0
           git commit -m "Dopo partita: aggiornamento completo (${IDS:-tutte})"
           for i in 1 2 3 4 5 6; do git pull --rebase -X theirs --autostash && git push && break; sleep $((i*5)); done

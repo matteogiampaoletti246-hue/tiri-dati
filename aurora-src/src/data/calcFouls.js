@@ -2,7 +2,7 @@
 // Squadra: `s.fouls` = [casa, ospite]. Giocatore: `p[id].fouls` (commessi) e `p[id].was_fouled` (subiti), con `minutes_played`.
 // Cache a capienza fissa (lib/lru.js).
 import { useEffect, useState } from 'react';
-import { FM_ID, currentSeason, loadSeason, loadSeasonMatches, teamIdByName } from './archive';
+import { FM_ID, currentSeason, loadSeason, loadSeasonFouls, teamIdByName } from './archive';
 import { CUPS, NATIONS_KEYS, domesticKey } from './calcData';
 import { lruGet, lruSet } from '@/lib/lru';
 import { comma } from '@/lib/format';
@@ -46,7 +46,7 @@ async function build(key) {
   const fm = fmOfKey(key);
   const sk = fm ? (String(key).split('@')[1] || (await currentSeason(fm))) : null;
   if (!sk) return null;
-  const [d, season] = await Promise.all([loadSeasonMatches(fm, sk), loadSeason(fm, sk).catch(() => null)]);
+  const [d, season] = await Promise.all([loadSeasonFouls(fm, sk), loadSeason(fm, sk).catch(() => null)]);
   if (!d || !d.m) return null;
   const when = {};
   const fxTeams = {};

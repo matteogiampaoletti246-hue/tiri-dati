@@ -24,7 +24,8 @@ jobs:
           git config user.email "github-actions@users.noreply.github.com"
           for i in 1 2 3 4 5; do
             python3 -u tools/stats_terzi_kv.py toglie
-            git add -A partite
+            python3 -u falli_stat.py
+            git add -A partite partf
             git diff --staged --quiet && break
             git commit -qm "Statistiche di fonti terze spostate su Cloudflare KV (tolte dal repository pubblico)"
             git fetch -q origin main && git rebase -q origin/main && git push -q origin HEAD:main && break

@@ -295,8 +295,8 @@ const kvIndex = () => { if (!cache.has('kv-ps-index')) cache.set('kv-ps-index', 
 export const loadFalliFile = (lid, sk) => gz(`falli/${lid}/${sk}.json.gz`);
 // tiri con posizione da ESPN per le partite dove FotMob non ha la mappa (`tiri_espn.py`): stesso formato di `sx`
 export const loadSxeFile = (lid, sk) => gz(`sxe/${lid}/${sk}.json.gz`);
-export const loadSeasonMatches = (lid, sk) => once(`ps/${lid}/${sk}.gz`, async () => {
-  const [d, idx] = await Promise.all([gz(`partite/${lid}/${sk}.json.gz`), kvIndex()]);
+// partite delle fonti terze (PitchAPI/LiveScore) tenute su Cloudflare KV e non nel repository pubblico: si rimettono sopra ai dati del repository
+const withKv = async (d, lid, sk, idx) => {
   const k = `${lid}/${kvSlug(sk)}`;
   if (!d || !d.m || !idx.has(k)) return d;
   try {
@@ -305,6 +305,17 @@ export const loadSeasonMatches = (lid, sk) => once(`ps/${lid}/${sk}.gz`, async (
     Object.entries(ov || {}).forEach(([mid, v]) => { const m = d.m[mid] || (d.m[mid] = {}); if (!m.p && v.p) { const { e: _e, s: _s, sh: _sh, hi: _hi, ...rest } = v; Object.assign(m, rest); } if (!(m.e && m.e.length) && v.e) m.e = v.e; if (!(m.s && Object.keys(m.s).length) && v.s) m.s = v.s; if (v.sh && !m.sh) { m.sh = v.sh; m.hi = v.hi; } });
   } catch (e) { /* senza KV restano i dati di FotMob */ }
   return d;
+};
+export const loadSeasonMatches = (lid, sk) => once(`ps/${lid}/${sk}.gz`, async () => {
+  const [d, idx] = await Promise.all([gz(`partite/${lid}/${sk}.json.gz`), kvIndex()]);
+  return withKv(d, lid, sk, idx);
+});
+// Stesse partite ridotte ai soli dati dei falli (`partf/`, da falli_stat.py): ~10 volte piu' piccole da scaricare, decomprimere e leggere (nell'app nativa
+// gunzip e JSON.parse sono in JavaScript). Con lo stesso KV sopra. Se il file snello manca o non si legge, si usa quello completo come prima.
+export const loadSeasonFouls = (lid, sk) => once(`pf/${lid}/${sk}.gz`, async () => {
+  const [d, idx] = await Promise.all([gz(`partf/${lid}/${sk}.json.gz`).catch(() => null), kvIndex()]);
+  if (!d || !d.m) return loadSeasonMatches(lid, sk);
+  return withKv(d, lid, sk, idx);
 });
 
 export const teamLogo = (id) => `https://images.fotmob.com/image_resources/logo/teamlogo/${id}.png`;

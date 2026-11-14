@@ -1,0 +1,32 @@
+name: Falli - file snelli (partf)
+# Rifa partf/<campionato>/<stagione>.json.gz (solo i dati dei falli, ~10 volte piu' piccoli di partite/) quando cambia partite/.
+# Si rifanno solo i file la cui sorgente e' cambiata (impronta `src`), quindi e' veloce. Se manca un file snello l'app usa quello completo.
+on:
+  workflow_run:
+    workflows: ["Partite storiche", "Anteprima top campionati", "Statistiche di fonti terze -> Cloudflare KV (poi tolte dal repository)"]
+    types: [completed]
+  schedule:
+    - cron: "40 23 * * *"
+  workflow_dispatch:
+concurrency:
+  group: partite-main
+  cancel-in-progress: false
+permissions:
+  contents: write
+jobs:
+  snelli:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python3 -u falli_stat.py
+      - run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add -A partf
+          git diff --staged --quiet && exit 0
+          git commit -qm "Falli: file snelli (partf)"
+          for i in 1 2 3 4 5 6; do git pull --rebase -X theirs --autostash && git push && break; sleep $((i*5)); done
