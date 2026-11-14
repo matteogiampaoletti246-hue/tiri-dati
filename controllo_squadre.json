@@ -6709,7 +6709,7 @@
     "competizioni": [
      "FA Trophy 2026-2027"
     ],
-    "motivo": "nessuna partita giocata nella stagione in corso"
+    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
     "squadra": "APM Metz",
@@ -6976,7 +6976,7 @@
     "competizioni": [
      "FA Trophy 2026-2027"
     ],
-    "motivo": "nessuna partita giocata nella stagione in corso"
+    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
     "squadra": "Benfica/Gil Vicente",
@@ -7392,7 +7392,7 @@
     "competizioni": [
      "Coupe de France 2026-2027"
     ],
-    "motivo": "nessuna partita giocata nella stagione in corso"
+    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
     "squadra": "Dijon ASPTT",
@@ -7808,7 +7808,7 @@
     "competizioni": [
      "Coupe de France 2026-2027"
     ],
-    "motivo": "nessuna partita giocata nella stagione in corso"
+    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
     "squadra": "Inter/Genoa",
@@ -8072,7 +8072,7 @@
     "competizioni": [
      "FA Trophy 2026-2027"
     ],
-    "motivo": "nessuna partita giocata nella stagione in corso"
+    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
     "squadra": "Mickleover Sports",
@@ -8352,7 +8352,7 @@
     "competizioni": [
      "Coupe de France 2026-2027"
     ],
-    "motivo": "nessuna partita giocata nella stagione in corso"
+    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
     "squadra": "Roannais Foot 42",
@@ -8504,7 +8504,7 @@
     "competizioni": [
      "FA Trophy 2026-2027"
     ],
-    "motivo": "nessuna partita giocata nella stagione in corso"
+    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
     "squadra": "Sporting BM",
@@ -8904,7 +8904,7 @@
     "competizioni": [
      "FA Trophy 2026-2027"
     ],
-    "motivo": "nessuna partita giocata nella stagione in corso"
+    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
     "squadra": "Widzew Łódź II",
@@ -9097,7 +9097,7 @@
   "squadre": 3150,
   "prima": 2349,
   "dopo": 628,
-  "giocate_dopo": 541,
+  "giocate_dopo": 549,
   "elenco": [
    {
     "squadra": "1. BFK Frýdlant nad Ostravici",
@@ -9516,7 +9516,7 @@
      "FA Trophy 2026-2027"
     ],
     "motivo": [
-     "0 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
     ]
    },
    {
@@ -9906,7 +9906,7 @@
      "FA Trophy 2026-2027"
     ],
     "motivo": [
-     "0 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
     ]
    },
    {
@@ -10513,7 +10513,7 @@
      "Coupe de France 2026-2027"
     ],
     "motivo": [
-     "0 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
     ]
    },
    {
@@ -11221,7 +11221,7 @@
      "Coupe de France 2026-2027"
     ],
     "motivo": [
-     "0 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
     ]
    },
    {
@@ -11628,7 +11628,7 @@
      "FA Trophy 2026-2027"
     ],
     "motivo": [
-     "0 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
     ]
    },
    {
@@ -12080,7 +12080,7 @@
      "Coupe de France 2026-2027"
     ],
     "motivo": [
-     "0 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
     ]
    },
    {
@@ -12336,7 +12336,7 @@
      "FA Trophy 2026-2027"
     ],
     "motivo": [
-     "0 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
     ]
    },
    {
@@ -12910,7 +12910,7 @@
      "FA Trophy 2026-2027"
     ],
     "motivo": [
-     "0 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
     ]
    },
    {
@@ -16049,9 +16049,9 @@
   "coppie_squadra_competizione": 12499,
   "con_frase_prima": 4654,
   "squadre_con_frase_prima": 2165,
-  "con_frase_e_dati_ora_visibili": 3174,
+  "con_frase_e_dati_ora_visibili": 3175,
   "con_frase_dopo": 0,
-  "competizioni_senza_dati_tolte_dalla_tendina": 6454,
+  "competizioni_senza_dati_tolte_dalla_tendina": 6453,
   "squadre_senza_scheda_giocatori": 4826,
   "senza_scheda": [
    {
@@ -17262,8 +17262,8 @@
   "mancanti_dopo": []
  },
  "forma": {
-  "squadre_senza_forma_prima": 1960,
-  "squadre_senza_forma_dopo": 143,
+  "squadre_senza_forma_prima": 1957,
+  "squadre_senza_forma_dopo": 98,
   "motivo_dopo": "nessuna partita giocata nella stagione in corso: niente riquadro"
  }
 }
