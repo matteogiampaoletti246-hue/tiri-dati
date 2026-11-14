@@ -15,6 +15,7 @@ import { TintProvider } from '../shared/ui';
 import { PANELS, hasPanel } from './PartitaPanels';
 import { matchById, viewMatch } from '@/data/matches';
 import { prepareMatch, prepareMatchCore, isReady } from '@/data/prepare';
+import { parseArchiveId, buildArchiveShell } from '@/data/archiveMatch';
 import { lineupBeat, lineupWindowMs, lineupIsOfficial } from '@/data/lineupWindow';
 import { teamById } from '@/data/teams';
 import { leagueById } from '@/data/leagues';
@@ -37,22 +38,29 @@ import { TAB_MEM } from '../shared/tabMem'; // scheda scelta per partita, finche
 export default function Partita({ C, top, onBack, bottom = 90, openRoute, params }) {
   const id = params.id;
   const [ok, setOk] = useState(false);
+  const [fin, setFin] = useState(false); // preparazione finita (anche male): solo allora, senza partita, si torna indietro
   const [, bump] = useState(0);
   const [tab, setTab] = useState(() => TAB_MEM.get(id) || '');
   useEffect(() => {
     let on = true;
     resetSel(id);
     setOk(false);
+    setFin(false);
+    // il tempo del solo scheletro parte dall'apertura (non dopo i dati condivisi): al massimo 2,5 s, poi la pagina compare con cio' che c'e'
+    const cap = setTimeout(() => on && setOk(true), 2500);
     (async () => {
       await bootShared();
       if (on) bump((n) => n + 1); // dati condivisi pronti: la testata compare subito, prima delle schede
-      const cap = setTimeout(() => on && setOk(true), 2500); // max 2,5 s: la pagina compare comunque
-      await prepareMatchCore(id); // appena pronti i dati principali la pagina si apre; meteo, arbitro e rose arrivano subito dopo
+      const core = prepareMatchCore(id); // parte subito e in parallelo alla testata
+      const arch = parseArchiveId(id);
+      // partite d'archivio (id a-...): la testata (squadre, data, risultato) si costruisce dal solo calendario, senza i dettagli pesanti
+      if (arch) buildArchiveShell(arch.fm, arch.sk, arch.mid).then(() => on && bump((n) => n + 1)).catch(() => {});
+      await core; // appena pronti i dati principali la pagina si apre; meteo, arbitro e rose arrivano subito dopo
       clearTimeout(cap);
-      if (on) { setOk(true); bump((n) => n + 1); }
+      if (on) { setOk(true); setFin(true); bump((n) => n + 1); }
       await prepareMatch(id);
       if (on) bump((n) => n + 1);
-    })().catch(() => on && setOk(true));
+    })().catch(() => { clearTimeout(cap); if (on) { setOk(true); setFin(true); } });
     // live: ogni 3 s (anche prima del fischio dentro la finestra formazioni; fuori finestra ogni 30-60 s); al ritorno dal background un giro parte subito
     let n = 0;
     let busy = false;
@@ -65,7 +73,7 @@ export default function Partita({ C, top, onBack, bottom = 90, openRoute, params
     };
     const t = setInterval(() => run(false), 3000);
     const sub = { remove: onResumeCalm(() => run(true)) };
-    return () => { on = false; clearInterval(t); sub.remove(); };
+    return () => { on = false; clearTimeout(cap); clearInterval(t); sub.remove(); };
   }, [id]);
 
   const pos = useSharedValue(0);
@@ -83,7 +91,7 @@ export default function Partita({ C, top, onBack, bottom = 90, openRoute, params
   const early = !ok && !!(rawNow && rawNow.homeId && rawNow.awayId); // la testata (squadre, risultato, stato) c'e' gia' dalla Home: si mostra subito, le schede arrivano dopo
   const raw = ok || early ? rawNow : null;
   // coppe e partite d'archivio: stesse regole del sito
-  useEffect(() => { if (ok && !raw) onBack && onBack(); }, [ok, raw]);
+  useEffect(() => { if (fin && !matchById(id)) onBack && onBack(); }, [fin, raw]);
   if (early) {
     return (
       <View style={{ flex: 1, backgroundColor: 'transparent' }}>

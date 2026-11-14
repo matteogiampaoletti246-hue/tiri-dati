@@ -202,39 +202,63 @@ function enrich(m, fm, sk, season, det, tmap, cur) {
   return m;
 }
 
+// Base della partita d'archivio: calendario della stagione + scheletro della partita (squadre, data, stato, risultato).
+// E' tutto cio' che serve alla testata: la pagina la mostra subito, senza aspettare i dettagli pesanti di buildArchiveMatch.
+const BASE = {};
+function archiveBase(fm, sk, mid) {
+  const id = archiveId(fm, sk, mid);
+  if (BASE[id]) return BASE[id];
+  BASE[id] = (async () => {
+    const season = await loadSeason(fm, sk);
+    if (!season) return null;
+    let fx = (season.fix || []).find((x) => String(x[0]) === String(mid));
+    if (!fx) {
+      // non ancora nel calendario archiviato (play-off, turno di coppa nuovo, id cambiato): si costruisce dalla riga del feed del giorno
+      const fr = await feedRowFor(mid).catch(() => null);
+      if (!fr || String(fr[1]) !== String(fm)) return null;
+      fx = fixFromFeed(fr);
+      season.teams = season.teams || {};
+      [[fr[3], fr[5]], [fr[4], fr[6]]].forEach(([tid, n]) => { if (tid && n && !season.teams[tid]) season.teams[tid] = n; });
+      season.fix = [...(season.fix || []), fx];
+    }
+    const league = await leagueForFm(fm);
+    const tmap = teamsOf(season, fm, sk, league && !league.noPage ? league.id : null);
+    const home = tmap[fx[2]];
+    const away = tmap[fx[3]];
+    if (!home || !away) return null;
+    const ts = new Date(fx[4]).getTime();
+    const sc = scoreOf(fx[5]);
+    const status = fx[6] && !fx[8] ? 'finished' : fx[7] && !fx[8] ? 'live' : 'scheduled';
+    const m = MATCH_BY_ID[id] || {
+      id, leagueId: league.id, homeId: home.id, awayId: away.id,
+      date: romeDay(ts), offset: 0, kickoff: romeTime(ts), ts, timeKnown: true, status,
+      minute: status === 'finished' ? 90 : null, score: status === 'finished' ? sc : null, liveScore: status === 'live' ? sc : null,
+      stadium: null, weather: null, refereeId: null, stats: null, statGroups: null, events: [], momentum: [], shots: [], lineup: null, detail: false,
+      fmId: mid, archive: { fm, sk, mid }, extra: true, cancelled: !!fx[8], leagueObj: league,
+    };
+    MATCH_BY_ID[id] = m;
+    m.leagueObj = league;
+    return { season, fx, league, tmap, m };
+  })().finally(() => { delete BASE[id]; });
+  return BASE[id];
+}
+
+// solo la base (testata): per la pagina partita nativa, che mostra subito la testata e poi le schede
+export async function buildArchiveShell(fm, sk, mid) {
+  const b = await archiveBase(fm, sk, mid);
+  return b ? b.m : null;
+}
+
 // partita dell'archivio (id a-…): si costruisce dal calendario della stagione
 export async function buildArchiveMatch(fm, sk, mid) {
   const id = archiveId(fm, sk, mid);
   if (MATCH_BY_ID[id] && MATCH_BY_ID[id].archReady) return MATCH_BY_ID[id];
-  const [season, det] = await Promise.all([loadSeason(fm, sk), loadSeasonMatches(fm, sk)]);
-  if (!season) return null;
-  let fx = (season.fix || []).find((x) => String(x[0]) === String(mid));
-  if (!fx) {
-    // non ancora nel calendario archiviato (play-off, turno di coppa nuovo, id cambiato): si costruisce dalla riga del feed del giorno
-    const fr = await feedRowFor(mid).catch(() => null);
-    if (!fr || String(fr[1]) !== String(fm)) return null;
-    fx = fixFromFeed(fr);
-    season.teams = season.teams || {};
-    [[fr[3], fr[5]], [fr[4], fr[6]]].forEach(([tid, n]) => { if (tid && n && !season.teams[tid]) season.teams[tid] = n; });
-    season.fix = [...(season.fix || []), fx];
-  }
-  const league = await leagueForFm(fm);
-  const tmap = teamsOf(season, fm, sk, league && !league.noPage ? league.id : null);
-  const home = tmap[fx[2]];
-  const away = tmap[fx[3]];
-  if (!home || !away) return null;
-  const ts = new Date(fx[4]).getTime();
-  const sc = scoreOf(fx[5]);
-  const status = fx[6] && !fx[8] ? 'finished' : fx[7] && !fx[8] ? 'live' : 'scheduled';
-  const m = MATCH_BY_ID[id] || {
-    id, leagueId: league.id, homeId: home.id, awayId: away.id,
-    date: romeDay(ts), offset: 0, kickoff: romeTime(ts), ts, timeKnown: true, status,
-    minute: status === 'finished' ? 90 : null, score: status === 'finished' ? sc : null, liveScore: status === 'live' ? sc : null,
-    stadium: null, weather: null, refereeId: null, stats: null, statGroups: null, events: [], momentum: [], shots: [], lineup: null, detail: false,
-    fmId: mid, archive: { fm, sk, mid }, extra: true, cancelled: !!fx[8], leagueObj: league,
-  };
-  MATCH_BY_ID[id] = m;
-  m.leagueObj = league;
+  const detP = loadSeasonMatches(fm, sk); // in parallelo alla base
+  detP.catch(() => null);
+  const base = await archiveBase(fm, sk, mid);
+  if (!base) return null;
+  const { season, fx, league, tmap, m } = base;
+  const det = await detP;
   // stagione in corso di un campionato aggiunto: niente etichetta; stagioni passate: "· 2019/20"
   if (isPureCup(fm)) m.moreDet = await domesticFor(fm, fx[2], fx[3]);
   try { const st = await loadSeasonStats(fm, sk); m.sTeams = (st && st.teams) || null; } catch (e) { /* ignora */ }
