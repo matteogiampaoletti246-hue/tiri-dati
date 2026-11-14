@@ -6400,7 +6400,7 @@
  "rose": {
   "squadre": 3149,
   "senza_rosa_prima": 2279,
-  "senza_rosa_dopo": 332,
+  "senza_rosa_dopo": 333,
   "senza_rosa": [
    {
     "squadra": "1A",
@@ -8160,6 +8160,14 @@
     "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
+    "squadra": "NK Šencur",
+    "id": "187965",
+    "competizioni": [
+     "Slovenia Cup 2026-2027"
+    ],
+    "motivo": "nessuna partita giocata nella stagione in corso"
+   },
+   {
     "squadra": "Neuvillette Jamin",
     "id": "1308835",
     "competizioni": [
@@ -9069,8 +9077,8 @@
  "rose_per_ruolo": {
   "squadre": 3149,
   "prima": 2348,
-  "dopo": 623,
-  "giocate_dopo": 537,
+  "dopo": 627,
+  "giocate_dopo": 541,
   "elenco": [
    {
     "squadra": "1. BFK Frýdlant nad Ostravici",
@@ -11759,6 +11767,17 @@
     ]
    },
    {
+    "squadra": "NK Šencur",
+    "id": "187965",
+    "giocatori": 0,
+    "competizioni": [
+     "Slovenia Cup 2026-2027"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
+    ]
+   },
+   {
     "squadra": "Neuvillette Jamin",
     "id": "1308835",
     "giocatori": 0,
@@ -13163,17 +13182,6 @@
     ]
    },
    {
-    "squadra": "Anaitasuna FT",
-    "id": "357266",
-    "giocatori": 1,
-    "competizioni": [
-     "Copa del Rey 2026-2027"
-    ],
-    "motivo": [
-     "1 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 1"
-    ]
-   },
-   {
     "squadra": "Atletico Calatayud",
     "id": "190104",
     "giocatori": 1,
@@ -13517,17 +13525,6 @@
     ]
    },
    {
-    "squadra": "NK Šencur",
-    "id": "187965",
-    "giocatori": 1,
-    "competizioni": [
-     "Slovenia Cup 2026-2027"
-    ],
-    "motivo": [
-     "1 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
-    ]
-   },
-   {
     "squadra": "OFK Dunajska Luzna",
     "id": "489301",
     "giocatori": 1,
@@ -13709,6 +13706,17 @@
     "giocatori": 2,
     "competizioni": [
      "Coupe de France 2026-2027"
+    ],
+    "motivo": [
+     "2 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 2"
+    ]
+   },
+   {
+    "squadra": "Anaitasuna FT",
+    "id": "357266",
+    "giocatori": 2,
+    "competizioni": [
+     "Copa del Rey 2026-2027"
     ],
     "motivo": [
      "2 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 2"
@@ -14610,6 +14618,17 @@
     ]
    },
    {
+    "squadra": "Partizán Bardejov",
+    "id": "1864",
+    "giocatori": 4,
+    "competizioni": [
+     "Slovak Cup 2026-2027"
+    ],
+    "motivo": [
+     "4 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 4"
+    ]
+   },
+   {
     "squadra": "SV Hemelingen",
     "id": "1073473",
     "giocatori": 4,
@@ -14687,6 +14706,17 @@
     ]
    },
    {
+    "squadra": "Vorwärts Steyr",
+    "id": "212825",
+    "giocatori": 4,
+    "competizioni": [
+     "Austrian Cup 2026-2027"
+    ],
+    "motivo": [
+     "4 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 4"
+    ]
+   },
+   {
     "squadra": "AD Castro Daire",
     "id": "1074308",
     "giocatori": 5,
@@ -14748,6 +14778,17 @@
     "competizioni": [
      "World Cup Qualification CONCACAF 2024-2025",
      "Friendlies 2026"
+    ],
+    "motivo": [
+     "5 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 5"
+    ]
+   },
+   {
+    "squadra": "Castlebar Celtic",
+    "id": "1738936",
+    "giocatori": 5,
+    "competizioni": [
+     "FAI Cup 2026"
     ],
     "motivo": [
      "5 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 5"
@@ -14820,6 +14861,17 @@
     ]
    },
    {
+    "squadra": "MFK Bytca",
+    "id": "1678933",
+    "giocatori": 5,
+    "competizioni": [
+     "Slovak Cup 2026-2027"
+    ],
+    "motivo": [
+     "5 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 5"
+    ]
+   },
+   {
     "squadra": "MŠK Fomat Martin",
     "id": "580295",
     "giocatori": 5,
@@ -14853,17 +14905,6 @@
     ]
    },
    {
-    "squadra": "Partizán Bardejov",
-    "id": "1864",
-    "giocatori": 5,
-    "competizioni": [
-     "Slovak Cup 2026-2027"
-    ],
-    "motivo": [
-     "5 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 5"
-    ]
-   },
-   {
     "squadra": "Ristozi",
     "id": "1912767",
     "giocatori": 5,
@@ -14891,6 +14932,17 @@
     "giocatori": 5,
     "competizioni": [
      "Open Cup 2026"
+    ],
+    "motivo": [
+     "5 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 5"
+    ]
+   },
+   {
+    "squadra": "Tolka Rovers",
+    "id": "203760",
+    "giocatori": 5,
+    "competizioni": [
+     "FAI Cup 2026"
     ],
     "motivo": [
      "5 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 5"
@@ -14941,33 +14993,11 @@
     ]
    },
    {
-    "squadra": "Castlebar Celtic",
-    "id": "1738936",
-    "giocatori": 6,
-    "competizioni": [
-     "FAI Cup 2026"
-    ],
-    "motivo": [
-     "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
-    ]
-   },
-   {
     "squadra": "FC Altai Oskemen",
     "id": "732295",
     "giocatori": 6,
     "competizioni": [
      "Premier League 2026"
-    ],
-    "motivo": [
-     "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
-    ]
-   },
-   {
-    "squadra": "Inter Santa Tecla",
-    "id": "1783449",
-    "giocatori": 6,
-    "competizioni": [
-     "Primera Division 2026-2027 - Apertura"
     ],
     "motivo": [
      "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
@@ -15001,17 +15031,6 @@
     "giocatori": 6,
     "competizioni": [
      "Coupe de France 2026-2027"
-    ],
-    "motivo": [
-     "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
-    ]
-   },
-   {
-    "squadra": "MFK Bytca",
-    "id": "1678933",
-    "giocatori": 6,
-    "competizioni": [
-     "Slovak Cup 2026-2027"
     ],
     "motivo": [
      "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
@@ -15073,17 +15092,6 @@
     ]
    },
    {
-    "squadra": "Tolka Rovers",
-    "id": "203760",
-    "giocatori": 6,
-    "competizioni": [
-     "FAI Cup 2026"
-    ],
-    "motivo": [
-     "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
-    ]
-   },
-   {
     "squadra": "Union Rochefortoise",
     "id": "1661053",
     "giocatori": 6,
@@ -15106,11 +15114,33 @@
     ]
    },
    {
+    "squadra": "Dornbirn",
+    "id": "2026",
+    "giocatori": 7,
+    "competizioni": [
+     "Austrian Cup 2026-2027"
+    ],
+    "motivo": [
+     "7 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 7"
+    ]
+   },
+   {
     "squadra": "FKM Nové Zámky",
     "id": "580278",
     "giocatori": 7,
     "competizioni": [
      "Slovak Cup 2026-2027"
+    ],
+    "motivo": [
+     "7 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 7"
+    ]
+   },
+   {
+    "squadra": "JS El Biar",
+    "id": "2121859",
+    "giocatori": 7,
+    "competizioni": [
+     "Ligue 1 2026-2027"
     ],
     "motivo": [
      "7 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 7"
@@ -15169,6 +15199,17 @@
     "giocatori": 7,
     "competizioni": [
      "KNVB Cup 2026-2027"
+    ],
+    "motivo": [
+     "7 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 7"
+    ]
+   },
+   {
+    "squadra": "SV Horn",
+    "id": "2151",
+    "giocatori": 7,
+    "competizioni": [
+     "Austrian Cup 2026-2027"
     ],
     "motivo": [
      "7 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 7"
@@ -15319,17 +15360,6 @@
     ]
    },
    {
-    "squadra": "JS El Biar",
-    "id": "2121859",
-    "giocatori": 8,
-    "competizioni": [
-     "Ligue 1 2026-2027"
-    ],
-    "motivo": [
-     "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
-    ]
-   },
-   {
     "squadra": "Jedinstvo Ub",
     "id": "585084",
     "giocatori": 8,
@@ -15341,11 +15371,11 @@
     ]
    },
    {
-    "squadra": "Mijas-Las Lagunas",
-    "id": "2066192",
+    "squadra": "Kremser SC",
+    "id": "1691",
     "giocatori": 8,
     "competizioni": [
-     "Copa del Rey 2026-2027"
+     "Austrian Cup 2026-2027"
     ],
     "motivo": [
      "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
@@ -15390,6 +15420,17 @@
     "giocatori": 8,
     "competizioni": [
      "National Division 2026-2027"
+    ],
+    "motivo": [
+     "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
+    ]
+   },
+   {
+    "squadra": "Redcar Athletic",
+    "id": "1804164",
+    "giocatori": 8,
+    "competizioni": [
+     "FA Trophy 2026-2027"
     ],
     "motivo": [
      "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
@@ -15617,6 +15658,17 @@
     ]
    },
    {
+    "squadra": "Mijas-Las Lagunas",
+    "id": "2066192",
+    "giocatori": 9,
+    "competizioni": [
+     "Copa del Rey 2026-2027"
+    ],
+    "motivo": [
+     "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
+    ]
+   },
+   {
     "squadra": "Pyunik",
     "id": "6345",
     "giocatori": 9,
@@ -15628,19 +15680,19 @@
     ]
    },
    {
-    "squadra": "Redcar Athletic",
-    "id": "1804164",
+    "squadra": "SC Brühl",
+    "id": "213425",
     "giocatori": 9,
     "competizioni": [
-     "FA Trophy 2026-2027"
+     "Swiss Cup 2026-2027"
     ],
     "motivo": [
      "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
     ]
    },
    {
-    "squadra": "SC Brühl",
-    "id": "213425",
+    "squadra": "SC YF Juventus Zürich",
+    "id": "1758",
     "giocatori": 9,
     "competizioni": [
      "Swiss Cup 2026-2027"
@@ -15683,14 +15735,14 @@
     ]
    },
    {
-    "squadra": "Airbus UK Broughton",
-    "id": "2200",
-    "giocatori": 10,
+    "squadra": "VVSB",
+    "id": "206295",
+    "giocatori": 9,
     "competizioni": [
-     "Cymru Premier 2026-2027"
+     "KNVB Cup 2026-2027"
     ],
     "motivo": [
-     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
+     "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
     ]
    },
    {
@@ -15895,22 +15947,22 @@
     ]
    },
    {
-    "squadra": "Renfrew FC",
-    "id": "2063860",
+    "squadra": "Reichenau",
+    "id": "1684",
     "giocatori": 10,
     "competizioni": [
-     "Scottish Cup 2026-2027"
+     "Austrian Cup 2026-2027"
     ],
     "motivo": [
      "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
     ]
    },
    {
-    "squadra": "SC YF Juventus Zürich",
-    "id": "1758",
+    "squadra": "Renfrew FC",
+    "id": "2063860",
     "giocatori": 10,
     "competizioni": [
-     "Swiss Cup 2026-2027"
+     "Scottish Cup 2026-2027"
     ],
     "motivo": [
      "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
