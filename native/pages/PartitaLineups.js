@@ -87,7 +87,8 @@ function Badge({ v, pre, inline }) {
   useEffect(() => {
     if (wait) { setShown(null); setPrev(null); from.current = null; return undefined; }
     if (!pre || v == null) { setShown(v); setPrev(v); from.current = v; return undefined; }
-    const f = from.current == null ? v : from.current;
+    // dopo lo scheletro (primo arrivo dei voti dei falli) i numeri salgono/scendono e i colori cambiano gradualmente partendo dal centro della scala; la sola animazione locale del badge (420 ms), non tocca il caricamento
+    const f = from.current == null ? (pre ? 5 : v) : from.current;
     if (f === v) { setShown(v); return undefined; }
     setPrev(f);
     t.setValue(0);
