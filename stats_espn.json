@@ -5,100 +5,40 @@
    "senza": 9,
    "da_fare": 9
   },
-  "Série A 2012": {
-   "con_statistiche": 0,
-   "senza": 96,
-   "da_fare": 96
-  },
-  "Série A 2011": {
-   "con_statistiche": 0,
-   "senza": 380,
-   "da_fare": 380
-  },
-  "Série A 2010": {
-   "con_statistiche": 0,
-   "senza": 310,
-   "da_fare": 310
-  },
-  "Premier League 2020-2021": {
-   "con_statistiche": 0,
-   "senza": 2,
-   "da_fare": 2
-  },
-  "Süper Lig 2022-2023": {
-   "con_statistiche": 0,
-   "senza": 29,
-   "da_fare": 29
-  },
-  "Süper Lig 2017-2018": {
-   "con_statistiche": 0,
-   "senza": 39,
-   "da_fare": 39
-  },
-  "Süper Lig 2015-2016": {
-   "con_statistiche": 0,
-   "senza": 3,
-   "da_fare": 3
-  },
-  "Süper Lig 2012-2013": {
-   "con_statistiche": 0,
-   "senza": 182,
-   "da_fare": 182
-  },
-  "Süper Lig 2011-2012": {
-   "con_statistiche": 0,
-   "senza": 198,
-   "da_fare": 198
-  },
-  "Süper Lig 2010-2011": {
-   "con_statistiche": 0,
-   "senza": 193,
-   "da_fare": 193
-  },
-  "Liga 1 2025": {
-   "con_statistiche": 0,
-   "senza": 9,
-   "da_fare": 9
-  },
-  "Liga 1 2024": {
-   "con_statistiche": 0,
-   "senza": 4,
-   "da_fare": 4
-  },
-  "Liga 1 2023": {
-   "con_statistiche": 0,
-   "senza": 16,
-   "da_fare": 16
-  },
-  "Liga 1 2022": {
-   "con_statistiche": 0,
-   "senza": 48,
-   "da_fare": 48
-  },
-  "Liga 1 2021": {
-   "con_statistiche": 0,
-   "senza": 15,
-   "da_fare": 15
-  },
-  "Liga 1 2020": {
-   "con_statistiche": 0,
-   "senza": 32,
-   "da_fare": 32
-  },
-  "Liga Profesional 2019-2020": {
-   "con_statistiche": 3,
-   "senza": 0,
-   "da_fare": 3
-  },
-  "Liga Profesional 2018-2019": {
-   "con_statistiche": 149,
-   "senza": 0,
-   "da_fare": 149
-  },
   "Liga Profesional 2017-2018": {
-   "con_statistiche": 111,
+   "con_statistiche": 264,
+   "senza": 3,
+   "da_fare": 267
+  },
+  "Liga Profesional 2016-2017": {
+   "con_statistiche": 447,
+   "senza": 3,
+   "da_fare": 450
+  },
+  "Liga Profesional 2016 - Final": {
+   "con_statistiche": 1,
    "senza": 0,
-   "da_fare": 378
+   "da_fare": 1
+  },
+  "Liga Profesional 2015": {
+   "con_statistiche": 462,
+   "senza": 6,
+   "da_fare": 468
+  },
+  "Liga Profesional 2014": {
+   "con_statistiche": 190,
+   "senza": 0,
+   "da_fare": 190
+  },
+  "Liga Profesional 2013-2014 - Inicial": {
+   "con_statistiche": 0,
+   "senza": 190,
+   "da_fare": 190
+  },
+  "Liga Profesional 2013-2014 - Final": {
+   "con_statistiche": 11,
+   "senza": 89,
+   "da_fare": 191
   }
  }
 }
