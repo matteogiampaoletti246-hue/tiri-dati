@@ -20,8 +20,9 @@ const fxCache = {};
 const fxOrder = [];
 const fxKeep = (id) => { const i = fxOrder.indexOf(id); if (i >= 0) fxOrder.splice(i, 1); fxOrder.push(id); while (fxOrder.length > 12) delete fxCache[fxOrder.shift()]; };
 
+// al massimo 10 s: una richiesta ferma non deve tenere chiusa la pagina della partita (chi chiama gia' gestisce l'errore)
 const jget = async (url) => {
-  const r = await fetch(url, { cache: 'no-store' });
+  const r = await Promise.race([fetch(url, { cache: 'no-store' }), new Promise((_, no) => setTimeout(() => no(new Error('timeout')), 10000))]);
   if (!r.ok) throw new Error(String(r.status));
   return r.json();
 };

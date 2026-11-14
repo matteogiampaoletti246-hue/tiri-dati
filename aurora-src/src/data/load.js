@@ -5,10 +5,23 @@ export const RAW = {};
 export const BASE = new URL('../', document.baseURI).href;
 export const WORKER = 'https://scalperlab-live.matteo-giampaoletti04.workers.dev';
 
-const get = (name) =>
+const get1 = (name) =>
   fetch(`${BASE}${name}`, { cache: 'no-cache' })
     .then((r) => (r.ok ? r.json() : null))
     .catch(() => null);
+// Una richiesta ferma (connessione appena riaperta, primo avvio) non deve bloccare per decine di secondi tutti i dati condivisi:
+// se un file non arriva entro 5 s ne parte una seconda in parallelo e vale la prima che risponde con dati (senza dati resta null come prima).
+const get = (name) => new Promise((res) => {
+  let left = 1;
+  let done = false;
+  const fin = (v) => {
+    if (done) return;
+    left -= 1;
+    if (v != null || left <= 0) { done = true; clearTimeout(tm); res(v); }
+  };
+  const tm = setTimeout(() => { if (done) return; left += 1; get1(name).then(fin); }, 5000);
+  get1(name).then(fin);
+});
 
 // nome campo in RAW  →  file
 const FILES = {
