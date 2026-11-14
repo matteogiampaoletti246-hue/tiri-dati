@@ -1,6 +1,6 @@
 // Pagina Partita nativa: preparazione dati (prepareMatch, aggiornamento live e finestra formazioni), testata, schede.
 // Ogni scheda senza dati non si mostra. Le schede stanno in PartitaPanels.js (si portano una alla volta).
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { View, Text, Pressable, ScrollView, AppState } from 'react-native';
 import { onResumeCalm, justResumed } from '../shared/resume';
 import { Ionicons } from '@expo/vector-icons';
@@ -16,6 +16,8 @@ import { PANELS, hasPanel } from './PartitaPanels';
 import { matchById, viewMatch } from '@/data/matches';
 import { prepareMatch, prepareMatchCore, isReady } from '@/data/prepare';
 import { parseArchiveId, buildArchiveShell } from '@/data/archiveMatch';
+import { peekFeedRow } from '@/data/feedRows';
+import META from '../meta.json';
 import { lineupBeat, lineupWindowMs, lineupIsOfficial } from '@/data/lineupWindow';
 import { teamById } from '@/data/teams';
 import { leagueById } from '@/data/leagues';
@@ -26,6 +28,27 @@ import useAsync from '@/hooks/useAsync';
 
 const PRE_TABS = [['overview', 'Panoramica'], ['stats', 'Statistiche'], ['lineups', 'Formazioni'], ['rel', 'Affidabilità'], ['standings', 'Classifica']];
 const PLAYED_TABS = [['summary', 'Riepilogo'], ['stats', 'Statistiche'], ['lineups', 'Formazioni'], ['standings', 'Classifica']];
+
+// Testata istantanea: dalla riga della Home (squadre, campionato, orario, risultato), senza aspettare i dati condivisi (primo avvio dell'app: erano 2-5 s di scheletro nudo)
+const HM = (() => { try { return new Intl.DateTimeFormat('it-IT', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Rome' }); } catch (e) { return null; } })();
+const initials = (n) => String(n || '').split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0]).join('').toUpperCase();
+function quickOf(id) {
+  const a = parseArchiveId(id);
+  const x = /^x-\d+-(\d+)$/.exec(String(id));
+  const mid = a ? a.mid : x ? x[1] : null;
+  const r = mid ? peekFeedRow(mid) : null;
+  if (!r || !r[3] || !r[4]) return null;
+  const nm = (tid, n) => (META.names || {})[String(tid)] || n;
+  const team = (tid, n) => ({ id: `fm-${tid}`, name: nm(tid, n), initials: initials(nm(tid, n)), crest: `https://images.fotmob.com/image_resources/logo/teamlogo/${tid}.png`, colors: null });
+  const c = (META.comps || {})[String(r[1])];
+  const league = c ? { id: c.id, name: c.name, tint: c.tint, logo: c.logo, logoDark: c.logo ? c.logo.replace('/leaguelogo/', '/leaguelogo/dark/') : null, country: c.country } : null;
+  const sc = /(\d+)\s*-\s*(\d+)/.exec(r[7] || '');
+  const status = r[8] === 'l' ? 'live' : r[8] === 'f' ? 'finished' : 'scheduled';
+  const ts = Date.parse(r[2]);
+  const view = { score: sc ? [Number(sc[1]), Number(sc[2])] : null, events: [], minute: /^\d+(\+\d+)?$/.test(r[10] || '') ? r[10] : null, liveHalf: /^HT$/i.test(r[10] || '') };
+  const match = { id, ts, status, kickoff: HM ? HM.format(new Date(ts)) : '', homeId: `fm-${r[3]}`, awayId: `fm-${r[4]}`, formOf: () => [], leagueId: league ? league.id : null };
+  return { match, view, league, home: team(r[3], r[5]), away: team(r[4], r[6]) };
+}
 
 // scheletro con la forma della pagina (testata, tab, riquadri)
 function Skel({ C }) {
@@ -90,6 +113,7 @@ export default function Partita({ C, top, onBack, bottom = 90, openRoute, params
   }, [fmKey, skKey]);
   const early = !ok && !!(rawNow && rawNow.homeId && rawNow.awayId); // la testata (squadre, risultato, stato) c'e' gia' dalla Home: si mostra subito, le schede arrivano dopo
   const raw = ok || early ? rawNow : null;
+  const quick = useMemo(() => (raw ? null : quickOf(id)), [id, !!raw]); // eslint-disable-line react-hooks/exhaustive-deps
   // coppe e partite d'archivio: stesse regole del sito
   useEffect(() => { if (fin && !matchById(id)) onBack && onBack(); }, [fin, raw]);
   if (early) {
@@ -97,6 +121,18 @@ export default function Partita({ C, top, onBack, bottom = 90, openRoute, params
       <View style={{ flex: 1, backgroundColor: 'transparent' }}>
         <ScrollView style={{ paddingTop: top }} contentContainerStyle={{ paddingBottom: bottom + 20 }} showsVerticalScrollIndicator={false} scrollEnabled={false}>
           <PartitaHero C={C} match={raw} view={viewMatch(raw)} league={leagueById(raw.leagueId) || raw.leagueObj || null} home={teamById(raw.homeId)} away={teamById(raw.awayId)} onBack={onBack} openRoute={openRoute} />
+          <View style={{ paddingHorizontal: 16, paddingTop: 4 }}>
+            {[40, 160, 160].map((h, k) => <View key={k} style={{ height: h, borderRadius: k ? 24 : 20, backgroundColor: C.skBase, marginBottom: 14 }} />)}
+          </View>
+        </ScrollView>
+      </View>
+    );
+  }
+  if (!raw && quick) {
+    return (
+      <View style={{ flex: 1, backgroundColor: 'transparent' }}>
+        <ScrollView style={{ paddingTop: top }} contentContainerStyle={{ paddingBottom: bottom + 20 }} showsVerticalScrollIndicator={false} scrollEnabled={false}>
+          <PartitaHero C={C} match={quick.match} view={quick.view} league={quick.league} home={quick.home} away={quick.away} onBack={onBack} openRoute={openRoute} />
           <View style={{ paddingHorizontal: 16, paddingTop: 4 }}>
             {[40, 160, 160].map((h, k) => <View key={k} style={{ height: h, borderRadius: k ? 24 : 20, backgroundColor: C.skBase, marginBottom: 14 }} />)}
           </View>

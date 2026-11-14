@@ -6,6 +6,8 @@ import { dayFile } from './archive';
 
 const ROWS = new Map();
 export const rememberFeedRow = (r) => { if (r && r[0] != null && r[3] && r[4]) lruSet(ROWS, String(r[0]), r, 600); };
+// riga gia' vista dalla Home (subito, senza caricare nulla): la pagina partita ne ricava la testata prima dei dati condivisi
+export const peekFeedRow = (mid) => ROWS.get(String(mid)) || null;
 const ROME = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Rome' });
 // riga ricordata, altrimenti cercata nei file dei giorni vicini a oggi (da ieri a +7: quelli che la Home puo' mostrare con partite non archiviate)
 export async function feedRowFor(mid) {

@@ -28,6 +28,7 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 
 - Pagina Partita nativa (regola fissa): la testata (squadre, data, risultato) compare appena i dati condivisi sono pronti; per le partite d'archivio (`a-...`) si costruisce dal solo calendario (`buildArchiveShell`, `archiveBase` in `archiveMatch.js`) senza aspettare i dettagli pesanti. Il tempo dello scheletro conta dall'apertura (max 2,5 s), poi la pagina compare con cio' che c'e'; si torna indietro solo se, a preparazione finita, la partita non esiste.
 
+- Pagina Partita nativa, primo avvio: la testata compare subito dalla riga della Home (`peekFeedRow` in `feedRows.js`, `quickOf` in `Partita.js`: squadre, campionato da `meta.json`, orario/risultato), senza aspettare i dati condivisi (`bootShared`); appena la partita vera e' pronta la sostituisce nella stessa posizione.
 - Scheda giocatore nativa, Partite e Statistiche (regola fissa): appena la carriera e' pronta si caricano in anticipo e senza ritardi mappe, statistiche della competizione principale e le partite piu' recenti (`prefetchPartite`, `warmPlayerMaps` in `Giocatore.js`); le partite di una stagione usano le statistiche di stagione solo se manca il lato casa/trasferta; la lista Partite carica le due stagioni piu' recenti insieme; lo scheletro dura al massimo 2,5 s (poi le righe compaiono man mano); le mappe della stagione in corso aspettano al massimo 2,5 s le partite non ancora in archivio.
 
 ## Home nativa (Expo Go): ritorni, ricerca, storico, ordine (regola fissa)

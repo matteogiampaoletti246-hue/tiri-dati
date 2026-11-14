@@ -78,7 +78,7 @@ function LiveClock({ C, match, minute }) {
     return () => clearInterval(t);
   }, [c]);
   const v = clockView(c);
-  if (!v) return <Text style={{ color: C.live, fontSize: 11.5, fontWeight: '700' }}>{`${minute}'`}</Text>;
+  if (!v) return <Text style={{ color: C.live, fontSize: 11.5, fontWeight: '700' }}>{/^\d/.test(String(minute)) ? `${minute}'` : 'LIVE'}</Text>;
   return (
     <Text style={{ color: C.live, fontSize: 11.5, fontWeight: '700', fontVariant: ['tabular-nums'] }}>
       {v.text}
