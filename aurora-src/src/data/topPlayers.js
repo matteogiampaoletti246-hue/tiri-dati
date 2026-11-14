@@ -33,7 +33,7 @@ export const TOP_KEEP = { day: null, thr: '0.5', stat: 'tiri', stamp: '', child:
 const MIN_VOTE = 7.75;
 const MAX_PER_DAY = 80;
 // Nations League C e D (fm-9808, fm-9809) restano fuori da Migliori Giocatori (solo A e B)
-const NAT_HIDDEN = ['fm-9808', 'fm-9809'];
+const NAT_HIDDEN = ['fm-9808', 'fm-9809', 'fm-114']; // Nations League C e D e amichevoli: mai in Migliori Giocatori (l'Affidabilita' delle amichevoli resta solo dentro la partita)
 const DOMESTIC = [...DOMESTIC_KEYS, ...CUPS].filter((k) => !NAT_HIDDEN.includes(k)); // top 5 + campionati aggiunti con Affidabilita' + Champions ed Europa League
 // Falli commessi/subiti: solo top 5 campionati, coppe europee, coppe nazionali e competizioni delle nazionali (= le competizioni coi dati dei falli, `FALLI_KEYS`);
 // niente campionati minori (Eredivisie, Pro League, Super Lig...). Le coppe e le nazionali entrano quando le loro partite sono nelle prossime partite (`fix` di giocatori.json).
