@@ -1,154 +1,49 @@
 {
  "competizioni": {
-  "World Cup Qualification CAF 2023-2025": {
-   "con_statistiche": 0,
-   "senza": 231,
-   "da_fare": 231
-  },
-  "World Cup Qualification CAF 2019-2022": {
-   "con_statistiche": 0,
-   "senza": 136,
-   "da_fare": 136
-  },
-  "World Cup Qualification CAF 2015-2017": {
-   "con_statistiche": 0,
-   "senza": 67,
-   "da_fare": 67
-  },
-  "World Cup Qualification CAF 2011-2013": {
-   "con_statistiche": 0,
-   "senza": 152,
-   "da_fare": 152
-  },
-  "World Cup Qualification AFC 2023-2025": {
-   "con_statistiche": 0,
-   "senza": 85,
-   "da_fare": 85
-  },
-  "World Cup Qualification AFC 2019-2022": {
-   "con_statistiche": 0,
-   "senza": 51,
-   "da_fare": 51
-  },
-  "World Cup Qualification AFC 2015-2017": {
-   "con_statistiche": 0,
-   "senza": 166,
-   "da_fare": 166
-  },
-  "World Cup Qualification AFC 2012-2013": {
-   "con_statistiche": 0,
-   "senza": 42,
-   "da_fare": 42
-  },
-  "World Cup Qualification AFC 2011-2012": {
-   "con_statistiche": 0,
-   "senza": 106,
-   "da_fare": 106
-  },
-  "World Cup Qualification CONCACAF 2024-2025": {
-   "con_statistiche": 0,
-   "senza": 5,
-   "da_fare": 5
-  },
-  "World Cup Qualification CONCACAF 2021-2022": {
-   "con_statistiche": 0,
-   "senza": 52,
-   "da_fare": 52
-  },
-  "World Cup Qualification CONCACAF 2015-2017": {
-   "con_statistiche": 7,
-   "senza": 68,
-   "da_fare": 75
-  },
-  "World Cup Qualification CONCACAF 2011-2013": {
-   "con_statistiche": 29,
-   "senza": 113,
-   "da_fare": 142
-  },
-  "World Cup Qualification CONMEBOL 2015-2017": {
-   "con_statistiche": 16,
-   "senza": 5,
-   "da_fare": 21
-  },
-  "World Cup Qualification CONMEBOL 2011-2013": {
-   "con_statistiche": 26,
-   "senza": 46,
-   "da_fare": 72
-  },
-  "World Cup Qualification OFC 2024-2025": {
-   "con_statistiche": 0,
-   "senza": 18,
-   "da_fare": 18
-  },
-  "World Cup Qualification OFC 2022": {
-   "con_statistiche": 0,
-   "senza": 11,
-   "da_fare": 11
-  },
-  "World Cup Qualification OFC 2016": {
-   "con_statistiche": 0,
-   "senza": 3,
-   "da_fare": 3
-  },
-  "World Cup Qualification OFC 2015-2017": {
-   "con_statistiche": 0,
-   "senza": 14,
-   "da_fare": 14
-  },
-  "World Cup Qualification OFC 2015-2016": {
-   "con_statistiche": 0,
-   "senza": 18,
-   "da_fare": 18
-  },
-  "World Cup Qualification OFC 2012": {
-   "con_statistiche": 0,
-   "senza": 4,
-   "da_fare": 4
-  },
-  "World Cup Qualification OFC 2011-2013": {
-   "con_statistiche": 0,
-   "senza": 30,
-   "da_fare": 30
-  },
-  "EURO Qualification 2014-2015": {
-   "con_statistiche": 0,
-   "senza": 52,
-   "da_fare": 52
-  },
-  "EURO Qualification 2010-2011": {
-   "con_statistiche": 0,
-   "senza": 190,
-   "da_fare": 190
-  },
   "Friendlies 2026": {
-   "con_statistiche": 4,
-   "senza": 202,
-   "da_fare": 206
-  },
-  "Serie B 2020-2021": {
    "con_statistiche": 0,
-   "senza": 1,
-   "da_fare": 1
-  },
-  "Serie B 2018-2019": {
-   "con_statistiche": 0,
-   "senza": 1,
-   "da_fare": 1
-  },
-  "Serie B 2017-2018": {
-   "con_statistiche": 0,
-   "senza": 21,
-   "da_fare": 21
-  },
-  "Serie B 2015-2016": {
-   "con_statistiche": 0,
-   "senza": 118,
-   "da_fare": 118
+   "senza": 6,
+   "da_fare": 6
   },
   "Serie B 2014-2015": {
    "con_statistiche": 0,
-   "senza": 241,
-   "da_fare": 471
+   "senza": 230,
+   "da_fare": 230
+  },
+  "Serie B 2013-2014": {
+   "con_statistiche": 0,
+   "senza": 472,
+   "da_fare": 472
+  },
+  "Serie B 2012-2013": {
+   "con_statistiche": 0,
+   "senza": 468,
+   "da_fare": 468
+  },
+  "Serie B 2011-2012": {
+   "con_statistiche": 0,
+   "senza": 470,
+   "da_fare": 470
+  },
+  "Serie B 2010-2011": {
+   "con_statistiche": 0,
+   "senza": 470,
+   "da_fare": 470
+  },
+  "Primera A 2026 - Clausura": {
+   "con_statistiche": 1,
+   "senza": 0,
+   "da_fare": 1
+  },
+  "Primera A 2022 - Apertura": {
+   "con_statistiche": 0,
+   "senza": 1,
+   "da_fare": 1
+  },
+  "Primera A 2020 - Apertura": {
+   "con_statistiche": 0,
+   "senza": 0,
+   "da_fare": 9
   }
  }
 }
