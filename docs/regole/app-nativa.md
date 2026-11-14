@@ -304,3 +304,7 @@ Come nel sito: il filtro delle linee (`Segmented fit pad={10}`) prende lo spazio
 - Quando l'app riparte da sola dalla Home (rete di sicurezza `Guard` in `native/App.js`, errore di disegno) o un errore JS fuori dal disegno la fermerebbe, compare un avviso "Errore (disegno | JS | fatale)" col testo dell'errore (`showErr`): l'utente lo manda cosi' com'e', senza video. Un avviso ogni 4 s al massimo, mai lo stesso entro 60 s. Gli errori JS fuori dal disegno non chiudono piu' l'app (in sviluppo resta il comportamento normale).
 - Se una chiusura non mostra nessun avviso non e' un errore di codice: e' iOS che chiude Expo Go (memoria o crash nativo).
 - Prova di disegno senza telefono: pagina nativa con `react-test-renderer` e pacchetti nativi finti (esbuild) sopra i dati veri (`bootData` in Node); serve a trovare errori di disegno, non memoria del telefono.
+
+## InteractionManager: mai da react-native (14/11/2026, regola fissa)
+- L'ultimo SDK ha tolto `InteractionManager` da `react-native`: importarlo da li' da `undefined` e sul telefono "Cannot read property 'runAfterInteractions' of undefined" (era la vera causa della chiusura scegliendo Falli commessi/subiti nelle Formazioni, e dell'app che ripartiva dalla Home). Si importa SOLO da `native/shared/afterInteractions` (solo timer). `native/tools/smoke.cjs` ora fallisce se un file nativo lo importa da `react-native`.
+- `resume.js` (ritorno dal background) aveva lo stesso difetto: corretto.

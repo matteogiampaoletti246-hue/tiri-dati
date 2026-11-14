@@ -1,6 +1,7 @@
 // Ritorno dal background: per i primi istanti il thread JS deve restare libero per il tocco.
 // Tutto cio' che al ritorno aggiorna dati (Home, partita, Calcolatore) aspetta RESUME_CALM ms e parte dopo le interazioni in corso.
-import { AppState, InteractionManager } from 'react-native';
+import { AppState } from 'react-native';
+import { InteractionManager } from './afterInteractions';
 
 export const RESUME_CALM = 2500;
 let activeAt = 0;

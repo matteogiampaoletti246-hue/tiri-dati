@@ -2,7 +2,8 @@
 // infortunati; formazione a soli nomi quando la fonte non da' il campo. Stessi dati del sito.
 import { FlagN } from '../shared/FlagN';
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, Pressable, Animated, Easing, InteractionManager } from 'react-native';
+import { View, Text, Pressable, Animated, Easing } from 'react-native';
+import { InteractionManager } from '../shared/afterInteractions';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';

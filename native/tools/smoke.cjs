@@ -1,3 +1,10 @@
+// InteractionManager non esiste piu' in react-native (ultimo SDK): si importa solo da native/shared/afterInteractions (sul telefono: "Cannot read property 'runAfterInteractions' of undefined")
+{
+  const fs2 = require('fs'), path2 = require('path'); const bad = [];
+  const w2 = (d) => fs2.readdirSync(d, { withFileTypes: true }).forEach((e) => { const p = path2.join(d, e.name); if (e.isDirectory()) { if (e.name !== 'node_modules' && e.name !== 'tools') w2(p); } else if (/\.js$/.test(e.name) && /import\s*\{[^}]*\bInteractionManager\b[^}]*\}\s*from\s*'react-native'/.test(fs2.readFileSync(p, 'utf8'))) bad.push(p); });
+  w2('native');
+  if (bad.length) { console.error("PROVA DI AVVIO FALLITA: InteractionManager importato da 'react-native' in:", bad.join(', ')); process.exit(1); }
+}
 // Prova di avvio dell'app nativa SENZA telefono: impacchetta native/App.js con esbuild (pacchetti finti) e lo esegue in Node.
 // Trova subito errori come "Property 'document'/'SITE' doesn't exist" o import mancanti che sul telefono fanno schermata di errore.
 // Uso: node native/tools/smoke.cjs   (dalla radice del repository)
