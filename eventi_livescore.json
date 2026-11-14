@@ -125,8 +125,8 @@
    "da_fare": 0
   },
   "Friendlies 2026": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "Cymru Premier 2026-2027": {
    "partite_con_eventi": 0,
@@ -418,7 +418,7 @@
   },
   "Primera A 2026 - Clausura": {
    "partite_con_eventi": 0,
-   "da_fare": 0
+   "da_fare": 1
   },
   "Croatian Cup 2026-2027": {
    "partite_con_eventi": 0,
@@ -466,7 +466,7 @@
   },
   "LPF 2026": {
    "partite_con_eventi": 0,
-   "da_fare": 0
+   "da_fare": 3
   },
   "Copa do Brasil 2026": {
    "partite_con_eventi": 0,
@@ -1177,5 +1177,5 @@
    "da_fare": 0
   }
  },
- "partite_in_questo_giro": 1
+ "partite_in_questo_giro": 4
 }
