@@ -6410,7 +6410,7 @@
  "squadre_controllate": 1520,
  "rose": {
   "squadre": 3150,
-  "senza_rosa_prima": 2280,
+  "senza_rosa_prima": 2265,
   "senza_rosa_dopo": 334,
   "senza_rosa": [
    {
@@ -7144,7 +7144,7 @@
     "competizioni": [
      "Coupe de France 2026-2027"
     ],
-    "motivo": "nessuna partita giocata nella stagione in corso"
+    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
     "squadra": "CP Talayuela",
@@ -9095,9 +9095,9 @@
  },
  "rose_per_ruolo": {
   "squadre": 3150,
-  "prima": 2349,
-  "dopo": 628,
-  "giocate_dopo": 549,
+  "prima": 2364,
+  "dopo": 604,
+  "giocate_dopo": 526,
   "elenco": [
    {
     "squadra": "1. BFK Frýdlant nad Ostravici",
@@ -10137,7 +10137,7 @@
      "Coupe de France 2026-2027"
     ],
     "motivo": [
-     "0 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
     ]
    },
    {
@@ -15045,17 +15045,6 @@
     ]
    },
    {
-    "squadra": "KF Tirana",
-    "id": "10029",
-    "giocatori": 6,
-    "competizioni": [
-     "Kategoria Superiore 2026-2027"
-    ],
-    "motivo": [
-     "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
-    ]
-   },
-   {
     "squadra": "Linas Montlhery",
     "id": "1103457",
     "giocatori": 6,
@@ -15105,17 +15094,6 @@
     "giocatori": 6,
     "competizioni": [
      "Prva Liga 2026-2027"
-    ],
-    "motivo": [
-     "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
-    ]
-   },
-   {
-    "squadra": "Southern Indiana",
-    "id": "1715262",
-    "giocatori": 6,
-    "competizioni": [
-     "Open Cup 2026"
     ],
     "motivo": [
      "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
@@ -15211,30 +15189,6 @@
     ]
    },
    {
-    "squadra": "Philippines",
-    "id": "230139",
-    "giocatori": 7,
-    "competizioni": [
-     "World Cup Qualification AFC 2023-2025",
-     "Asian Cup Qualification Playoff 2025-2026",
-     "Friendlies 2026"
-    ],
-    "motivo": [
-     "7 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 7"
-    ]
-   },
-   {
-    "squadra": "Rohda Raalte",
-    "id": "1818779",
-    "giocatori": 7,
-    "competizioni": [
-     "KNVB Cup 2026-2027"
-    ],
-    "motivo": [
-     "7 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 7"
-    ]
-   },
-   {
     "squadra": "SV Horn",
     "id": "2151",
     "giocatori": 7,
@@ -15301,34 +15255,11 @@
     ]
    },
    {
-    "squadra": "CD Águila",
-    "id": "49739",
-    "giocatori": 8,
-    "competizioni": [
-     "Primera Division 2026-2027 - Apertura"
-    ],
-    "motivo": [
-     "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
-    ]
-   },
-   {
     "squadra": "CR Temouchent",
     "id": "319205",
     "giocatori": 8,
     "competizioni": [
      "Ligue 1 2026-2027"
-    ],
-    "motivo": [
-     "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
-    ]
-   },
-   {
-    "squadra": "Cayman Islands",
-    "id": "287982",
-    "giocatori": 8,
-    "competizioni": [
-     "World Cup Qualification CONCACAF 2024-2025",
-     "Friendlies 2026"
     ],
     "motivo": [
      "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
@@ -15420,17 +15351,6 @@
     ],
     "motivo": [
      "8 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
-    ]
-   },
-   {
-    "squadra": "Northern Virginia FC",
-    "id": "1334314",
-    "giocatori": 8,
-    "competizioni": [
-     "Open Cup 2026"
-    ],
-    "motivo": [
-     "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
     ]
    },
    {
@@ -15544,51 +15464,6 @@
     ]
    },
    {
-    "squadra": "ASU Politehnica Timișoara",
-    "id": "779488",
-    "giocatori": 9,
-    "competizioni": [
-     "Cupa României 2026-2027"
-    ],
-    "motivo": [
-     "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
-    ]
-   },
-   {
-    "squadra": "Alianza FC",
-    "id": "49740",
-    "giocatori": 9,
-    "competizioni": [
-     "Primera Division 2026-2027 - Apertura"
-    ],
-    "motivo": [
-     "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
-    ]
-   },
-   {
-    "squadra": "Aruba",
-    "id": "262131",
-    "giocatori": 9,
-    "competizioni": [
-     "World Cup Qualification CONCACAF 2024-2025",
-     "Friendlies 2026"
-    ],
-    "motivo": [
-     "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
-    ]
-   },
-   {
-    "squadra": "CF Calamocha",
-    "id": "2066167",
-    "giocatori": 9,
-    "competizioni": [
-     "Copa del Rey 2026-2027"
-    ],
-    "motivo": [
-     "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
-    ]
-   },
-   {
     "squadra": "Cardiff Met FC",
     "id": "560953",
     "giocatori": 9,
@@ -15644,17 +15519,6 @@
     ]
    },
    {
-    "squadra": "FK Sileks",
-    "id": "6187",
-    "giocatori": 9,
-    "competizioni": [
-     "Prva Liga 2026-2027"
-    ],
-    "motivo": [
-     "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
-    ]
-   },
-   {
     "squadra": "Holywell Town",
     "id": "525403",
     "giocatori": 9,
@@ -15671,50 +15535,6 @@
     "giocatori": 9,
     "competizioni": [
      "Turkish Cup 2026-2027"
-    ],
-    "motivo": [
-     "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
-    ]
-   },
-   {
-    "squadra": "Maribor",
-    "id": "8340",
-    "giocatori": 9,
-    "competizioni": [
-     "Prva Liga 2026-2027"
-    ],
-    "motivo": [
-     "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
-    ]
-   },
-   {
-    "squadra": "Mijas-Las Lagunas",
-    "id": "2066192",
-    "giocatori": 9,
-    "competizioni": [
-     "Copa del Rey 2026-2027"
-    ],
-    "motivo": [
-     "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
-    ]
-   },
-   {
-    "squadra": "Pyunik",
-    "id": "6345",
-    "giocatori": 9,
-    "competizioni": [
-     "Premier League 2026-2027"
-    ],
-    "motivo": [
-     "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
-    ]
-   },
-   {
-    "squadra": "SC Brühl",
-    "id": "213425",
-    "giocatori": 9,
-    "competizioni": [
-     "Swiss Cup 2026-2027"
     ],
     "motivo": [
      "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
@@ -15759,17 +15579,6 @@
     "giocatori": 9,
     "competizioni": [
      "National Division 2026-2027"
-    ],
-    "motivo": [
-     "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
-    ]
-   },
-   {
-    "squadra": "VVSB",
-    "id": "206295",
-    "giocatori": 9,
-    "competizioni": [
-     "KNVB Cup 2026-2027"
     ],
     "motivo": [
      "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
@@ -15919,19 +15728,6 @@
     ]
    },
    {
-    "squadra": "Maldives",
-    "id": "5899",
-    "giocatori": 10,
-    "competizioni": [
-     "World Cup Qualification AFC 2023-2025",
-     "Asian Cup Qualification Playoff 2025-2026",
-     "Friendlies 2026"
-    ],
-    "motivo": [
-     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
-    ]
-   },
-   {
     "squadra": "Panthrakikos Komotini",
     "id": "104810",
     "giocatori": 10,
@@ -15943,67 +15739,11 @@
     ]
    },
    {
-    "squadra": "Radomlje",
-    "id": "272871",
-    "giocatori": 10,
-    "competizioni": [
-     "Prva Liga 2026-2027",
-     "Slovenia Cup 2026-2027"
-    ],
-    "motivo": [
-     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
-    ]
-   },
-   {
-    "squadra": "Real Avilés CF",
-    "id": "189594",
-    "giocatori": 10,
-    "competizioni": [
-     "Primera Federación 2026-2027"
-    ],
-    "motivo": [
-     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
-    ]
-   },
-   {
-    "squadra": "Red Force",
-    "id": "540860",
-    "giocatori": 10,
-    "competizioni": [
-     "Open Cup 2026"
-    ],
-    "motivo": [
-     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
-    ]
-   },
-   {
     "squadra": "Reichenau",
     "id": "1684",
     "giocatori": 10,
     "competizioni": [
      "Austrian Cup 2026-2027"
-    ],
-    "motivo": [
-     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
-    ]
-   },
-   {
-    "squadra": "Renfrew FC",
-    "id": "2063860",
-    "giocatori": 10,
-    "competizioni": [
-     "Scottish Cup 2026-2027"
-    ],
-    "motivo": [
-     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
-    ]
-   },
-   {
-    "squadra": "Santarém",
-    "id": "1074312",
-    "giocatori": 10,
-    "competizioni": [
-     "Taça de Portugal 2026-2027"
     ],
     "motivo": [
      "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
@@ -16026,17 +15766,6 @@
     "giocatori": 10,
     "competizioni": [
      "Puchar Polski 2026-2027"
-    ],
-    "motivo": [
-     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
-    ]
-   },
-   {
-    "squadra": "Zimbru",
-    "id": "8039",
-    "giocatori": 10,
-    "competizioni": [
-     "National Division 2026-2027"
     ],
     "motivo": [
      "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
@@ -17262,8 +16991,8 @@
   "mancanti_dopo": []
  },
  "forma": {
-  "squadre_senza_forma_prima": 1957,
-  "squadre_senza_forma_dopo": 98,
+  "squadre_senza_forma_prima": 1956,
+  "squadre_senza_forma_dopo": 97,
   "motivo_dopo": "nessuna partita giocata nella stagione in corso: niente riquadro"
  }
 }
