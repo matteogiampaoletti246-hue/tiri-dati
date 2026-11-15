@@ -2,53 +2,38 @@
  "competizioni": {
   "Friendlies 2026": {
    "con_statistiche": 0,
-   "senza": 10,
-   "da_fare": 10
-  },
-  "Super League 1 2011-2012": {
-   "con_statistiche": 0,
-   "senza": 107,
-   "da_fare": 107
-  },
-  "Super League 1 2010-2011": {
-   "con_statistiche": 0,
-   "senza": 252,
-   "da_fare": 252
-  },
-  "2. Bundesliga 2017-2018": {
-   "con_statistiche": 1,
-   "senza": 0,
-   "da_fare": 1
-  },
-  "2. Bundesliga 2016-2017": {
-   "con_statistiche": 29,
-   "senza": 0,
-   "da_fare": 29
-  },
-  "2. Bundesliga 2015-2016": {
-   "con_statistiche": 0,
-   "senza": 66,
-   "da_fare": 66
-  },
-  "2. Bundesliga 2014-2015": {
-   "con_statistiche": 0,
-   "senza": 306,
-   "da_fare": 306
-  },
-  "2. Bundesliga 2013-2014": {
-   "con_statistiche": 1,
-   "senza": 305,
-   "da_fare": 306
-  },
-  "2. Bundesliga 2012-2013": {
-   "con_statistiche": 0,
-   "senza": 306,
-   "da_fare": 306
+   "senza": 7,
+   "da_fare": 7
   },
   "2. Bundesliga 2011-2012": {
+   "con_statistiche": 3,
+   "senza": 82,
+   "da_fare": 85
+  },
+  "2. Bundesliga 2010-2011": {
+   "con_statistiche": 239,
+   "senza": 66,
+   "da_fare": 305
+  },
+  "Championship 2018-2019": {
    "con_statistiche": 0,
-   "senza": 211,
-   "da_fare": 296
+   "senza": 1,
+   "da_fare": 1
+  },
+  "Championship 2015-2016": {
+   "con_statistiche": 25,
+   "senza": 2,
+   "da_fare": 27
+  },
+  "Championship 2014-2015": {
+   "con_statistiche": 0,
+   "senza": 552,
+   "da_fare": 552
+  },
+  "Championship 2013-2014": {
+   "con_statistiche": 0,
+   "senza": 345,
+   "da_fare": 556
   }
  }
 }
