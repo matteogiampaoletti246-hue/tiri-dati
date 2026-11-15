@@ -99,6 +99,59 @@ function fmFill(t, fm, strict) {
   return { f: t.f, s: t.s.map(fix), b: (t.b || []).map(fix), co: fm.co || t.co };
 }
 
+// Formazione di diretta.it -> righe nel formato FotMob (15/11/2026). Il numero di maglia non basta (diretta e FotMob possono avere numeri diversi, specie nelle
+// nazionali): ogni giocatore si abbina per NOME, in quest'ordine: 1) formazione FotMob della stessa partita (numero + nome, poi solo nome); 2) rosa della squadra
+// (`rosa/` del sito); 3) rosa e ultima formazione dalla pagina squadra FotMob (solo per chi resta senza id). Abbinamento solo se il nome e' unico: mai indovinato.
+// Nome mostrato = nome intero FotMob (come nel resto dell'app), id e foto di FotMob; posizione in campo, numero e capitano restano di diretta.
+async function dlFill(t, fm, tid) {
+  const ph = (id) => (id ? "https://images.fotmob.com/image_resources/playerimages/" + id + ".png" : null);
+  const fmRows = fm ? [...(fm.s || []), ...(fm.b || [])] : [];
+  const uniq = (rows, name, get) => { const hit = rows.filter((q) => samePerson(get(q), name)); return hit.length === 1 ? hit[0] : null; };
+  let ros = null, sq = null;
+  const loadRosa = async () => {
+    if (ros) return ros;
+    ros = [];
+    try {
+      const r = await fetch(SITE + "rosa/" + (Number(tid) % 100) + ".json", { cf: { cacheTtl: 3600, cacheEverything: true } });
+      if (r.ok) ros = (((await r.json()) || {})[String(tid)] || {}).p || [];
+    } catch (e) { /* senza rosa si passa alla fonte dopo */ }
+    return ros;
+  };
+  const loadSquad = async () => {
+    if (sq) return sq;
+    sq = [];
+    try {
+      const r = await fetch("https://www.fotmob.com/api/data/teams?id=" + tid + "&ccode3=ITA", { headers: FMH, cf: { cacheTtl: 1800, cacheEverything: true } });
+      if (r.ok) {
+        const j = await r.json();
+        const add = (q) => { if (q && q.id && q.name && !sq.some((z) => z.id === q.id)) sq.push({ id: q.id, name: q.name, num: q.shirtNumber != null && q.shirtNumber !== "" ? +q.shirtNumber || null : null }); };
+        const sqd = (j.squad && (j.squad.squad || j.squad)) || [];
+        (Array.isArray(sqd) ? sqd : []).forEach((g) => (Array.isArray(g.members) ? g.members : []).forEach(add));
+        const ll = (j.overview || {}).lastLineupStats;
+        if (ll) [...(ll.starters || []), ...(ll.subs || []), ...(ll.bench || [])].forEach(add);
+      }
+    } catch (e) { /* idem */ }
+    return sq;
+  };
+  const one = async (p) => {
+    const name = p[0], num = p[1];
+    const byNum = num != null ? fmRows.find((q) => q[1] != null && String(q[1]) === String(num) && samePerson(q[0], name)) : null;
+    const f = byNum || uniq(fmRows, name, (q) => q[0]);
+    if (f && f[7]) return [f[0], num != null ? num : f[1], p[2], p[3], p[4] || f[4], f[5], f[6], f[7], f[8]];
+    const r = uniq(await loadRosa(), name, (q) => q[1]);
+    if (r && r[0] > 0) return [r[1], num != null ? num : r[3], p[2], p[3], p[4], ph(r[0]), null, r[0], r[2] === "GK" ? 0 : null];
+    const z = uniq(await loadSquad(), name, (q) => q.name);
+    if (z) return [z.name, num != null ? num : z.num, p[2], p[3], p[4], ph(z.id), null, z.id, null];
+    return p;
+  };
+  const s = await Promise.all(t.s.map(one));
+  const b = await Promise.all((t.b || []).map(one));
+  // portiere segnato (posizione 0) solo se e' uno solo tra i titolari con quel ruolo
+  const gk = s.filter((q) => q[8] === 0);
+  if (gk.length > 1) gk.forEach((q) => { q[8] = null; });
+  return { f: t.f, s, b, co: (fm && fm.co) || t.co };
+}
+
 // ---- Formazioni da ESPN dove FotMob non le ha (verificato il 07/11/2026: ESPN da' modulo, titolari con ruolo e lato, panchina).
 // Competizioni FotMob -> ESPN controllate una per una; si aggiungono solo dopo aver visto le formazioni vere.
 // 14/11/2026: non piu' solo queste 4. Per ogni altra competizione si cerca la partita nel tabellone generale di ESPN ("all": nazionali, amichevoli,
@@ -515,7 +568,7 @@ export default {
         const dl = await dlLineups(g2, stt, id, env);
         let dlDone = false;
         if (dl && dl.official && !(g2.started && fmReady)) {
-          out.h = fmFill(dl.h, fm0.h, !fmOfficial); out.a = fmFill(dl.a, fm0.a, !fmOfficial);
+          [out.h, out.a] = await Promise.all([dlFill(dl.h, fm0.h, out.hi), dlFill(dl.a, fm0.a, out.ai)]);
           out.luSrc = "diretta"; out.ty = "standard"; dlDone = true;
         }
         if (!dlDone && (noXY(out.h) || noXY(out.a) || (!fmOfficial && !g2.started))) {
@@ -536,7 +589,7 @@ export default {
         }
         // formazione PROBABILE di diretta.it: davanti a quella di FotMob e all'ultima formazione, ma solo se nessun'altra fonte ha gia' i titolari ufficiali
         if (!dlDone && dl && !dl.official && !g2.started && !fmOfficial && !out.luSrc) {
-          out.h = fmFill(dl.h, fm0.h, true); out.a = fmFill(dl.a, fm0.a, true);
+          [out.h, out.a] = await Promise.all([dlFill(dl.h, fm0.h, out.hi), dlFill(dl.a, fm0.a, out.ai)]);
           out.luSrc = "diretta"; out.ty = "predicted";
         }
         // Nessuna fonte ha ancora la formazione (nazionali, amichevoli, campionati minori a giorni dal fischio): formazione PROBABILE = l'ultima formazione
