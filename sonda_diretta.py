@@ -37,7 +37,7 @@ def recs(tx):
 
 import re
 import re
-UAH = {"User-Agent": H["User-Agent"], "Accept": "text/html,*/*", "Accept-Language": "it-IT,it;q=0.9"}
+UAH = {"User-Agent": H["User-Agent"], "Accept": "text/html,*/*", "Accept-Language": "it-IT,it;q=0.9", "Origin": "https://www.diretta.it", "Referer": "https://www.diretta.it/"}
 def html(url):
     try:
         r = urllib.request.urlopen(urllib.request.Request(url, headers=UAH), timeout=30)
@@ -45,35 +45,31 @@ def html(url):
     except Exception as ex:
         return "ERR " + str(ex)[:150]
 
-core = html("https://www.diretta.it/x/js/core_400_2324000000.js")
-chunks = {"core": core}
-refs = set(re.findall(r'/res/_fs/build/[A-Za-z0-9_.\-]+\.js', core))
-pg = html("https://www.diretta.it/partita/calcio/belgio-GbB957na/italia-hlKvieGH/riassunto/formazioni/?mid=4YNzMsxg")
-refs |= set(re.findall(r'/res/_fs/build/[A-Za-z0-9_.\-]+\.js', pg))
-OUT["refs"] = sorted(refs)[:80]
-for u in sorted(refs)[:60]:
-    chunks[u] = html("https://www.diretta.it" + u)
+B = "https://www.diretta.it"
+detail = html(B + "/res/_fs/build/detail.ToPma-I.js")
+names = set(re.findall(r'/res/_fs/build/[A-Za-z0-9_.\-]+\.js', detail))
+chunks = {"detail": detail}
+for u in sorted(names):
+    if re.search(r"(?i)lineup|detail|constants|query|hash|graphql|predicted", u):
+        chunks[u] = html(B + u)
 OUT["chunks"] = {k: len(v) for k, v in chunks.items()}
-dfs = {}
+hashes = {}
 for k, t in chunks.items():
-    for m in re.findall(r"df_[a-z0-9]+_", t):
-        dfs.setdefault(m, set()).add(k[-30:])
-OUT["df_tokens"] = {k: sorted(v) for k, v in dfs.items()}
-ctx = []
+    for m in re.finditer(r'([A-Z][A-Z0-9_]*(?:LINEUP|LINE_UP|PREDICTED|MISSING)[A-Z0-9_]*)\s*[:=]\s*"([A-Za-z0-9_\-]{3,40})"', t):
+        hashes[m.group(1)] = m.group(2)
+OUT["hashes_lineup"] = hashes
+# tutte le costanti *_QUERY/*_UPDATE con hash, per riferimento
+allq = {}
 for k, t in chunks.items():
-    for m in re.finditer(r"(?i)lineup|line_up|formazion", t):
-        a = max(0, m.start() - 120)
-        ctx.append([k[-30:], t[a:m.end() + 200].replace("\n", " ")])
-        if len(ctx) >= 40:
-            break
-OUT["lineup_ctx"] = ctx
-gq = []
-for k, t in chunks.items():
-    for m in re.finditer(r"_hash|persistedQuer|pq_graphql", t):
-        a = max(0, m.start() - 150)
-        gq.append([k[-30:], t[a:m.end() + 250].replace("\n", " ")])
-        if len(gq) >= 25:
-            break
-OUT["graphql_ctx"] = gq
+    for m in re.finditer(r'([A-Z][A-Z0-9_]*_(?:QUERY|UPDATE))\s*:\s*"([A-Za-z0-9_\-]{3,40})"', t):
+        allq[m.group(1)] = m.group(2)
+OUT["hashes_all"] = allq
+resp = {}
+for nm_, h in list(hashes.items()) + [(k, v) for k, v in allq.items() if "LINEUP" in k or "PREDICT" in k]:
+    for extra in ("&projectId=400", "&projectId=400&providerId=0"):
+        url = "https://400.ds.lsapp.eu/pq_graphql?_hash=" + h + "&eventId=4YNzMsxg" + extra
+        t = html(url)
+        resp[nm_ + extra[:20]] = t[:2500]
+OUT["gql_resp"] = resp
 json.dump(OUT, open("sonda_diretta.json", "w"), ensure_ascii=False, indent=1)
-print({k: (len(v) if hasattr(v, "__len__") else v) for k, v in OUT.items()})
+print(OUT["chunks"]); print(hashes); print(len(allq))
