@@ -17,6 +17,7 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 
 ## Migliori giocatori: riga squadre (concept B, regola fissa)
 - Sotto il nome due righe con stemma nell'ordine vero della partita: prima la squadra di casa, sotto quella in trasferta · orario (`TopPlayerRow.jsx`). La squadra del giocatore e' in grassetto (colore pieno), l'altra tenue, ovunque stia; mai la squadra del giocatore messa per prima d'ufficio. Niente nazionalita' ne' bandiera. Vale per tutti i giocatori della sezione.
+- Bandiera e nazione (`| Francia`) accanto alla squadra del giocatore: SOLO quando gioca per una nazionale; per i club mai (richiesta 16/11/2026, `TopPlayers.js`: `isNationName` sulla squadra del giocatore).
 - Orario: solo quello vero della fonte (`timeKnown`); `DayList` chiama `syncDayTimes(day)` (FotMob) e ridisegna le righe (`tv`). Le partite del calendario squadra hanno un orario segnaposto (14:00): mai mostrarlo, senza orario vero si scrive solo giorno e data.
 
 ## Handicap dei campionati minori (regola fissa, Calcolatore e Affidabilita')

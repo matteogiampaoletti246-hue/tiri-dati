@@ -25,6 +25,7 @@ import { Segmented } from '../shared/ui';
 import StatIconN from '../shared/StatIconN';
 import { CALC_IN } from '../shared/calcIn';
 import { FlagN, natOf } from '../shared/FlagN';
+import { isNationName } from '@/data/teamColorFix';
 
 const DAYS = DATES.slice(TODAY_INDEX);
 const TODAY_I = 0;
@@ -56,7 +57,8 @@ const Row = React.memo(function Row({ C, row, rank, threshold, stat, enter, tv, 
     CALC_IN.v = { playerId: player.id, line: threshold, ts: match ? match.ts : null, stat };
     openRoute('/calcolatore');
   };
-  const nat = natOf(player);
+  // bandiera e nazione solo quando il giocatore gioca per una nazionale; per i club non si mostrano (richiesta utente 16/11/2026)
+  const nat = isNationName((team && team.name) || player.teamName) ? natOf(player) : null;
   const sides = match ? [teamById(match.homeId), teamById(match.awayId)] : null;
   const body = (
     <Pressable onPress={go} style={({ pressed }) => [{ marginHorizontal: 10, marginBottom: 8 }, pressed && { opacity: 0.8 }]}>
