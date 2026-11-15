@@ -81,7 +81,8 @@ export function prefetchPartite(P) {
 // competizioni/stagioni giocate + ultime partite dell'app (aurora_indice, con la partita dal vivo)
 export function usePartiteItems(player, car) {
   const fmPid = car.pid || (carriereOf(player.id) || {}).fm;
-  const items = car.rows.filter((r) => leagueById(LID_BY_FM[r[0]])).map((r) => [r[0], r[1]]);
+  const carRows = Array.isArray(car.rows) ? car.rows : [];
+  const items = carRows.filter((r) => leagueById(LID_BY_FM[r[0]])).map((r) => [r[0], r[1]]);
   const IM = {};
   ((RAW.indice && RAW.indice.m) || []).forEach((m) => { IM[m[0]] = m; });
   const recent = (player.recent || []).filter((m) => m.matchId).map((m) => ({

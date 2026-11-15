@@ -15,7 +15,7 @@ import { useUpcoming } from '../shared/useUpcoming';
 import { allTeamMatches, nextMatchOf, nextMatchVs } from '@/data/extras';
 import { prepareMatch } from '@/data/prepare';
 import { romeDay, logoFm } from '@/data/util';
-import { NATIONS_KEYS, calcTeamsOf, calcLeagues, leagueName, cupOf, domesticKey, nextFixture, fixtureAt, prefillShots, splitBoxes, teamShots } from '@/data/calcData';
+import { NATIONS_KEYS, calcTeamsOf, calcLeagues, leagueName, cupOf, domesticKey, nextFixture, fixtureAt, pickLeagueKey, prefillShots, splitBoxes, teamShots } from '@/data/calcData';
 import { emptyFouls, fillFrom, hitFromValues, hitRows, initialForm, isFouls, natHitOf, resultFromForm, resultFromFouls, viewFor } from '@/data/calcPlayer';
 import { fmTeamIn, foulKeysFor, foulSeasonOf, leaguePlayerAvg, playerFoulsOf, rosterFouls, teamFoulStats, useFouls } from '@/data/calcFouls';
 import { ROLE_KEYS, loadFalli, cardRole, autoDuelIds, falliKeysFor, playerRoles, roleBreakdown, useFalli } from '@/data/calcRoles';
@@ -65,6 +65,18 @@ function upcoming(teamName) {
   const done = allTeamMatches(t.id).some((m) => m.status === 'finished' && romeDay(m.ts) === romeDay(fx.ts));
   return done ? nextFixture(teamName, true) || fx : fx;
 }
+
+// contesto che il Calcolatore sceglie per un giocatore (club o nazionale, quale gioca prima): lo stesso in selectPlayer e nel banner appena scelto
+function pickTarget(p) {
+  const club = p.nat ? p.club || null : p;
+  const nat = p.nat ? p : p.natView || null;
+  const fxC = club ? upcoming(club.teamName) : null;
+  const fxN = nat ? upcoming(nat.teamName) : null;
+  const useNat = !!nat && (!club || (fxN && (!fxC || fxN.ts < fxC.ts)));
+  return { club, nat, useNat, v: useNat ? nat : club, fx: useNat ? fxN : fxC };
+}
+// identita' stabile del banner: club e nazionale dello stesso giocatore hanno id diversi, ma e' lo stesso banner (niente animazione doppia)
+const bannerKey = (p) => (p ? (p.nat && p.club ? p.club.id : p.id) : null);
 
 const RoleBadge = ({ C, role }) => (role ? (
   <View style={{ position: 'absolute', right: -8, bottom: -4, minWidth: 30, height: 20, paddingHorizontal: 6, borderRadius: 10, alignItems: 'center', justifyContent: 'center', backgroundColor: C.gold, borderWidth: 1.5, borderColor: C.hair }}>
@@ -182,10 +194,10 @@ function PlayerPick({ embedded, C, form, set, player, onSelectPlayer, stat, onSt
   // al tocco sul giocatore il banner parte subito con quello scelto (il ricalcolo pesante arriva dopo): `pend` = giocatore appena scelto
   const [pend, setPend] = useState(null);
   const pendP = pend != null ? playerById(pend) : null;
-  useEffect(() => { if (pend != null && player && player.id === pend) setPend(null); }, [pend, player]);
+  useEffect(() => { if (pend != null && player && (player.id === pend || (pendP && bannerKey(player) === bannerKey(pendP)))) setPend(null); }, [pend, player]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => { if (pend == null) return undefined; const t = setTimeout(() => setPend(null), 4000); return () => clearTimeout(t); }, [pend]);
   const bp = pendP || player;
-  const pid = bp ? bp.id : null;
+  const pid = bp ? bannerKey(bp) : null;
   const initPid = useRef(pid);
   const [readyFor, setReadyFor] = useState(null);
   useEffect(() => {
@@ -196,13 +208,15 @@ function PlayerPick({ embedded, C, form, set, player, onSelectPlayer, stat, onSt
   }, [pid]); // eslint-disable-line react-hooks/exhaustive-deps
   const club = bp ? (bp.nat && bp.club ? bp.club : bp) : null; // dal giocatore appena scelto (bp), non da quello vecchio: alla prima scelta `player` e' ancora vuoto
   const team = club ? teamById(club.teamId) : null;
-  const col = playerColor(bp, form.competizione, team && team.colors ? team.colors[0] : C.accent);
+  const pt = pendP ? pickTarget(pendP) : null; // giocatore appena scelto: colore, squadra e partita sono gia' quelli che avra' il form (niente cambio dopo)
+  const col = playerColor(pt && pt.v ? pt.v : bp, pt ? (pt.useNat ? 'nations' : form.competizione) : form.competizione, team && team.colors ? team.colors[0] : C.accent);
   const comps = useMemo(() => playerComps(player), [player]);
   const natName = bp ? (bp.natView ? bp.natView.teamName : bp.nat ? bp.teamName : null) : null;
   const natFc = natName ? flagCode(natName) : null;
   const hitTitle = form.playerId && hitN > 0 && hitN < 5 ? `Hit rate su ${hitN} ${hitN === 1 ? 'partita' : 'partite'}` : 'Hit rate ultime 5';
-  const ownId = pendP ? club && club.teamId : form.team && form.team.id ? form.team.id : club && club.teamId;
-  const comp = pendP ? undefined : form.competizione === 'coppa' ? cupOf(teamById(ownId)) || 'nessuna' : (form.team && form.team.leagueId) || undefined;
+  const ptTeam = pt && pt.v ? teamByName(pt.v.teamName) : null;
+  const ownId = pendP ? (ptTeam ? ptTeam.id : club && club.teamId) : form.team && form.team.id ? form.team.id : club && club.teamId;
+  const comp = pendP ? (pt && pt.v ? pickLeagueKey(pt.v.teamName, pt.fx && pt.fx.cup ? pt.fx.comp : null) || undefined : undefined) : form.competizione === 'coppa' ? cupOf(teamById(ownId)) || 'nessuna' : (form.team && form.team.leagueId) || undefined;
   // Affidabilita' della scheda giocatore: solo i 3 tasti (statistica, over/under, linea), senza etichette
   if (embedded) {
     return (
@@ -1049,13 +1063,7 @@ export default function CalcPlayer({ C, openRoute, embedId }) {
   const selectPlayer = (id) => {
     const p = playerById(id);
     if (!p) return;
-    const club = p.nat ? p.club || null : p;
-    const nat = p.nat ? p : p.natView || null;
-    const fxC = club ? upcoming(club.teamName) : null;
-    const fxN = nat ? upcoming(nat.teamName) : null;
-    const useNat = !!nat && (!club || (fxN && (!fxC || fxN.ts < fxC.ts)));
-    const v = useNat ? nat : club;
-    const fx = useNat ? fxN : fxC;
+    const { useNat, v, fx } = pickTarget(p);
     setForm((x) => { const g = fillFrom(x, v, x.tipoTiri, fx); return fx ? g : { ...g, competizione: useNat ? 'nations' : 'campionato' }; });
   };
   useEffect(() => { if (embedId && !form.playerId) selectPlayer(embedId); }, [embedId]); // eslint-disable-line react-hooks/exhaustive-deps
