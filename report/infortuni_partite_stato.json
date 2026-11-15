@@ -1,20 +1,8 @@
 {
- "squadre": 311,
- "nazionali": 94,
- "club": 217,
+ "squadre": 303,
+ "nazionali": 92,
+ "club": 211,
  "dettaglio_nazionali": {
-  "New Zealand": {
-   "pool": 38,
-   "call": 27,
-   "rosa": 27,
-   "src": "rosa"
-  },
-  "India": {
-   "pool": 52,
-   "call": 18,
-   "rosa": 0,
-   "src": "ultima"
-  },
   "Cyprus": {
    "pool": 39,
    "call": 28,
@@ -273,13 +261,13 @@
    "pool": 32,
    "call": 25,
    "rosa": 24,
-   "src": "ultima+rosa"
+   "src": "partita+ultima+rosa"
   },
   "Brazil": {
    "pool": 54,
    "call": 25,
    "rosa": 25,
-   "src": "ultima+rosa"
+   "src": "partita+ultima+rosa"
   },
   "China": {
    "pool": 46,
@@ -328,13 +316,13 @@
    "pool": 42,
    "call": 28,
    "rosa": 28,
-   "src": "ultima+rosa"
+   "src": "partita+ultima+rosa"
   },
   "Paraguay": {
    "pool": 41,
    "call": 36,
    "rosa": 26,
-   "src": "ultima+rosa"
+   "src": "partita+ultima+rosa"
   },
   "Qatar": {
    "pool": 37,
@@ -412,97 +400,97 @@
    "pool": 38,
    "call": 24,
    "rosa": 24,
-   "src": "ultima+rosa"
+   "src": "partita+ultima+rosa"
   },
   "Norway": {
    "pool": 33,
    "call": 26,
    "rosa": 26,
-   "src": "ultima+rosa"
+   "src": "partita+ultima+rosa"
   },
   "Wales": {
    "pool": 39,
    "call": 27,
    "rosa": 27,
-   "src": "ultima+rosa"
+   "src": "partita+ultima+rosa"
   },
   "Portugal": {
    "pool": 37,
    "call": 29,
    "rosa": 29,
-   "src": "ultima+rosa"
+   "src": "partita+ultima+rosa"
   },
   "Hungary": {
    "pool": 40,
    "call": 27,
    "rosa": 27,
-   "src": "ultima+rosa"
+   "src": "partita+ultima+rosa"
   },
   "Northern Ireland": {
    "pool": 34,
    "call": 25,
    "rosa": 25,
-   "src": "ultima+rosa"
+   "src": "partita+ultima+rosa"
   },
   "Ukraine": {
    "pool": 44,
    "call": 26,
    "rosa": 26,
-   "src": "ultima+rosa"
+   "src": "partita+ultima+rosa"
   },
   "Georgia": {
    "pool": 39,
    "call": 27,
    "rosa": 27,
-   "src": "ultima+rosa"
+   "src": "partita+ultima+rosa"
   },
   "Israel": {
    "pool": 36,
    "call": 26,
    "rosa": 26,
-   "src": "ultima+rosa"
+   "src": "partita+ultima+rosa"
   },
   "Austria": {
    "pool": 42,
    "call": 28,
    "rosa": 28,
-   "src": "ultima+rosa"
+   "src": "partita+ultima+rosa"
   },
   "Ireland": {
    "pool": 44,
    "call": 24,
    "rosa": 24,
-   "src": "ultima+rosa"
+   "src": "partita+ultima+rosa"
   },
   "Kosovo": {
    "pool": 37,
    "call": 26,
    "rosa": 26,
-   "src": "ultima+rosa"
+   "src": "partita+ultima+rosa"
   },
   "Bosnia and Herzegovina": {
    "pool": 34,
    "call": 26,
    "rosa": 26,
-   "src": "ultima+rosa"
+   "src": "partita+ultima+rosa"
   },
   "Romania": {
    "pool": 46,
    "call": 26,
    "rosa": 26,
-   "src": "ultima+rosa"
+   "src": "partita+ultima+rosa"
   },
   "Poland": {
    "pool": 43,
    "call": 26,
    "rosa": 26,
-   "src": "ultima+rosa"
+   "src": "partita+ultima+rosa"
   },
   "Sweden": {
    "pool": 43,
    "call": 25,
    "rosa": 25,
-   "src": "ultima+rosa"
+   "src": "partita+ultima+rosa"
   },
   "Argentina": {
    "pool": 41,
@@ -553,8 +541,8 @@
    "src": null
   }
  },
- "updated_at": "2026-11-15T04:10:53Z",
- "partite": 157,
- "squadre_con_elenco": 144,
- "minuti": 1.9
+ "updated_at": "2026-11-15T07:25:50Z",
+ "partite": 153,
+ "squadre_con_elenco": 141,
+ "minuti": 2.1
 }
