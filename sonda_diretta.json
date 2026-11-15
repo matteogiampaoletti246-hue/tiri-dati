@@ -1,365 +1,239 @@
 {
- "lista_0": {
-  "st": 200,
-  "n": 537008,
-  "partite": 980,
-  "esempio": [
-   {
-    "AA": "b1UcAYp1",
-    "_ZA": "AFRICA: Africa Cup of Nations U23 - Qualificazione - Qualificazione",
-    "AD": "1794747600",
-    "ADE": "1794747600",
-    "AB": "3",
-    "CR": "3",
-    "AC": "11",
-    "CX": "Zambia U23",
-    "RW": "0",
-    "AX": "0",
-    "AO": "1794755831",
-    "BW": "0",
-    "BX": "-1",
-    "WL": "",
-    "WN": "BFA",
-    "PY": "UR9o6QiC",
-    "AF": "Burkina Faso U23",
-    "FK": "Burkina Faso U23",
-    "JB": "IaAEK6F6",
-    "WV": "burkina-faso",
-    "GRB": "0",
-    "AH": "0",
-    "AU": "0",
-    "BD": "0",
-    "RPB": "2",
-    "OB": "jcsCJCSq-Yces7ia7.png",
-    "WM": "ZAM",
-    "PX": "Cjaj5p7I",
-    "AE": "Zambia U23",
-    "FH": "Zambia U23",
-    "JA": "QPDMIppJ",
-    "WU": "zambia",
-    "AS": "1",
-    "AZ": "1",
-    "BY": "1",
-    "GRA": "0",
-    "AG": "2",
-    "AT": "1",
-    "BC": "1",
-    "RPA": "3",
-    "OA": "KhJTHjAN-Clfo6BED.png",
-    "BGS": "{\"default\":[157,188,322,372,419,467,53]}",
-    "AM": "Risultato andata: 0-1. Totale: 1-1.",
-    "AW": "1"
-   },
-   {
-    "AA": "l8xrt7dR",
-    "_ZA": "AFRICA: Africa Cup of Nations U23 - Qualificazione - Qualificazione",
-    "AD": "1794758400",
-    "ADE": "1794758400",
-    "AB": "3",
-    "CR": "3",
-    "AC": "3",
-    "CX": "Congo U23",
-    "RW": "0",
-    "AX": "0",
-    "BW": "2",
-    "BX": "-1",
-    "WL": "",
-    "WN": "ANG",
-    "PY": "Iyfg0tTq",
-    "AF": "Angola U23",
-    "FK": "Angola U23",
-    "JB": "vTkRn0a6",
-    "WV": "angola",
-    "GRB": "0",
-    "AH": "0",
-    "AU": "0",
-    "BD": "0",
-    "OB": "KffJaY86-A5kBMfAs.png",
-    "WM": "CON",
-    "PX": "ILmXzkTs",
-    "AE": "Congo U23",
-    "FH": "Congo U23",
-    "JA": "CtlZpvUI",
-    "WU": "congo",
-    "AS": "1",
-    "AZ": "1",
-    "BY": "1",
-    "GRA": "0",
-    "AG": "1",
-    "AT": "1",
-    "BC": "0",
-    "OA": "rVh89L6k-O0JCSk81.png",
-    "BGS": "{\"default\":[157,188,322,372,419,467,53]}",
-    "AM": "Risultato andata: 1-1. Totale: 2-1.",
-    "AW": "1",
-    "ZA": "AFRICA: CAF Champions League Femminile - Play Off",
-    "ZEE": "YBgPqqN8",
-    "ZB": "1",
-    "ZY": "Africa",
-    "ZC": "nqfvOrTa",
-    "ZD": "c",
-    "ZE": "lEiCeAvA",
-    "ZF": "0",
-    "ZO": "0",
-    "ZG": "2",
-    "ZH": "1_YBgPqqN8",
-    "ZJ": "11",
-    "ZL": "/calcio/africa/caf-champions-league-femminile/",
-    "OAJ": "pMCkfjmd-Iw9zOLJU.png",
-    "ZX": "00Africa      006Africa0180000000001000CAF Champion041ay Off000",
-    "ZCC": "0",
-    "TSS": "",
-    "ZAF": "Africa"
-   }
+ "pagina": {
+  "n": 325117,
+  "head": "<!DOCTYPE html>\n<html lang=\"it\">\n    <head>\n        <meta charset=\"utf-8\">\n        <title>Belgio - Italia 15/11/2026, Formazioni - Diretta.it</title>\n        <script defer src=\"https://cdn.cookielaw.o"
+ },
+ "snips": {
+  "feed": [
+   "esponsive\":{\"breakpoint\":800,\"breakpoint_mobile\":640},\"tv_program\":{\"enable\":true},\"mixed_feed\":{\"link_to_more_games\":false,\"homepage_enabled\":false},\"team_transfers\":{\"sports\":[1,4]},\"team_news\":{\"enabled\":true},\"feed_sign\":\"SW9D1eZo",
+   "\"homepage_enabled\":false},\"team_transfers\":{\"sports\":[1,4]},\"team_news\":{\"enabled\":true},\"feed_sign\":\"SW9D1eZo\",\"detail\":{\"window_size\":{\"width\":688,\"height\":900}},\"audio_comments\":{\"enabled\":true,\"tabEnabled\":false,\"format\":\"HLS\"},\"t",
+   "},\"show_after_visits\":3},\"confirmation_box\":{\"enabled\":false},\"myfs\":{\"enabled\":true,\"newsfeed\":{\"past_days\":14,\"count\":15,\"allowed_counts\":[3,15,30]},\"refresh_tolerance\":4},\"swap_participants\":{\"sports\":[],\"show_at_sign\":false},\"lega",
+   "ions_to_log\":1},\"static_fs_cdn\":{\"enabled\":true,\"url\":\"https:\\/\\/static.flashscore.com\"},\"feed_resolver\":{\"local\":[{\"url\":\"https:\\/\\/400.flashscore.ninja\",\"weight\":1,\"countries\":[\"AL\",\"AD\",\"AM\",\"AT\",\"AZ\",\"BY\",\"BE\",\"BA\",\"BG\",\"HR\",\"CY\","
+  ],
+  "graphql": [
+   "true\"         >         </script> <link rel=\"preconnect\" href=\"https://400.ds.lsapp.eu/pq_graphql\" crossorigin> <link rel=\"preconnect\" href=\"https://400.flashscore.ninja\" crossorigin> <link rel=\"preconnect\" href=\"https://www.googletagman",
+   "allowed_sports\":[1,3,4]}},\"fsds\":{\"client_urls\":{\"default\":\"https:\\/\\/400.ds.lsapp.eu\\/pq_graphql\",\"live_odds\":\"https:\\/\\/400.ds.lsapp.eu\\/pq_graphql\",\"odds\":\"https:\\/\\/global.ds.lsapp.eu\\/odds\\/pq_graphql\"},\"pushPrefix\":\"\\/fsds\\/changes",
+   "fault\":\"https:\\/\\/400.ds.lsapp.eu\\/pq_graphql\",\"live_odds\":\"https:\\/\\/400.ds.lsapp.eu\\/pq_graphql\",\"odds\":\"https:\\/\\/global.ds.lsapp.eu\\/odds\\/pq_graphql\"},\"pushPrefix\":\"\\/fsds\\/changes\"},\"fs_news\":{\"enabled\":true,\"widgets\":{\"live_table\"",
+   "s\":\"https:\\/\\/400.ds.lsapp.eu\\/pq_graphql\",\"odds\":\"https:\\/\\/global.ds.lsapp.eu\\/odds\\/pq_graphql\"},\"pushPrefix\":\"\\/fsds\\/changes\"},\"fs_news\":{\"enabled\":true,\"widgets\":{\"live_table\":{\"enabled\":true},\"detail\":{\"enabled\":true,\"blacklisted_"
+  ],
+  "lsapp": [
+   "t-language=\"true\"         >         </script> <link rel=\"preconnect\" href=\"https://400.ds.lsapp.eu/pq_graphql\" crossorigin> <link rel=\"preconnect\" href=\"https://400.flashscore.ninja\" crossorigin> <link rel=\"preconnect\" href=\"https://ww",
+   "led\":false},\"allowed_sports\":[1,3,4]}},\"fsds\":{\"client_urls\":{\"default\":\"https:\\/\\/400.ds.lsapp.eu\\/pq_graphql\",\"live_odds\":\"https:\\/\\/400.ds.lsapp.eu\\/pq_graphql\",\"odds\":\"https:\\/\\/global.ds.lsapp.eu\\/odds\\/pq_graphql\"},\"pushPrefix\":\"",
+   "nt_urls\":{\"default\":\"https:\\/\\/400.ds.lsapp.eu\\/pq_graphql\",\"live_odds\":\"https:\\/\\/400.ds.lsapp.eu\\/pq_graphql\",\"odds\":\"https:\\/\\/global.ds.lsapp.eu\\/odds\\/pq_graphql\"},\"pushPrefix\":\"\\/fsds\\/changes\"},\"fs_news\":{\"enabled\":true,\"widgets",
+   "_graphql\",\"live_odds\":\"https:\\/\\/400.ds.lsapp.eu\\/pq_graphql\",\"odds\":\"https:\\/\\/global.ds.lsapp.eu\\/odds\\/pq_graphql\"},\"pushPrefix\":\"\\/fsds\\/changes\"},\"fs_news\":{\"enabled\":true,\"widgets\":{\"live_table\":{\"enabled\":true},\"detail\":{\"enable"
+  ],
+  "flashscore": [
+   "https://400.ds.lsapp.eu/pq_graphql\" crossorigin> <link rel=\"preconnect\" href=\"https://400.flashscore.ninja\" crossorigin> <link rel=\"preconnect\" href=\"https://www.googletagmanager.com\" crossorigin> <link rel=\"preload\" href=\"https://static.fl",
+   "=\"https://www.googletagmanager.com\" crossorigin> <link rel=\"preload\" href=\"https://static.flashscore.com/res/font/LivesportFinderLatin-Regular_Static.woff2\" as=\"font\" type=\"font/woff2\" crossorigin> <link rel=\"preload\" href=\"https://static.f",
+   ".woff2\" as=\"font\" type=\"font/woff2\" crossorigin> <link rel=\"preload\" href=\"https://static.flashscore.com/res/font/LivesportFinderLatin-Bold_Static.woff2\" as=\"font\" type=\"font/woff2\" crossorigin>         <noscript>             <meta http-equ",
+   "assunto/formazioni/?mid=4YNzMsxg\"> \t    <meta property=\"og:image\" content=\"https://static.flashscore.com/res/image/data/Qur1J5jl-K6hbGnRQ-KfXjzrxU.png\"> \t    <meta name=\"fb:app_id\" content=\"140578139460940\">             <link crossorigin re"
+  ],
+  "project": [
+   "       _cjs.bookmakerSettings = { bookmakersData: {\"default\":[{\"main_bookmaker_id\":\"419\",\"project_id\":\"400\",\"geo_ip\":\"default\",\"name\":\"bet365.it\",\"has_inplay_odds\":\"0\"}],\"IT\":[{\"main_bookmaker_id\":\"419\",\"project_id\":\"400\",\"geo_ip\":\"IT\",\"",
+   "p\":\"default\",\"name\":\"bet365.it\",\"has_inplay_odds\":\"0\"}],\"IT\":[{\"main_bookmaker_id\":\"419\",\"project_id\":\"400\",\"geo_ip\":\"IT\",\"name\":\"bet365.it\",\"has_inplay_odds\":\"1\"},{\"main_bookmaker_id\":\"773\",\"project_id\":\"400\",\"geo_ip\":\"IT\",\"name\":\"Betss",
+   "\"400\",\"geo_ip\":\"IT\",\"name\":\"bet365.it\",\"has_inplay_odds\":\"1\"},{\"main_bookmaker_id\":\"773\",\"project_id\":\"400\",\"geo_ip\":\"IT\",\"name\":\"BetssonIT\",\"has_inplay_odds\":\"1\"},{\"main_bookmaker_id\":\"335\",\"project_id\":\"400\",\"geo_ip\":\"IT\",\"name\":\"Lotto",
+   "\"400\",\"geo_ip\":\"IT\",\"name\":\"BetssonIT\",\"has_inplay_odds\":\"1\"},{\"main_bookmaker_id\":\"335\",\"project_id\":\"400\",\"geo_ip\":\"IT\",\"name\":\"Lottomatica\",\"has_inplay_odds\":\"1\"},{\"main_bookmaker_id\":\"322\",\"project_id\":\"400\",\"geo_ip\":\"IT\",\"name\":\"Eur"
+  ],
+  "sign": [
+   "b325d27a755c12640\"},\"user_function\":{\"use_only_local\":false},\"registration\":{\"version\":1,\"sign_out_in_drop_down\":true,\"project_has_initial_tou\":true,\"no_remote\":false},\"captcha_sitekey\":\"6LdnlAoTAAAAAIzaLLR8ezPKKnLeM2LozP6OQKj_\",\"euro",
+   "page_enabled\":false},\"team_transfers\":{\"sports\":[1,4]},\"team_news\":{\"enabled\":true},\"feed_sign\":\"SW9D1eZo\",\"detail\":{\"window_size\":{\"width\":688,\"height\":900}},\"audio_comments\":{\"enabled\":true,\"tabEnabled\":false,\"format\":\"HLS\"},\"tv\":fa",
+   "0}},\"audio_comments\":{\"enabled\":true,\"tabEnabled\":false,\"format\":\"HLS\"},\"tv\":false,\"apple_sign_in\":{\"enable\":true},\"advanced_tennis\":{\"enable\":true,\"point_by_point\":true},\"reversed_time\":{\"enable\":false,\"sports\":{\"3\":{\"stages\":[22,23,",
+   "lowed_counts\":[3,15,30]},\"refresh_tolerance\":4},\"swap_participants\":{\"sports\":[],\"show_at_sign\":false},\"legal_age_confirmation\":{\"enabled\":false,\"show_age_question\":true,\"can_rewoke_age_confirm\":false,\"storage_ttl\":7776000,\"geo_polici"
+  ],
+  "environment": [
+   "ion__text\">Loading...</div>         </div>     </div> </div>  </div>  <script>     window.environment = {\"event_id_c\":\"4YNzMsxg\",\"eventStageTranslations\":{\"1\":\"&nbsp;\",\"45\":\"Da finire\",\"42\":\"Aggiornamento in corso\",\"2\":\"Diretta\",\"12\":\"1 Temp"
+  ],
+  "_hash": [
+   "me--dark\",l=Object.freeze({KEY_INNER_DATA:\"lsid_innerData\",KEY_ID:\"lsid_id\",KEY_HASH:\"lsid_hash\",KEY_NAME:\"lsid_name\",KEY_EMAIL:\"lsid_email\",KEY_EMAIL_IS_VERIFIED:\"lsid_emailIsVerified\",KEY_PP_CONFIRMED:\"lsid_ppConfirmed\",KEY_TOU_CONFI"
+  ],
+  "ds.": [
+   "ment-language=\"true\"         >         </script> <link rel=\"preconnect\" href=\"https://400.ds.lsapp.eu/pq_graphql\" crossorigin> <link rel=\"preconnect\" href=\"https://400.flashscore.ninja\" crossorigin> <link rel=\"preconnect\" href=\"https",
+   "nabled\":false},\"allowed_sports\":[1,3,4]}},\"fsds\":{\"client_urls\":{\"default\":\"https:\\/\\/400.ds.lsapp.eu\\/pq_graphql\",\"live_odds\":\"https:\\/\\/400.ds.lsapp.eu\\/pq_graphql\",\"odds\":\"https:\\/\\/global.ds.lsapp.eu\\/odds\\/pq_graphql\"},\"pushPref",
+   "lient_urls\":{\"default\":\"https:\\/\\/400.ds.lsapp.eu\\/pq_graphql\",\"live_odds\":\"https:\\/\\/400.ds.lsapp.eu\\/pq_graphql\",\"odds\":\"https:\\/\\/global.ds.lsapp.eu\\/odds\\/pq_graphql\"},\"pushPrefix\":\"\\/fsds\\/changes\"},\"fs_news\":{\"enabled\":true,\"wi",
+   "/pq_graphql\",\"live_odds\":\"https:\\/\\/400.ds.lsapp.eu\\/pq_graphql\",\"odds\":\"https:\\/\\/global.ds.lsapp.eu\\/odds\\/pq_graphql\"},\"pushPrefix\":\"\\/fsds\\/changes\"},\"fs_news\":{\"enabled\":true,\"widgets\":{\"live_table\":{\"enabled\":true},\"detail\":{\"e"
   ]
  },
- "lista_1": {
-  "st": 200,
-  "n": 120173,
-  "partite": 132,
-  "esempio": [
-   {
-    "AA": "GItMOSN6",
-    "_ZA": "AFRICA: African Nations Cup - Qualificazione",
-    "AD": "1794834000",
-    "ADE": "1794834000",
-    "AB": "1",
-    "CR": "1",
-    "AC": "1",
-    "CX": "Namibia",
-    "RW": "0",
-    "AX": "0",
-    "BW": "0",
-    "BX": "-1",
-    "WL": "",
-    "WM": "NAM",
-    "PX": "QLENxLuR",
-    "AE": "Namibia",
-    "FH": "Namibia",
-    "JA": "pUIFiE87",
-    "WU": "namibia",
-    "GRA": "0",
-    "OA": "Ikyef9oe-jcdLSZc5.png",
-    "WN": "CAM",
-    "PY": "zk1uVG2D",
-    "AF": "Camerun",
-    "FK": "Camerun",
-    "JB": "A7A1FH0E",
-    "WV": "camerun",
-    "GRB": "0",
-    "OB": "4MsJXS86-GvSfArk7.png",
-    "AL": "{\"2\":[{\"BU\":\"\\/bookmaker\\/417\\/?from=live-streaming&sport=1\",\"IU\":\"https:\\/\\/static.flashscore.com\\/res\\/image\\/data\\/bookmakers\\/17-417.png\",\"BN\":\"1xBet\",\"BI\":417}]}",
-    "BGS": "{\"ES\":[1121,157,188,322,372,419,467,53],\"default\":[157,188,322,372,419,467,53]}",
-    "AW": "1",
-    "MW": "961|632|2|194|851|406|625|841|28|591|417"
-   },
-   {
-    "AA": "tbVWGgrJ",
-    "_ZA": "AFRICA: African Nations Cup - Qualificazione",
-    "AD": "1794834000",
-    "ADE": "1794834000",
-    "AB": "1",
-    "CR": "1",
-    "AC": "1",
-    "CX": "Sudan",
-    "RW": "0",
-    "AX": "0",
-    "BW": "0",
-    "BX": "-1",
-    "WL": "",
-    "WM": "SUD",
-    "PX": "OGhP26xH",
-    "AE": "Sudan",
-    "FH": "Sudan",
-    "JA": "bTIgg6em",
-    "WU": "sudan",
-    "GRA": "0",
-    "OA": "0fnAlOVH-8vfTQDSH.png",
-    "WN": "SEN",
-    "PY": "hOIsJLJr",
-    "AF": "Senegal",
-    "FK": "Senegal",
-    "JB": "4QL1ipQa",
-    "WV": "senegal",
-    "GRB": "0",
-    "OB": "xORbTVT0-lQcLqf4g.png",
-    "AL": "{\"2\":[{\"BU\":\"\\/bookmaker\\/417\\/?from=live-streaming&sport=1\",\"IU\":\"https:\\/\\/static.flashscore.com\\/res\\/image\\/data\\/bookmakers\\/17-417.png\",\"BN\":\"1xBet\",\"BI\":417}]}",
-    "BGS": "{\"ES\":[1121,157,188,322,372,419,467,53],\"default\":[157,188,322,372,419,467,53]}",
-    "AW": "1",
-    "MW": "961|632|2|194|851|406|625|841|28|591|417"
-   }
-  ]
- },
- "lista_2": {
-  "st": 200,
-  "n": 137981,
-  "partite": 234,
-  "esempio": [
-   {
-    "AA": "CQo4gape",
-    "_ZA": "AFRICA: African Nations Cup - Qualificazione",
-    "AD": "1794920400",
-    "ADE": "1794920400",
-    "AB": "1",
-    "CR": "1",
-    "AC": "1",
-    "CX": "Burundi",
-    "RW": "0",
-    "AX": "0",
-    "BW": "0",
-    "BX": "-1",
-    "WL": "",
-    "WM": "BUR",
-    "PX": "IeBFvsBE",
-    "AE": "Burundi",
-    "FH": "Burundi",
-    "JA": "vVneavNp",
-    "WU": "burundi",
-    "GRA": "0",
-    "OA": "vD1fl0VH-jcdLSZc5.png",
-    "WN": "ZAM",
-    "PY": "zBS458hb",
-    "AF": "Zambia",
-    "FK": "Zambia",
-    "JB": "WxktNsFi",
-    "WV": "zambia",
-    "GRB": "0",
-    "OB": "6BHEhcAN-xlL4vXdH.png",
-    "AL": "{\"2\":[{\"BU\":\"\\/bookmaker\\/417\\/?from=live-streaming&sport=1\",\"IU\":\"https:\\/\\/static.flashscore.com\\/res\\/image\\/data\\/bookmakers\\/17-417.png\",\"BN\":\"1xBet\",\"BI\":417}]}",
-    "BGS": "{\"ES\":[1121,157,188,322,372,419,467,53],\"default\":[157,188,322,372,419,467,53]}",
-    "AW": "1",
-    "MW": "961|632|406|841|591|417"
-   },
-   {
-    "AA": "YiIIvczQ",
-    "_ZA": "AFRICA: African Nations Cup - Qualificazione",
-    "AD": "1794920400",
-    "ADE": "1794920400",
-    "AB": "1",
-    "CR": "1",
-    "AC": "1",
-    "CX": "Etiopia",
-    "RW": "0",
-    "AX": "0",
-    "BW": "0",
-    "BX": "-1",
-    "WL": "",
-    "WM": "ETI",
-    "PX": "4AGUPqC2",
-    "AE": "Etiopia",
-    "FH": "Etiopia",
-    "JA": "xvK9kOfC",
-    "WU": "etiopia",
-    "GRA": "0",
-    "OA": "EeJwoagT-8vfTQDSH.png",
-    "WN": "MOZ",
-    "PY": "2aBNiivt",
-    "AF": "Mozambico",
-    "FK": "Mozambico",
-    "JB": "rwnsXFvo",
-    "WV": "mozambico",
-    "GRB": "0",
-    "OB": "23xLiK5k-bZwMpPQJ.png",
-    "AL": "{\"2\":[{\"BU\":\"\\/bookmaker\\/417\\/?from=live-streaming&sport=1\",\"IU\":\"https:\\/\\/static.flashscore.com\\/res\\/image\\/data\\/bookmakers\\/17-417.png\",\"BN\":\"1xBet\",\"BI\":417}]}",
-    "BGS": "{\"ES\":[1121,157,188,322,372,419,467,53],\"default\":[157,188,322,372,419,467,53]}",
-    "AW": "1",
-    "MW": "961|632|406|625|841|591|417"
-   }
-  ]
- },
- "lista_3": {
-  "st": 200,
-  "n": 121460,
-  "partite": 208,
-  "esempio": [
-   {
-    "AA": "xMCRbPBT",
-    "_ZA": "ALBANIA: Albania Coppa",
-    "AD": "1795003200",
-    "ADE": "1795003200",
-    "AB": "1",
-    "CR": "1",
-    "AC": "1",
-    "CX": "Besa",
-    "RW": "0",
-    "AX": "0",
-    "BW": "0",
-    "BX": "-1",
-    "WL": "",
-    "WM": "BES",
-    "PX": "KISc88wJ",
-    "AE": "Besa",
-    "FH": "Besa",
-    "JA": "CpQFZ7iC",
-    "WU": "besa",
-    "GRA": "0",
-    "OA": "Qae6QJRq-AwFmkDUE.png",
-    "WN": "KOR",
-    "PY": "M5I8JbRT",
-    "AF": "Korabi Peshkopi",
-    "FK": "Korabi Peshkopi",
-    "JB": "KATNXoMO",
-    "WV": "korabi-peshkopi",
-    "GRB": "0",
-    "OB": "Ct7R8T76-MgGnCkV6.png",
-    "BGS": "{\"default\":[157,188,322,372,419,467,53]}",
-    "AW": "1"
-   },
-   {
-    "AA": "hEGvl8cB",
-    "_ZA": "ALBANIA: Albania Coppa",
-    "AD": "1795003200",
-    "ADE": "1795003200",
-    "AB": "1",
-    "CR": "1",
-    "AC": "1",
-    "CX": "Bylis",
-    "RW": "0",
-    "AX": "0",
-    "BW": "0",
-    "BX": "-1",
-    "WL": "",
-    "WM": "BYL",
-    "PX": "OQmhWBVP",
-    "AE": "Bylis",
-    "FH": "Bylis",
-    "JA": "EgKFUL9F",
-    "WU": "bylis",
-    "GRA": "0",
-    "OA": "I5Lf42iT-Ch0UGhik.png",
-    "WN": "BES",
-    "PY": "ln6U9pc8",
-    "AF": "Beselidhja Lezha",
-    "FK": "Beselidhja Lezha",
-    "JB": "KhnmCDgl",
-    "WV": "beselidhja-lezha",
-    "GRB": "0",
-    "OB": "dU7X7oBN-WArJHkHJ.png",
-    "BGS": "{\"default\":[157,188,322,372,419,467,53]}",
-    "AW": "1"
-   }
-  ]
+ "scripts": [
+  "https://cdn.cookielaw.org/scripttemplates/otSDKStub.js",
+  "/x/js/browsercompatibility_5.js",
+  "/x/js/translations-livetable.400.d67fb6e2.js",
+  "/x/js/translations-myteamsmenu.400.d5daf07a.js",
+  "/x/js/translations-headermenu.400.e913e9fd.js",
+  "/x/js/translations-headerpromobar.400.9204cc56.js",
+  "/res/_fs/build/runtime.BvRk9ki.js",
+  "/res/_fs/build/constants.Dg2TU4y.js",
+  "/res/_fs/build/loader.CL0a49K.js",
+  "/res/_fs/build/myTeamsMenu.Bwnyt8o.js",
+  "/x/js/translations-detail.400.c9c60f80.js",
+  "/x/js/translations-standings.400.504281bb.js",
+  "/res/_fs/build/framework.RcxnFAG.js",
+  "/res/_fs/build/core-js.DDmNAnB.js",
+  "/x/js/core_400_2324000000.js"
+ ],
+ "js": {
+  "https://cdn.cookielaw.org/scripttemplates/otSDKStub.js": {
+   "n": 60167,
+   "hits": []
+  },
+  "https://www.diretta.it/x/js/browsercompatibility_5.js": {
+   "n": 1131,
+   "hits": []
+  },
+  "//www.diretta.it/x/js/translations-livetable.400.d67fb6e2.js": {
+   "n": 90449,
+   "hits": []
+  },
+  "www.diretta.it/x/js/translations-myteamsmenu.400.d5daf07a.js": {
+   "n": 209,
+   "hits": []
+  },
+  "/www.diretta.it/x/js/translations-headermenu.400.e913e9fd.js": {
+   "n": 10177,
+   "hits": []
+  },
+  ".diretta.it/x/js/translations-headerpromobar.400.9204cc56.js": {
+   "n": 708,
+   "hits": []
+  },
+  "https://www.diretta.it/res/_fs/build/runtime.BvRk9ki.js": {
+   "n": 0,
+   "hits": []
+  },
+  "https://www.diretta.it/res/_fs/build/constants.Dg2TU4y.js": {
+   "n": 63342,
+   "hits": []
+  },
+  "https://www.diretta.it/res/_fs/build/loader.CL0a49K.js": {
+   "n": 13829,
+   "hits": []
+  },
+  "https://www.diretta.it/res/_fs/build/myTeamsMenu.Bwnyt8o.js": {
+   "n": 9470,
+   "hits": []
+  },
+  "ps://www.diretta.it/x/js/translations-detail.400.c9c60f80.js": {
+   "n": 48719,
+   "hits": []
+  },
+  "//www.diretta.it/x/js/translations-standings.400.504281bb.js": {
+   "n": 3245,
+   "hits": []
+  },
+  "https://www.diretta.it/res/_fs/build/framework.RcxnFAG.js": {
+   "n": 46479,
+   "hits": []
+  },
+  "https://www.diretta.it/res/_fs/build/core-js.DDmNAnB.js": {
+   "n": 130730,
+   "hits": []
+  },
+  "https://www.diretta.it/x/js/core_400_2324000000.js": {
+   "n": 163881,
+   "hits": [
+    [
+     "lineup",
+     ",4],\"live_player_ratings\":false,\"sports_with_live_rating\":[1],\"predicted_line_up\":true,\"sports_with_lineups_in_summary\":[1],\"sports_with_lineups_tabs\":[1]},\"market_value_format\":{\"decimal_separator\":\",\",\"group_separator\":\"\",\"scales\":{\"1000000\":\"%s Mln €\",\"1000\":\"%sk"
+    ],
+    [
+     "pq_graphql",
+     "led\":false},\"allowed_sports\":[1,3,4]}},\"fsds\":{\"client_urls\":{\"default\":\"https:\\/\\/400.ds.lsapp.eu\\/pq_graphql\",\"live_odds\":\"https:\\/\\/400.ds.lsapp.eu\\/pq_graphql\",\"odds\":\"https:\\/\\/global.ds.lsapp.eu\\/odds\\/pq_graphql\"},\"pushPrefix\":\"\\/fsds\\/changes\"},\"fs_news\":{\"enabl"
+    ],
+    [
+     "feed_sign",
+     " {             return;         }         cjs.Api.loader.get(\"geoIpResolver\").call();     };     var feed_sign = 'SW9D1eZo';     // data containers     var fs_counter;     var fsEventsUpdatedStartTime = {}; cjs._config = {\"js_serial\":\"2324000000\",\"js\":{\"time_keep_match_"
+    ],
+    [
+     "lsapp",
+     "ab\":{\"enabled\":false},\"allowed_sports\":[1,3,4]}},\"fsds\":{\"client_urls\":{\"default\":\"https:\\/\\/400.ds.lsapp.eu\\/pq_graphql\",\"live_odds\":\"https:\\/\\/400.ds.lsapp.eu\\/pq_graphql\",\"odds\":\"https:\\/\\/global.ds.lsapp.eu\\/odds\\/pq_graphql\"},\"pushPrefix\":\"\\/fsds\\/changes\"},\"f"
+    ]
+   ]
+  }
  },
  "prova_df_li_1_": {
   "st": 200,
   "n": 1,
   "tx": "0"
  },
- "prova_df_lu_1_": {
+ "prova_df_sui_1_": {
+  "st": 200,
+  "n": 2961,
+  "tx": "AC÷1 Tempo¬IG÷3¬IH÷1¬~III÷EyOanT9r¬IA÷2¬IB÷11'¬IE÷3¬INX÷0¬IOX÷1¬IF÷Esposito F.¬IU÷/giocatore/esposito-francesco/dKXxEOKj/¬ICT÷Michael Kayode crossa morbido in area. Francesco Pio Esposito (Italia) aggancia il pallone e calcia basso in rapidità. Il portiere non è riuscito ad intervenire e la palla termina in rete sotto la traversa. 0:1.¬IK÷Gol¬IM÷dKXxEOKj¬IE÷8¬IF÷Kayode M.¬IU÷/giocatore/kayode-michael/CrxJQ1Q8/¬ICT÷¬IK÷Assist¬IM÷CrxJQ1Q8¬~III÷OEcHf6Kh¬IA÷1¬IB÷15'¬IE÷3¬INX÷1¬IOX÷1¬IF÷De Cuyper M.¬IU÷/giocatore/de-cuyper-maxim/GGc6kPWT/¬ICT÷GOAL! Gran lavoro di Charles De Ketelaere che con un vero capolavoro ha servito Maxim De Cuyper (Belgio) il quale ha finalizzato la splendida azione battendo Gianluigi Donnarumma con una gran rasoiata all'angolino basso di sinistro. 1:1.¬IK÷Gol¬IM÷GGc6kPWT"
+ },
+ "prova_df_st_1_": {
+  "st": 200,
+  "n": 5267,
+  "tx": "SE÷Partita¬~SF÷Statistiche Top¬~SD÷432¬SG÷Goal previsti (xG)¬SH÷2.40¬SI÷0.90¬~SD÷12¬SG÷Possesso palla¬SH÷47%¬SI÷53%¬~SD÷34¬SG÷Tiri totali¬SH÷15¬SI÷7¬~SD÷13¬SG÷Tiri in porta¬SH÷8¬SI÷3¬~SD÷459¬SG÷Grandi occasioni¬SH÷5¬SI÷2¬~SD÷16¬SG÷Calci d'angolo¬SH÷3¬SI÷3¬~SD÷342¬SG÷Passaggi¬SH÷90% (289/321)¬SI÷89% (319/357)¬~SD÷23¬SG÷Cartellini gialli¬SH÷0¬SI÷2¬~SF÷Tiri¬~SD÷432¬SG÷Goal previsti (xG)¬SH÷2.40¬SI÷0.90¬~SD÷499¬SG÷xG sui Tiri in porta (xGOT)¬SH÷3.07¬SI÷1.62¬~SD÷34¬SG÷Tiri totali¬SH÷15¬SI÷7¬~SD÷13¬SG÷Tiri in porta¬SH÷8¬SI÷3¬~SD÷14¬SG÷Tiri fuori¬SH÷5¬SI÷1¬~SD÷158¬SG÷Tiri fermati¬SH÷2¬SI÷3¬~SD÷461¬SG÷Tiri dall'area di rigore¬SH÷11¬SI÷6¬~SD÷463¬SG÷Tiri da fuori area¬SH÷4¬SI÷1¬~SD÷457¬SG÷Pali colpiti¬SH÷2¬SI÷0¬~SF÷Attacco¬~SD÷459¬SG÷Grandi occasioni¬SH÷5¬SI÷2¬~SD÷16¬SG÷Calci d'angolo¬SH÷3¬SI÷3¬~SD÷"
+ },
+ "prova_df_hh_1_": {
+  "st": 200,
+  "n": 44150,
+  "tx": "SA÷1¬~KA÷Totale¬IS÷¬~KB÷Ultimi Incontri: Belgio¬~KC÷1794502800¬KP÷AJh0DeXa¬KF÷UEFA Nations League¬AC÷3¬KG÷6¬KH÷Europa¬KI÷UNL¬UQ÷QeijuHo5¬UO÷GbB957na¬KJ÷Turchia¬UE÷turchia¬FH÷Turchia¬FJ÷¬KK÷*Belgio¬UG÷belgio¬FK÷Belgio¬FL÷¬KL÷1:2¬KU÷1¬KT÷2¬EC÷Q7zzy7HG-Cfuwb3yH.png¬ED÷Qur1J5jl-dtrVaP64.png¬WIS÷w¬KS÷away¬~KC÷1791225900¬KP÷EmmmJQ3L¬KF÷UEFA Nations League¬AC÷3¬KG÷6¬KH÷Europa¬KI÷UNL¬UQ÷QkGeVG1n¬UO÷GbB957na¬KJ÷*Francia¬UE÷francia¬FH÷Francia¬FJ÷¬KK÷Belgio¬UG÷belgio¬FK÷Belgio¬FL÷¬KL÷4:1¬KU÷4¬KT÷1¬EC÷I5PqTkcM-0bvH5S2D.png¬ED÷Qur1J5jl-dtrVaP64.png¬WIS÷l¬KS÷away¬~KC÷1790966700¬KP÷2gkhFH2m¬KF÷UEFA Nations League¬AC÷3¬KG÷6¬KH÷Europa¬KI÷UNL¬UQ÷GbB957na¬UO÷QeijuHo5¬KJ÷*Belgio¬UE÷belgio¬FH÷Belgio¬FJ÷¬KK÷Turchia¬UG÷turchia¬FK÷Turchia¬FL÷¬KL÷3:0¬KU÷3¬KT÷0¬EC÷Qur1J5jl-dtrVaP64.png¬ED÷Q7zzy7HG-Cfuwb3yH.png¬WIS÷"
+ },
+ "prova_df_su_1_": {
+  "st": 200,
+  "n": 2961,
+  "tx": "AC÷1 Tempo¬IG÷3¬IH÷1¬~III÷EyOanT9r¬IA÷2¬IB÷11'¬IE÷3¬INX÷0¬IOX÷1¬IF÷Esposito F.¬IU÷/giocatore/esposito-francesco/dKXxEOKj/¬ICT÷Michael Kayode crossa morbido in area. Francesco Pio Esposito (Italia) aggancia il pallone e calcia basso in rapidità. Il portiere non è riuscito ad intervenire e la palla termina in rete sotto la traversa. 0:1.¬IK÷Gol¬IM÷dKXxEOKj¬IE÷8¬IF÷Kayode M.¬IU÷/giocatore/kayode-michael/CrxJQ1Q8/¬ICT÷¬IK÷Assist¬IM÷CrxJQ1Q8¬~III÷OEcHf6Kh¬IA÷1¬IB÷15'¬IE÷3¬INX÷1¬IOX÷1¬IF÷De Cuyper M.¬IU÷/giocatore/de-cuyper-maxim/GGc6kPWT/¬ICT÷GOAL! Gran lavoro di Charles De Ketelaere che con un vero capolavoro ha servito Maxim De Cuyper (Belgio) il quale ha finalizzato la splendida azione battendo Gianluigi Donnarumma con una gran rasoiata all'angolino basso di sinistro. 1:1.¬IK÷Gol¬IM÷GGc6kPWT"
+ },
+ "prova_df_dc_1_": {
   "st": 200,
   "n": 1,
   "tx": "0"
  },
- "prova_df_lup_1_": {
+ "prova_df_mh_1_": {
+  "st": 200,
+  "n": 0,
+  "tx": ""
+ },
+ "prova_df_lpb_1_": {
   "st": 200,
   "n": 1,
   "tx": "0"
  },
- "prova_df_lt_1_": {
-  "st": 200,
-  "n": 1,
-  "tx": "0"
- },
- "lu_future": {},
- "_tot_provate": 90
+ "belgio_in_lista": [
+  {
+   "AA": "4YNzMsxg",
+   "_ZA": "EUROPA: UEFA Nations League - League A",
+   "AD": "1794771900",
+   "ADE": "1794771900",
+   "AB": "2",
+   "CR": "2",
+   "AC": "13",
+   "CX": "Belgio",
+   "RW": "0",
+   "AI": "y",
+   "AX": "1",
+   "QQ": "https://api.lsaudio.eu/getStreamV2/match-it-jpOkdmOLp0?fs_project=400",
+   "AO": "1794775841",
+   "BW": "0",
+   "BX": "",
+   "WL": "",
+   "HMC": "1",
+   "WM": "BEL",
+   "PX": "GbB957na",
+   "AE": "Belgio",
+   "FH": "Belgio",
+   "JA": "0GLsCoO7",
+   "WU": "belgio",
+   "GRA": "0",
+   "AG": "3",
+   "AT": "3",
+   "BC": "0",
+   "OA": "AqUnTDAN-dtrVaP64.png",
+   "WN": "ITA",
+   "PY": "hlKvieGH",
+   "AF": "Italia",
+   "FK": "Italia",
+   "JB": "hA8TZlGE",
+   "WV": "italia",
+   "GRB": "0",
+   "AH": "1",
+   "AU": "1",
+   "BD": "0",
+   "OB": "fyLyobWH-KfXjzrxU.png",
+   "AL": "{\"1\":[{\"TVI\":147,\"BU\":\"https:\\/\\/www.rai.it\\/\",\"BN\":\"RAI 1\"},{\"TVI\":2255,\"BU\":\"https:\\/\\/www.rai.it\\/\",\"BN\":\"RAI 2\"},{\"TVI\":4109,\"BU\":\"https:\\/\\/www.raiplay.it\\/\",\"BN\":\"RaiPlay\"}],\"2\":[{\"BU\":\"\\/bookmaker\\/417\\/?from=live-streaming&sport=1\",\"IU\":\"https:\\/\\/static.flashscore.com\\/res\\/image\\/data\\/bookmakers\\/17-417.png\",\"BN\":\"1xBet\",\"BI\":417},{\"BU\":\"\\/bookmaker\\/322\\/?from=live-streaming&sport=1\",\"IU\":\"https:\\/\\/static.flashscore.com\\/res\\/image\\/data\\/bookmakers\\/17-322.png\",\"BN\":\"Eurobet.it\",\"BI\":322}]}",
+   "BGS": "{\"CZ\":[45,49,46,157,188,322,372,419,467,53],\"SK\":[411,157,188,322,372,419,467,53],\"ES\":[1121,157,188,322,372,419,467,53],\"default\":[157,188,322,372,419,467,53]}",
+   "AW": "1",
+   "MW": "419|49|1243|16|549|417"
+  }
+ ]
 }
