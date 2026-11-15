@@ -63,7 +63,19 @@ export default function SquadraRosa({ C, teamId, openRoute, bottom }) {
   const tc = hex6(team && team.colors && team.colors[0]);
   const rose = roseOf(team);
   const mine = {};
-  all.forEach((p) => { mine[nk(p.name)] = p; });
+  const byFm = {};
+  all.forEach((p) => { mine[nk(p.name)] = p; if (p.fmId) byFm[String(p.fmId)] = p; });
+  // ogni giocatore della rosa porta alla sua scheda: per id FotMob, per nome (anche quello mostrato), poi cognome + iniziale ("D. Scherhant" = "Derry Scherhant")
+  const findMine = (r) => {
+    if (r[0] > 0 && byFm[String(r[0])]) return byFm[String(r[0])];
+    const full = nk(realName(r[0], r[1]));
+    if (mine[nk(r[1])] || mine[full]) return mine[nk(r[1])] || mine[full];
+    const parts = full.split(' ').filter(Boolean);
+    if (parts.length < 2) return null;
+    const last = parts[parts.length - 1], ini = parts[0][0];
+    const c = all.filter((p) => { const q = nk(p.name).split(' ').filter(Boolean); return q.length > 1 && q[q.length - 1] === last && q[0][0] === ini; });
+    return c.length === 1 ? c[0] : null;
+  };
   const fmR = rose ? FM_ID[rose.lg] : null;
   const { data: skR0 } = useAsync(() => (fmR ? currentSeason(fmR) : Promise.resolve(null)), [fmR]);
   const noRose = (!(rose && rose.p && rose.p.length) || rosePoor(rose)) && !all.length;
@@ -87,7 +99,8 @@ export default function SquadraRosa({ C, teamId, openRoute, bottom }) {
         <Group key={g.key} C={C} color={C.role[g.key] || C.role.UNK} title={g.title} count={g.list.length}>
           {g.list.map((r) => {
             const bits = [r[4] ? countryIt(r[4]) : null, r[6] ? `${r[6]} cm` : null, r[5] ? `${r[5]} anni` : null].filter(Boolean);
-            const to = mine[nk(r[1])] ? `/giocatore/${mine[nk(r[1])].id}` : espnIdOfRow(r[0]) ? `/giocatore/${espnPlayerId(espnIdOfRow(r[0]))}` : skR && fmR2 && r[0] > 0 ? `/giocatore/${archiveId(fmR2, skR, r[0])}` : null;
+            const mp = findMine(r);
+            const to = mp ? `/giocatore/${mp.id}` : espnIdOfRow(r[0]) ? `/giocatore/${espnPlayerId(espnIdOfRow(r[0]))}` : (skR || skR0) && (fmR2 || fmR) && r[0] > 0 ? `/giocatore/${archiveId(fmR2 || fmR, skR || skR0, r[0])}` : null;
             return <PRow key={r[0]} C={C} tc={tc} to={to} openRoute={openRoute} photo={r[0] > 0 ? playerFace(r[0]) : espnIdOfRow(r[0]) ? espnPhoto(espnIdOfRow(r[0])) : null} num={r[3]} name={realName(r[0], r[1])} injured={!!r[10]} flag={r[4]} bits={bits} />;
           })}
         </Group>
