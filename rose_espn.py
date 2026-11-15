@@ -97,29 +97,49 @@ def roster(slug, tid):
     return rows
 
 
+_TR = str.maketrans({"ł": "l", "Ł": "l", "ø": "o", "Ø": "o", "đ": "d", "Đ": "d", "ı": "i", "İ": "i", "æ": "ae", "Æ": "ae", "œ": "oe", "þ": "th", "ð": "d"})
+
+
 def tok(s):
-    return [t for t in R.norm(s).split() if t]
+    return [t for t in R.norm(str(s or "").translate(_TR)).split() if t]
 
 
-def same(row_name, row_age, row_num, e):
-    """Stesso giocatore tra rosa FotMob e riga ESPN: stesse parole (R.same_person) oppure nome corto (una parola dentro il nome ESPN) con la stessa eta' (+-1)
-    e, se ci sono, la stessa maglia."""
-    if R.same_person(row_name, e["n"]):
-        return True
-    a, b = set(tok(row_name)), set(tok(e["n"]))
+def prep(name, age, num):
+    """(parole del nome, eta', maglia) calcolati una volta sola"""
+    try:
+        age = int(age) if age is not None else None
+    except Exception:
+        age = None
+    try:
+        num = int(num) if num not in (None, "") else None
+    except Exception:
+        num = None
+    t = tok(name)
+    return (frozenset(t), age, num, " ".join(sorted(t)), "".join(t))
+
+
+def same(x, y):
+    """Stesso giocatore tra rosa FotMob (x) e riga ESPN (y), entrambi da prep(): stesse parole, oppure nome corto (una parola dentro il nome ESPN) o scritto
+    in modo un po' diverso (Cavalheira / Carvalheira) con la stessa eta' (+-1) e, se ci sono, la stessa maglia."""
+    a, b = x[0], y[0]
     if not a or not b:
         return False
-    if not (a <= b or len(a & b) >= 2):
-        # stessa persona scritta in modo diverso (Cavalheira / Carvalheira): nome quasi uguale e stessa eta'
-        if difflib.SequenceMatcher(None, " ".join(sorted(a)), " ".join(sorted(b))).ratio() >= 0.86 and row_age is not None and e["a"] is not None and abs(int(row_age) - int(e["a"])) <= 1:
-            return True
+    if a == b or (min(len(a), len(b)) >= 2 and (a <= b or b <= a)):
+        return True
+    if x[4] == y[4]:   # N'Dicka / Ndicka: stesse lettere
+        return True
+    ok_age = x[1] is None or y[1] is None or abs(x[1] - y[1]) <= 1
+    ok_num = x[2] is None or y[2] is None or x[2] == y[2]
+    if not (ok_age and ok_num):
         return False
-    ok_age = row_age is None or e["a"] is None or abs(int(row_age) - int(e["a"])) <= 1
-    try:
-        ok_num = row_num is None or e["j"] in (None, "") or int(row_num) == int(e["j"])
-    except Exception:
-        ok_num = True
-    return ok_age and ok_num
+    # nome corto da una parte (Bremer / Gleison Bremer): serve eta' o maglia uguali, altrimenti sarebbe solo un cognome in comune
+    strong = (x[1] is not None and y[1] is not None) or (x[2] is not None and y[2] is not None)
+    if (a <= b or b <= a or len(a & b) >= 2) and strong:
+        return True
+    # nome quasi uguale: solo con la stessa eta' nota e parole che iniziano allo stesso modo
+    if x[1] is not None and y[1] is not None and abs(len(x[3]) - len(y[3])) <= 3 and any(p[:3] == q[:3] for p in a for q in b if len(p) >= 3 and len(q) >= 3):
+        return difflib.SequenceMatcher(None, x[3], y[3]).ratio() >= 0.86
+    return False
 
 
 def main():
@@ -134,17 +154,19 @@ def main():
     for v in list(rosa.values()) + list(rose.values()):
         v["p"] = [r for r in (v.get("p") or []) if not (r[0] is not None and r[0] <= ESPN_BASE)]
     # indice per parola: id squadra FotMob -> righe (rosa/ e rose.json insieme)
-    rows_of = defaultdict(list)
+    raw_rows = defaultdict(list)
     for tid, v in rosa.items():
-        rows_of[str(tid)] += [r for r in v.get("p") or []]
+        raw_rows[str(tid)] += [r for r in v.get("p") or []]
     for k, v in rose.items():
         if v.get("id"):
             for r in v.get("p") or []:
-                rows_of[str(v["id"])].append(r)
+                raw_rows[str(v["id"])].append(r)
+    rows_of = {tid: [prep(r[1], r[5], r[3]) for r in rows] for tid, rows in raw_rows.items()}
+    ids_of = {tid: {r[0] for r in rows} for tid, rows in raw_rows.items()}
     tokix = defaultdict(set)
     for tid, rows in rows_of.items():
         for r in rows:
-            for t in tok(r[1]):
+            for t in r[0]:
                 if len(t) >= 4:
                     tokix[t].add(tid)
     slugs = leagues()
@@ -167,17 +189,26 @@ def main():
     added_by_tid = defaultdict(list)
     espn_players = {}
     pend = []   # (tid, riga, espn)
+    done = 0
     for k, rs in ros.items():
+        if late():
+            break
+        done += 1
+        if done % 500 == 0:
+            print("abbinate", done, "di", len(ros), "minuti", round((time.time() - T0) / 60, 1), flush=True)
         slug, t = teams[k]
+        for e in rs:
+            e["x"] = prep(e["n"], e["a"], e["j"])
         # squadra FotMob: quella che ha piu' giocatori in comune (almeno 5, o 40% della rosa ESPN piccola)
         votes = Counter()
         for e in rs:
             seen = set()
-            for tk in tok(e["n"]):
-                for tid in tokix.get(tk, ()):
+            # solo le parole rare (poche squadre): "silva" o "jose" non dicono nulla
+            for tk in sorted((q for q in e["x"][0] if len(q) >= 4 and 0 < len(tokix.get(q, ())) <= 40), key=lambda q: len(tokix[q]))[:2]:
+                for tid in tokix[tk]:
                     if tid in seen:
                         continue
-                    if any(same(r[1], r[5], r[3], e) for r in rows_of[tid]):
+                    if any(same(r, e["x"]) for r in rows_of[tid]):
                         seen.add(tid)
                         votes[tid] += 1
         if not votes:
@@ -190,7 +221,7 @@ def main():
             continue
         rep["abbinate"] += 1
         rows = rows_of[tid]
-        miss = [e for e in rs if not any(same(r[1], r[5], r[3], e) for r in rows)]
+        miss = [e for e in rs if not any(same(r, e["x"]) for r in rows)]
         for e in miss:
             pend.append((tid, e, slug))
     print("squadre abbinate", rep["abbinate"], "giocatori ESPN mancanti", len(pend), "minuti", round((time.time() - T0) / 60, 1), flush=True)
@@ -209,7 +240,7 @@ def main():
     for (tid, e, slug), fid in zip(pend, ids):
         st = e["s"]
         goals, ass = int(st.get("totalGoals") or 0), int(st.get("goalAssists") or 0)
-        if fid and not any(r[0] == fid for r in rows_of[tid]):
+        if fid and fid not in ids_of[tid]:
             row = [fid, e["n"], e["p"], e["j"] if e["j"] not in ("", None) else None, e["c"], e["a"], e["h"], None, goals, ass, e["i"], 0]
             rep["con_id_fotmob"] += 1
         elif fid:
