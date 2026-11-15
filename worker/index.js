@@ -115,6 +115,12 @@ async function dlFill(t, fm, tid) {
     }
     return hit.length === 1 ? hit[0] : null;
   };
+  const solo = (rows, name, get) => { // nome singolo di diretta ("Cunha"): solo se e' l'ultimo nome di un unico giocatore della rosa
+    const k = nKey(name);
+    if (k.length !== 1 || k[0].length < 4) return null;
+    const hit = rows.filter((q) => { const g = nKey(get(q)); return g.length && g[g.length - 1] === k[0]; });
+    return hit.length === 1 ? hit[0] : null;
+  };
   let ros = null, sq = null;
   const loadRosa = async () => {
     if (ros) return ros;
@@ -143,23 +149,27 @@ async function dlFill(t, fm, tid) {
   };
   const searchPlayers = async (name) => {
     const toks = String(name || "").split(/\s+/).filter((x) => x && !/^[A-Za-z]\.?$/.test(x));
-    const term = toks.join(" ").trim();
-    if (term.length < 3) return [];
-    try {
-      const r = await fetch("https://www.fotmob.com/api/data/search/suggest?term=" + encodeURIComponent(term), { headers: FMH, cf: { cacheTtl: 3600, cacheEverything: true } });
-      if (!r.ok) return [];
-      const grp = ((await r.json()) || []).find((g) => g && g.title && g.title.key === "players");
-      return ((grp && grp.suggestions) || []).filter((q) => q.type === "player" && !q.isCoach && q.id && q.name).map((q) => ({ id: +q.id, name: q.name }));
-    } catch (e) { return []; }
+    const terms = [...new Set([toks.join(" ").trim(), [...toks].sort((a, b) => b.length - a.length)[0] || ""])].filter((x) => x.length >= 3);
+    const res = [];
+    for (const term of terms) {
+      try {
+        const r = await fetch("https://www.fotmob.com/api/data/search/suggest?term=" + encodeURIComponent(term), { headers: FMH, cf: { cacheTtl: 3600, cacheEverything: true } });
+        if (!r.ok) continue;
+        const grp = ((await r.json()) || []).find((g) => g && g.title && g.title.key === "players");
+        ((grp && grp.suggestions) || []).filter((q) => q.type === "player" && !q.isCoach && q.id && q.name).forEach((q) => { if (!res.some((z) => z.id === +q.id)) res.push({ id: +q.id, name: q.name }); });
+      } catch (e) { /* prossimo termine */ }
+      if (uniq(res, name, (q) => q.name)) break;
+    }
+    return res;
   };
   const one = async (p) => {
     const name = p[0], num = p[1];
     const byNum = num != null ? fmRows.find((q) => q[1] != null && String(q[1]) === String(num) && samePerson(q[0], name)) : null;
     const f = byNum || uniq(fmRows, name, (q) => q[0]);
     if (f && f[7]) return [f[0], num != null ? num : f[1], p[2], p[3], p[4] || f[4], f[5], f[6], f[7], f[8]];
-    const r = uniq(await loadRosa(), name, (q) => q[1]);
+    const r = uniq(await loadRosa(), name, (q) => q[1]) || solo(await loadRosa(), name, (q) => q[1]);
     if (r && r[0] > 0) return [r[1], num != null ? num : r[3], p[2], p[3], p[4], ph(r[0]), null, r[0], r[2] === "GK" ? 0 : null];
-    const z = uniq(await loadSquad(), name, (q) => q.name);
+    const z = uniq(await loadSquad(), name, (q) => q.name) || solo(await loadSquad(), name, (q) => q.name);
     if (z) return [z.name, num != null ? num : z.num, p[2], p[3], p[4], ph(z.id), null, z.id, null];
     // ultima via: ricerca giocatori di FotMob per cognome (chi non e' in rosa ne' nella pagina squadra); valido solo se il nome e' unico (stessa iniziale e cognome)
     const w = uniq(await searchPlayers(name), name, (q) => q.name);
