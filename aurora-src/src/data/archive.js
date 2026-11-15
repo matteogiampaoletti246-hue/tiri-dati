@@ -525,14 +525,80 @@ export const loadTeamStats = (lid, sk) => once(`lts/${lid}/${sk}`, async () => {
 const MERGED = new Map();
 // nomi delle voci nelle partite -> nomi delle classifiche stagionali (le due fonti FotMob usano chiavi diverse)
 const MATCH_TO_SEASON = { total_shots: 'total_scoring_att', ShotsOnTarget: 'ontarget_scoring_att', assists: 'goal_assist', chances_created: 'total_att_assist', accurate_passes: 'accurate_pass', interceptions: 'interception', recoveries: 'ball_recovery' };
+// Classifica ufficiale rimasta indietro (FotMob la aggiorna con ritardo: Hajrizi 1 presenza e 90' contro 3 partite e 252' nelle partite FotMob; nel controllo
+// `tools/controllo_stats_vs_partite.py` 26.885 righe giocatore-stagione, 16.000 solo nel 2026-27). REGOLA FISSA: se le partite archiviate di un giocatore sono PIU'
+// di quelle della classifica (presenze, oppure minuti oltre 30' di scarto), TUTTE le sue voci vengono dalle partite (un'unica fonte, mai mezze classifiche e mezze
+// partite) e le liste si riordinano. Se la classifica ne ha di piu' (partite mancanti nel file, es. preliminari) resta la classifica.
+const STALE_FIX = new Map();
+function fixStale(ck, st, fm, det) {
+  const hit = lruGet(STALE_FIX, ck);
+  if (hit) return hit;
+  const off = new Map();
+  Object.keys(st.players).forEach((k) => {
+    if (k.startsWith('_')) return;
+    (st.players[k] || []).forEach((r) => {
+      const n = Number(r[5]) || 0; const m = Number(r[4]) || 0; const o = off.get(String(r[0]));
+      if (!o) off.set(String(r[0]), { n, min: m }); else { o.n = Math.max(o.n, n); o.min = Math.max(o.min, m); }
+    });
+  });
+  const ids = new Set();
+  ((fm.players && fm.players.mins_played) || []).forEach((r) => { const o = off.get(String(r[0])); if (o && ((Number(r[5]) || 0) > o.n || (Number(r[4]) || 0) > o.min + 30)) ids.add(String(r[0])); });
+  let out = st;
+  if (ids.size) {
+    const fmBy = {};
+    Object.keys(fm.players).forEach((mk) => { const k = MATCH_TO_SEASON[mk] || mk; if (!fmBy[k]) fmBy[k] = fm.players[mk]; });
+    const players = {};
+    Object.keys(st.players).forEach((k) => {
+      if (k.startsWith('_') || !(st.players[k] || []).some((r) => ids.has(String(r[0])))) { players[k] = st.players[k]; return; }
+      const list = st.players[k].filter((r) => !ids.has(String(r[0])));
+      (fmBy[k] || []).forEach((r0) => {
+        if (!ids.has(String(r0[0]))) return;
+        let mine = r0;
+        if (OFFICIAL_P90.has(k)) {
+          if (!(Number(r0[4]) > 0)) return;
+          mine = [r0[0], r0[1], r0[2], (Number(r0[3]) * 90) / r0[4], r0[4], r0[5], r0[6]];
+        }
+        let i = list.findIndex((r) => r[3] < mine[3]);
+        if (i < 0) i = list.length;
+        list.splice(i, 0, mine);
+      });
+      players[k] = list;
+    });
+    // cartellini: nelle partite stanno solo negli eventi (giallo = Yellow; rosso = Red + YellowRed, verificato sulle classifiche ufficiali di tre campionati)
+    const cards = { yellow_card: {}, red_card: {} };
+    Object.values((det && det.m) || {}).forEach((m) => (m && m.e ? m.e : []).forEach((e) => {
+      const pid = e && e.type === 'Card' && Array.isArray(e.p) ? String(e.p[0]) : null;
+      if (!pid || !ids.has(pid)) return;
+      if (e.card === 'Yellow') cards.yellow_card[pid] = (cards.yellow_card[pid] || 0) + 1;
+      else if (e.card === 'Red' || e.card === 'YellowRed') cards.red_card[pid] = (cards.red_card[pid] || 0) + 1;
+    }));
+    const base = (pid) => ((fm.players.mins_played || []).find((r) => String(r[0]) === pid)) || null;
+    Object.keys(cards).forEach((k) => {
+      if (!players[k]) return;
+      const list = [...players[k]];
+      Object.keys(cards[k]).forEach((pid) => {
+        const b = base(pid); if (!b) return;
+        const mine = [b[0], b[1], b[2], cards[k][pid], b[4], b[5], null];
+        let i = list.findIndex((r) => r[3] < mine[3]);
+        if (i < 0) i = list.length;
+        list.splice(i, 0, mine);
+      });
+      players[k] = list;
+    });
+    out = { ...st, players, filled: true, rec: fm.rec };
+  }
+  lruSet(STALE_FIX, ck, out, 12);
+  return out;
+}
 const loadPlayerStatsFor0 = async (lid, sk, pid) => {
-  const st = await loadPlayerStats(lid, sk);
+  const st0 = await loadPlayerStats(lid, sk);
   const rowOf = (s, k) => ((s && s.players && s.players[k]) || []).find((r) => String(r[0]) === String(pid)) || null;
   const has = (s) => !!(s && s.players && Object.keys(s.players).some((k) => !k.startsWith('_') && rowOf(s, k)));
-  const official = !!(st && !st.fromMatches);
-  if (!official) return st;
+  const official = !!(st0 && !st0.fromMatches);
+  if (!official) return st0;
   const fm = await statsFromMatches(lid, sk).catch(() => null);
-  if (!has(fm)) return st;
+  if (!has(fm)) return st0;
+  const st = fixStale(`${lid}|${sk}`, st0, fm, await loadSeasonMatches(lid, sk).catch(() => null));
   if (!has(st)) return fm;
   // Gerarchia dei dati (regola fissa): 1) classifiche ufficiali FotMob; 2) quando la classifica ufficiale non ha il giocatore su una voce (le classifiche hanno
   // solo chi supera una soglia: es. Diarra in Champions con 56' non era nei tiri) la voce si completa con la somma delle sue partite FotMob; 3) fonti esterne (vedi CLAUDE.md)
@@ -635,13 +701,14 @@ const OFFICIAL_P90 = new Set(['fouls', 'total_scoring_att', 'ontarget_scoring_at
   'defensive_contributions', 'total_tackle', 'interception', 'effective_clearance', 'outfielder_block', 'ball_recovery', 'saves', 'goals_conceded',
   'total_high_claim', 'total_keeper_sweeper', 'poss_won_att_3rd']);
 export const loadLeaguePlayerStats = async (lid, sk) => {
-  const st = await loadPlayerStats(lid, sk);
-  if (!st || st.fromMatches || !st.players) return st;
+  const st0 = await loadPlayerStats(lid, sk);
+  if (!st0 || st0.fromMatches || !st0.players) return st0;
   const ck = `${lid}|${sk}`;
   const hit = lruGet(LEAGUE_P, ck);
   if (hit) return hit;
   const fm = await statsFromMatches(lid, sk).catch(() => null);
-  if (!fm || !fm.players) return st;
+  if (!fm || !fm.players) return st0;
+  const st = fixStale(ck, st0, fm, await loadSeasonMatches(lid, sk).catch(() => null));
   const players = { ...st.players };
   Object.keys(fm.players).forEach((mk) => {
     const k = MATCH_TO_SEASON[mk] || mk;

@@ -1,0 +1,446 @@
+{
+"righe": 964,
+"confrontati": 297847,
+"ufficiali_senza_partite": 76890,
+"classifica_avanti_partite_mancanti": 10599,
+"classifica_indietro": 26885,
+"per_stagione": [
+[
+"2026-2027",
+15974
+],
+[
+"2026",
+4406
+],
+[
+"2025-2026",
+1187
+],
+[
+"2024-2025",
+713
+],
+[
+"2022-2023",
+668
+],
+[
+"2023-2024",
+665
+],
+[
+"2021-2022",
+655
+],
+[
+"2020-2021",
+633
+],
+[
+"2024",
+397
+],
+[
+"2023-2025",
+271
+],
+[
+"2019-2020",
+250
+],
+[
+"2015-2017",
+233
+]
+],
+"per_competizione": [
+[
+"86",
+1366
+],
+[
+"48",
+1074
+],
+[
+"140",
+870
+],
+[
+"57",
+842
+],
+[
+"142",
+841
+],
+[
+"109",
+807
+],
+[
+"108",
+799
+],
+[
+"113",
+770
+],
+[
+"147",
+768
+],
+[
+"10196",
+662
+],
+[
+"38",
+605
+],
+[
+"130",
+562
+],
+[
+"73",
+539
+],
+[
+"42",
+529
+],
+[
+"10216",
+493
+]
+],
+"esempi": [
+{
+"fm": "10216",
+"stagione": "2026-2027",
+"giocatore": "Albian Ajeti",
+"ufficiale": [
+2,
+129
+],
+"partite": [
+3,
+199
+]
+},
+{
+"fm": "10216",
+"stagione": "2026-2027",
+"giocatore": "Noah Holm",
+"ufficiale": [
+2,
+109
+],
+"partite": [
+3,
+199
+]
+},
+{
+"fm": "10216",
+"stagione": "2026-2027",
+"giocatore": "Niklas Castro",
+"ufficiale": [
+2,
+170
+],
+"partite": [
+3,
+232
+]
+},
+{
+"fm": "10216",
+"stagione": "2026-2027",
+"giocatore": "Cyriel Dessers",
+"ufficiale": [
+2,
+123
+],
+"partite": [
+3,
+137
+]
+},
+{
+"fm": "10216",
+"stagione": "2026-2027",
+"giocatore": "Assad Al Hamlawi",
+"ufficiale": [
+2,
+136
+],
+"partite": [
+3,
+200
+]
+},
+{
+"fm": "10216",
+"stagione": "2026-2027",
+"giocatore": "Georginio Rutter",
+"ufficiale": [
+2,
+180
+],
+"partite": [
+3,
+269
+]
+},
+{
+"fm": "10216",
+"stagione": "2026-2027",
+"giocatore": "Ibrahim Adel",
+"ufficiale": [
+2,
+171
+],
+"partite": [
+3,
+200
+]
+},
+{
+"fm": "10216",
+"stagione": "2026-2027",
+"giocatore": "Kings Kangwa",
+"ufficiale": [
+2,
+124
+],
+"partite": [
+3,
+214
+]
+},
+{
+"fm": "10216",
+"stagione": "2026-2027",
+"giocatore": "Leandro Godoy",
+"ufficiale": [
+2,
+163
+],
+"partite": [
+3,
+253
+]
+},
+{
+"fm": "10216",
+"stagione": "2026-2027",
+"giocatore": "Paris Brunner",
+"ufficiale": [
+2,
+169
+],
+"partite": [
+3,
+239
+]
+},
+{
+"fm": "10216",
+"stagione": "2026-2027",
+"giocatore": "Thomas van den Belt",
+"ufficiale": [
+2,
+83
+],
+"partite": [
+3,
+92
+]
+},
+{
+"fm": "10216",
+"stagione": "2026-2027",
+"giocatore": "Timi Elšnik",
+"ufficiale": [
+2,
+180
+],
+"partite": [
+3,
+270
+]
+},
+{
+"fm": "10216",
+"stagione": "2026-2027",
+"giocatore": "Mohamed Salah",
+"ufficiale": [
+2,
+126
+],
+"partite": [
+3,
+216
+]
+},
+{
+"fm": "10216",
+"stagione": "2026-2027",
+"giocatore": "Abdellah Ouazane",
+"ufficiale": [
+2,
+104
+],
+"partite": [
+3,
+172
+]
+},
+{
+"fm": "10216",
+"stagione": "2026-2027",
+"giocatore": "Abdoulie Sanyang",
+"ufficiale": [
+2,
+166
+],
+"partite": [
+3,
+252
+]
+},
+{
+"fm": "10216",
+"stagione": "2026-2027",
+"giocatore": "Antonín Růsek",
+"ufficiale": [
+2,
+150
+],
+"partite": [
+3,
+216
+]
+},
+{
+"fm": "10216",
+"stagione": "2026-2027",
+"giocatore": "Axel Norén",
+"ufficiale": [
+2,
+180
+],
+"partite": [
+3,
+270
+]
+},
+{
+"fm": "10216",
+"stagione": "2026-2027",
+"giocatore": "Borja Arellano",
+"ufficiale": [
+2,
+63
+],
+"partite": [
+3,
+95
+]
+},
+{
+"fm": "10216",
+"stagione": "2026-2027",
+"giocatore": "Borja Mayoral",
+"ufficiale": [
+2,
+180
+],
+"partite": [
+3,
+185
+]
+},
+{
+"fm": "10216",
+"stagione": "2026-2027",
+"giocatore": "Caio Ferreira",
+"ufficiale": [
+1,
+24
+],
+"partite": [
+2,
+44
+]
+},
+{
+"fm": "10216",
+"stagione": "2026-2027",
+"giocatore": "Dalisson de Almeida",
+"ufficiale": [
+2,
+180
+],
+"partite": [
+3,
+255
+]
+},
+{
+"fm": "10216",
+"stagione": "2026-2027",
+"giocatore": "Daouda Weidmann",
+"ufficiale": [
+2,
+97
+],
+"partite": [
+3,
+182
+]
+},
+{
+"fm": "10216",
+"stagione": "2026-2027",
+"giocatore": "Davy Klaassen",
+"ufficiale": [
+2,
+137
+],
+"partite": [
+3,
+212
+]
+},
+{
+"fm": "10216",
+"stagione": "2026-2027",
+"giocatore": "Eljif Elmas",
+"ufficiale": [
+2,
+170
+],
+"partite": [
+3,
+260
+]
+},
+{
+"fm": "10216",
+"stagione": "2026-2027",
+"giocatore": "Elmin Rastoder",
+"ufficiale": [
+2,
+44
+],
+"partite": [
+3,
+108
+]
+}
+]
+}

@@ -56,6 +56,10 @@ for fm in FMS:
                     a[1] += 1; a[2] += mins
             for pid, (tid, apps, mins, name) in acc.items():
                 if pid not in best: best[pid] = [name, tid, apps, mins]
+                elif apps > best[pid][2] or mins > best[pid][3] + 30:
+                    # classifica ufficiale rimasta indietro (FotMob la aggiorna con ritardo: Hajrizi 1 presenza contro 3 partite): valgono le partite,
+                    # come nell'app (`fixStale` in aurora-src/src/data/archive.js)
+                    best[pid][2], best[pid][3] = apps, mins
         for pid, (name, tid, apps, mins) in best.items():
             idx.setdefault(pid, []).append([fm, sk, tid, apps, mins, name])
 out = os.path.join(ROOT, 'pidx'); os.makedirs(out, exist_ok=True)
