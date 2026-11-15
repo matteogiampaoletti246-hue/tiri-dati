@@ -106,7 +106,15 @@ function fmFill(t, fm, strict) {
 async function dlFill(t, fm, tid) {
   const ph = (id) => (id ? "https://images.fotmob.com/image_resources/playerimages/" + id + ".png" : null);
   const fmRows = fm ? [...(fm.s || []), ...(fm.b || [])] : [];
-  const uniq = (rows, name, get) => { const hit = rows.filter((q) => samePerson(get(q), name)); return hit.length === 1 ? hit[0] : null; };
+  const uniq = (rows, name, get) => {
+    let hit = rows.filter((q) => samePerson(get(q), name));
+    if (hit.length > 1) { // "V. Milinkovic-Savic": vale chi ha nome intero con la stessa iniziale (non "Milinkovic-Savic" da solo)
+      const ini = nKey(name)[0] ? nKey(name)[0][0] : "";
+      const better = hit.filter((q) => { const k = nKey(get(q)); return k.length >= 3 && k[0][0] === ini; });
+      if (better.length === 1) hit = better;
+    }
+    return hit.length === 1 ? hit[0] : null;
+  };
   let ros = null, sq = null;
   const loadRosa = async () => {
     if (ros) return ros;
@@ -480,6 +488,13 @@ export default {
         const fl = (fmj && fmj.content && fmj.content.lineup) || {};
         const hT = lu && lu.lineupStatus !== "NOT_AVAILABLE" ? uefaTeam(lu.homeTeam, fl.homeTeam) : null, aT = lu && lu.lineupStatus !== "NOT_AVAILABLE" ? uefaTeam(lu.awayTeam, fl.awayTeam) : null;
         return new Response(JSON.stringify({ t: Date.now(), ok: hT && aT ? 1 : 0, uid, ty: "standard", h: hT, a: aT }), { headers: cors(req, { "Cache-Control": "public, max-age=2" }) });
+      }
+      if (u.pathname === "/dbgsearch") { // PROVVISORIO
+        const out = {};
+        for (const url of ["https://www.fotmob.com/api/data/search/suggest?term=", "https://www.fotmob.com/api/search/suggest?term=", "https://apigw.fotmob.com/searchapi/suggest?lang=en&term="]) {
+          try { const r = await fetch(url + encodeURIComponent(u.searchParams.get("q") || ""), { headers: FMH }); out[url] = r.ok ? (await r.text()).slice(0, 1500) : r.status; } catch (e) { out[url] = String(e); }
+        }
+        return new Response(JSON.stringify(out), { headers: { "content-type": "application/json", "access-control-allow-origin": "*" } });
       }
       if (u.pathname === "/dbgsq") { // PROVVISORIO: forma della pagina squadra FotMob (da togliere)
         const r = await fetch("https://www.fotmob.com/api/data/teams?id=" + encodeURIComponent(u.searchParams.get("id") || "") + "&ccode3=ITA", { headers: FMH });
