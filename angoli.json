@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-14T05:46:31+00:00",
+ "updated_at": "2026-11-15T05:50:15+00:00",
  "window": {
   "nlast": 0,
   "min_games": 1,
@@ -7596,6 +7596,1361 @@
      "games_k": [
       14,
       10
+     ]
+    }
+   ]
+  },
+  "2026-11-23": {
+   "analizzate": 3,
+   "con_dati": 3,
+   "corner": [
+    {
+     "id": "m_08lkfg",
+     "date": "2026-11-23",
+     "time": "2026-11-23",
+     "league": "Serie A",
+     "home": "Monza",
+     "away": "Fiorentina",
+     "non_coperto": [],
+     "corners_home": 3.9,
+     "corners_away": 3.4,
+     "gap": 0.5,
+     "games": [
+      5,
+      5
+     ],
+     "tiri_home": 15.5,
+     "tiri_away": 14.0,
+     "tiri_gap": 1.5,
+     "tiri_games": [
+      5,
+      5
+     ],
+     "sot_home": 5.7,
+     "sot_away": 5.7,
+     "sot_gap": 0.0,
+     "sot_games": [
+      5,
+      5
+     ],
+     "falli_home": 12.6,
+     "falli_away": 11.0,
+     "falli_gap": 1.6,
+     "falli_games": [
+      11,
+      11
+     ],
+     "off_home": 2.0,
+     "off_away": 1.2,
+     "off_gap": 0.8,
+     "off_games": [
+      11,
+      11
+     ],
+     "cards": 4.2,
+     "cards_1t": 1.4,
+     "cards_home": 2.0,
+     "cards_away": 2.2,
+     "cards_1t_home": 0.6,
+     "cards_1t_away": 0.7,
+     "games_k": [
+      11,
+      11
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/a5a467d0b57c46c33fa2b4b156dcadebe20de96e848a4a09fad642ad6d6bb7de.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/52f92c4c2ae57c14bc3d2ead58a2f899ab2fa12bebb91e6f627af2b99608dfce.webp"
+    },
+    {
+     "id": "m_3jVoFq",
+     "date": "2026-11-23",
+     "time": "2026-11-23",
+     "league": "LaLiga",
+     "home": "Levante",
+     "away": "Elche",
+     "non_coperto": [],
+     "corners_home": 4.6,
+     "corners_away": 5.0,
+     "gap": 0.4,
+     "games": [
+      5,
+      6
+     ],
+     "tiri_home": 16.8,
+     "tiri_away": 13.5,
+     "tiri_gap": 3.3,
+     "tiri_games": [
+      5,
+      6
+     ],
+     "sot_home": 5.9,
+     "sot_away": 5.1,
+     "sot_gap": 0.8,
+     "sot_games": [
+      5,
+      6
+     ],
+     "falli_home": 11.6,
+     "falli_away": 12.3,
+     "falli_gap": 0.7,
+     "falli_games": [
+      12,
+      12
+     ],
+     "off_home": 2.5,
+     "off_away": 2.1,
+     "off_gap": 0.4,
+     "off_games": [
+      12,
+      12
+     ],
+     "cards": 4.2,
+     "cards_1t": 1.4,
+     "cards_home": 1.4,
+     "cards_away": 2.8,
+     "cards_1t_home": 0.5,
+     "cards_1t_away": 0.9,
+     "games_k": [
+      12,
+      12
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/3d4e34694800c927780cbd51435b2cf84ceb631683ce1e7c62549259396fbd04.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/1cc190e198bb61e1cb6616fdc68811525ede3438e3ad58b8c857ac82cfdc0b40.webp"
+    },
+    {
+     "id": "m_2FVfvL",
+     "date": "2026-11-23",
+     "time": "2026-11-23",
+     "league": "Premier League",
+     "home": "Brentford",
+     "away": "Everton",
+     "non_coperto": [],
+     "corners_home": 5.9,
+     "corners_away": 5.8,
+     "gap": 0.1,
+     "games": [
+      5,
+      5
+     ],
+     "tiri_home": 14.5,
+     "tiri_away": 13.5,
+     "tiri_gap": 1.0,
+     "tiri_games": [
+      5,
+      5
+     ],
+     "sot_home": 3.7,
+     "sot_away": 4.2,
+     "sot_gap": 0.5,
+     "sot_games": [
+      5,
+      5
+     ],
+     "falli_home": 12.4,
+     "falli_away": 9.3,
+     "falli_gap": 3.1,
+     "falli_games": [
+      10,
+      10
+     ],
+     "off_home": 1.0,
+     "off_away": 1.9,
+     "off_gap": 0.9,
+     "off_games": [
+      10,
+      10
+     ],
+     "cards": 4.3,
+     "cards_1t": 1.4,
+     "cards_home": 2.5,
+     "cards_away": 1.8,
+     "cards_1t_home": 0.8,
+     "cards_1t_away": 0.6,
+     "games_k": [
+      10,
+      10
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/b914ebfd30484229c1ef50cb5af2d029a2d17cab7a76b3761c02125657b2a40a.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/a755328b0286a79ef4e19406b2c63417922769a93ca17365b7333d4173cb9a2b.webp"
+    }
+   ],
+   "tiri": [
+    {
+     "id": "m_3jVoFq",
+     "date": "2026-11-23",
+     "time": "2026-11-23",
+     "league": "LaLiga",
+     "home": "Levante",
+     "away": "Elche",
+     "non_coperto": [],
+     "corners_home": 4.6,
+     "corners_away": 5.0,
+     "gap": 0.4,
+     "games": [
+      5,
+      6
+     ],
+     "tiri_home": 16.8,
+     "tiri_away": 13.5,
+     "tiri_gap": 3.3,
+     "tiri_games": [
+      5,
+      6
+     ],
+     "sot_home": 5.9,
+     "sot_away": 5.1,
+     "sot_gap": 0.8,
+     "sot_games": [
+      5,
+      6
+     ],
+     "falli_home": 11.6,
+     "falli_away": 12.3,
+     "falli_gap": 0.7,
+     "falli_games": [
+      12,
+      12
+     ],
+     "off_home": 2.5,
+     "off_away": 2.1,
+     "off_gap": 0.4,
+     "off_games": [
+      12,
+      12
+     ],
+     "cards": 4.2,
+     "cards_1t": 1.4,
+     "cards_home": 1.4,
+     "cards_away": 2.8,
+     "cards_1t_home": 0.5,
+     "cards_1t_away": 0.9,
+     "games_k": [
+      12,
+      12
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/3d4e34694800c927780cbd51435b2cf84ceb631683ce1e7c62549259396fbd04.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/1cc190e198bb61e1cb6616fdc68811525ede3438e3ad58b8c857ac82cfdc0b40.webp"
+    },
+    {
+     "id": "m_08lkfg",
+     "date": "2026-11-23",
+     "time": "2026-11-23",
+     "league": "Serie A",
+     "home": "Monza",
+     "away": "Fiorentina",
+     "non_coperto": [],
+     "corners_home": 3.9,
+     "corners_away": 3.4,
+     "gap": 0.5,
+     "games": [
+      5,
+      5
+     ],
+     "tiri_home": 15.5,
+     "tiri_away": 14.0,
+     "tiri_gap": 1.5,
+     "tiri_games": [
+      5,
+      5
+     ],
+     "sot_home": 5.7,
+     "sot_away": 5.7,
+     "sot_gap": 0.0,
+     "sot_games": [
+      5,
+      5
+     ],
+     "falli_home": 12.6,
+     "falli_away": 11.0,
+     "falli_gap": 1.6,
+     "falli_games": [
+      11,
+      11
+     ],
+     "off_home": 2.0,
+     "off_away": 1.2,
+     "off_gap": 0.8,
+     "off_games": [
+      11,
+      11
+     ],
+     "cards": 4.2,
+     "cards_1t": 1.4,
+     "cards_home": 2.0,
+     "cards_away": 2.2,
+     "cards_1t_home": 0.6,
+     "cards_1t_away": 0.7,
+     "games_k": [
+      11,
+      11
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/a5a467d0b57c46c33fa2b4b156dcadebe20de96e848a4a09fad642ad6d6bb7de.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/52f92c4c2ae57c14bc3d2ead58a2f899ab2fa12bebb91e6f627af2b99608dfce.webp"
+    },
+    {
+     "id": "m_2FVfvL",
+     "date": "2026-11-23",
+     "time": "2026-11-23",
+     "league": "Premier League",
+     "home": "Brentford",
+     "away": "Everton",
+     "non_coperto": [],
+     "corners_home": 5.9,
+     "corners_away": 5.8,
+     "gap": 0.1,
+     "games": [
+      5,
+      5
+     ],
+     "tiri_home": 14.5,
+     "tiri_away": 13.5,
+     "tiri_gap": 1.0,
+     "tiri_games": [
+      5,
+      5
+     ],
+     "sot_home": 3.7,
+     "sot_away": 4.2,
+     "sot_gap": 0.5,
+     "sot_games": [
+      5,
+      5
+     ],
+     "falli_home": 12.4,
+     "falli_away": 9.3,
+     "falli_gap": 3.1,
+     "falli_games": [
+      10,
+      10
+     ],
+     "off_home": 1.0,
+     "off_away": 1.9,
+     "off_gap": 0.9,
+     "off_games": [
+      10,
+      10
+     ],
+     "cards": 4.3,
+     "cards_1t": 1.4,
+     "cards_home": 2.5,
+     "cards_away": 1.8,
+     "cards_1t_home": 0.8,
+     "cards_1t_away": 0.6,
+     "games_k": [
+      10,
+      10
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/b914ebfd30484229c1ef50cb5af2d029a2d17cab7a76b3761c02125657b2a40a.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/a755328b0286a79ef4e19406b2c63417922769a93ca17365b7333d4173cb9a2b.webp"
+    }
+   ],
+   "tiri_sot": [
+    {
+     "id": "m_3jVoFq",
+     "date": "2026-11-23",
+     "time": "2026-11-23",
+     "league": "LaLiga",
+     "home": "Levante",
+     "away": "Elche",
+     "non_coperto": [],
+     "corners_home": 4.6,
+     "corners_away": 5.0,
+     "gap": 0.4,
+     "games": [
+      5,
+      6
+     ],
+     "tiri_home": 16.8,
+     "tiri_away": 13.5,
+     "tiri_gap": 3.3,
+     "tiri_games": [
+      5,
+      6
+     ],
+     "sot_home": 5.9,
+     "sot_away": 5.1,
+     "sot_gap": 0.8,
+     "sot_games": [
+      5,
+      6
+     ],
+     "falli_home": 11.6,
+     "falli_away": 12.3,
+     "falli_gap": 0.7,
+     "falli_games": [
+      12,
+      12
+     ],
+     "off_home": 2.5,
+     "off_away": 2.1,
+     "off_gap": 0.4,
+     "off_games": [
+      12,
+      12
+     ],
+     "cards": 4.2,
+     "cards_1t": 1.4,
+     "cards_home": 1.4,
+     "cards_away": 2.8,
+     "cards_1t_home": 0.5,
+     "cards_1t_away": 0.9,
+     "games_k": [
+      12,
+      12
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/3d4e34694800c927780cbd51435b2cf84ceb631683ce1e7c62549259396fbd04.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/1cc190e198bb61e1cb6616fdc68811525ede3438e3ad58b8c857ac82cfdc0b40.webp"
+    },
+    {
+     "id": "m_2FVfvL",
+     "date": "2026-11-23",
+     "time": "2026-11-23",
+     "league": "Premier League",
+     "home": "Brentford",
+     "away": "Everton",
+     "non_coperto": [],
+     "corners_home": 5.9,
+     "corners_away": 5.8,
+     "gap": 0.1,
+     "games": [
+      5,
+      5
+     ],
+     "tiri_home": 14.5,
+     "tiri_away": 13.5,
+     "tiri_gap": 1.0,
+     "tiri_games": [
+      5,
+      5
+     ],
+     "sot_home": 3.7,
+     "sot_away": 4.2,
+     "sot_gap": 0.5,
+     "sot_games": [
+      5,
+      5
+     ],
+     "falli_home": 12.4,
+     "falli_away": 9.3,
+     "falli_gap": 3.1,
+     "falli_games": [
+      10,
+      10
+     ],
+     "off_home": 1.0,
+     "off_away": 1.9,
+     "off_gap": 0.9,
+     "off_games": [
+      10,
+      10
+     ],
+     "cards": 4.3,
+     "cards_1t": 1.4,
+     "cards_home": 2.5,
+     "cards_away": 1.8,
+     "cards_1t_home": 0.8,
+     "cards_1t_away": 0.6,
+     "games_k": [
+      10,
+      10
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/b914ebfd30484229c1ef50cb5af2d029a2d17cab7a76b3761c02125657b2a40a.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/a755328b0286a79ef4e19406b2c63417922769a93ca17365b7333d4173cb9a2b.webp"
+    },
+    {
+     "id": "m_08lkfg",
+     "date": "2026-11-23",
+     "time": "2026-11-23",
+     "league": "Serie A",
+     "home": "Monza",
+     "away": "Fiorentina",
+     "non_coperto": [],
+     "corners_home": 3.9,
+     "corners_away": 3.4,
+     "gap": 0.5,
+     "games": [
+      5,
+      5
+     ],
+     "tiri_home": 15.5,
+     "tiri_away": 14.0,
+     "tiri_gap": 1.5,
+     "tiri_games": [
+      5,
+      5
+     ],
+     "sot_home": 5.7,
+     "sot_away": 5.7,
+     "sot_gap": 0.0,
+     "sot_games": [
+      5,
+      5
+     ],
+     "falli_home": 12.6,
+     "falli_away": 11.0,
+     "falli_gap": 1.6,
+     "falli_games": [
+      11,
+      11
+     ],
+     "off_home": 2.0,
+     "off_away": 1.2,
+     "off_gap": 0.8,
+     "off_games": [
+      11,
+      11
+     ],
+     "cards": 4.2,
+     "cards_1t": 1.4,
+     "cards_home": 2.0,
+     "cards_away": 2.2,
+     "cards_1t_home": 0.6,
+     "cards_1t_away": 0.7,
+     "games_k": [
+      11,
+      11
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/a5a467d0b57c46c33fa2b4b156dcadebe20de96e848a4a09fad642ad6d6bb7de.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/52f92c4c2ae57c14bc3d2ead58a2f899ab2fa12bebb91e6f627af2b99608dfce.webp"
+    }
+   ],
+   "falli": [
+    {
+     "id": "m_2FVfvL",
+     "date": "2026-11-23",
+     "time": "2026-11-23",
+     "league": "Premier League",
+     "home": "Brentford",
+     "away": "Everton",
+     "non_coperto": [],
+     "corners_home": 5.9,
+     "corners_away": 5.8,
+     "gap": 0.1,
+     "games": [
+      5,
+      5
+     ],
+     "tiri_home": 14.5,
+     "tiri_away": 13.5,
+     "tiri_gap": 1.0,
+     "tiri_games": [
+      5,
+      5
+     ],
+     "sot_home": 3.7,
+     "sot_away": 4.2,
+     "sot_gap": 0.5,
+     "sot_games": [
+      5,
+      5
+     ],
+     "falli_home": 12.4,
+     "falli_away": 9.3,
+     "falli_gap": 3.1,
+     "falli_games": [
+      10,
+      10
+     ],
+     "off_home": 1.0,
+     "off_away": 1.9,
+     "off_gap": 0.9,
+     "off_games": [
+      10,
+      10
+     ],
+     "cards": 4.3,
+     "cards_1t": 1.4,
+     "cards_home": 2.5,
+     "cards_away": 1.8,
+     "cards_1t_home": 0.8,
+     "cards_1t_away": 0.6,
+     "games_k": [
+      10,
+      10
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/b914ebfd30484229c1ef50cb5af2d029a2d17cab7a76b3761c02125657b2a40a.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/a755328b0286a79ef4e19406b2c63417922769a93ca17365b7333d4173cb9a2b.webp"
+    },
+    {
+     "id": "m_08lkfg",
+     "date": "2026-11-23",
+     "time": "2026-11-23",
+     "league": "Serie A",
+     "home": "Monza",
+     "away": "Fiorentina",
+     "non_coperto": [],
+     "corners_home": 3.9,
+     "corners_away": 3.4,
+     "gap": 0.5,
+     "games": [
+      5,
+      5
+     ],
+     "tiri_home": 15.5,
+     "tiri_away": 14.0,
+     "tiri_gap": 1.5,
+     "tiri_games": [
+      5,
+      5
+     ],
+     "sot_home": 5.7,
+     "sot_away": 5.7,
+     "sot_gap": 0.0,
+     "sot_games": [
+      5,
+      5
+     ],
+     "falli_home": 12.6,
+     "falli_away": 11.0,
+     "falli_gap": 1.6,
+     "falli_games": [
+      11,
+      11
+     ],
+     "off_home": 2.0,
+     "off_away": 1.2,
+     "off_gap": 0.8,
+     "off_games": [
+      11,
+      11
+     ],
+     "cards": 4.2,
+     "cards_1t": 1.4,
+     "cards_home": 2.0,
+     "cards_away": 2.2,
+     "cards_1t_home": 0.6,
+     "cards_1t_away": 0.7,
+     "games_k": [
+      11,
+      11
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/a5a467d0b57c46c33fa2b4b156dcadebe20de96e848a4a09fad642ad6d6bb7de.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/52f92c4c2ae57c14bc3d2ead58a2f899ab2fa12bebb91e6f627af2b99608dfce.webp"
+    },
+    {
+     "id": "m_3jVoFq",
+     "date": "2026-11-23",
+     "time": "2026-11-23",
+     "league": "LaLiga",
+     "home": "Levante",
+     "away": "Elche",
+     "non_coperto": [],
+     "corners_home": 4.6,
+     "corners_away": 5.0,
+     "gap": 0.4,
+     "games": [
+      5,
+      6
+     ],
+     "tiri_home": 16.8,
+     "tiri_away": 13.5,
+     "tiri_gap": 3.3,
+     "tiri_games": [
+      5,
+      6
+     ],
+     "sot_home": 5.9,
+     "sot_away": 5.1,
+     "sot_gap": 0.8,
+     "sot_games": [
+      5,
+      6
+     ],
+     "falli_home": 11.6,
+     "falli_away": 12.3,
+     "falli_gap": 0.7,
+     "falli_games": [
+      12,
+      12
+     ],
+     "off_home": 2.5,
+     "off_away": 2.1,
+     "off_gap": 0.4,
+     "off_games": [
+      12,
+      12
+     ],
+     "cards": 4.2,
+     "cards_1t": 1.4,
+     "cards_home": 1.4,
+     "cards_away": 2.8,
+     "cards_1t_home": 0.5,
+     "cards_1t_away": 0.9,
+     "games_k": [
+      12,
+      12
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/3d4e34694800c927780cbd51435b2cf84ceb631683ce1e7c62549259396fbd04.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/1cc190e198bb61e1cb6616fdc68811525ede3438e3ad58b8c857ac82cfdc0b40.webp"
+    }
+   ],
+   "fuorigiochi": [
+    {
+     "id": "m_2FVfvL",
+     "date": "2026-11-23",
+     "time": "2026-11-23",
+     "league": "Premier League",
+     "home": "Brentford",
+     "away": "Everton",
+     "non_coperto": [],
+     "corners_home": 5.9,
+     "corners_away": 5.8,
+     "gap": 0.1,
+     "games": [
+      5,
+      5
+     ],
+     "tiri_home": 14.5,
+     "tiri_away": 13.5,
+     "tiri_gap": 1.0,
+     "tiri_games": [
+      5,
+      5
+     ],
+     "sot_home": 3.7,
+     "sot_away": 4.2,
+     "sot_gap": 0.5,
+     "sot_games": [
+      5,
+      5
+     ],
+     "falli_home": 12.4,
+     "falli_away": 9.3,
+     "falli_gap": 3.1,
+     "falli_games": [
+      10,
+      10
+     ],
+     "off_home": 1.0,
+     "off_away": 1.9,
+     "off_gap": 0.9,
+     "off_games": [
+      10,
+      10
+     ],
+     "cards": 4.3,
+     "cards_1t": 1.4,
+     "cards_home": 2.5,
+     "cards_away": 1.8,
+     "cards_1t_home": 0.8,
+     "cards_1t_away": 0.6,
+     "games_k": [
+      10,
+      10
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/b914ebfd30484229c1ef50cb5af2d029a2d17cab7a76b3761c02125657b2a40a.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/a755328b0286a79ef4e19406b2c63417922769a93ca17365b7333d4173cb9a2b.webp"
+    },
+    {
+     "id": "m_08lkfg",
+     "date": "2026-11-23",
+     "time": "2026-11-23",
+     "league": "Serie A",
+     "home": "Monza",
+     "away": "Fiorentina",
+     "non_coperto": [],
+     "corners_home": 3.9,
+     "corners_away": 3.4,
+     "gap": 0.5,
+     "games": [
+      5,
+      5
+     ],
+     "tiri_home": 15.5,
+     "tiri_away": 14.0,
+     "tiri_gap": 1.5,
+     "tiri_games": [
+      5,
+      5
+     ],
+     "sot_home": 5.7,
+     "sot_away": 5.7,
+     "sot_gap": 0.0,
+     "sot_games": [
+      5,
+      5
+     ],
+     "falli_home": 12.6,
+     "falli_away": 11.0,
+     "falli_gap": 1.6,
+     "falli_games": [
+      11,
+      11
+     ],
+     "off_home": 2.0,
+     "off_away": 1.2,
+     "off_gap": 0.8,
+     "off_games": [
+      11,
+      11
+     ],
+     "cards": 4.2,
+     "cards_1t": 1.4,
+     "cards_home": 2.0,
+     "cards_away": 2.2,
+     "cards_1t_home": 0.6,
+     "cards_1t_away": 0.7,
+     "games_k": [
+      11,
+      11
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/a5a467d0b57c46c33fa2b4b156dcadebe20de96e848a4a09fad642ad6d6bb7de.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/52f92c4c2ae57c14bc3d2ead58a2f899ab2fa12bebb91e6f627af2b99608dfce.webp"
+    },
+    {
+     "id": "m_3jVoFq",
+     "date": "2026-11-23",
+     "time": "2026-11-23",
+     "league": "LaLiga",
+     "home": "Levante",
+     "away": "Elche",
+     "non_coperto": [],
+     "corners_home": 4.6,
+     "corners_away": 5.0,
+     "gap": 0.4,
+     "games": [
+      5,
+      6
+     ],
+     "tiri_home": 16.8,
+     "tiri_away": 13.5,
+     "tiri_gap": 3.3,
+     "tiri_games": [
+      5,
+      6
+     ],
+     "sot_home": 5.9,
+     "sot_away": 5.1,
+     "sot_gap": 0.8,
+     "sot_games": [
+      5,
+      6
+     ],
+     "falli_home": 11.6,
+     "falli_away": 12.3,
+     "falli_gap": 0.7,
+     "falli_games": [
+      12,
+      12
+     ],
+     "off_home": 2.5,
+     "off_away": 2.1,
+     "off_gap": 0.4,
+     "off_games": [
+      12,
+      12
+     ],
+     "cards": 4.2,
+     "cards_1t": 1.4,
+     "cards_home": 1.4,
+     "cards_away": 2.8,
+     "cards_1t_home": 0.5,
+     "cards_1t_away": 0.9,
+     "games_k": [
+      12,
+      12
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/3d4e34694800c927780cbd51435b2cf84ceb631683ce1e7c62549259396fbd04.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/1cc190e198bb61e1cb6616fdc68811525ede3438e3ad58b8c857ac82cfdc0b40.webp"
+    }
+   ],
+   "cartellini": [
+    {
+     "id": "m_08lkfg",
+     "date": "2026-11-23",
+     "time": "2026-11-23",
+     "league": "Serie A",
+     "home": "Monza",
+     "away": "Fiorentina",
+     "non_coperto": [],
+     "corners_home": 3.9,
+     "corners_away": 3.4,
+     "gap": 0.5,
+     "games": [
+      5,
+      5
+     ],
+     "tiri_home": 15.5,
+     "tiri_away": 14.0,
+     "tiri_gap": 1.5,
+     "tiri_games": [
+      5,
+      5
+     ],
+     "sot_home": 5.7,
+     "sot_away": 5.7,
+     "sot_gap": 0.0,
+     "sot_games": [
+      5,
+      5
+     ],
+     "falli_home": 12.6,
+     "falli_away": 11.0,
+     "falli_gap": 1.6,
+     "falli_games": [
+      11,
+      11
+     ],
+     "off_home": 2.0,
+     "off_away": 1.2,
+     "off_gap": 0.8,
+     "off_games": [
+      11,
+      11
+     ],
+     "cards": 4.2,
+     "cards_1t": 1.4,
+     "cards_home": 2.0,
+     "cards_away": 2.2,
+     "cards_1t_home": 0.6,
+     "cards_1t_away": 0.7,
+     "games_k": [
+      11,
+      11
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/a5a467d0b57c46c33fa2b4b156dcadebe20de96e848a4a09fad642ad6d6bb7de.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/52f92c4c2ae57c14bc3d2ead58a2f899ab2fa12bebb91e6f627af2b99608dfce.webp"
+    },
+    {
+     "id": "m_3jVoFq",
+     "date": "2026-11-23",
+     "time": "2026-11-23",
+     "league": "LaLiga",
+     "home": "Levante",
+     "away": "Elche",
+     "non_coperto": [],
+     "corners_home": 4.6,
+     "corners_away": 5.0,
+     "gap": 0.4,
+     "games": [
+      5,
+      6
+     ],
+     "tiri_home": 16.8,
+     "tiri_away": 13.5,
+     "tiri_gap": 3.3,
+     "tiri_games": [
+      5,
+      6
+     ],
+     "sot_home": 5.9,
+     "sot_away": 5.1,
+     "sot_gap": 0.8,
+     "sot_games": [
+      5,
+      6
+     ],
+     "falli_home": 11.6,
+     "falli_away": 12.3,
+     "falli_gap": 0.7,
+     "falli_games": [
+      12,
+      12
+     ],
+     "off_home": 2.5,
+     "off_away": 2.1,
+     "off_gap": 0.4,
+     "off_games": [
+      12,
+      12
+     ],
+     "cards": 4.2,
+     "cards_1t": 1.4,
+     "cards_home": 1.4,
+     "cards_away": 2.8,
+     "cards_1t_home": 0.5,
+     "cards_1t_away": 0.9,
+     "games_k": [
+      12,
+      12
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/3d4e34694800c927780cbd51435b2cf84ceb631683ce1e7c62549259396fbd04.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/1cc190e198bb61e1cb6616fdc68811525ede3438e3ad58b8c857ac82cfdc0b40.webp"
+    },
+    {
+     "id": "m_2FVfvL",
+     "date": "2026-11-23",
+     "time": "2026-11-23",
+     "league": "Premier League",
+     "home": "Brentford",
+     "away": "Everton",
+     "non_coperto": [],
+     "corners_home": 5.9,
+     "corners_away": 5.8,
+     "gap": 0.1,
+     "games": [
+      5,
+      5
+     ],
+     "tiri_home": 14.5,
+     "tiri_away": 13.5,
+     "tiri_gap": 1.0,
+     "tiri_games": [
+      5,
+      5
+     ],
+     "sot_home": 3.7,
+     "sot_away": 4.2,
+     "sot_gap": 0.5,
+     "sot_games": [
+      5,
+      5
+     ],
+     "falli_home": 12.4,
+     "falli_away": 9.3,
+     "falli_gap": 3.1,
+     "falli_games": [
+      10,
+      10
+     ],
+     "off_home": 1.0,
+     "off_away": 1.9,
+     "off_gap": 0.9,
+     "off_games": [
+      10,
+      10
+     ],
+     "cards": 4.3,
+     "cards_1t": 1.4,
+     "cards_home": 2.5,
+     "cards_away": 1.8,
+     "cards_1t_home": 0.8,
+     "cards_1t_away": 0.6,
+     "games_k": [
+      10,
+      10
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/b914ebfd30484229c1ef50cb5af2d029a2d17cab7a76b3761c02125657b2a40a.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/a755328b0286a79ef4e19406b2c63417922769a93ca17365b7333d4173cb9a2b.webp"
+    }
+   ],
+   "cartellini_1t": [
+    {
+     "id": "m_08lkfg",
+     "date": "2026-11-23",
+     "time": "2026-11-23",
+     "league": "Serie A",
+     "home": "Monza",
+     "away": "Fiorentina",
+     "non_coperto": [],
+     "corners_home": 3.9,
+     "corners_away": 3.4,
+     "gap": 0.5,
+     "games": [
+      5,
+      5
+     ],
+     "tiri_home": 15.5,
+     "tiri_away": 14.0,
+     "tiri_gap": 1.5,
+     "tiri_games": [
+      5,
+      5
+     ],
+     "sot_home": 5.7,
+     "sot_away": 5.7,
+     "sot_gap": 0.0,
+     "sot_games": [
+      5,
+      5
+     ],
+     "falli_home": 12.6,
+     "falli_away": 11.0,
+     "falli_gap": 1.6,
+     "falli_games": [
+      11,
+      11
+     ],
+     "off_home": 2.0,
+     "off_away": 1.2,
+     "off_gap": 0.8,
+     "off_games": [
+      11,
+      11
+     ],
+     "cards": 4.2,
+     "cards_1t": 1.4,
+     "cards_home": 2.0,
+     "cards_away": 2.2,
+     "cards_1t_home": 0.6,
+     "cards_1t_away": 0.7,
+     "games_k": [
+      11,
+      11
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/a5a467d0b57c46c33fa2b4b156dcadebe20de96e848a4a09fad642ad6d6bb7de.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/52f92c4c2ae57c14bc3d2ead58a2f899ab2fa12bebb91e6f627af2b99608dfce.webp"
+    },
+    {
+     "id": "m_2FVfvL",
+     "date": "2026-11-23",
+     "time": "2026-11-23",
+     "league": "Premier League",
+     "home": "Brentford",
+     "away": "Everton",
+     "non_coperto": [],
+     "corners_home": 5.9,
+     "corners_away": 5.8,
+     "gap": 0.1,
+     "games": [
+      5,
+      5
+     ],
+     "tiri_home": 14.5,
+     "tiri_away": 13.5,
+     "tiri_gap": 1.0,
+     "tiri_games": [
+      5,
+      5
+     ],
+     "sot_home": 3.7,
+     "sot_away": 4.2,
+     "sot_gap": 0.5,
+     "sot_games": [
+      5,
+      5
+     ],
+     "falli_home": 12.4,
+     "falli_away": 9.3,
+     "falli_gap": 3.1,
+     "falli_games": [
+      10,
+      10
+     ],
+     "off_home": 1.0,
+     "off_away": 1.9,
+     "off_gap": 0.9,
+     "off_games": [
+      10,
+      10
+     ],
+     "cards": 4.3,
+     "cards_1t": 1.4,
+     "cards_home": 2.5,
+     "cards_away": 1.8,
+     "cards_1t_home": 0.8,
+     "cards_1t_away": 0.6,
+     "games_k": [
+      10,
+      10
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/b914ebfd30484229c1ef50cb5af2d029a2d17cab7a76b3761c02125657b2a40a.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/a755328b0286a79ef4e19406b2c63417922769a93ca17365b7333d4173cb9a2b.webp"
+    },
+    {
+     "id": "m_3jVoFq",
+     "date": "2026-11-23",
+     "time": "2026-11-23",
+     "league": "LaLiga",
+     "home": "Levante",
+     "away": "Elche",
+     "non_coperto": [],
+     "corners_home": 4.6,
+     "corners_away": 5.0,
+     "gap": 0.4,
+     "games": [
+      5,
+      6
+     ],
+     "tiri_home": 16.8,
+     "tiri_away": 13.5,
+     "tiri_gap": 3.3,
+     "tiri_games": [
+      5,
+      6
+     ],
+     "sot_home": 5.9,
+     "sot_away": 5.1,
+     "sot_gap": 0.8,
+     "sot_games": [
+      5,
+      6
+     ],
+     "falli_home": 11.6,
+     "falli_away": 12.3,
+     "falli_gap": 0.7,
+     "falli_games": [
+      12,
+      12
+     ],
+     "off_home": 2.5,
+     "off_away": 2.1,
+     "off_gap": 0.4,
+     "off_games": [
+      12,
+      12
+     ],
+     "cards": 4.2,
+     "cards_1t": 1.4,
+     "cards_home": 1.4,
+     "cards_away": 2.8,
+     "cards_1t_home": 0.5,
+     "cards_1t_away": 0.9,
+     "games_k": [
+      12,
+      12
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/3d4e34694800c927780cbd51435b2cf84ceb631683ce1e7c62549259396fbd04.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/1cc190e198bb61e1cb6616fdc68811525ede3438e3ad58b8c857ac82cfdc0b40.webp"
+    }
+   ],
+   "tutte": [
+    {
+     "id": "m_08lkfg",
+     "date": "2026-11-23",
+     "time": "2026-11-23",
+     "league": "Serie A",
+     "home": "Monza",
+     "away": "Fiorentina",
+     "corners_home": 3.9,
+     "corners_away": 3.4,
+     "gap": 0.5,
+     "games": [
+      5,
+      5
+     ],
+     "tiri_home": 15.5,
+     "tiri_away": 14.0,
+     "tiri_gap": 1.5,
+     "tiri_games": [
+      5,
+      5
+     ],
+     "sot_home": 5.7,
+     "sot_away": 5.7,
+     "sot_gap": 0.0,
+     "sot_games": [
+      5,
+      5
+     ],
+     "falli_home": 12.6,
+     "falli_away": 11.0,
+     "falli_gap": 1.6,
+     "falli_games": [
+      11,
+      11
+     ],
+     "off_home": 2.0,
+     "off_away": 1.2,
+     "off_gap": 0.8,
+     "off_games": [
+      11,
+      11
+     ],
+     "cards": 4.2,
+     "cards_1t": 1.4,
+     "cards_home": 2.0,
+     "cards_away": 2.2,
+     "cards_1t_home": 0.6,
+     "cards_1t_away": 0.7,
+     "games_k": [
+      11,
+      11
+     ]
+    },
+    {
+     "id": "m_2FVfvL",
+     "date": "2026-11-23",
+     "time": "2026-11-23",
+     "league": "Premier League",
+     "home": "Brentford",
+     "away": "Everton",
+     "corners_home": 5.9,
+     "corners_away": 5.8,
+     "gap": 0.1,
+     "games": [
+      5,
+      5
+     ],
+     "tiri_home": 14.5,
+     "tiri_away": 13.5,
+     "tiri_gap": 1.0,
+     "tiri_games": [
+      5,
+      5
+     ],
+     "sot_home": 3.7,
+     "sot_away": 4.2,
+     "sot_gap": 0.5,
+     "sot_games": [
+      5,
+      5
+     ],
+     "falli_home": 12.4,
+     "falli_away": 9.3,
+     "falli_gap": 3.1,
+     "falli_games": [
+      10,
+      10
+     ],
+     "off_home": 1.0,
+     "off_away": 1.9,
+     "off_gap": 0.9,
+     "off_games": [
+      10,
+      10
+     ],
+     "cards": 4.3,
+     "cards_1t": 1.4,
+     "cards_home": 2.5,
+     "cards_away": 1.8,
+     "cards_1t_home": 0.8,
+     "cards_1t_away": 0.6,
+     "games_k": [
+      10,
+      10
+     ]
+    },
+    {
+     "id": "m_3jVoFq",
+     "date": "2026-11-23",
+     "time": "2026-11-23",
+     "league": "LaLiga",
+     "home": "Levante",
+     "away": "Elche",
+     "corners_home": 4.6,
+     "corners_away": 5.0,
+     "gap": 0.4,
+     "games": [
+      5,
+      6
+     ],
+     "tiri_home": 16.8,
+     "tiri_away": 13.5,
+     "tiri_gap": 3.3,
+     "tiri_games": [
+      5,
+      6
+     ],
+     "sot_home": 5.9,
+     "sot_away": 5.1,
+     "sot_gap": 0.8,
+     "sot_games": [
+      5,
+      6
+     ],
+     "falli_home": 11.6,
+     "falli_away": 12.3,
+     "falli_gap": 0.7,
+     "falli_games": [
+      12,
+      12
+     ],
+     "off_home": 2.5,
+     "off_away": 2.1,
+     "off_gap": 0.4,
+     "off_games": [
+      12,
+      12
+     ],
+     "cards": 4.2,
+     "cards_1t": 1.4,
+     "cards_home": 1.4,
+     "cards_away": 2.8,
+     "cards_1t_home": 0.5,
+     "cards_1t_away": 0.9,
+     "games_k": [
+      12,
+      12
      ]
     }
    ]
