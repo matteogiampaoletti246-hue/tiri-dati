@@ -981,6 +981,60 @@ const EDGE_W = 22; // striscia nativa sul bordo (swipe fluido sul thread UI). St
 const SWIPE_GAIN = 2.2; // la pagina corre piu' veloce del dito: uno swipe leggero (~23% dello schermo) la porta oltre la meta'. Stesso valore in lib/carousel.js
 
 const scoreStr = (sc) => { const x = /(\d+)\s*-\s*(\d+)/.exec(String(sc || '')); return x ? `${x[1]}-${x[2]}` : null; };
+const getF = async (p) => { const r = await fetch(p); if (!r.ok) throw new Error(p); return r.json(); };
+const clockOf = (c, ht) => { if (ht || /^HT$/i.test(String(c || ''))) return 'HT'; const n = parseInt(String(c || ''), 10); return Number.isFinite(n) ? String(n) : undefined; };
+// stato, risultato e minuto live veri di un giorno: /f del giorno per top campionati e coppe europee, /fx per le altre partite iniziate da meno di
+// 5 ore. Lo usano il giro periodico della Home E il primo disegno all'apertura (`fPre` = richiesta /f gia' partita insieme ai file del giorno).
+async function liveUpdates(iso, getRows, now, fPre) {
+  const upd = new Map(); // id partita -> { st, score, lt }
+  try {
+    const d = await (fPre || getF(`${WORKER}/f?date=${iso.replace(/-/g, '')}`));
+    (d.m || []).forEach((y) => {
+      const sc = scoreStr(y.sc);
+      const uu = y.f && sc ? { st: 'f', score: sc } : y.s && !y.f ? { st: 'l', score: sc, lt: clockOf(y.lt) } : { st: 'n' };
+      upd.set(String(y.id), uu);
+      if (uu.st === 'l' && uu.score) { LIVE_MEM.set(String(y.id), { ...uu, t: now }); memSave(); }
+    });
+  } catch (e) { /* si riprova al prossimo giro */ }
+  const rows0 = getRows() || [];
+  // altre partite iniziate da meno di 5 ore (campionati e coppe aggiunti): una richiesta per partita, al massimo 12 per giro
+  // prima quelle gia' "live" ma senza gol (il risultato deve esserci sempre), poi le altre; al massimo 36 per giro, 6 richieste insieme
+  const one = rows0.filter((m) => !upd.has(String(m[0])) && m[8] !== 'f' && Date.parse(m[2]) <= now && now - Date.parse(m[2]) < 5 * 3600000)
+    .sort((a, b) => (b[8] === 'l' && !/\d/.test(b[7] || '') ? 1 : 0) - (a[8] === 'l' && !/\d/.test(a[7] || '') ? 1 : 0)).slice(0, 36);
+  let k = 0;
+  const worker = async () => {
+    while (k < one.length) {
+      const m = one[k++];
+      try {
+        const d = await getF(`${WORKER}/fx?id=${m[0]}`);
+        const sc = d.sc && d.sc[0] != null ? `${d.sc[0]}-${d.sc[1]}` : null;
+        const u = d.fin && sc ? { st: 'f', score: sc } : d.st ? { st: 'l', score: sc, lt: clockOf(d.clk, d.ht) } : { st: 'n' };
+        upd.set(String(m[0]), u);
+        if (u.score) { LIVE_MEM.set(String(m[0]), { ...u, t: now }); memSave(); }
+      } catch (e) { /* si riprova al prossimo giro */ }
+    }
+  };
+  await Promise.all([worker(), worker(), worker(), worker(), worker(), worker()]);
+  return { upd, rows0 };
+}
+// applica gli aggiornamenti alle righe di un giorno
+function mergeUpd(rows, upd, now) {
+  let changed = false;
+  const out = rows.map((m) => {
+    let u = upd.get(String(m[0]));
+    // ultimo risultato noto (anche dopo aver cambiato giorno e ricostruito le righe): mai "live" senza gol se lo conosciamo
+    if (!u && m[8] === 'l' && !/\d/.test(m[7] || '')) { const mem = LIVE_MEM.get(String(m[0])); if (mem && now - mem.t < MEM_TTL) u = mem; }
+    if (!u) return m;
+    let st = m[8]; let score = m[7]; let lt = m[10];
+    if (u.st === 'f' && u.score) { st = 'f'; score = u.score; lt = undefined; }
+    else if (u.st === 'l') { st = 'l'; if (u.score) score = u.score; lt = u.lt; }
+    else if (u.st === 'n' && st === 'l') { st = 'n'; score = ''; lt = undefined; }
+    if (st === m[8] && score === m[7] && lt === m[10]) return m;
+    changed = true;
+    const n = m.slice(); n[7] = score; n[8] = st; n[10] = lt; return n;
+  });
+  return { rows: out, changed };
+}
 
 // Dock in basso (concept C "isola compatta", stesso disegno nel sito): Home, Calcolatore, Giocatori, Matchup. Vetro sfocato, tasselli 46 px,
 // la voce attiva si allarga in pillola con il nome. Componente a parte e memoizzato: non si ridisegna quando la Home cambia giorno o scorre.
@@ -1233,6 +1287,10 @@ function Screen({ onTheme, onReset, themePref }) {
     const base = new Date(); base.setDate(base.getDate() + center);
     const ds = OFFSETS.map((o) => { const d = new Date(base); d.setDate(d.getDate() + o); return d; });
     const ks = ds.map(rome);
+    // la richiesta del live di oggi parte insieme ai file del giorno: all'apertura risultati e minuti sono quelli veri, non quelli dell'ultima volta
+    const ti = ks.indexOf(rome(new Date()));
+    const fPre = ti >= 0 ? getF(`${WORKER}/f?date=${ks[ti].replace(/-/g, '')}`) : null;
+    if (fPre) fPre.catch(() => {});
     (async () => {
       const files = await Promise.all(ks.map((k) => getJ(`giorni/${k}.json`).catch(() => getJ(`giorni_arch/${k}.json`)).catch(() => ({ m: [] }))));
       const seen = new Set(); const by = {};
@@ -1242,6 +1300,12 @@ function Screen({ onTheme, onReset, themePref }) {
       }));
       await MEM_READY;
       const nowT = Date.now();
+      if (ti >= 0 && by[ks[ti]] && by[ks[ti]].some((m) => m[8] === 'l' || (m[8] !== 'f' && Date.parse(m[2]) <= nowT && nowT - Date.parse(m[2]) < 5 * 3600000))) {
+        const k0 = ks[ti];
+        // al massimo 1,5 s: con la rete lenta si parte comunque (poi il giro periodico aggiorna)
+        const fresh = await Promise.race([liveUpdates(k0, () => by[k0], nowT, fPre), new Promise((res) => setTimeout(() => res(null), 1500))]).catch(() => null);
+        if (fresh) by[k0] = mergeUpd(by[k0], fresh.upd, nowT).rows;
+      }
       Object.keys(by).forEach((k) => { by[k] = by[k].map((m) => {
         if (m[8] !== 'l' || /\d/.test(m[7] || '')) return m;
         const mem = LIVE_MEM.get(String(m[0])); if (!mem || nowT - mem.t >= MEM_TTL || mem.st !== 'l') return m;
@@ -1260,37 +1324,7 @@ function Screen({ onTheme, onReset, themePref }) {
     const v = viewRef.current; if (!v) return;
     const i = v.keys.indexOf(iso); if (i < 0) return;
     const now = Date.now();
-    const clock = (c, ht) => { if (ht || /^HT$/i.test(String(c || ''))) return 'HT'; const n = parseInt(String(c || ''), 10); return Number.isFinite(n) ? String(n) : undefined; };
-    const upd = new Map(); // id partita -> { st, score, lt }
-    const getF = async (p) => { const r = await fetch(p); if (!r.ok) throw new Error(p); return r.json(); };
-    try {
-      const d = await getF(`${WORKER}/f?date=${iso.replace(/-/g, '')}`);
-      (d.m || []).forEach((y) => {
-        const sc = scoreStr(y.sc);
-        const uu = y.f && sc ? { st: 'f', score: sc } : y.s && !y.f ? { st: 'l', score: sc, lt: clock(y.lt) } : { st: 'n' };
-        upd.set(String(y.id), uu);
-        if (uu.st === 'l' && uu.score) { LIVE_MEM.set(String(y.id), { ...uu, t: now }); memSave(); }
-      });
-    } catch (e) { /* si riprova al prossimo giro */ }
-    const rows0 = (viewRef.current && viewRef.current.keys === v.keys ? viewRef.current.data[i] : null) || [];
-    // altre partite iniziate da meno di 5 ore (campionati e coppe aggiunti): una richiesta per partita, al massimo 12 per giro
-    // prima quelle gia' "live" ma senza gol (il risultato deve esserci sempre), poi le altre; al massimo 36 per giro, 6 richieste insieme
-    const one = rows0.filter((m) => !upd.has(String(m[0])) && m[8] !== 'f' && Date.parse(m[2]) <= now && now - Date.parse(m[2]) < 5 * 3600000)
-      .sort((a, b) => (b[8] === 'l' && !/\d/.test(b[7] || '') ? 1 : 0) - (a[8] === 'l' && !/\d/.test(a[7] || '') ? 1 : 0)).slice(0, 36);
-    let k = 0;
-    const worker = async () => {
-      while (k < one.length) {
-        const m = one[k++];
-        try {
-          const d = await getF(`${WORKER}/fx?id=${m[0]}`);
-          const sc = d.sc && d.sc[0] != null ? `${d.sc[0]}-${d.sc[1]}` : null;
-          const u = d.fin && sc ? { st: 'f', score: sc } : d.st ? { st: 'l', score: sc, lt: clock(d.clk, d.ht) } : { st: 'n' };
-          upd.set(String(m[0]), u);
-          if (u.score) { LIVE_MEM.set(String(m[0]), { ...u, t: now }); memSave(); }
-        } catch (e) { /* si riprova al prossimo giro */ }
-      }
-    };
-    await Promise.all([worker(), worker(), worker(), worker(), worker(), worker()]);
+    const { upd, rows0 } = await liveUpdates(iso, () => (viewRef.current && viewRef.current.keys === v.keys ? viewRef.current.data[i] : null), now);
     // iniziate da piu' di 5 ore e ancora senza risultato: feed del giorno (aggiornato ogni 10 minuti)
     if (rows0.some((m) => m[8] !== 'f' && now - Date.parse(m[2]) >= 5 * 3600000 && now - Date.parse(m[2]) < 4 * 86400000)) {
       try {
@@ -1299,21 +1333,8 @@ function Screen({ onTheme, onReset, themePref }) {
       } catch (e) { /* ignora */ }
     }
     const v2 = viewRef.current; if (!v2 || v2.keys !== v.keys) return;
-    let changed = false;
-    const rows = v2.data[i].map((m) => {
-      let u = upd.get(String(m[0]));
-      // ultimo risultato noto (anche dopo aver cambiato giorno e ricostruito le righe): mai "live" senza gol se lo conosciamo
-      if (!u && m[8] === 'l' && !/\d/.test(m[7] || '')) { const mem = LIVE_MEM.get(String(m[0])); if (mem && now - mem.t < MEM_TTL) u = mem; }
-      if (!u) return m;
-      let st = m[8]; let score = m[7]; let lt = m[10];
-      if (u.st === 'f' && u.score) { st = 'f'; score = u.score; lt = undefined; }
-      else if (u.st === 'l') { st = 'l'; if (u.score) score = u.score; lt = u.lt; }
-      else if (u.st === 'n' && st === 'l') { st = 'n'; score = ''; lt = undefined; }
-      if (st === m[8] && score === m[7] && lt === m[10]) return m;
-      changed = true;
-      const n = m.slice(); n[7] = score; n[8] = st; n[10] = lt; return n;
-    });
-    if (changed) setView((p) => (p && p.keys === v2.keys ? { ...p, data: p.data.map((r, kk) => (kk === i ? rows : r)) } : p));
+    const mg = mergeUpd(v2.data[i], upd, now);
+    if (mg.changed) setView((p) => (p && p.keys === v2.keys ? { ...p, data: p.data.map((r, kk) => (kk === i ? mg.rows : r)) } : p));
   }, []);
   useEffect(() => {
     if (!data) return undefined;
