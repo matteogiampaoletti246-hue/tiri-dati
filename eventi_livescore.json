@@ -170,7 +170,7 @@
   },
   "Coupe de France 2026-2027": {
    "partite_con_eventi": 0,
-   "da_fare": 1
+   "da_fare": 0
   },
   "Super League 1 2026-2027": {
    "partite_con_eventi": 0,
@@ -281,8 +281,8 @@
    "da_fare": 0
   },
   "Liga Portugal 2 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 2,
+   "da_fare": 2
   },
   "Taça de Portugal 2026-2027": {
    "partite_con_eventi": 0,
@@ -457,8 +457,8 @@
    "da_fare": 0
   },
   "Primera Federación 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 2,
+   "da_fare": 3
   },
   "Liga de Expansión MX 2026-2027": {
    "partite_con_eventi": 0,
@@ -638,7 +638,7 @@
   },
   "Ligue 1 2025-2026": {
    "partite_con_eventi": 0,
-   "da_fare": 19
+   "da_fare": 0
   },
   "Serie A 2025-2026": {
    "partite_con_eventi": 0,
@@ -982,19 +982,19 @@
   },
   "FNL 2025-2026": {
    "partite_con_eventi": 0,
-   "da_fare": 168
+   "da_fare": 0
   },
   "Czech Cup 2025-2026": {
    "partite_con_eventi": 0,
-   "da_fare": 1
+   "da_fare": 0
   },
   "Kategoria Superiore 2025-2026": {
    "partite_con_eventi": 0,
-   "da_fare": 13
+   "da_fare": 0
   },
   "First Division B 2025-2026": {
    "partite_con_eventi": 0,
-   "da_fare": 1
+   "da_fare": 0
   },
   "Série A 2025": {
    "partite_con_eventi": 0,
@@ -1014,7 +1014,7 @@
   },
   "Croatian Cup 2025-2026": {
    "partite_con_eventi": 0,
-   "da_fare": 47
+   "da_fare": 0
   },
   "Austrian Cup 2025-2026": {
    "partite_con_eventi": 0,
@@ -1046,11 +1046,11 @@
   },
   "Primera B Nacional 2025": {
    "partite_con_eventi": 0,
-   "da_fare": 0
+   "da_fare": 1
   },
   "Primera Federación 2025-2026": {
    "partite_con_eventi": 0,
-   "da_fare": 0
+   "da_fare": 69
   },
   "Liga de Expansión MX 2025-2026": {
    "partite_con_eventi": 0,
@@ -1062,7 +1062,7 @@
   },
   "Copa do Brasil 2025": {
    "partite_con_eventi": 0,
-   "da_fare": 0
+   "da_fare": 5
   },
   "K League 1 2025": {
    "partite_con_eventi": 0,
@@ -1177,5 +1177,5 @@
    "da_fare": 0
   }
  },
- "partite_in_questo_giro": 315
+ "partite_in_questo_giro": 80
 }
