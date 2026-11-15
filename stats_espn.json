@@ -5,25 +5,65 @@
    "senza": 8,
    "da_fare": 8
   },
-  "Championship 2013-2014": {
-   "con_statistiche": 0,
-   "senza": 211,
-   "da_fare": 211
-  },
-  "Championship 2012-2013": {
-   "con_statistiche": 0,
-   "senza": 557,
-   "da_fare": 557
-  },
-  "Championship 2011-2012": {
-   "con_statistiche": 0,
-   "senza": 540,
-   "da_fare": 540
-  },
   "Championship 2010-2011": {
    "con_statistiche": 0,
-   "senza": 293,
-   "da_fare": 555
+   "senza": 262,
+   "da_fare": 262
+  },
+  "Open Cup 2026": {
+   "con_statistiche": 0,
+   "senza": 1,
+   "da_fare": 1
+  },
+  "Open Cup 2024": {
+   "con_statistiche": 0,
+   "senza": 1,
+   "da_fare": 1
+  },
+  "Open Cup 2023": {
+   "con_statistiche": 0,
+   "senza": 16,
+   "da_fare": 16
+  },
+  "Open Cup 2022": {
+   "con_statistiche": 1,
+   "senza": 0,
+   "da_fare": 1
+  },
+  "Liga I 2023-2024": {
+   "con_statistiche": 0,
+   "senza": 10,
+   "da_fare": 10
+  },
+  "Liga I 2022-2023": {
+   "con_statistiche": 0,
+   "senza": 11,
+   "da_fare": 11
+  },
+  "Liga I 2021-2022": {
+   "con_statistiche": 0,
+   "senza": 5,
+   "da_fare": 5
+  },
+  "MLS 2016": {
+   "con_statistiche": 17,
+   "senza": 0,
+   "da_fare": 17
+  },
+  "MLS 2015": {
+   "con_statistiche": 343,
+   "senza": 8,
+   "da_fare": 351
+  },
+  "MLS 2014": {
+   "con_statistiche": 335,
+   "senza": 1,
+   "da_fare": 336
+  },
+  "MLS 2013": {
+   "con_statistiche": 292,
+   "senza": 2,
+   "da_fare": 338
   }
  }
 }
