@@ -174,6 +174,7 @@ async function dlFill(t, fm, tid) {
     // ultima via: ricerca giocatori di FotMob per cognome (chi non e' in rosa ne' nella pagina squadra); valido solo se il nome e' unico (stessa iniziale e cognome)
     const w = uniq(await searchPlayers(name), name, (q) => q.name);
     if (w) return [w.name, num != null ? num : null, p[2], p[3], p[4], ph(w.id), null, w.id, null];
+    p._d = { ros: (await loadRosa()).length, sq: (await loadSquad()).length, srch: (await searchPlayers(name)).map((q) => q.name).slice(0, 8) }; // PROVVISORIO
     return p;
   };
   const s = await Promise.all(t.s.map(one));
@@ -181,7 +182,7 @@ async function dlFill(t, fm, tid) {
   // portiere segnato (posizione 0) solo se e' uno solo tra i titolari con quel ruolo
   const gk = s.filter((q) => q[8] === 0);
   if (gk.length > 1) gk.forEach((q) => { q[8] = null; });
-  return { f: t.f, s, b, co: (fm && fm.co) || t.co };
+  return { f: t.f, s, b, co: (fm && fm.co) || t.co, _miss: [...s, ...b].filter((q) => q._d).map((q) => [q[0], q._d]) }; // PROVVISORIO
 }
 
 // ---- Formazioni da ESPN dove FotMob non le ha (verificato il 07/11/2026: ESPN da' modulo, titolari con ruolo e lato, panchina).
