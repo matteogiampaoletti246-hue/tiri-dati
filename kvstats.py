@@ -63,24 +63,27 @@ def synth_p(d):
     for m in (d.get("m") or {}).values():
         if not m or m.get("p") or not m.get("h") or not m.get("a") or not (m["h"].get("st")) or not (m["a"].get("st")): continue
         ev = m.get("e") if isinstance(m.get("e"), list) else []
-        end = max([90] + [int(e.get("time") or 0) for e in ev])
+        ev = [e for e in ev if isinstance(e, dict) and isinstance(e.get("time"), (int, float))]   # eventi di altre fonti: solo quelli con minuto
+        end = max([90] + [int(e["time"]) for e in ev])
         off, on = {}, {}
         for e in ev:
-            if e.get("type") == "Substitution" and isinstance(e.get("swap"), list) and len(e["swap"]) == 2:
+            if e.get("type") == "Substitution" and isinstance(e.get("swap"), list) and len(e["swap"]) == 2 and all(isinstance(x, dict) and x.get("id") is not None for x in e["swap"]):
                 on[str(e["swap"][0]["id"])] = e.get("time"); off[str(e["swap"][1]["id"])] = e.get("time")
-            elif e.get("type") == "Card" and e.get("card") in ("Red", "YellowRed") and e.get("p"):
+            elif e.get("type") == "Card" and e.get("card") in ("Red", "YellowRed") and isinstance(e.get("p"), list) and e["p"]:
                 k = str(e["p"][0]); off[k] = min(off.get(k, 999), e.get("time") or 0)
         p, named = {}, {}
         for side in (m["h"], m["a"]):
             for r in side.get("st") or []:
+                if not isinstance(r, list) or len(r) < 2: continue
                 k = str(r[0]); named[str(r[1]).lower()] = k
                 p[k] = {"minutes_played": max(1, round(off.get(k, end))), "goals": 0, "assists": 0}
             for r in side.get("sb") or []:
+                if not isinstance(r, list) or len(r) < 2: continue
                 k = str(r[0]); named[str(r[1]).lower()] = k
                 if k not in on: continue
                 p[k] = {"minutes_played": max(1, round(off.get(k, end) - on[k])), "goals": 0, "assists": 0}
         for e in ev:
-            if e.get("type") != "Goal" or not e.get("p") or re.search("own", e.get("goalDescription") or "", re.I): continue
+            if e.get("type") != "Goal" or not isinstance(e.get("p"), list) or not e["p"] or re.search("own", e.get("goalDescription") or "", re.I): continue
             g = p.get(str(e["p"][0]))
             if g: g["goals"] += 1
             nm = re.sub(r"^assist by\s+", "", e.get("assistStr") or "", flags=re.I).strip().lower()

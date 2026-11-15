@@ -313,12 +313,13 @@ const synthP = (d) => {
   if (!d || !d.m) return d;
   Object.values(d.m).forEach((m) => {
     if (!m || (m.p && Object.keys(m.p).length) || !m.h || !m.a || !(m.h.st || []).length || !(m.a.st || []).length) return;
-    const ev = Array.isArray(m.e) ? m.e : [];
+    try {
+    const ev = (Array.isArray(m.e) ? m.e : []).filter((e) => e && typeof e.time === 'number'); // eventi di altre fonti: solo quelli con minuto
     let end = 90;
     ev.forEach((e) => { const t = Number(e.time); if (t > end) end = t; }); // il recupero (overloadTime) non conta: i minuti FotMob sono 90 a fine tempo regolare
     const off = {}; const on = {};
     ev.forEach((e) => {
-      if (e.type === 'Substitution' && Array.isArray(e.swap) && e.swap.length === 2) { on[String(e.swap[0].id)] = Number(e.time); off[String(e.swap[1].id)] = Number(e.time); }
+      if (e.type === 'Substitution' && Array.isArray(e.swap) && e.swap.length === 2 && e.swap[0] && e.swap[1] && e.swap[0].id != null && e.swap[1].id != null) { on[String(e.swap[0].id)] = Number(e.time); off[String(e.swap[1].id)] = Number(e.time); }
       else if (e.type === 'Card' && (e.card === 'Red' || e.card === 'YellowRed') && Array.isArray(e.p)) off[String(e.p[0])] = Math.min(off[String(e.p[0])] ?? 999, Number(e.time));
     });
     const p = {};
@@ -341,6 +342,7 @@ const synthP = (d) => {
       if (id && p[id]) p[id].assists += 1;
     });
     m.p = p; m.ps = 1;
+    } catch (err) { /* partita con dati anomali: resta senza */ }
   });
   return d;
 };
