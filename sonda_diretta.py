@@ -35,39 +35,48 @@ def recs(tx):
     return out
 
 
+import re
 hdr = ""
-for off in (0, 1, 2, 3):
-    r = get("f_1_%d_1_it_1" % off)
-    rs = recs(r["tx"])
-    OUT["lista_%d" % off] = {"st": r["st"], "n": r.get("n"), "partite": len(rs), "esempio": rs[:2]}
-    OUT["_recs_%d" % off] = rs
+UAH = {"User-Agent": H["User-Agent"], "Accept": "text/html,*/*", "Accept-Language": "it-IT,it;q=0.9"}
+def html(url):
+    try:
+        r = urllib.request.urlopen(urllib.request.Request(url, headers=UAH), timeout=30)
+        return r.read().decode("utf8", "replace")
+    except Exception as ex:
+        return "ERR " + str(ex)[:150]
 
-for pre in ("df_li_1_", "df_lu_1_", "df_lup_1_", "df_lt_1_"):
-    r = get(pre + "4YNzMsxg")
-    OUT["prova_" + pre] = {"st": r["st"], "n": r.get("n"), "tx": r["tx"][:6000]}
-
-# partite non iniziate (AB=1) di oggi..+3: quali hanno formazioni (probabili/ufficiali) e come sono scritte
-prova = {}
-tot = 0
-for off in (0, 1, 2, 3):
-    for x in OUT["_recs_%d" % off]:
-        if x.get("AB") != "1":
-            continue
-        top = any(t in x.get("_ZA", "") for t in ("Serie A", "Premier League", "LaLiga", "Bundesliga", "Ligue 1", "Champions", "Europa League", "Eredivisie", "Liga Portugal", "Super Lig", "Pro League", "Premiership"))
-        if not top and tot > 40:
-            continue
-        tot += 1
-        r = get("df_li_1_" + x["AA"])
-        if r["st"] == 200 and r["n"] > 20:
-            prova[x["AA"]] = {"n": r["n"], "partita": [x.get("CX"), x.get("AF"), x.get("AD"), x.get("_ZA")], "tx": r["tx"][:3500]}
-        if len(prova) >= 5 or tot > 120:
+pg = html("https://www.diretta.it/partita/calcio/belgio-GbB957na/italia-hlKvieGH/riassunto/formazioni/?mid=4YNzMsxg")
+OUT["pagina"] = {"n": len(pg), "head": pg[:200]}
+snips = {}
+for kw in ("feed", "graphql", "lsapp", "flashscore", "project", "sign", "environment", "_hash", "ds."):
+    found = []
+    for m in re.finditer(re.escape(kw), pg):
+        a = max(0, m.start() - 90)
+        found.append(pg[a:m.end() + 140].replace("\n", " "))
+        if len(found) >= 4:
             break
-    if len(prova) >= 5 or tot > 120:
-        break
-OUT["lu_future"] = prova
-OUT["_tot_provate"] = tot
-for k in list(OUT):
-    if k.startswith("_recs_"):
-        del OUT[k]
+    snips[kw] = found
+OUT["snips"] = snips
+scripts = re.findall(r'<script[^>]+src="([^"]+)"', pg)
+OUT["scripts"] = scripts[:15]
+jsf = {}
+for u in scripts[:15]:
+    if u.startswith("//"): u = "https:" + u
+    if u.startswith("/"): u = "https://www.diretta.it" + u
+    t = html(u)
+    hits = []
+    for kw in ("df_li_", "df_lu_", "lineup", "pq_graphql", "_hash", "feed_sign", "x-fsign", "lsapp"):
+        for m in re.finditer(re.escape(kw), t):
+            a = max(0, m.start() - 100)
+            hits.append((kw, t[a:m.end() + 160].replace("\n", " ")))
+            break
+    jsf[u[-60:]] = {"n": len(t), "hits": hits[:8]}
+OUT["js"] = jsf
+
+for pre in ("df_li_1_", "df_sui_1_", "df_st_1_", "df_hh_1_", "df_su_1_", "df_dc_1_", "df_mh_1_", "df_lpb_1_"):
+    r = get(pre + "4YNzMsxg")
+    OUT["prova_" + pre] = {"st": r["st"], "n": r.get("n"), "tx": r["tx"][:800]}
+rs0 = recs(get("f_1_0_1_it_1")["tx"])
+OUT["belgio_in_lista"] = [x for x in rs0 if x.get("AA") == "4YNzMsxg"][:1]
 json.dump(OUT, open("sonda_diretta.json", "w"), ensure_ascii=False, indent=1)
-print({k: (v.get("st"), v.get("n"), v.get("partite")) if isinstance(v, dict) else v for k, v in OUT.items()})
+print({k: (v.get("st"), v.get("n")) if isinstance(v, dict) else v for k, v in OUT.items() if k.startswith("prova_") or k == "pagina"})
