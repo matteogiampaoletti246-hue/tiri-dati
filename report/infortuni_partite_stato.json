@@ -1,7 +1,7 @@
 {
- "squadre": 321,
+ "squadre": 311,
  "nazionali": 94,
- "club": 227,
+ "club": 217,
  "dettaglio_nazionali": {
   "New Zealand": {
    "pool": 38,
@@ -553,8 +553,8 @@
    "src": null
   }
  },
- "updated_at": "2026-11-15T01:28:24Z",
- "partite": 163,
- "squadre_con_elenco": 147,
- "minuti": 2.1
+ "updated_at": "2026-11-15T04:10:53Z",
+ "partite": 157,
+ "squadre_con_elenco": 144,
+ "minuti": 1.9
 }
