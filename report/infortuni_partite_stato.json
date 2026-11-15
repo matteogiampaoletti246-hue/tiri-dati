@@ -112,7 +112,7 @@
    "src": "ultima+rosa"
   },
   "Faroe Islands": {
-   "pool": 35,
+   "pool": 34,
    "call": 25,
    "rosa": 25,
    "src": "partita+ultima+rosa"
@@ -130,7 +130,7 @@
    "src": "partita+ultima"
   },
   "Slovakia": {
-   "pool": 46,
+   "pool": 45,
    "call": 31,
    "rosa": 31,
    "src": "partita+ultima+rosa"
@@ -238,7 +238,7 @@
    "src": "partita+ultima+rosa"
   },
   "Malta": {
-   "pool": 36,
+   "pool": 35,
    "call": 26,
    "rosa": 38,
    "src": "partita+ultima"
@@ -511,7 +511,7 @@
    "src": "partita+ultima+rosa"
   },
   "Bolivia": {
-   "pool": 47,
+   "pool": 44,
    "call": 24,
    "rosa": 38,
    "src": "partita+ultima"
@@ -541,7 +541,7 @@
    "src": null
   }
  },
- "updated_at": "2026-11-15T07:25:50Z",
+ "updated_at": "2026-11-15T10:01:56Z",
  "partite": 153,
  "squadre_con_elenco": 141,
  "minuti": 2.1
