@@ -24,41 +24,50 @@ def recs(tx):
         if "÷" not in tok:
             continue
         k, v = tok.split("÷", 1)
+        k = k.lstrip("~")
+        if k == "ZA":
+            hdr = v
         if k == "AA":
-            cur = {"AA": v}
+            cur = {"AA": v, "_ZA": hdr if "hdr" in dir() else ""}
             out.append(cur)
         elif cur is not None:
             cur.setdefault(k, v)
     return out
 
 
-for off in (0, 1, 2):
-    for tz in (1,):
-        key = "lista_%d" % off
-        r = get("f_1_%d_%d_it_1" % (off, tz))
-        OUT[key] = {"st": r["st"], "n": r.get("n"), "err": r.get("err"), "head": r["tx"][:1500]}
-        rs = recs(r["tx"])
-        OUT[key]["partite"] = len(rs)
-        OUT[key]["esempio"] = rs[:3]
-        OUT["_mids_%d" % off] = [x["AA"] for x in rs]
+hdr = ""
+for off in (0, 1, 2, 3):
+    r = get("f_1_%d_1_it_1" % off)
+    rs = recs(r["tx"])
+    OUT["lista_%d" % off] = {"st": r["st"], "n": r.get("n"), "partite": len(rs), "esempio": rs[:2]}
+    OUT["_recs_%d" % off] = rs
 
-full = get("df_lu_1_4YNzMsxg")
-OUT["lu_belgio_italia"] = {"st": full["st"], "n": full.get("n"), "err": full.get("err"), "tx": full["tx"][:12000]}
+for pre in ("df_li_1_", "df_lu_1_", "df_lup_1_", "df_lt_1_"):
+    r = get(pre + "4YNzMsxg")
+    OUT["prova_" + pre] = {"st": r["st"], "n": r.get("n"), "tx": r["tx"][:6000]}
 
-# partite di domani/dopodomani: quali hanno formazioni (probabili/ufficiali) e come sono scritte
+# partite non iniziate (AB=1) di oggi..+3: quali hanno formazioni (probabili/ufficiali) e come sono scritte
 prova = {}
-for off in (1, 2):
-    for mid in OUT["_mids_%d" % off][:60]:
-        r = get("df_lu_1_" + mid)
-        if r["st"] == 200 and r["n"] > 60:
-            prova[mid] = {"n": r["n"], "tx": r["tx"][:3500]}
-        if len(prova) >= 6:
+tot = 0
+for off in (0, 1, 2, 3):
+    for x in OUT["_recs_%d" % off]:
+        if x.get("AB") != "1":
+            continue
+        top = any(t in x.get("_ZA", "") for t in ("Serie A", "Premier League", "LaLiga", "Bundesliga", "Ligue 1", "Champions", "Europa League", "Eredivisie", "Liga Portugal", "Super Lig", "Pro League", "Premiership"))
+        if not top and tot > 40:
+            continue
+        tot += 1
+        r = get("df_li_1_" + x["AA"])
+        if r["st"] == 200 and r["n"] > 20:
+            prova[x["AA"]] = {"n": r["n"], "partita": [x.get("CX"), x.get("AF"), x.get("AD"), x.get("_ZA")], "tx": r["tx"][:3500]}
+        if len(prova) >= 5 or tot > 120:
             break
-    if len(prova) >= 6:
+    if len(prova) >= 5 or tot > 120:
         break
 OUT["lu_future"] = prova
+OUT["_tot_provate"] = tot
 for k in list(OUT):
-    if k.startswith("_mids_"):
-        OUT[k] = OUT[k][:5]
+    if k.startswith("_recs_"):
+        del OUT[k]
 json.dump(OUT, open("sonda_diretta.json", "w"), ensure_ascii=False, indent=1)
-print({k: (v.get("st"), v.get("n"), v.get("partite")) if isinstance(v, dict) else v for k, v in OUT.items() if not k.startswith("_")})
+print({k: (v.get("st"), v.get("n"), v.get("partite")) if isinstance(v, dict) else v for k, v in OUT.items()})
