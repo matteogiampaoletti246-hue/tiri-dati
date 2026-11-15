@@ -1,15 +1,4 @@
 {
- "competizioni": {
-  "LaLiga2 2026-2027": {
-   "con_statistiche": 0,
-   "con_mappa_tiri": 0,
-   "da_fare": 1
-  },
-  "Série B 2026": {
-   "con_statistiche": 0,
-   "con_mappa_tiri": 0,
-   "da_fare": 7
-  }
- },
+ "competizioni": {},
  "partite_in_questo_giro": 0
 }
