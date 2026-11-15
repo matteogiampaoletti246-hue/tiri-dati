@@ -11,13 +11,13 @@
   },
   "Montenegro": {
    "pool": 38,
-   "call": 26,
+   "call": 27,
    "rosa": 26,
    "src": "partita+ultima+rosa"
   },
   "Latvia": {
    "pool": 35,
-   "call": 22,
+   "call": 25,
    "rosa": 39,
    "src": "partita+ultima"
   },
@@ -25,7 +25,7 @@
    "pool": 40,
    "call": 28,
    "rosa": 28,
-   "src": "partita+ultima+rosa"
+   "src": "ultima+rosa"
   },
   "Suriname": {
    "pool": 41,
@@ -541,8 +541,8 @@
    "src": null
   }
  },
- "updated_at": "2026-11-15T10:01:56Z",
+ "updated_at": "2026-11-15T13:13:50Z",
  "partite": 153,
- "squadre_con_elenco": 141,
- "minuti": 2.1
+ "squadre_con_elenco": 139,
+ "minuti": 2.3
 }
