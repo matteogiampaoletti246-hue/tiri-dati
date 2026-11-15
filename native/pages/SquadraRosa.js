@@ -7,7 +7,7 @@ import { teamById } from '@/data/teams';
 import { injuryOf } from '@/data/injuries';
 import { realName } from '@/data/realNames';
 import { loadCarriere, carriereOf, countryIt, ageOf } from '@/data/carriere';
-import { playersByTeam } from '@/data/players';
+import { playersByTeam, playerByFm, natByFm } from '@/data/players';
 import { loadRose, roseOf, rosePoor, seasonRoster } from '@/data/rose';
 import { FM_ID, currentSeason, playerFace } from '@/data/archive';
 import { archiveId, espnIdOfRow, espnPlayerId, espnPhoto } from '@/data/archivePlayer';
@@ -68,6 +68,8 @@ export default function SquadraRosa({ C, teamId, openRoute, bottom }) {
   // ogni giocatore della rosa porta alla sua scheda: per id FotMob, per nome (anche quello mostrato), poi cognome + iniziale ("D. Scherhant" = "Derry Scherhant")
   const findMine = (r) => {
     if (r[0] > 0 && byFm[String(r[0])]) return byFm[String(r[0])];
+    // nazionali (e squadre senza campionato d'archivio): il giocatore si trova per id FotMob in tutto l'indice, scheda di club, altrimenti quella della nazionale
+    if (r[0] > 0) { const g = playerByFm(r[0]) || natByFm(r[0]); if (g) return g; }
     const full = nk(realName(r[0], r[1]));
     if (mine[nk(r[1])] || mine[full]) return mine[nk(r[1])] || mine[full];
     const parts = full.split(' ').filter(Boolean);
