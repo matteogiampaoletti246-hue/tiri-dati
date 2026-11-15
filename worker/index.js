@@ -427,6 +427,13 @@ export default {
         const hT = lu && lu.lineupStatus !== "NOT_AVAILABLE" ? uefaTeam(lu.homeTeam, fl.homeTeam) : null, aT = lu && lu.lineupStatus !== "NOT_AVAILABLE" ? uefaTeam(lu.awayTeam, fl.awayTeam) : null;
         return new Response(JSON.stringify({ t: Date.now(), ok: hT && aT ? 1 : 0, uid, ty: "standard", h: hT, a: aT }), { headers: cors(req, { "Cache-Control": "public, max-age=2" }) });
       }
+      if (u.pathname === "/dlraw") { // SONDA TEMPORANEA diretta.it: restituisce il testo grezzo del feed (solo percorsi x/feed/df_lu_1_*, f_1_*), da rimuovere dopo la verifica
+        const p = u.searchParams.get("p") || "";
+        if (!/^(df_lu_1_[A-Za-z0-9]{8}|f_1_-?\d{1,2}_\d{1,2}_it_1|df_sui_1_[A-Za-z0-9]{8})$/.test(p)) return new Response("{}", { status: 400, headers: cors(req) });
+        const rr = await fetch("https://www.diretta.it/x/feed/" + p, { headers: { "x-fsign": "SW9D1eZo", "User-Agent": FMH["User-Agent"], "Accept": "*/*", "Referer": "https://www.diretta.it/", "Origin": "https://www.diretta.it" } });
+        const tx = await rr.text();
+        return new Response(JSON.stringify({ st: rr.status, n: tx.length, tx: tx.slice(0, +(u.searchParams.get("n") || 6000)) }), { headers: cors(req, { "Cache-Control": "no-store" }) });
+      }
       if (u.pathname === "/fx") {
         const id = u.searchParams.get("id");
         if (!/^\d{5,10}$/.test(id || "")) return new Response("{}", { status: 400, headers: cors(req) });
