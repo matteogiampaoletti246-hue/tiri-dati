@@ -38,7 +38,7 @@
   },
   "Ligue 1 2026-2027": {
    "partite_con_eventi": 0,
-   "da_fare": 1
+   "da_fare": 0
   },
   "Serie A 2026-2027": {
    "partite_con_eventi": 0,
@@ -113,8 +113,8 @@
    "da_fare": 0
   },
   "Eerste Divisie 2026-2027": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "Liga Profesional 2026 - Clausura": {
    "partite_con_eventi": 0,
@@ -125,8 +125,8 @@
    "da_fare": 0
   },
   "Friendlies 2026": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "Cymru Premier 2026-2027": {
    "partite_con_eventi": 0,
@@ -170,7 +170,7 @@
   },
   "Coupe de France 2026-2027": {
    "partite_con_eventi": 0,
-   "da_fare": 23
+   "da_fare": 10
   },
   "Super League 1 2026-2027": {
    "partite_con_eventi": 0,
@@ -189,7 +189,7 @@
    "da_fare": 0
   },
   "LaLiga2 2026-2027": {
-   "partite_con_eventi": 0,
+   "partite_con_eventi": 1,
    "da_fare": 1
   },
   "Coppa Italia 2026-2027": {
@@ -213,7 +213,7 @@
    "da_fare": 0
   },
   "Serie C 2026-2027": {
-   "partite_con_eventi": 3,
+   "partite_con_eventi": 4,
    "da_fare": 4
   },
   "Belgian Cup 2026-2027": {
@@ -281,7 +281,7 @@
    "da_fare": 0
   },
   "Liga Portugal 2 2026-2027": {
-   "partite_con_eventi": 0,
+   "partite_con_eventi": 1,
    "da_fare": 1
   },
   "Taça de Portugal 2026-2027": {
@@ -441,8 +441,8 @@
    "da_fare": 0
   },
   "Erovnuli Liga 2026": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "Saudi Pro League 2026-2027": {
    "partite_con_eventi": 0,
@@ -457,8 +457,8 @@
    "da_fare": 0
   },
   "Primera Federación 2026-2027": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
+   "partite_con_eventi": 2,
+   "da_fare": 2
   },
   "Liga de Expansión MX 2026-2027": {
    "partite_con_eventi": 0,
@@ -514,7 +514,7 @@
   },
   "UEFA Nations League C 2026-2027": {
    "partite_con_eventi": 1,
-   "da_fare": 2
+   "da_fare": 1
   },
   "UEFA Nations League D 2026-2027": {
    "partite_con_eventi": 0,
@@ -1070,15 +1070,15 @@
   },
   "Primera B 2025": {
    "partite_con_eventi": 0,
-   "da_fare": 18
+   "da_fare": 0
   },
   "FA Trophy 2025-2026": {
    "partite_con_eventi": 0,
-   "da_fare": 76
+   "da_fare": 0
   },
   "Copa Argentina 2025": {
    "partite_con_eventi": 0,
-   "da_fare": 4
+   "da_fare": 0
   },
   "Supercopa Argentina 2024": {
    "partite_con_eventi": 0,
@@ -1086,15 +1086,15 @@
   },
   "African Nations Championship 2022": {
    "partite_con_eventi": 0,
-   "da_fare": 8
+   "da_fare": 0
   },
   "Open Cup 2025": {
    "partite_con_eventi": 0,
-   "da_fare": 2
+   "da_fare": 0
   },
   "Copa Colombia 2025": {
    "partite_con_eventi": 0,
-   "da_fare": 4
+   "da_fare": 0
   },
   "UEFA Nations League A 2024-2025": {
    "partite_con_eventi": 0,
@@ -1177,5 +1177,5 @@
    "da_fare": 0
   }
  },
- "partite_in_questo_giro": 147
+ "partite_in_questo_giro": 20
 }
