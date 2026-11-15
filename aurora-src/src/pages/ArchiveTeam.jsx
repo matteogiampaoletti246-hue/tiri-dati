@@ -12,7 +12,7 @@ import StatLists from '@/components/stats/StatLists';
 import { PlayerFace } from '@/components/FmImg';
 import useAsync from '@/hooks/useAsync';
 import useArchFresh from '@/hooks/useArchFresh';
-import { FM_ID, LID_BY_FM, loadSeason, loadPlayerStats, seasonLabel, teamLogo, SEASON_STAT_IT, prettyKey } from '@/data/archive';
+import { FM_ID, LID_BY_FM, loadSeason, loadTeamPlayerStats, seasonLabel, teamLogo, SEASON_STAT_IT, prettyKey } from '@/data/archive';
 import { leagueById, leagueTint } from '@/data/leagues';
 import { tintGrad } from '@/lib/tint';
 import { ArchRow, StandingsPanel, fmtDate, dayKey, useTeamColors, seasonTeamRow } from '@/components/archive/parts';
@@ -65,7 +65,7 @@ export default function ArchiveTeam() {
   const col = useTeamColors();
   const { data: season, loading } = useAsync(() => loadSeason(fm, sk), [fm, sk]);
   useArchFresh(fm, sk); // risultati nuovi della stagione in corso
-  const { data: stats } = useAsync(() => loadPlayerStats(fm, sk), [fm, sk]);
+  const { data: stats } = useAsync(() => loadTeamPlayerStats(fm, sk, tid), [fm, sk, tid]); // stessi numeri della scheda giocatore (classifica ufficiale corretta dalle partite)
   const name = season && season.teams && season.teams[tid];
   if (loading) return <PageShell><EntitySkeleton /></PageShell>;
   if (!season || !name) return <PageShell bar={false}><TopBar title="Squadra" /><Empty>Squadra non trovata</Empty></PageShell>;

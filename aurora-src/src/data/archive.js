@@ -730,8 +730,13 @@ export const loadTeamPlayerStats = async (lid, sk, tid) => {
   const count = (s) => { const ids = new Set(); Object.entries((s && s.players) || {}).forEach(([k, l]) => { if (!k.startsWith('_')) (l || []).forEach((r) => { if (String(r[2]) === String(tid)) ids.add(String(r[0])); }); }); return ids.size; };
   const st = await loadSeasonStats(lid, sk).catch(() => null);
   const n = count(st);
-  if (n >= 11) return st;
+  // le partite della stagione servono comunque al pannello (totali, casa/trasferta): stessa lettura in cache, nessun caricamento in piu'
   const fm = await statsFromMatches(lid, sk).catch(() => null);
+  if (n >= 11) {
+    // classifica ufficiale rimasta indietro: stessi numeri della scheda giocatore (`fixStale`, regola fissa)
+    if (!fm || !fm.players || !st || !st.players) return st;
+    return fixStale(`${lid}|${sk}`, st, fm, await loadSeasonMatches(lid, sk).catch(() => null));
+  }
   return count(fm) > n ? fm : st;
 };
 // campionati con storico completo; gli altri hanno statistiche solo dal 2020
