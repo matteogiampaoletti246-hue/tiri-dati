@@ -1,44 +1,8 @@
 {
- "squadre": 259,
- "nazionali": 88,
- "club": 171,
+ "squadre": 228,
+ "nazionali": 82,
+ "club": 146,
  "dettaglio_nazionali": {
-  "Suriname": {
-   "pool": 41,
-   "call": 28,
-   "rosa": 28,
-   "src": "ultima+rosa"
-  },
-  "Eswatini": {
-   "pool": 22,
-   "call": 22,
-   "rosa": 0,
-   "src": "ultima"
-  },
-  "Belarus": {
-   "pool": 35,
-   "call": 23,
-   "rosa": 39,
-   "src": "partita+ultima"
-  },
-  "Albania": {
-   "pool": 37,
-   "call": 27,
-   "rosa": 27,
-   "src": "partita+ultima+rosa"
-  },
-  "Finland": {
-   "pool": 37,
-   "call": 27,
-   "rosa": 27,
-   "src": "partita+ultima+rosa"
-  },
-  "San Marino": {
-   "pool": 34,
-   "call": 26,
-   "rosa": 26,
-   "src": "partita+ultima+rosa"
-  },
   "Belgium": {
    "pool": 36,
    "call": 26,
@@ -46,7 +10,7 @@
    "src": "partita+ultima+rosa"
   },
   "Italy": {
-   "pool": 58,
+   "pool": 42,
    "call": 31,
    "rosa": 31,
    "src": "partita+ultima+rosa"
@@ -65,14 +29,14 @@
   },
   "Croatia": {
    "pool": 34,
-   "call": 24,
+   "call": 23,
    "rosa": 33,
    "src": "partita+ultima"
   },
   "Czechia": {
-   "pool": 50,
+   "pool": 52,
    "call": 26,
-   "rosa": 24,
+   "rosa": 26,
    "src": "partita+ultima+rosa"
   },
   "Spain": {
@@ -517,8 +481,8 @@
    "src": null
   }
  },
- "updated_at": "2026-11-15T19:03:29Z",
- "partite": 130,
- "squadre_con_elenco": 131,
+ "updated_at": "2026-11-15T21:56:04Z",
+ "partite": 114,
+ "squadre_con_elenco": 121,
  "minuti": 2.6
 }
