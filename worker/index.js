@@ -115,6 +115,20 @@ async function dlFill(t, fm, tid) {
     }
     return hit.length === 1 ? hit[0] : null;
   };
+  const lev = (a, b) => { const d = Array.from({ length: a.length + 1 }, (_, i) => [i, ...Array(b.length).fill(0)]); for (let j = 1; j <= b.length; j++) d[0][j] = j; for (let i = 1; i <= a.length; i++) for (let j = 1; j <= b.length; j++) d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)); return d[a.length][b.length]; };
+  // stessa iniziale + cognome uguale o scritto quasi uguale ("Yarmolyuk" / "Yarmoliuk", "Brereton Diaz" / "Brereton"): solo se unico
+  const loose = (rows, name, get) => {
+    const k = nKey(name);
+    if (k.length < 2 || k[0].length !== 1) return null;
+    const rest = k.slice(1).filter((x) => x.length >= 5);
+    const hit = rows.filter((q) => {
+      const g = nKey(get(q));
+      if (g.length < 2 || g[0][0] !== k[0]) return false;
+      const sur = g[g.length - 1];
+      return rest.some((a) => a === sur || (a.length >= 6 && sur.length >= 6 && lev(a, sur) <= 2));
+    });
+    return hit.length === 1 ? hit[0] : null;
+  };
   const solo = (rows, name, get) => { // nome singolo di diretta ("Cunha"): solo se e' l'ultimo nome di un unico giocatore della rosa
     const k = nKey(name);
     if (k.length !== 1 || k[0].length < 4) return null;
@@ -158,7 +172,7 @@ async function dlFill(t, fm, tid) {
         const grp = ((await r.json()) || []).find((g) => g && g.title && g.title.key === "players");
         ((grp && grp.suggestions) || []).filter((q) => q.type === "player" && !q.isCoach && q.id && q.name).forEach((q) => { if (!res.some((z) => z.id === +q.id)) res.push({ id: +q.id, name: q.name }); });
       } catch (e) { /* prossimo termine */ }
-      if (uniq(res, name, (q) => q.name)) break;
+      if (uniq(res, name, (q) => q.name) || loose(res, name, (q) => q.name)) break;
     }
     return res;
   };
@@ -167,14 +181,14 @@ async function dlFill(t, fm, tid) {
     const byNum = num != null ? fmRows.find((q) => q[1] != null && String(q[1]) === String(num) && samePerson(q[0], name)) : null;
     const f = byNum || uniq(fmRows, name, (q) => q[0]);
     if (f && f[7]) return [f[0], num != null ? num : f[1], p[2], p[3], p[4] || f[4], f[5], f[6], f[7], f[8]];
-    const r = uniq(await loadRosa(), name, (q) => q[1]) || solo(await loadRosa(), name, (q) => q[1]);
+    const r = uniq(await loadRosa(), name, (q) => q[1]) || solo(await loadRosa(), name, (q) => q[1]) || loose(await loadRosa(), name, (q) => q[1]);
     if (r && r[0] > 0) return [r[1], num != null ? num : r[3], p[2], p[3], p[4], ph(r[0]), null, r[0], r[2] === "GK" ? 0 : null];
-    const z = uniq(await loadSquad(), name, (q) => q.name) || solo(await loadSquad(), name, (q) => q.name);
+    const z = uniq(await loadSquad(), name, (q) => q.name) || solo(await loadSquad(), name, (q) => q.name) || loose(await loadSquad(), name, (q) => q.name);
     if (z) return [z.name, num != null ? num : z.num, p[2], p[3], p[4], ph(z.id), null, z.id, null];
     // ultima via: ricerca giocatori di FotMob per cognome (chi non e' in rosa ne' nella pagina squadra); valido solo se il nome e' unico (stessa iniziale e cognome)
-    const w = uniq(await searchPlayers(name), name, (q) => q.name);
+    const sr = await searchPlayers(name);
+    const w = uniq(sr, name, (q) => q.name) || loose(sr, name, (q) => q.name);
     if (w) return [w.name, num != null ? num : null, p[2], p[3], p[4], ph(w.id), null, w.id, null];
-    p._d = { ros: (await loadRosa()).length, sq: (await loadSquad()).length, srch: (await searchPlayers(name)).map((q) => q.name).slice(0, 8) }; // PROVVISORIO
     return p;
   };
   const s = await Promise.all(t.s.map(one));
@@ -182,7 +196,7 @@ async function dlFill(t, fm, tid) {
   // portiere segnato (posizione 0) solo se e' uno solo tra i titolari con quel ruolo
   const gk = s.filter((q) => q[8] === 0);
   if (gk.length > 1) gk.forEach((q) => { q[8] = null; });
-  return { f: t.f, s, b, co: (fm && fm.co) || t.co, _miss: [...s, ...b].filter((q) => q._d).map((q) => [q[0], q._d]) }; // PROVVISORIO
+  return { f: t.f, s, b, co: (fm && fm.co) || t.co };
 }
 
 // ---- Formazioni da ESPN dove FotMob non le ha (verificato il 07/11/2026: ESPN da' modulo, titolari con ruolo e lato, panchina).
