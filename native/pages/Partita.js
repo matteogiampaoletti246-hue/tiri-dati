@@ -50,6 +50,27 @@ function quickOf(id) {
   return { match, view, league, home: team(r[3], r[5]), away: team(r[4], r[6]) };
 }
 
+// Partita live appena aperta: la testata parte dai dati del calendario, dove il risultato live non c'e' ancora (0-0 e "45'" per un secondo, poi il vero).
+// La riga della Home ha gia' risultato e intervallo aggiornati: finche' la partita non ha il suo risultato live si usa quello.
+function feedLiveOf(id) {
+  const a = parseArchiveId(id);
+  const x = /^x-\d+-(\d+)$/.exec(String(id));
+  const mid = a ? a.mid : x ? x[1] : null;
+  const r = mid ? peekFeedRow(mid) : null;
+  if (!r || r[8] !== 'l') return null;
+  const g = /(\d+)\s*-\s*(\d+)/.exec(r[7] || '');
+  if (!g) return null;
+  return { score: [Number(g[1]), Number(g[2])], half: /^HT$/i.test(r[10] || ''), minute: /^\d+(\+\d+)?$/.test(r[10] || '') ? r[10] : null };
+}
+function viewOf(raw, id) {
+  const v = viewMatch(raw);
+  if (raw.status === 'live' && !raw.liveScore) {
+    const f = feedLiveOf(id);
+    if (f) return { ...v, score: f.score, liveHalf: v.liveHalf || f.half, minute: f.minute || v.minute };
+  }
+  return v;
+}
+
 // scheletro con la forma della pagina (testata, tab, riquadri)
 function Skel({ C }) {
   const b = (h, w, r = 20) => <View style={{ height: h, width: w || '100%', borderRadius: r, backgroundColor: C.skBase, marginBottom: 14 }} />;
@@ -120,7 +141,7 @@ export default function Partita({ C, top, onBack, bottom = 90, openRoute, params
     return (
       <View style={{ flex: 1, backgroundColor: 'transparent' }}>
         <ScrollView style={{ paddingTop: top }} contentContainerStyle={{ paddingBottom: bottom + 20 }} showsVerticalScrollIndicator={false} scrollEnabled={false}>
-          <PartitaHero C={C} match={raw} view={viewMatch(raw)} league={leagueById(raw.leagueId) || raw.leagueObj || null} home={teamById(raw.homeId)} away={teamById(raw.awayId)} onBack={onBack} openRoute={openRoute} />
+          <PartitaHero C={C} match={raw} view={viewOf(raw, id)} league={leagueById(raw.leagueId) || raw.leagueObj || null} home={teamById(raw.homeId)} away={teamById(raw.awayId)} onBack={onBack} openRoute={openRoute} />
           <View style={{ paddingHorizontal: 16, paddingTop: 4 }}>
             {[40, 160, 160].map((h, k) => <View key={k} style={{ height: h, borderRadius: k ? 24 : 20, backgroundColor: C.skBase, marginBottom: 14 }} />)}
           </View>
@@ -141,7 +162,7 @@ export default function Partita({ C, top, onBack, bottom = 90, openRoute, params
     );
   }
   if (!raw) return <View style={{ flex: 1, backgroundColor: 'transparent', paddingTop: top }}><Pressable onPress={onBack} hitSlop={12} style={{ paddingHorizontal: 20, height: 44, justifyContent: 'center' }}><Ionicons name="chevron-back" size={24} color={C.ink} /></Pressable><Skel C={C} /></View>;
-  const view = viewMatch(raw);
+  const view = viewOf(raw, id);
   const home = teamById(raw.homeId);
   const away = teamById(raw.awayId);
   const league = leagueById(raw.leagueId) || raw.leagueObj || null;
