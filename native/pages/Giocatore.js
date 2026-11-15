@@ -35,6 +35,7 @@ import GiocatoreStat, { playerHasCurStats, statComps } from './GiocatoreStat';
 import { warmPlayerMaps } from '@/data/playerMaps';
 import GiocatoreAffid from './GiocatoreAffid';
 import GiocatorePartite, { usePartiteItems, prefetchPartite } from './GiocatorePartite';
+import { CALC_IN } from '../shared/calcIn';
 
 const PS_POS = { GK: 'GK', CB: 'DEF', LB: 'DEF', RB: 'DEF', LWB: 'DEF', RWB: 'DEF', DM: 'MID', CDM: 'MID', CM: 'MID', AM: 'MID', CAM: 'MID', LM: 'MID', RM: 'MID', LW: 'ATT', RW: 'ATT', ST: 'ATT', CF: 'ATT' };
 const LBL = { fontSize: 9.5, letterSpacing: 1, textTransform: 'uppercase' };
@@ -255,6 +256,22 @@ function Skel({ C }) {
   return <View style={{ paddingHorizontal: 20, paddingTop: 12 }}><View style={{ flexDirection: 'row', gap: 20, marginBottom: 16 }}>{b(84, 84, 42)}<View style={{ flex: 1 }}>{b(22, 160)}{b(12, 110)}{b(14, 200)}</View></View>{b(40)}{b(120)}{b(180)}</View>;
 }
 
+// Tasto rotondo fisso in basso a destra: porta questo giocatore nel Calcolatore (come dalle righe di Migliori Giocatori: giocatore gia' inserito, la linea resta com'era).
+// Stile dei nostri tasti rotondi (anello `accRing`, icona `accent`, come il tasto calcolatrice di Migliori Giocatori e la voce attiva del dock), fondo pieno perche' scorre sopra la pagina.
+function CalcFabN({ C, playerId, openRoute, bottom }) {
+  return (
+    <View pointerEvents="box-none" style={{ position: 'absolute', right: 16, bottom: bottom + 14, zIndex: 20 }}>
+      <Pressable
+        accessibilityLabel="Apri nel Calcolatore"
+        onPress={() => { CALC_IN.v = { playerId, line: undefined, ts: null, stat: undefined }; openRoute('/calcolatore'); }}
+        style={({ pressed }) => [{ width: 58, height: 58, borderRadius: 29, overflow: 'hidden', backgroundColor: C.sheet, borderWidth: 1.5, borderColor: C.accRing, alignItems: 'center', justifyContent: 'center', shadowColor: '#000', shadowOpacity: 0.35, shadowRadius: 10, shadowOffset: { width: 0, height: 5 }, elevation: 8 }, pressed && { opacity: 0.75, transform: [{ scale: 0.94 }] }]}>
+        <View pointerEvents="none" style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, backgroundColor: C.accTint }} />
+        <Ionicons name="calculator-outline" size={27} color={C.accent} />
+      </Pressable>
+    </View>
+  );
+}
+
 const TAB_LBL = { profilo: 'Profilo', partite: 'Partite', stat: 'Statistiche', affid: 'Affidabilità', carriera: 'Carriera' };
 
 function Body({ C, player: player1, openRoute, onBack, bottom, top }) {
@@ -313,6 +330,7 @@ function Body({ C, player: player1, openRoute, onBack, bottom, top }) {
           );
         }} />
       </TintProvider>
+      {hasStats && openRoute && playerById(dataP.id) ? <CalcFabN C={C} playerId={dataP.id} openRoute={openRoute} bottom={bottom} /> : null}
     </View>
   );
 }
