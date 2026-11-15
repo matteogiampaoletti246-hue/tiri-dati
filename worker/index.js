@@ -481,6 +481,13 @@ export default {
         const hT = lu && lu.lineupStatus !== "NOT_AVAILABLE" ? uefaTeam(lu.homeTeam, fl.homeTeam) : null, aT = lu && lu.lineupStatus !== "NOT_AVAILABLE" ? uefaTeam(lu.awayTeam, fl.awayTeam) : null;
         return new Response(JSON.stringify({ t: Date.now(), ok: hT && aT ? 1 : 0, uid, ty: "standard", h: hT, a: aT }), { headers: cors(req, { "Cache-Control": "public, max-age=2" }) });
       }
+      if (u.pathname === "/dbgsq") { // PROVVISORIO: forma della pagina squadra FotMob (da togliere)
+        const r = await fetch("https://www.fotmob.com/api/data/teams?id=" + encodeURIComponent(u.searchParams.get("id") || "") + "&ccode3=ITA", { headers: FMH });
+        const j = r.ok ? await r.json() : {};
+        const sq = j.squad || null;
+        const ll = (j.overview || {}).lastLineupStats || null;
+        return new Response(JSON.stringify({ ok: r.ok, keys: Object.keys(j), squadKeys: sq && !Array.isArray(sq) ? Object.keys(sq) : (sq ? "array" : null), squad0: JSON.stringify(sq).slice(0, 900), llKeys: ll ? Object.keys(ll) : null, ll0: ll ? JSON.stringify(ll.starters && ll.starters[0]).slice(0, 400) : null }), { headers: { "content-type": "application/json", "access-control-allow-origin": "*" } });
+      }
       if (u.pathname === "/fx") {
         const id = u.searchParams.get("id");
         if (!/^\d{5,10}$/.test(id || "")) return new Response("{}", { status: 400, headers: cors(req) });
