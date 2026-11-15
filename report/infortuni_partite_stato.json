@@ -1,64 +1,40 @@
 {
- "squadre": 277,
- "nazionali": 92,
- "club": 185,
+ "squadre": 259,
+ "nazionali": 88,
+ "club": 171,
  "dettaglio_nazionali": {
-  "Cyprus": {
-   "pool": 38,
-   "call": 28,
-   "rosa": 28,
-   "src": "partita+ultima+rosa"
-  },
-  "Montenegro": {
-   "pool": 38,
-   "call": 27,
-   "rosa": 27,
-   "src": "partita+ultima+rosa"
-  },
-  "Latvia": {
-   "pool": 35,
-   "call": 25,
-   "rosa": 40,
-   "src": "partita+ultima"
-  },
-  "Armenia": {
-   "pool": 37,
-   "call": 28,
-   "rosa": 28,
-   "src": "partita+ultima+rosa"
-  },
   "Suriname": {
    "pool": 41,
    "call": 28,
    "rosa": 28,
-   "src": "partita+ultima+rosa"
+   "src": "ultima+rosa"
   },
   "Eswatini": {
    "pool": 22,
    "call": 22,
    "rosa": 0,
-   "src": "partita+ultima"
+   "src": "ultima"
   },
   "Belarus": {
-   "pool": 39,
-   "call": 25,
+   "pool": 35,
+   "call": 23,
    "rosa": 39,
    "src": "partita+ultima"
   },
   "Albania": {
-   "pool": 38,
+   "pool": 37,
    "call": 27,
    "rosa": 27,
    "src": "partita+ultima+rosa"
   },
   "Finland": {
    "pool": 37,
-   "call": 25,
-   "rosa": 25,
+   "call": 27,
+   "rosa": 27,
    "src": "partita+ultima+rosa"
   },
   "San Marino": {
-   "pool": 37,
+   "pool": 34,
    "call": 26,
    "rosa": 26,
    "src": "partita+ultima+rosa"
@@ -67,49 +43,49 @@
    "pool": 36,
    "call": 26,
    "rosa": 26,
-   "src": "ultima+rosa"
+   "src": "partita+ultima+rosa"
   },
   "Italy": {
    "pool": 58,
    "call": 31,
    "rosa": 31,
-   "src": "ultima+rosa"
+   "src": "partita+ultima+rosa"
   },
   "France": {
    "pool": 40,
    "call": 26,
    "rosa": 26,
-   "src": "ultima+rosa"
+   "src": "partita+ultima+rosa"
   },
   "Turkiye": {
    "pool": 41,
    "call": 26,
    "rosa": 26,
-   "src": "ultima+rosa"
+   "src": "partita+ultima+rosa"
   },
   "Croatia": {
    "pool": 34,
    "call": 24,
    "rosa": 33,
-   "src": "ultima"
+   "src": "partita+ultima"
   },
   "Czechia": {
    "pool": 50,
-   "call": 24,
+   "call": 26,
    "rosa": 24,
-   "src": "ultima+rosa"
+   "src": "partita+ultima+rosa"
   },
   "Spain": {
    "pool": 37,
    "call": 28,
    "rosa": 28,
-   "src": "ultima+rosa"
+   "src": "partita+ultima+rosa"
   },
   "England": {
    "pool": 41,
    "call": 27,
    "rosa": 27,
-   "src": "ultima+rosa"
+   "src": "partita+ultima+rosa"
   },
   "Faroe Islands": {
    "pool": 34,
@@ -541,8 +517,8 @@
    "src": null
   }
  },
- "updated_at": "2026-11-15T15:56:23Z",
- "partite": 139,
- "squadre_con_elenco": 137,
- "minuti": 2.0
+ "updated_at": "2026-11-15T19:03:29Z",
+ "partite": 130,
+ "squadre_con_elenco": 131,
+ "minuti": 2.6
 }
