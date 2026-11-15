@@ -141,6 +141,17 @@ async function dlFill(t, fm, tid) {
     } catch (e) { /* idem */ }
     return sq;
   };
+  const searchPlayers = async (name) => {
+    const toks = String(name || "").split(/\s+/).filter((x) => x && !/^[A-Za-z]\.?$/.test(x));
+    const term = toks.join(" ").trim();
+    if (term.length < 3) return [];
+    try {
+      const r = await fetch("https://www.fotmob.com/api/data/search/suggest?term=" + encodeURIComponent(term), { headers: FMH, cf: { cacheTtl: 3600, cacheEverything: true } });
+      if (!r.ok) return [];
+      const grp = ((await r.json()) || []).find((g) => g && g.title && g.title.key === "players");
+      return ((grp && grp.suggestions) || []).filter((q) => q.type === "player" && !q.isCoach && q.id && q.name).map((q) => ({ id: +q.id, name: q.name }));
+    } catch (e) { return []; }
+  };
   const one = async (p) => {
     const name = p[0], num = p[1];
     const byNum = num != null ? fmRows.find((q) => q[1] != null && String(q[1]) === String(num) && samePerson(q[0], name)) : null;
@@ -150,6 +161,9 @@ async function dlFill(t, fm, tid) {
     if (r && r[0] > 0) return [r[1], num != null ? num : r[3], p[2], p[3], p[4], ph(r[0]), null, r[0], r[2] === "GK" ? 0 : null];
     const z = uniq(await loadSquad(), name, (q) => q.name);
     if (z) return [z.name, num != null ? num : z.num, p[2], p[3], p[4], ph(z.id), null, z.id, null];
+    // ultima via: ricerca giocatori di FotMob per cognome (chi non e' in rosa ne' nella pagina squadra); valido solo se il nome e' unico (stessa iniziale e cognome)
+    const w = uniq(await searchPlayers(name), name, (q) => q.name);
+    if (w) return [w.name, num != null ? num : null, p[2], p[3], p[4], ph(w.id), null, w.id, null];
     return p;
   };
   const s = await Promise.all(t.s.map(one));
@@ -277,7 +291,7 @@ async function lsLineups(out, startIso) {
 // Formazione a soli nomi: portiere e numeri di maglia dalla rosa della squadra (rosa/ sul sito, dati FotMob/fonti gia' verificati).
 // Portiere segnato (p[8] = 0) solo se tra gli 11 ce n'e' esattamente uno con ruolo GK; numero solo se la fonte non lo da'. Mai indovinati.
 const SITE = "https://matteogiampaoletti246-hue.github.io/tiri-dati/";
-const nKey = (s) => String(s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z ]/g, " ").split(/\s+/).filter(Boolean);
+const nKey = (s) => String(s || "").replace(/ł/gi, "l").replace(/ø/gi, "o").replace(/æ/gi, "ae").replace(/ß/g, "ss").replace(/[đð]/gi, "d").replace(/ı/g, "i").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z ]/g, " ").split(/\s+/).filter(Boolean);
 function samePerson(a, b) {
   const x = nKey(a), y = nKey(b);
   if (!x.length || !y.length) return false;
@@ -488,20 +502,6 @@ export default {
         const fl = (fmj && fmj.content && fmj.content.lineup) || {};
         const hT = lu && lu.lineupStatus !== "NOT_AVAILABLE" ? uefaTeam(lu.homeTeam, fl.homeTeam) : null, aT = lu && lu.lineupStatus !== "NOT_AVAILABLE" ? uefaTeam(lu.awayTeam, fl.awayTeam) : null;
         return new Response(JSON.stringify({ t: Date.now(), ok: hT && aT ? 1 : 0, uid, ty: "standard", h: hT, a: aT }), { headers: cors(req, { "Cache-Control": "public, max-age=2" }) });
-      }
-      if (u.pathname === "/dbgsearch") { // PROVVISORIO
-        const out = {};
-        for (const url of ["https://www.fotmob.com/api/data/search/suggest?term=", "https://www.fotmob.com/api/search/suggest?term=", "https://apigw.fotmob.com/searchapi/suggest?lang=en&term="]) {
-          try { const r = await fetch(url + encodeURIComponent(u.searchParams.get("q") || ""), { headers: FMH }); out[url] = r.ok ? (await r.text()).slice(0, 1500) : r.status; } catch (e) { out[url] = String(e); }
-        }
-        return new Response(JSON.stringify(out), { headers: { "content-type": "application/json", "access-control-allow-origin": "*" } });
-      }
-      if (u.pathname === "/dbgsq") { // PROVVISORIO: forma della pagina squadra FotMob (da togliere)
-        const r = await fetch("https://www.fotmob.com/api/data/teams?id=" + encodeURIComponent(u.searchParams.get("id") || "") + "&ccode3=ITA", { headers: FMH });
-        const j = r.ok ? await r.json() : {};
-        const sq = j.squad || null;
-        const ll = (j.overview || {}).lastLineupStats || null;
-        return new Response(JSON.stringify({ ok: r.ok, keys: Object.keys(j), squadKeys: sq && !Array.isArray(sq) ? Object.keys(sq) : (sq ? "array" : null), names: ((sq && sq.squad) || []).flatMap((g) => (g.members || []).map((m) => m.name + "#" + m.id)), llnames: ll ? [...(ll.starters || []), ...(ll.subs || [])].map((m) => m.name + "#" + m.id) : null, llKeys: ll ? Object.keys(ll) : null, ll0: ll ? JSON.stringify(ll.starters && ll.starters[0]).slice(0, 400) : null }), { headers: { "content-type": "application/json", "access-control-allow-origin": "*" } });
       }
       if (u.pathname === "/fx") {
         const id = u.searchParams.get("id");
