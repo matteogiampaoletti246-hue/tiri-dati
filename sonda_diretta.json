@@ -1,239 +1,272 @@
 {
- "pagina": {
-  "n": 325117,
-  "head": "<!DOCTYPE html>\n<html lang=\"it\">\n    <head>\n        <meta charset=\"utf-8\">\n        <title>Belgio - Italia 15/11/2026, Formazioni - Diretta.it</title>\n        <script defer src=\"https://cdn.cookielaw.o"
- },
- "snips": {
-  "feed": [
-   "esponsive\":{\"breakpoint\":800,\"breakpoint_mobile\":640},\"tv_program\":{\"enable\":true},\"mixed_feed\":{\"link_to_more_games\":false,\"homepage_enabled\":false},\"team_transfers\":{\"sports\":[1,4]},\"team_news\":{\"enabled\":true},\"feed_sign\":\"SW9D1eZo",
-   "\"homepage_enabled\":false},\"team_transfers\":{\"sports\":[1,4]},\"team_news\":{\"enabled\":true},\"feed_sign\":\"SW9D1eZo\",\"detail\":{\"window_size\":{\"width\":688,\"height\":900}},\"audio_comments\":{\"enabled\":true,\"tabEnabled\":false,\"format\":\"HLS\"},\"t",
-   "},\"show_after_visits\":3},\"confirmation_box\":{\"enabled\":false},\"myfs\":{\"enabled\":true,\"newsfeed\":{\"past_days\":14,\"count\":15,\"allowed_counts\":[3,15,30]},\"refresh_tolerance\":4},\"swap_participants\":{\"sports\":[],\"show_at_sign\":false},\"lega",
-   "ions_to_log\":1},\"static_fs_cdn\":{\"enabled\":true,\"url\":\"https:\\/\\/static.flashscore.com\"},\"feed_resolver\":{\"local\":[{\"url\":\"https:\\/\\/400.flashscore.ninja\",\"weight\":1,\"countries\":[\"AL\",\"AD\",\"AM\",\"AT\",\"AZ\",\"BY\",\"BE\",\"BA\",\"BG\",\"HR\",\"CY\","
-  ],
-  "graphql": [
-   "true\"         >         </script> <link rel=\"preconnect\" href=\"https://400.ds.lsapp.eu/pq_graphql\" crossorigin> <link rel=\"preconnect\" href=\"https://400.flashscore.ninja\" crossorigin> <link rel=\"preconnect\" href=\"https://www.googletagman",
-   "allowed_sports\":[1,3,4]}},\"fsds\":{\"client_urls\":{\"default\":\"https:\\/\\/400.ds.lsapp.eu\\/pq_graphql\",\"live_odds\":\"https:\\/\\/400.ds.lsapp.eu\\/pq_graphql\",\"odds\":\"https:\\/\\/global.ds.lsapp.eu\\/odds\\/pq_graphql\"},\"pushPrefix\":\"\\/fsds\\/changes",
-   "fault\":\"https:\\/\\/400.ds.lsapp.eu\\/pq_graphql\",\"live_odds\":\"https:\\/\\/400.ds.lsapp.eu\\/pq_graphql\",\"odds\":\"https:\\/\\/global.ds.lsapp.eu\\/odds\\/pq_graphql\"},\"pushPrefix\":\"\\/fsds\\/changes\"},\"fs_news\":{\"enabled\":true,\"widgets\":{\"live_table\"",
-   "s\":\"https:\\/\\/400.ds.lsapp.eu\\/pq_graphql\",\"odds\":\"https:\\/\\/global.ds.lsapp.eu\\/odds\\/pq_graphql\"},\"pushPrefix\":\"\\/fsds\\/changes\"},\"fs_news\":{\"enabled\":true,\"widgets\":{\"live_table\":{\"enabled\":true},\"detail\":{\"enabled\":true,\"blacklisted_"
-  ],
-  "lsapp": [
-   "t-language=\"true\"         >         </script> <link rel=\"preconnect\" href=\"https://400.ds.lsapp.eu/pq_graphql\" crossorigin> <link rel=\"preconnect\" href=\"https://400.flashscore.ninja\" crossorigin> <link rel=\"preconnect\" href=\"https://ww",
-   "led\":false},\"allowed_sports\":[1,3,4]}},\"fsds\":{\"client_urls\":{\"default\":\"https:\\/\\/400.ds.lsapp.eu\\/pq_graphql\",\"live_odds\":\"https:\\/\\/400.ds.lsapp.eu\\/pq_graphql\",\"odds\":\"https:\\/\\/global.ds.lsapp.eu\\/odds\\/pq_graphql\"},\"pushPrefix\":\"",
-   "nt_urls\":{\"default\":\"https:\\/\\/400.ds.lsapp.eu\\/pq_graphql\",\"live_odds\":\"https:\\/\\/400.ds.lsapp.eu\\/pq_graphql\",\"odds\":\"https:\\/\\/global.ds.lsapp.eu\\/odds\\/pq_graphql\"},\"pushPrefix\":\"\\/fsds\\/changes\"},\"fs_news\":{\"enabled\":true,\"widgets",
-   "_graphql\",\"live_odds\":\"https:\\/\\/400.ds.lsapp.eu\\/pq_graphql\",\"odds\":\"https:\\/\\/global.ds.lsapp.eu\\/odds\\/pq_graphql\"},\"pushPrefix\":\"\\/fsds\\/changes\"},\"fs_news\":{\"enabled\":true,\"widgets\":{\"live_table\":{\"enabled\":true},\"detail\":{\"enable"
-  ],
-  "flashscore": [
-   "https://400.ds.lsapp.eu/pq_graphql\" crossorigin> <link rel=\"preconnect\" href=\"https://400.flashscore.ninja\" crossorigin> <link rel=\"preconnect\" href=\"https://www.googletagmanager.com\" crossorigin> <link rel=\"preload\" href=\"https://static.fl",
-   "=\"https://www.googletagmanager.com\" crossorigin> <link rel=\"preload\" href=\"https://static.flashscore.com/res/font/LivesportFinderLatin-Regular_Static.woff2\" as=\"font\" type=\"font/woff2\" crossorigin> <link rel=\"preload\" href=\"https://static.f",
-   ".woff2\" as=\"font\" type=\"font/woff2\" crossorigin> <link rel=\"preload\" href=\"https://static.flashscore.com/res/font/LivesportFinderLatin-Bold_Static.woff2\" as=\"font\" type=\"font/woff2\" crossorigin>         <noscript>             <meta http-equ",
-   "assunto/formazioni/?mid=4YNzMsxg\"> \t    <meta property=\"og:image\" content=\"https://static.flashscore.com/res/image/data/Qur1J5jl-K6hbGnRQ-KfXjzrxU.png\"> \t    <meta name=\"fb:app_id\" content=\"140578139460940\">             <link crossorigin re"
-  ],
-  "project": [
-   "       _cjs.bookmakerSettings = { bookmakersData: {\"default\":[{\"main_bookmaker_id\":\"419\",\"project_id\":\"400\",\"geo_ip\":\"default\",\"name\":\"bet365.it\",\"has_inplay_odds\":\"0\"}],\"IT\":[{\"main_bookmaker_id\":\"419\",\"project_id\":\"400\",\"geo_ip\":\"IT\",\"",
-   "p\":\"default\",\"name\":\"bet365.it\",\"has_inplay_odds\":\"0\"}],\"IT\":[{\"main_bookmaker_id\":\"419\",\"project_id\":\"400\",\"geo_ip\":\"IT\",\"name\":\"bet365.it\",\"has_inplay_odds\":\"1\"},{\"main_bookmaker_id\":\"773\",\"project_id\":\"400\",\"geo_ip\":\"IT\",\"name\":\"Betss",
-   "\"400\",\"geo_ip\":\"IT\",\"name\":\"bet365.it\",\"has_inplay_odds\":\"1\"},{\"main_bookmaker_id\":\"773\",\"project_id\":\"400\",\"geo_ip\":\"IT\",\"name\":\"BetssonIT\",\"has_inplay_odds\":\"1\"},{\"main_bookmaker_id\":\"335\",\"project_id\":\"400\",\"geo_ip\":\"IT\",\"name\":\"Lotto",
-   "\"400\",\"geo_ip\":\"IT\",\"name\":\"BetssonIT\",\"has_inplay_odds\":\"1\"},{\"main_bookmaker_id\":\"335\",\"project_id\":\"400\",\"geo_ip\":\"IT\",\"name\":\"Lottomatica\",\"has_inplay_odds\":\"1\"},{\"main_bookmaker_id\":\"322\",\"project_id\":\"400\",\"geo_ip\":\"IT\",\"name\":\"Eur"
-  ],
-  "sign": [
-   "b325d27a755c12640\"},\"user_function\":{\"use_only_local\":false},\"registration\":{\"version\":1,\"sign_out_in_drop_down\":true,\"project_has_initial_tou\":true,\"no_remote\":false},\"captcha_sitekey\":\"6LdnlAoTAAAAAIzaLLR8ezPKKnLeM2LozP6OQKj_\",\"euro",
-   "page_enabled\":false},\"team_transfers\":{\"sports\":[1,4]},\"team_news\":{\"enabled\":true},\"feed_sign\":\"SW9D1eZo\",\"detail\":{\"window_size\":{\"width\":688,\"height\":900}},\"audio_comments\":{\"enabled\":true,\"tabEnabled\":false,\"format\":\"HLS\"},\"tv\":fa",
-   "0}},\"audio_comments\":{\"enabled\":true,\"tabEnabled\":false,\"format\":\"HLS\"},\"tv\":false,\"apple_sign_in\":{\"enable\":true},\"advanced_tennis\":{\"enable\":true,\"point_by_point\":true},\"reversed_time\":{\"enable\":false,\"sports\":{\"3\":{\"stages\":[22,23,",
-   "lowed_counts\":[3,15,30]},\"refresh_tolerance\":4},\"swap_participants\":{\"sports\":[],\"show_at_sign\":false},\"legal_age_confirmation\":{\"enabled\":false,\"show_age_question\":true,\"can_rewoke_age_confirm\":false,\"storage_ttl\":7776000,\"geo_polici"
-  ],
-  "environment": [
-   "ion__text\">Loading...</div>         </div>     </div> </div>  </div>  <script>     window.environment = {\"event_id_c\":\"4YNzMsxg\",\"eventStageTranslations\":{\"1\":\"&nbsp;\",\"45\":\"Da finire\",\"42\":\"Aggiornamento in corso\",\"2\":\"Diretta\",\"12\":\"1 Temp"
-  ],
-  "_hash": [
-   "me--dark\",l=Object.freeze({KEY_INNER_DATA:\"lsid_innerData\",KEY_ID:\"lsid_id\",KEY_HASH:\"lsid_hash\",KEY_NAME:\"lsid_name\",KEY_EMAIL:\"lsid_email\",KEY_EMAIL_IS_VERIFIED:\"lsid_emailIsVerified\",KEY_PP_CONFIRMED:\"lsid_ppConfirmed\",KEY_TOU_CONFI"
-  ],
-  "ds.": [
-   "ment-language=\"true\"         >         </script> <link rel=\"preconnect\" href=\"https://400.ds.lsapp.eu/pq_graphql\" crossorigin> <link rel=\"preconnect\" href=\"https://400.flashscore.ninja\" crossorigin> <link rel=\"preconnect\" href=\"https",
-   "nabled\":false},\"allowed_sports\":[1,3,4]}},\"fsds\":{\"client_urls\":{\"default\":\"https:\\/\\/400.ds.lsapp.eu\\/pq_graphql\",\"live_odds\":\"https:\\/\\/400.ds.lsapp.eu\\/pq_graphql\",\"odds\":\"https:\\/\\/global.ds.lsapp.eu\\/odds\\/pq_graphql\"},\"pushPref",
-   "lient_urls\":{\"default\":\"https:\\/\\/400.ds.lsapp.eu\\/pq_graphql\",\"live_odds\":\"https:\\/\\/400.ds.lsapp.eu\\/pq_graphql\",\"odds\":\"https:\\/\\/global.ds.lsapp.eu\\/odds\\/pq_graphql\"},\"pushPrefix\":\"\\/fsds\\/changes\"},\"fs_news\":{\"enabled\":true,\"wi",
-   "/pq_graphql\",\"live_odds\":\"https:\\/\\/400.ds.lsapp.eu\\/pq_graphql\",\"odds\":\"https:\\/\\/global.ds.lsapp.eu\\/odds\\/pq_graphql\"},\"pushPrefix\":\"\\/fsds\\/changes\"},\"fs_news\":{\"enabled\":true,\"widgets\":{\"live_table\":{\"enabled\":true},\"detail\":{\"e"
-  ]
- },
- "scripts": [
-  "https://cdn.cookielaw.org/scripttemplates/otSDKStub.js",
-  "/x/js/browsercompatibility_5.js",
-  "/x/js/translations-livetable.400.d67fb6e2.js",
-  "/x/js/translations-myteamsmenu.400.d5daf07a.js",
-  "/x/js/translations-headermenu.400.e913e9fd.js",
-  "/x/js/translations-headerpromobar.400.9204cc56.js",
-  "/res/_fs/build/runtime.BvRk9ki.js",
+ "refs": [
+  "/res/_fs/build/adBlockPlus.CAfyglk.js",
+  "/res/_fs/build/autotrack.aSzUQMc.js",
+  "/res/_fs/build/bonusComparisonFooterLink.ClaxuzP.js",
+  "/res/_fs/build/bonusComparisonGift.DvfePlR.js",
+  "/res/_fs/build/clientGeoIpAwareGambleResponsiblyNotices.DJIlFwx.js",
   "/res/_fs/build/constants.Dg2TU4y.js",
-  "/res/_fs/build/loader.CL0a49K.js",
-  "/res/_fs/build/myTeamsMenu.Bwnyt8o.js",
-  "/x/js/translations-detail.400.c9c60f80.js",
-  "/x/js/translations-standings.400.504281bb.js",
-  "/res/_fs/build/framework.RcxnFAG.js",
   "/res/_fs/build/core-js.DDmNAnB.js",
-  "/x/js/core_400_2324000000.js"
+  "/res/_fs/build/detail.ToPma-I.js",
+  "/res/_fs/build/framework.RcxnFAG.js",
+  "/res/_fs/build/frontendLogger.BDY_8ZD.js",
+  "/res/_fs/build/globalEvents.B3J8n13.js",
+  "/res/_fs/build/headerMenu.fXlr5KW.js",
+  "/res/_fs/build/initBannerHandler.CJY6gUq.js",
+  "/res/_fs/build/internalTools.DwoV0Bl.js",
+  "/res/_fs/build/leftMenuCategory.Ck03WPv.js",
+  "/res/_fs/build/loader.CL0a49K.js",
+  "/res/_fs/build/loginClient.COxV0PA.js",
+  "/res/_fs/build/mainPageScripts.DWFn6qa.js",
+  "/res/_fs/build/modules.DgHqw1_.js",
+  "/res/_fs/build/myLeaguesMenu.C9vTB_n.js",
+  "/res/_fs/build/myTeamsMenu.Bwnyt8o.js",
+  "/res/_fs/build/runtime.BvRk9ki.js",
+  "/res/_fs/build/serviceStatusBox.QVJsLEU.js",
+  "/res/_fs/build/sportMenuClient.DpVbjrE.js"
  ],
- "js": {
-  "https://cdn.cookielaw.org/scripttemplates/otSDKStub.js": {
-   "n": 60167,
-   "hits": []
-  },
-  "https://www.diretta.it/x/js/browsercompatibility_5.js": {
-   "n": 1131,
-   "hits": []
-  },
-  "//www.diretta.it/x/js/translations-livetable.400.d67fb6e2.js": {
-   "n": 90449,
-   "hits": []
-  },
-  "www.diretta.it/x/js/translations-myteamsmenu.400.d5daf07a.js": {
-   "n": 209,
-   "hits": []
-  },
-  "/www.diretta.it/x/js/translations-headermenu.400.e913e9fd.js": {
-   "n": 10177,
-   "hits": []
-  },
-  ".diretta.it/x/js/translations-headerpromobar.400.9204cc56.js": {
-   "n": 708,
-   "hits": []
-  },
-  "https://www.diretta.it/res/_fs/build/runtime.BvRk9ki.js": {
-   "n": 0,
-   "hits": []
-  },
-  "https://www.diretta.it/res/_fs/build/constants.Dg2TU4y.js": {
-   "n": 63342,
-   "hits": []
-  },
-  "https://www.diretta.it/res/_fs/build/loader.CL0a49K.js": {
-   "n": 13829,
-   "hits": []
-  },
-  "https://www.diretta.it/res/_fs/build/myTeamsMenu.Bwnyt8o.js": {
-   "n": 9470,
-   "hits": []
-  },
-  "ps://www.diretta.it/x/js/translations-detail.400.c9c60f80.js": {
-   "n": 48719,
-   "hits": []
-  },
-  "//www.diretta.it/x/js/translations-standings.400.504281bb.js": {
-   "n": 3245,
-   "hits": []
-  },
-  "https://www.diretta.it/res/_fs/build/framework.RcxnFAG.js": {
-   "n": 46479,
-   "hits": []
-  },
-  "https://www.diretta.it/res/_fs/build/core-js.DDmNAnB.js": {
-   "n": 130730,
-   "hits": []
-  },
-  "https://www.diretta.it/x/js/core_400_2324000000.js": {
-   "n": 163881,
-   "hits": [
-    [
-     "lineup",
-     ",4],\"live_player_ratings\":false,\"sports_with_live_rating\":[1],\"predicted_line_up\":true,\"sports_with_lineups_in_summary\":[1],\"sports_with_lineups_tabs\":[1]},\"market_value_format\":{\"decimal_separator\":\",\",\"group_separator\":\"\",\"scales\":{\"1000000\":\"%s Mln €\",\"1000\":\"%sk"
-    ],
-    [
-     "pq_graphql",
-     "led\":false},\"allowed_sports\":[1,3,4]}},\"fsds\":{\"client_urls\":{\"default\":\"https:\\/\\/400.ds.lsapp.eu\\/pq_graphql\",\"live_odds\":\"https:\\/\\/400.ds.lsapp.eu\\/pq_graphql\",\"odds\":\"https:\\/\\/global.ds.lsapp.eu\\/odds\\/pq_graphql\"},\"pushPrefix\":\"\\/fsds\\/changes\"},\"fs_news\":{\"enabl"
-    ],
-    [
-     "feed_sign",
-     " {             return;         }         cjs.Api.loader.get(\"geoIpResolver\").call();     };     var feed_sign = 'SW9D1eZo';     // data containers     var fs_counter;     var fsEventsUpdatedStartTime = {}; cjs._config = {\"js_serial\":\"2324000000\",\"js\":{\"time_keep_match_"
-    ],
-    [
-     "lsapp",
-     "ab\":{\"enabled\":false},\"allowed_sports\":[1,3,4]}},\"fsds\":{\"client_urls\":{\"default\":\"https:\\/\\/400.ds.lsapp.eu\\/pq_graphql\",\"live_odds\":\"https:\\/\\/400.ds.lsapp.eu\\/pq_graphql\",\"odds\":\"https:\\/\\/global.ds.lsapp.eu\\/odds\\/pq_graphql\"},\"pushPrefix\":\"\\/fsds\\/changes\"},\"f"
-    ]
-   ]
-  }
+ "chunks": {
+  "core": 163881,
+  "/res/_fs/build/adBlockPlus.CAfyglk.js": 539,
+  "/res/_fs/build/autotrack.aSzUQMc.js": 2358,
+  "/res/_fs/build/bonusComparisonFooterLink.ClaxuzP.js": 338,
+  "/res/_fs/build/bonusComparisonGift.DvfePlR.js": 1354,
+  "/res/_fs/build/clientGeoIpAwareGambleResponsiblyNotices.DJIlFwx.js": 583,
+  "/res/_fs/build/constants.Dg2TU4y.js": 63342,
+  "/res/_fs/build/core-js.DDmNAnB.js": 130730,
+  "/res/_fs/build/detail.ToPma-I.js": 748503,
+  "/res/_fs/build/framework.RcxnFAG.js": 46479,
+  "/res/_fs/build/frontendLogger.BDY_8ZD.js": 1049,
+  "/res/_fs/build/globalEvents.B3J8n13.js": 1528,
+  "/res/_fs/build/headerMenu.fXlr5KW.js": 71397,
+  "/res/_fs/build/initBannerHandler.CJY6gUq.js": 582,
+  "/res/_fs/build/internalTools.DwoV0Bl.js": 971,
+  "/res/_fs/build/leftMenuCategory.Ck03WPv.js": 10884,
+  "/res/_fs/build/loader.CL0a49K.js": 13829,
+  "/res/_fs/build/loginClient.COxV0PA.js": 103,
+  "/res/_fs/build/mainPageScripts.DWFn6qa.js": 1205,
+  "/res/_fs/build/modules.DgHqw1_.js": 75395,
+  "/res/_fs/build/myLeaguesMenu.C9vTB_n.js": 9819,
+  "/res/_fs/build/myTeamsMenu.Bwnyt8o.js": 9470,
+  "/res/_fs/build/runtime.BvRk9ki.js": 0,
+  "/res/_fs/build/serviceStatusBox.QVJsLEU.js": 507,
+  "/res/_fs/build/sportMenuClient.DpVbjrE.js": 4936
  },
- "prova_df_li_1_": {
-  "st": 200,
-  "n": 1,
-  "tx": "0"
- },
- "prova_df_sui_1_": {
-  "st": 200,
-  "n": 2961,
-  "tx": "AC÷1 Tempo¬IG÷3¬IH÷1¬~III÷EyOanT9r¬IA÷2¬IB÷11'¬IE÷3¬INX÷0¬IOX÷1¬IF÷Esposito F.¬IU÷/giocatore/esposito-francesco/dKXxEOKj/¬ICT÷Michael Kayode crossa morbido in area. Francesco Pio Esposito (Italia) aggancia il pallone e calcia basso in rapidità. Il portiere non è riuscito ad intervenire e la palla termina in rete sotto la traversa. 0:1.¬IK÷Gol¬IM÷dKXxEOKj¬IE÷8¬IF÷Kayode M.¬IU÷/giocatore/kayode-michael/CrxJQ1Q8/¬ICT÷¬IK÷Assist¬IM÷CrxJQ1Q8¬~III÷OEcHf6Kh¬IA÷1¬IB÷15'¬IE÷3¬INX÷1¬IOX÷1¬IF÷De Cuyper M.¬IU÷/giocatore/de-cuyper-maxim/GGc6kPWT/¬ICT÷GOAL! Gran lavoro di Charles De Ketelaere che con un vero capolavoro ha servito Maxim De Cuyper (Belgio) il quale ha finalizzato la splendida azione battendo Gianluigi Donnarumma con una gran rasoiata all'angolino basso di sinistro. 1:1.¬IK÷Gol¬IM÷GGc6kPWT"
- },
- "prova_df_st_1_": {
-  "st": 200,
-  "n": 5267,
-  "tx": "SE÷Partita¬~SF÷Statistiche Top¬~SD÷432¬SG÷Goal previsti (xG)¬SH÷2.40¬SI÷0.90¬~SD÷12¬SG÷Possesso palla¬SH÷47%¬SI÷53%¬~SD÷34¬SG÷Tiri totali¬SH÷15¬SI÷7¬~SD÷13¬SG÷Tiri in porta¬SH÷8¬SI÷3¬~SD÷459¬SG÷Grandi occasioni¬SH÷5¬SI÷2¬~SD÷16¬SG÷Calci d'angolo¬SH÷3¬SI÷3¬~SD÷342¬SG÷Passaggi¬SH÷90% (289/321)¬SI÷89% (319/357)¬~SD÷23¬SG÷Cartellini gialli¬SH÷0¬SI÷2¬~SF÷Tiri¬~SD÷432¬SG÷Goal previsti (xG)¬SH÷2.40¬SI÷0.90¬~SD÷499¬SG÷xG sui Tiri in porta (xGOT)¬SH÷3.07¬SI÷1.62¬~SD÷34¬SG÷Tiri totali¬SH÷15¬SI÷7¬~SD÷13¬SG÷Tiri in porta¬SH÷8¬SI÷3¬~SD÷14¬SG÷Tiri fuori¬SH÷5¬SI÷1¬~SD÷158¬SG÷Tiri fermati¬SH÷2¬SI÷3¬~SD÷461¬SG÷Tiri dall'area di rigore¬SH÷11¬SI÷6¬~SD÷463¬SG÷Tiri da fuori area¬SH÷4¬SI÷1¬~SD÷457¬SG÷Pali colpiti¬SH÷2¬SI÷0¬~SF÷Attacco¬~SD÷459¬SG÷Grandi occasioni¬SH÷5¬SI÷2¬~SD÷16¬SG÷Calci d'angolo¬SH÷3¬SI÷3¬~SD÷"
- },
- "prova_df_hh_1_": {
-  "st": 200,
-  "n": 44150,
-  "tx": "SA÷1¬~KA÷Totale¬IS÷¬~KB÷Ultimi Incontri: Belgio¬~KC÷1794502800¬KP÷AJh0DeXa¬KF÷UEFA Nations League¬AC÷3¬KG÷6¬KH÷Europa¬KI÷UNL¬UQ÷QeijuHo5¬UO÷GbB957na¬KJ÷Turchia¬UE÷turchia¬FH÷Turchia¬FJ÷¬KK÷*Belgio¬UG÷belgio¬FK÷Belgio¬FL÷¬KL÷1:2¬KU÷1¬KT÷2¬EC÷Q7zzy7HG-Cfuwb3yH.png¬ED÷Qur1J5jl-dtrVaP64.png¬WIS÷w¬KS÷away¬~KC÷1791225900¬KP÷EmmmJQ3L¬KF÷UEFA Nations League¬AC÷3¬KG÷6¬KH÷Europa¬KI÷UNL¬UQ÷QkGeVG1n¬UO÷GbB957na¬KJ÷*Francia¬UE÷francia¬FH÷Francia¬FJ÷¬KK÷Belgio¬UG÷belgio¬FK÷Belgio¬FL÷¬KL÷4:1¬KU÷4¬KT÷1¬EC÷I5PqTkcM-0bvH5S2D.png¬ED÷Qur1J5jl-dtrVaP64.png¬WIS÷l¬KS÷away¬~KC÷1790966700¬KP÷2gkhFH2m¬KF÷UEFA Nations League¬AC÷3¬KG÷6¬KH÷Europa¬KI÷UNL¬UQ÷GbB957na¬UO÷QeijuHo5¬KJ÷*Belgio¬UE÷belgio¬FH÷Belgio¬FJ÷¬KK÷Turchia¬UG÷turchia¬FK÷Turchia¬FL÷¬KL÷3:0¬KU÷3¬KT÷0¬EC÷Qur1J5jl-dtrVaP64.png¬ED÷Q7zzy7HG-Cfuwb3yH.png¬WIS÷"
- },
- "prova_df_su_1_": {
-  "st": 200,
-  "n": 2961,
-  "tx": "AC÷1 Tempo¬IG÷3¬IH÷1¬~III÷EyOanT9r¬IA÷2¬IB÷11'¬IE÷3¬INX÷0¬IOX÷1¬IF÷Esposito F.¬IU÷/giocatore/esposito-francesco/dKXxEOKj/¬ICT÷Michael Kayode crossa morbido in area. Francesco Pio Esposito (Italia) aggancia il pallone e calcia basso in rapidità. Il portiere non è riuscito ad intervenire e la palla termina in rete sotto la traversa. 0:1.¬IK÷Gol¬IM÷dKXxEOKj¬IE÷8¬IF÷Kayode M.¬IU÷/giocatore/kayode-michael/CrxJQ1Q8/¬ICT÷¬IK÷Assist¬IM÷CrxJQ1Q8¬~III÷OEcHf6Kh¬IA÷1¬IB÷15'¬IE÷3¬INX÷1¬IOX÷1¬IF÷De Cuyper M.¬IU÷/giocatore/de-cuyper-maxim/GGc6kPWT/¬ICT÷GOAL! Gran lavoro di Charles De Ketelaere che con un vero capolavoro ha servito Maxim De Cuyper (Belgio) il quale ha finalizzato la splendida azione battendo Gianluigi Donnarumma con una gran rasoiata all'angolino basso di sinistro. 1:1.¬IK÷Gol¬IM÷GGc6kPWT"
- },
- "prova_df_dc_1_": {
-  "st": 200,
-  "n": 1,
-  "tx": "0"
- },
- "prova_df_mh_1_": {
-  "st": 200,
-  "n": 0,
-  "tx": ""
- },
- "prova_df_lpb_1_": {
-  "st": 200,
-  "n": 1,
-  "tx": "0"
- },
- "belgio_in_lista": [
-  {
-   "AA": "4YNzMsxg",
-   "_ZA": "EUROPA: UEFA Nations League - League A",
-   "AD": "1794771900",
-   "ADE": "1794771900",
-   "AB": "2",
-   "CR": "2",
-   "AC": "13",
-   "CX": "Belgio",
-   "RW": "0",
-   "AI": "y",
-   "AX": "1",
-   "QQ": "https://api.lsaudio.eu/getStreamV2/match-it-jpOkdmOLp0?fs_project=400",
-   "AO": "1794775841",
-   "BW": "0",
-   "BX": "",
-   "WL": "",
-   "HMC": "1",
-   "WM": "BEL",
-   "PX": "GbB957na",
-   "AE": "Belgio",
-   "FH": "Belgio",
-   "JA": "0GLsCoO7",
-   "WU": "belgio",
-   "GRA": "0",
-   "AG": "3",
-   "AT": "3",
-   "BC": "0",
-   "OA": "AqUnTDAN-dtrVaP64.png",
-   "WN": "ITA",
-   "PY": "hlKvieGH",
-   "AF": "Italia",
-   "FK": "Italia",
-   "JB": "hA8TZlGE",
-   "WV": "italia",
-   "GRB": "0",
-   "AH": "1",
-   "AU": "1",
-   "BD": "0",
-   "OB": "fyLyobWH-KfXjzrxU.png",
-   "AL": "{\"1\":[{\"TVI\":147,\"BU\":\"https:\\/\\/www.rai.it\\/\",\"BN\":\"RAI 1\"},{\"TVI\":2255,\"BU\":\"https:\\/\\/www.rai.it\\/\",\"BN\":\"RAI 2\"},{\"TVI\":4109,\"BU\":\"https:\\/\\/www.raiplay.it\\/\",\"BN\":\"RaiPlay\"}],\"2\":[{\"BU\":\"\\/bookmaker\\/417\\/?from=live-streaming&sport=1\",\"IU\":\"https:\\/\\/static.flashscore.com\\/res\\/image\\/data\\/bookmakers\\/17-417.png\",\"BN\":\"1xBet\",\"BI\":417},{\"BU\":\"\\/bookmaker\\/322\\/?from=live-streaming&sport=1\",\"IU\":\"https:\\/\\/static.flashscore.com\\/res\\/image\\/data\\/bookmakers\\/17-322.png\",\"BN\":\"Eurobet.it\",\"BI\":322}]}",
-   "BGS": "{\"CZ\":[45,49,46,157,188,322,372,419,467,53],\"SK\":[411,157,188,322,372,419,467,53],\"ES\":[1121,157,188,322,372,419,467,53],\"default\":[157,188,322,372,419,467,53]}",
-   "AW": "1",
-   "MW": "419|49|1243|16|549|417"
-  }
+ "df_tokens": {},
+ "lineup_ctx": [
+  [
+   "core",
+   "ce\":false,\"images\":{\"cloud\":{\"endpoint\":\"https:\\/\\/livesport-ott-images.ssl.cdn.cra.cz\"}},\"show_logo_and_source\":true},\"line_up\":{\"sports_with_participant_images\":[1,3,4],\"player_ratings\":[1,4],\"live_player_ratings\":false,\"sports_with_live_rating\":[1],\"predicted_line_up\":true,\"sports_with_lineups_in_summary\":[1],\"sports_with_"
+  ],
+  [
+   "core",
+   "participant_images\":[1,3,4],\"player_ratings\":[1,4],\"live_player_ratings\":false,\"sports_with_live_rating\":[1],\"predicted_line_up\":true,\"sports_with_lineups_in_summary\":[1],\"sports_with_lineups_tabs\":[1]},\"market_value_format\":{\"decimal_separator\":\",\",\"group_separator\":\"\",\"scales\":{\"1000000\":\"%s Mln €\",\"1000\":\"%sk €\"}},\"promo_b"
+  ],
+  [
+   "core",
+   ",\"player_ratings\":[1,4],\"live_player_ratings\":false,\"sports_with_live_rating\":[1],\"predicted_line_up\":true,\"sports_with_lineups_in_summary\":[1],\"sports_with_lineups_tabs\":[1]},\"market_value_format\":{\"decimal_separator\":\",\",\"group_separator\":\"\",\"scales\":{\"1000000\":\"%s Mln €\",\"1000\":\"%sk €\"}},\"promo_bar\":{\"multi_language_bar\":"
+  ],
+  [
+   "core",
+   "ratings\":false,\"sports_with_live_rating\":[1],\"predicted_line_up\":true,\"sports_with_lineups_in_summary\":[1],\"sports_with_lineups_tabs\":[1]},\"market_value_format\":{\"decimal_separator\":\",\",\"group_separator\":\"\",\"scales\":{\"1000000\":\"%s Mln €\",\"1000\":\"%sk €\"}},\"promo_bar\":{\"multi_language_bar\":{\"enabled\":false,\"new_languages\":[],\""
+  ],
+  [
+   "core",
+   "icky\":true,\"is_responsive_sticky\":true}},\"title_three_char_name\":{\"disabled_sports\":[13,23]},\"indexed_tabs\":[\"summary\",\"lineups\",\"statistics\",\"player-statistics\",\"player-match-statistics\",\"odds\"],\"live_streaming\":{\"button_enabled\":true}},\"default_sport\":1,\"single_sport\":{\"enabled\":false},\"live_table\":{\"standings_link_without"
+  ],
+  [
+   "core",
+   "_tab\":[],\"odds_tab\":[]},\"default_bet_type\":\"TOP_POSITION_MERGED\"}},\"player_match_stats\":{\"card_enabled\":true,\"card_from_lineups_enabled\":true,\"card_rating_bonuses_enabled\":true,\"rating_article_link_url\":\"\\/news\\/reitingas\\/0xSUZrKt\\/\"},\"enable_betting_bonuses_in_live\":{\"geoip\":[]},\"momentum\":{\"article_link_url\":\"\\/news\\/mome"
+  ],
+  [
+   "_fs/build/constants.Dg2TU4y.js",
+   "AS_OFFICIAL_AVAILABLE,BT as DETAILCOMMONTABSINDEXES_HIGHLIGHTS_HAS_TOP_OFFICIAL_AVAILABLE,OT as DETAILCOMMONTABSINDEXES_LINEUPS,LT as DETAILCOMMONTABSINDEXES_LIVE_COMMENTS,UT as DETAILCOMMONTABSINDEXES_LIVE_TABLE,FT as DETAILCOMMONTABSINDEXES_MATCH_COMMENTS,WT as DETAILCOMMONTABSINDEXES_MATCH_HISTORY,XT as DETAILCOMMONTABSIN"
+  ],
+  [
+   "_fs/build/constants.Dg2TU4y.js",
+   "BSINDEXES_PLAYER_STATISTICS,cT as DETAILCOMMONTABSINDEXES_PLAYER_STATISTICS_NEW,sT as DETAILCOMMONTABSINDEXES_PREDICTED_LINEUPS,aT as DETAILCOMMONTABSINDEXES_PREVIEW,eT as DETAILCOMMONTABSINDEXES_SCRATCHES,dT as DETAILCOMMONTABSINDEXES_STANDINGS,iT as DETAILCOMMONTABSINDEXES_STATISTICS,mT as DETAILCOMMONTABSINDEXES_STATISTIC"
+  ],
+  [
+   "_fs/build/constants.Dg2TU4y.js",
+   "AREDINDEXES_GOLF_PAR_TOTAL,lL as SHAREDINDEXES_GOLF_TOTAL_HOLES_PLAYED,qL as SHAREDINDEXES_GRID,wL as SHAREDINDEXES_HAS_LINEUPS,yL as SHAREDINDEXES_HAS_LIVE_CENTRE,zL as SHAREDINDEXES_HIGHLIGHTS,$L as SHAREDINDEXES_HOME_AFTER_EXTRA_TIME_RESULT,_L as SHAREDINDEXES_HOME_AUSSIE_RULES_BEHINDS,PU as SHAREDINDEXES_HOME_AUSSIE_RULE"
+  ],
+  [
+   "es/_fs/build/detail.ToPma-I.js",
+   "ory.4Y96-8W.js\",\"/res/_fs/build/index.esm.BFhIhWf.js\",\"/res/_fs/build/MissingPlayersWidget.Buro-bN.css\",\"/res/_fs/build/lineupsTab.8YMnBto.js\",\"/res/_fs/build/DetailEmptyState.Q8zYepo.js\",\"/res/_fs/build/getCountryImgSrc.Bqu3CuQ.js\",\"/res/_fs/build/LineupsWidget.Bv0Ra_J.js\",\"/res/_fs/build/useIsDarkModeEnabled.CSJwkzM.js\",\"/"
+  ],
+  [
+   "es/_fs/build/detail.ToPma-I.js",
+   "b.8YMnBto.js\",\"/res/_fs/build/DetailEmptyState.Q8zYepo.js\",\"/res/_fs/build/getCountryImgSrc.Bqu3CuQ.js\",\"/res/_fs/build/LineupsWidget.Bv0Ra_J.js\",\"/res/_fs/build/useIsDarkModeEnabled.CSJwkzM.js\",\"/res/_fs/build/getPlayerLinkProviderFunction.DgQh5at.js\",\"/res/_fs/build/index.esm.lXhE9iE.js\",\"/res/_fs/build/LineupsWidget.DAyaZ"
+  ],
+  [
+   "es/_fs/build/detail.ToPma-I.js",
+   "kzM.js\",\"/res/_fs/build/getPlayerLinkProviderFunction.DgQh5at.js\",\"/res/_fs/build/index.esm.lXhE9iE.js\",\"/res/_fs/build/LineupsWidget.DAyaZuB.css\",\"/res/_fs/build/predictedLineupsTab.Bg2zcbf.js\",\"/res/_fs/build/match-prediction.CXO2L-o.js\",\"/res/_fs/build/MatchPrediction.Dw5zMMl.css\",\"/res/_fs/build/h2hFeed-parser.PL5AOp6.js"
+  ],
+  [
+   "es/_fs/build/detail.ToPma-I.js",
+   "n.DgQh5at.js\",\"/res/_fs/build/index.esm.lXhE9iE.js\",\"/res/_fs/build/LineupsWidget.DAyaZuB.css\",\"/res/_fs/build/predictedLineupsTab.Bg2zcbf.js\",\"/res/_fs/build/match-prediction.CXO2L-o.js\",\"/res/_fs/build/MatchPrediction.Dw5zMMl.css\",\"/res/_fs/build/h2hFeed-parser.PL5AOp6.js\",\"/res/_fs/build/TournamentTableEnvironmentContext."
+  ],
+  [
+   "es/_fs/build/detail.ToPma-I.js",
+   "=>CS(\"StatisticsTab\"),LS=()=>yS(\"PlayerStatisticsTab\"),wS=()=>CS(\"PlayerStatisticsTab\"),MS=()=>CS(\"OddsTab\"),FS=()=>yS(\"LineupsTab\"),xS=()=>function(e){const t=bS();return(0,Fc.useCallback)(n=>t(AS(e,n)),[t])}(\"LineupsTab\"),jS=(e,t)=>{if(\"oddsTab\"===t.type)return{...e,oddsTabVisible:t.visible};throw new Error(`Unhandled acti"
+  ],
+  [
+   "es/_fs/build/detail.ToPma-I.js",
+   "()=>CS(\"OddsTab\"),FS=()=>yS(\"LineupsTab\"),xS=()=>function(e){const t=bS();return(0,Fc.useCallback)(n=>t(AS(e,n)),[t])}(\"LineupsTab\"),jS=(e,t)=>{if(\"oddsTab\"===t.type)return{...e,oddsTabVisible:t.visible};throw new Error(`Unhandled action type: ${t.type}`)},HS=(0,Fc.createContext)(null),BS=(0,Fc.createContext)(null);function "
+  ],
+  [
+   "es/_fs/build/detail.ToPma-I.js",
+   "nction V_(){return x_(hr.PLAYER_MATCH_STATISTICS)}function Y_(){return x_(hr.MATCH_MOMENTUM)}function W_(){return x_(hr.LINEUPS)}function K_(){return x_(hr.PLAYER_STATISTICS)}function $_(){return x_(hr.ODDS_COMPARISON)}function Q_(){return x_(hr.PREDICTED_LINEUPS)}var q_=e=>{const t=(0,Mc.c)(6);let n,s;t[0]!==e?(({children:n"
+  ],
+  [
+   "es/_fs/build/detail.ToPma-I.js",
+   "n K_(){return x_(hr.PLAYER_STATISTICS)}function $_(){return x_(hr.ODDS_COMPARISON)}function Q_(){return x_(hr.PREDICTED_LINEUPS)}var q_=e=>{const t=(0,Mc.c)(6);let n,s;t[0]!==e?(({children:n,...s}=e),t[0]=e,t[1]=n,t[2]=s):(n=t[1],s=t[2]);const r=vo(),a=K_(),i=wo().getIsIndexed()&&!a;if(r.getEventStageTypeId()===Ca.SCHEDULED&"
+  ],
+  [
+   "es/_fs/build/detail.ToPma-I.js",
+   "LL:return[hr.SUMMARY,hr.ODDS_COMPARISON,hr.HEAD_2_HEAD,hr.LIVE_TABLE,hr.STANDINGS,hr.PLAYER_STATISTICS,hr.STATISTICS,hr.LINEUPS,hr.DRAW,hr.NEWSFEED,hr.MATCH_HISTORY,hr.MATCH_HISTORY_DARTS,hr.COMMENTARY,hr.HIGHLIGHTS];case ni.CRICKET:return[hr.SUMMARY,hr.COMMENTARY,hr.ODDS_COMPARISON,hr.HEAD_2_HEAD,hr.LIVE_TABLE,hr.STANDINGS,"
+  ],
+  [
+   "es/_fs/build/detail.ToPma-I.js",
+   "VE_TABLE,hr.STANDINGS,hr.DRAW,hr.STATISTICS,hr.NEWSFEED,hr.PLAYER_STATISTICS,hr.MATCH_HISTORY,hr.MATCH_HISTORY_DARTS,hr.LINEUPS,hr.HIGHLIGHTS];default:return[hr.SUMMARY,hr.MATCH_REPORT,hr.ODDS_COMPARISON,hr.HEAD_2_HEAD,hr.LIVE_TABLE,hr.STANDINGS,hr.DRAW,hr.STATISTICS,hr.PREDICTED_LINEUPS,hr.LINEUPS,hr.NEWSFEED,hr.PLAYER_STAT"
+  ],
+  [
+   "es/_fs/build/detail.ToPma-I.js",
+   "SUMMARY,hr.MATCH_REPORT,hr.ODDS_COMPARISON,hr.HEAD_2_HEAD,hr.LIVE_TABLE,hr.STANDINGS,hr.DRAW,hr.STATISTICS,hr.PREDICTED_LINEUPS,hr.LINEUPS,hr.NEWSFEED,hr.PLAYER_STATISTICS,hr.PLAYER_MATCH_STATISTICS,hr.MATCH_HISTORY,hr.MATCH_HISTORY_DARTS,hr.COMMENTARY,hr.HIGHLIGHTS]}}};function Z_(e){const t=(0,Mc.c)(4),{detailTabs:n}=e;let"
+  ],
+  [
+   "es/_fs/build/detail.ToPma-I.js",
+   "MATCH_REPORT,hr.ODDS_COMPARISON,hr.HEAD_2_HEAD,hr.LIVE_TABLE,hr.STANDINGS,hr.DRAW,hr.STATISTICS,hr.PREDICTED_LINEUPS,hr.LINEUPS,hr.NEWSFEED,hr.PLAYER_STATISTICS,hr.PLAYER_MATCH_STATISTICS,hr.MATCH_HISTORY,hr.MATCH_HISTORY_DARTS,hr.COMMENTARY,hr.HIGHLIGHTS]}}};function Z_(e){const t=(0,Mc.c)(4),{detailTabs:n}=e;let s;t[0]!==n"
+  ],
+  [
+   "es/_fs/build/detail.ToPma-I.js",
+   "e:\"section\",children:(0,xc.jsx)(Fc.Suspense,{fallback:(0,xc.jsx)(fT,{}),children:(0,xc.jsx)(e,{isSummaryTab:!0,predictedLineups:t})})})}var yT=Object.freeze({DATA_STORE:Symbol.for(\"ABSTRACTION:LINEUPS:DATA_STORE\"),QUERY_TO_MODEL_PIPELINE:Symbol.for(\"ABSTRACTION:LINEUPS:QUERY_TO_MODEL_PIPELINE\"),IS_CARD_FROM_LINEUPS_ENABLED:S"
+  ],
+  [
+   "es/_fs/build/detail.ToPma-I.js",
+   "hildren:(0,xc.jsx)(e,{isSummaryTab:!0,predictedLineups:t})})})}var yT=Object.freeze({DATA_STORE:Symbol.for(\"ABSTRACTION:LINEUPS:DATA_STORE\"),QUERY_TO_MODEL_PIPELINE:Symbol.for(\"ABSTRACTION:LINEUPS:QUERY_TO_MODEL_PIPELINE\"),IS_CARD_FROM_LINEUPS_ENABLED:Symbol.for(\"ABSTRACTION:LINEUPS:IS_CARD_FROM_LINEUPS_ENABLED\"),IS_PMS_TAB_"
+  ],
+  [
+   "es/_fs/build/detail.ToPma-I.js",
+   "=Object.freeze({DATA_STORE:Symbol.for(\"ABSTRACTION:LINEUPS:DATA_STORE\"),QUERY_TO_MODEL_PIPELINE:Symbol.for(\"ABSTRACTION:LINEUPS:QUERY_TO_MODEL_PIPELINE\"),IS_CARD_FROM_LINEUPS_ENABLED:Symbol.for(\"ABSTRACTION:LINEUPS:IS_CARD_FROM_LINEUPS_ENABLED\"),IS_PMS_TAB_ENABLED:Symbol.for(\"ABSTRACTION:LINEUPS:IS_PMS_TAB_ENABLED\"),IS_LIVE_"
+  ],
+  [
+   "es/_fs/build/detail.ToPma-I.js",
+   "ION:LINEUPS:DATA_STORE\"),QUERY_TO_MODEL_PIPELINE:Symbol.for(\"ABSTRACTION:LINEUPS:QUERY_TO_MODEL_PIPELINE\"),IS_CARD_FROM_LINEUPS_ENABLED:Symbol.for(\"ABSTRACTION:LINEUPS:IS_CARD_FROM_LINEUPS_ENABLED\"),IS_PMS_TAB_ENABLED:Symbol.for(\"ABSTRACTION:LINEUPS:IS_PMS_TAB_ENABLED\"),IS_LIVE_RATINGS_ENABLED:Symbol.for(\"ABSTRACTION:LINEUPS"
+  ],
+  [
+   "es/_fs/build/detail.ToPma-I.js",
+   "PIPELINE:Symbol.for(\"ABSTRACTION:LINEUPS:QUERY_TO_MODEL_PIPELINE\"),IS_CARD_FROM_LINEUPS_ENABLED:Symbol.for(\"ABSTRACTION:LINEUPS:IS_CARD_FROM_LINEUPS_ENABLED\"),IS_PMS_TAB_ENABLED:Symbol.for(\"ABSTRACTION:LINEUPS:IS_PMS_TAB_ENABLED\"),IS_LIVE_RATINGS_ENABLED:Symbol.for(\"ABSTRACTION:LINEUPS:IS_LIVE_RATINGS_ENABLED\"),IS_LINEUPS_SU"
+  ],
+  [
+   "es/_fs/build/detail.ToPma-I.js",
+   "ABSTRACTION:LINEUPS:QUERY_TO_MODEL_PIPELINE\"),IS_CARD_FROM_LINEUPS_ENABLED:Symbol.for(\"ABSTRACTION:LINEUPS:IS_CARD_FROM_LINEUPS_ENABLED\"),IS_PMS_TAB_ENABLED:Symbol.for(\"ABSTRACTION:LINEUPS:IS_PMS_TAB_ENABLED\"),IS_LIVE_RATINGS_ENABLED:Symbol.for(\"ABSTRACTION:LINEUPS:IS_LIVE_RATINGS_ENABLED\"),IS_LINEUPS_SUBTABS_ENABLED:Symbol."
+  ],
+  [
+   "es/_fs/build/detail.ToPma-I.js",
+   "NEUPS_ENABLED:Symbol.for(\"ABSTRACTION:LINEUPS:IS_CARD_FROM_LINEUPS_ENABLED\"),IS_PMS_TAB_ENABLED:Symbol.for(\"ABSTRACTION:LINEUPS:IS_PMS_TAB_ENABLED\"),IS_LIVE_RATINGS_ENABLED:Symbol.for(\"ABSTRACTION:LINEUPS:IS_LIVE_RATINGS_ENABLED\"),IS_LINEUPS_SUBTABS_ENABLED:Symbol.for(\"ABSTRACTION:LINEUPS:IS_LINEUPS_SUBTABS_ENABLED\"),IS_EVEN"
+  ],
+  [
+   "es/_fs/build/detail.ToPma-I.js",
+   "IS_PMS_TAB_ENABLED:Symbol.for(\"ABSTRACTION:LINEUPS:IS_PMS_TAB_ENABLED\"),IS_LIVE_RATINGS_ENABLED:Symbol.for(\"ABSTRACTION:LINEUPS:IS_LIVE_RATINGS_ENABLED\"),IS_LINEUPS_SUBTABS_ENABLED:Symbol.for(\"ABSTRACTION:LINEUPS:IS_LINEUPS_SUBTABS_ENABLED\"),IS_EVENT_FINISHED:Symbol.for(\"ABSTRACTION:LINEUPS:IS_EVENT_FINISHED\"),IS_MISSING_PLA"
+  ],
+  [
+   "es/_fs/build/detail.ToPma-I.js",
+   "CTION:LINEUPS:IS_PMS_TAB_ENABLED\"),IS_LIVE_RATINGS_ENABLED:Symbol.for(\"ABSTRACTION:LINEUPS:IS_LIVE_RATINGS_ENABLED\"),IS_LINEUPS_SUBTABS_ENABLED:Symbol.for(\"ABSTRACTION:LINEUPS:IS_LINEUPS_SUBTABS_ENABLED\"),IS_EVENT_FINISHED:Symbol.for(\"ABSTRACTION:LINEUPS:IS_EVENT_FINISHED\"),IS_MISSING_PLAYERS_ENABLED:Symbol.for(\"ABSTRACTION:"
+  ],
+  [
+   "es/_fs/build/detail.ToPma-I.js",
+   "GS_ENABLED:Symbol.for(\"ABSTRACTION:LINEUPS:IS_LIVE_RATINGS_ENABLED\"),IS_LINEUPS_SUBTABS_ENABLED:Symbol.for(\"ABSTRACTION:LINEUPS:IS_LINEUPS_SUBTABS_ENABLED\"),IS_EVENT_FINISHED:Symbol.for(\"ABSTRACTION:LINEUPS:IS_EVENT_FINISHED\"),IS_MISSING_PLAYERS_ENABLED:Symbol.for(\"ABSTRACTION:LINEUPS:IS_MISSING_PLAYERS_ENABLED\"),RATING_TITL"
+  ],
+  [
+   "es/_fs/build/detail.ToPma-I.js",
+   "Symbol.for(\"ABSTRACTION:LINEUPS:IS_LIVE_RATINGS_ENABLED\"),IS_LINEUPS_SUBTABS_ENABLED:Symbol.for(\"ABSTRACTION:LINEUPS:IS_LINEUPS_SUBTABS_ENABLED\"),IS_EVENT_FINISHED:Symbol.for(\"ABSTRACTION:LINEUPS:IS_EVENT_FINISHED\"),IS_MISSING_PLAYERS_ENABLED:Symbol.for(\"ABSTRACTION:LINEUPS:IS_MISSING_PLAYERS_ENABLED\"),RATING_TITLE:Symbol.fo"
+  ],
+  [
+   "es/_fs/build/detail.ToPma-I.js",
+   "_SUBTABS_ENABLED:Symbol.for(\"ABSTRACTION:LINEUPS:IS_LINEUPS_SUBTABS_ENABLED\"),IS_EVENT_FINISHED:Symbol.for(\"ABSTRACTION:LINEUPS:IS_EVENT_FINISHED\"),IS_MISSING_PLAYERS_ENABLED:Symbol.for(\"ABSTRACTION:LINEUPS:IS_MISSING_PLAYERS_ENABLED\"),RATING_TITLE:Symbol.for(\"ABSTRACTION:LINEUPS:RATING_TITLE\"),LINK_TARGET:Symbol.for(\"ABSTRA"
+  ],
+  [
+   "es/_fs/build/detail.ToPma-I.js",
+   "S_EVENT_FINISHED:Symbol.for(\"ABSTRACTION:LINEUPS:IS_EVENT_FINISHED\"),IS_MISSING_PLAYERS_ENABLED:Symbol.for(\"ABSTRACTION:LINEUPS:IS_MISSING_PLAYERS_ENABLED\"),RATING_TITLE:Symbol.for(\"ABSTRACTION:LINEUPS:RATING_TITLE\"),LINK_TARGET:Symbol.for(\"ABSTRACTION:LINEUPS:LINK_TARGET\"),FIELD_URL:Symbol.for(\"ABSTRACTION:LINEUPS:FIELD_URL"
+  ],
+  [
+   "es/_fs/build/detail.ToPma-I.js",
+   "SSING_PLAYERS_ENABLED:Symbol.for(\"ABSTRACTION:LINEUPS:IS_MISSING_PLAYERS_ENABLED\"),RATING_TITLE:Symbol.for(\"ABSTRACTION:LINEUPS:RATING_TITLE\"),LINK_TARGET:Symbol.for(\"ABSTRACTION:LINEUPS:LINK_TARGET\"),FIELD_URL:Symbol.for(\"ABSTRACTION:LINEUPS:FIELD_URL\"),MARKET_VALUE_FORMAT:Symbol.for(\"ABSTRACTION:LINEUPS:MARKET_VALUE_FORMAT"
+  ],
+  [
+   "es/_fs/build/detail.ToPma-I.js",
+   "SSING_PLAYERS_ENABLED\"),RATING_TITLE:Symbol.for(\"ABSTRACTION:LINEUPS:RATING_TITLE\"),LINK_TARGET:Symbol.for(\"ABSTRACTION:LINEUPS:LINK_TARGET\"),FIELD_URL:Symbol.for(\"ABSTRACTION:LINEUPS:FIELD_URL\"),MARKET_VALUE_FORMAT:Symbol.for(\"ABSTRACTION:LINEUPS:MARKET_VALUE_FORMAT\")}),bT=Object.freeze({SOCCER:1,TENNIS:2,BASKETBALL:3,HOCKE"
+  ],
+  [
+   "es/_fs/build/detail.ToPma-I.js",
+   "TION:LINEUPS:RATING_TITLE\"),LINK_TARGET:Symbol.for(\"ABSTRACTION:LINEUPS:LINK_TARGET\"),FIELD_URL:Symbol.for(\"ABSTRACTION:LINEUPS:FIELD_URL\"),MARKET_VALUE_FORMAT:Symbol.for(\"ABSTRACTION:LINEUPS:MARKET_VALUE_FORMAT\")}),bT=Object.freeze({SOCCER:1,TENNIS:2,BASKETBALL:3,HOCKEY:4,AMERICAN_FOOTBALL:5,BASEBALL:6,HANDBALL:7,RUGBY_UNIO"
+  ],
+  [
+   "es/_fs/build/detail.ToPma-I.js",
+   "LINEUPS:LINK_TARGET\"),FIELD_URL:Symbol.for(\"ABSTRACTION:LINEUPS:FIELD_URL\"),MARKET_VALUE_FORMAT:Symbol.for(\"ABSTRACTION:LINEUPS:MARKET_VALUE_FORMAT\")}),bT=Object.freeze({SOCCER:1,TENNIS:2,BASKETBALL:3,HOCKEY:4,AMERICAN_FOOTBALL:5,BASEBALL:6,HANDBALL:7,RUGBY_UNION:8,FLOORBALL:9,BANDY:10,FUTSAL:11,VOLLEYBALL:12,CRICKET:13,DART"
+  ],
+  [
+   "es/_fs/build/detail.ToPma-I.js",
+   "ren:e}),cE=class{displayFormationLabel=()=>!1;getFormationHeadline=()=>\"\";getParticipantNameType=()=>{};displayRatingsInLineupsSubstitutions=()=>!1;displayRatingsInLineupsGroups=()=>!1;shouldStackIncidents=()=>!0;shouldHaveResponsivePlayers=()=>!1;displaySubstitutionsInLineups=()=>!1;hasClickableParticipants=()=>!1},uE=class"
+  ],
+  [
+   "es/_fs/build/detail.ToPma-I.js",
+   "1;getFormationHeadline=()=>\"\";getParticipantNameType=()=>{};displayRatingsInLineupsSubstitutions=()=>!1;displayRatingsInLineupsGroups=()=>!1;shouldStackIncidents=()=>!0;shouldHaveResponsivePlayers=()=>!1;displaySubstitutionsInLineups=()=>!1;hasClickableParticipants=()=>!1},uE=class extends cE{trans;constructor(e){super(),thi"
+  ]
+ ],
+ "graphql_ctx": [
+  [
+   "core",
+   "utright_odds\":{\"enabled\":true,\"summary_tab\":{\"enabled\":false},\"allowed_sports\":[1,3,4]}},\"fsds\":{\"client_urls\":{\"default\":\"https:\\/\\/400.ds.lsapp.eu\\/pq_graphql\",\"live_odds\":\"https:\\/\\/400.ds.lsapp.eu\\/pq_graphql\",\"odds\":\"https:\\/\\/global.ds.lsapp.eu\\/odds\\/pq_graphql\"},\"pushPrefix\":\"\\/fsds\\/changes\"},\"fs_news\":{\"enabled\":true,\"widgets\":{\"live_table\":{\"enabled\":true},\"detail\":{\"enabled\":true,\"blacklisted_sp"
+  ],
+  [
+   "core",
+   "d\":false},\"allowed_sports\":[1,3,4]}},\"fsds\":{\"client_urls\":{\"default\":\"https:\\/\\/400.ds.lsapp.eu\\/pq_graphql\",\"live_odds\":\"https:\\/\\/400.ds.lsapp.eu\\/pq_graphql\",\"odds\":\"https:\\/\\/global.ds.lsapp.eu\\/odds\\/pq_graphql\"},\"pushPrefix\":\"\\/fsds\\/changes\"},\"fs_news\":{\"enabled\":true,\"widgets\":{\"live_table\":{\"enabled\":true},\"detail\":{\"enabled\":true,\"blacklisted_sport_id\":[]},\"tournament_page_summary_tab\":{\"enabled\""
+  ],
+  [
+   "core",
+   "s\":{\"default\":\"https:\\/\\/400.ds.lsapp.eu\\/pq_graphql\",\"live_odds\":\"https:\\/\\/400.ds.lsapp.eu\\/pq_graphql\",\"odds\":\"https:\\/\\/global.ds.lsapp.eu\\/odds\\/pq_graphql\"},\"pushPrefix\":\"\\/fsds\\/changes\"},\"fs_news\":{\"enabled\":true,\"widgets\":{\"live_table\":{\"enabled\":true},\"detail\":{\"enabled\":true,\"blacklisted_sport_id\":[]},\"tournament_page_summary_tab\":{\"enabled\":true}},\"video_api\":{\"host\":\"https:\\/\\/media.lsmedialib."
+  ],
+  [
+   "es/_fs/build/detail.ToPma-I.js",
+   "parserProvider;eventId;projectId;constructor(e,t,n){this.parserProvider=e,this.eventId=t,this.projectId=n}getParameters(){return new URLSearchParams({_hash:uh.DETAIL_MISSING_PLAYERS_QUERY,eventId:this.eventId,projectId:String(this.projectId)})}getParser(){return this.parserProvider.getParser()}};dh=CE([Io(),vE(0,Ao(yE.PARSERS.PARSER)),vE(1,Ao(bE.EVENT_ID)),vE(2,Ao(bE.PROJECT_ID)),PE(\"design:paramtypes\""
+  ],
+  [
+   "es/_fs/build/detail.ToPma-I.js",
+   "rovider;eventId;providerId;constructor(e,t,n=null){this.parserProvider=e,this.eventId=t,this.providerId=n}getParameters(){return new URLSearchParams({_hash:uh.DETAIL_MISSING_PLAYERS_UPDATE_QUERY,eventId:this.eventId,providerId:String(this.providerId)})}getParser(){return this.parserProvider.getParser()}};ph=CE([Io(),vE(0,Ao(yE.PARSERS.UPDATE)),vE(1,Ao(bE.EVENT_ID)),vE(2,Ao(bE.PROVIDER_ID)),vE(2,ho()),P"
+  ],
+  [
+   "es/_fs/build/detail.ToPma-I.js",
+   "hema.parse(e)}},qA=class{parserProvider;projectId;constructor(e,t){this.parserProvider=e,this.projectId=t}getParameters(){return new URLSearchParams({_hash:$A.DETAIL_PLAYER_MATCH_STATS_CARD_RATING_BONUSES_SETTINGS_QUERY,projectId:String(this.projectId)})}getParser(){return this.parserProvider.getParser()}};qA=YA([WA(0,Ao(GA.PARSERS.RATING_BONUSES_SETTINGS)),WA(1,Ao(VA.PROJECT_ID)),KA(\"design:paramtypes"
+  ],
+  [
+   "es/_fs/build/detail.ToPma-I.js",
+   "rovider;eventId;providerId;constructor(e,t,n=null){this.parserProvider=e,this.eventId=t,this.providerId=n}getParameters(){return new URLSearchParams({_hash:$A.DETAIL_PLAYER_MATCH_STATS_UPDATE_QUERY,eventId:this.eventId,providerId:String(this.providerId)})}getParser(){return this.parserProvider.getParser()}};FI=YA([Io(),WA(0,Ao(GA.PARSERS.UPDATE)),WA(1,Ao(VA.EVENT_ID)),WA(2,Ao(VA.PROVIDER_ID)),WA(2,ho()"
+  ],
+  [
+   "es/_fs/build/detail.ToPma-I.js",
+   "oviderId;constructor(e,t,n,s=null){this.parserProvider=e,this.eventId=t,this.playerId=n,this.providerId=s}getParameters(){return new URLSearchParams({_hash:$A.DETAIL_PLAYER_MATCH_STATS_CARD_QUERY,eventId:this.eventId,playerId:this.playerId,providerId:String(this.providerId)})}getParser(){return this.parserProvider.getParser()}};jI=YA([Io(),WA(0,Ao(GA.PARSERS.PARSER)),WA(1,Ao(VA.EVENT_ID)),WA(2,Ao(VA.PL"
+  ],
+  [
+   "es/_fs/build/detail.ToPma-I.js",
+   "ectId;playerId;constructor(e,t,n,s){this.parserProvider=e,this.eventId=t,this.projectId=n,this.playerId=s}getParameters(){return new URLSearchParams({_hash:$A.DETAIL_PLAYER_MATCH_STATS_CARD_SETTINGS_QUERY,eventId:this.eventId,projectId:String(this.projectId),playerId:this.playerId})}getParser(){return this.parserProvider.getParser()}};GI=YA([Io(),WA(0,Ao(GA.PARSERS.SETTINGS)),WA(1,Ao(VA.EVENT_ID)),WA(2"
+  ],
+  [
+   "es/_fs/build/detail.ToPma-I.js",
+   "parserProvider;eventId;projectId;constructor(e,t,n){this.parserProvider=e,this.eventId=t,this.projectId=n}getParameters(){return new URLSearchParams({_hash:fg.DETAIL_CONFIG_QUERY,eventId:this.eventId,projectId:String(this.projectId)})}getParser(){return this.parserProvider.getParser()}};Og=Rg([Io(),Ag(0,Ao(mg.PARSERS.PARSER)),Ag(1,Ao(pg.EVENT_ID)),Ag(2,Ao(pg.PROJECT_ID)),Ig(\"design:paramtypes\",[Object,"
+  ],
+  [
+   "es/_fs/build/detail.ToPma-I.js",
+   "parserProvider;eventId;projectId;constructor(e,t,n){this.parserProvider=e,this.eventId=t,this.projectId=n}getParameters(){return new URLSearchParams({_hash:ev.DETAIL_TOP_STATS_QUERY,eventId:this.eventId,projectId:String(this.projectId)})}getParser(){return this.parserProvider.getParser()}};nv=pC([Io(),RC(0,Ao(hC.PARSERS.PARSER)),RC(1,Ao(mC.EVENT_ID)),RC(2,Ao(mC.PROJECT_ID)),AC(\"design:paramtypes\",[Obje"
+  ],
+  [
+   "es/_fs/build/detail.ToPma-I.js",
+   "parserProvider;eventId;projectId;constructor(e,t,n){this.parserProvider=e,this.eventId=t,this.projectId=n}getParameters(){return new URLSearchParams({_hash:ev.DETAIL_TOP_STATS_UPDATE,eventId:this.eventId,projectId:String(this.projectId)})}getParser(){return this.parserProvider.getParser()}};lv=pC([Io(),RC(0,Ao(hC.PARSERS.UPDATE)),RC(1,Ao(mC.EVENT_ID)),RC(2,Ao(mC.PROJECT_ID)),AC(\"design:paramtypes\",[Obj"
+  ],
+  [
+   "es/_fs/build/detail.ToPma-I.js",
+   "s{projectId;eventId;layoutTypeId;constructor(e,t,n){this.projectId=e,this.eventId=t,this.layoutTypeId=n}getParameters(){return no.createParams([{key:\"_hash\",value:Wi.EVENT_DETAIL},{key:\"projectId\",value:this.projectId},{key:\"entityId\",value:this.eventId},{key:\"layoutTypeId\",value:this.layoutTypeId}])}getParser(){return qi({findNewsLayoutForEventDetail:qi({id:Zi(),name:to(),sections:eo(qi({id:Zi(),name:"
+  ]
  ]
 }
