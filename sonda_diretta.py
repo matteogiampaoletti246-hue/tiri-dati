@@ -36,7 +36,7 @@ def recs(tx):
 
 
 import re
-hdr = ""
+import re
 UAH = {"User-Agent": H["User-Agent"], "Accept": "text/html,*/*", "Accept-Language": "it-IT,it;q=0.9"}
 def html(url):
     try:
@@ -45,38 +45,35 @@ def html(url):
     except Exception as ex:
         return "ERR " + str(ex)[:150]
 
+core = html("https://www.diretta.it/x/js/core_400_2324000000.js")
+chunks = {"core": core}
+refs = set(re.findall(r'/res/_fs/build/[A-Za-z0-9_.\-]+\.js', core))
 pg = html("https://www.diretta.it/partita/calcio/belgio-GbB957na/italia-hlKvieGH/riassunto/formazioni/?mid=4YNzMsxg")
-OUT["pagina"] = {"n": len(pg), "head": pg[:200]}
-snips = {}
-for kw in ("feed", "graphql", "lsapp", "flashscore", "project", "sign", "environment", "_hash", "ds."):
-    found = []
-    for m in re.finditer(re.escape(kw), pg):
-        a = max(0, m.start() - 90)
-        found.append(pg[a:m.end() + 140].replace("\n", " "))
-        if len(found) >= 4:
+refs |= set(re.findall(r'/res/_fs/build/[A-Za-z0-9_.\-]+\.js', pg))
+OUT["refs"] = sorted(refs)[:80]
+for u in sorted(refs)[:60]:
+    chunks[u] = html("https://www.diretta.it" + u)
+OUT["chunks"] = {k: len(v) for k, v in chunks.items()}
+dfs = {}
+for k, t in chunks.items():
+    for m in re.findall(r"df_[a-z0-9]+_", t):
+        dfs.setdefault(m, set()).add(k[-30:])
+OUT["df_tokens"] = {k: sorted(v) for k, v in dfs.items()}
+ctx = []
+for k, t in chunks.items():
+    for m in re.finditer(r"(?i)lineup|line_up|formazion", t):
+        a = max(0, m.start() - 120)
+        ctx.append([k[-30:], t[a:m.end() + 200].replace("\n", " ")])
+        if len(ctx) >= 40:
             break
-    snips[kw] = found
-OUT["snips"] = snips
-scripts = re.findall(r'<script[^>]+src="([^"]+)"', pg)
-OUT["scripts"] = scripts[:15]
-jsf = {}
-for u in scripts[:15]:
-    if u.startswith("//"): u = "https:" + u
-    if u.startswith("/"): u = "https://www.diretta.it" + u
-    t = html(u)
-    hits = []
-    for kw in ("df_li_", "df_lu_", "lineup", "pq_graphql", "_hash", "feed_sign", "x-fsign", "lsapp"):
-        for m in re.finditer(re.escape(kw), t):
-            a = max(0, m.start() - 100)
-            hits.append((kw, t[a:m.end() + 160].replace("\n", " ")))
+OUT["lineup_ctx"] = ctx
+gq = []
+for k, t in chunks.items():
+    for m in re.finditer(r"_hash|persistedQuer|pq_graphql", t):
+        a = max(0, m.start() - 150)
+        gq.append([k[-30:], t[a:m.end() + 250].replace("\n", " ")])
+        if len(gq) >= 25:
             break
-    jsf[u[-60:]] = {"n": len(t), "hits": hits[:8]}
-OUT["js"] = jsf
-
-for pre in ("df_li_1_", "df_sui_1_", "df_st_1_", "df_hh_1_", "df_su_1_", "df_dc_1_", "df_mh_1_", "df_lpb_1_"):
-    r = get(pre + "4YNzMsxg")
-    OUT["prova_" + pre] = {"st": r["st"], "n": r.get("n"), "tx": r["tx"][:800]}
-rs0 = recs(get("f_1_0_1_it_1")["tx"])
-OUT["belgio_in_lista"] = [x for x in rs0 if x.get("AA") == "4YNzMsxg"][:1]
+OUT["graphql_ctx"] = gq
 json.dump(OUT, open("sonda_diretta.json", "w"), ensure_ascii=False, indent=1)
-print({k: (v.get("st"), v.get("n")) if isinstance(v, dict) else v for k, v in OUT.items() if k.startswith("prova_") or k == "pagina"})
+print({k: (len(v) if hasattr(v, "__len__") else v) for k, v in OUT.items()})
