@@ -98,7 +98,7 @@ export default function PlayerPickPanel({ form, set, player, hint, onSelectPlaye
   const navigate = useNavigate();
   const [picker, setPicker] = useState(null);
   const hitLabel = HIT_OPTIONS.find((o) => o.value === form.hitRate)?.label ?? null;
-  // partite con almeno 50' usate per l'Hit Rate: meno di 5 (anche con la stagione passata) -> "su N partite"
+  // partite con almeno 48' usate per l'Hit Rate: meno di 5 (anche con la stagione passata) -> "su N partite"
   const hitTitle = form.playerId && form.hitN > 0 && form.hitN < 5 ? `Hit rate su ${form.hitN} ${form.hitN === 1 ? 'partita' : 'partite'}` : 'Hit rate ultime 5';
   const team = player ? teamById((player.nat && player.club ? player.club : player).teamId) : null;
   const compOptions = useMemo(() => playerComps(player), [player]);

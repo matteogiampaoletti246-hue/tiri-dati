@@ -34,7 +34,7 @@ LEGHE = {
 }
 TUTTE = "--tutte" in sys.argv   # tutte le altre competizioni di club con statistiche tiri -> calc_tutte.json (stessa forma di calc_extra.json)
 OUT = "calc_tutte.json" if TUTTE else "calc_extra.json"
-MIN_HIT = 50          # minuti minimi perche' una partita conti per l'hit rate (come update_giocatori.py)
+MIN_HIT = 48          # minuti minimi perche' una partita conti per l'hit rate (come update_giocatori.py)
 NEXT_FIX = 6          # prossime partite per squadra
 STOP = {"fc", "sc", "cf", "fk", "afc", "ac", "as", "sk", "bk", "kv", "sv", "vv", "ssc", "if", "bsc", "ca", "cd", "cs", "sl", "sd", "de", "da", "do", "the", "club", "kvc", "krc", "ksc", "rsc"}
 
@@ -476,7 +476,7 @@ def main():
             ms = sorted(p["ms"], key=lambda x: x[0], reverse=True)
             tot = [len(ms), float(sum(x[1] for x in ms)), sum(x[2] for x in ms), float(sum(x[3] for x in ms))]
             last = [[x[1], x[2], x[3]] for x in ms[:5]]
-            # nazionali: tutte le partite della stagione con almeno 50' (servono all'Hit Rate con la nazionale: "3/4", "4/5"...)
+            # nazionali: tutte le partite della stagione con almeno 48' (servono all'Hit Rate con la nazionale: "3/4", "4/5"...)
             hit = [[x[1], x[2], x[3]] for x in [y for y in ms if y[3] >= MIN_HIT][:(12 if nat else 5)]]
             old = None if nat else find_old(tn, p["n"], pid)
             if nat:

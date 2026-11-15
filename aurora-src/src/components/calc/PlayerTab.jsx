@@ -189,7 +189,7 @@ export default function PlayerTab({ onSave }) {
   // negli schermi dei falli l'hit rate letto/scritto dal pannello di base e' quello dei falli
   // partite usate per l'Hit Rate (meno di 5: il pannello lo scrive, es. "su 3 partite")
   const vform = fouls ? { ...form, hitRate: f.hitRate, hitN: form.playerId ? parseDash(f.last5).length : null } : form;
-  // Hit Rate con la nazionale: solo con Nations League scelta ("2/3" = partite di questa Nations League con almeno 50' sopra la linea)
+  // Hit Rate con la nazionale: solo con Nations League scelta ("2/3" = partite di questa Nations League con almeno 48' sopra la linea)
   const natHit = form.playerId && form.competizione === 'nations' ? natHitOf(fouls ? f.natVals : form.natVals, line, form.lineType) : null;
   const vset = (key, value) => (fouls && key === 'hitRate' ? setF({ hitRate: value }) : key === 'competizione' ? setCompetition(value) : set(key, value));
 

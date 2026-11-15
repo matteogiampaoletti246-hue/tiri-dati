@@ -363,7 +363,7 @@ function useHitGames(player, key2Raw, vals, mins) {
   return useMemo(() => (base ? base.map((g, i) => ((g && g.team && g.team.crest) ? g : (ext[i] || g || null))) : null), [base, ext]);
 }
 
-// ultime 5 partite (almeno 50') del giocatore in ogni competizione, dall'archivio FotMob (tiri e tiri in porta di ogni partita):
+// ultime 5 partite (almeno 48') del giocatore in ogni competizione, dall'archivio FotMob (tiri e tiri in porta di ogni partita):
 // campionato del club, coppa europea e Nations League; serve alle pagine del grafico Hit Rate
 const CUP_FM = { 'champions-league': 42, 'europa-league': 73, 'conference-league': 10216 };
 function useCompGames(player, key2) {
@@ -394,7 +394,7 @@ function useCompGames(player, key2) {
           Object.entries(det.m).forEach(([mid, x]) => {
             const pl = x.p && x.p[pid];
             const f = fx[mid];
-            if (!pl || !f || !(pl.minutes_played >= 50)) return;
+            if (!pl || !f || !(pl.minutes_played >= 48)) return;
             const hid = String((x.h && x.h.id) || f[2]);
             const aid = String((x.a && x.a.id) || f[3]);
             const inH = x.h && [...(x.h.st || []), ...(x.h.sb || [])].some((r) => String(r[0]) === String(pid));
@@ -419,8 +419,8 @@ function useCompGames(player, key2) {
 
 // Pagine per competizione, TUTTE quelle giocate in questa stagione (regola fissa 13/11/2026): l'elenco viene dall'indice giocatori (pidx: ogni competizione e
 // stagione giocata, coppa nazionale e Nations League comprese), non dalla sola competizione "principale". Una pagina per competizione con almeno una presenza
-// in stagione, anche con meno di 5 partite e anche sotto i 50': le presenze della stagione contano tutte (i minuti si leggono sulle colonne); fino a 5
-// colonne, completate con le stagioni passate (solo da almeno 50'). Avversario per ID dell'archivio.
+// in stagione, anche con meno di 5 partite e anche sotto i 48': le presenze della stagione contano tutte (i minuti si leggono sulle colonne); fino a 5
+// colonne, completate con le stagioni passate (solo da almeno 48'). Avversario per ID dell'archivio.
 const CUR_CUT = () => { const d = new Date(); return d.getMonth() >= 6 ? d.getFullYear() : d.getFullYear() - 1; };
 const isCurSk = (sk) => (String(sk).includes('-') ? parseInt(String(sk).slice(0, 4), 10) >= CUR_CUT() : parseInt(String(sk).slice(0, 4), 10) === new Date().getFullYear());
 const STAT_OF = { sot: 'ShotsOnTarget', fc: 'fouls', fs: 'was_fouled' };
@@ -567,7 +567,7 @@ function useRecOpp(player, key2) {
       const seen = new Set();
       const todo = [];
       srcs.forEach((x) => x.recent.forEach((m) => {
-        if (!m.matchId || seen.has(m.matchId) || !m.opp || !(Number(m.minutes) >= 50)) return;
+        if (!m.matchId || seen.has(m.matchId) || !m.opp || !(Number(m.minutes) >= 48)) return;
         seen.add(m.matchId);
         const t = teamByName(m.opp);
         if (!t || !t.crest) todo.push(m);
@@ -610,7 +610,7 @@ function hitPages(player, key2, vals, mins, comp, g, extra, oppFix, compPages) {
   order.forEach((k) => {
     if (!byVal[k]) return;
     if (extra && extra[k]) { out.push({ key: k, name: byVal[k].comp.name, logo: byVal[k].comp.logo, ...extra[k] }); return; }
-    const ms = rec.filter((m) => kindOf(m) === k && Number(m.minutes) >= 50 && m[key2] != null && m.opp).slice(0, 5);
+    const ms = rec.filter((m) => kindOf(m) === k && Number(m.minutes) >= 48 && m[key2] != null && m.opp).slice(0, 5);
     if (!ms.length) return;
     out.push({ key: k, name: byVal[k].comp.name, logo: byVal[k].comp.logo, values: ms.map((m) => Number(m[key2])).reverse(), minutes: ms.map((m) => Number(m.minutes)).reverse(), games: ms.map((m) => gameOf({ ...m, ...((oppFix && oppFix[m.matchId]) || {}) })).reverse() });
   });

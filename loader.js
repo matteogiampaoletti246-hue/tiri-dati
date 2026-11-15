@@ -3309,7 +3309,7 @@ html.slb-tr,html.slb-tr *,html.slb-tr *::before,html.slb-tr *::after{transition:
   }
   function lastRows(p){
     var h = p.h || [];
-    return h.length >= 5 ? {r: h, fb: false, n: h.length} : {r: p.r || [], fb: true, n: h.length};   // senza 5 partite da 50' si usano le ultime 5 giocate
+    return h.length >= 5 ? {r: h, fb: false, n: h.length} : {r: p.r || [], fb: true, n: h.length};   // senza 5 partite da 48' si usano le ultime 5 giocate
   }
   function l5Note(p){
     var e = document.getElementById('slbL5Note'); if(!e) return;

@@ -47,7 +47,7 @@ export const initialForm = () => ({
 export const hitRows = (p) => ((p && p.hn !== null && p.hn !== undefined ? p.h : p && p.h && p.h.length >= 5 ? p.h : p && p.r) || []).slice(0, 5);
 
 // Hit Rate con la nazionale (regola dell'utente, 9/11/2026): scegliendo Nations League, oltre all'Hit Rate normale conta quello delle
-// partite giocate in Nations League in questa stagione (almeno 50', come sempre): "2/3", "4/5"... quante ne ha giocate e in quante ha
+// partite giocate in Nations League in questa stagione (almeno 48', come sempre): "2/3", "4/5"... quante ne ha giocate e in quante ha
 // superato la linea. Pesa il 25% (l'Hit Rate totale delle ultime 5 pesa il 75%); entra
 // solo la percentuale, mai la media (quella e' gia' nella riga Nations League delle Medie stagione).
 export function natHitOf(vals, line, lineType) {
@@ -114,7 +114,7 @@ export function fillFrom(f, p, fam, fx) {
     hitRate: fixed,
     hitN: rows.length,
     hcapL: clubP ? playerLeagueHcap(clubP.teamName) : 1,
-    // partite con la nazionale (profilo `nat`: `h` = Nations League di questa stagione con almeno 50'); senza profilo di club sono gia' l'Hit Rate normale
+    // partite con la nazionale (profilo `nat`: `h` = Nations League di questa stagione con almeno 48'); senza profilo di club sono gia' l'Hit Rate normale
     natVals: fromClub ? (p.h || []).map((x) => x[k] || 0) : [],
     season,
     team,

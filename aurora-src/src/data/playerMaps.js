@@ -86,13 +86,13 @@ async function loadOne(pid, fm, sk, name) {
       const meta = base(mid, m, own);
       mapShots(mine, null).forEach((s) => { if (s.px != null && s.py != null) shots.push({ ...s, playerName: name || s.playerName, ...meta, ...(m.sxE ? { src: 'e' } : {}) }); });
     });
-    // partite giocate (almeno 50', in formazione) = quelle dell'Hit Rate; `nosx` = di queste, le partite senza posizioni dei tiri nell'archivio
+    // partite giocate (almeno 48', in formazione) = quelle dell'Hit Rate; `nosx` = di queste, le partite senza posizioni dei tiri nell'archivio
     // (stagioni passate non ancora scaricate): per le ultime 5 i tiri si prendono dalla partita stessa, cosi' mappa e grafico coincidono
     const played = [];
     const nosx = [];
     Object.entries(ms).forEach(([mid, m]) => {
       const pl = m && m.p && m.p[pid];
-      if (!pl || !(pl.minutes_played >= 50)) return;
+      if (!pl || !(pl.minutes_played >= 48)) return;
       const sd = sidesOf(m);
       const inH = sd.h.some((r) => String(r[0]) === String(pid));
       const inA = sd.a.some((r) => String(r[0]) === String(pid));
@@ -181,7 +181,7 @@ export async function loadPlayerMaps({ pid, name, fms, seasonSel }) {
   const rs = await Promise.all(jobs);
   const shots = []; const fouls = [];
   if (seasonSel === 'l5') {
-    // le ultime 5 partite (almeno 50') del giocatore nelle competizioni scelte: le stesse colonne del grafico Hit Rate
+    // le ultime 5 partite (almeno 48') del giocatore nelle competizioni scelte: le stesse colonne del grafico Hit Rate
     const by0 = (a, b) => String(b.ts || '').localeCompare(String(a.ts || ''));
     const last = rs.flatMap((r) => r.played).sort(by0).slice(0, 5);
     const set = new Set(last.map((x) => x.mid));

@@ -3,7 +3,7 @@
 confrontate con i tiri con posizione (`sx`) della mappa tiri. Seconda fonte ESPN (`sxe/`) dove FotMob non ha la mappa. Categorie: coincide / sx assente (stagione passata non ancora scaricata: l app li prende dalla partita) /
 nessuna shotmap FotMob (campionati minori: dato che non esiste) / shotmap parziale. Uso: python3 controllo_mappa_hit.py"""
 import gzip,json,os,glob,collections,sys
-# per ogni competizione: le ultime 5 partite (>=50') di ogni giocatore nelle 2 stagioni piu' recenti = pagina del grafico Hit Rate
+# per ogni competizione: le ultime 5 partite (>=48') di ogni giocatore nelle 2 stagioni piu' recenti = pagina del grafico Hit Rate
 def sortk(s): return s
 res=collections.Counter(); pl_bad=collections.defaultdict(list); lg_bad=collections.Counter(); lg_n=collections.Counter()
 for fmdir in sorted(os.listdir('partite')):
@@ -23,7 +23,7 @@ for fmdir in sorted(os.listdir('partite')):
             cnt=collections.Counter(str(x[19]) for x in sx) if isinstance(sx,list) else None
             sxn=len(sx) if isinstance(sx,list) else None
             for pid,v in m['p'].items():
-                if not (v.get('minutes_played') or 0)>=50: continue
+                if not (v.get('minutes_played') or 0)>=48: continue
                 games[pid].append((when[mid],int(v.get('total_shots') or 0),None if cnt is None else cnt.get(pid,0),sxn,mid,sk))
     for pid,g in games.items():
         g.sort(reverse=True); g=g[:5]

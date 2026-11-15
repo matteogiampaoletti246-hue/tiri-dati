@@ -207,9 +207,9 @@ function rosterFouls0(data, key, fmTeam, stat) {
     .sort((a, b) => b.min - a.min);
 }
 
-// giocatore: medie stagionali (campionato e coppa europea) e partite per l'Hit Rate in tutte le competizioni (regola fissa: almeno 50',
+// giocatore: medie stagionali (campionato e coppa europea) e partite per l'Hit Rate in tutte le competizioni (regola fissa: almeno 48',
 // dalla piu' recente). `hit` = righe dell'Hit Rate del giocatore (profili.py: stagione in corso poi passata, con i falli di ogni partita):
-// se tutte hanno i falli si usano quelle, altrimenti le partite della stagione in corso con almeno 50'
+// se tutte hanno i falli si usano quelle, altrimenti le partite della stagione in corso con almeno 48'
 export function playerFouls(data, fmPid, domKey, stat, hit = null, natKey = null) {
   if (!data || !fmPid) return null;
   const pid = String(fmPid);
@@ -221,13 +221,13 @@ export function playerFouls(data, fmPid, domKey, stat, hit = null, natKey = null
     if (!g.length) return null;
     return { v: g.reduce((a, x) => a + x[stat], 0) / g.length, min: g.reduce((a, x) => a + x.min, 0) / g.length, n: g.length };
   };
-  // nazionale: media della Nations League e partite con almeno 50' di questa stagione (Hit Rate con la nazionale), dalla piu' recente
-  const natG = naz ? naz.g.filter((x) => x.min >= 50).sort((a, b) => b.ts - a.ts) : [];
+  // nazionale: media della Nations League e partite con almeno 48' di questa stagione (Hit Rate con la nazionale), dalla piu' recente
+  const natG = naz ? naz.g.filter((x) => x.min >= 48).sort((a, b) => b.ts - a.ts) : [];
   const res = { campionato: camp ? sum([camp]) : null, coppa: cups.length ? sum(cups) : null, nations: naz ? sum([naz]) : null, natVals: natG.map((x) => x[stat]) };
   const ki = stat === 'fs' ? 4 : 3;
   if (hit && hit.length && hit.every((x) => x[ki] !== null && x[ki] !== undefined)) return { ...res, last5: hit.map((x) => x[ki]), min5: hit.map((x) => x[2]) };
   // senza profilo di club (solo nazionale) valgono le partite con la nazionale
-  const all = (camp || cups.length ? [camp, ...cups] : [naz]).filter(Boolean).flatMap((p) => p.g).filter((x) => x.min >= 50).sort((a, b) => b.ts - a.ts);
+  const all = (camp || cups.length ? [camp, ...cups] : [naz]).filter(Boolean).flatMap((p) => p.g).filter((x) => x.min >= 48).sort((a, b) => b.ts - a.ts);
   const last5 = all.slice(0, 5);
   return { ...res, last5: last5.map((x) => x[stat]), min5: last5.map((x) => x.min) };
 }

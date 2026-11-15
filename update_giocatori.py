@@ -9,7 +9,7 @@ from update_angoli import TOP5, CUPS, EXTRA, SKIP, tid_of, season_of
 CACHE_FILE, OUT_FILE = "cache_giocatori.json", "giocatori.json"
 MAX_MIN = float(os.environ.get("MAX_MIN", "35"))   # dopo tot minuti si ferma e salva: le partite mancanti si leggono al giro dopo
 VER = 1
-MIN_HIT = 50     # minuti minimi (50 compreso) perche' una partita conti per l'hit rate
+MIN_HIT = 48     # minuti minimi (48 compreso) perche' una partita conti per l'hit rate
 DIAG = os.environ.get("DIAG", "").lower()    # squadra di cui stampare tutte le partite trovate (controllo)
 T0 = time.time()
 
@@ -225,7 +225,7 @@ def main():
         for pid, tid, mins, tot, sot in r["p"]:
             if not mins or mins <= 0:
                 continue
-            starter = mins >= MIN_HIT      # hit rate: solo partite con almeno 50 minuti giocati
+            starter = mins >= MIN_HIT      # hit rate: solo partite con almeno 48 minuti giocati
             per.setdefault(pid, []).append((r["d"], r["comp"] in CUPS, tid, mins, tot, sot, starter))
     players = []
     for pid, rows in per.items():

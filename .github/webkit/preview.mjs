@@ -2041,7 +2041,7 @@ await step('ritorno dal background: finestra giocatore a tutta altezza, nessun b
 });
 
 // Dati (ramo fix-dati): classifiche delle coppe con tutte le squadre, profili PitchAPI collegati a FotMob, partite in un'unica lista,
-// Hit Rate del Calcolatore solo su partite da almeno 50' (stagione in corso, poi passata) con "su N partite"
+// Hit Rate del Calcolatore solo su partite da almeno 48' (stagione in corso, poi passata) con "su N partite"
 await step('fix-dati: Europa League con 36 squadre e giocatori di tutte le squadre (Jota Silva)', async () => {
   const expand = async (id) => { await pg.evaluate((k) => { const s = document.getElementById(k); if (s) s.scrollIntoView(); const b = s && [...s.querySelectorAll('button')].find((x) => /^Mostra tutti/.test(x.textContent.trim())); if (b) b.click(); }, id); await wait(700); };
   await go('#/campionato/europa-league', 6000); await ready();
@@ -2108,11 +2108,11 @@ await step('fix-dati: Calcolatore, Hit Rate su partite da almeno 50 minuti e "su
     let t = '';
     for (let k = 0; k < 16 && !t.includes(want); k++) { await wait(500); t = (await pg.evaluate(() => document.getElementById('sl-shell').innerText)).toLowerCase(); }
     const mins = (p.h || []).map((r) => r[2]);
-    res[lab] = { n: p.n, hn: p.hn, hp: p.hp, mins, label: t.includes(want), tutteDa50: mins.every((m) => m >= 50), date: ((ST && ST.partite_hit_rate && ST.partite_hit_rate[p.i]) || []).map((r) => r[0]) };
+    res[lab] = { n: p.n, hn: p.hn, hp: p.hp, mins, label: t.includes(want), tutteDa50: mins.every((m) => m >= 48), date: ((ST && ST.partite_hit_rate && ST.partite_hit_rate[p.i]) || []).map((r) => r[0]) };
     await shot(`fixdati-calc-${lab.replace(/\W+/g, '-')}`);
   }
   const all = Object.values(res).filter((x) => typeof x === 'object');
-  ok('fix-dati: Calcolatore, partite dell\'Hit Rate tutte da almeno 50 minuti e in ordine dalla piu\' recente', all.length === 3 && all.every((x) => x.tutteDa50 && x.date.every((d, i, a) => !i || a[i - 1] >= d)), res);
+  ok('fix-dati: Calcolatore, partite dell\'Hit Rate tutte da almeno 48 minuti e in ordine dalla piu\' recente', all.length === 3 && all.every((x) => x.tutteDa50 && x.date.every((d, i, a) => !i || a[i - 1] >= d)), res);
   ok('fix-dati: Calcolatore, scritta giusta ("ultime 5" o "su N partite")', all.length === 3 && all.every((x) => x.label), res);
 });
 

@@ -51,7 +51,7 @@ const pois = (k, l) => {
 
 const pickKey = pickLeagueKey;
 
-// stesse partite dell'Hit Rate del Calcolatore (almeno 50', stagione in corso poi passata)
+// stesse partite dell'Hit Rate del Calcolatore (almeno 48', stagione in corso poi passata)
 const lastRows = (p) => hitRows(p);
 
 // media di tiri attesa del giocatore in quella partita; idx 0 = tiri totali, 1 = tiri in porta

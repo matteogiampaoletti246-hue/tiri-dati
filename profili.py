@@ -18,7 +18,7 @@ import glob, gzip, json, os, re, sys, unicodedata
 from collections import defaultdict, Counter
 from datetime import date, timedelta
 
-MIN_HIT = 50
+MIN_HIT = 48
 SEASON_START = os.environ.get("SEASON_START", "2026")   # come update_data.py: stagione 2026/2027 (e 2026 per i campionati ad anno solare)
 EURO = {42, 73, 10216}
 CUP_RX = re.compile(r"cup|pokal|copa|coppa|coupe|ta[cç]a|beker|kupa|puchar|trophy|shield|super ?cup|supercopa|supercoppa|troph|pokalen|kupok|cupa|kubok|league cup", re.I)
