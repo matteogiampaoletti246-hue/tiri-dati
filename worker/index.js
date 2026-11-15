@@ -486,7 +486,7 @@ export default {
         const j = r.ok ? await r.json() : {};
         const sq = j.squad || null;
         const ll = (j.overview || {}).lastLineupStats || null;
-        return new Response(JSON.stringify({ ok: r.ok, keys: Object.keys(j), squadKeys: sq && !Array.isArray(sq) ? Object.keys(sq) : (sq ? "array" : null), squad0: JSON.stringify(sq).slice(0, 900), llKeys: ll ? Object.keys(ll) : null, ll0: ll ? JSON.stringify(ll.starters && ll.starters[0]).slice(0, 400) : null }), { headers: { "content-type": "application/json", "access-control-allow-origin": "*" } });
+        return new Response(JSON.stringify({ ok: r.ok, keys: Object.keys(j), squadKeys: sq && !Array.isArray(sq) ? Object.keys(sq) : (sq ? "array" : null), names: ((sq && sq.squad) || []).flatMap((g) => (g.members || []).map((m) => m.name + "#" + m.id)), llnames: ll ? [...(ll.starters || []), ...(ll.subs || [])].map((m) => m.name + "#" + m.id) : null, llKeys: ll ? Object.keys(ll) : null, ll0: ll ? JSON.stringify(ll.starters && ll.starters[0]).slice(0, 400) : null }), { headers: { "content-type": "application/json", "access-control-allow-origin": "*" } });
       }
       if (u.pathname === "/fx") {
         const id = u.searchParams.get("id");
