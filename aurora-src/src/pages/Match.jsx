@@ -80,7 +80,7 @@ export default function Match() {
     };
     const cap = setTimeout(() => { if (on) setOkId(id); }, 7000);
     prepareMatch(id).then(() => { clearTimeout(cap); done(); });
-    // live: ogni 5 secondi. Prima del fischio: ogni 5 secondi solo dentro la finestra delle formazioni (76' coppe europee e Premier, 61' gli altri), prima una volta al minuto
+    // live: ogni 5 secondi. Prima del fischio: ogni 5 secondi solo dentro la finestra delle formazioni (1h26 per tutti) finche' non sono ufficiali, prima una volta ogni 2 ore (`lineupWindow.js`)
     let n = 0;
     const t = setInterval(() => {
       n += 1;

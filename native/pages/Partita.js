@@ -105,7 +105,7 @@ export default function Partita({ C, top, onBack, bottom = 90, openRoute, params
       await prepareMatch(id);
       if (on) bump((n) => n + 1);
     })().catch(() => { clearTimeout(cap); if (on) { setOk(true); setFin(true); } });
-    // live: ogni 3 s (anche prima del fischio dentro la finestra formazioni; fuori finestra ogni 30-60 s); al ritorno dal background un giro parte subito
+    // live: ogni 3 s (anche prima del fischio dentro la finestra formazioni di 1h26, finche' non sono ufficiali; fuori finestra ogni 2 ore, `lineupWindow.js`); al ritorno dal background un giro parte subito
     let n = 0;
     let busy = false;
     const run = (force) => {

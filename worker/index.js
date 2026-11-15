@@ -1,4 +1,5 @@
 // ScalperLab - ponte Live (Cloudflare Worker). Legge ESPN e lo restituisce al sito con una cache di pochi secondi.
+import { dlLineups } from "./diretta.js";
 const ORIGIN = "https://matteogiampaoletti246-hue.github.io";
 const BASE = "https://site.api.espn.com/apis/site/v2/sports/soccer";
 const DOM = ["ita.1", "eng.1", "esp.1", "ger.1", "fra.1"];
@@ -427,13 +428,6 @@ export default {
         const hT = lu && lu.lineupStatus !== "NOT_AVAILABLE" ? uefaTeam(lu.homeTeam, fl.homeTeam) : null, aT = lu && lu.lineupStatus !== "NOT_AVAILABLE" ? uefaTeam(lu.awayTeam, fl.awayTeam) : null;
         return new Response(JSON.stringify({ t: Date.now(), ok: hT && aT ? 1 : 0, uid, ty: "standard", h: hT, a: aT }), { headers: cors(req, { "Cache-Control": "public, max-age=2" }) });
       }
-      if (u.pathname === "/dlraw") { // SONDA TEMPORANEA diretta.it: restituisce il testo grezzo del feed (solo percorsi x/feed/df_lu_1_*, f_1_*), da rimuovere dopo la verifica
-        const p = u.searchParams.get("p") || "";
-        if (!/^(df_lu_1_[A-Za-z0-9]{8}|f_1_-?\d{1,2}_\d{1,2}_it_1|df_sui_1_[A-Za-z0-9]{8})$/.test(p)) return new Response("{}", { status: 400, headers: cors(req) });
-        const rr = await fetch("https://www.diretta.it/x/feed/" + p, { headers: { "x-fsign": "SW9D1eZo", "User-Agent": FMH["User-Agent"], "Accept": "*/*", "Referer": "https://www.diretta.it/", "Origin": "https://www.diretta.it" } });
-        const tx = await rr.text();
-        return new Response(JSON.stringify({ st: rr.status, n: tx.length, tx: tx.slice(0, +(u.searchParams.get("n") || 6000)) }), { headers: cors(req, { "Cache-Control": "no-store" }) });
-      }
       if (u.pathname === "/fx") {
         const id = u.searchParams.get("id");
         if (!/^\d{5,10}$/.test(id || "")) return new Response("{}", { status: 400, headers: cors(req) });
@@ -513,7 +507,18 @@ export default {
         // pubblica la formazione ufficiale prende il posto di quella probabile. Nome, foto, voto e id restano di FotMob dove coincide lo stesso giocatore.
         const noXY = (t) => !t || (t.s || []).some((p) => p[2] == null);
         const fmOfficial = /^(standard|official|confirm)/i.test(String(lu.lineupType || ""));
-        if (noXY(out.h) || noXY(out.a) || (!fmOfficial && !g2.started)) {
+        // diretta.it al primo posto (richiesta utente 15/11/2026, `worker/diretta.js`): ufficiali di diretta prima di ogni altra fonte; a partita iniziata
+        // con la formazione FotMob completa non si cambia piu' (il live resta com'era). Le probabili di diretta passano davanti a quelle di FotMob e all'ultima formazione,
+        // ma mai davanti a una formazione ufficiale di un'altra fonte. Se diretta non risponde o non e' abbinata, la catena resta quella di prima.
+        const fm0 = { h: out.h, a: out.a };
+        const fmReady = fmOfficial && !noXY(out.h) && !noXY(out.a);
+        const dl = await dlLineups(g2, stt, id, env);
+        let dlDone = false;
+        if (dl && dl.official && !(g2.started && fmReady)) {
+          out.h = fmFill(dl.h, fm0.h, !fmOfficial); out.a = fmFill(dl.a, fm0.a, !fmOfficial);
+          out.luSrc = "diretta"; out.ty = "standard"; dlDone = true;
+        }
+        if (!dlDone && (noXY(out.h) || noXY(out.a) || (!fmOfficial && !g2.started))) {
           const fmH = out.h, fmA = out.a;
           const alt = { hi: out.hi, ai: out.ai };
           await espnLineups(alt, g2);
@@ -528,6 +533,11 @@ export default {
             out.luSrc = alt.luSrc; out.luList = 1;
             if (!out.ty || out.ty === "unavailable") out.ty = alt.ty;
           }
+        }
+        // formazione PROBABILE di diretta.it: davanti a quella di FotMob e all'ultima formazione, ma solo se nessun'altra fonte ha gia' i titolari ufficiali
+        if (!dlDone && dl && !dl.official && !g2.started && !fmOfficial && !out.luSrc) {
+          out.h = fmFill(dl.h, fm0.h, true); out.a = fmFill(dl.a, fm0.a, true);
+          out.luSrc = "diretta"; out.ty = "predicted";
         }
         // Nessuna fonte ha ancora la formazione (nazionali, amichevoli, campionati minori a giorni dal fischio): formazione PROBABILE = l'ultima formazione
         // iniziale della squadra (FotMob, pagina squadra `overview.lastLineupStats`, la stessa che FotMob usa per "lastStarting11"). Dati veri, mai inventati;

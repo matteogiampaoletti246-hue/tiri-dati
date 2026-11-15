@@ -1,10 +1,10 @@
-// Finestra di controllo delle formazioni prima del fischio (regola fissa, vedi docs/regole/partite-formazioni.md).
-// Coppe europee e Premier League: le formazioni escono 75' prima, quindi si parte 76' prima; gli altri campionati 60' prima, si parte 61' prima.
-// Dentro la finestra l'app controlla ogni 5 secondi finche' la formazione non e' ufficiale; prima della finestra basta una volta al minuto.
-const EARLY = new Set(['premier-league', 'champions-league', 'europa-league', 'conference-league']);
+// Controllo delle formazioni prima del fischio (regola fissa, vedi docs/regole/partite-formazioni.md, "diretta.it al primo posto", 15/11/2026).
+// Oltre 1h26 dal fischio: un controllo ogni 2 ore (formazioni probabili); da 1h26 dal fischio: ogni 5 secondi finche' la formazione non e' ufficiale;
+// ufficiale: nessun altro controllo; al fischio d'inizio un solo giro, poi il live funziona come prima (ogni 5 secondi).
 const MIN = 60000;
+const WINDOW = 86 * MIN; // 1h26, uguale per tutti i campionati e le coppe
 
-export const lineupWindowMs = (m) => (EARLY.has(m && m.leagueId) ? 76 : 61) * MIN;
+export const lineupWindowMs = () => WINDOW;
 export const lineupIsOfficial = (m) => /^(standard|official|confirm)/i.test((m && m.lineupType) || '');
 
 // ogni quanti battiti da 5 secondi richiamare la partita (1 = ogni 5 s); 0 = non serve
@@ -14,6 +14,8 @@ export function lineupBeat(m, now = Date.now()) {
   if (m.status !== 'scheduled') return 0;
   const to = m.ts - now;
   if (to > 96 * 3600000) return 0;
-  if (to <= lineupWindowMs(m)) return lineupIsOfficial(m) ? 6 : 1; // ufficiale gia' uscita: solo un controllo ogni 30 s per le correzioni dell'ultimo minuto
-  return 12; // formazione probabile lontana dal fischio: una volta al minuto
+  if (to <= 0) return 1; // fischio d'inizio: un giro appena parte, poi il live prende il posto
+  if (lineupIsOfficial(m)) return 0; // ufficiale: non serve piu' aggiornare
+  if (to <= WINDOW) return 1; // dentro 1h26 e non ancora ufficiale: ogni 5 secondi
+  return 1440; // fuori finestra: una volta ogni 2 ore (1440 battiti da 5 s)
 }
