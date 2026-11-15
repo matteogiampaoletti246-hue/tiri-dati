@@ -306,9 +306,47 @@ const withKv = async (d, lid, sk, idx) => {
   } catch (e) { /* senza KV restano i dati di FotMob */ }
   return d;
 };
+// Partite senza statistiche per giocatore (FotMob non le ha per molti campionati minori: ~15% delle partite) ma con formazioni ed eventi:
+// presenza, minuti, gol e assist si ricavano da titolari/panchina, sostituzioni (swap[0] entra, swap[1] esce), rossi e gol (autogol esclusi).
+// Cosi' la scheda giocatore (Partite, Statistiche, Hit rate) e la scheda squadra contano le stesse partite (regola fissa, giocatori-dati.md).
+const synthP = (d) => {
+  if (!d || !d.m) return d;
+  Object.values(d.m).forEach((m) => {
+    if (!m || (m.p && Object.keys(m.p).length) || !m.h || !m.a || !(m.h.st || []).length || !(m.a.st || []).length) return;
+    const ev = Array.isArray(m.e) ? m.e : [];
+    let end = 90;
+    ev.forEach((e) => { const t = Number(e.time); if (t > end) end = t; }); // il recupero (overloadTime) non conta: i minuti FotMob sono 90 a fine tempo regolare
+    const off = {}; const on = {};
+    ev.forEach((e) => {
+      if (e.type === 'Substitution' && Array.isArray(e.swap) && e.swap.length === 2) { on[String(e.swap[0].id)] = Number(e.time); off[String(e.swap[1].id)] = Number(e.time); }
+      else if (e.type === 'Card' && (e.card === 'Red' || e.card === 'YellowRed') && Array.isArray(e.p)) off[String(e.p[0])] = Math.min(off[String(e.p[0])] ?? 999, Number(e.time));
+    });
+    const p = {};
+    const named = {}; // nome -> id, per gli assist (negli eventi c'e' solo il nome)
+    [m.h, m.a].forEach((side) => {
+      (side.st || []).forEach((r) => { named[String(r[1]).toLowerCase()] = String(r[0]); p[String(r[0])] = { minutes_played: Math.max(1, Math.round((off[String(r[0])] ?? end) - 0)), goals: 0, assists: 0 }; });
+      (side.sb || []).forEach((r) => {
+        const id = String(r[0]); named[String(r[1]).toLowerCase()] = id;
+        if (on[id] == null) return;
+        p[id] = { minutes_played: Math.max(1, Math.round((off[id] ?? end) - on[id])), goals: 0, assists: 0 };
+      });
+    });
+    ev.forEach((e) => {
+      if (e.type !== 'Goal' || !Array.isArray(e.p) || /own/i.test(e.goalDescription || '')) return;
+      const g = p[String(e.p[0])]; if (g) g.goals += 1;
+      const nm = String(e.assistStr || '').replace(/^assist by\s+/i, '').trim().toLowerCase();
+      if (!nm) return;
+      let id = named[nm];
+      if (!id) { const c = Object.keys(named).filter((k) => k.endsWith(' ' + nm) || k.includes(nm)); if (c.length === 1) id = named[c[0]]; }
+      if (id && p[id]) p[id].assists += 1;
+    });
+    m.p = p; m.ps = 1;
+  });
+  return d;
+};
 export const loadSeasonMatches = (lid, sk) => once(`ps/${lid}/${sk}.gz`, async () => {
   const [d, idx] = await Promise.all([gz(`partite/${lid}/${sk}.json.gz`), kvIndex()]);
-  return withKv(d, lid, sk, idx);
+  return synthP(await withKv(d, lid, sk, idx));
 });
 // Stesse partite ridotte ai soli dati dei falli (`partf/`, da falli_stat.py): ~10 volte piu' piccole da scaricare, decomprimere e leggere (nell'app nativa
 // gunzip e JSON.parse sono in JavaScript). Con lo stesso KV sopra. Se il file snello manca o non si legge, si usa quello completo come prima.

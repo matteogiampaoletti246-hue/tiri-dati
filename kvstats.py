@@ -53,4 +53,42 @@ def overlay(fm, sk, d):
             m["e"] = v["e"]
         if not m.get("s") and v.get("s"):
             m["s"] = v["s"]
+    return synth_p(d)
+
+
+def synth_p(d):
+    """Partite senza statistiche per giocatore (campionati minori) ma con formazioni ed eventi: presenza, minuti, gol e assist da titolari/panchina,
+    sostituzioni (swap[0] entra, swap[1] esce), rossi e gol (autogol esclusi). Stessa regola di `synthP` in aurora-src/src/data/archive.js."""
+    import re
+    for m in (d.get("m") or {}).values():
+        if not m or m.get("p") or not m.get("h") or not m.get("a") or not (m["h"].get("st")) or not (m["a"].get("st")): continue
+        ev = m.get("e") if isinstance(m.get("e"), list) else []
+        end = max([90] + [int(e.get("time") or 0) for e in ev])
+        off, on = {}, {}
+        for e in ev:
+            if e.get("type") == "Substitution" and isinstance(e.get("swap"), list) and len(e["swap"]) == 2:
+                on[str(e["swap"][0]["id"])] = e.get("time"); off[str(e["swap"][1]["id"])] = e.get("time")
+            elif e.get("type") == "Card" and e.get("card") in ("Red", "YellowRed") and e.get("p"):
+                k = str(e["p"][0]); off[k] = min(off.get(k, 999), e.get("time") or 0)
+        p, named = {}, {}
+        for side in (m["h"], m["a"]):
+            for r in side.get("st") or []:
+                k = str(r[0]); named[str(r[1]).lower()] = k
+                p[k] = {"minutes_played": max(1, round(off.get(k, end))), "goals": 0, "assists": 0}
+            for r in side.get("sb") or []:
+                k = str(r[0]); named[str(r[1]).lower()] = k
+                if k not in on: continue
+                p[k] = {"minutes_played": max(1, round(off.get(k, end) - on[k])), "goals": 0, "assists": 0}
+        for e in ev:
+            if e.get("type") != "Goal" or not e.get("p") or re.search("own", e.get("goalDescription") or "", re.I): continue
+            g = p.get(str(e["p"][0]))
+            if g: g["goals"] += 1
+            nm = re.sub(r"^assist by\s+", "", e.get("assistStr") or "", flags=re.I).strip().lower()
+            if not nm: continue
+            k = named.get(nm)
+            if not k:
+                c = [x for x in named if nm in x]
+                k = named[c[0]] if len(c) == 1 else None
+            if k and k in p: p[k]["assists"] += 1
+        m["p"] = p; m["ps"] = 1
     return d
