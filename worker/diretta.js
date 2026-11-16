@@ -261,3 +261,16 @@ export async function dlClock(g2, stt) {
   const s = Math.floor((ac === "13" ? 45 * 60 : 0) + (Date.now() / 1000 - ao));
   return s >= (ac === "13" ? 45 * 60 : 0) ? { ht: false, s } : null;
 }
+
+// Id diretta.it della partita (dal feed del giorno, 5 s di cache)
+export async function dlMid(g2, stt) {
+  const seg = await dlSegment(g2, stt);
+  return seg ? seg.slice(4, seg.indexOf("¬")) : null;
+}
+// PROVA: testo grezzo di un feed di diretta.it
+export async function dlRaw(path) {
+  try {
+    const r = await fetch(FEED + path, { headers: FEED_H, cf: { cacheTtl: 5, cacheEverything: true } });
+    return r.ok ? (await r.text()).slice(0, 9000) : "HTTP " + r.status;
+  } catch (e) { return "ERR " + e; }
+}
