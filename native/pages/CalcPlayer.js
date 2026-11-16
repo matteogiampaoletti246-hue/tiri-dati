@@ -940,9 +940,14 @@ export default function CalcPlayer({ C, openRoute, embedId }) {
     const p = playerById(st.playerId);
     if (!p) return;
     const hasLine = st.line !== undefined && st.line !== null;
-    const fx = (st.ts && fixtureAt(p.teamName, st.ts)) || nextFixture(p.teamName);
     const withStat = (f) => (st.stat ? { ...f, stat: st.stat, tipoTiri: st.stat === 'porta' ? 'inPorta' : 'totali', lineType: 'over' } : f);
-    setForm((f) => { const g = withStat(hasLine ? { ...f, line: String(st.line).replace('.', ',') } : f); return fillFrom(g, p, g.tipoTiri, fx); });
+    // partita esatta della riga di Migliori Giocatori; dalla scheda giocatore (senza partita) vale la regola della ricerca (`pickTarget`): prossima partita vera, club o nazionale, quella che viene prima
+    const apply = () => {
+      const exact = st.ts ? fixtureAt(p.teamName, st.ts) : null;
+      const tg = exact ? { v: p, fx: exact, useNat: false } : pickTarget(p);
+      setForm((f) => { const g = withStat(hasLine ? { ...f, line: String(st.line).replace('.', ',') } : f); const h = fillFrom(g, tg.v, g.tipoTiri, tg.fx); return tg.fx || exact ? h : { ...h, competizione: tg.useNat ? 'nations' : 'campionato' }; });
+    };
+    if (!st.ts && (p.nat || p.natView)) loadUpcoming().then(apply, apply); else apply();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const set = (key, value) => setForm((f) => ({ ...f, [key]: value }));

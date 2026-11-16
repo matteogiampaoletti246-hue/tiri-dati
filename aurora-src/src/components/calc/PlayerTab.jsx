@@ -47,6 +47,17 @@ function upcoming(teamName) {
   return done ? nextFixture(teamName, true) || fx : fx;
 }
 
+// contesto che il Calcolatore sceglie per un giocatore: PROSSIMA partita vera, di club (campionato / coppa europea) o con la nazionale, quella che viene prima.
+// Chi ha solo la nazionale parte da Nations League. Stessa regola per la ricerca e per il tasto Calcolatore della scheda giocatore.
+function pickNext(p) {
+  const club = p.nat ? p.club || null : p;
+  const nat = p.nat ? p : p.natView || null;
+  const fxC = club ? upcoming(club.teamName) : null;
+  const fxN = nat ? upcoming(nat.teamName) : null;
+  const useNat = !!nat && (!club || (fxN && (!fxC || fxN.ts < fxC.ts)));
+  return { useNat, v: useNat ? nat : club, fx: useNat ? fxN : fxC };
+}
+
 export default function PlayerTab({ onSave }) {
   // ritorno al Calcolatore (dalla scheda del giocatore, dalla partita, da un'altra scheda): i ricalcoli automatici non partono
   // al rimontaggio, cosi' i valori cambiati a mano restano; ripartono solo quando si cambia davvero qualcosa
@@ -73,10 +84,13 @@ export default function PlayerTab({ onSave }) {
     const p = playerById(st.playerId);
     if (!p) return;
     const hasLine = st.line !== undefined && st.line !== null;
-    const fx = (st.ts && fixtureAt(p.teamName, st.ts)) || nextFixture(p.teamName);
+    // partita esatta della riga di Migliori Giocatori; dalla scheda giocatore (senza partita) vale la regola della ricerca: prossima partita vera, club o nazionale, quella che viene prima
+    const exact = st.ts ? fixtureAt(p.teamName, st.ts) : null;
+    const tg = exact ? { v: p, fx: exact, useNat: false } : pickNext(p);
+    const fx = tg.fx;
     // statistica scelta in Migliori Giocatori (tiri, tiri in porta, falli commessi/subiti)
     const withStat = (f) => (st.stat ? { ...f, stat: st.stat, tipoTiri: st.stat === 'porta' ? 'inPorta' : 'totali', lineType: 'over' } : f);
-    setForm((f) => { const g = withStat(hasLine ? { ...f, line: String(st.line).replace('.', ',') } : f); return fillFrom(g, p, g.tipoTiri, fx); });
+    setForm((f) => { const g = withStat(hasLine ? { ...f, line: String(st.line).replace('.', ',') } : f); const h = fillFrom(g, tg.v, g.tipoTiri, fx); return fx || exact ? h : { ...h, competizione: tg.useNat ? 'nations' : 'campionato' }; });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -196,15 +210,8 @@ export default function PlayerTab({ onSave }) {
   const selectPlayer = (id) => {
     const p = playerById(id);
     if (!p) return;
-    // un solo banner per giocatore: si parte dalla sua PROSSIMA partita vera, di club (campionato / coppa europea) o con la nazionale,
-    // quella che viene prima; la competizione si puo' poi cambiare dalla tendina. Chi ha solo la nazionale parte da Nations League.
-    const club = p.nat ? p.club || null : p;
-    const nat = p.nat ? p : p.natView || null;
-    const fxC = club ? upcoming(club.teamName) : null;
-    const fxN = nat ? upcoming(nat.teamName) : null;
-    const useNat = !!nat && (!club || (fxN && (!fxC || fxN.ts < fxC.ts)));
-    const v = useNat ? nat : club;
-    const fx = useNat ? fxN : fxC;
+    // un solo banner per giocatore: si parte dalla sua PROSSIMA partita vera (`pickNext`); la competizione si puo' poi cambiare dalla tendina
+    const { useNat, v, fx } = pickNext(p);
     setForm((f) => { const g = fillFrom(f, v, f.tipoTiri, fx); return fx ? g : { ...g, competizione: useNat ? 'nations' : 'campionato' }; });
   };
   // Nations League <-> campionato/coppa: stesso giocatore, squadra / prossima partita / statistiche dell'altro profilo
