@@ -74,12 +74,6 @@ def compact(j):
                 if tot and k and (k + "_t") not in d: d[k + "_t"] = tot
         if d: ps[pid] = d
     if ps: out["p"] = ps
-    # Campionati e coppe dove FotMob non da' le statistiche dei giocatori (Estonia, Ungheria, Liga Portugal 2...) ma ha formazioni ed eventi (16/11/2026):
-    # minuti, gol, assist e cartellini si ricavano da titolari, cambi ed eventi, cosi' la partita entra nella scheda del giocatore. "lu": 1 = ricavati.
-    if not ps:
-        try: dp = derive_players(c)
-        except Exception: dp = {}
-        if dp: out["p"] = dp; out["lu"] = 1
     # tiri con posizione (mappe del campo del giocatore): stesso formato del worker (`/sh`) + id del giocatore in coda, senza autogol:
     # [min, minAdded, teamId, playerId, x, y, eventType, murato, inPorta, blockedX, blockedY, goalCrossedY, goalCrossedZ, xG, xGOT, shotType, situation, 0, period, playerId]
     # "sx" c'e' sempre (anche vuota): cosi' la partita non si riscarica.
@@ -100,59 +94,6 @@ def compact(j):
     if meta: out["i"] = meta
     return out
 
-def derive_players(c):
-    lu = c.get("lineup") or {}
-    evs = (((c.get("matchFacts") or {}).get("events") or {}).get("events")) or []
-    if not isinstance(lu, dict): return {}
-    end = 90
-    for e in evs:   # supplementari: 120
-        if e.get("type") == "Half" and (e.get("halfStrShort") in ("ET", "AET") or (num(e.get("time")) or 0) > 100): end = 120
-        if (num(e.get("time")) or 0) > 90 and e.get("type") in ("Goal", "Card", "Substitution") and (num(e.get("time")) or 0) > 105: end = 120
-    if str(lu.get("lineupType") or "").lower() in ("predicted", "unavailable"): return {}   # solo formazioni vere
-    st, inn, out_ = {}, {}, {}
-    for side in ("homeTeam", "awayTeam"):
-        t = lu.get(side)
-        if not isinstance(t, dict): continue
-        ids = [str(x["id"]) for x in t.get("starters") or [] if x.get("id")]
-        if len(ids) >= 7:   # squadra con la formazione (anche se a qualche titolare manca l'id): quelli con l'id sono titolari veri
-            for i in ids: st[i] = 1
-    if not st: return {}
-    for e in evs:
-        if e.get("type") != "Substitution": continue
-        sw = e.get("swap") or []
-        tm = num(e.get("time"))
-        if tm is None or len(sw) < 2: continue
-        a = str((sw[0] or {}).get("id") or ""); b = str((sw[1] or {}).get("id") or "")
-        if a: inn[a] = tm
-        if b: out_[b] = tm
-    P = {}
-    def put(pid, k, v=1):
-        d = P.setdefault(pid, {}); d[k] = d.get(k, 0) + v
-    for pid in set(st) | set(inn):
-        a = 0 if pid in st else inn[pid]
-        b = out_.get(pid, end)
-        m = max(1, b - a) if b >= a else 0
-        if m: P.setdefault(pid, {})["minutes_played"] = m
-    for e in evs:
-        pl = str(((e.get("player") or {}).get("id")) or e.get("playerId") or "")
-        if not pl: continue
-        ty = e.get("type")
-        if ty == "Goal" and not e.get("ownGoal") and not e.get("isPenaltyShootoutEvent"):
-            put(pl, "goals")
-            ap = str(e.get("assistPlayerId") or "")
-            if ap: put(ap, "goal_assist")
-        elif ty == "Card":
-            cd = str(e.get("card") or "")
-            if cd == "Yellow": put(pl, "yellow_card")
-            elif cd in ("Red", "YellowRed"):
-                put(pl, "red_card")
-                d = P.get(pl)
-                tm = num(e.get("time"))
-                if d and tm is not None and "minutes_played" in d:   # espulso: minuti fino al rosso
-                    a = 0 if pl in st else inn.get(pl, 0)
-                    d["minutes_played"] = max(1, tm - a)
-    return {k: v for k, v in P.items() if v.get("minutes_played")}
-
 # Primi 20 campionati per ranking (+ tutte le competizioni internazionali): storico completo dal 2010.
 # Gli altri: calendario e classifica dal 2010, statistiche e dettaglio partite solo dal 2020.
 TOP20 = {47,87,55,54,53,57,61,48,86,146,71,40,64,268,112,130,230,38,59,135}
@@ -172,10 +113,6 @@ def vuota(x):
 def sxvuoto(x):
     x = x or {}
     return x.get("sx") == [] and any(((v or {}).get("total_shots") or 0) > 0 for v in (x.get("p") or {}).values())
-# formazione presente ma nessuna statistica giocatore e mai ricostruita: si riscarica una volta (poi "lu" o "nolu" la segnano)
-def senza_p(x):
-    x = x or {}
-    return bool(x.get("h")) and not x.get("p") and not x.get("nolu")
 def da_poco(m, giorni=21):
     try:
         import datetime
@@ -232,8 +169,6 @@ def run():
                      and (cur["m"][str(m[0])].get("rt") or 0) < MAX_RT]
             todo += [m for m in fx if str(m[0]) in cur["m"] and sxvuoto(cur["m"][str(m[0])]) and da_poco(m, 3)
                      and (cur["m"][str(m[0])].get("rt") or 0) < 3 and m not in todo]
-        if recente:
-            todo += [m for m in fx if str(m[0]) in cur["m"] and senza_p(cur["m"][str(m[0])]) and m not in todo]
         if bf:
             todo += [m for m in fx if str(m[0]) in cur["m"] and nosh(cur["m"][str(m[0])]) and (cur["m"][str(m[0])].get("rt") or 0) < MAX_RT and m not in todo]
         if cur["done"] and not todo and not aperta: continue
@@ -262,7 +197,6 @@ def run():
                 # riscaricata: se e' ancora parziale (o ancora vuota) resta quella di prima, col conto dei tentativi
                 if vuota(old):
                     if vuota(new): old["rt"] = (old.get("rt") or 0) + 1; continue
-                elif senza_p(old) and not new.get("p"): old["nolu"] = 1; continue
                 elif not new.get("p") or incompleta(new): old["rt"] = (old.get("rt") or 0) + 1; continue
                 elif sxvuoto(old) and not new.get("sx"): old["rt"] = (old.get("rt") or 0) + 1; continue
             cur["m"][str(m[0])] = new

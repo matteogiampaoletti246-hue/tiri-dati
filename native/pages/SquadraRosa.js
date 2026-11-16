@@ -10,7 +10,7 @@ import { loadCarriere, carriereOf, countryIt, ageOf } from '@/data/carriere';
 import { playersByTeam, playerByFm, natByFm } from '@/data/players';
 import { loadRose, roseOf, rosePoor, seasonRoster } from '@/data/rose';
 import { FM_ID, currentSeason, playerFace } from '@/data/archive';
-import { archiveId, espnIdOfRow, espnPlayerId, espnPhoto } from '@/data/archivePlayer';
+import { archiveId, espnIdOfRow, espnPlayerId, espnPhoto, rosaHint } from '@/data/archivePlayer';
 import { Face } from '../shared/ui';
 import { InjuryIconN } from '../shared/Icons';
 import PaneN from '../shared/PaneN';
@@ -102,6 +102,7 @@ export default function SquadraRosa({ C, teamId, openRoute, bottom }) {
           {g.list.map((r) => {
             const bits = [r[4] ? countryIt(r[4]) : null, r[6] ? `${r[6]} cm` : null, r[5] ? `${r[5]} anni` : null].filter(Boolean);
             const mp = findMine(r);
+            if (!mp && r[0] > 0) rosaHint(r[0], (team && team.fmId) || (rose && rose.id) || (/teamlogo\/(\d+)\.png/.exec(String((team && team.crest) || '')) || [])[1]);
             const to = mp ? `/giocatore/${mp.id}` : espnIdOfRow(r[0]) ? `/giocatore/${espnPlayerId(espnIdOfRow(r[0]))}` : (skR || skR0) && (fmR2 || fmR) && r[0] > 0 ? `/giocatore/${archiveId(fmR2 || fmR, skR || skR0, r[0])}` : null;
             return <PRow key={r[0]} C={C} tc={tc} to={to} openRoute={openRoute} photo={r[0] > 0 ? playerFace(r[0]) : espnIdOfRow(r[0]) ? espnPhoto(espnIdOfRow(r[0])) : null} num={r[3]} name={realName(r[0], r[1])} injured={!!r[10]} flag={r[4]} bits={bits} />;
           })}

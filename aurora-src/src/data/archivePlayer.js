@@ -6,7 +6,8 @@ import { ensureTeam, teamByFm } from './teams';
 import { BASE } from './load';
 import { realName } from './realNames';
 import { loadCarriere, setCarriere } from './carriere';
-import { loadRose, rosePlayer } from './rose';
+import { loadRose, rosePlayer, rosaOf } from './rose';
+import { lruGet, lruSet } from '@/lib/lru';
 
 const LID_BY_FM = {};
 Object.keys(FM_ID).forEach((k) => { LID_BY_FM[FM_ID[k]] = k; });
@@ -65,6 +66,19 @@ async function makeEspnPlayer(eid) {
   return p;
 }
 
+// Squadra della rosa da cui si apre un giocatore (SquadraRosa): se il giocatore non ha ancora statistiche, la scheda si costruisce dalla sua riga di rosa.
+const HINT = new Map();
+export const rosaHint = (pid, teamFm) => { if (pid && teamFm) lruSet(HINT, String(pid), String(teamFm), 400); };
+// riga del giocatore nelle rose (rosa/<id%100>.json) delle squadre indicate: [riga, id FotMob squadra] o null
+async function rosaRowOf(pid, teamFms) {
+  const found = await Promise.all([...new Set(teamFms.filter(Boolean).map(String))].map(async (t) => {
+    const ro = await rosaOf({ fmId: t }).catch(() => null);
+    const r = ro && (ro.p || []).find((x) => String(x[0]) === String(pid));
+    return r ? [r, t] : null;
+  }));
+  return found.find(Boolean) || null;
+}
+
 export async function makeArchivePlayer(fm, sk, pid) {
   if (fm === 'espn') return makeEspnPlayer(pid);
   const id = archiveId(fm, sk, pid);
@@ -72,14 +86,21 @@ export async function makeArchivePlayer(fm, sk, pid) {
   if (lite && !lite.lite) return lite;
   await Promise.all([loadCarriere(), loadRose()]);
   const rp = rosePlayer(pid);
-  const R = rp ? rp.r : null;
+  let R = rp ? rp.r : null;
   const lid = LID_BY_FM[Number(fm)] || null;
   const [st, season] = await Promise.all([loadPlayerStatsFor(fm, sk, pid), loadSeason(fm, sk)]);
   // senza statistiche (appena arrivato): si usano i dati della rosa
-  const hit = rowsOf(st, pid) || (R ? { me: [pid, R[1], null, null, 0, 0], by: {} } : null);
+  let hit = rowsOf(st, pid) || (R ? { me: [pid, R[1], null, null, 0, 0], by: {} } : null);
+  // nessuna presenza (giovani, riserve, appena arrivati): scheda dalla riga della rosa completa (eta', altezza, ruolo, numero, nazionalita', squadra), mai vuota
+  let rTeam = null;
+  if (!hit) {
+    const h = lruGet(HINT, String(pid));
+    const rr = (h && (await rosaRowOf(pid, [h]))) || (season && season.teams ? await rosaRowOf(pid, Object.keys(season.teams)) : null);
+    if (rr) { R = rr[0]; rTeam = rr[1]; hit = { me: [pid, R[1], rTeam, null, 0, 0], by: {} }; }
+  }
   if (!hit) return null;
   const { me, by } = hit;
-  const teamName = (season && season.teams && season.teams[me[2]]) || (rp ? rp.team : '');
+  const teamName = (season && season.teams && season.teams[me[2]]) || (rp ? rp.team : '') || (rTeam && (teamByFm(rTeam) || {}).name) || '';
   const team = teamName ? ensureTeam(teamName, lid) : null;
   const v = (k) => (by[k] ? by[k][3] : null);
   // totali veri anche dove la classifica ufficiale e' ogni 90' (tiri, tiri in porta, falli)
