@@ -40,6 +40,39 @@
  },
  "vuote": [
   {
+   "lega": "serie-b",
+   "fm": 86,
+   "stagione": "2026-2027",
+   "squadra": "Vicenza",
+   "id": "9877",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "mls",
+   "fm": 130,
+   "stagione": "2026",
+   "squadra": "Orlando City/FC Cincinnati",
+   "id": "2460351",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
+   "lega": "mls",
+   "fm": 130,
+   "stagione": "2026",
+   "squadra": "Seattle Sounders FC/Real Salt Lake",
+   "id": "2460379",
+   "motivo": [
+    "Statistiche: nessuna partita archiviata",
+    "Giocatori: nessuna partita archiviata"
+   ]
+  },
+  {
    "lega": "coupe-de-france",
    "fm": 134,
    "stagione": "2026-2027",
@@ -6407,11 +6440,11 @@
   }
  ],
  "competizioni_senza_dati": [],
- "squadre_controllate": 1520,
+ "squadre_controllate": 1523,
  "rose": {
-  "squadre": 3150,
-  "senza_rosa_prima": 2265,
-  "senza_rosa_dopo": 335,
+  "squadre": 3156,
+  "senza_rosa_prima": 2271,
+  "senza_rosa_dopo": 339,
   "senza_rosa": [
    {
     "squadra": "1A",
@@ -7707,6 +7740,14 @@
     "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
+    "squadra": "Galatasaray/Konyaspor",
+    "id": "2460969",
+    "competizioni": [
+     "Super Cup 2025-2026"
+    ],
+    "motivo": "nessuna partita giocata nella stagione in corso"
+   },
+   {
     "squadra": "Garde St Cyr Moreac",
     "id": "402295",
     "competizioni": [
@@ -8235,6 +8276,14 @@
     "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
+    "squadra": "Orlando City/FC Cincinnati",
+    "id": "2460351",
+    "competizioni": [
+     "MLS 2026"
+    ],
+    "motivo": "nessuna partita giocata nella stagione in corso"
+   },
+   {
     "squadra": "Otočac",
     "id": "2096649",
     "competizioni": [
@@ -8483,6 +8532,14 @@
     "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
+    "squadra": "Seattle Sounders FC/Real Salt Lake",
+    "id": "2460379",
+    "competizioni": [
+     "MLS 2026"
+    ],
+    "motivo": "nessuna partita giocata nella stagione in corso"
+   },
+   {
     "squadra": "Seyssinet Pariset",
     "id": "2520",
     "competizioni": [
@@ -8673,6 +8730,14 @@
      "Coupe de France 2026-2027"
     ],
     "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
+   },
+   {
+    "squadra": "Trabzonspor/Fenerbahce",
+    "id": "2460970",
+    "competizioni": [
+     "Super Cup 2025-2026"
+    ],
+    "motivo": "nessuna partita giocata nella stagione in corso"
    },
    {
     "squadra": "Tremblay F.C.",
@@ -9102,9 +9167,9 @@
   ]
  },
  "rose_per_ruolo": {
-  "squadre": 3150,
-  "prima": 2363,
-  "dopo": 614,
+  "squadre": 3156,
+  "prima": 2369,
+  "dopo": 618,
   "giocate_dopo": 537,
   "elenco": [
    {
@@ -11067,6 +11132,17 @@
     ]
    },
    {
+    "squadra": "Galatasaray/Konyaspor",
+    "id": "2460969",
+    "giocatori": 0,
+    "competizioni": [
+     "Super Cup 2025-2026"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
+    ]
+   },
+   {
     "squadra": "Garde St Cyr Moreac",
     "id": "402295",
     "giocatori": 0,
@@ -11894,6 +11970,17 @@
     ]
    },
    {
+    "squadra": "Orlando City/FC Cincinnati",
+    "id": "2460351",
+    "giocatori": 0,
+    "competizioni": [
+     "MLS 2026"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
+    ]
+   },
+   {
     "squadra": "Otočac",
     "id": "2096649",
     "giocatori": 0,
@@ -12292,6 +12379,17 @@
     ]
    },
    {
+    "squadra": "Seattle Sounders FC/Real Salt Lake",
+    "id": "2460379",
+    "giocatori": 0,
+    "competizioni": [
+     "MLS 2026"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
+    ]
+   },
+   {
     "squadra": "Sebatspor",
     "id": "2167",
     "giocatori": 0,
@@ -12587,6 +12685,17 @@
     ],
     "motivo": [
      "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
+    ]
+   },
+   {
+    "squadra": "Trabzonspor/Fenerbahce",
+    "id": "2460970",
+    "giocatori": 0,
+    "competizioni": [
+     "Super Cup 2025-2026"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
     ]
    },
    {
@@ -15892,14 +16001,14 @@
   ]
  },
  "giocatori_competizioni": {
-  "squadre": 8130,
-  "coppie_squadra_competizione": 12499,
+  "squadre": 8134,
+  "coppie_squadra_competizione": 12503,
   "con_frase_prima": 4654,
   "squadre_con_frase_prima": 2165,
   "con_frase_e_dati_ora_visibili": 3175,
   "con_frase_dopo": 0,
-  "competizioni_senza_dati_tolte_dalla_tendina": 6453,
-  "squadre_senza_scheda_giocatori": 4826,
+  "competizioni_senza_dati_tolte_dalla_tendina": 6456,
+  "squadre_senza_scheda_giocatori": 4829,
   "senza_scheda": [
    {
     "squadra": "Douai",
@@ -17104,13 +17213,13 @@
   ]
  },
  "partite_stagione": {
-  "squadre_con_partite_mancanti_prima": 2308,
+  "squadre_con_partite_mancanti_prima": 2311,
   "squadre_con_partite_mancanti_dopo": 0,
   "mancanti_dopo": []
  },
  "forma": {
-  "squadre_senza_forma_prima": 1954,
-  "squadre_senza_forma_dopo": 95,
+  "squadre_senza_forma_prima": 1959,
+  "squadre_senza_forma_dopo": 99,
   "motivo_dopo": "nessuna partita giocata nella stagione in corso: niente riquadro"
  }
 }
