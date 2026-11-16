@@ -193,7 +193,7 @@ export async function dlLineups(g2, stt, fmId, env) {
     const koMs = Date.parse(g2.matchTimeUTCDate || (stt && stt.utcTime) || "");
     if (!koMs) return null;
     const now = Date.now(), started = !!g2.started, to = koMs - now;
-    if (!started && to > 96 * 3600000) return null;
+    if (!started && to > 6 * 86400000) return null; // il feed elenco partite di diretta copre 6 giorni
     const kv = env && env.ROSE;
     const key = "idx:dl/" + fmId;
     let memo = MEM.get(fmId);

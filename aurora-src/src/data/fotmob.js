@@ -326,7 +326,7 @@ export function applyFm(m, d, playerLookup) {
 
 export async function loadFm(m, playerLookup, force = false) {
   if (!m || m.placeholder && !m.date) return m;
-  if (m.status === 'scheduled' && m.ts - Date.now() > 96 * 3600000) return m;
+  if (m.status === 'scheduled' && m.ts - Date.now() > 7 * 86400000) return m; // formazioni da 7 giorni prima (prima 96 ore: le partite del venerdi' restavano senza)
   if (!force && m.fm && m.status !== 'live' && m.status !== 'scheduled' && Date.now() - (m.fmAt || 0) < 300000) return m;
   try {
     const id = await findFmId(m);

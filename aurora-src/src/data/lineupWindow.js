@@ -1,5 +1,5 @@
 // Controllo delle formazioni prima del fischio (regola fissa, vedi docs/regole/partite-formazioni.md, "diretta.it al primo posto", 15/11/2026).
-// Oltre 1h26 dal fischio: un controllo ogni 2 ore (formazioni probabili); da 1h26 dal fischio: ogni 2-3 secondi finche' la formazione non e' ufficiale;
+// Oltre 1h26 dal fischio: un controllo ogni 2 ore (formazioni probabili, da 7 giorni prima); da 1h26 dal fischio: ogni 2-3 secondi finche' la formazione non e' ufficiale;
 // ufficiale: nessun altro controllo; al fischio d'inizio un solo giro, poi il live funziona come prima (ogni 5 secondi).
 const MIN = 60000;
 const WINDOW = 86 * MIN; // 1h26, uguale per tutti i campionati e le coppe
@@ -13,7 +13,7 @@ export function lineupBeat(m, now = Date.now()) {
   if (m.status === 'live') return 1;
   if (m.status !== 'scheduled') return 0;
   const to = m.ts - now;
-  if (to > 96 * 3600000) return 0;
+  if (to > 7 * 86400000) return 0;
   if (to <= 0) return 1; // fischio d'inizio: un giro appena parte, poi il live prende il posto
   if (lineupIsOfficial(m)) return 0; // ufficiale: non serve piu' aggiornare
   if (to <= WINDOW) return 1; // dentro 1h26 e non ancora ufficiale: ogni 5 secondi
