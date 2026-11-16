@@ -1,68 +1,7 @@
 {
- "competizioni": {
-  "Ligue 1 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 1
-  },
-  "Serie C 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 1
-  },
-  "FA Trophy 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 13
-  },
-  "Coupe de France 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 68
-  },
-  "Primera B 2026": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 6
-  },
-  "Copa Colombia 2026": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 1
-  },
-  "FNL 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 1
-  },
-  "Primera Division 2026-2027 - Apertura": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 11
-  },
-  "LPF 2026": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 1
-  },
-  "Liga 1 2026": {
-   "partite_completate": 1,
-   "giocatori": 30,
-   "da_fare": 1
-  },
-  "Slovak Cup 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 1
-  },
-  "Friendlies 2026": {
-   "partite_completate": 1,
-   "giocatori": 20,
-   "da_fare": 6
-  }
- },
- "partite_completate": 2,
- "giocatori": 50,
- "senza_abbinamento": 8,
- "senza_formazioni_diretta": 101
+ "competizioni": {},
+ "partite_completate": 0,
+ "giocatori": 0,
+ "senza_abbinamento": 0,
+ "senza_formazioni_diretta": 0
 }
