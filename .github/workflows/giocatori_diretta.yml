@@ -4,7 +4,7 @@ on:
   schedule:
     - cron: "37 */3 * * *"
 concurrency:
-  group: partite-main
+  group: fonti-diretta
   cancel-in-progress: false
 permissions:
   contents: write
