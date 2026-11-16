@@ -686,6 +686,8 @@ export default {
             const fl = mf.filter((e) => ["Goal", "Card", "Substitution"].includes(e.type) && !e.isPenaltyShootoutEvent && Number(e.time) > from && Number(e.time) <= pEnd).reduce((a, e) => Math.max(a, Number(e.time) * 60), 0);
             if (fl && (cs == null || cs < fl)) { cs = fl; src = src + "+ev"; }
           }
+          // anche il minuto semplice (pagina partita, scheda giocatore) segue il cronometro corretto, con lo stesso formato di FotMob (45+2’)
+          if (cs != null && src !== "fm" && !out.ht) { const mn = Math.floor(cs / 60) + 1; out.clk = (mn > pEnd ? pEnd + "+" + (mn - pEnd) : mn) + "\u2019"; }
           if (cs != null || out.ht) out.lc = { s: cs, mx: pEnd, ad: aev ? Number(aev.minutesAddedInput) || 0 : 0, ht: out.ht ? 1 : 0, src };
         }
         return new Response(JSON.stringify(out), { headers: cors(req, { "Cache-Control": "public, max-age=3" }) });
