@@ -11,7 +11,7 @@ import { CALC_KEEP, saveCalcKeep } from '@/data/calcKeep';
 import { CALC_IN } from '../shared/calcIn';
 import { PLAYERS, playerById } from '@/data/players';
 import { teamById, teamByName } from '@/data/teams';
-import { useUpcoming } from '../shared/useUpcoming';
+import { useUpcoming, loadUpcoming } from '../shared/useUpcoming';
 import { allTeamMatches, nextMatchOf, nextMatchVs } from '@/data/extras';
 import { prepareMatch } from '@/data/prepare';
 import { romeDay, logoFm } from '@/data/util';
@@ -70,10 +70,18 @@ function upcoming(teamName) {
 function pickTarget(p) {
   const club = p.nat ? p.club || null : p;
   const nat = p.nat ? p : p.natView || null;
-  const fxC = club ? upcoming(club.teamName) : null;
-  const fxN = nat ? upcoming(nat.teamName) : null;
-  const useNat = !!nat && (!club || (fxN && (!fxC || fxN.ts < fxC.ts)));
-  return { club, nat, useNat, v: useNat ? nat : club, fx: useNat ? fxN : fxC };
+  // prossima partita VERA di ciascuna: dal calendario dei giocatori (club) e dai file dei giorni (nazionali: Nations League, qualificazioni…), vale la piu' vicina
+  const soon = (v) => {
+    if (!v) return null;
+    const fx = upcoming(v.teamName);
+    const t = teamByName(v.teamName);
+    const m = t ? nextMatchOf(t.id) : null;
+    const ts = Math.min(fx ? fx.ts : Infinity, m ? m.ts : Infinity);
+    return { fx, ts };
+  };
+  const sC = soon(club), sN = soon(nat);
+  const useNat = !!nat && (!club || (sN.ts < Infinity && sN.ts < (sC ? sC.ts : Infinity)));
+  return { club, nat, useNat, v: useNat ? nat : club, fx: useNat ? sN.fx : sC ? sC.fx : null };
 }
 // identita' stabile del banner: club e nazionale dello stesso giocatore hanno id diversi, ma e' lo stesso banner (niente animazione doppia)
 const bannerKey = (p) => (p ? (p.nat && p.club ? p.club.id : p.id) : null);
@@ -208,6 +216,7 @@ function PlayerPick({ embedded, C, form, set, player, onSelectPlayer, stat, onSt
   }, [pid]); // eslint-disable-line react-hooks/exhaustive-deps
   const club = bp ? (bp.nat && bp.club ? bp.club : bp) : null; // dal giocatore appena scelto (bp), non da quello vecchio: alla prima scelta `player` e' ancora vuoto
   const team = club ? teamById(club.teamId) : null;
+  useUpcoming(pend != null);
   const pt = pendP ? pickTarget(pendP) : null; // giocatore appena scelto: colore, squadra e partita sono gia' quelli che avra' il form (niente cambio dopo)
   const col = playerColor(pt && pt.v ? pt.v : bp, pt ? (pt.useNat ? 'nations' : form.competizione) : form.competizione, team && team.colors ? team.colors[0] : C.accent);
   const comps = useMemo(() => playerComps(player), [player]);
@@ -1063,8 +1072,12 @@ export default function CalcPlayer({ C, openRoute, embedId }) {
   const selectPlayer = (id) => {
     const p = playerById(id);
     if (!p) return;
-    const { useNat, v, fx } = pickTarget(p);
-    setForm((x) => { const g = fillFrom(x, v, x.tipoTiri, fx); return fx ? g : { ...g, competizione: useNat ? 'nations' : 'campionato' }; });
+    const apply = () => {
+      const { useNat, v, fx } = pickTarget(p);
+      setForm((x) => { const g = fillFrom(x, v, x.tipoTiri, fx); return fx ? g : { ...g, competizione: useNat ? 'nations' : 'campionato' }; });
+    };
+    // con una nazionale la scelta tra club e nazionale dipende dalle partite dei file dei giorni: si aspettano (una sola volta, poi sono in memoria)
+    if (p.nat || p.natView) loadUpcoming().then(apply, apply); else apply();
   };
   useEffect(() => { if (embedId && !form.playerId) selectPlayer(embedId); }, [embedId]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
