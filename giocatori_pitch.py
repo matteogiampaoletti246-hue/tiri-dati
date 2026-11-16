@@ -174,7 +174,7 @@ def main():
             kv = kvstats.load(fm, sk)   # dati di fonti terze: solo su Cloudflare KV, mai nel repository
             fix = {str(r[0]): r for r in (arch.get("fix") or [])}
             for mid, r in fix.items():
-                if not r[5] or (d.get("m") or {}).get(mid, {}).get("p") or ((kv.get(mid) or {}).get("p") and (kv.get(mid) or {}).get("px") != "livescore"):
+                if not r[5] or (d.get("m") or {}).get(mid, {}).get("p") or ((kv.get(mid) or {}).get("p") and (kv.get(mid) or {}).get("px") not in ("livescore", "diretta")):
                     continue  # senza risultato = non finita; con `p` gia' completa (quelle solo LiveScore si arricchiscono: PitchAPI ha tiri, falli, cross...)
                 todo[mid] = r
             if not todo:
@@ -233,13 +233,13 @@ def main():
                         pn[fid] = [nm, "h" if side_idx is hidx else "a", str(r[2] if side_idx is hidx else r[3])]
                 if out:
                     old_kv = kv.get(mid) or {}
-                    if old_kv.get("px") == "livescore" and isinstance(old_kv.get("p"), dict):
+                    if old_kv.get("px") in ("livescore", "diretta") and isinstance(old_kv.get("p"), dict):
                         # PitchAPI sopra LiveScore: per ogni giocatore valgono le voci di PitchAPI, restano quelle che solo LiveScore ha (e i giocatori che PitchAPI non abbina)
                         merged = {k: dict(v) for k, v in old_kv["p"].items()}
                         for k, v in out.items(): merged.setdefault(k, {}).update(v)
                         out = merged
                     rec = {"p": out, "px": "pitchapi"}
-                    if old_kv.get("px") == "livescore": rec["px2"] = "livescore"
+                    if old_kv.get("px") in ("livescore", "diretta"): rec["px2"] = old_kv["px"]
                     if not m.get("h") or not m.get("a"):
                         rec["pn"] = pn  # nomi e squadra dei giocatori quando FotMob non ha le formazioni
                     kv.setdefault(mid, {}).update(rec)
