@@ -2,38 +2,63 @@
  "competizioni": {
   "Friendlies 2026": {
    "con_statistiche": 0,
-   "senza": 9,
-   "da_fare": 9
-  },
-  "Liga Portugal 2010-2011": {
-   "con_statistiche": 0,
-   "senza": 232,
-   "da_fare": 232
-  },
-  "Bundesliga 2012-2013": {
-   "con_statistiche": 260,
-   "senza": 0,
-   "da_fare": 260
-  },
-  "Bundesliga 2011-2012": {
-   "con_statistiche": 147,
-   "senza": 3,
-   "da_fare": 150
-  },
-  "Bundesliga 2010-2011": {
-   "con_statistiche": 214,
-   "senza": 3,
-   "da_fare": 217
-  },
-  "Ligue 1 2012-2013": {
-   "con_statistiche": 366,
-   "senza": 12,
-   "da_fare": 378
+   "senza": 6,
+   "da_fare": 6
   },
   "Ligue 1 2011-2012": {
-   "con_statistiche": 105,
-   "senza": 16,
-   "da_fare": 376
+   "con_statistiche": 244,
+   "senza": 11,
+   "da_fare": 255
+  },
+  "Ligue 1 2010-2011": {
+   "con_statistiche": 377,
+   "senza": 3,
+   "da_fare": 380
+  },
+  "Copa Libertadores 2026": {
+   "con_statistiche": 0,
+   "senza": 1,
+   "da_fare": 1
+  },
+  "Copa Libertadores 2020": {
+   "con_statistiche": 1,
+   "senza": 0,
+   "da_fare": 1
+  },
+  "Copa Libertadores 2018": {
+   "con_statistiche": 125,
+   "senza": 0,
+   "da_fare": 125
+  },
+  "Copa Libertadores 2017": {
+   "con_statistiche": 126,
+   "senza": 0,
+   "da_fare": 126
+  },
+  "Copa Libertadores 2016": {
+   "con_statistiche": 0,
+   "senza": 126,
+   "da_fare": 126
+  },
+  "Copa Libertadores 2015": {
+   "con_statistiche": 109,
+   "senza": 0,
+   "da_fare": 109
+  },
+  "Copa Libertadores 2014": {
+   "con_statistiche": 12,
+   "senza": 110,
+   "da_fare": 122
+  },
+  "Copa Libertadores 2013": {
+   "con_statistiche": 0,
+   "senza": 126,
+   "da_fare": 126
+  },
+  "Copa Libertadores 2012": {
+   "con_statistiche": 0,
+   "senza": 44,
+   "da_fare": 126
   }
  }
 }
