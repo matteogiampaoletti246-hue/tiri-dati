@@ -1,5 +1,5 @@
 // ScalperLab - ponte Live (Cloudflare Worker). Legge ESPN e lo restituisce al sito con una cache di pochi secondi.
-import { dlLineups, dlSegment } from "./diretta.js";
+import { dlLineups, dlClock } from "./diretta.js";
 const ORIGIN = "https://matteogiampaoletti246-hue.github.io";
 const BASE = "https://site.api.espn.com/apis/site/v2/sports/soccer";
 const DOM = ["ita.1", "eng.1", "esp.1", "ger.1", "fra.1"];
@@ -668,6 +668,10 @@ export default {
           const aev = mf.filter((e) => e.type === "AddedTime" && Number(e.time) === pEnd).pop();
           let cs = lm ? +lm[1] * 60 + +lm[2] : null, src = "fm";
           if (cs == null) { const cm = String(out.clk || "").match(/^(\d+)(?:\+(\d+))?/); if (cm) { cs = Math.max(0, (+cm[1] + (+cm[2] || 0)) * 60 - 30); src = "ls"; } }
+          // diretta.it (richiesta utente 16/11/2026): e' la fonte piu' puntuale (FotMob ritardava di ~4 minuti); vale il piu' alto tra le fonti, mai indietro
+          const dk = await dlClock(g2, stt);
+          if (dk && dk.ht && !hf.secondHalfStarted) out.ht = true;
+          else if (dk && dk.s != null && dk.s <= pEnd * 60 + 20 * 60 && (cs == null || dk.s > cs)) { cs = dk.s; src = "dl"; }
           // Il cronometro non resta mai indietro (richiesta utente 16/11/2026: Kazakhstan-Slovakia a 24:30 con un gol al 29'): le fonti (liveTime, LiveScore) possono ritardare,
           // quindi vale il piu' alto tra (1) secondi dall'inizio del tempo in corso (orari di inizio tempo di FotMob in `halfs`), (2) minuto dell'ultimo evento del tempo in corso.
           // Entrambi non possono mai superare il tempo vero; (1) solo se plausibile (fuso o formato strani vengono scartati).
@@ -682,7 +686,6 @@ export default {
             const fl = mf.filter((e) => ["Goal", "Card", "Substitution"].includes(e.type) && !e.isPenaltyShootoutEvent && Number(e.time) > from && Number(e.time) <= pEnd).reduce((a, e) => Math.max(a, Number(e.time) * 60), 0);
             if (fl && (cs == null || cs < fl)) { cs = fl; src = src + "+ev"; }
           }
-          if (u.searchParams.get("dbg") === "1") out.dlraw = await dlSegment(g2, stt); // TEMP: per leggere i campi del tempo di diretta.it
           if (cs != null || out.ht) out.lc = { s: cs, mx: pEnd, ad: aev ? Number(aev.minutesAddedInput) || 0 : 0, ht: out.ht ? 1 : 0, src };
         }
         return new Response(JSON.stringify(out), { headers: cors(req, { "Cache-Control": "public, max-age=3" }) });

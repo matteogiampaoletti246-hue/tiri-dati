@@ -247,3 +247,17 @@ export async function dlSegment(g2, stt) {
     return txt.slice(i, e < 0 ? undefined : e);
   } catch (e) { return null; }
 }
+
+// Cronometro di diretta.it (verificato il 16/11/2026 su Kazakhstan-Slovakia, quando FotMob era indietro di ~4 minuti): nel record `AB`=2 live, `AC` fase (12 primo tempo,
+// 13 secondo tempo, 38 intervallo) e `AO` = secondo (unix) in cui e' iniziata la fase in corso. Minuto = inizio fase (0' o 45') + secondi passati da `AO`.
+export async function dlClock(g2, stt) {
+  const seg = await dlSegment(g2, stt);
+  if (!seg) return null;
+  const g = (k) => { const m = seg.match(new RegExp("¬" + k + "÷([^¬]*)")); return m ? m[1] : ""; };
+  if (g("AB") !== "2") return null;
+  const ac = g("AC"), ao = Number(g("AO"));
+  if (ac === "38") return { ht: true, s: null };
+  if ((ac !== "12" && ac !== "13") || !ao) return null;
+  const s = Math.floor((ac === "13" ? 45 * 60 : 0) + (Date.now() / 1000 - ao));
+  return s >= (ac === "13" ? 45 * 60 : 0) ? { ht: false, s } : null;
+}
