@@ -6431,8 +6431,8 @@
  "competizioni_senza_dati": [],
  "squadre_controllate": 1523,
  "rose": {
-  "squadre": 3156,
-  "senza_rosa_prima": 2271,
+  "squadre": 3164,
+  "senza_rosa_prima": 2279,
   "senza_rosa_dopo": 339,
   "senza_rosa": [
    {
@@ -9156,8 +9156,8 @@
   ]
  },
  "rose_per_ruolo": {
-  "squadre": 3156,
-  "prima": 2369,
+  "squadre": 3164,
+  "prima": 2377,
   "dopo": 618,
   "giocate_dopo": 537,
   "elenco": [
@@ -15994,7 +15994,7 @@
   "coppie_squadra_competizione": 12503,
   "con_frase_prima": 4654,
   "squadre_con_frase_prima": 2165,
-  "con_frase_e_dati_ora_visibili": 3175,
+  "con_frase_e_dati_ora_visibili": 3188,
   "con_frase_dopo": 0,
   "competizioni_senza_dati_tolte_dalla_tendina": 6455,
   "squadre_senza_scheda_giocatori": 4828,
@@ -17202,13 +17202,13 @@
   ]
  },
  "partite_stagione": {
-  "squadre_con_partite_mancanti_prima": 2311,
+  "squadre_con_partite_mancanti_prima": 2319,
   "squadre_con_partite_mancanti_dopo": 0,
   "mancanti_dopo": []
  },
  "forma": {
-  "squadre_senza_forma_prima": 1959,
-  "squadre_senza_forma_dopo": 99,
+  "squadre_senza_forma_prima": 1967,
+  "squadre_senza_forma_dopo": 107,
   "motivo_dopo": "nessuna partita giocata nella stagione in corso: niente riquadro"
  }
 }
