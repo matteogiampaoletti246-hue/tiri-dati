@@ -289,8 +289,12 @@ export function parseIncidents(txt) {
       const as = groups.slice(1).find((g) => /assist/i.test(g.IK || ""));
       out.push({ ...base, ty: "Goal", n: swapName(first.IF), id: null, as: as ? swapName(as.IF) : null, aid: null, og: /autogol|own goal/i.test(text), pen: /rigore|penalty/i.test(text), sc: null });
     } else if (/cartellino/i.test(text)) {
-      const red = /rosso/i.test(text), two = /second|2\s*°|doppia/i.test(text);
-      out.push({ ...base, ty: "Card", n: swapName(first.IF), id: null, cd: red ? (two ? "YellowRed" : "Red") : two ? "YellowRed" : "Yellow" });
+      const yel = /giallo/i.test(text), red = /rosso/i.test(text), two = /second|doppia/i.test(text);
+      out.push({ ...base, ty: "Card", n: swapName(first.IF), id: null, cd: yel && red ? "YellowRed" : red ? "Red" : two ? "YellowRed" : "Yellow" });
+    } else if (/sostituzione/i.test(text)) {
+      // due gruppi: "Sostituzione - Esce" e "Sostituzione - Entra" (come FotMob: n = entra, o = esce)
+      const inn = groups.find((g) => /entra/i.test(g.IK || "")), outg = groups.find((g) => /esce/i.test(g.IK || ""));
+      if (inn) out.push({ ...base, ty: "Substitution", n: swapName(inn.IF), id: null, o: outg ? swapName(outg.IF) : "", oid: null });
     }
   });
   return out;

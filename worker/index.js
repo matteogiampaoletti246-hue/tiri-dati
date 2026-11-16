@@ -1,5 +1,5 @@
 // ScalperLab - ponte Live (Cloudflare Worker). Legge ESPN e lo restituisce al sito con una cache di pochi secondi.
-import { dlLineups, dlClock, dlEvents, dlRaw, dlMid } from "./diretta.js";
+import { dlLineups, dlClock, dlEvents } from "./diretta.js";
 const ORIGIN = "https://matteogiampaoletti246-hue.github.io";
 const BASE = "https://site.api.espn.com/apis/site/v2/sports/soccer";
 const DOM = ["ita.1", "eng.1", "esp.1", "ger.1", "fra.1"];
@@ -685,7 +685,6 @@ export default {
           let cs = lm ? +lm[1] * 60 + +lm[2] : null, src = "fm";
           if (cs == null) { const cm = String(out.clk || "").match(/^(\d+)(?:\+(\d+))?/); if (cm) { cs = Math.max(0, (+cm[1] + (+cm[2] || 0)) * 60 - 30); src = "ls"; } }
           // diretta.it (richiesta utente 16/11/2026): e' la fonte piu' puntuale (FotMob ritardava di ~4 minuti); vale il piu' alto tra le fonti, mai indietro
-          if (u.searchParams.get("dbg")) { const mid0 = await dlMid(g2, stt); out.dlmid = mid0; if (mid0) out.dlraw = await dlRaw(u.searchParams.get("dbg").replace("MID", mid0)); } // TEMP prova
           const dk = await dlClock(g2, stt);
           if (dk && dk.ht && !hf.secondHalfStarted) out.ht = true;
           else if (dk && dk.s != null && dk.s <= pEnd * 60 + 20 * 60 && (cs == null || dk.s > cs)) { cs = dk.s; src = "dl"; }
