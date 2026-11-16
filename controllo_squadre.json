@@ -6410,7 +6410,7 @@
  "squadre_controllate": 1520,
  "rose": {
   "squadre": 3150,
-  "senza_rosa_prima": 2280,
+  "senza_rosa_prima": 2265,
   "senza_rosa_dopo": 335,
   "senza_rosa": [
    {
@@ -9103,9 +9103,9 @@
  },
  "rose_per_ruolo": {
   "squadre": 3150,
-  "prima": 2362,
-  "dopo": 610,
-  "giocate_dopo": 533,
+  "prima": 2363,
+  "dopo": 614,
+  "giocate_dopo": 537,
   "elenco": [
    {
     "squadra": "1. BFK Frýdlant nad Ostravici",
@@ -13596,6 +13596,17 @@
     ]
    },
    {
+    "squadra": "Poissy",
+    "id": "4086",
+    "giocatori": 1,
+    "competizioni": [
+     "Coupe de France 2026-2027"
+    ],
+    "motivo": [
+     "1 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 1"
+    ]
+   },
+   {
     "squadra": "Pully Football",
     "id": "372970",
     "giocatori": 1,
@@ -14059,17 +14070,6 @@
     ]
    },
    {
-    "squadra": "Poissy",
-    "id": "4086",
-    "giocatori": 2,
-    "competizioni": [
-     "Coupe de France 2026-2027"
-    ],
-    "motivo": [
-     "2 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 2"
-    ]
-   },
-   {
     "squadra": "SV Tillmitsch",
     "id": "1701755",
     "giocatori": 2,
@@ -14274,6 +14274,17 @@
     "giocatori": 3,
     "competizioni": [
      "Swiss Cup 2026-2027"
+    ],
+    "motivo": [
+     "3 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 3"
+    ]
+   },
+   {
+    "squadra": "FK Spišská Nová Ves",
+    "id": "45299",
+    "giocatori": 3,
+    "competizioni": [
+     "Slovak Cup 2026-2027"
     ],
     "motivo": [
      "3 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 3"
@@ -14655,6 +14666,17 @@
     ]
    },
    {
+    "squadra": "MŠK Fomat Martin",
+    "id": "580295",
+    "giocatori": 4,
+    "competizioni": [
+     "Slovak Cup 2026-2027"
+    ],
+    "motivo": [
+     "4 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 4"
+    ]
+   },
+   {
     "squadra": "NY Renegades",
     "id": "1715241",
     "giocatori": 4,
@@ -14888,6 +14910,17 @@
     ]
    },
    {
+    "squadra": "Hohenems",
+    "id": "4072",
+    "giocatori": 5,
+    "competizioni": [
+     "Austrian Cup 2026-2027"
+    ],
+    "motivo": [
+     "5 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 5"
+    ]
+   },
+   {
     "squadra": "Korona Kielce ll",
     "id": "585631",
     "giocatori": 5,
@@ -14943,17 +14976,6 @@
     ]
    },
    {
-    "squadra": "MŠK Fomat Martin",
-    "id": "580295",
-    "giocatori": 5,
-    "competizioni": [
-     "Slovak Cup 2026-2027"
-    ],
-    "motivo": [
-     "5 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 5"
-    ]
-   },
-   {
     "squadra": "MŠK Tesla Stropkov",
     "id": "584698",
     "giocatori": 5,
@@ -14981,6 +15003,17 @@
     "giocatori": 5,
     "competizioni": [
      "Open Cup 2026"
+    ],
+    "motivo": [
+     "5 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 5"
+    ]
+   },
+   {
+    "squadra": "SR Donaufeld",
+    "id": "4653",
+    "giocatori": 5,
+    "competizioni": [
+     "Austrian Cup 2026-2027"
     ],
     "motivo": [
      "5 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 5"
@@ -15031,6 +15064,17 @@
     ]
    },
    {
+    "squadra": "Voltigeurs de Châteaubriant",
+    "id": "47205",
+    "giocatori": 5,
+    "competizioni": [
+     "Coupe de France 2026-2027"
+    ],
+    "motivo": [
+     "5 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 5"
+    ]
+   },
+   {
     "squadra": "12 Bingölspor",
     "id": "581800",
     "giocatori": 6,
@@ -15053,11 +15097,33 @@
     ]
    },
    {
+    "squadra": "Beyoğlu Yeni Çarşı Futbol Kulubu",
+    "id": "551694",
+    "giocatori": 6,
+    "competizioni": [
+     "Turkish Cup 2026-2027"
+    ],
+    "motivo": [
+     "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
+    ]
+   },
+   {
     "squadra": "FC Altai Oskemen",
     "id": "732295",
     "giocatori": 6,
     "competizioni": [
      "Premier League 2026"
+    ],
+    "motivo": [
+     "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
+    ]
+   },
+   {
+    "squadra": "FKM Nové Zámky",
+    "id": "580278",
+    "giocatori": 6,
+    "competizioni": [
+     "Slovak Cup 2026-2027"
     ],
     "motivo": [
      "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
@@ -15108,17 +15174,6 @@
     ]
    },
    {
-    "squadra": "SR Donaufeld",
-    "id": "4653",
-    "giocatori": 6,
-    "competizioni": [
-     "Austrian Cup 2026-2027"
-    ],
-    "motivo": [
-     "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
-    ]
-   },
-   {
     "squadra": "Shkendija Haracine",
     "id": "2009441",
     "giocatori": 6,
@@ -15152,6 +15207,17 @@
     ]
    },
    {
+    "squadra": "Avranches",
+    "id": "4107",
+    "giocatori": 7,
+    "competizioni": [
+     "Coupe de France 2026-2027"
+    ],
+    "motivo": [
+     "7 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 7"
+    ]
+   },
+   {
     "squadra": "Buochs",
     "id": "2439",
     "giocatori": 7,
@@ -15168,17 +15234,6 @@
     "giocatori": 7,
     "competizioni": [
      "Austrian Cup 2026-2027"
-    ],
-    "motivo": [
-     "7 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 7"
-    ]
-   },
-   {
-    "squadra": "FKM Nové Zámky",
-    "id": "580278",
-    "giocatori": 7,
-    "competizioni": [
-     "Slovak Cup 2026-2027"
     ],
     "motivo": [
      "7 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 7"
@@ -15285,17 +15340,6 @@
     ]
    },
    {
-    "squadra": "Beyoğlu Yeni Çarşı Futbol Kulubu",
-    "id": "551694",
-    "giocatori": 8,
-    "competizioni": [
-     "Turkish Cup 2026-2027"
-    ],
-    "motivo": [
-     "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
-    ]
-   },
-   {
     "squadra": "CR Temouchent",
     "id": "319205",
     "giocatori": 8,
@@ -15340,17 +15384,6 @@
     ]
    },
    {
-    "squadra": "FK Spišská Nová Ves",
-    "id": "45299",
-    "giocatori": 8,
-    "competizioni": [
-     "Slovak Cup 2026-2027"
-    ],
-    "motivo": [
-     "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
-    ]
-   },
-   {
     "squadra": "Humenné",
     "id": "103595",
     "giocatori": 8,
@@ -15378,6 +15411,17 @@
     "giocatori": 8,
     "competizioni": [
      "Austrian Cup 2026-2027"
+    ],
+    "motivo": [
+     "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
+    ]
+   },
+   {
+    "squadra": "Laredo Heat",
+    "id": "540893",
+    "giocatori": 8,
+    "competizioni": [
+     "Open Cup 2026"
     ],
     "motivo": [
      "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
@@ -15433,6 +15477,17 @@
     "giocatori": 8,
     "competizioni": [
      "FA Trophy 2026-2027"
+    ],
+    "motivo": [
+     "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
+    ]
+   },
+   {
+    "squadra": "St Mochta's",
+    "id": "532490",
+    "giocatori": 8,
+    "competizioni": [
+     "FAI Cup 2026"
     ],
     "motivo": [
      "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
@@ -15560,6 +15615,17 @@
     ]
    },
    {
+    "squadra": "Flint City Bucks",
+    "id": "540881",
+    "giocatori": 9,
+    "competizioni": [
+     "Open Cup 2026"
+    ],
+    "motivo": [
+     "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
+    ]
+   },
+   {
     "squadra": "Holywell Town",
     "id": "525403",
     "giocatori": 9,
@@ -15626,6 +15692,17 @@
     ]
    },
    {
+    "squadra": "Ventura County Fusion",
+    "id": "540863",
+    "giocatori": 9,
+    "competizioni": [
+     "Open Cup 2026"
+    ],
+    "motivo": [
+     "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
+    ]
+   },
+   {
     "squadra": "Vítkovice",
     "id": "2405",
     "giocatori": 9,
@@ -15637,14 +15714,14 @@
     ]
    },
    {
-    "squadra": "Atlético Madrileño",
-    "id": "161759",
-    "giocatori": 10,
+    "squadra": "Wiener SC",
+    "id": "4664",
+    "giocatori": 9,
     "competizioni": [
-     "Primera Federación 2026-2027"
+     "Austrian Cup 2026-2027"
     ],
     "motivo": [
-     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
+     "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
     ]
    },
    {
@@ -15747,33 +15824,11 @@
     ]
    },
    {
-    "squadra": "Flint City Bucks",
-    "id": "540881",
-    "giocatori": 10,
-    "competizioni": [
-     "Open Cup 2026"
-    ],
-    "motivo": [
-     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
-    ]
-   },
-   {
     "squadra": "Irtysh Pavlodar",
     "id": "2539",
     "giocatori": 10,
     "competizioni": [
      "Premier League 2026"
-    ],
-    "motivo": [
-     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
-    ]
-   },
-   {
-    "squadra": "Laredo Heat",
-    "id": "540893",
-    "giocatori": 10,
-    "competizioni": [
-     "Open Cup 2026"
     ],
     "motivo": [
      "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
@@ -15818,17 +15873,6 @@
     "giocatori": 10,
     "competizioni": [
      "Austrian Cup 2026-2027"
-    ],
-    "motivo": [
-     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
-    ]
-   },
-   {
-    "squadra": "Ventura County Fusion",
-    "id": "540863",
-    "giocatori": 10,
-    "competizioni": [
-     "Open Cup 2026"
     ],
     "motivo": [
      "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
