@@ -1,5 +1,6 @@
 // Dettaglio partita in diretta da FotMob (tramite il Worker): cronologia, statistiche per tempo,
 // mappa tiri, momentum e formazioni. Vale per partite live, di oggi e anche per quelle passate.
+import { playerFace } from './faces';
 import { dayFile } from './archive';
 import { WORKER } from './load';
 import { buildLineup, MATCHES, withRoleXY } from './matches';
@@ -283,7 +284,7 @@ export function applyFm(m, d, playerLookup) {
       const fix = (e) => {
         const src = byName[e.rawName || e.name];
         if (src) {
-          if (!e.photo) e.photo = src[5];
+          if (!e.photo) e.photo = src[7] ? playerFace(src[7]) : src[5];
           e.fmId = src[7];
           e.captain = !!src[4];
           e.name = realName(src[7], e.name);

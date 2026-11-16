@@ -1,3 +1,4 @@
+import { playerFace } from '@/data/faces';
 import PlayerPhoto from '@/components/PlayerPhoto';
 import { useMemo, useRef } from 'react';
 import Drawer from '@/components/ui/Drawer';
@@ -62,7 +63,7 @@ function useCard(sheet) {
     const shots = (match.shots || []).filter((s) => norm(s.playerName) === n);
     const evs = (match.events || []).filter((e) => norm(e.name) === n || (e.type === 'sub' && norm(e.inName) === n) || (e.type === 'goal' && e.assist && norm(e.assist) === n));
     const rating = (flat.rating_title && flat.rating_title.v) || (f && f.entry.rating) || null;
-    const photo = (f && f.entry.photo) || (fmId ? `https://images.fotmob.com/image_resources/playerimages/${fmId}.png` : null);
+    const photo = (f && f.entry.photo) || (fmId ? playerFace(fmId) : null);
     const lu = f && match.lineup ? match.lineup[f.side] : null;
     const roster = lu ? [...(lu.xi || []), ...(lu.bench || [])].filter((p) => p && p.name) : [];
     const idx = roster.findIndex((p) => norm(p.name) === norm(sheet.name) || (fmId && String(p.fmId) === String(fmId)));
@@ -120,7 +121,7 @@ function Badges({ c, onOpen }) {
       {[...ins.map((e) => ({ e, who: e.name, label: 'Entra', d: -1 })), ...outs.map((e) => ({ e, who: e.inName, label: 'Esce', d: 1 }))].map(({ e, who, label, d }, i) => {
         const f = findInMatch(c.match, who, null);
         const fm = f && f.fmId;
-        const photo = (f && f.entry && f.entry.photo) || (fm ? `https://images.fotmob.com/image_resources/playerimages/${fm}.png` : null);
+        const photo = (f && f.entry && f.entry.photo) || (fm ? playerFace(fm) : null);
         return (
           <button key={`o${i}`} type="button" data-no-swipe onClick={() => onOpen({ matchId: c.match.id, name: who, fmId: fm || undefined }, d)} className="glass-flat press flex min-w-0 basis-full items-center gap-2 rounded-full py-1.5 pl-3 pr-2 text-left text-[12px] font-bold">
             <SubIcon size={15} />

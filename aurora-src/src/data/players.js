@@ -5,6 +5,7 @@ import { ensureTeam, teamByName, teamById } from './teams';
 import { norm, slug, r1, r2 } from './util';
 import { realName } from './realNames';
 import { leagueById, CUP_IDS } from './leagues';
+import { playerFace, setFace } from './faces';
 
 export const PLAYERS = [];
 export const EX_COLS = [];
@@ -79,10 +80,12 @@ export function buildPlayers() {
     EX[`${norm(r[exIx.n])}|${slug(r[exIx.t])}`] = r;
   });
 
-  const faceUrl = (fm) => `https://images.fotmob.com/image_resources/playerimages/${fm}.png`;
+  const faceUrl = (fm) => playerFace(fm);
   // foto_fm.json (foto_fm.py): id FotMob di chi non ha foto nelle altre fonti; se su FotMob non c'e', PlayerPhoto mostra la sagoma
   const photoOf = (id) => (RAW.stats && RAW.stats.ph && RAW.stats.ph[id]) || (RAW.foto && RAW.foto[id] && RAW.foto[id].u) || (RAW.fotoFm && RAW.fotoFm[id] ? faceUrl(RAW.fotoFm[id]) : null);
   const recent = (RAW.indice && RAW.indice.p) || {};
+  // foto piu' recente (PitchAPI) per id FotMob: la usano tutti i punti che mostrano un giocatore tramite `playerFace`
+  ((RAW.giocatori && RAW.giocatori.players) || []).forEach((g) => { const u = (RAW.stats && RAW.stats.ph && RAW.stats.ph[g.i]) || (RAW.foto && RAW.foto[g.i] && RAW.foto[g.i].u); if (u && (g.f || g.fm)) setFace(g.f || g.fm, u); });
 
   const source = (RAW.giocatori && RAW.giocatori.players) || [];
   const seen = new Set();
@@ -111,7 +114,7 @@ export function buildPlayers() {
       initials: initialsOf(rn),
       number: null,
       position: s ? POS[s[ix.pos]] || null : null,
-      photo: g && g.fm ? `https://images.fotmob.com/image_resources/playerimages/${g.fm}.png` : photoOf(g ? g.i : s[ix.id]) || (g && g.f ? faceUrl(g.f) : null),
+      photo: g && g.fm ? playerFace(g.fm) : photoOf(g ? g.i : s[ix.id]) || (g && g.f ? playerFace(g.f) : null),
       // giocatore dei campionati aggiunti (calc_extra.py): solo tiri e minuti per l'Affidabilita'; la scheda completa si costruisce dall'archivio
       lite: !!(g && g.fm),
       // profilo della nazionale (Nations League, calc_extra.py): squadra = nazionale, stesse statistiche di tiri e minuti del campionato

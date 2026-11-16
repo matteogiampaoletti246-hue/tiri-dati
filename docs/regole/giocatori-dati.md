@@ -11,6 +11,7 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 
 ## Foto dei giocatori
 - Un solo componente per tutte le foto (`components/PlayerPhoto.jsx`): se la foto manca o non si carica compare la sagoma scura (testa e spalle) sul colore del riquadro che la contiene (colori squadra in formazione e nel banner), mai l'icona di immagine rotta ne' le iniziali. Formazioni, rose, liste, finestre e banner usano la stessa foto (id FotMob, `resolvePid`). Il banner del giocatore e' `EntityBanner person`.
+- **Una sola foto per giocatore, ovunque (16/11/2026, regola fissa)**: formazione, finestra (banner giallo), Profilo, banner, Calcolatore, liste e rose mostrano la STESSA foto, scelta da `playerFace(idFotMob)` (`data/faces.js`): quella di PitchAPI (la piu' recente, `stats.ph`/`foto.json`, legate all'id FotMob da `giocatori.json`) dove c'e', altrimenti FotMob. `players.js` riempie la mappa all'avvio (`setFace`). Mai URL FotMob scritti a mano nei componenti: sempre `playerFace`. Caso: Karetsas aveva la foto PitchAPI (capelli ricci) in formazione/finestra e quella FotMob (capelli corti) in Profilo e Calcolatore. Copertura: 2.435 giocatori su 6.173 hanno la foto PitchAPI, gli altri restano FotMob (stessa su tutte le schermate).
 - `foto_check.py` (workflow `carriere_extra.yml`) scrive `foto_mancanti.json`: gli id senza foto su FotMob (circa il 16%).
 
 ## Carriere

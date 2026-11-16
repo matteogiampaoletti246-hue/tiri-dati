@@ -359,7 +359,7 @@ export const loadSeasonFouls = (lid, sk) => once(`pf/${lid}/${sk}.gz`, async () 
 });
 
 export const teamLogo = (id) => `https://images.fotmob.com/image_resources/logo/teamlogo/${id}.png`;
-export const playerFace = (id) => `https://images.fotmob.com/image_resources/playerimages/${id}.png`;
+export { playerFace } from '@/data/faces'; // una sola foto per giocatore (PitchAPI se c'e', altrimenti FotMob)
 
 // "2025-2026" → "2025/26"; "2025-2026 - Clausura" → "2025/26 Clausura"; "2026 - Apertura" → "2026 Apertura"
 export const seasonLabel = (sk) => {

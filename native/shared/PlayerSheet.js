@@ -1,6 +1,7 @@
 // Tendina del giocatore dal basso (nativa): partite iniziate o finite. Volto col voto, gol/assist/cartellini/cambi, 4 numeri,
 // mappa tiri del giocatore (porta + minuti + metà campo + dettagli) e statistiche a schede. Due altezze (55% / 92%), trascinando
 // l'intestazione si cambia altezza o si chiude; swipe laterale = compagno prima/dopo. Stessi dati del sito (@/data/playerSheet).
+import { playerFace } from '@/data/faces';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { View, Text, Pressable, ScrollView, Animated, Easing, PanResponder, useWindowDimensions } from 'react-native';
 import { Image } from 'expo-image';
@@ -70,7 +71,7 @@ function useCard(sheet) {
     const shots = (match.shots || []).filter((s) => norm(s.playerName) === n);
     const evs = (match.events || []).filter((e) => norm(e.name) === n || (e.type === 'sub' && norm(e.inName) === n) || (e.type === 'goal' && e.assist && norm(e.assist) === n));
     const rating = (flat.rating_title && flat.rating_title.v) || (f && f.entry.rating) || null;
-    const photo = (f && f.entry.photo) || (fmId ? `https://images.fotmob.com/image_resources/playerimages/${fmId}.png` : null);
+    const photo = (f && f.entry.photo) || (fmId ? playerFace(fmId) : null);
     const lu = f && match.lineup ? match.lineup[f.side] : null;
     const roster = lu ? [...(lu.xi || []), ...(lu.bench || [])].filter((p) => p && p.name) : [];
     const idx = roster.findIndex((p) => norm(p.name) === norm(sheet.name) || (fmId && String(p.fmId) === String(fmId)));
@@ -284,7 +285,7 @@ function Badges({ C, c, onOpen }) {
       {rows.map(({ e, who, label, d }, i) => {
         const f = findInMatch(c.match, who, null);
         const fm = f && f.fmId;
-        const photo = (f && f.entry && f.entry.photo) || (fm ? `https://images.fotmob.com/image_resources/playerimages/${fm}.png` : null);
+        const photo = (f && f.entry && f.entry.photo) || (fm ? playerFace(fm) : null);
         return (
           <Pressable key={`o${i}`} onPress={() => onOpen({ matchId: c.match.id, name: who, fmId: fm || undefined }, d)} style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', gap: 8, borderRadius: 999, paddingVertical: 6, paddingLeft: 12, paddingRight: 8, backgroundColor: C.chip }, pressed && { opacity: 0.7 }]}>
             <SubIcon size={15} />
@@ -342,7 +343,7 @@ function FoulsPane({ C, c, kind, list, fx, W, onBack, onOpen }) {
         {rows.map((r) => {
           const tm = team(r.who.side);
           const cs = (tm && tm.colors) || ['#2a3a66', '#2a3a66'];
-          const photo = r.who.fmId ? `https://images.fotmob.com/image_resources/playerimages/${r.who.fmId}.png` : null;
+          const photo = r.who.fmId ? playerFace(r.who.fmId) : null;
           // banner nei colori della squadra del giocatore (se il primo colore e' troppo chiaro per il testo bianco si usa il secondo)
           const dark = (x) => (x && lum(x) <= 0.72 ? x : null);
           const c0 = dark(cs[0]) || dark(cs[1]) || '#2a3a66';
