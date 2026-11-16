@@ -227,3 +227,23 @@ export async function dlLineups(g2, stt, fmId, env) {
     return d;
   } catch (e) { return null; /* mai rompere /fx */ }
 }
+
+// Record grezzo della partita nel feed di diretta.it (partite live: stato e tempo). Lettura breve (5 s), mai salvata.
+export async function dlSegment(g2, stt) {
+  try {
+    const koMs = Date.parse(g2.matchTimeUTCDate || (stt && stt.utcTime) || "");
+    if (!koMs) return null;
+    const { off, tz } = dayKey(koMs, Date.now());
+    if (Math.abs(off) > 1) return null;
+    const r = await fetch(FEED + "f_1_" + off + "_" + tz + "_it_1", { headers: FEED_H, cf: { cacheTtl: 5, cacheEverything: true } });
+    if (!r.ok) return null;
+    const txt = await r.text();
+    const hn = g2.homeTeam && g2.homeTeam.name, an = g2.awayTeam && g2.awayTeam.name;
+    const mid = pick(findCands(txt, Math.floor(koMs / 1000)), hn, an);
+    if (!mid) return null;
+    const i = txt.indexOf("~AA÷" + mid + "¬");
+    if (i < 0) return null;
+    const e = txt.indexOf("~", i + 1);
+    return txt.slice(i, e < 0 ? undefined : e);
+  } catch (e) { return null; }
+}
