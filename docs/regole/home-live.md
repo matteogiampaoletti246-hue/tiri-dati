@@ -73,3 +73,8 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 - Un id dell'app senza scheda propria (es. `conference-league`) diventa campionato d'archivio con lo stesso id (`addArchiveLeagues`).
 - Controllo: `node controllo_aperture.cjs` (competizioni, partite della Home, squadre) -> `report/controllo_aperture.json`, deve dare 0 errori.
 - `partite.py`: partite scaricate vuote si riprovano nelle 3 settimane successive (FotMob aggiunge statistiche e formazioni dopo). `carriere_extra.py` scarica anche i giocatori presenti solo nelle rose complete (`rosa/`).
+
+## Live: statistiche dal primo minuto (16/11/2026, regola fissa)
+- Caso Grecia-Serbia (Nations League A) a 3:50: Riepilogo, Formazioni e Classifica ma niente Statistiche. FotMob pubblica statistiche e momentum solo dopo ~4-6 minuti di gioco e nessun'altra fonte del worker dava statistiche (diretta.it e LiveScore: solo punteggio, eventi, cronometro, formazioni). La scheda Statistiche si nasconde senza dati (`hasPlayedStats`), com'e' giusto.
+- Regola: seconda fonte ESPN (`espnStats` in `worker/index.js`, partita abbinata per orario + nomi come per le formazioni, `espnMatch`): se FotMob non ha statistiche (primi minuti, o campionati minori che non le hanno mai) il worker costruisce `stats.All` dal boxscore ESPN (possesso, tiri, in porta, angoli, fuorigioco, bloccati, passaggi, passaggi riusciti, lanci, cross, contrasti, intercetti, rinvii, parate, gialli, rossi, falli) con le stesse chiavi FotMob (nomi italiani dall'app); solo Totale. Appena FotMob ha le sue, valgono quelle (`stSrc: 'espn'` segna l'altra fonte). Il momentum resta solo FotMob (ESPN non lo ha): il Riepilogo parte dal Riassunto/stadio.
+

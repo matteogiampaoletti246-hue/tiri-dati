@@ -212,27 +212,59 @@ function espnXY(ab) {
   const y = /-L$/.test(a) ? 0.35 : /-R$/.test(a) ? 0.65 : /^L/.test(core) ? 0.12 : /^R/.test(core) ? 0.88 : 0.5;
   return [x, y];
 }
+// partita ESPN (stessa di FotMob: orario + nomi) e lettore con timeout: usata da formazioni e statistiche
+async function espnMatch(g2) {
+  const lg = ESPN_LU[g2.parentLeagueId] || ESPN_LU[g2.leagueId] || "all";
+  const when = g2.matchTimeUTCDate ? new Date(g2.matchTimeUTCDate) : null;
+  if (!when || isNaN(when.getTime())) return null;
+  const E = "https://site.api.espn.com/apis/site/v2/sports/soccer/" + lg + "/";
+  const get = async (u, ttl) => {
+    const ctl = new AbortController();
+    const t = setTimeout(() => ctl.abort(), 4000);
+    try { const r = await fetch(u, { signal: ctl.signal, cf: { cacheTtl: ttl, cacheEverything: true } }); return r.ok ? await r.json() : null; } catch (e) { return null; } finally { clearTimeout(t); }
+  };
+  // ESPN raggruppa le partite per giorno americano: una gara alle 02:00 UTC sta nel giorno prima
+  const day = (d) => d.toISOString().slice(0, 10).replace(/-/g, "");
+  const sbs = await Promise.all([day(when), day(new Date(when.getTime() - 86400000))].map((d) => get(E + "scoreboard?limit=1000&dates=" + d, 60)));
+  const hn = g2.homeTeam && g2.homeTeam.name, an = g2.awayTeam && g2.awayTeam.name;
+  const evs = sbs.flatMap((sb) => (sb && sb.events) || []);
+  const sides = (e) => { const c = ((e.competitions || [])[0] || {}).competitors || []; return [c.find((q) => q.homeAway === "home"), c.find((q) => q.homeAway === "away")]; };
+  // prima: orario vicino e nomi di casa e ospite uguali; poi: stesso orario esatto (15') e almeno una squadra uguale ("UAE" / "United Arab Emirates")
+  let ev = evs.find((e) => { const [H, A] = sides(e); return H && A && Math.abs(new Date(e.date).getTime() - when.getTime()) <= 6 * 3600000 && uSame(H.team && H.team.displayName, hn) && uSame(A.team && A.team.displayName, an); });
+  if (!ev) ev = evs.find((e) => { const [H, A] = sides(e); return H && A && Math.abs(new Date(e.date).getTime() - when.getTime()) <= 15 * 60000 && (uSame(H.team && H.team.displayName, hn) || uSame(A.team && A.team.displayName, an)) && !(uNorm(H.team && H.team.displayName) === uNorm(an)); });
+  return ev ? { E, ev, get } : null;
+}
+// Statistiche ESPN (seconda fonte, richiesta utente 16/11/2026: FotMob pubblica statistiche e momentum solo dopo ~4-6 minuti di gioco, ESPN le ha dal 1'):
+// solo se FotMob non ne ha. Stesso formato delle righe FotMob [chiave, titolo, casa, ospite, totCasa, totOspite, formato]; solo Totale (nessun tempo).
+async function espnStats(out, g2) {
+  try {
+    const m = await espnMatch(g2);
+    if (!m) return;
+    const sm = await m.get(m.E + "summary?event=" + m.ev.id, 8);
+    const T = (((sm || {}).boxscore || {}).teams || []);
+    const th = T.find((q) => q.homeAway === "home"), ta = T.find((q) => q.homeAway === "away");
+    if (!th || !ta) return;
+    const v = (t, n) => { const x = (t.statistics || []).find((q) => q.name === n); const n2 = x ? parseFloat(x.displayValue) : NaN; return Number.isFinite(n2) ? n2 : null; };
+    const row = (key, title, hn, an, fmt) => { const a = v(th, hn), b = v(ta, an || hn); return a == null || b == null ? null : [key, title, a, b, null, null, fmt || "integer"]; };
+    const frac = (key, title, okn, totn) => { const a = v(th, okn), b = v(ta, okn), ta2 = v(th, totn), tb = v(ta, totn); return a == null || b == null || !(ta2 || tb) ? null : [key, title, a, b, ta2, tb, "integerWithPercentage"]; };
+    const pos = v(th, "possessionPct"), posA = v(ta, "possessionPct");
+    const groups = [
+      ["top_stats", "Top stats", [pos != null && posA != null ? ["BallPossesion", "Ball possession", Math.round(pos), Math.round(posA), null, null, "integer"] : null, row("total_shots", "Total shots", "totalShots"), row("ShotsOnTarget", "Shots on target", "shotsOnTarget"), row("corners", "Corners", "wonCorners"), row("Offsides", "Offsides", "offsides")]],
+      ["shots", "Shots", [row("blocked_shots", "Blocked shots", "blockedShots")]],
+      ["passes", "Passes", [row("passes", "Passes", "totalPasses"), frac("accurate_passes", "Accurate passes", "accuratePasses", "totalPasses"), frac("long_balls_accurate", "Long balls", "accurateLongBalls", "totalLongBalls"), frac("accurate_crosses", "Accurate crosses", "accurateCrosses", "totalCrosses")]],
+      ["defense", "Defence", [row("matchstats.headers.tackles", "Tackles", "totalTackles"), row("interceptions", "Interceptions", "interceptions"), row("clearances", "Clearances", "totalClearance"), row("keeper_saves", "Keeper saves", "saves")]],
+      ["discipline", "Discipline", [row("yellow_cards", "Yellow cards", "yellowCards"), row("red_cards", "Red cards", "redCards"), row("fouls", "Fouls committed", "foulsCommitted")]],
+    ].map((g) => [g[0], g[1], g[2].filter(Boolean)]).filter((g) => g[2].length);
+    if (!groups.length) return;
+    out.stats = { All: groups, FirstHalf: null, SecondHalf: null };
+    out.stSrc = "espn";
+  } catch (e) { /* mai rompere /fx */ }
+}
 async function espnLineups(out, g2) {
   try {
-    const lg = ESPN_LU[g2.parentLeagueId] || ESPN_LU[g2.leagueId] || "all";
-    const when = g2.matchTimeUTCDate ? new Date(g2.matchTimeUTCDate) : null;
-    if (!when || isNaN(when.getTime())) return;
-    const E = "https://site.api.espn.com/apis/site/v2/sports/soccer/" + lg + "/";
-    const get = async (u, ttl) => {
-      const ctl = new AbortController();
-      const t = setTimeout(() => ctl.abort(), 4000);
-      try { const r = await fetch(u, { signal: ctl.signal, cf: { cacheTtl: ttl, cacheEverything: true } }); return r.ok ? await r.json() : null; } catch (e) { return null; } finally { clearTimeout(t); }
-    };
-    // ESPN raggruppa le partite per giorno americano: una gara alle 02:00 UTC sta nel giorno prima
-    const day = (d) => d.toISOString().slice(0, 10).replace(/-/g, "");
-    const sbs = await Promise.all([day(when), day(new Date(when.getTime() - 86400000))].map((d) => get(E + "scoreboard?limit=1000&dates=" + d, 60)));
-    const hn = g2.homeTeam && g2.homeTeam.name, an = g2.awayTeam && g2.awayTeam.name;
-    const evs = sbs.flatMap((sb) => (sb && sb.events) || []);
-    const sides = (e) => { const c = ((e.competitions || [])[0] || {}).competitors || []; return [c.find((q) => q.homeAway === "home"), c.find((q) => q.homeAway === "away")]; };
-    // prima: orario vicino e nomi di casa e ospite uguali; poi: stesso orario esatto (15') e almeno una squadra uguale ("UAE" / "United Arab Emirates")
-    let ev = evs.find((e) => { const [H, A] = sides(e); return H && A && Math.abs(new Date(e.date).getTime() - when.getTime()) <= 6 * 3600000 && uSame(H.team && H.team.displayName, hn) && uSame(A.team && A.team.displayName, an); });
-    if (!ev) ev = evs.find((e) => { const [H, A] = sides(e); return H && A && Math.abs(new Date(e.date).getTime() - when.getTime()) <= 15 * 60000 && (uSame(H.team && H.team.displayName, hn) || uSame(A.team && A.team.displayName, an)) && !(uNorm(H.team && H.team.displayName) === uNorm(an)); });
-    if (!ev) return;
+    const mt = await espnMatch(g2);
+    if (!mt) return;
+    const { E, ev, get } = mt;
     const sm = await get(E + "summary?event=" + ev.id, 20);
     const side = (ha) => {
       const r = ((sm && sm.rosters) || []).find((q) => q.homeAway === ha);
@@ -662,6 +694,8 @@ export default {
           if ((lh || la) && out.h && out.a) { out.ty = "lastStarting11"; out.luSrc = "ultima"; }
         }
         await lsMerge(out, g2.matchTimeUTCDate || stt.utcTime);
+        // statistiche: FotMob prima; se non le ha ancora (primi minuti) o non le ha mai (campionati minori) ESPN
+        if ((out.st || out.fin) && !(out.stats && out.stats.All && out.stats.All.length)) await espnStats(out, g2);
         // diretta.it (richiesta utente 16/11/2026): risultato ed eventi (gol, assist, cartellini) appena li pubblica, davanti a FotMob; FotMob resta dove ha gli id dei giocatori
         if (!out.fin && out.st) {
           const D = await dlEvents(g2, stt);
