@@ -292,49 +292,49 @@
    "pool": 37,
    "call": 24,
    "rosa": 24,
-   "src": "partita+ultima+rosa"
+   "src": "ultima+rosa"
   },
   "Norway": {
    "pool": 33,
    "call": 26,
    "rosa": 26,
-   "src": "partita+ultima+rosa"
+   "src": "ultima+rosa"
   },
   "Wales": {
    "pool": 39,
    "call": 27,
    "rosa": 27,
-   "src": "partita+ultima+rosa"
+   "src": "ultima+rosa"
   },
   "Portugal": {
    "pool": 37,
    "call": 29,
    "rosa": 29,
-   "src": "partita+ultima+rosa"
+   "src": "ultima+rosa"
   },
   "Hungary": {
    "pool": 40,
    "call": 27,
    "rosa": 27,
-   "src": "partita+ultima+rosa"
+   "src": "ultima+rosa"
   },
   "Northern Ireland": {
    "pool": 34,
    "call": 25,
    "rosa": 25,
-   "src": "partita+ultima+rosa"
+   "src": "ultima+rosa"
   },
   "Ukraine": {
    "pool": 44,
    "call": 26,
    "rosa": 26,
-   "src": "partita+ultima+rosa"
+   "src": "ultima+rosa"
   },
   "Georgia": {
    "pool": 38,
    "call": 27,
    "rosa": 27,
-   "src": "partita+ultima+rosa"
+   "src": "ultima+rosa"
   },
   "Israel": {
    "pool": 36,
@@ -364,13 +364,13 @@
    "pool": 34,
    "call": 26,
    "rosa": 26,
-   "src": "partita+ultima+rosa"
+   "src": "ultima+rosa"
   },
   "Romania": {
    "pool": 45,
    "call": 26,
    "rosa": 26,
-   "src": "partita+ultima+rosa"
+   "src": "ultima+rosa"
   },
   "Poland": {
    "pool": 43,
@@ -433,7 +433,7 @@
    "src": null
   }
  },
- "updated_at": "2026-11-16T09:03:52Z",
+ "updated_at": "2026-11-16T10:50:37Z",
  "partite": 184,
  "squadre_con_elenco": 153,
  "minuti": 2.8
