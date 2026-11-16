@@ -1,0 +1,1136 @@
+{
+ "aggiornato": "2026-11-16 19:40 UTC",
+ "partite_finite": {
+  "tutte": {
+   "fotmob": 129089,
+   "pitchapi": 0,
+   "livescore": 0,
+   "diretta": 0,
+   "formazioni_fotmob": 70946,
+   "nessuna": 298541,
+   "totale": 498576
+  },
+  "ultime_due_stagioni": {
+   "fotmob": 31628,
+   "pitchapi": 0,
+   "livescore": 0,
+   "diretta": 0,
+   "formazioni_fotmob": 8050,
+   "nessuna": 10123,
+   "totale": 49801
+  }
+ },
+ "partite_arricchite_da_pitchapi": {},
+ "giocatori": {
+  "tutte": {
+   "schede_con_partite": 115633,
+   "coperte_da_fotmob": 84211,
+   "non_coperte_da_fotmob": 31422,
+   "non_fotmob_coperte_da": {
+    "pitchapi": 0,
+    "livescore": 0,
+    "diretta": 0,
+    "formazioni_fotmob": 31422
+   },
+   "coperte_solo_da": {
+    "fotmob": 42031,
+    "pitchapi": 0,
+    "livescore": 0,
+    "diretta": 0,
+    "formazioni_fotmob": 31422
+   }
+  },
+  "ultime_due_stagioni": {
+   "schede_con_partite": 62378,
+   "coperte_da_fotmob": 49564,
+   "non_coperte_da_fotmob": 12814,
+   "non_fotmob_coperte_da": {
+    "pitchapi": 0,
+    "livescore": 0,
+    "diretta": 0,
+    "formazioni_fotmob": 12814
+   },
+   "coperte_solo_da": {
+    "fotmob": 34346,
+    "pitchapi": 0,
+    "livescore": 0,
+    "diretta": 0,
+    "formazioni_fotmob": 12814
+   }
+  }
+ },
+ "competizioni_ultime_due_stagioni": {
+  "Champions League (INT) 2026-2027": {
+   "fotmob": 72
+  },
+  "Champions League (INT) 2025-2026": {
+   "fotmob": 189
+  },
+  "Europa League (INT) 2026-2027": {
+   "fotmob": 72
+  },
+  "Europa League (INT) 2025-2026": {
+   "fotmob": 189
+  },
+  "Africa Cup of Nations (INT) 2025": {
+   "fotmob": 52
+  },
+  "Africa Cup of Nations (INT) 2023": {
+   "fotmob": 52
+  },
+  "African Nations Championship (INT) 2024": {
+   "fotmob": 44
+  },
+  "African Nations Championship (INT) 2022": {
+   "nessuna": 32
+  },
+  "Conference League (INT) 2026-2027": {
+   "fotmob": 54
+  },
+  "Conference League (INT) 2025-2026": {
+   "fotmob": 153
+  },
+  "Copa America (INT) 2024": {
+   "fotmob": 32
+  },
+  "Copa America (INT) 2021": {
+   "fotmob": 28
+  },
+  "Copa Libertadores (INT) 2026": {
+   "fotmob": 153,
+   "formazioni_fotmob": 1
+  },
+  "Copa Libertadores (INT) 2025": {
+   "fotmob": 125
+  },
+  "Copa Sudamericana (INT) 2026": {
+   "fotmob": 156
+  },
+  "Copa Sudamericana (INT) 2025": {
+   "fotmob": 140
+  },
+  "EURO (INT) 2024": {
+   "fotmob": 51
+  },
+  "FIFA Club World Cup (INT) 2025": {
+   "fotmob": 63
+  },
+  "FIFA Club World Cup (INT) 2023": {
+   "fotmob": 7
+  },
+  "FIFA Intercontinental Cup (INT) 2026": {
+   "fotmob": 2
+  },
+  "FIFA Intercontinental Cup (INT) 2025": {
+   "fotmob": 5
+  },
+  "Finalissima (INT) 2022": {
+   "fotmob": 1
+  },
+  "MLS All-Star Game (INT) 2026": {
+   "formazioni_fotmob": 1
+  },
+  "MLS All-Star Game (INT) 2025": {
+   "formazioni_fotmob": 1
+  },
+  "UEFA Nations League A (INT) 2026-2027": {
+   "fotmob": 44
+  },
+  "UEFA Nations League A (INT) 2024-2025": {
+   "fotmob": 60
+  },
+  "UEFA Nations League B (INT) 2026-2027": {
+   "fotmob": 40
+  },
+  "UEFA Nations League B (INT) 2024-2025": {
+   "fotmob": 48
+  },
+  "UEFA Nations League C (INT) 2026-2027": {
+   "fotmob": 47,
+   "formazioni_fotmob": 1
+  },
+  "UEFA Nations League C (INT) 2024-2025": {
+   "fotmob": 48
+  },
+  "UEFA Nations League D (INT) 2026-2027": {
+   "fotmob": 10,
+   "nessuna": 1
+  },
+  "UEFA Nations League D (INT) 2024-2025": {
+   "fotmob": 12
+  },
+  "UEFA Super Cup (INT) 2025-2026": {
+   "fotmob": 1
+  },
+  "UEFA Super Cup (INT) 2024-2025": {
+   "fotmob": 1
+  },
+  "World Cup (INT) 2026": {
+   "fotmob": 104
+  },
+  "World Cup (INT) 2022": {
+   "fotmob": 64
+  },
+  "Kategoria Superiore (ALB) 2026-2027": {
+   "nessuna": 55
+  },
+  "Kategoria Superiore (ALB) 2025-2026": {
+   "nessuna": 186
+  },
+  "Ligue 1 (ALG) 2026-2027": {
+   "nessuna": 67
+  },
+  "Ligue 1 (ALG) 2025-2026": {
+   "nessuna": 240
+  },
+  "Liga Profesional (ARG) 2026 - Clausura": {
+   "fotmob": 240
+  },
+  "Liga Profesional (ARG) 2026 - Apertura": {
+   "fotmob": 255
+  },
+  "Primera B Nacional (ARG) 2026": {
+   "formazioni_fotmob": 656
+  },
+  "Primera B Nacional (ARG) 2025": {
+   "formazioni_fotmob": 634
+  },
+  "Copa Argentina (ARG) 2026": {
+   "fotmob": 32,
+   "formazioni_fotmob": 30
+  },
+  "Copa Argentina (ARG) 2025": {
+   "fotmob": 33,
+   "formazioni_fotmob": 30
+  },
+  "Supercopa Argentina (ARG) 2026": {
+   "fotmob": 1
+  },
+  "Supercopa Argentina (ARG) 2024": {
+   "fotmob": 1
+  },
+  "Premier League (ARM) 2026-2027": {
+   "nessuna": 77
+  },
+  "Premier League (ARM) 2025-2026": {
+   "nessuna": 135
+  },
+  "A-League (AUS) 2026-2027": {
+   "fotmob": 23
+  },
+  "A-League (AUS) 2025-2026": {
+   "fotmob": 163
+  },
+  "Bundesliga (AUT) 2026-2027": {
+   "fotmob": 72
+  },
+  "Bundesliga (AUT) 2025-2026": {
+   "fotmob": 195
+  },
+  "Austrian Cup (AUT) 2026-2027": {
+   "nessuna": 56
+  },
+  "Austrian Cup (AUT) 2025-2026": {
+   "nessuna": 56,
+   "formazioni_fotmob": 7
+  },
+  "Premier League (AZE) 2026-2027": {
+   "nessuna": 64
+  },
+  "Premier League (AZE) 2025-2026": {
+   "nessuna": 199
+  },
+  "Premier League (BLR) 2026": {
+   "nessuna": 224
+  },
+  "Premier League (BLR) 2025": {
+   "nessuna": 240
+  },
+  "First Division A (BEL) 2026-2027": {
+   "fotmob": 99
+  },
+  "First Division A (BEL) 2025-2026": {
+   "fotmob": 313
+  },
+  "First Division B (BEL) 2026-2027": {
+   "fotmob": 70
+  },
+  "First Division B (BEL) 2025-2026": {
+   "fotmob": 277,
+   "nessuna": 1
+  },
+  "Belgian Cup (BEL) 2026-2027": {
+   "formazioni_fotmob": 16
+  },
+  "Belgian Cup (BEL) 2025-2026": {
+   "fotmob": 5,
+   "formazioni_fotmob": 28
+  },
+  "Super Cup (BEL) 2025-2026": {
+   "fotmob": 1
+  },
+  "Super Cup (BEL) 2024-2025": {
+   "fotmob": 1
+  },
+  "Primera Division (BOL) 2026": {
+   "fotmob": 200
+  },
+  "Primera Division (BOL) 2025": {
+   "fotmob": 240
+  },
+  "Premier League (BIH) 2026-2027": {
+   "nessuna": 64
+  },
+  "Premier League (BIH) 2025-2026": {
+   "nessuna": 180
+  },
+  "Série A (BRA) 2026": {
+   "fotmob": 341
+  },
+  "Série A (BRA) 2025": {
+   "fotmob": 380
+  },
+  "Série B (BRA) 2026": {
+   "fotmob": 380
+  },
+  "Série B (BRA) 2025": {
+   "fotmob": 380
+  },
+  "Copa do Brasil (BRA) 2026": {
+   "fotmob": 73,
+   "formazioni_fotmob": 81
+  },
+  "Copa do Brasil (BRA) 2025": {
+   "fotmob": 72,
+   "formazioni_fotmob": 50
+  },
+  "Supercopa do Brasil (BRA) 2026": {
+   "fotmob": 1
+  },
+  "Supercopa do Brasil (BRA) 2024": {
+   "formazioni_fotmob": 1
+  },
+  "First Professional League (BUL) 2026-2027": {
+   "formazioni_fotmob": 97
+  },
+  "First Professional League (BUL) 2025-2026": {
+   "formazioni_fotmob": 293
+  },
+  "Premier League (CAN) 2026": {
+   "fotmob": 116
+  },
+  "Premier League (CAN) 2025": {
+   "fotmob": 117
+  },
+  "Liga de Primera (CHI) 2026": {
+   "fotmob": 214,
+   "formazioni_fotmob": 2
+  },
+  "Liga de Primera (CHI) 2025": {
+   "fotmob": 240
+  },
+  "Super League (CHN) 2026": {
+   "fotmob": 240
+  },
+  "Super League (CHN) 2025": {
+   "fotmob": 240
+  },
+  "Primera A (COL) 2026 - Clausura": {
+   "fotmob": 190
+  },
+  "Primera A (COL) 2026 - Apertura": {
+   "fotmob": 204
+  },
+  "Serie A (ITA) 2026-2027": {
+   "fotmob": 110
+  },
+  "Serie A (ITA) 2025-2026": {
+   "fotmob": 380
+  },
+  "Serie B (ITA) 2026-2027": {
+   "fotmob": 121
+  },
+  "Serie B (ITA) 2025-2026": {
+   "fotmob": 390
+  },
+  "Coppa Italia (ITA) 2026-2027": {
+   "fotmob": 24,
+   "formazioni_fotmob": 4
+  },
+  "Coppa Italia (ITA) 2025-2026": {
+   "fotmob": 41,
+   "formazioni_fotmob": 4
+  },
+  "Serie C (ITA) 2026-2027": {
+   "fotmob": 430,
+   "nessuna": 1
+  },
+  "Serie C (ITA) 2025-2026": {
+   "nessuna": 1146
+  },
+  "Supercoppa (ITA) 2024-2025": {
+   "fotmob": 3
+  },
+  "Supercoppa Italiana (ITA) 2025-2026": {
+   "fotmob": 1
+  },
+  "Premier League (ENG) 2026-2027": {
+   "fotmob": 100
+  },
+  "Premier League (ENG) 2025-2026": {
+   "fotmob": 380
+  },
+  "Championship (ENG) 2026-2027": {
+   "fotmob": 180
+  },
+  "Championship (ENG) 2025-2026": {
+   "fotmob": 555,
+   "nessuna": 3
+  },
+  "League One (ENG) 2026-2027": {
+   "fotmob": 163
+  },
+  "League One (ENG) 2025-2026": {
+   "fotmob": 557
+  },
+  "League Two (ENG) 2026-2027": {
+   "fotmob": 174
+  },
+  "League Two (ENG) 2025-2026": {
+   "fotmob": 557
+  },
+  "FA Cup (ENG) 2026-2027": {
+   "fotmob": 8,
+   "formazioni_fotmob": 32
+  },
+  "FA Cup (ENG) 2025-2026": {
+   "fotmob": 81,
+   "formazioni_fotmob": 42
+  },
+  "EFL Cup (ENG) 2026-2027": {
+   "fotmob": 82
+  },
+  "EFL Cup (ENG) 2025-2026": {
+   "fotmob": 91
+  },
+  "EFL Trophy (ENG) 2026-2027": {
+   "fotmob": 91
+  },
+  "EFL Trophy (ENG) 2025-2026": {
+   "fotmob": 127
+  },
+  "FA Trophy (ENG) 2026-2027": {
+   "nessuna": 72
+  },
+  "FA Trophy (ENG) 2025-2026": {
+   "nessuna": 136
+  },
+  "LaLiga (ESP) 2026-2027": {
+   "fotmob": 119,
+   "nessuna": 1
+  },
+  "LaLiga (ESP) 2025-2026": {
+   "fotmob": 380
+  },
+  "LaLiga2 (ESP) 2026-2027": {
+   "fotmob": 150,
+   "nessuna": 1
+  },
+  "LaLiga2 (ESP) 2025-2026": {
+   "fotmob": 468
+  },
+  "Primera Federación (ESP) 2026-2027": {
+   "nessuna": 240
+  },
+  "Primera Federación (ESP) 2025-2026": {
+   "nessuna": 772
+  },
+  "Copa del Rey (ESP) 2026-2027": {
+   "nessuna": 21,
+   "fotmob": 19,
+   "formazioni_fotmob": 30
+  },
+  "Copa del Rey (ESP) 2025-2026": {
+   "fotmob": 89,
+   "formazioni_fotmob": 28
+  },
+  "Supercopa de España (ESP) 2024-2025": {
+   "fotmob": 3
+  },
+  "Bundesliga (GER) 2026-2027": {
+   "fotmob": 81
+  },
+  "Bundesliga (GER) 2025-2026": {
+   "fotmob": 306
+  },
+  "2. Bundesliga (GER) 2026-2027": {
+   "fotmob": 99
+  },
+  "2. Bundesliga (GER) 2025-2026": {
+   "fotmob": 306
+  },
+  "3. Liga (GER) 2026-2027": {
+   "fotmob": 130
+  },
+  "3. Liga (GER) 2025-2026": {
+   "fotmob": 380
+  },
+  "DFB Pokal (GER) 2026-2027": {
+   "fotmob": 48
+  },
+  "DFB Pokal (GER) 2025-2026": {
+   "fotmob": 63
+  },
+  "Super Cup (GER) 2025-2026": {
+   "fotmob": 1
+  },
+  "Super Cup (GER) 2024-2025": {
+   "fotmob": 1
+  },
+  "Ligue 1 (FRA) 2026-2027": {
+   "fotmob": 90
+  },
+  "Ligue 1 (FRA) 2025-2026": {
+   "fotmob": 306
+  },
+  "Ligue 2 (FRA) 2026-2027": {
+   "fotmob": 108
+  },
+  "Ligue 2 (FRA) 2025-2026": {
+   "fotmob": 306
+  },
+  "Coupe de France (FRA) 2026-2027": {
+   "nessuna": 254
+  },
+  "Coupe de France (FRA) 2025-2026": {
+   "nessuna": 255,
+   "fotmob": 63,
+   "formazioni_fotmob": 44
+  },
+  "Trophée des champions (FRA) 2025-2026": {
+   "fotmob": 1
+  },
+  "Trophée des champions (FRA) 2024-2025": {
+   "fotmob": 1
+  },
+  "Liga Portugal (POR) 2026-2027": {
+   "fotmob": 98
+  },
+  "Liga Portugal (POR) 2025-2026": {
+   "fotmob": 306
+  },
+  "Liga Portugal 2 (POR) 2026-2027": {
+   "nessuna": 95
+  },
+  "Liga Portugal 2 (POR) 2025-2026": {
+   "formazioni_fotmob": 306
+  },
+  "League Cup (POR) 2026-2027": {
+   "fotmob": 4
+  },
+  "League Cup (POR) 2025-2026": {
+   "fotmob": 7
+  },
+  "Super Cup (POR) 2025-2026": {
+   "fotmob": 1
+  },
+  "Super Cup (POR) 2024-2025": {
+   "fotmob": 1
+  },
+  "Taça de Portugal (POR) 2026-2027": {
+   "nessuna": 40,
+   "formazioni_fotmob": 27
+  },
+  "Taça de Portugal (POR) 2025-2026": {
+   "nessuna": 48,
+   "fotmob": 12,
+   "formazioni_fotmob": 51
+  },
+  "Eredivisie (NED) 2026-2027": {
+   "fotmob": 108
+  },
+  "Eredivisie (NED) 2025-2026": {
+   "fotmob": 309
+  },
+  "Eerste Divisie (NED) 2026-2027": {
+   "fotmob": 147
+  },
+  "Eerste Divisie (NED) 2025-2026": {
+   "fotmob": 380
+  },
+  "KNVB Cup (NED) 2026-2027": {
+   "fotmob": 26
+  },
+  "KNVB Cup (NED) 2025-2026": {
+   "fotmob": 56,
+   "formazioni_fotmob": 1
+  },
+  "Super Cup (NED) 2025-2026": {
+   "fotmob": 1
+  },
+  "Super Cup (NED) 2024-2025": {
+   "fotmob": 1
+  },
+  "Süper Lig (TUR) 2026-2027": {
+   "fotmob": 99
+  },
+  "Süper Lig (TUR) 2025-2026": {
+   "fotmob": 306
+  },
+  "1. Lig (TUR) 2026-2027": {
+   "fotmob": 139
+  },
+  "1. Lig (TUR) 2025-2026": {
+   "fotmob": 385
+  },
+  "Super Cup (TUR) 2024-2025": {
+   "fotmob": 3
+  },
+  "Turkish Cup (TUR) 2026-2027": {
+   "nessuna": 1,
+   "formazioni_fotmob": 35
+  },
+  "Turkish Cup (TUR) 2025-2026": {
+   "fotmob": 7,
+   "formazioni_fotmob": 95
+  },
+  "Premiership (SCO) 2026-2027": {
+   "fotmob": 75
+  },
+  "Premiership (SCO) 2025-2026": {
+   "fotmob": 228
+  },
+  "Championship (SCO) 2026-2027": {
+   "formazioni_fotmob": 73
+  },
+  "Championship (SCO) 2025-2026": {
+   "formazioni_fotmob": 180
+  },
+  "Premiership playoff (SCO) 2025-2026": {
+   "formazioni_fotmob": 6
+  },
+  "Premiership playoff (SCO) 2024-2025": {
+   "formazioni_fotmob": 6
+  },
+  "League Cup (SCO) 2026-2027": {
+   "nessuna": 80,
+   "formazioni_fotmob": 14
+  },
+  "League Cup (SCO) 2025-2026": {
+   "nessuna": 80,
+   "formazioni_fotmob": 15
+  },
+  "Scottish Cup (SCO) 2026-2027": {
+   "nessuna": 51
+  },
+  "Scottish Cup (SCO) 2025-2026": {
+   "nessuna": 85,
+   "formazioni_fotmob": 15
+  },
+  "MLS (USA) 2026": {
+   "fotmob": 510
+  },
+  "MLS (USA) 2025": {
+   "fotmob": 540
+  },
+  "Open Cup (USA) 2026": {
+   "nessuna": 1,
+   "fotmob": 78
+  },
+  "Open Cup (USA) 2025": {
+   "fotmob": 95
+  },
+  "Liga MX (MEX) 2026-2027 - Apertura": {
+   "fotmob": 144
+  },
+  "Liga MX (MEX) 2025-2026 - Clausura": {
+   "fotmob": 167
+  },
+  "Liga de Expansión MX (MEX) 2026-2027": {
+   "fotmob": 132
+  },
+  "Liga de Expansión MX (MEX) 2025-2026": {
+   "formazioni_fotmob": 240
+  },
+  "Primera B (COL) 2026": {
+   "nessuna": 5,
+   "formazioni_fotmob": 281
+  },
+  "Primera B (COL) 2025": {
+   "nessuna": 154,
+   "formazioni_fotmob": 154
+  },
+  "Copa Colombia (COL) 2026": {
+   "nessuna": 70
+  },
+  "Copa Colombia (COL) 2025": {
+   "nessuna": 86
+  },
+  "Liga AUF Uruguaya (URU) 2026": {
+   "formazioni_fotmob": 288
+  },
+  "Liga AUF Uruguaya (URU) 2025": {
+   "formazioni_fotmob": 300
+  },
+  "Super League (SUI) 2026-2027": {
+   "fotmob": 78
+  },
+  "Super League (SUI) 2025-2026": {
+   "fotmob": 228,
+   "nessuna": 1
+  },
+  "Challenge League (SUI) 2026-2027": {
+   "fotmob": 65
+  },
+  "Challenge League (SUI) 2025-2026": {
+   "fotmob": 180,
+   "formazioni_fotmob": 1
+  },
+  "Swiss Cup (SUI) 2026-2027": {
+   "formazioni_fotmob": 48
+  },
+  "Swiss Cup (SUI) 2025-2026": {
+   "nessuna": 20,
+   "fotmob": 3,
+   "formazioni_fotmob": 40
+  },
+  "Super League 1 (GRE) 2026-2027": {
+   "fotmob": 69
+  },
+  "Super League 1 (GRE) 2025-2026": {
+   "fotmob": 236
+  },
+  "Greece Cup (GRE) 2026-2027": {
+   "fotmob": 24,
+   "formazioni_fotmob": 11
+  },
+  "Greece Cup (GRE) 2025-2026": {
+   "fotmob": 13,
+   "formazioni_fotmob": 51
+  },
+  "Premier League (RUS) 2026-2027": {
+   "fotmob": 112
+  },
+  "Premier League (RUS) 2025-2026": {
+   "fotmob": 240
+  },
+  "Premier League (UKR) 2026-2027": {
+   "nessuna": 1,
+   "formazioni_fotmob": 90
+  },
+  "Premier League (UKR) 2025-2026": {
+   "formazioni_fotmob": 240
+  },
+  "Superligaen (DEN) 2026-2027": {
+   "fotmob": 84
+  },
+  "Superligaen (DEN) 2025-2026": {
+   "fotmob": 193
+  },
+  "1. Division (DEN) 2026-2027": {
+   "fotmob": 84
+  },
+  "1. Division (DEN) 2025-2026": {
+   "fotmob": 192
+  },
+  "Allsvenskan (SWE) 2026": {
+   "fotmob": 224
+  },
+  "Allsvenskan (SWE) 2025": {
+   "fotmob": 240
+  },
+  "Superettan (SWE) 2026": {
+   "formazioni_fotmob": 240
+  },
+  "Superettan (SWE) 2025": {
+   "formazioni_fotmob": 240
+  },
+  "Eliteserien (NOR) 2026": {
+   "fotmob": 208
+  },
+  "Eliteserien (NOR) 2025": {
+   "fotmob": 240
+  },
+  "Ekstraklasa (POL) 2026-2027": {
+   "fotmob": 124
+  },
+  "Ekstraklasa (POL) 2025-2026": {
+   "fotmob": 306
+  },
+  "Puchar Polski (POL) 2026-2027": {
+   "nessuna": 54
+  },
+  "Puchar Polski (POL) 2025-2026": {
+   "nessuna": 54,
+   "formazioni_fotmob": 15
+  },
+  "1. Liga (CZE) 2026-2027": {
+   "fotmob": 111
+  },
+  "1. Liga (CZE) 2025-2026": {
+   "fotmob": 276
+  },
+  "Czech Cup (CZE) 2026-2027": {
+   "nessuna": 3,
+   "formazioni_fotmob": 46
+  },
+  "Czech Cup (CZE) 2025-2026": {
+   "nessuna": 2,
+   "formazioni_fotmob": 55
+  },
+  "FNL (CZE) 2026-2027": {
+   "nessuna": 24,
+   "formazioni_fotmob": 88
+  },
+  "FNL (CZE) 2025-2026": {
+   "formazioni_fotmob": 240
+  },
+  "HNL (CRO) 2026-2027": {
+   "fotmob": 64
+  },
+  "HNL (CRO) 2025-2026": {
+   "fotmob": 180
+  },
+  "Croatian Cup (CRO) 2026-2027": {
+   "nessuna": 22,
+   "formazioni_fotmob": 17
+  },
+  "Croatian Cup (CRO) 2025-2026": {
+   "nessuna": 16,
+   "formazioni_fotmob": 31
+  },
+  "Super Liga (SRB) 2026-2027": {
+   "fotmob": 104
+  },
+  "Super Liga (SRB) 2025-2026": {
+   "fotmob": 296
+  },
+  "Kup Srbije (SRB) 2025-2026": {
+   "nessuna": 7
+  },
+  "Kup Srbije (SRB) 2024-2025": {
+   "nessuna": 7
+  },
+  "Liga I (ROU) 2026-2027": {
+   "fotmob": 120
+  },
+  "Liga I (ROU) 2025-2026": {
+   "fotmob": 317
+  },
+  "Cupa României (ROU) 2026-2027": {
+   "nessuna": 12,
+   "formazioni_fotmob": 12
+  },
+  "Cupa României (ROU) 2025-2026": {
+   "formazioni_fotmob": 43
+  },
+  "Supercupa (ROU) 2025-2026": {
+   "formazioni_fotmob": 1
+  },
+  "Supercupa (ROU) 2024-2025": {
+   "formazioni_fotmob": 1
+  },
+  "Primera Division (CRC) 2026-2027": {
+   "nessuna": 1,
+   "formazioni_fotmob": 79
+  },
+  "Primera Division (CRC) 2025-2026": {
+   "formazioni_fotmob": 192
+  },
+  "1. Division (CYP) 2026-2027": {
+   "formazioni_fotmob": 63
+  },
+  "1. Division (CYP) 2025-2026": {
+   "formazioni_fotmob": 240
+  },
+  "Serie A (ECU) 2026": {
+   "fotmob": 287
+  },
+  "Serie A (ECU) 2025": {
+   "fotmob": 311,
+   "nessuna": 1
+  },
+  "Premier League (EGY) 2026-2027": {
+   "fotmob": 80
+  },
+  "Premier League (EGY) 2025-2026": {
+   "fotmob": 322
+  },
+  "Primera Division (SLV) 2026-2027 - Apertura": {
+   "nessuna": 126
+  },
+  "Primera Division (SLV) 2025-2026 - Clausura": {
+   "nessuna": 145
+  },
+  "Regular Season (EST) 2026": {
+   "nessuna": 19,
+   "formazioni_fotmob": 161
+  },
+  "Regular Season (EST) 2025": {
+   "formazioni_fotmob": 180
+  },
+  "Premier League (FRO) 2026": {
+   "formazioni_fotmob": 135
+  },
+  "Premier League (FRO) 2025": {
+   "formazioni_fotmob": 135
+  },
+  "Veikkausliiga (FIN) 2026": {
+   "fotmob": 177
+  },
+  "Veikkausliiga (FIN) 2025": {
+   "fotmob": 177
+  },
+  "Erovnuli Liga (GEO) 2026": {
+   "nessuna": 161
+  },
+  "Erovnuli Liga (GEO) 2025": {
+   "nessuna": 180
+  },
+  "Nemzeti Bajnokság I (HUN) 2026-2027": {
+   "formazioni_fotmob": 77
+  },
+  "Nemzeti Bajnokság I (HUN) 2025-2026": {
+   "formazioni_fotmob": 198
+  },
+  "Besta deildin (ISL) 2026": {
+   "fotmob": 162
+  },
+  "Besta deildin (ISL) 2025": {
+   "fotmob": 162
+  },
+  "Premier Division (IRL) 2026": {
+   "fotmob": 180
+  },
+  "Premier Division (IRL) 2025": {
+   "fotmob": 180
+  },
+  "FAI Cup (IRL) 2026": {
+   "nessuna": 43
+  },
+  "FAI Cup (IRL) 2025": {
+   "nessuna": 43
+  },
+  "Ligat ha'Al (ISR) 2026-2027": {
+   "fotmob": 69,
+   "formazioni_fotmob": 1
+  },
+  "Ligat ha'Al (ISR) 2025-2026": {
+   "fotmob": 239,
+   "nessuna": 1
+  },
+  "J. League (JPN) 2026-2027": {
+   "fotmob": 140
+  },
+  "J. League (JPN) 2026": {
+   "fotmob": 200
+  },
+  "Premier League (KAZ) 2026": {
+   "nessuna": 240
+  },
+  "Premier League (KAZ) 2025": {
+   "nessuna": 182
+  },
+  "Virsliga (LVA) 2026": {
+   "fotmob": 179
+  },
+  "Virsliga (LVA) 2025": {
+   "fotmob": 180
+  },
+  "Toplyga (LTU) 2026": {
+   "nessuna": 144
+  },
+  "Toplyga (LTU) 2025": {
+   "nessuna": 180
+  },
+  "National Division (LUX) 2026-2027": {
+   "nessuna": 96
+  },
+  "National Division (LUX) 2025-2026": {
+   "nessuna": 240
+  },
+  "Prva Liga (MKD) 2026-2027": {
+   "nessuna": 65
+  },
+  "Prva Liga (MKD) 2025-2026": {
+   "nessuna": 198
+  },
+  "National Division (MDA) 2026-2027": {
+   "nessuna": 72
+  },
+  "National Division (MDA) 2025-2026": {
+   "nessuna": 114
+  },
+  "1. CFL (MNE) 2026-2027": {
+   "nessuna": 74
+  },
+  "1. CFL (MNE) 2025-2026": {
+   "nessuna": 180
+  },
+  "Premiership (NIR) 2026-2027": {
+   "nessuna": 93
+  },
+  "Premiership (NIR) 2025-2026": {
+   "nessuna": 233
+  },
+  "LPF (PAN) 2026": {
+   "nessuna": 199
+  },
+  "LPF (PAN) 2025": {
+   "nessuna": 206
+  },
+  "Division Profesional (PAR) 2026 - Clausura": {
+   "fotmob": 114
+  },
+  "Division Profesional (PAR) 2026 - Apertura": {
+   "fotmob": 131,
+   "formazioni_fotmob": 1
+  },
+  "Liga 1 (PER) 2026": {
+   "fotmob": 299,
+   "nessuna": 1
+  },
+  "Liga 1 (PER) 2025": {
+   "fotmob": 199,
+   "formazioni_fotmob": 129
+  },
+  "Saudi Pro League (KSA) 2026-2027": {
+   "fotmob": 104
+  },
+  "Saudi Pro League (KSA) 2025-2026": {
+   "fotmob": 306
+  },
+  "1. liga (SVK) 2026-2027": {
+   "fotmob": 84
+  },
+  "1. liga (SVK) 2025-2026": {
+   "fotmob": 192
+  },
+  "Slovak Cup (SVK) 2026-2027": {
+   "nessuna": 52
+  },
+  "Slovak Cup (SVK) 2025-2026": {
+   "nessuna": 65
+  },
+  "Prva Liga (SVN) 2026-2027": {
+   "nessuna": 74
+  },
+  "Prva Liga (SVN) 2025-2026": {
+   "nessuna": 162
+  },
+  "Slovenia Cup (SVN) 2025-2026": {
+   "nessuna": 15
+  },
+  "K League 1 (KOR) 2026": {
+   "fotmob": 210
+  },
+  "K League 1 (KOR) 2025": {
+   "fotmob": 228
+  },
+  "Primera Division (VEN) 2026": {
+   "fotmob": 227,
+   "formazioni_fotmob": 1
+  },
+  "Primera Division (VEN) 2025": {
+   "nessuna": 116,
+   "fotmob": 62,
+   "formazioni_fotmob": 55
+  },
+  "Cymru Premier (WAL) 2026-2027": {
+   "nessuna": 127
+  },
+  "Cymru Premier (WAL) 2025-2026": {
+   "nessuna": 195
+  },
+  "World Cup Qualification UEFA (INT) 2025-2026": {
+   "fotmob": 204
+  },
+  "World Cup Qualification UEFA (INT) 2021-2022": {
+   "fotmob": 258
+  },
+  "World Cup Qualification CAF (INT) 2023-2025": {
+   "nessuna": 66,
+   "fotmob": 32,
+   "formazioni_fotmob": 165
+  },
+  "World Cup Qualification CAF (INT) 2019-2022": {
+   "nessuna": 8,
+   "fotmob": 22,
+   "formazioni_fotmob": 128
+  },
+  "World Cup Qualification AFC (INT) 2023-2025": {
+   "fotmob": 136,
+   "nessuna": 45,
+   "formazioni_fotmob": 45
+  },
+  "World Cup Qualification AFC (INT) 2019-2022": {
+   "nessuna": 25,
+   "fotmob": 112,
+   "formazioni_fotmob": 88
+  },
+  "World Cup Qualification CONCACAF (INT) 2024-2025": {
+   "nessuna": 3,
+   "fotmob": 95,
+   "formazioni_fotmob": 2
+  },
+  "World Cup Qualification CONCACAF (INT) 2021-2022": {
+   "fotmob": 66,
+   "formazioni_fotmob": 52
+  },
+  "World Cup Qualification CONMEBOL (INT) 2023-2025": {
+   "fotmob": 90
+  },
+  "World Cup Qualification CONMEBOL (INT) 2020-2022": {
+   "fotmob": 89,
+   "nessuna": 1
+  },
+  "World Cup Qualification OFC (INT) 2024-2025": {
+   "formazioni_fotmob": 18
+  },
+  "World Cup Qualification OFC (INT) 2022": {
+   "formazioni_fotmob": 11
+  },
+  "World Cup Qualification Inter-confederation (INT) 2026": {
+   "fotmob": 4
+  },
+  "World Cup Qualification Inter-confederation (INT) 2021-2022": {
+   "formazioni_fotmob": 2
+  },
+  "EURO Qualification (INT) 2023": {
+   "fotmob": 230
+  },
+  "EURO Qualification (INT) 2022-2023": {
+   "fotmob": 9
+  },
+  "Africa Cup of Nations Qualification (INT) 2026-2027": {
+   "nessuna": 12,
+   "fotmob": 77,
+   "formazioni_fotmob": 1
+  },
+  "Africa Cup of Nations Qualification (INT) 2024-2025": {
+   "nessuna": 9,
+   "fotmob": 141,
+   "formazioni_fotmob": 2
+  },
+  "Asian Cup Qualification Playoff (INT) 2025-2026": {
+   "formazioni_fotmob": 72
+  },
+  "Asian Cup Qualification Playoff (INT) 2024": {
+   "formazioni_fotmob": 6
+  },
+  "Friendlies (INT) 2026": {
+   "fotmob": 174,
+   "nessuna": 113,
+   "formazioni_fotmob": 101
+  },
+  "UEFA Nations League A Qualification (INT) 2024-2025": {
+   "fotmob": 8
+  },
+  "UEFA Nations League B Qualification (INT) 2024-2025": {
+   "fotmob": 8
+  },
+  "UEFA Nations League C Qualification (INT) 2024-2025": {
+   "fotmob": 4
+  }
+ }
+}

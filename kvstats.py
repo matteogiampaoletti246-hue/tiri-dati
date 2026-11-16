@@ -31,7 +31,14 @@ def save(items):
     from rose_livescore import kv_get, kv_put
     seen = {}
     for fm, sk, v in items:
-        seen[key(fm, sk)] = v   # una sola volta per chiave (Cloudflare rifiuta lotti con chiavi doppie)
+        k = key(fm, sk)
+        # unione con quanto c'e' ora sul KV (16/11/2026): piu' programmi (PitchAPI, LiveScore, diretta.it, eventi, statistiche di squadra) scrivono la stessa
+        # chiave; si riscrivono solo i campi delle partite di questo giro, quelli scritti nel frattempo dagli altri restano
+        cur = kv_get(k) or {}
+        for mid, rec in (v or {}).items():
+            if isinstance(rec, dict):
+                cur.setdefault(mid, {}).update(rec)
+        seen[k] = cur   # una sola volta per chiave (Cloudflare rifiuta lotti con chiavi doppie)
     ok = True
     ks = list(seen.items())
     for i in range(0, len(ks), 40):
