@@ -1,231 +1,2423 @@
 {
  "competizioni": {
-  "LaLiga 2026-2027": {
-   "partite_completate": 1,
-   "giocatori": 45,
-   "da_fare": 1
-  },
-  "Copa del Rey 2026-2027": {
-   "partite_completate": 3,
-   "giocatori": 50,
-   "da_fare": 28
-  },
-  "Coppa Italia 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 4
-  },
-  "Cymru Premier 2026-2027": {
-   "partite_completate": 16,
-   "giocatori": 262,
-   "da_fare": 16
-  },
-  "Premier League 2026-2027": {
-   "partite_completate": 6,
-   "giocatori": 181,
-   "da_fare": 55
-  },
-  "Primera Division 2026-2027": {
-   "partite_completate": 15,
-   "giocatori": 488,
-   "da_fare": 16
-  },
-  "Championship 2026-2027": {
-   "partite_completate": 10,
-   "giocatori": 306,
-   "da_fare": 25
-  },
-  "Premiership 2026-2027": {
-   "partite_completate": 16,
-   "giocatori": 286,
-   "da_fare": 18
-  },
-  "Coupe de France 2026-2027": {
+  "Primera B Nacional 2026": {
    "partite_completate": 21,
-   "giocatori": 292,
-   "da_fare": 254
+   "giocatori": 637,
+   "da_fare": 91
   },
-  "1. Division 2026-2027": {
-   "partite_completate": 13,
-   "giocatori": 433,
-   "da_fare": 13
+  "Primera Federación 2026-2027": {
+   "partite_completate": 53,
+   "giocatori": 976,
+   "da_fare": 77
   },
-  "Scottish Cup 2026-2027": {
+  "LPF 2026": {
    "partite_completate": 0,
    "giocatori": 0,
-   "da_fare": 48
+   "da_fare": 199
   },
-  "Greece Cup 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 11
+  "Copa do Brasil 2026": {
+   "partite_completate": 1,
+   "giocatori": 1,
+   "da_fare": 78
   },
-  "Belgian Cup 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 4
-  },
-  "Turkish Cup 2026-2027": {
-   "partite_completate": 7,
-   "giocatori": 70,
-   "da_fare": 26
-  },
-  "Liga AUF Uruguaya 2026": {
-   "partite_completate": 10,
-   "giocatori": 323,
-   "da_fare": 120
-  },
-  "Swiss Cup 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 36
-  },
-  "Superettan 2026": {
-   "partite_completate": 15,
-   "giocatori": 447,
-   "da_fare": 15
-  },
-  "Prva Liga 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
+  "Primera B 2026": {
+   "partite_completate": 9,
+   "giocatori": 259,
    "da_fare": 65
   },
-  "Slovak Cup 2026-2027": {
-   "partite_completate": 4,
-   "giocatori": 78,
-   "da_fare": 25
+  "FA Trophy 2026-2027": {
+   "partite_completate": 27,
+   "giocatori": 289,
+   "da_fare": 72
   },
-  "League Cup 2026-2027": {
+  "Copa Argentina 2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 7
+  },
+  "Open Cup 2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Copa Colombia 2026": {
    "partite_completate": 2,
-   "giocatori": 63,
-   "da_fare": 10
+   "giocatori": 62,
+   "da_fare": 23
   },
-  "Kup Srbije 2025-2026": {
+  "MLS All-Star Game 2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Championship 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 180
+  },
+  "FA Cup 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 42
+  },
+  "Copa del Rey 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 28
+  },
+  "Coppa Italia 2025-2026": {
    "partite_completate": 0,
    "giocatori": 0,
    "da_fare": 4
   },
-  "Liga Portugal 2 2026-2027": {
-   "partite_completate": 18,
-   "giocatori": 439,
-   "da_fare": 38
+  "Super League 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
   },
-  "Taça de Portugal 2026-2027": {
+  "Premier League 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 240
+  },
+  "Coupe de France 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 299
+  },
+  "1. Division 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 182
+  },
+  "Scottish Cup 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 100
+  },
+  "Greece Cup 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 51
+  },
+  "Serie C 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1115
+  },
+  "Belgian Cup 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 28
+  },
+  "Turkish Cup 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 85
+  },
+  "Liga AUF Uruguaya 2025": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 300
+  },
+  "Challenge League 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Swiss Cup 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 60
+  },
+  "Superettan 2025": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 240
+  },
+  "Slovenia Cup 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 15
+  },
+  "League Cup 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 95
+  },
+  "Premiership playoff 2024-2025": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 6
+  },
+  "Liga Portugal 2 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 306
+  },
+  "Taça de Portugal 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 99
+  },
+  "Cupa României 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 43
+  },
+  "Puchar Polski 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 69
+  },
+  "Nemzeti Bajnokság I 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 198
+  },
+  "Premier League 2025": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 240
+  },
+  "National Division 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 114
+  },
+  "KNVB Cup 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "FNL 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 240
+  },
+  "Czech Cup 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 52
+  },
+  "Kategoria Superiore 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 186
+  },
+  "First Professional League 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 240
+  },
+  "Croatian Cup 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 47
+  },
+  "Austrian Cup 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 63
+  },
+  "Ligue 1 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 240
+  },
+  "Primera B Nacional 2025": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 629
+  },
+  "Primera Federación 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 762
+  },
+  "Liga de Expansión MX 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 222
+  },
+  "Copa do Brasil 2025": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 50
+  },
+  "Primera B 2025": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 306
+  },
+  "FA Trophy 2025-2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 136
+  },
+  "Copa Argentina 2025": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 30
+  },
+  "African Nations Championship 2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 32
+  },
+  "Copa Colombia 2025": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 86
+  },
+  "Supercopa do Brasil 2024": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "MLS All-Star Game 2025": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Eliteserien 2024": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Serie B 2024-2025": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 2
+  },
+  "FA Cup 2024-2025": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 61
+  },
+  "Super League 1 2024-2025": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 5
+  },
+  "Copa del Rey 2024-2025": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 32
+  },
+  "Coppa Italia 2024-2025": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 4
+  },
+  "Premier League 2024-2025": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 198
+  },
+  "Championship 2024-2025": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 180
+  },
+  "Coupe de France 2024-2025": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 296
+  },
+  "Scottish Cup 2024-2025": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 101
+  },
+  "EFL Trophy 2024-2025": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 127
+  },
+  "Primera Division 2024": {
    "partite_completate": 0,
    "giocatori": 0,
    "da_fare": 41
   },
-  "Cupa României 2026-2027": {
+  "Serie C 2024-2025": {
    "partite_completate": 0,
    "giocatori": 0,
-   "da_fare": 4
+   "da_fare": 1118
   },
-  "Puchar Polski 2026-2027": {
+  "Belgian Cup 2024-2025": {
    "partite_completate": 0,
    "giocatori": 0,
-   "da_fare": 18
+   "da_fare": 33
   },
-  "Nemzeti Bajnokság I 2026-2027": {
-   "partite_completate": 12,
-   "giocatori": 413,
-   "da_fare": 12
-  },
-  "FAI Cup 2026": {
+  "Turkish Cup 2024-2025": {
    "partite_completate": 0,
    "giocatori": 0,
-   "da_fare": 20
+   "da_fare": 121
   },
-  "Premier League 2026": {
-   "partite_completate": 13,
-   "giocatori": 254,
-   "da_fare": 64
-  },
-  "Toplyga 2026": {
-   "partite_completate": 6,
-   "giocatori": 110,
-   "da_fare": 44
-  },
-  "National Division 2026-2027": {
+  "1. Lig 2024-2025": {
    "partite_completate": 0,
    "giocatori": 0,
-   "da_fare": 70
+   "da_fare": 206
   },
-  "1. CFL 2026-2027": {
-   "partite_completate": 9,
-   "giocatori": 156,
-   "da_fare": 35
-  },
-  "Regular Season 2026": {
-   "partite_completate": 8,
-   "giocatori": 244,
-   "da_fare": 95
-  },
-  "FNL 2026-2027": {
-   "partite_completate": 9,
-   "giocatori": 267,
-   "da_fare": 81
-  },
-  "Czech Cup 2026-2027": {
+  "League Cup 2024-2025": {
    "partite_completate": 0,
    "giocatori": 0,
-   "da_fare": 31
+   "da_fare": 7
   },
-  "Kategoria Superiore 2026-2027": {
-   "partite_completate": 6,
-   "giocatori": 124,
-   "da_fare": 28
-  },
-  "First Professional League 2026-2027": {
-   "partite_completate": 12,
-   "giocatori": 407,
-   "da_fare": 12
-  },
-  "Croatian Cup 2026-2027": {
-   "partite_completate": 3,
-   "giocatori": 94,
-   "da_fare": 38
-  },
-  "Austrian Cup 2026-2027": {
+  "Premiership playoff 2023-2024": {
    "partite_completate": 0,
    "giocatori": 0,
-   "da_fare": 35
+   "da_fare": 6
   },
-  "Primera Division 2026": {
+  "Liga Portugal 2 2024-2025": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 306
+  },
+  "Taça de Portugal 2024-2025": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 111
+  },
+  "Kategoria Superiore 2024-2025": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 184
+  },
+  "Premier League 2024": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 240
+  },
+  "First Division B 2024-2025": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 216
+  },
+  "First Professional League 2024-2025": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 293
+  },
+  "Austrian Cup 2024-2025": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 63
+  },
+  "Ligue 1 2024-2025": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 240
+  },
+  "Primera B Nacional 2024": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 745
+  },
+  "Primera Federación 2024-2025": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 774
+  },
+  "Liga de Expansión MX 2024-2025": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 240
+  },
+  "Copa do Brasil 2024": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 54
+  },
+  "Primera B 2024": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 310
+  },
+  "FA Trophy 2024-2025": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 136
+  },
+  "Copa Argentina 2024": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 30
+  },
+  "African Nations Championship 2020": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 32
+  },
+  "Open Cup 2024": {
    "partite_completate": 0,
    "giocatori": 0,
    "da_fare": 1
   },
-  "Erovnuli Liga 2026": {
-   "partite_completate": 7,
-   "giocatori": 136,
+  "Copa Colombia 2024": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 70
+  },
+  "Supercopa do Brasil 2023": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "MLS All-Star Game 2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "First Division A 2023-2024": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 2
+  },
+  "Premier League 2023-2024": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 198
+  },
+  "Ligue 1 2023-2024": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 240
+  },
+  "LaLiga 2023-2024": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "League One 2023-2024": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 4
+  },
+  "FA Cup 2023-2024": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 77
+  },
+  "Copa del Rey 2023-2024": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 49
+  },
+  "Coppa Italia 2023-2024": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 4
+  },
+  "Série A 2023": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Copa America 2016": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 2
+  },
+  "Copa Libertadores 2023": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "World Cup 2014": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 45
+  },
+  "Ligue 2 2023-2024": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Championship 2023-2024": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 180
+  },
+  "Coupe de France 2023-2024": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 294
+  },
+  "Scottish Cup 2023-2024": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 101
+  },
+  "EFL Trophy 2023-2024": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 123
+  },
+  "Primera Division 2023": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 272
+  },
+  "Serie C 2023-2024": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1190
+  },
+  "Belgian Cup 2023-2024": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 33
+  },
+  "Turkish Cup 2023-2024": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 119
+  },
+  "1. Lig 2023-2024": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 309
+  },
+  "League Cup 2023-2024": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 37
+  },
+  "Premiership playoff 2022-2023": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 6
+  },
+  "Liga Portugal 2 2023-2024": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 306
+  },
+  "Taça de Portugal 2023-2024": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 111
+  },
+  "3. Liga 2023-2024": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 12
+  },
+  "Kategoria Superiore 2023-2024": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 184
+  },
+  "Premier League 2023": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 210
+  },
+  "First Division B 2023-2024": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 246
+  },
+  "First Professional League 2023-2024": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 283
+  },
+  "Austrian Cup 2023-2024": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 63
+  },
+  "Série B 2023": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Primera B Nacional 2023": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 669
+  },
+  "Primera Federación 2023-2024": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 774
+  },
+  "Liga de Expansión MX 2023-2024": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 246
+  },
+  "Copa do Brasil 2023": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 61
+  },
+  "Primera B 2023": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 310
+  },
+  "FA Trophy 2023-2024": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 135
+  },
+  "Copa Argentina 2023": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 30
+  },
+  "African Nations Championship 2018": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 32
+  },
+  "Open Cup 2023": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 16
+  },
+  "Copa Colombia 2023": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 70
+  },
+  "UEFA Nations League A 2020-2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "UEFA Nations League B 2020-2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Supercopa do Brasil 2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Championship 2022-2023": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 180
+  },
+  "Süper Lig 2022-2023": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 29
+  },
+  "MLS 2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 3
+  },
+  "FA Cup 2022-2023": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 71
+  },
+  "Copa del Rey 2022-2023": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 49
+  },
+  "Coppa Italia 2022-2023": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 4
+  },
+  "Conference League 2022-2023": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Copa America 2015": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 26
+  },
+  "EURO 2012": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 30
+  },
+  "World Cup 2010": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 62
+  },
+  "FIFA Club World Cup 2020": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "League Two 2022-2023": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Premier League 2022-2023": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 198
+  },
+  "Super League 2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 8
+  },
+  "Coupe de France 2022-2023": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 279
+  },
+  "Scottish Cup 2022-2023": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 101
+  },
+  "EFL Trophy 2022-2023": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 127
+  },
+  "Primera Division 2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 333
+  },
+  "Serie C 2022-2023": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1190
+  },
+  "Belgian Cup 2022-2023": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 33
+  },
+  "Turkish Cup 2022-2023": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 122
+  },
+  "1. Lig 2022-2023": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 347
+  },
+  "League Cup 2022-2023": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 63
+  },
+  "Premiership playoff 2021-2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 6
+  },
+  "Liga Portugal 2 2022-2023": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 306
+  },
+  "Taça de Portugal 2022-2023": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 111
+  },
+  "3. Liga 2022-2023": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "KNVB Cup 2022-2023": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 58
+  },
+  "Kategoria Superiore 2022-2023": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 180
+  },
+  "Premier League 2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 240
+  },
+  "First Division B 2022-2023": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 192
+  },
+  "First Professional League 2022-2023": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 283
+  },
+  "Liga de Primera 2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Austrian Cup 2022-2023": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 63
+  },
+  "Africa Cup of Nations 2017": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 32
+  },
+  "Ligue 1 2022-2023": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 240
+  },
+  "Série B 2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Primera B Nacional 2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 680
+  },
+  "Primera Federación 2022-2023": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 774
+  },
+  "Liga de Expansión MX 2022-2023": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 344
+  },
+  "Copa do Brasil 2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 72
+  },
+  "Primera B 2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 290
+  },
+  "FA Trophy 2022-2023": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 135
+  },
+  "Copa Argentina 2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 30
+  },
+  "African Nations Championship 2016": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 32
+  },
+  "Open Cup 2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Copa Colombia 2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 68
+  },
+  "UEFA Nations League A 2018-2019": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 24
+  },
+  "UEFA Nations League B 2018-2019": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 24
+  },
+  "UEFA Nations League C 2018-2019": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 42
+  },
+  "UEFA Nations League D 2018-2019": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 48
+  },
+  "Supercopa do Brasil 2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "First Division A 2021-2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Ligue 1 2021-2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 306
+  },
+  "MLS 2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 4
+  },
+  "FA Cup 2021-2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 68
+  },
+  "EFL Cup 2021-2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Super League 1 2021-2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 239
+  },
+  "Copa del Rey 2021-2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 39
+  },
+  "Coppa Italia 2021-2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 6
+  },
+  "Conference League 2021-2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 3
+  },
+  "Copa America 2011": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 26
+  },
+  "FIFA Club World Cup 2019": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 8
+  },
+  "League Two 2021-2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Ligue 2 2021-2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Premier League 2021-2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 198
+  },
+  "Championship 2021-2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 163
+  },
+  "Coupe de France 2021-2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 295
+  },
+  "Scottish Cup 2021-2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 116
+  },
+  "EFL Trophy 2021-2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 127
+  },
+  "Primera Division 2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 240
+  },
+  "Serie C 2021-2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1154
+  },
+  "Belgian Cup 2021-2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 33
+  },
+  "Turkish Cup 2021-2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 127
+  },
+  "1. Lig 2021-2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 347
+  },
+  "League Cup 2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 95
+  },
+  "Premiership playoff 2020-2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 6
+  },
+  "Liga Portugal 2 2021-2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 306
+  },
+  "Taça de Portugal 2021-2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 111
+  },
+  "League Cup 2021-2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 37
+  },
+  "3. Liga 2021-2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 9
+  },
+  "KNVB Cup 2021-2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 58
+  },
+  "Kategoria Superiore 2021-2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 180
+  },
+  "Premier League 2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 240
+  },
+  "First Division B 2021-2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 112
+  },
+  "First Professional League 2021-2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 222
+  },
+  "Austrian Cup 2021-2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 64
+  },
+  "Africa Cup of Nations 2015": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 32
+  },
+  "Primera B Nacional 2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 590
+  },
+  "Primera Federación 2021-2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 767
+  },
+  "Liga de Expansión MX 2021-2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 310
+  },
+  "Copa do Brasil 2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 68
+  },
+  "Primera B 2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 278
+  },
+  "FA Trophy 2021-2022": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 143
+  },
+  "Copa Argentina 2020": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 27
+  },
+  "African Nations Championship 2011": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 32
+  },
+  "Copa Colombia 2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 68
+  },
+  "Supercopa do Brasil 2020": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Serie A 2020-2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Europa League 2020-2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Serie B 2020-2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "FA Cup 2020-2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 41
+  },
+  "EFL Cup 2020-2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 81
+  },
+  "Super League 1 2020-2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 240
+  },
+  "Copa del Rey 2020-2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 47
+  },
+  "Coppa Italia 2020-2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 61
+  },
+  "Série A 2020": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 2
+  },
+  "Copa Libertadores 2020": {
+   "partite_completate": 0,
+   "giocatori": 0,
    "da_fare": 65
   },
-  "Ligue 1 2026-2027": {
+  "UEFA Super Cup 2019-2020": {
    "partite_completate": 0,
    "giocatori": 0,
-   "da_fare": 67
+   "da_fare": 1
   },
-  "Primera B Nacional 2026": {
+  "FIFA Club World Cup 2018": {
    "partite_completate": 0,
    "giocatori": 0,
-   "da_fare": 260
+   "da_fare": 8
+  },
+  "League Two 2020-2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 3
+  },
+  "Ligue 2 2020-2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Eerste Divisie 2020-2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 10
+  },
+  "Premier League 2020-2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 198
+  },
+  "Championship 2020-2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 135
+  },
+  "Coupe de France 2020-2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 262
+  },
+  "Scottish Cup 2020-2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 72
+  },
+  "EFL Trophy 2020-2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 127
+  },
+  "Primera Division 2020": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 182
+  },
+  "Serie C 2020-2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1151
+  },
+  "Belgian Cup 2020-2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 47
+  },
+  "Turkish Cup 2020-2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 122
+  },
+  "1. Lig 2020-2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 311
+  },
+  "League Cup 2020": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 95
+  },
+  "Liga Portugal 2 2020-2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 306
+  },
+  "Taça de Portugal 2020-2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 111
+  },
+  "League Cup 2020-2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 7
+  },
+  "3. Liga 2020-2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 88
+  },
+  "DFB Pokal 2020-2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 30
+  },
+  "KNVB Cup 2020-2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 41
+  },
+  "Kategoria Superiore 2020-2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 180
+  },
+  "Premier League 2020": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 239
+  },
+  "First Division B 2020-2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 112
+  },
+  "First Professional League 2020-2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 222
+  },
+  "Liga de Primera 2020": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 2
+  },
+  "Austrian Cup 2020-2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 63
+  },
+  "Africa Cup of Nations 2013": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 32
+  },
+  "Copa Sudamericana 2020": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 75
+  },
+  "Ligue 1 2020-2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 380
+  },
+  "Série B 2020": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Primera B Nacional 2020-2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 131
+  },
+  "Primera Federación 2020-2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1304
+  },
+  "Liga de Expansión MX 2020-2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 276
+  },
+  "Copa do Brasil 2020": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 112
+  },
+  "Primera B 2020": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 162
+  },
+  "FA Trophy 2020-2021": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 139
+  },
+  "Copa Colombia 2020": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 55
+  },
+  "First Division A 2019-2020": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Liga Portugal 2019-2020": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 2
+  },
+  "Premiership 2019-2020": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 179
+  },
+  "Super League 1 2019-2020": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 240
+  },
+  "UEFA Super Cup 2018-2019": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "FIFA Club World Cup 2017": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 8
+  },
+  "Africa Cup of Nations 2012": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 32
+  },
+  "Copa Sudamericana 2019": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 105
+  },
+  "First Division A 2018-2019": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 64
+  },
+  "Championship 2018-2019": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Eredivisie 2018-2019": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 2
+  },
+  "Premiership 2018-2019": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 229
+  },
+  "Süper Lig 2018-2019": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 73
+  },
+  "Serie B 2018-2019": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 187
+  },
+  "Liga Profesional 2019-2020": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 7
+  },
+  "Super League 1 2018-2019": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 240
+  },
+  "Série A 2018": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 10
+  },
+  "Copa Libertadores 2018": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 125
+  },
+  "UEFA Super Cup 2017-2018": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "FIFA Club World Cup 2016": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 8
+  },
+  "Copa Sudamericana 2018": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 106
+  },
+  "Bundesliga 2017-2018": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 174
+  },
+  "First Division A 2017-2018": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 330
+  },
+  "Ligue 1 2017-2018": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 2
+  },
+  "Eliteserien 2017": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 16
+  },
+  "Premiership 2017-2018": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 228
+  },
+  "Süper Lig 2017-2018": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 305
+  },
+  "Europa League 2017-2018": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 8
+  },
+  "Serie B 2017-2018": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 471
+  },
+  "Liga Profesional 2018-2019": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 243
+  },
+  "Super League 1 2017-2018": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 240
+  },
+  "2. Bundesliga 2017-2018": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 5
+  },
+  "Série A 2017": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Copa Libertadores 2017": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 126
+  },
+  "UEFA Super Cup 2016-2017": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "FIFA Club World Cup 2015": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 8
+  },
+  "Copa Sudamericana 2017": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 106
+  },
+  "Bundesliga 2016-2017": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 180
+  },
+  "First Division A 2016-2017": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 329
+  },
+  "Championship 2016-2017": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Ligue 1 2016-2017": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 2
+  },
+  "Eredivisie 2016-2017": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 311
+  },
+  "Eliteserien 2016": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 240
+  },
+  "Liga Portugal 2016-2017": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 305
+  },
+  "Premiership 2016-2017": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 229
+  },
+  "Süper Lig 2016-2017": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 306
+  },
+  "Serie B 2016-2017": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 470
+  },
+  "Liga Profesional 2017-2018": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 378
+  },
+  "MLS 2016": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 17
+  },
+  "Super League 1 2016-2017": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 252
+  },
+  "2. Bundesliga 2016-2017": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 306
+  },
+  "Série A 2016": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 366
+  },
+  "Copa Libertadores 2016": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 126
+  },
+  "UEFA Super Cup 2015-2016": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "FIFA Club World Cup 2014": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 8
+  },
+  "Copa Sudamericana 2016": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 92
+  },
+  "Bundesliga 2015-2016": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 292
+  },
+  "First Division A 2015-2016": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 294
+  },
+  "Champions League 2015-2016": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 122
+  },
+  "Premier League 2015-2016": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 331
+  },
+  "Championship 2015-2016": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 530
+  },
+  "Ligue 1 2015-2016": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 360
+  },
+  "Serie A 2015-2016": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 380
+  },
+  "Eredivisie 2015-2016": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 311
+  },
+  "Eliteserien 2015": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 238
+  },
+  "Liga Portugal 2015-2016": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 303
+  },
+  "Premiership 2015-2016": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 228
+  },
+  "Süper Lig 2015-2016": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 306
+  },
+  "Europa League 2015-2016": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 202
+  },
+  "Serie B 2015-2016": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 472
+  },
+  "LaLiga 2015-2016": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 379
+  },
+  "Liga Profesional 2016-2017": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 450
+  },
+  "MLS 2015": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 351
+  },
+  "Super League 1 2015-2016": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 252
+  },
+  "2. Bundesliga 2015-2016": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 305
+  },
+  "Série A 2015": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 364
+  },
+  "Copa Libertadores 2015": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 109
+  },
+  "UEFA Super Cup 2014-2015": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "FIFA Club World Cup 2013": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 8
+  },
+  "Copa Sudamericana 2015": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 92
+  },
+  "Bundesliga 2014-2015": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 301
+  },
+  "First Division A 2014-2015": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 298
+  },
+  "Champions League 2014-2015": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 115
+  },
+  "Premier League 2014-2015": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 375
+  },
+  "Championship 2014-2015": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 552
+  },
+  "Ligue 1 2014-2015": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 347
+  },
+  "Serie A 2014-2015": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 379
+  },
+  "Eredivisie 2014-2015": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 220
+  },
+  "Eliteserien 2014": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 237
+  },
+  "Liga Portugal 2014-2015": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 288
+  },
+  "Premiership 2014-2015": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 228
+  },
+  "Süper Lig 2014-2015": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 304
+  },
+  "Europa League 2014-2015": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 205
+  },
+  "Serie B 2014-2015": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 472
+  },
+  "LaLiga 2014-2015": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 379
+  },
+  "MLS 2014": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 336
+  },
+  "Super League 1 2014-2015": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 318
+  },
+  "2. Bundesliga 2014-2015": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 306
+  },
+  "Série A 2014": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 301
+  },
+  "Copa Libertadores 2014": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 122
+  },
+  "UEFA Super Cup 2013-2014": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "FIFA Club World Cup 2012": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 8
+  },
+  "Copa Sudamericana 2014": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 92
+  },
+  "Bundesliga 2013-2014": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 306
+  },
+  "First Division A 2013-2014": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 299
+  },
+  "Champions League 2013-2014": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 124
+  },
+  "Premier League 2013-2014": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 377
+  },
+  "Championship 2013-2014": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 556
+  },
+  "Ligue 1 2013-2014": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 379
+  },
+  "Serie A 2013-2014": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 378
+  },
+  "Eredivisie 2013-2014": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 292
+  },
+  "Eliteserien 2013": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 240
+  },
+  "Liga Portugal 2013-2014": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 242
+  },
+  "Premiership 2013-2014": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 228
+  },
+  "Süper Lig 2013-2014": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 306
+  },
+  "Europa League 2013-2014": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 204
+  },
+  "Serie B 2013-2014": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 472
+  },
+  "LaLiga 2013-2014": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 380
+  },
+  "Liga Profesional 2015": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 468
+  },
+  "MLS 2013": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 338
+  },
+  "Super League 1 2013-2014": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 319
+  },
+  "2. Bundesliga 2013-2014": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 306
+  },
+  "Série A 2013": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 380
+  },
+  "Copa Libertadores 2013": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 126
+  },
+  "UEFA Super Cup 2012-2013": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "FIFA Club World Cup 2011": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 8
+  },
+  "Copa Sudamericana 2013": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 92
+  },
+  "Bundesliga 2012-2013": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 306
+  },
+  "First Division A 2012-2013": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 302
+  },
+  "Champions League 2012-2013": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 125
+  },
+  "Premier League 2012-2013": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 379
+  },
+  "Championship 2012-2013": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 557
+  },
+  "Ligue 1 2012-2013": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 380
+  },
+  "Serie A 2012-2013": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 379
+  },
+  "Eredivisie 2012-2013": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 311
+  },
+  "Eliteserien 2012": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 240
+  },
+  "Liga Portugal 2012-2013": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 240
+  },
+  "Premiership 2012-2013": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 228
+  },
+  "Süper Lig 2012-2013": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 306
+  },
+  "Europa League 2012-2013": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 205
+  },
+  "Serie B 2012-2013": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 468
+  },
+  "LaLiga 2012-2013": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 380
+  },
+  "Liga Profesional 2014": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 190
+  },
+  "MLS 2012": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 338
+  },
+  "Super League 1 2012-2013": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 253
+  },
+  "2. Bundesliga 2012-2013": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 306
+  },
+  "Série A 2012": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 379
+  },
+  "Copa Libertadores 2012": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 126
+  },
+  "UEFA Super Cup 2011-2012": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "FIFA Club World Cup 2010": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 8
+  },
+  "Copa Sudamericana 2012": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 92
+  },
+  "Bundesliga 2011-2012": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 306
+  },
+  "First Division A 2011-2012": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 302
+  },
+  "Champions League 2011-2012": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 125
+  },
+  "Premier League 2011-2012": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 377
+  },
+  "Championship 2011-2012": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 557
+  },
+  "Ligue 1 2011-2012": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 380
+  },
+  "Serie A 2011-2012": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 380
+  },
+  "Eredivisie 2011-2012": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 308
+  },
+  "Eliteserien 2011": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 240
+  },
+  "Liga Portugal 2011-2012": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 239
+  },
+  "Premiership 2011-2012": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 228
+  },
+  "Süper Lig 2011-2012": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 330
+  },
+  "Europa League 2011-2012": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 205
+  },
+  "Serie B 2011-2012": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 470
+  },
+  "LaLiga 2011-2012": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 380
+  },
+  "MLS 2011": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 318
+  },
+  "Super League 1 2011-2012": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 252
+  },
+  "2. Bundesliga 2011-2012": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 306
+  },
+  "Série A 2011": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 380
+  },
+  "Copa Libertadores 2011": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 126
+  },
+  "UEFA Super Cup 2010-2011": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Copa Sudamericana 2011": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 76
+  },
+  "Bundesliga 2010-2011": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 306
+  },
+  "First Division A 2010-2011": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 300
+  },
+  "Champions League 2010-2011": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 125
+  },
+  "Premier League 2010-2011": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 380
+  },
+  "Championship 2010-2011": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 557
+  },
+  "Ligue 1 2010-2011": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 380
+  },
+  "Serie A 2010-2011": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 380
+  },
+  "Eredivisie 2010-2011": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 305
+  },
+  "Eliteserien 2010": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 128
+  },
+  "Liga Portugal 2010-2011": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 240
+  },
+  "Premiership 2010-2011": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 228
+  },
+  "Süper Lig 2010-2011": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 306
+  },
+  "Europa League 2010-2011": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 205
+  },
+  "Serie B 2010-2011": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 470
+  },
+  "LaLiga 2010-2011": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 380
+  },
+  "MLS 2010": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 150
+  },
+  "Super League 1 2010-2011": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 252
+  },
+  "2. Bundesliga 2010-2011": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 305
+  },
+  "Série A 2010": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 310
+  },
+  "Copa Libertadores 2010": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 6
+  },
+  "Copa Sudamericana 2010": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 76
   }
  },
  "codici_it_visti": {
-  "4": 2547,
-  "5": 2547,
-  "36": 1004,
-  "37": 77,
-  "38": 3,
-  "39": 24,
-  "43": 1226,
-  "44": 23,
-  "45": 38,
-  "47": 7,
-  "57": 2,
-  "62": 2,
-  "63": 145,
-  "70": 1
+  "4": 1004,
+  "5": 1004,
+  "36": 288,
+  "37": 35,
+  "38": 6,
+  "39": 3,
+  "43": 505,
+  "44": 12,
+  "45": 28,
+  "62": 11,
+  "63": 123
  },
- "partite_completate_in_questo_giro": 1500
+ "partite_completate_in_questo_giro": 475
 }
