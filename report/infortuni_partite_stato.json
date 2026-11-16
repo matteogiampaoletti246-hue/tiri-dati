@@ -1,7 +1,7 @@
 {
- "squadre": 372,
+ "squadre": 370,
  "nazionali": 74,
- "club": 298,
+ "club": 296,
  "dettaglio_nazionali": {
   "Faroe Islands": {
    "pool": 34,
@@ -433,8 +433,8 @@
    "src": null
   }
  },
- "updated_at": "2026-11-16T01:43:29Z",
- "partite": 186,
+ "updated_at": "2026-11-16T04:53:55Z",
+ "partite": 185,
  "squadre_con_elenco": 153,
- "minuti": 1.7
+ "minuti": 2.6
 }
