@@ -7,7 +7,9 @@ BUDGET = float(os.environ.get("BUDGET_MIN", "320")) * 60
 SHARD = int(os.environ.get("SHARD", "0")); NSHARD = int(os.environ.get("NSHARD", "1"))
 CAP_MB = float(os.environ.get("CAP_MB", "200"))   # 130 -> 200: le posizioni dei tiri (sx) aggiungono ~100 MB alle stagioni dal 2019
 T0 = time.time()
-RECENT_YEAR = time.gmtime().tm_year - 1   # stagioni "2025-2026" e "2026", "2026-2027": possono avere ancora partite da aggiungere
+RECENT_YEAR = time.gmtime().tm_year - 1
+# anno di fine della stagione ("2023-2025" -> 2025: qualificazioni lunghe salvate vuote, 16/11/2026)
+fine = lambda s: max([int(y) for y in __import__("re").findall(r"\d{4}", s)] or [0])   # stagioni "2025-2026" e "2026", "2026-2027": possono avere ancora partite da aggiungere
 def get(i, tries=3):
     for k in range(tries):
         try:
@@ -165,7 +167,7 @@ def run():
         aperta = any(not m[7] and not m[8] for m in allfx)
         todo = [m for m in fx if str(m[0]) not in cur["m"]]
         if recente:
-            todo += [m for m in fx if str(m[0]) in cur["m"] and (incompleta(cur["m"][str(m[0])]) or (vuota(cur["m"][str(m[0])]) and (da_poco(m) or int(s[:4]) >= RECENT_YEAR)))
+            todo += [m for m in fx if str(m[0]) in cur["m"] and (incompleta(cur["m"][str(m[0])]) or (vuota(cur["m"][str(m[0])]) and (da_poco(m) or fine(s) >= RECENT_YEAR)))
                      and (cur["m"][str(m[0])].get("rt") or 0) < MAX_RT]
             todo += [m for m in fx if str(m[0]) in cur["m"] and sxvuoto(cur["m"][str(m[0])]) and da_poco(m, 3)
                      and (cur["m"][str(m[0])].get("rt") or 0) < 3 and m not in todo]
