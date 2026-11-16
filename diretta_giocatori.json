@@ -1,0 +1,103 @@
+{
+ "competizioni": {
+  "Ligue 1 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Primera B Nacional 2026": {
+   "partite_completate": 2,
+   "giocatori": 59,
+   "da_fare": 2
+  },
+  "Serie C 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "FA Trophy 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 13
+  },
+  "LaLiga2 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Primera Federación 2026-2027": {
+   "partite_completate": 2,
+   "giocatori": 32,
+   "da_fare": 2
+  },
+  "Copa del Rey 2026-2027": {
+   "partite_completate": 1,
+   "giocatori": 17,
+   "da_fare": 1
+  },
+  "Coupe de France 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 68
+  },
+  "Liga Portugal 2 2026-2027": {
+   "partite_completate": 1,
+   "giocatori": 25,
+   "da_fare": 1
+  },
+  "Championship 2026-2027": {
+   "partite_completate": 1,
+   "giocatori": 28,
+   "da_fare": 1
+  },
+  "Primera B 2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 6
+  },
+  "Copa Colombia 2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Liga AUF Uruguaya 2026": {
+   "partite_completate": 2,
+   "giocatori": 49,
+   "da_fare": 2
+  },
+  "Czech Cup 2026-2027": {
+   "partite_completate": 1,
+   "giocatori": 30,
+   "da_fare": 1
+  },
+  "FNL 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Primera Division 2026-2027 - Apertura": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 11
+  },
+  "LPF 2026": {
+   "partite_completate": 5,
+   "giocatori": 72,
+   "da_fare": 6
+  },
+  "Slovak Cup 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Friendlies 2026": {
+   "partite_completate": 6,
+   "giocatori": 142,
+   "da_fare": 14
+  }
+ },
+ "partite_completate": 21,
+ "giocatori": 454,
+ "senza_abbinamento": 10,
+ "senza_formazioni_diretta": 103
+}
