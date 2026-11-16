@@ -119,13 +119,6 @@
    "senza_abbinamento": 0,
    "da_fare": 2
   },
-  "Serie A (ECU) 2024": {
-   "lega_pitch": "Serie A",
-   "partite_completate": 1,
-   "giocatori": 17,
-   "senza_abbinamento": 0,
-   "da_fare": 1
-  },
   "Primera Division (VEN) 2024": {
    "lega_pitch": "Primera Division",
    "partite_completate": 0,
@@ -254,5 +247,5 @@
   }
  },
  "senza_lega_pitch": [],
- "partite_completate_in_questo_giro": 1
+ "partite_completate_in_questo_giro": 0
 }
