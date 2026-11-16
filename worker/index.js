@@ -614,7 +614,7 @@ export default {
         const fmReady = fmOfficial && !noXY(out.h) && !noXY(out.a);
         const dl = await dlLineups(g2, stt, id, env);
         let dlDone = false;
-        if (dl && dl.official && !(g2.started && fmReady)) {
+        if (dl && dl.official && !fmReady) { // ufficiale: vale la prima fonte che la mostra; FotMob con i posti in campo gia' completa resta com'e'
           [out.h, out.a] = await Promise.all([dlFill(dl.h, fm0.h, out.hi), dlFill(dl.a, fm0.a, out.ai)]);
           out.luSrc = "diretta"; out.ty = "standard"; dlDone = true;
         }

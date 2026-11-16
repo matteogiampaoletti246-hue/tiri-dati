@@ -80,13 +80,16 @@ export default function Match() {
     };
     const cap = setTimeout(() => { if (on) setOkId(id); }, 7000);
     prepareMatch(id).then(() => { clearTimeout(cap); done(); });
-    // live: ogni 5 secondi. Prima del fischio: ogni 5 secondi solo dentro la finestra delle formazioni (1h26 per tutti) finche' non sono ufficiali, prima una volta ogni 2 ore (`lineupWindow.js`)
+    // live: ogni 5 secondi. Prima del fischio: ogni 2,5 secondi solo dentro la finestra delle formazioni (1h26 per tutti) finche' non sono ufficiali, prima una volta ogni 2 ore (`lineupWindow.js`)
     let n = 0;
+    // battito da 2,5 s: dentro la finestra formazioni (non ancora ufficiali) ogni battito = ogni 2,5 s; live e fuori finestra come prima (2 battiti = 5 s)
     const t = setInterval(() => {
       n += 1;
-      const beat = lineupBeat(matchById(id));
-      if (beat && n % beat === 0) prepareMatch(id, true).then(() => on && bump((x) => x + 1));
-    }, 5000);
+      const m = matchById(id);
+      const beat = lineupBeat(m);
+      const fast = !!m && m.status === 'scheduled' && m.ts - Date.now() <= lineupWindowMs(m) && !lineupIsOfficial(m);
+      if (beat && (fast || n % (beat * 2) === 0)) prepareMatch(id, true).then(() => on && bump((x) => x + 1));
+    }, 2500);
     // aperta dentro la finestra: controllo subito, senza aspettare il primo battito
     const m0 = matchById(id);
     if (m0 && m0.status === 'scheduled' && m0.ts - Date.now() <= lineupWindowMs(m0) && !lineupIsOfficial(m0)) prepareMatch(id, true).then(() => on && bump((x) => x + 1));

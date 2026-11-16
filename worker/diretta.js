@@ -3,11 +3,11 @@
 // formazioni: GraphQL persistito `dlie2` (ufficiali) e `dplie` (probabili), verificato il 15/11/2026 su Belgio-Italia e su partite dei giorni dopo.
 // Regole di aggiornamento (richieste dall'utente):
 //   - oltre 1h26 dal fischio: una lettura ogni 2 ore (formazioni probabili);
-//   - da 1h26 al fischio: una lettura ogni 5 secondi finche' le formazioni non sono ufficiali;
+//   - da 1h26 al fischio: una lettura ogni 2 secondi finche' le formazioni non sono ufficiali;
 //   - ufficiali: salvate in KV e mai piu' riscritte; una sola lettura al fischio d'inizio, poi il live funziona come prima.
 export const DL_WINDOW_MS = 86 * 60000;
 const EARLY_MS = 2 * 3600000;
-const BEAT_MS = 4500;
+const BEAT_MS = 2000; // dentro la finestra: lettura nuova ogni 2 secondi (richiesta 16/11/2026: "appena viene mostrata deve comparire")
 const FEED = "https://www.diretta.it/x/feed/";
 const GQL = "https://400.ds.lsapp.eu/pq_graphql?projectId=400&_hash=";
 const UA = "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 Mobile Safari/604.1";
