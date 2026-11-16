@@ -1,7 +1,7 @@
 {
 "nota": "unioni di profili doppi (stesso giocatore con piu' id) e collegamenti PitchAPI -> FotMob",
 "doppi_uniti": 0,
-"collegati": 6158,
+"collegati": 6156,
 "unioni": [],
 "collegamenti": [
 {
@@ -11214,17 +11214,6 @@
 "tipo": "collegato"
 },
 {
-"nome": "Collins Sor",
-"squadra": "Amed Sportif",
-"id_uniti": [
-"p_4Etmw6",
-"fm:1054011"
-],
-"tenuto": "p_4Etmw6",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
 "nome": "Connor Allan",
 "squadra": "Falkirk",
 "id_uniti": [
@@ -19064,7 +19053,7 @@
 "fm:1200984"
 ],
 "tenuto": "p_1TL4O0",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (date e minuti uguali in 10/10 partite)",
 "tipo": "collegato"
 },
 {
@@ -24993,7 +24982,7 @@
 "fm:1140003"
 ],
 "tenuto": "p_3jDkWb",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (cognome e iniziale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -32957,7 +32946,7 @@
 "fm:934960"
 ],
 "tenuto": "p_1Iw4MJ",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (cognome e iniziale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -48995,7 +48984,7 @@
 "fm:1392225"
 ],
 "tenuto": "p_01msrd",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (cognome e iniziale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -49325,7 +49314,7 @@
 "fm:1192419"
 ],
 "tenuto": "p_0QEQ8K",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (cognome e iniziale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -60589,7 +60578,7 @@
 "fm:1165477"
 ],
 "tenuto": "p_1bsjLs",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome contenuto + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -65323,17 +65312,6 @@
 "tipo": "collegato"
 },
 {
-"nome": "Xayal Əliyev",
-"squadra": "Sabah FK",
-"id_uniti": [
-"p_2NlQmQ",
-"fm:1661503"
-],
-"tenuto": "p_2NlQmQ",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
 "nome": "Xeka",
 "squadra": "Estoril",
 "id_uniti": [
@@ -65902,7 +65880,7 @@
 "fm:728941"
 ],
 "tenuto": "p_4fndvI",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (cognome e iniziale + date 100%)",
 "tipo": "collegato"
 },
 {
