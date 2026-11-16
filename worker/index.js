@@ -634,8 +634,10 @@ export default {
             if (!out.ty || out.ty === "unavailable") out.ty = alt.ty;
           }
         }
-        // formazione PROBABILE di diretta.it: davanti a quella di FotMob e all'ultima formazione, ma solo se nessun'altra fonte ha gia' i titolari ufficiali
-        if (!dlDone && dl && !dl.official && !g2.started && !fmOfficial && !out.luSrc) {
+        // formazione PROBABILE di diretta.it: davanti a ogni altra probabile; ma non a titolari ufficiali gia' presi da un'altra fonte
+        // (16/11/2026: diretta vince su QUALSIASI altra probabile, anche ESPN/PitchAPI/LiveScore/ultima formazione; cede solo a una formazione ufficiale gia' presa da un'altra fonte)
+        const otherOfficial = /^(standard|official|confirm)/i.test(String(out.ty || "")) && !!out.h && !!out.a && !noXY(out.h) && !noXY(out.a);
+        if (!dlDone && dl && !dl.official && !g2.started && !otherOfficial) {
           [out.h, out.a] = await Promise.all([dlFill(dl.h, fm0.h, out.hi), dlFill(dl.a, fm0.a, out.ai)]);
           out.luSrc = "diretta"; out.ty = "predicted";
         }
