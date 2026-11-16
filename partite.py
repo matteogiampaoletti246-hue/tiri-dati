@@ -32,8 +32,9 @@ def compact(j):
     out = {}
     # statistiche di squadra (periodo "All"): chiave -> [casa, trasferta]
     st = {}
-    for grp in ((c.get("stats") or {}).get("Periods") or {}).get("All", {}).get("stats", []) or []:
-        for it in grp.get("stats") or []:
+    # campionati minori: "stats" e' null (prima qui si rompeva e la partita restava salvata vuota: 18 mila partite, 16/11/2026)
+    for grp in (((c.get("stats") or {}).get("Periods") or {}).get("All") or {}).get("stats") or []:
+        for it in (grp or {}).get("stats") or []:
             k = it.get("key"); v = it.get("stats")
             if k and isinstance(v, list) and len(v) == 2 and k not in st: st[k] = v
     if st: out["s"] = st
@@ -62,7 +63,7 @@ def compact(j):
     ps = {}
     for pid, v in (c.get("playerStats") or {}).items():
         d = {}
-        for grp in v.get("stats") or []:
+        for grp in (v or {}).get("stats") or []:
             for name, it in (grp.get("stats") or {}).items():
                 s = (it or {}).get("stat") or {}
                 val = num(s.get("value"))
@@ -76,7 +77,8 @@ def compact(j):
     # Campionati e coppe dove FotMob non da' le statistiche dei giocatori (Estonia, Ungheria, Liga Portugal 2...) ma ha formazioni ed eventi (16/11/2026):
     # minuti, gol, assist e cartellini si ricavano da titolari, cambi ed eventi, cosi' la partita entra nella scheda del giocatore. "lu": 1 = ricavati.
     if not ps:
-        dp = derive_players(c)
+        try: dp = derive_players(c)
+        except Exception: dp = {}
         if dp: out["p"] = dp; out["lu"] = 1
     # tiri con posizione (mappe del campo del giocatore): stesso formato del worker (`/sh`) + id del giocatore in coda, senza autogol:
     # [min, minAdded, teamId, playerId, x, y, eventType, murato, inPorta, blockedX, blockedY, goalCrossedY, goalCrossedZ, xG, xGOT, shotType, situation, 0, period, playerId]
