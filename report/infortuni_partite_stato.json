@@ -1,7 +1,7 @@
 {
- "squadre": 370,
+ "squadre": 368,
  "nazionali": 74,
- "club": 296,
+ "club": 294,
  "dettaglio_nazionali": {
   "Faroe Islands": {
    "pool": 34,
@@ -16,7 +16,7 @@
    "src": "partita+ultima+rosa"
   },
   "Kazakhstan": {
-   "pool": 44,
+   "pool": 43,
    "call": 23,
    "rosa": 49,
    "src": "partita+ultima"
@@ -106,7 +106,7 @@
    "src": "ultima+rosa"
   },
   "Slovenia": {
-   "pool": 35,
+   "pool": 34,
    "call": 26,
    "rosa": 26,
    "src": "ultima+rosa"
@@ -242,8 +242,8 @@
   },
   "Jordan": {
    "pool": 39,
-   "call": 28,
-   "rosa": 28,
+   "call": 23,
+   "rosa": 23,
    "src": "rosa"
   },
   "Australia": {
@@ -289,7 +289,7 @@
    "src": null
   },
   "Denmark": {
-   "pool": 38,
+   "pool": 37,
    "call": 24,
    "rosa": 24,
    "src": "partita+ultima+rosa"
@@ -331,7 +331,7 @@
    "src": "partita+ultima+rosa"
   },
   "Georgia": {
-   "pool": 39,
+   "pool": 38,
    "call": 27,
    "rosa": 27,
    "src": "partita+ultima+rosa"
@@ -367,7 +367,7 @@
    "src": "partita+ultima+rosa"
   },
   "Romania": {
-   "pool": 46,
+   "pool": 45,
    "call": 26,
    "rosa": 26,
    "src": "partita+ultima+rosa"
@@ -421,7 +421,7 @@
    "src": "partita+ultima"
   },
   "Uruguay": {
-   "pool": 37,
+   "pool": 36,
    "call": 29,
    "rosa": 29,
    "src": "ultima+rosa"
@@ -433,8 +433,8 @@
    "src": null
   }
  },
- "updated_at": "2026-11-16T04:53:55Z",
- "partite": 185,
+ "updated_at": "2026-11-16T09:03:52Z",
+ "partite": 184,
  "squadre_con_elenco": 153,
- "minuti": 2.6
+ "minuti": 2.8
 }
