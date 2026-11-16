@@ -14,7 +14,7 @@ import { InjuryIconN } from '../shared/Icons';
 import Radar from '../shared/Radar';
 import { resetSel, presetSel, useSel, peekSel, useSelValue } from '../shared/hooks';
 import { FlagN, ClubNatN, natOf } from '../shared/FlagN';
-import { playerCtx } from '../shared/playerCtx';
+import { playerCtx, clubTeamOf } from '../shared/playerCtx';
 import { NATIONS_KEYS, nextFixture } from '@/data/calcData';
 import useAsync from '@/hooks/useAsync';
 import { BASE } from '@/data/load';
@@ -276,7 +276,7 @@ const TAB_LBL = { profilo: 'Profilo', partite: 'Partite', stat: 'Statistiche', a
 
 function Body({ C, player: player1, openRoute, onBack, bottom, top }) {
   const { player, dataP, clubE, natE } = playerCtx(player1);
-  const clubTeam = teamById(clubE.teamId) || teamById(player.teamId);
+  const clubTeam = clubTeamOf(player1, clubE, teamById(player.teamId));
   const natTeam = natE ? teamById(natE.teamId) : null;
   // colori e statistiche seguono la PROSSIMA partita del giocatore: se e' con la nazionale (prima di quella del club) si parte dal contesto nazionale
   const nxC = nextFixture(clubE.teamName), nxN = natE ? nextFixture(natE.teamName) : null;

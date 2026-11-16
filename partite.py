@@ -108,13 +108,15 @@ def derive_players(c):
     for e in evs:   # supplementari: 120
         if e.get("type") == "Half" and (e.get("halfStrShort") in ("ET", "AET") or (num(e.get("time")) or 0) > 100): end = 120
         if (num(e.get("time")) or 0) > 90 and e.get("type") in ("Goal", "Card", "Substitution") and (num(e.get("time")) or 0) > 105: end = 120
+    if str(lu.get("lineupType") or "").lower() in ("predicted", "unavailable"): return {}   # solo formazioni vere
     st, inn, out_ = {}, {}, {}
     for side in ("homeTeam", "awayTeam"):
         t = lu.get(side)
         if not isinstance(t, dict): continue
-        for x in t.get("starters") or []:
-            if x.get("id"): st[str(x["id"])] = 1
-    if len(st) < 20: return {}   # formazione incompleta: niente minuti
+        ids = [str(x["id"]) for x in t.get("starters") or [] if x.get("id")]
+        if len(ids) >= 7:   # squadra con la formazione (anche se a qualche titolare manca l'id): quelli con l'id sono titolari veri
+            for i in ids: st[i] = 1
+    if not st: return {}
     for e in evs:
         if e.get("type") != "Substitution": continue
         sw = e.get("swap") or []

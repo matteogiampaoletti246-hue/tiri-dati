@@ -9,7 +9,7 @@ import { TeamCrest } from './ui';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { FlagN, ClubNatN, natOf } from './FlagN';
-import { playerCtx } from './playerCtx';
+import { playerCtx, clubTeamOf } from './playerCtx';
 import { presetSel, peekSel } from './hooks';
 import { resetSel } from './hooks';
 import { closePanel, usePlayerPanel } from '@/data/playerPanel';
@@ -65,7 +65,7 @@ function Body({ C, player: player1, onProfile, panelW, full, showStats, top }) {
   const { player, dataP, clubE, natE } = playerCtx(player1);
   if (player1.nat && natE && peekSel(dataP.id, 'sc') === undefined) presetSel(dataP.id, 'sc', natE.leagueId);
   const team = teamById(player.teamId);
-  const clubTeam = teamById(clubE.teamId) || team;
+  const clubTeam = clubTeamOf(player1, clubE, team);
   const natI = natOf(clubE) || natOf(player1);
   const pid = useBioPid(player);
   const photo = player.photo || (pid ? playerFace(pid) : null);
