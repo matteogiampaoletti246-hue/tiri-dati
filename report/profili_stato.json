@@ -1,7 +1,7 @@
 {
  "giocatori": 6210,
- "con_id_fotmob": 6174,
- "senza_id_fotmob": 36,
+ "con_id_fotmob": 6172,
+ "senza_id_fotmob": 38,
  "squadre_pitchapi": 294,
  "squadre_abbinate": 292,
  "squadre_non_abbinate": [
@@ -19,8 +19,8 @@
    ]
   ]
  ],
- "doppi_uniti": 0,
- "giocatori_con_partite_aggiunte": 0,
+ "doppi_uniti": 17,
+ "giocatori_con_partite_aggiunte": 3183,
  "competizioni_partite_aggiunte": [
   [
    "EFL Cup",
@@ -379,20 +379,12 @@
    20
   ],
   [
-   "Europa League",
-   15
-  ],
-  [
    "FNL",
    14
   ],
   [
    "World Cup Qualification Inter-confederation",
    11
-  ],
-  [
-   "Champions League",
-   2
   ],
   [
    "Regular Season",
@@ -752,6 +744,10 @@
    "Heart of Midlothian"
   ],
   [
+   "Collins Sor",
+   "Amed Sportif"
+  ],
+  [
    "Djibril Diallo",
    "Parma"
   ],
@@ -862,6 +858,10 @@
   [
    "Waheb Habiballah",
    "Hapoel Haifa"
+  ],
+  [
+   "Xayal Əliyev",
+   "Sabah FK"
   ],
   [
    "Łukasz Zjawiński",
