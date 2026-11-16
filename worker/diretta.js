@@ -262,15 +262,53 @@ export async function dlClock(g2, stt) {
   return s >= (ac === "13" ? 45 * 60 : 0) ? { ht: false, s } : null;
 }
 
-// Id diretta.it della partita (dal feed del giorno, 5 s di cache)
-export async function dlMid(g2, stt) {
-  const seg = await dlSegment(g2, stt);
-  return seg ? seg.slice(4, seg.indexOf("¬")) : null;
+// Punteggio ed eventi (gol, assist, cartellini) di diretta.it: appena li scrivono sono qui (feed `df_sui_1_<id>` verificato il 16/11/2026 su Kazakhstan-Slovakia).
+// Record: `~III÷` = un evento; `IA` lato (1 casa, 2 ospite), `IB` minuto ("17'", "45+2'"), poi gruppi `IE`/`IF` (nome "Cognome I.")/`IK` (testo: "Gol", "Assist", "Cartellino Giallo"...).
+function parseMin(x) {
+  const m = String(x || "").match(/(\d+)(?:\+(\d+))?/);
+  return m ? { t: +m[1], a: m[2] ? +m[2] : 0 } : null;
 }
-// PROVA: testo grezzo di un feed di diretta.it
-export async function dlRaw(path) {
-  try {
-    const r = await fetch(FEED + path, { headers: FEED_H, cf: { cacheTtl: 5, cacheEverything: true } });
-    return r.ok ? (await r.text()).slice(0, 9000) : "HTTP " + r.status;
-  } catch (e) { return "ERR " + e; }
+export function parseIncidents(txt) {
+  const out = [];
+  String(txt || "").split("~III÷").slice(1).forEach((chunk) => {
+    const body = chunk.split("~")[0];
+    const parts = ("III÷" + body).split("¬");
+    const f = {}; const groups = [];
+    let cur = null;
+    parts.forEach((kv) => {
+      const k = kv.slice(0, kv.indexOf("÷")), v = kv.slice(kv.indexOf("÷") + 1);
+      if (k === "IE") { cur = { IE: v }; groups.push(cur); } else if (cur && (k === "IF" || k === "IK" || k === "IL" || k === "INX" || k === "IOX" || k === "ICT")) cur[k] = v; else if (!cur) f[k] = v;
+    });
+    const mn = parseMin(f.IB);
+    const side = f.IA === "1" ? 1 : f.IA === "2" ? 2 : 0;
+    if (!mn || !side || !groups.length) return;
+    const first = groups[0];
+    const text = String(first.IK || "");
+    const base = { t: mn.t, a: mn.a, h: side === 1, ts: mn.t * 100 + mn.a };
+    if (/autogol|own goal/i.test(text) || /^gol|rigore/i.test(text) || /^goal/i.test(text)) {
+      const as = groups.slice(1).find((g) => /assist/i.test(g.IK || ""));
+      out.push({ ...base, ty: "Goal", n: swapName(first.IF), id: null, as: as ? swapName(as.IF) : null, aid: null, og: /autogol|own goal/i.test(text), pen: /rigore|penalty/i.test(text), sc: null });
+    } else if (/cartellino/i.test(text)) {
+      const red = /rosso/i.test(text), two = /second|2\s*°|doppia/i.test(text);
+      out.push({ ...base, ty: "Card", n: swapName(first.IF), id: null, cd: red ? (two ? "YellowRed" : "Red") : two ? "YellowRed" : "Yellow" });
+    }
+  });
+  return out;
+}
+export async function dlEvents(g2, stt) {
+  const seg = await dlSegment(g2, stt);
+  if (!seg) return null;
+  const g = (k) => { const m = seg.match(new RegExp("¬" + k + "÷([^¬]*)")); return m ? m[1] : ""; };
+  const mid = seg.slice(4, seg.indexOf("¬"));
+  const live = g("AB") === "2";
+  const h = parseInt(g("AG"), 10), a = parseInt(g("AH"), 10);
+  const sc = Number.isFinite(h) && Number.isFinite(a) ? [h, a] : null;
+  let ev = [];
+  if (mid && (live || g("AB") === "3")) {
+    try {
+      const r = await fetch(FEED + "df_sui_1_" + mid, { headers: FEED_H, cf: { cacheTtl: 5, cacheEverything: true } });
+      if (r.ok) ev = parseIncidents(await r.text());
+    } catch (e) { /* solo punteggio */ }
+  }
+  return { live, sc, ev };
 }

@@ -1,5 +1,5 @@
 // ScalperLab - ponte Live (Cloudflare Worker). Legge ESPN e lo restituisce al sito con una cache di pochi secondi.
-import { dlLineups, dlClock, dlMid, dlRaw } from "./diretta.js";
+import { dlLineups, dlClock, dlEvents, dlRaw, dlMid } from "./diretta.js";
 const ORIGIN = "https://matteogiampaoletti246-hue.github.io";
 const BASE = "https://site.api.espn.com/apis/site/v2/sports/soccer";
 const DOM = ["ita.1", "eng.1", "esp.1", "ger.1", "fra.1"];
@@ -660,6 +660,22 @@ export default {
           if ((lh || la) && out.h && out.a) { out.ty = "lastStarting11"; out.luSrc = "ultima"; }
         }
         await lsMerge(out, g2.matchTimeUTCDate || stt.utcTime);
+        // diretta.it (richiesta utente 16/11/2026): risultato ed eventi (gol, assist, cartellini) appena li pubblica, davanti a FotMob; FotMob resta dove ha gli id dei giocatori
+        if (!out.fin && out.st) {
+          const D = await dlEvents(g2, stt);
+          if (D) {
+            if (D.sc && D.live) { const cur = out.sc && out.sc[0] != null ? [+out.sc[0] || 0, +out.sc[1] || 0] : [0, 0]; out.sc = [Math.max(cur[0], D.sc[0]), Math.max(cur[1], D.sc[1])]; out.dls = 1; }
+            if (D.ev.length) {
+              const have = out.ev || [], used = new Set();
+              const add = [];
+              D.ev.forEach((d) => {
+                const k = have.findIndex((e, i) => !used.has(i) && e.ty === d.ty && !!e.h === !!d.h && Math.abs(e.t - d.t) <= 1 && (d.ty !== "Card" || e.cd === d.cd)));
+                if (k >= 0) { used.add(k); if (d.ty === "Goal" && !have[k].as && d.as) have[k].as = d.as; } else add.push(d);
+              });
+              if (add.length) { out.ev = have.concat(add).sort((x, y) => x.ts - y.ts); out.dlEv = add.length; }
+            }
+          }
+        }
         // cronometro preciso: secondi veri di FotMob (liveTime.long "mm:ss"), recupero annunciato dall'arbitro (evento AddedTime del tempo in corso);
         // se FotMob non ha i secondi si usa il minuto di LiveScore (meno 30 s: il minuto "47'" copre 46:00-46:59)
         if (out.st && !out.fin) {
