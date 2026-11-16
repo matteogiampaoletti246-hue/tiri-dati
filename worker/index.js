@@ -669,7 +669,7 @@ export default {
               const have = out.ev || [], used = new Set();
               const add = [];
               D.ev.forEach((d) => {
-                const k = have.findIndex((e, i) => !used.has(i) && e.ty === d.ty && !!e.h === !!d.h && Math.abs(e.t - d.t) <= 1 && (d.ty !== "Card" || e.cd === d.cd)));
+                const k = have.findIndex((e, i) => !used.has(i) && e.ty === d.ty && !!e.h === !!d.h && Math.abs(e.t - d.t) <= 1 && (d.ty !== "Card" || e.cd === d.cd));
                 if (k >= 0) { used.add(k); if (d.ty === "Goal" && !have[k].as && d.as) have[k].as = d.as; } else add.push(d);
               });
               if (add.length) { out.ev = have.concat(add).sort((x, y) => x.ts - y.ts); out.dlEv = add.length; }
