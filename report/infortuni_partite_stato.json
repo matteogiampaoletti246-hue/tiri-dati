@@ -17,8 +17,8 @@
   },
   "Kazakhstan": {
    "pool": 43,
-   "call": 23,
-   "rosa": 49,
+   "call": 26,
+   "rosa": 50,
    "src": "partita+ultima"
   },
   "Slovakia": {
@@ -283,7 +283,7 @@
    "src": "ultima"
   },
   "Venezuela": {
-   "pool": 41,
+   "pool": 46,
    "call": 0,
    "rosa": 0,
    "src": null
@@ -340,25 +340,25 @@
    "pool": 36,
    "call": 26,
    "rosa": 26,
-   "src": "partita+ultima+rosa"
+   "src": "ultima+rosa"
   },
   "Austria": {
    "pool": 42,
    "call": 28,
    "rosa": 28,
-   "src": "partita+ultima+rosa"
+   "src": "ultima+rosa"
   },
   "Ireland": {
    "pool": 44,
    "call": 24,
    "rosa": 24,
-   "src": "partita+ultima+rosa"
+   "src": "ultima+rosa"
   },
   "Kosovo": {
    "pool": 37,
    "call": 26,
    "rosa": 26,
-   "src": "partita+ultima+rosa"
+   "src": "ultima+rosa"
   },
   "Bosnia and Herzegovina": {
    "pool": 34,
@@ -376,13 +376,13 @@
    "pool": 43,
    "call": 26,
    "rosa": 26,
-   "src": "partita+ultima+rosa"
+   "src": "ultima+rosa"
   },
   "Sweden": {
    "pool": 43,
    "call": 25,
    "rosa": 25,
-   "src": "partita+ultima+rosa"
+   "src": "ultima+rosa"
   },
   "Argentina": {
    "pool": 41,
@@ -433,8 +433,8 @@
    "src": null
   }
  },
- "updated_at": "2026-11-16T10:50:37Z",
+ "updated_at": "2026-11-16T15:26:02Z",
  "partite": 184,
  "squadre_con_elenco": 153,
- "minuti": 2.8
+ "minuti": 2.2
 }
