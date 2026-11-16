@@ -1,56 +1,8 @@
 {
- "squadre": 350,
- "nazionali": 68,
- "club": 282,
+ "squadre": 342,
+ "nazionali": 62,
+ "club": 280,
  "dettaglio_nazionali": {
-  "Estonia": {
-   "pool": 37,
-   "call": 25,
-   "rosa": 25,
-   "src": "partita+ultima+rosa"
-  },
-  "Bulgaria": {
-   "pool": 41,
-   "call": 27,
-   "rosa": 27,
-   "src": "partita+ultima+rosa"
-  },
-  "Iceland": {
-   "pool": 31,
-   "call": 25,
-   "rosa": 25,
-   "src": "partita+ultima+rosa"
-  },
-  "Luxembourg": {
-   "pool": 35,
-   "call": 25,
-   "rosa": 25,
-   "src": "partita+ultima+rosa"
-  },
-  "Lithuania": {
-   "pool": 39,
-   "call": 23,
-   "rosa": 49,
-   "src": "partita+ultima"
-  },
-  "Liechtenstein": {
-   "pool": 35,
-   "call": 23,
-   "rosa": 41,
-   "src": "partita+ultima"
-  },
-  "Andorra": {
-   "pool": 33,
-   "call": 24,
-   "rosa": 24,
-   "src": "partita+ultima+rosa"
-  },
-  "Azerbaijan": {
-   "pool": 44,
-   "call": 26,
-   "rosa": 46,
-   "src": "partita+ultima"
-  },
   "Germany": {
    "pool": 56,
    "call": 24,
@@ -58,56 +10,56 @@
    "src": "partita+ultima+rosa"
   },
   "Netherlands": {
-   "pool": 38,
+   "pool": 36,
    "call": 27,
-   "rosa": 26,
+   "rosa": 27,
    "src": "partita+ultima+rosa"
   },
   "Greece": {
    "pool": 34,
-   "call": 24,
+   "call": 23,
    "rosa": 33,
    "src": "partita+ultima"
   },
   "Serbia": {
-   "pool": 49,
+   "pool": 36,
    "call": 26,
    "rosa": 26,
    "src": "partita+ultima+rosa"
   },
   "North Macedonia": {
-   "pool": 42,
+   "pool": 37,
    "call": 26,
    "rosa": 26,
    "src": "partita+ultima+rosa"
   },
   "Slovenia": {
-   "pool": 34,
+   "pool": 32,
    "call": 26,
    "rosa": 26,
    "src": "partita+ultima+rosa"
   },
   "Switzerland": {
-   "pool": 36,
+   "pool": 37,
    "call": 28,
    "rosa": 28,
    "src": "partita+ultima+rosa"
   },
   "Scotland": {
-   "pool": 42,
+   "pool": 43,
    "call": 27,
    "rosa": 27,
    "src": "partita+ultima+rosa"
   },
   "Gibraltar": {
-   "pool": 35,
+   "pool": 33,
    "call": 25,
-   "rosa": 24,
+   "rosa": 25,
    "src": "partita+ultima+rosa"
   },
   "Malta": {
-   "pool": 35,
-   "call": 27,
+   "pool": 34,
+   "call": 23,
    "rosa": 38,
    "src": "partita+ultima"
   },
@@ -360,16 +312,16 @@
    "rosa": 25,
    "src": "ultima+rosa"
   },
-  "Ecuador": {
-   "pool": 37,
-   "call": 34,
-   "rosa": 27,
+  "Argentina": {
+   "pool": 41,
+   "call": 28,
+   "rosa": 28,
    "src": "partita+ultima+rosa"
   },
-  "Bolivia": {
+  "Costa Rica": {
    "pool": 44,
-   "call": 24,
-   "rosa": 38,
+   "call": 21,
+   "rosa": 36,
    "src": "partita+ultima"
   },
   "Chile": {
@@ -382,6 +334,18 @@
    "pool": 50,
    "call": 26,
    "rosa": 41,
+   "src": "partita+ultima"
+  },
+  "Ecuador": {
+   "pool": 37,
+   "call": 34,
+   "rosa": 27,
+   "src": "partita+ultima+rosa"
+  },
+  "Bolivia": {
+   "pool": 44,
+   "call": 24,
+   "rosa": 38,
    "src": "partita+ultima"
   },
   "Uruguay": {
@@ -397,8 +361,8 @@
    "src": null
   }
  },
- "updated_at": "2026-11-16T19:16:53Z",
- "partite": 175,
- "squadre_con_elenco": 144,
- "minuti": 1.7
+ "updated_at": "2026-11-16T22:03:53Z",
+ "partite": 171,
+ "squadre_con_elenco": 138,
+ "minuti": 1.5
 }
