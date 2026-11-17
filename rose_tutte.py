@@ -527,6 +527,46 @@ def external_fill(data, tidx, country_of, is_current, stato):
     json.dump(ext, open(path, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"), sort_keys=True)
 
 
+# competizioni tra nazionali: una squadra che le gioca e' una nazionale (le sue "rose" sono convocazioni, niente aggiunte dall'archivio)
+NAZ_COMPS = {9806, 9807, 9808, 9809, 77, 114, 50, 10195, 10196, 10197, 10198, 10199, 10200, 10201, 10607, 10608, 289, 298, 44, 9428, 9821}
+
+
+def add_played(data, tidx, arch, known, ruoli):
+    """Controllo a tappeto (17/11/2026): chi ha giocato per la squadra nella stagione in corso (minuti nell'archivio: formazioni, classifiche,
+    eventi) ma manca dalla rosa si aggiunge, SOLO se la sua scheda FotMob dice che e' tesserato adesso per questa squadra (prestiti compresi:
+    chi e' stato ceduto o mandato in prestito altrove resta fuori). Fabio Vieira all'Amburgo, Perin alla Juventus... mancavano perche' la rosa
+    FotMob era gia' lunga e l'archivio si usava solo per le rose corte."""
+    my = min_year()
+    cand = {}
+    for tid, e in tidx.items():
+        seas = last_season(e)
+        if not seas or any(int(fm) in NAZ_COMPS for fm, _ in seas):
+            continue
+        rows = (data.get(tid) or {}).get("p") or []
+        have = {int(x[0]) for x in rows if x[0]}
+        for fm, sk in seas:
+            if year_of(sk) < my:
+                continue
+            by_team, _, _ = arch.season(fm, sk)
+            for pid, (name, mins) in by_team.get(tid, {}).items():
+                if mins and pid > 0 and pid not in have and not any(same_person(x[1], name) for x in rows):
+                    c = cand.setdefault((tid, pid), [name, 0, fm, sk])
+                    c[1] = max(c[1], mins)
+    check_activity([pid for _, pid in cand])
+    n = 0
+    for (tid, pid), (name, mins, fm, sk) in cand.items():
+        a = ATT.get(str(pid))
+        if not a or str(a[2]) != str(tid):
+            continue  # scheda non letta o tesserato altrove: non si aggiunge
+        role = role_from_votes(arch.season(fm, sk)[1].get(pid)) or (known[pid][2] if pid in known and known[pid][2] != "UNK" else None) or ruoli.get(str(pid)) or "UNK"
+        k = known.get(pid)
+        cur = data.setdefault(tid, {"p": []})
+        cur.setdefault("p", []).append([pid, name, role, k[3] if k else None, k[4] if k else None, k[5] if k else None, k[6] if k else None, None, 0, 0, 0, mins])
+        cur["src"] = sorted(set((cur.get("src") or []) + ["archivio"]))
+        n += 1
+    print("rose: giocatori della stagione in corso aggiunti", n, "su", len(cand), "candidati", flush=True)
+
+
 def to_check(v):
     """Righe da verificare di una squadra: chi non ha minuti nell'archivio, se la rosa viene da fonti esterne o e' una rosa FotMob sospetta."""
     rows = v.get("p") or []
@@ -700,6 +740,7 @@ def main():
             for x in lst:
                 x[2] = role
 
+    add_played(data, tidx, arch, known, ruoli)
     external_fill(data, tidx, country_of, is_current, stato)
     prune(data, tidx)
     # solo le squadre con qualcosa da mostrare (niente righe vuote: l'app ripiega da sola)
