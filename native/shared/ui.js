@@ -295,8 +295,17 @@ export const logoSrc = (uri, dark) => {
   return { uri, tint: undefined };
 };
 export const isDarkLogo = (uri) => !!uri && DARK_FM.test(uri);
-export const CompLogo = ({ uri, size = 24, C, style }) => {
-  const r = logoSrc(uri, !!(C && C.dark));
+// bare = logo senza cerchio/riquadro su fondo colorato della competizione (16/11/2026): sempre la versione chiara (per sfondi scuri), mai sul cerchio bianco
+export const logoOnColor = (uri) => {
+  if (!uri) return { uri: null, tint: undefined };
+  const base = uri.replace('/leaguelogo/dark/', '/leaguelogo/');
+  if (!/\/leaguelogo\//.test(base)) return { uri, tint: undefined };
+  if (/\/53\.png/.test(base)) return { uri: base.replace('/leaguelogo/', '/leaguelogo/dark/'), tint: undefined };
+  if (DARK_FM.test(base)) return { uri: base, tint: '#FFFFFF' };
+  return { uri: base.replace('/leaguelogo/', '/leaguelogo/dark/'), tint: undefined };
+};
+export const CompLogo = ({ uri, size = 24, C, style, bare }) => {
+  const r = bare ? logoOnColor(uri) : logoSrc(uri, !!(C && C.dark));
   return r.uri ? <Image source={{ uri: r.uri }} style={[{ width: size, height: size }, style]} contentFit="contain" cachePolicy="memory-disk" tintColor={r.tint} /> : <View style={{ width: size, height: size }} />;
 };
 export const LeagueLogo = ({ league, size = 24, C }) => {

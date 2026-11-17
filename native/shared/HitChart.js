@@ -130,7 +130,7 @@ export default function HitChart({ C, pages, line, under, statLabel, openRoute, 
       </View>
       {list.length > 1 || cur.name ? (
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7, marginBottom: 10, height: 20 }}>
-          {cur.logo ? <View style={{ width: 20, height: 20, borderRadius: 10, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255,255,255,.92)' }}><CompLogo uri={cur.logo} size={14} /></View> : null}
+          {cur.logo ? <CompLogo uri={cur.logo} size={18} C={C} /> : null}
           <Text numberOfLines={1} style={{ color: C.ink2, fontSize: 12, fontWeight: '800' }}>{cur.name}</Text>
           {list.length > 1 ? (
             <View style={{ flexDirection: 'row', gap: 5, marginLeft: 6 }}>

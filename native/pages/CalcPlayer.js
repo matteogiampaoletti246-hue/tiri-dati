@@ -123,10 +123,10 @@ function ChipList({ C, value, onChange, max = 5 }) {
 // tendina a scelta (valore linea, hit rate, competizione): si apre sotto la pillola
 function Select({ C, value, options, onChange, placeholder }) {
   const rich = options.some((o) => o.comp);
-  const logo = (o, size) => (o.comp && o.comp.logo ? <CompLogo uri={o.comp.logo} size={size} C={C} /> : <Text style={{ color: o.color || C.ink2, fontSize: 11, fontWeight: '700' }}>{String(o.label).slice(0, 2).toUpperCase()}</Text>);
+  const logo = (o, size) => (o.comp && o.comp.logo ? <CompLogo uri={o.comp.logo} size={size} C={C} bare /> : <Text style={{ color: o.color || '#fff', fontSize: 11, fontWeight: '700' }}>{String(o.label).slice(0, 2).toUpperCase()}</Text>);
   const opts = rich ? options.map((o) => ({ ...o, logoNode: logo(o, 28) })) : options;
   return <Dropdown C={C} fill options={opts} value={value} onChange={onChange} placeholder={placeholder || '—'} pillKey="label"
-    icon={options.some((o) => o.ic) ? (o, col) => (o.ic ? <StatIconN k={o.ic} size={20} color={col} /> : null) : rich ? (o) => <View style={{ width: 26, height: 26, borderRadius: 13, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255,255,255,.92)' }}>{logo(o, 20)}</View> : undefined} />;
+    icon={options.some((o) => o.ic) ? (o, col) => (o.ic ? <StatIconN k={o.ic} size={20} color={col} /> : null) : rich ? (o) => logo(o, 24) : undefined} />;
 }
 
 function NextMatchBtn({ C, ownId, oppId, comp, col, openRoute, style, altId }) {
@@ -689,8 +689,8 @@ function SeasonPanel({ C, season, onChange, rate90, label, player, comp }) {
             return (
               <View key={c.key} style={{ flexDirection: 'row', alignItems: 'center', gap: 8, borderRadius: 14, overflow: 'hidden', paddingVertical: 8, paddingLeft: 8, paddingRight: 6, backgroundColor: c0 ? c0 : C.chip, borderWidth: 1.5, borderColor: c.key === comp ? (c1 || C.accent) : 'transparent', opacity: out ? 0.55 : 1 }}>
                 {c0 ? <LinearGradient pointerEvents="none" colors={[c0, mixHex(c0, c1, 0.38)]} start={{ x: 0, y: 0.2 }} end={{ x: 1, y: 0.8 }} style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }} /> : null}
-                <View style={{ width: 30, height: 30, borderRadius: 15, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255,255,255,.92)' }}>
-                  {o && o.comp.logo ? <CompLogo uri={o.comp.logo} size={20} /> : <Text style={{ color: c0 || C.ink2, fontSize: 10, fontWeight: '700' }}>{String(name).slice(0, 2).toUpperCase()}</Text>}
+                <View style={{ width: 30, height: 30, alignItems: 'center', justifyContent: 'center' }}>
+                  {o && o.comp.logo ? <CompLogo uri={o.comp.logo} size={28} bare /> : <Text style={{ color: '#fff', fontSize: 10, fontWeight: '700' }}>{String(name).slice(0, 2).toUpperCase()}</Text>}
                 </View>
                 <View style={{ flex: 1 }}>
                   <Text style={{ color: ink, fontSize: 13.5, fontWeight: '700' }}>{name}</Text>
@@ -746,7 +746,7 @@ const Box = ({ C, label, value }) => (
 );
 
 function compLogoN(cc, size, C) {
-  return cc && cc.logo ? <CompLogo uri={cc.logo} size={size} C={C} /> : <Text style={{ color: C.ink2, fontSize: 10, fontWeight: '700' }}>{String((cc && cc.name) || '').slice(0, 2).toUpperCase()}</Text>;
+  return cc && cc.logo ? <CompLogo uri={cc.logo} size={size} C={C} bare /> : <Text style={{ color: '#fff', fontSize: 10, fontWeight: '700' }}>{String((cc && cc.name) || '').slice(0, 2).toUpperCase()}</Text>;
 }
 
 function TeamCard({ C, title, right, block, team, sub, tiles, matchComp, oppId, footer, picker, setPicker, onLeague, onTeam, openRoute }) {
@@ -754,7 +754,7 @@ function TeamCard({ C, title, right, block, team, sub, tiles, matchComp, oppId, 
   const cc = calcComp(block.leagueId);
   const c0 = hexOr(cc && cc.colors[0], null);
   const c1 = hexOr(cc && (cc.colors[1] || cc.colors[0]), c0);
-  const leagueOptions = calcLeagues().map((l) => { const x = calcComp(l.id); return { value: l.id, label: x.name, sub: (x.country || x.kind).toUpperCase(), color: hexOr(x.colors[0]), color2: hexOr(x.colors[1]), icon: compLogoN(x, 30, C) }; });
+  const leagueOptions = calcLeagues().map((l) => { const x = calcComp(l.id); return { value: l.id, label: x.name, sub: (x.country || x.kind).toUpperCase(), color: hexOr(x.colors[0]), color2: hexOr(x.colors[1]), bare: true, icon: compLogoN(x, 34, C) }; });
   const teamOptions = calcTeamsOf(block.leagueId).map((n) => teamByName(n)).filter(Boolean).sort((a, b) => a.name.localeCompare(b.name))
     .map((t) => {
       const fc = flagCode(t.name);
@@ -770,7 +770,7 @@ function TeamCard({ C, title, right, block, team, sub, tiles, matchComp, oppId, 
         <View style={{ padding: 12, paddingTop: 14 }}>
           <Pressable onPress={() => setPicker('league')} style={{ alignSelf: 'flex-start', maxWidth: '100%', flexDirection: 'row', alignItems: 'center', gap: 8, paddingVertical: 4, paddingLeft: 4, paddingRight: 12, borderRadius: 999, overflow: 'hidden', backgroundColor: c0 || C.chip, borderWidth: 1, borderColor: c1 || C.accRing }}>
             {c0 ? <LinearGradient pointerEvents="none" colors={[c0, mixHex(c0, c1, 0.38)]} start={{ x: 0, y: 0.2 }} end={{ x: 1, y: 0.8 }} style={StyleSheet.absoluteFill} /> : null}
-            <View style={{ width: 26, height: 26, borderRadius: 13, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255,255,255,.92)' }}>{compLogoN(cc, 18, C)}</View>
+            <View style={{ width: 26, height: 26, alignItems: 'center', justifyContent: 'center' }}>{compLogoN(cc, 24, C)}</View>
             <Text numberOfLines={1} style={{ flexShrink: 1, color: c0 ? '#fff' : C.ink, fontSize: 13.5, fontWeight: '700' }}>{(cc && cc.name) || 'Campionato'}</Text>
             <Ionicons name="chevron-down" size={14} color={c0 ? '#fff' : C.ink2} />
           </Pressable>
