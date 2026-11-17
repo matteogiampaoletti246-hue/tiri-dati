@@ -308,3 +308,7 @@ Come nel sito: il filtro delle linee (`Segmented fit pad={10}`) prende lo spazio
 ## InteractionManager: mai da react-native (14/11/2026, regola fissa)
 - L'ultimo SDK ha tolto `InteractionManager` da `react-native`: importarlo da li' da `undefined` e sul telefono "Cannot read property 'runAfterInteractions' of undefined" (era la vera causa della chiusura scegliendo Falli commessi/subiti nelle Formazioni, e dell'app che ripartiva dalla Home). Si importa SOLO da `native/shared/afterInteractions` (solo timer). `native/tools/smoke.cjs` ora fallisce se un file nativo lo importa da `react-native`.
 - `resume.js` (ritorno dal background) aveva lo stesso difetto: corretto.
+
+## Dati condivisi completi (17/11/2026, regola fissa)
+- Affidabilita' sparite da tutte le partite (formazioni e scheda Affidabilita'): i dati e il calcolo erano giusti (verificato in node con i file veri: 18 giocatori su 22 con voto in Bosnia-Romania). L'unico modo per perderle tutte e' un file essenziale (giocatori, calc_extra, calc_tutte, data, teams, squadre, partite) non arrivato all'avvio: `loadRaw` lo lasciava null e l'app restava a meta' fino alla chiusura.
+- Ora: i file essenziali si riprovano fino a 4 volte (`getRetry`, `ESSENTIAL` in `data/load.js`); se ne manca ancora uno (`rawMissing()`), `bootShared` ricarica e ricostruisce tutto al prossimo uso (dopo 20 s) e al ritorno nell'app dal background.

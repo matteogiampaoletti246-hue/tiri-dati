@@ -93,10 +93,25 @@ const kvInjuries = () => Promise.race([
   new Promise((res) => setTimeout(() => res(null), 2500)),
 ]);
 
+// File senza i quali spariscono affidabilita', Calcolatore e schede (17/11/2026: un file che non arriva all'avvio, rete del telefono o GitHub Pages
+// in aggiornamento, lasciava l'app senza affidabilita' in TUTTE le partite fino alla chiusura). Si riprova fino a 4 volte; se manca ancora,
+// `rawMissing()` lo dice e l'avvio nativo riprova al prossimo uso (shared/boot.js), invece di tenere i dati a meta' per tutta la sessione.
+export const ESSENTIAL = ['giocatori', 'calcExtra', 'calcTutte', 'data', 'teams', 'squadre', 'partite'];
+export const rawMissing = () => ESSENTIAL.filter((k) => RAW[k] == null);
+const getRetry = async (name, tries = 4) => {
+  for (let i = 0; i < tries; i += 1) {
+    // eslint-disable-next-line no-await-in-loop
+    const v = await get(name);
+    if (v != null) return v;
+    // eslint-disable-next-line no-await-in-loop
+    await new Promise((r) => setTimeout(r, 1500 * (i + 1)));
+  }
+  return null;
+};
 export async function loadRaw() {
   await Promise.all([
     ...Object.entries(FILES).map(async ([key, file]) => {
-      RAW[key] = await get(file);
+      RAW[key] = await (ESSENTIAL.includes(key) ? getRetry(file) : get(file));
     }),
     kvInjuries().then((j) => { RAW.infortuniKv = j && j.p ? j : null; }),
   ]);

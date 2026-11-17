@@ -1369,6 +1369,7 @@ function Screen({ onTheme, onReset, themePref }) {
       if (st !== 'active') return;
       const gap = bgAt.current ? Date.now() - bgAt.current : 0;
       bgAt.current = 0;
+      bootShared().catch(() => {}); // dati condivisi a meta' (file non arrivato all'avvio): si ricaricano al ritorno nell'app
       edgeOn.value = 0; setEpoch((n) => n + 1); // gesti ricreati: dopo il background un gesto fermo a meta' lasciava lo scroll vivo e i tasti morti
       if (gap > 10 * 60 * 1000) { try { Image.clearMemoryCache(); } catch (e) { /* ignora */ } if (onReset) onReset(); }
     });
