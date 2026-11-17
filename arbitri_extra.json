@@ -334,9 +334,29 @@
 "src": "api-football",
 "at": "2026-11-16T05:37+00:00"
 },
+"5103711": {
+"n": "B. Machado",
+"src": "api-football",
+"at": "2026-11-17T01:19+00:00"
+},
+"5103713": {
+"n": "A. Gomes Stefano",
+"src": "api-football",
+"at": "2026-11-17T01:19+00:00"
+},
+"5103709": {
+"n": "A. Daronco",
+"src": "api-football",
+"at": "2026-11-17T01:19+00:00"
+},
+"5103704": {
+"n": "R. Klein",
+"src": "api-football",
+"at": "2026-11-17T01:19+00:00"
+},
 "_err": [
-"2026-11-18: {\"plan\": \"Free plans do not have access to this date, try from 2026-11-15 to 2026-11-17.\"}",
-"2026-11-19: {\"plan\": \"Free plans do not have access to this date, try from 2026-11-15 to 2026-11-17.\"}"
+"2026-11-19: {\"plan\": \"Free plans do not have access to this date, try from 2026-11-16 to 2026-11-18.\"}",
+"2026-11-20: {\"plan\": \"Free plans do not have access to this date, try from 2026-11-16 to 2026-11-18.\"}"
 ],
-"_at": "2026-11-16T20:57+00:00"
+"_at": "2026-11-17T01:19+00:00"
 }
