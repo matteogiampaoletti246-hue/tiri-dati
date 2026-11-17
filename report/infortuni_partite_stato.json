@@ -1,31 +1,19 @@
 {
- "squadre": 857,
- "nazionali": 48,
+ "squadre": 855,
+ "nazionali": 46,
  "club": 809,
  "dettaglio_nazionali": {
-  "Singapore": {
-   "pool": 32,
-   "call": 25,
-   "rosa": 25,
-   "src": "partita+ultima+rosa"
-  },
-  "Brazil": {
-   "pool": 54,
-   "call": 25,
-   "rosa": 25,
-   "src": "partita+ultima+rosa"
-  },
   "China": {
    "pool": 46,
    "call": 44,
    "rosa": 29,
-   "src": "ultima+rosa"
+   "src": "partita+ultima+rosa"
   },
   "Bahrain": {
    "pool": 38,
    "call": 26,
    "rosa": 26,
-   "src": "rosa"
+   "src": "partita+rosa"
   },
   "Kyrgyzstan": null,
   "Vietnam": {
@@ -54,7 +42,7 @@
   },
   "Paraguay": {
    "pool": 41,
-   "call": 36,
+   "call": 37,
    "rosa": 26,
    "src": "partita+ultima+rosa"
   },
@@ -287,8 +275,8 @@
    "src": null
   }
  },
- "updated_at": "2026-11-17T10:26:37Z",
- "partite": 434,
- "squadre_con_elenco": 353,
- "minuti": 4.0
+ "updated_at": "2026-11-17T13:31:52Z",
+ "partite": 433,
+ "squadre_con_elenco": 350,
+ "minuti": 2.5
 }
