@@ -246,6 +246,19 @@
    "da_fare": 3
   }
  },
- "senza_lega_pitch": [],
+ "senza_lega_pitch": [
+  [
+   "9806",
+   "UEFA Nations League A (INT) 2026-2027",
+   2,
+   0
+  ],
+  [
+   "9807",
+   "UEFA Nations League B (INT) 2026-2027",
+   6,
+   0
+  ]
+ ],
  "partite_completate_in_questo_giro": 0
 }
