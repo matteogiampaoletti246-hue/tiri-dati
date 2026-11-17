@@ -1,7 +1,7 @@
 // Giocatori che non sono nell'elenco attuale (ritirati, stagioni passate, altri campionati):
 // si costruisce lo stesso oggetto giocatore dai dati dell'archivio, cosi' la scheda e' identica per tutti.
 import { loadPlayerStatsFor, statTotal, loadSeason, playerSeasons, playerFace, FM_ID } from './archive';
-import { registerPlayer, playerById, playerByFm } from './players';
+import { registerPlayer, playerById, playerByFm, natByFm } from './players';
 import { ensureTeam, teamByFm } from './teams';
 import { BASE } from './load';
 import { realName } from './realNames';
@@ -125,6 +125,8 @@ export async function makeArchivePlayer(fm, sk, pid) {
     p.domFm = lite.domFm;
     if (lite.natView) { p.natView = lite.natView; lite.natView.club = p; }
   }
+  // nazionale anche per le schede senza profilo "leggero" (17/11/2026): stesso id FotMob del profilo Nations League
+  if (!p.natView) { const v = natByFm(p.fmId); if (v) { p.natView = v; if (!v.club) v.club = p; } }
   registerPlayer(p);
   // carriera ricostruita dalle stagioni in cui ha giocato questa competizione
   let car = [];

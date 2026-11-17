@@ -3,6 +3,7 @@ import { teamByName } from './teams';
 import { NATIONS_KEYS, nextFixture, playerLeagueHcap, pickLeagueKey, prefillShots, teamCupKey, teamShots } from './calcData';
 import { HIT_OPTIONS, SEASON_COMPETITIONS, computeFoulsResult, computePlayerResult, parseDash, parseNum } from '@/lib/calc';
 import { teamById } from './teams';
+import { isDomCupKey } from './domCups';
 
 export const emptyBlock = () => ({ leagueId: 'serie-a', id: null, totali: '', inPorta: '' });
 
@@ -96,7 +97,7 @@ export function fillFrom(f, p, fam, fx) {
     opp = { leagueId: oKey || 'serie-a', id: o ? o.id : null, totali: '', inPorta: '' };
     if (o && oKey) Object.assign(opp, prefillShots(teamShots(o.id, oKey), 'against'));
     sede = fx.home ? 'casa' : 'trasferta';
-    competizione = NATIONS_KEYS.includes(fx.comp) ? 'nations' : fx.cup ? 'coppa' : 'campionato';
+    competizione = NATIONS_KEYS.includes(fx.comp) ? 'nations' : fx.cup ? 'coppa' : isDomCupKey(fx.comp) ? 'coppaNaz' : 'campionato';
   }
   let fixed = rows.length >= 3 ? String(hit === 0 ? '0' : [0, 0.2, 0.4, 0.6, 0.8, 1][Math.min(5, Math.round((hit / rows.length) * 5))]) : '';
   // 4/5 con l'unica partita mancata per un solo tiro dalla linea → 4/5+ (90%)

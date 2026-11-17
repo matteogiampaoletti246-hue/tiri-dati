@@ -9,7 +9,8 @@ import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { CALC_KEEP, saveCalcKeep } from '@/data/calcKeep';
 import { CALC_IN } from '../shared/calcIn';
-import { PLAYERS, playerById } from '@/data/players';
+import { PLAYERS, playerById, playerByFm } from '@/data/players';
+import { isDomCupKey } from '@/data/domCups';
 import { teamById, teamByName } from '@/data/teams';
 import { useUpcoming, loadUpcoming } from '../shared/useUpcoming';
 import { allTeamMatches, nextMatchOf, nextMatchVs } from '@/data/extras';
@@ -613,8 +614,8 @@ function hitPages(player, key2, vals, mins, comp, g, extra, oppFix, compPages) {
   const rec = [];
   srcs.forEach((x) => x.recent.forEach((m) => { if (m.matchId && !seen.has(m.matchId)) { seen.add(m.matchId); rec.push(m); } }));
   rec.sort((a, b) => String(b.date).localeCompare(String(a.date)));
-  const kindOf = (m) => { const lid = IM[m.matchId] && IM[m.matchId][1]; if (!lid) return null; if (NATIONS_KEYS.includes(lid)) return 'nations'; if (CUP_IDS.includes(lid)) return 'coppa'; return leagueById(lid) ? 'campionato' : null; };
-  const order = [comp, 'campionato', 'coppa', 'nations'].filter((k, i, a) => a.indexOf(k) === i);
+  const kindOf = (m) => { const lid = IM[m.matchId] && IM[m.matchId][1]; if (!lid) return null; if (NATIONS_KEYS.includes(lid)) return 'nations'; if (CUP_IDS.includes(lid)) return 'coppa'; if (isDomCupKey(lid)) return 'coppaNaz'; return leagueById(lid) ? 'campionato' : null; };
+  const order = [comp, 'campionato', 'coppaNaz', 'coppa', 'nations'].filter((k, i, a) => a.indexOf(k) === i);
   const out = [all];
   order.forEach((k) => {
     if (!byVal[k]) return;
@@ -937,7 +938,9 @@ export default function CalcPlayer({ C, openRoute, embedId }) {
     const st = CALC_IN.v;
     if (!st) return;
     CALC_IN.v = null;
-    const p = playerById(st.playerId);
+    // scheda ricostruita dall'archivio (aperta da una partita o da una rosa): si usa il profilo vero del giocatore (nazionale, coppe, ultime partite)
+    const p0 = playerById(st.playerId);
+    const p = (p0 && p0.archive && p0.fmId && playerByFm(p0.fmId)) || p0;
     if (!p) return;
     const hasLine = st.line !== undefined && st.line !== null;
     const withStat = (f) => (st.stat ? { ...f, stat: st.stat, tipoTiri: st.stat === 'porta' ? 'inPorta' : 'totali', lineType: 'over' } : f);

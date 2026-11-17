@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { CALC_KEEP, saveCalcKeep } from '@/data/calcKeep';
 import { useLocation } from 'react-router-dom';
 import PanelTitle from '@/components/PanelTitle';
-import { playerById } from '@/data/players';
+import { playerById, playerByFm } from '@/data/players';
 import { teamById, teamByName } from '@/data/teams';
 import { allTeamMatches } from '@/data/extras';
 import { romeDay } from '@/data/util';
@@ -81,7 +81,9 @@ export default function PlayerTab({ onSave }) {
     const st = loc.state && loc.state.calc;
     if (!st || CALC_KEEP.stKey === loc.key) return; // tornando indietro dalla scheda del giocatore non si rifa' il riempimento
     CALC_KEEP.stKey = loc.key; saveCalcKeep();
-    const p = playerById(st.playerId);
+    // scheda ricostruita dall'archivio (aperta da una partita o da una rosa): si usa il profilo vero del giocatore (nazionale, coppe, ultime partite)
+    const p0 = playerById(st.playerId);
+    const p = (p0 && p0.archive && p0.fmId && playerByFm(p0.fmId)) || p0;
     if (!p) return;
     const hasLine = st.line !== undefined && st.line !== null;
     // partita esatta della riga di Migliori Giocatori; dalla scheda giocatore (senza partita) vale la regola della ricerca: prossima partita vera, club o nazionale, quella che viene prima

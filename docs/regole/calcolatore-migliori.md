@@ -238,3 +238,8 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 ## Calcolatore: pesi del voto (17/11/2026, regola fissa, scelti dall'utente)
 - Probabilita' finale = **60% modello Poisson + 40% hit rate** (`FORMULA_ATTIVA = 'v3'` in `lib/calc.js`; v2 era 70/30 dal 4/11, v1 60/40). Tasso a 90' del giocatore = **70% media stagionale + 30% ultime 5** (`MIX_LAST5 = 0.3`; prima 50:50). Voto = probabilita' finale x 10. Vale per tiri, tiri in porta, falli e Migliori giocatori.
 
+## Calcolatore: tutte le competizioni del giocatore (regola fissa, 17/11/2026)
+- Tendina Competizione (`playerComps` in `components/calc/calcComp.js`, sito e nativo): campionato, COPPA NAZIONALE, coppa europea, nazionale (Nations League). Vale per ogni giocatore.
+- Nazionale: si cerca anche per id FotMob (`natOf` -> `natByFm`), cosi' le schede ricostruite dall'archivio (aperte da una partita o da una rosa, tasto Calcolatore della scheda) non perdono la nazionale. Il tasto Calcolatore usa il profilo vero del giocatore (`playerByFm`) e `makeArchivePlayer` collega sempre la nazionale.
+- Coppa nazionale (`domCupOf`, elenco in `data/domCups.js`): prossima partita di coppa dei calendari, poi l'ultima giocata in stagione (partite dell'app), poi le ultime partite del giocatore (`h`); le squadre di prima divisione hanno sempre la coppa del loro paese (`TOP_CUP`). Valore `coppaNaz`: nel calcolo valgono le medie di campionato (squadre e giocatore), come per il campionato; nel grafico Hit rate le partite di coppa nazionale hanno la loro pagina.
+
