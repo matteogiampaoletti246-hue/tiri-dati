@@ -1,61 +1,61 @@
 {
- "aggiornato": "2026-11-16 20:31 UTC",
+ "aggiornato": "2026-11-17 02:58 UTC",
  "partite_finite": {
   "tutte": {
-   "fotmob": 129089,
-   "pitchapi": 2733,
-   "livescore": 3986,
+   "fotmob": 129101,
+   "pitchapi": 2734,
+   "livescore": 3984,
    "diretta": 18,
-   "formazioni_fotmob": 67594,
-   "nessuna": 295156,
-   "totale": 498576
+   "formazioni_fotmob": 67704,
+   "nessuna": 295044,
+   "totale": 498585
   },
   "ultime_due_stagioni": {
-   "fotmob": 31628,
+   "fotmob": 31640,
    "pitchapi": 250,
-   "livescore": 3986,
+   "livescore": 3984,
    "diretta": 18,
-   "formazioni_fotmob": 5747,
-   "nessuna": 8172,
-   "totale": 49801
+   "formazioni_fotmob": 5854,
+   "nessuna": 8064,
+   "totale": 49810
   }
  },
  "partite_arricchite_da_pitchapi": {},
  "giocatori": {
   "tutte": {
-   "schede_con_partite": 118471,
-   "coperte_da_fotmob": 84211,
-   "non_coperte_da_fotmob": 34260,
+   "schede_con_partite": 118524,
+   "coperte_da_fotmob": 84215,
+   "non_coperte_da_fotmob": 34309,
    "non_fotmob_coperte_da": {
     "pitchapi": 548,
-    "livescore": 7107,
-    "diretta": 81,
-    "formazioni_fotmob": 30246
+    "livescore": 7101,
+    "diretta": 88,
+    "formazioni_fotmob": 30306
    },
    "coperte_solo_da": {
-    "fotmob": 39674,
+    "fotmob": 39587,
     "pitchapi": 246,
-    "livescore": 3732,
-    "diretta": 16,
-    "formazioni_fotmob": 26625
+    "livescore": 3722,
+    "diretta": 15,
+    "formazioni_fotmob": 26679
    }
   },
   "ultime_due_stagioni": {
-   "schede_con_partite": 66091,
-   "coperte_da_fotmob": 49564,
-   "non_coperte_da_fotmob": 16527,
+   "schede_con_partite": 66162,
+   "coperte_da_fotmob": 49568,
+   "non_coperte_da_fotmob": 16594,
    "non_fotmob_coperte_da": {
     "pitchapi": 49,
-    "livescore": 9222,
-    "diretta": 144,
-    "formazioni_fotmob": 11085
+    "livescore": 9215,
+    "diretta": 158,
+    "formazioni_fotmob": 11166
    },
    "coperte_solo_da": {
-    "fotmob": 32034,
+    "fotmob": 31937,
     "pitchapi": 38,
-    "livescore": 5367,
-    "diretta": 19,
-    "formazioni_fotmob": 7194
+    "livescore": 5354,
+    "diretta": 18,
+    "formazioni_fotmob": 7265
    }
   }
  },
@@ -134,13 +134,13 @@
    "formazioni_fotmob": 1
   },
   "UEFA Nations League A (INT) 2026-2027": {
-   "fotmob": 44
+   "fotmob": 46
   },
   "UEFA Nations League A (INT) 2024-2025": {
    "fotmob": 60
   },
   "UEFA Nations League B (INT) 2026-2027": {
-   "fotmob": 40
+   "fotmob": 42
   },
   "UEFA Nations League B (INT) 2024-2025": {
    "fotmob": 48
@@ -153,8 +153,7 @@
    "fotmob": 48
   },
   "UEFA Nations League D (INT) 2026-2027": {
-   "fotmob": 10,
-   "livescore": 1
+   "fotmob": 12
   },
   "UEFA Nations League D (INT) 2024-2025": {
    "fotmob": 12
@@ -375,8 +374,7 @@
    "formazioni_fotmob": 4
   },
   "Serie C (ITA) 2026-2027": {
-   "fotmob": 430,
-   "nessuna": 1
+   "fotmob": 432
   },
   "Serie C (ITA) 2025-2026": {
    "nessuna": 1115,
@@ -449,8 +447,7 @@
    "fotmob": 380
   },
   "LaLiga2 (ESP) 2026-2027": {
-   "fotmob": 150,
-   "livescore": 1
+   "fotmob": 151
   },
   "LaLiga2 (ESP) 2025-2026": {
    "fotmob": 468
@@ -702,7 +699,7 @@
   },
   "Liga AUF Uruguaya (URU) 2026": {
    "livescore": 178,
-   "diretta": 2,
+   "diretta": 3,
    "formazioni_fotmob": 108
   },
   "Liga AUF Uruguaya (URU) 2025": {
@@ -1045,8 +1042,7 @@
    "formazioni_fotmob": 1
   },
   "Liga 1 (PER) 2026": {
-   "fotmob": 299,
-   "diretta": 1
+   "fotmob": 302
   },
   "Liga 1 (PER) 2025": {
    "pitchapi": 104,
@@ -1111,10 +1107,10 @@
    "fotmob": 258
   },
   "World Cup Qualification CAF (INT) 2023-2025": {
-   "nessuna": 65,
    "fotmob": 32,
+   "nessuna": 4,
    "livescore": 1,
-   "formazioni_fotmob": 165
+   "formazioni_fotmob": 226
   },
   "World Cup Qualification CAF (INT) 2019-2022": {
    "nessuna": 8,
@@ -1123,8 +1119,8 @@
   },
   "World Cup Qualification AFC (INT) 2023-2025": {
    "fotmob": 136,
-   "nessuna": 45,
-   "formazioni_fotmob": 45
+   "formazioni_fotmob": 89,
+   "nessuna": 1
   },
   "World Cup Qualification AFC (INT) 2019-2022": {
    "nessuna": 25,
@@ -1132,9 +1128,9 @@
    "formazioni_fotmob": 88
   },
   "World Cup Qualification CONCACAF (INT) 2024-2025": {
-   "nessuna": 3,
    "fotmob": 95,
-   "formazioni_fotmob": 2
+   "nessuna": 1,
+   "formazioni_fotmob": 4
   },
   "World Cup Qualification CONCACAF (INT) 2021-2022": {
    "fotmob": 66,
