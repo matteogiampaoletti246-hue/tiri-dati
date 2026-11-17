@@ -1,24 +1,12 @@
 {
- "squadre": 859,
- "nazionali": 50,
+ "squadre": 857,
+ "nazionali": 48,
  "club": 809,
  "dettaglio_nazionali": {
-  "Malaysia": {
-   "pool": 44,
-   "call": 35,
-   "rosa": 23,
-   "src": "ultima+rosa"
-  },
-  "Yemen": {
-   "pool": 24,
-   "call": 26,
-   "rosa": 26,
-   "src": "rosa"
-  },
   "Singapore": {
    "pool": 32,
    "call": 25,
-   "rosa": 24,
+   "rosa": 25,
    "src": "partita+ultima+rosa"
   },
   "Brazil": {
@@ -179,7 +167,7 @@
    "src": "ultima+rosa"
   },
   "Hungary": {
-   "pool": 40,
+   "pool": 39,
    "call": 27,
    "rosa": 27,
    "src": "ultima+rosa"
@@ -191,7 +179,7 @@
    "src": "ultima+rosa"
   },
   "Ukraine": {
-   "pool": 44,
+   "pool": 40,
    "call": 26,
    "rosa": 26,
    "src": "ultima+rosa"
@@ -215,7 +203,7 @@
    "src": "ultima+rosa"
   },
   "Ireland": {
-   "pool": 44,
+   "pool": 43,
    "call": 24,
    "rosa": 24,
    "src": "ultima+rosa"
@@ -299,8 +287,8 @@
    "src": null
   }
  },
- "updated_at": "2026-11-17T07:40:01Z",
- "partite": 435,
- "squadre_con_elenco": 354,
- "minuti": 2.4
+ "updated_at": "2026-11-17T10:26:37Z",
+ "partite": 434,
+ "squadre_con_elenco": 353,
+ "minuti": 4.0
 }
