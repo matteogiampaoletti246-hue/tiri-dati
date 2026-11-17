@@ -1,68 +1,8 @@
 {
- "squadre": 342,
- "nazionali": 62,
- "club": 280,
+ "squadre": 863,
+ "nazionali": 52,
+ "club": 811,
  "dettaglio_nazionali": {
-  "Germany": {
-   "pool": 56,
-   "call": 24,
-   "rosa": 24,
-   "src": "partita+ultima+rosa"
-  },
-  "Netherlands": {
-   "pool": 36,
-   "call": 27,
-   "rosa": 27,
-   "src": "partita+ultima+rosa"
-  },
-  "Greece": {
-   "pool": 34,
-   "call": 23,
-   "rosa": 33,
-   "src": "partita+ultima"
-  },
-  "Serbia": {
-   "pool": 36,
-   "call": 26,
-   "rosa": 26,
-   "src": "partita+ultima+rosa"
-  },
-  "North Macedonia": {
-   "pool": 37,
-   "call": 26,
-   "rosa": 26,
-   "src": "partita+ultima+rosa"
-  },
-  "Slovenia": {
-   "pool": 32,
-   "call": 26,
-   "rosa": 26,
-   "src": "partita+ultima+rosa"
-  },
-  "Switzerland": {
-   "pool": 37,
-   "call": 28,
-   "rosa": 28,
-   "src": "partita+ultima+rosa"
-  },
-  "Scotland": {
-   "pool": 43,
-   "call": 27,
-   "rosa": 27,
-   "src": "partita+ultima+rosa"
-  },
-  "Gibraltar": {
-   "pool": 33,
-   "call": 25,
-   "rosa": 25,
-   "src": "partita+ultima+rosa"
-  },
-  "Malta": {
-   "pool": 34,
-   "call": 23,
-   "rosa": 38,
-   "src": "partita+ultima"
-  },
   "Tahiti": null,
   "Cook Islands": null,
   "Malaysia": {
@@ -361,8 +301,8 @@
    "src": null
   }
  },
- "updated_at": "2026-11-16T22:03:53Z",
- "partite": 171,
- "squadre_con_elenco": 138,
- "minuti": 1.5
+ "updated_at": "2026-11-17T01:32:14Z",
+ "partite": 437,
+ "squadre_con_elenco": 354,
+ "minuti": 2.4
 }
