@@ -158,7 +158,7 @@ def run():
         cur = load(p) if os.path.exists(p) else {"done": False, "m": {}}
         # stagione in corso (o appena finita): si ricontrolla sempre. Prima "done" restava vero dopo il primo giro completo e le
         # partite finite dopo non entravano piu' (es. Feyenoord-Fortuna Sittard del 31/10: mancava l'intera giornata).
-        recente = int(s[:4]) >= RECENT_YEAR
+        recente = fine(s) >= RECENT_YEAR   # anno di FINE: le qualificazioni "2023-2025" sono recenti (restavano 141 partite vuote)
         bf = int(s[:4]) >= int(os.environ.get("SX_FROM", "2019"))   # tiri con posizione (mappe del giocatore) anche per le stagioni passate: si aggiungono alle partite gia' scaricate, prima le piu' recenti
         nosh = lambda x: bool(x) and not vuota(x) and "sx" not in x
         if cur["done"] and not recente and not (bf and any(nosh(x) for x in cur["m"].values())): continue
