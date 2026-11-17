@@ -1,18 +1,7 @@
 {
- "competizioni": {
-  "Africa Cup of Nations Qualification 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 6
-  },
-  "Friendlies 2026": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 3
-  }
- },
+ "competizioni": {},
  "partite_completate": 0,
  "giocatori": 0,
- "senza_abbinamento": 9,
+ "senza_abbinamento": 0,
  "senza_formazioni_diretta": 0
 }
