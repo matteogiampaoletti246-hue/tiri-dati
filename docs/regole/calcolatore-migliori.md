@@ -231,3 +231,7 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 - App: `fm-114` e' in `EXTRA_KEYS`, `NATIONS_KEYS` (`data/calcData.js`) e in `isNatLg` (`playerSheet.js`): scheda Affidabilita' in partita, Calcolatore e Migliori giocatori come per la Nations League. Falli: solo dove esistono dati (Nations League), per le amichevoli non si inventano. Prova: "affidabilita amichevoli" in `preview.mjs`.
 - Migliori Giocatori: le amichevoli (`fm-114`) non compaiono mai (`NAT_HIDDEN` in `data/topPlayers.js`, come Nations League C/D); la loro Affidabilita' si vede solo aprendo la partita.
 - Falli in Migliori Giocatori, memoria (regola fissa): `loadBestFouls` calcola un giorno alla volta (coda, il giorno aperto passa avanti: `urgent`) e carica gli archivi dei ruoli a gruppi, club e nazionali separati (`falliKeysFor`), come `loadPlayerFouls`. Prima 7 giorni insieme + 26 archivi riempivano la memoria dell'iPhone. Prova in Node (dati veri del repo, bundle esbuild): 7 giorni 840 -> 660 MB.
+
+## Calcolatore: ultime 5 / stagione 70:30 (17/11/2026, regola fissa)
+- Tasso a 90' del giocatore = 70% ultime 5 partite + 30% media stagionale (`mixRate90`, `MIX_LAST5` in `lib/calc.js`; prima 50:50). Vale per tiri, tiri in porta, falli e Migliori giocatori. Senza ultime 5 vale la stagione, senza stagione le ultime 5.
+
