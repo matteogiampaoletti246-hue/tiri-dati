@@ -189,6 +189,17 @@ function ShotExplorer({ C, shots, colors }) {
   useEffect(() => { if (chipsRef.current) chipsRef.current.scrollTo({ x: sel == null ? 0 : Math.max(0, (sel + 1) * 50 - 60), animated: true }); }, [sel]);
   if (!list.length) return null; // senza tiri il riquadro non si mostra
   const Wg = 11.5 * 0.9; const x0 = 14;
+  // mappa del giocatore (17/11/2026, richiesta utente): di base dalla tre quarti alla porta; se un tiro (o il punto del muro) e' piu' lontano,
+  // SOLO per quel giocatore il campo si allarga fino a contenerlo (anche oltre meta' campo), con linea e cerchio di centrocampo
+  const far = list.reduce((m, s) => Math.min(m, s.px != null ? rawX(s.px) : 999, s.bx != null ? rawX(s.bx) : 999), 999);
+  const vb = far >= 68 ? { x: 64, y: 10, w: 42, h: 46 } : (() => {
+    const x0 = Math.max(-1, far - 5);
+    const w = 106 - x0;
+    const h = Math.min(70, Math.max(46, (w * 46) / 42 * 0.8));
+    return { x: x0, y: 34 - h / 2, w, h };
+  })();
+  const px = (v) => Math.max(vb.x + 2, rawX(v));
+  const py = (v) => Math.max(vb.y + 2, Math.min(vb.y + vb.h - 2, v));
   const rows = cur ? [['xG', comma(cur.xg, 2)], ['xGOT', cur.onTarget || cur.outcome === 'Gol' ? comma(cur.xgot, 2) : '—'], ['Esito', outcomeOf(cur)], ['Situazione', situationOf(cur.situation)], ['Tipo di tiro', bodyOf(cur.body)], ['Zona gol', zoneOf(cur)], ['Distanza', dist(cur) != null ? `${dist(cur)} m` : '—'], ['Minuto', `${cur.minute}'`]] : [];
   return (
     <View style={{ gap: 12, borderRadius: 20, padding: 12, backgroundColor: C.chip }}>
@@ -210,18 +221,7 @@ function ShotExplorer({ C, shots, colors }) {
         {list.map((s, i) => {
           const full = s.outcome === 'Gol' || (s.onTarget && !isBlocked(s));
           const goal = s.outcome === 'Gol';
-          // mappa del giocatore (17/11/2026, richiesta utente): di base dalla tre quarti alla porta; se un tiro (o il punto del muro) e' piu' lontano,
-  // SOLO per quel giocatore il campo si allarga fino a contenerlo (anche oltre meta' campo), con linea e cerchio di centrocampo
-  const far = list.reduce((m, s) => Math.min(m, s.px != null ? rawX(s.px) : 999, s.bx != null ? rawX(s.bx) : 999), 999);
-  const vb = far >= 68 ? { x: 64, y: 10, w: 42, h: 46 } : (() => {
-    const x0 = Math.max(-1, far - 5);
-    const w = 106 - x0;
-    const h = Math.min(70, Math.max(46, (w * 46) / 42 * 0.8));
-    return { x: x0, y: 34 - h / 2, w, h };
-  })();
-  const px = (v) => Math.max(vb.x + 2, rawX(v));
-  const py = (v) => Math.max(vb.y + 2, Math.min(vb.y + vb.h - 2, v));
-  return (
+          return (
             <Pressable key={i} onPress={() => pick(i)} style={{ minWidth: 40, paddingHorizontal: String(s.minute).length > 2 ? 10 : 0, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center', backgroundColor: full ? tc : C.sheet, borderWidth: 2.5, borderColor: tc, opacity: sel == null || sel === i ? 1 : 0.55, transform: [{ scale: sel === i ? 1.1 : 1 }], ...(goal ? { shadowColor: '#f5c542', shadowOpacity: 1, shadowRadius: 0, shadowOffset: { width: 0, height: 0 }, elevation: 0 } : null) }}>
               <Text numberOfLines={1} style={{ color: full ? onTc : C.ink, fontSize: 12, fontWeight: '800' }}>{s.minute}'</Text>
             </Pressable>
