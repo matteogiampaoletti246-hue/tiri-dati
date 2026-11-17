@@ -1,18 +1,18 @@
 {
  "competizioni": {
-  "Africa Cup of Nations Qualification 2026-2027": {
-   "partite_completate": 1,
-   "giocatori": 21,
-   "da_fare": 1
-  },
-  "Friendlies 2026": {
+  "UEFA Nations League A 2026-2027": {
    "partite_completate": 2,
-   "giocatori": 50,
+   "giocatori": 44,
    "da_fare": 2
+  },
+  "UEFA Nations League B 2026-2027": {
+   "partite_completate": 6,
+   "giocatori": 173,
+   "da_fare": 6
   }
  },
- "partite_completate": 3,
- "giocatori": 71,
+ "partite_completate": 8,
+ "giocatori": 217,
  "senza_abbinamento": 0,
  "senza_formazioni_diretta": 0
 }
