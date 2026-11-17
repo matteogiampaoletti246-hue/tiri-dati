@@ -1,11 +1,11 @@
 {
- "squadre": 821,
+ "squadre": 819,
  "nazionali": 24,
- "club": 797,
+ "club": 795,
  "dettaglio_nazionali": {
   "Denmark": {
-   "pool": 37,
-   "call": 25,
+   "pool": 35,
+   "call": 24,
    "rosa": 24,
    "src": "partita+ultima+rosa"
   },
@@ -16,31 +16,31 @@
    "src": "partita+ultima+rosa"
   },
   "Wales": {
-   "pool": 39,
+   "pool": 38,
    "call": 27,
    "rosa": 27,
    "src": "partita+ultima+rosa"
   },
   "Portugal": {
-   "pool": 37,
+   "pool": 38,
    "call": 30,
-   "rosa": 29,
+   "rosa": 30,
    "src": "partita+ultima+rosa"
   },
   "Hungary": {
-   "pool": 39,
+   "pool": 36,
    "call": 28,
-   "rosa": 27,
+   "rosa": 28,
    "src": "partita+ultima+rosa"
   },
   "Northern Ireland": {
-   "pool": 34,
+   "pool": 32,
    "call": 25,
    "rosa": 25,
    "src": "partita+ultima+rosa"
   },
   "Ukraine": {
-   "pool": 40,
+   "pool": 37,
    "call": 26,
    "rosa": 26,
    "src": "partita+ultima+rosa"
@@ -52,7 +52,7 @@
    "src": "partita+ultima+rosa"
   },
   "Israel": {
-   "pool": 36,
+   "pool": 29,
    "call": 26,
    "rosa": 26,
    "src": "partita+ultima+rosa"
@@ -64,13 +64,13 @@
    "src": "partita+ultima+rosa"
   },
   "Ireland": {
-   "pool": 43,
+   "pool": 30,
    "call": 24,
    "rosa": 24,
    "src": "partita+ultima+rosa"
   },
   "Kosovo": {
-   "pool": 37,
+   "pool": 35,
    "call": 26,
    "rosa": 26,
    "src": "partita+ultima+rosa"
@@ -82,13 +82,13 @@
    "src": "partita+ultima+rosa"
   },
   "Romania": {
-   "pool": 45,
+   "pool": 44,
    "call": 26,
    "rosa": 26,
    "src": "partita+ultima+rosa"
   },
   "Poland": {
-   "pool": 43,
+   "pool": 35,
    "call": 26,
    "rosa": 26,
    "src": "partita+ultima+rosa"
@@ -103,11 +103,11 @@
    "pool": 41,
    "call": 28,
    "rosa": 28,
-   "src": "partita+ultima+rosa"
+   "src": "ultima+rosa"
   },
   "Costa Rica": {
    "pool": 44,
-   "call": 21,
+   "call": 23,
    "rosa": 36,
    "src": "partita+ultima"
   },
@@ -148,8 +148,8 @@
    "src": null
   }
  },
- "updated_at": "2026-11-17T19:21:03Z",
- "partite": 416,
- "squadre_con_elenco": 326,
- "minuti": 1.7
+ "updated_at": "2026-11-17T22:11:14Z",
+ "partite": 414,
+ "squadre_con_elenco": 322,
+ "minuti": 2.5
 }
