@@ -2,82 +2,32 @@
  "competizioni": {
   "Friendlies 2026": {
    "con_statistiche": 0,
-   "senza": 3,
-   "da_fare": 3
+   "senza": 4,
+   "da_fare": 4
   },
   "Coupe de France 2026-2027": {
    "con_statistiche": 0,
    "senza": 34,
    "da_fare": 34
   },
-  "Division Profesional 2021 - Clausura": {
-   "con_statistiche": 0,
-   "senza": 90,
-   "da_fare": 90
-  },
-  "Division Profesional 2021 - Apertura": {
-   "con_statistiche": 0,
-   "senza": 90,
-   "da_fare": 90
-  },
-  "Division Profesional 2020 - Clausura": {
-   "con_statistiche": 0,
-   "senza": 73,
-   "da_fare": 73
-  },
-  "Division Profesional 2020 - Apertura": {
-   "con_statistiche": 0,
-   "senza": 132,
-   "da_fare": 132
-  },
-  "Primera Division 2024": {
-   "con_statistiche": 0,
-   "senza": 32,
-   "da_fare": 32
-  },
-  "Primera Division 2023": {
-   "con_statistiche": 0,
-   "senza": 223,
-   "da_fare": 223
-  },
-  "Primera Division 2022": {
-   "con_statistiche": 0,
-   "senza": 277,
-   "da_fare": 277
-  },
-  "Primera Division 2021": {
-   "con_statistiche": 0,
-   "senza": 303,
-   "da_fare": 303
-  },
-  "Primera Division 2020": {
-   "con_statistiche": 0,
-   "senza": 184,
-   "da_fare": 184
-  },
-  "Primera Division 2026": {
-   "con_statistiche": 0,
-   "senza": 1,
-   "da_fare": 1
-  },
-  "Primera Division 2025": {
-   "con_statistiche": 0,
-   "senza": 20,
-   "da_fare": 20
-  },
-  "Ligat ha'Al 2025-2026": {
-   "con_statistiche": 0,
-   "senza": 1,
-   "da_fare": 1
-  },
-  "Ligat ha'Al 2024-2025": {
-   "con_statistiche": 0,
-   "senza": 3,
-   "da_fare": 3
-  },
   "Ligat ha'Al 2023-2024": {
    "con_statistiche": 0,
-   "senza": 175,
+   "senza": 65,
+   "da_fare": 65
+  },
+  "Ligat ha'Al 2022-2023": {
+   "con_statistiche": 0,
+   "senza": 240,
+   "da_fare": 240
+  },
+  "Ligat ha'Al 2021-2022": {
+   "con_statistiche": 0,
+   "senza": 240,
+   "da_fare": 240
+  },
+  "Ligat ha'Al 2020-2021": {
+   "con_statistiche": 0,
+   "senza": 240,
    "da_fare": 240
   }
  }
