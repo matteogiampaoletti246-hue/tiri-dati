@@ -1,7 +1,7 @@
 {
  "giocatori": 6210,
- "con_id_fotmob": 6172,
- "senza_id_fotmob": 38,
+ "con_id_fotmob": 6142,
+ "senza_id_fotmob": 68,
  "squadre_pitchapi": 294,
  "squadre_abbinate": 292,
  "squadre_non_abbinate": [
@@ -19,8 +19,8 @@
    ]
   ]
  ],
- "doppi_uniti": 0,
- "giocatori_con_partite_aggiunte": 0,
+ "doppi_uniti": 17,
+ "giocatori_con_partite_aggiunte": 3153,
  "competizioni_partite_aggiunte": [
   [
    "EFL Cup",
@@ -263,10 +263,6 @@
    291
   ],
   [
-   "Ligat ha'Al",
-   291
-  ],
-  [
    "Super League 1",
    287
   ],
@@ -281,6 +277,10 @@
   [
    "Premier Division",
    280
+  ],
+  [
+   "Ligat ha'Al",
+   277
   ],
   [
    "Virsliga",
@@ -379,20 +379,12 @@
    20
   ],
   [
-   "Europa League",
-   15
-  ],
-  [
    "FNL",
    14
   ],
   [
    "World Cup Qualification Inter-confederation",
    11
-  ],
-  [
-   "Champions League",
-   2
   ],
   [
    "Regular Season",
@@ -415,9 +407,9 @@
    1
   ]
  ],
- "hit_rate_con_stagione_passata": 7553,
- "hit_rate_sotto_5": 7616,
- "hit_rate_0_partite": 3178,
+ "hit_rate_con_stagione_passata": 7552,
+ "hit_rate_sotto_5": 7626,
+ "hit_rate_0_partite": 3181,
  "stagione_passata_non_scaricata": [],
  "kv_terze_parti": true,
  "esempi_sotto_5": [
@@ -728,6 +720,10 @@
    "Sabah FK"
   ],
   [
+   "Allen Obando",
+   "Nacional"
+  ],
+  [
    "Amadou Ba-Sy",
    "Heart of Midlothian"
   ],
@@ -736,12 +732,24 @@
    "Kalamata"
   ],
   [
+   "Aviv Salem",
+   "Maccabi Petah Tikva"
+  ],
+  [
+   "Bashar Abdach",
+   "Maccabi Petah Tikva"
+  ],
+  [
    "Beau Reus",
    "Heart of Midlothian"
   ],
   [
    "Calvin Miller",
    "Heart of Midlothian"
+  ],
+  [
+   "Chiheb Labidi",
+   "Nacional"
   ],
   [
    "Christos Sielis",
@@ -756,8 +764,40 @@
    "Amed Sportif"
   ],
   [
+   "Daniel",
+   "Nacional"
+  ],
+  [
+   "Deivison",
+   "Nacional"
+  ],
+  [
    "Djibril Diallo",
    "Parma"
+  ],
+  [
+   "Dor Hevron",
+   "Maccabi Petah Tikva"
+  ],
+  [
+   "Eitan Tibi",
+   "Maccabi Petah Tikva"
+  ],
+  [
+   "Eloge Koffi Yao Guy",
+   "Maccabi Petah Tikva"
+  ],
+  [
+   "Francisco Gonçalves",
+   "Nacional"
+  ],
+  [
+   "Guy Amos Deznet",
+   "Maccabi Petah Tikva"
+  ],
+  [
+   "Guy Hadida",
+   "Maccabi Petah Tikva"
   ],
   [
    "Hamza Mohammed",
@@ -766,6 +806,10 @@
   [
    "Idan Barnes",
    "Hapoel Ramat Gan"
+  ],
+  [
+   "Ido Cohen",
+   "Maccabi Petah Tikva"
   ],
   [
    "Itzik Shoolmayster",
@@ -792,8 +836,16 @@
    "Heart of Midlothian"
   ],
   [
+   "José Ricardo Cortés",
+   "Maccabi Petah Tikva"
+  ],
+  [
    "Juan Miguel Carrión Gallardo",
    "Spartak Trnava"
+  ],
+  [
+   "Kyle Cameron Walter Spence",
+   "Maccabi Petah Tikva"
   ],
   [
    "Laurent Mendy",
@@ -804,12 +856,40 @@
    "Hapoel Jerusalem"
   ],
   [
+   "Lior Kasa",
+   "Maccabi Petah Tikva"
+  ],
+  [
+   "Liran Hazan",
+   "Maccabi Petah Tikva"
+  ],
+  [
+   "Léo Santos",
+   "Nacional"
+  ],
+  [
    "Maksym Khiminets",
    "Podbrezová"
   ],
   [
    "Malachi Fagan-Walcott",
    "Heart of Midlothian"
+  ],
+  [
+   "Markus Gustav Jensen",
+   "Nacional"
+  ],
+  [
+   "Matchoi",
+   "Nacional"
+  ],
+  [
+   "Matheus Dias",
+   "Nacional"
+  ],
+  [
+   "Miguel Baeza",
+   "Nacional"
   ],
   [
    "Nadeem Warasneh",
@@ -828,6 +908,14 @@
    "Heart of Midlothian"
   ],
   [
+   "Pablo Ruan",
+   "Nacional"
+  ],
+  [
+   "Renato Marin",
+   "Nacional"
+  ],
+  [
    "Rogers Mato",
    "Heart of Midlothian"
   ],
@@ -844,8 +932,16 @@
    "Heart of Midlothian"
   ],
   [
+   "Samuel Kwame Owusu",
+   "Maccabi Petah Tikva"
+  ],
+  [
    "Samuel Sul'a",
    "Skalica"
+  ],
+  [
+   "Stavros Gavriel",
+   "Nacional"
   ],
   [
    "Stephen Kingsley",
@@ -868,8 +964,24 @@
    "Hapoel Haifa"
   ],
   [
+   "Wesley",
+   "Nacional"
+  ],
+  [
+   "William Kokolo",
+   "Nacional"
+  ],
+  [
    "Xayal Əliyev",
    "Sabah FK"
+  ],
+  [
+   "Yoav Koren",
+   "Maccabi Petah Tikva"
+  ],
+  [
+   "Zé Vítor",
+   "Nacional"
   ],
   [
    "Łukasz Zjawiński",
@@ -14193,23 +14305,7 @@
   "p_18P3Vn": [
    [
     "2026-11-01",
-    127
-   ],
-   [
-    "2026-10-24",
-    127
-   ],
-   [
-    "2026-10-17",
-    127
-   ],
-   [
-    "2026-10-10",
-    127
-   ],
-   [
-    "2026-09-19",
-    127
+    null
    ]
   ],
   "p_0XjJRb": [
@@ -15503,24 +15599,8 @@
   ],
   "p_04nefW": [
    [
-    "2026-11-06",
-    127
-   ],
-   [
     "2026-11-01",
-    127
-   ],
-   [
-    "2026-10-24",
-    127
-   ],
-   [
-    "2026-10-17",
-    127
-   ],
-   [
-    "2026-09-19",
-    127
+    null
    ]
   ],
   "p_3XKHvo": [
@@ -30833,16 +30913,8 @@
   ],
   "p_1UrRYR": [
    [
-    "2026-11-06",
-    127
-   ],
-   [
     "2026-11-01",
-    127
-   ],
-   [
-    "2026-10-24",
-    127
+    null
    ]
   ],
   "p_4R8fTp": [
@@ -32522,24 +32594,8 @@
   ],
   "p_1EwCxn": [
    [
-    "2026-11-06",
-    127
-   ],
-   [
     "2026-11-01",
-    127
-   ],
-   [
-    "2026-10-24",
-    127
-   ],
-   [
-    "2026-10-17",
-    127
-   ],
-   [
-    "2026-10-10",
-    127
+    null
    ]
   ],
   "p_3RFqWM": [
@@ -33236,24 +33292,8 @@
   ],
   "p_0sFgiJ": [
    [
-    "2026-11-06",
-    127
-   ],
-   [
     "2026-11-01",
-    127
-   ],
-   [
-    "2026-10-24",
-    127
-   ],
-   [
-    "2026-10-17",
-    127
-   ],
-   [
-    "2026-10-10",
-    127
+    null
    ]
   ],
   "p_0YAYLi": [
@@ -45731,48 +45771,11 @@
   ],
   "p_4ExXDt": [
    [
-    "2026-11-06",
-    127
-   ],
-   [
     "2026-11-01",
-    127
-   ],
-   [
-    "2026-10-24",
-    127
-   ],
-   [
-    "2026-10-17",
-    127
-   ],
-   [
-    "2026-10-10",
-    127
+    null
    ]
   ],
-  "p_2TsPf9": [
-   [
-    "2026-05-13",
-    127
-   ],
-   [
-    "2026-05-10",
-    127
-   ],
-   [
-    "2026-05-03",
-    127
-   ],
-   [
-    "2026-04-29",
-    127
-   ],
-   [
-    "2026-04-26",
-    127
-   ]
-  ],
+  "p_2TsPf9": [],
   "p_4A8eW6": [
    [
     "2026-11-17",
@@ -49112,24 +49115,8 @@
   ],
   "p_0xGHwg": [
    [
-    "2026-11-06",
-    127
-   ],
-   [
     "2026-11-01",
-    127
-   ],
-   [
-    "2026-10-24",
-    127
-   ],
-   [
-    "2026-10-17",
-    127
-   ],
-   [
-    "2026-10-10",
-    127
+    null
    ]
   ],
   "p_0b1vhI": [
@@ -61538,24 +61525,8 @@
   ],
   "p_4PTcxH": [
    [
-    "2026-11-06",
-    127
-   ],
-   [
     "2026-11-01",
-    127
-   ],
-   [
-    "2026-10-24",
-    127
-   ],
-   [
-    "2026-10-17",
-    127
-   ],
-   [
-    "2026-10-10",
-    127
+    null
    ]
   ],
   "p_2AFg7W": [
@@ -69143,16 +69114,7 @@
     40
    ]
   ],
-  "p_05ZTqC": [
-   [
-    "2026-08-29",
-    127
-   ],
-   [
-    "2026-08-22",
-    127
-   ]
-  ],
+  "p_05ZTqC": [],
   "p_3txi3z": [
    [
     "2026-09-12",
@@ -72096,24 +72058,8 @@
   "p_2UqvfU": [],
   "p_4Ugowy": [
    [
-    "2026-11-06",
-    127
-   ],
-   [
     "2026-11-01",
-    127
-   ],
-   [
-    "2026-10-24",
-    127
-   ],
-   [
-    "2026-10-17",
-    127
-   ],
-   [
-    "2026-10-10",
-    127
+    null
    ]
   ],
   "p_2ABs6i": [
@@ -112612,23 +112558,7 @@
   "p_0vtiKa": [
    [
     "2026-11-01",
-    127
-   ],
-   [
-    "2026-10-24",
-    127
-   ],
-   [
-    "2026-10-17",
-    127
-   ],
-   [
-    "2026-10-10",
-    127
-   ],
-   [
-    "2026-09-19",
-    127
+    null
    ]
   ],
   "p_2F3vx2": [
@@ -131187,16 +131117,7 @@
     127
    ]
   ],
-  "p_3m4HCQ": [
-   [
-    "2026-09-19",
-    127
-   ],
-   [
-    "2026-09-05",
-    127
-   ]
-  ],
+  "p_3m4HCQ": [],
   "p_1RdgwV": [
    [
     "2026-11-13",
