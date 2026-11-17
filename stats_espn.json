@@ -2,78 +2,83 @@
  "competizioni": {
   "Friendlies 2026": {
    "con_statistiche": 0,
-   "senza": 7,
-   "da_fare": 7
+   "senza": 3,
+   "da_fare": 3
   },
   "Coupe de France 2026-2027": {
    "con_statistiche": 0,
-   "senza": 85,
-   "da_fare": 85
+   "senza": 34,
+   "da_fare": 34
   },
-  "Championship 2026-2027": {
+  "Division Profesional 2021 - Clausura": {
    "con_statistiche": 0,
-   "senza": 4,
-   "da_fare": 4
+   "senza": 90,
+   "da_fare": 90
   },
-  "Serie A 2023": {
+  "Division Profesional 2021 - Apertura": {
    "con_statistiche": 0,
-   "senza": 48,
-   "da_fare": 48
+   "senza": 90,
+   "da_fare": 90
   },
-  "Serie A 2022": {
+  "Division Profesional 2020 - Clausura": {
    "con_statistiche": 0,
-   "senza": 242,
-   "da_fare": 242
+   "senza": 73,
+   "da_fare": 73
   },
-  "Serie A 2021": {
-   "con_statistiche": 44,
-   "senza": 198,
-   "da_fare": 242
-  },
-  "Serie A 2020": {
+  "Division Profesional 2020 - Apertura": {
    "con_statistiche": 0,
-   "senza": 242,
-   "da_fare": 242
+   "senza": 132,
+   "da_fare": 132
   },
-  "Division Profesional 2026 - Apertura": {
+  "Primera Division 2024": {
+   "con_statistiche": 0,
+   "senza": 32,
+   "da_fare": 32
+  },
+  "Primera Division 2023": {
+   "con_statistiche": 0,
+   "senza": 223,
+   "da_fare": 223
+  },
+  "Primera Division 2022": {
+   "con_statistiche": 0,
+   "senza": 277,
+   "da_fare": 277
+  },
+  "Primera Division 2021": {
+   "con_statistiche": 0,
+   "senza": 303,
+   "da_fare": 303
+  },
+  "Primera Division 2020": {
+   "con_statistiche": 0,
+   "senza": 184,
+   "da_fare": 184
+  },
+  "Primera Division 2026": {
    "con_statistiche": 0,
    "senza": 1,
    "da_fare": 1
   },
-  "Division Profesional 2024 - Clausura": {
+  "Primera Division 2025": {
    "con_statistiche": 0,
-   "senza": 132,
-   "da_fare": 132
+   "senza": 20,
+   "da_fare": 20
   },
-  "Division Profesional 2024 - Apertura": {
+  "Ligat ha'Al 2025-2026": {
    "con_statistiche": 0,
-   "senza": 132,
-   "da_fare": 132
+   "senza": 1,
+   "da_fare": 1
   },
-  "Division Profesional 2023 - Clausura": {
+  "Ligat ha'Al 2024-2025": {
    "con_statistiche": 0,
-   "senza": 132,
-   "da_fare": 132
+   "senza": 3,
+   "da_fare": 3
   },
-  "Division Profesional 2023 - Apertura": {
+  "Ligat ha'Al 2023-2024": {
    "con_statistiche": 0,
-   "senza": 132,
-   "da_fare": 132
-  },
-  "Division Profesional 2022 - Clausura": {
-   "con_statistiche": 0,
-   "senza": 132,
-   "da_fare": 132
-  },
-  "Division Profesional 2022 - Apertura": {
-   "con_statistiche": 0,
-   "senza": 132,
-   "da_fare": 132
-  },
-  "Division Profesional 2021 - Clausura": {
-   "con_statistiche": 0,
-   "senza": 0,
-   "da_fare": 90
+   "senza": 175,
+   "da_fare": 240
   }
  }
 }
