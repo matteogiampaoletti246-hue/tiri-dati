@@ -1,51 +1,8 @@
 {
- "squadre": 855,
- "nazionali": 46,
+ "squadre": 847,
+ "nazionali": 38,
  "club": 809,
  "dettaglio_nazionali": {
-  "China": {
-   "pool": 46,
-   "call": 44,
-   "rosa": 29,
-   "src": "partita+ultima+rosa"
-  },
-  "Bahrain": {
-   "pool": 38,
-   "call": 26,
-   "rosa": 26,
-   "src": "partita+rosa"
-  },
-  "Kyrgyzstan": null,
-  "Vietnam": {
-   "pool": 29,
-   "call": 25,
-   "rosa": 25,
-   "src": "rosa"
-  },
-  "Lebanon": {
-   "pool": 24,
-   "call": 0,
-   "rosa": 0,
-   "src": null
-  },
-  "Palestine": {
-   "pool": 32,
-   "call": 19,
-   "rosa": 19,
-   "src": "ultima+rosa"
-  },
-  "Japan": {
-   "pool": 42,
-   "call": 28,
-   "rosa": 28,
-   "src": "partita+ultima+rosa"
-  },
-  "Paraguay": {
-   "pool": 41,
-   "call": 37,
-   "rosa": 26,
-   "src": "partita+ultima+rosa"
-  },
   "Qatar": {
    "pool": 37,
    "call": 28,
@@ -55,20 +12,20 @@
   "South Korea": {
    "pool": 44,
    "call": 37,
-   "rosa": 27,
+   "rosa": 28,
    "src": "partita+ultima+rosa"
   },
   "UAE": {
    "pool": 34,
    "call": 26,
    "rosa": 26,
-   "src": "ultima+rosa"
+   "src": "partita+ultima+rosa"
   },
   "Syria": {
-   "pool": 36,
-   "call": 23,
-   "rosa": 23,
-   "src": "rosa"
+   "pool": 43,
+   "call": 18,
+   "rosa": 34,
+   "src": "partita+ultima"
   },
   "Saudi Arabia": {
    "pool": 41,
@@ -78,7 +35,7 @@
   },
   "Uzbekistan": {
    "pool": 42,
-   "call": 26,
+   "call": 28,
    "rosa": 41,
    "src": "partita+ultima"
   },
@@ -86,31 +43,31 @@
    "pool": 39,
    "call": 23,
    "rosa": 23,
-   "src": "rosa"
+   "src": "partita+rosa"
   },
   "Australia": {
    "pool": 45,
    "call": 35,
    "rosa": 27,
-   "src": "ultima+rosa"
+   "src": "partita+ultima+rosa"
   },
   "Russia": {
    "pool": 42,
    "call": 25,
    "rosa": 0,
-   "src": "ultima"
+   "src": "partita+ultima"
   },
   "Venezuela": {
    "pool": 46,
-   "call": 0,
+   "call": 25,
    "rosa": 0,
-   "src": null
+   "src": "partita"
   },
   "Iraq": {
    "pool": 40,
-   "call": 24,
+   "call": 25,
    "rosa": 24,
-   "src": "rosa"
+   "src": "partita+rosa"
   },
   "Iran": {
    "pool": 46,
@@ -275,8 +232,8 @@
    "src": null
   }
  },
- "updated_at": "2026-11-17T13:31:52Z",
- "partite": 433,
- "squadre_con_elenco": 350,
- "minuti": 2.5
+ "updated_at": "2026-11-17T16:14:51Z",
+ "partite": 429,
+ "squadre_con_elenco": 343,
+ "minuti": 2.3
 }
