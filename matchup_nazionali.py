@@ -2,7 +2,7 @@
 """Migliori Matchup: partite delle nazionali (Nations League A-D) dei prossimi giorni, con le medie attese di angoli, cartellini,
 tiri, tiri in porta, falli e fuorigioco. Dall'archivio FotMob (arch/ e partite/), nessuna chiave. Scrive matchup_nazionali.json
 {days: {data: [partita]}} con la stessa forma di angoli.json -> days[data].tutte (l'app le unisce).
-Storico delle medie: partite ufficiali degli ULTIMI 12 MESI (WINDOW_DAYS) di Nations League, Mondiali e qualificazioni ai Mondiali
+Storico delle medie: partite ufficiali degli ULTIMI 2 ANNI (WINDOW_DAYS, 17/11/2026) di Nations League (A-D), Mondiali e qualificazioni ai Mondiali
 (HIST_COMPS); le amichevoli sono escluse. Le partite da giocare restano quelle della Nations League A e B.
 Medie come update_angoli.py: attesi casa = (fatti dalla casa + subiti dall'ospite) / 2; angoli e tiri con la sede (casa/trasferta),
 falli e fuorigioco su tutte le partite; tiri e tiri in porta col handicap della divisione (A 1.0, B 0.9, C 0.8, D 0.7, come il Calcolatore)."""
@@ -14,10 +14,10 @@ ROME = ZoneInfo("Europe/Rome")
 # Solo Nations League A e B: C e D non servono in Migliori Matchup (richiesta del 9/11/2026)
 COMPS = {9806: ("Nations League A", 1.0), 9807: ("Nations League B", 0.9)}
 DAYS = 8
-WINDOW_DAYS = 365   # le medie usano le partite degli ultimi 12 mesi (23/11/2026)
-# Competizioni dello storico (nessuna amichevole): Nations League A-B, Mondiali, qualificazioni ai Mondiali (UEFA, altre confederazioni, spareggi
+WINDOW_DAYS = 730   # le medie usano le partite ufficiali degli ultimi 2 anni (richiesta utente 17/11/2026; prima 12 mesi)
+# Competizioni dello storico (nessuna amichevole): Nations League A-D (una nazionale puo' aver cambiato divisione), Mondiali, qualificazioni ai Mondiali (UEFA, altre confederazioni, spareggi
 # intercontinentali). Le stagioni si leggono tutte dall'indice e le partite si filtrano per data.
-HIST_COMPS = {9806, 9807, 77, 10195, 10196, 10197, 10198, 10199, 10200, 10201}
+HIST_COMPS = {9806, 9807, 9808, 9809, 77, 10195, 10196, 10197, 10198, 10199, 10200, 10201}
 
 
 def load(p):
