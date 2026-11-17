@@ -1,10 +1,8 @@
 {
- "squadre": 861,
- "nazionali": 52,
+ "squadre": 859,
+ "nazionali": 50,
  "club": 809,
  "dettaglio_nazionali": {
-  "Tahiti": null,
-  "Cook Islands": null,
   "Malaysia": {
    "pool": 44,
    "call": 35,
@@ -301,8 +299,8 @@
    "src": null
   }
  },
- "updated_at": "2026-11-17T04:12:18Z",
- "partite": 436,
+ "updated_at": "2026-11-17T07:40:01Z",
+ "partite": 435,
  "squadre_con_elenco": 354,
- "minuti": 1.9
+ "minuti": 2.4
 }
