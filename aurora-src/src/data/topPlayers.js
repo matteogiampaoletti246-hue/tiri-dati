@@ -52,7 +52,7 @@ const pois = (k, l) => {
 const pickKey = pickLeagueKey;
 
 // stesse partite dell'Hit Rate del Calcolatore (almeno 48', stagione in corso poi passata)
-const lastRows = (p) => hitRows(p);
+const lastRows = (p, col = 0) => hitRows(p, col);
 
 // media di tiri attesa del giocatore in quella partita; idx 0 = tiri totali, 1 = tiri in porta
 const MIN_SEASON_MIN = 180;
@@ -61,7 +61,7 @@ function lambdaOf(p, f, idx) {
   const mi = p.l[3] + p.c[3];
   // stesso limite delle classifiche giocatori (docs/regole/giocatori-dati.md): almeno 180 minuti in stagione
   if (g < 3 || mi < MIN_SEASON_MIN) return null;
-  const lr = lastRows(p).slice(0, 5);
+  const lr = lastRows(p, idx).slice(0, 5);
   if (lr.length < 3) return null;
   let sh = 0;
   let mn = 0;

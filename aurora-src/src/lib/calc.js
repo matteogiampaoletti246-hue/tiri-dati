@@ -427,3 +427,17 @@ export function computeFoulsResult({
     combo: comboScore(score, tier.value), note: valueNoteOf(probFinal, odds), stake, hitRate, hitLabel, ready: stake.stake !== null,
   };
 }
+
+// Partite dell'Hit Rate (17/11/2026, scelta dell'utente, tutte le statistiche e tutte le competizioni):
+// titolare con almeno 46' = sempre; titolare uscito al 45' = solo se ha fatto almeno 1 della statistica scelta (tiri, in porta, falli commessi, subiti);
+// subentrato = almeno 50'. Titolarita' sconosciuta (dati vecchi o fonti senza formazione): almeno 48', la regola di prima.
+export const HIT_MIN_SUB = 50;
+export const HIT_MIN_ST = 46;
+export const hitOk = (min, starter, v) => {
+  const m = Number(min) || 0;
+  if (starter === true || starter === 1) return m >= HIT_MIN_ST || (m >= 45 && (Number(v) || 0) >= 1);
+  if (starter === false || starter === 0) return m >= HIT_MIN_SUB;
+  return m >= 48;
+};
+// colonna della riga `h` per statistica: 0 tiri, 1 in porta, 3 falli commessi, 4 falli subiti
+export const hitCol = (stat) => (stat === 'fs' ? 4 : stat === 'fc' ? 3 : stat === 'inPorta' || stat === 'porta' || stat === 'sot' || stat === 1 ? 1 : 0);

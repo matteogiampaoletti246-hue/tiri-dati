@@ -1,7 +1,7 @@
 // Calcolo unico dell'affidabilità di un giocatore: lo usano sia il Calcolatore sia la Home / schede giocatore.
 import { teamByName } from './teams';
 import { NATIONS_KEYS, nextFixture, playerLeagueHcap, pickLeagueKey, prefillShots, teamCupKey, teamShots } from './calcData';
-import { HIT_OPTIONS, SEASON_COMPETITIONS, computeFoulsResult, computePlayerResult, parseDash, parseNum } from '@/lib/calc';
+import { hitOk, HIT_OPTIONS, SEASON_COMPETITIONS, computeFoulsResult, computePlayerResult, parseDash, parseNum } from '@/lib/calc';
 import { teamById } from './teams';
 import { isDomCupKey } from './domCups';
 
@@ -45,7 +45,10 @@ export const initialForm = () => ({
 // Partite per l'Hit Rate (regola fissa, tutte le competizioni): solo partite con ALMENO 50', dalla piu' recente; se nella stagione in
 // corso sono meno di 5 si completa con la stagione passata, sempre a ritroso (`h` di profili.py, `hn` = quante). Senza 5 si usano
 // quelle che ci sono e il Calcolatore lo dice ("su 3 partite"). Dati senza `hn` (vecchio formato): come prima.
-export const hitRows = (p) => ((p && p.hn !== null && p.hn !== undefined ? p.h : p && p.h && p.h.length >= 5 ? p.h : p && p.r) || []).slice(0, 5);
+// righe [tiri, in porta, minuti, falli, subiti, giorno, competizione, titolare 1/0]: il server manda le candidate (titolari da 45', subentrati da 50'),
+// qui si tengono le 5 piu' recenti valide per la statistica scelta (`hitOk`: il titolare uscito al 45' conta solo con almeno 1 della statistica)
+export const hitRows = (p, col = 0) => ((p && p.hn !== null && p.hn !== undefined ? p.h : p && p.h && p.h.length >= 5 ? p.h : p && p.r) || [])
+  .filter((x) => x.length < 8 || hitOk(x[2], x[7], x[col])).slice(0, 5);
 
 // Hit Rate con la nazionale (regola dell'utente, 9/11/2026): scegliendo Nations League, oltre all'Hit Rate normale conta quello delle
 // partite giocate in Nations League in questa stagione (almeno 48', come sempre): "2/3", "4/5"... quante ne ha giocate e in quante ha
@@ -69,8 +72,8 @@ export function fillFrom(f, p, fam, fx) {
   // profilo della nazionale (Nations League): hit rate e ultime 5 = ultime partite del giocatore in generale (club, tutte le competizioni),
   // non solo quelle con la nazionale; senza profilo di club restano quelle della nazionale
   const club = p.nat && p.club ? p.club : null;
-  const fromClub = !!(club && hitRows(club).length);
-  const rows = fromClub ? hitRows(club) : hitRows(p);
+  const fromClub = !!(club && hitRows(club, k).length);
+  const rows = fromClub ? hitRows(club, k) : hitRows(p, k);
   const lineV = parseNum(f.line) ?? 0;
   const hit = rows.filter((x) => (f.lineType === 'under' ? (x[k] || 0) < lineV : (x[k] || 0) > lineV)).length;
   const season = { ...f.season, campionato: { tiri: '', minuti: '' }, coppa: { tiri: '', minuti: '' }, nations: { tiri: '', minuti: '' } };
@@ -116,7 +119,7 @@ export function fillFrom(f, p, fam, fx) {
     hitN: rows.length,
     hcapL: clubP ? playerLeagueHcap(clubP.teamName) : 1,
     // partite con la nazionale (profilo `nat`: `h` = Nations League di questa stagione con almeno 48'); senza profilo di club sono gia' l'Hit Rate normale
-    natVals: fromClub ? (p.h || []).map((x) => x[k] || 0) : [],
+    natVals: fromClub ? (p.h || []).filter((x) => x.length < 8 || hitOk(x[2], x[7], x[k])).slice(0, 12).map((x) => x[k] || 0) : [],
     season,
     team,
     opp,

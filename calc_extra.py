@@ -34,7 +34,29 @@ LEGHE = {
 }
 TUTTE = "--tutte" in sys.argv   # tutte le altre competizioni di club con statistiche tiri -> calc_tutte.json (stessa forma di calc_extra.json)
 OUT = "calc_tutte.json" if TUTTE else "calc_extra.json"
-MIN_HIT = 48          # minuti minimi perche' una partita conti per l'hit rate (come update_giocatori.py)
+MIN_HIT = 48          # titolarita' sconosciuta (come profili.py)
+# Hit Rate (17/11/2026, scelta dell'utente): titolare da 46' sempre, titolare uscito al 45' solo con almeno 1 della statistica (decide l'app, `hitOk`),
+# subentrato da 50'. Righe `h`: [tiri, in porta, minuti, -, -, -, -, titolare 1/0]; si tengono le candidate finche' 5 sono valide per ogni statistica.
+def starter_of(m, pid):
+    for sd in ("h", "a"):
+        lu = m.get(sd) or {}
+        if any(isinstance(x, list) and x and str(x[0]) == str(pid) for x in lu.get("st") or []):
+            return 1
+        if any(isinstance(x, list) and x and str(x[0]) == str(pid) for x in lu.get("sb") or []):
+            return 0
+    return None
+def hit_rows(ms, cap=5):
+    out, sure = [], 0
+    for t in ms:
+        st = t[4] if len(t) > 4 else None
+        mn = t[3]
+        if mn < (45 if st == 1 else 50 if st == 0 else MIN_HIT):
+            continue
+        if sure >= cap or len(out) >= cap * 2:
+            break
+        out.append([t[1], t[2], t[3], None, None, None, None, st] if st is not None else [t[1], t[2], t[3]])
+        sure += 1 if mn >= (46 if st == 1 else 50 if st == 0 else MIN_HIT) else 0
+    return out
 NEXT_FIX = 6          # prossime partite per squadra
 STOP = {"fc", "sc", "cf", "fk", "afc", "ac", "as", "sk", "bk", "kv", "sv", "vv", "ssc", "if", "bsc", "ca", "cd", "cs", "sl", "sd", "de", "da", "do", "the", "club", "kvc", "krc", "ksc", "rsc"}
 
@@ -305,7 +327,7 @@ def main_tutte():
                     continue
                 tid, nm = side[str(pid)]
                 p = rows.setdefault(str(pid), {"n": nm, "t": tid, "ms": []})
-                p["ms"].append((utc, int(v.get("total_shots") or 0), int(v.get("ShotsOnTarget") or 0), int(round(mins))))
+                p["ms"].append((utc, int(v.get("total_shots") or 0), int(v.get("ShotsOnTarget") or 0), int(round(mins)), starter_of(m, pid)))
         if n_fin < MIN_PARTITE_COMP:
             print(f"{d['name']} ({d['c']}): solo {n_fin} partite con statistiche, salto")
             continue
@@ -354,7 +376,7 @@ def main_tutte():
         ms = sorted(p["ms"], key=lambda x: x[0], reverse=True)
         tot = [len(ms), float(sum(x[1] for x in ms)), sum(x[2] for x in ms), float(sum(x[3] for x in ms))]
         last = [[x[1], x[2], x[3]] for x in ms[:5]]
-        hit = [[x[1], x[2], x[3]] for x in [y for y in ms if y[3] >= MIN_HIT][:5]]
+        hit = hit_rows(ms)
         old = find_old(tn, p["n"], pid)
         if old:
             if old["i"] in ex_upd:
@@ -455,7 +477,7 @@ def main():
                     continue
                 tid, nm = side[str(pid)]
                 p = rows.setdefault(str(pid), {"n": nm, "t": tid, "ms": []})
-                p["ms"].append((utc, int(v.get("total_shots") or 0), int(v.get("ShotsOnTarget") or 0), int(round(mins))))
+                p["ms"].append((utc, int(v.get("total_shots") or 0), int(v.get("ShotsOnTarget") or 0), int(round(mins)), starter_of(m, pid)))
         teams, logos = {}, {}
         fmid = {v: k for k, v in tname.items()}
         for n, t in T.items():
@@ -477,7 +499,7 @@ def main():
             tot = [len(ms), float(sum(x[1] for x in ms)), sum(x[2] for x in ms), float(sum(x[3] for x in ms))]
             last = [[x[1], x[2], x[3]] for x in ms[:5]]
             # nazionali: tutte le partite della stagione con almeno 48' (servono all'Hit Rate con la nazionale: "3/4", "4/5"...)
-            hit = [[x[1], x[2], x[3]] for x in [y for y in ms if y[3] >= MIN_HIT][:(12 if nat else 5)]]
+            hit = hit_rows(ms, 12 if nat else 5)
             old = None if nat else find_old(tn, p["n"], pid)
             if nat:
                 out["nat"].append({"i": f"nat~{fm}~{sk}~{pid}", "n": p["n"], "t": tn, "fm": int(pid), "lg": key, "nat": 1, "l": tot, "r": last, "h": hit})
@@ -627,13 +649,13 @@ def amichevoli(out):
                 if mins <= 0 or str(pid) not in side:
                     continue
                 p = rows.setdefault(str(pid), {"n": side[str(pid)], "ms": []})
-                p["ms"].append((x[0], int(v.get("total_shots") or 0), int(v.get("ShotsOnTarget") or 0), int(round(mins))))
+                p["ms"].append((x[0], int(v.get("total_shots") or 0), int(v.get("ShotsOnTarget") or 0), int(round(mins)), starter_of(m, pid)))
         have = set()
         for pid, p in rows.items():
             ms2 = sorted(p["ms"], key=lambda t: t[0], reverse=True)
             tot = [len(ms2), float(sum(t[1] for t in ms2)), sum(t[2] for t in ms2), float(sum(t[3] for t in ms2))]
             out["nat"].append({"i": f"nat~{AMICHEVOLI}~{e['s'][0]}~{pid}", "n": p["n"], "t": tn, "fm": int(pid), "lg": KEY_AMI, "nat": 1, "l": tot,
-                               "r": [[t[1], t[2], t[3]] for t in ms2[:5]], "h": [[t[1], t[2], t[3]] for t in [y for y in ms2 if y[3] >= MIN_HIT][:12]]})
+                               "r": [[t[1], t[2], t[3]] for t in ms2[:5]], "h": hit_rows(ms2, 12)})
             have.add(int(pid))
             n_prof += 1
         try:
@@ -771,12 +793,12 @@ def nat_hits(out):
                 v = (m.get("p") or {}).get(str(x["fm"]))
                 if not v or not (v.get("minutes_played") or 0) > 0 or mid not in d or d[mid][:10] > today:
                     continue
-                ms.append((d[mid], int(v.get("total_shots") or 0), int(v.get("ShotsOnTarget") or 0), int(round(v.get("minutes_played") or 0))))
+                ms.append((d[mid], int(v.get("total_shots") or 0), int(v.get("ShotsOnTarget") or 0), int(round(v.get("minutes_played") or 0)), starter_of(m, x["fm"])))
         ms.sort(key=lambda t: t[0], reverse=True)
         if not ms:
             continue
         x["r"] = [[t[1], t[2], t[3]] for t in ms[:5]]
-        x["h"] = [[t[1], t[2], t[3]] for t in [y for y in ms if y[3] >= MIN_HIT][:5]]
+        x["h"] = hit_rows(ms)
         n += 1
     print(f"nazionali: {n} profili vuoti riempiti con le ultime partite di tutte le competizioni")
 

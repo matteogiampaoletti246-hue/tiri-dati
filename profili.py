@@ -18,7 +18,12 @@ import glob, gzip, json, os, re, sys, unicodedata
 from collections import defaultdict, Counter
 from datetime import date, timedelta
 
-MIN_HIT = 48
+MIN_HIT = 48         # titolarita' sconosciuta
+# Hit Rate (17/11/2026): candidate = titolare da 45', subentrato da 50', sconosciuto da 48'; "sempre valide" = titolare da 46', subentrato da 50', sconosciuto da 48'
+def cand(m, st):
+    return (m or 0) >= (45 if st == 1 else 50 if st == 0 else MIN_HIT)
+def always(m, st):
+    return (m or 0) >= (46 if st == 1 else 50 if st == 0 else MIN_HIT)
 SEASON_START = os.environ.get("SEASON_START", "2026")   # come update_data.py: stagione 2026/2027 (e 2026 per i campionati ad anno solare)
 EURO = {42, 73, 10216}
 CUP_RX = re.compile(r"cup|pokal|copa|coppa|coupe|ta[cç]a|beker|kupa|puchar|trophy|shield|super ?cup|supercopa|supercoppa|troph|pokalen|kupok|cupa|kubok|league cup", re.I)
@@ -121,7 +126,7 @@ def is_league(fm, sk):
 
 
 def match_rows(fm, sk):
-    """righe per giocatore di una competizione/stagione: fid -> [(giorno, fm, squadra, min, tiri, in porta, falli, subiti, ha_tiri, nome)]"""
+    """righe per giocatore di una competizione/stagione: fid -> [(giorno, fm, squadra, min, tiri, in porta, falli, subiti, ha_tiri, nome, titolare 1/0/None)]"""
     d = partite(fm, sk)
     a = arch(fm, sk) or {}
     if not d:
@@ -135,6 +140,7 @@ def match_rows(fm, sk):
         if dd is None:
             continue
         side = {}
+        starters, subs = set(), set()
         for sd in ("h", "a"):
             lu = m.get(sd) or {}
             tid = lu.get("id") or (f[2] if sd == "h" else f[3])
@@ -143,6 +149,12 @@ def match_rows(fm, sk):
             for x in (lu.get("st") or []) + (lu.get("sb") or []):
                 if isinstance(x, list) and x and x[0] is not None:
                     side[str(x[0])] = (str(tid), x[1] if len(x) > 1 else "")
+            for x in lu.get("st") or []:
+                if isinstance(x, list) and x and x[0] is not None:
+                    starters.add(str(x[0]))
+            for x in lu.get("sb") or []:
+                if isinstance(x, list) and x and x[0] is not None:
+                    subs.add(str(x[0]))
         for pid, v in (m.get("pn") or {}).items():
             if isinstance(v, list) and len(v) >= 3:
                 side.setdefault(str(pid), (str(v[2]), v[0]))
@@ -153,7 +165,8 @@ def match_rows(fm, sk):
                 continue
             tid, nm = side.get(str(pid), ("", ""))
             out[str(pid)].append((dd, fm, tid, float(mins), float(v.get("total_shots") or 0), int(v.get("ShotsOnTarget") or 0),
-                                  v.get("fouls", 0 if shots_ok else None), v.get("was_fouled", 0 if shots_ok else None), shots_ok, nm))
+                                  v.get("fouls", 0 if shots_ok else None), v.get("was_fouled", 0 if shots_ok else None), shots_ok, nm,
+                                  1 if str(pid) in starters else 0 if str(pid) in subs else None))
     return out, tdays
 
 
@@ -454,19 +467,19 @@ def main():
         cut = cutoff(dl)
         for x in pr:
             is_cup = x[1] in ("champions-league", "europa-league")
-            cur.append({"d": x[0], "k": "c" if is_cup else "l", "min": x[3], "sh": x[4], "so": x[5], "fo": None, "fs": None, "fm": 42 if x[1] == "champions-league" else 73 if x[1] == "europa-league" else dl})
+            cur.append({"d": x[0], "k": "c" if is_cup else "l", "min": x[3], "sh": x[4], "so": x[5], "fo": None, "fs": None, "st": None, "fm": 42 if x[1] == "champions-league" else 73 if x[1] == "europa-league" else dl})
         if fid:
             fr = sorted((x for x in (frows_all.get(str(fid)) or []) if x[0] >= cut), key=lambda x: x[0], reverse=True)
             for x in fr:
                 # stessa giornata = stessa partita: dalla partita FotMob si prendono solo i falli
                 same = next((c for c in cur if abs((c["d"] - x[0]).days) <= 1 and c["fo"] is None), None)
                 if same:
-                    same["fo"], same["fs"], same["fm"] = x[6], x[7], x[1]
+                    same["fo"], same["fs"], same["fm"], same["st"] = x[6], x[7], x[1], x[10]
                     continue
                 if not x[8]:
                     continue        # partita senza tiri (solo LiveScore): non entra nei conteggi dei tiri
                 k = "c" if x[1] in EURO else ("l" if x[1] == dl else "o")
-                cur.append({"d": x[0], "k": k, "min": x[3], "sh": x[4], "so": x[5], "fo": x[6], "fs": x[7], "fm": x[1]})
+                cur.append({"d": x[0], "k": k, "min": x[3], "sh": x[4], "so": x[5], "fo": x[6], "fs": x[7], "fm": x[1], "st": x[10]})
                 added[pid or fid].add((IDX.get(str(x[1]), {}).get("n") or str(x[1])))
         cur.sort(key=lambda c: c["d"], reverse=True)
 
@@ -478,11 +491,19 @@ def main():
             return [round(a[0], 1), round(a[1], 1), round(a[2], 1), round(a[3], 1)]
 
         # righe compatte (giocatori.json si scarica all'avvio): giorno e competizione restano solo nel referto
-        row = lambda c: [int(c["sh"]), int(c["so"]), int(round(c["min"])), c["fo"], c["fs"], int(c["d"].strftime("%Y%m%d")), c["fm"]]  # + giorno e competizione FotMob: servono per trovare l'avversario nel grafico Hit Rate
-        hit = [row(c) for c in cur if c["min"] >= MIN_HIT][:5]
-        hit_d = [(c["d"].isoformat(), c["fm"]) for c in cur if c["min"] >= MIN_HIT][:5]
+        row = lambda c: [int(c["sh"]), int(c["so"]), int(round(c["min"])), c["fo"], c["fs"], int(c["d"].strftime("%Y%m%d")), c["fm"], c["st"]]  # + giorno e competizione FotMob (avversario nel grafico) + titolare
+        # Hit Rate (17/11/2026, scelta dell'utente): titolare da 46' sempre, titolare uscito al 45' solo con almeno 1 della statistica (lo decide l'app per
+        # statistica, `hitOk`), subentrato da 50'; titolarita' sconosciuta: 48'. Qui le candidate, finche' ci sono 5 partite valide per ogni statistica.
+        hit, hit_d, sure = [], [], 0
+        for c in cur:
+            if sure >= 5 or len(hit) >= 10:
+                break
+            if not cand(c["min"], c["st"]):
+                continue
+            hit.append(row(c)); hit_d.append((c["d"].isoformat(), c["fm"]))
+            sure += 1 if always(c["min"], c["st"]) else 0
         hp = 0
-        if len(hit) < 5 and fid:
+        if sure < 5 and fid:
             pv, miss = prev_rows(fid)
             # stagione passata = i 12 mesi prima dell'inizio di quella in corso (anche partite di competizioni ad anno solare)
             pv = [x for x in pv + [y for y in frows_of(fid) if y[0] < cut] if cut - timedelta(366) <= x[0] < cut]
@@ -490,13 +511,15 @@ def main():
             pv = [x for x in sorted(pv, key=lambda x: x[0], reverse=True) if not (x[0], x[1]) in seen_d and not seen_d.add((x[0], x[1]))]
             for m in miss:
                 prev_missing[m] += 1
-            pv = sorted([x for x in pv if x[3] >= MIN_HIT and x[8] and x[2] in CLUB], key=lambda x: x[0], reverse=True)
+            pv = sorted([x for x in pv if cand(x[3], x[10] if len(x) > 10 else None) and x[8] and x[2] in CLUB], key=lambda x: x[0], reverse=True)
             for x in pv:
-                if len(hit) >= 5:
+                if sure >= 5 or len(hit) >= 10:
                     break
-                hit.append([int(x[4]), int(x[5]), int(round(x[3])), x[6], x[7], int(x[0].strftime("%Y%m%d")), x[1]])
+                stx = x[10] if len(x) > 10 else None
+                hit.append([int(x[4]), int(x[5]), int(round(x[3])), x[6], x[7], int(x[0].strftime("%Y%m%d")), x[1], stx])
                 hit_d.append((x[0].isoformat(), x[1]))
                 hp += 1
+                sure += 1 if always(x[3], stx) else 0
         out = dict(base)
         if cur:
             out["l"], out["c"] = agg("l"), agg("c")

@@ -1,3 +1,4 @@
+import { hitOk } from '@/lib/calc';
 // Mappe del campo di un giocatore: tiri, tiri in porta, falli commessi e subiti, per competizione e stagione.
 // Tiri: `sx` delle partite (`partite.py`, stesso formato del worker `/sh` + id giocatore in coda), poi `mapShots` come nella pagina partita.
 // Falli: coppie `p` di ESPN [chi commette, chi subisce, X, Y, minuto]; X/Y dal punto di vista di chi subisce (X=0 sulla sua porta, X=100 su quella che attacca, 0-100;
@@ -92,8 +93,11 @@ async function loadOne(pid, fm, sk, name) {
     const nosx = [];
     Object.entries(ms).forEach(([mid, m]) => {
       const pl = m && m.p && m.p[pid];
-      if (!pl || !(pl.minutes_played >= 48)) return;
+      if (!pl) return;
       const sd = sidesOf(m);
+      const isSt = [m.h, m.a].some((x) => x && (x.st || []).some((r) => String(r[0]) === String(pid)));
+      const isSb = [m.h, m.a].some((x) => x && (x.sb || []).some((r) => String(r[0]) === String(pid)));
+      if (!hitOk(pl.minutes_played, isSt ? true : isSb ? false : undefined, pl.total_shots)) return; // stessa regola dell'Hit Rate (tiri)
       const inH = sd.h.some((r) => String(r[0]) === String(pid));
       const inA = sd.a.some((r) => String(r[0]) === String(pid));
       if (!inH && !inA) return;

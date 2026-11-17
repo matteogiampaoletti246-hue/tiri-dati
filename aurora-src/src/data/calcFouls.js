@@ -246,7 +246,7 @@ export const foulKeysFor = (p, names, leagueIds) => {
 export function playerFoulsOf(data, fmPid, p, stat, hitOf) {
   const { club, nat } = foulProfiles(p);
   const domKey = club ? domesticKey(club.teamName) : null;
-  const hit = club && club.hn != null && hitOf ? hitOf(club) : null;
+  const hit = club && club.hn != null && hitOf ? hitOf(club, stat === 'fs' ? 4 : 3) : null;
   return playerFouls(data, fmPid, domKey, stat, hit, natKeyOf(nat));
 }
 // medie stagione dei falli per il modulo del Calcolatore

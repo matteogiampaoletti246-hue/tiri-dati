@@ -30,7 +30,7 @@ import { loadRose, rosePlayer } from '@/data/rose';
 import { playerFace, archIndex, loadSeason, loadSeasonMatches, FM_ID, LID_BY_FM } from '@/data/archive';
 import { playerComps, calcComp } from '@/components/calc/calcComp';
 import { comma } from '@/lib/format';
-import { parseDash, parseNum, fmtLine, HIT_OPTIONS, LINE_OPTIONS, SEDE_OPTIONS, COMPETITION_OPTIONS, NATIONS_OPTION, NATIONS_WEIGHTS, SEASON_COMPETITIONS, lineHintText } from '@/lib/calc';
+import { hitCol, hitOk, parseDash, parseNum, fmtLine, HIT_OPTIONS, LINE_OPTIONS, SEDE_OPTIONS, COMPETITION_OPTIONS, NATIONS_OPTION, NATIONS_WEIGHTS, SEASON_COMPETITIONS, lineHintText } from '@/lib/calc';
 import { MATCHES } from '@/data/matches';
 import { RAW } from '@/data/load';
 import { leagueById } from '@/data/leagues';
@@ -295,7 +295,7 @@ const hitProf = (player) => (player && player.nat && player.club ? player.club :
 function gamesFor(player, key, vals, mins) {
   const prof = hitProf(player);
   const rec = (prof && prof.recent) || [];
-  const rows = hitRows(prof);
+  const rows = hitRows(prof, hitCol(key));
   const dated = rows.length && rows.every((r) => r[5]);
   const isF = key === 'fc' || key === 'fs';
   const out = [];
@@ -322,7 +322,7 @@ function useHitGames(player, key2Raw, vals, mins) {
   const prof = hitProf(player);
   // falli: le colonne sono le righe dell'Hit Rate (stesse partite) solo se i valori coincidono; altrimenti niente abbinamento sbagliato
   const key2 = key2Raw && (key2Raw === 'fc' || key2Raw === 'fs')
-    ? (() => { const rr = hitRows(prof); const ki = foulIdx(key2Raw); return rr.length === vals.length && rr.every((r, i) => r[ki] === vals[i]) ? key2Raw : null; })()
+    ? (() => { const ki = foulIdx(key2Raw); const rr = hitRows(prof, ki); return rr.length === vals.length && rr.every((r, i) => r[ki] === vals[i]) ? key2Raw : null; })()
     : key2Raw;
   const sig = `${prof && prof.id}|${key2}|${vals.join(',')}|${mins.join(',')}`;
   const base = useMemo(() => (key2 ? gamesFor(player, key2, vals, mins) : null), [sig]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -330,7 +330,7 @@ function useHitGames(player, key2Raw, vals, mins) {
   useEffect(() => {
     setExt({});
     if (!key2 || !base) return undefined;
-    const rows = hitRows(prof);
+    const rows = hitRows(prof, hitCol(key2));
     const mine = teamById(prof && prof.teamId);
     const isMine = (name) => { const t = teamByName(name); return !!(t && mine && t.id === mine.id) || (!!mine && String(name).toLowerCase() === String(mine.name).toLowerCase()); };
     let on = true;
@@ -373,7 +373,7 @@ function useHitGames(player, key2Raw, vals, mins) {
   return useMemo(() => (base ? base.map((g, i) => ((g && g.team && g.team.crest) ? g : (ext[i] || g || null))) : null), [base, ext]);
 }
 
-// ultime 5 partite (almeno 48') del giocatore in ogni competizione, dall'archivio FotMob (tiri e tiri in porta di ogni partita):
+// ultime 5 partite (regola Hit Rate `hitOk`: titolare da 46' o 45' con almeno 1, subentrato da 50') del giocatore in ogni competizione, dall'archivio FotMob (tiri e tiri in porta di ogni partita):
 // campionato del club, coppa europea e Nations League; serve alle pagine del grafico Hit Rate
 const CUP_FM = { 'champions-league': 42, 'europa-league': 73, 'conference-league': 10216 };
 function useCompGames(player, key2) {
@@ -404,7 +404,11 @@ function useCompGames(player, key2) {
           Object.entries(det.m).forEach(([mid, x]) => {
             const pl = x.p && x.p[pid];
             const f = fx[mid];
-            if (!pl || !f || !(pl.minutes_played >= 48)) return;
+            if (!pl || !f) return;
+            const isSt = [x.h, x.a].some((sd) => sd && (sd.st || []).some((r) => String(r[0]) === String(pid)));
+            const isSb = [x.h, x.a].some((sd) => sd && (sd.sb || []).some((r) => String(r[0]) === String(pid)));
+            const vv = Number(key2 === 'sot' ? pl.ShotsOnTarget : key2 === 'fc' ? pl.fouls : key2 === 'fs' ? pl.was_fouled : pl.total_shots) || 0;
+            if (!hitOk(pl.minutes_played, isSt ? true : isSb ? false : undefined, vv)) return;
             const hid = String((x.h && x.h.id) || f[2]);
             const aid = String((x.a && x.a.id) || f[3]);
             const inH = x.h && [...(x.h.st || []), ...(x.h.sb || [])].some((r) => String(r[0]) === String(pid));
