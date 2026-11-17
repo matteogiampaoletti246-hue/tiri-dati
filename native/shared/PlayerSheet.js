@@ -7,7 +7,7 @@ import { View, Text, Pressable, ScrollView, Animated, Easing, PanResponder, useW
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
-import Svg, { G, Rect, Line, Circle, Polyline } from 'react-native-svg';
+import Svg, { G, Rect, Line, Circle, Polyline, Path } from 'react-native-svg';
 import './shim';
 import { closePlayer, openPlayer, findInMatch, matchOf, ourPlayerId, usePlayerSheet } from '@/data/playerSheet';
 import { norm } from '@/data/util';
@@ -163,8 +163,7 @@ function StatTabs({ C, c, fl, onFouls }) {
 }
 
 // ── mappa tiri del giocatore (concept A: porta, minuti, metà campo e dettagli)
-const px = (v) => Math.max(66, Math.min(104.5, v));
-const py = (v) => Math.max(12, Math.min(54, v));
+const rawX = (v) => Math.max(0.5, Math.min(104.5, v));
 const bodyOf = (b) => (b === 'Testa' ? 'Di testa' : b === 'Destro' ? 'Di destro' : b === 'Sinistro' ? 'Di sinistro' : '—');
 const dist = (s) => (s.px != null ? Math.round(Math.hypot(105 - s.px, 34 - s.py)) : null);
 const dotCol = (s) => (s.outcome === 'Gol' ? '#2FBF71' : s.onTarget ? '#4aa3ff' : s.outcome === 'Bloccato' ? '#9aa4b2' : '#e5a84a');
@@ -211,7 +210,18 @@ function ShotExplorer({ C, shots, colors }) {
         {list.map((s, i) => {
           const full = s.outcome === 'Gol' || (s.onTarget && !isBlocked(s));
           const goal = s.outcome === 'Gol';
-          return (
+          // mappa del giocatore (17/11/2026, richiesta utente): di base dalla tre quarti alla porta; se un tiro (o il punto del muro) e' piu' lontano,
+  // SOLO per quel giocatore il campo si allarga fino a contenerlo (anche oltre meta' campo), con linea e cerchio di centrocampo
+  const far = list.reduce((m, s) => Math.min(m, s.px != null ? rawX(s.px) : 999, s.bx != null ? rawX(s.bx) : 999), 999);
+  const vb = far >= 68 ? { x: 64, y: 10, w: 42, h: 46 } : (() => {
+    const x0 = Math.max(-1, far - 5);
+    const w = 106 - x0;
+    const h = Math.min(70, Math.max(46, (w * 46) / 42 * 0.8));
+    return { x: x0, y: 34 - h / 2, w, h };
+  })();
+  const px = (v) => Math.max(vb.x + 2, rawX(v));
+  const py = (v) => Math.max(vb.y + 2, Math.min(vb.y + vb.h - 2, v));
+  return (
             <Pressable key={i} onPress={() => pick(i)} style={{ minWidth: 40, paddingHorizontal: String(s.minute).length > 2 ? 10 : 0, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center', backgroundColor: full ? tc : C.sheet, borderWidth: 2.5, borderColor: tc, opacity: sel == null || sel === i ? 1 : 0.55, transform: [{ scale: sel === i ? 1.1 : 1 }], ...(goal ? { shadowColor: '#f5c542', shadowOpacity: 1, shadowRadius: 0, shadowOffset: { width: 0, height: 0 }, elevation: 0 } : null) }}>
               <Text numberOfLines={1} style={{ color: full ? onTc : C.ink, fontSize: 12, fontWeight: '800' }}>{s.minute}'</Text>
             </Pressable>
@@ -220,8 +230,9 @@ function ShotExplorer({ C, shots, colors }) {
       </ScrollView>
       <View style={{ flexDirection: 'row', gap: 12, alignItems: 'center' }}>
         <View style={{ flex: 0.9 }}>
-          <Svg width="100%" viewBox="64 10 42 46" style={{ aspectRatio: 42 / 46, backgroundColor: PITCH, borderRadius: 12 }}>
+          <Svg width="100%" viewBox={`${vb.x} ${vb.y} ${vb.w} ${vb.h}`} style={{ aspectRatio: vb.w / vb.h, backgroundColor: PITCH, borderRadius: 12 }}>
             <Rect x="0" y="0" width="105" height="68" fill="none" stroke={LINE} strokeWidth="0.5" />
+            {vb.x < 62 ? <><Line x1="52.5" y1="0" x2="52.5" y2="68" stroke={LINE} strokeWidth="0.5" /><Circle cx="52.5" cy="34" r="9.15" fill="none" stroke={LINE} strokeWidth="0.5" /><Circle cx="52.5" cy="34" r="0.5" fill={LINE} /><Path d="M 88.5 26.7 A 9.15 9.15 0 0 0 88.5 41.3" fill="none" stroke={LINE} strokeWidth="0.5" /></> : null}
             <Polyline points="105,13.84 88.5,13.84 88.5,54.16 105,54.16" fill="none" stroke={LINE} strokeWidth="0.5" />
             <Polyline points="105,24.84 99.5,24.84 99.5,43.16 105,43.16" fill="none" stroke={LINE} strokeWidth="0.5" />
             <Circle cx="94" cy="34" r="0.5" fill={LINE} />
