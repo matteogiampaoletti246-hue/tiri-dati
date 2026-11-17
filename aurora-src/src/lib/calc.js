@@ -31,7 +31,11 @@ export const parseDash = (text) =>
 export const fmtLine = (line) => (line === null || line === undefined ? '—' : comma(line, Number.isInteger(line) ? 0 : 1));
 export const fmtPct = (v) => (v === null || v === undefined ? '—' : `${comma(v * 100, 1)}%`);
 
-/* Nessun peso sulla linea (tolto il 17/11/2026 su richiesta dell'utente): la linea conta solo nel modello Poisson e nell'hit rate. */
+/* Peso della linea (17/11/2026, scelta dell'utente): resta SOLO il bonus delle linee basse, nessuna penalita' sulle alte e nessun aggiustamento per le Under.
+   Over 0,5: +0,02 di probabilita' sul risultato finale (tiri e falli). Calcolo interno, non si mostra. */
+export const LINE_ADJ = { 0.5: 0.02 };
+export const lineAdjust = (line, lineType) => (lineType === 'over' ? LINE_ADJ[line] ?? 0 : 0);
+const withLine = (p, line, lineType) => (p === null ? null : Math.min(1, Math.max(0, p + lineAdjust(line, lineType))));
 
 /* ── Poisson ───────────────────────────────────────────────────────── */
 const FACT = [1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800, 39916800, 479001600];
@@ -327,7 +331,7 @@ export function computePlayerResult({
 
   const lambda = rate90 !== null && oppFactor !== null && creationFactor !== null ? rate90 * oppFactor * creationFactor * sedeFactor : null;
   const prob = probModel(lambda, line, lineType);
-  const probFinal = probAndHit(prob, hitRate);
+  const probFinal = withLine(probAndHit(prob, hitRate), line, lineType);
   const score = probFinal === null ? null : probFinal * 10;
   const tier = quotaTier(odds);
   const stake = stakeCalc(score, odds);
@@ -410,7 +414,7 @@ export function computeFoulsResult({
   const creationFactor = ratioPow(teamVal, teamAvg, hasDuel ? FOUL_EXP.own : FOUL_EXP.ownSolo);
   const lambda = rate90 !== null && oppFactor !== null && creationFactor !== null ? rate90 * oppFactor * creationFactor * (duelFactor ?? 1) : null;
   const prob = probModel(lambda, line, lineType);
-  const probFinal = probAndHit(prob, hitRate);
+  const probFinal = withLine(probAndHit(prob, hitRate), line, lineType);
   const score = probFinal === null ? null : probFinal * 10;
   const tier = quotaTier(odds);
   const stake = stakeCalc(score, odds);
