@@ -106,12 +106,10 @@ export const last5Rate90 = (shots = [], minutes = []) => {
   return (sh.reduce((a, b) => a + b, 0) / total) * 90;
 };
 
-// Peso ultime 5 / media stagionale (17/11/2026, scelta dell'utente): 70 ultime 5 + 30 stagione (prima 50:50). Vale per tiri, tiri in porta, falli e Migliori giocatori.
-export const MIX_LAST5 = 0.7;
 export const mixRate90 = (season, last5) => {
   if (last5 === null || last5 === undefined) return season;
   if (season === null || season === undefined) return last5;
-  return last5 * MIX_LAST5 + season * (1 - MIX_LAST5);
+  return (season + last5) / 2;
 };
 
 /* ── Opzioni e fattori ─────────────────────────────────────────────── */
