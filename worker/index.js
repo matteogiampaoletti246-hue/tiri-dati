@@ -207,6 +207,36 @@ async function dlFill(t, fm, tid) {
   return { f: t.f, s, b, co: (fm && fm.co) || t.co };
 }
 
+// Collegamento a tappeto (18/11/2026): QUALSIASI formazione (FotMob, ESPN, LiveScore, PitchAPI, ultima formazione, diretta) con giocatori senza id FotMob
+// passa dallo stesso abbinamento di diretta (`dlFill`: rosa del sito, pagina squadra FotMob, ricerca; solo nomi unici). Cambiano solo nome intero, foto e id
+// dei giocatori senza id; posizione, numero, voto e capitano restano quelli della fonte. Risultati ricordati 10 minuti (al massimo 600 giocatori).
+const LINKED = new Map();
+async function linkMissing(t, tid) {
+  if (!t || !tid) return t;
+  const rows = [...(t.s || []), ...(t.b || [])].filter((p) => p && !p[7] && p[0]);
+  if (!rows.length) return t;
+  const key = (p) => tid + "|" + p[0] + "|" + (p[1] == null ? "" : p[1]);
+  const todo = rows.filter((p) => { const h = LINKED.get(key(p)); return !h || Date.now() - h.t > 600000; });
+  if (todo.length) {
+    const got = await dlFill({ f: t.f, s: todo, b: [] }, null, tid).catch(() => null);
+    todo.forEach((p, i) => {
+      const g = got && got.s && got.s[i];
+      LINKED.delete(key(p));
+      LINKED.set(key(p), { t: Date.now(), v: g && g[7] ? [g[0], g[5], g[7]] : null });
+      while (LINKED.size > 600) LINKED.delete(LINKED.keys().next().value);
+    });
+  }
+  const fix = (p) => {
+    if (!p || p[7] || !p[0]) return p;
+    const h = LINKED.get(key(p));
+    if (!h || !h.v) return p;
+    const q = p.slice();
+    q[0] = h.v[0]; q[5] = q[5] || h.v[1]; q[7] = h.v[2];
+    return q;
+  };
+  return { ...t, s: (t.s || []).map(fix), b: (t.b || []).map(fix) };
+}
+
 // ---- Formazioni da ESPN dove FotMob non le ha (verificato il 07/11/2026: ESPN da' modulo, titolari con ruolo e lato, panchina).
 // Competizioni FotMob -> ESPN controllate una per una; si aggiungono solo dopo aver visto le formazioni vere.
 // 14/11/2026: non piu' solo queste 4. Per ogni altra competizione si cerca la partita nel tabellone generale di ESPN ("all": nazionali, amichevoli,
@@ -750,6 +780,7 @@ export default {
           if (cs != null && src !== "fm" && !out.ht) { const mn = Math.floor(cs / 60) + 1; out.clk = (mn > pEnd ? pEnd + "+" + (mn - pEnd) : mn) + "\u2019"; }
           if (cs != null || out.ht) out.lc = { s: cs, mx: pEnd, ad: aev ? Number(aev.minutesAddedInput) || 0 : 0, ht: out.ht ? 1 : 0, src };
         }
+        if (out.h || out.a) [out.h, out.a] = await Promise.all([out.h ? linkMissing(out.h, out.hi) : out.h, out.a ? linkMissing(out.a, out.ai) : out.a]);
         // cartellini rossi per squadra (Home, concept A 17/11/2026): rosso diretto e doppio giallo, dagli eventi gia' uniti (FotMob, LiveScore, diretta.it)
         { const rr = [0, 0]; (out.ev || []).forEach((e) => { if (e.ty === "Card" && (e.cd === "Red" || e.cd === "YellowRed")) rr[e.h ? 0 : 1] += 1; }); if (rr[0] || rr[1]) out.rc = rr; }
         return new Response(JSON.stringify(out), { headers: cors(req, { "Cache-Control": "public, max-age=3" }) });
