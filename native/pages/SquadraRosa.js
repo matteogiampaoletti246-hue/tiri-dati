@@ -8,7 +8,7 @@ import { injuryOf } from '@/data/injuries';
 import { realName } from '@/data/realNames';
 import { loadCarriere, carriereOf, countryIt, ageOf } from '@/data/carriere';
 import { playersByTeam, playerByFm, natByFm } from '@/data/players';
-import { loadRose, roseOf, rosePoor, seasonRoster } from '@/data/rose';
+import { loadRose, roseOf, fullRoster } from '@/data/rose';
 import { FM_ID, currentSeason, playerFace } from '@/data/archive';
 import { archiveId, espnIdOfRow, espnPlayerId, espnPhoto, rosaHint } from '@/data/archivePlayer';
 import { Face } from '../shared/ui';
@@ -80,13 +80,11 @@ export default function SquadraRosa({ C, teamId, openRoute, bottom }) {
   };
   const fmR = rose ? FM_ID[rose.lg] : null;
   const { data: skR0 } = useAsync(() => (fmR ? currentSeason(fmR) : Promise.resolve(null)), [fmR]);
-  const noRose = (!(rose && rose.p && rose.p.length) || rosePoor(rose)) && !all.length;
-  const { data: sr } = useAsync(() => ((noRose || !(rose && rose.co)) && team ? seasonRoster(team) : Promise.resolve(null)), [noRose, teamId]);
-  const roseOk = rose && rose.p && rose.p.length;
-  const srBetter = noRose && sr && (!roseOk || (sr.p.length >= rose.p.length && sr.p.some((x) => x[2] !== 'UNK')));
-  const R = srBetter ? { ...sr, fm: sr.fm || fmR, sk: sr.sk || skR0 } : roseOk ? { p: rose.p, fm: fmR, sk: skR0 } : null;
-  const coachName = (rose && rose.co) || (sr && sr.co) || null;
-  const coachId = (rose && rose.ci) || (sr && sr.ci) || null;
+  // rosa completa: tutte le fonti unite (rosa/, rose.json, giocatori dell'app, stagione), mai una lista sola
+  const { data: FR } = useAsync(() => (team ? fullRoster(team, rose, all) : Promise.resolve(null)), [teamId, rose ? rose.p.length : 0, all.length]);
+  const R = FR ? { p: FR.p, fm: fmR, sk: skR0 } : null;
+  const coachName = (rose && rose.co) || (FR && FR.co) || null;
+  const coachId = (rose && rose.ci) || (FR && FR.ci) || null;
   const skR = R && R.sk;
   const coach = coachName ? (
     <Group C={C} color={C.role.COACH} title="Allenatore">

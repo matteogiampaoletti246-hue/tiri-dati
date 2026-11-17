@@ -130,3 +130,36 @@ export const seasonRoster = async (team) => {
   });
   return out.size ? { fm, sk, p: [...out.values()], co: R && R.co, ci: R && R.ci } : null;
 };
+
+// Rosa completa di una squadra (17/11/2026, regola fissa): le fonti si UNISCONO, non si sceglie una sola lista. Prima rosa/ (FotMob, gia' controllata
+// "e' ancora qui?"), poi rose.json (aggiunte LiveScore/ESPN/OneFootball, spesso solo giovani: Racing Santander e i top campionati mostravano solo 10
+// ragazzi con id negativi, senza foto), poi i giocatori dell'app per la squadra (`all`), infine chi ha giocato la stagione (seasonRoster) se resta corta.
+// Doppioni tolti per id FotMob o per nome (anche col doppio cognome spagnolo: "Alvaro Fernandez" = "Alvaro Fernandez Fernandez").
+const rnk = (s) => String(s || '').normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+const sameName = (a, b) => {
+  const x = rnk(a), y = rnk(b);
+  if (!x || !y) return false;
+  if (x === y) return true;
+  const X = x.split(' '), Y = y.split(' ');
+  const [s, l] = X.length <= Y.length ? [X, Y] : [Y, X];
+  return s.length >= 2 && s[0] === l[0] && s.every((t) => l.includes(t));
+};
+export const fullRoster = async (team, rose, all) => {
+  const R = await rosaOf(team).catch(() => null);
+  const out = [];
+  const ids = new Set();
+  const has = (r) => (r[0] > 0 && ids.has(String(r[0]))) || out.some((o) => sameName(o[1], r[1]));
+  const push = (r) => {
+    if (!r || !r[1] || has(r)) return;
+    if (r[0] > 0) ids.add(String(r[0]));
+    out.push(r);
+  };
+  ((R && R.p) || []).forEach(push);
+  ((rose && rose.p) || []).forEach(push);
+  (all || []).forEach((p) => push([p.fmId ? Number(p.fmId) : 0, p.name, p.position === 'WNG' ? 'ATT' : p.position || 'UNK', null, null, null, null, null, 0, 0, 0, p.minutes || 0]));
+  if (out.length < 18) {
+    const sr = await seasonRoster(team).catch(() => null);
+    ((sr && sr.p) || []).forEach(push);
+  }
+  return out.length ? { p: out, co: (rose && rose.co) || (R && R.co) || null, ci: (rose && rose.ci) || (R && R.ci) || null } : null;
+};
