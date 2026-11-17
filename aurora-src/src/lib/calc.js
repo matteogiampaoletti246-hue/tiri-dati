@@ -106,10 +106,12 @@ export const last5Rate90 = (shots = [], minutes = []) => {
   return (sh.reduce((a, b) => a + b, 0) / total) * 90;
 };
 
+// Peso ultime 5 nel tasso a 90' (17/11/2026, scelta dell'utente): 30% ultime 5 + 70% media stagionale (prima 50:50). Vale per tiri, tiri in porta, falli e Migliori giocatori.
+export const MIX_LAST5 = 0.3;
 export const mixRate90 = (season, last5) => {
   if (last5 === null || last5 === undefined) return season;
   if (season === null || season === undefined) return last5;
-  return (season + last5) / 2;
+  return last5 * MIX_LAST5 + season * (1 - MIX_LAST5);
 };
 
 /* ── Opzioni e fattori ─────────────────────────────────────────────── */
@@ -294,8 +296,9 @@ export const foulLineHint = (lambda, line) => {
 export const FORMULE = {
   v1: { modello: 0.6, hitRate: 0.4 },
   v2: { modello: 0.7, hitRate: 0.3 },
+  v3: { modello: 0.6, hitRate: 0.4 }, // dal 17/11/2026 (insieme al mix 70 stagione / 30 ultime 5)
 };
-export const FORMULA_ATTIVA = 'v2';
+export const FORMULA_ATTIVA = 'v3';
 const probAndHit = (prob, hitRate) => {
   if (prob === null) return null;
   if (hitRate === null) return prob;
