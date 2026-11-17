@@ -1,7 +1,13 @@
 {
- "competizioni": {},
- "partite_completate": 0,
- "giocatori": 0,
+ "competizioni": {
+  "Liga AUF Uruguaya 2026": {
+   "partite_completate": 1,
+   "giocatori": 30,
+   "da_fare": 1
+  }
+ },
+ "partite_completate": 1,
+ "giocatori": 30,
  "senza_abbinamento": 0,
  "senza_formazioni_diretta": 0
 }
