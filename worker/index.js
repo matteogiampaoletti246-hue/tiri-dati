@@ -135,19 +135,18 @@ async function dlFill(t, fm, tid) {
     const hit = rows.filter((q) => { const g = nKey(get(q)); return g.length && g[g.length - 1] === k[0]; });
     return hit.length === 1 ? hit[0] : null;
   };
-  let ros = null, sq = null;
-  const loadRosa = async () => {
-    if (ros) return ros;
-    ros = [];
+  // rosa e pagina squadra si leggono UNA volta per squadra: la promessa e' condivisa da tutti i giocatori (prima il primo giocatore
+  // metteva una lista vuota e gli altri, letti in parallelo, la trovavano gia' "pronta": Neymar, Coutinho... restavano senza id, 18/11/2026)
+  let rosP = null, sqP = null;
+  const loadRosa = () => rosP || (rosP = (async () => {
     try {
       const r = await fetch(SITE + "rosa/" + (Number(tid) % 100) + ".json", { cf: { cacheTtl: 3600, cacheEverything: true } });
-      if (r.ok) ros = (((await r.json()) || {})[String(tid)] || {}).p || [];
+      if (r.ok) return ((((await r.json()) || {})[String(tid)] || {}).p || []).filter((q) => q[0] > 0);
     } catch (e) { /* senza rosa si passa alla fonte dopo */ }
-    return ros;
-  };
-  const loadSquad = async () => {
-    if (sq) return sq;
-    sq = [];
+    return [];
+  })());
+  const loadSquad = () => sqP || (sqP = (async () => {
+    const sq = [];
     try {
       const r = await fetch("https://www.fotmob.com/api/data/teams?id=" + tid + "&ccode3=ITA", { headers: FMH, cf: { cacheTtl: 1800, cacheEverything: true } });
       if (r.ok) {
@@ -160,6 +159,13 @@ async function dlFill(t, fm, tid) {
       }
     } catch (e) { /* idem */ }
     return sq;
+  })());
+  // stesso numero di maglia nella rosa della squadra e almeno un nome in comune ("Tiago Coser" = "Tiago" n. 23, "Arthur Melo" = "Arthur" n. 6): solo se unico
+  const byShirt = (rows, name, num, getName, getNum) => {
+    if (num == null || num === "") return null;
+    const k = nKey(name).filter((x) => x.length >= 3);
+    const hit = rows.filter((q) => String(getNum(q)) === String(num) && (samePerson(getName(q), name) || nKey(getName(q)).some((x) => x.length >= 3 && k.includes(x))));
+    return hit.length === 1 ? hit[0] : null;
   };
   const searchPlayers = async (name) => {
     const toks = String(name || "").split(/\s+/).filter((x) => x && !/^[A-Za-z]\.?$/.test(x));
@@ -181,9 +187,11 @@ async function dlFill(t, fm, tid) {
     const byNum = num != null ? fmRows.find((q) => q[1] != null && String(q[1]) === String(num) && samePerson(q[0], name)) : null;
     const f = byNum || uniq(fmRows, name, (q) => q[0]);
     if (f && f[7]) return [f[0], num != null ? num : f[1], p[2], p[3], p[4] || f[4], f[5], f[6], f[7], f[8]];
-    const r = uniq(await loadRosa(), name, (q) => q[1]) || solo(await loadRosa(), name, (q) => q[1]) || loose(await loadRosa(), name, (q) => q[1]);
+    const R = await loadRosa();
+    const r = uniq(R, name, (q) => q[1]) || solo(R, name, (q) => q[1]) || loose(R, name, (q) => q[1]) || byShirt(R, name, num, (q) => q[1], (q) => q[3]);
     if (r && r[0] > 0) return [r[1], num != null ? num : r[3], p[2], p[3], p[4], ph(r[0]), null, r[0], r[2] === "GK" ? 0 : null];
-    const z = uniq(await loadSquad(), name, (q) => q.name) || solo(await loadSquad(), name, (q) => q.name) || loose(await loadSquad(), name, (q) => q.name);
+    const Z = await loadSquad();
+    const z = uniq(Z, name, (q) => q.name) || solo(Z, name, (q) => q.name) || loose(Z, name, (q) => q.name) || byShirt(Z, name, num, (q) => q.name, (q) => q.num);
     if (z) return [z.name, num != null ? num : z.num, p[2], p[3], p[4], ph(z.id), null, z.id, null];
     // ultima via: ricerca giocatori di FotMob per cognome (chi non e' in rosa ne' nella pagina squadra); valido solo se il nome e' unico (stessa iniziale e cognome)
     const sr = await searchPlayers(name);
