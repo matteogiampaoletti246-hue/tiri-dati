@@ -742,6 +742,8 @@ export default {
           if (cs != null && src !== "fm" && !out.ht) { const mn = Math.floor(cs / 60) + 1; out.clk = (mn > pEnd ? pEnd + "+" + (mn - pEnd) : mn) + "\u2019"; }
           if (cs != null || out.ht) out.lc = { s: cs, mx: pEnd, ad: aev ? Number(aev.minutesAddedInput) || 0 : 0, ht: out.ht ? 1 : 0, src };
         }
+        // cartellini rossi per squadra (Home, concept A 17/11/2026): rosso diretto e doppio giallo, dagli eventi gia' uniti (FotMob, LiveScore, diretta.it)
+        { const rr = [0, 0]; (out.ev || []).forEach((e) => { if (e.ty === "Card" && (e.cd === "Red" || e.cd === "YellowRed")) rr[e.h ? 0 : 1] += 1; }); if (rr[0] || rr[1]) out.rc = rr; }
         return new Response(JSON.stringify(out), { headers: cors(req, { "Cache-Control": "public, max-age=3" }) });
       }
       if (u.pathname === "/m") {
@@ -757,7 +759,7 @@ export default {
         if (!r.ok) throw new Error("FotMob " + r.status);
         const j = await r.json(), OK = [47, 54, 87, 53, 55, 42, 73, 10216];
         const m = [];
-        (j.leagues || []).forEach((l) => { if (!OK.includes(l.primaryId || l.id)) return; (l.matches || []).forEach((x) => m.push({ id: x.id, l: l.primaryId || l.id, h: x.home && x.home.name, a: x.away && x.away.name, hi: x.home && x.home.id, ai: x.away && x.away.id, t: x.status && x.status.utcTime, f: !!(x.status && x.status.finished), s: !!(x.status && x.status.started), sc: x.status && x.status.scoreStr || null, lt: x.status && x.status.liveTime ? String(x.status.liveTime.short || "").replace(/[\u200e\u200f]/g, "") : null })); });
+        (j.leagues || []).forEach((l) => { if (!OK.includes(l.primaryId || l.id)) return; (l.matches || []).forEach((x) => m.push({ id: x.id, l: l.primaryId || l.id, h: x.home && x.home.name, a: x.away && x.away.name, hi: x.home && x.home.id, ai: x.away && x.away.id, t: x.status && x.status.utcTime, f: !!(x.status && x.status.finished), s: !!(x.status && x.status.started), sc: x.status && x.status.scoreStr || null, lt: x.status && x.status.liveTime ? String(x.status.liveTime.short || "").replace(/[\u200e\u200f]/g, "") : null, rc: (x.home && x.home.redCards) || (x.away && x.away.redCards) ? [(x.home && x.home.redCards) || 0, (x.away && x.away.redCards) || 0] : undefined })); });
         return new Response(JSON.stringify({ t: Date.now(), m }), { headers: cors(req, { "Cache-Control": "public, max-age=3" }) });
       }
       if (u.pathname === "/lt") { // classifica FotMob della competizione (aggiornata ogni 5 s) + partite in corso: ?id=<id FotMob della lega>

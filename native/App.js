@@ -61,8 +61,8 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
 
 const SITE = 'https://matteogiampaoletti246-hue.github.io/tiri-dati/';
 const W = Dimensions.get('window').width;
-const DARK = { dark: true, silFace: '#555b69', silHair: '#3b404d', silShadow: '#252932', silShirt: '#1a1d25', silShirt2: '#222630', gold: '#F2C14E', bg: '#05070D', ink: '#F1F5FB', ink2: '#A9B6CC', ink3: '#6D7A91', hair: 'rgba(255,255,255,.10)', border: 'rgba(255,255,255,.12)', accent: '#4DA8FF', good: '#3DD68C', bad: '#FF6B6B', role: { GK: '#E8B923', DEF: '#38A2FF', MID: '#3FCF8E', ATT: '#EF5B5B', UNK: '#8EA0BD', COACH: '#B48CFF' }, medal: ['#F5C84C', '#C5CEDB', '#D98F5C'], goldHi: '#FFE9A8', goldInk: '#1a1405', storyBase: '#0E1A33', storyScrim: 'rgba(2,4,10,.64)', gk: '#E6FF00', gkAlt: '#39FF14', gkInk: '#18210A', live: '#FF6464', liveLo: '#C93B3B', liveHi: '#FF5C8A', liveWarm: '#FF9A4D', chip: 'rgba(255,255,255,.08)', wash: 'rgba(255,255,255,0.03)', card1: 'rgba(255,255,255,0.10)', card2: 'rgba(255,255,255,0.035)', sheet: '#0E1626', tileBg: 'rgba(7,10,18,0.62)', scrim: 'rgba(0,0,0,.5)', dockBg: 'rgba(14,22,38,0.62)', tile1: 'rgba(255,255,255,0.08)', accTint: 'rgba(77,168,255,0.16)', accRing: 'rgba(77,168,255,0.6)', skBase: 'rgba(255,255,255,0.075)', skHi: 'rgba(255,255,255,0.10)', skHi0: 'rgba(255,255,255,0)', lg1: 'rgba(255,255,255,0.20)', lg2: 'rgba(255,255,255,0.05)', lgBorder: 'rgba(255,255,255,0.24)', lgHi: 'rgba(255,255,255,0.38)', beam0: 'rgba(77,168,255,0)', beam1: 'rgba(77,168,255,0.11)', beam2: 'rgba(77,168,255,0.065)', thumb: 'rgba(255,255,255,0.12)', thumbBd: 'rgba(255,255,255,0.18)', pillHi: 'rgba(255,255,255,0.34)', pillMid: 'rgba(255,255,255,0)', pillLo: 'rgba(0,0,0,0.16)' };
-const LIGHT = { dark: false, silFace: '#5a6070', silHair: '#3f4552', silShadow: '#2a2e39', silShirt: '#1c2029', silShirt2: '#252a35', gold: '#C58A00', bg: '#F3F6FB', ink: '#0F172A', ink2: '#475569', ink3: '#8592A6', hair: 'rgba(15,23,42,.08)', border: 'rgba(15,23,42,.10)', accent: '#1F6BEF', good: '#12A06A', bad: '#D9453F', role: { GK: '#E8B923', DEF: '#38A2FF', MID: '#3FCF8E', ATT: '#EF5B5B', UNK: '#8EA0BD', COACH: '#B48CFF' }, medal: ['#F5C84C', '#C5CEDB', '#D98F5C'], goldHi: '#FFE9A8', goldInk: '#1a1405', storyBase: '#1B2C4E', storyScrim: 'rgba(8,14,28,.58)', gk: '#D9F200', gkAlt: '#2EE02E', gkInk: '#18210A', live: '#E5484D', liveLo: '#B5262B', liveHi: '#F0457A', liveWarm: '#F08A3C', chip: 'rgba(15,23,42,.06)', wash: 'rgba(255,255,255,0.85)', card1: 'rgba(255,255,255,0.95)', card2: 'rgba(255,255,255,0.8)', sheet: '#FFFFFF', tileBg: 'rgba(247,249,252,0.62)', scrim: 'rgba(15,23,42,.28)', dockBg: 'rgba(255,255,255,0.6)', tile1: 'rgba(255,255,255,0.9)', accTint: 'rgba(31,107,239,0.12)', accRing: 'rgba(31,107,239,0.55)', skBase: 'rgba(15,23,42,0.085)', skHi: 'rgba(255,255,255,0.8)', skHi0: 'rgba(255,255,255,0)', lg1: 'rgba(255,255,255,0.95)', lg2: 'rgba(255,255,255,0.62)', lgBorder: 'rgba(15,23,42,0.10)', lgHi: '#FFFFFF', beam0: 'rgba(31,107,239,0)', beam1: 'rgba(31,107,239,0.07)', beam2: 'rgba(31,107,239,0.045)', thumb: 'rgba(15,23,42,0.08)', thumbBd: 'rgba(15,23,42,0.12)', pillHi: 'rgba(255,255,255,0.40)', pillMid: 'rgba(255,255,255,0)', pillLo: 'rgba(0,0,0,0.12)' };
+const DARK = { dark: true, silFace: '#555b69', silHair: '#3b404d', silShadow: '#252932', silShirt: '#1a1d25', silShirt2: '#222630', gold: '#F2C14E', bg: '#05070D', ink: '#F1F5FB', ink2: '#A9B6CC', ink3: '#6D7A91', hair: 'rgba(255,255,255,.10)', border: 'rgba(255,255,255,.12)', accent: '#4DA8FF', good: '#3DD68C', bad: '#FF6B6B', redCard: '#E23B3B', role: { GK: '#E8B923', DEF: '#38A2FF', MID: '#3FCF8E', ATT: '#EF5B5B', UNK: '#8EA0BD', COACH: '#B48CFF' }, medal: ['#F5C84C', '#C5CEDB', '#D98F5C'], goldHi: '#FFE9A8', goldInk: '#1a1405', storyBase: '#0E1A33', storyScrim: 'rgba(2,4,10,.64)', gk: '#E6FF00', gkAlt: '#39FF14', gkInk: '#18210A', live: '#FF6464', liveLo: '#C93B3B', liveHi: '#FF5C8A', liveWarm: '#FF9A4D', chip: 'rgba(255,255,255,.08)', wash: 'rgba(255,255,255,0.03)', card1: 'rgba(255,255,255,0.10)', card2: 'rgba(255,255,255,0.035)', sheet: '#0E1626', tileBg: 'rgba(7,10,18,0.62)', scrim: 'rgba(0,0,0,.5)', dockBg: 'rgba(14,22,38,0.62)', tile1: 'rgba(255,255,255,0.08)', accTint: 'rgba(77,168,255,0.16)', accRing: 'rgba(77,168,255,0.6)', skBase: 'rgba(255,255,255,0.075)', skHi: 'rgba(255,255,255,0.10)', skHi0: 'rgba(255,255,255,0)', lg1: 'rgba(255,255,255,0.20)', lg2: 'rgba(255,255,255,0.05)', lgBorder: 'rgba(255,255,255,0.24)', lgHi: 'rgba(255,255,255,0.38)', beam0: 'rgba(77,168,255,0)', beam1: 'rgba(77,168,255,0.11)', beam2: 'rgba(77,168,255,0.065)', thumb: 'rgba(255,255,255,0.12)', thumbBd: 'rgba(255,255,255,0.18)', pillHi: 'rgba(255,255,255,0.34)', pillMid: 'rgba(255,255,255,0)', pillLo: 'rgba(0,0,0,0.16)' };
+const LIGHT = { dark: false, silFace: '#5a6070', silHair: '#3f4552', silShadow: '#2a2e39', silShirt: '#1c2029', silShirt2: '#252a35', gold: '#C58A00', bg: '#F3F6FB', ink: '#0F172A', ink2: '#475569', ink3: '#8592A6', hair: 'rgba(15,23,42,.08)', border: 'rgba(15,23,42,.10)', accent: '#1F6BEF', good: '#12A06A', bad: '#D9453F', redCard: '#D62F2F', role: { GK: '#E8B923', DEF: '#38A2FF', MID: '#3FCF8E', ATT: '#EF5B5B', UNK: '#8EA0BD', COACH: '#B48CFF' }, medal: ['#F5C84C', '#C5CEDB', '#D98F5C'], goldHi: '#FFE9A8', goldInk: '#1a1405', storyBase: '#1B2C4E', storyScrim: 'rgba(8,14,28,.58)', gk: '#D9F200', gkAlt: '#2EE02E', gkInk: '#18210A', live: '#E5484D', liveLo: '#B5262B', liveHi: '#F0457A', liveWarm: '#F08A3C', chip: 'rgba(15,23,42,.06)', wash: 'rgba(255,255,255,0.85)', card1: 'rgba(255,255,255,0.95)', card2: 'rgba(255,255,255,0.8)', sheet: '#FFFFFF', tileBg: 'rgba(247,249,252,0.62)', scrim: 'rgba(15,23,42,.28)', dockBg: 'rgba(255,255,255,0.6)', tile1: 'rgba(255,255,255,0.9)', accTint: 'rgba(31,107,239,0.12)', accRing: 'rgba(31,107,239,0.55)', skBase: 'rgba(15,23,42,0.085)', skHi: 'rgba(255,255,255,0.8)', skHi0: 'rgba(255,255,255,0)', lg1: 'rgba(255,255,255,0.95)', lg2: 'rgba(255,255,255,0.62)', lgBorder: 'rgba(15,23,42,0.10)', lgHi: '#FFFFFF', beam0: 'rgba(31,107,239,0)', beam1: 'rgba(31,107,239,0.07)', beam2: 'rgba(31,107,239,0.045)', thumb: 'rgba(15,23,42,0.08)', thumbBd: 'rgba(15,23,42,0.12)', pillHi: 'rgba(255,255,255,0.40)', pillMid: 'rgba(255,255,255,0)', pillLo: 'rgba(0,0,0,0.12)' };
 const WORKER = 'https://scalperlab-live.matteo-giampaoletti04.workers.dev';
 const NAMES = META.names || {};
 const nm = (id, n) => NAMES[String(id)] || n;
@@ -156,12 +156,26 @@ const Crest = memo(({ id, name }) => {
   return <Image key={tries} source={{ uri: crest(id) + (tries ? `?r=${tries}` : '') }} style={s.crest} contentFit="contain" cachePolicy="memory-disk" transition={0} onError={fail} />;
 });
 
+// Cartellino rosso sullo stemma, in basso a destra (concept A, 17/11/2026): rosso diretto e doppio giallo; con 2 o piu' il numero dentro
+const RedOn = ({ n, children }) => {
+  const { C } = useT();
+  if (!n) return children;
+  return (
+    <View>
+      {children}
+      <View style={{ position: 'absolute', right: -4, bottom: -3, width: 11, height: 14, borderRadius: 2, backgroundColor: C.redCard, borderWidth: 1.5, borderColor: C.bg, alignItems: 'center', justifyContent: 'center' }}>
+        {n > 1 ? <Text style={{ color: '#fff', fontSize: 8.5, fontWeight: '800', lineHeight: 10 }}>{n}</Text> : null}
+      </View>
+    </View>
+  );
+};
 const Row = memo(({ m, onOpen }) => {
   const { C, s } = useT();
   const live = m[8] === 'l'; const fin = m[8] === 'f'; const sc = /(\d+)\s*-\s*(\d+)/.exec(m[7] || '');
+  const rc = /^(\d+)-(\d+)$/.exec(m[12] || '') || [0, 0, 0];
   return (
     <Pressable onPress={() => onOpen(m)} style={({ pressed }) => [s.row, pressed && { opacity: 0.6 }]}>
-      <View style={s.teamL}><Text numberOfLines={1} style={s.tName}>{nm(m[3], m[5])}</Text><Crest id={m[3]} name={nm(m[3], m[5])} /></View>
+      <View style={s.teamL}><Text numberOfLines={1} style={s.tName}>{nm(m[3], m[5])}</Text><RedOn n={+rc[1]}><Crest id={m[3]} name={nm(m[3], m[5])} /></RedOn></View>
       <View style={s.mid}>
         {(live || fin) && sc ? (
           <Text style={[s.score, live && { color: C.live }]}>{sc[1]}<Text style={{ color: C.ink3, fontWeight: '500' }}> – </Text>{sc[2]}</Text>
@@ -169,7 +183,7 @@ const Row = memo(({ m, onOpen }) => {
         {fin ? <Text style={s.kick}>{hhmm(m[2])}</Text> : null}
         {live ? <View style={s.liveRow}><View style={s.liveDot} /><Text style={s.liveT}>{/^\d+(\+\d+)?$/.test(m[10] || '') ? `${m[10]}'` : /^HT$/i.test(m[10] || '') ? 'Int.' : 'LIVE'}</Text></View> : null}
       </View>
-      <View style={s.teamR}><Crest id={m[4]} name={nm(m[4], m[6])} /><Text numberOfLines={1} style={s.tName}>{nm(m[4], m[6])}</Text></View>
+      <View style={s.teamR}><RedOn n={+rc[2]}><Crest id={m[4]} name={nm(m[4], m[6])} /></RedOn><Text numberOfLines={1} style={s.tName}>{nm(m[4], m[6])}</Text></View>
     </Pressable>
   );
 });
@@ -991,7 +1005,7 @@ async function liveUpdates(iso, getRows, now, fPre) {
     const d = await (fPre || getF(`${WORKER}/f?date=${iso.replace(/-/g, '')}`));
     (d.m || []).forEach((y) => {
       const sc = scoreStr(y.sc);
-      const uu = y.f && sc ? { st: 'f', score: sc } : y.s && !y.f ? { st: 'l', score: sc, lt: clockOf(y.lt) } : { st: 'n' };
+      const uu = y.f && sc ? { st: 'f', score: sc, rc: y.rc } : y.s && !y.f ? { st: 'l', score: sc, lt: clockOf(y.lt), rc: y.rc } : { st: 'n' };
       upd.set(String(y.id), uu);
       if (uu.st === 'l' && uu.score) { LIVE_MEM.set(String(y.id), { ...uu, t: now }); memSave(); }
     });
@@ -1008,7 +1022,7 @@ async function liveUpdates(iso, getRows, now, fPre) {
       try {
         const d = await getF(`${WORKER}/fx?id=${m[0]}`);
         const sc = d.sc && d.sc[0] != null ? `${d.sc[0]}-${d.sc[1]}` : null;
-        const u = d.fin && sc ? { st: 'f', score: sc } : d.st ? { st: 'l', score: sc, lt: clockOf(d.clk, d.ht) } : { st: 'n' };
+        const u = d.fin && sc ? { st: 'f', score: sc, rc: d.rc } : d.st ? { st: 'l', score: sc, lt: clockOf(d.clk, d.ht), rc: d.rc } : { st: 'n' };
         upd.set(String(m[0]), u);
         if (u.score) { LIVE_MEM.set(String(m[0]), { ...u, t: now }); memSave(); }
       } catch (e) { /* si riprova al prossimo giro */ }
@@ -1029,9 +1043,10 @@ function mergeUpd(rows, upd, now) {
     if (u.st === 'f' && u.score) { st = 'f'; score = u.score; lt = undefined; }
     else if (u.st === 'l') { st = 'l'; if (u.score) score = u.score; lt = u.lt; }
     else if (u.st === 'n' && st === 'l') { st = 'n'; score = ''; lt = undefined; }
-    if (st === m[8] && score === m[7] && lt === m[10]) return m;
+    const rc = u.rc && (u.rc[0] || u.rc[1]) ? `${u.rc[0]}-${u.rc[1]}` : m[12]; // cartellini rossi "casa-ospite" (si tengono anche se un giro non li porta)
+    if (st === m[8] && score === m[7] && lt === m[10] && rc === m[12]) return m;
     changed = true;
-    const n = m.slice(); n[7] = score; n[8] = st; n[10] = lt; return n;
+    const n = m.slice(); n[7] = score; n[8] = st; n[10] = lt; n[12] = rc; return n;
   });
   return { rows: out, changed };
 }
