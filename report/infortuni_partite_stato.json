@@ -1,7 +1,7 @@
 {
- "squadre": 863,
+ "squadre": 861,
  "nazionali": 52,
- "club": 811,
+ "club": 809,
  "dettaglio_nazionali": {
   "Tahiti": null,
   "Cook Islands": null,
@@ -301,8 +301,8 @@
    "src": null
   }
  },
- "updated_at": "2026-11-17T01:32:14Z",
- "partite": 437,
+ "updated_at": "2026-11-17T04:12:18Z",
+ "partite": 436,
  "squadre_con_elenco": 354,
- "minuti": 2.4
+ "minuti": 1.9
 }
