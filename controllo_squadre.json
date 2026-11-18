@@ -6432,7 +6432,7 @@
  "squadre_controllate": 1523,
  "rose": {
   "squadre": 3164,
-  "senza_rosa_prima": 2293,
+  "senza_rosa_prima": 2278,
   "senza_rosa_dopo": 340,
   "senza_rosa": [
    {
@@ -9166,8 +9166,8 @@
  "rose_per_ruolo": {
   "squadre": 3164,
   "prima": 2376,
-  "dopo": 628,
-  "giocate_dopo": 546,
+  "dopo": 635,
+  "giocate_dopo": 554,
   "elenco": [
    {
     "squadra": "1. BFK Frýdlant nad Ostravici",
@@ -10442,6 +10442,19 @@
     ]
    },
    {
+    "squadra": "Colombia",
+    "id": "8258",
+    "giocatori": 0,
+    "competizioni": [
+     "Copa America 2024",
+     "World Cup 2026",
+     "World Cup Qualification CONMEBOL 2023-2025"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
+    ]
+   },
+   {
     "squadra": "Colombier Satolas",
     "id": "1688084",
     "giocatori": 0,
@@ -10491,6 +10504,19 @@
     "giocatori": 0,
     "competizioni": [
      "Coupe de France 2026-2027"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
+    ]
+   },
+   {
+    "squadra": "Costa Rica",
+    "id": "6705",
+    "giocatori": 0,
+    "competizioni": [
+     "Copa America 2024",
+     "World Cup Qualification CONCACAF 2024-2025",
+     "Friendlies 2026"
     ],
     "motivo": [
      "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
@@ -10590,18 +10616,6 @@
     "giocatori": 0,
     "competizioni": [
      "Coupe de France 2026-2027"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
-    "squadra": "Dominican Republic",
-    "id": "262134",
-    "giocatori": 0,
-    "competizioni": [
-     "World Cup Qualification CONCACAF 2024-2025",
-     "Friendlies 2026"
     ],
     "motivo": [
      "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
@@ -11898,6 +11912,18 @@
     ]
    },
    {
+    "squadra": "Nicaragua",
+    "id": "5807",
+    "giocatori": 0,
+    "competizioni": [
+     "World Cup Qualification CONCACAF 2024-2025",
+     "Friendlies 2026"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
+    ]
+   },
+   {
     "squadra": "Nueillaubiers",
     "id": "1103481",
     "giocatori": 0,
@@ -12902,6 +12928,19 @@
     ]
    },
    {
+    "squadra": "Uzbekistan",
+    "id": "8700",
+    "giocatori": 0,
+    "competizioni": [
+     "World Cup 2026",
+     "World Cup Qualification AFC 2023-2025",
+     "Friendlies 2026"
+    ],
+    "motivo": [
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
+    ]
+   },
+   {
     "squadra": "Val de l'Orne",
     "id": "2389502",
     "giocatori": 0,
@@ -13414,6 +13453,19 @@
     "giocatori": 1,
     "competizioni": [
      "Slovak Cup 2026-2027"
+    ],
+    "motivo": [
+     "1 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 1"
+    ]
+   },
+   {
+    "squadra": "Burkina Faso",
+    "id": "6323",
+    "giocatori": 1,
+    "competizioni": [
+     "Africa Cup of Nations 2025",
+     "African Nations Championship 2024",
+     "World Cup Qualification CAF 2023-2025"
     ],
     "motivo": [
      "1 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 1"
@@ -14030,6 +14082,18 @@
     "giocatori": 2,
     "competizioni": [
      "DFB Pokal 2026-2027"
+    ],
+    "motivo": [
+     "2 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 2"
+    ]
+   },
+   {
+    "squadra": "Honduras",
+    "id": "5808",
+    "giocatori": 2,
+    "competizioni": [
+     "World Cup Qualification CONCACAF 2024-2025",
+     "Friendlies 2026"
     ],
     "motivo": [
      "2 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 2"
@@ -14897,6 +14961,17 @@
     ]
    },
    {
+    "squadra": "Vierzon FC",
+    "id": "889477",
+    "giocatori": 4,
+    "competizioni": [
+     "Coupe de France 2026-2027"
+    ],
+    "motivo": [
+     "4 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 4"
+    ]
+   },
+   {
     "squadra": "Vorwärts Steyr",
     "id": "212825",
     "giocatori": 4,
@@ -15140,6 +15215,17 @@
     ]
    },
    {
+    "squadra": "Sedan",
+    "id": "9856",
+    "giocatori": 5,
+    "competizioni": [
+     "Coupe de France 2026-2027"
+    ],
+    "motivo": [
+     "5 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 5"
+    ]
+   },
+   {
     "squadra": "Tennessee Tempo",
     "id": "1437472",
     "giocatori": 5,
@@ -15272,6 +15358,17 @@
     ]
    },
    {
+    "squadra": "Karaköprü Belediyespor",
+    "id": "888878",
+    "giocatori": 6,
+    "competizioni": [
+     "Turkish Cup 2026-2027"
+    ],
+    "motivo": [
+     "6 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 6"
+    ]
+   },
+   {
     "squadra": "Linas Montlhery",
     "id": "1103457",
     "giocatori": 6,
@@ -15332,6 +15429,17 @@
     "giocatori": 7,
     "competizioni": [
      "Coupe de France 2026-2027"
+    ],
+    "motivo": [
+     "7 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 7"
+    ]
+   },
+   {
+    "squadra": "Ağrı 1970 Spor",
+    "id": "874734",
+    "giocatori": 7,
+    "competizioni": [
+     "Turkish Cup 2026-2027"
     ],
     "motivo": [
      "7 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 7"
@@ -15469,6 +15577,17 @@
     ],
     "motivo": [
      "7 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 7"
+    ]
+   },
+   {
+    "squadra": "Ankaragücü",
+    "id": "9742",
+    "giocatori": 8,
+    "competizioni": [
+     "Turkish Cup 2026-2027"
+    ],
+    "motivo": [
+     "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
     ]
    },
    {
@@ -15626,17 +15745,6 @@
     ]
    },
    {
-    "squadra": "Riteriai",
-    "id": "257518",
-    "giocatori": 8,
-    "competizioni": [
-     "Toplyga 2026"
-    ],
-    "motivo": [
-     "8 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
-    ]
-   },
-   {
     "squadra": "St Mochta's",
     "id": "532490",
     "giocatori": 8,
@@ -15725,17 +15833,6 @@
     ]
    },
    {
-    "squadra": "Aliağa",
-    "id": "1559147",
-    "giocatori": 9,
-    "competizioni": [
-     "Turkish Cup 2026-2027"
-    ],
-    "motivo": [
-     "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
-    ]
-   },
-   {
     "squadra": "Cardiff Met FC",
     "id": "560953",
     "giocatori": 9,
@@ -15769,17 +15866,6 @@
     ]
    },
    {
-    "squadra": "FK Loko Praha",
-    "id": "279098",
-    "giocatori": 9,
-    "competizioni": [
-     "Czech Cup 2026-2027"
-    ],
-    "motivo": [
-     "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
-    ]
-   },
-   {
     "squadra": "Flint City Bucks",
     "id": "540881",
     "giocatori": 9,
@@ -15796,17 +15882,6 @@
     "giocatori": 9,
     "competizioni": [
      "Cymru Premier 2026-2027"
-    ],
-    "motivo": [
-     "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
-    ]
-   },
-   {
-    "squadra": "Karaköprü Belediyespor",
-    "id": "888878",
-    "giocatori": 9,
-    "competizioni": [
-     "Turkish Cup 2026-2027"
     ],
     "motivo": [
      "9 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 9"
@@ -15912,17 +15987,6 @@
     ]
    },
    {
-    "squadra": "Adana 01 FK",
-    "id": "1559141",
-    "giocatori": 10,
-    "competizioni": [
-     "Turkish Cup 2026-2027"
-    ],
-    "motivo": [
-     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
-    ]
-   },
-   {
     "squadra": "Alfreton Town",
     "id": "6258",
     "giocatori": 10,
@@ -16022,6 +16086,17 @@
     ]
    },
    {
+    "squadra": "FK Loko Praha",
+    "id": "279098",
+    "giocatori": 10,
+    "competizioni": [
+     "Czech Cup 2026-2027"
+    ],
+    "motivo": [
+     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
+    ]
+   },
+   {
     "squadra": "Irtysh Pavlodar",
     "id": "2539",
     "giocatori": 10,
@@ -16046,6 +16121,17 @@
    {
     "squadra": "Malatya Yesilyurt Belediyespor",
     "id": "1088482",
+    "giocatori": 10,
+    "competizioni": [
+     "Turkish Cup 2026-2027"
+    ],
+    "motivo": [
+     "10 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 10"
+    ]
+   },
+   {
+    "squadra": "Muş Spor",
+    "id": "874731",
     "giocatori": 10,
     "competizioni": [
      "Turkish Cup 2026-2027"
