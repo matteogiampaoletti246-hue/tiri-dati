@@ -7,7 +7,7 @@ import useArchFresh from '@/hooks/useArchFresh';
 import { RAW } from '@/data/load';
 import { currentSeason, refsAllSeasons, refsAllowed, loadSeason, loadTeamStats, loadLeaguePlayerStats, loadSeasonMatches, statsFromMatches, STAT_IT, STAT_GROUPS, prettyKey } from '@/data/archive';
 import { isPureCup, loadBracket, hasCup, peekBracket } from '@/data/bracket';
-import { Segmented } from '../shared/ui';
+import { SedeButtonsN, SEDE_STATS, Segmented } from '../shared/ui';
 import { ArchiveStandings } from '../shared/Standings';
 import { TeamLogoN } from '../shared/Standings';
 import { ArchRoundsN, MATCH_FILTERS } from '../shared/MatchdayN';
@@ -121,11 +121,11 @@ function ArchTeamsN({ C, season, det, stats, names, col, fm, sk, openRoute, bott
     });
     const order = ['Principali', ...STAT_GROUPS.map((g) => g[0]).filter((g) => g !== 'Principali'), 'Altro'];
     out.sort((a, b) => order.indexOf(a.group) - order.indexOf(b.group));
-    return [...out, ...official];
+    return part ? out : [...out, ...official]; // Casa / Trasferta: solo le statistiche calcolate partita per partita (quelle ufficiali FotMob sono solo totali)
   }, [acc, dPart, official, names, col]); // eslint-disable-line react-hooks/exhaustive-deps
   if (!sections.length) return null;
   const split = !!acc && Object.keys(acc).length >= 2;
-  return <StatListsN C={C} sections={sections} pending={dPart !== part} podium openRoute={openRoute} bottom={bottom} />;
+  return <StatListsN C={C} sections={sections} pending={dPart !== part} podium openRoute={openRoute} bottom={bottom} {...(split ? { header: <SedeButtonsN C={C} items={SEDE_STATS} value={part} onChange={setPart} bare /> } : null)} />;
 }
 
 // arbitri della stagione: medie dalle partite archiviate (cartellini, falli, rigori)

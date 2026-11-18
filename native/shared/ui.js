@@ -175,9 +175,11 @@ export const Segmented = ({ C, options, value, onChange, hug, pad, fit }) => {
 
 // Sede: tre tasti uguali in vetro liquido, icona sopra il nome (Casa = casetta, Neutro = bilancia, Trasferta = aereo); quello scelto si accende
 const SEDE = [['casa', 'Casa', 'home-outline'], ['neutro', 'Neutro', 'scale-balance'], ['trasferta', 'Trasferta', 'airplane-outline']];
-export const SedeButtonsN = ({ C, value, onChange }) => (
-  <View style={{ flexDirection: 'row', gap: 8, paddingHorizontal: 18, paddingVertical: 12, borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: C.hair }}>
-    {SEDE.map(([v, label, icon]) => {
+// stesse tre caselle per Stat. squadre dei campionati (concept B, 18/11/2026): Tutte = elenco, Casa = casetta, Trasferta = aereo
+export const SEDE_STATS = [[0, 'Tutte', 'list-outline'], [1, 'Casa', 'home-outline'], [2, 'Trasferta', 'airplane-outline']];
+export const SedeButtonsN = ({ C, value, onChange, items, bare }) => (
+  <View style={[{ flexDirection: 'row', gap: 8, paddingHorizontal: 18, paddingVertical: 12 }, !bare && { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: C.hair }]}>
+    {(items || SEDE).map(([v, label, icon]) => {
       const on = value === v;
       return (
         <Pressable key={v} onPress={() => onChange(v)} style={({ pressed }) => [{ flex: 1, borderRadius: 16, overflow: 'hidden', paddingVertical: 11, alignItems: 'center', gap: 6, borderWidth: 1, borderColor: on ? C.accRing : C.lgBorder, backgroundColor: on ? C.accTint : C.chip }, pressed && { opacity: 0.7 }]}>

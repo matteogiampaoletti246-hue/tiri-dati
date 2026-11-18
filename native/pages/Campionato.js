@@ -25,7 +25,7 @@ import RefereesN, { leagueReferees } from '../shared/RefereesN';
 import { MatchdayListN, MATCH_FILTERS, APP_PASS } from '../shared/MatchdayN';
 import { appPlayerSections } from '../shared/appPlayerSections';
 import { LeagueStandings } from '../shared/Standings';
-import { Segmented, TeamCrest, TintProvider, isDarkLogo } from '../shared/ui';
+import { SedeButtonsN, SEDE_STATS, Segmented, TeamCrest, TintProvider, isDarkLogo } from '../shared/ui';
 import ArchiveLeagueN, { ArchPlayersN, ClassificaSwitchN } from './CampionatoArch';
 import { useTeamColors } from './GiocatorePast';
 
@@ -99,7 +99,7 @@ function LiveTeams({ C, leagueId, openRoute, bottom }) {
     return out;
   }, [leagueId, dPart, C]);
   if (!sections.length) return <View />;
-  return <StatListsN C={C} sections={sections} pending={dPart !== part} podium openRoute={openRoute} bottom={bottom} />;
+  return <StatListsN C={C} sections={sections} pending={dPart !== part} podium openRoute={openRoute} bottom={bottom} header={<SedeButtonsN C={C} items={SEDE_STATS} value={part} onChange={setPart} bare />} />;
 }
 
 // top 5 campionati: giocatori dell'app; coppe europee e altre competizioni: statistiche FotMob della competizione stessa
