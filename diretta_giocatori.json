@@ -1,23 +1,7 @@
 {
- "competizioni": {
-  "Ligue 1 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 2
-  },
-  "Copa del Rey 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 6
-  },
-  "Slovenia Cup 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 1
-  }
- },
+ "competizioni": {},
  "partite_completate": 0,
  "giocatori": 0,
- "senza_abbinamento": 6,
- "senza_formazioni_diretta": 3
+ "senza_abbinamento": 0,
+ "senza_formazioni_diretta": 0
 }
