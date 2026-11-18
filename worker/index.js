@@ -211,6 +211,7 @@ async function dlFill(t, fm, tid) {
 // passa dallo stesso abbinamento di diretta (`dlFill`: rosa del sito, pagina squadra FotMob, ricerca; solo nomi unici). Cambiano solo nome intero, foto e id
 // dei giocatori senza id; posizione, numero, voto e capitano restano quelli della fonte. Risultati ricordati 10 minuti (al massimo 600 giocatori).
 const LINKED = new Map();
+const FXMEM = new Map(); // /fx delle partite lontane dal fischio: 5 minuti, al massimo 300
 async function linkMissing(t, tid) {
   if (!t || !tid) return t;
   const rows = [...(t.s || []), ...(t.b || [])].filter((p) => p && !p[7] && p[0]);
@@ -537,7 +538,7 @@ function summary(j) {
 }
 
 export default {
-  async fetch(req, env) {
+  async fetch(req, env, ctx) {
     if (req.method === "OPTIONS") return new Response(null, { headers: { ...cors(req), "Access-Control-Allow-Methods": "GET", "Access-Control-Max-Age": "86400" } });
     const u = new URL(req.url);
     try {
@@ -601,6 +602,11 @@ export default {
       if (u.pathname === "/fx") {
         const id = u.searchParams.get("id");
         if (!/^\d{5,10}$/.test(id || "")) return new Response("{}", { status: 400, headers: cors(req) });
+        // partite lontane dal fischio (oltre 1h26): risposta tenuta 5 minuti nella cache di Cloudflare (18/11/2026: con molte partite aperte insieme
+        // il worker andava oltre i 10 s e le formazioni sparivano). Dentro la finestra, live e partite finite: sempre fresca.
+        const fxKey = new Request("https://fx-cache.scalperlab/fx?id=" + id);
+        { const m0 = FXMEM.get(id); if (m0 && Date.now() - m0.t < 300000) return new Response(m0.b, { headers: cors(req, { "Cache-Control": "public, max-age=3", "X-Fx-Cache": "mem" }) }); }
+        try { const hit = await caches.default.match(fxKey); if (hit) return new Response(hit.body, { headers: cors(req, { "Cache-Control": "public, max-age=3", "X-Fx-Cache": "1" }) }); } catch (e) { /* senza cache si calcola (su workers.dev la cache di Cloudflare puo' non esserci: resta la memoria) */ }
         const r = await fetch("https://www.fotmob.com/api/data/matchDetails?matchId=" + id, { headers: FMH, cf: { cacheTtl: 3, cacheEverything: true } });
         if (!r.ok) throw new Error("FotMob " + r.status);
         const j = await r.json(), c = j.content || {}, lu = c.lineup || {}, rf = c.matchFacts && c.matchFacts.infoBox && c.matchFacts.infoBox.Referee;
@@ -682,6 +688,10 @@ export default {
         // ma mai davanti a una formazione ufficiale di un'altra fonte. Se diretta non risponde o non e' abbinata, la catena resta quella di prima.
         const fm0 = { h: out.h, a: out.a };
         const fmReady = fmOfficial && !noXY(out.h) && !noXY(out.a);
+        // le altre fonti partono subito, insieme a diretta (si usano solo se servono)
+        const mkAlt = () => ({ hi: out.hi, ai: out.ai });
+        const needAlt = noXY(out.h) || noXY(out.a) || (!fmOfficial && !g2.started);
+        const altP = needAlt ? (async () => { const [aE, aP, aL] = [mkAlt(), mkAlt(), mkAlt()]; await Promise.all([espnLineups(aE, g2), pitchLineups(aP, id, env), lsLineups(aL, g2.matchTimeUTCDate || stt.utcTime)]); return aE.h ? aE : aP.h ? aP : aL.h ? aL : mkAlt(); })() : null;
         const dl = await dlLineups(g2, stt, id, env);
         let dlDone = false;
         if (dl && dl.official && !fmReady) { // ufficiale: vale la prima fonte che la mostra; FotMob con i posti in campo gia' completa resta com'e'
@@ -690,10 +700,9 @@ export default {
         }
         if (!dlDone && (noXY(out.h) || noXY(out.a) || (!fmOfficial && !g2.started))) {
           const fmH = out.h, fmA = out.a;
-          const alt = { hi: out.hi, ai: out.ai };
-          await espnLineups(alt, g2);
-          if (!alt.h) await pitchLineups(alt, id, env);
-          if (!alt.h) await lsLineups(alt, g2.matchTimeUTCDate || stt.utcTime);
+          // ESPN, PitchAPI e LiveScore si leggono INSIEME (18/11/2026: in fila arrivavano a 3-9 secondi e con piu' richieste il sito superava i 10 s:
+          // partite senza formazione); vale sempre la prima della gerarchia che ce l'ha (ESPN, poi PitchAPI, poi LiveScore)
+          const alt = (altP ? await altP : null) || mkAlt();
           if (alt.h && alt.a && !alt.luList) {
             out.h = fmFill(alt.h, fmH, !fmOfficial); out.a = fmFill(alt.a, fmA, !fmOfficial); out.luSrc = alt.luSrc;
             if (!out.ty || out.ty === "unavailable" || !fmOfficial) out.ty = alt.ty;
@@ -783,7 +792,15 @@ export default {
         if (out.h || out.a) [out.h, out.a] = await Promise.all([out.h ? linkMissing(out.h, out.hi) : out.h, out.a ? linkMissing(out.a, out.ai) : out.a]);
         // cartellini rossi per squadra (Home, concept A 17/11/2026): rosso diretto e doppio giallo, dagli eventi gia' uniti (FotMob, LiveScore, diretta.it)
         { const rr = [0, 0]; (out.ev || []).forEach((e) => { if (e.ty === "Card" && (e.cd === "Red" || e.cd === "YellowRed")) rr[e.h ? 0 : 1] += 1; }); if (rr[0] || rr[1]) out.rc = rr; }
-        return new Response(JSON.stringify(out), { headers: cors(req, { "Cache-Control": "public, max-age=3" }) });
+        const body = JSON.stringify(out);
+        const ko = Date.parse(g2.matchTimeUTCDate || stt.utcTime || "");
+        if (!out.st && !out.fin && !g2.started && ko && ko - Date.now() > 86 * 60000 && out.h && out.a) {
+          FXMEM.delete(id); FXMEM.set(id, { t: Date.now(), b: body });
+          while (FXMEM.size > 300) FXMEM.delete(FXMEM.keys().next().value);
+          const put = caches.default.put(fxKey, new Response(body, { headers: { "Content-Type": "application/json", "Cache-Control": "public, max-age=300" } })).catch(() => {});
+          if (ctx && ctx.waitUntil) ctx.waitUntil(put);
+        }
+        return new Response(body, { headers: cors(req, { "Cache-Control": "public, max-age=3" }) });
       }
       if (u.pathname === "/m") {
         const lg = u.searchParams.get("lg"), id = u.searchParams.get("id");

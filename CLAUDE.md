@@ -12,6 +12,7 @@ App calcio: Home nativa Expo (`native/`), sito React in WebView (`aurora-src/`, 
 - Il repository e' pubblico: mai dati di terzi (PitchAPI, LiveScore) ne' chiavi nel repo; stanno su Cloudflare KV / secrets (`docs/regole/giocatori-dati.md`). Le chiavi (`PITCHAPI_KEY`, `API_FOOTBALL_KEY`, `CLOUDFLARE_API_TOKEN`) non sono nell'ambiente di lavoro: si provano solo coi workflow (`gh workflow run`).
 - Ogni cache nuova ha capienza fissa (`lib/lru.js`). Nuovi colori sempre nei temi (`DARK`/`LIGHT`, variabili CSS), mai fissi nei componenti.
 - Token: leggere solo i file dell'area che si tocca; non rileggere CLAUDE.md o i docs senza motivo.
+- **Niente rimozioni senza consenso (regola fissa, 18/11/2026)**: nessuna pagina, scheda, sezione, tasto o funzione dell'app si toglie, si nasconde o si cambia in modo importante senza chiedere prima all'utente "Sei sicuro?" e aspettare il suo si'. Vale anche quando un limite tecnico costringerebbe a toglierla: prima si chiede. Ogni modifica deve lasciare funzionante tutto il resto; prima di pubblicare si controlla che le schede esistenti (formazioni comprese) compaiano ancora dove comparivano.
 
 ## Regole generali dell'interfaccia
 - **Uniformita'**: ogni scheda (campionato, squadra, giocatore, partita) usa gli stessi componenti per top campionati e minori, passati e attuali: stessi font, schede, disposizione, foto, colori, tasti. Cambiano solo i dati.
