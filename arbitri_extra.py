@@ -1,4 +1,4 @@
-"""Arbitri designati per le partite dei campionati e coppe aggiunti (quando FotMob non li da' ancora).
+"""Arbitri designati per le partite dei campionati e coppe aggiunti E dei top campionati (giorni/*.json, dal 18/11/2026) quando FotMob non li da' ancora.
 Fonte: API-Football (segreto API_FOOTBALL_KEY), partite di oggi e dei 3 giorni successivi; si abbinano alle nostre (partite_extra.json)
 per data e nomi delle squadre (mai una squadra B con la prima squadra). Scrive arbitri_extra.json = {id partita FotMob: {n, src, at}}.
 Mai nomi inventati: senza fonte la partita resta senza arbitro. Gli errori della fonte (piano, limiti) finiscono in "_err"."""
@@ -50,9 +50,35 @@ for r in px.get('m') or []:
         continue
     if now - datetime.timedelta(hours=3) <= ts <= now + datetime.timedelta(days=3):
         todo.setdefault(ts.date().isoformat(), []).append((str(mid), hn, an))
+# anche i top campionati (18/11/2026): Bundesliga, LaLiga, Pro League, Super Lig... spesso FotMob mette l'arbitro solo il giorno prima;
+# partite dei prossimi giorni dai file giorni/<data>.json (id partita FotMob, competizione, orario UTC, casa, ospite, stato)
+gdir = os.path.join(ROOT, 'giorni')
+for k in range(-1, 4):
+    day = (now + datetime.timedelta(days=k)).date().isoformat()
+    try:
+        g = json.load(open(os.path.join(gdir, day + '.json'), encoding='utf-8'))
+    except Exception:
+        continue
+    for r in g.get('m') or []:
+        try:
+            mid, utc, hn, an, st = str(r[0]), r[2], r[5], r[6], r[8]
+        except Exception:
+            continue
+        if st != 'n' or not re.fullmatch(r'\d{5,9}', mid):
+            continue
+        try:
+            ts = datetime.datetime.fromisoformat(str(utc).replace('Z', '+00:00'))
+        except Exception:
+            continue
+        if now - datetime.timedelta(hours=3) <= ts <= now + datetime.timedelta(days=3):
+            lst = todo.setdefault(ts.date().isoformat(), [])
+            if not any(x[0] == mid for x in lst):
+                lst.append((mid, hn, an))
 out = {k: v for k, v in old.items() if not k.startswith('_')}
 # si tengono solo le partite ancora recenti (ultimi 5 giorni)
 keep = {str(r[0]) for r in px.get('m') or [] if r[2] and str(r[2])[:10] >= (now - datetime.timedelta(days=5)).date().isoformat()}
+keep |= {mid for rows in todo.values() for mid, _, _ in rows}
+keep |= {k for k, v in old.items() if not k.startswith('_') and str(v.get('at', ''))[:10] >= (now - datetime.timedelta(days=5)).date().isoformat()}
 out = {k: v for k, v in out.items() if k in keep}
 err, found = [], 0
 if not KEY:

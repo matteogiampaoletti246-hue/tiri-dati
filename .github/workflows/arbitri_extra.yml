@@ -1,7 +1,7 @@
 name: Arbitri e stadi campionati aggiunti
 on:
   schedule:
-    - cron: "15 */4 * * *"
+    - cron: "15 */2 * * *"   # ogni 2 ore (18/11/2026: arbitri dei top campionati appena designati; API-Football ha 100 richieste al giorno)
   workflow_dispatch:
   push:
     paths:
