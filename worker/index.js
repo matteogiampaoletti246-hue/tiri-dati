@@ -149,13 +149,11 @@ async function dlFill(t, fm, tid) {
   const loadSquad = () => sqP || (sqP = (async () => {
     const sq = [];
     try {
-      const r = await fetch("https://www.fotmob.com/api/data/teams?id=" + tid + "&ccode3=ITA", { headers: FMH, cf: { cacheTtl: 1800, cacheEverything: true } });
-      if (r.ok) {
-        const j = await r.json();
+      const T = await fmTeam(tid);
+      if (T) {
         const add = (q) => { if (q && q.id && q.name && !sq.some((z) => z.id === q.id)) sq.push({ id: q.id, name: q.name, num: q.shirtNumber != null && q.shirtNumber !== "" ? +q.shirtNumber || null : null }); };
-        const sqd = (j.squad && (j.squad.squad || j.squad)) || [];
-        (Array.isArray(sqd) ? sqd : []).forEach((g) => (Array.isArray(g.members) ? g.members : []).forEach(add));
-        const ll = (j.overview || {}).lastLineupStats;
+        T.mem.forEach(add);
+        const ll = T.ll;
         if (ll) [...(ll.starters || []), ...(ll.subs || []), ...(ll.bench || [])].forEach(add);
       }
     } catch (e) { /* idem */ }
@@ -206,6 +204,31 @@ async function dlFill(t, fm, tid) {
   const gk = s.filter((q) => q[8] === 0);
   if (gk.length > 1) gk.forEach((q) => { q[8] = null; });
   return { f: t.f, s, b, co: (fm && fm.co) || t.co };
+}
+
+// Pagina squadra FotMob (file grande): letta al massimo una volta ogni 30 minuti per squadra e per copia del worker, se ne tengono solo
+// ultima formazione e rosa (al massimo 300 squadre). Prima ogni richiesta /fx la rileggeva fino a 4 volte e il worker superava il tempo di calcolo (errore 1102).
+const FMTEAM = new Map();
+function fmTeam(tid) {
+  const k = String(tid || "");
+  if (!k) return Promise.resolve(null);
+  const h = FMTEAM.get(k);
+  if (h && Date.now() - h.t < 1800000) return h.p;
+  const p = (async () => {
+    try {
+      const r = await fetch("https://www.fotmob.com/api/data/teams?id=" + k + "&ccode3=ITA", { headers: FMH, cf: { cacheTtl: 1800, cacheEverything: true } });
+      if (!r.ok) return null;
+      const j = await r.json();
+      const ll = (j.overview || {}).lastLineupStats || null;
+      const mem = [];
+      const sqd = (j.squad && (j.squad.squad || j.squad)) || [];
+      (Array.isArray(sqd) ? sqd : []).forEach((g) => (Array.isArray(g.members) ? g.members : []).forEach((q) => { if (q && q.id && q.name) mem.push({ id: q.id, name: q.name, shirtNumber: q.shirtNumber }); }));
+      return { ll, mem };
+    } catch (e) { return null; }
+  })();
+  FMTEAM.delete(k); FMTEAM.set(k, { t: Date.now(), p });
+  while (FMTEAM.size > 300) FMTEAM.delete(FMTEAM.keys().next().value);
+  return p;
 }
 
 // Collegamento a tappeto (18/11/2026): QUALSIASI formazione (FotMob, ESPN, LiveScore, PitchAPI, ultima formazione, diretta) con giocatori senza id FotMob
@@ -748,9 +771,8 @@ export default {
           const last = async (tid) => {
             if (!tid) return null;
             try {
-              const r2 = await fetch("https://www.fotmob.com/api/data/teams?id=" + tid + "&ccode3=ITA", { headers: FMH, cf: { cacheTtl: 1800, cacheEverything: true } });
-              if (!r2.ok) return null;
-              const ll = ((await r2.json()).overview || {}).lastLineupStats;
+              const T = await fmTeam(tid);
+              const ll = T && T.ll;
               if (!ll || (ll.starters || []).length !== 11 || ll.starters.some((q) => !q.horizontalLayout)) return null;
               const mp2 = (q) => [q.name, q.shirtNumber != null ? +q.shirtNumber || q.shirtNumber : null, q.horizontalLayout.x, q.horizontalLayout.y, false, ph(q.id), null, q.id, q.positionId != null ? q.positionId : q.usualPlayingPositionId != null ? q.usualPlayingPositionId : null];
               return { f: ll.formation || null, s: ll.starters.map(mp2), b: [], co: null };
