@@ -1,7 +1,13 @@
 {
- "competizioni": {},
+ "competizioni": {
+  "Slovenia Cup 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  }
+ },
  "partite_completate": 0,
  "giocatori": 0,
  "senza_abbinamento": 0,
- "senza_formazioni_diretta": 0
+ "senza_formazioni_diretta": 1
 }

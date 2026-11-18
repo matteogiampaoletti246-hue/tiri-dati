@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-11-18 03:00 UTC",
+ "aggiornato": "2026-11-18 15:06 UTC",
  "partite_finite": {
   "tutte": {
    "fotmob": 129139,
@@ -7,8 +7,8 @@
    "livescore": 3984,
    "diretta": 21,
    "formazioni_fotmob": 67704,
-   "nessuna": 295050,
-   "totale": 498632
+   "nessuna": 295053,
+   "totale": 498635
   },
   "ultime_due_stagioni": {
    "fotmob": 31678,
@@ -16,8 +16,8 @@
    "livescore": 3984,
    "diretta": 21,
    "formazioni_fotmob": 5854,
-   "nessuna": 8070,
-   "totale": 49857
+   "nessuna": 8073,
+   "totale": 49860
   }
  },
  "partite_arricchite_da_pitchapi": {},
@@ -980,7 +980,8 @@
    "nessuna": 182
   },
   "Virsliga (LVA) 2026": {
-   "fotmob": 179
+   "fotmob": 179,
+   "nessuna": 1
   },
   "Virsliga (LVA) 2025": {
    "fotmob": 180
@@ -1073,6 +1074,9 @@
   },
   "Prva Liga (SVN) 2025-2026": {
    "nessuna": 162
+  },
+  "Slovenia Cup (SVN) 2026-2027": {
+   "nessuna": 1
   },
   "Slovenia Cup (SVN) 2025-2026": {
    "nessuna": 15
@@ -1181,7 +1185,7 @@
   },
   "Friendlies (INT) 2026": {
    "fotmob": 186,
-   "nessuna": 105,
+   "nessuna": 106,
    "livescore": 68,
    "diretta": 9,
    "formazioni_fotmob": 37
