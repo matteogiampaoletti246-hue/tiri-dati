@@ -1,11 +1,5 @@
 {
- "competizioni": {
-  "Friendlies 2026": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 1
-  }
- },
+ "competizioni": {},
  "codici_it_visti": {},
- "partite_completate_in_questo_giro": 1
+ "partite_completate_in_questo_giro": 0
 }
