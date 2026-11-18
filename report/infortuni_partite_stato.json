@@ -1,59 +1,10 @@
 {
- "squadre": 1180,
- "nazionali": 8,
- "club": 1172,
- "dettaglio_nazionali": {
-  "Argentina": {
-   "pool": 43,
-   "call": 28,
-   "rosa": 28,
-   "src": "partita+ultima+rosa"
-  },
-  "Costa Rica": {
-   "pool": 43,
-   "call": 21,
-   "rosa": 44,
-   "src": "partita+ultima"
-  },
-  "Chile": {
-   "pool": 44,
-   "call": 24,
-   "rosa": 0,
-   "src": "partita+ultima"
-  },
-  "Colombia": {
-   "pool": 48,
-   "call": 26,
-   "rosa": 41,
-   "src": "partita+ultima"
-  },
-  "Ecuador": {
-   "pool": 37,
-   "call": 34,
-   "rosa": 27,
-   "src": "partita+ultima+rosa"
-  },
-  "Bolivia": {
-   "pool": 44,
-   "call": 24,
-   "rosa": 38,
-   "src": "partita+ultima"
-  },
-  "Uruguay": {
-   "pool": 37,
-   "call": 29,
-   "rosa": 29,
-   "src": "partita+ultima+rosa"
-  },
-  "Dominican Republic": {
-   "pool": 31,
-   "call": 19,
-   "rosa": 0,
-   "src": "partita+ultima"
-  }
- },
- "updated_at": "2026-11-18T01:37:27Z",
- "partite": 602,
- "squadre_con_elenco": 478,
- "minuti": 3.0
+ "squadre": 1170,
+ "nazionali": 0,
+ "club": 1170,
+ "dettaglio_nazionali": {},
+ "updated_at": "2026-11-18T04:14:30Z",
+ "partite": 596,
+ "squadre_con_elenco": 470,
+ "minuti": 1.8
 }
