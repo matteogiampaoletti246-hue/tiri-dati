@@ -37,8 +37,8 @@
    "da_fare": 0
   },
   "Ligue 1 2026-2027": {
-   "partite_con_eventi": 1,
-   "da_fare": 2
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "Serie A 2026-2027": {
    "partite_con_eventi": 0,
@@ -157,8 +157,8 @@
    "da_fare": 0
   },
   "Liga 1 2026": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "FA Cup 2026-2027": {
    "partite_con_eventi": 0,
@@ -181,8 +181,8 @@
    "da_fare": 0
   },
   "Copa del Rey 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "Supercopa de España 2025-2026": {
    "partite_con_eventi": 0,
@@ -249,8 +249,8 @@
    "da_fare": 0
   },
   "Slovenia Cup 2026-2027": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "1. liga 2026-2027": {
    "partite_con_eventi": 0,
@@ -1173,5 +1173,5 @@
    "da_fare": 0
   }
  },
- "partite_in_questo_giro": 3
+ "partite_in_questo_giro": 2
 }
