@@ -33,6 +33,7 @@ async function lsMerge(out, startIso) {
     const d = startIso ? new Date(startIso) : new Date();
     if (isNaN(d.getTime())) return;
     if (out.fin && out.ev && out.ev.length) return; // finita e completa: FotMob basta
+    if (!out.st && !out.fin && d.getTime() - Date.now() > 15 * 60000) return; // ancora lontana dal fischio: niente risultato o eventi da prendere (e il file del giorno pesa sul calcolo)
     const ymd = d.toISOString().slice(0, 10).replace(/-/g, "");
     const day = await lsGet(LSB + "date/soccer/" + ymd + "/1?countryCode=GB&locale=en&MD=1", 10);
     if (!day) return;
@@ -252,7 +253,19 @@ function espnXY(ab) {
   return [x, y];
 }
 // partita ESPN (stessa di FotMob: orario + nomi) e lettore con timeout: usata da formazioni e statistiche
+// abbinamento FotMob -> ESPN ricordato 30 minuti (al massimo 400): il calendario ESPN di due giorni e' un file grande e leggerlo a ogni richiesta
+// faceva superare al worker il tempo di calcolo (risposte 503 e formazioni mancanti, 18/11/2026)
+const ESPN_MEMO = new Map();
 async function espnMatch(g2) {
+  const mk = String(g2.matchId || "") + "|" + (g2.matchTimeUTCDate || "");
+  const hit = ESPN_MEMO.get(mk);
+  if (hit && Date.now() - hit.t < 1800000) return hit.v;
+  const v = await espnMatch0(g2);
+  ESPN_MEMO.delete(mk); ESPN_MEMO.set(mk, { t: Date.now(), v });
+  while (ESPN_MEMO.size > 400) ESPN_MEMO.delete(ESPN_MEMO.keys().next().value);
+  return v;
+}
+async function espnMatch0(g2) {
   const lg = ESPN_LU[g2.parentLeagueId] || ESPN_LU[g2.leagueId] || "all";
   const when = g2.matchTimeUTCDate ? new Date(g2.matchTimeUTCDate) : null;
   if (!when || isNaN(when.getTime())) return null;
@@ -332,20 +345,28 @@ async function pitchLineups(out, fmId, env) {
 // ---- Formazioni da LiveScore dove FotMob ed ESPN non le hanno. Solo il formato completo: modulo (Fo, es. [4,4,2]) e posto in campo di
 // ogni titolare (Fp "riga:colonna", riga 1 = portiere). Verificato il 07/11/2026 su 23 partite contro FotMob: modulo uguale 39 volte su 46,
 // colonne numerate da destra a sinistra (108 file su 131), quindi y = 1 - colonna/(n+1). Senza Fo/Fp (solo nomi) nessun campo: mai posti inventati.
+const LS_MEMO = new Map();
 async function lsLineups(out, startIso) {
   try {
     if (!out.hi || !out.ai) return;
     const d = startIso ? new Date(startIso) : null;
     if (!d || isNaN(d.getTime())) return;
     const ymd = d.toISOString().slice(0, 10).replace(/-/g, "");
-    const day = await lsGet(LSB + "date/soccer/" + ymd + "/1?countryCode=GB&locale=en&MD=1", 60);
+    // abbinamento ricordato 30 minuti (stesso motivo di ESPN_MEMO: il file del giorno di LiveScore e' grande)
+    const lk = out.hi + "|" + out.ai + "|" + ymd;
+    const lh = LS_MEMO.get(lk);
     let eid = null;
-    for (const st of (day && day.Stages) || []) {
-      for (const x of st.Events || []) {
-        const a = ((x.T1 || [{}])[0].Img || "").match(/enet\/(\d+)\.png/), b = ((x.T2 || [{}])[0].Img || "").match(/enet\/(\d+)\.png/);
-        if (a && b && +a[1] === +out.hi && +b[1] === +out.ai) { eid = x.Eid; break; }
+    if (lh && Date.now() - lh.t < 1800000) eid = lh.v;
+    else {
+      const day = await lsGet(LSB + "date/soccer/" + ymd + "/1?countryCode=GB&locale=en&MD=1", 60);
+      for (const st of (day && day.Stages) || []) {
+        for (const x of st.Events || []) {
+          const a = ((x.T1 || [{}])[0].Img || "").match(/enet\/(\d+)\.png/), b = ((x.T2 || [{}])[0].Img || "").match(/enet\/(\d+)\.png/);
+          if (a && b && +a[1] === +out.hi && +b[1] === +out.ai) { eid = x.Eid; break; }
+        }
+        if (eid) break;
       }
-      if (eid) break;
+      if (day) { LS_MEMO.delete(lk); LS_MEMO.set(lk, { t: Date.now(), v: eid }); while (LS_MEMO.size > 400) LS_MEMO.delete(LS_MEMO.keys().next().value); }
     }
     if (!eid) return;
     const ln = await lsGet(LSB + "lineups/soccer/" + eid + "?locale=en", 30);
