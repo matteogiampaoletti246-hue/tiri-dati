@@ -1,37 +1,11 @@
 {
  "competizioni": {
-  "Copa del Rey 2026-2027": {
-   "partite_completate": 5,
-   "giocatori": 96,
-   "da_fare": 6
-  },
-  "Ligue 1 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 2
-  },
-  "LPF 2026": {
+  "Friendlies 2026": {
    "partite_completate": 0,
    "giocatori": 0,
    "da_fare": 1
-  },
-  "Copa Colombia 2026": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 2
   }
  },
- "codici_it_visti": {
-  "4": 55,
-  "5": 55,
-  "36": 17,
-  "38": 1,
-  "40": 2,
-  "41": 5,
-  "43": 23,
-  "44": 1,
-  "45": 2,
-  "63": 12
- },
- "partite_completate_in_questo_giro": 7
+ "codici_it_visti": {},
+ "partite_completate_in_questo_giro": 1
 }
