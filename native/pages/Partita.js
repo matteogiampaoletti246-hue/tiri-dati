@@ -78,6 +78,7 @@ function Skel({ C }) {
 }
 
 import { TAB_MEM } from '../shared/tabMem'; // scheda scelta per partita, finche' la pagina e' nella pila
+import { openPlayer } from '@/data/playerSheet';
 
 export default function Partita({ C, top, onBack, bottom = 90, openRoute, params }) {
   const id = params.id;
@@ -102,6 +103,8 @@ export default function Partita({ C, top, onBack, bottom = 90, openRoute, params
       await core; // appena pronti i dati principali la pagina si apre; meteo, arbitro e rose arrivano subito dopo
       clearTimeout(cap);
       if (on) { setOk(true); setFin(true); bump((n) => n + 1); }
+      // aperta dalle Partite della scheda giocatore: prima scheda della partita e scheda del giocatore gia' aperta (si chiude e si naviga la partita)
+      if (on && params.pname) { TAB_MEM.delete(id); setTab(''); const mm = matchById(id); openPlayer({ matchId: (mm && mm.id) || id, name: params.pname, fmId: params.pfm ? Number(params.pfm) || params.pfm : undefined }); }
       await prepareMatch(id);
       if (on) bump((n) => n + 1);
     })().catch(() => { clearTimeout(cap); if (on) { setOk(true); setFin(true); } });

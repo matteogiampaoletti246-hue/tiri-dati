@@ -44,6 +44,8 @@ const NATIVE_PAGES = { '/linee-guida': GuidelinesPage, '/calcolatore': Calcolato
 const NATIVE_DYN = [
   [/^\/giocatore\/([^/]+)$/, GiocatorePage, 'id'],
   [/^\/match\/([^/]+)$/, PartitaPage, 'id'],
+  // partita aperta dalle Partite della scheda giocatore (18/11/2026): prima scheda della partita con la scheda di quel giocatore gia' aperta
+  [/^\/match\/([^/]+)\/g\/([^/]*)\/([^/]+)$/, PartitaPage, 'id', (m) => m[1], (m) => ({ pfm: m[2] || null, pname: decodeURIComponent(m[3]) })],
   [/^\/squadra\/([^/]+)$/, SquadraPage, 'id'],
   [/^\/campionato\/([^/]+)$/, CampionatoPage, 'id'],
   [/^\/arbitro\/([^/]+)$/, ArbitroPage, 'id'],
@@ -53,7 +55,7 @@ const NATIVE_DYN = [
 ];
 const nativeOf = (path) => {
   if (NATIVE_PAGES[path]) return { Comp: NATIVE_PAGES[path], params: {} };
-  for (const [re, Comp, key, map] of NATIVE_DYN) { const m = re.exec(path); if (m) return { Comp, params: { [key]: map ? map(m) : m[1] } }; }
+  for (const [re, Comp, key, map, more] of NATIVE_DYN) { const m = re.exec(path); if (m) return { Comp, params: { [key]: map ? map(m) : m[1], ...(more ? more(m) : null) } }; }
   return null;
 };
 

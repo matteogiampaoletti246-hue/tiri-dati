@@ -77,6 +77,7 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 - Unica eccezione di dati: le competizioni di cui nessuna fonte ha le statistiche per giocatore (es. coppa del Belgio, alcune coppe minori: 42 competizioni, circa il 7% delle presenze) non hanno tiri da mostrare e non fanno pagina (mai dati inventati). Controllo a tappeto: `python3 tools/controllo_hit_avversari.py` per gli avversari; per le pagine, ogni coppia giocatore-competizione con presenze e statistiche ha una pagina (47.355 su 51.085 presenze-competizione di 29.163 giocatori il 13/11/2026).
 
 ## Partite del giocatore: un'unica lista (regola fissa)
+- Tocco su una partita (nativo, 18/11/2026): si apre la partita sulla prima scheda (Riepilogo/Panoramica) con la scheda di QUEL giocatore gia' aperta (rotta `/match/<id>/g/<fmId>/<nome>`, `openPlayer` in `Partita.js` dopo i dati principali); chiusa la scheda si naviga la partita normalmente.
 - Tab Partite (`PartitePanel` -> `PlayerAllMatches` in `PastMatches.jsx`): tutte le competizioni insieme, dalla piu' recente alla piu' vecchia, con stemma + nome piccolo della competizione nella seconda riga; stesse schede di prima. Le stagioni si caricano a gruppi per anno scorrendo; stesso giorno = stessa partita (quella dell'app con la partita dal vivo vince su quella d'archivio).
 
 ## Formula del risultato: peso di modello e hit rate (regola fissa)
