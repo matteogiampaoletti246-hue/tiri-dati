@@ -6432,7 +6432,7 @@
  "squadre_controllate": 1523,
  "rose": {
   "squadre": 3164,
-  "senza_rosa_prima": 2278,
+  "senza_rosa_prima": 2293,
   "senza_rosa_dopo": 340,
   "senza_rosa": [
    {
@@ -16105,9 +16105,9 @@
   "coppie_squadra_competizione": 12503,
   "con_frase_prima": 4654,
   "squadre_con_frase_prima": 2165,
-  "con_frase_e_dati_ora_visibili": 3188,
+  "con_frase_e_dati_ora_visibili": 3189,
   "con_frase_dopo": 0,
-  "competizioni_senza_dati_tolte_dalla_tendina": 6455,
+  "competizioni_senza_dati_tolte_dalla_tendina": 6454,
   "squadre_senza_scheda_giocatori": 4828,
   "senza_scheda": [
    {
