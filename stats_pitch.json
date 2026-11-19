@@ -1,10 +1,4 @@
 {
- "competizioni": {
-  "Liga 1 2026": {
-   "con_statistiche": 0,
-   "con_mappa_tiri": 0,
-   "da_fare": 1
-  }
- },
+ "competizioni": {},
  "partite_in_questo_giro": 0
 }
