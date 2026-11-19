@@ -1,31 +1,5 @@
 {
- "competizioni": {
-  "Liga AUF Uruguaya 2026": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 1
-  },
-  "Slovenia Cup 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 2
-  },
-  "Slovak Cup 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 1
-  },
-  "Ligue 1 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 3
-  },
-  "LPF 2026": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 1
-  }
- },
+ "competizioni": {},
  "codici_it_visti": {},
- "partite_completate_in_questo_giro": 6
+ "partite_completate_in_questo_giro": 0
 }
