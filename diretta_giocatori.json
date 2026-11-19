@@ -1,7 +1,13 @@
 {
- "competizioni": {},
+ "competizioni": {
+  "LPF 2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  }
+ },
  "partite_completate": 0,
  "giocatori": 0,
- "senza_abbinamento": 0,
+ "senza_abbinamento": 1,
  "senza_formazioni_diretta": 0
 }
