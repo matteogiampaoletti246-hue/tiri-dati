@@ -7,12 +7,12 @@
    "senza_abbinamento": 0,
    "da_fare": 1
   },
-  "Liga 1 (PER) 2026": {
-   "lega_pitch": "Liga 1",
-   "partite_completate": 0,
-   "giocatori": 0,
-   "senza_abbinamento": 1,
-   "da_fare": 1
+  "Série A (BRA) 2026": {
+   "lega_pitch": "Serie A",
+   "partite_completate": 4,
+   "giocatori": 124,
+   "senza_abbinamento": 0,
+   "da_fare": 4
   },
   "Virsliga (LVA) 2026": {
    "lega_pitch": "Virsliga",
@@ -261,5 +261,5 @@
   }
  },
  "senza_lega_pitch": [],
- "partite_completate_in_questo_giro": 0
+ "partite_completate_in_questo_giro": 4
 }
