@@ -1,7 +1,7 @@
 {
  "giocatori": 6210,
- "con_id_fotmob": 6172,
- "senza_id_fotmob": 38,
+ "con_id_fotmob": 6158,
+ "senza_id_fotmob": 52,
  "squadre_pitchapi": 294,
  "squadre_abbinate": 292,
  "squadre_non_abbinate": [
@@ -19,8 +19,8 @@
    ]
   ]
  ],
- "doppi_uniti": 0,
- "giocatori_con_partite_aggiunte": 0,
+ "doppi_uniti": 17,
+ "giocatori_con_partite_aggiunte": 3169,
  "competizioni_partite_aggiunte": [
   [
    "EFL Cup",
@@ -72,7 +72,7 @@
   ],
   [
    "Série B",
-   767
+   768
   ],
   [
    "Super League",
@@ -183,6 +183,10 @@
    431
   ],
   [
+   "Liga Portugal",
+   425
+  ],
+  [
    "Eliteserien",
    424
   ],
@@ -193,10 +197,6 @@
   [
    "Liga I",
    414
-  ],
-  [
-   "Liga Portugal",
-   409
   ],
   [
    "Liga de Expansión MX",
@@ -379,20 +379,12 @@
    20
   ],
   [
-   "Europa League",
-   15
-  ],
-  [
    "FNL",
    14
   ],
   [
    "World Cup Qualification Inter-confederation",
    11
-  ],
-  [
-   "Champions League",
-   2
   ],
   [
    "Regular Season",
@@ -415,9 +407,9 @@
    1
   ]
  ],
- "hit_rate_con_stagione_passata": 7548,
- "hit_rate_sotto_5": 7629,
- "hit_rate_0_partite": 3183,
+ "hit_rate_con_stagione_passata": 7552,
+ "hit_rate_sotto_5": 7615,
+ "hit_rate_0_partite": 3177,
  "stagione_passata_non_scaricata": [],
  "kv_terze_parti": true,
  "esempi_sotto_5": [
@@ -634,7 +626,7 @@
   [
    "Allen Obando",
    "Nacional",
-   0
+   2
   ],
   [
    "Almugera Kabar",
@@ -736,6 +728,14 @@
    "Kalamata"
   ],
   [
+   "Aviv Salem",
+   "Maccabi Petah Tikva"
+  ],
+  [
+   "Bashar Abdach",
+   "Maccabi Petah Tikva"
+  ],
+  [
    "Beau Reus",
    "Heart of Midlothian"
   ],
@@ -760,12 +760,36 @@
    "Parma"
   ],
   [
+   "Dor Hevron",
+   "Maccabi Petah Tikva"
+  ],
+  [
+   "Eitan Tibi",
+   "Maccabi Petah Tikva"
+  ],
+  [
+   "Eloge Koffi Yao Guy",
+   "Maccabi Petah Tikva"
+  ],
+  [
+   "Guy Amos Deznet",
+   "Maccabi Petah Tikva"
+  ],
+  [
+   "Guy Hadida",
+   "Maccabi Petah Tikva"
+  ],
+  [
    "Hamza Mohammed",
    "Hapoel Jerusalem"
   ],
   [
    "Idan Barnes",
    "Hapoel Ramat Gan"
+  ],
+  [
+   "Ido Cohen",
+   "Maccabi Petah Tikva"
   ],
   [
    "Itzik Shoolmayster",
@@ -792,8 +816,16 @@
    "Heart of Midlothian"
   ],
   [
+   "José Ricardo Cortés",
+   "Maccabi Petah Tikva"
+  ],
+  [
    "Juan Miguel Carrión Gallardo",
    "Spartak Trnava"
+  ],
+  [
+   "Kyle Cameron Walter Spence",
+   "Maccabi Petah Tikva"
   ],
   [
    "Laurent Mendy",
@@ -802,6 +834,14 @@
   [
    "Lion Shimon Mizrachi",
    "Hapoel Jerusalem"
+  ],
+  [
+   "Lior Kasa",
+   "Maccabi Petah Tikva"
+  ],
+  [
+   "Liran Hazan",
+   "Maccabi Petah Tikva"
   ],
   [
    "Maksym Khiminets",
@@ -844,6 +884,10 @@
    "Heart of Midlothian"
   ],
   [
+   "Samuel Kwame Owusu",
+   "Maccabi Petah Tikva"
+  ],
+  [
    "Samuel Sul'a",
    "Skalica"
   ],
@@ -870,6 +914,10 @@
   [
    "Xayal Əliyev",
    "Sabah FK"
+  ],
+  [
+   "Yoav Koren",
+   "Maccabi Petah Tikva"
   ],
   [
    "Łukasz Zjawiński",
@@ -7733,7 +7781,16 @@
     71
    ]
   ],
-  "p_0bAATC": [],
+  "p_0bAATC": [
+   [
+    "2026-09-19",
+    61
+   ],
+   [
+    "2026-05-23",
+    252
+   ]
+  ],
   "p_4ChZZG": [
    [
     "2026-05-15",
@@ -20964,7 +21021,28 @@
     71
    ]
   ],
-  "p_2cXCHH": [],
+  "p_2cXCHH": [
+   [
+    "2026-11-08",
+    61
+   ],
+   [
+    "2026-11-01",
+    61
+   ],
+   [
+    "2026-10-25",
+    61
+   ],
+   [
+    "2026-10-11",
+    61
+   ],
+   [
+    "2026-09-19",
+    61
+   ]
+  ],
   "p_3vHlp8": [
    [
     "2025-09-28",
@@ -24031,7 +24109,32 @@
     40
    ]
   ],
-  "p_0PHrSD": [],
+  "p_0PHrSD": [
+   [
+    "2026-10-11",
+    61
+   ],
+   [
+    "2026-09-12",
+    61
+   ],
+   [
+    "2026-08-30",
+    61
+   ],
+   [
+    "2026-08-23",
+    61
+   ],
+   [
+    "2026-08-16",
+    61
+   ],
+   [
+    "2026-08-10",
+    61
+   ]
+  ],
   "p_1WU9ZA": [
    [
     "2026-11-07",
@@ -27671,7 +27774,12 @@
     71
    ]
   ],
-  "p_0OrnZr": [],
+  "p_0OrnZr": [
+   [
+    "2026-10-11",
+    61
+   ]
+  ],
   "p_0mZKDV": [],
   "p_2ia4rN": [
    [
@@ -40165,8 +40273,24 @@
   ],
   "p_4YPzFP": [
    [
-    "2026-09-05",
-    null
+    "2026-11-08",
+    61
+   ],
+   [
+    "2026-11-01",
+    61
+   ],
+   [
+    "2026-10-25",
+    61
+   ],
+   [
+    "2026-10-11",
+    61
+   ],
+   [
+    "2026-09-19",
+    61
    ]
   ],
   "p_3Qfijq": [
@@ -76713,7 +76837,32 @@
     73
    ]
   ],
-  "p_2oxd9M": [],
+  "p_2oxd9M": [
+   [
+    "2026-09-05",
+    61
+   ],
+   [
+    "2026-08-30",
+    61
+   ],
+   [
+    "2026-08-23",
+    61
+   ],
+   [
+    "2026-08-16",
+    61
+   ],
+   [
+    "2026-08-10",
+    61
+   ],
+   [
+    "2026-05-16",
+    61
+   ]
+  ],
   "p_09izFc": [
    [
     "2026-11-01",
@@ -81317,8 +81466,28 @@
   ],
   "p_3r2jWi": [
    [
+    "2026-11-08",
+    61
+   ],
+   [
+    "2026-11-01",
+    61
+   ],
+   [
+    "2026-10-25",
+    61
+   ],
+   [
+    "2026-09-12",
+    61
+   ],
+   [
     "2026-09-05",
-    null
+    61
+   ],
+   [
+    "2026-08-23",
+    61
    ]
   ],
   "p_4HIMz6": [
@@ -82827,7 +82996,28 @@
     127
    ]
   ],
-  "p_1MhFvD": [],
+  "p_1MhFvD": [
+   [
+    "2026-10-11",
+    61
+   ],
+   [
+    "2026-09-19",
+    61
+   ],
+   [
+    "2026-08-30",
+    61
+   ],
+   [
+    "2026-05-23",
+    196
+   ],
+   [
+    "2026-03-02",
+    196
+   ]
+  ],
   "p_3t91Ww": [
    [
     "2026-11-06",
@@ -83556,8 +83746,24 @@
   ],
   "p_1oJMC4": [
    [
-    "2026-09-05",
-    null
+    "2026-11-08",
+    61
+   ],
+   [
+    "2026-11-01",
+    61
+   ],
+   [
+    "2026-10-25",
+    61
+   ],
+   [
+    "2026-09-19",
+    61
+   ],
+   [
+    "2026-09-12",
+    61
    ]
   ],
   "p_2XxnMz": [
@@ -88424,8 +88630,24 @@
   ],
   "p_3wp55t": [
    [
-    "2026-09-05",
-    null
+    "2026-11-08",
+    61
+   ],
+   [
+    "2026-11-01",
+    61
+   ],
+   [
+    "2026-10-25",
+    61
+   ],
+   [
+    "2026-09-19",
+    61
+   ],
+   [
+    "2026-09-12",
+    61
    ]
   ],
   "p_3O6lDS": [
@@ -100740,8 +100962,24 @@
   ],
   "p_1EWYYf": [
    [
+    "2026-09-12",
+    61
+   ],
+   [
     "2026-09-05",
-    null
+    61
+   ],
+   [
+    "2026-08-30",
+    61
+   ],
+   [
+    "2026-08-23",
+    61
+   ],
+   [
+    "2026-08-16",
+    61
    ]
   ],
   "p_0ADhZL": [
@@ -107075,8 +107313,24 @@
   ],
   "p_1SWml1": [
    [
-    "2026-09-05",
-    null
+    "2026-11-08",
+    61
+   ],
+   [
+    "2026-11-01",
+    61
+   ],
+   [
+    "2026-10-25",
+    61
+   ],
+   [
+    "2026-10-11",
+    61
+   ],
+   [
+    "2026-09-19",
+    61
    ]
   ],
   "p_38iREB": [
@@ -117855,8 +118109,28 @@
   ],
   "p_2rhH8f": [
    [
+    "2026-11-08",
+    61
+   ],
+   [
+    "2026-11-01",
+    61
+   ],
+   [
+    "2026-10-25",
+    61
+   ],
+   [
+    "2026-09-12",
+    61
+   ],
+   [
     "2026-09-05",
-    null
+    61
+   ],
+   [
+    "2025-12-03",
+    149
    ]
   ],
   "p_4fMS0F": [
@@ -128510,8 +128784,24 @@
   ],
   "p_4SGeit": [
    [
+    "2026-09-12",
+    61
+   ],
+   [
     "2026-09-05",
-    null
+    61
+   ],
+   [
+    "2026-08-30",
+    61
+   ],
+   [
+    "2026-08-23",
+    61
+   ],
+   [
+    "2026-08-16",
+    61
    ]
   ],
   "p_20dNlt": [
@@ -128934,8 +129224,24 @@
   ],
   "p_0BC6wL": [
    [
-    "2026-09-05",
-    null
+    "2026-11-08",
+    61
+   ],
+   [
+    "2026-11-01",
+    61
+   ],
+   [
+    "2026-10-25",
+    61
+   ],
+   [
+    "2026-10-11",
+    61
+   ],
+   [
+    "2026-09-12",
+    61
    ]
   ],
   "p_1PLZRA": [
@@ -132852,8 +133158,28 @@
   ],
   "p_1WBt9f": [
    [
-    "2026-09-05",
-    null
+    "2026-11-08",
+    61
+   ],
+   [
+    "2026-11-01",
+    61
+   ],
+   [
+    "2026-10-25",
+    61
+   ],
+   [
+    "2026-10-11",
+    61
+   ],
+   [
+    "2026-09-19",
+    61
+   ],
+   [
+    "2026-09-12",
+    61
    ]
   ],
   "p_1U7ETH": [

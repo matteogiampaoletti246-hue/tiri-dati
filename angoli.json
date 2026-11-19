@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-18T23:48:16+00:00",
+ "updated_at": "2026-11-19T05:58:27+00:00",
  "window": {
   "nlast": 0,
   "min_games": 1,
@@ -16835,6 +16835,2251 @@
      "games_k": [
       14,
       15
+     ]
+    }
+   ]
+  },
+  "2026-11-27": {
+   "analizzate": 5,
+   "con_dati": 5,
+   "corner": [
+    {
+     "id": "m_3N7OsF",
+     "date": "2026-11-27",
+     "time": "2026-11-27",
+     "league": "LaLiga",
+     "home": "Levante",
+     "away": "Racing Santander",
+     "non_coperto": [],
+     "corners_home": 6.3,
+     "corners_away": 4.5,
+     "gap": 1.8,
+     "games": [
+      5,
+      6
+     ],
+     "tiri_home": 17.3,
+     "tiri_away": 13.3,
+     "tiri_gap": 4.0,
+     "tiri_games": [
+      5,
+      6
+     ],
+     "sot_home": 7.3,
+     "sot_away": 4.5,
+     "sot_gap": 2.8,
+     "sot_games": [
+      5,
+      6
+     ],
+     "falli_home": 12.1,
+     "falli_away": 12.2,
+     "falli_gap": 0.1,
+     "falli_games": [
+      12,
+      12
+     ],
+     "off_home": 1.9,
+     "off_away": 2.1,
+     "off_gap": 0.2,
+     "off_games": [
+      12,
+      12
+     ],
+     "cards": 4.1,
+     "cards_1t": 1.8,
+     "cards_home": 1.4,
+     "cards_away": 2.7,
+     "cards_1t_home": 0.5,
+     "cards_1t_away": 1.3,
+     "games_k": [
+      12,
+      12
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/3d4e34694800c927780cbd51435b2cf84ceb631683ce1e7c62549259396fbd04.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/5678d05be93b701d8cce69ec478e33baf9b71504c96ba5449c6f6664816e16e2.webp"
+    },
+    {
+     "id": "m_398Ugm",
+     "date": "2026-11-27",
+     "time": "2026-11-27",
+     "league": "Serie A",
+     "home": "Venezia",
+     "away": "Bologna",
+     "non_coperto": [],
+     "corners_home": 3.8,
+     "corners_away": 5.2,
+     "gap": 1.5,
+     "games": [
+      6,
+      6
+     ],
+     "tiri_home": 12.1,
+     "tiri_away": 15.3,
+     "tiri_gap": 3.2,
+     "tiri_games": [
+      6,
+      6
+     ],
+     "sot_home": 3.7,
+     "sot_away": 5.3,
+     "sot_gap": 1.7,
+     "sot_games": [
+      6,
+      6
+     ],
+     "falli_home": 12.0,
+     "falli_away": 11.3,
+     "falli_gap": 0.7,
+     "falli_games": [
+      11,
+      11
+     ],
+     "off_home": 2.0,
+     "off_away": 2.2,
+     "off_gap": 0.2,
+     "off_games": [
+      11,
+      11
+     ],
+     "cards": 4.2,
+     "cards_1t": 1.7,
+     "cards_home": 2.1,
+     "cards_away": 2.1,
+     "cards_1t_home": 0.9,
+     "cards_1t_away": 0.8,
+     "games_k": [
+      11,
+      11
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/ef4cf59b13e1d9d130d304bad00d700783a9783ba1c0469952db26a8a76a5b38.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/666c2362e7fc4aa2380cdb768cfe1a9539333a548feb4268b900ebba19278439.webp"
+    },
+    {
+     "id": "m_3xkED2",
+     "date": "2026-11-27",
+     "time": "2026-11-27",
+     "league": "Premier League",
+     "home": "Nottingham Forest",
+     "away": "Chelsea",
+     "non_coperto": [],
+     "corners_home": 4.4,
+     "corners_away": 5.5,
+     "gap": 1.1,
+     "games": [
+      5,
+      5
+     ],
+     "tiri_home": 13.1,
+     "tiri_away": 12.4,
+     "tiri_gap": 0.7,
+     "tiri_games": [
+      5,
+      5
+     ],
+     "sot_home": 4.2,
+     "sot_away": 3.5,
+     "sot_gap": 0.7,
+     "sot_games": [
+      5,
+      5
+     ],
+     "falli_home": 13.7,
+     "falli_away": 9.9,
+     "falli_gap": 3.8,
+     "falli_games": [
+      10,
+      10
+     ],
+     "off_home": 1.6,
+     "off_away": 1.4,
+     "off_gap": 0.2,
+     "off_games": [
+      10,
+      10
+     ],
+     "cards": 4.5,
+     "cards_1t": 1.4,
+     "cards_home": 2.4,
+     "cards_away": 2.1,
+     "cards_1t_home": 0.6,
+     "cards_1t_away": 0.8,
+     "games_k": [
+      10,
+      10
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/9a75c18cb269334abe4d7ac16a6f454eb48cf25bb2c0ec2679fdd0dd33070d0d.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/a007eabb180fc489edfd1ca2d5cd11da574050ff0abe5cbe2ca4e2bfec082c07.webp"
+    },
+    {
+     "id": "m_0toF5d",
+     "date": "2026-11-27",
+     "time": "2026-11-27",
+     "league": "Bundesliga",
+     "home": "Werder Bremen",
+     "away": "Borussia Mönchengladbach",
+     "non_coperto": [],
+     "corners_home": 5.1,
+     "corners_away": 4.2,
+     "gap": 0.9,
+     "games": [
+      4,
+      5
+     ],
+     "tiri_home": 18.1,
+     "tiri_away": 13.7,
+     "tiri_gap": 4.4,
+     "tiri_games": [
+      4,
+      5
+     ],
+     "sot_home": 8.2,
+     "sot_away": 4.2,
+     "sot_gap": 4.0,
+     "sot_games": [
+      4,
+      5
+     ],
+     "falli_home": 10.1,
+     "falli_away": 12.2,
+     "falli_gap": 2.2,
+     "falli_games": [
+      9,
+      9
+     ],
+     "off_home": 1.5,
+     "off_away": 1.4,
+     "off_gap": 0.1,
+     "off_games": [
+      9,
+      9
+     ],
+     "cards": 4.4,
+     "cards_1t": 1.6,
+     "cards_home": 1.6,
+     "cards_away": 2.9,
+     "cards_1t_home": 0.6,
+     "cards_1t_away": 1.0,
+     "games_k": [
+      9,
+      9
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/9d49871d125a1287776ac7b6707f594a67dcb299298a7ca069c68dd3863cb861.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/900d05c66e5abaad118cad096fa73364f6c70c74faf9619f86eab52f3c700aff.webp"
+    },
+    {
+     "id": "m_1oxRzF",
+     "date": "2026-11-27",
+     "time": "2026-11-27",
+     "league": "Ligue 1",
+     "home": "Brest",
+     "away": "Paris FC",
+     "non_coperto": [],
+     "corners_home": 3.9,
+     "corners_away": 4.5,
+     "gap": 0.6,
+     "games": [
+      5,
+      5
+     ],
+     "tiri_home": 13.4,
+     "tiri_away": 10.7,
+     "tiri_gap": 2.7,
+     "tiri_games": [
+      5,
+      5
+     ],
+     "sot_home": 5.1,
+     "sot_away": 3.1,
+     "sot_gap": 2.0,
+     "sot_games": [
+      5,
+      5
+     ],
+     "falli_home": 13.8,
+     "falli_away": 13.6,
+     "falli_gap": 0.2,
+     "falli_games": [
+      10,
+      10
+     ],
+     "off_home": 1.1,
+     "off_away": 1.6,
+     "off_gap": 0.5,
+     "off_games": [
+      10,
+      10
+     ],
+     "cards": 3.6,
+     "cards_1t": 1.3,
+     "cards_home": 1.4,
+     "cards_away": 2.2,
+     "cards_1t_home": 0.8,
+     "cards_1t_away": 0.5,
+     "games_k": [
+      10,
+      10
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/dd9ed059b3f4a132cfd8357431d608d7280fbd23b4014ea8552a7a411164d901.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/b9cad4d256831ccc0a700cc4a5c7f246a0937745dc14fe981517d735f3be7472.webp"
+    }
+   ],
+   "tiri": [
+    {
+     "id": "m_0toF5d",
+     "date": "2026-11-27",
+     "time": "2026-11-27",
+     "league": "Bundesliga",
+     "home": "Werder Bremen",
+     "away": "Borussia Mönchengladbach",
+     "non_coperto": [],
+     "corners_home": 5.1,
+     "corners_away": 4.2,
+     "gap": 0.9,
+     "games": [
+      4,
+      5
+     ],
+     "tiri_home": 18.1,
+     "tiri_away": 13.7,
+     "tiri_gap": 4.4,
+     "tiri_games": [
+      4,
+      5
+     ],
+     "sot_home": 8.2,
+     "sot_away": 4.2,
+     "sot_gap": 4.0,
+     "sot_games": [
+      4,
+      5
+     ],
+     "falli_home": 10.1,
+     "falli_away": 12.2,
+     "falli_gap": 2.2,
+     "falli_games": [
+      9,
+      9
+     ],
+     "off_home": 1.5,
+     "off_away": 1.4,
+     "off_gap": 0.1,
+     "off_games": [
+      9,
+      9
+     ],
+     "cards": 4.4,
+     "cards_1t": 1.6,
+     "cards_home": 1.6,
+     "cards_away": 2.9,
+     "cards_1t_home": 0.6,
+     "cards_1t_away": 1.0,
+     "games_k": [
+      9,
+      9
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/9d49871d125a1287776ac7b6707f594a67dcb299298a7ca069c68dd3863cb861.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/900d05c66e5abaad118cad096fa73364f6c70c74faf9619f86eab52f3c700aff.webp"
+    },
+    {
+     "id": "m_3N7OsF",
+     "date": "2026-11-27",
+     "time": "2026-11-27",
+     "league": "LaLiga",
+     "home": "Levante",
+     "away": "Racing Santander",
+     "non_coperto": [],
+     "corners_home": 6.3,
+     "corners_away": 4.5,
+     "gap": 1.8,
+     "games": [
+      5,
+      6
+     ],
+     "tiri_home": 17.3,
+     "tiri_away": 13.3,
+     "tiri_gap": 4.0,
+     "tiri_games": [
+      5,
+      6
+     ],
+     "sot_home": 7.3,
+     "sot_away": 4.5,
+     "sot_gap": 2.8,
+     "sot_games": [
+      5,
+      6
+     ],
+     "falli_home": 12.1,
+     "falli_away": 12.2,
+     "falli_gap": 0.1,
+     "falli_games": [
+      12,
+      12
+     ],
+     "off_home": 1.9,
+     "off_away": 2.1,
+     "off_gap": 0.2,
+     "off_games": [
+      12,
+      12
+     ],
+     "cards": 4.1,
+     "cards_1t": 1.8,
+     "cards_home": 1.4,
+     "cards_away": 2.7,
+     "cards_1t_home": 0.5,
+     "cards_1t_away": 1.3,
+     "games_k": [
+      12,
+      12
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/3d4e34694800c927780cbd51435b2cf84ceb631683ce1e7c62549259396fbd04.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/5678d05be93b701d8cce69ec478e33baf9b71504c96ba5449c6f6664816e16e2.webp"
+    },
+    {
+     "id": "m_398Ugm",
+     "date": "2026-11-27",
+     "time": "2026-11-27",
+     "league": "Serie A",
+     "home": "Venezia",
+     "away": "Bologna",
+     "non_coperto": [],
+     "corners_home": 3.8,
+     "corners_away": 5.2,
+     "gap": 1.5,
+     "games": [
+      6,
+      6
+     ],
+     "tiri_home": 12.1,
+     "tiri_away": 15.3,
+     "tiri_gap": 3.2,
+     "tiri_games": [
+      6,
+      6
+     ],
+     "sot_home": 3.7,
+     "sot_away": 5.3,
+     "sot_gap": 1.7,
+     "sot_games": [
+      6,
+      6
+     ],
+     "falli_home": 12.0,
+     "falli_away": 11.3,
+     "falli_gap": 0.7,
+     "falli_games": [
+      11,
+      11
+     ],
+     "off_home": 2.0,
+     "off_away": 2.2,
+     "off_gap": 0.2,
+     "off_games": [
+      11,
+      11
+     ],
+     "cards": 4.2,
+     "cards_1t": 1.7,
+     "cards_home": 2.1,
+     "cards_away": 2.1,
+     "cards_1t_home": 0.9,
+     "cards_1t_away": 0.8,
+     "games_k": [
+      11,
+      11
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/ef4cf59b13e1d9d130d304bad00d700783a9783ba1c0469952db26a8a76a5b38.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/666c2362e7fc4aa2380cdb768cfe1a9539333a548feb4268b900ebba19278439.webp"
+    },
+    {
+     "id": "m_1oxRzF",
+     "date": "2026-11-27",
+     "time": "2026-11-27",
+     "league": "Ligue 1",
+     "home": "Brest",
+     "away": "Paris FC",
+     "non_coperto": [],
+     "corners_home": 3.9,
+     "corners_away": 4.5,
+     "gap": 0.6,
+     "games": [
+      5,
+      5
+     ],
+     "tiri_home": 13.4,
+     "tiri_away": 10.7,
+     "tiri_gap": 2.7,
+     "tiri_games": [
+      5,
+      5
+     ],
+     "sot_home": 5.1,
+     "sot_away": 3.1,
+     "sot_gap": 2.0,
+     "sot_games": [
+      5,
+      5
+     ],
+     "falli_home": 13.8,
+     "falli_away": 13.6,
+     "falli_gap": 0.2,
+     "falli_games": [
+      10,
+      10
+     ],
+     "off_home": 1.1,
+     "off_away": 1.6,
+     "off_gap": 0.5,
+     "off_games": [
+      10,
+      10
+     ],
+     "cards": 3.6,
+     "cards_1t": 1.3,
+     "cards_home": 1.4,
+     "cards_away": 2.2,
+     "cards_1t_home": 0.8,
+     "cards_1t_away": 0.5,
+     "games_k": [
+      10,
+      10
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/dd9ed059b3f4a132cfd8357431d608d7280fbd23b4014ea8552a7a411164d901.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/b9cad4d256831ccc0a700cc4a5c7f246a0937745dc14fe981517d735f3be7472.webp"
+    },
+    {
+     "id": "m_3xkED2",
+     "date": "2026-11-27",
+     "time": "2026-11-27",
+     "league": "Premier League",
+     "home": "Nottingham Forest",
+     "away": "Chelsea",
+     "non_coperto": [],
+     "corners_home": 4.4,
+     "corners_away": 5.5,
+     "gap": 1.1,
+     "games": [
+      5,
+      5
+     ],
+     "tiri_home": 13.1,
+     "tiri_away": 12.4,
+     "tiri_gap": 0.7,
+     "tiri_games": [
+      5,
+      5
+     ],
+     "sot_home": 4.2,
+     "sot_away": 3.5,
+     "sot_gap": 0.7,
+     "sot_games": [
+      5,
+      5
+     ],
+     "falli_home": 13.7,
+     "falli_away": 9.9,
+     "falli_gap": 3.8,
+     "falli_games": [
+      10,
+      10
+     ],
+     "off_home": 1.6,
+     "off_away": 1.4,
+     "off_gap": 0.2,
+     "off_games": [
+      10,
+      10
+     ],
+     "cards": 4.5,
+     "cards_1t": 1.4,
+     "cards_home": 2.4,
+     "cards_away": 2.1,
+     "cards_1t_home": 0.6,
+     "cards_1t_away": 0.8,
+     "games_k": [
+      10,
+      10
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/9a75c18cb269334abe4d7ac16a6f454eb48cf25bb2c0ec2679fdd0dd33070d0d.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/a007eabb180fc489edfd1ca2d5cd11da574050ff0abe5cbe2ca4e2bfec082c07.webp"
+    }
+   ],
+   "tiri_sot": [
+    {
+     "id": "m_0toF5d",
+     "date": "2026-11-27",
+     "time": "2026-11-27",
+     "league": "Bundesliga",
+     "home": "Werder Bremen",
+     "away": "Borussia Mönchengladbach",
+     "non_coperto": [],
+     "corners_home": 5.1,
+     "corners_away": 4.2,
+     "gap": 0.9,
+     "games": [
+      4,
+      5
+     ],
+     "tiri_home": 18.1,
+     "tiri_away": 13.7,
+     "tiri_gap": 4.4,
+     "tiri_games": [
+      4,
+      5
+     ],
+     "sot_home": 8.2,
+     "sot_away": 4.2,
+     "sot_gap": 4.0,
+     "sot_games": [
+      4,
+      5
+     ],
+     "falli_home": 10.1,
+     "falli_away": 12.2,
+     "falli_gap": 2.2,
+     "falli_games": [
+      9,
+      9
+     ],
+     "off_home": 1.5,
+     "off_away": 1.4,
+     "off_gap": 0.1,
+     "off_games": [
+      9,
+      9
+     ],
+     "cards": 4.4,
+     "cards_1t": 1.6,
+     "cards_home": 1.6,
+     "cards_away": 2.9,
+     "cards_1t_home": 0.6,
+     "cards_1t_away": 1.0,
+     "games_k": [
+      9,
+      9
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/9d49871d125a1287776ac7b6707f594a67dcb299298a7ca069c68dd3863cb861.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/900d05c66e5abaad118cad096fa73364f6c70c74faf9619f86eab52f3c700aff.webp"
+    },
+    {
+     "id": "m_3N7OsF",
+     "date": "2026-11-27",
+     "time": "2026-11-27",
+     "league": "LaLiga",
+     "home": "Levante",
+     "away": "Racing Santander",
+     "non_coperto": [],
+     "corners_home": 6.3,
+     "corners_away": 4.5,
+     "gap": 1.8,
+     "games": [
+      5,
+      6
+     ],
+     "tiri_home": 17.3,
+     "tiri_away": 13.3,
+     "tiri_gap": 4.0,
+     "tiri_games": [
+      5,
+      6
+     ],
+     "sot_home": 7.3,
+     "sot_away": 4.5,
+     "sot_gap": 2.8,
+     "sot_games": [
+      5,
+      6
+     ],
+     "falli_home": 12.1,
+     "falli_away": 12.2,
+     "falli_gap": 0.1,
+     "falli_games": [
+      12,
+      12
+     ],
+     "off_home": 1.9,
+     "off_away": 2.1,
+     "off_gap": 0.2,
+     "off_games": [
+      12,
+      12
+     ],
+     "cards": 4.1,
+     "cards_1t": 1.8,
+     "cards_home": 1.4,
+     "cards_away": 2.7,
+     "cards_1t_home": 0.5,
+     "cards_1t_away": 1.3,
+     "games_k": [
+      12,
+      12
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/3d4e34694800c927780cbd51435b2cf84ceb631683ce1e7c62549259396fbd04.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/5678d05be93b701d8cce69ec478e33baf9b71504c96ba5449c6f6664816e16e2.webp"
+    },
+    {
+     "id": "m_1oxRzF",
+     "date": "2026-11-27",
+     "time": "2026-11-27",
+     "league": "Ligue 1",
+     "home": "Brest",
+     "away": "Paris FC",
+     "non_coperto": [],
+     "corners_home": 3.9,
+     "corners_away": 4.5,
+     "gap": 0.6,
+     "games": [
+      5,
+      5
+     ],
+     "tiri_home": 13.4,
+     "tiri_away": 10.7,
+     "tiri_gap": 2.7,
+     "tiri_games": [
+      5,
+      5
+     ],
+     "sot_home": 5.1,
+     "sot_away": 3.1,
+     "sot_gap": 2.0,
+     "sot_games": [
+      5,
+      5
+     ],
+     "falli_home": 13.8,
+     "falli_away": 13.6,
+     "falli_gap": 0.2,
+     "falli_games": [
+      10,
+      10
+     ],
+     "off_home": 1.1,
+     "off_away": 1.6,
+     "off_gap": 0.5,
+     "off_games": [
+      10,
+      10
+     ],
+     "cards": 3.6,
+     "cards_1t": 1.3,
+     "cards_home": 1.4,
+     "cards_away": 2.2,
+     "cards_1t_home": 0.8,
+     "cards_1t_away": 0.5,
+     "games_k": [
+      10,
+      10
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/dd9ed059b3f4a132cfd8357431d608d7280fbd23b4014ea8552a7a411164d901.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/b9cad4d256831ccc0a700cc4a5c7f246a0937745dc14fe981517d735f3be7472.webp"
+    },
+    {
+     "id": "m_398Ugm",
+     "date": "2026-11-27",
+     "time": "2026-11-27",
+     "league": "Serie A",
+     "home": "Venezia",
+     "away": "Bologna",
+     "non_coperto": [],
+     "corners_home": 3.8,
+     "corners_away": 5.2,
+     "gap": 1.5,
+     "games": [
+      6,
+      6
+     ],
+     "tiri_home": 12.1,
+     "tiri_away": 15.3,
+     "tiri_gap": 3.2,
+     "tiri_games": [
+      6,
+      6
+     ],
+     "sot_home": 3.7,
+     "sot_away": 5.3,
+     "sot_gap": 1.7,
+     "sot_games": [
+      6,
+      6
+     ],
+     "falli_home": 12.0,
+     "falli_away": 11.3,
+     "falli_gap": 0.7,
+     "falli_games": [
+      11,
+      11
+     ],
+     "off_home": 2.0,
+     "off_away": 2.2,
+     "off_gap": 0.2,
+     "off_games": [
+      11,
+      11
+     ],
+     "cards": 4.2,
+     "cards_1t": 1.7,
+     "cards_home": 2.1,
+     "cards_away": 2.1,
+     "cards_1t_home": 0.9,
+     "cards_1t_away": 0.8,
+     "games_k": [
+      11,
+      11
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/ef4cf59b13e1d9d130d304bad00d700783a9783ba1c0469952db26a8a76a5b38.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/666c2362e7fc4aa2380cdb768cfe1a9539333a548feb4268b900ebba19278439.webp"
+    },
+    {
+     "id": "m_3xkED2",
+     "date": "2026-11-27",
+     "time": "2026-11-27",
+     "league": "Premier League",
+     "home": "Nottingham Forest",
+     "away": "Chelsea",
+     "non_coperto": [],
+     "corners_home": 4.4,
+     "corners_away": 5.5,
+     "gap": 1.1,
+     "games": [
+      5,
+      5
+     ],
+     "tiri_home": 13.1,
+     "tiri_away": 12.4,
+     "tiri_gap": 0.7,
+     "tiri_games": [
+      5,
+      5
+     ],
+     "sot_home": 4.2,
+     "sot_away": 3.5,
+     "sot_gap": 0.7,
+     "sot_games": [
+      5,
+      5
+     ],
+     "falli_home": 13.7,
+     "falli_away": 9.9,
+     "falli_gap": 3.8,
+     "falli_games": [
+      10,
+      10
+     ],
+     "off_home": 1.6,
+     "off_away": 1.4,
+     "off_gap": 0.2,
+     "off_games": [
+      10,
+      10
+     ],
+     "cards": 4.5,
+     "cards_1t": 1.4,
+     "cards_home": 2.4,
+     "cards_away": 2.1,
+     "cards_1t_home": 0.6,
+     "cards_1t_away": 0.8,
+     "games_k": [
+      10,
+      10
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/9a75c18cb269334abe4d7ac16a6f454eb48cf25bb2c0ec2679fdd0dd33070d0d.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/a007eabb180fc489edfd1ca2d5cd11da574050ff0abe5cbe2ca4e2bfec082c07.webp"
+    }
+   ],
+   "falli": [
+    {
+     "id": "m_3xkED2",
+     "date": "2026-11-27",
+     "time": "2026-11-27",
+     "league": "Premier League",
+     "home": "Nottingham Forest",
+     "away": "Chelsea",
+     "non_coperto": [],
+     "corners_home": 4.4,
+     "corners_away": 5.5,
+     "gap": 1.1,
+     "games": [
+      5,
+      5
+     ],
+     "tiri_home": 13.1,
+     "tiri_away": 12.4,
+     "tiri_gap": 0.7,
+     "tiri_games": [
+      5,
+      5
+     ],
+     "sot_home": 4.2,
+     "sot_away": 3.5,
+     "sot_gap": 0.7,
+     "sot_games": [
+      5,
+      5
+     ],
+     "falli_home": 13.7,
+     "falli_away": 9.9,
+     "falli_gap": 3.8,
+     "falli_games": [
+      10,
+      10
+     ],
+     "off_home": 1.6,
+     "off_away": 1.4,
+     "off_gap": 0.2,
+     "off_games": [
+      10,
+      10
+     ],
+     "cards": 4.5,
+     "cards_1t": 1.4,
+     "cards_home": 2.4,
+     "cards_away": 2.1,
+     "cards_1t_home": 0.6,
+     "cards_1t_away": 0.8,
+     "games_k": [
+      10,
+      10
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/9a75c18cb269334abe4d7ac16a6f454eb48cf25bb2c0ec2679fdd0dd33070d0d.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/a007eabb180fc489edfd1ca2d5cd11da574050ff0abe5cbe2ca4e2bfec082c07.webp"
+    },
+    {
+     "id": "m_0toF5d",
+     "date": "2026-11-27",
+     "time": "2026-11-27",
+     "league": "Bundesliga",
+     "home": "Werder Bremen",
+     "away": "Borussia Mönchengladbach",
+     "non_coperto": [],
+     "corners_home": 5.1,
+     "corners_away": 4.2,
+     "gap": 0.9,
+     "games": [
+      4,
+      5
+     ],
+     "tiri_home": 18.1,
+     "tiri_away": 13.7,
+     "tiri_gap": 4.4,
+     "tiri_games": [
+      4,
+      5
+     ],
+     "sot_home": 8.2,
+     "sot_away": 4.2,
+     "sot_gap": 4.0,
+     "sot_games": [
+      4,
+      5
+     ],
+     "falli_home": 10.1,
+     "falli_away": 12.2,
+     "falli_gap": 2.2,
+     "falli_games": [
+      9,
+      9
+     ],
+     "off_home": 1.5,
+     "off_away": 1.4,
+     "off_gap": 0.1,
+     "off_games": [
+      9,
+      9
+     ],
+     "cards": 4.4,
+     "cards_1t": 1.6,
+     "cards_home": 1.6,
+     "cards_away": 2.9,
+     "cards_1t_home": 0.6,
+     "cards_1t_away": 1.0,
+     "games_k": [
+      9,
+      9
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/9d49871d125a1287776ac7b6707f594a67dcb299298a7ca069c68dd3863cb861.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/900d05c66e5abaad118cad096fa73364f6c70c74faf9619f86eab52f3c700aff.webp"
+    },
+    {
+     "id": "m_398Ugm",
+     "date": "2026-11-27",
+     "time": "2026-11-27",
+     "league": "Serie A",
+     "home": "Venezia",
+     "away": "Bologna",
+     "non_coperto": [],
+     "corners_home": 3.8,
+     "corners_away": 5.2,
+     "gap": 1.5,
+     "games": [
+      6,
+      6
+     ],
+     "tiri_home": 12.1,
+     "tiri_away": 15.3,
+     "tiri_gap": 3.2,
+     "tiri_games": [
+      6,
+      6
+     ],
+     "sot_home": 3.7,
+     "sot_away": 5.3,
+     "sot_gap": 1.7,
+     "sot_games": [
+      6,
+      6
+     ],
+     "falli_home": 12.0,
+     "falli_away": 11.3,
+     "falli_gap": 0.7,
+     "falli_games": [
+      11,
+      11
+     ],
+     "off_home": 2.0,
+     "off_away": 2.2,
+     "off_gap": 0.2,
+     "off_games": [
+      11,
+      11
+     ],
+     "cards": 4.2,
+     "cards_1t": 1.7,
+     "cards_home": 2.1,
+     "cards_away": 2.1,
+     "cards_1t_home": 0.9,
+     "cards_1t_away": 0.8,
+     "games_k": [
+      11,
+      11
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/ef4cf59b13e1d9d130d304bad00d700783a9783ba1c0469952db26a8a76a5b38.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/666c2362e7fc4aa2380cdb768cfe1a9539333a548feb4268b900ebba19278439.webp"
+    },
+    {
+     "id": "m_1oxRzF",
+     "date": "2026-11-27",
+     "time": "2026-11-27",
+     "league": "Ligue 1",
+     "home": "Brest",
+     "away": "Paris FC",
+     "non_coperto": [],
+     "corners_home": 3.9,
+     "corners_away": 4.5,
+     "gap": 0.6,
+     "games": [
+      5,
+      5
+     ],
+     "tiri_home": 13.4,
+     "tiri_away": 10.7,
+     "tiri_gap": 2.7,
+     "tiri_games": [
+      5,
+      5
+     ],
+     "sot_home": 5.1,
+     "sot_away": 3.1,
+     "sot_gap": 2.0,
+     "sot_games": [
+      5,
+      5
+     ],
+     "falli_home": 13.8,
+     "falli_away": 13.6,
+     "falli_gap": 0.2,
+     "falli_games": [
+      10,
+      10
+     ],
+     "off_home": 1.1,
+     "off_away": 1.6,
+     "off_gap": 0.5,
+     "off_games": [
+      10,
+      10
+     ],
+     "cards": 3.6,
+     "cards_1t": 1.3,
+     "cards_home": 1.4,
+     "cards_away": 2.2,
+     "cards_1t_home": 0.8,
+     "cards_1t_away": 0.5,
+     "games_k": [
+      10,
+      10
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/dd9ed059b3f4a132cfd8357431d608d7280fbd23b4014ea8552a7a411164d901.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/b9cad4d256831ccc0a700cc4a5c7f246a0937745dc14fe981517d735f3be7472.webp"
+    },
+    {
+     "id": "m_3N7OsF",
+     "date": "2026-11-27",
+     "time": "2026-11-27",
+     "league": "LaLiga",
+     "home": "Levante",
+     "away": "Racing Santander",
+     "non_coperto": [],
+     "corners_home": 6.3,
+     "corners_away": 4.5,
+     "gap": 1.8,
+     "games": [
+      5,
+      6
+     ],
+     "tiri_home": 17.3,
+     "tiri_away": 13.3,
+     "tiri_gap": 4.0,
+     "tiri_games": [
+      5,
+      6
+     ],
+     "sot_home": 7.3,
+     "sot_away": 4.5,
+     "sot_gap": 2.8,
+     "sot_games": [
+      5,
+      6
+     ],
+     "falli_home": 12.1,
+     "falli_away": 12.2,
+     "falli_gap": 0.1,
+     "falli_games": [
+      12,
+      12
+     ],
+     "off_home": 1.9,
+     "off_away": 2.1,
+     "off_gap": 0.2,
+     "off_games": [
+      12,
+      12
+     ],
+     "cards": 4.1,
+     "cards_1t": 1.8,
+     "cards_home": 1.4,
+     "cards_away": 2.7,
+     "cards_1t_home": 0.5,
+     "cards_1t_away": 1.3,
+     "games_k": [
+      12,
+      12
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/3d4e34694800c927780cbd51435b2cf84ceb631683ce1e7c62549259396fbd04.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/5678d05be93b701d8cce69ec478e33baf9b71504c96ba5449c6f6664816e16e2.webp"
+    }
+   ],
+   "fuorigiochi": [
+    {
+     "id": "m_1oxRzF",
+     "date": "2026-11-27",
+     "time": "2026-11-27",
+     "league": "Ligue 1",
+     "home": "Brest",
+     "away": "Paris FC",
+     "non_coperto": [],
+     "corners_home": 3.9,
+     "corners_away": 4.5,
+     "gap": 0.6,
+     "games": [
+      5,
+      5
+     ],
+     "tiri_home": 13.4,
+     "tiri_away": 10.7,
+     "tiri_gap": 2.7,
+     "tiri_games": [
+      5,
+      5
+     ],
+     "sot_home": 5.1,
+     "sot_away": 3.1,
+     "sot_gap": 2.0,
+     "sot_games": [
+      5,
+      5
+     ],
+     "falli_home": 13.8,
+     "falli_away": 13.6,
+     "falli_gap": 0.2,
+     "falli_games": [
+      10,
+      10
+     ],
+     "off_home": 1.1,
+     "off_away": 1.6,
+     "off_gap": 0.5,
+     "off_games": [
+      10,
+      10
+     ],
+     "cards": 3.6,
+     "cards_1t": 1.3,
+     "cards_home": 1.4,
+     "cards_away": 2.2,
+     "cards_1t_home": 0.8,
+     "cards_1t_away": 0.5,
+     "games_k": [
+      10,
+      10
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/dd9ed059b3f4a132cfd8357431d608d7280fbd23b4014ea8552a7a411164d901.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/b9cad4d256831ccc0a700cc4a5c7f246a0937745dc14fe981517d735f3be7472.webp"
+    },
+    {
+     "id": "m_398Ugm",
+     "date": "2026-11-27",
+     "time": "2026-11-27",
+     "league": "Serie A",
+     "home": "Venezia",
+     "away": "Bologna",
+     "non_coperto": [],
+     "corners_home": 3.8,
+     "corners_away": 5.2,
+     "gap": 1.5,
+     "games": [
+      6,
+      6
+     ],
+     "tiri_home": 12.1,
+     "tiri_away": 15.3,
+     "tiri_gap": 3.2,
+     "tiri_games": [
+      6,
+      6
+     ],
+     "sot_home": 3.7,
+     "sot_away": 5.3,
+     "sot_gap": 1.7,
+     "sot_games": [
+      6,
+      6
+     ],
+     "falli_home": 12.0,
+     "falli_away": 11.3,
+     "falli_gap": 0.7,
+     "falli_games": [
+      11,
+      11
+     ],
+     "off_home": 2.0,
+     "off_away": 2.2,
+     "off_gap": 0.2,
+     "off_games": [
+      11,
+      11
+     ],
+     "cards": 4.2,
+     "cards_1t": 1.7,
+     "cards_home": 2.1,
+     "cards_away": 2.1,
+     "cards_1t_home": 0.9,
+     "cards_1t_away": 0.8,
+     "games_k": [
+      11,
+      11
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/ef4cf59b13e1d9d130d304bad00d700783a9783ba1c0469952db26a8a76a5b38.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/666c2362e7fc4aa2380cdb768cfe1a9539333a548feb4268b900ebba19278439.webp"
+    },
+    {
+     "id": "m_3xkED2",
+     "date": "2026-11-27",
+     "time": "2026-11-27",
+     "league": "Premier League",
+     "home": "Nottingham Forest",
+     "away": "Chelsea",
+     "non_coperto": [],
+     "corners_home": 4.4,
+     "corners_away": 5.5,
+     "gap": 1.1,
+     "games": [
+      5,
+      5
+     ],
+     "tiri_home": 13.1,
+     "tiri_away": 12.4,
+     "tiri_gap": 0.7,
+     "tiri_games": [
+      5,
+      5
+     ],
+     "sot_home": 4.2,
+     "sot_away": 3.5,
+     "sot_gap": 0.7,
+     "sot_games": [
+      5,
+      5
+     ],
+     "falli_home": 13.7,
+     "falli_away": 9.9,
+     "falli_gap": 3.8,
+     "falli_games": [
+      10,
+      10
+     ],
+     "off_home": 1.6,
+     "off_away": 1.4,
+     "off_gap": 0.2,
+     "off_games": [
+      10,
+      10
+     ],
+     "cards": 4.5,
+     "cards_1t": 1.4,
+     "cards_home": 2.4,
+     "cards_away": 2.1,
+     "cards_1t_home": 0.6,
+     "cards_1t_away": 0.8,
+     "games_k": [
+      10,
+      10
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/9a75c18cb269334abe4d7ac16a6f454eb48cf25bb2c0ec2679fdd0dd33070d0d.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/a007eabb180fc489edfd1ca2d5cd11da574050ff0abe5cbe2ca4e2bfec082c07.webp"
+    },
+    {
+     "id": "m_3N7OsF",
+     "date": "2026-11-27",
+     "time": "2026-11-27",
+     "league": "LaLiga",
+     "home": "Levante",
+     "away": "Racing Santander",
+     "non_coperto": [],
+     "corners_home": 6.3,
+     "corners_away": 4.5,
+     "gap": 1.8,
+     "games": [
+      5,
+      6
+     ],
+     "tiri_home": 17.3,
+     "tiri_away": 13.3,
+     "tiri_gap": 4.0,
+     "tiri_games": [
+      5,
+      6
+     ],
+     "sot_home": 7.3,
+     "sot_away": 4.5,
+     "sot_gap": 2.8,
+     "sot_games": [
+      5,
+      6
+     ],
+     "falli_home": 12.1,
+     "falli_away": 12.2,
+     "falli_gap": 0.1,
+     "falli_games": [
+      12,
+      12
+     ],
+     "off_home": 1.9,
+     "off_away": 2.1,
+     "off_gap": 0.2,
+     "off_games": [
+      12,
+      12
+     ],
+     "cards": 4.1,
+     "cards_1t": 1.8,
+     "cards_home": 1.4,
+     "cards_away": 2.7,
+     "cards_1t_home": 0.5,
+     "cards_1t_away": 1.3,
+     "games_k": [
+      12,
+      12
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/3d4e34694800c927780cbd51435b2cf84ceb631683ce1e7c62549259396fbd04.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/5678d05be93b701d8cce69ec478e33baf9b71504c96ba5449c6f6664816e16e2.webp"
+    },
+    {
+     "id": "m_0toF5d",
+     "date": "2026-11-27",
+     "time": "2026-11-27",
+     "league": "Bundesliga",
+     "home": "Werder Bremen",
+     "away": "Borussia Mönchengladbach",
+     "non_coperto": [],
+     "corners_home": 5.1,
+     "corners_away": 4.2,
+     "gap": 0.9,
+     "games": [
+      4,
+      5
+     ],
+     "tiri_home": 18.1,
+     "tiri_away": 13.7,
+     "tiri_gap": 4.4,
+     "tiri_games": [
+      4,
+      5
+     ],
+     "sot_home": 8.2,
+     "sot_away": 4.2,
+     "sot_gap": 4.0,
+     "sot_games": [
+      4,
+      5
+     ],
+     "falli_home": 10.1,
+     "falli_away": 12.2,
+     "falli_gap": 2.2,
+     "falli_games": [
+      9,
+      9
+     ],
+     "off_home": 1.5,
+     "off_away": 1.4,
+     "off_gap": 0.1,
+     "off_games": [
+      9,
+      9
+     ],
+     "cards": 4.4,
+     "cards_1t": 1.6,
+     "cards_home": 1.6,
+     "cards_away": 2.9,
+     "cards_1t_home": 0.6,
+     "cards_1t_away": 1.0,
+     "games_k": [
+      9,
+      9
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/9d49871d125a1287776ac7b6707f594a67dcb299298a7ca069c68dd3863cb861.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/900d05c66e5abaad118cad096fa73364f6c70c74faf9619f86eab52f3c700aff.webp"
+    }
+   ],
+   "cartellini": [
+    {
+     "id": "m_1oxRzF",
+     "date": "2026-11-27",
+     "time": "2026-11-27",
+     "league": "Ligue 1",
+     "home": "Brest",
+     "away": "Paris FC",
+     "non_coperto": [],
+     "corners_home": 3.9,
+     "corners_away": 4.5,
+     "gap": 0.6,
+     "games": [
+      5,
+      5
+     ],
+     "tiri_home": 13.4,
+     "tiri_away": 10.7,
+     "tiri_gap": 2.7,
+     "tiri_games": [
+      5,
+      5
+     ],
+     "sot_home": 5.1,
+     "sot_away": 3.1,
+     "sot_gap": 2.0,
+     "sot_games": [
+      5,
+      5
+     ],
+     "falli_home": 13.8,
+     "falli_away": 13.6,
+     "falli_gap": 0.2,
+     "falli_games": [
+      10,
+      10
+     ],
+     "off_home": 1.1,
+     "off_away": 1.6,
+     "off_gap": 0.5,
+     "off_games": [
+      10,
+      10
+     ],
+     "cards": 3.6,
+     "cards_1t": 1.3,
+     "cards_home": 1.4,
+     "cards_away": 2.2,
+     "cards_1t_home": 0.8,
+     "cards_1t_away": 0.5,
+     "games_k": [
+      10,
+      10
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/dd9ed059b3f4a132cfd8357431d608d7280fbd23b4014ea8552a7a411164d901.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/b9cad4d256831ccc0a700cc4a5c7f246a0937745dc14fe981517d735f3be7472.webp"
+    },
+    {
+     "id": "m_3N7OsF",
+     "date": "2026-11-27",
+     "time": "2026-11-27",
+     "league": "LaLiga",
+     "home": "Levante",
+     "away": "Racing Santander",
+     "non_coperto": [],
+     "corners_home": 6.3,
+     "corners_away": 4.5,
+     "gap": 1.8,
+     "games": [
+      5,
+      6
+     ],
+     "tiri_home": 17.3,
+     "tiri_away": 13.3,
+     "tiri_gap": 4.0,
+     "tiri_games": [
+      5,
+      6
+     ],
+     "sot_home": 7.3,
+     "sot_away": 4.5,
+     "sot_gap": 2.8,
+     "sot_games": [
+      5,
+      6
+     ],
+     "falli_home": 12.1,
+     "falli_away": 12.2,
+     "falli_gap": 0.1,
+     "falli_games": [
+      12,
+      12
+     ],
+     "off_home": 1.9,
+     "off_away": 2.1,
+     "off_gap": 0.2,
+     "off_games": [
+      12,
+      12
+     ],
+     "cards": 4.1,
+     "cards_1t": 1.8,
+     "cards_home": 1.4,
+     "cards_away": 2.7,
+     "cards_1t_home": 0.5,
+     "cards_1t_away": 1.3,
+     "games_k": [
+      12,
+      12
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/3d4e34694800c927780cbd51435b2cf84ceb631683ce1e7c62549259396fbd04.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/5678d05be93b701d8cce69ec478e33baf9b71504c96ba5449c6f6664816e16e2.webp"
+    },
+    {
+     "id": "m_398Ugm",
+     "date": "2026-11-27",
+     "time": "2026-11-27",
+     "league": "Serie A",
+     "home": "Venezia",
+     "away": "Bologna",
+     "non_coperto": [],
+     "corners_home": 3.8,
+     "corners_away": 5.2,
+     "gap": 1.5,
+     "games": [
+      6,
+      6
+     ],
+     "tiri_home": 12.1,
+     "tiri_away": 15.3,
+     "tiri_gap": 3.2,
+     "tiri_games": [
+      6,
+      6
+     ],
+     "sot_home": 3.7,
+     "sot_away": 5.3,
+     "sot_gap": 1.7,
+     "sot_games": [
+      6,
+      6
+     ],
+     "falli_home": 12.0,
+     "falli_away": 11.3,
+     "falli_gap": 0.7,
+     "falli_games": [
+      11,
+      11
+     ],
+     "off_home": 2.0,
+     "off_away": 2.2,
+     "off_gap": 0.2,
+     "off_games": [
+      11,
+      11
+     ],
+     "cards": 4.2,
+     "cards_1t": 1.7,
+     "cards_home": 2.1,
+     "cards_away": 2.1,
+     "cards_1t_home": 0.9,
+     "cards_1t_away": 0.8,
+     "games_k": [
+      11,
+      11
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/ef4cf59b13e1d9d130d304bad00d700783a9783ba1c0469952db26a8a76a5b38.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/666c2362e7fc4aa2380cdb768cfe1a9539333a548feb4268b900ebba19278439.webp"
+    },
+    {
+     "id": "m_0toF5d",
+     "date": "2026-11-27",
+     "time": "2026-11-27",
+     "league": "Bundesliga",
+     "home": "Werder Bremen",
+     "away": "Borussia Mönchengladbach",
+     "non_coperto": [],
+     "corners_home": 5.1,
+     "corners_away": 4.2,
+     "gap": 0.9,
+     "games": [
+      4,
+      5
+     ],
+     "tiri_home": 18.1,
+     "tiri_away": 13.7,
+     "tiri_gap": 4.4,
+     "tiri_games": [
+      4,
+      5
+     ],
+     "sot_home": 8.2,
+     "sot_away": 4.2,
+     "sot_gap": 4.0,
+     "sot_games": [
+      4,
+      5
+     ],
+     "falli_home": 10.1,
+     "falli_away": 12.2,
+     "falli_gap": 2.2,
+     "falli_games": [
+      9,
+      9
+     ],
+     "off_home": 1.5,
+     "off_away": 1.4,
+     "off_gap": 0.1,
+     "off_games": [
+      9,
+      9
+     ],
+     "cards": 4.4,
+     "cards_1t": 1.6,
+     "cards_home": 1.6,
+     "cards_away": 2.9,
+     "cards_1t_home": 0.6,
+     "cards_1t_away": 1.0,
+     "games_k": [
+      9,
+      9
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/9d49871d125a1287776ac7b6707f594a67dcb299298a7ca069c68dd3863cb861.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/900d05c66e5abaad118cad096fa73364f6c70c74faf9619f86eab52f3c700aff.webp"
+    },
+    {
+     "id": "m_3xkED2",
+     "date": "2026-11-27",
+     "time": "2026-11-27",
+     "league": "Premier League",
+     "home": "Nottingham Forest",
+     "away": "Chelsea",
+     "non_coperto": [],
+     "corners_home": 4.4,
+     "corners_away": 5.5,
+     "gap": 1.1,
+     "games": [
+      5,
+      5
+     ],
+     "tiri_home": 13.1,
+     "tiri_away": 12.4,
+     "tiri_gap": 0.7,
+     "tiri_games": [
+      5,
+      5
+     ],
+     "sot_home": 4.2,
+     "sot_away": 3.5,
+     "sot_gap": 0.7,
+     "sot_games": [
+      5,
+      5
+     ],
+     "falli_home": 13.7,
+     "falli_away": 9.9,
+     "falli_gap": 3.8,
+     "falli_games": [
+      10,
+      10
+     ],
+     "off_home": 1.6,
+     "off_away": 1.4,
+     "off_gap": 0.2,
+     "off_games": [
+      10,
+      10
+     ],
+     "cards": 4.5,
+     "cards_1t": 1.4,
+     "cards_home": 2.4,
+     "cards_away": 2.1,
+     "cards_1t_home": 0.6,
+     "cards_1t_away": 0.8,
+     "games_k": [
+      10,
+      10
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/9a75c18cb269334abe4d7ac16a6f454eb48cf25bb2c0ec2679fdd0dd33070d0d.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/a007eabb180fc489edfd1ca2d5cd11da574050ff0abe5cbe2ca4e2bfec082c07.webp"
+    }
+   ],
+   "cartellini_1t": [
+    {
+     "id": "m_1oxRzF",
+     "date": "2026-11-27",
+     "time": "2026-11-27",
+     "league": "Ligue 1",
+     "home": "Brest",
+     "away": "Paris FC",
+     "non_coperto": [],
+     "corners_home": 3.9,
+     "corners_away": 4.5,
+     "gap": 0.6,
+     "games": [
+      5,
+      5
+     ],
+     "tiri_home": 13.4,
+     "tiri_away": 10.7,
+     "tiri_gap": 2.7,
+     "tiri_games": [
+      5,
+      5
+     ],
+     "sot_home": 5.1,
+     "sot_away": 3.1,
+     "sot_gap": 2.0,
+     "sot_games": [
+      5,
+      5
+     ],
+     "falli_home": 13.8,
+     "falli_away": 13.6,
+     "falli_gap": 0.2,
+     "falli_games": [
+      10,
+      10
+     ],
+     "off_home": 1.1,
+     "off_away": 1.6,
+     "off_gap": 0.5,
+     "off_games": [
+      10,
+      10
+     ],
+     "cards": 3.6,
+     "cards_1t": 1.3,
+     "cards_home": 1.4,
+     "cards_away": 2.2,
+     "cards_1t_home": 0.8,
+     "cards_1t_away": 0.5,
+     "games_k": [
+      10,
+      10
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/dd9ed059b3f4a132cfd8357431d608d7280fbd23b4014ea8552a7a411164d901.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/b9cad4d256831ccc0a700cc4a5c7f246a0937745dc14fe981517d735f3be7472.webp"
+    },
+    {
+     "id": "m_3xkED2",
+     "date": "2026-11-27",
+     "time": "2026-11-27",
+     "league": "Premier League",
+     "home": "Nottingham Forest",
+     "away": "Chelsea",
+     "non_coperto": [],
+     "corners_home": 4.4,
+     "corners_away": 5.5,
+     "gap": 1.1,
+     "games": [
+      5,
+      5
+     ],
+     "tiri_home": 13.1,
+     "tiri_away": 12.4,
+     "tiri_gap": 0.7,
+     "tiri_games": [
+      5,
+      5
+     ],
+     "sot_home": 4.2,
+     "sot_away": 3.5,
+     "sot_gap": 0.7,
+     "sot_games": [
+      5,
+      5
+     ],
+     "falli_home": 13.7,
+     "falli_away": 9.9,
+     "falli_gap": 3.8,
+     "falli_games": [
+      10,
+      10
+     ],
+     "off_home": 1.6,
+     "off_away": 1.4,
+     "off_gap": 0.2,
+     "off_games": [
+      10,
+      10
+     ],
+     "cards": 4.5,
+     "cards_1t": 1.4,
+     "cards_home": 2.4,
+     "cards_away": 2.1,
+     "cards_1t_home": 0.6,
+     "cards_1t_away": 0.8,
+     "games_k": [
+      10,
+      10
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/9a75c18cb269334abe4d7ac16a6f454eb48cf25bb2c0ec2679fdd0dd33070d0d.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/a007eabb180fc489edfd1ca2d5cd11da574050ff0abe5cbe2ca4e2bfec082c07.webp"
+    },
+    {
+     "id": "m_0toF5d",
+     "date": "2026-11-27",
+     "time": "2026-11-27",
+     "league": "Bundesliga",
+     "home": "Werder Bremen",
+     "away": "Borussia Mönchengladbach",
+     "non_coperto": [],
+     "corners_home": 5.1,
+     "corners_away": 4.2,
+     "gap": 0.9,
+     "games": [
+      4,
+      5
+     ],
+     "tiri_home": 18.1,
+     "tiri_away": 13.7,
+     "tiri_gap": 4.4,
+     "tiri_games": [
+      4,
+      5
+     ],
+     "sot_home": 8.2,
+     "sot_away": 4.2,
+     "sot_gap": 4.0,
+     "sot_games": [
+      4,
+      5
+     ],
+     "falli_home": 10.1,
+     "falli_away": 12.2,
+     "falli_gap": 2.2,
+     "falli_games": [
+      9,
+      9
+     ],
+     "off_home": 1.5,
+     "off_away": 1.4,
+     "off_gap": 0.1,
+     "off_games": [
+      9,
+      9
+     ],
+     "cards": 4.4,
+     "cards_1t": 1.6,
+     "cards_home": 1.6,
+     "cards_away": 2.9,
+     "cards_1t_home": 0.6,
+     "cards_1t_away": 1.0,
+     "games_k": [
+      9,
+      9
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/9d49871d125a1287776ac7b6707f594a67dcb299298a7ca069c68dd3863cb861.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/900d05c66e5abaad118cad096fa73364f6c70c74faf9619f86eab52f3c700aff.webp"
+    },
+    {
+     "id": "m_398Ugm",
+     "date": "2026-11-27",
+     "time": "2026-11-27",
+     "league": "Serie A",
+     "home": "Venezia",
+     "away": "Bologna",
+     "non_coperto": [],
+     "corners_home": 3.8,
+     "corners_away": 5.2,
+     "gap": 1.5,
+     "games": [
+      6,
+      6
+     ],
+     "tiri_home": 12.1,
+     "tiri_away": 15.3,
+     "tiri_gap": 3.2,
+     "tiri_games": [
+      6,
+      6
+     ],
+     "sot_home": 3.7,
+     "sot_away": 5.3,
+     "sot_gap": 1.7,
+     "sot_games": [
+      6,
+      6
+     ],
+     "falli_home": 12.0,
+     "falli_away": 11.3,
+     "falli_gap": 0.7,
+     "falli_games": [
+      11,
+      11
+     ],
+     "off_home": 2.0,
+     "off_away": 2.2,
+     "off_gap": 0.2,
+     "off_games": [
+      11,
+      11
+     ],
+     "cards": 4.2,
+     "cards_1t": 1.7,
+     "cards_home": 2.1,
+     "cards_away": 2.1,
+     "cards_1t_home": 0.9,
+     "cards_1t_away": 0.8,
+     "games_k": [
+      11,
+      11
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/ef4cf59b13e1d9d130d304bad00d700783a9783ba1c0469952db26a8a76a5b38.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/666c2362e7fc4aa2380cdb768cfe1a9539333a548feb4268b900ebba19278439.webp"
+    },
+    {
+     "id": "m_3N7OsF",
+     "date": "2026-11-27",
+     "time": "2026-11-27",
+     "league": "LaLiga",
+     "home": "Levante",
+     "away": "Racing Santander",
+     "non_coperto": [],
+     "corners_home": 6.3,
+     "corners_away": 4.5,
+     "gap": 1.8,
+     "games": [
+      5,
+      6
+     ],
+     "tiri_home": 17.3,
+     "tiri_away": 13.3,
+     "tiri_gap": 4.0,
+     "tiri_games": [
+      5,
+      6
+     ],
+     "sot_home": 7.3,
+     "sot_away": 4.5,
+     "sot_gap": 2.8,
+     "sot_games": [
+      5,
+      6
+     ],
+     "falli_home": 12.1,
+     "falli_away": 12.2,
+     "falli_gap": 0.1,
+     "falli_games": [
+      12,
+      12
+     ],
+     "off_home": 1.9,
+     "off_away": 2.1,
+     "off_gap": 0.2,
+     "off_games": [
+      12,
+      12
+     ],
+     "cards": 4.1,
+     "cards_1t": 1.8,
+     "cards_home": 1.4,
+     "cards_away": 2.7,
+     "cards_1t_home": 0.5,
+     "cards_1t_away": 1.3,
+     "games_k": [
+      12,
+      12
+     ],
+     "home_logo": "https://cdn.pitchapi.dev/images/teams/3d4e34694800c927780cbd51435b2cf84ceb631683ce1e7c62549259396fbd04.webp",
+     "away_logo": "https://cdn.pitchapi.dev/images/teams/5678d05be93b701d8cce69ec478e33baf9b71504c96ba5449c6f6664816e16e2.webp"
+    }
+   ],
+   "tutte": [
+    {
+     "id": "m_398Ugm",
+     "date": "2026-11-27",
+     "time": "2026-11-27",
+     "league": "Serie A",
+     "home": "Venezia",
+     "away": "Bologna",
+     "corners_home": 3.8,
+     "corners_away": 5.2,
+     "gap": 1.5,
+     "games": [
+      6,
+      6
+     ],
+     "tiri_home": 12.1,
+     "tiri_away": 15.3,
+     "tiri_gap": 3.2,
+     "tiri_games": [
+      6,
+      6
+     ],
+     "sot_home": 3.7,
+     "sot_away": 5.3,
+     "sot_gap": 1.7,
+     "sot_games": [
+      6,
+      6
+     ],
+     "falli_home": 12.0,
+     "falli_away": 11.3,
+     "falli_gap": 0.7,
+     "falli_games": [
+      11,
+      11
+     ],
+     "off_home": 2.0,
+     "off_away": 2.2,
+     "off_gap": 0.2,
+     "off_games": [
+      11,
+      11
+     ],
+     "cards": 4.2,
+     "cards_1t": 1.7,
+     "cards_home": 2.1,
+     "cards_away": 2.1,
+     "cards_1t_home": 0.9,
+     "cards_1t_away": 0.8,
+     "games_k": [
+      11,
+      11
+     ]
+    },
+    {
+     "id": "m_3xkED2",
+     "date": "2026-11-27",
+     "time": "2026-11-27",
+     "league": "Premier League",
+     "home": "Nottingham Forest",
+     "away": "Chelsea",
+     "corners_home": 4.4,
+     "corners_away": 5.5,
+     "gap": 1.1,
+     "games": [
+      5,
+      5
+     ],
+     "tiri_home": 13.1,
+     "tiri_away": 12.4,
+     "tiri_gap": 0.7,
+     "tiri_games": [
+      5,
+      5
+     ],
+     "sot_home": 4.2,
+     "sot_away": 3.5,
+     "sot_gap": 0.7,
+     "sot_games": [
+      5,
+      5
+     ],
+     "falli_home": 13.7,
+     "falli_away": 9.9,
+     "falli_gap": 3.8,
+     "falli_games": [
+      10,
+      10
+     ],
+     "off_home": 1.6,
+     "off_away": 1.4,
+     "off_gap": 0.2,
+     "off_games": [
+      10,
+      10
+     ],
+     "cards": 4.5,
+     "cards_1t": 1.4,
+     "cards_home": 2.4,
+     "cards_away": 2.1,
+     "cards_1t_home": 0.6,
+     "cards_1t_away": 0.8,
+     "games_k": [
+      10,
+      10
+     ]
+    },
+    {
+     "id": "m_0toF5d",
+     "date": "2026-11-27",
+     "time": "2026-11-27",
+     "league": "Bundesliga",
+     "home": "Werder Bremen",
+     "away": "Borussia Mönchengladbach",
+     "corners_home": 5.1,
+     "corners_away": 4.2,
+     "gap": 0.9,
+     "games": [
+      4,
+      5
+     ],
+     "tiri_home": 18.1,
+     "tiri_away": 13.7,
+     "tiri_gap": 4.4,
+     "tiri_games": [
+      4,
+      5
+     ],
+     "sot_home": 8.2,
+     "sot_away": 4.2,
+     "sot_gap": 4.0,
+     "sot_games": [
+      4,
+      5
+     ],
+     "falli_home": 10.1,
+     "falli_away": 12.2,
+     "falli_gap": 2.2,
+     "falli_games": [
+      9,
+      9
+     ],
+     "off_home": 1.5,
+     "off_away": 1.4,
+     "off_gap": 0.1,
+     "off_games": [
+      9,
+      9
+     ],
+     "cards": 4.4,
+     "cards_1t": 1.6,
+     "cards_home": 1.6,
+     "cards_away": 2.9,
+     "cards_1t_home": 0.6,
+     "cards_1t_away": 1.0,
+     "games_k": [
+      9,
+      9
+     ]
+    },
+    {
+     "id": "m_3N7OsF",
+     "date": "2026-11-27",
+     "time": "2026-11-27",
+     "league": "LaLiga",
+     "home": "Levante",
+     "away": "Racing Santander",
+     "corners_home": 6.3,
+     "corners_away": 4.5,
+     "gap": 1.8,
+     "games": [
+      5,
+      6
+     ],
+     "tiri_home": 17.3,
+     "tiri_away": 13.3,
+     "tiri_gap": 4.0,
+     "tiri_games": [
+      5,
+      6
+     ],
+     "sot_home": 7.3,
+     "sot_away": 4.5,
+     "sot_gap": 2.8,
+     "sot_games": [
+      5,
+      6
+     ],
+     "falli_home": 12.1,
+     "falli_away": 12.2,
+     "falli_gap": 0.1,
+     "falli_games": [
+      12,
+      12
+     ],
+     "off_home": 1.9,
+     "off_away": 2.1,
+     "off_gap": 0.2,
+     "off_games": [
+      12,
+      12
+     ],
+     "cards": 4.1,
+     "cards_1t": 1.8,
+     "cards_home": 1.4,
+     "cards_away": 2.7,
+     "cards_1t_home": 0.5,
+     "cards_1t_away": 1.3,
+     "games_k": [
+      12,
+      12
+     ]
+    },
+    {
+     "id": "m_1oxRzF",
+     "date": "2026-11-27",
+     "time": "2026-11-27",
+     "league": "Ligue 1",
+     "home": "Brest",
+     "away": "Paris FC",
+     "corners_home": 3.9,
+     "corners_away": 4.5,
+     "gap": 0.6,
+     "games": [
+      5,
+      5
+     ],
+     "tiri_home": 13.4,
+     "tiri_away": 10.7,
+     "tiri_gap": 2.7,
+     "tiri_games": [
+      5,
+      5
+     ],
+     "sot_home": 5.1,
+     "sot_away": 3.1,
+     "sot_gap": 2.0,
+     "sot_games": [
+      5,
+      5
+     ],
+     "falli_home": 13.8,
+     "falli_away": 13.6,
+     "falli_gap": 0.2,
+     "falli_games": [
+      10,
+      10
+     ],
+     "off_home": 1.1,
+     "off_away": 1.6,
+     "off_gap": 0.5,
+     "off_games": [
+      10,
+      10
+     ],
+     "cards": 3.6,
+     "cards_1t": 1.3,
+     "cards_home": 1.4,
+     "cards_away": 2.2,
+     "cards_1t_home": 0.8,
+     "cards_1t_away": 0.5,
+     "games_k": [
+      10,
+      10
      ]
     }
    ]
