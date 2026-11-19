@@ -9167,7 +9167,7 @@
   "squadre": 3164,
   "prima": 2377,
   "dopo": 635,
-  "giocate_dopo": 555,
+  "giocate_dopo": 557,
   "elenco": [
    {
     "squadra": "1. BFK Frýdlant nad Ostravici",
@@ -14471,7 +14471,7 @@
      "Slovenia Cup 2026-2027"
     ],
     "motivo": [
-     "3 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
+     "3 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 3"
     ]
    },
    {
@@ -15697,7 +15697,7 @@
      "Slovenia Cup 2026-2027"
     ],
     "motivo": [
-     "8 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
+     "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
     ]
    },
    {
@@ -17405,7 +17405,7 @@
  },
  "forma": {
   "squadre_senza_forma_prima": 1967,
-  "squadre_senza_forma_dopo": 99,
+  "squadre_senza_forma_dopo": 96,
   "motivo_dopo": "nessuna partita giocata nella stagione in corso: niente riquadro"
  }
 }
