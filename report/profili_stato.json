@@ -19,8 +19,8 @@
    ]
   ]
  ],
- "doppi_uniti": 0,
- "giocatori_con_partite_aggiunte": 0,
+ "doppi_uniti": 17,
+ "giocatori_con_partite_aggiunte": 3169,
  "competizioni_partite_aggiunte": [
   [
    "EFL Cup",
@@ -379,20 +379,12 @@
    20
   ],
   [
-   "Europa League",
-   15
-  ],
-  [
    "FNL",
    14
   ],
   [
    "World Cup Qualification Inter-confederation",
    11
-  ],
-  [
-   "Champions League",
-   2
   ],
   [
    "Regular Season",
