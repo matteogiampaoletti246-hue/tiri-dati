@@ -5,29 +5,34 @@
    "giocatori": 0,
    "da_fare": 1
   },
-  "Premier League 2026-2027": {
+  "Ligue 1 2026-2027": {
    "partite_completate": 0,
    "giocatori": 0,
    "da_fare": 2
+  },
+  "First Professional League 2026-2027": {
+   "partite_completate": 1,
+   "giocatori": 28,
+   "da_fare": 1
+  },
+  "Premier League 2026-2027": {
+   "partite_completate": 1,
+   "giocatori": 28,
+   "da_fare": 1
   },
   "FNL 2026-2027": {
    "partite_completate": 0,
    "giocatori": 0,
-   "da_fare": 1
-  },
-  "Erovnuli Liga 2026": {
-   "partite_completate": 2,
-   "giocatori": 37,
    "da_fare": 2
   },
-  "Prva Liga 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
+  "Erovnuli Liga 2026": {
+   "partite_completate": 1,
+   "giocatori": 21,
    "da_fare": 1
   }
  },
- "partite_completate": 2,
- "giocatori": 37,
+ "partite_completate": 3,
+ "giocatori": 77,
  "senza_abbinamento": 0,
- "senza_formazioni_diretta": 7
+ "senza_formazioni_diretta": 5
 }
