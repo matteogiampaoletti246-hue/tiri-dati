@@ -1,54 +1,4 @@
 {
-"5181869": {
-"n": "Oleksiy Derevinskiy",
-"src": "api-football",
-"at": "2026-11-13T05:06+00:00"
-},
-"5181870": {
-"n": "Rade Obrenovic",
-"src": "api-football",
-"at": "2026-11-13T05:06+00:00"
-},
-"5181820": {
-"n": "Ivan Kruzliak",
-"src": "api-football",
-"at": "2026-11-13T05:06+00:00"
-},
-"5181808": {
-"n": "Ondrej Berka",
-"src": "api-football",
-"at": "2026-11-13T05:06+00:00"
-},
-"5181821": {
-"n": "Irfan Peljto",
-"src": "api-football",
-"at": "2026-11-13T05:06+00:00"
-},
-"5181809": {
-"n": "Francois Letexier",
-"src": "api-football",
-"at": "2026-11-13T05:06+00:00"
-},
-"5181845": {
-"n": "Sebastian Gishamer",
-"src": "api-football",
-"at": "2026-11-13T05:06+00:00"
-},
-"5181846": {
-"n": "Simone Sozza",
-"src": "api-football",
-"at": "2026-11-13T05:06+00:00"
-},
-"5103708": {
-"n": "S. Sampaio",
-"src": "api-football",
-"at": "2026-11-13T05:06+00:00"
-},
-"5103573": {
-"n": "R. Pereira",
-"src": "api-football",
-"at": "2026-11-13T05:06+00:00"
-},
 "5181860": {
 "n": "Clement Turpin",
 "src": "api-football",
@@ -78,26 +28,6 @@
 "n": "Claudio Pereira",
 "src": "api-football",
 "at": "2026-11-14T01:08+00:00"
-},
-"5868546": {
-"n": "Salvador Lax",
-"src": "api-football",
-"at": "2026-11-14T04:59+00:00"
-},
-"5868537": {
-"n": "Andres Fuentes Molina",
-"src": "api-football",
-"at": "2026-11-14T04:59+00:00"
-},
-"5868542": {
-"n": "Rafael Sanchez Lopez",
-"src": "api-football",
-"at": "2026-11-14T04:59+00:00"
-},
-"5868543": {
-"n": "Saul Ais Reig",
-"src": "api-football",
-"at": "2026-11-14T04:59+00:00"
 },
 "5181798": {
 "n": "Espen Eskas",
@@ -439,9 +369,484 @@
 "src": "api-football",
 "at": "2026-11-19T11:13+00:00"
 },
+"5868547": {
+"n": "Jose Guzman",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5908704": {
+"n": "Ayberk Demirbas",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5847235": {
+"n": "Rafael Shafeev",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5804042": {
+"n": "Karol Arys",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5764472": {
+"n": "P. Gammelholm",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5804043": {
+"n": "Pawel Raczkowski",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5868132": {
+"n": "Mateo Busquets Ferrer",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5781805": {
+"n": "Jeroen Manschot",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5781811": {
+"n": "Allard Lindhout",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5781806": {
+"n": "Robin Hensgens",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5781808": {
+"n": "Alex Bos",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5781807": {
+"n": "Joey Kooij",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5811812": {
+"n": "B. Put",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5811813": {
+"n": "M. Allaerts",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5811815": {
+"n": "E. Lambrechts",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5811817": {
+"n": "N. Laforge",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5846026": {
+"n": "Daniel Pfister",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5846025": {
+"n": "Julian Weinberger",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5105052": {
+"n": "Tore Hansen",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5105050": {
+"n": "Mathias Stofringshaug",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5943296": {
+"n": "Matsoukas",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5836939": {
+"n": "Matt Donohue",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5836941": {
+"n": "Sam Allison",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5836934": {
+"n": "Tom Reeves",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5836936": {
+"n": "Edward Duckworth",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5836937": {
+"n": "Ruebyn Ricardo",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5836940": {
+"n": "Tim Robinson",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5836942": {
+"n": "Bobby Madley",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5836943": {
+"n": "Thomas Kirk",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5836944": {
+"n": "Will Finnie",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"1000024309": {
+"n": "Michael Fabbri",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5967152": {
+"n": "Dario Madonia",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5967155": {
+"n": "Rosario Abisso",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5967156": {
+"n": "Paride Tremolada",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5967157": {
+"n": "Mario Perri",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5967153": {
+"n": "Ermanno Feliciani",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5967154": {
+"n": "Federico La Penna",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5881729": {
+"n": "Marc Philip Eckermann",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5881732": {
+"n": "Justin Joel Hasmann",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5881734": {
+"n": "Felix Prigan",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5881733": {
+"n": "Daniel Schlager",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5803319": {
+"n": "Thomas Vincent",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5803324": {
+"n": "Romain Lissorgue",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5103717": {
+"n": "R. Pereira",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5103722": {
+"n": "S. Sampaio",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5795522": {
+"n": "Thomas Bramall",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5764475": {
+"n": "N. Lindby",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5905980": {
+"n": "Niclas Rose",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5905981": {
+"n": "Assad Nouhoum",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5905982": {
+"n": "Fabienne Michel",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5905983": {
+"n": "Martin Wilke",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5905987": {
+"n": "Sebastian Hilsberg",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5749753": {
+"n": "Andrea Calzavara",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5749755": {
+"n": "Matteo Marcenaro",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5107661": {
+"n": "Mohammed Al-Hakim",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5107666": {
+"n": "Sars Joakim",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5764474": {
+"n": "F. Klarlund",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5831224": {
+"n": "Vojtech Opocensky",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5831225": {
+"n": "Ondrej Pechanec",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5831226": {
+"n": "Jan Machalek",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5943699": {
+"n": "Adam Trska",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5833611": {
+"n": "R. Obrenovic",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5765916": {
+"n": "Mateo Erceg",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5881225": {
+"n": "Tobias Reichel",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5881228": {
+"n": "Max Burda",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5881229": {
+"n": "Richard Hempel",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5881231": {
+"n": "Christian Dingert",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5772222": {
+"n": "F. Glova",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5772225": {
+"n": "I. Valent",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5772226": {
+"n": "A. Fusek",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5795515": {
+"n": "Adam Herczeg",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5795516": {
+"n": "Andrew Madley",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5795518": {
+"n": "Michael Oliver",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5795519": {
+"n": "Darren England",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5795524": {
+"n": "Robert Jones",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5794368": {
+"n": "J. Wilkie",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5794369": {
+"n": "A. Grieve",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5794371": {
+"n": "S. Murdoch",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5794372": {
+"n": "C. Steven",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5905978": {
+"n": "Felix Bickel",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5107663": {
+"n": "Richard Sundell",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5833610": {
+"n": "M. Antic",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5804048": {
+"n": "Szymon Marciniak",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5749758": {
+"n": "Simone Sozza",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5831221": {
+"n": "Ondrej Berka",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5772224": {
+"n": "M. Dohal",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5765962": {
+"n": "Patrik Pavlesic",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5795523": {
+"n": "Chris Kavanagh",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5881230": {
+"n": "Daniel Siebert",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5804044": {
+"n": "Mateusz Piszczelok",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5802991": {
+"n": "Bastein Dechepy",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5802992": {
+"n": "Francois Letexier",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5802995": {
+"n": "Jeremy Stinat",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5802998": {
+"n": "Azzedine Souifi",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
+"5749757": {
+"n": "Rapuano Andrea",
+"src": "api-football",
+"at": "2026-11-20T03:20+00:00"
+},
 "_err": [
-"2026-11-21: {\"plan\": \"Free plans do not have access to this date, try from 2026-11-18 to 2026-11-20.\"}",
-"2026-11-22: {\"plan\": \"Free plans do not have access to this date, try from 2026-11-18 to 2026-11-20.\"}"
+"2026-11-22: {\"plan\": \"Free plans do not have access to this date, try from 2026-11-19 to 2026-11-21.\"}",
+"2026-11-23: {\"plan\": \"Free plans do not have access to this date, try from 2026-11-19 to 2026-11-21.\"}"
 ],
-"_at": "2026-11-19T20:41+00:00"
+"_at": "2026-11-20T03:20+00:00"
 }
