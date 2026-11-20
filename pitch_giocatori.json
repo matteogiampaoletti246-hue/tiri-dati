@@ -7,13 +7,6 @@
    "senza_abbinamento": 0,
    "da_fare": 1
   },
-  "MLS (USA) 2026": {
-   "lega_pitch": "MLS",
-   "partite_completate": 2,
-   "giocatori": 65,
-   "senza_abbinamento": 0,
-   "da_fare": 2
-  },
   "Virsliga (LVA) 2026": {
    "lega_pitch": "Virsliga",
    "partite_completate": 0,
@@ -261,5 +254,5 @@
   }
  },
  "senza_lega_pitch": [],
- "partite_completate_in_questo_giro": 2
+ "partite_completate_in_questo_giro": 0
 }
