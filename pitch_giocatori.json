@@ -7,6 +7,13 @@
    "senza_abbinamento": 0,
    "da_fare": 1
   },
+  "Liga I (ROU) 2026-2027": {
+   "lega_pitch": "Liga I",
+   "partite_completate": 1,
+   "giocatori": 31,
+   "senza_abbinamento": 0,
+   "da_fare": 1
+  },
   "Virsliga (LVA) 2026": {
    "lega_pitch": "Virsliga",
    "partite_completate": 0,
@@ -254,5 +261,5 @@
   }
  },
  "senza_lega_pitch": [],
- "partite_completate_in_questo_giro": 0
+ "partite_completate_in_questo_giro": 1
 }
