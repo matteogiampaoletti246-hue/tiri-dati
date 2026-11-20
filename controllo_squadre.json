@@ -6432,7 +6432,7 @@
  "squadre_controllate": 1523,
  "rose": {
   "squadre": 3164,
-  "senza_rosa_prima": 2293,
+  "senza_rosa_prima": 2278,
   "senza_rosa_dopo": 340,
   "senza_rosa": [
    {
@@ -9166,8 +9166,8 @@
  "rose_per_ruolo": {
   "squadre": 3164,
   "prima": 2376,
-  "dopo": 635,
-  "giocate_dopo": 557,
+  "dopo": 632,
+  "giocate_dopo": 554,
   "elenco": [
    {
     "squadra": "1. BFK Frýdlant nad Ostravici",
@@ -10504,19 +10504,6 @@
     "giocatori": 0,
     "competizioni": [
      "Coupe de France 2026-2027"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
-    "squadra": "Costa Rica",
-    "id": "6705",
-    "giocatori": 0,
-    "competizioni": [
-     "Copa America 2024",
-     "World Cup Qualification CONCACAF 2024-2025",
-     "Friendlies 2026"
     ],
     "motivo": [
      "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
@@ -11906,18 +11893,6 @@
     "giocatori": 0,
     "competizioni": [
      "Coupe de France 2026-2027"
-    ],
-    "motivo": [
-     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
-    ]
-   },
-   {
-    "squadra": "Nicaragua",
-    "id": "5807",
-    "giocatori": 0,
-    "competizioni": [
-     "World Cup Qualification CONCACAF 2024-2025",
-     "Friendlies 2026"
     ],
     "motivo": [
      "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
@@ -14071,18 +14046,6 @@
     "giocatori": 2,
     "competizioni": [
      "DFB Pokal 2026-2027"
-    ],
-    "motivo": [
-     "2 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 2"
-    ]
-   },
-   {
-    "squadra": "Honduras",
-    "id": "5808",
-    "giocatori": 2,
-    "competizioni": [
-     "World Cup Qualification CONCACAF 2024-2025",
-     "Friendlies 2026"
     ],
     "motivo": [
      "2 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 2"
