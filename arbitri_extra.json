@@ -954,9 +954,14 @@
 "src": "api-football",
 "at": "2026-11-20T12:56+00:00"
 },
+"6671297": {
+"n": "Jose Alexander Ortiz Novoa",
+"src": "api-football",
+"at": "2026-11-20T21:50+00:00"
+},
 "_err": [
 "2026-11-22: {\"plan\": \"Free plans do not have access to this date, try from 2026-11-19 to 2026-11-21.\"}",
 "2026-11-23: {\"plan\": \"Free plans do not have access to this date, try from 2026-11-19 to 2026-11-21.\"}"
 ],
-"_at": "2026-11-20T12:56+00:00"
+"_at": "2026-11-20T21:50+00:00"
 }
