@@ -1043,6 +1043,52 @@
     }
    }
   },
+  "int-super-lig": {
+   "country": "INT",
+   "handicap": 0.5,
+   "label": "Super Lig (INT)",
+   "league_avg": {
+    "sotAgainst": 4.061,
+    "sotFor": 6.879,
+    "totalAgainst": 11.576,
+    "totalFor": 18.212
+   },
+   "logo": "https://cdn.pitchapi.dev/images/leagues/d5970027bace5c4d9d323de8cb7d4d10359bfeccc0f38cb85c353c3373a79325.webp",
+   "logos": {
+    "Beşiktaş": "https://cdn.pitchapi.dev/images/teams/46c610bfe967813c00a9f4b16d3bacd3936eb0290217e06e054a2e4112a6e720.webp",
+    "Fenerbahçe": "https://cdn.pitchapi.dev/images/teams/c3f91e2fb35d5962a65d5ee8e24dccba47d82e950e152a39e28c1a3e733b8397.webp",
+    "Galatasaray": "https://cdn.pitchapi.dev/images/teams/b2f762b5bacdd581c3d182ca109615814151ee90e37749cb276d5a9bda88b13a.webp"
+   },
+   "matches": 31,
+   "matches_without_stats": 0,
+   "name": "Super Lig",
+   "restricted": true,
+   "season": "2026/2027",
+   "size": 3,
+   "teams": {
+    "Beşiktaş": {
+     "games": 11,
+     "sotAgainst": 3.818,
+     "sotFor": 6.455,
+     "totalAgainst": 9.364,
+     "totalFor": 17.0
+    },
+    "Fenerbahçe": {
+     "games": 11,
+     "sotAgainst": 5.0,
+     "sotFor": 6.636,
+     "totalAgainst": 14.909,
+     "totalFor": 16.273
+    },
+    "Galatasaray": {
+     "games": 11,
+     "sotAgainst": 3.364,
+     "sotFor": 7.545,
+     "totalAgainst": 10.455,
+     "totalFor": 21.364
+    }
+   }
+  },
   "isr-ligat-ha-al": {
    "country": "ISR",
    "handicap": 0.55,
@@ -1949,52 +1995,6 @@
     }
    }
   },
-  "super-lig": {
-   "country": "TUR",
-   "handicap": 0.8,
-   "label": "Super Lig",
-   "league_avg": {
-    "sotAgainst": 4.061,
-    "sotFor": 6.879,
-    "totalAgainst": 11.576,
-    "totalFor": 18.212
-   },
-   "logo": "https://cdn.pitchapi.dev/images/leagues/d5970027bace5c4d9d323de8cb7d4d10359bfeccc0f38cb85c353c3373a79325.webp",
-   "logos": {
-    "Beşiktaş": "https://cdn.pitchapi.dev/images/teams/46c610bfe967813c00a9f4b16d3bacd3936eb0290217e06e054a2e4112a6e720.webp",
-    "Fenerbahçe": "https://cdn.pitchapi.dev/images/teams/c3f91e2fb35d5962a65d5ee8e24dccba47d82e950e152a39e28c1a3e733b8397.webp",
-    "Galatasaray": "https://cdn.pitchapi.dev/images/teams/b2f762b5bacdd581c3d182ca109615814151ee90e37749cb276d5a9bda88b13a.webp"
-   },
-   "matches": 31,
-   "matches_without_stats": 0,
-   "name": "Super Lig",
-   "restricted": true,
-   "season": "2026/2027",
-   "size": 3,
-   "teams": {
-    "Beşiktaş": {
-     "games": 11,
-     "sotAgainst": 3.818,
-     "sotFor": 6.455,
-     "totalAgainst": 9.364,
-     "totalFor": 17.0
-    },
-    "Fenerbahçe": {
-     "games": 11,
-     "sotAgainst": 5.0,
-     "sotFor": 6.636,
-     "totalAgainst": 14.909,
-     "totalFor": 16.273
-    },
-    "Galatasaray": {
-     "games": 11,
-     "sotAgainst": 3.364,
-     "sotFor": 7.545,
-     "totalAgainst": 10.455,
-     "totalFor": 21.364
-    }
-   }
-  },
   "svk-1-liga": {
    "country": "SVK",
    "handicap": 0.5,
@@ -2027,5 +2027,5 @@
   }
  },
  "season_start": "2026",
- "updated_at": "2026-11-21T03:52:41+00:00"
+ "updated_at": "2026-11-21T13:18:04+00:00"
 }
