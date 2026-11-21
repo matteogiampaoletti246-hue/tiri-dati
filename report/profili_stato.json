@@ -1,7 +1,7 @@
 {
- "giocatori": 6210,
- "con_id_fotmob": 6172,
- "senza_id_fotmob": 38,
+ "giocatori": 6216,
+ "con_id_fotmob": 6148,
+ "senza_id_fotmob": 68,
  "squadre_pitchapi": 294,
  "squadre_abbinate": 292,
  "squadre_non_abbinate": [
@@ -19,8 +19,8 @@
    ]
   ]
  ],
- "doppi_uniti": 0,
- "giocatori_con_partite_aggiunte": 186,
+ "doppi_uniti": 20,
+ "giocatori_con_partite_aggiunte": 3156,
  "competizioni_partite_aggiunte": [
   [
    "EFL Cup",
@@ -60,7 +60,7 @@
   ],
   [
    "DFB Pokal",
-   877
+   878
   ],
   [
    "MLS",
@@ -184,7 +184,7 @@
   ],
   [
    "Eliteserien",
-   425
+   424
   ],
   [
    "2. Bundesliga",
@@ -220,7 +220,7 @@
   ],
   [
    "First Division A",
-   362
+   363
   ],
   [
    "First Division B",
@@ -256,7 +256,7 @@
   ],
   [
    "Superligaen",
-   310
+   311
   ],
   [
    "Premiership",
@@ -303,10 +303,6 @@
    238
   ],
   [
-   "Bundesliga",
-   235
-  ],
-  [
    "Swiss Cup",
    230
   ],
@@ -317,6 +313,10 @@
   [
    "A-League",
    222
+  ],
+  [
+   "Bundesliga",
+   205
   ],
   [
    "Croatian Cup",
@@ -363,20 +363,12 @@
    34
   ],
   [
-   "LaLiga",
-   33
-  ],
-  [
    "UEFA Nations League D",
    32
   ],
   [
    "Supercopa do Brasil",
    32
-  ],
-  [
-   "Ligue 1",
-   31
   ],
   [
    "Cupa României",
@@ -387,10 +379,6 @@
    20
   ],
   [
-   "Europa League",
-   15
-  ],
-  [
    "FNL",
    14
   ],
@@ -399,11 +387,15 @@
    11
   ],
   [
-   "Champions League",
-   2
+   "Regular Season",
+   1
   ],
   [
-   "Regular Season",
+   "Ligue 1",
+   1
+  ],
+  [
+   "LaLiga",
    1
   ],
   [
@@ -415,9 +407,9 @@
    1
   ]
  ],
- "hit_rate_con_stagione_passata": 7505,
- "hit_rate_sotto_5": 7605,
- "hit_rate_0_partite": 3176,
+ "hit_rate_con_stagione_passata": 7507,
+ "hit_rate_sotto_5": 7609,
+ "hit_rate_0_partite": 3179,
  "stagione_passata_non_scaricata": [],
  "kv_terze_parti": true,
  "esempi_sotto_5": [
@@ -728,6 +720,10 @@
    "Sabah FK"
   ],
   [
+   "Allen Obando",
+   "Nacional"
+  ],
+  [
    "Amadou Ba-Sy",
    "Heart of Midlothian"
   ],
@@ -736,12 +732,24 @@
    "Kalamata"
   ],
   [
+   "Aviv Salem",
+   "Maccabi Petah Tikva"
+  ],
+  [
+   "Bashar Abdach",
+   "Maccabi Petah Tikva"
+  ],
+  [
    "Beau Reus",
    "Heart of Midlothian"
   ],
   [
    "Calvin Miller",
    "Heart of Midlothian"
+  ],
+  [
+   "Chiheb Labidi",
+   "Nacional"
   ],
   [
    "Christos Sielis",
@@ -756,8 +764,40 @@
    "Amed Sportif"
   ],
   [
+   "Daniel",
+   "Nacional"
+  ],
+  [
+   "Deivison",
+   "Nacional"
+  ],
+  [
    "Djibril Diallo",
    "Parma"
+  ],
+  [
+   "Dor Hevron",
+   "Maccabi Petah Tikva"
+  ],
+  [
+   "Eitan Tibi",
+   "Maccabi Petah Tikva"
+  ],
+  [
+   "Eloge Koffi Yao Guy",
+   "Maccabi Petah Tikva"
+  ],
+  [
+   "Francisco Gonçalves",
+   "Nacional"
+  ],
+  [
+   "Guy Amos Deznet",
+   "Maccabi Petah Tikva"
+  ],
+  [
+   "Guy Hadida",
+   "Maccabi Petah Tikva"
   ],
   [
    "Hamza Mohammed",
@@ -766,6 +806,10 @@
   [
    "Idan Barnes",
    "Hapoel Ramat Gan"
+  ],
+  [
+   "Ido Cohen",
+   "Maccabi Petah Tikva"
   ],
   [
    "Itzik Shoolmayster",
@@ -792,8 +836,16 @@
    "Heart of Midlothian"
   ],
   [
+   "José Ricardo Cortés",
+   "Maccabi Petah Tikva"
+  ],
+  [
    "Juan Miguel Carrión Gallardo",
    "Spartak Trnava"
+  ],
+  [
+   "Kyle Cameron Walter Spence",
+   "Maccabi Petah Tikva"
   ],
   [
    "Laurent Mendy",
@@ -804,12 +856,40 @@
    "Hapoel Jerusalem"
   ],
   [
+   "Lior Kasa",
+   "Maccabi Petah Tikva"
+  ],
+  [
+   "Liran Hazan",
+   "Maccabi Petah Tikva"
+  ],
+  [
+   "Léo Santos",
+   "Nacional"
+  ],
+  [
    "Maksym Khiminets",
    "Podbrezová"
   ],
   [
    "Malachi Fagan-Walcott",
    "Heart of Midlothian"
+  ],
+  [
+   "Markus Gustav Jensen",
+   "Nacional"
+  ],
+  [
+   "Matchoi",
+   "Nacional"
+  ],
+  [
+   "Matheus Dias",
+   "Nacional"
+  ],
+  [
+   "Miguel Baeza",
+   "Nacional"
   ],
   [
    "Nadeem Warasneh",
@@ -828,6 +908,14 @@
    "Heart of Midlothian"
   ],
   [
+   "Pablo Ruan",
+   "Nacional"
+  ],
+  [
+   "Renato Marin",
+   "Nacional"
+  ],
+  [
    "Rogers Mato",
    "Heart of Midlothian"
   ],
@@ -844,8 +932,16 @@
    "Heart of Midlothian"
   ],
   [
+   "Samuel Kwame Owusu",
+   "Maccabi Petah Tikva"
+  ],
+  [
    "Samuel Sul'a",
    "Skalica"
+  ],
+  [
+   "Stavros Gavriel",
+   "Nacional"
   ],
   [
    "Stephen Kingsley",
@@ -868,8 +964,24 @@
    "Hapoel Haifa"
   ],
   [
+   "Wesley",
+   "Nacional"
+  ],
+  [
+   "William Kokolo",
+   "Nacional"
+  ],
+  [
    "Xayal Əliyev",
    "Sabah FK"
+  ],
+  [
+   "Yoav Koren",
+   "Maccabi Petah Tikva"
+  ],
+  [
+   "Zé Vítor",
+   "Nacional"
   ],
   [
    "Łukasz Zjawiński",
@@ -17246,6 +17358,7 @@
     133
    ]
   ],
+  "p_326WSc": [],
   "p_0gAq8e": [
    [
     "2026-11-08",
@@ -32445,6 +32558,28 @@
    ],
    [
     "2026-10-18",
+    59
+   ]
+  ],
+  "p_3xAf2E": [
+   [
+    "2026-08-16",
+    59
+   ],
+   [
+    "2026-08-09",
+    59
+   ],
+   [
+    "2026-08-02",
+    59
+   ],
+   [
+    "2026-07-26",
+    59
+   ],
+   [
+    "2026-07-18",
     59
    ]
   ],
@@ -67568,6 +67703,36 @@
     57
    ]
   ],
+  "p_1AGOyg": [
+   [
+    "2026-10-31",
+    54
+   ],
+   [
+    "2026-10-21",
+    42
+   ],
+   [
+    "2026-10-17",
+    54
+   ],
+   [
+    "2026-10-13",
+    42
+   ],
+   [
+    "2026-10-02",
+    114
+   ],
+   [
+    "2026-09-28",
+    114
+   ],
+   [
+    "2026-09-24",
+    114
+   ]
+  ],
   "p_0iCxw2": [
    [
     "2026-11-05",
@@ -76883,6 +77048,12 @@
    ],
    [
     "2026-09-19",
+    59
+   ]
+  ],
+  "p_4QaeET": [
+   [
+    "2026-11-20",
     59
    ]
   ],
@@ -89836,36 +90007,6 @@
     48
    ]
   ],
-  "p_1AGOyg": [
-   [
-    "2026-10-31",
-    54
-   ],
-   [
-    "2026-10-21",
-    42
-   ],
-   [
-    "2026-10-17",
-    54
-   ],
-   [
-    "2026-10-13",
-    42
-   ],
-   [
-    "2026-10-02",
-    114
-   ],
-   [
-    "2026-09-28",
-    114
-   ],
-   [
-    "2026-09-24",
-    114
-   ]
-  ],
   "p_0iSX80": [
    [
     "2026-11-07",
@@ -96276,6 +96417,7 @@
     53
    ]
   ],
+  "p_0cSWpf": [],
   "p_192pP4": [
    [
     "2026-10-10",
@@ -99601,6 +99743,32 @@
    [
     "2025-11-30",
     57
+   ]
+  ],
+  "p_2F0n0T": [
+   [
+    "2026-09-19",
+    59
+   ],
+   [
+    "2026-09-06",
+    59
+   ],
+   [
+    "2026-08-30",
+    59
+   ],
+   [
+    "2026-08-16",
+    59
+   ],
+   [
+    "2026-08-09",
+    59
+   ],
+   [
+    "2026-07-26",
+    59
    ]
   ],
   "p_1kpfwa": [
@@ -122153,6 +122321,7 @@
     57
    ]
   ],
+  "p_3CdEmA": [],
   "p_2Mascb": [
    [
     "2026-11-08",
@@ -136793,6 +136962,50 @@
     264
    ]
   ],
+  "fm~40~2026-2027~776258": [
+   [
+    "2026-11-20",
+    40
+   ],
+   [
+    "2026-05-23",
+    40
+   ],
+   [
+    "2026-05-19",
+    40
+   ],
+   [
+    "2026-05-16",
+    40
+   ],
+   [
+    "2026-05-10",
+    40
+   ]
+  ],
+  "fm~40~2026-2027~1575238": [
+   [
+    "2026-08-22",
+    8814
+   ],
+   [
+    "2026-08-18",
+    8814
+   ],
+   [
+    "2026-08-14",
+    8814
+   ],
+   [
+    "2026-07-26",
+    8814
+   ],
+   [
+    "2026-07-23",
+    8814
+   ]
+  ],
   "fm~46~2026-2027~47532": [
    [
     "2026-07-24",
@@ -143017,6 +143230,28 @@
    [
     "2025-07-20",
     46
+   ]
+  ],
+  "fm~46~2026-2027~1201769": [
+   [
+    "2026-11-20",
+    46
+   ],
+   [
+    "2026-05-31",
+    85
+   ],
+   [
+    "2026-05-09",
+    85
+   ],
+   [
+    "2026-05-03",
+    85
+   ],
+   [
+    "2026-04-24",
+    85
    ]
   ],
   "fm~135~2026-2027~215645": [
@@ -322633,28 +322868,6 @@
     8814
    ]
   ],
-  "fm~8814~2026~1575238": [
-   [
-    "2026-08-22",
-    8814
-   ],
-   [
-    "2026-08-18",
-    8814
-   ],
-   [
-    "2026-08-14",
-    8814
-   ],
-   [
-    "2026-07-26",
-    8814
-   ],
-   [
-    "2026-07-23",
-    8814
-   ]
-  ],
   "fm~8814~2026~1634625": [],
   "fm~8814~2026~1638937": [
    [
@@ -400113,10 +400326,6 @@
   ],
   "fm~51~2026~1652655": [
    [
-    "2026-11-20",
-    253
-   ],
-   [
     "2026-10-09",
     253
    ],
@@ -400130,6 +400339,10 @@
    ],
    [
     "2026-08-21",
+    253
+   ],
+   [
+    "2026-08-15",
     253
    ]
   ],
@@ -468559,28 +468772,6 @@
     59
    ]
   ],
-  "fm~59~2026~375712": [
-   [
-    "2026-08-16",
-    59
-   ],
-   [
-    "2026-08-09",
-    59
-   ],
-   [
-    "2026-08-02",
-    59
-   ],
-   [
-    "2026-07-26",
-    59
-   ],
-   [
-    "2026-07-18",
-    59
-   ]
-  ],
   "fm~59~2026~375732": [
    [
     "2026-08-02",
@@ -469956,32 +470147,6 @@
    ],
    [
     "2026-04-26",
-    59
-   ]
-  ],
-  "fm~59~2026~1452620": [
-   [
-    "2026-09-19",
-    59
-   ],
-   [
-    "2026-09-06",
-    59
-   ],
-   [
-    "2026-08-30",
-    59
-   ],
-   [
-    "2026-08-16",
-    59
-   ],
-   [
-    "2026-08-09",
-    59
-   ],
-   [
-    "2026-07-26",
     59
    ]
   ],
