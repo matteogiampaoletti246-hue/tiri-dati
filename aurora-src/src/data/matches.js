@@ -72,6 +72,10 @@ const baseMatch = (o) => ({
 
 export function buildMatches() {
   DAY_IDX = null;
+  // ricostruzione (ritorno dal background con dati a meta', 21/11/2026): le partite gia' aperte non perdono cio' che e' arrivato dopo
+  // (formazioni, statistiche, live, eventi); le partite aggiunte al volo (archivio, campionati aggiunti) restano registrate
+  const OLD = { ...MATCH_BY_ID };
+  const OLD_LIST = new Set(MATCHES);
   MATCHES.length = 0;
   Object.keys(MATCH_BY_ID).forEach((k) => delete MATCH_BY_ID[k]);
   const seen = new Set();
@@ -207,6 +211,15 @@ export function buildMatches() {
   }
 
   MATCHES.forEach(finalize);
+  Object.keys(OLD).forEach((id) => {
+    const o = OLD[id], n = MATCH_BY_ID[id];
+    if (!n) { MATCH_BY_ID[id] = o; if (OLD_LIST.has(o)) MATCHES.push(o); return; }
+    if (n === o) return;
+    const RK = { scheduled: 0, live: 1, finished: 2 };
+    const ahead = (RK[o.status] || 0) > (RK[n.status] || 0); // stato piu' avanti nella vecchia (live arrivato dopo l'avvio); mai indietro
+    if (!(o.fm || o.detail || o.lineup || o.archReady || ahead)) return;
+    for (const k of Object.keys(o)) if (o[k] !== undefined && (n[k] === undefined || n[k] === null || (ahead && (k === 'status' || k === 'score' || k === 'minute' || /^live|^lineup|^stats|^events/.test(k))))) n[k] = o[k];
+  });
   MATCHES.sort((a, b) => a.ts - b.ts);
   MATCHES.forEach((m) => {
     m.offset = Math.round((midday(m.date).getTime() - TODAY.getTime()) / DAY_MS);

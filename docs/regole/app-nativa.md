@@ -312,3 +312,6 @@ Come nel sito: il filtro delle linee (`Segmented fit pad={10}`) prende lo spazio
 ## Dati condivisi completi (17/11/2026, regola fissa)
 - Affidabilita' sparite da tutte le partite (formazioni e scheda Affidabilita'): i dati e il calcolo erano giusti (verificato in node con i file veri: 18 giocatori su 22 con voto in Bosnia-Romania). L'unico modo per perderle tutte e' un file essenziale (giocatori, calc_extra, calc_tutte, data, teams, squadre, partite) non arrivato all'avvio: `loadRaw` lo lasciava null e l'app restava a meta' fino alla chiusura.
 - Ora: i file essenziali si riprovano fino a 4 volte (`getRetry`, `ESSENTIAL` in `data/load.js`); se ne manca ancora uno (`rawMissing()`), `bootShared` ricarica e ricostruisce tutto al prossimo uso (dopo 20 s) e al ritorno nell'app dal background.
+
+## Ritorno dal background: le partite aperte non si svuotano (21/11/2026)
+- Al ritorno nell'app `bootShared` puo' ricostruire i dati (file arrivato a meta'). `buildMatches` tiene cio' che le partite gia' aperte avevano ricevuto dopo l'avvio (formazioni, statistiche, live, eventi, stato piu' avanti) e lascia registrate le partite aggiunte al volo (archivio, campionati aggiunti). Mai uno stato che torna indietro (live -> in programma).
