@@ -1,9 +1,84 @@
 {
  "competizioni": {
+  "Eerste Divisie 2026-2027": {
+   "con_statistiche": 9,
+   "senza": 0,
+   "da_fare": 9
+  },
+  "LaLiga2 2026-2027": {
+   "con_statistiche": 1,
+   "senza": 0,
+   "da_fare": 1
+  },
+  "Serie B 2026-2027": {
+   "con_statistiche": 1,
+   "senza": 0,
+   "da_fare": 1
+  },
+  "Ligue 2 2026-2027": {
+   "con_statistiche": 5,
+   "senza": 0,
+   "da_fare": 5
+  },
+  "1. Division 2026-2027": {
+   "con_statistiche": 0,
+   "senza": 2,
+   "da_fare": 2
+  },
+  "Saudi Pro League 2026-2027": {
+   "con_statistiche": 1,
+   "senza": 0,
+   "da_fare": 1
+  },
+  "2. Bundesliga 2026-2027": {
+   "con_statistiche": 2,
+   "senza": 0,
+   "da_fare": 2
+  },
+  "League One 2026-2027": {
+   "con_statistiche": 1,
+   "senza": 0,
+   "da_fare": 1
+  },
+  "LaLiga 2026-2027": {
+   "con_statistiche": 1,
+   "senza": 0,
+   "da_fare": 1
+  },
+  "Bundesliga 2026-2027": {
+   "con_statistiche": 1,
+   "senza": 0,
+   "da_fare": 1
+  },
+  "Ligue 1 2026-2027": {
+   "con_statistiche": 1,
+   "senza": 0,
+   "da_fare": 1
+  },
+  "Eliteserien 2026": {
+   "con_statistiche": 1,
+   "senza": 0,
+   "da_fare": 1
+  },
+  "First Division A 2026-2027": {
+   "con_statistiche": 1,
+   "senza": 0,
+   "da_fare": 1
+  },
   "Copa del Rey 2026-2027": {
    "con_statistiche": 0,
    "senza": 6,
    "da_fare": 6
+  },
+  "Championship 2026-2027": {
+   "con_statistiche": 0,
+   "senza": 1,
+   "da_fare": 1
+  },
+  "Serie A 2026": {
+   "con_statistiche": 1,
+   "senza": 0,
+   "da_fare": 1
   }
  }
 }
