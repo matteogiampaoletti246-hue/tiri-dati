@@ -1,45 +1,4 @@
 {
- "competizioni": {
-  "First Division A 2026-2027": {
-   "con_statistiche": 1,
-   "con_mappa_tiri": 1,
-   "da_fare": 1
-  },
-  "Superligaen 2026-2027": {
-   "con_statistiche": 1,
-   "con_mappa_tiri": 1,
-   "da_fare": 1
-  },
-  "1. Division 2026-2027": {
-   "con_statistiche": 2,
-   "con_mappa_tiri": 2,
-   "da_fare": 2
-  },
-  "Challenge League 2026-2027": {
-   "con_statistiche": 5,
-   "con_mappa_tiri": 5,
-   "da_fare": 5
-  },
-  "Ekstraklasa 2026-2027": {
-   "con_statistiche": 2,
-   "con_mappa_tiri": 2,
-   "da_fare": 2
-  },
-  "3. Liga 2026-2027": {
-   "con_statistiche": 1,
-   "con_mappa_tiri": 0,
-   "da_fare": 1
-  },
-  "Serie A 2026": {
-   "con_statistiche": 1,
-   "con_mappa_tiri": 1,
-   "da_fare": 1
-  },
-  "Liga de Primera 2026": {
-   "con_statistiche": 1,
-   "con_mappa_tiri": 1,
-   "da_fare": 1
-  }
- },
- "partite_in_questo_giro": 14
+ "competizioni": {},
+ "partite_in_questo_giro": 0
 }
