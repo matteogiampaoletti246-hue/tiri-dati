@@ -1,5 +1,5 @@
 // Testata della partita (nativa): campionato, due squadre, risultato / orario / conto alla rovescia, marcatori. Stessi dati del sito.
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -72,11 +72,21 @@ function Scorers({ C, events, side, align }) {
 function LiveClock({ C, match, minute }) {
   const [, tick] = useState(0);
   const c = match.liveClock;
+  const run = !!(c && !c.ht && c.s != null);
+  const cRef = useRef(c); cRef.current = c;
+  // un tick esattamente al cambio di secondo del cronometro (mai due secondi insieme o uno saltato) e un solo timer
+  // che non riparte a ogni aggiornamento dei dati (21/11/2026: con gli aggiornamenti ogni secondo il timer andava a scatti)
   useEffect(() => {
-    if (!c || c.ht) return undefined;
-    const t = setInterval(() => tick((n) => n + 1), 1000);
-    return () => clearInterval(t);
-  }, [c]);
+    if (!run) return undefined;
+    let t = null;
+    const next = () => {
+      const k = cRef.current;
+      const ms = k && k.s != null ? (k.s * 1000 + Date.now() - k.at) % 1000 : 0;
+      t = setTimeout(() => { tick((n) => n + 1); next(); }, 1000 - ms + 20);
+    };
+    next();
+    return () => clearTimeout(t);
+  }, [run]);
   const v = clockView(c);
   if (!v) return <Text style={{ color: C.live, fontSize: 11.5, fontWeight: '700' }}>{/^\d/.test(String(minute)) ? `${minute}'` : 'LIVE'}</Text>;
   return (

@@ -231,7 +231,18 @@ export function applyFm(m, d, playerLookup) {
       if (Number.isFinite(mm)) m.liveMinute = mm;
       m.liveHalf = !!d.ht;
       // cronometro con i secondi + recupero annunciato (data/liveClock.js)
-      m.liveClock = d.lc ? { s: d.lc.s, mx: d.lc.mx, ad: d.lc.ad || 0, ht: !!d.lc.ht, src: d.lc.src, at: Date.now() } : m.liveClock;
+      // cronometro fluido (21/11/2026, aggiornamenti ogni secondo): le fonti arrivano con qualche secondo di ritardo diverso a ogni risposta;
+      // se il nuovo valore e' entro 5 s da quello che sta scorrendo si continua senza salti (si riaggancia all'istante attuale), altrimenti si corregge
+      if (d.lc) {
+        const now = Date.now();
+        const nc = { s: d.lc.s, mx: d.lc.mx, ad: d.lc.ad || 0, ht: !!d.lc.ht, src: d.lc.src, at: now };
+        const pc = m.liveClock;
+        if (pc && !pc.ht && !nc.ht && pc.s != null && nc.s != null && pc.mx === nc.mx && now - pc.at < 120000) {
+          const cur = pc.s + (now - pc.at) / 1000;
+          if (Math.abs(nc.s - cur) < 5) { nc.s = cur; }
+        }
+        m.liveClock = nc;
+      }
       m.status = 'live';
     } else if (d.fin) {
       m.score = [Number(d.sc[0]), Number(d.sc[1])];

@@ -86,3 +86,4 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 ## Statistiche live ogni secondo con la partita aperta (21/11/2026)
 - App nativa: con la partita live aperta, ogni secondo si richiede solo il dettaglio (`loadFm` -> `/fx`), non la preparazione completa; una richiesta alla volta, sbloccata dopo 6 s se resta appesa. Il giro da 3 s (formazioni prima del fischio) non si blocca mai: dopo 12 s riparte comunque.
 - Worker: `/fx` live risponde `no-store` (il telefono non la tiene) e tiene il risultato 1 secondo in `FXLIVE` (al massimo 100 partite), cosi' tante richieste insieme fanno un solo calcolo.
+- Cronometro fluido: un nuovo valore entro 5 s da quello che scorre non lo sposta (si riaggancia all'istante attuale, `applyFm`); oltre 5 s si corregge. In `PartitaHero` un solo timer, allineato al cambio di secondo, che non riparte a ogni aggiornamento dei dati.
