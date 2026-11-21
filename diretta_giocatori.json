@@ -1,7 +1,148 @@
 {
- "competizioni": {},
- "partite_completate": 0,
- "giocatori": 0,
- "senza_abbinamento": 0,
- "senza_formazioni_diretta": 0
+ "competizioni": {
+  "Premier League 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Premier League 2026": {
+   "partite_completate": 3,
+   "giocatori": 66,
+   "da_fare": 3
+  },
+  "First Professional League 2026-2027": {
+   "partite_completate": 1,
+   "giocatori": 29,
+   "da_fare": 1
+  },
+  "Serie A 2026-2027": {
+   "partite_completate": 2,
+   "giocatori": 63,
+   "da_fare": 2
+  },
+  "Serie B 2026-2027": {
+   "partite_completate": 5,
+   "giocatori": 156,
+   "da_fare": 5
+  },
+  "Championship 2026-2027": {
+   "partite_completate": 2,
+   "giocatori": 58,
+   "da_fare": 3
+  },
+  "LaLiga 2026-2027": {
+   "partite_completate": 1,
+   "giocatori": 30,
+   "da_fare": 1
+  },
+  "Primera Federación 2026-2027": {
+   "partite_completate": 1,
+   "giocatori": 22,
+   "da_fare": 1
+  },
+  "Bundesliga 2026-2027": {
+   "partite_completate": 5,
+   "giocatori": 153,
+   "da_fare": 5
+  },
+  "3. Liga 2026-2027": {
+   "partite_completate": 5,
+   "giocatori": 152,
+   "da_fare": 6
+  },
+  "Taça de Portugal 2026-2027": {
+   "partite_completate": 1,
+   "giocatori": 24,
+   "da_fare": 3
+  },
+  "Eerste Divisie 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Süper Lig 2026-2027": {
+   "partite_completate": 3,
+   "giocatori": 84,
+   "da_fare": 3
+  },
+  "1. Division 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Allsvenskan 2026": {
+   "partite_completate": 1,
+   "giocatori": 26,
+   "da_fare": 2
+  },
+  "Eliteserien 2026": {
+   "partite_completate": 1,
+   "giocatori": 22,
+   "da_fare": 1
+  },
+  "1. Liga 2026-2027": {
+   "partite_completate": 4,
+   "giocatori": 122,
+   "da_fare": 4
+  },
+  "FNL 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 2
+  },
+  "HNL 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Erovnuli Liga 2026": {
+   "partite_completate": 1,
+   "giocatori": 24,
+   "da_fare": 1
+  },
+  "Nemzeti Bajnokság I 2026-2027": {
+   "partite_completate": 2,
+   "giocatori": 55,
+   "da_fare": 2
+  },
+  "Prva Liga 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "National Division 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 2
+  },
+  "1. CFL 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 2
+  },
+  "Premiership 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 4
+  },
+  "1. liga 2026-2027": {
+   "partite_completate": 3,
+   "giocatori": 89,
+   "da_fare": 3
+  },
+  "Slovenia Cup 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "K League 1 2026": {
+   "partite_completate": 2,
+   "giocatori": 55,
+   "da_fare": 2
+  }
+ },
+ "partite_completate": 50,
+ "giocatori": 1424,
+ "senza_abbinamento": 12,
+ "senza_formazioni_diretta": 20
 }
