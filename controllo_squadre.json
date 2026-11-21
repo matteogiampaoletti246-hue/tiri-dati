@@ -6433,7 +6433,7 @@
  "rose": {
   "squadre": 3170,
   "senza_rosa_prima": 2284,
-  "senza_rosa_dopo": 346,
+  "senza_rosa_dopo": 345,
   "senza_rosa": [
    {
     "squadra": "1A",
@@ -8230,7 +8230,7 @@
     "competizioni": [
      "Slovenia Cup 2026-2027"
     ],
-    "motivo": "nessuna partita giocata nella stagione in corso"
+    "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
     "squadra": "NK Zadar",
@@ -8239,14 +8239,6 @@
      "Croatian Cup 2026-2027"
     ],
     "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
-   },
-   {
-    "squadra": "NK Šencur",
-    "id": "187965",
-    "competizioni": [
-     "Slovenia Cup 2026-2027"
-    ],
-    "motivo": "nessuna partita giocata nella stagione in corso"
    },
    {
     "squadra": "Netherlands/Portugal",
@@ -9215,9 +9207,9 @@
  },
  "rose_per_ruolo": {
   "squadre": 3170,
-  "prima": 2382,
+  "prima": 2384,
   "dopo": 638,
-  "giocate_dopo": 554,
+  "giocate_dopo": 556,
   "elenco": [
    {
     "squadra": "1. BFK Frýdlant nad Ostravici",
@@ -11945,7 +11937,7 @@
      "Slovenia Cup 2026-2027"
     ],
     "motivo": [
-     "0 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
     ]
    },
    {
@@ -11967,7 +11959,7 @@
      "Slovenia Cup 2026-2027"
     ],
     "motivo": [
-     "0 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
     ]
    },
    {
@@ -17486,7 +17478,7 @@
  },
  "forma": {
   "squadre_senza_forma_prima": 1973,
-  "squadre_senza_forma_dopo": 102,
+  "squadre_senza_forma_dopo": 100,
   "motivo_dopo": "nessuna partita giocata nella stagione in corso: niente riquadro"
  }
 }
