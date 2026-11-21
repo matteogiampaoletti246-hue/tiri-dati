@@ -217,7 +217,7 @@ export function applyFm(m, d, playerLookup) {
     const team = e.h ? 'home' : 'away';
     const minute = e.a ? `${e.t}+${e.a}` : e.t;
     if (e.ty === 'Goal') events.push({ minute, type: 'goal', team, name: e.n, assist: e.as, pen: !!e.pen, og: !!e.og, score: e.sc ? [e.sc[0], e.sc[1]] : null });
-    else if (e.ty === 'Card') events.push({ minute, type: /red/i.test(e.cd || '') ? 'red' : 'yellow', team, name: e.n, second: /yellowred|second/i.test(e.cd || '') });
+    else if (e.ty === 'Card') events.push({ minute, type: /red/i.test(e.cd || '') ? 'red' : 'yellow', team, name: cardName(e), staff: e.co || 0, second: /yellowred|second/i.test(e.cd || '') });
     else if (e.ty === 'MissedPenalty') events.push({ minute, type: 'misspen', team, name: e.n });
     else if (e.ty === 'Substitution') events.push({ minute, type: 'sub', team, name: e.o, inName: e.n });
   });
@@ -282,7 +282,7 @@ export function applyFm(m, d, playerLookup) {
     const evRows = [];
     (d.ev || []).forEach((e) => {
       const side = e.h ? 'h' : 'a';
-      if (e.ty === 'Card') evRows.push([/red/i.test(e.cd || '') ? 'redcard' : 'yellowcard', e.t, 0, '', side, e.n]);
+      if (e.ty === 'Card' && !e.co) evRows.push([/red/i.test(e.cd || '') ? 'redcard' : 'yellowcard', e.t, 0, '', side, e.n]); // allenatori e staff: mai nei numeri dei giocatori
       if (e.ty === 'Substitution') evRows.push(['substitution', e.t, 0, '', side, e.o, 0, 0, 0, 0, e.n]);
     });
     const goalsBy = {};
@@ -363,6 +363,9 @@ export function applyLiveCore(m, d) {
   } else if (d.fin) { m.score = sc; m.status = 'finished'; m.liveScore = null; m.liveHalf = false; m.liveClock = null; }
   m.liveAt = Date.now();
 }
+
+// cartellino ad allenatore o staff (worker: co 1/2): segnato come tale nel riassunto, mai confuso con un giocatore (21/11/2026)
+const cardName = (e) => (e.n ? (e.co === 1 ? `${e.n} (all.)` : e.co === 2 ? `${e.n} (staff)` : e.n) : e.n);
 
 export async function loadFm(m, playerLookup, force = false) {
   if (!m || m.placeholder && !m.date) return m;

@@ -855,6 +855,20 @@ export default {
         { const ko0 = Date.parse(g2.matchTimeUTCDate || (stt && stt.utcTime) || ""); if (!out.st && ko0 && ko0 - Date.now() > 75 * 60000 && /^(standard|official|confirm)/i.test(String(out.ty || ""))) { out.ty = "predicted"; out.tyEarly = 1; } }
         // cartellini rossi per squadra (Home, concept A 17/11/2026): rosso diretto e doppio giallo, dagli eventi gia' uniti (FotMob, LiveScore, diretta.it)
         { const rr = [0, 0]; (out.ev || []).forEach((e) => { if (e.ty === "Card" && (e.cd === "Red" || e.cd === "YellowRed")) rr[e.h ? 0 : 1] += 1; }); if (rr[0] || rr[1]) out.rc = rr; }
+        // cartellini (21/11/2026): stesso cartellino da due fonti con 2-3 minuti di differenza = uno solo; allenatore o staff segnati come tali (co: 1 allenatore, 2 staff)
+        if (Array.isArray(out.ev) && out.ev.length) {
+          const cards = out.ev.filter((e) => e.ty === "Card");
+          const drop = new Set();
+          cards.forEach((e) => { if (e.id || drop.has(e)) return; const twin = cards.find((x) => x !== e && !drop.has(x) && !!x.h === !!e.h && x.cd === e.cd && Math.abs(x.t - e.t) <= 3 && x.n && e.n && samePerson(x.n, e.n)); if (twin) drop.add(e); });
+          if (drop.size) out.ev = out.ev.filter((e) => !drop.has(e));
+          const inTeam = (t, n) => !!t && [...(t.s || []), ...(t.b || [])].some((p) => p && p[0] && samePerson(p[0], n));
+          out.ev.forEach((e) => {
+            if (e.ty !== "Card" || !e.n) return;
+            const t = e.h ? out.h : out.a;
+            if (t && t.co && t.co.n && ((t.co.id && e.id && String(t.co.id) === String(e.id)) || samePerson(t.co.n, e.n))) e.co = 1;
+            else if (t && (t.s || []).length >= 11 && (t.b || []).length >= 5 && !inTeam(out.h, e.n) && !inTeam(out.a, e.n)) e.co = 2;
+          });
+        }
         const body = JSON.stringify(out);
         const ko = Date.parse(g2.matchTimeUTCDate || stt.utcTime || "");
         if (!out.st && !out.fin && !g2.started && ko && ko - Date.now() > 86 * 60000 && out.h && out.a) {
