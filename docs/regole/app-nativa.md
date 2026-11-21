@@ -315,3 +315,4 @@ Come nel sito: il filtro delle linee (`Segmented fit pad={10}`) prende lo spazio
 
 ## Ritorno dal background: le partite aperte non si svuotano (21/11/2026)
 - Al ritorno nell'app `bootShared` puo' ricostruire i dati (file arrivato a meta'). `buildMatches` tiene cio' che le partite gia' aperte avevano ricevuto dopo l'avvio (formazioni, statistiche, live, eventi, stato piu' avanti) e lascia registrate le partite aggiunte al volo (archivio, campionati aggiunti). Mai uno stato che torna indietro (live -> in programma).
+- Pagina partita (nativa): se la partita risulta svuotata (non in programma e senza `fm`, dettaglio o formazioni) si riprepara subito, al massimo 5 giri.

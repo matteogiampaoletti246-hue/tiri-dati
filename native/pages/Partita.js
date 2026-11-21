@@ -111,12 +111,17 @@ export default function Partita({ C, top, onBack, bottom = 90, openRoute, params
     // live: ogni 3 s (anche prima del fischio dentro la finestra formazioni di 1h26, finche' non sono ufficiali; fuori finestra ogni 2 ore, `lineupWindow.js`); al ritorno dal background un giro parte subito
     let n = 0;
     let busy = false;
+    let thinTries = 0;
     const run = (force) => {
       if (AppState.currentState !== 'active' || justResumed() || busy) return;
       n += 1;
-      const beat = lineupBeat(matchById(id));
+      const mm = matchById(id);
+      const beat = lineupBeat(mm);
       const every = beat <= 1 ? 1 : Math.round((beat * 5) / 3);
-      if (beat && (force || n % every === 0)) { busy = true; prepareMatch(id, true).then(() => on && bump((x) => x + 1)).catch(() => {}).finally(() => { busy = false; }); }
+      // partita svuotata (dati ricostruiti al ritorno dal background, 21/11/2026): si riprepara subito, anche se finita o senza battito
+      const thin = (!mm || (mm.status !== 'scheduled' && !mm.fm && !mm.detail && !mm.lineup)) && thinTries < 5; // al massimo 5 giri (partite senza dati: niente richieste infinite)
+      if (thin) thinTries += 1;
+      if (thin || (beat && (force || n % every === 0))) { busy = true; prepareMatch(id, true).then(() => on && bump((x) => x + 1)).catch(() => {}).finally(() => { busy = false; }); }
     };
     const t = setInterval(() => run(false), 3000);
     const sub = { remove: onResumeCalm(() => run(true)) };
