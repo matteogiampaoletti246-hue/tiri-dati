@@ -1,23 +1,7 @@
 {
- "competizioni": {
-  "Primera A 2026 - Clausura": {
-   "partite_completate": 1,
-   "giocatori": 28,
-   "da_fare": 1
-  },
-  "Primera Division 2026-2027": {
-   "partite_completate": 1,
-   "giocatori": 24,
-   "da_fare": 1
-  },
-  "K League 1 2026": {
-   "partite_completate": 2,
-   "giocatori": 53,
-   "da_fare": 2
-  }
- },
- "partite_completate": 4,
- "giocatori": 105,
+ "competizioni": {},
+ "partite_completate": 0,
+ "giocatori": 0,
  "senza_abbinamento": 0,
  "senza_formazioni_diretta": 0
 }
