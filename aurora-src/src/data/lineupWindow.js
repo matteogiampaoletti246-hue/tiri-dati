@@ -5,7 +5,10 @@ const MIN = 60000;
 const WINDOW = 86 * MIN; // 1h26, uguale per tutti i campionati e le coppe
 
 export const lineupWindowMs = () => WINDOW;
-export const lineupIsOfficial = (m) => /^(standard|official|confirm)/i.test((m && m.lineupType) || '');
+// REGOLA FISSA (utente 21/11/2026): "Formazione ufficiale" solo da 1h15 prima del fischio; prima vale sempre come probabile, qualunque fonte la dica ufficiale
+export const OFFICIAL_FROM = 75 * MIN;
+export const officialAllowed = (m, now = Date.now()) => !m || m.status !== 'scheduled' || !m.ts || m.ts - now <= OFFICIAL_FROM;
+export const lineupIsOfficial = (m) => /^(standard|official|confirm)/i.test((m && m.lineupType) || '') && officialAllowed(m);
 
 // ogni quanti battiti da 5 secondi richiamare la partita (1 = ogni 5 s); 0 = non serve
 export function lineupBeat(m, now = Date.now()) {

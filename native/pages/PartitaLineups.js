@@ -1,3 +1,4 @@
+import { officialAllowed } from '@/data/lineupWindow';
 // Formazioni della partita (nativo): campo con le due squadre, voti (giocata) o affidabilita' (non iniziata), allenatore, panchina,
 // infortunati; formazione a soli nomi quando la fonte non da' il campo. Stessi dati del sito.
 import { FlagN } from '../shared/FlagN';
@@ -433,7 +434,7 @@ export default function Formazioni({ C, match, view, home, away, pre, openRoute 
     return p.rating;
   };
   const onStat = (k) => { setStat(k); setLine((l) => (LINES[k].includes(l) ? l : 2.5)); };
-  const official = (okH || okA) && (lh || la).confirmed !== false && view.lineupType !== undefined && /^(standard|official|confirm)/i.test(String(view.lineupType || ''));
+  const official = (okH || okA) && (lh || la).confirmed !== false && view.lineupType !== undefined && /^(standard|official|confirm)/i.test(String(view.lineupType || '')) && officialAllowed({ status: pre ? 'scheduled' : 'live', ts: (view && view.ts) || (match && match.ts) }); // ufficiale solo da 1h15 prima (regola fissa)
   let mvpId = null;
   if (!pre) {
     let best = 0;

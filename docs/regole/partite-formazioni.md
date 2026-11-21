@@ -142,3 +142,7 @@ Il riquadro "Infortunati" (nativo `PartitaLineups.js`, sito `MatchLineupsPanel.j
 
 ## Mappa tiri del giocatore (scheda live/finita): campo che si allarga (17/11/2026, regola fissa)
 - Di base la mappa del giocatore va dalla tre quarti alla porta (viewBox 64-106). Se un tiro (o il punto del muro) e' piu' lontano di x=68, SOLO per quel giocatore il campo si allarga fino a contenerlo (5 m di margine), anche oltre meta' campo, con linea, cerchio di centrocampo e lunetta dell'area. Prima i tiri lontani venivano schiacciati sul bordo (`ShotExplorer` in `native/shared/PlayerSheet.js`).
+
+## Formazione ufficiale solo da 1h15 prima del fischio (21/11/2026, regola fissa dell'utente, non deve piu' cambiare)
+- Prima di 1h15 dal fischio la formazione e' SEMPRE "probabile", qualunque fonte la segni ufficiale (LiveScore la dava "standard" 4 ore e mezza prima di Bournemouth-Forest). Da 1h15 in poi diventa ufficiale appena una fonte la pubblica.
+- Doppio controllo: worker `/fx` (prima del ritorno: `ty` ufficiale -> `predicted`, `tyEarly: 1`) e app (`officialAllowed` / `OFFICIAL_FROM` in `data/lineupWindow.js`, usato da `lineupIsOfficial`, `PartitaLineups.js` e `MatchLineupsPanel.jsx`). Chi tocca le fonti delle formazioni non deve togliere nessuno dei due.

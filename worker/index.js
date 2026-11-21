@@ -833,6 +833,9 @@ export default {
           if (cs != null || out.ht) out.lc = { s: cs, mx: pEnd, ad: aev ? Number(aev.minutesAddedInput) || 0 : 0, ht: out.ht ? 1 : 0, src };
         }
         if (out.h || out.a) [out.h, out.a] = await Promise.all([out.h ? linkMissing(out.h, out.hi) : out.h, out.a ? linkMissing(out.a, out.ai) : out.a]);
+        // REGOLA FISSA (utente 21/11/2026): "Formazione ufficiale" solo da 1h15 prima del fischio in poi. Prima di allora qualunque fonte
+        // (LiveScore marcava "standard" la formazione 4 ore e mezza prima di Bournemouth-Forest) vale come probabile.
+        { const ko0 = Date.parse(g2.matchTimeUTCDate || (stt && stt.utcTime) || ""); if (!out.st && ko0 && ko0 - Date.now() > 75 * 60000 && /^(standard|official|confirm)/i.test(String(out.ty || ""))) { out.ty = "predicted"; out.tyEarly = 1; } }
         // cartellini rossi per squadra (Home, concept A 17/11/2026): rosso diretto e doppio giallo, dagli eventi gia' uniti (FotMob, LiveScore, diretta.it)
         { const rr = [0, 0]; (out.ev || []).forEach((e) => { if (e.ty === "Card" && (e.cd === "Red" || e.cd === "YellowRed")) rr[e.h ? 0 : 1] += 1; }); if (rr[0] || rr[1]) out.rc = rr; }
         const body = JSON.stringify(out);

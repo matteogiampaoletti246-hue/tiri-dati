@@ -1,3 +1,4 @@
+import { officialAllowed } from '@/data/lineupWindow';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import PlayerPhoto from '@/components/PlayerPhoto';
 import Crest from '@/components/Crest';
@@ -399,7 +400,7 @@ export default function MatchLineupsPanel({ match, view, home, away, pre }) {
   };
   const onStat = (k) => { setStat(k); setLine((l) => (LINES[k].includes(l) ? l : 2.5)); };
   // ufficiale solo se FotMob la dà come tale ("standard"); "lastStarting11" e' l'ultima formazione schierata = probabile
-  const official = (okH || okA) && (lh || la).confirmed !== false && view.lineupType !== undefined && /^(standard|official|confirm)/i.test(String(view.lineupType || ''));
+  const official = (okH || okA) && (lh || la).confirmed !== false && view.lineupType !== undefined && /^(standard|official|confirm)/i.test(String(view.lineupType || '')) && officialAllowed({ status: pre ? 'scheduled' : 'live', ts: (view && view.ts) || (match && match.ts) }); // ufficiale solo da 1h15 prima (regola fissa)
   // migliore in campo (stella): voto piu' alto tra tutti, solo a partita giocata
   let mvpId = null;
   if (!pre) {
