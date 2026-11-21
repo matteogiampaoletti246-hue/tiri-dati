@@ -239,11 +239,13 @@ export function applyFm(m, d, playerLookup) {
         const pc = m.liveClock;
         if (pc && !pc.ht && !nc.ht && pc.s != null && nc.s != null && pc.mx === nc.mx && now - pc.at < 120000) {
           const cur = pc.s + (now - pc.at) / 1000;
-          if (Math.abs(nc.s - cur) < 5) { nc.s = cur; }
+          const diff = nc.s - cur;
+          if (diff > -10 && diff < 5) { nc.s = cur; } // fonti in ritardo fino a 10 s: mai indietro; avanti oltre 5 s: si corregge
         }
         m.liveClock = nc;
       }
       m.status = 'live';
+      m.liveAt = Date.now();
     } else if (d.fin) {
       m.score = [Number(d.sc[0]), Number(d.sc[1])];
       m.status = 'finished';
@@ -347,6 +349,21 @@ export function applyFm(m, d, playerLookup) {
   return m;
 }
 
+const FX_ERR = []; // ultimi errori di applyFm (al massimo 5), per capire cosa non va senza fermare la pagina
+const liveErr = (e) => { FX_ERR.push(String((e && e.message) || e).slice(0, 200)); while (FX_ERR.length > 5) FX_ERR.shift(); };
+export const fxErrors = () => FX_ERR.slice();
+// solo risultato, minuto, intervallo e stato live/finita: la parte che deve arrivare sempre
+export function applyLiveCore(m, d) {
+  if (!m || !d || !d.sc || d.sc[0] == null) return;
+  const sc = [Number(d.sc[0]), Number(d.sc[1])];
+  if (d.st && !d.fin) {
+    m.liveScore = sc; m.status = 'live'; m.liveHalf = !!d.ht;
+    const mm = parseInt(String(d.clk), 10); if (Number.isFinite(mm)) m.liveMinute = mm;
+    if (d.ht && m.liveClock) m.liveClock = { ...m.liveClock, ht: true };
+  } else if (d.fin) { m.score = sc; m.status = 'finished'; m.liveScore = null; m.liveHalf = false; m.liveClock = null; }
+  m.liveAt = Date.now();
+}
+
 export async function loadFm(m, playerLookup, force = false) {
   if (!m || m.placeholder && !m.date) return m;
   if (m.status === 'scheduled' && m.ts - Date.now() > 7 * 86400000) return m; // formazioni da 7 giorni prima (prima 96 ore: le partite del venerdi' restavano senza)
@@ -372,7 +389,11 @@ export async function loadFm(m, playerLookup, force = false) {
       fxCache[id] = { at: Date.now(), d };
       fxKeep(id);
     }
-    applyFm(m, d, playerLookup);
+    try { applyFm(m, d, playerLookup); } catch (e) {
+      // una parte dei dati con un formato inatteso non deve fermare risultato, minuto e stato (21/11/2026: partita aperta ferma all'intervallo)
+      liveErr(e);
+      applyLiveCore(m, d);
+    }
   } catch {
     /* dettaglio non raggiungibile: si resta con i dati già presenti */
   }

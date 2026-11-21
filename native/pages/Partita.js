@@ -15,7 +15,8 @@ import { TintProvider } from '../shared/ui';
 import { PANELS, hasPanel } from './PartitaPanels';
 import { matchById, viewMatch } from '@/data/matches';
 import { prepareMatch, prepareMatchCore, isReady } from '@/data/prepare';
-import { loadFm } from '@/data/fotmob';
+import { loadFm, applyLiveCore } from '@/data/fotmob';
+import { WORKER } from '@/data/load';
 import { playerLookup } from '@/data/players';
 import { parseArchiveId, buildArchiveShell } from '@/data/archiveMatch';
 import { peekFeedRow } from '@/data/feedRows';
@@ -115,7 +116,7 @@ export default function Partita({ C, top, onBack, bottom = 90, openRoute, params
     let busy = false;
     let thinTries = 0;
     const run = (force) => {
-      if (AppState.currentState !== 'active' || justResumed() || busy) return;
+      if (AppState.currentState === 'background' || justResumed() || busy) return;
       n += 1;
       const mm = matchById(id);
       const beat = lineupBeat(mm);
@@ -134,13 +135,34 @@ export default function Partita({ C, top, onBack, bottom = 90, openRoute, params
     // LIVE: statistiche, eventi e risultato ogni secondo con la pagina aperta (21/11/2026: i corner restavano fermi finche' non si riapriva l'app).
     // Solo il dettaglio della partita (/fx), non la preparazione completa; una richiesta alla volta, sbloccata dopo 6 s se resta appesa.
     let liveBusy = false;
+    let dayBusy = false;
+    let k1 = 0;
     const tl = setInterval(() => {
-      if (!on || liveBusy || AppState.currentState !== 'active') return;
+      if (!on || AppState.currentState === 'background') return;
       const mm = matchById(id);
       if (!mm || mm.status !== 'live') return;
-      liveBusy = true;
-      const rel = setTimeout(() => { liveBusy = false; }, 6000);
-      loadFm(mm, playerLookup, true).then(() => on && bump((x) => x + 1)).catch(() => {}).finally(() => { clearTimeout(rel); liveBusy = false; });
+      k1 += 1;
+      if (!liveBusy) {
+        liveBusy = true;
+        const rel = setTimeout(() => { liveBusy = false; }, 6000);
+        loadFm(mm, playerLookup, true).then(() => on && bump((x) => x + 1)).catch(() => {}).finally(() => { clearTimeout(rel); liveBusy = false; });
+      }
+      // riserva: la stessa fonte della Home (/f del giorno) ogni 3 s; se il dettaglio non arriva da piu' di 4 s, risultato, minuto e stato
+      // vengono da qui, cosi' la partita aperta non resta mai indietro rispetto alla Home (21/11/2026)
+      if (k1 % 3 === 0 && !dayBusy && mm.fmId && mm.date) {
+        dayBusy = true;
+        const rel2 = setTimeout(() => { dayBusy = false; }, 6000);
+        fetch(`${WORKER}/f?date=${String(mm.date).replace(/-/g, '')}&t=${Date.now()}`).then((r) => (r.ok ? r.json() : null)).then((d) => {
+          const y = d && (d.m || []).find((q) => String(q.id) === String(mm.fmId));
+          if (!y || !on) return;
+          const m2 = matchById(id);
+          if (!m2 || Date.now() - (m2.liveAt || 0) < 4000) return;
+          const sc = Array.isArray(y.sc) ? y.sc : /(\d+)\s*-\s*(\d+)/.exec(String(y.sc || '')) ? String(y.sc).split('-').map((v) => Number(v.trim())) : null;
+          if (!sc) return;
+          applyLiveCore(m2, { sc, st: !!y.s && !y.f, fin: !!y.f, ht: /^HT$/i.test(String(y.lt || '')), clk: y.lt });
+          bump((x) => x + 1);
+        }).catch(() => {}).finally(() => { clearTimeout(rel2); dayBusy = false; });
+      }
     }, 1000);
     const sub = { remove: onResumeCalm(() => run(true)) };
     return () => { on = false; clearTimeout(cap); clearInterval(t); clearInterval(tl); sub.remove(); };
