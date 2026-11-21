@@ -121,12 +121,12 @@
    "da_fare": 0
   },
   "A-League 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "Friendlies 2026": {
    "partite_con_eventi": 0,
-   "da_fare": 0
+   "da_fare": 1
   },
   "Cymru Premier 2026-2027": {
    "partite_con_eventi": 0,
@@ -137,8 +137,8 @@
    "da_fare": 0
   },
   "Primera Division 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "1. Liga 2026-2027": {
    "partite_con_eventi": 0,
@@ -153,8 +153,8 @@
    "da_fare": 0
   },
   "MLS 2026": {
-   "partite_con_eventi": 2,
-   "da_fare": 2
+   "partite_con_eventi": 0,
+   "da_fare": 0
   },
   "Liga 1 2026": {
    "partite_con_eventi": 0,
@@ -170,7 +170,7 @@
   },
   "Coupe de France 2026-2027": {
    "partite_con_eventi": 0,
-   "da_fare": 12
+   "da_fare": 1
   },
   "Super League 1 2026-2027": {
    "partite_con_eventi": 0,
@@ -182,7 +182,7 @@
   },
   "Copa del Rey 2026-2027": {
    "partite_con_eventi": 0,
-   "da_fare": 20
+   "da_fare": 0
   },
   "Supercopa de España 2025-2026": {
    "partite_con_eventi": 0,
@@ -341,8 +341,8 @@
    "da_fare": 0
   },
   "J. League 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 3,
+   "da_fare": 3
   },
   "Premier League 2026": {
    "partite_con_eventi": 0,
@@ -361,12 +361,12 @@
    "da_fare": 0
   },
   "Liga MX 2026-2027 - Apertura": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 3,
+   "da_fare": 3
   },
   "1. CFL 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 2
   },
   "KNVB Cup 2026-2027": {
    "partite_con_eventi": 0,
@@ -386,7 +386,7 @@
   },
   "FNL 2026-2027": {
    "partite_con_eventi": 0,
-   "da_fare": 0
+   "da_fare": 1
   },
   "Czech Cup 2026-2027": {
    "partite_con_eventi": 0,
@@ -394,7 +394,7 @@
   },
   "Kategoria Superiore 2026-2027": {
    "partite_con_eventi": 0,
-   "da_fare": 0
+   "da_fare": 1
   },
   "First Division B 2026-2027": {
    "partite_con_eventi": 0,
@@ -413,8 +413,8 @@
    "da_fare": 0
   },
   "Primera A 2026 - Clausura": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 1,
+   "da_fare": 1
   },
   "Croatian Cup 2026-2027": {
    "partite_con_eventi": 0,
@@ -469,8 +469,8 @@
    "da_fare": 0
   },
   "K League 1 2026": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
+   "partite_con_eventi": 2,
+   "da_fare": 2
   },
   "Primera B 2026": {
    "partite_con_eventi": 0,
@@ -478,7 +478,7 @@
   },
   "FA Trophy 2026-2027": {
    "partite_con_eventi": 0,
-   "da_fare": 1
+   "da_fare": 0
   },
   "Copa Argentina 2026": {
    "partite_con_eventi": 0,
@@ -562,21 +562,13 @@
   },
   "Africa Cup of Nations Qualification 2026-2027": {
    "partite_con_eventi": 0,
-   "da_fare": 0
+   "da_fare": 12
   },
   "Asian Cup Qualification Playoff 2025-2026": {
    "partite_con_eventi": 0,
-   "da_fare": 0
+   "da_fare": 5
   },
   "FIFA Intercontinental Cup 2026": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
-  },
-  "UEFA Nations League A Qualification 2024-2025": {
-   "partite_con_eventi": 0,
-   "da_fare": 0
-  },
-  "UEFA Nations League B Qualification 2024-2025": {
    "partite_con_eventi": 0,
    "da_fare": 0
   },
@@ -1122,7 +1114,7 @@
   },
   "World Cup Qualification AFC 2019-2022": {
    "partite_con_eventi": 0,
-   "da_fare": 0
+   "da_fare": 20
   },
   "World Cup Qualification CONCACAF 2021-2022": {
    "partite_con_eventi": 0,
@@ -1130,7 +1122,7 @@
   },
   "World Cup Qualification CONMEBOL 2020-2022": {
    "partite_con_eventi": 0,
-   "da_fare": 0
+   "da_fare": 1
   },
   "World Cup Qualification OFC 2022": {
    "partite_con_eventi": 0,
@@ -1164,6 +1156,14 @@
    "partite_con_eventi": 0,
    "da_fare": 0
   },
+  "UEFA Nations League A Qualification 2024-2025": {
+   "partite_con_eventi": 0,
+   "da_fare": 0
+  },
+  "UEFA Nations League B Qualification 2024-2025": {
+   "partite_con_eventi": 0,
+   "da_fare": 0
+  },
   "Supercoppa Italiana 2025-2026": {
    "partite_con_eventi": 0,
    "da_fare": 0
@@ -1173,5 +1173,5 @@
    "da_fare": 0
   }
  },
- "partite_in_questo_giro": 35
+ "partite_in_questo_giro": 55
 }
