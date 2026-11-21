@@ -1,38 +1,83 @@
 {
  "competizioni": {
-  "Kategoria Superiore 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 1
-  },
   "Ligue 1 2026-2027": {
    "partite_completate": 0,
    "giocatori": 0,
+   "da_fare": 1
+  },
+  "First Division B 2026-2027": {
+   "partite_completate": 2,
+   "giocatori": 60,
    "da_fare": 2
   },
-  "First Professional League 2026-2027": {
-   "partite_completate": 1,
-   "giocatori": 28,
-   "da_fare": 1
-  },
-  "Premier League 2026-2027": {
-   "partite_completate": 1,
-   "giocatori": 28,
-   "da_fare": 1
-  },
-  "FNL 2026-2027": {
+  "Primera A 2026 - Clausura": {
    "partite_completate": 0,
    "giocatori": 0,
+   "da_fare": 1
+  },
+  "Serie C 2026-2027": {
+   "partite_completate": 2,
+   "giocatori": 56,
    "da_fare": 2
   },
-  "Erovnuli Liga 2026": {
+  "League One 2026-2027": {
    "partite_completate": 1,
-   "giocatori": 21,
+   "giocatori": 30,
    "da_fare": 1
+  },
+  "Primera Federación 2026-2027": {
+   "partite_completate": 3,
+   "giocatori": 44,
+   "da_fare": 3
+  },
+  "Taça de Portugal 2026-2027": {
+   "partite_completate": 1,
+   "giocatori": 23,
+   "da_fare": 1
+  },
+  "Eerste Divisie 2026-2027": {
+   "partite_completate": 4,
+   "giocatori": 115,
+   "da_fare": 4
+  },
+  "1. Lig 2026-2027": {
+   "partite_completate": 1,
+   "giocatori": 27,
+   "da_fare": 1
+  },
+  "Championship 2026-2027": {
+   "partite_completate": 1,
+   "giocatori": 27,
+   "da_fare": 1
+  },
+  "Liga AUF Uruguaya 2026": {
+   "partite_completate": 3,
+   "giocatori": 85,
+   "da_fare": 3
+  },
+  "1. CFL 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Premiership 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Division Profesional 2026 - Clausura": {
+   "partite_completate": 1,
+   "giocatori": 29,
+   "da_fare": 1
+  },
+  "Cymru Premier 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 8
   }
  },
- "partite_completate": 3,
- "giocatori": 77,
- "senza_abbinamento": 0,
- "senza_formazioni_diretta": 5
+ "partite_completate": 19,
+ "giocatori": 496,
+ "senza_abbinamento": 2,
+ "senza_formazioni_diretta": 10
 }
