@@ -7,19 +7,12 @@
    "senza_abbinamento": 0,
    "da_fare": 1
   },
-  "League One (ENG) 2026-2027": {
-   "lega_pitch": "League One",
-   "partite_completate": 0,
-   "giocatori": 0,
+  "A-League (AUS) 2026-2027": {
+   "lega_pitch": "A-League",
+   "partite_completate": 1,
+   "giocatori": 27,
    "senza_abbinamento": 0,
    "da_fare": 1
-  },
-  "Eerste Divisie (NED) 2026-2027": {
-   "lega_pitch": "Eerste Divisie",
-   "partite_completate": 0,
-   "giocatori": 0,
-   "senza_abbinamento": 0,
-   "da_fare": 4
   },
   "Virsliga (LVA) 2026": {
    "lega_pitch": "Virsliga",
@@ -41,6 +34,13 @@
    "giocatori": 0,
    "senza_abbinamento": 0,
    "da_fare": 1
+  },
+  "K League 1 (KOR) 2026": {
+   "lega_pitch": "K League 1",
+   "partite_completate": 0,
+   "giocatori": 0,
+   "senza_abbinamento": 2,
+   "da_fare": 2
   },
   "Championship (ENG) 2025-2026": {
    "lega_pitch": "Championship",
@@ -267,6 +267,13 @@
    "da_fare": 3
   }
  },
- "senza_lega_pitch": [],
- "partite_completate_in_questo_giro": 0
+ "senza_lega_pitch": [
+  [
+   "223",
+   "J. League (JPN) 2026-2027",
+   4,
+   0
+  ]
+ ],
+ "partite_completate_in_questo_giro": 1
 }
