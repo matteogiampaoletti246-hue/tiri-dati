@@ -15,6 +15,8 @@ import { TintProvider } from '../shared/ui';
 import { PANELS, hasPanel } from './PartitaPanels';
 import { matchById, viewMatch } from '@/data/matches';
 import { prepareMatch, prepareMatchCore, isReady } from '@/data/prepare';
+import { loadFm } from '@/data/fotmob';
+import { playerLookup } from '@/data/players';
 import { parseArchiveId, buildArchiveShell } from '@/data/archiveMatch';
 import { peekFeedRow } from '@/data/feedRows';
 import META from '../meta.json';
@@ -121,11 +123,27 @@ export default function Partita({ C, top, onBack, bottom = 90, openRoute, params
       // partita svuotata (dati ricostruiti al ritorno dal background, 21/11/2026): si riprepara subito, anche se finita o senza battito
       const thin = (!mm || (mm.status !== 'scheduled' && !mm.fm && !mm.detail && !mm.lineup)) && thinTries < 5; // al massimo 5 giri (partite senza dati: niente richieste infinite)
       if (thin) thinTries += 1;
-      if (thin || (beat && (force || n % every === 0))) { busy = true; prepareMatch(id, true).then(() => on && bump((x) => x + 1)).catch(() => {}).finally(() => { busy = false; }); }
+      if (mm && mm.status === 'live' && !thin && !force) return; // live: ci pensa il giro da 1 secondo qui sotto
+      if (thin || (beat && (force || n % every === 0))) {
+        busy = true;
+        const rel = setTimeout(() => { busy = false; }, 12000); // mai bloccato: una richiesta appesa non ferma gli aggiornamenti
+        prepareMatch(id, true).then(() => on && bump((x) => x + 1)).catch(() => {}).finally(() => { clearTimeout(rel); busy = false; });
+      }
     };
     const t = setInterval(() => run(false), 3000);
+    // LIVE: statistiche, eventi e risultato ogni secondo con la pagina aperta (21/11/2026: i corner restavano fermi finche' non si riapriva l'app).
+    // Solo il dettaglio della partita (/fx), non la preparazione completa; una richiesta alla volta, sbloccata dopo 6 s se resta appesa.
+    let liveBusy = false;
+    const tl = setInterval(() => {
+      if (!on || liveBusy || AppState.currentState !== 'active') return;
+      const mm = matchById(id);
+      if (!mm || mm.status !== 'live') return;
+      liveBusy = true;
+      const rel = setTimeout(() => { liveBusy = false; }, 6000);
+      loadFm(mm, playerLookup, true).then(() => on && bump((x) => x + 1)).catch(() => {}).finally(() => { clearTimeout(rel); liveBusy = false; });
+    }, 1000);
     const sub = { remove: onResumeCalm(() => run(true)) };
-    return () => { on = false; clearTimeout(cap); clearInterval(t); sub.remove(); };
+    return () => { on = false; clearTimeout(cap); clearInterval(t); clearInterval(tl); sub.remove(); };
   }, [id]);
 
   const pos = useSharedValue(0);

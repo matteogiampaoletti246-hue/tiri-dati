@@ -345,7 +345,7 @@ export async function loadFm(m, playerLookup, force = false) {
     if (!id) return m;
     const c = fxCache[id];
     let d;
-    if (c && Date.now() - c.at < (m.status === 'scheduled' ? 1500 : 3000)) d = c.d;
+    if (c && Date.now() - c.at < (m.status === 'scheduled' ? 1500 : m.status === 'live' ? 800 : 3000)) d = c.d; // live: aggiornamento ogni secondo
     else {
       const home = teamById(m.homeId);
       const away = teamById(m.awayId);

@@ -235,6 +235,7 @@ function fmTeam(tid) {
 // passa dallo stesso abbinamento di diretta (`dlFill`: rosa del sito, pagina squadra FotMob, ricerca; solo nomi unici). Cambiano solo nome intero, foto e id
 // dei giocatori senza id; posizione, numero, voto e capitano restano quelli della fonte. Risultati ricordati 10 minuti (al massimo 600 giocatori).
 const LINKED = new Map();
+const FXLIVE = new Map(); // /fx delle partite live: 1 secondo (tanti telefoni che chiedono ogni secondo = un solo calcolo), al massimo 100
 const FXMEM = new Map(); // /fx delle partite lontane dal fischio: 5 minuti, al massimo 300
 async function linkMissing(t, tid) {
   if (!t || !tid) return t;
@@ -652,6 +653,7 @@ export default {
         // partite lontane dal fischio (oltre 1h26): risposta tenuta 5 minuti nella cache di Cloudflare (18/11/2026: con molte partite aperte insieme
         // il worker andava oltre i 10 s e le formazioni sparivano). Dentro la finestra, live e partite finite: sempre fresca.
         const fxKey = new Request("https://fx-cache.scalperlab/fx?id=" + id);
+        { const l0 = FXLIVE.get(id); if (l0 && Date.now() - l0.t < 1000) return new Response(l0.b, { headers: cors(req, { "Cache-Control": "no-store", "X-Fx-Cache": "live" }) }); }
         { const m0 = FXMEM.get(id); if (m0 && Date.now() - m0.t < 300000) return new Response(m0.b, { headers: cors(req, { "Cache-Control": "public, max-age=3", "X-Fx-Cache": "mem" }) }); }
         try { const hit = await caches.default.match(fxKey); if (hit) return new Response(hit.body, { headers: cors(req, { "Cache-Control": "public, max-age=3", "X-Fx-Cache": "1" }) }); } catch (e) { /* senza cache si calcola (su workers.dev la cache di Cloudflare puo' non esserci: resta la memoria) */ }
         const r = await fetch("https://www.fotmob.com/api/data/matchDetails?matchId=" + id, { headers: FMH, cf: { cacheTtl: 3, cacheEverything: true } });
@@ -861,7 +863,8 @@ export default {
           const put = caches.default.put(fxKey, new Response(body, { headers: { "Content-Type": "application/json", "Cache-Control": "public, max-age=300" } })).catch(() => {});
           if (ctx && ctx.waitUntil) ctx.waitUntil(put);
         }
-        return new Response(body, { headers: cors(req, { "Cache-Control": "public, max-age=3" }) });
+        if (out.st && !out.fin) { FXLIVE.delete(id); FXLIVE.set(id, { t: Date.now(), b: body }); while (FXLIVE.size > 100) FXLIVE.delete(FXLIVE.keys().next().value); }
+        return new Response(body, { headers: cors(req, { "Cache-Control": out.st && !out.fin ? "no-store" : "public, max-age=3" }) }); // live: mai tenuta dal telefono
       }
       if (u.pathname === "/m") {
         const lg = u.searchParams.get("lg"), id = u.searchParams.get("id");

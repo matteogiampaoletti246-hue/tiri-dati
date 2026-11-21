@@ -82,3 +82,7 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 ## Home: cartellini rossi sullo stemma (concept A, 17/11/2026, regola fissa)
 - Riga partita della Home: cartellino rosso piccolo in basso a destra dello stemma della squadra che l'ha preso (rosso diretto e doppio giallo), con il numero dentro se sono 2 o piu'. Colore `redCard` nei temi.
 - Dati: `/f` porta `rc: [casa, ospite]` da FotMob (`redCards`), `/fx` lo calcola dagli eventi uniti (FotMob, LiveScore, diretta.it). In riga e' `m[12]` = "casa-ospite", tenuto anche se un giro non lo riporta.
+
+## Statistiche live ogni secondo con la partita aperta (21/11/2026)
+- App nativa: con la partita live aperta, ogni secondo si richiede solo il dettaglio (`loadFm` -> `/fx`), non la preparazione completa; una richiesta alla volta, sbloccata dopo 6 s se resta appesa. Il giro da 3 s (formazioni prima del fischio) non si blocca mai: dopo 12 s riparte comunque.
+- Worker: `/fx` live risponde `no-store` (il telefono non la tiene) e tiene il risultato 1 secondo in `FXLIVE` (al massimo 100 partite), cosi' tante richieste insieme fanno un solo calcolo.
