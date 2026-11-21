@@ -590,6 +590,16 @@ export default {
     if (req.method === "OPTIONS") return new Response(null, { headers: { ...cors(req), "Access-Control-Allow-Methods": "GET", "Access-Control-Max-Age": "86400" } });
     const u = new URL(req.url);
     try {
+      if (u.pathname === "/v") { // versione dell'app nativa in uso sul telefono (21/11/2026): ?sha=<commit>&e=start|resume; ?read=1 le ultime 40 (solo versione e ora, niente dati personali)
+        if (!env || !env.ROSE) return new Response("[]", { headers: cors(req) });
+        const cur = JSON.parse((await env.ROSE.get("diag:app")) || "[]");
+        if (u.searchParams.get("read")) return new Response(JSON.stringify(cur), { headers: cors(req, { "Cache-Control": "no-store" }) });
+        const sha = String(u.searchParams.get("sha") || "").slice(0, 40), ev = String(u.searchParams.get("e") || "").slice(0, 12);
+        if (!/^([0-9a-f]{7,40}|dev)$/.test(sha)) return new Response("{}", { status: 400, headers: cors(req) });
+        cur.push({ t: new Date().toISOString(), sha, e: ev });
+        await env.ROSE.put("diag:app", JSON.stringify(cur.slice(-40)));
+        return new Response("{}", { headers: cors(req, { "Cache-Control": "no-store" }) });
+      }
       if (u.pathname === "/r") { // rose da fonti esterne (KV "rose", legato come ROSE): ?k=ls:<id squadra LiveScore> oppure ?k=idx:<paese>/<campionato>
         const k = u.searchParams.get("k") || "";
         if (!env || !env.ROSE || !/^(ls|idx):[a-z0-9\/-]{1,60}$/.test(k)) return new Response("{}", { status: 400, headers: cors(req) });

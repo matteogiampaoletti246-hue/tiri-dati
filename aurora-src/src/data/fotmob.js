@@ -1,3 +1,4 @@
+import { lruSet } from '@/lib/lru';
 // Dettaglio partita in diretta da FotMob (tramite il Worker): cronologia, statistiche per tempo,
 // mappa tiri, momentum e formazioni. Vale per partite live, di oggi e anche per quelle passate.
 import { playerFace } from './faces';
@@ -18,6 +19,7 @@ const UEFA_LG = { 'champions-league': 'ucl', 'europa-league': 'uel', 'conference
 const dayCache = {};
 // dettagli FotMob (pesanti): solo gli ultimi 12
 const fxCache = {};
+const LU_KEEP = new Map(); // ultima formazione completa per partita (id FotMob), vedi "BLOCCO FORMAZIONI" in loadFm
 const fxOrder = [];
 const fxKeep = (id) => { const i = fxOrder.indexOf(id); if (i >= 0) fxOrder.splice(i, 1); fxOrder.push(id); while (fxOrder.length > 12) delete fxCache[fxOrder.shift()]; };
 
@@ -391,6 +393,13 @@ export async function loadFm(m, playerLookup, force = false) {
       }
       fxCache[id] = { at: Date.now(), d };
       fxKeep(id);
+    }
+    // BLOCCO FORMAZIONI (regola fissa 21/11/2026): una formazione completa gia' ricevuta per una partita non iniziata non sparisce mai
+    // perche' una risposta successiva arriva senza (fonte lenta o assente in quel momento): si tiene l'ultima completa (al massimo 400 partite)
+    {
+      const full = (t) => !!(t && Array.isArray(t.s) && t.s.length >= 11);
+      if (d && full(d.h) && full(d.a)) lruSet(LU_KEEP, String(id), { h: d.h, a: d.a, ty: d.ty, luSrc: d.luSrc }, 400);
+      else if (d && !d.st && !d.fin && LU_KEEP.has(String(id))) { const k = LU_KEEP.get(String(id)); d = { ...d, h: k.h, a: k.a, ty: k.ty, luSrc: k.luSrc }; }
     }
     try { applyFm(m, d, playerLookup); } catch (e) {
       // una parte dei dati con un formato inatteso non deve fermare risultato, minuto e stato (21/11/2026: partita aperta ferma all'intervallo)

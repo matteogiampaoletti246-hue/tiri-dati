@@ -156,3 +156,8 @@ Il riquadro "Infortunati" (nativo `PartitaLineups.js`, sito `MatchLineupsPanel.j
 ## Cartellini ad allenatori e staff (21/11/2026)
 - Worker (`/fx`): cartellino al nome dell'allenatore della squadra (`co` delle formazioni) -> `co: 1`; nome che non e' ne' tra i titolari ne' in panchina (formazioni complete) -> `co: 2` (staff). Stesso cartellino da due fonti con 2-3 minuti di differenza e stesso giocatore -> uno solo.
 - App: nel riassunto "Nome (all.)" o "Nome (staff)"; mai contati nelle statistiche dei giocatori.
+
+## Formazioni probabili sempre visibili fino a 7 giorni prima (regola fissa, 21/11/2026)
+- BLOCCO in `loadFm` (`data/fotmob.js`, `LU_KEEP`, al massimo 400 partite): l'ultima formazione completa ricevuta per una partita non iniziata resta anche se una risposta successiva arriva senza. Insieme a `applyFm` (una squadra sola non cancella una formazione completa) e a `buildMatches` (la ricostruzione al ritorno dal background non svuota le partite).
+- Versione dell'app: le formazioni "tornavano a sparire" dopo 10-20 ore perche' Expo Go poteva ripartire da un link vecchio e restare su una versione vecchia (`AutoUpdate.js` apriva l'ultima una volta sola). Ora a ogni avvio a freddo, se la versione non e' l'ultima, si apre l'ultima (anti-ciclo: 2 minuti, 3 tentativi ogni 6 ore).
+- Verifica da remoto: l'app manda la sua versione a `/v` del worker all'avvio e al ritorno (al massimo ogni 10 minuti); `/v?read=1` mostra le ultime 40. Prima di dire "risolto" per un problema che torna, controllare qui che il telefono abbia davvero l'ultima versione.
