@@ -750,7 +750,18 @@ export default {
           // ESPN, PitchAPI e LiveScore si leggono INSIEME (18/11/2026: in fila arrivavano a 3-9 secondi e con piu' richieste il sito superava i 10 s:
           // partite senza formazione); vale sempre la prima della gerarchia che ce l'ha (ESPN, poi PitchAPI, poi LiveScore)
           const alt = (altP ? await altP : null) || mkAlt();
-          if (alt.h && alt.a && !alt.luList) {
+          // FotMob gia' UFFICIALE (senza posti in campo) e l'altra fonte solo PROBABILE (21/11/2026): mai i titolari probabili al posto di quelli ufficiali.
+          // Dall'altra fonte si prendono solo i posti in campo e solo se tutti gli 11 ufficiali ci sono anche li'; se no restano gli 11 ufficiali in elenco.
+          const altOff = /^(standard|official|confirm)/i.test(String(alt.ty || ""));
+          if (fmOfficial && !altOff && fmH && fmA && alt.h && alt.a) {
+            const pos = (fm, t) => {
+              const rows = (fm.s || []).map((p) => { const q = (t.s || []).find((x) => x[2] != null && samePerson(x[0], p[0])); return q ? [p[0], p[1], q[2], q[3], p[4], p[5], p[6], p[7], p[8]] : null; });
+              return rows.length === 11 && rows.every(Boolean) ? { ...fm, f: fm.f || t.f, s: rows } : null;
+            };
+            const H = pos(fmH, alt.h), A = pos(fmA, alt.a);
+            if (H && A) { out.h = H; out.a = A; }
+            else if (noXY(fmH) || noXY(fmA)) { [out.h, out.a] = await Promise.all([rosaMark(fmH, out.hi), rosaMark(fmA, out.ai)]); out.luList = 1; }
+          } else if (alt.h && alt.a && !alt.luList) {
             out.h = fmFill(alt.h, fmH, !fmOfficial); out.a = fmFill(alt.a, fmA, !fmOfficial); out.luSrc = alt.luSrc;
             if (!out.ty || out.ty === "unavailable" || !fmOfficial) out.ty = alt.ty;
           } else if (alt.h && alt.a && !fmH && !fmA) {
