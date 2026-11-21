@@ -763,12 +763,13 @@ export default {
             else if (noXY(fmH) || noXY(fmA)) { [out.h, out.a] = await Promise.all([rosaMark(fmH, out.hi), rosaMark(fmA, out.ai)]); out.luList = 1; }
           } else if (alt.h && alt.a && !alt.luList) {
             out.h = fmFill(alt.h, fmH, !fmOfficial); out.a = fmFill(alt.a, fmA, !fmOfficial); out.luSrc = alt.luSrc;
-            if (!out.ty || out.ty === "unavailable" || !fmOfficial) out.ty = alt.ty;
+            // il tipo e' quello dei giocatori mostrati: titolari probabili dell'altra fonte = "probabile", anche se FotMob diceva "ufficiale" senza giocatori
+            if (!out.ty || out.ty === "unavailable" || !fmOfficial || !altOff) out.ty = alt.ty;
           } else if (alt.h && alt.a && !fmH && !fmA) {
             // soli nomi ufficiali (nessuna fonte con i posti in campo): elenco in colonna
             [out.h, out.a] = await Promise.all([rosaMark(alt.h, out.hi), rosaMark(alt.a, out.ai)]);
             out.luSrc = alt.luSrc; out.luList = 1;
-            if (!out.ty || out.ty === "unavailable") out.ty = alt.ty;
+            if (!out.ty || out.ty === "unavailable" || !altOff) out.ty = alt.ty;
           }
         }
         // formazione PROBABILE di diretta.it: davanti a ogni altra probabile; ma non a titolari ufficiali gia' presi da un'altra fonte
