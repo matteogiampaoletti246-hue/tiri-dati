@@ -148,3 +148,7 @@ Il riquadro "Infortunati" (nativo `PartitaLineups.js`, sito `MatchLineupsPanel.j
 - Doppio controllo: worker `/fx` (prima del ritorno: `ty` ufficiale -> `predicted`, `tyEarly: 1`) e app (`officialAllowed` / `OFFICIAL_FROM` in `data/lineupWindow.js`, usato da `lineupIsOfficial`, `PartitaLineups.js` e `MatchLineupsPanel.jsx`). Chi tocca le fonti delle formazioni non deve togliere nessuno dei due.
 - Fonte LiveScore (21/11/2026): LiveScore non manda nessun segnale "ufficiale" (verificato sui campi della risposta `lineups/soccer/<id>`: solo `Tnb`, `Fo`, `IS`, `Ps`) e sul suo sito prima del fischio la chiama "probabile". Quindi `lsLineups` segna `predicted` fino al calcio d'inizio e `standard` solo a partita iniziata; mai ufficiale per default. Una fonte che non dice se e' ufficiale conta come probabile.
 - FotMob gia' ufficiale (senza posti in campo) + altra fonte solo probabile: restano i titolari ufficiali di FotMob; dall'altra fonte si prendono solo i posti in campo se tutti gli 11 coincidono, altrimenti elenco (`luList`). Mai gli 11 probabili al posto degli ufficiali.
+
+## Scheda Formazioni: non sparisce mai per una risposta andata male (21/11/2026)
+- Una risposta di `/fx` con una squadra sola non cancella una formazione completa gia' arrivata (`applyFm` in `data/fotmob.js`).
+- Formazione mancante o con una squadra sola: si riprova ogni 30 secondi (`lineupBeat`), mai dopo 2 ore. `/fx` andato male (500/502/503/504 o oltre 10 s): un secondo tentativo subito.

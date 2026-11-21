@@ -30,7 +30,7 @@ const jget0 = async (url) => {
 // worker occupato (503, errore 1102 di Cloudflare): un secondo tentativo dopo 0,8 s invece di restare senza formazione (18/11/2026)
 const jget = async (url) => {
   try { return await jget0(url); } catch (e) {
-    if (String(e && e.message) !== '503') throw e;
+    if (!/^(50[0-4]|timeout)$/.test(String(e && e.message))) throw e; // anche 500/502/504 e attesa scaduta: un secondo tentativo
     await new Promise((ok) => setTimeout(ok, 800));
     return jget0(url);
   }
@@ -314,7 +314,10 @@ export function applyFm(m, d, playerLookup) {
       }
       return lu;
     };
-    m.lineup = { home: make('h', d.h, home), away: make('a', d.a, away) };
+    const nl = { home: make('h', d.h, home), away: make('a', d.a, away) };
+    // una risposta con una squadra sola non cancella mai una formazione completa gia' mostrata (la scheda Formazioni non sparisce)
+    const full = (l) => !!(l && l.home && l.away);
+    if (full(nl) || !full(m.lineup)) m.lineup = nl;
   }
 
   if (d.ref && d.ref.n) {
