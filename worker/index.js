@@ -369,7 +369,7 @@ async function pitchLineups(out, fmId, env) {
 // ogni titolare (Fp "riga:colonna", riga 1 = portiere). Verificato il 07/11/2026 su 23 partite contro FotMob: modulo uguale 39 volte su 46,
 // colonne numerate da destra a sinistra (108 file su 131), quindi y = 1 - colonna/(n+1). Senza Fo/Fp (solo nomi) nessun campo: mai posti inventati.
 const LS_MEMO = new Map();
-async function lsLineups(out, startIso) {
+async function lsLineups(out, startIso, started) {
   try {
     if (!out.hi || !out.ai) return;
     const d = startIso ? new Date(startIso) : null;
@@ -421,10 +421,13 @@ async function lsLineups(out, startIso) {
       const coach = ps.find((p) => p.Pos === 10);
       return { f: t.Fo.join("-"), s, b: ps.filter((p) => p.Pos === 5 && nm(p)).map((p) => mk(p, null)), co: coach && nm(coach) ? { id: null, n: nm(coach), cc: null } : null };
     };
+    // LiveScore non dice se la formazione e' ufficiale: prima del fischio sul suo sito e' "probabile" (21/11/2026, verificato coi campi della risposta:
+    // nessun segnale di conferma). Quindi da LiveScore: PROBABILE fino al calcio d'inizio, ufficiale solo a partita iniziata. Mai "ufficiale" per default.
+    const lsTy = started ? "standard" : "predicted";
     const h = side(1), a = side(2);
-    if (h && a) { out.h = h; out.a = a; out.luSrc = "livescore"; if (!out.ty) out.ty = "standard"; return; }
+    if (h && a) { out.h = h; out.a = a; out.luSrc = "livescore"; out.ty = lsTy; return; }
     const hl = names(1), al = names(2);
-    if (hl && al) { out.h = hl; out.a = al; out.luSrc = "livescore"; out.luList = 1; if (!out.ty) out.ty = "standard"; }
+    if (hl && al) { out.h = hl; out.a = al; out.luSrc = "livescore"; out.luList = 1; out.ty = lsTy; }
   } catch (e) { /* mai rompere /fx */ }
 }
 
@@ -735,7 +738,7 @@ export default {
         // le altre fonti partono subito, insieme a diretta (si usano solo se servono)
         const mkAlt = () => ({ hi: out.hi, ai: out.ai });
         const needAlt = noXY(out.h) || noXY(out.a) || (!fmOfficial && !g2.started);
-        const altP = needAlt ? (async () => { const [aE, aP, aL] = [mkAlt(), mkAlt(), mkAlt()]; await Promise.all([espnLineups(aE, g2), pitchLineups(aP, id, env), lsLineups(aL, g2.matchTimeUTCDate || stt.utcTime)]); return aE.h ? aE : aP.h ? aP : aL.h ? aL : mkAlt(); })() : null;
+        const altP = needAlt ? (async () => { const [aE, aP, aL] = [mkAlt(), mkAlt(), mkAlt()]; await Promise.all([espnLineups(aE, g2), pitchLineups(aP, id, env), lsLineups(aL, g2.matchTimeUTCDate || stt.utcTime, !!(g2.started || g2.finished))]); return aE.h ? aE : aP.h ? aP : aL.h ? aL : mkAlt(); })() : null;
         const dl = await dlLineups(g2, stt, id, env);
         let dlDone = false;
         if (dl && dl.official && !fmReady) { // ufficiale: vale la prima fonte che la mostra; FotMob con i posti in campo gia' completa resta com'e'
