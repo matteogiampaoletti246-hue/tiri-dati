@@ -74,6 +74,39 @@ def dl_find(ts, hn, an):
     return None
 
 
+SEARCH = []
+late2 = lambda: (time.time() - T0) / 60 > MAX_MIN + float(os.environ.get("SEARCH_MIN", "60"))
+SRCH = "https://s.livesport.services/api/v2/search/?q=%s&lang-id=1&type-ids=2,4&project-id=2&project-type-id=1&sport-ids=1"
+
+
+def dl_search(name, team):
+    """giocatore di diretta.it con lo stesso nome (cognome uguale e nome compatibile) in una squadra con nome simile: foto (variante grande)."""
+    from urllib.parse import quote
+    from giocatori_pitch import norm
+    j = D.get(SRCH % quote(name), D.GQL_H, js=True)
+    toks = norm(name)
+    if not toks or not isinstance(j, list):
+        return None
+    best = None
+    for x in j:
+        if ((x.get("type") or {}).get("id")) not in (2, 4) or not x.get("images"):
+            continue
+        if not any(((pt or {}).get("id")) == 2 for pt in x.get("participantTypes") or []):
+            continue
+        xt = set(norm(x.get("name") or ""))
+        if not xt or toks[-1] not in xt or not (set(toks) <= xt or xt <= set(toks) or len(set(toks) & xt) >= 2):
+            continue
+        sim = max([D.sim(team, (t or {}).get("name") or "") for t in (x.get("teams") or [])] or [0])
+        if sim < 0.6:
+            continue
+        if best is None or sim > best[0]:
+            best = (sim, x)
+    if not best:
+        return None
+    imgs = sorted(best[1]["images"], key=lambda i: (i.get("variantTypeId") != 3, -(i.get("variantTypeId") or 0)))
+    return DL_BASE + imgs[0]["path"] if imgs and imgs[0].get("path") else None
+
+
 def main():
     miss = {str(x) for x in json.load(open("foto_mancanti.json")) if int(x) > 0}
     shards = {}
@@ -156,7 +189,28 @@ def main():
                 time.sleep(0.2)
             state[f"{fm}|{sk}"] = sorted(tried)[-400:]
             rep["squadre"] += len(need)
+            for tid, v in need.items():
+                for nm, pid in v.items():
+                    if pid not in new:
+                        SEARCH.append((pid, nm, teams.get(tid) or "", e.get("n", "")))
             print(e.get("n"), sk, "nuove finora", len(new), flush=True)
+    # 2) ricerca giocatori di diretta.it (chi non e' nelle formazioni di +-7 giorni): nome + squadra; una ricerca per giocatore, ripetuta dopo 30 giorni
+    srch = state.setdefault("_ricerca", {})
+    t_now = int(time.time())
+    seen_p = set()
+    rep["ricerche"] = 0
+    for pid, nm, team, comp in SEARCH:
+        if late2() or pid in new or pid in seen_p:
+            continue
+        seen_p.add(pid)
+        if t_now - int(srch.get(pid) or 0) < 30 * 86400:
+            continue
+        srch[pid] = t_now
+        rep["ricerche"] += 1
+        u = dl_search(nm, team)
+        if u and is_img(u):
+            new[pid] = u; rep["nuove"]["diretta_ricerca"] = rep["nuove"].get("diretta_ricerca", 0) + 1
+        time.sleep(0.15)
     if new and ON:
         from rose_livescore import kv_put
         for pid, u in new.items():
