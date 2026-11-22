@@ -876,7 +876,15 @@ export default {
                   const k = have.findIndex((e, i) => !used.has(i) && e.ty === d.ty && !!e.h === !!d.h && Math.abs(e.t - d.t) <= 1 && (d.ty !== "Card" || e.cd === d.cd));
                   if (k >= 0) { used.add(k); if (d.ty === "Goal" && !have[k].as && d.as) have[k].as = d.as; } else add.push(d);
                 });
-                if (add.length) { out.ev = have.concat(add).sort((x, y) => x.ts - y.ts); out.dlEv = add.length; }
+                // REGOLA FISSA (22/11/2026): i gol aggiunti da diretta non possono mai superare il punteggio della squadra (FotMob/diretta);
+              // un gol in piu' (rigore sbagliato letto come gol, gol annullato) si scarta
+              if (out.sc && out.sc[0] != null) {
+                const lim = [+out.sc[0] || 0, +out.sc[1] || 0];
+                const cnt = [0, 0];
+                have.forEach((e) => { if (e.ty === "Goal") cnt[e.h ? 0 : 1] += 1; });
+                for (let i = add.length - 1; i >= 0; i--) { const d = add[i]; if (d.ty !== "Goal") continue; const s2 = d.h ? 0 : 1; if (cnt[s2] + 1 > lim[s2]) add.splice(i, 1); else cnt[s2] += 1; }
+              }
+              if (add.length) { out.ev = have.concat(add).sort((x, y) => x.ts - y.ts); out.dlEv = add.length; }
               }
             }
           }

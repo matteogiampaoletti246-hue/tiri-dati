@@ -286,7 +286,11 @@ export function parseIncidents(txt) {
     const first = groups[0];
     const text = String(first.IK || "");
     const base = { t: mn.t, a: mn.a, h: side === 1, ts: mn.t * 100 + mn.a };
-    if (/autogol|own goal/i.test(text) || /^gol|rigore/i.test(text) || /^goal/i.test(text)) {
+    // 22/11/2026 (Barcelona-Villarreal): "Rigore sbagliato" veniva letto come gol (bastava la parola "rigore"). Rigore sbagliato/parato = MissedPenalty
+    // (si abbina a quello di FotMob, mai un gol); gol annullato (VAR) = nessun evento.
+    if (/annullat|disallow|cancel/i.test(text)) return;
+    if (/rigore|penalty/i.test(text) && /sbagliat|parat|fallit|miss|sav|errat/i.test(text)) { out.push({ ...base, ty: "MissedPenalty", n: swapName(first.IF), id: null }); return; }
+    if (/autogol|own goal/i.test(text) || /^gol/i.test(text) || /^rigore/i.test(text) || /^goal/i.test(text)) {
       const as = groups.slice(1).find((g) => /assist/i.test(g.IK || ""));
       out.push({ ...base, ty: "Goal", n: swapName(first.IF), id: null, as: as ? swapName(as.IF) : null, aid: null, og: /autogol|own goal/i.test(text), pen: /rigore|penalty/i.test(text), sc: null });
     } else if (/cartellino/i.test(text)) {
