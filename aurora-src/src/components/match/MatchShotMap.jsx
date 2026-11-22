@@ -127,8 +127,8 @@ export default function MatchShotMap({ shots = [], home, away, match = null, lin
       </svg>
 
       <div className="grid grid-cols-2 gap-2">
-        <div><p className="mb-0.5 text-[10.5px] font-bold" style={{ color: shotText(HC) }}>{home ? home.short || home.name : 'Casa'}</p>{Goal({ side: 'home' })}</div>
-        <div><p className="mb-0.5 text-right text-[10.5px] font-bold" style={{ color: shotText(AC) }}>{away ? away.short || away.name : 'Trasferta'}</p>{Goal({ side: 'away' })}</div>
+        <div><p className="mb-0.5 text-[10.5px] font-bold" style={{ color: shotText(HC, home) }}>{home ? home.short || home.name : 'Casa'}</p>{Goal({ side: 'home' })}</div>
+        <div><p className="mb-0.5 text-right text-[10.5px] font-bold" style={{ color: shotText(AC, away) }}>{away ? away.short || away.name : 'Trasferta'}</p>{Goal({ side: 'away' })}</div>
       </div>
 
       {cur ? (
@@ -139,9 +139,9 @@ export default function MatchShotMap({ shots = [], home, away, match = null, lin
               <div className="flex items-center justify-center gap-2">
                 {photo ? <img src={photo} alt="" decoding="async" className="h-[34px] w-[34px] shrink-0 rounded-full object-cover" style={{ background: 'var(--hair)' }} /> : null}
                 {linkNames && match ? (
-                  <PlayerLink match={match} name={cur.playerName} fmId={found && found.fmId} className="truncate text-[14px] font-extrabold" style={{ color: shotText(color(cur)) }}>{cur.playerName}{cur.og ? ' (autogol)' : ''}</PlayerLink>
+                  <PlayerLink match={match} name={cur.playerName} fmId={found && found.fmId} className="truncate text-[14px] font-extrabold" style={{ color: shotText(color(cur), team) }}>{cur.playerName}{cur.og ? ' (autogol)' : ''}</PlayerLink>
                 ) : (
-                  <p className="truncate text-[14px] font-extrabold" style={{ color: shotText(color(cur)) }}>{cur.playerName}{cur.og ? ' (autogol)' : ''}</p>
+                  <p className="truncate text-[14px] font-extrabold" style={{ color: shotText(color(cur), team) }}>{cur.playerName}{cur.og ? ' (autogol)' : ''}</p>
                 )}
               </div>
               <p className="text-[11.5px]" style={{ color: 'var(--ink-3)' }}>{team ? team.name : ''} · {cur.minute}&apos;</p>

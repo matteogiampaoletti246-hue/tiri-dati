@@ -5,7 +5,7 @@ import { View, Text, Pressable } from 'react-native';
 import Svg, { G, Rect, Line, Circle, Polyline, Polygon } from 'react-native-svg';
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
-import { shown, inkOn, colorDist, matchColors, teamGrad } from '@/lib/tint';
+import { shown, inkOn, colorDist, matchColors, teamGrad, teamText } from '@/lib/tint';
 import { LinearGradient } from 'expo-linear-gradient';
 import { findInMatch } from '@/data/playerSheet';
 import { comma } from '@/lib/format';
@@ -37,7 +37,7 @@ export function shotColors(home, away) {
   }
   return [h, a];
 }
-const textOn = (C, c) => (inkOn(c) === '#0F172A' ? C.ink : c);
+const textOn = (C, c, team) => teamText(c, team && team.colors, !!C.dark, C.ink); // sempre il colore acceso e leggibile della squadra
 const isBlocked = (s) => s && s.outcome === 'Murato';
 
 const PENT = [0, 1, 2, 3, 4].map((i) => { const a = -Math.PI / 2 + (i * 2 * Math.PI) / 5; return [Math.cos(a), Math.sin(a)]; });
@@ -160,8 +160,8 @@ export default function ShotMap({ C, shots = [], home, away, match = null, openR
         ) : null}
       </View>
       <View style={{ flexDirection: 'row', gap: 8 }}>
-        <View style={{ flex: 1 }}><Text style={{ color: textOn(C, HC), fontSize: 10.5, fontWeight: '700', marginBottom: 2 }}>{home ? home.short || home.name : 'Casa'}</Text>{goal('home')}</View>
-        <View style={{ flex: 1 }}><Text style={{ color: textOn(C, AC), fontSize: 10.5, fontWeight: '700', marginBottom: 2, textAlign: 'right' }}>{away ? away.short || away.name : 'Trasferta'}</Text>{goal('away')}</View>
+        <View style={{ flex: 1 }}><Text style={{ color: textOn(C, HC, home), fontSize: 10.5, fontWeight: '700', marginBottom: 2 }}>{home ? home.short || home.name : 'Casa'}</Text>{goal('home')}</View>
+        <View style={{ flex: 1 }}><Text style={{ color: textOn(C, AC, away), fontSize: 10.5, fontWeight: '700', marginBottom: 2, textAlign: 'right' }}>{away ? away.short || away.name : 'Trasferta'}</Text>{goal('away')}</View>
       </View>
       {cur ? (
         <View style={{ borderRadius: 18, overflow: 'hidden', backgroundColor: C.chip, padding: 14 }}>
@@ -171,7 +171,7 @@ export default function ShotMap({ C, shots = [], home, away, match = null, openR
             <View style={{ flex: 1, alignItems: 'center' }}>
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
                 {photo ? <Image source={{ uri: photo }} style={{ width: 34, height: 34, borderRadius: 17, backgroundColor: C.hair }} contentFit="cover" cachePolicy="memory-disk" /> : null}
-                <Text numberOfLines={1} style={{ fontSize: 14, fontWeight: '800', color: textOn(C, color(cur)), flexShrink: 1 }}>
+                <Text numberOfLines={1} style={{ fontSize: 14, fontWeight: '800', color: textOn(C, color(cur), cur.side === 'home' ? home : away), flexShrink: 1 }}>
                   {match && openRoute ? <PlayerLinkN match={match} name={cur.playerName} fmId={found && found.fmId} openRoute={openRoute}>{cur.playerName}</PlayerLinkN> : cur.playerName}{cur.og ? ' (autogol)' : ''}
                 </Text>
               </View>

@@ -53,3 +53,17 @@ export const shown = (c, min = 125) => {
   while (l < 0.92 && lum(q) < min) { l += 0.02; q = fromHsl([h, s, l]); }
   return hex(q);
 };
+// Testo nel colore della squadra SEMPRE leggibile (regola fissa 22/11/2026, mappa tiri: "Armand Laurienté" nero su fondo scuro).
+// Fondo scuro: il colore acceso della squadra (il piu' saturo e luminoso tra i suoi colori, anche il verde che sul campo non si usa),
+// schiarito quanto basta; fondo chiaro: il colore se abbastanza scuro, altrimenti l'inchiostro del tema.
+const satOf = (p) => { const mx = Math.max(...p); const mn = Math.min(...p); return mx ? (mx - mn) / mx : 0; };
+export const teamText = (c, colors, dark = true, ink = null) => {
+  const list = [c, ...(Array.isArray(colors) ? colors : [])].filter((x) => rgb(x));
+  if (!list.length) return c;
+  if (!dark) { const d = list.find((x) => lum(rgb(x)) <= 150); return d || ink || '#0F172A'; }
+  const bright = list.filter((x) => satOf(rgb(x)) >= 0.35).sort((a, b) => lum(rgb(b)) - lum(rgb(a)));
+  if (lum(rgb(list[0])) >= 125) return list[0];
+  if (bright[0]) return shown(bright[0], 125);
+  const light = list.filter((x) => lum(rgb(x)) >= 125).sort((a, b) => lum(rgb(b)) - lum(rgb(a)))[0]; // bianconeri: il bianco
+  return light || shown(list[0], 125);
+};

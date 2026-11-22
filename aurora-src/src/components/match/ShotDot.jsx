@@ -1,4 +1,4 @@
-import { shown, inkOn, colorDist, matchColors } from '@/lib/tint';
+import { shown, inkOn, colorDist, matchColors, teamText } from '@/lib/tint';
 
 // Mappe tiri (regola fissa, concept A): campo verde scuro con linee bianche, porte su verde ancora piu' scuro; i pallini hanno il
 // colore della squadra (mai blu/rosso fissi). Stessa dimensione per tutti. Fuori = vuoto, in porta (palo/traversa inclusi) = pieno
@@ -37,7 +37,8 @@ export function shotColors(home, away) {
   return [h, a];
 }
 // colore usato per i testi (nomi, sigle): un colore chiaro (bianco) non si vedrebbe sul tema chiaro
-export const shotText = (c) => (inkOn(c) === '#0F172A' ? 'var(--ink)' : c);
+// sempre il colore acceso e leggibile della squadra (teamText in lib/tint.js, regola fissa 22/11/2026)
+export const shotText = (c, team) => teamText(c, team && team.colors, typeof document === 'undefined' || document.documentElement.classList.contains('dark'), 'var(--ink)');
 
 const PENT = [0, 1, 2, 3, 4].map((i) => { const a = -Math.PI / 2 + (i * 2 * Math.PI) / 5; return [a, Math.cos(a), Math.sin(a)]; });
 
