@@ -50,6 +50,7 @@ const FILES = {
   infortuni: 'infortuni.json',
   infortuniPartite: 'infortuni_partite.json',
   nomi: 'nomi.json',
+  nomiFm: 'nomi_fm.json',
   colors: 'arch/colors.json',
   colors2: 'arch/colors2.json',
 };

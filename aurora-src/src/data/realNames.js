@@ -1,22 +1,17 @@
-// Nomi veri dei giocatori chiamati con un soprannome (nomi.json di nomi.py: Wikidata, verificato con la data di nascita).
-// "Pote" (id FotMob 875133) -> "Pedro Gonçalves". Si cambia solo il nome mostrato: i nomi di FotMob restano le chiavi per gli abbinamenti,
-// e la ricerca trova il giocatore anche col soprannome. Senza nome vero (o se il nome non e' piu' il soprannome salvato) resta com'e'.
+// Nome mostrato = quello di FotMob (regola fissa 22/11/2026, richiesta utente: "Koke", non "Jorge Resurreccion").
+// nomi_fm.json (nomi_fm.py) = {id FotMob: nome FotMob} per i giocatori che in qualche fonte hanno un nome diverso. Si cambia SOLO il nome
+// mostrato: id e nomi delle fonti restano le chiavi degli abbinamenti (niente schede doppie, formazioni invariate). Senza voce resta il nome
+// della fonte (FotMob nella gran parte dei casi; diretta.it / LiveScore per chi FotMob non ha). Il vecchio "nome vero" da Wikidata
+// (nomi.json, regola del 09/11/2026) non si mostra piu'.
 import { RAW } from './load';
 
-const nk = (s) => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();
-
-// Giocatori che tutti chiamano col soprannome (o che hanno solo un nome di battesimo): restano coi nomi soliti.
-// Il nome vero si mostra solo per chi nessuno chiama davvero col soprannome (es. Pote -> Pedro Gonçalves).
-const TENGO = new Set(('gavi pedri rodri isco raphinha endrick estevao marquinhos richarlison joelinton antony ederson talisca vitinha gabriel pepelu oso paulinho fabinho angelino beto dodo jota pepe vitinho chiquinho allan arthur emerson bernardo amorim costinha evanilson murillo natan rayan robinho samu xeka kaka djene souza juan kevin anderson abner florentino savio vanderson pedrinho deivison janderson ewandro thalisson welinton cassiano brenner anilson calegari romulo talles newerton fabiano rodinei wesley otavio maestro viery lucao barbero').split(' '));
+const nk = (s) => String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
 
 export function realName(fid, name) {
-  const N = RAW.nomi;
+  const N = RAW.nomiFm;
   if (!N || !fid || Number(fid) <= 0) return name;
-  if (TENGO.has(nk(name))) return name;
   const r = N[String(fid)];
-  if (!r || !r[0]) return name;
-  if (name && r[3] && nk(r[3]) !== nk(name)) return name;
-  return r[0];
+  return typeof r === 'string' && r ? r : name;
 }
 
 // Una partita: i nomi degli eventi (gol, assist, cartellini, cambi) seguono quelli delle formazioni, cosi' gli abbinamenti per nome
