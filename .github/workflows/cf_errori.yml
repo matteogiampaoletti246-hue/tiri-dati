@@ -1,0 +1,29 @@
+name: Errori worker (Cloudflare)
+on:
+  workflow_dispatch:
+    inputs:
+      da:
+        description: inizio UTC (es. 2026-11-22T11:30:00Z)
+        required: true
+      a:
+        description: fine UTC
+        required: true
+jobs:
+  q:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Analytics del worker (solo log, niente nel repository)
+        env:
+          T: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          DA: ${{ inputs.da }}
+          A: ${{ inputs.a }}
+        run: |
+          Q=$(python3 -c "import json,os;print(json.dumps({'query':'query{viewer{accounts(filter:{accountTag:\"344b4f68fd540269085abbf16851253c\"}){workersInvocationsAdaptive(limit:2000,filter:{scriptName:\"scalperlab-live\",datetime_geq:\"'+os.environ['DA']+'\",datetime_leq:\"'+os.environ['A']+'\"},orderBy:[datetimeFiveMinutes_ASC]){sum{requests errors subrequests} quantiles{cpuTimeP50 cpuTimeP99 wallTimeP99} dimensions{datetimeFiveMinutes status}}}}}'}))")
+          curl -s https://api.cloudflare.com/client/v4/graphql -H "Authorization: Bearer $T" -H "Content-Type: application/json" -d "$Q" | python3 -c "
+          import json,sys
+          d=json.load(sys.stdin)
+          if d.get('errors'): print(d['errors'])
+          for r in ((d.get('data') or {}).get('viewer') or {}).get('accounts',[{}])[0].get('workersInvocationsAdaptive',[]) or []:
+            print(r['dimensions']['datetimeFiveMinutes'], r['dimensions']['status'], r['sum'], r['quantiles'])
+          "
