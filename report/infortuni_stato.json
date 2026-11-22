@@ -1,27 +1,27 @@
 {
- "updated_at": "2026-11-22T18:08:11Z",
+ "updated_at": "2026-11-22T22:06:51Z",
  "giocatori": 6856,
  "letti_fotmob": 6856,
  "squadre": 471,
- "prossime_fotmob": 289,
+ "prossime_fotmob": 280,
  "livescore": {
   "squadre_abbinate": 379,
-  "con_IS": 89
+  "con_IS": 96
  },
  "solo_fotmob": {
-  "inj": 487,
-  "sus": 26,
-  "abs": 242,
+  "inj": 500,
+  "sus": 13,
+  "abs": 251,
   "rientrati": 130,
-  "dubbi": 46
+  "dubbi": 54
  },
  "completo": {
-  "inj": 526,
-  "sus": 33,
-  "abs": 228,
-  "rientrati": 158,
-  "dubbi": 38
+  "inj": 539,
+  "sus": 21,
+  "abs": 240,
+  "rientrati": 155,
+  "dubbi": 46
  },
  "kv_scritto": true,
- "minuti": 6.2
+ "minuti": 7.0
 }
