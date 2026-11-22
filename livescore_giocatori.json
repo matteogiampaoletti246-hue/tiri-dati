@@ -1,5 +1,72 @@
 {
- "competizioni": {},
- "codici_it_visti": {},
- "partite_completate_in_questo_giro": 0
+ "competizioni": {
+  "Premier League 2026-2027": {
+   "partite_completate": 1,
+   "giocatori": 33,
+   "da_fare": 1
+  },
+  "Championship 2026-2027": {
+   "partite_completate": 1,
+   "giocatori": 28,
+   "da_fare": 1
+  },
+  "Premiership 2026-2027": {
+   "partite_completate": 5,
+   "giocatori": 111,
+   "da_fare": 5
+  },
+  "1. Division 2026-2027": {
+   "partite_completate": 3,
+   "giocatori": 101,
+   "da_fare": 3
+  },
+  "Prva Liga 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 2
+  },
+  "Slovenia Cup 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Taça de Portugal 2026-2027": {
+   "partite_completate": 4,
+   "giocatori": 101,
+   "da_fare": 4
+  },
+  "National Division 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 2
+  },
+  "1. CFL 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 3
+  },
+  "FNL 2026-2027": {
+   "partite_completate": 2,
+   "giocatori": 63,
+   "da_fare": 2
+  },
+  "Kategoria Superiore 2026-2027": {
+   "partite_completate": 2,
+   "giocatori": 40,
+   "da_fare": 2
+  }
+ },
+ "codici_it_visti": {
+  "4": 147,
+  "5": 147,
+  "36": 50,
+  "37": 9,
+  "38": 1,
+  "39": 2,
+  "43": 80,
+  "44": 1,
+  "45": 5,
+  "63": 3
+ },
+ "partite_completate_in_questo_giro": 32
 }
