@@ -1,83 +1,48 @@
 {
  "competizioni": {
-  "Kategoria Superiore 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 2
+  "Copa Sudamericana 2026": {
+   "partite_completate": 1,
+   "giocatori": 32,
+   "da_fare": 1
   },
   "Primera B Nacional 2026": {
+   "partite_completate": 1,
+   "giocatori": 28,
+   "da_fare": 1
+  },
+  "Primera A 2026 - Clausura": {
+   "partite_completate": 1,
+   "giocatori": 26,
+   "da_fare": 1
+  },
+  "Liga MX 2026-2027 - Apertura": {
+   "partite_completate": 3,
+   "giocatori": 79,
+   "da_fare": 4
+  },
+  "Liga de Expansión MX 2026-2027": {
+   "partite_completate": 1,
+   "giocatori": 22,
+   "da_fare": 1
+  },
+  "Primera Division 2026-2027": {
    "partite_completate": 2,
    "giocatori": 52,
    "da_fare": 2
   },
-  "Premier League 2026": {
+  "LPF 2026": {
    "partite_completate": 1,
-   "giocatori": 19,
+   "giocatori": 18,
    "da_fare": 1
   },
-  "First Division B 2026-2027": {
-   "partite_completate": 1,
-   "giocatori": 28,
-   "da_fare": 1
-  },
-  "Premier League 2026-2027": {
-   "partite_completate": 1,
-   "giocatori": 31,
-   "da_fare": 1
-  },
-  "First Professional League 2026-2027": {
-   "partite_completate": 1,
-   "giocatori": 24,
-   "da_fare": 1
-  },
-  "Primera Federación 2026-2027": {
-   "partite_completate": 6,
-   "giocatori": 121,
-   "da_fare": 6
-  },
-  "Taça de Portugal 2026-2027": {
+  "K League 1 2026": {
    "partite_completate": 2,
-   "giocatori": 46,
-   "da_fare": 4
-  },
-  "Premiership 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 1
-  },
-  "1. Division 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
+   "giocatori": 54,
    "da_fare": 2
-  },
-  "Primera Division 2026-2027 - Apertura": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 5
-  },
-  "Erovnuli Liga 2026": {
-   "partite_completate": 1,
-   "giocatori": 20,
-   "da_fare": 1
-  },
-  "Nemzeti Bajnokság I 2026-2027": {
-   "partite_completate": 1,
-   "giocatori": 28,
-   "da_fare": 1
-  },
-  "1. CFL 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 1
-  },
-  "Prva Liga 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 1
   }
  },
- "partite_completate": 17,
- "giocatori": 397,
- "senza_abbinamento": 0,
- "senza_formazioni_diretta": 15
+ "partite_completate": 12,
+ "giocatori": 311,
+ "senza_abbinamento": 1,
+ "senza_formazioni_diretta": 0
 }
