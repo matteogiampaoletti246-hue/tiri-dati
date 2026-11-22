@@ -1,0 +1,10 @@
+name: Sonda foto LiveScore
+on:
+  workflow_dispatch:
+jobs:
+  s:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 tools/sonda_lsimg.py
