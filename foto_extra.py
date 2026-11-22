@@ -21,6 +21,7 @@ MAX_TEAM_MATCH = int(os.environ.get("MAX_TEAM_MATCH", "6"))
 T0 = time.time()
 STATE, REPORT = "foto_extra_stato.json", "report/foto_extra.json"
 ON = bool(os.environ.get("CLOUDFLARE_API_TOKEN"))
+LS_ON = os.environ.get("LS_FOTO") == "1"
 LS_BASES = ["https://lsm-static-prod.livescore.com/high/enet/", "https://lsm-static-prod.livescore.com/medium/enet/", "https://lsm-static-prod.livescore.com/high/", "https://lsm-static-prod.livescore.com/medium/"]
 DL_BASE = "https://static.flashscore.com/res/image/data/"
 late = lambda: (time.time() - T0) / 60 > MAX_MIN
@@ -117,11 +118,11 @@ def main():
                 if not ((h in need and need[h] and done_t[h] < MAX_TEAM_MATCH) or (a in need and need[a] and done_t[a] < MAX_TEAM_MATCH)):
                     continue
                 mid = str(r[0])
-                if mid in tried or ts > now + 7 * 86400:
+                if mid in tried or abs(ts - now) > 7 * 86400:
                     continue
                 hn, an = teams.get(h) or "", teams.get(a) or ""
                 players = {1: [], 2: []}   # (nome, url, fonte)
-                if ts <= now + 3 * 3600:
+                if LS_ON and ts <= now + 3 * 3600:   # LiveScore: indirizzo delle foto non trovato (22/11/2026, 14 varianti provate: tutte 404) -> spento
                     eid = find_event(ts, r[2], r[3], hn, an)
                     ln = ls_get(LSB + f"lineups/soccer/{eid}?locale=en") if eid else None
                     for side, t in enumerate(((ln or {}).get("Lu") or [])[:2], 1):
