@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-22T02:58:00+00:00",
+ "updated_at": "2026-11-22T13:10:48+00:00",
  "window": {
   "nlast": 0,
   "min_games": 1,
@@ -17151,59 +17151,6 @@
      ]
     },
     {
-     "id": "m_1m7rKw",
-     "date": "2026-11-28",
-     "time": "2026-11-28",
-     "league": "Ligue 1",
-     "home": "Nice",
-     "away": "Troyes",
-     "corners_home": 3.5,
-     "corners_away": 4.7,
-     "gap": 1.2,
-     "games": [
-      6,
-      5
-     ],
-     "tiri_home": 11.5,
-     "tiri_away": 12.2,
-     "tiri_gap": 0.7,
-     "tiri_games": [
-      6,
-      5
-     ],
-     "sot_home": 4.5,
-     "sot_away": 3.4,
-     "sot_gap": 1.1,
-     "sot_games": [
-      6,
-      5
-     ],
-     "falli_home": 11.8,
-     "falli_away": 11.1,
-     "falli_gap": 0.6,
-     "falli_games": [
-      11,
-      11
-     ],
-     "off_home": 2.1,
-     "off_away": 1.8,
-     "off_gap": 0.4,
-     "off_games": [
-      11,
-      11
-     ],
-     "cards": 4.1,
-     "cards_1t": 1.1,
-     "cards_home": 2.3,
-     "cards_away": 1.8,
-     "cards_1t_home": 0.5,
-     "cards_1t_away": 0.6,
-     "games_k": [
-      11,
-      11
-     ]
-    },
-    {
      "id": "m_1LWSAq",
      "date": "2026-11-28",
      "time": "2026-11-28",
@@ -17257,52 +17204,52 @@
      ]
     },
     {
-     "id": "m_4f73g7",
+     "id": "m_1m7rKw",
      "date": "2026-11-28",
      "time": "2026-11-28",
      "league": "Ligue 1",
-     "home": "Le Havre",
-     "away": "Strasbourg",
-     "corners_home": 5.1,
-     "corners_away": 2.8,
-     "gap": 2.3,
+     "home": "Nice",
+     "away": "Troyes",
+     "corners_home": 3.5,
+     "corners_away": 4.7,
+     "gap": 1.2,
      "games": [
       6,
-      6
+      5
      ],
-     "tiri_home": 16.0,
-     "tiri_away": 11.6,
-     "tiri_gap": 4.4,
+     "tiri_home": 11.5,
+     "tiri_away": 12.2,
+     "tiri_gap": 0.7,
      "tiri_games": [
       6,
-      6
+      5
      ],
-     "sot_home": 5.6,
-     "sot_away": 5.2,
-     "sot_gap": 0.4,
+     "sot_home": 4.5,
+     "sot_away": 3.4,
+     "sot_gap": 1.1,
      "sot_games": [
       6,
-      6
+      5
      ],
-     "falli_home": 13.0,
-     "falli_away": 14.0,
-     "falli_gap": 1.0,
+     "falli_home": 11.8,
+     "falli_away": 11.1,
+     "falli_gap": 0.6,
      "falli_games": [
       11,
       11
      ],
-     "off_home": 1.5,
-     "off_away": 1.9,
-     "off_gap": 0.3,
+     "off_home": 2.1,
+     "off_away": 1.8,
+     "off_gap": 0.4,
      "off_games": [
       11,
       11
      ],
-     "cards": 3.8,
-     "cards_1t": 1.4,
-     "cards_home": 1.9,
-     "cards_away": 1.9,
-     "cards_1t_home": 0.7,
+     "cards": 4.1,
+     "cards_1t": 1.1,
+     "cards_home": 2.3,
+     "cards_away": 1.8,
+     "cards_1t_home": 0.5,
      "cards_1t_away": 0.6,
      "games_k": [
       11,
@@ -17360,6 +17307,59 @@
      "games_k": [
       10,
       15
+     ]
+    },
+    {
+     "id": "m_4f73g7",
+     "date": "2026-11-28",
+     "time": "2026-11-28",
+     "league": "Ligue 1",
+     "home": "Le Havre",
+     "away": "Strasbourg",
+     "corners_home": 5.1,
+     "corners_away": 2.8,
+     "gap": 2.3,
+     "games": [
+      6,
+      6
+     ],
+     "tiri_home": 16.0,
+     "tiri_away": 11.6,
+     "tiri_gap": 4.4,
+     "tiri_games": [
+      6,
+      6
+     ],
+     "sot_home": 5.6,
+     "sot_away": 5.2,
+     "sot_gap": 0.4,
+     "sot_games": [
+      6,
+      6
+     ],
+     "falli_home": 13.0,
+     "falli_away": 14.0,
+     "falli_gap": 1.0,
+     "falli_games": [
+      11,
+      11
+     ],
+     "off_home": 1.5,
+     "off_away": 1.9,
+     "off_gap": 0.3,
+     "off_games": [
+      11,
+      11
+     ],
+     "cards": 3.8,
+     "cards_1t": 1.4,
+     "cards_home": 1.9,
+     "cards_away": 1.9,
+     "cards_1t_home": 0.7,
+     "cards_1t_away": 0.6,
+     "games_k": [
+      11,
+      11
      ]
     }
    ]
