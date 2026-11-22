@@ -37,7 +37,7 @@ export default function TeamBlock({ title, mode = 'for', family = 'totali', bloc
   const boxes = splitBoxes(stats, mode, family);
   const shotsLabel = mode === 'against' ? 'Tiri subiti' : 'Tiri fatti';
 
-  const rk = (r) => (stats && !stats.cup && r ? { r, col: bandColor(stats.size > 1 ? (stats.size - r) / (stats.size - 1) : 1) } : null);
+  const rk = (r) => (stats && r ? { r, col: bandColor(stats.size > 1 ? (stats.size - r) / (stats.size - 1) : 1) } : null);
   const rankTot = rk(mode === 'against' ? stats?.rankAgainst : stats?.rankFor);
   const rankSot = rk(mode === 'against' ? stats?.rankSotAgainst : stats?.rankSotFor);
 

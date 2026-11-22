@@ -155,7 +155,7 @@ export function teamFoulStats(data, fmTeam, leagueId, name, stat) {
   const v = mean(parts, (x) => x.a.v);
   const avg = mean(parts, (x) => x.avg);
   const own = parts.find((x) => x.k === dk) || parts[0];
-  const rk = cup ? null : rankIn(data[leagueId], fmTeam, stat);
+  const rk = rankIn(data[leagueId], fmTeam, stat); // anche in coppa: posizione tra le squadre della coppa (23/11/2026)
   return { v, avg, casa: own.a.casa, trasferta: own.a.trasferta, rank: rk, cup, mix: parts.length > 1 ? parts.map((x) => ({ k: x.k, v: x.a.v })) : null };
 }
 

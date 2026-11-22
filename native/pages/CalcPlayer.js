@@ -726,7 +726,7 @@ export function ShotsTeam({ C, title, mode, family, block, onChange, openRoute, 
   const stats = teamShots(block.id, block.leagueId);
   const boxes = splitBoxes(stats, mode, family);
   const sl = mode === 'against' ? 'Tiri subiti' : 'Tiri fatti';
-  const rk = (r) => (stats && !stats.cup && r ? { r, size: stats.size, col: BAND_COLORS[bandOf(stats.size > 1 ? (stats.size - r) / (stats.size - 1) : 1)] } : null);
+  const rk = (r) => (stats && r ? { r, size: stats.size, col: BAND_COLORS[bandOf(stats.size > 1 ? (stats.size - r) / (stats.size - 1) : 1)] } : null);
   const row = team ? teamRow(block.leagueId, team.id) : null;
   const tiles = [['tot', `${sl} totali`, block.totali, (v) => onChange({ totali: v }), rk(mode === 'against' ? stats && stats.rankAgainst : stats && stats.rankFor)], ['sot', `${sl} in porta`, block.inPorta, (v) => onChange({ inPorta: v }), rk(mode === 'against' ? stats && stats.rankSotAgainst : stats && stats.rankSotFor)]];
   return (

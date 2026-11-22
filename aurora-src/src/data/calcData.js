@@ -157,10 +157,11 @@ export function teamShots(teamId, leagueId) {
     for: { totali: fTot.v, inPorta: fSot.v, casa: { totali: sTot && sTot.casa, inPorta: sSot && sSot.casa }, trasferta: { totali: sTot && sTot.trasferta, inPorta: sSot && sSot.trasferta } },
     against: { totali: aTot.v, inPorta: aSot.v, casa: { totali: aSplitTot && aSplitTot.casa, inPorta: aSplitSot && aSplitSot.casa }, trasferta: { totali: aSplitTot && aSplitTot.trasferta, inPorta: aSplitSot && aSplitSot.trasferta } },
     avg: { for: { totali: fTot.avg, inPorta: fSot.avg }, against: { totali: aTot.avg, inPorta: aSot.avg } },
-    rankFor: cup ? null : ranks(leagueId, 'totalFor')[name],
-    rankAgainst: cup ? null : ranks(leagueId, 'totalAgainst')[name],
-    rankSotFor: cup ? null : ranks(leagueId, 'sotFor')[name],
-    rankSotAgainst: cup ? null : ranks(leagueId, 'sotAgainst')[name],
+    // posizione nella statistica DENTRO la competizione scelta, anche in coppa (Champions/Europa: tra le squadre della coppa) — 23/11/2026
+    rankFor: ranks(leagueId, 'totalFor')[name],
+    rankAgainst: ranks(leagueId, 'totalAgainst')[name],
+    rankSotFor: ranks(leagueId, 'sotFor')[name],
+    rankSotAgainst: ranks(leagueId, 'sotAgainst')[name],
     breakdown: cup ? { for: fTot, against: aTot } : null,
     raw: { for: LD[leagueId].teams[name], against: LD[leagueId].teams[name] },
   };
