@@ -5,7 +5,8 @@ import { ensureTeam, teamByName, teamById } from './teams';
 import { norm, slug, r1, r2 } from './util';
 import { realName } from './realNames';
 import { leagueById, CUP_IDS } from './leagues';
-import { playerFace, setFace } from './faces';
+import { playerFace, setFace, hasFace } from './faces';
+import { WORKER } from './load';
 
 export const PLAYERS = [];
 export const EX_COLS = [];
@@ -85,6 +86,8 @@ export function buildPlayers() {
   const photoOf = (id) => (RAW.stats && RAW.stats.ph && RAW.stats.ph[id]) || (RAW.foto && RAW.foto[id] && RAW.foto[id].u) || (RAW.fotoFm && RAW.fotoFm[id] ? faceUrl(RAW.fotoFm[id]) : null);
   const recent = (RAW.indice && RAW.indice.p) || {};
   // foto piu' recente (PitchAPI) per id FotMob: la usano tutti i punti che mostrano un giocatore tramite `playerFace`
+  // gerarchia delle foto: PitchAPI (qui sotto) -> FotMob; per gli id senza foto FotMob ne' PitchAPI, LiveScore/diretta.it dal worker (foto_extra.py)
+  (RAW.phx || []).forEach((id) => { if (!hasFace(id)) setFace(id, `${WORKER}/pf/${id}.png`); });
   ((RAW.giocatori && RAW.giocatori.players) || []).forEach((g) => { const u = (RAW.stats && RAW.stats.ph && RAW.stats.ph[g.i]) || (RAW.foto && RAW.foto[g.i] && RAW.foto[g.i].u); if (u && (g.f || g.fm)) setFace(g.f || g.fm, u); });
 
   const source = (RAW.giocatori && RAW.giocatori.players) || [];

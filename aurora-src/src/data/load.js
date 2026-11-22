@@ -96,6 +96,13 @@ const kvInjuries = () => Promise.race([
 // File senza i quali spariscono affidabilita', Calcolatore e schede (17/11/2026: un file che non arriva all'avvio, rete del telefono o GitHub Pages
 // in aggiornamento, lasciava l'app senza affidabilita' in TUTTE le partite fino alla chiusura). Si riprova fino a 4 volte; se manca ancora,
 // `rawMissing()` lo dice e l'avvio nativo riprova al prossimo uso (shared/boot.js), invece di tenere i dati a meta' per tutta la sessione.
+// Foto da altre fonti (LiveScore, diretta.it) per chi non l'ha su FotMob ne' PitchAPI (foto_extra.py, 22/11/2026): elenco degli id su KV,
+// la foto passa dal worker (/pf/<id>.png). Dati di terzi: mai nel repository. Al massimo 3 s: senza risposta restano FotMob/PitchAPI.
+const kvPhotoIds = () => Promise.race([
+  fetch(`${WORKER}/r?k=idx:ph/ids`).then((r) => (r.ok ? r.json() : null)).catch(() => null),
+  new Promise((res) => setTimeout(() => res(null), 3000)),
+]);
+
 export const ESSENTIAL = ['giocatori', 'calcExtra', 'calcTutte', 'data', 'teams', 'squadre', 'partite'];
 export const rawMissing = () => ESSENTIAL.filter((k) => RAW[k] == null);
 const getRetry = async (name, tries = 4) => {
@@ -114,6 +121,7 @@ export async function loadRaw() {
       RAW[key] = await (ESSENTIAL.includes(key) ? getRetry(file) : get(file));
     }),
     kvInjuries().then((j) => { RAW.infortuniKv = j && j.p ? j : null; }),
+    kvPhotoIds().then((j) => { RAW.phx = Array.isArray(j) ? j : null; }),
   ]);
   mergeCalcExtra();
   return RAW;

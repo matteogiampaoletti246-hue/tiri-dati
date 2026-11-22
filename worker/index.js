@@ -236,6 +236,7 @@ function fmTeam(tid) {
 // dei giocatori senza id; posizione, numero, voto e capitano restano quelli della fonte. Risultati ricordati 10 minuti (al massimo 600 giocatori).
 const LINKED = new Map();
 const FXLIVE = new Map(); // /fx delle partite live: 1 secondo (tanti telefoni che chiedono ogni secondo = un solo calcolo), al massimo 100
+const PHMEM = new Map(); // /pf: i 100 pezzi idx:ph/<n> (capienza fissa: al massimo 100, uno per resto), 1 ora
 const FXMEM = new Map(); // /fx delle partite lontane dal fischio: 5 minuti, al massimo 300
 async function linkMissing(t, tid) {
   if (!t || !tid) return t;
@@ -590,6 +591,14 @@ export default {
     if (req.method === "OPTIONS") return new Response(null, { headers: { ...cors(req), "Access-Control-Allow-Methods": "GET", "Access-Control-Max-Age": "86400" } });
     const u = new URL(req.url);
     try {
+      { const pm = u.pathname.match(/^\/pf\/(\d{1,10})\.png$/); if (pm) { // foto giocatore da altre fonti (LiveScore, diretta.it) per chi non l'ha su FotMob: KV idx:ph/<id%100> (foto_extra.py)
+        const pid = pm[1], n = Number(pid) % 100;
+        let sh = PHMEM.get(n);
+        if (!sh || Date.now() - sh.t > 3600000) { let v = null; try { v = env && env.ROSE ? JSON.parse((await env.ROSE.get("idx:ph/" + n)) || "{}") : {}; } catch (e) { v = {}; } sh = { t: Date.now(), v }; PHMEM.set(n, sh); }
+        const to = sh.v[pid];
+        if (!to || !/^https:\/\//.test(to)) return new Response("", { status: 404, headers: cors(req, { "Cache-Control": "public, max-age=3600" }) });
+        return new Response(null, { status: 302, headers: cors(req, { Location: to, "Cache-Control": "public, max-age=86400" }) });
+      } }
       if (u.pathname === "/v") { // versione dell'app nativa in uso sul telefono (21/11/2026): ?sha=<commit>&e=start|resume; ?read=1 le ultime 40 (solo versione e ora, niente dati personali)
         if (!env || !env.ROSE) return new Response("[]", { headers: cors(req) });
         const cur = JSON.parse((await env.ROSE.get("diag:app")) || "[]");
