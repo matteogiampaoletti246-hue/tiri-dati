@@ -1,12 +1,5 @@
 {
  "competizioni": {
-  "Premiership (SCO) 2026-2027": {
-   "lega_pitch": "Premiership",
-   "partite_completate": 0,
-   "giocatori": 0,
-   "senza_abbinamento": 0,
-   "da_fare": 1
-  },
   "LaLiga (ESP) 2026-2027": {
    "lega_pitch": "LaLiga",
    "partite_completate": 0,
