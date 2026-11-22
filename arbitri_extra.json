@@ -1,54 +1,4 @@
 {
-"5181835": {
-"n": "Glenn Nyberg",
-"src": "api-football",
-"at": "2026-11-15T05:00+00:00"
-},
-"5181836": {
-"n": "Michael Oliver",
-"src": "api-football",
-"at": "2026-11-15T05:00+00:00"
-},
-"5181786": {
-"n": "Serdar Gozubuyuk",
-"src": "api-football",
-"at": "2026-11-15T05:00+00:00"
-},
-"5181787": {
-"n": "Danny Makkelie",
-"src": "api-football",
-"at": "2026-11-15T05:00+00:00"
-},
-"5181943": {
-"n": "Enea Jorgji",
-"src": "api-football",
-"at": "2026-11-15T05:00+00:00"
-},
-"5181944": {
-"n": "Aliyar Agayev",
-"src": "api-football",
-"at": "2026-11-15T05:00+00:00"
-},
-"5181959": {
-"n": "Nenad Minakovic",
-"src": "api-football",
-"at": "2026-11-15T05:00+00:00"
-},
-"5181960": {
-"n": "Marian Barbu",
-"src": "api-football",
-"at": "2026-11-15T05:00+00:00"
-},
-"5181885": {
-"n": "Allard Lindhout",
-"src": "api-football",
-"at": "2026-11-15T05:00+00:00"
-},
-"5181879": {
-"n": "Balazs Berke",
-"src": "api-football",
-"at": "2026-11-15T05:00+00:00"
-},
 "5181871": {
 "n": "Halil Umut Meler",
 "src": "api-football",
@@ -1425,10 +1375,10 @@
 "at": "2026-11-21T12:42+00:00"
 },
 "_err": [
-"2026-11-21: {\"access\": \"Your account is suspended, check on https://dashboard.api-football.com.\"}",
 "2026-11-22: {\"access\": \"Your account is suspended, check on https://dashboard.api-football.com.\"}",
-"2026-11-23: {\"plan\": \"Free plans do not have access to this date, try from 2026-11-20 to 2026-11-22.\"}",
-"2026-11-24: {\"plan\": \"Free plans do not have access to this date, try from 2026-11-20 to 2026-11-22.\"}"
+"2026-11-23: {\"access\": \"Your account is suspended, check on https://dashboard.api-football.com.\"}",
+"2026-11-24: {\"plan\": \"Free plans do not have access to this date, try from 2026-11-21 to 2026-11-23.\"}",
+"2026-11-25: {\"plan\": \"Free plans do not have access to this date, try from 2026-11-21 to 2026-11-23.\"}"
 ],
-"_at": "2026-11-21T20:33+00:00"
+"_at": "2026-11-22T02:16+00:00"
 }
