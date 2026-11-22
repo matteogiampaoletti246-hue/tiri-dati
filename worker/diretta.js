@@ -203,7 +203,8 @@ export async function dlLineups(g2, stt, fmId, env) {
     if (rec && (rec.k || (rec.c && !started))) { memSet(MEM, fmId, { t: (memo && memo.t) || now, d: memo && memo.d, rec }); return out(rec); }
     // oltre 1h26: ogni 2 ore; dentro la finestra: ogni 5 secondi; al fischio: una lettura nuova
     const ttl = started ? 0 : to > DL_WINDOW_MS ? EARLY_MS : BEAT_MS;
-    if (memo && memo.d !== undefined && now - memo.t < ttl) return memo.d;
+    // lettura fallita (null): si riprova dopo al massimo 2 minuti, non dopo 2 ore (22/11/2026)
+    if (memo && memo.d !== undefined && now - memo.t < (memo.d ? ttl : Math.min(ttl, 120000))) return memo.d;
     const hn = g2.homeTeam && g2.homeTeam.name, an = g2.awayTeam && g2.awayTeam.name;
     const mid = (rec && rec.mid) || (await midOf(fmId, koMs, hn, an));
     let d = null;

@@ -238,6 +238,45 @@ const LINKED = new Map();
 const FXLIVE = new Map(); // /fx delle partite live: 1 secondo (tanti telefoni che chiedono ogni secondo = un solo calcolo), al massimo 100
 const PHMEM = new Map(); // /pf: i 100 pezzi idx:ph/<n> (capienza fissa: al massimo 100, uno per resto), 1 ora
 const FXMEM = new Map(); // /fx delle partite lontane dal fischio: 5 minuti, al massimo 300
+// /fx delle partite non iniziate con le due formazioni (22/11/2026): ultima risposta completa, in memoria (al massimo 300) e in KV `idx:fxpre/<id>`
+// (scadenza 8 giorni, mai nel repository). KV si scrive solo quando la formazione cambia o ogni 30 minuti (poche scritture al giorno).
+const FXPRE = new Map();
+const FXPRE_RUN = new Set();
+const fxFull = (t) => !!(t && Array.isArray(t.s) && t.s.length >= 11);
+async function fxPreGet(id, env) {
+  const m = FXPRE.get(id);
+  if (m) return m;
+  const kv = env && env.ROSE;
+  if (!kv) return null;
+  try {
+    const r = await kv.get("idx:fxpre/" + id, "json");
+    if (!r || !r.body || !r.lu) return null;
+    const e = { t: r.t || 0, ko: r.ko || 0, body: r.body, lu: r.lu, sig: r.sig || "", kvT: r.t || 0 };
+    FXPRE.set(id, e); while (FXPRE.size > 300) FXPRE.delete(FXPRE.keys().next().value);
+    return e;
+  } catch (e) { return null; }
+}
+function fxPreSave(id, env, ctx, out, g2, stt, body) {
+  try {
+    if (out.st || out.fin || (g2 && g2.started) || !fxFull(out.h) || !fxFull(out.a)) return;
+    const ko = Date.parse((g2 && g2.matchTimeUTCDate) || (stt && stt.utcTime) || "");
+    if (!ko) return;
+    const now = Date.now();
+    const lu = { h: out.h, a: out.a, ty: out.ty || null, luSrc: out.luSrc || null };
+    const sig = String(out.ty || "") + "|" + [out.h, out.a].map((t) => t.s.map((p) => p[0] + "#" + p[1] + "#" + p[2] + "#" + p[3]).join(",")).join("/");
+    const old = FXPRE.get(id);
+    const kvT = old ? old.kvT || 0 : 0;
+    const write = !old || old.sig !== sig || now - kvT > 30 * 60000;
+    FXPRE.delete(id); FXPRE.set(id, { t: now, ko, body, lu, sig, kvT: write ? now : kvT });
+    while (FXPRE.size > 300) FXPRE.delete(FXPRE.keys().next().value);
+    const kv = env && env.ROSE;
+    if (write && kv) {
+      const ttl = Math.max(3600, Math.min(8 * 86400, Math.round((ko - now) / 1000) + 6 * 3600));
+      const p = kv.put("idx:fxpre/" + id, JSON.stringify({ t: now, ko, sig, lu, body }), { expirationTtl: ttl }).catch(() => {});
+      if (ctx && ctx.waitUntil) ctx.waitUntil(p);
+    }
+  } catch (e) { /* mai rompere /fx */ }
+}
 async function linkMissing(t, tid) {
   if (!t || !tid) return t;
   const rows = [...(t.s || []), ...(t.b || [])].filter((p) => p && !p[7] && p[0]);
@@ -675,229 +714,257 @@ export default {
         { const l0 = FXLIVE.get(id); if (l0 && Date.now() - l0.t < 1000) return new Response(l0.b, { headers: cors(req, { "Cache-Control": "no-store", "X-Fx-Cache": "live" }) }); }
         { const m0 = FXMEM.get(id); if (m0 && Date.now() - m0.t < 300000) return new Response(m0.b, { headers: cors(req, { "Cache-Control": "public, max-age=3", "X-Fx-Cache": "mem" }) }); }
         try { const hit = await caches.default.match(fxKey); if (hit) return new Response(hit.body, { headers: cors(req, { "Cache-Control": "public, max-age=3", "X-Fx-Cache": "1" }) }); } catch (e) { /* senza cache si calcola (su workers.dev la cache di Cloudflare puo' non esserci: resta la memoria) */ }
-        const r = await fetch("https://www.fotmob.com/api/data/matchDetails?matchId=" + id, { headers: FMH, cf: { cacheTtl: 3, cacheEverything: true } });
-        if (!r.ok) throw new Error("FotMob " + r.status);
-        const j = await r.json(), c = j.content || {}, lu = c.lineup || {}, rf = c.matchFacts && c.matchFacts.infoBox && c.matchFacts.infoBox.Referee;
-        const ph = (pid) => pid ? "https://images.fotmob.com/image_resources/playerimages/" + pid + ".png" : null;
-        const team = (t) => {
-          if (!t || !(t.starters || []).length) return null;
-          // [8] = ruolo FotMob (0 portiere, 1 difesa, 2 centrocampo, 3 attacco): le formazioni "simple" dei campionati minori non hanno coordinate
-          const mp = (p) => [p.name, p.shirtNumber != null ? +p.shirtNumber || p.shirtNumber : null, p.horizontalLayout ? p.horizontalLayout.x : null, p.horizontalLayout ? p.horizontalLayout.y : null, !!p.isCaptain, ph(p.id), p.performance && p.performance.rating ? p.performance.rating : null, p.id, p.positionId != null ? p.positionId : p.usualPlayingPositionId != null ? p.usualPlayingPositionId : null];
-          const cc = t.coach;
-          return { f: t.formation, s: t.starters.map(mp), b: (t.subs || []).map(mp), co: cc ? { id: cc.id, n: cc.name, cc: cc.countryCode } : null };
-        };
-        let ref = null;
-        if (rf && rf.text) {
-          const g = (k) => { const x = (rf.stats || []).find((q) => q.type === k); return x || null; };
-          const y = g("yellowCards"), fo = g("fouls"), mt = g("matches"), rd = g("redCards"), pe = g("penalties");
-          ref = { n: rf.text, cc: rf.countryCode, y: y ? y.value : null, ya: y ? y.average : null, fo: fo ? fo.value : null, foa: fo ? fo.average : null, mt: mt ? mt.value : null, r: rd ? rd.value : null, pen: pe ? pe.value : null };
-        }
-        const g2 = j.general || {}, hd = j.header || {}, stt = hd.status || {}, tm = hd.teams || [];
-        const lt = stt.liveTime || {}, hf = stt.halfs || {};
-        const clean = (x) => String(x == null ? "" : x).replace(/[\u200e\u200f]/g, "");
-        const live = !!(stt.started && !stt.finished && !stt.cancelled);
-        const ht = live && !!hf.firstHalfEnded && !hf.secondHalfStarted;
-        const mf = (c.matchFacts && c.matchFacts.events && c.matchFacts.events.events) || [];
-        const nm = (x) => (x && x.name) || "";
-        let ev = mf.filter((e) => ["Goal", "Card", "Substitution"].includes(e.type) || (e.type === "MissedPenalty" && !e.isPenaltyShootoutEvent)).map((e) => {
-          const add = e.overloadTime || 0;
-          const o = { ty: e.type, t: e.time, a: add, h: !!e.isHome, ts: e.time * 100 + add };
-          if (e.type === "Goal") { Object.assign(o, { n: e.player && e.player.name || e.nameStr, id: e.player && e.player.id || e.playerId, as: e.assistInput || null, aid: e.assistPlayerId || null, og: !!e.ownGoal, pen: /pen/i.test(e.goalDescription || "") || /pen/i.test(e.goalDescriptionKey || ""), sc: e.newScore || null }); }
-          else if (e.type === "MissedPenalty") { Object.assign(o, { n: e.player && e.player.name || e.nameStr, id: e.player && e.player.id || e.playerId }); }
-          else if (e.type === "Card") { Object.assign(o, { n: e.player && e.player.name || e.nameStr, id: e.player && e.player.id || e.playerId, cd: e.card }); }
-          else { const sw = e.swap || []; Object.assign(o, { n: nm(sw[0]), id: sw[0] && +sw[0].id || null, o: nm(sw[1]), oid: sw[1] && +sw[1].id || null }); }
-          return o;
-        });
-        // campionati minori: FotMob a volte non da' matchFacts.events ma i marcatori stanno nell'intestazione (header.events)
-        if (!ev.some((x) => x.ty === "Goal") && hd.events) {
-          ["homeTeamGoals", "awayTeamGoals"].forEach((k, side) => {
-            Object.values(hd.events[k] || {}).forEach((arr) => (Array.isArray(arr) ? arr : []).forEach((g) => {
-              const add = g.overloadTime || 0, t = parseInt(g.time, 10);
-              if (!Number.isFinite(t)) return;
-              ev.push({ ty: "Goal", t, a: add, h: side === 0, ts: t * 100 + add, n: (g.player && g.player.name) || g.fullName || "", id: (g.player && g.player.id) || g.playerId || null, as: g.assistStr || null, aid: g.assistPlayerId || null, og: !!g.ownGoal, pen: /pen/i.test(g.goalDescription || g.type || ""), sc: null });
-            }));
-          });
-        }
-        ev.sort((x, y) => x.ts - y.ts);
-        const per = (P) => {
-          if (!P || !P.stats) return null;
-          const seen = {}, out = [];
-          P.stats.forEach((grp) => {
-            const rows = [];
-            (grp.stats || []).forEach((s2) => {
-              if (!s2 || s2.type === "title" || !s2.rawStats || s2.rawStats.length < 2) return;
-              if (seen[s2.key]) return; seen[s2.key] = 1;
-              const a = s2.rawStats[0] || {}, b = s2.rawStats[1] || {};
-              rows.push([s2.key, s2.title, a.value, b.value, a.total, b.total, s2.format || null]);
-            });
-            if (rows.length) out.push([grp.key || grp.title, grp.title, rows]);
-          });
-          return out;
-        };
-        const sp = (c.stats && c.stats.Periods) || {};
-        const stats = { All: per(sp.All), FirstHalf: per(sp.FirstHalf), SecondHalf: per(sp.SecondHalf) };
-        const arr = (x) => (Array.isArray(x) ? x : x && typeof x === "object" ? Object.values(x) : []);
-        const pl = {};
-        arr(c.playerStats).forEach((q) => {
-          if (!q || !q.id) return;
-          const groups = arr(q.stats).map((grp) => [grp.key || grp.title || "", grp.title || "", Object.entries(grp.stats || {}).map(([lab, e]) => { const st2 = (e && e.stat) || {}; return [e && e.key, lab, st2.value, st2.total, st2.type]; }).filter((x) => x[0] && x[2] != null)]).filter((g3) => g3[2].length);
-          pl[q.id] = [q.name, q.teamId, q.isGoalkeeper ? 1 : 0, groups];
-        });
-        const shs = ((c.shotmap || {}).shots || []).map((x) => [x.min, x.minAdded, x.teamId, x.playerName, x.x, x.y, x.eventType, x.isBlocked ? 1 : 0, x.isOnTarget ? 1 : 0, x.blockedX, x.blockedY, x.goalCrossedY, x.goalCrossedZ, x.expectedGoals, x.expectedGoalsOnTarget, x.shotType, x.situation, x.isOwnGoal ? 1 : 0, x.period]);
-        const mo = ((c.momentum || {}).main || {}).data || null;
-        const out = { t: Date.now(), hi: g2.homeTeam && g2.homeTeam.id, ai: g2.awayTeam && g2.awayTeam.id, sh: shs, mo: mo && mo.length ? mo.map((q) => ({ minute: q.minute, value: q.value })) : null, ty: lu.lineupType || null, started: !!g2.started, fin: !!g2.finished, st: live, sc: tm.length > 1 ? [tm[0].score, tm[1].score] : null, clk: clean(lt.short), ht, ev, stats, pl, h: team(lu.homeTeam), a: team(lu.awayTeam), ref };
-        // Catena formazioni (regola fissa 14/11/2026): vale la prima fonte che ha i DUE undici UFFICIALI. FotMob ufficiale con le coordinate resta com'e'
-        // (e' la piu' ricca); altrimenti (FotMob vuota, "probabile", "ultima formazione" o "simple") si prova ESPN, poi PitchAPI, poi LiveScore: appena una
-        // pubblica la formazione ufficiale prende il posto di quella probabile. Nome, foto, voto e id restano di FotMob dove coincide lo stesso giocatore.
-        const noXY = (t) => !t || (t.s || []).some((p) => p[2] == null);
-        const fmOfficial = /^(standard|official|confirm)/i.test(String(lu.lineupType || ""));
-        // diretta.it al primo posto (richiesta utente 15/11/2026, `worker/diretta.js`): ufficiali di diretta prima di ogni altra fonte; a partita iniziata
-        // con la formazione FotMob completa non si cambia piu' (il live resta com'era). Le probabili di diretta passano davanti a quelle di FotMob e all'ultima formazione,
-        // ma mai davanti a una formazione ufficiale di un'altra fonte. Se diretta non risponde o non e' abbinata, la catena resta quella di prima.
-        const fm0 = { h: out.h, a: out.a };
-        const fmReady = fmOfficial && !noXY(out.h) && !noXY(out.a);
-        // le altre fonti partono subito, insieme a diretta (si usano solo se servono)
-        const mkAlt = () => ({ hi: out.hi, ai: out.ai });
-        const needAlt = noXY(out.h) || noXY(out.a) || (!fmOfficial && !g2.started);
-        const altP = needAlt ? (async () => { const [aE, aP, aL] = [mkAlt(), mkAlt(), mkAlt()]; await Promise.all([espnLineups(aE, g2), pitchLineups(aP, id, env), lsLineups(aL, g2.matchTimeUTCDate || stt.utcTime, !!(g2.started || g2.finished))]); return aE.h ? aE : aP.h ? aP : aL.h ? aL : mkAlt(); })() : null;
-        const dl = await dlLineups(g2, stt, id, env);
-        let dlDone = false;
-        if (dl && dl.official && !fmReady) { // ufficiale: vale la prima fonte che la mostra; FotMob con i posti in campo gia' completa resta com'e'
-          [out.h, out.a] = await Promise.all([dlFill(dl.h, fm0.h, out.hi), dlFill(dl.a, fm0.a, out.ai)]);
-          out.luSrc = "diretta"; out.ty = "standard"; dlDone = true;
-        }
-        if (!dlDone && (noXY(out.h) || noXY(out.a) || (!fmOfficial && !g2.started))) {
-          const fmH = out.h, fmA = out.a;
-          // ESPN, PitchAPI e LiveScore si leggono INSIEME (18/11/2026: in fila arrivavano a 3-9 secondi e con piu' richieste il sito superava i 10 s:
-          // partite senza formazione); vale sempre la prima della gerarchia che ce l'ha (ESPN, poi PitchAPI, poi LiveScore)
-          const alt = (altP ? await altP : null) || mkAlt();
-          // FotMob gia' UFFICIALE (senza posti in campo) e l'altra fonte solo PROBABILE (21/11/2026): mai i titolari probabili al posto di quelli ufficiali.
-          // Dall'altra fonte si prendono solo i posti in campo e solo se tutti gli 11 ufficiali ci sono anche li'; se no restano gli 11 ufficiali in elenco.
-          const altOff = /^(standard|official|confirm)/i.test(String(alt.ty || ""));
-          if (fmOfficial && !altOff && fmH && fmA && alt.h && alt.a) {
-            const pos = (fm, t) => {
-              const rows = (fm.s || []).map((p) => { const q = (t.s || []).find((x) => x[2] != null && samePerson(x[0], p[0])); return q ? [p[0], p[1], q[2], q[3], p[4], p[5], p[6], p[7], p[8]] : null; });
-              return rows.length === 11 && rows.every(Boolean) ? { ...fm, f: fm.f || t.f, s: rows } : null;
-            };
-            const H = pos(fmH, alt.h), A = pos(fmA, alt.a);
-            if (H && A) { out.h = H; out.a = A; }
-            else if (noXY(fmH) || noXY(fmA)) { [out.h, out.a] = await Promise.all([rosaMark(fmH, out.hi), rosaMark(fmA, out.ai)]); out.luList = 1; }
-          } else if (alt.h && alt.a && !alt.luList) {
-            out.h = fmFill(alt.h, fmH, !fmOfficial); out.a = fmFill(alt.a, fmA, !fmOfficial); out.luSrc = alt.luSrc;
-            // il tipo e' quello dei giocatori mostrati: titolari probabili dell'altra fonte = "probabile", anche se FotMob diceva "ufficiale" senza giocatori
-            if (!out.ty || out.ty === "unavailable" || !fmOfficial || !altOff) out.ty = alt.ty;
-          } else if (alt.h && alt.a && !fmH && !fmA) {
-            // soli nomi ufficiali (nessuna fonte con i posti in campo): elenco in colonna
-            [out.h, out.a] = await Promise.all([rosaMark(alt.h, out.hi), rosaMark(alt.a, out.ai)]);
-            out.luSrc = alt.luSrc; out.luList = 1;
-            if (!out.ty || out.ty === "unavailable" || !altOff) out.ty = alt.ty;
-          }
-        }
-        // formazione PROBABILE di diretta.it: davanti a ogni altra probabile; ma non a titolari ufficiali gia' presi da un'altra fonte
-        // (16/11/2026: diretta vince su QUALSIASI altra probabile, anche ESPN/PitchAPI/LiveScore/ultima formazione; cede solo a una formazione ufficiale gia' presa da un'altra fonte)
-        const otherOfficial = /^(standard|official|confirm)/i.test(String(out.ty || "")) && !!out.h && !!out.a && !noXY(out.h) && !noXY(out.a);
-        if (!dlDone && dl && !dl.official && !g2.started && !otherOfficial) {
-          [out.h, out.a] = await Promise.all([dlFill(dl.h, fm0.h, out.hi), dlFill(dl.a, fm0.a, out.ai)]);
-          out.luSrc = "diretta"; out.ty = "predicted";
-        }
-        // Nessuna fonte ha ancora la formazione (nazionali, amichevoli, campionati minori a giorni dal fischio): formazione PROBABILE = l'ultima formazione
-        // iniziale della squadra (FotMob, pagina squadra `overview.lastLineupStats`, la stessa che FotMob usa per "lastStarting11"). Dati veri, mai inventati;
-        // niente voti (sono della partita di allora). Ogni squadra a parte: se una ha la sua probabile e l'altra no, solo l'altra si completa.
-        if (!g2.started && !g2.finished && (!out.h || !out.a)) {
-          const last = async (tid) => {
-            if (!tid) return null;
-            try {
-              const T = await fmTeam(tid);
-              const ll = T && T.ll;
-              if (!ll || (ll.starters || []).length !== 11 || ll.starters.some((q) => !q.horizontalLayout)) return null;
-              const mp2 = (q) => [q.name, q.shirtNumber != null ? +q.shirtNumber || q.shirtNumber : null, q.horizontalLayout.x, q.horizontalLayout.y, false, ph(q.id), null, q.id, q.positionId != null ? q.positionId : q.usualPlayingPositionId != null ? q.usualPlayingPositionId : null];
-              return { f: ll.formation || null, s: ll.starters.map(mp2), b: [], co: null };
-            } catch (e) { return null; }
+        // Calcolo completo di /fx (FotMob + diretta + altre fonti). Pesante: con molte richieste insieme Cloudflare lo interrompe (limite di CPU,
+        // "exceededResources": 22/11/2026 894 interruzioni in 5 minuti), e una richiesta interrotta = nessuna formazione.
+        const fxRun = async () => {
+          const r = await fetch("https://www.fotmob.com/api/data/matchDetails?matchId=" + id, { headers: FMH, cf: { cacheTtl: 3, cacheEverything: true } });
+          if (!r.ok) throw new Error("FotMob " + r.status);
+          const j = await r.json(), c = j.content || {}, lu = c.lineup || {}, rf = c.matchFacts && c.matchFacts.infoBox && c.matchFacts.infoBox.Referee;
+          const ph = (pid) => pid ? "https://images.fotmob.com/image_resources/playerimages/" + pid + ".png" : null;
+          const team = (t) => {
+            if (!t || !(t.starters || []).length) return null;
+            // [8] = ruolo FotMob (0 portiere, 1 difesa, 2 centrocampo, 3 attacco): le formazioni "simple" dei campionati minori non hanno coordinate
+            const mp = (p) => [p.name, p.shirtNumber != null ? +p.shirtNumber || p.shirtNumber : null, p.horizontalLayout ? p.horizontalLayout.x : null, p.horizontalLayout ? p.horizontalLayout.y : null, !!p.isCaptain, ph(p.id), p.performance && p.performance.rating ? p.performance.rating : null, p.id, p.positionId != null ? p.positionId : p.usualPlayingPositionId != null ? p.usualPlayingPositionId : null];
+            const cc = t.coach;
+            return { f: t.formation, s: t.starters.map(mp), b: (t.subs || []).map(mp), co: cc ? { id: cc.id, n: cc.name, cc: cc.countryCode } : null };
           };
-          const [lh, la] = await Promise.all([out.h ? null : last(out.hi), out.a ? null : last(out.ai)]);
-          if (lh) out.h = lh;
-          if (la) out.a = la;
-          if ((lh || la) && out.h && out.a) { out.ty = "lastStarting11"; out.luSrc = "ultima"; }
-        }
-        await lsMerge(out, g2.matchTimeUTCDate || stt.utcTime);
-        // statistiche: FotMob prima; se non le ha ancora (primi minuti) o non le ha mai (campionati minori) ESPN
-        if ((out.st || out.fin) && !(out.stats && out.stats.All && out.stats.All.length)) await espnStats(out, g2);
-        // diretta.it (richiesta utente 16/11/2026): risultato ed eventi (gol, assist, cartellini) appena li pubblica, davanti a FotMob; FotMob resta dove ha gli id dei giocatori
-        if (!out.fin && out.st) {
-          const D = await dlEvents(g2, stt);
-          if (D) {
-            if (D.sc && D.live) { const cur = out.sc && out.sc[0] != null ? [+out.sc[0] || 0, +out.sc[1] || 0] : [0, 0]; out.sc = [Math.max(cur[0], D.sc[0]), Math.max(cur[1], D.sc[1])]; out.dls = 1; }
-            if (D.ev.length) {
-              const have = out.ev || [], used = new Set();
-              const add = [];
-              D.ev.forEach((d) => {
-                const k = have.findIndex((e, i) => !used.has(i) && e.ty === d.ty && !!e.h === !!d.h && Math.abs(e.t - d.t) <= 1 && (d.ty !== "Card" || e.cd === d.cd));
-                if (k >= 0) { used.add(k); if (d.ty === "Goal" && !have[k].as && d.as) have[k].as = d.as; } else add.push(d);
-              });
-              if (add.length) { out.ev = have.concat(add).sort((x, y) => x.ts - y.ts); out.dlEv = add.length; }
-            }
+          let ref = null;
+          if (rf && rf.text) {
+            const g = (k) => { const x = (rf.stats || []).find((q) => q.type === k); return x || null; };
+            const y = g("yellowCards"), fo = g("fouls"), mt = g("matches"), rd = g("redCards"), pe = g("penalties");
+            ref = { n: rf.text, cc: rf.countryCode, y: y ? y.value : null, ya: y ? y.average : null, fo: fo ? fo.value : null, foa: fo ? fo.average : null, mt: mt ? mt.value : null, r: rd ? rd.value : null, pen: pe ? pe.value : null };
           }
-        }
-        // cronometro preciso: secondi veri di FotMob (liveTime.long "mm:ss"), recupero annunciato dall'arbitro (evento AddedTime del tempo in corso);
-        // se FotMob non ha i secondi si usa il minuto di LiveScore (meno 30 s: il minuto "47'" copre 46:00-46:59)
-        if (out.st && !out.fin) {
-          const lm = String(lt.long || "").match(/^(\d+):(\d{2})/);
-          const pEnd = hf.secondExtraHalfStarted ? 120 : hf.firstExtraHalfStarted ? 105 : hf.secondHalfStarted ? 90 : 45;
-          const aev = mf.filter((e) => e.type === "AddedTime" && Number(e.time) === pEnd).pop();
-          let cs = lm ? +lm[1] * 60 + +lm[2] : null, src = "fm";
-          if (cs == null) { const cm = String(out.clk || "").match(/^(\d+)(?:\+(\d+))?/); if (cm) { cs = Math.max(0, (+cm[1] + (+cm[2] || 0)) * 60 - 30); src = "ls"; } }
-          // diretta.it (richiesta utente 16/11/2026): e' la fonte piu' puntuale (FotMob ritardava di ~4 minuti); vale il piu' alto tra le fonti, mai indietro
-          const dk = await dlClock(g2, stt);
-          if (dk && dk.ht && !hf.secondHalfStarted) out.ht = true;
-          else if (dk && dk.s != null && dk.s <= pEnd * 60 + 20 * 60 && (cs == null || dk.s > cs)) { cs = dk.s; src = "dl"; }
-          // Il cronometro non resta mai indietro (richiesta utente 16/11/2026: Kazakhstan-Slovakia a 24:30 con un gol al 29'): le fonti (liveTime, LiveScore) possono ritardare,
-          // quindi vale il piu' alto tra (1) secondi dall'inizio del tempo in corso (orari di inizio tempo di FotMob in `halfs`), (2) minuto dell'ultimo evento del tempo in corso.
-          // Entrambi non possono mai superare il tempo vero; (1) solo se plausibile (fuso o formato strani vengono scartati).
-          if (!out.ht) {
-            const tsOf = (v) => { const q = String(v == null ? "" : v).match(/^(\d{4})(\d{2})(\d{2})[ T]?(\d{2}):?(\d{2}):?(\d{2})/); return q ? Date.UTC(+q[1], +q[2] - 1, +q[3], +q[4], +q[5], +q[6]) : (v && Number.isFinite(Date.parse(v)) ? Date.parse(v) : null); };
-            const hs0 = hf.secondExtraHalfStarted ? [tsOf(hf.secondExtraHalfStarted), 105 * 60] : hf.firstExtraHalfStarted ? [tsOf(hf.firstExtraHalfStarted), 90 * 60] : hf.secondHalfStarted ? [tsOf(hf.secondHalfStarted), 45 * 60] : hf.firstHalfStarted ? [tsOf(hf.firstHalfStarted), 0] : null;
-            if (hs0 && hs0[0]) {
-              const est = Math.floor(hs0[1] + (Date.now() - hs0[0]) / 1000);
-              if (est >= hs0[1] && est <= pEnd * 60 + 20 * 60 && (cs == null || est > cs + 5)) { cs = est; src = "hs"; }
-            }
-            const from = { 45: 0, 90: 45, 105: 90, 120: 105 }[pEnd];
-            const fl = mf.filter((e) => ["Goal", "Card", "Substitution"].includes(e.type) && !e.isPenaltyShootoutEvent && Number(e.time) > from && Number(e.time) <= pEnd).reduce((a, e) => Math.max(a, Number(e.time) * 60), 0);
-            if (fl && (cs == null || cs < fl)) { cs = fl; src = src + "+ev"; }
-          }
-          // anche il minuto semplice (pagina partita, scheda giocatore) segue il cronometro corretto, con lo stesso formato di FotMob (45+2’)
-          if (cs != null && src !== "fm" && !out.ht) { const mn = Math.floor(cs / 60) + 1; out.clk = (mn > pEnd ? pEnd + "+" + (mn - pEnd) : mn) + "\u2019"; }
-          if (cs != null || out.ht) out.lc = { s: cs, mx: pEnd, ad: aev ? Number(aev.minutesAddedInput) || 0 : 0, ht: out.ht ? 1 : 0, src };
-        }
-        if (out.h || out.a) [out.h, out.a] = await Promise.all([out.h ? linkMissing(out.h, out.hi) : out.h, out.a ? linkMissing(out.a, out.ai) : out.a]);
-        // REGOLA FISSA (utente 21/11/2026): "Formazione ufficiale" solo da 1h15 prima del fischio in poi. Prima di allora qualunque fonte
-        // (LiveScore marcava "standard" la formazione 4 ore e mezza prima di Bournemouth-Forest) vale come probabile.
-        { const ko0 = Date.parse(g2.matchTimeUTCDate || (stt && stt.utcTime) || ""); if (!out.st && ko0 && ko0 - Date.now() > 75 * 60000 && /^(standard|official|confirm)/i.test(String(out.ty || ""))) { out.ty = "predicted"; out.tyEarly = 1; } }
-        // cartellini rossi per squadra (Home, concept A 17/11/2026): rosso diretto e doppio giallo, dagli eventi gia' uniti (FotMob, LiveScore, diretta.it)
-        { const rr = [0, 0]; (out.ev || []).forEach((e) => { if (e.ty === "Card" && (e.cd === "Red" || e.cd === "YellowRed")) rr[e.h ? 0 : 1] += 1; }); if (rr[0] || rr[1]) out.rc = rr; }
-        // cartellini (21/11/2026): stesso cartellino da due fonti con 2-3 minuti di differenza = uno solo; allenatore o staff segnati come tali (co: 1 allenatore, 2 staff)
-        if (Array.isArray(out.ev) && out.ev.length) {
-          const cards = out.ev.filter((e) => e.ty === "Card");
-          const drop = new Set();
-          cards.forEach((e) => { if (e.id || drop.has(e)) return; const twin = cards.find((x) => x !== e && !drop.has(x) && !!x.h === !!e.h && x.cd === e.cd && Math.abs(x.t - e.t) <= 3 && x.n && e.n && samePerson(x.n, e.n)); if (twin) drop.add(e); });
-          if (drop.size) out.ev = out.ev.filter((e) => !drop.has(e));
-          const inTeam = (t, n) => !!t && [...(t.s || []), ...(t.b || [])].some((p) => p && p[0] && samePerson(p[0], n));
-          out.ev.forEach((e) => {
-            if (e.ty !== "Card" || !e.n) return;
-            const t = e.h ? out.h : out.a;
-            if (t && t.co && t.co.n && ((t.co.id && e.id && String(t.co.id) === String(e.id)) || samePerson(t.co.n, e.n))) e.co = 1;
-            else if (t && (t.s || []).length >= 11 && (t.b || []).length >= 5 && !inTeam(out.h, e.n) && !inTeam(out.a, e.n)) e.co = 2;
+          const g2 = j.general || {}, hd = j.header || {}, stt = hd.status || {}, tm = hd.teams || [];
+          const lt = stt.liveTime || {}, hf = stt.halfs || {};
+          const clean = (x) => String(x == null ? "" : x).replace(/[\u200e\u200f]/g, "");
+          const live = !!(stt.started && !stt.finished && !stt.cancelled);
+          const ht = live && !!hf.firstHalfEnded && !hf.secondHalfStarted;
+          const mf = (c.matchFacts && c.matchFacts.events && c.matchFacts.events.events) || [];
+          const nm = (x) => (x && x.name) || "";
+          let ev = mf.filter((e) => ["Goal", "Card", "Substitution"].includes(e.type) || (e.type === "MissedPenalty" && !e.isPenaltyShootoutEvent)).map((e) => {
+            const add = e.overloadTime || 0;
+            const o = { ty: e.type, t: e.time, a: add, h: !!e.isHome, ts: e.time * 100 + add };
+            if (e.type === "Goal") { Object.assign(o, { n: e.player && e.player.name || e.nameStr, id: e.player && e.player.id || e.playerId, as: e.assistInput || null, aid: e.assistPlayerId || null, og: !!e.ownGoal, pen: /pen/i.test(e.goalDescription || "") || /pen/i.test(e.goalDescriptionKey || ""), sc: e.newScore || null }); }
+            else if (e.type === "MissedPenalty") { Object.assign(o, { n: e.player && e.player.name || e.nameStr, id: e.player && e.player.id || e.playerId }); }
+            else if (e.type === "Card") { Object.assign(o, { n: e.player && e.player.name || e.nameStr, id: e.player && e.player.id || e.playerId, cd: e.card }); }
+            else { const sw = e.swap || []; Object.assign(o, { n: nm(sw[0]), id: sw[0] && +sw[0].id || null, o: nm(sw[1]), oid: sw[1] && +sw[1].id || null }); }
+            return o;
           });
+          // campionati minori: FotMob a volte non da' matchFacts.events ma i marcatori stanno nell'intestazione (header.events)
+          if (!ev.some((x) => x.ty === "Goal") && hd.events) {
+            ["homeTeamGoals", "awayTeamGoals"].forEach((k, side) => {
+              Object.values(hd.events[k] || {}).forEach((arr) => (Array.isArray(arr) ? arr : []).forEach((g) => {
+                const add = g.overloadTime || 0, t = parseInt(g.time, 10);
+                if (!Number.isFinite(t)) return;
+                ev.push({ ty: "Goal", t, a: add, h: side === 0, ts: t * 100 + add, n: (g.player && g.player.name) || g.fullName || "", id: (g.player && g.player.id) || g.playerId || null, as: g.assistStr || null, aid: g.assistPlayerId || null, og: !!g.ownGoal, pen: /pen/i.test(g.goalDescription || g.type || ""), sc: null });
+              }));
+            });
+          }
+          ev.sort((x, y) => x.ts - y.ts);
+          const per = (P) => {
+            if (!P || !P.stats) return null;
+            const seen = {}, out = [];
+            P.stats.forEach((grp) => {
+              const rows = [];
+              (grp.stats || []).forEach((s2) => {
+                if (!s2 || s2.type === "title" || !s2.rawStats || s2.rawStats.length < 2) return;
+                if (seen[s2.key]) return; seen[s2.key] = 1;
+                const a = s2.rawStats[0] || {}, b = s2.rawStats[1] || {};
+                rows.push([s2.key, s2.title, a.value, b.value, a.total, b.total, s2.format || null]);
+              });
+              if (rows.length) out.push([grp.key || grp.title, grp.title, rows]);
+            });
+            return out;
+          };
+          const sp = (c.stats && c.stats.Periods) || {};
+          const stats = { All: per(sp.All), FirstHalf: per(sp.FirstHalf), SecondHalf: per(sp.SecondHalf) };
+          const arr = (x) => (Array.isArray(x) ? x : x && typeof x === "object" ? Object.values(x) : []);
+          const pl = {};
+          arr(c.playerStats).forEach((q) => {
+            if (!q || !q.id) return;
+            const groups = arr(q.stats).map((grp) => [grp.key || grp.title || "", grp.title || "", Object.entries(grp.stats || {}).map(([lab, e]) => { const st2 = (e && e.stat) || {}; return [e && e.key, lab, st2.value, st2.total, st2.type]; }).filter((x) => x[0] && x[2] != null)]).filter((g3) => g3[2].length);
+            pl[q.id] = [q.name, q.teamId, q.isGoalkeeper ? 1 : 0, groups];
+          });
+          const shs = ((c.shotmap || {}).shots || []).map((x) => [x.min, x.minAdded, x.teamId, x.playerName, x.x, x.y, x.eventType, x.isBlocked ? 1 : 0, x.isOnTarget ? 1 : 0, x.blockedX, x.blockedY, x.goalCrossedY, x.goalCrossedZ, x.expectedGoals, x.expectedGoalsOnTarget, x.shotType, x.situation, x.isOwnGoal ? 1 : 0, x.period]);
+          const mo = ((c.momentum || {}).main || {}).data || null;
+          const out = { t: Date.now(), hi: g2.homeTeam && g2.homeTeam.id, ai: g2.awayTeam && g2.awayTeam.id, sh: shs, mo: mo && mo.length ? mo.map((q) => ({ minute: q.minute, value: q.value })) : null, ty: lu.lineupType || null, started: !!g2.started, fin: !!g2.finished, st: live, sc: tm.length > 1 ? [tm[0].score, tm[1].score] : null, clk: clean(lt.short), ht, ev, stats, pl, h: team(lu.homeTeam), a: team(lu.awayTeam), ref };
+          // Catena formazioni (regola fissa 14/11/2026): vale la prima fonte che ha i DUE undici UFFICIALI. FotMob ufficiale con le coordinate resta com'e'
+          // (e' la piu' ricca); altrimenti (FotMob vuota, "probabile", "ultima formazione" o "simple") si prova ESPN, poi PitchAPI, poi LiveScore: appena una
+          // pubblica la formazione ufficiale prende il posto di quella probabile. Nome, foto, voto e id restano di FotMob dove coincide lo stesso giocatore.
+          const noXY = (t) => !t || (t.s || []).some((p) => p[2] == null);
+          const fmOfficial = /^(standard|official|confirm)/i.test(String(lu.lineupType || ""));
+          // diretta.it al primo posto (richiesta utente 15/11/2026, `worker/diretta.js`): ufficiali di diretta prima di ogni altra fonte; a partita iniziata
+          // con la formazione FotMob completa non si cambia piu' (il live resta com'era). Le probabili di diretta passano davanti a quelle di FotMob e all'ultima formazione,
+          // ma mai davanti a una formazione ufficiale di un'altra fonte. Se diretta non risponde o non e' abbinata, la catena resta quella di prima.
+          const fm0 = { h: out.h, a: out.a };
+          const fmReady = fmOfficial && !noXY(out.h) && !noXY(out.a);
+          // le altre fonti partono subito, insieme a diretta (si usano solo se servono)
+          const mkAlt = () => ({ hi: out.hi, ai: out.ai });
+          const needAlt = noXY(out.h) || noXY(out.a) || (!fmOfficial && !g2.started);
+          const altP = needAlt ? (async () => { const [aE, aP, aL] = [mkAlt(), mkAlt(), mkAlt()]; await Promise.all([espnLineups(aE, g2), pitchLineups(aP, id, env), lsLineups(aL, g2.matchTimeUTCDate || stt.utcTime, !!(g2.started || g2.finished))]); return aE.h ? aE : aP.h ? aP : aL.h ? aL : mkAlt(); })() : null;
+          const dl = await dlLineups(g2, stt, id, env);
+          let dlDone = false;
+          if (dl && dl.official && !fmReady) { // ufficiale: vale la prima fonte che la mostra; FotMob con i posti in campo gia' completa resta com'e'
+            [out.h, out.a] = await Promise.all([dlFill(dl.h, fm0.h, out.hi), dlFill(dl.a, fm0.a, out.ai)]);
+            out.luSrc = "diretta"; out.ty = "standard"; dlDone = true;
+          }
+          if (!dlDone && (noXY(out.h) || noXY(out.a) || (!fmOfficial && !g2.started))) {
+            const fmH = out.h, fmA = out.a;
+            // ESPN, PitchAPI e LiveScore si leggono INSIEME (18/11/2026: in fila arrivavano a 3-9 secondi e con piu' richieste il sito superava i 10 s:
+            // partite senza formazione); vale sempre la prima della gerarchia che ce l'ha (ESPN, poi PitchAPI, poi LiveScore)
+            const alt = (altP ? await altP : null) || mkAlt();
+            // FotMob gia' UFFICIALE (senza posti in campo) e l'altra fonte solo PROBABILE (21/11/2026): mai i titolari probabili al posto di quelli ufficiali.
+            // Dall'altra fonte si prendono solo i posti in campo e solo se tutti gli 11 ufficiali ci sono anche li'; se no restano gli 11 ufficiali in elenco.
+            const altOff = /^(standard|official|confirm)/i.test(String(alt.ty || ""));
+            if (fmOfficial && !altOff && fmH && fmA && alt.h && alt.a) {
+              const pos = (fm, t) => {
+                const rows = (fm.s || []).map((p) => { const q = (t.s || []).find((x) => x[2] != null && samePerson(x[0], p[0])); return q ? [p[0], p[1], q[2], q[3], p[4], p[5], p[6], p[7], p[8]] : null; });
+                return rows.length === 11 && rows.every(Boolean) ? { ...fm, f: fm.f || t.f, s: rows } : null;
+              };
+              const H = pos(fmH, alt.h), A = pos(fmA, alt.a);
+              if (H && A) { out.h = H; out.a = A; }
+              else if (noXY(fmH) || noXY(fmA)) { [out.h, out.a] = await Promise.all([rosaMark(fmH, out.hi), rosaMark(fmA, out.ai)]); out.luList = 1; }
+            } else if (alt.h && alt.a && !alt.luList) {
+              out.h = fmFill(alt.h, fmH, !fmOfficial); out.a = fmFill(alt.a, fmA, !fmOfficial); out.luSrc = alt.luSrc;
+              // il tipo e' quello dei giocatori mostrati: titolari probabili dell'altra fonte = "probabile", anche se FotMob diceva "ufficiale" senza giocatori
+              if (!out.ty || out.ty === "unavailable" || !fmOfficial || !altOff) out.ty = alt.ty;
+            } else if (alt.h && alt.a && !fmH && !fmA) {
+              // soli nomi ufficiali (nessuna fonte con i posti in campo): elenco in colonna
+              [out.h, out.a] = await Promise.all([rosaMark(alt.h, out.hi), rosaMark(alt.a, out.ai)]);
+              out.luSrc = alt.luSrc; out.luList = 1;
+              if (!out.ty || out.ty === "unavailable" || !altOff) out.ty = alt.ty;
+            }
+          }
+          // formazione PROBABILE di diretta.it: davanti a ogni altra probabile; ma non a titolari ufficiali gia' presi da un'altra fonte
+          // (16/11/2026: diretta vince su QUALSIASI altra probabile, anche ESPN/PitchAPI/LiveScore/ultima formazione; cede solo a una formazione ufficiale gia' presa da un'altra fonte)
+          const otherOfficial = /^(standard|official|confirm)/i.test(String(out.ty || "")) && !!out.h && !!out.a && !noXY(out.h) && !noXY(out.a);
+          if (!dlDone && dl && !dl.official && !g2.started && !otherOfficial) {
+            [out.h, out.a] = await Promise.all([dlFill(dl.h, fm0.h, out.hi), dlFill(dl.a, fm0.a, out.ai)]);
+            out.luSrc = "diretta"; out.ty = "predicted";
+          }
+          // Nessuna fonte ha ancora la formazione (nazionali, amichevoli, campionati minori a giorni dal fischio): formazione PROBABILE = l'ultima formazione
+          // iniziale della squadra (FotMob, pagina squadra `overview.lastLineupStats`, la stessa che FotMob usa per "lastStarting11"). Dati veri, mai inventati;
+          // niente voti (sono della partita di allora). Ogni squadra a parte: se una ha la sua probabile e l'altra no, solo l'altra si completa.
+          if (!g2.started && !g2.finished && (!out.h || !out.a)) {
+            const last = async (tid) => {
+              if (!tid) return null;
+              try {
+                const T = await fmTeam(tid);
+                const ll = T && T.ll;
+                if (!ll || (ll.starters || []).length !== 11 || ll.starters.some((q) => !q.horizontalLayout)) return null;
+                const mp2 = (q) => [q.name, q.shirtNumber != null ? +q.shirtNumber || q.shirtNumber : null, q.horizontalLayout.x, q.horizontalLayout.y, false, ph(q.id), null, q.id, q.positionId != null ? q.positionId : q.usualPlayingPositionId != null ? q.usualPlayingPositionId : null];
+                return { f: ll.formation || null, s: ll.starters.map(mp2), b: [], co: null };
+              } catch (e) { return null; }
+            };
+            const [lh, la] = await Promise.all([out.h ? null : last(out.hi), out.a ? null : last(out.ai)]);
+            if (lh) out.h = lh;
+            if (la) out.a = la;
+            if ((lh || la) && out.h && out.a) { out.ty = "lastStarting11"; out.luSrc = "ultima"; }
+          }
+          await lsMerge(out, g2.matchTimeUTCDate || stt.utcTime);
+          // statistiche: FotMob prima; se non le ha ancora (primi minuti) o non le ha mai (campionati minori) ESPN
+          if ((out.st || out.fin) && !(out.stats && out.stats.All && out.stats.All.length)) await espnStats(out, g2);
+          // diretta.it (richiesta utente 16/11/2026): risultato ed eventi (gol, assist, cartellini) appena li pubblica, davanti a FotMob; FotMob resta dove ha gli id dei giocatori
+          if (!out.fin && out.st) {
+            const D = await dlEvents(g2, stt);
+            if (D) {
+              if (D.sc && D.live) { const cur = out.sc && out.sc[0] != null ? [+out.sc[0] || 0, +out.sc[1] || 0] : [0, 0]; out.sc = [Math.max(cur[0], D.sc[0]), Math.max(cur[1], D.sc[1])]; out.dls = 1; }
+              if (D.ev.length) {
+                const have = out.ev || [], used = new Set();
+                const add = [];
+                D.ev.forEach((d) => {
+                  const k = have.findIndex((e, i) => !used.has(i) && e.ty === d.ty && !!e.h === !!d.h && Math.abs(e.t - d.t) <= 1 && (d.ty !== "Card" || e.cd === d.cd));
+                  if (k >= 0) { used.add(k); if (d.ty === "Goal" && !have[k].as && d.as) have[k].as = d.as; } else add.push(d);
+                });
+                if (add.length) { out.ev = have.concat(add).sort((x, y) => x.ts - y.ts); out.dlEv = add.length; }
+              }
+            }
+          }
+          // cronometro preciso: secondi veri di FotMob (liveTime.long "mm:ss"), recupero annunciato dall'arbitro (evento AddedTime del tempo in corso);
+          // se FotMob non ha i secondi si usa il minuto di LiveScore (meno 30 s: il minuto "47'" copre 46:00-46:59)
+          if (out.st && !out.fin) {
+            const lm = String(lt.long || "").match(/^(\d+):(\d{2})/);
+            const pEnd = hf.secondExtraHalfStarted ? 120 : hf.firstExtraHalfStarted ? 105 : hf.secondHalfStarted ? 90 : 45;
+            const aev = mf.filter((e) => e.type === "AddedTime" && Number(e.time) === pEnd).pop();
+            let cs = lm ? +lm[1] * 60 + +lm[2] : null, src = "fm";
+            if (cs == null) { const cm = String(out.clk || "").match(/^(\d+)(?:\+(\d+))?/); if (cm) { cs = Math.max(0, (+cm[1] + (+cm[2] || 0)) * 60 - 30); src = "ls"; } }
+            // diretta.it (richiesta utente 16/11/2026): e' la fonte piu' puntuale (FotMob ritardava di ~4 minuti); vale il piu' alto tra le fonti, mai indietro
+            const dk = await dlClock(g2, stt);
+            if (dk && dk.ht && !hf.secondHalfStarted) out.ht = true;
+            else if (dk && dk.s != null && dk.s <= pEnd * 60 + 20 * 60 && (cs == null || dk.s > cs)) { cs = dk.s; src = "dl"; }
+            // Il cronometro non resta mai indietro (richiesta utente 16/11/2026: Kazakhstan-Slovakia a 24:30 con un gol al 29'): le fonti (liveTime, LiveScore) possono ritardare,
+            // quindi vale il piu' alto tra (1) secondi dall'inizio del tempo in corso (orari di inizio tempo di FotMob in `halfs`), (2) minuto dell'ultimo evento del tempo in corso.
+            // Entrambi non possono mai superare il tempo vero; (1) solo se plausibile (fuso o formato strani vengono scartati).
+            if (!out.ht) {
+              const tsOf = (v) => { const q = String(v == null ? "" : v).match(/^(\d{4})(\d{2})(\d{2})[ T]?(\d{2}):?(\d{2}):?(\d{2})/); return q ? Date.UTC(+q[1], +q[2] - 1, +q[3], +q[4], +q[5], +q[6]) : (v && Number.isFinite(Date.parse(v)) ? Date.parse(v) : null); };
+              const hs0 = hf.secondExtraHalfStarted ? [tsOf(hf.secondExtraHalfStarted), 105 * 60] : hf.firstExtraHalfStarted ? [tsOf(hf.firstExtraHalfStarted), 90 * 60] : hf.secondHalfStarted ? [tsOf(hf.secondHalfStarted), 45 * 60] : hf.firstHalfStarted ? [tsOf(hf.firstHalfStarted), 0] : null;
+              if (hs0 && hs0[0]) {
+                const est = Math.floor(hs0[1] + (Date.now() - hs0[0]) / 1000);
+                if (est >= hs0[1] && est <= pEnd * 60 + 20 * 60 && (cs == null || est > cs + 5)) { cs = est; src = "hs"; }
+              }
+              const from = { 45: 0, 90: 45, 105: 90, 120: 105 }[pEnd];
+              const fl = mf.filter((e) => ["Goal", "Card", "Substitution"].includes(e.type) && !e.isPenaltyShootoutEvent && Number(e.time) > from && Number(e.time) <= pEnd).reduce((a, e) => Math.max(a, Number(e.time) * 60), 0);
+              if (fl && (cs == null || cs < fl)) { cs = fl; src = src + "+ev"; }
+            }
+            // anche il minuto semplice (pagina partita, scheda giocatore) segue il cronometro corretto, con lo stesso formato di FotMob (45+2’)
+            if (cs != null && src !== "fm" && !out.ht) { const mn = Math.floor(cs / 60) + 1; out.clk = (mn > pEnd ? pEnd + "+" + (mn - pEnd) : mn) + "\u2019"; }
+            if (cs != null || out.ht) out.lc = { s: cs, mx: pEnd, ad: aev ? Number(aev.minutesAddedInput) || 0 : 0, ht: out.ht ? 1 : 0, src };
+          }
+          if (out.h || out.a) [out.h, out.a] = await Promise.all([out.h ? linkMissing(out.h, out.hi) : out.h, out.a ? linkMissing(out.a, out.ai) : out.a]);
+          // REGOLA FISSA (utente 21/11/2026): "Formazione ufficiale" solo da 1h15 prima del fischio in poi. Prima di allora qualunque fonte
+          // (LiveScore marcava "standard" la formazione 4 ore e mezza prima di Bournemouth-Forest) vale come probabile.
+          { const ko0 = Date.parse(g2.matchTimeUTCDate || (stt && stt.utcTime) || ""); if (!out.st && ko0 && ko0 - Date.now() > 75 * 60000 && /^(standard|official|confirm)/i.test(String(out.ty || ""))) { out.ty = "predicted"; out.tyEarly = 1; } }
+          // cartellini rossi per squadra (Home, concept A 17/11/2026): rosso diretto e doppio giallo, dagli eventi gia' uniti (FotMob, LiveScore, diretta.it)
+          { const rr = [0, 0]; (out.ev || []).forEach((e) => { if (e.ty === "Card" && (e.cd === "Red" || e.cd === "YellowRed")) rr[e.h ? 0 : 1] += 1; }); if (rr[0] || rr[1]) out.rc = rr; }
+          // cartellini (21/11/2026): stesso cartellino da due fonti con 2-3 minuti di differenza = uno solo; allenatore o staff segnati come tali (co: 1 allenatore, 2 staff)
+          if (Array.isArray(out.ev) && out.ev.length) {
+            const cards = out.ev.filter((e) => e.ty === "Card");
+            const drop = new Set();
+            cards.forEach((e) => { if (e.id || drop.has(e)) return; const twin = cards.find((x) => x !== e && !drop.has(x) && !!x.h === !!e.h && x.cd === e.cd && Math.abs(x.t - e.t) <= 3 && x.n && e.n && samePerson(x.n, e.n)); if (twin) drop.add(e); });
+            if (drop.size) out.ev = out.ev.filter((e) => !drop.has(e));
+            const inTeam = (t, n) => !!t && [...(t.s || []), ...(t.b || [])].some((p) => p && p[0] && samePerson(p[0], n));
+            out.ev.forEach((e) => {
+              if (e.ty !== "Card" || !e.n) return;
+              const t = e.h ? out.h : out.a;
+              if (t && t.co && t.co.n && ((t.co.id && e.id && String(t.co.id) === String(e.id)) || samePerson(t.co.n, e.n))) e.co = 1;
+              else if (t && (t.s || []).length >= 11 && (t.b || []).length >= 5 && !inTeam(out.h, e.n) && !inTeam(out.a, e.n)) e.co = 2;
+            });
+          }
+          // FORMAZIONI PRE-PARTITA MAI PERSE (22/11/2026): se questa lettura arriva senza i due undici (fonte lenta o assente in quel momento)
+          // ma il worker li aveva gia' (memoria o KV), restano quelli: anche un telefono appena riaperto li riceve subito
+          const pre0 = !out.st && !out.fin && !g2.started ? await fxPreGet(id, env) : null;
+          if (pre0 && pre0.lu && !(fxFull(out.h) && fxFull(out.a))) { out.h = pre0.lu.h; out.a = pre0.lu.a; out.ty = pre0.lu.ty; out.luSrc = pre0.lu.luSrc; out.luKeep = 1; }
+          const body = JSON.stringify(out);
+          fxPreSave(id, env, ctx, out, g2, stt, body);
+          const ko = Date.parse(g2.matchTimeUTCDate || stt.utcTime || "");
+          if (!out.st && !out.fin && !g2.started && ko && ko - Date.now() > 86 * 60000 && out.h && out.a) {
+            FXMEM.delete(id); FXMEM.set(id, { t: Date.now(), b: body });
+            while (FXMEM.size > 300) FXMEM.delete(FXMEM.keys().next().value);
+            const put = caches.default.put(fxKey, new Response(body, { headers: { "Content-Type": "application/json", "Cache-Control": "public, max-age=300" } })).catch(() => {});
+            if (ctx && ctx.waitUntil) ctx.waitUntil(put);
+          }
+          if (out.st && !out.fin) { FXLIVE.delete(id); FXLIVE.set(id, { t: Date.now(), b: body }); while (FXLIVE.size > 100) FXLIVE.delete(FXLIVE.keys().next().value); }
+          return new Response(body, { headers: cors(req, { "Cache-Control": out.st && !out.fin ? "no-store" : "public, max-age=3" }) }); // live: mai tenuta dal telefono
+        };
+        // PARTITE NON INIZIATE (regola fissa 22/11/2026, formazioni sparite dopo il ritorno dal background): si risponde SUBITO con l'ultima
+        // risposta completa (memoria del worker o KV `idx:fxpre/<id>`, sopravvive alle interruzioni e ai riavvii) e il calcolo nuovo parte dietro
+        // (ctx.waitUntil). Se quel calcolo viene interrotto il telefono ha gia' avuto formazioni e dati; al giro dopo (3 s) riceve quelli nuovi.
+        // Ultimo minuto prima del fischio, partite iniziate e risposte piu' vecchie di 6 ore: calcolo normale.
+        const pre = await fxPreGet(id, env);
+        const now0 = Date.now();
+        if (pre && pre.body && pre.ko - now0 > 60000 && now0 - pre.t < 6 * 3600000) {
+          if (now0 - pre.t >= 2500 && !FXPRE_RUN.has(id)) {
+            FXPRE_RUN.add(id);
+            const job = fxRun().catch(() => {}).finally(() => FXPRE_RUN.delete(id));
+            if (ctx && ctx.waitUntil) ctx.waitUntil(job); else await job;
+          }
+          return new Response(pre.body, { headers: cors(req, { "Cache-Control": "no-store", "X-Fx-Cache": "pre" }) });
         }
-        const body = JSON.stringify(out);
-        const ko = Date.parse(g2.matchTimeUTCDate || stt.utcTime || "");
-        if (!out.st && !out.fin && !g2.started && ko && ko - Date.now() > 86 * 60000 && out.h && out.a) {
-          FXMEM.delete(id); FXMEM.set(id, { t: Date.now(), b: body });
-          while (FXMEM.size > 300) FXMEM.delete(FXMEM.keys().next().value);
-          const put = caches.default.put(fxKey, new Response(body, { headers: { "Content-Type": "application/json", "Cache-Control": "public, max-age=300" } })).catch(() => {});
-          if (ctx && ctx.waitUntil) ctx.waitUntil(put);
+        try { return await fxRun(); } catch (e) {
+          // FotMob non risponde: partita non ancora iniziata con una risposta salvata = si usa quella (mai "nessuna formazione")
+          if (pre && pre.body && pre.ko - now0 > -15 * 60000) return new Response(pre.body, { headers: cors(req, { "Cache-Control": "no-store", "X-Fx-Cache": "pre-err" }) });
+          throw e;
         }
-        if (out.st && !out.fin) { FXLIVE.delete(id); FXLIVE.set(id, { t: Date.now(), b: body }); while (FXLIVE.size > 100) FXLIVE.delete(FXLIVE.keys().next().value); }
-        return new Response(body, { headers: cors(req, { "Cache-Control": out.st && !out.fin ? "no-store" : "public, max-age=3" }) }); // live: mai tenuta dal telefono
       }
       if (u.pathname === "/m") {
         const lg = u.searchParams.get("lg"), id = u.searchParams.get("id");
@@ -912,7 +979,10 @@ export default {
         if (!r.ok) throw new Error("FotMob " + r.status);
         const j = await r.json(), OK = [47, 54, 87, 53, 55, 42, 73, 10216];
         const m = [];
-        (j.leagues || []).forEach((l) => { if (!OK.includes(l.primaryId || l.id)) return; (l.matches || []).forEach((x) => m.push({ id: x.id, l: l.primaryId || l.id, h: x.home && x.home.name, a: x.away && x.away.name, hi: x.home && x.home.id, ai: x.away && x.away.id, t: x.status && x.status.utcTime, f: !!(x.status && x.status.finished), s: !!(x.status && x.status.started), sc: x.status && x.status.scoreStr || null, lt: x.status && x.status.liveTime ? String(x.status.liveTime.short || "").replace(/[\u200e\u200f]/g, "") : null, rc: (x.home && x.home.redCards) || (x.away && x.away.redCards) ? [(x.home && x.home.redCards) || 0, (x.away && x.away.redCards) || 0] : undefined })); });
+        // ?all=1 (22/11/2026): tutte le competizioni del giorno in una risposta sola. La Home nativa lo usa al posto di una richiesta /fx per partita
+        // (fino a 36 ogni 3 s: il worker superava il limite di CPU e le richieste delle formazioni venivano interrotte)
+        const ALL = u.searchParams.get("all") === "1";
+        (j.leagues || []).forEach((l) => { if (!ALL && !OK.includes(l.primaryId || l.id)) return; (l.matches || []).forEach((x) => m.push({ id: x.id, l: l.primaryId || l.id, h: x.home && x.home.name, a: x.away && x.away.name, hi: x.home && x.home.id, ai: x.away && x.away.id, t: x.status && x.status.utcTime, f: !!(x.status && x.status.finished), s: !!(x.status && x.status.started), sc: x.status && x.status.scoreStr || null, lt: x.status && x.status.liveTime ? String(x.status.liveTime.short || "").replace(/[\u200e\u200f]/g, "") : null, rc: (x.home && x.home.redCards) || (x.away && x.away.redCards) ? [(x.home && x.home.redCards) || 0, (x.away && x.away.redCards) || 0] : undefined })); });
         return new Response(JSON.stringify({ t: Date.now(), m }), { headers: cors(req, { "Cache-Control": "public, max-age=3" }) });
       }
       if (u.pathname === "/lt") { // classifica FotMob della competizione (aggiornata ogni 5 s) + partite in corso: ?id=<id FotMob della lega>

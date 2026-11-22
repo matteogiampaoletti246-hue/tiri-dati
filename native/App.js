@@ -1003,8 +1003,10 @@ const clockOf = (c, ht) => { if (ht || /^HT$/i.test(String(c || ''))) return 'HT
 // 5 ore. Lo usano il giro periodico della Home E il primo disegno all'apertura (`fPre` = richiesta /f gia' partita insieme ai file del giorno).
 async function liveUpdates(iso, getRows, now, fPre) {
   const upd = new Map(); // id partita -> { st, score, lt }
+  let allOk = false; // /f?all=1 arrivato: stato di TUTTE le partite del giorno in una risposta (22/11/2026)
   try {
-    const d = await (fPre || getF(`${WORKER}/f?date=${iso.replace(/-/g, '')}`));
+    const d = await (fPre || getF(`${WORKER}/f?date=${iso.replace(/-/g, '')}&all=1`));
+    allOk = true;
     (d.m || []).forEach((y) => {
       const sc = scoreStr(y.sc);
       const uu = y.f && sc ? { st: 'f', score: sc, rc: y.rc } : y.s && !y.f ? { st: 'l', score: sc, lt: clockOf(y.lt), rc: y.rc } : { st: 'n' };
@@ -1015,8 +1017,10 @@ async function liveUpdates(iso, getRows, now, fPre) {
   const rows0 = getRows() || [];
   // altre partite iniziate da meno di 5 ore (campionati e coppe aggiunti): una richiesta per partita, al massimo 12 per giro
   // prima quelle gia' "live" ma senza gol (il risultato deve esserci sempre), poi le altre; al massimo 36 per giro, 6 richieste insieme
+  // REGOLA (22/11/2026): con /f?all=1 arrivato restano qui solo le partite che FotMob non elenca (altre fonti), al massimo 8 per giro.
+  // Prima erano fino a 36 richieste /fx ogni 3 s: il worker andava oltre il limite di CPU e interrompeva anche le formazioni della partita aperta.
   const one = rows0.filter((m) => !upd.has(String(m[0])) && m[8] !== 'f' && Date.parse(m[2]) <= now && now - Date.parse(m[2]) < 5 * 3600000)
-    .sort((a, b) => (b[8] === 'l' && !/\d/.test(b[7] || '') ? 1 : 0) - (a[8] === 'l' && !/\d/.test(a[7] || '') ? 1 : 0)).slice(0, 36);
+    .sort((a, b) => (b[8] === 'l' && !/\d/.test(b[7] || '') ? 1 : 0) - (a[8] === 'l' && !/\d/.test(a[7] || '') ? 1 : 0)).slice(0, allOk ? 8 : 12);
   let k = 0;
   const worker = async () => {
     while (k < one.length) {
@@ -1030,7 +1034,7 @@ async function liveUpdates(iso, getRows, now, fPre) {
       } catch (e) { /* si riprova al prossimo giro */ }
     }
   };
-  await Promise.all([worker(), worker(), worker(), worker(), worker(), worker()]);
+  await Promise.all([worker(), worker(), worker()]);
   return { upd, rows0 };
 }
 // applica gli aggiornamenti alle righe di un giorno
@@ -1306,7 +1310,7 @@ function Screen({ onTheme, onReset, themePref }) {
     const ks = ds.map(rome);
     // la richiesta del live di oggi parte insieme ai file del giorno: all'apertura risultati e minuti sono quelli veri, non quelli dell'ultima volta
     const ti = ks.indexOf(rome(new Date()));
-    const fPre = ti >= 0 ? getF(`${WORKER}/f?date=${ks[ti].replace(/-/g, '')}`) : null;
+    const fPre = ti >= 0 ? getF(`${WORKER}/f?date=${ks[ti].replace(/-/g, '')}&all=1`) : null;
     if (fPre) fPre.catch(() => {});
     (async () => {
       const files = await Promise.all(ks.map((k) => getJ(`giorni/${k}.json`).catch(() => getJ(`giorni_arch/${k}.json`)).catch(() => ({ m: [] }))));
