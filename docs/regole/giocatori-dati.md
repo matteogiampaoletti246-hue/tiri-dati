@@ -187,3 +187,8 @@ Banner, tinta e statistiche della scheda giocatore seguono la PROSSIMA partita d
 - `catena_fonti.yml`: PitchAPI -> LiveScore -> diretta.it -> `resoconto_fonti.py` in un solo lavoro (gruppo `fonti-giocatori`), due volte al giorno: nel gruppo `partite-main` le esecuzioni in attesa si annullavano a vicenda. `kvstats.save` unisce con quanto c'e' sul KV: piu' programmi possono scrivere la stessa chiave.
 - `resoconto_fonti.json`: conteggi per fonte di partite finite e schede giocatore (solo numeri).
 - `partite.py`: stagione "recente" = anno di FINE >= anno scorso (`fine(s)`), cosi' le qualificazioni pluriennali appena finite si completano.
+
+## Foto: gerarchia delle fonti per tutti i giocatori (regola fissa, 22/11/2026)
+- FotMob -> PitchAPI (`foto.json`/`stats.ph`) -> LiveScore (formazioni, `imageUrl`) -> diretta.it (formazioni GraphQL `dlie2`, `images`). `foto_extra.py` (workflow `foto_extra.yml`, 2 volte al giorno) prende gli id senza foto FotMob (`foto_mancanti.json`), legge le formazioni LiveScore/diretta.it delle partite delle loro squadre e abbina SOLO per nome dentro la squadra (`team_index`); la foto si tiene solo se l'indirizzo risponde con un'immagine.
+- Dati di terzi solo su KV: `idx:ph/<id%100>` (id -> foto) e `idx:ph/ids` (elenco). Il worker serve `/pf/<id>.png` (302 alla foto, 404 = sagoma). L'app legge l'elenco all'avvio (`load.js`, al massimo 3 s) e `players.js` lo usa in `setFace` dopo PitchAPI: stessa foto ovunque tramite `playerFace`. Resoconto: `report/foto_extra.json`.
+- Voci "ogni 90'" senza la riga del giocatore (sotto la soglia della classifica ufficiale): si ricavano da totale e minuti (`loadPlayerStatsFor0`), mai 0,00 al posto del valore vero.

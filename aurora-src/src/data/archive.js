@@ -662,6 +662,21 @@ const loadPlayerStatsFor0 = async (lid, sk, pid) => {
     list.splice(i, 0, mine);
     players[k] = list;
   });
+  // voci "ogni 90'" (gol, xG...) senza la riga del giocatore (sotto la soglia della classifica ufficiale): si ricavano dalla voce totale e dai suoi minuti,
+  // mai 0,00 al posto del valore vero (22/11/2026: Koné 1 gol in 389' mostrava "Gol ogni 90' 0,00")
+  Object.keys(players).forEach((k) => {
+    if (!/_per_90$/.test(k)) return;
+    const pick = (lst) => (lst || []).find((r) => String(r[0]) === String(pid));
+    if (pick(players[k])) return;
+    const base = pick(players[k.replace(/_per_90$/, '')]);
+    if (!base || !(Number(base[4]) > 0)) return;
+    const mine = [base[0], base[1], base[2], (Number(base[3]) * 90) / Number(base[4]), base[4], base[5], base[6]];
+    const list = [...players[k]];
+    let i = list.findIndex((r) => r[3] < mine[3]);
+    if (i < 0) i = list.length;
+    list.splice(i, 0, mine);
+    players[k] = list;
+  });
   const out = { ...st, players, filled: true, rec: fm.rec };
   lruSet(MERGED, ck, out, 40);
   return out;
