@@ -1,43 +1,93 @@
 {
  "competizioni": {
-  "Premier League 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
+  "First Division A 2026-2027": {
+   "partite_completate": 1,
+   "giocatori": 29,
    "da_fare": 1
   },
-  "First Professional League 2026-2027": {
+  "First Division B 2026-2027": {
+   "partite_completate": 1,
+   "giocatori": 28,
+   "da_fare": 1
+  },
+  "Série A 2026": {
+   "partite_completate": 2,
+   "giocatori": 64,
+   "da_fare": 2
+  },
+  "Série B 2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 2
+  },
+  "Liga de Primera 2026": {
+   "partite_completate": 1,
+   "giocatori": 24,
+   "da_fare": 1
+  },
+  "Serie A 2026-2027": {
    "partite_completate": 1,
    "giocatori": 30,
    "da_fare": 1
   },
+  "LaLiga 2026-2027": {
+   "partite_completate": 1,
+   "giocatori": 28,
+   "da_fare": 1
+  },
   "Primera Federación 2026-2027": {
-   "partite_completate": 2,
-   "giocatori": 42,
-   "da_fare": 2
+   "partite_completate": 1,
+   "giocatori": 16,
+   "da_fare": 1
+  },
+  "3. Liga 2026-2027": {
+   "partite_completate": 1,
+   "giocatori": 31,
+   "da_fare": 1
+  },
+  "Ligue 1 2026-2027": {
+   "partite_completate": 1,
+   "giocatori": 31,
+   "da_fare": 1
   },
   "Taça de Portugal 2026-2027": {
    "partite_completate": 0,
    "giocatori": 0,
    "da_fare": 1
   },
-  "1. Division 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 1
-  },
-  "Nemzeti Bajnokság I 2026-2027": {
+  "MLS 2026": {
    "partite_completate": 1,
-   "giocatori": 30,
+   "giocatori": 16,
    "da_fare": 1
   },
-  "Prva Liga 2026-2027": {
+  "Eliteserien 2026": {
+   "partite_completate": 1,
+   "giocatori": 28,
+   "da_fare": 1
+  },
+  "Primera Division 2026-2027 - Apertura": {
    "partite_completate": 0,
    "giocatori": 0,
+   "da_fare": 1
+  },
+  "Division Profesional 2026 - Clausura": {
+   "partite_completate": 2,
+   "giocatori": 50,
+   "da_fare": 2
+  },
+  "Liga 1 2026": {
+   "partite_completate": 2,
+   "giocatori": 56,
+   "da_fare": 2
+  },
+  "Primera Division 2026": {
+   "partite_completate": 1,
+   "giocatori": 28,
    "da_fare": 1
   }
  },
- "partite_completate": 4,
- "giocatori": 102,
- "senza_abbinamento": 1,
- "senza_formazioni_diretta": 4
+ "partite_completate": 17,
+ "giocatori": 459,
+ "senza_abbinamento": 2,
+ "senza_formazioni_diretta": 2
 }
