@@ -1,18 +1,53 @@
 {
  "competizioni": {
-  "LaLiga (ESP) 2026-2027": {
-   "lega_pitch": "LaLiga",
-   "partite_completate": 0,
-   "giocatori": 0,
+  "First Division A (BEL) 2026-2027": {
+   "lega_pitch": "First Division A",
+   "partite_completate": 1,
+   "giocatori": 31,
    "senza_abbinamento": 0,
    "da_fare": 1
   },
-  "3. Liga (GER) 2026-2027": {
-   "lega_pitch": "3. Liga",
-   "partite_completate": 2,
-   "giocatori": 61,
+  "Ligue 1 (FRA) 2026-2027": {
+   "lega_pitch": "Ligue 1",
+   "partite_completate": 1,
+   "giocatori": 31,
+   "senza_abbinamento": 0,
+   "da_fare": 1
+  },
+  "Serie A (ITA) 2026-2027": {
+   "lega_pitch": "Serie A",
+   "partite_completate": 1,
+   "giocatori": 32,
+   "senza_abbinamento": 0,
+   "da_fare": 1
+  },
+  "Eliteserien (NOR) 2026": {
+   "lega_pitch": "Eliteserien",
+   "partite_completate": 1,
+   "giocatori": 32,
+   "senza_abbinamento": 0,
+   "da_fare": 1
+  },
+  "LaLiga (ESP) 2026-2027": {
+   "lega_pitch": "LaLiga",
+   "partite_completate": 1,
+   "giocatori": 30,
+   "senza_abbinamento": 0,
+   "da_fare": 2
+  },
+  "Série A (BRA) 2026": {
+   "lega_pitch": "Serie A",
+   "partite_completate": 3,
+   "giocatori": 95,
    "senza_abbinamento": 0,
    "da_fare": 3
+  },
+  "3. Liga (GER) 2026-2027": {
+   "lega_pitch": "3. Liga",
+   "partite_completate": 1,
+   "giocatori": 32,
+   "senza_abbinamento": 0,
+   "da_fare": 2
   },
   "Virsliga (LVA) 2026": {
    "lega_pitch": "Virsliga",
@@ -23,17 +58,24 @@
   },
   "Liga de Primera (CHI) 2026": {
    "lega_pitch": "Liga de Primera",
-   "partite_completate": 0,
-   "giocatori": 0,
+   "partite_completate": 2,
+   "giocatori": 59,
    "senza_abbinamento": 0,
-   "da_fare": 2
+   "da_fare": 4
   },
   "Primera Division (VEN) 2026": {
    "lega_pitch": "Primera Division",
+   "partite_completate": 1,
+   "giocatori": 32,
+   "senza_abbinamento": 0,
+   "da_fare": 2
+  },
+  "Série B (BRA) 2026": {
+   "lega_pitch": "Serie B",
    "partite_completate": 0,
    "giocatori": 0,
-   "senza_abbinamento": 0,
-   "da_fare": 1
+   "senza_abbinamento": 2,
+   "da_fare": 2
   },
   "K League 1 (KOR) 2026": {
    "lega_pitch": "K League 1",
@@ -261,5 +303,5 @@
   }
  },
  "senza_lega_pitch": [],
- "partite_completate_in_questo_giro": 2
+ "partite_completate_in_questo_giro": 12
 }
