@@ -167,6 +167,16 @@ def coppie_partita(summ, m):
             continue
         pl = c.get("play") or {}
         parts = [x.get("athlete", {}).get("displayName") for x in pl.get("participants") or []]
+        # chi commette e' quello della cronaca ("Foul by X"): ESPN a volte mette nei partecipanti un altro giocatore (23/11/2026, stessa regola di foulsMatch.js)
+        if len(parts) >= 2 and parts[0] and sim(parts[0], mt.group(1)) < 0.8:
+            fixed = []
+            for nb in (ci + 1, ci - 1, ci + 2):
+                if 0 <= nb < len(com):
+                    mv = re.match(r"(.+?) \((.+?)\) wins a free kick", com[nb].get("text") or "")
+                    if mv and norm(mv.group(2)) != norm(mt.group(2)):
+                        fixed = [mt.group(1), mv.group(1)]
+                        break
+            parts = fixed or ([mt.group(1), parts[1]] if parts[1] and sim(parts[1], mt.group(1)) < 0.8 else [])
         if len(parts) < 2:
             # competizioni senza partecipanti nella cronaca (es. DFB-Pokal): chi subisce e' nella riga accanto "X (Squadra) wins a free kick"
             parts = []
@@ -288,7 +298,8 @@ def main():
                 resta = True
                 break
             # "xy": coppie gia' salvate con posizione e minuto; le vecchie (senza) si rifanno una volta
-            if not m or not m.get("h") or not m.get("a") or (mid in ris and ris[mid].get("xy") == 2):
+            # xy 3 (23/11/2026): chi commette preso dalla cronaca; le stagioni dal 2025 salvate prima (xy 2) si rifanno una volta
+            if not m or not m.get("h") or not m.get("a") or (mid in ris and (ris[mid].get("xy") == 3 or (ris[mid].get("xy") == 2 and stag[:4] < "2025"))):
                 continue
             t0 = quando.get(mid, "")
             hn, an_ = nomi.get(str(m["h"]["id"]), ""), nomi.get(str(m["a"]["id"]), "")
@@ -308,7 +319,7 @@ def main():
                 continue
             m["h"]["name"], m["a"]["name"] = hn, an_
             coppie, rmap, manc = coppie_partita(summ, m)
-            ris[mid] = {"p": coppie, "r": rmap, "xy": 2}
+            ris[mid] = {"p": coppie, "r": rmap, "xy": 3}
             tot += len(coppie); tot_m += manc; n_part += 1
         with gzip.open(out_f, "wt", encoding="utf-8") as fh:
             json.dump(ris, fh, separators=(",", ":"))

@@ -73,6 +73,17 @@ const parse = (summ, match) => {
     if (!mt) return;
     const pl = c.play || {};
     let parts = (pl.participants || []).map((x) => x && x.athlete && x.athlete.displayName);
+    // chi commette e' quello scritto nella cronaca ("Foul by X"): ESPN a volte mette nei partecipanti un altro giocatore
+    // (23/11/2026: "Foul by Luca Ranieri" con partecipanti Oulai/Dybala -> fallo dato a Oulai, che per FotMob ne ha 0).
+    // Se il primo partecipante non e' quello della cronaca, si tiene il nome della cronaca e chi subisce viene dalla riga "wins a free kick".
+    if (parts.length >= 2 && parts[0] && sim(parts[0], mt[1]) < 0.8) {
+      const fixed = [];
+      for (const nb of [ci + 1, ci - 1, ci + 2]) {
+        const mv = com[nb] && /^(.+?) \((.+?)\) wins a free kick/.exec(com[nb].text || '');
+        if (mv && sim(mv[2], mt[2]) < 0.9) { fixed.push(mt[1], mv[1]); break; }
+      }
+      parts = fixed.length ? fixed : parts[1] && sim(parts[1], mt[1]) < 0.8 ? [mt[1], parts[1]] : [];
+    }
     if (parts.length < 2 || !parts[0] || !parts[1]) {
       parts = [];
       for (const nb of [ci + 1, ci - 1, ci + 2]) {
