@@ -1,49 +1,94 @@
 {
  "competizioni": {
+  "Friendlies 2026": {
+   "con_statistiche": 0,
+   "senza": 3,
+   "da_fare": 3
+  },
   "Série B 2026": {
    "con_statistiche": 0,
    "senza": 1,
    "da_fare": 1
   },
-  "Série A 2026": {
-   "con_statistiche": 1,
+  "Liga de Primera 2026": {
+   "con_statistiche": 2,
    "senza": 0,
-   "da_fare": 1
+   "da_fare": 2
   },
-  "2. Bundesliga 2012-2013": {
+  "Série A 2026": {
+   "con_statistiche": 2,
+   "senza": 0,
+   "da_fare": 2
+  },
+  "Championship 2013-2014": {
    "con_statistiche": 0,
-   "senza": 95,
-   "da_fare": 95
+   "senza": 259,
+   "da_fare": 259
   },
-  "2. Bundesliga 2011-2012": {
+  "Championship 2012-2013": {
    "con_statistiche": 0,
-   "senza": 293,
-   "da_fare": 293
+   "senza": 557,
+   "da_fare": 557
   },
-  "2. Bundesliga 2010-2011": {
+  "Championship 2011-2012": {
    "con_statistiche": 0,
-   "senza": 66,
-   "da_fare": 66
+   "senza": 540,
+   "da_fare": 540
   },
-  "Championship 2018-2019": {
+  "Championship 2010-2011": {
+   "con_statistiche": 0,
+   "senza": 555,
+   "da_fare": 555
+  },
+  "Open Cup 2026": {
    "con_statistiche": 0,
    "senza": 1,
    "da_fare": 1
   },
-  "Championship 2015-2016": {
+  "Open Cup 2024": {
+   "con_statistiche": 0,
+   "senza": 1,
+   "da_fare": 1
+  },
+  "Open Cup 2023": {
+   "con_statistiche": 0,
+   "senza": 16,
+   "da_fare": 16
+  },
+  "Liga I 2023-2024": {
+   "con_statistiche": 0,
+   "senza": 10,
+   "da_fare": 10
+  },
+  "Liga I 2022-2023": {
+   "con_statistiche": 0,
+   "senza": 11,
+   "da_fare": 11
+  },
+  "Liga I 2021-2022": {
+   "con_statistiche": 0,
+   "senza": 5,
+   "da_fare": 5
+  },
+  "MLS 2015": {
+   "con_statistiche": 0,
+   "senza": 8,
+   "da_fare": 8
+  },
+  "MLS 2014": {
+   "con_statistiche": 0,
+   "senza": 1,
+   "da_fare": 1
+  },
+  "MLS 2013": {
    "con_statistiche": 0,
    "senza": 2,
    "da_fare": 2
   },
-  "Championship 2014-2015": {
+  "MLS 2011": {
    "con_statistiche": 0,
-   "senza": 552,
-   "da_fare": 552
-  },
-  "Championship 2013-2014": {
-   "con_statistiche": 0,
-   "senza": 297,
-   "da_fare": 556
+   "senza": 15,
+   "da_fare": 318
   }
  }
 }
