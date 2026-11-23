@@ -172,7 +172,7 @@ def main():
             if restricted and not (tid_of(m["home_team"]) in cup_ids and tid_of(m["away_team"]) in cup_ids):
                 continue   # media dell'avversario non europeo non disponibile
             seen.add(m["id"])
-            upcoming[m["id"]] = {"id": m["id"], "date": d, "time": m.get("date"), "league": lg["name"],
+            upcoming[m["id"]] = {"id": m["id"], "date": d, "time": m.get("date"), "league": lg["name"], "cup": key in CUPS,
                                  "h": tid_of(m["home_team"]), "a": tid_of(m["away_team"])}
             reg(m["home_team"]); reg(m["away_team"])
         json.dump(cache, open(CACHE_FILE, "w"), ensure_ascii=False)
@@ -243,6 +243,29 @@ def main():
         sa = team_h.get(u["a"], 1.0) if use_h else 1.0
         return (hf * sh + aa / sa) / 2, (af * sa + ha / sh) / 2, n1, n2
 
+    def expect_cup(u, kf, ka, split, use_h):
+        """Partita di Champions/Europa League (regola fissa 23/11/2026, Migliori Matchup = Calcolatore):
+        ogni squadra = (media in coppa + media nel suo campionato) / 2, per i fatti e per i subiti.
+        Campionato minore (use_h): la parte campionato ha l'handicap, fatti x h (diminuiscono), subiti / h (aumentano);
+        top 5 = h 1 (nessun handicap). Senza partite in una delle due parti si usa l'altra."""
+        def side(tid, sd_):
+            rs = rows_of(tid, sd_ if split else None)
+            h = team_h.get(tid, 1.0) if use_h else 1.0
+            cup = [x for x in rs if x["comp"] in CUPS]
+            lg = [x for x in rs if x["comp"] not in CUPS]
+            cf, nc = mean(cup, kf); ca, _ = mean(cup, ka)
+            lf, nl = mean(lg, kf); la, _ = mean(lg, ka)
+            fs = [v for v in (cf, None if lf is None else lf * h) if v is not None]
+            as_ = [v for v in (ca, None if la is None else la / h) if v is not None]
+            if not fs or not as_:
+                return None
+            return sum(fs) / len(fs), sum(as_) / len(as_), nc + nl
+        H = side(u["h"], "h")
+        A = side(u["a"], "a")
+        if not H or not A or min(H[2], A[2]) < MIN_G:
+            return None
+        return (H[0] + A[1]) / 2, (A[0] + H[1]) / 2, H[2], A[2]
+
     # classifiche di squadra (top 5 campionati): medie fatti / subiti, totali, in casa e in trasferta -> squadre.json
     METR = {"sh": ("sf", "sa"), "st": ("tf", "ta"), "fo": ("ff", "fa"), "co": ("cf", "ca"), "pt": ("pf", "pa"), "of": ("of", "oa")}
     sq = {}
@@ -274,11 +297,14 @@ def main():
         e = {"id": u["id"], "hid": u["h"], "aid": u["a"], "date": u["date"], "time": u["time"], "league": u["league"],
              "home": names[u["h"]], "away": names[u["a"]],
              "non_coperto": [names[t] for t in (u["h"], u["a"]) if t not in covered]}
-        r = expect(u, "cf", "ca", True)                      # angoli: casa / trasferta
+        # angoli e tiri: fatti + subiti delle due squadre, casa / trasferta. In coppa europea: coppa + campionato (con handicap per i minori);
+        # in campionato nessun handicap (come il Calcolatore). Falli e fuorigiochi: fatti + subiti dell'avversaria, senza handicap.
+        ex = (lambda kf, ka: expect_cup(u, kf, ka, True, True)) if u.get("cup") else (lambda kf, ka: expect(u, kf, ka, True))
+        r = ex("cf", "ca")                                   # angoli: casa / trasferta
         if r:
             e.update(corners_home=round(r[0], 1), corners_away=round(r[1], 1), gap=round(abs(r[0] - r[1]), 1), games=[r[2], r[3]])
         for tag, kf, ka in (("tiri", "sf", "sa"), ("sot", "tf", "ta")):    # tiri: casa / trasferta + handicap
-            r = expect(u, kf, ka, True, True)
+            r = ex(kf, ka)
             if r:
                 e.update({tag + "_home": round(r[0], 1), tag + "_away": round(r[1], 1),
                           tag + "_gap": round(abs(r[0] - r[1]), 1), tag + "_games": [r[2], r[3]]})

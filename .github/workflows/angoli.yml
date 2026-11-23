@@ -1,0 +1,25 @@
+name: Migliori Matchup (solo angoli.json)
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  angoli:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Angoli, tiri, falli, fuorigiochi, cartellini (update_angoli.py)
+        run: python update_angoli.py
+        env:
+          PITCHAPI_KEY: ${{ secrets.PITCHAPI_KEY }}
+      - name: Salva
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add angoli.json cache_angoli.json squadre.json 2>/dev/null || true
+          git diff --staged --quiet || git commit -m "Migliori Matchup: ricalcolo"
+          for i in 1 2 3 4 5; do git pull --rebase && git push && break; sleep $((i*4)); done

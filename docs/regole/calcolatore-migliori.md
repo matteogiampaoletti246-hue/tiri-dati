@@ -253,3 +253,9 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 ## Calcolatore: posizione nella statistica anche in coppa (regola fissa, 23/11/2026)
 - Ogni riquadro squadra (tiri fatti/subiti totali e in porta, falli commessi/subiti) mostra la posizione della squadra in quella statistica DENTRO la competizione scelta, anche in Champions ed Europa League (tra le 36 squadre della coppa, sul valore di coppa). Prima in coppa la posizione era spenta (`cup ? null` in `teamShots`/`teamFoulStats`, `!stats.cup` nei riquadri). Controllo: tutte le 91 competizioni del calcolatore, 1.659 squadre, 0 senza posizione.
 
+## Migliori Matchup: medie previste e handicap dei campionati minori (regola fissa, 23/11/2026)
+- Tutte le medie sono "previste": casa = (fatti della casa + subiti dell'ospite) / 2, ospite = (fatti dell'ospite + subiti della casa) / 2 (`expect`/`expect_cup` in `update_angoli.py`).
+- Angoli, tiri e tiri in porta (casa / trasferta): nelle partite di Champions/Europa League ogni squadra = (media in coppa + media nel suo campionato) / 2, per fatti e subiti; squadra di un campionato minore = parte campionato con l'handicap (`team_h`: fatti x h, subiti / h), top 5 nessun handicap (come `blend` del Calcolatore). Senza partite in una delle due parti si usa l'altra. Nelle partite di campionato nessun handicap.
+- Falli e fuorigiochi: commessi della squadra + subiti dell'avversaria, tutte le partite, MAI handicap. Cartellini e Arbitri: invariati.
+- Ricalcolo a mano: workflow `angoli.yml` (solo `update_angoli.py`); di solito gira con `update.yml` (23:00 e 05:00 UTC).
+
