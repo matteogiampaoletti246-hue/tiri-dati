@@ -259,3 +259,8 @@ Testo completo delle regole fisse di quest'area (indice in CLAUDE.md). Valgono p
 - Falli e fuorigiochi: commessi della squadra + subiti dell'avversaria, tutte le partite, MAI handicap. Cartellini e Arbitri: invariati.
 - Ricalcolo a mano: workflow `angoli.yml` (solo `update_angoli.py`); di solito gira con `update.yml` (23:00 e 05:00 UTC).
 
+## Duello falli: lista completa, undici solo con la formazione ufficiale (regola fissa, 23/11/2026)
+- Causa (Monza-Fiorentina, lista con soli 10 giocatori alle 14:48): nel calendario interno la partita delle 20:45 stava alle 14:00, quindi il Calcolatore la credeva iniziata e riduceva la lista del duello all'undici della formazione PROBABILE. Ora `CalcPlayer.js` (nativo) prende l'orario vero da FotMob (`syncDayTimes` del giorno della partita) e riduce la lista all'undici SOLO con la formazione ufficiale (`lineupType` standard/official/confirm) o a partita iniziata, sempre entro 75 minuti dal fischio.
+- Squadra di un giocatore nella lista = quella della sua partita piu' recente per DATA (`tts` in `calcFouls.js`): i trasferiti nello stesso campionato stanno solo nella squadra nuova.
+- Controllo a tappeto (23/11/2026, codice dell'app su 91 competizioni del calcolatore): in campionato nessun giocatore con dati manca; restano fuori solo i giocatori senza id FotMob (id 0) e, in coppe e qualificazioni delle nazionali, le partite senza statistiche per giocatore in nessuna fonte (mai numeri inventati). Nel duello di un club la lista unisce campionato, coppe europee e coppe nazionali (`groupPlayers`).
+

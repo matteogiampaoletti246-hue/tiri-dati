@@ -75,8 +75,9 @@ async function build(key) {
       const min = Number(v.minutes_played) || 0;
       const w = side[pid];
       if (!min || !w) return;
-      const e = (players[pid] = players[pid] || { id: pid, n: w[2], team: w[1], g: [], gk: true });
-      e.team = w[1];
+      const e = (players[pid] = players[pid] || { id: pid, n: w[2], team: w[1], g: [], gk: true, tts: -1 });
+      // squadra attuale = quella della partita piu' recente (giocatori trasferiti nello stesso campionato), mai l'ordine di lettura
+      if (ts >= e.tts) { e.team = w[1]; e.tts = ts; }
       // portiere: ruolo 11 delle formazioni; senza formazioni, chi ha parate nelle statistiche della partita
       if (w[3] === undefined ? !Object.keys(v).some((k) => /save/i.test(k)) : w[3] !== 11) e.gk = false;
       e.g.push({ ts, min, fc: Number(v.fouls) || 0, fs: Number(v.was_fouled) || 0, home: w[0] === 'h' });

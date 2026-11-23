@@ -1,4 +1,5 @@
 // Calcolatore: scheda Affidabilità giocatore (nativa). Stessa logica di components/calc/PlayerTab.jsx del sito, con i dati e i calcoli condivisi.
+import { syncDayTimes } from '@/data/fotmob';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { View, Text, Pressable, TextInput, StyleSheet, AppState } from 'react-native';
 import { onResumeCalm, justResumed } from '../shared/resume';
@@ -995,6 +996,9 @@ export default function CalcPlayer({ C, openRoute, embedId }) {
   useEffect(() => {
     if (!duelId) return undefined;
     let on = true; let busy = false;
+    // orario vero della partita (FotMob del giorno) prima di decidere se mancano meno di 75 minuti
+    const dm = nextMatchVs(form.team.id, form.opp.id);
+    if (dm && dm.date) syncDayTimes(dm.date, true).then((n) => { if (on && n) luBump((x) => x + 1); }).catch(() => 0);
     const run = () => {
       const m = nextMatchVs(form.team.id, form.opp.id);
       if (!on || busy || AppState.currentState !== 'active' || justResumed() || !m || m.ts - Date.now() > 75 * 60000 || m.status === 'finished') return;
@@ -1007,7 +1011,10 @@ export default function CalcPlayer({ C, openRoute, embedId }) {
     return () => { on = false; clearInterval(t); sub.remove(); };
   }, [duelId, form.team.id, form.opp.id]); // eslint-disable-line react-hooks/exhaustive-deps
   const sameT = (a, b) => a === b || (!!teamById(a) && !!teamById(b) && teamById(a).name === teamById(b).name);
-  const luSide = duelM && opp && duelM.ts - Date.now() <= 75 * 60000 && duelM.lineup ? (sameT(duelM.homeId, opp.id) ? duelM.lineup.home : duelM.lineup.away) : null;
+  // REGOLA (23/11/2026, Monza-Fiorentina): la lista si riduce all'undici SOLO con la formazione UFFICIALE (o a partita iniziata), mai con
+  // quella probabile; l'orario e' quello vero di FotMob (syncDayTimes qui sotto): nel calendario interno la partita delle 20:45 stava alle 14:00
+  const luOff = !!duelM && (/^(standard|official|confirm)/i.test(String(duelM.lineupType || '')) || duelM.status === 'live');
+  const luSide = duelM && opp && luOff && duelM.ts - Date.now() <= 75 * 60000 && duelM.lineup ? (sameT(duelM.homeId, opp.id) ? duelM.lineup.home : duelM.lineup.away) : null;
   const starters = luSide && luSide.xi && luSide.xi.length ? new Set(luSide.xi.map((p) => String(p.fmId)).filter((x) => x && x !== 'undefined')) : null;
   const roster0 = fouls && oppDom ? rosterFouls(fd, oppDom, fmOf(opp), oppStat) : [];
   const roster = starters && starters.size ? roster0.filter((r) => starters.has(String(r.id))) : roster0;
