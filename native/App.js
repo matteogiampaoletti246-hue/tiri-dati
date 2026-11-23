@@ -308,10 +308,13 @@ const LeagueGroup = memo(({ iso, g, forceOpen, onOpen, onLeague }) => {
   const isOpen = forceOpen || open;
   return (
     <Card tint={g.tint || g.c.tint} open={isOpen}>
-      <View style={s.headRow}>
-        <Pressable onPress={() => onLeague(leagueRoute(g.c, g.fm))} style={({ pressed }) => [{ flex: 1, minWidth: 0 }, pressed && { opacity: 0.6 }]}><LeagueHead c={g.c} /></Pressable>
-        <Pressable onPress={() => { if (!forceOpen && isOpen) tendAnim(); toggle(); }} hitSlop={{ top: 14, bottom: 14, right: 14 }} style={s.tail}><Text numberOfLines={1} style={s.cnt}>{g.matches.length}</Text><Chev open={isOpen} /></Pressable>
-      </View>
+      {/* REGOLA (23/11/2026): solo logo e nome del campionato aprono la scheda della competizione; spazio vuoto, numero e freccia aprono/chiudono */}
+      <Pressable onPress={() => { if (!forceOpen && isOpen) tendAnim(); toggle(); }} style={s.headRow}>
+        <View style={{ flex: 1, minWidth: 0, flexDirection: 'row' }}>
+          <Pressable onPress={() => onLeague(leagueRoute(g.c, g.fm))} style={({ pressed }) => [{ flexShrink: 1, minWidth: 0 }, pressed && { opacity: 0.6 }]}><LeagueHead c={g.c} /></Pressable>
+        </View>
+        <View style={s.tail}><Text numberOfLines={1} style={s.cnt}>{g.matches.length}</Text><Chev open={isOpen} /></View>
+      </Pressable>
       <Collapse open={isOpen} instant={!!forceOpen}><LeagueBody g={g} onOpen={onOpen} /></Collapse>
     </Card>
   );
