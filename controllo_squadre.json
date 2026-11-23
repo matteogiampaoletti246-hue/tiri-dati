@@ -5333,28 +5333,6 @@
    "lega": "taca-de-portugal",
    "fm": 186,
    "stagione": "2026-2027",
-   "squadra": "Torreense",
-   "id": "212820",
-   "motivo": [
-    "Statistiche: nessuna partita archiviata",
-    "Giocatori: nessuna partita archiviata"
-   ]
-  },
-  {
-   "lega": "taca-de-portugal",
-   "fm": 186,
-   "stagione": "2026-2027",
-   "squadra": "Benfica",
-   "id": "9772",
-   "motivo": [
-    "Statistiche: nessuna partita archiviata",
-    "Giocatori: nessuna partita archiviata"
-   ]
-  },
-  {
-   "lega": "taca-de-portugal",
-   "fm": 186,
-   "stagione": "2026-2027",
    "squadra": "Braga",
    "id": "10264",
    "motivo": [
@@ -6433,7 +6411,7 @@
  "rose": {
   "squadre": 3170,
   "senza_rosa_prima": 2284,
-  "senza_rosa_dopo": 345,
+  "senza_rosa_dopo": 341,
   "senza_rosa": [
    {
     "squadra": "1A",
@@ -6656,16 +6634,6 @@
     "id": "442963",
     "competizioni": [
      "EURO 2028"
-    ],
-    "motivo": "nessuna partita giocata nella stagione in corso"
-   },
-   {
-    "squadra": "5th ranked",
-    "id": "2",
-    "competizioni": [
-     "Série B 2026",
-     "Copa do Brasil 2026",
-     "Liga MX 2026-2027 - Apertura"
     ],
     "motivo": "nessuna partita giocata nella stagione in corso"
    },
@@ -6964,17 +6932,6 @@
      "FA Trophy 2026-2027"
     ],
     "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
-   },
-   {
-    "squadra": "Banfield/Boca Juniors",
-    "id": "1",
-    "competizioni": [
-     "Copa Argentina 2026",
-     "Série B 2026",
-     "Copa do Brasil 2026",
-     "Liga MX 2026-2027 - Apertura"
-    ],
-    "motivo": "nessuna partita giocata nella stagione in corso"
    },
    {
     "squadra": "Barcelona/Atletico Madrid",
@@ -8305,14 +8262,6 @@
     "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
    },
    {
-    "squadra": "Orlando City/FC Cincinnati",
-    "id": "2460351",
-    "competizioni": [
-     "MLS 2026"
-    ],
-    "motivo": "nessuna partita giocata nella stagione in corso"
-   },
-   {
     "squadra": "Otočac",
     "id": "2096649",
     "competizioni": [
@@ -8559,14 +8508,6 @@
      "Coupe de France 2026-2027"
     ],
     "motivo": "partite giocate ma l'archivio non ha formazioni, minuti, classifiche giocatori ne' marcatori della squadra"
-   },
-   {
-    "squadra": "Seattle Sounders FC/Real Salt Lake",
-    "id": "2460379",
-    "competizioni": [
-     "MLS 2026"
-    ],
-    "motivo": "nessuna partita giocata nella stagione in corso"
    },
    {
     "squadra": "Seyssinet Pariset",
@@ -9209,7 +9150,7 @@
   "squadre": 3170,
   "prima": 2383,
   "dopo": 638,
-  "giocate_dopo": 556,
+  "giocate_dopo": 560,
   "elenco": [
    {
     "squadra": "1. BFK Frýdlant nad Ostravici",
@@ -9540,7 +9481,7 @@
      "Liga MX 2026-2027 - Apertura"
     ],
     "motivo": [
-     "0 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
     ]
    },
    {
@@ -9972,7 +9913,7 @@
      "Copa do Brasil 2026"
     ],
     "motivo": [
-     "0 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
     ]
    },
    {
@@ -12058,7 +11999,7 @@
      "MLS 2026"
     ],
     "motivo": [
-     "0 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
     ]
    },
    {
@@ -12467,7 +12408,7 @@
      "MLS 2026"
     ],
     "motivo": [
-     "0 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
+     "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
     ]
    },
    {
@@ -16261,12 +16202,12 @@
  },
  "giocatori_competizioni": {
   "squadre": 8140,
-  "coppie_squadra_competizione": 12524,
-  "con_frase_prima": 4675,
+  "coppie_squadra_competizione": 12526,
+  "con_frase_prima": 4677,
   "squadre_con_frase_prima": 2171,
   "con_frase_e_dati_ora_visibili": 3189,
   "con_frase_dopo": 0,
-  "competizioni_senza_dati_tolte_dalla_tendina": 6475,
+  "competizioni_senza_dati_tolte_dalla_tendina": 6477,
   "squadre_senza_scheda_giocatori": 4834,
   "senza_scheda": [
    {
@@ -17477,8 +17418,8 @@
   "mancanti_dopo": []
  },
  "forma": {
-  "squadre_senza_forma_prima": 1973,
-  "squadre_senza_forma_dopo": 100,
+  "squadre_senza_forma_prima": 1971,
+  "squadre_senza_forma_dopo": 96,
   "motivo_dopo": "nessuna partita giocata nella stagione in corso: niente riquadro"
  }
 }
