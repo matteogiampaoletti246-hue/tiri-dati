@@ -1,48 +1,7 @@
 {
- "competizioni": {
-  "Champions League 2026-2027": {
-   "partite_completate": 1,
-   "giocatori": 25,
-   "da_fare": 1
-  },
-  "Championship 2026-2027": {
-   "partite_completate": 3,
-   "giocatori": 88,
-   "da_fare": 3
-  },
-  "League One 2026-2027": {
-   "partite_completate": 1,
-   "giocatori": 30,
-   "da_fare": 1
-  },
-  "EFL Trophy 2026-2027": {
-   "partite_completate": 3,
-   "giocatori": 79,
-   "da_fare": 3
-  },
-  "Erovnuli Liga 2026": {
-   "partite_completate": 1,
-   "giocatori": 22,
-   "da_fare": 1
-  },
-  "1. CFL 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 1
-  },
-  "Slovak Cup 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 1
-  },
-  "Cymru Premier 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 1
-  }
- },
- "partite_completate": 9,
- "giocatori": 244,
+ "competizioni": {},
+ "partite_completate": 0,
+ "giocatori": 0,
  "senza_abbinamento": 0,
- "senza_formazioni_diretta": 3
+ "senza_formazioni_diretta": 0
 }
