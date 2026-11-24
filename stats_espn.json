@@ -2,88 +2,63 @@
  "competizioni": {
   "Friendlies 2026": {
    "con_statistiche": 0,
-   "senza": 4,
-   "da_fare": 4
-  },
-  "Série A 2026": {
-   "con_statistiche": 3,
-   "senza": 0,
-   "da_fare": 3
-  },
-  "Liga Portugal 2015-2016": {
-   "con_statistiche": 0,
-   "senza": 207,
-   "da_fare": 207
-  },
-  "Liga Portugal 2014-2015": {
-   "con_statistiche": 0,
-   "senza": 288,
-   "da_fare": 288
-  },
-  "Liga Portugal 2013-2014": {
-   "con_statistiche": 0,
-   "senza": 242,
-   "da_fare": 242
-  },
-  "Liga Portugal 2012-2013": {
-   "con_statistiche": 0,
-   "senza": 239,
-   "da_fare": 239
-  },
-  "Liga Portugal 2011-2012": {
-   "con_statistiche": 0,
-   "senza": 236,
-   "da_fare": 236
-  },
-  "Liga Portugal 2010-2011": {
-   "con_statistiche": 0,
-   "senza": 240,
-   "da_fare": 240
-  },
-  "Bundesliga 2011-2012": {
-   "con_statistiche": 0,
-   "senza": 3,
-   "da_fare": 3
-  },
-  "Bundesliga 2010-2011": {
-   "con_statistiche": 0,
-   "senza": 3,
-   "da_fare": 3
-  },
-  "Ligue 1 2012-2013": {
-   "con_statistiche": 0,
-   "senza": 12,
-   "da_fare": 12
-  },
-  "Ligue 1 2011-2012": {
-   "con_statistiche": 0,
-   "senza": 27,
-   "da_fare": 27
-  },
-  "Ligue 1 2010-2011": {
-   "con_statistiche": 0,
-   "senza": 3,
-   "da_fare": 3
-  },
-  "Copa Libertadores 2026": {
-   "con_statistiche": 0,
    "senza": 1,
    "da_fare": 1
   },
-  "Copa Libertadores 2016": {
+  "Copa Libertadores 2013": {
+   "con_statistiche": 0,
+   "senza": 93,
+   "da_fare": 93
+  },
+  "Copa Libertadores 2012": {
    "con_statistiche": 0,
    "senza": 126,
    "da_fare": 126
   },
-  "Copa Libertadores 2014": {
+  "Copa Libertadores 2011": {
    "con_statistiche": 0,
-   "senza": 110,
-   "da_fare": 110
-  },
-  "Copa Libertadores 2013": {
-   "con_statistiche": 0,
-   "senza": 33,
+   "senza": 126,
    "da_fare": 126
+  },
+  "Copa Libertadores 2010": {
+   "con_statistiche": 0,
+   "senza": 6,
+   "da_fare": 6
+  },
+  "Eliteserien 2014": {
+   "con_statistiche": 0,
+   "senza": 237,
+   "da_fare": 237
+  },
+  "Eliteserien 2013": {
+   "con_statistiche": 0,
+   "senza": 240,
+   "da_fare": 240
+  },
+  "Eliteserien 2012": {
+   "con_statistiche": 0,
+   "senza": 240,
+   "da_fare": 240
+  },
+  "Eliteserien 2011": {
+   "con_statistiche": 0,
+   "senza": 240,
+   "da_fare": 240
+  },
+  "Eliteserien 2010": {
+   "con_statistiche": 0,
+   "senza": 128,
+   "da_fare": 128
+  },
+  "Eredivisie 2014-2015": {
+   "con_statistiche": 0,
+   "senza": 55,
+   "da_fare": 55
+  },
+  "Eredivisie 2013-2014": {
+   "con_statistiche": 0,
+   "senza": 116,
+   "da_fare": 292
   }
  }
 }
