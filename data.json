@@ -1123,10 +1123,10 @@
    "country": "ESP",
    "label": "LaLiga",
    "league_avg": {
-    "sotAgainst": 4.645,
-    "sotFor": 4.639,
-    "totalAgainst": 13.626,
-    "totalFor": 13.614
+    "sotAgainst": 4.622,
+    "sotFor": 4.623,
+    "totalAgainst": 13.592,
+    "totalFor": 13.608
    },
    "logo": "https://cdn.pitchapi.dev/images/leagues/4a840c09a3b5d1b2150eeba66e2c31d83d23503c0df04b3ddd04341f9c7b2b48.webp",
    "logos": {
@@ -1151,7 +1151,7 @@
     "Valencia": "https://cdn.pitchapi.dev/images/teams/798571c3b79c5fbf5e97ebefe2a17884f1e74c3c6d5186e04736f6c482a3c12d.webp",
     "Villarreal": "https://cdn.pitchapi.dev/images/teams/9cd74c38ef6d75a878041878ed6f18da3fb9e6cf81baae23d266a64821a63a71.webp"
    },
-   "matches": 128,
+   "matches": 129,
    "matches_without_stats": 0,
    "name": "LaLiga",
    "restricted": false,
@@ -1201,11 +1201,11 @@
      "totalFor": 13.077
     },
     "Elche": {
-     "games": 12,
-     "sotAgainst": 4.75,
-     "sotFor": 4.25,
-     "totalAgainst": 14.583,
-     "totalFor": 12.0
+     "games": 13,
+     "sotAgainst": 4.538,
+     "sotFor": 4.077,
+     "totalAgainst": 14.846,
+     "totalFor": 11.385
     },
     "Espanyol": {
      "games": 13,
@@ -1222,11 +1222,11 @@
      "totalFor": 10.462
     },
     "Levante": {
-     "games": 12,
-     "sotAgainst": 5.417,
-     "sotFor": 3.917,
-     "totalAgainst": 16.167,
-     "totalFor": 11.583
+     "games": 13,
+     "sotAgainst": 5.154,
+     "sotFor": 3.769,
+     "totalAgainst": 15.231,
+     "totalFor": 12.077
     },
     "Málaga": {
      "games": 13,
@@ -1561,10 +1561,10 @@
    "country": "ENG",
    "label": "Premier League",
    "league_avg": {
-    "sotAgainst": 4.338,
-    "sotFor": 4.339,
-    "totalAgainst": 13.751,
-    "totalFor": 13.737
+    "sotAgainst": 4.341,
+    "sotFor": 4.341,
+    "totalAgainst": 13.727,
+    "totalFor": 13.727
    },
    "logo": "https://cdn.pitchapi.dev/images/leagues/91b2d9475023f0a6197af3d0d9295809f8a2ba871e9a8dc538da6a3d5604bb3e.webp",
    "logos": {
@@ -1589,7 +1589,7 @@
     "Sunderland": "https://cdn.pitchapi.dev/images/teams/c7480c6686f3054f22a90d172989397e9e1716ac05bd71149b2853a7fb86c28c.webp",
     "Tottenham Hotspur": "https://cdn.pitchapi.dev/images/teams/00b0e0e6c36a26b40a6526b0a180ff5b136c5a6b6510bd3d73e2e17d38c9aa9d.webp"
    },
-   "matches": 109,
+   "matches": 110,
    "matches_without_stats": 0,
    "name": "Premier League",
    "restricted": false,
@@ -1618,11 +1618,11 @@
      "totalFor": 12.545
     },
     "Brentford": {
-     "games": 10,
-     "sotAgainst": 4.4,
-     "sotFor": 3.6,
-     "totalAgainst": 15.5,
-     "totalFor": 13.1
+     "games": 11,
+     "sotAgainst": 4.182,
+     "sotFor": 3.909,
+     "totalAgainst": 14.455,
+     "totalFor": 13.818
     },
     "Brighton & Hove Albion": {
      "games": 11,
@@ -1653,11 +1653,11 @@
      "totalFor": 11.182
     },
     "Everton": {
-     "games": 10,
-     "sotAgainst": 4.0,
-     "sotFor": 5.0,
-     "totalAgainst": 14.8,
-     "totalFor": 14.1
+     "games": 11,
+     "sotAgainst": 4.273,
+     "sotFor": 4.727,
+     "totalAgainst": 15.364,
+     "totalFor": 13.182
     },
     "Fulham": {
      "games": 11,
@@ -1818,10 +1818,10 @@
    "country": "ITA",
    "label": "Serie A",
    "league_avg": {
-    "sotAgainst": 4.943,
-    "sotFor": 4.94,
-    "totalAgainst": 14.527,
-    "totalFor": 14.539
+    "sotAgainst": 4.95,
+    "sotFor": 4.95,
+    "totalAgainst": 14.537,
+    "totalFor": 14.538
    },
    "logo": "https://cdn.pitchapi.dev/images/leagues/1e6b2d0d7b14ef10ae27b51a6a7f536b32fdceea229d84c475be346978232f22.webp",
    "logos": {
@@ -1846,7 +1846,7 @@
     "Udinese": "https://cdn.pitchapi.dev/images/teams/bf074b2992c5c0d8bb4fefdf71b549070c402656ac2e6405a52e8ee9ef6c8801.webp",
     "Venezia": "https://cdn.pitchapi.dev/images/teams/ef4cf59b13e1d9d130d304bad00d700783a9783ba1c0469952db26a8a76a5b38.webp"
    },
-   "matches": 119,
+   "matches": 120,
    "matches_without_stats": 0,
    "name": "Serie A",
    "restricted": false,
@@ -1882,11 +1882,11 @@
      "totalFor": 18.083
     },
     "Fiorentina": {
-     "games": 11,
-     "sotAgainst": 5.636,
-     "sotFor": 5.091,
-     "totalAgainst": 13.909,
-     "totalFor": 16.909
+     "games": 12,
+     "sotAgainst": 5.583,
+     "sotFor": 5.333,
+     "totalAgainst": 13.833,
+     "totalFor": 16.917
     },
     "Frosinone": {
      "games": 12,
@@ -1938,11 +1938,11 @@
      "totalFor": 11.5
     },
     "Monza": {
-     "games": 11,
-     "sotAgainst": 5.636,
-     "sotFor": 5.545,
-     "totalAgainst": 13.455,
-     "totalFor": 13.364
+     "games": 12,
+     "sotAgainst": 5.833,
+     "sotFor": 5.5,
+     "totalAgainst": 13.75,
+     "totalFor": 13.333
     },
     "Napoli": {
      "games": 12,
@@ -2027,5 +2027,5 @@
   }
  },
  "season_start": "2026",
- "updated_at": "2026-11-23T15:46:34+00:00"
+ "updated_at": "2026-11-24T06:52:23+00:00"
 }
