@@ -1,31 +1,5 @@
 {
- "competizioni": {
-  "1. Division 2026-2027": {
-   "partite_completate": 1,
-   "giocatori": 32,
-   "da_fare": 1
-  },
-  "Prva Liga 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 1
-  },
-  "Ligue 1 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 2
-  },
-  "Primera B 2026": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 1
-  }
- },
- "codici_it_visti": {
-  "4": 18,
-  "5": 18,
-  "36": 5,
-  "43": 1
- },
- "partite_completate_in_questo_giro": 5
+ "competizioni": {},
+ "codici_it_visti": {},
+ "partite_completate_in_questo_giro": 0
 }
