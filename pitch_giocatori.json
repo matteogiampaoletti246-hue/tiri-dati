@@ -2,31 +2,17 @@
  "competizioni": {
   "Champions League (INT) 2026-2027": {
    "lega_pitch": "Champions League",
-   "partite_completate": 8,
-   "giocatori": 248,
-   "senza_abbinamento": 1,
-   "da_fare": 9
+   "partite_completate": 0,
+   "giocatori": 0,
+   "senza_abbinamento": 0,
+   "da_fare": 1
   },
   "Championship (ENG) 2026-2027": {
    "lega_pitch": "Championship",
-   "partite_completate": 5,
-   "giocatori": 154,
-   "senza_abbinamento": 3,
-   "da_fare": 8
-  },
-  "Premiership (SCO) 2026-2027": {
-   "lega_pitch": "Premiership",
-   "partite_completate": 2,
-   "giocatori": 62,
+   "partite_completate": 0,
+   "giocatori": 0,
    "senza_abbinamento": 0,
-   "da_fare": 2
-  },
-  "Serie B (ITA) 2026-2027": {
-   "lega_pitch": "Serie B",
-   "partite_completate": 6,
-   "giocatori": 191,
-   "senza_abbinamento": 0,
-   "da_fare": 6
+   "da_fare": 3
   },
   "LaLiga (ESP) 2026-2027": {
    "lega_pitch": "LaLiga",
@@ -37,17 +23,10 @@
   },
   "League One (ENG) 2026-2027": {
    "lega_pitch": "League One",
-   "partite_completate": 3,
-   "giocatori": 87,
-   "senza_abbinamento": 1,
-   "da_fare": 4
-  },
-  "League Two (ENG) 2026-2027": {
-   "lega_pitch": "League Two",
-   "partite_completate": 2,
-   "giocatori": 54,
+   "partite_completate": 0,
+   "giocatori": 0,
    "senza_abbinamento": 0,
-   "da_fare": 2
+   "da_fare": 1
   },
   "3. Liga (GER) 2026-2027": {
    "lega_pitch": "3. Liga",
@@ -76,13 +55,6 @@
    "giocatori": 0,
    "senza_abbinamento": 0,
    "da_fare": 1
-  },
-  "Premier League (EGY) 2026-2027": {
-   "lega_pitch": "Premier League",
-   "partite_completate": 2,
-   "giocatori": 61,
-   "senza_abbinamento": 0,
-   "da_fare": 2
   },
   "Série B (BRA) 2026": {
    "lega_pitch": "Serie B",
@@ -316,13 +288,6 @@
    "da_fare": 3
   }
  },
- "senza_lega_pitch": [
-  [
-   "142",
-   "EFL Trophy (ENG) 2026-2027",
-   3,
-   0
-  ]
- ],
- "partite_completate_in_questo_giro": 28
+ "senza_lega_pitch": [],
+ "partite_completate_in_questo_giro": 0
 }
