@@ -1,39 +1,11 @@
 {
  "competizioni": {
-  "Premier League (ENG) 2026-2027": {
-   "lega_pitch": "Premier League",
-   "partite_completate": 0,
-   "giocatori": 0,
-   "senza_abbinamento": 0,
-   "da_fare": 1
-  },
-  "Serie A (ITA) 2026-2027": {
-   "lega_pitch": "Serie A",
-   "partite_completate": 0,
-   "giocatori": 0,
-   "senza_abbinamento": 0,
-   "da_fare": 1
-  },
   "LaLiga (ESP) 2026-2027": {
    "lega_pitch": "LaLiga",
    "partite_completate": 0,
    "giocatori": 0,
    "senza_abbinamento": 0,
-   "da_fare": 2
-  },
-  "Ligue 2 (FRA) 2026-2027": {
-   "lega_pitch": "Ligue 2",
-   "partite_completate": 0,
-   "giocatori": 0,
-   "senza_abbinamento": 0,
-   "da_fare": 2
-  },
-  "Eerste Divisie (NED) 2026-2027": {
-   "lega_pitch": "Eerste Divisie",
-   "partite_completate": 0,
-   "giocatori": 0,
-   "senza_abbinamento": 0,
-   "da_fare": 2
+   "da_fare": 1
   },
   "3. Liga (GER) 2026-2027": {
    "lega_pitch": "3. Liga",
