@@ -1,7 +1,28 @@
 {
- "competizioni": {},
- "partite_completate": 0,
- "giocatori": 0,
+ "competizioni": {
+  "Primera B 2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Liga AUF Uruguaya 2026": {
+   "partite_completate": 1,
+   "giocatori": 26,
+   "da_fare": 1
+  },
+  "Primera Division 2026-2027": {
+   "partite_completate": 1,
+   "giocatori": 24,
+   "da_fare": 1
+  },
+  "Division Profesional 2026 - Clausura": {
+   "partite_completate": 1,
+   "giocatori": 25,
+   "da_fare": 1
+  }
+ },
+ "partite_completate": 3,
+ "giocatori": 75,
  "senza_abbinamento": 0,
- "senza_formazioni_diretta": 0
+ "senza_formazioni_diretta": 1
 }
