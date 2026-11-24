@@ -1,14 +1,13 @@
 {
  "mancanti_fotmob": 63207,
- "gia_trovate": 4883,
+ "gia_trovate": 4886,
  "nuove": {
   "livescore": 0,
-  "diretta": 0,
-  "diretta_ricerca": 3
+  "diretta": 0
  },
  "squadre": 2583,
- "partite_lette": 12,
- "ricerche": 6,
+ "partite_lette": 15,
+ "ricerche": 0,
  "totale_con_foto_extra": 4886,
  "ancora_senza": 58321
 }
