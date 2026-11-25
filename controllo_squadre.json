@@ -6410,7 +6410,7 @@
  "squadre_controllate": 1523,
  "rose": {
   "squadre": 3170,
-  "senza_rosa_prima": 2299,
+  "senza_rosa_prima": 2274,
   "senza_rosa_dopo": 341,
   "senza_rosa": [
    {
@@ -9148,9 +9148,9 @@
  },
  "rose_per_ruolo": {
   "squadre": 3170,
-  "prima": 2381,
+  "prima": 2367,
   "dopo": 637,
-  "giocate_dopo": 559,
+  "giocate_dopo": 560,
   "elenco": [
    {
     "squadra": "1. BFK Frýdlant nad Ostravici",
@@ -9478,7 +9478,7 @@
     "competizioni": [
      "Série B 2026",
      "Copa do Brasil 2026",
-     "Liga MX 2026-2027 - Apertura"
+     "EFL Trophy 2026-2027"
     ],
     "motivo": [
      "0 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 0"
@@ -15777,7 +15777,7 @@
      "Slovenia Cup 2026-2027"
     ],
     "motivo": [
-     "8 giocatori: FotMob non ha la rosa e nessuna partita giocata nella stagione in corso"
+     "8 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 8"
     ]
    },
    {
@@ -17403,12 +17403,29 @@
  },
  "partite_stagione": {
   "squadre_con_partite_mancanti_prima": 2325,
-  "squadre_con_partite_mancanti_dopo": 0,
-  "mancanti_dopo": []
+  "squadre_con_partite_mancanti_dopo": 2,
+  "mancanti_dopo": [
+   {
+    "squadra": "Banfield/Boca Juniors",
+    "id": "1",
+    "competizioni": [
+     "EFL Trophy 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   },
+   {
+    "squadra": "5th ranked",
+    "id": "2",
+    "competizioni": [
+     "EFL Trophy 2026-2027"
+    ],
+    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
+   }
+  ]
  },
  "forma": {
   "squadre_senza_forma_prima": 1971,
-  "squadre_senza_forma_dopo": 96,
+  "squadre_senza_forma_dopo": 93,
   "motivo_dopo": "nessuna partita giocata nella stagione in corso: niente riquadro"
  }
 }
