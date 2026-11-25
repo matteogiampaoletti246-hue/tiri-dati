@@ -321,3 +321,14 @@ export async function dlEvents(g2, stt) {
   }
   return { live, sc, ev };
 }
+
+// SONDA temporanea (25/11/2026): cosa danno le fonti di diretta per una partita
+export async function dlProbe(fmId, koMs, hn, an) {
+  const mid = await midOf(fmId, koMs, hn, an);
+  const o = {};
+  if (!mid) return { mid };
+  const a = await jget(GQL + "dlie2&eventId=" + mid, GQL_H, 6000); const aj = a ? await a.json().catch(() => null) : null;
+  o.dlie2 = JSON.stringify(aj).slice(0, 1500);
+  for (const k of ["df_li_1_", "df_lc_1_", "df_lu_1_"]) { const r = await jget(FEED + k + mid, FEED_H, 6000); o[k] = r ? (await r.text()).slice(0, 1500) : null; }
+  return { mid, ...o };
+}

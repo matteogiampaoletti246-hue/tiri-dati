@@ -1,5 +1,5 @@
 // ScalperLab - ponte Live (Cloudflare Worker). Legge ESPN e lo restituisce al sito con una cache di pochi secondi.
-import { dlLineups, dlClock, dlEvents } from "./diretta.js";
+import { dlLineups, dlClock, dlEvents, dlProbe } from "./diretta.js";
 const ORIGIN = "https://matteogiampaoletti246-hue.github.io";
 const BASE = "https://site.api.espn.com/apis/site/v2/sports/soccer";
 const DOM = ["ita.1", "eng.1", "esp.1", "ger.1", "fra.1"];
@@ -638,6 +638,7 @@ export default {
         if (!to || !/^https:\/\//.test(to)) return new Response("", { status: 404, headers: cors(req, { "Cache-Control": "public, max-age=3600" }) });
         return new Response(null, { status: 302, headers: cors(req, { Location: to, "Cache-Control": "public, max-age=86400" }) });
       } }
+      if (u.pathname === "/dlprobe") { const k = Date.parse(u.searchParams.get("ko")); return new Response(JSON.stringify(await dlProbe(u.searchParams.get("id"), k, u.searchParams.get("h"), u.searchParams.get("a"))), { headers: cors(req, { "Cache-Control": "no-store" }) }); }
       if (u.pathname === "/v") { // versione dell'app nativa in uso sul telefono (21/11/2026): ?sha=<commit>&e=start|resume; ?read=1 le ultime 40 (solo versione e ora, niente dati personali)
         if (!env || !env.ROSE) return new Response("[]", { headers: cors(req) });
         const cur = JSON.parse((await env.ROSE.get("diag:app")) || "[]");
