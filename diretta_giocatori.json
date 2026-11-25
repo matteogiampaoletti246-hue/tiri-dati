@@ -1,13 +1,13 @@
 {
  "competizioni": {
-  "Primera A 2026 - Clausura": {
-   "partite_completate": 2,
-   "giocatori": 53,
-   "da_fare": 2
+  "Erovnuli Liga 2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
   }
  },
- "partite_completate": 2,
- "giocatori": 53,
- "senza_abbinamento": 0,
+ "partite_completate": 0,
+ "giocatori": 0,
+ "senza_abbinamento": 1,
  "senza_formazioni_diretta": 0
 }
