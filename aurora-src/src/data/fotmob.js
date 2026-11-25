@@ -344,6 +344,7 @@ export function applyFm(m, d, playerLookup) {
   }
   if (d.stad && !m.stadium) m.stadium = d.stad;
   m.lineupType = d.ty || null;
+  m.lineupList = !!d.luList; // ufficiale in solo elenco (senza posti in campo): si continua ad aggiornare finche' arrivano
   renameEvents(m);
   m.detail = true;
   m.fm = true;

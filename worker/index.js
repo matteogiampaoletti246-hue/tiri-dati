@@ -1,5 +1,5 @@
 // ScalperLab - ponte Live (Cloudflare Worker). Legge ESPN e lo restituisce al sito con una cache di pochi secondi.
-import { dlLineups, dlClock, dlEvents, dlProbe } from "./diretta.js";
+import { dlLineups, dlClock, dlEvents } from "./diretta.js";
 const ORIGIN = "https://matteogiampaoletti246-hue.github.io";
 const BASE = "https://site.api.espn.com/apis/site/v2/sports/soccer";
 const DOM = ["ita.1", "eng.1", "esp.1", "ger.1", "fra.1"];
@@ -638,7 +638,6 @@ export default {
         if (!to || !/^https:\/\//.test(to)) return new Response("", { status: 404, headers: cors(req, { "Cache-Control": "public, max-age=3600" }) });
         return new Response(null, { status: 302, headers: cors(req, { Location: to, "Cache-Control": "public, max-age=86400" }) });
       } }
-      if (u.pathname === "/dlprobe") { const k = Date.parse(u.searchParams.get("ko")); return new Response(JSON.stringify(await dlProbe(u.searchParams.get("id"), k, u.searchParams.get("h"), u.searchParams.get("a"))), { headers: cors(req, { "Cache-Control": "no-store" }) }); }
       if (u.pathname === "/v") { // versione dell'app nativa in uso sul telefono (21/11/2026): ?sha=<commit>&e=start|resume; ?read=1 le ultime 40 (solo versione e ora, niente dati personali)
         if (!env || !env.ROSE) return new Response("[]", { headers: cors(req) });
         const cur = JSON.parse((await env.ROSE.get("diag:app")) || "[]");
@@ -808,6 +807,18 @@ export default {
           if (dl && dl.official && !fmReady) { // ufficiale: vale la prima fonte che la mostra; FotMob con i posti in campo gia' completa resta com'e'
             [out.h, out.a] = await Promise.all([dlFill(dl.h, fm0.h, out.hi), dlFill(dl.a, fm0.a, out.ai)]);
             out.luSrc = "diretta"; out.ty = "standard"; dlDone = true;
+            // ufficiale di diretta in solo elenco (senza modulo, 25/11/2026): i posti in campo da FotMob/ESPN/PitchAPI se hanno gli STESSI 11; se no elenco
+            if (noXY(out.h) || noXY(out.a)) {
+              const alt = altP ? await altP.catch(() => null) : null;
+              const pos = (t, src) => {
+                if (!t || !src || noXY(src)) return null;
+                const rows = (t.s || []).map((p) => { const q = (src.s || []).find((x) => x[2] != null && samePerson(x[0], p[0])); return q ? [p[0], p[1] != null ? p[1] : q[1], q[2], q[3], p[4] || q[4], p[5] || q[5], p[6] || q[6], p[7] || q[7], p[8] != null ? p[8] : q[8]] : null; });
+                return rows.length === 11 && rows.every(Boolean) ? { ...t, f: t.f || src.f, s: rows } : null;
+              };
+              const H = pos(out.h, fm0.h) || pos(out.h, alt && alt.h), A = pos(out.a, fm0.a) || pos(out.a, alt && alt.a);
+              if (H && A) { out.h = H; out.a = A; }
+              else { [out.h, out.a] = await Promise.all([rosaMark(out.h, out.hi), rosaMark(out.a, out.ai)]); out.luList = 1; }
+            }
           }
           if (!dlDone && (noXY(out.h) || noXY(out.a) || (!fmOfficial && !g2.started))) {
             const fmH = out.h, fmA = out.a;
@@ -838,7 +849,8 @@ export default {
           }
           // formazione PROBABILE di diretta.it: davanti a ogni altra probabile; ma non a titolari ufficiali gia' presi da un'altra fonte
           // (16/11/2026: diretta vince su QUALSIASI altra probabile, anche ESPN/PitchAPI/LiveScore/ultima formazione; cede solo a una formazione ufficiale gia' presa da un'altra fonte)
-          const otherOfficial = /^(standard|official|confirm)/i.test(String(out.ty || "")) && !!out.h && !!out.a && !noXY(out.h) && !noXY(out.a);
+          // qualsiasi ufficiale (anche in solo elenco, senza posti in campo) batte ogni probabile (25/11/2026)
+          const otherOfficial = /^(standard|official|confirm)/i.test(String(out.ty || "")) && !!out.h && !!out.a && (out.h.s || []).length >= 11 && (out.a.s || []).length >= 11;
           if (!dlDone && dl && !dl.official && !g2.started && !otherOfficial) {
             [out.h, out.a] = await Promise.all([dlFill(dl.h, fm0.h, out.hi), dlFill(dl.a, fm0.a, out.ai)]);
             out.luSrc = "diretta"; out.ty = "predicted";

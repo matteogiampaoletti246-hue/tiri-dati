@@ -18,7 +18,7 @@ export function lineupBeat(m, now = Date.now()) {
   const to = m.ts - now;
   if (to > 7 * 86400000) return 0;
   if (to <= 0) return 1; // fischio d'inizio: un giro appena parte, poi il live prende il posto
-  if (lineupIsOfficial(m)) return 0; // ufficiale: non serve piu' aggiornare
+  if (lineupIsOfficial(m) && !m.lineupList) return 0; // ufficiale con i posti in campo: non serve piu' aggiornare (in solo elenco si continua ogni 5 s)
   // nessuna formazione arrivata (richiesta andata male o fonte lenta, 18/11/2026): si riprova ogni 30 secondi invece di aspettare 2 ore
   // anche con una sola squadra arrivata (21/11/2026: la scheda Formazioni spariva e si riprovava dopo 2 ore)
   if (!(m.lineup && m.lineup.home && m.lineup.away)) return 6;

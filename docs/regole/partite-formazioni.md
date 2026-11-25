@@ -178,3 +178,8 @@ Il riquadro "Infortunati" (nativo `PartitaLineups.js`, sito `MatchLineupsPanel.j
 
 ## Falli "Su chi / Da chi": chi commette e' quello della cronaca (23/11/2026)
 - ESPN a volte mette nei partecipanti del fallo un giocatore diverso da quello scritto ("Foul by Luca Ranieri" con partecipanti Oulai/Dybala): il fallo finiva al giocatore sbagliato (riga "0 falli" ma "Su chi" con 1 fallo). Ora il nome di chi commette e' sempre quello della cronaca; se il primo partecipante non coincide, chi subisce viene dalla riga "X wins a free kick" (o dal secondo partecipante se diverso). Stessa regola in `native/shared/foulsMatch.js` (app) e `falli_coppie.py` (dati; xy 3: le stagioni dal 2025 si rifanno una volta).
+
+## Formazione ufficiale: la prima fonte che la pubblica, subito (regola fissa, 25/11/2026)
+- Ordine: diretta.it prima; se diretta non l'ha ancora, l'ufficiale della prima altra fonte che la mette (FotMob, ESPN, PitchAPI, LiveScore dopo il fischio). Le probabili: diretta.it prima.
+- diretta.it pubblica l'ufficiale prima SENZA modulo (solo "Formazioni iniziali" + panchina): ora vale subito (`parseSide`, `list: 1`). I posti in campo vengono da FotMob o dall'altra fonte se hanno gli stessi 11, altrimenti elenco (`luList`). Il record KV di diretta in solo elenco non blocca le riletture: si rilegge ogni 2 s finche' arriva il modulo; l'app continua ad aggiornare ogni 5 s (`lineupBeat`, `m.lineupList`).
+- Qualsiasi ufficiale (anche in solo elenco) batte ogni probabile. Resta la regola di 1h15: mai "ufficiale" prima.

@@ -122,7 +122,20 @@ const swapName = (n) => {
 };
 export function parseSide(ep, key) {
   const L = ep && ep[key];
-  if (!L || !Array.isArray(L.players) || !L.formation) return null;
+  if (!L || !Array.isArray(L.players)) return null;
+  if (!L.formation) {
+    // 25/11/2026: diretta pubblica l'ufficiale prima SENZA modulo (solo elenco "Formazioni iniziali" + panchina): prima si scartava e restava la probabile
+    // per 5-10 minuti. Ora l'elenco degli 11 vale subito (senza posti in campo: li completano FotMob/ESPN/PitchAPI se li hanno, se no elenco).
+    const byId0 = {};
+    L.players.forEach((p) => { byId0[p.id] = p; });
+    const st = (L.groups || []).find((g) => g.groupType === "STARTERS");
+    const ids = (st && st.playerIds) || [];
+    if (ids.length !== 11 || ids.some((id) => !byId0[id])) return null;
+    const mk0 = (p) => [swapName(p.listName || p.fieldName), p.number != null && p.number !== "" ? (+p.number || p.number) : null, null, null, (p.playerRoles || []).some((r) => /capitano|captain/i.test((r && r.title) || "")), null, null, null, null];
+    const sub0 = (L.groups || []).find((g) => g.groupType === "SUBSTITUTES");
+    const co0 = ((L.coaches || {}).players || [])[0];
+    return { f: null, s: ids.map((id) => mk0(byId0[id])), b: sub0 ? (sub0.playerIds || []).map((id) => byId0[id]).filter(Boolean).map(mk0) : [], co: co0 ? { id: null, n: swapName(co0.name || co0.listName), cc: null } : null, list: 1 };
+  }
   const rows = (((L.formation.lines || [])[0] || {}).rows || []).slice().sort((x, y) => x.sortKey - y.sortKey);
   const byId = {};
   L.players.forEach((p) => { byId[p.id] = p; });
@@ -200,7 +213,8 @@ export async function dlLineups(g2, stt, fmId, env) {
     let rec = memo && memo.rec;
     if (!rec && kv) { try { rec = await kv.get(key, "json"); } catch (e) { rec = null; } }
     const out = (r) => (r && r.h && r.a ? { official: !!r.c, h: r.h, a: r.a } : null);
-    if (rec && (rec.k || (rec.c && !started))) { memSet(MEM, fmId, { t: (memo && memo.t) || now, d: memo && memo.d, rec }); return out(rec); }
+    // ufficiale in solo elenco: si continua a rileggere finche' diretta non mette il modulo
+    if (rec && (rec.k || (rec.c && !started && rec.h && rec.h.f))) { memSet(MEM, fmId, { t: (memo && memo.t) || now, d: memo && memo.d, rec }); return out(rec); }
     // oltre 1h26: ogni 2 ore; dentro la finestra: ogni 5 secondi; al fischio: una lettura nuova
     const ttl = started ? 0 : to > DL_WINDOW_MS ? EARLY_MS : BEAT_MS;
     // lettura fallita (null): si riprova dopo al massimo 2 minuti, non dopo 2 ore (22/11/2026)
@@ -322,14 +336,3 @@ export async function dlEvents(g2, stt) {
   return { live, sc, ev };
 }
 
-// SONDA temporanea (25/11/2026): cosa danno le fonti di diretta per una partita
-export async function dlProbe(fmId, koMs, hn, an) {
-  const mid = await midOf(fmId, koMs, hn, an);
-  const o = {};
-  if (!mid) return { mid };
-  const a = await jget(GQL + "dlie2&eventId=" + mid, GQL_H, 6000); const aj = a ? await a.json().catch(() => null) : null;
-  const eps = (((aj || {}).data || {}).findEventById || {}).eventParticipants || [];
-  o.dlie2 = eps.map((e) => { const L = e.lineup || {}; return { side: e.type && e.type.side, keys: Object.keys(L), form: !!L.formation, players: (L.players || []).length, groups: (L.groups || []).map((g) => [g.groupType, g.name, (g.playerIds || []).length]), p0: JSON.stringify((L.players || [])[0]).slice(0, 500) }; });
-  for (const k of ["df_li_1_", "df_lc_1_", "df_lu_1_"]) { const r = await jget(FEED + k + mid, FEED_H, 6000); o[k] = r ? (await r.text()).slice(0, 1500) : null; }
-  return { mid, ...o };
-}
