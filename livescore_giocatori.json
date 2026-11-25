@@ -1,5 +1,31 @@
 {
- "competizioni": {},
- "codici_it_visti": {},
- "partite_completate_in_questo_giro": 0
+ "competizioni": {
+  "Cymru Premier 2026-2027": {
+   "partite_completate": 1,
+   "giocatori": 14,
+   "da_fare": 1
+  },
+  "Slovak Cup 2026-2027": {
+   "partite_completate": 1,
+   "giocatori": 29,
+   "da_fare": 1
+  },
+  "1. CFL 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Erovnuli Liga 2026": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  }
+ },
+ "codici_it_visti": {
+  "4": 16,
+  "5": 16,
+  "36": 6,
+  "43": 3
+ },
+ "partite_completate_in_questo_giro": 3
 }
