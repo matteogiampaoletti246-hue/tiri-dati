@@ -1,38 +1,7 @@
 {
- "competizioni": {
-  "Serie C 2026-2027": {
-   "partite_completate": 2,
-   "giocatori": 60,
-   "da_fare": 2
-  },
-  "Puchar Polski 2026-2027": {
-   "partite_completate": 1,
-   "giocatori": 8,
-   "da_fare": 1
-  },
-  "Erovnuli Liga 2026": {
-   "partite_completate": 1,
-   "giocatori": 18,
-   "da_fare": 1
-  },
-  "J. League 2026-2027": {
-   "partite_completate": 6,
-   "giocatori": 186,
-   "da_fare": 7
-  },
-  "1. CFL 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 1
-  },
-  "Slovenia Cup 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 2
-  }
- },
- "partite_completate": 10,
- "giocatori": 272,
- "senza_abbinamento": 1,
- "senza_formazioni_diretta": 3
+ "competizioni": {},
+ "partite_completate": 0,
+ "giocatori": 0,
+ "senza_abbinamento": 0,
+ "senza_formazioni_diretta": 0
 }
