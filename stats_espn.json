@@ -1,54 +1,39 @@
 {
  "competizioni": {
-  "Friendlies 2026": {
-   "con_statistiche": 0,
-   "senza": 2,
-   "da_fare": 2
-  },
-  "Primera A 2026 - Clausura": {
-   "con_statistiche": 1,
+  "J. League 2026-2027": {
+   "con_statistiche": 7,
    "senza": 0,
-   "da_fare": 1
+   "da_fare": 7
   },
-  "Eredivisie 2013-2014": {
+  "First Division A 2016-2017": {
    "con_statistiche": 0,
-   "senza": 176,
-   "da_fare": 176
+   "senza": 310,
+   "da_fare": 310
   },
-  "Eredivisie 2012-2013": {
+  "First Division A 2015-2016": {
    "con_statistiche": 0,
-   "senza": 311,
-   "da_fare": 311
+   "senza": 294,
+   "da_fare": 294
   },
-  "Eredivisie 2011-2012": {
+  "First Division A 2014-2015": {
+   "con_statistiche": 0,
+   "senza": 298,
+   "da_fare": 298
+  },
+  "First Division A 2013-2014": {
+   "con_statistiche": 0,
+   "senza": 299,
+   "da_fare": 299
+  },
+  "First Division A 2012-2013": {
    "con_statistiche": 0,
    "senza": 302,
    "da_fare": 302
   },
-  "Eredivisie 2010-2011": {
+  "First Division A 2011-2012": {
    "con_statistiche": 0,
-   "senza": 303,
-   "da_fare": 303
-  },
-  "First Division A 2023-2024": {
-   "con_statistiche": 0,
-   "senza": 1,
-   "da_fare": 1
-  },
-  "First Division A 2018-2019": {
-   "con_statistiche": 0,
-   "senza": 64,
-   "da_fare": 64
-  },
-  "First Division A 2017-2018": {
-   "con_statistiche": 0,
-   "senza": 330,
-   "da_fare": 330
-  },
-  "First Division A 2016-2017": {
-   "con_statistiche": 0,
-   "senza": 19,
-   "da_fare": 329
+   "senza": 183,
+   "da_fare": 302
   }
  }
 }
