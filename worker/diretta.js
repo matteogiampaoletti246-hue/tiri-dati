@@ -328,7 +328,8 @@ export async function dlProbe(fmId, koMs, hn, an) {
   const o = {};
   if (!mid) return { mid };
   const a = await jget(GQL + "dlie2&eventId=" + mid, GQL_H, 6000); const aj = a ? await a.json().catch(() => null) : null;
-  o.dlie2 = JSON.stringify(aj).slice(0, 1500);
+  const eps = (((aj || {}).data || {}).findEventById || {}).eventParticipants || [];
+  o.dlie2 = eps.map((e) => { const L = e.lineup || {}; return { side: e.type && e.type.side, keys: Object.keys(L), form: !!L.formation, players: (L.players || []).length, groups: (L.groups || []).map((g) => [g.groupType, g.name, (g.playerIds || []).length]), p0: JSON.stringify((L.players || [])[0]).slice(0, 500) }; });
   for (const k of ["df_li_1_", "df_lc_1_", "df_lu_1_"]) { const r = await jget(FEED + k + mid, FEED_H, 6000); o[k] = r ? (await r.text()).slice(0, 1500) : null; }
   return { mid, ...o };
 }
