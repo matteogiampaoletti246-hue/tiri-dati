@@ -10,16 +10,6 @@ import { comma } from '@/lib/format';
 import { Panel, TeamCrest, Segmented } from '../shared/ui';
 
 // ── Previste: per ogni squadra (fatti suoi + subiti dall'avversaria) / 2; fattore casa +15% / -15% solo su tiri, in porta, corner.
-const HOME_F = 1.15;
-const AWAY_F = 0.85;
-const ROWS = [
-  ['Tiri', 'tiri', 'tiriConcessi', true],
-  ['Tiri in porta', 'tiriInPorta', 'tiriInPortaConcessi', true],
-  ['Corner', 'corner', 'cornerConcessi', true],
-  ['Falli', 'falli', 'fallisubiti', false],
-  ['Fuorigioco', 'fuorigioco', 'fuorigiocoAvv', false],
-  ['Cartellini', 'gialli', 'gialliAvv', false],
-];
 const hex = (c) => (/^#[0-9a-f]{6}$/i.test(c || '') ? c : null);
 const rgb = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
 const dist = (a, b) => { const x = rgb(a); const y = rgb(b); return Math.hypot(x[0] - y[0], x[1] - y[1], x[2] - y[2]); };
@@ -27,20 +17,8 @@ const lift = (c) => `#${rgb(c).map((v) => Math.round(v * 0.62 + 255 * 0.38).toSt
 const pick = (t, i = 0) => hex(t && t.colors && t.colors[i]) || '#4A78F0';
 const bright = (c) => { const x = rgb(c); return 0.299 * x[0] + 0.587 * x[1] + 0.114 * x[2]; };
 
-export function predictedRows(home, away, match) {
-  if (!home || !away) return [];
-  const am = match && match.archive ? archiveMetrics(match) : null;
-  const val = (team, key) => (am ? am.value(team.id === home.id ? match.archive.hid : match.archive.aid, key) : metricOf(team.id, key));
-  return ROWS.map(([label, own, conc, hf]) => {
-    const a1 = val(home, own); const a2 = val(away, conc);
-    const b1 = val(away, own); const b2 = val(home, conc);
-    if ([a1, a2, b1, b2].some((v) => v === null || v === undefined || Number.isNaN(v))) return null;
-    const h = ((a1 + a2) / 2) * (hf ? HOME_F : 1);
-    const a = ((b1 + b2) / 2) * (hf ? AWAY_F : 1);
-    if (!(h + a > 0)) return null;
-    return { label, h, a, hf };
-  }).filter(Boolean);
-}
+import { predictedRows } from '@/data/predicted';
+export { predictedRows }; // stesso calcolo di Migliori Matchup (25/11/2026)
 
 function Predicted({ C, home, away, match, openRoute }) {
   const rows = predictedRows(home, away, match);

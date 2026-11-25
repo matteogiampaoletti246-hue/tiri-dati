@@ -6,17 +6,7 @@ import { comma } from '@/lib/format';
 
 // Statistiche previste: per ogni squadra (fatti suoi + subiti dall'avversaria) / 2.
 // Fattore casa/trasferta piccolo (+15% / -15%) solo su tiri, tiri in porta e corner: falli, fuorigioco e cartellini non cambiano in casa.
-const HOME_F = 1.15;
-const AWAY_F = 0.85;
 // [etichetta, statistica fatta, stessa statistica subita dall'avversaria, fattore casa]
-const ROWS = [
-  ['Tiri', 'tiri', 'tiriConcessi', true],
-  ['Tiri in porta', 'tiriInPorta', 'tiriInPortaConcessi', true],
-  ['Corner', 'corner', 'cornerConcessi', true],
-  ['Falli', 'falli', 'fallisubiti', false],
-  ['Fuorigioco', 'fuorigioco', 'fuorigiocoAvv', false],
-  ['Cartellini', 'gialli', 'gialliAvv', false],
-];
 
 const hex = (c) => (/^#[0-9a-f]{6}$/i.test(c || '') ? c : null);
 const dist = (a, b) => {
@@ -30,21 +20,8 @@ const pick = (t, i = 0) => hex(t && t.colors && t.colors[i]) || '#4A78F0';
 const bright = (c) => { const x = [1, 3, 5].map((i) => parseInt(c.slice(i, i + 2), 16)); return 0.299 * x[0] + 0.587 * x[1] + 0.114 * x[2]; };
 
 // righe delle statistiche previste (vuoto = la card non si mostra); usata anche per decidere se mostrare la pillola "Previste"
-export function predictedRows(home, away, match) {
-  if (!home || !away) return [];
-  const am = match && match.archive ? archiveMetrics(match) : null;
-  const val = (team, key) => (am ? am.value(team.id === home.id ? match.archive.hid : match.archive.aid, key) : metricOf(team.id, key));
-  const rows = ROWS.map(([label, own, conc, hf]) => {
-    const a1 = val(home, own); const a2 = val(away, conc);
-    const b1 = val(away, own); const b2 = val(home, conc);
-    if ([a1, a2, b1, b2].some((v) => v === null || v === undefined || Number.isNaN(v))) return null;
-    const h = ((a1 + a2) / 2) * (hf ? HOME_F : 1);
-    const a = ((b1 + b2) / 2) * (hf ? AWAY_F : 1);
-    if (!(h + a > 0)) return null;
-    return { label, h, a, hf };
-  }).filter(Boolean);
-  return rows;
-}
+import { predictedRows } from '@/data/predicted';
+export { predictedRows }; // stesso calcolo di Migliori Matchup (25/11/2026)
 
 export default function PredictedStats({ home, away, match }) {
   const rows = predictedRows(home, away, match);

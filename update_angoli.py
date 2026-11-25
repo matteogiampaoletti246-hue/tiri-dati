@@ -12,6 +12,8 @@ MIN_G = int(os.environ.get("MIN_G", "1"))       # partite minime per sede per en
 DAYS = int(os.environ.get("DAYS_AHEAD", "8"))   # giorni in avanti da mostrare
 TOP = int(os.environ.get("TOP", "5"))           # massimo partite per categoria e per giorno
 CUPS = {"champions-league", "europa-league"}
+# fattore casa/trasferta (25/11/2026): +15% casa, -15% trasferta SOLO su angoli, tiri e tiri in porta (come le Previste della partita)
+HOME_F, AWAY_F = 1.15, 0.85
 TOP5 = {"serie-a", "premier-league", "bundesliga", "la-liga", "ligue-1"}   # tutte le squadre; gli altri campionati: solo squadre europee
 
 # campionati in piu' rispetto a quelli dei tiri: (chiave, paese, nome regex, esclusioni regex)
@@ -300,11 +302,12 @@ def main():
         # angoli e tiri: fatti + subiti delle due squadre, casa / trasferta. In coppa europea: coppa + campionato (con handicap per i minori);
         # in campionato nessun handicap (come il Calcolatore). Falli e fuorigiochi: fatti + subiti dell'avversaria, senza handicap.
         ex = (lambda kf, ka: expect_cup(u, kf, ka, True, True)) if u.get("cup") else (lambda kf, ka: expect(u, kf, ka, True))
-        r = ex("cf", "ca")                                   # angoli: casa / trasferta
+        hfac = lambda r: (r[0] * HOME_F, r[1] * AWAY_F, r[2], r[3]) if r else r
+        r = hfac(ex("cf", "ca"))                             # angoli: casa / trasferta + fattore casa
         if r:
             e.update(corners_home=round(r[0], 1), corners_away=round(r[1], 1), gap=round(abs(r[0] - r[1]), 1), games=[r[2], r[3]])
         for tag, kf, ka in (("tiri", "sf", "sa"), ("sot", "tf", "ta")):    # tiri: casa / trasferta + handicap
-            r = ex(kf, ka)
+            r = hfac(ex(kf, ka))
             if r:
                 e.update({tag + "_home": round(r[0], 1), tag + "_away": round(r[1], 1),
                           tag + "_gap": round(abs(r[0] - r[1]), 1), tag + "_games": [r[2], r[3]]})
