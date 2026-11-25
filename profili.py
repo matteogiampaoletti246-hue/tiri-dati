@@ -26,6 +26,8 @@ def always(m, st):
     return (m or 0) >= (46 if st == 1 else 50 if st == 0 else MIN_HIT)
 SEASON_START = os.environ.get("SEASON_START", "2026")   # come update_data.py: stagione 2026/2027 (e 2026 per i campionati ad anno solare)
 EURO = {42, 73, 10216}
+_nt = lambda x: re.sub(r"[^a-z0-9]+", "", unicodedata.normalize("NFKD", str(x or "")).encode("ascii", "ignore").decode().lower())
+RISERVE = re.compile(r"\b(U ?\d{2}|Jong|Next Gen|NXT|Futures|II|B|Fortuna|Castilla|Atl[eé]tico B|Reserves?|Academy|Primavera)\b", re.I)
 CUP_RX = re.compile(r"cup|pokal|copa|coppa|coupe|ta[cç]a|beker|kupa|puchar|trophy|shield|super ?cup|supercopa|supercoppa|troph|pokalen|kupok|cupa|kubok|league cup", re.I)
 TOKS_OUT = {"fc", "cf", "ac", "sc", "afc", "sk", "fk", "nk", "gnk", "cd", "ud", "rc", "sl", "sv", "as", "ss", "club", "de", "calcio", "bk", "if",
             "ik", "aik", "kv", "krc", "rsc", "vfb", "vfl", "tsg", "1", "fsv", "ssc", "us", "ogc", "losc", "stade", "real", "atletico", "sporting",
@@ -395,6 +397,8 @@ def main():
         merges.append({"nome": keep["n"], "squadra": keep["t"], "id_uniti": [p["i"] for p in lst] + [f"fm:{f}"], "tenuto": keep["i"],
                        "motivo": "stesso id FotMob (" + "; ".join(how[p["i"]] for p in lst) + "): PitchAPI aveva due profili"})
     p_by_f = {fmap[p["i"]]: p for p in players if p["i"] in fmap and p["i"] not in drop}
+    CX_BY_FM = {str(x.get("fm")): x for x in CX.get("players") or [] if x.get("fm")}
+    TRASF = []
     lite_drop = []
     for x in CX.get("players") or []:
         f = str(x.get("fm") or "")
@@ -463,11 +467,28 @@ def main():
     def build(pid, fid, base, ptid):
         pr = sorted(prow.get(pid, []), key=lambda x: x[0], reverse=True) if pid else []
         cur = []
-        dl = dom_league(fid, tmap.get(ptid)) if fid else None
+        # TRASFERITO (25/11/2026, Bair: PitchAPI lo teneva all'Auxerre ma gioca nel Bolton in Championship): squadra ATTUALE = quella dell'ultima
+        # partita di club FotMob della stagione, se e' piu' recente dell'ultima partita PitchAPI e diversa dalla squadra PitchAPI. Allora squadra,
+        # campionato e medie di campionato sono quelli nuovi; le partite col vecchio club restano solo nell'elenco (k "o").
+        tr = None
+        if pid and fid:
+            frc = [x for x in frows_of(fid) if x[2]]
+            if frc:
+                lastf = max(frc, key=lambda x: x[0])
+                last_pr = max((x[0] for x in pr), default=date.min)
+                pT = str(tmap.get(ptid) or "")
+                nT = str(lastf[2])
+                newer = [x for x in frc if str(x[2]) == nT and x[0] > last_pr]
+                # mai le squadre B / riserve (Jong, U21/U23, Next Gen...: chi scende per una partita resta della prima squadra), mai la stessa squadra
+                # con nome uguale, e almeno 2 partite col nuovo club dopo l'ultima col vecchio (una partita sola puo' essere un errore della fonte)
+                nm_new, nm_old = fteam_name.get(nT) or "", str(base.get("t") or "")
+                if nT != pT and lastf[0] > last_pr and len(newer) >= 2 and not RISERVE.search(nm_new) and _nt(nm_new) != _nt(nm_old):
+                    tr = nT
+        dl = dom_league(fid, tr or tmap.get(ptid)) if fid else None
         cut = cutoff(dl)
         for x in pr:
             is_cup = x[1] in ("champions-league", "europa-league")
-            cur.append({"d": x[0], "k": "c" if is_cup else "l", "min": x[3], "sh": x[4], "so": x[5], "fo": None, "fs": None, "st": None, "fm": 42 if x[1] == "champions-league" else 73 if x[1] == "europa-league" else dl})
+            cur.append({"d": x[0], "k": "c" if is_cup else ("o" if tr else "l"), "min": x[3], "sh": x[4], "so": x[5], "fo": None, "fs": None, "st": None, "fm": 42 if x[1] == "champions-league" else 73 if x[1] == "europa-league" else (None if tr else dl)})
         if fid:
             fr = sorted((x for x in (frows_all.get(str(fid)) or []) if x[0] >= cut), key=lambda x: x[0], reverse=True)
             for x in fr:
@@ -475,6 +496,8 @@ def main():
                 same = next((c for c in cur if abs((c["d"] - x[0]).days) <= 1 and c["fo"] is None), None)
                 if same:
                     same["fo"], same["fs"], same["fm"], same["st"] = x[6], x[7], x[1], x[10]
+                    if tr:
+                        same["k"] = "c" if x[1] in EURO else ("l" if x[1] == dl else "o")
                     continue
                 if not x[8]:
                     continue        # partita senza tiri (solo LiveScore): non entra nei conteggi dei tiri
@@ -530,6 +553,14 @@ def main():
             out["f"] = int(fid)
         if dl:
             out["dl"] = int(dl)
+        if tr:
+            dup = CX_BY_FM.get(str(fid))
+            out["t"] = (dup or {}).get("t") or fteam_name.get(tr) or out.get("t")
+            out["tr"], out["tf"] = 1, int(tr)
+            if dup and dup.get("lg"):
+                out["lg"] = dup["lg"]
+            stato["trasferiti"] += 1
+            TRASF.append([out.get("n"), base.get("t"), out["t"]])
         stato["con_stagione_passata"] += 1 if hp else 0
         if len(hit) < 5:
             sotto5.append([out.get("n") or base.get("n"), out.get("t") or base.get("t"), len(hit)])
@@ -604,7 +635,7 @@ def main():
             "hit_rate_0_partite": sum(1 for x in sotto5 if x[2] == 0),
             "stagione_passata_non_scaricata": prev_missing.most_common(40),
             "kv_terze_parti": bool(kvstats is not None and getattr(kvstats, "ON", False)),
-            "esempi_sotto_5": sotto5[:60], "esempi_senza_id": senza[:80],
+            "trasferiti": len(TRASF), "esempi_trasferiti": TRASF[:80], "esempi_sotto_5": sotto5[:60], "esempi_senza_id": senza[:80],
             # giorni e competizioni delle partite dell'Hit Rate di ogni giocatore (controllo dell'ordine e della stagione passata)
             "partite_hit_rate": {k: v for k, v in HIT_DATES.items() if k}}
     # --giocatori (update.yml): giocatori.json e referti; --calc (calc_extra.yml): solo calc_extra.json. Ogni workflow scrive solo i suoi file

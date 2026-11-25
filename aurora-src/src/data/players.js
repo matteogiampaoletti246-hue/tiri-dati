@@ -116,7 +116,7 @@ export function buildPlayers() {
       nick: rn !== name ? name : null,
       initials: initialsOf(rn),
       number: null,
-      position: s ? POS[s[ix.pos]] || null : null,
+      position: s ? POS[s[ix.pos]] || null : g && g.tr && ST[g.i] ? POS[ST[g.i][ix.pos]] || null : null,
       photo: g && g.fm ? playerFace(g.fm) : photoOf(g ? g.i : s[ix.id]) || (g && g.f ? playerFace(g.f) : null),
       // giocatore dei campionati aggiunti (calc_extra.py): solo tiri e minuti per l'Affidabilita'; la scheda completa si costruisce dall'archivio
       lite: !!(g && g.fm),
@@ -175,7 +175,8 @@ export function buildPlayers() {
     seen.add(p.id);
   };
 
-  source.forEach((g) => make(g, ST[g.i] || null));
+  // trasferito (profili.py, tr: 1): la riga PitchAPI di stats.json e' del VECCHIO club e campionato -> non si usa (squadra, campionato e medie dal nuovo)
+  source.forEach((g) => make(g, g.tr ? null : ST[g.i] || null));
   STAT_ROWS.forEach((s) => {
     if (!seen.has(s[ix.id])) make(null, s);
   });
