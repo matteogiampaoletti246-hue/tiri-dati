@@ -1,7 +1,13 @@
 {
- "competizioni": {},
- "partite_completate": 0,
- "giocatori": 0,
+ "competizioni": {
+  "Primera A 2026 - Clausura": {
+   "partite_completate": 2,
+   "giocatori": 53,
+   "da_fare": 2
+  }
+ },
+ "partite_completate": 2,
+ "giocatori": 53,
  "senza_abbinamento": 0,
  "senza_formazioni_diretta": 0
 }
