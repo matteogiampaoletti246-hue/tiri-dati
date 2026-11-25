@@ -1,7 +1,7 @@
 {
  "giocatori": 6309,
- "con_id_fotmob": 6271,
- "senza_id_fotmob": 38,
+ "con_id_fotmob": 6258,
+ "senza_id_fotmob": 51,
  "squadre_pitchapi": 294,
  "squadre_abbinate": 292,
  "squadre_non_abbinate": [
@@ -19,8 +19,8 @@
    ]
   ]
  ],
- "doppi_uniti": 2,
- "giocatori_con_partite_aggiunte": 16,
+ "doppi_uniti": 19,
+ "giocatori_con_partite_aggiunte": 3268,
  "competizioni_partite_aggiunte": [
   [
    "EFL Cup",
@@ -267,10 +267,6 @@
    293
   ],
   [
-   "Ligat ha'Al",
-   291
-  ],
-  [
    "1. Division",
    284
   ],
@@ -284,7 +280,11 @@
   ],
   [
    "1. liga",
-   278
+   279
+  ],
+  [
+   "Ligat ha'Al",
+   277
   ],
   [
    "Virsliga",
@@ -387,10 +387,6 @@
    16
   ],
   [
-   "Europa League",
-   15
-  ],
-  [
    "FNL",
    14
   ],
@@ -411,10 +407,6 @@
    5
   ],
   [
-   "Champions League",
-   2
-  ],
-  [
    "LaLiga",
    2
   ],
@@ -431,9 +423,9 @@
    1
   ]
  ],
- "hit_rate_con_stagione_passata": 7234,
- "hit_rate_sotto_5": 7576,
- "hit_rate_0_partite": 3177,
+ "hit_rate_con_stagione_passata": 7233,
+ "hit_rate_sotto_5": 7585,
+ "hit_rate_0_partite": 3180,
  "stagione_passata_non_scaricata": [],
  "kv_terze_parti": true,
  "esempi_sotto_5": [
@@ -752,6 +744,14 @@
    "Kalamata"
   ],
   [
+   "Aviv Salem",
+   "Maccabi Petah Tikva"
+  ],
+  [
+   "Bashar Abdach",
+   "Maccabi Petah Tikva"
+  ],
+  [
    "Beau Reus",
    "Heart of Midlothian"
   ],
@@ -768,12 +768,28 @@
    "Amed Sportif"
   ],
   [
-   "Daniel Köstl",
-   "Ružomberok"
-  ],
-  [
    "Djibril Diallo",
    "Parma"
+  ],
+  [
+   "Dor Hevron",
+   "Maccabi Petah Tikva"
+  ],
+  [
+   "Eitan Tibi",
+   "Maccabi Petah Tikva"
+  ],
+  [
+   "Eloge Koffi Yao Guy",
+   "Maccabi Petah Tikva"
+  ],
+  [
+   "Guy Amos Deznet",
+   "Maccabi Petah Tikva"
+  ],
+  [
+   "Guy Hadida",
+   "Maccabi Petah Tikva"
   ],
   [
    "Hamza Mohammed",
@@ -782,6 +798,10 @@
   [
    "Idan Barnes",
    "Hapoel Ramat Gan"
+  ],
+  [
+   "Ido Cohen",
+   "Maccabi Petah Tikva"
   ],
   [
    "Itzik Shoolmayster",
@@ -808,8 +828,16 @@
    "Heart of Midlothian"
   ],
   [
+   "José Ricardo Cortés",
+   "Maccabi Petah Tikva"
+  ],
+  [
    "Juan Miguel Carrión Gallardo",
    "Spartak Trnava"
+  ],
+  [
+   "Kyle Cameron Walter Spence",
+   "Maccabi Petah Tikva"
   ],
   [
    "Laurent Mendy",
@@ -818,6 +846,14 @@
   [
    "Lion Shimon Mizrachi",
    "Hapoel Jerusalem"
+  ],
+  [
+   "Lior Kasa",
+   "Maccabi Petah Tikva"
+  ],
+  [
+   "Liran Hazan",
+   "Maccabi Petah Tikva"
   ],
   [
    "Maksym Khiminets",
@@ -860,6 +896,10 @@
    "Heart of Midlothian"
   ],
   [
+   "Samuel Kwame Owusu",
+   "Maccabi Petah Tikva"
+  ],
+  [
    "Samuel Sul'a",
    "Skalica"
   ],
@@ -886,6 +926,10 @@
   [
    "Xayal Əliyev",
    "Sabah FK"
+  ],
+  [
+   "Yoav Koren",
+   "Maccabi Petah Tikva"
   ],
   [
    "Łukasz Zjawiński",
@@ -14454,23 +14498,7 @@
   "p_18P3Vn": [
    [
     "2026-11-01",
-    127
-   ],
-   [
-    "2026-10-24",
-    127
-   ],
-   [
-    "2026-10-17",
-    127
-   ],
-   [
-    "2026-10-10",
-    127
-   ],
-   [
-    "2026-09-19",
-    127
+    null
    ]
   ],
   "p_0XjJRb": [
@@ -15790,24 +15818,8 @@
   ],
   "p_04nefW": [
    [
-    "2026-11-06",
-    127
-   ],
-   [
     "2026-11-01",
-    127
-   ],
-   [
-    "2026-10-24",
-    127
-   ],
-   [
-    "2026-10-17",
-    127
-   ],
-   [
-    "2026-09-19",
-    127
+    null
    ]
   ],
   "p_3XKHvo": [
@@ -25143,7 +25155,23 @@
   "p_3fkvq7": [
    [
     "2026-11-21",
-    null
+    176
+   ],
+   [
+    "2026-11-08",
+    176
+   ],
+   [
+    "2026-11-01",
+    176
+   ],
+   [
+    "2026-10-24",
+    176
+   ],
+   [
+    "2026-10-17",
+    176
    ]
   ],
   "p_3BRFCt": [
@@ -31424,16 +31452,8 @@
   ],
   "p_1UrRYR": [
    [
-    "2026-11-06",
-    127
-   ],
-   [
     "2026-11-01",
-    127
-   ],
-   [
-    "2026-10-24",
-    127
+    null
    ]
   ],
   "p_4R8fTp": [
@@ -33153,24 +33173,8 @@
   ],
   "p_1EwCxn": [
    [
-    "2026-11-06",
-    127
-   ],
-   [
     "2026-11-01",
-    127
-   ],
-   [
-    "2026-10-24",
-    127
-   ],
-   [
-    "2026-10-17",
-    127
-   ],
-   [
-    "2026-10-10",
-    127
+    null
    ]
   ],
   "p_3RFqWM": [
@@ -33893,24 +33897,8 @@
   ],
   "p_0sFgiJ": [
    [
-    "2026-11-06",
-    127
-   ],
-   [
     "2026-11-01",
-    127
-   ],
-   [
-    "2026-10-24",
-    127
-   ],
-   [
-    "2026-10-17",
-    127
-   ],
-   [
-    "2026-10-10",
-    127
+    null
    ]
   ],
   "p_0YAYLi": [
@@ -46502,48 +46490,11 @@
   ],
   "p_4ExXDt": [
    [
-    "2026-11-06",
-    127
-   ],
-   [
     "2026-11-01",
-    127
-   ],
-   [
-    "2026-10-24",
-    127
-   ],
-   [
-    "2026-10-17",
-    127
-   ],
-   [
-    "2026-10-10",
-    127
+    null
    ]
   ],
-  "p_2TsPf9": [
-   [
-    "2026-05-13",
-    127
-   ],
-   [
-    "2026-05-10",
-    127
-   ],
-   [
-    "2026-05-03",
-    127
-   ],
-   [
-    "2026-04-29",
-    127
-   ],
-   [
-    "2026-04-26",
-    127
-   ]
-  ],
+  "p_2TsPf9": [],
   "p_4A8eW6": [
    [
     "2026-11-17",
@@ -49877,24 +49828,8 @@
   ],
   "p_0xGHwg": [
    [
-    "2026-11-06",
-    127
-   ],
-   [
     "2026-11-01",
-    127
-   ],
-   [
-    "2026-10-24",
-    127
-   ],
-   [
-    "2026-10-17",
-    127
-   ],
-   [
-    "2026-10-10",
-    127
+    null
    ]
   ],
   "p_0b1vhI": [
@@ -62441,24 +62376,8 @@
   ],
   "p_4PTcxH": [
    [
-    "2026-11-06",
-    127
-   ],
-   [
     "2026-11-01",
-    127
-   ],
-   [
-    "2026-10-24",
-    127
-   ],
-   [
-    "2026-10-17",
-    127
-   ],
-   [
-    "2026-10-10",
-    127
+    null
    ]
   ],
   "p_2AFg7W": [
@@ -70240,16 +70159,7 @@
     40
    ]
   ],
-  "p_05ZTqC": [
-   [
-    "2026-08-29",
-    127
-   ],
-   [
-    "2026-08-22",
-    127
-   ]
-  ],
+  "p_05ZTqC": [],
   "p_3txi3z": [
    [
     "2026-09-12",
@@ -73247,24 +73157,8 @@
   "p_2UqvfU": [],
   "p_4Ugowy": [
    [
-    "2026-11-06",
-    127
-   ],
-   [
     "2026-11-01",
-    127
-   ],
-   [
-    "2026-10-24",
-    127
-   ],
-   [
-    "2026-10-17",
-    127
-   ],
-   [
-    "2026-10-10",
-    127
+    null
    ]
   ],
   "p_2ABs6i": [
@@ -114532,23 +114426,7 @@
   "p_0vtiKa": [
    [
     "2026-11-01",
-    127
-   ],
-   [
-    "2026-10-24",
-    127
-   ],
-   [
-    "2026-10-17",
-    127
-   ],
-   [
-    "2026-10-10",
-    127
-   ],
-   [
-    "2026-09-19",
-    127
+    null
    ]
   ],
   "p_2F3vx2": [
@@ -133497,16 +133375,7 @@
     127
    ]
   ],
-  "p_3m4HCQ": [
-   [
-    "2026-09-19",
-    127
-   ],
-   [
-    "2026-09-05",
-    127
-   ]
-  ],
+  "p_3m4HCQ": [],
   "p_1o8OET": [
    [
     "2026-11-02",
