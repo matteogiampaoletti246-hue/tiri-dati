@@ -1,38 +1,7 @@
 {
- "competizioni": {
-  "Liga Profesional 2026 - Clausura": {
-   "partite_completate": 1,
-   "giocatori": 28,
-   "da_fare": 1
-  },
-  "Série A 2026": {
-   "partite_completate": 1,
-   "giocatori": 28,
-   "da_fare": 1
-  },
-  "Liga MX 2026-2027 - Apertura": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 1
-  },
-  "Premier League 2026-2027": {
-   "partite_completate": 1,
-   "giocatori": 27,
-   "da_fare": 1
-  },
-  "Serie A 2026": {
-   "partite_completate": 1,
-   "giocatori": 26,
-   "da_fare": 1
-  },
-  "Primera Division 2026-2027 - Apertura": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 1
-  }
- },
- "partite_completate": 4,
- "giocatori": 109,
- "senza_abbinamento": 1,
- "senza_formazioni_diretta": 1
+ "competizioni": {},
+ "partite_completate": 0,
+ "giocatori": 0,
+ "senza_abbinamento": 0,
+ "senza_formazioni_diretta": 0
 }

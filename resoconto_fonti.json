@@ -1,23 +1,23 @@
 {
- "aggiornato": "2026-11-25 23:07 UTC",
+ "aggiornato": "2026-11-26 10:52 UTC",
  "partite_finite": {
   "tutte": {
-   "fotmob": 129635,
+   "fotmob": 129641,
    "pitchapi": 2744,
    "livescore": 4038,
-   "diretta": 108,
+   "diretta": 109,
    "formazioni_fotmob": 67711,
-   "nessuna": 295127,
-   "totale": 499363
+   "nessuna": 295128,
+   "totale": 499371
   },
   "ultime_due_stagioni": {
-   "fotmob": 32174,
+   "fotmob": 32180,
    "pitchapi": 260,
    "livescore": 4038,
-   "diretta": 108,
+   "diretta": 109,
    "formazioni_fotmob": 5861,
-   "nessuna": 8147,
-   "totale": 50588
+   "nessuna": 8148,
+   "totale": 50596
   }
  },
  "partite_arricchite_da_pitchapi": {
@@ -31,7 +31,7 @@
    "non_fotmob_coperte_da": {
     "pitchapi": 547,
     "livescore": 7179,
-    "diretta": 856,
+    "diretta": 871,
     "formazioni_fotmob": 30297
    },
    "coperte_solo_da": {
@@ -39,7 +39,7 @@
     "pitchapi": 245,
     "livescore": 3487,
     "diretta": 58,
-    "formazioni_fotmob": 26609
+    "formazioni_fotmob": 26598
    }
   },
   "ultime_due_stagioni": {
@@ -49,7 +49,7 @@
    "non_fotmob_coperte_da": {
     "pitchapi": 51,
     "livescore": 9322,
-    "diretta": 1202,
+    "diretta": 1220,
     "formazioni_fotmob": 11164
    },
    "coperte_solo_da": {
@@ -57,7 +57,7 @@
     "pitchapi": 40,
     "livescore": 4969,
     "diretta": 82,
-    "formazioni_fotmob": 7194
+    "formazioni_fotmob": 7182
    }
   }
  },
@@ -186,7 +186,7 @@
    "nessuna": 240
   },
   "Liga Profesional (ARG) 2026 - Clausura": {
-   "fotmob": 247
+   "fotmob": 248
   },
   "Liga Profesional (ARG) 2026 - Apertura": {
    "fotmob": 255
@@ -298,7 +298,7 @@
    "nessuna": 180
   },
   "Série A (BRA) 2026": {
-   "fotmob": 360
+   "fotmob": 361
   },
   "Série A (BRA) 2025": {
    "fotmob": 380
@@ -353,7 +353,7 @@
    "fotmob": 240
   },
   "Primera A (COL) 2026 - Clausura": {
-   "fotmob": 196
+   "fotmob": 198
   },
   "Primera A (COL) 2026 - Apertura": {
    "fotmob": 204
@@ -678,7 +678,7 @@
    "fotmob": 95
   },
   "Liga MX (MEX) 2026-2027 - Apertura": {
-   "fotmob": 153
+   "fotmob": 154
   },
   "Liga MX (MEX) 2025-2026 - Clausura": {
    "fotmob": 167
@@ -761,7 +761,7 @@
   "Premier League (UKR) 2026-2027": {
    "livescore": 43,
    "nessuna": 2,
-   "diretta": 6,
+   "diretta": 7,
    "formazioni_fotmob": 48
   },
   "Premier League (UKR) 2025-2026": {
@@ -901,7 +901,7 @@
    "formazioni_fotmob": 182
   },
   "Serie A (ECU) 2026": {
-   "fotmob": 293
+   "fotmob": 294
   },
   "Serie A (ECU) 2025": {
    "fotmob": 311,
@@ -914,7 +914,7 @@
    "fotmob": 322
   },
   "Primera Division (SLV) 2026-2027 - Apertura": {
-   "nessuna": 132
+   "nessuna": 133
   },
   "Primera Division (SLV) 2025-2026 - Clausura": {
    "nessuna": 145
