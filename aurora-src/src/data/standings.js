@@ -204,13 +204,22 @@ export const TILE_METRICS = [
 // valore a partita; part: 0 totale, 1 casa, 2 trasferta
 // competizione con le statistiche della squadra: il suo campionato se c'e', altrimenti quella dove compare (26/11/2026: l'Olympiacos ha
 // come campionato la Super League greca, che non e' in squadre_ex.json -> la scheda Statistiche spariva dalle partite di Europa League)
+// memoria per file (WeakMap sull'oggetto dati) e per squadra: si chiama migliaia di volte nei calcoli di affidabilita' (26/11/2026: senza memoria
+// l'ordinamento delle competizioni a ogni chiamata rallentava tanto il telefono da non far comparire i voti nelle formazioni)
+const COMP_MEMO = new WeakMap();
 export const compOf = (t, comp = null) => {
-  const L = RAW.squadreEx && RAW.squadreEx.lg;
-  if (!t || !L) return comp || (t && t.leagueId);
   if (comp) return comp;
+  const L = RAW.squadreEx && RAW.squadreEx.lg;
+  if (!t || !L) return t && t.leagueId;
   if (L[t.leagueId] && L[t.leagueId][t.name]) return t.leagueId;
-  const ks = Object.keys(L).sort((a, b) => (/champions|europa|conference/.test(a) ? 1 : 0) - (/champions|europa|conference/.test(b) ? 1 : 0));
-  return ks.find((k) => L[k][t.name]) || t.leagueId;
+  let memo = COMP_MEMO.get(L);
+  if (!memo) { memo = { ks: Object.keys(L).sort((a, b) => (/champions|europa|conference/.test(a) ? 1 : 0) - (/champions|europa|conference/.test(b) ? 1 : 0)), by: new Map() }; COMP_MEMO.set(L, memo); }
+  const mk = `${t.id}|${t.leagueId}|${t.name}`;
+  if (memo.by.has(mk)) return memo.by.get(mk);
+  const r = memo.ks.find((k) => L[k][t.name]) || t.leagueId;
+  if (memo.by.size > 4000) memo.by.clear(); // capienza fissa
+  memo.by.set(mk, r);
+  return r;
 };
 const raw = (teamId, key, part = 0, comp = null) => {
   const t = teamById(teamId);

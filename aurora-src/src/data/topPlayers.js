@@ -356,8 +356,12 @@ export function loadPlayerFouls(p, dateIso, lines, stat) {
     if (!fmPid) return lines.map(() => null);
     const pf = playerFoulsOf(fd, fmPid, p, stat, hitRows);
     if (!pf || !pf.last5.length) return lines.map(() => null);
-    const ownStats = teamFoulStats(fd, fmTeamIn(fd, team), base.team.leagueId, team && team.name, stat);
-    const oppStats = teamFoulStats(fd, fmTeamIn(fd, opp), base.opp.leagueId, opp && opp.name, stat === 'fc' ? 'fs' : 'fc');
+    let ownStats = teamFoulStats(fd, fmTeamIn(fd, team), base.team.leagueId, team && team.name, stat);
+    let oppStats = teamFoulStats(fd, fmTeamIn(fd, opp), base.opp.leagueId, opp && opp.name, stat === 'fc' ? 'fs' : 'fc');
+    // una squadra senza dati sui falli (26/11/2026: Ararat-Armenia in Europa League -> nessun voto per tutto il Salzburg): quella squadra conta
+    // come una squadra MEDIA della competizione (fattore neutro), cosi' il voto dipende solo dai numeri veri del giocatore e dell'altra squadra
+    if (!ownStats && oppStats) ownStats = { v: oppStats.avg, avg: oppStats.avg };
+    if (!oppStats && ownStats) oppStats = { v: ownStats.avg, avg: ownStats.avg };
     if (!ownStats || !oppStats) return lines.map(() => null);
     const season = foulSeasonOf(pf);
     const natVals = p.nat && p.club ? pf.natVals : [];
