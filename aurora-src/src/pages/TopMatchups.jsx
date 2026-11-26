@@ -16,6 +16,8 @@ import { SkCard } from '@/components/PageSkeletons';
 import { matchupRows, MATCHUP_TYPES, modeOptions, keepMode, defaultMode } from '@/data/matchups';
 import { useDayReferees, refereeRows, goldIds } from '@/data/refMatchup';
 import { DATES, TODAY_INDEX, isoDate } from '@/data/matches';
+import { loadDayFeed } from '@/data/dayFeed';
+import { useEffect as useEffectF, useState as useStateF } from 'react';
 
 // Il calendario parte da oggi: i giorni passati non servono
 const DAYS = DATES.slice(TODAY_INDEX);
@@ -49,7 +51,18 @@ function MatchupDay({ date, idx, typeKey, modeKey, active, onGo }) {
   return <EmptyDay date={DAYS[idx]} index={idx} todayIndex={TODAY_I} title="Nessuna partita" next={next} onGo={onGo} noun={['partita', 'partite']} />;
 }
 
+// orario vero delle partite dei prossimi giorni (file del giorno): mai il segnaposto delle 14:00 (26/11/2026)
+function useDayTimes() {
+  const [, set] = useStateF(0);
+  useEffectF(() => {
+    let on = true;
+    Promise.all(DATES.slice(TODAY_INDEX, TODAY_INDEX + 12).map((d) => loadDayFeed(isoDate(d)).catch(() => 0))).then((r) => { if (on && r.some(Boolean)) set((x) => x + 1); });
+    return () => { on = false; };
+  }, []);
+}
+
 export default function TopMatchups() {
+  useDayTimes();
   const today = isoDate(new Date());
   const fresh = KEEP.day === null || KEEP.stamp !== today;
   const [dayIdx, setDayIdx] = useState(fresh ? TODAY_I : Math.min(DAYS.length - 1, Math.max(0, KEEP.day)));

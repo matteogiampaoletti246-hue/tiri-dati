@@ -8,6 +8,7 @@ import Animated, { FadeInUp, FadeInLeft, useSharedValue, useAnimatedStyle, withT
 import { Ionicons } from '@expo/vector-icons';
 import './../shared/shim';
 import { bootShared } from '../shared/boot';
+import { useUpcoming } from '../shared/useUpcoming';
 import { matchupRows, MATCHUP_TYPES, modeOptions, keepMode, defaultMode } from '@/data/matchups';
 import { useDayReferees, refereeRows } from '@/data/refMatchup';
 import { DATES, TODAY_INDEX, isoDate, matchesByDate } from '@/data/matches';
@@ -129,6 +130,7 @@ const Head = ({ C, onSearch, onMenu }) => <PageHead C={C} title="Migliori Matchu
 
 export default function TopMatchups({ C, top, onSearch, onMenu, openRoute, bottom = 90 }) {
   const [ready, setReady] = useState(false);
+  useUpcoming(ready); // file dei prossimi giorni: orario vero delle partite (mai il segnaposto delle 14:00, 26/11/2026)
   useEffect(() => { let live = true; bootShared().then(() => { if (live) setReady(true); }, () => {}); return () => { live = false; }; }, []);
   if (!ready) return <View style={{ flex: 1, backgroundColor: 'transparent', paddingTop: top }}><Head C={C} onSearch={onSearch} onMenu={onMenu} /><Skel C={C} /></View>;
   return <Body C={C} top={top} onSearch={onSearch} onMenu={onMenu} openRoute={openRoute} bottom={bottom} />;

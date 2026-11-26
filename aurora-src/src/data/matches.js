@@ -240,6 +240,23 @@ export function buildMatches() {
 // Riga: [id, fm, utc, idCasa, idOspite, casa, ospite, punteggio (solo a partita finita), stato n|l|f|c, eliminata].
 // lgOf(fm) -> id campionato dell'app (null = la competizione e' gia' coperta da altre fonti); skOf(fm) -> stagione in corso.
 let extraTeam = null;
+const nnT = (x) => String(x || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]/g, '');
+const sameTeam = (t, fid, name) => !!t && ((fid && String(t.fmId || (/teamlogo\/(\d+)\.png/.exec(String(t.crest || '')) || [])[1] || '') === String(fid)) || nnT(t.name) === nnT(name));
+function fixTime(ts, hid, aid, hn, an) {
+  if (!Number.isFinite(ts)) return false;
+  const d = romeDay(ts);
+  let hit = false;
+  const cand = MATCHES.filter((m) => m.timeKnown === false && m.date === d && m.status !== 'finished');
+  // tutte e due le squadre riconosciute; oppure una sola (nomi diversi tra le fonti: "PSG" = "Paris Saint-Germain") se in quel giorno ha una sola partita
+  let pick = cand.filter((m) => sameTeam(teamById(m.homeId), hid, hn) && sameTeam(teamById(m.awayId), aid, an));
+  if (!pick.length) {
+    const one = cand.filter((m) => sameTeam(teamById(m.homeId), hid, hn) || sameTeam(teamById(m.awayId), aid, an));
+    if (one.length === 1) pick = one;
+  }
+  pick.forEach((m) => { m.ts = ts; m.timeKnown = true; m.kickoff = romeTime(ts); hit = true; });
+  if (hit) DAY_IDX = null;
+  return hit;
+}
 export function addFeedRows(rows, lgOf, skOf) {
   if (!extraTeam) return 0;
   let n = 0;
@@ -247,6 +264,9 @@ export function addFeedRows(rows, lgOf, skOf) {
     const [mid, fm, utc, hid, aid, hn, an, sc, st] = row;
     rememberFeedRow(row);
     if (st === 'c' || !hn || !an || !utc) return; // annullate/rinviate: non in Home (come partite_extra.json)
+    // ORARIO VERO (26/11/2026): le partite dei top campionati oltre i prossimi giorni arrivano dal calendario delle squadre SENZA orario
+    // (segnaposto alle 14:00 in Home e in Migliori Matchup). Il file del giorno ha l'orario vero: si mette sulla partita gia' presente.
+    if (fixTime(Date.parse(utc), hid, aid, hn, an)) n += 1;
     const lg = lgOf(fm);
     if (!lg) return;
     const id = `x-${fm}-${mid}`;

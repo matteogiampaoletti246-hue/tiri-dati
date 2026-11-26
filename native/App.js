@@ -1013,6 +1013,7 @@ async function liveUpdates(iso, getRows, now, fPre) {
     (d.m || []).forEach((y) => {
       const sc = scoreStr(y.sc);
       const uu = y.f && sc ? { st: 'f', score: sc, rc: y.rc } : y.s && !y.f ? { st: 'l', score: sc, lt: clockOf(y.lt), rc: y.rc } : { st: 'n' };
+      if (y.t) uu.t = y.t; // orario vero (26/11/2026): corregge le righe con l'orario provvisorio
       upd.set(String(y.id), uu);
       if (uu.st === 'l' && uu.score) { LIVE_MEM.set(String(y.id), { ...uu, t: now }); memSave(); }
     });
@@ -1053,9 +1054,10 @@ function mergeUpd(rows, upd, now) {
     else if (u.st === 'l') { st = 'l'; if (u.score) score = u.score; lt = u.lt; }
     else if (u.st === 'n' && st === 'l') { st = 'n'; score = ''; lt = undefined; }
     const rc = u.rc && (u.rc[0] || u.rc[1]) ? `${u.rc[0]}-${u.rc[1]}` : m[12]; // cartellini rossi "casa-ospite" (si tengono anche se un giro non li porta)
-    if (st === m[8] && score === m[7] && lt === m[10] && rc === m[12]) return m;
+    const t2 = u.t && st !== 'f' && Date.parse(u.t) !== Date.parse(m[2]) ? u.t : m[2];
+    if (st === m[8] && score === m[7] && lt === m[10] && rc === m[12] && t2 === m[2]) return m;
     changed = true;
-    const n = m.slice(); n[7] = score; n[8] = st; n[10] = lt; n[12] = rc; return n;
+    const n = m.slice(); n[7] = score; n[8] = st; n[10] = lt; n[12] = rc; n[2] = t2; return n;
   });
   return { rows: out, changed };
 }
