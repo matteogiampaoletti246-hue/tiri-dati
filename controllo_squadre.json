@@ -9148,9 +9148,9 @@
  },
  "rose_per_ruolo": {
   "squadre": 3170,
-  "prima": 2367,
-  "dopo": 637,
-  "giocate_dopo": 560,
+  "prima": 2366,
+  "dopo": 636,
+  "giocate_dopo": 559,
   "elenco": [
    {
     "squadra": "1. BFK Frýdlant nad Ostravici",
@@ -14505,17 +14505,6 @@
     "giocatori": 3,
     "competizioni": [
      "Slovak Cup 2026-2027"
-    ],
-    "motivo": [
-     "3 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 3"
-    ]
-   },
-   {
-    "squadra": "Polonia Środa",
-    "id": "585542",
-    "giocatori": 3,
-    "competizioni": [
-     "Puchar Polski 2026-2027"
     ],
     "motivo": [
      "3 giocatori: FotMob non ha la rosa e l'archivio ne conosce solo 3"
