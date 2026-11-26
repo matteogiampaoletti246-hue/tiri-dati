@@ -1,22 +1,5 @@
 {
- "competizioni": {
-  "Slovenia Cup 2026-2027": {
-   "partite_completate": 2,
-   "giocatori": 13,
-   "da_fare": 2
-  },
-  "1. CFL 2026-2027": {
-   "partite_completate": 1,
-   "giocatori": 19,
-   "da_fare": 1
-  }
- },
- "codici_it_visti": {
-  "4": 26,
-  "5": 26,
-  "36": 13,
-  "37": 1,
-  "43": 12
- },
- "partite_completate_in_questo_giro": 3
+ "competizioni": {},
+ "codici_it_visti": {},
+ "partite_completate_in_questo_giro": 0
 }
