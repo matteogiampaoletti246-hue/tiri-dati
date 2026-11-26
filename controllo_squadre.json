@@ -16191,12 +16191,12 @@
  },
  "giocatori_competizioni": {
   "squadre": 8140,
-  "coppie_squadra_competizione": 12526,
-  "con_frase_prima": 4677,
+  "coppie_squadra_competizione": 12528,
+  "con_frase_prima": 4679,
   "squadre_con_frase_prima": 2171,
   "con_frase_e_dati_ora_visibili": 3189,
   "con_frase_dopo": 0,
-  "competizioni_senza_dati_tolte_dalla_tendina": 6477,
+  "competizioni_senza_dati_tolte_dalla_tendina": 6479,
   "squadre_senza_scheda_giocatori": 4834,
   "senza_scheda": [
    {
@@ -17403,28 +17403,11 @@
  },
  "partite_stagione": {
   "squadre_con_partite_mancanti_prima": 2325,
-  "squadre_con_partite_mancanti_dopo": 2,
-  "mancanti_dopo": [
-   {
-    "squadra": "Banfield/Boca Juniors",
-    "id": "1",
-    "competizioni": [
-     "EFL Trophy 2026-2027"
-    ],
-    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
-   },
-   {
-    "squadra": "5th ranked",
-    "id": "2",
-    "competizioni": [
-     "EFL Trophy 2026-2027"
-    ],
-    "motivo": "indice tidx senza questa competizione/stagione (si aggiorna ogni giorno)"
-   }
-  ]
+  "squadre_con_partite_mancanti_dopo": 0,
+  "mancanti_dopo": []
  },
  "forma": {
-  "squadre_senza_forma_prima": 1971,
+  "squadre_senza_forma_prima": 1969,
   "squadre_senza_forma_dopo": 93,
   "motivo_dopo": "nessuna partita giocata nella stagione in corso: niente riquadro"
  }
