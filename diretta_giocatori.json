@@ -1,13 +1,7 @@
 {
- "competizioni": {
-  "Primera Division 2026-2027 - Apertura": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 1
-  }
- },
+ "competizioni": {},
  "partite_completate": 0,
  "giocatori": 0,
  "senza_abbinamento": 0,
- "senza_formazioni_diretta": 1
+ "senza_formazioni_diretta": 0
 }
