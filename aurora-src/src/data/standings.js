@@ -202,12 +202,22 @@ export const TILE_METRICS = [
 ];
 
 // valore a partita; part: 0 totale, 1 casa, 2 trasferta
+// competizione con le statistiche della squadra: il suo campionato se c'e', altrimenti quella dove compare (26/11/2026: l'Olympiacos ha
+// come campionato la Super League greca, che non e' in squadre_ex.json -> la scheda Statistiche spariva dalle partite di Europa League)
+export const compOf = (t, comp = null) => {
+  const L = RAW.squadreEx && RAW.squadreEx.lg;
+  if (!t || !L) return comp || (t && t.leagueId);
+  if (comp) return comp;
+  if (L[t.leagueId] && L[t.leagueId][t.name]) return t.leagueId;
+  const ks = Object.keys(L).sort((a, b) => (/champions|europa|conference/.test(a) ? 1 : 0) - (/champions|europa|conference/.test(b) ? 1 : 0));
+  return ks.find((k) => L[k][t.name]) || t.leagueId;
+};
 const raw = (teamId, key, part = 0, comp = null) => {
   const t = teamById(teamId);
   const src = SRC[key];
   if (!t || !src || !RAW.squadreEx) return null;
   const [, field, side] = src;
-  const lgData = RAW.squadreEx.lg && RAW.squadreEx.lg[comp || t.leagueId];
+  const lgData = RAW.squadreEx.lg && RAW.squadreEx.lg[compOf(t, comp)];
   const e = lgData && lgData[t.name] && lgData[t.name][field];
   const cell = e && e[side] && e[side][part];
   return cell ? cell[0] : null;

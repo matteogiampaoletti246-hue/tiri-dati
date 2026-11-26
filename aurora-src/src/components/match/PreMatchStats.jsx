@@ -3,7 +3,7 @@ import { useState } from 'react';
 import Crest from '@/components/Crest';
 import TeamLink from '@/components/TeamLink';
 import { teamsOf } from '@/data/teams';
-import { hasMetrics, metricOf } from '@/data/standings';
+import { hasMetrics, metricOf, compOf, teamsInComp } from '@/data/standings';
 import { bandColor } from '@/components/player/playerCalc';
 import { comma } from '@/lib/format';
 import { archiveMetrics } from '@/data/archiveMetrics';
@@ -22,7 +22,7 @@ const PAIRS = [
 const rk = (team, key, ctx) => {
   const rows = (ctx
     ? ctx.am.tids().map((tid) => ({ id: tid, v: ctx.am.value(tid, key) }))
-    : teamsOf(team.leagueId).filter((t) => hasMetrics(t.id)).map((t) => ({ id: t.id, v: metricOf(t.id, key) }))
+    : teamsInComp(compOf(team)).filter((t) => hasMetrics(t.id, compOf(team))).map((t) => ({ id: t.id, v: metricOf(t.id, key) }))
   ).filter((r) => r.v !== null && r.v !== undefined).sort((a, b) => b.v - a.v);
   const me = ctx ? ctx.tid(team) : team.id;
   const mine = rows.find((r) => String(r.id) === String(me));

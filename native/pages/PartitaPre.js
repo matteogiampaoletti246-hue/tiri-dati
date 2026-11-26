@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { teamsOf } from '@/data/teams';
-import { hasMetrics, metricOf } from '@/data/standings';
+import { hasMetrics, metricOf, compOf, teamsInComp } from '@/data/standings';
 import { archiveMetrics } from '@/data/archiveMetrics';
 import { bandColor } from '@/components/player/playerCalc';
 import { comma } from '@/lib/format';
@@ -65,7 +65,7 @@ const PAIRS = [
   ['occasioni', 'occasioniConcesse', 'Occasioni nitide'], ['corner', 'cornerConcessi', 'Corner'], ['falli', 'fallisubiti', 'Falli'],
 ];
 const rk = (team, key, ctx) => {
-  const rows = (ctx ? ctx.am.tids().map((tid) => ({ id: tid, v: ctx.am.value(tid, key) })) : teamsOf(team.leagueId).filter((t) => hasMetrics(t.id)).map((t) => ({ id: t.id, v: metricOf(t.id, key) })))
+  const rows = (ctx ? ctx.am.tids().map((tid) => ({ id: tid, v: ctx.am.value(tid, key) })) : teamsInComp(compOf(team)).filter((t) => hasMetrics(t.id, compOf(team))).map((t) => ({ id: t.id, v: metricOf(t.id, key, 0, compOf(team)) })))
     .filter((r) => r.v !== null && r.v !== undefined).sort((a, b) => b.v - a.v);
   const me = ctx ? ctx.tid(team) : team.id;
   const mine = rows.find((r) => String(r.id) === String(me));
