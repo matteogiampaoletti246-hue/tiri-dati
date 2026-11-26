@@ -19,8 +19,8 @@
    ]
   ]
  ],
- "doppi_uniti": 0,
- "giocatori_con_partite_aggiunte": 3,
+ "doppi_uniti": 17,
+ "giocatori_con_partite_aggiunte": 3315,
  "competizioni_partite_aggiunte": [
   [
    "EFL Cup",
@@ -219,11 +219,11 @@
    373
   ],
   [
-   "First Division B",
+   "First Division A",
    363
   ],
   [
-   "First Division A",
+   "First Division B",
    363
   ],
   [
@@ -267,6 +267,10 @@
    293
   ],
   [
+   "Ligat ha'Al",
+   291
+  ],
+  [
    "1. Division",
    284
   ],
@@ -281,10 +285,6 @@
   [
    "1. liga",
    279
-  ],
-  [
-   "Ligat ha'Al",
-   277
   ],
   [
    "Virsliga",
@@ -387,10 +387,6 @@
    16
   ],
   [
-   "Europa League",
-   15
-  ],
-  [
    "FNL",
    14
   ],
@@ -411,10 +407,6 @@
    5
   ],
   [
-   "Champions League",
-   2
-  ],
-  [
    "LaLiga",
    2
   ],
@@ -431,13 +423,264 @@
    1
   ]
  ],
- "hit_rate_con_stagione_passata": 7267,
- "hit_rate_sotto_5": 7710,
- "hit_rate_0_partite": 3221,
+ "hit_rate_con_stagione_passata": 7269,
+ "hit_rate_sotto_5": 7700,
+ "hit_rate_0_partite": 3218,
  "stagione_passata_non_scaricata": [],
  "kv_terze_parti": true,
- "trasferiti": 0,
- "esempi_trasferiti": [],
+ "trasferiti": 50,
+ "esempi_trasferiti": [
+  [
+   "Ademola Ola-Adebomi",
+   "WSG Tirol",
+   "KSC Lokeren"
+  ],
+  [
+   "Arne Engels",
+   "Celtic",
+   "West Ham"
+  ],
+  [
+   "Asger Sørensen",
+   "Sparta Prague",
+   "FC København"
+  ],
+  [
+   "Bjorn Meijer",
+   "Club Brugge",
+   "Sampdoria"
+  ],
+  [
+   "Brayann Pereira",
+   "NEC Nijmegen",
+   "West Brom"
+  ],
+  [
+   "Bryan Adinany",
+   "Kortrijk",
+   "Debrecen"
+  ],
+  [
+   "Calegari",
+   "Eyüpspor",
+   "LA Galaxy"
+  ],
+  [
+   "Carlos Álvarez",
+   "Levante",
+   "América"
+  ],
+  [
+   "Dani García",
+   "Olympiacos",
+   "Atromitos"
+  ],
+  [
+   "Diego Díaz",
+   "Racing Santander",
+   "FC Andorra"
+  ],
+  [
+   "Edvin Austbø",
+   "Viking",
+   "West Ham"
+  ],
+  [
+   "Ensar Kemaloğlu",
+   "Gençlerbirliği",
+   "Kayserispor"
+  ],
+  [
+   "Fernando Andrade",
+   "Erzurumspor FK",
+   "Bodrum FK"
+  ],
+  [
+   "Filippo Delli Carri",
+   "Monza",
+   "Sampdoria"
+  ],
+  [
+   "Fodé Doucouré",
+   "Le Havre",
+   "Nantes"
+  ],
+  [
+   "Gabriele Zappa",
+   "Cagliari",
+   "Hellas Verona"
+  ],
+  [
+   "Ibrahima Diaby",
+   "Cercle Brugge",
+   "Al Ahli"
+  ],
+  [
+   "Ivan Šaranić",
+   "Istra 1961",
+   "Bursaspor"
+  ],
+  [
+   "Jacques Ekomié",
+   "Angers",
+   "Wrexham"
+  ],
+  [
+   "Josué Casimir",
+   "Auxerre",
+   "Dinamo"
+  ],
+  [
+   "Kareem Tunde",
+   "Levante",
+   "West Brom"
+  ],
+  [
+   "Kingstone Mutandwa",
+   "Cagliari",
+   "Servette"
+  ],
+  [
+   "Korede Osundina",
+   "Casa Pia AC",
+   "Muğlaspor"
+  ],
+  [
+   "Lasso Coulibaly",
+   "Auxerre",
+   "Viborg"
+  ],
+  [
+   "Liam Millar",
+   "Hull City",
+   "Birmingham"
+  ],
+  [
+   "Lukás Haraslín",
+   "Sparta Prague",
+   "Al Fateh FC"
+  ],
+  [
+   "Marco Essimi",
+   "Alverca",
+   "Rodez"
+  ],
+  [
+   "Mathis Saka",
+   "Toulouse",
+   "Rodez"
+  ],
+  [
+   "Mattia Perin",
+   "Juventus",
+   "Palermo"
+  ],
+  [
+   "Milan Robin",
+   "Le Mans",
+   "Estoril"
+  ],
+  [
+   "Mohammed Fuseini",
+   "Union St.Gilloise",
+   "Derby"
+  ],
+  [
+   "Nicolas Galazzi",
+   "Monza",
+   "Padova"
+  ],
+  [
+   "Nolan Martens",
+   "Excelsior",
+   "De Graafschap"
+  ],
+  [
+   "Oumar Konaté",
+   "Monaco",
+   "Laval"
+  ],
+  [
+   "Patrice Čović",
+   "Werder Bremen",
+   "Dynamo Dresden"
+  ],
+  [
+   "Rachid Kouda",
+   "Parma",
+   "Mantova"
+  ],
+  [
+   "Richard Ríos",
+   "Benfica",
+   "Al Ittihad"
+  ],
+  [
+   "Rodinei",
+   "Olympiacos",
+   "Santos"
+  ],
+  [
+   "Ruben Kristensen Alte",
+   "Viking",
+   "Viborg"
+  ],
+  [
+   "Ryan Fosso",
+   "Sturm Graz",
+   "Standard Liège"
+  ],
+  [
+   "Samuel Gueulette",
+   "RAAL La Louvière",
+   "UTA Arad"
+  ],
+  [
+   "Semuel Pizzignacco",
+   "Monza",
+   "Carrarese"
+  ],
+  [
+   "Serdar Gürler",
+   "Çorum FK",
+   "Iğdır FK"
+  ],
+  [
+   "Soliu Afolabi",
+   "Slovan Liberec",
+   "FC Zbrojovka Brno"
+  ],
+  [
+   "Stephen Eustaquio",
+   "FC Porto",
+   "Swansea"
+  ],
+  [
+   "Tamar Svetlin",
+   "Korona Kielce",
+   "Saint-Étienne"
+  ],
+  [
+   "Thelonius Bair",
+   "Auxerre",
+   "Bolton"
+  ],
+  [
+   "Umaru Konare",
+   "Elche",
+   "AD Ceuta FC"
+  ],
+  [
+   "Yanis Zouaoui",
+   "Le Havre",
+   "Montpellier"
+  ],
+  [
+   "Ángel Baena",
+   "Widzew Łódź",
+   "Sabadell"
+  ]
+ ],
  "esempi_sotto_5": [
   [
    "Aaron Mayol",
@@ -14465,7 +14708,23 @@
   "p_18P3Vn": [
    [
     "2026-11-01",
-    null
+    127
+   ],
+   [
+    "2026-10-24",
+    127
+   ],
+   [
+    "2026-10-17",
+    127
+   ],
+   [
+    "2026-10-10",
+    127
+   ],
+   [
+    "2026-09-19",
+    127
    ]
   ],
   "p_0XjJRb": [
@@ -15785,8 +16044,24 @@
   ],
   "p_04nefW": [
    [
+    "2026-11-06",
+    127
+   ],
+   [
     "2026-11-01",
-    null
+    127
+   ],
+   [
+    "2026-10-24",
+    127
+   ],
+   [
+    "2026-10-17",
+    127
+   ],
+   [
+    "2026-09-19",
+    127
    ]
   ],
   "p_3XKHvo": [
@@ -31401,8 +31676,16 @@
   ],
   "p_1UrRYR": [
    [
+    "2026-11-06",
+    127
+   ],
+   [
     "2026-11-01",
-    null
+    127
+   ],
+   [
+    "2026-10-24",
+    127
    ]
   ],
   "p_4R8fTp": [
@@ -33122,8 +33405,24 @@
   ],
   "p_1EwCxn": [
    [
+    "2026-11-06",
+    127
+   ],
+   [
     "2026-11-01",
-    null
+    127
+   ],
+   [
+    "2026-10-24",
+    127
+   ],
+   [
+    "2026-10-17",
+    127
+   ],
+   [
+    "2026-10-10",
+    127
    ]
   ],
   "p_3RFqWM": [
@@ -33846,8 +34145,24 @@
   ],
   "p_0sFgiJ": [
    [
+    "2026-11-06",
+    127
+   ],
+   [
     "2026-11-01",
-    null
+    127
+   ],
+   [
+    "2026-10-24",
+    127
+   ],
+   [
+    "2026-10-17",
+    127
+   ],
+   [
+    "2026-10-10",
+    127
    ]
   ],
   "p_0YAYLi": [
@@ -46435,11 +46750,48 @@
   ],
   "p_4ExXDt": [
    [
+    "2026-11-06",
+    127
+   ],
+   [
     "2026-11-01",
-    null
+    127
+   ],
+   [
+    "2026-10-24",
+    127
+   ],
+   [
+    "2026-10-17",
+    127
+   ],
+   [
+    "2026-10-10",
+    127
    ]
   ],
-  "p_2TsPf9": [],
+  "p_2TsPf9": [
+   [
+    "2026-05-13",
+    127
+   ],
+   [
+    "2026-05-10",
+    127
+   ],
+   [
+    "2026-05-03",
+    127
+   ],
+   [
+    "2026-04-29",
+    127
+   ],
+   [
+    "2026-04-26",
+    127
+   ]
+  ],
   "p_4A8eW6": [
    [
     "2026-11-17",
@@ -49773,8 +50125,24 @@
   ],
   "p_0xGHwg": [
    [
+    "2026-11-06",
+    127
+   ],
+   [
     "2026-11-01",
-    null
+    127
+   ],
+   [
+    "2026-10-24",
+    127
+   ],
+   [
+    "2026-10-17",
+    127
+   ],
+   [
+    "2026-10-10",
+    127
    ]
   ],
   "p_0b1vhI": [
@@ -62351,8 +62719,24 @@
   ],
   "p_4PTcxH": [
    [
+    "2026-11-06",
+    127
+   ],
+   [
     "2026-11-01",
-    null
+    127
+   ],
+   [
+    "2026-10-24",
+    127
+   ],
+   [
+    "2026-10-17",
+    127
+   ],
+   [
+    "2026-10-10",
+    127
    ]
   ],
   "p_2AFg7W": [
@@ -70104,7 +70488,16 @@
     40
    ]
   ],
-  "p_05ZTqC": [],
+  "p_05ZTqC": [
+   [
+    "2026-08-29",
+    127
+   ],
+   [
+    "2026-08-22",
+    127
+   ]
+  ],
   "p_3txi3z": [
    [
     "2026-09-12",
@@ -73102,8 +73495,24 @@
   "p_2UqvfU": [],
   "p_4Ugowy": [
    [
+    "2026-11-06",
+    127
+   ],
+   [
     "2026-11-01",
-    null
+    127
+   ],
+   [
+    "2026-10-24",
+    127
+   ],
+   [
+    "2026-10-17",
+    127
+   ],
+   [
+    "2026-10-10",
+    127
    ]
   ],
   "p_2ABs6i": [
@@ -114429,7 +114838,23 @@
   "p_0vtiKa": [
    [
     "2026-11-01",
-    null
+    127
+   ],
+   [
+    "2026-10-24",
+    127
+   ],
+   [
+    "2026-10-17",
+    127
+   ],
+   [
+    "2026-10-10",
+    127
+   ],
+   [
+    "2026-09-19",
+    127
    ]
   ],
   "p_2F3vx2": [
@@ -133404,7 +133829,16 @@
     127
    ]
   ],
-  "p_3m4HCQ": [],
+  "p_3m4HCQ": [
+   [
+    "2026-09-19",
+    127
+   ],
+   [
+    "2026-09-05",
+    127
+   ]
+  ],
   "p_1o8OET": [
    [
     "2026-11-02",
