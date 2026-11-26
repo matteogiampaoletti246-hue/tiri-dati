@@ -35,6 +35,13 @@
    "senza_abbinamento": 0,
    "da_fare": 1
   },
+  "Saudi Pro League (KSA) 2026-2027": {
+   "lega_pitch": "Saudi Pro League",
+   "partite_completate": 2,
+   "giocatori": 61,
+   "senza_abbinamento": 0,
+   "da_fare": 2
+  },
   "Série B (BRA) 2026": {
    "lega_pitch": "Serie B",
    "partite_completate": 0,
@@ -268,5 +275,5 @@
   }
  },
  "senza_lega_pitch": [],
- "partite_completate_in_questo_giro": 0
+ "partite_completate_in_questo_giro": 2
 }
