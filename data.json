@@ -215,10 +215,10 @@
    "country": "INT-2",
    "label": "Champions League",
    "league_avg": {
-    "sotAgainst": 5.382,
-    "sotFor": 5.414,
-    "totalAgainst": 14.628,
-    "totalFor": 14.683
+    "sotAgainst": 5.289,
+    "sotFor": 5.289,
+    "totalAgainst": 14.489,
+    "totalFor": 14.489
    },
    "logo": "https://cdn.pitchapi.dev/images/leagues/b1d686d355832acff3032f4b9ee3cf885bf81879dac40c68e6ad033b695c1210.webp",
    "logos": {
@@ -259,7 +259,7 @@
     "Viking": "https://cdn.pitchapi.dev/images/teams/451feb97f5b2d5f6f3a7a294ea3b95b7b1ed40eca67ef15729cd78071318f4f2.webp",
     "Villarreal": "https://cdn.pitchapi.dev/images/teams/9cd74c38ef6d75a878041878ed6f18da3fb9e6cf81baae23d266a64821a63a71.webp"
    },
-   "matches": 81,
+   "matches": 90,
    "matches_without_stats": 0,
    "name": "Champions League",
    "restricted": false,
@@ -288,25 +288,25 @@
      "totalFor": 15.0
     },
     "Atlético Madrid": {
-     "games": 4,
-     "sotAgainst": 4.75,
-     "sotFor": 3.75,
-     "totalAgainst": 15.0,
-     "totalFor": 9.75
+     "games": 5,
+     "sotAgainst": 4.0,
+     "sotFor": 4.8,
+     "totalAgainst": 13.8,
+     "totalFor": 11.8
     },
     "Barcelona": {
-     "games": 4,
-     "sotAgainst": 5.25,
-     "sotFor": 8.25,
-     "totalAgainst": 10.0,
-     "totalFor": 20.0
+     "games": 5,
+     "sotAgainst": 4.8,
+     "sotFor": 9.4,
+     "totalAgainst": 9.6,
+     "totalFor": 21.0
     },
     "Bayern München": {
-     "games": 4,
-     "sotAgainst": 3.25,
-     "sotFor": 7.5,
-     "totalAgainst": 8.5,
-     "totalFor": 20.5
+     "games": 5,
+     "sotAgainst": 3.2,
+     "sotFor": 7.4,
+     "totalAgainst": 9.8,
+     "totalFor": 18.8
     },
     "Bodø/Glimt": {
      "games": 5,
@@ -323,11 +323,11 @@
      "totalFor": 15.4
     },
     "Club Brugge": {
-     "games": 4,
-     "sotAgainst": 9.25,
-     "sotFor": 5.75,
-     "totalAgainst": 24.25,
-     "totalFor": 13.25
+     "games": 5,
+     "sotAgainst": 8.2,
+     "sotFor": 5.6,
+     "totalAgainst": 22.0,
+     "totalFor": 14.0
     },
     "Como": {
      "games": 5,
@@ -344,11 +344,11 @@
      "totalFor": 11.6
     },
     "Fenerbahçe": {
-     "games": 4,
-     "sotAgainst": 6.0,
-     "sotFor": 4.75,
-     "totalAgainst": 16.25,
-     "totalFor": 14.5
+     "games": 5,
+     "sotAgainst": 5.2,
+     "sotFor": 4.8,
+     "totalAgainst": 14.6,
+     "totalFor": 14.2
     },
     "Feyenoord": {
      "games": 5,
@@ -365,11 +365,11 @@
      "totalFor": 9.4
     },
     "Inter": {
-     "games": 4,
-     "sotAgainst": 5.5,
-     "sotFor": 7.5,
-     "totalAgainst": 14.25,
-     "totalFor": 18.75
+     "games": 5,
+     "sotAgainst": 4.8,
+     "sotFor": 7.0,
+     "totalAgainst": 14.0,
+     "totalFor": 19.0
     },
     "LASK": {
      "games": 5,
@@ -386,18 +386,18 @@
      "totalFor": 17.6
     },
     "Lille": {
-     "games": 4,
-     "sotAgainst": 5.25,
-     "sotFor": 2.25,
-     "totalAgainst": 12.5,
-     "totalFor": 8.5
+     "games": 5,
+     "sotAgainst": 5.6,
+     "sotFor": 2.4,
+     "totalAgainst": 12.4,
+     "totalFor": 9.8
     },
     "Liverpool": {
-     "games": 4,
-     "sotAgainst": 4.75,
-     "sotFor": 6.75,
-     "totalAgainst": 13.0,
-     "totalFor": 21.0
+     "games": 5,
+     "sotAgainst": 4.8,
+     "sotFor": 6.2,
+     "totalAgainst": 13.8,
+     "totalFor": 19.4
     },
     "Manchester City": {
      "games": 5,
@@ -407,11 +407,11 @@
      "totalFor": 18.8
     },
     "Manchester United": {
-     "games": 4,
-     "sotAgainst": 4.25,
-     "sotFor": 6.0,
-     "totalAgainst": 10.0,
-     "totalFor": 14.5
+     "games": 5,
+     "sotAgainst": 4.2,
+     "sotFor": 5.2,
+     "totalAgainst": 10.2,
+     "totalFor": 13.0
     },
     "Napoli": {
      "games": 5,
@@ -428,11 +428,11 @@
      "totalFor": 15.2
     },
     "Paris Saint-Germain": {
-     "games": 4,
-     "sotAgainst": 5.0,
-     "sotFor": 12.75,
-     "totalAgainst": 17.0,
-     "totalFor": 23.5
+     "games": 5,
+     "sotAgainst": 4.8,
+     "sotFor": 11.0,
+     "totalAgainst": 16.2,
+     "totalFor": 21.8
     },
     "RB Leipzig": {
      "games": 5,
@@ -456,32 +456,32 @@
      "totalFor": 19.6
     },
     "Roma": {
-     "games": 4,
-     "sotAgainst": 4.75,
-     "sotFor": 6.0,
-     "totalAgainst": 10.75,
-     "totalFor": 13.75
+     "games": 5,
+     "sotAgainst": 4.6,
+     "sotFor": 5.6,
+     "totalAgainst": 11.6,
+     "totalFor": 13.6
     },
     "Sabah FK": {
-     "games": 4,
-     "sotAgainst": 8.75,
-     "sotFor": 3.5,
-     "totalAgainst": 20.5,
-     "totalFor": 13.25
+     "games": 5,
+     "sotAgainst": 9.8,
+     "sotFor": 3.4,
+     "totalAgainst": 21.4,
+     "totalFor": 12.2
     },
     "Shakhtar Donetsk": {
-     "games": 4,
-     "sotAgainst": 3.25,
-     "sotFor": 3.5,
-     "totalAgainst": 11.75,
-     "totalFor": 11.5
+     "games": 5,
+     "sotAgainst": 3.6,
+     "sotFor": 3.2,
+     "totalAgainst": 12.0,
+     "totalFor": 10.8
     },
     "Slavia Prague": {
-     "games": 4,
-     "sotAgainst": 5.75,
-     "sotFor": 5.75,
-     "totalAgainst": 16.5,
-     "totalFor": 17.25
+     "games": 5,
+     "sotAgainst": 5.6,
+     "sotFor": 4.8,
+     "totalAgainst": 14.6,
+     "totalFor": 16.4
     },
     "Slovan Bratislava": {
      "games": 5,
@@ -491,32 +491,32 @@
      "totalFor": 8.8
     },
     "Sporting CP": {
-     "games": 4,
-     "sotAgainst": 5.0,
-     "sotFor": 4.25,
-     "totalAgainst": 14.0,
-     "totalFor": 11.5
+     "games": 5,
+     "sotAgainst": 4.4,
+     "sotFor": 4.2,
+     "totalAgainst": 12.6,
+     "totalFor": 11.4
     },
     "VfB Stuttgart": {
-     "games": 4,
-     "sotAgainst": 2.75,
-     "sotFor": 5.25,
-     "totalAgainst": 11.75,
-     "totalFor": 16.0
+     "games": 5,
+     "sotAgainst": 3.2,
+     "sotFor": 4.6,
+     "totalAgainst": 13.4,
+     "totalFor": 15.4
     },
     "Viking": {
-     "games": 4,
-     "sotAgainst": 6.25,
-     "sotFor": 4.75,
-     "totalAgainst": 19.75,
-     "totalFor": 12.0
+     "games": 5,
+     "sotAgainst": 6.8,
+     "sotFor": 4.0,
+     "totalAgainst": 19.8,
+     "totalFor": 11.4
     },
     "Villarreal": {
-     "games": 4,
-     "sotAgainst": 7.0,
-     "sotFor": 4.25,
-     "totalAgainst": 18.25,
-     "totalFor": 14.5
+     "games": 5,
+     "sotAgainst": 5.8,
+     "sotFor": 4.4,
+     "totalAgainst": 17.2,
+     "totalFor": 13.0
     }
    }
   },
@@ -2027,5 +2027,5 @@
   }
  },
  "season_start": "2026",
- "updated_at": "2026-11-25T15:23:15+00:00"
+ "updated_at": "2026-11-26T04:50:45+00:00"
 }
