@@ -1,26 +1,5 @@
 {
  "competizioni": {
-  "First Division A (BEL) 2026-2027": {
-   "lega_pitch": "First Division A",
-   "partite_completate": 1,
-   "giocatori": 28,
-   "senza_abbinamento": 0,
-   "da_fare": 1
-  },
-  "Premier League (ENG) 2026-2027": {
-   "lega_pitch": "Premier League",
-   "partite_completate": 1,
-   "giocatori": 30,
-   "senza_abbinamento": 0,
-   "da_fare": 1
-  },
-  "Championship (ENG) 2026-2027": {
-   "lega_pitch": "Championship",
-   "partite_completate": 1,
-   "giocatori": 30,
-   "senza_abbinamento": 0,
-   "da_fare": 1
-  },
   "Bundesliga (GER) 2026-2027": {
    "lega_pitch": "Bundesliga",
    "partite_completate": 0,
@@ -28,19 +7,12 @@
    "senza_abbinamento": 0,
    "da_fare": 1
   },
-  "Liga Portugal (POR) 2026-2027": {
-   "lega_pitch": "Liga Portugal",
-   "partite_completate": 1,
-   "giocatori": 32,
-   "senza_abbinamento": 0,
-   "da_fare": 1
-  },
   "LaLiga (ESP) 2026-2027": {
    "lega_pitch": "LaLiga",
-   "partite_completate": 1,
-   "giocatori": 31,
+   "partite_completate": 0,
+   "giocatori": 0,
    "senza_abbinamento": 0,
-   "da_fare": 2
+   "da_fare": 1
   },
   "Eerste Divisie (NED) 2026-2027": {
    "lega_pitch": "Eerste Divisie",
@@ -67,13 +39,6 @@
    "lega_pitch": "Virsliga",
    "partite_completate": 0,
    "giocatori": 0,
-   "senza_abbinamento": 0,
-   "da_fare": 1
-  },
-  "Serie A (ECU) 2026": {
-   "lega_pitch": "Serie A",
-   "partite_completate": 1,
-   "giocatori": 30,
    "senza_abbinamento": 0,
    "da_fare": 1
   },
@@ -324,5 +289,5 @@
   }
  },
  "senza_lega_pitch": [],
- "partite_completate_in_questo_giro": 6
+ "partite_completate_in_questo_giro": 0
 }
