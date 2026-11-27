@@ -179,7 +179,18 @@ async function jget(url, headers, ms) {
 }
 async function lineupsOf(mid) {
   const o = await jget(GQL + "dlie2&eventId=" + mid, GQL_H);
-  if (o) { const p = parseTeams(await o.json().catch(() => null), "lineup"); if (p) return { official: true, h: p.h, a: p.a }; }
+  if (o) {
+    const p = parseTeams(await o.json().catch(() => null), "lineup");
+    if (p) {
+      // ufficiale in solo elenco: si tiene anche la probabile di diretta (modulo e posti) per mettere gli 11 ufficiali in campo (27/11/2026)
+      if (p.h.list || p.a.list) {
+        const q = await jget(GQL + "dplie&eventId=" + mid, GQL_H);
+        const pp = q ? parseTeams(await q.json().catch(() => null), "predictedLineup") : null;
+        if (pp) return { official: true, h: p.h, a: p.a, ph: pp.h, pa: pp.a };
+      }
+      return { official: true, h: p.h, a: p.a };
+    }
+  }
   const q = await jget(GQL + "dplie&eventId=" + mid, GQL_H);
   if (q) { const p = parseTeams(await q.json().catch(() => null), "predictedLineup"); if (p) return { official: false, h: p.h, a: p.a }; }
   return null;
@@ -212,7 +223,7 @@ export async function dlLineups(g2, stt, fmId, env) {
     let memo = MEM.get(fmId);
     let rec = memo && memo.rec;
     if (!rec && kv) { try { rec = await kv.get(key, "json"); } catch (e) { rec = null; } }
-    const out = (r) => (r && r.h && r.a ? { official: !!r.c, h: r.h, a: r.a } : null);
+    const out = (r) => (r && r.h && r.a ? { official: !!r.c, h: r.h, a: r.a, ph: r.ph, pa: r.pa } : null);
     // ufficiale in solo elenco: si continua a rileggere finche' diretta non mette il modulo
     if (rec && (rec.k || (rec.c && !started && rec.h && rec.h.f))) { memSet(MEM, fmId, { t: (memo && memo.t) || now, d: memo && memo.d, rec }); return out(rec); }
     // oltre 1h26: ogni 2 ore; dentro la finestra: ogni 5 secondi; al fischio: una lettura nuova
@@ -228,11 +239,11 @@ export async function dlLineups(g2, stt, fmId, env) {
       if (started) {
         // al fischio: lettura finale; se diretta non risponde resta quanto gia' salvato (mai perdere le ufficiali)
         const fin = d || (rec && rec.h && rec.a ? { official: !!rec.c, h: rec.h, a: rec.a } : null);
-        const r = { mid, k: 1, c: fin && fin.official ? 1 : 0, h: fin ? fin.h : null, a: fin ? fin.a : null, t: now };
+        const r = { mid, k: 1, c: fin && fin.official ? 1 : 0, h: fin ? fin.h : null, a: fin ? fin.a : null, ph: fin ? fin.ph : null, pa: fin ? fin.pa : null, t: now };
         memSet(MEM, fmId, { t: now, d, rec: r });
         await kv.put(key, JSON.stringify(r), { expirationTtl: 14 * 86400 }).catch(() => {});
       } else if (d && d.official) {
-        const r = { mid, c: 1, h: d.h, a: d.a, t: now };
+        const r = { mid, c: 1, h: d.h, a: d.a, ph: d.ph, pa: d.pa, t: now };
         memSet(MEM, fmId, { t: now, d, rec: r });
         await kv.put(key, JSON.stringify(r), { expirationTtl: 14 * 86400 }).catch(() => {});
       }

@@ -834,7 +834,7 @@ export default {
                 });
                 return rows.every(Boolean) ? { ...t, f: src.f, s: rows } : null;
               };
-              const H = pos(out.h, fm0.h) || pos(out.h, alt && alt.h) || near(out.h, fm0.h) || near(out.h, alt && alt.h), A = pos(out.a, fm0.a) || pos(out.a, alt && alt.a) || near(out.a, fm0.a) || near(out.a, alt && alt.a);
+              const H = pos(out.h, dl.ph) || pos(out.h, fm0.h) || pos(out.h, alt && alt.h) || near(out.h, dl.ph) || near(out.h, fm0.h) || near(out.h, alt && alt.h), A = pos(out.a, dl.pa) || pos(out.a, fm0.a) || pos(out.a, alt && alt.a) || near(out.a, dl.pa) || near(out.a, fm0.a) || near(out.a, alt && alt.a);
               if (H && A) { out.h = H; out.a = A; }
               else { [out.h, out.a] = await Promise.all([rosaMark(out.h, out.hi), rosaMark(out.a, out.ai)]); out.luList = 1; }
             }
