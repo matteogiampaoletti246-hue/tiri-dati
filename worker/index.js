@@ -956,7 +956,8 @@ export default {
           // ma il worker li aveva gia' (memoria o KV), restano quelli: anche un telefono appena riaperto li riceve subito
           const pre0 = !out.st && !out.fin && !g2.started ? await fxPreGet(id, env) : null;
           if (pre0 && pre0.lu && !(fxFull(out.h) && fxFull(out.a))) { out.h = pre0.lu.h; out.a = pre0.lu.a; out.ty = pre0.lu.ty; out.luSrc = pre0.lu.luSrc; out.luKeep = 1; }
-          const body = JSON.stringify(out);
+          if (out.luList && out.h && out.a) { out.h = { ...out.h, l: 1 }; out.a = { ...out.a, l: 1 }; } // elenco senza posti in campo: l'app lo mostra in colonna (mai scheda sparita)
+        const body = JSON.stringify(out);
           fxPreSave(id, env, ctx, out, g2, stt, body);
           const ko = Date.parse(g2.matchTimeUTCDate || stt.utcTime || "");
           if (!out.st && !out.fin && !g2.started && ko && ko - Date.now() > 86 * 60000 && out.h && out.a) {
