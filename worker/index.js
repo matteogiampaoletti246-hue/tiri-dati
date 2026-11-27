@@ -815,7 +815,26 @@ export default {
                 const rows = (t.s || []).map((p) => { const q = (src.s || []).find((x) => x[2] != null && samePerson(x[0], p[0])); return q ? [p[0], p[1] != null ? p[1] : q[1], q[2], q[3], p[4] || q[4], p[5] || q[5], p[6] || q[6], p[7] || q[7], p[8] != null ? p[8] : q[8]] : null; });
                 return rows.length === 11 && rows.every(Boolean) ? { ...t, f: t.f || src.f, s: rows } : null;
               };
-              const H = pos(out.h, fm0.h) || pos(out.h, alt && alt.h), A = pos(out.a, fm0.a) || pos(out.a, alt && alt.a);
+              // 27/11/2026: se nessuna fonte ha gli STESSI 11, si usa il modulo della fonte piu' vicina (almeno 7 giocatori uguali): chi coincide prende
+              // il suo posto, gli altri ufficiali prendono i posti rimasti liberi (di chi non gioca), nell'ordine del ruolo (portiere per primo).
+              const near = (t, src) => {
+                if (!t || !src || noXY(src) || (src.s || []).length !== 11) return null;
+                const free = (src.s || []).filter((x) => !(t.s || []).some((p) => samePerson(x[0], p[0])));
+                const same = (t.s || []).filter((p) => (src.s || []).some((x) => samePerson(x[0], p[0])));
+                if (same.length < 7) return null;
+                const gkFree = free.filter((x) => x[8] === 0 || x[2] === 0), outF = free.filter((x) => !(x[8] === 0 || x[2] === 0)).sort((a, b) => (a[2] - b[2]) || (a[3] - b[3]));
+                const rest = (t.s || []).filter((p) => !same.includes(p));
+                const restGk = rest.filter((p) => p[8] === 0), restO = rest.filter((p) => p[8] !== 0);
+                const slots = [...gkFree, ...outF];
+                const order = [...restGk, ...restO];
+                if (slots.length !== order.length) return null;
+                const rows = (t.s || []).map((p) => {
+                  const q = (src.s || []).find((x) => samePerson(x[0], p[0])) || slots[order.indexOf(p)];
+                  return q ? [p[0], p[1] != null ? p[1] : q[1], q[2], q[3], p[4], p[5] || ((src.s || []).find((x) => samePerson(x[0], p[0])) || [])[5], p[6], p[7] || ((src.s || []).find((x) => samePerson(x[0], p[0])) || [])[7], p[8] != null ? p[8] : q[8]] : null;
+                });
+                return rows.every(Boolean) ? { ...t, f: src.f, s: rows } : null;
+              };
+              const H = pos(out.h, fm0.h) || pos(out.h, alt && alt.h) || near(out.h, fm0.h) || near(out.h, alt && alt.h), A = pos(out.a, fm0.a) || pos(out.a, alt && alt.a) || near(out.a, fm0.a) || near(out.a, alt && alt.a);
               if (H && A) { out.h = H; out.a = A; }
               else { [out.h, out.a] = await Promise.all([rosaMark(out.h, out.hi), rosaMark(out.a, out.ai)]); out.luList = 1; }
             }
