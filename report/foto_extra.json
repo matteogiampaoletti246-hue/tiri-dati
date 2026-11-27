@@ -3,11 +3,12 @@
  "gia_trovate": 4917,
  "nuove": {
   "livescore": 0,
-  "diretta": 0
+  "diretta": 0,
+  "diretta_ricerca": 1
  },
  "squadre": 2607,
- "partite_lette": 8,
- "ricerche": 0,
- "totale_con_foto_extra": 4917,
- "ancora_senza": 58357
+ "partite_lette": 24,
+ "ricerche": 5,
+ "totale_con_foto_extra": 4918,
+ "ancora_senza": 58356
 }
