@@ -1,7 +1,13 @@
 {
- "competizioni": {},
- "partite_completate": 0,
- "giocatori": 0,
+ "competizioni": {
+  "Série A 2026": {
+   "partite_completate": 1,
+   "giocatori": 32,
+   "da_fare": 1
+  }
+ },
+ "partite_completate": 1,
+ "giocatori": 32,
  "senza_abbinamento": 0,
  "senza_formazioni_diretta": 0
 }
