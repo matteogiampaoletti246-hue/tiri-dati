@@ -1,68 +1,33 @@
 {
  "competizioni": {
-  "Kategoria Superiore 2026-2027": {
+  "Primera B Nacional 2026": {
    "partite_completate": 0,
    "giocatori": 0,
    "da_fare": 1
   },
-  "Premier League 2026-2027": {
+  "Primera Federación 2026-2027": {
    "partite_completate": 1,
-   "giocatori": 25,
+   "giocatori": 19,
    "da_fare": 1
   },
-  "Liga Portugal 2 2026-2027": {
-   "partite_completate": 1,
-   "giocatori": 18,
-   "da_fare": 1
-  },
-  "Eerste Divisie 2026-2027": {
-   "partite_completate": 1,
-   "giocatori": 31,
-   "da_fare": 1
-  },
-  "Süper Lig 2026-2027": {
-   "partite_completate": 2,
-   "giocatori": 58,
+  "Coupe de France 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
    "da_fare": 2
   },
-  "Scottish Cup 2026-2027": {
+  "Division Profesional 2026 - Clausura": {
    "partite_completate": 1,
-   "giocatori": 14,
-   "da_fare": 1
-  },
-  "FNL 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 1
-  },
-  "Liga I 2026-2027": {
-   "partite_completate": 1,
-   "giocatori": 27,
-   "da_fare": 1
-  },
-  "1. Division 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 3
-  },
-  "Prva Liga 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 1
-  },
-  "Slovenia Cup 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
+   "giocatori": 24,
    "da_fare": 1
   },
   "Cymru Premier 2026-2027": {
    "partite_completate": 0,
    "giocatori": 0,
-   "da_fare": 4
+   "da_fare": 2
   }
  },
- "partite_completate": 7,
- "giocatori": 173,
- "senza_abbinamento": 0,
- "senza_formazioni_diretta": 15
+ "partite_completate": 2,
+ "giocatori": 43,
+ "senza_abbinamento": 3,
+ "senza_formazioni_diretta": 2
 }
