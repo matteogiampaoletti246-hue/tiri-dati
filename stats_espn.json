@@ -1,219 +1,64 @@
 {
  "competizioni": {
-  "Bundesliga 2015-2016": {
-   "con_statistiche": 0,
-   "senza": 143,
-   "da_fare": 143
-  },
-  "Bundesliga 2014-2015": {
-   "con_statistiche": 0,
-   "senza": 180,
-   "da_fare": 180
-  },
-  "Bundesliga 2013-2014": {
-   "con_statistiche": 0,
-   "senza": 180,
-   "da_fare": 180
-  },
-  "Bundesliga 2012-2013": {
-   "con_statistiche": 0,
-   "senza": 180,
-   "da_fare": 180
-  },
-  "Bundesliga 2011-2012": {
-   "con_statistiche": 0,
-   "senza": 180,
-   "da_fare": 180
-  },
-  "Bundesliga 2010-2011": {
-   "con_statistiche": 0,
-   "senza": 180,
-   "da_fare": 180
-  },
-  "FA Cup 2026-2027": {
-   "con_statistiche": 0,
-   "senza": 32,
-   "da_fare": 32
-  },
-  "FA Cup 2025-2026": {
-   "con_statistiche": 0,
-   "senza": 6,
-   "da_fare": 6
-  },
-  "FA Cup 2024-2025": {
-   "con_statistiche": 0,
-   "senza": 50,
-   "da_fare": 50
-  },
-  "FA Cup 2022-2023": {
-   "con_statistiche": 0,
-   "senza": 3,
-   "da_fare": 3
-  },
-  "Copa del Rey 2026-2027": {
-   "con_statistiche": 0,
-   "senza": 51,
-   "da_fare": 51
-  },
-  "Copa del Rey 2025-2026": {
-   "con_statistiche": 0,
-   "senza": 28,
-   "da_fare": 28
-  },
-  "Copa del Rey 2024-2025": {
-   "con_statistiche": 0,
-   "senza": 32,
-   "da_fare": 32
-  },
-  "Copa del Rey 2023-2024": {
-   "con_statistiche": 0,
-   "senza": 46,
-   "da_fare": 46
-  },
-  "Copa del Rey 2022-2023": {
-   "con_statistiche": 0,
-   "senza": 43,
-   "da_fare": 43
-  },
-  "Copa del Rey 2021-2022": {
-   "con_statistiche": 0,
-   "senza": 34,
-   "da_fare": 34
-  },
-  "Copa del Rey 2020-2021": {
-   "con_statistiche": 0,
-   "senza": 45,
-   "da_fare": 45
-  },
-  "Coupe de France 2026-2027": {
-   "con_statistiche": 0,
-   "senza": 254,
-   "da_fare": 254
-  },
-  "Coupe de France 2025-2026": {
-   "con_statistiche": 0,
-   "senza": 298,
-   "da_fare": 298
-  },
-  "Coupe de France 2024-2025": {
-   "con_statistiche": 0,
-   "senza": 296,
-   "da_fare": 296
-  },
-  "Coupe de France 2023-2024": {
-   "con_statistiche": 0,
-   "senza": 294,
-   "da_fare": 294
-  },
-  "Coupe de France 2022-2023": {
-   "con_statistiche": 0,
-   "senza": 277,
-   "da_fare": 277
-  },
-  "Coupe de France 2021-2022": {
-   "con_statistiche": 0,
-   "senza": 295,
-   "da_fare": 295
-  },
-  "Coupe de France 2020-2021": {
-   "con_statistiche": 0,
-   "senza": 262,
-   "da_fare": 262
-  },
-  "Africa Cup of Nations 2015": {
-   "con_statistiche": 0,
-   "senza": 28,
-   "da_fare": 28
-  },
-  "Africa Cup of Nations 2013": {
-   "con_statistiche": 0,
-   "senza": 31,
-   "da_fare": 31
-  },
-  "Africa Cup of Nations 2012": {
-   "con_statistiche": 0,
-   "senza": 9,
-   "da_fare": 9
-  },
-  "EFL Cup 2021-2022": {
-   "con_statistiche": 0,
-   "senza": 1,
-   "da_fare": 1
-  },
-  "EFL Cup 2020-2021": {
-   "con_statistiche": 0,
-   "senza": 1,
-   "da_fare": 1
-  },
-  "Coppa Italia 2026-2027": {
-   "con_statistiche": 0,
-   "senza": 4,
-   "da_fare": 4
-  },
-  "Coppa Italia 2025-2026": {
-   "con_statistiche": 0,
-   "senza": 4,
-   "da_fare": 4
-  },
-  "Coppa Italia 2024-2025": {
-   "con_statistiche": 0,
-   "senza": 4,
-   "da_fare": 4
-  },
-  "Coppa Italia 2023-2024": {
-   "con_statistiche": 0,
-   "senza": 4,
-   "da_fare": 4
-  },
-  "Coppa Italia 2022-2023": {
-   "con_statistiche": 0,
-   "senza": 4,
-   "da_fare": 4
-  },
-  "Coppa Italia 2021-2022": {
-   "con_statistiche": 0,
-   "senza": 5,
-   "da_fare": 5
-  },
-  "Coppa Italia 2020-2021": {
-   "con_statistiche": 0,
-   "senza": 61,
-   "da_fare": 61
-  },
-  "Championship 2026-2027": {
-   "con_statistiche": 0,
-   "senza": 48,
-   "da_fare": 48
-  },
-  "Championship 2025-2026": {
-   "con_statistiche": 0,
-   "senza": 3,
-   "da_fare": 3
-  },
-  "Championship 2024-2025": {
-   "con_statistiche": 0,
-   "senza": 98,
-   "da_fare": 98
-  },
-  "Championship 2023-2024": {
-   "con_statistiche": 0,
-   "senza": 8,
-   "da_fare": 8
-  },
-  "Championship 2022-2023": {
-   "con_statistiche": 0,
-   "senza": 7,
-   "da_fare": 7
-  },
-  "Championship 2020-2021": {
-   "con_statistiche": 0,
-   "senza": 8,
-   "da_fare": 8
-  },
   "EFL Trophy 2024-2025": {
    "con_statistiche": 0,
-   "senza": 11,
+   "senza": 116,
+   "da_fare": 116
+  },
+  "EFL Trophy 2023-2024": {
+   "con_statistiche": 0,
+   "senza": 123,
+   "da_fare": 123
+  },
+  "EFL Trophy 2022-2023": {
+   "con_statistiche": 0,
+   "senza": 127,
    "da_fare": 127
+  },
+  "EFL Trophy 2021-2022": {
+   "con_statistiche": 0,
+   "senza": 127,
+   "da_fare": 127
+  },
+  "EFL Trophy 2020-2021": {
+   "con_statistiche": 0,
+   "senza": 127,
+   "da_fare": 127
+  },
+  "Premier Division 2021": {
+   "con_statistiche": 0,
+   "senza": 145,
+   "da_fare": 145
+  },
+  "Premier Division 2020": {
+   "con_statistiche": 0,
+   "senza": 90,
+   "da_fare": 90
+  },
+  "Serie A 2025": {
+   "con_statistiche": 0,
+   "senza": 1,
+   "da_fare": 1
+  },
+  "Serie A 2023": {
+   "con_statistiche": 0,
+   "senza": 242,
+   "da_fare": 242
+  },
+  "Serie A 2022": {
+   "con_statistiche": 0,
+   "senza": 242,
+   "da_fare": 242
+  },
+  "Serie A 2021": {
+   "con_statistiche": 0,
+   "senza": 198,
+   "da_fare": 198
+  },
+  "Serie A 2020": {
+   "con_statistiche": 0,
+   "senza": 121,
+   "da_fare": 242
   }
  }
 }
