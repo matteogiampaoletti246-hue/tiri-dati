@@ -1,23 +1,23 @@
 {
- "aggiornato": "2026-11-26 23:00 UTC",
+ "aggiornato": "2026-11-27 10:51 UTC",
  "partite_finite": {
   "tutte": {
-   "fotmob": 129683,
+   "fotmob": 129686,
    "pitchapi": 2744,
    "livescore": 4039,
    "diretta": 109,
    "formazioni_fotmob": 67711,
    "nessuna": 295128,
-   "totale": 499414
+   "totale": 499417
   },
   "ultime_due_stagioni": {
-   "fotmob": 32222,
+   "fotmob": 32225,
    "pitchapi": 260,
    "livescore": 4039,
    "diretta": 109,
    "formazioni_fotmob": 5861,
    "nessuna": 8148,
-   "totale": 50639
+   "totale": 50642
   }
  },
  "partite_arricchite_da_pitchapi": {
@@ -43,19 +43,19 @@
    }
   },
   "ultime_due_stagioni": {
-   "schede_con_partite": 66492,
-   "coperte_da_fotmob": 49770,
-   "non_coperte_da_fotmob": 16722,
+   "schede_con_partite": 66493,
+   "coperte_da_fotmob": 49772,
+   "non_coperte_da_fotmob": 16721,
    "non_fotmob_coperte_da": {
     "pitchapi": 51,
-    "livescore": 9324,
+    "livescore": 9323,
     "diretta": 1220,
     "formazioni_fotmob": 11162
    },
    "coperte_solo_da": {
-    "fotmob": 31514,
+    "fotmob": 31515,
     "pitchapi": 40,
-    "livescore": 4973,
+    "livescore": 4972,
     "diretta": 82,
     "formazioni_fotmob": 7182
    }
@@ -298,7 +298,7 @@
    "nessuna": 180
   },
   "Série A (BRA) 2026": {
-   "fotmob": 361
+   "fotmob": 362
   },
   "Série A (BRA) 2025": {
    "fotmob": 380
@@ -678,7 +678,7 @@
    "fotmob": 95
   },
   "Liga MX (MEX) 2026-2027 - Apertura": {
-   "fotmob": 155
+   "fotmob": 157
   },
   "Liga MX (MEX) 2025-2026 - Clausura": {
    "fotmob": 167
