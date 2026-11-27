@@ -819,6 +819,7 @@ export default {
               if (H && A) { out.h = H; out.a = A; }
               else { [out.h, out.a] = await Promise.all([rosaMark(out.h, out.hi), rosaMark(out.a, out.ai)]); out.luList = 1; }
             }
+            if (out.luList) { out.h = { ...out.h, l: 1 }; out.a = { ...out.a, l: 1 }; } // l: elenco senza posti in campo (l'app lo mostra in colonna)
           }
           if (!dlDone && (noXY(out.h) || noXY(out.a) || (!fmOfficial && !g2.started))) {
             const fmH = out.h, fmA = out.a;

@@ -323,7 +323,7 @@ export function applyFm(m, d, playerLookup) {
       lu.xi = lu.xi.map(fix);
       lu.bench = lu.bench.map(fix);
       // solo i nomi ufficiali, senza posti in campo: elenco in colonna, portiere (p[8] === 0, segnato dal worker con la rosa) per primo
-      if (raw.l && raw.s.length === 11) {
+      if ((raw.l || d.luList) && raw.s.length === 11) {
         const rows = raw.s.map((p) => ({ name: realName(p[7], p[0]), number: p[1], gk: p[8] === 0, photo: p[5] || null, fmId: p[7] || null }));
         lu.list = [...rows.filter((r) => r.gk), ...rows.filter((r) => !r.gk)];
       }
