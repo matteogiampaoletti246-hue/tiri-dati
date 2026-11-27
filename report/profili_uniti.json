@@ -1,8 +1,226 @@
 {
 "nota": "unioni di profili doppi (stesso giocatore con piu' id) e collegamenti PitchAPI -> FotMob",
-"doppi_uniti": 0,
-"collegati": 6263,
-"unioni": [],
+"doppi_uniti": 20,
+"collegati": 6256,
+"unioni": [
+{
+"nome": "Adrián Martín Ugarriza Tello",
+"squadra": "Hapoel Beer Sheva",
+"id_uniti": [
+"p_4AlYY9",
+"p_0jPSJj",
+"fm:547722"
+],
+"tenuto": "p_4AlYY9",
+"motivo": "stesso id FotMob (nome contenuto + date 100%; nome uguale + date 100%): PitchAPI aveva due profili"
+},
+{
+"nome": "Baboucarr Faal",
+"squadra": "Viktoria Plzeň",
+"id_uniti": [
+"p_2155aq",
+"p_2TqmOX",
+"fm:1722302"
+],
+"tenuto": "p_2155aq",
+"motivo": "stesso id FotMob (nome uguale + date 100%; nome uguale + date 100%): PitchAPI aveva due profili"
+},
+{
+"nome": "Dominik Ťapaj",
+"squadra": "Viktoria Plzeň",
+"id_uniti": [
+"p_1BHGVr",
+"p_1VZd75",
+"fm:1379393"
+],
+"tenuto": "p_1BHGVr",
+"motivo": "stesso id FotMob (nome uguale + date 100%; nome uguale + date 100%): PitchAPI aveva due profili"
+},
+{
+"nome": "Ebrima Singhateh",
+"squadra": "Sparta Prague",
+"id_uniti": [
+"p_3zK1nD",
+"p_4Lasao",
+"fm:1348062"
+],
+"tenuto": "p_3zK1nD",
+"motivo": "stesso id FotMob (nome uguale + date 100%; nome uguale + date 100%): PitchAPI aveva due profili"
+},
+{
+"nome": "Guy Mizrahi",
+"squadra": "Hapoel Beer Sheva",
+"id_uniti": [
+"p_4A8eW6",
+"p_3pJ7sb",
+"fm:1238236"
+],
+"tenuto": "p_4A8eW6",
+"motivo": "stesso id FotMob (nome uguale + date 100%; nome uguale + date 100%): PitchAPI aveva due profili"
+},
+{
+"nome": "Igor Zlatanović",
+"squadra": "Hapoel Beer Sheva",
+"id_uniti": [
+"p_41elXi",
+"p_2w9dQo",
+"fm:805779"
+],
+"tenuto": "p_41elXi",
+"motivo": "stesso id FotMob (nome uguale + date 100%; nome uguale + date 100%): PitchAPI aveva due profili"
+},
+{
+"nome": "Itay Rotman",
+"squadra": "Hapoel Beer Sheva",
+"id_uniti": [
+"p_3HPjJE",
+"p_1RMrAK",
+"fm:1339625"
+],
+"tenuto": "p_3HPjJE",
+"motivo": "stesso id FotMob (nome uguale + date 100%; nome uguale + date 100%): PitchAPI aveva due profili"
+},
+{
+"nome": "Javon Romario East",
+"squadra": "Hapoel Beer Sheva",
+"id_uniti": [
+"p_3TDC0X",
+"p_31l1gf",
+"fm:919525"
+],
+"tenuto": "p_3TDC0X",
+"motivo": "stesso id FotMob (cognome e iniziale + date 100%; nome uguale + date 100%): PitchAPI aveva due profili"
+},
+{
+"nome": "Leo Hofstädter",
+"squadra": "Slovan Bratislava",
+"id_uniti": [
+"p_1N4d3G",
+"p_0Gn6Wb",
+"fm:2093218"
+],
+"tenuto": "p_1N4d3G",
+"motivo": "stesso id FotMob (nome uguale + date 100%; nome uguale + date 100%): PitchAPI aveva due profili"
+},
+{
+"nome": "Mohammad Kna'an",
+"squadra": "Hapoel Beer Sheva",
+"id_uniti": [
+"p_3qpIiL",
+"p_4WS114",
+"fm:1109151"
+],
+"tenuto": "p_3qpIiL",
+"motivo": "stesso id FotMob (date e minuti uguali in 9/9 partite; nome uguale + date 100%): PitchAPI aveva due profili"
+},
+{
+"nome": "Muhammad Abu Rumi",
+"squadra": "Hapoel Beer Sheva",
+"id_uniti": [
+"p_3DNAlc",
+"p_0RZYdF",
+"fm:1497826"
+],
+"tenuto": "p_3DNAlc",
+"motivo": "stesso id FotMob (cognome e iniziale + date 100%; nome uguale + date 100%): PitchAPI aveva due profili"
+},
+{
+"nome": "Mubarak Emmanuel Suleiman",
+"squadra": "Slavia Prague",
+"id_uniti": [
+"p_057n6L",
+"p_0IQAA9",
+"fm:1840847"
+],
+"tenuto": "p_057n6L",
+"motivo": "stesso id FotMob (cognome e iniziale + date 100%; nome uguale + date 100%): PitchAPI aveva due profili"
+},
+{
+"nome": "Niv Yehoshua",
+"squadra": "Hapoel Beer Sheva",
+"id_uniti": [
+"p_3vfX8l",
+"p_4Msh2w",
+"fm:1605895"
+],
+"tenuto": "p_3vfX8l",
+"motivo": "stesso id FotMob (nome uguale + date 100%; nome uguale + date 100%): PitchAPI aveva due profili"
+},
+{
+"nome": "Stefan Pirgić",
+"squadra": "Viktoria Plzeň",
+"id_uniti": [
+"p_0ydsOm",
+"p_40heTL",
+"fm:1621131"
+],
+"tenuto": "p_0ydsOm",
+"motivo": "stesso id FotMob (nome uguale + date 100%; nome uguale + date 100%): PitchAPI aveva due profili"
+},
+{
+"nome": "Tobiáš Pališčák",
+"squadra": "Viktoria Plzeň",
+"id_uniti": [
+"p_4JgZcp",
+"p_18TB8b",
+"fm:1676861"
+],
+"tenuto": "p_4JgZcp",
+"motivo": "stesso id FotMob (nome uguale + date 100%; nome uguale + date 100%): PitchAPI aveva due profili"
+},
+{
+"nome": "Viktor Tamás Vitályos",
+"squadra": "Sparta Prague",
+"id_uniti": [
+"p_3J5Wih",
+"p_1COAFA",
+"fm:1585830"
+],
+"tenuto": "p_3J5Wih",
+"motivo": "stesso id FotMob (cognome e iniziale + date 100%; nome uguale + date 100%): PitchAPI aveva due profili"
+},
+{
+"nome": "Zahi Ahmed",
+"squadra": "Hapoel Beer Sheva",
+"id_uniti": [
+"p_0QYxoI",
+"p_3CcipL",
+"fm:1202240"
+],
+"tenuto": "p_0QYxoI",
+"motivo": "stesso id FotMob (nome uguale + date 100%; nome uguale + date 100%): PitchAPI aveva due profili"
+},
+{
+"nome": "Ángel Arcos",
+"squadra": "Celta Fortuna",
+"id_uniti": [
+"p_3VBktZ",
+"fm~140~2026-2027~1700562"
+],
+"tenuto": "p_3VBktZ",
+"motivo": "stesso id FotMob: profilo d'archivio (calc_extra) doppio di quello PitchAPI"
+},
+{
+"nome": "Neto",
+"squadra": "Botafogo",
+"id_uniti": [
+"p_0DBNdM",
+"fm~268~2026~176186"
+],
+"tenuto": "p_0DBNdM",
+"motivo": "stesso id FotMob: profilo d'archivio (calc_extra) doppio di quello PitchAPI"
+},
+{
+"nome": "Paschalis Toufakis",
+"squadra": "Olympiacos",
+"id_uniti": [
+"p_3vhjTS",
+"fm~145~2026-2027~1690103"
+],
+"tenuto": "p_3vhjTS",
+"motivo": "stesso id FotMob: profilo d'archivio (calc_extra) doppio di quello PitchAPI"
+}
+],
 "collegamenti": [
 {
 "nome": "Aaron Bibout",
@@ -951,6 +1169,17 @@
 "tipo": "collegato"
 },
 {
+"nome": "Adam Stejskal",
+"squadra": "Sturm Graz",
+"id_uniti": [
+"p_03T55V",
+"fm:967060"
+],
+"tenuto": "p_03T55V",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
 "nome": "Adam Tahaui",
 "squadra": "NEC Nijmegen",
 "id_uniti": [
@@ -1128,7 +1357,7 @@
 },
 {
 "nome": "Ademola Ola-Adebomi",
-"squadra": "KSC Lokeren",
+"squadra": "WSG Tirol",
 "id_uniti": [
 "p_34I7kb",
 "fm:1236382"
@@ -3503,6 +3732,17 @@
 "tipo": "collegato"
 },
 {
+"nome": "Alioune Ndour",
+"squadra": "Ararat Armenia",
+"id_uniti": [
+"p_430ynJ",
+"fm:854130"
+],
+"tenuto": "p_430ynJ",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
 "nome": "Alioune Ndoye",
 "squadra": "Vitória de Guimarães",
 "id_uniti": [
@@ -3631,17 +3871,6 @@
 "fm:1304343"
 ],
 "tenuto": "p_0oFv75",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
-"nome": "Allen Obando",
-"squadra": "Nacional",
-"id_uniti": [
-"p_0bAATC",
-"fm:1482775"
-],
-"tenuto": "p_0bAATC",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -4889,7 +5118,7 @@
 "tipo": "collegato"
 },
 {
-"nome": "André Simoes",
+"nome": "André Simões",
 "squadra": "Torreense",
 "id_uniti": [
 "p_2dPbFY",
@@ -6419,7 +6648,7 @@
 },
 {
 "nome": "Arne Engels",
-"squadra": "West Ham",
+"squadra": "Celtic",
 "id_uniti": [
 "p_1KZZTi",
 "fm:1178443"
@@ -6716,7 +6945,7 @@
 },
 {
 "nome": "Asger Sørensen",
-"squadra": "FC København",
+"squadra": "Sparta Prague",
 "id_uniti": [
 "p_01AEmp",
 "fm:509349"
@@ -8465,7 +8694,7 @@
 },
 {
 "nome": "Bjorn Meijer",
-"squadra": "Sampdoria",
+"squadra": "Club Brugge",
 "id_uniti": [
 "p_2rNvGM",
 "fm:1256178"
@@ -8872,7 +9101,7 @@
 },
 {
 "nome": "Brayann Pereira",
-"squadra": "West Brom",
+"squadra": "NEC Nijmegen",
 "id_uniti": [
 "p_3fobfI",
 "fm:1192053"
@@ -9169,7 +9398,7 @@
 },
 {
 "nome": "Bryan Adinany",
-"squadra": "Debrecen",
+"squadra": "Kortrijk",
 "id_uniti": [
 "p_1ggP0B",
 "fm:1022689"
@@ -9444,7 +9673,7 @@
 },
 {
 "nome": "Calegari",
-"squadra": "LA Galaxy",
+"squadra": "Eyüpspor",
 "id_uniti": [
 "p_01Elb2",
 "fm:1070331"
@@ -9906,7 +10135,7 @@
 },
 {
 "nome": "Carlos Álvarez",
-"squadra": "América",
+"squadra": "Levante",
 "id_uniti": [
 "p_2IS1vr",
 "fm:1209980"
@@ -10451,17 +10680,6 @@
 "fm:666954"
 ],
 "tenuto": "p_0vURJJ",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
-"nome": "Chiheb Labidi",
-"squadra": "Nacional",
-"id_uniti": [
-"p_2cXCHH",
-"fm:1242656"
-],
-"tenuto": "p_2cXCHH",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -11056,7 +11274,7 @@
 "fm:865217"
 ],
 "tenuto": "p_0xQN2c",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (date e minuti uguali in 3/3 partite)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (date e minuti uguali in 4/4 partite)",
 "tipo": "collegato"
 },
 {
@@ -11930,7 +12148,7 @@
 },
 {
 "nome": "Dani García",
-"squadra": "Atromitos",
+"squadra": "Olympiacos",
 "id_uniti": [
 "p_0dvzWo",
 "fm:433311"
@@ -12024,17 +12242,6 @@
 "fm:1192954"
 ],
 "tenuto": "p_4bcHJO",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
-"nome": "Daniel",
-"squadra": "Nacional",
-"id_uniti": [
-"p_0PHrSD",
-"fm:1336918"
-],
-"tenuto": "p_0PHrSD",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -13898,17 +14105,6 @@
 "tipo": "collegato"
 },
 {
-"nome": "Deivison",
-"squadra": "Nacional",
-"id_uniti": [
-"p_0OrnZr",
-"fm:1791597"
-],
-"tenuto": "p_0OrnZr",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
 "nome": "Dejan Kulusevski",
 "squadra": "Tottenham Hotspur",
 "id_uniti": [
@@ -14471,7 +14667,7 @@
 },
 {
 "nome": "Diego Díaz",
-"squadra": "FC Andorra",
+"squadra": "Racing Santander",
 "id_uniti": [
 "p_00xJdZ",
 "fm:1693550"
@@ -15603,6 +15799,17 @@
 "tipo": "collegato"
 },
 {
+"nome": "Doğan Alemdar",
+"squadra": "Beşiktaş",
+"id_uniti": [
+"p_26AmeS",
+"fm:958273"
+],
+"tenuto": "p_26AmeS",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
 "nome": "Drew Murray",
 "squadra": "WSG Tirol",
 "id_uniti": [
@@ -16286,7 +16493,7 @@
 },
 {
 "nome": "Edvin Austbø",
-"squadra": "West Ham",
+"squadra": "Viking",
 "id_uniti": [
 "p_40yI5h",
 "fm:1367620"
@@ -17529,7 +17736,7 @@
 },
 {
 "nome": "Ensar Kemaloğlu",
-"squadra": "Kayserispor",
+"squadra": "Gençlerbirliği",
 "id_uniti": [
 "p_3g0aRo",
 "fm:1097441"
@@ -19168,7 +19375,7 @@
 },
 {
 "nome": "Fernando Andrade",
-"squadra": "Bodrum FK",
+"squadra": "Erzurumspor FK",
 "id_uniti": [
 "p_4Hva2S",
 "fm:391035"
@@ -19751,7 +19958,7 @@
 },
 {
 "nome": "Filippo Delli Carri",
-"squadra": "Sampdoria",
+"squadra": "Monza",
 "id_uniti": [
 "p_2EYL8D",
 "fm:814284"
@@ -20136,7 +20343,7 @@
 },
 {
 "nome": "Fodé Doucouré",
-"squadra": "Nantes",
+"squadra": "Le Havre",
 "id_uniti": [
 "p_0MKFKy",
 "fm:1180696"
@@ -20340,17 +20547,6 @@
 "fm:1185336"
 ],
 "tenuto": "p_3QhZtA",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
-"nome": "Francisco Gonçalves",
-"squadra": "Nacional",
-"id_uniti": [
-"p_4YPzFP",
-"fm:1523092"
-],
-"tenuto": "p_4YPzFP",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -21203,7 +21399,7 @@
 },
 {
 "nome": "Gabriele Zappa",
-"squadra": "Hellas Verona",
+"squadra": "Cagliari",
 "id_uniti": [
 "p_0Q4Fks",
 "fm:949731"
@@ -24337,6 +24533,17 @@
 "tipo": "collegato"
 },
 {
+"nome": "Hyeon-Gyu Oh",
+"squadra": "Beşiktaş",
+"id_uniti": [
+"p_3MUOwL",
+"fm:1044299"
+],
+"tenuto": "p_3MUOwL",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
 "nome": "Hyllarion Goore",
 "squadra": "Gent",
 "id_uniti": [
@@ -24789,7 +24996,7 @@
 },
 {
 "nome": "Ibrahima Diaby",
-"squadra": "Al Ahli",
+"squadra": "Cercle Brugge",
 "id_uniti": [
 "p_1l7Gb7",
 "fm:1785898"
@@ -26230,7 +26437,7 @@
 },
 {
 "nome": "Ivan Šaranić",
-"squadra": "Bursaspor",
+"squadra": "Istra 1961",
 "id_uniti": [
 "p_2Oji32",
 "fm:1337704"
@@ -26714,7 +26921,7 @@
 },
 {
 "nome": "Jacques Ekomié",
-"squadra": "Wrexham",
+"squadra": "Angers",
 "id_uniti": [
 "p_1AYuxP",
 "fm:1327156"
@@ -31081,7 +31288,7 @@
 },
 {
 "nome": "Josué Casimir",
-"squadra": "Dinamo",
+"squadra": "Auxerre",
 "id_uniti": [
 "p_2NH6TX",
 "fm:1199382"
@@ -33050,7 +33257,7 @@
 },
 {
 "nome": "Kareem Tunde",
-"squadra": "West Brom",
+"squadra": "Levante",
 "id_uniti": [
 "p_04Degh",
 "fm:1875615"
@@ -34326,7 +34533,7 @@
 },
 {
 "nome": "Kingstone Mutandwa",
-"squadra": "Servette",
+"squadra": "Cagliari",
 "id_uniti": [
 "p_0MpmNr",
 "fm:1498718"
@@ -34744,7 +34951,7 @@
 },
 {
 "nome": "Korede Osundina",
-"squadra": "Muğlaspor",
+"squadra": "Casa Pia AC",
 "id_uniti": [
 "p_3QkqNx",
 "fm:1341127"
@@ -35492,7 +35699,7 @@
 },
 {
 "nome": "Lasso Coulibaly",
-"squadra": "Viborg",
+"squadra": "Auxerre",
 "id_uniti": [
 "p_2iWpeK",
 "fm:1276685"
@@ -36460,7 +36667,7 @@
 },
 {
 "nome": "Liam Millar",
-"squadra": "Birmingham",
+"squadra": "Hull City",
 "id_uniti": [
 "p_07A8fP",
 "fm:932308"
@@ -38605,7 +38812,7 @@
 },
 {
 "nome": "Lukás Haraslín",
-"squadra": "Al Fateh FC",
+"squadra": "Sparta Prague",
 "id_uniti": [
 "p_16xPG6",
 "fm:518628"
@@ -39029,17 +39236,6 @@
 "fm:708457"
 ],
 "tenuto": "p_0ogQTM",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
-"nome": "Léo Santos",
-"squadra": "Nacional",
-"id_uniti": [
-"p_2oxd9M",
-"fm:756255"
-],
-"tenuto": "p_2oxd9M",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -40299,7 +40495,7 @@
 },
 {
 "nome": "Marco Essimi",
-"squadra": "Rodez",
+"squadra": "Alverca",
 "id_uniti": [
 "p_1YSqSK",
 "fm:1108006"
@@ -40437,6 +40633,17 @@
 "fm:1053472"
 ],
 "tenuto": "p_2k0Vgs",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
+"nome": "Marco Wolff",
+"squadra": "Hapoel Beer Sheva",
+"id_uniti": [
+"p_0ca5Ug",
+"fm:907296"
+],
+"tenuto": "p_0ca5Ug",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -41464,17 +41671,6 @@
 "tipo": "collegato"
 },
 {
-"nome": "Markus Gustav Jensen",
-"squadra": "Nacional",
-"id_uniti": [
-"p_3r2jWi",
-"fm:1367941"
-],
-"tenuto": "p_3r2jWi",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
 "nome": "Markus Pink",
 "squadra": "Wolfsberger AC",
 "id_uniti": [
@@ -42223,17 +42419,6 @@
 "tipo": "collegato"
 },
 {
-"nome": "Matchoi",
-"squadra": "Nacional",
-"id_uniti": [
-"p_1MhFvD",
-"fm:1069628"
-],
-"tenuto": "p_1MhFvD",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
 "nome": "Matei Cristian Ilie",
 "squadra": "Kasımpaşa",
 "id_uniti": [
@@ -42575,17 +42760,6 @@
 "tipo": "collegato"
 },
 {
-"nome": "Matheus Dias",
-"squadra": "Nacional",
-"id_uniti": [
-"p_1oJMC4",
-"fm:1380814"
-],
-"tenuto": "p_1oJMC4",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
 "nome": "Matheus França",
 "squadra": "Alverca",
 "id_uniti": [
@@ -42807,7 +42981,7 @@
 },
 {
 "nome": "Mathis Saka",
-"squadra": "Rodez",
+"squadra": "Toulouse",
 "id_uniti": [
 "p_1QuHWA",
 "fm:1664718"
@@ -43213,17 +43387,6 @@
 "tipo": "collegato"
 },
 {
-"nome": "Matteo Perez Vinlöf",
-"squadra": "Dinamo Zagreb",
-"id_uniti": [
-"p_0iTS3g",
-"fm:1628516"
-],
-"tenuto": "p_0iTS3g",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
 "nome": "Matteo Pessina",
 "squadra": "Monza",
 "id_uniti": [
@@ -43253,6 +43416,17 @@
 "fm:1396089"
 ],
 "tenuto": "p_1AKv7r",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
+"nome": "Matteo Pérez Vinlöf",
+"squadra": "Dinamo Zagreb",
+"id_uniti": [
+"p_0iTS3g",
+"fm:1628516"
+],
+"tenuto": "p_0iTS3g",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -43467,7 +43641,7 @@
 },
 {
 "nome": "Mattia Perin",
-"squadra": "Palermo",
+"squadra": "Juventus",
 "id_uniti": [
 "p_4D8VKP",
 "fm:181910"
@@ -45149,17 +45323,6 @@
 "tipo": "collegato"
 },
 {
-"nome": "Miguel Baeza",
-"squadra": "Nacional",
-"id_uniti": [
-"p_3wp55t",
-"fm:1088053"
-],
-"tenuto": "p_3wp55t",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
 "nome": "Miguel Cardoso",
 "squadra": "Erzurumspor FK",
 "id_uniti": [
@@ -45678,7 +45841,7 @@
 },
 {
 "nome": "Milan Robin",
-"squadra": "Estoril",
+"squadra": "Le Mans",
 "id_uniti": [
 "p_44Sq17",
 "fm:1359270"
@@ -46272,7 +46435,7 @@
 },
 {
 "nome": "Mohammed Fuseini",
-"squadra": "Derby",
+"squadra": "Union St.Gilloise",
 "id_uniti": [
 "p_32mqiJ",
 "fm:1385177"
@@ -46667,14 +46830,14 @@
 "tipo": "collegato"
 },
 {
-"nome": "Mousa Al Tamari",
+"nome": "Mousa Tamari",
 "squadra": "Rennes",
 "id_uniti": [
 "p_3B7VwJ",
 "fm:813055"
 ],
 "tenuto": "p_3B7VwJ",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (cognome e iniziale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -47734,6 +47897,17 @@
 "tipo": "collegato"
 },
 {
+"nome": "Neto",
+"squadra": "Juventus",
+"id_uniti": [
+"p_0DBNdM",
+"fm:176186"
+],
+"tenuto": "p_0DBNdM",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
 "nome": "Neville Ogidi Nwankwo",
 "squadra": "FC Utrecht",
 "id_uniti": [
@@ -48054,7 +48228,7 @@
 },
 {
 "nome": "Nicolas Galazzi",
-"squadra": "Padova",
+"squadra": "Monza",
 "id_uniti": [
 "p_0UYmdW",
 "fm:1189402"
@@ -48680,6 +48854,17 @@
 "tipo": "collegato"
 },
 {
+"nome": "Nikola Serafimov",
+"squadra": "Levski Sofia",
+"id_uniti": [
+"p_1x41y7",
+"fm:948623"
+],
+"tenuto": "p_1x41y7",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
 "nome": "Nikola Stajić",
 "squadra": "Panetolikos",
 "id_uniti": [
@@ -49072,6 +49257,17 @@
 "fm:837341"
 ],
 "tenuto": "p_2bwJlb",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
+"nome": "Noa Mikić",
+"squadra": "Dinamo Zagreb",
+"id_uniti": [
+"p_38MD9g",
+"fm:1606160"
+],
+"tenuto": "p_38MD9g",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -49473,7 +49669,7 @@
 },
 {
 "nome": "Nolan Martens",
-"squadra": "De Graafschap",
+"squadra": "Excelsior",
 "id_uniti": [
 "p_2r4LfC",
 "fm:1587680"
@@ -49942,17 +50138,6 @@
 ],
 "tenuto": "p_1auSLg",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
-"nome": "Oh Hyeon-Gyu",
-"squadra": "Beşiktaş",
-"id_uniti": [
-"p_3MUOwL",
-"fm:1044299"
-],
-"tenuto": "p_3MUOwL",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (stesse parole del nome + date 100%)",
 "tipo": "collegato"
 },
 {
@@ -50715,7 +50900,7 @@
 "tipo": "collegato"
 },
 {
-"nome": "Orkun Kökcü",
+"nome": "Orkun Kökçü",
 "squadra": "Beşiktaş",
 "id_uniti": [
 "p_07dJuY",
@@ -51134,7 +51319,7 @@
 },
 {
 "nome": "Oumar Konaté",
-"squadra": "Laval",
+"squadra": "Monaco",
 "id_uniti": [
 "p_1LQCfr",
 "fm:1651122"
@@ -51518,17 +51703,6 @@
 "tipo": "collegato"
 },
 {
-"nome": "Pablo Ruan",
-"squadra": "Nacional",
-"id_uniti": [
-"p_1EWYYf",
-"fm:1536269"
-],
-"tenuto": "p_1EWYYf",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
 "nome": "Paco Cortés",
 "squadra": "Levante",
 "id_uniti": [
@@ -51793,6 +51967,17 @@
 "tipo": "collegato"
 },
 {
+"nome": "Paschalis Toufakis",
+"squadra": "Olympiacos",
+"id_uniti": [
+"p_3vhjTS",
+"fm:1690103"
+],
+"tenuto": "p_3vhjTS",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
 "nome": "Paskal Meyer",
 "squadra": "Motor Lublin",
 "id_uniti": [
@@ -51838,7 +52023,7 @@
 },
 {
 "nome": "Patrice Čović",
-"squadra": "Dynamo Dresden",
+"squadra": "Werder Bremen",
 "id_uniti": [
 "p_11DwWv",
 "fm:1646943"
@@ -53741,7 +53926,7 @@
 },
 {
 "nome": "Rachid Kouda",
-"squadra": "Mantova",
+"squadra": "Parma",
 "id_uniti": [
 "p_3PHs3M",
 "fm:1439776"
@@ -54829,17 +55014,6 @@
 "tipo": "collegato"
 },
 {
-"nome": "Renato Marin",
-"squadra": "Nacional",
-"id_uniti": [
-"p_1SWml1",
-"fm:1602252"
-],
-"tenuto": "p_1SWml1",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
 "nome": "Renato Nhaga",
 "squadra": "Galatasaray",
 "id_uniti": [
@@ -55105,7 +55279,7 @@
 },
 {
 "nome": "Richard Ríos",
-"squadra": "Al Ittihad",
+"squadra": "Benfica",
 "id_uniti": [
 "p_3OY7rK",
 "fm:1174630"
@@ -55765,7 +55939,7 @@
 },
 {
 "nome": "Rodinei",
-"squadra": "Santos",
+"squadra": "Olympiacos",
 "id_uniti": [
 "p_2sQXeQ",
 "fm:400256"
@@ -56469,7 +56643,7 @@
 },
 {
 "nome": "Ruben Kristensen Alte",
-"squadra": "Viborg",
+"squadra": "Viking",
 "id_uniti": [
 "p_2A6nix",
 "fm:1172556"
@@ -56656,7 +56830,7 @@
 },
 {
 "nome": "Ryan Fosso",
-"squadra": "Standard Liège",
+"squadra": "Sturm Graz",
 "id_uniti": [
 "p_3l8vwz",
 "fm:1384426"
@@ -57481,7 +57655,7 @@
 },
 {
 "nome": "Samuel Gueulette",
-"squadra": "UTA Arad",
+"squadra": "RAAL La Louvière",
 "id_uniti": [
 "p_1mxbpO",
 "fm:1500007"
@@ -58647,7 +58821,7 @@
 },
 {
 "nome": "Semuel Pizzignacco",
-"squadra": "Carrarese",
+"squadra": "Monza",
 "id_uniti": [
 "p_0QgMZj",
 "fm:917464"
@@ -58746,7 +58920,7 @@
 },
 {
 "nome": "Serdar Gürler",
-"squadra": "Iğdır FK",
+"squadra": "Çorum FK",
 "id_uniti": [
 "p_2uKRib",
 "fm:186919"
@@ -59769,7 +59943,7 @@
 },
 {
 "nome": "Soliu Afolabi",
-"squadra": "FC Zbrojovka Brno",
+"squadra": "Slovan Liberec",
 "id_uniti": [
 "p_4FJOLz",
 "fm:1684525"
@@ -60219,17 +60393,6 @@
 "tipo": "collegato"
 },
 {
-"nome": "Stavros Gavriel",
-"squadra": "Nacional",
-"id_uniti": [
-"p_2rhH8f",
-"fm:1178054"
-],
-"tenuto": "p_2rhH8f",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
 "nome": "Stavros Pilios",
 "squadra": "AEK Athens",
 "id_uniti": [
@@ -60473,7 +60636,7 @@
 },
 {
 "nome": "Stephen Eustaquio",
-"squadra": "Swansea",
+"squadra": "FC Porto",
 "id_uniti": [
 "p_30p4vN",
 "fm:816223"
@@ -61254,7 +61417,7 @@
 },
 {
 "nome": "Tamar Svetlin",
-"squadra": "Saint-Étienne",
+"squadra": "Korona Kielce",
 "id_uniti": [
 "p_4XZH1r",
 "fm:941535"
@@ -61661,7 +61824,7 @@
 },
 {
 "nome": "Thelonius Bair",
-"squadra": "Bolton",
+"squadra": "Auxerre",
 "id_uniti": [
 "p_4bX3b1",
 "fm:942893"
@@ -64103,7 +64266,7 @@
 },
 {
 "nome": "Umaru Konare",
-"squadra": "AD Ceuta FC",
+"squadra": "Elche",
 "id_uniti": [
 "p_2HiViU",
 "fm:1859341"
@@ -65818,17 +65981,6 @@
 "tipo": "collegato"
 },
 {
-"nome": "Wesley",
-"squadra": "Nacional",
-"id_uniti": [
-"p_4SGeit",
-"fm:887683"
-],
-"tenuto": "p_4SGeit",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
 "nome": "Wesley Fofana",
 "squadra": "Chelsea",
 "id_uniti": [
@@ -66045,17 +66197,6 @@
 "fm:1791882"
 ],
 "tenuto": "p_0O3oW6",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
-"nome": "William Kokolo",
-"squadra": "Nacional",
-"id_uniti": [
-"p_0BC6wL",
-"fm:982245"
-],
-"tenuto": "p_0BC6wL",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -66633,7 +66774,7 @@
 },
 {
 "nome": "Yanis Zouaoui",
-"squadra": "Montpellier",
+"squadra": "Le Havre",
 "id_uniti": [
 "p_1bOTg3",
 "fm:1098243"
@@ -67893,7 +68034,7 @@
 "fm:824659"
 ],
 "tenuto": "p_15tRCH",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 75%)",
 "tipo": "collegato"
 },
 {
@@ -68069,17 +68210,6 @@
 "fm:319796"
 ],
 "tenuto": "p_1n3yiw",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
-"tipo": "collegato"
-},
-{
-"nome": "Zé Vítor",
-"squadra": "Nacional",
-"id_uniti": [
-"p_1WBt9f",
-"fm:1256692"
-],
-"tenuto": "p_1WBt9f",
 "motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
 "tipo": "collegato"
 },
@@ -68337,7 +68467,7 @@
 "tipo": "collegato"
 },
 {
-"nome": "Álvaro Rodriguez",
+"nome": "Álvaro Rodríguez",
 "squadra": "AFC Bournemouth",
 "id_uniti": [
 "p_2X0uve",
@@ -68381,8 +68511,19 @@
 "tipo": "collegato"
 },
 {
+"nome": "Ángel Arcos",
+"squadra": "Celta Vigo",
+"id_uniti": [
+"p_3VBktZ",
+"fm:1700562"
+],
+"tenuto": "p_3VBktZ",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (nome uguale + date 100%)",
+"tipo": "collegato"
+},
+{
 "nome": "Ángel Baena",
-"squadra": "Sabadell",
+"squadra": "Widzew Łódź",
 "id_uniti": [
 "p_1mFLuF",
 "fm:936551"
@@ -68718,7 +68859,7 @@
 "fm:1208886"
 ],
 "tenuto": "p_3FwDXt",
-"motivo": "profilo PitchAPI collegato al profilo FotMob (date e minuti uguali in 4/4 partite)",
+"motivo": "profilo PitchAPI collegato al profilo FotMob (date e minuti uguali in 5/5 partite)",
 "tipo": "collegato"
 },
 {
