@@ -1,5 +1,103 @@
 {
- "competizioni": {},
- "codici_it_visti": {},
- "partite_completate_in_questo_giro": 0
+ "competizioni": {
+  "Bundesliga 2026-2027": {
+   "partite_completate": 1,
+   "giocatori": 40,
+   "da_fare": 1
+  },
+  "Eerste Divisie 2026-2027": {
+   "partite_completate": 1,
+   "giocatori": 32,
+   "da_fare": 2
+  },
+  "Cymru Premier 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 4
+  },
+  "Premier League 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Premiership 2026-2027": {
+   "partite_completate": 2,
+   "giocatori": 47,
+   "da_fare": 2
+  },
+  "Scottish Cup 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Serie C 2026-2027": {
+   "partite_completate": 2,
+   "giocatori": 57,
+   "da_fare": 2
+  },
+  "1. Lig 2026-2027": {
+   "partite_completate": 2,
+   "giocatori": 60,
+   "da_fare": 2
+  },
+  "Slovenia Cup 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Liga Portugal 2 2026-2027": {
+   "partite_completate": 0,
+   "giocatori": 0,
+   "da_fare": 1
+  },
+  "Nemzeti Bajnokság I 2026-2027": {
+   "partite_completate": 1,
+   "giocatori": 36,
+   "da_fare": 1
+  },
+  "FNL 2026-2027": {
+   "partite_completate": 1,
+   "giocatori": 28,
+   "da_fare": 2
+  },
+  "Kategoria Superiore 2026-2027": {
+   "partite_completate": 1,
+   "giocatori": 26,
+   "da_fare": 2
+  },
+  "First Division B 2026-2027": {
+   "partite_completate": 2,
+   "giocatori": 53,
+   "da_fare": 2
+  },
+  "First Professional League 2026-2027": {
+   "partite_completate": 1,
+   "giocatori": 35,
+   "da_fare": 1
+  },
+  "Erovnuli Liga 2026": {
+   "partite_completate": 1,
+   "giocatori": 13,
+   "da_fare": 1
+  },
+  "Primera Federación 2026-2027": {
+   "partite_completate": 1,
+   "giocatori": 20,
+   "da_fare": 1
+  }
+ },
+ "codici_it_visti": {
+  "4": 153,
+  "5": 153,
+  "36": 49,
+  "37": 10,
+  "38": 1,
+  "39": 1,
+  "43": 79,
+  "44": 4,
+  "45": 2,
+  "62": 2,
+  "63": 26
+ },
+ "partite_completate_in_questo_giro": 26
 }

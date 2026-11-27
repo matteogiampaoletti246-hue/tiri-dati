@@ -1,5 +1,40 @@
 {
  "competizioni": {
+  "Bundesliga (AUT) 2026-2027": {
+   "lega_pitch": "Bundesliga",
+   "partite_completate": 1,
+   "giocatori": 29,
+   "senza_abbinamento": 0,
+   "da_fare": 1
+  },
+  "Ligue 1 (FRA) 2026-2027": {
+   "lega_pitch": "Ligue 1",
+   "partite_completate": 1,
+   "giocatori": 30,
+   "senza_abbinamento": 0,
+   "da_fare": 1
+  },
+  "Bundesliga (GER) 2026-2027": {
+   "lega_pitch": "Bundesliga",
+   "partite_completate": 0,
+   "giocatori": 0,
+   "senza_abbinamento": 1,
+   "da_fare": 1
+  },
+  "Serie A (ITA) 2026-2027": {
+   "lega_pitch": "Serie A",
+   "partite_completate": 1,
+   "giocatori": 32,
+   "senza_abbinamento": 0,
+   "da_fare": 1
+  },
+  "Eredivisie (NED) 2026-2027": {
+   "lega_pitch": "Eredivisie",
+   "partite_completate": 1,
+   "giocatori": 28,
+   "senza_abbinamento": 0,
+   "da_fare": 1
+  },
   "LaLiga (ESP) 2026-2027": {
    "lega_pitch": "LaLiga",
    "partite_completate": 0,
@@ -7,17 +42,101 @@
    "senza_abbinamento": 0,
    "da_fare": 1
   },
-  "3. Liga (GER) 2026-2027": {
-   "lega_pitch": "3. Liga",
-   "partite_completate": 0,
-   "giocatori": 0,
+  "2. Bundesliga (GER) 2026-2027": {
+   "lega_pitch": "2. Bundesliga",
+   "partite_completate": 2,
+   "giocatori": 61,
+   "senza_abbinamento": 0,
+   "da_fare": 2
+  },
+  "Superligaen (DEN) 2026-2027": {
+   "lega_pitch": "Superligaen",
+   "partite_completate": 1,
+   "giocatori": 31,
    "senza_abbinamento": 0,
    "da_fare": 1
+  },
+  "1. Division (DEN) 2026-2027": {
+   "lega_pitch": "1. Division",
+   "partite_completate": 2,
+   "giocatori": 60,
+   "senza_abbinamento": 0,
+   "da_fare": 2
+  },
+  "Eerste Divisie (NED) 2026-2027": {
+   "lega_pitch": "Eerste Divisie",
+   "partite_completate": 1,
+   "giocatori": 32,
+   "senza_abbinamento": 2,
+   "da_fare": 3
+  },
+  "1. Liga (CZE) 2026-2027": {
+   "lega_pitch": "1. Liga",
+   "partite_completate": 1,
+   "giocatori": 31,
+   "senza_abbinamento": 0,
+   "da_fare": 1
+  },
+  "LaLiga2 (ESP) 2026-2027": {
+   "lega_pitch": "LaLiga2",
+   "partite_completate": 1,
+   "giocatori": 32,
+   "senza_abbinamento": 0,
+   "da_fare": 1
+  },
+  "Challenge League (SUI) 2026-2027": {
+   "lega_pitch": "Challenge League",
+   "partite_completate": 3,
+   "giocatori": 91,
+   "senza_abbinamento": 0,
+   "da_fare": 3
+  },
+  "Super Liga (SRB) 2026-2027": {
+   "lega_pitch": "Super Liga",
+   "partite_completate": 1,
+   "giocatori": 30,
+   "senza_abbinamento": 0,
+   "da_fare": 1
+  },
+  "Liga I (ROU) 2026-2027": {
+   "lega_pitch": "Liga I",
+   "partite_completate": 1,
+   "giocatori": 30,
+   "senza_abbinamento": 1,
+   "da_fare": 2
+  },
+  "Ekstraklasa (POL) 2026-2027": {
+   "lega_pitch": "Ekstraklasa",
+   "partite_completate": 2,
+   "giocatori": 63,
+   "senza_abbinamento": 0,
+   "da_fare": 2
+  },
+  "3. Liga (GER) 2026-2027": {
+   "lega_pitch": "3. Liga",
+   "partite_completate": 1,
+   "giocatori": 32,
+   "senza_abbinamento": 0,
+   "da_fare": 2
   },
   "Virsliga (LVA) 2026": {
    "lega_pitch": "Virsliga",
    "partite_completate": 0,
    "giocatori": 0,
+   "senza_abbinamento": 0,
+   "da_fare": 1
+  },
+  "Serie A (ECU) 2026": {
+   "lega_pitch": "Serie A",
+   "partite_completate": 1,
+   "giocatori": 30,
+   "senza_abbinamento": 0,
+   "da_fare": 1
+  },
+  "HNL (CRO) 2026-2027": {
+   "lega_pitch": "HNL",
+   "partite_completate": 1,
+   "giocatori": 31,
    "senza_abbinamento": 0,
    "da_fare": 1
   },
@@ -34,6 +153,13 @@
    "giocatori": 0,
    "senza_abbinamento": 0,
    "da_fare": 1
+  },
+  "Saudi Pro League (KSA) 2026-2027": {
+   "lega_pitch": "Saudi Pro League",
+   "partite_completate": 2,
+   "giocatori": 61,
+   "senza_abbinamento": 0,
+   "da_fare": 2
   },
   "Série B (BRA) 2026": {
    "lega_pitch": "Serie B",
@@ -268,5 +394,5 @@
   }
  },
  "senza_lega_pitch": [],
- "partite_completate_in_questo_giro": 0
+ "partite_completate_in_questo_giro": 24
 }
