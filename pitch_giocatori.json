@@ -1,12 +1,5 @@
 {
  "competizioni": {
-  "Bundesliga (GER) 2026-2027": {
-   "lega_pitch": "Bundesliga",
-   "partite_completate": 0,
-   "giocatori": 0,
-   "senza_abbinamento": 0,
-   "da_fare": 1
-  },
   "LaLiga (ESP) 2026-2027": {
    "lega_pitch": "LaLiga",
    "partite_completate": 0,
@@ -47,14 +40,14 @@
    "partite_completate": 0,
    "giocatori": 0,
    "senza_abbinamento": 0,
-   "da_fare": 3
+   "da_fare": 2
   },
   "K League 1 (KOR) 2026": {
    "lega_pitch": "K League 1",
    "partite_completate": 0,
    "giocatori": 0,
-   "senza_abbinamento": 0,
-   "da_fare": 8
+   "senza_abbinamento": 2,
+   "da_fare": 10
   },
   "Championship (ENG) 2025-2026": {
    "lega_pitch": "Championship",

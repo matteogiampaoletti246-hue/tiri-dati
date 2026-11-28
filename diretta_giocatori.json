@@ -1,48 +1,18 @@
 {
  "competizioni": {
-  "Primera B Nacional 2026": {
-   "partite_completate": 1,
-   "giocatori": 27,
-   "da_fare": 2
-  },
-  "Série B 2026": {
+  "Coupe de France 2026-2027": {
    "partite_completate": 0,
    "giocatori": 0,
-   "da_fare": 1
-  },
-  "Primera A 2026 - Clausura": {
-   "partite_completate": 2,
-   "giocatori": 57,
-   "da_fare": 2
-  },
-  "Liga AUF Uruguaya 2026": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 1
-  },
-  "Primera Division 2026-2027": {
-   "partite_completate": 1,
-   "giocatori": 24,
-   "da_fare": 1
-  },
-  "J. League 2026-2027": {
-   "partite_completate": 2,
-   "giocatori": 58,
-   "da_fare": 2
-  },
-  "LPF 2026": {
-   "partite_completate": 1,
-   "giocatori": 16,
    "da_fare": 1
   },
   "K League 1 2026": {
    "partite_completate": 2,
-   "giocatori": 54,
+   "giocatori": 53,
    "da_fare": 2
   }
  },
- "partite_completate": 9,
- "giocatori": 236,
- "senza_abbinamento": 2,
+ "partite_completate": 2,
+ "giocatori": 53,
+ "senza_abbinamento": 0,
  "senza_formazioni_diretta": 1
 }

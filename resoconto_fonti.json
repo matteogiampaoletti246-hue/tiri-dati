@@ -1,23 +1,23 @@
 {
- "aggiornato": "2026-11-27 22:49 UTC",
+ "aggiornato": "2026-11-28 10:22 UTC",
  "partite_finite": {
   "tutte": {
-   "fotmob": 129689,
-   "pitchapi": 2768,
-   "livescore": 4057,
-   "diretta": 116,
-   "formazioni_fotmob": 67711,
-   "nessuna": 295143,
-   "totale": 499484
+   "fotmob": 129745,
+   "pitchapi": 2745,
+   "livescore": 4053,
+   "diretta": 119,
+   "formazioni_fotmob": 67715,
+   "nessuna": 295144,
+   "totale": 499521
   },
   "ultime_due_stagioni": {
-   "fotmob": 32228,
-   "pitchapi": 284,
-   "livescore": 4057,
-   "diretta": 116,
-   "formazioni_fotmob": 5861,
-   "nessuna": 8163,
-   "totale": 50709
+   "fotmob": 32284,
+   "pitchapi": 261,
+   "livescore": 4053,
+   "diretta": 119,
+   "formazioni_fotmob": 5865,
+   "nessuna": 8164,
+   "totale": 50746
   }
  },
  "partite_arricchite_da_pitchapi": {
@@ -25,38 +25,38 @@
  },
  "giocatori": {
   "tutte": {
-   "schede_con_partite": 118796,
-   "coperte_da_fotmob": 84398,
-   "non_coperte_da_fotmob": 34398,
+   "schede_con_partite": 118797,
+   "coperte_da_fotmob": 84408,
+   "non_coperte_da_fotmob": 34389,
    "non_fotmob_coperte_da": {
-    "pitchapi": 549,
-    "livescore": 7196,
-    "diretta": 890,
-    "formazioni_fotmob": 30296
+    "pitchapi": 547,
+    "livescore": 7188,
+    "diretta": 895,
+    "formazioni_fotmob": 30298
    },
    "coperte_solo_da": {
-    "fotmob": 38980,
-    "pitchapi": 247,
-    "livescore": 3500,
-    "diretta": 61,
+    "fotmob": 39346,
+    "pitchapi": 245,
+    "livescore": 3491,
+    "diretta": 62,
     "formazioni_fotmob": 26596
    }
   },
   "ultime_due_stagioni": {
-   "schede_con_partite": 66510,
-   "coperte_da_fotmob": 49773,
-   "non_coperte_da_fotmob": 16737,
+   "schede_con_partite": 66512,
+   "coperte_da_fotmob": 49784,
+   "non_coperte_da_fotmob": 16728,
    "non_fotmob_coperte_da": {
-    "pitchapi": 53,
-    "livescore": 9334,
-    "diretta": 1245,
-    "formazioni_fotmob": 11162
+    "pitchapi": 51,
+    "livescore": 9326,
+    "diretta": 1253,
+    "formazioni_fotmob": 11164
    },
    "coperte_solo_da": {
-    "fotmob": 30895,
-    "pitchapi": 42,
-    "livescore": 4978,
-    "diretta": 85,
+    "fotmob": 31498,
+    "pitchapi": 40,
+    "livescore": 4968,
+    "diretta": 86,
     "formazioni_fotmob": 7181
    }
   }
@@ -193,8 +193,8 @@
   },
   "Primera B Nacional (ARG) 2026": {
    "livescore": 417,
-   "diretta": 6,
-   "formazioni_fotmob": 237
+   "diretta": 7,
+   "formazioni_fotmob": 239
   },
   "Primera B Nacional (ARG) 2025": {
    "livescore": 5,
@@ -229,8 +229,7 @@
    "fotmob": 163
   },
   "Bundesliga (AUT) 2026-2027": {
-   "fotmob": 78,
-   "pitchapi": 1
+   "fotmob": 79
   },
   "Bundesliga (AUT) 2025-2026": {
    "fotmob": 195
@@ -259,14 +258,13 @@
    "nessuna": 240
   },
   "First Division A (BEL) 2026-2027": {
-   "fotmob": 108
+   "fotmob": 109
   },
   "First Division A (BEL) 2025-2026": {
    "fotmob": 313
   },
   "First Division B (BEL) 2026-2027": {
-   "fotmob": 77,
-   "livescore": 2
+   "fotmob": 79
   },
   "First Division B (BEL) 2025-2026": {
    "fotmob": 277,
@@ -287,7 +285,7 @@
    "fotmob": 1
   },
   "Primera Division (BOL) 2026": {
-   "fotmob": 208
+   "fotmob": 210
   },
   "Primera Division (BOL) 2025": {
    "fotmob": 240
@@ -300,13 +298,13 @@
    "nessuna": 180
   },
   "Série A (BRA) 2026": {
-   "fotmob": 362
+   "fotmob": 363
   },
   "Série A (BRA) 2025": {
    "fotmob": 380
   },
   "Série B (BRA) 2026": {
-   "fotmob": 380,
+   "fotmob": 381,
    "formazioni_fotmob": 2
   },
   "Série B (BRA) 2025": {
@@ -355,14 +353,13 @@
    "fotmob": 240
   },
   "Primera A (COL) 2026 - Clausura": {
-   "fotmob": 198
+   "fotmob": 200
   },
   "Primera A (COL) 2026 - Apertura": {
    "fotmob": 204
   },
   "Serie A (ITA) 2026-2027": {
-   "fotmob": 120,
-   "pitchapi": 1
+   "fotmob": 121
   },
   "Serie A (ITA) 2025-2026": {
    "fotmob": 380
@@ -382,8 +379,7 @@
    "formazioni_fotmob": 4
   },
   "Serie C (ITA) 2026-2027": {
-   "fotmob": 464,
-   "livescore": 2
+   "fotmob": 466
   },
   "Serie C (ITA) 2025-2026": {
    "nessuna": 1115,
@@ -396,13 +392,13 @@
    "fotmob": 1
   },
   "Premier League (ENG) 2026-2027": {
-   "fotmob": 110
+   "fotmob": 111
   },
   "Premier League (ENG) 2025-2026": {
    "fotmob": 380
   },
   "Championship (ENG) 2026-2027": {
-   "fotmob": 204
+   "fotmob": 205
   },
   "Championship (ENG) 2025-2026": {
    "fotmob": 555,
@@ -449,15 +445,14 @@
    "nessuna": 136
   },
   "LaLiga (ESP) 2026-2027": {
-   "fotmob": 129,
+   "fotmob": 130,
    "livescore": 1
   },
   "LaLiga (ESP) 2025-2026": {
    "fotmob": 380
   },
   "LaLiga2 (ESP) 2026-2027": {
-   "fotmob": 162,
-   "pitchapi": 1
+   "fotmob": 163
   },
   "LaLiga2 (ESP) 2025-2026": {
    "fotmob": 468
@@ -465,7 +460,7 @@
   "Primera Federación (ESP) 2026-2027": {
    "livescore": 217,
    "nessuna": 22,
-   "diretta": 22
+   "diretta": 23
   },
   "Primera Federación (ESP) 2025-2026": {
    "nessuna": 762,
@@ -486,15 +481,13 @@
    "fotmob": 3
   },
   "Bundesliga (GER) 2026-2027": {
-   "fotmob": 90,
-   "livescore": 1
+   "fotmob": 91
   },
   "Bundesliga (GER) 2025-2026": {
    "fotmob": 306
   },
   "2. Bundesliga (GER) 2026-2027": {
-   "fotmob": 108,
-   "pitchapi": 2
+   "fotmob": 110
   },
   "2. Bundesliga (GER) 2025-2026": {
    "fotmob": 306
@@ -520,8 +513,7 @@
    "fotmob": 1
   },
   "Ligue 1 (FRA) 2026-2027": {
-   "fotmob": 99,
-   "pitchapi": 1
+   "fotmob": 100
   },
   "Ligue 1 (FRA) 2025-2026": {
    "fotmob": 306
@@ -533,7 +525,7 @@
    "fotmob": 306
   },
   "Coupe de France (FRA) 2026-2027": {
-   "nessuna": 233,
+   "nessuna": 236,
    "livescore": 21
   },
   "Coupe de France (FRA) 2025-2026": {
@@ -548,7 +540,7 @@
    "fotmob": 1
   },
   "Liga Portugal (POR) 2026-2027": {
-   "fotmob": 98
+   "fotmob": 99
   },
   "Liga Portugal (POR) 2025-2026": {
    "fotmob": 306
@@ -586,17 +578,14 @@
    "formazioni_fotmob": 51
   },
   "Eredivisie (NED) 2026-2027": {
-   "fotmob": 117,
-   "pitchapi": 1
+   "fotmob": 118
   },
   "Eredivisie (NED) 2025-2026": {
    "fotmob": 309
   },
   "Eerste Divisie (NED) 2026-2027": {
-   "fotmob": 159,
-   "pitchapi": 2,
-   "diretta": 1,
-   "livescore": 1
+   "fotmob": 162,
+   "pitchapi": 1
   },
   "Eerste Divisie (NED) 2025-2026": {
    "fotmob": 380
@@ -615,15 +604,13 @@
    "fotmob": 1
   },
   "Süper Lig (TUR) 2026-2027": {
-   "fotmob": 108,
-   "diretta": 2
+   "fotmob": 110
   },
   "Süper Lig (TUR) 2025-2026": {
    "fotmob": 306
   },
   "1. Lig (TUR) 2026-2027": {
-   "fotmob": 149,
-   "livescore": 2
+   "fotmob": 151
   },
   "1. Lig (TUR) 2025-2026": {
    "fotmob": 385
@@ -679,7 +666,7 @@
    "formazioni_fotmob": 15
   },
   "MLS (USA) 2026": {
-   "fotmob": 520
+   "fotmob": 522
   },
   "MLS (USA) 2025": {
    "fotmob": 540
@@ -724,7 +711,7 @@
   "Liga AUF Uruguaya (URU) 2026": {
    "livescore": 178,
    "diretta": 10,
-   "formazioni_fotmob": 109
+   "formazioni_fotmob": 110
   },
   "Liga AUF Uruguaya (URU) 2025": {
    "formazioni_fotmob": 300
@@ -737,8 +724,7 @@
    "nessuna": 1
   },
   "Challenge League (SUI) 2026-2027": {
-   "fotmob": 70,
-   "pitchapi": 3
+   "fotmob": 73
   },
   "Challenge League (SUI) 2025-2026": {
    "fotmob": 180,
@@ -783,15 +769,13 @@
    "formazioni_fotmob": 240
   },
   "Superligaen (DEN) 2026-2027": {
-   "fotmob": 90,
-   "pitchapi": 1
+   "fotmob": 91
   },
   "Superligaen (DEN) 2025-2026": {
    "fotmob": 193
   },
   "1. Division (DEN) 2026-2027": {
-   "fotmob": 91,
-   "pitchapi": 2
+   "fotmob": 93
   },
   "1. Division (DEN) 2025-2026": {
    "fotmob": 192
@@ -815,8 +799,7 @@
    "fotmob": 240
   },
   "Ekstraklasa (POL) 2026-2027": {
-   "fotmob": 133,
-   "pitchapi": 2
+   "fotmob": 135
   },
   "Ekstraklasa (POL) 2025-2026": {
    "fotmob": 306
@@ -831,8 +814,7 @@
    "formazioni_fotmob": 15
   },
   "1. Liga (CZE) 2026-2027": {
-   "fotmob": 119,
-   "pitchapi": 1
+   "fotmob": 120
   },
   "1. Liga (CZE) 2025-2026": {
    "fotmob": 276
@@ -850,15 +832,14 @@
   },
   "FNL (CZE) 2026-2027": {
    "livescore": 48,
-   "nessuna": 11,
-   "formazioni_fotmob": 63
+   "nessuna": 10,
+   "formazioni_fotmob": 64
   },
   "FNL (CZE) 2025-2026": {
    "formazioni_fotmob": 240
   },
   "HNL (CRO) 2026-2027": {
-   "fotmob": 69,
-   "pitchapi": 1
+   "fotmob": 70
   },
   "HNL (CRO) 2025-2026": {
    "fotmob": 180
@@ -873,8 +854,7 @@
    "formazioni_fotmob": 31
   },
   "Super Liga (SRB) 2026-2027": {
-   "fotmob": 112,
-   "pitchapi": 1
+   "fotmob": 113
   },
   "Super Liga (SRB) 2025-2026": {
    "fotmob": 296
@@ -887,9 +867,7 @@
    "nessuna": 7
   },
   "Liga I (ROU) 2026-2027": {
-   "fotmob": 128,
-   "pitchapi": 1,
-   "diretta": 1
+   "fotmob": 130
   },
   "Liga I (ROU) 2025-2026": {
    "fotmob": 317
@@ -911,22 +889,20 @@
   "Primera Division (CRC) 2026-2027": {
    "livescore": 79,
    "nessuna": 1,
-   "diretta": 5
+   "diretta": 6
   },
   "Primera Division (CRC) 2025-2026": {
    "formazioni_fotmob": 192
   },
   "1. Division (CYP) 2026-2027": {
-   "livescore": 70,
-   "nessuna": 3
+   "livescore": 73
   },
   "1. Division (CYP) 2025-2026": {
    "livescore": 58,
    "formazioni_fotmob": 182
   },
   "Serie A (ECU) 2026": {
-   "fotmob": 294,
-   "pitchapi": 1
+   "fotmob": 296
   },
   "Serie A (ECU) 2025": {
    "fotmob": 311,
@@ -1007,7 +983,7 @@
    "nessuna": 1
   },
   "J. League (JPN) 2026-2027": {
-   "fotmob": 157
+   "fotmob": 162
   },
   "J. League (JPN) 2026": {
    "fotmob": 200
@@ -1069,14 +1045,14 @@
    "livescore": 33
   },
   "LPF (PAN) 2026": {
-   "nessuna": 203
+   "nessuna": 204
   },
   "LPF (PAN) 2025": {
    "nessuna": 203,
    "livescore": 3
   },
   "Division Profesional (PAR) 2026 - Clausura": {
-   "fotmob": 120
+   "fotmob": 122
   },
   "Division Profesional (PAR) 2026 - Apertura": {
    "fotmob": 131,
@@ -1091,8 +1067,7 @@
    "formazioni_fotmob": 25
   },
   "Saudi Pro League (KSA) 2026-2027": {
-   "fotmob": 109,
-   "pitchapi": 2
+   "fotmob": 111
   },
   "Saudi Pro League (KSA) 2025-2026": {
    "fotmob": 306
@@ -1111,8 +1086,7 @@
    "nessuna": 65
   },
   "Prva Liga (SVN) 2026-2027": {
-   "livescore": 79,
-   "nessuna": 1
+   "livescore": 80
   },
   "Prva Liga (SVN) 2025-2026": {
    "nessuna": 162
@@ -1125,7 +1099,7 @@
   },
   "K League 1 (KOR) 2026": {
    "fotmob": 210,
-   "diretta": 6
+   "diretta": 10
   },
   "K League 1 (KOR) 2025": {
    "fotmob": 228
@@ -1142,7 +1116,7 @@
   },
   "Cymru Premier (WAL) 2026-2027": {
    "livescore": 128,
-   "nessuna": 12
+   "nessuna": 14
   },
   "Cymru Premier (WAL) 2025-2026": {
    "nessuna": 156,
