@@ -1,0 +1,141 @@
+catalogo LiveScore: 638 campionati in 102 paesi
+crawl: 638 campionati LiveScore, 2195 stemmi
+NO Albania/Kategoria Superiore
+OK algeria/ligue-1: 3 squadre, 78 giocatori
+NO Argentina/Liga Profesional
+NO Argentina/Primera B Nacional
+OK argentina/primera-division-2024: 1 squadre, 32 giocatori
+OK argentina/primera-division-2023: 1 squadre, 32 giocatori
+NO Armenia/Premier League
+NO Australia/A-League
+OK austria/bundesliga: 1 squadre, 32 giocatori
+NO Azerbaijan/Premier League
+NO Belarus/Premier League
+NO Belgium/First Division A
+NO Belgium/First Division B
+NO Belgium/Belgian Cup
+NO Belgium/Super Cup
+NO Bolivia/Primera Division
+NO Bosnia-Herzegovina/Premier League
+NO Brazil/Série A
+NO Brazil/Série B
+NO Brazil/Copa do Brasil
+NO Brazil/Supercopa do Brasil
+NO Bulgaria/First Professional League
+NO Canada/Premier League
+NO Chile/Liga de Primera
+OK china/super-league: 1 squadre, 51 giocatori
+NO Colombia/Primera A
+NO Italy/Serie A
+NO Italy/Serie B
+NO Italy/Coppa Italia
+NO Italy/Serie C
+NO Italy/Supercoppa
+NO Italy/Supercoppa Italiana
+NO England/Premier League
+NO England/Championship
+NO England/League One
+NO England/League Two
+NO England/FA Cup
+NO England/EFL Cup
+NO England/EFL Trophy
+NO England/FA Trophy
+NO Spain/LaLiga
+NO Spain/LaLiga2
+NO Spain/Primera Federación
+NO Spain/Copa del Rey
+NO Spain/Supercopa de España
+NO Germany/Bundesliga
+NO Germany/2. Bundesliga
+NO Germany/3. Liga
+NO Germany/DFB Pokal
+NO Germany/Super Cup
+NO France/Ligue 1
+NO France/Ligue 2
+NO France/Coupe de France
+NO France/Trophée des champions
+NO Portugal/Liga Portugal
+NO Portugal/Liga Portugal 2
+NO Portugal/League Cup
+NO Portugal/Super Cup
+NO Portugal/Taça de Portugal
+NO Netherlands/Eredivisie
+NO Netherlands/Eerste Divisie
+NO Netherlands/KNVB Cup
+NO Netherlands/Super Cup
+NO Turkiye/Süper Lig
+NO Turkiye/1. Lig
+NO Turkiye/Super Cup
+NO Turkiye/Turkish Cup
+NO Scotland/Premiership
+NO Scotland/Championship
+NO Scotland/Premiership playoff
+NO Scotland/League Cup
+NO Scotland/Scottish Cup
+NO United States/MLS
+NO United States/Open Cup
+NO Mexico/Liga MX
+NO Mexico/Liga de Expansión MX
+NO Colombia/Primera B
+OK colombia/primera-a-clausura-2023: 1 squadre, 35 giocatori
+NO Uruguay/Liga AUF Uruguaya
+NO Switzerland/Super League
+NO Switzerland/Challenge League
+NO Switzerland/Swiss Cup
+NO Greece/Super League 1
+NO Greece/Greece Cup
+NO Russia/Premier League
+NO Ukraine/Premier League
+NO Denmark/Superligaen
+NO Denmark/1. Division
+NO Sweden/Allsvenskan
+NO Sweden/Superettan
+NO Norway/Eliteserien
+NO Poland/Ekstraklasa
+NO Poland/Puchar Polski
+NO Czechia/1. Liga
+NO Czechia/Czech Cup
+NO Czechia/FNL
+NO Croatia/HNL
+NO Croatia/Croatian Cup
+NO Serbia/Super Liga
+NO Serbia/Kup Srbije
+NO Romania/Liga I
+NO Romania/Cupa României
+NO Romania/Supercupa
+NO Costa Rica/Primera Division
+NO Cyprus/1. Division
+NO Ecuador/Serie A
+NO Egypt/Premier League
+NO El Salvador/Primera Division
+NO Estonia/Regular Season
+NO Faroe Islands/Premier League
+NO Finland/Veikkausliiga
+NO Georgia/Erovnuli Liga
+NO Hungary/Nemzeti Bajnokság I
+NO Iceland/Besta deildin
+NO Ireland/Premier Division
+NO Ireland/FAI Cup
+NO Israel/Ligat ha'Al
+NO Japan/J. League
+NO Kazakhstan/Premier League
+NO Latvia/Virsliga
+NO Lithuania/Toplyga
+NO Luxembourg/National Division
+NO North Macedonia/Prva Liga
+NO Moldova/National Division
+NO Montenegro/1. CFL
+NO Northern Ireland/Premiership
+NO Panama/LPF
+NO Paraguay/Division Profesional
+NO Peru/Liga 1
+NO Saudi Arabia/Saudi Pro League
+NO Slovakia/1. liga
+NO Slovakia/Slovak Cup
+NO Slovenia/Prva Liga
+NO Slovenia/Slovenia Cup
+NO South Korea/K League 1
+NO Venezuela/Primera Division
+NO Wales/Cymru Premier
+mappa: 244 campionati, 2092 squadre
+totale OK 6 NO 131
