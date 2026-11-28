@@ -1,22 +1,5 @@
 {
- "competizioni": {
-  "1. Division 2026-2027": {
-   "partite_completate": 3,
-   "giocatori": 101,
-   "da_fare": 3
-  },
-  "Prva Liga 2026-2027": {
-   "partite_completate": 0,
-   "giocatori": 0,
-   "da_fare": 2
-  }
- },
- "codici_it_visti": {
-  "4": 37,
-  "5": 37,
-  "36": 9,
-  "37": 1,
-  "43": 4
- },
- "partite_completate_in_questo_giro": 6
+ "competizioni": {},
+ "codici_it_visti": {},
+ "partite_completate_in_questo_giro": 0
 }
