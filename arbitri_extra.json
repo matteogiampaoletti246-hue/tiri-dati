@@ -2,7 +2,8 @@
 "_err": [
 "2026-11-28: {\"access\": \"Your account is suspended, check on https://dashboard.api-football.com.\"}",
 "2026-11-29: {\"access\": \"Your account is suspended, check on https://dashboard.api-football.com.\"}",
-"2026-11-30: {\"plan\": \"Free plans do not have access to this date, try from 2026-11-27 to 2026-11-29.\"}"
+"2026-11-30: {\"plan\": \"Free plans do not have access to this date, try from 2026-11-27 to 2026-11-29.\"}",
+"2026-12-01: {\"plan\": \"Free plans do not have access to this date, try from 2026-11-27 to 2026-11-29.\"}"
 ],
-"_at": "2026-11-28T02:43+00:00"
+"_at": "2026-11-28T13:02+00:00"
 }
