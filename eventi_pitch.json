@@ -1,39 +1,6 @@
 {
- "competizioni": {
-  "Bundesliga 2026-2027": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
-  },
-  "Premier League 2026-2027": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
-  },
-  "Championship 2026-2027": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
-  },
-  "Serie A 2026-2027": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
-  },
-  "Eerste Divisie 2026-2027": {
-   "partite_con_eventi": 0,
-   "da_fare": 1
-  },
-  "Ekstraklasa 2026-2027": {
-   "partite_con_eventi": 1,
-   "da_fare": 1
-  },
-  "Saudi Pro League 2026-2027": {
-   "partite_con_eventi": 2,
-   "da_fare": 2
-  }
- },
- "tipi_visti": {
-  "goal": 20,
-  "substitution": 59,
-  "yellowcard": 33
- },
- "partite_in_questo_giro": 7,
- "orientamento_cambi": "player esce"
+ "competizioni": {},
+ "tipi_visti": {},
+ "partite_in_questo_giro": 0,
+ "orientamento_cambi": "non verificato"
 }
