@@ -214,6 +214,11 @@ def main():
         srch[pid] = t_now
         rep["ricerche"] += 1
         u = dl_search(nm, team)
+        if len(rep.setdefault("diagnostica", [])) < 8:   # diagnostica: cosa risponde la ricerca di diretta.it per i primi giocatori
+            j = D.get(SRCH % __import__("urllib.parse").parse.quote(nm), D.GQL_H, js=True)
+            rep["diagnostica"].append({"nome": nm, "squadra": team, "risposta": None if not isinstance(j, list) else len(j),
+                                       "con_foto": None if not isinstance(j, list) else sum(1 for x in j if x.get("images")),
+                                       "esito": bool(u)})
         if u and is_img(u):
             new[pid] = u; rep["nuove"]["diretta_ricerca"] = rep["nuove"].get("diretta_ricerca", 0) + 1
         time.sleep(0.15)
