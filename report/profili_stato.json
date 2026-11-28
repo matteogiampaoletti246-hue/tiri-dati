@@ -19,8 +19,8 @@
    ]
   ]
  ],
- "doppi_uniti": 1,
- "giocatori_con_partite_aggiunte": 37,
+ "doppi_uniti": 17,
+ "giocatori_con_partite_aggiunte": 3325,
  "competizioni_partite_aggiunte": [
   [
    "EFL Cup",
@@ -383,10 +383,6 @@
    20
   ],
   [
-   "Europa League",
-   16
-  ],
-  [
    "Nemzeti Bajnokság I",
    16
   ],
@@ -411,10 +407,6 @@
    5
   ],
   [
-   "Champions League",
-   2
-  ],
-  [
    "LaLiga",
    2
   ],
@@ -431,17 +423,272 @@
    1
   ],
   [
+   "Europa League",
+   1
+  ],
+  [
    "Scottish Cup",
    1
   ]
  ],
- "hit_rate_con_stagione_passata": 7195,
+ "hit_rate_con_stagione_passata": 7196,
  "hit_rate_sotto_5": 7683,
  "hit_rate_0_partite": 3218,
  "stagione_passata_non_scaricata": [],
  "kv_terze_parti": true,
- "trasferiti": 0,
- "esempi_trasferiti": [],
+ "trasferiti": 50,
+ "esempi_trasferiti": [
+  [
+   "Ademola Ola-Adebomi",
+   "WSG Tirol",
+   "KSC Lokeren"
+  ],
+  [
+   "Arne Engels",
+   "Celtic",
+   "West Ham"
+  ],
+  [
+   "Asger Sørensen",
+   "Sparta Prague",
+   "FC København"
+  ],
+  [
+   "Bjorn Meijer",
+   "Club Brugge",
+   "Sampdoria"
+  ],
+  [
+   "Brayann Pereira",
+   "NEC Nijmegen",
+   "West Brom"
+  ],
+  [
+   "Bryan Adinany",
+   "Kortrijk",
+   "Debrecen"
+  ],
+  [
+   "Calegari",
+   "Eyüpspor",
+   "LA Galaxy"
+  ],
+  [
+   "Carlos Álvarez",
+   "Levante",
+   "América"
+  ],
+  [
+   "Dani García",
+   "Olympiacos",
+   "Atromitos"
+  ],
+  [
+   "Diego Díaz",
+   "Racing Santander",
+   "FC Andorra"
+  ],
+  [
+   "Edvin Austbø",
+   "Viking",
+   "West Ham"
+  ],
+  [
+   "Ensar Kemaloğlu",
+   "Gençlerbirliği",
+   "Kayserispor"
+  ],
+  [
+   "Fernando Andrade",
+   "Erzurumspor FK",
+   "Bodrum FK"
+  ],
+  [
+   "Filippo Delli Carri",
+   "Monza",
+   "Sampdoria"
+  ],
+  [
+   "Fodé Doucouré",
+   "Le Havre",
+   "Nantes"
+  ],
+  [
+   "Gabriele Zappa",
+   "Cagliari",
+   "Hellas Verona"
+  ],
+  [
+   "Ibrahima Diaby",
+   "Cercle Brugge",
+   "Al Ahli"
+  ],
+  [
+   "Ivan Šaranić",
+   "Istra 1961",
+   "Bursaspor"
+  ],
+  [
+   "Jacques Ekomié",
+   "Angers",
+   "Wrexham"
+  ],
+  [
+   "Josué Casimir",
+   "Auxerre",
+   "Dinamo"
+  ],
+  [
+   "Kareem Tunde",
+   "Levante",
+   "West Brom"
+  ],
+  [
+   "Kingstone Mutandwa",
+   "Cagliari",
+   "Servette"
+  ],
+  [
+   "Korede Osundina",
+   "Casa Pia AC",
+   "Muğlaspor"
+  ],
+  [
+   "Lasso Coulibaly",
+   "Auxerre",
+   "Viborg"
+  ],
+  [
+   "Liam Millar",
+   "Hull City",
+   "Birmingham"
+  ],
+  [
+   "Lukás Haraslín",
+   "Sparta Prague",
+   "Al Fateh FC"
+  ],
+  [
+   "Marco Essimi",
+   "Alverca",
+   "Rodez"
+  ],
+  [
+   "Mathis Saka",
+   "Toulouse",
+   "Rodez"
+  ],
+  [
+   "Mattia Perin",
+   "Juventus",
+   "Palermo"
+  ],
+  [
+   "Milan Robin",
+   "Le Mans",
+   "Estoril"
+  ],
+  [
+   "Mohammed Fuseini",
+   "Union St.Gilloise",
+   "Derby"
+  ],
+  [
+   "Nicolas Galazzi",
+   "Monza",
+   "Padova"
+  ],
+  [
+   "Nolan Martens",
+   "Excelsior",
+   "De Graafschap"
+  ],
+  [
+   "Oumar Konaté",
+   "Monaco",
+   "Laval"
+  ],
+  [
+   "Patrice Čović",
+   "Werder Bremen",
+   "Dynamo Dresden"
+  ],
+  [
+   "Rachid Kouda",
+   "Parma",
+   "Mantova"
+  ],
+  [
+   "Richard Ríos",
+   "Benfica",
+   "Al Ittihad"
+  ],
+  [
+   "Rodinei",
+   "Olympiacos",
+   "Santos"
+  ],
+  [
+   "Ruben Kristensen Alte",
+   "Viking",
+   "Viborg"
+  ],
+  [
+   "Ryan Fosso",
+   "Sturm Graz",
+   "Standard Liège"
+  ],
+  [
+   "Samuel Gueulette",
+   "RAAL La Louvière",
+   "UTA Arad"
+  ],
+  [
+   "Semuel Pizzignacco",
+   "Monza",
+   "Carrarese"
+  ],
+  [
+   "Serdar Gürler",
+   "Çorum FK",
+   "Iğdır FK"
+  ],
+  [
+   "Soliu Afolabi",
+   "Slovan Liberec",
+   "FC Zbrojovka Brno"
+  ],
+  [
+   "Stephen Eustaquio",
+   "FC Porto",
+   "Swansea"
+  ],
+  [
+   "Tamar Svetlin",
+   "Korona Kielce",
+   "Saint-Étienne"
+  ],
+  [
+   "Thelonius Bair",
+   "Auxerre",
+   "Bolton"
+  ],
+  [
+   "Umaru Konare",
+   "Elche",
+   "AD Ceuta FC"
+  ],
+  [
+   "Yanis Zouaoui",
+   "Le Havre",
+   "Montpellier"
+  ],
+  [
+   "Ángel Baena",
+   "Widzew Łódź",
+   "Sabadell"
+  ]
+ ],
  "esempi_sotto_5": [
   [
    "Aaron Mayol",
