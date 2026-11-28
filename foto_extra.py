@@ -205,17 +205,10 @@ def main():
     t_now = int(time.time())
     seen_p = set()
     rep["ricerche"] = 0
-    rep["diagnostica"] = []
     for pid, nm, team, comp in SEARCH:
         if late2() or pid in new or pid in seen_p:
             continue
         seen_p.add(pid)
-        if len(rep["diagnostica"]) < 8 and "cambuur" in (team or "").lower() + " ":   # diagnostica (anche sotto il periodo di attesa): risposta grezza di diretta.it
-            from urllib.parse import quote
-            j = D.get(SRCH % quote(nm), D.GQL_H, js=True)
-            rep["diagnostica"].append({"nome": nm, "squadra": team, "risposta": None if not isinstance(j, list) else len(j),
-                                       "con_foto": None if not isinstance(j, list) else sum(1 for x in j if x.get("images")),
-                                       "primi": None if not isinstance(j, list) else [(x.get("name"), (x.get("type") or {}).get("id"), bool(x.get("images")), [t.get("name") for t in (x.get("teams") or [])][:2]) for x in j[:4]]})
         if t_now - int(srch.get(pid) or 0) < 30 * 86400:
             continue
         srch[pid] = t_now
