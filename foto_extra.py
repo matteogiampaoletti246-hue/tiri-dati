@@ -164,16 +164,22 @@ def main():
                                 players[side].append((pname(p) or p.get("Snm") or "", p["imageUrl"], "livescore"))
                 if abs(ts - now) <= 7 * 86400 and not (players[1] and players[2]):
                     dmid = dl_find(ts, hn, an)
-                    lj = D.get(D.GQL + "dlie2&eventId=" + dmid, D.GQL_H, js=True) if dmid else None
-                    for ep in (((lj or {}).get("data") or {}).get("findEventById") or {}).get("eventParticipants") or []:
-                        side = 1 if ((ep.get("type") or {}).get("side") == "HOME") else 2 if ((ep.get("type") or {}).get("side") == "AWAY") else 0
-                        for p in ((ep.get("lineup") or {}).get("players") or []):
-                            u = dl_url(p.get("images"))
-                            if side and u:
-                                players[side].append((D.swap(p.get("listName") or p.get("fieldName") or ""), u, "diretta"))
-                    time.sleep(0.3)
+                    # formazione ufficiale (dlie2); se non c'e' ancora o non ha foto, la probabile (dplie, stessa forma con predictedLineup)
+                    for key, gq in (("lineup", "dlie2"), ("predictedLineup", "dplie")):
+                        if players[1] and players[2]:
+                            break
+                        lj = D.get(D.GQL + gq + "&eventId=" + dmid, D.GQL_H, js=True) if dmid else None
+                        for ep in (((lj or {}).get("data") or {}).get("findEventById") or {}).get("eventParticipants") or []:
+                            side = 1 if ((ep.get("type") or {}).get("side") == "HOME") else 2 if ((ep.get("type") or {}).get("side") == "AWAY") else 0
+                            for p in ((ep.get(key) or {}).get("players") or []):
+                                u = dl_url(p.get("images"))
+                                if side and u and not any(u == x[1] for x in players[side]):
+                                    players[side].append((D.swap(p.get("listName") or p.get("fieldName") or ""), u, "diretta"))
+                        time.sleep(0.3)
                 rep["partite_lette"] += 1
-                tried.add(mid)
+                # una partita senza foto ancora in programma si rilegge alla prossima corsa (la formazione ufficiale esce dopo)
+                if players[1] or players[2] or ts < now - 3 * 3600:
+                    tried.add(mid)
                 for side, tid in ((1, h), (2, a)):
                     if tid not in need:
                         continue
